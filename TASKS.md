@@ -67,14 +67,15 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] ConfettiBurst
 - [x] Reduce Motion respected everywhere (useReducedMotion in every animation)
 
-## Phase 5 · Dashboard (B1-B4)
-- [ ] B1 Dashboard home — three zones
-- [ ] B2 Plan detail
-- [ ] B3 Lockout status
-- [ ] B4 Nutrition detail
-- [ ] DailyMacroRing (with react-native-svg)
-- [ ] LockoutBanner
-- [ ] GymStatusCard
+## Phase 5 · Dashboard (B1-B4) [x]
+- [x] B1 Dashboard home — three zones
+- [x] B2 Plan detail
+- [x] B3 Lockout status
+- [x] B4 Nutrition detail
+- [x] DailyMacroRing (with react-native-svg)
+- [x] LockoutBanner
+- [x] GymStatusCard
+- [x] (support) Screen scaffold, ProgressBar, MacroBars, formatting helpers, shared mock dataset
 
 ## Phase 6 · Profile (E1-E12)
 - [ ] E1 Profile main
@@ -192,3 +193,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: Confetti palette restricted to tokens (accent family + grays + black) — no rainbow, respects "one accent" while still celebrating. RankUpModal renders on white (not black) to stay within the black-on-white rule; only A1 Welcome breaks white.
 - Blocked: none.
 - Notes: Component library complete. Phases 5+ assemble these into screens. Created AnimatedIonicons via createAnimatedComponent for the flame.
+
+### 2026-06-16 04:30 — Phase 5 · Dashboard (B1-B4)
+- Completed: B1 (three zones: streak/XP/rank header, GymStatusCard, calorie ring + macro bars card, AI plan card, LockoutBanner — logging gym flips state + success toast), B2 plan timeline (wake→bed, cuisine suggestions, "why this plan" reason), B3 lockout status (blocked apps list, grace/emergency stats, grace + emergency buttons), B4 nutrition detail (ring, 4 macro bars incl fibre, per-meal breakdown → meal edit). Domain: DailyMacroRing (svg arc), MacroBars, GymStatusCard, LockoutBanner. Support: Screen scaffold (NavBar + scroll + sticky footer), ProgressBar, formatting helpers, shared mock dataset (lib/mock/data.ts). tsc ✓, full iOS export ✓ (4.5MB).
+- Decisions: Used a SHARED mock dataset (lib/mock/data.ts) rather than per-screen inline mocks so streak/XP/macros agree across Dashboard, Gym, Profile — deviates slightly from "mock inline" but keeps numbers coherent (logged). Added a Screen scaffold to keep the remaining ~50 screens DRY and consistent.
+- Blocked: none.
+- Notes: Gym-log on dashboard is local state (mock) — flips GymStatusCard + LockoutBanner to lifted and toasts +25 XP.

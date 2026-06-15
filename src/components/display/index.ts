@@ -5,6 +5,7 @@ export { Badge, type BadgeProps, type BadgeTone } from './Badge';
 export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { ErrorState, type ErrorStateProps } from './ErrorState';
 export { Skeleton, SkeletonCard, type SkeletonProps } from './LoadingSkeleton';
+export { ProgressBar, type ProgressBarProps } from './ProgressBar';
 export { ToastHost } from './ToastHost';
 export {
   showToast,
