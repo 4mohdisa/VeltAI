@@ -46,19 +46,19 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] SegmentedField
 - [x] Stepper
 
-## Phase 3 · Display & Navigation
-- [ ] Card
-- [ ] Stat (label + big number)
-- [ ] Avatar
-- [ ] Badge (rank, streak)
-- [ ] EmptyState
-- [ ] ErrorState
-- [ ] Toast (top-center info, bottom action)
-- [ ] LoadingSkeleton
-- [ ] Custom TabBar (token-themed)
-- [ ] NavBar
-- [ ] BackButton
-- [ ] BottomSheet wrapper
+## Phase 3 · Display & Navigation [x]
+- [x] Card
+- [x] Stat (label + big number)
+- [x] Avatar
+- [x] Badge (rank, streak)
+- [x] EmptyState
+- [x] ErrorState
+- [x] Toast (top-center info, bottom action) — zustand store + ToastHost
+- [x] LoadingSkeleton (Skeleton + SkeletonCard, reduce-motion aware)
+- [x] Custom TabBar (token-themed) — wired into (tabs)
+- [x] NavBar
+- [x] BackButton
+- [x] BottomSheet wrapper (scrim + slide + drag-to-dismiss)
 
 ## Phase 4 · Animations
 - [ ] XpFloatUp (Reanimated worklet)
@@ -180,3 +180,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: Built a custom SliderField on gesture-handler + reanimated instead of adding `@react-native-community/slider` — avoids a new native dep and gives full token styling (logged per no-new-deps rule). Text default body colour is gray900 (softer black, per tokens usage table). Primary buttons get haptics; secondary/tertiary/destructive do not (avoid haptic spam).
 - Blocked: none.
 - Notes: Components type-check; they get exercised for real starting Phase 5 when screens import them. Full bundle re-validation scheduled at end of Phase 4 (component library complete).
+
+### 2026-06-16 03:20 — Phase 3 · Display & Navigation
+- Completed: Card (border-depth surface, optional press), Stat, Avatar (image/initials), Badge (5 tones incl. fire), EmptyState (F7), ErrorState (F8), LoadingSkeleton + SkeletonCard (F6, reduce-motion aware), Toast (zustand store + animated ToastHost, top=info/bottom=action), NavBar, BackButton, CustomTabBar (token-themed, wired into Tabs), BottomSheet (Modal + scrim + manual translateY drag-to-dismiss). Barrels exported. ToastHost mounted in root. tsc ✓.
+- Decisions: Replaced the default tab bar with CustomTabBar via `tabBar` prop. Cast expo-router→react-navigation BottomTabBarProps at the boundary (`as unknown as`) — known nominal type drift, identical runtime payload. BottomSheet drives translateY manually (not entering/exiting layout anims) so drag + open-spring don't conflict.
+- Blocked: none.
+- Notes: BottomSheet uses RN Modal (unmounts on close, no exit anim) — acceptable; can add slide-out later. Toast shows one at a time by design.

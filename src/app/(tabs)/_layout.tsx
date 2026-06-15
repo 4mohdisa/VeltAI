@@ -4,10 +4,12 @@
 // barbell for gym, person for profile.
 import type { ComponentProps } from 'react';
 import type { ColorValue } from 'react-native';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-import { color, type, space } from '@/lib/design/tokens';
+import { CustomTabBar } from '@/components/navigation/CustomTabBar';
+import { color } from '@/lib/design/tokens';
 
 type IoniconName = ComponentProps<typeof Ionicons>['name'];
 
@@ -26,20 +28,9 @@ function tabIcon(focused: IoniconName, unfocused: IoniconName) {
 export default function TabsLayout() {
   return (
     <Tabs
+      tabBar={(props) => <CustomTabBar {...(props as unknown as BottomTabBarProps)} />}
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: color.accent,
-        tabBarInactiveTintColor: color.gray500,
-        tabBarStyle: {
-          backgroundColor: color.white,
-          borderTopColor: color.gray200,
-          borderTopWidth: 1,
-        },
-        tabBarLabelStyle: {
-          fontSize: type.caption.fontSize,
-          fontWeight: type.caption.fontWeight,
-          paddingBottom: space.xs,
-        },
         sceneStyle: { backgroundColor: color.white },
       }}
     >
