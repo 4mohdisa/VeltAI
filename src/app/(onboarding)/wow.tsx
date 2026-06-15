@@ -1,17 +1,124 @@
 // A15 · Wow moment
-// TODO: Animated projection chart + plan timeline + lockout preview
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// Top: animated 90-day weight projection chart (current → target). Middle:
+// tomorrow's personalised plan timeline with cuisine-matched suggestions.
+// Bottom: a lockout preview thumbnail. "This is your life, planned by the app."
+import { View, useWindowDimensions } from 'react-native';
+import Svg, { Circle, Line, Polyline } from 'react-native-svg';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
+
+import { OnboardingStep } from '@/components/domain/OnboardingStep';
+import { Card } from '@/components/display/Card';
+import { Text } from '@/components/primitives/Text';
+import { color, radius, space } from '@/lib/design/tokens';
+import { formatLongDate } from '@/lib/formatting';
+import { mockPlan } from '@/lib/mock/data';
+import { useOnboarding } from '@/lib/onboarding/store';
 
 export default function WowScreen() {
+  const { width } = useWindowDimensions();
+  const { weight, targetWeight } = useOnboarding();
+  const chartW = width - space.lg * 2 - space.lg * 2; // screen minus scroll + card padding
+  const chartH = 120;
+
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 90);
+
+  // Map weight range to chart y (higher weight = higher y baseline)
+  const hi = Math.max(weight, targetWeight);
+  const lo = Math.min(weight, targetWeight);
+  const pad = 16;
+  const yFor = (w: number) => {
+    if (hi === lo) return chartH / 2;
+    return pad + ((hi - w) / (hi - lo)) * (chartH - pad * 2);
+  };
+  const startY = yFor(weight);
+  const endY = yFor(targetWeight);
+  const points = `0,${startY} ${chartW * 0.5},${(startY + endY) / 2} ${chartW},${endY}`;
+
+  const meals = mockPlan.filter((p) => p.kind === 'meal' || p.kind === 'gym');
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          A15 · Wow moment
-        </Text>
-      </View>
-    </SafeAreaView>
+    <OnboardingStep step={15} title="Here's your plan" continueLabel="This looks right">
+      {/* Projection chart */}
+      <Animated.View entering={FadeIn.duration(500)}>
+        <Card>
+          <View style={{ gap: space.sm }}>
+            <Text variant="footnote" color={color.gray500} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+              90-day projection
+            </Text>
+            <Svg width={chartW} height={chartH}>
+              <Line x1={0} y1={chartH - 1} x2={chartW} y2={chartH - 1} stroke={color.gray200} strokeWidth={1} />
+              <Polyline points={points} fill="none" stroke={color.accent} strokeWidth={3} strokeLinecap="round" />
+              <Circle cx={0} cy={startY} r={5} fill={color.accent} />
+              <Circle cx={chartW} cy={endY} r={5} fill={color.accent} />
+            </Svg>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text variant="footnote" color={color.gray500}>
+                Now {weight} kg
+              </Text>
+              <Text variant="footnote" color={color.accentText}>
+                {targetWeight} kg by {formatLongDate(targetDate)}
+              </Text>
+            </View>
+          </View>
+        </Card>
+      </Animated.View>
+
+      {/* Tomorrow's plan */}
+      <Animated.View entering={FadeInDown.delay(200)}>
+        <Card>
+          <View style={{ gap: space.md }}>
+            <Text variant="title3" color={color.black}>
+              Tomorrow, planned for you
+            </Text>
+            {meals.map((m) => (
+              <View key={m.time} style={{ flexDirection: 'row', gap: space.md }}>
+                <Text variant="footnote" color={color.gray500} style={{ width: 48 }}>
+                  {m.time}
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text variant="bodyBold" color={color.black}>
+                    {m.title}
+                    {m.targetKcal ? ` · ${m.targetKcal} kcal` : ''}
+                  </Text>
+                  {m.suggestions ? (
+                    <Text variant="footnote" color={color.gray500}>
+                      {m.suggestions.slice(0, 2).join(', ')}
+                    </Text>
+                  ) : null}
+                </View>
+              </View>
+            ))}
+          </View>
+        </Card>
+      </Animated.View>
+
+      {/* Lockout preview */}
+      <Animated.View entering={FadeInDown.delay(400)}>
+        <Card style={{ backgroundColor: color.gray900, borderColor: color.gray900 }}>
+          <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
+            <View
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: radius.full,
+                backgroundColor: color.white,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Ionicons name="lock-closed" size={26} color={color.black} />
+            </View>
+            <Text variant="bodyBold" color={color.white}>
+              Tonight at 19:00, if you haven&apos;t gone
+            </Text>
+            <Text variant="footnote" color={color.gray300} style={{ textAlign: 'center' }}>
+              Instagram, TikTok and the rest stay locked until you log today&apos;s session.
+            </Text>
+          </View>
+        </Card>
+      </Animated.View>
+    </OnboardingStep>
   );
 }

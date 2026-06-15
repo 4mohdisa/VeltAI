@@ -1,17 +1,23 @@
 // A1 · Welcome
-// TODO: Black-bg: logo centred, tagline, Continue at bottom
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// The only black-background screen, for impact. Logo centred, single tagline,
+// Continue at the bottom. No progress bar, no back (this is the entry).
+import { View } from 'react-native';
+
+import { OnboardingStep } from '@/components/domain/OnboardingStep';
+import { Text } from '@/components/primitives/Text';
+import { color, space } from '@/lib/design/tokens';
 
 export default function WelcomeScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          A1 · Welcome
+    <OnboardingStep step={1} dark hideProgress showBack={false} scroll={false} continueLabel="Get started">
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.lg }}>
+        <Text variant="display" color={color.white}>
+          Veltai
+        </Text>
+        <Text variant="title3" color={color.gray300} style={{ textAlign: 'center' }}>
+          Make going to the gym the easy choice.
         </Text>
       </View>
-    </SafeAreaView>
+    </OnboardingStep>
   );
 }

@@ -122,28 +122,28 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] UncertaintyPromptCard
 - [x] Mock AI responses (lib/mock/ai.ts) + DetectedItemsReview
 
-## Phase 10 · Onboarding (A1-A19)
-- [ ] A1 Welcome (black-bg)
-- [ ] A2 Value prop carousel
-- [ ] A3 Sign in / sign up (Clerk placeholder)
-- [ ] A4 Struggles
-- [ ] A5 Past attempts
-- [ ] A6 Frustrations
-- [ ] A7 Reflection (conditional copy)
-- [ ] A8 Goal
-- [ ] A9 Why
-- [ ] A10 Body
-- [ ] A11 Schedule
-- [ ] A12 Gym
-- [ ] A13 Eating
-- [ ] A14 Cuisines
-- [ ] A15 Wow moment (animated chart + plan + lockout preview)
-- [ ] A16 Lockout setup
-- [ ] A17 Permissions
-- [ ] A18 Paywall (with "Why 14 days" copy)
-- [ ] A19 Generating plan
-- [ ] Progress indicator on every screen
-- [ ] Resume-from-where-left-off via secure-store
+## Phase 10 · Onboarding (A1-A19) [x]
+- [x] A1 Welcome (black-bg)
+- [x] A2 Value prop carousel (swipeable + dots)
+- [x] A3 Sign in / sign up (Apple/email/Google placeholder)
+- [x] A4 Struggles
+- [x] A5 Past attempts
+- [x] A6 Frustrations
+- [x] A7 Reflection (conditional copy from A4 answers)
+- [x] A8 Goal (segmented + conditional weight slider)
+- [x] A9 Why
+- [x] A10 Body
+- [x] A11 Schedule
+- [x] A12 Gym
+- [x] A13 Eating
+- [x] A14 Cuisines
+- [x] A15 Wow moment (animated svg chart + plan + lockout preview)
+- [x] A16 Lockout setup
+- [x] A17 Permissions
+- [x] A18 Paywall (with "Why 14 days" copy, Restore)
+- [x] A19 Generating plan (rotating tips → Dashboard, sets flag + +50 XP)
+- [x] Progress indicator on every screen (OnboardingStep)
+- [x] Resume-from-where-left-off via secure-store (setOnboardingStep)
 
 ## Phase 11 · Modals & Polish
 - [ ] F2 Rank-up modal wired
@@ -225,3 +225,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: The accuracy-moat flow (Cal AI BUG-009 fix) is fully wired: low-confidence items are visibly dimmed + flagged, and Save is gated through the uncertainty questions. Added a "Simulate scan" button to C7 so the barcode flow is testable without a physical code. Camera screens use a black viewfinder with white controls (the only legitimate non-white surfaces — system camera feed).
 - Blocked: none.
 - Notes: Real Gemini/Speech/OFF calls are backend (out of scope) — all responses mocked.
+
+### 2026-06-16 07:55 — Phase 10 · Onboarding (A1-A19)
+- Completed: all 19 screens. A1 welcome (black bg), A2 swipe carousel + dots, A3 auth (Apple/email/Google), A4-A6 multi-select problem screens, A7 reflection (copy conditional on A4 picks), A8 goal (segmented + weight slider when 'lose'), A9 why, A10 body (units/weight/height/age/sex), A11 schedule (15-min time steppers), A12 gym (current→target sliders + diff), A13 eating, A14 cuisines (+ cooks-at-home), A15 wow (animated svg projection chart + tomorrow's plan + dark lockout preview), A16 lockout setup, A17 permissions (HealthKit + Notifications explainers), A18 paywall (14-days-free, dated window, why-14-days, Restore), A19 generating (rotating tips → sets onboarding flag → Dashboard, +50 XP toast). Support: OnboardingStep scaffold (progress + back + skip + continue, persists step), onboarding zustand store, steps.ts ordering. tsc ✓, full iOS export ✓.
+- Decisions: Time inputs (A11) use 15-min Steppers instead of a native DateTimePicker to avoid a new native dependency (logged). A8 limited to 4 primary goals to fit the segmented control. Resume persists the last route via secure-store; index redirect still gates on the completion flag. Onboarding answers live in a zustand store so A7/A15 can personalise.
+- Blocked: none.
+- Notes: A19 completing sets hasCompletedOnboarding=true so subsequent launches go straight to tabs (index.tsx redirect). Delete-account (E12) resets the flag back to onboarding.
