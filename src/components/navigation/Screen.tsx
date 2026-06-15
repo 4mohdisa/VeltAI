@@ -2,7 +2,7 @@
 // optional NavBar (our chrome), scrolling body, and an optional sticky footer
 // for a primary CTA. Keeps the ~50 feature screens uniform and short.
 import type { ReactNode } from 'react';
-import { ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
+import { RefreshControl, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { NavBar } from './NavBar';
@@ -19,6 +19,8 @@ export type ScreenProps = {
   children: ReactNode;
   contentStyle?: StyleProp<ViewStyle>;
   backgroundColor?: string;
+  refreshing?: boolean;
+  onRefresh?: () => void;
 };
 
 export function Screen({
@@ -32,6 +34,8 @@ export function Screen({
   children,
   contentStyle,
   backgroundColor = color.white,
+  refreshing,
+  onRefresh,
 }: ScreenProps) {
   const hasHeader = showBack || title !== undefined || headerRight !== undefined;
   const padding = padded ? { padding: space.lg } : null;
@@ -46,6 +50,11 @@ export function Screen({
         <ScrollView
           contentContainerStyle={[{ gap: space.lg, paddingBottom: space['3xl'] }, padding, contentStyle]}
           keyboardShouldPersistTaps="handled"
+          refreshControl={
+            onRefresh ? (
+              <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={color.accent} />
+            ) : undefined
+          }
         >
           {children}
         </ScrollView>

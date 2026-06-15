@@ -5,6 +5,8 @@
 import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { router } from 'expo-router';
+
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { Stat } from '@/components/display/Stat';
@@ -109,6 +111,13 @@ export default function LockoutStatusScreen() {
           />
         </View>
       </Card>
+
+      <Button
+        title="Preview the block screen"
+        variant="tertiary"
+        icon="eye"
+        onPress={() => router.push('/modals/lockout-blocked')}
+      />
     </Screen>
   );
 }

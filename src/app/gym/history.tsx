@@ -1,6 +1,7 @@
 // D6 · Gym session history
 // Reverse-chronological list of past sessions: date, duration, verification
 // badge (HealthKit-verified or manual), and notes when present.
+import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -13,8 +14,14 @@ import { formatDuration } from '@/lib/formatting';
 import { mockGymSessions } from '@/lib/mock/data';
 
 export default function GymHistoryScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 700);
+  }, []);
+
   return (
-    <Screen title="Session history" showBack>
+    <Screen title="Session history" showBack refreshing={refreshing} onRefresh={onRefresh}>
       <Card padded={false}>
         {mockGymSessions.map((session, i) => (
           <View

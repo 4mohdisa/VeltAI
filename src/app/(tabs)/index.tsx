@@ -17,17 +17,28 @@ import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { MacroBars } from '@/components/domain/MacroBars';
 import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { LockoutBanner } from '@/components/domain/LockoutBanner';
+import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { mockMacros, mockPlan, mockRank, mockStreak, mockUser, mockLockout } from '@/lib/mock/data';
 
 export default function DashboardScreen() {
   const [gymLogged, setGymLogged] = useState(mockStreak.gymLoggedToday);
+  const [showNudge, setShowNudge] = useState(true);
   const nextMeal = mockPlan.find((p) => p.kind === 'meal');
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
       <ScrollView contentContainerStyle={{ padding: space.lg, gap: space.lg, paddingBottom: space['3xl'] }}>
+        {/* F4 · AI nudge banner (dismissable) */}
+        {showNudge && !gymLogged ? (
+          <AiNudgeBanner
+            message="It's nearly your gym window. Log today's session before lockout starts at 18:00."
+            onPress={() => router.push('/dashboard/plan')}
+            onDismiss={() => setShowNudge(false)}
+          />
+        ) : null}
+
         {/* Zone 1 — streak / XP / rank */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <View style={{ gap: space.xs }}>

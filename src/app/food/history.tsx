@@ -1,6 +1,7 @@
 // C12 · Meal history
 // List by date, descending. Each day shows date, total calories, and gym status
 // (checkmark or dash). Tap a day → that day's food log.
+import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,8 +25,14 @@ const HISTORY: DayRow[] = [
 ];
 
 export default function MealHistoryScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 700);
+  }, []);
+
   return (
-    <Screen title="Meal history" showBack>
+    <Screen title="Meal history" showBack refreshing={refreshing} onRefresh={onRefresh}>
       <Card padded={false}>
         {HISTORY.map((day, i) => (
           <Pressable
