@@ -6,3 +6,5 @@ export { StreakCounter, type StreakCounterProps } from './StreakCounter';
 export { GymSessionButton, type GymSessionButtonProps } from './GymSessionButton';
 export { GymCalendar, type GymCalendarProps } from './GymCalendar';
 export { MealCard, type MealCardProps } from './MealCard';
+export { UncertaintyPromptCard, type UncertaintyPromptCardProps } from './UncertaintyPromptCard';
+export { DetectedItemsReview, type DetectedItemsReviewProps } from './DetectedItemsReview';

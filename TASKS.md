@@ -112,15 +112,15 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] C12 Meal history
 - [x] MealCard
 
-## Phase 9 · Food — AI (C3-C8)
-- [ ] C3 Photo capture
-- [ ] C4 Photo review with confidence indicators
-- [ ] C5 Uncertainty prompt sheet
-- [ ] C6 Voice entry
-- [ ] C7 Barcode scan
-- [ ] C8 Barcode confirm
-- [ ] UncertaintyPromptCard
-- [ ] Mock AI responses
+## Phase 9 · Food — AI (C3-C8) [x]
+- [x] C3 Photo capture (expo-camera, permission gate)
+- [x] C4 Photo review with confidence indicators (dimmed low-confidence)
+- [x] C5 Uncertainty prompt sheet (stacked questions, live calorie preview)
+- [x] C6 Voice entry (live transcript reveal → review)
+- [x] C7 Barcode scan (camera barcode mode + reticle + simulate)
+- [x] C8 Barcode confirm (serving picker recomputes macros)
+- [x] UncertaintyPromptCard
+- [x] Mock AI responses (lib/mock/ai.ts) + DetectedItemsReview
 
 ## Phase 10 · Onboarding (A1-A19)
 - [ ] A1 Welcome (black-bg)
@@ -219,3 +219,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: C11 delete uses the BottomSheet component (first real use) for the destructive confirm rather than the F9 modal route — keeps the flow on-screen. Search results are screen-local mock (acceptable inline mock).
 - Blocked: none.
 - Notes: Export validation deferred to end of Phase 9 (adds expo-camera screens — natural checkpoint).
+
+### 2026-06-16 07:05 — Phase 9 · Food AI (C3-C8)
+- Completed: C3 photo capture (CameraView + useCameraPermissions gate, capture → review), C4 photo review (placeholder photo tiles, DetectedItemsReview with dimmed low-confidence items + Confirm badges, save routes to uncertainty when unsure), C5 uncertainty (stacked UncertaintyPromptCard, live calorie preview, +3 bonus on complete), C6 voice (mic button, progressive transcript reveal, then review), C7 barcode scan (CameraView barcode mode, reticle, Simulate button), C8 barcode confirm (serving SegmentedField recomputes macros). Domain: UncertaintyPromptCard, DetectedItemsReview. Mock AI: lib/mock/ai.ts. tsc ✓, full iOS export ✓.
+- Decisions: The accuracy-moat flow (Cal AI BUG-009 fix) is fully wired: low-confidence items are visibly dimmed + flagged, and Save is gated through the uncertainty questions. Added a "Simulate scan" button to C7 so the barcode flow is testable without a physical code. Camera screens use a black viewfinder with white controls (the only legitimate non-white surfaces — system camera feed).
+- Blocked: none.
+- Notes: Real Gemini/Speech/OFF calls are backend (out of scope) — all responses mocked.
