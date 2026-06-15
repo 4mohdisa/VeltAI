@@ -60,12 +60,12 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] BackButton
 - [x] BottomSheet wrapper (scrim + slide + drag-to-dismiss)
 
-## Phase 4 · Animations
-- [ ] XpFloatUp (Reanimated worklet)
-- [ ] StreakFlame
-- [ ] RankUpModal
-- [ ] ConfettiBurst
-- [ ] Reduce Motion respected everywhere
+## Phase 4 · Animations [x]
+- [x] XpFloatUp (Reanimated worklet)
+- [x] StreakFlame
+- [x] RankUpModal (wired into modals/rank-up route)
+- [x] ConfettiBurst
+- [x] Reduce Motion respected everywhere (useReducedMotion in every animation)
 
 ## Phase 5 · Dashboard (B1-B4)
 - [ ] B1 Dashboard home — three zones
@@ -186,3 +186,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: Replaced the default tab bar with CustomTabBar via `tabBar` prop. Cast expo-router→react-navigation BottomTabBarProps at the boundary (`as unknown as`) — known nominal type drift, identical runtime payload. BottomSheet drives translateY manually (not entering/exiting layout anims) so drag + open-spring don't conflict.
 - Blocked: none.
 - Notes: BottomSheet uses RN Modal (unmounts on close, no exit anim) — acceptable; can add slide-out later. Toast shows one at a time by design.
+
+### 2026-06-16 03:50 — Phase 4 · Animations
+- Completed: XpFloatUp (F1, float+fade 800ms), StreakFlame (pulsing, streakFire colour), ConfettiBurst (token-palette particles), RankUpModal (F2 — badge ZoomIn + confetti + unlocks, wired into modals/rank-up route). Added lib/xp/ranks.ts (RANKS + rankFromXp). Every animation calls useReducedMotion and resolves to a static/instant state when enabled. tsc ✓. **Full `expo export -p ios` ✓ — entire component library (Phases 2-4) bundles cleanly (4.2MB).**
+- Decisions: Confetti palette restricted to tokens (accent family + grays + black) — no rainbow, respects "one accent" while still celebrating. RankUpModal renders on white (not black) to stay within the black-on-white rule; only A1 Welcome breaks white.
+- Blocked: none.
+- Notes: Component library complete. Phases 5+ assemble these into screens. Created AnimatedIonicons via createAnimatedComponent for the flame.

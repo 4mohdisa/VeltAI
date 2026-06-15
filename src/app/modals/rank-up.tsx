@@ -1,17 +1,22 @@
 // F2 · Rank-up modal
-// TODO: Animated badge reveal, rank name, unlocks list, Continue
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// Full-screen celebration shown when the user crosses a rank threshold.
+// Rank + unlocks come via route params (mocked default here); dismiss pops back.
+import { router, useLocalSearchParams } from 'expo-router';
+
+import { RankUpModal } from '@/components/animations/RankUpModal';
+import { RANKS } from '@/lib/xp/ranks';
 
 export default function RankUpModalScreen() {
+  const params = useLocalSearchParams<{ rank?: string }>();
+  const rank = RANKS.find((r) => r.name === params.rank) ?? RANKS[2]; // default: Locked In
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          F2 · Rank-up modal
-        </Text>
-      </View>
-    </SafeAreaView>
+    <RankUpModal
+      rankName={rank.name}
+      unlocks={rank.unlocks}
+      onContinue={() => {
+        if (router.canGoBack()) router.back();
+      }}
+    />
   );
 }
