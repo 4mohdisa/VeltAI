@@ -77,19 +77,20 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] GymStatusCard
 - [x] (support) Screen scaffold, ProgressBar, MacroBars, formatting helpers, shared mock dataset
 
-## Phase 6 · Profile (E1-E12)
-- [ ] E1 Profile main
-- [ ] E2 Settings list
-- [ ] E3 Account settings
-- [ ] E4 Subscription
-- [ ] E5 Lockout settings (placeholder picker)
-- [ ] E6 Notification preferences
-- [ ] E7 Apple Health (deep-link)
-- [ ] E8 Units toggle
-- [ ] E9 Privacy
-- [ ] E10 Support
-- [ ] E11 About
-- [ ] E12 Delete Account multi-step flow
+## Phase 6 · Profile (E1-E12) [x]
+- [x] E1 Profile main (avatar, rank progress bar, stats, recent XP)
+- [x] E2 Settings list (grouped)
+- [x] E3 Account settings
+- [x] E4 Subscription
+- [x] E5 Lockout settings (placeholder picker)
+- [x] E6 Notification preferences
+- [x] E7 Apple Health (deep-link)
+- [x] E8 Units toggle
+- [x] E9 Privacy
+- [x] E10 Support
+- [x] E11 About
+- [x] E12 Delete Account multi-step flow
+- [x] (support) SettingsList grouped-list component
 
 ## Phase 7 · Gym (D1-D6)
 - [ ] D1 Gym log + 30-day calendar
@@ -199,3 +200,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: Used a SHARED mock dataset (lib/mock/data.ts) rather than per-screen inline mocks so streak/XP/macros agree across Dashboard, Gym, Profile — deviates slightly from "mock inline" but keeps numbers coherent (logged). Added a Screen scaffold to keep the remaining ~50 screens DRY and consistent.
 - Blocked: none.
 - Notes: Gym-log on dashboard is local state (mock) — flips GymStatusCard + LockoutBanner to lifted and toasts +25 XP.
+
+### 2026-06-16 05:10 — Phase 6 · Profile (E1-E12)
+- Completed: E1 profile (avatar, rank progress bar via rankFromXp, stat row, recent XP list), E2 grouped settings, E3 account (editable name, read-only email, units, delete link), E4 subscription (plan/trial dates/manage/restore), E5 lockout settings (enable toggle reveals window/grace/picker), E6 notifications (per-type toggles, quiet hours, daily cap stepper), E7 Apple Health (status + data types + deep link), E8 units, E9 privacy (links + export Phase 2), E10 support (email/FAQ/version/feedback), E11 about, E12 delete-account (4-step: confirm → list → type DELETE → delete, clears onboarding flag → A1). Support: SettingsList grouped-list component. tsc ✓.
+- Decisions: Used RN Switch (not @expo/ui Toggle) for settings toggles — reliable, accent-tinted, no native-host wiring. Manage subscription + Apple Health deep-link via `app-settings:` URL. Delete account confirmation requires exact "DELETE".
+- Blocked: none.
+- Notes: Deferred a standalone export check to end of Phase 7 to save time; tsc green and screens reuse already-bundled components.

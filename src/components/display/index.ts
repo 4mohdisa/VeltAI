@@ -6,6 +6,7 @@ export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { ErrorState, type ErrorStateProps } from './ErrorState';
 export { Skeleton, SkeletonCard, type SkeletonProps } from './LoadingSkeleton';
 export { ProgressBar, type ProgressBarProps } from './ProgressBar';
+export { SettingsList, type SettingsListProps, type SettingsRowProps } from './SettingsList';
 export { ToastHost } from './ToastHost';
 export {
   showToast,

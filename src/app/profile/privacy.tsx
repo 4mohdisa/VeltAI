@@ -1,17 +1,32 @@
 // E9 · Privacy
-// TODO: Policy/Terms/EULA links, data export (Phase 2)
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// Privacy policy, terms of use, EULA links; data export marked Phase 2.
+import { Linking } from 'react-native';
+
+import { Screen } from '@/components/navigation/Screen';
+import { SettingsList } from '@/components/display/SettingsList';
+import { Text } from '@/components/primitives/Text';
+import { color } from '@/lib/design/tokens';
+
+const open = (url: string) => () => Linking.openURL(url).catch(() => {});
 
 export default function PrivacyScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          E9 · Privacy
-        </Text>
-      </View>
-    </SafeAreaView>
+    <Screen title="Privacy" showBack>
+      <SettingsList
+        rows={[
+          { icon: 'document-text-outline', label: 'Privacy policy', onPress: open('https://veltai.app/privacy') },
+          { icon: 'reader-outline', label: 'Terms of use', onPress: open('https://veltai.app/terms') },
+          { icon: 'document-outline', label: 'EULA', onPress: open('https://veltai.app/eula') },
+        ]}
+      />
+      <SettingsList
+        title="Your data"
+        rows={[{ icon: 'download-outline', label: 'Export my data', value: 'Phase 2', kind: 'plain' }]}
+      />
+      <Text variant="footnote" color={color.gray500}>
+        Your health data stays private. We never sell it, and we run no advertising or tracking SDKs
+        inside the app.
+      </Text>
+    </Screen>
   );
 }

@@ -1,17 +1,37 @@
 // E2 · Settings list
-// TODO: Apple grouped list: Account, Subscription, Lockout, etc
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// Apple-style grouped settings: Account, Subscription, Lockout, Notifications,
+// Apple Health, Units, Privacy, Support, About.
+import { Screen } from '@/components/navigation/Screen';
+import { SettingsList } from '@/components/display/SettingsList';
+import { router } from 'expo-router';
 
 export default function SettingsScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          E2 · Settings list
-        </Text>
-      </View>
-    </SafeAreaView>
+    <Screen title="Settings" showBack>
+      <SettingsList
+        title="Account"
+        rows={[
+          { icon: 'person-outline', label: 'Account', onPress: () => router.push('/profile/account') },
+          { icon: 'card-outline', label: 'Subscription', onPress: () => router.push('/profile/subscription') },
+        ]}
+      />
+      <SettingsList
+        title="App"
+        rows={[
+          { icon: 'lock-closed-outline', label: 'Lockout', onPress: () => router.push('/profile/lockout-settings') },
+          { icon: 'notifications-outline', label: 'Notifications', onPress: () => router.push('/profile/notifications') },
+          { icon: 'heart-outline', label: 'Apple Health', onPress: () => router.push('/profile/apple-health') },
+          { icon: 'options-outline', label: 'Units', onPress: () => router.push('/profile/units') },
+        ]}
+      />
+      <SettingsList
+        title="About"
+        rows={[
+          { icon: 'shield-checkmark-outline', label: 'Privacy', onPress: () => router.push('/profile/privacy') },
+          { icon: 'help-circle-outline', label: 'Support', onPress: () => router.push('/profile/support') },
+          { icon: 'information-circle-outline', label: 'About', onPress: () => router.push('/profile/about') },
+        ]}
+      />
+    </Screen>
   );
 }

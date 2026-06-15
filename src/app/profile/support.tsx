@@ -1,17 +1,43 @@
 // E10 · Support
-// TODO: Email support, FAQ, app version, feedback textarea
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// Email support, FAQ link, app version, and a feedback textarea (kept separate
+// from any rating prompt — never coupled, per App Store hygiene rules).
+import { useState } from 'react';
+import { Linking } from 'react-native';
+
+import { Screen } from '@/components/navigation/Screen';
+import { SettingsList } from '@/components/display/SettingsList';
+import { Button } from '@/components/forms/Button';
+import { TextField } from '@/components/forms/TextField';
+import { showToast } from '@/components/display/toastStore';
 
 export default function SupportScreen() {
+  const [feedback, setFeedback] = useState('');
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          E10 · Support
-        </Text>
-      </View>
-    </SafeAreaView>
+    <Screen title="Support" showBack>
+      <SettingsList
+        rows={[
+          { icon: 'mail-outline', label: 'Email support', value: 'hello@veltai.app', onPress: () => Linking.openURL('mailto:hello@veltai.app').catch(() => {}) },
+          { icon: 'help-circle-outline', label: 'FAQ', onPress: () => Linking.openURL('https://veltai.app/support').catch(() => {}) },
+          { icon: 'information-circle-outline', label: 'App version', value: '1.0.0', kind: 'plain' },
+        ]}
+      />
+
+      <TextField
+        label="Send feedback"
+        placeholder="Tell us what's working or what's not."
+        value={feedback}
+        onChangeText={setFeedback}
+        multiline
+      />
+      <Button
+        title="Send feedback"
+        disabled={feedback.trim().length === 0}
+        onPress={() => {
+          setFeedback('');
+          showToast({ message: 'Thanks — feedback sent.', tone: 'success' });
+        }}
+      />
+    </Screen>
   );
 }
