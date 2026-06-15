@@ -35,16 +35,16 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] Tab nav + onboarding stack wired
 - [x] tsc and prebuild pass (+ Metro boot + full iOS export verified)
 
-## Phase 2 · Primitives & Forms
-- [ ] Box primitive
-- [ ] Text primitive (variants from type tokens)
-- [ ] Pressable primitive (with haptic feedback)
-- [ ] Button (primary, secondary, tertiary, destructive)
-- [ ] TextField with FieldShellProps
-- [ ] SliderField
-- [ ] MultiSelectField (chip-style)
-- [ ] SegmentedField
-- [ ] Stepper
+## Phase 2 · Primitives & Forms [x]
+- [x] Box primitive
+- [x] Text primitive (variants from type tokens)
+- [x] Pressable primitive (with haptic feedback)
+- [x] Button (primary, secondary, tertiary, destructive)
+- [x] TextField with FieldShellProps
+- [x] SliderField
+- [x] MultiSelectField (chip-style)
+- [x] SegmentedField
+- [x] Stepper
 
 ## Phase 3 · Display & Navigation
 - [ ] Card
@@ -174,3 +174,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: (1) Kept template's `src/` layout — `@/lib/...` imports resolve identically, modern Expo default. (2) Accepted SDK 56 over 54 (latest). (3) typedRoutes OFF to avoid href type friction across 60 screens. (4) Type tokens use RN-native keys (fontSize/fontWeight/lineHeight) so `{...type.title1}` spread yields valid styles. (5) Bundle smoke test done via `expo export` since the `/index.bundle` URL convention differs under expo-router virtual entry. (6) Added @react-navigation/bottom-tabs + @expo/vector-icons (Tabs + Ionicons need them; template shipped native tabs only) — logged per "no new deps without reason".
 - Blocked: none.
 - Notes: CocoaPods install deferred to a real build machine (ran prebuild --no-install). `ios/` is gitignored. Port 8081 is used by another local project (trackrai); used 8090 for smoke test.
+
+### 2026-06-16 02:45 — Phase 2 · Primitives & Forms
+- Completed: Box, Text (variant→token map), Pressable (light haptic + 44pt min), FieldShell (shared label/helper/error), Button (4 variants), TextField (focus/error border states), SliderField (custom gesture-handler + reanimated slider, a11y adjustable), SegmentedField (generic single-select), MultiSelectField (chip checkboxes), Stepper. Barrels exported. tsc ✓.
+- Decisions: Built a custom SliderField on gesture-handler + reanimated instead of adding `@react-native-community/slider` — avoids a new native dep and gives full token styling (logged per no-new-deps rule). Text default body colour is gray900 (softer black, per tokens usage table). Primary buttons get haptics; secondary/tertiary/destructive do not (avoid haptic spam).
+- Blocked: none.
+- Notes: Components type-check; they get exercised for real starting Phase 5 when screens import them. Full bundle re-validation scheduled at end of Phase 4 (component library complete).
