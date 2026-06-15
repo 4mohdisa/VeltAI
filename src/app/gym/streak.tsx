@@ -1,17 +1,79 @@
 // D4 · Streak detail
-// TODO: Streak top, upcoming 7 days actions, longest/total/freezes
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, type, space } from '@/lib/design/tokens';
+// Streak counter up top, the next 7 days with their action (log / freeze /
+// scheduled), then longest streak, total sessions and freezes available.
+import { View } from 'react-native';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+
+import { Screen } from '@/components/navigation/Screen';
+import { Card } from '@/components/display/Card';
+import { Badge } from '@/components/display/Badge';
+import { Stat } from '@/components/display/Stat';
+import { Pressable } from '@/components/primitives/Pressable';
+import { Text } from '@/components/primitives/Text';
+import { StreakCounter } from '@/components/domain/StreakCounter';
+import { color, space } from '@/lib/design/tokens';
+import { mockStreak, mockUpcomingDays, type UpcomingDay } from '@/lib/mock/data';
+
+const actionMeta: Record<UpcomingDay['action'], { label: string; tone: 'accent' | 'neutral' | 'fire'; icon: React.ComponentProps<typeof Ionicons>['name'] }> = {
+  log: { label: 'Log session', tone: 'accent', icon: 'barbell' },
+  freeze: { label: 'Freeze', tone: 'fire', icon: 'snow' },
+  scheduled: { label: 'Scheduled', tone: 'neutral', icon: 'calendar' },
+};
 
 export default function StreakDetailScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-      <View style={{ flex: 1, padding: space.lg }}>
-        <Text style={{ ...type.title1, color: color.black }}>
-          D4 · Streak detail
+    <Screen title="Streak" showBack>
+      <Card>
+        <StreakCounter days={mockStreak.current} />
+      </Card>
+
+      <View>
+        <Text
+          variant="footnote"
+          color={color.gray500}
+          style={{ marginBottom: space.sm, marginLeft: space.xs, textTransform: 'uppercase', letterSpacing: 1 }}
+        >
+          Next 7 days
         </Text>
+        <Card padded={false}>
+          {mockUpcomingDays.map((day, i) => {
+            const meta = actionMeta[day.action];
+            const row = (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: space.lg,
+                  borderTopWidth: i === 0 ? 0 : 1,
+                  borderTopColor: color.gray100,
+                }}
+              >
+                <Text variant="body" color={color.black}>
+                  {day.label}
+                </Text>
+                <Badge label={meta.label} tone={meta.tone} icon={meta.icon} />
+              </View>
+            );
+            return day.action === 'freeze' ? (
+              <Pressable key={day.label} haptic={false} minTapTarget={false} onPress={() => router.push('/gym/freeze')} accessibilityLabel={`Apply freeze for ${day.label}`}>
+                {row}
+              </Pressable>
+            ) : (
+              <View key={day.label}>{row}</View>
+            );
+          })}
+        </Card>
       </View>
-    </SafeAreaView>
+
+      <Card>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Stat value={mockStreak.longest} label="Longest" size="small" align="center" />
+          <Stat value={mockStreak.totalSessions} label="Sessions" size="small" align="center" />
+          <Stat value={mockStreak.freezesAvailable} label="Freezes" size="small" align="center" />
+        </View>
+      </Card>
+    </Screen>
   );
 }

@@ -92,15 +92,16 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] E12 Delete Account multi-step flow
 - [x] (support) SettingsList grouped-list component
 
-## Phase 7 · Gym (D1-D6)
-- [ ] D1 Gym log + 30-day calendar
-- [ ] D2 Log session sheet
-- [ ] D3 HealthKit auto-detect banner (placeholder)
-- [ ] D4 Streak detail
-- [ ] D5 Apply freeze sheet
-- [ ] D6 Session history
-- [ ] GymSessionButton
-- [ ] StreakCounter with flame
+## Phase 7 · Gym (D1-D6) [x]
+- [x] D1 Gym log + 30-day calendar
+- [x] D2 Log session sheet (duration/effort/energy/notes)
+- [x] D3 HealthKit auto-detect banner (inline on D1 + standalone route)
+- [x] D4 Streak detail
+- [x] D5 Apply freeze sheet
+- [x] D6 Session history
+- [x] GymSessionButton
+- [x] StreakCounter with flame
+- [x] (support) GymCalendar 30-day grid
 
 ## Phase 8 · Food — Manual (C1, C2, C9-C12)
 - [ ] C1 Food log
@@ -206,3 +207,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: Used RN Switch (not @expo/ui Toggle) for settings toggles — reliable, accent-tinted, no native-host wiring. Manage subscription + Apple Health deep-link via `app-settings:` URL. Delete account confirmation requires exact "DELETE".
 - Blocked: none.
 - Notes: Deferred a standalone export check to end of Phase 7 to save time; tsc green and screens reuse already-bundled components.
+
+### 2026-06-16 05:45 — Phase 7 · Gym (D1-D6)
+- Completed: D1 gym tab (StreakCounter, inline HealthKit auto-detect banner, 30-day GymCalendar, longest/total/freezes stats, GymSessionButton, freeze + history links), D2 log-session (duration slider, effort/energy steppers, notes, Log it), D3 auto-detect standalone route, D4 streak detail (next-7-days actions + stats), D5 apply-freeze confirm, D6 session history (verification badges, notes). Domain: StreakCounter, GymSessionButton, GymCalendar. tsc ✓, full iOS export ✓.
+- Decisions: D3 lives both inline on D1 (primary UX) and as a standalone route (the scaffolded screen) for deep links. Logging from D1/D2/D3 toasts the correct XP (+25, or +25/+5 verified for HealthKit).
+- Blocked: none.
+- Notes: Calendar pattern is deterministic mock (current 13-day streak with one freeze).

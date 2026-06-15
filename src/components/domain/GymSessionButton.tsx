@@ -1,0 +1,42 @@
+// GymSessionButton — the primary "Log gym session" CTA, or a logged-confirmation
+// pill once today's session exists. The single most important action in Veltai.
+import { View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+import { Button } from '@/components/forms/Button';
+import { Text } from '@/components/primitives/Text';
+import { color, radius, space } from '@/lib/design/tokens';
+
+export type GymSessionButtonProps = {
+  logged: boolean;
+  onPress: () => void;
+};
+
+export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
+  if (logged) {
+    return (
+      <View
+        accessibilityLabel="Gym logged today"
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: space.sm,
+          backgroundColor: color.accentLight,
+          borderColor: color.accentBorder,
+          borderWidth: 1,
+          borderRadius: radius.md,
+          paddingVertical: space.md,
+          minHeight: 44,
+        }}
+      >
+        <Ionicons name="checkmark-circle" size={20} color={color.accentText} />
+        <Text variant="bodyBold" color={color.accentText}>
+          Logged today
+        </Text>
+      </View>
+    );
+  }
+
+  return <Button title="Log gym session" icon="barbell" onPress={onPress} accessibilityLabel="Log gym session" />;
+}
