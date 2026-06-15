@@ -5,3 +5,4 @@ export { LockoutBanner, type LockoutBannerProps } from './LockoutBanner';
 export { StreakCounter, type StreakCounterProps } from './StreakCounter';
 export { GymSessionButton, type GymSessionButtonProps } from './GymSessionButton';
 export { GymCalendar, type GymCalendarProps } from './GymCalendar';
+export { MealCard, type MealCardProps } from './MealCard';

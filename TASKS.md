@@ -103,14 +103,14 @@ Frontend-first build. Backend integration deferred (Phase 12, not in this run).
 - [x] StreakCounter with flame
 - [x] (support) GymCalendar 30-day grid
 
-## Phase 8 · Food — Manual (C1, C2, C9-C12)
-- [ ] C1 Food log
-- [ ] C2 Entry method picker (2x2)
-- [ ] C9 Manual search
-- [ ] C10 Custom food form
-- [ ] C11 Meal detail (dynamic route)
-- [ ] C12 Meal history
-- [ ] MealCard
+## Phase 8 · Food — Manual (C1, C2, C9-C12) [x]
+- [x] C1 Food log (cards, empty state, FAB, pull-to-refresh, history link)
+- [x] C2 Entry method picker (2x2)
+- [x] C9 Manual search (typeahead, recent, add-custom)
+- [x] C10 Custom food form
+- [x] C11 Meal detail (dynamic route, delete via BottomSheet confirm)
+- [x] C12 Meal history
+- [x] MealCard
 
 ## Phase 9 · Food — AI (C3-C8)
 - [ ] C3 Photo capture
@@ -213,3 +213,9 @@ Do not start Phase 12 in this overnight run. Stop after Phase 11.
 - Decisions: D3 lives both inline on D1 (primary UX) and as a standalone route (the scaffolded screen) for deep links. Logging from D1/D2/D3 toasts the correct XP (+25, or +25/+5 verified for HealthKit).
 - Blocked: none.
 - Notes: Calendar pattern is deterministic mock (current 13-day streak with one freeze).
+
+### 2026-06-16 06:20 — Phase 8 · Food Manual (C1, C2, C9-C12)
+- Completed: C1 food log (MealCards, running total, EmptyState, FAB +, RefreshControl pull-to-refresh, history link), C2 2×2 entry-method grid (Photo/Voice/Barcode/Manual → routes), C9 manual search (live typeahead over mock OFF+recent, add-custom link), C10 custom food form (name + per-100g macros, validation), C11 meal detail (items list, inline-edit toast, delete via BottomSheet destructive confirm), C12 meal history (date/kcal/gym status). Domain: MealCard. tsc ✓.
+- Decisions: C11 delete uses the BottomSheet component (first real use) for the destructive confirm rather than the F9 modal route — keeps the flow on-screen. Search results are screen-local mock (acceptable inline mock).
+- Blocked: none.
+- Notes: Export validation deferred to end of Phase 9 (adds expo-camera screens — natural checkpoint).
