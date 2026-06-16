@@ -103,5 +103,42 @@ export function GlassSaveButton({ onPress, label, disabled, testID }: GlassSaveB
   );
 }
 
+const FAB_SIZE = 56;
+
+export type GlassFabProps = {
+  onPress?: () => void;
+  icon?: string;
+  accessibilityLabel: string;
+  style?: StyleProp<ViewStyle>;
+  testID?: string;
+};
+
+/** Floating action button as a Liquid Glass circle. The caller positions it
+ *  (absolute) clear of the tab bar. Black icon; opacity press feedback (no spring). */
+export function GlassFab({ onPress, icon = 'plus', accessibilityLabel, style, testID }: GlassFabProps) {
+  const circle: ViewStyle = {
+    width: FAB_SIZE,
+    height: FAB_SIZE,
+    borderRadius: radius.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  };
+  const inner = <Icon name={icon} size={26} color={color.black} />;
+  return (
+    <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
+      {LIQUID ? (
+        <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive style={circle}>
+          {inner}
+        </GlassView>
+      ) : (
+        <BlurView tint="light" intensity={50} style={[circle, { backgroundColor: surface.card }]}>
+          {inner}
+        </BlurView>
+      )}
+    </Pressable>
+  );
+}
+
 /** True when the real iOS Liquid Glass material is in use (vs the blur fallback). */
 export const liquidGlassActive = LIQUID;

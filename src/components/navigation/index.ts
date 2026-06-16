@@ -7,7 +7,9 @@ export {
   GlassBackButton,
   GlassCloseButton,
   GlassSaveButton,
+  GlassFab,
   liquidGlassActive,
   type GlassNavButtonProps,
   type GlassSaveButtonProps,
+  type GlassFabProps,
 } from './GlassButtons';

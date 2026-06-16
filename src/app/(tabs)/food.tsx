@@ -3,19 +3,21 @@
 // when nothing logged. Floating + opens the entry-method picker. Pull-to-refresh.
 import { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { EmptyState } from '@/components/display/EmptyState';
+import { GlassFab } from '@/components/navigation/GlassButtons';
 import { MealCard } from '@/components/domain/MealCard';
-import { color, radius, shadow, space, zIndex } from '@/lib/design/tokens';
+import { color, space, zIndex } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
 import { mockMeals } from '@/lib/mock/data';
 
 export default function FoodLogScreen() {
+  const insets = useSafeAreaInsets();
   const [refreshing, setRefreshing] = useState(false);
   const meals = mockMeals;
   const total = meals.reduce((sum, m) => sum + m.calories, 0);
@@ -70,28 +72,17 @@ export default function FoodLogScreen() {
         ) : null}
       </ScrollView>
 
-      {/* Floating add button */}
-      <Pressable
-        onPress={() => router.push('/food/add')}
+      {/* Glass FAB — floats clear of the Liquid Glass tab bar */}
+      <GlassFab
         accessibilityLabel="Add meal"
-        style={[
-          {
-            position: 'absolute',
-            right: space.lg,
-            bottom: space.xl,
-            width: 56,
-            height: 56,
-            borderRadius: radius.full,
-            backgroundColor: color.black,
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: zIndex.fab,
-          },
-          shadow.md,
-        ]}
-      >
-        <Icon name="add" size={30} color={color.white} />
-      </Pressable>
+        onPress={() => router.push('/food/add')}
+        style={{
+          position: 'absolute',
+          right: space.xl,
+          bottom: insets.bottom + space['5xl'] + space.lg,
+          zIndex: zIndex.fab,
+        }}
+      />
     </SafeAreaView>
   );
 }
