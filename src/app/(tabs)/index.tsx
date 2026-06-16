@@ -2,7 +2,7 @@
 // Three-zone vertical layout:
 //   1. Top: streak + flame (the only progression mechanic).
 //   2. Middle: gym status hero, then calorie ring + macro bars.
-//   3. Bottom: today's AI plan summary + lockout status banner.
+//   3. Bottom: today's AI plan summary.
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,11 +16,10 @@ import { StreakFlame } from '@/components/animations/StreakFlame';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { MacroBars } from '@/components/domain/MacroBars';
 import { GymStatusCard } from '@/components/domain/GymStatusCard';
-import { LockoutBanner } from '@/components/domain/LockoutBanner';
 import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
-import { mockMacros, mockPlan, mockStreak, mockUser, mockLockout } from '@/lib/mock/data';
+import { mockMacros, mockPlan, mockStreak, mockUser } from '@/lib/mock/data';
 
 export default function DashboardScreen() {
   const [gymLogged, setGymLogged] = useState(mockStreak.gymLoggedToday);
@@ -33,7 +32,7 @@ export default function DashboardScreen() {
         {/* F4 · AI nudge banner (dismissable) */}
         {showNudge && !gymLogged ? (
           <AiNudgeBanner
-            message="It's nearly your gym window. Log today's session before lockout starts at 18:00."
+            message="It's nearly your gym window — log today's session to keep your streak alive."
             onPress={() => router.push('/dashboard/plan')}
             onDismiss={() => setShowNudge(false)}
           />
@@ -67,7 +66,7 @@ export default function DashboardScreen() {
           durationMin={62}
           onLog={() => {
             setGymLogged(true);
-            showToast({ message: 'Gym logged. Lockout lifted.', tone: 'success' });
+            showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
           }}
         />
 
@@ -86,7 +85,7 @@ export default function DashboardScreen() {
           </View>
         </Card>
 
-        {/* Zone 3 — AI plan + lockout */}
+        {/* Zone 3 — AI plan */}
         <Card onPress={() => router.push('/dashboard/plan')} accessibilityLabel="Today's plan detail">
           <View style={{ gap: space.sm }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -105,14 +104,6 @@ export default function DashboardScreen() {
             </Text>
           </View>
         </Card>
-
-        <LockoutBanner
-          enabled={mockLockout.enabled}
-          gymLogged={gymLogged}
-          appCount={mockLockout.apps.length}
-          windowLabel={mockLockout.windowLabel}
-          onPress={() => router.push('/dashboard/lockout')}
-        />
       </ScrollView>
     </SafeAreaView>
   );

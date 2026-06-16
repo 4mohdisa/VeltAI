@@ -17,7 +17,7 @@ export default function NudgeScreen() {
     <SafeAreaView style={{ flex: 1 }} edges={['top']} pointerEvents="box-none">
       <View style={{ padding: space.lg }} pointerEvents="box-none">
         <AiNudgeBanner
-          message={message ?? "It's 18:00 — your gym window. Lockout starts soon."}
+          message={message ?? "It's 18:00 — your gym window. Keep your streak alive."}
           onPress={dismiss}
           onDismiss={dismiss}
         />
