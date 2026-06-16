@@ -68,7 +68,7 @@ export default function DashboardScreen() {
             accessibilityLabel={`Rank ${mockRank.current.name}. ${mockUser.xpToday} XP today`}
             style={{ alignItems: 'flex-end', gap: space.xs }}
           >
-            <Badge label={mockRank.current.name} tone="accent" icon="shield" />
+            <Badge label={mockRank.current.name} icon="shield" />
             <Text variant="footnote" color={color.gray500}>
               +{mockUser.xpToday} XP today
             </Text>
@@ -108,7 +108,7 @@ export default function DashboardScreen() {
               <Text variant="title3" color={color.black}>
                 Today&apos;s plan
               </Text>
-              <Badge label="AI" tone="neutral" icon="sparkles" />
+              <Badge label="AI" icon="sparkles" />
             </View>
             {nextMeal ? (
               <Text variant="callout" color={color.gray700}>

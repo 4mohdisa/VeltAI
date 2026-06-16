@@ -14,10 +14,10 @@ import { StreakCounter } from '@/components/domain/StreakCounter';
 import { color, space } from '@/lib/design/tokens';
 import { mockStreak, mockUpcomingDays, type UpcomingDay } from '@/lib/mock/data';
 
-const actionMeta: Record<UpcomingDay['action'], { label: string; tone: 'accent' | 'neutral' | 'fire'; icon: string }> = {
-  log: { label: 'Log session', tone: 'accent', icon: 'barbell' },
-  freeze: { label: 'Freeze', tone: 'fire', icon: 'snow' },
-  scheduled: { label: 'Scheduled', tone: 'neutral', icon: 'calendar' },
+const actionMeta: Record<UpcomingDay['action'], { label: string; icon: string }> = {
+  log: { label: 'Log session', icon: 'barbell' },
+  freeze: { label: 'Freeze', icon: 'snow' },
+  scheduled: { label: 'Scheduled', icon: 'calendar' },
 };
 
 export default function StreakDetailScreen() {
@@ -52,7 +52,7 @@ export default function StreakDetailScreen() {
                 <Text variant="body" color={color.black}>
                   {day.label}
                 </Text>
-                <Badge label={meta.label} tone={meta.tone} icon={meta.icon} />
+                <Badge label={meta.label} icon={meta.icon} />
               </View>
             );
             return day.action === 'freeze' ? (

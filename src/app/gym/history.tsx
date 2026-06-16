@@ -39,7 +39,6 @@ export default function GymHistoryScreen() {
               </Text>
               <Badge
                 label={session.verified === 'healthkit' ? 'Health verified' : 'Manual'}
-                tone={session.verified === 'healthkit' ? 'accent' : 'neutral'}
                 icon={session.verified === 'healthkit' ? 'heart' : 'create'}
               />
             </View>

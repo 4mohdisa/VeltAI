@@ -1,4 +1,4 @@
-// StreakCounter — the hero streak display: animated flame + big accent number +
+// StreakCounter — the hero streak display: animated flame + big black number +
 // uppercase label. Used on the Gym tab and the streak detail screen.
 import { View } from 'react-native';
 

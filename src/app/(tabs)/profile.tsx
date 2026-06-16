@@ -27,7 +27,7 @@ export default function ProfileScreen() {
           <Text variant="title2" color={color.black}>
             {mockUser.name}
           </Text>
-          <Badge label={mockRank.current.name} tone="accent" icon="shield" />
+          <Badge label={mockRank.current.name} icon="shield" />
         </View>
 
         {/* Rank progress */}

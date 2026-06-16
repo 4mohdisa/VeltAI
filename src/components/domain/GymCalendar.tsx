@@ -1,4 +1,4 @@
-// GymCalendar — 30-day grid. Filled accent circle = session, snowflake = freeze,
+// GymCalendar — 30-day grid. Filled black circle = session, snowflake = freeze,
 // empty outline = missed, ring = today. Read-only history view.
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';

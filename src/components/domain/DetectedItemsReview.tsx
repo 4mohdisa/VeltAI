@@ -51,7 +51,7 @@ export function DetectedItemsReview({ items, onRemove }: DetectedItemsReviewProp
                   <Text variant="body" color={color.black}>
                     {item.name}
                   </Text>
-                  {uncertain ? <Badge label="Confirm" tone="warn" /> : null}
+                  {uncertain ? <Badge label="Confirm" /> : null}
                 </View>
                 <Text variant="footnote" color={color.gray500}>
                   {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g

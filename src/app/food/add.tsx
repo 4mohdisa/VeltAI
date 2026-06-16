@@ -34,26 +34,21 @@ export default function AddMealScreen() {
             onPress={() => router.push(m.route as never)}
             accessibilityLabel={`${m.label}. ${m.description}`}
             minTapTarget={false}
-            style={[
-              {
-                width: '47.5%',
-                aspectRatio: 1,
-                backgroundColor: color.white,
-                borderColor: color.gray200,
-                borderWidth: 1,
-                borderRadius: radius.lg,
-                padding: space.lg,
-                justifyContent: 'space-between',
-              },
-              shadow.sm,
-            ]}
+            style={{
+              width: '47.5%',
+              aspectRatio: 1,
+              backgroundColor: color.gray100,
+              borderRadius: radius.lg,
+              padding: space.xl,
+              justifyContent: 'space-between',
+            }}
           >
             <View
               style={{
                 width: 48,
                 height: 48,
                 borderRadius: radius.full,
-                backgroundColor: color.gray100,
+                backgroundColor: color.white,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}

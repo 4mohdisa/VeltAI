@@ -23,11 +23,9 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
           justifyContent: 'center',
           gap: space.sm,
           backgroundColor: color.gray100,
-          borderColor: color.gray300,
-          borderWidth: 1,
-          borderRadius: radius.md,
-          paddingVertical: space.md,
-          minHeight: 44,
+          borderRadius: radius.pill,
+          paddingVertical: space.lg,
+          minHeight: 52,
         }}
       >
         <Icon name="checkmark-circle" size={20} color={color.black} />

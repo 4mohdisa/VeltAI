@@ -64,7 +64,6 @@ export function GymStatusCard({ logged, onLog, durationMin, verified }: GymStatu
         </View>
         <Badge
           label={verified === 'healthkit' ? 'Health verified' : 'Manual'}
-          tone={verified === 'healthkit' ? 'accent' : 'neutral'}
           icon={verified === 'healthkit' ? 'heart' : 'create'}
         />
       </View>

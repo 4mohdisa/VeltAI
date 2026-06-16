@@ -55,18 +55,16 @@ export function UncertaintyPromptCard({
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   paddingVertical: space.md,
-                  paddingHorizontal: space.lg,
-                  borderRadius: radius.md,
-                  borderWidth: 1,
-                  minHeight: 48,
-                  backgroundColor: isSelected ? color.gray100 : color.white,
-                  borderColor: isSelected ? color.gray300 : color.gray200,
+                  paddingHorizontal: space.xl,
+                  borderRadius: radius.pill,
+                  minHeight: 52,
+                  backgroundColor: isSelected ? color.black : color.gray100,
                 }}
               >
-                <Text variant="body" color={isSelected ? color.black : color.gray900}>
+                <Text variant="bodyMedium" color={isSelected ? color.white : color.gray800}>
                   {opt.label}
                 </Text>
-                <Text variant="footnote" color={isSelected ? color.black : color.gray500}>
+                <Text variant="footnote" color={isSelected ? color.white : color.gray500}>
                   {opt.deltaKcal === 0 ? '+0' : `+${opt.deltaKcal}`} kcal
                 </Text>
               </Pressable>

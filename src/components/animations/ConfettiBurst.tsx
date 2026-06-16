@@ -1,5 +1,5 @@
 // ConfettiBurst — a one-shot celebratory particle burst for streak milestones
-// and rank-ups. Colours are drawn from the tokens only (accent family + grays +
+// and rank-ups. Colours are drawn from the tokens only (greyscale —
 // black) — no rogue rainbow palette. Renders nothing under Reduce Motion.
 import { useEffect, useMemo } from 'react';
 import { View, useWindowDimensions } from 'react-native';

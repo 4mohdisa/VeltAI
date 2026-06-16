@@ -39,7 +39,7 @@ export default function SubscriptionScreen() {
             <Text variant="title3" color={color.black}>
               {mockSubscription.plan}
             </Text>
-            <Badge label="Free trial" tone="accent" />
+            <Badge label="Free trial" />
           </View>
           <Text variant="body" color={color.gray700}>
             {formatCurrency(mockSubscription.price)} / month after your trial

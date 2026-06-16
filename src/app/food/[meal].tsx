@@ -35,7 +35,7 @@ export default function MealDetailScreen() {
         <Text variant="callout" color={color.gray500}>
           {meal.time}
         </Text>
-        <Badge label={`${formatCalories(meal.calories)}`} tone="neutral" />
+        <Badge label={`${formatCalories(meal.calories)}`} />
       </View>
 
       <Card padded={false}>

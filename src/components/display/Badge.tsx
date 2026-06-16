@@ -7,11 +7,8 @@ import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space, surface } from '@/lib/design/tokens';
 
-export type BadgeTone = 'accent' | 'neutral' | 'warn' | 'error' | 'fire';
-
 export type BadgeProps = {
   label: string;
-  tone?: BadgeTone;
   icon?: string;
   style?: StyleProp<ViewStyle>;
   testID?: string;

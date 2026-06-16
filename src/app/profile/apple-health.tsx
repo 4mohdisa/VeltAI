@@ -41,7 +41,7 @@ export default function AppleHealthScreen() {
               Used to auto-detect gym sessions
             </Text>
           </View>
-          <Badge label="Connected" tone="accent" icon="checkmark-circle" />
+          <Badge label="Connected" icon="checkmark-circle" />
         </View>
       </Card>
 

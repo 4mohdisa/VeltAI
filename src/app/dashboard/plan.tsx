@@ -59,7 +59,7 @@ export default function PlanDetailScreen() {
                     {entry.title}
                   </Text>
                   {entry.targetKcal ? (
-                    <Badge label={`${entry.targetKcal} kcal`} tone="neutral" />
+                    <Badge label={`${entry.targetKcal} kcal`} />
                   ) : null}
                 </View>
                 {entry.detail ? (

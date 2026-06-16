@@ -53,7 +53,7 @@ export default function LockoutStatusScreen() {
               {mockLockout.windowLabel} · {mockLockout.mode} mode
             </Text>
           </View>
-          <Badge label="Active" tone="warn" />
+          <Badge label="Active" />
         </View>
       </Card>
 

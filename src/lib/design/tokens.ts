@@ -39,25 +39,6 @@ export const color = {
   // Black alpha — for modal/sheet scrims only (monochrome, allowed).
   overlay: 'rgba(0, 0, 0, 0.45)',
   overlayStrong: 'rgba(0, 0, 0, 0.7)',
-
-  // ----------------------------------------------------------------------
-  // TEMPORARY compatibility aliases (all map to monochrome). These let the
-  // app compile + render monochrome immediately; call sites are migrated to
-  // the real tokens during R3–R5 and this block is DELETED in R6.
-  // ----------------------------------------------------------------------
-  accent: '#000000', //       was Veltai green → black
-  accentDark: '#000000',
-  accentText: '#000000',
-  accentLight: '#F4F4F5', //  → gray100 fill
-  accentBorder: '#D4D4D4', // → gray300
-  warn: '#000000', //         was amber → black
-  warnLight: '#F4F4F5',
-  warnBorder: '#D4D4D4',
-  warnText: '#404040', //     → gray700
-  error: '#000000', //        was red → black (intent via copy/confirm)
-  errorLight: '#F4F4F5',
-  errorBorder: '#D4D4D4',
-  streakFire: '#000000', //   was orange → black flame
 } as const;
 
 // ---------------------------------------------------------------------------
