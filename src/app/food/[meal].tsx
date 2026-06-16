@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -44,7 +43,19 @@ export default function MealDetailScreen() {
             key={`${item.name}-${i}`}
             haptic={false}
             minTapTarget={false}
-            onPress={() => showToast({ message: `Editing ${item.name}…`, tone: 'info' })}
+            onPress={() =>
+              router.push({
+                pathname: '/food/item-edit',
+                params: {
+                  name: item.name,
+                  quantityG: String(item.quantityG),
+                  calories: String(item.calories),
+                  protein: String(item.protein),
+                  carbs: String(item.carbs),
+                  fat: String(item.fat),
+                },
+              })
+            }
             accessibilityLabel={`Edit ${item.name}`}
             style={{
               flexDirection: 'row',
@@ -63,7 +74,6 @@ export default function MealDetailScreen() {
                 {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g
               </Text>
             </View>
-            <Icon name="pencil" size={16} color={color.gray400} />
           </Pressable>
         ))}
       </Card>
