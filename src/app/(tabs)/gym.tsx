@@ -56,7 +56,7 @@ export default function GymLogScreen() {
                   onPress={() => {
                     setLogged(true);
                     setShowDetect(false);
-                    showToast({ message: '+25 XP (+5 verified) · Logged from Health.', tone: 'success' });
+                    showToast({ message: 'Logged from Health.', tone: 'success' });
                   }}
                 />
                 <Button title="No" variant="secondary" fullWidth={false} onPress={() => setShowDetect(false)} />

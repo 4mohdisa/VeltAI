@@ -1,13 +1,13 @@
 // D6 · Gym session history
-// Reverse-chronological list of past sessions: date, duration, verification
-// badge (HealthKit-verified or manual), and notes when present.
+// Reverse-chronological list of past sessions: date, duration, effort, notes,
+// and (when the selfie feature ships) an optional memory thumbnail. No XP, no
+// verification reward badge.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
-import { Badge } from '@/components/display/Badge';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
@@ -33,15 +33,9 @@ export default function GymHistoryScreen() {
               borderTopColor: color.gray100,
             }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text variant="bodyBold" color={color.black}>
-                {session.date}
-              </Text>
-              <Badge
-                label={session.verified === 'healthkit' ? 'Health verified' : 'Manual'}
-                icon={session.verified === 'healthkit' ? 'heart' : 'create'}
-              />
-            </View>
+            <Text variant="bodyBold" color={color.black}>
+              {session.date}
+            </Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
               <Icon name="time-outline" size={14} color={color.gray500} />
               <Text variant="footnote" color={color.gray500}>

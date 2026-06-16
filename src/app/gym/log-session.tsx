@@ -1,6 +1,6 @@
 // D2 · Log gym session
 // All inputs optional: duration, perceived effort (1–10), energy (1–5), notes.
-// "Log it" awards XP and lifts lockout. Idempotent per UTC day in production.
+// "Log it" extends the streak and lifts lockout. Idempotent per UTC day.
 import { useState } from 'react';
 import { router } from 'expo-router';
 
@@ -28,7 +28,7 @@ export default function LogSessionScreen() {
       title="Log session"
       onClose={close}
       onDone={() => {
-        showToast({ message: '+25 XP · Gym logged. Lockout lifted.', tone: 'success' });
+        showToast({ message: 'Gym logged. Lockout lifted.', tone: 'success' });
         close();
       }}
     >

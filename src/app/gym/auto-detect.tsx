@@ -28,7 +28,7 @@ export default function AutoDetectScreen() {
           <Button
             title="Yes, log as today's session"
             onPress={() => {
-              showToast({ message: '+25 XP (+5 verified) · Logged from Health.', tone: 'success' });
+              showToast({ message: 'Logged from Health.', tone: 'success' });
               goBack();
             }}
           />

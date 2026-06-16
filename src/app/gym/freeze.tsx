@@ -34,8 +34,8 @@ export default function FreezeScreen() {
             Use 1 of your {mockStreak.freezesAvailable} freezes for tomorrow?
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            A freeze protects your {mockStreak.current}-day streak on a planned rest day. It won&apos;t
-            award XP — it just keeps the streak alive.
+            A freeze protects your {mockStreak.current}-day streak on a planned rest day — it just
+            keeps the streak alive.
           </Text>
         </View>
       </Card>

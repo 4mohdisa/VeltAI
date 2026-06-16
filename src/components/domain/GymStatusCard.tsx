@@ -1,11 +1,11 @@
 // GymStatusCard — the Dashboard's middle hero. Not logged → a big primary
-// "Log gym session" CTA. Logged → a confirmation row with duration and a
-// verification badge. This is the single most important action in the app.
+// "Log gym session" CTA. Logged → a confirmation row with the duration. Logging
+// updates the streak only (no XP, no verification reward). The single most
+// important action in the app.
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Card } from '@/components/display/Card';
-import { Badge } from '@/components/display/Badge';
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
@@ -15,10 +15,9 @@ export type GymStatusCardProps = {
   logged: boolean;
   onLog: () => void;
   durationMin?: number;
-  verified?: 'healthkit' | 'manual';
 };
 
-export function GymStatusCard({ logged, onLog, durationMin, verified }: GymStatusCardProps) {
+export function GymStatusCard({ logged, onLog, durationMin }: GymStatusCardProps) {
   if (!logged) {
     return (
       <Card>
@@ -62,10 +61,6 @@ export function GymStatusCard({ logged, onLog, durationMin, verified }: GymStatu
             </Text>
           ) : null}
         </View>
-        <Badge
-          label={verified === 'healthkit' ? 'Health verified' : 'Manual'}
-          icon={verified === 'healthkit' ? 'heart' : 'create'}
-        />
       </View>
     </Card>
   );
