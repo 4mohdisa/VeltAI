@@ -1,13 +1,25 @@
 // Icon — the single icon primitive. Wraps expo-symbols' SymbolView so every
-// glyph is a native SF Symbol, monochrome (black active / gray500 inactive).
-// Replaces all Ionicons usage.
+// glyph is a native SF Symbol. Replaces all Ionicons usage.
 //
 // It accepts either a real SF Symbol name (e.g. "flame.fill") OR one of the
 // legacy Ionicons names used across the app, which it maps to the SF Symbol
 // equivalent — so call sites migrate by simply swapping <Ionicons/> → <Icon/>.
+//
+// COLOUR CONVENTION (Apple Health model):
+//   1. Monochrome (default, the majority): navigation chrome, tab bar, back /
+//      close, chevrons, settings and any STRUCTURAL icon → `color.black`
+//      (active/primary) or `color.secondary` (inactive/secondary).
+//   2. Coloured (functional only): health/category and data icons MAY use an
+//      `accent.*` colour where the colour ENCODES a category or an AI/data
+//      moment — e.g. macro categories, AI `sparkles`, calories/energy `flame`,
+//      hydration, sleep. See `iconAccents` below for the intended mapping.
+//      (Accents are NOT applied to existing screens in this prompt — a later
+//      prompt wires them onto charts / AI / categories.)
+// The streak flame MAY be `accent.orange` (energy/calorie family) — applied in a
+// later prompt, not here. The primitive already supports any colour.
 import { SymbolView, type SymbolViewProps } from 'expo-symbols';
 
-import { color as colors } from '@/lib/design/tokens';
+import { accent, color as colors } from '@/lib/design/tokens';
 
 // Legacy (Ionicons) name → SF Symbol. Unknown names pass through unchanged,
 // so passing a real SF Symbol name also works.
@@ -123,3 +135,19 @@ export function Icon({ name, size = 20, color = colors.black, weight = 'regular'
     />
   );
 }
+
+// Reference map: which functional icons get which Apple Health accent colour.
+// NOT applied automatically — a later prompt opts specific charts / AI / category
+// icons into these by passing `color={iconAccents.flame}` etc. Default Icon usage
+// stays monochrome (color.black / color.secondary).
+export const iconAccents = {
+  flame: accent.orange, //        energy / calories / streak
+  sparkles: accent.purple, //     AI moments
+  protein: accent.blue, //        macro category
+  carbs: accent.green, //         macro category
+  fat: accent.yellow, //          macro category
+  fibre: accent.turquoise, //     macro category
+  heart: accent.red, //           heart / health
+  hydration: accent.ocean, //     water
+  sleep: accent.purple, //        sleep
+} as const;
