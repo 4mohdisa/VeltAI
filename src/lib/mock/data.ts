@@ -203,14 +203,6 @@ export const mockUpcomingDays: UpcomingDay[] = [
   { label: 'Sun 22 Jun', action: 'log' },
 ];
 
-// A HealthKit-detected workout not yet logged (drives the D3 auto-detect banner).
-export const mockDetectedWorkout = {
-  type: 'Traditional Strength Training',
-  start: '18:00',
-  end: '19:15',
-  durationMin: 75,
-};
-
 // ---------------------------------------------------------------------------
 // Subscription / trial
 // ---------------------------------------------------------------------------
