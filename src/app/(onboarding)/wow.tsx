@@ -10,7 +10,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { Card } from '@/components/display/Card';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatLongDate } from '@/lib/formatting';
 import { mockPlan } from '@/lib/mock/data';
 import { useOnboarding } from '@/lib/onboarding/store';
@@ -48,10 +48,12 @@ export default function WowScreen() {
               90-day projection
             </Text>
             <Svg width={chartW} height={chartH}>
-              <Line x1={0} y1={chartH - 1} x2={chartW} y2={chartH - 1} stroke={color.gray200} strokeWidth={1} />
-              <Polyline points={points} fill="none" stroke={color.black} strokeWidth={3} strokeLinecap="round" />
-              <Circle cx={0} cy={startY} r={5} fill={color.black} />
-              <Circle cx={chartW} cy={endY} r={5} fill={color.black} />
+              {/* baseline gridline stays monochrome; the projection line encodes
+                  a positive trajectory → green (functional data colour). */}
+              <Line x1={0} y1={chartH - 1} x2={chartW} y2={chartH - 1} stroke={color.light2} strokeWidth={1} />
+              <Polyline points={points} fill="none" stroke={categoryAccent.positive} strokeWidth={3} strokeLinecap="round" />
+              <Circle cx={0} cy={startY} r={5} fill={categoryAccent.positive} />
+              <Circle cx={chartW} cy={endY} r={5} fill={categoryAccent.positive} />
             </Svg>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text variant="footnote" color={color.gray500}>
