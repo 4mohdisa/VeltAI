@@ -12,10 +12,8 @@ import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 
 const DATA_TYPES = [
-  { icon: 'walk-outline' as const, label: 'Steps' },
-  { icon: 'bed-outline' as const, label: 'Sleep' },
-  { icon: 'heart-outline' as const, label: 'Heart rate' },
   { icon: 'flame-outline' as const, label: 'Active energy' },
+  { icon: 'walk-outline' as const, label: 'Steps' },
 ];
 
 export default function AppleHealthScreen() {
@@ -38,7 +36,7 @@ export default function AppleHealthScreen() {
               Apple Health
             </Text>
             <Text variant="footnote" color={color.gray500}>
-              Used to auto-detect gym sessions
+              Cross-checks your calorie goal
             </Text>
           </View>
           <Badge label="Connected" icon="checkmark-circle" />
