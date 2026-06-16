@@ -1,6 +1,6 @@
-// C2 · Add meal — entry method picker
-// Full-screen with four large tappable cards in a 2×2 grid: Photo, Voice,
-// Barcode, Manual. Each has an icon, label, and one-line description.
+// C2 · Add menu
+// 2×2 grid of large tappable cards: Scan food, Barcode, Voice, Saved foods.
+// (Manual search lives in the food-log search bar, not here. No gym option.)
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
@@ -18,10 +18,10 @@ type Method = {
 };
 
 const METHODS: Method[] = [
-  { icon: 'camera', label: 'Photo', description: 'Snap your meal', route: '/food/photo-capture' },
-  { icon: 'mic', label: 'Voice', description: 'Describe it out loud', route: '/food/voice' },
+  { icon: 'camera', label: 'Scan food', description: 'Snap your meal', route: '/food/photo-capture' },
   { icon: 'barcode', label: 'Barcode', description: 'Scan a package', route: '/food/barcode-scan' },
-  { icon: 'search', label: 'Manual', description: 'Search or add custom', route: '/food/search' },
+  { icon: 'mic', label: 'Voice', description: 'Describe it out loud', route: '/food/voice' },
+  { icon: 'bookmark', label: 'Saved foods', description: 'One-tap re-add', route: '/food/saved' },
 ];
 
 export default function AddMealScreen() {
