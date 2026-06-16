@@ -48,9 +48,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" />
             <Stack.Screen name="(onboarding)" />
             <Stack.Screen name="(tabs)" />
-            {/* Full-screen celebratory / blocking modals */}
-            <Stack.Screen name="modals/rank-up" options={{ presentation: 'fullScreenModal' }} />
-            <Stack.Screen name="modals/milestone" options={{ presentation: 'fullScreenModal' }} />
+            {/* Full-screen blocking modal */}
             <Stack.Screen
               name="modals/lockout-blocked"
               options={{ presentation: 'fullScreenModal' }}
