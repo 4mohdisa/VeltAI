@@ -65,13 +65,6 @@ export const aiVoiceItems: DetectedItem[] = [
   { id: 'v3', name: 'Butter', quantityG: 7, calories: 50, protein: 0, carbs: 0, fat: 6, confidence: 0.55 },
 ];
 
-// Barcode lookup result (Open Food Facts shape).
-export const aiBarcodeProduct = {
-  name: 'Greek Yoghurt, Plain',
-  brand: 'Chobani',
-  kcalPer100: 59,
-  proteinPer100: 10,
-  carbsPer100: 4,
-  fatPer100: 0,
-  servingOptions: [100, 150, 170, 200],
-};
+// NOTE: barcode lookup is deliberately NOT here — it's a database lookup, not an
+// AI call, and lives in lib/food/barcode.ts so this AI surface carries no cost
+// for the barcode path.
