@@ -1,21 +1,20 @@
 // E1 · Profile main
-// Avatar, name, current rank badge with a progress bar to the next rank, total
-// XP and streak, recent XP events, then the settings list entry point.
-import { View } from 'react-native';
+// Streak-only (no XP, no ranks, no points). Avatar + name, the streak as the
+// centrepiece (current streak with flame, longest, total gym days), then the
+// settings list. The optional gym selfie would surface here as a memory strip
+// (feature not built yet) — never as a reward.
+import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native';
 import { router } from 'expo-router';
 
 import { Avatar } from '@/components/display/Avatar';
-import { Badge } from '@/components/display/Badge';
 import { Card } from '@/components/display/Card';
-import { ProgressBar } from '@/components/display/ProgressBar';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Stat } from '@/components/display/Stat';
 import { Text } from '@/components/primitives/Text';
+import { StreakCounter } from '@/components/domain/StreakCounter';
 import { color, space } from '@/lib/design/tokens';
-import { formatNumber } from '@/lib/formatting';
-import { mockRank, mockStreak, mockUser, mockXpEvents } from '@/lib/mock/data';
+import { mockStreak, mockUser } from '@/lib/mock/data';
 
 export default function ProfileScreen() {
   return (
@@ -27,70 +26,21 @@ export default function ProfileScreen() {
           <Text variant="title2" color={color.black}>
             {mockUser.name}
           </Text>
-          <Badge label={mockRank.current.name} icon="shield" />
         </View>
 
-        {/* Rank progress */}
+        {/* Streak centrepiece */}
         <Card>
-          <View style={{ gap: space.sm }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text variant="footnote" color={color.gray700}>
-                {formatNumber(mockUser.totalXp)} XP
-              </Text>
-              <Text variant="footnote" color={color.gray500}>
-                {mockRank.next ? `${formatNumber(mockRank.xpForNext ?? 0)} to ${mockRank.next.name}` : 'Max rank'}
-              </Text>
-            </View>
-            <ProgressBar value={mockRank.progress} />
-          </View>
+          <StreakCounter days={mockStreak.current} />
         </Card>
 
-        {/* Stats */}
+        {/* Streak stats */}
         <Card>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Stat value={mockStreak.current} label="Day streak" size="medium" align="center" valueColor={color.black} />
-            <Stat value={formatNumber(mockUser.totalXp)} label="Total XP" size="medium" align="center" />
-            <Stat value={mockStreak.totalSessions} label="Sessions" size="medium" align="center" />
+            <Stat value={mockStreak.longest} label="Longest" size="medium" align="center" />
+            <Stat value={mockStreak.totalSessions} label="Total days" size="medium" align="center" />
+            <Stat value={mockStreak.freezesAvailable} label="Freezes" size="medium" align="center" />
           </View>
         </Card>
-
-        {/* Recent XP */}
-        <View>
-          <Text
-            variant="footnote"
-            color={color.gray500}
-            style={{ marginBottom: space.sm, marginLeft: space.xs, textTransform: 'uppercase', letterSpacing: 1 }}
-          >
-            Recent XP
-          </Text>
-          <Card padded={false}>
-            {mockXpEvents.map((event, i) => (
-              <View
-                key={event.id}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: space.lg,
-                  borderTopWidth: i === 0 ? 0 : 1,
-                  borderTopColor: color.gray100,
-                }}
-              >
-                <View style={{ gap: space.xs }}>
-                  <Text variant="body" color={color.black}>
-                    {event.label}
-                  </Text>
-                  <Text variant="footnote" color={color.gray500}>
-                    {event.when}
-                  </Text>
-                </View>
-                <Text variant="bodyBold" color={color.black}>
-                  +{event.amount}
-                </Text>
-              </View>
-            ))}
-          </Card>
-        </View>
 
         <SettingsList
           rows={[
