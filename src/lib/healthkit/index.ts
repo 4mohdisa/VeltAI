@@ -1,1 +1,32 @@
-export {};
+// Apple Health — exactly TWO flows (stubbed; react-native-health is not installed
+// in this build, so these return mock data behind the same UI):
+//   1. READ  active energy + steps  → calorie cross-check vs the daily goal.
+//   2. WRITE  logged nutrition (calories + macros) → user-initiated only.
+// Nothing else (no workouts, sleep, HRV, resting HR, VO2, correlations, or
+// background delivery).
+import { mockHealth } from '@/lib/mock/data';
+
+export type HealthToday = {
+  /** false when Health is denied/unavailable → callers fall back to intake-only. */
+  connected: boolean;
+  activeEnergy: number; // kcal burned today (HKQuantityTypeIdentifier.activeEnergyBurned)
+  steps: number; //       step count today (HKQuantityTypeIdentifier.stepCount)
+};
+
+/** Read today's active energy + steps. Real device → HealthKit; here → mock. */
+export async function readActiveEnergyAndSteps(): Promise<HealthToday> {
+  return mockHealth;
+}
+
+export type NutritionPayload = {
+  calories: number; // dietaryEnergyConsumed
+  protein: number; //  dietaryProtein
+  carbs: number; //    dietaryCarbohydrates
+  fat: number; //      dietaryFatTotal
+};
+
+/** Write a logged meal's nutrition to Apple Health. USER-INITIATED only — never
+ *  automatic. Stubbed (returns true); real device writes the four dietary types. */
+export async function writeNutritionToHealth(_payload: NutritionPayload): Promise<boolean> {
+  return true;
+}

@@ -1,6 +1,7 @@
 // B4 · Nutrition detail
-// Calories consumed vs target, per-macro progress bars (incl. fibre), then a
-// per-meal breakdown. Edit any meal from here.
+// Calories consumed vs target, the Apple Health calorie cross-check (intake vs
+// active burn), per-macro progress bars (incl. fibre), then a per-meal breakdown.
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
@@ -10,13 +11,22 @@ import { Card } from '@/components/display/Card';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
+import { CalorieCrossCheck } from '@/components/domain/CalorieCrossCheck';
 import { MacroBars } from '@/components/domain/MacroBars';
+import { readActiveEnergyAndSteps, type HealthToday } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
 import { mockMacros, mockMeals } from '@/lib/mock/data';
 
 export default function NutritionDetailScreen() {
   const cal = mockMacros.calories;
+  // Read active energy + steps from Apple Health (mock); falls back to
+  // intake-only if Health is denied/unavailable.
+  const [health, setHealth] = useState<HealthToday | null>(null);
+  useEffect(() => {
+    readActiveEnergyAndSteps().then(setHealth);
+  }, []);
+
   return (
     <Screen title="Nutrition" showBack>
       <Card>
@@ -27,6 +37,12 @@ export default function NutritionDetailScreen() {
           </Text>
         </View>
       </Card>
+
+      <CalorieCrossCheck
+        intake={cal.consumed}
+        goal={cal.target}
+        activeEnergy={health?.connected ? health.activeEnergy : undefined}
+      />
 
       <Card>
         <MacroBars

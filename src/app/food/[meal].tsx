@@ -13,6 +13,7 @@ import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
+import { writeNutritionToHealth } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories, formatGrams } from '@/lib/formatting';
 import { mockMeals } from '@/lib/mock/data';
@@ -21,6 +22,7 @@ export default function MealDetailScreen() {
   const { meal: mealId } = useLocalSearchParams<{ meal: string }>();
   const meal = mockMeals.find((m) => m.id === mealId) ?? mockMeals[0];
   const [confirming, setConfirming] = useState(false);
+  const [synced, setSynced] = useState(false); // written to Apple Health (per meal)
 
   return (
     <Screen
@@ -77,6 +79,24 @@ export default function MealDetailScreen() {
           </Pressable>
         ))}
       </Card>
+
+      {/* User-initiated: send this meal's nutrition to Apple Health */}
+      <Button
+        title={synced ? 'Sent to Apple Health' : 'Send to Apple Health'}
+        variant="secondary"
+        icon={synced ? 'checkmark' : 'heart'}
+        disabled={synced}
+        onPress={async () => {
+          await writeNutritionToHealth({
+            calories: meal.calories,
+            protein: meal.protein,
+            carbs: meal.carbs,
+            fat: meal.fat,
+          });
+          setSynced(true);
+          showToast({ message: 'Nutrition sent to Apple Health.', tone: 'success' });
+        }}
+      />
 
       <BottomSheet visible={confirming} onClose={() => setConfirming(false)} title="Delete this meal?">
         <Text variant="callout" color={color.gray500}>

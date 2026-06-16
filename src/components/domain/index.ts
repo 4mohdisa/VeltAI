@@ -1,4 +1,5 @@
 export { DailyMacroRing, type DailyMacroRingProps } from './DailyMacroRing';
+export { CalorieCrossCheck, type CalorieCrossCheckProps } from './CalorieCrossCheck';
 export { MacroBars, type MacroBarsProps } from './MacroBars';
 export { GymStatusCard, type GymStatusCardProps } from './GymStatusCard';
 export { StreakCounter, type StreakCounterProps } from './StreakCounter';
