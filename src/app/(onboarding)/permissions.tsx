@@ -1,6 +1,6 @@
 // A17 · Permissions
-// Our explainer first, then the native prompts (mocked). HealthKit (steps,
-// sleep, heart rate, active energy) and Notifications.
+// Our explainer first, then the native prompts (mocked). Apple Health (read
+// active energy + steps; write logged nutrition) and Notifications.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
@@ -64,7 +64,7 @@ export default function PermissionsScreen() {
       <PermCard
         icon="heart-outline"
         title="Apple Health"
-        body="We read your workouts, sleep and activity to auto-detect gym sessions and spot patterns. We never write to Health."
+        body="We read your active energy and steps to cross-check your daily calorie goal. We can also write the nutrition you log back to Health — but only when you choose to."
         granted={health}
         onAllow={() => setHealth(true)}
       />

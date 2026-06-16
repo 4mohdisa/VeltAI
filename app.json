@@ -14,8 +14,8 @@
       "icon": "./assets/expo.icon",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSHealthShareUsageDescription": "Veltai reads your workouts, sleep, and activity from Apple Health to auto-detect gym sessions and spot patterns between sleep and gym attendance.",
-        "NSHealthUpdateUsageDescription": "Reserved for future use. Veltai does not write to Apple Health in this version.",
+        "NSHealthShareUsageDescription": "Veltai reads your active energy and steps from Apple Health to cross-check against your daily calorie goal.",
+        "NSHealthUpdateUsageDescription": "Veltai can write the nutrition you log to Apple Health, only when you choose to.",
         "NSCameraUsageDescription": "Veltai uses the camera to scan your meals and food labels for accurate calorie tracking.",
         "NSMicrophoneUsageDescription": "Veltai uses the microphone so you can describe meals by voice instead of typing.",
         "NSFaceIDUsageDescription": "Veltai uses Face ID to keep your health data private.",
