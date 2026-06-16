@@ -5,10 +5,10 @@ import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
-import { Screen } from '@/components/navigation/Screen';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, shadow } from '@/lib/design/tokens';
+import { color, radius, space } from '@/lib/design/tokens';
 
 type Method = {
   icon: string;
@@ -26,7 +26,7 @@ const METHODS: Method[] = [
 
 export default function AddMealScreen() {
   return (
-    <Screen title="Add meal" showBack>
+    <SheetContent title="Add meal" onClose={() => router.canGoBack() && router.back()}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
         {METHODS.map((m) => (
           <Pressable
@@ -66,6 +66,6 @@ export default function AddMealScreen() {
           </Pressable>
         ))}
       </View>
-    </Screen>
+    </SheetContent>
   );
 }

@@ -2,9 +2,9 @@
 // All inputs optional: duration, perceived effort (1–10), energy (1–5), notes.
 // "Log it" awards XP and lifts lockout. Idempotent per UTC day in production.
 import { useState } from 'react';
+import { router } from 'expo-router';
 
-import { Screen } from '@/components/navigation/Screen';
-import { Button } from '@/components/forms/Button';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { SliderField } from '@/components/forms/SliderField';
 import { Stepper } from '@/components/forms/Stepper';
 import { TextField } from '@/components/forms/TextField';
@@ -12,7 +12,6 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
-import { router } from 'expo-router';
 
 export default function LogSessionScreen() {
   const [duration, setDuration] = useState(60);
@@ -20,20 +19,18 @@ export default function LogSessionScreen() {
   const [energy, setEnergy] = useState(3);
   const [notes, setNotes] = useState('');
 
+  const close = () => {
+    if (router.canGoBack()) router.back();
+  };
+
   return (
-    <Screen
+    <SheetContent
       title="Log session"
-      showBack
-      footer={
-        <Button
-          title="Log it"
-          icon="checkmark"
-          onPress={() => {
-            showToast({ message: '+25 XP · Gym logged. Lockout lifted.', tone: 'success' });
-            if (router.canGoBack()) router.back();
-          }}
-        />
-      }
+      onClose={close}
+      onDone={() => {
+        showToast({ message: '+25 XP · Gym logged. Lockout lifted.', tone: 'success' });
+        close();
+      }}
     >
       <Text variant="callout" color={color.gray500}>
         Everything here is optional — a one-tap log still counts.
@@ -60,6 +57,6 @@ export default function LogSessionScreen() {
         onChangeText={setNotes}
         multiline
       />
-    </Screen>
+    </SheetContent>
   );
 }

@@ -1,41 +1,31 @@
 // D5 · Apply streak freeze
-// Confirmation: "Use 1 of your X freezes for [date]?" Freezes protect a day from
-// breaking the streak. Max 2 held; must apply before midnight UTC.
+// Confirmation sheet: "Use 1 of your X freezes for [date]?" X-left dismisses,
+// tick-right applies. Freezes protect a day from breaking the streak.
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Icon } from '@/components/primitives/Icon';
 
-import { Screen } from '@/components/navigation/Screen';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
-import { Button } from '@/components/forms/Button';
+import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { mockStreak } from '@/lib/mock/data';
 
 export default function FreezeScreen() {
-  const goBack = () => {
+  const close = () => {
     if (router.canGoBack()) router.back();
   };
 
   return (
-    <Screen
+    <SheetContent
       title="Streak freeze"
-      showBack
-      footer={
-        <View style={{ gap: space.sm }}>
-          <Button
-            title="Apply freeze for tomorrow"
-            icon="snow"
-            disabled={mockStreak.freezesAvailable === 0}
-            onPress={() => {
-              showToast({ message: 'Freeze applied — tomorrow is protected.', tone: 'success' });
-              goBack();
-            }}
-          />
-          <Button title="Cancel" variant="tertiary" onPress={goBack} />
-        </View>
-      }
+      onClose={close}
+      onDone={() => {
+        showToast({ message: 'Freeze applied — tomorrow is protected.', tone: 'success' });
+        close();
+      }}
+      doneDisabled={mockStreak.freezesAvailable === 0}
     >
       <Card>
         <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
@@ -49,6 +39,6 @@ export default function FreezeScreen() {
           </Text>
         </View>
       </Card>
-    </Screen>
+    </SheetContent>
   );
 }
