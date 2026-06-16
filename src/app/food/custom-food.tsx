@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 
-import { Screen } from '@/components/navigation/Screen';
-import { Button } from '@/components/forms/Button';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
 import { space } from '@/lib/design/tokens';
@@ -20,20 +19,19 @@ export default function CustomFoodScreen() {
   const set = (key: keyof Macros) => (value: string) => setMacros((m) => ({ ...m, [key]: value }));
   const canSave = name.trim().length > 0 && macros.calories.trim().length > 0;
 
+  const close = () => {
+    if (router.canGoBack()) router.back();
+  };
+
   return (
-    <Screen
+    <SheetContent
       title="Custom food"
-      showBack
-      footer={
-        <Button
-          title="Save food"
-          disabled={!canSave}
-          onPress={() => {
-            showToast({ message: `Saved “${name.trim()}”.`, tone: 'success' });
-            if (router.canGoBack()) router.back();
-          }}
-        />
-      }
+      onClose={close}
+      onDone={() => {
+        showToast({ message: `Saved “${name.trim()}”.`, tone: 'success' });
+        close();
+      }}
+      doneDisabled={!canSave}
     >
       <TextField label="Name" value={name} onChangeText={setName} placeholder="e.g. Mum's chicken karahi" />
 
@@ -63,6 +61,6 @@ export default function CustomFoodScreen() {
           <TextField label="Fibre (g)" value={macros.fibre} onChangeText={set('fibre')} keyboardType="numeric" />
         </View>
       </View>
-    </Screen>
+    </SheetContent>
   );
 }
