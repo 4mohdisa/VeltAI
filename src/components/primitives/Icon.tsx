@@ -143,9 +143,9 @@ export function Icon({ name, size = 20, color = colors.black, weight = 'regular'
 export const iconAccents = {
   flame: accent.orange, //        energy / calories / streak
   sparkles: accent.purple, //     AI moments
-  protein: accent.blue, //        macro category
-  carbs: accent.green, //         macro category
-  fat: accent.yellow, //          macro category
+  protein: accent.red, //         macro category
+  carbs: accent.yellow, //        macro category
+  fat: accent.blue, //            macro category
   fibre: accent.turquoise, //     macro category
   heart: accent.red, //           heart / health
   hydration: accent.ocean, //     water

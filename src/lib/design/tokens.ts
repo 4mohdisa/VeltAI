@@ -67,6 +67,20 @@ export const accent = {
 
 export type AccentKey = keyof typeof accent;
 
+// Functional category → accent colour. Single source of truth so every macro /
+// energy / AI surface uses the same colour everywhere (charts, bars, icons).
+// Colour is applied ONLY to icons + chart elements — never tiles, text or chrome.
+export const categoryAccent = {
+  protein: accent.red, //     #EB4B62
+  carbs: accent.yellow, //    #F1A33B
+  fat: accent.blue, //        #3A82F7
+  fibre: accent.turquoise, // #81CFFA
+  calories: accent.orange, // energy family
+  streak: accent.orange, //   streak flame (energy family)
+  ai: accent.purple, //       AI / sparkles moments
+  positive: accent.green, //  on-track / positive data series
+} as const;
+
 // ---------------------------------------------------------------------------
 // Surface — fills over borders, remapped to the Apple Health greys.
 // ---------------------------------------------------------------------------
