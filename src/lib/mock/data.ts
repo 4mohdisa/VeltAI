@@ -156,21 +156,6 @@ export const mockPlanReason =
   'You hit the gym 3/4 days this week and protein is averaging 96 g vs your 165 g target, so tomorrow leans higher-protein. Earlier bedtime suggested — your sleep is averaging 6.8h and your gym attendance drops when sleep dips under 6h.';
 
 // ---------------------------------------------------------------------------
-// Lockout
-// ---------------------------------------------------------------------------
-
-export const mockLockout = {
-  enabled: true,
-  mode: 'Soft' as 'Soft' | 'Moderate' | 'Strict',
-  apps: ['Instagram', 'TikTok', 'X', 'YouTube'],
-  graceRemainingMin: 30,
-  graceTotalMin: 30,
-  emergencyLeft: 1,
-  emergencyTotal: 1,
-  windowLabel: '18:00 – until gym logged',
-};
-
-// ---------------------------------------------------------------------------
 // Gym
 // ---------------------------------------------------------------------------
 

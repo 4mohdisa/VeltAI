@@ -31,7 +31,6 @@ export type OnboardingAnswers = {
   allergies: string[];
   cuisines: string[];
   cooksAtHome: CookStyle;
-  lockoutEnabled: boolean;
 };
 
 type OnboardingStore = OnboardingAnswers & {
@@ -67,7 +66,6 @@ const DEFAULTS: OnboardingAnswers = {
   allergies: [],
   cuisines: [],
   cooksAtHome: 'both',
-  lockoutEnabled: true,
 };
 
 export const useOnboarding = create<OnboardingStore>((set) => ({
