@@ -3,7 +3,7 @@
 // unlocks left this week. Big "Use grace period" button; emergency unlock is
 // smaller and (per spec) requires a 4-digit confirmation code.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { router } from 'expo-router';
 
@@ -44,7 +44,7 @@ export default function LockoutStatusScreen() {
     >
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-          <Ionicons name="lock-closed" size={22} color={color.warnText} />
+          <Icon name="lock-closed" size={22} color={color.warnText} />
           <View style={{ flex: 1 }}>
             <Text variant="title3" color={color.black}>
               Apps locked
@@ -84,12 +84,12 @@ export default function LockoutStatusScreen() {
                   justifyContent: 'center',
                 }}
               >
-                <Ionicons name="apps" size={16} color={color.gray500} />
+                <Icon name="apps" size={16} color={color.gray500} />
               </View>
               <Text variant="body" color={color.black} style={{ flex: 1 }}>
                 {app}
               </Text>
-              <Ionicons name="lock-closed" size={16} color={color.warnText} />
+              <Icon name="lock-closed" size={16} color={color.warnText} />
             </View>
           ))}
         </Card>

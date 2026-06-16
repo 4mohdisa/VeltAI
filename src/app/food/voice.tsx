@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Button } from '@/components/forms/Button';
@@ -90,7 +90,7 @@ export default function VoiceEntryScreen() {
             justifyContent: 'center',
           }}
         >
-          <Ionicons name={listening ? 'stop' : 'mic'} size={40} color={color.white} />
+          <Icon name={listening ? 'stop' : 'mic'} size={40} color={color.white} />
         </Pressable>
 
         <Text variant="footnote" color={color.gray500}>

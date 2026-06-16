@@ -1,7 +1,7 @@
 // MealCard — one logged meal in the food log: slot + entry-method icon, time,
 // calories, and a protein/carbs/fat summary. Tap → meal detail.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Card } from '@/components/display/Card';
 import { Text } from '@/components/primitives/Text';
@@ -9,7 +9,7 @@ import { color, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
 import type { EntryMethod, Meal } from '@/lib/mock/data';
 
-const methodIcon: Record<EntryMethod, React.ComponentProps<typeof Ionicons>['name']> = {
+const methodIcon: Record<EntryMethod, string> = {
   photo: 'camera',
   voice: 'mic',
   barcode: 'barcode',
@@ -26,7 +26,7 @@ export function MealCard({ meal, onPress }: MealCardProps) {
     <Card onPress={onPress} accessibilityLabel={`${meal.slot}, ${formatCalories(meal.calories)}`}>
       <View style={{ gap: space.sm }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-          <Ionicons name={methodIcon[meal.method]} size={16} color={color.gray500} />
+          <Icon name={methodIcon[meal.method]} size={16} color={color.gray500} />
           <Text variant="bodyBold" color={color.black} style={{ flex: 1 }}>
             {meal.slot}
           </Text>

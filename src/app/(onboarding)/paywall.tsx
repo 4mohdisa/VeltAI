@@ -4,7 +4,7 @@
 // shown plainly — no dark patterns.
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { onboardingHref } from '@/lib/onboarding/steps';
@@ -82,7 +82,7 @@ function Row({ label, value }: { label: string; value: string }) {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-        <Ionicons name="checkmark-circle" size={16} color={color.accentText} />
+        <Icon name="checkmark-circle" size={16} color={color.accentText} />
         <Text variant="callout" color={color.gray500}>
           {label}
         </Text>

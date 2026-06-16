@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -64,7 +64,7 @@ export default function ValuePropScreen() {
                 justifyContent: 'center',
               }}
             >
-              <Ionicons name={card.icon} size={44} color={color.accentText} />
+              <Icon name={card.icon} size={44} color={color.accentText} />
             </View>
             <Text variant="display" color={color.black}>
               {card.word}

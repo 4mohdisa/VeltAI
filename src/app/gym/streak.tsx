@@ -3,7 +3,6 @@
 // scheduled), then longest streak, total sessions and freezes available.
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -15,7 +14,7 @@ import { StreakCounter } from '@/components/domain/StreakCounter';
 import { color, space } from '@/lib/design/tokens';
 import { mockStreak, mockUpcomingDays, type UpcomingDay } from '@/lib/mock/data';
 
-const actionMeta: Record<UpcomingDay['action'], { label: string; tone: 'accent' | 'neutral' | 'fire'; icon: React.ComponentProps<typeof Ionicons>['name'] }> = {
+const actionMeta: Record<UpcomingDay['action'], { label: string; tone: 'accent' | 'neutral' | 'fire'; icon: string }> = {
   log: { label: 'Log session', tone: 'accent', icon: 'barbell' },
   freeze: { label: 'Freeze', tone: 'fire', icon: 'snow' },
   scheduled: { label: 'Scheduled', tone: 'neutral', icon: 'calendar' },

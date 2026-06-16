@@ -4,7 +4,7 @@
 // supplies the rank data and the dismiss handler.
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 import Animated, { ZoomIn, FadeInDown, useReducedMotion } from 'react-native-reanimated';
 
 import { Button } from '@/components/forms/Button';
@@ -36,7 +36,7 @@ export function RankUpModal({ rankName, unlocks, onContinue }: RankUpModalProps)
             justifyContent: 'center',
           }}
         >
-          <Ionicons name="trophy" size={56} color={color.white} />
+          <Icon name="trophy" size={56} color={color.white} />
         </Animated.View>
 
         <Animated.View
@@ -54,7 +54,7 @@ export function RankUpModal({ rankName, unlocks, onContinue }: RankUpModalProps)
         <View style={{ alignSelf: 'stretch', gap: space.sm, marginTop: space.md }}>
           {unlocks.map((unlock) => (
             <View key={unlock} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-              <Ionicons name="lock-open" size={18} color={color.accentText} />
+              <Icon name="lock-open" size={18} color={color.accentText} />
               <Text variant="body" color={color.gray900}>
                 {unlock}
               </Text>

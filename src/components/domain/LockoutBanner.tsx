@@ -2,7 +2,7 @@
 // isn't logged yet it reads as a warn (apps are locked); once logged it reads
 // as a calm accent "lifted" state. Tap → lockout status detail.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
@@ -45,7 +45,7 @@ export function LockoutBanner({ enabled, gymLogged, appCount, windowLabel, onPre
         padding: space.lg,
       }}
     >
-      <Ionicons name={locked ? 'lock-closed' : 'lock-open'} size={22} color={fg} />
+      <Icon name={locked ? 'lock-closed' : 'lock-open'} size={22} color={fg} />
       <View style={{ flex: 1, gap: space.xs }}>
         <Text variant="bodyBold" color={fg}>
           {locked ? `${appCount} apps locked` : 'Lockout lifted — nice work'}
@@ -54,7 +54,7 @@ export function LockoutBanner({ enabled, gymLogged, appCount, windowLabel, onPre
           {locked ? `Until you log the gym · ${windowLabel}` : 'Logged today — your apps are open'}
         </Text>
       </View>
-      <Ionicons name="chevron-forward" size={18} color={fg} />
+      <Icon name="chevron-forward" size={18} color={fg} />
     </Pressable>
   );
 }

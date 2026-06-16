@@ -6,7 +6,7 @@
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { Button } from '@/components/forms/Button';
@@ -43,7 +43,7 @@ export default function MilestoneModalScreen() {
           </Text>
           {grantsFreeze ? (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-              <Ionicons name="snow" size={16} color={color.gray500} />
+              <Icon name="snow" size={16} color={color.gray500} />
               <Text variant="callout" color={color.gray700}>
                 A streak freeze has been added to your account.
               </Text>

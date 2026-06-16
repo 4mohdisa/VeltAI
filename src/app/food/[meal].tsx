@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -63,7 +63,7 @@ export default function MealDetailScreen() {
                 {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g
               </Text>
             </View>
-            <Ionicons name="pencil" size={16} color={color.gray400} />
+            <Icon name="pencil" size={16} color={color.gray400} />
           </Pressable>
         ))}
       </Card>

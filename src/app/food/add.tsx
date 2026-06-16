@@ -3,7 +3,7 @@
 // Barcode, Manual. Each has an icon, label, and one-line description.
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -11,7 +11,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space, shadow } from '@/lib/design/tokens';
 
 type Method = {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: string;
   label: string;
   description: string;
   route: string;
@@ -58,7 +58,7 @@ export default function AddMealScreen() {
                 justifyContent: 'center',
               }}
             >
-              <Ionicons name={m.icon} size={24} color={color.accentText} />
+              <Icon name={m.icon} size={24} color={color.accentText} />
             </View>
             <View style={{ gap: space.xs }}>
               <Text variant="title3" color={color.black}>

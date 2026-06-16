@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 import Animated, { FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 import { Pressable } from '@/components/primitives/Pressable';
@@ -11,7 +11,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space, shadow, zIndex } from '@/lib/design/tokens';
 import { useToastStore, type ToastTone } from './toastStore';
 
-const toneStyle: Record<ToastTone, { bg: string; fg: string; icon: React.ComponentProps<typeof Ionicons>['name'] }> = {
+const toneStyle: Record<ToastTone, { bg: string; fg: string; icon: string }> = {
   info: { bg: color.black, fg: color.white, icon: 'information-circle' },
   success: { bg: color.accent, fg: color.white, icon: 'checkmark-circle' },
   warn: { bg: color.warn, fg: color.black, icon: 'warning' },
@@ -62,7 +62,7 @@ export function ToastHost() {
           shadow.md,
         ]}
       >
-        <Ionicons name={t.icon} size={18} color={t.fg} />
+        <Icon name={t.icon} size={18} color={t.fg} />
         <Text variant="callout" color={t.fg} style={{ flex: 1 }}>
           {current.message}
         </Text>

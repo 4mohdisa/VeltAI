@@ -5,7 +5,7 @@
 //   destructive white fill, error border + error label
 // Haptic + 44pt min target come from the Pressable primitive.
 import { ActivityIndicator, View, type StyleProp, type ViewStyle } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
@@ -20,7 +20,7 @@ export type ButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
-  icon?: React.ComponentProps<typeof Ionicons>['name'];
+  icon?: string;
   testID?: string;
   accessibilityLabel?: string;
   style?: StyleProp<ViewStyle>;
@@ -82,7 +82,7 @@ export function Button({
         <ActivityIndicator color={labelColor} />
       ) : (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-          {icon ? <Ionicons name={icon} size={18} color={labelColor} /> : null}
+          {icon ? <Icon name={icon} size={18} color={labelColor} /> : null}
           <Text variant="bodyBold" color={labelColor}>
             {title}
           </Text>

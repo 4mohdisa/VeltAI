@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -62,7 +62,7 @@ export default function FoodLogScreen() {
             accessibilityLabel="Meal history"
             style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xs, padding: space.md }}
           >
-            <Ionicons name="time-outline" size={16} color={color.accentText} />
+            <Icon name="time-outline" size={16} color={color.accentText} />
             <Text variant="bodyBold" color={color.accentText}>
               Meal history
             </Text>
@@ -90,7 +90,7 @@ export default function FoodLogScreen() {
           shadow.md,
         ]}
       >
-        <Ionicons name="add" size={30} color={color.white} />
+        <Icon name="add" size={30} color={color.white} />
       </Pressable>
     </SafeAreaView>
   );

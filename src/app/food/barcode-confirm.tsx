@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -51,7 +51,7 @@ export default function BarcodeConfirmScreen() {
               justifyContent: 'center',
             }}
           >
-            <Ionicons name="fast-food" size={28} color={color.gray400} />
+            <Icon name="fast-food" size={28} color={color.gray400} />
           </View>
           <View style={{ flex: 1, gap: space.xs }}>
             <Text variant="title3" color={color.black}>

@@ -5,7 +5,7 @@
 import { View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Line, Polyline } from 'react-native-svg';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { Card } from '@/components/display/Card';
@@ -108,7 +108,7 @@ export default function WowScreen() {
                 justifyContent: 'center',
               }}
             >
-              <Ionicons name="lock-closed" size={26} color={color.black} />
+              <Icon name="lock-closed" size={26} color={color.black} />
             </View>
             <Text variant="bodyBold" color={color.white}>
               Tonight at 19:00, if you haven&apos;t gone

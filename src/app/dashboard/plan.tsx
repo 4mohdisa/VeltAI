@@ -4,7 +4,7 @@
 // meal → Add Meal pre-filled with that slot. Generation reason shown (transparency).
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -14,7 +14,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
 import { mockPlan, mockPlanReason, type PlanEntry } from '@/lib/mock/data';
 
-const iconFor: Record<PlanEntry['kind'], React.ComponentProps<typeof Ionicons>['name']> = {
+const iconFor: Record<PlanEntry['kind'], string> = {
   wake: 'sunny',
   meal: 'restaurant',
   gym: 'barbell',
@@ -45,7 +45,7 @@ export default function PlanDetailScreen() {
                     justifyContent: 'center',
                   }}
                 >
-                  <Ionicons
+                  <Icon
                     name={iconFor[entry.kind]}
                     size={18}
                     color={entry.kind === 'gym' ? color.white : color.gray700}
@@ -94,7 +94,7 @@ export default function PlanDetailScreen() {
 
       <Card style={{ backgroundColor: color.gray50 }}>
         <View style={{ flexDirection: 'row', gap: space.sm }}>
-          <Ionicons name="sparkles" size={18} color={color.accentText} />
+          <Icon name="sparkles" size={18} color={color.accentText} />
           <View style={{ flex: 1, gap: space.xs }}>
             <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
               Why this plan

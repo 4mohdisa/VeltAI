@@ -1,8 +1,7 @@
 // StreakFlame — the flame icon next to a streak count. Gently pulses while the
-// streak is active; static when inactive or Reduce Motion is on. Uses the
-// reserved streakFire colour (flame only — never elsewhere).
+// streak is active; static when inactive or Reduce Motion is on. Monochrome:
+// black flame.fill (never orange) via the Icon primitive.
 import { useEffect } from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,9 +11,8 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
+import { Icon } from '@/components/primitives/Icon';
 import { color, motion } from '@/lib/design/tokens';
-
-const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons);
 
 export type StreakFlameProps = {
   size?: number;
@@ -22,7 +20,7 @@ export type StreakFlameProps = {
   tint?: string;
 };
 
-export function StreakFlame({ size = 24, active = true, tint = color.streakFire }: StreakFlameProps) {
+export function StreakFlame({ size = 24, active = true, tint = color.black }: StreakFlameProps) {
   const reduceMotion = useReducedMotion();
   const scale = useSharedValue(1);
 
@@ -42,7 +40,7 @@ export function StreakFlame({ size = 24, active = true, tint = color.streakFire 
 
   return (
     <Animated.View style={animatedStyle}>
-      <AnimatedIonicons name="flame" size={size} color={active ? tint : color.gray400} />
+      <Icon name="flame" size={size} color={active ? tint : color.gray400} />
     </Animated.View>
   );
 }

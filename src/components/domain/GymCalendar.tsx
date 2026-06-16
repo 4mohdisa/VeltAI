@@ -1,7 +1,7 @@
 // GymCalendar — 30-day grid. Filled accent circle = session, snowflake = freeze,
 // empty outline = missed, ring = today. Read-only history view.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
@@ -22,13 +22,13 @@ function Cell({ status }: { status: DayStatus }) {
     case 'session':
       return (
         <View style={[base, { backgroundColor: color.accent }]}>
-          <Ionicons name="checkmark" size={18} color={color.white} />
+          <Icon name="checkmark" size={18} color={color.white} />
         </View>
       );
     case 'freeze':
       return (
         <View style={[base, { backgroundColor: color.gray100, borderWidth: 1, borderColor: color.gray200 }]}>
-          <Ionicons name="snow" size={16} color={color.gray500} />
+          <Icon name="snow" size={16} color={color.gray500} />
         </View>
       );
     case 'today':

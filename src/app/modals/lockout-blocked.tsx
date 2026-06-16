@@ -5,7 +5,7 @@
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
@@ -30,7 +30,7 @@ export default function LockoutBlockedScreen() {
             justifyContent: 'center',
           }}
         >
-          <Ionicons name="lock-closed" size={40} color={color.black} />
+          <Icon name="lock-closed" size={40} color={color.black} />
         </View>
         <Text variant="title1" color={color.white} style={{ textAlign: 'center' }}>
           {appName} is locked

@@ -1,7 +1,7 @@
 // ErrorState (F8) — plain-language error + a Retry button. (In production Sentry
 // captures the underlying error silently; here it is presentational.)
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
@@ -27,7 +27,7 @@ export function ErrorState({
       testID={testID}
       style={{ alignItems: 'center', justifyContent: 'center', padding: space['2xl'], gap: space.md }}
     >
-      <Ionicons name="alert-circle-outline" size={40} color={color.error} />
+      <Icon name="alert-circle-outline" size={40} color={color.error} />
       <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
         {title}
       </Text>

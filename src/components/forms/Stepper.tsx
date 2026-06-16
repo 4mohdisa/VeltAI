@@ -1,7 +1,7 @@
 // Stepper — minus / value / plus for small integer quantities (meals per day,
 // daily notification cap, etc.). Buttons disable at the min/max bounds.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -50,7 +50,7 @@ export function Stepper({
         backgroundColor: color.gray100,
       }}
     >
-      <Ionicons name={name} size={20} color={enabled ? color.black : color.gray400} />
+      <Icon name={name} size={20} color={enabled ? color.black : color.gray400} />
     </Pressable>
   );
 

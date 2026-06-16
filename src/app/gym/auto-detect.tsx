@@ -3,7 +3,7 @@
 // alone for deep links. Confirm/decline a HealthKit-detected workout.
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -38,7 +38,7 @@ export default function AutoDetectScreen() {
     >
       <Card>
         <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
-          <Ionicons name="heart" size={40} color={color.accentText} />
+          <Icon name="heart" size={40} color={color.accentText} />
           <Text variant="title3" color={color.black}>
             {mockDetectedWorkout.type}
           </Text>

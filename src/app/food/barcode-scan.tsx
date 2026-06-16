@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -32,7 +32,7 @@ export default function BarcodeScanScreen() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
         <View style={{ flex: 1, padding: space.lg, alignItems: 'center', justifyContent: 'center', gap: space.md }}>
-          <Ionicons name="barcode-outline" size={44} color={color.gray400} />
+          <Icon name="barcode-outline" size={44} color={color.gray400} />
           <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
             Camera access needed
           </Text>
@@ -71,7 +71,7 @@ export default function BarcodeScanScreen() {
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0 }} edges={['top']}>
         <View style={{ padding: space.sm }}>
           <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel="Close scanner">
-            <Ionicons name="close" size={30} color={color.white} />
+            <Icon name="close" size={30} color={color.white} />
           </Pressable>
         </View>
       </SafeAreaView>

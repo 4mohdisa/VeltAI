@@ -4,7 +4,7 @@
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -86,7 +86,7 @@ export default function ManualSearchScreen() {
                 {formatCalories(food.kcalPer100)} / 100g
               </Text>
             </View>
-            <Ionicons name="add-circle-outline" size={22} color={color.accent} />
+            <Icon name="add-circle-outline" size={22} color={color.accent} />
           </Pressable>
         ))}
       </Card>
@@ -98,7 +98,7 @@ export default function ManualSearchScreen() {
         accessibilityLabel="Add custom food"
         style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, padding: space.md }}
       >
-        <Ionicons name="create-outline" size={18} color={color.accentText} />
+        <Icon name="create-outline" size={18} color={color.accentText} />
         <Text variant="bodyBold" color={color.accentText}>
           Add custom food
         </Text>

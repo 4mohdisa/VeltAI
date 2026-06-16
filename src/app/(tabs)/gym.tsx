@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Card } from '@/components/display/Card';
 import { Stat } from '@/components/display/Stat';
@@ -42,7 +42,7 @@ export default function GymLogScreen() {
           <Card style={{ backgroundColor: color.accentLight, borderColor: color.accentBorder }}>
             <View style={{ gap: space.md }}>
               <View style={{ flexDirection: 'row', gap: space.sm }}>
-                <Ionicons name="heart" size={18} color={color.accentText} />
+                <Icon name="heart" size={18} color={color.accentText} />
                 <Text variant="callout" color={color.accentText} style={{ flex: 1 }}>
                   We saw a {mockDetectedWorkout.type} for {formatDuration(mockDetectedWorkout.durationMin)} (
                   {mockDetectedWorkout.start}–{mockDetectedWorkout.end}). Log it as today&apos;s session?

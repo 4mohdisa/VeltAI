@@ -2,7 +2,7 @@
 // "Log gym session" CTA. Logged → a confirmation row with duration and a
 // verification badge. This is the single most important action in the app.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
@@ -50,7 +50,7 @@ export function GymStatusCard({ logged, onLog, durationMin, verified }: GymStatu
             justifyContent: 'center',
           }}
         >
-          <Ionicons name="checkmark" size={26} color={color.accentText} />
+          <Icon name="checkmark" size={26} color={color.accentText} />
         </View>
         <View style={{ flex: 1, gap: space.xs }}>
           <Text variant="title3" color={color.black}>

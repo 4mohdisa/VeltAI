@@ -3,7 +3,7 @@
 // sleep, heart rate, active energy) and Notifications.
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { Card } from '@/components/display/Card';
@@ -12,7 +12,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
 
 type PermCardProps = {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: string;
   title: string;
   body: string;
   granted: boolean;
@@ -34,7 +34,7 @@ function PermCard({ icon, title, body, granted, onAllow }: PermCardProps) {
               justifyContent: 'center',
             }}
           >
-            <Ionicons name={icon} size={22} color={color.accentText} />
+            <Icon name={icon} size={22} color={color.accentText} />
           </View>
           <Text variant="title3" color={color.black} style={{ flex: 1 }}>
             {title}

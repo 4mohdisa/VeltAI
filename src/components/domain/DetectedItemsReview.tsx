@@ -2,7 +2,7 @@
 // High-confidence items render at full opacity; low-confidence ones are dimmed
 // and flagged "Confirm" so the user knows the AI is unsure (no silent guessing).
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
@@ -64,7 +64,7 @@ export function DetectedItemsReview({ items, onRemove }: DetectedItemsReviewProp
                   onPress={() => onRemove(item.id)}
                   accessibilityLabel={`Remove ${item.name}`}
                 >
-                  <Ionicons name="close-circle" size={20} color={color.gray400} />
+                  <Icon name="close-circle" size={20} color={color.gray400} />
                 </Pressable>
               ) : null}
             </View>

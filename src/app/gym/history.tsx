@@ -3,7 +3,7 @@
 // badge (HealthKit-verified or manual), and notes when present.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -44,7 +44,7 @@ export default function GymHistoryScreen() {
               />
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-              <Ionicons name="time-outline" size={14} color={color.gray500} />
+              <Icon name="time-outline" size={14} color={color.gray500} />
               <Text variant="footnote" color={color.gray500}>
                 {formatDuration(session.durationMin)} · effort {session.effort}/10
               </Text>

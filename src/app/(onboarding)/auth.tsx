@@ -4,7 +4,7 @@
 // continues into the questions.)
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -18,7 +18,7 @@ function AuthButton({
   dark,
   onPress,
 }: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: string;
   label: string;
   dark?: boolean;
   onPress: () => void;
@@ -40,7 +40,7 @@ function AuthButton({
         borderColor: color.black,
       }}
     >
-      <Ionicons name={icon} size={20} color={dark ? color.white : color.black} />
+      <Icon name={icon} size={20} color={dark ? color.white : color.black} />
       <Text variant="bodyBold" color={dark ? color.white : color.black}>
         {label}
       </Text>

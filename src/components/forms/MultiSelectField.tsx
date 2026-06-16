@@ -1,7 +1,7 @@
 // MultiSelectField — wrapping row of selectable chips. Selected chips fill with
 // the accent-light background + accent border; a check icon confirms state.
 import { View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -65,7 +65,7 @@ export function MultiSelectField({
               }}
             >
               {isSelected ? (
-                <Ionicons name="checkmark-circle" size={16} color={color.accentText} />
+                <Icon name="checkmark-circle" size={16} color={color.accentText} />
               ) : null}
               <Text variant="callout" color={isSelected ? color.accentText : color.gray900}>
                 {opt.label}

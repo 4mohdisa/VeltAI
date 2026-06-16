@@ -4,7 +4,7 @@
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -58,12 +58,12 @@ export default function MealHistoryScreen() {
                 {formatCalories(day.kcal)}
               </Text>
             </View>
-            <Ionicons
+            <Icon
               name={day.gym ? 'checkmark-circle' : 'remove-circle-outline'}
               size={20}
               color={day.gym ? color.accent : color.gray400}
             />
-            <Ionicons name="chevron-forward" size={18} color={color.gray400} />
+            <Icon name="chevron-forward" size={18} color={color.gray400} />
           </Pressable>
         ))}
       </Card>

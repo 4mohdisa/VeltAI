@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Button } from '@/components/forms/Button';
@@ -56,7 +56,7 @@ export default function PhotoReviewScreen() {
               gap: space.xs,
             }}
           >
-            <Ionicons name="image" size={22} color={color.gray400} />
+            <Icon name="image" size={22} color={color.gray400} />
             <Text variant="caption" color={color.gray500}>
               {label}
             </Text>

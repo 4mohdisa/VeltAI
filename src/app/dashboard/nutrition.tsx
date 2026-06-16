@@ -3,7 +3,7 @@
 // per-meal breakdown. Edit any meal from here.
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -72,7 +72,7 @@ export default function NutritionDetailScreen() {
                   {meal.time} · {formatCalories(meal.calories)}
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={18} color={color.gray400} />
+              <Icon name="chevron-forward" size={18} color={color.gray400} />
             </Pressable>
           ))}
         </Card>

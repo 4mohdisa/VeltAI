@@ -1,7 +1,7 @@
 // Badge — a small pill for rank names, streak counts, verification status.
 // Tones map to the limited semantic palette; `fire` is reserved for streaks.
 import { View, type StyleProp, type ViewStyle } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
@@ -11,7 +11,7 @@ export type BadgeTone = 'accent' | 'neutral' | 'warn' | 'error' | 'fire';
 export type BadgeProps = {
   label: string;
   tone?: BadgeTone;
-  icon?: React.ComponentProps<typeof Ionicons>['name'];
+  icon?: string;
   style?: StyleProp<ViewStyle>;
   testID?: string;
 };
@@ -45,7 +45,7 @@ export function Badge({ label, tone = 'neutral', icon, style, testID }: BadgePro
         style,
       ]}
     >
-      {icon ? <Ionicons name={icon} size={13} color={t.fg} /> : null}
+      {icon ? <Icon name={icon} size={13} color={t.fg} /> : null}
       <Text variant="caption" color={t.fg} style={{ fontWeight: '600' }}>
         {label}
       </Text>
