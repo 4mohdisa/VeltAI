@@ -1,6 +1,6 @@
-// DailyMacroRing — the calories-vs-target ring on the Dashboard. SVG arc fills
-// with the accent; turns warn if the user goes over target. Centre shows the
-// running total. Built with react-native-svg.
+// DailyMacroRing — the calories-vs-target ring on the Dashboard. Monochrome:
+// a black progress arc on a gray200 track, heavy black number in the centre.
+// Built with react-native-svg.
 import { View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
@@ -34,7 +34,7 @@ export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14 
           cx={center}
           cy={center}
           r={radius}
-          stroke={over ? color.warn : color.accent}
+          stroke={color.black}
           strokeWidth={strokeWidth}
           fill="none"
           strokeDasharray={`${dash} ${circumference}`}

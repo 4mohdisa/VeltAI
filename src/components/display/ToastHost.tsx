@@ -11,11 +11,13 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space, shadow, zIndex } from '@/lib/design/tokens';
 import { useToastStore, type ToastTone } from './toastStore';
 
+// Monochrome: every toast is a solid black surface with white text. The tone is
+// distinguished by the SF Symbol only, never by colour.
 const toneStyle: Record<ToastTone, { bg: string; fg: string; icon: string }> = {
   info: { bg: color.black, fg: color.white, icon: 'information-circle' },
-  success: { bg: color.accent, fg: color.white, icon: 'checkmark-circle' },
-  warn: { bg: color.warn, fg: color.black, icon: 'warning' },
-  error: { bg: color.error, fg: color.white, icon: 'alert-circle' },
+  success: { bg: color.black, fg: color.white, icon: 'checkmark-circle' },
+  warn: { bg: color.black, fg: color.white, icon: 'warning' },
+  error: { bg: color.black, fg: color.white, icon: 'alert-circle' },
 };
 
 export function ToastHost() {

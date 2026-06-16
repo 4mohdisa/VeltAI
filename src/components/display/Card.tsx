@@ -1,11 +1,11 @@
-// Card — the standard surface: white fill, hairline gray border, lg radius and
-// padding (tokens doc "Card" shorthand). Depth comes from the border, not a
-// shadow. Pass `onPress` to make the whole card tappable.
+// Card — the standard surface: a light grey fill on white, NO border, soft 20px
+// radius, generous 20px padding. Fills (not borders) are what make the app read
+// clean. Pass `onPress` to make the whole card tappable.
 import type { ReactNode } from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { Pressable } from '@/components/primitives/Pressable';
-import { color, radius, space } from '@/lib/design/tokens';
+import { radius, space, surface } from '@/lib/design/tokens';
 
 export type CardProps = {
   children: ReactNode;
@@ -17,9 +17,7 @@ export type CardProps = {
 };
 
 const base: ViewStyle = {
-  backgroundColor: color.white,
-  borderColor: color.gray200,
-  borderWidth: 1,
+  backgroundColor: surface.card,
   borderRadius: radius.lg,
 };
 
@@ -31,7 +29,7 @@ export function Card({
   testID,
   accessibilityLabel,
 }: CardProps) {
-  const padding = padded ? { padding: space.lg } : null;
+  const padding = padded ? { padding: space.xl } : null;
 
   if (onPress) {
     return (

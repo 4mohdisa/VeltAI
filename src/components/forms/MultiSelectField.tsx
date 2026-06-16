@@ -1,12 +1,12 @@
-// MultiSelectField — wrapping row of selectable chips. Selected chips fill with
-// the accent-light background + accent border; a check icon confirms state.
+// MultiSelectField — wrapping row of selectable pill chips. Unselected = grey
+// fill + grey text; selected = solid black + white text (the Cal AI chip motif).
+// Monochrome, no borders.
 import { View } from 'react-native';
-import { Icon } from '@/components/primitives/Icon';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, radius, space, surface } from '@/lib/design/tokens';
 
 export type ChipOption = { label: string; value: string };
 
@@ -52,22 +52,15 @@ export function MultiSelectField({
               accessibilityState={{ checked: isSelected }}
               accessibilityLabel={opt.label}
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: space.xs,
-                paddingVertical: space.sm,
-                paddingHorizontal: space.md,
-                borderRadius: radius.full,
-                borderWidth: 1,
-                minHeight: 40,
-                backgroundColor: isSelected ? color.accentLight : color.white,
-                borderColor: isSelected ? color.accentBorder : color.gray200,
+                paddingVertical: space.md,
+                paddingHorizontal: space.xl,
+                borderRadius: radius.pill,
+                minHeight: 44,
+                justifyContent: 'center',
+                backgroundColor: isSelected ? color.black : surface.card,
               }}
             >
-              {isSelected ? (
-                <Icon name="checkmark-circle" size={16} color={color.accentText} />
-              ) : null}
-              <Text variant="callout" color={isSelected ? color.accentText : color.gray900}>
+              <Text variant="bodyMedium" color={isSelected ? color.white : color.gray700}>
                 {opt.label}
               </Text>
             </Pressable>

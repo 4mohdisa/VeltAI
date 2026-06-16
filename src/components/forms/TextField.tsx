@@ -1,11 +1,11 @@
-// TextField — single- or multi-line text input wrapped in FieldShell.
-// Border states follow the tokens doc: gray300 default, black on focus,
-// error on error. Min height 44pt; multiline grows.
+// TextField — filled input (grey fill, no border). On focus it flips to white
+// with a 1px black border. Errors are signalled by the FieldShell message, not
+// colour. Min height 52pt; multiline grows.
 import { useState } from 'react';
 import { TextInput, type TextInputProps } from 'react-native';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
-import { color, radius, space, type, layout } from '@/lib/design/tokens';
+import { color, radius, space, type, layout, surface } from '@/lib/design/tokens';
 
 export type TextFieldProps = FieldShellProps &
   Omit<TextInputProps, 'style'> & {
@@ -25,7 +25,8 @@ export function TextField({
 }: TextFieldProps) {
   const [focused, setFocused] = useState(false);
 
-  const borderColor = error ? color.error : focused ? color.black : color.gray300;
+  // Outline only appears on focus (or error); otherwise the grey fill defines it.
+  const outlined = focused || !!error;
 
   return (
     <FieldShell label={label} helper={helper} error={error} required={required} disabled={disabled}>
@@ -45,16 +46,16 @@ export function TextField({
           inputProps.onBlur?.(e);
         }}
         style={{
-          backgroundColor: disabled ? color.gray100 : color.white,
-          borderColor,
-          borderWidth: 1,
+          backgroundColor: disabled ? color.gray150 : outlined ? surface.inputFocused : surface.input,
+          borderColor: color.black,
+          borderWidth: outlined ? 1 : 0,
           borderRadius: radius.md,
-          paddingVertical: space.md,
-          paddingHorizontal: space.lg,
+          paddingVertical: space.lg,
+          paddingHorizontal: space.xl,
           fontSize: type.body.fontSize,
           lineHeight: type.body.lineHeight,
-          color: color.gray900,
-          minHeight: multiline ? layout.tapTarget * 2.5 : layout.tapTarget,
+          color: color.gray800,
+          minHeight: multiline ? layout.buttonHeight * 2.2 : layout.buttonHeight,
           textAlignVertical: multiline ? 'top' : 'center',
         }}
       />

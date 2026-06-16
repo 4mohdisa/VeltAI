@@ -1,15 +1,15 @@
-// Button — four variants from the tokens doc's component shorthand:
-//   primary     accent fill, white text (the one CTA per screen)
-//   secondary   white fill, black border
-//   tertiary    text-only, accent label
-//   destructive white fill, error border + error label
-// Haptic + 44pt min target come from the Pressable primitive.
+// Button — monochrome pills. One primary (solid black) per screen.
+//   primary     black fill, white text (the one CTA)
+//   secondary   transparent, gray300 1px border, black text
+//   destructive same as secondary — intent carried by copy + confirmation, not red
+//   tertiary    text-only, black label
+// Haptic + min target come from the Pressable primitive.
 import { ActivityIndicator, View, type StyleProp, type ViewStyle } from 'react-native';
-import { Icon } from '@/components/primitives/Icon';
 
+import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, layout, radius, space } from '@/lib/design/tokens';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'destructive';
 
@@ -27,17 +27,17 @@ export type ButtonProps = {
 };
 
 const fills: Record<ButtonVariant, ViewStyle> = {
-  primary: { backgroundColor: color.accent },
-  secondary: { backgroundColor: color.white, borderWidth: 1, borderColor: color.black },
+  primary: { backgroundColor: color.black },
+  secondary: { backgroundColor: 'transparent', borderWidth: 1, borderColor: color.gray300 },
   tertiary: { backgroundColor: 'transparent' },
-  destructive: { backgroundColor: color.white, borderWidth: 1, borderColor: color.error },
+  destructive: { backgroundColor: 'transparent', borderWidth: 1, borderColor: color.gray300 },
 };
 
 const labelColors: Record<ButtonVariant, string> = {
   primary: color.white,
   secondary: color.black,
-  tertiary: color.accentText,
-  destructive: color.error,
+  tertiary: color.black,
+  destructive: color.black,
 };
 
 export function Button({
@@ -69,9 +69,10 @@ export function Button({
           alignItems: 'center',
           justifyContent: 'center',
           gap: space.sm,
-          borderRadius: radius.md,
-          paddingVertical: space.md,
-          paddingHorizontal: space.lg,
+          borderRadius: radius.pill,
+          paddingVertical: space.lg,
+          paddingHorizontal: space['2xl'],
+          minHeight: layout.buttonHeight,
         },
         fills[variant],
         fullWidth ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' },

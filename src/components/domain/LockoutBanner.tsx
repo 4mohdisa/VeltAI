@@ -1,12 +1,12 @@
-// LockoutBanner — Dashboard banner summarising lockout state. When the gym
-// isn't logged yet it reads as a warn (apps are locked); once logged it reads
-// as a calm accent "lifted" state. Tap → lockout status detail.
+// LockoutBanner — Dashboard banner summarising lockout state. Monochrome grey
+// fill, black lock icon, black text (never amber). State is carried by the icon
+// (lock vs lock.open) and copy, not colour.
 import { View } from 'react-native';
-import { Icon } from '@/components/primitives/Icon';
 
+import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, radius, space, surface } from '@/lib/design/tokens';
 
 export type LockoutBannerProps = {
   enabled: boolean;
@@ -20,9 +20,6 @@ export function LockoutBanner({ enabled, gymLogged, appCount, windowLabel, onPre
   if (!enabled) return null;
 
   const locked = !gymLogged;
-  const bg = locked ? color.warnLight : color.accentLight;
-  const border = locked ? color.warnBorder : color.accentBorder;
-  const fg = locked ? color.warnText : color.accentText;
 
   return (
     <Pressable
@@ -30,31 +27,27 @@ export function LockoutBanner({ enabled, gymLogged, appCount, windowLabel, onPre
       haptic={false}
       minTapTarget={false}
       accessibilityLabel={
-        locked
-          ? `${appCount} apps locked until you log the gym`
-          : 'Lockout lifted for today'
+        locked ? `${appCount} apps locked until you log the gym` : 'Lockout lifted for today'
       }
       style={{
         flexDirection: 'row',
         alignItems: 'center',
         gap: space.md,
-        backgroundColor: bg,
-        borderColor: border,
-        borderWidth: 1,
+        backgroundColor: surface.card,
         borderRadius: radius.lg,
-        padding: space.lg,
+        padding: space.xl,
       }}
     >
-      <Icon name={locked ? 'lock-closed' : 'lock-open'} size={22} color={fg} />
+      <Icon name={locked ? 'lock-closed' : 'lock-open'} size={22} color={color.black} />
       <View style={{ flex: 1, gap: space.xs }}>
-        <Text variant="bodyBold" color={fg}>
+        <Text variant="bodyBold" color={color.black}>
           {locked ? `${appCount} apps locked` : 'Lockout lifted — nice work'}
         </Text>
-        <Text variant="footnote" color={locked ? color.warnText : color.gray700}>
+        <Text variant="footnote" color={color.gray600}>
           {locked ? `Until you log the gym · ${windowLabel}` : 'Logged today — your apps are open'}
         </Text>
       </View>
-      <Icon name="chevron-forward" size={18} color={fg} />
+      <Icon name="chevron-forward" size={18} color={color.gray400} />
     </Pressable>
   );
 }

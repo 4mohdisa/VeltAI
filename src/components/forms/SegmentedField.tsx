@@ -1,11 +1,11 @@
-// SegmentedField — iOS-style single-select segmented control. Track is a gray
-// pill; the selected segment lifts to a white card. One choice at a time.
+// SegmentedField — monochrome single-select segmented control. Grey pill track;
+// the selected segment fills solid black with white text. One choice at a time.
 import { View } from 'react-native';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, shadow } from '@/lib/design/tokens';
+import { color, radius, space, surface } from '@/lib/design/tokens';
 
 export type SegmentedOption<T extends string> = { label: string; value: T };
 
@@ -33,8 +33,8 @@ export function SegmentedField<T extends string>({
         testID={testID}
         style={{
           flexDirection: 'row',
-          backgroundColor: color.gray100,
-          borderRadius: radius.md,
+          backgroundColor: surface.card,
+          borderRadius: radius.pill,
           padding: space.xs,
           gap: space.xs,
         }}
@@ -56,16 +56,14 @@ export function SegmentedField<T extends string>({
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  paddingVertical: space.sm,
-                  borderRadius: radius.sm,
-                  minHeight: 36,
+                  paddingVertical: space.md,
+                  borderRadius: radius.pill,
+                  minHeight: 40,
                 },
-                selected
-                  ? { backgroundColor: color.white, ...shadow.sm }
-                  : { backgroundColor: 'transparent' },
+                selected ? { backgroundColor: color.black } : { backgroundColor: 'transparent' },
               ]}
             >
-              <Text variant={selected ? 'bodyBold' : 'body'} color={selected ? color.black : color.gray700}>
+              <Text variant="bodyMedium" color={selected ? color.white : color.gray600}>
                 {opt.label}
               </Text>
             </Pressable>

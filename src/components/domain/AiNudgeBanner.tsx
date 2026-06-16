@@ -1,11 +1,12 @@
-// AiNudgeBanner (F4) — a dismissable in-app banner shown when an AI nudge fires
-// while the app is open. Tap → the relevant screen; X dismisses.
+// AiNudgeBanner (F4) — a dismissable in-app banner when an AI nudge fires while
+// the app is open. Monochrome grey fill, black sparkles icon. Tap → relevant
+// screen; X dismisses.
 import { View } from 'react-native';
-import { Icon } from '@/components/primitives/Icon';
 
+import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, radius, space, surface } from '@/lib/design/tokens';
 
 export type AiNudgeBannerProps = {
   message: string;
@@ -23,21 +24,19 @@ export function AiNudgeBanner({ message, onPress, onDismiss }: AiNudgeBannerProp
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        gap: space.sm,
-        backgroundColor: color.accentLight,
-        borderColor: color.accentBorder,
-        borderWidth: 1,
+        gap: space.md,
+        backgroundColor: surface.card,
         borderRadius: radius.lg,
-        padding: space.md,
+        padding: space.lg,
       }}
     >
-      <Icon name="sparkles" size={18} color={color.accentText} />
-      <Text variant="footnote" color={color.accentText} style={{ flex: 1 }}>
+      <Icon name="sparkles" size={18} color={color.black} />
+      <Text variant="footnote" color={color.gray800} style={{ flex: 1 }}>
         {message}
       </Text>
       {onDismiss ? (
         <Pressable onPress={onDismiss} haptic={false} accessibilityLabel="Dismiss nudge">
-          <Icon name="close" size={18} color={color.accentText} />
+          <Icon name="close" size={18} color={color.gray500} />
         </Pressable>
       ) : null}
     </Pressable>
