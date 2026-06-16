@@ -9,7 +9,9 @@ import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
+import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { SegmentedField } from '@/components/forms/SegmentedField';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
@@ -19,61 +21,96 @@ import { exampleBarcodeProduct } from '@/lib/food/barcode';
 export default function BarcodeConfirmScreen() {
   const p = exampleBarcodeProduct;
   const [serving, setServing] = useState(String(p.servingOptions[0]));
+  // Manual edits (via the shared sheet) override the serving-scaled values.
+  const [override, setOverride] = useState<EditableItem | null>(null);
+  const [editing, setEditing] = useState<EditableItem | null>(null);
+
   const grams = Number(serving);
   const factor = grams / 100;
   const macro = (per100: number) => Math.round(per100 * factor);
+
+  // The item as currently shown — either the scaled product or a manual override.
+  const current: EditableItem = override ?? {
+    id: 'barcode-product',
+    name: p.name,
+    quantityG: grams,
+    calories: macro(p.kcalPer100),
+    protein: macro(p.proteinPer100),
+    carbs: macro(p.carbsPer100),
+    fat: macro(p.fatPer100),
+  };
 
   return (
     <SheetContent
       title="Confirm product"
       onClose={() => router.canGoBack() && router.back()}
       onDone={() => {
-        showToast({ message: `Added ${p.name}.`, tone: 'success' });
+        showToast({ message: `Added ${current.name}.`, tone: 'success' });
         router.replace('/(tabs)/food');
       }}
     >
-      <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-          <View
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: radius.md,
-              backgroundColor: color.gray100,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Icon name="fast-food" size={28} color={color.gray400} />
+      <Pressable
+        haptic={false}
+        minTapTarget={false}
+        onPress={() => setEditing(current)}
+        accessibilityLabel="Edit product details"
+      >
+        <Card>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
+            <View
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: radius.md,
+                backgroundColor: color.gray100,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Icon name="fast-food" size={28} color={color.gray400} />
+            </View>
+            <View style={{ flex: 1, gap: space.xs }}>
+              <Text variant="title3" color={color.black}>
+                {current.name}
+              </Text>
+              <Text variant="footnote" color={color.gray500}>
+                {p.brand} · {formatCalories(p.kcalPer100)} / 100g
+              </Text>
+            </View>
+            <Icon name="chevron-forward" size={18} color={color.gray400} />
           </View>
-          <View style={{ flex: 1, gap: space.xs }}>
-            <Text variant="title3" color={color.black}>
-              {p.name}
-            </Text>
-            <Text variant="footnote" color={color.gray500}>
-              {p.brand} · {formatCalories(p.kcalPer100)} / 100g
-            </Text>
-          </View>
-        </View>
-      </Card>
+        </Card>
+      </Pressable>
 
       <SegmentedField
         label="Serving size"
         value={serving}
-        onChange={setServing}
+        onChange={(v) => {
+          setServing(v);
+          setOverride(null); // re-scale from the product when the serving changes
+        }}
         options={p.servingOptions.map((g) => ({ label: `${g} g`, value: String(g) }))}
       />
 
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text variant="statSmall" color={color.black}>
-            {formatCalories(macro(p.kcalPer100))}
+            {formatCalories(current.calories)}
           </Text>
           <Text variant="footnote" color={color.gray500}>
-            P {macro(p.proteinPer100)}g · C {macro(p.carbsPer100)}g · F {macro(p.fatPer100)}g
+            P {current.protein}g · C {current.carbs}g · F {current.fat}g
           </Text>
         </View>
       </Card>
+
+      <FoodItemEditSheet
+        item={editing}
+        onClose={() => setEditing(null)}
+        onSave={(next) => {
+          setOverride(next);
+          setEditing(null);
+        }}
+      />
     </SheetContent>
   );
 }

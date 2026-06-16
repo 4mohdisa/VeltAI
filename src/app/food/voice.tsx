@@ -11,9 +11,10 @@ import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { DetectedItemsReview } from '@/components/domain/DetectedItemsReview';
+import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
-import { aiVoiceItems, aiVoiceTranscript } from '@/lib/mock/ai';
+import { aiVoiceItems, aiVoiceTranscript, type DetectedItem } from '@/lib/mock/ai';
 
 const WORDS = aiVoiceTranscript.split(' ');
 
@@ -21,6 +22,17 @@ export default function VoiceEntryScreen() {
   const [listening, setListening] = useState(false);
   const [shownWords, setShownWords] = useState(0);
   const [done, setDone] = useState(false);
+  const [items, setItems] = useState<DetectedItem[]>(aiVoiceItems);
+  const [editing, setEditing] = useState<DetectedItem | null>(null);
+
+  const applyEdit = (next: EditableItem) => {
+    setItems((arr) => arr.map((x) => (x.id === next.id ? { ...x, ...next } : x)));
+    setEditing(null);
+  };
+  const removeItem = (id: string) => {
+    setItems((arr) => arr.filter((x) => x.id !== id));
+    setEditing(null);
+  };
 
   useEffect(() => {
     if (!listening) return;
@@ -57,7 +69,9 @@ export default function VoiceEntryScreen() {
         <Text variant="callout" color={color.gray500}>
           “{aiVoiceTranscript}”
         </Text>
-        <DetectedItemsReview items={aiVoiceItems} />
+        <DetectedItemsReview items={items} onEditItem={setEditing} />
+
+        <FoodItemEditSheet item={editing} onClose={() => setEditing(null)} onSave={applyEdit} onDelete={removeItem} />
       </Screen>
     );
   }

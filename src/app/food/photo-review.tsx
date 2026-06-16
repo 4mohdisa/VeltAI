@@ -10,13 +10,25 @@ import { Icon } from '@/components/primitives/Icon';
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Text } from '@/components/primitives/Text';
 import { DetectedItemsReview } from '@/components/domain/DetectedItemsReview';
+import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
 import { aiDetectedItems, CONFIDENCE_THRESHOLD, type DetectedItem } from '@/lib/mock/ai';
 
 export default function PhotoReviewScreen() {
   const [items, setItems] = useState<DetectedItem[]>(aiDetectedItems);
+  const [editing, setEditing] = useState<DetectedItem | null>(null);
   const hasUncertain = items.some((it) => it.confidence < CONFIDENCE_THRESHOLD);
+
+  // Apply an edit from the shared sheet, preserving the item's AI confidence.
+  const applyEdit = (next: EditableItem) => {
+    setItems((arr) => arr.map((x) => (x.id === next.id ? { ...x, ...next } : x)));
+    setEditing(null);
+  };
+  const removeItem = (id: string) => {
+    setItems((arr) => arr.filter((x) => x.id !== id));
+    setEditing(null);
+  };
 
   const discard = () => {
     router.dismissAll?.();
@@ -66,7 +78,9 @@ export default function PhotoReviewScreen() {
         </Text>
       ) : null}
 
-      <DetectedItemsReview items={items} onRemove={(id) => setItems((arr) => arr.filter((x) => x.id !== id))} />
+      <DetectedItemsReview items={items} onEditItem={setEditing} />
+
+      <FoodItemEditSheet item={editing} onClose={() => setEditing(null)} onSave={applyEdit} onDelete={removeItem} />
     </SheetContent>
   );
 }

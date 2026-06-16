@@ -1,6 +1,7 @@
 // DetectedItemsReview — shared review list for AI-detected food (photo & voice).
 // High-confidence items render at full opacity; low-confidence ones are dimmed
 // and flagged "Confirm" so the user knows the AI is unsure (no silent guessing).
+// Whole rows are tappable (no edit pencils) → they open the universal edit sheet.
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
@@ -14,10 +15,10 @@ import { CONFIDENCE_THRESHOLD, type DetectedItem } from '@/lib/mock/ai';
 
 export type DetectedItemsReviewProps = {
   items: DetectedItem[];
-  onRemove?: (id: string) => void;
+  onEditItem?: (item: DetectedItem) => void;
 };
 
-export function DetectedItemsReview({ items, onRemove }: DetectedItemsReviewProps) {
+export function DetectedItemsReview({ items, onEditItem }: DetectedItemsReviewProps) {
   const total = items.reduce(
     (acc, it) => ({
       calories: acc.calories + it.calories,
@@ -34,8 +35,13 @@ export function DetectedItemsReview({ items, onRemove }: DetectedItemsReviewProp
         {items.map((item, i) => {
           const uncertain = item.confidence < CONFIDENCE_THRESHOLD;
           return (
-            <View
+            <Pressable
               key={item.id}
+              haptic={false}
+              minTapTarget={false}
+              disabled={!onEditItem}
+              onPress={() => onEditItem?.(item)}
+              accessibilityLabel={`Edit ${item.name}`}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -57,17 +63,8 @@ export function DetectedItemsReview({ items, onRemove }: DetectedItemsReviewProp
                   {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g
                 </Text>
               </View>
-              {onRemove ? (
-                <Pressable
-                  haptic={false}
-                  minTapTarget={false}
-                  onPress={() => onRemove(item.id)}
-                  accessibilityLabel={`Remove ${item.name}`}
-                >
-                  <Icon name="close-circle" size={20} color={color.gray400} />
-                </Pressable>
-              ) : null}
-            </View>
+              {onEditItem ? <Icon name="chevron-forward" size={18} color={color.gray400} /> : null}
+            </Pressable>
           );
         })}
       </Card>
