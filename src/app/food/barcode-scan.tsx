@@ -2,7 +2,7 @@
 // Camera in barcode-detect mode (no shutter). A reticle frames the code; on
 // detect we move to the product confirm. A "Simulate" button stands in where no
 // physical barcode is available.
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -13,15 +13,32 @@ import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
+import { lookupBarcode } from '@/lib/food/barcode';
+
+// A barcode in our mock database (resolves) vs one that isn't (not-found path).
+const KNOWN_CODE = '9300605000000';
+const UNKNOWN_CODE = '0000000000000';
 
 export default function BarcodeScanScreen() {
   const [permission, requestPermission] = useCameraPermissions();
+  const [notFound, setNotFound] = useState(false);
   const handled = useRef(false);
 
-  const onDetected = () => {
+  // Database lookup only — NO AI. Found → confirm; not found → label-photo fallback.
+  const onDetected = async (code: string) => {
     if (handled.current) return;
     handled.current = true;
-    router.replace('/food/barcode-confirm');
+    const product = await lookupBarcode(code);
+    if (product) {
+      router.replace('/food/barcode-confirm');
+    } else {
+      setNotFound(true);
+    }
+  };
+
+  const retry = () => {
+    handled.current = false;
+    setNotFound(false);
   };
 
   if (!permission) {
@@ -52,7 +69,7 @@ export default function BarcodeScanScreen() {
         style={{ flex: 1 }}
         facing="back"
         barcodeScannerSettings={{ barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e'] }}
-        onBarcodeScanned={onDetected}
+        onBarcodeScanned={(r) => onDetected(r.data)}
       />
 
       {/* reticle + controls overlay */}
@@ -81,9 +98,37 @@ export default function BarcodeScanScreen() {
           <Text variant="footnote" color={color.white}>
             Point at a barcode — it scans automatically
           </Text>
-          <Button title="Simulate scan" variant="secondary" fullWidth={false} onPress={onDetected} />
+          <View style={{ flexDirection: 'row', gap: space.sm }}>
+            <Button title="Simulate scan" variant="secondary" fullWidth={false} onPress={() => onDetected(KNOWN_CODE)} />
+            <Button title="Unknown code" variant="tertiary" fullWidth={false} onPress={() => onDetected(UNKNOWN_CODE)} />
+          </View>
         </View>
       </SafeAreaView>
+
+      {/* Not-found → no AI lookup matched; fall back to photographing the label. */}
+      {notFound ? (
+        <View
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.82)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: space.xl,
+            gap: space.md,
+          }}
+        >
+          <Icon name="help-circle-outline" size={44} color={color.white} />
+          <Text variant="title3" color={color.white} style={{ textAlign: 'center' }}>
+            Product not found
+          </Text>
+          <Text variant="callout" color={color.gray300} style={{ textAlign: 'center' }}>
+            We couldn't match that barcode. Photograph the label instead and we'll read it.
+          </Text>
+          <Button title="Photograph the label" fullWidth={false} onPress={() => router.replace('/food/photo-capture')} />
+          <Button title="Try another barcode" variant="tertiary" fullWidth={false} onPress={retry} />
+        </View>
+      ) : null}
     </View>
   );
 }

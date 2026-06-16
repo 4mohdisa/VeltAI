@@ -1,7 +1,7 @@
 // C8 · Barcode product confirm
-// After a scan: product + base nutrition, a serving-size picker that recomputes
-// macros, then Save. Now a bottom sheet (X discard / Done save) rather than a
-// pushed screen. Scan logic + data unchanged.
+// After a scan: product + base nutrition from Open Food Facts (mock, NO AI), a
+// serving-size picker that recomputes macros, then Save. Bottom sheet (X discard
+// / ✓ save). The product can be tweaked via the shared item edit sheet.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
@@ -14,10 +14,10 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
-import { aiBarcodeProduct } from '@/lib/mock/ai';
+import { exampleBarcodeProduct } from '@/lib/food/barcode';
 
 export default function BarcodeConfirmScreen() {
-  const p = aiBarcodeProduct;
+  const p = exampleBarcodeProduct;
   const [serving, setServing] = useState(String(p.servingOptions[0]));
   const grams = Number(serving);
   const factor = grams / 100;
