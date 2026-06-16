@@ -1,6 +1,7 @@
 // StreakFlame — the flame icon next to a streak count. Gently pulses while the
-// streak is active; static when inactive or Reduce Motion is on. Monochrome:
-// black flame.fill (never orange) via the Icon primitive.
+// streak is active; static when inactive or Reduce Motion is on. The flame is
+// the ONE place the streak gets colour: orange (energy/calorie family). The
+// streak number itself stays black; the calendar grid stays monochrome.
 import { useEffect } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -12,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { Icon } from '@/components/primitives/Icon';
-import { color, motion } from '@/lib/design/tokens';
+import { categoryAccent, color, motion } from '@/lib/design/tokens';
 
 export type StreakFlameProps = {
   size?: number;
@@ -20,7 +21,7 @@ export type StreakFlameProps = {
   tint?: string;
 };
 
-export function StreakFlame({ size = 24, active = true, tint = color.black }: StreakFlameProps) {
+export function StreakFlame({ size = 24, active = true, tint = categoryAccent.streak }: StreakFlameProps) {
   const reduceMotion = useReducedMotion();
   const scale = useSharedValue(1);
 
