@@ -7,8 +7,7 @@ import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
-import { Screen } from '@/components/navigation/Screen';
-import { Button } from '@/components/forms/Button';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { Text } from '@/components/primitives/Text';
 import { DetectedItemsReview } from '@/components/domain/DetectedItemsReview';
 import { showToast } from '@/components/display/toastStore';
@@ -19,26 +18,23 @@ export default function PhotoReviewScreen() {
   const [items, setItems] = useState<DetectedItem[]>(aiDetectedItems);
   const hasUncertain = items.some((it) => it.confidence < CONFIDENCE_THRESHOLD);
 
+  const discard = () => {
+    router.dismissAll?.();
+    router.replace('/(tabs)/food');
+  };
+
+  // Tick proceeds: → uncertainty Q&A if anything is unsure, else save the meal.
+  const proceed = () => {
+    if (hasUncertain) {
+      router.push('/food/uncertainty');
+    } else {
+      showToast({ message: '+8 XP · Meal saved.', tone: 'success' });
+      discard();
+    }
+  };
+
   return (
-    <Screen
-      title="Review meal"
-      showBack
-      footer={
-        <Button
-          title={hasUncertain ? 'Confirm details' : 'Save meal'}
-          icon={hasUncertain ? 'help-circle' : 'checkmark'}
-          onPress={() => {
-            if (hasUncertain) {
-              router.push('/food/uncertainty');
-            } else {
-              showToast({ message: '+8 XP · Meal saved.', tone: 'success' });
-              router.dismissAll?.();
-              router.replace('/(tabs)/food');
-            }
-          }}
-        />
-      }
-    >
+    <SheetContent title="Review meal" onClose={discard} onDone={proceed}>
       {/* Captured photos (placeholder tiles — no real image in mock) */}
       <View style={{ flexDirection: 'row', gap: space.sm }}>
         {['Meal', 'Label'].map((label) => (
@@ -71,6 +67,6 @@ export default function PhotoReviewScreen() {
       ) : null}
 
       <DetectedItemsReview items={items} onRemove={(id) => setItems((arr) => arr.filter((x) => x.id !== id))} />
-    </Screen>
+    </SheetContent>
   );
 }

@@ -3,13 +3,13 @@
 // Stacks to the next uncertainty after each answer. Completing all earns the
 // +3 XP bonus and saves the meal.
 import { useState } from 'react';
+import { router } from 'expo-router';
 
-import { Screen } from '@/components/navigation/Screen';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { Button } from '@/components/forms/Button';
 import { UncertaintyPromptCard } from '@/components/domain/UncertaintyPromptCard';
 import { showToast } from '@/components/display/toastStore';
 import { aiUncertaintyPrompts } from '@/lib/mock/ai';
-import { router } from 'expo-router';
 
 export default function UncertaintyScreen() {
   const prompts = aiUncertaintyPrompts;
@@ -20,24 +20,25 @@ export default function UncertaintyScreen() {
   const isLast = index === prompts.length - 1;
   const answered = !!answers[current.id];
 
+  // Multi-step Q&A: the glass X bails out of the scan; an explicit in-body
+  // Next/Save button drives progression (a single trailing tick can't convey
+  // "Next" — documented deviation from the X/Done pattern).
+  const dismiss = () => {
+    router.dismissAll?.();
+    router.replace('/(tabs)/food');
+  };
+
   const next = () => {
     if (isLast) {
       showToast({ message: '+8 XP (+3 bonus) · Meal saved.', tone: 'success' });
-      router.dismissAll?.();
-      router.replace('/(tabs)/food');
+      dismiss();
     } else {
       setIndex((i) => i + 1);
     }
   };
 
   return (
-    <Screen
-      title="Quick check"
-      showBack
-      footer={
-        <Button title={isLast ? 'Save meal' : 'Next'} disabled={!answered} onPress={next} />
-      }
-    >
+    <SheetContent title="Quick check" onClose={dismiss}>
       <UncertaintyPromptCard
         prompt={current}
         index={index}
@@ -45,6 +46,7 @@ export default function UncertaintyScreen() {
         selectedLabel={answers[current.id]}
         onSelect={(label) => setAnswers((a) => ({ ...a, [current.id]: label }))}
       />
-    </Screen>
+      <Button title={isLast ? 'Save meal' : 'Next'} disabled={!answered} onPress={next} />
+    </SheetContent>
   );
 }
