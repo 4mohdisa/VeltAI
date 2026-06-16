@@ -1,5 +1,5 @@
 // Stat — a big number with a small uppercase label beneath. Used for streaks,
-// XP totals, macro figures. Size maps to the statLarge/Medium/Small tokens.
+// streak stats, macro figures. Size maps to the statLarge/Medium/Small tokens.
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { Text } from '@/components/primitives/Text';

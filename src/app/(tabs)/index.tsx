@@ -1,6 +1,6 @@
 // B1 · Dashboard (home)
 // Three-zone vertical layout:
-//   1. Top: streak + flame, today's XP, rank badge.
+//   1. Top: streak + flame (the only progression mechanic).
 //   2. Middle: gym status hero, then calorie ring + macro bars.
 //   3. Bottom: today's AI plan summary + lockout status banner.
 import { useState } from 'react';

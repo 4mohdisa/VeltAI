@@ -1,4 +1,4 @@
-// ProgressBar — a simple track + fill used for macro bars and rank progress.
+// ProgressBar — a simple track + fill used for macro bars and progress indicators.
 // Clamps to [0,1]. Tint defaults to black.
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 

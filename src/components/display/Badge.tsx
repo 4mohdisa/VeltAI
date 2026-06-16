@@ -1,4 +1,4 @@
-// Badge — a small monochrome pill for rank names, status, verification. Fill and
+// Badge — a small monochrome pill for status / neutral labels (e.g. AI, plan). Fill and
 // text stay monochrome; the optional `iconColor` lets a FUNCTIONAL badge (e.g.
 // the AI badge) tint only its small icon with an accent — the surface never
 // gets colour.

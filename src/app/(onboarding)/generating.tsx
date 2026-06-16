@@ -1,7 +1,6 @@
 // A19 · First plan generating (loading)
 // Rotating tips while the (mocked) AI builds the first plan, then auto-advances
-// to the Dashboard. Completing onboarding sets the persisted flag and awards the
-// one-time +50 XP.
+// to the Dashboard. Completing onboarding sets the persisted flag.
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -29,7 +28,7 @@ export default function GeneratingScreen() {
     const finish = setTimeout(async () => {
       await setHasCompletedOnboarding(true);
       router.replace('/(tabs)');
-      showToast({ message: '+50 XP · Welcome to Veltai.', tone: 'success' });
+      showToast({ message: 'Welcome to Veltai.', tone: 'success' });
     }, 4600);
 
     return () => {

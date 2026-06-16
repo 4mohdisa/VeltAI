@@ -117,7 +117,7 @@ export type TypeToken = {
 
 export const type = {
   // Display & headings
-  display: { fontSize: 36, fontWeight: '800', lineHeight: 42, family: 'rounded' }, // milestone moments
+  display: { fontSize: 36, fontWeight: '800', lineHeight: 42, family: 'rounded' }, // big display moments
   title1: { fontSize: 30, fontWeight: '800', lineHeight: 36, family: 'display' }, //  screen titles
   title2: { fontSize: 22, fontWeight: '700', lineHeight: 28, family: 'display' }, //  section headers
   title3: { fontSize: 19, fontWeight: '600', lineHeight: 25, family: 'display' }, //  card titles
