@@ -115,6 +115,45 @@ export const mockMeals: Meal[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Food catalog (manual search) + Saved foods — mock Open Food Facts + recents.
+// No AI; these power the food-log search bar (C1) and Saved foods (C13).
+// ---------------------------------------------------------------------------
+
+export type FoodResult = { name: string; brand?: string; kcalPer100: number };
+
+export const foodCatalog: FoodResult[] = [
+  { name: 'Chicken biryani', kcalPer100: 160 },
+  { name: 'Greek yoghurt', brand: 'Chobani', kcalPer100: 59 },
+  { name: 'Wholemeal roti', kcalPer100: 297 },
+  { name: 'Lentil dal', kcalPer100: 116 },
+  { name: 'Grilled salmon', kcalPer100: 208 },
+  { name: 'Hummus', brand: 'Obela', kcalPer100: 177 },
+  { name: 'Lamb karahi', kcalPer100: 190 },
+  { name: 'Vegemite on toast', kcalPer100: 265 },
+];
+
+export const recentFoods: FoodResult[] = foodCatalog.slice(0, 3);
+
+export type SavedFood = {
+  id: string;
+  name: string;
+  brand?: string;
+  servingG: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+};
+
+export const mockSavedFoods: SavedFood[] = [
+  { id: 's1', name: 'Oats with whey', servingG: 250, calories: 320, protein: 28, carbs: 40, fat: 8 },
+  { id: 's2', name: 'Chicken biryani', servingG: 350, calories: 560, protein: 38, carbs: 58, fat: 16 },
+  { id: 's3', name: 'Greek yoghurt', brand: 'Chobani', servingG: 170, calories: 100, protein: 17, carbs: 6, fat: 0 },
+  { id: 's4', name: 'Protein bar', servingG: 60, calories: 100, protein: 20, carbs: 3, fat: 1 },
+  { id: 's5', name: 'Two boiled eggs', servingG: 100, calories: 155, protein: 13, carbs: 1, fat: 11 },
+];
+
+// ---------------------------------------------------------------------------
 // AI daily plan
 // ---------------------------------------------------------------------------
 
