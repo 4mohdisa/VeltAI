@@ -17,7 +17,7 @@ const DELETED_DATA = [
   'Your profile and onboarding answers',
   'All gym sessions and your streak',
   'All food logs, meal photos and voice notes',
-  'Your AI plans, XP and rank',
+  'Your AI plans and streak history',
   'Your subscription is cancelled (no refund — Apple’s policy)',
 ];
 

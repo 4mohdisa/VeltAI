@@ -77,7 +77,7 @@ export default function GymLogScreen() {
         <Card>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
             <Stat value={mockStreak.longest} label="Longest" size="small" align="center" />
-            <Stat value={mockStreak.totalSessions} label="Total" size="small" align="center" />
+            <Stat value={mockStreak.totalGymDays} label="Total" size="small" align="center" />
             <Stat value={mockStreak.freezesAvailable} label="Freezes" size="small" align="center" />
           </View>
         </Card>

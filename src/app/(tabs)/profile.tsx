@@ -37,7 +37,7 @@ export default function ProfileScreen() {
         <Card>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
             <Stat value={mockStreak.longest} label="Longest" size="medium" align="center" />
-            <Stat value={mockStreak.totalSessions} label="Total days" size="medium" align="center" />
+            <Stat value={mockStreak.totalGymDays} label="Total days" size="medium" align="center" />
             <Stat value={mockStreak.freezesAvailable} label="Freezes" size="medium" align="center" />
           </View>
         </Card>

@@ -69,7 +69,7 @@ export default function StreakDetailScreen() {
       <Card>
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
           <Stat value={mockStreak.longest} label="Longest" size="small" align="center" />
-          <Stat value={mockStreak.totalSessions} label="Sessions" size="small" align="center" />
+          <Stat value={mockStreak.totalGymDays} label="Sessions" size="small" align="center" />
           <Stat value={mockStreak.freezesAvailable} label="Freezes" size="small" align="center" />
         </View>
       </Card>

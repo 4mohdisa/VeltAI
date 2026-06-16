@@ -1,11 +1,11 @@
 // Shared mock dataset. Backend is out of scope tonight, so screens read from
 // this single coherent source instead of diverging inline mocks — that way the
-// streak/XP/macros shown on the Dashboard match the Gym and Profile tabs.
+// streak/macros shown on the Dashboard match the Gym and Profile tabs.
 // Australian context; names + cuisines weighted to the founder's background.
-import { rankFromXp } from '@/lib/xp/ranks';
+// NO gamification: streak is the only progression mechanic (no XP/ranks/points).
 
 // ---------------------------------------------------------------------------
-// User & gamification
+// User
 // ---------------------------------------------------------------------------
 
 export const mockUser = {
@@ -13,32 +13,20 @@ export const mockUser = {
   email: 'bilal.ahmed@example.com',
   avatarUri: undefined as string | undefined,
   units: 'metric' as 'metric' | 'imperial',
-  totalXp: 2480,
-  xpToday: 33,
   memberSince: 'Jun 2026',
 };
 
-export const mockRank = rankFromXp(mockUser.totalXp);
+// ---------------------------------------------------------------------------
+// Streak — the only progression mechanic
+// ---------------------------------------------------------------------------
 
 export const mockStreak = {
-  current: 13,
-  longest: 21,
-  freezesAvailable: 2,
-  totalSessions: 47,
-  sessionsThisWeek: 3,
-  weeklyTarget: 4,
+  current: 13, //          current consecutive gym days
+  longest: 21, //          longest-ever streak
+  totalGymDays: 47, //     total gym days logged
+  freezesAvailable: 2, //  emergency freeze tokens
   gymLoggedToday: false,
 };
-
-export type XpEvent = { id: string; label: string; amount: number; when: string };
-
-export const mockXpEvents: XpEvent[] = [
-  { id: 'x1', label: 'Logged gym session', amount: 25, when: 'Today' },
-  { id: 'x2', label: 'Logged breakfast (photo)', amount: 8, when: 'Today' },
-  { id: 'x3', label: 'Daily app open', amount: 2, when: 'Yesterday' },
-  { id: 'x4', label: 'Logged lunch (voice)', amount: 8, when: 'Yesterday' },
-  { id: 'x5', label: '7-day streak bonus', amount: 50, when: 'Mon 8 Jun' },
-];
 
 // ---------------------------------------------------------------------------
 // Nutrition
@@ -208,16 +196,15 @@ export type GymSession = {
   date: string;
   durationMin: number;
   effort: number;
-  verified: 'healthkit' | 'manual';
   notes?: string;
 };
 
 export const mockGymSessions: GymSession[] = [
-  { id: 'g1', date: 'Today', durationMin: 62, effort: 7, verified: 'manual', notes: 'Push day — felt strong' },
-  { id: 'g2', date: 'Yesterday', durationMin: 48, effort: 6, verified: 'healthkit' },
-  { id: 'g3', date: 'Sun 14 Jun', durationMin: 75, effort: 8, verified: 'healthkit', notes: 'Leg day' },
-  { id: 'g4', date: 'Fri 12 Jun', durationMin: 55, effort: 5, verified: 'manual' },
-  { id: 'g5', date: 'Thu 11 Jun', durationMin: 40, effort: 6, verified: 'healthkit' },
+  { id: 'g1', date: 'Today', durationMin: 62, effort: 7, notes: 'Push day — felt strong' },
+  { id: 'g2', date: 'Yesterday', durationMin: 48, effort: 6 },
+  { id: 'g3', date: 'Sun 14 Jun', durationMin: 75, effort: 8, notes: 'Leg day' },
+  { id: 'g4', date: 'Fri 12 Jun', durationMin: 55, effort: 5 },
+  { id: 'g5', date: 'Thu 11 Jun', durationMin: 40, effort: 6 },
 ];
 
 export type UpcomingDay = { label: string; action: 'log' | 'freeze' | 'scheduled' };
