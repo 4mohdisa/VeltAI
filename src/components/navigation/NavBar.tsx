@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { BackButton } from './BackButton';
+import { GlassBackButton } from './GlassButtons';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, space } from '@/lib/design/tokens';
 
@@ -44,7 +44,7 @@ export function NavBar({ title, showBack = true, onBack, right, borderless }: Na
         }}
       >
         <View style={{ minWidth: layout.tapTarget }}>
-          {showBack ? <BackButton onPress={onBack} /> : null}
+          {showBack ? <GlassBackButton onPress={onBack} /> : null}
         </View>
         <View style={{ minWidth: layout.tapTarget, alignItems: 'flex-end' }}>{right}</View>
       </View>
