@@ -4,25 +4,49 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
 import { Button } from '@/components/forms/Button';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
+import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { writeNutritionToHealth } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories, formatGrams } from '@/lib/formatting';
-import { mockMeals } from '@/lib/mock/data';
+import { mockMeals, type FoodItem } from '@/lib/mock/data';
 
 export default function MealDetailScreen() {
   const { meal: mealId } = useLocalSearchParams<{ meal: string }>();
   const meal = mockMeals.find((m) => m.id === mealId) ?? mockMeals[0];
   const [confirming, setConfirming] = useState(false);
   const [synced, setSynced] = useState(false); // written to Apple Health (per meal)
+  const [items, setItems] = useState<FoodItem[]>(meal.items);
+  const [editing, setEditing] = useState<(EditableItem & { idx: number }) | null>(null);
+
+  const applyEdit = (next: EditableItem) => {
+    const idx = editing?.idx;
+    if (idx === undefined) return;
+    setItems((arr) =>
+      arr.map((it, i) =>
+        i === idx
+          ? { ...it, name: next.name, quantityG: next.quantityG, calories: next.calories, protein: next.protein, carbs: next.carbs, fat: next.fat }
+          : it,
+      ),
+    );
+    setEditing(null);
+  };
+  const removeItem = () => {
+    const idx = editing?.idx;
+    if (idx === undefined) return;
+    setItems((arr) => arr.filter((_, i) => i !== idx));
+    setEditing(null);
+    showToast({ message: 'Item deleted.', tone: 'info' });
+  };
 
   return (
     <Screen
@@ -40,43 +64,54 @@ export default function MealDetailScreen() {
       </View>
 
       <Card padded={false}>
-        {meal.items.map((item, i) => (
-          <Pressable
+        {items.map((item, i) => (
+          <View
             key={`${item.name}-${i}`}
-            haptic={false}
-            minTapTarget={false}
-            onPress={() =>
-              router.push({
-                pathname: '/food/item-edit',
-                params: {
-                  name: item.name,
-                  quantityG: String(item.quantityG),
-                  calories: String(item.calories),
-                  protein: String(item.protein),
-                  carbs: String(item.carbs),
-                  fat: String(item.fat),
-                },
-              })
-            }
-            accessibilityLabel={`Edit ${item.name}`}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              gap: space.md,
-              padding: space.lg,
+              gap: space.sm,
               borderTopWidth: i === 0 ? 0 : 1,
               borderTopColor: color.gray100,
             }}
           >
-            <View style={{ flex: 1, gap: space.xs }}>
+            <Pressable
+              haptic={false}
+              minTapTarget={false}
+              onPress={() =>
+                setEditing({
+                  idx: i,
+                  id: `${meal.id}-${i}`,
+                  name: item.name,
+                  quantityG: item.quantityG,
+                  calories: item.calories,
+                  protein: item.protein,
+                  carbs: item.carbs,
+                  fat: item.fat,
+                })
+              }
+              accessibilityLabel={`Edit ${item.name}`}
+              style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
+            >
               <Text variant="body" color={color.black}>
                 {item.name}
               </Text>
               <Text variant="footnote" color={color.gray500}>
                 {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g
               </Text>
-            </View>
-          </Pressable>
+            </Pressable>
+
+            {/* Star → save this item to Saved foods (mock). */}
+            <Pressable
+              haptic
+              minTapTarget={false}
+              onPress={() => showToast({ message: `Saved ${item.name} to your foods.`, tone: 'success' })}
+              accessibilityLabel={`Save ${item.name} to saved foods`}
+              style={{ padding: space.lg }}
+            >
+              <Icon name="bookmark-outline" size={20} color={color.gray500} />
+            </Pressable>
+          </View>
         ))}
       </Card>
 
@@ -113,6 +148,8 @@ export default function MealDetailScreen() {
         />
         <Button title="Cancel" variant="tertiary" onPress={() => setConfirming(false)} />
       </BottomSheet>
+
+      <FoodItemEditSheet item={editing} onClose={() => setEditing(null)} onSave={applyEdit} onDelete={removeItem} />
     </Screen>
   );
 }
