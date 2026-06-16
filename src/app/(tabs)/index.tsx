@@ -19,7 +19,7 @@ import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { LockoutBanner } from '@/components/domain/LockoutBanner';
 import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { showToast } from '@/components/display/toastStore';
-import { color, space } from '@/lib/design/tokens';
+import { categoryAccent, color, space } from '@/lib/design/tokens';
 import { mockMacros, mockPlan, mockRank, mockStreak, mockUser, mockLockout } from '@/lib/mock/data';
 
 export default function DashboardScreen() {
@@ -108,7 +108,7 @@ export default function DashboardScreen() {
               <Text variant="title3" color={color.black}>
                 Today&apos;s plan
               </Text>
-              <Badge label="AI" icon="sparkles" />
+              <Badge label="AI" icon="sparkles" iconColor={categoryAccent.ai} />
             </View>
             {nextMeal ? (
               <Text variant="callout" color={color.gray700}>

@@ -11,7 +11,7 @@ import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { mockPlan, mockPlanReason, type PlanEntry } from '@/lib/mock/data';
 
 const iconFor: Record<PlanEntry['kind'], string> = {
@@ -94,7 +94,7 @@ export default function PlanDetailScreen() {
 
       <Card style={{ backgroundColor: color.gray50 }}>
         <View style={{ flexDirection: 'row', gap: space.sm }}>
-          <Icon name="sparkles" size={18} color={color.black} />
+          <Icon name="sparkles" size={18} color={categoryAccent.ai} />
           <View style={{ flex: 1, gap: space.xs }}>
             <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
               Why this plan

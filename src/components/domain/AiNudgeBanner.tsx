@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
 
 export type AiNudgeBannerProps = {
   message: string;
@@ -30,7 +30,7 @@ export function AiNudgeBanner({ message, onPress, onDismiss }: AiNudgeBannerProp
         padding: space.lg,
       }}
     >
-      <Icon name="sparkles" size={18} color={color.black} />
+      <Icon name="sparkles" size={18} color={categoryAccent.ai} />
       <Text variant="footnote" color={color.gray800} style={{ flex: 1 }}>
         {message}
       </Text>

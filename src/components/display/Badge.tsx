@@ -1,6 +1,7 @@
-// Badge — a small monochrome pill for rank names, status, verification. The
-// `tone` prop is kept for API compatibility but every badge renders monochrome
-// (grey fill, grey text). Emphasis comes from placement and copy, not colour.
+// Badge — a small monochrome pill for rank names, status, verification. Fill and
+// text stay monochrome; the optional `iconColor` lets a FUNCTIONAL badge (e.g.
+// the AI badge) tint only its small icon with an accent — the surface never
+// gets colour.
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { Icon } from '@/components/primitives/Icon';
@@ -10,11 +11,12 @@ import { color, radius, space, surface } from '@/lib/design/tokens';
 export type BadgeProps = {
   label: string;
   icon?: string;
+  iconColor?: string;
   style?: StyleProp<ViewStyle>;
   testID?: string;
 };
 
-export function Badge({ label, icon, style, testID }: BadgeProps) {
+export function Badge({ label, icon, iconColor = color.gray700, style, testID }: BadgeProps) {
   return (
     <View
       testID={testID}
@@ -32,7 +34,7 @@ export function Badge({ label, icon, style, testID }: BadgeProps) {
         style,
       ]}
     >
-      {icon ? <Icon name={icon} size={13} color={color.gray700} /> : null}
+      {icon ? <Icon name={icon} size={13} color={iconColor} /> : null}
       <Text variant="label" color={color.gray700}>
         {label}
       </Text>
