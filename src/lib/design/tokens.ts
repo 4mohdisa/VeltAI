@@ -1,95 +1,153 @@
 // Veltai design tokens — the single source of truth for every visual value.
-// Translated from docs/Design/Theme & Design Tokens.md (MONOCHROME pass).
-//
-// Design language: pure monochrome, Cal AI-clean. Black, white, and a grey
-// scale — no other colour anywhere. Hierarchy comes from type weight, size,
-// spacing and grey fills, never colour.
+// FOUNDATION pass: Apple Health model — a monochrome base (black/white/greys
+// aligned to Apple Health's exact values) plus a defined `accent` palette of
+// Apple Health colours used FUNCTIONALLY ONLY (charts, AI accents, category /
+// health icons, data viz, small status). Colour encodes meaning; it never
+// decorates and never touches chrome or structure.
 //
 // RULE: No file outside this one may contain a hardcoded colour, spacing value,
-// font size, border radius, shadow, opacity or animation duration. The palette
-// is CLOSED — the theme grows only by adding greys, spacing, radii and type.
-//
-// NOTE on typography: the doc expresses styles as { size, weight, lineHeight }.
-// We expose them with RN-native keys ({ fontSize, fontWeight, lineHeight }) so
-// that `style={{ ...type.title1 }}` yields a valid RN TextStyle.
+// font size, border radius, shadow, opacity or animation duration.
 
 import type { TextStyle, ViewStyle } from 'react-native';
 
 // ---------------------------------------------------------------------------
-// Color — pure monochrome. This is the entire palette.
+// Color — monochrome base. Structure, cards, chrome and body text use ONLY
+// these. Greys match Apple Health's exact values.
 // ---------------------------------------------------------------------------
 
 export const color = {
-  black: '#000000', // text, primary buttons, active states, key numbers, icons
-  white: '#FFFFFF', // page background, text on black
+  white: '#FFFFFF',
+  light1: '#F2F2F7', //  primary card / tile fill (Apple Light_1)
+  light2: '#E5E5EA', //  dividers, secondary fills (Apple Light_2)
+  light3: '#D1D1D6', //  strong dividers, outline borders (Apple Light_3)
+  black: '#000000',
+  gray1: '#1C1C1E', //   near-black headings (Apple Gray_1)
+  gray2: '#2C2C2E',
+  gray3: '#3A3A3C',
+  secondary: '#848484', // secondary/tertiary text, inactive icons (Apple Secondary)
+  gray800: '#171717', //  primary body text
+  gray500: '#737373', //  tertiary text
+  gray400: '#A3A3A3', //  placeholder, disabled
+  gray50: '#FAFAFA', //   subtle zone background
 
-  // Grey scale — does all the work colour used to.
-  gray900: '#0A0A0A', // near-black, heavy headings
-  gray800: '#171717', // primary body text (softer than pure black)
-  gray700: '#404040', // strong secondary text
-  gray600: '#525252', // secondary text
-  gray500: '#737373', // tertiary text, captions, inactive icons
-  gray400: '#A3A3A3', // placeholder text, disabled
-  gray300: '#D4D4D4', // strong dividers, outline-button borders
-  gray200: '#E5E5E5', // hairline dividers (rare — prefer fills)
-  gray150: '#EEEEEE', // pressed-state fill on grey surfaces
-  gray100: '#F4F4F5', // primary card / tile fill
-  gray50: '#FAFAFA', //  section background, subtle zone fill
-
-  // Black alpha — for modal/sheet scrims only (monochrome, allowed).
+  // Black alpha — modal/sheet scrims only (monochrome, allowed).
   overlay: 'rgba(0, 0, 0, 0.45)',
   overlayStrong: 'rgba(0, 0, 0, 0.7)',
+
+  // ----------------------------------------------------------------------
+  // Back-compat aliases — old grey names map to the closest new Apple Health
+  // grey so existing component imports resolve. Removed as components migrate
+  // to the new names in later prompts.
+  // ----------------------------------------------------------------------
+  gray900: '#1C1C1E', // → gray1
+  gray700: '#171717', // → gray800
+  gray600: '#848484', // → secondary
+  gray300: '#D1D1D6', // → light3
+  gray200: '#E5E5EA', // → light2
+  gray150: '#E5E5EA', // → light2 (pressed)
+  gray100: '#F2F2F7', // → light1
 } as const;
 
 // ---------------------------------------------------------------------------
-// Surface — fills over borders. The most important visual rule.
+// Accent — Apple Health colours. FUNCTIONAL USE ONLY: charts, AI accents,
+// category / health icons, data viz, small status moments. NEVER cards, chrome,
+// buttons, structure or decoration.
+// ---------------------------------------------------------------------------
+
+export const accent = {
+  orange: '#EC6330', //    energy / calories / streak flame (applied later)
+  blue: '#3A82F7', //      activity / data
+  turquoise: '#81CFFA', //
+  red: '#EB4B62', //       heart / alerts (functional)
+  green: '#67CE67', //     success / nutrition positive
+  yellow: '#F1A33B', //    warnings / highlights (functional)
+  purple: '#B25FEA', //    AI / sparkles
+  ocean: '#87E3E1', //     hydration
+} as const;
+
+export type AccentKey = keyof typeof accent;
+
+// ---------------------------------------------------------------------------
+// Surface — fills over borders, remapped to the Apple Health greys.
 // ---------------------------------------------------------------------------
 
 export const surface = {
   background: color.white,
-  backgroundAlt: color.gray50, // section zones
+  backgroundAlt: color.gray50, //  section zones
 
-  card: color.gray100, //         primary card fill (NO border)
-  cardElevated: color.white, //   white card on a grey zone (use shadow.sm)
-  tile: color.gray100, //         macro tiles, stat tiles
-  tilePressed: color.gray150, //  pressed state
+  card: color.light1, //           primary card fill (NO border)
+  cardElevated: color.white, //    white card on a grey zone (use shadow.sm)
+  tile: color.light1, //           macro tiles, stat tiles
+  tilePressed: color.light2, //    pressed state
 
-  input: color.gray100, //        filled input, no border
-  inputFocused: color.white, //   white + 1px black border on focus only
+  input: color.light1, //          filled input, no border
+  inputFocused: color.white, //    white + 1px border on focus only
 
-  divider: color.gray200, //      use rarely — prefer spacing/fills
+  divider: color.light2, //        use rarely — prefer spacing/fills
 } as const;
 
 // ---------------------------------------------------------------------------
-// Typography — extreme weight contrast (heavy numbers, light labels).
+// Typography — SF Pro Display (body/headings/labels/buttons) + SF Pro Rounded
+// (stat numbers + display headings). Each token carries a `family` field; the
+// `textStyle()` helper resolves it to the right iOS font.
 // ---------------------------------------------------------------------------
 
-export const type = {
-  // Display & headings — heavy
-  display: { fontSize: 36, fontWeight: '800', lineHeight: 42 }, // rank-up / milestone
-  title1: { fontSize: 30, fontWeight: '800', lineHeight: 36 }, //  screen titles
-  title2: { fontSize: 22, fontWeight: '700', lineHeight: 28 }, //  section headers
-  title3: { fontSize: 19, fontWeight: '600', lineHeight: 25 }, //  card titles
+export type FontFamily = 'display' | 'rounded';
 
-  // Body — regular
-  body: { fontSize: 17, fontWeight: '400', lineHeight: 24 }, //       default body
-  bodyMedium: { fontSize: 17, fontWeight: '500', lineHeight: 24 }, // mild emphasis
-  bodyBold: { fontSize: 17, fontWeight: '600', lineHeight: 24 }, //   button labels
-  callout: { fontSize: 15, fontWeight: '400', lineHeight: 21 }, //    secondary descriptive
+export type TypeToken = {
+  fontSize: number;
+  fontWeight: TextStyle['fontWeight'];
+  lineHeight: number;
+  family: FontFamily;
+};
+
+export const type = {
+  // Display & headings
+  display: { fontSize: 36, fontWeight: '800', lineHeight: 42, family: 'rounded' }, // milestone moments
+  title1: { fontSize: 30, fontWeight: '800', lineHeight: 36, family: 'display' }, //  screen titles
+  title2: { fontSize: 22, fontWeight: '700', lineHeight: 28, family: 'display' }, //  section headers
+  title3: { fontSize: 19, fontWeight: '600', lineHeight: 25, family: 'display' }, //  card titles
+
+  // Body
+  body: { fontSize: 17, fontWeight: '400', lineHeight: 24, family: 'display' },
+  bodyMedium: { fontSize: 17, fontWeight: '500', lineHeight: 24, family: 'display' },
+  bodyBold: { fontSize: 17, fontWeight: '600', lineHeight: 24, family: 'display' },
+  callout: { fontSize: 15, fontWeight: '400', lineHeight: 21, family: 'display' },
 
   // Small — labels & meta
-  footnote: { fontSize: 13, fontWeight: '400', lineHeight: 18 }, // meta, timestamps
-  label: { fontSize: 13, fontWeight: '600', lineHeight: 16 }, //    uppercase tile labels
-  caption: { fontSize: 11, fontWeight: '500', lineHeight: 14 }, //  smallest labels
+  footnote: { fontSize: 13, fontWeight: '400', lineHeight: 18, family: 'display' },
+  label: { fontSize: 13, fontWeight: '600', lineHeight: 16, family: 'display' },
+  caption: { fontSize: 11, fontWeight: '500', lineHeight: 14, family: 'display' },
 
-  // Stat numbers — the heaviest type in the app
-  statHero: { fontSize: 56, fontWeight: '800', lineHeight: 60 }, //   the one big number
-  statLarge: { fontSize: 40, fontWeight: '800', lineHeight: 44 }, //  big totals
-  statMedium: { fontSize: 28, fontWeight: '700', lineHeight: 32 }, // macro values
-  statSmall: { fontSize: 20, fontWeight: '700', lineHeight: 24 }, //  inline stats
-} as const satisfies Record<string, TextStyle>;
+  // Stat numbers — SF Pro Rounded, the heaviest type in the app
+  statHero: { fontSize: 56, fontWeight: '800', lineHeight: 60, family: 'rounded' },
+  statLarge: { fontSize: 40, fontWeight: '800', lineHeight: 44, family: 'rounded' },
+  statMedium: { fontSize: 28, fontWeight: '700', lineHeight: 32, family: 'rounded' },
+  statSmall: { fontSize: 20, fontWeight: '700', lineHeight: 24, family: 'rounded' },
+} as const satisfies Record<string, TypeToken>;
 
 export type TypeVariant = keyof typeof type;
+
+// Maps a font family to its iOS font face.
+//   'display'  → San Francisco (system default; no explicit fontFamily needed).
+//   'rounded'  → SF Pro Rounded. Requires bundling Apple's SF-Pro-Rounded faces
+//                (not present in this repo). The plumbing is ready: set
+//                `fontFamily.rounded` to the loaded face name to enable it.
+export const fontFamily: Record<FontFamily, string | undefined> = {
+  display: undefined,
+  rounded: undefined,
+};
+
+/** Resolve a type token into a valid React Native TextStyle (family → fontFamily). */
+export function textStyle(variant: TypeVariant): TextStyle {
+  const t = type[variant];
+  return {
+    fontSize: t.fontSize,
+    fontWeight: t.fontWeight,
+    lineHeight: t.lineHeight,
+    fontFamily: fontFamily[t.family],
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Spacing — generous rhythm
@@ -127,8 +185,6 @@ export const radius = {
 // ---------------------------------------------------------------------------
 
 export const shadow = {
-  // none kept as an empty style (not the doc's 'none' string) so `...shadow.none`
-  // stays spread-safe in component styles.
   none: {} as ViewStyle,
 
   sm: {
@@ -161,7 +217,7 @@ export const shadow = {
 // ---------------------------------------------------------------------------
 
 export const sheet = {
-  cornerRadius: 28, // matches radius.xl, set on react-native-screens
+  cornerRadius: 28,
   grabberVisible: true,
   detents: ['medium', 'large'] as const,
 } as const;
@@ -172,17 +228,17 @@ export const sheet = {
 
 export const motion = {
   duration: {
-    snap: 180, //   button press feedback
-    fast: 260, //   standard transition
-    medium: 380, // fade / slide
-    slow: 700, //   hero animations (XP float, rank-up)
-    epic: 1100, //  milestone moments
+    snap: 180,
+    fast: 260,
+    medium: 380,
+    slow: 700,
+    epic: 1100,
   },
   easing: {
     standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
     enter: 'cubic-bezier(0, 0, 0.2, 1)',
     exit: 'cubic-bezier(0.4, 0, 1, 1)',
-    spring: { damping: 18, stiffness: 180 }, // for Reanimated withSpring
+    spring: { damping: 18, stiffness: 180 },
   },
 } as const;
 
@@ -203,21 +259,21 @@ export const zIndex = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// Layout / interaction (non-colour helpers — kept for consistent tap targets)
+// Layout / interaction
 // ---------------------------------------------------------------------------
 
 export const layout = {
-  tapTarget: 44, //     iOS HIG minimum tap target (pt)
-  buttonHeight: 52, //  primary button height (presence)
+  tapTarget: 44,
+  buttonHeight: 52,
   screenPadding: space.xl,
   hairline: 1,
   borderWidth: 1,
 } as const;
 
 export const opacity = {
-  full: 1, //      high-confidence food item
+  full: 1,
   medium: 0.7,
-  low: 0.45, //    low-confidence food item (uncertainty)
+  low: 0.45,
   disabled: 0.4,
   pressed: 0.85,
 } as const;
