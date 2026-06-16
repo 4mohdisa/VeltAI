@@ -14,9 +14,9 @@ import { color, radius, space } from '@/lib/design/tokens';
 import { onboardingHref } from '@/lib/onboarding/steps';
 
 const CARDS = [
-  { icon: 'lock-closed' as const, word: 'Lock', line: 'Lock distracting apps until you go to the gym.' },
+  { icon: 'flame' as const, word: 'Streak', line: "Build a gym streak you won't want to break." },
   { icon: 'sparkles' as const, word: 'Coach', line: 'An AI coach that actually knows your life.' },
-  { icon: 'camera' as const, word: 'Track', line: 'Food tracking in 5 seconds — photo or voice.' },
+  { icon: 'camera' as const, word: 'Track', line: 'Honest food tracking — no silent guessing.' },
 ];
 
 export default function ValuePropScreen() {

@@ -46,9 +46,9 @@ export default function PaywallScreen() {
             Why 14 days?
           </Text>
           <Text variant="callout" color={color.gray700}>
-            Most apps give you 3 days — not enough to feel anything. In 14 you&apos;ll log real meals,
-            hit a gym streak and watch the lockout work. You&apos;ll know if Veltai earns its place
-            before we charge you a cent.
+            Most apps give you 3 days — not enough to feel anything. In 14 you&apos;ll log real meals
+            and build a gym streak. You&apos;ll know if Veltai earns its place before we charge you a
+            cent.
           </Text>
         </View>
       </Card>

@@ -16,7 +16,7 @@ export const ONBOARDING_ROUTES = [
   'eating', //        A13
   'cuisines', //      A14
   'wow', //           A15
-  'permissions', //   A16 (was A17 — lockout setup removed)
+  'permissions', //   A16
   'paywall', //       A17
   'generating', //    A18
 ] as const;

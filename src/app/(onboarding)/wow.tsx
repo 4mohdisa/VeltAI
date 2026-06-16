@@ -1,16 +1,15 @@
 // A15 · Wow moment
-// Top: animated 90-day weight projection chart (current → target). Middle:
+// Top: animated 90-day weight projection chart (current → target). Bottom:
 // tomorrow's personalised plan timeline with cuisine-matched suggestions.
-// Bottom: a lockout preview thumbnail. "This is your life, planned by the app."
+// "This is your life, planned by the app."
 import { View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Line, Polyline } from 'react-native-svg';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
-import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { Card } from '@/components/display/Card';
 import { Text } from '@/components/primitives/Text';
-import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, space } from '@/lib/design/tokens';
 import { formatLongDate } from '@/lib/formatting';
 import { mockPlan } from '@/lib/mock/data';
 import { useOnboarding } from '@/lib/onboarding/store';
@@ -92,32 +91,6 @@ export default function WowScreen() {
                 </View>
               </View>
             ))}
-          </View>
-        </Card>
-      </Animated.View>
-
-      {/* Lockout preview */}
-      <Animated.View entering={FadeInDown.delay(400)}>
-        <Card style={{ backgroundColor: color.gray900, borderColor: color.gray900 }}>
-          <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
-            <View
-              style={{
-                width: 56,
-                height: 56,
-                borderRadius: radius.full,
-                backgroundColor: color.white,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Icon name="lock-closed" size={26} color={color.black} />
-            </View>
-            <Text variant="bodyBold" color={color.white}>
-              Tonight at 19:00, if you haven&apos;t gone
-            </Text>
-            <Text variant="footnote" color={color.gray300} style={{ textAlign: 'center' }}>
-              Instagram, TikTok and the rest stay locked until you log today&apos;s session.
-            </Text>
           </View>
         </Card>
       </Animated.View>

@@ -16,7 +16,7 @@ const TIPS = [
   'Building your weekly meal plan…',
   'Setting your daily calorie target…',
   'Scheduling your gym sessions…',
-  'Personalising your lockout…',
+  'Getting your streak ready…',
 ];
 
 export default function GeneratingScreen() {
