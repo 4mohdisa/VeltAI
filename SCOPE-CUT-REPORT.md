@@ -109,3 +109,67 @@ exactly two flows (write nutrition user-initiated + read active energy & steps).
 Streak, freeze, gym logging, food tracking, onboarding, paywall, profile, and the
 design system remain. The workout-schedule and gym-selfie capture features were
 **not** built.
+
+---
+
+# Addendum — Gym selfie / camera-in-gym-flow removal
+
+Gym logging is a single tap — no camera, no selfie, no photo, no verification.
+**Food photo scanning and barcode scanning are untouched** (core features).
+
+## Research map — the gym selfie was never built
+
+The only traces were **two placeholder comments** (no code):
+
+| File | Line | What it was |
+|---|---|---|
+| `app/(tabs)/profile.tsx` | header comment | "the optional gym selfie would surface here as a memory strip (feature not built yet)" |
+| `app/gym/history.tsx` | header comment | "(when the selfie feature ships) an optional memory thumbnail" |
+
+Both comments were **removed**. There was **no** gym-selfie code anywhere:
+no capture step in D2 log-session, no thumbnail in D6 history, no memory strip on
+E1 profile, no E5b "Gym selfie" settings screen/row, no `selfie_url`,
+no `gym_selfie_enabled`/`gymSelfieEnabled`, and no front-camera/`expo-camera`
+wiring in any gym file.
+
+## Confirmed absent (schema/mock shapes)
+
+- `GymSession` mock type = `{ id, date, durationMin, effort, notes? }` — **no**
+  `selfie_url`/photo field.
+- `mockUser` = `{ name, email, avatarUri, units, memberSince }` — **no**
+  `gym_selfie_enabled`.
+
+## Final grep results
+
+```
+gym-selfie (selfie / gym_selfie / selfie_url / memory strip / memory thumbnail)  → 0 hits
+camera in any GYM file (src/app/gym, (tabs)/gym.tsx)                              → 0 hits
+FOOD camera — STILL present, untouched:
+    src/app/food/photo-capture.tsx   (C3 photo capture — CameraView)
+    src/app/food/barcode-scan.tsx    (C7 barcode scan — CameraView)
+```
+
+The food camera (`CameraView` / `useCameraPermissions`) appears only in the two
+food screens above and was **not** modified. The `NSCameraUsageDescription`
+Info.plist string stays (the food flow uses the camera).
+
+## Verification
+
+- `npx tsc --noEmit` — clean.
+- `npx expo export --platform ios` — succeeds.
+- Gym logging (D2) is duration/effort/energy/notes + "Log it" — no camera opens.
+  Food photo scan (C3/C4) and barcode scan (C7) are unchanged.
+
+## Git log (gym-selfie)
+
+```
+remove-gym-selfie: audit clean (+ this addendum) — removed 2 stray comments;
+                   confirmed no gym-selfie code/schema/camera existed.
+```
+
+## Confirmation
+
+Gym selfie removed entirely (it was never built — only two comments referenced
+it). Gym logging is a clean single tap. Food photo scanning + barcode scanning
+remain exactly as-is. Streak, freeze, food tracking, onboarding, paywall, profile,
+and Apple Health (two flows) all intact.

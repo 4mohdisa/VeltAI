@@ -1,8 +1,7 @@
 // E1 · Profile main
 // Streak-only (no XP, no ranks, no points). Avatar + name, the streak as the
 // centrepiece (current streak with flame, longest, total gym days), then the
-// settings list. The optional gym selfie would surface here as a memory strip
-// (feature not built yet) — never as a reward.
+// settings list.
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';

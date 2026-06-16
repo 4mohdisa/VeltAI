@@ -1,7 +1,6 @@
 // D6 · Gym session history
-// Reverse-chronological list of past sessions: date, duration, effort, notes,
-// and (when the selfie feature ships) an optional memory thumbnail. No XP, no
-// verification reward badge.
+// Reverse-chronological list of past sessions: date, duration, effort, notes.
+// No XP, no verification, no photo — gym logging is a single tap.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
