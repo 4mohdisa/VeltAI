@@ -8,11 +8,20 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ToastHost } from '@/components/display/ToastHost';
-import { color } from '@/lib/design/tokens';
+import { color, sheet } from '@/lib/design/tokens';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
 });
+
+// Native detented sheet: white, grabber visible, 28px corners (UI & Design System).
+const sheetOptions = {
+  presentation: 'formSheet' as const,
+  sheetGrabberVisible: sheet.grabberVisible,
+  sheetCornerRadius: sheet.cornerRadius,
+  sheetAllowedDetents: [0.6, 1] as number[],
+  contentStyle: { backgroundColor: color.white },
+};
 
 export default function RootLayout() {
   return (
@@ -41,7 +50,12 @@ export default function RootLayout() {
               name="modals/nudge"
               options={{ presentation: 'transparentModal', animation: 'fade' }}
             />
-            <Stack.Screen name="modals/confirm" options={{ presentation: 'modal' }} />
+            {/* Native detented sheets */}
+            <Stack.Screen name="gym/log-session" options={sheetOptions} />
+            <Stack.Screen name="gym/freeze" options={{ ...sheetOptions, sheetAllowedDetents: [0.5] }} />
+            <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: [0.5, 1] }} />
+            <Stack.Screen name="food/uncertainty" options={sheetOptions} />
+            <Stack.Screen name="modals/confirm" options={{ ...sheetOptions, sheetAllowedDetents: [0.4] }} />
           </Stack>
           <ToastHost />
         </QueryClientProvider>
