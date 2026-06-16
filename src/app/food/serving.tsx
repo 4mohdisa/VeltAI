@@ -26,7 +26,7 @@ export default function ServingPickerScreen() {
       title={name}
       onClose={() => router.canGoBack() && router.back()}
       onDone={() => {
-        showToast({ message: `+5 XP · Added ${name}.`, tone: 'success' });
+        showToast({ message: `Added ${name}.`, tone: 'success' });
         router.replace('/(tabs)/food');
       }}
     >

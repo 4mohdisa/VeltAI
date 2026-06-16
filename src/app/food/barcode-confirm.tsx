@@ -28,7 +28,7 @@ export default function BarcodeConfirmScreen() {
       title="Confirm product"
       onClose={() => router.canGoBack() && router.back()}
       onDone={() => {
-        showToast({ message: `+5 XP · Added ${p.name}.`, tone: 'success' });
+        showToast({ message: `Added ${p.name}.`, tone: 'success' });
         router.replace('/(tabs)/food');
       }}
     >

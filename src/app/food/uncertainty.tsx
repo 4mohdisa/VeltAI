@@ -1,7 +1,7 @@
 // C5 · Uncertainty prompt
 // One question card at a time with four options and a live calorie preview.
-// Stacks to the next uncertainty after each answer. Completing all earns the
-// +3 XP bonus and saves the meal.
+// Stacks to the next uncertainty after each answer. Answering just improves
+// accuracy and saves the meal — it grants no reward.
 import { useState } from 'react';
 import { router } from 'expo-router';
 
@@ -30,7 +30,7 @@ export default function UncertaintyScreen() {
 
   const next = () => {
     if (isLast) {
-      showToast({ message: '+8 XP (+3 bonus) · Meal saved.', tone: 'success' });
+      showToast({ message: 'Meal saved.', tone: 'success' });
       dismiss();
     } else {
       setIndex((i) => i + 1);

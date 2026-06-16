@@ -28,7 +28,7 @@ export default function PhotoReviewScreen() {
     if (hasUncertain) {
       router.push('/food/uncertainty');
     } else {
-      showToast({ message: '+8 XP · Meal saved.', tone: 'success' });
+      showToast({ message: 'Meal saved.', tone: 'success' });
       discard();
     }
   };

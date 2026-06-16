@@ -48,7 +48,7 @@ export default function VoiceEntryScreen() {
             title="Save meal"
             icon="checkmark"
             onPress={() => {
-              showToast({ message: '+8 XP · Meal saved.', tone: 'success' });
+              showToast({ message: 'Meal saved.', tone: 'success' });
               router.replace('/(tabs)/food');
             }}
           />

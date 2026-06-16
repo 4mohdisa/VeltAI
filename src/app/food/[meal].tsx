@@ -80,7 +80,7 @@ export default function MealDetailScreen() {
 
       <BottomSheet visible={confirming} onClose={() => setConfirming(false)} title="Delete this meal?">
         <Text variant="callout" color={color.gray500}>
-          This removes the meal and recomputes today&apos;s totals. XP already earned is kept.
+          This removes the meal and recomputes today&apos;s totals.
         </Text>
         <Button
           title="Delete meal"
