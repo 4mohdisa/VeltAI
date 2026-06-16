@@ -20,7 +20,7 @@ import { LockoutBanner } from '@/components/domain/LockoutBanner';
 import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
-import { mockMacros, mockPlan, mockRank, mockStreak, mockUser, mockLockout } from '@/lib/mock/data';
+import { mockMacros, mockPlan, mockStreak, mockUser, mockLockout } from '@/lib/mock/data';
 
 export default function DashboardScreen() {
   const [gymLogged, setGymLogged] = useState(mockStreak.gymLoggedToday);
@@ -39,38 +39,24 @@ export default function DashboardScreen() {
           />
         ) : null}
 
-        {/* Zone 1 — streak / XP / rank */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{ gap: space.xs }}>
-            <Text variant="footnote" color={color.gray500}>
-              Welcome back, {mockUser.name.split(' ')[0]}
-            </Text>
-            <Pressable
-              onPress={() => router.push('/gym/streak')}
-              haptic={false}
-              minTapTarget={false}
-              accessibilityLabel={`Current streak ${mockStreak.current} days`}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}
-            >
-              <StreakFlame size={30} active={mockStreak.current > 0} />
-              <Text variant="statLarge" color={color.black}>
-                {mockStreak.current}
-              </Text>
-              <Text variant="callout" color={color.gray500}>
-                day streak
-              </Text>
-            </Pressable>
-          </View>
+        {/* Zone 1 — streak (the only progression mechanic) */}
+        <View style={{ gap: space.xs }}>
+          <Text variant="footnote" color={color.gray500}>
+            Welcome back, {mockUser.name.split(' ')[0]}
+          </Text>
           <Pressable
-            onPress={() => router.push('/(tabs)/profile')}
+            onPress={() => router.push('/gym/streak')}
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`Rank ${mockRank.current.name}. ${mockUser.xpToday} XP today`}
-            style={{ alignItems: 'flex-end', gap: space.xs }}
+            accessibilityLabel={`Current streak ${mockStreak.current} days`}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}
           >
-            <Badge label={mockRank.current.name} icon="shield" />
-            <Text variant="footnote" color={color.gray500}>
-              +{mockUser.xpToday} XP today
+            <StreakFlame size={30} active={mockStreak.current > 0} />
+            <Text variant="statLarge" color={color.black}>
+              {mockStreak.current}
+            </Text>
+            <Text variant="callout" color={color.gray500}>
+              day streak
             </Text>
           </Pressable>
         </View>
@@ -79,10 +65,9 @@ export default function DashboardScreen() {
         <GymStatusCard
           logged={gymLogged}
           durationMin={62}
-          verified="manual"
           onLog={() => {
             setGymLogged(true);
-            showToast({ message: '+25 XP · Gym logged. Lockout lifted.', tone: 'success' });
+            showToast({ message: 'Gym logged. Lockout lifted.', tone: 'success' });
           }}
         />
 
