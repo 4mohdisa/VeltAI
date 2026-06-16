@@ -1,14 +1,14 @@
 // C8 · Barcode product confirm
-// Product name, brand and base nutrition from Open Food Facts; a serving-size
-// picker recomputes the macros; Save logs the meal (+5 XP).
+// After a scan: product + base nutrition, a serving-size picker that recomputes
+// macros, then Save. Now a bottom sheet (X discard / Done save) rather than a
+// pushed screen. Scan logic + data unchanged.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
-import { Screen } from '@/components/navigation/Screen';
+import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
-import { Button } from '@/components/forms/Button';
 import { SegmentedField } from '@/components/forms/SegmentedField';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
@@ -21,23 +21,16 @@ export default function BarcodeConfirmScreen() {
   const [serving, setServing] = useState(String(p.servingOptions[0]));
   const grams = Number(serving);
   const factor = grams / 100;
-
   const macro = (per100: number) => Math.round(per100 * factor);
 
   return (
-    <Screen
+    <SheetContent
       title="Confirm product"
-      showBack
-      footer={
-        <Button
-          title="Save"
-          icon="checkmark"
-          onPress={() => {
-            showToast({ message: `+5 XP · Added ${p.name}.`, tone: 'success' });
-            router.replace('/(tabs)/food');
-          }}
-        />
-      }
+      onClose={() => router.canGoBack() && router.back()}
+      onDone={() => {
+        showToast({ message: `+5 XP · Added ${p.name}.`, tone: 'success' });
+        router.replace('/(tabs)/food');
+      }}
     >
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
@@ -81,6 +74,6 @@ export default function BarcodeConfirmScreen() {
           </Text>
         </View>
       </Card>
-    </Screen>
+    </SheetContent>
   );
 }

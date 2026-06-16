@@ -11,7 +11,6 @@ import { Card } from '@/components/display/Card';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { TextField } from '@/components/forms/TextField';
-import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
 
@@ -40,9 +39,12 @@ export default function ManualSearchScreen() {
     return CATALOG.filter((r) => r.name.toLowerCase().includes(q) || r.brand?.toLowerCase().includes(q));
   }, [query]);
 
-  const save = (food: FoodResult) => {
-    showToast({ message: `+5 XP · Added ${food.name}.`, tone: 'success' });
-    if (router.canGoBack()) router.back();
+  // Picking a result opens the serving-size picker sheet before saving.
+  const pick = (food: FoodResult) => {
+    router.push({
+      pathname: '/food/serving',
+      params: { name: food.name, kcalPer100: String(food.kcalPer100) },
+    });
   };
 
   return (
@@ -66,7 +68,7 @@ export default function ManualSearchScreen() {
             key={`${food.name}-${i}`}
             haptic={false}
             minTapTarget={false}
-            onPress={() => save(food)}
+            onPress={() => pick(food)}
             accessibilityLabel={`Add ${food.name}`}
             style={{
               flexDirection: 'row',

@@ -66,6 +66,8 @@ export default function RootLayout() {
             <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: [0.5, 1] }} />
             <Stack.Screen name="food/item-edit" options={{ ...sheetOptions, sheetAllowedDetents: [0.7, 1] }} />
             <Stack.Screen name="food/custom-food" options={{ ...sheetOptions, sheetAllowedDetents: [0.95] }} />
+            <Stack.Screen name="food/barcode-confirm" options={{ ...sheetOptions, sheetAllowedDetents: [0.6] }} />
+            <Stack.Screen name="food/serving" options={{ ...sheetOptions, sheetAllowedDetents: [0.45] }} />
             <Stack.Screen name="food/uncertainty" options={sheetOptions} />
             <Stack.Screen name="modals/confirm" options={{ ...sheetOptions, sheetAllowedDetents: [0.4] }} />
           </Stack>
