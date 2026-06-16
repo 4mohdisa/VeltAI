@@ -1,6 +1,6 @@
 // E10 · Support
-// Email support, FAQ link, app version, and a feedback textarea (kept separate
-// from any rating prompt — never coupled, per App Store hygiene rules).
+// Email support, FAQ link, app version, and a feedback textarea that goes to the
+// team. Veltai has NO in-app rating/review prompts at all (no SKStoreReview).
 import { useState } from 'react';
 import { Linking } from 'react-native';
 
