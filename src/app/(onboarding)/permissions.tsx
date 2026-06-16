@@ -60,7 +60,7 @@ export default function PermissionsScreen() {
   const [notif, setNotif] = useState(false);
 
   return (
-    <OnboardingStep step={17} title="Two quick permissions" subtitle="You can change these any time in Settings.">
+    <OnboardingStep step={16} title="Two quick permissions" subtitle="You can change these any time in Settings.">
       <PermCard
         icon="heart-outline"
         title="Apple Health"

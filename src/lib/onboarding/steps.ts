@@ -16,10 +16,9 @@ export const ONBOARDING_ROUTES = [
   'eating', //        A13
   'cuisines', //      A14
   'wow', //           A15
-  'lockout', //       A16
-  'permissions', //   A17
-  'paywall', //       A18
-  'generating', //    A19
+  'permissions', //   A16 (was A17 — lockout setup removed)
+  'paywall', //       A17
+  'generating', //    A18
 ] as const;
 
 export const ONBOARDING_TOTAL = ONBOARDING_ROUTES.length;

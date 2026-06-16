@@ -21,7 +21,7 @@ export default function PaywallScreen() {
   end.setDate(start.getDate() + 14);
 
   return (
-    <OnboardingStep step={18} continueLabel="Start free trial" hideContinue>
+    <OnboardingStep step={17} continueLabel="Start free trial" hideContinue>
       <View style={{ gap: space.md }}>
         <Text variant="display" color={color.black}>
           14 days free.

@@ -1,6 +1,6 @@
 // E2 · Settings list
-// Apple-style grouped settings: Account, Subscription, Lockout, Notifications,
-// Apple Health, Units, Privacy, Support, About.
+// Apple-style grouped settings: Account, Subscription, Notifications, Apple
+// Health, Units, Privacy, Support, About.
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
 import { router } from 'expo-router';
@@ -18,7 +18,6 @@ export default function SettingsScreen() {
       <SettingsList
         title="App"
         rows={[
-          { icon: 'lock-closed-outline', label: 'Lockout', onPress: () => router.push('/profile/lockout-settings') },
           { icon: 'notifications-outline', label: 'Notifications', onPress: () => router.push('/profile/notifications') },
           { icon: 'heart-outline', label: 'Apple Health', onPress: () => router.push('/profile/apple-health') },
           { icon: 'options-outline', label: 'Units', onPress: () => router.push('/profile/units') },

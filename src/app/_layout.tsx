@@ -48,11 +48,6 @@ export default function RootLayout() {
             <Stack.Screen name="index" />
             <Stack.Screen name="(onboarding)" />
             <Stack.Screen name="(tabs)" />
-            {/* Full-screen blocking modal */}
-            <Stack.Screen
-              name="modals/lockout-blocked"
-              options={{ presentation: 'fullScreenModal' }}
-            />
             {/* Lightweight overlays */}
             <Stack.Screen
               name="modals/nudge"
