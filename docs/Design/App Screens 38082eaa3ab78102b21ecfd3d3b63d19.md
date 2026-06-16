@@ -2,6 +2,9 @@
 
 Complete inventory of screens in the Veltai iOS MVP, organised by section. Each entry includes purpose and a brief layout description so the design intent is clear before building.
 
+> **Visual direction (redesign):** All screens now follow the **pure monochrome, Cal AI-clean** language — see Theme & Design Tokens and UI & Design System. Black/white/grey only, grey fills not borders, full-pill buttons, generous spacing, heavy/light type contrast, SF Symbols icons, native iOS controls (light styling). The *layouts* below are unchanged; only the *skin* changes. Where a description says a colour (e.g. "destructive red", "green ring"), read it as monochrome: destructive = black text + confirmation copy; progress ring = black arc on gray200 track; streak flame = black `flame.fill`, not orange.
+> 
+
 ---
 
 ## Navigation architecture
@@ -332,3 +335,22 @@ If building UI first (no backend), tackle in this order:
 7. **Modals F1-F9** — sprinkle in as needed during the above
 
 Building onboarding last is counterintuitive but right: by then your component library is mature and reusable, so the 19 screens come together fast.
+
+---
+
+## Planned (next session) — Gym selfie verification
+
+Not built yet. Documented here so the design is captured.
+
+**Concept:** to make gym sessions hard to fake, logging a session triggers a **simultaneous front + back camera capture** (like BeReal). Front camera = a selfie proving it's the user; back camera = their surroundings proving they're actually in a gym. Both fire in one tap. The user is not blocked — they tap, both photos capture, and verification runs **in the background** so the flow feels instant.
+
+**Why:** self-reported taps and even HealthKit workouts can be faked. A dual-camera capture is much harder to game and directly serves the anti-cheat philosophy in Bugs to Avoid.
+
+**Open design questions (to resolve next session):**
+
+- iOS dual-camera (`AVCaptureMultiCamSession`) only works on iPhone 11+ and is not exposed by `expo-camera` — needs a custom native module or config plugin.
+- What confirms a "gym"? Options range from simply storing both photos as proof (no AI) to Gemini vision checking the back photo for gym equipment.
+- What happens if background verification fails? Revoke the session? Flag it? Silently accept? This ties into the `gym_sessions` schema (a `verification_source` + `verification_status` field would be needed).
+- Privacy: these are selfies in a gym. Storage, retention, and whether they're ever shown to anyone need a clear policy.
+
+**Screen impact when built:** D2 (Log gym session) gains a dual-capture step; new screens for capture + a subtle "verifying" state; `gym_sessions` schema gains verification fields. Kept as a separate work item so the monochrome redesign stays a pure visual reskin.
