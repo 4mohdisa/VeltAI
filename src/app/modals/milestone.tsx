@@ -38,7 +38,7 @@ export default function MilestoneModalScreen() {
         </Animated.View>
 
         <View style={{ alignItems: 'center', gap: space.sm, marginTop: space.md }}>
-          <Text variant="statMedium" color={color.accent}>
+          <Text variant="statMedium" color={color.black}>
             +{bonus} XP
           </Text>
           {grantsFreeze ? (

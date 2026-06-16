@@ -65,7 +65,7 @@ export default function PhotoReviewScreen() {
       </View>
 
       {hasUncertain ? (
-        <Text variant="footnote" color={color.warnText}>
+        <Text variant="footnote" color={color.gray700}>
           Some items are dimmed — we&apos;re not sure about them and will ask before saving.
         </Text>
       ) : null}

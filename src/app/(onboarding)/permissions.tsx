@@ -29,12 +29,12 @@ function PermCard({ icon, title, body, granted, onAllow }: PermCardProps) {
               width: 44,
               height: 44,
               borderRadius: radius.full,
-              backgroundColor: color.accentLight,
+              backgroundColor: color.gray100,
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Icon name={icon} size={22} color={color.accentText} />
+            <Icon name={icon} size={22} color={color.black} />
           </View>
           <Text variant="title3" color={color.black} style={{ flex: 1 }}>
             {title}
@@ -46,7 +46,7 @@ function PermCard({ icon, title, body, granted, onAllow }: PermCardProps) {
         <Button
           title={granted ? 'Allowed' : 'Allow'}
           icon={granted ? 'checkmark' : undefined}
-          variant={granted ? 'secondary' : 'primary'}
+          variant="secondary"
           disabled={granted}
           onPress={onAllow}
         />

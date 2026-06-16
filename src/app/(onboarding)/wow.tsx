@@ -49,15 +49,15 @@ export default function WowScreen() {
             </Text>
             <Svg width={chartW} height={chartH}>
               <Line x1={0} y1={chartH - 1} x2={chartW} y2={chartH - 1} stroke={color.gray200} strokeWidth={1} />
-              <Polyline points={points} fill="none" stroke={color.accent} strokeWidth={3} strokeLinecap="round" />
-              <Circle cx={0} cy={startY} r={5} fill={color.accent} />
-              <Circle cx={chartW} cy={endY} r={5} fill={color.accent} />
+              <Polyline points={points} fill="none" stroke={color.black} strokeWidth={3} strokeLinecap="round" />
+              <Circle cx={0} cy={startY} r={5} fill={color.black} />
+              <Circle cx={chartW} cy={endY} r={5} fill={color.black} />
             </Svg>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text variant="footnote" color={color.gray500}>
                 Now {weight} kg
               </Text>
-              <Text variant="footnote" color={color.accentText}>
+              <Text variant="footnote" color={color.black}>
                 {targetWeight} kg by {formatLongDate(targetDate)}
               </Text>
             </View>

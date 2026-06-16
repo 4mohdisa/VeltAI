@@ -40,7 +40,7 @@ export default function PlanDetailScreen() {
                     width: 34,
                     height: 34,
                     borderRadius: radius.full,
-                    backgroundColor: entry.kind === 'gym' ? color.accent : color.gray100,
+                    backgroundColor: entry.kind === 'gym' ? color.black : color.gray100,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -94,7 +94,7 @@ export default function PlanDetailScreen() {
 
       <Card style={{ backgroundColor: color.gray50 }}>
         <View style={{ flexDirection: 'row', gap: space.sm }}>
-          <Icon name="sparkles" size={18} color={color.accentText} />
+          <Icon name="sparkles" size={18} color={color.black} />
           <View style={{ flex: 1, gap: space.xs }}>
             <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
               Why this plan

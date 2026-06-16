@@ -59,12 +59,12 @@ export default function ValuePropScreen() {
                 width: 96,
                 height: 96,
                 borderRadius: radius.full,
-                backgroundColor: color.accentLight,
+                backgroundColor: color.gray100,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Icon name={card.icon} size={44} color={color.accentText} />
+              <Icon name={card.icon} size={44} color={color.black} />
             </View>
             <Text variant="display" color={color.black}>
               {card.word}
@@ -85,7 +85,7 @@ export default function ValuePropScreen() {
               width: i === index ? 20 : 8,
               height: 8,
               borderRadius: radius.full,
-              backgroundColor: i === index ? color.accent : color.gray300,
+              backgroundColor: i === index ? color.black : color.gray300,
             }}
           />
         ))}

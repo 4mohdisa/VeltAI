@@ -44,7 +44,7 @@ export default function LockoutStatusScreen() {
     >
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-          <Icon name="lock-closed" size={22} color={color.warnText} />
+          <Icon name="lock-closed" size={22} color={color.gray700} />
           <View style={{ flex: 1 }}>
             <Text variant="title3" color={color.black}>
               Apps locked
@@ -89,7 +89,7 @@ export default function LockoutStatusScreen() {
               <Text variant="body" color={color.black} style={{ flex: 1 }}>
                 {app}
               </Text>
-              <Icon name="lock-closed" size={16} color={color.warnText} />
+              <Icon name="lock-closed" size={16} color={color.gray700} />
             </View>
           ))}
         </Card>

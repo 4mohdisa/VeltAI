@@ -41,7 +41,7 @@ export default function GeneratingScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl, gap: space.xl }}>
-        <ActivityIndicator size="large" color={color.accent} />
+        <ActivityIndicator size="large" color={color.black} />
         <Text variant="title3" color={color.black} style={{ textAlign: 'center', minHeight: 56 }}>
           {TIPS[tip]}
         </Text>

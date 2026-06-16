@@ -22,7 +22,7 @@ export type SettingsRowProps = {
 
 function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean }) {
   const kind = row.kind ?? (row.onPress ? 'link' : 'plain');
-  const labelColor = row.destructive ? color.error : color.black;
+  const labelColor = row.destructive ? color.black : color.black;
 
   const body = (
     <View
@@ -43,12 +43,12 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
             width: 30,
             height: 30,
             borderRadius: radius.sm,
-            backgroundColor: row.destructive ? color.errorLight : color.gray100,
+            backgroundColor: row.destructive ? color.gray100 : color.gray100,
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Icon name={row.icon} size={17} color={row.destructive ? color.error : color.gray700} />
+          <Icon name={row.icon} size={17} color={row.destructive ? color.black : color.gray700} />
         </View>
       ) : null}
 
@@ -66,7 +66,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
         <Switch
           value={!!row.switchValue}
           onValueChange={row.onToggle}
-          trackColor={{ true: color.accent, false: color.gray300 }}
+          trackColor={{ true: color.black, false: color.gray300 }}
           accessibilityLabel={row.label}
         />
       ) : kind === 'link' ? (

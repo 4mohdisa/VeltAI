@@ -28,8 +28,8 @@ export default function FoodLogScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
       <ScrollView
-        contentContainerStyle={{ padding: space.lg, gap: space.lg, paddingBottom: space['4xl'] }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.accent} />}
+        contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
         <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }}>
           <Text variant="title1" color={color.black}>
@@ -62,8 +62,8 @@ export default function FoodLogScreen() {
             accessibilityLabel="Meal history"
             style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xs, padding: space.md }}
           >
-            <Icon name="time-outline" size={16} color={color.accentText} />
-            <Text variant="bodyBold" color={color.accentText}>
+            <Icon name="time-outline" size={16} color={color.black} />
+            <Text variant="bodyBold" color={color.black}>
               Meal history
             </Text>
           </Pressable>
@@ -82,7 +82,7 @@ export default function FoodLogScreen() {
             width: 56,
             height: 56,
             borderRadius: radius.full,
-            backgroundColor: color.accent,
+            backgroundColor: color.black,
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: zIndex.fab,

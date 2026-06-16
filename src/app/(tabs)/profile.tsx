@@ -20,7 +20,7 @@ import { mockRank, mockStreak, mockUser, mockXpEvents } from '@/lib/mock/data';
 export default function ProfileScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
-      <ScrollView contentContainerStyle={{ padding: space.lg, gap: space.lg, paddingBottom: space['3xl'] }}>
+      <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
         {/* Identity */}
         <View style={{ alignItems: 'center', gap: space.sm }}>
           <Avatar name={mockUser.name} size={84} />
@@ -48,7 +48,7 @@ export default function ProfileScreen() {
         {/* Stats */}
         <Card>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Stat value={mockStreak.current} label="Day streak" size="medium" align="center" valueColor={color.accent} />
+            <Stat value={mockStreak.current} label="Day streak" size="medium" align="center" valueColor={color.black} />
             <Stat value={formatNumber(mockUser.totalXp)} label="Total XP" size="medium" align="center" />
             <Stat value={mockStreak.totalSessions} label="Sessions" size="medium" align="center" />
           </View>
@@ -84,7 +84,7 @@ export default function ProfileScreen() {
                     {event.when}
                   </Text>
                 </View>
-                <Text variant="bodyBold" color={color.accent}>
+                <Text variant="bodyBold" color={color.black}>
                   +{event.amount}
                 </Text>
               </View>

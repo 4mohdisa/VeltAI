@@ -31,7 +31,7 @@ export default function GymOnboardingScreen() {
         onValueChange={(v) => set({ gymTarget: v })}
         formatValue={(v) => `${v} / week`}
       />
-      <Text variant="title3" color={color.accentText}>
+      <Text variant="title3" color={color.black}>
         From {gymCurrent} to {gymTarget} sessions a week.
       </Text>
     </OnboardingStep>

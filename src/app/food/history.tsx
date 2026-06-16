@@ -61,7 +61,7 @@ export default function MealHistoryScreen() {
             <Icon
               name={day.gym ? 'checkmark-circle' : 'remove-circle-outline'}
               size={20}
-              color={day.gym ? color.accent : color.gray400}
+              color={day.gym ? color.black : color.gray400}
             />
             <Icon name="chevron-forward" size={18} color={color.gray400} />
           </Pressable>

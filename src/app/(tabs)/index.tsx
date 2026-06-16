@@ -29,7 +29,7 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
-      <ScrollView contentContainerStyle={{ padding: space.lg, gap: space.lg, paddingBottom: space['3xl'] }}>
+      <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
         {/* F4 · AI nudge banner (dismissable) */}
         {showNudge && !gymLogged ? (
           <AiNudgeBanner
@@ -53,7 +53,7 @@ export default function DashboardScreen() {
               style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}
             >
               <StreakFlame size={30} active={mockStreak.current > 0} />
-              <Text variant="statLarge" color={color.accent}>
+              <Text variant="statLarge" color={color.black}>
                 {mockStreak.current}
               </Text>
               <Text variant="callout" color={color.gray500}>

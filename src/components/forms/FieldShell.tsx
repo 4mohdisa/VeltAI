@@ -32,7 +32,7 @@ export function FieldShell({
       ) : null}
       {children}
       {error ? (
-        <Text variant="caption" color={color.error} accessibilityLiveRegion="polite">
+        <Text variant="caption" color={color.black} accessibilityLiveRegion="polite">
           {error}
         </Text>
       ) : helper ? (

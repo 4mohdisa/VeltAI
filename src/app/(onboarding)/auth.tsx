@@ -60,7 +60,7 @@ export default function AuthScreen() {
       </View>
 
       <Pressable onPress={next} haptic={false} accessibilityLabel="I already have an account" style={{ alignItems: 'center', padding: space.md }}>
-        <Text variant="callout" color={color.accentText}>
+        <Text variant="callout" color={color.black}>
           I already have an account
         </Text>
       </Pressable>

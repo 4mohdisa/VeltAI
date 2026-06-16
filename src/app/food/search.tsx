@@ -86,7 +86,7 @@ export default function ManualSearchScreen() {
                 {formatCalories(food.kcalPer100)} / 100g
               </Text>
             </View>
-            <Icon name="add-circle-outline" size={22} color={color.accent} />
+            <Icon name="add-circle-outline" size={22} color={color.black} />
           </Pressable>
         ))}
       </Card>
@@ -98,8 +98,8 @@ export default function ManualSearchScreen() {
         accessibilityLabel="Add custom food"
         style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, padding: space.md }}
       >
-        <Icon name="create-outline" size={18} color={color.accentText} />
-        <Text variant="bodyBold" color={color.accentText}>
+        <Icon name="create-outline" size={18} color={color.black} />
+        <Text variant="bodyBold" color={color.black}>
           Add custom food
         </Text>
       </Pressable>

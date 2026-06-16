@@ -22,16 +22,16 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
           alignItems: 'center',
           justifyContent: 'center',
           gap: space.sm,
-          backgroundColor: color.accentLight,
-          borderColor: color.accentBorder,
+          backgroundColor: color.gray100,
+          borderColor: color.gray300,
           borderWidth: 1,
           borderRadius: radius.md,
           paddingVertical: space.md,
           minHeight: 44,
         }}
       >
-        <Icon name="checkmark-circle" size={20} color={color.accentText} />
-        <Text variant="bodyBold" color={color.accentText}>
+        <Icon name="checkmark-circle" size={20} color={color.black} />
+        <Text variant="bodyBold" color={color.black}>
           Logged today
         </Text>
       </View>

@@ -31,7 +31,7 @@ export function RankUpModal({ rankName, unlocks, onContinue }: RankUpModalProps)
             width: 120,
             height: 120,
             borderRadius: radius.full,
-            backgroundColor: color.accent,
+            backgroundColor: color.black,
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -54,7 +54,7 @@ export function RankUpModal({ rankName, unlocks, onContinue }: RankUpModalProps)
         <View style={{ alignSelf: 'stretch', gap: space.sm, marginTop: space.md }}>
           {unlocks.map((unlock) => (
             <View key={unlock} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-              <Icon name="lock-open" size={18} color={color.accentText} />
+              <Icon name="lock-open" size={18} color={color.black} />
               <Text variant="body" color={color.gray900}>
                 {unlock}
               </Text>

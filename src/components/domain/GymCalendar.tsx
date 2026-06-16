@@ -21,7 +21,7 @@ function Cell({ status }: { status: DayStatus }) {
   switch (status) {
     case 'session':
       return (
-        <View style={[base, { backgroundColor: color.accent }]}>
+        <View style={[base, { backgroundColor: color.black }]}>
           <Icon name="checkmark" size={18} color={color.white} />
         </View>
       );
@@ -32,7 +32,7 @@ function Cell({ status }: { status: DayStatus }) {
         </View>
       );
     case 'today':
-      return <View style={[base, { borderWidth: 2, borderColor: color.accent }]} />;
+      return <View style={[base, { borderWidth: 2, borderColor: color.black }]} />;
     case 'missed':
       return <View style={[base, { borderWidth: 1, borderColor: color.gray200 }]} />;
     default:
@@ -53,7 +53,7 @@ export function GymCalendar({ days }: GymCalendarProps) {
         ))}
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'center', gap: space.lg, marginTop: space.md }}>
-        <Legend tint={color.accent} label="Session" />
+        <Legend tint={color.black} label="Session" />
         <Legend tint={color.gray400} label="Freeze" icon />
         <Legend tint={color.gray200} label="Missed" outline />
       </View>

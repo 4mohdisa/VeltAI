@@ -15,7 +15,7 @@ import Animated, {
 
 import { color, radius, motion, zIndex } from '@/lib/design/tokens';
 
-const PALETTE = [color.accent, color.accentDark, color.accentBorder, color.gray400, color.black];
+const PALETTE = [color.black, color.black, color.gray300, color.gray400, color.black];
 
 type ParticleSpec = {
   dx: number;

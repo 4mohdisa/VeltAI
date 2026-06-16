@@ -51,7 +51,7 @@ export default function DeleteAccountScreen() {
     >
       {step === 0 ? (
         <View style={{ gap: space.md, alignItems: 'center', paddingVertical: space.lg }}>
-          <Icon name="warning" size={44} color={color.error} />
+          <Icon name="warning" size={44} color={color.black} />
           <Text variant="title2" color={color.black} style={{ textAlign: 'center' }}>
             Are you sure?
           </Text>
@@ -69,7 +69,7 @@ export default function DeleteAccountScreen() {
           </Text>
           {DELETED_DATA.map((item) => (
             <View key={item} style={{ flexDirection: 'row', gap: space.sm, alignItems: 'flex-start' }}>
-              <Icon name="close-circle" size={18} color={color.error} style={{ marginTop: 2 }} />
+              <Icon name="close-circle" size={18} color={color.black} style={{ marginTop: 2 }} />
               <Text variant="body" color={color.gray900} style={{ flex: 1 }}>
                 {item}
               </Text>

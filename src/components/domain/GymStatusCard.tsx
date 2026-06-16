@@ -45,12 +45,12 @@ export function GymStatusCard({ logged, onLog, durationMin, verified }: GymStatu
             width: 44,
             height: 44,
             borderRadius: 22,
-            backgroundColor: color.accentLight,
+            backgroundColor: color.gray100,
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Icon name="checkmark" size={26} color={color.accentText} />
+          <Icon name="checkmark" size={26} color={color.black} />
         </View>
         <View style={{ flex: 1, gap: space.xs }}>
           <Text variant="title3" color={color.black}>

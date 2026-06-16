@@ -16,7 +16,7 @@ export function StreakCounter({ days, active = true, caption = 'day streak' }: S
   return (
     <View style={{ alignItems: 'center', gap: space.xs }} accessibilityLabel={`${days} ${caption}`}>
       <StreakFlame size={44} active={active && days > 0} />
-      <Text variant="statLarge" color={active && days > 0 ? color.accent : color.gray400}>
+      <Text variant="statLarge" color={active && days > 0 ? color.black : color.gray400}>
         {days}
       </Text>
       <Text variant="caption" color={color.gray500} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>

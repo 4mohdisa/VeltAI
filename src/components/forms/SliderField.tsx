@@ -111,7 +111,7 @@ export function SliderField({
                   position: 'absolute',
                   height: TRACK_HEIGHT,
                   borderRadius: radius.full,
-                  backgroundColor: disabled ? color.gray300 : color.accent,
+                  backgroundColor: disabled ? color.gray300 : color.black,
                 },
                 fillStyle,
               ]}
@@ -126,7 +126,7 @@ export function SliderField({
                   borderRadius: radius.full,
                   backgroundColor: color.white,
                   borderWidth: 2,
-                  borderColor: disabled ? color.gray300 : color.accent,
+                  borderColor: disabled ? color.gray300 : color.black,
                 },
                 thumbStyle,
               ]}

@@ -85,7 +85,7 @@ export default function VoiceEntryScreen() {
             width: 96,
             height: 96,
             borderRadius: radius.full,
-            backgroundColor: listening ? color.error : color.accent,
+            backgroundColor: listening ? color.black : color.black,
             alignItems: 'center',
             justifyContent: 'center',
           }}

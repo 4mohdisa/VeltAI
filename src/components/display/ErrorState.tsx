@@ -27,7 +27,7 @@ export function ErrorState({
       testID={testID}
       style={{ alignItems: 'center', justifyContent: 'center', padding: space['2xl'], gap: space.md }}
     >
-      <Icon name="alert-circle-outline" size={40} color={color.error} />
+      <Icon name="alert-circle-outline" size={40} color={color.black} />
       <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
         {title}
       </Text>

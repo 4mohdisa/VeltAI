@@ -14,7 +14,7 @@ export type ProgressBarProps = {
 
 export function ProgressBar({
   value,
-  tint = color.accent,
+  tint = color.black,
   track = color.gray200,
   height = 8,
   style,

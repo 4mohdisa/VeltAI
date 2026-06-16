@@ -27,7 +27,7 @@ export default function GymLogScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
-      <ScrollView contentContainerStyle={{ padding: space.lg, gap: space.lg, paddingBottom: space['3xl'] }}>
+      <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
         <Pressable
           haptic={false}
           minTapTarget={false}
@@ -39,11 +39,11 @@ export default function GymLogScreen() {
 
         {/* D3 · HealthKit auto-detect banner */}
         {showDetect && !logged ? (
-          <Card style={{ backgroundColor: color.accentLight, borderColor: color.accentBorder }}>
+          <Card style={{ backgroundColor: color.gray100, borderColor: color.gray300 }}>
             <View style={{ gap: space.md }}>
               <View style={{ flexDirection: 'row', gap: space.sm }}>
-                <Icon name="heart" size={18} color={color.accentText} />
-                <Text variant="callout" color={color.accentText} style={{ flex: 1 }}>
+                <Icon name="heart" size={18} color={color.black} />
+                <Text variant="callout" color={color.black} style={{ flex: 1 }}>
                   We saw a {mockDetectedWorkout.type} for {formatDuration(mockDetectedWorkout.durationMin)} (
                   {mockDetectedWorkout.start}–{mockDetectedWorkout.end}). Log it as today&apos;s session?
                 </Text>
@@ -51,6 +51,7 @@ export default function GymLogScreen() {
               <View style={{ flexDirection: 'row', gap: space.sm }}>
                 <Button
                   title="Yes, log it"
+                  variant="secondary"
                   fullWidth={false}
                   onPress={() => {
                     setLogged(true);

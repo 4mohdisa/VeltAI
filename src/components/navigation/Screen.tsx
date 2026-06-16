@@ -38,7 +38,7 @@ export function Screen({
   onRefresh,
 }: ScreenProps) {
   const hasHeader = showBack || title !== undefined || headerRight !== undefined;
-  const padding = padded ? { padding: space.lg } : null;
+  const padding = padded ? { padding: space.xl } : null;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor }} edges={['top']}>
@@ -48,11 +48,11 @@ export function Screen({
 
       {scroll ? (
         <ScrollView
-          contentContainerStyle={[{ gap: space.lg, paddingBottom: space['3xl'] }, padding, contentStyle]}
+          contentContainerStyle={[{ gap: space['2xl'], paddingBottom: space['4xl'] }, padding, contentStyle]}
           keyboardShouldPersistTaps="handled"
           refreshControl={
             onRefresh ? (
-              <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={color.accent} />
+              <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={color.black} />
             ) : undefined
           }
         >

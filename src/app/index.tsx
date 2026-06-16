@@ -34,7 +34,7 @@ export default function Index() {
           justifyContent: 'center',
         }}
       >
-        <ActivityIndicator color={color.accent} />
+        <ActivityIndicator color={color.black} />
       </View>
     );
   }

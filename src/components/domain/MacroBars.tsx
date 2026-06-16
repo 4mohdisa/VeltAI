@@ -24,13 +24,13 @@ export function MacroBars({ rows }: MacroBarsProps) {
               <Text variant="footnote" color={color.gray700}>
                 {label}
               </Text>
-              <Text variant="footnote" color={over ? color.warnText : color.gray500}>
+              <Text variant="footnote" color={over ? color.gray700 : color.gray500}>
                 {Math.round(data.consumed)} / {Math.round(data.target)} g
               </Text>
             </View>
             <ProgressBar
               value={data.target > 0 ? data.consumed / data.target : 0}
-              tint={over ? color.warn : color.accent}
+              tint={over ? color.black : color.black}
             />
           </View>
         );

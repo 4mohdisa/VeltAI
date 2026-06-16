@@ -38,7 +38,7 @@ export default function AutoDetectScreen() {
     >
       <Card>
         <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
-          <Icon name="heart" size={40} color={color.accentText} />
+          <Icon name="heart" size={40} color={color.black} />
           <Text variant="title3" color={color.black}>
             {mockDetectedWorkout.type}
           </Text>

@@ -53,12 +53,12 @@ export default function AddMealScreen() {
                 width: 48,
                 height: 48,
                 borderRadius: radius.full,
-                backgroundColor: color.accentLight,
+                backgroundColor: color.gray100,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Icon name={m.icon} size={24} color={color.accentText} />
+              <Icon name={m.icon} size={24} color={color.black} />
             </View>
             <View style={{ gap: space.xs }}>
               <Text variant="title3" color={color.black}>

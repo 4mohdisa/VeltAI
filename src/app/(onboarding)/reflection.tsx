@@ -36,7 +36,7 @@ export default function ReflectionScreen() {
         <View style={{ gap: space.md }}>
           {lines.map((line) => (
             <View key={line} style={{ flexDirection: 'row', gap: space.sm, alignItems: 'flex-start' }}>
-              <Text variant="body" color={color.accent}>
+              <Text variant="body" color={color.black}>
                 •
               </Text>
               <Text variant="body" color={color.gray900} style={{ flex: 1 }}>

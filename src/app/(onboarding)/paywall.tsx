@@ -82,7 +82,7 @@ function Row({ label, value }: { label: string; value: string }) {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-        <Icon name="checkmark-circle" size={16} color={color.accentText} />
+        <Icon name="checkmark-circle" size={16} color={color.black} />
         <Text variant="callout" color={color.gray500}>
           {label}
         </Text>

@@ -12,7 +12,7 @@ export type XpFloatUpProps = {
   tint?: string;
 };
 
-export function XpFloatUp({ amount, onDone, tint = color.accent }: XpFloatUpProps) {
+export function XpFloatUp({ amount, onDone, tint = color.black }: XpFloatUpProps) {
   const reduceMotion = useReducedMotion();
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(0);
