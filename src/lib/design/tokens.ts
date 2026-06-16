@@ -128,25 +128,24 @@ export const type = {
 
 export type TypeVariant = keyof typeof type;
 
-// Maps a font family to its iOS font face.
-//   'display'  → San Francisco (system default; no explicit fontFamily needed).
-//   'rounded'  → SF Pro Rounded. Requires bundling Apple's SF-Pro-Rounded faces
-//                (not present in this repo). The plumbing is ready: set
-//                `fontFamily.rounded` to the loaded face name to enable it.
-export const fontFamily: Record<FontFamily, string | undefined> = {
-  display: undefined,
-  rounded: undefined,
+// SF Pro Rounded faces by weight (loaded via expo-font in the root layout under
+// these exact family names). The 'display' family uses San Francisco (system
+// default — no explicit fontFamily). When a specific weighted face is used we
+// do NOT also set fontWeight: the .otf already encodes the weight.
+export const ROUNDED_FACE_BY_WEIGHT: Record<string, string> = {
+  '600': 'SFProRounded-Semibold',
+  '700': 'SFProRounded-Bold',
+  '800': 'SFProRounded-Heavy',
 };
 
 /** Resolve a type token into a valid React Native TextStyle (family → fontFamily). */
 export function textStyle(variant: TypeVariant): TextStyle {
   const t = type[variant];
-  return {
-    fontSize: t.fontSize,
-    fontWeight: t.fontWeight,
-    lineHeight: t.lineHeight,
-    fontFamily: fontFamily[t.family],
-  };
+  if (t.family === 'rounded') {
+    const face = ROUNDED_FACE_BY_WEIGHT[String(t.fontWeight)] ?? 'SFProRounded-Bold';
+    return { fontSize: t.fontSize, lineHeight: t.lineHeight, fontFamily: face };
+  }
+  return { fontSize: t.fontSize, fontWeight: t.fontWeight, lineHeight: t.lineHeight };
 }
 
 // ---------------------------------------------------------------------------

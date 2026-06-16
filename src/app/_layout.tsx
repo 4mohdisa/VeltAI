@@ -3,6 +3,7 @@
 // gesture handler (sheets), safe-area, and React Query (server state, mocked tonight).
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -24,6 +25,15 @@ const sheetOptions = {
 };
 
 export default function RootLayout() {
+  // SF Pro Rounded — powers the rounded stat numbers (textStyle resolver maps
+  // family:'rounded' → these faces by weight). Render regardless; text swaps to
+  // the rounded face the moment it loads (no blank-screen gate).
+  useFonts({
+    'SFProRounded-Semibold': require('../../assets/fonts/SF-Pro-Rounded-Semibold.otf'),
+    'SFProRounded-Bold': require('../../assets/fonts/SF-Pro-Rounded-Bold.otf'),
+    'SFProRounded-Heavy': require('../../assets/fonts/SF-Pro-Rounded-Heavy.otf'),
+  });
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
