@@ -3,7 +3,7 @@
 // for a primary CTA. Keeps the ~50 feature screens uniform and short.
 import type { ReactNode } from 'react';
 import { RefreshControl, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavBar } from './NavBar';
 import { color, space } from '@/lib/design/tokens';
@@ -37,8 +37,12 @@ export function Screen({
   refreshing,
   onRefresh,
 }: ScreenProps) {
+  const insets = useSafeAreaInsets();
   const hasHeader = showBack || title !== undefined || headerRight !== undefined;
   const padding = padded ? { padding: space.xl } : null;
+  // HIG §1.1: keep the home indicator clear. With no footer the last scroll row
+  // gets the bottom inset; with a footer the CTA sits above the home indicator.
+  const scrollBottom = space['4xl'] + (footer ? 0 : insets.bottom);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor }} edges={['top']}>
@@ -48,7 +52,7 @@ export function Screen({
 
       {scroll ? (
         <ScrollView
-          contentContainerStyle={[{ gap: space['2xl'], paddingBottom: space['4xl'] }, padding, contentStyle]}
+          contentContainerStyle={[{ gap: space['2xl'], paddingBottom: scrollBottom }, padding, contentStyle]}
           keyboardShouldPersistTaps="handled"
           refreshControl={
             onRefresh ? (
@@ -63,7 +67,17 @@ export function Screen({
       )}
 
       {footer ? (
-        <View style={{ padding: space.lg, borderTopWidth: 1, borderTopColor: color.gray200 }}>{footer}</View>
+        <View
+          style={{
+            paddingHorizontal: space.lg,
+            paddingTop: space.lg,
+            paddingBottom: space.lg + insets.bottom,
+            borderTopWidth: 1,
+            borderTopColor: color.gray200,
+          }}
+        >
+          {footer}
+        </View>
       ) : null}
     </SafeAreaView>
   );
