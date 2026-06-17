@@ -34,7 +34,9 @@ export function SheetContent({
   children,
 }: SheetContentProps) {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['bottom']}>
+    // accessibilityViewIsModal traps VoiceOver focus inside the sheet (HIG §7.1) so
+    // rotor/swipe can't wander to the dimmed content behind it.
+    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['bottom']} accessibilityViewIsModal>
       <View
         style={{
           flexDirection: 'row',
@@ -49,7 +51,7 @@ export function SheetContent({
           <GlassCloseButton onPress={onClose} />
         </View>
         {title ? (
-          <Text variant="title3" color={color.black} numberOfLines={1}>
+          <Text variant="title3" color={color.black} numberOfLines={1} accessibilityRole="header">
             {title}
           </Text>
         ) : (

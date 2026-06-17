@@ -16,6 +16,7 @@ import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
+import { useLargeText } from '@/lib/design/dynamicType';
 import { AI_GOALS, useSettingsStore } from '@/lib/settings/store';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
@@ -27,6 +28,7 @@ type MacroKey = keyof typeof KCAL_PER_G;
 export default function GoalsScreen() {
   const { t } = useTranslation();
   const energyUnit = useUnitPreferences().energy;
+  const large = useLargeText(); // §7.2: stack grams/% fields at large text
 
   const goalMode = useSettingsStore((s) => s.goalMode);
   const setGoalMode = useSettingsStore((s) => s.setGoalMode);
@@ -110,7 +112,7 @@ export default function GoalsScreen() {
       </Text>
 
       {macroRows.map((m) => (
-        <View key={m.key} style={{ flexDirection: 'row', gap: space.md, alignItems: 'flex-end' }}>
+        <View key={m.key} style={{ flexDirection: large ? 'column' : 'row', gap: space.md, alignItems: large ? 'stretch' : 'flex-end' }}>
           <View style={{ flex: 1 }}>
             <TextField
               label={`${m.label} (g)`}

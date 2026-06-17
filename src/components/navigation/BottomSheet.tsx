@@ -96,6 +96,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
 
         <Animated.View
           testID={testID}
+          accessibilityViewIsModal
           onLayout={(e) => {
             sheetHeight.value = e.nativeEvent.layout.height + insets.bottom;
           }}

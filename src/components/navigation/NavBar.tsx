@@ -31,7 +31,7 @@ export function NavBar({ title, showBack = true, onBack, backLabel, right, borde
       {/* Title is centred independently of the side slots. */}
       <View style={{ position: 'absolute', left: 0, right: 0, alignItems: 'center' }}>
         {title ? (
-          <Text variant="bodyBold" color={color.black} numberOfLines={1}>
+          <Text variant="bodyBold" color={color.black} numberOfLines={1} accessibilityRole="header">
             {title}
           </Text>
         ) : null}

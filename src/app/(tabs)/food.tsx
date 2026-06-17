@@ -23,6 +23,7 @@ import { TextField } from '@/components/forms/TextField';
 import { GlassFab } from '@/components/navigation/GlassButtons';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { color, radius, space, surface, zIndex } from '@/lib/design/tokens';
+import { useLargeText } from '@/lib/design/dynamicType';
 import { haptics } from '@/lib/haptics';
 import { formatCalories } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
@@ -124,7 +125,7 @@ export default function FoodLogScreen() {
       {/* Pinned header: large title + total + search */}
       <View style={{ paddingHorizontal: space.xl, paddingTop: space.lg, gap: space.lg }}>
         <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }}>
-          <Text variant="title1" color={color.label}>
+          <Text variant="title1" color={color.label} accessibilityRole="header">
             {t('foodLog.today')}
           </Text>
           <Text variant="callout" color={color.secondaryLabel}>
@@ -365,6 +366,9 @@ function FoodItemRow({
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
   onPress: () => void;
 }) {
+  // HIG §7.2: at large text the trailing calories stack under the name/macros
+  // (no clipping, no truncation) instead of colliding on one line.
+  const large = useLargeText();
   return (
     <Pressable
       haptic={false}
@@ -377,10 +381,11 @@ function FoodItemRow({
       accessibilityHint="Double tap to edit, swipe left to delete"
       style={{
         backgroundColor: surface.card,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: space.md,
+        flexDirection: large ? 'column' : 'row',
+        alignItems: large ? 'flex-start' : 'center',
+        gap: large ? space.xs : space.md,
         paddingHorizontal: space.lg,
+        paddingVertical: large ? space.md : 0,
         minHeight: 60,
         borderTopLeftRadius: first ? radius.lg : 0,
         borderTopRightRadius: first ? radius.lg : 0,
@@ -392,11 +397,11 @@ function FoodItemRow({
       {!first ? (
         <View style={{ position: 'absolute', left: space.lg, right: 0, top: 0, height: 1, backgroundColor: color.gray200 }} />
       ) : null}
-      <View style={{ flex: 1, gap: space.xs, paddingVertical: space.sm }}>
-        <Text variant="body" color={color.label} numberOfLines={1}>
+      <View style={{ flex: large ? undefined : 1, gap: space.xs, paddingVertical: large ? 0 : space.sm }}>
+        <Text variant="body" color={color.label} numberOfLines={large ? 0 : 1}>
           {item.name}
         </Text>
-        <Text variant="footnote" color={color.secondaryLabel} numberOfLines={1}>
+        <Text variant="footnote" color={color.secondaryLabel} numberOfLines={large ? 0 : 1}>
           {item.quantityG} g · P {item.protein} · C {item.carbs} · F {item.fat}
         </Text>
       </View>
