@@ -16,6 +16,7 @@ import { mockMacros, mockUser } from '@/lib/mock/data';
 // --- Goals ------------------------------------------------------------------
 // All canonical: calories in kcal, macros in grams.
 export type GoalMode = 'ai' | 'custom';
+export type MacroSplitBy = 'grams' | 'percent';
 export type MacroGoals = { calories: number; protein: number; carbs: number; fat: number; fibre: number };
 
 // The AI recommendation = the onboarding-derived targets in mock data.
@@ -35,6 +36,7 @@ type SettingsState = {
   language: string;
   goalMode: GoalMode;
   customGoals: MacroGoals;
+  macroSplitBy: MacroSplitBy;
 
   setSystem: (system: 'metric' | 'imperial') => void;
   setUnit: (dimension: UnitDimension, value: string) => void;
@@ -42,6 +44,7 @@ type SettingsState = {
 
   setGoalMode: (mode: GoalMode) => void;
   setCustomGoals: (patch: Partial<MacroGoals>) => void;
+  setMacroSplitBy: (by: MacroSplitBy) => void;
   resetGoalsToAi: () => void;
 };
 
@@ -50,6 +53,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   language: 'en',
   goalMode: 'ai',
   customGoals: AI_GOALS,
+  macroSplitBy: 'grams',
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
   setUnit: (dimension, value) =>
@@ -58,6 +62,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
 
   setGoalMode: (goalMode) => set({ goalMode }),
   setCustomGoals: (patch) => set((s) => ({ customGoals: { ...s.customGoals, ...patch } })),
+  setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
   resetGoalsToAi: () => set({ customGoals: AI_GOALS }),
 }));
 
