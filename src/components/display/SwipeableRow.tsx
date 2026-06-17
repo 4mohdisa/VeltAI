@@ -13,7 +13,7 @@ import type { ReactNode } from 'react';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { accent, color, space } from '@/lib/design/tokens';
+import { color, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 
 export type SwipeableRowProps = {
@@ -55,7 +55,10 @@ export function SwipeableRow({
       accessibilityLabel={deleteLabel}
       minTapTarget={false}
       style={{
-        backgroundColor: accent.red,
+        // Monochrome destructive affordance — intent is carried by the trash
+        // glyph + label + the confirm dialog (matching the destructive Button),
+        // not an accent fill. Black is the app's only filled-action colour.
+        backgroundColor: color.primary,
         justifyContent: 'center',
         alignItems: 'center',
         width: 88,
