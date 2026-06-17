@@ -34,5 +34,8 @@
     "energy": "Énergie",
     "language": "Langue",
     "systemDefault": "Par défaut du système"
+  },
+  "foodLog": {
+    "addToMeal": "Ajouter à {{slot}}"
   }
 }

@@ -74,7 +74,8 @@
     "noMealsTitle": "No meals yet",
     "noMealsMessage": "Tap + to add your first meal.",
     "addMeal": "Add meal",
-    "per100": "{{value}} / 100g"
+    "per100": "{{value}} / 100g",
+    "addToMeal": "Add to {{slot}}"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
