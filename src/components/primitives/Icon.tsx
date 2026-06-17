@@ -133,9 +133,21 @@ export type IconProps = {
   weight?: SymbolViewProps['weight'];
   style?: SymbolViewProps['style'];
   accessibilityLabel?: string;
+  /** Optional SF Symbol effect (e.g. { effect: 'bounce' }) — HIG §9B. Use
+   *  sparingly and only where it adds meaning; callers should gate it behind
+   *  Reduce Motion (useReduceMotion). */
+  animationSpec?: SymbolViewProps['animationSpec'];
 };
 
-export function Icon({ name, size = 20, color = colors.black, weight = 'regular', style, accessibilityLabel }: IconProps) {
+export function Icon({
+  name,
+  size = 20,
+  color = colors.black,
+  weight = 'regular',
+  style,
+  accessibilityLabel,
+  animationSpec,
+}: IconProps) {
   const symbol = (SF[name] ?? name) as SymbolViewProps['name'];
   return (
     <SymbolView
@@ -145,6 +157,7 @@ export function Icon({ name, size = 20, color = colors.black, weight = 'regular'
       weight={weight}
       type="monochrome"
       resizeMode="scaleAspectFit"
+      animationSpec={animationSpec}
       style={[{ width: size, height: size }, style]}
       accessibilityLabel={accessibilityLabel}
     />

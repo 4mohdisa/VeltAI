@@ -69,7 +69,6 @@ export function SwipeableRow({
   return (
     <ReanimatedSwipeable
       ref={ref}
-      friction={2}
       rightThreshold={40}
       overshootRight={false}
       renderRightActions={renderRightActions}

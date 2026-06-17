@@ -18,15 +18,16 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, shadow, zIndex } from '@/lib/design/tokens';
+import { color, motion, radius, space, shadow, zIndex } from '@/lib/design/tokens';
 
 const OPEN_OFFSET = 0;
 const CLOSED_OFFSET = 900;
 const DISMISS_THRESHOLD = 120;
 
-// Gentle ease-out, no overshoot. Rising in feels slightly longer than dismissing.
-const RISE = { duration: 280, easing: Easing.out(Easing.cubic) };
-const FALL = { duration: 220, easing: Easing.in(Easing.cubic) };
+// Gentle ease-out, no overshoot; durations come from the motion tokens (HIG §9B —
+// brief, ~180–300ms). Rising in is slightly longer than the snappier dismiss.
+const RISE = { duration: motion.duration.fast, easing: Easing.out(Easing.cubic) }; // 260ms
+const FALL = { duration: motion.duration.snap, easing: Easing.in(Easing.cubic) }; //  180ms
 
 export type BottomSheetProps = {
   visible: boolean;
@@ -73,8 +74,8 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
     <Modal visible={visible} transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
       <View style={{ flex: 1, justifyContent: 'flex-end', zIndex: zIndex.bottomSheet }}>
         <Animated.View
-          entering={FadeIn.duration(200)}
-          exiting={FadeOut.duration(150)}
+          entering={FadeIn.duration(motion.duration.snap)}
+          exiting={FadeOut.duration(motion.duration.snap)}
           style={{ position: 'absolute', inset: 0, backgroundColor: color.overlay }}
         >
           <View

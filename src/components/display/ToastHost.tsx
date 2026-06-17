@@ -4,11 +4,12 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/primitives/Icon';
-import Animated, { Easing, FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
+import Animated, { Easing, FadeIn, FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, shadow, zIndex } from '@/lib/design/tokens';
+import { color, motion, radius, space, shadow, zIndex } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useToastStore, type ToastTone } from './toastStore';
 
 // Monochrome: every toast is a solid black surface with white text. The tone is
@@ -22,6 +23,7 @@ const toneStyle: Record<ToastTone, { bg: string; fg: string; icon: string }> = {
 
 export function ToastHost() {
   const insets = useSafeAreaInsets();
+  const reduceMotion = useReduceMotion();
   const current = useToastStore((s) => s.current);
   const dismiss = useToastStore((s) => s.dismiss);
 
@@ -49,8 +51,12 @@ export function ToastHost() {
       }}
     >
       <Animated.View
-        entering={(atTop ? SlideInUp : SlideInDown).duration(240).easing(Easing.out(Easing.cubic))}
-        exiting={FadeOut.duration(200)}
+        entering={
+          reduceMotion
+            ? FadeIn.duration(motion.duration.snap)
+            : (atTop ? SlideInUp : SlideInDown).duration(motion.duration.fast).easing(Easing.out(Easing.cubic))
+        }
+        exiting={FadeOut.duration(motion.duration.snap)}
         style={[
           {
             flexDirection: 'row',
@@ -64,7 +70,15 @@ export function ToastHost() {
           shadow.md,
         ]}
       >
-        <Icon name={t.icon} size={18} color={t.fg} />
+        {/* SF Symbol bounce on success/error confirms (skipped under Reduce Motion). */}
+        <Icon
+          name={t.icon}
+          size={18}
+          color={t.fg}
+          animationSpec={
+            !reduceMotion && (current.tone === 'success' || current.tone === 'error') ? { effect: { type: 'bounce' } } : undefined
+          }
+        />
         <Text variant="callout" color={t.fg} style={{ flex: 1 }}>
           {current.message}
         </Text>
