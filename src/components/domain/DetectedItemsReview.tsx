@@ -9,7 +9,7 @@ import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, opacity, space } from '@/lib/design/tokens';
+import { color, space } from '@/lib/design/tokens';
 import { formatCalories, formatGrams } from '@/lib/formatting';
 import { CONFIDENCE_THRESHOLD, type DetectedItem } from '@/lib/mock/ai';
 
@@ -41,7 +41,9 @@ export function DetectedItemsReview({ items, onEditItem }: DetectedItemsReviewPr
               minTapTarget={false}
               disabled={!onEditItem}
               onPress={() => onEditItem?.(item)}
-              accessibilityLabel={`Edit ${item.name}`}
+              accessible
+              accessibilityRole="button"
+              accessibilityLabel={`${item.name}, ${formatGrams(item.quantityG)}, ${formatCalories(item.calories)}, protein ${item.protein} grams${uncertain ? ', low confidence, please confirm' : ''}`}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -49,7 +51,6 @@ export function DetectedItemsReview({ items, onEditItem }: DetectedItemsReviewPr
                 padding: space.lg,
                 borderTopWidth: i === 0 ? 0 : 1,
                 borderTopColor: color.gray100,
-                opacity: uncertain ? opacity.low : opacity.full,
               }}
             >
               <View style={{ flex: 1, gap: space.xs }}>
@@ -57,7 +58,8 @@ export function DetectedItemsReview({ items, onEditItem }: DetectedItemsReviewPr
                   <Text variant="body" color={color.black}>
                     {item.name}
                   </Text>
-                  {uncertain ? <Badge label="Confirm" /> : null}
+                  {/* Non-colour cue (HIG §8.3): an explicit text+icon tag, not opacity. */}
+                  {uncertain ? <Badge label="Low confidence" icon="alert-circle" /> : null}
                 </View>
                 <Text variant="footnote" color={color.gray500}>
                   {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g

@@ -9,6 +9,16 @@ import type { DayStatus } from '@/lib/mock/data';
 
 const CELL = 36;
 
+// Day states are encoded by SHAPE/SYMBOL, not colour (HIG §8.3): filled +
+// checkmark = session, snowflake = freeze, ring = today, thin outline = missed.
+const STATUS_LABEL: Record<DayStatus, string> = {
+  session: 'Session logged',
+  freeze: 'Streak freeze',
+  today: 'Today',
+  missed: 'Missed',
+  future: 'Upcoming',
+};
+
 function Cell({ status }: { status: DayStatus }) {
   const base = {
     width: CELL,
@@ -17,26 +27,27 @@ function Cell({ status }: { status: DayStatus }) {
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
   };
+  const a11y = { accessible: true, accessibilityLabel: STATUS_LABEL[status] };
 
   switch (status) {
     case 'session':
       return (
-        <View style={[base, { backgroundColor: color.black }]}>
+        <View {...a11y} style={[base, { backgroundColor: color.black }]}>
           <Icon name="checkmark" size={18} color={color.white} />
         </View>
       );
     case 'freeze':
       return (
-        <View style={[base, { backgroundColor: color.gray100, borderWidth: 1, borderColor: color.gray200 }]}>
+        <View {...a11y} style={[base, { backgroundColor: color.gray100, borderWidth: 1, borderColor: color.gray200 }]}>
           <Icon name="snow" size={16} color={color.gray500} />
         </View>
       );
     case 'today':
-      return <View style={[base, { borderWidth: 2, borderColor: color.black }]} />;
+      return <View {...a11y} style={[base, { borderWidth: 2, borderColor: color.black }]} />;
     case 'missed':
-      return <View style={[base, { borderWidth: 1, borderColor: color.gray200 }]} />;
+      return <View {...a11y} style={[base, { borderWidth: 1, borderColor: color.gray200 }]} />;
     default:
-      return <View style={[base, { backgroundColor: color.gray50 }]} />;
+      return <View {...a11y} style={[base, { backgroundColor: color.gray50 }]} />;
   }
 }
 
