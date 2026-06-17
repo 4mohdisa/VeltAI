@@ -35,8 +35,9 @@ const SF: Record<string, string> = {
   'person-outline': 'person',
   'chevron-back': 'chevron.left',
   'chevron-forward': 'chevron.right',
-  // actions
+  // actions (canonical SF Symbols — HIG §10)
   add: 'plus',
+  'add-circle': 'plus.circle.fill',
   'add-circle-outline': 'plus.circle',
   remove: 'minus',
   'remove-circle-outline': 'minus.circle',
@@ -45,11 +46,25 @@ const SF: Record<string, string> = {
   checkmark: 'checkmark',
   'checkmark-circle': 'checkmark.circle.fill',
   pencil: 'pencil',
-  create: 'square.and.pencil',
+  create: 'square.and.pencil', //           Edit
   'create-outline': 'square.and.pencil',
   eye: 'eye.fill',
-  refresh: 'arrow.clockwise',
+  'eye-off': 'eye.slash.fill', //           muted variant (*.slash)
+  refresh: 'arrow.clockwise', //            Sync
   search: 'magnifyingglass',
+  filter: 'line.3.horizontal.decrease', //  Filter
+  share: 'square.and.arrow.up', //          Share
+  'share-outline': 'square.and.arrow.up',
+  ellipsis: 'ellipsis', //                  More
+  'ellipsis-horizontal': 'ellipsis',
+  list: 'list.bullet', //                   List
+  'stats-chart': 'chart.bar.fill', //       Charts
+  'person-circle': 'person.crop.circle', // Account
+  bookmark: 'bookmark',
+  'bookmark-outline': 'bookmark',
+  'bookmark-fill': 'bookmark.fill',
+  'flag-outline': 'flag',
+  flag: 'flag.fill',
   stop: 'stop.fill',
   // domain glyphs
   flame: 'flame.fill',

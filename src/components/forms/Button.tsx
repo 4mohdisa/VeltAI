@@ -83,7 +83,8 @@ export function Button({
         <ActivityIndicator color={labelColor} />
       ) : (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-          {icon ? <Icon name={icon} size={18} color={labelColor} /> : null}
+          {/* Weight matches the bodyBold label so icon + text read as one unit. */}
+          {icon ? <Icon name={icon} size={18} color={labelColor} weight="semibold" /> : null}
           <Text variant="bodyBold" color={labelColor}>
             {title}
           </Text>
