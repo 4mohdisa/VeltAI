@@ -25,10 +25,13 @@ export const color = {
   gray1: '#1C1C1E', //   near-black headings (Apple Gray_1)
   gray2: '#2C2C2E',
   gray3: '#3A3A3C',
-  secondary: '#848484', // secondary/tertiary text, inactive icons (Apple Secondary)
+  // WCAG AA (HIG §8.2): secondary text darkened so it clears 4.5:1 on white AND
+  // on the grey card / grouped backgrounds (was #848484/#737373 → failed ~4.2 on
+  // grey cards). #6B6B6B ≈ 4.8:1 on light1, 5.3:1 on white.
+  secondary: '#6B6B6B', // secondary text, inactive icons
   gray800: '#171717', //  primary body text
-  gray500: '#737373', //  tertiary text
-  gray400: '#A3A3A3', //  placeholder, disabled
+  gray500: '#6B6B6B', //  secondary text (AA on all light surfaces)
+  gray400: '#8A8A8A', //  placeholder / disabled / chevrons — ≥3:1 for UI glyphs
   gray50: '#FAFAFA', //   subtle zone background
 
   // Black alpha — modal/sheet scrims only (monochrome, allowed).
@@ -42,7 +45,7 @@ export const color = {
   // ----------------------------------------------------------------------
   gray900: '#1C1C1E', // → gray1
   gray700: '#171717', // → gray800
-  gray600: '#848484', // → secondary
+  gray600: '#6B6B6B', // → secondary (AA secondary text)
   gray300: '#D1D1D6', // → light3
   gray200: '#E5E5EA', // → light2
   gray150: '#E5E5EA', // → light2 (pressed)
@@ -55,8 +58,8 @@ export const color = {
   // colours. `primary` is the single action colour (black).
   // ----------------------------------------------------------------------
   label: '#171717', //          primary text (→ gray800)
-  secondaryLabel: '#737373', //  secondary text (→ gray500)
-  tertiaryLabel: '#A3A3A3', //   placeholder / disabled (→ gray400)
+  secondaryLabel: '#6B6B6B', //  secondary text — WCAG AA on all light surfaces
+  tertiaryLabel: '#8A8A8A', //   placeholder / disabled / chevrons — ≥3:1 UI glyphs
   primary: '#000000', //         the one action colour (→ black)
   onPrimary: '#FFFFFF', //       content on a black surface (→ white)
 } as const;
