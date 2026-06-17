@@ -111,7 +111,7 @@ export default function BarcodeScanScreen() {
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.82)',
+            backgroundColor: color.overlayStrong,
             alignItems: 'center',
             justifyContent: 'center',
             padding: space.xl,
