@@ -18,13 +18,14 @@ export type MassUnit = 'g' | 'oz'; //           food mass / quantities
 export type VolumeUnit = 'ml' | 'floz'; //      liquid volume
 export type EnergyUnit = 'kcal' | 'kJ'; //      energy
 
-export type UnitDimension = 'weight' | 'height' | 'mass' | 'volume' | 'energy';
+// NOTE: Volume is intentionally NOT a user preference (removed from E8). The
+// ml/fl-oz conversion helpers below remain as utilities for any future use.
+export type UnitDimension = 'weight' | 'height' | 'mass' | 'energy';
 
 export type UnitPreferences = {
   weight: WeightUnit;
   height: HeightUnit;
   mass: MassUnit;
-  volume: VolumeUnit;
   energy: EnergyUnit;
 };
 
@@ -33,7 +34,6 @@ export const METRIC_PREFERENCES: UnitPreferences = {
   weight: 'kg',
   height: 'cm',
   mass: 'g',
-  volume: 'ml',
   energy: 'kcal',
 };
 
@@ -41,7 +41,6 @@ export const IMPERIAL_PREFERENCES: UnitPreferences = {
   weight: 'lb',
   height: 'ftin',
   mass: 'oz',
-  volume: 'floz',
   energy: 'kcal', // imperial countries still use kcal for food energy
 };
 
@@ -50,7 +49,7 @@ export const DEFAULT_UNIT_PREFERENCES = METRIC_PREFERENCES;
 /** True when every dimension matches the named system (for the quick-toggle). */
 export function systemOf(prefs: UnitPreferences): 'metric' | 'imperial' | 'custom' {
   const eq = (a: UnitPreferences, b: UnitPreferences) =>
-    a.weight === b.weight && a.height === b.height && a.mass === b.mass && a.volume === b.volume && a.energy === b.energy;
+    a.weight === b.weight && a.height === b.height && a.mass === b.mass && a.energy === b.energy;
   if (eq(prefs, METRIC_PREFERENCES)) return 'metric';
   if (eq(prefs, IMPERIAL_PREFERENCES)) return 'imperial';
   return 'custom';
@@ -181,10 +180,6 @@ export const UNIT_OPTIONS: Record<UnitDimension, { label: string; value: string 
   mass: [
     { label: 'g', value: 'g' },
     { label: 'oz', value: 'oz' },
-  ],
-  volume: [
-    { label: 'ml', value: 'ml' },
-    { label: 'fl oz', value: 'floz' },
   ],
   energy: [
     { label: 'kcal', value: 'kcal' },

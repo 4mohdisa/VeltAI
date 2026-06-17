@@ -19,7 +19,6 @@ const DIMENSIONS: { key: UnitDimension; labelKey: string }[] = [
   { key: 'weight', labelKey: 'preferences.bodyWeight' },
   { key: 'height', labelKey: 'preferences.height' },
   { key: 'mass', labelKey: 'preferences.foodQuantities' },
-  { key: 'volume', labelKey: 'preferences.volume' },
   { key: 'energy', labelKey: 'preferences.energy' },
 ];
 
