@@ -28,6 +28,7 @@ export function Pressable({
   minTapTarget = true,
   disabled,
   accessibilityRole = 'button',
+  hitSlop,
   ...rest
 }: AppPressableProps) {
   const handlePress = (event: GestureResponderEvent) => {
@@ -43,8 +44,12 @@ export function Pressable({
       accessibilityState={{ disabled: !!disabled }}
       disabled={disabled}
       onPress={handlePress}
+      // HIG §5.1: a managed tap target is a full 44×44pt box; a small hitSlop
+      // extends the touchable region for visually-tight icon buttons. Callers
+      // can still override hitSlop.
+      hitSlop={hitSlop ?? (minTapTarget ? 8 : undefined)}
       style={(state) => [
-        minTapTarget ? { minHeight: layout.tapTarget, justifyContent: 'center' } : null,
+        minTapTarget ? { minHeight: layout.tapTarget, minWidth: layout.tapTarget, justifyContent: 'center' } : null,
         { opacity: state.pressed ? opacity.pressed : disabled ? opacity.disabled : 1 },
         typeof style === 'function' ? style(state) : style,
       ]}

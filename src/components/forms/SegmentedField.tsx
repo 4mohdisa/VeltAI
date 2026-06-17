@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 
 export type SegmentedOption<T extends string> = { label: string; value: T };
 
@@ -58,7 +58,7 @@ export function SegmentedField<T extends string>({
                   justifyContent: 'center',
                   paddingVertical: space.md,
                   borderRadius: radius.pill,
-                  minHeight: 40,
+                  minHeight: layout.tapTarget,
                 },
                 selected ? { backgroundColor: color.black } : { backgroundColor: 'transparent' },
               ]}

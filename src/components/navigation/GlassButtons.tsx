@@ -12,10 +12,10 @@ import { BlurView } from 'expo-blur';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 
 const LIQUID = isLiquidGlassAvailable();
-const SIZE = 40;
+const SIZE = layout.tapTarget; // 44pt — HIG minimum touch target
 
 function GlassCircle({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const base: ViewStyle = {
