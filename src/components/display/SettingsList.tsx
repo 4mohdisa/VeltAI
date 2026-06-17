@@ -8,6 +8,7 @@ import { Card } from './Card';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
+import { useLargeText } from '@/lib/design/dynamicType';
 
 export type SettingsRowProps = {
   icon?: string;
@@ -23,6 +24,9 @@ export type SettingsRowProps = {
 function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean }) {
   const kind = row.kind ?? (row.onPress ? 'link' : 'plain');
   const labelColor = row.destructive ? color.black : color.black;
+  // HIG §2.2b: at large text sizes stack the label above its value rather than
+  // letting them collide on one line.
+  const large = useLargeText();
 
   const body = (
     <View
@@ -52,15 +56,24 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
         </View>
       ) : null}
 
-      <Text variant="body" color={labelColor} style={{ flex: 1 }}>
-        {row.label}
-      </Text>
-
-      {row.value ? (
-        <Text variant="callout" color={color.gray500}>
-          {row.value}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: large ? 'column' : 'row',
+          alignItems: large ? 'flex-start' : 'center',
+          justifyContent: 'space-between',
+          gap: large ? space.xs : space.md,
+        }}
+      >
+        <Text variant="body" color={labelColor} style={large ? undefined : { flexShrink: 1 }}>
+          {row.label}
         </Text>
-      ) : null}
+        {row.value ? (
+          <Text variant="callout" color={color.gray500}>
+            {row.value}
+          </Text>
+        ) : null}
+      </View>
 
       {kind === 'toggle' ? (
         <Switch

@@ -8,6 +8,7 @@
 // RULE: No file outside this one may contain a hardcoded colour, spacing value,
 // font size, border radius, shadow, opacity or animation duration.
 
+import { PixelRatio } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native';
 
 // ---------------------------------------------------------------------------
@@ -164,14 +165,33 @@ export const ROUNDED_FACE_BY_WEIGHT: Record<string, string> = {
   '800': 'SFProRounded-Heavy',
 };
 
-/** Resolve a type token into a valid React Native TextStyle (family → fontFamily). */
+/**
+ * Resolve a type token into a valid React Native TextStyle (family → fontFamily).
+ *
+ * Dynamic Type (HIG §2.2): RN already scales `fontSize` at render when
+ * allowFontScaling is on (the default — we never disable it). But an explicit
+ * `lineHeight` does NOT scale and would clip ascenders/descenders at large
+ * sizes, so we scale lineHeight by the current font scale to keep pace. We pass
+ * the base fontSize (RN applies the scale) to avoid double-scaling.
+ */
 export function textStyle(variant: TypeVariant): TextStyle {
   const t = type[variant];
+  const scaledLineHeight = t.lineHeight * PixelRatio.getFontScale();
   if (t.family === 'rounded') {
     const face = ROUNDED_FACE_BY_WEIGHT[String(t.fontWeight)] ?? 'SFProRounded-Bold';
-    return { fontSize: t.fontSize, lineHeight: t.lineHeight, fontFamily: face };
+    return { fontSize: t.fontSize, lineHeight: scaledLineHeight, fontFamily: face };
   }
-  return { fontSize: t.fontSize, fontWeight: t.fontWeight, lineHeight: t.lineHeight };
+  return { fontSize: t.fontSize, fontWeight: t.fontWeight, lineHeight: scaledLineHeight };
+}
+
+/**
+ * Large-size row handling (HIG §2.2b): crowded one-line rows (label + value)
+ * should stack vertically instead of truncating once the user's text size is
+ * large. Read at render; true at ~AX1 and above.
+ */
+export const LARGE_TEXT_THRESHOLD = 1.5;
+export function isLargeTextScale(): boolean {
+  return PixelRatio.getFontScale() >= LARGE_TEXT_THRESHOLD;
 }
 
 // ---------------------------------------------------------------------------

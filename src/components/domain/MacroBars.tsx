@@ -7,6 +7,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { ProgressBar } from '@/components/display/ProgressBar';
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
+import { useLargeText } from '@/lib/design/dynamicType';
 import type { MacroProgress } from '@/lib/mock/data';
 
 export type MacroStyleKey = 'Protein' | 'Carbs' | 'Fat' | 'Fibre';
@@ -28,6 +29,8 @@ const MACRO: Record<string, { color: string; icon: string }> = {
 };
 
 export function MacroBars({ rows }: MacroBarsProps) {
+  // HIG §2.2b: stack label above value at large text sizes instead of colliding.
+  const large = useLargeText();
   return (
     <View style={{ gap: space.md }}>
       {rows.map(({ label, data, macroKey }) => {
@@ -35,7 +38,14 @@ export function MacroBars({ rows }: MacroBarsProps) {
         const tint = meta?.color ?? color.black;
         return (
           <View key={label} style={{ gap: space.xs }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View
+              style={{
+                flexDirection: large ? 'column' : 'row',
+                justifyContent: 'space-between',
+                alignItems: large ? 'flex-start' : 'center',
+                gap: large ? space.xs : space.sm,
+              }}
+            >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
                 {meta ? <Icon name={meta.icon} size={11} color={tint} /> : null}
                 <Text variant="footnote" color={color.gray700}>
