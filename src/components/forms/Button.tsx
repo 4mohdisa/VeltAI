@@ -10,6 +10,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, radius, space } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'destructive';
 
@@ -55,11 +56,20 @@ export function Button({
   const labelColor = labelColors[variant];
   const isBlocked = disabled || loading;
 
+  // Primary CTA (the black button) → impactMedium; destructive → impactHeavy.
+  // Other variants get the Pressable's default light tap. Handled here (not via
+  // the Pressable's `haptic`) so the weight matches the action.
+  const onPressWithHaptic = () => {
+    if (variant === 'primary') haptics.impactMedium();
+    else if (variant === 'destructive') haptics.impactHeavy();
+    onPress?.();
+  };
+
   return (
     <Pressable
-      onPress={onPress}
+      onPress={onPressWithHaptic}
       disabled={isBlocked}
-      haptic={variant === 'primary'}
+      haptic={variant !== 'primary' && variant !== 'destructive'}
       testID={testID}
       accessibilityLabel={accessibilityLabel ?? title}
       accessibilityState={{ disabled: isBlocked, busy: loading }}

@@ -11,6 +11,7 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 import { formatDuration } from '@/lib/formatting';
 import { mockGymSessions } from '@/lib/mock/data';
 
@@ -22,6 +23,7 @@ export default function GymHistoryScreen() {
     return () => clearTimeout(id);
   }, []);
   const onRefresh = useCallback(() => {
+    haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 700);
   }, []);

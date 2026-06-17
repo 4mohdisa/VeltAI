@@ -22,6 +22,7 @@ import { TextField } from '@/components/forms/TextField';
 import { GlassFab } from '@/components/navigation/GlassButtons';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { color, radius, space, surface, zIndex } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 import { formatCalories } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
@@ -82,6 +83,7 @@ export default function FoodLogScreen() {
   }, [query]);
 
   const onRefresh = useCallback(() => {
+    haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 700);
   }, []);

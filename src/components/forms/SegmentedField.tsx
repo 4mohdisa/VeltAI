@@ -6,6 +6,7 @@ import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 
 export type SegmentedOption<T extends string> = { label: string; value: T };
 
@@ -47,7 +48,10 @@ export function SegmentedField<T extends string>({
               disabled={disabled}
               minTapTarget={false}
               haptic={false}
-              onPress={() => onChange(opt.value)}
+              onPress={() => {
+                if (!selected) haptics.selection(); // selection tick (HIG §9)
+                onChange(opt.value);
+              }}
               accessibilityRole="button"
               accessibilityState={{ selected }}
               accessibilityLabel={opt.label}

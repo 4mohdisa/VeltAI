@@ -13,6 +13,7 @@ import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 import { formatCalories } from '@/lib/formatting';
 
 type DayRow = { date: string; kcal: number; gym: boolean };
@@ -34,6 +35,7 @@ export default function MealHistoryScreen() {
     return () => clearTimeout(id);
   }, []);
   const onRefresh = useCallback(() => {
+    haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 700);
   }, []);

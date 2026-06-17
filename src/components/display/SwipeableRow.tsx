@@ -14,6 +14,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { accent, color, space } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 
 export type SwipeableRowProps = {
   children: ReactNode;
@@ -33,12 +34,14 @@ export function SwipeableRow({
   const ref = useRef<SwipeableMethods>(null);
 
   const confirmDelete = () => {
+    haptics.warning(); // destructive confirm appears (HIG §9), paired with the alert
     Alert.alert(confirmTitle, confirmMessage, [
       { text: 'Cancel', style: 'cancel', onPress: () => ref.current?.close() },
       {
         text: deleteLabel,
         style: 'destructive',
         onPress: () => {
+          haptics.impactHeavy(); // destructive swipe completes
           ref.current?.close();
           onDelete();
         },

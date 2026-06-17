@@ -10,6 +10,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, motion, radius, space, shadow, zIndex } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
+import { haptics } from '@/lib/haptics';
 import { useToastStore, type ToastTone } from './toastStore';
 
 // Monochrome: every toast is a solid black surface with white text. The tone is
@@ -27,8 +28,13 @@ export function ToastHost() {
   const current = useToastStore((s) => s.current);
   const dismiss = useToastStore((s) => s.dismiss);
 
+  // Each toast pairs its tone with the matching haptic (HIG §9) — the toast is the
+  // visual half, so a success log buzzes success, an error buzzes error, etc.
   useEffect(() => {
     if (!current) return;
+    if (current.tone === 'success') haptics.success();
+    else if (current.tone === 'error') haptics.error();
+    else if (current.tone === 'warn') haptics.warning();
     const timer = setTimeout(dismiss, current.duration);
     return () => clearTimeout(timer);
   }, [current, dismiss]);
