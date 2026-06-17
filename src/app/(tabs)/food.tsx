@@ -157,8 +157,9 @@ export default function FoodLogScreen() {
         )}
       </ScrollView>
 
-      {/* Glass FAB — opens the 2×2 add-menu, floats clear of the tab bar */}
+      {/* Primary add FAB — solid black, white +, floats clear of the tab bar */}
       <GlassFab
+        variant="solid"
         accessibilityLabel={t('foodLog.addMeal')}
         onPress={() => router.push('/food/add')}
         style={{

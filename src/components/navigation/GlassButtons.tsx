@@ -12,7 +12,7 @@ import { BlurView } from 'expo-blur';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { color, layout, radius, shadow, space, surface } from '@/lib/design/tokens';
 
 const LIQUID = isLiquidGlassAvailable();
 const SIZE = layout.tapTarget; // 44pt — HIG minimum touch target
@@ -111,11 +111,21 @@ export type GlassFabProps = {
   accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
   testID?: string;
+  /** 'solid' = the primary add button: solid black circle, white glyph (HIG
+   *  §4.1 — the one primary action). 'glass' = a Liquid Glass utility FAB. */
+  variant?: 'glass' | 'solid';
 };
 
-/** Floating action button as a Liquid Glass circle. The caller positions it
- *  (absolute) clear of the tab bar. Black icon; opacity press feedback (no spring). */
-export function GlassFab({ onPress, icon = 'plus', accessibilityLabel, style, testID }: GlassFabProps) {
+/** Floating action button. The caller positions it (absolute) clear of the tab
+ *  bar. Opacity press feedback only (no spring). */
+export function GlassFab({
+  onPress,
+  icon = 'plus',
+  accessibilityLabel,
+  style,
+  testID,
+  variant = 'glass',
+}: GlassFabProps) {
   const circle: ViewStyle = {
     width: FAB_SIZE,
     height: FAB_SIZE,
@@ -124,6 +134,18 @@ export function GlassFab({ onPress, icon = 'plus', accessibilityLabel, style, te
     justifyContent: 'center',
     overflow: 'hidden',
   };
+
+  if (variant === 'solid') {
+    // Primary add button: black fill, white icon.
+    return (
+      <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
+        <View style={[circle, { backgroundColor: color.primary }, shadow.md]}>
+          <Icon name={icon} size={26} color={color.onPrimary} />
+        </View>
+      </Pressable>
+    );
+  }
+
   const inner = <Icon name={icon} size={26} color={color.black} />;
   return (
     <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
