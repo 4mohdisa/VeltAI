@@ -1,13 +1,15 @@
 // C12 · Meal history
 // List by date, descending. Each day shows date, total calories, and gym status
 // (checkmark or dash). Tap a day → that day's food log.
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
+import { EmptyState } from '@/components/display/EmptyState';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
@@ -26,15 +28,29 @@ const HISTORY: DayRow[] = [
 
 export default function MealHistoryScreen() {
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(id);
+  }, []);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 700);
   }, []);
 
   return (
-    <Screen title="Meal history" showBack refreshing={refreshing} onRefresh={onRefresh}>
-      <Card padded={false}>
-        {HISTORY.map((day, i) => (
+    <Screen grouped title="Meal history" showBack backLabel="Food" refreshing={refreshing} onRefresh={onRefresh}>
+      {loading ? (
+        <SkeletonList rows={5} />
+      ) : HISTORY.length === 0 ? (
+        <EmptyState
+          icon="clock"
+          title="No history yet"
+          message="Your logged days will appear here once you start tracking meals."
+        />
+      ) : (
+        <Card padded={false}>
+          {HISTORY.map((day, i) => (
           <Pressable
             key={day.date}
             haptic={false}
@@ -65,8 +81,9 @@ export default function MealHistoryScreen() {
             />
             <Icon name="chevron-forward" size={18} color={color.gray400} />
           </Pressable>
-        ))}
-      </Card>
+          ))}
+        </Card>
+      )}
     </Screen>
   );
 }

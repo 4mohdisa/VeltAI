@@ -12,7 +12,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
-import { color, radius, space, motion, opacity } from '@/lib/design/tokens';
+import { color, radius, space, motion, opacity, surface } from '@/lib/design/tokens';
 
 export type SkeletonProps = {
   width?: DimensionValue;
@@ -49,6 +49,40 @@ export function Skeleton({ width = '100%', height = 16, rounded = radius.sm, sty
         style,
       ]}
     />
+  );
+}
+
+/** Skeleton list (HIG §6.3) — placeholder rows shaped like a real list group,
+ *  shown on first load instead of a bare spinner. Rows live in a white grouped
+ *  card (matches the inset-grouped list look). */
+export function SkeletonList({ rows = 4, style }: { rows?: number; style?: StyleProp<ViewStyle> }) {
+  return (
+    <View
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+      style={[{ backgroundColor: surface.cardElevated, borderRadius: radius.lg, overflow: 'hidden' }, style]}
+    >
+      {Array.from({ length: rows }).map((_, i) => (
+        <View
+          key={i}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: space.lg,
+            minHeight: 60,
+            borderTopWidth: i === 0 ? 0 : 1,
+            borderTopColor: color.gray200,
+          }}
+        >
+          <View style={{ flex: 1, gap: space.sm, paddingVertical: space.md }}>
+            <Skeleton width="55%" height={16} />
+            <Skeleton width="35%" height={12} />
+          </View>
+          <Skeleton width={48} height={16} />
+        </View>
+      ))}
+    </View>
   );
 }
 

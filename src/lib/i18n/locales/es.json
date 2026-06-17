@@ -75,7 +75,8 @@
     "noMealsMessage": "Toca + para añadir tu primera comida.",
     "addMeal": "Añadir comida",
     "per100": "{{value}} / 100g",
-    "addToMeal": "Añadir a {{slot}}"
+    "addToMeal": "Añadir a {{slot}}",
+    "noMatchesHint": "Prueba otro nombre o añádelo como comida personalizada."
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

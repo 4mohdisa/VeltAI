@@ -1,12 +1,14 @@
 // D6 · Gym session history
 // Reverse-chronological list of past sessions: date, duration, effort, notes.
 // No XP, no verification, no photo — gym logging is a single tap.
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
+import { EmptyState } from '@/components/display/EmptyState';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
@@ -14,15 +16,29 @@ import { mockGymSessions } from '@/lib/mock/data';
 
 export default function GymHistoryScreen() {
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(id);
+  }, []);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 700);
   }, []);
 
   return (
-    <Screen title="Session history" showBack refreshing={refreshing} onRefresh={onRefresh}>
-      <Card padded={false}>
-        {mockGymSessions.map((session, i) => (
+    <Screen grouped title="Session history" showBack backLabel="Gym" refreshing={refreshing} onRefresh={onRefresh}>
+      {loading ? (
+        <SkeletonList rows={4} />
+      ) : mockGymSessions.length === 0 ? (
+        <EmptyState
+          icon="dumbbell"
+          title="No sessions yet"
+          message="Log a gym session to start building your history and streak."
+        />
+      ) : (
+        <Card padded={false}>
+          {mockGymSessions.map((session, i) => (
           <View
             key={session.id}
             style={{
@@ -47,8 +63,9 @@ export default function GymHistoryScreen() {
               </Text>
             ) : null}
           </View>
-        ))}
-      </Card>
+          ))}
+        </Card>
+      )}
     </Screen>
   );
 }

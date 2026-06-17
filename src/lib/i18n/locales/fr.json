@@ -36,6 +36,7 @@
     "systemDefault": "Par défaut du système"
   },
   "foodLog": {
-    "addToMeal": "Ajouter à {{slot}}"
+    "addToMeal": "Ajouter à {{slot}}",
+    "noMatchesHint": "Essayez un autre nom, ou ajoutez-le comme aliment personnalisé."
   }
 }

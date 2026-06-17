@@ -3,13 +3,16 @@
 // one-tap + Add that logs straight to today — no scan, AI or edit step. Tapping
 // the row opens the shared item edit sheet, where "Delete item" un-saves it.
 // Reached from the add-menu's "Saved foods" card.
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
+import { EmptyState } from '@/components/display/EmptyState';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
+import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -33,6 +36,11 @@ export default function SavedFoodsScreen() {
   const [foods, setFoods] = useState<SavedFood[]>(mockSavedFoods);
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<EditableItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(id);
+  }, []);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -69,59 +77,76 @@ export default function SavedFoodsScreen() {
         accessibilityLabel="Search saved foods"
       />
 
-      {results.length === 0 ? (
-        <Text variant="callout" color={color.gray500} style={{ textAlign: 'center', paddingVertical: space.xl }}>
-          {query.trim() ? `No saved foods match “${query.trim()}”.` : 'No saved foods yet.'}
-        </Text>
+      {loading ? (
+        <SkeletonList rows={4} />
+      ) : results.length === 0 ? (
+        <EmptyState
+          icon={query.trim() ? 'magnifyingglass' : 'bookmark'}
+          title={query.trim() ? `No matches for “${query.trim()}”.` : 'No saved foods yet'}
+          message={
+            query.trim()
+              ? 'Try another name.'
+              : 'Save a food from a meal or the edit sheet to re-add it here in one tap.'
+          }
+        />
       ) : (
         <Card padded={false}>
           {results.map((f, i) => (
-            <View
+            // Swipe-to-delete (Reanimated); tap → edit sheet Delete is the alternative.
+            <SwipeableRow
               key={f.id}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: space.sm,
-                borderTopWidth: i === 0 ? 0 : 1,
-                borderTopColor: color.gray100,
-              }}
+              onDelete={() => unsave(f.id)}
+              confirmTitle={`Remove ${f.name}?`}
+              confirmMessage="This un-saves it."
+              deleteLabel="Unsave"
             >
-              {/* Whole text area opens the edit / un-save sheet. */}
-              <Pressable
-                haptic={false}
-                minTapTarget={false}
-                onPress={() => setEditing(toEditable(f))}
-                accessibilityLabel={`Edit ${f.name}`}
-                style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
-              >
-                <Text variant="body" color={color.black}>
-                  {f.name}
-                </Text>
-                <Text variant="footnote" color={color.gray500}>
-                  {f.brand ? `${f.brand} · ` : ''}
-                  {f.servingG} g · {formatCalories(f.calories)} · P {f.protein}g
-                </Text>
-              </Pressable>
-
-              {/* One-tap add — logs straight to today, no edit step. */}
-              <Pressable
-                haptic
-                minTapTarget={false}
-                onPress={() => add(f)}
-                accessibilityLabel={`Add ${f.name}`}
+              <View
                 style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: radius.full,
-                  backgroundColor: color.black,
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: space.lg,
+                  gap: space.sm,
+                  backgroundColor: color.white,
+                  borderTopWidth: i === 0 ? 0 : 1,
+                  borderTopColor: color.gray100,
                 }}
               >
-                <Icon name="add" size={22} color={color.white} />
-              </Pressable>
-            </View>
+                {/* Whole text area opens the edit / un-save sheet. */}
+                <Pressable
+                  haptic={false}
+                  minTapTarget={false}
+                  onPress={() => setEditing(toEditable(f))}
+                  accessibilityLabel={`Edit ${f.name}`}
+                  style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
+                >
+                  <Text variant="body" color={color.black}>
+                    {f.name}
+                  </Text>
+                  <Text variant="footnote" color={color.gray500}>
+                    {f.brand ? `${f.brand} · ` : ''}
+                    {f.servingG} g · {formatCalories(f.calories)} · P {f.protein}g
+                  </Text>
+                </Pressable>
+
+                {/* One-tap add — logs straight to today, no edit step. */}
+                <Pressable
+                  haptic
+                  minTapTarget={false}
+                  onPress={() => add(f)}
+                  accessibilityLabel={`Add ${f.name}`}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: radius.full,
+                    backgroundColor: color.black,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: space.lg,
+                  }}
+                >
+                  <Icon name="add" size={22} color={color.white} />
+                </Pressable>
+              </View>
+            </SwipeableRow>
           ))}
         </Card>
       )}

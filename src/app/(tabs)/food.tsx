@@ -5,7 +5,7 @@
 // hairline separators, rounded inset group). Tapping a row opens the shared edit
 // sheet; the section's + adds to that meal. A search bar pins above the list;
 // the solid black + FAB floats clear of the tab bar.
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, SectionList, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -15,6 +15,9 @@ import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Card } from '@/components/display/Card';
+import { EmptyState } from '@/components/display/EmptyState';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
+import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
 import { GlassFab } from '@/components/navigation/GlassButtons';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
@@ -61,8 +64,15 @@ export default function FoodLogScreen() {
   const [query, setQuery] = useState('');
   const [sections, setSections] = useState<MealSection[]>(buildSections);
   const [editing, setEditing] = useState<FoodRow | null>(null);
+  // First-load skeleton (HIG §6.3) — mocks the backend fetch that lands later.
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setLoading(false), 700);
+    return () => clearTimeout(id);
+  }, []);
 
   const total = sections.reduce((sum, s) => sum + s.subtotal, 0);
+  const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
 
   const searching = query.trim().length > 0;
   const results = useMemo(() => {
@@ -159,9 +169,13 @@ export default function FoodLogScreen() {
               ))}
             </Card>
           ) : (
-            <Text variant="callout" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-              {t('foodLog.noMatches', { query: query.trim() })}
-            </Text>
+            <EmptyState
+              icon="magnifyingglass"
+              title={t('foodLog.noMatches', { query: query.trim() })}
+              message={t('foodLog.noMatchesHint')}
+              actionLabel={t('foodLog.addCustomFood')}
+              onAction={() => router.push('/food/custom-food')}
+            />
           )}
 
           <Pressable
@@ -177,6 +191,20 @@ export default function FoodLogScreen() {
             </Text>
           </Pressable>
         </ScrollView>
+      ) : loading ? (
+        <ScrollView contentContainerStyle={{ padding: space.xl }}>
+          <SkeletonList rows={5} />
+        </ScrollView>
+      ) : itemCount === 0 ? (
+        <View style={{ flex: 1, justifyContent: 'center', paddingBottom: space['5xl'] }}>
+          <EmptyState
+            icon="fork.knife"
+            title={t('foodLog.noMealsTitle')}
+            message={t('foodLog.noMealsMessage')}
+            actionLabel={t('foodLog.addMeal')}
+            onAction={() => router.push('/food/add')}
+          />
+        </View>
       ) : (
         <SectionList
           sections={sections}
@@ -194,13 +222,21 @@ export default function FoodLogScreen() {
             />
           )}
           renderItem={({ item, index, section }) => (
-            <FoodItemRow
-              item={item}
-              first={index === 0}
-              last={index === section.data.length - 1}
-              energyUnit={energyUnit}
-              onPress={() => setEditing(item)}
-            />
+            // Swipe-to-delete (Reanimated); tapping the row → edit sheet Delete is
+            // the accessible non-gesture alternative.
+            <SwipeableRow
+              onDelete={() => removeRow(item.id)}
+              confirmTitle={`Remove ${item.name}?`}
+              confirmMessage="This removes it from today's log."
+            >
+              <FoodItemRow
+                item={item}
+                first={index === 0}
+                last={index === section.data.length - 1}
+                energyUnit={energyUnit}
+                onPress={() => setEditing(item)}
+              />
+            </SwipeableRow>
           )}
           renderSectionFooter={({ section }) =>
             section.data.length === 0 ? (
