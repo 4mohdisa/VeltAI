@@ -46,6 +46,18 @@ export const color = {
   gray200: '#E5E5EA', // → light2
   gray150: '#E5E5EA', // → light2 (pressed)
   gray100: '#F2F2F7', // → light1
+
+  // ----------------------------------------------------------------------
+  // Semantic intent layer (HIG §3.0 — components reference intent, not raw
+  // greys/hex). Fixed LIGHT values: the app is light-only by product decision,
+  // so there are no light/dark variants. Monochrome only — NOT iOS system
+  // colours. `primary` is the single action colour (black).
+  // ----------------------------------------------------------------------
+  label: '#171717', //          primary text (→ gray800)
+  secondaryLabel: '#737373', //  secondary text (→ gray500)
+  tertiaryLabel: '#A3A3A3', //   placeholder / disabled (→ gray400)
+  primary: '#000000', //         the one action colour (→ black)
+  onPrimary: '#FFFFFF', //       content on a black surface (→ white)
 } as const;
 
 // ---------------------------------------------------------------------------
