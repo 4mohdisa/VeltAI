@@ -54,15 +54,29 @@ export function Stepper({
     </Pressable>
   );
 
+  const valueText = formatValue ? formatValue(value) : String(value);
+
   return (
     <FieldShell label={label} helper={helper} error={error} required={required} disabled={disabled}>
+      {/* One `adjustable` element (HIG §7.1): VoiceOver swipe up/down increments /
+          decrements and announces the new value; the +/- buttons remain for touch. */}
       <View
         testID={testID}
+        accessible
+        accessibilityRole="adjustable"
+        accessibilityLabel={label}
+        accessibilityValue={{ text: valueText }}
+        accessibilityState={{ disabled: !!disabled }}
+        accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+        onAccessibilityAction={(e) => {
+          if (e.nativeEvent.actionName === 'increment' && canIncrement) onChange(Math.min(max, value + step));
+          else if (e.nativeEvent.actionName === 'decrement' && canDecrement) onChange(Math.max(min, value - step));
+        }}
         style={{ flexDirection: 'row', alignItems: 'center', gap: space.lg }}
       >
         {button('remove', canDecrement, () => onChange(Math.max(min, value - step)), 'Decrease')}
         <Text variant="statSmall" color={color.black} style={{ minWidth: 48, textAlign: 'center' }}>
-          {formatValue ? formatValue(value) : String(value)}
+          {valueText}
         </Text>
         {button('add', canIncrement, () => onChange(Math.min(max, value + step)), 'Increase')}
       </View>

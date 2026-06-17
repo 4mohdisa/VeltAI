@@ -1,7 +1,7 @@
 // ToastHost — renders the active toast from the store with a slide+fade. Mounted
 // once at the root. Top-center for info, bottom for action toasts.
 import { useEffect } from 'react';
-import { View } from 'react-native';
+import { AccessibilityInfo, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/primitives/Icon';
 import Animated, { Easing, FadeIn, FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
@@ -29,12 +29,14 @@ export function ToastHost() {
   const dismiss = useToastStore((s) => s.dismiss);
 
   // Each toast pairs its tone with the matching haptic (HIG §9) — the toast is the
-  // visual half, so a success log buzzes success, an error buzzes error, etc.
+  // visual half — and announces itself to VoiceOver (HIG §7.1 live region), so a
+  // log update like "Meal logged. 1,098 calories left today." is spoken.
   useEffect(() => {
     if (!current) return;
     if (current.tone === 'success') haptics.success();
     else if (current.tone === 'error') haptics.error();
     else if (current.tone === 'warn') haptics.warning();
+    AccessibilityInfo.announceForAccessibility(current.message);
     const timer = setTimeout(dismiss, current.duration);
     return () => clearTimeout(timer);
   }, [current, dismiss]);
@@ -57,6 +59,8 @@ export function ToastHost() {
       }}
     >
       <Animated.View
+        accessibilityRole="alert"
+        accessibilityLiveRegion="polite"
         entering={
           reduceMotion
             ? FadeIn.duration(motion.duration.snap)
