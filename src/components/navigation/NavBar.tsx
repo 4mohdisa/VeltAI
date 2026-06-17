@@ -20,7 +20,7 @@ export function NavBar({ title, showBack = true, onBack, right, borderless }: Na
   return (
     <View
       style={{
-        height: 52,
+        height: layout.buttonHeight,
         justifyContent: 'center',
         borderBottomWidth: borderless ? 0 : 1,
         borderBottomColor: color.gray200,

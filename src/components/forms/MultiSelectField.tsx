@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 
 export type ChipOption = { label: string; value: string };
 
@@ -55,7 +55,7 @@ export function MultiSelectField({
                 paddingVertical: space.md,
                 paddingHorizontal: space.xl,
                 borderRadius: radius.pill,
-                minHeight: 44,
+                minHeight: layout.tapTarget,
                 justifyContent: 'center',
                 backgroundColor: isSelected ? color.black : surface.card,
               }}

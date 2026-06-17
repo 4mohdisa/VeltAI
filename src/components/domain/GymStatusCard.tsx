@@ -8,7 +8,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Card } from '@/components/display/Card';
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, space } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
 
 export type GymStatusCardProps = {
@@ -41,8 +41,8 @@ export function GymStatusCard({ logged, onLog, durationMin }: GymStatusCardProps
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
         <View
           style={{
-            width: 44,
-            height: 44,
+            width: layout.tapTarget,
+            height: layout.tapTarget,
             borderRadius: 22,
             backgroundColor: color.gray100,
             alignItems: 'center',

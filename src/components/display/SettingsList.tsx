@@ -7,7 +7,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Card } from './Card';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, layout, radius, space } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 
 export type SettingsRowProps = {
@@ -36,7 +36,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
         gap: space.md,
         paddingVertical: space.md,
         paddingHorizontal: space.lg,
-        minHeight: 52,
+        minHeight: layout.buttonHeight,
         borderTopWidth: showDivider ? 1 : 0,
         borderTopColor: color.gray100,
       }}

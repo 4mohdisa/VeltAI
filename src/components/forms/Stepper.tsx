@@ -6,7 +6,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { FieldShell, type FieldShellProps } from './FieldShell';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, layout, radius, space } from '@/lib/design/tokens';
 
 export type StepperProps = FieldShellProps & {
   value: number;
@@ -42,8 +42,8 @@ export function Stepper({
       accessibilityLabel={a11y}
       haptic
       style={{
-        width: 44,
-        height: 44,
+        width: layout.tapTarget,
+        height: layout.tapTarget,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: radius.md,
