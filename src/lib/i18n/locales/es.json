@@ -1,0 +1,94 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "done": "Listo",
+    "reset": "Restablecer"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "groupAccount": "Cuenta",
+    "groupApp": "Aplicación",
+    "groupAbout": "Acerca de",
+    "account": "Cuenta",
+    "subscription": "Suscripción",
+    "goals": "Objetivos",
+    "preferences": "Preferencias",
+    "notifications": "Notificaciones",
+    "appleHealth": "Apple Health",
+    "privacy": "Privacidad",
+    "support": "Soporte",
+    "about": "Acerca de"
+  },
+  "preferences": {
+    "title": "Preferencias",
+    "measurementSystem": "Sistema de medida",
+    "metric": "Métrico",
+    "imperial": "Imperial",
+    "systemHint": "Ajusta todas las medidas a la vez. Afina cualquiera abajo.",
+    "customHint": "Personalizado: tus unidades están mezcladas abajo.",
+    "bodyWeight": "Peso corporal",
+    "height": "Altura",
+    "foodQuantities": "Cantidades de comida",
+    "volume": "Volumen",
+    "energy": "Energía",
+    "language": "Idioma"
+  },
+  "goals": {
+    "title": "Objetivos",
+    "mode": "Metas",
+    "useAi": "Usar recomendación de IA",
+    "setOwn": "Definir las mías",
+    "aiHint": "Tus metas se calculan al registrarte. Cambia para definir las tuyas.",
+    "dailyCalories": "Meta de calorías diaria",
+    "macros": "Metas de macros",
+    "splitBy": "Definir por",
+    "grams": "Gramos",
+    "percent": "Porcentaje",
+    "protein": "Proteína",
+    "carbs": "Carbohidratos",
+    "fat": "Grasa",
+    "fibre": "Fibra (opcional)",
+    "reconcileHint": "Tus macros suman {{total}} de {{target}}. Está bien, solo es un aviso.",
+    "resetToAi": "Restablecer a la recomendación de IA",
+    "saved": "Objetivos actualizados."
+  },
+  "addMenu": {
+    "title": "Añadir comida",
+    "scanFood": "Escanear comida",
+    "snapMeal": "Haz una foto",
+    "barcode": "Código de barras",
+    "scanPackage": "Escanea un paquete",
+    "voice": "Voz",
+    "describeOutLoud": "Descríbelo en voz alta",
+    "savedFoods": "Comidas guardadas",
+    "oneTapReadd": "Añadir con un toque"
+  },
+  "foodLog": {
+    "today": "Hoy",
+    "searchPlaceholder": "Buscar comidas…",
+    "noMatches": "Sin resultados para «{{query}}».",
+    "addCustomFood": "Añadir comida personalizada",
+    "mealHistory": "Historial de comidas",
+    "noMealsTitle": "Aún no hay comidas",
+    "noMealsMessage": "Toca + para añadir tu primera comida.",
+    "addMeal": "Añadir comida",
+    "per100": "{{value}} / 100g"
+  },
+  "dashboard": {
+    "welcome": "Hola de nuevo, {{name}}",
+    "dayStreak": "días seguidos",
+    "todaysPlan": "Plan de hoy",
+    "next": "Siguiente: {{title}} a las {{time}} · {{energy}}",
+    "gymBedtime": "Gimnasio {{gym}} · Dormir {{bed}}"
+  },
+  "nutrition": {
+    "title": "Nutrición",
+    "remainingToday": "{{value}} restantes hoy",
+    "protein": "Proteína",
+    "carbs": "Carbohidratos",
+    "fat": "Grasa",
+    "fibre": "Fibra",
+    "mealsToday": "Comidas de hoy"
+  }
+}

@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -15,11 +16,15 @@ import { CalorieCrossCheck } from '@/components/domain/CalorieCrossCheck';
 import { MacroBars } from '@/components/domain/MacroBars';
 import { readActiveEnergyAndSteps, type HealthToday } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
-import { formatCalories } from '@/lib/formatting';
 import { mockMacros, mockMeals } from '@/lib/mock/data';
+import { useEffectiveGoals, useUnitPreferences } from '@/lib/settings/store';
+import { formatEnergy } from '@/lib/units';
 
 export default function NutritionDetailScreen() {
-  const cal = mockMacros.calories;
+  const { t } = useTranslation();
+  const goals = useEffectiveGoals();
+  const energyUnit = useUnitPreferences().energy;
+  const cal = { consumed: mockMacros.calories.consumed, target: goals.calories };
   // Read active energy + steps from Apple Health (mock); falls back to
   // intake-only if Health is denied/unavailable.
   const [health, setHealth] = useState<HealthToday | null>(null);
@@ -28,12 +33,14 @@ export default function NutritionDetailScreen() {
   }, []);
 
   return (
-    <Screen title="Nutrition" showBack>
+    <Screen title={t('nutrition.title')} showBack>
       <Card>
         <View style={{ alignItems: 'center', gap: space.md }}>
-          <DailyMacroRing consumed={cal.consumed} target={cal.target} />
+          <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />
           <Text variant="footnote" color={color.gray500}>
-            {formatCalories(Math.max(0, cal.target - cal.consumed))} remaining today
+            {t('nutrition.remainingToday', {
+              value: formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit),
+            })}
           </Text>
         </View>
       </Card>
@@ -47,10 +54,10 @@ export default function NutritionDetailScreen() {
       <Card>
         <MacroBars
           rows={[
-            { label: 'Protein', data: mockMacros.protein },
-            { label: 'Carbs', data: mockMacros.carbs },
-            { label: 'Fat', data: mockMacros.fat },
-            { label: 'Fibre', data: mockMacros.fibre },
+            { label: t('nutrition.protein'), macroKey: 'Protein', data: { consumed: mockMacros.protein.consumed, target: goals.protein } },
+            { label: t('nutrition.carbs'), macroKey: 'Carbs', data: { consumed: mockMacros.carbs.consumed, target: goals.carbs } },
+            { label: t('nutrition.fat'), macroKey: 'Fat', data: { consumed: mockMacros.fat.consumed, target: goals.fat } },
+            { label: t('nutrition.fibre'), macroKey: 'Fibre', data: { consumed: mockMacros.fibre.consumed, target: goals.fibre } },
           ]}
         />
       </Card>
@@ -61,7 +68,7 @@ export default function NutritionDetailScreen() {
           color={color.gray500}
           style={{ marginBottom: space.sm, textTransform: 'uppercase', letterSpacing: 1 }}
         >
-          Meals today
+          {t('nutrition.mealsToday')}
         </Text>
         <Card padded={false}>
           {mockMeals.map((meal, i) => (
@@ -69,7 +76,7 @@ export default function NutritionDetailScreen() {
               key={meal.id}
               haptic={false}
               minTapTarget={false}
-              accessibilityLabel={`Edit ${meal.slot}, ${formatCalories(meal.calories)}`}
+              accessibilityLabel={`${meal.slot}, ${formatEnergy(meal.calories, energyUnit)}`}
               onPress={() => router.push(`/food/${meal.id}`)}
               style={{
                 flexDirection: 'row',
@@ -85,7 +92,7 @@ export default function NutritionDetailScreen() {
                   {meal.slot}
                 </Text>
                 <Text variant="footnote" color={color.gray500}>
-                  {meal.time} · {formatCalories(meal.calories)}
+                  {meal.time} · {formatEnergy(meal.calories, energyUnit)}
                 </Text>
               </View>
               <Icon name="chevron-forward" size={18} color={color.gray400} />

@@ -3,6 +3,7 @@
 // (Manual search lives in the food-log search bar, not here. No gym option.)
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
@@ -12,27 +13,28 @@ import { color, radius, space } from '@/lib/design/tokens';
 
 type Method = {
   icon: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   route: string;
 };
 
 const METHODS: Method[] = [
-  { icon: 'camera', label: 'Scan food', description: 'Snap your meal', route: '/food/photo-capture' },
-  { icon: 'barcode', label: 'Barcode', description: 'Scan a package', route: '/food/barcode-scan' },
-  { icon: 'mic', label: 'Voice', description: 'Describe it out loud', route: '/food/voice' },
-  { icon: 'bookmark', label: 'Saved foods', description: 'One-tap re-add', route: '/food/saved' },
+  { icon: 'camera', labelKey: 'addMenu.scanFood', descriptionKey: 'addMenu.snapMeal', route: '/food/photo-capture' },
+  { icon: 'barcode', labelKey: 'addMenu.barcode', descriptionKey: 'addMenu.scanPackage', route: '/food/barcode-scan' },
+  { icon: 'mic', labelKey: 'addMenu.voice', descriptionKey: 'addMenu.describeOutLoud', route: '/food/voice' },
+  { icon: 'bookmark', labelKey: 'addMenu.savedFoods', descriptionKey: 'addMenu.oneTapReadd', route: '/food/saved' },
 ];
 
 export default function AddMealScreen() {
+  const { t } = useTranslation();
   return (
-    <SheetContent title="Add meal" onClose={() => router.canGoBack() && router.back()}>
+    <SheetContent title={t('addMenu.title')} onClose={() => router.canGoBack() && router.back()}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
         {METHODS.map((m) => (
           <Pressable
-            key={m.label}
+            key={m.labelKey}
             onPress={() => router.push(m.route as never)}
-            accessibilityLabel={`${m.label}. ${m.description}`}
+            accessibilityLabel={`${t(m.labelKey)}. ${t(m.descriptionKey)}`}
             minTapTarget={false}
             style={{
               width: '47.5%',
@@ -57,10 +59,10 @@ export default function AddMealScreen() {
             </View>
             <View style={{ gap: space.xs }}>
               <Text variant="title3" color={color.black}>
-                {m.label}
+                {t(m.labelKey)}
               </Text>
               <Text variant="footnote" color={color.gray500}>
-                {m.description}
+                {t(m.descriptionKey)}
               </Text>
             </View>
           </Pressable>

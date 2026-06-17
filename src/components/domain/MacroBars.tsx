@@ -9,7 +9,11 @@ import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
 import type { MacroProgress } from '@/lib/mock/data';
 
-type Row = { label: string; data: MacroProgress };
+export type MacroStyleKey = 'Protein' | 'Carbs' | 'Fat' | 'Fibre';
+
+// `label` is display text (translatable); `macroKey` is the stable style key so
+// the accent/icon lookup survives translation. Defaults to label for back-compat.
+type Row = { label: string; data: MacroProgress; macroKey?: MacroStyleKey };
 
 export type MacroBarsProps = {
   rows: Row[];
@@ -26,8 +30,8 @@ const MACRO: Record<string, { color: string; icon: string }> = {
 export function MacroBars({ rows }: MacroBarsProps) {
   return (
     <View style={{ gap: space.md }}>
-      {rows.map(({ label, data }) => {
-        const meta = MACRO[label];
+      {rows.map(({ label, data, macroKey }) => {
+        const meta = MACRO[macroKey ?? label];
         const tint = meta?.color ?? color.black;
         return (
           <View key={label} style={{ gap: space.xs }}>

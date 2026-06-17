@@ -1,0 +1,94 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "done": "Done",
+    "reset": "Reset"
+  },
+  "settings": {
+    "title": "Settings",
+    "groupAccount": "Account",
+    "groupApp": "App",
+    "groupAbout": "About",
+    "account": "Account",
+    "subscription": "Subscription",
+    "goals": "Goals",
+    "preferences": "Preferences",
+    "notifications": "Notifications",
+    "appleHealth": "Apple Health",
+    "privacy": "Privacy",
+    "support": "Support",
+    "about": "About"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "measurementSystem": "Measurement system",
+    "metric": "Metric",
+    "imperial": "Imperial",
+    "systemHint": "Sets every measurement at once. Fine-tune any of them below.",
+    "customHint": "Custom — your units are mixed below.",
+    "bodyWeight": "Body weight",
+    "height": "Height",
+    "foodQuantities": "Food quantities",
+    "volume": "Volume",
+    "energy": "Energy",
+    "language": "Language"
+  },
+  "goals": {
+    "title": "Goals",
+    "mode": "Targets",
+    "useAi": "Use AI recommendation",
+    "setOwn": "Set my own",
+    "aiHint": "Your targets are computed from onboarding. Switch to set your own.",
+    "dailyCalories": "Daily calorie target",
+    "macros": "Macro targets",
+    "splitBy": "Set by",
+    "grams": "Grams",
+    "percent": "Percent",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "fibre": "Fibre (optional)",
+    "reconcileHint": "Your macros add up to {{total}} of {{target}}. That's fine — it's just a heads-up.",
+    "resetToAi": "Reset to AI recommendation",
+    "saved": "Goals updated."
+  },
+  "addMenu": {
+    "title": "Add meal",
+    "scanFood": "Scan food",
+    "snapMeal": "Snap your meal",
+    "barcode": "Barcode",
+    "scanPackage": "Scan a package",
+    "voice": "Voice",
+    "describeOutLoud": "Describe it out loud",
+    "savedFoods": "Saved foods",
+    "oneTapReadd": "One-tap re-add"
+  },
+  "foodLog": {
+    "today": "Today",
+    "searchPlaceholder": "Search foods…",
+    "noMatches": "No matches for “{{query}}”.",
+    "addCustomFood": "Add custom food",
+    "mealHistory": "Meal history",
+    "noMealsTitle": "No meals yet",
+    "noMealsMessage": "Tap + to add your first meal.",
+    "addMeal": "Add meal",
+    "per100": "{{value}} / 100g"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}}",
+    "dayStreak": "day streak",
+    "todaysPlan": "Today's plan",
+    "next": "Next: {{title}} at {{time}} · {{energy}}",
+    "gymBedtime": "Gym window {{gym}} · Bedtime {{bed}}"
+  },
+  "nutrition": {
+    "title": "Nutrition",
+    "remainingToday": "{{value}} remaining today",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "fibre": "Fibre",
+    "mealsToday": "Meals today"
+  }
+}

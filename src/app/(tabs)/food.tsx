@@ -6,6 +6,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Text } from '@/components/primitives/Text';
@@ -20,6 +21,7 @@ import { formatCalories } from '@/lib/formatting';
 import { foodCatalog, mockMeals, type FoodResult } from '@/lib/mock/data';
 
 export default function FoodLogScreen() {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
@@ -54,7 +56,7 @@ export default function FoodLogScreen() {
       >
         <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }}>
           <Text variant="title1" color={color.black}>
-            Today
+            {t('foodLog.today')}
           </Text>
           <Text variant="callout" color={color.gray500}>
             {formatCalories(total)}
@@ -62,11 +64,11 @@ export default function FoodLogScreen() {
         </View>
 
         <TextField
-          placeholder="Search foods…"
+          placeholder={t('foodLog.searchPlaceholder')}
           value={query}
           onChangeText={setQuery}
           autoCorrect={false}
-          accessibilityLabel="Search foods"
+          accessibilityLabel={t('foodLog.searchPlaceholder')}
         />
 
         {searching ? (
@@ -95,7 +97,7 @@ export default function FoodLogScreen() {
                       </Text>
                       <Text variant="footnote" color={color.gray500}>
                         {food.brand ? `${food.brand} · ` : ''}
-                        {formatCalories(food.kcalPer100)} / 100g
+                        {t('foodLog.per100', { value: formatCalories(food.kcalPer100) })}
                       </Text>
                     </View>
                     <Icon name="add-circle-outline" size={22} color={color.black} />
@@ -104,7 +106,7 @@ export default function FoodLogScreen() {
               </Card>
             ) : (
               <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-                No matches for “{query.trim()}”.
+                {t('foodLog.noMatches', { query: query.trim() })}
               </Text>
             )}
 
@@ -117,7 +119,7 @@ export default function FoodLogScreen() {
             >
               <Icon name="create-outline" size={18} color={color.black} />
               <Text variant="bodyBold" color={color.black}>
-                Add custom food
+                {t('foodLog.addCustomFood')}
               </Text>
             </Pressable>
           </>
@@ -126,9 +128,9 @@ export default function FoodLogScreen() {
             {meals.length === 0 ? (
               <EmptyState
                 icon="restaurant-outline"
-                title="No meals yet"
-                message="Tap + to add your first meal."
-                actionLabel="Add meal"
+                title={t('foodLog.noMealsTitle')}
+                message={t('foodLog.noMealsMessage')}
+                actionLabel={t('foodLog.addMeal')}
                 onAction={() => router.push('/food/add')}
               />
             ) : (
@@ -142,12 +144,12 @@ export default function FoodLogScreen() {
                 haptic={false}
                 minTapTarget={false}
                 onPress={() => router.push('/food/history')}
-                accessibilityLabel="Meal history"
+                accessibilityLabel={t('foodLog.mealHistory')}
                 style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xs, padding: space.md }}
               >
                 <Icon name="time-outline" size={16} color={color.black} />
                 <Text variant="bodyBold" color={color.black}>
-                  Meal history
+                  {t('foodLog.mealHistory')}
                 </Text>
               </Pressable>
             ) : null}
@@ -157,7 +159,7 @@ export default function FoodLogScreen() {
 
       {/* Glass FAB — opens the 2×2 add-menu, floats clear of the tab bar */}
       <GlassFab
-        accessibilityLabel="Add meal"
+        accessibilityLabel={t('foodLog.addMeal')}
         onPress={() => router.push('/food/add')}
         style={{
           position: 'absolute',

@@ -7,26 +7,29 @@ import Svg, { Circle } from 'react-native-svg';
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color } from '@/lib/design/tokens';
 import { formatNumber } from '@/lib/formatting';
+import { kcalToDisplay, type EnergyUnit } from '@/lib/units';
 
 export type DailyMacroRingProps = {
-  consumed: number;
-  target: number;
+  consumed: number; // canonical kcal
+  target: number; //   canonical kcal
   size?: number;
   strokeWidth?: number;
+  energyUnit?: EnergyUnit;
 };
 
-export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14 }: DailyMacroRingProps) {
+export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14, energyUnit = 'kcal' }: DailyMacroRingProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const pct = target > 0 ? Math.min(1, consumed / target) : 0;
-  const over = consumed > target;
   const dash = circumference * pct;
   const center = size / 2;
+  const consumedDisplay = kcalToDisplay(consumed, energyUnit);
+  const targetDisplay = kcalToDisplay(target, energyUnit);
 
   return (
     <View
       style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}
-      accessibilityLabel={`${formatNumber(consumed)} of ${formatNumber(target)} kilocalories`}
+      accessibilityLabel={`${formatNumber(consumedDisplay)} of ${formatNumber(targetDisplay)} ${energyUnit}`}
     >
       <Svg width={size} height={size} style={{ position: 'absolute' }}>
         <Circle cx={center} cy={center} r={radius} stroke={color.light2} strokeWidth={strokeWidth} fill="none" />
@@ -43,10 +46,10 @@ export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14 
         />
       </Svg>
       <Text variant="statMedium" color={color.black}>
-        {formatNumber(consumed)}
+        {formatNumber(consumedDisplay)}
       </Text>
       <Text variant="footnote" color={color.gray500}>
-        of {formatNumber(target)} kcal
+        of {formatNumber(targetDisplay)} {energyUnit}
       </Text>
     </View>
   );

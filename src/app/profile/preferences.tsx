@@ -1,59 +1,77 @@
-// E8 · Preferences — units (+ language, added with i18n)
+// E8 · Preferences — units + language
 // A Metric/Imperial quick-toggle sets all five dimensions at once; the per-
-// dimension segmented controls below let the user mix (e.g. metric but lb).
-// Everything reads/writes the settings store, which the rest of the app uses at
-// the display boundary.
+// dimension segmented controls below let the user mix (e.g. metric but lb). A
+// language picker overrides the device language. Everything reads/writes the
+// settings store, which the rest of the app uses at the display boundary.
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SegmentedField } from '@/components/forms/SegmentedField';
+import { SettingsList } from '@/components/display/SettingsList';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { useSettingsStore } from '@/lib/settings/store';
 import { UNIT_OPTIONS, systemOf, type UnitDimension } from '@/lib/units';
+import i18n, { SUPPORTED_LANGUAGES } from '@/lib/i18n';
 
-const DIMENSIONS: { key: UnitDimension; label: string }[] = [
-  { key: 'weight', label: 'Body weight' },
-  { key: 'height', label: 'Height' },
-  { key: 'mass', label: 'Food quantities' },
-  { key: 'volume', label: 'Volume' },
-  { key: 'energy', label: 'Energy' },
+const DIMENSIONS: { key: UnitDimension; labelKey: string }[] = [
+  { key: 'weight', labelKey: 'preferences.bodyWeight' },
+  { key: 'height', labelKey: 'preferences.height' },
+  { key: 'mass', labelKey: 'preferences.foodQuantities' },
+  { key: 'volume', labelKey: 'preferences.volume' },
+  { key: 'energy', labelKey: 'preferences.energy' },
 ];
 
 export default function PreferencesScreen() {
+  const { t } = useTranslation();
   const units = useSettingsStore((s) => s.units);
   const setSystem = useSettingsStore((s) => s.setSystem);
   const setUnit = useSettingsStore((s) => s.setUnit);
+  const language = useSettingsStore((s) => s.language);
+  const setLanguage = useSettingsStore((s) => s.setLanguage);
   const system = systemOf(units);
 
+  const changeLanguage = (code: string) => {
+    void i18n.changeLanguage(code);
+    setLanguage(code);
+  };
+
   return (
-    <Screen title="Preferences" showBack>
+    <Screen title={t('preferences.title')} showBack>
       <View style={{ gap: space.sm }}>
         <SegmentedField
-          label="Measurement system"
+          label={t('preferences.measurementSystem')}
           value={system}
           onChange={(v) => setSystem(v as 'metric' | 'imperial')}
           options={[
-            { label: 'Metric', value: 'metric' },
-            { label: 'Imperial', value: 'imperial' },
+            { label: t('preferences.metric'), value: 'metric' },
+            { label: t('preferences.imperial'), value: 'imperial' },
           ]}
         />
         <Text variant="footnote" color={color.gray500}>
-          {system === 'custom'
-            ? 'Custom — your units are mixed below.'
-            : 'Sets every measurement at once. Fine-tune any of them below.'}
+          {system === 'custom' ? t('preferences.customHint') : t('preferences.systemHint')}
         </Text>
       </View>
 
       {DIMENSIONS.map((d) => (
         <SegmentedField
           key={d.key}
-          label={d.label}
+          label={t(d.labelKey)}
           value={units[d.key]}
           onChange={(v) => setUnit(d.key, v)}
           options={UNIT_OPTIONS[d.key]}
         />
       ))}
+
+      <SettingsList
+        title={t('preferences.language')}
+        rows={SUPPORTED_LANGUAGES.map((l) => ({
+          icon: language === l.code ? 'checkmark-circle' : 'ellipse-outline',
+          label: l.label,
+          onPress: () => changeLanguage(l.code),
+        }))}
+      />
     </Screen>
   );
 }

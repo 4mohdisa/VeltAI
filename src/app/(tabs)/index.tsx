@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
@@ -20,8 +21,13 @@ import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
 import { mockMacros, mockPlan, mockStreak, mockUser } from '@/lib/mock/data';
+import { useEffectiveGoals, useUnitPreferences } from '@/lib/settings/store';
+import { formatEnergy } from '@/lib/units';
 
 export default function DashboardScreen() {
+  const { t } = useTranslation();
+  const goals = useEffectiveGoals();
+  const energyUnit = useUnitPreferences().energy;
   const [gymLogged, setGymLogged] = useState(mockStreak.gymLoggedToday);
   const [showNudge, setShowNudge] = useState(true);
   const nextMeal = mockPlan.find((p) => p.kind === 'meal');
@@ -41,7 +47,7 @@ export default function DashboardScreen() {
         {/* Zone 1 — streak (the only progression mechanic) */}
         <View style={{ gap: space.xs }}>
           <Text variant="footnote" color={color.gray500}>
-            Welcome back, {mockUser.name.split(' ')[0]}
+            {t('dashboard.welcome', { name: mockUser.name.split(' ')[0] })}
           </Text>
           <Pressable
             onPress={() => router.push('/gym/streak')}
@@ -55,7 +61,7 @@ export default function DashboardScreen() {
               {mockStreak.current}
             </Text>
             <Text variant="callout" color={color.gray500}>
-              day streak
+              {t('dashboard.dayStreak')}
             </Text>
           </Pressable>
         </View>
@@ -72,13 +78,18 @@ export default function DashboardScreen() {
 
         <Card onPress={() => router.push('/dashboard/nutrition')} accessibilityLabel="Today's nutrition detail">
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.lg }}>
-            <DailyMacroRing consumed={mockMacros.calories.consumed} target={mockMacros.calories.target} size={132} />
+            <DailyMacroRing
+              consumed={mockMacros.calories.consumed}
+              target={goals.calories}
+              size={132}
+              energyUnit={energyUnit}
+            />
             <View style={{ flex: 1 }}>
               <MacroBars
                 rows={[
-                  { label: 'Protein', data: mockMacros.protein },
-                  { label: 'Carbs', data: mockMacros.carbs },
-                  { label: 'Fat', data: mockMacros.fat },
+                  { label: t('nutrition.protein'), macroKey: 'Protein', data: { consumed: mockMacros.protein.consumed, target: goals.protein } },
+                  { label: t('nutrition.carbs'), macroKey: 'Carbs', data: { consumed: mockMacros.carbs.consumed, target: goals.carbs } },
+                  { label: t('nutrition.fat'), macroKey: 'Fat', data: { consumed: mockMacros.fat.consumed, target: goals.fat } },
                 ]}
               />
             </View>
@@ -90,17 +101,21 @@ export default function DashboardScreen() {
           <View style={{ gap: space.sm }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <Text variant="title3" color={color.black}>
-                Today&apos;s plan
+                {t('dashboard.todaysPlan')}
               </Text>
               <Badge label="AI" icon="sparkles" iconColor={categoryAccent.ai} />
             </View>
             {nextMeal ? (
               <Text variant="callout" color={color.gray700}>
-                Next: {nextMeal.title} at {nextMeal.time} · {nextMeal.targetKcal} kcal
+                {t('dashboard.next', {
+                  title: nextMeal.title,
+                  time: nextMeal.time,
+                  energy: formatEnergy(nextMeal.targetKcal ?? 0, energyUnit),
+                })}
               </Text>
             ) : null}
             <Text variant="footnote" color={color.gray500}>
-              Gym window 18:00 · Bedtime 22:30
+              {t('dashboard.gymBedtime', { gym: '18:00', bed: '22:30' })}
             </Text>
           </View>
         </Card>

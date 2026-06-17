@@ -1,0 +1,37 @@
+{
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "done": "Terminé",
+    "reset": "Réinitialiser"
+  },
+  "settings": {
+    "title": "Réglages",
+    "groupAccount": "Compte",
+    "groupApp": "Application",
+    "groupAbout": "À propos",
+    "account": "Compte",
+    "subscription": "Abonnement",
+    "goals": "Objectifs",
+    "preferences": "Préférences",
+    "notifications": "Notifications",
+    "appleHealth": "Apple Health",
+    "privacy": "Confidentialité",
+    "support": "Assistance",
+    "about": "À propos"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "measurementSystem": "Système de mesure",
+    "metric": "Métrique",
+    "imperial": "Impérial",
+    "systemHint": "Règle toutes les mesures d'un coup. Ajustez-les ci-dessous.",
+    "customHint": "Personnalisé — vos unités sont mixtes ci-dessous.",
+    "bodyWeight": "Poids corporel",
+    "height": "Taille",
+    "foodQuantities": "Quantités d'aliments",
+    "volume": "Volume",
+    "energy": "Énergie",
+    "language": "Langue"
+  }
+}
