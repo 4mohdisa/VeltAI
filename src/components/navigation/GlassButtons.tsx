@@ -13,11 +13,19 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, radius, shadow, space, surface } from '@/lib/design/tokens';
+import { useReduceTransparency } from '@/lib/design/reduceTransparency';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 const LIQUID = isLiquidGlassAvailable();
 const SIZE = layout.tapTarget; // 44pt — HIG minimum touch target
 
+// Solid opaque fallback for Reduce Transparency (HIG §11): a flat monochrome
+// surface with a hairline edge so the control still reads as a button.
+const solidGlass: ViewStyle = { backgroundColor: surface.card, borderWidth: 1, borderColor: color.gray200 };
+
 function GlassCircle({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
+  const reduceTransparency = useReduceTransparency();
+  const reduceMotion = useReduceMotion();
   const base: ViewStyle = {
     width: SIZE,
     height: SIZE,
@@ -27,9 +35,13 @@ function GlassCircle({ children, style }: { children: ReactNode; style?: StylePr
     overflow: 'hidden',
   };
 
+  if (reduceTransparency) {
+    return <View style={[base, solidGlass, style]}>{children}</View>;
+  }
   if (LIQUID) {
+    // isInteractive off under Reduce Motion → no specular/motion response.
     return (
-      <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive style={[base, style]}>
+      <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive={!reduceMotion} style={[base, style]}>
         {children}
       </GlassView>
     );
@@ -140,6 +152,8 @@ export function GlassFab({
   testID,
   variant = 'glass',
 }: GlassFabProps) {
+  const reduceTransparency = useReduceTransparency();
+  const reduceMotion = useReduceMotion();
   const circle: ViewStyle = {
     width: FAB_SIZE,
     height: FAB_SIZE,
@@ -150,7 +164,7 @@ export function GlassFab({
   };
 
   if (variant === 'solid') {
-    // Primary add button: black fill, white icon.
+    // Primary add button: black fill, white icon (opaque already).
     return (
       <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} accessibilityHint={accessibilityHint} testID={testID} style={style}>
         <View style={[circle, { backgroundColor: color.primary }, shadow.md]}>
@@ -163,8 +177,10 @@ export function GlassFab({
   const inner = <Icon name={icon} size={26} color={color.black} />;
   return (
     <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} accessibilityHint={accessibilityHint} testID={testID} style={style}>
-      {LIQUID ? (
-        <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive style={circle}>
+      {reduceTransparency ? (
+        <View style={[circle, solidGlass]}>{inner}</View>
+      ) : LIQUID ? (
+        <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive={!reduceMotion} style={circle}>
           {inner}
         </GlassView>
       ) : (
