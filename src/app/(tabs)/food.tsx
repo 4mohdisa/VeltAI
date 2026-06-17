@@ -16,6 +16,7 @@ import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
@@ -65,12 +66,17 @@ export default function FoodLogScreen() {
   const [query, setQuery] = useState('');
   const [sections, setSections] = useState<MealSection[]>(buildSections);
   const [editing, setEditing] = useState<FoodRow | null>(null);
-  // First-load skeleton (HIG §6.3) — mocks the backend fetch that lands later.
+  // First-load skeleton (HIG §6.3) + error/retry scaffold (HIG §9) — mocks the
+  // backend fetch that lands later; the backend will flip loadError on failure.
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
+  const [loadError, setLoadError] = useState(false);
+  const load = useCallback(() => {
+    setLoadError(false);
+    setLoading(true);
     const id = setTimeout(() => setLoading(false), 700);
     return () => clearTimeout(id);
   }, []);
+  useEffect(() => load(), [load]);
 
   const total = sections.reduce((sum, s) => sum + s.subtotal, 0);
   const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
@@ -193,6 +199,11 @@ export default function FoodLogScreen() {
             </Text>
           </Pressable>
         </ScrollView>
+      ) : loadError ? (
+        <ErrorState
+          message="We couldn't load today's food log. Check your connection and try again."
+          onRetry={load}
+        />
       ) : loading ? (
         <ScrollView contentContainerStyle={{ padding: space.xl }}>
           <SkeletonList rows={5} />

@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ToastHost } from '@/components/display/ToastHost';
 import { color, sheet } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import '@/lib/i18n'; // initialise i18next before any screen renders
 
 const queryClient = new QueryClient({
@@ -35,6 +36,9 @@ export default function RootLayout() {
     'SFProRounded-Heavy': require('../../assets/fonts/SF-Pro-Rounded-Heavy.otf'),
   });
 
+  // Reduce Motion (HIG §7.3): replace slide push transitions with a fade.
+  const reduceMotion = useReduceMotion();
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
@@ -44,6 +48,7 @@ export default function RootLayout() {
             screenOptions={{
               headerShown: false,
               contentStyle: { backgroundColor: color.white },
+              animation: reduceMotion ? 'fade' : 'default',
             }}
           >
             <Stack.Screen name="index" />

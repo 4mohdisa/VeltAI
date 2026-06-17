@@ -19,6 +19,7 @@ import Animated, {
 
 import { Text } from '@/components/primitives/Text';
 import { color, motion, radius, space, shadow, zIndex } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 const OPEN_OFFSET = 0;
 const CLOSED_OFFSET = 900;
@@ -39,6 +40,7 @@ export type BottomSheetProps = {
 
 export function BottomSheet({ visible, onClose, title, children, testID }: BottomSheetProps) {
   const insets = useSafeAreaInsets();
+  const reduceMotion = useReduceMotion();
   const translateY = useSharedValue(CLOSED_OFFSET);
   const startY = useSharedValue(0);
   // Measured panel height → the sheet slides up from exactly its own height below
@@ -47,10 +49,16 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
 
   useEffect(() => {
     if (visible) {
+      // Reduce Motion (HIG §7.3): skip the slide, snap in place and let the scrim
+      // fade carry the transition.
+      if (reduceMotion) {
+        translateY.value = OPEN_OFFSET;
+        return;
+      }
       translateY.value = sheetHeight.value;
       translateY.value = withTiming(OPEN_OFFSET, RISE);
     }
-  }, [visible, translateY, sheetHeight]);
+  }, [visible, translateY, sheetHeight, reduceMotion]);
 
   const pan = Gesture.Pan()
     .onBegin(() => {
