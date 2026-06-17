@@ -299,6 +299,7 @@ export default function FoodLogScreen() {
       <GlassFab
         variant="solid"
         accessibilityLabel={t('foodLog.addMeal')}
+        accessibilityHint="Opens the add menu: scan, barcode, voice or saved foods"
         onPress={() => router.push('/food/add')}
         style={{ position: 'absolute', right: space.xl, bottom: insets.bottom + space['5xl'] + space.lg, zIndex: zIndex.fab }}
       />
@@ -331,14 +332,19 @@ function MealSectionHeader({
         paddingBottom: space.sm,
       }}
     >
-      <Text variant="title3" color={color.label}>
+      <Text
+        variant="title3"
+        color={color.label}
+        accessibilityRole="header"
+        accessibilityLabel={`${slot}, ${formatEnergy(subtotal, energyUnit)}`}
+      >
         {slot}
       </Text>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-        <Text variant="footnote" color={color.secondaryLabel}>
+        <Text variant="footnote" color={color.secondaryLabel} accessibilityElementsHidden importantForAccessibility="no">
           {formatEnergy(subtotal, energyUnit)}
         </Text>
-        <Pressable haptic={false} onPress={onAdd} accessibilityLabel={`Add to ${slot}`}>
+        <Pressable haptic={false} onPress={onAdd} accessibilityRole="button" accessibilityLabel={`Add to ${slot}`}>
           <Icon name="add-circle" size={24} color={color.black} />
         </Pressable>
       </View>
@@ -364,7 +370,11 @@ function FoodItemRow({
       haptic={false}
       minTapTarget={false}
       onPress={onPress}
-      accessibilityLabel={`Edit ${item.name}, ${formatEnergy(item.calories, energyUnit)}`}
+      accessible
+      accessibilityRole="button"
+      // One grouped element: "Oats with whey, 250 g, protein 28, carbs 40, fat 8, 320 kcal".
+      accessibilityLabel={`${item.name}, ${item.quantityG} g, protein ${item.protein}, carbs ${item.carbs}, fat ${item.fat}, ${formatEnergy(item.calories, energyUnit)}`}
+      accessibilityHint="Double tap to edit, swipe left to delete"
       style={{
         backgroundColor: surface.card,
         flexDirection: 'row',

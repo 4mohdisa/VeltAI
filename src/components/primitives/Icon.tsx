@@ -149,6 +149,10 @@ export function Icon({
   animationSpec,
 }: IconProps) {
   const symbol = (SF[name] ?? name) as SymbolViewProps['name'];
+  // VoiceOver (HIG §7.1): an icon with no label is decorative (it sits inside a
+  // labeled control or grouped row) and is hidden so it never reads as a stray
+  // fragment. An icon WITH a label is exposed as an image with that label.
+  const decorative = !accessibilityLabel;
   return (
     <SymbolView
       name={symbol}
@@ -160,6 +164,9 @@ export function Icon({
       animationSpec={animationSpec}
       style={[{ width: size, height: size }, style]}
       accessibilityLabel={accessibilityLabel}
+      accessibilityRole={decorative ? undefined : 'image'}
+      accessibilityElementsHidden={decorative}
+      importantForAccessibility={decorative ? 'no-hide-descendants' : 'yes'}
     />
   );
 }

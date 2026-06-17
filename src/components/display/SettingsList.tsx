@@ -79,19 +79,41 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
           value={!!row.switchValue}
           onValueChange={row.onToggle}
           trackColor={{ true: color.black, false: color.gray300 }}
+          accessibilityRole="switch"
           accessibilityLabel={row.label}
+          accessibilityState={{ checked: !!row.switchValue }}
         />
       ) : kind === 'link' ? (
-        <Icon name="chevron-forward" size={18} color={color.gray400} />
+        // Decorative disclosure chevron — hidden from VoiceOver (the row is labeled).
+        <Icon name="chevron-forward" size={18} color={color.tertiaryLabel} />
       ) : null}
     </View>
   );
 
+  // Combined label so VoiceOver reads "Subscription, Premium" as one element.
+  const combinedLabel = row.value ? `${row.label}, ${row.value}` : row.label;
+
   if (kind === 'link' && row.onPress) {
     return (
-      <Pressable haptic={false} minTapTarget={false} onPress={row.onPress} accessibilityLabel={row.label}>
+      <Pressable
+        haptic={false}
+        minTapTarget={false}
+        onPress={row.onPress}
+        accessible
+        accessibilityRole={row.destructive ? 'button' : 'button'}
+        accessibilityLabel={combinedLabel}
+        accessibilityHint={row.destructive ? 'Double tap to continue' : undefined}
+      >
         {body}
       </Pressable>
+    );
+  }
+  // Plain value rows are a single static element (not a control).
+  if (kind === 'plain') {
+    return (
+      <View accessible accessibilityLabel={combinedLabel}>
+        {body}
+      </View>
     );
   }
   return body;

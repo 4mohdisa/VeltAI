@@ -121,6 +121,7 @@ export type GlassFabProps = {
   onPress?: () => void;
   icon?: string;
   accessibilityLabel: string;
+  accessibilityHint?: string;
   style?: StyleProp<ViewStyle>;
   testID?: string;
   /** 'solid' = the primary add button: solid black circle, white glyph (HIG
@@ -134,6 +135,7 @@ export function GlassFab({
   onPress,
   icon = 'plus',
   accessibilityLabel,
+  accessibilityHint,
   style,
   testID,
   variant = 'glass',
@@ -150,7 +152,7 @@ export function GlassFab({
   if (variant === 'solid') {
     // Primary add button: black fill, white icon.
     return (
-      <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
+      <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} accessibilityHint={accessibilityHint} testID={testID} style={style}>
         <View style={[circle, { backgroundColor: color.primary }, shadow.md]}>
           <Icon name={icon} size={26} color={color.onPrimary} />
         </View>
@@ -160,7 +162,7 @@ export function GlassFab({
 
   const inner = <Icon name={icon} size={26} color={color.black} />;
   return (
-    <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
+    <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} accessibilityHint={accessibilityHint} testID={testID} style={style}>
       {LIQUID ? (
         <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive style={circle}>
           {inner}
