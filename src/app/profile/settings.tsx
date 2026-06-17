@@ -20,7 +20,7 @@ export default function SettingsScreen() {
         rows={[
           { icon: 'notifications-outline', label: 'Notifications', onPress: () => router.push('/profile/notifications') },
           { icon: 'heart-outline', label: 'Apple Health', onPress: () => router.push('/profile/apple-health') },
-          { icon: 'options-outline', label: 'Units', onPress: () => router.push('/profile/units') },
+          { icon: 'options-outline', label: 'Preferences', onPress: () => router.push('/profile/preferences') },
         ]}
       />
       <SettingsList
