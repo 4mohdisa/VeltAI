@@ -11,6 +11,8 @@ import { color, space } from '@/lib/design/tokens';
 export type ScreenProps = {
   title?: string;
   showBack?: boolean;
+  /** Names the previous screen on the back control (HIG §4.2). */
+  backLabel?: string;
   headerRight?: ReactNode;
   borderlessHeader?: boolean;
   scroll?: boolean;
@@ -26,6 +28,7 @@ export type ScreenProps = {
 export function Screen({
   title,
   showBack = false,
+  backLabel,
   headerRight,
   borderlessHeader,
   scroll = true,
@@ -47,7 +50,7 @@ export function Screen({
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor }} edges={['top']}>
       {hasHeader ? (
-        <NavBar title={title} showBack={showBack} right={headerRight} borderless={borderlessHeader} />
+        <NavBar title={title} showBack={showBack} backLabel={backLabel} right={headerRight} borderless={borderlessHeader} />
       ) : null}
 
       {scroll ? (

@@ -47,15 +47,27 @@ export type GlassNavButtonProps = {
   testID?: string;
 };
 
-export function GlassBackButton({ onPress, testID }: GlassNavButtonProps) {
+export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps & { label?: string }) {
   const handlePress = () => {
     if (onPress) onPress();
     else if (router.canGoBack()) router.back();
   };
+  // HIG §4.2: where iOS shows it, the back control names the previous screen
+  // ("‹ Food") instead of a bare arrow. A label turns the circle into a pill.
   return (
-    <Pressable haptic={false} onPress={handlePress} accessibilityLabel="Go back" testID={testID}>
-      <GlassCircle>
+    <Pressable
+      haptic={false}
+      onPress={handlePress}
+      accessibilityLabel={label ? `Back to ${label}` : 'Go back'}
+      testID={testID}
+    >
+      <GlassCircle style={label ? { width: undefined, paddingHorizontal: space.md, flexDirection: 'row', gap: space.xs } : undefined}>
         <Icon name="chevron-back" size={20} color={color.black} />
+        {label ? (
+          <Text variant="bodyMedium" color={color.black} numberOfLines={1}>
+            {label}
+          </Text>
+        ) : null}
       </GlassCircle>
     </Pressable>
   );

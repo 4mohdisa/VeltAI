@@ -38,7 +38,7 @@ export default function PreferencesScreen() {
   };
 
   return (
-    <Screen title={t('preferences.title')} showBack>
+    <Screen title={t('preferences.title')} showBack backLabel={t('settings.title')}>
       <View style={{ gap: space.sm }}>
         <SegmentedField
           label={t('preferences.measurementSystem')}

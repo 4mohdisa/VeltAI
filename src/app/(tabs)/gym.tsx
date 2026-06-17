@@ -23,6 +23,10 @@ export default function GymLogScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
       <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
+        {/* Large title (HIG §4.2) — left-aligned, scrolls away on the list root */}
+        <Text variant="title1" color={color.label}>
+          Gym
+        </Text>
         <Pressable
           haptic={false}
           minTapTarget={false}

@@ -12,11 +12,13 @@ export type NavBarProps = {
   title?: string;
   showBack?: boolean;
   onBack?: () => void;
+  /** Names the previous screen on the back control ("‹ Food"), per HIG §4.2. */
+  backLabel?: string;
   right?: ReactNode;
   borderless?: boolean;
 };
 
-export function NavBar({ title, showBack = true, onBack, right, borderless }: NavBarProps) {
+export function NavBar({ title, showBack = true, onBack, backLabel, right, borderless }: NavBarProps) {
   return (
     <View
       style={{
@@ -44,7 +46,7 @@ export function NavBar({ title, showBack = true, onBack, right, borderless }: Na
         }}
       >
         <View style={{ minWidth: layout.tapTarget }}>
-          {showBack ? <GlassBackButton onPress={onBack} /> : null}
+          {showBack ? <GlassBackButton onPress={onBack} label={backLabel} /> : null}
         </View>
         <View style={{ minWidth: layout.tapTarget, alignItems: 'flex-end' }}>{right}</View>
       </View>
