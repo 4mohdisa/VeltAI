@@ -1,6 +1,7 @@
 // E3 · Account settings
 // Email (read-only, from Clerk in production), editable display name, avatar
-// picker (placeholder), units toggle, and Delete Account in destructive red.
+// picker (placeholder), and Delete Account in destructive red. Units moved to
+// Preferences (E8) — this screen no longer carries a measurement toggle.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
@@ -10,7 +11,6 @@ import { Avatar } from '@/components/display/Avatar';
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Button } from '@/components/forms/Button';
-import { SegmentedField } from '@/components/forms/SegmentedField';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
 import { space } from '@/lib/design/tokens';
@@ -18,7 +18,6 @@ import { mockUser } from '@/lib/mock/data';
 
 export default function AccountScreen() {
   const [name, setName] = useState(mockUser.name);
-  const [units, setUnits] = useState<'metric' | 'imperial'>(mockUser.units);
 
   return (
     <Screen title="Account" showBack>
@@ -37,16 +36,6 @@ export default function AccountScreen() {
       <TextField label="Display name" value={name} onChangeText={setName} autoCapitalize="words" />
 
       <SettingsList rows={[{ icon: 'mail-outline', label: 'Email', value: mockUser.email, kind: 'plain' }]} />
-
-      <SegmentedField
-        label="Units"
-        value={units}
-        onChange={setUnits}
-        options={[
-          { label: 'Metric', value: 'metric' },
-          { label: 'Imperial', value: 'imperial' },
-        ]}
-      />
 
       <SettingsList
         rows={[
