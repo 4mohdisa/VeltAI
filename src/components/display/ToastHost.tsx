@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/primitives/Icon';
-import Animated, { FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
+import Animated, { Easing, FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
@@ -49,7 +49,7 @@ export function ToastHost() {
       }}
     >
       <Animated.View
-        entering={atTop ? SlideInUp.springify().damping(18) : SlideInDown.springify().damping(18)}
+        entering={(atTop ? SlideInUp : SlideInDown).duration(240).easing(Easing.out(Easing.cubic))}
         exiting={FadeOut.duration(200)}
         style={[
           {

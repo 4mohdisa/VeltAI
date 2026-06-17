@@ -247,11 +247,11 @@ export const motion = {
     slow: 700,
     epic: 1100,
   },
+  // Timing curves only — no spring physics anywhere (no bounce/overshoot).
   easing: {
     standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
     enter: 'cubic-bezier(0, 0, 0.2, 1)',
     exit: 'cubic-bezier(0.4, 0, 1, 1)',
-    spring: { damping: 18, stiffness: 180 },
   },
 } as const;
 
