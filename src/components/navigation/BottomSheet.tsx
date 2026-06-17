@@ -40,13 +40,16 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
   const insets = useSafeAreaInsets();
   const translateY = useSharedValue(CLOSED_OFFSET);
   const startY = useSharedValue(0);
+  // Measured panel height → the sheet slides up from exactly its own height below
+  // the bottom edge (falls back to CLOSED_OFFSET before the first layout pass).
+  const sheetHeight = useSharedValue(CLOSED_OFFSET);
 
   useEffect(() => {
     if (visible) {
-      translateY.value = CLOSED_OFFSET;
+      translateY.value = sheetHeight.value;
       translateY.value = withTiming(OPEN_OFFSET, RISE);
     }
-  }, [visible, translateY]);
+  }, [visible, translateY, sheetHeight]);
 
   const pan = Gesture.Pan()
     .onBegin(() => {
@@ -57,7 +60,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
     })
     .onEnd((e) => {
       if (translateY.value > DISMISS_THRESHOLD || e.velocityY > 800) {
-        translateY.value = withTiming(CLOSED_OFFSET, FALL);
+        translateY.value = withTiming(sheetHeight.value, FALL);
         runOnJS(onClose)();
       } else {
         translateY.value = withTiming(OPEN_OFFSET, RISE);
@@ -84,6 +87,9 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
 
         <Animated.View
           testID={testID}
+          onLayout={(e) => {
+            sheetHeight.value = e.nativeEvent.layout.height + insets.bottom;
+          }}
           style={[
             {
               backgroundColor: color.white,
