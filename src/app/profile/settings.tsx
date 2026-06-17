@@ -10,7 +10,7 @@ import { router } from 'expo-router';
 export default function SettingsScreen() {
   const { t } = useTranslation();
   return (
-    <Screen title={t('settings.title')} showBack>
+    <Screen grouped title={t('settings.title')} showBack>
       <SettingsList
         title={t('settings.groupAccount')}
         rows={[

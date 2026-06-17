@@ -19,7 +19,7 @@ const READ_TYPES = [
 
 export default function AppleHealthScreen() {
   return (
-    <Screen
+    <Screen grouped
       title="Apple Health"
       showBack
       footer={

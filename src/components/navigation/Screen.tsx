@@ -6,7 +6,7 @@ import { RefreshControl, ScrollView, View, type StyleProp, type ViewStyle } from
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavBar } from './NavBar';
-import { color, space } from '@/lib/design/tokens';
+import { color, space, surface } from '@/lib/design/tokens';
 
 export type ScreenProps = {
   title?: string;
@@ -21,6 +21,8 @@ export type ScreenProps = {
   children: ReactNode;
   contentStyle?: StyleProp<ViewStyle>;
   backgroundColor?: string;
+  /** Inset-grouped settings look: subtle grouped background (HIG §6.2). */
+  grouped?: boolean;
   refreshing?: boolean;
   onRefresh?: () => void;
 };
@@ -36,11 +38,13 @@ export function Screen({
   footer,
   children,
   contentStyle,
-  backgroundColor = color.white,
+  backgroundColor,
+  grouped = false,
   refreshing,
   onRefresh,
 }: ScreenProps) {
   const insets = useSafeAreaInsets();
+  const bg = backgroundColor ?? (grouped ? surface.backgroundAlt : color.white);
   const hasHeader = showBack || title !== undefined || headerRight !== undefined;
   const padding = padded ? { padding: space.xl } : null;
   // HIG §1.1: keep the home indicator clear. With no footer the last scroll row
@@ -48,7 +52,7 @@ export function Screen({
   const scrollBottom = space['4xl'] + (footer ? 0 : insets.bottom);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: bg }} edges={['top']}>
       {hasHeader ? (
         <NavBar title={title} showBack={showBack} backLabel={backLabel} right={headerRight} borderless={borderlessHeader} />
       ) : null}

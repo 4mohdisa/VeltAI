@@ -20,7 +20,7 @@ export default function AccountScreen() {
   const [name, setName] = useState(mockUser.name);
 
   return (
-    <Screen title="Account" showBack>
+    <Screen grouped title="Account" showBack>
       <Card>
         <View style={{ alignItems: 'center', gap: space.md }}>
           <Avatar name={name} size={84} />

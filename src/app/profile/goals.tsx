@@ -69,7 +69,7 @@ export default function GoalsScreen() {
   ];
 
   return (
-    <Screen title={t('goals.title')} showBack backLabel={t('settings.title')}>
+    <Screen grouped title={t('goals.title')} showBack backLabel={t('settings.title')}>
       <SegmentedField
         label={t('goals.mode')}
         value={goalMode}

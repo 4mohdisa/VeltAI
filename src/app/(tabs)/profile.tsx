@@ -12,12 +12,12 @@ import { SettingsList } from '@/components/display/SettingsList';
 import { Stat } from '@/components/display/Stat';
 import { Text } from '@/components/primitives/Text';
 import { StreakCounter } from '@/components/domain/StreakCounter';
-import { color, space } from '@/lib/design/tokens';
+import { color, space, surface } from '@/lib/design/tokens';
 import { mockStreak, mockUser } from '@/lib/mock/data';
 
 export default function ProfileScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: surface.backgroundAlt }} edges={['top']}>
       <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
         {/* Identity */}
         <View style={{ alignItems: 'center', gap: space.sm }}>

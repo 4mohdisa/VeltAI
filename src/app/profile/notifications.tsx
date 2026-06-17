@@ -40,7 +40,7 @@ export default function NotificationPrefsScreen() {
   const toggle = (key: keyof Prefs) => (value: boolean) => setPrefs((p) => ({ ...p, [key]: value }));
 
   return (
-    <Screen title="Notifications" showBack backLabel="Settings">
+    <Screen grouped title="Notifications" showBack backLabel="Settings">
       <SettingsList
         title="What we send"
         rows={[

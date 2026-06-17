@@ -4,10 +4,9 @@
 import { Switch, View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
-import { Card } from './Card';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, layout, radius, space } from '@/lib/design/tokens';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 
 export type SettingsRowProps = {
@@ -100,26 +99,40 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
 
 export type SettingsListProps = {
   title?: string;
+  /** Optional explanatory footer below the group (HIG §6.2). */
+  footer?: string;
   rows: SettingsRowProps[];
 };
 
-export function SettingsList({ title, rows }: SettingsListProps) {
+// Inset-grouped (HIG §6.2): white rows on the screen's subtle grouped background.
+// Uses surface.cardElevated (white) rather than the generic grey Card so the
+// rows read as the standard iOS Settings group against backgroundAlt.
+export function SettingsList({ title, footer, rows }: SettingsListProps) {
   return (
     <View>
       {title ? (
         <Text
           variant="footnote"
-          color={color.gray500}
+          color={color.secondaryLabel}
           style={{ marginBottom: space.sm, marginLeft: space.xs, textTransform: 'uppercase', letterSpacing: 1 }}
         >
           {title}
         </Text>
       ) : null}
-      <Card padded={false}>
+      <View style={{ backgroundColor: surface.cardElevated, borderRadius: radius.lg, overflow: 'hidden' }}>
         {rows.map((row, i) => (
           <Row key={row.label} row={row} showDivider={i > 0} />
         ))}
-      </Card>
+      </View>
+      {footer ? (
+        <Text
+          variant="footnote"
+          color={color.secondaryLabel}
+          style={{ marginTop: space.sm, marginLeft: space.xs, marginRight: space.xs }}
+        >
+          {footer}
+        </Text>
+      ) : null}
     </View>
   );
 }

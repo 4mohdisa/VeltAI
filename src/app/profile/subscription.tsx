@@ -15,7 +15,7 @@ import { mockSubscription } from '@/lib/mock/data';
 
 export default function SubscriptionScreen() {
   return (
-    <Screen
+    <Screen grouped
       title="Subscription"
       showBack
       footer={

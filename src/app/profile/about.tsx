@@ -9,7 +9,7 @@ import { color, space } from '@/lib/design/tokens';
 
 export default function AboutScreen() {
   return (
-    <Screen title="About" showBack>
+    <Screen grouped title="About" showBack>
       <View style={{ alignItems: 'center', gap: space.xs, paddingVertical: space.xl }}>
         <Text variant="title1" color={color.black}>
           Veltai

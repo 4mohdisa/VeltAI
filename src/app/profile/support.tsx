@@ -14,7 +14,7 @@ export default function SupportScreen() {
   const [feedback, setFeedback] = useState('');
 
   return (
-    <Screen title="Support" showBack>
+    <Screen grouped title="Support" showBack>
       <SettingsList
         rows={[
           { icon: 'mail-outline', label: 'Email support', value: 'hello@veltai.app', onPress: () => Linking.openURL('mailto:hello@veltai.app').catch(() => {}) },

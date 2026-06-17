@@ -11,7 +11,7 @@ const open = (url: string) => () => Linking.openURL(url).catch(() => {});
 
 export default function PrivacyScreen() {
   return (
-    <Screen title="Privacy" showBack>
+    <Screen grouped title="Privacy" showBack>
       <SettingsList
         rows={[
           { icon: 'document-text-outline', label: 'Privacy policy', onPress: open('https://veltai.app/privacy') },
