@@ -32,6 +32,7 @@
     "foodQuantities": "Quantités d'aliments",
     "volume": "Volume",
     "energy": "Énergie",
-    "language": "Langue"
+    "language": "Langue",
+    "systemDefault": "Par défaut du système"
   }
 }

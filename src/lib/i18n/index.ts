@@ -23,7 +23,7 @@ const resources = {
   fr: { translation: fr },
 } as const;
 
-function deviceLanguage(): string {
+export function deviceLanguage(): string {
   try {
     const locale = Intl.DateTimeFormat().resolvedOptions().locale; // e.g. "es-ES"
     const code = locale.split('-')[0];

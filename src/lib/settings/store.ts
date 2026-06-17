@@ -33,14 +33,15 @@ const seedUnits: UnitPreferences =
 
 type SettingsState = {
   units: UnitPreferences;
-  language: string;
+  // null = follow the device language (System default); a code = manual override.
+  languageOverride: string | null;
   goalMode: GoalMode;
   customGoals: MacroGoals;
   macroSplitBy: MacroSplitBy;
 
   setSystem: (system: 'metric' | 'imperial') => void;
   setUnit: (dimension: UnitDimension, value: string) => void;
-  setLanguage: (lang: string) => void;
+  setLanguage: (lang: string | null) => void; // null → System default
 
   setGoalMode: (mode: GoalMode) => void;
   setCustomGoals: (patch: Partial<MacroGoals>) => void;
@@ -50,7 +51,7 @@ type SettingsState = {
 
 export const useSettingsStore = create<SettingsState>((set) => ({
   units: seedUnits,
-  language: 'en',
+  languageOverride: null,
   goalMode: 'ai',
   customGoals: AI_GOALS,
   macroSplitBy: 'grams',
@@ -58,7 +59,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
   setUnit: (dimension, value) =>
     set((s) => ({ units: { ...s.units, [dimension]: value } as UnitPreferences })),
-  setLanguage: (language) => set({ language }),
+  setLanguage: (languageOverride) => set({ languageOverride }),
 
   setGoalMode: (goalMode) => set({ goalMode }),
   setCustomGoals: (patch) => set((s) => ({ customGoals: { ...s.customGoals, ...patch } })),

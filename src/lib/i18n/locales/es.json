@@ -32,7 +32,8 @@
     "foodQuantities": "Cantidades de comida",
     "volume": "Volumen",
     "energy": "Energía",
-    "language": "Idioma"
+    "language": "Idioma",
+    "systemDefault": "Predeterminado del sistema"
   },
   "goals": {
     "title": "Objetivos",

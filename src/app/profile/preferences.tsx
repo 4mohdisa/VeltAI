@@ -13,7 +13,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { useSettingsStore } from '@/lib/settings/store';
 import { UNIT_OPTIONS, systemOf, type UnitDimension } from '@/lib/units';
-import i18n, { SUPPORTED_LANGUAGES } from '@/lib/i18n';
+import i18n, { SUPPORTED_LANGUAGES, deviceLanguage } from '@/lib/i18n';
 
 const DIMENSIONS: { key: UnitDimension; labelKey: string }[] = [
   { key: 'weight', labelKey: 'preferences.bodyWeight' },
@@ -27,12 +27,13 @@ export default function PreferencesScreen() {
   const units = useSettingsStore((s) => s.units);
   const setSystem = useSettingsStore((s) => s.setSystem);
   const setUnit = useSettingsStore((s) => s.setUnit);
-  const language = useSettingsStore((s) => s.language);
+  const languageOverride = useSettingsStore((s) => s.languageOverride);
   const setLanguage = useSettingsStore((s) => s.setLanguage);
   const system = systemOf(units);
 
-  const changeLanguage = (code: string) => {
-    void i18n.changeLanguage(code);
+  // null override → System default (follow the device language).
+  const changeLanguage = (code: string | null) => {
+    void i18n.changeLanguage(code ?? deviceLanguage());
     setLanguage(code);
   };
 
@@ -65,11 +66,18 @@ export default function PreferencesScreen() {
 
       <SettingsList
         title={t('preferences.language')}
-        rows={SUPPORTED_LANGUAGES.map((l) => ({
-          icon: language === l.code ? 'checkmark-circle' : 'ellipse-outline',
-          label: l.label,
-          onPress: () => changeLanguage(l.code),
-        }))}
+        rows={[
+          {
+            icon: languageOverride === null ? 'checkmark-circle' : 'ellipse-outline',
+            label: t('preferences.systemDefault'),
+            onPress: () => changeLanguage(null),
+          },
+          ...SUPPORTED_LANGUAGES.map((l) => ({
+            icon: languageOverride === l.code ? 'checkmark-circle' : 'ellipse-outline',
+            label: l.label,
+            onPress: () => changeLanguage(l.code),
+          })),
+        ]}
       />
     </Screen>
   );
