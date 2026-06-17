@@ -1,11 +1,15 @@
 // E6 · Notification preferences
-// Per-type toggles, quiet hours (placeholder time rows), daily cap stepper.
+// Per-type toggles + quiet hours (native iOS time pickers). No daily cap.
 import { useState } from 'react';
+import { View } from 'react-native';
+import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
-import { Stepper } from '@/components/forms/Stepper';
-import { showToast } from '@/components/display/toastStore';
+import { Card } from '@/components/display/Card';
+import { Text } from '@/components/primitives/Text';
+import { Icon } from '@/components/primitives/Icon';
+import { color, space } from '@/lib/design/tokens';
 
 type Prefs = {
   gymReminder: boolean;
@@ -15,6 +19,13 @@ type Prefs = {
   weeklyRecap: boolean;
 };
 
+// Build a Date set to today at the given hour/minute (quiet-hours mock seed).
+function timeToday(hours: number, minutes: number): Date {
+  const d = new Date();
+  d.setHours(hours, minutes, 0, 0);
+  return d;
+}
+
 export default function NotificationPrefsScreen() {
   const [prefs, setPrefs] = useState<Prefs>({
     gymReminder: true,
@@ -23,7 +34,8 @@ export default function NotificationPrefsScreen() {
     aiNudges: true,
     weeklyRecap: false,
   });
-  const [dailyCap, setDailyCap] = useState(6);
+  const [quietFrom, setQuietFrom] = useState(() => timeToday(22, 0));
+  const [quietTo, setQuietTo] = useState(() => timeToday(7, 0));
 
   const toggle = (key: keyof Prefs) => (value: boolean) => setPrefs((p) => ({ ...p, [key]: value }));
 
@@ -40,15 +52,60 @@ export default function NotificationPrefsScreen() {
         ]}
       />
 
-      <SettingsList
-        title="Quiet hours"
-        rows={[
-          { icon: 'moon-outline', label: 'From', value: '22:00', onPress: () => showToast({ message: 'Opens a time picker on device.', tone: 'info' }) },
-          { icon: 'sunny-outline', label: 'To', value: '07:00', onPress: () => showToast({ message: 'Opens a time picker on device.', tone: 'info' }) },
-        ]}
-      />
-
-      <Stepper label="Daily notification cap" value={dailyCap} min={1} max={12} onChange={setDailyCap} />
+      <View>
+        <Text
+          variant="footnote"
+          color={color.gray500}
+          style={{ marginBottom: space.sm, textTransform: 'uppercase', letterSpacing: 1 }}
+        >
+          Quiet hours
+        </Text>
+        <Card padded={false}>
+          <QuietRow icon="moon-outline" label="From" value={quietFrom} onChange={setQuietFrom} first />
+          <QuietRow icon="sunny-outline" label="To" value={quietTo} onChange={setQuietTo} />
+        </Card>
+      </View>
     </Screen>
+  );
+}
+
+function QuietRow({
+  icon,
+  label,
+  value,
+  onChange,
+  first,
+}: {
+  icon: string;
+  label: string;
+  value: Date;
+  onChange: (d: Date) => void;
+  first?: boolean;
+}) {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: space.md,
+        paddingHorizontal: space.lg,
+        paddingVertical: space.sm,
+        minHeight: 52,
+        borderTopWidth: first ? 0 : 1,
+        borderTopColor: color.gray100,
+      }}
+    >
+      <Icon name={icon} size={18} color={color.gray500} />
+      <Text variant="body" color={color.black} style={{ flex: 1 }}>
+        {label}
+      </Text>
+      <DateTimePicker
+        mode="time"
+        display="compact"
+        value={value}
+        onChange={(_event, date) => date && onChange(date)}
+        style={{ width: 96, height: 40 }}
+      />
+    </View>
   );
 }
