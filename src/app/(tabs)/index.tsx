@@ -76,7 +76,10 @@ export default function DashboardScreen() {
           }}
         />
 
-        <Card onPress={() => router.push('/dashboard/nutrition')} accessibilityLabel="Today's nutrition detail">
+        <Card
+          onPress={() => router.push('/dashboard/nutrition')}
+          accessibilityLabel={`Today's nutrition. ${formatEnergy(mockMacros.calories.consumed, energyUnit)} of ${formatEnergy(goals.calories, energyUnit)}. Double tap for detail.`}
+        >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.lg }}>
             <DailyMacroRing
               consumed={mockMacros.calories.consumed}

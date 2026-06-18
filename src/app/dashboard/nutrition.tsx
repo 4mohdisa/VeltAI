@@ -32,11 +32,18 @@ export default function NutritionDetailScreen() {
   useEffect(() => {
     readActiveEnergyAndSteps().then(setHealth);
   }, []);
+  // First-load skeleton for the charts (HIG §7) — mocks the backend fetch.
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(id);
+  }, []);
 
   return (
     <Screen title={t('nutrition.title')} showBack>
       <ChartCard
         title="Calories today"
+        loading={loading}
         takeaway={t('nutrition.remainingToday', {
           value: formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit),
         })}
@@ -56,6 +63,7 @@ export default function NutritionDetailScreen() {
 
       <ChartCard
         title="Macros today"
+        loading={loading}
         takeaway={`Protein ${mockMacros.protein.consumed} of ${goals.protein} g`}
         summary={`Macros today. Protein ${mockMacros.protein.consumed} of ${goals.protein} grams, carbs ${mockMacros.carbs.consumed} of ${goals.carbs} grams, fat ${mockMacros.fat.consumed} of ${goals.fat} grams, fibre ${mockMacros.fibre.consumed} of ${goals.fibre} grams.`}
       >
