@@ -24,10 +24,15 @@ let counter = 0;
 const nextId = (prefix: string) => `${prefix}_${Date.now().toString(36)}_${(counter++).toString(36)}`;
 
 function seedMeals(): StoredMeal[] {
-  return mockMeals.map((m) => ({
-    ...m,
-    items: m.items.map((it) => ({ ...it, id: nextId('it') })),
-  }));
+  // Recompute meal totals from items on seed so the food log (item sums) and the
+  // dashboard/nutrition (meal totals) agree — the mock's meal.calories don't all
+  // match their item sums.
+  return mockMeals.map((m) =>
+    recompute({
+      ...m,
+      items: m.items.map((it) => ({ ...it, id: nextId('it') })),
+    }),
+  );
 }
 
 function recompute(meal: StoredMeal): StoredMeal {
