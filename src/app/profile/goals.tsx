@@ -17,8 +17,9 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
-import { AI_GOALS, useSettingsStore } from '@/lib/settings/store';
+import { useSettingsStore } from '@/lib/settings/store';
 import { useUnitPreferences } from '@/lib/settings/store';
+import { useGoals } from '@/lib/data';
 import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 
 // Atwater factors (kcal per gram).
@@ -39,7 +40,9 @@ export default function GoalsScreen() {
   const setSplitBy = useSettingsStore((s) => s.setMacroSplitBy);
 
   const isCustom = goalMode === 'custom';
-  const goals = isCustom ? customGoals : AI_GOALS;
+  // In AI mode show the derived recommendation; in custom mode the user's values.
+  const aiRecommendation = useGoals();
+  const goals = isCustom ? customGoals : aiRecommendation;
 
   // Macro kcal sum (for the % view and the reconciliation hint).
   const macroKcal = useMemo(

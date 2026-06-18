@@ -1,7 +1,7 @@
 // D6 · Gym session history
 // Reverse-chronological list of past sessions: date, duration, effort, notes.
 // No XP, no verification, no photo — gym logging is a single tap.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
@@ -13,15 +13,14 @@ import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { formatDuration } from '@/lib/formatting';
-import { mockGymSessions } from '@/lib/mock/data';
+import { useGym } from '@/lib/data';
 
 export default function GymHistoryScreen() {
   const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const id = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(id);
-  }, []);
+  const {
+    data: { sessions },
+    isLoading: loading,
+  } = useGym();
   const onRefresh = useCallback(() => {
     haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
@@ -32,7 +31,7 @@ export default function GymHistoryScreen() {
     <Screen grouped title="Session history" showBack backLabel="Gym" refreshing={refreshing} onRefresh={onRefresh}>
       {loading ? (
         <SkeletonList rows={4} />
-      ) : mockGymSessions.length === 0 ? (
+      ) : sessions.length === 0 ? (
         <EmptyState
           icon="dumbbell"
           title="No sessions yet"
@@ -40,7 +39,7 @@ export default function GymHistoryScreen() {
         />
       ) : (
         <Card padded={false}>
-          {mockGymSessions.map((session, i) => (
+          {sessions.map((session, i) => (
           <View
             key={session.id}
             style={{

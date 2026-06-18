@@ -20,17 +20,19 @@ import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
-import { mockMacros, mockPlan, mockStreak, mockUser } from '@/lib/mock/data';
-import { useEffectiveGoals, useUnitPreferences } from '@/lib/settings/store';
+import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
+import { useDashboard, logGymSession } from '@/lib/data';
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
-  const goals = useEffectiveGoals();
   const energyUnit = useUnitPreferences().energy;
-  const [gymLogged, setGymLogged] = useState(mockStreak.gymLoggedToday);
+  const {
+    data: { profile, streak, macros, plan },
+  } = useDashboard();
+  const gymLogged = streak.gymLoggedToday;
   const [showNudge, setShowNudge] = useState(true);
-  const nextMeal = mockPlan.find((p) => p.kind === 'meal');
+  const nextMeal = plan.find((p) => p.kind === 'meal');
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
@@ -47,18 +49,18 @@ export default function DashboardScreen() {
         {/* Zone 1 — streak (the only progression mechanic) */}
         <View style={{ gap: space.xs }}>
           <Text variant="footnote" color={color.gray500}>
-            {t('dashboard.welcome', { name: mockUser.name.split(' ')[0] })}
+            {t('dashboard.welcome', { name: profile.name.split(' ')[0] })}
           </Text>
           <Pressable
             onPress={() => router.push('/gym/streak')}
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`Current streak ${mockStreak.current} days`}
+            accessibilityLabel={`Current streak ${streak.current} days`}
             style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}
           >
-            <StreakFlame size={30} active={mockStreak.current > 0} />
+            <StreakFlame size={30} active={streak.current > 0} />
             <Text variant="statLarge" color={color.black}>
-              {mockStreak.current}
+              {streak.current}
             </Text>
             <Text variant="callout" color={color.gray500}>
               {t('dashboard.dayStreak')}
@@ -71,28 +73,28 @@ export default function DashboardScreen() {
           logged={gymLogged}
           durationMin={62}
           onLog={() => {
-            setGymLogged(true);
+            logGymSession();
             showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
           }}
         />
 
         <Card
           onPress={() => router.push('/dashboard/nutrition')}
-          accessibilityLabel={`Today's nutrition. ${formatEnergy(mockMacros.calories.consumed, energyUnit)} of ${formatEnergy(goals.calories, energyUnit)}. Double tap for detail.`}
+          accessibilityLabel={`Today's nutrition. ${formatEnergy(macros.calories.consumed, energyUnit)} of ${formatEnergy(macros.calories.target, energyUnit)}. Double tap for detail.`}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.lg }}>
             <DailyMacroRing
-              consumed={mockMacros.calories.consumed}
-              target={goals.calories}
+              consumed={macros.calories.consumed}
+              target={macros.calories.target}
               size={132}
               energyUnit={energyUnit}
             />
             <View style={{ flex: 1 }}>
               <MacroBars
                 rows={[
-                  { label: t('nutrition.protein'), macroKey: 'Protein', data: { consumed: mockMacros.protein.consumed, target: goals.protein } },
-                  { label: t('nutrition.carbs'), macroKey: 'Carbs', data: { consumed: mockMacros.carbs.consumed, target: goals.carbs } },
-                  { label: t('nutrition.fat'), macroKey: 'Fat', data: { consumed: mockMacros.fat.consumed, target: goals.fat } },
+                  { label: t('nutrition.protein'), macroKey: 'Protein', data: macros.protein },
+                  { label: t('nutrition.carbs'), macroKey: 'Carbs', data: macros.carbs },
+                  { label: t('nutrition.fat'), macroKey: 'Fat', data: macros.fat },
                 ]}
               />
             </View>

@@ -11,7 +11,9 @@ import {
   type UnitDimension,
   type UnitPreferences,
 } from '@/lib/units';
-import { mockMacros, mockUser } from '@/lib/mock/data';
+import { mockUser } from '@/lib/mock/data';
+import { useUserStore } from '@/lib/data/userStore';
+import { deriveGoals } from '@/lib/goals/derive';
 
 // --- Goals ------------------------------------------------------------------
 // All canonical: calories in kcal, macros in grams.
@@ -19,14 +21,11 @@ export type GoalMode = 'ai' | 'custom';
 export type MacroSplitBy = 'grams' | 'percent';
 export type MacroGoals = { calories: number; protein: number; carbs: number; fat: number; fibre: number };
 
-// The AI recommendation = the onboarding-derived targets in mock data.
-export const AI_GOALS: MacroGoals = {
-  calories: mockMacros.calories.target,
-  protein: mockMacros.protein.target,
-  carbs: mockMacros.carbs.target,
-  fat: mockMacros.fat.target,
-  fibre: mockMacros.fibre.target,
-};
+/** The "AI recommendation" — derived from the user's onboarding profile (Task 2),
+ *  no longer a hardcoded mock target. Stays editable via the custom override. */
+export function aiGoals(): MacroGoals {
+  return deriveGoals(useUserStore.getState().profile);
+}
 
 const seedUnits: UnitPreferences =
   mockUser.units === 'imperial' ? IMPERIAL_PREFERENCES : mockUser.units === 'metric' ? METRIC_PREFERENCES : DEFAULT_UNIT_PREFERENCES;
@@ -53,7 +52,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   units: seedUnits,
   languageOverride: null,
   goalMode: 'ai',
-  customGoals: AI_GOALS,
+  customGoals: aiGoals(), // seeds custom fields with the derived recommendation
   macroSplitBy: 'grams',
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
@@ -64,14 +63,19 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setGoalMode: (goalMode) => set({ goalMode }),
   setCustomGoals: (patch) => set((s) => ({ customGoals: { ...s.customGoals, ...patch } })),
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
-  resetGoalsToAi: () => set({ customGoals: AI_GOALS }),
+  resetGoalsToAi: () => set({ customGoals: aiGoals() }),
 }));
 
 // --- Selectors --------------------------------------------------------------
 
-/** The macro/calorie targets the app should actually use right now. */
+/** The macro/calorie targets the app should actually use right now. Reactive to
+ *  both the goal mode/custom values AND the user profile (so the derived
+ *  recommendation updates when onboarding writes the user's real numbers). */
 export function useEffectiveGoals(): MacroGoals {
-  return useSettingsStore((s) => (s.goalMode === 'custom' ? s.customGoals : AI_GOALS));
+  const mode = useSettingsStore((s) => s.goalMode);
+  const customGoals = useSettingsStore((s) => s.customGoals);
+  const profile = useUserStore((s) => s.profile);
+  return mode === 'custom' ? customGoals : deriveGoals(profile);
 }
 
 export function useUnitPreferences(): UnitPreferences {

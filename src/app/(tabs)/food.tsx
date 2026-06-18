@@ -5,7 +5,7 @@
 // hairline separators, rounded inset group). Tapping a row opens the shared edit
 // sheet; the section's + adds to that meal. A search bar pins above the list;
 // the solid black + FAB floats clear of the tab bar.
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, SectionList, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -28,27 +28,29 @@ import { haptics } from '@/lib/haptics';
 import { formatCalories } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
-import { foodCatalog, mockMeals, type FoodResult, type MealSlot } from '@/lib/mock/data';
+import { useFoodLog, useFoodSearch, editFoodItem, deleteFoodItem, type StoredMeal } from '@/lib/data';
+import type { FoodResult, MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
-type FoodRow = EditableItem;
+type FoodRow = EditableItem & { pending?: boolean };
 type MealSection = { slot: MealSlot; subtotal: number; data: FoodRow[] };
 
-// Group today's meal items into one section per canonical slot (stable row ids).
-function buildSections(): MealSection[] {
+// Group the store's meals into one section per canonical slot (rows carry the
+// store item id so edits/deletes/pending map straight back through the seam).
+function buildSections(meals: StoredMeal[]): MealSection[] {
   const bySlot: Record<MealSlot, FoodRow[]> = { Breakfast: [], Lunch: [], Dinner: [], Snacks: [] };
-  let n = 0;
-  for (const meal of mockMeals) {
+  for (const meal of meals) {
     for (const it of meal.items) {
       bySlot[meal.slot].push({
-        id: `fl${n++}`,
+        id: it.id,
         name: it.name,
         quantityG: it.quantityG,
         calories: it.calories,
         protein: it.protein,
         carbs: it.carbs,
         fat: it.fat,
+        pending: it.pending,
       });
     }
   }
@@ -65,29 +67,18 @@ export default function FoodLogScreen() {
   const energyUnit = useUnitPreferences().energy;
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
-  const [sections, setSections] = useState<MealSection[]>(buildSections);
   const [editing, setEditing] = useState<FoodRow | null>(null);
-  // First-load skeleton (HIG §6.3) + error/retry scaffold (HIG §9) — mocks the
-  // backend fetch that lands later; the backend will flip loadError on failure.
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
-  const load = useCallback(() => {
-    setLoadError(false);
-    setLoading(true);
-    const id = setTimeout(() => setLoading(false), 700);
-    return () => clearTimeout(id);
-  }, []);
-  useEffect(() => load(), [load]);
+
+  // Data seam — reactive meals + first-load slot. Edits go through the mutations.
+  const { data: meals, isLoading: loading, error, refetch } = useFoodLog();
+  const loadError = !!error;
+  const sections = useMemo(() => buildSections(meals), [meals]);
 
   const total = sections.reduce((sum, s) => sum + s.subtotal, 0);
   const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
 
   const searching = query.trim().length > 0;
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [] as FoodResult[];
-    return foodCatalog.filter((r) => r.name.toLowerCase().includes(q) || r.brand?.toLowerCase().includes(q));
-  }, [query]);
+  const { results } = useFoodSearch(query);
 
   const onRefresh = useCallback(() => {
     haptics.impactLight(); // pull-to-refresh trigger
@@ -95,24 +86,12 @@ export default function FoodLogScreen() {
     setTimeout(() => setRefreshing(false), 700);
   }, []);
 
-  const recompute = (rows: FoodRow[]) => rows.reduce((s, i) => s + i.calories, 0);
-
   const applyEdit = (next: EditableItem) => {
-    setSections((prev) =>
-      prev.map((sec) => {
-        const data = sec.data.map((r) => (r.id === next.id ? { ...r, ...next } : r));
-        return { ...sec, data, subtotal: recompute(data) };
-      }),
-    );
+    editFoodItem(next.id, next);
     setEditing(null);
   };
   const removeRow = (id: string) => {
-    setSections((prev) =>
-      prev.map((sec) => {
-        const data = sec.data.filter((r) => r.id !== id);
-        return { ...sec, data, subtotal: recompute(data) };
-      }),
-    );
+    deleteFoodItem(id);
     setEditing(null);
   };
 
@@ -203,7 +182,7 @@ export default function FoodLogScreen() {
       ) : loadError ? (
         <ErrorState
           message="We couldn't load today's food log. Check your connection and try again."
-          onRetry={load}
+          onRetry={refetch}
         />
       ) : loading ? (
         <ScrollView contentContainerStyle={{ padding: space.xl }}>

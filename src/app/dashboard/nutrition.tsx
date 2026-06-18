@@ -17,26 +17,21 @@ import { MacroBars } from '@/components/domain/MacroBars';
 import { ChartCard } from '@/components/domain/ChartCard';
 import { readActiveEnergyAndSteps, type HealthToday } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
-import { mockMacros, mockMeals } from '@/lib/mock/data';
-import { useEffectiveGoals, useUnitPreferences } from '@/lib/settings/store';
+import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
+import { useDailyMacros, useFoodLog } from '@/lib/data';
 
 export default function NutritionDetailScreen() {
   const { t } = useTranslation();
-  const goals = useEffectiveGoals();
   const energyUnit = useUnitPreferences().energy;
-  const cal = { consumed: mockMacros.calories.consumed, target: goals.calories };
+  const macros = useDailyMacros();
+  const { data: meals, isLoading: loading } = useFoodLog();
+  const cal = macros.calories;
   // Read active energy + steps from Apple Health (mock); falls back to
   // intake-only if Health is denied/unavailable.
   const [health, setHealth] = useState<HealthToday | null>(null);
   useEffect(() => {
     readActiveEnergyAndSteps().then(setHealth);
-  }, []);
-  // First-load skeleton for the charts (HIG §7) — mocks the backend fetch.
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const id = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(id);
   }, []);
 
   return (
@@ -64,15 +59,15 @@ export default function NutritionDetailScreen() {
       <ChartCard
         title="Macros today"
         loading={loading}
-        takeaway={`Protein ${mockMacros.protein.consumed} of ${goals.protein} g`}
-        summary={`Macros today. Protein ${mockMacros.protein.consumed} of ${goals.protein} grams, carbs ${mockMacros.carbs.consumed} of ${goals.carbs} grams, fat ${mockMacros.fat.consumed} of ${goals.fat} grams, fibre ${mockMacros.fibre.consumed} of ${goals.fibre} grams.`}
+        takeaway={`Protein ${macros.protein.consumed} of ${macros.protein.target} g`}
+        summary={`Macros today. Protein ${macros.protein.consumed} of ${macros.protein.target} grams, carbs ${macros.carbs.consumed} of ${macros.carbs.target} grams, fat ${macros.fat.consumed} of ${macros.fat.target} grams, fibre ${macros.fibre.consumed} of ${macros.fibre.target} grams.`}
       >
         <MacroBars
           rows={[
-            { label: t('nutrition.protein'), macroKey: 'Protein', data: { consumed: mockMacros.protein.consumed, target: goals.protein } },
-            { label: t('nutrition.carbs'), macroKey: 'Carbs', data: { consumed: mockMacros.carbs.consumed, target: goals.carbs } },
-            { label: t('nutrition.fat'), macroKey: 'Fat', data: { consumed: mockMacros.fat.consumed, target: goals.fat } },
-            { label: t('nutrition.fibre'), macroKey: 'Fibre', data: { consumed: mockMacros.fibre.consumed, target: goals.fibre } },
+            { label: t('nutrition.protein'), macroKey: 'Protein', data: macros.protein },
+            { label: t('nutrition.carbs'), macroKey: 'Carbs', data: macros.carbs },
+            { label: t('nutrition.fat'), macroKey: 'Fat', data: macros.fat },
+            { label: t('nutrition.fibre'), macroKey: 'Fibre', data: macros.fibre },
           ]}
         />
       </ChartCard>
@@ -86,7 +81,7 @@ export default function NutritionDetailScreen() {
           {t('nutrition.mealsToday')}
         </Text>
         <Card padded={false}>
-          {mockMeals.map((meal, i) => (
+          {meals.map((meal, i) => (
             <Pressable
               key={meal.id}
               haptic={false}

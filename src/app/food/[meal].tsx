@@ -1,6 +1,7 @@
 // C11 · Meal detail (edit)
 // Existing meal with all food items listed; edit any item inline. Delete meal at
-// the bottom (destructive, requires confirmation via a bottom sheet).
+// the bottom (destructive, requires confirmation via a bottom sheet). Reads/writes
+// through the data seam so edits persist across navigation.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -18,32 +19,32 @@ import { showToast } from '@/components/display/toastStore';
 import { writeNutritionToHealth } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories, formatGrams } from '@/lib/formatting';
-import { mockMeals, type FoodItem } from '@/lib/mock/data';
+import { useMeal, editFoodItem, deleteFoodItem, saveFood } from '@/lib/data';
 
 export default function MealDetailScreen() {
   const { meal: mealId } = useLocalSearchParams<{ meal: string }>();
-  const meal = mockMeals.find((m) => m.id === mealId) ?? mockMeals[0];
+  const meal = useMeal(mealId);
   const [confirming, setConfirming] = useState(false);
   const [synced, setSynced] = useState(false); // written to Apple Health (per meal)
-  const [items, setItems] = useState<FoodItem[]>(meal.items);
-  const [editing, setEditing] = useState<(EditableItem & { idx: number }) | null>(null);
+  const [editing, setEditing] = useState<EditableItem | null>(null);
+
+  // Meal was deleted (e.g. last item removed) → nothing to show.
+  if (!meal) {
+    return (
+      <Screen title="Meal" showBack>
+        <Text variant="callout" color={color.gray500} style={{ textAlign: 'center', paddingVertical: space['2xl'] }}>
+          This meal is no longer in your log.
+        </Text>
+      </Screen>
+    );
+  }
 
   const applyEdit = (next: EditableItem) => {
-    const idx = editing?.idx;
-    if (idx === undefined) return;
-    setItems((arr) =>
-      arr.map((it, i) =>
-        i === idx
-          ? { ...it, name: next.name, quantityG: next.quantityG, calories: next.calories, protein: next.protein, carbs: next.carbs, fat: next.fat }
-          : it,
-      ),
-    );
+    editFoodItem(next.id, next);
     setEditing(null);
   };
-  const removeItem = () => {
-    const idx = editing?.idx;
-    if (idx === undefined) return;
-    setItems((arr) => arr.filter((_, i) => i !== idx));
+  const removeItem = (id: string) => {
+    deleteFoodItem(id);
     setEditing(null);
     showToast({ message: 'Item deleted.', tone: 'info' });
   };
@@ -64,9 +65,9 @@ export default function MealDetailScreen() {
       </View>
 
       <Card padded={false}>
-        {items.map((item, i) => (
+        {meal.items.map((item, i) => (
           <View
-            key={`${item.name}-${i}`}
+            key={item.id}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -80,8 +81,7 @@ export default function MealDetailScreen() {
               minTapTarget={false}
               onPress={() =>
                 setEditing({
-                  idx: i,
-                  id: `${meal.id}-${i}`,
+                  id: item.id,
                   name: item.name,
                   quantityG: item.quantityG,
                   calories: item.calories,
@@ -101,11 +101,21 @@ export default function MealDetailScreen() {
               </Text>
             </Pressable>
 
-            {/* Star → save this item to Saved foods (mock). */}
+            {/* Star → save this item to Saved foods (through the data seam). */}
             <Pressable
               haptic
               minTapTarget={false}
-              onPress={() => showToast({ message: `Saved ${item.name} to your foods.`, tone: 'success' })}
+              onPress={() => {
+                saveFood({
+                  name: item.name,
+                  servingG: item.quantityG,
+                  calories: item.calories,
+                  protein: item.protein,
+                  carbs: item.carbs,
+                  fat: item.fat,
+                });
+                showToast({ message: `Saved ${item.name} to your foods.`, tone: 'success' });
+              }}
               accessibilityLabel={`Save ${item.name} to saved foods`}
               style={{ padding: space.lg }}
             >
@@ -142,6 +152,7 @@ export default function MealDetailScreen() {
           variant="destructive"
           onPress={() => {
             setConfirming(false);
+            meal.items.forEach((it) => deleteFoodItem(it.id));
             showToast({ message: 'Meal deleted.', tone: 'info' });
             if (router.canGoBack()) router.back();
           }}

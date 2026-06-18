@@ -12,7 +12,8 @@ import { Badge } from '@/components/display/Badge';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
-import { mockPlan, mockPlanReason, type PlanEntry } from '@/lib/mock/data';
+import { usePlan } from '@/lib/data';
+import type { PlanEntry } from '@/lib/mock/data';
 
 const iconFor: Record<PlanEntry['kind'], string> = {
   wake: 'sunny',
@@ -22,10 +23,11 @@ const iconFor: Record<PlanEntry['kind'], string> = {
 };
 
 export default function PlanDetailScreen() {
+  const { plan, reason } = usePlan();
   return (
     <Screen title="Today's plan" showBack>
       <View style={{ gap: space.md }}>
-        {mockPlan.map((entry, index) => {
+        {plan.map((entry, index) => {
           const isMeal = entry.kind === 'meal';
           const content = (
             <View style={{ flexDirection: 'row', gap: space.md }}>
@@ -100,7 +102,7 @@ export default function PlanDetailScreen() {
               Why this plan
             </Text>
             <Text variant="footnote" color={color.gray700}>
-              {mockPlanReason}
+              {reason}
             </Text>
           </View>
         </View>

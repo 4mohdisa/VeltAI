@@ -12,7 +12,8 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { StreakCounter } from '@/components/domain/StreakCounter';
 import { color, space } from '@/lib/design/tokens';
-import { mockStreak, mockUpcomingDays, type UpcomingDay } from '@/lib/mock/data';
+import { useGym } from '@/lib/data';
+import type { UpcomingDay } from '@/lib/mock/data';
 
 const actionMeta: Record<UpcomingDay['action'], { label: string; icon: string }> = {
   log: { label: 'Log session', icon: 'barbell' },
@@ -21,10 +22,13 @@ const actionMeta: Record<UpcomingDay['action'], { label: string; icon: string }>
 };
 
 export default function StreakDetailScreen() {
+  const {
+    data: { streak, upcoming },
+  } = useGym();
   return (
     <Screen title="Streak" showBack>
       <Card>
-        <StreakCounter days={mockStreak.current} />
+        <StreakCounter days={streak.current} />
       </Card>
 
       <View>
@@ -36,7 +40,7 @@ export default function StreakDetailScreen() {
           Next 7 days
         </Text>
         <Card padded={false}>
-          {mockUpcomingDays.map((day, i) => {
+          {upcoming.map((day, i) => {
             const meta = actionMeta[day.action];
             const row = (
               <View
@@ -68,9 +72,9 @@ export default function StreakDetailScreen() {
 
       <Card>
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Stat value={mockStreak.longest} label="Longest" size="small" align="center" />
-          <Stat value={mockStreak.totalGymDays} label="Sessions" size="small" align="center" />
-          <Stat value={mockStreak.freezesAvailable} label="Freezes" size="small" align="center" />
+          <Stat value={streak.longest} label="Longest" size="small" align="center" />
+          <Stat value={streak.totalGymDays} label="Sessions" size="small" align="center" />
+          <Stat value={streak.freezesAvailable} label="Freezes" size="small" align="center" />
         </View>
       </Card>
     </Screen>

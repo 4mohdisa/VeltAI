@@ -11,9 +11,10 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { formatCurrency, formatLongDate } from '@/lib/formatting';
-import { mockSubscription } from '@/lib/mock/data';
+import { useSubscription } from '@/lib/data';
 
 export default function SubscriptionScreen() {
+  const mockSubscription = useSubscription();
   return (
     <Screen grouped
       title="Subscription"

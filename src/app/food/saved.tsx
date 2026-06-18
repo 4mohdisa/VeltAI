@@ -20,7 +20,8 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
-import { mockSavedFoods, type SavedFood } from '@/lib/mock/data';
+import { useSavedFoods, editSavedFood, unsaveFood, logMeal, slotForNow } from '@/lib/data';
+import type { SavedFood } from '@/lib/mock/data';
 
 const toEditable = (f: SavedFood): EditableItem => ({
   id: f.id,
@@ -33,14 +34,9 @@ const toEditable = (f: SavedFood): EditableItem => ({
 });
 
 export default function SavedFoodsScreen() {
-  const [foods, setFoods] = useState<SavedFood[]>(mockSavedFoods);
+  const { data: foods, isLoading: loading } = useSavedFoods();
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<EditableItem | null>(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const id = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(id);
-  }, []);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -48,21 +44,30 @@ export default function SavedFoodsScreen() {
     return foods.filter((f) => f.name.toLowerCase().includes(q) || f.brand?.toLowerCase().includes(q));
   }, [foods, query]);
 
-  const add = (f: SavedFood) => showToast({ message: `Added ${f.name}.`, tone: 'success' });
+  // One-tap add: logs straight to today's slot through the data seam.
+  const add = (f: SavedFood) => {
+    logMeal(
+      slotForNow(),
+      { name: f.name, quantityG: f.servingG, calories: f.calories, protein: f.protein, carbs: f.carbs, fat: f.fat },
+      'manual',
+    );
+    showToast({ message: `Added ${f.name}.`, tone: 'success' });
+  };
 
   const applyEdit = (next: EditableItem) => {
-    setFoods((arr) =>
-      arr.map((f) =>
-        f.id === next.id
-          ? { ...f, name: next.name, servingG: next.quantityG, calories: next.calories, protein: next.protein, carbs: next.carbs, fat: next.fat }
-          : f,
-      ),
-    );
+    editSavedFood(next.id, {
+      name: next.name,
+      servingG: next.quantityG,
+      calories: next.calories,
+      protein: next.protein,
+      carbs: next.carbs,
+      fat: next.fat,
+    });
     setEditing(null);
   };
 
   const unsave = (id: string) => {
-    setFoods((arr) => arr.filter((f) => f.id !== id));
+    unsaveFood(id);
     setEditing(null);
     showToast({ message: 'Removed from saved.', tone: 'info' });
   };

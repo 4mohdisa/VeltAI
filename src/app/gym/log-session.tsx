@@ -12,6 +12,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
+import { logGymSession } from '@/lib/data';
 
 export default function LogSessionScreen() {
   const [duration, setDuration] = useState(60);
@@ -28,6 +29,7 @@ export default function LogSessionScreen() {
       title="Log session"
       onClose={close}
       onDone={() => {
+        logGymSession({ durationMin: duration, effort, notes: notes.trim() || undefined });
         showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
         close();
       }}

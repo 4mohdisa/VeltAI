@@ -14,10 +14,11 @@ import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
 import { space } from '@/lib/design/tokens';
-import { mockUser } from '@/lib/mock/data';
+import { useUserProfile } from '@/lib/data';
 
 export default function AccountScreen() {
-  const [name, setName] = useState(mockUser.name);
+  const profile = useUserProfile();
+  const [name, setName] = useState(profile.name);
 
   return (
     <Screen grouped title="Account" showBack>
@@ -35,7 +36,7 @@ export default function AccountScreen() {
 
       <TextField label="Display name" value={name} onChangeText={setName} autoCapitalize="words" />
 
-      <SettingsList rows={[{ icon: 'mail-outline', label: 'Email', value: mockUser.email, kind: 'plain' }]} />
+      <SettingsList rows={[{ icon: 'mail-outline', label: 'Email', value: profile.email, kind: 'plain' }]} />
 
       <SettingsList
         rows={[

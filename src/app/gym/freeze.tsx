@@ -10,9 +10,12 @@ import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
-import { mockStreak } from '@/lib/mock/data';
+import { useGym, applyFreeze } from '@/lib/data';
 
 export default function FreezeScreen() {
+  const {
+    data: { streak },
+  } = useGym();
   const close = () => {
     if (router.canGoBack()) router.back();
   };
@@ -22,19 +25,20 @@ export default function FreezeScreen() {
       title="Streak freeze"
       onClose={close}
       onDone={() => {
+        applyFreeze();
         showToast({ message: 'Freeze applied — tomorrow is protected.', tone: 'success' });
         close();
       }}
-      doneDisabled={mockStreak.freezesAvailable === 0}
+      doneDisabled={streak.freezesAvailable === 0}
     >
       <Card>
         <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
           <Icon name="snow" size={44} color={color.gray500} />
           <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-            Use 1 of your {mockStreak.freezesAvailable} freezes for tomorrow?
+            Use 1 of your {streak.freezesAvailable} freezes for tomorrow?
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            A freeze protects your {mockStreak.current}-day streak on a planned rest day — it just
+            A freeze protects your {streak.current}-day streak on a planned rest day — it just
             keeps the streak alive.
           </Text>
         </View>

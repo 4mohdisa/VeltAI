@@ -13,31 +13,35 @@ import { Stat } from '@/components/display/Stat';
 import { Text } from '@/components/primitives/Text';
 import { StreakCounter } from '@/components/domain/StreakCounter';
 import { color, space, surface } from '@/lib/design/tokens';
-import { mockStreak, mockUser } from '@/lib/mock/data';
+import { useUserProfile, useGym } from '@/lib/data';
 
 export default function ProfileScreen() {
+  const profile = useUserProfile();
+  const {
+    data: { streak },
+  } = useGym();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: surface.backgroundAlt }} edges={['top']}>
       <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
         {/* Identity */}
         <View style={{ alignItems: 'center', gap: space.sm }}>
-          <Avatar name={mockUser.name} size={84} />
+          <Avatar name={profile.name} size={84} />
           <Text variant="title2" color={color.black}>
-            {mockUser.name}
+            {profile.name}
           </Text>
         </View>
 
         {/* Streak centrepiece */}
         <Card>
-          <StreakCounter days={mockStreak.current} />
+          <StreakCounter days={streak.current} />
         </Card>
 
         {/* Streak stats */}
         <Card>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Stat value={mockStreak.longest} label="Longest" size="medium" align="center" />
-            <Stat value={mockStreak.totalGymDays} label="Total days" size="medium" align="center" />
-            <Stat value={mockStreak.freezesAvailable} label="Freezes" size="medium" align="center" />
+            <Stat value={streak.longest} label="Longest" size="medium" align="center" />
+            <Stat value={streak.totalGymDays} label="Total days" size="medium" align="center" />
+            <Stat value={streak.freezesAvailable} label="Freezes" size="medium" align="center" />
           </View>
         </Card>
 
