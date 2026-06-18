@@ -37,6 +37,8 @@ type SettingsState = {
   goalMode: GoalMode;
   customGoals: MacroGoals;
   macroSplitBy: MacroSplitBy;
+  // Apple Health connection (stub — real authorization is the native-build phase).
+  healthConnected: boolean;
 
   setSystem: (system: 'metric' | 'imperial') => void;
   setUnit: (dimension: UnitDimension, value: string) => void;
@@ -46,6 +48,7 @@ type SettingsState = {
   setCustomGoals: (patch: Partial<MacroGoals>) => void;
   setMacroSplitBy: (by: MacroSplitBy) => void;
   resetGoalsToAi: () => void;
+  setHealthConnected: (connected: boolean) => void;
 };
 
 export const useSettingsStore = create<SettingsState>((set) => ({
@@ -54,6 +57,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   goalMode: 'ai',
   customGoals: aiGoals(), // seeds custom fields with the derived recommendation
   macroSplitBy: 'grams',
+  healthConnected: true,
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
   setUnit: (dimension, value) =>
@@ -64,6 +68,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setCustomGoals: (patch) => set((s) => ({ customGoals: { ...s.customGoals, ...patch } })),
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
   resetGoalsToAi: () => set({ customGoals: aiGoals() }),
+  setHealthConnected: (healthConnected) => set({ healthConnected }),
 }));
 
 // --- Selectors --------------------------------------------------------------

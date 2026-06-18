@@ -2,7 +2,7 @@
 // Exactly two flows: READ active energy + steps (calorie cross-check) and WRITE
 // logged nutrition (only when the user chooses, per meal). Deep link to iOS
 // Settings for granular control.
-import { Linking, View } from 'react-native';
+import { Linking, Switch, View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -10,7 +10,9 @@ import { Badge } from '@/components/display/Badge';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
+import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
+import { useSettingsStore } from '@/lib/settings/store';
 
 const READ_TYPES = [
   { icon: 'flame-outline' as const, label: 'Active energy' },
@@ -18,6 +20,14 @@ const READ_TYPES = [
 ];
 
 export default function AppleHealthScreen() {
+  const connected = useSettingsStore((s) => s.healthConnected);
+  const setHealthConnected = useSettingsStore((s) => s.setHealthConnected);
+
+  const toggle = (next: boolean) => {
+    setHealthConnected(next);
+    showToast({ message: next ? 'Apple Health connected.' : 'Apple Health disconnected.', tone: next ? 'success' : 'info' });
+  };
+
   return (
     <Screen grouped
       title="Apple Health"
@@ -31,7 +41,7 @@ export default function AppleHealthScreen() {
       }
     >
       <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.md }}>
           <View style={{ gap: space.xs, flex: 1 }}>
             <Text variant="title3" color={color.black}>
               Apple Health
@@ -40,7 +50,20 @@ export default function AppleHealthScreen() {
               Read active energy &amp; steps · write logged nutrition
             </Text>
           </View>
-          <Badge label="Connected" icon="checkmark-circle" />
+          <Switch
+            value={connected}
+            onValueChange={toggle}
+            trackColor={{ true: color.black, false: color.gray300 }}
+            accessibilityRole="switch"
+            accessibilityLabel="Apple Health connection"
+            accessibilityState={{ checked: connected }}
+          />
+        </View>
+        <View style={{ marginTop: space.md, alignItems: 'flex-start' }}>
+          <Badge
+            label={connected ? 'Connected' : 'Not connected'}
+            icon={connected ? 'checkmark-circle' : 'close-circle'}
+          />
         </View>
       </Card>
 
