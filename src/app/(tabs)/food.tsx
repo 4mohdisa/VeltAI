@@ -17,7 +17,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
-import { SkeletonList } from '@/components/display/LoadingSkeleton';
+import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
 import { GlassFab } from '@/components/navigation/GlassButtons';
@@ -348,6 +348,7 @@ function FoodItemRow({
   // HIG §7.2: at large text the trailing calories stack under the name/macros
   // (no clipping, no truncation) instead of colliding on one line.
   const large = useLargeText();
+  const pending = item.pending;
   return (
     <Pressable
       haptic={false}
@@ -355,9 +356,12 @@ function FoodItemRow({
       onPress={onPress}
       accessible
       accessibilityRole="button"
-      // One grouped element: "Oats with whey, 250 g, protein 28, carbs 40, fat 8, 320 kcal".
-      accessibilityLabel={`${item.name}, ${item.quantityG} g, protein ${item.protein}, carbs ${item.carbs}, fat ${item.fat}, ${formatEnergy(item.calories, energyUnit)}`}
-      accessibilityHint="Double tap to edit, swipe left to delete"
+      accessibilityLabel={
+        pending
+          ? 'Analyzing scanned food…'
+          : `${item.name}, ${item.quantityG} g, protein ${item.protein}, carbs ${item.carbs}, fat ${item.fat}, ${formatEnergy(item.calories, energyUnit)}`
+      }
+      accessibilityHint={pending ? undefined : 'Double tap to edit, swipe left to delete'}
       style={{
         backgroundColor: surface.card,
         flexDirection: large ? 'column' : 'row',
@@ -376,17 +380,33 @@ function FoodItemRow({
       {!first ? (
         <View style={{ position: 'absolute', left: space.lg, right: 0, top: 0, height: 1, backgroundColor: color.gray200 }} />
       ) : null}
-      <View style={{ flex: large ? undefined : 1, gap: space.xs, paddingVertical: large ? 0 : space.sm }}>
-        <Text variant="body" color={color.label} numberOfLines={large ? 0 : 1}>
-          {item.name}
-        </Text>
-        <Text variant="footnote" color={color.secondaryLabel} numberOfLines={large ? 0 : 1}>
-          {item.quantityG} g · P {item.protein} · C {item.carbs} · F {item.fat}
-        </Text>
-      </View>
-      <Text variant="bodyMedium" color={color.label}>
-        {formatEnergy(item.calories, energyUnit)}
-      </Text>
+      {pending ? (
+        // Analyzing state (Task 3) — the scanned row fills in once the mock/real
+        // inference resolves. Same row height so the layout doesn't jump.
+        <>
+          <View style={{ flex: large ? undefined : 1, gap: space.xs, paddingVertical: space.sm }}>
+            <Text variant="footnote" color={color.secondaryLabel}>
+              Analyzing…
+            </Text>
+            <Skeleton width="60%" height={14} />
+          </View>
+          <Skeleton width={40} height={14} />
+        </>
+      ) : (
+        <>
+          <View style={{ flex: large ? undefined : 1, gap: space.xs, paddingVertical: large ? 0 : space.sm }}>
+            <Text variant="body" color={color.label} numberOfLines={large ? 0 : 1}>
+              {item.name}
+            </Text>
+            <Text variant="footnote" color={color.secondaryLabel} numberOfLines={large ? 0 : 1}>
+              {item.quantityG} g · P {item.protein} · C {item.carbs} · F {item.fat}
+            </Text>
+          </View>
+          <Text variant="bodyMedium" color={color.label}>
+            {formatEnergy(item.calories, energyUnit)}
+          </Text>
+        </>
+      )}
     </Pressable>
   );
 }

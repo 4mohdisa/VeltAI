@@ -11,6 +11,8 @@ import { Icon } from '@/components/primitives/Icon';
 import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
+import { showToast } from '@/components/display/toastStore';
+import { startPhotoScan } from '@/lib/data';
 import { color, radius, space } from '@/lib/design/tokens';
 
 export default function PhotoCaptureScreen() {
@@ -39,7 +41,13 @@ export default function PhotoCaptureScreen() {
     );
   }
 
-  const capture = () => router.replace('/food/photo-review');
+  // Capture-first (HIG): log a pending row to today's slot immediately, drop the
+  // user back into the food log, and let it fill in once analysis resolves.
+  const capture = () => {
+    startPhotoScan();
+    router.replace('/(tabs)/food');
+    showToast({ message: 'Scanning your meal…', tone: 'info' });
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: color.black }}>

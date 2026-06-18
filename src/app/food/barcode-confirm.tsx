@@ -2,13 +2,14 @@
 // After a scan: product + base nutrition from Open Food Facts (mock, NO AI), a
 // serving-size picker that recomputes macros, then Save. Bottom sheet (X discard
 // / ✓ save). The product can be tweaked via the shared item edit sheet.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { SegmentedField } from '@/components/forms/SegmentedField';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -16,15 +17,41 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
-import { exampleBarcodeProduct } from '@/lib/food/barcode';
+import { lookupBarcodeAsync } from '@/lib/data';
+import type { BarcodeProduct } from '@/lib/food/barcode';
 
 export default function BarcodeConfirmScreen() {
-  const p = exampleBarcodeProduct;
-  const [serving, setServing] = useState(String(p.servingOptions[0]));
+  // Brief lookup/loading window before the product fills in (Task 3) — routed
+  // through the data seam so swapping in the real Open Food Facts call is local.
+  const [product, setProduct] = useState<BarcodeProduct | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [serving, setServing] = useState('100');
   // Manual edits (via the shared sheet) override the serving-scaled values.
   const [override, setOverride] = useState<EditableItem | null>(null);
   const [editing, setEditing] = useState<EditableItem | null>(null);
 
+  useEffect(() => {
+    let active = true;
+    lookupBarcodeAsync().then((found) => {
+      if (!active) return;
+      setProduct(found);
+      if (found) setServing(String(found.servingOptions[0]));
+      setLoading(false);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (loading || !product) {
+    return (
+      <SheetContent title="Looking up product…" onClose={() => router.canGoBack() && router.back()}>
+        <SkeletonList rows={3} />
+      </SheetContent>
+    );
+  }
+
+  const p = product;
   const grams = Number(serving);
   const factor = grams / 100;
   const macro = (per100: number) => Math.round(per100 * factor);
