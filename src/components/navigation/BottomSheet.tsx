@@ -1,16 +1,27 @@
-// BottomSheet — controlled sheet wrapper used for all modal sheets (log session,
-// uncertainty prompts, confirmations). Scrim tap or drag-down dismisses. We drive
-// translateY manually with timing curves (no spring → no bounce/overshoot) so the
-// drag gesture and the open animation never fight. One sheet at a time (UI rule).
+// BottomSheet — controlled sheet wrapper used for all in-app modal sheets (item
+// edit, log session, uncertainty prompts, confirmations).
+//
+// ROOT-CAUSE NOTE (this is the third pass on the sheet animation): the previous
+// versions rendered inside RN's <Modal>. On the New Architecture the Modal owns
+// its own native presentation Animated.Value — which (a) emits the spurious
+// "Sending 'onAnimatedValueUpdate' with no listeners registered" warning the
+// moment it mounts (eagerly, with the tab screens), and (b) fights Reanimated:
+// the Modal presents the content instantly so the slide is "consumed" (it appears
+// instead of sliding) and it unmounts the instant visible=false so dismiss never
+// slides down. Driving timing/easing harder couldn't fix a mechanism problem.
+//
+// Fix: render in a react-native-screens <FullWindowOverlay> (the same primitive
+// @gorhom/bottom-sheet uses) instead of <Modal>. There is no Modal Animated.Value
+// (warning gone) and Reanimated fully owns translateY, so the sheet slides up on
+// open and DOWN on dismiss before it unmounts. No spring, no bounce.
 import type { ReactNode } from 'react';
-import { useEffect } from 'react';
-import { Modal, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FullWindowOverlay } from 'react-native-screens';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
-  FadeIn,
-  FadeOut,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -22,13 +33,12 @@ import { color, motion, radius, space, shadow, zIndex } from '@/lib/design/token
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 const OPEN_OFFSET = 0;
-const CLOSED_OFFSET = 900;
+const CLOSED_OFFSET = 900; // fully off-screen below; the panel is anchored bottom
 const DISMISS_THRESHOLD = 120;
 
-// Gentle ease-out, no overshoot; durations come from the motion tokens (HIG §9B —
-// brief, ~180–300ms). Rising in is slightly longer than the snappier dismiss.
-const RISE = { duration: motion.duration.fast, easing: Easing.out(Easing.cubic) }; // 260ms
-const FALL = { duration: motion.duration.snap, easing: Easing.in(Easing.cubic) }; //  180ms
+// Gentle ease curves, no overshoot; durations from the motion tokens (~180–300ms).
+const RISE = { duration: motion.duration.fast, easing: Easing.out(Easing.cubic) };
+const FALL = { duration: motion.duration.snap, easing: Easing.in(Easing.cubic) };
 
 export type BottomSheetProps = {
   visible: boolean;
@@ -41,24 +51,35 @@ export type BottomSheetProps = {
 export function BottomSheet({ visible, onClose, title, children, testID }: BottomSheetProps) {
   const insets = useSafeAreaInsets();
   const reduceMotion = useReduceMotion();
+  // `mounted` is decoupled from `visible` so we can play the slide-DOWN before the
+  // overlay unmounts (Modal couldn't — it tore down on visible=false instantly).
+  const [mounted, setMounted] = useState(visible);
   const translateY = useSharedValue(CLOSED_OFFSET);
   const startY = useSharedValue(0);
-  // Measured panel height → the sheet slides up from exactly its own height below
-  // the bottom edge (falls back to CLOSED_OFFSET before the first layout pass).
   const sheetHeight = useSharedValue(CLOSED_OFFSET);
 
   useEffect(() => {
     if (visible) {
-      // Reduce Motion (HIG §7.3): skip the slide, snap in place and let the scrim
-      // fade carry the transition.
+      setMounted(true);
       if (reduceMotion) {
-        translateY.value = OPEN_OFFSET;
+        translateY.value = OPEN_OFFSET; // snap (scrim still fades via translateY)
+      } else {
+        // Park off-screen (its own height below), then slide up — always visible.
+        translateY.value = sheetHeight.value;
+        translateY.value = withTiming(OPEN_OFFSET, RISE);
+      }
+    } else if (mounted) {
+      if (reduceMotion) {
+        setMounted(false);
         return;
       }
-      translateY.value = sheetHeight.value;
-      translateY.value = withTiming(OPEN_OFFSET, RISE);
+      // Slide down, then unmount once the animation actually finishes.
+      translateY.value = withTiming(sheetHeight.value, FALL, (finished) => {
+        if (finished) runOnJS(setMounted)(false);
+      });
     }
-  }, [visible, translateY, sheetHeight, reduceMotion]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, reduceMotion]);
 
   const pan = Gesture.Pan()
     .onBegin(() => {
@@ -69,7 +90,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
     })
     .onEnd((e) => {
       if (translateY.value > DISMISS_THRESHOLD || e.velocityY > 800) {
-        translateY.value = withTiming(sheetHeight.value, FALL);
+        // Hand off to the close effect, which animates down + unmounts.
         runOnJS(onClose)();
       } else {
         translateY.value = withTiming(OPEN_OFFSET, RISE);
@@ -77,21 +98,21 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
     });
 
   const panelStyle = useAnimatedStyle(() => ({ transform: [{ translateY: translateY.value }] }));
+  // Scrim opacity follows the slide (1 at rest, 0 fully off-screen) — no layout
+  // animations, so nothing inside the overlay registers a stray native listener.
+  const scrimStyle = useAnimatedStyle(() => {
+    const h = sheetHeight.value || CLOSED_OFFSET;
+    const p = 1 - translateY.value / h;
+    return { opacity: p < 0 ? 0 : p > 1 ? 1 : p };
+  });
+
+  if (!mounted) return null;
 
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, justifyContent: 'flex-end', zIndex: zIndex.bottomSheet }}>
-        <Animated.View
-          entering={FadeIn.duration(motion.duration.snap)}
-          exiting={FadeOut.duration(motion.duration.snap)}
-          style={{ position: 'absolute', inset: 0, backgroundColor: color.overlay }}
-        >
-          <View
-            accessibilityRole="button"
-            accessibilityLabel="Close"
-            onTouchEnd={onClose}
-            style={{ flex: 1 }}
-          />
+    <FullWindowOverlay>
+      <View style={[StyleSheet.absoluteFill, { justifyContent: 'flex-end', zIndex: zIndex.bottomSheet }]}>
+        <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: color.overlay }, scrimStyle]}>
+          <View accessibilityRole="button" accessibilityLabel="Close" onTouchEnd={onClose} style={{ flex: 1 }} />
         </Animated.View>
 
         <Animated.View
@@ -116,14 +137,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
           <GestureDetector gesture={pan}>
             <View style={{ alignItems: 'center', paddingVertical: space.sm }}>
               {/* grab handle */}
-              <View
-                style={{
-                  width: 40,
-                  height: 5,
-                  borderRadius: radius.full,
-                  backgroundColor: color.gray300,
-                }}
-              />
+              <View style={{ width: 40, height: 5, borderRadius: radius.full, backgroundColor: color.gray300 }} />
               {title ? (
                 <Text variant="title3" color={color.black} style={{ marginTop: space.md }}>
                   {title}
@@ -134,6 +148,6 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
           <View style={{ gap: space.md }}>{children}</View>
         </Animated.View>
       </View>
-    </Modal>
+    </FullWindowOverlay>
   );
 }
