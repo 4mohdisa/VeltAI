@@ -177,17 +177,21 @@ export function GlassFab({
   const inner = <Icon name={icon} size={26} color={color.black} />;
   return (
     <Pressable onPress={onPress} accessibilityLabel={accessibilityLabel} accessibilityHint={accessibilityHint} testID={testID} style={style}>
-      {reduceTransparency ? (
-        <View style={[circle, solidGlass]}>{inner}</View>
-      ) : LIQUID ? (
-        <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive={!reduceMotion} style={circle}>
-          {inner}
-        </GlassView>
-      ) : (
-        <BlurView tint="light" intensity={50} style={[circle, { backgroundColor: surface.card }]}>
-          {inner}
-        </BlurView>
-      )}
+      {/* Shadow wrapper — the glass circle clips its content (overflow hidden), so
+          the drop shadow lives here to make the control read as a floating button. */}
+      <View style={[{ borderRadius: radius.full }, shadow.md]}>
+        {reduceTransparency ? (
+          <View style={[circle, solidGlass]}>{inner}</View>
+        ) : LIQUID ? (
+          <GlassView glassEffectStyle="regular" colorScheme="light" isInteractive={!reduceMotion} style={circle}>
+            {inner}
+          </GlassView>
+        ) : (
+          <BlurView tint="light" intensity={50} style={[circle, { backgroundColor: surface.card }]}>
+            {inner}
+          </BlurView>
+        )}
+      </View>
     </Pressable>
   );
 }

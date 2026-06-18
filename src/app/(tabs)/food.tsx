@@ -276,8 +276,10 @@ export default function FoodLogScreen() {
       )}
 
       {/* Primary add FAB — solid black, white +, floats clear of the tab bar */}
+      {/* Native iOS circular control (Liquid Glass), consistent with the other
+          native circular buttons; opens the add menu. */}
       <GlassFab
-        variant="solid"
+        variant="glass"
         accessibilityLabel={t('foodLog.addMeal')}
         accessibilityHint="Opens the add menu: scan, barcode, voice or saved foods"
         onPress={() => router.push('/food/add')}
