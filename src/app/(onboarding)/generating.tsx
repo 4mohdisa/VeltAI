@@ -11,6 +11,8 @@ import { ProgressBar } from '@/components/display/ProgressBar';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { useOnboarding } from '@/lib/onboarding/store';
+import { commitOnboarding } from '@/lib/onboarding/commit';
 
 const TIPS = [
   'Building your weekly meal plan…',
@@ -24,6 +26,10 @@ export default function GeneratingScreen() {
 
   useEffect(() => {
     const interval = setInterval(() => setTip((t) => (t + 1) % TIPS.length), 1100);
+
+    // Bridge the collected answers into app state BEFORE entering the app, so the
+    // dashboard + Goals reflect the user's real numbers and derived target.
+    commitOnboarding(useOnboarding.getState());
 
     const finish = setTimeout(async () => {
       await setHasCompletedOnboarding(true);
