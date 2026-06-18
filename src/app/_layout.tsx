@@ -62,7 +62,8 @@ export default function RootLayout() {
             {/* Native detented sheets */}
             <Stack.Screen name="gym/log-session" options={sheetOptions} />
             <Stack.Screen name="gym/freeze" options={{ ...sheetOptions, sheetAllowedDetents: [0.5] }} />
-            <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: [0.5, 1] }} />
+            {/* Add-meal: size to the 2×2 grid so all four options show fully. */}
+            <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
             <Stack.Screen name="food/custom-food" options={{ ...sheetOptions, sheetAllowedDetents: [0.95] }} />
             <Stack.Screen name="food/barcode-confirm" options={{ ...sheetOptions, sheetAllowedDetents: [0.6] }} />
             <Stack.Screen name="food/serving" options={{ ...sheetOptions, sheetAllowedDetents: [0.45] }} />
