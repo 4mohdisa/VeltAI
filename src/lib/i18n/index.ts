@@ -36,7 +36,9 @@ export function deviceLanguage(): string {
 if (!i18next.isInitialized) {
   void i18next.use(initReactI18next).init({
     resources,
-    lng: deviceLanguage(),
+    // English-only at launch (the picker was removed). The es/fr resources +
+    // deviceLanguage() helper stay in the scaffolding for when the picker returns.
+    lng: 'en',
     fallbackLng: 'en',
     defaultNS: 'translation',
     interpolation: { escapeValue: false }, // RN has no XSS surface
