@@ -59,6 +59,12 @@ export default function RootLayout() {
               name="modals/nudge"
               options={{ presentation: 'transparentModal', animation: 'fade' }}
             />
+            {/* Full-screen camera flows — present as full-screen modals so they
+                cover completely (no torn-sheet / content bleeding through the
+                top). NOTE: expo-camera is NOT in the current dev binary, so these
+                cannot render until a native rebuild — visual QA is deferred. */}
+            <Stack.Screen name="food/photo-capture" options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }} />
+            <Stack.Screen name="food/barcode-scan" options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }} />
             {/* Native detented sheets */}
             <Stack.Screen name="gym/log-session" options={sheetOptions} />
             <Stack.Screen name="gym/freeze" options={{ ...sheetOptions, sheetAllowedDetents: [0.5] }} />

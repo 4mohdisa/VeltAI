@@ -2,8 +2,9 @@
 // Full-screen camera viewfinder with a capture button. After capture we offer
 // an optional label photo, then move to review. Handles the permission gate.
 import { useRef } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Icon } from '@/components/primitives/Icon';
@@ -50,10 +51,13 @@ export default function PhotoCaptureScreen() {
   };
 
   return (
+    // Full-bleed black backdrop so the screen always covers edge-to-edge (incl.
+    // under the status bar and home indicator) — no content bleeds through.
     <View style={{ flex: 1, backgroundColor: color.black }}>
-      <CameraView ref={cameraRef} style={{ flex: 1 }} facing="back" />
+      <StatusBar style="light" />
+      <CameraView ref={cameraRef} style={StyleSheet.absoluteFill} facing="back" />
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0 }} edges={['top']}>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: space.sm }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', paddingHorizontal: space.md, paddingTop: space.sm }}>
           <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel="Close camera">
             <Icon name="close" size={30} color={color.white} />
           </Pressable>
@@ -61,7 +65,7 @@ export default function PhotoCaptureScreen() {
       </SafeAreaView>
 
       <SafeAreaView style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} edges={['bottom']}>
-        <View style={{ alignItems: 'center', gap: space.sm, paddingBottom: space.lg }}>
+        <View style={{ alignItems: 'center', gap: space.md, paddingBottom: space.xl }}>
           <Text variant="footnote" color={color.white}>
             Tap to capture · you can add a label photo next
           </Text>

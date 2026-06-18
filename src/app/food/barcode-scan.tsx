@@ -3,8 +3,9 @@
 // detect we move to the product confirm. A "Simulate" button stands in where no
 // physical barcode is available.
 import { useRef, useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Icon } from '@/components/primitives/Icon';
@@ -64,16 +65,19 @@ export default function BarcodeScanScreen() {
   }
 
   return (
+    // Full-bleed black backdrop so the scanner covers edge-to-edge (incl. under
+    // the status bar and home indicator) — no content bleeds through the top.
     <View style={{ flex: 1, backgroundColor: color.black }}>
+      <StatusBar style="light" />
       <CameraView
-        style={{ flex: 1 }}
+        style={StyleSheet.absoluteFill}
         facing="back"
         barcodeScannerSettings={{ barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e'] }}
         onBarcodeScanned={(r) => onDetected(r.data)}
       />
 
-      {/* reticle + controls overlay */}
-      <View style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center' }}>
+      {/* reticle — centred over the full screen */}
+      <View style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}>
         <View
           style={{
             width: 240,
@@ -86,7 +90,7 @@ export default function BarcodeScanScreen() {
       </View>
 
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0 }} edges={['top']}>
-        <View style={{ padding: space.sm }}>
+        <View style={{ paddingHorizontal: space.md, paddingTop: space.sm }}>
           <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel="Close scanner">
             <Icon name="close" size={30} color={color.white} />
           </Pressable>
@@ -94,7 +98,7 @@ export default function BarcodeScanScreen() {
       </SafeAreaView>
 
       <SafeAreaView style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} edges={['bottom']}>
-        <View style={{ alignItems: 'center', gap: space.sm, paddingBottom: space.lg }}>
+        <View style={{ alignItems: 'center', gap: space.md, paddingBottom: space.xl }}>
           <Text variant="footnote" color={color.white}>
             Point at a barcode — it scans automatically
           </Text>
