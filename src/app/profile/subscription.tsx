@@ -31,6 +31,9 @@ export default function SubscriptionScreen() {
             variant="tertiary"
             onPress={() => showToast({ message: 'Purchases restored.', tone: 'success' })}
           />
+          <Text variant="footnote" color={color.gray500} style={{ textAlign: 'center' }}>
+            Already subscribed? Restore your purchase.
+          </Text>
         </View>
       }
     >

@@ -73,6 +73,9 @@ export default function PaywallScreen() {
             fullWidth={false}
             onPress={() => showToast({ message: 'Nothing to restore yet.', tone: 'info' })}
           />
+          <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
+            Already subscribed? Restore your purchase.
+          </Text>
         </View>
       </View>
     </OnboardingStep>
