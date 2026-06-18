@@ -150,10 +150,12 @@ export const type = {
   caption: { fontSize: 11, fontWeight: '500', lineHeight: 14, family: 'display' },
 
   // Stat numbers — SF Pro Rounded, the heaviest type in the app
-  statHero: { fontSize: 56, fontWeight: '800', lineHeight: 60, family: 'rounded' },
-  statLarge: { fontSize: 40, fontWeight: '800', lineHeight: 44, family: 'rounded' },
-  statMedium: { fontSize: 28, fontWeight: '700', lineHeight: 32, family: 'rounded' },
-  statSmall: { fontSize: 20, fontWeight: '700', lineHeight: 24, family: 'rounded' },
+  // Line heights carry ~1.2× headroom so the heavy SF Pro Rounded glyphs never
+  // clip at the top/bottom (the streak number etc.), at default or large sizes.
+  statHero: { fontSize: 56, fontWeight: '800', lineHeight: 68, family: 'rounded' },
+  statLarge: { fontSize: 40, fontWeight: '800', lineHeight: 50, family: 'rounded' },
+  statMedium: { fontSize: 28, fontWeight: '700', lineHeight: 36, family: 'rounded' },
+  statSmall: { fontSize: 20, fontWeight: '700', lineHeight: 26, family: 'rounded' },
 } as const satisfies Record<string, TypeToken>;
 
 export type TypeVariant = keyof typeof type;
