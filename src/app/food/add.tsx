@@ -3,7 +3,7 @@
 // (Manual search lives in the food-log search bar, not here. No gym option.)
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { navigate } from '@/lib/nav';
+import { replace } from '@/lib/nav';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
@@ -34,7 +34,10 @@ export default function AddMealScreen() {
         {METHODS.map((m) => (
           <Pressable
             key={m.labelKey}
-            onPress={() => navigate(m.route)}
+            // Replace the add-menu sheet with the chosen flow so it presents
+            // cleanly full-screen (Scan/Barcode/Voice) instead of stacking on
+            // top of the still-open sheet.
+            onPress={() => replace(m.route)}
             accessibilityLabel={`${t(m.labelKey)}. ${t(m.descriptionKey)}`}
             minTapTarget={false}
             style={{

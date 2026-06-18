@@ -8,3 +8,9 @@ import { router, type Href } from 'expo-router';
 export function navigate(href: Href | string): void {
   router.push(href as Href);
 }
+
+// Same single-cast seam for replace — used when a sheet should hand off to a
+// full-screen flow (the sheet is replaced, not stacked under the new screen).
+export function replace(href: Href | string): void {
+  router.replace(href as Href);
+}
