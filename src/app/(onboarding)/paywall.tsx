@@ -48,7 +48,7 @@ export default function PaywallScreen() {
           </Text>
           <Text variant="callout" color={color.gray700}>
             Most apps give you 3 days — not enough to feel anything. In 14 you&apos;ll log real meals
-            and build a gym streak. You&apos;ll know if Veltai earns its place before we charge you a
+            and build a gym streak. You&apos;ll know if Lumo earns its place before we charge you a
             cent.
           </Text>
         </View>

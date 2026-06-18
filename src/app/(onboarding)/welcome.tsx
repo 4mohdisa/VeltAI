@@ -12,7 +12,7 @@ export default function WelcomeScreen() {
     <OnboardingStep step={1} dark hideProgress showBack={false} scroll={false} continueLabel="Get started">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.lg }}>
         <Text variant="display" color={color.white}>
-          Veltai
+          Lumo
         </Text>
         <Text variant="title3" color={color.gray300} style={{ textAlign: 'center' }}>
           Make going to the gym the easy choice.

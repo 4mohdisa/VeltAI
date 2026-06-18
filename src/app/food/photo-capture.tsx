@@ -32,7 +32,7 @@ export default function PhotoCaptureScreen() {
             Camera access needed
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            Veltai uses the camera to scan your meals for accurate calorie tracking.
+            Lumo uses the camera to scan your meals for accurate calorie tracking.
           </Text>
           <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
           <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />

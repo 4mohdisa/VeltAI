@@ -34,7 +34,7 @@ export default function GeneratingScreen() {
     const finish = setTimeout(async () => {
       await setHasCompletedOnboarding(true);
       router.replace('/(tabs)');
-      showToast({ message: 'Welcome to Veltai.', tone: 'success' });
+      showToast({ message: 'Welcome to Lumo.', tone: 'success' });
     }, 4600);
 
     return () => {

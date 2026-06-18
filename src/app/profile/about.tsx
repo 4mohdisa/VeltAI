@@ -12,7 +12,7 @@ export default function AboutScreen() {
     <Screen grouped title="About" showBack>
       <View style={{ alignItems: 'center', gap: space.xs, paddingVertical: space.xl }}>
         <Text variant="title1" color={color.black}>
-          Veltai
+          Lumo
         </Text>
         <Text variant="footnote" color={color.gray500}>
           Make going to the gym the easy choice.
@@ -23,7 +23,7 @@ export default function AboutScreen() {
         rows={[
           { icon: 'pricetag-outline', label: 'Version', value: '1.0.0', kind: 'plain' },
           { icon: 'construct-outline', label: 'Build', value: '1', kind: 'plain' },
-          { icon: 'people-outline', label: 'Credits', value: 'Veltai team', kind: 'plain' },
+          { icon: 'people-outline', label: 'Credits', value: 'Lumo team', kind: 'plain' },
           { icon: 'document-text-outline', label: 'Third-party licenses', onPress: () => Linking.openURL('https://veltai.app/licenses').catch(() => {}) },
         ]}
       />

@@ -261,7 +261,7 @@ export const mockUpcomingDays: UpcomingDay[] = [
 // ---------------------------------------------------------------------------
 
 export const mockSubscription = {
-  plan: 'Veltai Premium',
+  plan: 'Lumo Premium',
   price: 9.99,
   status: 'trial' as 'trial' | 'active' | 'expired',
   trialStart: new Date('2026-06-15'),

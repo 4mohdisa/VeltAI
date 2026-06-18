@@ -17,7 +17,7 @@ export default function SupportScreen() {
     <Screen grouped title="Support" showBack>
       <SettingsList
         rows={[
-          { icon: 'mail-outline', label: 'Email support', value: 'hello@veltai.app', onPress: () => Linking.openURL('mailto:hello@veltai.app').catch(() => {}) },
+          { icon: 'mail-outline', label: 'Email support', value: 'lumofit@gmail.com', onPress: () => Linking.openURL('mailto:lumofit@gmail.com').catch(() => {}) },
           { icon: 'help-circle-outline', label: 'FAQ', onPress: () => Linking.openURL('https://veltai.app/support').catch(() => {}) },
           { icon: 'information-circle-outline', label: 'App version', value: '1.0.0', kind: 'plain' },
         ]}
