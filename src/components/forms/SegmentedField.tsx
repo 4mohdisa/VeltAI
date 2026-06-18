@@ -61,13 +61,23 @@ export function SegmentedField<T extends string>({
                   alignItems: 'center',
                   justifyContent: 'center',
                   paddingVertical: space.md,
+                  paddingHorizontal: space.sm, // keep the label off the rounded edge
                   borderRadius: radius.pill,
                   minHeight: layout.tapTarget,
                 },
                 selected ? { backgroundColor: color.black } : { backgroundColor: 'transparent' },
               ]}
             >
-              <Text variant="bodyMedium" color={selected ? color.white : color.gray600}>
+              {/* Scale a long label down to one line so it never bleeds past the
+                  pill; short labels (Metric, Grams, kg…) stay at full size. */}
+              <Text
+                variant="bodyMedium"
+                color={selected ? color.white : color.gray600}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.8}
+                style={{ textAlign: 'center' }}
+              >
                 {opt.label}
               </Text>
             </Pressable>
