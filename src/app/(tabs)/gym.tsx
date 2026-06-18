@@ -14,11 +14,15 @@ import { Text } from '@/components/primitives/Text';
 import { StreakCounter } from '@/components/domain/StreakCounter';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
+import { ChartCard } from '@/components/domain/ChartCard';
 import { color, space } from '@/lib/design/tokens';
 import { mockGymCalendar, mockStreak } from '@/lib/mock/data';
 
 export default function GymLogScreen() {
   const [logged, setLogged] = useState(mockStreak.gymLoggedToday);
+  // Computed takeaway for the calendar chart (insight, not just the grid).
+  const sessions = mockGymCalendar.filter((d) => d.status === 'session').length;
+  const freezes = mockGymCalendar.filter((d) => d.status === 'freeze').length;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
@@ -36,14 +40,13 @@ export default function GymLogScreen() {
           <StreakCounter days={mockStreak.current} />
         </Pressable>
 
-        <Card>
-          <View style={{ gap: space.lg }}>
-            <Text variant="title3" color={color.black}>
-              Last 30 days
-            </Text>
-            <GymCalendar days={mockGymCalendar} />
-          </View>
-        </Card>
+        <ChartCard
+          title="Last 30 days"
+          takeaway={`${mockStreak.current}-day streak · ${sessions} sessions, ${freezes} freeze${freezes === 1 ? '' : 's'}`}
+          summary={`Last 30 days. ${mockStreak.current} day streak, ${sessions} sessions and ${freezes} freezes. Each day is marked by shape: filled check for a session, snowflake for a freeze, outline for missed.`}
+        >
+          <GymCalendar days={mockGymCalendar} />
+        </ChartCard>
 
         <Card>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>

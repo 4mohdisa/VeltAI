@@ -14,6 +14,7 @@ import { Text } from '@/components/primitives/Text';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { CalorieCrossCheck } from '@/components/domain/CalorieCrossCheck';
 import { MacroBars } from '@/components/domain/MacroBars';
+import { ChartCard } from '@/components/domain/ChartCard';
 import { readActiveEnergyAndSteps, type HealthToday } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { mockMacros, mockMeals } from '@/lib/mock/data';
@@ -34,24 +35,30 @@ export default function NutritionDetailScreen() {
 
   return (
     <Screen title={t('nutrition.title')} showBack>
-      <Card>
-        <View style={{ alignItems: 'center', gap: space.md }}>
+      <ChartCard
+        title="Calories today"
+        takeaway={t('nutrition.remainingToday', {
+          value: formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit),
+        })}
+        summary={`Calories today. ${formatEnergy(cal.consumed, energyUnit)} of ${formatEnergy(cal.target, energyUnit)}, ${formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit)} left.`}
+      >
+        <View style={{ alignItems: 'center' }}>
           <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />
-          <Text variant="footnote" color={color.gray500}>
-            {t('nutrition.remainingToday', {
-              value: formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit),
-            })}
-          </Text>
         </View>
-      </Card>
+      </ChartCard>
 
       <CalorieCrossCheck
         intake={cal.consumed}
         goal={cal.target}
         activeEnergy={health?.connected ? health.activeEnergy : undefined}
+        energyUnit={energyUnit}
       />
 
-      <Card>
+      <ChartCard
+        title="Macros today"
+        takeaway={`Protein ${mockMacros.protein.consumed} of ${goals.protein} g`}
+        summary={`Macros today. Protein ${mockMacros.protein.consumed} of ${goals.protein} grams, carbs ${mockMacros.carbs.consumed} of ${goals.carbs} grams, fat ${mockMacros.fat.consumed} of ${goals.fat} grams, fibre ${mockMacros.fibre.consumed} of ${goals.fibre} grams.`}
+      >
         <MacroBars
           rows={[
             { label: t('nutrition.protein'), macroKey: 'Protein', data: { consumed: mockMacros.protein.consumed, target: goals.protein } },
@@ -60,7 +67,7 @@ export default function NutritionDetailScreen() {
             { label: t('nutrition.fibre'), macroKey: 'Fibre', data: { consumed: mockMacros.fibre.consumed, target: goals.fibre } },
           ]}
         />
-      </Card>
+      </ChartCard>
 
       <View>
         <Text

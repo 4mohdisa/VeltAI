@@ -9,11 +9,13 @@ import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
 import { formatNumber } from '@/lib/formatting';
+import { kcalToDisplay, type EnergyUnit } from '@/lib/units';
 
 export type CalorieCrossCheckProps = {
-  intake: number;
-  goal: number;
-  activeEnergy?: number; // undefined when Health is not connected
+  intake: number; // canonical kcal
+  goal: number; //   canonical kcal
+  activeEnergy?: number; // canonical kcal; undefined when Health is not connected
+  energyUnit?: EnergyUnit;
 };
 
 function Column({ value, label, tint, icon }: { value: string; label: string; tint?: string; icon?: string }) {
@@ -32,27 +34,38 @@ function Column({ value, label, tint, icon }: { value: string; label: string; ti
   );
 }
 
-export function CalorieCrossCheck({ intake, goal, activeEnergy }: CalorieCrossCheckProps) {
+export function CalorieCrossCheck({ intake, goal, activeEnergy, energyUnit = 'kcal' }: CalorieCrossCheckProps) {
   const connected = typeof activeEnergy === 'number';
+  const e = (kcal: number) => formatNumber(kcalToDisplay(kcal, energyUnit)); // respect energy unit
+
+  // VoiceOver summary for the whole cross-check (one element, not three columns).
+  const summary = connected
+    ? `Calorie cross-check. Eaten ${e(intake)}, active burn ${e(activeEnergy!)}, goal ${e(goal)} ${energyUnit}. Net ${e(intake - activeEnergy!)} against goal.`
+    : `Calorie cross-check. Eaten ${e(intake)} of ${e(goal)} ${energyUnit} goal. Connect Apple Health to add active burn.`;
 
   return (
     <Card>
-      <View style={{ gap: space.md }}>
-        <Text variant="label" color={color.gray500} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-          Calorie cross-check
+      <View style={{ gap: space.md }} accessible accessibilityLabel={summary}>
+        <Text
+          variant="label"
+          color={color.secondaryLabel}
+          accessibilityRole="header"
+          style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+        >
+          Calorie cross-check ({energyUnit})
         </Text>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Column value={formatNumber(intake)} label="Eaten" />
+          <Column value={e(intake)} label="Eaten" />
           {connected ? (
-            <Column value={formatNumber(activeEnergy!)} label="Active burn" tint={categoryAccent.calories} icon="flame" />
+            <Column value={e(activeEnergy!)} label="Active burn" tint={categoryAccent.calories} icon="flame" />
           ) : null}
-          <Column value={formatNumber(goal)} label="Goal" />
+          <Column value={e(goal)} label="Goal" />
         </View>
 
-        <Text variant="footnote" color={color.gray500} style={{ textAlign: 'center' }}>
+        <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
           {connected
-            ? `Net ${formatNumber(intake - activeEnergy!)} kcal against your ${formatNumber(goal)} goal.`
+            ? `Net ${e(intake - activeEnergy!)} ${energyUnit} against your ${e(goal)} goal.`
             : 'Connect Apple Health to cross-check against your active burn.'}
         </Text>
       </View>
