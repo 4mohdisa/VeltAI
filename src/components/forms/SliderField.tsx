@@ -1,7 +1,7 @@
 // SliderField — a controlled slider built on gesture-handler + reanimated
 // (no extra native dep). Drag the thumb or use VoiceOver increment/decrement.
 // Snaps to `step`, clamps to [min, max], and reports via onValueChange.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, runOnJS } from 'react-native-reanimated';
@@ -43,8 +43,11 @@ export function SliderField({
 
   const startFrac = useSharedValue(frac);
   const curFrac = useSharedValue(frac);
-  // Keep the worklet value in sync with the controlled prop.
-  curFrac.value = frac;
+  // Keep the worklet value in sync with the controlled prop — in an effect, NOT
+  // during render (writing a shared value while React renders warns and is unsafe).
+  useEffect(() => {
+    curFrac.value = frac;
+  }, [frac, curFrac]);
 
   const report = (f: number) => {
     const raw = min + f * (max - min);
