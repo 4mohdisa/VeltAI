@@ -2,6 +2,7 @@
 // Six multi-select cards. Calibration data for the AI — if they've bounced off
 // many things, the first week is made more forgiving. Skip available.
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { MultiSelectField } from '@/components/forms/MultiSelectField';
@@ -26,7 +27,7 @@ export default function PastAttemptsScreen() {
       step={5}
       title="What hasn't stuck so far?"
       subtitle="No judgement — this helps us make week one easier."
-      onSkip={() => router.push(onboardingHref('frustrations') as never)}
+      onSkip={() => navigate(onboardingHref('frustrations'))}
     >
       <MultiSelectField options={OPTIONS} selected={pastAttempts} onChange={(v) => set({ pastAttempts: v })} />
     </OnboardingStep>

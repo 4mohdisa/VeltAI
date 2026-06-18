@@ -1,12 +1,12 @@
 // OnboardingStep — shared chrome for the 19 onboarding screens: progress
 // indicator ("Step X of 19"), an always-available Back button (never modal-
 // blocked), optional Skip, title/subtitle, scrolling body, and a Continue
-// footer. Default Continue advances to the next route and persists the step so
-// the flow can resume. A1 uses the dark variant (the only black screen).
+// footer. Default Continue advances to the next route. A1 uses the dark variant (the only black screen).
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 
 import { BackButton } from '@/components/navigation/BackButton';
 import { Button } from '@/components/forms/Button';
@@ -14,7 +14,6 @@ import { ProgressBar } from '@/components/display/ProgressBar';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
-import { setOnboardingStep } from '@/lib/storage/secureStore';
 import { ONBOARDING_TOTAL, nextOnboardingRoute } from '@/lib/onboarding/steps';
 
 export type OnboardingStepProps = {
@@ -59,8 +58,7 @@ export function OnboardingStep({
     }
     const route = nextOnboardingRoute(step);
     if (route) {
-      setOnboardingStep(route);
-      router.push(route as never);
+      navigate(route);
     }
   };
 

@@ -2,6 +2,7 @@
 // Six options + a free-text field. All optional, with a prominent Skip. The
 // free text becomes an AI prompt hint ("avoid that pattern").
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { MultiSelectField } from '@/components/forms/MultiSelectField';
@@ -27,7 +28,7 @@ export default function FrustrationsScreen() {
       step={6}
       title="What was wrong with apps you've tried?"
       subtitle="Optional — skip if you haven't used one."
-      onSkip={() => router.push(onboardingHref('reflection') as never)}
+      onSkip={() => navigate(onboardingHref('reflection'))}
     >
       <MultiSelectField options={OPTIONS} selected={frustrations} onChange={(v) => set({ frustrations: v })} />
       <TextField

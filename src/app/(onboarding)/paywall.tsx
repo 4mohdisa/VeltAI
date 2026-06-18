@@ -4,6 +4,7 @@
 // shown plainly — no dark patterns.
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
@@ -57,7 +58,7 @@ export default function PaywallScreen() {
         <Button
           title="Start free trial"
           icon="sparkles"
-          onPress={() => router.push(onboardingHref('generating') as never)}
+          onPress={() => navigate(onboardingHref('generating'))}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'center', gap: space.xl }}>
           <Button

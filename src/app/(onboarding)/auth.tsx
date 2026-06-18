@@ -4,6 +4,7 @@
 // continues into the questions.)
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 import { Icon } from '@/components/primitives/Icon';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
@@ -49,7 +50,7 @@ function AuthButton({
 }
 
 export default function AuthScreen() {
-  const next = () => router.push(onboardingHref('struggles') as never);
+  const next = () => navigate(onboardingHref('struggles'));
 
   return (
     <OnboardingStep step={3} title="Create your account" subtitle="14 days free. No charge until your trial ends." hideContinue>

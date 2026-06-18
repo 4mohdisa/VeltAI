@@ -4,7 +4,6 @@ import * as SecureStore from 'expo-secure-store';
 
 export const STORAGE_KEYS = {
   hasCompletedOnboarding: 'veltai.hasCompletedOnboarding',
-  onboardingStep: 'veltai.onboardingStep', // resume-from-where-left-off
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {
@@ -40,11 +39,3 @@ export async function setHasCompletedOnboarding(value: boolean): Promise<void> {
   await setItem(STORAGE_KEYS.hasCompletedOnboarding, value ? 'true' : 'false');
 }
 
-/** Persist the last reached onboarding route so the flow can resume. */
-export async function getOnboardingStep(): Promise<string | null> {
-  return getItem(STORAGE_KEYS.onboardingStep);
-}
-
-export async function setOnboardingStep(route: string): Promise<void> {
-  await setItem(STORAGE_KEYS.onboardingStep, route);
-}

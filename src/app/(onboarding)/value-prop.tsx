@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
@@ -30,14 +31,14 @@ export default function ValuePropScreen() {
       scrollRef.current?.scrollTo({ x: next * width, animated: true });
       setIndex(next);
     } else {
-      router.push(onboardingHref('auth') as never);
+      navigate(onboardingHref('auth'));
     }
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top', 'bottom']}>
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: space.lg }}>
-        <Pressable onPress={() => router.push(onboardingHref('auth') as never)} haptic={false} accessibilityLabel="Skip">
+        <Pressable onPress={() => navigate(onboardingHref('auth'))} haptic={false} accessibilityLabel="Skip">
           <Text variant="footnote" color={color.gray500}>
             Skip
           </Text>

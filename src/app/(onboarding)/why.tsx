@@ -2,6 +2,7 @@
 // "Why does this matter to you?" Free text, emphasised but skippable. Used later
 // by the AI in nudges ("remember why you started").
 import { router } from 'expo-router';
+import { navigate } from '@/lib/nav';
 
 import { OnboardingStep } from '@/components/domain/OnboardingStep';
 import { TextField } from '@/components/forms/TextField';
@@ -17,7 +18,7 @@ export default function WhyScreen() {
       step={9}
       title="Why does this matter to you?"
       subtitle="A sentence is enough. We'll remind you when it's hard."
-      onSkip={() => router.push(onboardingHref('body') as never)}
+      onSkip={() => navigate(onboardingHref('body'))}
     >
       <TextField
         placeholder="Tell us in your own words…"
