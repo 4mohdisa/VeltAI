@@ -8,6 +8,7 @@ import { Card } from '@/components/display/Card';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
+import { useLargeText } from '@/lib/design/dynamicType';
 import { formatNumber } from '@/lib/formatting';
 import { kcalToDisplay, type EnergyUnit } from '@/lib/units';
 
@@ -36,6 +37,7 @@ function Column({ value, label, tint, icon }: { value: string; label: string; ti
 
 export function CalorieCrossCheck({ intake, goal, activeEnergy, energyUnit = 'kcal' }: CalorieCrossCheckProps) {
   const connected = typeof activeEnergy === 'number';
+  const large = useLargeText(); // §7.2: stack columns vertically at large text
   const e = (kcal: number) => formatNumber(kcalToDisplay(kcal, energyUnit)); // respect energy unit
 
   // VoiceOver summary for the whole cross-check (one element, not three columns).
@@ -55,7 +57,13 @@ export function CalorieCrossCheck({ intake, goal, activeEnergy, energyUnit = 'kc
           Calorie cross-check ({energyUnit})
         </Text>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <View
+          style={{
+            flexDirection: large ? 'column' : 'row',
+            justifyContent: 'space-around',
+            gap: large ? space.md : 0,
+          }}
+        >
           <Column value={e(intake)} label="Eaten" />
           {connected ? (
             <Column value={e(activeEnergy!)} label="Active burn" tint={categoryAccent.calories} icon="flame" />
