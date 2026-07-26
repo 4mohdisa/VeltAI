@@ -128,3 +128,12 @@ Grouped by area; history lives in git.
 - **No license chosen**: LICENSE is Expo scaffolding boilerplate; default is
   all-rights-reserved. The owner must pick a real license before open-sourcing
   (flagged in CONTRIBUTING.md).
+- **Vercel deploy config lives in `web/vercel.json`** (`outputDirectory: "out"`): the project's
+  framework preset is null/"Other", so Vercel looked for `public/` and failed the deploy even
+  though the export succeeded. Repo-controlled so it can't drift with dashboard state. Also
+  `turbopack.root` pins web/ as its own workspace root (the monorepo's root lockfile was being
+  inferred instead, mis-scoping resolution/tracing on CI).
+- **The social card is a committed `public/og.png`**, not an `opengraph-image` route: under
+  `output: 'export'` that route emits an EXTENSIONLESS file, which every static host serves as
+  `application/octet-stream` and every crawler ignores — link previews would have silently
+  broken. Regenerate with `node web/scripts/make-og.mjs`.

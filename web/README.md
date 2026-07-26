@@ -32,7 +32,19 @@ Set at **build** time (baked into the static output — rebuild to change):
 GA only runs when: the id is set **and** the visitor accepted the consent note
 **and** the browser doesn't send Do Not Track / Global Privacy Control.
 
-## Deploy (AWS)
+## Deploy (Vercel)
+
+Set the project's **Root Directory to `web`** — that's the only dashboard
+setting needed. `vercel.json` (committed here) supplies the rest:
+`outputDirectory: "out"`, because a static export writes to `out/` while
+Vercel's default for a non-Next preset is `public/`. Set
+`NEXT_PUBLIC_SITE_URL` (and `NEXT_PUBLIC_GA_ID` when you have one) as project
+env vars — they're inlined at build time, so a redeploy is needed to change them.
+
+Optionally set the Framework Preset to Next.js; the committed `vercel.json`
+makes the build work either way.
+
+## Deploy (AWS / any static host)
 
 The build is a plain static folder — no Node server needed:
 
@@ -51,7 +63,11 @@ A Node host (`npm run start`) also works but buys nothing — the site is static
 ## Structure
 
 - `app/` — pages (`/`, `/privacy`, `/terms`, `/faq`, `/support`, `/security`) +
-  `robots.ts`, `sitemap.ts`, `opengraph-image.tsx` (all statically generated)
+  `robots.ts`, `sitemap.ts` (all statically generated)
+- `public/og.png` — the social card, committed as a real `.png`. Regenerate with
+  `node scripts/make-og.mjs` after changing the tagline or card design (an
+  `opengraph-image` route would export to an extensionless file that static
+  hosts serve as `octet-stream`, which crawlers ignore)
 - `components/` — header/footer, consent-gated GA, the illustrative app-UI mocks
 - `app/globals.css` — the design system (palette + type scale derived from the
   app's `src/lib/design/tokens.ts`; documented in `DECISIONS.md`)
