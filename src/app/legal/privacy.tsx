@@ -5,7 +5,7 @@ import type { JSX } from 'react';
 
 import { LegalScreen, type LegalSection } from '@/components/legal/LegalScreen';
 
-const UPDATED = '14 July 2026';
+const UPDATED = '26 July 2026';
 
 const SECTIONS: LegalSection[] = [
   {
@@ -41,6 +41,13 @@ const SECTIONS: LegalSection[] = [
     heading: 'Your Health Data Stays Private',
     body: [
       'Your food, workout, and body data is yours. It is never sold, never shared for advertising, and never exposed to other users. There are no ad SDKs in the App. Access is restricted to you (row-level security scopes every record to its owner).',
+    ],
+  },
+  {
+    heading: 'Analytics',
+    body: [
+      'We run first-party product analytics on our own servers to understand which screens and features are used — for example, that a meal was logged or a scan was confirmed. These events never include what you logged: no food names, no quantities, no photos, no health data.',
+      'There are no third-party analytics or tracking SDKs in the App. You can opt out at any time in Settings > Privacy; when analytics is off, nothing is collected.',
     ],
   },
   {

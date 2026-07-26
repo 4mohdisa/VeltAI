@@ -14,6 +14,7 @@ import {
 import { mockUser } from '@/lib/mock/data';
 import { useUserStore } from '@/lib/data/userStore';
 import { deriveGoals } from '@/lib/goals/derive';
+import { setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
 
 // --- Goals ------------------------------------------------------------------
 // All canonical: calories in kcal, macros in grams.
@@ -39,6 +40,9 @@ type SettingsState = {
   macroSplitBy: MacroSplitBy;
   // Apple Health connection (stub — real authorization is the native-build phase).
   healthConnected: boolean;
+  // First-party product analytics (opt-out). Off → track() no-ops and buffered
+  // events are discarded (src/lib/analytics).
+  analyticsEnabled: boolean;
 
   setSystem: (system: 'metric' | 'imperial') => void;
   setUnit: (dimension: UnitDimension, value: string) => void;
@@ -49,6 +53,7 @@ type SettingsState = {
   setMacroSplitBy: (by: MacroSplitBy) => void;
   resetGoalsToAi: () => void;
   setHealthConnected: (connected: boolean) => void;
+  setAnalyticsEnabled: (enabled: boolean) => void;
   /** Sign-out: back to defaults. */
   reset: () => void;
 };
@@ -60,6 +65,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   customGoals: aiGoals(), // seeds custom fields with the derived recommendation
   macroSplitBy: 'grams',
   healthConnected: true,
+  analyticsEnabled: true,
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
   setUnit: (dimension, value) =>
@@ -71,6 +77,15 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
   resetGoalsToAi: () => set({ customGoals: aiGoals() }),
   setHealthConnected: (healthConnected) => set({ healthConnected }),
+  setAnalyticsEnabled: (analyticsEnabled) => {
+    set({ analyticsEnabled });
+    // The privacy opt-out must survive restarts — persisted immediately,
+    // re-read by initAnalytics() on the next launch.
+    void setItem(STORAGE_KEYS.analyticsEnabled, analyticsEnabled ? '1' : '0');
+  },
+  // Sign-out: back to defaults — EXCEPT analyticsEnabled: an opt-out is a
+  // privacy choice, not a preference; signing out must never re-enable
+  // collection (see the privacy policy's "off means fully off").
   reset: () =>
     set({
       units: seedUnits,

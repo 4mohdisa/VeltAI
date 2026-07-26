@@ -15,6 +15,7 @@ import { ExercisePicker, type PlannedValues } from '@/components/gym';
 import { Screen } from '@/components/navigation/Screen';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import { color, space, surface } from '@/lib/design/tokens';
 import type { ExerciseLibraryItem, TemplateInput } from '@/lib/types';
 
@@ -102,6 +103,7 @@ export default function NewTemplateScreen() {
           })),
         };
         await api.gym.createTemplate(input);
+        track('template_created');
       }
       showToast({ message: editing ? 'Workout updated' : 'Workout saved', tone: 'success' });
       router.back();

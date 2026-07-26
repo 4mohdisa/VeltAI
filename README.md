@@ -1,24 +1,32 @@
 # Lumo
 
 Food and fitness tracking for iOS — an Expo/React Native app with a Go backend,
-Clerk auth, RevenueCat billing, and a Supabase Postgres database.
+Clerk auth, RevenueCat billing, a Supabase Postgres database, and a static
+marketing site.
 
-## Monorepo layout
+## Monorepo layout — three independent packages
 
 ```
 .
-├── src/                  # Expo app (expo-router; the app lives at the repo root)
+├── src/                  # 1) Expo app (expo-router; the app lives at the repo root)
 ├── assets/               # fonts, icons, splash
-├── backend/              # Go API server — SELF-CONTAINED, deployable on its own
+├── backend/              # 2) Go API server — SELF-CONTAINED, deployable on its own
 │   ├── cmd/server/       # entrypoint (go run ./cmd/server)
 │   ├── internal/         # feature packages: auth, food, gym, goals, scan, energy,
-│   │                     # integrations, subscription, ai, recipes, cuisine
+│   │                     # integrations, subscription, ai, recipes, cuisine, analytics
 │   ├── scripts/          # reset_production.sql, seed_demo_account.go (run by hand)
 │   └── tests/            # hermetic test suites (no network, no DB)
+├── web/                  # 3) Next.js marketing site — static export, own package.json
+│                         #    (run/build/deploy: see web/README.md)
 ├── supabase/migrations/  # numbered SQL migrations — append-only ledger
 ├── CONFIG.md             # every env var + dashboard setup checklist
 └── DECISIONS.md          # load-bearing decisions (read before changing behaviour)
 ```
+
+Each package builds, tests, and deploys on its own — no workspace tool, no
+cross-imports. App: `npm install && npx expo start` (repo root). Backend:
+`cd backend && go run ./cmd/server`. Site: `cd web && npm install && npm run dev`
+(deploy = static `web/out` folder; see [web/README.md](web/README.md)).
 
 ## App
 

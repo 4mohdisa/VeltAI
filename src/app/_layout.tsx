@@ -22,6 +22,7 @@ import { ToastHost } from '@/components/display/ToastHost';
 import { color, sheet } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { flush as flushOfflineQueue, loadQueue } from '@/lib/offline/queue';
+import { flushAnalytics, initAnalytics } from '@/lib/analytics';
 import '@/lib/i18n'; // initialise i18next before any screen renders
 
 // AuthGate mounts ClerkProvider only when a publishable key exists. With no key
@@ -80,7 +81,12 @@ export default function RootLayout() {
   // the flush is opportunistic; screens can also trigger one on mount.
   useEffect(() => {
     configurePurchases();
-    void loadQueue().then(() => flushOfflineQueue());
+    // Analytics rides the same reconnect moment: after the offline queue's
+    // opportunistic flush, send any buffered/persisted product events too.
+    void initAnalytics();
+    void loadQueue()
+      .then(() => flushOfflineQueue())
+      .then(() => flushAnalytics());
   }, []);
 
   return (

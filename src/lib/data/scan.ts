@@ -3,6 +3,7 @@
 // persisted server-side; with no image, or when the backend is unreachable, the
 // mock resolution is the offline experience (capture-first UX keeps working).
 import { api, type FoodLog } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import { deleteFoodItem, logMeal, registerMealCreate } from './mutations';
 import { barcodeProductFromApi, todayISO } from './mappers';
 import { useFoodStore, type StoredFoodItem } from './foodStore';
@@ -78,6 +79,7 @@ const pendingPlaceholder = { name: 'Analyzing…', quantityG: 0, calories: 0, pr
  */
 export function startPhotoScan(imageBase64?: string, mimeType = 'image/jpeg'): MealSlot {
   const slot = slotForNow();
+  track('scan_started');
 
   if (imageBase64) {
     const id = logMeal(slot, pendingPlaceholder, 'photo', true);
@@ -126,6 +128,7 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
     return startPhotoScan(images[0]?.image_base64, images[0]?.mime_type ?? 'image/jpeg');
   }
   const slot = slotForNow();
+  track('scan_started');
   const id = logMeal(slot, pendingPlaceholder, 'photo', true);
   api.scan
     .pipelineMulti(images)
@@ -233,6 +236,7 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
         confidence: r.confidence,
       });
       store.updateScannedItem(localId, { status: 'confirmed', scanSessionId: r.scan_session_id });
+      track('scan_confirmed');
       registerMealCreate(
         localId,
         api.scan.confirm({
@@ -317,6 +321,7 @@ export function saveScannedItem(itemId: string): void {
   if (item.scanSessionId && snapshot) {
     const changed = snapshot.name !== item.name || snapshot.weightG !== item.quantityG;
     if (changed) {
+      track('scan_corrected');
       api.scan
         .correction({
           scan_session_id: item.scanSessionId,
@@ -341,6 +346,7 @@ export function saveScannedItem(itemId: string): void {
 
   // Apply the final macros + 'confirmed' status locally (now counts toward totals).
   useFoodStore.getState().updateScannedItem(itemId, { ...scaled, status: 'confirmed' });
+  track('scan_confirmed');
 
   // Persist. registerMealCreate swaps the returned server id onto the row and
   // swallows failures with a warn (never clobbers the local row).
@@ -370,6 +376,7 @@ export function discardScannedItem(itemId: string): void {
   const item = findScanItem(itemId)?.item;
   stopPoller(itemId); // cancel an in-flight poll if discarded mid-analysis
   scanEstimates.delete(itemId);
+  track('scan_discarded');
   if (item?.scanSessionId) {
     api.scan
       .correction({

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"lumo/backend/internal/ai"
+	"lumo/backend/internal/analytics"
 	"lumo/backend/internal/auth"
 	"lumo/backend/internal/config"
 	"lumo/backend/internal/cuisine"
@@ -82,6 +83,7 @@ func main() {
 	scan.RegisterPipeline(api, pipeline.NewGemini(geminiKey), scanStore, pool)
 	subscription.Register(api, subs)
 	recipes.Register(api, recipes.NewPGStore(pool))
+	analytics.Register(api, analytics.NewPGStore(pool))
 
 	aiSvc := ai.NewService(ai.NewPGStore(pool), ai.NewClaude(config.Env("ANTHROPIC_API_KEY", "")))
 	aiSvc.Routes(api)

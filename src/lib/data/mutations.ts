@@ -3,6 +3,7 @@
 // keep working with no backend), then fires the corresponding API call in the
 // background; failures are logged and the local state stands.
 import { api } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import { isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, todayISO } from './mappers';
 import { useFoodStore, type NewFoodItem } from './foodStore';
 import { useGymStore } from './gymStore';
@@ -90,8 +91,10 @@ const withServerId = (pending: Map<string, Promise<string | null>>, id: string, 
 // --- Food log ---
 export const logMeal = (slot: MealSlot, item: NewFoodItem, method: EntryMethod = 'manual', pending = false): string => {
   const id = food().logMeal(slot, item, method, pending);
-  // Pending rows are scan placeholders — the scan confirm endpoint persists those.
+  // Pending rows are scan placeholders — the scan confirm endpoint persists those
+  // (and emit scan_* analytics instead of food_logged).
   if (!pending) {
+    track('food_logged', { method });
     registerMealCreate(id, api.foodLogs.create(logInputFromItem(slot, item, method)));
   }
   return id;
@@ -132,6 +135,7 @@ export const unsaveFood = (id: string) => {
 export const logGymSession = (session?: Parameters<ReturnType<typeof useGymStore.getState>['logGymSession']>[0]) => {
   if (gym().streak.gymLoggedToday) return; // store would no-op; don't create a duplicate server row
   gym().logGymSession(session);
+  track('workout_logged');
   sync(
     api.gym.createSession({
       date: todayISO(),

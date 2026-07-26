@@ -96,3 +96,35 @@ Grouped by area; history lives in git.
 - `backend/scripts/reset_production.sql` wipes user data (31 tables listed explicitly), keeps
   the 2 seeded libraries; run by hand only, never by the build.
 - Phases E and F were executed F-then-E so the condensed docs describe the final posture.
+
+## Marketing site + product analytics (2026-07-26)
+- **/web is the third package**: Next.js 16 App Router, `output: 'export'` — pure static HTML
+  (S3/CloudFront or nginx, no Node server), zero backend calls. No workspace tool: three
+  packages with three toolchains are plain directories on purpose. Root tsconfig excludes
+  web/ (each package typechecks itself).
+- **Site design derives from the app's tokens**, not a template: palette ink #171717 /
+  paper #FFFFFF / warm zone #F6F5F2 (the site's one deviation from app-neutral) / card
+  #F2F2F7 / line #E5E5EA / secondary #6B6B6B, app accents (energy #EC6330, positive
+  #67CE67, data #3A82F7, warn #F1A33B, ai #B25FEA) functionally only. Type: **Hanken
+  Grotesk** display+body, **IBM Plex Mono** for every number/label (the "instrument, not
+  marketing" voice). Signature element: "the same plate, told honestly" — the scan
+  pipeline's geometry view + confidence badge vs a false-precision foil. Site confidence
+  badges must respect the REAL bands (48% = medium; 78 would be high).
+- **Site GA4 is consent-gated**: loads only when NEXT_PUBLIC_GA_ID is set AND the visitor
+  accepts the one-line note AND no DNT/GPC. Tracked: page views + CTA clicks, nothing else.
+  CTA is an honest "Coming soon" chip + mailto — no fake Download button, no email backend.
+- **App analytics are FIRST-PARTY ONLY** (`POST /api/analytics/events` → analytics_events,
+  RLS owner-only, migration 20260727000001): a third-party SDK would break the app's stated
+  "no ad or tracking SDKs" promise. Typed 12-event allow-list enforced client AND server
+  side; properties are scalar tags, never PII. The event schema is the clean seam to pipe
+  into a heavier tool later if ever wanted.
+- **The analytics opt-out is a persisted privacy choice** (secure-store,
+  `veltai.analyticsEnabled`): survives restart AND sign-out — `reset()` deliberately does
+  not touch it. Found by adversarial review; without this, "off means fully off" was false.
+- `trial_started` and `feature_used` are allow-listed but not yet instrumented (the hosted
+  paywall doesn't expose trial-vs-purchase client-side; feature_used has no single seam).
+- web/ eslint uses @next/eslint-plugin-next's native flat config — eslint-config-next's
+  FlatCompat path crashes under ESLint 9.
+- **No license chosen**: LICENSE is Expo scaffolding boilerplate; default is
+  all-rights-reserved. The owner must pick a real license before open-sourcing
+  (flagged in CONTRIBUTING.md).

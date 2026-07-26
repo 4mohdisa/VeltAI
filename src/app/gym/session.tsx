@@ -16,6 +16,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api, type ExerciseLibraryItem, type GymExerciseInput, type LoggedParameters, type ParameterSchema } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import { useToday } from '@/lib/data/gymSchedule';
 import { todayISO } from '@/lib/data/mappers';
 import { color, radius, space } from '@/lib/design/tokens';
@@ -231,6 +232,7 @@ export default function GymSessionScreen(): JSX.Element {
       if (leavingRef.current) return;
       leavingRef.current = true;
       setSaving(true);
+      track('workout_logged');
 
       const all = [...plannedRows, ...extras];
       const inputs = all

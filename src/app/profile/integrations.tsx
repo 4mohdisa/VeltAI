@@ -17,6 +17,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { api, ApiError } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import type { IntegrationConnection } from '@/lib/types';
 import { isAvailable as healthAvailable } from '@/lib/health/appleHealth';
 
@@ -99,7 +100,8 @@ export default function IntegrationsScreen() {
     setBusy(p.key);
     try {
       const { url } = await p.connect();
-      await WebBrowser.openAuthSessionAsync(url, `lumo://integrations/${p.key}/success`);
+      const result = await WebBrowser.openAuthSessionAsync(url, `lumo://integrations/${p.key}/success`);
+      if (result.type === 'success') track('integration_connected', { provider: p.key });
       await load();
     } catch (e) {
       if (e instanceof ApiError && e.status === 503) {

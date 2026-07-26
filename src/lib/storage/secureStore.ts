@@ -7,6 +7,9 @@ export const STORAGE_KEYS = {
   // One-time capture tips (Phase C) — dismissed once, remembered forever.
   forkPromptDismissed: 'veltai.forkPromptDismissed',
   labelPromptDismissed: 'veltai.labelPromptDismissed',
+  // Analytics opt-out ('0' = opted out). Persisted so the privacy choice
+  // survives restarts AND sign-outs — the in-memory settings store does not.
+  analyticsEnabled: 'veltai.analyticsEnabled',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

@@ -1,0 +1,410 @@
+/* Lumo marketing site — design system.
+   Derived from the app's tokens (src/lib/design/tokens.ts): monochrome base,
+   Apple-Health-derived functional accents, 20px cards, pill controls, soft
+   shadows. The site's one deviation: a slightly warm zone background (--zone)
+   where the app uses neutral #FAFAFA — the web page can afford a touch of
+   warmth; chrome and text stay strictly monochrome. */
+
+:root {
+  /* palette (named in DECISIONS.md) */
+  --ink: #171717;          /* primary text — app color.gray800 */
+  --ink-strong: #1c1c1e;   /* headings — app color.gray1 */
+  --secondary: #6b6b6b;    /* secondary text — app color.secondary, AA on all surfaces */
+  --faint: #8a8a8a;        /* placeholders / tertiary — ≥3:1 for glyphs only */
+  --paper: #ffffff;
+  --zone: #f6f5f2;         /* warm section zone — the site-only warmth */
+  --card: #f2f2f7;         /* app color.light1 — card fill, no border */
+  --line: #e5e5ea;         /* app color.light2 — hairlines */
+
+  /* functional accents — data, AI and status ONLY. Never chrome, never decoration. */
+  --energy: #ec6330;
+  --positive: #67ce67;
+  --data: #3a82f7;
+  --warn: #f1a33b;
+  --ai: #b25fea;
+
+  /* radius — matches the app scale */
+  --r-chip: 10px;
+  --r-md: 16px;
+  --r-card: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* shadows — very soft, very sparing (app shadow.md) */
+  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lift: 0 10px 28px rgba(0, 0, 0, 0.1);
+
+  /* type scale */
+  --font-body: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', monospace;
+
+  --text-hero: clamp(2.375rem, 5.5vw, 3.75rem);
+  --text-h2: clamp(1.625rem, 3.2vw, 2.25rem);
+  --text-h3: 1.1875rem;
+  --text-body: 1.0625rem;   /* 17px — the app's body size */
+  --text-small: 0.9375rem;
+  --text-mono-label: 0.8125rem;
+  --text-mono-micro: 0.75rem;
+
+  --container: 68rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ink-strong);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-hero);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink-strong);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--ink-strong);
+  color: var(--paper);
+}
+
+/* ---- layout primitives ---------------------------------------------------- */
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.section {
+  padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.zone {
+  background: var(--zone);
+}
+
+/* mono eyebrow — the "instrument label" voice used for section markers & data */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--secondary);
+}
+
+.small {
+  font-size: var(--text-small);
+}
+
+.hero-grid {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .hero-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+/* ---- components ----------------------------------------------------------- */
+
+.card {
+  background: var(--card);
+  border-radius: var(--r-card);
+  padding: 1.25rem;
+}
+
+.card-elevated {
+  background: var(--paper);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: var(--r-pill);
+  padding: 0.3rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-label);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.chip--soon {
+  background: var(--ink-strong);
+  color: var(--paper);
+}
+
+.chip--soon .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--positive);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-pill);
+  padding: 0.55rem 1.15rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-strong);
+  font-weight: 600;
+  font-size: var(--text-small);
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--faint);
+  background: var(--zone);
+}
+
+/* confidence badge — always colour + label, never colour alone */
+.confidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-micro);
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-chip);
+  padding: 0.2rem 0.55rem;
+  white-space: nowrap;
+}
+
+.confidence .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex: none;
+}
+
+/* ---- prose (legal / faq pages) -------------------------------------------- */
+
+.prose {
+  max-width: 44rem;
+}
+
+.prose h2 {
+  font-size: 1.375rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1rem;
+  color: var(--ink);
+}
+
+.prose ul {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+/* ---- header / footer ------------------------------------------------------ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header .inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 3.75rem;
+}
+
+.wordmark {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--ink-strong);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2.5vw, 1.75rem);
+}
+
+.site-nav a {
+  text-decoration: none;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--secondary);
+}
+
+.site-nav a:hover {
+  color: var(--ink-strong);
+}
+
+/* small screens: the hero already carries the "Coming soon" chip — drop it from
+   the header and let the nav breathe on one line */
+@media (max-width: 44rem) {
+  .site-header .inner {
+    height: auto;
+    min-height: 3.25rem;
+    flex-wrap: wrap;
+    padding-block: 0.6rem;
+    row-gap: 0.15rem;
+  }
+  .site-header .chip {
+    display: none;
+  }
+  .site-nav {
+    gap: 0.9rem;
+  }
+  .site-nav a {
+    font-size: 0.875rem;
+  }
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding-block: 3rem;
+  font-size: var(--text-small);
+  color: var(--secondary);
+}
+
+.site-footer a {
+  color: var(--secondary);
+}
+
+.site-footer a:hover {
+  color: var(--ink-strong);
+}
+
+/* ---- consent banner ------------------------------------------------------- */
+
+.consent {
+  position: fixed;
+  inset-inline: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  margin-inline: auto;
+  max-width: 34rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lift);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-small);
+}
+
+.consent button {
+  font: inherit;
+  font-weight: 600;
+  border-radius: var(--r-pill);
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-strong);
+}
+
+.consent button.primary {
+  background: var(--ink-strong);
+  border-color: var(--ink-strong);
+  color: var(--paper);
+}

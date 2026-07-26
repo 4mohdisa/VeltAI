@@ -708,6 +708,15 @@ export type BodyWeight = {
 };
 export type BodyWeightInput = { date: string; weight: number; unit?: string; notes?: string };
 
+// POST /api/analytics/events — one first-party product event (batched, max 50
+// per request). No user_id: the backend derives it from the auth token.
+export type AnalyticsEventInput = {
+  name: string;
+  properties?: Record<string, string | number | boolean>;
+  session_id: string;
+  client_ts: string; // RFC3339
+};
+
 export type SubscriptionStatus = {
   status: string; // 'none' | 'trialing' | 'active' | 'cancelled' | 'expired' | 'past_due'
   is_active: boolean;
@@ -971,6 +980,11 @@ export const api = {
 
   subscription: {
     get: () => req.get<SubscriptionStatus>('/api/subscription'),
+  },
+
+  analytics: {
+    events: (events: AnalyticsEventInput[]) =>
+      req.post<{ accepted: number }>('/api/analytics/events', { events }),
   },
 
   ai: {

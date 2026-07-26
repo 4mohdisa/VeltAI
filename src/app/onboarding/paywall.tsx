@@ -9,7 +9,7 @@
 //
 // Billing-disabled dev mode (no key / Expo Go): a "Billing not configured (dev)"
 // note replaces the paywall and Continue proceeds — the app stays fully usable.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router, type Href } from 'expo-router';
 
@@ -20,6 +20,7 @@ import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
 import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement } from '@/lib/billing/purchases';
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
@@ -32,6 +33,10 @@ export default function PaywallScreen() {
   const markCompleted = useOnboardingStore((s) => s.markCompleted);
 
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    track('paywall_viewed');
+  }, []);
 
   const cuisineLabel =
     cuisines.length > 0 ? cuisines.map((c) => CUISINE_LABEL[c]).join(', ') : 'Personalised';
@@ -50,6 +55,7 @@ export default function PaywallScreen() {
     const payload = onboardingPayload(useOnboardingStore.getState());
     try {
       await api.onboarding.post(payload);
+      track('onboarding_completed');
       markCompleted();
       await setHasCompletedOnboarding(true);
       navigate('/onboarding/done');
