@@ -14,11 +14,57 @@ import {
   type MealSlot,
   type SavedFood,
 } from '@/lib/mock/data';
+import type { ScanItemStatus } from '@/lib/types';
 
 // Items carry a stable id so edits/deletes/pending-scan resolution address a row
 // directly (mock items are id-less; ids are assigned when seeding the store).
-export type StoredFoodItem = FoodItem & { id: string; pending?: boolean };
+// The scan-review fields are additive + optional: `status` drives which card
+// variant a scanned row renders (analyzing → ready → confirmed/failed);
+// `estimatedWeightG` is the AI's original weight guess (the slider baseline);
+// `scanSessionId` links back to /confirm, /correction, /feedback. `confidence`
+// already lives on FoodItem (0..1).
+export type StoredFoodItem = FoodItem & {
+  id: string;
+  pending?: boolean;
+  status?: ScanItemStatus;
+  scanSessionId?: string;
+  estimatedWeightG?: number;
+  // Multi-angle capture (Phase 13): how well the angles agreed (0..1), whether
+  // the user must pick between disagreeing estimates, the explanation, and the
+  // alternate total weight from the other angle(s).
+  angleAgreement?: number;
+  needsConfirmation?: boolean;
+  reconciliationNote?: string;
+  alternateWeightG?: number;
+  // Repeat-meal match (signal 5): "looks like your usual X — 450 g?".
+  matchedMealName?: string;
+  matchedMealWeightG?: number;
+};
 export type StoredMeal = Omit<Meal, 'items'> & { items: StoredFoodItem[] };
+
+/** Patch for a scanned row under review — name/weight/macros/status plus the
+ *  ready-transition metadata (confidence/session/estimate weight). */
+export type ScannedItemPatch = Partial<
+  Pick<
+    StoredFoodItem,
+    | 'name'
+    | 'quantityG'
+    | 'calories'
+    | 'protein'
+    | 'carbs'
+    | 'fat'
+    | 'status'
+    | 'confidence'
+    | 'scanSessionId'
+    | 'estimatedWeightG'
+    | 'angleAgreement'
+    | 'needsConfirmation'
+    | 'reconciliationNote'
+    | 'alternateWeightG'
+    | 'matchedMealName'
+    | 'matchedMealWeightG'
+  >
+>;
 
 let counter = 0;
 const nextId = (prefix: string) => `${prefix}_${Date.now().toString(36)}_${(counter++).toString(36)}`;
@@ -37,12 +83,18 @@ function seedMeals(): StoredMeal[] {
 
 function recompute(meal: StoredMeal): StoredMeal {
   const sum = meal.items.reduce(
-    (a, it) => ({
-      calories: a.calories + it.calories,
-      protein: a.protein + it.protein,
-      carbs: a.carbs + it.carbs,
-      fat: a.fat + it.fat,
-    }),
+    (a, it) =>
+      // Under-review ('ready') and 'failed' scan rows aren't logged yet, so they
+      // don't count toward meal totals (which feed the food log + dashboard).
+      // They become countable the moment saveScannedItem flips them to 'confirmed'.
+      it.status === 'ready' || it.status === 'failed'
+        ? a
+        : {
+            calories: a.calories + it.calories,
+            protein: a.protein + it.protein,
+            carbs: a.carbs + it.carbs,
+            fat: a.fat + it.fat,
+          },
     { calories: 0, protein: 0, carbs: 0, fat: 0 },
   );
   return { ...meal, ...sum };
@@ -67,15 +119,26 @@ type FoodState = {
   deleteFoodItem: (itemId: string) => void;
   resolvePending: (itemId: string, item: NewFoodItem) => void;
 
+  // --- scan review lifecycle ---
+  /** Flip just the review status of a scanned row (analyzing→ready→confirmed/failed). */
+  setItemStatus: (itemId: string, status: ScanItemStatus) => void;
+  /** Patch a scanned row's fields (name/weight/macros/status + ready metadata). */
+  updateScannedItem: (itemId: string, patch: ScannedItemPatch) => void;
+
   // --- saved foods ---
-  saveFood: (food: Omit<SavedFood, 'id'>) => void;
+  /** Save a food; returns the new local id (for server-id reconciliation). */
+  saveFood: (food: Omit<SavedFood, 'id'>) => string;
   editSavedFood: (id: string, patch: Partial<SavedFood>) => void;
   unsaveFood: (id: string) => void;
+
+  /** Sign-out: back to the seeded initial state (no user data retained). */
+  reset: () => void;
 };
 
 export const useFoodStore = create<FoodState>((set) => ({
   meals: seedMeals(),
   savedFoods: mockSavedFoods.map((f) => ({ ...f })),
+  reset: () => set({ meals: seedMeals(), savedFoods: mockSavedFoods.map((f) => ({ ...f })) }),
 
   logMeal: (slot, item, method, pending = false) => {
     const id = nextId('it');
@@ -122,6 +185,24 @@ export const useFoodStore = create<FoodState>((set) => ({
       ),
     })),
 
+  setItemStatus: (itemId, status) =>
+    set((s) => ({
+      meals: s.meals.map((m) =>
+        m.items.some((it) => it.id === itemId)
+          ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, status } : it)) })
+          : m,
+      ),
+    })),
+
+  updateScannedItem: (itemId, patch) =>
+    set((s) => ({
+      meals: s.meals.map((m) =>
+        m.items.some((it) => it.id === itemId)
+          ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, ...patch } : it)) })
+          : m,
+      ),
+    })),
+
   deleteFoodItem: (itemId) =>
     set((s) => ({
       meals: s.meals
@@ -129,7 +210,11 @@ export const useFoodStore = create<FoodState>((set) => ({
         .filter((m) => m.items.length > 0),
     })),
 
-  saveFood: (food) => set((s) => ({ savedFoods: [{ id: nextId('s'), ...food }, ...s.savedFoods] })),
+  saveFood: (food) => {
+    const id = nextId('s');
+    set((s) => ({ savedFoods: [{ id, ...food }, ...s.savedFoods] }));
+    return id;
+  },
   editSavedFood: (id, patch) =>
     set((s) => ({ savedFoods: s.savedFoods.map((f) => (f.id === id ? { ...f, ...patch } : f)) })),
   unsaveFood: (id) => set((s) => ({ savedFoods: s.savedFoods.filter((f) => f.id !== id) })),

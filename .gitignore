@@ -1,47 +1,56 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# ── secrets — NEVER commit real keys (.env.example files ARE tracked) ─────────
+.env
+.env.local
+.env*.local
 
-# dependencies
+# ── dependencies ──────────────────────────────────────────────────────────────
 node_modules/
 
-# Expo
+# ── Expo / Metro ──────────────────────────────────────────────────────────────
 .expo/
 dist/
 web-build/
 expo-env.d.ts
+.metro-health-check*
 
-# Native
+# ── generated native projects (expo prebuild output) ──────────────────────────
+/ios
+/android
 .kotlin/
 *.orig.*
+
+# ── signing material ──────────────────────────────────────────────────────────
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
+*.pem
 
-# Metro
-.metro-health-check*
+# ── build output ──────────────────────────────────────────────────────────────
+*.tsbuildinfo
+backend/server
+backend/bin/
 
-# debug
+# ── coverage / test output ────────────────────────────────────────────────────
+coverage/
+.coverage
+coverage.out
+*.lcov
+
+# ── local one-off automation (dev tooling, not part of the product) ───────────
+/scripts/audit-routes.mjs
+
+# ── logs / OS / editor cruft ──────────────────────────────────────────────────
+*.log
 npm-debug.*
 yarn-debug.*
 yarn-error.*
-
-# macOS
 .DS_Store
-*.pem
+.idea/
+*.swp
+/tmp/
 
-# local env files
-.env*.local
-
-# typescript
-*.tsbuildinfo
-
-example
-
-# generated native folders
-/ios
-/android
-
-# Large font source image — fonts are extracted to assets/fonts/
+# ── large font source image — fonts are extracted to assets/fonts/ ────────────
 SF-Pro.dmg
 *.dmg

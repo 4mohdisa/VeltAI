@@ -1,0 +1,280 @@
+package authtests
+
+import (
+	"context"
+	"crypto/hmac"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha256"
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+
+	"lumo/backend/internal/auth"
+)
+
+type fakeStore struct {
+	profiles map[string]auth.Profile
+}
+
+func newFakeStore() *fakeStore { return &fakeStore{profiles: map[string]auth.Profile{}} }
+
+func (f *fakeStore) Upsert(_ context.Context, p auth.Profile) error {
+	f.profiles[p.ID] = p
+	return nil
+}
+
+func (f *fakeStore) Get(_ context.Context, id string) (auth.Profile, error) {
+	p, ok := f.profiles[id]
+	if !ok {
+		return auth.Profile{}, auth.ErrNotFound
+	}
+	return p, nil
+}
+
+func (f *fakeStore) Update(_ context.Context, id string, displayName, avatarURL *string) (auth.Profile, error) {
+	p, ok := f.profiles[id]
+	if !ok {
+		return auth.Profile{}, auth.ErrNotFound
+	}
+	if displayName != nil {
+		p.DisplayName = displayName
+	}
+	if avatarURL != nil {
+		p.AvatarURL = avatarURL
+	}
+	f.profiles[id] = p
+	return p, nil
+}
+
+func (f *fakeStore) Delete(_ context.Context, id string) error {
+	delete(f.profiles, id)
+	return nil
+}
+
+// --- middleware ---
+
+func TestMiddleware(t *testing.T) {
+	key, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		t.Fatal(err)
+	}
+	verifier := &auth.JWTVerifier{Keyfunc: func(*jwt.Token) (any, error) { return &key.PublicKey, nil }}
+
+	var seenUser string
+	handler := auth.Middleware(verifier)(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		seenUser = auth.UserID(r.Context())
+		w.WriteHeader(http.StatusOK)
+	}))
+
+	sign := func(claims jwt.MapClaims) string {
+		s, err := jwt.NewWithClaims(jwt.SigningMethodRS256, claims).SignedString(key)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s
+	}
+
+	cases := []struct {
+		name       string
+		authHeader string
+		wantStatus int
+		wantUser   string
+	}{
+		{"valid", "Bearer " + sign(jwt.MapClaims{"sub": "user_1", "exp": time.Now().Add(time.Hour).Unix()}), http.StatusOK, "user_1"},
+		{"expired", "Bearer " + sign(jwt.MapClaims{"sub": "user_1", "exp": time.Now().Add(-time.Hour).Unix()}), http.StatusUnauthorized, ""},
+		{"missing header", "", http.StatusUnauthorized, ""},
+		{"malformed token", "Bearer not.a.jwt", http.StatusUnauthorized, ""},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			seenUser = ""
+			req := httptest.NewRequest(http.MethodGet, "/", nil)
+			if tc.authHeader != "" {
+				req.Header.Set("Authorization", tc.authHeader)
+			}
+			rec := httptest.NewRecorder()
+			handler.ServeHTTP(rec, req)
+			if rec.Code != tc.wantStatus {
+				t.Fatalf("status = %d, want %d (body %s)", rec.Code, tc.wantStatus, rec.Body)
+			}
+			if seenUser != tc.wantUser {
+				t.Fatalf("UserID = %q, want %q", seenUser, tc.wantUser)
+			}
+		})
+	}
+}
+
+// --- webhook ---
+
+const testSecretKey = "0123456789abcdef0123456789abcdef"
+
+func testSecret() string {
+	return "whsec_" + base64.StdEncoding.EncodeToString([]byte(testSecretKey))
+}
+
+func svixSign(t *testing.T, id, ts string, payload []byte) string {
+	t.Helper()
+	mac := hmac.New(sha256.New, []byte(testSecretKey))
+	fmt.Fprintf(mac, "%s.%s.%s", id, ts, payload)
+	return "v1," + base64.StdEncoding.EncodeToString(mac.Sum(nil))
+}
+
+func postWebhook(t *testing.T, mux *http.ServeMux, payload []byte, signature string) *httptest.ResponseRecorder {
+	t.Helper()
+	req := httptest.NewRequest(http.MethodPost, "/api/webhooks/clerk", strings.NewReader(string(payload)))
+	req.Header.Set("svix-id", "msg_1")
+	req.Header.Set("svix-timestamp", fmt.Sprint(time.Now().Unix()))
+	req.Header.Set("svix-signature", signature)
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, req)
+	return rec
+}
+
+func TestWebhookUserCreated(t *testing.T) {
+	st := newFakeStore()
+	mux := http.NewServeMux()
+	auth.RegisterWebhook(mux, st, testSecret())
+
+	payload := []byte(`{
+		"type": "user.created",
+		"data": {
+			"id": "user_1",
+			"first_name": "Jane",
+			"last_name": "Doe",
+			"image_url": "https://img.example/jane.png",
+			"primary_email_address_id": "em_1",
+			"email_addresses": [
+				{"id": "em_2", "email_address": "other@example.com"},
+				{"id": "em_1", "email_address": "jane@example.com"}
+			]
+		}
+	}`)
+	ts := fmt.Sprint(time.Now().Unix())
+	rec := postWebhook(t, mux, payload, svixSign(t, "msg_1", ts, payload))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, body %s", rec.Code, rec.Body)
+	}
+	p, ok := st.profiles["user_1"]
+	if !ok {
+		t.Fatal("profile not upserted")
+	}
+	if p.Email == nil || *p.Email != "jane@example.com" {
+		t.Fatalf("email = %v, want jane@example.com", p.Email)
+	}
+	if p.DisplayName == nil || *p.DisplayName != "Jane Doe" {
+		t.Fatalf("display_name = %v, want Jane Doe", p.DisplayName)
+	}
+	if p.AvatarURL == nil || *p.AvatarURL != "https://img.example/jane.png" {
+		t.Fatalf("avatar_url = %v", p.AvatarURL)
+	}
+}
+
+func TestWebhookInvalidSignature(t *testing.T) {
+	st := newFakeStore()
+	mux := http.NewServeMux()
+	auth.RegisterWebhook(mux, st, testSecret())
+
+	payload := []byte(`{"type":"user.created","data":{"id":"user_1"}}`)
+	rec := postWebhook(t, mux, payload, "v1,"+base64.StdEncoding.EncodeToString([]byte("garbage-signature")))
+	if rec.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403 (body %s)", rec.Code, rec.Body)
+	}
+	if len(st.profiles) != 0 {
+		t.Fatal("profile written despite bad signature")
+	}
+}
+
+// --- profile ---
+
+func authedRequest(method, path, body string) *http.Request {
+	var req *http.Request
+	if body == "" {
+		req = httptest.NewRequest(method, path, nil)
+	} else {
+		req = httptest.NewRequest(method, path, strings.NewReader(body))
+	}
+	return req.WithContext(auth.WithUserID(req.Context(), "user_1"))
+}
+
+func decodeProfile(t *testing.T, rec *httptest.ResponseRecorder) auth.Profile {
+	t.Helper()
+	var env struct {
+		Data  auth.Profile `json:"data"`
+		Error *string      `json:"error"`
+	}
+	if err := json.Unmarshal(rec.Body.Bytes(), &env); err != nil {
+		t.Fatalf("decode: %v (body %s)", err, rec.Body)
+	}
+	return env.Data
+}
+
+func TestProfileGetAndPatch(t *testing.T) {
+	st := newFakeStore()
+	email := "jane@example.com"
+	name := "Jane Doe"
+	st.profiles["user_1"] = auth.Profile{ID: "user_1", Email: &email, DisplayName: &name}
+	mux := http.NewServeMux()
+	auth.RegisterProfile(mux, st)
+
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodGet, "/api/profile", ""))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("GET status = %d, body %s", rec.Code, rec.Body)
+	}
+	if p := decodeProfile(t, rec); p.ID != "user_1" || *p.Email != email {
+		t.Fatalf("GET profile = %+v", p)
+	}
+
+	rec = httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodPatch, "/api/profile", `{"display_name":"New Name"}`))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("PATCH status = %d, body %s", rec.Code, rec.Body)
+	}
+	p := decodeProfile(t, rec)
+	if p.DisplayName == nil || *p.DisplayName != "New Name" {
+		t.Fatalf("display_name = %v, want New Name", p.DisplayName)
+	}
+	if p.Email == nil || *p.Email != email {
+		t.Fatalf("email changed by partial patch: %v", p.Email)
+	}
+}
+
+func TestProfileGetNotFound(t *testing.T) {
+	mux := http.NewServeMux()
+	auth.RegisterProfile(mux, newFakeStore())
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodGet, "/api/profile", ""))
+	if rec.Code != http.StatusNotFound {
+		t.Fatalf("status = %d, want 404", rec.Code)
+	}
+}
+
+func TestProfileDelete(t *testing.T) {
+	st := newFakeStore()
+	st.profiles["user_1"] = auth.Profile{ID: "user_1"}
+	mux := http.NewServeMux()
+	auth.RegisterProfile(mux, st)
+
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodDelete, "/api/profile", ""))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("DELETE status = %d, body %s", rec.Code, rec.Body)
+	}
+	if _, ok := st.profiles["user_1"]; ok {
+		t.Fatal("profile was not deleted")
+	}
+	// Idempotent — deleting an already-absent account is still a 200.
+	rec = httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodDelete, "/api/profile", ""))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("second DELETE status = %d, want 200 (idempotent)", rec.Code)
+	}
+}

@@ -15,10 +15,10 @@ import { SegmentedField } from '@/components/forms/SegmentedField';
 import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
+import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
 import { color, space } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
-import { useSettingsStore } from '@/lib/settings/store';
-import { useUnitPreferences } from '@/lib/settings/store';
+import { useSettingsStore, useUnitPreferences } from '@/lib/settings/store';
 import { useGoals } from '@/lib/data';
 import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 
@@ -167,6 +167,9 @@ export default function GoalsScreen() {
           showToast({ message: t('goals.saved'), tone: 'success' });
         }}
       />
+
+      {/* Guideline 1.4.1 — computed health targets need a visible disclaimer. */}
+      <HealthDisclaimer />
     </Screen>
   );
 }

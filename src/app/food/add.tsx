@@ -1,9 +1,10 @@
 // C2 · Add menu
-// 2×2 grid of large tappable cards: Scan food, Barcode, Voice, Saved foods.
-// (Manual search lives in the food-log search bar, not here. No gym option.)
+// 2×3 grid of large tappable cards: Scan food, Barcode, Voice, Saved foods,
+// My Meals, Quick Add. (Manual search lives in the food-log search bar, not here.
+// No gym option.)
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { replace } from '@/lib/nav';
+import { navigate, replace } from '@/lib/nav';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
@@ -14,31 +15,38 @@ import { color, radius, space } from '@/lib/design/tokens';
 
 type Method = {
   icon: string;
-  labelKey: string;
-  descriptionKey: string;
+  label: string;
+  description: string;
   route: string;
+  // 'replace' hands the sheet off to a full-screen flow; 'push' stacks a real
+  // screen (My Meals) on top so back returns to the log.
+  mode: 'replace' | 'push';
 };
-
-const METHODS: Method[] = [
-  { icon: 'camera', labelKey: 'addMenu.scanFood', descriptionKey: 'addMenu.snapMeal', route: '/food/photo-capture' },
-  { icon: 'barcode', labelKey: 'addMenu.barcode', descriptionKey: 'addMenu.scanPackage', route: '/food/barcode-scan' },
-  { icon: 'mic', labelKey: 'addMenu.voice', descriptionKey: 'addMenu.describeOutLoud', route: '/food/voice' },
-  { icon: 'bookmark', labelKey: 'addMenu.savedFoods', descriptionKey: 'addMenu.oneTapReadd', route: '/food/saved' },
-];
 
 export default function AddMealScreen() {
   const { t } = useTranslation();
+  // Built in-component so the existing four cards keep their i18n keys while the
+  // two new ones use literal strings (no en.json edit — a sibling owns it).
+  const methods: Method[] = [
+    { icon: 'camera', label: t('addMenu.scanFood'), description: t('addMenu.snapMeal'), route: '/food/photo-capture', mode: 'replace' },
+    { icon: 'barcode', label: t('addMenu.barcode'), description: t('addMenu.scanPackage'), route: '/food/barcode-scan', mode: 'replace' },
+    { icon: 'reader-outline', label: 'Scan Label', description: 'Read a nutrition facts panel', route: '/food/label-scan', mode: 'replace' },
+    { icon: 'mic', label: t('addMenu.voice'), description: t('addMenu.describeOutLoud'), route: '/food/voice', mode: 'replace' },
+    { icon: 'bookmark', label: t('addMenu.savedFoods'), description: t('addMenu.oneTapReadd'), route: '/food/saved', mode: 'replace' },
+    { icon: 'restaurant', label: 'My Meals', description: 'Log a saved meal or recipe', route: '/food/meals', mode: 'push' },
+    { icon: 'flame', label: 'Quick Add', description: 'Just calories, fast', route: '/food/quick-add', mode: 'replace' },
+  ];
   return (
     <SheetContent title={t('addMenu.title')} onClose={() => router.canGoBack() && router.back()}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
-        {METHODS.map((m) => (
+        {methods.map((m) => (
           <Pressable
-            key={m.labelKey}
+            key={m.route}
             // Replace the add-menu sheet with the chosen flow so it presents
-            // cleanly full-screen (Scan/Barcode/Voice) instead of stacking on
-            // top of the still-open sheet.
-            onPress={() => replace(m.route)}
-            accessibilityLabel={`${t(m.labelKey)}. ${t(m.descriptionKey)}`}
+            // cleanly full-screen (Scan/Barcode/Voice/Quick Add) instead of
+            // stacking on top of the still-open sheet. My Meals pushes instead.
+            onPress={() => (m.mode === 'push' ? navigate(m.route) : replace(m.route))}
+            accessibilityLabel={`${m.label}. ${m.description}`}
             minTapTarget={false}
             style={{
               width: '47.5%',
@@ -63,10 +71,10 @@ export default function AddMealScreen() {
             </View>
             <View style={{ gap: space.xs }}>
               <Text variant="title3" color={color.black}>
-                {t(m.labelKey)}
+                {m.label}
               </Text>
               <Text variant="footnote" color={color.gray500}>
-                {t(m.descriptionKey)}
+                {m.description}
               </Text>
             </View>
           </Pressable>

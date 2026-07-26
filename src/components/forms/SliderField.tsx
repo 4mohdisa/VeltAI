@@ -65,6 +65,7 @@ export function SliderField({
       if (usable <= 0) return;
       let f = startFrac.value + e.translationX / usable;
       f = Math.min(1, Math.max(0, f));
+      // eslint-disable-next-line react-hooks/immutability -- Reanimated SharedValue: `.value =` is the intended (only) mutation API; the react-compiler rule doesn't model shared-value mutability.
       curFrac.value = f;
       runOnJS(report)(f);
     });

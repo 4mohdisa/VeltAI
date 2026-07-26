@@ -49,6 +49,8 @@ type SettingsState = {
   setMacroSplitBy: (by: MacroSplitBy) => void;
   resetGoalsToAi: () => void;
   setHealthConnected: (connected: boolean) => void;
+  /** Sign-out: back to defaults. */
+  reset: () => void;
 };
 
 export const useSettingsStore = create<SettingsState>((set) => ({
@@ -69,6 +71,15 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
   resetGoalsToAi: () => set({ customGoals: aiGoals() }),
   setHealthConnected: (healthConnected) => set({ healthConnected }),
+  reset: () =>
+    set({
+      units: seedUnits,
+      languageOverride: null,
+      goalMode: 'ai',
+      customGoals: aiGoals(),
+      macroSplitBy: 'grams',
+      healthConnected: true,
+    }),
 }));
 
 // --- Selectors --------------------------------------------------------------

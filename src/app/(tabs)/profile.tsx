@@ -4,7 +4,7 @@
 // settings list.
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 
 import { Avatar } from '@/components/display/Avatar';
 import { Card } from '@/components/display/Card';
@@ -47,6 +47,7 @@ export default function ProfileScreen() {
 
         <SettingsList
           rows={[
+            { icon: 'sparkles-outline', label: 'AI insights', onPress: () => router.push('/insights' as Href) },
             { icon: 'settings-outline', label: 'Settings', onPress: () => router.push('/profile/settings') },
             { icon: 'card-outline', label: 'Subscription', onPress: () => router.push('/profile/subscription') },
           ]}

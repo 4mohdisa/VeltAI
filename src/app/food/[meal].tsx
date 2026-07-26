@@ -132,14 +132,20 @@ export default function MealDetailScreen() {
         icon={synced ? 'checkmark' : 'heart'}
         disabled={synced}
         onPress={async () => {
-          await writeNutritionToHealth({
-            calories: meal.calories,
-            protein: meal.protein,
-            carbs: meal.carbs,
-            fat: meal.fat,
-          });
-          setSynced(true);
-          showToast({ message: 'Nutrition sent to Apple Health.', tone: 'success' });
+          // try/catch: the real HealthKit write can reject (permission denial);
+          // don't let it float as an unhandled rejection (AUDIT_REPORT.md M3).
+          try {
+            await writeNutritionToHealth({
+              calories: meal.calories,
+              protein: meal.protein,
+              carbs: meal.carbs,
+              fat: meal.fat,
+            });
+            setSynced(true);
+            showToast({ message: 'Nutrition sent to Apple Health.', tone: 'success' });
+          } catch {
+            showToast({ message: "Couldn't send to Apple Health.", tone: 'error' });
+          }
         }}
       />
 

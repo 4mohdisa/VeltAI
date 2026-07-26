@@ -1,0 +1,156 @@
+// Migration-shape tests (hermetic — parse the SQL files, no DB).
+//
+//  1. Account-deletion cascade (guideline 5.1.1(v)): every table that references
+//     profiles(id) must declare ON DELETE CASCADE, so DELETE /api/profile
+//     genuinely removes every user row — no orphans, no soft-delete.
+//  2. Ordering/shape: applying the migrations in filename order must yield the
+//     expected tables and Phase-12/13 columns (catches a column added in a later
+//     migration to a table created even later, etc.).
+package migrationstests
+
+import (
+	"os"
+	"path/filepath"
+	"regexp"
+	"sort"
+	"strings"
+	"testing"
+)
+
+const migrationsDir = "../../../supabase/migrations"
+
+// allSQL returns each migration's content, in filename (application) order.
+func allSQL(t *testing.T) []string {
+	t.Helper()
+	entries, err := os.ReadDir(migrationsDir)
+	if err != nil {
+		t.Fatalf("read migrations dir: %v", err)
+	}
+	var names []string
+	for _, e := range entries {
+		if strings.HasSuffix(e.Name(), ".sql") {
+			names = append(names, e.Name())
+		}
+	}
+	sort.Strings(names)
+	if len(names) < 8 {
+		t.Fatalf("expected ≥8 migrations, found %d", len(names))
+	}
+	var out []string
+	for _, n := range names {
+		b, err := os.ReadFile(filepath.Join(migrationsDir, n))
+		if err != nil {
+			t.Fatalf("read %s: %v", n, err)
+		}
+		out = append(out, strings.ToLower(string(b)))
+	}
+	return out
+}
+
+func TestMigrationFilenamesSequential(t *testing.T) {
+	entries, _ := os.ReadDir(migrationsDir)
+	re := regexp.MustCompile(`^\d{14}_[a-z0-9_]+\.sql$`)
+	seen := map[string]bool{}
+	for _, e := range entries {
+		if !strings.HasSuffix(e.Name(), ".sql") {
+			continue
+		}
+		if !re.MatchString(e.Name()) {
+			t.Errorf("migration %q does not match YYYYMMDDNNNNNN_name.sql", e.Name())
+		}
+		prefix := e.Name()[:14]
+		if seen[prefix] {
+			t.Errorf("duplicate migration number %s", prefix)
+		}
+		seen[prefix] = true
+	}
+}
+
+// TestEveryProfilesReferenceCascades is the account-deletion guarantee: each
+// `references profiles(id)` must carry `on delete cascade`.
+func TestEveryProfilesReferenceCascades(t *testing.T) {
+	sqls := allSQL(t)
+	// Matches "user_id text not null references profiles(id) <suffix up to comma/newline>".
+	re := regexp.MustCompile(`references\s+profiles\s*\(\s*id\s*\)([^,\n]*)`)
+	found := 0
+	for i, sql := range sqls {
+		for _, m := range re.FindAllStringSubmatch(sql, -1) {
+			found++
+			if !strings.Contains(m[1], "on delete cascade") {
+				t.Errorf("migration #%d: a profiles(id) reference lacks ON DELETE CASCADE: %q", i+1, strings.TrimSpace(m[0]))
+			}
+		}
+	}
+	// Every user-owned table references profiles — there are many; a low count
+	// means the regex broke, not that the schema shrank.
+	if found < 15 {
+		t.Errorf("only %d profiles(id) references found — parser drift?", found)
+	}
+}
+
+// TestFinalSchemaShape simulates in-order application: a column ALTER must apply
+// to a table already created, and the key Phase 12/13 tables/columns must exist.
+func TestFinalSchemaShape(t *testing.T) {
+	sqls := allSQL(t)
+	created := map[string]bool{}
+	altered := map[string][]string{} // table -> columns added
+	createRe := regexp.MustCompile(`create table (?:if not exists )?([a-z_]+)`)
+	alterRe := regexp.MustCompile(`alter table ([a-z_]+)\s`)
+	addColRe := regexp.MustCompile(`add column (?:if not exists )?([a-z_]+)`)
+
+	for i, sql := range sqls {
+		for _, m := range createRe.FindAllStringSubmatch(sql, -1) {
+			created[m[1]] = true
+		}
+		// Track ALTERs per statement so a column lands on the right table.
+		for _, stmt := range strings.Split(sql, ";") {
+			am := alterRe.FindStringSubmatch(stmt)
+			if am == nil {
+				continue
+			}
+			table := am[1]
+			if !created[table] {
+				t.Errorf("migration #%d alters %q before any migration creates it", i+1, table)
+			}
+			for _, cm := range addColRe.FindAllStringSubmatch(stmt, -1) {
+				altered[table] = append(altered[table], cm[1])
+			}
+		}
+	}
+
+	for _, table := range []string{
+		"profiles", "food_logs", "gym_sessions", "gym_exercises", "goals", "onboarding",
+		"exercise_library", "workout_templates", "workout_schedule", "gym_adherence",
+		"integration_connections", "scan_sessions", "scan_images",
+		"user_food_affinity", "confidence_calibration",
+	} {
+		if !created[table] {
+			t.Errorf("table %q never created", table)
+		}
+	}
+
+	has := func(table, col string) bool {
+		for _, c := range altered[table] {
+			if c == col {
+				return true
+			}
+		}
+		return false
+	}
+	for _, want := range []struct{ table, col string }{
+		{"exercise_library", "parameter_schema"},
+		{"gym_exercises", "parameters"},
+		{"gym_exercises", "rpe"},
+		{"gym_sessions", "apple_health_uuid"},
+		{"gym_sessions", "idempotency_key"},
+		{"food_logs", "idempotency_key"},
+		{"scan_sessions", "image_count"},
+		{"scan_sessions", "angle_agreement"},
+		{"scan_corrections", "correction_type"},
+		{"scan_corrections", "logged_hour"},
+	} {
+		if !has(want.table, want.col) {
+			t.Errorf("column %s.%s never added", want.table, want.col)
+		}
+	}
+}

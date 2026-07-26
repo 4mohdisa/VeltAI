@@ -58,9 +58,17 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
   const startY = useSharedValue(0);
   const sheetHeight = useSharedValue(CLOSED_OFFSET);
 
+  // Mount on open by adjusting state DURING render (React's sanctioned
+  // "derive-on-prop-change"), not in the effect — a synchronous setMounted(true)
+  // inside the effect trips the set-state-in-effect rule. The effect below owns
+  // only the animation and the deferred unmount on close.
+  if (visible && !mounted) setMounted(true);
+  // Reduce Motion has no exit animation, so unmount immediately on close — also
+  // during render, so the effect below carries no synchronous setState at all.
+  if (!visible && mounted && reduceMotion) setMounted(false);
+
   useEffect(() => {
     if (visible) {
-      setMounted(true);
       if (reduceMotion) {
         translateY.value = OPEN_OFFSET; // snap (scrim still fades via translateY)
       } else {
@@ -68,12 +76,9 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
         translateY.value = sheetHeight.value;
         translateY.value = withTiming(OPEN_OFFSET, RISE);
       }
-    } else if (mounted) {
-      if (reduceMotion) {
-        setMounted(false);
-        return;
-      }
-      // Slide down, then unmount once the animation actually finishes.
+    } else if (mounted && !reduceMotion) {
+      // Slide down, then unmount once the animation actually finishes. setMounted
+      // runs in the (async) animation callback, not synchronously in the effect.
       translateY.value = withTiming(sheetHeight.value, FALL, (finished) => {
         if (finished) runOnJS(setMounted)(false);
       });
@@ -86,6 +91,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
       startY.value = translateY.value;
     })
     .onUpdate((e) => {
+      // eslint-disable-next-line react-hooks/immutability -- Reanimated SharedValue: `.value =` is the intended (only) mutation API; the react-compiler rule doesn't model shared-value mutability.
       translateY.value = Math.max(OPEN_OFFSET, startY.value + e.translationY);
     })
     .onEnd((e) => {
@@ -93,6 +99,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
         // Hand off to the close effect, which animates down + unmounts.
         runOnJS(onClose)();
       } else {
+        // eslint-disable-next-line react-hooks/immutability -- Reanimated SharedValue: `.value =` is the intended (only) mutation API; the react-compiler rule doesn't model shared-value mutability.
         translateY.value = withTiming(OPEN_OFFSET, RISE);
       }
     });
@@ -119,6 +126,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
           testID={testID}
           accessibilityViewIsModal
           onLayout={(e) => {
+            // eslint-disable-next-line react-hooks/immutability -- Reanimated SharedValue: `.value =` is the intended (only) mutation API; the react-compiler rule doesn't model shared-value mutability.
             sheetHeight.value = e.nativeEvent.layout.height + insets.bottom;
           }}
           style={[

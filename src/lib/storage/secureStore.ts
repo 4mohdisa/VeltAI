@@ -4,6 +4,9 @@ import * as SecureStore from 'expo-secure-store';
 
 export const STORAGE_KEYS = {
   hasCompletedOnboarding: 'veltai.hasCompletedOnboarding',
+  // One-time capture tips (Phase C) — dismissed once, remembered forever.
+  forkPromptDismissed: 'veltai.forkPromptDismissed',
+  labelPromptDismissed: 'veltai.labelPromptDismissed',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

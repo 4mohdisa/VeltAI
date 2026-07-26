@@ -14,7 +14,7 @@ import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
-import { lookupBarcode } from '@/lib/food/barcode';
+import { lookupBarcodeAsync } from '@/lib/data';
 
 // A barcode in our mock database (resolves) vs one that isn't (not-found path).
 const KNOWN_CODE = '9300605000000';
@@ -25,13 +25,15 @@ export default function BarcodeScanScreen() {
   const [notFound, setNotFound] = useState(false);
   const handled = useRef(false);
 
-  // Database lookup only — NO AI. Found → confirm; not found → label-photo fallback.
+  // Database lookup only — NO AI. Found → confirm (with the scanned code so it
+  // fetches the right product); not found → label-photo fallback. The lookup goes
+  // through the data seam: backend (Open Food Facts / USDA) first, mock DB offline.
   const onDetected = async (code: string) => {
     if (handled.current) return;
     handled.current = true;
-    const product = await lookupBarcode(code);
+    const product = await lookupBarcodeAsync(code);
     if (product) {
-      router.replace('/food/barcode-confirm');
+      router.replace({ pathname: '/food/barcode-confirm', params: { code } });
     } else {
       setNotFound(true);
     }
@@ -127,7 +129,7 @@ export default function BarcodeScanScreen() {
             Product not found
           </Text>
           <Text variant="callout" color={color.gray300} style={{ textAlign: 'center' }}>
-            We couldn't match that barcode. Photograph the label instead and we'll read it.
+            {"We couldn't match that barcode. Photograph the label instead and we'll read it."}
           </Text>
           <Button title="Photograph the label" fullWidth={false} onPress={() => router.replace('/food/photo-capture')} />
           <Button title="Try another barcode" variant="tertiary" fullWidth={false} onPress={retry} />

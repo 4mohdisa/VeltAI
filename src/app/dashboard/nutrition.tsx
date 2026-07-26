@@ -81,6 +81,13 @@ export default function NutritionDetailScreen() {
           {t('nutrition.mealsToday')}
         </Text>
         <Card padded={false}>
+          {meals.length === 0 ? (
+            <View style={{ padding: space.lg }}>
+              <Text variant="callout" color={color.gray500}>
+                No meals logged yet today.
+              </Text>
+            </View>
+          ) : null}
           {meals.map((meal, i) => (
             <Pressable
               key={meal.id}

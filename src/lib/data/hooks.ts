@@ -1,12 +1,15 @@
-// Data-access hooks (Task 1) — the ONE seam between screens and data. Today each
-// hook returns mock (via the in-session stores) shaped like real async access:
-// { data, isLoading, error, refetch }, mirroring what React Query will provide in
-// the backend phase. When the backend lands, the body of each hook swaps to a real
-// query — screens don't change. Reads are reactive (zustand); writes are imperative
-// mutation functions (see ./mutations + ./scan), mirroring useQuery/mutate.
+// Data-access hooks — the ONE seam between screens and data. Reads are reactive
+// (zustand stores as the cache); on mount each wired hook attempts the real API
+// fetch and hydrates its store on success. On failure (backend down / not signed
+// in) the mock-seeded store data IS the offline experience — no crash, error
+// stays null. Writes are imperative mutation functions (see ./mutations + ./scan)
+// that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useFoodStore, type StoredMeal } from './foodStore';
+import { api } from '@/lib/api';
+import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi, subscriptionFromApi, todayISO } from './mappers';
+import { hasPendingCreate } from './mutations';
+import { useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
 import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
@@ -14,7 +17,6 @@ import {
   foodCatalog,
   mockHealth,
   mockMacros,
-  mockMealHistory,
   mockPlan,
   mockPlanReason,
   mockSubscription,
@@ -24,14 +26,13 @@ import {
   type FoodResult,
   type GymSession,
   type MacroKey,
-  type MealHistoryDay,
   type UpcomingDay,
 } from '@/lib/mock/data';
 
 export type Async<T> = { data: T; isLoading: boolean; error: Error | null; refetch: () => void };
 
 /** First-load shim — mimics a fetch's loading window so the UI's skeleton/empty/
- *  error slots are exercised now and reusable when the real fetch arrives. */
+ *  error slots are exercised for the hooks that are still mock-backed. */
 function useInitialLoad(delay = 600): { isLoading: boolean; error: Error | null; refetch: () => void } {
   const [isLoading, setIsLoading] = useState(true);
   const [error] = useState<Error | null>(null);
@@ -40,15 +41,110 @@ function useInitialLoad(delay = 600): { isLoading: boolean; error: Error | null;
     const id = setTimeout(() => setIsLoading(false), delay);
     return () => clearTimeout(id);
   }, [delay]);
-  useEffect(() => refetch(), [refetch]);
+  // Mount: isLoading already starts true, so just schedule the clear directly —
+  // calling refetch() here would setState synchronously inside the effect.
+  useEffect(() => {
+    const id = setTimeout(() => setIsLoading(false), delay);
+    return () => clearTimeout(id);
+  }, [delay]);
   return { isLoading, error, refetch };
+}
+
+/** Real-fetch shim — on mount, attempt the API and hydrate the store; on failure
+ *  fall back silently to the mock-seeded store (the offline experience). Error
+ *  stays null on fallback by design. */
+function useHydration(hydrate: () => Promise<void>): { isLoading: boolean; error: Error | null; refetch: () => void } {
+  const [isLoading, setIsLoading] = useState(true);
+  const refetch = useCallback(() => {
+    setIsLoading(true);
+    hydrate()
+      .catch((e: unknown) => {
+        if (__DEV__) console.warn('[data] API unreachable, using local data:', e instanceof Error ? e.message : e);
+      })
+      .finally(() => setIsLoading(false));
+  }, [hydrate]);
+  // Mount: isLoading already starts true, so hydrate directly rather than calling
+  // refetch() (whose synchronous setIsLoading(true) is the flagged set-state-in-effect).
+  useEffect(() => {
+    let alive = true;
+    hydrate()
+      .catch((e: unknown) => {
+        if (__DEV__) console.warn('[data] API unreachable, using local data:', e instanceof Error ? e.message : e);
+      })
+      .finally(() => {
+        if (alive) setIsLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [hydrate]);
+  return { isLoading, error: null, refetch };
+}
+
+// Hydration must not wipe local rows the server can't know about yet: pending
+// scan skeletons (resolvePending still needs to find them), scanned rows awaiting
+// review or in a failed state (status 'ready'/'failed' — not yet confirmed to the
+// server), and optimistic creates whose round-trip hasn't landed (tracked in
+// mutations' pending-create map). Rows with server ids — and the mock seed, which
+// is none of the above — are replaced wholesale by the fetch.
+const keepAcrossHydration = (it: { id: string; pending?: boolean; status?: string }): boolean =>
+  !isServerId(it.id) &&
+  (it.pending === true || it.status === 'ready' || it.status === 'failed' || hasPendingCreate(it.id));
+
+/** Merge fetched meals with local-only items, re-appended into their slot.
+ *  ponytail: an in-flight create that already landed in the fetched snapshot can
+ *  briefly duplicate until its id swap; dedupe-on-swap if it ever shows up. */
+function mergeMeals(server: StoredMeal[], prev: StoredMeal[]): StoredMeal[] {
+  const keepBySlot = new Map<StoredMeal['slot'], StoredFoodItem[]>();
+  for (const m of prev) {
+    const keep = m.items.filter(keepAcrossHydration);
+    if (keep.length > 0) keepBySlot.set(m.slot, keep);
+  }
+  if (keepBySlot.size === 0) return server;
+  const retotal = (m: StoredMeal): StoredMeal => ({
+    ...m,
+    calories: m.items.reduce((a, it) => a + it.calories, 0),
+    protein: m.items.reduce((a, it) => a + it.protein, 0),
+    carbs: m.items.reduce((a, it) => a + it.carbs, 0),
+    fat: m.items.reduce((a, it) => a + it.fat, 0),
+  });
+  const merged = server.map((m) => {
+    const extra = keepBySlot.get(m.slot);
+    if (!extra) return m;
+    keepBySlot.delete(m.slot);
+    return retotal({ ...m, items: [...m.items, ...extra] });
+  });
+  for (const [slot, items] of keepBySlot) {
+    const shell = prev.find((m) => m.slot === slot);
+    if (shell) merged.push(retotal({ ...shell, items }));
+  }
+  return merged;
+}
+
+// Module-level hydrators (stable identities for useHydration's deps).
+// hydrateFoodLog is exported for the data-seam self-check (data-seam.check.mjs).
+export async function hydrateFoodLog(): Promise<void> {
+  const rows = await api.foodLogs.list({ date: todayISO() });
+  useFoodStore.setState((s) => ({ meals: mergeMeals(mealsFromLogs(rows), s.meals) }));
+}
+async function hydrateSavedFoods(): Promise<void> {
+  const rows = await api.savedFoods.list();
+  useFoodStore.setState((s) => ({
+    savedFoods: [...s.savedFoods.filter(keepAcrossHydration), ...rows.map(savedFoodFromApi)],
+  }));
+}
+async function hydrateGym(): Promise<void> {
+  // Sessions and streak hydrate together; the mock 30-day calendar stays local
+  // (no server representation yet).
+  const [sessions, streak] = await Promise.all([api.gym.listSessions(), api.gym.streak()]);
+  useGymStore.setState((s) => ({ sessions: sessionsFromApi(sessions), streak: streakFromApi(streak, s.streak) }));
 }
 
 // --- Food log ---------------------------------------------------------------
 
 export function useFoodLog(): Async<StoredMeal[]> {
   const data = useFoodStore((s) => s.meals);
-  const { isLoading, error, refetch } = useInitialLoad(700);
+  const { isLoading, error, refetch } = useHydration(hydrateFoodLog);
   return { data, isLoading, error, refetch };
 }
 
@@ -58,7 +154,7 @@ export function useMeal(mealId: string | undefined): StoredMeal | undefined {
 
 export function useSavedFoods(): Async<ReturnType<typeof selectSaved>> {
   const data = useFoodStore(selectSaved);
-  const { isLoading, error, refetch } = useInitialLoad(600);
+  const { isLoading, error, refetch } = useHydration(hydrateSavedFoods);
   return { data, isLoading, error, refetch };
 }
 const selectSaved = (s: ReturnType<typeof useFoodStore.getState>) => s.savedFoods;
@@ -71,11 +167,6 @@ export function useFoodSearch(query: string): { results: FoodResult[]; recents: 
     return foodCatalog.filter((r) => r.name.toLowerCase().includes(q) || r.brand?.toLowerCase().includes(q));
   }, [query]);
   return { results, recents: recentFoods };
-}
-
-export function useMealHistory(): Async<MealHistoryDay[]> {
-  const { isLoading, error, refetch } = useInitialLoad(600);
-  return { data: mockMealHistory, isLoading, error, refetch };
 }
 
 // --- Macro totals (consumed derived from logged meals; targets from goals) ---
@@ -120,7 +211,7 @@ export function useGym(): Async<GymData> {
   const streak = useGymStore((s) => s.streak);
   const calendar = useGymStore((s) => s.calendar);
   const sessions = useGymStore((s) => s.sessions);
-  const { isLoading, error, refetch } = useInitialLoad(600);
+  const { isLoading, error, refetch } = useHydration(hydrateGym);
   return { data: { streak, calendar, sessions, upcoming: mockUpcomingDays }, isLoading, error, refetch };
 }
 
@@ -149,9 +240,19 @@ export function usePlan() {
   return { plan: mockPlan, reason: mockPlanReason };
 }
 
-/** Subscription / trial status (static mock for now). */
+/** Subscription / trial status — backend status when reachable, mock otherwise. */
 export function useSubscription() {
-  return mockSubscription;
+  const [sub, setSub] = useState(mockSubscription);
+  useEffect(() => {
+    api.subscription
+      .get()
+      .then((s) => {
+        const mapped = subscriptionFromApi(s, mockSubscription);
+        if (mapped) setSub(mapped);
+      })
+      .catch(() => {}); // backend down / signed out → the mock is the offline experience
+  }, []);
+  return sub;
 }
 
 // --- Apple Health (already async-shaped in lib/healthkit) -------------------

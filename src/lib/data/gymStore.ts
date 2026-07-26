@@ -26,12 +26,21 @@ type GymState = {
   logGymSession: (session?: Partial<Omit<GymSession, 'id' | 'date'>>) => void;
   /** Spend a freeze token to protect the streak today. */
   applyFreeze: () => void;
+
+  /** Sign-out: back to the seeded initial state (no user data retained). */
+  reset: () => void;
 };
 
 export const useGymStore = create<GymState>((set) => ({
   streak: { ...mockStreak },
   calendar: mockGymCalendar.map((d) => ({ ...d })),
   sessions: mockGymSessions.map((s) => ({ ...s })),
+  reset: () =>
+    set({
+      streak: { ...mockStreak },
+      calendar: mockGymCalendar.map((d) => ({ ...d })),
+      sessions: mockGymSessions.map((s) => ({ ...s })),
+    }),
 
   logGymSession: (session) =>
     set((s) => {

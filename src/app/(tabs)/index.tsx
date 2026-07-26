@@ -3,8 +3,8 @@
 //   1. Top: streak + flame (the only progression mechanic).
 //   2. Middle: gym status hero, then calorie ring + macro bars.
 //   3. Bottom: today's AI plan summary.
-import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,9 @@ import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { MacroBars } from '@/components/domain/MacroBars';
 import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
+import { MorningBriefCard } from '@/components/ai';
+import { EnergyBalanceCard } from '@/components/energy/EnergyBalanceCard';
+import { PendingSyncBanner } from '@/components/offline/PendingSyncBanner';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
@@ -29,14 +32,30 @@ export default function DashboardScreen() {
   const energyUnit = useUnitPreferences().energy;
   const {
     data: { profile, streak, macros, plan },
+    refetch,
   } = useDashboard();
   const gymLogged = streak.gymLoggedToday;
   const [showNudge, setShowNudge] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const nextMeal = plan.find((p) => p.kind === 'meal');
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch();
+    setTimeout(() => setRefreshing(false), 800);
+  }, [refetch]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
-      <ScrollView contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}>
+      <ScrollView
+        contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
+      >
+        {/* Offline queue indicator — renders null when nothing is pending. */}
+        <PendingSyncBanner />
+
+        {/* AI morning brief — first content item; renders null when there's none. */}
+        <MorningBriefCard />
+
         {/* F4 · AI nudge banner (dismissable) */}
         {showNudge && !gymLogged ? (
           <AiNudgeBanner
@@ -100,6 +119,9 @@ export default function DashboardScreen() {
             </View>
           </View>
         </Card>
+
+        {/* Energy balance — intake vs BMR + exercise (renders null with no data). */}
+        <EnergyBalanceCard />
 
         {/* Zone 3 — AI plan */}
         <Card onPress={() => router.push('/dashboard/plan')} accessibilityLabel="Today's plan detail">

@@ -3,7 +3,7 @@
 // one-tap + Add that logs straight to today — no scan, AI or edit step. Tapping
 // the row opens the shared item edit sheet, where "Delete item" un-saves it.
 // Reached from the add-menu's "Saved foods" card.
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';

@@ -9,30 +9,43 @@ import { SheetContent } from '@/components/navigation/SheetContent';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
 import { space } from '@/lib/design/tokens';
+import { saveFood } from '@/lib/data';
 
 type Macros = { calories: string; protein: string; carbs: string; fat: string; fibre: string };
+
+const num = (s: string) => Math.max(0, Number(s) || 0);
 
 export default function CustomFoodScreen() {
   const [name, setName] = useState('');
   const [macros, setMacros] = useState<Macros>({ calories: '', protein: '', carbs: '', fat: '', fibre: '' });
 
   const set = (key: keyof Macros) => (value: string) => setMacros((m) => ({ ...m, [key]: value }));
-  const canSave = name.trim().length > 0 && macros.calories.trim().length > 0;
+  const calorieNum = Number(macros.calories);
+  // Inline validation (AUDIT_REPORT.md M8): calories must parse to a positive number.
+  const calorieError = macros.calories.trim() !== '' && !(calorieNum > 0) ? 'Enter a calorie value greater than 0' : undefined;
+  const canSave = name.trim().length > 0 && calorieNum > 0;
 
   const close = () => {
     if (router.canGoBack()) router.back();
   };
 
+  // Actually persist the custom food to the saved-foods list (AUDIT_REPORT.md M6):
+  // previously this only toasted and discarded the entry.
+  const done = () => {
+    saveFood({
+      name: name.trim(),
+      servingG: 100,
+      calories: num(macros.calories),
+      protein: num(macros.protein),
+      carbs: num(macros.carbs),
+      fat: num(macros.fat),
+    });
+    showToast({ message: `Saved “${name.trim()}”.`, tone: 'success' });
+    close();
+  };
+
   return (
-    <SheetContent
-      title="Custom food"
-      onClose={close}
-      onDone={() => {
-        showToast({ message: `Saved “${name.trim()}”.`, tone: 'success' });
-        close();
-      }}
-      doneDisabled={!canSave}
-    >
+    <SheetContent title="Custom food" onClose={close} onDone={done} doneDisabled={!canSave}>
       <TextField label="Name" value={name} onChangeText={setName} placeholder="e.g. Mum's chicken karahi" />
 
       <TextField
@@ -41,6 +54,7 @@ export default function CustomFoodScreen() {
         onChangeText={set('calories')}
         keyboardType="numeric"
         placeholder="kcal"
+        error={calorieError}
         required
       />
 

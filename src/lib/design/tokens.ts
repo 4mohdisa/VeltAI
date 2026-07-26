@@ -37,6 +37,10 @@ export const color = {
   // Black alpha — modal/sheet scrims only (monochrome, allowed).
   overlay: 'rgba(0, 0, 0, 0.45)',
   overlayStrong: 'rgba(0, 0, 0, 0.7)',
+  // White hairlines/guides drawn OVER a live camera preview — the only place the
+  // palette needs translucent white (camera capture chrome). Monochrome, allowed.
+  overlayLine: 'rgba(255, 255, 255, 0.7)',
+  overlayLineMuted: 'rgba(255, 255, 255, 0.35)',
 
   // ----------------------------------------------------------------------
   // Back-compat aliases — old grey names map to the closest new Apple Health

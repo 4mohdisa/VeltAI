@@ -3,7 +3,7 @@
 // DELETE, (4) final. On confirm → clear local state → sign out → back to A1.
 import { useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -12,6 +12,8 @@ import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { api, ApiError } from '@/lib/api';
+import { showToast } from '@/components/display/toastStore';
 
 const DELETED_DATA = [
   'Your profile and onboarding answers',
@@ -24,10 +26,27 @@ const DELETED_DATA = [
 export default function DeleteAccountScreen() {
   const [step, setStep] = useState(0);
   const [confirmText, setConfirmText] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
+  // Delete server-side FIRST (cascades to every table), then sign out locally and
+  // return to onboarding. On failure, surface it and let the user retry — never
+  // sign them out believing they deleted an account that's still on the server.
   const finish = async () => {
-    await setHasCompletedOnboarding(false);
-    router.replace('/(onboarding)/welcome');
+    setDeleting(true);
+    try {
+      await api.profile.delete();
+      showToast({ message: 'Your account has been deleted.', tone: 'success' });
+      await setHasCompletedOnboarding(false);
+      // Route to the LIVE onboarding flow (the folder route the app gate uses),
+      // not the dead (onboarding) group — see AUDIT_REPORT.md M10.
+      router.replace('/onboarding' as Href);
+    } catch (e) {
+      showToast({
+        message: e instanceof ApiError ? e.message : "Couldn't delete your account. Check your connection and try again.",
+        tone: 'error',
+      });
+      setDeleting(false);
+    }
   };
 
   return (
@@ -43,7 +62,8 @@ export default function DeleteAccountScreen() {
           <Button
             title="Permanently delete account"
             variant="destructive"
-            disabled={confirmText.trim().toUpperCase() !== 'DELETE'}
+            loading={deleting}
+            disabled={deleting || confirmText.trim().toUpperCase() !== 'DELETE'}
             onPress={finish}
           />
         )

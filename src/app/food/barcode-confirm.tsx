@@ -4,11 +4,12 @@
 // / ✓ save). The product can be tweaked via the shared item edit sheet.
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
+import { Button } from '@/components/forms/Button';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { SegmentedField } from '@/components/forms/SegmentedField';
@@ -21,6 +22,10 @@ import { lookupBarcodeAsync } from '@/lib/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
 
 export default function BarcodeConfirmScreen() {
+  // The scanned barcode arrives as a route param from barcode-scan; the demo
+  // code only stands in when the screen is opened without a scan (dev nav).
+  const params = useLocalSearchParams<{ code?: string }>();
+  const code = typeof params.code === 'string' && params.code ? params.code : '9300605000000';
   // Brief lookup/loading window before the product fills in (Task 3) — routed
   // through the data seam so swapping in the real Open Food Facts call is local.
   const [product, setProduct] = useState<BarcodeProduct | null>(null);
@@ -32,7 +37,7 @@ export default function BarcodeConfirmScreen() {
 
   useEffect(() => {
     let active = true;
-    lookupBarcodeAsync().then((found) => {
+    lookupBarcodeAsync(code).then((found) => {
       if (!active) return;
       setProduct(found);
       if (found) setServing(String(found.servingOptions[0]));
@@ -41,12 +46,29 @@ export default function BarcodeConfirmScreen() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [code]);
 
-  if (loading || !product) {
+  if (loading) {
     return (
       <SheetContent title="Looking up product…" onClose={() => router.canGoBack() && router.back()}>
         <SkeletonList rows={3} />
+      </SheetContent>
+    );
+  }
+
+  // Not-found: the lookup resolved with no product (unknown barcode, or the
+  // backend was unreachable). Give the user a real way out instead of an infinite
+  // loader (AUDIT_REPORT.md M1).
+  if (!product) {
+    return (
+      <SheetContent title="Product not found" onClose={() => router.canGoBack() && router.back()}>
+        <View style={{ gap: space.lg, alignItems: 'center', paddingVertical: space.lg }}>
+          <Icon name="barcode-outline" size={40} color={color.gray400} />
+          <Text variant="body" color={color.gray700} style={{ textAlign: 'center' }}>
+            We couldn&apos;t find that barcode. Try scanning again, or photograph the nutrition label instead.
+          </Text>
+          <Button title="Scan again" variant="secondary" onPress={() => router.replace('/food/barcode-scan')} />
+        </View>
       </SheetContent>
     );
   }

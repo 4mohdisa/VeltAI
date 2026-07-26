@@ -153,17 +153,6 @@ export const mockSavedFoods: SavedFood[] = [
   { id: 's5', name: 'Two boiled eggs', servingG: 100, calories: 155, protein: 13, carbs: 1, fat: 11 },
 ];
 
-// Meal history (C12) — daily summaries, newest first.
-export type MealHistoryDay = { date: string; kcal: number; gym: boolean };
-export const mockMealHistory: MealHistoryDay[] = [
-  { date: 'Today', kcal: 1240, gym: false },
-  { date: 'Yesterday', kcal: 2080, gym: true },
-  { date: 'Sun 14 Jun', kcal: 2240, gym: true },
-  { date: 'Sat 13 Jun', kcal: 2610, gym: false },
-  { date: 'Fri 12 Jun', kcal: 1990, gym: true },
-  { date: 'Thu 11 Jun', kcal: 2120, gym: true },
-];
-
 // ---------------------------------------------------------------------------
 // AI daily plan
 // ---------------------------------------------------------------------------

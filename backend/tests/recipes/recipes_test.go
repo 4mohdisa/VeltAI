@@ -1,0 +1,558 @@
+package recipestests
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"slices"
+	"testing"
+	"time"
+
+	"lumo/backend/internal/auth"
+	"lumo/backend/internal/recipes"
+)
+
+// ---------------------------------------------------------------------------
+// fake store
+// ---------------------------------------------------------------------------
+
+type logEntry struct {
+	UserID, MealType, Date, FoodName, Source        string
+	QuantityG, Calories, Protein, Carbs, Fat, Fibre float64
+}
+
+type fakeStore struct {
+	recipes []recipes.Recipe
+	meals   []recipes.SavedMeal
+	logs    []logEntry
+	n       int
+}
+
+func sumIngredients(ings []recipes.Ingredient) (cal, protein, carbs, fat, fibre float64) {
+	for _, i := range ings {
+		cal += i.Calories
+		protein += i.Protein
+		carbs += i.Carbs
+		fat += i.Fat
+		fibre += i.Fibre
+	}
+	return
+}
+
+func sumItems(items []recipes.MealItem) (cal, protein, carbs, fat, fibre float64) {
+	for _, i := range items {
+		cal += i.Calories
+		protein += i.Protein
+		carbs += i.Carbs
+		fat += i.Fat
+		fibre += i.Fibre
+	}
+	return
+}
+
+func (f *fakeStore) ListRecipes(_ context.Context, userID string) ([]recipes.Recipe, error) {
+	var out []recipes.Recipe
+	for _, r := range f.recipes {
+		if r.UserID == userID {
+			out = append(out, r)
+		}
+	}
+	return out, nil
+}
+
+func (f *fakeStore) CreateRecipe(_ context.Context, userID, name string, description *string, servingCount int, ingredients []recipes.Ingredient) (recipes.Recipe, error) {
+	cal, protein, carbs, fat, fibre := sumIngredients(ingredients)
+	f.n++
+	r := recipes.Recipe{
+		ID: fmt.Sprintf("recipe_%d", f.n), UserID: userID, Name: name, Description: description,
+		TotalCalories: cal, TotalProtein: protein, TotalCarbs: carbs, TotalFat: fat, TotalFibre: fibre,
+		ServingCount: servingCount, Ingredients: append([]recipes.Ingredient{}, ingredients...),
+		CreatedAt: time.Now(), UpdatedAt: time.Now(),
+	}
+	f.recipes = append(f.recipes, r)
+	return r, nil
+}
+
+func (f *fakeStore) GetRecipe(_ context.Context, id string) (*recipes.Recipe, error) {
+	for i := range f.recipes {
+		if f.recipes[i].ID == id {
+			c := f.recipes[i]
+			return &c, nil
+		}
+	}
+	return nil, nil
+}
+
+func (f *fakeStore) UpdateRecipe(_ context.Context, id string, name, description *string, servingCount *int, ingredients []recipes.Ingredient) (recipes.Recipe, error) {
+	for i := range f.recipes {
+		if f.recipes[i].ID != id {
+			continue
+		}
+		r := &f.recipes[i]
+		if name != nil {
+			r.Name = *name
+		}
+		if description != nil {
+			r.Description = description
+		}
+		if servingCount != nil {
+			r.ServingCount = *servingCount
+		}
+		if ingredients != nil {
+			r.Ingredients = append([]recipes.Ingredient{}, ingredients...)
+			r.TotalCalories, r.TotalProtein, r.TotalCarbs, r.TotalFat, r.TotalFibre = sumIngredients(ingredients)
+		}
+		r.UpdatedAt = time.Now()
+		return *r, nil
+	}
+	return recipes.Recipe{}, recipes.ErrNotFound
+}
+
+func (f *fakeStore) DeleteRecipe(_ context.Context, id string) error {
+	f.recipes = slices.DeleteFunc(f.recipes, func(r recipes.Recipe) bool { return r.ID == id })
+	return nil
+}
+
+func (f *fakeStore) LogRecipe(_ context.Context, recipeID, mealType, date string, servings float64) (int, error) {
+	var rec *recipes.Recipe
+	for i := range f.recipes {
+		if f.recipes[i].ID == recipeID {
+			rec = &f.recipes[i]
+			break
+		}
+	}
+	if rec == nil {
+		return 0, recipes.ErrNotFound
+	}
+	servingCount := rec.ServingCount
+	if servingCount == 0 {
+		servingCount = 1
+	}
+	scale := servings / float64(servingCount)
+	for _, ing := range rec.Ingredients {
+		f.logs = append(f.logs, logEntry{
+			UserID: rec.UserID, MealType: mealType, Date: date, FoodName: ing.FoodName, Source: "recipe",
+			QuantityG: ing.QuantityG * scale, Calories: ing.Calories * scale, Protein: ing.Protein * scale,
+			Carbs: ing.Carbs * scale, Fat: ing.Fat * scale, Fibre: ing.Fibre * scale,
+		})
+	}
+	return len(rec.Ingredients), nil
+}
+
+func (f *fakeStore) GetRecipeOwner(_ context.Context, id string) (string, error) {
+	for _, r := range f.recipes {
+		if r.ID == id {
+			return r.UserID, nil
+		}
+	}
+	return "", recipes.ErrNotFound
+}
+
+func (f *fakeStore) ListSavedMeals(_ context.Context, userID string) ([]recipes.SavedMeal, error) {
+	var out []recipes.SavedMeal
+	for _, m := range f.meals {
+		if m.UserID == userID {
+			out = append(out, m)
+		}
+	}
+	return out, nil
+}
+
+func (f *fakeStore) CreateSavedMeal(_ context.Context, userID, name string, mealType *string, items []recipes.MealItem) (recipes.SavedMeal, error) {
+	cal, protein, carbs, fat, fibre := sumItems(items)
+	f.n++
+	// logged_count defaults to 1 at the DB layer (see migration); mirrored here.
+	m := recipes.SavedMeal{
+		ID: fmt.Sprintf("meal_%d", f.n), UserID: userID, Name: name, MealType: mealType,
+		TotalCalories: cal, TotalProtein: protein, TotalCarbs: carbs, TotalFat: fat, TotalFibre: fibre,
+		Items: append([]recipes.MealItem{}, items...), LoggedCount: 1, AutoGenerated: false, CreatedAt: time.Now(),
+	}
+	f.meals = append(f.meals, m)
+	return m, nil
+}
+
+func (f *fakeStore) LogSavedMeal(_ context.Context, id, mealType, date string) (int, error) {
+	for i := range f.meals {
+		if f.meals[i].ID != id {
+			continue
+		}
+		m := &f.meals[i]
+		for _, it := range m.Items {
+			f.logs = append(f.logs, logEntry{
+				UserID: m.UserID, MealType: mealType, Date: date, FoodName: it.FoodName, Source: "saved_meal",
+				QuantityG: it.QuantityG, Calories: it.Calories, Protein: it.Protein, Carbs: it.Carbs,
+				Fat: it.Fat, Fibre: it.Fibre,
+			})
+		}
+		m.LoggedCount++
+		now := time.Now()
+		m.LastLogged = &now
+		return len(m.Items), nil
+	}
+	return 0, recipes.ErrNotFound
+}
+
+func (f *fakeStore) DeleteSavedMeal(_ context.Context, id string) error {
+	f.meals = slices.DeleteFunc(f.meals, func(m recipes.SavedMeal) bool { return m.ID == id })
+	return nil
+}
+
+func (f *fakeStore) GetSavedMealOwner(_ context.Context, id string) (string, error) {
+	for _, m := range f.meals {
+		if m.ID == id {
+			return m.UserID, nil
+		}
+	}
+	return "", recipes.ErrNotFound
+}
+
+// ---------------------------------------------------------------------------
+// helpers
+// ---------------------------------------------------------------------------
+
+func newMux(s recipes.Store) *http.ServeMux {
+	mux := http.NewServeMux()
+	recipes.Register(mux, s)
+	return mux
+}
+
+func do(t *testing.T, mux *http.ServeMux, method, path, user string, body any) *httptest.ResponseRecorder {
+	t.Helper()
+	var buf *bytes.Reader
+	if body != nil {
+		b, err := json.Marshal(body)
+		if err != nil {
+			t.Fatalf("marshal body: %v", err)
+		}
+		buf = bytes.NewReader(b)
+	} else {
+		buf = bytes.NewReader(nil)
+	}
+	req := httptest.NewRequest(method, path, buf)
+	req = req.WithContext(auth.WithUserID(req.Context(), user))
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, req)
+	return rr
+}
+
+func data[T any](t *testing.T, rr *httptest.ResponseRecorder) T {
+	t.Helper()
+	var env struct {
+		Data  T       `json:"data"`
+		Error *string `json:"error"`
+	}
+	if err := json.Unmarshal(rr.Body.Bytes(), &env); err != nil {
+		t.Fatalf("decode envelope: %v (body %s)", err, rr.Body.String())
+	}
+	return env.Data
+}
+
+func str(s string) *string { return &s }
+
+// ---------------------------------------------------------------------------
+// recipes
+// ---------------------------------------------------------------------------
+
+func TestCreateRecipeComputesTotals(t *testing.T) {
+	f := &fakeStore{}
+	rr := do(t, newMux(f), "POST", "/api/recipes", "user_1", map[string]any{
+		"name": "Chicken Bowl",
+		"ingredients": []map[string]any{
+			{"food_name": "Chicken", "quantity_g": 150, "calories": 250, "protein": 40, "carbs": 0, "fat": 8, "fibre": 0},
+			{"food_name": "Rice", "quantity_g": 200, "calories": 260, "protein": 5, "carbs": 56, "fat": 1, "fibre": 2},
+		},
+	})
+	if rr.Code != http.StatusCreated {
+		t.Fatalf("status = %d, want 201 (body %s)", rr.Code, rr.Body.String())
+	}
+	r := data[recipes.Recipe](t, rr)
+	if r.TotalCalories != 510 || r.TotalProtein != 45 || r.TotalCarbs != 56 || r.TotalFat != 9 || r.TotalFibre != 2 {
+		t.Errorf("wrong totals: %+v", r)
+	}
+	if r.ServingCount != 1 {
+		t.Errorf("serving_count = %d, want default 1", r.ServingCount)
+	}
+	if r.UserID != "user_1" {
+		t.Errorf("user_id = %q, want user_1", r.UserID)
+	}
+}
+
+func TestCreateRecipeMissingName400(t *testing.T) {
+	rr := do(t, newMux(&fakeStore{}), "POST", "/api/recipes", "user_1", map[string]any{
+		"ingredients": []map[string]any{{"food_name": "Egg", "calories": 78}},
+	})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400", rr.Code)
+	}
+}
+
+func TestCreateRecipeMissingIngredients400(t *testing.T) {
+	rr := do(t, newMux(&fakeStore{}), "POST", "/api/recipes", "user_1", map[string]any{
+		"name": "Empty Recipe",
+	})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400", rr.Code)
+	}
+}
+
+func TestGetRecipeReturnsIngredients(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Oats", nil, 2, []recipes.Ingredient{
+		{FoodName: "Oats", QuantityG: 100, Calories: 300, Protein: 10},
+	})
+	rr := do(t, newMux(f), "GET", "/api/recipes/"+r.ID, "user_1", nil)
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	got := data[recipes.Recipe](t, rr)
+	if len(got.Ingredients) != 1 || got.Ingredients[0].FoodName != "Oats" {
+		t.Errorf("expected ingredients in response: %+v", got)
+	}
+}
+
+func TestGetRecipeUnknown404(t *testing.T) {
+	rr := do(t, newMux(&fakeStore{}), "GET", "/api/recipes/nope", "user_1", nil)
+	if rr.Code != http.StatusNotFound {
+		t.Fatalf("status = %d, want 404", rr.Code)
+	}
+}
+
+func TestGetRecipeOtherUser403(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_2", "Oats", nil, 1, []recipes.Ingredient{{FoodName: "Oats"}})
+	rr := do(t, newMux(f), "GET", "/api/recipes/"+r.ID, "user_1", nil)
+	if rr.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403", rr.Code)
+	}
+}
+
+func TestPatchRecipeNameOnlyKeepsIngredients(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Oats", nil, 1, []recipes.Ingredient{
+		{FoodName: "Oats", Calories: 300, Protein: 10},
+	})
+	rr := do(t, newMux(f), "PATCH", "/api/recipes/"+r.ID, "user_1", map[string]any{"name": "Steel Cut Oats"})
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	got := data[recipes.Recipe](t, rr)
+	if got.Name != "Steel Cut Oats" {
+		t.Errorf("name not updated: %+v", got)
+	}
+	if len(got.Ingredients) != 1 || got.TotalCalories != 300 {
+		t.Errorf("ingredients/totals should be untouched: %+v", got)
+	}
+}
+
+func TestPatchRecipeIngredientsReplacesAndRecalculates(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Oats", nil, 1, []recipes.Ingredient{
+		{FoodName: "Oats", Calories: 300, Protein: 10},
+	})
+	rr := do(t, newMux(f), "PATCH", "/api/recipes/"+r.ID, "user_1", map[string]any{
+		"ingredients": []map[string]any{
+			{"food_name": "Oats", "calories": 300, "protein": 10},
+			{"food_name": "Banana", "calories": 100, "protein": 1},
+		},
+	})
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	got := data[recipes.Recipe](t, rr)
+	if len(got.Ingredients) != 2 {
+		t.Fatalf("expected 2 ingredients, got %d", len(got.Ingredients))
+	}
+	if got.TotalCalories != 400 || got.TotalProtein != 11 {
+		t.Errorf("totals not recalculated: %+v", got)
+	}
+}
+
+func TestDeleteRecipeRemoves(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Oats", nil, 1, []recipes.Ingredient{{FoodName: "Oats"}})
+	rr := do(t, newMux(f), "DELETE", "/api/recipes/"+r.ID, "user_1", nil)
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", rr.Code)
+	}
+	if len(f.recipes) != 0 {
+		t.Error("recipe not removed")
+	}
+}
+
+func TestDeleteRecipeOtherUser403(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_2", "Oats", nil, 1, []recipes.Ingredient{{FoodName: "Oats"}})
+	rr := do(t, newMux(f), "DELETE", "/api/recipes/"+r.ID, "user_1", nil)
+	if rr.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403", rr.Code)
+	}
+	if len(f.recipes) != 1 {
+		t.Error("other user's recipe was deleted")
+	}
+}
+
+func TestLogRecipeOneEntryPerIngredient(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Bowl", nil, 1, []recipes.Ingredient{
+		{FoodName: "Chicken", Calories: 200}, {FoodName: "Rice", Calories: 100}, {FoodName: "Beans", Calories: 50},
+	})
+	rr := do(t, newMux(f), "POST", "/api/recipes/"+r.ID+"/log", "user_1", map[string]any{"meal_type": "lunch"})
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	got := data[map[string]int](t, rr)
+	if got["entries_created"] != 3 {
+		t.Errorf("entries_created = %d, want 3", got["entries_created"])
+	}
+	if len(f.logs) != 3 {
+		t.Errorf("expected 3 food_log entries, got %d", len(f.logs))
+	}
+}
+
+func TestLogRecipeScalesByServings(t *testing.T) {
+	f := &fakeStore{}
+	// 4-serving recipe: logging 2 servings should scale every ingredient by 0.5.
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Curry", nil, 4, []recipes.Ingredient{
+		{FoodName: "Chicken", QuantityG: 400, Calories: 800, Protein: 120, Carbs: 0, Fat: 32, Fibre: 0},
+	})
+	rr := do(t, newMux(f), "POST", "/api/recipes/"+r.ID+"/log", "user_1", map[string]any{
+		"meal_type": "dinner", "servings": 2, "date": "2026-07-12",
+	})
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	if len(f.logs) != 1 {
+		t.Fatalf("expected 1 log entry, got %d", len(f.logs))
+	}
+	e := f.logs[0]
+	if e.QuantityG != 200 || e.Calories != 400 || e.Protein != 60 || e.Fat != 16 {
+		t.Errorf("scaling wrong (want *0.5): %+v", e)
+	}
+	if e.Date != "2026-07-12" || e.MealType != "dinner" || e.Source != "recipe" {
+		t.Errorf("wrong log metadata: %+v", e)
+	}
+}
+
+func TestLogRecipeNegativeServings400(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Curry", nil, 4, []recipes.Ingredient{
+		{FoodName: "Chicken", QuantityG: 400, Calories: 800, Protein: 120, Carbs: 0, Fat: 32, Fibre: 0},
+	})
+	rr := do(t, newMux(f), "POST", "/api/recipes/"+r.ID+"/log", "user_1", map[string]any{
+		"meal_type": "dinner", "servings": -2,
+	})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400 (body %s)", rr.Code, rr.Body.String())
+	}
+	if len(f.logs) != 0 {
+		t.Errorf("expected no food_logs rows, got %d", len(f.logs))
+	}
+}
+
+func TestPatchRecipeNegativeServingCount400(t *testing.T) {
+	f := &fakeStore{}
+	r, _ := f.CreateRecipe(context.Background(), "user_1", "Curry", nil, 4, []recipes.Ingredient{
+		{FoodName: "Chicken", Calories: 800},
+	})
+	rr := do(t, newMux(f), "PATCH", "/api/recipes/"+r.ID, "user_1", map[string]any{"serving_count": -3})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400 (body %s)", rr.Code, rr.Body.String())
+	}
+	if f.recipes[0].ServingCount != 4 {
+		t.Errorf("serving_count = %d, want unchanged 4", f.recipes[0].ServingCount)
+	}
+}
+
+// ---------------------------------------------------------------------------
+// saved meals
+// ---------------------------------------------------------------------------
+
+func TestCreateSavedMealComputesTotals(t *testing.T) {
+	rr := do(t, newMux(&fakeStore{}), "POST", "/api/saved-meals", "user_1", map[string]any{
+		"name": "Post-Workout",
+		"items": []map[string]any{
+			{"food_name": "Whey", "calories": 120, "protein": 24},
+			{"food_name": "Banana", "calories": 100, "protein": 1},
+		},
+	})
+	if rr.Code != http.StatusCreated {
+		t.Fatalf("status = %d, want 201 (body %s)", rr.Code, rr.Body.String())
+	}
+	m := data[recipes.SavedMeal](t, rr)
+	if m.TotalCalories != 220 || m.TotalProtein != 25 {
+		t.Errorf("wrong totals: %+v", m)
+	}
+	if m.UserID != "user_1" {
+		t.Errorf("user_id = %q, want user_1", m.UserID)
+	}
+}
+
+func TestCreateSavedMealMissingItems400(t *testing.T) {
+	rr := do(t, newMux(&fakeStore{}), "POST", "/api/saved-meals", "user_1", map[string]any{"name": "Empty"})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400", rr.Code)
+	}
+}
+
+func TestLogSavedMealCreatesEntriesUnscaledAndIncrementsCount(t *testing.T) {
+	f := &fakeStore{}
+	m, _ := f.CreateSavedMeal(context.Background(), "user_1", "Post-Workout", str("snack"), []recipes.MealItem{
+		{FoodName: "Whey", QuantityG: 30, Calories: 120, Protein: 24},
+		{FoodName: "Banana", QuantityG: 120, Calories: 100, Protein: 1},
+	})
+	startCount := m.LoggedCount
+
+	rr := do(t, newMux(f), "POST", "/api/saved-meals/"+m.ID+"/log", "user_1", map[string]any{"meal_type": "snack"})
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	got := data[map[string]int](t, rr)
+	if got["entries_created"] != 2 {
+		t.Errorf("entries_created = %d, want 2", got["entries_created"])
+	}
+	if len(f.logs) != 2 {
+		t.Fatalf("expected 2 food_log entries, got %d", len(f.logs))
+	}
+	for _, e := range f.logs {
+		if e.Source != "saved_meal" {
+			t.Errorf("source = %q, want saved_meal", e.Source)
+		}
+	}
+	if f.logs[0].QuantityG != 30 || f.logs[0].Calories != 120 {
+		t.Errorf("expected unscaled item, got %+v", f.logs[0])
+	}
+
+	if f.meals[0].LoggedCount != startCount+1 {
+		t.Errorf("logged_count = %d, want %d", f.meals[0].LoggedCount, startCount+1)
+	}
+	if f.meals[0].LastLogged == nil {
+		t.Error("last_logged not set")
+	}
+}
+
+func TestDeleteSavedMealRemoves(t *testing.T) {
+	f := &fakeStore{}
+	m, _ := f.CreateSavedMeal(context.Background(), "user_1", "Snack", nil, []recipes.MealItem{{FoodName: "Bar"}})
+	rr := do(t, newMux(f), "DELETE", "/api/saved-meals/"+m.ID, "user_1", nil)
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", rr.Code)
+	}
+	if len(f.meals) != 0 {
+		t.Error("saved meal not removed")
+	}
+}
+
+func TestDeleteSavedMealOtherUser403(t *testing.T) {
+	f := &fakeStore{}
+	m, _ := f.CreateSavedMeal(context.Background(), "user_2", "Snack", nil, []recipes.MealItem{{FoodName: "Bar"}})
+	rr := do(t, newMux(f), "DELETE", "/api/saved-meals/"+m.ID, "user_1", nil)
+	if rr.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403", rr.Code)
+	}
+	if len(f.meals) != 1 {
+		t.Error("other user's saved meal was deleted")
+	}
+}
