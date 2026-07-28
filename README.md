@@ -1,87 +1,79 @@
 # Lumo
 
-Food and fitness tracking for iOS — an Expo/React Native app with a Go backend,
-Clerk auth, RevenueCat billing, a Supabase Postgres database, and a static
-marketing site.
+Food and fitness tracking for iOS. Log meals by photo, barcode, nutrition
+label or search; log gym sessions with real exercise parameters; see an honest
+daily energy balance — calories in against BMR plus exercise, computed from the
+published ACSM metabolic equations rather than a flat guess.
 
-## Monorepo layout — three independent packages
+## Layout — three independent packages
 
-```
-.
-├── src/                  # 1) Expo app (expo-router; the app lives at the repo root)
-├── assets/               # fonts, icons, splash
-├── backend/              # 2) Go API server — SELF-CONTAINED, deployable on its own
-│   ├── cmd/server/       # entrypoint (go run ./cmd/server)
-│   ├── internal/         # feature packages: auth, food, gym, goals, scan, energy,
-│   │                     # integrations, subscription, ai, recipes, cuisine, analytics
-│   ├── scripts/          # reset_production.sql, seed_demo_account.go (run by hand)
-│   └── tests/            # hermetic test suites (no network, no DB)
-├── web/                  # 3) Next.js marketing site — static export, own package.json
-│                         #    (run/build/deploy: see web/README.md)
-├── supabase/migrations/  # numbered SQL migrations — append-only ledger
-├── CONFIG.md             # every env var + dashboard setup checklist
-└── DECISIONS.md          # load-bearing decisions (read before changing behaviour)
-```
+| Path | What it is |
+|---|---|
+| `src/` | The Expo React Native app (expo-router). **It lives at the repo root — there is no `/app` directory.** |
+| `backend/` | Go 1.26 API server — a self-contained module, deployable on its own. |
+| `web/` | Next.js marketing site — static export, its own `package.json`. |
+| `supabase/migrations/` | Numbered SQL migrations, append-only. |
 
-Each package builds, tests, and deploys on its own — no workspace tool, no
-cross-imports. App: `npm install && npx expo start` (repo root). Backend:
-`cd backend && go run ./cmd/server`. Site: `cd web && npm install && npm run dev`
-(deploy = static `web/out` folder; see [web/README.md](web/README.md)).
+Each package builds, tests and deploys on its own. No workspace tool, no
+cross-package imports.
 
-## App
+## Run
 
 ```bash
-npm install
-npx expo start
+npm install && npx expo start          # app (repo root)
 ```
-
-With no keys set, a dev build runs fully navigable against mock-seeded stores
-(local dev auth mode + billing-disabled mode). With keys set (see
-[CONFIG.md](CONFIG.md)), auth is Clerk, billing is RevenueCat, and the data
-layer in `src/lib/data/` hydrates from the backend.
-
-- Type check `npx tsc --noEmit` · lint `npm run lint` · tests `npm test`
-- Native build (required for RevenueCat + SSO end-to-end): `npm run ios`
-
-## Backend
-
-Requires Go 1.26+. No Dockerfile yet — it deploys as a single static binary.
 
 ```bash
-cd backend
-cp .env.example .env   # fill in (loaded at startup; real env vars win)
-go run ./cmd/server
+cd backend && cp .env.example .env && go run ./cmd/server
 ```
-
-Deploy: `cd backend && go build -o server ./cmd/server` and run `./server` on
-any host with the env vars set (see [CONFIG.md](CONFIG.md)). Set
-`LUMO_BASE_URL` to the public origin — CORS, OAuth redirect URLs and webhook
-URLs all derive from it. `PORT` is honoured when the platform injects one.
-
-The module is self-contained (`backend/go.mod`; nothing imports outside
-`backend/`). One test suite (`tests/migrations`) reads `../supabase/migrations`
-to validate schema shape, so run the full test suite from the monorepo, not
-from a copied-out `backend/` alone.
-
-### Database
-
-Migrations live in `supabase/migrations/` and are applied with
-`supabase db push` (or psql, in filename order). On startup the server
-idempotently seeds the shared libraries (`exercise_library`,
-`cuisine_food_library`) — a fresh production database needs migrations only.
-To wipe test data before launch, run `backend/scripts/reset_production.sql`
-by hand (destructive; see its header).
-
-### API
-
-All routes are under `/api`, require `Authorization: Bearer <Clerk JWT>`
-(webhooks and the OAuth callback excepted — signature/state-verified), and
-respond with the envelope `{ "data": ..., "error": null }`. Missing feature
-keys degrade to a 503 on the affected endpoints; everything else keeps working.
-
-### Tests
 
 ```bash
-cd backend && go test ./...   # hermetic: fake stores, httptest, generated keys
-npm test                      # app logic tests (no render tests by design)
+cd web && npm install && npm run dev    # http://localhost:3000
 ```
+
+With no keys set, a dev build of the app runs fully navigable against
+mock-seeded stores. A native build (`npm run ios`) is required for RevenueCat
+and SSO to work end to end.
+
+## Test
+
+```bash
+npx tsc --noEmit && npm run lint && npm test   # app: types, lint, 317 tests
+```
+
+```bash
+cd backend && go build ./... && go vet ./... && gofmt -l . && go test ./... -count=1
+```
+
+```bash
+cd web && npm run build && npm run lint && npm run typecheck
+```
+
+Run the backend tests from inside the monorepo — the `tests/migrations` suite
+reads `../supabase/migrations`.
+
+## Deploy
+
+Backend: `cd backend && go build -o server ./cmd/server`, then run the binary
+with the env vars set (TLS terminated by the platform). Set `LUMO_BASE_URL` to
+the public origin — CORS, OAuth redirects and webhook URLs all derive from it.
+Point the app at it with `EXPO_PUBLIC_API_URL`.
+
+Database: `supabase db push` applies the migrations in filename order. The
+server seeds the shared exercise and cuisine libraries idempotently on startup.
+
+Site: `cd web && npm run build` produces a static `web/out/` folder.
+
+## Where things are documented
+
+| | |
+|---|---|
+| Every env var and dashboard step | [CONFIG.md](CONFIG.md) |
+| Current state, open issues, what's left to launch | [STATUS.md](STATUS.md) |
+| The constraints you could accidentally break | [DECISIONS.md](DECISIONS.md) |
+| How to work in this repo | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Reporting a vulnerability | [SECURITY.md](SECURITY.md) |
+
+All API routes live under `/api`, require `Authorization: Bearer <Clerk JWT>`
+(webhooks and the OAuth callback excepted — those are signature- and
+state-verified), and respond with the envelope `{ "data": ..., "error": null }`.

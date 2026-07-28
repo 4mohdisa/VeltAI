@@ -5,11 +5,6 @@ import { useWindowDimensions } from 'react-native';
 
 import { LARGE_TEXT_THRESHOLD } from './tokens';
 
-/** Current Dynamic Type font scale (1.0 at default). Reactive. */
-export function useFontScale(): number {
-  return useWindowDimensions().fontScale;
-}
-
 /** True when the user's text size is large (≈AX1+) — crowded rows should stack. */
 export function useLargeText(): boolean {
   return useWindowDimensions().fontScale >= LARGE_TEXT_THRESHOLD;

@@ -7,13 +7,10 @@ import { track } from '@/lib/analytics';
 import { isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, todayISO } from './mappers';
 import { useFoodStore, type NewFoodItem } from './foodStore';
 import { useGymStore } from './gymStore';
-import { useUserStore, type UserProfile } from './userStore';
-import { useSettingsStore, type MacroGoals } from '@/lib/settings/store';
 import type { EntryMethod, MealSlot, SavedFood } from '@/lib/mock/data';
 
 const food = () => useFoodStore.getState();
 const gym = () => useGymStore.getState();
-const settings = () => useSettingsStore.getState();
 
 /** Background sync: local state already updated; API failure is non-fatal. */
 const sync = (p: Promise<unknown>) =>
@@ -153,23 +150,3 @@ export const applyFreeze = (offsetDays = 0) => {
   sync(api.gym.freeze());
 };
 
-// --- Goals ---
-/** Switch to custom goals and patch them (used by the Goals editor). */
-export const setGoals = (patch: Partial<MacroGoals>) => {
-  settings().setGoalMode('custom');
-  settings().setCustomGoals(patch);
-  const g = settings().customGoals; // full, post-patch goals — PUT the whole document
-  sync(
-    api.goals.put({
-      calorie_target: g.calories,
-      protein_target: g.protein,
-      carb_target: g.carbs,
-      fat_target: g.fat,
-      fibre_target: g.fibre,
-      source: 'custom',
-    }),
-  );
-};
-
-// --- User profile (onboarding bridge writes here; server sync lands with Clerk) ---
-export const setUserProfile = (patch: Partial<UserProfile>) => useUserStore.getState().setProfile(patch);

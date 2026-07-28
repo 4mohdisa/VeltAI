@@ -197,4 +197,3 @@ export function GlassFab({
 }
 
 /** True when the real iOS Liquid Glass material is in use (vs the blur fallback). */
-export const liquidGlassActive = LIQUID;

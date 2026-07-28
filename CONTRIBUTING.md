@@ -1,8 +1,8 @@
 # Contributing to Lumo
 
 Lumo is a food and fitness tracking app for iOS. You log meals by photo,
-barcode, voice, or search; the backend computes calories and macros, tracks
-gym sessions, and generates plain-language insights. It ships with no
+barcode, nutrition label or search; the backend computes calories and macros,
+tracks gym sessions, and generates plain-language insights. It ships with no
 third-party ad or tracking SDKs, and health data is never sold.
 
 ## Monorepo layout
@@ -61,9 +61,9 @@ npm run dev
 ## Running tests
 
 ```bash
-npx jest                      # app (repo root)
+npm test                      # app (repo root) — jest
 cd backend && go test ./...   # backend — hermetic, no network or DB
-cd web && npx next build      # marketing site
+cd web && npm run build       # marketing site
 ```
 
 Run backend tests from inside the monorepo — `tests/migrations` reads
@@ -88,8 +88,8 @@ Run backend tests from inside the monorepo — `tests/migrations` reads
 ## Branches and PRs
 
 - Branch from `main`. Keep PRs small and focused.
-- Tests green before review: `npx jest`, `cd backend && go test ./...`,
-  `cd web && npx next build`.
+- Tests green before review: `npm test`, `cd backend && go test ./...`,
+  `cd web && npm run build`.
 - Fill in the PR template, including the DECISIONS.md checkbox when your
   change is behaviour-governing.
 

@@ -199,9 +199,6 @@ export function textStyle(variant: TypeVariant): TextStyle {
  * large. Read at render; true at ~AX1 and above.
  */
 export const LARGE_TEXT_THRESHOLD = 1.5;
-export function isLargeTextScale(): boolean {
-  return PixelRatio.getFontScale() >= LARGE_TEXT_THRESHOLD;
-}
 
 // ---------------------------------------------------------------------------
 // Spacing — generous rhythm

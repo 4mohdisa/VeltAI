@@ -120,7 +120,6 @@ function mergeMeals(server: StoredMeal[], prev: StoredMeal[]): StoredMeal[] {
 }
 
 // Module-level hydrators (stable identities for useHydration's deps).
-// hydrateFoodLog is exported for the data-seam self-check (data-seam.check.mjs).
 export async function hydrateFoodLog(): Promise<void> {
   const rows = await api.foodLogs.list({ date: todayISO() });
   useFoodStore.setState((s) => ({ meals: mergeMeals(mealsFromLogs(rows), s.meals) }));

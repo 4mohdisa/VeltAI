@@ -3,7 +3,7 @@
 // RevenueCat, Strava/WHOOP).
 import type { JSX } from 'react';
 
-import { LegalScreen, type LegalSection } from '@/components/legal/LegalScreen';
+import { LegalScreen, type LegalSection } from '@/components/navigation/LegalScreen';
 
 const UPDATED = '26 July 2026';
 

@@ -2,7 +2,7 @@
 // paywall pricing and the Privacy Policy.
 import type { JSX } from 'react';
 
-import { LegalScreen, type LegalSection } from '@/components/legal/LegalScreen';
+import { LegalScreen, type LegalSection } from '@/components/navigation/LegalScreen';
 
 const UPDATED = '14 July 2026';
 

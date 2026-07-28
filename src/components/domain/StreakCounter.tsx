@@ -2,7 +2,7 @@
 // uppercase label. Used on the Gym tab and the streak detail screen.
 import { View } from 'react-native';
 
-import { StreakFlame } from '@/components/animations/StreakFlame';
+import { StreakFlame } from '@/components/display/StreakFlame';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 
