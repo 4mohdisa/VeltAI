@@ -2,6 +2,7 @@ package pipeline
 
 import (
 	"context"
+	"log"
 	"sync"
 
 	"lumo/backend/internal/db"
@@ -64,8 +65,7 @@ type libRow struct {
 // user's personal calibration. A nil q skips the DB-backed passes gracefully
 // (used when no pool is available).
 func Run(ctx context.Context, imageBytes []byte, userID string, ident FoodIdentifier, q db.Querier, mimeType string) Outcome {
-	quality := AssessQuality(imageBytes)
-	geo := AnalyseGeometry(imageBytes)
+	quality, geo := safeAssess(imageBytes)
 
 	var geminiEstimates []FoodEstimate
 	var lib []libRow
@@ -73,6 +73,13 @@ func Run(ctx context.Context, imageBytes []byte, userID string, ident FoodIdenti
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
+		// This goroutine hands untrusted bytes to the identifier; a panic here
+		// would take the process down, so contain it (no estimates → fallback).
+		defer func() {
+			if r := recover(); r != nil {
+				log.Printf("scan pipeline: recovered panic identifying foods: %v", r)
+			}
+		}()
 		if ident != nil {
 			geminiEstimates, _ = ident.IdentifyFoods(ctx, imageBytes, geo, mimeType)
 		}

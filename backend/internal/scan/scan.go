@@ -711,3 +711,16 @@ var validRatings = map[string]bool{
 func confidencePercent(confidence float64) int {
 	return int(clamp(math.Round(confidence*100), 0, 100))
 }
+
+// CountScansToday counts the user's AI scans in the current server-calendar
+// day, backing the free-tier scan quota. Counting existing scan_sessions rows
+// avoids a second source of truth (and a migration): every paid Gemini call
+// writes exactly one session row.
+func (s *PGStore) CountScansToday(ctx context.Context, userID string) (int, error) {
+	var n int
+	err := s.q.QueryRow(ctx,
+		`SELECT count(*) FROM scan_sessions
+		 WHERE user_id = $1 AND created_at >= date_trunc('day', now())`,
+		userID).Scan(&n)
+	return n, err
+}

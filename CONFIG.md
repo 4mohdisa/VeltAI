@@ -40,6 +40,18 @@ always win. Production: set real env vars on the host.
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | WHOOP OAuth import | for WHOOP |
 | `INTEGRATION_ENCRYPTION_KEY` | 32-byte hex key, AES-256-GCM for stored OAuth tokens (`openssl rand -hex 32`) | for integrations |
 
+### Free/Pro gating (server-enforced — see `internal/entitlement`)
+
+| Var | Purpose | Default |
+|---|---|---|
+| `LUMO_GATING_ENABLED` | Master switch for Pro enforcement. `false` opens every paid feature to everyone (promo periods only) | `true` |
+| `LUMO_FREE_SCANS_PER_DAY` | AI scans a non-subscriber may run per day. `0` = none, negative = unlimited | `3` |
+
+Free: manual/search/barcode logging, all gym features, your own data,
+dashboards, energy balance, export, account management and deletion, plus the
+daily free scan allowance. Pro: unlimited AI scans, AI insights / morning brief
+/ Ask-Lumo / brain rebuild, and the Strava + WHOOP integrations.
+
 ## Dashboard configuration (no code)
 
 1. **Clerk**: enable Apple + Google SSO and the Email verification code

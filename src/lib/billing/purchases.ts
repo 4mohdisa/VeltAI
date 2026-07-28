@@ -13,6 +13,15 @@ export const REVENUECAT_IOS_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY ?? 
 /** The 'pro' entitlement identifier configured in the RevenueCat dashboard. */
 export const PRO_ENTITLEMENT = 'pro';
 
+/**
+ * Free-trial length in days. MUST match the introductory offer configured on
+ * both App Store Connect subscriptions and the RevenueCat offering — the store
+ * is what actually charges, so a mismatch between this copy and the dashboard
+ * is a 3.1.2 rejection and a chargeback risk. Every user-facing mention of the
+ * trial derives from this constant (asserted by src/__tests__/authBilling.test.ts).
+ */
+export const TRIAL_DAYS = 7;
+
 // Minimal surface of react-native-purchases the app uses.
 export type CustomerInfo = { entitlements: { active: Record<string, unknown> } };
 export type PurchasesModule = {

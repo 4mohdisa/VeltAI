@@ -4,6 +4,9 @@
 // beyond a microtask flush (and fake timers for the mock no-image path).
 /* eslint-disable import/first -- jest.mock must be hoisted above the imports it replaces */
 jest.mock('@/lib/api', () => ({
+  // ApiError must be the REAL class: scan.ts branches on `instanceof ApiError`
+  // (the 402 entitlement path), and a mock without it makes that check throw.
+  ApiError: jest.requireActual('@/lib/api').ApiError,
   api: {
     scan: {
       pipeline: jest.fn(),
@@ -17,9 +20,9 @@ jest.mock('@/lib/api', () => ({
 }));
 jest.mock('@/lib/data/scanPoller', () => ({ startScanPoller: jest.fn(() => jest.fn()) }));
 
-import { api, type FoodLog, type ScanAngleImage, type ScanEstimate, type ScanResults } from '@/lib/api';
+import { api, ApiError, type FoodLog, type ScanAngleImage, type ScanEstimate, type ScanResults } from '@/lib/api';
 import { startScanPoller } from '@/lib/data/scanPoller';
-import { discardScannedItem, slotForNow, startMultiPhotoScan, startPhotoScan, updateFoodLogStatus } from '@/lib/data/scan';
+import { discardScannedItem, scanChainsSettled, slotForNow, startMultiPhotoScan, startPhotoScan, updateFoodLogStatus } from '@/lib/data/scan';
 import { useFoodStore, type StoredFoodItem } from '@/lib/data/foodStore';
 import { aiDetectedItems } from '@/lib/mock/ai';
 
@@ -33,8 +36,12 @@ const confirmMock = api.scan.confirm as jest.Mock;
 const correctionMock = api.scan.correction as jest.Mock;
 const pollerMock = startScanPoller as jest.Mock;
 
-/** Flush the resolved-promise chains (pipeline → then/catch → fallback). */
-const flush = () => new Promise((r) => setTimeout(r, 0));
+// Await the REAL in-flight scan chains (pipeline → then/catch → fallback →
+// confirm) rather than racing a timer. scan.ts starts them fire-and-forget (the
+// capture screen navigates away immediately), so it exposes a settlement handle;
+// a setTimeout(0) guess here used to let work leak past the test boundary and
+// blow up on a torn-down environment under load.
+const flush = () => scanChainsSettled();
 
 const allItems = () => useFoodStore.getState().meals.flatMap((m) => m.items);
 const idsNow = () => new Set(allItems().map((i) => i.id));
@@ -399,5 +406,56 @@ describe('discardScannedItem', () => {
     discardScannedItem(id);
     expect(correctionMock).not.toHaveBeenCalled();
     expect(allItems().some((i) => i.id === id)).toBe(false);
+  });
+});
+
+// --- Entitlement (402): out of free scans -----------------------------------
+// The sync endpoint is gated identically, so a 402 must NOT fall through to the
+// fallback (that would just burn a second refusal and leave a stuck skeleton).
+describe('scan quota exhausted', () => {
+  const quotaError = () =>
+    new ApiError(402, "You've used all your free scans for today.", { upgradeRequired: true, feature: 'ai_scan' });
+
+  test('402 on the single-image pipeline does not call the sync fallback and drops the placeholder', async () => {
+    const pre = idsNow();
+    pipelineMock.mockRejectedValueOnce(quotaError());
+    analyzeMock.mockClear();
+
+    startPhotoScan('IMG', 'image/jpeg');
+    await flush();
+
+    expect(analyzeMock).not.toHaveBeenCalled();
+    // No orphaned "Analyzing…" skeleton left behind.
+    expect(newSince(pre)).toHaveLength(0);
+  });
+
+  test('402 on the multi pipeline does not call the sync fallback', async () => {
+    const pre = idsNow();
+    pipelineMultiMock.mockRejectedValueOnce(quotaError());
+    analyzeMock.mockClear();
+
+    startMultiPhotoScan([
+      { image_base64: 'A', angle: 'top' },
+      { image_base64: 'B', angle: 'side' },
+    ]);
+    await flush();
+
+    expect(analyzeMock).not.toHaveBeenCalled();
+    expect(newSince(pre)).toHaveLength(0);
+  });
+
+  test('a NON-402 failure still falls back (the quota check must not swallow real errors)', async () => {
+    pipelineMock.mockRejectedValueOnce(new ApiError(503, 'no key'));
+    analyzeMock.mockClear();
+    analyzeMock.mockResolvedValueOnce({
+      food_name: 'Toast', quantity: 50, unit: 'g', calories: 120,
+      protein: 4, carbs: 20, fat: 2, fibre: 1, confidence: 70, scan_session_id: 's9',
+    });
+    confirmMock.mockResolvedValueOnce({ id: 'srv-9' });
+
+    startPhotoScan('IMG', 'image/jpeg');
+    await flush();
+
+    expect(analyzeMock).toHaveBeenCalledWith('IMG', 'image/jpeg');
   });
 });

@@ -74,6 +74,48 @@ type aiLabel struct {
 	Confidence         float64 `json:"confidence"`
 }
 
+// Model output is UNTRUSTED input: a prompt-injected or hallucinating model can
+// return NaN, 1e300, negative macros or a megabyte-long food name, and these
+// values flow straight into food_logs. Every field is clamped to a physical
+// range and every string capped before it leaves this file.
+const (
+	maxWeightG        = 20000 // 20kg on one plate is already absurd
+	maxCaloriesPer100 = 2000  // pure fat is ~900 kcal/100g
+	maxGramsPer100    = 100   // a macro cannot exceed 100g per 100g
+	maxDensityGcm3    = 25    // denser than any food (osmium is 22.6)
+	maxServingG       = 100000
+	maxFoodNameRunes  = 200
+	maxCategoryRunes  = 100
+	maxReasoningRunes = 2000
+)
+
+// clampNum maps NaN and negatives to 0 and +Inf/oversize to max, so no model
+// number can reach the database outside [0, max].
+func clampNum(v, max float64) float64 {
+	if math.IsNaN(v) || v < 0 {
+		return 0
+	}
+	if v > max { // also catches +Inf
+		return max
+	}
+	return v
+}
+
+// clampConfidence is the 0-100 confidence, NaN-safe.
+func clampConfidence(v float64) int {
+	return int(math.Round(clampNum(v, 100)))
+}
+
+// truncRunes caps a model string at n RUNES (not bytes), never splitting a
+// multi-byte character.
+func truncRunes(s string, n int) string {
+	r := []rune(s)
+	if len(r) <= n {
+		return s
+	}
+	return string(r[:n])
+}
+
 // IdentifyFoods is pass 3 — structured, geometry-constrained identification.
 // mimeType is the image's content type (jpeg/png/webp/heic); empty/unknown
 // falls back to image/jpeg.
@@ -101,18 +143,18 @@ func (g *Gemini) IdentifyFoods(ctx context.Context, imageBytes []byte, geo Geome
 			for i, f := range raw {
 				out[i] = FoodEstimate{
 					RegionID:        f.RegionID,
-					FoodName:        f.FoodName,
-					FoodCategory:    f.FoodCategory,
-					WeightG:         f.EstimatedWeightG,
-					Confidence:      int(math.Round(f.Confidence)),
-					DensityUsed:     f.DensityGcm3,
+					FoodName:        truncRunes(f.FoodName, maxFoodNameRunes),
+					FoodCategory:    truncRunes(f.FoodCategory, maxCategoryRunes),
+					WeightG:         clampNum(f.EstimatedWeightG, maxWeightG),
+					Confidence:      clampConfidence(f.Confidence),
+					DensityUsed:     clampNum(f.DensityGcm3, maxDensityGcm3),
 					MacroSource:     "ai_estimate",
-					CaloriesPer100g: f.CaloriesPer100g,
-					ProteinPer100g:  f.ProteinPer100g,
-					CarbsPer100g:    f.CarbsPer100g,
-					FatPer100g:      f.FatPer100g,
-					FibrePer100g:    f.FibrePer100g,
-					Reasoning:       f.Reasoning,
+					CaloriesPer100g: clampNum(f.CaloriesPer100g, maxCaloriesPer100),
+					ProteinPer100g:  clampNum(f.ProteinPer100g, maxGramsPer100),
+					CarbsPer100g:    clampNum(f.CarbsPer100g, maxGramsPer100),
+					FatPer100g:      clampNum(f.FatPer100g, maxGramsPer100),
+					FibrePer100g:    clampNum(f.FibrePer100g, maxGramsPer100),
+					Reasoning:       truncRunes(f.Reasoning, maxReasoningRunes),
 				}
 			}
 			return out, nil
@@ -150,23 +192,25 @@ func (g *Gemini) ExtractLabel(ctx context.Context, imageBytes []byte, mimeType s
 		return LabelResult{}, fmt.Errorf("gemini label: %w", err)
 	}
 
-	// Convert per-serving to per-100g. Guard a missing/zero serving size by
-	// treating the values as already per-100g (factor 1, serving 100g).
-	serving := lbl.ServingSizeG
+	// Convert per-serving to per-100g. The serving size is model output, so it
+	// is clamped first (NaN/negative/absurd → treat the values as already
+	// per-100g: factor 1, serving 100g), then every converted value is clamped
+	// again — a near-zero serving would otherwise blow the factor up to +Inf.
+	serving := clampNum(lbl.ServingSizeG, maxServingG)
 	factor := 100.0 / serving
 	if serving <= 0 {
 		factor = 1
 		serving = 100
 	}
 	return LabelResult{
-		FoodName:        lbl.FoodName,
+		FoodName:        truncRunes(lbl.FoodName, maxFoodNameRunes),
 		ServingSizeG:    serving,
-		CaloriesPer100g: lbl.CaloriesPerServing * factor,
-		ProteinPer100g:  lbl.ProteinG * factor,
-		CarbsPer100g:    lbl.CarbsG * factor,
-		FatPer100g:      lbl.FatG * factor,
-		FibrePer100g:    lbl.FibreG * factor,
-		Confidence:      int(math.Round(lbl.Confidence)),
+		CaloriesPer100g: clampNum(lbl.CaloriesPerServing*factor, maxCaloriesPer100),
+		ProteinPer100g:  clampNum(lbl.ProteinG*factor, maxGramsPer100),
+		CarbsPer100g:    clampNum(lbl.CarbsG*factor, maxGramsPer100),
+		FatPer100g:      clampNum(lbl.FatG*factor, maxGramsPer100),
+		FibrePer100g:    clampNum(lbl.FibreG*factor, maxGramsPer100),
+		Confidence:      clampConfidence(lbl.Confidence),
 		MacroSource:     "label_scan",
 	}, nil
 }

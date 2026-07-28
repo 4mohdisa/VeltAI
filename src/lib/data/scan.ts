@@ -12,10 +12,44 @@ import { aiDetectedItems, type DetectedItem } from '@/lib/mock/ai';
 import { exampleBarcodeProduct, lookupBarcode, type BarcodeProduct } from '@/lib/food/barcode';
 import type { MealSlot } from '@/lib/mock/data';
 import type { ScanFeedbackRating } from '@/lib/types';
+import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
 
 // Active status pollers keyed by the LOCAL review-row id, so save/discard can
 // cancel a still-running poll. Pollers also self-terminate on ready/failed/60s.
 const activePollers = new Map<string, () => void>();
+
+// In-flight scan chains. Starting a scan is deliberately fire-and-forget — the
+// capture screen navigates away immediately and the store row is filled in
+// later by the poller — so the caller gets no handle. Retaining one here costs
+// nothing at runtime and makes the async surface OBSERVABLE: tests can await
+// settlement instead of guessing with a timer, and a future "is a scan still
+// running?" UI has something to read. Entries remove themselves on settle.
+const inFlightScans = new Set<Promise<void>>();
+
+/** Track a fire-and-forget scan chain. The chain already handles its own
+ *  failures; this only records that it is still running. */
+function trackScanChain(p: Promise<void>): void {
+  const tracked = p.finally(() => {
+    inFlightScans.delete(tracked);
+  });
+  inFlightScans.add(tracked);
+}
+
+/** The free daily scan allowance is spent: remove the optimistic placeholder
+ *  (there will be no result to fill it) and present the paywall. */
+function scanBlockedByQuota(localId: string, e: unknown): void {
+  deleteFoodItem(localId);
+  void handleUpgradeRequired(e);
+}
+
+/** Resolves once every in-flight scan chain has settled, including chains
+ *  started by a fallback while we waited. Used by tests to await the real work
+ *  rather than racing a timer. */
+export async function scanChainsSettled(): Promise<void> {
+  while (inFlightScans.size > 0) {
+    await Promise.allSettled([...inFlightScans]);
+  }
+}
 
 function stopPoller(localId: string): void {
   const stop = activePollers.get(localId);
@@ -83,7 +117,8 @@ export function startPhotoScan(imageBase64?: string, mimeType = 'image/jpeg'): M
 
   if (imageBase64) {
     const id = logMeal(slot, pendingPlaceholder, 'photo', true);
-    api.scan
+    trackScanChain(
+      api.scan
       .pipeline(imageBase64, mimeType)
       .then(({ log_id, scan_session_id }) => {
         // Row stays 'analyzing'; remember the session id, then poll for 'ready'.
@@ -102,10 +137,15 @@ export function startPhotoScan(imageBase64?: string, mimeType = 'image/jpeg'): M
         activePollers.set(id, stop);
       })
       .catch((e: unknown) => {
+        // 402 = out of free scans. The sync endpoint is gated identically, so
+        // falling back would just burn a second refusal: surface the paywall
+        // and drop the placeholder row instead.
+        if (isUpgradeRequired(e)) return scanBlockedByQuota(id, e);
         // Pipeline unavailable (503 no key / unreachable) → old sync endpoint.
         if (__DEV__) console.warn('[scan] pipeline unavailable, falling back to sync scan:', e instanceof Error ? e.message : e);
         fallbackSyncScan(id, slot, imageBase64, mimeType);
-      });
+      }),
+    );
     return slot;
   }
 
@@ -130,7 +170,8 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
   const slot = slotForNow();
   track('scan_started');
   const id = logMeal(slot, pendingPlaceholder, 'photo', true);
-  api.scan
+  trackScanChain(
+    api.scan
     .pipelineMulti(images)
     .then(({ log_id, scan_session_id }) => {
       useFoodStore.getState().updateScannedItem(id, { scanSessionId: scan_session_id });
@@ -148,12 +189,14 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
       activePollers.set(id, stop);
     })
     .catch((e: unknown) => {
+      if (isUpgradeRequired(e)) return scanBlockedByQuota(id, e);
       // Multi endpoint unavailable → degrade to the single-image path with the
       // primary (top) shot; never lose the capture.
       if (__DEV__) console.warn('[scan] multi pipeline unavailable, falling back:', e instanceof Error ? e.message : e);
       const primary = images.find((im) => im.angle === 'top') ?? images[0];
       fallbackSyncScan(id, slot, primary.image_base64, primary.mime_type ?? 'image/jpeg');
-    });
+    }),
+  );
   return slot;
 }
 
@@ -222,7 +265,8 @@ export function updateFoodLogStatus(localId: string, status: 'ready' | 'failed',
  * the row flips to 'failed'.
  */
 function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, mimeType: string): void {
-  api.scan
+  trackScanChain(
+    api.scan
     .analyze(imageBase64, mimeType)
     .then((r) => {
       const store = useFoodStore.getState();
@@ -257,7 +301,8 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
     .catch((e: unknown) => {
       if (__DEV__) console.warn('[scan] pipeline + sync fallback both failed:', e instanceof Error ? e.message : e);
       updateFoodLogStatus(localId, 'failed');
-    });
+    }),
+  );
 }
 
 /** Barcode lookup — backend (Open Food Facts / USDA) first, mock DB fallback.

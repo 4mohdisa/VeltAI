@@ -1,10 +1,6 @@
 package pipeline
 
 import (
-	"bytes"
-	"image"
-	_ "image/jpeg"
-	_ "image/png"
 	"math"
 	"sort"
 )
@@ -29,10 +25,11 @@ func PlateArea(diameterCm float64) float64 {
 // AnalyseGeometry is pass 2 — pure-Go plate/region geometry. It estimates
 // whether a plate dominates the frame (giving a real-world scale reference),
 // then buckets pixels into colour regions and derives per-region area, volume
-// and a default-density weight. A frame that fails to decode yields a
-// no-plate result with a warning (never panics).
+// and a default-density weight. A frame that fails to decode — or whose
+// declared bitmap is too large to allocate — yields a no-plate result with a
+// warning (never panics).
 func AnalyseGeometry(imageBytes []byte) GeometryResult {
-	img, _, err := image.Decode(bytes.NewReader(imageBytes))
+	img, err := decodeImage(imageBytes)
 	if err != nil {
 		return GeometryResult{PlateDetected: false, Warnings: []string{"could not decode image"}}
 	}

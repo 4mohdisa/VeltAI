@@ -46,6 +46,11 @@ func (s *PGStore) Upsert(ctx context.Context, sub Sub) error {
 }
 
 // Transfer re-keys a subscription row to a new user (RevenueCat TRANSFER event).
+//
+// PRECONDITION, enforced by the webhook handler: the source row exists and is
+// active, and the target holds no ACTIVE subscription. This deletes the target's
+// row, so calling it without those checks lets an attacker-shaped event wipe a
+// paying user.
 func (s *PGStore) Transfer(ctx context.Context, fromUserID, toUserID string) error {
 	// Guard against the target profile not existing yet (same as Upsert).
 	if _, err := s.q.Exec(ctx,

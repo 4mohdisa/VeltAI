@@ -12,11 +12,31 @@ const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080';
 
 export class ApiError extends Error {
   status: number;
-  constructor(status: number, message: string) {
+  /** True when the backend's entitlement gate refused a Pro feature (402).
+   *  Callers present the paywall rather than a generic error. */
+  upgradeRequired: boolean;
+  /** Which feature was gated ('ai_scan' | 'ai_insights' | 'integrations'). */
+  feature?: string;
+  constructor(status: number, message: string, gate?: { upgradeRequired?: boolean; feature?: string }) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.upgradeRequired = gate?.upgradeRequired ?? false;
+    this.feature = gate?.feature;
   }
+}
+
+/** The backend's error field is normally a string; the entitlement gate sends a
+ *  structured object so the client can branch. Normalise both shapes. */
+function parseApiError(status: number, error: unknown): ApiError {
+  if (error != null && typeof error === 'object') {
+    const e = error as { message?: unknown; upgrade_required?: unknown; feature?: unknown };
+    return new ApiError(status, typeof e.message === 'string' ? e.message : `HTTP ${status}`, {
+      upgradeRequired: e.upgrade_required === true,
+      feature: typeof e.feature === 'string' ? e.feature : undefined,
+    });
+  }
+  return new ApiError(status, typeof error === 'string' ? error : `HTTP ${status}`);
 }
 
 // --- Auth seam ---------------------------------------------------------------
@@ -82,14 +102,14 @@ async function request<T>(method: string, path: string, body?: unknown, extraHea
   }
   if (res.status === 401) unauthorizedHandler?.(); // machine sign-out path; still throws below
 
-  let envelope: { data: T; error: string | null } | undefined;
+  let envelope: { data: T; error: unknown } | undefined;
   try {
-    envelope = (await res.json()) as { data: T; error: string | null };
+    envelope = (await res.json()) as { data: T; error: unknown };
   } catch {
     // Non-JSON body (proxy error page, empty body) — fall through to status check.
   }
-  if (!res.ok || envelope?.error != null) {
-    throw new ApiError(res.status, envelope?.error ?? `HTTP ${res.status}`);
+  if (!res.ok || (envelope?.error != null && envelope.error !== '')) {
+    throw parseApiError(res.status, envelope?.error);
   }
   if (envelope === undefined) throw new ApiError(res.status, 'invalid response envelope');
   return envelope.data;

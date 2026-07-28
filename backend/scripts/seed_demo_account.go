@@ -12,7 +12,7 @@
 // re-run with -user <clerk_user_id> so the seeded data attaches to the real
 // sign-in. Paste into App Store Connect review notes:
 //
-//	Demo account: demo@lumo.fit / LumoReview2026!
+//	Demo account: demo@lumo.fit / <the password you set in Clerk>
 //	(pre-loaded with 14 days of food logs, 8 workouts, a schedule and history)
 package main
 
@@ -28,10 +28,18 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-const (
-	demoEmail    = "demo@lumo.fit"
-	demoPassword = "LumoReview2026!" // set on the Clerk user by hand; not stored here
-)
+const demoEmail = "demo@lumo.fit"
+
+// demoPassword is NOT hardcoded: a real credential in tracked source is a
+// credential in every clone and every fork of this repo forever. The operator
+// sets it on the Clerk user by hand and passes it here only to have it echoed
+// into the App Store review notes.
+func demoPassword() string {
+	if pw := os.Getenv("DEMO_ACCOUNT_PASSWORD"); pw != "" {
+		return pw
+	}
+	return "<set DEMO_ACCOUNT_PASSWORD to print it here>"
+}
 
 func main() {
 	userID := flag.String("user", "user_demo_reviewer", "user id (Clerk sub) to seed")
@@ -55,7 +63,7 @@ func main() {
 	fmt.Println("Demo account seeded.")
 	fmt.Println()
 	fmt.Println("App Store Connect review notes:")
-	fmt.Printf("  Demo account: %s / %s\n", demoEmail, demoPassword)
+	fmt.Printf("  Demo account: %s / %s\n", demoEmail, demoPassword())
 	fmt.Printf("  (user id %q — 14 days of food logs, 8 workouts, template + schedule, weight history, active subscription)\n", *userID)
 }
 

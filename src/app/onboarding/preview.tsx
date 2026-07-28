@@ -12,6 +12,7 @@ import { color, motion, space } from '@/lib/design/tokens';
 import { navigate } from '@/lib/nav';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { CuisineType } from '@/lib/types';
+import { TRIAL_DAYS } from '@/lib/billing/purchases';
 
 const CUISINE_INSIGHT: Record<CuisineType, string> = {
   south_asian:
@@ -53,7 +54,7 @@ export default function PreviewScreen() {
         <View style={{ gap: space.sm }}>
           <Button title="Create my account →" onPress={() => navigate('/onboarding/signup')} />
           <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-            Free 7-day trial — pricing shown before you subscribe.
+            Free {TRIAL_DAYS}-day trial — pricing shown before you subscribe.
           </Text>
         </View>
       }

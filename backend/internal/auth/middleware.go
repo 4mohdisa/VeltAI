@@ -64,18 +64,40 @@ func UserID(ctx context.Context) string {
 // a local RSA key instead of Clerk's JWKS.
 type JWTVerifier struct {
 	Keyfunc jwt.Keyfunc
+	// Issuer, when non-empty, is required to match the token's iss claim.
+	Issuer string
 }
 
 func (v *JWTVerifier) Verify(_ context.Context, token string) (string, error) {
-	parsed, err := jwt.Parse(token, v.Keyfunc,
-		jwt.WithValidMethods([]string{"RS256"}),
-		jwt.WithExpirationRequired())
+	opts := []jwt.ParserOption{
+		jwt.WithValidMethods([]string{"RS256"}), // no alg:none, no HS256 confusion
+		jwt.WithExpirationRequired(),
+	}
+	// Issuer pinning. Clerk signs EVERY token for an instance with the same
+	// keys — including JWT-template tokens minted for other services (Supabase,
+	// partner APIs). Without an issuer check, any such token is accepted here
+	// as a full session. Configured via CLERK_ISSUER; when unset we still
+	// verify signature+expiry (the JWKS is instance-scoped), and main.go warns.
+	if iss := v.Issuer; iss != "" {
+		opts = append(opts, jwt.WithIssuer(iss))
+	}
+	parsed, err := jwt.Parse(token, v.Keyfunc, opts...)
 	if err != nil || !parsed.Valid {
 		return "", fmt.Errorf("verify: %w", err)
 	}
 	sub, err := parsed.Claims.GetSubject()
 	if err != nil || sub == "" {
 		return "", errors.New("verify: missing sub claim")
+	}
+	// Reject Clerk's non-session token types outright. A session token has no
+	// explicit type; template/M2M tokens carry one. Fail closed on anything we
+	// do not recognise as a session.
+	if claims, ok := parsed.Claims.(jwt.MapClaims); ok {
+		if typ, exists := claims["typ"]; exists {
+			if s, _ := typ.(string); s != "" && s != "JWT" && s != "session" {
+				return "", errors.New("verify: not a session token")
+			}
+		}
 	}
 	return sub, nil
 }
@@ -84,10 +106,13 @@ func (v *JWTVerifier) Verify(_ context.Context, token string) (string, error) {
 // cached for an hour, refetched on unknown kid so key rotation recovers fast).
 func NewClerkVerifier() *JWTVerifier {
 	cache := &jwksCache{fetch: fetchClerkJWKS}
-	return &JWTVerifier{Keyfunc: func(t *jwt.Token) (any, error) {
-		kid, _ := t.Header["kid"].(string)
-		return cache.key(kid)
-	}}
+	return &JWTVerifier{
+		Issuer: config.Env("CLERK_ISSUER", ""),
+		Keyfunc: func(t *jwt.Token) (any, error) {
+			kid, _ := t.Header["kid"].(string)
+			return cache.key(kid)
+		},
+	}
 }
 
 // jwksCache caches Clerk's signing keys. A fetch is allowed when the cache is

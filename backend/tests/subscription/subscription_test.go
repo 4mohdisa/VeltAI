@@ -222,6 +222,126 @@ func TestWebhookTransferAnonymousNoOp(t *testing.T) {
 	}
 }
 
+// eventBodyAt is eventBody plus the fields the replay/ordering guard reads.
+func eventBodyAt(typ, userID, id string, expMs, tsMs int64) string {
+	return fmt.Sprintf(`{"event":{"id":%q,"type":%q,"app_user_id":%q,"period_type":"NORMAL","expiration_at_ms":%d,"event_timestamp_ms":%d,"store":"APP_STORE","product_id":"lumo_pro_annual"}}`,
+		id, typ, userID, expMs, tsMs)
+}
+
+// noExpiryBody omits expiration_at_ms entirely — the indefinite-Pro vector.
+func noExpiryBody(typ, userID string) string {
+	return fmt.Sprintf(`{"event":{"type":%q,"app_user_id":%q,"period_type":"NORMAL","store":"APP_STORE","product_id":"lumo_pro_annual"}}`, typ, userID)
+}
+
+func TestWebhookGrantWithoutExpiryIsBounded(t *testing.T) {
+	t.Setenv("LUMO_SUB_DEFAULT_TTL_HOURS", "1")
+	store := newFakeStore()
+	mux := newMux(store)
+	rec := postWebhook(mux, webhookAuth, noExpiryBody("INITIAL_PURCHASE", "user_1"))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("webhook: status %d, body %s", rec.Code, rec.Body)
+	}
+	got := store.subs["user_1"]
+	if got.ExpiresAt == nil {
+		t.Fatal("grant without expiration_at_ms must not be stored as never-expiring")
+	}
+	if got.ExpiresAt.After(time.Now().Add(2 * time.Hour)) {
+		t.Fatalf("want expiry bounded by LUMO_SUB_DEFAULT_TTL_HOURS=1, got %v", got.ExpiresAt)
+	}
+	if data := getStatus(t, mux, "user_1"); data["is_active"] != true {
+		t.Fatalf("want a paying user still active inside the window, got %v", data)
+	}
+}
+
+func TestNilExpiryReadsInactive(t *testing.T) {
+	store := newFakeStore()
+	store.subs["user_1"] = subscription.Sub{UserID: "user_1", Status: "active"}
+	if data := getStatus(t, newMux(store), "user_1"); data["is_active"] != false {
+		t.Fatalf("unknown expiry must fail closed, got %v", data)
+	}
+}
+
+func TestWebhookTransferCannotWipeUnrelatedUser(t *testing.T) {
+	store := newFakeStore()
+	mux := newMux(store)
+	future := time.Now().Add(24 * time.Hour).UnixMilli()
+	postWebhook(mux, webhookAuth, eventBody("INITIAL_PURCHASE", "victim", future))
+	postWebhook(mux, webhookAuth, eventBody("INITIAL_PURCHASE", "attacker", future))
+
+	for name, body := range map[string]string{
+		"target holds an active sub": transferBody([]string{"attacker"}, []string{"victim"}),
+		"source row does not exist":  transferBody([]string{"ghost"}, []string{"victim"}),
+	} {
+		rec := postWebhook(mux, webhookAuth, body)
+		if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "ignored") {
+			t.Fatalf("%s: want 200 ignored, got %d %s", name, rec.Code, rec.Body)
+		}
+		if data := getStatus(t, mux, "victim"); data["is_active"] != true {
+			t.Fatalf("%s: victim's subscription was destroyed, got %v", name, data)
+		}
+	}
+}
+
+func TestWebhookReplayDoesNotRegrant(t *testing.T) {
+	store := newFakeStore()
+	mux := newMux(store)
+	now := time.Now().UnixMilli()
+	purchase := eventBodyAt("INITIAL_PURCHASE", "user_1", "evt_purchase",
+		time.Now().Add(24*time.Hour).UnixMilli(), now)
+	postWebhook(mux, webhookAuth, purchase)
+	postWebhook(mux, webhookAuth, eventBodyAt("EXPIRATION", "user_1", "evt_expire", now, now+1000))
+
+	rec := postWebhook(mux, webhookAuth, purchase) // captured request, replayed
+	if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "ignored") {
+		t.Fatalf("want 200 ignored, got %d %s", rec.Code, rec.Body)
+	}
+	if data := getStatus(t, mux, "user_1"); data["status"] != "expired" || data["is_active"] != false {
+		t.Fatalf("replay re-granted entitlement, got %v", data)
+	}
+}
+
+func TestWebhookOlderEventDoesNotDowngrade(t *testing.T) {
+	store := newFakeStore()
+	mux := newMux(store)
+	now := time.Now().UnixMilli()
+	future := time.Now().Add(24 * time.Hour).UnixMilli()
+	postWebhook(mux, webhookAuth, eventBodyAt("RENEWAL", "user_1", "evt_new", future, now))
+
+	// A delayed EXPIRATION from before the renewal must not win.
+	rec := postWebhook(mux, webhookAuth, eventBodyAt("EXPIRATION", "user_1", "evt_old", now, now-60_000))
+	if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "ignored") {
+		t.Fatalf("want 200 ignored, got %d %s", rec.Code, rec.Body)
+	}
+	if data := getStatus(t, mux, "user_1"); data["status"] != "active" || data["is_active"] != true {
+		t.Fatalf("older event downgraded newer state, got %v", data)
+	}
+}
+
+func TestWebhookStaleEventIgnored(t *testing.T) {
+	store := newFakeStore()
+	mux := newMux(store)
+	old := time.Now().Add(-48 * time.Hour).UnixMilli()
+	rec := postWebhook(mux, webhookAuth, eventBodyAt("INITIAL_PURCHASE", "user_1", "evt_old",
+		time.Now().Add(24*time.Hour).UnixMilli(), old))
+	if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "ignored") {
+		t.Fatalf("want 200 ignored, got %d %s", rec.Code, rec.Body)
+	}
+	if len(store.subs) != 0 {
+		t.Fatalf("stale event must not write, got %v", store.subs)
+	}
+}
+
+func TestWebhookUnconfiguredSecretUnavailable(t *testing.T) {
+	mux := http.NewServeMux()
+	subscription.RegisterWebhook(mux, newFakeStore(), "")
+	for _, hdr := range []string{"", webhookAuth} {
+		rec := postWebhook(mux, hdr, eventBody("INITIAL_PURCHASE", "user_1", time.Now().UnixMilli()))
+		if rec.Code != http.StatusServiceUnavailable {
+			t.Fatalf("unconfigured secret must fail closed with 503, got %d", rec.Code)
+		}
+	}
+}
+
 func TestActiveStatusPastExpiryInactive(t *testing.T) {
 	store := newFakeStore()
 	past := time.Now().Add(-time.Hour)

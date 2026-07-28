@@ -97,3 +97,34 @@ describe('api client auth + query', () => {
     expect(init.method).toBe('DELETE');
   });
 });
+
+// --- Entitlement gate (402) --------------------------------------------------
+// The backend's gate sends a STRUCTURED error object so the client can present
+// the paywall instead of a generic failure. Both error shapes must work.
+describe('entitlement 402', () => {
+  test('structured 402 sets upgradeRequired + feature and keeps the message readable', async () => {
+    mockFetch(() => ({
+      ok: false,
+      status: 402,
+      json: async () => ({
+        data: null,
+        error: { message: "You've used all your free scans for today.", upgrade_required: true, feature: 'ai_scan', limit: 3 },
+      }),
+    }));
+    const err = await api.scan.pipeline('b64', 'image/jpeg').catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(ApiError);
+    const e = err as ApiError;
+    expect(e.status).toBe(402);
+    expect(e.upgradeRequired).toBe(true);
+    expect(e.feature).toBe('ai_scan');
+    // Never "[object Object]" in front of a user.
+    expect(e.message).toContain('free scans');
+  });
+
+  test('a plain string error still parses and is NOT an upgrade prompt', async () => {
+    mockFetch(() => ({ ok: false, status: 500, json: async () => ({ data: null, error: 'database error' }) }));
+    const err = (await api.foodLogs.list().catch((e: unknown) => e)) as ApiError;
+    expect(err.message).toBe('database error');
+    expect(err.upgradeRequired).toBe(false);
+  });
+});

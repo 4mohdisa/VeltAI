@@ -2,8 +2,9 @@
 // `mutate`. Each performs the optimistic local store update first (the app must
 // keep working with no backend), then fires the corresponding API call in the
 // background; failures are logged and the local state stands.
-import { api } from '@/lib/api';
+import { api, type GymExerciseInput } from '@/lib/api';
 import { track } from '@/lib/analytics';
+import { runOrQueueSequence } from '@/lib/offline/queue';
 import { isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, todayISO } from './mappers';
 import { useFoodStore, type NewFoodItem } from './foodStore';
 import { useGymStore } from './gymStore';
@@ -129,18 +130,38 @@ export const unsaveFood = (id: string) => {
 };
 
 // --- Gym ---
-export const logGymSession = (session?: Parameters<ReturnType<typeof useGymStore.getState>['logGymSession']>[0]) => {
-  if (gym().streak.gymLoggedToday) return; // store would no-op; don't create a duplicate server row
+/** The rest of a logged workout: the exercises to attach and the adherence rate.
+ *  Given → the session is logged as create → exercises → complete, one unit. */
+export type GymWorkout = { name?: string; exercises?: GymExerciseInput[]; completionRate?: number };
+
+export const logGymSession = (
+  session?: Parameters<ReturnType<typeof useGymStore.getState>['logGymSession']>[0],
+  workout?: GymWorkout,
+) => {
+  // The dashboard quick-log is a once-a-day toggle: if today is already
+  // logged the store would no-op, so skip the server round-trip too rather
+  // than create a duplicate row. A FULL workout (workout given — the user just
+  // finished a scheduled session) always writes: silently discarding the
+  // exercises someone just performed is worse than a second session row.
+  if (!workout && gym().streak.gymLoggedToday) return;
   gym().logGymSession(session);
   track('workout_logged');
   // GymSessionInput has no effort/energy field (backend session row is
   // date/name/notes/duration only) — both stay device-local on the store session.
+  // The whole create → exercises → complete sequence goes through the offline
+  // queue as ONE unit with one idempotency key: offline it is replayed in order
+  // on reconnect, and a replay can never produce a second session.
   sync(
-    api.gym.createSession({
-      date: todayISO(),
-      duration_minutes: session?.durationMin,
-      notes: session?.notes,
-    }),
+    runOrQueueSequence(
+      '/api/gym/sessions',
+      { date: todayISO(), name: workout?.name, duration_minutes: session?.durationMin, notes: session?.notes },
+      workout
+        ? [
+            ...(workout.exercises ?? []).map((e) => ({ path: '/api/gym/sessions/{id}/exercises', body: e })),
+            { path: '/api/gym/sessions/{id}/complete', body: { completion_rate: workout.completionRate } },
+          ]
+        : [],
+    ),
   );
 };
 

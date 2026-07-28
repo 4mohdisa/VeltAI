@@ -57,11 +57,10 @@ func RunMulti(ctx context.Context, images []AngleImage, userID string, ident Foo
 		wg.Add(1)
 		go func(i int, im AngleImage) {
 			defer wg.Done()
-			perImage[i] = PerImageResult{
-				Angle:    im.Angle,
-				Quality:  AssessQuality(im.Bytes),
-				Geometry: AnalyseGeometry(im.Bytes),
-			}
+			// safeAssess contains a decoder panic to this angle: an unrecovered
+			// panic in a goroutine kills the whole process.
+			q, g := safeAssess(im.Bytes)
+			perImage[i] = PerImageResult{Angle: im.Angle, Quality: q, Geometry: g}
 		}(i, im)
 	}
 	wg.Wait()

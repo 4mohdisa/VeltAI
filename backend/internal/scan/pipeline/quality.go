@@ -1,12 +1,6 @@
 package pipeline
 
-import (
-	"bytes"
-	"image"
-	_ "image/jpeg"
-	_ "image/png"
-	"math"
-)
+import "math"
 
 // Quality normalisation constants — tuned so a black/uniform frame scores 0 and
 // a high-detail (noisy) frame scores well above 60. See quality_test.go for the
@@ -24,9 +18,10 @@ const (
 
 // AssessQuality is pass 1 — pure-Go image quality: Laplacian-variance sharpness
 // and luminance-std-dev lighting, each normalised to 0-100. A frame that fails
-// to decode yields a zero result (never panics).
+// to decode — or whose declared bitmap is too large to allocate — yields a zero
+// result (never panics).
 func AssessQuality(imageBytes []byte) QualityResult {
-	img, _, err := image.Decode(bytes.NewReader(imageBytes))
+	img, err := decodeImage(imageBytes)
 	if err != nil {
 		return QualityResult{}
 	}

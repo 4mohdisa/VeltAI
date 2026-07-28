@@ -15,12 +15,12 @@ import { Screen } from '@/components/navigation/Screen';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { api, type ExerciseLibraryItem, type GymExerciseInput, type LoggedParameters, type ParameterSchema } from '@/lib/api';
+import type { ExerciseLibraryItem, GymExerciseInput, LoggedParameters, ParameterSchema } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { useToday } from '@/lib/data/gymSchedule';
-import { todayISO } from '@/lib/data/mappers';
 import { color, radius, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
+import { logGymSession } from '@/lib/data';
 
 // One row in the checklist — a planned template exercise or a user-added extra.
 type Row = {
@@ -241,30 +241,16 @@ export default function GymSessionScreen(): JSX.Element {
       const doneCount = plannedRows.filter((r) => states[r.key]?.checked).length;
       const rate = plannedRows.length > 0 ? doneCount / plannedRows.length : undefined;
 
-      try {
-        const session = await api.gym.createSession({
-          date: todayISO(),
-          name: today?.template?.name ?? undefined,
-          duration_minutes: today?.template?.estimated_duration_minutes ?? undefined,
-        });
-        for (const input of inputs) {
-          try {
-            await api.gym.addExercise(session.id, input);
-          } catch {
-            // best-effort — a single failed exercise never blocks the session
-          }
-        }
-        try {
-          await api.gym.completeSession(session.id, rate);
-        } catch {
-          // best-effort — completion is a bonus signal, not required to save
-        }
-        haptics.success();
-        showToast({ message: successMessage, tone: 'success' });
-      } catch {
-        // Backend down / offline — the capture already lived in local state.
-        showToast({ message: 'Saved locally', tone: 'info' });
-      }
+      // create → N exercises → complete goes through the offline queue as ONE
+      // ordered unit sharing an idempotency key: offline it replays in order on
+      // reconnect, a replay can never create a second session, and a partial
+      // flush can't leave exercises orphaned from their session.
+      logGymSession(
+        { durationMin: today?.template?.estimated_duration_minutes ?? undefined },
+        { name: today?.template?.name ?? undefined, exercises: inputs, completionRate: rate },
+      );
+      haptics.success();
+      showToast({ message: successMessage, tone: 'success' });
 
       if (router.canGoBack()) router.back();
       else {

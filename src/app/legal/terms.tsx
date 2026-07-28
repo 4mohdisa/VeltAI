@@ -3,6 +3,7 @@
 import type { JSX } from 'react';
 
 import { LegalScreen, type LegalSection } from '@/components/navigation/LegalScreen';
+import { TRIAL_DAYS } from '@/lib/billing/purchases';
 
 const UPDATED = '14 July 2026';
 
@@ -24,7 +25,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Subscription Terms',
     body: [
-      'Lumo offers an optional auto-renewing subscription: US$8.99 per month or US$49.99 per year, each with a 7-day free trial for new subscribers.',
+      `Lumo offers an optional auto-renewing subscription: US$8.99 per month or US$49.99 per year, each with a ${TRIAL_DAYS}-day free trial for new subscribers.`,
       'Payment is charged to your Apple ID account at confirmation of purchase. Subscriptions renew automatically unless auto-renew is turned off at least 24 hours before the end of the current period. Your account is charged for renewal within 24 hours before the end of the current period.',
       'You can manage or cancel your subscription in your device Settings under your Apple ID > Subscriptions. Cancelling stops future renewals; the current paid period is not refunded. Any unused portion of a free trial is forfeited when you purchase a subscription.',
     ],

@@ -94,3 +94,32 @@ in git — this file is not a changelog.
 - **The Veltai → Lumo rename is not done**: bundle id, slug and scheme are an App Store identity change, and the Clerk scheme allowlist and SSO redirects derive from `scheme: "veltai"`. A human must decide (see STATUS.md).
 - The app is fully navigable keyless in a dev build (mock-seeded stores) — that is the Expo Go development mode, protected by the release-build guard above.
 - `LICENSE` is Expo scaffolding boilerplate and does not license this codebase; the default is all rights reserved until the owner picks one.
+
+## Entitlement and limits
+
+- **The free/Pro split is enforced SERVER-side** (`backend/internal/entitlement`) as ONE policy table wrapping the authenticated mux — a new route is FREE by default and must be listed to be gated, so the whole paid surface is auditable in one file. A client-only gate is bypassable by anyone holding a valid token.
+- **Never gated, permanently**: manual/search/barcode logging, reading your own data, account management, data export, account deletion. Gated: AI scans beyond the daily free allowance, AI insights/brief/query/rebuild, and the Strava/WHOOP integrations — everything with real marginal cost.
+- The gate **fails closed**: an unverifiable entitlement returns 503 (not 402 — the user may well be paying and we could not check), a missing identity 401, a misconfigured gate 503. Free-tier limits are env-tunable (`LUMO_FREE_SCANS_PER_DAY`, `LUMO_GATING_ENABLED`) so generosity changes without a redeploy.
+- The free scan quota counts existing `scan_sessions` rows for the day rather than a new counter table — every paid Gemini call already writes exactly one, so there is no second source of truth to drift.
+- **Rate limiting sits after auth and before entitlement**: it keys on the verified user id, and rejecting a flood in memory avoids running a subscription + scan-count DB lookup per request. Per-process by design (documented ceiling).
+- **`TRIAL_DAYS` (7) is the single source of truth** for every trial mention; the RevenueCat dashboard must match it, because the store is what actually charges. A mismatch is a 3.1.2 rejection and a chargeback risk.
+
+## Untrusted input
+
+- Image bounds are checked with `image.DecodeConfig` (header only) BEFORE any full decode: the byte-size cap bounds the *compressed* payload, not the decoded bitmap, so it is no defence against a decompression bomb.
+- Every goroutine that touches image bytes carries its own `recover()` — Go's recover only covers the goroutine that defers it, so a parent-only recover protects nothing.
+- **Model output is untrusted input**: Gemini's JSON is range-clamped and length-truncated before it reaches the DB (NaN/Inf rejected). A hallucinated or hostile response must never write absurd values.
+- User text reaches a prompt ONLY inside a delimited `<user_data>` block, with a system-prompt rule that content there is data and never instructions; the delimiters are stripped from the content so it cannot forge its own closing tag.
+- The scan-correction endpoint feeds a GLOBAL calibration table, so its inputs are bounded — one user must not be able to skew every user's confidence bands.
+
+## Operational posture
+
+- Startup **fails loudly** on missing `DATABASE_URL` or `CLERK_SECRET_KEY`, and on a localhost `LUMO_BASE_URL` in production; every other absent secret logs a warning naming the feature that will 503. A process that answers a green `/health` while 401ing every request is worse than one that refuses to boot.
+- JWT verification pins the issuer (`CLERK_ISSUER`) and rejects non-session token types: Clerk signs every token for an instance with the same keys, so without this a JWT-template token minted for another service would authenticate here as a full session.
+- The Expo dev origin is in the CORS allowlist only outside production.
+- A RevenueCat grant with no expiry gets a **bounded** default TTL — nil must never mean "never expires", or a single malformed event is permanent free Pro. `TRANSFER` requires consistent preconditions and no-ops rather than deleting a target row it cannot justify.
+
+## Offline queue
+
+- The gym flow (create session → N exercises → complete) is queued as **ONE ordered unit** with a shared idempotency key: steps run only after the create succeeds and against the id it returned, so a half-flush can never orphan exercises. Replay cannot create a second session (backend partial unique index on the idempotency key).
+- A FULL workout always writes even if the day is already logged — silently discarding exercises someone just performed is worse than a second session row. The dashboard quick-log keeps its once-a-day guard.

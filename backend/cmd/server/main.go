@@ -13,11 +13,13 @@ import (
 	"lumo/backend/internal/cuisine"
 	"lumo/backend/internal/db"
 	"lumo/backend/internal/energy"
+	"lumo/backend/internal/entitlement"
 	"lumo/backend/internal/food"
 	"lumo/backend/internal/goals"
 	"lumo/backend/internal/gym"
 	"lumo/backend/internal/httpx"
 	"lumo/backend/internal/integrations"
+	"lumo/backend/internal/ratelimit"
 	"lumo/backend/internal/recipes"
 	"lumo/backend/internal/scan"
 	"lumo/backend/internal/scan/pipeline"
@@ -25,6 +27,20 @@ import (
 )
 
 func main() {
+	// Fail LOUDLY on misconfiguration rather than serving a process that 401s
+	// every request behind a green health check. Warnings name the features
+	// that will degrade to 503 so a partial deploy is visible in the logs.
+	fatal, warn := config.Validate()
+	for _, w := range warn {
+		log.Printf("config warning: %s", w)
+	}
+	if len(fatal) > 0 {
+		for _, f := range fatal {
+			log.Printf("config ERROR: %s", f)
+		}
+		log.Fatal("refusing to start with an invalid configuration")
+	}
+
 	pool, err := db.Connect(context.Background())
 	if err != nil {
 		log.Fatalf("db: %v", err)
@@ -91,7 +107,18 @@ func main() {
 	aiSvc.Routes(api)
 	go runRebuildSweeps(aiSvc)
 
-	mux.Handle("/api/", cors(auth.Middleware(auth.NewClerkVerifier())(jsonFallback(api))))
+	// Free/Pro enforcement wraps the authenticated mux: identity is already
+	// verified by the time the gate runs, and the whole gated surface lives in
+	// one policy table (internal/entitlement). Ordering matters — auth first,
+	// then entitlement, then the routes.
+	gate := entitlement.New(subs, scanStore, entitlement.LoadConfig())
+	// Rate limiting sits AFTER auth (it keys on the verified user id) and
+	// BEFORE entitlement, so a flood is rejected in memory instead of running a
+	// subscription + scan-count DB lookup per request. Built once — a limiter
+	// constructed per request has no memory and enforces nothing.
+	limiter := ratelimit.New(ratelimit.LoadLimits(), nil)
+	mux.Handle("/api/", cors(auth.Middleware(auth.NewClerkVerifier())(
+		limiter.Middleware(gate.Middleware(jsonFallback(api))))))
 
 	srv := &http.Server{
 		Addr:              config.Addr(),

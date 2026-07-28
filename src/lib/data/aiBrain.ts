@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { api, ApiError } from '@/lib/api';
 import { hasAiConsent } from '@/lib/ai/consent';
 import type { AIAnomaly, AIBrainProfile, AIInsight, MorningBrief } from '@/lib/types';
+import { handleUpgradeRequired } from '@/lib/billing/upgradePrompt';
 
 /** Today's morning brief, or null when there's none / not enough data. Marks it
  *  shown (best-effort) once fetched. Fetches NOTHING until the one-time
@@ -140,6 +141,9 @@ export function useAIQuery(): {
       }
       return res.answer ?? '';
     } catch (e) {
+      // 402 = the server's entitlement gate refused: present the paywall rather
+      // than the "AI unavailable" state, which would be a lie.
+      if (await handleUpgradeRequired(e)) return '';
       // 503 = AI unavailable; any other error also surfaces the unavailable UI.
       if (mounted.current) setUnavailable(true);
       if (e instanceof ApiError && e.status === 503) return '';

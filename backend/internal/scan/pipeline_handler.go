@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"lumo/backend/internal/auth"
+	"lumo/backend/internal/config"
 	"lumo/backend/internal/db"
 	"lumo/backend/internal/httpx"
 	"lumo/backend/internal/scan/pipeline"
@@ -264,6 +265,19 @@ func aggregateEstimates(estimates []pipeline.FoodEstimate) (name string, quantit
 // the nutrition-label scan (POST /api/scan/label). These are additive — the
 // existing /api/scan and /api/scan/confirm routes (Register) are untouched.
 func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineStore, q db.Querier) {
+	// Backpressure: the pipeline runs detached from the request, so without a
+	// cap every request spawns an unbounded goroutine doing megabytes of image
+	// work. Slots are acquired BEFORE any row is written (no orphan 'analyzing'
+	// rows) and never queued — a full pool answers 503 immediately.
+	// ponytail: per-registration channel rather than a package global, so tests
+	// can size it via LUMO_SCAN_CONCURRENCY; main.go registers exactly once.
+	concurrency := config.EnvInt("LUMO_SCAN_CONCURRENCY", 4)
+	if concurrency < 1 {
+		concurrency = 1
+	}
+	sem := make(chan struct{}, concurrency)
+	runTimeout := time.Duration(config.EnvInt("LUMO_SCAN_TIMEOUT_SEC", 120)) * time.Second
+
 	mux.HandleFunc("POST /api/scan/pipeline", func(w http.ResponseWriter, r *http.Request) {
 		// Accepts EITHER the original single-image body (backward compatible)
 		// OR a 1–3 element `images` array with per-image angle hints (Phase 13).
@@ -323,8 +337,32 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 				httpx.Error(w, http.StatusRequestEntityTooLarge, "image too large")
 				return
 			}
+			// maxImageBytes caps the COMPRESSED payload; a small file can still
+			// declare a gigapixel bitmap. Reject on the header alone, before
+			// anything allocates per pixel. A format we cannot parse locally
+			// (heic/webp) is still left to Gemini, as before.
+			if err := pipeline.CheckImageBounds(bytes); errors.Is(err, pipeline.ErrImageTooLarge) {
+				httpx.Error(w, http.StatusRequestEntityTooLarge, "image dimensions too large")
+				return
+			}
 			images = append(images, pipeline.AngleImage{Bytes: bytes, MimeType: raw.mime, Angle: raw.angle})
 		}
+
+		// Acquire a pipeline slot BEFORE writing any row (so a rejection leaves
+		// no orphan 'analyzing' row) and never queue: a full pool answers 503.
+		select {
+		case sem <- struct{}{}:
+		default:
+			w.Header().Set("Retry-After", "1")
+			httpx.Error(w, http.StatusServiceUnavailable, "scan capacity reached, retry shortly")
+			return
+		}
+		handedOff := false
+		defer func() {
+			if !handedOff {
+				<-sem
+			}
+		}()
 
 		date := req.Date
 		if date == "" {
@@ -346,8 +384,11 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 		}
 		start := time.Now()
 		// Detach from the request context — the handler returns immediately.
+		// The goroutine owns the semaphore slot from here and its own timeout.
+		handedOff = true
 		go func() {
-			bg, cancel := context.WithTimeout(context.Background(), 90*time.Second)
+			defer func() { <-sem }()
+			bg, cancel := context.WithTimeout(context.Background(), runTimeout)
 			defer cancel()
 			runScanPipeline(bg, images, userID, logID, sessionID, gem, q, store, start)
 		}()

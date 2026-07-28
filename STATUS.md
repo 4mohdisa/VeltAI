@@ -24,10 +24,18 @@ Ask-Lumo; first-party analytics with a persistent opt-out; account deletion
 (Clerk identity + cascading data delete); data export; offline queue with
 idempotency; Strava/WHOOP import logic incl. cross-source dedupe.
 
+**Free vs Pro (server-enforced, `backend/internal/entitlement`):** FREE =
+manual/search/barcode logging, all gym features, your own data, dashboards,
+energy balance, export, account management and deletion, plus
+`LUMO_FREE_SCANS_PER_DAY` (default 3) AI scans a day. PRO = unlimited AI scans,
+AI insights / morning brief / Ask-Lumo / brain rebuild, and the Strava + WHOOP
+integrations. Enforced by one policy table wrapping the authed mux, returning
+402 with an upgrade payload that the client turns into the paywall.
+
 **Stubbed / deliberately absent:** Apple Health (the fake UI was removed in the
 Phase 14 audit — the guarded no-op seam `src/lib/health/appleHealth.ts` is
 where a real native module lands); voice meal logging (removed — it was a
-simulation); no feature is gated behind the `pro` entitlement yet.
+simulation).
 
 **Blocked on services/humans:** live auth (no Clerk keys), real purchases (no
 RevenueCat keys/products), device use of the API (backend not deployed),
@@ -35,9 +43,9 @@ Strava/WHOOP (no registered apps), submission itself (Apple Developer account
 in compliance screening).
 
 **Verification baseline** (must stay green): backend `go build ./... && go vet
-./... && gofmt -l . && go test ./... -count=1` → 24 packages, race-clean; app
-`npx tsc --noEmit && npx eslint src/ && npx jest` → clean, 0 errors, 317 tests;
-`cd web && npm run build` → static export clean. Route coverage 84/84.
+./... && gofmt -l . && go test ./... -count=1` → 29 packages, race-clean; app
+`npx tsc --noEmit && npm run lint && npm test` → clean, 0 errors, 344 tests;
+`cd web && npm run build` → static export clean.
 
 ## Remaining human actions (ordered)
 
@@ -58,13 +66,10 @@ in compliance screening).
    (Apple + Google SSO, email-code strategy, `veltai://` allowlist) and
    RevenueCat (products, default Offering, **`pro`** entitlement, hosted
    paywall design, webhook) per CONFIG.md.
-5. **Decide what Pro actually gates.** `useEntitlement` works and is consumed,
-   but no feature is gated — selling an auto-renewing subscription that
-   unlocks nothing risks rejection under 3.1.2(a) (ongoing value) and 2.3.1.
-   Either gate features before submission or rewrite the paywall promise.
-6. **Decide the trial length.** CONFIG.md and the store metadata say **7-day**;
-   the Notion plan says **14-day**. RevenueCat's configuration is the source of
-   truth at purchase time — pick one and make all three agree.
+5. **Set the RevenueCat dashboard to a 7-day trial** to match the app. The
+   code now derives every trial mention from one constant (`TRIAL_DAYS`), so
+   the only remaining mismatch risk is the dashboard itself. (The Notion plan
+   said 14 days; the repo's 7 was chosen — see DECISIONS.md.)
 7. **Create and seed the demo account**: create the review user in Clerk, then
    `go run backend/scripts/seed_demo_account.go -user <clerk_id>`; put the
    credentials in App Store Connect → App Review notes.
@@ -90,7 +95,10 @@ in compliance screening).
 | Medium | Cross-source workout dedupe is a date+type+duration(±10min) heuristic because `gym_sessions` stores no start timestamp — two genuinely distinct same-type, similar-length sessions on one day from different sources will merge. Add a start timestamp to upgrade. |
 | Medium | Apple Health is not implemented. When it lands, reads **must** filter out samples Lumo itself wrote, or dietary-energy write-back creates a feedback loop. Needs a native module, the `com.apple.developer.healthkit` entitlement, a native rebuild, and privacy-policy/label updates. |
 | Medium | `LICENSE` is boilerplate (see human action 10). |
-| Medium | **`src/__tests__/scanSeam.test.ts` is flaky under machine load** — its 4 `startMultiPhotoScan` cases fail with `ReferenceError: setTimeout is not defined` (jest tears the environment down while the seam's promise chains are still running). Reproduces ~100% when the Go or web build runs concurrently, ~10% otherwise, and reproduces on commit `0470936`, so it predates the audit and cleanup passes. Worth diagnosing properly: the fix is either test hygiene (await the chains instead of `flush()`) **or** a real dangling promise in the multi-photo fallback path — establish which before patching the test. |
+| Medium | Rate-limit counters and webhook replay-guard state are **per-process**: with more than one API instance the effective rate limit is N× and the replay-id set isn't shared. The 24h event-age bound survives restarts and is the durable half. Fix before scaling past one instance (a `last_event_at` column + compare-and-set, and a shared limiter store). |
+| Medium | RevenueCat's webhook auth is a **static bearer header**, not an HMAC over the body — anyone who captures it can forge events. The replay/ordering guards contain blind replay, not a leaked secret. Rotate it if it is ever exposed. |
+| Low | `gym_exercises` has no `idempotency_key`, so an offline-queued exercise step whose response was lost can duplicate that exercise row on retry. The **session** is exactly-once regardless. Needs a migration. |
+| Low | The Food-tab anomaly banner fetches `GET /api/ai/insights` before AI consent. Verified harmless (that handler is a pure DB read and never calls Anthropic), and locked by a test that fails the day it starts generating. |
 | Low | Exercise `effort`/`energy` are captured in the app but absent from the backend session schema — device-local only until a migration adds them. |
 | Low | `GET /api/ai/anomalies` and its dismiss route are called by the client but not registered server-side; both are `.catch`-ed to empty/no-op so the banner simply never appears. Intentional. |
 | Low | 49 npm advisories, all dev-time tooling transitives (eslint/jest/metro chains) — none ship in the app bundle. Clear on the next Expo SDK upgrade. |

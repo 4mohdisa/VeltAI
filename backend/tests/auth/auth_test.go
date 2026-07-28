@@ -333,3 +333,54 @@ func TestNewClerkUserDeleterUnconfigured(t *testing.T) {
 		t.Fatal("expected non-nil deleter with a secret")
 	}
 }
+
+// Issuer pinning + token-type rejection. Clerk signs EVERY token for an
+// instance with the same keys — including JWT-template tokens minted for other
+// services. Without these checks any such token is a full session here.
+func TestVerifierPinsIssuerAndRejectsNonSessionTokens(t *testing.T) {
+	key, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		t.Fatal(err)
+	}
+	keyfunc := func(*jwt.Token) (any, error) { return &key.PublicKey, nil }
+	sign := func(claims jwt.MapClaims) string {
+		s, err := jwt.NewWithClaims(jwt.SigningMethodRS256, claims).SignedString(key)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s
+	}
+	const iss = "https://clerk.example.com"
+	pinned := &auth.JWTVerifier{Keyfunc: keyfunc, Issuer: iss}
+	exp := time.Now().Add(time.Hour).Unix()
+
+	if _, err := pinned.Verify(context.Background(),
+		sign(jwt.MapClaims{"sub": "user_1", "exp": exp, "iss": iss})); err != nil {
+		t.Fatalf("correct issuer rejected: %v", err)
+	}
+	// A validly-signed token from a DIFFERENT issuer must not authenticate.
+	if _, err := pinned.Verify(context.Background(),
+		sign(jwt.MapClaims{"sub": "user_1", "exp": exp, "iss": "https://evil.example.com"})); err == nil {
+		t.Fatal("token from a different issuer was ACCEPTED")
+	}
+	// No issuer claim at all, while pinning is on.
+	if _, err := pinned.Verify(context.Background(),
+		sign(jwt.MapClaims{"sub": "user_1", "exp": exp})); err == nil {
+		t.Fatal("token with no issuer was ACCEPTED while pinning is configured")
+	}
+	// A non-session token type (e.g. a JWT template for another service).
+	if _, err := pinned.Verify(context.Background(),
+		sign(jwt.MapClaims{"sub": "user_1", "exp": exp, "iss": iss, "typ": "m2m"})); err == nil {
+		t.Fatal("a non-session token type was ACCEPTED as a session")
+	}
+	// Unpinned (CLERK_ISSUER unset) still verifies signature + expiry.
+	unpinned := &auth.JWTVerifier{Keyfunc: keyfunc}
+	if _, err := unpinned.Verify(context.Background(),
+		sign(jwt.MapClaims{"sub": "user_1", "exp": exp, "iss": "anything"})); err != nil {
+		t.Fatalf("unpinned verifier should still accept a valid token: %v", err)
+	}
+	if _, err := unpinned.Verify(context.Background(),
+		sign(jwt.MapClaims{"sub": "user_1", "exp": time.Now().Add(-time.Hour).Unix()})); err == nil {
+		t.Fatal("expired token accepted")
+	}
+}

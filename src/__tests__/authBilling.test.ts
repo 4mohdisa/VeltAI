@@ -20,6 +20,7 @@ import {
   presentPaywall,
   restorePurchases,
   getCustomerInfo,
+  TRIAL_DAYS,
   type CustomerInfo,
   type PurchasesModule,
 } from '@/lib/billing/purchases';
@@ -247,5 +248,33 @@ describe('hosted paywall outcome mapping', () => {
   test('unavailable with no module and no key (Expo Go dev mode)', async () => {
     __setPurchasesUIModule(null);
     expect(await presentPaywall()).toBe('unavailable');
+  });
+});
+
+// --- Trial length: one number, every surface ---------------------------------
+// A mismatch between displayed and charged terms is an App Store 3.1.2
+// rejection and a chargeback risk, so every user-facing mention of the trial
+// must derive from TRIAL_DAYS rather than hardcoding a number.
+describe('trial length consistency', () => {
+  const read = (p: string) => require('fs').readFileSync(require('path').join(__dirname, '..', '..', p), 'utf8');
+
+  test('TRIAL_DAYS is the single source of truth and matches the documented dashboard value', () => {
+    expect(TRIAL_DAYS).toBe(7);
+    // CONFIG.md tells the operator what to set in the RevenueCat dashboard.
+    expect(read('CONFIG.md')).toContain(`${TRIAL_DAYS}-day trial`);
+  });
+
+  test('no in-app surface hardcodes a trial length', () => {
+    for (const f of [
+      'src/app/onboarding/paywall.tsx',
+      'src/app/onboarding/preview.tsx',
+      'src/app/legal/terms.tsx',
+    ]) {
+      const src = read(f);
+      expect(src).toContain('TRIAL_DAYS');
+      // No literal "<n>-day ... trial" copy that could drift from the constant.
+      expect(src).not.toMatch(/\d+-day free trial/);
+      expect(src).not.toMatch(/Free \d+-day trial/);
+    }
   });
 });

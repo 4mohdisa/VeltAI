@@ -4,9 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
+	"unicode/utf8"
 
 	"lumo/backend/internal/auth"
 	"lumo/backend/internal/config"
@@ -48,6 +51,40 @@ type Service struct {
 	Store Store
 	LLM   LLM
 	Now   func() time.Time // injectable clock for tests
+
+	briefs briefCache
+}
+
+type briefEntry struct{ day, brief string }
+
+// briefCache memoizes the morning brief per (user, calendar day) so a loop
+// over the plain GET /api/ai/morning-brief cannot bill the LLM once per
+// request. Zero value is ready to use.
+// ponytail: in-process and per-instance, one entry per user, no eviction —
+// move it to a briefs table if the API ever runs multi-instance or the user
+// count makes the map worth bounding.
+type briefCache struct {
+	mu      sync.Mutex
+	entries map[string]briefEntry
+}
+
+func (c *briefCache) get(uid, day string) (string, bool) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	e, ok := c.entries[uid]
+	if !ok || e.day != day {
+		return "", false
+	}
+	return e.brief, true
+}
+
+func (c *briefCache) put(uid, day, brief string) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.entries == nil {
+		c.entries = map[string]briefEntry{}
+	}
+	c.entries[uid] = briefEntry{day: day, brief: brief}
 }
 
 func NewService(store Store, llm LLM) *Service {
@@ -187,7 +224,7 @@ func (s *Service) RunRebuildSweep(ctx context.Context) error {
 
 func (s *Service) generateInsights(ctx context.Context, b Brain) []Insight {
 	summary, _ := json.Marshal(b)
-	raw, err := s.LLM.Complete(ctx, insightsSystem, "User data summary:\n"+string(summary))
+	raw, err := s.LLM.Complete(ctx, insightsSystem, dataBlock("user_data", "User data summary:\n"+string(summary)))
 	if err == nil {
 		if ins, perr := ParseInsights(raw); perr == nil {
 			return ins
@@ -234,6 +271,18 @@ func (s *Service) dismiss(w http.ResponseWriter, r *http.Request) {
 func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	uid := auth.UserID(ctx)
+	// "Today"/"yesterday" are calendar days in the configured timezone
+	// (LUMO_TIMEZONE), not the server's zone, so the brief matches the dates
+	// users log against. Same day key as config.Today(), but off the
+	// injectable clock so tests can cross the boundary.
+	now := s.Now().In(config.Timezone())
+	day := now.Format("2006-01-02")
+	// One LLM call per user per day: the brief is a plain GET, so without
+	// this a loop over it bills unboundedly.
+	if brief, ok := s.briefs.get(uid, day); ok {
+		httpx.JSON(w, http.StatusOK, map[string]string{"brief": brief})
+		return
+	}
 	d, err := s.fetch(ctx, uid)
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, "failed to load data")
@@ -243,13 +292,16 @@ func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 		httpx.JSON(w, http.StatusOK, notEnoughData)
 		return
 	}
-	// "Yesterday" is a calendar day in the configured timezone (LUMO_TIMEZONE),
-	// not the server's zone, so the brief matches the dates users log against.
-	cal, protein, logged := totalsOn(d.logs, s.Now().In(config.Timezone()).AddDate(0, 0, -1))
+	cal, protein, logged := totalsOn(d.logs, now.AddDate(0, 0, -1))
 	brief := fallbackBrief(cal, protein, logged, d.goal, d.streak)
 	facts := briefFacts(cal, protein, logged, d.goal, d.streak)
-	if raw, lerr := s.LLM.Complete(ctx, briefSystem, facts); lerr == nil && strings.TrimSpace(raw) != "" {
-		brief = capSentence(strings.TrimSpace(raw), 499)
+	if raw, lerr := s.LLM.Complete(ctx, briefSystem, dataBlock("user_data", facts)); lerr == nil {
+		if t := strings.TrimSpace(raw); t != "" {
+			brief = capSentence(t, 499)
+		}
+		// Cache only once a call actually billed, so a transient LLM outage
+		// serves the fallback and retries rather than sticking all day.
+		s.briefs.put(uid, day, brief)
 	}
 	httpx.JSON(w, http.StatusOK, map[string]string{"brief": brief})
 }
@@ -269,6 +321,14 @@ func (s *Service) query(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "question is required")
 		return
 	}
+	// The question is concatenated into a paid LLM prompt, so it needs its own
+	// cap — the shared 20MB body limit is nowhere near a sane prompt budget.
+	// Counted in runes so a non-ASCII question gets the same allowance.
+	max := config.EnvInt("LUMO_MAX_QUESTION_CHARS", 500)
+	if n := utf8.RuneCountInString(q); n > max {
+		httpx.Error(w, http.StatusBadRequest, fmt.Sprintf("question is too long: %d characters, limit is %d", n, max))
+		return
+	}
 	d, err := s.fetch(ctx, uid)
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, "failed to load data")
@@ -284,7 +344,8 @@ func (s *Service) query(w http.ResponseWriter, r *http.Request) {
 		"goals":    d.goal,
 		"streak":   d.streak,
 	})
-	answer, err := s.LLM.Complete(ctx, querySystem, "Data summary:\n"+string(summary)+"\n\nQuestion: "+q)
+	prompt := dataBlock("user_data", "Data summary:\n"+string(summary)) + "\n\n" + dataBlock("user_question", q)
+	answer, err := s.LLM.Complete(ctx, querySystem, prompt)
 	if err != nil {
 		httpx.Error(w, http.StatusServiceUnavailable, "AI is unavailable right now")
 		return

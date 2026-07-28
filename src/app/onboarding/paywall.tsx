@@ -23,7 +23,7 @@ import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
-import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement } from '@/lib/billing/purchases';
+import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement, TRIAL_DAYS } from '@/lib/billing/purchases';
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { onboardingPayload, useOnboardingStore } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
@@ -172,8 +172,8 @@ export default function PaywallScreen() {
           </View>
         ))}
         <Text variant="footnote" color={color.secondaryLabel} style={{ marginTop: space.md }}>
-          Plans and pricing are shown on the next screen. 7-day free trial, auto-renews, cancel anytime
-          in Settings.
+          Plans and pricing are shown on the next screen. {TRIAL_DAYS}-day free trial, auto-renews,
+          cancel anytime in Settings.
         </Text>
       </View>
     </OnbScaffold>
