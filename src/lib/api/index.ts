@@ -5,9 +5,10 @@
 // Field names are snake_case, matching the Postgres schema
 // (supabase/migrations/20260711000001_initial_schema.sql).
 
-// Mirrors backend/internal/config/config.go config.BaseURL — the ONE place to
-// update when the backend is deployed.
-const BASE_URL = 'http://localhost:8080';
+// Deploy-time config, no code edit needed: set EXPO_PUBLIC_API_URL to the
+// deployed backend origin (see CONFIG.md). Dev default matches
+// backend/internal/config/config.go config.BaseURL.
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080';
 
 export class ApiError extends Error {
   status: number;
@@ -828,12 +829,17 @@ function mapBrainToProfile(b: AiBrain): AIBrainProfile {
 
 // --- Endpoints -----------------------------------------------------------------
 
+// GET /api/export — the user's own data, one array of rows per table.
+type ExportDocument = Record<string, unknown>;
+
 export const api = {
   profile: {
     get: () => req.get<Profile>('/api/profile'),
     update: (patch: { display_name?: string; avatar_url?: string }) => req.patch<Profile>('/api/profile', patch),
-    // Permanently deletes the account (cascades to every user table server-side).
+    // Permanently deletes the account (Clerk identity + cascade to every user table).
     delete: () => req.del<{ deleted: boolean }>('/api/profile'),
+    // Everything the user owns, keyed by table (GDPR access / privacy posture).
+    export: () => req.get<ExportDocument>('/api/export'),
   },
 
   onboarding: {
@@ -953,7 +959,9 @@ export const api = {
 
   energy: {
     getBalance: (date?: string) => req.get<EnergyBalance>('/api/energy-balance', { date }),
-    getWeek: () => req.get<WeeklyEnergyBalance>('/api/energy-balance/week'),
+    // end = the client's LOCAL date anchoring the 7-day window (server clock
+    // may sit in a different calendar day near midnight).
+    getWeek: (end?: string) => req.get<WeeklyEnergyBalance>('/api/energy-balance/week', { end }),
   },
 
   integrations: {

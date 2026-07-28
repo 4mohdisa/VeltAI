@@ -68,7 +68,9 @@ func main() {
 
 	// Authenticated /api routes.
 	api := http.NewServeMux()
-	auth.RegisterProfile(api, profiles)
+	auth.RegisterProfileWithIdentity(api, profiles,
+		auth.NewClerkUserDeleter(config.Env("CLERK_SECRET_KEY", "")))
+	auth.RegisterExport(api, pool)
 	food.Register(api, food.NewPGStore(pool), food.NewSearchClient(config.Env("USDA_API_KEY", "DEMO_KEY")))
 	gym.RegisterWithEngine(api, gym.NewPGStore(pool), gym.NewParamEngine(pool))
 	gym.RegisterSchedule(api, gym.NewSchedulePGStore(pool))

@@ -1,5 +1,5 @@
 // Serving-size picker — short sheet to choose a serving before saving a food
-// picked from manual search (C9). X discards, Done saves. Mocked save (toast).
+// picked from manual search (C9). X discards, Done logs to today's slot.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -11,6 +11,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
+import { logMeal, slotForNow } from '@/lib/data';
 
 const SERVINGS = [50, 100, 150, 200];
 
@@ -26,6 +27,13 @@ export default function ServingPickerScreen() {
       title={name}
       onClose={() => router.canGoBack() && router.back()}
       onDone={() => {
+        // ponytail: search catalog is kcal-only, so macros log as 0.
+        // 'search' isn't an EntryMethod — 'manual' matches the saved-foods path.
+        logMeal(
+          slotForNow(),
+          { name, quantityG: Number(serving), calories: kcal, protein: 0, carbs: 0, fat: 0 },
+          'manual',
+        );
         showToast({ message: `Added ${name}.`, tone: 'success' });
         router.replace('/(tabs)/food');
       }}

@@ -15,6 +15,8 @@ import (
 	"sort"
 	"strings"
 	"testing"
+
+	"lumo/backend/internal/auth"
 )
 
 const migrationsDir = "../../../supabase/migrations"
@@ -85,6 +87,61 @@ func TestEveryProfilesReferenceCascades(t *testing.T) {
 	// means the regex broke, not that the schema shrank.
 	if found < 15 {
 		t.Errorf("only %d profiles(id) references found — parser drift?", found)
+	}
+}
+
+// TestExportCoversEveryUserTable: GET /api/export must include every table
+// holding user data. Derived from the migrations themselves: any table created
+// with a `references profiles(id)` column, plus any table whose FK references
+// one of those, must appear in auth.ExportTableNames(). A new user-data
+// migration without an export entry fails here.
+func TestExportCoversEveryUserTable(t *testing.T) {
+	sqls := allSQL(t)
+	createRe := regexp.MustCompile(`create table (?:if not exists )?([a-z_]+)\s*\(([^;]*?)\);`)
+	owned := map[string]bool{}  // tables with a direct profiles(id) reference
+	body := map[string]string{} // table -> column block
+	for _, sql := range sqls {
+		for _, m := range createRe.FindAllStringSubmatch(sql, -1) {
+			body[m[1]] = m[2]
+			if strings.Contains(m[2], "references profiles") {
+				owned[m[1]] = true
+			}
+		}
+	}
+	// Child tables: FK to an owned table.
+	child := map[string]bool{}
+	fkRe := regexp.MustCompile(`references\s+([a-z_]+)\s*\(`)
+	for table, cols := range body {
+		if owned[table] {
+			continue
+		}
+		for _, m := range fkRe.FindAllStringSubmatch(cols, -1) {
+			if owned[m[1]] {
+				child[table] = true
+			}
+		}
+	}
+
+	covered := map[string]bool{}
+	for _, n := range auth.ExportTableNames() {
+		covered[n] = true
+	}
+
+	for table := range owned {
+		if !covered[table] {
+			t.Errorf("user table %q not covered by GET /api/export", table)
+		}
+	}
+	for table := range child {
+		if !covered[table] {
+			t.Errorf("child user table %q not covered by GET /api/export", table)
+		}
+	}
+	if !covered["profiles"] {
+		t.Error("profiles not covered by GET /api/export")
+	}
+	if len(owned) < 20 {
+		t.Errorf("only %d owned tables parsed — parser drift?", len(owned))
 	}
 }
 

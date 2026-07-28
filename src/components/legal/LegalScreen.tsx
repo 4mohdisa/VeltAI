@@ -15,14 +15,17 @@ export function LegalScreen({
   updated,
   intro,
   sections,
+  backLabel,
 }: {
   title: string;
   updated: string;
   intro?: string;
   sections: LegalSection[];
+  /** Only when the caller knows the previous screen — the docs are pushed from several places. */
+  backLabel?: string;
 }): JSX.Element {
   return (
-    <Screen title={title} showBack backLabel="Settings">
+    <Screen title={title} showBack backLabel={backLabel}>
       <Text variant="footnote" color={color.secondaryLabel}>
         Last updated {updated}
       </Text>

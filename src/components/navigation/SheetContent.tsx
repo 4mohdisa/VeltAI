@@ -6,7 +6,7 @@
 // background is solid WHITE (content is never glass). No back chevron on sheets
 // (only when a sheet pushes deeper).
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GlassCloseButton, GlassSaveButton } from './GlassButtons';
@@ -62,16 +62,21 @@ export function SheetContent({
         </View>
       </View>
 
-      {scroll ? (
-        <ScrollView
-          contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['3xl'] }}
-          keyboardShouldPersistTaps="handled"
-        >
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={{ flex: 1, padding: space.xl, gap: space['2xl'] }}>{children}</View>
-      )}
+      {/* Keyboard avoidance: fields low in the sheet (e.g. log-session Notes)
+          must not hide behind the keyboard. */}
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        {scroll ? (
+          <ScrollView
+            contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['3xl'] }}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+          >
+            {children}
+          </ScrollView>
+        ) : (
+          <View style={{ flex: 1, padding: space.xl, gap: space['2xl'] }}>{children}</View>
+        )}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

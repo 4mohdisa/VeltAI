@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { api } from '@/lib/api';
-import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi, subscriptionFromApi, todayISO } from './mappers';
+import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi, todayISO } from './mappers';
 import { hasPendingCreate } from './mutations';
 import { useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type Streak } from './gymStore';
@@ -15,11 +15,9 @@ import { useUserStore, type UserProfile } from './userStore';
 import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
 import {
   foodCatalog,
-  mockHealth,
   mockMacros,
   mockPlan,
   mockPlanReason,
-  mockSubscription,
   mockUpcomingDays,
   recentFoods,
   type DayStatus,
@@ -240,21 +238,7 @@ export function usePlan() {
   return { plan: mockPlan, reason: mockPlanReason };
 }
 
-/** Subscription / trial status — backend status when reachable, mock otherwise. */
-export function useSubscription() {
-  const [sub, setSub] = useState(mockSubscription);
-  useEffect(() => {
-    api.subscription
-      .get()
-      .then((s) => {
-        const mapped = subscriptionFromApi(s, mockSubscription);
-        if (mapped) setSub(mapped);
-      })
-      .catch(() => {}); // backend down / signed out → the mock is the offline experience
-  }, []);
-  return sub;
-}
+// (useSubscription was deleted in the Phase 14 audit: the subscription screen
+// now reads entitlement truthfully from the billing seam instead of rendering
+// the mock as if it were the user's real plan.)
 
-// --- Apple Health (already async-shaped in lib/healthkit) -------------------
-
-export { mockHealth };

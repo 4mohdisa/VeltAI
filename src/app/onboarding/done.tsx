@@ -24,10 +24,11 @@ export default function DoneScreen() {
       scale.value = withTiming(1, { duration: motion.duration.slow });
       opacity.value = withTiming(1, { duration: motion.duration.slow });
     }
+    // 750ms: the 700ms entrance animation finishes before the hand-off.
     const t = setTimeout(() => {
       showToast({ message: 'Welcome to Lumo!', tone: 'success' });
       replace('/(tabs)');
-    }, 600);
+    }, 750);
     return () => clearTimeout(t);
   }, [opacity, reduceMotion, scale]);
 

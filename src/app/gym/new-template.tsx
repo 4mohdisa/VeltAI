@@ -4,8 +4,8 @@
 // `id`) prefills from the server and only patches name/duration — the backend has
 // no bulk exercise replace on PATCH, so exercise edits on an existing template
 // are out of scope here (kept read-only). All API calls are best-effort.
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, View, type TextInput } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { showToast } from '@/components/display/toastStore';
@@ -13,6 +13,8 @@ import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { Button, TextField } from '@/components/forms';
 import { ExercisePicker, type PlannedValues } from '@/components/gym';
 import { Screen } from '@/components/navigation/Screen';
+import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { track } from '@/lib/analytics';
@@ -42,6 +44,7 @@ export default function NewTemplateScreen() {
   const [items, setItems] = useState<Item[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const durationRef = useRef<TextInput>(null);
 
   // Edit mode: prefill from the server. Degrades to a blank form on any failure.
   useEffect(() => {
@@ -126,13 +129,25 @@ export default function NewTemplateScreen() {
         />
       }
     >
-      <TextField label="Name" value={name} onChangeText={setName} placeholder="Push Day" />
       <TextField
+        label="Name"
+        value={name}
+        onChangeText={setName}
+        placeholder="Push Day"
+        returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => durationRef.current?.focus()}
+      />
+      <TextField
+        // TextField doesn't declare `ref`, but it spreads rest props onto its
+        // TextInput and React 19 forwards ref-in-props — so this focuses it.
+        {...({ ref: durationRef } as object)}
         label="Duration (min, optional)"
         value={duration}
         onChangeText={setDuration}
         keyboardType="number-pad"
         placeholder="—"
+        returnKeyType="done"
       />
 
       <View style={{ gap: space.md }}>
@@ -141,13 +156,23 @@ export default function NewTemplateScreen() {
         </Text>
 
         {items.length === 0 ? (
-          <Text variant="footnote" color={color.tertiaryLabel}>
+          <Text variant="footnote" color={color.secondaryLabel}>
             {editing ? 'No exercises on this workout.' : 'Add exercises to build your workout.'}
           </Text>
         ) : (
           items.map((it, i) => {
+            const removeAt = () => setItems((prev) => prev.filter((_, idx) => idx !== i));
+            const confirmDelete = () =>
+              Alert.alert('Remove exercise?', undefined, [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Delete', style: 'destructive', onPress: removeAt },
+              ]);
             const inner = (
               <View
+                accessibilityActions={editing ? undefined : [{ name: 'delete', label: 'Remove exercise' }]}
+                onAccessibilityAction={(e) => {
+                  if (e.nativeEvent.actionName === 'delete') confirmDelete();
+                }}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -167,6 +192,17 @@ export default function NewTemplateScreen() {
                     {summarize(it.exercise, it.planned)}
                   </Text>
                 </View>
+                {!editing ? (
+                  <Pressable
+                    onPress={confirmDelete}
+                    haptic={false}
+                    minTapTarget={false}
+                    hitSlop={8}
+                    accessibilityLabel={`Remove ${it.exercise.name}`}
+                  >
+                    <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
+                  </Pressable>
+                ) : null}
               </View>
             );
             // Edit mode is name/duration-only, so exercise rows are read-only there.
@@ -176,13 +212,19 @@ export default function NewTemplateScreen() {
               <SwipeableRow
                 key={`${it.exercise.id}-${i}`}
                 confirmTitle="Remove exercise?"
-                onDelete={() => setItems((prev) => prev.filter((_, idx) => idx !== i))}
+                onDelete={removeAt}
               >
                 {inner}
               </SwipeableRow>
             );
           })
         )}
+
+        {editing && items.length > 0 ? (
+          <Text variant="footnote" color={color.secondaryLabel}>
+            Exercises can’t be edited on a saved workout yet.
+          </Text>
+        ) : null}
 
         {!editing ? (
           <Button

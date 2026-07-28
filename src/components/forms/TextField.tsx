@@ -65,7 +65,9 @@ export function TextField({
                 textAlignVertical: 'top' as const,
               }
             : {
-                height: layout.buttonHeight,
+                // minHeight (not height): the 17pt font scales with Dynamic
+                // Type and must grow the box instead of clipping (HIG).
+                minHeight: layout.buttonHeight,
                 paddingVertical: 0,
                 textAlignVertical: 'center' as const,
               }),

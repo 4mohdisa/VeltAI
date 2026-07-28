@@ -18,7 +18,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
-import { lookupBarcodeAsync } from '@/lib/data';
+import { lookupBarcodeAsync, logMeal, slotForNow } from '@/lib/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
 
 export default function BarcodeConfirmScreen() {
@@ -94,6 +94,18 @@ export default function BarcodeConfirmScreen() {
       title="Confirm product"
       onClose={() => router.canGoBack() && router.back()}
       onDone={() => {
+        logMeal(
+          slotForNow(),
+          {
+            name: current.name,
+            quantityG: current.quantityG,
+            calories: current.calories,
+            protein: current.protein,
+            carbs: current.carbs,
+            fat: current.fat,
+          },
+          'barcode',
+        );
         showToast({ message: `Added ${current.name}.`, tone: 'success' });
         router.replace('/(tabs)/food');
       }}

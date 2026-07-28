@@ -29,7 +29,7 @@ function Dot({ filled, index }: { filled: boolean; index: number }) {
 
   const animStyle = useAnimatedStyle(() => ({
     width: 8 + 8 * v.value,
-    backgroundColor: interpolateColor(v.value, [0, 1], [color.gray300, color.black]),
+    backgroundColor: interpolateColor(v.value, [0, 1], [color.gray400, color.black]),
   }));
 
   return <Animated.View style={[{ height: 8, borderRadius: radius.full }, animStyle]} />;
@@ -37,7 +37,11 @@ function Dot({ filled, index }: { filled: boolean; index: number }) {
 
 export function ProgressDots({ current, total }: ProgressDotsProps) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
+    <View
+      accessibilityRole="progressbar"
+      accessibilityLabel={`Step ${current} of ${total}`}
+      style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}
+    >
       {Array.from({ length: total }, (_, i) => (
         <Dot key={i} index={i} filled={i + 1 <= current} />
       ))}

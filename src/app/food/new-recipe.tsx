@@ -155,8 +155,10 @@ export default function NewRecipeScreen() {
       {ingredients.length > 0 ? (
         <Card>
           <Text variant="footnote" color={color.gray600}>
-            Total: {formatNumber(totals.calories)} kcal · {Math.round(totals.protein)}g protein ·{' '}
-            {Math.round(totals.carbs)}g carbs · {Math.round(totals.fat)}g fat
+            {/* Kcal-only catalog → all-zero macros are meaningless; show calories only. */}
+            {totals.protein + totals.carbs + totals.fat === 0
+              ? `Total: ${formatNumber(totals.calories)} kcal`
+              : `Total: ${formatNumber(totals.calories)} kcal · ${Math.round(totals.protein)}g protein · ${Math.round(totals.carbs)}g carbs · ${Math.round(totals.fat)}g fat`}
           </Text>
         </Card>
       ) : null}

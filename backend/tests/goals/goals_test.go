@@ -766,6 +766,29 @@ func TestGoalsPutUpsert(t *testing.T) {
 	}
 }
 
+// Calorie safety band (guideline 1.4.1): PUT /api/goals must reject targets
+// outside [1200, 10000] and never persist them.
+func TestGoalsPutRejectsUnsafeCalorieTarget(t *testing.T) {
+	mux, _ := newMux()
+
+	for _, unsafe := range []float64{0, 800, 1199, 10001, 50000} {
+		rr := do(t, mux, "PUT", "/api/goals", "user_1", map[string]any{"calorie_target": unsafe})
+		if rr.Code != http.StatusBadRequest {
+			t.Errorf("calorie_target=%v: got %d, want 400", unsafe, rr.Code)
+		}
+	}
+	// Nothing was persisted by the rejected writes.
+	if rr := do(t, mux, "GET", "/api/goals", "user_1", nil); rr.Code != http.StatusNotFound {
+		t.Fatalf("goals exist after rejected PUTs: %d, body %s", rr.Code, rr.Body.String())
+	}
+	// Band edges are accepted.
+	for _, ok := range []float64{1200, 10000} {
+		if rr := do(t, mux, "PUT", "/api/goals", "user_1", map[string]any{"calorie_target": ok}); rr.Code != http.StatusOK {
+			t.Errorf("calorie_target=%v: got %d, want 200", ok, rr.Code)
+		}
+	}
+}
+
 // ---------------------------------------------------------------------------
 // body weight
 // ---------------------------------------------------------------------------

@@ -66,6 +66,16 @@ describe('scenario table', () => {
     expect(mayHydrateCachedData(t.state)).toBe(false);
   });
 
+  test('bridge SIGN_OUT after account deletion is swallowed (no bounce to sign-in)', () => {
+    // The deletion purge ends the Clerk session, which makes the bridge report a
+    // SIGN_OUT — that must not re-route the user away from onboarding.
+    const deleted = transition('signedIn', { type: 'ACCOUNT_DELETED' });
+    expect(deleted.effects).toContain('route:onboarding');
+    const t = transition(deleted.state, { type: 'SIGN_OUT' });
+    expect(t.state).toBe('deleted');
+    expect(t.effects).toEqual([]);
+  });
+
   test('foreground after >30 min idle → revalidate silently', () => {
     const t = transition('signedIn', { type: 'FOREGROUND_AFTER_IDLE' });
     expect(t.state).toBe('signedIn'); // no visible change unless validation fails

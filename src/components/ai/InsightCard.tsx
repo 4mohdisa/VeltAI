@@ -103,7 +103,7 @@ export function InsightCard(props: {
               onPress={() => setExpanded((v) => !v)}
               haptic={false}
               minTapTarget={false}
-              hitSlop={8}
+              hitSlop={12}
               style={{ alignSelf: 'flex-start' }}
               accessibilityLabel={expanded ? 'Show less' : 'Show more'}
             >

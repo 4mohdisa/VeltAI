@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { OptionCard } from '@/components/onboarding/OptionCard';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { navigate } from '@/lib/nav';
 import { space } from '@/lib/design/tokens';
@@ -20,6 +21,7 @@ const LEVELS: { label: string; value: ActivityLevel }[] = [
 export default function ActivityScreen() {
   const activity = useOnboardingStore((s) => s.activity_level);
   const setActivity = useOnboardingStore((s) => s.setActivity);
+  const reduceMotion = useReduceMotion();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => () => {
@@ -30,6 +32,10 @@ export default function ActivityScreen() {
     setActivity(value);
     haptics.selection();
     if (timer.current) clearTimeout(timer.current);
+    if (reduceMotion) {
+      navigate('/onboarding/cuisine');
+      return;
+    }
     timer.current = setTimeout(() => navigate('/onboarding/cuisine'), 300);
   };
 

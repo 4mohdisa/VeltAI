@@ -3,7 +3,7 @@
 // subtitle, the screen body, and a sticky footer slot for the CTA. Deliberately
 // NOT the old OnboardingStep (which is bound to the legacy 19-step steps.ts).
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -61,6 +61,8 @@ export function OnbScaffold({
               onPress={handleBack}
               accessibilityLabel="Go back"
               minTapTarget={false}
+              // 36pt visual circle + 4pt hitSlop = 44pt effective target (HIG).
+              hitSlop={4}
               style={{
                 width: 36,
                 height: 36,
@@ -99,27 +101,32 @@ export function OnbScaffold({
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: bg }} edges={['top', 'bottom']}>
-      {scroll ? (
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ ...bodyPad, paddingTop: space.md, paddingBottom: space['2xl'] }}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          {header}
-          <View style={{ marginTop: title || subtitle ? space['2xl'] : space.lg }}>{children}</View>
-        </ScrollView>
-      ) : (
-        <View style={{ flex: 1, ...bodyPad, paddingTop: space.md }}>
-          {header}
-          <View style={{ flex: 1, marginTop: title || subtitle ? space['2xl'] : space.lg }}>
-            {children}
+      {/* Keyboard avoidance: keeps focused fields and the footer CTA visible
+          on the form steps (measurements, signup, targets). */}
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        {scroll ? (
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ ...bodyPad, paddingTop: space.md, paddingBottom: space['2xl'] }}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+            showsVerticalScrollIndicator={false}
+          >
+            {header}
+            <View style={{ marginTop: title || subtitle ? space['2xl'] : space.lg }}>{children}</View>
+          </ScrollView>
+        ) : (
+          <View style={{ flex: 1, ...bodyPad, paddingTop: space.md }}>
+            {header}
+            <View style={{ flex: 1, marginTop: title || subtitle ? space['2xl'] : space.lg }}>
+              {children}
+            </View>
           </View>
-        </View>
-      )}
-      {footer ? (
-        <View style={{ ...bodyPad, paddingTop: space.md, paddingBottom: space.sm }}>{footer}</View>
-      ) : null}
+        )}
+        {footer ? (
+          <View style={{ ...bodyPad, paddingTop: space.md, paddingBottom: space.sm }}>{footer}</View>
+        ) : null}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

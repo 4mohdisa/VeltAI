@@ -141,6 +141,39 @@ func (s *PGStore) CreateImportedSession(ctx context.Context, in ImportedSession)
 
 	var sessionID string
 	col := dedupeColumn(in.Provider)
+
+	// Cross-source duplicate guard: the same workout arriving from a SECOND
+	// source (a manual log, or another provider) must not double-count in the
+	// energy balance. Compare against same-day sessions that did NOT come from
+	// this provider (same-provider re-imports dedupe exactly by activity id
+	// below). Heuristic: same session_type + duration within tolerance — see
+	// IsCrossSourceDuplicate.
+	{
+		q := `SELECT session_type, duration_minutes FROM gym_sessions WHERE user_id = $1 AND date = $2::date`
+		if col != "" {
+			q += ` AND ` + col + ` IS NULL`
+		}
+		rows, qerr := tx.Query(ctx, q, in.UserID, in.Date)
+		if qerr != nil {
+			return false, qerr
+		}
+		var existing []ExistingSession
+		for rows.Next() {
+			var e ExistingSession
+			if err := rows.Scan(&e.SessionType, &e.DurationMinutes); err != nil {
+				rows.Close()
+				return false, err
+			}
+			existing = append(existing, e)
+		}
+		rows.Close()
+		if err := rows.Err(); err != nil {
+			return false, err
+		}
+		if IsCrossSourceDuplicate(in.SessionType, in.DurationMinutes, existing) {
+			return false, tx.Commit(ctx) // skipped — already counted once
+		}
+	}
 	if col == "" {
 		// No dedupe column: plain insert, always "created".
 		err = tx.QueryRow(ctx, `

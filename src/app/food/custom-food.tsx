@@ -52,7 +52,7 @@ export default function CustomFoodScreen() {
         label="Calories per 100g"
         value={macros.calories}
         onChangeText={set('calories')}
-        keyboardType="numeric"
+        keyboardType="decimal-pad"
         placeholder="kcal"
         error={calorieError}
         required
@@ -60,19 +60,19 @@ export default function CustomFoodScreen() {
 
       <View style={{ flexDirection: 'row', gap: space.md }}>
         <View style={{ flex: 1 }}>
-          <TextField label="Protein (g)" value={macros.protein} onChangeText={set('protein')} keyboardType="numeric" />
+          <TextField label="Protein (g)" value={macros.protein} onChangeText={set('protein')} keyboardType="decimal-pad" />
         </View>
         <View style={{ flex: 1 }}>
-          <TextField label="Carbs (g)" value={macros.carbs} onChangeText={set('carbs')} keyboardType="numeric" />
+          <TextField label="Carbs (g)" value={macros.carbs} onChangeText={set('carbs')} keyboardType="decimal-pad" />
         </View>
       </View>
 
       <View style={{ flexDirection: 'row', gap: space.md }}>
         <View style={{ flex: 1 }}>
-          <TextField label="Fat (g)" value={macros.fat} onChangeText={set('fat')} keyboardType="numeric" />
+          <TextField label="Fat (g)" value={macros.fat} onChangeText={set('fat')} keyboardType="decimal-pad" />
         </View>
         <View style={{ flex: 1 }}>
-          <TextField label="Fibre (g)" value={macros.fibre} onChangeText={set('fibre')} keyboardType="numeric" />
+          <TextField label="Fibre (g)" value={macros.fibre} onChangeText={set('fibre')} keyboardType="decimal-pad" />
         </View>
       </View>
     </SheetContent>

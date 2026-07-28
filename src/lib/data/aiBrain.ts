@@ -7,22 +7,27 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { api, ApiError } from '@/lib/api';
+import { hasAiConsent } from '@/lib/ai/consent';
 import type { AIAnomaly, AIBrainProfile, AIInsight, MorningBrief } from '@/lib/types';
 
 /** Today's morning brief, or null when there's none / not enough data. Marks it
- *  shown (best-effort) once fetched. */
+ *  shown (best-effort) once fetched. Fetches NOTHING until the one-time
+ *  third-party-AI consent has been given (5.1.2(i)) — the card renders null. */
 export function useMorningBrief(): { brief: MorningBrief | null; loading: boolean } {
   const [brief, setBrief] = useState<MorningBrief | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
-    api.ai
-      .getMorningBrief()
+    hasAiConsent()
+      .then((ok) => {
+        if (!ok || !active) return null;
+        return api.ai.getMorningBrief();
+      })
       .then((b) => {
-        if (!active) return;
+        if (!active || !b) return;
         setBrief(b);
-        if (b) void api.ai.markBriefShown(b.id); // best-effort, no-op today
+        void api.ai.markBriefShown(b.id); // best-effort, no-op today
       })
       .finally(() => {
         if (active) setLoading(false);

@@ -99,7 +99,7 @@ export function SavedMealsList() {
               <Text variant="footnote" color={color.gray500}>
                 {formatCalories(m.total_calories)} · {m.items.length} {m.items.length === 1 ? 'item' : 'items'}
               </Text>
-              <Text variant="caption" color={color.gray400}>
+              <Text variant="caption" color={color.gray500}>
                 {lastLoggedLabel(m.last_logged)}
               </Text>
               <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>

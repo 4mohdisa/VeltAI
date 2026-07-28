@@ -278,10 +278,15 @@ func (h handler) getBalance(w http.ResponseWriter, r *http.Request) {
 
 func (h handler) getWeek(w http.ResponseWriter, r *http.Request) {
 	userID := auth.UserID(r.Context())
-	today := config.Today()
+	// The client passes its LOCAL date as ?end= so the 7-day window matches the
+	// calendar its food/gym logs are stamped with; default = server calendar.
+	today := r.URL.Query().Get("end")
+	if today == "" {
+		today = config.Today()
+	}
 	end, err := time.Parse(dateLayout, today)
 	if err != nil {
-		httpx.Error(w, http.StatusInternalServerError, "clock error")
+		httpx.Error(w, http.StatusBadRequest, "end must be YYYY-MM-DD")
 		return
 	}
 	start := end.AddDate(0, 0, -6)

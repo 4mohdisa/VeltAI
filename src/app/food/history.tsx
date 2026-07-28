@@ -1,16 +1,14 @@
 // C12 · Meal history
 // List by date, descending. Each day shows date, total calories, and gym status
-// (checkmark or dash). Tap a day → that day's food log.
+// (checkmark or dash). Plain rows — no per-day drill-down view exists yet.
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
-import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
@@ -53,11 +51,9 @@ export default function MealHistoryScreen() {
       ) : (
         <Card padded={false}>
           {HISTORY.map((day, i) => (
-          <Pressable
+          <View
             key={day.date}
-            haptic={false}
-            minTapTarget={false}
-            onPress={() => router.push('/(tabs)/food')}
+            accessible
             accessibilityLabel={`${day.date}, ${formatCalories(day.kcal)}, gym ${day.gym ? 'done' : 'missed'}`}
             style={{
               flexDirection: 'row',
@@ -81,8 +77,7 @@ export default function MealHistoryScreen() {
               size={20}
               color={day.gym ? color.black : color.gray400}
             />
-            <Icon name="chevron-forward" size={18} color={color.gray400} />
-          </Pressable>
+          </View>
           ))}
         </Card>
       )}

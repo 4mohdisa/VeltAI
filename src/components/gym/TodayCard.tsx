@@ -74,7 +74,7 @@ export function TodayCard(): JSX.Element | null {
                 </Text>
               ))}
               {more > 0 ? (
-                <Text variant="footnote" color={color.tertiaryLabel}>
+                <Text variant="footnote" color={color.secondaryLabel}>
                   +{more} more
                 </Text>
               ) : null}
@@ -104,7 +104,7 @@ export function TodayCard(): JSX.Element | null {
           onPress={() => router.push('/gym/schedule' as Href)}
           haptic={false}
           minTapTarget={false}
-          hitSlop={8}
+          hitSlop={10}
           accessibilityLabel="Set schedule"
           style={{ alignSelf: 'flex-start' }}
         >

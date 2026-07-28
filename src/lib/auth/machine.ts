@@ -84,6 +84,10 @@ export function transition(state: AuthState, event: AuthEvent): Transition {
         : stay(state);
 
     case 'SIGN_OUT':
+      // After ACCOUNT_DELETED, the purge's executeSignOut ends the Clerk session,
+      // which makes the bridge report a SIGN_OUT — swallow it so the user stays
+      // at the start of onboarding instead of bouncing to the sign-in screen.
+      if (state === 'deleted') return stay(state);
       return { state: 'signedOut', effects: ['purgeAllState', 'route:signIn'] };
 
     case 'ACCOUNT_DELETED':

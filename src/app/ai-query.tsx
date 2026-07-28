@@ -13,6 +13,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { TypingIndicator } from '@/components/ai';
 import { useAIQuery } from '@/lib/data/aiBrain';
+import { ensureAiConsent } from '@/lib/ai/consent';
 import { color, space, radius, layout, surface, categoryAccent } from '@/lib/design/tokens';
 
 const SUGGESTIONS = [
@@ -34,6 +35,9 @@ export default function AIQueryScreen() {
   const onSend = async () => {
     const q = input.trim();
     if (!q || loading) return;
+    // 5.1.2(i): the question + data summary are processed by Anthropic —
+    // one-time disclosure before the first send.
+    if (!(await ensureAiConsent())) return;
     setAttempted(true);
     setQuestion(q);
     setAnswer('');
@@ -98,11 +102,11 @@ export default function AIQueryScreen() {
           ) : answer ? (
             <View style={{ gap: space.sm }}>
               {question ? (
-                <Text variant="footnote" color={color.tertiaryLabel}>
+                <Text variant="footnote" color={color.secondaryLabel}>
                   {question}
                 </Text>
               ) : null}
-              <Text variant="body" color={color.label} style={{ lineHeight: 26 }}>
+              <Text variant="body" color={color.label}>
                 {answer}
               </Text>
             </View>
@@ -122,6 +126,7 @@ export default function AIQueryScreen() {
                 key={chip}
                 onPress={() => setInput(chip)}
                 minTapTarget={false}
+                hitSlop={6}
                 accessibilityLabel={chip}
                 style={{
                   paddingHorizontal: space.md,
@@ -149,6 +154,7 @@ export default function AIQueryScreen() {
               <TextField
                 value={input}
                 onChangeText={setInput}
+                accessibilityLabel="Ask a question"
                 placeholder="e.g. How's my protein intake?"
                 editable={!loading}
                 returnKeyType="send"

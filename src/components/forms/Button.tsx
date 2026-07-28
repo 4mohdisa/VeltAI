@@ -9,7 +9,7 @@ import { ActivityIndicator, View, type StyleProp, type ViewStyle } from 'react-n
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, layout, radius, space } from '@/lib/design/tokens';
+import { accent, color, layout, radius, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'destructive';
@@ -38,7 +38,10 @@ const labelColors: Record<ButtonVariant, string> = {
   primary: color.white,
   secondary: color.black,
   tertiary: color.black,
-  destructive: color.black,
+  // Destructive actions read in the functional red so they can never be
+  // mistaken for a neutral action mid-flow (HIG). Copy + confirmation still
+  // carry the intent; the colour is the last-glance signal.
+  destructive: accent.red,
 };
 
 export function Button({

@@ -81,7 +81,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
             Weight over time
           </Text>
           {/* Reserve a fixed row for the tap tooltip so the chart never jumps. */}
-          <Text variant="caption" color={color.secondaryLabel} style={{ height: 16, textAlign: 'center' }}>
+          <Text variant="caption" color={color.secondaryLabel} style={{ minHeight: 16, textAlign: 'center' }}>
             {selectedBar != null && chartData[selectedBar]
               ? `${chartData[selectedBar].weight ?? '-'} kg`
               : ' '}
@@ -104,6 +104,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
                   onPress={() => setSelectedBar((sb) => (sb === i ? null : i))}
                   haptic={false}
                   minTapTarget={false}
+                  hitSlop={{ left: 2, right: 2, top: 8, bottom: 8 }}
                   accessibilityLabel={`${shortDate(e.date)}, ${e.weight ?? 'no'} kilograms`}
                   style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT }}
                 >
@@ -125,11 +126,12 @@ export default function ExerciseProgressScreen(): JSX.Element {
               <Text
                 key={i}
                 variant="caption"
-                color={color.tertiaryLabel}
+                color={color.secondaryLabel}
                 numberOfLines={1}
                 style={{ flex: 1, textAlign: 'center' }}
               >
-                {shortDate(e.date)}
+                {/* Ten labels truncate — label every other bar, anchored to the newest. */}
+                {(chartData.length - 1 - i) % 2 === 0 ? shortDate(e.date) : ''}
               </Text>
             ))}
           </View>

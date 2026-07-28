@@ -8,6 +8,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -276,5 +277,59 @@ func TestProfileDelete(t *testing.T) {
 	mux.ServeHTTP(rec, authedRequest(http.MethodDelete, "/api/profile", ""))
 	if rec.Code != http.StatusOK {
 		t.Fatalf("second DELETE status = %d, want 200 (idempotent)", rec.Code)
+	}
+}
+
+// Account deletion must remove the sign-in identity too (5.1.1(v)): the
+// identity deleter runs first, and a failure there aborts the row delete so we
+// never claim a deletion that left the account able to sign in.
+func TestProfileDeleteRemovesIdentityFirst(t *testing.T) {
+	st := newFakeStore()
+	st.profiles["user_1"] = auth.Profile{ID: "user_1"}
+	var gotID string
+	mux := http.NewServeMux()
+	auth.RegisterProfileWithIdentity(mux, st, func(_ context.Context, id string) error {
+		gotID = id
+		return nil
+	})
+
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodDelete, "/api/profile", ""))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("DELETE status = %d, body %s", rec.Code, rec.Body)
+	}
+	if gotID != "user_1" {
+		t.Fatalf("identity deleter called with %q, want user_1", gotID)
+	}
+	if _, ok := st.profiles["user_1"]; ok {
+		t.Fatal("profile was not deleted")
+	}
+}
+
+func TestProfileDeleteIdentityFailureAbortsRowDelete(t *testing.T) {
+	st := newFakeStore()
+	st.profiles["user_1"] = auth.Profile{ID: "user_1"}
+	mux := http.NewServeMux()
+	auth.RegisterProfileWithIdentity(mux, st, func(context.Context, string) error {
+		return errors.New("clerk unreachable")
+	})
+
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, authedRequest(http.MethodDelete, "/api/profile", ""))
+	if rec.Code != http.StatusBadGateway {
+		t.Fatalf("DELETE status = %d, want 502", rec.Code)
+	}
+	if _, ok := st.profiles["user_1"]; !ok {
+		t.Fatal("profile row deleted despite identity-delete failure — account would claim deleted while still able to sign in")
+	}
+}
+
+// NewClerkUserDeleter: "" secret → nil (dev/hermetic posture, no identity call).
+func TestNewClerkUserDeleterUnconfigured(t *testing.T) {
+	if d := auth.NewClerkUserDeleter(""); d != nil {
+		t.Fatal("expected nil deleter with no secret")
+	}
+	if d := auth.NewClerkUserDeleter("sk_test_x"); d == nil {
+		t.Fatal("expected non-nil deleter with a secret")
 	}
 }

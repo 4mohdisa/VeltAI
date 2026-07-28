@@ -1,12 +1,11 @@
-// Connected apps — link Strava / WHOOP over OAuth and import their workouts, plus
-// an Apple Health row. Reads GET /api/integrations; connect opens the provider's
-// OAuth URL in a browser (expo-web-browser), sync imports activities. When the
-// backend has no credentials configured the connect call 503s and the row shows a
-// "Coming soon" toast rather than an error. Offline-safe: a failed list degrades
-// to every provider showing "Not connected".
+// Connected apps — link Strava / WHOOP over OAuth and import their workouts.
+// Reads GET /api/integrations; connect opens the provider's OAuth URL in a
+// browser (expo-web-browser), sync imports activities. When the backend has no
+// credentials configured the connect call 503s and the row explains the
+// provider isn't available yet. Offline-safe: a failed list degrades to every
+// provider showing "Not connected".
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -19,7 +18,6 @@ import { color, space } from '@/lib/design/tokens';
 import { api, ApiError } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import type { IntegrationConnection } from '@/lib/types';
-import { isAvailable as healthAvailable } from '@/lib/health/appleHealth';
 
 type OAuthProvider = {
   key: string;
@@ -191,27 +189,6 @@ export default function IntegrationsScreen() {
         })
       )}
 
-      {/* Apple Health — native module, no OAuth. */}
-      <Card>
-        <View style={{ gap: space.md }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-            <Text variant="statSmall">❤️</Text>
-            <View style={{ flex: 1, gap: space.xs }}>
-              <Text variant="title3" color={color.label}>
-                Apple Health
-              </Text>
-              <Text variant="footnote" color={color.secondaryLabel}>
-                {healthAvailable() ? 'Read active energy & workouts.' : 'Requires an app update to enable.'}
-              </Text>
-            </View>
-          </View>
-          <Button
-            title={healthAvailable() ? 'Manage' : 'Manage (stub)'}
-            variant="secondary"
-            onPress={() => router.push('/profile/apple-health')}
-          />
-        </View>
-      </Card>
     </Screen>
   );
 }

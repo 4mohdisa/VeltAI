@@ -1,7 +1,6 @@
 // D6 · Gym session history
 // Reverse-chronological list of past sessions: date, duration, effort, notes.
 // No XP, no verification, no photo — gym logging is a single tap.
-import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
@@ -11,24 +10,17 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
-import { haptics } from '@/lib/haptics';
 import { formatDuration } from '@/lib/formatting';
 import { useGym } from '@/lib/data';
 
 export default function GymHistoryScreen() {
-  const [refreshing, setRefreshing] = useState(false);
   const {
     data: { sessions },
     isLoading: loading,
   } = useGym();
-  const onRefresh = useCallback(() => {
-    haptics.impactLight(); // pull-to-refresh trigger
-    setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 700);
-  }, []);
 
   return (
-    <Screen grouped title="Session history" showBack backLabel="Gym" refreshing={refreshing} onRefresh={onRefresh}>
+    <Screen grouped title="Session history" showBack backLabel="Gym">
       {loading ? (
         <SkeletonList rows={4} />
       ) : sessions.length === 0 ? (

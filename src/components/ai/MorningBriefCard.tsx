@@ -128,7 +128,7 @@ export function MorningBriefCard(): JSX.Element | null {
               onPress={doExpand}
               haptic={false}
               minTapTarget={false}
-              hitSlop={8}
+              hitSlop={12}
               style={{ alignSelf: 'flex-start' }}
               accessibilityLabel="Read more"
             >

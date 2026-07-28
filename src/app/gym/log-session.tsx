@@ -12,9 +12,12 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
-import { logGymSession } from '@/lib/data';
+import { logGymSession, useGym } from '@/lib/data';
 
 export default function LogSessionScreen() {
+  const {
+    data: { streak },
+  } = useGym();
   const [duration, setDuration] = useState(60);
   const [effort, setEffort] = useState(7);
   const [energy, setEnergy] = useState(3);
@@ -29,7 +32,12 @@ export default function LogSessionScreen() {
       title="Log session"
       onClose={close}
       onDone={() => {
-        logGymSession({ durationMin: duration, effort, notes: notes.trim() || undefined });
+        if (streak.gymLoggedToday) {
+          showToast({ message: 'Already logged today.', tone: 'info' });
+          close();
+          return;
+        }
+        logGymSession({ durationMin: duration, effort, energy, notes: notes.trim() || undefined });
         showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
         close();
       }}

@@ -195,6 +195,23 @@ describe('gymStore', () => {
     expect(gym().sessions).toEqual(after.sessions);
   });
 
+  test('logGymSession retains the energy level (Phase 14: was silently discarded)', () => {
+    gym().logGymSession({ durationMin: 30, energy: 4 });
+    expect(gym().sessions[0]).toMatchObject({ durationMin: 30, energy: 4 });
+  });
+
+  test('applyFreeze marks the chosen upcoming day, not always today (Phase 14)', () => {
+    const before = gym().streak.freezesAvailable;
+    gym().applyFreeze(0); // today = calendar index 29
+    expect(gym().calendar.find((d) => d.index === 29)!.status).toBe('freeze');
+    expect(gym().streak.freezesAvailable).toBe(before - 1);
+    // A future-day freeze (outside the 30-day window) spends the token only.
+    const cal = gym().calendar.map((d) => d.status);
+    gym().applyFreeze(3);
+    expect(gym().calendar.map((d) => d.status)).toEqual(cal);
+    expect(gym().streak.freezesAvailable).toBe(before - 2);
+  });
+
   test('logGymSession updates longest when the streak passes it', () => {
     useGymStore.setState((s) => ({ streak: { ...s.streak, current: 21, longest: 21 } }));
     gym().logGymSession();
@@ -314,14 +331,24 @@ describe('settings store', () => {
     settings().setLanguage('ar');
     settings().setGoalMode('custom');
     settings().setMacroSplitBy('percent');
-    settings().setHealthConnected(false);
     settings().reset();
     const s = settings();
     expect(s.units).toEqual(METRIC_PREFERENCES);
     expect(s.languageOverride).toBeNull();
     expect(s.goalMode).toBe('ai');
     expect(s.macroSplitBy).toBe('grams');
-    expect(s.healthConnected).toBe(true);
     expect(s.customGoals).toEqual(aiGoals());
+  });
+
+  test('custom calorie targets are clamped to the safety band (1.4.1)', () => {
+    settings().setCustomGoals({ calories: 0 });
+    expect(settings().customGoals.calories).toBe(1200);
+    settings().setCustomGoals({ calories: 50000 });
+    expect(settings().customGoals.calories).toBe(10000);
+    settings().setCustomGoals({ calories: 2200 });
+    expect(settings().customGoals.calories).toBe(2200);
+    // Non-calorie fields pass through untouched.
+    settings().setCustomGoals({ protein: 5 });
+    expect(settings().customGoals.protein).toBe(5);
   });
 });

@@ -14,7 +14,7 @@
 `Calorie & workout tracking`  *(26)*
 
 ## Promotional text (max 170 chars)
-`Log food by photo, barcode or voice. Track workouts with real ACSM calorie math — not a flat guess. See your true energy balance. Private by design, no ads.`  *(154)*
+`Log food by photo, barcode or label scan. Track workouts with real ACSM calorie math — not a flat guess. See your true energy balance. Private by design, no ads.`  *(159)*
 
 ## Keywords (max 100 chars, comma-separated)
 `calorie counter,macro tracker,food diary,workout log,gym,fitness,nutrition,weight loss,ACSM,streak`  *(98)*
@@ -41,7 +41,6 @@ LOG FOOD IN SECONDS
 • Scan a meal with your camera — a multi-pass pipeline estimates portions and macros
 • Scan a nutrition label to capture packaged foods exactly
 • Search a food database or scan a barcode
-• Describe a meal by voice
 • Quick-add calories when you're in a hurry
 Lumo learns your typical portions over time and gets more accurate the more you log.
 
@@ -62,7 +61,7 @@ computes the numbers; AI only writes the plain-English summary.
 
 CONNECT YOUR GEAR (optional)
 Import workouts from Strava and WHOOP so device activities use the same calorie
-engine. Apple Health support is on the way.
+engine.
 
 PRIVATE BY DESIGN
 Your health data is yours. It is never sold, never used for advertising, and there
@@ -85,22 +84,27 @@ SDKs, no third-party analytics that identify you, no data shared with data broke
 **Data linked to your identity** (tied to your account):
 | Type | Examples | Purpose |
 |---|---|---|
-| Health & Fitness | food logs, workouts, body stats, calorie/energy data | App functionality |
-| Contact Info | email (via the auth provider) | App functionality, account management |
-| User Content | meal photos (processed, not retained), notes | App functionality |
+| Health & Fitness | food logs, workouts, body stats, calorie/energy data (user-typed meal logs count as health data under Apple's definition) | App functionality |
+| Contact Info | email, name (via the auth provider) | App functionality, account management |
+| User Content | meal photos (processed by Google Gemini to produce the estimate, not retained by Lumo), AI query text (processed by Anthropic) | App functionality |
 | Identifiers | account user ID | App functionality |
+| Purchases | subscription/purchase history (RevenueCat, keyed to the user ID) | App functionality |
+| Usage Data | product interaction — first-party analytics events (12-event allow-list, opt-out in Settings → Privacy) | Analytics |
+| Search History | in-app food searches (sent to the food-search endpoint; query text appears in no stored log — declare only if server logging is ever added) | App functionality |
 
 **Data NOT linked to your identity:** none collected separately.
 
-**Data NOT collected:** location, contacts, browsing history, search history,
-financial info, purchases (handled by Apple), advertising data.
+**Data NOT collected:** location, contacts, browsing history, financial info,
+card details (handled by Apple), advertising data.
 
 **Third-party processors** (act on Lumo's behalf, under their own terms, only to
 provide their part of the service): authentication (Clerk), database (Supabase),
 photo/label analysis (Google Gemini), AI summaries (Anthropic), subscriptions
 (RevenueCat), optional imports (Strava, WHOOP).
 
-**Data deletion:** Settings → Delete my account removes all data (cascading delete).
+**Data deletion:** Settings → Delete my account removes the sign-in identity
+(Clerk user) and all data (cascading delete), immediately.
+**Data export:** Settings → Privacy → Export my data (GET /api/export → share sheet).
 
 ---
 

@@ -66,7 +66,7 @@ export function ConfidenceBadge({ score, breakdown }: ConfidenceBadgeProps) {
           onPress={() => setOpen((v) => !v)}
           accessibilityRole="button"
           accessibilityLabel={open ? 'Hide confidence breakdown' : 'Why this confidence?'}
-          hitSlop={space.sm}
+          hitSlop={12}
         >
           <Text variant="footnote" color={color.secondaryLabel}>
             {open ? 'Hide' : 'Why?'}
@@ -87,7 +87,7 @@ export function ConfidenceBadge({ score, breakdown }: ConfidenceBadgeProps) {
               <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
                 {f.label}
               </Text>
-              <Text variant="footnote" color={f.points >= 0 ? color.label : accent.yellow}>
+              <Text variant="footnote" color={color.label}>
                 {signed(f.points)}
               </Text>
             </View>

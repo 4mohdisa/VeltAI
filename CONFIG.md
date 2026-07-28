@@ -17,6 +17,7 @@ server after editing.
 |---|---|---|
 | `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk Dashboard → API Keys (pk_…) | Dev build: local dev auth mode (no ClerkProvider, one warning). Release build: hard config-error screen |
 | `EXPO_PUBLIC_REVENUECAT_IOS_KEY` | RevenueCat → Project → API Keys → Apple (appl_…) | Dev build: billing-disabled mode (entitlement = dev flag, default entitled). Release build: not entitled |
+| `EXPO_PUBLIC_API_URL` | Your deployed backend origin (https://…) | `http://localhost:8080` (dev only — a release build MUST set this) |
 
 ## Backend (backend/.env — see backend/.env.example)
 

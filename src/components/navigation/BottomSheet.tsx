@@ -16,7 +16,7 @@
 // open and DOWN on dismiss before it unmounts. No spring, no bounce.
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FullWindowOverlay } from 'react-native-screens';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -122,6 +122,10 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
           <View accessibilityRole="button" accessibilityLabel="Close" onTouchEnd={onClose} style={{ flex: 1 }} />
         </Animated.View>
 
+        {/* Keyboard avoidance: sheets host TextFields (edit sheets, rename,
+            targets adjust) — the panel rides above the keyboard instead of
+            being covered by it. */}
+        <KeyboardAvoidingView behavior="padding">
         <Animated.View
           testID={testID}
           accessibilityViewIsModal
@@ -155,6 +159,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
           </GestureDetector>
           <View style={{ gap: space.md }}>{children}</View>
         </Animated.View>
+        </KeyboardAvoidingView>
       </View>
     </FullWindowOverlay>
   );

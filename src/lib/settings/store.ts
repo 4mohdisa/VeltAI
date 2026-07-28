@@ -28,6 +28,34 @@ export function aiGoals(): MacroGoals {
   return deriveGoals(useUserStore.getState().profile);
 }
 
+// --- Notifications ----------------------------------------------------------
+export type NotificationPrefs = {
+  gymReminder: boolean;
+  mealReminders: boolean;
+  streakAtRisk: boolean;
+  aiNudges: boolean;
+  weeklyRecap: boolean;
+  quietFrom: Date;
+  quietTo: Date;
+};
+
+// Today at the given hour/minute (quiet-hours default seed).
+function timeToday(hours: number, minutes: number): Date {
+  const d = new Date();
+  d.setHours(hours, minutes, 0, 0);
+  return d;
+}
+
+const defaultNotificationPrefs = (): NotificationPrefs => ({
+  gymReminder: true,
+  mealReminders: true,
+  streakAtRisk: true,
+  aiNudges: true,
+  weeklyRecap: false,
+  quietFrom: timeToday(22, 0),
+  quietTo: timeToday(7, 0),
+});
+
 const seedUnits: UnitPreferences =
   mockUser.units === 'imperial' ? IMPERIAL_PREFERENCES : mockUser.units === 'metric' ? METRIC_PREFERENCES : DEFAULT_UNIT_PREFERENCES;
 
@@ -38,8 +66,7 @@ type SettingsState = {
   goalMode: GoalMode;
   customGoals: MacroGoals;
   macroSplitBy: MacroSplitBy;
-  // Apple Health connection (stub — real authorization is the native-build phase).
-  healthConnected: boolean;
+  notificationPrefs: NotificationPrefs;
   // First-party product analytics (opt-out). Off → track() no-ops and buffered
   // events are discarded (src/lib/analytics).
   analyticsEnabled: boolean;
@@ -51,8 +78,8 @@ type SettingsState = {
   setGoalMode: (mode: GoalMode) => void;
   setCustomGoals: (patch: Partial<MacroGoals>) => void;
   setMacroSplitBy: (by: MacroSplitBy) => void;
+  setNotificationPrefs: (patch: Partial<NotificationPrefs>) => void;
   resetGoalsToAi: () => void;
-  setHealthConnected: (connected: boolean) => void;
   setAnalyticsEnabled: (enabled: boolean) => void;
   /** Sign-out: back to defaults. */
   reset: () => void;
@@ -64,7 +91,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   goalMode: 'ai',
   customGoals: aiGoals(), // seeds custom fields with the derived recommendation
   macroSplitBy: 'grams',
-  healthConnected: true,
+  notificationPrefs: defaultNotificationPrefs(),
   analyticsEnabled: true,
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
@@ -73,10 +100,21 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setLanguage: (languageOverride) => set({ languageOverride }),
 
   setGoalMode: (goalMode) => set({ goalMode }),
-  setCustomGoals: (patch) => set((s) => ({ customGoals: { ...s.customGoals, ...patch } })),
+  // Calorie safety (1.4.1): a custom target outside [1200, 10000] kcal is
+  // clamped — the app must never store a starvation-level (or absurd) goal.
+  // The server enforces the same band on PUT /api/goals.
+  setCustomGoals: (patch) =>
+    set((s) => ({
+      customGoals: {
+        ...s.customGoals,
+        ...patch,
+        ...(patch.calories != null ? { calories: clampCalories(patch.calories) } : {}),
+      },
+    })),
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
+  setNotificationPrefs: (patch) =>
+    set((s) => ({ notificationPrefs: { ...s.notificationPrefs, ...patch } })),
   resetGoalsToAi: () => set({ customGoals: aiGoals() }),
-  setHealthConnected: (healthConnected) => set({ healthConnected }),
   setAnalyticsEnabled: (analyticsEnabled) => {
     set({ analyticsEnabled });
     // The privacy opt-out must survive restarts — persisted immediately,
@@ -93,9 +131,17 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       goalMode: 'ai',
       customGoals: aiGoals(),
       macroSplitBy: 'grams',
-      healthConnected: true,
+      notificationPrefs: defaultNotificationPrefs(),
     }),
 }));
+
+/** Safety band for a daily calorie target (see PUT /api/goals server-side). */
+export const CALORIE_TARGET_MIN = 1200;
+export const CALORIE_TARGET_MAX = 10000;
+
+export function clampCalories(n: number): number {
+  return Math.min(CALORIE_TARGET_MAX, Math.max(CALORIE_TARGET_MIN, Math.round(n)));
+}
 
 // --- Selectors --------------------------------------------------------------
 

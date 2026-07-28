@@ -164,6 +164,7 @@ export function ScanReviewCard({
               <Pressable
                 haptic={false}
                 minTapTarget={false}
+                hitSlop={10}
                 accessibilityLabel={`Keep ${Math.round(items[0].estimatedWeightG)} grams`}
                 onPress={() => onWeightChange(items[0].id, items[0].estimatedWeightG)}
                 style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: color.black }}
@@ -173,6 +174,7 @@ export function ScanReviewCard({
               <Pressable
                 haptic={false}
                 minTapTarget={false}
+                hitSlop={10}
                 accessibilityLabel={`Use ${Math.round(items[0].alternateWeightG)} grams`}
                 onPress={() => onWeightChange(items[0].id, items[0].alternateWeightG ?? items[0].weightG)}
                 style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: surface.card, borderWidth: 1, borderColor: color.light2 }}
@@ -256,6 +258,7 @@ export function ScanReviewCard({
                     key={q.label}
                     haptic
                     minTapTarget={false}
+                    hitSlop={10}
                     onPress={() => onWeightChange(it.id, snap(it.estimatedWeightG * q.mult, min, max))}
                     accessibilityRole="button"
                     accessibilityLabel={`Set weight to ${q.label} the estimate`}

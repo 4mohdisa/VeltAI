@@ -14,6 +14,8 @@ import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
+import { isDevBuild } from '@/lib/env';
 import { lookupBarcodeAsync } from '@/lib/data';
 
 // A barcode in our mock database (resolves) vs one that isn't (not-found path).
@@ -23,6 +25,7 @@ const UNKNOWN_CODE = '0000000000000';
 export default function BarcodeScanScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [notFound, setNotFound] = useState(false);
+  const [lookingUp, setLookingUp] = useState(false);
   const handled = useRef(false);
 
   // Database lookup only — NO AI. Found → confirm (with the scanned code so it
@@ -31,7 +34,10 @@ export default function BarcodeScanScreen() {
   const onDetected = async (code: string) => {
     if (handled.current) return;
     handled.current = true;
+    haptics.success(); // barcode caught — feedback before the lookup round-trip
+    setLookingUp(true);
     const product = await lookupBarcodeAsync(code);
+    setLookingUp(false);
     if (product) {
       router.replace({ pathname: '/food/barcode-confirm', params: { code } });
     } else {
@@ -104,12 +110,34 @@ export default function BarcodeScanScreen() {
           <Text variant="footnote" color={color.white}>
             Point at a barcode — it scans automatically
           </Text>
-          <View style={{ flexDirection: 'row', gap: space.sm }}>
-            <Button title="Simulate scan" variant="secondary" fullWidth={false} onPress={() => onDetected(KNOWN_CODE)} />
-            <Button title="Unknown code" variant="tertiary" fullWidth={false} onPress={() => onDetected(UNKNOWN_CODE)} />
-          </View>
+          {isDevBuild() ? (
+            <View style={{ flexDirection: 'row', gap: space.sm }}>
+              <Button title="Simulate scan" variant="secondary" fullWidth={false} onPress={() => onDetected(KNOWN_CODE)} />
+              <Button title="Unknown code" variant="tertiary" fullWidth={false} onPress={() => onDetected(UNKNOWN_CODE)} />
+            </View>
+          ) : null}
         </View>
       </SafeAreaView>
+
+      {/* Lookup in flight — brief overlay so the detect isn't a silent freeze. */}
+      {lookingUp ? (
+        <View
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: color.overlayStrong,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: space.xl,
+            gap: space.md,
+          }}
+        >
+          <Icon name="barcode-outline" size={44} color={color.white} />
+          <Text variant="title3" color={color.white} style={{ textAlign: 'center' }}>
+            Looking up…
+          </Text>
+        </View>
+      ) : null}
 
       {/* Not-found → no AI lookup matched; fall back to photographing the label. */}
       {notFound ? (

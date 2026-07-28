@@ -69,7 +69,7 @@ func DeriveGoals(in DeriveInput) DerivedGoals {
 		adj = 250
 	}
 
-	calories := math.Max(1200, math.Round((tdee+adj)/10)*10)
+	calories := math.Max(calorieTargetMin, math.Round((tdee+adj)/10)*10)
 	perKg := 1.8
 	if in.Goal == "muscle" {
 		perKg = 2.0

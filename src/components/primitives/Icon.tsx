@@ -35,6 +35,8 @@ const SF: Record<string, string> = {
   'person-outline': 'person',
   'chevron-back': 'chevron.left',
   'chevron-forward': 'chevron.right',
+  'chevron-up': 'chevron.up',
+  'chevron-down': 'chevron.down',
   // actions (canonical SF Symbols — HIG §10)
   add: 'plus',
   'add-circle': 'plus.circle.fill',
@@ -51,6 +53,8 @@ const SF: Record<string, string> = {
   eye: 'eye.fill',
   'eye-off': 'eye.slash.fill', //           muted variant (*.slash)
   refresh: 'arrow.clockwise', //            Sync
+  'refresh-outline': 'arrow.clockwise',
+  send: 'paperplane.fill', //               Send (Ask Lumo)
   search: 'magnifyingglass',
   filter: 'line.3.horizontal.decrease', //  Filter
   share: 'square.and.arrow.up', //          Share
@@ -124,6 +128,12 @@ const SF: Record<string, string> = {
   'people-outline': 'person.2.fill',
   'logo-apple': 'apple.logo',
   'logo-google': 'g.circle.fill',
+  'link-outline': 'link',
+  'log-out-outline': 'rectangle.portrait.and.arrow.right',
+  'pulse-outline': 'waveform.path.ecg',
+  bulb: 'lightbulb.fill',
+  'bulb-outline': 'lightbulb',
+  'cloud-offline-outline': 'icloud.slash',
 };
 
 export type IconProps = {

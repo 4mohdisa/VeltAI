@@ -1,9 +1,11 @@
 // E12 · Delete Account flow (App Store Guideline 5.1.1(v) requires this)
 // Multi-step confirmation: (1) are you sure, (2) what gets deleted, (3) type
-// DELETE, (4) final. On confirm → clear local state → sign out → back to A1.
-import { useState } from 'react';
+// DELETE, (4) final. On confirm → server deletes Clerk identity + all rows →
+// dispatch ACCOUNT_DELETED (machine purges every store/queue, ends the Clerk
+// session, RevenueCat identity resets via the bridge, routes to onboarding).
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { router, type Href } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -11,35 +13,47 @@ import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
-import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { useAppState } from '@/lib/auth/appState';
 import { api, ApiError } from '@/lib/api';
 import { showToast } from '@/components/display/toastStore';
 
 const DELETED_DATA = [
+  'Your account and sign-in identity (email, name)',
   'Your profile and onboarding answers',
   'All gym sessions and your streak',
-  'All food logs, meal photos and voice notes',
-  'Your AI plans and streak history',
-  'Your subscription is cancelled (no refund — Apple’s policy)',
+  'All food logs and body measurements',
+  'Your AI insights, plans and learning history',
+  'Connected app links (Strava, WHOOP) and their tokens',
 ];
 
 export default function DeleteAccountScreen() {
+  const { dispatch } = useAppState();
+  const navigation = useNavigation();
   const [step, setStep] = useState(0);
   const [confirmText, setConfirmText] = useState('');
   const [deleting, setDeleting] = useState(false);
 
-  // Delete server-side FIRST (cascades to every table), then sign out locally and
-  // return to onboarding. On failure, surface it and let the user retry — never
-  // sign them out believing they deleted an account that's still on the server.
+  // Back (header tap, swipe, hardware) steps BACK through the flow instead of
+  // popping the whole screen; the `deleting` guard lets the post-delete route
+  // change through (same addListener pattern as gym/session.tsx).
+  useEffect(() => {
+    return navigation.addListener('beforeRemove', (e) => {
+      if (step === 0 || deleting) return;
+      e.preventDefault();
+      setStep(step - 1);
+    });
+  }, [navigation, step, deleting]);
+
+  // Delete server-side FIRST (Clerk identity + cascading row delete), then let
+  // the machine purge local state and route. On failure, surface it and let the
+  // user retry — never sign them out believing they deleted an account that's
+  // still on the server.
   const finish = async () => {
     setDeleting(true);
     try {
       await api.profile.delete();
       showToast({ message: 'Your account has been deleted.', tone: 'success' });
-      await setHasCompletedOnboarding(false);
-      // Route to the LIVE onboarding flow (the folder route the app gate uses),
-      // not the dead (onboarding) group — see AUDIT_REPORT.md M10.
-      router.replace('/onboarding' as Href);
+      dispatch({ type: 'ACCOUNT_DELETED' });
     } catch (e) {
       showToast({
         message: e instanceof ApiError ? e.message : "Couldn't delete your account. Check your connection and try again.",
@@ -76,8 +90,8 @@ export default function DeleteAccountScreen() {
             Are you sure?
           </Text>
           <Text variant="body" color={color.gray700} style={{ textAlign: 'center' }}>
-            This permanently deletes your account. There&apos;s a 7-day grace period before everything
-            is purged.
+            This permanently deletes your account and all of your data, immediately. It cannot be
+            undone.
           </Text>
         </View>
       ) : null}
@@ -95,6 +109,10 @@ export default function DeleteAccountScreen() {
               </Text>
             </View>
           ))}
+          <Text variant="footnote" color={color.gray700}>
+            Deleting your account does not cancel an active subscription. Cancel it in the iPhone
+            Settings app → your name → Subscriptions, or you will keep being charged.
+          </Text>
         </View>
       ) : null}
 

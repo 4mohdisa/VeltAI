@@ -22,10 +22,11 @@ type GymState = {
   calendar: { index: number; status: DayStatus }[];
   sessions: GymSession[];
 
-  /** Log today's gym session: marks today, extends the streak, prepends history. */
-  logGymSession: (session?: Partial<Omit<GymSession, 'id' | 'date'>>) => void;
-  /** Spend a freeze token to protect the streak today. */
-  applyFreeze: () => void;
+  /** Log today's gym session: marks today, extends the streak, prepends history.
+   *  `energy` (1–5) is device-local only — the backend session row has no field for it. */
+  logGymSession: (session?: Partial<Omit<GymSession, 'id' | 'date'>> & { energy?: number }) => void;
+  /** Spend a freeze token to protect the streak `offsetDays` from today (0 = today). */
+  applyFreeze: (offsetDays?: number) => void;
 
   /** Sign-out: back to the seeded initial state (no user data retained). */
   reset: () => void;
@@ -62,13 +63,15 @@ export const useGymStore = create<GymState>((set) => ({
       };
     }),
 
-  applyFreeze: () =>
+  applyFreeze: (offsetDays = 0) =>
     set((s) =>
       s.streak.freezesAvailable <= 0
         ? s
         : {
             streak: { ...s.streak, freezesAvailable: s.streak.freezesAvailable - 1 },
-            calendar: s.calendar.map((d) => (d.index === 29 ? { ...d, status: 'freeze' as DayStatus } : d)),
+            // Calendar index 29 = today; future days fall outside the 30-day
+            // window, so a freeze for an upcoming day only spends the token.
+            calendar: s.calendar.map((d) => (d.index === 29 + offsetDays ? { ...d, status: 'freeze' as DayStatus } : d)),
           },
     ),
 }));

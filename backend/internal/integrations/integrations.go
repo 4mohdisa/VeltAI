@@ -64,6 +64,48 @@ type Activity struct {
 	Parameters      map[string]any // mapped onto the Phase 12 parameter system
 }
 
+// ---------------------------------------------------------------------------
+// Cross-source duplicate detection
+// ---------------------------------------------------------------------------
+
+// crossSourceToleranceMin: an import matching an existing session on the same
+// date, same session_type, with a duration within this many minutes is treated
+// as the SAME workout arriving from a second source (manual log, or another
+// provider) and skipped — the energy balance must count it once.
+// ponytail: date-granularity heuristic (gym_sessions stores no start time) —
+// two genuinely distinct same-type sessions of similar length on one day, from
+// different sources, will be merged. Store a start timestamp to upgrade.
+const crossSourceToleranceMin = 10
+
+// ExistingSession is the minimal shape of an already-stored session for
+// duplicate comparison (same user, same date; caller filters out rows from the
+// candidate's own provider — those dedupe exactly by activity id).
+type ExistingSession struct {
+	SessionType     string
+	DurationMinutes *int
+}
+
+// IsCrossSourceDuplicate reports whether the candidate import is the same
+// workout as one already stored from a different source.
+func IsCrossSourceDuplicate(candidateType string, candidateDurationMin int, existing []ExistingSession) bool {
+	if candidateDurationMin <= 0 {
+		return false // no duration → nothing to match on; import normally
+	}
+	for _, e := range existing {
+		if e.SessionType != candidateType || e.DurationMinutes == nil {
+			continue
+		}
+		d := *e.DurationMinutes - candidateDurationMin
+		if d < 0 {
+			d = -d
+		}
+		if d <= crossSourceToleranceMin {
+			return true
+		}
+	}
+	return false
+}
+
 // ImportedSession is what a synced Activity becomes in gym_sessions.
 type ImportedSession struct {
 	UserID          string

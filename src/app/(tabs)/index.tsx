@@ -26,6 +26,7 @@ import { categoryAccent, color, space } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
 import { useDashboard, logGymSession } from '@/lib/data';
+import { useGymStore } from '@/lib/data/gymStore';
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
@@ -35,6 +36,8 @@ export default function DashboardScreen() {
     refetch,
   } = useDashboard();
   const gymLogged = streak.gymLoggedToday;
+  // Real logged duration for today (undefined until logged — card renders without it).
+  const todayDurationMin = useGymStore((s) => s.sessions.find((x) => x.date === 'Today')?.durationMin);
   const [showNudge, setShowNudge] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const nextMeal = plan.find((p) => p.kind === 'meal');
@@ -90,7 +93,7 @@ export default function DashboardScreen() {
         {/* Zone 2 — gym status + nutrition */}
         <GymStatusCard
           logged={gymLogged}
-          durationMin={62}
+          durationMin={todayDurationMin}
           onLog={() => {
             logGymSession();
             showToast({ message: 'Gym logged — streak extended.', tone: 'success' });

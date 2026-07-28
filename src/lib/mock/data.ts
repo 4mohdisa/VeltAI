@@ -36,7 +36,6 @@ export type MacroKey = 'calories' | 'protein' | 'carbs' | 'fat' | 'fibre';
 export type MacroProgress = { consumed: number; target: number };
 
 // Apple Health (mock) — today's active energy + steps for the calorie cross-check.
-export const mockHealth = { connected: true, activeEnergy: 540, steps: 8240 };
 
 export const mockMacros: Record<MacroKey, MacroProgress> = {
   calories: { consumed: 1240, target: 2150 },

@@ -17,7 +17,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Description of Service',
     body: [
-      'Lumo is a food and fitness tracking app. It lets you log meals (by search, barcode, photo scan, or voice), track workouts and streaks, set calorie and macro goals, and receive AI-generated summaries and insights based on the data you log.',
+      'Lumo is a food and fitness tracking app. It lets you log meals (by search, barcode, nutrition-label scan, or photo scan), track workouts and streaks, set calorie and macro goals, and receive AI-generated summaries and insights based on the data you log.',
       'Estimates produced by the App — including photo-scan calorie counts, macro breakdowns, and AI insights — are approximations for informational purposes and are not guaranteed to be accurate.',
     ],
   },

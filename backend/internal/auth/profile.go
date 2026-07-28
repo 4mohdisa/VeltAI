@@ -3,7 +3,9 @@ package auth
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -82,8 +84,49 @@ func (s *pgProfileStore) Delete(ctx context.Context, id string) error {
 	return err
 }
 
-// RegisterProfile mounts the authenticated profile routes.
+// IdentityDeleter removes the user's identity at the auth provider (Clerk).
+// nil means "no provider configured" (hermetic tests, keyless dev) — skip.
+type IdentityDeleter func(ctx context.Context, userID string) error
+
+// NewClerkUserDeleter deletes the Clerk user via the Backend API so account
+// deletion removes the identity (email, name), not just our rows — required by
+// App Store guideline 5.1.1(v). A 404 counts as success (already gone; the
+// user.deleted webhook and this route are mutually idempotent). Returns nil
+// when no secret is configured.
+func NewClerkUserDeleter(secret string) IdentityDeleter {
+	if secret == "" {
+		return nil
+	}
+	client := &http.Client{Timeout: 10 * time.Second}
+	return func(ctx context.Context, userID string) error {
+		req, err := http.NewRequestWithContext(ctx, http.MethodDelete,
+			"https://api.clerk.com/v1/users/"+url.PathEscape(userID), nil)
+		if err != nil {
+			return err
+		}
+		req.Header.Set("Authorization", "Bearer "+secret)
+		resp, err := client.Do(req)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNotFound {
+			return nil
+		}
+		return fmt.Errorf("clerk user delete: status %d", resp.StatusCode)
+	}
+}
+
+// RegisterProfile mounts the authenticated profile routes with no identity
+// deleter (hermetic tests call this form).
 func RegisterProfile(mux *http.ServeMux, st ProfileStore) {
+	RegisterProfileWithIdentity(mux, st, nil)
+}
+
+// RegisterProfileWithIdentity mounts the profile routes; deleteIdentity (when
+// non-nil) is called BEFORE the row delete so we never report an account
+// deleted while its sign-in identity still exists.
+func RegisterProfileWithIdentity(mux *http.ServeMux, st ProfileStore, deleteIdentity IdentityDeleter) {
 	mux.HandleFunc("GET /api/profile", func(w http.ResponseWriter, r *http.Request) {
 		p, err := st.Get(r.Context(), UserID(r.Context()))
 		if err != nil {
@@ -110,12 +153,22 @@ func RegisterProfile(mux *http.ServeMux, st ProfileStore) {
 		httpx.JSON(w, http.StatusOK, p)
 	})
 
-	// DELETE /api/profile permanently removes the account. Every user table
-	// references profiles(id) ON DELETE CASCADE, so this one delete purges all of
-	// the user's data (food logs, gym, goals, scan sessions, integrations, …).
-	// Idempotent: deleting an already-absent profile is a no-op 200.
+	// DELETE /api/profile permanently removes the account: first the identity at
+	// the auth provider (Clerk user — email/name PII, ability to sign in), then
+	// our profiles row; every user table references profiles(id) ON DELETE
+	// CASCADE, so that one delete purges all of the user's data (food logs, gym,
+	// goals, scan sessions, integrations, …). If the identity delete fails we
+	// return 502 WITHOUT touching the row — never claim a deletion that didn't
+	// happen. Idempotent: deleting an already-absent profile/user is a no-op 200.
 	mux.HandleFunc("DELETE /api/profile", func(w http.ResponseWriter, r *http.Request) {
-		if err := st.Delete(r.Context(), UserID(r.Context())); err != nil {
+		id := UserID(r.Context())
+		if deleteIdentity != nil {
+			if err := deleteIdentity(r.Context(), id); err != nil {
+				httpx.Error(w, http.StatusBadGateway, "could not delete the account with the sign-in provider — try again")
+				return
+			}
+		}
+		if err := st.Delete(r.Context(), id); err != nil {
 			writeStoreErr(w, err)
 			return
 		}

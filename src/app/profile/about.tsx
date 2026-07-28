@@ -1,6 +1,7 @@
 // E11 · About
-// App version, build number, credits, third-party licenses link.
-import { Linking, View } from 'react-native';
+// App version, build number, credits. (The third-party licenses row pointed at
+// a dead domain — removed until a real licenses page exists.)
+import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
@@ -24,7 +25,6 @@ export default function AboutScreen() {
           { icon: 'pricetag-outline', label: 'Version', value: '1.0.0', kind: 'plain' },
           { icon: 'construct-outline', label: 'Build', value: '1', kind: 'plain' },
           { icon: 'people-outline', label: 'Credits', value: 'Lumo team', kind: 'plain' },
-          { icon: 'document-text-outline', label: 'Third-party licenses', onPress: () => Linking.openURL('https://veltai.app/licenses').catch(() => {}) },
         ]}
       />
     </Screen>

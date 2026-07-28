@@ -306,3 +306,47 @@ func TestGetWeekRoute(t *testing.T) {
 		t.Fatalf("day 0 intake = %v, want 0", w.Days[0].CaloriesIn)
 	}
 }
+
+// Timezone correctness: the client anchors the weekly window with ?end=<its
+// LOCAL date>, so a meal logged at 23:50 local lands in the right day even when
+// the server's calendar (LUMO_TIMEZONE) has already rolled over.
+func TestGetWeekHonoursClientEndDate(t *testing.T) {
+	s := &fakeStore{
+		intake: map[string]float64{"2026-03-01": 1234},
+		burn:   map[string]float64{},
+	}
+	mux := serve(s)
+	w := decode[energy.WeeklyEnergyBalance](t, do(t, mux, "u1", "/api/energy-balance/week?end=2026-03-01"))
+	if len(w.Days) != 7 || w.Days[6].Date != "2026-03-01" || w.Days[0].Date != "2026-02-23" {
+		t.Fatalf("window = %s..%s, want 2026-02-23..2026-03-01", w.Days[0].Date, w.Days[6].Date)
+	}
+	if w.Days[6].CaloriesIn != 1234 {
+		t.Fatalf("end-day intake = %v, want 1234", w.Days[6].CaloriesIn)
+	}
+	// Malformed end → 400, not a silent server-day fallback.
+	if rec := do(t, mux, "u1", "/api/energy-balance/week?end=tomorrow"); rec.Code != 400 {
+		t.Fatalf("bad end: got %d, want 400", rec.Code)
+	}
+}
+
+// Full hand-computed daily fixture (the audit's cross-check):
+//
+//	male 30y, 180cm, 80kg → BMR = 10·80 + 6.25·180 − 5·30 + 5 = 1780
+//	intake 2400, exercise burn 350 → total out 2130, net +270
+//	target 2200 → variance +200 → surplus
+func TestDailyBalanceHandComputed(t *testing.T) {
+	bmr := energy.BMR(30, "male", 180, 80)
+	if bmr != 1780 {
+		t.Fatalf("BMR = %v, want 1780", bmr)
+	}
+	eb := energy.ComputeBalance("2026-07-01", 2400, 350, &bmr, fptr(2200))
+	if *eb.CaloriesOutTotal != 2130 {
+		t.Errorf("total out = %v, want 2130", *eb.CaloriesOutTotal)
+	}
+	if *eb.NetBalance != 270 {
+		t.Errorf("net = %v, want 270", *eb.NetBalance)
+	}
+	if *eb.Variance != 200 || eb.Status != "surplus" {
+		t.Errorf("variance/status = %v/%s, want 200/surplus", *eb.Variance, eb.Status)
+	}
+}

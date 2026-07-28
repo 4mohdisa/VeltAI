@@ -8,6 +8,7 @@ import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
 import { Stat } from '@/components/display/Stat';
+import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { StreakCounter } from '@/components/domain/StreakCounter';
@@ -42,6 +43,7 @@ export default function StreakDetailScreen() {
         <Card padded={false}>
           {upcoming.map((day, i) => {
             const meta = actionMeta[day.action];
+            const pressable = day.action === 'freeze';
             const row = (
               <View
                 style={{
@@ -56,11 +58,22 @@ export default function StreakDetailScreen() {
                 <Text variant="body" color={color.black}>
                   {day.label}
                 </Text>
-                <Badge label={meta.label} icon={meta.icon} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+                  <Badge label={meta.label} icon={meta.icon} />
+                  {pressable ? <Icon name="chevron-forward" size={16} color={color.tertiaryLabel} /> : null}
+                </View>
               </View>
             );
-            return day.action === 'freeze' ? (
-              <Pressable key={day.label} haptic={false} minTapTarget={false} onPress={() => router.push('/gym/freeze')} accessibilityLabel={`Apply freeze for ${day.label}`}>
+            return pressable ? (
+              <Pressable
+                key={day.label}
+                haptic={false}
+                minTapTarget={false}
+                onPress={() =>
+                  router.push({ pathname: '/gym/freeze', params: { label: day.label, offset: String(i) } })
+                }
+                accessibilityLabel={`Apply freeze for ${day.label}`}
+              >
                 {row}
               </Pressable>
             ) : (

@@ -5,6 +5,7 @@ import { View } from 'react-native';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { OptionCard } from '@/components/onboarding/OptionCard';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { navigate } from '@/lib/nav';
 import { space } from '@/lib/design/tokens';
@@ -21,6 +22,7 @@ const GOALS: { label: string; value: Goal; icon: string }[] = [
 export default function GoalScreen() {
   const goal = useOnboardingStore((s) => s.goal);
   const setGoal = useOnboardingStore((s) => s.setGoal);
+  const reduceMotion = useReduceMotion();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => () => {
@@ -31,6 +33,10 @@ export default function GoalScreen() {
     setGoal(value);
     haptics.selection();
     if (timer.current) clearTimeout(timer.current);
+    if (reduceMotion) {
+      navigate('/onboarding/activity');
+      return;
+    }
     timer.current = setTimeout(() => navigate('/onboarding/activity'), 300);
   };
 

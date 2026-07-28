@@ -3,7 +3,7 @@
 // templates, or jump to create a new one. Schedule writes are best-effort: the
 // row updates optimistically so the choice sticks even if the API call fails.
 import { useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { showToast } from '@/components/display/toastStore';
 import { Card } from '@/components/display/Card';
@@ -46,7 +46,13 @@ export default function ScheduleScreen() {
     try {
       await api.gym.setScheduleDay(day.day_of_week, templateId);
     } catch {
-      showToast({ message: 'Saved on device — could not sync schedule', tone: 'warn' });
+      // Roll back the optimistic row — nothing was persisted anywhere.
+      setOverrides((o) => {
+        const next = { ...o };
+        delete next[day.day_of_week];
+        return next;
+      });
+      showToast({ message: 'Could not save schedule — check your connection', tone: 'error' });
     }
     refetch();
   };
@@ -89,7 +95,7 @@ export default function ScheduleScreen() {
                         {row.template.exercises.length === 1 ? '' : 's'}
                       </Text>
                     ) : (
-                      <Text variant="footnote" color={color.tertiaryLabel}>
+                      <Text variant="footnote" color={color.secondaryLabel}>
                         Rest day
                       </Text>
                     )}
@@ -108,7 +114,7 @@ export default function ScheduleScreen() {
         title={activeDay ? `${activeDay.day_name} — Choose Workout` : undefined}
       >
         {activeDay ? (
-          <View>
+          <ScrollView style={{ maxHeight: 340 }}>
             <SheetRow
               label="Rest day"
               selected={rowFor(activeDay).template_id === null}
@@ -124,7 +130,7 @@ export default function ScheduleScreen() {
               />
             ))}
             <SheetRow label="Create new template →" onPress={openCreate} />
-          </View>
+          </ScrollView>
         ) : null}
       </BottomSheet>
     </Screen>

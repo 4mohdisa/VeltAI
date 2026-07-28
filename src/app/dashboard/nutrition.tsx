@@ -1,7 +1,6 @@
 // B4 · Nutrition detail
-// Calories consumed vs target, the Apple Health calorie cross-check (intake vs
-// active burn), per-macro progress bars (incl. fibre), then a per-meal breakdown.
-import { useEffect, useState } from 'react';
+// Calories consumed vs target, per-macro progress bars (incl. fibre), then a
+// per-meal breakdown.
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -9,13 +8,12 @@ import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
+import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
-import { CalorieCrossCheck } from '@/components/domain/CalorieCrossCheck';
 import { MacroBars } from '@/components/domain/MacroBars';
 import { ChartCard } from '@/components/domain/ChartCard';
-import { readActiveEnergyAndSteps, type HealthToday } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
@@ -27,12 +25,6 @@ export default function NutritionDetailScreen() {
   const macros = useDailyMacros();
   const { data: meals, isLoading: loading } = useFoodLog();
   const cal = macros.calories;
-  // Read active energy + steps from Apple Health (mock); falls back to
-  // intake-only if Health is denied/unavailable.
-  const [health, setHealth] = useState<HealthToday | null>(null);
-  useEffect(() => {
-    readActiveEnergyAndSteps().then(setHealth);
-  }, []);
 
   return (
     <Screen title={t('nutrition.title')} showBack>
@@ -48,13 +40,6 @@ export default function NutritionDetailScreen() {
           <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />
         </View>
       </ChartCard>
-
-      <CalorieCrossCheck
-        intake={cal.consumed}
-        goal={cal.target}
-        activeEnergy={health?.connected ? health.activeEnergy : undefined}
-        energyUnit={energyUnit}
-      />
 
       <ChartCard
         title="Macros today"
@@ -117,6 +102,8 @@ export default function NutritionDetailScreen() {
           ))}
         </Card>
       </View>
+
+      <HealthDisclaimer />
     </Screen>
   );
 }

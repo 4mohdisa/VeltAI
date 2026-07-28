@@ -2,6 +2,7 @@
 // Top: the learned brain profile, then a standalone "Ask Lumo" entry, then the
 // combined insights + anomalies feed (newest first). Degrades to a
 // not-enough-data / no-insights empty state without ever crashing.
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router, type Href } from 'expo-router';
 
@@ -12,6 +13,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { BrainProfileCard, InsightCard, AnomalyCard } from '@/components/ai';
 import { useInsights, useBrainProfile } from '@/lib/data/aiBrain';
+import { ensureAiConsent } from '@/lib/ai/consent';
 import { color, space, radius, categoryAccent } from '@/lib/design/tokens';
 import type { AIAnomaly, AIInsight } from '@/lib/types';
 
@@ -19,7 +21,28 @@ type FeedItem =
   | { kind: 'insight'; item: AIInsight }
   | { kind: 'anomaly'; item: AIAnomaly };
 
+// 5.1.2(i): the feed's GET can trigger Anthropic generation server-side, so the
+// inner screen (whose hooks fetch on mount) renders only after the one-time
+// AI consent. Declining returns to the previous screen.
 export default function InsightsScreen() {
+  const [granted, setGranted] = useState(false);
+  useEffect(() => {
+    void ensureAiConsent().then((ok) => {
+      if (ok) setGranted(true);
+      else if (router.canGoBack()) router.back();
+    });
+  }, []);
+  if (!granted) {
+    return (
+      <Screen title="Insights" showBack scroll>
+        {null}
+      </Screen>
+    );
+  }
+  return <InsightsInner />;
+}
+
+function InsightsInner() {
   const { insights, anomalies, loading, dismiss } = useInsights();
   const { notEnoughData } = useBrainProfile();
 

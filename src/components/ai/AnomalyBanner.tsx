@@ -4,7 +4,7 @@
 // Self-contained: reads anomalies from useInsights. Reduce-motion aware.
 import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
-import { Animated } from 'react-native';
+import { Animated, View } from 'react-native';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -50,10 +50,10 @@ export function AnomalyBanner(props: { onPress: () => void }): JSX.Element | nul
         transform: [{ translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [-40, 0] }) }],
       }}
     >
-      <Pressable
-        onPress={props.onPress}
-        minTapTarget={false}
-        accessibilityLabel={text}
+      {/* Plain View wrapper with two SIBLING accessible controls — a labelled
+          Pressable nesting another makes the inner dismiss unreachable to
+          VoiceOver. */}
+      <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -66,15 +66,22 @@ export function AnomalyBanner(props: { onPress: () => void }): JSX.Element | nul
           paddingHorizontal: space.lg,
         }}
       >
-        <Icon name="warning" size={18} color={accent.orange} />
-        <Text variant="bodyMedium" color={color.label} style={{ flex: 1 }}>
-          {text}
-        </Text>
-        <Icon name="chevron-forward" size={18} color={color.tertiaryLabel} />
+        <Pressable
+          onPress={props.onPress}
+          minTapTarget={false}
+          accessibilityLabel={text}
+          style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: space.sm }}
+        >
+          <Icon name="warning" size={18} color={accent.orange} />
+          <Text variant="bodyMedium" color={color.label} style={{ flex: 1 }}>
+            {text}
+          </Text>
+          <Icon name="chevron-forward" size={18} color={color.tertiaryLabel} />
+        </Pressable>
         <Pressable onPress={closeAll} minTapTarget={false} hitSlop={10} accessibilityLabel="Dismiss">
           <Icon name="close" size={18} color={color.tertiaryLabel} />
         </Pressable>
-      </Pressable>
+      </View>
     </Animated.View>
   );
 }

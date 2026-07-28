@@ -182,6 +182,7 @@ export function ParameterForm({
             onPress={() => setShowExplain((s) => !s)}
             haptic={false}
             minTapTarget={false}
+            hitSlop={10}
             accessibilityLabel="How is this calculated?"
             style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: space.xs }}
           >
@@ -198,7 +199,7 @@ export function ParameterForm({
           <Text variant="footnote" color={color.secondaryLabel}>
             {preview.explanation}
           </Text>
-          <Text variant="caption" color={color.tertiaryLabel}>
+          <Text variant="caption" color={color.secondaryLabel}>
             {`${preview.computed_met} MET · ${preview.confidence} confidence`}
           </Text>
         </View>

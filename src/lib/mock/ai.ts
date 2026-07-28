@@ -55,16 +55,6 @@ export const aiUncertaintyPrompts: UncertaintyPrompt[] = [
   },
 ];
 
-// Voice entry transcript + parsed items.
-export const aiVoiceTranscript =
-  'Two scrambled eggs with a slice of toast and butter for breakfast';
-
-export const aiVoiceItems: DetectedItem[] = [
-  { id: 'v1', name: 'Scrambled eggs', quantityG: 100, calories: 195, protein: 13, carbs: 1, fat: 15, confidence: 0.9 },
-  { id: 'v2', name: 'White toast', quantityG: 30, calories: 80, protein: 3, carbs: 15, fat: 1, confidence: 0.84 },
-  { id: 'v3', name: 'Butter', quantityG: 7, calories: 50, protein: 0, carbs: 0, fat: 6, confidence: 0.55 },
-];
-
 // NOTE: barcode lookup is deliberately NOT here — it's a database lookup, not an
 // AI call, and lives in lib/food/barcode.ts so this AI surface carries no cost
 // for the barcode path.

@@ -58,7 +58,9 @@ TRUNCATE TABLE
   confidence_calibration,
   -- AI brain
   ai_user_brain,
-  ai_insights
+  ai_insights,
+  -- product analytics (first-party)
+  analytics_events
 RESTART IDENTITY CASCADE;
 
 COMMIT;

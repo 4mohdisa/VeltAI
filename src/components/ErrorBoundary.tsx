@@ -52,10 +52,10 @@ export class ErrorBoundary extends Component<Props, State> {
             accessibilityLabel="Toggle error details"
             style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xs }}
           >
-            <Text variant="footnote" color={color.tertiaryLabel}>
+            <Text variant="footnote" color={color.secondaryLabel}>
               {showDetail ? 'Hide details' : 'Show details'}
             </Text>
-            <Icon name={showDetail ? 'chevron-up' : 'chevron-down'} size={14} color={color.tertiaryLabel} />
+            <Icon name={showDetail ? 'chevron-up' : 'chevron-down'} size={14} color={color.secondaryLabel} />
           </Pressable>
 
           {showDetail ? (

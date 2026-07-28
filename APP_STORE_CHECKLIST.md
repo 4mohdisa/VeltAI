@@ -1,5 +1,12 @@
 # App Store Pre-Submission Checklist
 
+> **SUPERSEDED (2026-07-28).** The Phase 14 audit found several statuses below
+> to be stale or wrong (the §3.1.2 plan cards no longer exist — hosted RC
+> paywall; the 5.1.1(v) PASS predated the Clerk-identity + client-purge fixes;
+> the mic/photo-library/HealthKit permission strings were removed along with
+> their fake features). **Use [PHASE_14_REPORT.md](PHASE_14_REPORT.md) §2 as
+> the current compliance table.** Kept for history.
+
 Statuses verified against the codebase on 2026-07-19 (Phase 13). Re-check the
 **BLOCKED** items after the human actions land (Clerk, RevenueCat, deploy).
 

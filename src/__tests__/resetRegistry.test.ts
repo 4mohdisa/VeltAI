@@ -7,6 +7,7 @@ import { useUserStore } from '@/lib/data/userStore';
 import { useSettingsStore } from '@/lib/settings/store';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { enqueue, loadQueue, pendingCount } from '@/lib/offline/queue';
+import { track, pendingCount as analyticsPending, initAnalytics } from '@/lib/analytics';
 import { getItem } from '@/lib/storage/secureStore';
 
 test('sign-out clears every store, the offline queue, and persisted keys', async () => {
@@ -40,6 +41,20 @@ test('sign-out clears every store, the offline queue, and persisted keys', async
   expect(pendingCount()).toBe(0);
   // Persisted onboarding key removed.
   expect(await getItem('lumo.onboarding')).toBeNull();
+});
+
+test('sign-out drops unsent analytics events (no cross-user attribution)', async () => {
+  track('food_logged', { method: 'manual' });
+  track('scan_started');
+  expect(analyticsPending()).toBe(2);
+
+  await resetAllStores();
+
+  // In-memory buffer gone…
+  expect(analyticsPending()).toBe(0);
+  // …and the persisted copy too: a fresh hydrate finds nothing to flush.
+  await initAnalytics();
+  expect(analyticsPending()).toBe(0);
 });
 
 test('every store exposes a reset path (regression guard)', () => {

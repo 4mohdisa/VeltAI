@@ -98,7 +98,9 @@ export function SliderField({
                 onValueChange(Math.max(min, value - step));
               }
             }}
-            style={{ height: THUMB, justifyContent: 'center' }}
+            // 44pt gesture area for the drag control (HIG tap-target minimum);
+            // track + thumb stay visually centred at their original sizes.
+            style={{ height: 44, justifyContent: 'center' }}
           >
             {/* track */}
             <View

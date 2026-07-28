@@ -183,6 +183,41 @@ func strava(configured bool) *fakeProvider {
 // Tests
 // ---------------------------------------------------------------------------
 
+// Cross-source duplicate guard (energy cross-check): the same workout arriving
+// from a second source (manual log or another provider) must be skipped so the
+// energy balance counts it once. Same date + same type + duration within 10min.
+func TestIsCrossSourceDuplicate(t *testing.T) {
+	iptr := func(n int) *int { return &n }
+	existing := []integrations.ExistingSession{
+		{SessionType: "cardio", DurationMinutes: iptr(45)},
+		{SessionType: "strength", DurationMinutes: iptr(60)},
+		{SessionType: "cardio", DurationMinutes: nil}, // unknown duration never matches
+	}
+	cases := []struct {
+		name     string
+		typ      string
+		duration int
+		want     bool
+	}{
+		{"same run from a 2nd provider (45 vs 45)", "cardio", 45, true},
+		{"within tolerance (45 vs 52)", "cardio", 52, true},
+		{"edge of tolerance (45 vs 55)", "cardio", 55, true},
+		{"outside tolerance (45 vs 56)", "cardio", 56, false},
+		{"different type same duration", "strength", 45, false},
+		{"strength matches strength (60 vs 65)", "strength", 65, true},
+		{"no candidate duration → import normally", "cardio", 0, false},
+	}
+	for _, c := range cases {
+		if got := integrations.IsCrossSourceDuplicate(c.typ, c.duration, existing); got != c.want {
+			t.Errorf("%s: got %v, want %v", c.name, got, c.want)
+		}
+	}
+	// Nothing stored that day → never a duplicate.
+	if integrations.IsCrossSourceDuplicate("cardio", 45, nil) {
+		t.Error("empty existing: got duplicate, want not")
+	}
+}
+
 func TestConnectCallbackSyncFlow(t *testing.T) {
 	cipher, _ := integrations.NewCipher(testKey())
 	store := newStore()

@@ -71,7 +71,40 @@ export default function MeasurementsScreen() {
     return weightUnit === 'kg' ? round1(n) : round1(n * 0.453592);
   };
 
-  const canContinue = ageText.trim() !== '' && sexValue !== '';
+  // Light range validation (inline, per-field). Optional fields only validate
+  // when non-empty — but unparseable input must never silently become the
+  // population default, so out-of-range/garbage blocks Continue.
+  const ageNum = parseInt(ageText, 10);
+  const ageError =
+    ageText.trim() !== '' && (!Number.isFinite(ageNum) || ageNum < 13 || ageNum > 100)
+      ? 'Enter an age between 13 and 100'
+      : undefined;
+
+  const heightError = (() => {
+    if (heightUnit === 'cm') {
+      if (heightCmText.trim() === '') return undefined;
+      const n = parseFloat(heightCmText);
+      return Number.isFinite(n) && n >= 100 && n <= 250
+        ? undefined
+        : 'Enter a height between 100 and 250 cm';
+    }
+    if (feetText.trim() === '' && inchesText.trim() === '') return undefined;
+    const cm = heightToCm();
+    return cm != null && cm >= 100 && cm <= 250 ? undefined : 'Enter a height between 3 and 8 ft';
+  })();
+
+  const weightError = (() => {
+    if (weightText.trim() === '') return undefined;
+    const kg = toKg(weightText);
+    return kg != null && kg >= 30 && kg <= 300
+      ? undefined
+      : weightUnit === 'kg'
+        ? 'Enter a weight between 30 and 300 kg'
+        : 'Enter a weight between 66 and 661 lb';
+  })();
+
+  const canContinue =
+    ageText.trim() !== '' && sexValue !== '' && !ageError && !heightError && !weightError;
 
   const handleContinue = () => {
     const ageNum = parseInt(ageText, 10);
@@ -100,6 +133,7 @@ export default function MeasurementsScreen() {
           onChangeText={setAgeText}
           keyboardType="number-pad"
           placeholder="e.g. 28"
+          error={ageError}
         />
 
         <SegmentedField<Sex | ''>
@@ -123,8 +157,10 @@ export default function MeasurementsScreen() {
             <TextField
               value={heightCmText}
               onChangeText={setHeightCmText}
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
               placeholder="170 cm"
+              accessibilityLabel="Height in centimetres"
+              error={heightError}
             />
           ) : (
             <View style={{ flexDirection: 'row', gap: space.md }}>
@@ -134,6 +170,8 @@ export default function MeasurementsScreen() {
                   onChangeText={setFeetText}
                   keyboardType="number-pad"
                   placeholder="5 ft"
+                  accessibilityLabel="Height, feet"
+                  error={heightError}
                 />
               </View>
               <View style={{ flex: 1 }}>
@@ -142,6 +180,7 @@ export default function MeasurementsScreen() {
                   onChangeText={setInchesText}
                   keyboardType="number-pad"
                   placeholder="9 in"
+                  accessibilityLabel="Height, inches"
                 />
               </View>
             </View>
@@ -161,8 +200,12 @@ export default function MeasurementsScreen() {
           <TextField
             value={weightText}
             onChangeText={setWeightText}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
             placeholder={weightUnit === 'kg' ? '70 kg' : '154 lb'}
+            accessibilityLabel={
+              weightUnit === 'kg' ? 'Current weight in kilograms' : 'Current weight in pounds'
+            }
+            error={weightError}
           />
         </View>
 
@@ -171,7 +214,7 @@ export default function MeasurementsScreen() {
             label={`Target weight (${weightUnit})`}
             value={targetText}
             onChangeText={setTargetText}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
             placeholder={weightUnit === 'kg' ? '65 kg' : '143 lb'}
           />
         ) : null}

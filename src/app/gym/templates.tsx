@@ -24,7 +24,7 @@ export default function TemplatesScreen() {
       title="My Workouts"
       showBack
       headerRight={
-        <Pressable onPress={openNew} minTapTarget={false} hitSlop={8} accessibilityLabel="New workout">
+        <Pressable onPress={openNew} minTapTarget={false} hitSlop={10} accessibilityLabel="New workout">
           <Icon name="add" size={26} color={color.label} />
         </Pressable>
       }

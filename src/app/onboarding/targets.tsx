@@ -1,5 +1,6 @@
 // Targets — shows the derived calorie + macro plan (identical maths to the
-// backend). Users can accept it or fine-tune the four numbers in a bottom sheet.
+// backend). Users can accept it or adjust the calorie target in a bottom sheet;
+// macros stay derived display (only the calorie target is persisted).
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
@@ -10,6 +11,7 @@ import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Text } from '@/components/primitives/Text';
 import { DEFAULT_HEIGHT_CM, DEFAULT_WEIGHT_KG, deriveTargets } from '@/lib/onboarding/deriveTargets';
+import { clampCalories } from '@/lib/settings/store';
 import { navigate } from '@/lib/nav';
 import { color, space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
@@ -51,32 +53,19 @@ export default function TargetsScreen() {
   }));
 
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [draft, setDraft] = useState<Record<keyof Macros, string>>({
-    calories: '',
-    protein: '',
-    carbs: '',
-    fat: '',
-  });
+  const [draft, setDraft] = useState('');
 
   const openSheet = () => {
-    setDraft({
-      calories: String(macros.calories),
-      protein: String(macros.protein),
-      carbs: String(macros.carbs),
-      fat: String(macros.fat),
-    });
+    setDraft(String(macros.calories));
     setSheetOpen(true);
   };
 
   const saveSheet = () => {
-    const next: Macros = {
-      calories: parseNum(draft.calories, macros.calories),
-      protein: parseNum(draft.protein, macros.protein),
-      carbs: parseNum(draft.carbs, macros.carbs),
-      fat: parseNum(draft.fat, macros.fat),
-    };
-    setMacros(next);
-    setCalorieTarget(next.calories);
+    // Calorie safety (1.4.1): manual adjustments stay inside the same band
+    // the server enforces — never store a starvation-level target.
+    const calories = clampCalories(parseNum(draft, macros.calories));
+    setMacros((m) => ({ ...m, calories }));
+    setCalorieTarget(calories);
     setSheetOpen(false);
   };
 
@@ -104,29 +93,18 @@ export default function TargetsScreen() {
         <HealthDisclaimer />
       </View>
 
-      <BottomSheet visible={sheetOpen} onClose={() => setSheetOpen(false)} title="Adjust your targets">
+      <BottomSheet
+        visible={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        title="Adjust your calorie target"
+      >
+        <Text variant="footnote" color={color.secondaryLabel}>
+          Protein, carbs and fat are set from your profile.
+        </Text>
         <TextField
           label="Calories"
-          value={draft.calories}
-          onChangeText={(t) => setDraft((d) => ({ ...d, calories: t }))}
-          keyboardType="number-pad"
-        />
-        <TextField
-          label="Protein (g)"
-          value={draft.protein}
-          onChangeText={(t) => setDraft((d) => ({ ...d, protein: t }))}
-          keyboardType="number-pad"
-        />
-        <TextField
-          label="Carbs (g)"
-          value={draft.carbs}
-          onChangeText={(t) => setDraft((d) => ({ ...d, carbs: t }))}
-          keyboardType="number-pad"
-        />
-        <TextField
-          label="Fat (g)"
-          value={draft.fat}
-          onChangeText={(t) => setDraft((d) => ({ ...d, fat: t }))}
+          value={draft}
+          onChangeText={setDraft}
           keyboardType="number-pad"
         />
         <Button title="Save" onPress={saveSheet} />

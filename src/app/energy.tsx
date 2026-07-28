@@ -29,27 +29,44 @@ function outValue(d: EnergyBalance): number {
   return d.calories_out_total ?? d.calories_out_exercise;
 }
 
-function Bar({ value, max, tint }: { value: number; max: number; tint: string }): JSX.Element {
+function Bar({ label, value, max, tint }: { label: string; value: number; max: number; tint: string }): JSX.Element {
   const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
   return (
-    <View style={{ height: 7, borderRadius: radius.pill, backgroundColor: color.gray200, overflow: 'hidden' }}>
-      <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.pill, backgroundColor: tint }} />
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
+      {/* Tiny per-bar label — the bars must not be colour-only (matches EnergyBalanceCard). */}
+      <Text variant="caption" color={color.secondaryLabel} style={{ minWidth: 24 }}>
+        {label}
+      </Text>
+      <View style={{ flex: 1, height: 7, borderRadius: radius.pill, backgroundColor: color.gray200, overflow: 'hidden' }}>
+        <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.pill, backgroundColor: tint }} />
+      </View>
     </View>
   );
 }
 
+const WEEKDAYS_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 function DayRow({ d, max }: { d: EnergyBalance; max: number }): JSX.Element {
+  const out = outValue(d);
+  const net = d.net_balance;
+  const day = new Date(d.date + 'T00:00:00Z').getUTCDay();
+  const dayName = Number.isNaN(day) ? d.date : WEEKDAYS_FULL[day];
+  const netSpoken = net == null ? 'net unknown' : `net ${net < 0 ? 'minus ' : ''}${round(Math.abs(net))}`;
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-      <Text variant="caption" color={color.secondaryLabel} style={{ width: 34 }}>
+    <View
+      accessible
+      accessibilityLabel={`${dayName}: in ${round(d.calories_in)}, out ${round(out)}, ${netSpoken}`}
+      style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}
+    >
+      <Text variant="caption" color={color.secondaryLabel} style={{ minWidth: 34 }}>
         {weekdayLabel(d.date)}
       </Text>
       <View style={{ flex: 1, gap: space.xs }}>
-        <Bar value={d.calories_in} max={max} tint={accent.orange} />
-        <Bar value={outValue(d)} max={max} tint={accent.green} />
+        <Bar label="In" value={d.calories_in} max={max} tint={accent.orange} />
+        <Bar label="Out" value={out} max={max} tint={accent.green} />
       </View>
-      <Text variant="caption" color={color.label} style={{ width: 54, textAlign: 'right' }}>
-        {d.net_balance != null ? `${d.net_balance > 0 ? '+' : ''}${round(d.net_balance)}` : '—'}
+      <Text variant="caption" color={color.label} style={{ minWidth: 54, textAlign: 'right' }}>
+        {net != null ? `${net > 0 ? '+' : ''}${round(net)}` : '—'}
       </Text>
     </View>
   );

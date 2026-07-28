@@ -18,6 +18,7 @@ import { CUISINE_LABEL } from '@/components/onboarding/cuisines';
 import { Button } from '@/components/forms';
 import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { track } from '@/lib/analytics';
@@ -33,6 +34,7 @@ export default function PaywallScreen() {
   const markCompleted = useOnboardingStore((s) => s.markCompleted);
 
   const [submitting, setSubmitting] = useState(false);
+  const [restoring, setRestoring] = useState(false);
 
   useEffect(() => {
     track('paywall_viewed');
@@ -89,6 +91,7 @@ export default function PaywallScreen() {
       showToast({ message: 'Billing not configured (dev).', tone: 'info' });
       return;
     }
+    setRestoring(true);
     try {
       const info = await restorePurchases();
       showToast({
@@ -97,6 +100,8 @@ export default function PaywallScreen() {
       });
     } catch {
       showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+    } finally {
+      setRestoring(false);
     }
   };
 
@@ -113,29 +118,47 @@ export default function PaywallScreen() {
             onPress={() => void handleContinue()}
           />
           {!isBillingEnabled() ? (
-            <Text variant="footnote" color={color.tertiaryLabel} style={{ textAlign: 'center' }}>
+            <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
               Billing not configured (dev) — continuing without a paywall
             </Text>
           ) : null}
-          <Text
-            variant="footnote"
-            color={color.label}
-            style={{ textAlign: 'center' }}
+          <Pressable
+            accessibilityRole="button"
+            disabled={restoring}
             onPress={() => void restore()}
           >
-            Already subscribed? Restore purchases
-          </Text>
+            <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>
+              {restoring ? 'Restoring…' : 'Already subscribed? Restore purchases'}
+            </Text>
+          </Pressable>
           {/* 3.1.2 — Terms + Privacy stay reachable at the paywall entry (the
-              hosted paywall renders pricing; these links frame it). */}
-          <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-            <Text variant="footnote" color={color.secondaryLabel} onPress={() => router.push('/legal/terms' as Href)}>
-              Terms
+              hosted paywall renders pricing; these links frame it). Footnote
+              text is ~18pt tall; 14pt vertical hitSlop makes each link ≥44pt. */}
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: space.md }}>
+            <Pressable
+              accessibilityRole="link"
+              minTapTarget={false}
+              hitSlop={{ top: 14, bottom: 14, left: 8, right: 8 }}
+              onPress={() => router.push('/legal/terms' as Href)}
+            >
+              <Text variant="footnote" color={color.secondaryLabel} style={{ textDecorationLine: 'underline' }}>
+                Terms
+              </Text>
+            </Pressable>
+            <Text variant="footnote" color={color.secondaryLabel}>
+              ·
             </Text>
-            {'   ·   '}
-            <Text variant="footnote" color={color.secondaryLabel} onPress={() => router.push('/legal/privacy' as Href)}>
-              Privacy Policy
-            </Text>
-          </Text>
+            <Pressable
+              accessibilityRole="link"
+              minTapTarget={false}
+              hitSlop={{ top: 14, bottom: 14, left: 8, right: 8 }}
+              onPress={() => router.push('/legal/privacy' as Href)}
+            >
+              <Text variant="footnote" color={color.secondaryLabel} style={{ textDecorationLine: 'underline' }}>
+                Privacy Policy
+              </Text>
+            </Pressable>
+          </View>
         </View>
       }
     >

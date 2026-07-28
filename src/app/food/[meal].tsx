@@ -16,7 +16,6 @@ import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodIt
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { writeNutritionToHealth } from '@/lib/healthkit';
 import { color, space } from '@/lib/design/tokens';
 import { formatCalories, formatGrams } from '@/lib/formatting';
 import { useMeal, editFoodItem, deleteFoodItem, saveFood } from '@/lib/data';
@@ -25,7 +24,6 @@ export default function MealDetailScreen() {
   const { meal: mealId } = useLocalSearchParams<{ meal: string }>();
   const meal = useMeal(mealId);
   const [confirming, setConfirming] = useState(false);
-  const [synced, setSynced] = useState(false); // written to Apple Health (per meal)
   const [editing, setEditing] = useState<EditableItem | null>(null);
 
   // Meal was deleted (e.g. last item removed) → nothing to show.
@@ -124,30 +122,6 @@ export default function MealDetailScreen() {
           </View>
         ))}
       </Card>
-
-      {/* User-initiated: send this meal's nutrition to Apple Health */}
-      <Button
-        title={synced ? 'Sent to Apple Health' : 'Send to Apple Health'}
-        variant="secondary"
-        icon={synced ? 'checkmark' : 'heart'}
-        disabled={synced}
-        onPress={async () => {
-          // try/catch: the real HealthKit write can reject (permission denial);
-          // don't let it float as an unhandled rejection (AUDIT_REPORT.md M3).
-          try {
-            await writeNutritionToHealth({
-              calories: meal.calories,
-              protein: meal.protein,
-              carbs: meal.carbs,
-              fat: meal.fat,
-            });
-            setSynced(true);
-            showToast({ message: 'Nutrition sent to Apple Health.', tone: 'success' });
-          } catch {
-            showToast({ message: "Couldn't send to Apple Health.", tone: 'error' });
-          }
-        }}
-      />
 
       <BottomSheet visible={confirming} onClose={() => setConfirming(false)} title="Delete this meal?">
         <Text variant="callout" color={color.gray500}>

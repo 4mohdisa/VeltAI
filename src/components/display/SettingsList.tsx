@@ -6,7 +6,7 @@ import { Icon } from '@/components/primitives/Icon';
 
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { accent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 
 export type SettingsRowProps = {
@@ -22,7 +22,8 @@ export type SettingsRowProps = {
 
 function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean }) {
   const kind = row.kind ?? (row.onPress ? 'link' : 'plain');
-  const labelColor = row.destructive ? color.black : color.black;
+  // Destructive rows read in the functional red (HIG: destructive ≠ neutral).
+  const labelColor = row.destructive ? accent.red : color.black;
   // HIG §2.2b: at large text sizes stack the label above its value rather than
   // letting them collide on one line.
   const large = useLargeText();
@@ -51,7 +52,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
             justifyContent: 'center',
           }}
         >
-          <Icon name={row.icon} size={17} color={row.destructive ? color.black : color.gray700} />
+          <Icon name={row.icon} size={17} color={row.destructive ? accent.red : color.gray700} />
         </View>
       ) : null}
 

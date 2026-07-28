@@ -12,6 +12,8 @@ import { Badge } from '@/components/display/Badge';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
+import { useUnitPreferences } from '@/lib/settings/store';
+import { formatEnergy } from '@/lib/units';
 import { usePlan } from '@/lib/data';
 import type { PlanEntry } from '@/lib/mock/data';
 
@@ -24,6 +26,7 @@ const iconFor: Record<PlanEntry['kind'], string> = {
 
 export default function PlanDetailScreen() {
   const { plan, reason } = usePlan();
+  const energyUnit = useUnitPreferences().energy;
   return (
     <Screen title="Today's plan" showBack>
       <View style={{ gap: space.md }}>
@@ -61,7 +64,7 @@ export default function PlanDetailScreen() {
                     {entry.title}
                   </Text>
                   {entry.targetKcal ? (
-                    <Badge label={`${entry.targetKcal} kcal`} />
+                    <Badge label={formatEnergy(entry.targetKcal, energyUnit)} />
                   ) : null}
                 </View>
                 {entry.detail ? (
@@ -84,7 +87,8 @@ export default function PlanDetailScreen() {
               haptic={false}
               minTapTarget={false}
               accessibilityLabel={`Add ${entry.title}`}
-              onPress={() => router.push('/food/add')}
+              // Meal titles ARE the slot names ('Breakfast'/'Lunch'/'Dinner').
+              onPress={() => router.push({ pathname: '/food/add', params: { slot: entry.title } })}
             >
               {content}
             </Pressable>

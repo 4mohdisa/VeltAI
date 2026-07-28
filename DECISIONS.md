@@ -1,5 +1,114 @@
 # Lumo — Decisions
 
+## Phase 14 — pre-submission audit (2026-07-28)
+- **Account deletion now deletes the Clerk identity too** (5.1.1(v)): DELETE
+  /api/profile calls Clerk's Backend API first (`NewClerkUserDeleter`); a
+  provider failure → 502 and NO row delete (never claim a deletion that left
+  the account able to sign in). Clerk 404 = already gone = success. Keyless
+  (hermetic/dev) skips the provider call. The client dispatches
+  ACCOUNT_DELETED (was: manual routing with NO purge — stores, queue and the
+  Clerk session all survived deletion). SIGN_OUT arriving in `deleted` is
+  swallowed so the purge's own Clerk sign-out doesn't bounce the user to the
+  sign-in screen.
+- **Delete-flow copy fixed to be true**: deletion is immediate (the "7-day
+  grace period" line was false — the backend hard-deletes), and deleting the
+  account does NOT cancel a subscription (the old copy claimed it did; Apple's
+  account-deletion guidance requires saying billing continues and pointing at
+  subscription management).
+- **Data export built** (GET /api/export → Settings → Privacy → "Export my
+  data" → iOS share sheet): the App Store description already promised export,
+  the app holds health data, and there is no web portal — GDPR access posture
+  says build it. Table coverage is derived from the migrations by
+  tests/migrations TestExportCoversEveryUserTable (a new user-data migration
+  without an export entry fails CI). integration_connections strips
+  access/refresh tokens; confidence_calibration (global aggregate, no user
+  rows) and the two shared libraries are excluded. Export shares JSON text via
+  RN Share — no new dependencies; move to a file share if exports outgrow it.
+- **Privacy screen links route to the in-app legal documents** — the previous
+  external links (veltai.app/privacy|terms|eula) were dead URLs; the EULA row
+  is gone (no custom EULA → Apple's standard EULA applies). The dead
+  "Export my data — Phase 2" placeholder row is now the real export.
+- **reset_production.sql now truncates analytics_events** (the analytics
+  migration post-dated the script; its own header demands the list stay
+  complete).
+- **Voice logging REMOVED** (route, add-menu card, mock transcript, mic
+  permission strings): the screen was a pure simulation — a canned transcript
+  on a 220ms timer and a "Save meal" that saved nothing. No audio-recording
+  module exists in the build. Shipping a fake feature + an unused mic
+  permission is a double 2.1/2.3.1 rejection; honest removal beats building
+  speech-to-text mid-audit. `"microphonePermission": false` suppresses the
+  expo-camera plugin's default mic string (verified in the installed plugin
+  source: value false deletes the Info.plist key).
+- **Apple Health UI REMOVED** (apple-health screen, settings row, integrations
+  card, dashboard cross-check, "Send to Apple Health" button, lib/healthkit,
+  NSHealth* strings): the toggle faked "Connected", the dashboard displayed a
+  hardcoded 540 kcal / 8,240 steps as the user's real Apple Health data, and
+  the send button fake-succeeded. Fabricated health data is worse than a dead
+  button (2.1 + 2.3.1 + arguably 5.1.3(ii) spirit). The guarded no-op seam
+  `src/lib/health/appleHealth.ts` STAYS (test-covered) as the landing point
+  for the real native module. CalorieCrossCheck deleted with it (its only
+  remaining render was intake-vs-goal, duplicating the ring above it).
+- **Sign out now exists** (Settings, above Delete account, with a native
+  confirm). Before this the ONLY way to end a session was deleting the
+  account. Dispatches SIGN_OUT; the machine already handles purge + Clerk
+  session end + RevenueCat logOut.
+- **Subscription screen rewritten to be truthful**: it hardcoded a "Free
+  trial" badge, rendered the mock plan/price as if real, its Restore button
+  was a toast with no restore call, and "Manage" opened app-settings: (the
+  permissions page). Now: entitlement from the billing seam (useEntitlement —
+  previously zero call sites), real restorePurchases(), Manage →
+  apps.apple.com/account/subscriptions, honest dev-mode note. useSubscription
+  hook deleted with it (no remaining consumer); no fabricated dates.
+- **Calorie targets clamped to [1200, 10000] kcal** at every write path:
+  client store (clampCalories), onboarding manual-adjust sheet, and PUT
+  /api/goals (400 outside the band — the server is the boundary). Derivation
+  already floored at 1200; override paths accepted 0 or 50,000 before this.
+- **Every LLM system prompt now carries a medical guardrail** (no medical/
+  diagnostic/medication advice, no extreme-restriction advice, refer to a
+  professional) — enforced by a test that captures the system string through
+  the LLM seam for all three endpoints.
+- **Third-party-AI consent (5.1.2(i))**: one persisted, device-level
+  acknowledgment (cleared on sign-out) gates every share point — photo/label
+  capture (Gemini), Ask-Lumo send, the insights screen mount, and the
+  morning-brief fetch (Anthropic). Until granted, nothing is uploaded and no
+  AI endpoint is called; the brief card renders null.
+- **Analytics buffer purged on sign-out** (resetAnalytics in resetAllStores):
+  user A's unsent events could otherwise flush under user B's JWT (events
+  carry no user id; the backend attributes from the verified token).
+- **Fake "feedback sent" fixed**: the support form now opens a prefilled
+  mailto compose (the send is real); the FAQ and third-party-licenses rows
+  were REMOVED — veltai.app is NXDOMAIN (verified by dig), so every external
+  link to it was dead. In-app legal screens carry the policy/terms.
+- **BASE_URL is now env-driven** (`EXPO_PUBLIC_API_URL`, dev default
+  localhost:8080) — deploying no longer requires a code edit; CONFIG.md and
+  .env.example updated.
+- **Nutrition dashboard shows the HealthDisclaimer** (targets are displayed
+  there; onboarding targets + goals settings already had it).
+- **Cross-source workout dedupe** (energy cross-check): provider imports are
+  skipped when a same-day session of the same type with a duration within
+  ±10 min already exists from ANOTHER source (manual log or other provider) —
+  `IsCrossSourceDuplicate` (pure, tested) called inside
+  `CreateImportedSession`; same-provider rows are excluded from the comparison
+  (they dedupe exactly by activity id). Ceiling: gym_sessions stores no start
+  time, so two genuinely distinct same-type/similar-length sessions in one day
+  from different sources will merge — store a start timestamp to upgrade.
+  Manual-after-import stays possible (an explicit user action; import-side is
+  the automated path that must not double-count).
+- **Energy balance is anchored to the DEVICE's calendar**: the app passes its
+  local date (`todayISO()`) as `?date=`/`?end=` to both energy endpoints, so a
+  meal logged at 23:50 local lands on the correct local day even when the
+  server's LUMO_TIMEZONE calendar has rolled over. `?end=` on the weekly route
+  is new (validated, defaults to the server calendar).
+- **HIG pass (Phase 14)**: keyboard avoidance now lives in the four shared
+  scaffolds (Screen/OnbScaffold/SheetContent/BottomSheet) — screens must not
+  roll their own; fixed-height text containers are banned in shared chrome
+  (TextField/NavBar use minHeight for Dynamic Type); destructive actions
+  render in accent.red (the dead monochrome ternary was unfinished intent, and
+  account.tsx's own comment already claimed red); the onboarding targets sheet
+  edits ONLY the calorie target (macro edits were never persisted — fields
+  removed rather than silently discarded). Full ledger: HIG_AUDIT.md.
+
+
 Load-bearing decisions only: each of these still governs live behaviour and
 would cause a bug (or an App Store rejection) if reversed without thought.
 Grouped by area; history lives in git.

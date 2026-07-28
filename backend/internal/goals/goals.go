@@ -72,6 +72,13 @@ type OnboardingCompletion struct {
 
 // bodyTypeGoalSuggestion maps a body_type to the goal it nudges toward; the
 // empty key (no body_type) yields "".
+// Safety band for a daily calorie target (guideline 1.4.1). The client clamps
+// to the same band (src/lib/settings/store.ts clampCalories).
+const (
+	calorieTargetMin = 1200
+	calorieTargetMax = 10000
+)
+
 var bodyTypeGoalSuggestion = map[string]string{
 	"skinny":     "Build muscle",
 	"skinny_fat": "Body recomp",
@@ -246,6 +253,12 @@ func (h *handler) putGoals(w http.ResponseWriter, r *http.Request) {
 		*g = *cur
 	}
 	if req.CalorieTarget != nil {
+		// Calorie safety (guideline 1.4.1): never persist a starvation-level or
+		// absurd daily target. The client clamps too; the server is the boundary.
+		if *req.CalorieTarget < calorieTargetMin || *req.CalorieTarget > calorieTargetMax {
+			httpx.Error(w, http.StatusBadRequest, "calorie_target must be between 1200 and 10000")
+			return
+		}
 		g.CalorieTarget = req.CalorieTarget
 	}
 	if req.ProteinTarget != nil {

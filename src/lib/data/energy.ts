@@ -6,6 +6,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { api } from '@/lib/api';
+import { todayISO } from './mappers';
 import type { EnergyBalance, WeeklyEnergyBalance } from '@/lib/types';
 
 function useApi<T>(fetcher: () => Promise<T>, deps: readonly unknown[] = []): {
@@ -48,11 +49,17 @@ export function useEnergyBalance(date?: string): {
   loading: boolean;
   refetch: () => void;
 } {
-  const { data, loading, refetch } = useApi<EnergyBalance>(() => api.energy.getBalance(date), [date]);
+  // Default to the DEVICE-local date: food logs are stamped with todayISO(),
+  // so the balance must ask for the same day — near midnight the server's
+  // calendar (LUMO_TIMEZONE) can be a day off from the user's.
+  const day = date ?? todayISO();
+  const { data, loading, refetch } = useApi<EnergyBalance>(() => api.energy.getBalance(day), [day]);
   return { balance: data, loading, refetch };
 }
 
 export function useEnergyWeek(): { week: WeeklyEnergyBalance | null; loading: boolean; refetch: () => void } {
-  const { data, loading, refetch } = useApi<WeeklyEnergyBalance>(() => api.energy.getWeek());
+  // Same local-calendar anchoring for the 7-day window.
+  const end = todayISO();
+  const { data, loading, refetch } = useApi<WeeklyEnergyBalance>(() => api.energy.getWeek(end), [end]);
   return { week: data, loading, refetch };
 }

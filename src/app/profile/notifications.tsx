@@ -1,6 +1,6 @@
 // E6 · Notification preferences
 // Per-type toggles + quiet hours (native iOS time pickers). No daily cap.
-import { useState } from 'react';
+// Prefs live in the settings store so they survive unmount (not just useState).
 import { View } from 'react-native';
 import { DateTimePicker } from '@expo/ui/community/datetime-picker';
 
@@ -10,34 +10,13 @@ import { Card } from '@/components/display/Card';
 import { Text } from '@/components/primitives/Text';
 import { Icon } from '@/components/primitives/Icon';
 import { color, space } from '@/lib/design/tokens';
-
-type Prefs = {
-  gymReminder: boolean;
-  mealReminders: boolean;
-  streakAtRisk: boolean;
-  aiNudges: boolean;
-  weeklyRecap: boolean;
-};
-
-// Build a Date set to today at the given hour/minute (quiet-hours mock seed).
-function timeToday(hours: number, minutes: number): Date {
-  const d = new Date();
-  d.setHours(hours, minutes, 0, 0);
-  return d;
-}
+import { useSettingsStore, type NotificationPrefs } from '@/lib/settings/store';
 
 export default function NotificationPrefsScreen() {
-  const [prefs, setPrefs] = useState<Prefs>({
-    gymReminder: true,
-    mealReminders: true,
-    streakAtRisk: true,
-    aiNudges: true,
-    weeklyRecap: false,
-  });
-  const [quietFrom, setQuietFrom] = useState(() => timeToday(22, 0));
-  const [quietTo, setQuietTo] = useState(() => timeToday(7, 0));
+  const prefs = useSettingsStore((s) => s.notificationPrefs);
+  const setPrefs = useSettingsStore((s) => s.setNotificationPrefs);
 
-  const toggle = (key: keyof Prefs) => (value: boolean) => setPrefs((p) => ({ ...p, [key]: value }));
+  const toggle = (key: keyof NotificationPrefs) => (value: boolean) => setPrefs({ [key]: value });
 
   return (
     <Screen grouped title="Notifications" showBack backLabel="Settings">
@@ -61,8 +40,8 @@ export default function NotificationPrefsScreen() {
           Quiet hours
         </Text>
         <Card padded={false}>
-          <QuietRow icon="moon-outline" label="From" value={quietFrom} onChange={setQuietFrom} first />
-          <QuietRow icon="sunny-outline" label="To" value={quietTo} onChange={setQuietTo} />
+          <QuietRow icon="moon-outline" label="From" value={prefs.quietFrom} onChange={(d) => setPrefs({ quietFrom: d })} first />
+          <QuietRow icon="sunny-outline" label="To" value={prefs.quietTo} onChange={(d) => setPrefs({ quietTo: d })} />
         </Card>
       </View>
     </Screen>
@@ -104,7 +83,6 @@ function QuietRow({
         display="compact"
         value={value}
         onChange={(_event, date) => date && onChange(date)}
-        style={{ width: 96, height: 40 }}
       />
     </View>
   );

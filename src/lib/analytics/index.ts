@@ -74,6 +74,15 @@ useSettingsStore.subscribe((s, prev) => {
   if (!s.analyticsEnabled && prev.analyticsEnabled) void discardAll();
 });
 
+/** Sign-out purge: drop the in-memory AND persisted buffer, and rotate the
+ *  session id. Without this, user A's unsent events would flush under user B's
+ *  JWT after an account switch (events carry no user id — the backend
+ *  attributes from the verified token). Called from resetAllStores. */
+export async function resetAnalytics(): Promise<void> {
+  sessionId = newSessionId();
+  await discardAll();
+}
+
 /** Record one product event. Never throws, never blocks. */
 export function track(
   name: AnalyticsEventName,

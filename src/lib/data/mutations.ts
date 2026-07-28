@@ -136,6 +136,8 @@ export const logGymSession = (session?: Parameters<ReturnType<typeof useGymStore
   if (gym().streak.gymLoggedToday) return; // store would no-op; don't create a duplicate server row
   gym().logGymSession(session);
   track('workout_logged');
+  // GymSessionInput has no effort/energy field (backend session row is
+  // date/name/notes/duration only) — both stay device-local on the store session.
   sync(
     api.gym.createSession({
       date: todayISO(),
@@ -145,9 +147,9 @@ export const logGymSession = (session?: Parameters<ReturnType<typeof useGymStore
   );
 };
 
-export const applyFreeze = () => {
+export const applyFreeze = (offsetDays = 0) => {
   if (gym().streak.freezesAvailable <= 0) return;
-  gym().applyFreeze();
+  gym().applyFreeze(offsetDays);
   sync(api.gym.freeze());
 };
 

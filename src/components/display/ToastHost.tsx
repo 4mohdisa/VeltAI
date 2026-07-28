@@ -95,6 +95,7 @@ export function ToastHost() {
         {current.actionLabel ? (
           <Pressable
             minTapTarget={false}
+            hitSlop={12}
             haptic={false}
             accessibilityLabel={current.actionLabel}
             onPress={() => {

@@ -5,7 +5,7 @@
 // Delete item button at the bottom. No edit pencils — the whole row that opens
 // this is tappable. Editing is local; the parent applies onSave to its totals.
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { GlassCloseButton, GlassSaveButton } from '@/components/navigation/GlassButtons';
@@ -13,6 +13,7 @@ import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 
 export type EditableItem = {
   id: string;
@@ -88,31 +89,51 @@ function EditForm({
 
       <View style={{ flexDirection: 'row', gap: space.md }}>
         <View style={{ flex: 1 }}>
-          <TextField label="Serving (g)" value={quantity} onChangeText={setQuantity} keyboardType="numeric" />
+          <TextField label="Serving (g)" value={quantity} onChangeText={setQuantity} keyboardType="decimal-pad" />
         </View>
         <View style={{ flex: 1 }}>
-          <TextField label="Calories" value={calories} onChangeText={setCalories} keyboardType="numeric" />
-        </View>
-      </View>
-
-      <View style={{ flexDirection: 'row', gap: space.md }}>
-        <View style={{ flex: 1 }}>
-          <TextField label="Protein (g)" value={protein} onChangeText={setProtein} keyboardType="numeric" />
-        </View>
-        <View style={{ flex: 1 }}>
-          <TextField label="Carbs (g)" value={carbs} onChangeText={setCarbs} keyboardType="numeric" />
+          <TextField label="Calories" value={calories} onChangeText={setCalories} keyboardType="decimal-pad" />
         </View>
       </View>
 
       <View style={{ flexDirection: 'row', gap: space.md }}>
         <View style={{ flex: 1 }}>
-          <TextField label="Fat (g)" value={fat} onChangeText={setFat} keyboardType="numeric" />
+          <TextField label="Protein (g)" value={protein} onChangeText={setProtein} keyboardType="decimal-pad" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <TextField label="Carbs (g)" value={carbs} onChangeText={setCarbs} keyboardType="decimal-pad" />
+        </View>
+      </View>
+
+      <View style={{ flexDirection: 'row', gap: space.md }}>
+        <View style={{ flex: 1 }}>
+          <TextField label="Fat (g)" value={fat} onChangeText={setFat} keyboardType="decimal-pad" />
         </View>
         <View style={{ flex: 1 }} />
       </View>
 
       {onDelete ? (
-        <Button title="Delete item" variant="destructive" icon="trash" onPress={() => onDelete(item.id)} />
+        <Button
+          title="Delete item"
+          variant="destructive"
+          icon="trash"
+          // Confirm before deleting — same pattern as SwipeableRow (global
+          // destructive rule).
+          onPress={() => {
+            haptics.warning();
+            Alert.alert(`Delete ${item.name}?`, undefined, [
+              { text: 'Cancel', style: 'cancel' },
+              {
+                text: 'Delete',
+                style: 'destructive',
+                onPress: () => {
+                  haptics.impactHeavy();
+                  onDelete(item.id);
+                },
+              },
+            ]);
+          }}
+        />
       ) : null}
     </View>
   );

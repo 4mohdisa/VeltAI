@@ -100,7 +100,7 @@ export function BrainProfileCard(props: { onAskLumo?: () => void }): JSX.Element
           ))}
         </View>
 
-        <Text variant="caption" color={color.tertiaryLabel}>
+        <Text variant="caption" color={color.secondaryLabel}>
           Updated {relativeTime(profile.last_rebuilt)}
         </Text>
 

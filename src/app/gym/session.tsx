@@ -309,7 +309,7 @@ export default function GymSessionScreen(): JSX.Element {
             onPress={() => toggleCheck(row)}
             haptic={false}
             minTapTarget={false}
-            hitSlop={8}
+            hitSlop={10}
             accessibilityLabel={`${row.name}, ${st.checked ? 'done' : 'not done'}`}
             accessibilityState={{ checked: st.checked }}
             accessibilityRole="checkbox"
@@ -372,7 +372,7 @@ export default function GymSessionScreen(): JSX.Element {
                     label="Distance (km, optional)"
                     value={st.distance}
                     onChangeText={(v) => updateCardio(row, 'distance', v)}
-                    keyboardType="numeric"
+                    keyboardType="decimal-pad"
                     placeholder="—"
                   />
                 </>
@@ -381,7 +381,7 @@ export default function GymSessionScreen(): JSX.Element {
               <>
                 {st.sets.map((s, idx) => (
                   <View key={idx} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-                    <Text variant="label" color={color.secondaryLabel} style={{ width: 44 }}>
+                    <Text variant="label" color={color.secondaryLabel} style={{ minWidth: 44 }}>
                       {`Set ${idx + 1}`}
                     </Text>
                     <View style={{ flex: 1 }}>
@@ -397,7 +397,7 @@ export default function GymSessionScreen(): JSX.Element {
                       <TextField
                         value={s.weight}
                         onChangeText={(v) => updateSet(row, idx, 'weight', v)}
-                        keyboardType="numeric"
+                        keyboardType="decimal-pad"
                         placeholder="kg"
                         accessibilityLabel={`Set ${idx + 1} weight`}
                       />

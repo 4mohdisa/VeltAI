@@ -1,6 +1,9 @@
 // E4 · Subscription
-// Current plan, next renewal date, Manage subscription (deep-links to iOS
-// Settings), and the App-Store-required Restore Purchases button.
+// Truthful status only: what the billing seam actually reports. Entitled →
+// Active + manage/restore; not entitled → See plans + restore; billing-disabled
+// dev build → an honest "not configured" note. No fabricated dates or prices —
+// pricing lives on the RevenueCat paywall and in App Store subscription
+// management, both reachable from here.
 import { Linking, View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -10,30 +13,62 @@ import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
-import { formatCurrency, formatLongDate } from '@/lib/formatting';
-import { useSubscription } from '@/lib/data';
+import { useEntitlement } from '@/lib/billing/entitlement';
+import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
+
+const MANAGE_URL = 'https://apps.apple.com/account/subscriptions';
 
 export default function SubscriptionScreen() {
-  const mockSubscription = useSubscription();
+  const { isEntitled, loading, refresh } = useEntitlement();
+  const billing = isBillingEnabled();
+
+  const restore = async () => {
+    if (!billing) {
+      showToast({ message: 'Billing not configured (dev).', tone: 'info' });
+      return;
+    }
+    try {
+      const info = await restorePurchases();
+      showToast({
+        message: hasProEntitlement(info) ? 'Subscription restored.' : 'No purchases to restore.',
+        tone: hasProEntitlement(info) ? 'success' : 'info',
+      });
+      refresh();
+    } catch {
+      showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+    }
+  };
+
+  const seePlans = async () => {
+    if (!billing) {
+      showToast({ message: 'Billing not configured (dev).', tone: 'info' });
+      return;
+    }
+    const outcome = await presentPaywall();
+    if (outcome === 'purchased' || outcome === 'restored') {
+      showToast({ message: "You're all set — welcome to Lumo Pro!", tone: 'success' });
+      refresh();
+    } else if (outcome === 'error') {
+      showToast({ message: "The store couldn't be reached — try again later.", tone: 'error' });
+    }
+  };
+
   return (
     <Screen grouped
       title="Subscription"
       showBack
       footer={
         <View style={{ gap: space.sm }}>
-          <Button
-            title="Manage subscription"
-            variant="secondary"
-            onPress={() => Linking.openURL('app-settings:').catch(() => {})}
-          />
-          <Button
-            title="Restore Purchases"
-            variant="tertiary"
-            onPress={() => showToast({ message: 'Purchases restored.', tone: 'success' })}
-          />
-          <Text variant="footnote" color={color.gray500} style={{ textAlign: 'center' }}>
-            Already subscribed? Restore your purchase.
-          </Text>
+          {isEntitled ? (
+            <Button
+              title="Manage subscription"
+              variant="secondary"
+              onPress={() => Linking.openURL(MANAGE_URL).catch(() => {})}
+            />
+          ) : (
+            <Button title="See plans" onPress={() => void seePlans()} />
+          )}
+          <Button title="Restore Purchases" variant="tertiary" onPress={() => void restore()} />
         </View>
       }
     >
@@ -41,39 +76,31 @@ export default function SubscriptionScreen() {
         <View style={{ gap: space.md }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text variant="title3" color={color.black}>
-              {mockSubscription.plan}
+              Lumo Pro
             </Text>
-            <Badge label="Free trial" />
+            <Badge
+              label={loading ? 'Checking…' : isEntitled ? 'Active' : 'Not subscribed'}
+              icon={loading ? undefined : isEntitled ? 'checkmark-circle' : 'close-circle'}
+            />
           </View>
           <Text variant="body" color={color.gray700}>
-            {formatCurrency(mockSubscription.price)} / month after your trial
+            {isEntitled
+              ? 'Your subscription is active. Billing, renewal and cancellation are managed through your Apple account.'
+              : 'Plans, pricing and the free trial are shown on the plans screen before any purchase.'}
           </Text>
-          <View style={{ height: 1, backgroundColor: color.gray100 }} />
-          <View style={{ gap: space.xs }}>
-            <Row label="Trial ends" value={formatLongDate(mockSubscription.trialEnd)} />
-            <Row label="First charge" value={formatLongDate(mockSubscription.renewsOn)} />
-            <Row label="Renews" value="Monthly · cancel anytime" />
-          </View>
         </View>
       </Card>
 
-      <Text variant="footnote" color={color.gray500}>
-        One price, shown everywhere. We&apos;ll remind you 2 days before your trial ends. Cancel
-        anytime in iPhone Settings — no charge until the trial is over.
-      </Text>
+      {!billing ? (
+        <Text variant="footnote" color={color.gray500}>
+          Billing is not configured in this build (development mode).
+        </Text>
+      ) : (
+        <Text variant="footnote" color={color.gray500}>
+          Subscriptions auto-renew until cancelled. Cancel anytime in Settings → your name →
+          Subscriptions — Apple handles all billing.
+        </Text>
+      )}
     </Screen>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-      <Text variant="callout" color={color.gray500}>
-        {label}
-      </Text>
-      <Text variant="callout" color={color.black}>
-        {value}
-      </Text>
-    </View>
   );
 }

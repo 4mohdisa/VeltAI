@@ -27,7 +27,7 @@ function MuscleRow({ muscle, volume, max }: { muscle: string; volume: number; ma
           <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.pill, backgroundColor: color.black }} />
         </View>
       ) : (
-        <Text variant="caption" color={color.tertiaryLabel}>
+        <Text variant="caption" color={color.secondaryLabel}>
           —
         </Text>
       )}

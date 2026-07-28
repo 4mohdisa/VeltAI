@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { ensureAiConsent } from '@/lib/ai/consent';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -76,6 +77,8 @@ export default function LabelScanScreen() {
   };
 
   const capture = async () => {
+    // 5.1.2(i): label photos go to Google Gemini — one-time disclosure first.
+    if (!(await ensureAiConsent())) return;
     setPhase('reading');
     let base64: string | undefined;
     try {

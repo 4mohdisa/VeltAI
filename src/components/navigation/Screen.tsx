@@ -2,7 +2,7 @@
 // optional NavBar (our chrome), scrolling body, and an optional sticky footer
 // for a primary CTA. Keeps the ~50 feature screens uniform and short.
 import type { ReactNode } from 'react';
-import { RefreshControl, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
+import { KeyboardAvoidingView, RefreshControl, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavBar } from './NavBar';
@@ -57,35 +57,41 @@ export function Screen({
         <NavBar title={title} showBack={showBack} backLabel={backLabel} right={headerRight} borderless={borderlessHeader} />
       ) : null}
 
-      {scroll ? (
-        <ScrollView
-          contentContainerStyle={[{ gap: space['2xl'], paddingBottom: scrollBottom }, padding, contentStyle]}
-          keyboardShouldPersistTaps="handled"
-          refreshControl={
-            onRefresh ? (
-              <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={color.black} />
-            ) : undefined
-          }
-        >
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={[{ flex: 1, gap: space.lg }, padding, contentStyle]}>{children}</View>
-      )}
+      {/* Keyboard avoidance for every form screen: the KAV pads itself by the
+          keyboard overlap, keeping the focused field AND the sticky footer CTA
+          visible (HIG: no input may hide behind the keyboard). */}
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        {scroll ? (
+          <ScrollView
+            contentContainerStyle={[{ gap: space['2xl'], paddingBottom: scrollBottom }, padding, contentStyle]}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+            refreshControl={
+              onRefresh ? (
+                <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={color.black} />
+              ) : undefined
+            }
+          >
+            {children}
+          </ScrollView>
+        ) : (
+          <View style={[{ flex: 1, gap: space.lg }, padding, contentStyle]}>{children}</View>
+        )}
 
-      {footer ? (
-        <View
-          style={{
-            paddingHorizontal: space.lg,
-            paddingTop: space.lg,
-            paddingBottom: space.lg + insets.bottom,
-            borderTopWidth: 1,
-            borderTopColor: color.gray200,
-          }}
-        >
-          {footer}
-        </View>
-      ) : null}
+        {footer ? (
+          <View
+            style={{
+              paddingHorizontal: space.lg,
+              paddingTop: space.lg,
+              paddingBottom: space.lg + insets.bottom,
+              borderTopWidth: 1,
+              borderTopColor: color.gray200,
+            }}
+          >
+            {footer}
+          </View>
+        ) : null}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

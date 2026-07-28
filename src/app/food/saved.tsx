@@ -5,7 +5,7 @@
 // Reached from the add-menu's "Saved foods" card.
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
@@ -21,7 +21,9 @@ import { showToast } from '@/components/display/toastStore';
 import { color, radius, space } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
 import { useSavedFoods, editSavedFood, unsaveFood, logMeal, slotForNow } from '@/lib/data';
-import type { SavedFood } from '@/lib/mock/data';
+import type { MealSlot, SavedFood } from '@/lib/mock/data';
+
+const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
 const toEditable = (f: SavedFood): EditableItem => ({
   id: f.id,
@@ -34,6 +36,9 @@ const toEditable = (f: SavedFood): EditableItem => ({
 });
 
 export default function SavedFoodsScreen() {
+  // Slot targeting from the food log's per-meal "+" (via the add menu).
+  const { slot } = useLocalSearchParams<{ slot?: string }>();
+  const targetSlot: MealSlot | null = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : null;
   const { data: foods, isLoading: loading } = useSavedFoods();
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<EditableItem | null>(null);
@@ -47,7 +52,7 @@ export default function SavedFoodsScreen() {
   // One-tap add: logs straight to today's slot through the data seam.
   const add = (f: SavedFood) => {
     logMeal(
-      slotForNow(),
+      targetSlot ?? slotForNow(),
       { name: f.name, quantityG: f.servingG, calories: f.calories, protein: f.protein, carbs: f.carbs, fat: f.fat },
       'manual',
     );
@@ -138,6 +143,7 @@ export default function SavedFoodsScreen() {
                   minTapTarget={false}
                   onPress={() => add(f)}
                   accessibilityLabel={`Add ${f.name}`}
+                  hitSlop={4}
                   style={{
                     width: 36,
                     height: 36,

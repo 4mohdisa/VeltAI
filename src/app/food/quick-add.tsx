@@ -10,7 +10,7 @@
 // and is replaced by the real row on the next hydration.
 import { useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Button, SegmentedField, TextField } from '@/components/forms';
@@ -26,13 +26,16 @@ import type { MealSlot } from '@/lib/mock/data';
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
 export default function QuickAddScreen() {
+  // Slot targeting from the food log's per-meal "+" (via the add menu).
+  const { slot } = useLocalSearchParams<{ slot?: string }>();
+  const initialSlot = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : slotForNow();
   const [calories, setCalories] = useState('');
   const [label, setLabel] = useState('');
-  const [mealType, setMealType] = useState<MealSlot>(slotForNow());
+  const [mealType, setMealType] = useState<MealSlot>(initialSlot);
   const [submitting, setSubmitting] = useState(false);
 
   const kcal = Number(calories);
-  const invalid = !calories || Number.isNaN(kcal) || kcal < 0;
+  const invalid = !calories || Number.isNaN(kcal) || kcal <= 0;
 
   const add = async () => {
     if (invalid) return;
@@ -83,7 +86,7 @@ export default function QuickAddScreen() {
         options={SLOTS.map((s) => ({ label: s, value: s }))}
       />
 
-      <Button title={`Add ${invalid ? 0 : kcal} kcal`} onPress={() => void add()} disabled={invalid} loading={submitting} />
+      <Button title={invalid ? 'Add calories' : `Add ${kcal} kcal`} onPress={() => void add()} disabled={invalid} loading={submitting} />
     </SheetContent>
   );
 }

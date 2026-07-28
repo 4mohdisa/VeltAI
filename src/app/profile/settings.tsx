@@ -1,12 +1,14 @@
 // E2 · Settings list
 // Apple-style grouped settings. Order: Account, Subscription, Goals, Preferences,
-// Notifications, Apple Health, Privacy, Support, About.
+// Notifications, Privacy, Support, About, then Sign out / Delete account.
+import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
 import { showToast } from '@/components/display/toastStore';
 import { hasProEntitlement, isBillingEnabled, restorePurchases } from '@/lib/billing/purchases';
+import { useAppState } from '@/lib/auth/appState';
 import { router, type Href } from 'expo-router';
 
 // Restore Purchases (Apple requires this for any app with IAP). Result via toast.
@@ -28,6 +30,17 @@ async function restore(): Promise<void> {
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
+  const { dispatch } = useAppState();
+
+  // SIGN_OUT → machine purges every store + offline queue, ends the Clerk
+  // session (signOutSeam), RevenueCat identity resets via the bridge.
+  const confirmSignOut = () => {
+    Alert.alert('Sign out?', 'Your data stays in your account — sign back in anytime.', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Sign out', style: 'destructive', onPress: () => dispatch({ type: 'SIGN_OUT' }) },
+    ]);
+  };
+
   return (
     <Screen grouped title={t('settings.title')} showBack>
       <SettingsList
@@ -46,7 +59,6 @@ export default function SettingsScreen() {
         rows={[
           { icon: 'options-outline', label: t('settings.preferences'), onPress: () => router.push('/profile/preferences') },
           { icon: 'notifications-outline', label: t('settings.notifications'), onPress: () => router.push('/profile/notifications') },
-          { icon: 'heart-outline', label: t('settings.appleHealth'), onPress: () => router.push('/profile/apple-health') },
           { icon: 'link-outline', label: 'Connected apps', onPress: () => router.push('/profile/integrations' as Href) },
         ]}
       />
@@ -62,6 +74,7 @@ export default function SettingsScreen() {
       />
       <SettingsList
         rows={[
+          { icon: 'log-out-outline', label: 'Sign out', onPress: confirmSignOut },
           {
             icon: 'trash-outline',
             label: 'Delete my account',

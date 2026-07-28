@@ -18,6 +18,7 @@ import { useSSO, useSignIn, useSignUp } from '@clerk/clerk-expo';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, TextField } from '@/components/forms';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
@@ -48,18 +49,45 @@ async function continueAfterAuth(): Promise<void> {
   navigate('/onboarding/measurements');
 }
 
+// Inline legal links: footnote text is ~18pt tall, so a 14pt vertical hitSlop
+// gives each link a ≥44pt effective target without reflowing the footer.
+const LINK_HIT_SLOP = { top: 14, bottom: 14, left: 8, right: 8 };
+
+function LegalLink({ label, href }: { label: string; href: Href }) {
+  return (
+    <Pressable
+      accessibilityRole="link"
+      minTapTarget={false}
+      hitSlop={LINK_HIT_SLOP}
+      onPress={() => router.push(href)}
+    >
+      <Text variant="footnote" color={color.label} style={{ textDecorationLine: 'underline' }}>
+        {label}
+      </Text>
+    </Pressable>
+  );
+}
+
 function LegalFooter() {
   return (
-    <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center', marginTop: space.md }}>
-      By continuing you agree to our{' '}
-      <Text variant="footnote" color={color.label} onPress={() => router.push('/legal/terms' as Href)}>
-        Terms
-      </Text>{' '}
-      and{' '}
-      <Text variant="footnote" color={color.label} onPress={() => router.push('/legal/privacy' as Href)}>
-        Privacy Policy
+    <View
+      style={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: space.md,
+      }}
+    >
+      <Text variant="footnote" color={color.secondaryLabel}>
+        {'By continuing you agree to our '}
       </Text>
-    </Text>
+      <LegalLink label="Terms" href={'/legal/terms' as Href} />
+      <Text variant="footnote" color={color.secondaryLabel}>
+        {' and '}
+      </Text>
+      <LegalLink label="Privacy Policy" href={'/legal/privacy' as Href} />
+    </View>
   );
 }
 
@@ -75,6 +103,8 @@ function ClerkSignup() {
   const [stage, setStage] = useState<'buttons' | 'email' | 'code'>('buttons');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [emailError, setEmailError] = useState<string | undefined>();
+  const [codeError, setCodeError] = useState<string | undefined>();
 
   const clerkMessage = (e: unknown): string => {
     const err = e as { errors?: { message?: string; code?: string }[] };
@@ -114,9 +144,10 @@ function ClerkSignup() {
   const sendCode = useCallback(async () => {
     const addr = email.trim().toLowerCase();
     if (!/^\S+@\S+\.\S+$/.test(addr)) {
-      showToast({ message: 'Enter a valid email address.', tone: 'error' });
+      setEmailError('Enter a valid email address.');
       return;
     }
+    setEmailError(undefined);
     setBusy('email');
     try {
       if (mode === 'signup') {
@@ -142,9 +173,10 @@ function ClerkSignup() {
 
   const verifyCode = useCallback(async () => {
     if (code.trim().length < 4) {
-      showToast({ message: 'Enter the code from your email.', tone: 'error' });
+      setCodeError('Enter the code from your email.');
       return;
     }
+    setCodeError(undefined);
     setBusy('email');
     try {
       if (mode === 'signup') {
@@ -200,11 +232,19 @@ function ClerkSignup() {
           <TextField
             label="Email"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(t) => {
+              setEmail(t);
+              setEmailError(undefined);
+            }}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
+            textContentType="emailAddress"
+            autoComplete="email"
+            returnKeyType="send"
+            onSubmitEditing={() => void sendCode()}
             placeholder="you@example.com"
+            error={emailError}
           />
           <Button title="Send code" loading={busy === 'email'} onPress={() => void sendCode()} />
           <Button title="Back" variant="tertiary" disabled={anyBusy} onPress={() => setStage('buttons')} />
@@ -217,27 +257,36 @@ function ClerkSignup() {
           <TextField
             label="Code"
             value={code}
-            onChangeText={setCode}
+            onChangeText={(t) => {
+              setCode(t);
+              setCodeError(undefined);
+            }}
             keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            autoComplete="one-time-code"
+            returnKeyType="go"
+            onSubmitEditing={() => void verifyCode()}
             placeholder="123456"
+            error={codeError}
           />
           <Button title="Verify" loading={busy === 'email'} onPress={() => void verifyCode()} />
           <Button title="Use a different email" variant="tertiary" disabled={anyBusy} onPress={() => setStage('email')} />
         </>
       )}
 
-      <Text
-        variant="footnote"
-        color={color.label}
-        style={{ textAlign: 'center', marginTop: space.sm }}
+      <Pressable
+        accessibilityRole="button"
+        disabled={anyBusy}
+        style={{ marginTop: space.sm }}
         onPress={() => {
-          if (anyBusy) return;
           setMode((m) => (m === 'signup' ? 'signin' : 'signup'));
           setStage('buttons');
         }}
       >
-        {mode === 'signup' ? 'Already have an account? Sign in' : 'New to Lumo? Create an account'}
-      </Text>
+        <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>
+          {mode === 'signup' ? 'Already have an account? Sign in' : 'New to Lumo? Create an account'}
+        </Text>
+      </Pressable>
 
       <LegalFooter />
     </View>
@@ -253,7 +302,7 @@ function DevSignup() {
       <Button title="Continue with Apple" icon="logo-apple" variant="primary" onPress={next} />
       <Button title="Continue with Google" icon="logo-google" variant="secondary" onPress={next} />
       <Button title="Continue with email →" variant="tertiary" onPress={next} />
-      <Text variant="footnote" color={color.tertiaryLabel} style={{ textAlign: 'center' }}>
+      <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
         Local dev auth mode — no Clerk key configured
       </Text>
       <LegalFooter />

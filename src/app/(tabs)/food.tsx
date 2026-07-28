@@ -223,8 +223,10 @@ export default function FoodLogScreen() {
   const onRefresh = useCallback(() => {
     haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
+    refetch();
+    // refetch() is fire-and-forget (returns void) — keep a short visible spin.
     setTimeout(() => setRefreshing(false), 700);
-  }, []);
+  }, [refetch]);
 
   const applyEdit = (next: EditableItem) => {
     editFoodItem(next.id, next);
@@ -303,7 +305,7 @@ export default function FoodLogScreen() {
               slot={section.slot}
               subtotal={section.subtotal}
               energyUnit={energyUnit}
-              onAdd={() => router.push('/food/add')}
+              onAdd={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
             />
           ) : null
         }
@@ -344,7 +346,7 @@ export default function FoodLogScreen() {
             <Pressable
               haptic={false}
               minTapTarget={false}
-              onPress={() => router.push('/food/add')}
+              onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
               accessibilityLabel={`Add to ${section.slot}`}
               style={{
                 backgroundColor: surface.card,
@@ -628,7 +630,7 @@ function SearchResultRow({
       ) : null}
       <View style={{ flex: 1, gap: space.xs, paddingVertical: space.sm }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-          {conflict ? <Icon name="alert-circle-outline" size={16} color={accent.yellow} /> : null}
+          {conflict ? <Icon name="alert-circle-outline" size={16} color={accent.orange} /> : null}
           <Text variant="body" color={color.label}>
             {food.name}
           </Text>

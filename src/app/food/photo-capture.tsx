@@ -5,10 +5,11 @@
 // additive. Capture failure (no camera in the dev binary) falls back to the
 // mock single-shot flow so the screen never dead-ends.
 import { useRef, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
+import { ensureAiConsent } from '@/lib/ai/consent';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Icon } from '@/components/primitives/Icon';
 
@@ -51,6 +52,9 @@ export default function PhotoCaptureScreen() {
 
   const capture = async () => {
     if (capturing || done) return;
+    // 5.1.2(i): photos go to Google Gemini — one-time disclosure before the
+    // first capture; nothing is taken or uploaded without it.
+    if (!(await ensureAiConsent())) return;
     setCapturing(true);
     try {
       const photo = await cameraRef.current?.takePictureAsync({ base64: true, quality: 0.6 });
@@ -86,7 +90,13 @@ export default function PhotoCaptureScreen() {
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
             Lumo uses the camera to scan your meals for accurate calorie tracking.
           </Text>
-          <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+          {permission.canAskAgain ? (
+            <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+          ) : (
+            // Permanently denied — the system prompt can't re-appear; send the
+            // user to Settings instead of a silent no-op.
+            <Button title="Open Settings" onPress={() => void Linking.openSettings()} fullWidth={false} />
+          )}
           <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />
         </View>
       </SafeAreaView>
@@ -118,13 +128,25 @@ export default function PhotoCaptureScreen() {
                   ) : (
                     <View style={{ width: 48, height: 48, borderRadius: radius.sm, backgroundColor: color.gray700 }} />
                   )}
-                  <Text variant="caption" color={color.white} style={{ position: 'absolute', bottom: 2, left: 4 }}>
+                  <Text
+                    variant="caption"
+                    color={color.white}
+                    style={{
+                      position: 'absolute',
+                      bottom: 2,
+                      left: 2,
+                      backgroundColor: color.overlayStrong,
+                      borderRadius: radius.sm,
+                      paddingHorizontal: space.xs,
+                    }}
+                  >
                     {s.angle}
                   </Text>
                   <Pressable
                     onPress={() => removeShot(i)}
                     haptic={false}
                     minTapTarget={false}
+                    hitSlop={13}
                     accessibilityLabel={`Remove ${s.angle} shot`}
                     style={{ position: 'absolute', top: -6, right: -6, backgroundColor: color.black, borderRadius: radius.full }}
                   >
@@ -163,6 +185,9 @@ export default function PhotoCaptureScreen() {
                     variant="secondary"
                     loading={capturing}
                     onPress={() => void capture()}
+                    // Solid fill — the transparent secondary is unreadable over
+                    // a live camera feed.
+                    style={{ backgroundColor: color.white }}
                   />
                 </View>
               ) : null}

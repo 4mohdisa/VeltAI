@@ -323,6 +323,32 @@ func TestInsightsFromLLM(t *testing.T) {
 	}
 }
 
+// Guideline 1.4.1: every LLM call must carry the medical guardrail in its
+// system prompt — no medical/diagnostic advice, no extreme-restriction advice.
+func TestEverySystemPromptCarriesMedicalGuardrail(t *testing.T) {
+	const guard = "consult a healthcare professional"
+
+	llm := &fakeLLM{resp: "ok"}
+	st := fullStore()
+	mux := newMux(st, llm, fixedNow)
+	do(t, mux, "POST", "/api/ai/brain/rebuild", nil, "user_1")
+
+	do(t, mux, "GET", "/api/ai/insights", nil, "user_1")
+	if !strings.Contains(llm.system, guard) {
+		t.Errorf("insights system prompt lacks medical guardrail: %q", llm.system)
+	}
+
+	do(t, mux, "GET", "/api/ai/morning-brief", nil, "user_1")
+	if !strings.Contains(llm.system, guard) {
+		t.Errorf("morning-brief system prompt lacks medical guardrail: %q", llm.system)
+	}
+
+	do(t, mux, "POST", "/api/ai/query", map[string]string{"question": "should I fast?"}, "user_1")
+	if !strings.Contains(llm.system, guard) {
+		t.Errorf("query system prompt lacks medical guardrail: %q", llm.system)
+	}
+}
+
 func TestMalformedLLMJSONFallsBack(t *testing.T) {
 	st := fullStore()
 	mux := newMux(st, &fakeLLM{resp: "Sorry, I can't do JSON today. Eat more protein!"}, fixedNow)

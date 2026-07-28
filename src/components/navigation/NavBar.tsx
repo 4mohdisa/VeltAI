@@ -22,7 +22,8 @@ export function NavBar({ title, showBack = true, onBack, backLabel, right, borde
   return (
     <View
       style={{
-        height: layout.buttonHeight,
+        // minHeight: the title scales with Dynamic Type — grow, don't clip.
+        minHeight: layout.buttonHeight,
         justifyContent: 'center',
         borderBottomWidth: borderless ? 0 : 1,
         borderBottomColor: color.gray200,

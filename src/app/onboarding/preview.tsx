@@ -53,7 +53,7 @@ export default function PreviewScreen() {
         <View style={{ gap: space.sm }}>
           <Button title="Create my account →" onPress={() => navigate('/onboarding/signup')} />
           <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-            Free 7-day trial, then $8.99/month
+            Free 7-day trial — pricing shown before you subscribe.
           </Text>
         </View>
       }

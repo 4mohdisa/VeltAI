@@ -5,7 +5,7 @@
 // optional. A soft reconciliation hint shows when macros don't sum to calories —
 // never a hard block. All values are stored canonical (kcal + grams); the energy
 // unit only affects how calories are shown/entered.
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -54,6 +54,19 @@ export default function GoalsScreen() {
   // --- field commit helpers (parse display → canonical, write to store) ------
   const num = (v: string) => Math.max(0, Math.round(Number(v) || 0));
 
+  // Draft-per-field: while a field is focused the raw string lives locally and
+  // is parsed/committed only when editing ends — clearing a field no longer
+  // snaps to '0', and the kJ round-trip can't rewrite digits under the caret.
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const draft = (key: string, storeValue: string, commit: (v: string) => void) => ({
+    value: drafts[key] ?? storeValue,
+    onChangeText: (v: string) => setDrafts((d) => ({ ...d, [key]: v })),
+    onEndEditing: (e: { nativeEvent: { text: string } }) => {
+      commit(e.nativeEvent.text);
+      setDrafts(({ [key]: _committed, ...rest }) => rest); // re-sync to the (clamped) store value
+    },
+  });
+
   const onCalories = (v: string) => setCustomGoals({ calories: Math.round(displayToKcal(num(v), energyUnit)) });
 
   const onMacroGrams = (key: MacroKey, v: string) => setCustomGoals({ [key]: num(v) });
@@ -92,8 +105,8 @@ export default function GoalsScreen() {
 
       <TextField
         label={`${t('goals.dailyCalories')} (${energyUnit})`}
-        value={String(kcalToDisplay(goals.calories, energyUnit))}
-        onChangeText={onCalories}
+        {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
+        helper="Between 1,200 and 10,000 kcal."
         editable={isCustom}
         disabled={!isCustom}
         keyboardType="numeric"
@@ -119,8 +132,7 @@ export default function GoalsScreen() {
           <View style={{ flex: 1 }}>
             <TextField
               label={`${m.label} (g)`}
-              value={String(goals[m.key])}
-              onChangeText={(v) => onMacroGrams(m.key, v)}
+              {...draft(`${m.key}-g`, String(goals[m.key]), (v) => onMacroGrams(m.key, v))}
               editable={isCustom && splitBy === 'grams'}
               disabled={!isCustom || splitBy !== 'grams'}
               keyboardType="numeric"
@@ -129,8 +141,7 @@ export default function GoalsScreen() {
           <View style={{ flex: 1 }}>
             <TextField
               label={`${m.label} (%)`}
-              value={percentOf(m.key)}
-              onChangeText={(v) => onMacroPercent(m.key, v)}
+              {...draft(`${m.key}-pct`, percentOf(m.key), (v) => onMacroPercent(m.key, v))}
               editable={isCustom && splitBy === 'percent'}
               disabled={!isCustom || splitBy !== 'percent'}
               keyboardType="numeric"
@@ -141,8 +152,7 @@ export default function GoalsScreen() {
 
       <TextField
         label={t('goals.fibre')}
-        value={String(goals.fibre)}
-        onChangeText={(v) => setCustomGoals({ fibre: num(v) })}
+        {...draft('fibre', String(goals.fibre), (v) => setCustomGoals({ fibre: num(v) }))}
         editable={isCustom}
         disabled={!isCustom}
         keyboardType="numeric"
