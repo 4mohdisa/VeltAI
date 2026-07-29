@@ -33,12 +33,15 @@ always win. Production: set real env vars on the host.
 | `PORT` | Listen port (set automatically by Railway/Fly/Heroku) | no — falls back to LUMO_BASE_URL port, then 8080 |
 | `LUMO_TIMEZONE` | Server-side calendar TZ for streak/brief math (IANA) | no — default UTC |
 | `REVENUECAT_WEBHOOK_AUTH` | Shared secret for POST /api/webhooks/revenuecat | for billing sync |
+| `REVENUECAT_WEBHOOK_AUTH_PREVIOUS` | The secret being retired. Set during a rotation so in-flight webhooks aren't dropped; unset it once traffic confirms it is unused | no |
+| `CLERK_ISSUER` | Clerk Frontend API URL. Pins the JWT `iss` claim so a template token minted for another service can't authenticate here | prod: strongly recommended (warns if unset) |
+| `LUMO_ENV` | `production` turns on the strict startup checks and drops the Expo dev origin from CORS. Inferred from `PORT` when unset | no |
 | `GEMINI_API_KEY` | Photo/label scan pipeline | scan 503 without |
 | `ANTHROPIC_API_KEY` | AI brain / insights / morning brief / query | AI 503 without |
 | `USDA_API_KEY` | Food search (DEMO_KEY works, low rate limit) | no |
 | `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` | Strava OAuth import | for Strava |
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | WHOOP OAuth import | for WHOOP |
-| `INTEGRATION_ENCRYPTION_KEY` | 32-byte hex key, AES-256-GCM for stored OAuth tokens (`openssl rand -hex 32`) | for integrations |
+| `INTEGRATION_ENCRYPTION_KEY` | AES-256-GCM key for stored OAuth tokens. **`openssl rand -base64 32`** — the cipher base64-DECODES this and requires exactly 32 bytes. (`-hex 32` decodes to 48 bytes and fails closed with a 503; it was documented wrong here until 2026-07-29.) | for integrations |
 
 ### Free/Pro gating (server-enforced — see `internal/entitlement`)
 
@@ -46,6 +49,21 @@ always win. Production: set real env vars on the host.
 |---|---|---|
 | `LUMO_GATING_ENABLED` | Master switch for Pro enforcement. `false` opens every paid feature to everyone (promo periods only) | `true` |
 | `LUMO_FREE_SCANS_PER_DAY` | AI scans a non-subscriber may run per day. `0` = none, negative = unlimited | `3` |
+
+### Limits and bounds (all env-tunable, no redeploy)
+
+| Var | Purpose | Default |
+|---|---|---|
+| `LUMO_RATE_AI_PER_MIN` | Per-user requests/min to the paid AI + scan routes | `10` |
+| `LUMO_RATE_WRITE_PER_MIN` | Per-user writes/min | `120` |
+| `LUMO_RATE_READ_PER_MIN` | Per-user reads/min | `300` |
+| `LUMO_MAX_QUESTION_CHARS` | Ask-Lumo question cap, in runes | `500` |
+| `LUMO_MAX_IMAGE_PIXELS` | Decoded-pixel ceiling, checked from the header before decode (decompression-bomb guard) | `40000000` |
+| `LUMO_SCAN_CONCURRENCY` | Concurrent scan-pipeline runs; over this returns 503 + Retry-After | `4` |
+| `LUMO_SCAN_TIMEOUT_SEC` | Deadline for one background pipeline run | `120` |
+| `LUMO_SUB_DEFAULT_TTL_HOURS` | Bounded expiry for a grant event that carries none (never infinite) | `36` |
+
+A limit of `0` or less disables that rate-limit class. Rate-limit counters, webhook replay records and OAuth CSRF states all live in Postgres, so they hold across instances and restarts — see DECISIONS.md.
 
 Free: manual/search/barcode logging, all gym features, your own data,
 dashboards, energy balance, export, account management and deletion, plus the

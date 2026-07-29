@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"sync"
 	"testing"
 	"time"
 
@@ -18,13 +19,59 @@ import (
 // Fakes
 // ---------------------------------------------------------------------------
 
+// oauthState mirrors one oauth_states row.
+type oauthState struct {
+	userID, provider string
+	expiresAt        time.Time
+}
+
 type fakeStore struct {
 	conns    map[string]integrations.Connection // key: user|provider
 	imported map[string]bool                    // key: user|provider|activityID
+
+	// mu guards states only: it makes ConsumeState indivisible, exactly as
+	// DELETE ... RETURNING is indivisible in Postgres.
+	mu       sync.Mutex
+	states   map[string]oauthState
+	stateErr error // when set, the state store is "down"
 }
 
 func newStore() *fakeStore {
-	return &fakeStore{conns: map[string]integrations.Connection{}, imported: map[string]bool{}}
+	return &fakeStore{
+		conns:    map[string]integrations.Connection{},
+		imported: map[string]bool{},
+		states:   map[string]oauthState{},
+	}
+}
+
+func (f *fakeStore) IssueState(_ context.Context, token, userID, provider string, expiresAt time.Time) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.stateErr != nil {
+		return f.stateErr
+	}
+	f.states[token] = oauthState{userID: userID, provider: provider, expiresAt: expiresAt}
+	return nil
+}
+
+// ConsumeState is the fake's model of `DELETE ... RETURNING`: the row is removed
+// and returned in one indivisible step, so exactly one caller can ever see it.
+// The token is burned even when the provider or expiry then rejects it.
+func (f *fakeStore) ConsumeState(_ context.Context, token, provider string, now time.Time) (string, bool, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.stateErr != nil {
+		return "", false, f.stateErr
+	}
+	st, ok := f.states[token]
+	if !ok {
+		return "", false, nil
+	}
+	delete(f.states, token)
+	if st.provider != provider || now.After(st.expiresAt) {
+		return "", false, nil
+	}
+	return st.userID, true, nil
 }
 
 func ckey(u, p string) string { return u + "|" + p }

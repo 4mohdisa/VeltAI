@@ -2,12 +2,14 @@
 // costs real money, so an unthrottled token is an unbounded bill; writes and
 // reads are capped too so one client cannot starve the rest.
 //
-// Fixed one-minute windows, counted in memory. ponytail: per-process, so N
-// instances allow N x the limit — move to a shared store only if we ever run
-// more than one.
+// Fixed one-minute windows. Counting is per-process by default; give the
+// limiter a Store (see pg.go) and the counters live in Postgres instead, so N
+// instances share one budget rather than allowing N x the limit.
 package ratelimit
 
 import (
+	"context"
+	"log"
 	"net"
 	"net/http"
 	"strconv"
@@ -43,6 +45,13 @@ func LoadLimits() Limits {
 	}
 }
 
+// Store is a counter shared by every instance. Increment must add one to the
+// counter for (key, windowStart) and return the NEW total in a single atomic
+// statement — a read-then-write loses races and stops limiting under load.
+type Store interface {
+	Increment(ctx context.Context, key string, windowStart time.Time) (int, error)
+}
+
 // counter is one caller's usage inside one window.
 type counter struct {
 	start time.Time
@@ -53,14 +62,15 @@ type counter struct {
 type Limiter struct {
 	limits Limits
 	now    func() time.Time
+	store  Store // nil => count in memory, per process
 
 	mu        sync.Mutex
 	buckets   map[string]*counter
 	lastSweep time.Time
 }
 
-// New builds a Limiter. now is injectable so tests are deterministic; nil means
-// time.Now.
+// New builds a per-process Limiter. now is injectable so tests are
+// deterministic; nil means time.Now.
 func New(limits Limits, now func() time.Time) *Limiter {
 	if now == nil {
 		now = time.Now
@@ -68,20 +78,59 @@ func New(limits Limits, now func() time.Time) *Limiter {
 	return &Limiter{limits: limits, now: now, buckets: make(map[string]*counter)}
 }
 
+// NewShared builds a Limiter whose counters live in store, so every instance
+// draws on the same budget. A store error DENIES (see Middleware): if we cannot
+// count, we cannot claim the caller is under the limit.
+func NewShared(limits Limits, now func() time.Time, store Store) *Limiter {
+	l := New(limits, now)
+	l.store = store
+	return l
+}
+
 // Allow records one request from key in class. It reports whether the request
-// may proceed and, when it may not, how long until the window resets.
+// may proceed and, when it may not, how long until the window resets. A shared
+// store that errors reports "not allowed" — callers wanting to distinguish
+// "over limit" (429) from "cannot tell" (503) use AllowCtx.
 func (l *Limiter) Allow(key, class string) (bool, time.Duration) {
+	ok, retry, _ := l.AllowCtx(context.Background(), key, class)
+	return ok, retry
+}
+
+// AllowCtx is Allow with a context and the store's error. A non-nil error means
+// the decision could not be made: FAIL CLOSED — deny, but as 503, not 429.
+func (l *Limiter) AllowCtx(ctx context.Context, key, class string) (bool, time.Duration, error) {
 	limit := l.limits[class]
 	if limit <= 0 {
-		return true, 0 // class disabled
+		return true, 0, nil // class disabled
 	}
 	now := l.now()
+	// "|" not "\x00": this key is a Postgres text value, and text cannot hold a
+	// NUL byte. Both halves are prefixed ("ai", "u:"/"ip:"), so "|" is unambiguous.
+	k := class + "|" + key
 
+	if l.store == nil {
+		ok, retry := l.allowLocal(now, k, limit)
+		return ok, retry, nil
+	}
+	// Windows are aligned to the wall clock so every instance agrees on which
+	// window a request belongs to without coordinating.
+	start := now.Truncate(window)
+	retry := start.Add(window).Sub(now)
+	n, err := l.store.Increment(ctx, k, start)
+	if err != nil {
+		return false, retry, err
+	}
+	if n > limit {
+		return false, retry, nil
+	}
+	return true, 0, nil
+}
+
+func (l *Limiter) allowLocal(now time.Time, k string, limit int) (bool, time.Duration) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.sweep(now)
 
-	k := class + "\x00" + key
 	c := l.buckets[k]
 	if c == nil || now.Sub(c.start) >= window {
 		l.buckets[k] = &counter{start: now, n: 1}
@@ -111,9 +160,19 @@ func (l *Limiter) sweep(now time.Time) {
 
 // Middleware rejects requests over the limit with 429 + Retry-After. Mount it
 // INSIDE the auth middleware so the caller's identity is already verified.
+//
+// A shared-store failure is 503, not 429: the caller exceeded nothing, we simply
+// could not tell, and telling them "too many requests" would be a lie that also
+// hides an outage. Either way the request does not reach the handler.
 func (l *Limiter) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ok, retry := l.Allow(Key(r), Classify(r.Method, r.URL.Path))
+		ok, retry, err := l.AllowCtx(r.Context(), Key(r), Classify(r.Method, r.URL.Path))
+		if err != nil {
+			log.Printf("ratelimit: store unavailable, denying request: %v", err)
+			w.Header().Set("Retry-After", strconv.Itoa(retryAfterSeconds(retry)))
+			httpx.Error(w, http.StatusServiceUnavailable, "rate limiter unavailable — try again shortly")
+			return
+		}
 		if !ok {
 			w.Header().Set("Retry-After", strconv.Itoa(retryAfterSeconds(retry)))
 			httpx.Error(w, http.StatusTooManyRequests, "too many requests — try again shortly")

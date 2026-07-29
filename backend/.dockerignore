@@ -1,0 +1,41 @@
+# Keep the build context tiny and secret-free. Anything not needed to compile
+# the server should never enter the build — a file in the context can end up in
+# an image layer even if the final stage does not COPY it.
+
+# Secrets — the important ones. .env must NEVER reach a layer.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Tests and fixtures: the binary does not need them and they are the bulk of the
+# tree. (They stay in git — this only excludes them from the DOCKER context.)
+tests/
+**/*_test.go
+
+# Hand-run operational scripts. reset_production.sql in particular must not be
+# anywhere near a running container.
+scripts/
+
+# Build output and local artifacts
+server
+bin/
+*.out
+*.test
+coverage*
+
+# VCS / editor / OS
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+
+# Docs and deployment config (not needed to compile)
+*.md
+Dockerfile
+.dockerignore
+docker-compose*.yml

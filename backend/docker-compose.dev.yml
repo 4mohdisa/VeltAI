@@ -1,0 +1,55 @@
+# LOCAL DEVELOPMENT ONLY — never deploy this file.
+#
+#   docker compose -f docker-compose.dev.yml up --build
+#
+# Unlike the production compose, this one DOES run a Postgres so you can bring
+# the stack up against a throwaway database with no Supabase account. The
+# credentials below are deliberately weak and public: this database is meant to
+# be disposable and must never hold real data or be reachable from anywhere but
+# your machine.
+
+services:
+  db:
+    image: postgres:16-alpine
+    # Loopback only — a local dev database must not be on your network.
+    ports:
+      - "127.0.0.1:55432:5432"
+    environment:
+      POSTGRES_USER: lumo
+      POSTGRES_PASSWORD: lumo-local-dev-only
+      POSTGRES_DB: lumo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumo -d lumo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    # No volume: the database is wiped when the stack goes down, which is the
+    # point. Add one only if you want dev data to survive, and never for prod.
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Local-only placeholders. The server refuses to start without
+      # DATABASE_URL and CLERK_SECRET_KEY (config.Validate), so the key here is
+      # a syntactically valid dummy — it is never sent anywhere, and any real
+      # authenticated request will correctly fail JWKS verification.
+      DATABASE_URL: postgres://lumo:lumo-local-dev-only@db:5432/lumo?sslmode=disable
+      CLERK_SECRET_KEY: sk_test_local_dev_placeholder_not_a_real_key
+      LUMO_ENV: development
+      LUMO_BASE_URL: http://localhost:8080
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/lumo-api", "-healthcheck"]
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5

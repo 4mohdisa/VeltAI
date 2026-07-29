@@ -4,7 +4,7 @@
 // background; failures are logged and the local state stands.
 import { api, type GymExerciseInput } from '@/lib/api';
 import { track } from '@/lib/analytics';
-import { runOrQueueSequence } from '@/lib/offline/queue';
+import { runOrQueue, runOrQueueSequence } from '@/lib/offline/queue';
 import { isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, todayISO } from './mappers';
 import { useFoodStore, type NewFoodItem } from './foodStore';
 import { useGymStore } from './gymStore';
@@ -43,7 +43,7 @@ const swapSavedId = (localId: string, serverId: string) =>
 const pendingMealCreates = new Map<string, Promise<string | null>>();
 const pendingSavedCreates = new Map<string, Promise<string | null>>();
 
-const trackCreate = (pending: Map<string, Promise<string | null>>, localId: string, create: Promise<string>) =>
+const trackCreate = (pending: Map<string, Promise<string | null>>, localId: string, create: Promise<string | null>) =>
   pending.set(
     localId,
     create.catch((e: unknown) => {
@@ -54,12 +54,15 @@ const trackCreate = (pending: Map<string, Promise<string | null>>, localId: stri
 
 /** Register a meal-item create round-trip: swaps the server id onto the local row
  *  on success and lets racing edits/deletes await it. Also used by scan.ts for
- *  the confirm call — its failure only warns and never propagates to the caller. */
-export const registerMealCreate = (localId: string, create: Promise<{ id: string }>) =>
+ *  the confirm call — its failure only warns and never propagates to the caller.
+ *  A null row means "queued for replay" (see logMeal): the local id stands until
+ *  the flush lands, and hydration keeps the row because hasPendingCreate is true. */
+export const registerMealCreate = (localId: string, create: Promise<{ id: string } | null>) =>
   trackCreate(
     pendingMealCreates,
     localId,
     create.then((row) => {
+      if (!row) return null;
       swapMealItemId(localId, row.id);
       return row.id;
     }),
@@ -71,7 +74,12 @@ export const hasPendingCreate = (id: string): boolean => pendingMealCreates.has(
 
 /** Run `op` against the row's server id: directly for server ids, after the
  *  in-flight create resolves for local ids. Skipped (with a warn) when the
- *  create failed — there is no server row to address. */
+ *  create failed OR was queued — there is no server row to address yet.
+ *
+ *  ponytail: an edit made between a queued create and its flush is therefore
+ *  local-only — the replay posts the ORIGINAL body. (Still strictly better than
+ *  before, when the whole row never reached the server.) Give the queue a
+ *  "patch a pending body" call if users report edited portions reverting. */
 const withServerId = (pending: Map<string, Promise<string | null>>, id: string, op: (serverId: string) => Promise<unknown>) => {
   const inFlight = pending.get(id);
   if (inFlight) {
@@ -93,7 +101,18 @@ export const logMeal = (slot: MealSlot, item: NewFoodItem, method: EntryMethod =
   // (and emit scan_* analytics instead of food_logged).
   if (!pending) {
     track('food_logged', { method });
-    registerMealCreate(id, api.foodLogs.create(logInputFromItem(slot, item, method)));
+    // Through the offline queue, NOT api.foodLogs.create directly: the food store
+    // has no cross-restart persistence, so a write the backend refuses (offline,
+    // 5xx from a proxy/restarting server, 429) would otherwise exist only in this
+    // session and be gone at next launch. Queued it carries an Idempotency-Key,
+    // so the replay can never produce a second row; onLanded swaps the server id
+    // onto the optimistic row when it finally goes through.
+    registerMealCreate(
+      id,
+      runOrQueue<{ id: string }>('/api/food/logs', logInputFromItem(slot, item, method), (row) =>
+        swapMealItemId(id, row.id),
+      ),
+    );
   }
   return id;
 };

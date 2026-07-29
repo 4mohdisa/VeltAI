@@ -7,8 +7,55 @@
 
 // Deploy-time config, no code edit needed: set EXPO_PUBLIC_API_URL to the
 // deployed backend origin (see CONFIG.md). Dev default matches
-// backend/internal/config/config.go config.BaseURL.
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080';
+// backend/internal/config/config.go config.BaseURL. Scheme-agnostic: an https
+// origin works as-is. A trailing slash is stripped so 'https://api.x.com/'
+// doesn't produce '//api/...'.
+const BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080').replace(/\/+$/, '');
+
+// Network posture (all env-tunable, all with sane defaults):
+//   EXPO_PUBLIC_API_TIMEOUT_MS         per-attempt deadline for a normal request
+//   EXPO_PUBLIC_API_UPLOAD_TIMEOUT_MS  ditto for image uploads (megabytes, slow uplink)
+//   EXPO_PUBLIC_API_RETRIES            retries for idempotent GETs (0 disables)
+const num = (v: string | undefined, d: number): number =>
+  v === undefined || v === '' || !Number.isFinite(Number(v)) ? d : Number(v);
+const TIMEOUT_MS = num(process.env.EXPO_PUBLIC_API_TIMEOUT_MS, 15_000);
+const UPLOAD_TIMEOUT_MS = num(process.env.EXPO_PUBLIC_API_UPLOAD_TIMEOUT_MS, 60_000);
+const GET_RETRIES = Math.max(0, num(process.env.EXPO_PUBLIC_API_RETRIES, 2));
+const RETRY_BASE_MS = 300;
+
+// Scan payloads carry base64 image data — one shot is ~1-3 MB, a multi-angle
+// capture up to three. On a real uplink that is nowhere near the normal budget.
+const isUploadBody = (b: unknown): boolean =>
+  typeof b === 'object' && b !== null && ('image_base64' in b || 'images' in b);
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Bound a request. fetch() has NO default timeout, so a hung connection would
+ * spin the UI forever. The signal frees the socket; the explicit reject makes
+ * the failure deterministic even if the platform's fetch ignores the signal.
+ *
+ * ponytail: the deadline covers the fetch call, which on RN resolves only once
+ * the whole body has arrived — i.e. the whole request. On a streaming fetch a
+ * slow body read would be unbounded; bound the read too if that ever matters.
+ */
+function withTimeout<T>(p: Promise<T>, ms: number, controller: AbortController, label: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      controller.abort();
+      const e = new Error(`request timed out after ${ms}ms: ${label}`);
+      (e as { timedOut?: boolean }).timedOut = true;
+      reject(e);
+    }, ms);
+    p.then(resolve, reject).finally(() => clearTimeout(timer));
+  });
+}
+
+// A request that burned its whole deadline is NOT retried: a second 15s wait
+// rarely helps and would triple the worst case a user stares at a spinner
+// (the launch gate in src/app/index.tsx awaits a GET). Cheap failures —
+// connection refused, 5xx — are the ones worth another go.
+const timedOut = (e: unknown): boolean => (e as { timedOut?: boolean } | null)?.timedOut === true;
 
 export class ApiError extends Error {
   status: number;
@@ -76,43 +123,70 @@ function qs(params?: Query): string {
   return '?' + entries.map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`).join('&');
 }
 
-// issue performs one fetch with the given bearer token (null → no header).
+// issue performs one fetch with the given bearer token (null → no header),
+// bounded by the request (or upload) deadline.
 async function issue(method: string, path: string, body: unknown, extraHeaders: Record<string, string> | undefined, token: string | null): Promise<Response> {
   const headers: Record<string, string> = { Accept: 'application/json', ...extraHeaders };
   if (body !== undefined) headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = `Bearer ${token}`;
-  return fetch(BASE_URL + path, {
-    method,
-    headers,
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  return withTimeout(
+    fetch(BASE_URL + path, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+      signal: controller.signal,
+    }),
+    isUploadBody(body) ? UPLOAD_TIMEOUT_MS : TIMEOUT_MS,
+    controller,
+    `${method} ${path}`,
+  );
 }
 
 async function request<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
   const token = tokenProvider ? await tokenProvider() : null;
-  let res = await issue(method, path, body, extraHeaders, token);
-
-  // 401 → ONE forced token refresh + retry; only a second 401 (or a failed
-  // refresh) signs the user out (Phase 13 machine: expired → refresh → signOut).
-  if (res.status === 401 && tokenRefreshHandler) {
-    const fresh = await tokenRefreshHandler().catch(() => null);
-    if (fresh) {
-      res = await issue(method, path, body, extraHeaders, fresh);
+  // Retry ONLY idempotent GETs (network failure/timeout or 5xx), with backoff.
+  // A write is never retried here: without server-side dedup a replayed POST is
+  // a duplicate row. Writes that must survive a flaky network go through the
+  // offline queue, which carries an Idempotency-Key (src/lib/offline/queue.ts).
+  const retries = method === 'GET' ? GET_RETRIES : 0;
+  for (let attempt = 0; ; attempt++) {
+    let res: Response;
+    try {
+      res = await issue(method, path, body, extraHeaders, token);
+    } catch (e) {
+      if (attempt >= retries || timedOut(e)) throw e;
+      await sleep(RETRY_BASE_MS * 3 ** attempt);
+      continue;
     }
-  }
-  if (res.status === 401) unauthorizedHandler?.(); // machine sign-out path; still throws below
 
-  let envelope: { data: T; error: unknown } | undefined;
-  try {
-    envelope = (await res.json()) as { data: T; error: unknown };
-  } catch {
-    // Non-JSON body (proxy error page, empty body) — fall through to status check.
+    // 401 → ONE forced token refresh + retry; only a second 401 (or a failed
+    // refresh) signs the user out (Phase 13 machine: expired → refresh → signOut).
+    if (res.status === 401 && tokenRefreshHandler) {
+      const fresh = await tokenRefreshHandler().catch(() => null);
+      if (fresh) {
+        res = await issue(method, path, body, extraHeaders, fresh);
+      }
+    }
+    if (res.status === 401) unauthorizedHandler?.(); // machine sign-out path; still throws below
+
+    if (res.status >= 500 && attempt < retries) {
+      await sleep(RETRY_BASE_MS * 3 ** attempt);
+      continue;
+    }
+
+    let envelope: { data: T; error: unknown } | undefined;
+    try {
+      envelope = (await res.json()) as { data: T; error: unknown };
+    } catch {
+      // Non-JSON body (proxy error page, empty body) — fall through to status check.
+    }
+    if (!res.ok || (envelope?.error != null && envelope.error !== '')) {
+      throw parseApiError(res.status, envelope?.error);
+    }
+    if (envelope === undefined) throw new ApiError(res.status, 'invalid response envelope');
+    return envelope.data;
   }
-  if (!res.ok || (envelope?.error != null && envelope.error !== '')) {
-    throw parseApiError(res.status, envelope?.error);
-  }
-  if (envelope === undefined) throw new ApiError(res.status, 'invalid response envelope');
-  return envelope.data;
 }
 
 const req = {
@@ -129,10 +203,13 @@ export function replayQueuedPost<T>(path: string, body: unknown, idempotencyKey:
   return request<T>('POST', path, body, idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : undefined);
 }
 
-// A network failure (fetch rejected) vs a server response (ApiError). Only network
-// failures are worth queuing for replay; a 4xx is permanent.
-export function isNetworkError(e: unknown): boolean {
-  return !(e instanceof ApiError);
+/** Worth queuing for a later replay: a network failure, or a status that says
+ *  "try again" rather than "this request is wrong" — 5xx (server/proxy down,
+ *  deploy in progress), 429 (rate limited), 408 (request timeout). A 4xx is
+ *  permanent: replaying it would fail identically forever. */
+export function isTransient(e: unknown): boolean {
+  if (!(e instanceof ApiError)) return true;
+  return e.status >= 500 || e.status === 429 || e.status === 408;
 }
 
 // --- Types (snake_case, matching the API/schema) -------------------------------

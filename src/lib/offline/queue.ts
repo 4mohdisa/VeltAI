@@ -7,7 +7,7 @@
 // ponytail: secure-store values are small (~2KB on iOS); a handful of queued food/
 // gym writes fit comfortably. Move to a file/db if the queue ever grows large.
 import { getItem, setItem } from '@/lib/storage/secureStore';
-import { ApiError, replayQueuedPost, isNetworkError } from '@/lib/api';
+import { ApiError, replayQueuedPost, isTransient } from '@/lib/api';
 
 const STORAGE_KEY = 'lumo.offline.queue';
 
@@ -34,6 +34,14 @@ let queue: QueuedMutation[] = [];
 let loaded = false;
 let flushing: Promise<{ flushed: number; remaining: number }> | null = null;
 const listeners = new Set<(count: number) => void>();
+
+// Mutation id → "the server finally took it, here is the row" callback, so an
+// optimistic local row can swap in the server id when a queued create lands
+// (without it, hydration would show the local row AND the server row).
+// ponytail: in-memory only, deliberately. The stores it patches are in-session
+// too (foodStore has no cross-restart persistence), so after a restart there is
+// no local row left to reconcile — the replay just creates the server row.
+const landedCallbacks = new Map<string, (row: unknown) => void>();
 
 let seq = 0;
 function genId(): string {
@@ -96,9 +104,9 @@ async function runUnit(m: QueuedMutation): Promise<unknown> {
   if (m.serverId === undefined) {
     created = await replayQueuedPost<{ id?: string } | null>(m.path, m.body, m.idempotencyKey);
     const id = (created as { id?: string } | null)?.id;
-    // No id to address the steps with — permanent (an ApiError, so it is never
-    // mistaken for "still offline" and retried forever).
-    if (steps.length > 0 && !id) throw new ApiError(502, 'sequenced create returned no id');
+    // No id to address the steps with — permanent. 422, not 5xx: isTransient()
+    // must NOT classify this as "try again later" or it would requeue forever.
+    if (steps.length > 0 && !id) throw new ApiError(422, 'sequenced create returned no id');
     m.serverId = id ?? '';
     if (steps.length > 0) await persist();
   }
@@ -111,16 +119,18 @@ async function runUnit(m: QueuedMutation): Promise<unknown> {
 }
 
 /**
- * Try a write now; on a NETWORK failure, queue it (with a fresh idempotency key)
- * and resolve null. A server error (4xx/5xx) is permanent — it re-throws.
+ * Try a write now; on a TRANSIENT failure (offline, timeout, 5xx from a proxy or
+ * a restarting backend, 429), queue it with its idempotency key and resolve null.
+ * Only a permanent 4xx re-throws — replaying that would fail identically forever.
  */
-export async function runOrQueue<T>(path: string, body: unknown): Promise<T | null> {
+export async function runOrQueue<T>(path: string, body: unknown, onLanded?: (row: T) => void): Promise<T | null> {
   const key = genId();
   try {
     return await replayQueuedPost<T>(path, body, key);
   } catch (e) {
-    if (isNetworkError(e)) {
-      await enqueue(path, body, key);
+    if (isTransient(e)) {
+      const m = await enqueue(path, body, key);
+      if (onLanded) landedCallbacks.set(m.id, onLanded as (row: unknown) => void);
       return null;
     }
     throw e;
@@ -138,7 +148,7 @@ export async function runOrQueueSequence(path: string, body: unknown, steps: Que
   try {
     await runUnit(m);
   } catch (e) {
-    if (!isNetworkError(e)) throw e;
+    if (!isTransient(e)) throw e;
     await loadQueue();
     queue.push(m); // carries whatever progress runUnit made
     await persist();
@@ -166,10 +176,16 @@ async function runFlush(): Promise<{ flushed: number; remaining: number }> {
   let flushed = 0;
   while (queue.length > 0) {
     const m = queue[0];
+    let created: unknown;
     try {
-      await runUnit(m);
+      created = await runUnit(m);
     } catch {
       break;
+    }
+    const landed = landedCallbacks.get(m.id);
+    if (landed) {
+      landedCallbacks.delete(m.id);
+      landed(created);
     }
     queue.shift();
     flushed++;
@@ -199,6 +215,7 @@ export async function __resetForTests(): Promise<void> {
   loaded = false;
   flushing = null;
   listeners.clear();
+  landedCallbacks.clear();
   await persist();
 }
 

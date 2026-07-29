@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -14,11 +15,32 @@ import (
 	"lumo/backend/internal/subscription"
 )
 
-type fakeStore struct{ subs map[string]subscription.Sub }
+// fakeStore simulates the ATOMIC semantics of the Postgres store: ClaimEvent is
+// INSERT ... ON CONFLICT DO NOTHING (exactly one caller wins) and UpsertIfNewer
+// compares-and-writes under one lock (the row lock). Everything is guarded by a
+// single mutex so the concurrency tests below exercise real interleavings.
+type fakeStore struct {
+	mu     sync.Mutex
+	subs   map[string]subscription.Sub
+	lastTS map[string]int64 // user -> newest applied event_timestamp_ms
+	claims map[string]bool  // provider|event_id
+	err    error            // when set, every call fails (DB down)
+}
 
-func newFakeStore() *fakeStore { return &fakeStore{subs: map[string]subscription.Sub{}} }
+func newFakeStore() *fakeStore {
+	return &fakeStore{
+		subs:   map[string]subscription.Sub{},
+		lastTS: map[string]int64{},
+		claims: map[string]bool{},
+	}
+}
 
 func (f *fakeStore) Get(_ context.Context, userID string) (subscription.Sub, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.err != nil {
+		return subscription.Sub{}, f.err
+	}
 	s, ok := f.subs[userID]
 	if !ok {
 		return subscription.Sub{}, subscription.ErrNotFound
@@ -26,12 +48,47 @@ func (f *fakeStore) Get(_ context.Context, userID string) (subscription.Sub, err
 	return s, nil
 }
 
-func (f *fakeStore) Upsert(_ context.Context, s subscription.Sub) error {
-	f.subs[s.UserID] = s
+func (f *fakeStore) ClaimEvent(_ context.Context, provider, eventID string) (bool, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.err != nil {
+		return false, f.err
+	}
+	k := provider + "|" + eventID
+	if f.claims[k] {
+		return false, nil // already processed — replay
+	}
+	f.claims[k] = true
+	return true, nil
+}
+
+func (f *fakeStore) ReleaseEvent(_ context.Context, provider, eventID string) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	delete(f.claims, provider+"|"+eventID)
 	return nil
 }
 
+func (f *fakeStore) UpsertIfNewer(_ context.Context, s subscription.Sub, tsMs int64) (bool, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.err != nil {
+		return false, f.err
+	}
+	if prev, ok := f.lastTS[s.UserID]; ok && tsMs < prev {
+		return false, nil // out of order — the WHERE clause is false
+	}
+	f.lastTS[s.UserID] = tsMs
+	f.subs[s.UserID] = s
+	return true, nil
+}
+
 func (f *fakeStore) Transfer(_ context.Context, from, to string) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.err != nil {
+		return f.err
+	}
 	delete(f.subs, to)
 	s, ok := f.subs[from]
 	if !ok {
@@ -41,6 +98,21 @@ func (f *fakeStore) Transfer(_ context.Context, from, to string) error {
 	s.UserID = to
 	f.subs[to] = s
 	return nil
+}
+
+// sub reads a stored subscription under the lock (the handler may still be
+// running in the concurrency tests).
+func (f *fakeStore) sub(userID string) (subscription.Sub, bool) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	s, ok := f.subs[userID]
+	return s, ok
+}
+
+func (f *fakeStore) count() int {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	return len(f.subs)
 }
 
 const webhookAuth = "Bearer rc-secret"
@@ -172,7 +244,7 @@ func TestWebhookAnonymousUserIgnored(t *testing.T) {
 	if !strings.Contains(rec.Body.String(), "ignored") {
 		t.Fatalf("want ignored result, got %s", rec.Body)
 	}
-	if len(store.subs) != 0 {
+	if store.count() != 0 {
 		t.Fatalf("anonymous event must not create rows, got %v", store.subs)
 	}
 }
@@ -241,7 +313,7 @@ func TestWebhookGrantWithoutExpiryIsBounded(t *testing.T) {
 	if rec.Code != http.StatusOK {
 		t.Fatalf("webhook: status %d, body %s", rec.Code, rec.Body)
 	}
-	got := store.subs["user_1"]
+	got, _ := store.sub("user_1")
 	if got.ExpiresAt == nil {
 		t.Fatal("grant without expiration_at_ms must not be stored as never-expiring")
 	}
@@ -326,7 +398,7 @@ func TestWebhookStaleEventIgnored(t *testing.T) {
 	if rec.Code != http.StatusOK || !strings.Contains(rec.Body.String(), "ignored") {
 		t.Fatalf("want 200 ignored, got %d %s", rec.Code, rec.Body)
 	}
-	if len(store.subs) != 0 {
+	if store.count() != 0 {
 		t.Fatalf("stale event must not write, got %v", store.subs)
 	}
 }
@@ -349,5 +421,62 @@ func TestActiveStatusPastExpiryInactive(t *testing.T) {
 	data := getStatus(t, newMux(store), "user_1")
 	if data["is_active"] != false {
 		t.Fatalf("want inactive past expiry, got %v", data)
+	}
+}
+
+// Secret rotation: the webhook must accept BOTH the current and the previous
+// secret during the overlap window. Without that, every rotation drops the
+// webhooks in flight while the dashboard and the server disagree — and a
+// dropped RevenueCat event means a paying user silently loses access.
+func TestWebhookAcceptsCurrentAndPreviousSecretDuringRotation(t *testing.T) {
+	const current = "Bearer rc-new-secret"
+	const previous = "Bearer rc-old-secret"
+	t.Setenv("REVENUECAT_WEBHOOK_AUTH_PREVIOUS", previous)
+
+	for _, tc := range []struct {
+		name, header string
+		wantCode     int
+	}{
+		{"current secret", current, http.StatusOK},
+		{"previous secret (still in flight)", previous, http.StatusOK},
+		{"a retired third secret", "Bearer rc-ancient", http.StatusForbidden},
+		{"empty header", "", http.StatusForbidden},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			store := newFakeStore()
+			mux := http.NewServeMux()
+			subscription.RegisterWebhook(mux, store, current)
+
+			body := `{"event":{"id":"evt_` + tc.name + `","type":"INITIAL_PURCHASE","app_user_id":"user_rot",` +
+				`"period_type":"NORMAL","store":"APP_STORE","product_id":"p"}}`
+			req := httptest.NewRequest(http.MethodPost, "/api/webhooks/revenuecat", strings.NewReader(body))
+			if tc.header != "" {
+				req.Header.Set("Authorization", tc.header)
+			}
+			rec := httptest.NewRecorder()
+			mux.ServeHTTP(rec, req)
+
+			if rec.Code != tc.wantCode {
+				t.Fatalf("status = %d, want %d (body %s)", rec.Code, tc.wantCode, rec.Body)
+			}
+		})
+	}
+}
+
+// With no previous secret configured, only the current one is accepted — the
+// rotation support must not widen what is accepted by default.
+func TestWebhookRejectsPreviousWhenRotationNotInProgress(t *testing.T) {
+	t.Setenv("REVENUECAT_WEBHOOK_AUTH_PREVIOUS", "")
+	store := newFakeStore()
+	mux := http.NewServeMux()
+	subscription.RegisterWebhook(mux, store, "Bearer only-current")
+
+	req := httptest.NewRequest(http.MethodPost, "/api/webhooks/revenuecat",
+		strings.NewReader(`{"event":{"id":"e1","type":"INITIAL_PURCHASE","app_user_id":"u"}}`))
+	req.Header.Set("Authorization", "Bearer some-old-secret")
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, req)
+	if rec.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403", rec.Code)
 	}
 }

@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 
 	"lumo/backend/internal/ai"
@@ -26,7 +28,19 @@ import (
 	"lumo/backend/internal/subscription"
 )
 
+// version is set at build time via -ldflags. It is NOT exposed on any
+// endpoint (a version banner just tells an attacker which CVEs to try) — it
+// exists for the startup log line only.
+var version = "dev"
+
 func main() {
+	// Container healthcheck. The runtime image is distroless: no shell, no
+	// curl, nothing to probe with — so the binary probes itself and exits
+	// 0/1. Docker's HEALTHCHECK and compose both invoke this.
+	if len(os.Args) > 1 && os.Args[1] == "-healthcheck" {
+		os.Exit(healthcheck())
+	}
+
 	// Fail LOUDLY on misconfiguration rather than serving a process that 401s
 	// every request behind a green health check. Warnings name the features
 	// that will degrade to 503 so a partial deploy is visible in the logs.
@@ -112,23 +126,25 @@ func main() {
 	// one policy table (internal/entitlement). Ordering matters — auth first,
 	// then entitlement, then the routes.
 	gate := entitlement.New(subs, scanStore, entitlement.LoadConfig())
-	// Rate limiting sits AFTER auth (it keys on the verified user id) and
-	// BEFORE entitlement, so a flood is rejected in memory instead of running a
-	// subscription + scan-count DB lookup per request. Built once — a limiter
-	// constructed per request has no memory and enforces nothing.
-	limiter := ratelimit.New(ratelimit.LoadLimits(), nil)
+	// Rate limiting sits AFTER auth (it keys on the verified user id) and BEFORE
+	// entitlement, so a flood costs one indexed upsert rather than the
+	// entitlement path's subscription + scan-count lookups. Counters live in
+	// Postgres: per-process counters would mean N instances allow N x the limit,
+	// which is the same as not limiting. Built once — a limiter constructed per
+	// request has no memory and enforces nothing.
+	limiter := ratelimit.NewShared(ratelimit.LoadLimits(), nil, ratelimit.NewPGStore(pool))
 	mux.Handle("/api/", cors(auth.Middleware(auth.NewClerkVerifier())(
 		limiter.Middleware(gate.Middleware(jsonFallback(api))))))
 
 	srv := &http.Server{
 		Addr:              config.Addr(),
-		Handler:           mux,
+		Handler:           securityHeaders(mux),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       30 * time.Second,
 		WriteTimeout:      60 * time.Second,
 		IdleTimeout:       120 * time.Second,
 	}
-	log.Printf("lumo backend listening on %s (%s)", config.Addr(), config.BaseURL())
+	log.Printf("lumo backend %s listening on %s (%s)", version, config.Addr(), config.BaseURL())
 	log.Fatal(srv.ListenAndServe())
 }
 
@@ -194,6 +210,49 @@ func cors(next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+// healthcheck probes the local server and returns a process exit code. Used by
+// the container HEALTHCHECK, which cannot shell out in a distroless image.
+// Deliberately hits 127.0.0.1 (never the public origin) so it tests THIS
+// process, not whatever the load balancer happens to point at.
+func healthcheck() int {
+	addr := config.Addr()
+	if strings.HasPrefix(addr, ":") {
+		addr = "127.0.0.1" + addr
+	}
+	client := &http.Client{Timeout: 3 * time.Second}
+	resp, err := client.Get("http://" + addr + "/health")
+	if err != nil {
+		return 1
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return 1
+	}
+	return 0
+}
+
+// securityHeaders sets defence-in-depth headers on EVERY response, including
+// /health and the webhooks. nginx sets these too; doing it here as well means
+// they hold if the app is ever exposed without nginx in front (a mistake that
+// should not also silently drop the headers).
+//
+// This is a JSON API consumed by a native app, so the headers that matter are
+// the ones that stop a browser being tricked into interpreting a response:
+// nosniff (no MIME guessing), DENY (never framed), and no referrer leakage.
+// HSTS is set by nginx, which is what actually terminates TLS.
+func securityHeaders(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		h := w.Header()
+		h.Set("X-Content-Type-Options", "nosniff")
+		h.Set("X-Frame-Options", "DENY")
+		h.Set("Referrer-Policy", "no-referrer")
+		// Nothing here is meant to be rendered or embedded by a browser.
+		h.Set("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'")
+		h.Set("Cache-Control", "no-store")
 		next.ServeHTTP(w, r)
 	})
 }

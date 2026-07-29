@@ -1,0 +1,95 @@
+# Lumo API — systemd unit (the ALTERNATIVE to Docker Compose).
+#
+# WHICH ONE SHOULD YOU USE?
+#
+#   Compose is the PRIMARY, documented path (backend/docker-compose.yml), and
+#   DEPLOY.md assumes it. Reasons: the image is reproducible and identical to
+#   what you tested locally; resource limits, log rotation, healthcheck,
+#   read-only rootfs and capability dropping are all declared in one file; and
+#   rollback is "point at the previous image tag", which is atomic and fast.
+#
+#   Use THIS unit instead if you would rather not run a Docker daemon — fewer
+#   moving parts and slightly less memory, at the cost of building or shipping
+#   the binary yourself and doing rollback by swapping a file. The hardening
+#   below is the systemd equivalent of the compose security_opt/cap_drop block.
+#
+#   Do not run both. Two copies of the API bound to the same port will simply
+#   fail to start, but two bound to DIFFERENT ports is a real hazard: nginx
+#   proxies to one while the other quietly serves stale code.
+#
+# Install:
+#   sudo install -m 0644 lumo-api.service /etc/systemd/system/lumo-api.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now lumo-api
+
+[Unit]
+Description=Lumo API
+Documentation=https://github.com/4mohdisa/VeltAI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lumo
+Group=lumo
+
+# Secrets live OUTSIDE the repo, root-owned 0600. systemd reads the file as
+# root before dropping to User=, so the lumo user never needs to read it —
+# which means a compromised app process cannot re-read its own secrets off disk.
+EnvironmentFile=/etc/lumo/lumo-api.env
+
+ExecStart=/usr/local/bin/lumo-api
+Restart=on-failure
+RestartSec=5s
+# Do not restart-loop forever on a config error: after 5 failures in 60s, stop
+# and stay stopped so the failure is visible instead of churning.
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+# Logs to journald (the app writes to stdout/stderr). Rotation and retention
+# are journald's, configured in DEPLOYMENT_SECURITY.md §4.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=lumo-api
+
+# --- Hardening -------------------------------------------------------------
+# Cannot gain privileges via setuid/setgid binaries.
+NoNewPrivileges=yes
+# Read-only /usr and /boot; /etc read-only too. The app writes nothing.
+ProtectSystem=strict
+# Private /tmp, destroyed on stop — no cross-process temp-file games.
+PrivateTmp=yes
+# No access to /home, /root, /run/user.
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+# Only IP sockets — no unix-domain surprises, no AF_PACKET.
+RestrictAddressFamilies=AF_INET AF_INET6
+# The binary binds 8080 (>1024) and needs no capabilities at all.
+CapabilityBoundingSet=
+AmbientCapabilities=
+# Syscall allow-list for a normal network service.
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+SystemCallArchitectures=native
+
+# --- Resource limits -------------------------------------------------------
+# The scan pipeline decodes user images; this is the backstop that keeps a
+# decode blow-up from taking the box down (the app also bounds pixels and
+# concurrency). Size for your instance — this assumes a 2 GB box.
+MemoryMax=1G
+MemoryHigh=768M
+TasksMax=256
+LimitNOFILE=8192
+
+[Install]
+WantedBy=multi-user.target

@@ -3,7 +3,6 @@ package integrations
 import (
 	"encoding/base64"
 	"testing"
-	"time"
 )
 
 // ---------------------------------------------------------------------------
@@ -63,44 +62,6 @@ func TestCipherDecryptRejectsTampering(t *testing.T) {
 	}
 	if _, err := c.Decrypt(tampered); err == nil {
 		t.Error("tampered ciphertext should fail authentication")
-	}
-}
-
-// ---------------------------------------------------------------------------
-// State store
-// ---------------------------------------------------------------------------
-
-func TestStateStoreIssueConsume(t *testing.T) {
-	now := time.Unix(1_000_000, 0)
-	s := newStateStore(func() time.Time { return now })
-
-	tok, err := s.issue("u1", "strava")
-	if err != nil {
-		t.Fatalf("issue: %v", err)
-	}
-	// Wrong provider is rejected.
-	if _, ok := s.consume(tok, "whoop"); ok {
-		t.Error("consume accepted wrong provider")
-	}
-	// The failed consume still removed the token (one-time), so re-issue.
-	tok, _ = s.issue("u1", "strava")
-	uid, ok := s.consume(tok, "strava")
-	if !ok || uid != "u1" {
-		t.Fatalf("consume = %q,%v want u1,true", uid, ok)
-	}
-	// Second consume of the same token fails (one-time use).
-	if _, ok := s.consume(tok, "strava"); ok {
-		t.Error("token reused")
-	}
-}
-
-func TestStateStoreExpiry(t *testing.T) {
-	now := time.Unix(1_000_000, 0)
-	s := newStateStore(func() time.Time { return now })
-	tok, _ := s.issue("u1", "strava")
-	now = now.Add(stateTTL + time.Second) // advance past the TTL
-	if _, ok := s.consume(tok, "strava"); ok {
-		t.Error("expired token accepted")
 	}
 }
 

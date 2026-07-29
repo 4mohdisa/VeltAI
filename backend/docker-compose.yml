@@ -1,0 +1,76 @@
+# Lumo API — PRODUCTION compose.
+#
+#   docker compose up -d
+#
+# Deliberately the API service ONLY. Postgres is managed (Supabase); running a
+# database container next to the app would give you an unmanaged, unbackuped,
+# unmonitored second copy of your users' health data. Local development with a
+# throwaway database uses docker-compose.dev.yml instead.
+#
+# Secrets come from an env file OUTSIDE this directory (see `env_file`), which
+# is root-owned 0600 and never in git. Nothing secret appears in this file.
+
+services:
+  api:
+    image: ${LUMO_IMAGE:-lumo-api:latest}
+    container_name: lumo-api
+    restart: unless-stopped
+
+    # THE PUBLIC ENTRYPOINT IS NGINX, NOT THIS.
+    # Binding to 127.0.0.1 means the container port is reachable only from the
+    # host's loopback interface. Without the explicit 127.0.0.1, Docker
+    # publishes on 0.0.0.0 AND writes its own iptables rules that bypass ufw —
+    # the API would be exposed on :8080 to the whole internet while `ufw status`
+    # still claimed the port was closed. This one prefix is the difference.
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    # Path is outside the repo so a `git clean`/redeploy cannot delete it and a
+    # stray `git add -A` cannot commit it.
+    env_file:
+      - /etc/lumo/lumo-api.env
+
+    # --- Hardening ---------------------------------------------------------
+    # The app writes nothing to disk (see the Dockerfile note), so nothing needs
+    # to be writable. If that ever changes, add a tmpfs — do not flip this.
+    read_only: true
+    # Go's TLS stack and the http client need somewhere for temp files in some
+    # code paths; give them a small in-memory scratch rather than a writable fs.
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    # Stops a compromised process gaining privileges via setuid binaries.
+    security_opt:
+      - no-new-privileges:true
+    # The process binds 8080 (>1024) and needs nothing else.
+    cap_drop:
+      - ALL
+
+    # --- Resource limits ---------------------------------------------------
+    # The scan pipeline decodes user-supplied images. There are now header-based
+    # pixel bounds in the app (LUMO_MAX_IMAGE_PIXELS) and a concurrency cap
+    # (LUMO_SCAN_CONCURRENCY), but a hard ceiling here is the backstop that
+    # keeps a decode blow-up from taking the whole BOX down: the container is
+    # OOM-killed and restarted instead of the kernel picking a victim.
+    # Size for your instance: this assumes a 2 GB box. Raise both together.
+    mem_limit: 1g
+    mem_reservation: 256m
+    pids_limit: 256
+    cpus: 1.5
+
+    # --- Health ------------------------------------------------------------
+    # The image is distroless (no shell, no curl), so the binary probes itself.
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/lumo-api", "-healthcheck"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+
+    # --- Logs --------------------------------------------------------------
+    # Unrotated container logs are a classic way to fill a disk and take the
+    # box down. 3 x 10 MB is a hard ceiling per container.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

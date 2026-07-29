@@ -221,6 +221,41 @@ func (s *PGStore) CreateImportedSession(ctx context.Context, in ImportedSession)
 	return true, tx.Commit(ctx)
 }
 
+// ConsumeStateSQL burns the token whatever it turns out to be: exactly one
+// caller's DELETE matches the row, so two concurrent callbacks with the same
+// state can never both be served. Provider and expiry are checked on the
+// returned row rather than in the WHERE clause, so probing a state token against
+// the wrong provider still destroys it.
+const ConsumeStateSQL = `DELETE FROM oauth_states WHERE state = $1 RETURNING user_id, provider, expires_at`
+
+func (s *PGStore) IssueState(ctx context.Context, token, userID, provider string, expiresAt time.Time) error {
+	// Sweep first: /connect is a rare, user-initiated request, so this is the
+	// cheapest place to keep the table from accumulating abandoned flows.
+	if _, err := s.q.Exec(ctx, `DELETE FROM oauth_states WHERE expires_at < $1`, time.Now()); err != nil {
+		return err
+	}
+	_, err := s.q.Exec(ctx,
+		`INSERT INTO oauth_states (state, user_id, provider, expires_at) VALUES ($1, $2, $3, $4)`,
+		token, userID, provider, expiresAt)
+	return err
+}
+
+func (s *PGStore) ConsumeState(ctx context.Context, token, provider string, now time.Time) (string, bool, error) {
+	var userID, gotProvider string
+	var expiresAt time.Time
+	err := s.q.QueryRow(ctx, ConsumeStateSQL, token).Scan(&userID, &gotProvider, &expiresAt)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return "", false, nil // unknown or already consumed
+	}
+	if err != nil {
+		return "", false, err
+	}
+	if gotProvider != provider || now.After(expiresAt) {
+		return "", false, nil
+	}
+	return userID, true, nil
+}
+
 func (s *PGStore) TouchLastSync(ctx context.Context, userID, provider string, t time.Time) error {
 	_, err := s.q.Exec(ctx,
 		`UPDATE integration_connections SET last_sync_at = $3 WHERE user_id = $1 AND provider = $2`,

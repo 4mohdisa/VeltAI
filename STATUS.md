@@ -38,9 +38,12 @@ where a real native module lands); voice meal logging (removed — it was a
 simulation).
 
 **Blocked on services/humans:** live auth (no Clerk keys), real purchases (no
-RevenueCat keys/products), device use of the API (backend not deployed),
-Strava/WHOOP (no registered apps), submission itself (Apple Developer account
-in compliance screening).
+RevenueCat keys/products), Strava/WHOOP (no registered apps), submission itself
+(Apple Developer account in compliance screening). The backend is not deployed,
+but is now deployment-READY: [DEPLOY.md](DEPLOY.md) is the ordered runbook and
+[DEPLOYMENT_SECURITY.md](DEPLOYMENT_SECURITY.md) the hardening checklist, with
+the Dockerfile, compose, nginx config, systemd unit and migration runner all in
+the repo.
 
 **Verification baseline** (must stay green): backend `go build ./... && go vet
 ./... && gofmt -l . && go test ./... -count=1` → 29 packages, race-clean; app
@@ -58,9 +61,11 @@ in compliance screening).
    dead link and blocks submission. After it exists, re-add the in-app FAQ and
    third-party-licenses rows that were removed for pointing at a dead domain,
    and set `NEXT_PUBLIC_SITE_URL` at build time.
-3. **Deploy the backend** (`cd backend && go build -o server ./cmd/server`, run
-   with env per CONFIG.md, TLS terminated by the platform) and **apply all 11
-   migrations** (`supabase db push`).
+3. **Deploy the backend** — follow [DEPLOY.md](DEPLOY.md) end to end (server
+   hardening, Docker, env file, backup, migrations, nginx + TLS, smoke tests).
+   Apply all **12** migrations with `./deploy/migrate.sh apply`; note the new
+   `20260729000001_shared_runtime_state` must land BEFORE the new binary starts
+   or every `/api/` request fails closed with 503.
 4. **Set the keys and dashboards**: `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY`,
    `EXPO_PUBLIC_REVENUECAT_IOS_KEY`, `EXPO_PUBLIC_API_URL` in the app; Clerk
    (Apple + Google SSO, email-code strategy, `veltai://` allowlist) and
@@ -95,7 +100,7 @@ in compliance screening).
 | Medium | Cross-source workout dedupe is a date+type+duration(±10min) heuristic because `gym_sessions` stores no start timestamp — two genuinely distinct same-type, similar-length sessions on one day from different sources will merge. Add a start timestamp to upgrade. |
 | Medium | Apple Health is not implemented. When it lands, reads **must** filter out samples Lumo itself wrote, or dietary-energy write-back creates a feedback loop. Needs a native module, the `com.apple.developer.healthkit` entitlement, a native rebuild, and privacy-policy/label updates. |
 | Medium | `LICENSE` is boilerplate (see human action 10). |
-| Medium | Rate-limit counters and webhook replay-guard state are **per-process**: with more than one API instance the effective rate limit is N× and the replay-id set isn't shared. The 24h event-age bound survives restarts and is the durable half. Fix before scaling past one instance (a `last_event_at` column + compare-and-set, and a shared limiter store). |
+| Low | The morning-brief cache and the scan-concurrency semaphore remain per-process. Worst case with N instances: N paid brief calls per user per day instead of 1 (the semaphore being per-box is correct — it bounds a box's resources). |
 | Medium | RevenueCat's webhook auth is a **static bearer header**, not an HMAC over the body — anyone who captures it can forge events. The replay/ordering guards contain blind replay, not a leaked secret. Rotate it if it is ever exposed. |
 | Low | `gym_exercises` has no `idempotency_key`, so an offline-queued exercise step whose response was lost can duplicate that exercise row on retry. The **session** is exactly-once regardless. Needs a migration. |
 | Low | The Food-tab anomaly banner fetches `GET /api/ai/insights` before AI consent. Verified harmless (that handler is a pure DB read and never calls Anthropic), and locked by a test that fails the day it starts generating. |

@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"sync"
 	"time"
 
 	"lumo/backend/internal/auth"
@@ -29,22 +28,37 @@ type Sub struct {
 
 type Store interface {
 	Get(ctx context.Context, userID string) (Sub, error)
-	Upsert(ctx context.Context, s Sub) error
 	Transfer(ctx context.Context, fromUserID, toUserID string) error
+
+	// ClaimEvent records (provider, eventID) as processed and reports whether
+	// THIS caller got the claim. false = some other delivery already has it, i.e.
+	// a replay. Must be atomic (INSERT ... ON CONFLICT DO NOTHING), not
+	// exists-then-insert, or two concurrent deliveries both win.
+	ClaimEvent(ctx context.Context, provider, eventID string) (bool, error)
+
+	// ReleaseEvent drops a claim whose write then failed, so the provider's retry
+	// of a genuinely unapplied event is not mistaken for a replay.
+	ReleaseEvent(ctx context.Context, provider, eventID string) error
+
+	// UpsertIfNewer writes s only when eventTSMs is not older than the newest
+	// event already applied for that user, comparing and updating in ONE
+	// statement. false = the delivery is out of order and was not applied.
+	UpsertIfNewer(ctx context.Context, s Sub, eventTSMs int64) (bool, error)
 }
+
+// eventProvider namespaces the processed-event rows; RevenueCat is the only
+// webhook source today.
+const eventProvider = "revenuecat"
 
 // anonPrefix marks RevenueCat anonymous app user ids; events keyed on them
 // are unattributable to a Clerk user, so the webhook no-ops on them.
 const anonPrefix = "$RCAnonymousID:"
 
-// maxEventAge bounds how old a webhook event may be and still be applied. It is
-// the only replay defence that survives a restart (the guard below is
-// in-memory): a captured request stops working once it ages out. RevenueCat
-// retries a failed delivery for ~24h, so anything older is not a real delivery.
+// maxEventAge bounds how old a webhook event may be and still be applied: a
+// captured request stops working once it ages out. RevenueCat retries a failed
+// delivery for ~24h, so anything older is not a real delivery. It is also the
+// retention horizon for the processed-event rows.
 const maxEventAge = 24 * time.Hour
-
-// maxGuardEntries bounds the in-memory guard's maps.
-const maxGuardEntries = 4096
 
 func isActive(s Sub) bool {
 	switch s.Status {
@@ -95,9 +109,14 @@ func Register(mux *http.ServeMux, store Store) {
 // fixed Authorization header configured in its dashboard; require exact match.
 //
 // The header is a shared bearer secret, NOT an HMAC over the body, so anyone who
-// captures it can forge arbitrary events. The guards here (age bound, replay id
-// set, timestamp monotonicity, transfer preconditions) contain blind replay and
-// bad ordering; they cannot contain a leaked secret. Rotate it if it leaks.
+// captures it can forge arbitrary events. The guards here (age bound, durable
+// event-id claim, timestamp monotonicity, transfer preconditions) contain blind
+// replay and bad ordering; they cannot contain a leaked secret. Rotate it if it
+// leaks.
+//
+// Both replay guards live in Postgres, so they hold across instances and across
+// restarts. A guard that cannot be consulted (DB error) answers 500 — RevenueCat
+// retries, and we never apply an event we could not check.
 func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 	// A grant carrying no expiration must not become permanent Pro. The default
 	// is deliberately longer than a renewal cycle's retry window so a legitimate
@@ -107,14 +126,21 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 	if defaultTTL <= 0 {
 		defaultTTL = 36 * time.Hour
 	}
-	guard := newEventGuard()
+	// Rotation support: authHeader may carry the CURRENT secret, and
+	// REVENUECAT_WEBHOOK_AUTH_PREVIOUS the one being retired. Accepting both for
+	// an overlap window is what makes rotation a non-event — otherwise every
+	// rotation drops whatever webhooks are in flight while the dashboard and the
+	// server disagree, and a dropped RevenueCat event means a paying user
+	// silently loses access. Retire the previous value once traffic confirms it
+	// is unused (DEPLOY.md "Rotating secrets").
+	accepted := acceptedSecrets(authHeader, config.Env("REVENUECAT_WEBHOOK_AUTH_PREVIOUS", ""))
 
 	mux.HandleFunc("POST /api/webhooks/revenuecat", func(w http.ResponseWriter, r *http.Request) {
-		if authHeader == "" {
+		if len(accepted) == 0 {
 			httpx.Error(w, http.StatusServiceUnavailable, "webhook auth not configured")
 			return
 		}
-		if subtle.ConstantTimeCompare([]byte(r.Header.Get("Authorization")), []byte(authHeader)) != 1 {
+		if !authorized(r.Header.Get("Authorization"), accepted) {
 			httpx.Error(w, http.StatusForbidden, "invalid webhook authorization")
 			return
 		}
@@ -151,10 +177,35 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 			ignored()
 			return
 		}
-		if !guard.allow(e.ID, e.AppUserID, ts) {
-			log.Printf("subscription: dropping replayed/out-of-order webhook event %q (type %s)", e.ID, e.Type)
-			ignored()
-			return
+		// Claim the event id BEFORE doing anything with it: the claim is the
+		// atomic INSERT, so of two concurrent deliveries of one event exactly one
+		// proceeds. Claiming after the write would let both through. An event
+		// carrying no id cannot be deduped this way and relies on the timestamp
+		// guard below.
+		if e.ID != "" {
+			claimed, err := store.ClaimEvent(r.Context(), eventProvider, e.ID)
+			if err != nil {
+				httpx.Error(w, http.StatusInternalServerError, "database error")
+				return
+			}
+			if !claimed {
+				log.Printf("subscription: dropping replayed webhook event %q (type %s)", e.ID, e.Type)
+				ignored()
+				return
+			}
+		}
+		// release undoes the claim when the event turns out not to have been
+		// applied because of an ERROR — a retry of an unapplied event must not
+		// look like a replay. Deliberate no-ops (ignored types, failed
+		// preconditions, stale ordering) keep the claim: they are decisions, and
+		// retrying them would reach the same one.
+		release := func() {
+			if e.ID == "" {
+				return
+			}
+			if err := store.ReleaseEvent(r.Context(), eventProvider, e.ID); err != nil {
+				log.Printf("subscription: could not release claim on event %q: %v", e.ID, err)
+			}
 		}
 
 		if e.Type == "TRANSFER" {
@@ -169,6 +220,7 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 			}
 			src, err := store.Get(r.Context(), from)
 			if err != nil && !errors.Is(err, ErrNotFound) {
+				release()
 				httpx.Error(w, http.StatusInternalServerError, "database error")
 				return
 			}
@@ -179,6 +231,7 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 			}
 			dst, err := store.Get(r.Context(), to)
 			if err != nil && !errors.Is(err, ErrNotFound) {
+				release()
 				httpx.Error(w, http.StatusInternalServerError, "database error")
 				return
 			}
@@ -188,10 +241,10 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 				return
 			}
 			if err := store.Transfer(r.Context(), from, to); err != nil {
+				release()
 				httpx.Error(w, http.StatusInternalServerError, "database error")
 				return
 			}
-			guard.record(e.ID, e.AppUserID, ts)
 			httpx.JSON(w, http.StatusOK, map[string]string{"result": "ok"})
 			return
 		}
@@ -240,81 +293,22 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 		if pi := intervalFromProduct(e.ProductID); pi != "" {
 			sub.PlanInterval = &pi
 		}
-		if err := store.Upsert(r.Context(), sub); err != nil {
+		// One statement compares ts against the user's last applied event and
+		// writes: two concurrent deliveries for one user cannot both win, and a
+		// delayed EXPIRATION cannot downgrade a fresh RENEWAL on another instance.
+		applied, err := store.UpsertIfNewer(r.Context(), sub, ts)
+		if err != nil {
+			release()
 			httpx.Error(w, http.StatusInternalServerError, "database error")
 			return
 		}
-		guard.record(e.ID, e.AppUserID, ts)
+		if !applied {
+			log.Printf("subscription: dropping out-of-order webhook event %q (type %s)", e.ID, e.Type)
+			ignored()
+			return
+		}
 		httpx.JSON(w, http.StatusOK, map[string]string{"result": "ok"})
 	})
-}
-
-// eventGuard rejects exact replays (an event id already applied) and
-// out-of-order deliveries (an event older than the newest one already applied
-// for that user), so a delayed EXPIRATION cannot downgrade a fresh RENEWAL.
-//
-// ponytail: in-memory, per process — it does not survive a restart and is not
-// shared across replicas. maxEventAge is the half that does survive. Closing
-// the gap properly needs a last_event_at column on `subscriptions`; not worth a
-// migration until the webhook runs on more than one instance.
-type eventGuard struct {
-	mu   sync.Mutex
-	seen map[string]int64 // event id -> event_timestamp_ms
-	last map[string]int64 // app_user_id -> newest event_timestamp_ms applied
-}
-
-func newEventGuard() *eventGuard {
-	return &eventGuard{seen: map[string]int64{}, last: map[string]int64{}}
-}
-
-// allow reports whether the event may be applied. It records nothing: record is
-// called only once the event has actually been written, so a 500 that
-// RevenueCat retries is not swallowed as a replay.
-func (g *eventGuard) allow(id, user string, ts int64) bool {
-	g.mu.Lock()
-	defer g.mu.Unlock()
-	if id != "" {
-		if _, dup := g.seen[id]; dup {
-			return false
-		}
-	}
-	if user != "" {
-		if prev, ok := g.last[user]; ok && ts < prev {
-			return false
-		}
-	}
-	return true
-}
-
-func (g *eventGuard) record(id, user string, ts int64) {
-	g.mu.Lock()
-	defer g.mu.Unlock()
-	cutoff := time.Now().Add(-maxEventAge).UnixMilli()
-	trim(g.seen, cutoff)
-	trim(g.last, cutoff)
-	if id != "" {
-		g.seen[id] = ts
-	}
-	if user != "" && ts > g.last[user] {
-		g.last[user] = ts
-	}
-}
-
-// trim bounds guard memory: drop entries older than the age window, and if that
-// is not enough drop everything — an event older than the window is rejected by
-// maxEventAge anyway, so forgetting it costs no protection.
-func trim(m map[string]int64, cutoff int64) {
-	if len(m) < maxGuardEntries {
-		return
-	}
-	for k, ts := range m {
-		if ts < cutoff {
-			delete(m, k)
-		}
-	}
-	if len(m) >= maxGuardEntries {
-		clear(m)
-	}
 }
 
 func firstIdentified(ids []string) string {
@@ -364,4 +358,29 @@ func (s *PGStore) IsActive(ctx context.Context, userID string) (bool, error) {
 		return false, err
 	}
 	return isActive(sub), nil
+}
+
+// acceptedSecrets returns the non-empty secrets a webhook may authenticate
+// with (current, and optionally the previous one during a rotation overlap).
+func acceptedSecrets(current, previous string) [][]byte {
+	var out [][]byte
+	for _, s := range []string{current, previous} {
+		if s != "" {
+			out = append(out, []byte(s))
+		}
+	}
+	return out
+}
+
+// authorized compares the presented header against every accepted secret in
+// CONSTANT TIME. It deliberately checks all of them rather than returning
+// early on the first match: an early return leaks, through timing, which of
+// the two secrets matched. The loop's cost is fixed at two comparisons.
+func authorized(presented string, accepted [][]byte) bool {
+	p := []byte(presented)
+	var ok int
+	for _, s := range accepted {
+		ok |= subtle.ConstantTimeCompare(p, s)
+	}
+	return ok == 1
 }

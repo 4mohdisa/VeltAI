@@ -9,7 +9,6 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"net/http"
-	"sync"
 	"time"
 
 	"lumo/backend/internal/auth"
@@ -133,6 +132,18 @@ type Store interface {
 	// the provider activity id).
 	CreateImportedSession(ctx context.Context, in ImportedSession) (bool, error)
 	TouchLastSync(ctx context.Context, userID, provider string, t time.Time) error
+
+	// IssueState stores a one-time OAuth CSRF state. /connect and /callback are
+	// two separate requests that need not hit the same instance, and a restart
+	// between them must not strand the user, so the state is shared, not in RAM.
+	IssueState(ctx context.Context, token, userID, provider string, expiresAt time.Time) error
+
+	// ConsumeState redeems a state token, returning the user who started the
+	// flow. It MUST delete and return in one statement (DELETE ... RETURNING):
+	// two concurrent callbacks carrying the same state must not both succeed.
+	// ok=false when the token is unknown, already used, expired, or was issued
+	// for a different provider.
+	ConsumeState(ctx context.Context, token, provider string, now time.Time) (string, bool, error)
 }
 
 // Provider is one OAuth fitness source. Real implementations (strava.go,
@@ -149,65 +160,23 @@ type Provider interface {
 }
 
 // ---------------------------------------------------------------------------
-// CSRF state store (in-memory, TTL)
+// CSRF state
 // ---------------------------------------------------------------------------
 
+// stateTTL bounds how long an OAuth flow may stay half-finished.
 const stateTTL = 10 * time.Minute
 
-type stateEntry struct {
-	userID, provider string
-	expiry           time.Time
-}
-
-// stateStore holds one-time CSRF tokens tying an OAuth callback back to the user
-// who initiated it. ponytail: in-memory — a server restart drops pending states
-// (10-min window); move to a table only if connect/callback span instances.
-type stateStore struct {
-	mu  sync.Mutex
-	m   map[string]stateEntry
-	now func() time.Time
-}
-
-func newStateStore(now func() time.Time) *stateStore {
-	return &stateStore{m: map[string]stateEntry{}, now: now}
-}
-
-func (s *stateStore) issue(userID, provider string) (string, error) {
+// issueState mints a 256-bit token and hands it to the shared store.
+func (s *Service) issueState(ctx context.Context, userID, provider string) (string, error) {
 	b := make([]byte, 32)
 	if _, err := rand.Read(b); err != nil {
 		return "", err
 	}
 	token := hex.EncodeToString(b)
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.pruneLocked()
-	s.m[token] = stateEntry{userID: userID, provider: provider, expiry: s.now().Add(stateTTL)}
+	if err := s.store.IssueState(ctx, token, userID, provider, s.now().Add(stateTTL)); err != nil {
+		return "", err
+	}
 	return token, nil
-}
-
-// consume validates and removes a token, returning the userID if it's live and
-// belongs to the given provider.
-func (s *stateStore) consume(token, provider string) (string, bool) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	e, ok := s.m[token]
-	if !ok {
-		return "", false
-	}
-	delete(s.m, token)
-	if e.provider != provider || s.now().After(e.expiry) {
-		return "", false
-	}
-	return e.userID, true
-}
-
-func (s *stateStore) pruneLocked() {
-	now := s.now()
-	for k, e := range s.m {
-		if now.After(e.expiry) {
-			delete(s.m, k)
-		}
-	}
 }
 
 // ---------------------------------------------------------------------------
@@ -220,7 +189,6 @@ type Service struct {
 	cipher    *Cipher // nil when INTEGRATION_ENCRYPTION_KEY is missing/invalid
 	providers map[string]Provider
 	order     []string // stable provider order for list responses
-	states    *stateStore
 	now       func() time.Time
 }
 
@@ -231,7 +199,6 @@ func NewService(store Store, cipher *Cipher, providers ...Provider) *Service {
 		store:     store,
 		cipher:    cipher,
 		providers: map[string]Provider{},
-		states:    newStateStore(now),
 		now:       now,
 	}
 	for _, p := range providers {
@@ -353,7 +320,7 @@ func (s *Service) connect(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusServiceUnavailable, p.Name()+" not configured: client credentials missing")
 		return
 	}
-	state, err := s.states.issue(auth.UserID(r.Context()), p.Name())
+	state, err := s.issueState(r.Context(), auth.UserID(r.Context()), p.Name())
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, "could not start OAuth")
 		return
@@ -370,8 +337,10 @@ func (s *Service) callback(w http.ResponseWriter, r *http.Request) {
 		s.redirectApp(w, r, providerName, "error")
 		return
 	}
-	userID, valid := s.states.consume(state, providerName)
-	if !valid {
+	// Consumption is atomic and one-time: a storage error is indistinguishable
+	// from an invalid state here, and both DENY.
+	userID, valid, err := s.store.ConsumeState(r.Context(), state, providerName, s.now())
+	if err != nil || !valid {
 		s.redirectApp(w, r, providerName, "error")
 		return
 	}
