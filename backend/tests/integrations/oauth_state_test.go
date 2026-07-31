@@ -49,9 +49,9 @@ func TestConcurrentCallbacksConsumeStateOnce(t *testing.T) {
 	ok := 0
 	for loc := range results {
 		switch loc {
-		case "lumo://integrations/strava/success":
+		case integrations.AppScheme + "://integrations/strava/success":
 			ok++
-		case "lumo://integrations/strava/error":
+		case integrations.AppScheme + "://integrations/strava/error":
 		default:
 			t.Fatalf("unexpected redirect %q", loc)
 		}
@@ -69,7 +69,7 @@ func TestStateIssuedOnOneInstanceIsUsableOnAnother(t *testing.T) {
 	state := stateFromConnect(t, a, "u1", "strava")
 
 	w := do(t, b, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state)
-	if loc := w.Header().Get("Location"); loc != "lumo://integrations/strava/success" {
+	if loc := w.Header().Get("Location"); loc != integrations.AppScheme+"://integrations/strava/success" {
 		t.Fatalf("callback on a second instance = %q, want success", loc)
 	}
 	if _, ok := store.conns[ckey("u1", "strava")]; !ok {
@@ -83,10 +83,10 @@ func TestStateIsSingleUse(t *testing.T) {
 	mux := serve(stateService(store))
 	state := stateFromConnect(t, mux, "u1", "strava")
 
-	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != "lumo://integrations/strava/success" {
+	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != integrations.AppScheme+"://integrations/strava/success" {
 		t.Fatalf("first callback failed: %q", w.Header().Get("Location"))
 	}
-	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != "lumo://integrations/strava/error" {
+	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != integrations.AppScheme+"://integrations/strava/error" {
 		t.Fatal("a spent state token was accepted a second time")
 	}
 }
@@ -104,7 +104,7 @@ func TestExpiredStateIsRejected(t *testing.T) {
 	store.states[state] = st
 	store.mu.Unlock()
 
-	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != "lumo://integrations/strava/error" {
+	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != integrations.AppScheme+"://integrations/strava/error" {
 		t.Fatal("an expired state token was accepted")
 	}
 }
@@ -118,7 +118,7 @@ func TestStateStoreErrorDenies(t *testing.T) {
 	state := stateFromConnect(t, mux, "u1", "strava")
 
 	store.stateErr = errors.New("db down")
-	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != "lumo://integrations/strava/error" {
+	if w := do(t, mux, "", "GET", "/api/integrations/strava/callback?code=xyz&state="+state); w.Header().Get("Location") != integrations.AppScheme+"://integrations/strava/error" {
 		t.Fatal("a callback was accepted while the state store was unavailable")
 	}
 	if w := do(t, mux, "u1", "GET", "/api/integrations/strava/connect"); w.Code != http.StatusInternalServerError {

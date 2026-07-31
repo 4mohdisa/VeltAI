@@ -280,7 +280,7 @@ func TestConnectCallbackSyncFlow(t *testing.T) {
 	if w.Code != http.StatusFound {
 		t.Fatalf("callback status = %d, want 302", w.Code)
 	}
-	if loc := w.Header().Get("Location"); loc != "lumo://integrations/strava/success" {
+	if loc := w.Header().Get("Location"); loc != integrations.AppScheme+"://integrations/strava/success" {
 		t.Fatalf("callback redirect = %q", loc)
 	}
 
@@ -348,7 +348,7 @@ func TestConnectErrors(t *testing.T) {
 		t.Errorf("sync not-connected = %d, want 400", w.Code)
 	}
 	// bad state on callback → error redirect
-	if w := do(t, mux2, "", "GET", "/api/integrations/strava/callback?code=x&state=bogus"); w.Header().Get("Location") != "lumo://integrations/strava/error" {
+	if w := do(t, mux2, "", "GET", "/api/integrations/strava/callback?code=x&state=bogus"); w.Header().Get("Location") != integrations.AppScheme+"://integrations/strava/error" {
 		t.Errorf("bad-state callback redirect = %q", w.Header().Get("Location"))
 	}
 }

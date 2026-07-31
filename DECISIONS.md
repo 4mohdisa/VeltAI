@@ -91,7 +91,7 @@ in git — this file is not a changelog.
 
 ## Product
 
-- **The Veltai → Lumo rename is not done**: bundle id, slug and scheme are an App Store identity change, and the Clerk scheme allowlist and SSO redirects derive from `scheme: "veltai"`. A human must decide (see STATUS.md).
+- **The Veltai → Lumo rename is not done**: bundle id, slug and scheme are an App Store identity change, and the Clerk scheme allowlist and SSO redirects derive from `scheme: "veltai"`. A human must decide. The complete list of every affected file is in SUBMISSION_READINESS.md §4, split by whether a change is destructive, user-visible, or plumbing. The OAuth deep link no longer hardcodes a *third* scheme (`lumo://`) — both sides now derive from `app.json`, pinned by a test.
 - The app is fully navigable keyless in a dev build (mock-seeded stores) — that is the Expo Go development mode, protected by the release-build guard above.
 - `LICENSE` is Expo scaffolding boilerplate and does not license this codebase; the default is all rights reserved until the owner picks one.
 

@@ -189,3 +189,39 @@ describe('the calorie formula has exactly one definition', () => {
     expect(empty.calories).toBe(1200);
   });
 });
+
+// --- Identity consistency ----------------------------------------------------
+describe('the OAuth deep link uses the scheme this app actually registers', () => {
+  const appJson = () => JSON.parse(readFileSync(join(__dirname, '..', '..', 'app.json'), 'utf8')).expo;
+
+  test('the backend default scheme equals app.json expo.scheme', () => {
+    // Both sides hardcoded 'lumo://' while app.json registers 'veltai', so any
+    // callback that escaped the in-app auth session hit an unregistered scheme
+    // and dead-ended with no way back into the app.
+    const go = readFileSync(
+      join(__dirname, '..', '..', 'backend/internal/integrations/integrations.go'),
+      'utf8',
+    );
+    const m = go.match(/config\.Env\("LUMO_APP_SCHEME",\s*"([^"]+)"\)/);
+    expect(m).not.toBeNull();
+    expect(m![1]).toBe(appJson().scheme);
+  });
+
+  test('no source file hardcodes a deep-link scheme any more', () => {
+    const { execSync } = require('child_process');
+    const hits = execSync(
+      "grep -rn 'lumo://' src backend --include='*.ts' --include='*.tsx' --include='*.go' " +
+        "--exclude-dir=__tests__ --exclude-dir=tests || true",
+      { cwd: join(__dirname, '..', '..'), encoding: 'utf8' },
+    ) as string;
+    // Comments explaining the old value are fine; a live string literal is not.
+    const code = hits
+      .split('\n')
+      .filter(Boolean)
+      .filter((l) => {
+        const body = l.slice(l.indexOf(':', l.indexOf(':') + 1) + 1).trim();
+        return !body.startsWith('//') && !body.startsWith('*');
+      });
+    expect(code).toEqual([]);
+  });
+});
