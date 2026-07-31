@@ -100,3 +100,92 @@ describe('release builds contain no fabricated user data', () => {
     expect(runtime).toEqual([]);
   });
 });
+
+// --- Inputs that used to be discarded ----------------------------------------
+// A screen that collects a value, shows it changing, and then throws it away is
+// a lie about what the app did. Both of these were live inputs whose values
+// never left the device.
+describe('onboarding sends every answer it collects', () => {
+  const payload = () => {
+    jest.resetModules();
+    const { onboardingPayload, useOnboardingStore } = require('@/lib/stores/onboarding');
+    const s = useOnboardingStore.getState();
+    s.setMeasurements({ age: 30, sex: 'male', height_cm: 180, weight_kg: 80, target_weight_kg: 72 });
+    s.setActivity('moderate');
+    s.setGoal('lose');
+    s.setCalorieTarget(2100);
+    return onboardingPayload(useOnboardingStore.getState());
+  };
+
+  test('the target weight the user typed is in the POST body', () => {
+    expect(payload().target_weight).toBe(72);
+  });
+
+  test('the manually adjusted calorie target is in the POST body', () => {
+    expect(payload().calorie_target).toBe(2100);
+  });
+
+  test('optional overrides are omitted rather than sent as 0/null', () => {
+    jest.resetModules();
+    const { onboardingPayload, useOnboardingStore } = require('@/lib/stores/onboarding');
+    const p = onboardingPayload(useOnboardingStore.getState());
+    expect(p).not.toHaveProperty('target_weight');
+    expect(p).not.toHaveProperty('calorie_target');
+  });
+});
+
+describe('the calorie formula has exactly one definition', () => {
+  test('deriveGoals agrees with deriveTargets for the same person', () => {
+    const { deriveGoals } = require('@/lib/goals/derive');
+    const { deriveTargets } = require('@/lib/onboarding/deriveTargets');
+    const person = {
+      age: 28,
+      sex: 'female' as const,
+      height_cm: 165,
+      weight_kg: 62,
+      activity_level: 'moderate' as const,
+      goal: 'lose' as const,
+    };
+    const fromProfile = deriveGoals({
+      name: '',
+      email: '',
+      memberSince: '',
+      weightKg: person.weight_kg,
+      heightCm: person.height_cm,
+      age: person.age,
+      sex: person.sex,
+      goal: 'lose',
+      targetWeightKg: 0,
+      gymTargetPerWeek: 6, // deliberately inconsistent — must NOT affect the result
+      activityLevel: person.activity_level,
+      restrictions: [],
+      allergies: [],
+      cuisines: [],
+    });
+    expect(fromProfile).toEqual(deriveTargets(person));
+  });
+
+  test('a release-build profile with no metrics yields no confident target', () => {
+    // 0 kg / 0 cm cannot produce a real recommendation. The floor still applies,
+    // but protein must not be presented as a real 0 g goal derived from nothing.
+    const { deriveGoals } = require('@/lib/goals/derive');
+    const empty = deriveGoals({
+      name: '',
+      email: '',
+      memberSince: '',
+      weightKg: 0,
+      heightCm: 0,
+      age: 0,
+      sex: 'other' as const,
+      goal: 'lose' as const,
+      targetWeightKg: 0,
+      gymTargetPerWeek: 0,
+      activityLevel: 'sedentary' as const,
+      restrictions: [],
+      allergies: [],
+      cuisines: [],
+    });
+    expect(empty.protein).toBe(0);
+    expect(empty.calories).toBe(1200);
+  });
+});

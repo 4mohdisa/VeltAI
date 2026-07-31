@@ -68,6 +68,9 @@ type OnboardingCompletion struct {
 	BodyType            string
 	Cuisines            []string
 	DietaryRequirements []string
+	// Optional user overrides; nil means "use the derived value".
+	TargetWeight  *float64
+	CalorieTarget *int
 }
 
 // bodyTypeGoalSuggestion maps a body_type to the goal it nudges toward; the
@@ -128,15 +131,21 @@ func (h *handler) getOnboarding(w http.ResponseWriter, r *http.Request) {
 }
 
 type onboardingReq struct {
-	Age                 *int     `json:"age"`
-	Sex                 *string  `json:"sex"`
-	Height              *float64 `json:"height"`
-	HeightUnit          *string  `json:"height_unit"`
-	Weight              *float64 `json:"weight"`
-	WeightUnit          *string  `json:"weight_unit"`
-	ActivityLevel       *string  `json:"activity_level"`
-	Goal                *string  `json:"goal"`
-	BodyType            *string  `json:"body_type"`
+	Age           *int     `json:"age"`
+	Sex           *string  `json:"sex"`
+	Height        *float64 `json:"height"`
+	HeightUnit    *string  `json:"height_unit"`
+	Weight        *float64 `json:"weight"`
+	WeightUnit    *string  `json:"weight_unit"`
+	ActivityLevel *string  `json:"activity_level"`
+	Goal          *string  `json:"goal"`
+	BodyType      *string  `json:"body_type"`
+	// The user's own overrides, collected during onboarding. Both were rendered
+	// as inputs, stored client-side and then silently dropped: they were never
+	// in the POST body, so "Adjust manually" changed a number on screen that
+	// nothing ever read, and the target-weight field was pure decoration.
+	TargetWeight        *float64 `json:"target_weight"`
+	CalorieTarget       *int     `json:"calorie_target"`
 	Cuisines            []string `json:"cuisines"`
 	DietaryRequirements []string `json:"dietary_requirements"`
 }
@@ -175,6 +184,18 @@ func (h *handler) postOnboarding(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "age, height, and weight must be positive")
 		return
 	}
+	// A manual calorie override still has to sit inside the 1.4.1 safety band —
+	// the same band PUT /api/goals enforces. Never persist an unsafe target
+	// just because the client sent one.
+	if req.CalorieTarget != nil && (*req.CalorieTarget < calorieTargetMin || *req.CalorieTarget > calorieTargetMax) {
+		httpx.Error(w, http.StatusBadRequest, "calorie_target must be between 1200 and 10000")
+		return
+	}
+	if req.TargetWeight != nil && *req.TargetWeight <= 0 {
+		httpx.Error(w, http.StatusBadRequest, "target_weight must be positive")
+		return
+	}
+
 	// body_type is optional; when present it must be a known value.
 	bodyType := strv(req.BodyType)
 	if bodyType != "" {
@@ -197,6 +218,8 @@ func (h *handler) postOnboarding(w http.ResponseWriter, r *http.Request) {
 		BodyType:            bodyType,
 		Cuisines:            req.Cuisines,
 		DietaryRequirements: req.DietaryRequirements,
+		TargetWeight:        req.TargetWeight,
+		CalorieTarget:       req.CalorieTarget,
 	})
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, "failed to save onboarding")

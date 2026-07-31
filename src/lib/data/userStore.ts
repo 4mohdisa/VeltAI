@@ -5,6 +5,7 @@
 import { create } from 'zustand';
 
 import { mockUser } from '@/lib/mock/data';
+import type { ActivityLevel } from '@/lib/types';
 import { isDevBuild } from '@/lib/env';
 
 export type Sex = 'male' | 'female' | 'other';
@@ -23,8 +24,13 @@ export type UserProfile = {
   sex: Sex;
   goal: GoalType;
   targetWeightKg: number;
-  // Activity: gym sessions/week the user targets (drives the activity factor).
+  // Activity: gym sessions/week the user targets (display + gym screens).
   gymTargetPerWeek: number;
+  // The activity level chosen during onboarding. This — NOT gymTargetPerWeek —
+  // is what feeds the calorie derivation, because it is the same input the
+  // backend and the onboarding preview use. Keeping two different inputs meant
+  // onboarding showed one calorie target and the dashboard showed another.
+  activityLevel: ActivityLevel;
   // Dietary prefs carried from onboarding (display + later meal suggestions).
   restrictions: string[];
   allergies: string[];
@@ -55,6 +61,7 @@ const DEFAULT_PROFILE: UserProfile = {
   ...seededBody,
   sex: 'other',
   goal: 'lose',
+  activityLevel: 'sedentary',
   gymTargetPerWeek: 4,
   restrictions: [],
   allergies: [],

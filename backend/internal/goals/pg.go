@@ -172,15 +172,28 @@ func (s *PGStore) CompleteOnboarding(ctx context.Context, in OnboardingCompletio
 		Age: in.Age, Sex: in.Sex, Height: in.Height, HeightUnit: in.HeightUnit,
 		Weight: in.Weight, WeightUnit: in.WeightUnit, ActivityLevel: in.ActivityLevel, Goal: in.Goal,
 	})
+	// The user's manual calorie override wins over the derived value — that is
+	// the whole point of the "Adjust manually" step, which previously changed a
+	// number on screen and then discarded it. The handler has already checked it
+	// against the 1.4.1 safety band. Macros stay derived: only calories are
+	// adjustable in the onboarding UI.
 	src := "onboarding"
+	calories := fptr(d.Calories)
+	if in.CalorieTarget != nil {
+		src = "manual"
+		c := float64(*in.CalorieTarget)
+		calories = &c
+	}
 	gl, err := upsertGoals(ctx, tx, &Goals{
 		UserID:        in.UserID,
-		CalorieTarget: fptr(d.Calories),
+		CalorieTarget: calories,
 		ProteinTarget: fptr(d.Protein),
 		CarbTarget:    fptr(d.Carbs),
 		FatTarget:     fptr(d.Fat),
 		FibreTarget:   fptr(d.Fibre),
 		WeightGoal:    &in.Goal,
+		TargetWeight:  in.TargetWeight,
+		WeightUnit:    nilIfEmpty(in.WeightUnit),
 		ActivityLevel: &in.ActivityLevel,
 		Source:        &src,
 	})

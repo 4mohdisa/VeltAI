@@ -6,7 +6,7 @@
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { api } from '@/lib/api';
+import { api, type Onboarding } from '@/lib/api';
 import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi, todayISO } from './mappers';
 import { hasPendingCreate } from './mutations';
 import { useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
@@ -319,13 +319,38 @@ export function useGoals(): MacroGoals {
  *  healthy backend. Identity comes from the verified token server-side, so
  *  whatever this returns is genuinely the caller's. */
 export async function hydrateProfile(): Promise<void> {
-  const p = await api.profile.get();
+  // Identity and body metrics live in different places server-side: the profile
+  // row (from Clerk) and the onboarding row (the user's own answers). Both are
+  // needed — the body metrics are what deriveGoals computes calorie and protein
+  // targets from, and nothing wrote them into this store before, so every user
+  // in a release build got the 1,200 kcal floor and 0 g protein.
+  const [p, onb] = await Promise.all([api.profile.get(), api.onboarding.get().catch(() => null)]);
   useUserStore.getState().setProfile({
     name: p.display_name ?? '',
     email: p.email ?? '',
     avatarUri: p.avatar_url ?? undefined,
+    ...bodyFromOnboarding(onb),
   });
 }
+
+/** Map the stored onboarding answers onto profile fields. Units are normalised
+ *  server-side to cm/kg, but the row records what was sent, so convert here too
+ *  rather than trusting one of the two to have done it. */
+export function bodyFromOnboarding(onb: Onboarding | null): Partial<UserProfile> {
+  if (!onb) return {};
+  const out: Partial<UserProfile> = {};
+  if (onb.weight != null) out.weightKg = onb.weight_unit === 'lb' ? onb.weight * 0.453592 : onb.weight;
+  if (onb.height != null) out.heightCm = onb.height_unit === 'in' ? onb.height * 2.54 : onb.height;
+  if (onb.age != null) out.age = onb.age;
+  if (onb.sex === 'male' || onb.sex === 'female' || onb.sex === 'other') out.sex = onb.sex;
+  if (onb.activity_level && ACTIVITY_LEVELS.has(onb.activity_level)) {
+    out.activityLevel = onb.activity_level as UserProfile['activityLevel'];
+  }
+  if (onb.goal === 'lose' || onb.goal === 'muscle') out.goal = onb.goal;
+  return out;
+}
+
+const ACTIVITY_LEVELS = new Set(['sedentary', 'light', 'moderate', 'very_active']);
 
 export function useUserProfile(): UserProfile {
   const profile = useUserStore((s) => s.profile);

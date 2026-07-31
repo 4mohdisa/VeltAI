@@ -20,7 +20,9 @@ import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { api } from '@/lib/api';
+import { api, type Onboarding } from '@/lib/api';
+import { bodyFromOnboarding } from '@/lib/data/hooks';
+import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
 import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement, TRIAL_DAYS } from '@/lib/billing/purchases';
@@ -57,6 +59,11 @@ export default function PaywallScreen() {
     const payload = onboardingPayload(useOnboardingStore.getState());
     try {
       await api.onboarding.post(payload);
+      // Write the answers into the user store immediately. hydrateProfile picks
+      // them up from the server on later launches, but without this the user
+      // spends their whole first session on a 1,200 kcal / 0 g protein target,
+      // because deriveGoals reads THIS store and nothing else populated it.
+      useUserStore.getState().setProfile(bodyFromOnboarding(payload as unknown as Onboarding));
       track('onboarding_completed');
       markCompleted();
       await setHasCompletedOnboarding(true);
