@@ -5,6 +5,7 @@
 import { create } from 'zustand';
 
 import { mockUser } from '@/lib/mock/data';
+import { isDevBuild } from '@/lib/env';
 
 export type Sex = 'male' | 'female' | 'other';
 export type GoalType = 'lose' | 'muscle' | 'consistency' | 'eat-better' | 'sleep' | 'health';
@@ -30,18 +31,30 @@ export type UserProfile = {
   cuisines: string[];
 };
 
+// Identity defaults. In a RELEASE build these are EMPTY: showing a fabricated
+// name and email as the signed-in user's own is dishonest, is an App Store 2.1
+// rejection, and was shipping here until the pre-submission audit — the Account
+// screen displayed "Bilal Ahmed / bilal.ahmed@example.com" to every real user,
+// permanently, because nothing ever hydrated the profile from the server.
+// Dev builds keep the mock so the keyless offline experience stays navigable.
+const seededIdentity = isDevBuild()
+  ? { name: mockUser.name, email: mockUser.email, avatarUri: mockUser.avatarUri, memberSince: mockUser.memberSince }
+  : { name: '', email: '', avatarUri: undefined as string | undefined, memberSince: '' };
+
+// Body-metric defaults are NOT identity: they feed goal derivation, so a
+// release build must not invent them either — a target computed from a
+// fictional 82 kg 28-year-old is exactly the unsafe-target risk 1.4.1 covers.
+// Zeroes make "no body stats yet" explicit; deriveGoals already floors output.
+const seededBody = isDevBuild()
+  ? { weightKg: 82, heightCm: 178, age: 28, targetWeightKg: 75 }
+  : { weightKg: 0, heightCm: 0, age: 0, targetWeightKg: 0 };
+
 // Sensible defaults (used until onboarding fills them in).
 const DEFAULT_PROFILE: UserProfile = {
-  name: mockUser.name,
-  email: mockUser.email,
-  avatarUri: mockUser.avatarUri,
-  memberSince: mockUser.memberSince,
-  weightKg: 82,
-  heightCm: 178,
-  age: 28,
-  sex: 'male',
+  ...seededIdentity,
+  ...seededBody,
+  sex: 'other',
   goal: 'lose',
-  targetWeightKg: 75,
   gymTargetPerWeek: 4,
   restrictions: [],
   allergies: [],

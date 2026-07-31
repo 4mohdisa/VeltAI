@@ -126,29 +126,31 @@ export default function DashboardScreen() {
         {/* Energy balance — intake vs BMR + exercise (renders null with no data). */}
         <EnergyBalanceCard />
 
-        {/* Zone 3 — AI plan */}
-        <Card onPress={() => router.push('/dashboard/plan')} accessibilityLabel="Today's plan detail">
-          <View style={{ gap: space.sm }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text variant="title3" color={color.black}>
-                {t('dashboard.todaysPlan')}
-              </Text>
-              <Badge label="AI" icon="sparkles" iconColor={categoryAccent.ai} />
+        {/* Zone 3 — AI plan. Only rendered once there IS a plan: the card used to
+            show a hardcoded gym time and bedtime ('18:00' / '22:30') as if they
+            were the user's own schedule, which nothing computes and Lumo does
+            not track. No plan → no card, rather than a confident fiction. */}
+        {plan.length > 0 ? (
+          <Card onPress={() => router.push('/dashboard/plan')} accessibilityLabel="Today's plan detail">
+            <View style={{ gap: space.sm }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text variant="title3" color={color.black}>
+                  {t('dashboard.todaysPlan')}
+                </Text>
+                <Badge label="AI" icon="sparkles" iconColor={categoryAccent.ai} />
+              </View>
+              {nextMeal ? (
+                <Text variant="callout" color={color.gray700}>
+                  {t('dashboard.next', {
+                    title: nextMeal.title,
+                    time: nextMeal.time,
+                    energy: formatEnergy(nextMeal.targetKcal ?? 0, energyUnit),
+                  })}
+                </Text>
+              ) : null}
             </View>
-            {nextMeal ? (
-              <Text variant="callout" color={color.gray700}>
-                {t('dashboard.next', {
-                  title: nextMeal.title,
-                  time: nextMeal.time,
-                  energy: formatEnergy(nextMeal.targetKcal ?? 0, energyUnit),
-                })}
-              </Text>
-            ) : null}
-            <Text variant="footnote" color={color.gray500}>
-              {t('dashboard.gymBedtime', { gym: '18:00', bed: '22:30' })}
-            </Text>
-          </View>
-        </Card>
+          </Card>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

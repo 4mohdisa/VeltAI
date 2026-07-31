@@ -207,7 +207,29 @@ describe('startPhotoScan (async pipeline)', () => {
     expect(confirmMock).not.toHaveBeenCalled();
   });
 
-  test('no image → mock path resolves the detected items after the analyze delay', () => {
+  // The no-image path is reached only when the capture itself FAILED. It used
+  // to log three invented foods ('Chicken stir-fry 420 kcal', 'Jasmine rice',
+  // 'Cooking oil') into the user's real day after a fake 1.6 s "analyzing"
+  // delay, while the UI toasted "Scanning your meal…". This file runs with
+  // __DEV__ = false, i.e. as a release build, so it is the release contract
+  // that is asserted here: write NOTHING.
+  test('no image in a RELEASE build writes nothing — a failed capture never fabricates a meal', () => {
+    jest.useFakeTimers();
+    try {
+      const pre = idsNow();
+      startPhotoScan();
+      expect(newSince(pre)).toHaveLength(0);
+      jest.advanceTimersByTime(5000);
+      expect(newSince(pre)).toHaveLength(0);
+      expect(pipelineMock).not.toHaveBeenCalled();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  test('no image in a DEV build still runs the mock flow (the keyless offline demo)', () => {
+    const g = globalThis as { __DEV__?: boolean };
+    g.__DEV__ = true;
     jest.useFakeTimers();
     try {
       const pre = idsNow();
@@ -223,6 +245,7 @@ describe('startPhotoScan (async pipeline)', () => {
       expect(pipelineMock).not.toHaveBeenCalled();
     } finally {
       jest.useRealTimers();
+      g.__DEV__ = false;
     }
   });
 });

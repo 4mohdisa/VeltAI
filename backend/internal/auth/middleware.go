@@ -49,6 +49,41 @@ func Middleware(v Verifier) func(http.Handler) http.Handler {
 	}
 }
 
+// EnsureProfile provisions the profiles row for an already-verified user before
+// the request reaches a handler, so a new user's first write cannot fail on the
+// foreign key while the Clerk webhook is still in flight. `seen` caches ids this
+// process has already provisioned — a pure optimization, since the insert is
+// idempotent, so a cold instance simply does one extra no-op insert per user.
+//
+// A provisioning failure is NOT fatal to the request: the row may well already
+// exist (that is the common case), and failing closed here would take the whole
+// API down on a transient database blip. The handler's own query surfaces any
+// real problem.
+func EnsureProfile(st ProfileStore) func(http.Handler) http.Handler {
+	var mu sync.Mutex
+	seen := map[string]struct{}{}
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			id := UserID(r.Context())
+			mu.Lock()
+			_, known := seen[id]
+			mu.Unlock()
+			if id != "" && !known {
+				if err := st.EnsureExists(r.Context(), id); err == nil {
+					mu.Lock()
+					// Bound the cache: a restart re-provisions, which is a no-op insert.
+					if len(seen) > 10_000 {
+						seen = map[string]struct{}{}
+					}
+					seen[id] = struct{}{}
+					mu.Unlock()
+				}
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
 // WithUserID stashes a user ID in the context (middleware and tests).
 func WithUserID(ctx context.Context, id string) context.Context {
 	return context.WithValue(ctx, ctxKey{}, id)

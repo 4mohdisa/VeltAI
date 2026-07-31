@@ -118,7 +118,15 @@ export const mockMeals: Meal[] = [
 // No AI; these power the food-log search bar (C1) and Saved foods (C13).
 // ---------------------------------------------------------------------------
 
-export type FoodResult = { name: string; brand?: string; kcalPer100: number };
+export type FoodResult = {
+  name: string;
+  brand?: string;
+  kcalPer100: number;
+  // Present on real API hits; the local dev catalog carries calories only.
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+};
 
 export const foodCatalog: FoodResult[] = [
   { name: 'Chicken biryani', kcalPer100: 160 },

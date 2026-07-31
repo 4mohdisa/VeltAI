@@ -155,7 +155,9 @@ test('a slow response does not lose the optimistic local write', async () => {
   let release: ((v: unknown) => void) | undefined;
   setFetch(jest.fn(() => new Promise((r) => { release = r; })));
 
-  const before = useFoodStore.getState().meals.find((m) => m.slot === 'Lunch')!.items.length;
+  // This file runs as a RELEASE build (__DEV__ = false above), where the store
+  // seeds EMPTY — so Lunch may not exist yet and logMeal creates the slot.
+  const before = useFoodStore.getState().meals.find((m) => m.slot === 'Lunch')?.items.length ?? 0;
   const localId = logMeal('Lunch', { name: 'Rice', quantityG: 150, calories: 200, protein: 4, carbs: 44, fat: 1 });
 
   // Visible immediately, while the request is still in flight.

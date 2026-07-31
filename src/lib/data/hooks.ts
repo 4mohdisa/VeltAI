@@ -13,13 +13,12 @@ import { useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore'
 import { useGymStore, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
 import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
+import { isDevBuild } from '@/lib/env';
 import {
   foodCatalog,
-  mockMacros,
   mockPlan,
   mockPlanReason,
   mockUpcomingDays,
-  recentFoods,
   type DayStatus,
   type FoodResult,
   type GymSession,
@@ -134,7 +133,12 @@ async function hydrateGym(): Promise<void> {
   // Sessions and streak hydrate together; the mock 30-day calendar stays local
   // (no server representation yet).
   const [sessions, streak] = await Promise.all([api.gym.listSessions(), api.gym.streak()]);
-  useGymStore.setState((s) => ({ sessions: sessionsFromApi(sessions), streak: streakFromApi(streak, s.streak) }));
+  // Distinct logged days — the only total we can actually prove from server data.
+  const totalGymDays = new Set(sessions.map((r) => r.date)).size;
+  useGymStore.setState((s) => ({
+    sessions: sessionsFromApi(sessions),
+    streak: streakFromApi(streak, s.streak, totalGymDays),
+  }));
 }
 
 // --- Food log ---------------------------------------------------------------
@@ -156,14 +160,99 @@ export function useSavedFoods(): Async<ReturnType<typeof selectSaved>> {
 }
 const selectSaved = (s: ReturnType<typeof useFoodStore.getState>) => s.savedFoods;
 
-/** Manual search over the mock catalog + recents (synchronous, no loading slot). */
-export function useFoodSearch(query: string): { results: FoodResult[]; recents: FoodResult[] } {
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [] as FoodResult[];
-    return foodCatalog.filter((r) => r.name.toLowerCase().includes(q) || r.brand?.toLowerCase().includes(q));
-  }, [query]);
-  return { results, recents: recentFoods };
+const catalogMatches = (q: string): FoodResult[] =>
+  foodCatalog.filter((r) => r.name.toLowerCase().includes(q) || r.brand?.toLowerCase().includes(q));
+
+/**
+ * Manual food search. This used to filter an 8-item literal array and never
+ * touch the network, so a reviewer typing "chicken" got a plausible-looking
+ * result out of fiction, and "recents" was the first three entries of that same
+ * array presented as the user's own recent foods. It now queries the real
+ * /api/food/search; dev falls back to the local catalog when the backend is
+ * unreachable so the screen stays usable without keys.
+ */
+export type FoodSearchState = {
+  results: FoodResult[];
+  recents: FoodResult[];
+  isLoading: boolean;
+  error: Error | null;
+  refetch: () => void;
+};
+
+export function useFoodSearch(query: string): FoodSearchState {
+  const [results, setResults] = useState<FoodResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [nonce, setNonce] = useState(0);
+  const refetch = useCallback(() => setNonce((n) => n + 1), []);
+
+  useEffect(() => {
+    const q = query.trim();
+    if (!q) {
+      setResults([]);
+      setError(null);
+      setIsLoading(false);
+      return;
+    }
+    let alive = true;
+    setIsLoading(true);
+    // Debounced so a fast typist doesn't fire a request per keystroke.
+    const id = setTimeout(() => {
+      api.foodSearch
+        .search(q)
+        .then((rows) => {
+          if (!alive) return;
+          setResults(
+            rows.map((r) => ({
+              name: r.food_name,
+              brand: r.brand || undefined,
+              kcalPer100: r.calories,
+              protein: r.protein,
+              carbs: r.carbs,
+              fat: r.fat,
+            })),
+          );
+          setError(null);
+        })
+        .catch((e: unknown) => {
+          if (!alive) return;
+          if (isDevBuild()) {
+            setResults(catalogMatches(q.toLowerCase()));
+            setError(null);
+            return;
+          }
+          setResults([]);
+          setError(e instanceof Error ? e : new Error('Search failed'));
+        })
+        .finally(() => {
+          if (alive) setIsLoading(false);
+        });
+    }, 250);
+    return () => {
+      alive = false;
+      clearTimeout(id);
+    };
+  }, [query, nonce]);
+
+  // Recents are the user's OWN most recent logged items, not a canned list.
+  const meals = useFoodStore((s) => s.meals);
+  const recents = useMemo(() => {
+    const seen = new Set<string>();
+    const out: FoodResult[] = [];
+    for (const m of [...meals].reverse()) {
+      for (const it of [...m.items].reverse()) {
+        const key = it.name.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const per100 = it.quantityG > 0 ? Math.round((it.calories / it.quantityG) * 100) : it.calories;
+        out.push({ name: it.name, kcalPer100: per100 });
+        if (out.length === 5) return out;
+      }
+    }
+    return out;
+  }, [meals]);
+
+  return { results, recents, isLoading, error, refetch };
 }
 
 // --- Macro totals (consumed derived from logged meals; targets from goals) ---
@@ -188,9 +277,11 @@ export function useDailyMacros(): MacroTotals {
       protein: { consumed: c.protein, target: goals.protein },
       carbs: { consumed: c.carbs, target: goals.carbs },
       fat: { consumed: c.fat, target: goals.fat },
-      // Fibre isn't tracked per food item in the mock model — keep a static
-      // consumed placeholder; target is the goal. (Backend will track it per item.)
-      fibre: { consumed: mockMacros.fibre.consumed, target: goals.fibre },
+      // Fibre is not tracked per food item yet, so there is nothing real to
+      // report. It used to return a constant 18 g, which told a user with an
+      // empty log that they had eaten 18 g of fibre — and VoiceOver read it
+      // out as fact. 0 until items carry fibre; the target still shows.
+      fibre: { consumed: 0, target: goals.fibre },
     };
   }, [meals, goals]);
 }
@@ -209,7 +300,11 @@ export function useGym(): Async<GymData> {
   const calendar = useGymStore((s) => s.calendar);
   const sessions = useGymStore((s) => s.sessions);
   const { isLoading, error, refetch } = useHydration(hydrateGym);
-  return { data: { streak, calendar, sessions, upcoming: mockUpcomingDays }, isLoading, error, refetch };
+  // mockUpcomingDays is a fixed list with literal past dates ('Wed 18 Jun') and
+  // invented freeze/scheduled actions, and gym/streak.tsx makes those rows
+  // actionable — applying a freeze to an invented day. Dev only.
+  const upcoming = isDevBuild() ? mockUpcomingDays : [];
+  return { data: { streak, calendar, sessions, upcoming }, isLoading, error, refetch };
 }
 
 // --- Goals + profile --------------------------------------------------------
@@ -218,23 +313,55 @@ export function useGoals(): MacroGoals {
   return useEffectiveGoals();
 }
 
+/** Hydrate the signed-in user's identity from the server. Nothing did this
+ *  before the pre-submission audit, so the Account screen showed the seeded
+ *  placeholder name and email as the user's own, permanently, even with a
+ *  healthy backend. Identity comes from the verified token server-side, so
+ *  whatever this returns is genuinely the caller's. */
+export async function hydrateProfile(): Promise<void> {
+  const p = await api.profile.get();
+  useUserStore.getState().setProfile({
+    name: p.display_name ?? '',
+    email: p.email ?? '',
+    avatarUri: p.avatar_url ?? undefined,
+  });
+}
+
 export function useUserProfile(): UserProfile {
-  return useUserStore((s) => s.profile);
+  const profile = useUserStore((s) => s.profile);
+  // Fire-and-forget on mount: a failure leaves whatever is already there
+  // (empty in a release build) rather than throwing — same degradation
+  // contract as every other hook here.
+  useHydration(hydrateProfile);
+  return profile;
 }
 
 // --- Dashboard --------------------------------------------------------------
+
+// The "AI plan" and its rationale are not computed by anything — mockPlanReason
+// is a first-person claim about THIS user ("you hit the gym 3/4 days this week
+// … your sleep is averaging 6.8h") for a metric Lumo does not even collect.
+// Shipping that as the user's own plan is App Store 2.1. Dev keeps it so the
+// screens stay reviewable; release gets an empty plan and the empty state.
+const planForBuild = () => (isDevBuild() ? mockPlan : []);
+const planReasonForBuild = () => (isDevBuild() ? mockPlanReason : null);
 
 export function useDashboard() {
   const profile = useUserStore((s) => s.profile);
   const streak = useGymStore((s) => s.streak);
   const macros = useDailyMacros();
   const { isLoading, error, refetch } = useInitialLoad(600);
-  return { data: { profile, streak, macros, plan: mockPlan, planReason: mockPlanReason }, isLoading, error, refetch };
+  return {
+    data: { profile, streak, macros, plan: planForBuild(), planReason: planReasonForBuild() },
+    isLoading,
+    error,
+    refetch,
+  };
 }
 
-/** Today's AI plan (static mock for now). */
+/** Today's plan. Empty outside dev until the server actually generates one. */
 export function usePlan() {
-  return { plan: mockPlan, reason: mockPlanReason };
+  return { plan: planForBuild(), reason: planReasonForBuild() };
 }
 
 // (useSubscription was deleted in the Phase 14 audit: the subscription screen
