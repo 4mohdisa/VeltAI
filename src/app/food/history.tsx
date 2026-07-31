@@ -74,10 +74,17 @@ export default function MealHistoryScreen() {
 
   useEffect(() => {
     let alive = true;
-    load()
-      .then(() => alive && setError(null))
-      .catch((e: unknown) => alive && setError(e instanceof Error ? e : new Error('Could not load history')))
-      .finally(() => alive && setLoading(false));
+    const run = async () => {
+      try {
+        await load();
+        if (alive) setError(null);
+      } catch (e) {
+        if (alive) setError(e instanceof Error ? e : new Error('Could not load history'));
+      } finally {
+        if (alive) setLoading(false);
+      }
+    };
+    void run();
     return () => {
       alive = false;
     };

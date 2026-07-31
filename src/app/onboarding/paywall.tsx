@@ -29,6 +29,7 @@ import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement, 
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { onboardingPayload, useOnboardingStore } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
+import { isDevBuild } from '@/lib/env';
 
 export default function PaywallScreen() {
   const cuisines = useOnboardingStore((s) => s.cuisines);
@@ -124,7 +125,7 @@ export default function PaywallScreen() {
             loading={submitting}
             onPress={() => void handleContinue()}
           />
-          {!isBillingEnabled() ? (
+          {!isBillingEnabled() && isDevBuild() ? (
             <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
               Billing not configured (dev) — continuing without a paywall
             </Text>

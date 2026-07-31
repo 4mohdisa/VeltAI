@@ -9,6 +9,7 @@ import { SettingsList } from '@/components/display/SettingsList';
 import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
+import { VERSION_LABEL } from '@/lib/appVersion';
 
 const SUPPORT_EMAIL = 'lumofit@gmail.com';
 
@@ -29,7 +30,7 @@ export default function SupportScreen() {
       <SettingsList
         rows={[
           { icon: 'mail-outline', label: 'Email support', value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },
-          { icon: 'information-circle-outline', label: 'App version', value: '1.0.0', kind: 'plain' },
+          { icon: 'information-circle-outline', label: 'App version', value: VERSION_LABEL, kind: 'plain' },
         ]}
       />
 

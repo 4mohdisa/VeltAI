@@ -7,6 +7,7 @@ import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
+import { APP_VERSION, BUILD_NUMBER } from '@/lib/appVersion';
 
 export default function AboutScreen() {
   return (
@@ -22,8 +23,8 @@ export default function AboutScreen() {
 
       <SettingsList
         rows={[
-          { icon: 'pricetag-outline', label: 'Version', value: '1.0.0', kind: 'plain' },
-          { icon: 'construct-outline', label: 'Build', value: '1', kind: 'plain' },
+          { icon: 'pricetag-outline', label: 'Version', value: APP_VERSION, kind: 'plain' },
+          { icon: 'construct-outline', label: 'Build', value: BUILD_NUMBER, kind: 'plain' },
           { icon: 'people-outline', label: 'Credits', value: 'Lumo team', kind: 'plain' },
         ]}
       />

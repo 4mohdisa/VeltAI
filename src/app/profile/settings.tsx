@@ -10,13 +10,27 @@ import { showToast } from '@/components/display/toastStore';
 import { hasProEntitlement, isBillingEnabled, restorePurchases } from '@/lib/billing/purchases';
 import { useAppState } from '@/lib/auth/appState';
 import { router, type Href } from 'expo-router';
+import { isDevBuild } from '@/lib/env';
 
 // Restore Purchases (Apple requires this for any app with IAP). Result via toast.
+// Guards against a double tap: the row has no busy state, so without this a
+// second tap fires a second StoreKit restore whose result races the first and
+// can leave the user reading "Subscription restored" followed by "No purchases
+// to restore" for the same account.
+let restoring = false;
+
 async function restore(): Promise<void> {
+  if (restoring) return;
   if (!isBillingEnabled()) {
-    showToast({ message: 'Billing not configured (dev).', tone: 'info' });
+    showToast({
+      message: isDevBuild()
+        ? 'Billing not configured (dev).'
+        : 'Purchases are temporarily unavailable. Please try again later.',
+      tone: 'info',
+    });
     return;
   }
+  restoring = true;
   try {
     const info = await restorePurchases();
     showToast({
@@ -25,6 +39,8 @@ async function restore(): Promise<void> {
     });
   } catch {
     showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+  } finally {
+    restoring = false;
   }
 }
 

@@ -188,16 +188,19 @@ export function useFoodSearch(query: string): FoodSearchState {
 
   useEffect(() => {
     const q = query.trim();
-    if (!q) {
-      setResults([]);
-      setError(null);
-      setIsLoading(false);
-      return;
-    }
     let alive = true;
-    setIsLoading(true);
-    // Debounced so a fast typist doesn't fire a request per keystroke.
+    // Everything, including the empty-query reset, happens on the timer rather
+    // than synchronously in the effect body — a synchronous setState here
+    // cascades a second render pass on every keystroke.
     const id = setTimeout(() => {
+      if (!alive) return;
+      if (!q) {
+        setResults([]);
+        setError(null);
+        setIsLoading(false);
+        return;
+      }
+      setIsLoading(true);
       api.foodSearch
         .search(q)
         .then((rows) => {
