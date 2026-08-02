@@ -6,9 +6,17 @@ import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, radius, space } from '@/lib/design/tokens';
 
-export type LegalSection = { heading: string; body: string[] };
+export type LegalSection = {
+  heading: string;
+  body: string[];
+  /** Section awaiting legal review. Rendered in a bordered block with a PENDING
+   *  label so it can never be mistaken for finished text — the same contract the
+   *  website's <Todo> block enforces (web/components/legal/blocks.tsx). A
+   *  placeholder that reads as prose is worse than a visible gap. */
+  pending?: boolean;
+};
 
 export function LegalScreen({
   title,
@@ -40,11 +48,32 @@ export function LegalScreen({
             <Text variant="title3" color={color.label}>
               {`${i + 1}. ${s.heading}`}
             </Text>
-            {s.body.map((p, j) => (
-              <Text key={j} variant="body" color={color.gray800}>
-                {p}
-              </Text>
-            ))}
+            {s.pending ? (
+              <View
+                style={{
+                  borderWidth: layout.borderWidth,
+                  borderColor: color.light3,
+                  borderRadius: radius.sm,
+                  padding: space.lg,
+                  gap: space.xs,
+                }}
+              >
+                <Text variant="caption" color={color.secondaryLabel}>
+                  PENDING LEGAL REVIEW
+                </Text>
+                {s.body.map((p, j) => (
+                  <Text key={j} variant="footnote" color={color.gray800}>
+                    {p}
+                  </Text>
+                ))}
+              </View>
+            ) : (
+              s.body.map((p, j) => (
+                <Text key={j} variant="body" color={color.gray800}>
+                  {p}
+                </Text>
+              ))
+            )}
           </View>
         ))}
       </View>

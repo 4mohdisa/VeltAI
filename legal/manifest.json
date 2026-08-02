@@ -1,0 +1,61 @@
+{
+  "_comment": [
+    "CANONICAL SECTION STRUCTURE for Lumo's legal documents.",
+    "",
+    "This file is the contract between the marketing site (web/lib/legal.ts) and",
+    "the in-app screens (src/app/legal/*.tsx). It is read ONLY by checks — never",
+    "imported into either bundle — so the two packages stay independent, matching",
+    "the rule in README.md ('no cross-package imports'). Same precedent as",
+    "backend/tests/migrations reading ../supabase/migrations.",
+    "",
+    "Enforced by:",
+    "  web/scripts/check-legal.mjs      (web must implement every section, in order)",
+    "  src/__tests__/legalParity.test.ts (app must implement every section, in order)",
+    "",
+    "Add a section here FIRST, then to both sides. Both checks fail until it lands.",
+    "",
+    "lastUpdated is the single source for the visible date on every surface."
+  ],
+  "lastUpdated": "2 August 2026",
+  "privacy": {
+    "title": "Privacy Policy",
+    "sections": [
+      { "id": "who-we-are", "heading": "Who we are" },
+      { "id": "scope", "heading": "What this policy covers" },
+      { "id": "what-we-collect", "heading": "Personal information we collect" },
+      { "id": "sensitive-consent", "heading": "Sensitive information and consent" },
+      { "id": "purposes", "heading": "Why we collect it" },
+      { "id": "disclosure", "heading": "Who we disclose it to" },
+      { "id": "overseas", "heading": "Overseas disclosure" },
+      { "id": "security", "heading": "Storage, security and retention" },
+      { "id": "access-correction", "heading": "Access and correction" },
+      { "id": "deletion", "heading": "Deleting your account" },
+      { "id": "complaints", "heading": "Complaints" },
+      { "id": "analytics", "heading": "Cookies and analytics" },
+      { "id": "children", "heading": "Children" },
+      { "id": "changes", "heading": "Changes to this policy" },
+      { "id": "contact", "heading": "Contact" }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "sections": [
+      { "id": "acceptance", "heading": "Agreement and acceptance" },
+      { "id": "who-we-are", "heading": "Who we are" },
+      { "id": "eligibility", "heading": "Eligibility and your account" },
+      { "id": "the-service", "heading": "The service" },
+      { "id": "health-disclaimer", "heading": "Health disclaimer" },
+      { "id": "subscriptions", "heading": "Subscriptions and billing" },
+      { "id": "free-tier", "heading": "Free tier and limits" },
+      { "id": "acceptable-use", "heading": "Acceptable use" },
+      { "id": "user-content", "heading": "Your content" },
+      { "id": "intellectual-property", "heading": "Intellectual property" },
+      { "id": "third-parties", "heading": "Third-party services" },
+      { "id": "liability", "heading": "Disclaimers and liability" },
+      { "id": "termination", "heading": "Termination" },
+      { "id": "changes", "heading": "Changes to these terms" },
+      { "id": "governing-law", "heading": "Governing law" },
+      { "id": "contact", "heading": "Contact" }
+    ]
+  }
+}
