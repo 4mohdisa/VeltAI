@@ -1,0 +1,215 @@
+/* ============================================================================
+   Lumo web tokens — a mirror of the app's src/lib/design/tokens.ts.
+   ============================================================================
+
+   RULE, inherited from the app: no component may contain a hardcoded colour,
+   spacing value, font size, radius, shadow, opacity or duration. Every value
+   below appears exactly once and is referenced by name.
+
+   PARITY: every colour, radius, spacing step, duration and easing curve here is
+   byte-identical to the app's. The mapping (token → app value → web value) is
+   documented in DECISIONS.md and LANDING_REDESIGN.md. Where the web genuinely
+   needs its own value — only the page-level type scale — it is namespaced
+   --web-* and justified in place, never by quietly redefining an app token.
+
+   Two type scales live here on purpose:
+     --app-*  the app's exact point sizes, used INSIDE the phone frame so the
+              rendered screen is proportionally identical to the real app.
+     --web-*  an editorial scale for the page itself. A 36pt phone headline is
+              not a 1440px-viewport headline; the app's restraint is preserved
+              through the same family, weights and spacing rhythm, not by
+              shipping phone-sized type to a desktop browser.
+   ========================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------------
+     Colour — monochrome base. Structure, chrome and body text use ONLY
+     these. Values are Apple Health's, via the app.
+     --------------------------------------------------------------------- */
+  --paper: #ffffff;              /* app color.white */
+  --surface: #f2f2f7;            /* app color.light1  — card / tile fill, no border */
+  --line: #e5e5ea;               /* app color.light2  — dividers, secondary fills */
+  --line-strong: #d1d1d6;        /* app color.light3  — outline borders */
+  --zone: #fafafa;               /* app color.gray50  — subtle section background */
+
+  --ink: #171717;                /* app color.gray800 / label — primary body text */
+  --ink-strong: #1c1c1e;         /* app color.gray1 — near-black headings */
+  --ink-secondary: #6b6b6b;      /* app color.secondary — AA on white AND on --surface */
+  --ink-tertiary: #8a8a8a;       /* app color.gray400 — glyphs only, >=3:1, never body text */
+
+  --primary: #000000;            /* app color.primary — the one action colour */
+  --on-primary: #ffffff;         /* app color.onPrimary */
+
+  --overlay: rgba(0, 0, 0, 0.45);      /* app color.overlay */
+  --overlay-strong: rgba(0, 0, 0, 0.7); /* app color.overlayStrong */
+
+  /* ---------------------------------------------------------------------
+     Accent — Apple Health colours, FUNCTIONAL USE ONLY: data, charts,
+     status. Never chrome, never structure, never decoration. Identical to
+     the app's `accent` object.
+     --------------------------------------------------------------------- */
+  --accent-orange: #ec6330;      /* energy / calories / streak */
+  --accent-blue: #3a82f7;        /* activity / data */
+  --accent-turquoise: #81cffa;
+  --accent-red: #eb4b62;         /* heart / alerts */
+  --accent-green: #67ce67;       /* success / positive */
+  --accent-yellow: #f1a33b;      /* warning / highlight */
+  --accent-purple: #b25fea;      /* AI */
+  --accent-ocean: #87e3e1;       /* hydration */
+
+  /* categoryAccent — the app's functional category → colour map. Using these
+     rather than the raw accents keeps a macro the same colour everywhere. */
+  --data-protein: var(--accent-red);
+  --data-carbs: var(--accent-yellow);
+  --data-fat: var(--accent-blue);
+  --data-fibre: var(--accent-turquoise);
+  --data-calories: var(--accent-orange);
+  --data-streak: var(--accent-orange);
+  --data-ai: var(--accent-purple);
+  --data-positive: var(--accent-green);
+
+  /* ---------------------------------------------------------------------
+     Type families.
+
+     The app uses San Francisco (system) for text and SF Pro Rounded for
+     stat numbers. On the web we use the SYSTEM STACK so Apple devices render
+     the real SF — the same typeface as the app, not an approximation of it.
+     `ui-rounded` resolves to SF Pro Rounded on Apple platforms, so the stat
+     numbers in the phone frame are the app's actual numeral face.
+
+     No webfont is downloaded. That is a deliberate three-way win: exact type
+     parity on the devices that matter, zero font-swap layout shift, and no
+     render-blocking font fetch. The previous build pulled Hanken Grotesk and
+     IBM Plex Mono from Google Fonts — two faces the app does not contain.
+     --------------------------------------------------------------------- */
+  --font-system:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-rounded:
+    ui-rounded, 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, system-ui,
+    'Segoe UI', Roboto, sans-serif;
+  /* `ui-monospace` is SF Mono on Apple — a system face, not an imported one.
+     Used for the instrument-label voice: eyebrows, units, measured values. */
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* ---------------------------------------------------------------------
+     App type scale — exact point values from the app's `type` object.
+     Consumed inside the phone frame via calc(N * var(--pt)); listed here
+     unitless so the frame can scale the whole screen proportionally.
+     --------------------------------------------------------------------- */
+  --app-display: 36;      --app-display-lh: 42;      /* weight 800, rounded */
+  --app-title1: 30;       --app-title1-lh: 36;       /* weight 800 */
+  --app-title2: 22;       --app-title2-lh: 28;       /* weight 700 */
+  --app-title3: 19;       --app-title3-lh: 25;       /* weight 600 */
+  --app-body: 17;         --app-body-lh: 24;         /* weight 400 */
+  --app-callout: 15;      --app-callout-lh: 21;
+  --app-footnote: 13;     --app-footnote-lh: 18;
+  --app-label: 13;        --app-label-lh: 16;        /* weight 600 */
+  --app-caption: 11;      --app-caption-lh: 14;      /* weight 500 */
+  --app-stat-hero: 56;    --app-stat-hero-lh: 68;    /* weight 800, rounded */
+  --app-stat-large: 40;   --app-stat-large-lh: 50;
+  --app-stat-medium: 28;  --app-stat-medium-lh: 36;
+  --app-stat-small: 20;   --app-stat-small-lh: 26;
+
+  /* ---------------------------------------------------------------------
+     Web editorial scale. The ONLY intentional divergence from the app, and
+     only in size — family, weights, tracking and rhythm are the app's.
+     Rationale: the app's largest type is 56pt on a 440pt-wide screen (13% of
+     width). The same ratio on a 1440px viewport is ~186px; these clamps land
+     in the same optical register at each breakpoint instead of shipping
+     phone-sized type to a desktop.
+     --------------------------------------------------------------------- */
+  --web-display: clamp(2.75rem, 6.2vw, 5.25rem);   /* hero — the one big moment */
+  --web-h2: clamp(1.75rem, 3.4vw, 2.75rem);
+  --web-h3: clamp(1.1875rem, 1.6vw, 1.4375rem);
+  --web-lead: clamp(1.125rem, 1.6vw, 1.375rem);    /* hero sub / section leads */
+  --web-body: 1.0625rem;                            /* 17px — the app's body size, unchanged */
+  --web-small: 0.9375rem;                           /* 15px — the app's callout */
+  --web-label: 0.8125rem;                           /* 13px — the app's label/footnote */
+  --web-micro: 0.75rem;                             /* 12px — mono meta only */
+
+  /* Measure. Prose that runs wider than this stops being readable. */
+  --measure: 68ch;
+  --measure-tight: 46ch;   /* headlines — deliberate breaks, not orphans */
+
+  /* ---------------------------------------------------------------------
+     Spacing — the app's `space` scale, verbatim, in px.
+     --------------------------------------------------------------------- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 28px;
+  --space-3xl: 36px;
+  --space-4xl: 48px;
+  --space-5xl: 64px;
+  /* Web-only structural steps. The app's largest gap is 64px (screen top
+     padding); a landing page needs section breaks an order above that. These
+     extend the scale in the same 4px-multiple rhythm rather than inventing one. */
+  --space-6xl: clamp(72px, 9vw, 112px);
+  --space-7xl: clamp(96px, 13vw, 168px);
+
+  /* ---------------------------------------------------------------------
+     Radius — the app's `radius` scale, verbatim.
+     --------------------------------------------------------------------- */
+  --radius-sm: 10px;    /* chips, badges, inline tags */
+  --radius-md: 16px;    /* inputs, small tiles */
+  --radius-lg: 20px;    /* standard cards */
+  --radius-xl: 28px;    /* large cards, sheets */
+  --radius-2xl: 36px;   /* hero / featured */
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------------
+     Shadow — the app's `shadow` scale. React Native's shadowOffset.height and
+     shadowRadius map to CSS y-offset and blur; opacity is carried across
+     unchanged. Very soft, very sparing — and on this page, nearly unused: the
+     brief bans soft-shadowed cards as a default layout unit. It survives for
+     the phone frame's elevation off the page and nothing else.
+     --------------------------------------------------------------------- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.1);
+
+  /* ---------------------------------------------------------------------
+     Motion — the app's `motion` object. Timing curves only; the app has no
+     spring physics anywhere, so neither does the site. No bounce, no overshoot.
+     --------------------------------------------------------------------- */
+  --duration-snap: 180ms;
+  --duration-fast: 260ms;
+  --duration-medium: 380ms;
+  --duration-slow: 700ms;
+  --duration-epic: 1100ms;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ---------------------------------------------------------------------
+     Layout / interaction — the app's `layout` and `opacity` objects.
+     --------------------------------------------------------------------- */
+  --tap-target: 44px;
+  --hairline: 1px;
+
+  --opacity-medium: 0.7;
+  --opacity-low: 0.45;
+  --opacity-disabled: 0.4;
+
+  /* Page shell. Wider than the old 68rem: the redesign's feature sections run
+     a text column against a pinned device, which needs the room. */
+  --container: 76rem;
+  --gutter: clamp(20px, 5vw, 56px);
+
+  /* Rendered width of the pinned device. Referenced by BOTH the grid column
+     and the PhoneFrame width prop (components/ScrollScreens.tsx) — keep them
+     equal or the phone renders narrower than its column. */
+  --device-w: 300px;
+
+  /* ---------------------------------------------------------------------
+     Device frame. --pt is the phone screen's point→pixel ratio: everything
+     inside the frame is sized calc(N * var(--pt)) where N is the app's real
+     point value, so the rendered screen is proportionally exact at any frame
+     size. iPhone 17 Pro Max is 440 x 956pt. Set per-frame in the component.
+     --------------------------------------------------------------------- */
+  --pt: 1px;
+}
