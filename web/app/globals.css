@@ -1,62 +1,142 @@
-/* Lumo marketing site — design system.
-   Derived from the app's tokens (src/lib/design/tokens.ts): monochrome base,
-   Apple-Health-derived functional accents, 20px cards, pill controls, soft
-   shadows. The site's one deviation: a slightly warm zone background (--zone)
-   where the app uses neutral #FAFAFA — the web page can afford a touch of
-   warmth; chrome and text stay strictly monochrome. */
+/* ============================================================================
+   Lumo marketing site — the design system.
+   ============================================================================
 
-:root {
-  /* palette (named in DECISIONS.md) */
-  --ink: #171717;          /* primary text — app color.gray800 */
-  --ink-strong: #1c1c1e;   /* headings — app color.gray1 */
-  --secondary: #6b6b6b;    /* secondary text — app color.secondary, AA on all surfaces */
-  --faint: #8a8a8a;        /* placeholders / tertiary — ≥3:1 for glyphs only */
-  --paper: #ffffff;
-  --zone: #f6f5f2;         /* warm section zone — the site-only warmth */
-  --card: #f2f2f7;         /* app color.light1 — card fill, no border */
-  --line: #e5e5ea;         /* app color.light2 — hairlines */
+   Every value comes from tokens.css, which mirrors the app's design tokens.
+   Nothing in this file or any component may hardcode a colour, size, radius,
+   duration or easing curve.
 
-  /* functional accents — data, AI and status ONLY. Never chrome, never decoration. */
-  --energy: #ec6330;
-  --positive: #67ce67;
-  --data: #3a82f7;
-  --warn: #f1a33b;
-  --ai: #b25fea;
+   THE IDEA: the page reads as an instrument, not a brochure. Lumo's whole
+   position is that it tells you how sure it is, so the site is built from the
+   vocabulary of measurement — hairlines, rules, tick marks, monospaced
+   numerals, ranges and tolerances — set in the app's own typeface with real
+   editorial hierarchy. Type and layout carry the design: strip every colour
+   out and the page still reads as designed.
 
-  /* radius — matches the app scale */
-  --r-chip: 10px;
-  --r-md: 16px;
-  --r-card: 20px;
-  --r-xl: 28px;
-  --r-pill: 999px;
+   WHAT IS DELIBERATELY ABSENT: rounded cards with soft shadows as the default
+   layout unit, decorative pill badges, glows, gradient blobs, glassmorphism,
+   the icon/heading/two-line triplet repeated in a three-column grid. Those are
+   the house style of every generated landing page; the whole point of this one
+   is that it looks like the product it is selling.
+   ========================================================================= */
 
-  /* shadows — very soft, very sparing (app shadow.md) */
-  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lift: 0 10px 28px rgba(0, 0, 0, 0.1);
+@import './tokens.css';
 
-  /* type scale */
-  --font-body: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', monospace;
+/* ---- reset ---------------------------------------------------------------- */
 
-  --text-hero: clamp(2.375rem, 5.5vw, 3.75rem);
-  --text-h2: clamp(1.625rem, 3.2vw, 2.25rem);
-  --text-h3: 1.1875rem;
-  --text-body: 1.0625rem;   /* 17px — the app's body size */
-  --text-small: 0.9375rem;
-  --text-mono-label: 0.8125rem;
-  --text-mono-micro: 0.75rem;
-
-  --container: 68rem;
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* `clip`, NOT `hidden`. Setting overflow-x: hidden forces the used value of
+     overflow-y from `visible` to `auto`, which turns the element into a scroll
+     container — and when that happened on <body> here, window scroll events
+     stopped firing entirely and the scroll-linked device screens sat frozen on
+     their first frame. `clip` suppresses the overflow without creating a
+     scroll container, so normal document scrolling is untouched.
+     It is a backstop only: no element on this page overflows horizontally at
+     320, 768, 1440 or 2560 (verified), and a new one should be fixed at its
+     source rather than hidden here. */
+  overflow-x: clip;
 }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-system);
+  font-size: var(--web-body);
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--ink-strong);
+  /* The app's headings are 800/700/600 with tight tracking; the same optical
+     treatment, scaled up. Negative tracking grows with size, as it should. */
+  letter-spacing: -0.022em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+p,
+figure,
+ul,
+ol,
+dl {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Focus: one visible treatment everywhere, high contrast, never removed. */
+:focus-visible {
+  outline: 2px solid var(--ink-strong);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background: var(--ink-strong);
+  color: var(--paper);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-lg);
+  top: calc(var(--space-lg) * -4);
+  z-index: 100;
+  background: var(--ink-strong);
+  color: var(--on-primary);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: var(--web-label);
+  font-weight: 600;
+  transition: top var(--duration-snap) var(--ease-standard);
+}
+
+.skip-link:focus {
+  top: var(--space-lg);
+}
+
+/* ---- reduced motion -------------------------------------------------------
+   The scroll-driven device screen degrades to its FINAL, complete state — not
+   a frozen first frame. Components read this via matchMedia as well, so the
+   JS animation never starts; this block covers CSS transitions.
+   -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -68,251 +148,403 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-}
-
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: var(--text-body);
-  line-height: 1.6;
-  font-optical-sizing: auto;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  color: var(--ink-strong);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0;
-  text-wrap: balance;
-}
-
-h1 {
-  font-size: var(--text-hero);
-  font-weight: 800;
-}
-
-h2 {
-  font-size: var(--text-h2);
-  font-weight: 700;
-}
-
-h3 {
-  font-size: var(--text-h3);
-  font-weight: 600;
-  letter-spacing: -0.005em;
-}
-
-p {
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-:focus-visible {
-  outline: 2px solid var(--ink-strong);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-::selection {
-  background: var(--ink-strong);
-  color: var(--paper);
 }
 
 /* ---- layout primitives ---------------------------------------------------- */
 
 .container {
+  width: 100%;
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  padding-inline: var(--gutter);
 }
 
 .section {
-  padding-block: clamp(4rem, 9vw, 7rem);
+  padding-block: var(--space-6xl);
 }
 
-.zone {
+.section--tight {
+  padding-block: var(--space-5xl);
+}
+
+.section--zone {
   background: var(--zone);
 }
 
-/* mono eyebrow — the "instrument label" voice used for section markers & data */
+/* Inverted: the one surface that flips. Monochrome, so it introduces no new
+   colour — it is the app's own --primary used as a ground. Reserved for the
+   honesty section, which is the argument the whole product rests on. */
+.section--invert {
+  background: var(--primary);
+  color: var(--line);
+}
+
+.section--invert h2,
+.section--invert h3 {
+  color: var(--on-primary);
+}
+
+.section--invert .eyebrow {
+  color: var(--ink-tertiary);
+}
+
+.section--invert a {
+  color: var(--on-primary);
+}
+
+.section--invert .rule,
+.section--invert .spec {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* A hairline rule is the site's main structural device — it replaces the card
+   border and the box shadow as the way one thing is separated from the next. */
+.rule {
+  border: 0;
+  border-top: var(--hairline) solid var(--line);
+  margin: 0;
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.measure-tight {
+  max-width: var(--measure-tight);
+}
+
+.stack {
+  display: grid;
+  align-content: start;
+  gap: var(--space-lg);
+}
+
+.stack-sm {
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
+}
+
+.stack-lg {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2xl);
+}
+
+/* ---- typography roles ----------------------------------------------------- */
+
+h1 {
+  font-size: var(--web-display);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: var(--web-h2);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+}
+
+h3 {
+  font-size: var(--web-h3);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+}
+
+.lead {
+  font-size: var(--web-lead);
+  line-height: 1.45;
+  color: var(--ink-secondary);
+  text-wrap: pretty;
+}
+
+.body {
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.muted {
+  color: var(--ink-secondary);
+}
+
+.small {
+  font-size: var(--web-small);
+}
+
+/* The instrument-label voice: monospaced, tracked out, uppercase. Used for
+   section markers, units, and measured values — the places where the page is
+   quoting the machine rather than speaking to the reader. */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: var(--text-mono-label);
+  font-size: var(--web-label);
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--secondary);
+  color: var(--ink-secondary);
 }
 
 .mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
 }
 
-.muted {
-  color: var(--secondary);
+/* Numerals in the app are SF Pro Rounded. Any figure the page presents as a
+   measurement uses the same face, so a number on the site and the same number
+   in the app are set identically. */
+.figure {
+  font-family: var(--font-rounded);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
-.small {
-  font-size: var(--text-small);
-}
-
-.hero-grid {
-  display: grid;
-  gap: 3rem;
-  align-items: center;
-}
-
-@media (min-width: 56rem) {
-  .hero-grid {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-}
-
-/* ---- components ----------------------------------------------------------- */
-
-.card {
-  background: var(--card);
-  border-radius: var(--r-card);
-  padding: 1.25rem;
-}
-
-.card-elevated {
-  background: var(--paper);
-  border-radius: var(--r-card);
-  box-shadow: var(--shadow-card);
-  padding: 1.25rem;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  border-radius: var(--r-pill);
-  padding: 0.3rem 0.85rem;
+/* An index numeral ("01") marking a step in a sequence. */
+.index {
   font-family: var(--font-mono);
-  font-size: var(--text-mono-label);
+  font-size: var(--web-label);
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  /* --ink-secondary, not --ink-tertiary. Tertiary is the app's #8A8A8A, which
+     clears 3:1 for UI glyphs but only reaches 3.3:1 against white — it is not
+     a text colour, and using it here failed AA. tokens.css says so; this is
+     the rule being followed rather than restated. */
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
-.chip--soon {
-  background: var(--ink-strong);
-  color: var(--paper);
-}
+/* ---- the "coming soon" state ----------------------------------------------
+   NOT a button. Lumo is not on the App Store, so anything that looks pressable
+   is a promise the page cannot keep. This is a status readout: a hairline, a
+   live dot, and a label. When the app ships it is replaced by the real badge.
+   -------------------------------------------------------------------------- */
 
-.chip--soon .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--positive);
-}
-
-.btn-secondary {
+.status {
   display: inline-flex;
   align-items: center;
-  border-radius: var(--r-pill);
-  padding: 0.55rem 1.15rem;
-  border: 1px solid var(--line);
-  background: var(--paper);
-  color: var(--ink-strong);
-  font-weight: 600;
-  font-size: var(--text-small);
-  text-decoration: none;
-  transition: border-color 160ms ease, background 160ms ease;
-}
-
-.btn-secondary:hover {
-  border-color: var(--faint);
-  background: var(--zone);
-}
-
-/* confidence badge — always colour + label, never colour alone */
-.confidence {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+  gap: var(--space-sm);
   font-family: var(--font-mono);
-  font-size: var(--text-mono-micro);
-  font-weight: 500;
-  color: var(--ink);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--r-chip);
-  padding: 0.2rem 0.55rem;
+  font-size: var(--web-label);
+  letter-spacing: 0.04em;
+  color: var(--ink-secondary);
   white-space: nowrap;
 }
 
-.confidence .dot {
+.status__dot {
   width: 7px;
   height: 7px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
+  background: var(--data-positive);
   flex: none;
 }
 
-/* ---- prose (legal / faq pages) -------------------------------------------- */
+/* The single text action on the page. A rule under a word — not a filled pill,
+   not a gradient, no arrow glyph. */
+.action {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  gap: var(--space-sm);
+  min-height: var(--tap-target);
+  font-weight: 600;
+  color: var(--ink-strong);
+  text-decoration: none;
+  border-bottom: 2px solid var(--ink-strong);
+  padding-block-end: 2px;
+  transition: opacity var(--duration-snap) var(--ease-standard);
+}
+
+.action:hover {
+  opacity: var(--opacity-medium);
+}
+
+.section--invert .action {
+  color: var(--on-primary);
+  border-bottom-color: var(--on-primary);
+}
+
+/* ---- spec list ------------------------------------------------------------
+   Replaces the feature card grid. A specification table: term on the left,
+   description on the right, hairline between rows. Dense, scannable, honest —
+   and it can carry a free/Pro column without pretending to be a pricing table.
+   -------------------------------------------------------------------------- */
+
+.spec {
+  display: grid;
+  gap: 0;
+  border-top: var(--hairline) solid var(--line);
+}
+
+.spec__row {
+  display: grid;
+  gap: var(--space-sm) var(--space-4xl);
+  padding-block: var(--space-2xl);
+  border-bottom: var(--hairline) solid var(--line);
+  align-items: start;
+}
+
+@media (min-width: 48rem) {
+  .spec__row {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) auto;
+  }
+}
+
+.spec__term {
+  font-weight: 600;
+  color: var(--ink-strong);
+  font-size: var(--web-body);
+}
+
+.spec__desc {
+  color: var(--ink-secondary);
+  font-size: var(--web-small);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+/* Tier marker. Text, not a coloured pill — it states a fact about what the
+   plan includes, so it reads as a footnote, not as decoration. */
+.spec__tier {
+  font-family: var(--font-mono);
+  font-size: var(--web-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary); /* AA on white — see .index */
+  white-space: nowrap;
+  padding-block-start: 3px;
+}
+
+/* ---- FAQ — native <details> ----------------------------------------------- */
+
+.faq {
+  border-top: var(--hairline) solid var(--line);
+}
+
+.faq__item {
+  border-bottom: var(--hairline) solid var(--line);
+}
+
+.faq__item summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: var(--space-2xl);
+  min-height: var(--tap-target);
+  cursor: pointer;
+  font-size: var(--web-h3);
+  font-weight: 600;
+  color: var(--ink-strong);
+  letter-spacing: -0.012em;
+  list-style: none;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The marker is a rotating hairline cross — drawn, not an icon font, not an
+   emoji, and it reflects open state without colour. */
+.faq__mark {
+  flex: none;
+  position: relative;
+  width: 14px;
+  height: 14px;
+  margin-block-start: 0.35em;
+}
+
+.faq__mark::before,
+.faq__mark::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  width: 100%;
+  height: var(--hairline);
+  background: var(--ink-tertiary);
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.faq__mark::after {
+  transform: rotate(90deg);
+}
+
+.faq__item[open] .faq__mark::after {
+  transform: rotate(0deg);
+}
+
+.faq__answer {
+  padding-block-end: var(--space-2xl);
+  max-width: var(--measure);
+  color: var(--ink-secondary);
+  text-wrap: pretty;
+}
+
+.faq__answer p + p {
+  margin-top: var(--space-md);
+}
+
+/* ---- prose (legal / support pages) ---------------------------------------- */
 
 .prose {
-  max-width: 44rem;
+  max-width: var(--measure);
 }
 
 .prose h2 {
-  font-size: 1.375rem;
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  margin-top: var(--space-4xl);
+  margin-bottom: var(--space-md);
+}
+
+.prose h3 {
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-sm);
 }
 
 .prose p {
-  margin-bottom: 1rem;
-  color: var(--ink);
+  margin-bottom: var(--space-lg);
+  text-wrap: pretty;
 }
 
 .prose ul {
-  margin: 0 0 1rem;
-  padding-left: 1.25rem;
+  margin: 0 0 var(--space-lg);
+  padding-left: var(--space-xl);
+  list-style: disc;
 }
 
 .prose li {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
 }
 
-/* ---- header / footer ------------------------------------------------------ */
+.prose a {
+  color: var(--ink-strong);
+}
+
+/* ---- header --------------------------------------------------------------- */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  border-bottom: var(--hairline) solid var(--line);
 }
 
-.site-header .inner {
+.site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  height: 3.75rem;
+  gap: var(--space-lg);
+  min-height: 3.5rem;
 }
 
 .wordmark {
   font-weight: 800;
   font-size: 1.25rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--ink-strong);
   text-decoration: none;
 }
@@ -320,85 +552,129 @@ a {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 2.5vw, 1.75rem);
+  gap: clamp(var(--space-md), 2.2vw, var(--space-2xl));
 }
 
 .site-nav a {
   text-decoration: none;
-  font-size: var(--text-small);
+  font-size: var(--web-small);
   font-weight: 500;
-  color: var(--secondary);
+  color: var(--ink-secondary);
+  transition: color var(--duration-snap) var(--ease-standard);
 }
 
 .site-nav a:hover {
   color: var(--ink-strong);
 }
 
-/* small screens: the hero already carries the "Coming soon" chip — drop it from
-   the header and let the nav breathe on one line */
-@media (max-width: 44rem) {
-  .site-header .inner {
-    height: auto;
-    min-height: 3.25rem;
-    flex-wrap: wrap;
-    padding-block: 0.6rem;
-    row-gap: 0.15rem;
-  }
-  .site-header .chip {
+/* Below 60rem the status readout leaves the header (the hero carries it) and
+   the nav scrolls horizontally rather than wrapping into a second row. */
+@media (max-width: 60rem) {
+  .site-header__status {
     display: none;
-  }
-  .site-nav {
-    gap: 0.9rem;
-  }
-  .site-nav a {
-    font-size: 0.875rem;
   }
 }
 
+/* At the narrowest widths the nav WRAPS rather than scrolling horizontally.
+   A scroll-clipped nav hides "Support" behind a gesture with no affordance;
+   two visible rows is worse-looking and better. */
+@media (max-width: 34rem) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    padding-block: var(--space-md);
+    row-gap: var(--space-sm);
+  }
+  .site-nav {
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+  }
+  .site-nav a {
+    font-size: var(--web-label);
+  }
+}
+
+/* ---- footer --------------------------------------------------------------- */
+
 .site-footer {
-  border-top: 1px solid var(--line);
-  padding-block: 3rem;
-  font-size: var(--text-small);
-  color: var(--secondary);
+  border-top: var(--hairline) solid var(--line);
+  padding-block: var(--space-5xl) var(--space-2xl);
+  font-size: var(--web-small);
+  color: var(--ink-secondary);
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: var(--space-4xl);
+  align-items: start;
+}
+
+@media (min-width: 48rem) {
+  .site-footer__grid {
+    grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  }
 }
 
 .site-footer a {
-  color: var(--secondary);
+  color: var(--ink-secondary);
+  text-decoration: none;
+  transition: color var(--duration-snap) var(--ease-standard);
 }
 
 .site-footer a:hover {
   color: var(--ink-strong);
+  text-decoration: underline;
+}
+
+.site-footer__col {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-5xl);
+  padding-top: var(--space-xl);
+  border-top: var(--hairline) solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--web-micro);
+  color: var(--ink-secondary); /* AA at 12px — tertiary only clears 3.45:1 */
 }
 
 /* ---- consent banner ------------------------------------------------------- */
 
 .consent {
   position: fixed;
-  inset-inline: 1rem;
-  bottom: 1rem;
+  inset-inline: var(--space-lg);
+  bottom: var(--space-lg);
   z-index: 60;
   margin-inline: auto;
   max-width: 34rem;
   background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow-lift);
-  padding: 1rem 1.25rem;
+  border: var(--hairline) solid var(--line-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-lg) var(--space-xl);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-md);
   align-items: center;
   justify-content: space-between;
-  font-size: var(--text-small);
+  font-size: var(--web-small);
 }
 
 .consent button {
-  font: inherit;
   font-weight: 600;
-  border-radius: var(--r-pill);
-  padding: 0.4rem 1rem;
+  font-size: var(--web-small);
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg);
+  min-height: var(--tap-target);
   cursor: pointer;
-  border: 1px solid var(--line);
+  border: var(--hairline) solid var(--line-strong);
   background: var(--paper);
   color: var(--ink-strong);
 }
@@ -406,5 +682,322 @@ a {
 .consent button.primary {
   background: var(--ink-strong);
   border-color: var(--ink-strong);
-  color: var(--paper);
+  color: var(--on-primary);
+}
+
+/* ---- hero -----------------------------------------------------------------
+   Asymmetric on purpose. The text column is wider than the device column and
+   they do not share a baseline: the frame hangs lower and bleeds past the
+   container's right edge on wide viewports, so the composition has a direction
+   instead of being two centred blocks stacked side by side.
+   -------------------------------------------------------------------------- */
+
+.hero {
+  padding-block: var(--space-5xl) var(--space-6xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__grid {
+  display: grid;
+  gap: var(--space-4xl);
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-5xl);
+  }
+  .hero__figure {
+    /* Hangs below the headline's baseline and runs past the container edge —
+       the page continues off-screen rather than politely stopping. */
+    margin-top: var(--space-5xl);
+    margin-right: calc(var(--gutter) * -1.6);
+    justify-self: end;
+  }
+}
+
+.hero__text {
+  display: grid;
+  gap: var(--space-xl);
+  max-width: 30ch;
+}
+
+.hero h1 {
+  /* A deliberate measure. The headline is three words per line at every size,
+     which is the whole reason it reads as a statement rather than a banner. */
+  max-width: 14ch;
+}
+
+.hero__lead {
+  max-width: 46ch;
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-2xl);
+  padding-top: var(--space-sm);
+}
+
+.hero__figure {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+}
+
+/* ---- the measurement annotation -------------------------------------------
+   A dimension line, as on an engineering drawing: two ticks, a rule, and a
+   monospaced label. It is the page's signature, it is drawn from one hairline
+   and one type token, and it says what the product does better than an
+   illustration would. Hidden below the breakpoint where the device is not
+   beside the text.
+   -------------------------------------------------------------------------- */
+
+.dimension {
+  display: none;
+}
+
+@media (min-width: 60rem) {
+  .dimension {
+    display: grid;
+    gap: var(--space-sm);
+    justify-items: start;
+    padding-top: var(--space-lg);
+  }
+  .dimension__line {
+    position: relative;
+    width: min(22rem, 100%);
+    height: var(--hairline);
+    background: var(--line-strong);
+  }
+  /* End ticks. */
+  .dimension__line::before,
+  .dimension__line::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: var(--hairline);
+    height: 9px;
+    background: var(--line-strong);
+  }
+  .dimension__line::before {
+    left: 0;
+  }
+  .dimension__line::after {
+    right: 0;
+  }
+}
+
+/* ---- pinned device + beats ------------------------------------------------ */
+
+.beats--static {
+  display: grid;
+  gap: var(--space-5xl);
+}
+
+@media (min-width: 48rem) {
+  .beats--static {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-6xl);
+    align-items: start;
+  }
+  .beats--static .beats__figure {
+    position: sticky;
+    top: calc(3.5rem + var(--space-2xl));
+  }
+}
+
+.beats__figure {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+}
+
+.beats--pinned {
+  display: grid;
+  /* The device column is an explicit width, not `auto`. With the min-width:0
+     shrink guard applied, an `auto` track collapses below the frame's natural
+     size and the phone renders narrower than it was built for. */
+  grid-template-columns: var(--device-w) minmax(0, 1fr);
+  gap: var(--space-7xl);
+  align-items: start;
+}
+
+.beats__sticky {
+  width: var(--device-w);
+  position: sticky;
+  /* Header height + breathing room, and vertically centred in what's left. */
+  top: max(var(--space-2xl), calc(50vh - 340px));
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+}
+
+.caption {
+  font-size: var(--web-micro);
+  letter-spacing: 0.09em;
+  color: var(--ink-secondary); /* AA on white — see .index */
+}
+
+.beats__list {
+  display: grid;
+  gap: var(--space-7xl);
+}
+
+.beats--static .beats__list {
+  gap: var(--space-5xl);
+}
+
+.beats__item {
+  display: grid;
+  gap: var(--space-md);
+  max-width: var(--measure);
+  border-top: var(--hairline) solid var(--line);
+  padding-top: var(--space-lg);
+}
+
+.beats__item h3 {
+  max-width: 24ch;
+}
+
+/* The active beat in the pinned layout. The cue is CONTRAST, not colour: the
+   inactive blocks sit back, the active one comes forward. Removing colour from
+   the page entirely would not change this. */
+.beats--pinned .beats__item {
+  opacity: var(--opacity-low);
+  transition: opacity var(--duration-medium) var(--ease-standard);
+}
+
+.beats--pinned .beats__item[data-active='true'] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beats--pinned .beats__item {
+    opacity: 1;
+  }
+}
+
+/* First and last beat get half a viewport of runway so the pin engages and
+   releases without the copy jumping. */
+.beats--pinned .beats__list > :first-child {
+  padding-top: max(var(--space-lg), 18vh);
+}
+
+.beats--pinned .beats__list > :last-child {
+  padding-bottom: 30vh;
+}
+
+/* ---- section heads --------------------------------------------------------
+   A section head is an eyebrow, a headline and at most one lead paragraph,
+   left-aligned against the container edge. Never centred — a centred head over
+   left-aligned content is the compositional shrug that makes template pages
+   feel unauthored.
+   -------------------------------------------------------------------------- */
+
+.head {
+  display: grid;
+  gap: var(--space-md);
+  max-width: var(--measure);
+  margin-bottom: var(--space-5xl);
+}
+
+.head h2 {
+  max-width: 20ch;
+}
+
+/* A section head that sits beside its content rather than above it. */
+.split {
+  display: grid;
+  gap: var(--space-4xl);
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .split {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: var(--space-6xl);
+  }
+  .split .head {
+    margin-bottom: 0;
+    position: sticky;
+    top: calc(3.5rem + var(--space-2xl));
+  }
+}
+
+/* ---- method: the honesty argument ----------------------------------------- */
+
+.method {
+  display: grid;
+  gap: 0;
+  counter-reset: method;
+}
+
+.method__item {
+  display: grid;
+  gap: var(--space-sm);
+  padding-block: var(--space-2xl);
+  border-top: var(--hairline) solid rgba(255, 255, 255, 0.16);
+  max-width: var(--measure);
+}
+
+.method__item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.method__item h3 {
+  font-size: var(--web-body);
+  font-weight: 600;
+}
+
+.method__item p {
+  color: var(--ink-tertiary);
+  font-size: var(--web-small);
+  text-wrap: pretty;
+}
+
+/* A plain list of things the product does not do. No icons, no ticks, no
+   coloured bullets — the restraint is the message. */
+.negatives {
+  display: grid;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+}
+
+.negatives li {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: var(--space-sm);
+  font-size: var(--web-small);
+  color: var(--ink-tertiary);
+}
+
+.negatives li::before {
+  content: '—';
+  color: var(--ink-tertiary);
+}
+
+/* ---- grid-item shrink guard ------------------------------------------------
+   Grid and flex items default to `min-width: auto`, which refuses to shrink
+   below their content's intrinsic width. One fixed-width child — the device
+   frame — is enough to stop a whole column collapsing and push the page into
+   horizontal scroll on a narrow phone. These are the containers that hold one.
+   -------------------------------------------------------------------------- */
+
+.hero__grid > *,
+.split > *,
+.beats > *,
+.site-footer__grid > * {
+  min-width: 0;
+}
+
+/* `ch` is measured against the element's own font, so 30ch can resolve wider
+   than the column it sits in. Cap every measure at the space available. */
+.hero__text {
+  max-width: min(34ch, 100%);
 }

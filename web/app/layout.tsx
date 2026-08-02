@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Hanken_Grotesk, IBM_Plex_Mono } from 'next/font/google';
 
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -7,18 +6,16 @@ import { ConsentAnalytics } from '@/components/ConsentAnalytics';
 import { DESCRIPTION, SITE_NAME, SITE_URL, TAGLINE } from '@/lib/site';
 import './globals.css';
 
-const hanken = Hanken_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-hanken',
-});
+/* NO WEBFONTS.
+   The app is set in San Francisco. On the web the system stack resolves to the
+   real SF on Apple devices — the same typeface, not an approximation — and
+   `ui-rounded` gives us SF Pro Rounded for the numerals, which is the face the
+   app uses for every stat. See app/tokens.css.
 
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'swap',
-  variable: '--font-plex-mono',
-});
+   This replaced Hanken Grotesk + IBM Plex Mono from Google Fonts: two faces the
+   app does not contain, two render-blocking fetches, and a font-swap reflow on
+   every cold load. Removing them is better type parity AND better Core Web
+   Vitals, which is a rare direction for that trade to run. */
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -48,8 +45,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${hanken.variable} ${plexMono.variable}`}>
+    <html lang="en">
       <body>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <Header />
         <main id="main">{children}</main>
         <Footer />

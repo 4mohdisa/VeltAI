@@ -15,7 +15,9 @@ import { createElement as h } from 'react';
 // next/og is CJS-only (no exports map) — plain ESM import can't resolve it.
 const { ImageResponse } = createRequire(import.meta.url)('next/og');
 
-const TAGLINE = 'Make going to the gym the easy choice.';
+// The page's h1. Kept in step with app/page.tsx by hand — if the headline
+// changes there, re-run this script.
+const TAGLINE = 'Confidently wrong is still wrong.';
 
 const card = h(
   'div',

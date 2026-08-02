@@ -5,38 +5,45 @@ import { SUPPORT_EMAIL } from '@/lib/site';
 export function Footer() {
   return (
     <footer className="site-footer">
-      <div
-        className="container"
-        style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'space-between' }}
-      >
-        <div>
-          <div style={{ fontWeight: 800, color: 'var(--ink-strong)', marginBottom: '0.35rem' }}>Lumo</div>
-          <p style={{ maxWidth: '22rem' }}>
-            Food and fitness tracking that tells you the truth. Coming soon to the App&nbsp;Store.
-          </p>
-        </div>
-        <nav aria-label="Footer" style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
-          <div style={{ display: 'grid', gap: '0.5rem', alignContent: 'start' }}>
+      <div className="container">
+        <div className="site-footer__grid">
+          <div className="site-footer__col">
+            <span className="wordmark">Lumo</span>
+            <p style={{ maxWidth: '26ch' }}>
+              Food and fitness tracking that tells you how sure it is.
+            </p>
+            <span className="status">
+              <span className="status__dot" aria-hidden />
+              Coming soon to the App&nbsp;Store
+            </span>
+          </div>
+
+          <nav className="site-footer__col" aria-label="Product">
             <span className="eyebrow">Product</span>
             <Link href="/#features">Features</Link>
-            <Link href="/#honesty">Why Lumo</Link>
-            <Link href="/faq">FAQ</Link>
-          </div>
-          <div style={{ display: 'grid', gap: '0.5rem', alignContent: 'start' }}>
+            <Link href="/#honesty">The method</Link>
+            <Link href="/#privacy">Privacy summary</Link>
+          </nav>
+
+          <nav className="site-footer__col" aria-label="Company">
             <span className="eyebrow">Company</span>
+            <Link href="/faq">FAQ</Link>
             <Link href="/support">Support</Link>
-            <Link href="/security">Security &amp; privacy</Link>
             <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
-          </div>
-          <div style={{ display: 'grid', gap: '0.5rem', alignContent: 'start' }}>
+          </nav>
+
+          <nav className="site-footer__col" aria-label="Legal">
             <span className="eyebrow">Legal</span>
             <Link href="/privacy">Privacy policy</Link>
             <Link href="/terms">Terms of service</Link>
-          </div>
-        </nav>
-      </div>
-      <div className="container" style={{ marginTop: '2.5rem', fontSize: 'var(--text-mono-micro)' }}>
-        <span className="mono">© {new Date().getFullYear()} Lumo · Adelaide, South Australia</span>
+            <Link href="/security">Security</Link>
+          </nav>
+        </div>
+
+        <div className="site-footer__bottom">
+          <span>© {new Date().getFullYear()} Lumo · Adelaide, South Australia</span>
+          <span>Not affiliated with Apple Inc.</span>
+        </div>
       </div>
     </footer>
   );
