@@ -1001,3 +1001,225 @@ h3 {
 .hero__text {
   max-width: min(34ch, 100%);
 }
+
+/* ---- legal documents ------------------------------------------------------
+   The place a site's design usually falls apart. These pages use the same
+   instrument language as the rest: hairlines, mono section numbers, real
+   measure. No cards, no boxes except the one that has to shout.
+   -------------------------------------------------------------------------- */
+
+.legal {
+  display: grid;
+  gap: var(--space-5xl);
+}
+
+.legal__head {
+  display: grid;
+  gap: var(--space-md);
+  max-width: var(--measure);
+}
+
+.legal__head h1 {
+  /* A legal document's title is not the hero. Two steps down the scale. */
+  font-size: var(--web-h2);
+}
+
+.legal__updated {
+  font-size: var(--web-label);
+  color: var(--ink-secondary);
+  letter-spacing: 0.04em;
+}
+
+/* The draft banner. Hairline box, no colour, no icon — it is the same visual
+   grammar as a TODO because it is saying the same thing about the whole page. */
+.legal__notice {
+  border: var(--hairline) solid var(--ink-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xl);
+  max-width: var(--measure);
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.legal__notice-label,
+.todo__label::before {
+  font-family: var(--font-mono);
+  font-size: var(--web-micro);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-strong);
+}
+
+.legal__notice p {
+  font-size: var(--web-small);
+  max-width: var(--measure);
+}
+
+/* ---- table of contents ---- */
+
+.legal__toc {
+  border-top: var(--hairline) solid var(--line);
+  border-bottom: var(--hairline) solid var(--line);
+  padding-block: var(--space-2xl);
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.legal__toc ol {
+  display: grid;
+  gap: var(--space-sm);
+  counter-reset: none;
+}
+
+@media (min-width: 48rem) {
+  .legal__toc ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4xl);
+  }
+}
+
+.legal__toc li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.legal__toc a {
+  font-size: var(--web-small);
+  color: var(--ink);
+  text-decoration: none;
+  /* 44px target without visually padding a dense list. */
+  padding-block: var(--space-xs);
+}
+
+.legal__toc a:hover {
+  text-decoration: underline;
+}
+
+/* ---- sections ---- */
+
+.legal__body {
+  display: grid;
+  gap: var(--space-5xl);
+}
+
+.legal-section {
+  display: grid;
+  gap: var(--space-lg);
+  /* Anchor links must not land under the sticky header. */
+  scroll-margin-top: calc(3.5rem + var(--space-2xl));
+}
+
+.legal-section h2 {
+  font-size: var(--web-h3);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: baseline;
+  gap: var(--space-sm);
+  max-width: var(--measure);
+  padding-bottom: var(--space-md);
+  border-bottom: var(--hairline) solid var(--line);
+}
+
+.legal-section__n {
+  font-family: var(--font-mono);
+  font-size: var(--web-label);
+  font-weight: 500;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.legal-section__body {
+  display: grid;
+  gap: var(--space-lg);
+  max-width: var(--measure);
+}
+
+.legal-section__body p {
+  text-wrap: pretty;
+}
+
+.legal-list {
+  display: grid;
+  gap: var(--space-sm);
+  padding-left: var(--space-xl);
+  list-style: disc;
+}
+
+.legal-list li {
+  font-size: var(--web-small);
+  color: var(--ink);
+}
+
+/* ---- verified: a code-derived fact ----------------------------------------
+   Almost invisible on purpose — it is part of the document, not an annotation.
+   A hairline on the leading edge marks it as sourced. Provenance is an HTML
+   comment, so it is greppable in view-source without cluttering the page.
+   -------------------------------------------------------------------------- */
+
+.verified {
+  display: grid;
+  gap: var(--space-sm);
+  border-left: 2px solid var(--line-strong);
+  padding-left: var(--space-lg);
+}
+
+/* ---- todo: a placeholder that cannot be mistaken for prose ---------------- */
+
+.todo {
+  border: var(--hairline) solid var(--ink-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-lg) var(--space-xl) var(--space-xl);
+  display: grid;
+  gap: var(--space-sm);
+  background: var(--zone);
+}
+
+.todo__label::before {
+  content: 'TODO — content required';
+}
+
+.todo__body {
+  font-family: var(--font-mono);
+  font-size: var(--web-small);
+  line-height: 1.6;
+  color: var(--ink);
+  /* Monospaced at a slightly loose measure: it reads as an instruction to the
+     author, never as a clause of the document. */
+  max-width: 62ch;
+}
+
+.todo__inline {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  border: var(--hairline) solid var(--line-strong);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ---- foot ---- */
+
+.legal__foot {
+  border-top: var(--hairline) solid var(--line);
+  padding-top: var(--space-xl);
+  display: grid;
+  gap: var(--space-sm);
+  max-width: var(--measure);
+}
+
+.legal__foot .mono {
+  font-size: var(--web-small);
+}
+
+.legal__foot code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--surface);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
