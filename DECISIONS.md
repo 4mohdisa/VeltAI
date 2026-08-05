@@ -339,3 +339,22 @@ in git — this file is not a changelog.
   AWS-hardening work, and the app version/build are no longer hardcoded (they
   derive from `src/lib/appVersion.ts`). Its verification baseline also cited test
   counts that were never right.
+
+## Final pre-TestFlight audit, Part 1 — Supabase (2026-08-06)
+
+- **The Supabase MCP was not actually connected for this audit.** No MCP tools,
+  no `DATABASE_URL`, no CLI login exist in this environment, so every claim
+  about the LIVE database (applied migrations, live RLS, advisors, data state)
+  remains unverifiable from here. Substitute proof: all migrations were applied
+  in order to a real local Postgres 17 and the backend audited against that.
+  Live verification is on the owner's list in FINAL_AUDIT.md.
+- **The debug_reports migration could never have applied.** Its four RLS
+  policies compared `auth.uid()` (uuid) to `user_id` (Clerk text) — a type
+  error every Postgres rejects. Applied transactionally the whole migration
+  rolls back, so the live table almost certainly does not exist and debug sync
+  would have failed silently for the entire testing fortnight. Rewritten to the
+  house pattern (`user_id = (select auth.jwt()->>'sub')`, one `for all` policy)
+  and proven: all 14 migrations now apply clean from an empty database.
+- **Eight foreign keys had no covering index** (notably `recipes.user_id`,
+  which the recipes list hits on every request). Added
+  `20260806000002_fk_covering_indexes.sql`; zero uncovered FKs remain.

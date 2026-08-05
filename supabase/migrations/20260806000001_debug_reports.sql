@@ -42,21 +42,16 @@ alter table debug_reports enable row level security;
 -- Same posture as every other user table: the Go backend connects with the
 -- service role and enforces ownership in SQL; these policies are the belt to
 -- that braces for any direct PostgREST access.
+--
+-- user_id is a Clerk id (text), so the owner check is auth.jwt()->>'sub' like
+-- every other table — NOT auth.uid(), which returns uuid and fails to compare.
 drop policy if exists "debug_reports_select_own" on debug_reports;
-create policy "debug_reports_select_own" on debug_reports
-  for select using (auth.uid() = user_id);
-
 drop policy if exists "debug_reports_insert_own" on debug_reports;
-create policy "debug_reports_insert_own" on debug_reports
-  for insert with check (auth.uid() = user_id);
-
 drop policy if exists "debug_reports_update_own" on debug_reports;
-create policy "debug_reports_update_own" on debug_reports
-  for update using (auth.uid() = user_id);
-
 drop policy if exists "debug_reports_delete_own" on debug_reports;
-create policy "debug_reports_delete_own" on debug_reports
-  for delete using (auth.uid() = user_id);
+drop policy if exists "own rows" on debug_reports;
+create policy "own rows" on debug_reports
+  for all using (user_id = (select auth.jwt() ->> 'sub'));
 
 grant select, insert, update, delete on debug_reports to authenticated;
 grant all on debug_reports to service_role;
