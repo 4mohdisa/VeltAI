@@ -1,11 +1,21 @@
 // ConfidenceBadge — the scan's confidence readout with a "Why?" disclosure.
-// Colour encodes the score band (functional use of accent, per the token rules):
-// >=85 green, 60–84 yellow, <60 red. Tapping "Why?" expands the contributing
-// factors, each with its signed point value. When the caller has no breakdown
-// (the backend returns only a scalar 0..1 today) we SYNTHESISE one deterministically
-// from the score: three fixed positive contributions that sum to 100, minus a
-// single band-specific penalty that brings the total to the score — so the
-// factors always sum to the displayed number and the signs stay sensible.
+//
+// Colour encodes the SERVER's band (functional use of accent, per the token
+// rules): High green, Medium yellow, Low red. The thresholds live in
+// @/lib/food/confidence, which mirrors the Go pipeline. This component holds no
+// thresholds of its own — it used to (green >=85 / amber >=60), which made
+// green unreachable and painted a server-"High" scan red.
+//
+// Tapping "Why?" expands the factors the SERVER computed and stored in
+// scan_results.confidence.factors, each with its signed point value. This
+// component used to invent that list from the score alone — three fixed
+// positives and a band-specific penalty, chosen so the rows summed to the
+// displayed number — on the false premise, stated in this file's own header,
+// that the backend returned only a scalar. The backend returns score, label AND
+// factors (src/lib/api.ts ScanConfidence) and always has. A provenance
+// disclosure containing invented provenance is the sharpest contradiction this
+// product can ship, so when there are no server factors we say so instead.
+// src/__tests__/scanConfidence.test.ts fails if the invented strings return.
 import { useState } from 'react';
 import { View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -14,51 +24,39 @@ import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { accent, color, motion, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
-import type { ConfidenceFactor } from '@/lib/types';
+import { displayBand, type ConfidenceBand } from '@/lib/food/confidence';
+import type { ScanConfidenceFactor } from '@/lib/api';
 
 export type ConfidenceBadgeProps = {
   score: number; // 0..100
-  breakdown?: ConfidenceFactor[];
+  /** The server's own label, when the payload carried one. */
+  label?: string;
+  /** scan_results.confidence.factors — the server's real breakdown. */
+  breakdown?: ScanConfidenceFactor[];
 };
 
-function scoreColor(score: number): string {
-  if (score >= 85) return accent.green;
-  if (score >= 60) return accent.yellow;
+function bandColor(band: ConfidenceBand): string {
+  if (band === 'High') return accent.green;
+  if (band === 'Medium') return accent.yellow;
   return accent.red;
-}
-
-function synthesizeBreakdown(score: number): ConfidenceFactor[] {
-  const s = Math.round(Math.min(100, Math.max(0, score)));
-  const factors: ConfidenceFactor[] = [
-    { label: 'Food identified', points: 55 },
-    { label: 'Portion size estimated', points: 30 },
-    { label: 'Lighting & framing', points: 15 },
-  ];
-  const deficit = 100 - s;
-  if (deficit > 0) {
-    factors.push({
-      label: s >= 85 ? 'Minor portion uncertainty' : s >= 60 ? 'Single camera angle' : 'Portion & ingredients unclear',
-      points: -deficit,
-    });
-  }
-  return factors;
 }
 
 const signed = (p: number): string => `${p >= 0 ? '+' : '−'}${Math.abs(p)}`;
 
-export function ConfidenceBadge({ score, breakdown }: ConfidenceBadgeProps) {
+export function ConfidenceBadge({ score, label, breakdown }: ConfidenceBadgeProps) {
   const [open, setOpen] = useState(false);
   const reduce = useReduceMotion();
   const pct = Math.round(Math.min(100, Math.max(0, score)));
-  const tint = scoreColor(pct);
-  const factors = breakdown && breakdown.length > 0 ? breakdown : synthesizeBreakdown(pct);
+  const band = displayBand(label, pct);
+  const tint = bandColor(band);
+  const factors = breakdown ?? [];
 
   return (
     <View style={{ gap: space.sm }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
         <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: tint }} />
         <Text variant="footnote" color={color.label}>
-          {pct}% confidence
+          {band} confidence
         </Text>
         <Pressable
           haptic={false}
@@ -79,19 +77,25 @@ export function ConfidenceBadge({ score, breakdown }: ConfidenceBadgeProps) {
           entering={reduce ? undefined : FadeInDown.duration(motion.duration.fast)}
           style={{ gap: space.xs, paddingLeft: space.md }}
         >
-          {factors.map((f, i) => (
-            <View key={`${f.label}-${i}`} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-              <Text variant="footnote" color={f.points >= 0 ? accent.green : accent.yellow}>
-                {f.points >= 0 ? '✓' : '⚠'}
-              </Text>
-              <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
-                {f.label}
-              </Text>
-              <Text variant="footnote" color={color.label}>
-                {signed(f.points)}
-              </Text>
-            </View>
-          ))}
+          {factors.length === 0 ? (
+            <Text variant="footnote" color={color.secondaryLabel}>
+              This scan didn&apos;t return a breakdown.
+            </Text>
+          ) : (
+            factors.map((f, i) => (
+              <View key={`${f.name}-${i}`} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+                <Text variant="footnote" color={f.points >= 0 ? accent.green : accent.yellow}>
+                  {f.points >= 0 ? '✓' : '⚠'}
+                </Text>
+                <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
+                  {f.message || f.name}
+                </Text>
+                <Text variant="footnote" color={color.label}>
+                  {signed(f.points)}
+                </Text>
+              </View>
+            ))
+          )}
         </Animated.View>
       ) : null}
     </View>

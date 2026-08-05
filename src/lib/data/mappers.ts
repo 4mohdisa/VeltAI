@@ -172,10 +172,16 @@ export const sessionsFromApi = (rows: ApiGymSession[]): GymSession[] =>
     notes: r.notes ?? undefined,
   }));
 
-export const streakFromApi = (row: GymStreak, prev: Streak): Streak => ({
+export const streakFromApi = (row: GymStreak, prev: Streak, totalGymDays = prev.totalGymDays): Streak => ({
   current: row.current_streak,
   longest: row.longest_streak,
-  totalGymDays: prev.totalGymDays, // not tracked server-side
+  // Not tracked server-side. Carrying the PREVIOUS local value meant the
+  // "Total" tile kept whatever the store happened to hold — a seeded 47 before
+  // the seeds were removed, and 0 forever after — so it was never the user's
+  // real number in either direction. Derive it from the days we can actually
+  // see: distinct logged session dates. Under-reports history older than the
+  // fetched window, which is honest; inventing a larger number is not.
+  totalGymDays,
   freezesAvailable: row.freeze_used ? 0 : 1, // one freeze per streak (backend semantics)
   gymLoggedToday: row.last_gym_date === todayISO(),
 });

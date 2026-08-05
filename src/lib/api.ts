@@ -12,6 +12,24 @@
 // doesn't produce '//api/...'.
 const BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080').replace(/\/+$/, '');
 
+/**
+ * True when a RELEASE build was packaged without EXPO_PUBLIC_API_URL, so every
+ * request would target http://localhost:8080 — which on iOS is additionally
+ * blocked by ATS, since app.json declares no NSAppTransportSecurity exception.
+ *
+ * This used to be silent. The app would launch, every request would fail, and
+ * useHydration swallows failures by design (error stays null), so the user got
+ * a plausible-looking but permanently empty app with no error state and no way
+ * to distinguish a mis-packaged binary from a real outage. Silent degradation
+ * in a release build is a bug; the root layout renders a configuration error,
+ * matching the AuthGate treatment of a missing Clerk key.
+ *
+ * __DEV__ is read inline rather than via lib/env so this module stays
+ * dependency-free; undefined (jest) counts as dev, same semantics as isDevBuild.
+ */
+export const IS_MISCONFIGURED_RELEASE =
+  (typeof __DEV__ === 'undefined' ? false : !__DEV__) && !process.env.EXPO_PUBLIC_API_URL;
+
 // Network posture (all env-tunable, all with sane defaults):
 //   EXPO_PUBLIC_API_TIMEOUT_MS         per-attempt deadline for a normal request
 //   EXPO_PUBLIC_API_UPLOAD_TIMEOUT_MS  ditto for image uploads (megabytes, slow uplink)
@@ -29,6 +47,33 @@ const isUploadBody = (b: unknown): boolean =>
   typeof b === 'object' && b !== null && ('image_base64' in b || 'images' in b);
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+// Clerk's getToken() performs a real network call to its Frontend API whenever
+// the cached session JWT is stale — routinely, not exceptionally. It sat OUTSIDE
+// withTimeout, so a captive portal / half-open TCP / DNS blackhole hung it
+// forever: request() never reached the deadline it advertises, and every api.*
+// call in the app hung with no abort and no rejection. The launch gate awaits
+// one of those, so the symptom was an infinite spinner on the first screen with
+// no route out. Treat a token we cannot obtain in time as "no token" and let the
+// request proceed unauthenticated — the server answers 401, which the app
+// already handles, instead of nothing at all.
+const TOKEN_TIMEOUT_MS = num(process.env.EXPO_PUBLIC_API_TOKEN_TIMEOUT_MS, 10_000);
+
+function withTokenDeadline(p: Promise<string | null>): Promise<string | null> {
+  return new Promise<string | null>((resolve) => {
+    const timer = setTimeout(() => resolve(null), TOKEN_TIMEOUT_MS);
+    p.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      () => {
+        clearTimeout(timer);
+        resolve(null);
+      },
+    );
+  });
+}
 
 /**
  * Bound a request. fetch() has NO default timeout, so a hung connection would
@@ -144,7 +189,7 @@ async function issue(method: string, path: string, body: unknown, extraHeaders: 
 }
 
 async function request<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
-  const token = tokenProvider ? await tokenProvider() : null;
+  const token = tokenProvider ? await withTokenDeadline(tokenProvider()) : null;
   // Retry ONLY idempotent GETs (network failure/timeout or 5xx), with backoff.
   // A write is never retried here: without server-side dedup a replayed POST is
   // a duplicate row. Writes that must survive a flaky network go through the
@@ -163,7 +208,9 @@ async function request<T>(method: string, path: string, body?: unknown, extraHea
     // 401 → ONE forced token refresh + retry; only a second 401 (or a failed
     // refresh) signs the user out (Phase 13 machine: expired → refresh → signOut).
     if (res.status === 401 && tokenRefreshHandler) {
-      const fresh = await tokenRefreshHandler().catch(() => null);
+      // Bounded for the same reason as the initial token fetch above: a hung
+      // refresh would strand the request past its deadline.
+      const fresh = await withTokenDeadline(tokenRefreshHandler());
       if (fresh) {
         res = await issue(method, path, body, extraHeaders, fresh);
       }
@@ -1097,6 +1144,12 @@ export const api = {
     brain: () => req.get<AiBrain>('/api/ai/brain'),
     rebuild: () => req.post<AiBrain>('/api/ai/brain/rebuild'),
     morningBriefRaw: () => req.get<MorningBriefResponse>('/api/ai/morning-brief'),
+
+    // AI-partner consent (5.1.2(i)). The server keeps its own record because a
+    // device flag cannot gate the backend's background rebuild sweep.
+    getConsent: () => req.get<{ consented: boolean; consented_at: string | null }>('/api/ai/consent'),
+    setConsent: () => req.post<{ consented: boolean }>('/api/ai/consent'),
+    revokeConsent: () => req.del<{ consented: boolean }>('/api/ai/consent'),
 
     // --- UI-facing (mapped) accessors. Real endpoints are mapped; the ones the
     // backend doesn't expose (mark-shown/engaged, anomalies) degrade to no-op/[]

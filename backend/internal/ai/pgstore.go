@@ -301,9 +301,17 @@ func (s *PGStore) ScanCorrections(ctx context.Context, userID string) ([]ScanCor
 }
 
 func (s *PGStore) UsersNeedingRebuild(ctx context.Context) ([]string, error) {
+	// The join on profiles.ai_consent_at is the consent gate for the background
+	// sweep (5.1.2(i)). Merely logging five foods flags needs_rebuild, so
+	// without this the sweep shipped the brain of any active user to Anthropic
+	// whether or not they had ever seen the AI disclosure. A device-local flag
+	// cannot gate a job that runs on a timer with no device involved.
 	rows, err := s.q.Query(ctx, `
-		SELECT user_id FROM ai_user_brain
-		WHERE needs_rebuild = true AND (last_rebuilt IS NULL OR last_rebuilt < now() - interval '6 hours')`)
+		SELECT b.user_id FROM ai_user_brain b
+		JOIN profiles p ON p.id = b.user_id
+		WHERE b.needs_rebuild = true
+		  AND (b.last_rebuilt IS NULL OR b.last_rebuilt < now() - interval '6 hours')
+		  AND p.ai_consent_at IS NOT NULL`)
 	if err != nil {
 		return nil, err
 	}
@@ -317,4 +325,32 @@ func (s *PGStore) UsersNeedingRebuild(ctx context.Context) ([]string, error) {
 		out = append(out, uid)
 	}
 	return out, rows.Err()
+}
+
+// AIConsentAt returns when the user accepted AI-partner processing, or nil if
+// they never did. Every server-side path that sends user data to Gemini or
+// Anthropic must refuse on nil — see 5.1.2(i).
+func (s *PGStore) AIConsentAt(ctx context.Context, userID string) (*time.Time, error) {
+	var at *time.Time
+	err := s.q.QueryRow(ctx, "SELECT ai_consent_at FROM profiles WHERE id = $1", userID).Scan(&at)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, nil // no profile row yet => no consent on record
+	}
+	return at, err
+}
+
+// SetAIConsent records acceptance. First acceptance wins so a re-prompt cannot
+// silently move the timestamp forward and obscure when consent was actually
+// given.
+func (s *PGStore) SetAIConsent(ctx context.Context, userID string) error {
+	_, err := s.q.Exec(ctx,
+		"UPDATE profiles SET ai_consent_at = COALESCE(ai_consent_at, now()), updated_at = now() WHERE id = $1", userID)
+	return err
+}
+
+// RevokeAIConsent clears it. The user must be able to withdraw consent, and
+// the next sweep must then skip them (5.1.1(i)).
+func (s *PGStore) RevokeAIConsent(ctx context.Context, userID string) error {
+	_, err := s.q.Exec(ctx, "UPDATE profiles SET ai_consent_at = NULL, updated_at = now() WHERE id = $1", userID)
+	return err
 }

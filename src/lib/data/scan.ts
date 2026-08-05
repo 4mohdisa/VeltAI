@@ -13,6 +13,7 @@ import { exampleBarcodeProduct, lookupBarcode, type BarcodeProduct } from '@/lib
 import type { MealSlot } from '@/lib/mock/data';
 import type { ScanFeedbackRating } from '@/lib/types';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
+import { isDevBuild } from '@/lib/env';
 
 // Active status pollers keyed by the LOCAL review-row id, so save/discard can
 // cancel a still-running poll. Pollers also self-terminate on ready/failed/60s.
@@ -149,6 +150,13 @@ export function startPhotoScan(imageBase64?: string, mimeType = 'image/jpeg'): M
     return slot;
   }
 
+  // No image. In a RELEASE build this must write NOTHING: the caller reaches
+  // here only when the capture itself failed, and the mock path below logs
+  // three invented foods ('Chicken stir-fry 420 kcal', …) into the user's real
+  // log after a fake 'analyzing' delay. That is fabricated data presented as
+  // the user's own — App Store 2.1 — so it is dev-only.
+  if (!isDevBuild()) return slot;
+
   // Mock path — one pending placeholder per detected item (skeleton rows).
   const ids = aiDetectedItems.map(() => logMeal(slot, pendingPlaceholder, 'photo', true));
   setTimeout(() => {
@@ -232,6 +240,10 @@ export function updateFoodLogStatus(localId: string, status: 'ready' | 'failed',
       status: 'ready',
       scanSessionId: sr?.scan_session_id,
       estimatedWeightG: qty,
+      // The pipeline's own verdict. These travelled over the wire on every poll
+      // and were thrown away here, so the review card had to invent a breakdown.
+      confidenceLabel: sr?.confidence?.label,
+      confidenceFactors: sr?.confidence?.factors,
       angleAgreement: sr?.angle_agreement ?? undefined,
       needsConfirmation: sr?.needs_user_confirmation || undefined,
       reconciliationNote: sr?.reconciliation_note || undefined,
@@ -312,14 +324,18 @@ export function lookupBarcodeAsync(code: string): Promise<BarcodeProduct | null>
   return api.foodSearch
     .barcode(code)
     .then(barcodeProductFromApi)
-    .catch(
-      () =>
-        // Backend down / not signed in / unknown code → mock DB after the same
-        // brief loading window the UI was designed around.
-        new Promise<BarcodeProduct | null>((resolve) => {
-          setTimeout(async () => resolve((await lookupBarcode(code)) ?? null), LOOKUP_MS);
-        }),
-    );
+    .catch(() => {
+      // The mock DB has ONE product in it. In a release build, falling back to
+      // it means scanning that single real-world barcode while the backend is
+      // down returns invented Chobani macros presented as a database hit, and
+      // every other code silently reports "not found" when the truth is "we
+      // could not reach the server". Dev keeps it so the flow is demoable;
+      // release returns null and the caller shows its not-found overlay.
+      if (!isDevBuild()) return null;
+      return new Promise<BarcodeProduct | null>((resolve) => {
+        setTimeout(async () => resolve((await lookupBarcode(code)) ?? null), LOOKUP_MS);
+      });
+    });
 }
 
 // --- Scan review: save / discard / feedback ---------------------------------

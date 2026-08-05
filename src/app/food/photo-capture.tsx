@@ -20,6 +20,7 @@ import { CaptureGuidanceOverlay } from '@/components/food/CaptureGuidanceOverlay
 import { showToast } from '@/components/display/toastStore';
 import { startMultiPhotoScan, startPhotoScan } from '@/lib/data';
 import { color, radius, space } from '@/lib/design/tokens';
+import { isDevBuild } from '@/lib/env';
 
 type Angle = 'top' | 'side' | 'oblique';
 type Shot = { base64: string; angle: Angle; uri?: string };
@@ -64,10 +65,18 @@ export default function PhotoCaptureScreen() {
         throw new Error('no frame');
       }
     } catch {
-      // No camera in this binary → mock single-shot flow (offline experience).
-      startPhotoScan();
-      router.replace('/(tabs)/food');
-      showToast({ message: 'Scanning your meal…', tone: 'info' });
+      // A capture failure must never look like a successful scan. This used to
+      // call startPhotoScan() with no image and toast 'Scanning your meal…',
+      // which logged three invented foods into the user's day. Dev keeps that
+      // path so the flow is reviewable without a camera; a real build reports
+      // the failure and stays put so the user can retry.
+      if (isDevBuild()) {
+        startPhotoScan();
+        router.replace('/(tabs)/food');
+        showToast({ message: 'Scanning your meal…', tone: 'info' });
+      } else {
+        showToast({ message: "Couldn't take the photo — try again.", tone: 'error' });
+      }
     } finally {
       setCapturing(false);
     }

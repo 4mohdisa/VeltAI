@@ -229,6 +229,14 @@ func (c *countingPipelineStore) FinishScanLog(_ context.Context, _, _, _ string,
 	return nil
 }
 
+func (c *countingPipelineStore) CreateLabelSession(_ context.Context, _ string) (string, error) {
+	c.mu.Lock()
+	c.sessN++
+	id := fmt.Sprintf("sess_%d", c.sessN)
+	c.mu.Unlock()
+	return id, nil
+}
+
 func (c *countingPipelineStore) UpdatePipelineSession(_ context.Context, _ string, _, _, _, _ int, _ string, _ bool, _ int) error {
 	return nil
 }

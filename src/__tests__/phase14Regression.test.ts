@@ -206,7 +206,10 @@ describe('claim 3 · third-party-AI consent', () => {
 
   test('the morning brief fetches nothing before consent', () => {
     const src = read('lib/data/aiBrain.ts');
-    expect(src).toContain("import { hasAiConsent } from '@/lib/ai/consent'");
+    // Asserted by behaviour, not by the exact import line — the module also
+    // imports ensureAiConsent now (to re-prompt on the server's 403), and the
+    // two share one import statement.
+    expect(src).toMatch(/import \{[^}]*\bhasAiConsent\b[^}]*\} from '@\/lib\/ai\/consent'/);
     ordered(src, 'hasAiConsent()', 'api.ai.getMorningBrief()', 'useMorningBrief');
     expect(src).toContain('if (!ok || !active) return null;');
   });

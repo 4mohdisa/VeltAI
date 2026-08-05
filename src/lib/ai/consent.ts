@@ -1,9 +1,15 @@
 // Third-party-AI consent (guideline 5.1.2(i)): personal data may not be shared
 // with third-party AI without disclosure AND explicit permission. One
-// device-persisted acknowledgment covers both processors; until it is given,
-// no scan upload happens and no AI endpoint is fetched. The key is cleared on
-// sign-out (resetRegistry) so the next account re-acknowledges.
+// acknowledgment covers both processors; until it is given, no scan upload
+// happens and no AI endpoint is fetched. The key is cleared on sign-out
+// (resetRegistry) so the next account re-acknowledges.
+//
+// The acknowledgment is recorded on the SERVER as well as the device. A device
+// flag cannot gate the backend's 6-hour rebuild sweep, which marshals the
+// user's logs and sends them to Anthropic with no device involved — so the
+// server keeps its own record and refuses (403 ai_consent_required) without it.
 import { getItem, setItem } from '@/lib/storage/secureStore';
+import { api } from '@/lib/api';
 
 export const AI_CONSENT_KEY = 'lumo.aiConsent';
 
@@ -33,6 +39,11 @@ export async function ensureAiConsent(): Promise<boolean> {
           onPress: () => {
             cached = true;
             void setItem(AI_CONSENT_KEY, '1');
+            // Best-effort: the device flag is what gates the UI, and the server
+            // independently refuses until its own record exists. A failure here
+            // means AI features 403 until the next acknowledgment rather than
+            // data being sent without consent — the safe direction.
+            void api.ai.setConsent().catch(() => {});
             resolve(true);
           },
         },

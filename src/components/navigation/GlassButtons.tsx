@@ -59,10 +59,20 @@ export type GlassNavButtonProps = {
   testID?: string;
 };
 
+// A visible back/close control that does nothing is worse than no control.
+// When the screen IS the navigation root — deep link, notification tap, or a
+// route presented as the entry screen — canGoBack() is false and these used to
+// fall through to nothing at all: no navigation, no disabled state, no
+// feedback. Fall back to the app's home tab so there is always a way out.
+function goBackOrHome() {
+  if (router.canGoBack()) router.back();
+  else router.replace('/(tabs)');
+}
+
 export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps & { label?: string }) {
   const handlePress = () => {
     if (onPress) onPress();
-    else if (router.canGoBack()) router.back();
+    else goBackOrHome();
   };
   // HIG §4.2: where iOS shows it, the back control names the previous screen
   // ("‹ Food") instead of a bare arrow. A label turns the circle into a pill.
@@ -88,7 +98,7 @@ export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps 
 export function GlassCloseButton({ onPress, testID }: GlassNavButtonProps) {
   const handlePress = () => {
     if (onPress) onPress();
-    else if (router.canGoBack()) router.back();
+    else goBackOrHome();
   };
   return (
     <Pressable haptic={false} onPress={handlePress} accessibilityLabel="Close" testID={testID}>

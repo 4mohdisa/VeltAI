@@ -366,6 +366,20 @@ func TestDeriveGoals(t *testing.T) {
 			in:   goals.DeriveInput{Age: 60, Sex: "female", Height: 150, Weight: 45, ActivityLevel: "sedentary", Goal: "lose"},
 			want: goals.DerivedGoals{Calories: 1200, Protein: 81, Carbs: 145, Fat: 33, Fibre: 25},
 		},
+		{
+			// The floor is SEX-AWARE (1.4.1): it was a flat 1200 for everyone, so
+			// this man was recommended the female minimum. 1500 is the widely-cited
+			// male minimum. BMR = 400+937.5-300+5 = 1042.5; TDEE = 1251; -400 = 851.
+			name: "calorie floor is 1500 for men",
+			in:   goals.DeriveInput{Age: 60, Sex: "male", Height: 150, Weight: 40, ActivityLevel: "sedentary", Goal: "lose"},
+			want: goals.DerivedGoals{Calories: 1500, Protein: 72, Carbs: 209, Fat: 42, Fibre: 25},
+		},
+		{
+			// "other" takes the midpoint, matching the BMR offset convention.
+			name: "calorie floor is 1350 for other",
+			in:   goals.DeriveInput{Age: 60, Sex: "other", Height: 150, Weight: 40, ActivityLevel: "sedentary", Goal: "lose"},
+			want: goals.DerivedGoals{Calories: 1350, Protein: 72, Carbs: 180, Fat: 38, Fibre: 25},
+		},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

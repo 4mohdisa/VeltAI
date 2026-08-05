@@ -92,14 +92,24 @@ func scanTemplate(row pgx.Row) (*WorkoutTemplate, error) {
 	return &t, nil
 }
 
-const templateExerciseSelect = `
+// The projection is split from the FROM clause so a caller that needs an extra
+// column (GetTemplateExercise wants the owning template's user_id) can insert
+// it into the select list instead of appending after FROM, which is not valid
+// SQL. Appending a JOIN without widening the select list is exactly the bug
+// that made the three template-exercise routes 500 on every request: 22 columns
+// returned, 23 Scan destinations, and pgx fails that unconditionally.
+const templateExerciseCols = `
 	SELECT te.id::text, te.template_id::text, te.exercise_id::text,
 	       te.planned_sets, te.planned_reps, te.planned_weight, te.planned_weight_unit,
 	       te.planned_duration_minutes, te.rest_seconds, te.sort_order, te.created_at,
 	       el.id::text, el.name, el.muscle_group_primary, el.muscle_groups_secondary,
-	       el.category, el.exercise_type, el.equipment, el.difficulty, COALESCE(el.description, ''), el.met_value, el.parameter_schema
+	       el.category, el.exercise_type, el.equipment, el.difficulty, COALESCE(el.description, ''), el.met_value, el.parameter_schema`
+
+const templateExerciseFrom = `
 	FROM template_exercises te
 	JOIN exercise_library el ON el.id = te.exercise_id`
+
+const templateExerciseSelect = templateExerciseCols + templateExerciseFrom
 
 func scanTemplateExercise(row pgx.Row) (*TemplateExercise, error) {
 	var te TemplateExercise
@@ -306,7 +316,7 @@ func (p *SchedulePGStore) GetTemplateExercise(ctx context.Context, id string) (*
 	var te TemplateExercise
 	var lib LibraryExercise
 	var owner string
-	err := p.q.QueryRow(ctx, templateExerciseSelect+`
+	err := p.q.QueryRow(ctx, templateExerciseCols+`, t.user_id`+templateExerciseFrom+`
 		JOIN workout_templates t ON t.id = te.template_id
 		WHERE te.id::text = $1`, id).Scan(
 		&te.ID, &te.TemplateID, &te.ExerciseID,

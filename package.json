@@ -47,7 +47,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "expo lint",
-    "test": "jest"
+    "test": "jest",
+    "check:assets": "node scripts/check-assets.mjs"
   },
   "jest": {
     "testEnvironment": "node",

@@ -4,7 +4,7 @@
 // Server state lives in the zustand stores behind @/lib/data.
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
-import { Text as RNText, View } from 'react-native';
+import { AppState as RNAppState, Text as RNText, View } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
@@ -17,6 +17,7 @@ import { AppStateProvider } from '@/lib/auth/appState';
 import { ClerkBridge } from '@/lib/auth/ClerkBridge';
 import { CLERK_PUBLISHABLE_KEY, clerkTokenCache, isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { isDevBuild } from '@/lib/env';
+import { IS_MISCONFIGURED_RELEASE } from '@/lib/api';
 import { configurePurchases } from '@/lib/billing/purchases';
 import { ToastHost } from '@/components/display/ToastHost';
 import { color, sheet } from '@/lib/design/tokens';
@@ -33,6 +34,20 @@ import '@/lib/i18n'; // initialise i18next before any screen renders
 // instead. ClerkLoaded gates the initial render so no screen flashes before
 // auth status is known.
 function AuthGate({ children }: { children: ReactNode }) {
+  // Same posture for a missing backend URL: a release build that cannot reach
+  // any server must say so rather than present an empty app that looks like the
+  // user simply has no data.
+  if (IS_MISCONFIGURED_RELEASE) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', padding: 32, backgroundColor: color.white }}>
+        <RNText style={{ fontSize: 17, fontWeight: '600', marginBottom: 8 }}>Configuration error</RNText>
+        <RNText style={{ fontSize: 15, color: '#666' }}>
+          This build was packaged without a server address and cannot load your data.
+          Please update the app; if the problem persists, contact support.
+        </RNText>
+      </View>
+    );
+  }
   if (!isClerkEnabled()) {
     if (!isDevBuild()) {
       return (
@@ -77,16 +92,29 @@ export default function RootLayout() {
   const reduceMotion = useReduceMotion();
 
   // Rehydrate + attempt to flush any offline-queued writes on launch, and
-  // initialize RevenueCat (no-op in billing-disabled dev mode). No NetInfo dep —
-  // the flush is opportunistic; screens can also trigger one on mount.
+  // initialize RevenueCat (no-op in billing-disabled dev mode).
+  //
+  // The flush used to run EXACTLY ONCE per launch, and the comment here claimed
+  // "screens can also trigger one on mount" — no screen ever did, and there is
+  // no NetInfo dependency. So a user who lost signal, logged meals, and walked
+  // back into coverage sat on "N changes waiting to sync" until they force-quit
+  // and relaunched. Foregrounding is the cheap, dependency-free reconnect proxy:
+  // it catches the walk-back-into-coverage case and the overnight case without
+  // adding a connectivity library.
   useEffect(() => {
     configurePurchases();
     // Analytics rides the same reconnect moment: after the offline queue's
     // opportunistic flush, send any buffered/persisted product events too.
     void initAnalytics();
-    void loadQueue()
-      .then(() => flushOfflineQueue())
-      .then(() => flushAnalytics());
+    const sync = () =>
+      void loadQueue()
+        .then(() => flushOfflineQueue())
+        .then(() => flushAnalytics());
+    sync();
+    const sub = RNAppState.addEventListener('change', (next) => {
+      if (next === 'active') sync();
+    });
+    return () => sub.remove();
   }, []);
 
   return (

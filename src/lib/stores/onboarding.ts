@@ -86,6 +86,8 @@ export function onboardingPayload(s: OnboardingSession): {
   cuisines: string[];
   dietary_requirements: string[];
   body_type?: string;
+  target_weight?: number;
+  calorie_target?: number;
 } {
   return {
     age: s.age ?? 0,
@@ -100,5 +102,10 @@ export function onboardingPayload(s: OnboardingSession): {
     dietary_requirements: s.dietary_requirements,
     // Optional — omitted when not selected (backend treats it as optional).
     ...(s.body_type ? { body_type: s.body_type } : {}),
+    // Both of these were collected by real screens and then dropped on the
+    // floor: they were never in this payload, so the target-weight field was
+    // decoration and "Adjust manually" changed a number that nothing read.
+    ...(s.target_weight_kg ? { target_weight: s.target_weight_kg } : {}),
+    ...(s.calorie_target ? { calorie_target: s.calorie_target } : {}),
   };
 }

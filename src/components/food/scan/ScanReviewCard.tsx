@@ -17,6 +17,7 @@ import { SliderField } from '@/components/forms/SliderField';
 import { TextField } from '@/components/forms/TextField';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { ConfidenceBadge } from './ConfidenceBadge';
+import type { ScanConfidenceFactor } from '@/lib/api';
 import { api } from '@/lib/api';
 import { accent, color, motion, radius, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
@@ -43,6 +44,9 @@ export type ReviewItem = {
   // Repeat-meal match (signal 5): one-tap accept of the usual portion.
   matchedMealName?: string;
   matchedMealWeightG?: number;
+  // The server's confidence verdict, shown as-is by ConfidenceBadge.
+  confidenceLabel?: string;
+  confidenceFactors?: ScanConfidenceFactor[];
 };
 
 export type ScanReviewCardProps = {
@@ -282,7 +286,11 @@ export function ScanReviewCard({
                 </Text>
               ) : null}
 
-              <ConfidenceBadge score={it.confidence} />
+              <ConfidenceBadge
+                score={it.confidence}
+                label={it.confidenceLabel}
+                breakdown={it.confidenceFactors}
+              />
             </View>
           );
         })}

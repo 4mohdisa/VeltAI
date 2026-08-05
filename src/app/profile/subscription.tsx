@@ -15,6 +15,8 @@ import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { useEntitlement } from '@/lib/billing/entitlement';
 import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
+import { isDevBuild } from '@/lib/env';
+import { useState } from 'react';
 
 const MANAGE_URL = 'https://apps.apple.com/account/subscriptions';
 
@@ -22,11 +24,20 @@ export default function SubscriptionScreen() {
   const { isEntitled, loading, refresh } = useEntitlement();
   const billing = isBillingEnabled();
 
+  const [restoring, setRestoring] = useState(false);
+
   const restore = async () => {
+    if (restoring) return;
     if (!billing) {
-      showToast({ message: 'Billing not configured (dev).', tone: 'info' });
+      showToast({
+        message: isDevBuild()
+          ? 'Billing not configured (dev).'
+          : 'Purchases are temporarily unavailable. Please try again later.',
+        tone: 'info',
+      });
       return;
     }
+    setRestoring(true);
     try {
       const info = await restorePurchases();
       showToast({
@@ -36,6 +47,8 @@ export default function SubscriptionScreen() {
       refresh();
     } catch {
       showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+    } finally {
+      setRestoring(false);
     }
   };
 
@@ -93,7 +106,12 @@ export default function SubscriptionScreen() {
 
       {!billing ? (
         <Text variant="footnote" color={color.gray500}>
-          Billing is not configured in this build (development mode).
+          {/* "development mode" is dev-only copy: in a release build a missing
+              RevenueCat key is a packaging mistake, not a mode, and App Review
+              would be reading it. */}
+          {isDevBuild()
+            ? 'Billing is not configured in this build (development mode).'
+            : 'Subscriptions are temporarily unavailable. Please try again later.'}
         </Text>
       ) : (
         <Text variant="footnote" color={color.gray500}>

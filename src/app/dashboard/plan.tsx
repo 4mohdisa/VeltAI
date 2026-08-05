@@ -8,6 +8,7 @@ import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
+import { EmptyState } from '@/components/display/EmptyState';
 import { Badge } from '@/components/display/Badge';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
@@ -29,6 +30,13 @@ export default function PlanDetailScreen() {
   const energyUnit = useUnitPreferences().energy;
   return (
     <Screen title="Today's plan" showBack>
+      {plan.length === 0 ? (
+        <EmptyState
+          icon="sparkles-outline"
+          title="No plan yet"
+          message="Once Lumo has learned your routine, your day will be planned here."
+        />
+      ) : null}
       <View style={{ gap: space.md }}>
         {plan.map((entry, index) => {
           const isMeal = entry.kind === 'meal';
@@ -98,19 +106,24 @@ export default function PlanDetailScreen() {
         })}
       </View>
 
-      <Card style={{ backgroundColor: color.gray50 }}>
-        <View style={{ flexDirection: 'row', gap: space.sm }}>
-          <Icon name="sparkles" size={18} color={categoryAccent.ai} />
-          <View style={{ flex: 1, gap: space.xs }}>
-            <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
-              Why this plan
-            </Text>
-            <Text variant="footnote" color={color.gray700}>
-              {reason}
-            </Text>
+      {/* Only shown when there is a real rationale. It used to render a fixed
+          paragraph asserting the user's gym attendance and sleep hours — a
+          metric Lumo never collects — under an AI badge. */}
+      {reason ? (
+        <Card style={{ backgroundColor: color.gray50 }}>
+          <View style={{ flexDirection: 'row', gap: space.sm }}>
+            <Icon name="sparkles" size={18} color={categoryAccent.ai} />
+            <View style={{ flex: 1, gap: space.xs }}>
+              <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
+                Why this plan
+              </Text>
+              <Text variant="footnote" color={color.gray700}>
+                {reason}
+              </Text>
+            </View>
           </View>
-        </View>
-      </Card>
+        </Card>
+      ) : null}
     </Screen>
   );
 }

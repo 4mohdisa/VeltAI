@@ -15,6 +15,8 @@ import {
   type SavedFood,
 } from '@/lib/mock/data';
 import type { ScanItemStatus } from '@/lib/types';
+import type { ScanConfidenceFactor } from '@/lib/api';
+import { isDevBuild } from '@/lib/env';
 
 // Items carry a stable id so edits/deletes/pending-scan resolution address a row
 // directly (mock items are id-less; ids are assigned when seeding the store).
@@ -39,6 +41,12 @@ export type StoredFoodItem = FoodItem & {
   // Repeat-meal match (signal 5): "looks like your usual X — 450 g?".
   matchedMealName?: string;
   matchedMealWeightG?: number;
+  // The server's OWN confidence verdict, carried verbatim so the review card
+  // shows what the pipeline computed rather than re-deriving it. `confidence`
+  // above is the same score as a 0..1 scalar; these two are the band label
+  // ('High'|'Medium'|'Low') and the signed factors behind it.
+  confidenceLabel?: string;
+  confidenceFactors?: ScanConfidenceFactor[];
 };
 export type StoredMeal = Omit<Meal, 'items'> & { items: StoredFoodItem[] };
 
@@ -63,13 +71,23 @@ export type ScannedItemPatch = Partial<
     | 'alternateWeightG'
     | 'matchedMealName'
     | 'matchedMealWeightG'
+    | 'confidenceLabel'
+    | 'confidenceFactors'
   >
 >;
 
 let counter = 0;
 const nextId = (prefix: string) => `${prefix}_${Date.now().toString(36)}_${(counter++).toString(36)}`;
 
+const seedSaved = (): SavedFood[] => (isDevBuild() ? mockSavedFoods.map((f) => ({ ...f })) : []);
+
 function seedMeals(): StoredMeal[] {
+  // A RELEASE build starts EMPTY. Seeding fabricated meals meant a real user
+  // whose backend was unreachable saw logs they never made (a 520 kcal 07:10
+  // "photo" breakfast) presented as their own — App Store 2.1, and the third
+  // instance of that failure class in this codebase. Dev keeps the seed so the
+  // keyless offline experience stays navigable.
+  if (!isDevBuild()) return [];
   // Recompute meal totals from items on seed so the food log (item sums) and the
   // dashboard/nutrition (meal totals) agree — the mock's meal.calories don't all
   // match their item sums.
@@ -137,8 +155,8 @@ type FoodState = {
 
 export const useFoodStore = create<FoodState>((set) => ({
   meals: seedMeals(),
-  savedFoods: mockSavedFoods.map((f) => ({ ...f })),
-  reset: () => set({ meals: seedMeals(), savedFoods: mockSavedFoods.map((f) => ({ ...f })) }),
+  savedFoods: seedSaved(),
+  reset: () => set({ meals: seedMeals(), savedFoods: seedSaved() }),
 
   logMeal: (slot, item, method, pending = false) => {
     const id = nextId('it');

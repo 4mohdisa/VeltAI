@@ -28,6 +28,9 @@ type Profile struct {
 
 type ProfileStore interface {
 	Upsert(ctx context.Context, p Profile) error
+	// EnsureExists creates a bare row for a verified user id if none exists.
+	// Idempotent, and never overwrites data the Clerk webhook has filled in.
+	EnsureExists(ctx context.Context, id string) error
 	Get(ctx context.Context, id string) (Profile, error)
 	Update(ctx context.Context, id string, displayName, avatarURL *string) (Profile, error)
 	Delete(ctx context.Context, id string) error
@@ -47,6 +50,21 @@ func (s *pgProfileStore) Upsert(ctx context.Context, p Profile) error {
 			avatar_url = EXCLUDED.avatar_url,
 			updated_at = now()`,
 		p.ID, p.Email, p.DisplayName, p.AvatarURL)
+	return err
+}
+
+// EnsureExists provisions the row keyed by the Clerk user id. Every user table
+// declares `references profiles(id)`, so without this row a brand-new user's
+// first write fails with a foreign-key violation surfacing as an opaque 500.
+// Provisioning previously happened ONLY in the asynchronous Clerk user.created
+// webhook, which makes the whole app depend on (a) CLERK_WEBHOOK_SECRET being
+// configured and (b) the webhook landing before the user finishes onboarding —
+// a race a new user can lose in the seconds between sign-up and the first POST.
+// DO NOTHING on conflict so the webhook's richer row (email, name, avatar) is
+// never clobbered by this bare insert, whichever arrives first.
+func (s *pgProfileStore) EnsureExists(ctx context.Context, id string) error {
+	_, err := s.q.Exec(ctx,
+		"INSERT INTO profiles (id) VALUES ($1) ON CONFLICT (id) DO NOTHING", id)
 	return err
 }
 
