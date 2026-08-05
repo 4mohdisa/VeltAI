@@ -280,3 +280,47 @@ in git — this file is not a changelog.
   `src/`, `web/` or `app.json`** (mailbox excepted). Historical comments were
   reworded to describe the old bugs without naming the dead schemes, rather than
   adding a per-line opt-out marker that would erode the guard.
+
+## Debug capture system (2026-08-06)
+
+- **The gate is `EXPO_PUBLIC_DEBUG_CAPTURE === '1'`, never `__DEV__`.** TestFlight
+  builds are release builds, so `__DEV__` is FALSE there — the capture system has
+  to run in exactly the build `__DEV__` excludes.
+- **The debug tree is excluded at the MODULE BOUNDARY, not hidden behind a
+  conditional.** `metro.config.js` resolves `@/debug/impl` to `src/debug/stub.ts`
+  when the flag is off. Folding `if (false)` away still leaves the `require`
+  edges, so the UI, `react-native-view-shot` and the report store would be
+  bundled — unreachable, but present. **Verified empirically**: the debug UI
+  strings appear 0 times in a production export and once in a flagged one, and
+  the flagged bundle is 142,419 bytes larger.
+- **`eas.json` `production` must never set the flag.** A debug overlay in a
+  shipped app is a 2.3.1 hidden-feature rejection, and these reports contain
+  screenshots of a health app. `src/__tests__/debugGating.test.ts` fails if any
+  store-distributed profile sets it, and if any profile that sets it is not
+  `distribution: internal`.
+- **`/api/debug-reports` remains in the production bundle as a dead API method.**
+  It is a string and an unused function on the shared `api` object; no code path
+  reaches it because the store is stubbed out. Removing it would mean splitting
+  the api client, which is not worth it — but it is why the string greps as
+  present.
+- **Reports are written to the filesystem BEFORE any network attempt.** The
+  tester is alone with a phone for a week or two; a report lost to an unreachable
+  backend is the one that mattered. Sync is a secondary copy, upserted on
+  `(user_id, client_id)` so a retry after regaining signal never duplicates.
+- **Automatic captures are filed as drafts and never interrupt.** Shake,
+  ErrorBoundary, unhandled rejection and API 5xx/network all file silently. Only
+  the bubble's long-press opens a sheet. `syncPending` skips drafts until they
+  are promoted.
+- **Breadcrumbs reuse the first-party analytics events** rather than building a
+  second trail that could disagree with the first.
+- **Redaction happens at capture time, not export time.** The reports are pasted
+  into a chat window, so a bearer token that reached disk has already travelled
+  too far. Bearer/Basic headers, bare JWTs, credential-shaped JSON keys, Clerk/
+  RevenueCat/Google key shapes and base64 image payloads are all stripped before
+  anything is written.
+- **`debug_reports` is covered by `GET /api/export`** (the screenshot as a
+  presence flag, not inlined) and cascades on account deletion like every other
+  user table. The existing `TestExportCoversEveryUserTable` caught this — it was
+  a real gap, fixed in the code rather than by relaxing the test.
+- **The store uses `expo-file-system/legacy`.** The new `File`/`Directory` API is
+  a much larger surface for what this needs. Revisit if legacy is removed.

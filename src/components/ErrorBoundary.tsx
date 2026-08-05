@@ -11,6 +11,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
+import { reportCrash } from '@/debug';
 
 type Props = { children: ReactNode };
 type State = { error: Error | null; showDetail: boolean };
@@ -22,8 +23,12 @@ export class ErrorBoundary extends Component<Props, State> {
     return { error };
   }
 
-  componentDidCatch(error: Error): void {
+  componentDidCatch(error: Error, info: { componentStack?: string }): void {
     if (__DEV__) console.error('[ErrorBoundary]', error);
+    // Auto-file a draft report with the screenshot and full context. A no-op
+    // unless EXPO_PUBLIC_DEBUG_CAPTURE is on — __DEV__ is false in TestFlight,
+    // which is exactly where a crash most needs capturing.
+    reportCrash(error, info);
   }
 
   reset = (): void => this.setState({ error: null, showDetail: false });

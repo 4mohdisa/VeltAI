@@ -52,6 +52,10 @@ var exportSections = []exportSection{
 	{"ai_user_brain", ownedRows("ai_user_brain")},
 	{"ai_insights", ownedRows("ai_insights")},
 	{"analytics_events", ownedRows("analytics_events")},
+	// Internal-testing captures. The screenshot is a large base64 blob and is
+	// the user's own screen, so it is exported as a presence flag rather than
+	// inlined — the rest of the report (notes, route, context) is included.
+	{"debug_reports", `select coalesce(jsonb_agg(to_jsonb(t) - 'screenshot' || jsonb_build_object('has_screenshot', t.screenshot is not null)), '[]'::jsonb) from debug_reports t where user_id = $1`},
 }
 
 // ExportTableNames exposes the covered tables ("profile" reports as

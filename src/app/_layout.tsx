@@ -15,6 +15,7 @@ import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppStateProvider } from '@/lib/auth/appState';
 import { ClerkBridge } from '@/lib/auth/ClerkBridge';
+import { DebugOverlay } from '@/debug/DebugOverlay';
 import { CLERK_PUBLISHABLE_KEY, clerkTokenCache, isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { isDevBuild } from '@/lib/env';
 import { IS_MISCONFIGURED_RELEASE } from '@/lib/api';
@@ -156,6 +157,10 @@ export default function RootLayout() {
             <Stack.Screen name="food/saved" options={{ ...sheetOptions, sheetAllowedDetents: [0.7, 1] }} />
         </Stack>
             <ToastHost />
+            {/* Debug capture overlay. Renders nothing unless
+                EXPO_PUBLIC_DEBUG_CAPTURE=1, and metro.config.js keeps the whole
+                implementation out of the bundle graph when it is off. */}
+            <DebugOverlay />
           </SafeAreaProvider>
         </GestureHandlerRootView>
         </AppStateProvider>

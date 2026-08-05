@@ -1,0 +1,39 @@
+{
+  "cli": {
+    "version": ">= 5.0.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": { "simulator": true },
+      "env": {
+        "EXPO_PUBLIC_DEBUG_CAPTURE": "1"
+      }
+    },
+    "preview": {
+      "//": "TestFlight internal testing. THE ONLY PROFILE BESIDES development THAT ENABLES DEBUG CAPTURE. src/__tests__/debugGating.test.ts fails if production ever sets EXPO_PUBLIC_DEBUG_CAPTURE.",
+      "distribution": "internal",
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "channel": "preview",
+      "env": {
+        "EXPO_PUBLIC_DEBUG_CAPTURE": "1"
+      }
+    },
+    "production": {
+      "//": "App Store. MUST NOT set EXPO_PUBLIC_DEBUG_CAPTURE. A debug overlay in a shipped app is a 2.3.1 hidden-feature rejection, and it captures screenshots that contain health data. metro.config.js additionally resolves src/debug/impl to a stub when the flag is absent, so the debug tree is not in this bundle at all.",
+      "distribution": "store",
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "channel": "production",
+      "env": {}
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -14,6 +14,7 @@ import (
 	"lume/backend/internal/config"
 	"lume/backend/internal/cuisine"
 	"lume/backend/internal/db"
+	"lume/backend/internal/debugreports"
 	"lume/backend/internal/energy"
 	"lume/backend/internal/entitlement"
 	"lume/backend/internal/food"
@@ -116,6 +117,9 @@ func main() {
 	subscription.Register(api, subs)
 	recipes.Register(api, recipes.NewPGStore(pool))
 	analytics.Register(api, analytics.NewPGStore(pool))
+	// Internal testing capture (secondary copy — the device is the source of
+	// truth). Harmless in production: it only ever stores the caller's own rows.
+	debugreports.Register(api, debugreports.NewPGStore(pool))
 
 	aiSvc := ai.NewService(ai.NewPGStore(pool), ai.NewClaude(config.Env("ANTHROPIC_API_KEY", "")))
 	aiSvc.Routes(api)

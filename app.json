@@ -34,7 +34,8 @@
           "cameraPermission": "Lume uses the camera to scan your meals and food labels to estimate their nutrition.",
           "microphonePermission": false
         }
-      ]
+      ],
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,

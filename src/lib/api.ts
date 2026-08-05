@@ -4,6 +4,7 @@
 // (backend/internal/httpx). Non-2xx or error != null throws an ApiError.
 // Field names are snake_case, matching the Postgres schema
 // (supabase/migrations/20260711000001_initial_schema.sql).
+import { recordApiCall, reportApiFailure } from '@/debug';
 
 // Deploy-time config, no code edit needed: set EXPO_PUBLIC_API_URL to the
 // deployed backend origin (see CONFIG.md). Dev default matches
@@ -188,7 +189,35 @@ async function issue(method: string, path: string, body: unknown, extraHeaders: 
   );
 }
 
+/**
+ * Every API call in the app goes through here, which makes it the ONE place to
+ * instrument. The debug-capture buffers record method/path/status/duration for
+ * the last 20 calls, and a 5xx or network failure auto-files a draft report.
+ * Both are compiled out when EXPO_PUBLIC_DEBUG_CAPTURE is off (see src/debug),
+ * so this costs a timestamp and a function call that does nothing.
+ *
+ * Redaction happens inside the buffer, not here — the path can carry a query
+ * string and the error message can carry a token.
+ */
 async function request<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
+  const startedAt = Date.now();
+  try {
+    const out = await requestInner<T>(method, path, body, extraHeaders);
+    recordApiCall({ method, path, status: 200, durationMs: Date.now() - startedAt });
+    return out;
+  } catch (e) {
+    const status = e instanceof ApiError ? e.status : null;
+    const message = e instanceof Error ? e.message : String(e);
+    recordApiCall({ method, path, status, durationMs: Date.now() - startedAt, error: message });
+    // Auto-capture the failures worth a report: server faults and dead network.
+    // A 4xx is usually the app behaving correctly (validation, 402 paywall),
+    // so it is recorded but does not raise a draft.
+    if (status === null || status >= 500) reportApiFailure(method, path, status, message);
+    throw e;
+  }
+}
+
+async function requestInner<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
   const token = tokenProvider ? await withTokenDeadline(tokenProvider()) : null;
   // Retry ONLY idempotent GETs (network failure/timeout or 5xx), with backoff.
   // A write is never retried here: without server-side dedup a replayed POST is
@@ -862,6 +891,26 @@ export type AnalyticsEventInput = {
   client_ts: string; // RFC3339
 };
 
+// POST /api/debug-reports — one on-device capture. `context` carries the
+// console tail, API trace, breadcrumbs and store slice, already redacted on the
+// device. `image_base64` is the screenshot.
+export type DebugReportInput = {
+  client_id: string;
+  created_at: string;
+  title: string;
+  notes: string;
+  severity: string;
+  kind: string;
+  area: string;
+  trigger: string;
+  route: string;
+  app_version: string;
+  build_number: string;
+  context: Record<string, unknown>;
+  image_base64?: string;
+};
+export type DebugReportRow = Omit<DebugReportInput, 'image_base64'> & { id: string };
+
 export type SubscriptionStatus = {
   status: string; // 'none' | 'trialing' | 'active' | 'cancelled' | 'expired' | 'past_due'
   is_active: boolean;
@@ -1132,6 +1181,14 @@ export const api = {
 
   subscription: {
     get: () => req.get<SubscriptionStatus>('/api/subscription'),
+  },
+
+  // Internal testing capture (EXPO_PUBLIC_DEBUG_CAPTURE builds only). The
+  // device is the source of truth; this is a best-effort secondary copy that
+  // upserts on client_id, so a retried sync never duplicates a report.
+  debugReports: {
+    create: (input: DebugReportInput) => req.post<{ id: string }>('/api/debug-reports', input),
+    list: () => req.get<DebugReportRow[]>('/api/debug-reports'),
   },
 
   analytics: {

@@ -28,3 +28,8 @@ export const VERSION_LABEL: string = BUILD_NUMBER ? `${APP_VERSION} (${BUILD_NUM
 export const APP_SCHEME: string = Constants.expoConfig?.scheme
   ? String(Array.isArray(Constants.expoConfig.scheme) ? Constants.expoConfig.scheme[0] : Constants.expoConfig.scheme)
   : '';
+
+/** The commit a build came from, when the build injected it. Set
+ *  EXPO_PUBLIC_GIT_SHA at build time (eas.json does this for the debug profile)
+ *  so a captured report names the exact code it came from. */
+export const GIT_SHA: string | null = process.env.EXPO_PUBLIC_GIT_SHA ?? null;

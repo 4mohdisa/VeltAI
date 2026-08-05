@@ -13,6 +13,7 @@
 import { api, type AnalyticsEventInput } from '@/lib/api';
 import { getItem, setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { useSettingsStore } from '@/lib/settings/store';
+import { recordBreadcrumb } from '@/debug';
 
 export type AnalyticsEventName =
   | 'onboarding_completed'
@@ -97,6 +98,10 @@ export function track(
       if (__DEV__) console.warn('[analytics] unknown event dropped:', name);
       return;
     }
+    // Debug capture reuses these events as its breadcrumb trail — one source
+    // of truth, so a report's breadcrumbs cannot disagree with analytics.
+    // Compiled out when EXPO_PUBLIC_DEBUG_CAPTURE is off.
+    recordBreadcrumb(name, properties);
     buffer.push({
       name,
       ...(properties ? { properties } : {}),
