@@ -145,12 +145,63 @@ func (s *PGStore) CreateSession(ctx context.Context, sess Session) (string, erro
 	return id, nil
 }
 
+// claimPipelineLog transitions the food_log a pipeline scan already created
+// into its confirmed form, and reports whether it claimed one.
+//
+// THE RULE: a confirmed scan produces exactly ONE food_logs row. The pipeline
+// inserts that row up front ('analyzing') and fills it in ('ready'); confirming
+// UPDATEs it rather than inserting a second. Before this, /confirm always
+// INSERTed, so every saved photo scan left the pipeline's row behind and the
+// day double-counted the meal on the next refresh.
+//
+// The status predicate is what makes the two orderings safe. Only an
+// 'analyzing' or 'ready' row can be claimed, so a replayed confirm cannot
+// re-claim a row that is already 'confirmed' and cannot overwrite an unrelated
+// manual entry. FinishScanLog carries the mirror-image predicate.
+//
+// Returns ("", false) when there is nothing to claim — no session, a session
+// with no food_log, a row another user owns, or a row the user already
+// discarded — and the caller inserts as before.
+func (s *PGStore) claimPipelineLog(ctx context.Context, log ConfirmedLog) (string, bool) {
+	if log.ScanSessionID == nil || *log.ScanSessionID == "" {
+		return "", false
+	}
+	var logID *string
+	if err := s.q.QueryRow(ctx,
+		`SELECT food_log_id::text FROM scan_sessions WHERE id::text = $1 AND user_id = $2`,
+		*log.ScanSessionID, log.UserID).Scan(&logID); err != nil || logID == nil {
+		return "", false
+	}
+	var id string
+	err := s.q.QueryRow(ctx, `
+		UPDATE food_logs
+		SET status = 'confirmed', meal_type = COALESCE($3, meal_type), food_name = $4,
+		    quantity = $5, unit = $6, calories = $7, protein = $8, carbs = $9,
+		    fat = $10, fibre = $11, date = $12::date
+		WHERE id::text = $1 AND user_id = $2 AND status IN ('analyzing', 'ready')
+		RETURNING id::text`,
+		*logID, log.UserID, log.MealType, log.FoodName, log.Quantity, log.Unit,
+		log.Calories, log.Protein, log.Carbs, log.Fat, log.Fibre, log.Date).Scan(&id)
+	if err != nil {
+		return "", false
+	}
+	return id, true
+}
+
 func (s *PGStore) SaveConfirmed(ctx context.Context, log ConfirmedLog) (string, error) {
 	// Ensure the profile row exists before hitting the FK (Clerk webhook may lag).
 	if _, err := s.q.Exec(ctx,
 		`INSERT INTO profiles (id) VALUES ($1) ON CONFLICT DO NOTHING`, log.UserID); err != nil {
 		return "", err
 	}
+
+	// Claim the pipeline's own row when this confirm belongs to one. The
+	// session already points at it, so no re-link is needed on this path.
+	if id, claimed := s.claimPipelineLog(ctx, log); claimed {
+		s.confirmLearningHooks(ctx, log)
+		return id, nil
+	}
+
 	var id string
 	err := s.q.QueryRow(ctx,
 		`INSERT INTO food_logs (user_id, date, meal_type, food_name, quantity, unit,
@@ -177,10 +228,19 @@ func (s *PGStore) SaveConfirmed(ctx context.Context, log ConfirmedLog) (string, 
 			id, *log.ScanSessionID, log.UserID)
 	}
 
-	// Learning hooks are best-effort: a failure here must never fail the
-	// confirm request itself. ponytail: errors swallowed rather than logged
-	// (no logger wired into this package) — add one if this needs
-	// observability later.
+	s.confirmLearningHooks(ctx, log)
+
+	return id, nil
+}
+
+// confirmLearningHooks records what a confirm teaches us about the user. Both
+// SaveConfirmed paths (claim and insert) run it, so the portion memory and the
+// brain-rebuild flag do not depend on which one fired.
+//
+// Best-effort: a failure here must never fail the confirm request itself.
+// ponytail: errors swallowed rather than logged (no logger wired into this
+// package) — add one if this needs observability later.
+func (s *PGStore) confirmLearningHooks(ctx context.Context, log ConfirmedLog) {
 	if log.Quantity != nil && *log.Quantity > 0 {
 		var mealType *string
 		if log.MealType != nil && *log.MealType != "" {
@@ -189,8 +249,6 @@ func (s *PGStore) SaveConfirmed(ctx context.Context, log ConfirmedLog) (string, 
 		_ = s.upsertPortionPref(ctx, log.UserID, log.FoodName, *log.Quantity, mealType, time.Now().UTC())
 	}
 	_ = s.flagNeedsRebuild(ctx, log.UserID)
-
-	return id, nil
 }
 
 // upsertPortionPref runs a weighted-average update of the user's typical

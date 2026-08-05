@@ -62,6 +62,25 @@ test('mealsFromLogs sends an unknown meal_type to Snacks', () => {
   expect(meals[0].slot).toBe('Snacks');
 });
 
+// The client half of the double-count fix. mealsFromLogs used to DROP `status`,
+// so every hydrated row looked confirmed and foodStore.recompute's
+// under-review exclusion could never fire on fetched data — a scan still
+// awaiting review counted toward the day the moment the log refreshed.
+test('mealsFromLogs carries status through so under-review rows stay out of totals', () => {
+  const meals = mealsFromLogs([
+    foodLog({ id: 'a', calories: 200, status: 'confirmed' }),
+    foodLog({ id: 'b', calories: 500, status: 'ready' }),
+  ]);
+  const lunch = meals.find((m) => m.slot === 'Lunch');
+  expect(lunch?.items.map((i) => i.status)).toEqual(['confirmed', 'ready']);
+});
+
+test('mealsFromLogs leaves status undefined for a non-scan row', () => {
+  // A manual entry has no status lifecycle; undefined must count normally.
+  const meals = mealsFromLogs([foodLog({ id: 'a', calories: 120 })]);
+  expect(meals[0].items[0].status).toBeUndefined();
+});
+
 test('streakFromApi maps streak + derives gymLoggedToday/freezes', () => {
   const prev: Streak = { current: 0, longest: 0, totalGymDays: 42, freezesAvailable: 1, gymLoggedToday: false };
   const row: GymStreak = { current_streak: 5, longest_streak: 10, last_gym_date: todayISO(), freeze_used: false };

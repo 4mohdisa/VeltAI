@@ -118,12 +118,20 @@ func (s *PGStore) CreateLabelSession(ctx context.Context, userID string) (string
 
 // FinishScanLog writes the pipeline's aggregate macros and the scan_results
 // blob onto the analyzing row and sets its status (normally 'ready').
+//
+// `AND status = 'analyzing'` is the mirror image of claimPipelineLog's
+// predicate, and it is what makes the two completion orders safe. The user can
+// confirm a scan before the background pass lands (the poller is not the only
+// way a row reaches the review card, and a slow pass can outlive it). Without
+// this, a late pass would overwrite the user's own corrected values with the AI
+// estimate and drag a confirmed row back to 'ready'. Updating zero rows is the
+// correct outcome there, not an error.
 func (s *PGStore) FinishScanLog(ctx context.Context, id, status, foodName string, quantity, calories, protein, carbs, fat, fibre float64, scanResults []byte) error {
 	_, err := s.q.Exec(ctx, `
 		UPDATE food_logs
 		SET status = $1, food_name = $2, quantity = $3, calories = $4, protein = $5,
 		    carbs = $6, fat = $7, fibre = $8, scan_results = $9::jsonb
-		WHERE id::text = $10`,
+		WHERE id::text = $10 AND status = 'analyzing'`,
 		status, foodName, quantity, calories, protein, carbs, fat, fibre, scanResults, id)
 	return err
 }

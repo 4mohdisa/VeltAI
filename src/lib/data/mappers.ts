@@ -55,6 +55,12 @@ export function mealsFromLogs(rows: FoodLog[]): StoredMeal[] {
   for (const slot of SLOTS) {
     const group = bySlot.get(slot);
     if (!group) continue;
+    // `status` MUST survive this mapping. foodStore.recompute excludes
+    // 'analyzing'/'ready'/'failed' rows from meal totals because they are not
+    // logged food yet — but dropping the field here meant every hydrated row
+    // looked confirmed, so a scan still under review counted toward the day the
+    // moment the log refreshed. Undefined (a non-scan row) stays undefined and
+    // counts, which is what a manual entry should do.
     const items: StoredFoodItem[] = group.map((r) => ({
       id: r.id,
       name: r.food_name,
@@ -63,6 +69,7 @@ export function mealsFromLogs(rows: FoodLog[]): StoredMeal[] {
       protein: r.protein,
       carbs: r.carbs,
       fat: r.fat,
+      ...(r.status ? { status: r.status as StoredFoodItem['status'] } : {}),
     }));
     meals.push({
       id: `srv_${slot}`,

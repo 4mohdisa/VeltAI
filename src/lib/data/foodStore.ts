@@ -105,6 +105,9 @@ function recompute(meal: StoredMeal): StoredMeal {
       // Under-review ('ready') and 'failed' scan rows aren't logged yet, so they
       // don't count toward meal totals (which feed the food log + dashboard).
       // They become countable the moment saveScannedItem flips them to 'confirmed'.
+      // 'analyzing' is deliberately NOT excluded: a placeholder row carries zero
+      // macros on both sides (CreateAnalyzingLog inserts 0s), so excluding it
+      // would change nothing except hide the optimistic row from its meal.
       it.status === 'ready' || it.status === 'failed'
         ? a
         : {

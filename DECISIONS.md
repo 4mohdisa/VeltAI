@@ -215,3 +215,32 @@ in git — this file is not a changelog.
 - **Migrations are Supabase-specific** — they require the `authenticated` /
   `service_role` roles and `auth.uid()`/`auth.jwt()`. Correct for the documented
   target (pooler, port 6543); they will not apply to a vanilla Postgres/RDS.
+
+## Scan → confirm reconciliation (2026-08-06)
+
+- **A confirmed scan produces exactly ONE `food_logs` row, and it is the row the
+  pipeline already created.** `POST /api/scan/confirm` now UPDATEs that row
+  (`scan.claimPipelineLog`) instead of inserting a second one, setting the
+  user's corrected values and `status = 'confirmed'`. It falls back to INSERT
+  only when there is nothing to claim: no `scan_session_id`, a session with no
+  `food_log_id`, a row owned by someone else, or a row the user discarded.
+  **Why server-side:** client de-duplication would only hide the extra row —
+  `GET /api/food/summary` sums `food_logs` directly, so the day's total would
+  still have been wrong for anything reading the API rather than the store.
+- **The claim is gated on `status IN ('analyzing','ready')` and `FinishScanLog`
+  carries the mirror predicate `AND status = 'analyzing'`.** Together these make
+  both completion orders safe: a user can confirm before the background pass
+  lands, and a late pass then updates zero rows instead of overwriting their
+  corrected values and dragging the row back to `ready`. Updating zero rows is
+  the correct outcome there, not an error.
+- **`mealsFromLogs` carries `status` through.** It used to drop the field, so
+  every hydrated row looked confirmed and `foodStore.recompute`'s under-review
+  exclusion could never fire on fetched data — a scan awaiting review counted
+  toward the day as soon as the log refreshed.
+- **`'analyzing'` is deliberately NOT excluded from meal totals.** A placeholder
+  row carries zero macros on both sides (`CreateAnalyzingLog` inserts 0s), so
+  excluding it would change no total and would only hide the optimistic row from
+  its meal. An existing test pins this; it was right and was left alone.
+- **The offline queue's idempotency key is untouched.** It lives in
+  `food.CreateLog` / `gym` (the `Idempotency-Key` header path), not in
+  `scan.SaveConfirmed`, which the queue never replays.
