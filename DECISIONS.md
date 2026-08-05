@@ -324,3 +324,18 @@ in git — this file is not a changelog.
   a real gap, fixed in the code rather than by relaxing the test.
 - **The store uses `expo-file-system/legacy`.** The new `File`/`Directory` API is
   a much larger surface for what this needs. Revisit if legacy is removed.
+
+## Documentation posture after the rename (2026-08-06)
+
+- **Living docs were renamed; historical reports were not.** `STATUS.md`,
+  `CONFIG.md`, `DEPLOY.md`, `README.md` and `FIRST_HOUR.md` describe the current
+  system, so they say Lume. `SUBMISSION_READINESS.md`, `TESTFLIGHT_READINESS.md`,
+  `CLEANUP_REPORT.md`, `SECURITY_AUDIT.md`, `LANDING_REDESIGN.md` and
+  `FIRST_RUN_CHECKLIST.md` are point-in-time records of a state that used the old
+  names — renaming inside them would make them describe something that never
+  happened.
+- **Two STATUS.md claims were false and are now struck through rather than
+  deleted**: the OAuth CSRF state store has been a Postgres table since the
+  AWS-hardening work, and the app version/build are no longer hardcoded (they
+  derive from `src/lib/appVersion.ts`). Its verification baseline also cited test
+  counts that were never right.

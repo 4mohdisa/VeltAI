@@ -3,11 +3,21 @@
 Phone in hand. Ordered so the cheapest, most catastrophic failures surface
 first — if step 1 fails, nothing after it matters.
 
-**Before you build anything:**
+**Build the DEBUG-INSTRUMENTED profile, not production.** It carries the
+in-app capture system: shake or long-press the floating bubble to file a report
+with a screenshot, the route, the last 20 API calls and the console tail
+attached. Double-tap the bubble to review them, then export every open one as a
+single markdown document and paste it into Claude Code. You should not be
+writing notes by hand.
 
 ```bash
-npx expo prebuild --clean -p ios
+npx expo prebuild --clean -p ios && eas build --platform ios --profile preview
 ```
+
+`--profile production` is the clean build with no debug system in it at all —
+use that one only when you submit. See RELEASE_PREP.md §E.
+
+The `prebuild --clean` is not optional:
 
 Your local `ios/` tree is stale, gitignored, predates RevenueCat, and declares
 Apple Health / Face ID / microphone / photo-library permissions the app does not
@@ -24,15 +34,15 @@ false`).
 
 **Do:** install, tap the icon, watch the first 3 seconds.
 
-**Working looks like:** an icon that isn't Expo's chevron, then a splash with a
-**visible** mark, then either the onboarding hero or the tabs.
+**Working looks like:** a black icon with a white **L**, then a splash showing
+the same mark in near-black on white, then either the onboarding hero or the
+tabs. Both are placeholders — deliberate, not final art (`assets/README.md`).
 
-**Most likely failure:** *a blank white screen for the whole splash.*
-`splash-icon.png` is a pure-white mark on a `#FFFFFF` background — every visible
-pixel is `rgb(255,255,255)`. **Fix:** use a mark that contrasts, or change
-`backgroundColor` in `app.json:24-30`. This is expected; it is blocker #2.
+The blank-white splash and the Expo-chevron icon are both **fixed**; `npm run
+check:assets` exits 0. If you still see a blank splash or a chevron, you built
+from the stale `ios/` tree — go back and `prebuild --clean`.
 
-**Second failure:** *an infinite spinner on the first screen, no way out.*
+**Most likely failure:** *an infinite spinner on the first screen, no way out.*
 That was an unbounded Clerk `getToken()` outside the request deadline — fixed on
 this branch (`ca78fbe`), but it is the first thing to suspect if the launch gate
 hangs. If it still hangs, the launch gate at `src/app/index.tsx` is awaiting a
@@ -122,12 +132,12 @@ appears in your log a minute later anyway.* The client poller gives up at 60s
 while the server is allowed 120s. **Not fixed.** On a slow connection or a busy
 backend this is likely.
 
-**Second failure:** *the scan you saved is counted twice.*
-`POST /api/scan/pipeline` creates a `food_logs` row and `POST /api/scan/confirm`
-inserts a **second** one; nothing reconciles them and the list call sends no
-status filter. **Not fixed — this is the most damaging open bug.** Test it
-explicitly: scan → save → pull-to-refresh the Food tab → check whether the meal
-and its calories appear twice.
+**Second thing to check — this WAS the most damaging bug and is now fixed.**
+A confirmed scan used to write two server rows and double its calories on
+refresh. `/api/scan/confirm` now claims the pipeline's own row instead of
+inserting a second one. **Verify it explicitly:** scan → save → note the day's
+calories → pull-to-refresh the Food tab → the number must not change. Five
+real-Postgres tests cover this, but none of them has run against your data.
 
 **Third failure:** *you discard a scan and it comes back.* Discarding does not
 delete the server row, so the estimate you rejected reappears on the next
@@ -227,3 +237,21 @@ keep your Clerk id (no FK).
    API, not a broken screen — the data layer reports `error: null` on failure.
 4. **Do the server logs show a missing key?** `ANTHROPIC_API_KEY` unset makes AI
    features return canned text rather than failing.
+
+---
+
+## When something IS wrong: file it, don't write it down
+
+Long-press the bubble, type one line, hit Save. That is the whole interaction —
+the screenshot, route, API trace, console tail, auth/entitlement state and the
+store slice are attached automatically. Shake if your hands are busy; it files a
+draft with no sheet at all. Crashes, unhandled rejections and API 5xxs file
+themselves.
+
+At the end of a session: double-tap the bubble → **Export markdown** → share it
+to yourself → paste the whole file into Claude Code. It is laid out for exactly
+that, blockers first, with each report's evidence fenced.
+
+Credentials are redacted before anything touches disk, so the export is safe to
+paste. Screenshots are not — they are your own screen, so treat the file as
+personal data.

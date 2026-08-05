@@ -1,11 +1,13 @@
-# Lumo — Status
+# Lume — Status
 
-_Last updated 2026-07-28. This file replaces every phase/audit report. Keep it
-current; delete nothing else into it._
+_Last updated 2026-08-06. This file replaces every phase/audit report. Keep it
+current; delete nothing else into it. For the current release state see
+[RELEASE_PREP.md](RELEASE_PREP.md); for the device test plan see
+[FIRST_HOUR.md](FIRST_HOUR.md)._
 
-## What Lumo is
+## What Lume is
 
-Lumo is an iOS food and fitness tracker: you log meals by photo, barcode,
+Lume is an iOS food and fitness tracker: you log meals by photo, barcode,
 nutrition label, search or quick-add, and log gym sessions with real exercise
 parameters. The backend computes calories honestly — ACSM metabolic equations
 for cardio, MET fallback elsewhere — and reconciles calories in against BMR
@@ -20,15 +22,15 @@ multi-angle reconciliation, quick add, saved meals, recipes, corrections,
 portion memory); gym (library, templates, weekly schedule, today's workout,
 check-in, parameter capture, ACSM calorie math, progress, streaks + freeze,
 muscle chart); energy balance daily/weekly; AI insights, morning brief and
-Ask-Lumo; first-party analytics with a persistent opt-out; account deletion
+Ask-Lume; first-party analytics with a persistent opt-out; account deletion
 (Clerk identity + cascading data delete); data export; offline queue with
 idempotency; Strava/WHOOP import logic incl. cross-source dedupe.
 
 **Free vs Pro (server-enforced, `backend/internal/entitlement`):** FREE =
 manual/search/barcode logging, all gym features, your own data, dashboards,
 energy balance, export, account management and deletion, plus
-`LUMO_FREE_SCANS_PER_DAY` (default 3) AI scans a day. PRO = unlimited AI scans,
-AI insights / morning brief / Ask-Lumo / brain rebuild, and the Strava + WHOOP
+`LUME_FREE_SCANS_PER_DAY` (default 3) AI scans a day. PRO = unlimited AI scans,
+AI insights / morning brief / Ask-Lume / brain rebuild, and the Strava + WHOOP
 integrations. Enforced by one policy table wrapping the authed mux, returning
 402 with an upgrade payload that the client turns into the paywall.
 
@@ -46,75 +48,59 @@ the Dockerfile, compose, nginx config, systemd unit and migration runner all in
 the repo.
 
 **Verification baseline** (must stay green): backend `go build ./... && go vet
-./... && gofmt -l . && go test ./... -count=1` → 29 packages, race-clean; app
-`npx tsc --noEmit && npm run lint && npm test` → clean, 0 errors, 344 tests;
-`cd web && npm run build` → static export clean.
+./... && gofmt -l . && go test ./... -count=1 && go test ./... -race` → **569
+tests**, race-clean; app `npx tsc --noEmit && npx eslint src && npm test` →
+clean, 0 errors, **464 tests / 28 suites**; `cd web && npm run build` → static
+export clean; `npm run check:assets` → **exit 0**. There is no CI: these are
+enforced by running them.
 
 ## Remaining human actions (ordered)
 
-1. **Decide the name: Veltai or Lumo.** One identity across `app.json`
-   (name/slug/scheme/bundle id), the Clerk scheme allowlist, store metadata,
-   and the support email (`lumofit@gmail.com` currently matches neither).
-2. **Stand up the domain.** `veltai.app` is NXDOMAIN and `lumo.fit` is
-   unregistered; the built `/web` site already has /support, /privacy, /terms,
-   /faq ready to deploy. Until a domain resolves, the store's Support URL is a
-   dead link and blocks submission. After it exists, re-add the in-app FAQ and
-   third-party-licenses rows that were removed for pointing at a dead domain,
-   and set `NEXT_PUBLIC_SITE_URL` at build time.
-3. **Deploy the backend** — follow [DEPLOY.md](DEPLOY.md) end to end (server
-   hardening, Docker, env file, backup, migrations, nginx + TLS, smoke tests).
-   Apply all **12** migrations with `./deploy/migrate.sh apply`; note the new
-   `20260729000001_shared_runtime_state` must land BEFORE the new binary starts
-   or every `/api/` request fails closed with 503.
+_The name and asset blockers are CLOSED — see [RELEASE_PREP.md](RELEASE_PREP.md).
+What remains is what only the owner can supply._
+
+1. **Register `lume.fit`.** The rename points every URL at it. The old
+   `lumo.fit` is a third party's parked domain and `lume.app` is NXDOMAIN, so
+   neither is usable. Set `NEXT_PUBLIC_SITE_URL` at build time; the built `/web`
+   site already has /support, /privacy, /terms, /faq ready to deploy. **The App
+   Store Support URL must resolve to your own /support page before submission.**
+2. **Finish the legal documents with a lawyer.** 17 sections still read "This
+   section is being drafted with a legal adviser and is not final", including
+   who operates the app. Blocks public release, not TestFlight.
+3. **Deploy the backend** — follow [DEPLOY.md](DEPLOY.md) end to end. Apply all
+   **14** migrations with `./deploy/migrate.sh apply`; `20260729000001_
+   shared_runtime_state` must land BEFORE the new binary starts or every `/api/`
+   request fails closed with 503. Two are new: `20260731000001_ai_consent` and
+   `20260806000001_debug_reports`.
 4. **Set the keys and dashboards**: `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY`,
    `EXPO_PUBLIC_REVENUECAT_IOS_KEY`, `EXPO_PUBLIC_API_URL` in the app; Clerk
-   (Apple + Google SSO, email-code strategy, `veltai://` allowlist) and
-   RevenueCat (products, default Offering, **`pro`** entitlement, hosted
-   paywall design, webhook) per CONFIG.md.
-5. **Set the RevenueCat dashboard to a 7-day trial** to match the app. The
-   code now derives every trial mention from one constant (`TRIAL_DAYS`), so
-   the only remaining mismatch risk is the dashboard itself. (The Notion plan
-   said 14 days; the repo's 7 was chosen — see DECISIONS.md.)
-7. **Create and seed the demo account**: create the review user in Clerk, then
-   `go run backend/scripts/seed_demo_account.go -user <clerk_id>`; put the
-   credentials in App Store Connect → App Review notes.
-8. **Native build + TestFlight**: `npm run ios`; first live Clerk sign-in,
-   first sandbox purchase and restore, Dynamic Type spot-check at accessibility
-   sizes, and verify the generated Info.plist carries **only** the camera usage
-   string.
-9. **Store listing**: screenshots from the real app (no voice/Apple Health
-   shots — those features don't exist), App Privacy answers, and the Terms of
-   Use link in App Store Connect metadata.
-10. **Pick a license.** `LICENSE` is Expo scaffolding boilerplate (MIT,
-    © 650 Industries) and does not license this codebase; the default today is
-    all rights reserved. Owner's call before any open-sourcing.
-11. Optional: create the GA4 property and set `NEXT_PUBLIC_GA_ID` for the site;
-    replace the site's "Coming soon" chips with the real App Store badge once
-    live (grep `chip--soon`).
-
-## Known open issues
-
-| Severity | Issue |
-|---|---|
-| High | No feature is gated behind the `pro` entitlement (see human action 5). |
-| Medium | Cross-source workout dedupe is a date+type+duration(±10min) heuristic because `gym_sessions` stores no start timestamp — two genuinely distinct same-type, similar-length sessions on one day from different sources will merge. Add a start timestamp to upgrade. |
-| Medium | Apple Health is not implemented. When it lands, reads **must** filter out samples Lumo itself wrote, or dietary-energy write-back creates a feedback loop. Needs a native module, the `com.apple.developer.healthkit` entitlement, a native rebuild, and privacy-policy/label updates. |
-| Medium | `LICENSE` is boilerplate (see human action 10). |
-| Low | The morning-brief cache and the scan-concurrency semaphore remain per-process. Worst case with N instances: N paid brief calls per user per day instead of 1 (the semaphore being per-box is correct — it bounds a box's resources). |
-| Medium | RevenueCat's webhook auth is a **static bearer header**, not an HMAC over the body — anyone who captures it can forge events. The replay/ordering guards contain blind replay, not a leaked secret. Rotate it if it is ever exposed. |
-| Low | `gym_exercises` has no `idempotency_key`, so an offline-queued exercise step whose response was lost can duplicate that exercise row on retry. The **session** is exactly-once regardless. Needs a migration. |
-| Low | The Food-tab anomaly banner fetches `GET /api/ai/insights` before AI consent. Verified harmless (that handler is a pure DB read and never calls Anthropic), and locked by a test that fails the day it starts generating. |
-| Low | Exercise `effort`/`energy` are captured in the app but absent from the backend session schema — device-local only until a migration adds them. |
-| Low | `GET /api/ai/anomalies` and its dismiss route are called by the client but not registered server-side; both are `.catch`-ed to empty/no-op so the banner simply never appears. Intentional. |
-| Low | 49 npm advisories, all dev-time tooling transitives (eslint/jest/metro chains) — none ship in the app bundle. Clear on the next Expo SDK upgrade. |
-| Low | The OAuth CSRF state store is in-memory with a 10-minute TTL; a restart drops pending connects (user retries). Move to the DB only if the backend goes multi-instance. |
-| Low | App version/build are hardcoded `1.0.0` / `1` in the About and Support screens — accurate now, will go stale at the first bump. |
-| Low | Three add-menu cards use literal English strings rather than i18n keys (app ships English-only for v1). |
+   (Apple + Google SSO, email-code strategy, **`lume://`** allowlist) and
+   RevenueCat (products, default Offering, **`pro`** entitlement, hosted paywall
+   design, webhook) per CONFIG.md. Backend env vars are now `LUME_*`; the old
+   `LUME_*` names still work with a deprecation warning.
+5. **Set the RevenueCat dashboard to a 7-day trial** to match the app. Every
+   trial mention derives from one constant (`TRIAL_DAYS`), so the dashboard is
+   the only remaining mismatch risk.
+6. **Create and seed the demo account** for App Review: create the user in
+   Clerk, then `go run backend/scripts/seed_demo_account.go -user <clerk_id>`;
+   put the credentials in App Store Connect → App Review notes.
+7. **Run `eas build:configure`** once, then build. Debug-instrumented TestFlight
+   build: `eas build --platform ios --profile preview`. Clean production build:
+   `--profile production`. **Always `npx expo prebuild --clean -p ios` first** —
+   the untracked `ios/` tree is stale and declares permissions the app does not
+   use.
+8. **Replace the placeholder icon and splash** before public release. They are
+   valid and uploadable but they are not a brand — see `assets/README.md`.
+9. **Set a billing cap on the Gemini and Anthropic accounts.** There is no
+   global spend cap in the code.
+10. **First device session**: work through [FIRST_HOUR.md](FIRST_HOUR.md) in
+    order. First live Clerk sign-in, first sandbox purchase and restore, first
+    real scan.
 
 ## Unverified
 
 - **Notion (now read, 2026-07-28)**: `App Store Readiness` and
-  `iOS — App Store & Design Docs` in the Lume.fit workspace. It is a **June
+  `iOS — App Store & Design Docs` in the lume.fit workspace. It is a **June
   2026 plan, not a record of what shipped**, and diverges from the codebase in
   ways worth knowing: it specifies a 14-day trial (repo says 7), a **soft**
   delete with a 7-day grace period (the shipped implementation is an immediate
@@ -125,8 +111,8 @@ the repo.
   Tier 9 pre-submission checklist and Tier 2 privacy-manifest note are still
   useful; treat the rest as superseded by this file.
 - **Applied-migration state in production is unconfirmed.** The connected
-  Supabase account does not contain the LumeAI project (`qknwxgaehhclvpeadmdh`),
-  so the 11 local migrations could not be diffed against the live database.
+  Supabase account does not contain the project (`qknwxgaehhclvpeadmdh`), so the
+  **14** local migrations could not be diffed against the live database.
   Assume none are applied until someone checks.
 - **Nothing has run against live services.** Clerk SSO/OTP, RevenueCat
   purchase/restore, Strava/WHOOP APIs, and the cross-source dedupe SQL against
