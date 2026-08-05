@@ -162,3 +162,56 @@ in git — this file is not a changelog.
 - **The invented subscription prices were removed from the app, not just the site.** `src/app/legal/terms.tsx` was still shipping "US$8.99 per month or US$49.99 per year" — figures that appear in no code and in no configured App Store product. A test now fails if any price string returns to either in-app legal screen.
 - **The health disclaimer is written in full rather than left as a placeholder.** It is standard, the app already ships the same substance, and a *missing* health disclaimer is worse than a scaffolded one for a product that estimates calories.
 - **No price, no retention period, no entity detail, no consent mechanism and no liability clause is asserted anywhere.** All are TODO. The liability clause in particular was deleted rather than adapted: the previous US-style "as is, no warranties of any kind" exclusion is incompatible with non-excludable Australian Consumer Law guarantees and may itself be misleading conduct under s18.
+
+## TestFlight gate audit (2026-08-05, branch `audit/testflight-gate`)
+
+- **`audit/submission-readiness` was never merged into `main`.** Its 3 fix
+  commits (fabricated data, server-side AI consent + migration, onboarding
+  wiring) plus `scripts/check-assets.mjs` and `noFabricatedData.test.ts` were
+  absent from `main`, while `SUBMISSION_READINESS.md` — which describes them as
+  fixed — lived only on that branch. Merged onto the gate branch; the merge is
+  clean and `main`'s later web/legal work is preserved. **If this is ever
+  reverted, all twelve fabricated-data defects return.**
+- **Scan confidence bands belong to the SERVER.** `src/lib/food/confidence.ts`
+  mirrors `backend/internal/scan/pipeline/confidence.go` (High ≥55, Medium ≥35)
+  and the server's `label` wins when the payload carries one. Do not reintroduce
+  client-side thresholds: the pipeline's positives sum to ≤65 and `single_angle`
+  is always −10, so a perfect single-angle scan is exactly 55 — any client
+  constant above that makes green unreachable and paints every real scan red.
+  `src/__tests__/scanConfidence.test.ts` reads the Go source to fail on drift.
+- **The "Why?" panel renders only server-computed factors.** It must never
+  synthesise a breakdown from the score. When `scan_results.confidence.factors`
+  is absent it says so. This is the product's provenance surface; inventing its
+  contents is the sharpest contradiction it can ship.
+- **The confidence badge shows a band word, not a percentage.** The score is a
+  bounded points total, not a probability, and must not be framed as one.
+- **`templateExerciseCols` is split from `templateExerciseFrom`** so a caller
+  needing an extra column widens the select list rather than appending after
+  `FROM`. Appending a JOIN without widening it is what made three
+  `/api/gym/template-exercises` routes 500 on every request.
+- **Every route accepting a caller-supplied `scan_session_id` must check
+  ownership** (`GetScanSessionOwner`) *and* scope its mutating SQL by `user_id`.
+  `/confirm` was missed while `/correction` and `/feedback` checked.
+- **Every paid Gemini call site must write exactly one `scan_sessions` row**, and
+  write it *before* the call. `CountScansToday` counts those rows and nothing
+  else; `/api/scan/label` wrote none, so free-tier users had an unmetered
+  billable path. A new AI endpoint without a session row silently escapes quota.
+- **Auth-token round-trips are bounded** (`EXPO_PUBLIC_API_TOKEN_TIMEOUT_MS`).
+  `getToken()` performs real network I/O and sat outside the request deadline,
+  so a hung token call hung every API call in the app forever.
+- **The offline queue flushes on AppState `active`, not only at launch.**
+  There is no NetInfo dependency; foregrounding is the reconnect proxy.
+- **The calorie floor is sex-aware** — 1500 male / 1200 female / 1350 other — in
+  `deriveTargets.ts` and `derive.go`, which must stay identical. A flat 1200
+  recommends the female minimum to men (1.4.1).
+- **Backend SQL needs a real database to be tested.** `tests/gym_schedule`
+  substitutes an in-memory fake, which is why 22-vs-23 columns shipped.
+  `tests/gym_schedule/schedule_pg_sql_test.go` runs the real store against
+  Postgres, gated on `LUMO_TEST_DATABASE_URL`. Prefer extending it over adding
+  more fake-backed coverage.
+- **`ios/` is disposable prebuild output.** It is gitignored and drifted: it
+  declares five permissions `app.json` does not, and predates RevenueCat. Always
+  `npx expo prebuild --clean -p ios` before a build.
+- **Migrations are Supabase-specific** — they require the `authenticated` /
+  `service_role` roles and `auth.uid()`/`auth.jwt()`. Correct for the documented
+  target (pooler, port 6543); they will not apply to a vanilla Postgres/RDS.
