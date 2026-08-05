@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/energy"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/energy"
 )
 
 // ---------------------------------------------------------------------------
@@ -309,7 +309,7 @@ func TestGetWeekRoute(t *testing.T) {
 
 // Timezone correctness: the client anchors the weekly window with ?end=<its
 // LOCAL date>, so a meal logged at 23:50 local lands in the right day even when
-// the server's calendar (LUMO_TIMEZONE) has already rolled over.
+// the server's calendar (LUME_TIMEZONE) has already rolled over.
 func TestGetWeekHonoursClientEndDate(t *testing.T) {
 	s := &fakeStore{
 		intake: map[string]float64{"2026-03-01": 1234},

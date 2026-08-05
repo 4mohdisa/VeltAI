@@ -40,7 +40,7 @@ test('sign-out clears every store, the offline queue, and persisted keys', async
   await loadQueue();
   expect(pendingCount()).toBe(0);
   // Persisted onboarding key removed.
-  expect(await getItem('lumo.onboarding')).toBeNull();
+  expect(await getItem('lume.onboarding')).toBeNull();
 });
 
 test('sign-out drops unsent analytics events (no cross-user attribution)', async () => {

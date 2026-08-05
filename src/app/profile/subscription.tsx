@@ -59,7 +59,7 @@ export default function SubscriptionScreen() {
     }
     const outcome = await presentPaywall();
     if (outcome === 'purchased' || outcome === 'restored') {
-      showToast({ message: "You're all set — welcome to Lumo Pro!", tone: 'success' });
+      showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
       refresh();
     } else if (outcome === 'error') {
       showToast({ message: "The store couldn't be reached — try again later.", tone: 'error' });
@@ -89,7 +89,7 @@ export default function SubscriptionScreen() {
         <View style={{ gap: space.md }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text variant="title3" color={color.black}>
-              Lumo Pro
+              Lume Pro
             </Text>
             <Badge
               label={loading ? 'Checking…' : isEntitled ? 'Active' : 'Not subscribed'}

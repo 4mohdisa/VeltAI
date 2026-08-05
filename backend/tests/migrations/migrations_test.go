@@ -16,7 +16,7 @@ import (
 	"strings"
 	"testing"
 
-	"lumo/backend/internal/auth"
+	"lume/backend/internal/auth"
 )
 
 const migrationsDir = "../../../supabase/migrations"

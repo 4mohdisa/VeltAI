@@ -14,17 +14,17 @@ package gymscheduletests
 // returned, 23 destinations, and pgx rejects that unconditionally. It compiled,
 // it vetted, and it passed the whole suite.
 //
-// Skipped unless LUMO_TEST_DATABASE_URL points at a disposable database with
+// Skipped unless LUME_TEST_DATABASE_URL points at a disposable database with
 // the migrations applied. To run:
 //
-//	createdb lumo_gate_test
-//	psql -d lumo_gate_test -c "CREATE SCHEMA auth;
+//	createdb lume_gate_test
+//	psql -d lume_gate_test -c "CREATE SCHEMA auth;
 //	  CREATE FUNCTION auth.uid() RETURNS text LANGUAGE sql STABLE AS \$\$
 //	    SELECT current_setting('request.jwt.claim.sub', true) \$\$;
 //	  CREATE FUNCTION auth.jwt() RETURNS jsonb LANGUAGE sql STABLE AS \$\$
 //	    SELECT '{}'::jsonb \$\$;"
-//	for f in supabase/migrations/*.sql; do psql -q -d lumo_gate_test -v ON_ERROR_STOP=1 -f "$f"; done
-//	LUMO_TEST_DATABASE_URL=postgres:///lumo_gate_test go test ./tests/gym_schedule/ -run PG
+//	for f in supabase/migrations/*.sql; do psql -q -d lume_gate_test -v ON_ERROR_STOP=1 -f "$f"; done
+//	LUME_TEST_DATABASE_URL=postgres:///lume_gate_test go test ./tests/gym_schedule/ -run PG
 
 import (
 	"context"
@@ -33,15 +33,15 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"lumo/backend/internal/gym"
+	"lume/backend/internal/gym"
 )
 
-// pgStore dials LUMO_TEST_DATABASE_URL, or skips.
+// pgStore dials LUME_TEST_DATABASE_URL, or skips.
 func pgStore(t *testing.T) (*gym.SchedulePGStore, *pgxpool.Pool) {
 	t.Helper()
-	dsn := os.Getenv("LUMO_TEST_DATABASE_URL")
+	dsn := os.Getenv("LUME_TEST_DATABASE_URL")
 	if dsn == "" {
-		t.Skip("LUMO_TEST_DATABASE_URL not set — skipping real-SQL integration test")
+		t.Skip("LUME_TEST_DATABASE_URL not set — skipping real-SQL integration test")
 	}
 	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {

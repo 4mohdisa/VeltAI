@@ -17,9 +17,9 @@ import (
 	"sync"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/httpx"
 )
 
 // window is the accounting period for every class.
@@ -39,9 +39,9 @@ type Limits map[string]int
 // LoadLimits reads the env-tunable limits.
 func LoadLimits() Limits {
 	return Limits{
-		ClassAI:    config.EnvInt("LUMO_RATE_AI_PER_MIN", 10),
-		ClassWrite: config.EnvInt("LUMO_RATE_WRITE_PER_MIN", 120),
-		ClassRead:  config.EnvInt("LUMO_RATE_READ_PER_MIN", 300),
+		ClassAI:    config.EnvInt("LUME_RATE_AI_PER_MIN", 10),
+		ClassWrite: config.EnvInt("LUME_RATE_WRITE_PER_MIN", 120),
+		ClassRead:  config.EnvInt("LUME_RATE_READ_PER_MIN", 300),
 	}
 }
 

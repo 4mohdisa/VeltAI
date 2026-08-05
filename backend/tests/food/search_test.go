@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"lumo/backend/internal/food"
+	"lume/backend/internal/food"
 )
 
 const offSearchBody = `{"products":[{

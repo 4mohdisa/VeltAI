@@ -1,5 +1,5 @@
 // InsightCard — a Card with a black checkmark disc and a line or two of copy.
-// Used on the onboarding preview screen to show what Lumo already knows.
+// Used on the onboarding preview screen to show what Lume already knows.
 import { View } from 'react-native';
 
 import { Card } from '@/components/display';

@@ -222,14 +222,15 @@ describe('the OAuth deep link uses the scheme this app actually registers', () =
   const appJson = () => JSON.parse(readFileSync(join(__dirname, '..', '..', 'app.json'), 'utf8')).expo;
 
   test('the backend default scheme equals app.json expo.scheme', () => {
-    // Both sides hardcoded 'lumo://' while app.json registers 'veltai', so any
-    // callback that escaped the in-app auth session hit an unregistered scheme
-    // and dead-ended with no way back into the app.
+    // These two once disagreed: the backend hardcoded one scheme while
+    // app.json registered another, so any callback that escaped the in-app
+    // auth session hit an unregistered scheme and dead-ended with no way back
+    // into the app. This test is what keeps them equal through a rename.
     const go = readFileSync(
       join(__dirname, '..', '..', 'backend/internal/integrations/integrations.go'),
       'utf8',
     );
-    const m = go.match(/config\.Env\("LUMO_APP_SCHEME",\s*"([^"]+)"\)/);
+    const m = go.match(/config\.Env\("LUME_APP_SCHEME",\s*"([^"]+)"\)/);
     expect(m).not.toBeNull();
     expect(m![1]).toBe(appJson().scheme);
   });
@@ -237,7 +238,7 @@ describe('the OAuth deep link uses the scheme this app actually registers', () =
   test('no source file hardcodes a deep-link scheme any more', () => {
     const { execSync } = require('child_process');
     const hits = execSync(
-      "grep -rn 'lumo://' src backend --include='*.ts' --include='*.tsx' --include='*.go' " +
+      "grep -rn 'lume://' src backend --include='*.ts' --include='*.tsx' --include='*.go' " +
         "--exclude-dir=__tests__ --exclude-dir=tests || true",
       { cwd: join(__dirname, '..', '..'), encoding: 'utf8' },
     ) as string;

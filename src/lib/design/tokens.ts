@@ -1,4 +1,4 @@
-// Veltai design tokens — the single source of truth for every visual value.
+// Lume design tokens — the single source of truth for every visual value.
 // FOUNDATION pass: Apple Health model — a monochrome base (black/white/greys
 // aligned to Apple Health's exact values) plus a defined `accent` palette of
 // Apple Health colours used FUNCTIONALLY ONLY (charts, AI accents, category /

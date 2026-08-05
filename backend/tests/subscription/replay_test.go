@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/subscription"
+	"lume/backend/internal/subscription"
 )
 
 // ---------------------------------------------------------------------------

@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/scan"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/scan"
 )
 
 type fakeOCR struct {

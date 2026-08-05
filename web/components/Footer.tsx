@@ -8,7 +8,7 @@ export function Footer() {
       <div className="container">
         <div className="site-footer__grid">
           <div className="site-footer__col">
-            <span className="wordmark">Lumo</span>
+            <span className="wordmark">Lume</span>
             <p style={{ maxWidth: '26ch' }}>
               Food and fitness tracking that tells you how sure it is.
             </p>
@@ -41,7 +41,7 @@ export function Footer() {
         </div>
 
         <div className="site-footer__bottom">
-          <span>© {new Date().getFullYear()} Lumo · Adelaide, South Australia</span>
+          <span>© {new Date().getFullYear()} Lume · Adelaide, South Australia</span>
           <span>Not affiliated with Apple Inc.</span>
         </div>
       </div>

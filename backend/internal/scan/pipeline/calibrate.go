@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // ApplyCalibration is pass 5 — scale each estimate's weight by the user's

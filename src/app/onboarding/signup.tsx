@@ -284,7 +284,7 @@ function ClerkSignup() {
         }}
       >
         <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>
-          {mode === 'signup' ? 'Already have an account? Sign in' : 'New to Lumo? Create an account'}
+          {mode === 'signup' ? 'Already have an account? Sign in' : 'New to Lume? Create an account'}
         </Text>
       </Pressable>
 

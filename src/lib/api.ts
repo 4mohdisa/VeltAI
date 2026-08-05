@@ -1,4 +1,4 @@
-// Lumo API client — typed fetch wrapper over the Go backend.
+// Lume API client — typed fetch wrapper over the Go backend.
 //
 // Every backend response uses the envelope { data: T, error: string | null }
 // (backend/internal/httpx). Non-2xx or error != null throws an ApiError.

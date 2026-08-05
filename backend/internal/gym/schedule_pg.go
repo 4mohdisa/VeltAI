@@ -9,8 +9,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/energy"
+	"lume/backend/internal/db"
+	"lume/backend/internal/energy"
 )
 
 // SchedulePGStore is the Postgres ScheduleStore. Mirrors PGStore's conventions:

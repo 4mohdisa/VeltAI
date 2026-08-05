@@ -11,8 +11,8 @@
 //
 //	FREE      manual + search + barcode logging, all gym features, your own
 //	          data, dashboards, energy balance, export, account management,
-//	          account deletion, and up to LUMO_FREE_SCANS_PER_DAY AI scans/day.
-//	PRO       unlimited AI scans, AI insights / morning brief / Ask-Lumo /
+//	          account deletion, and up to LUME_FREE_SCANS_PER_DAY AI scans/day.
+//	PRO       unlimited AI scans, AI insights / morning brief / Ask-Lume /
 //	          brain rebuild, and the Strava/WHOOP integrations.
 //
 // Anything with real marginal cost (a Gemini or Anthropic call) or real depth
@@ -26,9 +26,9 @@ import (
 	"net/http"
 	"strings"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/httpx"
 )
 
 // Requirement is what a route demands of the caller.
@@ -61,7 +61,7 @@ type Config struct {
 	// day. 0 means "no free scans"; a negative value means unlimited (used to
 	// disable the quota without disabling Pro gating).
 	FreeScansPerDay int
-	// Enforce is the master switch. Default true. Set LUMO_GATING_ENABLED=false
+	// Enforce is the master switch. Default true. Set LUME_GATING_ENABLED=false
 	// only to deliberately open everything (e.g. a promo period).
 	Enforce bool
 }
@@ -69,8 +69,8 @@ type Config struct {
 // LoadConfig reads the tunables from the environment.
 func LoadConfig() Config {
 	return Config{
-		FreeScansPerDay: config.EnvInt("LUMO_FREE_SCANS_PER_DAY", 3),
-		Enforce:         config.EnvBool("LUMO_GATING_ENABLED", true),
+		FreeScansPerDay: config.EnvInt("LUME_FREE_SCANS_PER_DAY", 3),
+		Enforce:         config.EnvBool("LUME_GATING_ENABLED", true),
 	}
 }
 
@@ -160,7 +160,7 @@ func (g *Gate) Middleware(next http.Handler) http.Handler {
 
 		if req == Pro {
 			httpx.JSONError(w, http.StatusPaymentRequired, upgradeBody{
-				Message: "This feature is part of Lumo Pro.",
+				Message: "This feature is part of Lume Pro.",
 				Upgrade: true,
 				Feature: featureName(r.URL.Path),
 			})
@@ -179,7 +179,7 @@ func (g *Gate) Middleware(next http.Handler) http.Handler {
 		}
 		if used >= g.cfg.FreeScansPerDay {
 			httpx.JSONError(w, http.StatusPaymentRequired, upgradeBody{
-				Message:  "You've used all your free scans for today. Lumo Pro has unlimited scanning.",
+				Message:  "You've used all your free scans for today. Lume Pro has unlimited scanning.",
 				Upgrade:  true,
 				Feature:  "ai_scan",
 				Limit:    g.cfg.FreeScansPerDay,

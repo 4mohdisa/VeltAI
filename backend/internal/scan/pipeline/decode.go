@@ -8,7 +8,7 @@ import (
 	_ "image/png"
 	"log"
 
-	"lumo/backend/internal/config"
+	"lume/backend/internal/config"
 )
 
 // ErrImageTooLarge means the image's DECODED bitmap would be too big. The byte
@@ -32,14 +32,14 @@ func CheckImageBounds(imageBytes []byte) error {
 	return checkDims(cfg.Width, cfg.Height)
 }
 
-// checkDims is the single pixel-budget rule. LUMO_MAX_IMAGE_PIXELS (default 40M
+// checkDims is the single pixel-budget rule. LUME_MAX_IMAGE_PIXELS (default 40M
 // — above any phone camera) bounds the total; maxImageDim bounds each side, and
 // is checked first so w*h cannot overflow.
 func checkDims(w, h int) error {
 	if w <= 0 || h <= 0 || w > maxImageDim || h > maxImageDim {
 		return ErrImageTooLarge
 	}
-	if w*h > config.EnvInt("LUMO_MAX_IMAGE_PIXELS", 40_000_000) {
+	if w*h > config.EnvInt("LUME_MAX_IMAGE_PIXELS", 40_000_000) {
 		return ErrImageTooLarge
 	}
 	return nil

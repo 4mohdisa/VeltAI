@@ -50,7 +50,7 @@ const SF: Record<string, string> = {
   'eye-off': 'eye.slash.fill', //           muted variant (*.slash)
   refresh: 'arrow.clockwise', //            Sync
   'refresh-outline': 'arrow.clockwise',
-  send: 'paperplane.fill', //               Send (Ask Lumo)
+  send: 'paperplane.fill', //               Send (Ask Lume)
   search: 'magnifyingglass',
   filter: 'line.3.horizontal.decrease', //  Filter
   share: 'square.and.arrow.up', //          Share

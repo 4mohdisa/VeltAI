@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/scan"
-	"lumo/backend/internal/scan/pipeline"
+	"lume/backend/internal/scan"
+	"lume/backend/internal/scan/pipeline"
 )
 
 // validEstimateArray is a well-formed pass-3 fixture so the background pipeline

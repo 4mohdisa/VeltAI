@@ -141,7 +141,7 @@ export function connectivityMessage(problem: ConnectivityProblem): string | null
     case 'offline':
       return "You're offline. Your changes are saved and will sync when you reconnect.";
     case 'serverDown':
-      return "Lumo's servers are having trouble. Your data is safe — try again shortly.";
+      return "Lume's servers are having trouble. Your data is safe — try again shortly.";
     default:
       return null;
   }

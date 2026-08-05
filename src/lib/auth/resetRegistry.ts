@@ -13,7 +13,7 @@ import { AI_CONSENT_KEY, __resetAiConsentCache } from '@/lib/ai/consent';
 import { __resetForTests as resetOfflineQueue } from '@/lib/offline/queue';
 
 // Persisted secure-store keys owned by the app (beyond the zustand-persist ones).
-const SECURE_KEYS = ['lumo.onboarding', 'lumo.offline.queue', 'forkPromptDismissed', 'labelPromptDismissed', AI_CONSENT_KEY];
+const SECURE_KEYS = ['lume.onboarding', 'lume.offline.queue', 'forkPromptDismissed', 'labelPromptDismissed', AI_CONSENT_KEY];
 
 /** Clear every store, persisted key, and the offline queue. Never throws. */
 export async function resetAllStores(): Promise<void> {

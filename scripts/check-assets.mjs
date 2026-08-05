@@ -221,7 +221,7 @@ for (const key of Object.keys(plist)) {
 // --- 5. Identity consistency ----------------------------------------------
 
 const displayName = appJson.name ?? '';
-const copyBrand = 'Lumo';
+const copyBrand = 'Lume';
 if (displayName.toLowerCase() !== copyBrand.toLowerCase()) {
   warn(
     `app.json name is "${displayName}" but the product copy, legal documents and store metadata say "${copyBrand}". ` +

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/ai"
+	"lume/backend/internal/ai"
 )
 
 func TestBuildScanAccuracyProfileNilForZeroCorrections(t *testing.T) {

@@ -26,7 +26,7 @@ export default function DoneScreen() {
     }
     // 750ms: the 700ms entrance animation finishes before the hand-off.
     const t = setTimeout(() => {
-      showToast({ message: 'Welcome to Lumo!', tone: 'success' });
+      showToast({ message: 'Welcome to Lume!', tone: 'success' });
       replace('/(tabs)');
     }, 750);
     return () => clearTimeout(t);

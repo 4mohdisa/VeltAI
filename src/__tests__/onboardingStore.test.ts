@@ -98,8 +98,8 @@ describe('onboarding store', () => {
   });
 
   test('secure-store adapter round-trips (persist + rehydrate)', async () => {
-    await secureStorage.setItem('lumo.test', JSON.stringify({ goal: 'muscle' }));
-    const raw = await secureStorage.getItem('lumo.test');
+    await secureStorage.setItem('lume.test', JSON.stringify({ goal: 'muscle' }));
+    const raw = await secureStorage.getItem('lume.test');
     expect(raw).not.toBeNull();
     expect(JSON.parse(raw as string).goal).toBe('muscle');
   });

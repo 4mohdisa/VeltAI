@@ -5,7 +5,7 @@ import { SUPPORT_EMAIL } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'Support',
   description:
-    'Get help with Lumo: email us directly, what to include in a bug report, and how quickly to expect a reply.',
+    'Get help with Lume: email us directly, what to include in a bug report, and how quickly to expect a reply.',
   alternates: { canonical: '/support/' },
 };
 

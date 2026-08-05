@@ -34,7 +34,7 @@ export default function PlanDetailScreen() {
         <EmptyState
           icon="sparkles-outline"
           title="No plan yet"
-          message="Once Lumo has learned your routine, your day will be planned here."
+          message="Once Lume has learned your routine, your day will be planned here."
         />
       ) : null}
       <View style={{ gap: space.md }}>
@@ -108,7 +108,7 @@ export default function PlanDetailScreen() {
 
       {/* Only shown when there is a real rationale. It used to render a fixed
           paragraph asserting the user's gym attendance and sleep hours — a
-          metric Lumo never collects — under an AI badge. */}
+          metric Lume never collects — under an AI badge. */}
       {reason ? (
         <Card style={{ backgroundColor: color.gray50 }}>
           <View style={{ flexDirection: 'row', gap: space.sm }}>

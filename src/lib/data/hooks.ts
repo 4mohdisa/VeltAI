@@ -368,7 +368,7 @@ export function useUserProfile(): UserProfile {
 
 // The "AI plan" and its rationale are not computed by anything — mockPlanReason
 // is a first-person claim about THIS user ("you hit the gym 3/4 days this week
-// … your sleep is averaging 6.8h") for a metric Lumo does not even collect.
+// … your sleep is averaging 6.8h") for a metric Lume does not even collect.
 // Shipping that as the user's own plan is App Store 2.1. Dev keeps it so the
 // screens stay reviewable; release gets an empty plan and the empty state.
 const planForBuild = () => (isDevBuild() ? mockPlan : []);

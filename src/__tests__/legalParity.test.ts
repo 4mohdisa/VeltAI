@@ -3,7 +3,7 @@
 /* Legal document parity.
    ==========================================================================
 
-   The section STRUCTURE of Lumo's legal documents is canonical in
+   The section STRUCTURE of Lume's legal documents is canonical in
    legal/manifest.json. Two surfaces implement it — the in-app screens here and
    the marketing site at web/lib/legal.ts — and they must not drift.
 

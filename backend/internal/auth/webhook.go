@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/httpx"
 )
 
 // RegisterWebhook mounts the Clerk user-sync webhook (svix-signed, no JWT).

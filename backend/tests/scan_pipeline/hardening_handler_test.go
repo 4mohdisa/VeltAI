@@ -12,10 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/scan"
-	"lumo/backend/internal/scan/pipeline"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/db"
+	"lume/backend/internal/scan"
+	"lume/backend/internal/scan/pipeline"
 )
 
 // bombPNG returns a small PNG whose IHDR DECLARES w×h pixels. The compressed
@@ -83,7 +83,7 @@ func TestPipeline_RejectsDecompressionBomb(t *testing.T) {
 // arriving while the first still runs is rejected with 503 + Retry-After rather
 // than spawning an unbounded goroutine.
 func TestPipeline_ConcurrencyCapReturns503(t *testing.T) {
-	t.Setenv("LUMO_SCAN_CONCURRENCY", "1")
+	t.Setenv("LUME_SCAN_CONCURRENCY", "1")
 
 	release := make(chan struct{})
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {

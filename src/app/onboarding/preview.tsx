@@ -49,7 +49,7 @@ export default function PreviewScreen() {
     <OnbScaffold
       step={5}
       scroll
-      title="Here's what Lumo knows about you already"
+      title="Here's what Lume knows about you already"
       footer={
         <View style={{ gap: space.sm }}>
           <Button title="Create my account →" onPress={() => navigate('/onboarding/signup')} />

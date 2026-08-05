@@ -86,7 +86,7 @@ export default function PaywallScreen() {
     if (isBillingEnabled()) {
       const outcome = await presentPaywall();
       if (outcome === 'purchased' || outcome === 'restored') {
-        showToast({ message: "You're all set — welcome to Lumo Pro!", tone: 'success' });
+        showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
       } else if (outcome === 'error') {
         showToast({ message: "The store couldn't be reached — you can subscribe later in Settings.", tone: 'info' });
       }

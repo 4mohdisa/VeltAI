@@ -1,4 +1,4 @@
-module lumo/backend
+module lume/backend
 
 go 1.26
 

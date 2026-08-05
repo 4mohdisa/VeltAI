@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // FoodIdentifier is pass 3: identify foods from the image under geometric

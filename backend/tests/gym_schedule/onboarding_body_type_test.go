@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"lumo/backend/internal/goals"
+	"lume/backend/internal/goals"
 )
 
 // fakeGoals is a minimal goals.Store: only onboarding persistence matters here,

@@ -43,7 +43,7 @@ const ALLOWED = new Set<string>([
   'feature_used',
 ]);
 
-const STORAGE_KEY = 'lumo.analytics.buffer';
+const STORAGE_KEY = 'lume.analytics.buffer';
 const FLUSH_AT = 20; // auto-flush threshold
 const MAX_BUFFER = 200; // cap; oldest dropped beyond this
 const MAX_BATCH = 50; // API contract: max events per request

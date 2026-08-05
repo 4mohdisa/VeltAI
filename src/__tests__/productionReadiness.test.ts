@@ -219,16 +219,16 @@ test('a 5xx hydration leaves local data intact and only rejects (hooks swallow i
 
 test('EXPO_PUBLIC_API_URL is the only switch needed, and https works', async () => {
   const f = setFetch(jest.fn(async () => jsonOk({})));
-  await withApiEnv({ EXPO_PUBLIC_API_URL: 'https://api.lumo.app' }, async (mod) => {
+  await withApiEnv({ EXPO_PUBLIC_API_URL: 'https://api.lume.app' }, async (mod) => {
     await mod.api.goals.get();
-    expect(f.mock.calls[0][0]).toBe('https://api.lumo.app/api/goals');
+    expect(f.mock.calls[0][0]).toBe('https://api.lume.app/api/goals');
   });
 });
 
 test('a trailing slash on the configured origin does not produce a double slash', async () => {
   const f = setFetch(jest.fn(async () => jsonOk({})));
-  await withApiEnv({ EXPO_PUBLIC_API_URL: 'https://api.lumo.app/' }, async (mod) => {
+  await withApiEnv({ EXPO_PUBLIC_API_URL: 'https://api.lume.app/' }, async (mod) => {
     await mod.api.goals.get();
-    expect(f.mock.calls[0][0]).toBe('https://api.lumo.app/api/goals');
+    expect(f.mock.calls[0][0]).toBe('https://api.lume.app/api/goals');
   });
 });

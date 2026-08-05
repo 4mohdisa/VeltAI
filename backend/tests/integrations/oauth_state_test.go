@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/integrations"
+	"lume/backend/internal/integrations"
 )
 
 func stateService(store *fakeStore) *integrations.Service {

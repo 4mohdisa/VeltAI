@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // exerciseReadCols is the full gym_exercises projection (incl. the Phase 12

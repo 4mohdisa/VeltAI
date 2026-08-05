@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"lumo/backend/internal/config"
+	"lume/backend/internal/config"
 )
 
 // Strava is the Strava OAuth provider. Docs: https://developers.strava.com.

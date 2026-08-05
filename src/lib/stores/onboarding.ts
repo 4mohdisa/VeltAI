@@ -67,7 +67,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       reset: () => set({ ...EMPTY }),
     }),
     {
-      name: 'lumo.onboarding',
+      name: 'lume.onboarding',
       storage: createJSONStorage(() => secureStorage),
     },
   ),

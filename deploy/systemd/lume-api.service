@@ -1,4 +1,4 @@
-# Lumo API — systemd unit (the ALTERNATIVE to Docker Compose).
+# Lume API — systemd unit (the ALTERNATIVE to Docker Compose).
 #
 # WHICH ONE SHOULD YOU USE?
 #
@@ -18,26 +18,26 @@
 #   proxies to one while the other quietly serves stale code.
 #
 # Install:
-#   sudo install -m 0644 lumo-api.service /etc/systemd/system/lumo-api.service
-#   sudo systemctl daemon-reload && sudo systemctl enable --now lumo-api
+#   sudo install -m 0644 lume-api.service /etc/systemd/system/lume-api.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now lume-api
 
 [Unit]
-Description=Lumo API
-Documentation=https://github.com/4mohdisa/VeltAI
+Description=Lume API
+Documentation=https://github.com/4mohdisa/Lume
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-User=lumo
-Group=lumo
+User=lume
+Group=lume
 
 # Secrets live OUTSIDE the repo, root-owned 0600. systemd reads the file as
-# root before dropping to User=, so the lumo user never needs to read it —
+# root before dropping to User=, so the lume user never needs to read it —
 # which means a compromised app process cannot re-read its own secrets off disk.
-EnvironmentFile=/etc/lumo/lumo-api.env
+EnvironmentFile=/etc/lume/lume-api.env
 
-ExecStart=/usr/local/bin/lumo-api
+ExecStart=/usr/local/bin/lume-api
 Restart=on-failure
 RestartSec=5s
 # Do not restart-loop forever on a config error: after 5 failures in 60s, stop
@@ -49,7 +49,7 @@ StartLimitIntervalSec=60
 # are journald's, configured in DEPLOYMENT_SECURITY.md §4.
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=lumo-api
+SyslogIdentifier=lume-api
 
 # --- Hardening -------------------------------------------------------------
 # Cannot gain privileges via setuid/setgid binaries.

@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"testing"
 
-	"lumo/backend/internal/cuisine"
+	"lume/backend/internal/cuisine"
 )
 
 func fp(v float64) *float64 { return &v }

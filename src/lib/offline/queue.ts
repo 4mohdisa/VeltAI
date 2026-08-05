@@ -9,7 +9,7 @@
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { ApiError, replayQueuedPost, isTransient } from '@/lib/api';
 
-const STORAGE_KEY = 'lumo.offline.queue';
+const STORAGE_KEY = 'lume.offline.queue';
 
 /** A follow-up POST in a sequenced unit. `{id}` in the path is replaced by the id
  *  the unit's first POST returned. */

@@ -12,7 +12,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"lumo/backend/internal/auth"
+	"lume/backend/internal/auth"
 )
 
 type fakeVerifier struct{}

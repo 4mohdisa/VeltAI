@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"lumo/backend/internal/cuisine"
+	"lume/backend/internal/cuisine"
 )
 
 // cuisinePrefsTTL bounds how stale a cached cuisine preference can be before

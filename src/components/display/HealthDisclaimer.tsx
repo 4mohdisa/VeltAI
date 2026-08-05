@@ -9,7 +9,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
 
 export const HEALTH_DISCLAIMER_TEXT =
-  'Lumo provides general nutrition and fitness information. It is not medical advice. ' +
+  'Lume provides general nutrition and fitness information. It is not medical advice. ' +
   'Consult a healthcare professional before making significant changes to your diet or exercise routine.';
 
 export function HealthDisclaimer(): JSX.Element {

@@ -1,10 +1,10 @@
-# Lumo API — multi-stage build to a distroless, non-root, read-only image.
+# Lume API — multi-stage build to a distroless, non-root, read-only image.
 #
 # Build (from the MONOREPO ROOT, not backend/ — the build context needs
 # ../supabase for nothing at runtime, but keeping the context at backend/ is
 # what .dockerignore assumes; see below):
 #
-#   cd backend && docker build -t lumo-api:$(git rev-parse --short HEAD) .
+#   cd backend && docker build -t lume-api:$(git rev-parse --short HEAD) .
 #
 # The final image contains exactly one file: the server binary. No shell, no
 # package manager, no compiler — nothing for an attacker who achieves RCE to
@@ -38,7 +38,7 @@ ARG VERSION=dev
 RUN CGO_ENABLED=0 GOOS=linux go build \
       -trimpath \
       -ldflags="-s -w -X main.version=${VERSION}" \
-      -o /out/lumo-api \
+      -o /out/lume-api \
       ./cmd/server
 
 # ---------------------------------------------------------------------------
@@ -56,7 +56,7 @@ FROM gcr.io/distroless/static-debian12:nonroot
 # without resolving a name (there is no /etc/passwd lookup tooling in here).
 USER 65532:65532
 
-COPY --from=build --chown=65532:65532 /out/lumo-api /usr/local/bin/lumo-api
+COPY --from=build --chown=65532:65532 /out/lume-api /usr/local/bin/lume-api
 
 # The app writes nothing to disk: no uploads (scan images are streamed to
 # Gemini and never persisted), no local cache, no log files (it logs to stdout
@@ -69,8 +69,8 @@ EXPOSE 8080
 # Probes itself over loopback — see healthcheck() in cmd/server. compose
 # overrides the timings; these are the sane defaults for a bare `docker run`.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD ["/usr/local/bin/lumo-api", "-healthcheck"]
+  CMD ["/usr/local/bin/lume-api", "-healthcheck"]
 
 # No shell in the image, so this is the exec form by necessity as well as by
 # preference — no shell to interpret, nothing to inject into.
-ENTRYPOINT ["/usr/local/bin/lumo-api"]
+ENTRYPOINT ["/usr/local/bin/lume-api"]

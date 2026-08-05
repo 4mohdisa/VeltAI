@@ -1,4 +1,4 @@
-// Package scanpipelinetests is the external, black-box test suite for the Lumo
+// Package scanpipelinetests is the external, black-box test suite for the Lume
 // scan pipeline. It uses only the exported surface of internal/scan and
 // internal/scan/pipeline (no internal edits), stdlib testing + net/http/httptest,
 // and fakes for db.Querier and scan.PipelineStore. No network, no real DB.
@@ -22,10 +22,10 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/scan"
-	"lumo/backend/internal/scan/pipeline"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/db"
+	"lume/backend/internal/scan"
+	"lume/backend/internal/scan/pipeline"
 )
 
 // ---------- shared helpers ----------

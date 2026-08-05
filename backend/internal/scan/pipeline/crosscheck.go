@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // CrosscheckMacros is pass 4 — replace AI macros with cuisine_food_library

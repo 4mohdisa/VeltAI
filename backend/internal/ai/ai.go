@@ -11,10 +11,10 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/cuisine"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/cuisine"
+	"lume/backend/internal/httpx"
 )
 
 // StoredInsight is an ai_insights row as returned by the API.
@@ -332,7 +332,7 @@ func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	uid := auth.UserID(ctx)
 	// "Today"/"yesterday" are calendar days in the configured timezone
-	// (LUMO_TIMEZONE), not the server's zone, so the brief matches the dates
+	// (LUME_TIMEZONE), not the server's zone, so the brief matches the dates
 	// users log against. Same day key as config.Today(), but off the
 	// injectable clock so tests can cross the boundary.
 	now := s.Now().In(config.Timezone())
@@ -387,7 +387,7 @@ func (s *Service) query(w http.ResponseWriter, r *http.Request) {
 	// The question is concatenated into a paid LLM prompt, so it needs its own
 	// cap — the shared 20MB body limit is nowhere near a sane prompt budget.
 	// Counted in runes so a non-ASCII question gets the same allowance.
-	max := config.EnvInt("LUMO_MAX_QUESTION_CHARS", 500)
+	max := config.EnvInt("LUME_MAX_QUESTION_CHARS", 500)
 	if n := utf8.RuneCountInString(q); n > max {
 		httpx.Error(w, http.StatusBadRequest, fmt.Sprintf("question is too long: %d characters, limit is %d", n, max))
 		return

@@ -10,7 +10,7 @@ import { CORE } from '@/lib/faq';
 import { DESCRIPTION, SITE_NAME, SITE_URL, SUPPORT_EMAIL, TAGLINE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  // absolute: the layout's "%s · Lumo" template would double the brand here.
+  // absolute: the layout's "%s · Lume" template would double the brand here.
   title: { absolute: `${SITE_NAME} — ${TAGLINE}` },
   description: DESCRIPTION,
   alternates: { canonical: '/' },
@@ -30,7 +30,7 @@ const CAPTURE: Spec[] = [
   },
   {
     term: 'Nutrition label',
-    desc: 'Photograph the nutrition facts panel and Lumo reads the printed values into an entry you check and confirm before it saves.',
+    desc: 'Photograph the nutrition facts panel and Lume reads the printed values into an entry you check and confirm before it saves.',
     tier: 'Free',
   },
   {
@@ -53,7 +53,7 @@ const ENGINE: Spec[] = [
   },
   {
     term: 'Learns your portions',
-    desc: 'Correct a weight and Lumo folds the correction into a per-food multiplier, applied to your future scans once it has seen enough of them. Your most-logged dishes and past misidentifications are fed into the next scan.',
+    desc: 'Correct a weight and Lume folds the correction into a per-food multiplier, applied to your future scans once it has seen enough of them. Your most-logged dishes and past misidentifications are fed into the next scan.',
     tier: 'Free',
   },
   {
@@ -94,7 +94,7 @@ const METHOD = [
   },
   {
     h: 'Disagreement is surfaced, not averaged',
-    p: 'Add a second angle and Lumo estimates it independently, then compares. Agreement raises the confidence. Disagreement shows you both numbers and asks which is right — the moment where most software would quietly pick one and move on.',
+    p: 'Add a second angle and Lume estimates it independently, then compares. Agreement raises the confidence. Disagreement shows you both numbers and asks which is right — the moment where most software would quietly pick one and move on.',
   },
   {
     h: 'Corrections train it on you',
@@ -102,7 +102,7 @@ const METHOD = [
   },
   {
     h: 'Read the label rather than guess at it',
-    p: 'Packaged food is a solved problem, so Lumo solves it that way: barcode and nutrition-label scanning return printed values. Estimation is reserved for the cases that genuinely require it.',
+    p: 'Packaged food is a solved problem, so Lume solves it that way: barcode and nutrition-label scanning return printed values. Estimation is reserved for the cases that genuinely require it.',
   },
 ];
 
@@ -124,7 +124,7 @@ export default function Home() {
             <p className="eyebrow">Food &amp; fitness tracking · iOS</p>
             <h1>Confidently wrong is still wrong.</h1>
             <p className="lead hero__lead">
-              Every calorie app will give you a number for that plate. Lumo gives you the number
+              Every calorie app will give you a number for that plate. Lume gives you the number
               and how much to trust it — and when two camera angles disagree, it shows you both
               instead of quietly picking one.
             </p>
@@ -146,7 +146,7 @@ export default function Home() {
               <TrackedLink
                 event="cta_notify_click"
                 className="action"
-                href={`mailto:${SUPPORT_EMAIL}?subject=Tell%20me%20when%20Lumo%20launches`}
+                href={`mailto:${SUPPORT_EMAIL}?subject=Tell%20me%20when%20Lume%20launches`}
               >
                 Email me at launch
               </TrackedLink>
@@ -218,9 +218,9 @@ export default function Home() {
               <span className="mono" style={{ textTransform: 'uppercase', fontSize: 'var(--web-micro)', letterSpacing: '0.09em' }}>
                 Not yet ·{' '}
               </span>
-              Strava and WHOOP importing is written but not switched on, and Lumo has no Apple
+              Strava and WHOOP importing is written but not switched on, and Lume has no Apple
               Health integration at all. Today the exercise side of your energy balance comes from
-              workouts you log in Lumo itself.
+              workouts you log in Lume itself.
             </p>
           </div>
         </div>
@@ -275,7 +275,7 @@ export default function Home() {
               <div className="spec__row">
                 <dt className="spec__term">Meal and label photos</dt>
                 <dd className="spec__desc">
-                  Sent to Google Gemini to be analysed, and only after you have agreed to it. Lumo
+                  Sent to Google Gemini to be analysed, and only after you have agreed to it. Lume
                   keeps a quality score and the geometry it derived — not the photograph.
                 </dd>
                 <dd className="spec__tier">Leaves</dd>
@@ -342,21 +342,21 @@ export default function Home() {
         <div className="container stack-lg" style={{ maxWidth: '44rem' }}>
           <h2 id="close-h">Not out yet.</h2>
           <p className="lead">
-            Lumo is still in development and is not on the App&nbsp;Store. There is no waitlist and
+            Lume is still in development and is not on the App&nbsp;Store. There is no waitlist and
             no mailing list — if you want to know when it is live, send an email and you will get
             exactly one back.
           </p>
           <TrackedLink
             event="cta_notify_click"
             className="action"
-            href={`mailto:${SUPPORT_EMAIL}?subject=Tell%20me%20when%20Lumo%20launches`}
+            href={`mailto:${SUPPORT_EMAIL}?subject=Tell%20me%20when%20Lume%20launches`}
           >
             Email me at launch
           </TrackedLink>
         </div>
       </section>
 
-      {/* Structured data. No aggregateRating and no review — Lumo has no
+      {/* Structured data. No aggregateRating and no review — Lume has no
           ratings and no reviews, and inventing them for rich snippets is both
           a lie and a manual action waiting to happen. */}
       <script

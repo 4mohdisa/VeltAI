@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/integrations"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/integrations"
 )
 
 // ---------------------------------------------------------------------------

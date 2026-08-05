@@ -1,5 +1,5 @@
 // AI hub screen — a full-screen push route (auto-registered by expo-router).
-// Top: the learned brain profile, then a standalone "Ask Lumo" entry, then the
+// Top: the learned brain profile, then a standalone "Ask Lume" entry, then the
 // combined insights + anomalies feed (newest first). Degrades to a
 // not-enough-data / no-insights empty state without ever crashing.
 import { useEffect, useState } from 'react';
@@ -56,15 +56,15 @@ function InsightsInner() {
 
   return (
     <Screen title="Insights" showBack scroll>
-      <BrainProfileCard onAskLumo={() => router.push('/ai-query' as Href)} />
+      <BrainProfileCard onAskLume={() => router.push('/ai-query' as Href)} />
 
-      {/* Standalone Ask Lumo entry — always visible above the feed. */}
-      <Card onPress={() => router.push('/ai-query' as Href)} accessibilityLabel="Ask Lumo">
+      {/* Standalone Ask Lume entry — always visible above the feed. */}
+      <Card onPress={() => router.push('/ai-query' as Href)} accessibilityLabel="Ask Lume">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Icon name="sparkles" size={24} color={categoryAccent.ai} />
           <View style={{ flex: 1 }}>
             <Text variant="bodyBold" color={color.label}>
-              Ask Lumo
+              Ask Lume
             </Text>
             <Text variant="footnote" color={color.secondaryLabel}>
               Ask about your food, nutrition, or habits
@@ -85,7 +85,7 @@ function InsightsInner() {
         notEnoughData ? (
           <EmptyState
             icon="sparkles-outline"
-            title="Lumo is learning"
+            title="Lume is learning"
             message="Log food and workouts for a few days and your personalised insights will appear here."
           />
         ) : (

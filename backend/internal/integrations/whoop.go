@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/config"
+	"lume/backend/internal/config"
 )
 
 // Whoop is the WHOOP OAuth provider. Docs: https://developer.whoop.com.

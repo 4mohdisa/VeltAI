@@ -3,7 +3,7 @@ package cuisine
 import (
 	"context"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // Food is a reference nutrition entry, per 100g for calories/macros.

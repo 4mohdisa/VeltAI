@@ -10,8 +10,8 @@ import (
 	"net/http"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/httpx"
 )
 
 // Event is one validated analytics event, ready for storage.

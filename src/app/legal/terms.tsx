@@ -20,13 +20,13 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Agreement and acceptance',
     body: [
-      'By downloading, accessing or using Lumo, you agree to be bound by these Terms. If you do not agree, do not use the app.',
+      'By downloading, accessing or using Lume, you agree to be bound by these Terms. If you do not agree, do not use the app.',
     ],
   },
   {
     heading: 'Who we are',
     pending: true,
-    body: [`${AWAITING} It will identify the entity that operates Lumo.`],
+    body: [`${AWAITING} It will identify the entity that operates Lume.`],
   },
   {
     heading: 'Eligibility and your account',
@@ -39,14 +39,14 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'The service',
     body: [
-      'Lumo logs food by search, barcode, nutrition-label photograph, meal photograph, quick add, saved meals and recipes; logs gym sessions against a weekly schedule and templates; computes energy expenditure from published ACSM metabolic equations for treadmill, cycling, rowing and stair climbing, and a MET estimate elsewhere; reconciles calories in against your basal metabolic rate plus logged exercise; and generates written insights from your own logged data.',
+      'Lume logs food by search, barcode, nutrition-label photograph, meal photograph, quick add, saved meals and recipes; logs gym sessions against a weekly schedule and templates; computes energy expenditure from published ACSM metabolic equations for treadmill, cycling, rowing and stair climbing, and a MET estimate elsewhere; reconciles calories in against your basal metabolic rate plus logged exercise; and generates written insights from your own logged data.',
       'Estimates produced from a photograph are estimates. Each one carries a confidence score rather than being presented as certain.',
     ],
   },
   {
     heading: 'Health disclaimer',
     body: [
-      'Lumo provides general nutrition and fitness information. It is not medical advice, it is not a medical device, and it does not diagnose, treat, cure or prevent any condition.',
+      'Lume provides general nutrition and fitness information. It is not medical advice, it is not a medical device, and it does not diagnose, treat, cure or prevent any condition.',
       'Always consult a qualified healthcare professional before making decisions about your diet, exercise, medication or health — particularly if you are pregnant or nursing, are under 18, or have a medical condition or a history of disordered eating. Never disregard professional medical advice, or delay seeking it, because of something you read in the app.',
       'If you think you may have a medical emergency, contact your doctor or your local emergency service immediately.',
       'Calorie and macro targets are calculated from standard published formulas using the information you provide. They are a starting point, not a prescription. You rely on the app’s estimates and insights at your own risk.',
@@ -55,7 +55,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Subscriptions and billing',
     body: [
-      'Lumo Pro is an optional auto-renewing subscription purchased through Apple’s in-app purchase system. Payment is charged to your Apple ID, and we never receive your payment details.',
+      'Lume Pro is an optional auto-renewing subscription purchased through Apple’s in-app purchase system. Payment is charged to your Apple ID, and we never receive your payment details.',
       `New subscribers get a ${TRIAL_DAYS}-day free trial.`,
       'Apple shows you the exact price, the billing period and the renewal terms before you confirm. Subscriptions renew automatically unless auto-renew is turned off at least 24 hours before the end of the current period. You can manage or cancel a subscription at any time in your Apple ID subscription settings. Refunds are handled by Apple under its own policies.',
     ],
@@ -90,7 +90,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Third-party services',
     body: [
-      'Lumo relies on Clerk, Supabase, RevenueCat, Google Gemini and Anthropic, and on Strava and WHOOP if you connect them. Each is described in the Privacy Policy and is governed by its own terms.',
+      'Lume relies on Clerk, Supabase, RevenueCat, Google Gemini and Anthropic, and on Strava and WHOOP if you connect them. Each is described in the Privacy Policy and is governed by its own terms.',
     ],
   },
   {
@@ -132,7 +132,7 @@ export default function TermsScreen(): JSX.Element {
     <LegalScreen
       title="Terms of Service"
       updated={UPDATED}
-      intro="The agreement between you and Lumo, and the limits of what the app claims to do. These terms are a working draft and have not been reviewed by an Australian lawyer."
+      intro="The agreement between you and Lume, and the limits of what the app claims to do. These terms are a working draft and have not been reviewed by an Australian lawyer."
       sections={SECTIONS}
     />
   );

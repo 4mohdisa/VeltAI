@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/food"
+	"lume/backend/internal/food"
 )
 
 // --- A) cuisine ranking -----------------------------------------------------

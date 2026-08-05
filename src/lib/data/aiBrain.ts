@@ -151,7 +151,7 @@ export function useAIQuery(): {
         const granted = await ensureAiConsent();
         return granted
           ? 'Thanks — ask me that again and I can answer now.'
-          : 'Ask Lumo needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy.';
+          : 'Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy.';
       }
       // 503 carries the server's own explanation ("could not verify your
       // subscription — try again shortly"). Surfacing the generic unavailable

@@ -11,8 +11,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/entitlement"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/entitlement"
 )
 
 type fakeSubs struct {

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"lumo/backend/internal/food"
+	"lume/backend/internal/food"
 )
 
 // rankingFixture returns three OFF-only results (so search returns them in

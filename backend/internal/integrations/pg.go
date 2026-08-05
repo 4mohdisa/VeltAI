@@ -9,7 +9,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // PGStore is the Postgres Store.

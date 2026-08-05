@@ -11,7 +11,7 @@
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { api } from '@/lib/api';
 
-export const AI_CONSENT_KEY = 'lumo.aiConsent';
+export const AI_CONSENT_KEY = 'lume.aiConsent';
 
 let cached: boolean | null = null;
 
@@ -30,7 +30,7 @@ export async function ensureAiConsent(): Promise<boolean> {
   const { Alert } = require('react-native') as typeof import('react-native');
   return new Promise((resolve) => {
     Alert.alert(
-      'Lumo uses AI partners',
+      'Lume uses AI partners',
       'Meal photos are analyzed by Google Gemini, and your logged data is summarized by Anthropic, to power scanning and insights. They process your data only to provide the feature — details in the Privacy Policy (Settings → Privacy).',
       [
         { text: 'Not now', style: 'cancel', onPress: () => resolve(false) },

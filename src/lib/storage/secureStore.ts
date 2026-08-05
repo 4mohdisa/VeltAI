@@ -3,13 +3,13 @@
 import * as SecureStore from 'expo-secure-store';
 
 export const STORAGE_KEYS = {
-  hasCompletedOnboarding: 'veltai.hasCompletedOnboarding',
+  hasCompletedOnboarding: 'lume.hasCompletedOnboarding',
   // One-time capture tips (Phase C) — dismissed once, remembered forever.
-  forkPromptDismissed: 'veltai.forkPromptDismissed',
-  labelPromptDismissed: 'veltai.labelPromptDismissed',
+  forkPromptDismissed: 'lume.forkPromptDismissed',
+  labelPromptDismissed: 'lume.labelPromptDismissed',
   // Analytics opt-out ('0' = opted out). Persisted so the privacy choice
   // survives restarts AND sign-outs — the in-memory settings store does not.
-  analyticsEnabled: 'veltai.analyticsEnabled',
+  analyticsEnabled: 'lume.analyticsEnabled',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

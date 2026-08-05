@@ -18,8 +18,8 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/config"
+	"lume/backend/internal/httpx"
 )
 
 type ctxKey struct{}

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"lumo/backend/internal/config"
+	"lume/backend/internal/config"
 )
 
 func setEnv(t *testing.T, kv map[string]string) {
@@ -19,10 +19,10 @@ func setEnv(t *testing.T, kv map[string]string) {
 // A production-shaped environment with everything required present.
 func prodEnv(t *testing.T) {
 	setEnv(t, map[string]string{
-		"LUMO_ENV":             "production",
+		"LUME_ENV":             "production",
 		"DATABASE_URL":         "postgres://x/y",
 		"CLERK_SECRET_KEY":     "sk_live_x",
-		"LUMO_BASE_URL":        "https://api.example.com",
+		"LUME_BASE_URL":        "https://api.example.com",
 		"CLERK_ISSUER":         "https://clerk.example.com",
 		"CLERK_WEBHOOK_SECRET": "whsec_x", "REVENUECAT_WEBHOOK_AUTH": "rc",
 		"INTEGRATION_ENCRYPTION_KEY": "k", "GEMINI_API_KEY": "g", "ANTHROPIC_API_KEY": "a",
@@ -58,13 +58,13 @@ func TestValidateFatalOnMissingDatabaseURL(t *testing.T) {
 	}
 }
 
-// A production deploy that forgets LUMO_BASE_URL would otherwise come up with a
+// A production deploy that forgets LUME_BASE_URL would otherwise come up with a
 // localhost CORS allowlist and a localhost OAuth redirect_uri.
 func TestValidateFatalOnLocalhostBaseURLInProduction(t *testing.T) {
 	prodEnv(t)
-	t.Setenv("LUMO_BASE_URL", "http://localhost:8080")
+	t.Setenv("LUME_BASE_URL", "http://localhost:8080")
 	fatal, _ := config.Validate()
-	if !containsSubstr(fatal, "LUMO_BASE_URL") {
+	if !containsSubstr(fatal, "LUME_BASE_URL") {
 		t.Fatalf("localhost base URL must be FATAL in production; got %v", fatal)
 	}
 }
@@ -87,23 +87,23 @@ func TestCORSOriginsExcludeLocalhostInProduction(t *testing.T) {
 		}
 	}
 	// ...but development keeps it, or the Expo web client breaks.
-	t.Setenv("LUMO_ENV", "development")
+	t.Setenv("LUME_ENV", "development")
 	if !containsSubstr(config.CORSOrigins(), "localhost:8081") {
 		t.Error("development should still allow the Expo web dev origin")
 	}
 }
 
 func TestEnvIntAndBoolFallBackOnGarbage(t *testing.T) {
-	t.Setenv("LUMO_TEST_INT", "not-a-number")
-	if got := config.EnvInt("LUMO_TEST_INT", 7); got != 7 {
+	t.Setenv("LUME_TEST_INT", "not-a-number")
+	if got := config.EnvInt("LUME_TEST_INT", 7); got != 7 {
 		t.Errorf("EnvInt garbage = %d, want the fallback 7 (a typo'd limit must not become 0)", got)
 	}
-	t.Setenv("LUMO_TEST_BOOL", "maybe")
-	if got := config.EnvBool("LUMO_TEST_BOOL", true); !got {
+	t.Setenv("LUME_TEST_BOOL", "maybe")
+	if got := config.EnvBool("LUME_TEST_BOOL", true); !got {
 		t.Error("EnvBool garbage should fall back, not silently disable a control")
 	}
-	t.Setenv("LUMO_TEST_BOOL", "false")
-	if config.EnvBool("LUMO_TEST_BOOL", true) {
+	t.Setenv("LUME_TEST_BOOL", "false")
+	if config.EnvBool("LUME_TEST_BOOL", true) {
 		t.Error("EnvBool should honour an explicit false")
 	}
 }

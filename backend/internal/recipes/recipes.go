@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/httpx"
 )
 
 var ErrNotFound = errors.New("not found")

@@ -18,7 +18,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"lumo/backend/internal/auth"
+	"lume/backend/internal/auth"
 )
 
 type fakeStore struct {

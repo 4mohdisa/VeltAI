@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"lumo/backend/internal/energy"
+	"lume/backend/internal/energy"
 )
 
 // ---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-// TypingIndicator — three dots that pulse in sequence while Lumo "thinks".
+// TypingIndicator — three dots that pulse in sequence while Lume "thinks".
 // Each dot scales 0.6→1→0.6 on a loop, offset 200ms apart. Reduce-motion aware
 // (three static dots, no animation).
 import { useEffect, useState } from 'react';
@@ -31,7 +31,7 @@ export function TypingIndicator(props?: { color?: string }): JSX.Element {
   return (
     <View
       style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}
-      accessibilityLabel="Lumo is typing"
+      accessibilityLabel="Lume is typing"
     >
       {dots.map((d, i) => (
         <Animated.View

@@ -13,9 +13,9 @@
      { kind: 'verified' }  A fact derived from the codebase, true on this branch,
                            carrying the file that proves it. Safe to keep.
 
-   WHY SO STRICT: Lumo collects health information, which is sensitive
+   WHY SO STRICT: Lume collects health information, which is sensitive
    information under the Privacy Act 1988 (Cth). A policy that states or implies
-   a consent basis Lumo has not obtained is worse than one with an obvious gap —
+   a consent basis Lume has not obtained is worse than one with an obvious gap —
    it becomes a documented false representation. So nothing here asserts a legal
    fact about the entity, its consent mechanism, its retention periods or its
    compliance posture. Those are all TODO, on purpose.
@@ -36,7 +36,7 @@ export const DRAFT = true;
 
 export const DRAFT_NOTICE =
   'This policy is a working draft and has not been reviewed by an Australian privacy lawyer. ' +
-  'Lumo collects health information, which is sensitive information under the Privacy Act 1988 (Cth). ' +
+  'Lume collects health information, which is sensitive information under the Privacy Act 1988 (Cth). ' +
   'Do not rely on this document.';
 
 export type Block =
@@ -68,7 +68,7 @@ export const PRIVACY: Section[] = [
     heading: 'Who we are',
     blocks: [
       todo(
-        'The legal entity that operates Lumo: registered company or business name, ABN or ACN, ' +
+        'The legal entity that operates Lume: registered company or business name, ABN or ACN, ' +
           'registered address, and the contact point for privacy matters. Nothing in this repository ' +
           'identifies the operating entity, so none of it can be stated here.',
       ),
@@ -144,11 +144,11 @@ export const PRIVACY: Section[] = [
       ),
       v(
         'Purchase information: whether you hold an active subscription, and its status and expiry. ' +
-          'Payment details are handled by Apple and are never received by Lumo.',
+          'Payment details are handled by Apple and are never received by Lume.',
         'backend/internal/subscription/ (status, expiry); purchases are Apple in-app purchases',
       ),
       p(
-        'Lumo collects health information. That is stated plainly here because it is the fact that ' +
+        'Lume collects health information. That is stated plainly here because it is the fact that ' +
           'determines how the rest of this policy must work.',
       ),
     ],
@@ -176,7 +176,7 @@ export const PRIVACY: Section[] = [
           'until you accept. The acknowledgement is stored ON YOUR DEVICE. It covers sharing with those ' +
           'two AI processors — it is not a general consent to collect health information, and it is not ' +
           'recorded on our servers.',
-        'src/lib/ai/consent.ts:19-43 (ensureAiConsent — device-local, secure-store key lumo.aiConsent)',
+        'src/lib/ai/consent.ts:19-43 (ensureAiConsent — device-local, secure-store key lume.aiConsent)',
       ),
       todo(
         'A server-side consent record does not exist on this branch. `grep -rn consent backend/` returns ' +
@@ -215,7 +215,7 @@ export const PRIVACY: Section[] = [
     id: 'disclosure',
     heading: 'Who we disclose it to',
     blocks: [
-      p('Lumo uses the following processors. Each receives only what its function requires.'),
+      p('Lume uses the following processors. Each receives only what its function requires.'),
       vList(
         'Always, as part of running the service:',
         [
@@ -242,7 +242,7 @@ export const PRIVACY: Section[] = [
         'backend/internal/integrations/strava.go, whoop.go — note: neither is operational today; no OAuth application is registered, so connecting returns 503',
       ),
       v(
-        'Lumo does not sell personal information, does not disclose health information for advertising, ' +
+        'Lume does not sell personal information, does not disclose health information for advertising, ' +
           'and contains no advertising SDK and no third-party tracking SDK.',
         'package.json (no ad/analytics dependency); src/lib/analytics.ts (first-party only)',
       ),
@@ -273,7 +273,7 @@ export const PRIVACY: Section[] = [
       todo(
         'For each of Clerk, Supabase, RevenueCat, Google (Gemini), Anthropic, Strava and WHOOP: the ' +
           'country or countries in which it stores and processes data, and the Supabase project region ' +
-          'in particular. Then the APP 8 statement itself, including whether Lumo takes reasonable steps ' +
+          'in particular. Then the APP 8 statement itself, including whether Lume takes reasonable steps ' +
           'to ensure overseas recipients comply, or relies on an exception.',
       ),
     ],
@@ -293,7 +293,7 @@ export const PRIVACY: Section[] = [
         'supabase/migrations/*.sql (enable row level security across 8 migrations); backend/internal/auth/middleware.go; backend/internal/integrations/crypto.go:26-33',
       ),
       v(
-        'Meal and nutrition-label photographs are NOT retained by Lumo. The scan record keeps a quality ' +
+        'Meal and nutrition-label photographs are NOT retained by Lume. The scan record keeps a quality ' +
           'score and the geometry derived from the image, not the image itself. The photograph is, ' +
           'however, transmitted in full to Google Gemini in order to be analysed, and what happens to it ' +
           'there is governed by Google’s terms.',
@@ -312,7 +312,7 @@ export const PRIVACY: Section[] = [
     heading: 'Access and correction',
     blocks: [
       v(
-        'You can export everything Lumo holds about you from within the app. The export returns every ' +
+        'You can export everything Lume holds about you from within the app. The export returns every ' +
           'row you own as a single machine-readable document.',
         'backend/internal/auth/export.go:80-84 (GET /api/export)',
       ),
@@ -359,7 +359,7 @@ export const PRIVACY: Section[] = [
       todo(
         'Required by APP 1.4 and currently absent entirely. Needed: how to complain about a privacy ' +
           'breach, who receives the complaint, the timeframe for acknowledging and resolving it, and the ' +
-          'escalation path to the Office of the Australian Information Commissioner. Also whether Lumo ' +
+          'escalation path to the Office of the Australian Information Commissioner. Also whether Lume ' +
           'is covered by the Notifiable Data Breaches scheme and how a notifiable breach would be ' +
           'handled.',
       ),
@@ -399,7 +399,7 @@ export const PRIVACY: Section[] = [
     heading: 'Children',
     blocks: [
       todo(
-        'The minimum age for using Lumo and how it is enforced. Note the two documents currently ' +
+        'The minimum age for using Lume and how it is enforced. Note the two documents currently ' +
           'disagree with the code: the Terms of Service state a minimum age of 16, and nothing in the ' +
           'application asks for or verifies age at sign-up. Decide the age, decide the enforcement, then ' +
           'make the app, the Terms and this policy agree.',
@@ -468,7 +468,7 @@ export const TERMS: Section[] = [
     heading: 'The service',
     blocks: [
       vList(
-        'What Lumo does, described from the source rather than from marketing copy:',
+        'What Lume does, described from the source rather than from marketing copy:',
         [
           'Logs food by search, barcode, nutrition-label photograph, meal photograph, quick add, saved meals and recipes.',
           'Estimates the contents of a photographed meal and attaches a confidence score to that estimate. Two or three camera angles are compared against each other, and disagreement is surfaced rather than averaged away.',
@@ -500,7 +500,7 @@ export const TERMS: Section[] = [
       // in-app terms screen), and leaving a health disclaimer as a placeholder
       // would be worse than stating it.
       p(
-        'Lumo provides general nutrition and fitness information. It is not medical advice, it is not a ' +
+        'Lume provides general nutrition and fitness information. It is not medical advice, it is not a ' +
           'medical device, and it does not diagnose, treat, cure or prevent any condition.',
       ),
       p(
@@ -531,8 +531,8 @@ export const TERMS: Section[] = [
     heading: 'Subscriptions and billing',
     blocks: [
       v(
-        'Lumo Pro is an auto-renewing subscription purchased through Apple’s in-app purchase system. ' +
-          'Payment is charged to your Apple ID, and Lumo never receives your payment details.',
+        'Lume Pro is an auto-renewing subscription purchased through Apple’s in-app purchase system. ' +
+          'Payment is charged to your Apple ID, and Lume never receives your payment details.',
         'src/lib/billing/purchases.ts (RevenueCat over StoreKit); src/app/onboarding/paywall.tsx (hosted paywall)',
       ),
       v(
@@ -545,7 +545,7 @@ export const TERMS: Section[] = [
           'purchase. Subscriptions renew automatically unless auto-renew is turned off at least 24 hours ' +
           'before the end of the current period. You can view, change or cancel a subscription at any ' +
           'time in your Apple ID subscription settings; cancelling stops future renewals. Refunds are ' +
-          'handled by Apple under its own policies, not by Lumo.',
+          'handled by Apple under its own policies, not by Lume.',
       ),
       todo(
         'DO NOT STATE A PRICE HERE UNTIL ONE IS CONFIGURED. No subscription product exists in App Store ' +
@@ -576,10 +576,10 @@ export const TERMS: Section[] = [
         'The daily photograph-scan allowance is a configuration value, not a fixed number, so this ' +
           'document deliberately does not state one. The app shows you the current allowance and what ' +
           'remains of it.',
-        'backend/internal/entitlement/entitlement.go:72 (FreeScansPerDay, env LUMO_FREE_SCANS_PER_DAY, default 3)',
+        'backend/internal/entitlement/entitlement.go:72 (FreeScansPerDay, env LUME_FREE_SCANS_PER_DAY, default 3)',
       ),
       todo(
-        'Whether Lumo reserves the right to change the free allowance, and what notice is given if it ' +
+        'Whether Lume reserves the right to change the free allowance, and what notice is given if it ' +
           'is reduced.',
       ),
     ],
@@ -601,13 +601,13 @@ export const TERMS: Section[] = [
     heading: 'Your content',
     blocks: [
       todo(
-        'Ownership of the content you create, and the precise licence Lumo needs in order to operate — ' +
+        'Ownership of the content you create, and the precise licence Lume needs in order to operate — ' +
           'in particular the licence to transmit a meal photograph to a third-party AI processor for ' +
           'analysis, which is narrower than a general content licence and should be drafted as such. ' +
           'State explicitly whether content may be used to train models.',
       ),
       v(
-        'Factually: photographs are sent to Google Gemini for analysis and are not retained by Lumo ' +
+        'Factually: photographs are sent to Google Gemini for analysis and are not retained by Lume ' +
           'afterwards. Only a quality score and derived geometry are stored.',
         'supabase/migrations/20260719000001_multi_capture.sql:16-23; backend/internal/scan/pipeline/gemini.go',
       ),
@@ -630,15 +630,15 @@ export const TERMS: Section[] = [
     heading: 'Third-party services',
     blocks: [
       v(
-        'Lumo relies on Clerk for authentication, Supabase for database hosting, RevenueCat for ' +
+        'Lume relies on Clerk for authentication, Supabase for database hosting, RevenueCat for ' +
           'subscription management, Google Gemini for photograph analysis, and Anthropic for the wording ' +
           'of insights. Strava and WHOOP are used only if you connect them yourself. Each is described ' +
           'in more detail in the privacy policy.',
         'backend/cmd/server/main.go; see the privacy policy disclosure section',
       ),
       todo(
-        'That each third-party service is governed by its own terms, that Lumo is not responsible for ' +
-          'them, and what happens to your use of Lumo if one becomes unavailable.',
+        'That each third-party service is governed by its own terms, that Lume is not responsible for ' +
+          'them, and what happens to your use of Lume if one becomes unavailable.',
       ),
     ],
   },
@@ -665,7 +665,7 @@ export const TERMS: Section[] = [
         'backend/internal/auth/profile.go:156-172',
       ),
       todo(
-        'The grounds on which Lumo may suspend or terminate an account, whether notice is given, what ' +
+        'The grounds on which Lume may suspend or terminate an account, whether notice is given, what ' +
           'happens to an active subscription on termination, and which clauses survive.',
       ),
     ],

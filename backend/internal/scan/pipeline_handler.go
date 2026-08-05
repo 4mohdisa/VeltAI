@@ -9,11 +9,11 @@ import (
 	"net/http"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/httpx"
-	"lumo/backend/internal/scan/pipeline"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/db"
+	"lume/backend/internal/httpx"
+	"lume/backend/internal/scan/pipeline"
 )
 
 // maxImageBytes caps a decoded scan image (15 MB) — beyond any real phone
@@ -299,13 +299,13 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 	// work. Slots are acquired BEFORE any row is written (no orphan 'analyzing'
 	// rows) and never queued — a full pool answers 503 immediately.
 	// ponytail: per-registration channel rather than a package global, so tests
-	// can size it via LUMO_SCAN_CONCURRENCY; main.go registers exactly once.
-	concurrency := config.EnvInt("LUMO_SCAN_CONCURRENCY", 4)
+	// can size it via LUME_SCAN_CONCURRENCY; main.go registers exactly once.
+	concurrency := config.EnvInt("LUME_SCAN_CONCURRENCY", 4)
 	if concurrency < 1 {
 		concurrency = 1
 	}
 	sem := make(chan struct{}, concurrency)
-	runTimeout := time.Duration(config.EnvInt("LUMO_SCAN_TIMEOUT_SEC", 120)) * time.Second
+	runTimeout := time.Duration(config.EnvInt("LUME_SCAN_TIMEOUT_SEC", 120)) * time.Second
 
 	mux.HandleFunc("POST /api/scan/pipeline", func(w http.ResponseWriter, r *http.Request) {
 		// Accepts EITHER the original single-image body (backward compatible)

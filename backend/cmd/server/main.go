@@ -8,24 +8,24 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/ai"
-	"lumo/backend/internal/analytics"
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/cuisine"
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/energy"
-	"lumo/backend/internal/entitlement"
-	"lumo/backend/internal/food"
-	"lumo/backend/internal/goals"
-	"lumo/backend/internal/gym"
-	"lumo/backend/internal/httpx"
-	"lumo/backend/internal/integrations"
-	"lumo/backend/internal/ratelimit"
-	"lumo/backend/internal/recipes"
-	"lumo/backend/internal/scan"
-	"lumo/backend/internal/scan/pipeline"
-	"lumo/backend/internal/subscription"
+	"lume/backend/internal/ai"
+	"lume/backend/internal/analytics"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/cuisine"
+	"lume/backend/internal/db"
+	"lume/backend/internal/energy"
+	"lume/backend/internal/entitlement"
+	"lume/backend/internal/food"
+	"lume/backend/internal/goals"
+	"lume/backend/internal/gym"
+	"lume/backend/internal/httpx"
+	"lume/backend/internal/integrations"
+	"lume/backend/internal/ratelimit"
+	"lume/backend/internal/recipes"
+	"lume/backend/internal/scan"
+	"lume/backend/internal/scan/pipeline"
+	"lume/backend/internal/subscription"
 )
 
 // version is set at build time via -ldflags. It is NOT exposed on any
@@ -147,7 +147,7 @@ func main() {
 		WriteTimeout:      60 * time.Second,
 		IdleTimeout:       120 * time.Second,
 	}
-	log.Printf("lumo backend %s listening on %s (%s)", version, config.Addr(), config.BaseURL())
+	log.Printf("lume backend %s listening on %s (%s)", version, config.Addr(), config.BaseURL())
 	log.Fatal(srv.ListenAndServe())
 }
 

@@ -14,7 +14,7 @@ export default function AboutScreen() {
     <Screen grouped title="About" showBack>
       <View style={{ alignItems: 'center', gap: space.xs, paddingVertical: space.xl }}>
         <Text variant="title1" color={color.black}>
-          Lumo
+          Lume
         </Text>
         <Text variant="footnote" color={color.gray500}>
           Make going to the gym the easy choice.
@@ -25,7 +25,7 @@ export default function AboutScreen() {
         rows={[
           { icon: 'pricetag-outline', label: 'Version', value: APP_VERSION, kind: 'plain' },
           { icon: 'construct-outline', label: 'Build', value: BUILD_NUMBER, kind: 'plain' },
-          { icon: 'people-outline', label: 'Credits', value: 'Lumo team', kind: 'plain' },
+          { icon: 'people-outline', label: 'Credits', value: 'Lume team', kind: 'plain' },
         ]}
       />
     </Screen>

@@ -1,7 +1,7 @@
 // Task 6 · Scan calibration transparency
-// Shows the user how Lumo is learning their portion sizes: total/corrected scans,
+// Shows the user how Lume is learning their portion sizes: total/corrected scans,
 // an accuracy score derived from the average correction magnitude, the per-food
-// multipliers Lumo has learned, and which foods it tends to under/over-estimate.
+// multipliers Lume has learned, and which foods it tends to under/over-estimate.
 // Best-effort + offline-safe: a failed fetch degrades to an educational empty
 // state, never a crash. Literal English copy here to keep the shared en.json lean.
 import { useEffect, useState } from 'react';
@@ -85,7 +85,7 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
       <EmptyState
         icon="camera"
         title="No scans yet"
-        message="Log your first photo scan to start teaching Lumo your portion sizes."
+        message="Log your first photo scan to start teaching Lume your portion sizes."
       />
     );
   }
@@ -103,7 +103,7 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
           <Text variant="body" color={color.label}>{`Total scans: ${summary.total_scans}`}</Text>
           <Text variant="body" color={color.label}>{`Corrected: ${summary.corrected_count} (${correctedPct}%)`}</Text>
           <Text variant="footnote" color={color.gray500}>
-            Lumo is learning your portions
+            Lume is learning your portions
           </Text>
         </View>
       </Card>

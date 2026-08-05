@@ -6,7 +6,7 @@ import { DRAFT, TERMS } from '@/lib/legal';
 export const metadata: Metadata = {
   title: 'Terms of service',
   description:
-    'The terms that govern your use of Lumo: what the service does, the health disclaimer, subscriptions billed through Apple, and your rights under Australian Consumer Law.',
+    'The terms that govern your use of Lume: what the service does, the health disclaimer, subscriptions billed through Apple, and your rights under Australian Consumer Law.',
   alternates: { canonical: '/terms/' },
 };
 
@@ -16,7 +16,7 @@ export default function TermsPage() {
   return (
     <LegalPage
       title="Terms of service"
-      intro="The agreement between you and Lumo, and the limits of what the app claims to do."
+      intro="The agreement between you and Lume, and the limits of what the app claims to do."
       sections={TERMS}
       notice={
         DRAFT ? (

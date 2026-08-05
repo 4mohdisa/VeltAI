@@ -6,7 +6,7 @@ import { DRAFT, DRAFT_NOTICE, PRIVACY } from '@/lib/legal';
 export const metadata: Metadata = {
   title: 'Privacy policy',
   description:
-    'What Lumo collects, including health information; which processors receive it; how it is secured; and how to delete it. A working draft pending legal review.',
+    'What Lume collects, including health information; which processors receive it; how it is secured; and how to delete it. A working draft pending legal review.',
   alternates: { canonical: '/privacy/' },
 };
 
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage
       title="Privacy policy"
-      intro="What Lumo collects, why, who else sees it, and what you can do about it."
+      intro="What Lume collects, why, who else sees it, and what you can do about it."
       sections={PRIVACY}
       notice={
         DRAFT ? (

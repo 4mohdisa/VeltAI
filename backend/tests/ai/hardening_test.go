@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/ai"
+	"lume/backend/internal/ai"
 )
 
 // newService builds a service whose clock the caller can move, so day-boundary
@@ -21,7 +21,7 @@ func newService(st *fakeStore, llm ai.LLM, now *time.Time) *http.ServeMux {
 }
 
 // A question is concatenated into a paid prompt, so it is capped in RUNES at
-// LUMO_MAX_QUESTION_CHARS (default 500). 500 passes, 501 is rejected — and
+// LUME_MAX_QUESTION_CHARS (default 500). 500 passes, 501 is rejected — and
 // rejection means 400, never a silently truncated question.
 func TestQuestionLengthCapIsCountedInRunes(t *testing.T) {
 	// Multibyte: 500 runes is 1000 bytes, so a byte-length cap would reject it.
@@ -54,11 +54,11 @@ func TestQuestionLengthCapIsCountedInRunes(t *testing.T) {
 }
 
 func TestQuestionCapIsConfigurable(t *testing.T) {
-	t.Setenv("LUMO_MAX_QUESTION_CHARS", "10")
+	t.Setenv("LUME_MAX_QUESTION_CHARS", "10")
 	w := do(t, newMux(fullStore(), &fakeLLM{resp: "x"}, fixedNow), "POST", "/api/ai/query",
 		map[string]string{"question": strings.Repeat("a", 11)}, "user_1")
 	if w.Code != http.StatusBadRequest {
-		t.Errorf("status = %d, want 400 with LUMO_MAX_QUESTION_CHARS=10", w.Code)
+		t.Errorf("status = %d, want 400 with LUME_MAX_QUESTION_CHARS=10", w.Code)
 	}
 }
 
@@ -99,11 +99,11 @@ func TestMorningBriefCachedPerDay(t *testing.T) {
 	}
 }
 
-// The day key follows LUMO_TIMEZONE, not the server zone: 2026-07-04 09:00 UTC
+// The day key follows LUME_TIMEZONE, not the server zone: 2026-07-04 09:00 UTC
 // is still 2026-07-03 in Midway (UTC-11), so a 3h jump crosses the boundary
 // there while staying inside the same UTC day.
 func TestMorningBriefCacheDayFollowsConfiguredTimezone(t *testing.T) {
-	t.Setenv("LUMO_TIMEZONE", "Pacific/Midway")
+	t.Setenv("LUME_TIMEZONE", "Pacific/Midway")
 	llm := &fakeLLM{resp: "Solid day yesterday."}
 	now := fixedNow // 2026-07-03 22:00 Midway
 	mux := newService(fullStore(), llm, &now)

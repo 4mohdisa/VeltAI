@@ -74,7 +74,7 @@ func TestCheckImageBounds_EnvTunable(t *testing.T) {
 	if err := CheckImageBounds(small); err != nil {
 		t.Fatalf("32x32 rejected: %v", err)
 	}
-	t.Setenv("LUMO_MAX_IMAGE_PIXELS", "100")
+	t.Setenv("LUME_MAX_IMAGE_PIXELS", "100")
 	if err := CheckImageBounds(small); err != ErrImageTooLarge {
 		t.Fatalf("with a 100px budget, 1024px must be rejected, got %v", err)
 	}
@@ -94,7 +94,7 @@ func zeroQuality(q QualityResult) bool {
 const panicMagic = "PANICIMG"
 
 func init() {
-	image.RegisterFormat("lumopanic", panicMagic,
+	image.RegisterFormat("lumepanic", panicMagic,
 		func(io.Reader) (image.Image, error) { panic("boom: decoder bug") },
 		func(io.Reader) (image.Config, error) {
 			return image.Config{ColorModel: color.RGBAModel, Width: 8, Height: 8}, nil

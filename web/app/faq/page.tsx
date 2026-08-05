@@ -6,13 +6,13 @@ import { ALL } from '@/lib/faq';
 export const metadata: Metadata = {
   title: 'FAQ',
   description:
-    'Honest answers about Lumo: how accurate photo calorie estimates really are, how scanning works, what leaves your phone, what it costs, and what it does not do yet.',
+    'Honest answers about Lume: how accurate photo calorie estimates really are, how scanning works, what leaves your phone, what it costs, and what it does not do yet.',
   alternates: { canonical: '/faq/' },
 };
 
 /* Content lives in lib/faq.ts so this page and the home page cannot drift.
    The previous version of this page carried five claims the app does not
-   support. Two mattered: it said Lumo syncs with Apple Health (there is no
+   support. Two mattered: it said Lume syncs with Apple Health (there is no
    HealthKit integration of any kind — the seam in the app is a null module
    whose only importer is its own unit test), and it said every result shows a
    calorie RANGE (nothing in the app computes or displays an interval). It also

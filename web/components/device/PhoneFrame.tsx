@@ -81,7 +81,7 @@ function screenPath(): string {
 }
 
 const SCREEN_PATH = screenPath();
-const CLIP_ID = 'lumo-screen-clip';
+const CLIP_ID = 'lume-screen-clip';
 
 /** One-per-document clip path definition. Rendered by the frame itself; a
  *  second frame on the page reuses the same id harmlessly. */

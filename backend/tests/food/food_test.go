@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/food"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/food"
 )
 
 type cuisinePrefEntry struct{ cuisines, dietary []string }
@@ -290,11 +290,11 @@ func TestCreateLogNegativeCalories(t *testing.T) {
 }
 
 // FIX #5 regression: createLog must default an omitted date via
-// config.Today() (LUMO_TIMEZONE-aware), not raw time.Now().UTC(). Comparing
+// config.Today() (LUME_TIMEZONE-aware), not raw time.Now().UTC(). Comparing
 // against config.Today() itself (rather than a pinned date string) keeps the
 // assertion deterministic regardless of the wall-clock moment the test runs.
 func TestCreateLogDefaultsDateViaConfigToday(t *testing.T) {
-	t.Setenv("LUMO_TIMEZONE", "Pacific/Kiritimati") // UTC+14, exercises the non-UTC path
+	t.Setenv("LUME_TIMEZONE", "Pacific/Kiritimati") // UTC+14, exercises the non-UTC path
 	rr := do(t, newMux(&fakeStore{}, nil), "POST", "/api/food/logs", "user_1",
 		map[string]any{"food_name": "Egg", "calories": 78})
 	if rr.Code != http.StatusCreated {
@@ -430,7 +430,7 @@ func TestSummaryZerosWhenNoLogs(t *testing.T) {
 // TestCreateLogDefaultsDateViaConfigToday for why comparing against
 // config.Today() itself is the deterministic assertion.
 func TestSummaryDefaultsDateViaConfigToday(t *testing.T) {
-	t.Setenv("LUMO_TIMEZONE", "Pacific/Kiritimati")
+	t.Setenv("LUME_TIMEZONE", "Pacific/Kiritimati")
 	rr := do(t, newMux(&fakeStore{}, nil), "GET", "/api/food/summary", "user_1", nil)
 	if rr.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())

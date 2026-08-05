@@ -16,8 +16,8 @@ import (
 	_ "time/tzdata" // timezone tests must not depend on the host's zoneinfo
 	"unicode/utf8"
 
-	"lumo/backend/internal/ai"
-	"lumo/backend/internal/auth"
+	"lume/backend/internal/ai"
+	"lume/backend/internal/auth"
 )
 
 type storedIns struct {
@@ -518,7 +518,7 @@ func TestMorningBriefLLMTruncated(t *testing.T) {
 }
 
 func TestMorningBriefUsesConfiguredTimezone(t *testing.T) {
-	t.Setenv("LUMO_TIMEZONE", "Pacific/Midway") // UTC-11
+	t.Setenv("LUME_TIMEZONE", "Pacific/Midway") // UTC-11
 	// fixedNow 2026-07-04 09:00 UTC is 2026-07-03 22:00 in Midway, so
 	// "yesterday" is July 2: 1500 kcal / 60g protein (not July 3's 1000/70).
 	st := fullStore()
@@ -656,7 +656,7 @@ func TestAIRoutesRefuseWithoutConsent(t *testing.T) {
 	}{
 		{"brain rebuild", http.MethodPost, "/api/ai/brain/rebuild", nil},
 		{"morning brief", http.MethodGet, "/api/ai/morning-brief", nil},
-		{"ask lumo", http.MethodPost, "/api/ai/query", map[string]string{"question": "how am I doing?"}},
+		{"ask lume", http.MethodPost, "/api/ai/query", map[string]string{"question": "how am I doing?"}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			st := fullStore()

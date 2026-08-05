@@ -51,7 +51,7 @@ export function useEnergyBalance(date?: string): {
 } {
   // Default to the DEVICE-local date: food logs are stamped with todayISO(),
   // so the balance must ask for the same day — near midnight the server's
-  // calendar (LUMO_TIMEZONE) can be a day off from the user's.
+  // calendar (LUME_TIMEZONE) can be a day off from the user's.
   const day = date ?? todayISO();
   const { data, loading, refetch } = useApi<EnergyBalance>(() => api.energy.getBalance(day), [day]);
   return { balance: data, loading, refetch };

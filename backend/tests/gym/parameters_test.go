@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"testing"
 
-	"lumo/backend/internal/energy"
-	"lumo/backend/internal/gym"
+	"lume/backend/internal/energy"
+	"lume/backend/internal/gym"
 )
 
 // fakeEngine is a hermetic gym.CalorieEngine: it reuses the REAL schemas

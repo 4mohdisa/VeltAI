@@ -244,3 +244,39 @@ in git — this file is not a changelog.
 - **The offline queue's idempotency key is untouched.** It lives in
   `food.CreateLog` / `gym` (the `Idempotency-Key` header path), not in
   `scan.SaveConfirmed`, which the queue never replays.
+
+## The rename to Lume (2026-08-06)
+
+- **The product is `Lume`. The bundle identifier is `fit.lume.app`.** Chosen over
+  `app.lume.lume` because it is the correct reverse-DNS form of `lume.fit`, the
+  domain the product actually owns; `app.lume.lume` only mirrored the old
+  `app.veltai.veltai`, which was itself malformed. **Nothing has been submitted,
+  so this was the last cheap moment to change it** — after the first upload the
+  bundle id is permanent.
+- **`LUMO_*` env vars became `LUME_*`, with the old names still honoured.**
+  `config.lookup()` tries `LUME_X`, falls back to `LUMO_X`, and logs a one-time
+  deprecation warning. Nothing silently reverts to a default because a variable
+  "disappeared" from a deployment. Delete the shim once no environment exports
+  `LUMO_*`.
+- **Secure-store key prefixes moved `veltai.` → `lume.`, with no migration.**
+  There are no production users, so nothing was stranded. **Had there been, this
+  would have signed every user out and reset their onboarding and analytics
+  opt-out flags** — the keys are the storage identity, and renaming them orphans
+  the old values rather than moving them. A real rename after launch needs a
+  read-old-write-new migration on first launch.
+- **The Go module path moved `lumo/backend` → `lume/backend`.** Mechanical and
+  compiler-verified; it is invisible to users but was the last place a third
+  name survived.
+- **Migration file contents and filenames were NOT touched.** `deploy/migrate.sh`
+  stores a SHA-256 of each applied migration and reports `DRIFT` when a file
+  changes afterwards. Editing even a comment in an applied migration would make
+  a correct deployment look corrupted. `supabase/migrations/20260711000001_
+  initial_schema.sql:1` still says "Lumo initial schema" on purpose.
+- **`lumofit@gmail.com` was deliberately left alone.** It is a real mailbox that
+  receives support email; renaming it to `lumefit@` would point support at an
+  address that does not exist. `productName.test.ts` asserts it survives, so
+  nobody "tidies" it into a dead address later.
+- **`src/__tests__/productName.test.ts` fails if `veltai` or `lumo` reappears in
+  `src/`, `web/` or `app.json`** (mailbox excepted). Historical comments were
+  reworded to describe the old bugs without naming the dead schemes, rather than
+  adding a per-line opt-out marker that would erode the guard.

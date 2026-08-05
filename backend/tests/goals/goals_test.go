@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/ai"
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/cuisine"
-	"lumo/backend/internal/goals"
+	"lume/backend/internal/ai"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/cuisine"
+	"lume/backend/internal/goals"
 )
 
 // ---------------------------------------------------------------------------

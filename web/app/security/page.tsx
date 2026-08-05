@@ -5,7 +5,7 @@ import { SUPPORT_EMAIL } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'Security',
   description:
-    'How Lumo protects your data: records scoped to their owner, encrypted tokens, photos never stored, no tracking SDKs, and full deletion.',
+    'How Lume protects your data: records scoped to their owner, encrypted tokens, photos never stored, no tracking SDKs, and full deletion.',
   alternates: { canonical: '/security/' },
 };
 
@@ -16,7 +16,7 @@ export default function SecurityPage() {
         <span className="eyebrow">Security</span>
         <h1 style={{ marginTop: '0.75rem' }}>Your data stays yours</h1>
         <p className="muted" style={{ marginTop: '1rem' }}>
-          Health data deserves more care than most apps give it. Here is, plainly, how Lumo protects
+          Health data deserves more care than most apps give it. Here is, plainly, how Lume protects
           yours.
         </p>
 

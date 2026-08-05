@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/httpx"
 )
 
 var ErrNotFound = errors.New("subscription not found")
@@ -122,7 +122,7 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 	// is deliberately longer than a renewal cycle's retry window so a legitimate
 	// payer is never locked out: any later status event refreshes it, and the
 	// worst case is losing access ~36h after the store stops talking to us.
-	defaultTTL := time.Duration(config.EnvInt("LUMO_SUB_DEFAULT_TTL_HOURS", 36)) * time.Hour
+	defaultTTL := time.Duration(config.EnvInt("LUME_SUB_DEFAULT_TTL_HOURS", 36)) * time.Hour
 	if defaultTTL <= 0 {
 		defaultTTL = 36 * time.Hour
 	}

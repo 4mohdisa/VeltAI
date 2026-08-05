@@ -1,6 +1,6 @@
 {
   "_comment": [
-    "CANONICAL SECTION STRUCTURE for Lumo's legal documents.",
+    "CANONICAL SECTION STRUCTURE for Lume's legal documents.",
     "",
     "This file is the contract between the marketing site (web/lib/legal.ts) and",
     "the in-app screens (src/app/legal/*.tsx). It is read ONLY by checks — never",

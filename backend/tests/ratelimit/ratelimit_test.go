@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/ratelimit"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/ratelimit"
 )
 
 // clock is a hand-cranked time source.

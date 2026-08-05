@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"lumo/backend/internal/food"
+	"lume/backend/internal/food"
 )
 
 // getLog validates the UUID format BEFORE touching the store, and the fake

@@ -20,10 +20,10 @@ export const VERSION_LABEL: string = BUILD_NUMBER ? `${APP_VERSION} (${BUILD_NUM
 
 /**
  * The custom URL scheme this build registers (app.json expo.scheme), used for
- * OAuth return URLs. Both sides of the integrations flow hardcoded 'lumo' while
- * app.json registered 'veltai', so any callback that escaped the in-app auth
+ * OAuth return URLs. Both sides of the integrations flow hardcoded 'lume' while
+ * app.json registered 'lume', so any callback that escaped the in-app auth
  * session dead-ended. Reading it from the manifest means the two can never
- * drift again; the backend's LUMO_APP_SCHEME must be set to the same value.
+ * drift again; the backend's LUME_APP_SCHEME must be set to the same value.
  */
 export const APP_SCHEME: string = Constants.expoConfig?.scheme
   ? String(Array.isArray(Constants.expoConfig.scheme) ? Constants.expoConfig.scheme[0] : Constants.expoConfig.scheme)

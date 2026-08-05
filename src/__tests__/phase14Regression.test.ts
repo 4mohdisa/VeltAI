@@ -167,7 +167,7 @@ describe('claim 3 · third-party-AI consent', () => {
     ordered(src, 'if (!(await ensureAiConsent())) return;', 'takePictureAsync', 'label-scan');
   });
 
-  test('Ask Lumo asks for consent before sending the question', () => {
+  test('Ask Lume asks for consent before sending the question', () => {
     const src = read('app/ai-query.tsx');
     ordered(src, 'if (!(await ensureAiConsent())) return;', 'await ask(q)', 'ai-query');
   });

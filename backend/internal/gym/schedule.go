@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
+	"lume/backend/internal/httpx"
 )
 
 // ErrForbidden is returned by ScheduleStore when a row exists but belongs to

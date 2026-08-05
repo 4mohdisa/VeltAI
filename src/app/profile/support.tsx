@@ -1,6 +1,6 @@
 // E10 · Support
 // Email support, FAQ link, app version, and a feedback textarea that goes to the
-// team. Veltai has NO in-app rating/review prompts at all (no SKStoreReview).
+// team. Lume has NO in-app rating/review prompts at all (no SKStoreReview).
 import { useState } from 'react';
 import { Linking } from 'react-native';
 
@@ -19,7 +19,7 @@ export default function SupportScreen() {
   // Feedback goes out as a real email — the compose sheet is the send action;
   // no fake "sent" confirmation for text that went nowhere.
   const sendFeedback = () => {
-    const url = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Lumo feedback')}&body=${encodeURIComponent(feedback)}`;
+    const url = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Lume feedback')}&body=${encodeURIComponent(feedback)}`;
     Linking.openURL(url)
       .then(() => setFeedback(''))
       .catch(() => showToast({ message: `Couldn't open Mail — email us at ${SUPPORT_EMAIL}.`, tone: 'error' }));

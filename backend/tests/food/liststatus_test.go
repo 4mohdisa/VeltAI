@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"lumo/backend/internal/food"
+	"lume/backend/internal/food"
 )
 
 // statusOf returns the number of logs with the given status in a decoded list.

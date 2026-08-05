@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"lumo/backend/internal/ai"
+	"lume/backend/internal/ai"
 )
 
 func TestClaudeEmptyKeyUnavailable(t *testing.T) {

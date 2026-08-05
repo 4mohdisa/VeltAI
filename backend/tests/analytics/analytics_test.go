@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"lumo/backend/internal/analytics"
-	"lumo/backend/internal/auth"
+	"lume/backend/internal/analytics"
+	"lume/backend/internal/auth"
 )
 
 type fakeStore struct {

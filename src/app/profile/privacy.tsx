@@ -27,7 +27,7 @@ export default function PrivacyScreen() {
     setExporting(true);
     try {
       const data = await api.profile.export();
-      await Share.share({ message: JSON.stringify(data, null, 2) }, { subject: 'Lumo data export' });
+      await Share.share({ message: JSON.stringify(data, null, 2) }, { subject: 'Lume data export' });
     } catch {
       showToast({ message: "Couldn't export your data — check your connection and try again.", tone: 'error' });
     } finally {

@@ -10,7 +10,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"lumo/backend/internal/cuisine"
+	"lume/backend/internal/cuisine"
 )
 
 // Covers branches cuisine_test.go does not: unknown cuisines mixed with known

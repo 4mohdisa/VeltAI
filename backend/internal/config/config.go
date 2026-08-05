@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -36,10 +37,10 @@ func loadDotEnv(path string) {
 }
 
 // BaseURL is the API's public origin. Every CORS origin, redirect URL, and
-// webhook URL derives from it. Set LUMO_BASE_URL in production
+// webhook URL derives from it. Set LUME_BASE_URL in production
 // (e.g. https://api.example.com); the default is the local dev server.
 func BaseURL() string {
-	return Env("LUMO_BASE_URL", "http://localhost:8080")
+	return Env("LUME_BASE_URL", "http://localhost:8080")
 }
 
 // Addr returns the listen address: PORT if set (Railway/Fly/Heroku convention),
@@ -68,9 +69,9 @@ func CORSOrigins() []string {
 }
 
 // IsProduction reports whether this looks like a real deployment. Hosted
-// platforms (Railway/Fly/Heroku/Render) inject PORT; LUMO_ENV overrides.
+// platforms (Railway/Fly/Heroku/Render) inject PORT; LUME_ENV overrides.
 func IsProduction() bool {
-	switch strings.ToLower(Env("LUMO_ENV", "")) {
+	switch strings.ToLower(Env("LUME_ENV", "")) {
 	case "production", "prod":
 		return true
 	case "development", "dev", "test":
@@ -92,7 +93,7 @@ func Validate() (fatal []string, warn []string) {
 	}
 	if IsProduction() {
 		if u := BaseURL(); strings.Contains(u, "localhost") || strings.HasPrefix(u, "http://") {
-			fatal = append(fatal, "LUMO_BASE_URL must be a public https origin in production (got "+u+") — CORS and OAuth redirects derive from it")
+			fatal = append(fatal, "LUME_BASE_URL must be a public https origin in production (got "+u+") — CORS and OAuth redirects derive from it")
 		}
 		if os.Getenv("CLERK_ISSUER") == "" {
 			warn = append(warn, "CLERK_ISSUER is not set — tokens are not issuer-pinned (set it to your Clerk Frontend API URL)")
@@ -111,7 +112,7 @@ func Validate() (fatal []string, warn []string) {
 // the server's view of the calendar. ponytail: one env for all users — per-user
 // timezones need a profiles column when the app sends one.
 func Timezone() *time.Location {
-	if loc, err := time.LoadLocation(Env("LUMO_TIMEZONE", "UTC")); err == nil {
+	if loc, err := time.LoadLocation(Env("LUME_TIMEZONE", "UTC")); err == nil {
 		return loc
 	}
 	return time.UTC
@@ -124,17 +125,47 @@ func Today() string {
 
 // Env reads an environment variable with a fallback.
 func Env(key, fallback string) string {
-	if v := os.Getenv(key); v != "" {
+	if v := lookup(key); v != "" {
 		return v
 	}
 	return fallback
+}
+
+// deprecatedOnce tracks which legacy names we have already warned about, so a
+// hot path does not spam the log.
+var deprecatedOnce sync.Map
+
+// lookup reads an env var, falling back to its pre-rename LUME_* spelling.
+//
+// The product was renamed Lume/Lume → Lume, and every LUME_* variable became
+// LUME_*. Deployments that still export the old names keep working: the new
+// name wins, the old one is honoured with a one-time deprecation warning, and
+// nothing silently reverts to a default because a var "disappeared". Delete
+// this shim once no environment exports LUME_* any more.
+func lookup(key string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	legacy, ok := strings.CutPrefix(key, "LUME_")
+	if !ok {
+		return ""
+	}
+	legacy = "LUME_" + legacy
+	v := os.Getenv(legacy)
+	if v == "" {
+		return ""
+	}
+	if _, warned := deprecatedOnce.LoadOrStore(legacy, true); !warned {
+		log.Printf("config: %s is deprecated — rename it to %s (still honoured for now)", legacy, key)
+	}
+	return v
 }
 
 // EnvInt reads an integer env var. A missing OR unparseable value yields the
 // fallback — a typo'd limit must not silently become 0 (which would lock every
 // free user out) or unlimited.
 func EnvInt(key string, fallback int) int {
-	v := os.Getenv(key)
+	v := lookup(key)
 	if v == "" {
 		return fallback
 	}
@@ -149,7 +180,7 @@ func EnvInt(key string, fallback int) int {
 // EnvBool reads a boolean env var ("1", "t", "true", "yes" and their negatives,
 // case-insensitive). Unparseable values yield the fallback.
 func EnvBool(key string, fallback bool) bool {
-	v := strings.TrimSpace(strings.ToLower(os.Getenv(key)))
+	v := strings.TrimSpace(strings.ToLower(lookup(key)))
 	if v == "" {
 		return fallback
 	}

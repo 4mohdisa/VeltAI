@@ -17,7 +17,7 @@ export default function WelcomeScreen() {
     >
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.xl }}>
         <Text variant="title2" color={color.label}>
-          Lumo
+          Lume
         </Text>
         <Text variant="display" color={color.label} style={{ textAlign: 'center' }}>
           Track your food the way you actually eat

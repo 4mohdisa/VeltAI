@@ -10,8 +10,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/db"
+	"lume/backend/internal/httpx"
 )
 
 // ErrNotFound is returned by ProfileStore when no profile row exists.

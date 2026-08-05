@@ -3,7 +3,7 @@ package analytics
 import (
 	"context"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 type PGStore struct{ q db.Querier }

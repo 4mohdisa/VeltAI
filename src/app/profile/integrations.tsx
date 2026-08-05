@@ -100,8 +100,9 @@ export default function IntegrationsScreen() {
     try {
       const { url } = await p.connect();
       // The return URL must use the scheme app.json actually registers. It was
-      // hardcoded to 'lumo://' on both sides while app.json says 'veltai', so a
-      // callback that escaped the auth session had nowhere to return to.
+      // once hardcoded on both sides to a scheme app.json did NOT register, so
+      // a callback that escaped the auth session had nowhere to return to.
+      // APP_SCHEME reads app.json, so a rename cannot re-open that gap.
       const result = await WebBrowser.openAuthSessionAsync(url, `${APP_SCHEME}://integrations/${p.key}/success`);
       if (result.type === 'success') track('integration_connected', { provider: p.key });
       await load();

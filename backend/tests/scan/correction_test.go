@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/scan"
+	"lume/backend/internal/scan"
 )
 
 func TestCorrectionCalculatesMagnitude(t *testing.T) {

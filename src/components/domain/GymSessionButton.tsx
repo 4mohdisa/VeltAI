@@ -1,5 +1,5 @@
 // GymSessionButton — the primary "Log gym session" CTA, or a logged-confirmation
-// pill once today's session exists. The single most important action in Veltai.
+// pill once today's session exists. The single most important action in Lume.
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 

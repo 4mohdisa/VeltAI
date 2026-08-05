@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // IncrementSQL is the whole limiter. One statement: insert the window's first

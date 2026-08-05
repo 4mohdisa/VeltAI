@@ -9,7 +9,7 @@ package scantests
 // double-counted the meal the moment the client re-read the log. It was
 // invisible to every hermetic test because the fakes do not model food_logs.
 //
-// Skipped unless LUMO_TEST_DATABASE_URL points at a disposable database with
+// Skipped unless LUME_TEST_DATABASE_URL points at a disposable database with
 // the migrations applied — see tests/gym_schedule/schedule_pg_sql_test.go for
 // the setup commands.
 
@@ -20,14 +20,14 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"lumo/backend/internal/scan"
+	"lume/backend/internal/scan"
 )
 
 func pgScanStore(t *testing.T) (*scan.PGStore, *pgxpool.Pool) {
 	t.Helper()
-	dsn := os.Getenv("LUMO_TEST_DATABASE_URL")
+	dsn := os.Getenv("LUME_TEST_DATABASE_URL")
 	if dsn == "" {
-		t.Skip("LUMO_TEST_DATABASE_URL not set — skipping real-SQL integration test")
+		t.Skip("LUME_TEST_DATABASE_URL not set — skipping real-SQL integration test")
 	}
 	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {

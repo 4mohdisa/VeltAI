@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 // Multi-angle pipeline (Phase 13 D). Quality + geometry run per image; the

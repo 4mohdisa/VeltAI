@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/subscription"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/subscription"
 )
 
 // fakeStore simulates the ATOMIC semantics of the Postgres store: ClaimEvent is
@@ -153,7 +153,7 @@ func postWebhook(mux *http.ServeMux, authHeader, body string) *httptest.Response
 }
 
 func eventBody(typ, userID string, expMs int64) string {
-	return fmt.Sprintf(`{"event":{"type":%q,"app_user_id":%q,"period_type":"NORMAL","expiration_at_ms":%d,"store":"APP_STORE","product_id":"lumo_pro_annual"}}`,
+	return fmt.Sprintf(`{"event":{"type":%q,"app_user_id":%q,"period_type":"NORMAL","expiration_at_ms":%d,"store":"APP_STORE","product_id":"lume_pro_annual"}}`,
 		typ, userID, expMs)
 }
 
@@ -296,17 +296,17 @@ func TestWebhookTransferAnonymousNoOp(t *testing.T) {
 
 // eventBodyAt is eventBody plus the fields the replay/ordering guard reads.
 func eventBodyAt(typ, userID, id string, expMs, tsMs int64) string {
-	return fmt.Sprintf(`{"event":{"id":%q,"type":%q,"app_user_id":%q,"period_type":"NORMAL","expiration_at_ms":%d,"event_timestamp_ms":%d,"store":"APP_STORE","product_id":"lumo_pro_annual"}}`,
+	return fmt.Sprintf(`{"event":{"id":%q,"type":%q,"app_user_id":%q,"period_type":"NORMAL","expiration_at_ms":%d,"event_timestamp_ms":%d,"store":"APP_STORE","product_id":"lume_pro_annual"}}`,
 		id, typ, userID, expMs, tsMs)
 }
 
 // noExpiryBody omits expiration_at_ms entirely — the indefinite-Pro vector.
 func noExpiryBody(typ, userID string) string {
-	return fmt.Sprintf(`{"event":{"type":%q,"app_user_id":%q,"period_type":"NORMAL","store":"APP_STORE","product_id":"lumo_pro_annual"}}`, typ, userID)
+	return fmt.Sprintf(`{"event":{"type":%q,"app_user_id":%q,"period_type":"NORMAL","store":"APP_STORE","product_id":"lume_pro_annual"}}`, typ, userID)
 }
 
 func TestWebhookGrantWithoutExpiryIsBounded(t *testing.T) {
-	t.Setenv("LUMO_SUB_DEFAULT_TTL_HOURS", "1")
+	t.Setenv("LUME_SUB_DEFAULT_TTL_HOURS", "1")
 	store := newFakeStore()
 	mux := newMux(store)
 	rec := postWebhook(mux, webhookAuth, noExpiryBody("INITIAL_PURCHASE", "user_1"))
@@ -318,7 +318,7 @@ func TestWebhookGrantWithoutExpiryIsBounded(t *testing.T) {
 		t.Fatal("grant without expiration_at_ms must not be stored as never-expiring")
 	}
 	if got.ExpiresAt.After(time.Now().Add(2 * time.Hour)) {
-		t.Fatalf("want expiry bounded by LUMO_SUB_DEFAULT_TTL_HOURS=1, got %v", got.ExpiresAt)
+		t.Fatalf("want expiry bounded by LUME_SUB_DEFAULT_TTL_HOURS=1, got %v", got.ExpiresAt)
 	}
 	if data := getStatus(t, mux, "user_1"); data["is_active"] != true {
 		t.Fatalf("want a paying user still active inside the window, got %v", data)

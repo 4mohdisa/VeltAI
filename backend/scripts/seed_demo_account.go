@@ -8,11 +8,11 @@
 //
 // Idempotent and safe to re-run: it wipes the demo user's rows first (profiles
 // cascade) and re-seeds, so the reviewer account always looks fresh. Once Clerk
-// is live: create demo@lumo.fit in the Clerk dashboard, copy its user id, and
+// is live: create demo@lume.fit in the Clerk dashboard, copy its user id, and
 // re-run with -user <clerk_user_id> so the seeded data attaches to the real
 // sign-in. Paste into App Store Connect review notes:
 //
-//	Demo account: demo@lumo.fit / <the password you set in Clerk>
+//	Demo account: demo@lume.fit / <the password you set in Clerk>
 //	(pre-loaded with 14 days of food logs, 8 workouts, a schedule and history)
 package main
 
@@ -28,7 +28,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-const demoEmail = "demo@lumo.fit"
+const demoEmail = "demo@lume.fit"
 
 // demoPassword is NOT hardcoded: a real credential in tracked source is a
 // credential in every clone and every fork of this repo forever. The operator

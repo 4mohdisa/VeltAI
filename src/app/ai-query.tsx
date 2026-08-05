@@ -1,4 +1,4 @@
-// Ask Lumo — one-question-at-a-time (NOT a chat history). Shows only the latest
+// Ask Lume — one-question-at-a-time (NOT a chat history). Shows only the latest
 // answer. Suggestion chips fill the input (never auto-send). Every AI path
 // degrades: `ask` never throws, and a 503/error surfaces the unavailable state
 // only after the user has actually sent a question.
@@ -63,7 +63,7 @@ export default function AIQueryScreen() {
           </Pressable>
           <View style={{ paddingHorizontal: space.xs, gap: space.xs }}>
             <Text variant="title1" color={color.label}>
-              Ask Lumo
+              Ask Lume
             </Text>
             <Text variant="callout" color={color.secondaryLabel}>
               Ask anything about your food, nutrition, or habits

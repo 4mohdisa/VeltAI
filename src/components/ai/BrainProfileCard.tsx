@@ -43,7 +43,7 @@ function readScanPct(sp: Record<string, unknown> | null): number | null {
   return typeof pct === 'number' ? pct : null;
 }
 
-export function BrainProfileCard(props: { onAskLumo?: () => void }): JSX.Element {
+export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element {
   const { profile, loading, notEnoughData } = useBrainProfile();
 
   if (loading) {
@@ -62,7 +62,7 @@ export function BrainProfileCard(props: { onAskLumo?: () => void }): JSX.Element
     return (
       <Card>
         <View style={{ gap: space.md }}>
-          <Text variant="title3">Lumo is still learning</Text>
+          <Text variant="title3">Lume is still learning</Text>
           <Text variant="callout" color={color.secondaryLabel}>
             Keep logging to unlock your profile
           </Text>
@@ -104,16 +104,16 @@ export function BrainProfileCard(props: { onAskLumo?: () => void }): JSX.Element
           Updated {relativeTime(profile.last_rebuilt)}
         </Text>
 
-        {props.onAskLumo ? (
+        {props.onAskLume ? (
           <Pressable
-            onPress={props.onAskLumo}
+            onPress={props.onAskLume}
             minTapTarget={false}
             hitSlop={8}
             style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, alignSelf: 'flex-start' }}
-            accessibilityLabel="Ask Lumo"
+            accessibilityLabel="Ask Lume"
           >
             <Text variant="bodyMedium" color={color.primary}>
-              Ask Lumo
+              Ask Lume
             </Text>
             <Icon name="chevron-forward" size={16} color={color.primary} />
           </Pressable>

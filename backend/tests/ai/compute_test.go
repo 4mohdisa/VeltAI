@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"lumo/backend/internal/ai"
+	"lume/backend/internal/ai"
 )
 
 func approx(t *testing.T, name string, got, want float64) {
@@ -108,7 +108,7 @@ func TestTopFoods(t *testing.T) {
 }
 
 func TestMealTiming(t *testing.T) {
-	t.Setenv("LUMO_TIMEZONE", "UTC") // pin: fixture CreatedAt hours are UTC
+	t.Setenv("LUME_TIMEZONE", "UTC") // pin: fixture CreatedAt hours are UTC
 	mt := ai.ComputeMealTiming(fixtureLogs())
 	// Weekday first-log hours: 8.0, 13.0, 11.0 → median 11.0. No weekend days.
 	approx(t, "weekday first-log hour", mt.WeekdayFirstLogHour, 11.0)
@@ -117,7 +117,7 @@ func TestMealTiming(t *testing.T) {
 }
 
 func TestMealTimingUsesConfiguredTimezone(t *testing.T) {
-	t.Setenv("LUMO_TIMEZONE", "Australia/Adelaide") // UTC+9:30 in July
+	t.Setenv("LUME_TIMEZONE", "Australia/Adelaide") // UTC+9:30 in July
 	// 22:30 UTC July 1 is 08:00 July 2 in Adelaide: a breakfast, not a
 	// midnight snack — the hour must be read in the configured timezone.
 	logs := []ai.FoodLogRow{{

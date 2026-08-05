@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/db"
+	"lume/backend/internal/httpx"
 )
 
 // ExportSection is one table's rows in the export document.

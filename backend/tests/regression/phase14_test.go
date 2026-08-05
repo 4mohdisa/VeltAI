@@ -21,10 +21,10 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/energy"
-	"lumo/backend/internal/goals"
-	"lumo/backend/internal/integrations"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/energy"
+	"lume/backend/internal/goals"
+	"lume/backend/internal/integrations"
 )
 
 // ---------------------------------------------------------------------------

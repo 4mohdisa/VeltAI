@@ -12,9 +12,9 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/auth"
-	"lumo/backend/internal/db"
-	"lumo/backend/internal/httpx"
+	"lume/backend/internal/auth"
+	"lume/backend/internal/db"
+	"lume/backend/internal/httpx"
 )
 
 // ErrNotFound is returned by Store lookups when a row does not exist.

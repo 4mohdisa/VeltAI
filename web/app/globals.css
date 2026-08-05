@@ -1,12 +1,12 @@
 /* ============================================================================
-   Lumo marketing site — the design system.
+   Lume marketing site — the design system.
    ============================================================================
 
    Every value comes from tokens.css, which mirrors the app's design tokens.
    Nothing in this file or any component may hardcode a colour, size, radius,
    duration or easing curve.
 
-   THE IDEA: the page reads as an instrument, not a brochure. Lumo's whole
+   THE IDEA: the page reads as an instrument, not a brochure. Lume's whole
    position is that it tells you how sure it is, so the site is built from the
    vocabulary of measurement — hairlines, rules, tick marks, monospaced
    numerals, ranges and tolerances — set in the app's own typeface with real
@@ -317,7 +317,7 @@ h3 {
 }
 
 /* ---- the "coming soon" state ----------------------------------------------
-   NOT a button. Lumo is not on the App Store, so anything that looks pressable
+   NOT a button. Lume is not on the App Store, so anything that looks pressable
    is a promise the page cannot keep. This is a status readout: a hairline, a
    live dot, and a label. When the app ships it is replaced by the real badge.
    -------------------------------------------------------------------------- */

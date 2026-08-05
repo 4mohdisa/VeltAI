@@ -54,7 +54,7 @@ const card = h(
       },
       'L',
     ),
-    h('div', { key: 'word', style: { fontSize: 40, fontWeight: 800 } }, 'Lumo'),
+    h('div', { key: 'word', style: { fontSize: 40, fontWeight: 800 } }, 'Lume'),
   ]),
   h('div', { style: { display: 'flex', flexDirection: 'column', gap: 20 } }, [
     h(

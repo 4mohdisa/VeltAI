@@ -97,7 +97,7 @@ export default function PhotoCaptureScreen() {
             Camera access needed
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            Lumo uses the camera to scan your meals for accurate calorie tracking.
+            Lume uses the camera to scan your meals for accurate calorie tracking.
           </Text>
           {permission.canAskAgain ? (
             <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />

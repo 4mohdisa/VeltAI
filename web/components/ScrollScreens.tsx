@@ -70,7 +70,7 @@ export const BEATS: Beat[] = [
     index: '02',
     title: 'The estimate arrives with a confidence score',
     body:
-      'Lumo scores every photo estimate out of 100 from things it can actually check: whether the image was sharp, whether the lighting was good, whether a plate was found to give it scale, and whether the macros came from a real food database rather than the model’s guess. Take a second angle and it compares the two independent estimates — if they disagree, it shows you both and asks which is right instead of quietly averaging them away.',
+      'Lume scores every photo estimate out of 100 from things it can actually check: whether the image was sharp, whether the lighting was good, whether a plate was found to give it scale, and whether the macros came from a real food database rather than the model’s guess. Take a second angle and it compares the two independent estimates — if they disagree, it shows you both and asks which is right instead of quietly averaging them away.',
     caption: 'Scan review, two angles agreeing',
   },
   {

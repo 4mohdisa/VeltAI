@@ -1,6 +1,6 @@
-# Lumo marketing site (`/web`)
+# Lume marketing site (`/web`)
 
-Static marketing + legal site for Lumo. Next.js App Router, fully static export
+Static marketing + legal site for Lume. Next.js App Router, fully static export
 (`output: 'export'`) — every page is prerendered HTML/CSS/JS with zero backend.
 Builds and deploys independently of the app and the Go API.
 
@@ -26,7 +26,7 @@ Set at **build** time (baked into the static output — rebuild to change):
 
 | Var | Purpose | Default |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Canonical origin used in metadata, sitemap, OG tags | `https://lumo.fit` |
+| `NEXT_PUBLIC_SITE_URL` | Canonical origin used in metadata, sitemap, OG tags | `https://lume.fit` |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 id (`G-…`). Unset ⇒ GA never loads, no consent banner shown | unset |
 
 GA only runs when: the id is set **and** the visitor accepted the consent note

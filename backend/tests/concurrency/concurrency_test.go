@@ -12,9 +12,9 @@ import (
 	"sync"
 	"testing"
 
-	"lumo/backend/internal/energy"
-	"lumo/backend/internal/gym"
-	"lumo/backend/internal/scan"
+	"lume/backend/internal/energy"
+	"lume/backend/internal/gym"
+	"lume/backend/internal/scan"
 )
 
 const goroutines = 100

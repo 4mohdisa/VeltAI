@@ -20,7 +20,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Who we are',
     pending: true,
-    body: [`${AWAITING} It will identify the entity that operates Lumo and its contact details.`],
+    body: [`${AWAITING} It will identify the entity that operates Lume and its contact details.`],
   },
   {
     heading: 'What this policy covers',
@@ -42,7 +42,7 @@ const SECTIONS: LegalSection[] = [
     heading: 'Sensitive information and consent',
     pending: true,
     body: [
-      'Before your first meal photograph or AI request, Lumo shows a one-time disclosure naming Google Gemini and Anthropic, and sends nothing until you accept. That acknowledgement is stored on your device and covers sharing with those two processors.',
+      'Before your first meal photograph or AI request, Lume shows a one-time disclosure naming Google Gemini and Anthropic, and sends nothing until you accept. That acknowledgement is stored on your device and covers sharing with those two processors.',
       `${AWAITING} The express consent mechanism required for collecting health information under Australian Privacy Principle 3.3 is being drafted; the disclosure above is narrower than that.`,
     ],
   },
@@ -126,7 +126,7 @@ export default function PrivacyPolicyScreen(): JSX.Element {
     <LegalScreen
       title="Privacy Policy"
       updated={UPDATED}
-      intro="What Lumo collects, why, who else sees it, and what you can do about it. Lumo collects health information, which is sensitive information under the Privacy Act 1988 (Cth). This policy is a working draft and has not been reviewed by an Australian privacy lawyer."
+      intro="What Lume collects, why, who else sees it, and what you can do about it. Lume collects health information, which is sensitive information under the Privacy Act 1988 (Cth). This policy is a working draft and has not been reviewed by an Australian privacy lawyer."
       sections={SECTIONS}
     />
   );

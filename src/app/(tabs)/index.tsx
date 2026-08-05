@@ -128,7 +128,7 @@ export default function DashboardScreen() {
 
         {/* Zone 3 — AI plan. Only rendered once there IS a plan: the card used to
             show a hardcoded gym time and bedtime ('18:00' / '22:30') as if they
-            were the user's own schedule, which nothing computes and Lumo does
+            were the user's own schedule, which nothing computes and Lume does
             not track. No plan → no card, rather than a confident fiction. */}
         {plan.length > 0 ? (
           <Card onPress={() => router.push('/dashboard/plan')} accessibilityLabel="Today's plan detail">

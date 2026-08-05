@@ -7,7 +7,7 @@
    Two jobs:
      1. Assert the scroll-driven section's pure math (lib/scroll.ts).
      2. Assert the shipped pages contain NO fabricated social proof and no
-        unsupported feature claim. Lumo has zero users, zero ratings and zero
+        unsupported feature claim. Lume has zero users, zero ratings and zero
         reviews; a testimonial, a star rating or a download count would be
         false advertising under s18 of the Australian Consumer Law. This
         repository has shipped fabricated data to users three separate times,

@@ -1,4 +1,4 @@
-// Package ai is Lumo's intelligence layer: deterministic pattern computation
+// Package ai is Lume's intelligence layer: deterministic pattern computation
 // over the user's logged data, with an LLM only narrating prepared numbers.
 package ai
 
@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"lumo/backend/internal/config"
-	"lumo/backend/internal/cuisine"
+	"lume/backend/internal/config"
+	"lume/backend/internal/cuisine"
 )
 
 // windowDays is the food-log fetch window; junk frequency and consistency
@@ -250,7 +250,7 @@ func TopFoodsByCount(logs []FoodLogRow, n int) []TopFood {
 
 // ComputeMealTiming finds the median first-log hour split weekday/weekend
 // and the breakfast-skip rate (first log of the day lands at/after 12:00).
-// Clock hours are read in the configured timezone (LUMO_TIMEZONE), not the
+// Clock hours are read in the configured timezone (LUME_TIMEZONE), not the
 // server's zone, so an 8am breakfast doesn't count as a midnight snack.
 func ComputeMealTiming(logs []FoodLogRow) MealTiming {
 	first := map[string]FoodLogRow{}

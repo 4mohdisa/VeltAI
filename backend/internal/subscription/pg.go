@@ -8,7 +8,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"lumo/backend/internal/db"
+	"lume/backend/internal/db"
 )
 
 type PGStore struct{ q db.Querier }

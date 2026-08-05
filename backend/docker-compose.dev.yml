@@ -15,11 +15,11 @@ services:
     ports:
       - "127.0.0.1:55432:5432"
     environment:
-      POSTGRES_USER: lumo
-      POSTGRES_PASSWORD: lumo-local-dev-only
-      POSTGRES_DB: lumo
+      POSTGRES_USER: lume
+      POSTGRES_PASSWORD: lume-local-dev-only
+      POSTGRES_DB: lume
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U lumo -d lumo"]
+      test: ["CMD-SHELL", "pg_isready -U lume -d lume"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -40,15 +40,15 @@ services:
       # DATABASE_URL and CLERK_SECRET_KEY (config.Validate), so the key here is
       # a syntactically valid dummy — it is never sent anywhere, and any real
       # authenticated request will correctly fail JWKS verification.
-      DATABASE_URL: postgres://lumo:lumo-local-dev-only@db:5432/lumo?sslmode=disable
+      DATABASE_URL: postgres://lume:lume-local-dev-only@db:5432/lume?sslmode=disable
       CLERK_SECRET_KEY: sk_test_local_dev_placeholder_not_a_real_key
-      LUMO_ENV: development
-      LUMO_BASE_URL: http://localhost:8080
+      LUME_ENV: development
+      LUME_BASE_URL: http://localhost:8080
     read_only: true
     tmpfs:
       - /tmp:rw,noexec,nosuid,size=64m
     healthcheck:
-      test: ["CMD", "/usr/local/bin/lumo-api", "-healthcheck"]
+      test: ["CMD", "/usr/local/bin/lume-api", "-healthcheck"]
       interval: 10s
       timeout: 5s
       start_period: 10s

@@ -230,7 +230,7 @@ export default function LabelScanScreen() {
             Camera access needed
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            Lumo uses the camera to read the nutrition facts panel on packaging.
+            Lume uses the camera to read the nutrition facts panel on packaging.
           </Text>
           {permission.canAskAgain ? (
             <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />

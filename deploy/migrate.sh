@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Lumo migration runner — explicit, confirmed, never automatic.
+# Lume migration runner — explicit, confirmed, never automatic.
 #
 #   ./deploy/migrate.sh status     # what is applied vs pending (read-only)
 #   ./deploy/migrate.sh apply      # apply pending migrations, one at a time

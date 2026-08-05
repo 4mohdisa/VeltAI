@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-const CONSENT_KEY = 'lumo-analytics-consent'; // 'yes' | 'no'
+const CONSENT_KEY = 'lume-analytics-consent'; // 'yes' | 'no'
 
 function dntEnabled(): boolean {
   if (typeof navigator === 'undefined') return false;
