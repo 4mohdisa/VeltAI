@@ -172,6 +172,8 @@ export default function FoodLogScreen() {
             alternateWeightG: it.alternateWeightG,
             matchedMealName: it.matchedMealName,
             matchedMealWeightG: it.matchedMealWeightG,
+            confidenceLabel: it.confidenceLabel,
+            confidenceFactors: it.confidenceFactors,
           })),
       ),
     [meals],

@@ -15,6 +15,7 @@ import {
   type SavedFood,
 } from '@/lib/mock/data';
 import type { ScanItemStatus } from '@/lib/types';
+import type { ScanConfidenceFactor } from '@/lib/api';
 import { isDevBuild } from '@/lib/env';
 
 // Items carry a stable id so edits/deletes/pending-scan resolution address a row
@@ -40,6 +41,12 @@ export type StoredFoodItem = FoodItem & {
   // Repeat-meal match (signal 5): "looks like your usual X — 450 g?".
   matchedMealName?: string;
   matchedMealWeightG?: number;
+  // The server's OWN confidence verdict, carried verbatim so the review card
+  // shows what the pipeline computed rather than re-deriving it. `confidence`
+  // above is the same score as a 0..1 scalar; these two are the band label
+  // ('High'|'Medium'|'Low') and the signed factors behind it.
+  confidenceLabel?: string;
+  confidenceFactors?: ScanConfidenceFactor[];
 };
 export type StoredMeal = Omit<Meal, 'items'> & { items: StoredFoodItem[] };
 
@@ -64,6 +71,8 @@ export type ScannedItemPatch = Partial<
     | 'alternateWeightG'
     | 'matchedMealName'
     | 'matchedMealWeightG'
+    | 'confidenceLabel'
+    | 'confidenceFactors'
   >
 >;
 

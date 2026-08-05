@@ -240,6 +240,10 @@ export function updateFoodLogStatus(localId: string, status: 'ready' | 'failed',
       status: 'ready',
       scanSessionId: sr?.scan_session_id,
       estimatedWeightG: qty,
+      // The pipeline's own verdict. These travelled over the wire on every poll
+      // and were thrown away here, so the review card had to invent a breakdown.
+      confidenceLabel: sr?.confidence?.label,
+      confidenceFactors: sr?.confidence?.factors,
       angleAgreement: sr?.angle_agreement ?? undefined,
       needsConfirmation: sr?.needs_user_confirmation || undefined,
       reconciliationNote: sr?.reconciliation_note || undefined,
