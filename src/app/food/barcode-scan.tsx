@@ -3,7 +3,7 @@
 // detect we move to the product confirm. A "Simulate" button stands in where no
 // physical barcode is available.
 import { useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
@@ -65,7 +65,14 @@ export default function BarcodeScanScreen() {
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
             Lumo uses the camera to scan barcodes on packaged foods.
           </Text>
-          <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+          {permission.canAskAgain ? (
+            <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+          ) : (
+            // Permanently denied: iOS silently no-ops requestPermission() after
+            // the second denial, so this button did nothing at all and left the
+            // user tapping it. Send them to Settings instead.
+            <Button title="Open Settings" onPress={() => void Linking.openSettings()} fullWidth={false} />
+          )}
           <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />
         </View>
       </SafeAreaView>

@@ -12,6 +12,24 @@
 // doesn't produce '//api/...'.
 const BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8080').replace(/\/+$/, '');
 
+/**
+ * True when a RELEASE build was packaged without EXPO_PUBLIC_API_URL, so every
+ * request would target http://localhost:8080 — which on iOS is additionally
+ * blocked by ATS, since app.json declares no NSAppTransportSecurity exception.
+ *
+ * This used to be silent. The app would launch, every request would fail, and
+ * useHydration swallows failures by design (error stays null), so the user got
+ * a plausible-looking but permanently empty app with no error state and no way
+ * to distinguish a mis-packaged binary from a real outage. Silent degradation
+ * in a release build is a bug; the root layout renders a configuration error,
+ * matching the AuthGate treatment of a missing Clerk key.
+ *
+ * __DEV__ is read inline rather than via lib/env so this module stays
+ * dependency-free; undefined (jest) counts as dev, same semantics as isDevBuild.
+ */
+export const IS_MISCONFIGURED_RELEASE =
+  (typeof __DEV__ === 'undefined' ? false : !__DEV__) && !process.env.EXPO_PUBLIC_API_URL;
+
 // Network posture (all env-tunable, all with sane defaults):
 //   EXPO_PUBLIC_API_TIMEOUT_MS         per-attempt deadline for a normal request
 //   EXPO_PUBLIC_API_UPLOAD_TIMEOUT_MS  ditto for image uploads (megabytes, slow uplink)
@@ -1097,6 +1115,12 @@ export const api = {
     brain: () => req.get<AiBrain>('/api/ai/brain'),
     rebuild: () => req.post<AiBrain>('/api/ai/brain/rebuild'),
     morningBriefRaw: () => req.get<MorningBriefResponse>('/api/ai/morning-brief'),
+
+    // AI-partner consent (5.1.2(i)). The server keeps its own record because a
+    // device flag cannot gate the backend's background rebuild sweep.
+    getConsent: () => req.get<{ consented: boolean; consented_at: string | null }>('/api/ai/consent'),
+    setConsent: () => req.post<{ consented: boolean }>('/api/ai/consent'),
+    revokeConsent: () => req.del<{ consented: boolean }>('/api/ai/consent'),
 
     // --- UI-facing (mapped) accessors. Real endpoints are mapped; the ones the
     // backend doesn't expose (mark-shown/engaged, anomalies) degrade to no-op/[]

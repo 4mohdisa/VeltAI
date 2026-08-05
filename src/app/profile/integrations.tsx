@@ -18,6 +18,7 @@ import { color, space } from '@/lib/design/tokens';
 import { api, ApiError } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import type { IntegrationConnection } from '@/lib/types';
+import { APP_SCHEME } from '@/lib/appVersion';
 
 type OAuthProvider = {
   key: string;
@@ -98,7 +99,10 @@ export default function IntegrationsScreen() {
     setBusy(p.key);
     try {
       const { url } = await p.connect();
-      const result = await WebBrowser.openAuthSessionAsync(url, `lumo://integrations/${p.key}/success`);
+      // The return URL must use the scheme app.json actually registers. It was
+      // hardcoded to 'lumo://' on both sides while app.json says 'veltai', so a
+      // callback that escaped the auth session had nowhere to return to.
+      const result = await WebBrowser.openAuthSessionAsync(url, `${APP_SCHEME}://integrations/${p.key}/success`);
       if (result.type === 'success') track('integration_connected', { provider: p.key });
       await load();
     } catch (e) {

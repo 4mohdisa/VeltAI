@@ -17,6 +17,7 @@ import { AppStateProvider } from '@/lib/auth/appState';
 import { ClerkBridge } from '@/lib/auth/ClerkBridge';
 import { CLERK_PUBLISHABLE_KEY, clerkTokenCache, isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { isDevBuild } from '@/lib/env';
+import { IS_MISCONFIGURED_RELEASE } from '@/lib/api';
 import { configurePurchases } from '@/lib/billing/purchases';
 import { ToastHost } from '@/components/display/ToastHost';
 import { color, sheet } from '@/lib/design/tokens';
@@ -33,6 +34,20 @@ import '@/lib/i18n'; // initialise i18next before any screen renders
 // instead. ClerkLoaded gates the initial render so no screen flashes before
 // auth status is known.
 function AuthGate({ children }: { children: ReactNode }) {
+  // Same posture for a missing backend URL: a release build that cannot reach
+  // any server must say so rather than present an empty app that looks like the
+  // user simply has no data.
+  if (IS_MISCONFIGURED_RELEASE) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', padding: 32, backgroundColor: color.white }}>
+        <RNText style={{ fontSize: 17, fontWeight: '600', marginBottom: 8 }}>Configuration error</RNText>
+        <RNText style={{ fontSize: 15, color: '#666' }}>
+          This build was packaged without a server address and cannot load your data.
+          Please update the app; if the problem persists, contact support.
+        </RNText>
+      </View>
+    );
+  }
   if (!isClerkEnabled()) {
     if (!isDevBuild()) {
       return (

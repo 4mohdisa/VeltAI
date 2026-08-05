@@ -228,9 +228,18 @@ func (s *Service) redirectURI(provider string) string {
 	return config.BaseURL() + "/api/integrations/" + provider + "/callback"
 }
 
+// AppScheme is the custom URL scheme registered by the app, WITHOUT the "://".
+// It must equal app.json's expo.scheme — a redirect to an unregistered scheme
+// dead-ends in the browser with no way back into the app. This was hardcoded to
+// "lumo" on both sides while app.json registers "veltai", so any callback that
+// escaped the in-app auth session (user backgrounds the app, session dismissed,
+// Safari handles the redirect) had nowhere to go. Env-tunable so the eventual
+// rename is a config change on both sides, not a code edit.
+var AppScheme = config.Env("LUMO_APP_SCHEME", "veltai")
+
 // redirectApp bounces the browser back into the native app via a deep link.
 func (s *Service) redirectApp(w http.ResponseWriter, r *http.Request, provider, status string) {
-	http.Redirect(w, r, "lumo://integrations/"+provider+"/"+status, http.StatusFound)
+	http.Redirect(w, r, AppScheme+"://integrations/"+provider+"/"+status, http.StatusFound)
 }
 
 // storeTokens encrypts a TokenSet and upserts the connection.

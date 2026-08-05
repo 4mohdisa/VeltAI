@@ -32,6 +32,13 @@ func (f *fakeStore) Upsert(_ context.Context, p auth.Profile) error {
 	return nil
 }
 
+func (f *fakeStore) EnsureExists(_ context.Context, id string) error {
+	if _, ok := f.profiles[id]; !ok {
+		f.profiles[id] = auth.Profile{ID: id}
+	}
+	return nil
+}
+
 func (f *fakeStore) Get(_ context.Context, id string) (auth.Profile, error) {
 	p, ok := f.profiles[id]
 	if !ok {
@@ -383,4 +390,95 @@ func TestVerifierPinsIssuerAndRejectsNonSessionTokens(t *testing.T) {
 		sign(jwt.MapClaims{"sub": "user_1", "exp": time.Now().Add(-time.Hour).Unix()})); err == nil {
 		t.Fatal("expired token accepted")
 	}
+}
+
+// --- Profile provisioning ----------------------------------------------------
+// Every user table declares `references profiles(id) on delete cascade`, and
+// before this middleware existed the row was created ONLY by the asynchronous
+// Clerk user.created webhook. That made the entire app depend on the webhook
+// being configured AND landing before the user's first write — a race a real
+// new user can lose in the seconds between sign-up and finishing onboarding,
+// surfacing as an opaque 500 on their very first action.
+
+// countingStore records EnsureExists calls so we can prove the per-process
+// cache actually suppresses the repeat inserts.
+type countingStore struct {
+	*fakeStore
+	ensures int
+}
+
+func (c *countingStore) EnsureExists(ctx context.Context, id string) error {
+	c.ensures++
+	return c.fakeStore.EnsureExists(ctx, id)
+}
+
+func serveEnsured(t *testing.T, st auth.ProfileStore, userID string) *httptest.ResponseRecorder {
+	t.Helper()
+	h := auth.EnsureProfile(st)(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodPost, "/api/food/logs", nil)
+	h.ServeHTTP(rec, req.WithContext(auth.WithUserID(req.Context(), userID)))
+	return rec
+}
+
+func TestEnsureProfileProvisionsBeforeTheHandlerRuns(t *testing.T) {
+	st := newFakeStore()
+	if _, err := st.Get(context.Background(), "user_new"); err == nil {
+		t.Fatal("precondition: the user must not exist yet")
+	}
+	if rec := serveEnsured(t, st, "user_new"); rec.Code != http.StatusOK {
+		t.Fatalf("request failed: %d", rec.Code)
+	}
+	if _, err := st.Get(context.Background(), "user_new"); err != nil {
+		t.Fatalf("profile row was not provisioned: %v", err)
+	}
+}
+
+func TestEnsureProfileNeverClobbersTheWebhookRow(t *testing.T) {
+	st := newFakeStore()
+	email := "real@example.com"
+	name := "Real Name"
+	// The webhook got there first with the richer row.
+	if err := st.Upsert(context.Background(), auth.Profile{ID: "user_1", Email: &email, DisplayName: &name}); err != nil {
+		t.Fatal(err)
+	}
+	serveEnsured(t, st, "user_1")
+	p, err := st.Get(context.Background(), "user_1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if p.Email == nil || *p.Email != email || p.DisplayName == nil || *p.DisplayName != name {
+		t.Fatalf("bare insert clobbered the webhook data: %+v", p)
+	}
+}
+
+func TestEnsureProfileIsCachedPerProcess(t *testing.T) {
+	st := &countingStore{fakeStore: newFakeStore()}
+	h := auth.EnsureProfile(st)(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {}))
+	for range 5 {
+		req := httptest.NewRequest(http.MethodGet, "/api/goals", nil)
+		h.ServeHTTP(httptest.NewRecorder(), req.WithContext(auth.WithUserID(req.Context(), "user_hot")))
+	}
+	if st.ensures != 1 {
+		t.Fatalf("expected 1 insert for 5 requests, got %d", st.ensures)
+	}
+}
+
+func TestEnsureProfileFailureDoesNotBreakTheRequest(t *testing.T) {
+	// A transient database blip must not take the whole API down: the row is
+	// almost always already there, and the handler's own query surfaces a real
+	// problem. Fail-open is correct HERE and only here — this is provisioning,
+	// not authorization; the request is already authenticated upstream.
+	st := &erroringStore{newFakeStore()}
+	if rec := serveEnsured(t, st, "user_x"); rec.Code != http.StatusOK {
+		t.Fatalf("a provisioning error must not fail the request, got %d", rec.Code)
+	}
+}
+
+type erroringStore struct{ *fakeStore }
+
+func (e *erroringStore) EnsureExists(context.Context, string) error {
+	return errors.New("connection reset")
 }

@@ -10,6 +10,8 @@
 //           fibre 14 g per 1,000 kcal.
 import type { MacroGoals } from '@/lib/settings/store';
 import type { UserProfile } from '@/lib/data/userStore';
+import { deriveTargets } from '@/lib/onboarding/deriveTargets';
+import type { Goal } from '@/lib/types';
 
 function bmrMifflin(weightKg: number, heightCm: number, age: number, sex: UserProfile['sex']): number {
   const base = 10 * weightKg + 6.25 * heightCm - 5 * age;
@@ -32,18 +34,31 @@ function goalAdjustment(goal: UserProfile['goal']): number {
   return 0; //                          consistency / eat-better / sleep / health → maintain
 }
 
-/** Derive the calorie + macro targets from a user profile. Deterministic, editable. */
+/**
+ * Derive the calorie + macro targets from a user profile.
+ *
+ * This is a thin adapter over lib/onboarding/deriveTargets, which is the ONE
+ * formula — the same one the onboarding preview shows and the same one
+ * backend/internal/goals/derive.go implements. It used to be a second,
+ * independent copy that fed on gymTargetPerWeek instead of the activity level
+ * the user actually chose, so onboarding could promise 2,340 kcal and the
+ * dashboard then show a different number for the same person.
+ */
 export function deriveGoals(profile: UserProfile): MacroGoals {
-  const bmr = bmrMifflin(profile.weightKg, profile.heightCm, profile.age, profile.sex);
-  const tdee = bmr * activityFactor(profile.gymTargetPerWeek);
-  // Floor at a safe minimum so we never recommend an unhealthy target.
-  const calories = Math.max(1200, Math.round((tdee + goalAdjustment(profile.goal)) / 10) * 10);
+  return deriveTargets({
+    age: profile.age,
+    sex: profile.sex,
+    height_cm: profile.heightCm,
+    weight_kg: profile.weightKg,
+    activity_level: profile.activityLevel,
+    goal: goalForDerivation(profile.goal),
+  });
+}
 
-  const proteinPerKg = profile.goal === 'muscle' ? 2.0 : 1.8;
-  const protein = Math.round(profile.weightKg * proteinPerKg);
-  const fat = Math.round((calories * 0.25) / 9);
-  const carbs = Math.max(0, Math.round((calories - protein * 4 - fat * 9) / 4));
-  const fibre = Math.max(25, Math.round((calories / 1000) * 14));
-
-  return { calories, protein, carbs, fat, fibre };
+/** UserProfile.goal carries app-level goals ('consistency', 'sleep', …) that the
+ *  shared formula does not know; everything that is not lose/muscle maintains. */
+function goalForDerivation(goal: UserProfile['goal']): Goal {
+  if (goal === 'lose') return 'lose';
+  if (goal === 'muscle') return 'muscle';
+  return 'track';
 }

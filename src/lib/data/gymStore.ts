@@ -5,6 +5,7 @@
 import { create } from 'zustand';
 
 import { mockGymCalendar, mockGymSessions, mockStreak, type DayStatus, type GymSession } from '@/lib/mock/data';
+import { isDevBuild } from '@/lib/env';
 
 export type Streak = {
   current: number;
@@ -32,16 +33,29 @@ type GymState = {
   reset: () => void;
 };
 
+// A RELEASE build starts EMPTY. Seeding a 13-day streak, 47 total gym days and
+// past sessions meant a real user saw achievements they never earned presented
+// as their own — App Store 2.1, and the same fabricated-data failure that has
+// bitten this codebase twice before. Dev keeps the seed so the keyless offline
+// experience stays navigable.
+function seedGym(): Pick<GymState, 'streak' | 'calendar' | 'sessions'> {
+  if (!isDevBuild()) {
+    return {
+      streak: { current: 0, longest: 0, totalGymDays: 0, freezesAvailable: 0, gymLoggedToday: false },
+      calendar: [],
+      sessions: [],
+    };
+  }
+  return {
+    streak: { ...mockStreak },
+    calendar: mockGymCalendar.map((d) => ({ ...d })),
+    sessions: mockGymSessions.map((x) => ({ ...x })),
+  };
+}
+
 export const useGymStore = create<GymState>((set) => ({
-  streak: { ...mockStreak },
-  calendar: mockGymCalendar.map((d) => ({ ...d })),
-  sessions: mockGymSessions.map((s) => ({ ...s })),
-  reset: () =>
-    set({
-      streak: { ...mockStreak },
-      calendar: mockGymCalendar.map((d) => ({ ...d })),
-      sessions: mockGymSessions.map((s) => ({ ...s })),
-    }),
+  ...seedGym(),
+  reset: () => set({ ...seedGym() }),
 
   logGymSession: (session) =>
     set((s) => {

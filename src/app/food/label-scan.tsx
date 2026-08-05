@@ -4,7 +4,7 @@
 // no camera, no API key, or offline → an empty / zeroed review the user hand-
 // fills. Never crashes.
 import { useRef, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Linking, ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
@@ -129,9 +129,12 @@ export default function LabelScanScreen() {
       });
       showToast({ message: 'Saved to food log.', tone: 'success' });
     } catch {
-      // ponytail: no offline write queue — a real save needs the backend. Per
-      // spec we still leave the flow; the entered values are lost on navigate.
-      showToast({ message: 'Couldn’t save to food log.', tone: 'error' });
+      // Stay on the review screen. This used to navigate away regardless, so a
+      // failed save discarded every per-serving macro the user had just typed
+      // in by hand, with no retry — the error toast was the only trace.
+      showToast({ message: 'Couldn’t save — check your connection and try again.', tone: 'error' });
+      setSubmitting(false);
+      return;
     }
     router.replace('/(tabs)/food');
   };
@@ -229,7 +232,14 @@ export default function LabelScanScreen() {
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
             Lumo uses the camera to read the nutrition facts panel on packaging.
           </Text>
-          <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+          {permission.canAskAgain ? (
+            <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+          ) : (
+            // Permanently denied: iOS silently no-ops requestPermission() after
+            // the second denial, so this button did nothing at all and left the
+            // user tapping it. Send them to Settings instead.
+            <Button title="Open Settings" onPress={() => void Linking.openSettings()} fullWidth={false} />
+          )}
           <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />
         </View>
       </SafeAreaView>

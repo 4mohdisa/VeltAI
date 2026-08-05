@@ -47,6 +47,11 @@ type fakeStore struct {
 	// needsRebuild simulates ai_user_brain.needs_rebuild per user; UpsertBrain
 	// clears it, mirroring the real UPDATE SET needs_rebuild = false.
 	needsRebuild map[string]bool
+	// AI-partner consent (5.1.2(i)). The fake defaults to CONSENTED so the
+	// existing cases keep exercising the feature paths; the consent-gate tests
+	// put a user in noConsent to assert the refusal.
+	noConsent map[string]bool
+
 	// failFoodLogsFor makes FoodLogs error for one uid, to test that a single
 	// user's rebuild failure doesn't stop a sweep.
 	failFoodLogsFor string
@@ -610,5 +615,134 @@ func TestRunRebuildSweep(t *testing.T) {
 	}
 	if _, ok := st.brains["user_calm"]; ok {
 		t.Error("unflagged user should not have been touched by the sweep")
+	}
+}
+
+// --- AI-partner consent (5.1.2(i)) -------------------------------------------
+
+func (f *fakeStore) AIConsentAt(_ context.Context, userID string) (*time.Time, error) {
+	if f.noConsent[userID] {
+		return nil, nil
+	}
+	return &fixedNow, nil
+}
+
+func (f *fakeStore) SetAIConsent(_ context.Context, userID string) error {
+	delete(f.noConsent, userID)
+	return nil
+}
+
+func (f *fakeStore) RevokeAIConsent(_ context.Context, userID string) error {
+	if f.noConsent == nil {
+		f.noConsent = map[string]bool{}
+	}
+	f.noConsent[userID] = true
+	return nil
+}
+
+// --- 5.1.2(i): no third-party send without recorded consent -------------------
+//
+// The consent prompt lived only on the device: it wrote a flag to local storage
+// and the server never learned about it. A user who tapped "Not now" — or who
+// never saw the prompt — still had their food logs, gym sessions, goals, streak
+// and body weights marshalled and POSTed to api.anthropic.com, both by the
+// 6-hour background sweep and by these HTTP routes. Consent has to be recorded
+// where the send happens.
+
+func TestAIRoutesRefuseWithoutConsent(t *testing.T) {
+	for _, tc := range []struct {
+		name, method, path string
+		body               any
+	}{
+		{"brain rebuild", http.MethodPost, "/api/ai/brain/rebuild", nil},
+		{"morning brief", http.MethodGet, "/api/ai/morning-brief", nil},
+		{"ask lumo", http.MethodPost, "/api/ai/query", map[string]string{"question": "how am I doing?"}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			st := fullStore()
+			if err := st.RevokeAIConsent(context.Background(), "u1"); err != nil {
+				t.Fatal(err)
+			}
+			llm := &fakeLLM{resp: "{}"}
+			mux := newMux(st, llm, fixedNow)
+
+			w := do(t, mux, tc.method, tc.path, tc.body, "u1")
+			if w.Code != http.StatusForbidden {
+				t.Fatalf("expected 403, got %d", w.Code)
+			}
+			if llm.calls != 0 {
+				t.Fatalf("user data reached the LLM without consent: %d call(s)", llm.calls)
+			}
+		})
+	}
+}
+
+func TestAIConsentIsFailClosedOnStoreError(t *testing.T) {
+	// An unreadable consent record must NOT be treated as consent.
+	st := &erroringConsentStore{fullStore()}
+	llm := &fakeLLM{resp: "{}"}
+	mux := newMux(st, llm, fixedNow)
+	w := do(t, mux, http.MethodPost, "/api/ai/brain/rebuild", nil, "u1")
+	if w.Code != http.StatusInternalServerError {
+		t.Fatalf("expected 500, got %d", w.Code)
+	}
+	if llm.calls != 0 {
+		t.Fatalf("user data reached the LLM on a consent-read failure: %d call(s)", llm.calls)
+	}
+}
+
+type erroringConsentStore struct{ *fakeStore }
+
+func (e *erroringConsentStore) AIConsentAt(context.Context, string) (*time.Time, error) {
+	return nil, errors.New("connection reset")
+}
+
+func TestAIRoutesRunOnceConsentIsRecorded(t *testing.T) {
+	st := fullStore()
+	if err := st.RevokeAIConsent(context.Background(), "u1"); err != nil {
+		t.Fatal(err)
+	}
+	llm := &fakeLLM{resp: "{}"}
+	mux := newMux(st, llm, fixedNow)
+
+	if w := do(t, mux, http.MethodPost, "/api/ai/brain/rebuild", nil, "u1"); w.Code != http.StatusForbidden {
+		t.Fatalf("precondition: expected 403, got %d", w.Code)
+	}
+	if w := do(t, mux, http.MethodPost, "/api/ai/consent", nil, "u1"); w.Code != http.StatusOK {
+		t.Fatalf("recording consent failed: %d", w.Code)
+	}
+	if w := do(t, mux, http.MethodPost, "/api/ai/brain/rebuild", nil, "u1"); w.Code != http.StatusOK {
+		t.Fatalf("expected 200 after consent, got %d", w.Code)
+	}
+}
+
+func TestAIConsentIsRevocable(t *testing.T) {
+	// The user must be able to withdraw consent and have the sends stop.
+	st := fullStore()
+	mux := newMux(st, &fakeLLM{resp: "{}"}, fixedNow)
+
+	if w := do(t, mux, http.MethodDelete, "/api/ai/consent", nil, "u1"); w.Code != http.StatusOK {
+		t.Fatalf("revoke failed: %d", w.Code)
+	}
+	if w := do(t, mux, http.MethodGet, "/api/ai/consent", nil, "u1"); w.Code != http.StatusOK {
+		t.Fatalf("consent read failed: %d", w.Code)
+	}
+	if w := do(t, mux, http.MethodPost, "/api/ai/brain/rebuild", nil, "u1"); w.Code != http.StatusForbidden {
+		t.Fatalf("revoked consent still allowed a send: %d", w.Code)
+	}
+}
+
+func TestConsentIsPerUser(t *testing.T) {
+	// One user's consent must never authorize another user's data leaving.
+	st := fullStore()
+	if err := st.RevokeAIConsent(context.Background(), "u2"); err != nil {
+		t.Fatal(err)
+	}
+	mux := newMux(st, &fakeLLM{resp: "{}"}, fixedNow)
+	if w := do(t, mux, http.MethodPost, "/api/ai/brain/rebuild", nil, "u1"); w.Code != http.StatusOK {
+		t.Fatalf("consenting user blocked: %d", w.Code)
+	}
+	if w := do(t, mux, http.MethodPost, "/api/ai/brain/rebuild", nil, "u2"); w.Code != http.StatusForbidden {
+		t.Fatalf("non-consenting user allowed: %d", w.Code)
 	}
 }

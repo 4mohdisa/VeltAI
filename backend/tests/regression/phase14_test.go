@@ -66,6 +66,13 @@ type profileStore struct {
 	calls *[]string
 }
 
+func (s profileStore) EnsureExists(_ context.Context, id string) error {
+	if _, ok := s.rows[id]; !ok {
+		s.rows[id] = auth.Profile{ID: id}
+	}
+	return nil
+}
+
 func (s profileStore) Upsert(_ context.Context, p auth.Profile) error {
 	s.rows[p.ID] = p
 	return nil

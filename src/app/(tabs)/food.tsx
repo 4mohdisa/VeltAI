@@ -437,7 +437,7 @@ export default function FoodLogScreen() {
       <GlassFab
         variant="solid"
         accessibilityLabel={t('foodLog.addMeal')}
-        accessibilityHint="Opens the add menu: scan, barcode, voice or saved foods"
+        accessibilityHint="Opens the add menu: scan a meal, barcode, nutrition label, saved foods, my meals or quick add"
         onPress={() => router.push('/food/add')}
         style={{ position: 'absolute', right: space.xl, bottom: fabBottom, zIndex: zIndex.fab }}
       />

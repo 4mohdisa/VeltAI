@@ -133,8 +133,11 @@ func main() {
 	// which is the same as not limiting. Built once — a limiter constructed per
 	// request has no memory and enforces nothing.
 	limiter := ratelimit.NewShared(ratelimit.LoadLimits(), nil, ratelimit.NewPGStore(pool))
+	// EnsureProfile sits AFTER the rate limiter so a flood cannot turn into a
+	// flood of inserts, and BEFORE any handler so the row every user table's
+	// foreign key points at exists by the time a new user's first write runs.
 	mux.Handle("/api/", cors(auth.Middleware(auth.NewClerkVerifier())(
-		limiter.Middleware(gate.Middleware(jsonFallback(api))))))
+		limiter.Middleware(auth.EnsureProfile(profiles)(gate.Middleware(jsonFallback(api)))))))
 
 	srv := &http.Server{
 		Addr:              config.Addr(),

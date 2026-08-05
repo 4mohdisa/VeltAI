@@ -45,6 +45,12 @@ type Store interface {
 	CuisinePreferences(ctx context.Context, userID string) ([]string, error)         // empty slice when unset
 	ScanCorrections(ctx context.Context, userID string) ([]ScanCorrectionRow, error) // last 90 days
 	UsersNeedingRebuild(ctx context.Context) ([]string, error)                       // flagged and due, for the sweep
+
+	// AI-partner consent (5.1.2(i)). nil = never consented; every path that
+	// sends user data to Gemini or Anthropic must refuse.
+	AIConsentAt(ctx context.Context, userID string) (*time.Time, error)
+	SetAIConsent(ctx context.Context, userID string) error
+	RevokeAIConsent(ctx context.Context, userID string) error
 }
 
 type Service struct {
@@ -98,6 +104,9 @@ func (s *Service) Routes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/ai/insights/{id}/dismiss", s.dismiss)
 	mux.HandleFunc("GET /api/ai/morning-brief", s.morningBrief)
 	mux.HandleFunc("POST /api/ai/query", s.query)
+	mux.HandleFunc("GET /api/ai/consent", s.getConsent)
+	mux.HandleFunc("POST /api/ai/consent", s.postConsent)
+	mux.HandleFunc("DELETE /api/ai/consent", s.deleteConsent)
 }
 
 var notEnoughData = map[string]string{"state": "not_enough_data"}
@@ -131,6 +140,51 @@ func (s *Service) fetch(ctx context.Context, uid string) (sourceData, error) {
 	return d, nil
 }
 
+// requireAIConsent fails CLOSED: no consent row, or an error reading it, means
+// no third-party send. Returns false once it has written the response.
+//
+// This gate did not exist. The consent prompt lived only on the device, so a
+// user who declined — or who never saw the prompt at all — still had their food
+// logs, gym sessions, goals, streak and body weights marshalled and POSTed to
+// api.anthropic.com by the 6-hour background sweep and by this HTTP path.
+func (s *Service) requireAIConsent(w http.ResponseWriter, r *http.Request) bool {
+	at, err := s.Store.AIConsentAt(r.Context(), auth.UserID(r.Context()))
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to check AI consent")
+		return false
+	}
+	if at == nil {
+		httpx.Error(w, http.StatusForbidden, "ai_consent_required")
+		return false
+	}
+	return true
+}
+
+func (s *Service) getConsent(w http.ResponseWriter, r *http.Request) {
+	at, err := s.Store.AIConsentAt(r.Context(), auth.UserID(r.Context()))
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to load AI consent")
+		return
+	}
+	httpx.JSON(w, http.StatusOK, map[string]any{"consented": at != nil, "consented_at": at})
+}
+
+func (s *Service) postConsent(w http.ResponseWriter, r *http.Request) {
+	if err := s.Store.SetAIConsent(r.Context(), auth.UserID(r.Context())); err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to record AI consent")
+		return
+	}
+	httpx.JSON(w, http.StatusOK, map[string]bool{"consented": true})
+}
+
+func (s *Service) deleteConsent(w http.ResponseWriter, r *http.Request) {
+	if err := s.Store.RevokeAIConsent(r.Context(), auth.UserID(r.Context())); err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to revoke AI consent")
+		return
+	}
+	httpx.JSON(w, http.StatusOK, map[string]bool{"consented": false})
+}
+
 func (s *Service) getBrain(w http.ResponseWriter, r *http.Request) {
 	b, err := s.Store.GetBrain(r.Context(), auth.UserID(r.Context()))
 	if err != nil {
@@ -145,6 +199,9 @@ func (s *Service) getBrain(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) rebuild(w http.ResponseWriter, r *http.Request) {
+	if !s.requireAIConsent(w, r) {
+		return
+	}
 	ctx := r.Context()
 	brain, err := s.rebuildUser(ctx, auth.UserID(ctx))
 	if err != nil {
@@ -269,6 +326,9 @@ func (s *Service) dismiss(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
+	if !s.requireAIConsent(w, r) {
+		return
+	}
 	ctx := r.Context()
 	uid := auth.UserID(ctx)
 	// "Today"/"yesterday" are calendar days in the configured timezone
@@ -307,6 +367,9 @@ func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) query(w http.ResponseWriter, r *http.Request) {
+	if !s.requireAIConsent(w, r) {
+		return
+	}
 	ctx := r.Context()
 	uid := auth.UserID(ctx)
 	var req struct {
