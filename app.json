@@ -12,7 +12,6 @@
       "supportsTablet": false,
       "bundleIdentifier": "fit.lume.app",
       "buildNumber": "1",
-      "icon": "./assets/expo.icon",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSCameraUsageDescription": "Lume uses the camera to photograph your meals, nutrition labels and barcodes so it can estimate their nutrition and log them for you."
