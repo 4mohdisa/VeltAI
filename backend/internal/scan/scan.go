@@ -168,8 +168,13 @@ func (s *PGStore) SaveConfirmed(ctx context.Context, log ConfirmedLog) (string, 
 		// must never fail the confirm itself. ponytail: error swallowed
 		// rather than logged (no logger wired into this package, same as
 		// the learning hooks below).
+		// Scoped by user_id: without it a caller could link their food_log
+		// into another user's scan_sessions row (the handler now rejects that
+		// too, but the guard belongs here so every caller of SaveConfirmed
+		// inherits it).
 		_, _ = s.q.Exec(ctx,
-			`UPDATE scan_sessions SET food_log_id = $1 WHERE id::text = $2`, id, *log.ScanSessionID)
+			`UPDATE scan_sessions SET food_log_id = $1 WHERE id::text = $2 AND user_id = $3`,
+			id, *log.ScanSessionID, log.UserID)
 	}
 
 	// Learning hooks are best-effort: a failure here must never fail the
@@ -573,6 +578,26 @@ func Register(mux *http.ServeMux, ocr OCR, store Store) {
 			return
 		}
 		log.UserID = auth.UserID(r.Context())
+		if log.ScanSessionID != nil && *log.ScanSessionID != "" {
+			// Mirror the ownership check /api/scan/correction and
+			// /api/scan/feedback already do. This route was missed, so a
+			// caller could attach their own food_log to ANOTHER user's
+			// scan_sessions row. SaveConfirmed also scopes the UPDATE by
+			// user_id now, so the hole is closed at both layers.
+			owner, err := store.GetScanSessionOwner(r.Context(), *log.ScanSessionID)
+			if errors.Is(err, ErrNotFound) {
+				httpx.Error(w, http.StatusNotFound, "scan session not found")
+				return
+			}
+			if err != nil {
+				httpx.Error(w, http.StatusInternalServerError, "lookup failed")
+				return
+			}
+			if owner != log.UserID {
+				httpx.Error(w, http.StatusForbidden, "forbidden")
+				return
+			}
+		}
 		id, err := store.SaveConfirmed(r.Context(), log)
 		if err != nil {
 			httpx.Error(w, http.StatusInternalServerError, "failed to save log")
@@ -714,8 +739,12 @@ func confidencePercent(confidence float64) int {
 
 // CountScansToday counts the user's AI scans in the current server-calendar
 // day, backing the free-tier scan quota. Counting existing scan_sessions rows
-// avoids a second source of truth (and a migration): every paid Gemini call
-// writes exactly one session row.
+// avoids a second source of truth (and a migration), which only works while
+// every paid Gemini call writes exactly one session row. That invariant was
+// FALSE for POST /api/scan/label, which made a billable call and wrote nothing,
+// so free-tier users had an unmetered path; it now writes a 'label' row before
+// the call. If you add a Gemini call site, write a session row or this quota
+// silently stops covering it.
 func (s *PGStore) CountScansToday(ctx context.Context, userID string) (int, error) {
 	var n int
 	err := s.q.QueryRow(ctx,

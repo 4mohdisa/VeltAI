@@ -141,6 +141,8 @@ type fakePipelineStore struct {
 	updatedOverall      int
 	updatedProcessingMs int
 	updated             chan struct{} // buffered(1): signals UpdatePipelineSession
+
+	labelSessions int // CreateLabelSession calls — the /api/scan/label quota row
 }
 
 func newFakePipelineStore() *fakePipelineStore {
@@ -172,6 +174,13 @@ func (f *fakePipelineStore) CreatePipelineSession(_ context.Context, _, foodLogI
 	f.sessionForLog = foodLogID
 	f.mu.Unlock()
 	return "sess_pipeline_1", nil
+}
+
+func (f *fakePipelineStore) CreateLabelSession(_ context.Context, _ string) (string, error) {
+	f.mu.Lock()
+	f.labelSessions++
+	f.mu.Unlock()
+	return "sess_label_1", nil
 }
 
 func (f *fakePipelineStore) UpdatePipelineSession(_ context.Context, sessionID string, _, _, _, overallConf int, _ string, _ bool, processingMs int) error {
@@ -423,6 +432,50 @@ func TestLabel_HandlerConfidenceFloorIs80(t *testing.T) {
 	decodeData(t, rec, &got)
 	if got.Confidence != 80 {
 		t.Fatalf("confidence = %d, want floored to 80", got.Confidence)
+	}
+}
+
+// A label scan must write a scan_sessions row, because CountScansToday counts
+// those rows and nothing else. Without one, POST /api/scan/label was a billable
+// gemini-2.5-flash call that never consumed the free-tier quota — an unmetered
+// paid path capped only by the 10/min rate limiter (600 calls/hour/account).
+func TestLabel_WritesSessionRowForQuota(t *testing.T) {
+	g, srv := geminiServer(t,
+		`{"food_name":"Granola","serving_size_g":50,"calories_per_serving":200,"protein_g":5,"carbs_g":30,"fat_g":6,"fibre_g":4,"confidence":90}`)
+	defer srv.Close()
+
+	store := newFakePipelineStore()
+	rec := servePipeline(t, g, store, nil,
+		"POST", "/api/scan/label", `{"image_base64":"aGVsbG8="}`)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200; body %s", rec.Code, rec.Body)
+	}
+	store.mu.Lock()
+	n := store.labelSessions
+	store.mu.Unlock()
+	if n != 1 {
+		t.Fatalf("CreateLabelSession calls = %d, want exactly 1 — the label scan is not counted against the quota", n)
+	}
+}
+
+// The quota row is written BEFORE the paid call, so a Gemini failure still
+// costs the caller a scan. Otherwise anyone who can make the call fail retries
+// for free forever.
+func TestLabel_CountsQuotaEvenWhenGeminiFails(t *testing.T) {
+	g, srv := geminiServer(t, `not json at all`)
+	defer srv.Close()
+
+	store := newFakePipelineStore()
+	rec := servePipeline(t, g, store, nil,
+		"POST", "/api/scan/label", `{"image_base64":"aGVsbG8="}`)
+	if rec.Code == http.StatusOK {
+		t.Fatalf("expected the label scan to fail, got 200: %s", rec.Body)
+	}
+	store.mu.Lock()
+	n := store.labelSessions
+	store.mu.Unlock()
+	if n != 1 {
+		t.Fatalf("CreateLabelSession calls = %d, want 1 — a failed paid call must still consume quota", n)
 	}
 }
 

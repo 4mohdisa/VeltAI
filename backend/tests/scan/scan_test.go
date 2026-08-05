@@ -375,6 +375,49 @@ func TestConfirmSaves(t *testing.T) {
 	}
 }
 
+// IDOR: POST /api/scan/confirm accepts a caller-supplied scan_session_id and
+// used it to UPDATE scan_sessions with no ownership check, so user B could
+// point another user's session row at B's own food_log. The two sibling routes
+// (/correction, /feedback) already checked; this one was missed.
+func TestConfirmRejectsForeignScanSession(t *testing.T) {
+	store := &fakeStore{sessions: map[string]fakeSession{
+		"sess_victim": {owner: "user_victim"},
+	}}
+	rec := serve(t, &fakeOCR{}, store, "POST", "/api/scan/confirm",
+		`{"food_name":"attacker food","calories":100,"scan_session_id":"sess_victim"}`)
+	if rec.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403; body %s", rec.Code, rec.Body)
+	}
+	if store.saved.FoodName != "" {
+		t.Fatalf("a rejected confirm must not save a log, saved %q", store.saved.FoodName)
+	}
+}
+
+// An unknown session id is a 404, matching /api/scan/correction.
+func TestConfirmUnknownScanSessionIs404(t *testing.T) {
+	store := &fakeStore{}
+	rec := serve(t, &fakeOCR{}, store, "POST", "/api/scan/confirm",
+		`{"food_name":"banana","calories":105,"scan_session_id":"sess_nope"}`)
+	if rec.Code != http.StatusNotFound {
+		t.Fatalf("status = %d, want 404; body %s", rec.Code, rec.Body)
+	}
+}
+
+// The caller's OWN session still confirms normally.
+func TestConfirmAcceptsOwnScanSession(t *testing.T) {
+	store := &fakeStore{sessions: map[string]fakeSession{
+		"sess_mine": {owner: "user_1"},
+	}}
+	rec := serve(t, &fakeOCR{}, store, "POST", "/api/scan/confirm",
+		`{"food_name":"banana","calories":105,"scan_session_id":"sess_mine"}`)
+	if rec.Code != http.StatusCreated {
+		t.Fatalf("status = %d, want 201; body %s", rec.Code, rec.Body)
+	}
+	if store.saved.FoodName != "banana" {
+		t.Fatalf("saved = %q, want banana", store.saved.FoodName)
+	}
+}
+
 // Omitted optional fields must stay nil so pgx inserts NULL, matching the
 // manual food.CreateLog write path.
 func TestConfirmOmittedOptionalsStayNil(t *testing.T) {

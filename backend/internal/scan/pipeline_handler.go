@@ -60,6 +60,11 @@ type PipelineStore interface {
 	// UpdatePipelineSession records the pipeline's confidence/quality/timing
 	// metrics on the session once the run completes.
 	UpdatePipelineSession(ctx context.Context, sessionID string, imageQuality, geometryConf, aiConf, overallConf int, referenceObject string, plateDetected bool, processingMs int) error
+	// CreateLabelSession inserts a scan_sessions row (scan_type 'label') with
+	// no food_log, so a nutrition-label scan consumes the free-tier quota.
+	// CountScansToday counts scan_sessions rows; POST /api/scan/label wrote
+	// none, so it made unlimited paid Gemini calls for free-tier users.
+	CreateLabelSession(ctx context.Context, userID string) (id string, err error)
 }
 
 // CreateAnalyzingLog inserts a placeholder food_logs row the async pipeline
@@ -92,6 +97,22 @@ func (s *PGStore) CreatePipelineSession(ctx context.Context, userID, foodLogID s
 		 VALUES ($1, 'pipeline', $2::uuid, now())
 		 RETURNING id`,
 		userID, foodLogID).Scan(&id)
+	return id, err
+}
+
+// CreateLabelSession records a nutrition-label scan so it counts against the
+// daily quota. food_log_id stays null: a label scan produces per-100g values
+// the user still has to portion, not a logged food.
+func (s *PGStore) CreateLabelSession(ctx context.Context, userID string) (string, error) {
+	if _, err := s.q.Exec(ctx,
+		`INSERT INTO profiles (id) VALUES ($1) ON CONFLICT DO NOTHING`, userID); err != nil {
+		return "", err
+	}
+	var id string
+	err := s.q.QueryRow(ctx,
+		`INSERT INTO scan_sessions (user_id, scan_type, created_at)
+		 VALUES ($1, 'label', now())
+		 RETURNING id`, userID).Scan(&id)
 	return id, err
 }
 
@@ -422,6 +443,13 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 		}
 		if len(imageBytes) > maxImageBytes {
 			httpx.Error(w, http.StatusRequestEntityTooLarge, "image too large")
+			return
+		}
+		// Record the session BEFORE the paid call, so a failing Gemini request
+		// still consumes quota. Cost control has to count attempts: otherwise a
+		// caller who can make the call fail retries for free, forever.
+		if _, err := store.CreateLabelSession(r.Context(), auth.UserID(r.Context())); err != nil {
+			httpx.Error(w, http.StatusInternalServerError, "failed to start label scan")
 			return
 		}
 		label, err := gem.ExtractLabel(r.Context(), imageBytes, req.MimeType)
