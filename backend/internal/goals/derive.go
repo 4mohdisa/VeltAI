@@ -24,6 +24,24 @@ type DerivedGoals struct {
 	Fibre    int
 }
 
+// calorieFloor is the safety floor on the DERIVED target (App Store guideline
+// 1.4.1 — the app must not recommend an unsafe intake). It was a flat 1,200 for
+// everyone, so a small, older, sedentary male on a "lose" goal was recommended
+// 1,200 kcal/day; the widely-cited minimum for men is 1,500. "other" takes the
+// midpoint, matching how the BMR offset below already handles "other".
+// Mirrored by calorieFloor() in src/lib/onboarding/deriveTargets.ts — the two
+// derivations must agree exactly, so change both.
+func calorieFloor(sex string) float64 {
+	switch sex {
+	case "male":
+		return 1500
+	case "female":
+		return 1200
+	default:
+		return 1350
+	}
+}
+
 var activityFactors = map[string]float64{
 	"sedentary":   1.2,
 	"light":       1.375,
@@ -69,7 +87,7 @@ func DeriveGoals(in DeriveInput) DerivedGoals {
 		adj = 250
 	}
 
-	calories := math.Max(calorieTargetMin, math.Round((tdee+adj)/10)*10)
+	calories := math.Max(calorieFloor(in.Sex), math.Round((tdee+adj)/10)*10)
 	perKg := 1.8
 	if in.Goal == "muscle" {
 		perKg = 2.0

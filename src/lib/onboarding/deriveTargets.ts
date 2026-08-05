@@ -28,6 +28,18 @@ const ACTIVITY_FACTORS: Record<ActivityLevel, number> = {
   very_active: 1.9,
 };
 
+// Safety floor on the DERIVED target (guideline 1.4.1 — the app must not
+// recommend an unsafe intake). This was a flat 1,200 for everyone, so a small,
+// older, sedentary male on a "lose" goal was recommended 1,200 kcal/day; the
+// widely-cited minimum for men is 1,500. 'other' takes the midpoint, matching
+// how this file already handles 'other' in the BMR offset above.
+// Mirrored by calorieFloor() in backend/internal/goals/derive.go — change both.
+export function calorieFloor(sex: Sex): number {
+  if (sex === 'male') return 1500;
+  if (sex === 'female') return 1200;
+  return 1350;
+}
+
 export type DeriveInput = {
   age: number;
   sex: Sex;
@@ -53,7 +65,7 @@ export function deriveTargets(input: DeriveInput): MacroTargets {
   if (input.goal === 'lose') adj = -400;
   else if (input.goal === 'muscle') adj = 250;
 
-  const calories = Math.max(1200, Math.round((tdee + adj) / 10) * 10);
+  const calories = Math.max(calorieFloor(input.sex), Math.round((tdee + adj) / 10) * 10);
   const perKg = input.goal === 'muscle' ? 2.0 : 1.8;
   const protein = Math.round(weightKg * perKg);
   const fat = Math.round((calories * 0.25) / 9);

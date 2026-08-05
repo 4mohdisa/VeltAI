@@ -4,7 +4,7 @@
 // Server state lives in the zustand stores behind @/lib/data.
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
-import { Text as RNText, View } from 'react-native';
+import { AppState as RNAppState, Text as RNText, View } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
@@ -92,16 +92,29 @@ export default function RootLayout() {
   const reduceMotion = useReduceMotion();
 
   // Rehydrate + attempt to flush any offline-queued writes on launch, and
-  // initialize RevenueCat (no-op in billing-disabled dev mode). No NetInfo dep —
-  // the flush is opportunistic; screens can also trigger one on mount.
+  // initialize RevenueCat (no-op in billing-disabled dev mode).
+  //
+  // The flush used to run EXACTLY ONCE per launch, and the comment here claimed
+  // "screens can also trigger one on mount" — no screen ever did, and there is
+  // no NetInfo dependency. So a user who lost signal, logged meals, and walked
+  // back into coverage sat on "N changes waiting to sync" until they force-quit
+  // and relaunched. Foregrounding is the cheap, dependency-free reconnect proxy:
+  // it catches the walk-back-into-coverage case and the overnight case without
+  // adding a connectivity library.
   useEffect(() => {
     configurePurchases();
     // Analytics rides the same reconnect moment: after the offline queue's
     // opportunistic flush, send any buffered/persisted product events too.
     void initAnalytics();
-    void loadQueue()
-      .then(() => flushOfflineQueue())
-      .then(() => flushAnalytics());
+    const sync = () =>
+      void loadQueue()
+        .then(() => flushOfflineQueue())
+        .then(() => flushAnalytics());
+    sync();
+    const sub = RNAppState.addEventListener('change', (next) => {
+      if (next === 'active') sync();
+    });
+    return () => sub.remove();
   }, []);
 
   return (

@@ -48,6 +48,33 @@ const isUploadBody = (b: unknown): boolean =>
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+// Clerk's getToken() performs a real network call to its Frontend API whenever
+// the cached session JWT is stale — routinely, not exceptionally. It sat OUTSIDE
+// withTimeout, so a captive portal / half-open TCP / DNS blackhole hung it
+// forever: request() never reached the deadline it advertises, and every api.*
+// call in the app hung with no abort and no rejection. The launch gate awaits
+// one of those, so the symptom was an infinite spinner on the first screen with
+// no route out. Treat a token we cannot obtain in time as "no token" and let the
+// request proceed unauthenticated — the server answers 401, which the app
+// already handles, instead of nothing at all.
+const TOKEN_TIMEOUT_MS = num(process.env.EXPO_PUBLIC_API_TOKEN_TIMEOUT_MS, 10_000);
+
+function withTokenDeadline(p: Promise<string | null>): Promise<string | null> {
+  return new Promise<string | null>((resolve) => {
+    const timer = setTimeout(() => resolve(null), TOKEN_TIMEOUT_MS);
+    p.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      () => {
+        clearTimeout(timer);
+        resolve(null);
+      },
+    );
+  });
+}
+
 /**
  * Bound a request. fetch() has NO default timeout, so a hung connection would
  * spin the UI forever. The signal frees the socket; the explicit reject makes
@@ -162,7 +189,7 @@ async function issue(method: string, path: string, body: unknown, extraHeaders: 
 }
 
 async function request<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
-  const token = tokenProvider ? await tokenProvider() : null;
+  const token = tokenProvider ? await withTokenDeadline(tokenProvider()) : null;
   // Retry ONLY idempotent GETs (network failure/timeout or 5xx), with backoff.
   // A write is never retried here: without server-side dedup a replayed POST is
   // a duplicate row. Writes that must survive a flaky network go through the
@@ -181,7 +208,9 @@ async function request<T>(method: string, path: string, body?: unknown, extraHea
     // 401 → ONE forced token refresh + retry; only a second 401 (or a failed
     // refresh) signs the user out (Phase 13 machine: expired → refresh → signOut).
     if (res.status === 401 && tokenRefreshHandler) {
-      const fresh = await tokenRefreshHandler().catch(() => null);
+      // Bounded for the same reason as the initial token fetch above: a hung
+      // refresh would strand the request past its deadline.
+      const fresh = await withTokenDeadline(tokenRefreshHandler());
       if (fresh) {
         res = await issue(method, path, body, extraHeaders, fresh);
       }

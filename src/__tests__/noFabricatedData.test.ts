@@ -165,18 +165,25 @@ describe('the calorie formula has exactly one definition', () => {
     expect(fromProfile).toEqual(deriveTargets(person));
   });
 
+  // REWRITTEN: this test asserted a flat floor of 1200 for every sex. That was
+  // the behaviour, and the behaviour was wrong — a flat 1200 recommends the
+  // female minimum to men, for whom the widely-cited floor is 1500 (1.4.1). The
+  // floor is now sex-aware (src/lib/onboarding/deriveTargets.ts calorieFloor,
+  // mirrored in backend/internal/goals/derive.go), so the expectation moved with
+  // it. The test's intent is unchanged: an empty profile still gets the floor
+  // and never a fabricated protein goal.
   test('a release-build profile with no metrics yields no confident target', () => {
     // 0 kg / 0 cm cannot produce a real recommendation. The floor still applies,
     // but protein must not be presented as a real 0 g goal derived from nothing.
     const { deriveGoals } = require('@/lib/goals/derive');
-    const empty = deriveGoals({
+    const emptyProfile = (sex: 'male' | 'female' | 'other') => ({
       name: '',
       email: '',
       memberSince: '',
       weightKg: 0,
       heightCm: 0,
       age: 0,
-      sex: 'other' as const,
+      sex,
       goal: 'lose' as const,
       targetWeightKg: 0,
       gymTargetPerWeek: 0,
@@ -185,8 +192,28 @@ describe('the calorie formula has exactly one definition', () => {
       allergies: [],
       cuisines: [],
     });
-    expect(empty.protein).toBe(0);
-    expect(empty.calories).toBe(1200);
+
+    expect(deriveGoals(emptyProfile('other')).protein).toBe(0);
+    // The floor binds, and it is the SEX-AWARE floor.
+    expect(deriveGoals(emptyProfile('female')).calories).toBe(1200);
+    expect(deriveGoals(emptyProfile('male')).calories).toBe(1500);
+    expect(deriveGoals(emptyProfile('other')).calories).toBe(1350);
+  });
+
+  // The specific unsafe recommendation the flat floor allowed: a small, older,
+  // sedentary man on a "lose" goal. TDEE lands near 1,251; minus the 400 kcal
+  // deficit that is 851, which the old flat floor lifted only to 1,200.
+  test('a real body that hits the floor gets the male minimum, not 1200', () => {
+    const { deriveTargets } = require('@/lib/onboarding/deriveTargets');
+    const t = deriveTargets({
+      age: 60,
+      sex: 'male' as const,
+      height_cm: 150,
+      weight_kg: 40,
+      activity_level: 'sedentary' as const,
+      goal: 'lose' as const,
+    });
+    expect(t.calories).toBe(1500);
   });
 });
 
