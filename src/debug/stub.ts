@@ -8,7 +8,6 @@
 // call sites in shipping code (src/lib/api.ts, the ErrorBoundary) do not need
 // their own conditionals.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
 export const DebugRoot = (_props: unknown): null => null;
 

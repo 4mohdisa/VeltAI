@@ -50,7 +50,10 @@ var activityFactors = map[string]float64{
 	"very_active": 1.9,
 }
 
-// DeriveGoals mirrors src/lib/goals/derive.ts exactly: Mifflin–St Jeor BMR,
+// DeriveGoals mirrors src/lib/onboarding/deriveTargets.ts exactly (the ONE
+// client-side formula; src/lib/goals/derive.ts is only a thin adapter over
+// it — the audit of 2026-08-06 fixed this comment, which named the adapter
+// as the mirror): Mifflin–St Jeor BMR,
 // activity factor, goal adjustment, macro split. Frozen formula — keep in sync
 // with the app.
 func DeriveGoals(in DeriveInput) DerivedGoals {

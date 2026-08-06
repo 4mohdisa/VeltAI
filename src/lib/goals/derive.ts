@@ -1,38 +1,17 @@
-// Goal derivation (Task 2) — a transparent, honest calorie/macro target computed
-// from the user's onboarding inputs. This replaces the hardcoded mock target as the
-// "AI recommendation"; it stays editable via the custom-goals override.
+// Goal derivation — a thin adapter over lib/onboarding/deriveTargets, which is
+// the ONE canonical formula (mirrored exactly by backend/internal/goals/
+// derive.go).
 //
-// Formula (industry-standard, nothing fabricated):
-//   BMR   — Mifflin–St Jeor
-//   TDEE  — BMR × activity factor (from target gym sessions/week)
-//   Target— TDEE + goal adjustment (deficit to lose, surplus to build muscle)
-//   Macros— protein from bodyweight, fat 25% of energy, carbs the remainder,
-//           fibre 14 g per 1,000 kcal.
+// The audit of 2026-08-06 deleted the dead remains of the OLD independent
+// formula that used to live here (bmrMifflin / activityFactor /
+// goalAdjustment, keyed on gymTargetPerWeek instead of the chosen activity
+// level) — the very duplicate that once let onboarding promise one calorie
+// target and the dashboard show another for the same person. Do not
+// reintroduce a second derivation in this file.
 import type { MacroGoals } from '@/lib/settings/store';
 import type { UserProfile } from '@/lib/data/userStore';
 import { deriveTargets } from '@/lib/onboarding/deriveTargets';
 import type { Goal } from '@/lib/types';
-
-function bmrMifflin(weightKg: number, heightCm: number, age: number, sex: UserProfile['sex']): number {
-  const base = 10 * weightKg + 6.25 * heightCm - 5 * age;
-  if (sex === 'male') return base + 5;
-  if (sex === 'female') return base - 161;
-  return base - 78; // 'other' → midpoint of the two offsets
-}
-
-function activityFactor(gymPerWeek: number): number {
-  if (gymPerWeek <= 0) return 1.2; //   sedentary
-  if (gymPerWeek <= 2) return 1.375; // light
-  if (gymPerWeek <= 4) return 1.55; //  moderate
-  if (gymPerWeek <= 6) return 1.725; // active
-  return 1.9; //                        very active
-}
-
-function goalAdjustment(goal: UserProfile['goal']): number {
-  if (goal === 'lose') return -400; // moderate deficit
-  if (goal === 'muscle') return 250; // lean surplus
-  return 0; //                          consistency / eat-better / sleep / health → maintain
-}
 
 /**
  * Derive the calorie + macro targets from a user profile.

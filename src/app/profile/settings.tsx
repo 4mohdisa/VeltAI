@@ -74,7 +74,11 @@ export default function SettingsScreen() {
         title={t('settings.groupApp')}
         rows={[
           { icon: 'options-outline', label: t('settings.preferences'), onPress: () => router.push('/profile/preferences') },
-          { icon: 'notifications-outline', label: t('settings.notifications'), onPress: () => router.push('/profile/notifications') },
+          // Notifications row removed (audit 2026-08-06): the preferences
+          // screen offered "What we send" toggles + quiet hours for a
+          // notification system that does not exist in the build — dead UI
+          // masquerading as a feature (App Store 2.1). Restore the row when
+          // something actually sends notifications.
           { icon: 'link-outline', label: 'Connected apps', onPress: () => router.push('/profile/integrations' as Href) },
         ]}
       />
