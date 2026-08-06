@@ -6,13 +6,20 @@
 import { api, type FoodLog } from '@/lib/api';
 
 const POLL_INTERVAL_MS = 3000;
-const TIMEOUT_MS = 60_000;
+// Slightly ABOVE the server's scan budget (LUME_SCAN_TIMEOUT_SEC, default
+// 120s). The old 60s deadline sat halfway inside it, so a slow scan showed
+// "Couldn't analyse this photo" and then the meal appeared on the next refresh
+// anyway (audit 2026-08-06).
+const TIMEOUT_MS = 130_000;
 
 /**
  * Poll a scan food_log until it becomes 'ready' or 'failed'. Returns a stop()
  * to cancel (call on unmount / after save/discard). Guarantees: no callback
  * fires after stop(); exactly one terminal callback fires (onReady OR onFailed);
- * the 60s timeout invokes onFailed once; transient fetch errors keep polling
+ * the deadline runs ONE final status check before declaring failure (JS timers
+ * suspend while backgrounded, so the deadline often fires immediately on
+ * resume — the final check turns "backgrounded through a successful scan"
+ * into ready instead of a false failure); transient fetch errors keep polling
  * until the deadline.
  */
 export function startScanPoller(
@@ -36,7 +43,24 @@ export function startScanPoller(
     onFailed();
   };
 
-  deadlineTimer = setTimeout(finishFailed, TIMEOUT_MS);
+  // Deadline: one last read of the truth before giving up.
+  const finalCheck = (): void => {
+    if (stopped) return;
+    api.foodLogs
+      .get(logId)
+      .then((log) => {
+        if (stopped) return;
+        if (log.status === 'ready') {
+          stop();
+          onReady(log);
+        } else {
+          finishFailed();
+        }
+      })
+      .catch(finishFailed);
+  };
+
+  deadlineTimer = setTimeout(finalCheck, TIMEOUT_MS);
 
   const poll = (): void => {
     if (stopped) return;

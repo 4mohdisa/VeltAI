@@ -26,7 +26,10 @@ import { color, radius, space, surface } from '@/lib/design/tokens';
 import { STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { slotForNow } from '@/lib/data';
 import { todayISO } from '@/lib/data/mappers';
-import { api, type ScanLabelResult } from '@/lib/api';
+import { api, isTransient, type ScanLabelResult } from '@/lib/api';
+import { runOrQueue } from '@/lib/offline/queue';
+import { useFoodStore } from '@/lib/data/foodStore';
+import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
 import type { MealSlot } from '@/lib/mock/data';
 
 type Phase = 'capture' | 'reading' | 'review';
@@ -96,7 +99,14 @@ export default function LabelScanScreen() {
     }
     try {
       prefillFrom(await api.scan.label(base64));
-    } catch {
+    } catch (e) {
+      // 402 = out of free scans: surface the paywall, not a generic failure
+      // dressed up as a reading problem (audit 2026-08-06).
+      if (isUpgradeRequired(e)) {
+        handleUpgradeRequired(e);
+        router.back();
+        return;
+      }
       // 503 (no GEMINI key) / offline / network → zeroed review to hand-enter.
       showToast({ message: 'Couldn’t read the label — enter values manually', tone: 'warn' });
       setBand('Low');
@@ -113,29 +123,47 @@ export default function LabelScanScreen() {
     const c = num(carbs);
     const f = num(fat);
     const fb = num(fibre);
+    const body = {
+      date: todayISO(),
+      meal_type: mealType,
+      food_name: foodName.trim() || 'Nutrition label',
+      quantity: qty * size,
+      unit: 'g',
+      calories: cal * qty,
+      protein: p * qty,
+      carbs: c * qty,
+      fat: f * qty,
+      fibre: fb * qty,
+      source: 'label_scan',
+    };
+    let toast = 'Saved to food log.';
     try {
-      await api.foodLogs.create({
-        date: todayISO(),
-        meal_type: mealType,
-        food_name: foodName.trim() || 'Nutrition label',
-        quantity: qty * size,
-        unit: 'g',
-        calories: cal * qty,
-        protein: p * qty,
-        carbs: c * qty,
-        fat: f * qty,
-        fibre: fb * qty,
-        source: 'label_scan',
-      });
-      showToast({ message: 'Saved to food log.', tone: 'success' });
-    } catch {
-      // Stay on the review screen. This used to navigate away regardless, so a
-      // failed save discarded every per-serving macro the user had just typed
-      // in by hand, with no retry — the error toast was the only trace.
-      showToast({ message: 'Couldn’t save — check your connection and try again.', tone: 'error' });
-      setSubmitting(false);
-      return;
+      await api.foodLogs.create(body);
+    } catch (e) {
+      if (!isTransient(e)) {
+        // Stay on the review screen. This used to navigate away regardless, so a
+        // failed save discarded every per-serving macro the user had just typed
+        // in by hand, with no retry — the error toast was the only trace.
+        showToast({ message: 'Couldn’t save — check the values and try again.', tone: 'error' });
+        setSubmitting(false);
+        return;
+      }
+      // Offline / server down: queue the create (idempotency-keyed replay) so
+      // the hand-typed macros survive — pre-audit this path could only retry
+      // forever or abandon the data (audit 2026-08-06).
+      await runOrQueue('/api/food/logs', body);
+      toast = 'Saved — will sync when you’re back online.';
     }
+    // Reflect locally so the food log shows it immediately either way.
+    useFoodStore.getState().logMeal(mealType, {
+      name: body.food_name,
+      quantityG: body.quantity,
+      calories: body.calories,
+      protein: body.protein,
+      carbs: body.carbs,
+      fat: body.fat,
+    }, 'manual');
+    showToast({ message: toast, tone: 'success' });
     router.replace('/(tabs)/food');
   };
 

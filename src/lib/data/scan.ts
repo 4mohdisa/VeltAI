@@ -5,7 +5,7 @@
 import { api, type FoodLog } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { deleteFoodItem, logMeal, registerMealCreate } from './mutations';
-import { barcodeProductFromApi, todayISO } from './mappers';
+import { barcodeProductFromApi, isServerId, todayISO } from './mappers';
 import { useFoodStore, type StoredFoodItem } from './foodStore';
 import { startScanPoller } from './scanPoller';
 import { aiDetectedItems, type DetectedItem } from '@/lib/mock/ai';
@@ -122,8 +122,9 @@ export function startPhotoScan(imageBase64?: string, mimeType = 'image/jpeg'): M
       api.scan
       .pipeline(imageBase64, mimeType)
       .then(({ log_id, scan_session_id }) => {
-        // Row stays 'analyzing'; remember the session id, then poll for 'ready'.
-        useFoodStore.getState().updateScannedItem(id, { scanSessionId: scan_session_id });
+        // Row stays 'analyzing'; remember the session AND the server row id
+        // (serverLogId is what discard deletes), then poll for 'ready'.
+        useFoodStore.getState().updateScannedItem(id, { scanSessionId: scan_session_id, serverLogId: log_id });
         const stop = startScanPoller(
           log_id,
           (log) => {
@@ -182,7 +183,7 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
     api.scan
     .pipelineMulti(images)
     .then(({ log_id, scan_session_id }) => {
-      useFoodStore.getState().updateScannedItem(id, { scanSessionId: scan_session_id });
+      useFoodStore.getState().updateScannedItem(id, { scanSessionId: scan_session_id, serverLogId: log_id });
       const stop = startScanPoller(
         log_id,
         (log) => {
@@ -432,12 +433,21 @@ export function saveScannedItem(itemId: string): void {
 
 /** Drop a reviewed/failed/analyzing scan row without saving it. Phase 13
  *  signal 6: an outright discard is the strongest negative signal — report it
- *  (best-effort) so capture conditions that produce useless scans get learned. */
+ *  (best-effort) so capture conditions that produce useless scans get learned.
+ *
+ *  The server row DIES here too (audit 2026-08-06): the pipeline created a
+ *  real food_logs row for this scan, and pre-audit nothing deleted it, so the
+ *  estimate the user explicitly rejected resurrected as a review card on the
+ *  next refresh — and, once 'ready', sat in the log forever. */
 export function discardScannedItem(itemId: string): void {
   const item = findScanItem(itemId)?.item;
   stopPoller(itemId); // cancel an in-flight poll if discarded mid-analysis
   scanEstimates.delete(itemId);
   track('scan_discarded');
+  const serverRow = item?.serverLogId ?? (item && isServerId(item.id) ? item.id : undefined);
+  if (serverRow) {
+    api.foodLogs.delete(serverRow).catch(warn('discard: server row delete failed'));
+  }
   if (item?.scanSessionId) {
     api.scan
       .correction({

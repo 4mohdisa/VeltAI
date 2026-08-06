@@ -36,6 +36,21 @@ func TestCreateLogRejectsUnknownMealType(t *testing.T) {
 	}
 }
 
+// The shipped client sends CAPITALIZED slot names ('Breakfast', 'Snacks').
+// This pins that the enum accepts the app's real vocabulary — a strict
+// lowercase enum would 400 every genuine log write.
+func TestCreateLogAcceptsTheClientsCapitalizedMealTypes(t *testing.T) {
+	mux := newMux(&fakeStore{}, nil)
+	for _, mt := range []string{"Breakfast", "Lunch", "Dinner", "Snacks", "snack"} {
+		rr := do(t, mux, "POST", "/api/food/logs", "user_val_5", map[string]any{
+			"food_name": "Oats", "calories": 300, "meal_type": mt,
+		})
+		if rr.Code != http.StatusCreated {
+			t.Fatalf("meal_type=%q: got %d, want 201 — the app really sends this; body %s", mt, rr.Code, rr.Body.String())
+		}
+	}
+}
+
 func TestPatchLogRejectsNegativeMacros(t *testing.T) {
 	mux := newMux(&fakeStore{}, nil)
 	rr := do(t, mux, "POST", "/api/food/logs", "user_val_3", map[string]any{

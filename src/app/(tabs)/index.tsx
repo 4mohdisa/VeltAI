@@ -17,7 +17,6 @@ import { StreakFlame } from '@/components/display/StreakFlame';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { MacroBars } from '@/components/domain/MacroBars';
 import { GymStatusCard } from '@/components/domain/GymStatusCard';
-import { AiNudgeBanner } from '@/components/domain/AiNudgeBanner';
 import { MorningBriefCard } from '@/components/ai';
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
@@ -38,7 +37,6 @@ export default function DashboardScreen() {
   const gymLogged = streak.gymLoggedToday;
   // Real logged duration for today (undefined until logged — card renders without it).
   const todayDurationMin = useGymStore((s) => s.sessions.find((x) => x.date === 'Today')?.durationMin);
-  const [showNudge, setShowNudge] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const nextMeal = plan.find((p) => p.kind === 'meal');
   const onRefresh = useCallback(() => {
@@ -59,15 +57,12 @@ export default function DashboardScreen() {
         {/* AI morning brief — first content item; renders null when there's none. */}
         <MorningBriefCard />
 
-        {/* F4 · AI nudge banner (dismissable) */}
-        {showNudge && !gymLogged ? (
-          <AiNudgeBanner
-            message="It's nearly your gym window — log today's session to keep your streak alive."
-            onPress={() => router.push('/dashboard/plan')}
-            onDismiss={() => setShowNudge(false)}
-          />
-        ) : null}
-
+        {/* The AI nudge banner was REMOVED here (audit 2026-08-06): it rendered
+            a hardcoded "It's nearly your gym window" claim in every build —
+            the app computes no gym window, so it was a fabricated first-person
+            statement about the user's own routine (the same defect class as
+            the five prior fabricated-data rounds). Bring it back only driven
+            by real schedule data. */}
         {/* Zone 1 — streak (the only progression mechanic) */}
         <View style={{ gap: space.xs }}>
           <Text variant="footnote" color={color.gray500}>

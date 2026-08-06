@@ -30,6 +30,11 @@ export type StoredFoodItem = FoodItem & {
   pending?: boolean;
   status?: ScanItemStatus;
   scanSessionId?: string;
+  // The server food_logs row behind a scan review card. Local rows learn it
+  // when the pipeline responds; hydrated rows carry it as their own id. It is
+  // what discard deletes — without it a discarded scan's server row survived
+  // and resurrected as a review card on the next refresh (audit 2026-08-06).
+  serverLogId?: string;
   estimatedWeightG?: number;
   // Multi-angle capture (Phase 13): how well the angles agreed (0..1), whether
   // the user must pick between disagreeing estimates, the explanation, and the
@@ -64,6 +69,7 @@ export type ScannedItemPatch = Partial<
     | 'status'
     | 'confidence'
     | 'scanSessionId'
+    | 'serverLogId'
     | 'estimatedWeightG'
     | 'angleAgreement'
     | 'needsConfirmation'
@@ -99,16 +105,22 @@ function seedMeals(): StoredMeal[] {
   );
 }
 
+// Under-review ('ready') and 'failed' scan rows aren't logged yet, so they
+// don't count toward meal totals (which feed the food log + dashboard).
+// They become countable the moment saveScannedItem flips them to 'confirmed'.
+// 'analyzing' is deliberately NOT excluded: a placeholder row carries zero
+// macros on both sides (CreateAnalyzingLog inserts 0s), so excluding it
+// would change nothing except hide the optimistic row from its meal.
+// Exported because hooks.ts mergeMeals must apply the SAME rule — it had its
+// own retotal that counted every row, so a refresh mid-review inflated the
+// day by the unconfirmed estimate (audit 2026-08-06).
+export const countsInTotals = (it: { status?: ScanItemStatus }): boolean =>
+  it.status !== 'ready' && it.status !== 'failed';
+
 function recompute(meal: StoredMeal): StoredMeal {
   const sum = meal.items.reduce(
     (a, it) =>
-      // Under-review ('ready') and 'failed' scan rows aren't logged yet, so they
-      // don't count toward meal totals (which feed the food log + dashboard).
-      // They become countable the moment saveScannedItem flips them to 'confirmed'.
-      // 'analyzing' is deliberately NOT excluded: a placeholder row carries zero
-      // macros on both sides (CreateAnalyzingLog inserts 0s), so excluding it
-      // would change nothing except hide the optimistic row from its meal.
-      it.status === 'ready' || it.status === 'failed'
+      !countsInTotals(it)
         ? a
         : {
             calories: a.calories + it.calories,

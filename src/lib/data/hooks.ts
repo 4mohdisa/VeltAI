@@ -9,7 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api, type Onboarding } from '@/lib/api';
 import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi, todayISO } from './mappers';
 import { hasPendingCreate } from './mutations';
-import { useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
+import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
 import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
@@ -89,27 +89,41 @@ const keepAcrossHydration = (it: { id: string; pending?: boolean; status?: strin
   (it.pending === true || it.status === 'ready' || it.status === 'failed' || hasPendingCreate(it.id));
 
 /** Merge fetched meals with local-only items, re-appended into their slot.
- *  ponytail: an in-flight create that already landed in the fetched snapshot can
- *  briefly duplicate until its id swap; dedupe-on-swap if it ever shows up. */
+ *
+ *  Dedupe (audit 2026-08-06): a kept local scan row and a fetched server row
+ *  with the SAME scan_session_id are the same underlying food_log — pre-audit
+ *  both rendered, so a refresh mid-review duplicated the review card and
+ *  double-counted the estimate. The LOCAL copy wins (the poller and the
+ *  save/discard handlers are keyed on its id); the server copy is dropped.
+ *
+ *  Totals use foodStore's countsInTotals — the old local retotal counted
+ *  'ready'/'failed' rows the store's own recompute excludes, so the two
+ *  disagreed about the same meal.
+ */
 function mergeMeals(server: StoredMeal[], prev: StoredMeal[]): StoredMeal[] {
   const keepBySlot = new Map<StoredMeal['slot'], StoredFoodItem[]>();
+  const keptSessions = new Set<string>();
   for (const m of prev) {
     const keep = m.items.filter(keepAcrossHydration);
-    if (keep.length > 0) keepBySlot.set(m.slot, keep);
+    if (keep.length > 0) {
+      keepBySlot.set(m.slot, keep);
+      for (const it of keep) if (it.scanSessionId) keptSessions.add(it.scanSessionId);
+    }
   }
   if (keepBySlot.size === 0) return server;
   const retotal = (m: StoredMeal): StoredMeal => ({
     ...m,
-    calories: m.items.reduce((a, it) => a + it.calories, 0),
-    protein: m.items.reduce((a, it) => a + it.protein, 0),
-    carbs: m.items.reduce((a, it) => a + it.carbs, 0),
-    fat: m.items.reduce((a, it) => a + it.fat, 0),
+    calories: m.items.reduce((a, it) => a + (countsInTotals(it) ? it.calories : 0), 0),
+    protein: m.items.reduce((a, it) => a + (countsInTotals(it) ? it.protein : 0), 0),
+    carbs: m.items.reduce((a, it) => a + (countsInTotals(it) ? it.carbs : 0), 0),
+    fat: m.items.reduce((a, it) => a + (countsInTotals(it) ? it.fat : 0), 0),
   });
   const merged = server.map((m) => {
     const extra = keepBySlot.get(m.slot);
-    if (!extra) return m;
+    const items = m.items.filter((it) => !it.scanSessionId || !keptSessions.has(it.scanSessionId));
+    if (!extra) return retotal({ ...m, items });
     keepBySlot.delete(m.slot);
-    return retotal({ ...m, items: [...m.items, ...extra] });
+    return retotal({ ...m, items: [...items, ...extra] });
   });
   for (const [slot, items] of keepBySlot) {
     const shell = prev.find((m) => m.slot === slot);
@@ -378,7 +392,14 @@ export function useDashboard() {
   const profile = useUserStore((s) => s.profile);
   const streak = useGymStore((s) => s.streak);
   const macros = useDailyMacros();
-  const { isLoading, error, refetch } = useInitialLoad(600);
+  const { isLoading, error, refetch: restartSkeleton } = useInitialLoad(600);
+  // Pull-to-refresh actually refetches (audit 2026-08-06): the old refetch was
+  // ONLY the skeleton timer, so if launch-time hydration failed (offline at
+  // launch) Home could never recover its data — only visiting Food/Gym could.
+  const refetch = useCallback(() => {
+    restartSkeleton();
+    void Promise.allSettled([hydrateFoodLog(), hydrateGym(), hydrateProfile()]);
+  }, [restartSkeleton]);
   return {
     data: { profile, streak, macros, plan: planForBuild(), planReason: planReasonForBuild() },
     isLoading,

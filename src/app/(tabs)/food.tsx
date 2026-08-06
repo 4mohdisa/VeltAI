@@ -144,7 +144,7 @@ export default function FoodLogScreen() {
   const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
 
   const searching = query.trim().length > 0;
-  const { results } = useFoodSearch(query);
+  const { results, isLoading: searchLoading, error: searchError, refetch: retrySearch } = useFoodSearch(query);
   const dietaryReqs = useOnboardingStore((s) => s.dietary_requirements);
 
   // Scanned rows awaiting review ('ready') / that failed to analyse ('failed') —
@@ -371,7 +371,21 @@ export default function FoodLogScreen() {
           )
         }
         ListEmptyComponent={
-          searching ? (
+          // "No matches" is a claim about the food database — only make it when
+          // a COMPLETED search returned zero. While the debounce + round-trip
+          // run, show the skeleton; when the search itself failed (offline,
+          // 500), say that. Pre-audit both states rendered as a confident
+          // false "No matches for 'X'" (audit 2026-08-06).
+          searching && searchLoading ? (
+            <View style={{ paddingTop: space.lg }}>
+              <SkeletonList rows={3} />
+            </View>
+          ) : searching && searchError ? (
+            <ErrorState
+              message="Search couldn't reach the food database. Check your connection and try again."
+              onRetry={retrySearch}
+            />
+          ) : searching ? (
             <EmptyState
               icon="magnifyingglass"
               title={t('foodLog.noMatches', { query: query.trim() })}

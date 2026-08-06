@@ -1,8 +1,12 @@
 // Quick Add (Task 6) — a native formSheet: just calories (+ optional label + meal
 // slot), no macro breakdown. Posts to /api/food/quick-add, then reflects the row
-// in the local food log so it shows immediately. Offline-safe: on API failure it
-// still logs locally (the app works with no backend). Route registered in the root
-// _layout as a detented sheet.
+// in the local food log so it shows immediately.
+//
+// Offline (audit 2026-08-06): a transient failure QUEUES the equivalent
+// /api/food/logs create (idempotency-keyed replay) — pre-audit the failure was
+// swallowed, the row lived only in this session's store, and the success toast
+// lied: the entry vanished at next launch. A permanent 4xx keeps the sheet
+// open with an error instead of pretending.
 //
 // ponytail: the local reflection uses the store's logMeal (local-only) rather than
 // the mutations wrapper — quickAdd already creates the server food_logs row, so
@@ -20,7 +24,8 @@ import { color, space } from '@/lib/design/tokens';
 import { slotForNow } from '@/lib/data';
 import { todayISO } from '@/lib/data/mappers';
 import { useFoodStore } from '@/lib/data/foodStore';
-import { api } from '@/lib/api';
+import { api, isTransient } from '@/lib/api';
+import { runOrQueue } from '@/lib/offline/queue';
 import type { MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
@@ -42,14 +47,29 @@ export default function QuickAddScreen() {
     setSubmitting(true);
     const name = label.trim() || 'Quick add';
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
+    let toast = `Added ${kcal} kcal.`;
     try {
       await api.foodLogs.quickAdd({ calories: kcal, label: label.trim() || undefined, meal_type: mealType, date: todayISO() });
     } catch (e) {
-      if (__DEV__) console.warn('[quick-add] quickAdd failed, logging locally:', e instanceof Error ? e.message : e);
+      if (!isTransient(e)) {
+        showToast({ message: "Couldn't add that — try again.", tone: 'error' });
+        setSubmitting(false);
+        return;
+      }
+      // Offline / server down: queue the equivalent create so the entry
+      // survives a restart and replays exactly once.
+      await runOrQueue('/api/food/logs', {
+        date: todayISO(),
+        meal_type: mealType,
+        food_name: name,
+        calories: kcal,
+        source: 'quick_add',
+      });
+      toast = `Added ${kcal} kcal — will sync when you're back online.`;
     }
-    // Reflect locally either way so the food log updates immediately.
+    // Reflect locally so the food log updates immediately.
     useFoodStore.getState().logMeal(mealType, item, 'manual');
-    showToast({ message: `Added ${kcal} kcal.`, tone: 'success' });
+    showToast({ message: toast, tone: 'success' });
     // Clear the busy state when we can't navigate away (deep-linked as the entry
     // route), otherwise the button spins forever (AUDIT_REPORT.md M4).
     if (router.canGoBack()) router.back();

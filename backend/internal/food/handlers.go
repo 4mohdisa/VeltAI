@@ -58,12 +58,16 @@ const (
 
 // ValidMealType accepts the four meal slots, or absent. Anything else used to
 // pass through as free text and silently vanish from the client's meal groups.
+// Case-insensitive, and both "snack" and "snacks" are accepted, because the
+// shipped app sends its capitalized slot names ('Breakfast', 'Snacks') — a
+// strict lowercase enum here would 400 every real log write, and the hermetic
+// suite (which posts lowercase) would never notice.
 func ValidMealType(m *string) bool {
 	if m == nil || *m == "" {
 		return true
 	}
-	switch *m {
-	case "breakfast", "lunch", "dinner", "snack":
+	switch strings.ToLower(*m) {
+	case "breakfast", "lunch", "dinner", "snack", "snacks":
 		return true
 	}
 	return false

@@ -8,6 +8,7 @@
 // gym writes fit comfortably. Move to a file/db if the queue ever grows large.
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { ApiError, replayQueuedPost, isTransient } from '@/lib/api';
+import { showToast } from '@/components/display/toastStore';
 
 const STORAGE_KEY = 'lume.offline.queue';
 
@@ -157,8 +158,11 @@ export async function runOrQueueSequence(path: string, body: unknown, steps: Que
 }
 
 /**
- * Replay queued mutations in order, removing each on success. Stops on the first
- * error (still offline → retry later; a server error → surfaced, order preserved).
+ * Replay queued mutations in order, removing each on success. A TRANSIENT
+ * failure stops the run (still offline → retry on the next flush, order
+ * preserved). A PERMANENT 4xx is dropped with a toast: replaying it would fail
+ * identically forever, and pre-audit it sat at the head of the queue blocking
+ * every mutation behind it for the rest of time (audit 2026-08-06).
  * The idempotency key makes replaying an already-applied write a safe no-op.
  * Concurrent callers (reconnect + foreground can fire together) share one run.
  */
@@ -174,13 +178,22 @@ export function flush(): Promise<{ flushed: number; remaining: number }> {
 async function runFlush(): Promise<{ flushed: number; remaining: number }> {
   await loadQueue();
   let flushed = 0;
+  let dropped = 0;
   while (queue.length > 0) {
     const m = queue[0];
     let created: unknown;
     try {
       created = await runUnit(m);
-    } catch {
-      break;
+    } catch (e) {
+      if (isTransient(e)) break; // offline / server down — retry next flush
+      // Permanent rejection: drop the poison mutation so everything queued
+      // behind it can still sync, and tell the user instead of pretending.
+      landedCallbacks.delete(m.id);
+      queue.shift();
+      dropped++;
+      await persist();
+      notify();
+      continue;
     }
     const landed = landedCallbacks.get(m.id);
     if (landed) {
@@ -191,6 +204,12 @@ async function runFlush(): Promise<{ flushed: number; remaining: number }> {
     flushed++;
     await persist();
     notify();
+  }
+  if (dropped > 0) {
+    showToast({
+      message: dropped === 1 ? "A queued change couldn't sync and was discarded." : `${dropped} queued changes couldn't sync and were discarded.`,
+      tone: 'error',
+    });
   }
   return { flushed, remaining: queue.length };
 }

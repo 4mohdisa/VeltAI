@@ -61,16 +61,38 @@ export function mealsFromLogs(rows: FoodLog[]): StoredMeal[] {
     // looked confirmed, so a scan still under review counted toward the day the
     // moment the log refreshed. Undefined (a non-scan row) stays undefined and
     // counts, which is what a manual entry should do.
-    const items: StoredFoodItem[] = group.map((r) => ({
-      id: r.id,
-      name: r.food_name,
-      quantityG: r.quantity ?? 0,
-      calories: r.calories,
-      protein: r.protein,
-      carbs: r.carbs,
-      fat: r.fat,
-      ...(r.status ? { status: r.status as StoredFoodItem['status'] } : {}),
-    }));
+    // A hydrated scan row must keep its scan IDENTITY, not just its status.
+    // Dropping scan_session_id here meant a 'ready' row re-read after refresh
+    // confirmed via the INSERT branch (a second food_logs row — the
+    // double-count back from the dead) and could never be discarded server-side
+    // (audit 2026-08-06). serverLogId is the row's own id; the confidence
+    // fields keep the review card's band and "Why?" panel real after refresh.
+    const items: StoredFoodItem[] = group.map((r) => {
+      const sr = r.scan_results;
+      const score = sr?.confidence?.score;
+      return {
+        id: r.id,
+        name: r.food_name,
+        quantityG: r.quantity ?? 0,
+        calories: r.calories,
+        protein: r.protein,
+        carbs: r.carbs,
+        fat: r.fat,
+        ...(r.status ? { status: r.status as StoredFoodItem['status'] } : {}),
+        ...(sr?.scan_session_id
+          ? {
+              scanSessionId: sr.scan_session_id,
+              serverLogId: r.id,
+              estimatedWeightG: r.quantity ?? 0,
+              ...(typeof score === 'number' ? { confidence: score / 100 } : {}),
+              ...(sr.confidence?.label ? { confidenceLabel: sr.confidence.label } : {}),
+              ...(sr.confidence?.factors ? { confidenceFactors: sr.confidence.factors } : {}),
+              ...(sr.needs_user_confirmation ? { needsConfirmation: true } : {}),
+              ...(sr.reconciliation_note ? { reconciliationNote: sr.reconciliation_note } : {}),
+            }
+          : {}),
+      };
+    });
     meals.push({
       id: `srv_${slot}`,
       slot,

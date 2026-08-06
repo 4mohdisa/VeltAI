@@ -105,6 +105,26 @@ test('flush stops on the first error, preserving the queue', async () => {
   expect(pendingCount()).toBe(2);
 });
 
+// Audit 2026-08-06: a PERMANENTLY-failing mutation at the head used to block
+// the queue forever (flush broke on ANY error with no poison handling), so one
+// rejected write silently froze all offline sync for the rest of time.
+test('flush drops a permanently-rejected mutation instead of blocking the queue', async () => {
+  offline();
+  await runOrQueue('/api/food/logs', { food_name: 'Poison' });
+  await runOrQueue('/api/gym/sessions', { date: '2026-07-18' });
+  expect(pendingCount()).toBe(2);
+
+  // First path 400s forever; everything else succeeds.
+  (globalThis as unknown as { fetch: unknown }).fetch = jest.fn((url: string, _init?: RequestInit) =>
+    String(url).includes('/api/food/logs')
+      ? Promise.resolve({ ok: false, status: 400, json: async () => ({ data: null, error: 'bad' }) })
+      : Promise.resolve({ ok: true, status: 201, json: async () => ({ data: { id: 'srv-2' }, error: null }) }),
+  );
+  const res = await flush();
+  expect(res.flushed).toBe(1); // the healthy write behind the poison landed
+  expect(res.remaining).toBe(0); // and the poison is gone, not parked forever
+});
+
 test('subscribe fires with the current count and on change', async () => {
   const counts: number[] = [];
   const unsub = subscribe((c) => counts.push(c));

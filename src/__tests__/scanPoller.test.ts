@@ -36,14 +36,36 @@ test('calls onFailed when status is failed', async () => {
   expect(onReady).not.toHaveBeenCalled();
 });
 
-test('times out after 60s → onFailed exactly once', async () => {
+// REWRITTEN in the 2026-08-06 audit: this test pinned the OLD 60s deadline —
+// half the server's 120s scan budget, so a slow scan showed "failed" and then
+// appeared in the log anyway. The deadline is now 130s (above the server's),
+// and it runs one final status check before giving up.
+test('times out after 130s (above the server budget) → onFailed exactly once', async () => {
   getMock.mockResolvedValue({ id: '1', status: 'analyzing' });
   const onReady = jest.fn();
   const onFailed = jest.fn();
   startScanPoller('1', onReady, onFailed);
   await jest.advanceTimersByTimeAsync(60_000);
+  expect(onFailed).not.toHaveBeenCalled(); // the old deadline must NOT fire here
+  await jest.advanceTimersByTimeAsync(70_000);
   expect(onFailed).toHaveBeenCalledTimes(1);
   expect(onReady).not.toHaveBeenCalled();
+});
+
+// The deadline's final check turns "backgrounded through a successful scan"
+// into ready instead of a false failure: JS timers suspend in the background,
+// so the deadline often fires immediately on resume — after the server
+// finished. One last read of the truth prevents the false 'failed'.
+test('deadline runs a final check — a scan that finished while backgrounded is ready, not failed', async () => {
+  getMock.mockResolvedValue({ id: '1', status: 'analyzing' });
+  const onReady = jest.fn();
+  const onFailed = jest.fn();
+  startScanPoller('1', onReady, onFailed);
+  await jest.advanceTimersByTimeAsync(120_000);
+  getMock.mockResolvedValue({ id: '1', status: 'ready' }); // server finished late
+  await jest.advanceTimersByTimeAsync(10_000);
+  expect(onReady).toHaveBeenCalledTimes(1);
+  expect(onFailed).not.toHaveBeenCalled();
 });
 
 test('stop() cancels the in-flight poll — no callbacks, no fetch', async () => {

@@ -166,7 +166,10 @@ export default function BarcodeScanScreen() {
           <Text variant="callout" color={color.gray300} style={{ textAlign: 'center' }}>
             {"We couldn't match that barcode. Photograph the label instead and we'll read it."}
           </Text>
-          <Button title="Photograph the label" fullWidth={false} onPress={() => router.replace('/food/photo-capture')} />
+          {/* The label SCANNER, not the meal-photo pipeline — this used to
+              route to photo-capture, which runs Gemini food identification on
+              a nutrition label (audit 2026-08-06). */}
+          <Button title="Photograph the label" fullWidth={false} onPress={() => router.replace('/food/label-scan')} />
           <Button title="Try another barcode" variant="tertiary" fullWidth={false} onPress={retry} />
         </View>
       ) : null}

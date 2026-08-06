@@ -57,6 +57,31 @@ test('mealsFromLogs groups rows by slot and sums macros', () => {
   expect(meals.find((m) => m.slot === 'Breakfast')?.calories).toBe(150);
 });
 
+// Audit 2026-08-06: dropping scan_session_id here meant a 'ready' row re-read
+// after refresh lost its scan identity — saving it took /confirm's INSERT
+// branch (a second food_logs row: the double-count back from the dead) and
+// discarding it could never delete the server row. The confidence fields keep
+// the review card's band and "Why?" panel real instead of blank after refresh.
+test('mealsFromLogs keeps a hydrated scan row addressable: session id, server log id, confidence', () => {
+  const meals = mealsFromLogs([
+    foodLog({
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      calories: 400,
+      status: 'ready',
+      scan_results: {
+        scan_session_id: 'sess-42',
+        confidence: { score: 55, label: 'High', factors: [{ name: 'plate', points: 20, message: 'plate detected' }] },
+      } as never,
+    }),
+  ]);
+  const item = meals[0].items[0];
+  expect(item.scanSessionId).toBe('sess-42');
+  expect(item.serverLogId).toBe('550e8400-e29b-41d4-a716-446655440000');
+  expect(item.confidenceLabel).toBe('High');
+  expect(item.confidenceFactors?.[0]?.message).toBe('plate detected');
+  expect(item.confidence).toBeCloseTo(0.55);
+});
+
 test('mealsFromLogs sends an unknown meal_type to Snacks', () => {
   const meals = mealsFromLogs([foodLog({ meal_type: 'brunch' })]);
   expect(meals[0].slot).toBe('Snacks');
