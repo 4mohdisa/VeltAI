@@ -148,10 +148,15 @@ func (s *PGStore) DeleteLog(ctx context.Context, id string) error {
 
 func (s *PGStore) Summary(ctx context.Context, userID, date string) (Summary, error) {
 	sum := Summary{Date: date}
+	// Only confirmed rows count. An async scan's 'analyzing'/'ready' row is a
+	// review candidate the user has not accepted (and may discard) — pre-audit
+	// it was summed here, so an unsaved scan inflated the day's server totals
+	// (audit 2026-08-06). 'confirmed' is the column default, so manual logs
+	// are unaffected.
 	err := s.q.QueryRow(ctx, `SELECT
 		COALESCE(SUM(calories), 0), COALESCE(SUM(protein), 0), COALESCE(SUM(carbs), 0),
 		COALESCE(SUM(fat), 0), COALESCE(SUM(fibre), 0)
-		FROM food_logs WHERE user_id = $1 AND date = $2::date`, userID, date).
+		FROM food_logs WHERE user_id = $1 AND date = $2::date AND status = 'confirmed'`, userID, date).
 		Scan(&sum.Calories, &sum.Protein, &sum.Carbs, &sum.Fat, &sum.Fibre)
 	return sum, err
 }

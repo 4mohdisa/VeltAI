@@ -306,12 +306,21 @@ func (s *PGStore) UsersNeedingRebuild(ctx context.Context) ([]string, error) {
 	// without this the sweep shipped the brain of any active user to Anthropic
 	// whether or not they had ever seen the AI disclosure. A device-local flag
 	// cannot gate a job that runs on a timer with no device involved.
+	// The EXISTS mirrors subscription.isActive (status active/trialing, or
+	// cancelled-but-paid-through, with a real future expiry): the brain rebuild
+	// is a Pro feature billed to Anthropic per run, and pre-audit the sweep
+	// kept spending on lapsed subscribers indefinitely (audit 2026-08-06).
 	rows, err := s.q.Query(ctx, `
 		SELECT b.user_id FROM ai_user_brain b
 		JOIN profiles p ON p.id = b.user_id
 		WHERE b.needs_rebuild = true
 		  AND (b.last_rebuilt IS NULL OR b.last_rebuilt < now() - interval '6 hours')
-		  AND p.ai_consent_at IS NOT NULL`)
+		  AND p.ai_consent_at IS NOT NULL
+		  AND EXISTS (
+		    SELECT 1 FROM subscriptions s
+		    WHERE s.user_id = b.user_id
+		      AND s.status IN ('active', 'trialing', 'cancelled')
+		      AND s.expires_at > now())`)
 	if err != nil {
 		return nil, err
 	}

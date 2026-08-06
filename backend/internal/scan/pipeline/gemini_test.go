@@ -3,6 +3,7 @@ package pipeline
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -59,6 +60,9 @@ func TestIdentifyFoods_ValidArray(t *testing.T) {
 	}
 }
 
+// REWRITTEN in the 2026-08-06 audit: this used to assert the fabricated
+// "Unknown food" fallback (plate area × default height × density presented as
+// a successful identification). Garbage after one retry is an error.
 func TestIdentifyFoods_GarbageFallsBackAfterRetry(t *testing.T) {
 	var calls int
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -68,19 +72,16 @@ func TestIdentifyFoods_GarbageFallsBackAfterRetry(t *testing.T) {
 	defer srv.Close()
 
 	g := newTestGemini(srv.URL)
-	geo := GeometryResult{PlateAreaCm2: 100} // 100 * 2.5 * 0.80 = 200
+	geo := GeometryResult{PlateAreaCm2: 100}
 	out, err := g.IdentifyFoods(context.Background(), []byte("img"), geo, "image/jpeg")
-	if err != nil {
-		t.Fatalf("fallback must return nil error, got %v", err)
+	if !errors.Is(err, ErrUnparseable) {
+		t.Fatalf("garbage output must return ErrUnparseable, got err=%v out=%+v", err, out)
 	}
 	if calls != 2 {
 		t.Errorf("want 2 attempts (one retry), got %d", calls)
 	}
-	if len(out) != 1 || out[0].FoodName != "Unknown food" || out[0].Confidence != 20 {
-		t.Fatalf("bad fallback: %+v", out)
-	}
-	if out[0].WeightG != 200 {
-		t.Errorf("fallback weight want 200, got %g", out[0].WeightG)
+	if len(out) != 0 {
+		t.Fatalf("garbage output must yield no estimates, got %+v", out)
 	}
 }
 

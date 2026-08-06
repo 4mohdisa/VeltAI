@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"net/http"
 	"time"
@@ -19,6 +20,40 @@ import (
 
 // ErrNotFound is returned by Store lookups when a row does not exist.
 var ErrNotFound = errors.New("not found")
+
+// ConsentStore is the optional capability to read the user's recorded
+// third-party-AI consent (profiles.ai_consent_at). When the wired store
+// implements it — *PGStore does, compile-time asserted below — every route
+// that sends user data to Gemini requires recorded consent and fails CLOSED
+// on a read error. Hermetic test fakes that don't implement it skip the gate.
+//
+// Added in the 2026-08-06 audit: App Store 5.1.2(i) ("including with
+// third-party AI", Nov 2025 revision) requires consent before the send, and
+// the only gate was a client-side alert — nothing stopped a direct API call.
+type ConsentStore interface {
+	AIConsentAt(ctx context.Context, userID string) (*time.Time, error)
+}
+
+var _ ConsentStore = (*PGStore)(nil)
+
+// requireScanConsent enforces ConsentStore when the store provides it.
+// Returns false once it has written the response.
+func requireScanConsent(w http.ResponseWriter, r *http.Request, store any) bool {
+	cs, ok := store.(ConsentStore)
+	if !ok {
+		return true
+	}
+	at, err := cs.AIConsentAt(r.Context(), auth.UserID(r.Context()))
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to check AI consent")
+		return false
+	}
+	if at == nil {
+		httpx.Error(w, http.StatusForbidden, "ai_consent_required")
+		return false
+	}
+	return true
+}
 
 // ConfirmedLog is a scan result the user confirmed for saving.
 // Optional fields are pointers so omitted values insert NULL, matching the
@@ -183,6 +218,18 @@ func (s *PGStore) claimPipelineLog(ctx context.Context, log ConfirmedLog) (strin
 		*logID, log.UserID, log.MealType, log.FoodName, log.Quantity, log.Unit,
 		log.Calories, log.Protein, log.Carbs, log.Fat, log.Fibre, log.Date).Scan(&id)
 	if err != nil {
+		// The claim matched nothing. If that is because a previous confirm
+		// ALREADY claimed this row, this is a replay (retry, double-tap,
+		// offline flush): return the existing row instead of falling through
+		// to the INSERT branch, which would write the double-count's second
+		// row all over again (audit 2026-08-06). A 'discarded' row still
+		// falls through — confirming after an explicit discard is a new log.
+		var confirmedID string
+		if e := s.q.QueryRow(ctx,
+			`SELECT id::text FROM food_logs WHERE id::text = $1 AND user_id = $2 AND status = 'confirmed'`,
+			*logID, log.UserID).Scan(&confirmedID); e == nil {
+			return confirmedID, true
+		}
 		return "", false
 	}
 	return id, true
@@ -568,9 +615,24 @@ func (s *PGStore) UpdateScanRating(ctx context.Context, id, rating string) error
 	return err
 }
 
+// AIConsentAt reads the user's recorded third-party-AI consent (same column
+// the ai package's gate reads — profiles.ai_consent_at).
+func (s *PGStore) AIConsentAt(ctx context.Context, userID string) (*time.Time, error) {
+	var at *time.Time
+	err := s.q.QueryRow(ctx, `SELECT ai_consent_at FROM profiles WHERE id = $1`, userID).Scan(&at)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, nil
+	}
+	return at, err
+}
+
 // Register mounts the scan routes.
 func Register(mux *http.ServeMux, ocr OCR, store Store) {
 	mux.HandleFunc("POST /api/scan", func(w http.ResponseWriter, r *http.Request) {
+		// 5.1.2(i): the photo goes to Google Gemini — recorded consent first.
+		if !requireScanConsent(w, r, store) {
+			return
+		}
 		var req struct {
 			ImageBase64 string `json:"image_base64"`
 			MimeType    string `json:"mime_type"`
@@ -594,6 +656,17 @@ func Register(mux *http.ServeMux, ocr OCR, store Store) {
 			return
 		}
 		if err != nil {
+			// The Gemini call above was BILLED even though it failed. The free
+			// quota counts scan_sessions rows, so record the attempt — without
+			// this a free user retrying a failing image spends our money on
+			// every retry while never consuming a scan (audit 2026-08-06).
+			if _, serr := store.CreateSession(r.Context(), Session{
+				UserID:       auth.UserID(r.Context()),
+				ScanType:     "photo",
+				ProcessingMs: &elapsedMs,
+			}); serr != nil {
+				log.Printf("scan: could not record failed-attempt session: %v", serr)
+			}
 			httpx.Error(w, http.StatusBadGateway, "scan failed")
 			return
 		}

@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"image"
 	"image/color"
 	"image/png"
@@ -548,11 +549,13 @@ func TestPipeline_StatusUpdatedToReady(t *testing.T) {
 	}
 }
 
-// ========================= Gemini fallback =========================
+// ========================= Gemini failure honesty =========================
 
-// Unparseable model output is retried once (2 calls total); after the retry the
-// pipeline degrades to a single "Unknown food" fallback with a nil error rather
-// than failing the run.
+// Unparseable model output is retried once (2 calls total); after the retry it
+// is an ERROR, not a result. REWRITTEN in the 2026-08-06 audit: this test used
+// to assert the old behaviour — a fabricated "Unknown food" whole-plate
+// estimate returned with a nil error, which the pipeline then wrote to the
+// user's diary as a successful scan. That was the defect, not the contract.
 func TestGemini_ParseErrorRetriesThenFallsBack(t *testing.T) {
 	var mu sync.Mutex
 	var calls int
@@ -568,11 +571,11 @@ func TestGemini_ParseErrorRetriesThenFallsBack(t *testing.T) {
 	g.Base = srv.URL
 
 	out, err := g.IdentifyFoods(context.Background(), []byte("img"), pipeline.GeometryResult{}, "image/jpeg")
-	if err != nil {
-		t.Fatalf("fallback must return nil error, got %v", err)
+	if !errors.Is(err, pipeline.ErrUnparseable) {
+		t.Fatalf("unparseable output must return ErrUnparseable, got err=%v out=%+v", err, out)
 	}
-	if len(out) != 1 || out[0].FoodName != "Unknown food" {
-		t.Fatalf("bad fallback: %+v", out)
+	if len(out) != 0 {
+		t.Fatalf("unparseable output must yield no estimates (got %+v) — inventing one is the fabricated-data defect", out)
 	}
 	mu.Lock()
 	got := calls

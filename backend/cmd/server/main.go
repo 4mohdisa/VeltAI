@@ -161,11 +161,23 @@ func runRebuildSweeps(svc *ai.Service) {
 	ticker := time.NewTicker(6 * time.Hour)
 	defer ticker.Stop()
 	for range ticker.C {
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
-		if err := svc.RunRebuildSweep(ctx); err != nil {
-			log.Printf("ai rebuild sweep: %v", err)
+		sweepOnce(svc)
+	}
+}
+
+// sweepOnce contains one sweep with its own panic recovery: this goroutine has
+// no HTTP-server recover between it and the process, so pre-audit a single
+// panic in the 6-hourly sweep killed the whole server (audit 2026-08-06).
+func sweepOnce(svc *ai.Service) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("ai rebuild sweep: recovered panic: %v", r)
 		}
-		cancel()
+	}()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+	if err := svc.RunRebuildSweep(ctx); err != nil {
+		log.Printf("ai rebuild sweep: %v", err)
 	}
 }
 

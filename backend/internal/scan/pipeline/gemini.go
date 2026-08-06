@@ -161,21 +161,15 @@ func (g *Gemini) IdentifyFoods(ctx context.Context, imageBytes []byte, geo Geome
 		}
 	}
 
-	// Unparseable after retry: a whole-plate fallback is a success, not a failure.
-	weight := 150.0
-	if geo.PlateAreaCm2 > 0 {
-		weight = geo.PlateAreaCm2 * 2.5 * 0.80
-	}
-	return []FoodEstimate{{
-		RegionID:    0,
-		FoodName:    "Unknown food",
-		WeightG:     weight,
-		Confidence:  20,
-		DensityUsed: 0.80,
-		MacroSource: "ai_estimate",
-		Reasoning:   "fallback: unparseable AI response",
-	}}, nil
+	// Unparseable after retry IS a failure. Pre-audit this returned a
+	// fabricated whole-plate "Unknown food" with a nil error — a made-up
+	// weight and macros presented to the user as a successful scan.
+	return nil, ErrUnparseable
 }
+
+// ErrUnparseable reports that Gemini answered but its response could not be
+// parsed as a food-estimate array, even after one retry.
+var ErrUnparseable = errors.New("gemini: unparseable response")
 
 // ExtractLabel reads a nutrition-facts label and returns per-100g values.
 // mimeType is the image's content type; empty/unknown falls back to image/jpeg.
@@ -262,7 +256,10 @@ func (g *Gemini) generate(ctx context.Context, prompt string, imageBytes []byte,
 				}},
 			}},
 		},
-		"generationConfig": map[string]any{"response_mime_type": "application/json"},
+		// maxOutputTokens bounds the paid response (audit 2026-08-06): the
+		// expected payloads are small JSON, so 2048 is generous while capping
+		// the per-call spend a runaway generation could incur.
+		"generationConfig": map[string]any{"response_mime_type": "application/json", "maxOutputTokens": 2048},
 	}
 	payload, err := json.Marshal(body)
 	if err != nil {

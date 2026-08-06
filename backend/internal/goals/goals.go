@@ -4,6 +4,7 @@ package goals
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -184,12 +185,23 @@ func (h *handler) postOnboarding(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "age, height, and weight must be positive")
 		return
 	}
-	// A manual calorie override still has to sit inside the 1.4.1 safety band —
-	// the same band PUT /api/goals enforces. Never persist an unsafe target
-	// just because the client sent one.
-	if req.CalorieTarget != nil && (*req.CalorieTarget < calorieTargetMin || *req.CalorieTarget > calorieTargetMax) {
-		httpx.Error(w, http.StatusBadRequest, "calorie_target must be between 1200 and 10000")
+	// The age gate is 13+ (matching the client's onboarding gate) — pre-audit
+	// the server accepted any positive age, so the client gate was decorative
+	// (audit 2026-08-06).
+	if *req.Age < 13 || *req.Age > 120 {
+		httpx.Error(w, http.StatusBadRequest, "age must be between 13 and 120")
 		return
+	}
+	// A manual calorie override still has to sit inside the 1.4.1 safety band —
+	// the same sex-aware band PUT /api/goals enforces. Never persist an unsafe
+	// target just because the client sent one.
+	if req.CalorieTarget != nil {
+		minCal := calorieFloor(strv(req.Sex))
+		if float64(*req.CalorieTarget) < minCal || *req.CalorieTarget > calorieTargetMax {
+			httpx.Error(w, http.StatusBadRequest,
+				fmt.Sprintf("calorie_target must be between %.0f and %d", minCal, calorieTargetMax))
+			return
+		}
 	}
 	if req.TargetWeight != nil && *req.TargetWeight <= 0 {
 		httpx.Error(w, http.StatusBadRequest, "target_weight must be positive")
@@ -277,12 +289,44 @@ func (h *handler) putGoals(w http.ResponseWriter, r *http.Request) {
 	}
 	if req.CalorieTarget != nil {
 		// Calorie safety (guideline 1.4.1): never persist a starvation-level or
-		// absurd daily target. The client clamps too; the server is the boundary.
-		if *req.CalorieTarget < calorieTargetMin || *req.CalorieTarget > calorieTargetMax {
-			httpx.Error(w, http.StatusBadRequest, "calorie_target must be between 1200 and 10000")
+		// absurd daily target. The floor is sex-aware, matching the derived
+		// target's calorieFloor — pre-audit this was a flat 1200, so a male
+		// user could hand-persist 1200, below the app's own claimed 1500 male
+		// minimum (audit 2026-08-06). Unknown sex keeps the permissive 1200.
+		minCal := float64(calorieTargetMin)
+		if ob, oerr := h.s.GetOnboarding(r.Context(), uid); oerr == nil && ob != nil && ob.Sex != nil {
+			minCal = calorieFloor(*ob.Sex)
+		}
+		if *req.CalorieTarget < minCal || *req.CalorieTarget > calorieTargetMax {
+			httpx.Error(w, http.StatusBadRequest,
+				fmt.Sprintf("calorie_target must be between %.0f and %d", minCal, calorieTargetMax))
 			return
 		}
 		g.CalorieTarget = req.CalorieTarget
+	}
+	// Macro targets share the logged-item bounds: negative or absurd values
+	// silently corrupt every downstream ring/percentage (audit 2026-08-06).
+	for _, m := range []struct {
+		name string
+		v    *float64
+	}{
+		{"protein_target", req.ProteinTarget},
+		{"carb_target", req.CarbTarget},
+		{"fat_target", req.FatTarget},
+		{"fibre_target", req.FibreTarget},
+	} {
+		if m.v != nil && (*m.v < 0 || *m.v > 2000) {
+			httpx.Error(w, http.StatusBadRequest, m.name+" must be between 0 and 2000")
+			return
+		}
+	}
+	if req.TargetWeight != nil && (*req.TargetWeight <= 0 || *req.TargetWeight > 1000) {
+		httpx.Error(w, http.StatusBadRequest, "target_weight is out of range")
+		return
+	}
+	if req.WeightUnit != nil && *req.WeightUnit != "kg" && *req.WeightUnit != "lb" {
+		httpx.Error(w, http.StatusBadRequest, "weight_unit must be kg or lb")
+		return
 	}
 	if req.ProteinTarget != nil {
 		g.ProteinTarget = req.ProteinTarget
@@ -356,12 +400,16 @@ func (h *handler) postBodyWeight(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return
 	}
-	if req.Weight == nil || *req.Weight <= 0 {
-		httpx.Error(w, http.StatusBadRequest, "weight must be greater than 0")
+	if req.Weight == nil || *req.Weight <= 0 || *req.Weight > 1000 {
+		httpx.Error(w, http.StatusBadRequest, "weight must be between 0 and 1000")
 		return
 	}
 	unit := "kg"
 	if req.Unit != nil && *req.Unit != "" {
+		if *req.Unit != "kg" && *req.Unit != "lb" {
+			httpx.Error(w, http.StatusBadRequest, "unit must be kg or lb")
+			return
+		}
 		unit = *req.Unit
 	}
 	saved, err := h.s.CreateBodyWeight(r.Context(), &BodyWeight{

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -205,8 +206,20 @@ func (s *PGStore) RecordScanImages(ctx context.Context, sessionID string, images
 func runScanPipeline(ctx context.Context, images []pipeline.AngleImage, userID, logID, sessionID string, ident pipeline.FoodIdentifier, q db.Querier, store PipelineStore, start time.Time) {
 	// This runs in a detached goroutine over untrusted image bytes; an
 	// unrecovered panic here would take down the whole server process, so
-	// contain it. The analyzing row is simply left as-is on a panic.
-	defer func() { _ = recover() }()
+	// contain it — but LOUDLY, and flip the row to 'failed' so the client's
+	// poller surfaces the failure instead of an eternal 'Analyzing…' row.
+	// (Pre-audit this was `_ = recover()`: silent, and the row stuck forever.)
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("scan: pipeline panic (log %s, session %s): %v", logID, sessionID, r)
+			// ctx may already be canceled/timed out — use a fresh one.
+			failCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+			if err := store.FinishScanLog(failCtx, logID, "failed", "", 0, 0, 0, 0, 0, 0, []byte("null")); err != nil {
+				log.Printf("scan: could not mark log %s failed after panic: %v", logID, err)
+			}
+		}
+	}()
 
 	// Phase 13 E3: attach the per-user learned context so Gemini's prompt is
 	// personalised. Best-effort — a fetch failure just means no context.
@@ -236,20 +249,34 @@ func runScanPipeline(ctx context.Context, images []pipeline.AngleImage, userID, 
 	if err != nil {
 		blob = []byte("null")
 	}
-	// Best-effort: a failed update leaves the row 'analyzing'. ponytail: no
-	// logger wired into this package (same as the other scan learning hooks).
-	_ = store.FinishScanLog(ctx, logID, "ready", name, qty, cal, protein, carbs, fat, fibre, blob)
+	// Zero estimates means Gemini failed or identified nothing. Pre-audit this
+	// still wrote 'ready', so the client rendered a successful review card for
+	// a fabricated "Unknown food" — the exact defect class this app keeps
+	// shipping. Write 'failed' and let the client's ScanFailedCard do its job.
+	status := "ready"
+	if len(outcome.Estimates) == 0 {
+		status = "failed"
+	}
+	if err := store.FinishScanLog(ctx, logID, status, name, qty, cal, protein, carbs, fat, fibre, blob); err != nil {
+		// Still best-effort (never crash the goroutine), but never silent: a
+		// dropped finish strands the row at 'analyzing' with zero trace.
+		log.Printf("scan: FinishScanLog %s → %s failed: %v", logID, status, err)
+	}
 
 	elapsedMs := int(time.Since(start).Milliseconds())
-	_ = store.UpdatePipelineSession(ctx, sessionID,
+	if err := store.UpdatePipelineSession(ctx, sessionID,
 		outcome.Quality.OverallScore, outcome.Geometry.ConfidencePoints,
 		avgEstimateConfidence(outcome.Estimates), outcome.Confidence.Score,
-		outcome.Geometry.ReferenceObject, outcome.Geometry.PlateDetected, elapsedMs)
+		outcome.Geometry.ReferenceObject, outcome.Geometry.PlateDetected, elapsedMs); err != nil {
+		log.Printf("scan: UpdatePipelineSession %s failed: %v", sessionID, err)
+	}
 
 	// Multi-angle metadata (optional interface so existing fakes keep working).
 	if len(images) > 1 {
 		if ms, ok := store.(MultiImageStore); ok {
-			_ = ms.RecordScanImages(ctx, sessionID, outcome.PerImage, outcome.AngleAgreement)
+			if err := ms.RecordScanImages(ctx, sessionID, outcome.PerImage, outcome.AngleAgreement); err != nil {
+				log.Printf("scan: RecordScanImages %s failed: %v", sessionID, err)
+			}
 		}
 	}
 }
@@ -308,6 +335,10 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 	runTimeout := time.Duration(config.EnvInt("LUME_SCAN_TIMEOUT_SEC", 120)) * time.Second
 
 	mux.HandleFunc("POST /api/scan/pipeline", func(w http.ResponseWriter, r *http.Request) {
+		// 5.1.2(i): photos go to Google Gemini — recorded consent first.
+		if !requireScanConsent(w, r, store) {
+			return
+		}
 		// Accepts EITHER the original single-image body (backward compatible)
 		// OR a 1–3 element `images` array with per-image angle hints (Phase 13).
 		var req struct {
@@ -429,6 +460,10 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 	})
 
 	mux.HandleFunc("POST /api/scan/label", func(w http.ResponseWriter, r *http.Request) {
+		// 5.1.2(i): the label photo goes to Google Gemini — consent first.
+		if !requireScanConsent(w, r, store) {
+			return
+		}
 		var req struct {
 			ImageBase64 string `json:"image_base64"`
 			MimeType    string `json:"mime_type"`

@@ -108,6 +108,22 @@ func TestEnvIntAndBoolFallBackOnGarbage(t *testing.T) {
 	}
 }
 
+// The 2026-08-06 audit found the LUMO_→LUME_ shim read "LUME_"+suffix — a
+// self-referential no-op, so every deployment still exporting old names
+// silently fell back to defaults. This pins the real legacy fallback.
+func TestLegacyLumoEnvNamesStillHonoured(t *testing.T) {
+	t.Setenv("LUME_SHIM_PROBE", "")
+	t.Setenv("LUMO_SHIM_PROBE", "41")
+	if got := config.EnvInt("LUME_SHIM_PROBE", 7); got != 41 {
+		t.Errorf("EnvInt with only the legacy LUMO_ name set = %d, want 41 (the shim must fall back to LUMO_*)", got)
+	}
+	// The new name must still win when both are set.
+	t.Setenv("LUME_SHIM_PROBE", "42")
+	if got := config.EnvInt("LUME_SHIM_PROBE", 7); got != 42 {
+		t.Errorf("EnvInt with both names set = %d, want the LUME_ value 42", got)
+	}
+}
+
 func containsSubstr(list []string, want string) bool {
 	for _, s := range list {
 		if strings.Contains(s, want) {

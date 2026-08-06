@@ -81,7 +81,14 @@ func Run(ctx context.Context, imageBytes []byte, userID string, ident FoodIdenti
 			}
 		}()
 		if ident != nil {
-			geminiEstimates, _ = ident.IdentifyFoods(ctx, imageBytes, geo, mimeType)
+			var err error
+			geminiEstimates, err = ident.IdentifyFoods(ctx, imageBytes, geo, mimeType)
+			if err != nil {
+				// Surfaced as zero estimates → the scan finishes 'failed'.
+				// Logged because a wrong/revoked key would otherwise be
+				// indistinguishable from "no food in the photo".
+				log.Printf("scan pipeline: identify foods: %v", err)
+			}
 		}
 	}()
 	go func() {
@@ -124,11 +131,17 @@ func prefetchLibrary(ctx context.Context, q db.Querier) []libRow {
 
 // MergeResults combines Gemini's identified foods (weights) with database
 // macros (pass 4 crosscheck, in-memory over prefetched rows). When Gemini
-// returned nothing, it falls back to a single whole-plate estimate from the
-// geometry so the pipeline always yields at least one item.
+// returned nothing there is nothing to merge: the pipeline yields zero
+// estimates and the scan finishes 'failed'.
+//
+// (Pre-audit 2026-08-06 this invented a "whole-plate" estimate — plate area ×
+// default height × default density, named "Unknown food" — so a Gemini outage
+// rendered as a successful scan with fabricated macros in the user's diary.
+// "Always yields at least one item" was the fabrication engine itself.)
 func MergeResults(gemini []FoodEstimate, geo GeometryResult, lib []libRow) []FoodEstimate {
+	_ = geo // retained in the signature for callers/tests; no longer synthesises from it
 	if len(gemini) == 0 {
-		return []FoodEstimate{fallbackEstimate(geo)}
+		return nil
 	}
 	out := make([]FoodEstimate, len(gemini))
 	for i, est := range gemini {
@@ -145,29 +158,6 @@ func MergeResults(gemini []FoodEstimate, geo GeometryResult, lib []libRow) []Foo
 		out[i] = est
 	}
 	return out
-}
-
-// fallbackEstimate builds a single whole-plate estimate from the geometry when
-// Gemini is unavailable or unparseable: total plate area × default height ×
-// default density.
-func fallbackEstimate(geo GeometryResult) FoodEstimate {
-	height, method := HeightForCategory("default")
-	_ = method
-	area := geo.PlateAreaCm2
-	if area <= 0 {
-		area = 100 // no plate detected: assume a small default area so weight isn't 0
-	}
-	density := Densities["default"]
-	weight := area * height * density
-	return FoodEstimate{
-		RegionID:    0,
-		FoodName:    "Unknown food",
-		WeightG:     weight,
-		Confidence:  20,
-		DensityUsed: density,
-		MacroSource: "ai_estimate",
-		Reasoning:   "fallback: gemini unavailable, whole-plate default estimate",
-	}
 }
 
 // matchLibrary finds the first library row whose name contains the estimate's

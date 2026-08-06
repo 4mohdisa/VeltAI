@@ -135,13 +135,17 @@ func Env(key, fallback string) string {
 // hot path does not spam the log.
 var deprecatedOnce sync.Map
 
-// lookup reads an env var, falling back to its pre-rename LUME_* spelling.
+// lookup reads an env var, falling back to its pre-rename LUMO_* spelling.
 //
-// The product was renamed Lume/Lume → Lume, and every LUME_* variable became
-// LUME_*. Deployments that still export the old names keep working: the new
-// name wins, the old one is honoured with a one-time deprecation warning, and
-// nothing silently reverts to a default because a var "disappeared". Delete
-// this shim once no environment exports LUME_* any more.
+// The product was renamed VeltAI → Lumo → Lume, and every LUMO_* variable
+// became LUME_*. Deployments that still export the old names keep working: the
+// new name wins, the old one is honoured with a one-time deprecation warning,
+// and nothing silently reverts to a default because a var "disappeared".
+// Delete this shim once no environment exports LUMO_* any more.
+//
+// (The 2026-08-06 audit found the original shim read "LUME_"+suffix — the
+// rename script had rewritten the shim's own string literal, making it a
+// self-referential no-op. The test in tests/config pins the real fallback.)
 func lookup(key string) string {
 	if v := os.Getenv(key); v != "" {
 		return v
@@ -150,7 +154,7 @@ func lookup(key string) string {
 	if !ok {
 		return ""
 	}
-	legacy = "LUME_" + legacy
+	legacy = "LUMO_" + legacy
 	v := os.Getenv(legacy)
 	if v == "" {
 		return ""

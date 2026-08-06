@@ -126,8 +126,13 @@ func TestRunMulti_PanicInOneAngleIsContained(t *testing.T) {
 	if !flagged {
 		t.Fatalf("panicking angle warnings = %v, want it flagged", out.PerImage[1].Geometry.Warnings)
 	}
-	if len(out.Estimates) == 0 {
-		t.Fatal("whole scan produced no estimates — the panic broke the request")
+	// REWRITTEN in the 2026-08-06 audit: this test ran with a nil identifier,
+	// so its old ">= 1 estimate" assertion could only ever be satisfied by the
+	// fabricated whole-plate fallback — which is gone. With no identifier there
+	// are honestly zero estimates; the containment property this test exists
+	// for is the two assertions above (process alive, healthy angle intact).
+	if len(out.Estimates) != 0 {
+		t.Fatalf("nil identifier must yield no estimates, got %+v", out.Estimates)
 	}
 }
 

@@ -75,7 +75,10 @@ func (g *Gemini) Extract(ctx context.Context, imageBase64, mimeType string) (Res
 		"contents": []map[string]any{
 			{"parts": []geminiPart{{Text: extractPrompt}, {InlineData: inline}}},
 		},
-		"generationConfig": map[string]any{"response_mime_type": "application/json"},
+		// maxOutputTokens bounds the paid response (audit 2026-08-06): the
+		// expected payloads are small JSON, so 2048 is generous while capping
+		// the per-call spend a runaway generation could incur.
+		"generationConfig": map[string]any{"response_mime_type": "application/json", "maxOutputTokens": 2048},
 	}
 	payload, err := json.Marshal(body)
 	if err != nil {

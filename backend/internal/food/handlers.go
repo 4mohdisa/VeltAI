@@ -43,6 +43,60 @@ func validDate(s string) bool {
 	return err == nil
 }
 
+// --- Trust-boundary bounds (audit 2026-08-06) --------------------------------
+// Pre-audit only calories >= 0 was checked; protein=-500 or carbs=-1e10 went
+// straight to disk and silently corrupted /summary, the energy balance and the
+// AI-brain inputs. Bounds are generous (a whole day's binge fits in one row)
+// while rejecting the negative and the absurd. Exported so the scan-confirm
+// and recipe log paths enforce the same rule instead of growing their own.
+
+const (
+	MaxItemCalories = 20000.0 // kcal for one logged item
+	MaxItemMacroG   = 2000.0  // grams of one macro in one item
+	MaxItemGrams    = 20000.0 // quantity of one item
+)
+
+// ValidMealType accepts the four meal slots, or absent. Anything else used to
+// pass through as free text and silently vanish from the client's meal groups.
+func ValidMealType(m *string) bool {
+	if m == nil || *m == "" {
+		return true
+	}
+	switch *m {
+	case "breakfast", "lunch", "dinner", "snack":
+		return true
+	}
+	return false
+}
+
+// ValidateItemValues checks one logged item's numbers; returns "" when fine.
+func ValidateItemValues(calories, protein, carbs, fat, fibre float64, quantity *float64) string {
+	type bound struct {
+		name string
+		v    float64
+		max  float64
+	}
+	checks := []bound{
+		{"calories", calories, MaxItemCalories},
+		{"protein", protein, MaxItemMacroG},
+		{"carbs", carbs, MaxItemMacroG},
+		{"fat", fat, MaxItemMacroG},
+		{"fibre", fibre, MaxItemMacroG},
+	}
+	if quantity != nil {
+		checks = append(checks, bound{"quantity", *quantity, MaxItemGrams})
+	}
+	for _, c := range checks {
+		if c.v < 0 {
+			return c.name + " must not be negative"
+		}
+		if c.v > c.max {
+			return c.name + " is implausibly large"
+		}
+	}
+	return ""
+}
+
 // authorize writes 404/403/500 and returns false unless the row exists and
 // belongs to the authenticated user.
 func authorize(w http.ResponseWriter, r *http.Request, getOwner func(context.Context, string) (string, error), id string) bool {
@@ -121,8 +175,12 @@ func (h *handler) createLog(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "food_name is required")
 		return
 	}
-	if l.Calories < 0 {
-		httpx.Error(w, http.StatusBadRequest, "calories must not be negative")
+	if msg := ValidateItemValues(l.Calories, l.Protein, l.Carbs, l.Fat, l.Fibre, l.Quantity); msg != "" {
+		httpx.Error(w, http.StatusBadRequest, msg)
+		return
+	}
+	if !ValidMealType(l.MealType) {
+		httpx.Error(w, http.StatusBadRequest, "meal_type must be breakfast, lunch, dinner or snack")
 		return
 	}
 	if l.Date == "" {
@@ -157,8 +215,19 @@ func (h *handler) patchLog(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "food_name must not be empty")
 		return
 	}
-	if p.Calories != nil && *p.Calories < 0 {
-		httpx.Error(w, http.StatusBadRequest, "calories must not be negative")
+	// Same bounds as create — a PATCH is the same trust boundary.
+	deref := func(v *float64) float64 {
+		if v == nil {
+			return 0
+		}
+		return *v
+	}
+	if msg := ValidateItemValues(deref(p.Calories), deref(p.Protein), deref(p.Carbs), deref(p.Fat), deref(p.Fibre), p.Quantity); msg != "" {
+		httpx.Error(w, http.StatusBadRequest, msg)
+		return
+	}
+	if !ValidMealType(p.MealType) {
+		httpx.Error(w, http.StatusBadRequest, "meal_type must be breakfast, lunch, dinner or snack")
 		return
 	}
 	if p.Date != nil && !validDate(*p.Date) {
@@ -325,8 +394,12 @@ func (h *handler) quickAdd(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "calories is required")
 		return
 	}
-	if *req.Calories < 0 {
-		httpx.Error(w, http.StatusBadRequest, "calories must not be negative")
+	if msg := ValidateItemValues(*req.Calories, 0, 0, 0, 0, nil); msg != "" {
+		httpx.Error(w, http.StatusBadRequest, msg)
+		return
+	}
+	if req.MealType != "" && !ValidMealType(&req.MealType) {
+		httpx.Error(w, http.StatusBadRequest, "meal_type must be breakfast, lunch, dinner or snack")
 		return
 	}
 	date := req.Date

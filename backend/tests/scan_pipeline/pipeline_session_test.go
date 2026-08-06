@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"sync"
 	"testing"
@@ -104,6 +105,59 @@ func TestPipeline_SessionUpdatedAfterComplete(t *testing.T) {
 	}
 	// overall_confidence is passed through as any int (incl. 0) — asserting it
 	// was called with the right session id already proves the wiring.
+}
+
+// consentPipelineStore wraps the fake with a "never consented" answer to pin
+// the 5.1.2(i) server-side gate on the pipeline route (audit 2026-08-06).
+type consentPipelineStore struct{ *fakePipelineStore }
+
+func (consentPipelineStore) AIConsentAt(context.Context, string) (*time.Time, error) {
+	return nil, nil
+}
+
+func TestPipeline_WithoutRecordedConsentIs403(t *testing.T) {
+	g, srv := geminiServer(t, validEstimateArray)
+	defer srv.Close()
+	store := consentPipelineStore{newFakePipelineStore()}
+	rec := servePipeline(t, g, store, nil,
+		"POST", "/api/scan/pipeline", `{"image_base64":"aGVsbG8="}`)
+	if rec.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403 — photos must not reach Gemini without recorded consent; body %s", rec.Code, rec.Body)
+	}
+	select {
+	case <-store.finished:
+		t.Fatal("pipeline ran despite missing consent")
+	case <-time.After(300 * time.Millisecond):
+	}
+}
+
+// A Gemini failure must surface as status='failed', never as a successful
+// 'ready' row. Pre-audit (2026-08-06) the pipeline wrote 'ready' even with
+// zero estimates, so the client rendered a fabricated "Unknown food" review
+// card as if the scan succeeded — and 'failed' was never written by anything,
+// making the client's failed-scan branch dead code against the async pipeline.
+func TestPipeline_GeminiFailureFinishesAsFailedNotFabricatedReady(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		http.Error(w, "upstream down", http.StatusServiceUnavailable)
+	}))
+	defer srv.Close()
+	g := pipeline.NewGemini("test")
+	g.Base = srv.URL
+	store := newFakePipelineStore()
+
+	rec := servePipeline(t, g, store, nil,
+		"POST", "/api/scan/pipeline", `{"image_base64":"aGVsbG8="}`)
+	if rec.Code != http.StatusAccepted {
+		t.Fatalf("status = %d, want 202; body %s", rec.Code, rec.Body)
+	}
+	select {
+	case fin := <-store.finished:
+		if fin.status != "failed" {
+			t.Fatalf("FinishScanLog status = %q, want 'failed' — a Gemini failure written as %q renders a fabricated successful scan", fin.status, fin.status)
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatal("FinishScanLog not called within 3s")
+	}
 }
 
 // The scan_results blob written onto the food_log embeds the scan_session_id, so
