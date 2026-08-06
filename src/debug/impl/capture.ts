@@ -8,7 +8,7 @@ import * as Device from 'expo-device';
 import * as Network from 'expo-network';
 import { captureScreen } from 'react-native-view-shot';
 
-import { readApi, readBreadcrumbs, readConsole } from '../buffers';
+import { readApi, readBreadcrumbs, readConsole, redact, redactObject } from '../buffers';
 import type { DebugReport, ReportContext, ReportInput, Trigger } from '../types';
 import { AREAS } from '../types';
 import { APP_VERSION, BUILD_NUMBER, GIT_SHA } from '@/lib/appVersion';
@@ -149,7 +149,9 @@ export async function buildContext(): Promise<ReportContext> {
   ]);
   return {
     route: currentRoute.path,
-    routeParams: currentRoute.params,
+    // Route params can carry anything a deep link put there — same trust level
+    // as an API path (audit 2026-08-06: this and storeSlice bypassed redaction).
+    routeParams: redactObject(currentRoute.params, 2000) as ReportContext['routeParams'],
     appVersion: APP_VERSION,
     buildNumber: BUILD_NUMBER,
     gitSha: GIT_SHA,
@@ -166,7 +168,7 @@ export async function buildContext(): Promise<ReportContext> {
     console: readConsole(),
     api: readApi(),
     breadcrumbs: readBreadcrumbs(),
-    storeSlice,
+    storeSlice: storeSlice === null ? null : (redactObject(storeSlice) as ReportContext['storeSlice']),
     componentTag: activeTag,
   };
 }
@@ -193,8 +195,11 @@ export async function capture(
     createdAt: new Date().toISOString(),
     trigger,
     draft: opts.draft ?? false,
-    title: input.title,
-    notes: input.notes ?? '',
+    // Auto-draft titles are frequently raw error messages, and api.ts warns
+    // those can carry a token — redact ALL free text at capture, same as every
+    // buffer (audit 2026-08-06: title/notes bypassed redaction entirely).
+    title: redact(input.title),
+    notes: redact(input.notes ?? ''),
     severity: input.severity ?? (opts.draft ? 'major' : 'minor'),
     kind: input.kind ?? 'bug',
     area: (AREAS as readonly string[]).includes(area) ? area : 'other',

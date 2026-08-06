@@ -55,32 +55,50 @@ export function onApiFailure(method: string, path: string, status: number | null
 
 let rejectionHooked = false;
 
-/** Unhandled promise rejections. Hermes exposes the RN tracking hook; when it
- *  is unavailable we simply do not capture them rather than monkey-patching
- *  Promise, which would be a worse trade in a build the tester relies on. */
+/** Unhandled promise rejections.
+ *
+ *  Hermes (the production engine) has NATIVE promises — the `promise`
+ *  polyfill's tracker watches an implementation nothing uses there, so
+ *  pre-audit this trigger was inert in exactly the builds the tester runs
+ *  (audit 2026-08-06). Hermes exposes its own tracker; try it FIRST, and fall
+ *  back to the polyfill tracker for JSC/dev runtimes. */
 function installRejectionCapture(): void {
   if (rejectionHooked) return;
   rejectionHooked = true;
+  const onUnhandled = (_id: number, e: unknown): void => {
+    const err = e instanceof Error ? e : new Error(String(e));
+    void capture(
+      'unhandled-rejection',
+      {
+        title: `Unhandled rejection: ${err.message.slice(0, 80)}`,
+        notes: (err.stack ?? '').slice(0, 4000),
+        severity: 'major',
+        kind: 'bug',
+      },
+      { draft: true },
+    );
+  };
+  type HermesTracker = {
+    enablePromiseRejectionTracker?: (o: {
+      allRejections: boolean;
+      onUnhandled: (id: number, e: unknown) => void;
+      onHandled?: (id: number) => void;
+    }) => void;
+  };
+  const hermes = (globalThis as { HermesInternal?: HermesTracker }).HermesInternal;
+  if (hermes?.enablePromiseRejectionTracker) {
+    try {
+      hermes.enablePromiseRejectionTracker({ allRejections: true, onUnhandled, onHandled: () => {} });
+      return;
+    } catch {
+      // fall through to the polyfill tracker
+    }
+  }
   type Tracker = { enable: (o: { allRejections: boolean; onUnhandled: (id: number, e: unknown) => void }) => void };
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports -- optional RN internal, absent on some runtimes
     const tracking = require('promise/setimmediate/rejection-tracking') as Tracker;
-    tracking.enable({
-      allRejections: true,
-      onUnhandled: (_id, e) => {
-        const err = e instanceof Error ? e : new Error(String(e));
-        void capture(
-          'unhandled-rejection',
-          {
-            title: `Unhandled rejection: ${err.message.slice(0, 80)}`,
-            notes: (err.stack ?? '').slice(0, 4000),
-            severity: 'major',
-            kind: 'bug',
-          },
-          { draft: true },
-        );
-      },
-    });
+    tracking.enable({ allRejections: true, onUnhandled });
   } catch {
     // No tracker on this runtime — the other four triggers still work.
   }

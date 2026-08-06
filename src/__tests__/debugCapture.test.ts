@@ -87,6 +87,33 @@ describe('ring buffers are bounded and never leak', () => {
 });
 
 describe('redaction actually redacts', () => {
+  // Audit 2026-08-06: recordBreadcrumb ran JSON.parse over redactValue's
+  // output, which is NOT JSON when a prop matched a redaction pattern
+  // ([REDACTED] lands unquoted) — the throw travelled back into track() and
+  // silently dropped the analytics event itself.
+  test('a breadcrumb whose props match a redaction pattern is kept, not thrown away', () => {
+    withCaptureOn((m) => {
+      m.__clearBuffers();
+      expect(() =>
+        m.recordBreadcrumb('paywall_shown', { token: 'sk_live_secret123456789', plan: 'pro' }),
+      ).not.toThrow();
+      const crumbs = m.readBreadcrumbs();
+      expect(crumbs).toHaveLength(1);
+      expect(JSON.stringify(crumbs[0])).not.toContain('sk_live_secret123456789');
+      expect(JSON.stringify(crumbs[0])).toContain('pro');
+    });
+  });
+
+  // Audit 2026-08-06: routeParams and storeSlice went into reports UNREDACTED.
+  // redactObject is what capture() now passes them through.
+  test('redactObject strips credentials from structured report fields', () => {
+    withCaptureOn((m) => {
+      const out = m.redactObject({ session: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4In0.sig-part', screen: 'food' });
+      expect(JSON.stringify(out)).not.toContain('eyJhbGciOiJIUzI1NiJ9');
+      expect(JSON.stringify(out)).toContain('food');
+    });
+  });
+
   test('bearer tokens never survive', () => {
     const s = redact('Authorization: Bearer sk_live_abcdef1234567890abcdef');
     expect(s).not.toContain('sk_live_abcdef1234567890abcdef');

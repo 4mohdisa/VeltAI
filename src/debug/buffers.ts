@@ -85,6 +85,18 @@ export function redact(input: string): string {
   return s;
 }
 
+/** Deep-redact an OBJECT, returning an object again where possible (falls back
+ *  to the redacted string when truncation/redaction breaks the JSON). For
+ *  report fields that render structurally: routeParams, store slices. */
+export function redactObject(v: unknown, maxChars = 4000): unknown {
+  const s = redactValue(v, maxChars);
+  try {
+    return JSON.parse(s) as unknown;
+  } catch {
+    return s;
+  }
+}
+
 /** Deep-redact a value, bounded so a huge object cannot blow up a report. */
 export function redactValue(v: unknown, maxChars = 4000): string {
   let s: string;
@@ -130,7 +142,19 @@ export function recordApiCall(e: Omit<ApiEntry, 'at'>): void {
 /** Breadcrumbs reuse the first-party analytics events — one trail, not two. */
 export function recordBreadcrumb(name: string, props?: Record<string, unknown>): void {
   if (!DEBUG_CAPTURE) return;
-  crumbRing.push({ at: now(), name, ...(props ? { props: JSON.parse(redactValue(props)) as Record<string, unknown> } : {}) });
+  let clean: Record<string, unknown> | undefined;
+  if (props) {
+    try {
+      clean = JSON.parse(redactValue(props)) as Record<string, unknown>;
+    } catch {
+      // Redaction output is not always JSON: [REDACTED] lands unquoted and
+      // truncation appends a suffix. Pre-audit the JSON.parse throw travelled
+      // back into track(), silently dropping the analytics event itself
+      // whenever a prop matched a redaction pattern (audit 2026-08-06).
+      clean = Object.fromEntries(Object.entries(props).map(([k, v]) => [k, redactValue(v, 200)]));
+    }
+  }
+  crumbRing.push({ at: now(), name, ...(clean ? { props: clean } : {}) });
 }
 
 export const readConsole = (): ConsoleEntry[] => consoleRing.toArray();

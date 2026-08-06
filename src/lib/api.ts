@@ -202,8 +202,11 @@ async function issue(method: string, path: string, body: unknown, extraHeaders: 
 async function request<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
   const startedAt = Date.now();
   try {
-    const out = await requestInner<T>(method, path, body, extraHeaders);
-    recordApiCall({ method, path, status: 200, durationMs: Date.now() - startedAt });
+    // The REAL response status — pre-audit this recorded a literal 200 for
+    // every success, so the debug trace showed "200" for 201/202/204 responses
+    // (a fabricated value in the very tool meant to carry evidence).
+    const { data: out, status } = await requestInner<T>(method, path, body, extraHeaders);
+    recordApiCall({ method, path, status, durationMs: Date.now() - startedAt });
     return out;
   } catch (e) {
     const status = e instanceof ApiError ? e.status : null;
@@ -217,7 +220,7 @@ async function request<T>(method: string, path: string, body?: unknown, extraHea
   }
 }
 
-async function requestInner<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<T> {
+async function requestInner<T>(method: string, path: string, body?: unknown, extraHeaders?: Record<string, string>): Promise<{ data: T; status: number }> {
   const token = tokenProvider ? await withTokenDeadline(tokenProvider()) : null;
   // Retry ONLY idempotent GETs (network failure/timeout or 5xx), with backoff.
   // A write is never retried here: without server-side dedup a replayed POST is
@@ -261,7 +264,7 @@ async function requestInner<T>(method: string, path: string, body?: unknown, ext
       throw parseApiError(res.status, envelope?.error);
     }
     if (envelope === undefined) throw new ApiError(res.status, 'invalid response envelope');
-    return envelope.data;
+    return { data: envelope.data, status: res.status };
   }
 }
 

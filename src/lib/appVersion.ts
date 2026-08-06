@@ -29,7 +29,9 @@ export const APP_SCHEME: string = Constants.expoConfig?.scheme
   ? String(Array.isArray(Constants.expoConfig.scheme) ? Constants.expoConfig.scheme[0] : Constants.expoConfig.scheme)
   : '';
 
-/** The commit a build came from, when the build injected it. Set
- *  EXPO_PUBLIC_GIT_SHA at build time (eas.json does this for the debug profile)
- *  so a captured report names the exact code it came from. */
+/** The commit a build came from, when the build injected it. NOTHING sets
+ *  EXPO_PUBLIC_GIT_SHA today (the earlier claim that eas.json did was false —
+ *  eas.json env is static and carries no sha; audit 2026-08-06), so reports
+ *  identify the build by appVersion+buildNumber and this stays null unless a
+ *  future build pipeline injects it. */
 export const GIT_SHA: string | null = process.env.EXPO_PUBLIC_GIT_SHA ?? null;
