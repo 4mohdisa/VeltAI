@@ -358,3 +358,32 @@ in git — this file is not a changelog.
 - **Eight foreign keys had no covering index** (notably `recipes.user_id`,
   which the recipes list hits on every request). Added
   `20260806000002_fk_covering_indexes.sql`; zero uncovered FKs remain.
+
+## Final pre-TestFlight audit, Parts 2–7 (2026-08-06)
+
+- **The fabrication engine was the pipeline's own "always yield one item"
+  philosophy.** `MergeResults` and `IdentifyFoods` invented a whole-plate
+  "Unknown food" whenever Gemini failed or answered garbage, and the handler
+  wrote every outcome as 'ready' — 'failed' existed nowhere. Removed at the
+  root: zero estimates → status 'failed' → the client's failed-scan card.
+  Three tests that pinned the fabrication were rewritten and say so.
+- **Scan identity must survive hydration.** The refresh-shaped double-count
+  (save-after-refresh INSERTing a second row) existed because mealsFromLogs
+  carried `status` but dropped `scan_session_id`. The mapper now carries the
+  session id, the server log id and the confidence payload; hydration dedupes
+  by session; discard deletes the server row; a replayed confirm returns the
+  claimed row server-side. Five new/extended real-Postgres tests pin all of it.
+- **Consent is enforced where the data leaves.** The three Gemini scan routes
+  now check `profiles.ai_consent_at` server-side (optional-interface seam,
+  compile-asserted on PGStore, fail-closed). Withdrawal exists in Settings →
+  Privacy (server record first, then the device flag), and an offline accept
+  self-heals by re-asserting the idempotent server write once per launch.
+- **The gate now includes the real-Postgres tests.** 506 backend tests, 0
+  skipped, with `LUME_TEST_DATABASE_URL` set; the old "569" was 560 + 9
+  silent skips, and the 9 were the proofs that mattered.
+- **Deliberately NOT fixed this pass** (documented in FINAL_AUDIT.md): gym
+  step replay dedup, streak RMW lock, RevenueCat TRANSFER transaction,
+  remaining queue-bypassing writes, graceful shutdown, /health DB ping,
+  Go scan-learning dead code (its deletion would drop the crosscheck suite),
+  analytics opt-out-vs-opt-in (owner decision), global AI spend ceiling
+  (owner sets billing caps).

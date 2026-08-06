@@ -17,12 +17,10 @@ npx expo prebuild --clean -p ios && eas build --platform ios --profile preview
 `--profile production` is the clean build with no debug system in it at all —
 use that one only when you submit. See RELEASE_PREP.md §E.
 
-The `prebuild --clean` is not optional:
-
-Your local `ios/` tree is stale, gitignored, predates RevenueCat, and declares
-Apple Health / Face ID / microphone / photo-library permissions the app does not
-use. `expo run:ios` skips prebuild when that directory exists, so without
-`--clean` you ship all of them. Treat `ios/` as disposable.
+The `prebuild --clean` is still the right habit — though the stale `ios/`
+tree (Veltai identity, permissions for features the app doesn't have) was
+DELETED in the 2026-08-06 audit, so `expo run:ios` can no longer silently
+build from it. Prebuild regenerates `ios/` fresh; treat it as disposable.
 
 Set `EXPO_PUBLIC_API_URL` at build time. Without it a release build points at
 `http://localhost:8080`, which iOS ATS blocks outright (`NSAllowsArbitraryLoads:
@@ -61,9 +59,10 @@ refusing to treat you as an authenticated dev session. Set the key.
 **Working looks like:** you land on onboarding, and the account screen later
 shows **your** name and email.
 
-**Most likely failure:** *it shows "Bilal Ahmed / bilal.ahmed@example.com".*
-If you see that, **you are not on this branch** — that is the unmerged
-fabricated-data defect, still live on `main`. Stop and check your branch.
+**Historical note:** the "Bilal Ahmed / bilal.ahmed@example.com" fabricated
+account is long fixed and its regression test lives in
+`noFabricatedData.test.ts`. If you ever see it, the world has gone very wrong —
+file a report.
 
 **Second failure:** *a 500 on your first write.* Every user table has
 `references profiles(id)`, and on `main` that row was created only by the async
@@ -127,10 +126,12 @@ factors were in the payload, unread. If you ever see those three strings again,
 the fix has regressed; `src/__tests__/scanConfidence.test.ts` should have caught
 it.
 
-**Most likely failure now:** *"Couldn't analyse this photo", and then the meal
-appears in your log a minute later anyway.* The client poller gives up at 60s
-while the server is allowed 120s. **Not fixed.** On a slow connection or a busy
-backend this is likely.
+**Fixed (2026-08-06):** the client poller now waits 130s (above the server's
+120s budget) and makes one final status check before declaring failure — so a
+slow scan no longer shows "Couldn't analyse this photo" and then appears in
+the log anyway, and backgrounding the app through a successful scan no longer
+reports a false failure. If you still see fail-then-appear, that's a
+regression — file it.
 
 **Second thing to check — this WAS the most damaging bug and is now fixed.**
 A confirmed scan used to write two server rows and double its calories on
@@ -139,18 +140,22 @@ inserting a second one. **Verify it explicitly:** scan → save → note the day
 calories → pull-to-refresh the Food tab → the number must not change. Five
 real-Postgres tests cover this, but none of them has run against your data.
 
-**Third failure:** *you discard a scan and it comes back.* Discarding does not
-delete the server row, so the estimate you rejected reappears on the next
-refresh, counted as eaten. **Not fixed.**
+**Fixed (2026-08-06):** discarding a scan now deletes the server row too —
+the rejected estimate must NOT reappear on refresh. Also verify: refresh the
+food tab WHILE a review card is showing — the card must not duplicate and the
+day total must not move until you save.
 
-**Fourth failure:** *the camera fails and three foods you never ate appear* —
-chicken stir-fry, jasmine rice, cooking oil, 740 kcal, with a "Scanning your
-meal…" toast. **Not fixed.** If you see those three items, that is what
-happened.
+**Fixed (earlier, verified this audit):** a camera failure shows "Couldn't
+take the photo — try again." and stays put. The old path that logged three
+invented foods (chicken stir-fry + jasmine rice + cooking oil, 740 kcal) is
+dev-only. If you ever see those three items in a TestFlight build, file it as
+a blocker.
 
-**If Gemini has no key:** the label scanner returns 503. Note that with
-`ANTHROPIC_API_KEY` unset the AI features return **plausible canned text as if
-it were AI output** — do not mistake that for working AI.
+**If Gemini has no key:** the label scanner returns 503; a Gemini FAILURE
+mid-scan now surfaces as a failed scan card (2026-08-06 — it used to write a
+fabricated "Unknown food" into your log as a success). With `ANTHROPIC_API_KEY`
+unset, Ask-Lume honestly 503s, but the MORNING BRIEF serves a deterministic
+template built from your real data — don't mistake that one for working AI.
 
 ---
 
@@ -164,9 +169,11 @@ it were AI output** — do not mistake that for working AI.
 Nothing survives a restart except what the server returns on hydrate. So this
 test is really a test of whether the write reached the server.
 
-**Most likely failure:** *the meal is gone.* Several writes bypass the offline
-queue entirely — saved foods, food-log edits and deletes, quick-add, recipes,
-scan-confirm. Offline, they are lost at restart with no warning. **Not fixed.**
+**Partly fixed (2026-08-06):** Quick Add and the label-scan save now QUEUE on
+a network failure (and say "will sync when you're back online"). Still
+bypassing the queue: saved foods, food-log edits/deletes, recipes,
+scan-confirm — offline, those are lost at restart. Test Quick Add offline
+specifically: it must survive a force-quit and sync on reconnect.
 
 **Also:** a write the server permanently rejects (4xx) leaves the optimistic row
 in the UI forever, counted in your totals, with no error shown.
@@ -186,9 +193,9 @@ There is no NetInfo dependency and no screen ever triggered a flush, so walking
 back into coverage did nothing until you force-quit. I added an AppState
 `active` flush (`ca78fbe`) — foregrounding is what triggers it.
 
-**Still broken:** signing out destroys every queued write with no warning, and
-one permanently-failing mutation at the head blocks the queue forever (no
-max-retry, no poison path).
+**Half fixed (2026-08-06):** a permanently-rejected mutation is now dropped
+(with a toast) instead of blocking the queue forever. Still true: signing out
+destroys every queued write with no warning — sync before you sign out.
 
 ---
 
@@ -228,15 +235,13 @@ keep your Clerk id (no FK).
 
 ## If something looks wrong, check this first
 
-1. **Are you on `audit/testflight-gate`?** `main` still has all twelve
-   fabricated-data defects. Seeing "Bilal Ahmed" or a 13-day streak means you
-   are on the wrong branch.
-2. **Did you `expo prebuild --clean`?** If iOS asks for Apple Health or the
+1. **Did you `expo prebuild --clean`?** If iOS asks for Apple Health or the
    microphone, you built from the stale tree.
-3. **Is `EXPO_PUBLIC_API_URL` set?** Empty screens usually mean an unreachable
+2. **Is `EXPO_PUBLIC_API_URL` set?** Empty screens usually mean an unreachable
    API, not a broken screen — the data layer reports `error: null` on failure.
-4. **Do the server logs show a missing key?** `ANTHROPIC_API_KEY` unset makes AI
-   features return canned text rather than failing.
+3. **Do the server logs show a missing key?** `ANTHROPIC_API_KEY` unset makes
+   the morning brief fall back to a deterministic template (Ask-Lume 503s);
+   `GEMINI_API_KEY` unset makes every scan route 503.
 
 ---
 

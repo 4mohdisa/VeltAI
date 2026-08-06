@@ -47,12 +47,16 @@ but is now deployment-READY: [DEPLOY.md](DEPLOY.md) is the ordered runbook and
 the Dockerfile, compose, nginx config, systemd unit and migration runner all in
 the repo.
 
-**Verification baseline** (must stay green): backend `go build ./... && go vet
-./... && gofmt -l . && go test ./... -count=1 && go test ./... -race` → **569
-tests**, race-clean; app `npx tsc --noEmit && npx eslint src && npm test` →
-clean, 0 errors, **464 tests / 28 suites**; `cd web && npm run build` → static
-export clean; `npm run check:assets` → **exit 0**. There is no CI: these are
-enforced by running them.
+**Verification baseline** (must stay green — last run 2026-08-06, all green):
+backend `go build ./... && go vet ./... && gofmt -l . && go test ./...
+-count=1 && go test ./... -race` → **506 tests, 0 skipped**, race-clean —
+**set `LUME_TEST_DATABASE_URL` to a migrated local Postgres first**, or the 9
+real-Postgres tests (the double-count and gym-500 proofs) SKIP silently and
+the run reports green while proving nothing (the old "569 tests" figure was
+560 passed + 9 silently skipped); app `npx tsc --noEmit && npx eslint src &&
+npm test` → clean, 0 errors, **469 tests / 28 suites**; `cd web && npm run
+build` → static export clean; `npm run check:assets` → **exit 0**. There is no
+CI: these are enforced by running them. Full findings: [FINAL_AUDIT.md](FINAL_AUDIT.md).
 
 ## Remaining human actions (ordered)
 
@@ -68,16 +72,21 @@ What remains is what only the owner can supply._
    section is being drafted with a legal adviser and is not final", including
    who operates the app. Blocks public release, not TestFlight.
 3. **Deploy the backend** — follow [DEPLOY.md](DEPLOY.md) end to end. Apply all
-   **14** migrations with `./deploy/migrate.sh apply`; `20260729000001_
+   **15** migrations with `./deploy/migrate.sh apply`; `20260729000001_
    shared_runtime_state` must land BEFORE the new binary starts or every `/api/`
-   request fails closed with 503. Two are new: `20260731000001_ai_consent` and
-   `20260806000001_debug_reports`.
+   request fails closed with 503. Note: `20260806000001_debug_reports` was
+   BROKEN (uuid=text in its RLS policies) until the 2026-08-06 audit — if you
+   ever ran it, it rolled back and the table does not exist; re-run `status`
+   and `apply`. `20260806000002_fk_covering_indexes` is new.
 4. **Set the keys and dashboards**: `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY`,
    `EXPO_PUBLIC_REVENUECAT_IOS_KEY`, `EXPO_PUBLIC_API_URL` in the app; Clerk
    (Apple + Google SSO, email-code strategy, **`lume://`** allowlist) and
    RevenueCat (products, default Offering, **`pro`** entitlement, hosted paywall
-   design, webhook) per CONFIG.md. Backend env vars are now `LUME_*`; the old
-   `LUME_*` names still work with a deprecation warning.
+   design, webhook) per CONFIG.md. Backend env vars are `LUME_*`; the old
+   `LUMO_*` names now genuinely work with a deprecation warning — the
+   compatibility shim was a self-referential no-op until the 2026-08-06 audit
+   (it read `LUME_`+suffix), so before that a deployment exporting old names
+   silently fell back to defaults.
 5. **Set the RevenueCat dashboard to a 7-day trial** to match the app. Every
    trial mention derives from one constant (`TRIAL_DAYS`), so the dashboard is
    the only remaining mismatch risk.
