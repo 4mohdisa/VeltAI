@@ -14,10 +14,30 @@ import { api } from '@/lib/api';
 export const AI_CONSENT_KEY = 'lume.aiConsent';
 
 let cached: boolean | null = null;
+let reconciled = false;
 
 export async function hasAiConsent(): Promise<boolean> {
   if (cached === null) cached = (await getItem(AI_CONSENT_KEY)) === '1';
+  if (cached && !reconciled) {
+    reconciled = true;
+    // Self-heal the offline-consent desync (audit 2026-08-06): accepting the
+    // disclosure while offline stored the device flag but never the server
+    // record, 403-locking every AI feature indefinitely. Re-assert once per
+    // launch — the server write is idempotent (COALESCE keeps the first date).
+    void api.ai.setConsent().catch(() => {});
+  }
   return cached;
+}
+
+/** Withdraw consent (Settings → Privacy — guideline 5.1.2 requires a way out).
+ *  Server record FIRST: it is what gates the backend's own 6-hour sweep, so
+ *  clearing only the device flag would stop the UI while the server kept
+ *  sending. Throws when the server cannot be reached — the caller surfaces it
+ *  rather than pretending the withdrawal took effect. */
+export async function revokeAiConsent(): Promise<void> {
+  await api.ai.revokeConsent();
+  cached = false;
+  await setItem(AI_CONSENT_KEY, '0');
 }
 
 /** Show the one-time disclosure (if not yet acknowledged). Resolves true when
@@ -57,4 +77,5 @@ export async function ensureAiConsent(): Promise<boolean> {
  *  by resetRegistry). */
 export function __resetAiConsentCache(): void {
   cached = null;
+  reconciled = false;
 }

@@ -1,10 +1,12 @@
 # App Store Metadata — Draft
 
-> **Naming note:** the shipping config (`app.json`, bundle `app.veltai.veltai`)
-> uses **Veltai**; the product docs use **Lumo**. Pick one before submission — this
-> draft uses "Lumo" as the plan intends. See MORNING_REPORT_PHASE12 → human action.
+> **Naming note (updated 2026-08-06 audit):** the product is **Lume**, bundle
+> `fit.lume.app` (app.json). This draft previously said the config still used
+> Veltai — false since commit c9b43ae — and drafted the whole listing as
+> "Lume", a dead brand that escaped the rename because productName.test.ts
+> only walks src/, web/ and app.json.
 
-**App name:** Lumo — Calorie & Workout Tracker
+**App name:** Lume — Calorie & Workout Tracker
 **Primary category:** Health & Fitness
 **Secondary category:** Food & Drink
 
@@ -20,18 +22,18 @@
 `calorie counter,macro tracker,food diary,workout log,gym,fitness,nutrition,weight loss,ACSM,streak`  *(98)*
 
 ## Support URL
-`https://lumo.fit/support`
+`https://lume.fit/support`
 
 ## Marketing URL
-`https://lumo.fit`
+`https://lume.fit`
 
 ---
 
 ## Description (max 4000 chars)
 
-Lumo is a food and fitness tracker that does the math honestly.
+Lume is a food and fitness tracker that does the math honestly.
 
-Most calorie apps treat every "treadmill" the same. Lumo doesn't. When you log
+Most calorie apps treat every "treadmill" the same. Lume doesn't. When you log
 cardio, it captures the details that actually matter — speed, incline, power,
 split, steps — and computes your burn from the published ACSM metabolic
 equations, the same standard sports scientists use. Every number shows its
@@ -42,7 +44,7 @@ LOG FOOD IN SECONDS
 • Scan a nutrition label to capture packaged foods exactly
 • Search a food database or scan a barcode
 • Quick-add calories when you're in a hurry
-Lumo learns your typical portions over time and gets more accurate the more you log.
+Lume learns your typical portions over time and gets more accurate the more you log.
 
 TRACK WORKOUTS THAT COUNT
 • Build workout templates and a weekly schedule
@@ -69,7 +71,7 @@ are no ad SDKs in the app. Meal photos are processed to produce an estimate and 
 not retained. You can export or permanently delete everything from Settings at any
 time.
 
-Lumo is a wellness and informational tool, not a medical device, and does not
+Lume is a wellness and informational tool, not a medical device, and does not
 provide medical advice.
 
 Start free, then unlock everything with a 7-day trial.
@@ -78,7 +80,7 @@ Start free, then unlock everything with a 7-day trial.
 
 ## Privacy Nutrition Label (App Privacy answers)
 
-**Data used to track you across apps/websites:** NONE. Lumo does not track. No ad
+**Data used to track you across apps/websites:** NONE. Lume does not track. No ad
 SDKs, no third-party analytics that identify you, no data shared with data brokers.
 
 **Data linked to your identity** (tied to your account):
@@ -86,18 +88,19 @@ SDKs, no third-party analytics that identify you, no data shared with data broke
 |---|---|---|
 | Health & Fitness | food logs, workouts, body stats, calorie/energy data (user-typed meal logs count as health data under Apple's definition) | App functionality |
 | Contact Info | email, name (via the auth provider) | App functionality, account management |
-| User Content | meal photos (processed by Google Gemini to produce the estimate, not retained by Lumo), AI query text (processed by Anthropic) | App functionality |
+| User Content | meal photos (processed by Google Gemini to produce the estimate, not retained by Lume), AI query text (processed by Anthropic) | App functionality |
 | Identifiers | account user ID | App functionality |
 | Purchases | subscription/purchase history (RevenueCat, keyed to the user ID) | App functionality |
 | Usage Data | product interaction — first-party analytics events (12-event allow-list, opt-out in Settings → Privacy) | Analytics |
-| Search History | in-app food searches (sent to the food-search endpoint; query text appears in no stored log — declare only if server logging is ever added) | App functionality |
 
 **Data NOT linked to your identity:** none collected separately.
 
-**Data NOT collected:** location, contacts, browsing history, financial info,
-card details (handled by Apple), advertising data.
+**Data NOT collected:** location, contacts, browsing history, search history
+(food-search text is forwarded to the lookup services to answer the query and
+is not retained), financial info, card details (handled by Apple), advertising
+data.
 
-**Third-party processors** (act on Lumo's behalf, under their own terms, only to
+**Third-party processors** (act on Lume's behalf, under their own terms, only to
 provide their part of the service): authentication (Clerk), database (Supabase),
 photo/label analysis (Google Gemini), AI summaries (Anthropic), subscriptions
 (RevenueCat), optional imports (Strava, WHOOP).

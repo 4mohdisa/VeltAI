@@ -42,7 +42,7 @@ const SECTIONS: LegalSection[] = [
     heading: 'Sensitive information and consent',
     pending: true,
     body: [
-      'Before your first meal photograph or AI request, Lume shows a one-time disclosure naming Google Gemini and Anthropic, and sends nothing until you accept. That acknowledgement is stored on your device and covers sharing with those two processors.',
+      'Before your first meal photograph or AI request, Lume shows a one-time disclosure naming Google Gemini and Anthropic, and sends nothing until you accept. That acknowledgement is recorded on your device and on our server (so background processing also respects it), and it covers sharing with those two processors. You can withdraw it at any time in Settings → Privacy → Turn off AI processing.',
       `${AWAITING} The express consent mechanism required for collecting health information under Australian Privacy Principle 3.3 is being drafted; the disclosure above is narrower than that.`,
     ],
   },
@@ -57,7 +57,8 @@ const SECTIONS: LegalSection[] = [
     heading: 'Who we disclose it to',
     body: [
       'Always, to run the service: Clerk (authentication — your email and name), Supabase (database hosting — every row of your data), and RevenueCat (subscriptions — your user id and purchase status).',
-      'Only when you use the feature, and only after you accept the AI disclosure: Google Gemini receives the photograph you are scanning, and Anthropic receives a summary of your logged data to write the wording of insights.',
+      'Only when you use the feature, and only after you accept the AI disclosure: Google Gemini receives the photograph you are scanning together with a short summary of your food preferences and recent corrections (so estimates improve for you), and Anthropic receives a summary of your logged data — and, when you use Ask Lume, the question you type — to write the wording of insights, briefs and answers.',
+      'When you search foods or scan a barcode, the search text or barcode number is sent to Open Food Facts and the USDA FoodData Central database to find a match. No account information goes with it.',
       'Only if you connect them yourself: Strava and WHOOP. Neither is operational today.',
       'Each processor handles data under its own terms and only to provide its part of the service.',
     ],

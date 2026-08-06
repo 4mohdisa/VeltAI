@@ -14,9 +14,12 @@ import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { CuisineType } from '@/lib/types';
 import { TRIAL_DAYS } from '@/lib/billing/purchases';
 
+// No counts: the library holds ~17 foods per cuisine, and the old south_asian
+// line promised "40+ more" — a number the product doesn't have (audit
+// 2026-08-06). "and more" is true for every row; a count has to be earned.
 const CUISINE_INSIGHT: Record<CuisineType, string> = {
   south_asian:
-    "We've pre-loaded South Asian foods into your database — biryani, dal, roti, paneer and 40+ more ready to log",
+    "We've pre-loaded South Asian foods into your database — biryani, dal, roti, paneer and more ready to log",
   east_asian: 'East Asian staples loaded — jasmine rice, tofu, noodles, stir-fry and more',
   southeast_asian: 'Southeast Asian favourites loaded — pho, pad thai, satay, spring rolls and more',
   middle_eastern: 'Middle Eastern foods ready — hummus, shawarma, falafel, pita and more',

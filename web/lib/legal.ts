@@ -173,17 +173,12 @@ export const PRIVACY: Section[] = [
       v(
         'What exists today, and its limits. Before the first meal photograph or AI request, the app ' +
           'shows a one-time disclosure naming Google Gemini and Anthropic, and refuses to send anything ' +
-          'until you accept. The acknowledgement is stored ON YOUR DEVICE. It covers sharing with those ' +
-          'two AI processors — it is not a general consent to collect health information, and it is not ' +
-          'recorded on our servers.',
-        'src/lib/ai/consent.ts:19-43 (ensureAiConsent — device-local, secure-store key lume.aiConsent)',
-      ),
-      todo(
-        'A server-side consent record does not exist on this branch. `grep -rn consent backend/` returns ' +
-          'nothing. A branch exists that adds a profiles.ai_consent_at column and gates every ' +
-          'Gemini/Anthropic send on it, fail-closed and revocable, but it is NOT merged and NOT deployed. ' +
-          'Until it ships, this policy must not describe a server-side consent gate. Re-verify before ' +
-          'writing this section.',
+          'until you accept. The acknowledgement is stored on your device AND recorded on our server ' +
+          '(profiles.ai_consent_at), and every Gemini/Anthropic send — including background jobs that ' +
+          'run with no device involved — is refused server-side without it. You can withdraw it in the ' +
+          'app (Settings → Privacy → Turn off AI processing). It covers sharing with those two AI ' +
+          'processors — it is not a general consent to collect health information.',
+        'src/lib/ai/consent.ts (ensureAiConsent/revokeAiConsent); backend/internal/ai/ai.go (requireAIConsent); backend/internal/scan (requireScanConsent) — audited 2026-08-06',
       ),
     ],
   },
@@ -228,10 +223,17 @@ export const PRIVACY: Section[] = [
       vList(
         'Only when you use the feature, and only after you have accepted the AI disclosure:',
         [
-          'Google Gemini — receives the meal or nutrition-label photograph you are scanning, in full, in order to analyse it.',
-          'Anthropic — receives a summary of your logged data (food logs, gym sessions, goals, streak and body weights) in order to write the wording of insights.',
+          'Google Gemini — receives the meal or nutrition-label photograph you are scanning, in full, together with a short learned summary of your food preferences and recent corrections (so estimates improve for you), in order to analyse it.',
+          'Anthropic — receives a summary of your logged data (food logs, gym sessions, goals, streak and body weights) in order to write the wording of insights and briefs, and — when you use Ask Lume — the question you typed.',
         ],
-        'backend/internal/scan/pipeline/gemini.go; backend/internal/ai/llm.go; gated by src/lib/ai/consent.ts',
+        'backend/internal/scan/pipeline/gemini.go (UserContextFrom); backend/internal/ai/ai.go (query: user question in prompt); gated server-side by profiles.ai_consent_at — audited 2026-08-06',
+      ),
+      vList(
+        'When you search foods or scan a barcode (no AI consent involved — these are database lookups):',
+        [
+          'Open Food Facts and USDA FoodData Central — receive the search text or barcode number to find a match. No account information accompanies the lookup.',
+        ],
+        'backend/internal/food/search.go — audited 2026-08-06',
       ),
       vList(
         'Only if you connect them yourself:',
@@ -317,9 +319,9 @@ export const PRIVACY: Section[] = [
         'backend/internal/auth/export.go:80-84 (GET /api/export)',
       ),
       v(
-        'You can view and correct your profile, body metrics, goals and every logged entry directly in ' +
+        'You can view and correct your profile, goals and every logged food and gym entry directly in ' +
           'the app at any time.',
-        'src/app/profile/ (account, goals); src/app/(tabs)/food.tsx, gym.tsx (edit and delete entries)',
+        'src/app/profile/ (account, goals); src/app/(tabs)/food.tsx, gym.tsx (edit and delete entries) — "body metrics" removed 2026-08-06: no dedicated body-metrics edit screen exists',
       ),
       todo(
         'The formal APP 12 and APP 13 process for someone who cannot or does not want to use the app: ' +

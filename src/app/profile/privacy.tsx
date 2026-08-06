@@ -1,7 +1,7 @@
 // E9 · Privacy
 // Privacy policy + terms (the in-app documents — no account or network
 // needed); product analytics opt-out; data export via the share sheet.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Share } from 'react-native';
 import { router, type Href } from 'expo-router';
 
@@ -11,12 +11,35 @@ import { showToast } from '@/components/display/toastStore';
 import { Text } from '@/components/primitives/Text';
 import { color } from '@/lib/design/tokens';
 import { api } from '@/lib/api';
+import { hasAiConsent, revokeAiConsent } from '@/lib/ai/consent';
 import { useSettingsStore } from '@/lib/settings/store';
 
 export default function PrivacyScreen() {
   const analyticsEnabled = useSettingsStore((s) => s.analyticsEnabled);
   const setAnalyticsEnabled = useSettingsStore((s) => s.setAnalyticsEnabled);
   const [exporting, setExporting] = useState(false);
+  const [aiConsent, setAiConsent] = useState<boolean | null>(null);
+  const [revoking, setRevoking] = useState(false);
+
+  useEffect(() => {
+    void hasAiConsent().then(setAiConsent);
+  }, []);
+
+  // 5.1.2(i): the disclosure copy has always pointed here for withdrawal —
+  // pre-audit no such control existed anywhere in the app (audit 2026-08-06).
+  const withdrawAiConsent = async () => {
+    if (revoking) return;
+    setRevoking(true);
+    try {
+      await revokeAiConsent();
+      setAiConsent(false);
+      showToast({ message: 'AI processing turned off. Scans and insights are disabled until you turn it back on.', tone: 'success' });
+    } catch {
+      showToast({ message: "Couldn't reach the server to withdraw consent — try again.", tone: 'error' });
+    } finally {
+      setRevoking(false);
+    }
+  };
 
   // GET /api/export → hand the JSON to the iOS share sheet (save to Files,
   // AirDrop, mail — the user chooses).
@@ -59,6 +82,24 @@ export default function PrivacyScreen() {
         First-party only, on our own servers — which features are used, never what you log. Never
         sold. Off means fully off.
       </Text>
+      {aiConsent === true ? (
+        <SettingsList
+          title="AI processing"
+          rows={[
+            {
+              icon: 'sparkles-outline',
+              label: revoking ? 'Turning off…' : 'Turn off AI processing',
+              onPress: () => void withdrawAiConsent(),
+            },
+          ]}
+        />
+      ) : null}
+      {aiConsent === true ? (
+        <Text variant="footnote" color={color.gray500}>
+          Withdraws your consent for Google Gemini (meal photos) and Anthropic (insight wording).
+          Scanning and AI features stop working until you accept the disclosure again.
+        </Text>
+      ) : null}
       <SettingsList
         title="Your data"
         rows={[

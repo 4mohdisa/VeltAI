@@ -5,4 +5,4 @@ export const SITE_NAME = 'Lume';
 export const SUPPORT_EMAIL = 'lumofit@gmail.com';
 export const TAGLINE = 'Make going to the gym the easy choice.';
 export const DESCRIPTION =
-  'Lume is a food and fitness tracker that tells you the truth: calorie estimates with confidence ranges instead of fake precision, honest gym tracking, and your health data kept private. Coming soon to the App Store.';
+  'Lume is a food and fitness tracker that tells you the truth: scan estimates that say how confident they are instead of faking precision, honest gym tracking, and your health data kept private. Coming soon to the App Store.';
