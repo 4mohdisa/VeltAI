@@ -71,6 +71,38 @@ test('ITEM 4: the target-weight field follows the weight unit toggle', () => {
   expect(allText(tree)).toContain('Target weight (lb)');
 });
 
+test('ITEM 4: flipping kg<->lb CONVERTS the typed value instead of reinterpreting it', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  const weight = findAll(tree, (p) => p.accessibilityLabel === 'Current weight in kilograms')[0];
+  const { act } = require('./helpers') as { act: (cb: () => void) => void };
+  act(() => (weight.props.onChangeText as (t: string) => void)('70'));
+
+  // Flip to lb: 70 kg is 154.3 lb, NOT "70 lb" (which would silently restate
+  // the user's weight as 31.8 kg and feed that into BMR).
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'lb')[0]);
+  const lbField = findAll(tree, (p) => p.accessibilityLabel === 'Current weight in pounds')[0];
+  expect(parseFloat(lbField.props.value as string)).toBeCloseTo(154.3, 1);
+
+  // And back again — the round trip returns the original.
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'kg')[0]);
+  const kgField = findAll(tree, (p) => p.accessibilityLabel === 'Current weight in kilograms')[0];
+  expect(parseFloat(kgField.props.value as string)).toBeCloseTo(70, 1);
+});
+
+test('ITEM 4: flipping cm<->ft/in carries the height across', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  const cm = findAll(tree, (p) => p.accessibilityLabel === 'Height in centimetres')[0];
+  const { act } = require('./helpers') as { act: (cb: () => void) => void };
+  act(() => (cm.props.onChangeText as (t: string) => void)('180'));
+
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'ft / in')[0]);
+  const feet = findAll(tree, (p) => p.accessibilityLabel === 'Height, feet')[0];
+  const inches = findAll(tree, (p) => p.accessibilityLabel === 'Height, inches')[0];
+  // 180 cm = 70.9 in = 5 ft 11 in — not two empty boxes.
+  expect(feet.props.value).toBe('5');
+  expect(inches.props.value).toBe('11');
+});
+
 function TestPress(node: { props: Record<string, unknown> }): void {
   const onPress = node.props.onPress as (() => void) | undefined;
   expect(typeof onPress).toBe('function');

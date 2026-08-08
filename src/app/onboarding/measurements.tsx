@@ -71,6 +71,48 @@ export default function MeasurementsScreen() {
     return weightUnit === 'kg' ? round1(n) : round1(n * 0.453592);
   };
 
+  /**
+   * Switching kg↔lb CONVERTS what is already typed.
+   *
+   * Pre-fix the text was left alone, so the same digits were silently
+   * reinterpreted in the new unit: type 70 as kg, flip to lb, and the stored
+   * weight became 31.8 kg — a number the user never entered, feeding straight
+   * into BMR and the calorie target (audit 2026-08-08).
+   *
+   * Display keeps one decimal. That is a real (small) round-trip loss —
+   * 70 kg → 154.3 lb → 70.0 kg holds, but odd values can settle ±0.1 kg —
+   * which is far below the precision of any bathroom scale and vastly
+   * preferable to reinterpreting the digits.
+   */
+  const changeWeightUnit = (next: WeightUnit) => {
+    if (next === weightUnit) return;
+    const convert = (text: string): string => {
+      const n = parseFloat(text);
+      if (!Number.isFinite(n) || n <= 0) return text;
+      return String(round1(next === 'lb' ? n / 0.453592 : n * 0.453592));
+    };
+    setWeightText(convert(weightText));
+    setTargetText(convert(targetText));
+    setWeightUnit(next);
+  };
+
+  /** Same rule for height: cm↔ft/in carries the value across. */
+  const changeHeightUnit = (next: HeightUnit) => {
+    if (next === heightUnit) return;
+    if (next === 'ftin') {
+      const cm = parseFloat(heightCmText);
+      if (Number.isFinite(cm) && cm > 0) {
+        const totalIn = cm / 2.54;
+        setFeetText(String(Math.floor(totalIn / 12)));
+        setInchesText(String(Math.round(totalIn % 12)));
+      }
+    } else {
+      const cm = heightToCm();
+      if (cm != null) setHeightCmText(String(cm));
+    }
+    setHeightUnit(next);
+  };
+
   // `submitted` flips on the first Continue press. Before it, only fields the
   // user has actually filled in show errors (no shouting at an untouched
   // form); after it, REQUIRED-but-empty fields show their reason too.
@@ -186,7 +228,7 @@ export default function MeasurementsScreen() {
               { label: 'ft / in', value: 'ftin' },
             ]}
             value={heightUnit}
-            onChange={setHeightUnit}
+            onChange={changeHeightUnit}
           />
           {heightUnit === 'cm' ? (
             <TextField
@@ -230,7 +272,7 @@ export default function MeasurementsScreen() {
               { label: 'lb', value: 'lb' },
             ]}
             value={weightUnit}
-            onChange={setWeightUnit}
+            onChange={changeWeightUnit}
           />
           <TextField
             value={weightText}
