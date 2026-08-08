@@ -17,7 +17,7 @@ const read = (p: string) => readFileSync(join(repoRoot, p), 'utf8');
 
 describe('the production build profile cannot enable debug capture', () => {
   const eas = JSON.parse(read('eas.json')) as {
-    build: Record<string, { env?: Record<string, string>; distribution?: string }>;
+    build: Record<string, { env?: Record<string, string>; distribution?: string; environment?: string }>;
   };
 
   test('production sets no EXPO_PUBLIC_DEBUG_CAPTURE', () => {
@@ -51,6 +51,24 @@ describe('the production build profile cannot enable debug capture', () => {
   test('production is store-distributed and carries no capture flag', () => {
     expect(eas.build.production.distribution).toBe('store');
     expect(eas.build.production.env?.EXPO_PUBLIC_DEBUG_CAPTURE).toBeUndefined();
+  });
+
+  // eas build has NO --environment flag: the environment comes solely from the
+  // profile's `environment` field, and an omitted one is INFERRED —
+  // distribution:store infers `production`. A test-mode TestFlight profile
+  // that omitted it would silently pull live Clerk/RevenueCat values
+  // (eas-cli v21.7.0 evaluateConfigWithEnvVarsAsync; verified 2026-08-09).
+  test('every profile pins its EAS environment explicitly — none are inferred', () => {
+    for (const [name, profile] of Object.entries(eas.build)) {
+      expect(`${name}:${profile.environment ?? 'INFERRED'}`).not.toContain('INFERRED');
+    }
+  });
+
+  test('the testflight profile uses the preview environment, not production', () => {
+    // It is store-distributed, so an omitted `environment` would resolve to
+    // production — the live keys, in a build meant to be test-mode.
+    expect(eas.build.testflight.environment).toBe('preview');
+    expect(eas.build.production.environment).toBe('production');
   });
 
   test('the testflight profile is store-distributed — internal can never reach TestFlight', () => {

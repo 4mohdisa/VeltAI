@@ -79,14 +79,33 @@ values are **inlined into the JS bundle and are therefore public** — that is
 correct for all three below (a Clerk publishable key and a RevenueCat *public
 SDK* key are designed to ship in clients). Nothing secret belongs here.
 
+**Put them in the `preview` environment**, not `production` — see the box below.
+
 ```bash
-eas env:create --name EXPO_PUBLIC_API_URL                 --value "https://api.lume.fit"  --visibility plaintext
-eas env:create --name EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY   --value "pk_test_…"              --visibility plaintext
-eas env:create --name EXPO_PUBLIC_REVENUECAT_IOS_KEY      --value "appl_…"                 --visibility plaintext
+eas env:set --environment preview --name EXPO_PUBLIC_API_URL               --value "https://api.lume.fit" --visibility plaintext
+eas env:set --environment preview --name EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY --value "pk_test_…"            --visibility plaintext
+eas env:set --environment preview --name EXPO_PUBLIC_REVENUECAT_IOS_KEY    --value "appl_…"               --visibility plaintext
 ```
 
-`EXPO_PUBLIC_DEBUG_CAPTURE=1` comes from the profile itself — do not set it as
-an environment variable, or it may leak into `production`.
+`eas secret:*` and `eas env:create` are both deprecated; `eas env:set` is the
+current command (eas-cli v21.7.0).
+
+> **Which EAS environment a build uses — the trap this nearly walked into.**
+> `eas build` has **no `--environment` flag**. The environment comes solely
+> from the profile's `environment` field, and if you omit it eas-cli *infers*
+> one: a **store-distribution profile silently resolves to `production`**.
+> A test-mode TestFlight build would then have pulled live Clerk and
+> RevenueCat values. Every profile in `eas.json` now sets `environment`
+> explicitly; `testflight` is pinned to **`preview`**.
+> (Verified against eas-cli v21.7.0 `evaluateConfigWithEnvVarsAsync`.)
+
+`EXPO_PUBLIC_DEBUG_CAPTURE=1` comes from the profile's own `env` block. That is
+also the higher-precedence source: **eas.json profile `env` overrides an EAS
+server variable of the same name** (documented under
+[EAS Workflows → environment → Precedence](https://docs.expo.dev/eas/workflows/environment/#precedence)).
+So do not also store it as a server variable — in the `production` environment
+it would apply to the production build, whose profile `env` is deliberately
+empty.
 
 A build missing any of these **fails in the EAS log** before compiling
 (`scripts/assert-build-env.mjs`, wired to `eas-build-pre-install`). If one ever
@@ -111,6 +130,13 @@ gitignored).
 `autoIncrement: true` bumps `ios.buildNumber` each build, so you never collide
 with an existing TestFlight build.
 
+Note: a standalone `eas submit` does **not** load EAS environment variables —
+anything it needs must come from your local shell or the `eas.json` submit
+profile. All three ASC API key fields must be present together, or
+`--non-interactive` fails with *"ascApiKeyPath, ascApiKeyIssuerId and
+ascApiKeyId must all be defined in eas.json"*. If `EXPO_APPLE_APP_SPECIFIC_PASSWORD`
+is set in your shell it takes precedence and the API key is ignored entirely.
+
 Build image is pinned to `macos-tahoe-26.4-xcode-26.4` (iOS 26.4 SDK), above
 Apple's current floor. It is pinned deliberately: the `auto` alias has been
 repointed under SDK users mid-cycle before.
@@ -128,9 +154,15 @@ users, on up to 30 devices each) and you can install within minutes of upload.
 Still required either way:
 
 1. **Export compliance** — already declared in `app.json`
-   (`ITSAppUsesNonExemptEncryption: false`), so builds will not stall on the
-   manual question. The value is correct: the app uses only HTTPS/TLS and the
-   iOS Keychain, both exempt; it implements no cryptography of its own.
+   (`ITSAppUsesNonExemptEncryption: false`), so builds should not stall on the
+   manual question. The value is correct: Apple's own reference says to use
+   `NO` when the app "including any third-party libraries it links against"
+   uses only exempt encryption, and names OS-provided HTTPS via URLSession as
+   exempt. Lume implements no cryptography of its own.
+   **Still check the first upload:** two Apple Developer Forums threads from
+   Oct 2025 report being asked anyway (both community-only, no Apple reply, so
+   treat as folklore rather than rule). Open the build in App Store Connect and
+   confirm it is not marked **"Missing Compliance"** before inviting testers.
 2. **Age rating questionnaire** — mandatory since the 2026 tier change.
 3. **Regulated Medical Device Status** — required for Health & Fitness apps
    distributed in EEA/UK/US since 26 Mar 2026. Lume computes nutrition targets
