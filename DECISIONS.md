@@ -444,3 +444,30 @@ in git — this file is not a changelog.
 - **Input units and the raw ft/in text are persisted** as display state only.
   They are never sent — the payload is always canonical cm/kg — but the form
   now redraws exactly as the user left it instead of recomputing digits.
+
+## TestFlight test-mode configuration (2026-08-09)
+
+- **A distributable build refuses to start unconfigured.** `isDevBuild()` is
+  `__DEV__`, which is already false in TestFlight, so the mock-data shims were
+  correctly off — but Clerk and RevenueCat gated on KEY ABSENCE, not on build
+  type, so a TestFlight build with a missing key shipped an app with no auth
+  and no purchase path that looked like it worked. `requiredEnv.ts` is now the
+  single source of truth, enforced on screen (naming each variable) and at
+  build time via `eas-build-pre-install`.
+- **`preview` could never have reached TestFlight.** It is
+  `distribution: "internal"` — ad-hoc/enterprise signing, which App Store
+  Connect rejects. The new `testflight` profile is store distribution with
+  debug capture on; a store profile may set env vars freely.
+- **The debug-gating invariant changed deliberately.** "No store-distributed
+  profile may enable capture" made the required configuration impossible once
+  TestFlight was the target. The property that matters — the PUBLIC App Store
+  profile carries no capture flag — is unchanged and still asserted; capture
+  profiles are now explicitly allow-listed and disclosed in tester notes
+  (2.3.1).
+- **Sandbox durations need no special handling.** Entitlement checks compare
+  the real `expires_at` timestamp, so Apple's accelerated sandbox renewals
+  (1 month → 5 min) and TestFlight's flat 24 h renewals both work unmodified.
+  There is deliberately no client-side purchase timeout — sandbox purchases
+  routinely take 15+ seconds.
+- **Preflight refuses to let a build be spent on a broken configuration**, and
+  a check that cannot run says so rather than passing quietly.
