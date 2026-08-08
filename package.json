@@ -57,7 +57,9 @@
     "ios": "expo run:ios",
     "lint": "expo lint",
     "test": "jest",
-    "check:assets": "node scripts/check-assets.mjs"
+    "check:assets": "node scripts/check-assets.mjs",
+    "eas-build-pre-install": "node scripts/assert-build-env.mjs",
+    "assert:env": "node scripts/assert-build-env.mjs"
   },
   "jest": {
     "projects": [

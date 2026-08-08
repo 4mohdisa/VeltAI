@@ -54,15 +54,38 @@ export default function SubscriptionScreen() {
 
   const seePlans = async () => {
     if (!billing) {
-      showToast({ message: 'Billing not configured (dev).', tone: 'info' });
+      // In a distributable build this is a packaging fault, not dev mode —
+      // the app should not have started (see requiredEnv), so say something
+      // true rather than "(dev)".
+      showToast({
+        message: isDevBuild()
+          ? 'Billing not configured (dev).'
+          : 'Purchases are temporarily unavailable. Please try again later.',
+        tone: 'info',
+      });
       return;
     }
+    // Every outcome answered — 'unavailable' (UI module missing, or no
+    // offering/paywall configured) previously did nothing at all, so the
+    // button looked broken (audit 2026-08-09).
     const outcome = await presentPaywall();
-    if (outcome === 'purchased' || outcome === 'restored') {
-      showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
-      refresh();
-    } else if (outcome === 'error') {
-      showToast({ message: "The store couldn't be reached — try again later.", tone: 'error' });
+    switch (outcome) {
+      case 'purchased':
+      case 'restored':
+        showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
+        refresh();
+        break;
+      case 'unavailable':
+        showToast({
+          message: 'Plans could not be loaded — the store offering is not available right now.',
+          tone: 'error',
+        });
+        break;
+      case 'error':
+        showToast({ message: "The store couldn't be reached — try again later.", tone: 'error' });
+        break;
+      case 'cancelled':
+        break; // dismissing the sheet is a choice
     }
   };
 

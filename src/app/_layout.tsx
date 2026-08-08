@@ -17,8 +17,7 @@ import { AppStateProvider } from '@/lib/auth/appState';
 import { ClerkBridge } from '@/lib/auth/ClerkBridge';
 import { DebugOverlay } from '@/debug/DebugOverlay';
 import { CLERK_PUBLISHABLE_KEY, clerkTokenCache, isClerkEnabled } from '@/lib/auth/clerkEnv';
-import { isDevBuild } from '@/lib/env';
-import { IS_MISCONFIGURED_RELEASE } from '@/lib/api';
+import { configurationErrors } from '@/lib/config/requiredEnv';
 import { configurePurchases } from '@/lib/billing/purchases';
 import { ToastHost } from '@/components/display/ToastHost';
 import { color, sheet } from '@/lib/design/tokens';
@@ -35,32 +34,31 @@ import '@/lib/i18n'; // initialise i18next before any screen renders
 // instead. ClerkLoaded gates the initial render so no screen flashes before
 // auth status is known.
 function AuthGate({ children }: { children: ReactNode }) {
-  // Same posture for a missing backend URL: a release build that cannot reach
-  // any server must say so rather than present an empty app that looks like the
-  // user simply has no data.
-  if (IS_MISCONFIGURED_RELEASE) {
+  // ONE gate for every required variable, naming each one. Previously this
+  // checked the API URL and the Clerk key separately and said only "without a
+  // server address" / "without its authentication keys" — which does not tell
+  // whoever packaged the build WHICH variable to set, and did not cover
+  // RevenueCat at all, so a build with no purchase path shipped silently
+  // (audit 2026-08-09).
+  const problems = configurationErrors();
+  if (problems.length > 0) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', padding: 32, backgroundColor: color.white }}>
         <RNText style={{ fontSize: 17, fontWeight: '600', marginBottom: 8 }}>Configuration error</RNText>
-        <RNText style={{ fontSize: 15, color: '#666' }}>
-          This build was packaged without a server address and cannot load your data.
-          Please update the app; if the problem persists, contact support.
+        <RNText style={{ fontSize: 15, color: '#666', marginBottom: 12 }}>
+          This build is missing configuration and cannot run. Rebuild with these set:
         </RNText>
+        {problems.map((p) => (
+          <RNText key={p} style={{ fontSize: 13, color: '#666', marginBottom: 6 }}>
+            {`• ${p}`}
+          </RNText>
+        ))}
       </View>
     );
   }
   if (!isClerkEnabled()) {
-    if (!isDevBuild()) {
-      return (
-        <View style={{ flex: 1, justifyContent: 'center', padding: 32, backgroundColor: color.white }}>
-          <RNText style={{ fontSize: 17, fontWeight: '600', marginBottom: 8 }}>Configuration error</RNText>
-          <RNText style={{ fontSize: 15, color: '#666' }}>
-            This build was packaged without its authentication keys and cannot sign you in.
-            Please update the app; if the problem persists, contact support.
-          </RNText>
-        </View>
-      );
-    }
+    // Only reachable in a DEV build now — a distributable one was stopped
+    // above. Local dev auth mode keeps Expo Go navigable.
     return <>{children}</>;
   }
   return (

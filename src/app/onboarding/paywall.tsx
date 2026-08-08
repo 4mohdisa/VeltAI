@@ -103,10 +103,28 @@ export default function PaywallScreen() {
     setSubmitting(true);
     if (isBillingEnabled()) {
       const outcome = await presentPaywall();
-      if (outcome === 'purchased' || outcome === 'restored') {
-        showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
-      } else if (outcome === 'error') {
-        showToast({ message: "The store couldn't be reached — you can subscribe later in Settings.", tone: 'info' });
+      // EVERY outcome is answered. 'unavailable' — the paywall UI module
+      // failing to load, or no offering/paywall configured in the RevenueCat
+      // dashboard — used to fall through this chain silently: the tester taps
+      // "See plans", nothing whatsoever happens, and onboarding completes as
+      // if they had declined. That was the open FINAL_AUDIT item and it is
+      // exactly what a sandbox build exercises first (audit 2026-08-09).
+      switch (outcome) {
+        case 'purchased':
+        case 'restored':
+          showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
+          break;
+        case 'unavailable':
+          showToast({
+            message: 'Plans could not be loaded — check the RevenueCat offering and paywall are configured. Continuing on the free tier.',
+            tone: 'error',
+          });
+          break;
+        case 'error':
+          showToast({ message: "The store couldn't be reached — you can subscribe later in Settings.", tone: 'info' });
+          break;
+        case 'cancelled':
+          break; // deliberate: dismissing the sheet is a choice, not a fault
       }
     }
     await completeOnboarding();
