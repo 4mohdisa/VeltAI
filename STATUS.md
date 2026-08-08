@@ -95,9 +95,12 @@ What remains is what only the owner can supply._
    put the credentials in App Store Connect → App Review notes.
 7. **Run `eas build:configure`** once, then build. Debug-instrumented TestFlight
    build: `eas build --platform ios --profile preview`. Clean production build:
-   `--profile production`. **Always `npx expo prebuild --clean -p ios` first** —
-   the untracked `ios/` tree is stale and declares permissions the app does not
-   use.
+   `--profile production`. **Always `npx expo prebuild --clean -p ios` first.**
+   The stale untracked `ios/` tree (Veltai identity, permissions for features
+   the app lacks) was deleted in the 2026-08-06 audit; prebuild regenerates it.
+   Note for local runs: CocoaPods needs a UTF-8 locale — `LANG=en_US.UTF-8
+   LC_ALL=en_US.UTF-8` — or `pod install` dies with a Unicode
+   normalization error on this machine's `LANG=""`.
 8. **Replace the placeholder icon and splash** before public release. They are
    valid and uploadable but they are not a brand — see `assets/README.md`.
 9. **Set a billing cap on the Gemini and Anthropic accounts.** There is no
@@ -120,9 +123,15 @@ What remains is what only the owner can supply._
   Tier 9 pre-submission checklist and Tier 2 privacy-manifest note are still
   useful; treat the rest as superseded by this file.
 - **Applied-migration state in production is unconfirmed.** The connected
-  Supabase account does not contain the project (`qknwxgaehhclvpeadmdh`), so the
-  **14** local migrations could not be diffed against the live database.
+  Supabase account does not contain the project (`qknwxgaehhclvpeadmdh`), and
+  no MCP/DB access existed in the 2026-08-06 audit either, so the **15** local
+  migrations have never been diffed against the live database by anyone.
   Assume none are applied until someone checks.
+- **The app HAS now run** (iPhone 17 Pro simulator, 2026-08-06): it launches,
+  routes, and renders onboarding through the targets screen with the 1.4.1
+  disclaimer. That run immediately found a real blocker (see FINAL_AUDIT.md,
+  "Found by actually running it"). Everything past onboarding is still
+  unexercised — no backend was reachable.
 - **Nothing has run against live services.** Clerk SSO/OTP, RevenueCat
   purchase/restore, Strava/WHOOP APIs, and the cross-source dedupe SQL against
   a real Postgres are all logic-tested only. Treat the first real signup,
