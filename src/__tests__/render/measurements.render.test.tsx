@@ -103,6 +103,28 @@ test('ITEM 4: flipping cm<->ft/in carries the height across', () => {
   expect(inches.props.value).toBe('11');
 });
 
+test('SYMPTOM 1: what you type is persisted before you press Continue', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  const { act } = require('./helpers') as { act: (cb: () => void) => void };
+  const age = findAll(tree, (p) => p.label === 'Age')[0];
+  act(() => (age.props.onChangeText as (t: string) => void)('34'));
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'Male')[0]);
+
+  // No Continue press. A reload at this instant must not lose the answers,
+  // so they have to be in the persisted store already.
+  expect(useOnboardingStore.getState().age).toBe(34);
+  expect(useOnboardingStore.getState().sex).toBe('male');
+});
+
+test('ITEM 7: the screen never routes to a legal or consent screen', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  TestPress(buttonWithTitle(tree, 'Continue')!); // blocked path
+  const { router } = require('expo-router') as { router: { push: jest.Mock; replace: jest.Mock } };
+  const targets = [...router.push.mock.calls, ...router.replace.mock.calls].flat().map(String);
+  expect(targets.some((t) => t.includes('legal'))).toBe(false);
+  expect(targets.some((t) => t.includes('consent'))).toBe(false);
+});
+
 function TestPress(node: { props: Record<string, unknown> }): void {
   const onPress = node.props.onPress as (() => void) | undefined;
   expect(typeof onPress).toBe('function');

@@ -2,7 +2,7 @@
 // are optional (population medians fill the gap so the preview and the POST
 // payload agree). Inputs display in the user's chosen unit but are stored
 // canonically in cm / kg.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
@@ -112,6 +112,26 @@ export default function MeasurementsScreen() {
     }
     setHeightUnit(next);
   };
+
+  // Persist as the user types, not only on Continue. The store is written to
+  // secure-store, so this is what makes a reload mid-form come back with the
+  // answers still in the boxes — previously nothing was saved until Continue
+  // succeeded, so anything typed and not submitted died with the reload
+  // (audit 2026-08-08). Values are stored canonically (cm / kg); range errors
+  // are surfaced separately, so a half-typed number persists rather than
+  // being discarded.
+  useEffect(() => {
+    const typedAge = parseInt(ageText, 10);
+    setMeasurements({
+      age: Number.isFinite(typedAge) ? typedAge : null,
+      sex: sexValue === '' ? null : sexValue,
+      height_cm: heightToCm(),
+      weight_kg: toKg(weightText),
+      target_weight_kg: showTarget ? toKg(targetText) : null,
+    });
+    // heightToCm/toKg close over the unit toggles, so those are dependencies too.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ageText, sexValue, heightCmText, feetText, inchesText, weightText, targetText, heightUnit, weightUnit, showTarget]);
 
   // `submitted` flips on the first Continue press. Before it, only fields the
   // user has actually filled in show errors (no shouting at an untouched
