@@ -83,6 +83,35 @@ export const useOnboardingStore = create<OnboardingState>()(
   ),
 );
 
+/**
+ * Client-side mirror of what POST /api/onboarding will accept, checked BEFORE
+ * the request so a rejection is never the user's first sign of trouble.
+ *
+ * Every rule here exists on the server (backend/internal/goals/goals.go
+ * postOnboarding): required age/sex/height/weight/activity/goal, age 13..120,
+ * positive measurements, body_type from a known set. Keep the two in step —
+ * this project has already shipped a validator that would have 400'd its own
+ * client, and a hermetic suite could not see it.
+ *
+ * Returns null when the payload is good, or the reason it is not.
+ */
+export function validateOnboardingPayload(s: OnboardingSession): string | null {
+  if (s.age == null) return 'Add your age before finishing setup.';
+  if (s.age < 13 || s.age > 120) return 'Your age must be between 13 and 120.';
+  // The server requires a sex; the payload used to substitute 'other' for an
+  // unanswered question, quietly deciding something the user never did — and
+  // sex moves the BMR by 166 kcal and sets the safety floor.
+  if (s.sex == null) return 'Choose an option for sex before finishing setup.';
+  if (s.height_cm == null || s.height_cm <= 0) return 'Add your height before finishing setup.';
+  if (s.weight_kg == null || s.weight_kg <= 0) return 'Add your weight before finishing setup.';
+  if (s.activity_level == null) return 'Choose your activity level before finishing setup.';
+  if (s.goal == null) return 'Choose your goal before finishing setup.';
+  if (s.target_weight_kg != null && (s.target_weight_kg <= 0 || s.target_weight_kg > 1000)) {
+    return 'Your target weight looks wrong — check it before finishing setup.';
+  }
+  return null;
+}
+
 /** Assemble the collected answers into the POST /api/onboarding payload. */
 export function onboardingPayload(s: OnboardingSession): {
   age: number;

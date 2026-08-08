@@ -20,14 +20,14 @@ import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { api, type Onboarding } from '@/lib/api';
+import { api, type Onboarding , ApiError } from '@/lib/api';
 import { bodyFromOnboarding } from '@/lib/data/hooks';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
 import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement, TRIAL_DAYS } from '@/lib/billing/purchases';
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
-import { onboardingPayload, useOnboardingStore } from '@/lib/stores/onboarding';
+import { onboardingPayload, useOnboardingStore, validateOnboardingPayload } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
 import { isDevBuild } from '@/lib/env';
 
@@ -57,7 +57,16 @@ export default function PaywallScreen() {
 
   // Persist onboarding (unchanged from before) and enter the app.
   const completeOnboarding = async () => {
-    const payload = onboardingPayload(useOnboardingStore.getState());
+    const session = useOnboardingStore.getState();
+    // Check the contract BEFORE spending a request, so a missing answer is
+    // named here rather than coming back as an opaque 400 (audit 2026-08-08).
+    const problem = validateOnboardingPayload(session);
+    if (problem) {
+      showToast({ message: problem, tone: 'error' });
+      setSubmitting(false);
+      return;
+    }
+    const payload = onboardingPayload(session);
     try {
       await api.onboarding.post(payload);
       // Write the answers into the user store immediately. hydrateProfile picks
@@ -71,8 +80,17 @@ export default function PaywallScreen() {
       navigate('/onboarding/done');
     } catch (e) {
       if (__DEV__) console.warn('[onboarding] submit failed:', e instanceof Error ? e.message : e);
+      // Surface the SERVER's own explanation when it gave one. A 400 says
+      // exactly which field it rejected; replacing that with "check your
+      // connection" sent the user to fix their wifi over a validation error
+      // (audit 2026-08-08 — the same swallow already recorded at
+      // src/lib/data/aiBrain.ts:157-159).
+      const serverSaid =
+        e instanceof ApiError && e.status >= 400 && e.status < 500 && !/^HTTP \d+$/.test(e.message)
+          ? e.message
+          : null;
       showToast({
-        message: "Couldn't finish setup — check your connection and try again.",
+        message: serverSaid ?? "Couldn't finish setup — check your connection and try again.",
         tone: 'error',
       });
       setSubmitting(false);
