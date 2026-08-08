@@ -14,6 +14,7 @@ import { Text } from '@/components/primitives/Text';
 import { reportsToJSON, reportsToMarkdown } from '../export';
 import { SEVERITIES, type DebugReport, type Resolution, type Severity } from '../types';
 import { loadReports, screenshotUri, setResolution, subscribeReports, syncPending, updateReport } from './store';
+import { showToast } from '@/components/display/toastStore';
 
 const INK = '#1C1C1E';
 const PAPER = '#FFFFFF';
@@ -124,7 +125,16 @@ export function DebugScreen({ onClose }: { onClose: () => void }) {
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => void syncPending()}
+            onPress={() => {
+              void syncPending().then(({ ok, failed, error }) => {
+                showToast({
+                  message: failed === 0
+                    ? `Synced ${ok} report${ok === 1 ? '' : 's'}.`
+                    : `${failed} report${failed === 1 ? '' : 's'} could not sync — ${error ?? 'unknown error'} (they are safe on this device).`,
+                  tone: failed === 0 ? 'success' : 'error',
+                });
+              });
+            }}
             style={{ backgroundColor: '#F0F0F0', borderRadius: 10, paddingVertical: 10, paddingHorizontal: 14 }}
           >
             <Text variant="footnote" color={INK}>

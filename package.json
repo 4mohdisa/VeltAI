@@ -59,7 +59,8 @@
     "test": "jest",
     "check:assets": "node scripts/check-assets.mjs",
     "eas-build-pre-install": "node scripts/assert-build-env.mjs",
-    "assert:env": "node scripts/assert-build-env.mjs"
+    "assert:env": "node scripts/assert-build-env.mjs",
+    "preflight": "node scripts/preflight.mjs"
   },
   "jest": {
     "projects": [

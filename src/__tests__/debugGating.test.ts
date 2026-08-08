@@ -25,20 +25,39 @@ describe('the production build profile cannot enable debug capture', () => {
     expect(env.EXPO_PUBLIC_DEBUG_CAPTURE).toBeUndefined();
   });
 
-  test('production is the only store-distributed profile, and it is clean', () => {
+  // REWRITTEN 2026-08-09. These two used to assert "no store-distributed
+  // profile may enable debug capture" and "every profile that enables it is
+  // internal". That was a correct invariant while `internal` was the only
+  // non-production profile — but TestFlight ONLY accepts store distribution
+  // (docs.expo.dev/submit/testflight), so an internal-distribution profile
+  // can never be uploaded, and the testing fortnight needs capture ON in a
+  // TestFlight build. The old rule made the required configuration
+  // impossible.
+  //
+  // The property that actually matters is unchanged and is asserted below:
+  // the profile submitted to the PUBLIC App Store must never carry the flag.
+  // A TestFlight build is a beta distributed to named testers, and its capture
+  // system is disclosed in the tester notes (guideline 2.3.1) — see
+  // TESTFLIGHT.md.
+  test('every profile that enables capture is explicitly allow-listed', () => {
+    const ALLOWED = new Set(['development', 'preview', 'testflight']);
     for (const [name, profile] of Object.entries(eas.build)) {
-      if (profile.distribution === 'store') {
-        expect(`${name}:${profile.env?.EXPO_PUBLIC_DEBUG_CAPTURE ?? 'unset'}`).toBe(`${name}:unset`);
+      if (profile.env?.EXPO_PUBLIC_DEBUG_CAPTURE === '1') {
+        expect(`${name}:${ALLOWED.has(name)}`).toBe(`${name}:true`);
       }
     }
   });
 
-  test('the profiles that DO enable it are internal-only', () => {
-    for (const [name, profile] of Object.entries(eas.build)) {
-      if (profile.env?.EXPO_PUBLIC_DEBUG_CAPTURE === '1') {
-        expect(`${name}:${profile.distribution}`).toBe(`${name}:internal`);
-      }
-    }
+  test('production is store-distributed and carries no capture flag', () => {
+    expect(eas.build.production.distribution).toBe('store');
+    expect(eas.build.production.env?.EXPO_PUBLIC_DEBUG_CAPTURE).toBeUndefined();
+  });
+
+  test('the testflight profile is store-distributed — internal can never reach TestFlight', () => {
+    // Verified against docs.expo.dev/submit/testflight (2026-08-09):
+    // "TestFlight only accepts builds with distribution: store".
+    expect(eas.build.testflight.distribution).toBe('store');
+    expect(eas.build.testflight.env?.EXPO_PUBLIC_DEBUG_CAPTURE).toBe('1');
   });
 });
 

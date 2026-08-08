@@ -133,6 +133,22 @@ export async function pruneIfNeeded(): Promise<number> {
 }
 
 /** Best-effort secondary copy. Never throws, never blocks a caller. */
+/**
+ * The last sync failure, kept so the debug UI can SHOW it.
+ *
+ * This path used to swallow everything. The most likely failure is the one
+ * that actually happened: `debug_reports` did not exist in the live database
+ * until the 2026-08-06 migration fix, so every sync 500'd and the tester saw
+ * a perfectly normal-looking report list with `synced: false` and no
+ * explanation. During a two-week testing fortnight that is the difference
+ * between "my reports are safe on the server" and silently losing all of them.
+ */
+let lastSyncError: string | null = null;
+
+export function getLastSyncError(): string | null {
+  return lastSyncError;
+}
+
 export async function syncReport(report: DebugReport): Promise<boolean> {
   try {
     let imageBase64: string | undefined;
@@ -157,20 +173,28 @@ export async function syncReport(report: DebugReport): Promise<boolean> {
       ...(imageBase64 ? { image_base64: imageBase64 } : {}),
     });
     await updateReport(report.id, { synced: true });
+    lastSyncError = null;
     return true;
-  } catch {
+  } catch (e) {
+    // The device copy is authoritative and already on disk, so a failure is
+    // never data loss — but it must be VISIBLE, not swallowed.
+    const msg = e instanceof Error ? e.message : String(e);
+    lastSyncError = /relation .*debug_reports.* does not exist|42P01/i.test(msg)
+      ? 'debug_reports table is missing on the server — apply the migrations (./deploy/migrate.sh apply).'
+      : msg;
+    if (typeof __DEV__ !== 'undefined' && __DEV__) console.warn('[debug] sync failed:', msg);
     return false;
   }
 }
 
 /** Push everything not yet synced. Fire-and-forget from the UI. */
-export async function syncPending(): Promise<number> {
+export async function syncPending(): Promise<{ ok: number; failed: number; error: string | null }> {
   const pending = (await loadReports()).filter((r) => !r.synced && !r.draft);
   let ok = 0;
   for (const r of pending) {
     if (await syncReport(r)) ok++;
   }
-  return ok;
+  return { ok, failed: pending.length - ok, error: lastSyncError };
 }
 
 /** Tests only. */

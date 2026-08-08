@@ -132,6 +132,44 @@ describe('a report survives an app restart before sync', () => {
     expect(loaded.synced).toBe(false);
   });
 
+  // A swallowed sync failure is how a whole testing fortnight's reports could
+  // vanish quietly: `debug_reports` did not exist in the live database until
+  // the 2026-08-06 migration fix, so every sync 500'd while the report list
+  // looked entirely normal (audit 2026-08-09).
+  test('a sync failure is RECORDED, not swallowed', async () => {
+    mockCreate.mockRejectedValueOnce(new Error('boom'));
+    const m = await freshStore();
+    const r = report({ id: 'r_err' });
+    await m.addReport(r);
+    expect(await m.syncReport(r)).toBe(false);
+    expect(m.getLastSyncError()).toContain('boom');
+  });
+
+  test('a missing debug_reports table says exactly that, and how to fix it', async () => {
+    mockCreate.mockRejectedValueOnce(
+      new Error('relation "debug_reports" does not exist (SQLSTATE 42P01)'),
+    );
+    const m = await freshStore();
+    const r = report({ id: 'r_notable' });
+    await m.addReport(r);
+    await m.syncReport(r);
+    const err = m.getLastSyncError() ?? '';
+    expect(err).toContain('debug_reports table is missing');
+    expect(err).toContain('migrate.sh');
+  });
+
+  test('syncPending reports how many failed and why', async () => {
+    mockCreate.mockRejectedValue(new Error('offline'));
+    const m = await freshStore();
+    await m.addReport(report({ id: 'r_a' }));
+    await m.addReport(report({ id: 'r_b' }));
+    const result = await m.syncPending();
+    expect(result.ok).toBe(0);
+    expect(result.failed).toBe(2);
+    expect(result.error).toContain('offline');
+    mockCreate.mockReset();
+  });
+
   test('a successful sync marks it, and the mark survives a restart', async () => {
     const m = await freshStore();
     const r = report({ id: 'r_sync' });

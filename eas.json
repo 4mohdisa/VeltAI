@@ -7,18 +7,35 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "ios": { "simulator": true },
+      "ios": {
+        "simulator": true,
+        "image": "macos-tahoe-26.4-xcode-26.4"
+      },
       "env": {
         "EXPO_PUBLIC_DEBUG_CAPTURE": "1"
       }
     },
     "preview": {
-      "//": "TestFlight internal testing. THE ONLY PROFILE BESIDES development THAT ENABLES DEBUG CAPTURE. src/__tests__/debugGating.test.ts fails if production ever sets EXPO_PUBLIC_DEBUG_CAPTURE.",
+      "//": "AD-HOC INSTALL ONLY — cannot reach TestFlight. Verified 2026-08-09 against docs.expo.dev/submit/testflight: 'TestFlight only accepts builds with distribution: store'. distribution:internal produces an ad-hoc/enterprise-signed ipa that App Store Connect rejects, and ad-hoc is capped at 100 device UDIDs per year. Use the `testflight` profile below for TestFlight; keep this one for sideloading onto a known device.",
       "distribution": "internal",
       "ios": {
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "image": "macos-tahoe-26.4-xcode-26.4"
       },
       "channel": "preview",
+      "env": {
+        "EXPO_PUBLIC_DEBUG_CAPTURE": "1"
+      }
+    },
+    "testflight": {
+      "//": "THE PROFILE THAT REACHES TESTFLIGHT. Store distribution (App Store signing) with debug capture ON — a store build may set env vars freely, so the testing instrumentation survives. Everything secret (Clerk key, RevenueCat key, API URL) comes from EAS environment variables, NOT from this file and NOT from a local .env: cloud builds do not read .env. See TESTFLIGHT.md.",
+      "distribution": "store",
+      "autoIncrement": true,
+      "ios": {
+        "buildConfiguration": "Release",
+        "image": "macos-tahoe-26.4-xcode-26.4"
+      },
+      "channel": "testflight",
       "env": {
         "EXPO_PUBLIC_DEBUG_CAPTURE": "1"
       }
@@ -26,14 +43,34 @@
     "production": {
       "//": "App Store. MUST NOT set EXPO_PUBLIC_DEBUG_CAPTURE. A debug overlay in a shipped app is a 2.3.1 hidden-feature rejection, and it captures screenshots that contain health data. metro.config.js additionally resolves src/debug/impl to a stub when the flag is absent, so the debug tree is not in this bundle at all.",
       "distribution": "store",
+      "autoIncrement": true,
       "ios": {
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "image": "macos-tahoe-26.4-xcode-26.4"
       },
       "channel": "production",
       "env": {}
     }
   },
   "submit": {
-    "production": {}
+    "testflight": {
+      "ios": {
+        "//": "Fill these in from App Store Connect. The .p8 key file must NOT be committed — keep it outside the repo and point ascApiKeyPath at it, or set the EXPO_ASC_API_KEY_PATH / EXPO_ASC_KEY_ID / EXPO_ASC_ISSUER_ID environment variables instead.",
+        "appleTeamId": "REPLACE_WITH_APPLE_TEAM_ID",
+        "ascAppId": "REPLACE_WITH_APP_STORE_CONNECT_APP_ID",
+        "ascApiKeyPath": "../lume-asc-api-key.p8",
+        "ascApiKeyId": "REPLACE_WITH_ASC_KEY_ID",
+        "ascApiKeyIssuerId": "REPLACE_WITH_ASC_ISSUER_ID"
+      }
+    },
+    "production": {
+      "ios": {
+        "appleTeamId": "REPLACE_WITH_APPLE_TEAM_ID",
+        "ascAppId": "REPLACE_WITH_APP_STORE_CONNECT_APP_ID",
+        "ascApiKeyPath": "../lume-asc-api-key.p8",
+        "ascApiKeyId": "REPLACE_WITH_ASC_KEY_ID",
+        "ascApiKeyIssuerId": "REPLACE_WITH_ASC_ISSUER_ID"
+      }
+    }
   }
 }
