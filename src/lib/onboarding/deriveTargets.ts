@@ -37,7 +37,11 @@ const ACTIVITY_FACTORS: Record<ActivityLevel, number> = {
 export function calorieFloor(sex: Sex): number {
   if (sex === 'male') return 1500;
   if (sex === 'female') return 1200;
-  return 1350;
+  // Unspecified ("Prefer not to say") takes the HIGHER floor, not a midpoint.
+  // Under guideline 1.4.1 the cautious answer must not buy a more permissive
+  // safety limit: we do not know this person is not male, so we apply the
+  // limit that is safe for everyone. Decided 2026-08-08, see DECISIONS.md.
+  return 1500;
 }
 
 export type DeriveInput = {

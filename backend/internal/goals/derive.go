@@ -38,7 +38,10 @@ func calorieFloor(sex string) float64 {
 	case "female":
 		return 1200
 	default:
-		return 1350
+		// Unspecified takes the HIGHER floor, not a midpoint: under guideline
+		// 1.4.1 declining to answer must not buy a more permissive safety
+		// limit. Decided 2026-08-08, see DECISIONS.md.
+		return 1500
 	}
 }
 

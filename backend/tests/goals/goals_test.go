@@ -376,9 +376,9 @@ func TestDeriveGoals(t *testing.T) {
 		},
 		{
 			// "other" takes the midpoint, matching the BMR offset convention.
-			name: "calorie floor is 1350 for other",
+			name: "calorie floor is 1500 for other (unspecified takes the higher floor)",
 			in:   goals.DeriveInput{Age: 60, Sex: "other", Height: 150, Weight: 40, ActivityLevel: "sedentary", Goal: "lose"},
-			want: goals.DerivedGoals{Calories: 1350, Protein: 72, Carbs: 180, Fat: 38, Fibre: 25},
+			want: goals.DerivedGoals{Calories: 1500, Protein: 72, Carbs: 209, Fat: 42, Fibre: 25},
 		},
 	}
 	for _, tc := range cases {

@@ -144,7 +144,7 @@ export const CALORIE_TARGET_MAX = 10000;
 
 /**
  * Clamp a manually-entered calorie target into the SAME band the server
- * enforces. The floor is sex-aware (male 1500 / female 1200 / other 1350),
+ * enforces. The floor is sex-aware (male 1500 / female 1200 / unspecified 1500),
  * matching `calorieFloor` on both sides of the wire.
  *
  * Found on a real simulator run, 2026-08-06: this used to clamp to a flat

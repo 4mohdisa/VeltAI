@@ -197,7 +197,8 @@ describe('the calorie formula has exactly one definition', () => {
     // The floor binds, and it is the SEX-AWARE floor.
     expect(deriveGoals(emptyProfile('female')).calories).toBe(1200);
     expect(deriveGoals(emptyProfile('male')).calories).toBe(1500);
-    expect(deriveGoals(emptyProfile('other')).calories).toBe(1350);
+    // 'other' floors at 1500 since 2026-08-08 (see DECISIONS.md).
+    expect(deriveGoals(emptyProfile('other')).calories).toBe(1500);
   });
 
   // The specific unsafe recommendation the flat floor allowed: a small, older,

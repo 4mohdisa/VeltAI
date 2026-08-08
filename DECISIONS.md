@@ -387,3 +387,30 @@ in git — this file is not a changelog.
   Go scan-learning dead code (its deletion would drop the crosscheck suite),
   analytics opt-out-vs-opt-in (owner decision), global AI spend ceiling
   (owner sets billing caps).
+
+## Onboarding agent run (2026-08-08)
+
+- **"Prefer not to say" now floors at 1,500 kcal, not 1,350.** The midpoint was
+  the wrong shape of answer: under guideline 1.4.1 the cautious choice must not
+  purchase a more permissive safety limit. We do not know that an unspecified
+  user is not male, so they get the limit that is safe for everyone. Enforced
+  identically in `backend/internal/goals/derive.go` and
+  `src/lib/onboarding/deriveTargets.ts`, and by `clampCalories` on manual
+  overrides. Four tests asserted 1,350 and were rewritten, each saying so.
+  Cost: an unspecified-sex user on an aggressive deficit sees a slightly higher
+  floor than strictly necessary. That is the correct direction to err.
+- **The onboarding step pointer is persisted, the answers already were.** The
+  reload symptom was never data loss — `last_step` simply did not exist, so
+  there was nothing to resume to and the flow restarted at Welcome with the
+  answers intact but invisible.
+- **Continue is never disabled.** A disabled primary CTA cannot explain itself;
+  the blocked state now names the offending field. This is the general rule for
+  this codebase going forward, not a one-screen patch.
+- **Unit toggles convert, never reinterpret.** kg↔lb and cm↔ft/in carry the
+  typed value across. Reinterpreting the digits silently rewrote the user's
+  body weight and fed it into BMR.
+- **Render tests exist now** (`src/__tests__/render/`, a second jest project on
+  react-test-renderer + jest-expo). `@testing-library/react-native` v14 does
+  not wire up against React Native 0.85 — its `test-renderer` peer never
+  receives a host config — so the tests query the tree by props instead of
+  using RNTL queries. Reanimated and worklets are stubbed in `__mocks__/`.

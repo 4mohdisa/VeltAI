@@ -112,7 +112,8 @@ describe('claim 2 · calorie banding', () => {
     expect(clampCalories(1500, 'male')).toBe(1500);
     expect(clampCalories(0, 'female')).toBe(1200);
     expect(clampCalories(1199, 'female')).toBe(1200);
-    expect(clampCalories(0, 'other')).toBe(1350);
+    // 'other' takes the HIGHER floor (2026-08-08 decision), not a midpoint.
+    expect(clampCalories(0, 'other')).toBe(1500);
     expect(clampCalories(2000.4, 'male')).toBe(2000);
     expect(clampCalories(10001, 'female')).toBe(10000);
     expect(clampCalories(999999, 'male')).toBe(10000);
@@ -129,7 +130,7 @@ describe('claim 2 · calorie banding', () => {
   test('the settings store never stores an out-of-band custom target', () => {
     // No explicit sex → the profile store's sex, which defaults to 'other'.
     useSettingsStore.getState().setCustomGoals({ calories: 300 });
-    expect(useSettingsStore.getState().customGoals.calories).toBe(1350);
+    expect(useSettingsStore.getState().customGoals.calories).toBe(1500);
     useSettingsStore.getState().setCustomGoals({ calories: 42000 });
     expect(useSettingsStore.getState().customGoals.calories).toBe(10000);
     // Other macros pass through untouched.

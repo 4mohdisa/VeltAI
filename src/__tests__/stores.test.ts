@@ -342,11 +342,12 @@ describe('settings store', () => {
 
   test('custom calorie targets are clamped to the safety band (1.4.1)', () => {
     // The floor is sex-aware and read from the profile, whose default sex is
-    // 'other' → 1350 (male 1500, female 1200). REWRITTEN 2026-08-06: the flat
-    // 1200 this used to assert sat BELOW the server's male floor, so the
-    // client accepted a target the server then rejected with a 400.
+    // 'other'. REWRITTEN twice: 2026-08-06 the flat 1200 sat BELOW the
+    // server's male floor (client accepted what the server 400'd); 2026-08-08
+    // 'other' moved 1350 -> 1500, because declining to state a sex must not
+    // buy a more permissive safety limit under 1.4.1 (see DECISIONS.md).
     settings().setCustomGoals({ calories: 0 });
-    expect(settings().customGoals.calories).toBe(1350);
+    expect(settings().customGoals.calories).toBe(1500);
     settings().setCustomGoals({ calories: 50000 });
     expect(settings().customGoals.calories).toBe(10000);
     settings().setCustomGoals({ calories: 2200 });
