@@ -20,8 +20,9 @@ import { api } from '@/lib/api';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { getHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { resumeTarget } from '@/lib/onboarding/resume';
 
-type Destination = '/(tabs)' | '/onboarding';
+type Destination = string;
 
 export default function Index() {
   // Hooks must be unconditional per component — split on Clerk availability
@@ -43,16 +44,9 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
   useEffect(() => {
     let active = true;
     const decide = async () => {
-      if (!signedIn) {
-        // No session → the local flags are someone else's history (reinstall,
-        // revocation). Sign-in lives in the onboarding stack.
-        if (active) setDestination('/onboarding');
-        return;
-      }
-      const store = useOnboardingStore.getState();
-
-      // Wait for the persisted store to finish hydrating so we don't flash
-      // onboarding at a returning user whose `completed` hasn't loaded yet.
+      // Hydrate FIRST, before any branch reads the store. The signed-out
+      // branch used to return ahead of this, so it could never consult the
+      // persisted progress it was about to discard (audit 2026-08-08).
       if (!useOnboardingStore.persist.hasHydrated()) {
         await new Promise<void>((resolve) => {
           const unsub = useOnboardingStore.persist.onFinishHydration(() => {
@@ -60,6 +54,15 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
             resolve();
           });
         });
+      }
+      const store = useOnboardingStore.getState();
+
+      if (!signedIn) {
+        // No session → the local flags are someone else's history (reinstall,
+        // revocation). Sign-in lives in the onboarding stack, but resume at
+        // the step they reached rather than restarting the whole flow.
+        if (active) setDestination(resumeTarget(store.last_step));
+        return;
       }
 
       if (useOnboardingStore.getState().completed || (await getHasCompletedOnboarding())) {
@@ -77,7 +80,7 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
       } catch {
         // Backend unreachable / not signed in → treat as not onboarded.
       }
-      if (active) setDestination('/onboarding');
+      if (active) setDestination(resumeTarget(useOnboardingStore.getState().last_step));
     };
     void decide();
     return () => {

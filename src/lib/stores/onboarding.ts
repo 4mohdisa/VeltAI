@@ -26,6 +26,14 @@ type Measurements = {
 
 type OnboardingState = OnboardingSession & {
   completed: boolean;
+  /**
+   * The onboarding route the user last had on screen, persisted with the
+   * answers. Without it a reload dropped everyone back at Welcome no matter
+   * how far they had got: the answers survived, the POSITION did not, so the
+   * flow *looked* like it had lost everything (audit 2026-08-08).
+   */
+  last_step: string | null;
+  setLastStep: (route: string) => void;
   setGoal: (goal: Goal) => void;
   setActivity: (level: ActivityLevel) => void;
   setCuisines: (cuisines: CuisineType[]) => void;
@@ -37,7 +45,7 @@ type OnboardingState = OnboardingSession & {
   reset: () => void;
 };
 
-const EMPTY: OnboardingSession & { completed: boolean } = {
+const EMPTY: OnboardingSession & { completed: boolean; last_step: string | null } = {
   goal: null,
   activity_level: null,
   cuisines: [],
@@ -50,12 +58,14 @@ const EMPTY: OnboardingSession & { completed: boolean } = {
   calorie_target: null,
   body_type: null,
   completed: false,
+  last_step: null,
 };
 
 export const useOnboardingStore = create<OnboardingState>()(
   persist(
     (set) => ({
       ...EMPTY,
+      setLastStep: (last_step) => set({ last_step }),
       setGoal: (goal) => set({ goal }),
       setActivity: (activity_level) => set({ activity_level }),
       setCuisines: (cuisines) => set({ cuisines }),

@@ -2,9 +2,9 @@
 // safe-area top+bottom, an optional back circle + progress dots row, a title +
 // subtitle, the screen body, and a sticky footer slot for the CTA. Deliberately
 // NOT the old OnboardingStep (which is bound to the legacy 19-step steps.ts).
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ProgressDots } from './ProgressDots';
@@ -12,6 +12,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
+import { useOnboardingStore } from '@/lib/stores/onboarding';
 
 export type OnbScaffoldProps = {
   step?: number;
@@ -40,6 +41,16 @@ export function OnbScaffold({
   dark = false,
   children,
 }: OnbScaffoldProps) {
+  // Record the step durably. Every onboarding screen renders this scaffold, so
+  // one hook here means a reload/restart/background resumes exactly where the
+  // user was instead of restarting at Welcome (audit 2026-08-08).
+  const pathname = usePathname();
+  useEffect(() => {
+    if (pathname && pathname.startsWith('/onboarding')) {
+      useOnboardingStore.getState().setLastStep(pathname);
+    }
+  }, [pathname]);
+
   const bg = dark ? color.black : color.white;
   const titleColor = dark ? color.white : color.label;
   const subtitleColor = dark ? color.gray300 : color.secondaryLabel;
