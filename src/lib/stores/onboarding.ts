@@ -22,10 +22,28 @@ type Measurements = {
   height_cm?: number | null;
   weight_kg?: number | null;
   target_weight_kg?: number | null;
+  /**
+   * The user's chosen INPUT units and the raw feet/inches they typed.
+   *
+   * Only `height_cm` / `weight_kg` are canonical and only those are ever sent.
+   * These exist so the form redraws exactly as the user left it: without them
+   * the ft/in boxes were recomputed from cm on every remount, so 5 ft 11 in
+   * could come back as 5 ft 11 in — or, on a value that does not divide
+   * evenly, visibly different digits (audit 2026-08-08). Nothing is lost
+   * either way; this is about not changing numbers under the user.
+   */
+  height_unit?: 'cm' | 'ftin' | null;
+  weight_unit?: 'kg' | 'lb' | null;
+  height_ft_text?: string | null;
+  height_in_text?: string | null;
 };
 
 type OnboardingState = OnboardingSession & {
   completed: boolean;
+  height_unit: 'cm' | 'ftin' | null;
+  weight_unit: 'kg' | 'lb' | null;
+  height_ft_text: string | null;
+  height_in_text: string | null;
   /**
    * The onboarding route the user last had on screen, persisted with the
    * answers. Without it a reload dropped everyone back at Welcome no matter
@@ -45,7 +63,7 @@ type OnboardingState = OnboardingSession & {
   reset: () => void;
 };
 
-const EMPTY: OnboardingSession & { completed: boolean; last_step: string | null } = {
+const EMPTY: Omit<OnboardingState, 'setLastStep' | 'setGoal' | 'setActivity' | 'setCuisines' | 'setDietaryReqs' | 'setMeasurements' | 'setCalorieTarget' | 'setBodyType' | 'markCompleted' | 'reset'> = {
   goal: null,
   activity_level: null,
   cuisines: [],
@@ -59,6 +77,10 @@ const EMPTY: OnboardingSession & { completed: boolean; last_step: string | null 
   body_type: null,
   completed: false,
   last_step: null,
+  height_unit: null,
+  weight_unit: null,
+  height_ft_text: null,
+  height_in_text: null,
 };
 
 export const useOnboardingStore = create<OnboardingState>()(

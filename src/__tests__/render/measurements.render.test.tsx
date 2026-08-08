@@ -164,3 +164,20 @@ function TestPress(node: { props: Record<string, unknown> }): void {
   const { act } = require('./helpers') as { act: (cb: () => void) => void };
   act(() => onPress!());
 }
+
+test('ITEM 5: the ft/in the user typed are restored verbatim, not recomputed from cm', () => {
+  const { act } = require('./helpers') as { act: (cb: () => void) => void };
+  // First visit: switch to ft/in and type a height.
+  const first = renderScreen(<MeasurementsScreen />);
+  const ftin = findAll(first, (p) => p.accessibilityLabel === 'ft / in')[0];
+  act(() => (ftin.props.onPress as () => void)());
+  act(() => (findAll(first, (p) => p.accessibilityLabel === 'Height, feet')[0].props.onChangeText as (t: string) => void)('5'));
+  act(() => (findAll(first, (p) => p.accessibilityLabel === 'Height, inches')[0].props.onChangeText as (t: string) => void)('11'));
+
+  // Remount, as a reload or a back/forward would.
+  const second = renderScreen(<MeasurementsScreen />);
+  const feet = findAll(second, (p) => p.accessibilityLabel === 'Height, feet')[0];
+  const inches = findAll(second, (p) => p.accessibilityLabel === 'Height, inches')[0];
+  expect(feet?.props.value).toBe('5');
+  expect(inches?.props.value).toBe('11');
+});

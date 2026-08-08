@@ -37,14 +37,20 @@ export default function MeasurementsScreen() {
   const [sexValue, setSexValue] = useState<Sex | ''>(
     () => useOnboardingStore.getState().sex ?? '',
   );
-  const [heightUnit, setHeightUnit] = useState<HeightUnit>('cm');
+  const [heightUnit, setHeightUnit] = useState<HeightUnit>(
+    () => useOnboardingStore.getState().height_unit ?? 'cm',
+  );
   const [heightCmText, setHeightCmText] = useState(() => {
     const h = useOnboardingStore.getState().height_cm;
     return h != null ? String(h) : '';
   });
-  const [feetText, setFeetText] = useState('');
-  const [inchesText, setInchesText] = useState('');
-  const [weightUnit, setWeightUnit] = useState<WeightUnit>('kg');
+  // The raw ft/in the user typed, restored verbatim. Recomputing them from cm
+  // on remount changed the digits under the user (audit 2026-08-08).
+  const [feetText, setFeetText] = useState(() => useOnboardingStore.getState().height_ft_text ?? '');
+  const [inchesText, setInchesText] = useState(() => useOnboardingStore.getState().height_in_text ?? '');
+  const [weightUnit, setWeightUnit] = useState<WeightUnit>(
+    () => useOnboardingStore.getState().weight_unit ?? 'kg',
+  );
   const [weightText, setWeightText] = useState(() => {
     const w = useOnboardingStore.getState().weight_kg;
     return w != null ? String(w) : '';
@@ -128,6 +134,11 @@ export default function MeasurementsScreen() {
       height_cm: heightToCm(),
       weight_kg: toKg(weightText),
       target_weight_kg: showTarget ? toKg(targetText) : null,
+      // Display state — never sent, only used to redraw the form as left.
+      height_unit: heightUnit,
+      weight_unit: weightUnit,
+      height_ft_text: heightUnit === 'ftin' ? feetText : null,
+      height_in_text: heightUnit === 'ftin' ? inchesText : null,
     });
     // heightToCm/toKg close over the unit toggles, so those are dependencies too.
     // eslint-disable-next-line react-hooks/exhaustive-deps

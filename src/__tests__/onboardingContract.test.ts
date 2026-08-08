@@ -135,3 +135,27 @@ describe('app build identity', () => {
     }
   });
 });
+
+// --- Item 5: display units are remembered but NEVER sent ---------------------
+describe('input-unit display state', () => {
+  test('the payload is always canonical cm/kg regardless of the chosen input unit', () => {
+    const imperialUser = {
+      ...complete,
+      height_cm: 180,
+      weight_kg: 80,
+    } as OnboardingSession & Record<string, unknown>;
+    // The store also holds the user's DISPLAY choices; they must not leak.
+    imperialUser.height_unit = 'ftin';
+    imperialUser.weight_unit = 'lb';
+    imperialUser.height_ft_text = '5';
+    imperialUser.height_in_text = '11';
+
+    const p = onboardingPayload(imperialUser) as Record<string, unknown>;
+    expect(p.height_unit).toBe('cm');
+    expect(p.weight_unit).toBe('kg');
+    expect(p.height).toBe(180);
+    expect(p.weight).toBe(80);
+    expect(p.height_ft_text).toBeUndefined();
+    expect(p.height_in_text).toBeUndefined();
+  });
+});

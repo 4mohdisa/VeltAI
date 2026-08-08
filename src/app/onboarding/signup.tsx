@@ -26,27 +26,61 @@ import { navigate } from '@/lib/nav';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { api } from '@/lib/api';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
-import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { resolvePostAuth } from '@/lib/onboarding/postAuth';
+import { getHasCompletedOnboarding, setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 
 // Recommended by Clerk's Expo SSO docs: completes any pending auth session.
 WebBrowser.maybeCompleteAuthSession();
 
 type Provider = 'apple' | 'google' | 'email';
 
-/** After a session is active: route by the SERVER's onboarding status. */
+/**
+ * After a session is active: route by the SERVER's onboarding status.
+ *
+ * "No onboarding record" and "the request failed" are NOT the same thing, and
+ * conflating them silently re-onboarded an existing user whose network
+ * hiccupped — they were walked back through the whole flow and their answers
+ * re-submitted (audit 2026-08-08).
+ *
+ * - 200 completed      → into the app.
+ * - 200 not completed  → they genuinely have no record; start the flow.
+ * - request FAILED     → we do not know. Trust the local completion flag if
+ *                        there is one, and only fall through to the flow when
+ *                        nothing local says otherwise. Say so either way.
+ */
 async function continueAfterAuth(): Promise<void> {
+  let serverCompleted: boolean | undefined;
   try {
-    const onboarding = await api.onboarding.get();
-    if (onboarding.completed) {
+    serverCompleted = (await api.onboarding.get()).completed;
+  } catch (e) {
+    if (__DEV__) console.warn('[onboarding] status check failed:', e instanceof Error ? e.message : e);
+  }
+
+  const locallyCompleted =
+    useOnboardingStore.getState().completed || (await getHasCompletedOnboarding().catch(() => false));
+  const { destination, degraded } = resolvePostAuth({ serverCompleted, locallyCompleted });
+
+  if (destination === '/(tabs)') {
+    if (!degraded) {
       useOnboardingStore.getState().markCompleted();
       await setHasCompletedOnboarding(true);
-      router.replace('/(tabs)' as Href);
-      return;
     }
-  } catch {
-    // Unreachable backend → assume not onboarded; the flow re-checks later.
+    if (degraded) {
+      showToast({
+        message: "Couldn't check your setup — continuing with what's saved on this device.",
+        tone: 'info',
+      });
+    }
+    router.replace('/(tabs)' as Href);
+    return;
   }
-  navigate('/onboarding/measurements');
+  if (degraded) {
+    showToast({
+      message: "Couldn't reach the server — we'll set you up here and sync later.",
+      tone: 'info',
+    });
+  }
+  navigate(destination);
 }
 
 // Inline legal links: footnote text is ~18pt tall, so a 14pt vertical hitSlop

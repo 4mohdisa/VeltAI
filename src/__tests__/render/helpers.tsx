@@ -9,12 +9,26 @@
 import type { ReactElement } from 'react';
 import TestRenderer, { type ReactTestRenderer, type ReactTestInstance } from 'react-test-renderer';
 
+// Every tree stays mounted (and store-subscribed) until it is explicitly torn
+// down. Without this, a screen rendered by one test keeps re-running its
+// persistence effect when a later test resets the store, writing state back
+// underneath it — cross-test pollution that looks like a product bug.
+const mounted: ReactTestRenderer[] = [];
+
 export function renderScreen(el: ReactElement): ReactTestRenderer {
   let tree!: ReactTestRenderer;
   TestRenderer.act(() => {
     tree = TestRenderer.create(el);
   });
+  mounted.push(tree);
   return tree;
+}
+
+/** Unmount everything this file rendered. Called from the global afterEach. */
+export function unmountAll(): void {
+  TestRenderer.act(() => {
+    while (mounted.length) mounted.pop()?.unmount();
+  });
 }
 
 export const act = TestRenderer.act;

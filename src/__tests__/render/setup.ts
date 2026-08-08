@@ -19,3 +19,12 @@ jest.mock('@/lib/haptics', () => ({ haptics: { selection: jest.fn(), impact: jes
 // expo-secure-store backs the persisted onboarding store (see the node suite's
 // mock); render tests need the same in-memory stand-in.
 jest.mock('expo-secure-store', () => require('../mocks/expoSecureStore'));
+
+// Tear every rendered tree down between tests. A tree left mounted stays
+// subscribed to the zustand stores and keeps writing to them, which poisons
+// the next test's fixture.
+afterEach(() => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { unmountAll } = require('./helpers') as { unmountAll: () => void };
+  unmountAll();
+});

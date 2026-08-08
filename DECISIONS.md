@@ -414,3 +414,33 @@ in git — this file is not a changelog.
   not wire up against React Native 0.85 — its `test-renderer` peer never
   receives a host config — so the tests query the tree by props instead of
   using RNTL queries. Reanimated and worklets are stubbed in `__mocks__/`.
+
+## Onboarding follow-ups (2026-08-08)
+
+- **Height and weight are REQUIRED; nothing in the calorie-derivation path
+  substitutes a median.** `DEFAULT_HEIGHT_CM` / `DEFAULT_WEIGHT_KG` are
+  deleted. They fed Mifflin–St Jeor directly, so a skipped field produced a
+  personal calorie target computed from body data the user never gave. Enforced
+  client-side with per-field reasons and server-side with bounds (100–250 cm,
+  30–300 kg) applied AFTER unit conversion — the server rejects rather than
+  defaults. Cost: a user who does not want to share these cannot finish
+  onboarding. That is the correct trade against inventing them.
+- **Unspecified sex resolves to the higher (1,500 kcal) floor** — recorded in
+  the 2026-08-08 entry above; restated here because it is one of the three
+  decisions this run was asked to log.
+- **Every build identifies itself.** The server reads Go's own VCS stamping
+  (`debug.ReadBuildInfo`) — no ldflags, nothing to forget — and reports the git
+  SHA, commit time and dirty flag in its first startup log line and from
+  `GET /health`. The app stamps the same SHA into `expo.extra` via
+  `app.config.js` (EAS_BUILD_GIT_COMMIT_HASH on a cloud build, `git rev-parse`
+  locally), so debug reports stop carrying `gitSha: null`. `app.json` stays the
+  source of truth for every static field and a test asserts the dynamic config
+  preserves all of them. This exists because a three-day-old `lumoserver` from
+  a scratchpad served :8080 on 2026-08-08 while looking perfectly healthy.
+- **"No onboarding record" and "the status request failed" are different
+  answers.** `resolvePostAuth` (pure, tested) decides: a server yes/no is
+  definitive, a failed check falls back to local evidence and says so in a
+  toast. Conflating them re-onboarded existing users on a network hiccup.
+- **Input units and the raw ft/in text are persisted** as display state only.
+  They are never sent — the payload is always canonical cm/kg — but the form
+  now redraws exactly as the user left it instead of recomputing digits.
