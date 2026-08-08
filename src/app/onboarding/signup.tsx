@@ -68,6 +68,10 @@ function LegalLink({ label, href }: { label: string; href: Href }) {
   );
 }
 
+// Rendered in the scaffold's BOTTOM footer slot, not inline under the auth
+// buttons. It used to sit immediately beneath them, where a real session
+// mis-tapped it and landed on the Terms screen mid-flow (2026-08-08). The hit
+// slop is unchanged — proximity to the primary CTA was the hazard, not size.
 function LegalFooter() {
   return (
     <View
@@ -76,7 +80,7 @@ function LegalFooter() {
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: space.md,
+        marginTop: space.xl,
       }}
     >
       <Text variant="footnote" color={color.secondaryLabel}>
@@ -287,8 +291,6 @@ function ClerkSignup() {
           {mode === 'signup' ? 'Already have an account? Sign in' : 'New to Lume? Create an account'}
         </Text>
       </Pressable>
-
-      <LegalFooter />
     </View>
   );
 }
@@ -305,14 +307,13 @@ function DevSignup() {
       <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
         Local dev auth mode — no Clerk key configured
       </Text>
-      <LegalFooter />
     </View>
   );
 }
 
 export default function SignupScreen() {
   return (
-    <OnbScaffold step={6} title="Create your account">
+    <OnbScaffold step={6} title="Create your account" footer={<LegalFooter />}>
       {isClerkEnabled() ? <ClerkSignup /> : <DevSignup />}
     </OnbScaffold>
   );
