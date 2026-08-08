@@ -10,7 +10,7 @@ import { Badge } from '@/components/display';
 import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Text } from '@/components/primitives/Text';
-import { DEFAULT_HEIGHT_CM, DEFAULT_WEIGHT_KG, deriveTargets } from '@/lib/onboarding/deriveTargets';
+import { deriveTargets } from '@/lib/onboarding/deriveTargets';
 import { clampCalories } from '@/lib/settings/store';
 import { navigate } from '@/lib/nav';
 import { color, space } from '@/lib/design/tokens';
@@ -37,8 +37,11 @@ export default function TargetsScreen() {
       deriveTargets({
         age: age ?? 30,
         sex: sex ?? 'other',
-        height_cm: heightCm ?? DEFAULT_HEIGHT_CM,
-        weight_kg: weightKg ?? DEFAULT_WEIGHT_KG,
+        // No fallback: measurements (step 7) requires both, so by step 9 they
+        // exist. A `??` here would quietly resurrect the median substitution
+        // this screen exists to display honestly.
+        height_cm: heightCm ?? 0,
+        weight_kg: weightKg ?? 0,
         activity_level: activity ?? 'sedentary',
         goal: goal ?? 'track',
       }),

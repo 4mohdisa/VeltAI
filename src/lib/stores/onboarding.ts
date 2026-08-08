@@ -102,8 +102,13 @@ export function validateOnboardingPayload(s: OnboardingSession): string | null {
   // unanswered question, quietly deciding something the user never did — and
   // sex moves the BMR by 166 kcal and sets the safety floor.
   if (s.sex == null) return 'Choose an option for sex before finishing setup.';
+  // Height and weight are REQUIRED and bounded — no median substitution
+  // anywhere in the derivation path (decided 2026-08-08). Bounds mirror the
+  // server (backend/internal/goals/goals.go) exactly.
   if (s.height_cm == null || s.height_cm <= 0) return 'Add your height before finishing setup.';
+  if (s.height_cm < 100 || s.height_cm > 250) return 'Your height must be between 100 and 250 cm.';
   if (s.weight_kg == null || s.weight_kg <= 0) return 'Add your weight before finishing setup.';
+  if (s.weight_kg < 30 || s.weight_kg > 300) return 'Your weight must be between 30 and 300 kg.';
   if (s.activity_level == null) return 'Choose your activity level before finishing setup.';
   if (s.goal == null) return 'Choose your goal before finishing setup.';
   if (s.target_weight_kg != null && (s.target_weight_kg <= 0 || s.target_weight_kg > 1000)) {

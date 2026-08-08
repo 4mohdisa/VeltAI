@@ -1,7 +1,9 @@
+import * as fs from 'fs';
+import * as path from 'path';
 // TDEE / target derivation — must match the backend derive.go byte-for-byte, so
 // these expected values are computed from the Mifflin–St Jeor formula the backend
 // uses (10*kg + 6.25*cm - 5*age + sex offset) × activity factor + goal adjustment.
-import { deriveTargets, DEFAULT_HEIGHT_CM, DEFAULT_WEIGHT_KG } from '@/lib/onboarding/deriveTargets';
+import { deriveTargets } from '@/lib/onboarding/deriveTargets';
 
 describe('deriveTargets (mirrors backend goals.DeriveGoals)', () => {
   test('male, moderate, maintain', () => {
@@ -44,8 +46,23 @@ describe('deriveTargets (mirrors backend goals.DeriveGoals)', () => {
     expect(r.calories).toBe(1840);
   });
 
-  test('population defaults are the documented medians', () => {
-    expect(DEFAULT_HEIGHT_CM).toBe(170);
-    expect(DEFAULT_WEIGHT_KG).toBe(70);
+  // REWRITTEN 2026-08-08: this asserted DEFAULT_HEIGHT_CM / DEFAULT_WEIGHT_KG,
+  // the population medians that silently stood in for a user who skipped the
+  // height/weight inputs. Both fields are now REQUIRED and the constants are
+  // deleted, so the correct assertion is that nothing in the derivation path
+  // can substitute a body measurement the user never gave.
+  test('the derivation has no population-median fallback left', () => {
+    const src = fs.readFileSync(
+      path.join(__dirname, '..', 'lib', 'onboarding', 'deriveTargets.ts'),
+      'utf8',
+    );
+    expect(src).not.toContain('DEFAULT_HEIGHT_CM');
+    expect(src).not.toContain('DEFAULT_WEIGHT_KG');
+    // And the two screens that used them no longer do.
+    for (const rel of ['app/onboarding/measurements.tsx', 'app/onboarding/targets.tsx']) {
+      const screen = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8');
+      expect(screen).not.toContain('DEFAULT_HEIGHT_CM');
+      expect(screen).not.toContain('DEFAULT_WEIGHT_KG');
+    }
   });
 });

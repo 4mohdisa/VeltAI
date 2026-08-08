@@ -185,6 +185,27 @@ func (h *handler) postOnboarding(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "age, height, and weight must be positive")
 		return
 	}
+	// Height and weight feed Mifflin–St Jeor directly, so they are bounded to
+	// physically plausible humans and REJECTED rather than defaulted. Nothing
+	// in this chain may substitute a population median: that invents body data
+	// and presents the resulting target as the user's own (decided 2026-08-08).
+	// Bounds are canonical cm/kg and mirror the client's inline validation.
+	heightCm := *req.Height
+	if strv(req.HeightUnit) == "in" {
+		heightCm *= 2.54
+	}
+	if heightCm < 100 || heightCm > 250 {
+		httpx.Error(w, http.StatusBadRequest, "height must be between 100 and 250 cm")
+		return
+	}
+	weightKg := *req.Weight
+	if strv(req.WeightUnit) == "lb" {
+		weightKg *= 0.453592
+	}
+	if weightKg < 30 || weightKg > 300 {
+		httpx.Error(w, http.StatusBadRequest, "weight must be between 30 and 300 kg")
+		return
+	}
 	// The age gate is 13+ (matching the client's onboarding gate) — pre-audit
 	// the server accepted any positive age, so the client gate was decorative
 	// (audit 2026-08-06).

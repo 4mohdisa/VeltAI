@@ -76,3 +76,73 @@ func TestOnboardingRejectsUnderThirteen(t *testing.T) {
 		t.Fatalf("age=9: got %d, want 400 — the client's 13+ gate was the only gate", rr.Code)
 	}
 }
+
+// Height and weight became REQUIRED and BOUNDED on 2026-08-08. The server must
+// reject implausible body measurements rather than let them through to
+// Mifflin–St Jeor: nothing in the derivation path may substitute or accept a
+// value that is not a real human measurement.
+func TestOnboardingRejectsImplausibleBodyMeasurements(t *testing.T) {
+	base := func() map[string]any {
+		return map[string]any{
+			"age": 30, "sex": "male", "height": 180.0, "weight": 80.0,
+			"activity_level": "moderate", "goal": "health",
+		}
+	}
+	cases := []struct {
+		name  string
+		field string
+		value any
+	}{
+		{"height far too small", "height", 30.0},
+		{"height below the band", "height", 99.0},
+		{"height above the band", "height", 251.0},
+		{"weight below the band", "weight", 29.0},
+		{"weight above the band", "weight", 301.0},
+		{"weight absurd", "weight", 100000.0},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			mux, _ := newMux()
+			body := base()
+			body[c.field] = c.value
+			rr := do(t, mux, "POST", "/api/onboarding", "user_bounds", body)
+			if rr.Code != http.StatusBadRequest {
+				t.Fatalf("%s = %v: got %d, want 400; body %s", c.field, c.value, rr.Code, rr.Body.String())
+			}
+		})
+	}
+}
+
+func TestOnboardingAcceptsTheBandEdges(t *testing.T) {
+	for _, c := range []struct {
+		name           string
+		height, weight float64
+	}{
+		{"low edges", 100, 30},
+		{"high edges", 250, 300},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			mux, _ := newMux()
+			rr := do(t, mux, "POST", "/api/onboarding", "user_edge", map[string]any{
+				"age": 30, "sex": "male", "height": c.height, "weight": c.weight,
+				"activity_level": "moderate", "goal": "health",
+			})
+			if rr.Code != http.StatusOK {
+				t.Fatalf("height=%v weight=%v: got %d, want 200; body %s", c.height, c.weight, rr.Code, rr.Body.String())
+			}
+		})
+	}
+}
+
+// Imperial input is bounded AFTER conversion — a caller sending inches must
+// not sneak past a centimetre bound.
+func TestOnboardingBoundsApplyAfterUnitConversion(t *testing.T) {
+	mux, _ := newMux()
+	rr := do(t, mux, "POST", "/api/onboarding", "user_units", map[string]any{
+		"age": 30, "sex": "male", "height": 30.0, "height_unit": "in", // 76 cm — too short
+		"weight": 80.0, "activity_level": "moderate", "goal": "health",
+	})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("30in (76cm): got %d, want 400; body %s", rr.Code, rr.Body.String())
+	}
+}

@@ -125,6 +125,39 @@ test('ITEM 7: the screen never routes to a legal or consent screen', () => {
   expect(targets.some((t) => t.includes('consent'))).toBe(false);
 });
 
+test('ITEM 1: height and weight are required, each with its own visible reason', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  const { act } = require('./helpers') as { act: (cb: () => void) => void };
+  // Fill age + sex so ONLY height/weight can be the blockers.
+  act(() => (findAll(tree, (p) => p.label === 'Age')[0].props.onChangeText as (t: string) => void)('30'));
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'Male')[0]);
+
+  TestPress(buttonWithTitle(tree, 'Continue')!);
+  const text = allText(tree);
+  expect(text).toContain('Enter your height');
+  expect(text).toContain('Enter your weight');
+
+  // And nothing was written as a stand-in for what the user did not enter.
+  expect(useOnboardingStore.getState().height_cm).toBeNull();
+  expect(useOnboardingStore.getState().weight_kg).toBeNull();
+});
+
+test('ITEM 1: a complete form stores exactly what was typed, no substitution', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  const { act } = require('./helpers') as { act: (cb: () => void) => void };
+  act(() => (findAll(tree, (p) => p.label === 'Age')[0].props.onChangeText as (t: string) => void)('30'));
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'Male')[0]);
+  act(() => (findAll(tree, (p) => p.accessibilityLabel === 'Height in centimetres')[0].props.onChangeText as (t: string) => void)('183'));
+  act(() => (findAll(tree, (p) => p.accessibilityLabel === 'Current weight in kilograms')[0].props.onChangeText as (t: string) => void)('88'));
+
+  TestPress(buttonWithTitle(tree, 'Continue')!);
+  expect(useOnboardingStore.getState().height_cm).toBe(183);
+  expect(useOnboardingStore.getState().weight_kg).toBe(88);
+  // 170 / 70 are the deleted medians — they must never appear.
+  expect(useOnboardingStore.getState().height_cm).not.toBe(170);
+  expect(useOnboardingStore.getState().weight_kg).not.toBe(70);
+});
+
 function TestPress(node: { props: Record<string, unknown> }): void {
   const onPress = node.props.onPress as (() => void) | undefined;
   expect(typeof onPress).toBe('function');

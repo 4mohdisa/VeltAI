@@ -47,6 +47,36 @@ test.each([13, 30, 120])('age %s is accepted, matching the server band', (age) =
   expect(validateOnboardingPayload({ ...complete, age })).toBeNull();
 });
 
+// Height and weight became REQUIRED on 2026-08-08. The contract check used to
+// pass for a user who skipped them, because the measurements screen filled in
+// population medians before this ever ran — so the invented body data reached
+// Mifflin-St Jeor with nothing objecting. It must now fail without real values.
+test.each([
+  ['height', { height_cm: null }],
+  ['weight', { weight_kg: null }],
+])('a missing %s now FAILS the contract (no median fills the gap)', (_label, patch) => {
+  const msg = validateOnboardingPayload({ ...complete, ...patch } as OnboardingSession);
+  expect(msg).not.toBeNull();
+});
+
+test.each([
+  ['height too small', { height_cm: 99 }],
+  ['height too large', { height_cm: 251 }],
+  ['weight too small', { weight_kg: 29 }],
+  ['weight too large', { weight_kg: 301 }],
+])('%s is rejected, matching the server bounds', (_label, patch) => {
+  expect(validateOnboardingPayload({ ...complete, ...patch } as OnboardingSession)).not.toBeNull();
+});
+
+test.each([
+  ['height at the low bound', { height_cm: 100 }],
+  ['height at the high bound', { height_cm: 250 }],
+  ['weight at the low bound', { weight_kg: 30 }],
+  ['weight at the high bound', { weight_kg: 300 }],
+])('%s is accepted, matching the server bounds', (_label, patch) => {
+  expect(validateOnboardingPayload({ ...complete, ...patch } as OnboardingSession)).toBeNull();
+});
+
 test('an absurd target weight is caught client-side', () => {
   expect(validateOnboardingPayload({ ...complete, target_weight_kg: 5000 })).not.toBeNull();
   expect(validateOnboardingPayload({ ...complete, target_weight_kg: -5 })).not.toBeNull();

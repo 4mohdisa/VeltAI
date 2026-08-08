@@ -1,13 +1,13 @@
-// Measurements — the only free-text step. Age + sex are required; height/weight
-// are optional (population medians fill the gap so the preview and the POST
-// payload agree). Inputs display in the user's chosen unit but are stored
-// canonically in cm / kg.
+// Measurements — the only free-text step. Age, sex, height and weight are ALL
+// required: they feed Mifflin–St Jeor directly, and the population medians that
+// used to stand in for a skipped height/weight invented body data and presented
+// the resulting calorie target as the user's own (decided 2026-08-08). Inputs
+// display in the user's chosen unit but are stored canonically in cm / kg.
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, SegmentedField, TextField } from '@/components/forms';
-import { DEFAULT_HEIGHT_CM, DEFAULT_WEIGHT_KG } from '@/lib/onboarding/deriveTargets';
 import { navigate } from '@/lib/nav';
 import { space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
@@ -163,7 +163,12 @@ export default function MeasurementsScreen() {
 
   const sexError = sexValue === '' && submitted ? 'Choose one so your targets are accurate' : undefined;
 
+  const heightEmpty =
+    heightUnit === 'cm' ? heightCmText.trim() === '' : feetText.trim() === '' && inchesText.trim() === '';
+  const weightEmpty = weightText.trim() === '';
+
   const heightError = (() => {
+    if (heightEmpty) return submitted ? 'Enter your height' : undefined;
     if (heightUnit === 'cm') {
       if (heightCmText.trim() === '') return undefined;
       const n = parseFloat(heightCmText);
@@ -177,7 +182,7 @@ export default function MeasurementsScreen() {
   })();
 
   const weightError = (() => {
-    if (weightText.trim() === '') return undefined;
+    if (weightEmpty) return submitted ? 'Enter your weight' : undefined;
     const kg = toKg(weightText);
     return kg != null && kg >= 30 && kg <= 300
       ? undefined
@@ -186,9 +191,13 @@ export default function MeasurementsScreen() {
         : 'Enter a weight between 66 and 661 lb';
   })();
 
+  // Height and weight are REQUIRED as of 2026-08-08: they feed BMR directly,
+  // and substituting a population median invented the user's body data.
   const blocked =
     ageText.trim() === '' ||
     sexValue === '' ||
+    heightEmpty ||
+    weightEmpty ||
     !!ageError ||
     !!heightError ||
     !!weightError;
@@ -207,8 +216,8 @@ export default function MeasurementsScreen() {
       // Narrowed to a real Sex by the `blocked` guard above — the flow can no
       // longer reach here with an unanswered sex.
       sex: sexValue,
-      height_cm: heightToCm() ?? DEFAULT_HEIGHT_CM,
-      weight_kg: toKg(weightText) ?? DEFAULT_WEIGHT_KG,
+      height_cm: heightToCm(),
+      weight_kg: toKg(weightText),
       target_weight_kg: showTarget ? toKg(targetText) : null,
     });
     navigate('/onboarding/body-type');

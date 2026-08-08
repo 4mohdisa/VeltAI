@@ -15,11 +15,12 @@ export type MacroTargets = {
   fibre: number;
 };
 
-// Population medians used only when a user skips the (optional) height/weight
-// inputs, so the preview and the POST payload stay in agreement. The onboarding
-// flow writes these same fallbacks into the store before submitting.
-export const DEFAULT_HEIGHT_CM = 170;
-export const DEFAULT_WEIGHT_KG = 70;
+// The population-median fallbacks (170 cm / 70 kg) were DELETED on 2026-08-08.
+// Height and weight are required, so nothing substitutes a value the user did
+// not give: a median silently became their Mifflin-St Jeor input and therefore
+// their calorie target, which is invented body data presented as a personal
+// number. Nothing in the derivation path may fall back — the callers validate
+// instead.
 
 const ACTIVITY_FACTORS: Record<ActivityLevel, number> = {
   sedentary: 1.2,
