@@ -14,7 +14,9 @@ import {
 import { mockUser } from '@/lib/mock/data';
 import { useUserStore } from '@/lib/data/userStore';
 import { deriveGoals } from '@/lib/goals/derive';
+import { calorieFloor } from '@/lib/onboarding/deriveTargets';
 import { setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
+import type { Sex } from '@/lib/types';
 
 // --- Goals ------------------------------------------------------------------
 // All canonical: calories in kcal, macros in grams.
@@ -100,9 +102,10 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setLanguage: (languageOverride) => set({ languageOverride }),
 
   setGoalMode: (goalMode) => set({ goalMode }),
-  // Calorie safety (1.4.1): a custom target outside [1200, 10000] kcal is
-  // clamped — the app must never store a starvation-level (or absurd) goal.
-  // The server enforces the same band on PUT /api/goals.
+  // Calorie safety (1.4.1): a custom target outside the safe band is clamped —
+  // the app must never store a starvation-level (or absurd) goal. The floor is
+  // sex-aware and read from the profile (see clampCalories); PUT /api/goals
+  // enforces the same band from the stored onboarding sex.
   setCustomGoals: (patch) =>
     set((s) => ({
       customGoals: {
@@ -139,8 +142,25 @@ export const useSettingsStore = create<SettingsState>((set) => ({
 export const CALORIE_TARGET_MIN = 1200;
 export const CALORIE_TARGET_MAX = 10000;
 
-export function clampCalories(n: number): number {
-  return Math.min(CALORIE_TARGET_MAX, Math.max(CALORIE_TARGET_MIN, Math.round(n)));
+/**
+ * Clamp a manually-entered calorie target into the SAME band the server
+ * enforces. The floor is sex-aware (male 1500 / female 1200 / other 1350),
+ * matching `calorieFloor` on both sides of the wire.
+ *
+ * Found on a real simulator run, 2026-08-06: this used to clamp to a flat
+ * 1200 while the server floor had become sex-aware, so a male user who
+ * adjusted their target to 1200–1499 was allowed to save it here and then hit
+ * a 400 from the server — which, on the onboarding targets screen, means
+ * onboarding cannot be completed at all. A client floor must never be LOWER
+ * than the server's.
+ *
+ * `sex` is explicit where the caller knows it better than the profile store
+ * does — during onboarding the answers live in the onboarding store and the
+ * profile still holds its default.
+ */
+export function clampCalories(n: number, sex?: Sex): number {
+  const min = calorieFloor(sex ?? useUserStore.getState().profile.sex);
+  return Math.min(CALORIE_TARGET_MAX, Math.max(min, Math.round(n)));
 }
 
 // --- Selectors --------------------------------------------------------------

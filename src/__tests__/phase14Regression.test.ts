@@ -100,22 +100,36 @@ describe('claim 1 · account deletion', () => {
 // ---------------------------------------------------------------------------
 
 describe('claim 2 · calorie banding', () => {
-  test('clampCalories holds the [1200, 10000] band and rounds', () => {
-    expect(CALORIE_TARGET_MIN).toBe(1200);
+  // REWRITTEN on a real simulator run (2026-08-06). This used to assert a flat
+  // 1200 floor for everyone. The server floor is sex-aware (male 1500), so a
+  // male user could save 1200 here and then be 400'd by the server — on the
+  // ONBOARDING targets screen that means onboarding cannot complete at all.
+  // The invariant that matters: the client floor is never BELOW the server's.
+  test('clampCalories uses the sex-aware floor, caps at 10000, and rounds', () => {
     expect(CALORIE_TARGET_MAX).toBe(10000);
-    expect(clampCalories(0)).toBe(1200);
-    expect(clampCalories(-500)).toBe(1200);
-    expect(clampCalories(1199)).toBe(1200);
-    expect(clampCalories(1200)).toBe(1200);
-    expect(clampCalories(2000.4)).toBe(2000);
-    expect(clampCalories(10000)).toBe(10000);
-    expect(clampCalories(10001)).toBe(10000);
-    expect(clampCalories(999999)).toBe(10000);
+    expect(clampCalories(0, 'male')).toBe(1500);
+    expect(clampCalories(1499, 'male')).toBe(1500);
+    expect(clampCalories(1500, 'male')).toBe(1500);
+    expect(clampCalories(0, 'female')).toBe(1200);
+    expect(clampCalories(1199, 'female')).toBe(1200);
+    expect(clampCalories(0, 'other')).toBe(1350);
+    expect(clampCalories(2000.4, 'male')).toBe(2000);
+    expect(clampCalories(10001, 'female')).toBe(10000);
+    expect(clampCalories(999999, 'male')).toBe(10000);
+    // CALORIE_TARGET_MIN remains the absolute floor of the band (female).
+    expect(CALORIE_TARGET_MIN).toBe(1200);
+  });
+
+  test('a male target below the male floor can never be saved (the 400 that broke onboarding)', () => {
+    for (const n of [300, 1000, 1200, 1499]) {
+      expect(clampCalories(n, 'male')).toBeGreaterThanOrEqual(1500);
+    }
   });
 
   test('the settings store never stores an out-of-band custom target', () => {
+    // No explicit sex → the profile store's sex, which defaults to 'other'.
     useSettingsStore.getState().setCustomGoals({ calories: 300 });
-    expect(useSettingsStore.getState().customGoals.calories).toBe(1200);
+    expect(useSettingsStore.getState().customGoals.calories).toBe(1350);
     useSettingsStore.getState().setCustomGoals({ calories: 42000 });
     expect(useSettingsStore.getState().customGoals.calories).toBe(10000);
     // Other macros pass through untouched.
@@ -128,8 +142,12 @@ describe('claim 2 · calorie banding', () => {
   test('the onboarding targets sheet clamps the manual value before saving', () => {
     const src = read('app/onboarding/targets.tsx');
     expect(src).toContain("import { clampCalories } from '@/lib/settings/store'");
-    // The saved value is the clamped one, in both the local state and the store.
-    expect(src).toContain('const calories = clampCalories(parseNum(draft, macros.calories))');
+    // The saved value is the clamped one, in both the local state and the store,
+    // and the clamp is given the ONBOARDING sex — the profile store still holds
+    // its default here, and the server floors this submission on the sex the
+    // onboarding POST carries. Without it a male user's 1200 is accepted
+    // locally and then 400s the whole flow (found on device, 2026-08-06).
+    expect(src).toContain('clampCalories(parseNum(draft, macros.calories), sex ?? \'other\')');
     ordered(src, 'const calories = clampCalories(', 'setCalorieTarget(calories)', 'targets sheet');
   });
 });

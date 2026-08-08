@@ -62,8 +62,11 @@ export default function TargetsScreen() {
 
   const saveSheet = () => {
     // Calorie safety (1.4.1): manual adjustments stay inside the same band
-    // the server enforces — never store a starvation-level target.
-    const calories = clampCalories(parseNum(draft, macros.calories));
+    // the server enforces — never store a starvation-level target. The sex
+    // comes from the ONBOARDING store: the profile store still holds its
+    // default here, and the server floors this submission on the sex the
+    // onboarding POST carries, so anything else 400s the whole flow.
+    const calories = clampCalories(parseNum(draft, macros.calories), sex ?? 'other');
     setMacros((m) => ({ ...m, calories }));
     setCalorieTarget(calories);
     setSheetOpen(false);

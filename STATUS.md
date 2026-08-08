@@ -54,7 +54,7 @@ backend `go build ./... && go vet ./... && gofmt -l . && go test ./...
 real-Postgres tests (the double-count and gym-500 proofs) SKIP silently and
 the run reports green while proving nothing (the old "569 tests" figure was
 560 passed + 9 silently skipped); app `npx tsc --noEmit && npx eslint src &&
-npm test` → clean, 0 errors, **469 tests / 28 suites**; `cd web && npm run
+npm test` → clean, 0 errors, **470 tests / 28 suites**; `cd web && npm run
 build` → static export clean; `npm run check:assets` → **exit 0**. There is no
 CI: these are enforced by running them. Full findings: [FINAL_AUDIT.md](FINAL_AUDIT.md).
 

@@ -162,6 +162,31 @@ rewritten tests asserted the fabrication itself and say so in their comments.
 
 ---
 
+## Found by actually running it (2026-08-06, simulator)
+
+The app was built and run on an iPhone 17 Pro simulator — the first time any of
+this has rendered. It launched clean (2,243 modules, 0 errors, no crash), the
+Lume branding and the 1.4.1 health disclaimer both render, and the derived
+target screen showed real numbers from real inputs.
+
+**It also immediately exposed a blocker I introduced in Part 2.** Part 2 made
+the server's manual calorie floor sex-aware (male 1500), but the CLIENT clamp
+(`clampCalories`) stayed a flat 1200. So a male user who adjusted their target
+to 1200–1499 was allowed to save it on the onboarding targets screen and then
+got a 400 from `POST /api/onboarding` — **onboarding could not be completed at
+all**. The code comment right above it claimed manual adjustments "stay inside
+the same band the server enforces"; my own change had made that false.
+
+Fixed: `clampCalories(n, sex?)` now floors on `calorieFloor(sex)`, explicit
+from the onboarding store during onboarding (where the profile store still
+holds its default) and from the profile elsewhere. The invariant is now pinned
+by test: **the client floor is never below the server's.** Two existing tests
+asserted the flat 1200 and were rewritten, named in their comments.
+
+This is the exact class of defect the whole audit is about — every gate was
+green with it in place, because nothing had run the flow. It is also a caution
+about this pass's own ⚠️ list: those items are unproven, not safe.
+
 ## Findings NOT fixed, by severity (the honest backlog)
 
 **❌ open (fix soon, none block TestFlight):**
@@ -246,8 +271,8 @@ because those defects are fixed and pinned by tests that failed on that tree.
   `LUME_TEST_DATABASE_URL` points at a migrated database and SILENTLY SKIP
   when it does not (was 480 pass + 9 skip; set the variable or the
   double-count proofs never execute); `-race` clean
-- app: tsc clean; eslint 0 errors / 24 warnings; **jest 469 tests / 28 suites**
-  (was 464 — nothing dropped; 3 rewritten tests say so in their comments)
+- app: tsc clean; eslint 0 errors / 24 warnings; **jest 470 tests / 28 suites**
+  (was 464 — nothing dropped; 5 rewritten tests say so in their comments)
 - web: production build clean · assets: `check:assets` exit 0
 
 ## What only you can do (ordered)
