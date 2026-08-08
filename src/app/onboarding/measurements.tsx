@@ -71,14 +71,35 @@ export default function MeasurementsScreen() {
     return weightUnit === 'kg' ? round1(n) : round1(n * 0.453592);
   };
 
+  // `submitted` flips on the first Continue press. Before it, only fields the
+  // user has actually filled in show errors (no shouting at an untouched
+  // form); after it, REQUIRED-but-empty fields show their reason too.
+  //
+  // Continue is never disabled. A disabled button was the whole of symptom 2
+  // in the 2026-08-08 agent run: the user tapped it on an incomplete form and
+  // got nothing — no navigation, no message, no toast — with no way to tell
+  // which field was at fault (audit 2026-08-08).
+  const [submitted, setSubmitted] = useState(false);
+
   // Light range validation (inline, per-field). Optional fields only validate
   // when non-empty — but unparseable input must never silently become the
   // population default, so out-of-range/garbage blocks Continue.
+  //
+  // The band matches the SERVER exactly (13..120, backend/internal/goals):
+  // a client stricter than the server silently refuses input the API accepts,
+  // and a client looser than the server produces the 400 it is meant to
+  // prevent.
   const ageNum = parseInt(ageText, 10);
   const ageError =
-    ageText.trim() !== '' && (!Number.isFinite(ageNum) || ageNum < 13 || ageNum > 100)
-      ? 'Enter an age between 13 and 100'
-      : undefined;
+    ageText.trim() === ''
+      ? submitted
+        ? 'Enter your age'
+        : undefined
+      : !Number.isFinite(ageNum) || ageNum < 13 || ageNum > 120
+        ? 'Enter an age between 13 and 120'
+        : undefined;
+
+  const sexError = sexValue === '' && submitted ? 'Choose one so your targets are accurate' : undefined;
 
   const heightError = (() => {
     if (heightUnit === 'cm') {
@@ -103,14 +124,27 @@ export default function MeasurementsScreen() {
         : 'Enter a weight between 66 and 661 lb';
   })();
 
-  const canContinue =
-    ageText.trim() !== '' && sexValue !== '' && !ageError && !heightError && !weightError;
+  const blocked =
+    ageText.trim() === '' ||
+    sexValue === '' ||
+    !!ageError ||
+    !!heightError ||
+    !!weightError;
 
   const handleContinue = () => {
+    // Always reveal the reason first. Pressing Continue on an incomplete form
+    // now marks it submitted, which renders the specific message under each
+    // offending field, instead of the press doing nothing at all.
+    if (blocked) {
+      setSubmitted(true);
+      return;
+    }
     const ageNum = parseInt(ageText, 10);
     setMeasurements({
       age: Number.isFinite(ageNum) ? ageNum : null,
-      sex: sexValue === '' ? null : sexValue,
+      // Narrowed to a real Sex by the `blocked` guard above — the flow can no
+      // longer reach here with an unanswered sex.
+      sex: sexValue,
       height_cm: heightToCm() ?? DEFAULT_HEIGHT_CM,
       weight_kg: toKg(weightText) ?? DEFAULT_WEIGHT_KG,
       target_weight_kg: showTarget ? toKg(targetText) : null,
@@ -124,7 +158,7 @@ export default function MeasurementsScreen() {
       scroll
       title="A few more details"
       subtitle="To calculate your personal targets"
-      footer={<Button title="Continue" disabled={!canContinue} onPress={handleContinue} />}
+      footer={<Button title="Continue" onPress={handleContinue} />}
     >
       <View style={{ gap: space.xl }}>
         <TextField
@@ -141,6 +175,7 @@ export default function MeasurementsScreen() {
           options={SEX_OPTIONS}
           value={sexValue}
           onChange={setSexValue}
+          error={sexError}
         />
 
         <View style={{ gap: space.sm }}>

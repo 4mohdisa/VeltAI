@@ -39,12 +39,16 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@testing-library/react-native": "^14.0.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.1.1",
     "@types/react": "~19.2.2",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~56.0.4",
     "jest": "~30.0.0",
+    "jest-expo": "~56.0.0",
+    "react-test-renderer": "^19.2.3",
+    "test-renderer": "^1.2.0",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -56,29 +60,47 @@
     "check:assets": "node scripts/check-assets.mjs"
   },
   "jest": {
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.[jt]sx?$": [
-        "babel-jest",
-        {
-          "presets": [
-            "babel-preset-expo"
+    "projects": [
+      {
+        "displayName": "node",
+        "testEnvironment": "node",
+        "transform": {
+          "^.+\\.[jt]sx?$": [
+            "babel-jest",
+            {
+              "presets": [
+                "babel-preset-expo"
+              ]
+            }
           ]
-        }
-      ]
-    },
-    "moduleNameMapper": {
-      "^@/debug/impl$": "<rootDir>/src/debug/stub.ts",
-      "^expo-secure-store$": "<rootDir>/src/__tests__/mocks/expoSecureStore.ts",
-      "^expo/virtual/env$": "<rootDir>/src/__tests__/mocks/expoVirtualEnv.js",
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(zustand)/)"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/*.test.ts",
-      "<rootDir>/src/**/*.test.tsx"
+        },
+        "moduleNameMapper": {
+          "^@/debug/impl$": "<rootDir>/src/debug/stub.ts",
+          "^expo-secure-store$": "<rootDir>/src/__tests__/mocks/expoSecureStore.ts",
+          "^expo/virtual/env$": "<rootDir>/src/__tests__/mocks/expoVirtualEnv.js",
+          "^@/(.*)$": "<rootDir>/src/$1"
+        },
+        "transformIgnorePatterns": [
+          "node_modules/(?!(zustand)/)"
+        ],
+        "testMatch": [
+          "<rootDir>/src/**/*.test.ts",
+          "<rootDir>/src/**/*.test.tsx"
+        ],
+        "testPathIgnorePatterns": [
+          "\\.render\\.test\\."
+        ]
+      },
+      {
+        "displayName": "render",
+        "preset": "jest-expo",
+        "setupFilesAfterEnv": [
+          "<rootDir>/src/__tests__/render/setup.ts"
+        ],
+        "testMatch": [
+          "<rootDir>/src/**/*.render.test.tsx"
+        ]
+      }
     ]
   },
   "private": true
