@@ -11,6 +11,7 @@ import (
 	"lume/backend/internal/ai"
 	"lume/backend/internal/analytics"
 	"lume/backend/internal/auth"
+	"lume/backend/internal/buildinfo"
 	"lume/backend/internal/config"
 	"lume/backend/internal/cuisine"
 	"lume/backend/internal/db"
@@ -72,8 +73,17 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
+	// /health reports WHICH BUILD is answering. On 2026-08-08 a three-day-old
+	// binary from a scratchpad was serving this endpoint with 200 and nothing
+	// could tell it apart from the current tree.
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, _ *http.Request) {
-		httpx.JSON(w, http.StatusOK, map[string]string{"status": "ok"})
+		b := buildinfo.Get()
+		httpx.JSON(w, http.StatusOK, map[string]any{
+			"status":   "ok",
+			"revision": b.Revision,
+			"built_at": b.Time,
+			"dirty":    b.Dirty,
+		})
 	})
 
 	// Public webhooks — signature-verified, not JWT-authed. These more-specific
@@ -151,7 +161,11 @@ func main() {
 		WriteTimeout:      60 * time.Second,
 		IdleTimeout:       120 * time.Second,
 	}
-	log.Printf("lume backend %s listening on %s (%s)", version, config.Addr(), config.BaseURL())
+	// Identify the build in the FIRST line of the log, before anything else can
+	// go wrong. This is the line that would have exposed the stale `lumoserver`
+	// on 2026-08-08 in one glance.
+	log.Printf("lume backend %s build %s listening on %s (%s)",
+		version, buildinfo.Get(), config.Addr(), config.BaseURL())
 	log.Fatal(srv.ListenAndServe())
 }
 

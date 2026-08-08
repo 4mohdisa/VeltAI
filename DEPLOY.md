@@ -1,4 +1,12 @@
-# Lumo — Deployment Runbook
+# Lume — Deployment Runbook
+
+> **Build from source. Never run a binary you did not just build.** On
+> 2026-08-08 a three-day-old `lumoserver` from a scratchpad was serving :8080
+> and answering `/health` with 200, while the code it ran no longer existed in
+> the tree. Every build now stamps its git SHA (Go VCS build info): check the
+> first startup log line, or `curl $API/health` and compare `revision` with
+> `git rev-parse HEAD`. A `"dirty": true` in that response means the binary
+> matches no commit at all.
 
 Ordered, copy-pasteable. Assumes a **fresh Ubuntu 24.04 box** and nothing else.
 `ALL_CAPS` is a placeholder. Do the hardening in

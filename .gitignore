@@ -54,3 +54,12 @@ yarn-error.*
 # ── large font source image — fonts are extracted to assets/fonts/ ────────────
 SF-Pro.dmg
 *.dmg
+
+# ── built binaries ────────────────────────────────────────────────────────────
+# A committed or stray server binary is how a three-day-old `lumoserver` ended
+# up serving :8080 from a scratchpad on 2026-08-08 while looking healthy.
+# Build from source; never run a binary you did not just build (DEPLOY.md).
+/backend/server
+/backend/lumoserver
+/backend/lume-server
+*.test

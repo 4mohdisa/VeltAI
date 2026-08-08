@@ -29,9 +29,23 @@ export const APP_SCHEME: string = Constants.expoConfig?.scheme
   ? String(Array.isArray(Constants.expoConfig.scheme) ? Constants.expoConfig.scheme[0] : Constants.expoConfig.scheme)
   : '';
 
-/** The commit a build came from, when the build injected it. NOTHING sets
- *  EXPO_PUBLIC_GIT_SHA today (the earlier claim that eas.json did was false —
- *  eas.json env is static and carries no sha; audit 2026-08-06), so reports
- *  identify the build by appVersion+buildNumber and this stays null unless a
- *  future build pipeline injects it. */
-export const GIT_SHA: string | null = process.env.EXPO_PUBLIC_GIT_SHA ?? null;
+/**
+ * The commit this build came from, so a debug report names the exact code it
+ * describes.
+ *
+ * History: an in-code comment used to claim eas.json set EXPO_PUBLIC_GIT_SHA.
+ * It did not — eas.json env is static JSON and cannot compute a SHA — so every
+ * report carried `gitSha: null` (audit 2026-08-06). app.config.js now stamps
+ * it into `extra` at config-evaluation time, from EAS_BUILD_GIT_COMMIT_HASH on
+ * a cloud build or `git rev-parse HEAD` locally. The env var is still honoured
+ * first for non-EAS CI.
+ *
+ * Null when the build genuinely cannot know (a tarball with no work tree).
+ * That is deliberate: a placeholder SHA is worse than an absent one.
+ */
+export const GIT_SHA: string | null =
+  process.env.EXPO_PUBLIC_GIT_SHA ??
+  (typeof Constants.expoConfig?.extra?.gitSha === 'string' ? Constants.expoConfig.extra.gitSha : null);
+
+/** True when the build was made with uncommitted changes — it matches no commit. */
+export const GIT_DIRTY: boolean = Constants.expoConfig?.extra?.gitDirty === true;

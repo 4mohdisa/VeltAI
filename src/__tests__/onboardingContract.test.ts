@@ -104,3 +104,34 @@ test('an unanswered sex is blocked rather than silently sent as "other"', () => 
   const session = { ...complete, sex: null } as OnboardingSession;
   expect(validateOnboardingPayload(session)).toMatch(/sex/i);
 });
+
+// --- Build identity (item 3 of the 2026-08-08 follow-ups) --------------------
+// The app half of "which build is this?". Every debug report carried
+// gitSha: null because nothing set EXPO_PUBLIC_GIT_SHA, while an in-code
+// comment claimed eas.json did. app.config.js now stamps it into `extra`.
+describe('app build identity', () => {
+  test('app.config.js stamps a real git SHA into extra', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const config = require('../../app.config.js')() as {
+      extra?: { gitSha?: unknown; gitDirty?: unknown };
+      name?: string;
+      ios?: { bundleIdentifier?: string };
+    };
+    // A 40-char hex SHA, or null when there is genuinely no work tree — never
+    // a placeholder.
+    const sha = config.extra?.gitSha;
+    expect(sha === null || (typeof sha === 'string' && /^[0-9a-f]{40}$/.test(sha))).toBe(true);
+    expect(typeof config.extra?.gitDirty).toBe('boolean');
+  });
+
+  test('the dynamic config preserves every static field from app.json', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const config = require('../../app.config.js')() as Record<string, unknown>;
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const appJson = require('../../app.json') as { expo: Record<string, unknown> };
+    for (const key of Object.keys(appJson.expo)) {
+      if (key === 'extra') continue; // extended on purpose
+      expect(config[key]).toEqual(appJson.expo[key]);
+    }
+  });
+});
