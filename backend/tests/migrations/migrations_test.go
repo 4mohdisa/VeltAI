@@ -211,3 +211,38 @@ func TestFinalSchemaShape(t *testing.T) {
 		}
 	}
 }
+
+// The migration runner's own bookkeeping table is created by deploy/migrate.sh,
+// not by a migration file — so it escapes every RLS check in this package and
+// every advisor sweep aimed at supabase/migrations. On Supabase, a table in
+// `public` without RLS is reachable through PostgREST with the anon key, and
+// this particular table decides which migrations `apply` SKIPS: one forged
+// version row and a migration silently never runs. Found live on 2026-08-09 —
+// schema_migrations was the only RLS-disabled table in the production database.
+func TestMigrationRunnerEnablesRLSOnBookkeepingTable(t *testing.T) {
+	b, err := os.ReadFile("../../../deploy/migrate.sh")
+	if err != nil {
+		t.Fatalf("read migrate.sh: %v", err)
+	}
+	script := string(b)
+
+	// The table name is a variable in the script; resolve it so the assertion
+	// keeps working if it is ever renamed.
+	m := regexp.MustCompile(`(?m)^TABLE=(?:"([^"]+)"|(\S+))`).FindStringSubmatch(script)
+	if m == nil {
+		t.Fatal("migrate.sh no longer defines TABLE= — update this test")
+	}
+	table := m[1] + m[2]
+
+	create := regexp.MustCompile(`(?is)CREATE TABLE IF NOT EXISTS \$\{TABLE\}`)
+	if !create.MatchString(script) {
+		t.Fatal("migrate.sh no longer creates ${TABLE} — update this test")
+	}
+
+	rls := regexp.MustCompile(`(?is)ALTER TABLE \$\{TABLE\} ENABLE ROW LEVEL SECURITY`)
+	if !rls.MatchString(script) {
+		t.Errorf("deploy/migrate.sh creates the %q bookkeeping table without enabling RLS; "+
+			"on Supabase that leaves it writable via PostgREST with the anon key, and a "+
+			"forged version row makes `migrate.sh apply` skip a migration", table)
+	}
+}

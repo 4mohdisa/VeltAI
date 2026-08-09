@@ -34,12 +34,18 @@ command -v psql >/dev/null || die "psql not found. sudo apt-get install -y postg
 PSQL=(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -qtAX)
 
 ensure_table() {
+  # RLS with no policy = deny-all for the anon/authenticated API roles, the same
+  # posture as the backend-only tables in 20260729000001. On Supabase every table
+  # in `public` is exposed through PostgREST, so without this the bookkeeping is
+  # writable with the anon key — and a forged version row makes `apply` silently
+  # SKIP a migration. migrate.sh itself connects as the owner and bypasses RLS.
   "${PSQL[@]}" -c "
     CREATE TABLE IF NOT EXISTS ${TABLE} (
       version     text PRIMARY KEY,
       applied_at  timestamptz NOT NULL DEFAULT now(),
       checksum    text NOT NULL
-    );" >/dev/null
+    );
+    ALTER TABLE ${TABLE} ENABLE ROW LEVEL SECURITY;" >/dev/null
 }
 
 checksum_of() { shasum -a 256 "$1" 2>/dev/null | cut -d' ' -f1 || sha256sum "$1" | cut -d' ' -f1; }
