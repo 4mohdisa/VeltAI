@@ -44,6 +44,9 @@ test('sign-out clears every store, the offline queue, and persisted keys', async
 });
 
 test('sign-out drops unsent analytics events (no cross-user attribution)', async () => {
+  // Analytics is opt-in (2026-08-09), so there is nothing to drop until the
+  // user has consented — grant it explicitly to reach the case under test.
+  useSettingsStore.getState().setAnalyticsEnabled(true);
   track('food_logged', { method: 'manual' });
   track('scan_started');
   expect(analyticsPending()).toBe(2);
@@ -54,6 +57,24 @@ test('sign-out drops unsent analytics events (no cross-user attribution)', async
   expect(analyticsPending()).toBe(0);
   // …and the persisted copy too: a fresh hydrate finds nothing to flush.
   await initAnalytics();
+  expect(analyticsPending()).toBe(0);
+});
+
+// Opt-in makes the sign-out purge load-bearing in a way it was not before: the
+// persisted key can now hold a '1', and carrying that to the next account on
+// this device would collect from someone who was never asked.
+test('sign-out clears the analytics consent so the next account is asked again', async () => {
+  useSettingsStore.getState().setAnalyticsEnabled(true);
+  expect(await getItem('lume.analyticsEnabled')).toBe('1');
+
+  await resetAllStores();
+
+  expect(await getItem('lume.analyticsEnabled')).toBeNull();
+  expect(useSettingsStore.getState().analyticsEnabled).toBe(false);
+  // A fresh launch on the next account must stay off without a new grant.
+  await initAnalytics();
+  expect(useSettingsStore.getState().analyticsEnabled).toBe(false);
+  track('food_logged');
   expect(analyticsPending()).toBe(0);
 });
 

@@ -83,16 +83,19 @@ describe('the in-app legal screens make no unsupported claim', () => {
     }
   });
 
-  test('no server-side consent record is described (it does not exist on this branch)', () => {
-    // The device-local disclosure is real and may be described; a server-side
-    // consent gate is not, and saying so would be a false representation about
-    // how consent is obtained for sensitive information.
-    for (const { f, src } of sources) {
-      expect({ file: f, hit: /ai_consent_at|consent (is )?record(ed)? on our server/i.test(bodyOf(src)) }).toEqual({
-        file: f,
-        hit: false,
-      });
-    }
+  test('the server-side consent record IS described (it exists on this branch)', () => {
+    // Inverted 2026-08-09. This guard was written when consent lived only on the
+    // device, and it forbade claiming a server-side record because that would
+    // have been a false representation. Migration 20260731000001 added
+    // profiles.ai_consent_at and the backend now refuses every provider send
+    // without it (403 ai_consent_required) — verified against the live database
+    // on 2026-08-09. The false representation is now the OTHER direction:
+    // describing consent as device-only understates where it is enforced, and a
+    // reader deciding whether to accept is entitled to know a background job
+    // honours it. The guard therefore asserts the claim is present, not absent.
+    const privacy = sources.find((s) => s.f.includes('privacy'));
+    expect(privacy).toBeDefined();
+    expect(bodyOf(privacy!.src)).toMatch(/on our server/i);
   });
 
   test('voice logging is not described (the feature was removed)', () => {

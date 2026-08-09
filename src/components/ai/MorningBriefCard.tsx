@@ -3,6 +3,7 @@
 // more" while marking the brief engaged once. Degrades to a skeleton while
 // loading and renders nothing when there's no brief. Reduce-motion aware.
 import { useEffect, useRef, useState } from 'react';
+import { track } from '@/lib/analytics';
 import type { JSX } from 'react';
 import { Animated, View, type LayoutChangeEvent } from 'react-native';
 
@@ -33,6 +34,18 @@ export function MorningBriefCard(): JSX.Element | null {
   const [animating, setAnimating] = useState(false);
   const [startH, setStartH] = useState(0);
   const [fullH, setFullH] = useState(0);
+
+  // Feature entered — fired when a brief is actually on screen, not on mount:
+  // this component renders null while loading and whenever there is no brief
+  // (no consent, no data yet, AI unavailable), so a mount event would count
+  // every home-screen visit as "the morning brief was used".
+  const seenRef = useRef(false);
+  useEffect(() => {
+    if (brief && !seenRef.current) {
+      seenRef.current = true;
+      track('feature_used', { name: 'morning_brief' });
+    }
+  }, [brief]);
 
   // Fade in over ~400ms on mount (opacity only → native driver).
   useEffect(() => {

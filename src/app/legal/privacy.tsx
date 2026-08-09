@@ -34,7 +34,7 @@ const SECTIONS: LegalSection[] = [
       'Health information: your body weight, height, age and sex; your activity level and goal; your calorie and macro targets; and your body-weight history. Health information is sensitive information under the Privacy Act.',
       'Fitness information: gym sessions and the exercises and parameters you record, your weekly schedule, and your streaks.',
       'Content you create: photographs of meals and nutrition labels at the moment you scan them, food names and quantities, notes, recipes and saved foods.',
-      'Usage: a fixed list of twelve event names describing which features are used — never what you logged. No food names, no quantities, no photographs, no health values.',
+      'Usage: only if you agree. A fixed list of twenty event names describing which features are used — never what you logged. No food names, no quantities, no photographs, no health values. Nothing is collected until you accept the one-time disclosure, and you can turn it off at any time in Settings → Privacy.',
       'Purchases: whether you hold an active subscription. Payment details are handled by Apple and never reach us.',
     ],
   },

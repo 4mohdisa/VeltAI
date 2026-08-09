@@ -52,6 +52,22 @@ export async function scanChainsSettled(): Promise<void> {
   }
 }
 
+/** Where a scan came from. Carried on every event of that scan's lifecycle so
+ *  success rate can be read per entry point — a camera scan failing and a label
+ *  scan failing are different problems with different fixes. */
+export type ScanEntry = 'camera' | 'barcode' | 'label';
+
+// localId → entry point. Written when the scan starts, read by the later
+// lifecycle events, deleted when the scan reaches a terminal state. Bounded by
+// the number of in-review rows, which the UI already caps.
+const scanEntries = new Map<string, ScanEntry>();
+
+/** The entry point a scan started from; defaults to camera for rows that
+ *  predate the map (a scan already in review across a hot reload). */
+export function scanEntryOf(localId: string): ScanEntry {
+  return scanEntries.get(localId) ?? 'camera';
+}
+
 function stopPoller(localId: string): void {
   const stop = activePollers.get(localId);
   if (stop) {
@@ -112,12 +128,17 @@ const pendingPlaceholder = { name: 'Analyzing…', quantityG: 0, calories: 0, pr
  * preserving no-key behaviour. The mock path (no image — the camera doesn't
  * capture frames yet) keeps the offline experience working. Returns the slot.
  */
-export function startPhotoScan(imageBase64?: string, mimeType = 'image/jpeg'): MealSlot {
+export function startPhotoScan(
+  imageBase64?: string,
+  mimeType = 'image/jpeg',
+  entry: ScanEntry = 'camera',
+): MealSlot {
   const slot = slotForNow();
-  track('scan_started');
+  track('scan_started', { entry });
 
   if (imageBase64) {
     const id = logMeal(slot, pendingPlaceholder, 'photo', true);
+    scanEntries.set(id, entry);
     trackScanChain(
       api.scan
       .pipeline(imageBase64, mimeType)
@@ -177,8 +198,9 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
     return startPhotoScan(images[0]?.image_base64, images[0]?.mime_type ?? 'image/jpeg');
   }
   const slot = slotForNow();
-  track('scan_started');
+  track('scan_started', { entry: 'camera' });
   const id = logMeal(slot, pendingPlaceholder, 'photo', true);
+  scanEntries.set(id, 'camera');
   trackScanChain(
     api.scan
     .pipelineMulti(images)
@@ -216,9 +238,19 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
  * estimate for a later /correction. On 'failed' the row surfaces the
  * ScanFailedCard.
  */
-export function updateFoodLogStatus(localId: string, status: 'ready' | 'failed', log?: FoodLog | null): void {
+export function updateFoodLogStatus(
+  localId: string,
+  status: 'ready' | 'failed',
+  log?: FoodLog | null,
+  reason = 'pipeline_failed',
+): void {
   const store = useFoodStore.getState();
+  const entry = scanEntryOf(localId);
   if (status === 'ready' && log) {
+    // Every scan that reaches a usable estimate, whatever the entry point. The
+    // pair (scan_started, scan_completed) is what makes success rate answerable
+    // — before this, a scan that died in the poller emitted nothing at all.
+    track('scan_completed', { entry });
     const qty = log.quantity ?? 0;
     const score = log.scan_results?.confidence?.score;
     store.resolvePending(localId, {
@@ -267,6 +299,9 @@ export function updateFoodLogStatus(localId: string, status: 'ready' | 'failed',
     return;
   }
   // 'failed' (or 'ready' with no payload): surface the failed card, keep the row.
+  // The reason is a fixed tag, never a server message — an error string can
+  // carry a food name or an id, and nothing free-text may enter an event.
+  track('scan_failed', { entry, reason: status === 'ready' ? 'empty_result' : reason });
   store.resolvePending(localId, { name: 'Scan failed', quantityG: 0, calories: 0, protein: 0, carbs: 0, fat: 0 });
   store.setItemStatus(localId, 'failed');
 }
@@ -293,7 +328,10 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
         confidence: r.confidence,
       });
       store.updateScannedItem(localId, { status: 'confirmed', scanSessionId: r.scan_session_id });
-      track('scan_confirmed');
+      // The sync fallback both completes and confirms in one step (no review).
+      track('scan_completed', { entry: scanEntryOf(localId) });
+      track('scan_confirmed', { entry: scanEntryOf(localId) });
+      scanEntries.delete(localId);
       registerMealCreate(
         localId,
         api.scan.confirm({
@@ -313,7 +351,7 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
     })
     .catch((e: unknown) => {
       if (__DEV__) console.warn('[scan] pipeline + sync fallback both failed:', e instanceof Error ? e.message : e);
-      updateFoodLogStatus(localId, 'failed');
+      updateFoodLogStatus(localId, 'failed', null, 'pipeline_and_sync_failed');
     }),
   );
 }
@@ -322,10 +360,22 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
  *  `code` is required: callers must pass the actually-scanned barcode through
  *  (a silent default here once sent every lookup to one hardcoded product). */
 export function lookupBarcodeAsync(code: string): Promise<BarcodeProduct | null> {
+  // A barcode lookup is a scan from the user's point of view, so it reports the
+  // same lifecycle — otherwise "scan success rate" silently means "camera scan
+  // success rate" and the entry point with its own failure mode (product simply
+  // not in the database) is invisible. The code itself is NEVER an event
+  // property: it identifies a specific product the user ate.
+  track('scan_started', { entry: 'barcode' });
   return api.foodSearch
     .barcode(code)
     .then(barcodeProductFromApi)
+    .then((p) => {
+      if (p) track('scan_completed', { entry: 'barcode' });
+      else track('scan_failed', { entry: 'barcode', reason: 'not_found' });
+      return p;
+    })
     .catch(() => {
+      track('scan_failed', { entry: 'barcode', reason: 'lookup_error' });
       // The mock DB has ONE product in it. In a release build, falling back to
       // it means scanning that single real-world barcode while the backend is
       // down returns invented Chobani macros presented as a database hit, and
@@ -383,7 +433,7 @@ export function saveScannedItem(itemId: string): void {
   if (item.scanSessionId && snapshot) {
     const changed = snapshot.name !== item.name || snapshot.weightG !== item.quantityG;
     if (changed) {
-      track('scan_corrected');
+      track('scan_corrected', { entry: scanEntryOf(itemId) });
       api.scan
         .correction({
           scan_session_id: item.scanSessionId,
@@ -408,7 +458,8 @@ export function saveScannedItem(itemId: string): void {
 
   // Apply the final macros + 'confirmed' status locally (now counts toward totals).
   useFoodStore.getState().updateScannedItem(itemId, { ...scaled, status: 'confirmed' });
-  track('scan_confirmed');
+  track('scan_confirmed', { entry: scanEntryOf(itemId) });
+  scanEntries.delete(itemId);
 
   // Persist. registerMealCreate swaps the returned server id onto the row and
   // swallows failures with a warn (never clobbers the local row).
@@ -443,7 +494,8 @@ export function discardScannedItem(itemId: string): void {
   const item = findScanItem(itemId)?.item;
   stopPoller(itemId); // cancel an in-flight poll if discarded mid-analysis
   scanEstimates.delete(itemId);
-  track('scan_discarded');
+  track('scan_discarded', { entry: scanEntryOf(itemId) });
+  scanEntries.delete(itemId);
   const serverRow = item?.serverLogId ?? (item && isServerId(item.id) ? item.id : undefined);
   if (serverRow) {
     api.foodLogs.delete(serverRow).catch(warn('discard: server row delete failed'));

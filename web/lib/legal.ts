@@ -133,14 +133,17 @@ export const PRIVACY: Section[] = [
         'supabase/migrations/20260711000001_initial_schema.sql (profiles.id, text primary key = Clerk user ID)',
       ),
       vList(
-        'Usage information. The app records a fixed, closed list of twelve event names and nothing else — ' +
-          'no food names, no quantities, no photographs, no health values:',
+        'Usage information, and only if you agree to it. The app records a fixed, closed list of ' +
+          'twenty event names and nothing else — no food names, no quantities, no photographs, no ' +
+          'health values:',
         [
-          'onboarding_completed, food_logged, scan_started, scan_confirmed, scan_corrected,',
+          'session_started, onboarding_step_viewed, onboarding_completed, food_logged,',
+          'scan_started, scan_completed, scan_failed, scan_confirmed, scan_corrected,',
           'scan_discarded, workout_logged, template_created, integration_connected,',
-          'paywall_viewed, trial_started, feature_used',
+          'paywall_viewed, purchase_started, purchase_completed, purchase_cancelled,',
+          'purchase_restored, trial_started, feature_used',
         ],
-        'src/lib/analytics.ts:31-44 (ALLOWED — events outside this set are dropped, not sent)',
+        'src/lib/analytics.ts (ALLOWED — events outside this set are dropped, not sent)',
       ),
       v(
         'Purchase information: whether you hold an active subscription, and its status and expiry. ' +
@@ -373,26 +376,29 @@ export const PRIVACY: Section[] = [
     blocks: [
       v(
         'In the app: first-party product analytics only, sent to our own servers, restricted to the ' +
-          'closed list of twelve event names in the collection section above. No advertising SDK, no ' +
+          'closed list of twenty event names in the collection section above. No advertising SDK, no ' +
           'IDFA, no third-party tracker, and no cross-app or cross-site tracking. Analytics can be ' +
           'turned off in Settings.',
-        'src/lib/analytics.ts:31-44 (allowlist), :87-105 (track); package.json (no ad SDK)',
+        'src/lib/analytics.ts (AnalyticsEventName + ALLOWED), track(); package.json (no ad SDK)',
       ),
       v(
-        'Analytics in the app is currently ON by default and must be turned off — it is opt-out, not ' +
-          'opt-in. That is stated here because it is the kind of default a reader is entitled to know ' +
-          'without hunting for it.',
-        'src/lib/settings/store.ts:95 (analyticsEnabled: true)',
+        'Analytics in the app is OFF until you agree to it — it is opt-in. The one-time disclosure ' +
+          'that names our AI processors also asks about usage analytics, and nothing is collected ' +
+          'before you answer it. Declining leaves it off; accepting can be undone at any time in ' +
+          'Settings → Privacy, independently of the AI permission.',
+        'src/lib/settings/store.ts (analyticsEnabled: false), src/lib/ai/consent.ts',
+      ),
+      v(
+        'Event properties are restricted at runtime, not merely by convention: a value that is not a ' +
+          'short scalar tag — anything containing a space or an @, and anything matching our ' +
+          'credential patterns — is dropped or redacted before an event leaves the device.',
+        'src/lib/analytics.ts (sanitize)',
       ),
       v(
         'On this website: Google Analytics loads only if a measurement ID is configured at build time, ' +
           'AND your browser does not send Do Not Track or Global Privacy Control, AND you have accepted ' +
           'the consent note. If any of those is false it never loads.',
         'web/components/ConsentAnalytics.tsx',
-      ),
-      todo(
-        'Whether the opt-out default is the right posture for a health app, and if analytics is kept ' +
-          'opt-out, the disclosure this policy needs to make about it.',
       ),
     ],
   },

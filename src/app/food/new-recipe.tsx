@@ -7,7 +7,8 @@
 // ponytail: the mock search catalog (FoodResult) only carries kcal/100g — no
 // protein/carbs/fat — so ingredient macros beyond calories are 0 until the real
 // /api/food/search fills them in. Totals reflect what the source data has.
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { track } from '@/lib/analytics';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 
@@ -45,6 +46,9 @@ function ingredientFrom(food: FoodResult, grams: number): RecipeIngredient {
 type Stage = { kind: 'search' } | { kind: 'qty'; food: FoodResult; grams: string; editIndex?: number };
 
 export default function NewRecipeScreen() {
+  // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
+  useEffect(() => track('feature_used', { name: 'recipes' }), []);
+
   const [name, setName] = useState('');
   const [servingCount, setServingCount] = useState(1);
   const [ingredients, setIngredients] = useState<RecipeIngredient[]>([]);

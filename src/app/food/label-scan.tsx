@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { track } from '@/lib/analytics';
 import { ensureAiConsent } from '@/lib/ai/consent';
 
 import { Icon } from '@/components/primitives/Icon';
@@ -83,6 +84,7 @@ export default function LabelScanScreen() {
     // 5.1.2(i): label photos go to Google Gemini — one-time disclosure first.
     if (!(await ensureAiConsent())) return;
     setPhase('reading');
+    track('scan_started', { entry: 'label' });
     let base64: string | undefined;
     try {
       const pic = await cameraRef.current?.takePictureAsync({ base64: true, quality: 0.6 });
@@ -93,22 +95,26 @@ export default function LabelScanScreen() {
     if (!base64) {
       // No native camera in dev / capture failed → empty review, hand-enter.
       showToast({ message: 'Camera unavailable — enter values manually', tone: 'warn' });
+      track('scan_failed', { entry: 'label', reason: 'camera_unavailable' });
       setBand('Low');
       setPhase('review');
       return;
     }
     try {
       prefillFrom(await api.scan.label(base64));
+      track('scan_completed', { entry: 'label' });
     } catch (e) {
       // 402 = out of free scans: surface the paywall, not a generic failure
       // dressed up as a reading problem (audit 2026-08-06).
       if (isUpgradeRequired(e)) {
+        track('scan_failed', { entry: 'label', reason: 'quota_exceeded' });
         handleUpgradeRequired(e);
         router.back();
         return;
       }
       // 503 (no GEMINI key) / offline / network → zeroed review to hand-enter.
       showToast({ message: 'Couldn’t read the label — enter values manually', tone: 'warn' });
+      track('scan_failed', { entry: 'label', reason: 'read_failed' });
       setBand('Low');
     }
     setPhase('review');

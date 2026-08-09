@@ -3,7 +3,8 @@
 // is just the two saved-item lists. Top-right [+] and the Recipes empty-state
 // action both push /food/new-recipe. Registered implicitly by expo-router (a
 // default card screen — no _layout entry needed).
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -17,6 +18,9 @@ import { color } from '@/lib/design/tokens';
 type Segment = 'meals' | 'recipes';
 
 export default function MealsScreen() {
+  // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
+  useEffect(() => track('feature_used', { name: 'saved_meals' }), []);
+
   const [segment, setSegment] = useState<Segment>('meals');
   const goNew = () => navigate('/food/new-recipe');
 

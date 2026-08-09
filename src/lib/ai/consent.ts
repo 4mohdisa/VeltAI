@@ -10,6 +10,7 @@
 // server keeps its own record and refuses (403 ai_consent_required) without it.
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { api } from '@/lib/api';
+import { useSettingsStore } from '@/lib/settings/store';
 
 export const AI_CONSENT_KEY = 'lume.aiConsent';
 
@@ -50,8 +51,10 @@ export async function ensureAiConsent(): Promise<boolean> {
   const { Alert } = require('react-native') as typeof import('react-native');
   return new Promise((resolve) => {
     Alert.alert(
-      'Lume uses AI partners',
-      'Meal photos are analyzed by Google Gemini, and your logged data is summarized by Anthropic, to power scanning and insights. They process your data only to provide the feature — details in the Privacy Policy (Settings → Privacy).',
+      'AI features and usage data',
+      'Meal photos are analysed by Google Gemini, and your logged data is summarised by Anthropic, so scanning and insights can work. They process it only to provide those features.\n\n' +
+        'Lume also counts which features you use — never what you log, never your food, weights or notes, and never sold.\n\n' +
+        'You can turn either off any time in Settings → Privacy.',
       [
         { text: 'Not now', style: 'cancel', onPress: () => resolve(false) },
         {
@@ -64,6 +67,11 @@ export async function ensureAiConsent(): Promise<boolean> {
             // means AI features 403 until the next acknowledgment rather than
             // data being sent without consent — the safe direction.
             void api.ai.setConsent().catch(() => {});
+            // The same acceptance turns on product analytics, which is opt-in
+            // and collects nothing until this point (DECISIONS.md 2026-08-09).
+            // One ask, no second screen; Settings → Privacy separates them
+            // again afterwards, so this is not a bundled all-or-nothing.
+            useSettingsStore.getState().setAnalyticsEnabled(true);
             resolve(true);
           },
         },

@@ -1,7 +1,8 @@
 // D2 · Log gym session
 // All inputs optional: duration, perceived effort (1–10), energy (1–5), notes.
 // "Log it" extends the streak. Idempotent per UTC day.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { track } from '@/lib/analytics';
 import { router } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
@@ -15,6 +16,9 @@ import { formatDuration } from '@/lib/formatting';
 import { logGymSession, useGym } from '@/lib/data';
 
 export default function LogSessionScreen() {
+  // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
+  useEffect(() => track('feature_used', { name: 'gym_logging' }), []);
+
   const {
     data: { streak },
   } = useGym();

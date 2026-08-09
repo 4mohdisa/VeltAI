@@ -2,7 +2,8 @@
 // answer. Suggestion chips fill the input (never auto-send). Every AI path
 // degrades: `ask` never throws, and a 503/error surfaces the unavailable state
 // only after the user has actually sent a question.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { track } from '@/lib/analytics';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -24,6 +25,9 @@ const SUGGESTIONS = [
 ] as const;
 
 export default function AIQueryScreen() {
+  // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
+  useEffect(() => track('feature_used', { name: 'ai_brain' }), []);
+
   const { ask, loading, unavailable } = useAIQuery();
   const [input, setInput] = useState('');
   const [question, setQuestion] = useState<string | null>(null);

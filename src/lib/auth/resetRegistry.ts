@@ -7,13 +7,29 @@ import { useUserStore } from '@/lib/data/userStore';
 import { useSettingsStore } from '@/lib/settings/store';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { useToastStore } from '@/components/display/toastStore';
-import { deleteItem, setHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { deleteItem, setHasCompletedOnboarding, STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { resetAnalytics } from '@/lib/analytics';
 import { AI_CONSENT_KEY, __resetAiConsentCache } from '@/lib/ai/consent';
 import { __resetForTests as resetOfflineQueue } from '@/lib/offline/queue';
 
 // Persisted secure-store keys owned by the app (beyond the zustand-persist ones).
-const SECURE_KEYS = ['lume.onboarding', 'lume.offline.queue', 'forkPromptDismissed', 'labelPromptDismissed', AI_CONSENT_KEY];
+//
+// analyticsEnabled is cleared here BECAUSE analytics is opt-in (2026-08-09).
+// While it was opt-out, deliberately preserving the key was the safe direction:
+// the only thing it could carry across a sign-out was a '0', and re-enabling
+// collection silently would have broken "off means fully off". Opt-in inverts
+// that — the key can now hold a '1', and carrying that to the next account on
+// this device would collect from someone who was never asked. Clearing it means
+// the next account re-answers the consolidated disclosure, exactly as it
+// re-acknowledges AI processing.
+const SECURE_KEYS = [
+  'lume.onboarding',
+  'lume.offline.queue',
+  'forkPromptDismissed',
+  'labelPromptDismissed',
+  AI_CONSENT_KEY,
+  STORAGE_KEYS.analyticsEnabled,
+];
 
 /** Clear every store, persisted key, and the offline queue. Never throws. */
 export async function resetAllStores(): Promise<void> {

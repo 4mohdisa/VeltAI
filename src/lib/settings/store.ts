@@ -69,8 +69,10 @@ type SettingsState = {
   customGoals: MacroGoals;
   macroSplitBy: MacroSplitBy;
   notificationPrefs: NotificationPrefs;
-  // First-party product analytics (opt-out). Off → track() no-ops and buffered
-  // events are discarded (src/lib/analytics).
+  // First-party product analytics (OPT-IN as of 2026-08-09 — DECISIONS.md).
+  // Defaults to false: nothing is collected until the user answers the
+  // consolidated disclosure in src/lib/ai/consent.ts. Off → track() no-ops and
+  // buffered events are discarded (src/lib/analytics).
   analyticsEnabled: boolean;
 
   setSystem: (system: 'metric' | 'imperial') => void;
@@ -94,7 +96,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   customGoals: aiGoals(), // seeds custom fields with the derived recommendation
   macroSplitBy: 'grams',
   notificationPrefs: defaultNotificationPrefs(),
-  analyticsEnabled: true,
+  analyticsEnabled: false,
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
   setUnit: (dimension, value) =>
@@ -120,13 +122,16 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   resetGoalsToAi: () => set({ customGoals: aiGoals() }),
   setAnalyticsEnabled: (analyticsEnabled) => {
     set({ analyticsEnabled });
-    // The privacy opt-out must survive restarts — persisted immediately,
-    // re-read by initAnalytics() on the next launch.
+    // The privacy choice must survive restarts — persisted immediately,
+    // re-read by initAnalytics() on the next launch. Under opt-in only an
+    // explicit '1' turns collection back on; '0' and absent both mean no.
     void setItem(STORAGE_KEYS.analyticsEnabled, analyticsEnabled ? '1' : '0');
   },
-  // Sign-out: back to defaults — EXCEPT analyticsEnabled: an opt-out is a
-  // privacy choice, not a preference; signing out must never re-enable
-  // collection (see the privacy policy's "off means fully off").
+  // Sign-out: back to defaults, analyticsEnabled INCLUDED. Under opt-out this
+  // field was deliberately excluded so a sign-out could not re-enable
+  // collection; under opt-in (2026-08-09) the default is false, so resetting it
+  // is the safe direction and leaving it set would carry one account's consent
+  // onto the next. resetRegistry deletes the persisted key to match.
   reset: () =>
     set({
       units: seedUnits,
@@ -135,6 +140,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       customGoals: aiGoals(),
       macroSplitBy: 'grams',
       notificationPrefs: defaultNotificationPrefs(),
+      analyticsEnabled: false,
     }),
 }));
 

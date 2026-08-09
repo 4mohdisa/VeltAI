@@ -7,6 +7,7 @@ import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { router, usePathname } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { track } from '@/lib/analytics';
 import { ProgressDots } from './ProgressDots';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -48,8 +49,22 @@ export function OnbScaffold({
   useEffect(() => {
     if (pathname && pathname.startsWith('/onboarding')) {
       useOnboardingStore.getState().setLastStep(pathname);
+      // Every onboarding screen renders this scaffold, so one call here
+      // instruments the whole funnel — and cannot drift when a step is added,
+      // reordered or removed, which a per-screen track() would.
+      //
+      // Fired on ENTRY, and named for that. Completion of step N is entry to
+      // step N+1, and drop-off at N is entry(N) − entry(N+1); the final step's
+      // completion is onboarding_completed. Naming it "…_completed" and firing
+      // it here would have been a lie in the data itself.
+      //
+      // The route tail is the step name ('goal', 'measurements'), never the
+      // full pathname — a path can grow a query string, and a query string is
+      // exactly how user content leaks into an event.
+      const name = pathname.slice('/onboarding'.length).replace(/^\//, '') || 'welcome';
+      track('onboarding_step_viewed', { step: name, index: step });
     }
-  }, [pathname]);
+  }, [pathname, step]);
 
   const bg = dark ? color.black : color.white;
   const titleColor = dark ? color.white : color.label;

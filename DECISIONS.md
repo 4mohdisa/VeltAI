@@ -471,3 +471,45 @@ in git — this file is not a changelog.
   routinely take 15+ seconds.
 - **Preflight refuses to let a build be spent on a broken configuration**, and
   a check that cannot run says so rather than passing quietly.
+
+## Live database, and analytics consent (2026-08-09)
+
+- **The live Supabase database was nine migrations behind, with no bookkeeping
+  at all.** It held exactly the repo's schema as of `20260713000001` and no
+  `schema_migrations` table, so `migrate.sh` had no idea what was applied.
+  Proven, not assumed: a local database built from only the first six
+  migrations produced byte-identical column fingerprints for all 29 tables and
+  the same 28 RLS policies. All nine pending migrations are now applied and the
+  table is baselined with the real checksums, so `./deploy/migrate.sh verify`
+  is meaningful from here on. **`debug_reports` had never existed in
+  production** — the capture system the testing fortnight depends on could not
+  have stored a single report.
+- **`migrate.sh` created its own bookkeeping table without RLS.** On Supabase
+  every `public` table is served through PostgREST, so it was writable with the
+  anon key — and a forged version row makes `apply` silently SKIP a migration.
+  Fixed at the source, not just in the live database.
+- **Analytics is opt-in, not opt-out** — this closes the open owner decision at
+  `FINAL_AUDIT.md` 5.1.1(ii). `analyticsEnabled` now defaults to false and
+  nothing is collected until the user answers. The ask is folded into the
+  existing AI-partner disclosure rather than becoming an eleventh onboarding
+  screen: one dialog, plain language, covering both. Settings → Privacy still
+  separates them, so accepting is not all-or-nothing.
+- **Consent is cleared on sign-out.** While analytics was opt-out, deliberately
+  preserving the key was the safe direction — it could only carry a refusal.
+  Opt-in inverts that: the key can now hold a grant, and carrying that to the
+  next account on the device would collect from someone never asked.
+- **The no-PII promise is enforced at runtime.** It was a comment and a
+  TypeScript type, and types are erased before anything ships; the debug path
+  beside it was aggressively redacted while the analytics path had no guard at
+  all. Values must now be short scalar tags — anything with a space or an `@`
+  is dropped, credentials are redacted with the debug system's own rules.
+- **Analytics still does not use the offline queue, deliberately.** The queue
+  replays one mutation per POST (analytics needs batches of 50), toasts the
+  user when it discards (a lie about their data), blocks head-of-line behind
+  real meals and workouts, re-throws permanent 4xx into callers that must never
+  throw, and has no purge-by-kind for an opt-out. It keeps its own buffer,
+  flushed immediately after the queue from the same place.
+- **A permanently rejected batch is now dropped and logged.** It used to be
+  re-sent forever, and because a flush fires whenever the buffer hits 20, every
+  later event issued another doomed POST against the shared write budget. A
+  failed send is silent to the user and never silent in the logs.

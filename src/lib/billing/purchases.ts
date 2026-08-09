@@ -7,6 +7,7 @@
 // __setPurchasesModule — same pattern as lib/health/appleHealth.
 
 import { isDevBuild } from '@/lib/env';
+import { track } from '@/lib/analytics';
 
 export const REVENUECAT_IOS_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY ?? '';
 
@@ -119,6 +120,11 @@ export async function getCustomerInfo(): Promise<CustomerInfo | null> {
 export async function restorePurchases(): Promise<CustomerInfo | null> {
   const mod = loadModule();
   if (!mod || !isBillingEnabled()) return null;
+  // The explicit "Restore purchases" button, distinct from a restore that
+  // happens inside the hosted paywall. Fired on the attempt, not the result:
+  // this deliberately lets failures throw to the caller, so a success-only
+  // event would under-count exactly the case worth knowing about.
+  track('purchase_restored');
   return mod.restorePurchases(); // let failures throw — the caller surfaces them
 }
 
@@ -179,15 +185,23 @@ function loadUIModule(): PurchasesUIModule | null {
 export async function presentPaywall(): Promise<PaywallOutcome> {
   const mod = loadUIModule();
   if (!mod) return 'unavailable';
+  // Conversion is measured HERE rather than at the two call sites, because this
+  // is the only place that sees the outcome. paywall_viewed was already fired
+  // and nothing marked what happened next, so the funnel ended at "saw the
+  // price". No amounts, no product ids, no receipt — just which branch ran.
+  track('purchase_started');
   try {
     const result = await mod.presentPaywall();
     switch (result) {
       case 'PURCHASED':
+        track('purchase_completed');
         return 'purchased';
       case 'RESTORED':
+        track('purchase_restored');
         return 'restored';
       case 'CANCELLED':
       case 'NOT_PRESENTED':
+        track('purchase_cancelled');
         return 'cancelled';
       default:
         return 'error';

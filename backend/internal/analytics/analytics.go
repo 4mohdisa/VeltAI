@@ -32,20 +32,31 @@ const (
 	maxSessionID  = 64
 )
 
-// allowedNames is the closed set of events the app may report.
+// allowedNames is the closed set of events the app may report. It must stay in
+// lockstep with AnalyticsEventName / ALLOWED in src/lib/analytics.ts — a name
+// the client fires but the server does not know is a 400 that poisons the whole
+// batch, so tests/analytics asserts the two lists match.
 var allowedNames = map[string]bool{
-	"onboarding_completed":  true,
-	"food_logged":           true,
-	"scan_started":          true,
-	"scan_confirmed":        true,
-	"scan_corrected":        true,
-	"scan_discarded":        true,
-	"workout_logged":        true,
-	"template_created":      true,
-	"integration_connected": true,
-	"paywall_viewed":        true,
-	"trial_started":         true,
-	"feature_used":          true,
+	"session_started":        true,
+	"onboarding_step_viewed": true,
+	"onboarding_completed":   true,
+	"food_logged":            true,
+	"scan_started":           true,
+	"scan_completed":         true,
+	"scan_failed":            true,
+	"scan_confirmed":         true,
+	"scan_corrected":         true,
+	"scan_discarded":         true,
+	"workout_logged":         true,
+	"template_created":       true,
+	"integration_connected":  true,
+	"paywall_viewed":         true,
+	"purchase_started":       true,
+	"purchase_completed":     true,
+	"purchase_cancelled":     true,
+	"purchase_restored":      true,
+	"trial_started":          true,
+	"feature_used":           true,
 }
 
 // Register attaches the authenticated event-ingest route.

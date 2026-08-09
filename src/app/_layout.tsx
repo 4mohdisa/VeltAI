@@ -23,7 +23,7 @@ import { ToastHost } from '@/components/display/ToastHost';
 import { color, sheet } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { flush as flushOfflineQueue, loadQueue } from '@/lib/offline/queue';
-import { flushAnalytics, initAnalytics } from '@/lib/analytics';
+import { flushAnalytics, initAnalytics, track } from '@/lib/analytics';
 import '@/lib/i18n'; // initialise i18next before any screen renders
 
 // AuthGate mounts ClerkProvider only when a publishable key exists. With no key
@@ -104,7 +104,13 @@ export default function RootLayout() {
     configurePurchases();
     // Analytics rides the same reconnect moment: after the offline queue's
     // opportunistic flush, send any buffered/persisted product events too.
-    void initAnalytics();
+    //
+    // session_started is fired AFTER initAnalytics resolves, not beside it:
+    // initAnalytics is what re-applies the persisted consent, and firing before
+    // it means the very first event of a launch is written while the store
+    // still holds the default. Under opt-in that default is false, so the event
+    // would simply be dropped and every session would go uncounted.
+    void initAnalytics().then(() => track('session_started'));
     const sync = () =>
       void loadQueue()
         .then(() => flushOfflineQueue())
