@@ -1,5 +1,10 @@
 # Lumo — Key & Config Checklist
 
+> For the TestFlight run, use **[docs/ENV_SHEET.md](docs/ENV_SHEET.md)** — one
+> fill-in-the-blank page with every variable the code actually reads, which side
+> needs it, and the exact `eas env:set --environment preview` commands. This
+> file stays as the narrative explanation of what happens when a key is absent.
+
 Adding keys later is this checklist, not a hunt. Both app dev-mode fallbacks
 mean the app boots fully navigable in Expo Go with NOTHING set — in a DEV
 build. A release build with no Clerk key shows a hard configuration error

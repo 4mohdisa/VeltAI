@@ -48,9 +48,28 @@ The app is useless against a stale or absent API.
 ```bash
 cd backend && go build -o lume-server ./cmd/server     # never run a scratchpad binary
 DATABASE_URL="<supabase pooler url>" ./deploy/migrate.sh status
-DATABASE_URL="<supabase pooler url>" ./deploy/migrate.sh apply
+DATABASE_URL="<supabase pooler url>" ./deploy/migrate.sh verify
 curl -s https://<your-api>/health | jq
 ```
+
+> **The migrations are already applied (2026-08-09).** All 15 are on the live
+> project `qknwxgaehhclvpeadmdh`, including `20260806000001_debug_reports`,
+> which had **never** existed in production before that date. `status` should
+> report `0 pending` and `verify` should say the database matches the
+> migrations on disk. If either disagrees, stop — something changed the
+> database outside this runner.
+>
+> The live database had no `schema_migrations` table at all until then, so
+> `migrate.sh` could not tell what was applied. It is now baselined with the
+> real checksums for all 15, which is what makes `verify` meaningful.
+>
+> **The shared libraries are still empty.** `exercise_library` and
+> `cuisine_food_library` are seeded by the backend on startup
+> (`cmd/server/main.go`), and that seeding could not succeed before the
+> migrations landed — it writes `met_value` and `parameter_schema`, columns
+> that did not exist. Both are non-fatal and only logged, so watch the first
+> boot for `exercise seed:` / `cuisine seed:` lines and then confirm the tables
+> are populated. Gym templates and cuisine suggestions are empty until they are.
 
 `/health` must return a `revision` equal to `git rev-parse HEAD` and
 `"dirty": false`. If `revision` is absent, you are running a binary from before
@@ -87,8 +106,14 @@ eas env:set --environment preview --name EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY --val
 eas env:set --environment preview --name EXPO_PUBLIC_REVENUECAT_IOS_KEY    --value "appl_…"               --visibility plaintext
 ```
 
-`eas secret:*` and `eas env:create` are both deprecated; `eas env:set` is the
-current command (eas-cli v21.7.0).
+`eas env:create` is deprecated — eas-cli v21.7.0 says so itself: *"create an
+environment variable for the current project or account (deprecated, use eas
+env:set)"*. `eas secret:*` still exists and is **not** labelled deprecated by
+the CLI, but it predates environments and has **no `--environment` flag**
+(`--scope`, `--name`, `--value`, `--type`, `--force`, `--non-interactive`
+only), so it cannot target `preview` and is the wrong tool here regardless.
+`eas env:set` is the command. (Checked against the installed CLI on
+2026-08-09, not from memory.)
 
 > **Which EAS environment a build uses — the trap this nearly walked into.**
 > `eas build` has **no `--environment` flag**. The environment comes solely
@@ -264,9 +289,11 @@ once**, and everything afterwards depends on it working.
 
 1. **Deploy the backend** with the environment table in §2, then confirm
    `/health` shows a `revision` matching `git rev-parse HEAD` and `dirty: false`.
-2. **Apply the migrations** (`./deploy/migrate.sh apply`). There are **15**;
-   `20260806000001_debug_reports` was broken until 6 Aug, so if you ran it
-   before that it rolled back and the table does not exist.
+2. ~~Apply the migrations~~ — **done 2026-08-09.** All 15 are applied to the
+   live project and `debug_reports` exists with its RLS policy. Confirm with
+   `DATABASE_URL=… ./deploy/migrate.sh verify` (expects "Database matches the
+   migrations on disk"), and check the first backend boot actually seeded
+   `exercise_library` and `cuisine_food_library` — see §2.
 3. **Set billing caps** on the Gemini and Anthropic accounts — there is still
    no global spend ceiling in code.
 4. **Clerk test instance**: copy `pk_test_…` and `sk_test_…`; add **`lume`** to
@@ -280,7 +307,8 @@ once**, and everything afterwards depends on it working.
    questionnaire** and the **Regulated Medical Device Status** declaration.
 7. **Create an internal TestFlight group** and add yourself — no Beta App
    Review needed.
-8. `eas env:create` the three `EXPO_PUBLIC_*` values from §3.
+8. `eas env:set` the three `EXPO_PUBLIC_*` values from §3 into the **`preview`**
+   environment — the exact commands are in `docs/ENV_SHEET.md`.
 9. `npm run preflight`, then build and submit (§4).
 10. Work §8 on the device, in order.
 

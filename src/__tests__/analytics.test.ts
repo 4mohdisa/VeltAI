@@ -229,8 +229,9 @@ describe('property sanitisation', () => {
       entry: 'camera',
       index: 3,
       ok: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- deliberately off-contract
-      nested: { a: 1 } as any,
+      // Deliberately off-contract: the compile-time type forbids this, which is
+      // exactly why the runtime guard has to be tested independently of it.
+      nested: { a: 1 } as unknown as string,
     });
     expect(out).toMatchObject({ entry: 'camera', index: 3, ok: true });
     expect(out).not.toHaveProperty('nested');

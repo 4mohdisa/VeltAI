@@ -3,6 +3,8 @@
 package configtests
 
 import (
+	"os"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -131,4 +133,60 @@ func containsSubstr(list []string, want string) bool {
 		}
 	}
 	return false
+}
+
+// backend/.env.example is the file a human copies to create their real .env, so
+// a variable missing from it is a variable that silently stays unset. That is
+// how CLERK_ISSUER — the check that stops a Clerk JWT-template token minted for
+// another service from authenticating here — came to be documented in four
+// markdown files and absent from the one file people actually copy
+// (found 2026-08-09).
+//
+// Scope: every variable config.Validate() names, fatal or warning. Those are
+// exactly the ones whose absence Validate has an opinion about, so it is a list
+// that cannot go stale relative to the code it guards.
+func TestEnvExampleListsEveryValidatedVariable(t *testing.T) {
+	b, err := os.ReadFile("../../.env.example")
+	if err != nil {
+		t.Fatalf("read backend/.env.example: %v", err)
+	}
+	example := string(b)
+
+	src, err := os.ReadFile("../../internal/config/config.go")
+	if err != nil {
+		t.Fatalf("read config.go: %v", err)
+	}
+	// The variables Validate() reads directly — it deliberately uses bare
+	// os.Getenv rather than config.Env, which makes them greppable.
+	re := regexp.MustCompile(`os\.Getenv\("([A-Z0-9_]+)"\)`)
+	matches := re.FindAllStringSubmatch(validateBody(t, string(src)), -1)
+	if len(matches) == 0 {
+		t.Fatal("found no os.Getenv calls in Validate() — update this test")
+	}
+
+	for _, m := range matches {
+		name := m[1]
+		if name == "PORT" {
+			continue // set by the platform (Railway/Fly/Heroku), not by a human
+		}
+		if !regexp.MustCompile(`(?m)^` + name + `=`).MatchString(example) {
+			t.Errorf("config.Validate() checks %s but backend/.env.example never lists it; "+
+				"anyone copying that file starts with it unset", name)
+		}
+	}
+}
+
+// validateBody returns the source of Validate() alone, so a Getenv elsewhere in
+// config.go is not mistaken for one the function validates.
+func validateBody(t *testing.T, src string) string {
+	t.Helper()
+	start := strings.Index(src, "func Validate()")
+	if start < 0 {
+		t.Fatal("config.go no longer defines Validate() — update this test")
+	}
+	rest := src[start:]
+	if end := strings.Index(rest, "\nfunc "); end > 0 {
+		return rest[:end]
+	}
+	return rest
 }
