@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"lume/backend/internal/auth"
@@ -317,10 +318,70 @@ func aggregateEstimates(estimates []pipeline.FoodEstimate) (name string, quantit
 	return name, quantity, calories, protein, carbs, fat, fibre
 }
 
+// inFlightScans tracks background scan goroutines by their food_log id, so a
+// graceful shutdown can tell which are still running and mark those rows
+// 'failed' at its deadline — otherwise SIGTERM kills the goroutine outright
+// with no chance to update its own row, and the client's poller waits on an
+// 'analyzing' row forever.
+type inFlightScans struct {
+	wg sync.WaitGroup
+
+	mu     sync.Mutex
+	logIDs map[string]struct{}
+}
+
+func newInFlightScans() *inFlightScans {
+	return &inFlightScans{logIDs: map[string]struct{}{}}
+}
+
+func (t *inFlightScans) start(logID string) {
+	t.mu.Lock()
+	t.logIDs[logID] = struct{}{}
+	t.mu.Unlock()
+	t.wg.Add(1)
+}
+
+func (t *inFlightScans) finish(logID string) {
+	t.mu.Lock()
+	delete(t.logIDs, logID)
+	t.mu.Unlock()
+	t.wg.Done()
+}
+
+// waitOrDeadline blocks until every tracked scan finishes or ctx ends,
+// whichever comes first. It returns the log ids still running at that point
+// (nil when everything finished cleanly).
+func (t *inFlightScans) waitOrDeadline(ctx context.Context) []string {
+	done := make(chan struct{})
+	go func() {
+		t.wg.Wait()
+		close(done)
+	}()
+	select {
+	case <-done:
+		return nil
+	case <-ctx.Done():
+		t.mu.Lock()
+		defer t.mu.Unlock()
+		ids := make([]string, 0, len(t.logIDs))
+		for id := range t.logIDs {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+}
+
 // RegisterPipeline mounts the async pipeline scan (POST /api/scan/pipeline) and
 // the nutrition-label scan (POST /api/scan/label). These are additive — the
 // existing /api/scan and /api/scan/confirm routes (Register) are untouched.
-func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineStore, q db.Querier) {
+//
+// The returned drain func is graceful shutdown's other half: srv.Shutdown
+// only waits for HTTP handlers, and the pipeline handoff to background
+// goroutines happens BEFORE the handler returns, so those goroutines are
+// invisible to it. Call drain with a bounded context during shutdown; it
+// waits for in-flight scans and marks any still running at the deadline
+// 'failed' instead of leaving them stranded at 'analyzing'.
+func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineStore, q db.Querier) (drain func(ctx context.Context)) {
 	// Backpressure: the pipeline runs detached from the request, so without a
 	// cap every request spawns an unbounded goroutine doing megabytes of image
 	// work. Slots are acquired BEFORE any row is written (no orphan 'analyzing'
@@ -333,6 +394,7 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 	}
 	sem := make(chan struct{}, concurrency)
 	runTimeout := time.Duration(config.EnvInt("LUME_SCAN_TIMEOUT_SEC", 120)) * time.Second
+	inFlight := newInFlightScans()
 
 	mux.HandleFunc("POST /api/scan/pipeline", func(w http.ResponseWriter, r *http.Request) {
 		// 5.1.2(i): photos go to Google Gemini — recorded consent first.
@@ -446,8 +508,10 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 		// Detach from the request context — the handler returns immediately.
 		// The goroutine owns the semaphore slot from here and its own timeout.
 		handedOff = true
+		inFlight.start(logID)
 		go func() {
 			defer func() { <-sem }()
+			defer inFlight.finish(logID)
 			bg, cancel := context.WithTimeout(context.Background(), runTimeout)
 			defer cancel()
 			runScanPipeline(bg, images, userID, logID, sessionID, gem, q, store, start)
@@ -507,4 +571,22 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 		label.MacroSource = "label_scan"
 		httpx.JSON(w, http.StatusOK, label)
 	})
+
+	return func(ctx context.Context) {
+		remaining := inFlight.waitOrDeadline(ctx)
+		if len(remaining) == 0 {
+			return
+		}
+		log.Printf("scan: shutdown deadline reached with %d scan(s) still running — marking failed", len(remaining))
+		// A fresh context, not ctx: ctx is what just expired, and a DB call
+		// made with an already-canceled context fails immediately — the same
+		// reason the panic-recovery path above uses context.Background().
+		failCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		for _, logID := range remaining {
+			if err := store.FinishScanLog(failCtx, logID, "failed", "", 0, 0, 0, 0, 0, 0, []byte("null")); err != nil {
+				log.Printf("scan: shutdown could not mark log %s failed: %v", logID, err)
+			}
+		}
+	}
 }

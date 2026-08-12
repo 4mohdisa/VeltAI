@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"lume/backend/internal/ai"
@@ -34,6 +37,25 @@ import (
 // endpoint (a version banner just tells an attacker which CVEs to try) — it
 // exists for the startup log line only.
 var version = "dev"
+
+const (
+	// healthTimeout bounds the DB ping /health does, so a hung database
+	// cannot hang the health check itself.
+	healthTimeout = 2 * time.Second
+
+	// Bounded so shutdown can never hang past what the deploy tree's own
+	// grace period allows. docker-compose.yml sets no stop_grace_period, so
+	// Docker's default (10s) applies before SIGKILL — these two budgets are
+	// sized to fit comfortably inside that without editing the compose file.
+	shutdownHTTPTimeout = 6 * time.Second
+	shutdownScanTimeout = 3 * time.Second
+)
+
+// pinger is the subset of *pgxpool.Pool that /health needs — small enough
+// that a fake can stand in for a real database in tests.
+type pinger interface {
+	Ping(ctx context.Context) error
+}
 
 func main() {
 	// Container healthcheck. The runtime image is distroless: no shell, no
@@ -73,18 +95,17 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	// /health reports WHICH BUILD is answering. On 2026-08-08 a three-day-old
-	// binary from a scratchpad was serving this endpoint with 200 and nothing
-	// could tell it apart from the current tree.
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, _ *http.Request) {
-		b := buildinfo.Get()
-		httpx.JSON(w, http.StatusOK, map[string]any{
-			"status":   "ok",
-			"revision": b.Revision,
-			"built_at": b.Time,
-			"dirty":    b.Dirty,
-		})
-	})
+	// /health is READINESS: can this instance actually serve a request right
+	// now? Backed by a DB ping, so a dead DATABASE_URL flips it to 503 instead
+	// of the always-200 that made it useless as a load-balancer probe (an
+	// earlier audit finding). Point a load balancer or rolling-deploy check
+	// here.
+	mux.HandleFunc("GET /health", healthHandler(pool))
+	// /health/live is LIVENESS: is the process itself still running? No DB
+	// call, so a database blip cannot flap it — point a container/orchestrator
+	// restart policy here instead (see healthcheck() below), so a transient
+	// DB outage never turns into a restart loop.
+	mux.HandleFunc("GET /health/live", healthLiveHandler())
 
 	// Public webhooks — signature-verified, not JWT-authed. These more-specific
 	// patterns take precedence over the /api/ catch-all below.
@@ -123,7 +144,9 @@ func main() {
 	scan.Register(api, scan.NewGemini(geminiKey), scanStore)
 	// Async multi-pass pipeline (POST /api/scan/pipeline) + nutrition-label scan
 	// (POST /api/scan/label). Additive — the routes above are unchanged.
-	scan.RegisterPipeline(api, pipeline.NewGemini(geminiKey), scanStore, pool)
+	// drainScans is called during shutdown, below — it waits for whatever
+	// background scans are still running and marks any stragglers 'failed'.
+	drainScans := scan.RegisterPipeline(api, pipeline.NewGemini(geminiKey), scanStore, pool)
 	subscription.Register(api, subs)
 	recipes.Register(api, recipes.NewPGStore(pool))
 	analytics.Register(api, analytics.NewPGStore(pool))
@@ -166,7 +189,81 @@ func main() {
 	// on 2026-08-08 in one glance.
 	log.Printf("lume backend %s build %s listening on %s (%s)",
 		version, buildinfo.Get(), config.Addr(), config.BaseURL())
-	log.Fatal(srv.ListenAndServe())
+
+	errCh := make(chan error, 1)
+	go func() { errCh <- srv.ListenAndServe() }()
+
+	// SIGTERM mid-scan used to strand rows in 'analyzing' forever — the
+	// process was simply killed, no defer or recover runs on a raw signal
+	// kill. Below, the HTTP server drains first, then any background scan
+	// goroutines get a bounded window to finish or be marked 'failed'.
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+
+	select {
+	case err := <-errCh:
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("server: %v", err)
+		}
+	case sig := <-sigCh:
+		log.Printf("shutdown: %s received, draining", sig)
+	}
+
+	httpCtx, httpCancel := context.WithTimeout(context.Background(), shutdownHTTPTimeout)
+	defer httpCancel()
+	if err := srv.Shutdown(httpCtx); err != nil {
+		log.Printf("shutdown: http server did not drain cleanly: %v", err)
+	}
+
+	scanCtx, scanCancel := context.WithTimeout(context.Background(), shutdownScanTimeout)
+	defer scanCancel()
+	drainScans(scanCtx)
+
+	log.Printf("shutdown: complete")
+}
+
+// healthHandler answers readiness with a DB ping bounded by healthTimeout: a
+// dead database means this instance cannot actually serve anything, so it
+// answers 503 rather than the always-200 that made /health useless as a
+// load-balancer probe (found 2026-08). revision/built_at/dirty are included
+// on both outcomes — they're what tells an operator WHICH build is failing
+// to reach Postgres.
+func healthHandler(p pinger) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		b := buildinfo.Get()
+		ctx, cancel := context.WithTimeout(r.Context(), healthTimeout)
+		defer cancel()
+		if err := p.Ping(ctx); err != nil {
+			httpx.JSON(w, http.StatusServiceUnavailable, map[string]any{
+				"status":   "unavailable",
+				"revision": b.Revision,
+				"built_at": b.Time,
+				"dirty":    b.Dirty,
+			})
+			return
+		}
+		httpx.JSON(w, http.StatusOK, map[string]any{
+			"status":   "ok",
+			"revision": b.Revision,
+			"built_at": b.Time,
+			"dirty":    b.Dirty,
+		})
+	}
+}
+
+// healthLiveHandler answers liveness: no DB call, so it cannot flap on a
+// transient database outage. This is what the container healthcheck below
+// probes, so a DB blip never turns into a restart loop.
+func healthLiveHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, _ *http.Request) {
+		b := buildinfo.Get()
+		httpx.JSON(w, http.StatusOK, map[string]any{
+			"status":   "ok",
+			"revision": b.Revision,
+			"built_at": b.Time,
+			"dirty":    b.Dirty,
+		})
+	}
 }
 
 // runRebuildSweeps rebuilds any brain flagged needs_rebuild and stale (see
@@ -251,13 +348,19 @@ func cors(next http.Handler) http.Handler {
 // the container HEALTHCHECK, which cannot shell out in a distroless image.
 // Deliberately hits 127.0.0.1 (never the public origin) so it tests THIS
 // process, not whatever the load balancer happens to point at.
+//
+// Hits /health/live, not /health: the container orchestration layer restarts
+// on a failing HEALTHCHECK, and a transient database outage must not look
+// like a reason to restart an otherwise-healthy process. Something in front
+// of this instance (a load balancer, a rolling-deploy check) should still
+// probe /health for readiness.
 func healthcheck() int {
 	addr := config.Addr()
 	if strings.HasPrefix(addr, ":") {
 		addr = "127.0.0.1" + addr
 	}
 	client := &http.Client{Timeout: 3 * time.Second}
-	resp, err := client.Get("http://" + addr + "/health")
+	resp, err := client.Get("http://" + addr + "/health/live")
 	if err != nil {
 		return 1
 	}
