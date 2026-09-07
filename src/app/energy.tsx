@@ -7,10 +7,11 @@ import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { EmptyState } from '@/components/display/EmptyState';
-import { Skeleton } from '@/components/display';
+import { ProgressBar, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
-import { accent, color, radius, space } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { useEnergyWeek } from '@/lib/data/energy';
 import type { EnergyBalance } from '@/lib/types';
 
@@ -30,16 +31,14 @@ function outValue(d: EnergyBalance): number {
 }
 
 function Bar({ label, value, max, tint }: { label: string; value: number; max: number; tint: string }): JSX.Element {
-  const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
       {/* Tiny per-bar label — the bars must not be colour-only (matches EnergyBalanceCard). */}
       <Text variant="caption" color={color.secondaryLabel} style={{ minWidth: 24 }}>
         {label}
       </Text>
-      <View style={{ flex: 1, height: 7, borderRadius: radius.pill, backgroundColor: color.gray200, overflow: 'hidden' }}>
-        <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.pill, backgroundColor: tint }} />
-      </View>
+      {/* Track light2, fill in the series accent — the design's progress rule. */}
+      <ProgressBar value={max > 0 ? value / max : 0} tint={tint} track={color.light2} style={{ flex: 1 }} />
     </View>
   );
 }
@@ -62,8 +61,8 @@ function DayRow({ d, max }: { d: EnergyBalance; max: number }): JSX.Element {
         {weekdayLabel(d.date)}
       </Text>
       <View style={{ flex: 1, gap: space.xs }}>
-        <Bar label="In" value={d.calories_in} max={max} tint={accent.orange} />
-        <Bar label="Out" value={out} max={max} tint={accent.green} />
+        <Bar label="In" value={d.calories_in} max={max} tint={categoryAccent.calories} />
+        <Bar label="Out" value={out} max={max} tint={accent.blue} />
       </View>
       <Text variant="caption" color={color.label} style={{ minWidth: 54, textAlign: 'right' }}>
         {net != null ? `${net > 0 ? '+' : ''}${round(net)}` : '—'}
@@ -76,15 +75,11 @@ export default function EnergyScreen(): JSX.Element {
   const { week, loading } = useEnergyWeek();
 
   return (
-    <Screen grouped title="Energy balance" showBack>
-      <Text variant="title2" color={color.label}>
-        Last 7 days
-      </Text>
-
+    <Screen variant="floating" eyebrow="Last 7 days" title="Energy balance" showBack>
       {loading ? (
         <>
-          <Skeleton height={110} rounded={20} />
-          <Skeleton height={220} rounded={20} />
+          <Skeleton height={110} rounded={radius.xl} />
+          <Skeleton height={220} rounded={radius.xl} />
         </>
       ) : !week || week.days.length === 0 ? (
         <EmptyState
@@ -105,48 +100,52 @@ function Body({ week }: { week: NonNullable<ReturnType<typeof useEnergyWeek>['we
   return (
     <>
       {/* Weekly summary */}
-      <Card>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <View style={{ alignItems: 'center', gap: space.xs }}>
-            <Text variant="statSmall" color={color.label}>
-              {round(week.weekly_average_in)}
-            </Text>
-            <Text variant="caption" color={color.secondaryLabel}>
-              avg in
-            </Text>
-          </View>
-          <View style={{ alignItems: 'center', gap: space.xs }}>
-            <Text variant="statSmall" color={color.label}>
-              {round(week.weekly_average_out)}
-            </Text>
-            <Text variant="caption" color={color.secondaryLabel}>
-              avg out
-            </Text>
-          </View>
-          <View style={{ alignItems: 'center', gap: space.xs }}>
-            <Text variant="statSmall" color={color.label}>
-              {week.weekly_net > 0 ? '+' : ''}
-              {round(week.weekly_net)}
-            </Text>
-            <Text variant="caption" color={color.secondaryLabel}>
-              net/day
-            </Text>
+      <Card variant="elevated">
+        <View style={{ gap: space.lg }}>
+          <CardHeaderRow title="Weekly average" icon="flame" tint={categoryAccent.calories} />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+            <View style={{ alignItems: 'center', gap: space.xs }}>
+              <Text variant="statSmall" color={color.label}>
+                {round(week.weekly_average_in)}
+              </Text>
+              <Text variant="caption" color={color.secondaryLabel}>
+                avg in
+              </Text>
+            </View>
+            <View style={{ alignItems: 'center', gap: space.xs }}>
+              <Text variant="statSmall" color={color.label}>
+                {round(week.weekly_average_out)}
+              </Text>
+              <Text variant="caption" color={color.secondaryLabel}>
+                avg out
+              </Text>
+            </View>
+            <View style={{ alignItems: 'center', gap: space.xs }}>
+              <Text variant="statSmall" color={color.label}>
+                {week.weekly_net > 0 ? '+' : ''}
+                {round(week.weekly_net)}
+              </Text>
+              <Text variant="caption" color={color.secondaryLabel}>
+                net/day
+              </Text>
+            </View>
           </View>
         </View>
       </Card>
 
       {/* Per-day chart */}
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.md }}>
+          <CardHeaderRow title="Daily balance" icon="chart.bar.fill" tint={accent.blue} />
           <View style={{ flexDirection: 'row', gap: space.lg }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-              <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: accent.orange }} />
+              <View style={{ width: 10, height: 10, borderRadius: radius.full, backgroundColor: categoryAccent.calories }} />
               <Text variant="caption" color={color.secondaryLabel}>
                 In
               </Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-              <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: accent.green }} />
+              <View style={{ width: 10, height: 10, borderRadius: radius.full, backgroundColor: accent.blue }} />
               <Text variant="caption" color={color.secondaryLabel}>
                 Out
               </Text>
