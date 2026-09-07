@@ -1,14 +1,17 @@
 // ScanFailedCard — shown at the top of the log when a photo scan couldn't be
 // analysed. Offers the two recoveries: log the food by hand, or discard the
-// failed row. Muted (red rail) so it reads as an error state, not a normal card.
+// failed row. Same elevated chrome as every other card on the page; the error is
+// carried by the red glyph in the header, not by a tinted rail (tokens.ts:
+// colour never touches chrome).
 import { View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Button } from '@/components/forms/Button';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Icon } from '@/components/primitives/Icon';
-import { accent, color, motion, radius, space, surface } from '@/lib/design/tokens';
+import { accent, color, motion, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 export type ScanFailedCardProps = {
@@ -22,21 +25,14 @@ export function ScanFailedCard({ onLogManually, onDiscard }: ScanFailedCardProps
     <Animated.View
       entering={reduce ? undefined : FadeInUp.duration(motion.duration.medium)}
       style={{
-        flexDirection: 'row',
-        backgroundColor: surface.card,
-        borderRadius: radius.lg,
+        backgroundColor: surface.cardElevated,
+        borderRadius: radius.xl,
         overflow: 'hidden',
-        marginBottom: space.lg,
+        ...shadow.sm,
       }}
     >
-      <View style={{ width: space.xs, backgroundColor: accent.red }} />
-      <View style={{ flex: 1, padding: space.lg, gap: space.md }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-          <Icon name="alert-circle-outline" size={20} color={accent.red} />
-          <Text variant="title3" color={color.label} accessibilityRole="header">
-            Couldn&apos;t analyse this photo
-          </Text>
-        </View>
+      <View style={{ flex: 1, padding: space.xl, gap: space.md }}>
+        <CardHeaderRow title="Couldn't analyse this photo" icon="alert-circle-outline" tint={accent.red} />
         <Text variant="footnote" color={color.secondaryLabel}>
           The scan didn&apos;t come back. You can still log this meal by hand.
         </Text>

@@ -79,7 +79,8 @@ export default function QuickAddScreen() {
   return (
     <SheetContent title="Quick Add" onClose={() => router.canGoBack() && router.back()}>
       <View style={{ gap: space.xs }}>
-        <Text variant="label" color={color.gray600}>
+        {/* Eyebrow label — the design's uppercase, tracked field heading. */}
+        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
           Calories
         </Text>
         <TextField
@@ -104,6 +105,7 @@ export default function QuickAddScreen() {
         value={mealType}
         onChange={setMealType}
         options={SLOTS.map((s) => ({ label: s, value: s }))}
+        variant="inset"
       />
 
       <Button title={invalid ? 'Add calories' : `Add ${kcal} kcal`} onPress={() => void add()} disabled={invalid} loading={submitting} />

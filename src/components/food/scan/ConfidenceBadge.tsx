@@ -22,7 +22,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
-import { accent, color, motion, space } from '@/lib/design/tokens';
+import { accent, color, motion, radius, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { displayBand, type ConfidenceBand } from '@/lib/food/confidence';
 import type { ScanConfidenceFactor } from '@/lib/api';
@@ -54,8 +54,8 @@ export function ConfidenceBadge({ score, label, breakdown }: ConfidenceBadgeProp
   return (
     <View style={{ gap: space.sm }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-        <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: tint }} />
-        <Text variant="footnote" color={color.label}>
+        <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
+        <Text variant="label" color={color.label}>
           {band} confidence
         </Text>
         <Pressable

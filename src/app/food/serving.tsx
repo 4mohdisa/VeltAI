@@ -10,7 +10,7 @@ import { SegmentedField } from '@/components/forms/SegmentedField';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
-import { formatCalories } from '@/lib/formatting';
+import { formatNumber } from '@/lib/formatting';
 import { logMeal, slotForNow } from '@/lib/data';
 
 const SERVINGS = [50, 100, 150, 200];
@@ -43,13 +43,21 @@ export default function ServingPickerScreen() {
         value={serving}
         onChange={setServing}
         options={SERVINGS.map((g) => ({ label: `${g} g`, value: String(g) }))}
+        variant="inset"
       />
+      {/* The design's serving readout: the energy as the hero rounded number
+          with its unit beside it, over the grams it belongs to. */}
       <Card>
         <View style={{ alignItems: 'center', gap: space.xs }}>
-          <Text variant="statMedium" color={color.black}>
-            {formatCalories(kcal)}
-          </Text>
-          <Text variant="footnote" color={color.gray500}>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+            <Text variant="statLarge" color={color.label}>
+              {formatNumber(kcal)}
+            </Text>
+            <Text variant="callout" color={color.secondaryLabel}>
+              kcal
+            </Text>
+          </View>
+          <Text variant="footnote" color={color.secondaryLabel}>
             for {serving} g
           </Text>
         </View>

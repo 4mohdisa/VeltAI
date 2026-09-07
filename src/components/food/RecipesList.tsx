@@ -9,12 +9,13 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Card } from '@/components/display/Card';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonCard } from '@/components/display';
 import { Button, Stepper } from '@/components/forms';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, motion, space } from '@/lib/design/tokens';
+import { accent, color, motion, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { slotForNow } from '@/lib/data';
 import { todayISO } from '@/lib/data/mappers';
@@ -92,12 +93,10 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
             key={r.id}
             entering={reduceMotion ? undefined : FadeInDown.delay(i * 40).duration(motion.duration.fast)}
           >
-            <Card>
+            <Card variant="elevated">
               <View style={{ gap: space.sm }}>
-                <Text variant="bodyBold" color={color.black}>
-                  {r.name}
-                </Text>
-                <Text variant="footnote" color={color.gray500}>
+                <CardHeaderRow title={r.name} icon="restaurant" tint={accent.yellow} />
+                <Text variant="footnote" color={color.secondaryLabel}>
                   {Math.round(r.total_calories / Math.max(1, r.serving_count))} kcal / serving · Makes {r.serving_count}
                 </Text>
                 <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>

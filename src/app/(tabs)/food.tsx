@@ -5,9 +5,15 @@
 // hairline separators, rounded inset group). Tapping a row opens the shared edit
 // sheet; the section's + adds to that meal. A search bar pins above the list;
 // the solid black + FAB floats clear of the tab bar.
+//
+// Design-file pass (DECISIONS.md): the page is a `surface.backgroundAlt` zone
+// with a blurred floating header strip, an eyebrow + large title inside the
+// scroll, a calories card at the top, and each meal's rows grouped as a WHITE
+// elevated card. The day switcher / week strip the design draws is NOT here —
+// reads are today-only (NEEDS ARCHITECTURE DECISION 3).
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RefreshControl, SectionList, View } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
@@ -15,6 +21,9 @@ import { AnomalyBanner } from '@/components/ai';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
+import { Card } from '@/components/display/Card';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
+import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
@@ -26,12 +35,12 @@ import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanRevi
 import { ScanFailedCard } from '@/components/food/scan/ScanFailedCard';
 import { ScanFeedbackPrompt } from '@/components/food/scan/ScanFeedbackPrompt';
 import { showToast } from '@/components/display/toastStore';
-import { accent, color, radius, space, surface, zIndex } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, radius, shadow, space, surface, zIndex } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { haptics } from '@/lib/haptics';
-import { formatCalories } from '@/lib/formatting';
+import { formatCalories, formatNumber } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
-import { formatEnergy } from '@/lib/units';
+import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import {
   useFoodLog,
   useFoodSearch,
@@ -48,6 +57,46 @@ import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/l
 import type { FoodResult, MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+
+// Each meal slot gets its own glyph colour, as the design file does. Functional
+// use only: the dot is the section's category marker — nothing else on the card
+// is tinted (tokens.ts colour rule).
+const SLOT_TINT: Record<MealSlot, string> = {
+  Breakfast: accent.yellow,
+  Lunch: accent.green,
+  Dinner: accent.blue,
+  Snacks: accent.turquoise,
+};
+
+// The white elevated group a meal's rows sit in: one card per meal, `radius.xl`
+// on the outer corners only, so consecutive rows read as a single surface on the
+// grey page. `first`/`last` come from the row's index in its section.
+function groupSurface(first: boolean, last: boolean) {
+  return {
+    backgroundColor: surface.cardElevated,
+    borderTopLeftRadius: first ? radius.xl : 0,
+    borderTopRightRadius: first ? radius.xl : 0,
+    borderBottomLeftRadius: last ? radius.xl : 0,
+    borderBottomRightRadius: last ? radius.xl : 0,
+    ...shadow.sm,
+  };
+}
+
+// Hairline between rows inside a group — a fill, inset under the text.
+function GroupSeparator() {
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        left: space.lg,
+        right: 0,
+        top: 0,
+        height: layout.hairline,
+        backgroundColor: surface.divider,
+      }}
+    />
+  );
+}
 
 type FoodRow = EditableItem & {
   pending?: boolean;
@@ -142,6 +191,22 @@ export default function FoodLogScreen() {
 
   const total = sections.reduce((sum, s) => sum + s.subtotal, 0);
   const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
+  // Day macro totals for the calories card — summed off the SAME rows the list
+  // renders, so nothing here is a second source of truth. (No fibre column: food
+  // items carry protein/carbs/fat only. No goal ring / "left today" number
+  // either — the calorie goal is not read on this screen.)
+  const macroTotals = useMemo(
+    () =>
+      sections.reduce(
+        (a, s) =>
+          s.data.reduce(
+            (b, i) => ({ protein: b.protein + i.protein, carbs: b.carbs + i.carbs, fat: b.fat + i.fat }),
+            a,
+          ),
+        { protein: 0, carbs: 0, fat: 0 },
+      ),
+    [sections],
+  );
 
   const searching = query.trim().length > 0;
   const { results, isLoading: searchLoading, error: searchError, refetch: retrySearch } = useFoodSearch(query);
@@ -244,7 +309,9 @@ export default function FoodLogScreen() {
     router.push({ pathname: '/food/serving', params: { name: food.name, kcalPer100: String(food.kcalPer100) } });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
+    // No SafeAreaView top edge: the scroll runs under the status bar so the
+    // FloatingHeader strip has something to blur (design-file treatment).
+    <View style={{ flex: 1, backgroundColor: surface.backgroundAlt }}>
       <SectionList<ListRow, ListSection>
         sections={listSections}
         keyExtractor={(item, index) => ('id' in item ? item.id : `${item.name}-${index}`)}
@@ -252,7 +319,8 @@ export default function FoodLogScreen() {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         contentContainerStyle={{
-          paddingHorizontal: space.xl,
+          paddingHorizontal: space.lg,
+          paddingTop: insets.top + space.md,
           paddingBottom: fabClearance,
           flexGrow: 1,
         }}
@@ -261,22 +329,32 @@ export default function FoodLogScreen() {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />
           )
         }
-        // The Today title + total + search bar live INSIDE the list so they
-        // scroll away with the content instead of staying pinned. Keeping it as a
+        // The eyebrow + title, the calories card and the search bar live INSIDE
+        // the list so they scroll away (and under the blurred header strip)
+        // instead of staying pinned. Keeping it as a
         // constant header on one always-mounted SectionList means the search field
         // never remounts (no focus loss) when results appear.
         ListHeaderComponent={
-          <View style={{ paddingTop: space.lg, paddingBottom: space.lg, gap: space.lg }}>
+          <View style={{ paddingBottom: space.md, gap: space.md }}>
             {/* Amber anomaly banner — self-contained, renders null when there are none. */}
             <AnomalyBanner onPress={() => router.push('/insights' as Href)} />
-            <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }}>
-              <Text variant="title1" color={color.label} accessibilityRole="header">
+            {/* Eyebrow + large title inside the scroll — the design's header. The
+                eyebrow names the log's scope, which is today and only today. */}
+            <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+              <Text
+                variant="label"
+                color={color.secondaryLabel}
+                style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+              >
                 {t('foodLog.today')}
               </Text>
-              <Text variant="callout" color={color.secondaryLabel}>
-                {formatEnergy(total, energyUnit)}
+              <Text variant="title1" color={color.label} accessibilityRole="header">
+                Food
               </Text>
             </View>
+            {!searching && !loading && !loadError && itemCount > 0 ? (
+              <CaloriesCard total={total} macros={macroTotals} energyUnit={energyUnit} />
+            ) : null}
             <TextField
               placeholder={t('foodLog.searchPlaceholder')}
               value={query}
@@ -351,23 +429,22 @@ export default function FoodLogScreen() {
               onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
               accessibilityLabel={`Add to ${section.slot}`}
               style={{
-                backgroundColor: surface.card,
-                borderRadius: radius.lg,
+                ...groupSurface(true, true),
                 paddingHorizontal: space.lg,
                 minHeight: 56,
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: space.sm,
-                marginBottom: space.xl,
+                marginBottom: space.md,
               }}
             >
-              <Icon name="add-circle-outline" size={20} color={color.secondaryLabel} />
-              <Text variant="body" color={color.secondaryLabel}>
+              <Icon name="add-circle-outline" size={20} color={color.tertiaryLabel} />
+              <Text variant="footnote" color={color.tertiaryLabel}>
                 {t('foodLog.addToMeal', { slot: section.slot })}
               </Text>
             </Pressable>
           ) : (
-            <View style={{ height: space.xl }} />
+            <View style={{ height: space.md }} />
           )
         }
         ListEmptyComponent={
@@ -426,7 +503,7 @@ export default function FoodLogScreen() {
               accessibilityLabel={t('foodLog.addCustomFood')}
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.sm, padding: space.md }}
             >
-              <Icon name="create-outline" size={18} color={color.black} />
+              <Icon name="create-outline" size={18} color={color.label} />
               <Text variant="bodyBold" color={color.label}>
                 {t('foodLog.addCustomFood')}
               </Text>
@@ -439,7 +516,7 @@ export default function FoodLogScreen() {
               accessibilityLabel={t('foodLog.mealHistory')}
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xs, padding: space.md }}
             >
-              <Icon name="time-outline" size={16} color={color.black} />
+              <Icon name="time-outline" size={16} color={color.label} />
               <Text variant="bodyBold" color={color.label}>
                 {t('foodLog.mealHistory')}
               </Text>
@@ -455,11 +532,65 @@ export default function FoodLogScreen() {
         accessibilityLabel={t('foodLog.addMeal')}
         accessibilityHint="Opens the add menu: scan a meal, barcode, nutrition label, saved foods, my meals or quick add"
         onPress={() => router.push('/food/add')}
-        style={{ position: 'absolute', right: space.xl, bottom: fabBottom, zIndex: zIndex.fab }}
+        style={{ position: 'absolute', right: space.lg, bottom: fabBottom, zIndex: zIndex.fab }}
       />
 
+      {/* Blurred strip the content scrolls under — decorative, no touches. */}
+      <FloatingHeader height={insets.top + space.xl} />
+
       <FoodItemEditSheet item={editing} onClose={() => setEditing(null)} onSave={applyEdit} onDelete={removeRow} />
-    </SafeAreaView>
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+
+// The design's calories card: an elevated white card with the day's energy as
+// the hero number and the macro totals beneath it. There is deliberately no
+// "left today" figure and no progress bar — the calorie goal and the macro
+// targets are not read on this screen, and a bar without a target would be an
+// invented measurement (UI_PASS_GAPS.md §2).
+function CaloriesCard({
+  total,
+  macros,
+  energyUnit,
+}: {
+  total: number;
+  macros: { protein: number; carbs: number; fat: number };
+  energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
+}) {
+  const columns = [
+    { name: 'Protein', tint: categoryAccent.protein, value: macros.protein },
+    { name: 'Carbs', tint: categoryAccent.carbs, value: macros.carbs },
+    { name: 'Fat', tint: categoryAccent.fat, value: macros.fat },
+  ];
+  return (
+    <Card variant="elevated" style={{ gap: space.lg }}>
+      <CardHeaderRow title="Calories" icon="flame.fill" tint={categoryAccent.calories} />
+      <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+        <Text variant="statLarge" color={color.label}>
+          {formatNumber(kcalToDisplay(total, energyUnit))}
+        </Text>
+        <Text variant="callout" color={color.secondaryLabel}>
+          {`${energyUnit} logged`}
+        </Text>
+      </View>
+      <View style={{ flexDirection: 'row', gap: space.md }}>
+        {columns.map((c) => (
+          <View key={c.name} style={{ flex: 1, minWidth: 0, gap: space.xs }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
+              <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: c.tint }} />
+              <Text variant="caption" color={color.secondaryLabel}>
+                {c.name}
+              </Text>
+            </View>
+            <Text variant="statSmall" color={color.label}>
+              {`${Math.round(c.value)}g`}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </Card>
   );
 }
 
@@ -481,27 +612,63 @@ function MealSectionHeader({
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingTop: space.lg,
+        gap: space.sm,
+        minHeight: layout.tapTarget,
+        paddingLeft: space.xs,
+        paddingTop: space.sm,
         paddingBottom: space.sm,
       }}
     >
+      {/* The slot's category dot — the one tinted mark on the row. */}
+      <View style={{ width: space.md, height: space.md, borderRadius: radius.full, backgroundColor: SLOT_TINT[slot] }} />
       <Text
-        variant="title3"
+        variant="bodyMedium"
         color={color.label}
         accessibilityRole="header"
         accessibilityLabel={`${slot}, ${formatEnergy(subtotal, energyUnit)}`}
       >
         {slot}
       </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-        <Text variant="footnote" color={color.secondaryLabel} accessibilityElementsHidden importantForAccessibility="no">
-          {formatEnergy(subtotal, energyUnit)}
+      <View
+        style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.xs, marginLeft: 'auto' }}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      >
+        <Text variant="statSmall" color={color.label}>
+          {formatNumber(kcalToDisplay(subtotal, energyUnit))}
         </Text>
-        <Pressable haptic={false} onPress={onAdd} accessibilityRole="button" accessibilityLabel={`Add to ${slot}`}>
-          <Icon name="add-circle" size={24} color={color.black} />
-        </Pressable>
+        <Text variant="caption" color={color.tertiaryLabel}>
+          {energyUnit}
+        </Text>
       </View>
+      {/* 44pt hit area around the design's black + disc. */}
+      <Pressable
+        haptic={false}
+        minTapTarget={false}
+        onPress={onAdd}
+        accessibilityRole="button"
+        accessibilityLabel={`Add to ${slot}`}
+        style={{
+          width: layout.tapTarget,
+          height: layout.tapTarget,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: -space.md,
+        }}
+      >
+        <View
+          style={{
+            width: space['2xl'],
+            height: space['2xl'],
+            borderRadius: radius.full,
+            backgroundColor: color.primary,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="add" size={16} color={color.onPrimary} />
+        </View>
+      </Pressable>
     </View>
   );
 }
@@ -541,23 +708,17 @@ function FoodItemRow({
       }
       accessibilityHint={analyzing || failed ? undefined : 'Double tap to edit, swipe left to delete'}
       style={{
-        backgroundColor: surface.card,
+        ...groupSurface(first, last),
         flexDirection: large ? 'column' : 'row',
         alignItems: large ? 'flex-start' : 'center',
         gap: large ? space.xs : space.md,
         paddingHorizontal: space.lg,
         paddingVertical: large ? space.md : 0,
         minHeight: 60,
-        borderTopLeftRadius: first ? radius.lg : 0,
-        borderTopRightRadius: first ? radius.lg : 0,
-        borderBottomLeftRadius: last ? radius.lg : 0,
-        borderBottomRightRadius: last ? radius.lg : 0,
       }}
     >
       {/* hairline separator between rows (inset under the text) */}
-      {!first ? (
-        <View style={{ position: 'absolute', left: space.lg, right: 0, top: 0, height: 1, backgroundColor: color.gray200 }} />
-      ) : null}
+      {!first ? <GroupSeparator /> : null}
       {analyzing ? (
         // Analyzing state (Task 3) — the scanned row fills in once the mock/real
         // inference resolves. Same row height so the layout doesn't jump.
@@ -589,9 +750,16 @@ function FoodItemRow({
               {item.quantityG} g · P {item.protein} · C {item.carbs} · F {item.fat}
             </Text>
           </View>
-          <Text variant="bodyMedium" color={color.label}>
-            {formatEnergy(item.calories, energyUnit)}
-          </Text>
+          {/* Trailing energy: the design's rounded stat number with a small unit
+              caption beside it. */}
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.xs }}>
+            <Text variant="statSmall" color={color.label}>
+              {formatNumber(kcalToDisplay(item.calories, energyUnit))}
+            </Text>
+            <Text variant="caption" color={color.tertiaryLabel}>
+              {energyUnit}
+            </Text>
+          </View>
         </>
       )}
     </Pressable>
@@ -629,21 +797,15 @@ function SearchResultRow({
       accessibilityLabel={`Add ${food.name}`}
       accessibilityHint={conflictLabel ? `May not match your ${conflictLabel} preference` : undefined}
       style={{
-        backgroundColor: surface.card,
+        ...groupSurface(first, last),
         flexDirection: 'row',
         alignItems: 'center',
         gap: space.md,
         paddingHorizontal: space.lg,
         minHeight: 60,
-        borderTopLeftRadius: first ? radius.lg : 0,
-        borderTopRightRadius: first ? radius.lg : 0,
-        borderBottomLeftRadius: last ? radius.lg : 0,
-        borderBottomRightRadius: last ? radius.lg : 0,
       }}
     >
-      {!first ? (
-        <View style={{ position: 'absolute', left: space.lg, right: 0, top: 0, height: 1, backgroundColor: color.gray200 }} />
-      ) : null}
+      {!first ? <GroupSeparator /> : null}
       <View style={{ flex: 1, gap: space.xs, paddingVertical: space.sm }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
           {conflict ? <Icon name="alert-circle-outline" size={16} color={accent.orange} /> : null}
@@ -656,7 +818,19 @@ function SearchResultRow({
           {t('foodLog.per100', { value: formatCalories(food.kcalPer100) })}
         </Text>
       </View>
-      <Icon name="add-circle-outline" size={22} color={color.black} />
+      {/* The design's black + disc, same mark as the meal-card add button. */}
+      <View
+        style={{
+          width: space['2xl'],
+          height: space['2xl'],
+          borderRadius: radius.full,
+          backgroundColor: color.primary,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Icon name="add" size={16} color={color.onPrimary} />
+      </View>
     </Pressable>
   );
 }

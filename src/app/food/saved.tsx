@@ -18,7 +18,7 @@ import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodIt
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
 import { useSavedFoods, editSavedFood, unsaveFood, logMeal, slotForNow } from '@/lib/data';
 import type { MealSlot, SavedFood } from '@/lib/mock/data';
@@ -115,9 +115,11 @@ export default function SavedFoodsScreen() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: space.sm,
-                  backgroundColor: color.white,
-                  borderTopWidth: i === 0 ? 0 : 1,
-                  borderTopColor: color.gray100,
+                  // Opaque so the swipe action stays hidden underneath; the fill
+                  // matches the group's tile so the rows read as one surface.
+                  backgroundColor: surface.tile,
+                  borderTopWidth: i === 0 ? 0 : layout.hairline,
+                  borderTopColor: surface.divider,
                 }}
               >
                 {/* Whole text area opens the edit / un-save sheet. */}
@@ -128,10 +130,10 @@ export default function SavedFoodsScreen() {
                   accessibilityLabel={`Edit ${f.name}`}
                   style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
                 >
-                  <Text variant="body" color={color.black}>
+                  <Text variant="body" color={color.label}>
                     {f.name}
                   </Text>
-                  <Text variant="footnote" color={color.gray500}>
+                  <Text variant="footnote" color={color.secondaryLabel}>
                     {f.brand ? `${f.brand} · ` : ''}
                     {f.servingG} g · {formatCalories(f.calories)} · P {f.protein}g
                   </Text>
@@ -145,16 +147,16 @@ export default function SavedFoodsScreen() {
                   accessibilityLabel={`Add ${f.name}`}
                   hitSlop={4}
                   style={{
-                    width: 36,
-                    height: 36,
+                    width: space['2xl'],
+                    height: space['2xl'],
                     borderRadius: radius.full,
-                    backgroundColor: color.black,
+                    backgroundColor: color.primary,
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: space.lg,
                   }}
                 >
-                  <Icon name="add" size={22} color={color.white} />
+                  <Icon name="add" size={16} color={color.onPrimary} />
                 </Pressable>
               </View>
             </SwipeableRow>

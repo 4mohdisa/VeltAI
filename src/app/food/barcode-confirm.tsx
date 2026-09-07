@@ -16,8 +16,8 @@ import { SegmentedField } from '@/components/forms/SegmentedField';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, radius, space } from '@/lib/design/tokens';
-import { formatCalories } from '@/lib/formatting';
+import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
+import { formatCalories, formatNumber } from '@/lib/formatting';
 import { lookupBarcodeAsync, logMeal, slotForNow } from '@/lib/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
 
@@ -63,8 +63,8 @@ export default function BarcodeConfirmScreen() {
     return (
       <SheetContent title="Product not found" onClose={() => router.canGoBack() && router.back()}>
         <View style={{ gap: space.lg, alignItems: 'center', paddingVertical: space.lg }}>
-          <Icon name="barcode-outline" size={40} color={color.gray400} />
-          <Text variant="body" color={color.gray700} style={{ textAlign: 'center' }}>
+          <Icon name="barcode-outline" size={40} color={color.tertiaryLabel} />
+          <Text variant="body" color={color.label} style={{ textAlign: 'center' }}>
             We couldn&apos;t find that barcode. Try scanning again, or photograph the nutrition label instead.
           </Text>
           <Button title="Scan again" variant="secondary" onPress={() => router.replace('/food/barcode-scan')} />
@@ -123,22 +123,22 @@ export default function BarcodeConfirmScreen() {
                 width: 64,
                 height: 64,
                 borderRadius: radius.md,
-                backgroundColor: color.gray100,
+                backgroundColor: color.white,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Icon name="fast-food" size={28} color={color.gray400} />
+              <Icon name="fast-food" size={28} color={color.tertiaryLabel} />
             </View>
             <View style={{ flex: 1, gap: space.xs }}>
-              <Text variant="title3" color={color.black}>
+              <Text variant="title3" color={color.label}>
                 {current.name}
               </Text>
-              <Text variant="footnote" color={color.gray500}>
+              <Text variant="footnote" color={color.secondaryLabel}>
                 {p.brand} · {formatCalories(p.kcalPer100)} / 100g
               </Text>
             </View>
-            <Icon name="chevron-forward" size={18} color={color.gray400} />
+            <Icon name="chevron-forward" size={18} color={color.tertiaryLabel} />
           </View>
         </Card>
       </Pressable>
@@ -151,18 +151,50 @@ export default function BarcodeConfirmScreen() {
           setOverride(null); // re-scale from the product when the serving changes
         }}
         options={p.servingOptions.map((g) => ({ label: `${g} g`, value: String(g) }))}
+        variant="inset"
       />
 
-      <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text variant="statSmall" color={color.black}>
-            {formatCalories(current.calories)}
+      {/* The design's nutrition block: the energy as the hero rounded number,
+          then one tile per macro with its category dot. */}
+      <View style={{ gap: space.lg }}>
+        <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+          <Text variant="statLarge" color={color.label}>
+            {formatNumber(current.calories)}
           </Text>
-          <Text variant="footnote" color={color.gray500}>
-            P {current.protein}g · C {current.carbs}g · F {current.fat}g
+          <Text variant="callout" color={color.secondaryLabel}>
+            kcal
           </Text>
         </View>
-      </Card>
+        <View style={{ flexDirection: 'row', gap: space.sm }}>
+          {[
+            { name: 'Protein', tint: categoryAccent.protein, value: current.protein },
+            { name: 'Carbs', tint: categoryAccent.carbs, value: current.carbs },
+            { name: 'Fat', tint: categoryAccent.fat, value: current.fat },
+          ].map((m) => (
+            <View
+              key={m.name}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                gap: space.xs,
+                padding: space.md,
+                borderRadius: radius.md,
+                backgroundColor: surface.tile,
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
+                <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: m.tint }} />
+                <Text variant="caption" color={color.secondaryLabel}>
+                  {m.name}
+                </Text>
+              </View>
+              <Text variant="statSmall" color={color.label}>
+                {`${m.value}g`}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
 
       <FoodItemEditSheet
         item={editing}

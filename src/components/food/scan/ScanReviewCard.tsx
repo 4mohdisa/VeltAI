@@ -1,4 +1,4 @@
-// ScanReviewCard — the amber "review before saving" surface for scanned foods
+// ScanReviewCard — the "review before saving" card for scanned foods
 // that came back READY (analyzed but not yet confirmed). Each item gets an
 // editable name (tap → rename), a weight slider (with ½×/1×/2× shortcuts and a
 // live calorie readout that scales linearly from the per-item estimate), an
@@ -16,10 +16,11 @@ import { Button } from '@/components/forms/Button';
 import { SliderField } from '@/components/forms/SliderField';
 import { TextField } from '@/components/forms/TextField';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { ConfidenceBadge } from './ConfidenceBadge';
 import type { ScanConfidenceFactor } from '@/lib/api';
 import { api } from '@/lib/api';
-import { accent, color, motion, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, motion, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 /** A scanned food awaiting review. Macros are the AI ESTIMATE at
@@ -140,27 +141,22 @@ export function ScanReviewCard({
     <Animated.View
       entering={reduce ? undefined : FadeInUp.duration(motion.duration.medium)}
       style={{
-        flexDirection: 'row',
-        backgroundColor: surface.card,
-        borderRadius: radius.lg,
+        backgroundColor: surface.cardElevated,
+        borderRadius: radius.xl,
         overflow: 'hidden',
-        marginBottom: space.lg,
+        ...shadow.sm,
       }}
     >
-      {/* Amber left rail — signals "needs your review before it's saved". */}
-      <View style={{ width: space.xs, backgroundColor: accent.orange }} />
-
-      <View style={{ flex: 1, padding: space.lg, gap: space.lg }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-          <Text variant="title3" color={color.label} accessibilityRole="header">
-            Review before saving
-          </Text>
-        </View>
+      <View style={{ flex: 1, padding: space.xl, gap: space.lg }}>
+        {/* The design's card header: one tinted glyph (this card holds a scan
+            result, so the AI accent) + the card's name. The old amber left rail
+            is gone — colour belongs on the glyph, never on the chrome. */}
+        <CardHeaderRow title="Review before saving" icon="sparkles" tint={categoryAccent.ai} />
 
         {/* Multi-angle result (Phase 13): agreement line when the angles agreed;
             both estimates + a pick when they disagreed. */}
         {items[0]?.needsConfirmation && items[0].alternateWeightG != null ? (
-          <View style={{ gap: space.sm, padding: space.md, borderRadius: radius.md, backgroundColor: color.gray50 }}>
+          <View style={{ gap: space.sm, padding: space.md, borderRadius: radius.md, backgroundColor: surface.tile }}>
             <Text variant="footnote" color={color.label}>
               {items[0].reconciliationNote ?? 'Your camera angles disagree — pick the estimate that looks right.'}
             </Text>
@@ -171,9 +167,9 @@ export function ScanReviewCard({
                 hitSlop={10}
                 accessibilityLabel={`Keep ${Math.round(items[0].estimatedWeightG)} grams`}
                 onPress={() => onWeightChange(items[0].id, items[0].estimatedWeightG)}
-                style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: color.black }}
+                style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: color.primary }}
               >
-                <Text variant="label" color={color.white}>{`Top view: ${Math.round(items[0].estimatedWeightG)} g`}</Text>
+                <Text variant="label" color={color.onPrimary}>{`Top view: ${Math.round(items[0].estimatedWeightG)} g`}</Text>
               </Pressable>
               <Pressable
                 haptic={false}
@@ -181,7 +177,7 @@ export function ScanReviewCard({
                 hitSlop={10}
                 accessibilityLabel={`Use ${Math.round(items[0].alternateWeightG)} grams`}
                 onPress={() => onWeightChange(items[0].id, items[0].alternateWeightG ?? items[0].weightG)}
-                style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: surface.card, borderWidth: 1, borderColor: color.light2 }}
+                style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: surface.tile }}
               >
                 <Text variant="label" color={color.label}>{`Side view: ${Math.round(items[0].alternateWeightG)} g`}</Text>
               </Pressable>
@@ -200,7 +196,7 @@ export function ScanReviewCard({
             minTapTarget={false}
             accessibilityLabel={`Use your usual ${items[0].matchedMealName} portion`}
             onPress={() => onWeightChange(items[0].id, items[0].matchedMealWeightG ?? items[0].weightG)}
-            style={{ padding: space.md, borderRadius: radius.md, backgroundColor: color.gray50 }}
+            style={{ padding: space.md, borderRadius: radius.md, backgroundColor: surface.tile }}
           >
             <Text variant="footnote" color={color.label}>
               {`Looks like your usual "${items[0].matchedMealName}" — tap to use ${Math.round(items[0].matchedMealWeightG)} g`}
@@ -220,7 +216,7 @@ export function ScanReviewCard({
                 gap: space.md,
                 paddingTop: idx === 0 ? 0 : space.lg,
                 borderTopWidth: idx === 0 ? 0 : 1,
-                borderTopColor: color.light2,
+                borderTopColor: surface.divider,
               }}
             >
               <Pressable

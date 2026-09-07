@@ -9,15 +9,14 @@ import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
-import { Badge } from '@/components/display/Badge';
 import { Button } from '@/components/forms/Button';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, space } from '@/lib/design/tokens';
-import { formatCalories, formatGrams } from '@/lib/formatting';
+import { color, layout, space, surface } from '@/lib/design/tokens';
+import { formatCalories, formatGrams, formatNumber } from '@/lib/formatting';
 import { useMeal, editFoodItem, deleteFoodItem, saveFood } from '@/lib/data';
 
 export default function MealDetailScreen() {
@@ -29,8 +28,8 @@ export default function MealDetailScreen() {
   // Meal was deleted (e.g. last item removed) → nothing to show.
   if (!meal) {
     return (
-      <Screen title="Meal" showBack>
-        <Text variant="callout" color={color.gray500} style={{ textAlign: 'center', paddingVertical: space['2xl'] }}>
+      <Screen title="Meal" variant="floating" eyebrow="Food" showBack>
+        <Text variant="callout" color={color.secondaryLabel} style={{ textAlign: 'center', paddingVertical: space['2xl'] }}>
           This meal is no longer in your log.
         </Text>
       </Screen>
@@ -50,19 +49,26 @@ export default function MealDetailScreen() {
   return (
     <Screen
       title={meal.slot}
+      variant="floating"
+      // The eyebrow carries the meal's logged time — the design's small line
+      // above the large title.
+      eyebrow={meal.time}
       showBack
       footer={
         <Button title="Delete meal" variant="destructive" icon="trash" onPress={() => setConfirming(true)} />
       }
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text variant="callout" color={color.gray500}>
-          {meal.time}
+      {/* The meal's energy as the design's hero rounded number. */}
+      <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+        <Text variant="statLarge" color={color.label}>
+          {formatNumber(meal.calories)}
         </Text>
-        <Badge label={`${formatCalories(meal.calories)}`} />
+        <Text variant="callout" color={color.secondaryLabel}>
+          kcal
+        </Text>
       </View>
 
-      <Card padded={false}>
+      <Card padded={false} variant="elevated">
         {meal.items.map((item, i) => (
           <View
             key={item.id}
@@ -70,8 +76,8 @@ export default function MealDetailScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               gap: space.sm,
-              borderTopWidth: i === 0 ? 0 : 1,
-              borderTopColor: color.gray100,
+              borderTopWidth: i === 0 ? 0 : layout.hairline,
+              borderTopColor: surface.divider,
             }}
           >
             <Pressable
@@ -91,10 +97,10 @@ export default function MealDetailScreen() {
               accessibilityLabel={`Edit ${item.name}`}
               style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
             >
-              <Text variant="body" color={color.black}>
+              <Text variant="body" color={color.label}>
                 {item.name}
               </Text>
-              <Text variant="footnote" color={color.gray500}>
+              <Text variant="footnote" color={color.secondaryLabel}>
                 {formatGrams(item.quantityG)} · {formatCalories(item.calories)} · P {item.protein}g
               </Text>
             </Pressable>
@@ -117,14 +123,14 @@ export default function MealDetailScreen() {
               accessibilityLabel={`Save ${item.name} to saved foods`}
               style={{ padding: space.lg }}
             >
-              <Icon name="bookmark-outline" size={20} color={color.gray500} />
+              <Icon name="bookmark-outline" size={20} color={color.tertiaryLabel} />
             </Pressable>
           </View>
         ))}
       </Card>
 
       <BottomSheet visible={confirming} onClose={() => setConfirming(false)} title="Delete this meal?">
-        <Text variant="callout" color={color.gray500}>
+        <Text variant="callout" color={color.secondaryLabel}>
           This removes the meal and recomputes today&apos;s totals.
         </Text>
         <Button

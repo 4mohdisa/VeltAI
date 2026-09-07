@@ -23,7 +23,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { replace } from '@/lib/nav';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, space, surface } from '@/lib/design/tokens';
 import { formatCalories, formatGrams, formatNumber } from '@/lib/formatting';
 import { useFoodSearch } from '@/lib/data';
 import { api, type RecipeIngredient } from '@/lib/api';
@@ -111,6 +111,8 @@ export default function NewRecipeScreen() {
   return (
     <Screen
       title="New Recipe"
+      variant="floating"
+      eyebrow="Food"
       showBack
       footer={<Button title="Save Recipe" onPress={() => void save()} disabled={!canSave} loading={saving} />}
     >
@@ -119,13 +121,13 @@ export default function NewRecipeScreen() {
       <Stepper label="Servings this makes" value={servingCount} min={1} max={50} onChange={setServingCount} />
 
       <View style={{ gap: space.sm }}>
-        <Text variant="label" color={color.gray600}>
+        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
           Ingredients
         </Text>
         {ingredients.length === 0 ? (
           <EmptyState icon="restaurant" title="No ingredients yet" message="Add foods to build this recipe." />
         ) : (
-          <Card padded={false}>
+          <Card padded={false} variant="elevated">
             {ingredients.map((it, i) => (
               <SwipeableRow key={`${it.food_name}-${i}`} onDelete={() => removeRow(i)} confirmTitle={`Remove ${it.food_name}?`}>
                 <Pressable
@@ -137,15 +139,15 @@ export default function NewRecipeScreen() {
                     gap: space.xs,
                     paddingVertical: space.lg,
                     paddingHorizontal: space.lg,
-                    backgroundColor: color.white,
-                    borderTopWidth: i === 0 ? 0 : 1,
-                    borderTopColor: color.gray100,
+                    backgroundColor: surface.cardElevated,
+                    borderTopWidth: i === 0 ? 0 : layout.hairline,
+                    borderTopColor: surface.divider,
                   }}
                 >
-                  <Text variant="body" color={color.black}>
+                  <Text variant="body" color={color.label}>
                     {it.food_name}
                   </Text>
-                  <Text variant="footnote" color={color.gray500}>
+                  <Text variant="footnote" color={color.secondaryLabel}>
                     {formatGrams(it.quantity_g)} · {formatCalories(it.calories)}
                   </Text>
                 </Pressable>
@@ -157,8 +159,8 @@ export default function NewRecipeScreen() {
       </View>
 
       {ingredients.length > 0 ? (
-        <Card>
-          <Text variant="footnote" color={color.gray600}>
+        <Card variant="elevated">
+          <Text variant="footnote" color={color.secondaryLabel}>
             {/* Kcal-only catalog → all-zero macros are meaningless; show calories only. */}
             {totals.protein + totals.carbs + totals.fat === 0
               ? `Total: ${formatNumber(totals.calories)} kcal`
@@ -196,20 +198,20 @@ export default function NewRecipeScreen() {
                     gap: space.sm,
                     paddingVertical: space.lg,
                     paddingHorizontal: space.lg,
-                    borderTopWidth: i === 0 ? 0 : 1,
-                    borderTopColor: color.gray100,
+                    borderTopWidth: i === 0 ? 0 : layout.hairline,
+                    borderTopColor: surface.divider,
                   }}
                 >
                   <View style={{ flex: 1, gap: space.xs }}>
-                    <Text variant="body" color={color.black}>
+                    <Text variant="body" color={color.label}>
                       {r.name}
                     </Text>
-                    <Text variant="footnote" color={color.gray500}>
+                    <Text variant="footnote" color={color.secondaryLabel}>
                       {r.brand ? `${r.brand} · ` : ''}
                       {r.kcalPer100} kcal / 100g
                     </Text>
                   </View>
-                  <Icon name="add" size={20} color={color.black} />
+                  <Icon name="add" size={20} color={color.label} />
                 </Pressable>
               ))}
             </Card>

@@ -11,10 +11,12 @@ import { Icon } from '@/components/primitives/Icon';
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 
 type Method = {
   icon: string;
+  /** Functional accent for the tile's glyph — the tile itself stays monochrome. */
+  tint: string;
   label: string;
   description: string;
   route: string;
@@ -34,12 +36,12 @@ export default function AddMealScreen() {
   // Built in-component so the existing four cards keep their i18n keys while the
   // two new ones use literal strings (no en.json edit — a sibling owns it).
   const methods: Method[] = [
-    { icon: 'camera', label: t('addMenu.scanFood'), description: t('addMenu.snapMeal'), route: '/food/photo-capture', mode: 'replace' },
-    { icon: 'barcode', label: t('addMenu.barcode'), description: t('addMenu.scanPackage'), route: '/food/barcode-scan', mode: 'replace' },
-    { icon: 'reader-outline', label: 'Scan Label', description: 'Read a nutrition facts panel', route: '/food/label-scan', mode: 'replace' },
-    { icon: 'bookmark', label: t('addMenu.savedFoods'), description: t('addMenu.oneTapReadd'), route: '/food/saved', mode: 'replace' },
-    { icon: 'restaurant', label: 'My Meals', description: 'Log a saved meal or recipe', route: '/food/meals', mode: 'push' },
-    { icon: 'flame', label: 'Quick Add', description: 'Just calories, fast', route: '/food/quick-add', mode: 'replace' },
+    { icon: 'camera', tint: categoryAccent.ai, label: t('addMenu.scanFood'), description: t('addMenu.snapMeal'), route: '/food/photo-capture', mode: 'replace' },
+    { icon: 'barcode', tint: accent.green, label: t('addMenu.barcode'), description: t('addMenu.scanPackage'), route: '/food/barcode-scan', mode: 'replace' },
+    { icon: 'reader-outline', tint: accent.blue, label: 'Scan Label', description: 'Read a nutrition facts panel', route: '/food/label-scan', mode: 'replace' },
+    { icon: 'bookmark', tint: accent.turquoise, label: t('addMenu.savedFoods'), description: t('addMenu.oneTapReadd'), route: '/food/saved', mode: 'replace' },
+    { icon: 'restaurant', tint: accent.yellow, label: 'My Meals', description: 'Log a saved meal or recipe', route: '/food/meals', mode: 'push' },
+    { icon: 'flame', tint: categoryAccent.calories, label: 'Quick Add', description: 'Just calories, fast', route: '/food/quick-add', mode: 'replace' },
   ];
   return (
     <SheetContent title={t('addMenu.title')} onClose={() => router.canGoBack() && router.back()}>
@@ -53,32 +55,36 @@ export default function AddMealScreen() {
             onPress={() => (m.mode === 'push' ? navigate(withSlot(m.route)) : replace(withSlot(m.route)))}
             accessibilityLabel={`${m.label}. ${m.description}`}
             minTapTarget={false}
-            style={{
+            // The design's chooser tile: a grey tile, a WHITE disc holding the
+            // one accent glyph, then the title and its caption pinned to the
+            // bottom. Pressed darkens the tile rather than fading it.
+            style={({ pressed }) => ({
               width: '47.5%',
-              aspectRatio: 1,
-              backgroundColor: color.gray100,
+              minHeight: 148,
+              backgroundColor: pressed ? surface.tilePressed : surface.tile,
               borderRadius: radius.lg,
-              padding: space.xl,
+              padding: space.lg,
               justifyContent: 'space-between',
-            }}
+              gap: space.sm,
+            })}
           >
             <View
               style={{
-                width: 48,
-                height: 48,
+                width: layout.tapTarget,
+                height: layout.tapTarget,
                 borderRadius: radius.full,
                 backgroundColor: color.white,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Icon name={m.icon} size={24} color={color.black} />
+              <Icon name={m.icon} size={20} color={m.tint} />
             </View>
             <View style={{ gap: space.xs }}>
-              <Text variant="title3" color={color.black}>
+              <Text variant="bodyMedium" color={color.label}>
                 {m.label}
               </Text>
-              <Text variant="footnote" color={color.gray500}>
+              <Text variant="caption" color={color.secondaryLabel}>
                 {m.description}
               </Text>
             </View>

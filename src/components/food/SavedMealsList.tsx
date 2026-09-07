@@ -8,12 +8,13 @@ import { useFocusEffect } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { Card } from '@/components/display/Card';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonCard } from '@/components/display';
 import { Button } from '@/components/forms';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, motion, space } from '@/lib/design/tokens';
+import { accent, color, motion, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { formatCalories } from '@/lib/formatting';
 import { slotForNow } from '@/lib/data';
@@ -91,15 +92,13 @@ export function SavedMealsList() {
           key={m.id}
           entering={reduceMotion ? undefined : FadeInDown.delay(i * 40).duration(motion.duration.fast)}
         >
-          <Card>
+          <Card variant="elevated">
             <View style={{ gap: space.sm }}>
-              <Text variant="bodyBold" color={color.black}>
-                {m.name}
-              </Text>
-              <Text variant="footnote" color={color.gray500}>
+              <CardHeaderRow title={m.name} icon="bookmark" tint={accent.turquoise} />
+              <Text variant="footnote" color={color.secondaryLabel}>
                 {formatCalories(m.total_calories)} · {m.items.length} {m.items.length === 1 ? 'item' : 'items'}
               </Text>
-              <Text variant="caption" color={color.gray500}>
+              <Text variant="caption" color={color.secondaryLabel}>
                 {lastLoggedLabel(m.last_logged)}
               </Text>
               <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>

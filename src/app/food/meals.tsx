@@ -4,6 +4,7 @@
 // action both push /food/new-recipe. Registered implicitly by expo-router (a
 // default card screen — no _layout entry needed).
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
 
@@ -13,7 +14,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { SavedMealsList } from '@/components/food/SavedMealsList';
 import { RecipesList } from '@/components/food/RecipesList';
-import { color } from '@/lib/design/tokens';
+import { color, layout, radius, shadow, surface } from '@/lib/design/tokens';
 
 type Segment = 'meals' | 'recipes';
 
@@ -27,10 +28,26 @@ export default function MealsScreen() {
   return (
     <Screen
       title="My Meals"
+      variant="floating"
+      eyebrow="Food"
       showBack
       headerRight={
-        <Pressable onPress={goNew} accessibilityLabel="New recipe">
-          <Icon name="add" size={24} color={color.black} />
+        // Floating variant: the control sits over the scroll, so it needs its own
+        // circular surface to stay legible as content passes under it.
+        <Pressable onPress={goNew} accessibilityLabel="New recipe" minTapTarget={false}>
+          <View
+            style={{
+              width: layout.tapTarget,
+              height: layout.tapTarget,
+              borderRadius: radius.full,
+              backgroundColor: surface.card,
+              alignItems: 'center',
+              justifyContent: 'center',
+              ...shadow.sm,
+            }}
+          >
+            <Icon name="add" size={22} color={color.label} />
+          </View>
         </Pressable>
       }
     >
@@ -41,6 +58,7 @@ export default function MealsScreen() {
           { label: 'My Meals', value: 'meals' },
           { label: 'Recipes', value: 'recipes' },
         ]}
+        variant="inset"
       />
       {segment === 'meals' ? <SavedMealsList /> : <RecipesList onNew={goNew} />}
     </Screen>

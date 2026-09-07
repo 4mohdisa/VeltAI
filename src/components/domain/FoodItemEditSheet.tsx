@@ -79,7 +79,7 @@ function EditForm({
       {/* X-left / title / ✓-right */}
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <GlassCloseButton onPress={onClose} />
-        <Text variant="title3" color={color.black}>
+        <Text variant="title3" color={color.label}>
           Edit item
         </Text>
         <GlassSaveButton onPress={save} />

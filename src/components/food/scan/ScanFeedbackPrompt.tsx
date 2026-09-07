@@ -7,7 +7,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
-import { color, motion, radius, space, surface } from '@/lib/design/tokens';
+import { color, motion, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import type { ScanFeedbackRating } from '@/lib/types';
 
@@ -38,11 +38,11 @@ export function ScanFeedbackPrompt({ onRate, onDismiss }: ScanFeedbackPromptProp
       entering={reduce ? undefined : FadeIn.duration(motion.duration.fast)}
       exiting={reduce ? undefined : FadeOut.duration(motion.duration.snap)}
       style={{
-        backgroundColor: surface.card,
-        borderRadius: radius.lg,
-        padding: space.lg,
+        backgroundColor: surface.cardElevated,
+        borderRadius: radius.xl,
+        padding: space.xl,
         gap: space.md,
-        marginBottom: space.lg,
+        ...shadow.sm,
       }}
     >
       <Text variant="footnote" color={color.secondaryLabel} accessibilityRole="header">
@@ -61,7 +61,7 @@ export function ScanFeedbackPrompt({ onRate, onDismiss }: ScanFeedbackPromptProp
               paddingVertical: space.sm,
               paddingHorizontal: space.md,
               borderRadius: radius.pill,
-              backgroundColor: surface.tilePressed,
+              backgroundColor: surface.tile,
             }}
           >
             <Text variant="footnote" color={color.label}>
