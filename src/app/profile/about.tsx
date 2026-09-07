@@ -11,12 +11,12 @@ import { APP_VERSION, BUILD_NUMBER } from '@/lib/appVersion';
 
 export default function AboutScreen() {
   return (
-    <Screen grouped title="About" showBack>
+    <Screen variant="floating" eyebrow="The app" title="About" showBack>
       <View style={{ alignItems: 'center', gap: space.xs, paddingVertical: space.xl }}>
-        <Text variant="title1" color={color.black}>
+        <Text variant="title1" color={color.label}>
           Lume
         </Text>
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           Make going to the gym the easy choice.
         </Text>
       </View>

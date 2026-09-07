@@ -1,4 +1,6 @@
-// MorningBriefCard — self-contained morning brief surface. Fades in on mount,
+// MorningBriefCard — self-contained morning brief surface. An elevated white
+// card headed by the AI sparkle in categoryAccent.ai (the glyph is the only
+// tinted element; the surface stays white). Fades in on mount,
 // shows the first sentence collapsed, and expands (height + opacity) on "Read
 // more" while marking the brief engaged once. Degrades to a skeleton while
 // loading and renders nothing when there's no brief. Reduce-motion aware.
@@ -8,12 +10,13 @@ import type { JSX } from 'react';
 import { Animated, View, type LayoutChangeEvent } from 'react-native';
 
 import { Badge, Card, Skeleton } from '@/components/display';
+import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { useMorningBrief } from '@/lib/data/aiBrain';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
-import { accent, color, motion, space } from '@/lib/design/tokens';
+import { categoryAccent, color, motion, space } from '@/lib/design/tokens';
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -84,7 +87,7 @@ export function MorningBriefCard(): JSX.Element | null {
 
   if (loading) {
     return (
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.sm }}>
           <Skeleton width="90%" height={16} />
           <Skeleton width="70%" height={16} />
@@ -110,11 +113,14 @@ export function MorningBriefCard(): JSX.Element | null {
 
   return (
     <Animated.View style={{ opacity: fade }}>
-      <Card style={{ borderLeftWidth: 4, borderLeftColor: accent.orange }}>
+      <Card variant="elevated">
         <View style={{ gap: space.sm }}>
-          <Text variant="label" color={color.secondaryLabel}>
-            {greeting()}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+            <Icon name="sparkles" size={17} color={categoryAccent.ai} />
+            <Text variant="label" color={color.secondaryLabel}>
+              {greeting()}
+            </Text>
+          </View>
 
           <Animated.View
             style={textStyle}
@@ -122,13 +128,15 @@ export function MorningBriefCard(): JSX.Element | null {
               if (!expanded) collapsedHRef.current = e.nativeEvent.layout.height;
             }}
           >
-            <Text variant="body">{expanded ? brief.brief : collapsedText}</Text>
+            <Text variant="body" color={color.label}>
+              {expanded ? brief.brief : collapsedText}
+            </Text>
           </Animated.View>
 
           {/* Hidden measurer: full-text height, captured before expanding. */}
           {hasMore && !expanded ? (
             <View style={{ position: 'absolute', left: 0, right: 0, opacity: 0 }} pointerEvents="none">
-              <Text variant="body" onLayout={(e) => setFullH(e.nativeEvent.layout.height)}>
+              <Text variant="body" color={color.label} onLayout={(e) => setFullH(e.nativeEvent.layout.height)}>
                 {brief.brief}
               </Text>
             </View>

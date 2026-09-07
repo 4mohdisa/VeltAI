@@ -87,8 +87,9 @@ export default function GoalsScreen() {
   ];
 
   return (
-    <Screen grouped title={t('goals.title')} showBack backLabel={t('settings.title')}>
+    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack backLabel={t('settings.title')}>
       <SegmentedField
+        variant="inset"
         label={t('goals.mode')}
         value={goalMode}
         onChange={(v) => setGoalMode(v as 'ai' | 'custom')}
@@ -98,7 +99,7 @@ export default function GoalsScreen() {
         ]}
       />
       {!isCustom ? (
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           {t('goals.aiHint')}
         </Text>
       ) : null}
@@ -113,6 +114,7 @@ export default function GoalsScreen() {
       />
 
       <SegmentedField
+        variant="inset"
         label={t('goals.splitBy')}
         value={splitBy}
         onChange={(v) => setSplitBy(v as 'grams' | 'percent')}
@@ -123,7 +125,7 @@ export default function GoalsScreen() {
         ]}
       />
 
-      <Text variant="footnote" color={color.gray500} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+      <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
         {t('goals.macros')}
       </Text>
 
@@ -159,7 +161,7 @@ export default function GoalsScreen() {
       />
 
       {isCustom && !reconciled ? (
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           {t('goals.reconcileHint', {
             total: formatEnergy(macroKcal, energyUnit),
             target: formatEnergy(goals.calories, energyUnit),

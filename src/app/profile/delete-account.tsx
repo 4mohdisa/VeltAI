@@ -65,6 +65,8 @@ export default function DeleteAccountScreen() {
 
   return (
     <Screen
+      variant="floating"
+      eyebrow="Account"
       title="Delete Account"
       showBack
       footer={
@@ -85,11 +87,11 @@ export default function DeleteAccountScreen() {
     >
       {step === 0 ? (
         <View style={{ gap: space.md, alignItems: 'center', paddingVertical: space.lg }}>
-          <Icon name="warning" size={44} color={color.black} />
-          <Text variant="title2" color={color.black} style={{ textAlign: 'center' }}>
+          <Icon name="warning" size={44} color={color.primary} />
+          <Text variant="title2" color={color.label} style={{ textAlign: 'center' }}>
             Are you sure?
           </Text>
-          <Text variant="body" color={color.gray700} style={{ textAlign: 'center' }}>
+          <Text variant="body" color={color.label} style={{ textAlign: 'center' }}>
             This permanently deletes your account and all of your data, immediately. It cannot be
             undone.
           </Text>
@@ -98,18 +100,18 @@ export default function DeleteAccountScreen() {
 
       {step === 1 ? (
         <View style={{ gap: space.md }}>
-          <Text variant="title3" color={color.black}>
+          <Text variant="title3" color={color.label}>
             What will be deleted
           </Text>
           {DELETED_DATA.map((item) => (
             <View key={item} style={{ flexDirection: 'row', gap: space.sm, alignItems: 'flex-start' }}>
-              <Icon name="close-circle" size={18} color={color.black} style={{ marginTop: 2 }} />
-              <Text variant="body" color={color.gray900} style={{ flex: 1 }}>
+              <Icon name="close-circle" size={18} color={color.label} style={{ marginTop: space.xs / 2 }} />
+              <Text variant="body" color={color.label} style={{ flex: 1 }}>
                 {item}
               </Text>
             </View>
           ))}
-          <Text variant="footnote" color={color.gray700}>
+          <Text variant="footnote" color={color.secondaryLabel}>
             Deleting your account does not cancel an active subscription. Cancel it in the iPhone
             Settings app → your name → Subscriptions, or you will keep being charged.
           </Text>
@@ -118,8 +120,8 @@ export default function DeleteAccountScreen() {
 
       {step === 2 ? (
         <View style={{ gap: space.md }}>
-          <Text variant="body" color={color.gray700}>
-            Type <Text variant="bodyBold" color={color.black}>DELETE</Text> to confirm.
+          <Text variant="body" color={color.label}>
+            Type <Text variant="bodyBold" color={color.label}>DELETE</Text> to confirm.
           </Text>
           <TextField
             label="Confirmation"

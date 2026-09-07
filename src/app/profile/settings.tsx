@@ -58,7 +58,7 @@ export default function SettingsScreen() {
   };
 
   return (
-    <Screen grouped title={t('settings.title')} showBack>
+    <Screen variant="floating" eyebrow="Account & app" title={t('settings.title')} showBack>
       <SettingsList
         title={t('settings.groupAccount')}
         rows={[

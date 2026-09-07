@@ -10,11 +10,13 @@ import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
+import { Stat } from '@/components/display/Stat';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ProgressBar } from '@/components/display/ProgressBar';
 import { Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { api } from '@/lib/api';
 import type { ScanCalibration } from '@/lib/types';
 
@@ -23,9 +25,9 @@ const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 function SectionLabel({ children }: { children: string }) {
   return (
     <Text
-      variant="footnote"
+      variant="label"
       color={color.secondaryLabel}
-      style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+      style={{ textTransform: 'uppercase', letterSpacing: 1, marginLeft: space.xs }}
     >
       {children}
     </Text>
@@ -57,16 +59,12 @@ export default function ScanCalibrationScreen() {
   }, []);
 
   return (
-    <Screen grouped title="Scan accuracy" showBack backLabel={t('settings.title')}>
-      <Text variant="title2" color={color.label}>
-        How accurate are your scans?
-      </Text>
-
+    <Screen variant="floating" eyebrow="Your scans" title="Scan accuracy" showBack backLabel={t('settings.title')}>
       {loading ? (
         <>
-          <Skeleton height={120} rounded={20} />
-          <Skeleton height={64} rounded={20} />
-          <Skeleton height={140} rounded={20} />
+          <Skeleton height={140} rounded={radius.xl} />
+          <Skeleton height={88} rounded={radius.xl} />
+          <Skeleton height={140} rounded={radius.xl} />
         </>
       ) : (
         <Body data={data} failed={failed} />
@@ -97,31 +95,43 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
 
   return (
     <>
-      {/* Summary */}
-      <Card>
-        <View style={{ gap: space.xs }}>
-          <Text variant="body" color={color.label}>{`Total scans: ${summary.total_scans}`}</Text>
-          <Text variant="body" color={color.label}>{`Corrected: ${summary.corrected_count} (${correctedPct}%)`}</Text>
-          <Text variant="footnote" color={color.gray500}>
+      {/* Accuracy hero — the design's ring card, drawn as a bar because the
+          trend sentence and corrections list behind the ring have no source
+          (UI_PASS_GAPS.md). */}
+      <Card variant="elevated">
+        <View style={{ gap: space.lg }}>
+          <CardHeaderRow title="Accuracy score" icon="camera" tint={categoryAccent.positive} />
+          <Text variant="statLarge" color={color.label}>{`${Math.round(score * 100)}%`}</Text>
+          <ProgressBar value={score} tint={categoryAccent.positive} track={color.light2} />
+          <Text variant="footnote" color={color.secondaryLabel}>
             Lume is learning your portions
           </Text>
         </View>
       </Card>
 
-      {/* Accuracy score */}
-      <View style={{ gap: space.sm }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
-          <SectionLabel>Accuracy score</SectionLabel>
-          <Text variant="bodyBold" color={color.label}>{`${Math.round(score * 100)}%`}</Text>
-        </View>
-        <ProgressBar value={score} />
+      {/* Stat tiles */}
+      <View style={{ flexDirection: 'row', gap: space.sm }}>
+        <Card variant="elevated" style={{ flex: 1, padding: space.lg }}>
+          <Stat value={summary.total_scans} label="Scans logged" size="small" />
+        </Card>
+        <Card variant="elevated" style={{ flex: 1, padding: space.lg }}>
+          <Stat
+            value={summary.corrected_count}
+            label="You corrected"
+            size="small"
+            valueColor={categoryAccent.calories}
+          />
+        </Card>
+        <Card variant="elevated" style={{ flex: 1, padding: space.lg }}>
+          <Stat value={`${correctedPct}%`} label="Of your scans" size="small" />
+        </Card>
       </View>
 
       {/* Foods we've learned */}
       {learned.length > 0 ? (
         <View style={{ gap: space.md }}>
           <SectionLabel>Foods we&apos;ve learned</SectionLabel>
-          <Card>
+          <Card variant="elevated">
             <View style={{ gap: space.lg }}>
               {learned.map((f) => {
                 const pct = Math.round((f.multiplier - 1) * 100);
@@ -129,7 +139,7 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
                 return (
                   <View key={f.food_name} style={{ gap: space.xs }}>
                     <Text variant="body" color={color.label}>{`${f.food_name} — We adjust by ${adj}`}</Text>
-                    <Text variant="footnote" color={color.gray500}>{`Based on ${f.sample_count} corrections`}</Text>
+                    <Text variant="footnote" color={color.secondaryLabel}>{`Based on ${f.sample_count} corrections`}</Text>
                   </View>
                 );
               })}
@@ -142,7 +152,7 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
       {under.length > 0 || over.length > 0 ? (
         <View style={{ gap: space.md }}>
           <SectionLabel>Most corrected</SectionLabel>
-          <Card>
+          <Card variant="elevated">
             <View style={{ gap: space.md }}>
               {under.map((name) => (
                 <Text key={`u-${name}`} variant="body" color={color.label}>

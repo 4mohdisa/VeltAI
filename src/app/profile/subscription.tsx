@@ -90,7 +90,9 @@ export default function SubscriptionScreen() {
   };
 
   return (
-    <Screen grouped
+    <Screen
+      variant="floating"
+      eyebrow="Billing"
       title="Subscription"
       showBack
       footer={
@@ -108,10 +110,13 @@ export default function SubscriptionScreen() {
         </View>
       }
     >
-      <Card>
+      {/* Price, payment method, usage bars and billing history are in the design
+          but not in the billing seam — see UI_PASS_GAPS.md. The card shows only
+          what RevenueCat actually reports. */}
+      <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text variant="title3" color={color.black}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space.md }}>
+            <Text variant="title3" color={color.label}>
               Lume Pro
             </Text>
             <Badge
@@ -119,7 +124,7 @@ export default function SubscriptionScreen() {
               icon={loading ? undefined : isEntitled ? 'checkmark-circle' : 'close-circle'}
             />
           </View>
-          <Text variant="body" color={color.gray700}>
+          <Text variant="body" color={color.secondaryLabel}>
             {isEntitled
               ? 'Your subscription is active. Billing, renewal and cancellation are managed through your Apple account.'
               : 'Plans, pricing and the free trial are shown on the plans screen before any purchase.'}
@@ -128,7 +133,7 @@ export default function SubscriptionScreen() {
       </Card>
 
       {!billing ? (
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           {/* "development mode" is dev-only copy: in a release build a missing
               RevenueCat key is a packaging mistake, not a mode, and App Review
               would be reading it. */}
@@ -137,7 +142,7 @@ export default function SubscriptionScreen() {
             : 'Subscriptions are temporarily unavailable. Please try again later.'}
         </Text>
       ) : (
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           Subscriptions auto-renew until cancelled. Cancel anytime in Settings → your name →
           Subscriptions — Apple handles all billing.
         </Text>

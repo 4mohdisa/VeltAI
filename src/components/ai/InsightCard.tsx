@@ -1,4 +1,6 @@
-// InsightCard — one insight in the feed. Staggered fade-in on entrance, a
+// InsightCard — one insight in the feed. An elevated white card on the grey
+// page, headed by the AI sparkle in categoryAccent.ai (the ONE tinted thing —
+// the card surface itself stays white). Staggered fade-in on entrance, a
 // body that collapses to a few lines with a more/less toggle, an optional type
 // badge, and a dismiss control that collapses the card (height + opacity) before
 // calling onDismiss. Reduce-motion aware (no entrance/exit animation).
@@ -11,7 +13,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
-import { color, motion, space } from '@/lib/design/tokens';
+import { categoryAccent, color, motion, space } from '@/lib/design/tokens';
 import type { AIInsight } from '@/lib/types';
 
 function capitalize(s: string): string {
@@ -83,10 +85,11 @@ export function InsightCard(props: {
         if (!dismissing) heightRef.current = e.nativeEvent.layout.height;
       }}
     >
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.sm }}>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space.sm }}>
-            <Text variant="bodyBold" numberOfLines={1} style={{ flex: 1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+            <Icon name="sparkles" size={17} color={categoryAccent.ai} />
+            <Text variant="bodyMedium" color={color.label} numberOfLines={1} style={{ flex: 1 }}>
               {insight.title}
             </Text>
             <Pressable onPress={handleDismiss} minTapTarget={false} hitSlop={10} accessibilityLabel="Dismiss insight">

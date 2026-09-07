@@ -15,7 +15,8 @@ import { SettingsList } from '@/components/display/SettingsList';
 import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
-import { space } from '@/lib/design/tokens';
+import { Text } from '@/components/primitives/Text';
+import { color, space } from '@/lib/design/tokens';
 import { useUserProfile } from '@/lib/data';
 import { useUserStore } from '@/lib/data/userStore';
 import { api } from '@/lib/api';
@@ -44,14 +45,23 @@ export default function AccountScreen() {
 
   return (
     <Screen
-      grouped
+      variant="floating"
+      eyebrow="Your details"
       title="Account"
       showBack
       footer={<Button title="Save" onPress={save} disabled={!dirty || saving} loading={saving} />}
     >
-      <Card>
+      {/* Identity card — the design's elevated header. It shows only what the
+          app actually knows: the avatar and the name being edited. Member-since
+          and days-logged are in UI_PASS_GAPS.md (no source). */}
+      <Card variant="elevated">
         <View style={{ alignItems: 'center', gap: space.md }}>
           <Avatar name={name} size={84} />
+          {name.trim() ? (
+            <Text variant="statMedium" color={color.label} numberOfLines={1}>
+              {name}
+            </Text>
+          ) : null}
         </View>
       </Card>
 

@@ -5,12 +5,12 @@
 import type { JSX } from 'react';
 import { View } from 'react-native';
 
-import { Card, ProgressBar, Skeleton } from '@/components/display';
+import { Card, CardHeaderRow, ProgressBar, Skeleton } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useBrainProfile } from '@/lib/data/aiBrain';
-import { color, space } from '@/lib/design/tokens';
+import { categoryAccent, color, space } from '@/lib/design/tokens';
 
 function capitalize(s: string): string {
   return s.length > 0 ? s[0].toUpperCase() + s.slice(1) : s;
@@ -48,7 +48,7 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
 
   if (loading) {
     return (
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.md }}>
           <Skeleton width="60%" height={18} />
           <Skeleton width="80%" height={16} />
@@ -60,13 +60,13 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
 
   if (notEnoughData || !profile) {
     return (
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <Text variant="title3">Lume is still learning</Text>
+          <CardHeaderRow title="Lume is still learning" icon="sparkles" tint={categoryAccent.ai} />
           <Text variant="callout" color={color.secondaryLabel}>
             Keep logging to unlock your profile
           </Text>
-          <ProgressBar value={0.3} />
+          <ProgressBar value={0.3} tint={categoryAccent.ai} track={color.light2} />
         </View>
       </Card>
     );
@@ -85,9 +85,9 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
   if (scanPct !== null) rows.push({ label: 'Scan accuracy', value: `Scans are ${Math.round(scanPct)}% accurate for you` });
 
   return (
-    <Card>
+    <Card variant="elevated">
       <View style={{ gap: space.lg }}>
-        <Text variant="title3">Your AI profile</Text>
+        <CardHeaderRow title="Your AI profile" icon="sparkles" tint={categoryAccent.ai} />
 
         <View style={{ gap: space.md }}>
           {rows.map((r) => (
@@ -95,7 +95,9 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
               <Text variant="footnote" color={color.secondaryLabel}>
                 {r.label}
               </Text>
-              <Text variant="bodyMedium">{r.value}</Text>
+              <Text variant="bodyMedium" color={color.label}>
+                {r.value}
+              </Text>
             </View>
           ))}
         </View>

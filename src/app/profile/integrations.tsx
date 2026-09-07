@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/display';
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { api, ApiError } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import type { IntegrationConnection } from '@/lib/types';
@@ -95,6 +95,15 @@ export default function IntegrationsScreen() {
 
   const statusOf = (key: string) => conns.find((c) => c.provider === key);
 
+  // Eyebrow reports what is actually connected — no invented Apple Health row
+  // (the app cannot connect to it at all; see UI_PASS_GAPS.md).
+  const connectedCount = PROVIDERS.filter((p) => statusOf(p.key)?.connected).length;
+  const eyebrow = loading
+    ? 'Sync'
+    : connectedCount === 0
+      ? 'Nothing connected'
+      : `${connectedCount} of ${PROVIDERS.length} connected`;
+
   const onConnect = async (p: OAuthProvider) => {
     setBusy(p.key);
     try {
@@ -144,15 +153,15 @@ export default function IntegrationsScreen() {
   };
 
   return (
-    <Screen grouped title="Connected apps" showBack>
+    <Screen variant="floating" eyebrow={eyebrow} title="Connected apps" showBack>
       <Text variant="footnote" color={color.secondaryLabel}>
         Link a fitness app to import workouts automatically.
       </Text>
 
       {loading ? (
         <>
-          <Skeleton height={120} rounded={20} />
-          <Skeleton height={120} rounded={20} />
+          <Skeleton height={140} rounded={radius.xl} />
+          <Skeleton height={140} rounded={radius.xl} />
         </>
       ) : (
         PROVIDERS.map((p) => {
@@ -160,7 +169,7 @@ export default function IntegrationsScreen() {
           const connected = conn?.connected ?? false;
           const working = busy === p.key;
           return (
-            <Card key={p.key}>
+            <Card key={p.key} variant="elevated">
               <View style={{ gap: space.md }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
                   <Text variant="statSmall">{p.emoji}</Text>
@@ -168,7 +177,10 @@ export default function IntegrationsScreen() {
                     <Text variant="title3" color={color.label}>
                       {p.name}
                     </Text>
-                    <Text variant="footnote" color={color.secondaryLabel}>
+                    <Text
+                      variant="footnote"
+                      color={connected ? categoryAccent.positive : color.secondaryLabel}
+                    >
                       {connected
                         ? `Connected${conn?.last_sync_at ? ` · synced ${ago(conn.last_sync_at)}` : ''}`
                         : p.blurb}

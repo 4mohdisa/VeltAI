@@ -1,6 +1,7 @@
-// AnomalyCard — an amber-accented sibling of InsightCard for unusual activity.
-// Left orange border + warning glyph mark it as distinct. Dismiss collapses the
-// card (height + opacity) before calling onDismiss. Reduce-motion aware.
+// AnomalyCard — a sibling of InsightCard for unusual activity. Same elevated
+// white card; the warning glyph alone carries the amber, since colour may mark
+// data and never a surface (tokens.ts). Dismiss collapses the card (height +
+// opacity) before calling onDismiss. Reduce-motion aware.
 import { useRef, useState } from 'react';
 import type { JSX } from 'react';
 import { Animated, View, type LayoutChangeEvent } from 'react-native';
@@ -56,11 +57,11 @@ export function AnomalyCard(props: { anomaly: AIAnomaly; onDismiss: (id: string)
         if (!dismissing) heightRef.current = e.nativeEvent.layout.height;
       }}
     >
-      <Card style={{ borderLeftWidth: 4, borderLeftColor: accent.orange }}>
+      <Card variant="elevated">
         <View style={{ gap: space.sm }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-            <Icon name="warning" size={16} color={accent.orange} />
-            <Text variant="label" color={color.label} style={{ flex: 1 }}>
+            <Icon name="warning" size={17} color={accent.orange} />
+            <Text variant="bodyMedium" color={color.label} numberOfLines={1} style={{ flex: 1 }}>
               {label}
             </Text>
             <Pressable onPress={handleDismiss} minTapTarget={false} hitSlop={10} accessibilityLabel="Dismiss">

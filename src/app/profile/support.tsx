@@ -26,7 +26,7 @@ export default function SupportScreen() {
   };
 
   return (
-    <Screen grouped title="Support" showBack>
+    <Screen variant="floating" eyebrow="Help" title="Support" showBack>
       <SettingsList
         rows={[
           { icon: 'mail-outline', label: 'Email support', value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },

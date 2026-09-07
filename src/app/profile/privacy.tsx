@@ -59,7 +59,7 @@ export default function PrivacyScreen() {
   };
 
   return (
-    <Screen grouped title="Privacy" showBack>
+    <Screen variant="floating" eyebrow="Your data" title="Privacy" showBack>
       <SettingsList
         rows={[
           { icon: 'document-text-outline', label: 'Privacy policy', onPress: () => router.push('/legal/privacy' as Href) },
@@ -78,7 +78,7 @@ export default function PrivacyScreen() {
           },
         ]}
       />
-      <Text variant="footnote" color={color.gray500}>
+      <Text variant="footnote" color={color.secondaryLabel}>
         First-party only, on our own servers — which features are used, never what you log. Never
         sold. Off means fully off.
       </Text>
@@ -95,7 +95,7 @@ export default function PrivacyScreen() {
         />
       ) : null}
       {aiConsent === true ? (
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           Withdraws your consent for Google Gemini (meal photos) and Anthropic (insight wording).
           Scanning and AI features stop working until you accept the disclosure again.
         </Text>
@@ -110,7 +110,7 @@ export default function PrivacyScreen() {
           },
         ]}
       />
-      <Text variant="footnote" color={color.gray500}>
+      <Text variant="footnote" color={color.secondaryLabel}>
         Your health data stays private. We never sell it, and we run no advertising or tracking SDKs
         inside the app.
       </Text>

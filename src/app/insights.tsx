@@ -34,7 +34,7 @@ export default function InsightsScreen() {
   }, []);
   if (!granted) {
     return (
-      <Screen title="Insights" showBack scroll>
+      <Screen variant="floating" eyebrow="Your patterns" title="Insights" showBack scroll>
         {null}
       </Screen>
     );
@@ -55,11 +55,11 @@ function InsightsInner() {
   const isEmpty = !loading && insights.length === 0 && anomalies.length === 0;
 
   return (
-    <Screen title="Insights" showBack scroll>
+    <Screen variant="floating" eyebrow="Your patterns" title="Insights" showBack scroll>
       <BrainProfileCard onAskLume={() => router.push('/ai-query' as Href)} />
 
       {/* Standalone Ask Lume entry — always visible above the feed. */}
-      <Card onPress={() => router.push('/ai-query' as Href)} accessibilityLabel="Ask Lume">
+      <Card variant="elevated" onPress={() => router.push('/ai-query' as Href)} accessibilityLabel="Ask Lume">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Icon name="sparkles" size={24} color={categoryAccent.ai} />
           <View style={{ flex: 1 }}>
@@ -70,16 +70,16 @@ function InsightsInner() {
               Ask about your food, nutrition, or habits
             </Text>
           </View>
-          <Icon name="chevron-forward" size={20} color={color.tertiaryLabel} />
+          <Icon name="chevron-forward" size={14} color={color.tertiaryLabel} />
         </View>
       </Card>
 
       {/* Feed area: loading → skeletons; empty → learning / no-insights state. */}
       {loading ? (
-        <View style={{ gap: space.lg }}>
-          <Skeleton height={96} rounded={radius.lg} />
-          <Skeleton height={96} rounded={radius.lg} />
-          <Skeleton height={96} rounded={radius.lg} />
+        <View style={{ gap: space.md }}>
+          <Skeleton height={96} rounded={radius.xl} />
+          <Skeleton height={96} rounded={radius.xl} />
+          <Skeleton height={96} rounded={radius.xl} />
         </View>
       ) : isEmpty ? (
         notEnoughData ? (
@@ -96,7 +96,7 @@ function InsightsInner() {
           />
         )
       ) : (
-        <View style={{ gap: space.lg }}>
+        <View style={{ gap: space.md }}>
           {feed.map((entry, index) =>
             entry.kind === 'insight' ? (
               <InsightCard

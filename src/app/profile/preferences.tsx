@@ -29,9 +29,10 @@ export default function PreferencesScreen() {
   const system = systemOf(units);
 
   return (
-    <Screen grouped title={t('preferences.title')} showBack backLabel={t('settings.title')}>
+    <Screen variant="floating" eyebrow="Units" title={t('preferences.title')} showBack backLabel={t('settings.title')}>
       <View style={{ gap: space.sm }}>
         <SegmentedField
+          variant="inset"
           label={t('preferences.measurementSystem')}
           value={system}
           onChange={(v) => setSystem(v as 'metric' | 'imperial')}
@@ -40,7 +41,7 @@ export default function PreferencesScreen() {
             { label: t('preferences.imperial'), value: 'imperial' },
           ]}
         />
-        <Text variant="footnote" color={color.gray500}>
+        <Text variant="footnote" color={color.secondaryLabel}>
           {system === 'custom' ? t('preferences.customHint') : t('preferences.systemHint')}
         </Text>
       </View>
@@ -48,6 +49,7 @@ export default function PreferencesScreen() {
       {DIMENSIONS.map((d) => (
         <SegmentedField
           key={d.key}
+          variant="inset"
           label={t(d.labelKey)}
           value={units[d.key]}
           onChange={(v) => setUnit(d.key, v)}
