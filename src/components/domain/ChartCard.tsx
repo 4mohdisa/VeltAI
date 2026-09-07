@@ -1,4 +1,9 @@
-// ChartCard — the standard frame for every chart (HIG data-viz + §7). Gives each
+// ChartCard — the standard frame for every chart (HIG data-viz + §7). Design-file
+// pass: the frame is now an elevated white card on the grey page, headed by the
+// standard CardHeaderRow (bodyMedium name) with the takeaway as a footnote
+// beneath it, instead of an uppercase kicker over a callout.
+//
+// Gives each
 // chart: a headline (what it shows, in words), an optional plain-language takeaway
 // (insight, not just data), a single VoiceOver summary for the whole chart, and
 // empty / loading states. Chrome stays monochrome; the chart inside provides the
@@ -7,6 +12,7 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { Card } from '@/components/display/Card';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { EmptyState } from '@/components/display/EmptyState';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
@@ -41,19 +47,12 @@ export function ChartCard({
   const voiceSummary = summary ?? (takeaway ? `${title}. ${takeaway}` : title);
 
   return (
-    <Card>
+    <Card variant="elevated">
       {/* One VoiceOver element summarises the chart (HIG §7) — title is a header. */}
       <View accessible accessibilityLabel={voiceSummary} style={{ gap: space.xs, marginBottom: space.md }}>
-        <Text
-          variant="footnote"
-          color={color.secondaryLabel}
-          accessibilityRole="header"
-          style={{ textTransform: 'uppercase', letterSpacing: 1 }}
-        >
-          {title}
-        </Text>
+        <CardHeaderRow title={title} />
         {takeaway ? (
-          <Text variant="callout" color={color.label}>
+          <Text variant="footnote" color={color.secondaryLabel}>
             {takeaway}
           </Text>
         ) : null}

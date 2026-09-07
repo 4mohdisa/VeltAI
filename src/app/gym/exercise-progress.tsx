@@ -7,12 +7,12 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 
-import { Badge, Card, EmptyState, Skeleton } from '@/components/display';
+import { Badge, Card, CardHeaderRow, EmptyState, Skeleton } from '@/components/display';
 import { Screen } from '@/components/navigation/Screen';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useExerciseProgress } from '@/lib/data/gymSchedule';
-import { color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -22,10 +22,11 @@ function shortDate(iso: string): string {
   return `${MONTHS[d.getMonth()]} ${d.getDate()}`;
 }
 
+// Plain words, no emoji — the design's badges are monochrome type.
 const TREND_LABEL: Record<string, string> = {
-  improving: '📈 Improving',
-  maintaining: '→ Maintaining',
-  declining: '📉 Declining',
+  improving: 'Improving',
+  maintaining: 'Maintaining',
+  declining: 'Declining',
 };
 
 const CHART_HEIGHT = 132;
@@ -62,12 +63,10 @@ export default function ExerciseProgressScreen(): JSX.Element {
     const recent = [...progress.history].reverse(); // list shows most-recent first
 
     return (
-      <View style={{ gap: space['2xl'] }}>
-        <Card>
-          <Text variant="footnote" color={color.secondaryLabel}>
-            Personal best
-          </Text>
-          <Text variant="statMedium" color={color.black} style={{ marginTop: space.xs }}>
+      <View style={{ gap: space.md }}>
+        <Card variant="elevated">
+          <CardHeaderRow title="Personal best" icon="trophy" tint={categoryAccent.streak} />
+          <Text variant="statMedium" color={color.label} style={{ marginTop: space.sm }}>
             {progress.personal_best
               ? `${progress.personal_best.weight}kg × ${progress.personal_best.reps ?? '?'} reps`
               : '—'}
@@ -76,10 +75,8 @@ export default function ExerciseProgressScreen(): JSX.Element {
 
         <Badge label={TREND_LABEL[progress.trend] ?? 'Not enough data'} />
 
-        <Card>
-          <Text variant="footnote" color={color.secondaryLabel}>
-            Weight over time
-          </Text>
+        <Card variant="elevated">
+          <CardHeaderRow title="Weight over time" scope="Last 10 sessions" />
           {/* Reserve a fixed row for the tap tooltip so the chart never jumps. */}
           <Text variant="caption" color={color.secondaryLabel} style={{ minHeight: 16, textAlign: 'center' }}>
             {selectedBar != null && chartData[selectedBar]
@@ -114,7 +111,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
                       maxWidth: 24,
                       height: barHeight,
                       borderRadius: radius.sm,
-                      backgroundColor: isLast ? color.black : color.gray300,
+                      backgroundColor: isLast ? color.primary : color.light2,
                     }}
                   />
                 </Pressable>
@@ -137,11 +134,9 @@ export default function ExerciseProgressScreen(): JSX.Element {
           </View>
         </Card>
 
-        <Card>
-          <Text variant="footnote" color={color.secondaryLabel} style={{ marginBottom: space.sm }}>
-            History
-          </Text>
-          <View style={{ gap: space.sm }}>
+        <Card variant="elevated">
+          <CardHeaderRow title="History" />
+          <View style={{ gap: space.sm, marginTop: space.md }}>
             {recent.map((e, i) => {
               const vol =
                 e.sets != null && e.reps != null && e.weight != null ? e.sets * e.reps * e.weight : null;
@@ -173,7 +168,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
   })();
 
   return (
-    <Screen title={title} showBack>
+    <Screen variant="floating" eyebrow="Exercise" title={title} showBack>
       {body}
     </Screen>
   );

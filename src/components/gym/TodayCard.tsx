@@ -1,6 +1,8 @@
-// TodayCard — today's scheduled workout at a glance. Self-contained via
-// useToday(); renders nothing when there's no schedule data, and otherwise shows
-// a rest day, a completed state, or the planned template with a Start action.
+// TodayCard — today's scheduled workout at a glance, in the design file's
+// session-card shape: an elevated white card headed by a state dot, the plan's
+// name, its exercise/duration line and a status pill, with the exercises as
+// chips and the Start action beneath. Self-contained via useToday(); renders
+// nothing when there's no schedule data.
 import type { JSX } from 'react';
 import { router, type Href } from 'expo-router';
 import { View } from 'react-native';
@@ -10,14 +12,87 @@ import { Button } from '@/components/forms';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useToday } from '@/lib/data/gymSchedule';
-import { color, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
+
+/** The state dot the design puts at the head of the session card. */
+function Dot({ tint }: { tint: string }): JSX.Element {
+  return <View style={{ width: space.md, height: space.md, borderRadius: radius.full, backgroundColor: tint }} />;
+}
+
+/** Status pill — "Logged" / "Planned" / "Rest". Monochrome, like the design. */
+function StatePill({ label, fill }: { label: string; fill: string }): JSX.Element {
+  return (
+    <View
+      style={{
+        paddingVertical: space.xs,
+        paddingHorizontal: space.sm,
+        borderRadius: radius.pill,
+        backgroundColor: fill,
+      }}
+    >
+      <Text variant="caption" color={color.label}>
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+/** Exercise chip — the design shows the first three by name, then "+N more". */
+function Chip({ label, muted }: { label: string; muted?: boolean }): JSX.Element {
+  return (
+    <View
+      style={{
+        minHeight: space['2xl'],
+        justifyContent: 'center',
+        paddingHorizontal: space.md,
+        borderRadius: radius.pill,
+        backgroundColor: surface.tile,
+      }}
+    >
+      <Text variant="caption" color={muted ? color.secondaryLabel : color.label} numberOfLines={1}>
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+function Header({
+  tint,
+  title,
+  sub,
+  pill,
+  pillFill,
+}: {
+  tint: string;
+  title: string;
+  sub?: string;
+  pill: string;
+  pillFill: string;
+}): JSX.Element {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md, minHeight: space['3xl'] }}>
+      <Dot tint={tint} />
+      <View style={{ flex: 1, gap: space.xs }}>
+        <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
+          {title}
+        </Text>
+        {sub ? (
+          <Text variant="footnote" color={color.secondaryLabel} numberOfLines={1}>
+            {sub}
+          </Text>
+        ) : null}
+      </View>
+      <StatePill label={pill} fill={pillFill} />
+    </View>
+  );
+}
 
 export function TodayCard(): JSX.Element | null {
   const { today, loading } = useToday();
 
   if (loading) {
     return (
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.sm }}>
           <Skeleton width="55%" height={18} />
           <Skeleton width="80%" height={14} />
@@ -31,20 +106,22 @@ export function TodayCard(): JSX.Element | null {
 
   if (today.is_rest_day) {
     return (
-      <Card>
-        <Text variant="title3" color={color.label}>
-          Rest Day 😴
-        </Text>
+      <Card variant="elevated">
+        <Header tint={color.light2} title="Rest day" sub="Nothing scheduled today" pill="Rest" pillFill={color.light1} />
       </Card>
     );
   }
 
   if (today.already_checked_in) {
     return (
-      <Card>
-        <Text variant="title3" color={color.label}>
-          ✓ Completed today
-        </Text>
+      <Card variant="elevated">
+        <Header
+          tint={categoryAccent.positive}
+          title={today.template?.name ?? 'Session'}
+          sub="Logged today"
+          pill="Logged"
+          pillFill={color.light1}
+        />
       </Card>
     );
   }
@@ -58,36 +135,31 @@ export function TodayCard(): JSX.Element | null {
     const shown = names.slice(0, 3);
     const more = names.length - shown.length;
     const duration = today.template.estimated_duration_minutes;
+    const count = today.exercises.length;
+    const sub =
+      `${count} exercise${count === 1 ? '' : 's'} planned` + (duration != null ? ` · about ${duration} min` : '');
 
     return (
-      <Card>
-        <View style={{ gap: space.md }}>
-          <Text variant="title3" color={color.label}>
-            {today.template.name}
-          </Text>
+      <Card variant="elevated">
+        <View style={{ gap: space.lg }}>
+          <Header
+            tint={categoryAccent.streak}
+            title={today.template.name}
+            sub={sub}
+            pill="Planned"
+            pillFill={surface.tile}
+          />
 
           {shown.length > 0 ? (
-            <View style={{ gap: space.xs }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
               {shown.map((n, i) => (
-                <Text key={i} variant="callout" color={color.secondaryLabel} numberOfLines={1}>
-                  {n}
-                </Text>
+                <Chip key={i} label={n} />
               ))}
-              {more > 0 ? (
-                <Text variant="footnote" color={color.secondaryLabel}>
-                  +{more} more
-                </Text>
-              ) : null}
+              {more > 0 ? <Chip label={`+${more} more`} muted /> : null}
             </View>
           ) : null}
 
-          {duration != null ? (
-            <Text variant="footnote" color={color.secondaryLabel}>
-              ~{duration} min
-            </Text>
-          ) : null}
-
-          <Button title="Start Workout →" onPress={() => router.push('/gym/session' as Href)} />
+          <Button title="Start workout" onPress={() => router.push('/gym/session' as Href)} />
         </View>
       </Card>
     );
@@ -95,11 +167,15 @@ export function TodayCard(): JSX.Element | null {
 
   // Today exists but has no template and isn't a rest day → nothing scheduled.
   return (
-    <Card>
+    <Card variant="elevated">
       <View style={{ gap: space.md }}>
-        <Text variant="title3" color={color.label}>
-          No workout scheduled
-        </Text>
+        <Header
+          tint={color.light2}
+          title="Nothing scheduled"
+          sub="Add anything you did"
+          pill="Rest"
+          pillFill={color.light1}
+        />
         <Pressable
           onPress={() => router.push('/gym/schedule' as Href)}
           haptic={false}

@@ -16,9 +16,12 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { useSchedule, useTemplates } from '@/lib/data/gymSchedule';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { navigate } from '@/lib/nav';
 import type { ScheduleDay } from '@/lib/types';
+
+/** Weekday gutter — every workout name starts on one edge (design §3.6). */
+const DAY_WIDTH = 42;
 
 export default function ScheduleScreen() {
   const { schedule, loading: sLoading, refetch } = useSchedule();
@@ -63,7 +66,7 @@ export default function ScheduleScreen() {
   };
 
   return (
-    <Screen title="My Schedule" showBack>
+    <Screen variant="floating" eyebrow="Gym" title="My schedule" showBack>
       {loading ? (
         <View style={{ gap: space.md }}>
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
@@ -79,33 +82,60 @@ export default function ScheduleScreen() {
           onAction={() => navigate('/gym/new-template')}
         />
       ) : (
-        <View style={{ gap: space.md }}>
-          {schedule.map((day) => {
+        /* The design keeps the whole week in ONE elevated card, rows split by a
+           hairline: day label, a trained dot, the workout, then a chevron. */
+        <Card variant="elevated" padded={false}>
+          {schedule.map((day, i) => {
             const row = rowFor(day);
             return (
-              <Card key={day.day_of_week} onPress={() => setActiveDay(day)}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-                  <View style={{ flex: 1, gap: space.xs }}>
-                    <Text variant="bodyBold" color={color.label}>
-                      {day.day_name}
-                    </Text>
-                    {row.template ? (
-                      <Text variant="footnote" color={color.secondaryLabel} numberOfLines={1}>
-                        {row.template.name} · {row.template.exercises.length} exercise
-                        {row.template.exercises.length === 1 ? '' : 's'}
-                      </Text>
-                    ) : (
-                      <Text variant="footnote" color={color.secondaryLabel}>
-                        Rest day
-                      </Text>
-                    )}
-                  </View>
-                  <Icon name="chevron-forward" size={20} color={color.tertiaryLabel} />
+              <Pressable
+                key={day.day_of_week}
+                onPress={() => setActiveDay(day)}
+                haptic={false}
+                minTapTarget={false}
+                accessibilityLabel={`${day.day_name}, ${row.template ? row.template.name : 'rest day'}`}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: space.md,
+                  minHeight: layout.buttonHeight,
+                  paddingVertical: space.md,
+                  paddingHorizontal: space.lg,
+                  borderTopWidth: i === 0 ? 0 : layout.hairline,
+                  borderTopColor: surface.divider,
+                }}
+              >
+                <Text variant="label" color={color.label} style={{ width: DAY_WIDTH }} numberOfLines={1}>
+                  {day.day_name}
+                </Text>
+                <View
+                  style={{
+                    width: space.sm,
+                    height: space.sm,
+                    borderRadius: radius.full,
+                    backgroundColor: row.template ? categoryAccent.streak : color.light2,
+                  }}
+                />
+                <View style={{ flex: 1, gap: space.xs }}>
+                  <Text
+                    variant="callout"
+                    color={row.template ? color.label : color.secondaryLabel}
+                    numberOfLines={1}
+                  >
+                    {row.template ? row.template.name : 'Rest day'}
+                  </Text>
+                  <Text variant="footnote" color={color.tertiaryLabel} numberOfLines={1}>
+                    {row.template
+                      ? `${row.template.exercises.length} exercise${row.template.exercises.length === 1 ? '' : 's'}`
+                      : 'No workout assigned'}
+                  </Text>
                 </View>
-              </Card>
+                {/* Decorative — the row itself carries the label and the action. */}
+                <Icon name="chevron-forward" size={14} color={color.tertiaryLabel} />
+              </Pressable>
             );
           })}
-        </View>
+        </Card>
       )}
 
       <BottomSheet

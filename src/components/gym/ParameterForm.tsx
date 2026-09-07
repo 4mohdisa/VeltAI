@@ -13,7 +13,7 @@ import { SegmentedField } from '@/components/forms/SegmentedField';
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Icon } from '@/components/primitives/Icon';
-import { accent, color, radius, space } from '@/lib/design/tokens';
+import { accent, color, radius, space, surface } from '@/lib/design/tokens';
 import { api, type CalorieResult, type LoggedParameters, type ParameterField, type ParameterSchema } from '@/lib/api';
 
 type RawValue = number | string | boolean;
@@ -55,7 +55,7 @@ function toParams(schema: ParameterSchema, raw: RawValues): LoggedParameters {
 const CONFIDENCE_TINT: Record<CalorieResult['confidence'], string> = {
   high: accent.green,
   medium: accent.orange,
-  low: color.gray400,
+  low: color.tertiaryLabel,
 };
 
 export function ParameterForm({
@@ -167,7 +167,14 @@ export function ParameterForm({
 
       {/* Live preview */}
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, marginTop: space.xs }}>
-        <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: preview ? CONFIDENCE_TINT[preview.confidence] : color.gray300 }} />
+        <View
+          style={{
+            width: space.sm,
+            height: space.sm,
+            borderRadius: radius.full,
+            backgroundColor: preview ? CONFIDENCE_TINT[preview.confidence] : color.light3,
+          }}
+        />
         <Text variant="bodyMedium" color={color.label}>
           {previewLoading && !preview
             ? 'Calculating…'
@@ -195,7 +202,7 @@ export function ParameterForm({
       </View>
 
       {showExplain && preview ? (
-        <View style={{ gap: space.xs, padding: space.md, borderRadius: radius.md, backgroundColor: color.gray50 }}>
+        <View style={{ gap: space.xs, padding: space.md, borderRadius: radius.md, backgroundColor: surface.tile }}>
           <Text variant="footnote" color={color.secondaryLabel}>
             {preview.explanation}
           </Text>
@@ -232,6 +239,7 @@ function Field({ field, raw, onChange }: { field: ParameterField; raw: RawValue 
         value={String(raw ?? field.default ?? options[0]?.value ?? '')}
         onChange={(v) => onChange(v)}
         options={options}
+        variant="inset"
       />
     );
   }
@@ -241,7 +249,7 @@ function Field({ field, raw, onChange }: { field: ParameterField; raw: RawValue 
         <Text variant="body" color={color.label}>
           {field.label}
         </Text>
-        <Switch value={Boolean(raw)} onValueChange={(v) => onChange(v)} trackColor={{ true: color.black, false: color.gray300 }} />
+        <Switch value={Boolean(raw)} onValueChange={(v) => onChange(v)} trackColor={{ true: color.primary, false: color.light2 }} />
       </View>
     );
   }

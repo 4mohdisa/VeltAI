@@ -23,6 +23,9 @@ type Pill = 'All' | 'Chest' | 'Back' | 'Legs' | 'Shoulders' | 'Arms' | 'Core' | 
 
 const PILLS: Pill[] = ['All', 'Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core', 'Cardio'];
 
+/** Filter-chip height from the design's Add-exercises sheet. */
+const CHIP_HEIGHT = 34;
+
 // Each muscle pill → the muscle_group_primary values it covers (lowercased match).
 // 'All' and 'Cardio' are handled separately (Cardio filters on exercise_type).
 const MUSCLE_SETS: Record<Exclude<Pill, 'All' | 'Cardio'>, string[]> = {
@@ -121,13 +124,14 @@ export function ExercisePicker({
                   accessibilityState={{ selected }}
                   accessibilityLabel={p}
                   style={{
-                    paddingVertical: space.sm,
+                    minHeight: CHIP_HEIGHT,
+                    justifyContent: 'center',
                     paddingHorizontal: space.lg,
                     borderRadius: radius.pill,
-                    backgroundColor: selected ? color.black : surface.card,
+                    backgroundColor: selected ? color.primary : surface.tile,
                   }}
                 >
-                  <Text variant="label" color={selected ? color.white : color.secondaryLabel}>
+                  <Text variant="label" color={selected ? color.onPrimary : color.label}>
                     {p}
                   </Text>
                 </Pressable>

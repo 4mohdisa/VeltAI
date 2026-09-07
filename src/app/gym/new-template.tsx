@@ -18,7 +18,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { track } from '@/lib/analytics';
-import { color, space, surface } from '@/lib/design/tokens';
+import { color, layout, radius, shadow, space, surface } from '@/lib/design/tokens';
 import type { ExerciseLibraryItem, TemplateInput } from '@/lib/types';
 
 type Item = { exercise: ExerciseLibraryItem; planned: PlannedValues };
@@ -118,11 +118,13 @@ export default function NewTemplateScreen() {
 
   return (
     <Screen
-      title={editing ? 'Edit Workout' : 'New Workout'}
+      variant="floating"
+      eyebrow="Workout"
+      title={editing ? 'Edit workout' : 'New workout'}
       showBack
       footer={
         <Button
-          title={saving ? 'Saving…' : 'Save Workout'}
+          title={saving ? 'Saving…' : 'Save workout'}
           onPress={save}
           disabled={!canSave}
           loading={saving}
@@ -151,8 +153,8 @@ export default function NewTemplateScreen() {
       />
 
       <View style={{ gap: space.md }}>
-        <Text variant="label" color={color.secondaryLabel}>
-          EXERCISES
+        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+          Exercises
         </Text>
 
         {items.length === 0 ? (
@@ -160,64 +162,68 @@ export default function NewTemplateScreen() {
             {editing ? 'No exercises on this workout.' : 'Add exercises to build your workout.'}
           </Text>
         ) : (
-          items.map((it, i) => {
-            const removeAt = () => setItems((prev) => prev.filter((_, idx) => idx !== i));
-            const confirmDelete = () =>
-              Alert.alert('Remove exercise?', undefined, [
-                { text: 'Cancel', style: 'cancel' },
-                { text: 'Delete', style: 'destructive', onPress: removeAt },
-              ]);
-            const inner = (
-              <View
-                accessibilityActions={editing ? undefined : [{ name: 'delete', label: 'Remove exercise' }]}
-                onAccessibilityAction={(e) => {
-                  if (e.nativeEvent.actionName === 'delete') confirmDelete();
-                }}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: space.md,
-                  backgroundColor: color.white,
-                  paddingVertical: space.md,
-                  paddingHorizontal: space.xs,
-                  borderBottomWidth: 1,
-                  borderBottomColor: surface.divider,
-                }}
-              >
-                <View style={{ flex: 1, gap: space.xs }}>
-                  <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
-                    {it.exercise.name}
-                  </Text>
-                  <Text variant="footnote" color={color.secondaryLabel}>
-                    {summarize(it.exercise, it.planned)}
-                  </Text>
-                </View>
-                {!editing ? (
-                  <Pressable
-                    onPress={confirmDelete}
-                    haptic={false}
-                    minTapTarget={false}
-                    hitSlop={8}
-                    accessibilityLabel={`Remove ${it.exercise.name}`}
+          // One elevated card holds the exercise rows; the clip lives on the inner
+          // view because iOS drops a view's own shadow when that view clips.
+          <View style={{ backgroundColor: surface.cardElevated, borderRadius: radius.lg, ...shadow.sm }}>
+            <View style={{ borderRadius: radius.lg, overflow: 'hidden' }}>
+              {items.map((it, i) => {
+                const removeAt = () => setItems((prev) => prev.filter((_, idx) => idx !== i));
+                const confirmDelete = () =>
+                  Alert.alert('Remove exercise?', undefined, [
+                    { text: 'Cancel', style: 'cancel' },
+                    { text: 'Delete', style: 'destructive', onPress: removeAt },
+                  ]);
+                const inner = (
+                  <View
+                    accessibilityActions={editing ? undefined : [{ name: 'delete', label: 'Remove exercise' }]}
+                    onAccessibilityAction={(e) => {
+                      if (e.nativeEvent.actionName === 'delete') confirmDelete();
+                    }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: space.md,
+                      // White so a swipe-to-delete reveal stays behind the row.
+                      backgroundColor: surface.cardElevated,
+                      minHeight: layout.buttonHeight,
+                      paddingVertical: space.md,
+                      paddingHorizontal: space.lg,
+                      borderBottomWidth: i === items.length - 1 ? 0 : layout.hairline,
+                      borderBottomColor: surface.divider,
+                    }}
                   >
-                    <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
-                  </Pressable>
-                ) : null}
-              </View>
-            );
-            // Edit mode is name/duration-only, so exercise rows are read-only there.
-            return editing ? (
-              <View key={`${it.exercise.id}-${i}`}>{inner}</View>
-            ) : (
-              <SwipeableRow
-                key={`${it.exercise.id}-${i}`}
-                confirmTitle="Remove exercise?"
-                onDelete={removeAt}
-              >
-                {inner}
-              </SwipeableRow>
-            );
-          })
+                    <View style={{ flex: 1, gap: space.xs }}>
+                      <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
+                        {it.exercise.name}
+                      </Text>
+                      <Text variant="footnote" color={color.secondaryLabel}>
+                        {summarize(it.exercise, it.planned)}
+                      </Text>
+                    </View>
+                    {!editing ? (
+                      <Pressable
+                        onPress={confirmDelete}
+                        haptic={false}
+                        minTapTarget={false}
+                        hitSlop={8}
+                        accessibilityLabel={`Remove ${it.exercise.name}`}
+                      >
+                        <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
+                      </Pressable>
+                    ) : null}
+                  </View>
+                );
+                // Edit mode is name/duration-only, so exercise rows are read-only there.
+                return editing ? (
+                  <View key={`${it.exercise.id}-${i}`}>{inner}</View>
+                ) : (
+                  <SwipeableRow key={`${it.exercise.id}-${i}`} confirmTitle="Remove exercise?" onDelete={removeAt}>
+                    {inner}
+                  </SwipeableRow>
+                );
+              })}
+            </View>
+          </View>
         )}
 
         {editing && items.length > 0 ? (
@@ -228,10 +234,11 @@ export default function NewTemplateScreen() {
 
         {!editing ? (
           <Button
-            title="Add Exercise"
-            variant="secondary"
+            title="Add an exercise"
+            variant="tertiary"
             icon="add"
             onPress={() => setPickerOpen(true)}
+            style={{ backgroundColor: surface.tile }}
           />
         ) : null}
       </View>

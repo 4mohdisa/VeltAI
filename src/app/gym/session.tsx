@@ -18,7 +18,7 @@ import { Text } from '@/components/primitives/Text';
 import type { ExerciseLibraryItem, GymExerciseInput, LoggedParameters, ParameterSchema } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { useToday } from '@/lib/data/gymSchedule';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, radius, space, surface } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { logGymSession } from '@/lib/data';
 
@@ -46,6 +46,9 @@ type RowState = {
 
 // Shared empty state — always spread, never mutated.
 const EMPTY_STATE: RowState = { checked: false, expanded: false, sets: [], duration: '', distance: '', params: {} };
+
+/** "Set 1" gutter — every value box lines up on one edge (design §3.2). */
+const SET_LABEL_WIDTH = 46;
 
 // Blank / non-numeric → undefined (field unset), matching PlannedValuesForm.
 function toNum(s: string): number | undefined {
@@ -289,7 +292,7 @@ export default function GymSessionScreen(): JSX.Element {
   const renderRow = (row: Row) => {
     const st = states[row.key] ?? EMPTY_STATE;
     return (
-      <Card key={row.key}>
+      <Card key={row.key} variant="elevated">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Pressable
             onPress={() => toggleCheck(row)}
@@ -303,7 +306,7 @@ export default function GymSessionScreen(): JSX.Element {
             <Icon
               name={st.checked ? 'checkmark-circle' : 'ellipse'}
               size={26}
-              color={st.checked ? color.black : color.gray400}
+              color={st.checked ? color.primary : color.light3}
             />
           </Pressable>
 
@@ -367,7 +370,9 @@ export default function GymSessionScreen(): JSX.Element {
               <>
                 {st.sets.map((s, idx) => (
                   <View key={idx} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-                    <Text variant="label" color={color.secondaryLabel} style={{ minWidth: 44 }}>
+                    {/* The design labels each set row in the muted footnote and
+                        keeps every value box on one left edge. */}
+                    <Text variant="footnote" color={color.secondaryLabel} style={{ minWidth: SET_LABEL_WIDTH }}>
                       {`Set ${idx + 1}`}
                     </Text>
                     <View style={{ flex: 1 }}>
@@ -390,7 +395,14 @@ export default function GymSessionScreen(): JSX.Element {
                     </View>
                   </View>
                 ))}
-                <Button title="Add set" variant="tertiary" fullWidth={false} icon="add" onPress={() => addSet(row)} />
+                <Button
+                  title="Add set"
+                  variant="tertiary"
+                  fullWidth={false}
+                  icon="add"
+                  onPress={() => addSet(row)}
+                  style={{ alignSelf: 'flex-start', backgroundColor: surface.tile }}
+                />
                 {/* Optional RPE (0 = not set), feeds progression not calories. */}
                 <SliderField
                   label="RPE — effort (optional)"
@@ -411,12 +423,14 @@ export default function GymSessionScreen(): JSX.Element {
 
   return (
     <Screen
+      variant="floating"
+      eyebrow="Today"
       title={today?.template?.name ?? 'Workout'}
       showBack
       footer={
         hasExercises ? (
           <Button
-            title="Finish Workout"
+            title="Finish workout"
             onPress={() => void finishWorkout('Workout saved')}
             loading={saving}
             disabled={saving}
@@ -439,16 +453,20 @@ export default function GymSessionScreen(): JSX.Element {
           onAction={() => setPickerVisible(true)}
         />
       ) : (
-        <View style={{ gap: space.lg }}>
-          <Text variant="callout" color={color.secondaryLabel}>
+        <View style={{ gap: space.md }}>
+          <Text variant="footnote" color={color.secondaryLabel}>
             Tick each exercise as you complete it
           </Text>
           {rows.map(renderRow)}
+          {/* The design's secondary action is a filled grey pill, not an
+              outlined one — Button keeps its variants, the fill comes from the
+              call site so no other screen's buttons change. */}
           <Button
-            title="Add extra exercise"
+            title="Add an extra exercise"
             variant="tertiary"
-            icon="add-circle"
+            icon="add"
             onPress={() => setPickerVisible(true)}
+            style={{ backgroundColor: surface.tile }}
           />
         </View>
       )}

@@ -1,22 +1,24 @@
 // D1 · Gym log (default)
-// Streak counter + flame at top, the 30-day calendar grid, and today's status —
-// a big "Log gym session" button if not logged, or a logged confirmation.
+// Design-file pass: a grey page with a floating blurred header — date eyebrow +
+// large "Gym" title inside the scroll, then the streak strip, the month
+// heatmap, today's session, muscle focus, gym habits, the log CTA and the
+// training list. Same data, same routes; only the surfaces changed.
 import { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, type Href } from 'expo-router';
 
 import { Card } from '@/components/display/Card';
+import { SettingsList } from '@/components/display/SettingsList';
 import { Stat } from '@/components/display/Stat';
-import { Button } from '@/components/forms/Button';
-import { Pressable } from '@/components/primitives/Pressable';
+import { StreakFlame } from '@/components/display/StreakFlame';
 import { Text } from '@/components/primitives/Text';
-import { StreakCounter } from '@/components/domain/StreakCounter';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
 import { ChartCard } from '@/components/domain/ChartCard';
+import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { TodayCard, MuscleChart, GymPatternsCard } from '@/components/gym';
-import { color, space } from '@/lib/design/tokens';
+import { color, space, surface } from '@/lib/design/tokens';
 import { useGym } from '@/lib/data';
 
 export default function GymLogScreen() {
@@ -24,6 +26,7 @@ export default function GymLogScreen() {
     data: { streak, calendar },
     refetch,
   } = useGym();
+  const insets = useSafeAreaInsets();
   // Native pull-to-refresh: re-run the gym hydration; spinner clears on a short
   // trailing delay since refetch is fire-and-forget by design.
   const [refreshing, setRefreshing] = useState(false);
@@ -35,30 +38,72 @@ export default function GymLogScreen() {
   // Computed takeaway for the calendar chart (insight, not just the grid).
   const sessions = calendar.filter((d) => d.status === 'session').length;
   const freezes = calendar.filter((d) => d.status === 'freeze').length;
+  // The date eyebrow — today, the day this screen is about. Real clock, no state.
+  // Device locale, like food/history — the design's order is en-GB's, but the
+  // user's own formatting wins over copying the prototype's string.
+  const dateLine = new Date().toLocaleDateString(undefined, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['top']}>
+    // No SafeAreaView top edge: the scroll runs under the status bar so the
+    // blurred header strip has something to blur (same recipe as Screen's
+    // 'floating' variant, which a tab screen cannot use — it owns no back bar).
+    <View style={{ flex: 1, backgroundColor: surface.backgroundAlt }}>
       <ScrollView
-        contentContainerStyle={{ padding: space.xl, gap: space['2xl'], paddingBottom: space['4xl'] }}
+        contentContainerStyle={{
+          paddingTop: insets.top + space.md,
+          paddingHorizontal: space.lg,
+          paddingBottom: space['4xl'],
+          gap: space.md,
+        }}
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
-        {/* Large title (HIG §4.2) — left-aligned, scrolls away on the list root */}
-        <Text variant="title1" color={color.label}>
-          Gym
-        </Text>
+        {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
+            passes under the blur rather than sitting in a bar. */}
+        <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+          <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+            {dateLine}
+          </Text>
+          <Text variant="title1" color={color.label} accessibilityRole="header">
+            Gym
+          </Text>
+        </View>
 
-        {/* Today's scheduled workout (renders null when nothing is scheduled). */}
-        <TodayCard />
-
-        <Pressable
-          haptic={false}
-          minTapTarget={false}
+        {/* Streak strip: flame + count on one line, the streak's own numbers under it. */}
+        <Card
+          variant="elevated"
           onPress={() => router.push('/gym/streak')}
-          accessibilityLabel="Streak detail"
+          accessibilityLabel={`Streak detail. ${streak.current} day streak`}
         >
-          <StreakCounter days={streak.current} />
-        </Pressable>
+          <View style={{ gap: space.lg }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
+              <StreakFlame size={space.xl} active={streak.current > 0} />
+              <Text variant="statSmall" color={color.label}>
+                {streak.current}
+              </Text>
+              <Text variant="bodyMedium" color={color.label}>
+                day streak
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <Stat value={streak.longest} label="Longest" size="small" align="center" valueColor={color.label} />
+              <Stat value={streak.totalGymDays} label="Total" size="small" align="center" valueColor={color.label} />
+              <Stat
+                value={streak.freezesAvailable}
+                label="Freezes"
+                size="small"
+                align="center"
+                valueColor={color.label}
+              />
+            </View>
+          </View>
+        </Card>
 
+        {/* Month heatmap — the design's training grid, on our 30-day window. */}
         <ChartCard
           title="Last 30 days"
           takeaway={`${streak.current}-day streak · ${sessions} sessions, ${freezes} freeze${freezes === 1 ? '' : 's'}`}
@@ -67,46 +112,27 @@ export default function GymLogScreen() {
           <GymCalendar days={calendar} />
         </ChartCard>
 
-        <Card>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Stat value={streak.longest} label="Longest" size="small" align="center" />
-            <Stat value={streak.totalGymDays} label="Total" size="small" align="center" />
-            <Stat value={streak.freezesAvailable} label="Freezes" size="small" align="center" />
-          </View>
-        </Card>
+        {/* Today's scheduled workout (renders null when nothing is scheduled). */}
+        <TodayCard />
 
-        {/* Learned gym habits + muscle activity (both degrade to muted text with no data). */}
-        <GymPatternsCard />
+        {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
         <MuscleChart />
+        <GymPatternsCard />
 
-        <View style={{ gap: space.sm }}>
-          <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
-          <Button
-            title="My schedule"
-            variant="tertiary"
-            icon="calendar"
-            onPress={() => router.push('/gym/schedule' as Href)}
-          />
-          <Button
-            title="My workouts"
-            variant="tertiary"
-            icon="barbell"
-            onPress={() => router.push('/gym/templates' as Href)}
-          />
-          <Button
-            title="Apply a streak freeze"
-            variant="tertiary"
-            icon="snow"
-            onPress={() => router.push('/gym/freeze')}
-          />
-          <Button
-            title="Session history"
-            variant="tertiary"
-            icon="time"
-            onPress={() => router.push('/gym/history')}
-          />
-        </View>
+        <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
+
+        <SettingsList
+          title="Training"
+          rows={[
+            { icon: 'calendar', label: 'My schedule', onPress: () => router.push('/gym/schedule' as Href) },
+            { icon: 'barbell', label: 'My workouts', onPress: () => router.push('/gym/templates' as Href) },
+            { icon: 'snow', label: 'Apply a streak freeze', onPress: () => router.push('/gym/freeze') },
+            { icon: 'time', label: 'Session history', onPress: () => router.push('/gym/history') },
+          ]}
+        />
       </ScrollView>
-    </SafeAreaView>
+
+      <FloatingHeader height={insets.top + space.xl} />
+    </View>
   );
 }

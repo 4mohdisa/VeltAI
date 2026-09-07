@@ -1,35 +1,38 @@
 // GymPatternsCard — a plain-language summary of the user's gym habits (frequency,
-// adherence, most/least-trained muscles, most-missed day). Self-contained via
-// useGymPatterns(); shows a muted prompt until there's enough logged data.
+// adherence, most/least-trained muscles, most-missed day) in the design file's
+// card language: an elevated white card, a CardHeaderRow, and tinted / tile
+// chips instead of black pills. Self-contained via useGymPatterns(); shows a
+// muted prompt until there's enough logged data.
 import type { JSX } from 'react';
 import { View } from 'react-native';
 
-import { Card, Skeleton } from '@/components/display';
+import { Card, CardHeaderRow, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
 
 const cap = (s: string) => (s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
-function Pill({ label, filled }: { label: string; filled: boolean }): JSX.Element {
+function Chip({ label }: { label: string }): JSX.Element {
   return (
     <View
       style={{
         alignSelf: 'flex-start',
+        minHeight: space['2xl'],
+        justifyContent: 'center',
         borderRadius: radius.pill,
-        paddingVertical: space.xs,
         paddingHorizontal: space.md,
-        backgroundColor: filled ? color.black : surface.card,
+        backgroundColor: surface.tile,
       }}
     >
-      <Text variant="label" color={filled ? color.white : color.secondaryLabel}>
+      <Text variant="caption" color={color.label}>
         {cap(label)}
       </Text>
     </View>
   );
 }
 
-function PillRow({ title, muscles, filled }: { title: string; muscles: string[]; filled: boolean }): JSX.Element | null {
+function ChipRow({ title, muscles }: { title: string; muscles: string[] }): JSX.Element | null {
   if (muscles.length === 0) return null;
   return (
     <View style={{ gap: space.sm }}>
@@ -38,7 +41,7 @@ function PillRow({ title, muscles, filled }: { title: string; muscles: string[];
       </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
         {muscles.map((m) => (
-          <Pill key={m} label={m} filled={filled} />
+          <Chip key={m} label={m} />
         ))}
       </View>
     </View>
@@ -50,7 +53,7 @@ export function GymPatternsCard(): JSX.Element {
 
   if (loading) {
     return (
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.md }}>
           <Skeleton width="50%" height={18} />
           <Skeleton width="80%" height={14} />
@@ -65,8 +68,8 @@ export function GymPatternsCard(): JSX.Element {
 
   if (notEnough) {
     return (
-      <Card>
-        <Text variant="callout" color={color.secondaryLabel}>
+      <Card variant="elevated">
+        <Text variant="footnote" color={color.secondaryLabel}>
           Keep logging to see patterns
         </Text>
       </Card>
@@ -77,23 +80,31 @@ export function GymPatternsCard(): JSX.Element {
   const adherence = Math.round(patterns.adherence_rate * 100);
 
   return (
-    <Card>
+    <Card variant="elevated">
       <View style={{ gap: space.lg }}>
-        <Text variant="title3" color={color.label}>
-          Your Gym Habits
-        </Text>
+        <CardHeaderRow title="Your gym habits" icon="stats-chart" tint={categoryAccent.positive} />
 
-        <View style={{ gap: space.xs }}>
-          <Text variant="body" color={color.label}>
-            ~{perWeek} sessions/week
-          </Text>
-          <Text variant="body" color={color.label}>
-            {adherence}% schedule adherence
-          </Text>
+        <View style={{ flexDirection: 'row', gap: space['2xl'] }}>
+          <View style={{ gap: space.xs }}>
+            <Text variant="statSmall" color={color.label}>
+              {perWeek}
+            </Text>
+            <Text variant="caption" color={color.secondaryLabel}>
+              Sessions a week
+            </Text>
+          </View>
+          <View style={{ gap: space.xs }}>
+            <Text variant="statSmall" color={color.label}>
+              {`${adherence}%`}
+            </Text>
+            <Text variant="caption" color={color.secondaryLabel}>
+              Schedule adherence
+            </Text>
+          </View>
         </View>
 
-        <PillRow title="Most trained" muscles={patterns.most_trained_muscles.slice(0, 2)} filled />
-        <PillRow title="Needs attention" muscles={patterns.least_trained_muscles.slice(0, 2)} filled={false} />
+        <ChipRow title="Most trained" muscles={patterns.most_trained_muscles.slice(0, 2)} />
+        <ChipRow title="Needs attention" muscles={patterns.least_trained_muscles.slice(0, 2)} />
 
         {patterns.most_missed_day ? (
           <Text variant="footnote" color={color.secondaryLabel}>

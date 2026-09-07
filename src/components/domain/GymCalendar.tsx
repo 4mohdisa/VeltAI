@@ -1,16 +1,23 @@
-// GymCalendar — 30-day grid. Filled black circle = session, snowflake = freeze,
-// empty outline = missed, ring = today. Read-only history view.
+// GymCalendar — the design file's month heatmap, on our 30-day index-keyed
+// model: a 7-column grid of rounded square cells whose FILL carries training
+// (streak orange = trained), with a legend beneath.
+//
+// The day model stays index-keyed (`{ index, status }`) — it carries no dates,
+// so the cells carry no digits and the grid is not calendar-aligned. Making it
+// date-keyed is a data change, not a style one (DECISIONS.md, UI pass).
+//
+// Colour never carries a state on its own (HIG §8.3): a session keeps its
+// checkmark and a freeze its snowflake, so the grid reads without colour.
 import { View } from 'react-native';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, radius, space } from '@/lib/design/tokens';
 import type { DayStatus } from '@/lib/mock/data';
 
-const CELL = 36;
+/** Weeks are seven wide; cells size themselves off the card width. */
+const COLUMNS = 7;
 
-// Day states are encoded by SHAPE/SYMBOL, not colour (HIG §8.3): filled +
-// checkmark = session, snowflake = freeze, ring = today, thin outline = missed.
 const STATUS_LABEL: Record<DayStatus, string> = {
   session: 'Session logged',
   freeze: 'Streak freeze',
@@ -21,9 +28,9 @@ const STATUS_LABEL: Record<DayStatus, string> = {
 
 function Cell({ status }: { status: DayStatus }) {
   const base = {
-    width: CELL,
-    height: CELL,
-    borderRadius: radius.full,
+    flex: 1,
+    aspectRatio: 1,
+    borderRadius: radius.sm,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
   };
@@ -32,22 +39,41 @@ function Cell({ status }: { status: DayStatus }) {
   switch (status) {
     case 'session':
       return (
-        <View {...a11y} style={[base, { backgroundColor: color.black }]}>
-          <Icon name="checkmark" size={18} color={color.white} />
+        <View {...a11y} style={[base, { backgroundColor: categoryAccent.streak }]}>
+          <Icon name="checkmark" size={space.md} color={color.white} />
         </View>
       );
     case 'freeze':
       return (
-        <View {...a11y} style={[base, { backgroundColor: color.gray100, borderWidth: 1, borderColor: color.gray200 }]}>
-          <Icon name="snow" size={16} color={color.gray500} />
+        <View {...a11y} style={[base, { backgroundColor: color.light3 }]}>
+          <Icon name="snow" size={space.md} color={color.label} />
         </View>
       );
     case 'today':
-      return <View {...a11y} style={[base, { borderWidth: 2, borderColor: color.black }]} />;
+      // The selected-day ring, as the design draws it: white cell, black outline.
+      return (
+        <View
+          {...a11y}
+          style={[
+            base,
+            {
+              backgroundColor: color.white,
+              borderWidth: layout.borderWidth * 2,
+              borderColor: color.primary,
+            },
+          ]}
+        />
+      );
     case 'missed':
-      return <View {...a11y} style={[base, { borderWidth: 1, borderColor: color.gray200 }]} />;
+      return <View {...a11y} style={[base, { backgroundColor: color.light2 }]} />;
     default:
-      return <View {...a11y} style={[base, { backgroundColor: color.gray50 }]} />;
+      // Future days sit empty behind a hairline outline.
+      return (
+        <View
+          {...a11y}
+          style={[base, { backgroundColor: color.white, borderWidth: layout.borderWidth, borderColor: color.light2 }]}
+        />
+      );
   }
 }
 
@@ -56,36 +82,40 @@ export type GymCalendarProps = {
 };
 
 export function GymCalendar({ days }: GymCalendarProps) {
+  const weeks: GymCalendarProps['days'][] = [];
+  for (let i = 0; i < days.length; i += COLUMNS) weeks.push(days.slice(i, i + COLUMNS));
+  // A short final week is padded with empty flex spacers so every cell in the
+  // grid keeps the same edge length.
+  const trailing = weeks.length > 0 ? COLUMNS - weeks[weeks.length - 1].length : 0;
+
   return (
-    <View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, justifyContent: 'center' }}>
-        {days.map((d) => (
-          <Cell key={d.index} status={d.status} />
-        ))}
-      </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: space.lg, marginTop: space.md }}>
-        <Legend tint={color.black} label="Session" />
-        <Legend tint={color.gray400} label="Freeze" icon />
-        <Legend tint={color.gray200} label="Missed" outline />
+    <View style={{ gap: space.xs }}>
+      {weeks.map((week, wi) => (
+        <View key={wi} style={{ flexDirection: 'row', gap: space.xs }}>
+          {week.map((d) => (
+            <Cell key={d.index} status={d.status} />
+          ))}
+          {wi === weeks.length - 1
+            ? Array.from({ length: trailing }, (_, i) => <View key={`pad-${i}`} style={{ flex: 1 }} />)
+            : null}
+        </View>
+      ))}
+
+      <View style={{ flexDirection: 'row', gap: space.lg, marginTop: space.sm }}>
+        <Legend fill={categoryAccent.streak} label="Session" />
+        <Legend fill={color.light3} label="Freeze" />
+        <Legend fill={color.light2} label="Missed" />
       </View>
     </View>
   );
 }
 
-function Legend({ tint, label, icon, outline }: { tint: string; label: string; icon?: boolean; outline?: boolean }) {
+function Legend({ fill, label }: { fill: string; label: string }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-      <View
-        style={{
-          width: 12,
-          height: 12,
-          borderRadius: radius.full,
-          backgroundColor: outline ? 'transparent' : icon ? color.gray100 : tint,
-          borderWidth: outline ? 1 : 0,
-          borderColor: tint,
-        }}
-      />
-      <Text variant="caption" color={color.gray500}>
+      {/* A swatch of the same shape as a grid cell, so the key reads as the grid. */}
+      <View style={{ width: space.md, height: space.md, borderRadius: radius.sm, backgroundColor: fill }} />
+      <Text variant="caption" color={color.secondaryLabel}>
         {label}
       </Text>
     </View>

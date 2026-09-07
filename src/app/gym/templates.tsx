@@ -21,7 +21,9 @@ export default function TemplatesScreen() {
 
   return (
     <Screen
-      title="My Workouts"
+      variant="floating"
+      eyebrow="Gym"
+      title="My workouts"
       showBack
       headerRight={
         <Pressable onPress={openNew} minTapTarget={false} hitSlop={10} accessibilityLabel="New workout">
@@ -45,18 +47,24 @@ export default function TemplatesScreen() {
       ) : (
         <View style={{ gap: space.md }}>
           {templates.map((t) => (
-            <Card key={t.id} onPress={() => navigate(`/gym/new-template?id=${t.id}`)}>
+            <Card
+              key={t.id}
+              variant="elevated"
+              onPress={() => navigate(`/gym/new-template?id=${t.id}`)}
+              accessibilityLabel={t.name}
+            >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
                 <View style={{ flex: 1, gap: space.xs }}>
-                  <Text variant="bodyBold" color={color.label} numberOfLines={1}>
+                  <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
                     {t.name}
                   </Text>
                   <Text variant="footnote" color={color.secondaryLabel}>
                     {t.exercises.length} exercise{t.exercises.length === 1 ? '' : 's'}
-                    {t.estimated_duration_minutes ? ` · ${t.estimated_duration_minutes} min` : ''}
+                    {t.estimated_duration_minutes ? ` · about ${t.estimated_duration_minutes} min` : ''}
                   </Text>
                 </View>
-                <Icon name="chevron-forward" size={20} color={color.tertiaryLabel} />
+                {/* Decorative — the card carries the label and the action. */}
+                <Icon name="chevron-forward" size={14} color={color.tertiaryLabel} />
               </View>
             </Card>
           ))}

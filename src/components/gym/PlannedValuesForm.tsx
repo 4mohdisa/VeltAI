@@ -85,7 +85,13 @@ export function PlannedValuesForm({
       ) : null}
 
       {!isCardio ? (
-        <SegmentedField<'kg' | 'lb'> label="Unit" options={UNIT_OPTIONS} value={unit} onChange={setUnit} />
+        <SegmentedField<'kg' | 'lb'>
+          label="Unit"
+          options={UNIT_OPTIONS}
+          value={unit}
+          onChange={setUnit}
+          variant="inset"
+        />
       ) : null}
 
       {isCardio ? (
@@ -106,7 +112,7 @@ export function PlannedValuesForm({
         placeholder="—"
       />
 
-      <Button title="Add to Template" onPress={submit} />
+      <Button title="Add exercise" onPress={submit} />
     </View>
   );
 }
