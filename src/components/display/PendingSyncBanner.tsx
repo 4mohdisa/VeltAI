@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
-import { color, radius, space } from '@/lib/design/tokens';
+import { color, radius, space, surface } from '@/lib/design/tokens';
 import { subscribe } from '@/lib/offline/queue';
 
 /** Live count of queued (offline) writes awaiting sync. */
@@ -29,8 +29,8 @@ export function PendingSyncBanner(): JSX.Element | null {
         gap: space.sm,
         paddingVertical: space.sm,
         paddingHorizontal: space.md,
-        borderRadius: radius.md,
-        backgroundColor: color.gray100,
+        borderRadius: radius.lg,
+        backgroundColor: surface.tile,
       }}
     >
       <Icon name="cloud-offline-outline" size={16} color={color.secondaryLabel} />

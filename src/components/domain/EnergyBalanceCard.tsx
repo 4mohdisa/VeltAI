@@ -8,9 +8,10 @@ import { router, type Href } from 'expo-router';
 
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
+import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
-import { accent, color, radius, space } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { useEnergyBalance } from '@/lib/data/energy';
 import type { EnergyBalance } from '@/lib/types';
 
@@ -45,7 +46,7 @@ function MiniBar({ label, value, max, tint }: { label: string; value: number; ma
           {round(value)} kcal
         </Text>
       </View>
-      <View style={{ height: 8, borderRadius: radius.pill, backgroundColor: color.gray200, overflow: 'hidden' }}>
+      <View style={{ height: 8, borderRadius: radius.pill, backgroundColor: color.light2, overflow: 'hidden' }}>
         <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.pill, backgroundColor: tint }} />
       </View>
     </View>
@@ -58,10 +59,10 @@ function Content({ b }: { b: EnergyBalance }): JSX.Element {
 
   return (
     <View style={{ gap: space.lg }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Text variant="title3" color={color.label}>
-          Energy balance
-        </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space.sm }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <CardHeaderRow title="Energy balance" icon="flame" tint={categoryAccent.calories} />
+        </View>
         <Badge label={statusLabel(b.status)} />
       </View>
 
@@ -86,7 +87,7 @@ function Content({ b }: { b: EnergyBalance }): JSX.Element {
           label={out != null ? `Out (BMR ${round(b.calories_out_bmr ?? 0)} + exercise ${round(b.calories_out_exercise)})` : 'Out (exercise)'}
           value={out ?? b.calories_out_exercise}
           max={max}
-          tint={accent.green}
+          tint={accent.blue}
         />
       </View>
 
@@ -104,7 +105,7 @@ export function EnergyBalanceCard(): JSX.Element | null {
 
   if (loading) {
     return (
-      <Card>
+      <Card variant="elevated">
         <View style={{ gap: space.md }}>
           <Skeleton width="50%" height={18} />
           <Skeleton width="35%" height={30} />
@@ -120,7 +121,7 @@ export function EnergyBalanceCard(): JSX.Element | null {
   if (!balance) return null;
 
   return (
-    <Card onPress={() => router.push('/energy' as Href)} accessibilityLabel="Energy balance detail">
+    <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel="Energy balance detail">
       <Content b={balance} />
     </Card>
   );
