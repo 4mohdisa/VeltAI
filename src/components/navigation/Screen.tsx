@@ -22,7 +22,7 @@ import { NavBar } from './NavBar';
 import { FloatingHeader, FLOATING_HEADER_HEIGHT } from './FloatingHeader';
 import { GlassBackButton } from './GlassButtons';
 import { Text } from '@/components/primitives/Text';
-import { color, space, surface } from '@/lib/design/tokens';
+import { color, layout, space, surface } from '@/lib/design/tokens';
 
 export type ScreenVariant = 'plain' | 'floating';
 
@@ -78,9 +78,19 @@ export function Screen({
   // The floating variant owns its own padding: the scroll starts under the
   // status bar so content passes beneath the blur, and the gutters are narrower
   // than the plain variant's (space.lg, matching the design's 16px).
+  //
+  // When a floating control is present the content has to START BELOW IT, not
+  // beside it — the button floats over the scroll, so an eyebrow and a large
+  // title laid out at the same y are simply covered by it. The control sits at
+  // insets.top + space.xs and is layout.tapTarget tall, so clearing it costs
+  // that height plus a gap.
+  const floatingControl = floating && (showBack || headerRight !== undefined);
   const padding = padded
     ? floating
-      ? { paddingTop: insets.top + space.md, paddingHorizontal: space.lg }
+      ? {
+          paddingTop: insets.top + (floatingControl ? layout.tapTarget + space.md : space.md),
+          paddingHorizontal: space.lg,
+        }
       : { padding: space.xl }
     : null;
   const gap = floating ? space.md : space['2xl'];
