@@ -1,4 +1,5 @@
-export { Card, type CardProps } from './Card';
+export { Card, type CardProps, type CardVariant } from './Card';
+export { CardHeaderRow, type CardHeaderRowProps } from './CardHeaderRow';
 export { Stat, type StatProps } from './Stat';
 export { Avatar, type AvatarProps } from './Avatar';
 export { Badge, type BadgeProps } from './Badge';

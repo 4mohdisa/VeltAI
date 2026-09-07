@@ -6,6 +6,7 @@ export {
   SegmentedField,
   type SegmentedFieldProps,
   type SegmentedOption,
+  type SegmentedVariant,
 } from './SegmentedField';
 export {
   MultiSelectField,

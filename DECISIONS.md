@@ -513,3 +513,90 @@ in git — this file is not a changelog.
   re-sent forever, and because a flush fires whenever the buffer hits 20, every
   later event issued another doomed POST against the shared write budget. A
   failed send is silent to the user and never silent in the logs.
+
+## Design-file UI pass (2026-09-08)
+
+A style-only pass against the Claude Design project `Lume App.dc.html` (project
+`f00a75f6-b1d9-45d0-9c80-0e2e57feb7a6`: a shell plus `SummaryScreen`,
+`FoodScreen`, `GymScreen`, `ProfileScreen`). Brief: restyle what the design
+covers, leave what it does not completely alone, and log — rather than make —
+any call that would change architecture.
+
+- **The design implies ZERO token changes, and this was verified, not assumed.**
+  The design system bound to that project (`_ds/lume-design-system-0254adac-…/`)
+  is the bundle this repo generated from `src/lib/design/tokens.ts` and pushed
+  in the 2026-08-09 tokens-only sync. Its `_ds_bundle.css` and our
+  `.design-sync/tokens-pkg/tokens.css` share one SHA-256
+  (`1fe452d98f92487ffc70517649f1a510a4aa546d4d798cc5a2ce4bf4067d21f6`). Every
+  colour, space, radius, shadow and duration the design uses already exists here
+  with the same value. **`tokens.ts` is therefore untouched by this pass** — the
+  new look comes entirely from *which* tokens a surface picks, not from new
+  ones. That also means `designTokensCssParity.test.ts` cannot regress here.
+- **The visual delta is a surface-selection change**, applied consistently:
+  screen background `surface.background` (white) → `surface.backgroundAlt`;
+  cards `surface.card` + `radius.lg` + no shadow → `surface.cardElevated` +
+  `radius.xl` + `shadow.sm`; a bordered `NavBar` → a floating blurred header
+  strip with the title as an uppercase eyebrow + `title1` inside the scroll;
+  segmented controls from black-selected to white-selected + `shadow.sm`;
+  card headers gain a category-accent glyph and a trailing chevron.
+- **Variants are additive and opt-in, because "leave uncovered screens
+  untouched" outranks tidiness.** `Screen`, `Card` and `SegmentedField` are each
+  imported by screens the design does not cover (`onboarding/measurements.tsx`
+  uses `SegmentedField`; `gym/freeze.tsx` and `food/history.tsx` use `Card`;
+  `gym/streak.tsx` and `dashboard/plan.tsx` use `Screen`). Changing a default
+  would restyle those by side effect. So each gains an **optional** prop whose
+  omitted value reproduces today's rendering exactly, and only covered screens
+  opt in. `SettingsList` is the one exception restyled in place: every one of its
+  six importers is a covered screen.
+- **Interpretation of the brief's "no prop-interface changes" against its
+  "component visual variants" allowance:** an *additive optional* prop is the
+  only way to express a variant without forking the component, and it changes no
+  existing caller's behaviour. Anything that would alter or remove an existing
+  prop was treated as out of scope.
+
+### NEEDS ARCHITECTURE DECISION
+
+Each of these is required to match the design faithfully, and each is a
+structural change the style brief excludes. Nothing below was implemented; the
+screens involved keep their current structure and were restyled only within it.
+
+1. **The floating tab bar, and Profile leaving the tab bar.** The design has a
+   floating glass pill with three tabs (Summary / Food / Gym) plus a separate
+   62pt black `+` that opens a "Log gym session / Log food" menu, and reaches
+   Profile from an avatar button on Summary. We ship `NativeTabs` with four
+   tabs. Rebuilding it means `Tabs` + a custom `tabBar`, moving
+   `(tabs)/profile.tsx` onto the root stack, and hand-rolling the clearance that
+   `NativeTabs` provides free. That is navigation structure. **Not done.**
+2. **Four Summary detail views.** The design pushes one detail layout
+   (kicker → 14-day hero → 7-day secondary → breakdown) for energy, week,
+   training and macros. We have `energy.tsx` and `dashboard/nutrition.tsx` and
+   no route for the other two. Adding routes is structure. **Not done** — the
+   two existing detail screens were restyled.
+3. **A date switcher on Food.** The design browses any past day. Our food store
+   holds today only (`hooks.ts` `hydrateFoodLog`) and every write stamps today
+   (`mappers.ts`, `quick-add.tsx`, `scan.ts`). Making reads date-aware is a data-
+   flow change. **Not done.**
+4. **One unified food-detail sheet.** The design has a single detail sheet for a
+   search result, a barcode hit, a saved dish and a logged row. We have
+   `food/serving.tsx`, `food/barcode-confirm.tsx`, `food/[meal].tsx` and
+   `FoodItemEditSheet`. Folding four into one is structure. **Not done** — all
+   four were restyled to one visual language instead.
+5. **Two routes the design has and we do not**: a month calendar day-picker on
+   Food, and a full-screen muscle-focus view on Gym. **Not done.**
+6. **The Profile root.** The design's Profile *is* the settings list; we split
+   identity+streak (`(tabs)/profile.tsx`) from the list (`profile/settings.tsx`).
+   Merging them removes a route. **Not done** — both were restyled.
+7. **The 3D muscle body** (`body3d.js`) needs three.js, a new dependency, and
+   there is no front/back or per-mesh data behind it. Out of scope on two counts.
+   **Not done**; `MuscleChart` was restyled as-is.
+
+### Design elements with no data behind them
+
+The standing no-fabricated-data rule decides these, not the design file. Each
+appears in the prototype driven by a literal, and each is **left un-built**
+rather than invented: steps (the native module is a no-op and there is no
+backend column), a daily burn target, subscription price / payment method /
+usage bars, the scan-accuracy trend sentence and corrections list, exercise form
+guides, per-session calorie estimates, and template superset/tempo/RPE/notes
+fields. Restyling never introduced a value that does not trace to a store or an
+API. Full list in `UI_PASS_GAPS.md`.
