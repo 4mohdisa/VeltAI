@@ -679,3 +679,46 @@ dependency, and there is no front/back or per-mesh data behind it.
 - **Writes now target the day on screen.** Logging while browsing a past day
   lands on that day. That is what an explicit target date means, but it is a
   behaviour change worth a product opinion.
+
+## Cleanup pass (2026-09-08) — the five human-call items, decided
+
+The owner ruled on all five items the architecture pass raised. Three needed no
+code, two were built. **None of the five is open any more; do not re-litigate
+them from the older list above.**
+
+**Decided with no code change:**
+
+- **The meal-wide delete stays a long press.** Discoverability was weighed and
+  accepted; the accessibility hint is the mitigation. Do not add a second
+  visible control to that row.
+- **A food write targets the day on screen, not today.** Confirmed as correct:
+  that is what an explicit target date means. `selectedFoodDate()` stays the
+  source for every direct-API food write.
+- **`dashboard/nutrition.tsx`'s meal rows pushing the food tab is accepted.**
+  The per-meal route is not coming back.
+
+### Chart chrome extracted to one component
+
+`src/components/display/DetailChart.tsx` now owns the Summary detail chrome —
+`Plot`, `Axis`, `ChartHeader`, `KickerTitle`, `StatLine`, `BreakdownRow`,
+`heroLabels`, and the `HERO_H` / `SEC_H` / `GUTTER` geometry. All four detail
+routes (`/energy`, `/dashboard/week`, `/dashboard/training`,
+`/dashboard/nutrition`) import it; 866 lines of duplication came out of them.
+
+- **It was a pure move, not a redesign.** The four copies were byte-identical
+  once comments were stripped (the only differences were `RANGE_DAYS`, a
+  training binding, and `HERO_H`, which macros does not use) — so nothing needed
+  a variant prop and nothing was dropped. What differs between the four is what
+  they FEED the chrome: columns, ceilings, axis labels, empty states and
+  footnotes all stay in the route, because that is the binding.
+- **Proof it changed nothing:** `detailChrome.render.test.tsx` mounts all four
+  screens and snapshots the whole host tree. The snapshots were written from the
+  PRE-extraction sources and still pass byte-for-byte — every View, style object
+  and accessibility label survived. Re-record them only for a deliberate visual
+  change.
+- **`signed()` was deliberately left duplicated** in `energy.tsx` and
+  `week.tsx`. It formats a number, it is not chrome, and hosting it in a chart
+  component would put number formatting in the wrong layer.
+- **`Legend` stays in `energy.tsx`.** One caller is not duplication.
+- `summaryDetails.test.ts` now fails if any route redeclares a chrome component,
+  so a fifth copy cannot start.

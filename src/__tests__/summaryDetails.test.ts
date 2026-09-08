@@ -80,6 +80,47 @@ describe('all four Summary detail routes exist', () => {
   });
 });
 
+describe('the chart chrome lives in one file', () => {
+  // Each of the four routes used to carry its own byte-identical copy of Plot /
+  // Axis / ChartHeader / KickerTitle / StatLine / BreakdownRow — ~200 lines
+  // apiece, flagged by a `ponytail:` comment in three of them. They now import
+  // it. This guards the extraction: a route that redeclares any of it has
+  // started a fifth copy.
+  const CHROME = 'src/components/display/DetailChart.tsx';
+  const SHARED = ['Plot', 'Axis', 'ChartHeader', 'KickerTitle', 'StatLine', 'BreakdownRow', 'heroLabels'];
+
+  test('DetailChart.tsx exports every shared piece', () => {
+    const src = read(CHROME);
+    for (const name of SHARED) {
+      expect(src).toMatch(new RegExp(`export function ${name}\\b`));
+    }
+    // The plot geometry is shared too, so the four cards line up with each other.
+    expect(src).toContain('export const HERO_H');
+    expect(src).toContain('export const SEC_H');
+  });
+
+  test.each(Object.entries(ROUTES))('%s imports the chrome instead of declaring it', (_key, path) => {
+    const src = code(path);
+    expect(src).toContain("from '@/components/display/DetailChart'");
+    for (const name of SHARED) {
+      expect(src).not.toMatch(new RegExp(`function ${name}\\s*\\(`));
+    }
+  });
+
+  test('no detail route still carries the ponytail marker that asked for this', () => {
+    for (const path of Object.values(ROUTES)) {
+      expect(read(path)).not.toMatch(/ponytail: the layout chrome/);
+    }
+  });
+
+  // The chrome is now a place a fabricated number could hide from the per-route
+  // grep below, so it is held to the same rule.
+  test('the shared chrome hardcodes no measurement either', () => {
+    const offenders = code(CHROME).match(/[^\w.]\d[\d,]*\s?(kcal|kJ|steps|min|sessions|g)\b/gi) ?? [];
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe('no detail view hardcodes a measurement', () => {
   // The failure this guards is the one that has hit this codebase repeatedly: a
   // plausible-looking number typed into JSX and read by a user as their own.
