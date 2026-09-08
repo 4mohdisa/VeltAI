@@ -556,6 +556,11 @@ any call that would change architecture.
 
 ### NEEDS ARCHITECTURE DECISION
 
+**Status 2026-09-08: items 1-6 were approved by the owner and are now DONE (see
+the "Architecture pass" section at the end of this file). Item 7 remains
+deferred.** The original text of each is kept below as the record of what was
+asked and why it was out of scope for a style pass.
+
 Each of these is required to match the design faithfully, and each is a
 structural change the style brief excludes. Nothing below was implemented; the
 screens involved keep their current structure and were restyled only within it.
@@ -577,10 +582,15 @@ screens involved keep their current structure and were restyled only within it.
    (`mappers.ts`, `quick-add.tsx`, `scan.ts`). Making reads date-aware is a data-
    flow change. **Not done.**
 4. **One unified food-detail sheet.** The design has a single detail sheet for a
-   search result, a barcode hit, a saved dish and a logged row. We have
+   search result, a barcode hit, a saved dish and a logged row. We had
    `food/serving.tsx`, `food/barcode-confirm.tsx`, `food/[meal].tsx` and
-   `FoodItemEditSheet`. Folding four into one is structure. **Not done** — all
-   four were restyled to one visual language instead.
+   `FoodItemEditSheet`. **DONE (2026-09-08)** — all four are deleted and replaced
+   by `food/detail.tsx` plus the `lib/food/detailSubject` store (a store, not
+   route params: a food name and its macros are personal data). One capability
+   changed rather than moved: the meal-level "Delete meal" button is gone. It
+   lived only on `food/[meal].tsx`, which nothing in the app linked to, and it is
+   meal-level where the new sheet is item-level; deleting each item is reachable
+   by swipe on the food tab. Pinned by `src/__tests__/foodDetail.test.ts`.
 5. **Two routes the design has and we do not**: a month calendar day-picker on
    Food, and a full-screen muscle-focus view on Gym. **Not done.**
 6. **The Profile root.** The design's Profile *is* the settings list; we split
@@ -600,3 +610,72 @@ usage bars, the scan-accuracy trend sentence and corrections list, exercise form
 guides, per-session calorie estimates, and template superset/tempo/RPE/notes
 fields. Restyling never introduced a value that does not trace to a store or an
 API. Full list in `UI_PASS_GAPS.md`.
+
+## Architecture pass (2026-09-08) — items 1-6 DONE, item 7 still deferred
+
+The owner approved six of the seven items logged under NEEDS ARCHITECTURE
+DECISION during the style pass. All six are implemented and on `main`, one commit
+each. Item 7 (the 3D muscle body) was explicitly excluded and was not started.
+
+1. **Floating tab bar, Profile off the tabs — DONE** (`95443e8`). `NativeTabs` →
+   the JS `Tabs` navigator with a custom `tabBar`. We gave up the free iOS 26
+   Liquid Glass capsule, minimize-on-scroll and automatic scroll insets, and took
+   over the react-navigation press contract by hand — so the bar now emits
+   `tabPress` (honouring `preventDefault`) and `tabLongPress` itself, which is
+   what scroll-to-top and pop-to-top hang off. Profile moved from
+   `(tabs)/profile.tsx` to `profile/index.tsx` on the root stack, because `Tabs`
+   auto-injects every file under `(tabs)/` as a tab and moving the file out is
+   the mechanism, not a tidy-up. `TAB_BAR_CLEARANCE` replaces the inset
+   NativeTabs used to give us. The Food FAB was removed: it opened `/food/add`,
+   exactly where the new "+" menu's "Log food" row goes, and the two shared a
+   corner.
+2. **Four Summary detail views — DONE** (`a65af30`). `dashboard/nutrition.tsx`
+   already WAS the macros detail, so the two genuinely missing views were week and
+   training; building a second macros screen would have duplicated one. All four
+   now share the kicker → 14-day hero → 7-day secondary → breakdown layout.
+   Fourteen real server days come from two `api.energy.getWeek(end)` calls; a day
+   the server could not compute renders as a gap, never a zero.
+3. **Date-aware food log — DONE** (`d9da1e1`). `byDate` keyed by ISO date,
+   `selectedDate` for the day on screen, `meals` kept as a mirror of the selected
+   day so every existing reader still means what it meant. Item mutations address
+   a row on ANY cached day, so a scan started on Tuesday still resolves after the
+   user swipes to Wednesday. `logInputFromItem` now REQUIRES a date, which fixed
+   a real bug beyond the feature: the offline queue replays the body it captured,
+   so a write queued on Monday and flushed on Tuesday used to land on Tuesday.
+4. **One food-detail sheet — DONE** (`d3ffe78`), with a correction (`97877cc`).
+   Five modes (search, barcode, saved, logged, review) replace four screens. The
+   subject travels in a small store, not route params, because a food name and
+   its macros are personal data. **Correction:** the item 4 commit claimed
+   `/food/[meal]` was unreachable; it was not — `dashboard/nutrition.tsx:110`
+   pushed it via a template literal that the caller grep missed. Its meal-wide
+   delete was therefore a live capability, and it is restored as a long press on
+   the meal header. That long press is undiscoverable and is flagged for a human.
+5. **Two new routes — DONE** (`0f5dea9`). `/food/calendar` is a month day-picker
+   over the item 3 store, dotted from the user's own logged days (a failed fetch
+   draws no dots — a dot is a claim). `/gym/muscles` is layout and routing only:
+   it renders the real `muscle_volume_map` and is labelled "Last 30 days", which
+   is the server's own patterns window, NOT the design's "Last 7 days". No
+   front/back split and no per-muscle exercise lists, because no response carries
+   them.
+6. **Profile root merged with the settings list — DONE** (`36be0d6`). One screen,
+   `profile/settings.tsx` deleted. Every group, row, label, handler and t() call
+   site survives — verified by diffing the rows out of both files.
+
+**Item 7 (3D muscle body) remains deferred.** It needs three.js, a new
+dependency, and there is no front/back or per-mesh data behind it.
+
+### New things a human should decide
+
+- **Discoverability of the meal-wide delete** (see item 4 above). A long press
+  with an accessibility hint preserves the capability but not its findability.
+- **~200 lines of chart chrome are duplicated** across the four Summary detail
+  routes. The change that built them had no component file in its allow-list, so
+  each copy carries a `ponytail:` comment naming
+  `src/components/display/DetailChart.tsx` as the extraction target.
+- **`useLoggedDays()` fetches the entire food-log history unpaginated** to draw
+  the week-strip and calendar dots. Fine at a year of logging; the fix if it ever
+  is not is a `/api/food/days` endpoint returning only the dates, which is a
+  backend change and therefore out of scope here.
+- **Writes now target the day on screen.** Logging while browsing a past day
+  lands on that day. That is what an explicit target date means, but it is a
+  behaviour change worth a product opinion.
