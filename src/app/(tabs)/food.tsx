@@ -12,7 +12,7 @@
 // elevated card. A logged row and a search result open the same detail sheet
 // (architecture item 4).
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { RefreshControl, SectionList, View } from 'react-native';
+import { Alert, RefreshControl, SectionList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -415,6 +415,7 @@ export default function FoodLogScreen() {
               subtotal={section.subtotal}
               energyUnit={energyUnit}
               onAdd={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
+              onDeleteMeal={section.data.length > 0 ? () => confirmDeleteMeal(section.slot, section.data) : undefined}
             />
           ) : null
         }
@@ -614,16 +615,51 @@ function CaloriesCard({
 
 // ---------------------------------------------------------------------------
 
+/** Clear a whole meal at once.
+ *
+ *  This capability came from `food/[meal].tsx`, which architecture item 4
+ *  deleted. That screen was reachable — the nutrition detail's meal rows pushed
+ *  it — so its meal-wide delete had to land somewhere rather than disappear with
+ *  the route. It lives on the meal header as a long press: the design gives this
+ *  row exactly one control (the black +), and inventing a second one would be
+ *  adding chrome the design does not have.
+ *
+ *  ponytail: a long press is not discoverable. The accessibilityHint announces
+ *  it to VoiceOver, but a sighted user will not find it unaided. Flagged for a
+ *  human — the right answer is probably swipe-to-delete on the header or an
+ *  overflow, and that is a design call, not one to make at random. */
+function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[]): void {
+  haptics.warning();
+  Alert.alert(
+    `Delete ${slot}?`,
+    `This removes ${rows.length} ${rows.length === 1 ? 'item' : 'items'} and recomputes the day's totals.`,
+    [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          haptics.impactHeavy();
+          rows.forEach((r) => deleteFoodItem(r.id));
+          showToast({ message: `${slot} deleted.`, tone: 'info' });
+        },
+      },
+    ],
+  );
+}
+
 function MealSectionHeader({
   slot,
   subtotal,
   energyUnit,
   onAdd,
+  onDeleteMeal,
 }: {
   slot: MealSlot;
   subtotal: number;
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
   onAdd: () => void;
+  onDeleteMeal?: () => void;
 }) {
   return (
     <View
@@ -639,14 +675,19 @@ function MealSectionHeader({
     >
       {/* The slot's category dot — the one tinted mark on the row. */}
       <View style={{ width: space.md, height: space.md, borderRadius: radius.full, backgroundColor: SLOT_TINT[slot] }} />
-      <Text
-        variant="bodyMedium"
-        color={color.label}
+      <Pressable
+        haptic={false}
+        minTapTarget={false}
+        onLongPress={onDeleteMeal}
+        disabled={!onDeleteMeal}
         accessibilityRole="header"
         accessibilityLabel={`${slot}, ${formatEnergy(subtotal, energyUnit)}`}
+        accessibilityHint={onDeleteMeal ? `Long press to delete everything logged to ${slot}` : undefined}
       >
-        {slot}
-      </Text>
+        <Text variant="bodyMedium" color={color.label}>
+          {slot}
+        </Text>
+      </Pressable>
       <View
         style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.xs, marginLeft: 'auto' }}
         accessibilityElementsHidden
