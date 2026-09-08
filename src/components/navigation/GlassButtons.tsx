@@ -54,6 +54,43 @@ function GlassCircle({ children, style }: { children: ReactNode; style?: StylePr
   );
 }
 
+/**
+ * GlassSurface — the same three-way material ladder as the circular buttons
+ * (real Liquid Glass → BlurView → opaque under Reduce Transparency), but with a
+ * caller-supplied shape. The floating tab bar uses it for its pill.
+ *
+ * Exported so the ladder lives in exactly one place: a second hand-rolled copy
+ * would drift the moment one of the three branches changes.
+ *
+ * Do NOT animate opacity on this or any ancestor — `opacity: 0` collapses the
+ * glass effect outright rather than fading it.
+ */
+export function GlassSurface({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
+  const reduceTransparency = useReduceTransparency();
+  const reduceMotion = useReduceMotion();
+
+  if (reduceTransparency) {
+    return <View style={[{ overflow: 'hidden' }, solidGlass, style]}>{children}</View>;
+  }
+  if (LIQUID) {
+    return (
+      <GlassView
+        glassEffectStyle="regular"
+        colorScheme="light"
+        isInteractive={!reduceMotion}
+        style={[{ overflow: 'hidden' }, style]}
+      >
+        {children}
+      </GlassView>
+    );
+  }
+  return (
+    <BlurView tint="light" intensity={50} style={[{ overflow: 'hidden', backgroundColor: surface.card }, style]}>
+      {children}
+    </BlurView>
+  );
+}
+
 export type GlassNavButtonProps = {
   onPress?: () => void;
   testID?: string;

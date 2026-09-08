@@ -11,7 +11,22 @@ jest.mock('expo-router', () => ({
   Href: {},
 }));
 
-jest.mock('@/lib/haptics', () => ({ haptics: { selection: jest.fn(), impact: jest.fn(), success: jest.fn() } }));
+// Mirror the REAL surface of @/lib/haptics, every member of it. A partial mock
+// is a tripwire: a component that fires a haptic the mock happens not to define
+// throws at render, so the test fails for a reason that has nothing to do with
+// what it was checking. (This mock previously carried `impact`, which the module
+// does not export, and lacked the three `impact*` members that it does.)
+jest.mock('@/lib/haptics', () => ({
+  haptics: {
+    success: jest.fn(),
+    error: jest.fn(),
+    warning: jest.fn(),
+    selection: jest.fn(),
+    impactLight: jest.fn(),
+    impactMedium: jest.fn(),
+    impactHeavy: jest.fn(),
+  },
+}));
 
 // Reanimated is mocked via the root __mocks__ directory (jest picks that up
 // automatically for node_modules packages).

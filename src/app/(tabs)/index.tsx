@@ -23,9 +23,13 @@ import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { MorningBriefCard } from '@/components/ai';
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
+import { GlassSurface } from '@/components/navigation/GlassButtons';
+import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
+import { Avatar } from '@/components/display/Avatar';
+import { Icon } from '@/components/primitives/Icon';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { showToast } from '@/components/display/toastStore';
-import { categoryAccent, color, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { formatRelativeDate } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
@@ -37,7 +41,7 @@ export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
   const energyUnit = useUnitPreferences().energy;
   const {
-    data: { streak, macros, plan },
+    data: { profile, streak, macros, plan },
     refetch,
   } = useDashboard();
   const gymLogged = streak.gymLoggedToday;
@@ -58,7 +62,7 @@ export default function DashboardScreen() {
           paddingTop: insets.top + space.md,
           paddingHorizontal: space.lg,
           gap: space.md,
-          paddingBottom: space['4xl'],
+          paddingBottom: TAB_BAR_CLEARANCE(insets),
         }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
@@ -184,6 +188,32 @@ export default function DashboardScreen() {
       {/* Blurred strip the title scrolls under. Absolute sibling, above the
           scroll, pointer-events none. */}
       <FloatingHeader height={insets.top + space.xl} />
+
+      {/* The design reaches Profile from here, not from a tab. It floats over
+          the scroll at the same height as the title block's eyebrow. */}
+      <Pressable
+        onPress={() => router.push('/profile')}
+        haptic={false}
+        minTapTarget={false}
+        accessibilityLabel="Profile and settings"
+        style={{ position: 'absolute', top: insets.top + space.xs, right: space.lg }}
+      >
+        <GlassSurface
+          style={{
+            width: layout.tapTarget,
+            height: layout.tapTarget,
+            borderRadius: radius.full,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {profile.name ? (
+            <Avatar name={profile.name} size={layout.tapTarget} />
+          ) : (
+            <Icon name="person" size={space.xl} color={color.label} />
+          )}
+        </GlassSurface>
+      </Pressable>
     </SafeAreaView>
   );
 }

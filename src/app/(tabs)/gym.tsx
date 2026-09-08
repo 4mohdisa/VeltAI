@@ -17,6 +17,7 @@ import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
 import { ChartCard } from '@/components/domain/ChartCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
+import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { TodayCard, MuscleChart, GymPatternsCard } from '@/components/gym';
 import { color, space, surface } from '@/lib/design/tokens';
 import { useGym } from '@/lib/data';
@@ -56,7 +57,7 @@ export default function GymLogScreen() {
         contentContainerStyle={{
           paddingTop: insets.top + space.md,
           paddingHorizontal: space.lg,
-          paddingBottom: space['4xl'],
+          paddingBottom: TAB_BAR_CLEARANCE(insets),
           gap: space.md,
         }}
         showsVerticalScrollIndicator={false}

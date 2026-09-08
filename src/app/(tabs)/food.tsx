@@ -24,18 +24,18 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
+import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
-import { GlassFab } from '@/components/navigation/GlassButtons';
 import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanReviewCard';
 import { ScanFailedCard } from '@/components/food/scan/ScanFailedCard';
 import { ScanFeedbackPrompt } from '@/components/food/scan/ScanFeedbackPrompt';
 import { showToast } from '@/components/display/toastStore';
-import { accent, categoryAccent, color, layout, radius, shadow, space, surface, zIndex } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { haptics } from '@/lib/haptics';
 import { formatCalories, formatNumber } from '@/lib/formatting';
@@ -167,19 +167,11 @@ function buildSections(meals: StoredMeal[]): MealSection[] {
   }));
 }
 
-// FAB geometry — kept here so the list padding stays in lock-step with where the
-// button floats (otherwise rows scroll under it).
-const FAB_SIZE = 56;
 
 export default function FoodLogScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const energyUnit = useUnitPreferences().energy;
-  // The add FAB floats bottom-right, a comfortable gap above the glass tab bar.
-  const fabBottom = insets.bottom + space['5xl'] + space.sm; // ~72pt over the home indicator
-  // Pad the list past the FAB's full height so no row/footer ever sits under it
-  // (that overlap is what made the section "+" peek out behind the button).
-  const fabClearance = fabBottom + FAB_SIZE + space.lg;
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<FoodRow | null>(null);
@@ -321,7 +313,7 @@ export default function FoodLogScreen() {
         contentContainerStyle={{
           paddingHorizontal: space.lg,
           paddingTop: insets.top + space.md,
-          paddingBottom: fabClearance,
+          paddingBottom: TAB_BAR_CLEARANCE(insets),
           flexGrow: 1,
         }}
         refreshControl={
@@ -525,15 +517,6 @@ export default function FoodLogScreen() {
         }
       />
 
-      {/* Primary add FAB — solid black circle with a white + icon, sitting just
-          above the tab bar (clear of it + the home indicator); opens the add menu. */}
-      <GlassFab
-        variant="solid"
-        accessibilityLabel={t('foodLog.addMeal')}
-        accessibilityHint="Opens the add menu: scan a meal, barcode, nutrition label, saved foods, my meals or quick add"
-        onPress={() => router.push('/food/add')}
-        style={{ position: 'absolute', right: space.lg, bottom: fabBottom, zIndex: zIndex.fab }}
-      />
 
       {/* Blurred strip the content scrolls under — decorative, no touches. */}
       <FloatingHeader height={insets.top + space.xl} />
