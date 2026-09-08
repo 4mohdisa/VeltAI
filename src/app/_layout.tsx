@@ -156,9 +156,13 @@ export default function RootLayout() {
             {/* Quick Add calories — compact sheet (calories + optional label + meal). */}
             <Stack.Screen name="food/quick-add" options={{ ...sheetOptions, sheetAllowedDetents: [0.6] }} />
             <Stack.Screen name="food/custom-food" options={{ ...sheetOptions, sheetAllowedDetents: [0.95] }} />
-            <Stack.Screen name="food/barcode-confirm" options={{ ...sheetOptions, sheetAllowedDetents: [0.6] }} />
-            <Stack.Screen name="food/serving" options={{ ...sheetOptions, sheetAllowedDetents: [0.45] }} />
+            {/* The ONE food-detail sheet: a search hit, a barcode product, a
+                saved dish, a logged row and a scan rename all land here. Tall
+                enough for the fields + keyboard, expandable to full. */}
+            <Stack.Screen name="food/detail" options={{ ...sheetOptions, sheetAllowedDetents: [0.75, 1] }} />
             <Stack.Screen name="food/saved" options={{ ...sheetOptions, sheetAllowedDetents: [0.7, 1] }} />
+            {/* Month day-picker for the food log — tall enough for a 6-row grid. */}
+            <Stack.Screen name="food/calendar" options={{ ...sheetOptions, sheetAllowedDetents: [0.75] }} />
         </Stack>
             <ToastHost />
             {/* Debug capture overlay. Renders nothing unless

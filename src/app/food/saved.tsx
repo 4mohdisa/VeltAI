@@ -14,18 +14,18 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
-import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { formatCalories } from '@/lib/formatting';
-import { useSavedFoods, editSavedFood, unsaveFood, logMeal, slotForNow } from '@/lib/data';
+import { useSavedFoods, unsaveFood, logMeal, slotForNow } from '@/lib/data';
+import { openFoodDetail, type DetailItem } from '@/lib/food/detailSubject';
 import type { MealSlot, SavedFood } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
-const toEditable = (f: SavedFood): EditableItem => ({
+const toEditable = (f: SavedFood): DetailItem => ({
   id: f.id,
   name: f.name,
   quantityG: f.servingG,
@@ -41,7 +41,6 @@ export default function SavedFoodsScreen() {
   const targetSlot: MealSlot | null = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : null;
   const { data: foods, isLoading: loading } = useSavedFoods();
   const [query, setQuery] = useState('');
-  const [editing, setEditing] = useState<EditableItem | null>(null);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -59,21 +58,14 @@ export default function SavedFoodsScreen() {
     showToast({ message: `Added ${f.name}.`, tone: 'success' });
   };
 
-  const applyEdit = (next: EditableItem) => {
-    editSavedFood(next.id, {
-      name: next.name,
-      servingG: next.quantityG,
-      calories: next.calories,
-      protein: next.protein,
-      carbs: next.carbs,
-      fat: next.fat,
-    });
-    setEditing(null);
+  // Editing / un-saving happens in the one shared detail sheet.
+  const openDish = (f: SavedFood) => {
+    openFoodDetail({ mode: 'saved', item: toEditable(f) });
+    router.push('/food/detail');
   };
 
   const unsave = (id: string) => {
     unsaveFood(id);
-    setEditing(null);
     showToast({ message: 'Removed from saved.', tone: 'info' });
   };
 
@@ -126,7 +118,7 @@ export default function SavedFoodsScreen() {
                 <Pressable
                   haptic={false}
                   minTapTarget={false}
-                  onPress={() => setEditing(toEditable(f))}
+                  onPress={() => openDish(f)}
                   accessibilityLabel={`Edit ${f.name}`}
                   style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
                 >
@@ -163,8 +155,6 @@ export default function SavedFoodsScreen() {
           ))}
         </Card>
       )}
-
-      <FoodItemEditSheet item={editing} onClose={() => setEditing(null)} onSave={applyEdit} onDelete={unsave} />
     </SheetContent>
   );
 }

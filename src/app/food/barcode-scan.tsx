@@ -17,6 +17,7 @@ import { color, radius, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { isDevBuild } from '@/lib/env';
 import { lookupBarcodeAsync } from '@/lib/data';
+import { openFoodDetail } from '@/lib/food/detailSubject';
 
 // A barcode in our mock database (resolves) vs one that isn't (not-found path).
 const KNOWN_CODE = '9300605000000';
@@ -39,7 +40,10 @@ export default function BarcodeScanScreen() {
     const product = await lookupBarcodeAsync(code);
     setLookingUp(false);
     if (product) {
-      router.replace({ pathname: '/food/barcode-confirm', params: { code } });
+      // The shared food-detail sheet does its own lookup; the code travels in
+      // the subject store, never as a route param.
+      openFoodDetail({ mode: 'barcode', code });
+      router.replace('/food/detail');
     } else {
       setNotFound(true);
     }

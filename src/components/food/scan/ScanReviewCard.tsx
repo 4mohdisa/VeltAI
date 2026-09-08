@@ -8,20 +8,20 @@
 // absent if the backend is unreachable.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
+import { router } from 'expo-router';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Button } from '@/components/forms/Button';
 import { SliderField } from '@/components/forms/SliderField';
-import { TextField } from '@/components/forms/TextField';
-import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { ConfidenceBadge } from './ConfidenceBadge';
 import type { ScanConfidenceFactor } from '@/lib/api';
 import { api } from '@/lib/api';
 import { categoryAccent, color, motion, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
+import { openFoodDetail } from '@/lib/food/detailSubject';
 
 /** A scanned food awaiting review. Macros are the AI ESTIMATE at
  *  `estimatedWeightG`; the live UI scales them to `weightG`. */
@@ -52,7 +52,6 @@ export type ReviewItem = {
 
 export type ScanReviewCardProps = {
   items: ReviewItem[];
-  onRenameItem: (id: string, name: string) => void;
   onWeightChange: (id: string, grams: number) => void;
   onDiscard: () => void;
   onSaveAll: () => void;
@@ -74,14 +73,12 @@ function snap(value: number, min: number, max: number): number {
 
 export function ScanReviewCard({
   items,
-  onRenameItem,
   onWeightChange,
   onDiscard,
   onSaveAll,
   portionHints,
 }: ScanReviewCardProps) {
   const reduce = useReduceMotion();
-  const [renaming, setRenaming] = useState<ReviewItem | null>(null);
   const [hints, setHints] = useState<Record<string, number>>({});
   const [calibration, setCalibration] = useState<Record<string, number>>({});
   const calibratedRef = useRef<Set<string>>(new Set());
@@ -136,6 +133,26 @@ export function ScanReviewCard({
   }, [calibration, items, onWeightChange]);
 
   const mergedHints = { ...portionHints, ...hints };
+
+  // Correcting the name happens in the ONE shared food-detail sheet, in review
+  // mode — name only. Its macros stay out of reach here on purpose: this card
+  // re-scales energy from the AI's estimate at `estimatedWeightG`, so an edited
+  // calorie figure would be scaled a second time.
+  const rename = (it: ReviewItem) => {
+    openFoodDetail({
+      mode: 'review',
+      item: {
+        id: it.id,
+        name: it.name,
+        quantityG: it.weightG,
+        calories: it.calories,
+        protein: it.protein,
+        carbs: it.carbs,
+        fat: it.fat,
+      },
+    });
+    router.push('/food/detail');
+  };
 
   return (
     <Animated.View
@@ -222,7 +239,7 @@ export function ScanReviewCard({
               <Pressable
                 haptic={false}
                 minTapTarget={false}
-                onPress={() => setRenaming(it)}
+                onPress={() => rename(it)}
                 accessibilityRole="button"
                 accessibilityLabel={`Rename ${it.name}`}
                 accessibilityHint="Opens a field to correct the food name"
@@ -300,43 +317,6 @@ export function ScanReviewCard({
           </View>
         </View>
       </View>
-
-      <RenameSheet
-        item={renaming}
-        onClose={() => setRenaming(null)}
-        onSave={(name) => {
-          if (renaming) onRenameItem(renaming.id, name);
-          setRenaming(null);
-        }}
-      />
     </Animated.View>
-  );
-}
-
-// Minimal rename sheet — a single field. (The full FoodItemEditSheet edits macros
-// too, which would fight the weight slider here, so review keeps rename separate.)
-function RenameSheet({
-  item,
-  onClose,
-  onSave,
-}: {
-  item: ReviewItem | null;
-  onClose: () => void;
-  onSave: (name: string) => void;
-}) {
-  return (
-    <BottomSheet visible={!!item} onClose={onClose} title="Rename food">
-      {item ? <RenameForm key={item.id} initial={item.name} onSave={onSave} /> : null}
-    </BottomSheet>
-  );
-}
-
-function RenameForm({ initial, onSave }: { initial: string; onSave: (name: string) => void }) {
-  const [name, setName] = useState(initial);
-  return (
-    <View style={{ gap: space.md }}>
-      <TextField label="Food name" value={name} onChangeText={setName} autoCapitalize="words" autoFocus />
-      <Button title="Save name" variant="primary" onPress={() => onSave(name.trim() || initial)} />
-    </View>
   );
 }

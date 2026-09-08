@@ -2,15 +2,15 @@
 // A native iOS sectioned list (SectionList): one section per meal slot
 // (Breakfast/Lunch/Dinner/Snacks) with a header showing the meal + its calorie
 // subtotal, and the logged foods as rows (name + macros left, calories right,
-// hairline separators, rounded inset group). Tapping a row opens the shared edit
-// sheet; the section's + adds to that meal. A search bar pins above the list;
+// hairline separators, rounded inset group). Tapping a row opens the shared food
+// detail sheet; the section's + adds to that meal. A search bar pins above the list;
 // the solid black + FAB floats clear of the tab bar.
 //
 // Design-file pass (DECISIONS.md): the page is a `surface.backgroundAlt` zone
 // with a blurred floating header strip, an eyebrow + large title inside the
 // scroll, a calories card at the top, and each meal's rows grouped as a WHITE
-// elevated card. The day switcher / week strip the design draws is NOT here —
-// reads are today-only (NEEDS ARCHITECTURE DECISION 3).
+// elevated card. A logged row and a search result open the same detail sheet
+// (architecture item 4).
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RefreshControl, SectionList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -30,7 +30,6 @@ import { ErrorState } from '@/components/display/ErrorState';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
-import { FoodItemEditSheet, type EditableItem } from '@/components/domain/FoodItemEditSheet';
 import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanReviewCard';
 import { ScanFailedCard } from '@/components/food/scan/ScanFailedCard';
 import { ScanFeedbackPrompt } from '@/components/food/scan/ScanFeedbackPrompt';
@@ -55,6 +54,7 @@ import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
 import { useFoodStore } from '@/lib/data/foodStore';
 import { fromIso, isoDate, useLoggedDays } from '@/lib/data/foodDays';
 import { WeekStrip } from '@/components/food/WeekStrip';
+import { openFoodDetail, type DetailItem } from '@/lib/food/detailSubject';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/lib/types';
 import type { FoodResult, MealSlot } from '@/lib/mock/data';
@@ -101,7 +101,7 @@ function GroupSeparator() {
   );
 }
 
-type FoodRow = EditableItem & {
+type FoodRow = DetailItem & {
   pending?: boolean;
   status?: ScanItemStatus;
   confidence?: number;
@@ -177,7 +177,6 @@ export default function FoodLogScreen() {
   const energyUnit = useUnitPreferences().energy;
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
-  const [editing, setEditing] = useState<FoodRow | null>(null);
 
   // Data seam — reactive meals + first-load slot. Edits go through the mutations.
   // The day on screen. useFoodLog() follows the store's selection, so switching
@@ -296,18 +295,31 @@ export default function FoodLogScreen() {
     setTimeout(() => setRefreshing(false), 700);
   }, [refetch, refetchDays]);
 
-  const applyEdit = (next: EditableItem) => {
-    editFoodItem(next.id, next);
-    setEditing(null);
-  };
-  const removeRow = (id: string) => {
-    deleteFoodItem(id);
-    setEditing(null);
+  const removeRow = (id: string) => deleteFoodItem(id);
+
+  // A logged row and a search result open the SAME detail sheet, in different
+  // modes. The subject travels through the store, never the URL — a food name
+  // and its macros are personal data.
+  const openRow = (row: FoodRow) => {
+    openFoodDetail({
+      mode: 'logged',
+      item: {
+        id: row.id,
+        name: row.name,
+        quantityG: row.quantityG,
+        calories: row.calories,
+        protein: row.protein,
+        carbs: row.carbs,
+        fat: row.fat,
+      },
+    });
+    router.push('/food/detail');
   };
 
-  // Picking a search result opens the serving-size picker before adding.
-  const pick = (food: FoodResult) =>
-    router.push({ pathname: '/food/serving', params: { name: food.name, kcalPer100: String(food.kcalPer100) } });
+  const pick = (food: FoodResult) => {
+    openFoodDetail({ mode: 'search', name: food.name, kcalPer100: food.kcalPer100 });
+    router.push('/food/detail');
+  };
 
   return (
     // No SafeAreaView top edge: the scroll runs under the status bar so the
@@ -385,7 +397,6 @@ export default function FoodLogScreen() {
             {!searching && readyItems.length > 0 ? (
               <ScanReviewCard
                 items={readyItems}
-                onRenameItem={(id, name) => editFoodItem(id, { name })}
                 onWeightChange={(id, grams) => editFoodItem(id, { quantityG: grams })}
                 onDiscard={discardReady}
                 onSaveAll={onSaveAll}
@@ -433,7 +444,7 @@ export default function FoodLogScreen() {
                 first={index === 0}
                 last={index === section.data.length - 1}
                 energyUnit={energyUnit}
-                onPress={() => setEditing(row)}
+                onPress={() => openRow(row)}
               />
             </SwipeableRow>
           );
@@ -545,8 +556,6 @@ export default function FoodLogScreen() {
 
       {/* Blurred strip the content scrolls under — decorative, no touches. */}
       <FloatingHeader height={insets.top + space.xl} />
-
-      <FoodItemEditSheet item={editing} onClose={() => setEditing(null)} onSave={applyEdit} onDelete={removeRow} />
     </View>
   );
 }
