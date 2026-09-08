@@ -22,8 +22,9 @@ import { dayMonth } from '@/lib/data/energyRange';
 /** Plot heights composed from the spacing scale (176 / 120 in the design). */
 export const HERO_H = space['5xl'] * 2 + space['4xl'];
 export const SEC_H = space['5xl'] + space['4xl'] + space.sm;
-/** Right gutter the scale ceiling label sits in, clear of the bars. */
-export const GUTTER = space['4xl'];
+/** Right gutter the scale ceiling label sits in, clear of the bars. Private:
+ *  Plot and Axis share it so their columns line up, and no route needs it. */
+const GUTTER = space['4xl'];
 
 export type Bar = { h: number; bottom?: number; tint: string };
 export type Col = { key: string; bars: Bar[]; dim?: boolean };
