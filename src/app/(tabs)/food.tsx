@@ -379,6 +379,7 @@ export default function FoodLogScreen() {
                 selected={selectedDate}
                 onSelect={setSelectedDate}
                 loggedDays={loggedDays}
+                onOpenCalendar={() => router.push('/food/calendar')}
               />
             ) : null}
             {!searching && !loading && !loadError && itemCount > 0 ? (
