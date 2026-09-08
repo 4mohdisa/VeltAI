@@ -95,8 +95,17 @@ const withServerId = (pending: Map<string, Promise<string | null>>, id: string, 
 };
 
 // --- Food log ---
-export const logMeal = (slot: MealSlot, item: NewFoodItem, method: EntryMethod = 'manual', pending = false): string => {
-  const id = food().logMeal(slot, item, method, pending);
+export const logMeal = (
+  slot: MealSlot,
+  item: NewFoodItem,
+  method: EntryMethod = 'manual',
+  pending = false,
+  // Which day to log against. Defaults to the day the food UI is showing, so
+  // logging while browsing a past day lands on that day, not on today.
+  date?: string,
+): string => {
+  const day = date ?? food().selectedDate;
+  const id = food().logMeal(slot, item, method, pending, day);
   // Pending rows are scan placeholders — the scan confirm endpoint persists those
   // (and emit scan_* analytics instead of food_logged).
   if (!pending) {
@@ -109,7 +118,7 @@ export const logMeal = (slot: MealSlot, item: NewFoodItem, method: EntryMethod =
     // onto the optimistic row when it finally goes through.
     registerMealCreate(
       id,
-      runOrQueue<{ id: string }>('/api/food/logs', logInputFromItem(slot, item, method), (row) =>
+      runOrQueue<{ id: string }>('/api/food/logs', logInputFromItem(slot, item, method, day), (row) =>
         swapMealItemId(id, row.id),
       ),
     );

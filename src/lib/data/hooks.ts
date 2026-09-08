@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { api, type Onboarding } from '@/lib/api';
-import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi, todayISO } from './mappers';
+import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
 import { hasPendingCreate } from './mutations';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type Streak } from './gymStore';
@@ -133,9 +133,15 @@ function mergeMeals(server: StoredMeal[], prev: StoredMeal[]): StoredMeal[] {
 }
 
 // Module-level hydrators (stable identities for useHydration's deps).
-export async function hydrateFoodLog(): Promise<void> {
-  const rows = await api.foodLogs.list({ date: todayISO() });
-  useFoodStore.setState((s) => ({ meals: mergeMeals(mealsFromLogs(rows), s.meals) }));
+/** Fetch one day's food log and merge it over what the store already holds for
+ *  that day. Defaults to the day the UI is showing. Note the endpoint takes ONE
+ *  exact date and no range (backend/internal/food/handlers.go), so a day is the
+ *  smallest unit we can ask for. */
+export async function hydrateFoodLog(date?: string): Promise<void> {
+  const day = date ?? useFoodStore.getState().selectedDate;
+  const rows = await api.foodLogs.list({ date: day });
+  const merged = mergeMeals(mealsFromLogs(rows), useFoodStore.getState().byDate[day] ?? []);
+  useFoodStore.getState().setDayMeals(day, merged);
 }
 async function hydrateSavedFoods(): Promise<void> {
   const rows = await api.savedFoods.list();
@@ -157,9 +163,18 @@ async function hydrateGym(): Promise<void> {
 
 // --- Food log ---------------------------------------------------------------
 
-export function useFoodLog(): Async<StoredMeal[]> {
-  const data = useFoodStore((s) => s.meals);
-  const { isLoading, error, refetch } = useHydration(hydrateFoodLog);
+/** Stable empty array — returning a fresh [] from the selector would give
+ *  zustand a new reference every render and loop. */
+const NO_MEALS: StoredMeal[] = [];
+
+/** The food log for one day. Omit `date` to follow the store's selected day,
+ *  which is what the Food tab does. */
+export function useFoodLog(date?: string): Async<StoredMeal[]> {
+  const selected = useFoodStore((s) => s.selectedDate);
+  const day = date ?? selected;
+  const data = useFoodStore((s) => s.byDate[day] ?? NO_MEALS);
+  const hydrate = useCallback(() => hydrateFoodLog(day), [day]);
+  const { isLoading, error, refetch } = useHydration(hydrate);
   return { data, isLoading, error, refetch };
 }
 

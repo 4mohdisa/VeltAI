@@ -26,10 +26,9 @@ import { showToast } from '@/components/display/toastStore';
 import { color, radius, space, surface } from '@/lib/design/tokens';
 import { STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { slotForNow } from '@/lib/data';
-import { todayISO } from '@/lib/data/mappers';
 import { api, isTransient, type ScanLabelResult } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
-import { useFoodStore } from '@/lib/data/foodStore';
+import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
 import type { MealSlot } from '@/lib/mock/data';
 
@@ -130,7 +129,7 @@ export default function LabelScanScreen() {
     const f = num(fat);
     const fb = num(fibre);
     const body = {
-      date: todayISO(),
+      date: selectedFoodDate(),
       meal_type: mealType,
       food_name: foodName.trim() || 'Nutrition label',
       quantity: qty * size,

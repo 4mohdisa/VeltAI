@@ -22,8 +22,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { slotForNow } from '@/lib/data';
-import { todayISO } from '@/lib/data/mappers';
-import { useFoodStore } from '@/lib/data/foodStore';
+import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { api, isTransient } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
 import type { MealSlot } from '@/lib/mock/data';
@@ -49,7 +48,7 @@ export default function QuickAddScreen() {
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
     let toast = `Added ${kcal} kcal.`;
     try {
-      await api.foodLogs.quickAdd({ calories: kcal, label: label.trim() || undefined, meal_type: mealType, date: todayISO() });
+      await api.foodLogs.quickAdd({ calories: kcal, label: label.trim() || undefined, meal_type: mealType, date: selectedFoodDate() });
     } catch (e) {
       if (!isTransient(e)) {
         showToast({ message: "Couldn't add that — try again.", tone: 'error' });
@@ -59,7 +58,7 @@ export default function QuickAddScreen() {
       // Offline / server down: queue the equivalent create so the entry
       // survives a restart and replays exactly once.
       await runOrQueue('/api/food/logs', {
-        date: todayISO(),
+        date: selectedFoodDate(),
         meal_type: mealType,
         food_name: name,
         calories: kcal,

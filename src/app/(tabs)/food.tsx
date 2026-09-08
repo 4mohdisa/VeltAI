@@ -52,6 +52,9 @@ import {
   type StoredMeal,
 } from '@/lib/data';
 import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
+import { useFoodStore } from '@/lib/data/foodStore';
+import { fromIso, isoDate, useLoggedDays } from '@/lib/data/foodDays';
+import { WeekStrip } from '@/components/food/WeekStrip';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/lib/types';
 import type { FoodResult, MealSlot } from '@/lib/mock/data';
@@ -177,6 +180,11 @@ export default function FoodLogScreen() {
   const [editing, setEditing] = useState<FoodRow | null>(null);
 
   // Data seam — reactive meals + first-load slot. Edits go through the mutations.
+  // The day on screen. useFoodLog() follows the store's selection, so switching
+  // days re-reads (and hydrates) that day rather than today.
+  const selectedDate = useFoodStore((st) => st.selectedDate);
+  const setSelectedDate = useFoodStore((st) => st.setSelectedDate);
+  const { days: loggedDays, refetch: refetchDays } = useLoggedDays();
   const { data: meals, isLoading: loading, error, refetch } = useFoodLog();
   const loadError = !!error;
   const sections = useMemo(() => buildSections(meals), [meals]);
@@ -283,9 +291,10 @@ export default function FoodLogScreen() {
     haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
     refetch();
+    refetchDays();
     // refetch() is fire-and-forget (returns void) — keep a short visible spin.
     setTimeout(() => setRefreshing(false), 700);
-  }, [refetch]);
+  }, [refetch, refetchDays]);
 
   const applyEdit = (next: EditableItem) => {
     editFoodItem(next.id, next);
@@ -331,19 +340,35 @@ export default function FoodLogScreen() {
             {/* Amber anomaly banner — self-contained, renders null when there are none. */}
             <AnomalyBanner onPress={() => router.push('/insights' as Href)} />
             {/* Eyebrow + large title inside the scroll — the design's header. The
-                eyebrow names the log's scope, which is today and only today. */}
+                eyebrow names the day being shown, which is no longer always today
+                (architecture item 3). */}
             <View style={{ gap: space.xs, paddingBottom: space.xs }}>
               <Text
                 variant="label"
                 color={color.secondaryLabel}
                 style={{ textTransform: 'uppercase', letterSpacing: 1 }}
               >
-                {t('foodLog.today')}
+                {selectedDate === isoDate(new Date())
+                  ? t('foodLog.today')
+                  : fromIso(selectedDate).toLocaleDateString(undefined, {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                    })}
               </Text>
               <Text variant="title1" color={color.label} accessibilityRole="header">
                 Food
               </Text>
             </View>
+            {/* Day switcher — hidden while searching, which is a whole-library
+                view rather than a view of one day. */}
+            {!searching ? (
+              <WeekStrip
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                loggedDays={loggedDays}
+              />
+            ) : null}
             {!searching && !loading && !loadError && itemCount > 0 ? (
               <CaloriesCard total={total} macros={macroTotals} energyUnit={energyUnit} />
             ) : null}

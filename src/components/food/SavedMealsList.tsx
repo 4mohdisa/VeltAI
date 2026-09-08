@@ -18,7 +18,7 @@ import { accent, color, motion, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { formatCalories } from '@/lib/formatting';
 import { slotForNow } from '@/lib/data';
-import { todayISO } from '@/lib/data/mappers';
+import { selectedFoodDate } from '@/lib/data/foodStore';
 import { api, type SavedMeal } from '@/lib/api';
 
 /** "Never logged" / "Last logged today|yesterday|N days ago" from an ISO date. */
@@ -55,7 +55,7 @@ export function SavedMealsList() {
   const logNow = async (meal: SavedMeal) => {
     setLoggingId(meal.id);
     try {
-      await api.savedMeals.log(meal.id, slotForNow(), todayISO());
+      await api.savedMeals.log(meal.id, slotForNow(), selectedFoodDate());
       showToast({ message: `Logged ${meal.name}.`, tone: 'success' });
       void load();
     } catch (e) {

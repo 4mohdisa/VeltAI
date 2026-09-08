@@ -5,8 +5,8 @@
 import { api, type FoodLog } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { deleteFoodItem, logMeal, registerMealCreate } from './mutations';
-import { barcodeProductFromApi, isServerId, todayISO } from './mappers';
-import { useFoodStore, type StoredFoodItem } from './foodStore';
+import { barcodeProductFromApi, isServerId } from './mappers';
+import { selectedFoodDate, useFoodStore, type StoredFoodItem } from './foodStore';
 import { startScanPoller } from './scanPoller';
 import { aiDetectedItems, type DetectedItem } from '@/lib/mock/ai';
 import { exampleBarcodeProduct, lookupBarcode, type BarcodeProduct } from '@/lib/food/barcode';
@@ -335,7 +335,7 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
       registerMealCreate(
         localId,
         api.scan.confirm({
-          date: todayISO(),
+          date: selectedFoodDate(),
           meal_type: slot,
           food_name: r.food_name,
           quantity: r.quantity,
@@ -466,7 +466,7 @@ export function saveScannedItem(itemId: string): void {
   registerMealCreate(
     itemId,
     api.scan.confirm({
-      date: todayISO(),
+      date: selectedFoodDate(),
       meal_type: slot,
       food_name: item.name,
       quantity: item.quantityG,

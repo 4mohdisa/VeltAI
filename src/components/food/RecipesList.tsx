@@ -18,7 +18,7 @@ import { showToast } from '@/components/display/toastStore';
 import { accent, color, motion, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { slotForNow } from '@/lib/data';
-import { todayISO } from '@/lib/data/mappers';
+import { selectedFoodDate } from '@/lib/data/foodStore';
 import { api, type Recipe } from '@/lib/api';
 
 export function RecipesList({ onNew }: { onNew: () => void }) {
@@ -52,7 +52,7 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
     if (!sheetFor) return;
     setLogging(true);
     try {
-      await api.recipes.log(sheetFor.id, servings, slotForNow(), todayISO());
+      await api.recipes.log(sheetFor.id, servings, slotForNow(), selectedFoodDate());
       showToast({ message: `Logged ${servings.toFixed(1)} × ${sheetFor.name}.`, tone: 'success' });
       setSheetFor(null);
       void load();

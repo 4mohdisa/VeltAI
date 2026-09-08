@@ -3,6 +3,21 @@
 // navigation between tabs within a session (no cross-restart persistence — that's
 // the backend). The data-access hooks (./hooks) read/write this store; screens
 // never touch mock directly.
+//
+// DATE-AWARE (architecture item 3). The store used to hold exactly one day —
+// today — and every write stamped today implicitly. It now keys rows by ISO date
+// in `byDate`, tracks which day the UI is showing in `selectedDate`, and takes an
+// explicit target date on every write.
+//
+// `meals` survives as the rows for `selectedDate`, mirrored from `byDate` by the
+// single `commit()` helper below. That is deliberate: dozens of call sites and
+// several tests read `state.meals` meaning "the day on screen", and with the
+// default selection (today) it means exactly what it always did.
+//
+// Item mutations address a row by id ACROSS EVERY cached day, not just the
+// visible one. A scan started on Tuesday must still resolve onto Tuesday's row
+// after the user swipes to Wednesday — scoping mutations to the visible day would
+// silently drop the result.
 import { create } from 'zustand';
 
 import {
@@ -85,6 +100,16 @@ export type ScannedItemPatch = Partial<
 let counter = 0;
 const nextId = (prefix: string) => `${prefix}_${Date.now().toString(36)}_${(counter++).toString(36)}`;
 
+/** The DEVICE-local calendar date as YYYY-MM-DD. Duplicated from ./mappers
+ *  rather than imported: mappers imports this module's types, and the cycle
+ *  breaks the node test environment. Same implementation, same contract. */
+function localToday(): string {
+  const d = new Date();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
 const seedSaved = (): SavedFood[] => (isDevBuild() ? mockSavedFoods.map((f) => ({ ...f })) : []);
 
 function seedMeals(): StoredMeal[] {
@@ -103,6 +128,13 @@ function seedMeals(): StoredMeal[] {
       items: m.items.map((it) => ({ ...it, id: nextId('it') })),
     }),
   );
+}
+
+/** The dev seed belongs to today; every other day starts genuinely empty rather
+ *  than showing today's meals again under a different date. */
+function seedByDate(): Record<string, StoredMeal[]> {
+  const meals = seedMeals();
+  return meals.length > 0 ? { [localToday()]: meals } : {};
 }
 
 // Under-review ('ready') and 'failed' scan rows aren't logged yet, so they
@@ -141,13 +173,27 @@ function nowTime(): string {
 export type NewFoodItem = Omit<FoodItem, 'confidence'> & { confidence?: number };
 
 type FoodState = {
+  /** The day the UI is showing, ISO YYYY-MM-DD. Defaults to today. */
+  selectedDate: string;
+  /** Rows for `selectedDate` — a mirror of byDate[selectedDate], never edited
+   *  directly. Read it anywhere you mean "the day on screen". */
   meals: StoredMeal[];
+  /** Every day fetched or written this session, keyed by ISO date. */
+  byDate: Record<string, StoredMeal[]>;
   savedFoods: SavedFood[];
 
+  // --- day selection ---
+  /** Show a different day. Cached days appear instantly; an unfetched day is
+   *  empty until its hydration lands. */
+  setSelectedDate: (date: string) => void;
+  /** Replace one day's rows wholesale (used by hydration). */
+  setDayMeals: (date: string, meals: StoredMeal[]) => void;
+
   // --- meal item mutations ---
-  /** Log a food item to a slot; creates the meal if the slot has none yet.
-   *  Returns the new item id (for pending-scan resolution). */
-  logMeal: (slot: MealSlot, item: NewFoodItem, method: EntryMethod, pending?: boolean) => string;
+  /** Log a food item to a slot on `date` (default: the selected day); creates
+   *  the meal if that slot has none yet. Returns the new item id (for
+   *  pending-scan resolution). */
+  logMeal: (slot: MealSlot, item: NewFoodItem, method: EntryMethod, pending?: boolean, date?: string) => string;
   editFoodItem: (itemId: string, patch: Partial<FoodItem>) => void;
   deleteFoodItem: (itemId: string) => void;
   resolvePending: (itemId: string, item: NewFoodItem) => void;
@@ -168,87 +214,161 @@ type FoodState = {
   reset: () => void;
 };
 
-export const useFoodStore = create<FoodState>((set) => ({
-  meals: seedMeals(),
-  savedFoods: seedSaved(),
-  reset: () => set({ meals: seedMeals(), savedFoods: seedSaved() }),
+/** Write a new day map and re-mirror the visible day from it. Every mutation
+ *  goes through here so `meals` can never drift from `byDate`. */
+function commit(state: { selectedDate: string }, byDate: Record<string, StoredMeal[]>) {
+  return { byDate, meals: byDate[state.selectedDate] ?? [] };
+}
 
-  logMeal: (slot, item, method, pending = false) => {
-    const id = nextId('it');
-    set((s) => {
-      const stored: StoredFoodItem = { id, pending, ...item, confidence: item.confidence };
-      const idx = s.meals.findIndex((m) => m.slot === slot);
-      let meals: StoredMeal[];
-      if (idx >= 0) {
-        meals = s.meals.map((m, i) => (i === idx ? recompute({ ...m, items: [...m.items, stored] }) : m));
-      } else {
-        const meal: StoredMeal = recompute({
-          id: nextId('m'),
-          slot,
-          time: nowTime(),
-          method,
-          calories: 0,
-          protein: 0,
-          carbs: 0,
-          fat: 0,
-          items: [stored],
-        });
-        meals = [...s.meals, meal];
-      }
-      return { meals };
-    });
-    return id;
-  },
+/** Apply `fn` to whichever day holds `itemId`. A row is addressed by id alone,
+ *  so an in-flight scan resolves onto its own day even after the user moves on. */
+function mapDayWithItem(
+  byDate: Record<string, StoredMeal[]>,
+  itemId: string,
+  fn: (meals: StoredMeal[]) => StoredMeal[],
+): Record<string, StoredMeal[]> {
+  const next: Record<string, StoredMeal[]> = {};
+  for (const [date, meals] of Object.entries(byDate)) {
+    next[date] = meals.some((m) => m.items.some((it) => it.id === itemId)) ? fn(meals) : meals;
+  }
+  return next;
+}
 
-  resolvePending: (itemId, item) =>
-    set((s) => ({
-      meals: s.meals.map((m) =>
-        m.items.some((it) => it.id === itemId)
-          ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, ...item, pending: false } : it)) })
-          : m,
+export const useFoodStore = create<FoodState>((set) => {
+  const initial = seedByDate();
+  const today = localToday();
+  return {
+    selectedDate: today,
+    byDate: initial,
+    meals: initial[today] ?? [],
+    savedFoods: seedSaved(),
+    reset: () => {
+      const fresh = seedByDate();
+      const day = localToday();
+      return set({ selectedDate: day, byDate: fresh, meals: fresh[day] ?? [], savedFoods: seedSaved() });
+    },
+
+    setSelectedDate: (date) =>
+      set((s) => ({ selectedDate: date, meals: s.byDate[date] ?? [] })),
+
+    setDayMeals: (date, meals) =>
+      set((s) => commit(s, { ...s.byDate, [date]: meals })),
+
+    logMeal: (slot, item, method, pending = false, date) => {
+      const id = nextId('it');
+      set((s) => {
+        // An explicit date wins; otherwise the row lands on the day being shown.
+        const day = date ?? s.selectedDate;
+        const dayMeals = s.byDate[day] ?? [];
+        const stored: StoredFoodItem = { id, pending, ...item, confidence: item.confidence };
+        const idx = dayMeals.findIndex((m) => m.slot === slot);
+        let next: StoredMeal[];
+        if (idx >= 0) {
+          next = dayMeals.map((m, i) => (i === idx ? recompute({ ...m, items: [...m.items, stored] }) : m));
+        } else {
+          next = [
+            ...dayMeals,
+            recompute({
+              id: nextId('m'),
+              slot,
+              time: nowTime(),
+              method,
+              calories: 0,
+              protein: 0,
+              carbs: 0,
+              fat: 0,
+              items: [stored],
+            }),
+          ];
+        }
+        return commit(s, { ...s.byDate, [day]: next });
+      });
+      return id;
+    },
+
+    resolvePending: (itemId, item) =>
+      set((s) =>
+        commit(
+          s,
+          mapDayWithItem(s.byDate, itemId, (meals) =>
+            meals.map((m) =>
+              m.items.some((it) => it.id === itemId)
+                ? recompute({
+                    ...m,
+                    items: m.items.map((it) => (it.id === itemId ? { ...it, ...item, pending: false } : it)),
+                  })
+                : m,
+            ),
+          ),
+        ),
       ),
-    })),
 
-  editFoodItem: (itemId, patch) =>
-    set((s) => ({
-      meals: s.meals.map((m) =>
-        m.items.some((it) => it.id === itemId)
-          ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, ...patch } : it)) })
-          : m,
+    editFoodItem: (itemId, patch) =>
+      set((s) =>
+        commit(
+          s,
+          mapDayWithItem(s.byDate, itemId, (meals) =>
+            meals.map((m) =>
+              m.items.some((it) => it.id === itemId)
+                ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, ...patch } : it)) })
+                : m,
+            ),
+          ),
+        ),
       ),
-    })),
 
-  setItemStatus: (itemId, status) =>
-    set((s) => ({
-      meals: s.meals.map((m) =>
-        m.items.some((it) => it.id === itemId)
-          ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, status } : it)) })
-          : m,
+    setItemStatus: (itemId, status) =>
+      set((s) =>
+        commit(
+          s,
+          mapDayWithItem(s.byDate, itemId, (meals) =>
+            meals.map((m) =>
+              m.items.some((it) => it.id === itemId)
+                ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, status } : it)) })
+                : m,
+            ),
+          ),
+        ),
       ),
-    })),
 
-  updateScannedItem: (itemId, patch) =>
-    set((s) => ({
-      meals: s.meals.map((m) =>
-        m.items.some((it) => it.id === itemId)
-          ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, ...patch } : it)) })
-          : m,
+    updateScannedItem: (itemId, patch) =>
+      set((s) =>
+        commit(
+          s,
+          mapDayWithItem(s.byDate, itemId, (meals) =>
+            meals.map((m) =>
+              m.items.some((it) => it.id === itemId)
+                ? recompute({ ...m, items: m.items.map((it) => (it.id === itemId ? { ...it, ...patch } : it)) })
+                : m,
+            ),
+          ),
+        ),
       ),
-    })),
 
-  deleteFoodItem: (itemId) =>
-    set((s) => ({
-      meals: s.meals
-        .map((m) => recompute({ ...m, items: m.items.filter((it) => it.id !== itemId) }))
-        .filter((m) => m.items.length > 0),
-    })),
+    deleteFoodItem: (itemId) =>
+      set((s) =>
+        commit(
+          s,
+          mapDayWithItem(s.byDate, itemId, (meals) =>
+            meals
+              .map((m) => recompute({ ...m, items: m.items.filter((it) => it.id !== itemId) }))
+              .filter((m) => m.items.length > 0),
+          ),
+        ),
+      ),
 
-  saveFood: (food) => {
-    const id = nextId('s');
-    set((s) => ({ savedFoods: [{ id, ...food }, ...s.savedFoods] }));
-    return id;
-  },
-  editSavedFood: (id, patch) =>
-    set((s) => ({ savedFoods: s.savedFoods.map((f) => (f.id === id ? { ...f, ...patch } : f)) })),
-  unsaveFood: (id) => set((s) => ({ savedFoods: s.savedFoods.filter((f) => f.id !== id) })),
-}));
+    saveFood: (food) => {
+      const id = nextId('s');
+      set((s) => ({ savedFoods: [{ id, ...food }, ...s.savedFoods] }));
+      return id;
+    },
+    editSavedFood: (id, patch) =>
+      set((s) => ({ savedFoods: s.savedFoods.map((f) => (f.id === id ? { ...f, ...patch } : f)) })),
+    unsaveFood: (id) => set((s) => ({ savedFoods: s.savedFoods.filter((f) => f.id !== id) })),
+  };
+});
+
+/** The day the food UI is currently showing — the default target for a write.
+ *  Screens that call the API directly (quick add, label scan, saved meals,
+ *  recipes) use this instead of "today" so a log lands on the day on screen. */
+export const selectedFoodDate = (): string => useFoodStore.getState().selectedDate;

@@ -112,9 +112,13 @@ export function logInputFromItem(
   slot: MealSlot,
   item: { name: string; quantityG: number; calories: number; protein: number; carbs: number; fat: number },
   method: EntryMethod,
+  // The day this row belongs to. REQUIRED since architecture item 3: it used to
+  // be an implicit todayISO(), which meant a write queued while offline replayed
+  // with the date of the REPLAY rather than the date it was logged on.
+  date: string,
 ): FoodLogInput {
   return {
-    date: todayISO(),
+    date,
     meal_type: slot,
     food_name: item.name,
     quantity: item.quantityG,
