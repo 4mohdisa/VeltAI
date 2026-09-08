@@ -1,31 +1,248 @@
-// B4 · Nutrition detail
-// Calories consumed vs target, per-macro progress bars (incl. fibre), then a
-// per-meal breakdown — the design file's elevated-card layout under a floating
-// header. ChartCard is not used here: the design heads each card with a
-// CardHeaderRow (accent glyph + name) rather than an uppercase kicker, so the
-// two chart cards are composed from Card + CardHeaderRow directly. ChartCard's
-// single-VoiceOver-summary rule is kept.
+// Macros detail — one of the four Summary detail views, all four built to the
+// same layout: a coloured kicker over a large title, a hero card (the headline
+// stat + a chart), a secondary card and a Breakdown list.
+//
+// This one has no 14-day hero and no 7-day secondary, and that is deliberate:
+// the food store holds TODAY only (hydrateFoodLog; DECISIONS.md architecture
+// item 3 is not done), so there is no macro history to plot. Rather than draw a
+// week of invented columns, the hero shows today's calorie ring and the
+// secondary shows each macro against its own target — both of which are real.
+// Fibre reads 0 g because food items carry no fibre yet (see useDailyMacros).
+//
+// ponytail: the layout chrome below is duplicated across the four detail routes
+// (this change's scope was the routes, with no shared component file to hoist
+// into). Extract to src/components/display/DetailChart.tsx when a fifth lands.
+import type { JSX } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
+import { ProgressBar } from '@/components/display/ProgressBar';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
+import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
-import { MacroBars } from '@/components/domain/MacroBars';
-import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
-import { formatRelativeDate } from '@/lib/formatting';
+import { categoryAccent, color, layout, opacity, radius, space } from '@/lib/design/tokens';
+import { formatNumber, formatRelativeDate } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
-import { formatEnergy } from '@/lib/units';
+import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import { useDailyMacros, useFoodLog } from '@/lib/data';
 
-export default function NutritionDetailScreen() {
+/** Plot height composed from the spacing scale (120 in the design). */
+const SEC_H = space['5xl'] + space['4xl'] + space.sm;
+/** Right gutter the scale ceiling label sits in, clear of the bars. */
+const GUTTER = space['4xl'];
+
+type Bar = { h: number; bottom?: number; tint: string };
+type Col = { key: string; bars: Bar[]; dim?: boolean };
+
+function Plot({
+  cols,
+  height,
+  ceiling,
+  summary,
+}: {
+  cols: Col[];
+  height: number;
+  ceiling: string;
+  summary: string;
+}): JSX.Element {
+  return (
+    <View accessible accessibilityLabel={summary} style={{ height }}>
+      <View
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          borderTopWidth: layout.hairline,
+          borderTopColor: color.light2,
+        }}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderTopWidth: layout.hairline,
+          borderTopColor: color.light2,
+        }}
+      />
+      <Text
+        variant="caption"
+        color={color.tertiaryLabel}
+        style={{ position: 'absolute', right: 0, top: 0, width: GUTTER, textAlign: 'right' }}
+      >
+        {ceiling}
+      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+          gap: space.xs,
+          height: '100%',
+          paddingRight: GUTTER,
+        }}
+      >
+        {cols.map((c) => (
+          <View
+            key={c.key}
+            style={{
+              flex: 1,
+              minWidth: 0,
+              height: '100%',
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+              gap: space.xs,
+              opacity: c.dim ? opacity.medium : opacity.full,
+            }}
+          >
+            {c.bars.map((b, i) => (
+              <View
+                key={i}
+                style={{
+                  flex: 1,
+                  height: b.h,
+                  marginBottom: b.bottom ?? 0,
+                  borderRadius: radius.sm,
+                  backgroundColor: b.tint,
+                }}
+              />
+            ))}
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+function Axis({ labels }: { labels: string[] }): JSX.Element {
+  return (
+    <View style={{ flexDirection: 'row', gap: space.xs, paddingRight: GUTTER }}>
+      {labels.map((l, i) => (
+        <Text
+          key={i}
+          variant="caption"
+          color={color.tertiaryLabel}
+          numberOfLines={1}
+          style={{ flex: 1, textAlign: 'center' }}
+        >
+          {l}
+        </Text>
+      ))}
+    </View>
+  );
+}
+
+function ChartHeader({ title, note }: { title: string; note: string }): JSX.Element {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+      <Text variant="bodyMedium" color={color.label} style={{ flex: 1 }} numberOfLines={1}>
+        {title}
+      </Text>
+      <Text variant="caption" color={color.tertiaryLabel}>
+        {note}
+      </Text>
+    </View>
+  );
+}
+
+function KickerTitle({ kicker, title, tint }: { kicker: string; title: string; tint: string }): JSX.Element {
+  return (
+    <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+        <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
+        <Text variant="label" color={tint} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+          {kicker}
+        </Text>
+      </View>
+      <Text variant="title1" color={color.label} accessibilityRole="header">
+        {title}
+      </Text>
+    </View>
+  );
+}
+
+function StatLine({ value, unit, sub }: { value: string; unit: string; sub?: string }): JSX.Element {
+  return (
+    <View style={{ gap: space.xs }}>
+      <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm, flexWrap: 'wrap' }}>
+        <Text variant="statLarge" color={color.label}>
+          {value}
+        </Text>
+        <Text variant="callout" color={color.secondaryLabel}>
+          {unit}
+        </Text>
+      </View>
+      {sub ? (
+        <Text variant="footnote" color={color.secondaryLabel}>
+          {sub}
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
+function BreakdownRow({
+  tint,
+  label,
+  sub,
+  value,
+  unit,
+  fraction,
+}: {
+  tint: string;
+  label: string;
+  sub?: string;
+  value: string;
+  unit?: string;
+  fraction: number;
+}): JSX.Element {
+  return (
+    <View
+      accessible
+      accessibilityLabel={`${label}${sub ? `, ${sub}` : ''}, ${value}${unit ? ` ${unit}` : ''}`}
+      style={{ gap: space.sm }}
+    >
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+        <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text variant="callout" color={color.label} numberOfLines={1}>
+            {label}
+          </Text>
+          {sub ? (
+            <Text variant="caption" color={color.tertiaryLabel} numberOfLines={1}>
+              {sub}
+            </Text>
+          ) : null}
+        </View>
+        <Text variant="statSmall" color={color.label}>
+          {value}
+        </Text>
+        {unit ? (
+          <Text variant="caption" color={color.tertiaryLabel}>
+            {unit}
+          </Text>
+        ) : null}
+      </View>
+      <ProgressBar value={fraction} tint={tint} track={color.light2} />
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Macro bindings
+// ---------------------------------------------------------------------------
+
+const pctOf = (consumed: number, target: number) => (target > 0 ? Math.round((consumed / target) * 100) : 0);
+
+export default function NutritionDetailScreen(): JSX.Element {
   const { t } = useTranslation();
   const energyUnit = useUnitPreferences().energy;
   const macros = useDailyMacros();
@@ -33,59 +250,88 @@ export default function NutritionDetailScreen() {
   const cal = macros.calories;
   const remaining = formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit);
 
+  const rows = [
+    { key: 'protein', label: t('nutrition.protein'), tint: categoryAccent.protein, data: macros.protein },
+    { key: 'carbs', label: t('nutrition.carbs'), tint: categoryAccent.carbs, data: macros.carbs },
+    { key: 'fat', label: t('nutrition.fat'), tint: categoryAccent.fat, data: macros.fat },
+    { key: 'fibre', label: t('nutrition.fibre'), tint: categoryAccent.fibre, data: macros.fibre },
+  ].map((r) => ({ ...r, pct: pctOf(r.data.consumed, r.data.target) }));
+
+  // Ceiling is 100% unless something is over target, so the target line is the
+  // top of the plot and going over is visibly over.
+  const ceiling = Math.max(100, ...rows.map((r) => r.pct));
+  const cols: Col[] = rows.map((r) => ({
+    key: r.key,
+    bars: [{ h: (r.pct / ceiling) * SEC_H, tint: r.tint }],
+  }));
+
   return (
-    <Screen variant="floating" eyebrow={formatRelativeDate(new Date())} title={t('nutrition.title')} showBack>
+    <Screen variant="floating" showBack>
+      <KickerTitle kicker="Macros" title={t('nutrition.title')} tint={categoryAccent.protein} />
+
+      {/* Hero — the day's calories against the goal. */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
-          {/* One VoiceOver element summarises the chart (HIG §7). */}
-          <View
-            accessible
-            accessibilityLabel={`Calories today. ${formatEnergy(cal.consumed, energyUnit)} of ${formatEnergy(cal.target, energyUnit)}, ${remaining} left.`}
-            style={{ gap: space.xs }}
-          >
-            <CardHeaderRow title="Calories today" icon="flame" tint={categoryAccent.calories} />
-            <Text variant="callout" color={color.secondaryLabel}>
-              {t('nutrition.remainingToday', { value: remaining })}
-            </Text>
-          </View>
+          <StatLine
+            value={formatNumber(kcalToDisplay(cal.consumed, energyUnit))}
+            unit={`${energyUnit} from food`}
+            sub={t('nutrition.remainingToday', { value: remaining })}
+          />
+          <ChartHeader title="Calories today" note={formatRelativeDate(new Date())} />
           {loading ? (
-            <Skeleton height={132} rounded={radius.xl} />
+            <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (
-            <View style={{ alignItems: 'center' }}>
+            <View
+              accessible
+              accessibilityLabel={`Calories today. ${formatEnergy(cal.consumed, energyUnit)} of ${formatEnergy(cal.target, energyUnit)}, ${remaining} left.`}
+              style={{ alignItems: 'center' }}
+            >
               <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />
             </View>
           )}
         </View>
       </Card>
 
+      {/* Secondary — each macro against its own target. */}
+      <Card variant="elevated">
+        <View style={{ gap: space.md }}>
+          <ChartHeader title="Against targets" note="Percent of target" />
+          {loading ? (
+            <Skeleton height={SEC_H} rounded={radius.xl} />
+          ) : (
+            <>
+              <Plot
+                cols={cols}
+                height={SEC_H}
+                ceiling={`${ceiling}%`}
+                summary={rows.map((r) => `${r.label} ${r.pct} percent of target`).join(', ')}
+              />
+              <Axis labels={rows.map((r) => r.label)} />
+              <Text variant="footnote" color={color.secondaryLabel}>
+                {rows.map((r) => `${r.label} ${r.pct}%`).join(' · ')}
+              </Text>
+            </>
+          )}
+        </View>
+      </Card>
+
+      {/* Breakdown — grams eaten against each daily target. */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
-          <View
-            accessible
-            accessibilityLabel={`Macros today. Protein ${macros.protein.consumed} of ${macros.protein.target} grams, carbs ${macros.carbs.consumed} of ${macros.carbs.target} grams, fat ${macros.fat.consumed} of ${macros.fat.target} grams, fibre ${macros.fibre.consumed} of ${macros.fibre.target} grams.`}
-            style={{ gap: space.xs }}
-          >
-            <CardHeaderRow title="Macros today" icon="circle.grid.2x2.fill" tint={categoryAccent.protein} />
-            <Text variant="callout" color={color.secondaryLabel}>
-              {`Protein ${macros.protein.consumed} of ${macros.protein.target} g`}
-            </Text>
-          </View>
-          {loading ? (
-            <View accessibilityLabel="Loading" style={{ gap: space.sm }}>
-              <Skeleton width="100%" height={14} />
-              <Skeleton width="80%" height={14} />
-              <Skeleton width="90%" height={14} />
-            </View>
-          ) : (
-            <MacroBars
-              rows={[
-                { label: t('nutrition.protein'), macroKey: 'Protein', data: macros.protein },
-                { label: t('nutrition.carbs'), macroKey: 'Carbs', data: macros.carbs },
-                { label: t('nutrition.fat'), macroKey: 'Fat', data: macros.fat },
-                { label: t('nutrition.fibre'), macroKey: 'Fibre', data: macros.fibre },
-              ]}
+          <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
+            Breakdown
+          </Text>
+          {rows.map((r) => (
+            <BreakdownRow
+              key={r.key}
+              tint={r.tint}
+              label={r.label}
+              sub={`${r.pct}% of target`}
+              value={formatNumber(r.data.consumed)}
+              unit={`of ${formatNumber(r.data.target)} g`}
+              fraction={r.data.target > 0 ? r.data.consumed / r.data.target : 0}
             />
-          )}
+          ))}
         </View>
       </Card>
 
@@ -107,7 +353,9 @@ export default function NutritionDetailScreen() {
             haptic={false}
             minTapTarget={false}
             accessibilityLabel={`${meal.slot}, ${formatEnergy(meal.calories, energyUnit)}`}
-            onPress={() => router.push(`/food/${meal.id}`)}
+            // The per-meal detail route is gone (architecture item 4): a meal's
+            // rows live on the food tab, and each one opens the shared detail sheet.
+            onPress={() => router.push('/(tabs)/food')}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -130,6 +378,10 @@ export default function NutritionDetailScreen() {
           </Pressable>
         ))}
       </Card>
+
+      <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
+        Targets scale with your calorie goal. Lume tracks today only, so there is no macro history to chart yet.
+      </Text>
 
       <HealthDisclaimer />
     </Screen>

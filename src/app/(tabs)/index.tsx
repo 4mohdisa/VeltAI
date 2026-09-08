@@ -29,7 +29,7 @@ import { Avatar } from '@/components/display/Avatar';
 import { Icon } from '@/components/primitives/Icon';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { showToast } from '@/components/display/toastStore';
-import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { formatRelativeDate } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
@@ -148,8 +148,39 @@ export default function DashboardScreen() {
           </View>
         </Card>
 
-        {/* Energy balance — intake vs BMR + exercise (renders null with no data). */}
+        {/* Energy balance — intake vs BMR + exercise (renders null with no data).
+            It pushes /energy itself. */}
         <EnergyBalanceCard />
+
+        {/* The design's other two Summary tiles reach their detail views from
+            here. Neither carries a figure: every number these details show is
+            fetched by the detail itself, and putting a second copy on Home would
+            mean either another round trip or a stale one. */}
+        <Card
+          variant="elevated"
+          onPress={() => router.push('/dashboard/week')}
+          accessibilityLabel="This week. Intake, burn and daily net across the last 14 days. Double tap for detail."
+        >
+          <View style={{ gap: space.sm }}>
+            <CardHeaderRow title="This week" icon="chart.bar.fill" tint={accent.blue} chevron />
+            <Text variant="footnote" color={color.secondaryLabel}>
+              Intake, burn and daily net across the last 14 days.
+            </Text>
+          </View>
+        </Card>
+
+        <Card
+          variant="elevated"
+          onPress={() => router.push('/dashboard/training')}
+          accessibilityLabel="Workouts. Sessions and minutes across the last 14 days. Double tap for detail."
+        >
+          <View style={{ gap: space.sm }}>
+            <CardHeaderRow title="Workouts" icon="barbell" tint={categoryAccent.positive} chevron />
+            <Text variant="footnote" color={color.secondaryLabel}>
+              Sessions and minutes across the last 14 days.
+            </Text>
+          </View>
+        </Card>
 
         {/* AI plan. Only rendered once there IS a plan: the card used to show a
             hardcoded gym time and bedtime ('18:00' / '22:30') as if they were
