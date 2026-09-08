@@ -1,17 +1,14 @@
 // Which days have food logged — the dots under the week strip and on the month
 // calendar (architecture items 3 and 5).
 //
-// GET /api/food/logs takes ONE exact date and has no range parameter
-// (backend/internal/food/handlers.go:123), but omitting `date` returns every row
-// the user has. So the set of logged days is derived from one unfiltered call and
-// grouped client-side. Every dot therefore stands for a real row; a day with no
-// logs simply has no dot, and a failed call draws no dots at all rather than
-// guessing.
+// GET /api/food/days returns exactly this set — the distinct dates the
+// authenticated user has at least one food row on, deduped and sorted by the
+// database. It replaced the previous approach, which called GET /api/food/logs
+// with no date and pulled the user's ENTIRE unpaginated log history, with every
+// macro and scan_results blob on every row, only to read the `date` off each one.
 //
-// ponytail: one unpaginated fetch of the whole history, cached per mount and
-// re-fetched after a write. Fine at a year of logging; if it ever isn't, the fix
-// is a `/api/food/days` endpoint returning just the dates — a backend change,
-// which is why it is not done here.
+// Every dot still stands for a real row; a day with no logs simply has no dot,
+// and a failed call draws no dots at all rather than guessing.
 import { useCallback, useEffect, useState } from 'react';
 
 import { api } from '@/lib/api';
@@ -33,12 +30,11 @@ export function useLoggedDays(): LoggedDays {
   useEffect(() => {
     let active = true;
     api.foodLogs
-      .list()
-      .then((rows) => {
+      .days()
+      .then((dates) => {
         if (!active) return;
-        const set = new Set<string>();
-        for (const r of rows) if (r.date) set.add(r.date);
-        setDays(set);
+        // `?? []` keeps a null body a dotless calendar rather than a crash.
+        setDays(new Set(dates ?? []));
       })
       .catch(() => {
         // No backend, or the call failed. Draw NO dots — a dot is a claim that a

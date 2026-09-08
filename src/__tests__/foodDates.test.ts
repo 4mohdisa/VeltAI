@@ -8,6 +8,9 @@
 // day, a scan resolving onto a day the user has since navigated away from, an
 // offline write replaying with the date of the REPLAY rather than the date it
 // was logged, or one day's totals leaking into another's.
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 import { logInputFromItem } from '@/lib/data/mappers';
 import { useFoodStore, selectedFoodDate } from '@/lib/data/foodStore';
 
@@ -207,5 +210,34 @@ describe('the date helpers behind the week strip and calendar', () => {
     // Jan 31 + 1 month has no 31st to land on; it must not become March 3rd.
     expect(addMonths('2026-01-31', 1)).toBe('2026-02-28');
     expect(addMonths('2026-03-31', -1)).toBe('2026-02-28');
+  });
+});
+
+// --- the calendar dots come from a bounded endpoint --------------------------
+// `useLoggedDays` used to answer "which days have a dot?" by calling
+// GET /api/food/logs with no date, which returns EVERY row the user has ever
+// logged — each with its macros and its scan_results blob — just to read the
+// `date` off each one. It now calls GET /api/food/days, which returns the
+// distinct dates and nothing else.
+describe('logged days are fetched as dates, not as the whole history', () => {
+  const read = (p: string) => readFileSync(join(__dirname, '../..', p), 'utf8');
+
+  test('useLoggedDays calls the days endpoint', () => {
+    const src = read('src/lib/data/foodDays.ts');
+    expect(src).toContain('api.foodLogs\n      .days()');
+  });
+
+  test('no source fetches the unfiltered food log any more', () => {
+    // A `list()` with no argument is the unbounded call this replaced. Every
+    // surviving caller must name a date.
+    for (const p of ['src/lib/data/foodDays.ts', 'src/lib/data/hooks.ts', 'src/app/(tabs)/food.tsx']) {
+      expect(read(p)).not.toMatch(/foodLogs\s*\.?\s*\n?\s*\.list\(\s*\)/);
+    }
+  });
+
+  test('the api client exposes days with an optional from/to window', () => {
+    const src = read('src/lib/api.ts');
+    expect(src).toContain("req.get<string[]>('/api/food/days'");
+    expect(src).toMatch(/from: range\?\.from, to: range\?\.to/);
   });
 });

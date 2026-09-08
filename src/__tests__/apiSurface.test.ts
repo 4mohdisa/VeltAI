@@ -60,6 +60,13 @@ const cases: Case[] = [
   },
   { name: 'foodLogs.delete', call: () => api.foodLogs.delete('fl1'), method: 'DELETE', path: '/api/food/logs/fl1' },
   { name: 'foodLogs.get', call: () => api.foodLogs.get('fl 1'), method: 'GET', path: '/api/food/logs/fl%201' },
+  { name: 'foodLogs.days (no range)', call: () => api.foodLogs.days(), method: 'GET', path: '/api/food/days' },
+  {
+    name: 'foodLogs.days (from + to)',
+    call: () => api.foodLogs.days({ from: '2026-09-01', to: '2026-09-30' }),
+    method: 'GET',
+    path: '/api/food/days?from=2026-09-01&to=2026-09-30',
+  },
   {
     name: 'foodLogs.quickAdd',
     call: () => api.foodLogs.quickAdd({ calories: 250, meal_type: 'snack' }),

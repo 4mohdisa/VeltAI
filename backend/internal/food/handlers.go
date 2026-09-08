@@ -29,6 +29,7 @@ func Register(mux *http.ServeMux, s Store, sc *SearchClient) {
 	mux.HandleFunc("PATCH /api/food/logs/{id}", h.patchLog)
 	mux.HandleFunc("DELETE /api/food/logs/{id}", h.deleteLog)
 	mux.HandleFunc("GET /api/food/summary", h.summary)
+	mux.HandleFunc("GET /api/food/days", h.loggedDays)
 	mux.HandleFunc("GET /api/food/search", h.searchFoods)
 	mux.HandleFunc("GET /api/food/barcode/{barcode}", h.barcode)
 	mux.HandleFunc("GET /api/food/saved", h.listSaved)
@@ -306,6 +307,47 @@ func (h *handler) summary(w http.ResponseWriter, r *http.Request) {
 	}
 	sum.Date = date
 	httpx.JSON(w, http.StatusOK, sum)
+}
+
+// loggedDays answers "which days does this user have food on?" — the week-strip
+// and month-calendar dots, and nothing else. The client used to answer it by
+// pulling its ENTIRE unpaginated log history and grouping the rows itself; this
+// returns just the dates.
+//
+// Optional from/to bound the window, inclusive. Both are validated: an
+// unparseable date is a 400 rather than a silently ignored filter, and a
+// backwards window is a 400 rather than a confidently empty answer.
+func (h *handler) loggedDays(w http.ResponseWriter, r *http.Request) {
+	var from, to *string
+	if v := r.URL.Query().Get("from"); v != "" {
+		if !validDate(v) {
+			httpx.Error(w, http.StatusBadRequest, "from must be YYYY-MM-DD")
+			return
+		}
+		from = &v
+	}
+	if v := r.URL.Query().Get("to"); v != "" {
+		if !validDate(v) {
+			httpx.Error(w, http.StatusBadRequest, "to must be YYYY-MM-DD")
+			return
+		}
+		to = &v
+	}
+	if from != nil && to != nil && *from > *to {
+		httpx.Error(w, http.StatusBadRequest, "from must not be after to")
+		return
+	}
+	days, err := h.store.LoggedDays(r.Context(), auth.UserID(r.Context()), from, to)
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to list logged days")
+		return
+	}
+	// A user with no logs gets [], never null: the client turns this straight
+	// into a Set, and a dot is a claim that a day has a row.
+	if days == nil {
+		days = []string{}
+	}
+	httpx.JSON(w, http.StatusOK, days)
 }
 
 func (h *handler) searchFoods(w http.ResponseWriter, r *http.Request) {

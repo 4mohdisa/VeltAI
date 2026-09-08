@@ -98,6 +98,10 @@ type Store interface {
 	UpdateLog(ctx context.Context, id string, p LogPatch) (Log, error)
 	DeleteLog(ctx context.Context, id string) error
 	Summary(ctx context.Context, userID, date string) (Summary, error)
+	// LoggedDays returns the distinct dates the user has at least one food row
+	// on, oldest first, optionally bounded by from/to (inclusive). It backs the
+	// week-strip and calendar dots, which need membership and nothing else.
+	LoggedDays(ctx context.Context, userID string, from, to *string) ([]string, error)
 	ListSaved(ctx context.Context, userID string) ([]SavedFood, error)
 	CreateSaved(ctx context.Context, s SavedFood) (SavedFood, error)
 	GetSavedOwner(ctx context.Context, id string) (string, error)

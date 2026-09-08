@@ -169,6 +169,28 @@ func (f *fakeStore) Summary(_ context.Context, userID, date string) (food.Summar
 	return s, nil
 }
 
+// LoggedDays mirrors the Postgres store: this user's rows only, deduped,
+// oldest first, from/to inclusive, and no status filter.
+func (f *fakeStore) LoggedDays(_ context.Context, userID string, from, to *string) ([]string, error) {
+	seen := map[string]bool{}
+	var out []string
+	for _, l := range f.logs {
+		if l.UserID != userID || seen[l.Date] {
+			continue
+		}
+		if from != nil && l.Date < *from {
+			continue
+		}
+		if to != nil && l.Date > *to {
+			continue
+		}
+		seen[l.Date] = true
+		out = append(out, l.Date)
+	}
+	slices.Sort(out)
+	return out, nil
+}
+
 func (f *fakeStore) ListSaved(_ context.Context, userID string) ([]food.SavedFood, error) {
 	var out []food.SavedFood
 	for _, s := range f.saved {

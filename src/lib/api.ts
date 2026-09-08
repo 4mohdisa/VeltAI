@@ -1051,6 +1051,11 @@ export const api = {
     delete: (id: string) => req.del<{ deleted: boolean }>(`/api/food/logs/${id}`),
     get: (id: string) => req.get<FoodLog>(`/api/food/logs/${encodeURIComponent(id)}`),
     summary: (date?: string) => req.get<DailySummary>('/api/food/summary', { date }),
+    // The ISO dates this user has at least one row on — the week-strip and
+    // calendar dots, and nothing else. `list()` with no date used to stand in
+    // for this and pulled the entire log history to do it.
+    days: (range?: { from?: string; to?: string }) =>
+      req.get<string[]>('/api/food/days', { from: range?.from, to: range?.to }),
     quickAdd: (input: QuickAddInput) => req.post<FoodLog>('/api/food/quick-add', input),
     portionMemory: (foodName: string) =>
       req.get<PortionMemory>('/api/food/portion-memory', { food_name: foodName }),

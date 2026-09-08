@@ -44,6 +44,7 @@ var routes = []struct{ method, path string }{
 	{"PATCH", "/api/food/logs/abc"},
 	{"DELETE", "/api/food/logs/abc"},
 	{"GET", "/api/food/summary"},
+	{"GET", "/api/food/days"},
 	{"POST", "/api/food/quick-add"},
 	{"GET", "/api/food/search"},
 	{"GET", "/api/food/saved"},

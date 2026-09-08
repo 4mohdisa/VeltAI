@@ -161,6 +161,37 @@ func (s *PGStore) Summary(ctx context.Context, userID, date string) (Summary, er
 	return sum, err
 }
 
+// LoggedDays lists the distinct days this user has food on, oldest first.
+//
+// Scoped to user_id like every other read here, and DISTINCT in the database
+// rather than in Go: the point of this endpoint is that the client stops
+// pulling the whole log history to find out which days have a dot. The existing
+// food_logs_user_date_idx (user_id, date) covers it.
+//
+// No status filter, deliberately — an in-flight scan is still a row the user
+// created on that day, and the client this replaces counted it too. Filtering
+// to 'confirmed' here would silently remove dots that are on screen today.
+func (s *PGStore) LoggedDays(ctx context.Context, userID string, from, to *string) ([]string, error) {
+	rows, err := s.q.Query(ctx, `SELECT DISTINCT date FROM food_logs
+		WHERE user_id = $1
+		  AND ($2::date IS NULL OR date >= $2::date)
+		  AND ($3::date IS NULL OR date <= $3::date)
+		ORDER BY date`, userID, from, to)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []string
+	for rows.Next() {
+		var d time.Time
+		if err := rows.Scan(&d); err != nil {
+			return nil, err
+		}
+		out = append(out, d.Format("2006-01-02"))
+	}
+	return out, rows.Err()
+}
+
 const savedCols = `id, user_id, food_name, brand, barcode, calories, protein, carbs, fat, fibre,
 	serving_size, serving_unit, created_at`
 

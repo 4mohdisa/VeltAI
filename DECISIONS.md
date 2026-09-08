@@ -722,3 +722,34 @@ routes (`/energy`, `/dashboard/week`, `/dashboard/training`,
 - **`Legend` stays in `energy.tsx`.** One caller is not duplication.
 - `summaryDetails.test.ts` now fails if any route redeclares a chrome component,
   so a fifth copy cannot start.
+
+### GET /api/food/days replaces the whole-history fetch
+
+`useLoggedDays()` used to call `GET /api/food/logs` with no date — which returns
+EVERY row the user has ever logged, macros and `scan_results` blob included —
+and read the `date` off each one to decide which days get a dot. There is now a
+real endpoint that returns the dates.
+
+- **Contract:** `GET /api/food/days` → `{data: ["2026-09-01", ...]}`. Distinct,
+  sorted oldest-first, scoped to the authenticated user. Optional `from`/`to`
+  bound the window inclusively; a malformed date or `from > to` is a **400**,
+  never a silently-ignored filter. No rows is `[]`, never `null` — the client
+  builds a `Set` from it directly.
+- **A bare array of dates is the whole response** because membership is all the
+  UI needs: `WeekStrip` and `/food/calendar` only ever ask `loggedDays.has(iso)`.
+- **No status filter, deliberately.** An `analyzing`/`ready`/`failed` scan row
+  still marks its day, because the client this replaced counted it too.
+  Filtering to `confirmed` would silently remove dots that are on screen today.
+  Pinned by a test so it stays a decision rather than drifting.
+- **Ownership is proved against real Postgres**, not only the fake:
+  `tests/food/days_pg_test.go` runs the actual SQL, and was checked by removing
+  `user_id = $1` and watching it fail with another user's dates in the result.
+- **No migration needed** — `food_logs_user_date_idx (user_id, date)` from the
+  initial schema already covers `SELECT DISTINCT date WHERE user_id`.
+- `api.foodLogs.list()` keeps its optional `date`, because the backend route
+  genuinely supports the unfiltered form; what changed is that no product code
+  calls it that way any more, and `foodDates.test.ts` fails if one starts.
+- The hook still fetches the full (now tiny) date set once per mount rather than
+  a visible window. Passing `from`/`to` would mean refetching whenever the week
+  or month moves, which is a behaviour change nobody asked for; the parameters
+  exist and are tested for when a caller wants them.
