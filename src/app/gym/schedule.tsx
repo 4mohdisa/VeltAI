@@ -105,8 +105,11 @@ export default function ScheduleScreen() {
                   borderTopColor: surface.divider,
                 }}
               >
+                {/* The design's three-letter day ("Mon"); the full name clipped
+                    to "Tues…" in this column. VoiceOver still reads it in full
+                    from the row's accessibilityLabel. */}
                 <Text variant="label" color={color.label} style={{ width: DAY_WIDTH }} numberOfLines={1}>
-                  {day.day_name}
+                  {day.day_name.slice(0, 3)}
                 </Text>
                 <View
                   style={{
