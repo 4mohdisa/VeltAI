@@ -30,7 +30,6 @@ import { Icon } from '@/components/primitives/Icon';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { showToast } from '@/components/display/toastStore';
 import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
-import { formatRelativeDate } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
 import { useDashboard, logGymSession } from '@/lib/data';
@@ -74,7 +73,7 @@ export default function DashboardScreen() {
             color={color.secondaryLabel}
             style={{ textTransform: 'uppercase', letterSpacing: 1 }}
           >
-            {formatRelativeDate(new Date())}
+            {new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
           </Text>
           <Text variant="title1" color={color.label} accessibilityRole="header">
             Summary

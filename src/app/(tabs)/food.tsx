@@ -52,7 +52,7 @@ import {
 } from '@/lib/data';
 import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
 import { useFoodStore } from '@/lib/data/foodStore';
-import { fromIso, isoDate, useLoggedDays } from '@/lib/data/foodDays';
+import { fromIso, useLoggedDays } from '@/lib/data/foodDays';
 import { WeekStrip } from '@/components/food/WeekStrip';
 import { openFoodDetail, type DetailItem } from '@/lib/food/detailSubject';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
@@ -360,13 +360,11 @@ export default function FoodLogScreen() {
                 color={color.secondaryLabel}
                 style={{ textTransform: 'uppercase', letterSpacing: 1 }}
               >
-                {selectedDate === isoDate(new Date())
-                  ? t('foodLog.today')
-                  : fromIso(selectedDate).toLocaleDateString(undefined, {
-                      weekday: 'long',
-                      day: 'numeric',
-                      month: 'long',
-                    })}
+                {fromIso(selectedDate).toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                })}
               </Text>
               <Text variant="title1" color={color.label} accessibilityRole="header">
                 Food
