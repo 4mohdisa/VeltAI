@@ -753,3 +753,97 @@ real endpoint that returns the dates.
   a visible window. Passing `from`/`to` would mean refetching whenever the week
   or month moves, which is a behaviour change nobody asked for; the parameters
   exist and are tested for when a caller wants them.
+
+## Verification pass (2026-09-10) — the running app against the design
+
+A new pass, not a continuation of the three before it: every covered screen was
+run on the iPhone 17 Pro simulator (against a read-only verification stub for
+success states) and compared with the design's artboards, rendered locally at
+402×874. Full per-screen results are in `VERIFICATION_REPORT.md`.
+
+Six pure-style mismatches were fixed inline, one commit each: the labelled back
+pill on four screens, clipped date-axis labels, clipped schedule day names, the
+TODAY eyebrow on Summary/Food, the meal header sitting outside its card, and the
+untinted settings glyphs. Everything below needs a structural change, so none of
+it was built.
+
+### NEEDS ARCHITECTURE DECISION — surfaced during verification (2026-09-10)
+
+Numbered V1–V17 so they are never confused with the original seven (1–6 done,
+7 — the 3D body — still deferred).
+
+- **V1. Sheet header convention is mirrored.** The design puts the sheet title
+  on the left and × on the right, with saving done by a bottom pill ("Save
+  changes"). `SheetContent` puts × left, the title centred and a ✓ Done right —
+  and the right slot carries the save action on every create/edit sheet. It is
+  shared by eight sheets, one of them parked (`gym/freeze`). Matching needs a
+  variant plus moving the save affordance.
+- **V2. No avatar on Food and Gym.** The design has the profile avatar top-right
+  on all three tabs; the app only on Summary. Two new navigation entry points.
+- **V3. Food's date header and week strip.** Design: one full-date eyebrow with
+  a ⌄ that opens the calendar, ‹ › flanking a strip of plain day numbers.
+  App: a separate "SEPTEMBER 2026 ⌄" row with the arrows on the right, and a
+  white chip per day. Restructures `WeekStrip` and the calendar's entry point.
+- **V4. Food's Calories card has no goal.** Design: "800 kcal left today", a
+  progress bar, "1,300 eaten · goal 2,100 kcal", and four macro columns with
+  mini bars, Fibre included. The Food screen reads no goal and items carry no
+  fibre, so this needs data wiring, not styling.
+- **V5. Add sheet composition.** Design: a 2×2 grid (Search foods, Scan food
+  covering photo *and* label, Barcode, My dishes) plus a full-width Quick add,
+  titled "Add to breakfast". App: 2×3 with Scan Label, Saved foods and My Meals
+  as separate routes, titled "Add meal". A route merge.
+- **V6. The food detail sheet in logged mode.** Design: a thumbnail header,
+  serving-size presets with an edit chip, a read-only macro grid with Fibre, a
+  meal segmented control, a "Save changes" pill and "Remove from log". App: free
+  text fields for every value. A behaviour change, not a restyle.
+- **V7. The Gym calendar is not a month grid.** Design: dated cells, month
+  paging, intensity shading with a Less/More legend, "5 sessions · 4h 21m".
+  App: an index-keyed 30-cell heatmap with checkmarks and a categorical legend
+  (the UI pass kept "same props, same index-keyed model"). Needs date-keyed data.
+- **V8. Gym's streak and lower half.** Design: a one-line streak pill
+  ("13 day streak · 23 sessions · 2 freezes") and a "My schedule" card showing
+  the next three days. App: a taller three-stat card, a "Your gym habits" card, a
+  second "Log gym session" pill and a TRAINING settings list. An IA change.
+- **V9. Schedule page shape.** Design: a Monday-first week with a "My workouts"
+  section on the same page. App: Sunday-first (the API's 0–6 order) and workouts
+  on their own screen, whose "+" is a bare glyph rather than a glass circle (the
+  `GlassIconButton` export the UI pass flagged).
+- **V10. Muscle-focus header and values.** Design: a compact inline header
+  (back + "Muscle focus" + "Last 7 days · 21,898 kg lifted"), a Front/Back
+  toggle, two-line "10 sets / 5.9k kg" values. App: the standard floating
+  eyebrow + title and volume only — no response carries set counts. (The 3D
+  stage is item 7.)
+- **V11. Profile root content.** App shows an avatar, a streak card and a stat
+  row above ACCOUNT, and Restore Purchases third; the design goes straight to
+  ACCOUNT, puts Restore last and gives rows trailing values (Pro, Lume, 92%,
+  3 new, Metric, 1). Removing real content and sourcing those values.
+- **V12. Settings chip fill.** The design fills each tinted chip with a 14% wash
+  of its accent. `tokens.ts` forbids accent on surfaces, so the verification fix
+  tinted the glyph only. Relax the rule for chips, or accept glyph-only.
+- **V13. Subscription hero.** Design: a purple→blue gradient hero with price,
+  renewal and payment, usage bars, and plan / payment / billing rows. App: a
+  plain card. A gradient is a new surface language (and likely a dependency);
+  the data is absent (already in `UI_PASS_GAPS.md`).
+- **V14. Account card.** Design: email plus three stats (Member since, Days
+  logged, Plan) inside the card, and a Sign-in method row. App: avatar + name,
+  email as its own row. Data sourcing.
+- **V15. Scan accuracy hero.** Design: a ring with a trend line, an "Avg kcal
+  off" tile and a recent-corrections list. App: a bar hero and a "% of your
+  scans" tile. The trend and list have no source (documented); the ring is a
+  component change.
+- **V16. Summary's card set and order.** Design: Energy balance → This week →
+  Steps → Workouts → Macros (bars, Fibre, no ring). App: gym status →
+  Nutrition (ring + three bars) → Energy balance → This week → Workouts →
+  Today's plan. Reordering home and dropping or adding cards is a product call.
+- **V17. Search on the Food log.** The app has a search field on the log itself;
+  the design searches only inside the add flow. An IA change.
+
+### Data defect surfaced during verification (not a design item)
+
+- **D1. Muscle focus can list a muscle twice with real data.** The exercise
+  library mixes cases — `"Back"`/`"back"`, `"Chest"`/`"chest"`, plus `"Legs"`
+  — and `muscle_volume_map` keys come straight from `muscle_group_primary`.
+  `gym/muscles.tsx` merges its lowercase `MUSCLE_GROUPS` with the map's keys in
+  a `Set`, so "Back" (with volume) and "back" (an em-dash row) both render.
+  Fix by normalising keys (backend `lower()` or a client case-fold); that is
+  data handling, so it was not changed in a style pass.
