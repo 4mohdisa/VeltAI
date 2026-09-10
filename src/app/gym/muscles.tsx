@@ -91,7 +91,7 @@ export default function MuscleFocusScreen(): JSX.Element {
   })();
 
   return (
-    <Screen variant="floating" showBack backLabel="Gym" eyebrow="Last 30 days" title="Muscle focus">
+    <Screen variant="floating" showBack eyebrow="Last 30 days" title="Muscle focus">
       {body}
     </Screen>
   );

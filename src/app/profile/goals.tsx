@@ -87,7 +87,7 @@ export default function GoalsScreen() {
   ];
 
   return (
-    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack backLabel={t('settings.title')}>
+    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack>
       <SegmentedField
         variant="inset"
         label={t('goals.mode')}

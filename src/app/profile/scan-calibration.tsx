@@ -6,7 +6,6 @@
 // state, never a crash. Literal English copy here to keep the shared en.json lean.
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -35,7 +34,6 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 export default function ScanCalibrationScreen() {
-  const { t } = useTranslation();
   const [data, setData] = useState<ScanCalibration | null>(null);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -59,7 +57,7 @@ export default function ScanCalibrationScreen() {
   }, []);
 
   return (
-    <Screen variant="floating" eyebrow="Your scans" title="Scan accuracy" showBack backLabel={t('settings.title')}>
+    <Screen variant="floating" eyebrow="Your scans" title="Scan accuracy" showBack>
       {loading ? (
         <>
           <Skeleton height={140} rounded={radius.xl} />
