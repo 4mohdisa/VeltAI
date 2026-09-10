@@ -457,7 +457,7 @@ export default function FoodLogScreen() {
               onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
               accessibilityLabel={`Add to ${section.slot}`}
               style={{
-                ...groupSurface(true, true),
+                ...groupSurface(false, true),
                 paddingHorizontal: space.lg,
                 minHeight: 56,
                 flexDirection: 'row',
@@ -662,11 +662,14 @@ function MealSectionHeader({
   return (
     <View
       style={{
+        // The header is the top of the meal's white card (the design keeps
+        // the slot, its total and the + inside the card, not above it).
+        ...groupSurface(true, false),
         flexDirection: 'row',
         alignItems: 'center',
         gap: space.sm,
         minHeight: layout.tapTarget,
-        paddingLeft: space.xs,
+        paddingHorizontal: space.lg,
         paddingTop: space.sm,
         paddingBottom: space.sm,
       }}
@@ -765,7 +768,7 @@ function FoodItemRow({
       }
       accessibilityHint={analyzing || failed ? undefined : 'Double tap to edit, swipe left to delete'}
       style={{
-        ...groupSurface(first, last),
+        ...groupSurface(false, last),
         flexDirection: large ? 'column' : 'row',
         alignItems: large ? 'flex-start' : 'center',
         gap: large ? space.xs : space.md,
