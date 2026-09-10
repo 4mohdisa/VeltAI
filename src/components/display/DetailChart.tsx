@@ -25,6 +25,8 @@ export const SEC_H = space['5xl'] + space['4xl'] + space.sm;
 /** Right gutter the scale ceiling label sits in, clear of the bars. Private:
  *  Plot and Axis share it so their columns line up, and no route needs it. */
 const GUTTER = space['4xl'];
+/** Width an axis label may take, centred on its column — room for "27 Aug". */
+const AXIS_LABEL_W = space['4xl'];
 
 export type Bar = { h: number; bottom?: number; tint: string };
 export type Col = { key: string; bars: Bar[]; dim?: boolean };
@@ -117,15 +119,20 @@ export function Axis({ labels }: { labels: string[] }): JSX.Element {
   return (
     <View style={{ flexDirection: 'row', gap: space.xs, paddingRight: GUTTER }}>
       {labels.map((l, i) => (
-        <Text
-          key={i}
-          variant="caption"
-          color={color.tertiaryLabel}
-          numberOfLines={1}
-          style={{ flex: 1, textAlign: 'center' }}
-        >
-          {l}
-        </Text>
+        // Each label is centred on its column but may overflow it: a 14-day
+        // axis marks only 4 of its columns, and one column is far narrower than
+        // "27 Aug", which used to clip to "2…". Neighbouring marks sit several
+        // columns apart, so the overflow never collides.
+        <View key={i} style={{ flex: 1, alignItems: 'center' }}>
+          <Text
+            variant="caption"
+            color={color.tertiaryLabel}
+            numberOfLines={1}
+            style={{ width: AXIS_LABEL_W, textAlign: 'center' }}
+          >
+            {l}
+          </Text>
+        </View>
       ))}
     </View>
   );

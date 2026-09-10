@@ -676,280 +676,406 @@ exports[`the four Summary detail views render identically across the chrome extr
                     }
                   }
                 >
-                  <Text
-                    numberOfLines={1}
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    26 Aug
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      26 Aug
+                    </Text>
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    30 Aug
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    4 Sep
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    8 Sep
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      30 Aug
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      4 Sep
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      8 Sep
+                    </Text>
+                  </View>
                 </View>
               </View>
               <Text
@@ -1460,153 +1586,216 @@ exports[`the four Summary detail views render identically across the chrome extr
                   }
                 }
               >
-                <Text
-                  numberOfLines={1}
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  W
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    W
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  T
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    T
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  F
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    F
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  S
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    S
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  S
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    S
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  M
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    M
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  T
-                </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    T
+                  </Text>
+                </View>
               </View>
               <Text
                 style={
@@ -3159,90 +3348,126 @@ exports[`the four Summary detail views render identically across the chrome extr
                   }
                 }
               >
-                <Text
-                  numberOfLines={1}
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  nutrition.protein
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    nutrition.protein
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  nutrition.carbs
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    nutrition.carbs
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  nutrition.fat
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    nutrition.fat
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  nutrition.fibre
-                </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    nutrition.fibre
+                  </Text>
+                </View>
               </View>
               <Text
                 style={
@@ -5407,280 +5632,406 @@ exports[`the four Summary detail views render identically across the chrome extr
                     }
                   }
                 >
-                  <Text
-                    numberOfLines={1}
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    26 Aug
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      26 Aug
+                    </Text>
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    30 Aug
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    4 Sep
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    8 Sep
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      30 Aug
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      4 Sep
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      8 Sep
+                    </Text>
+                  </View>
                 </View>
               </View>
               <Text
@@ -6019,153 +6370,216 @@ exports[`the four Summary detail views render identically across the chrome extr
                   }
                 }
               >
-                <Text
-                  numberOfLines={1}
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  W
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    W
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  T
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    T
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  F
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    F
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  S
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    S
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  S
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    S
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  M
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    M
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  T
-                </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    T
+                  </Text>
+                </View>
               </View>
               <Text
                 style={
@@ -8008,280 +8422,406 @@ exports[`the four Summary detail views render identically across the chrome extr
                     }
                   }
                 >
-                  <Text
-                    numberOfLines={1}
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    26 Aug
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      26 Aug
+                    </Text>
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    30 Aug
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    4 Sep
-                  </Text>
-                  <Text
-                    numberOfLines={1}
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
                     style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "flex": 1,
-                          "textAlign": "center",
-                        },
-                      ]
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
                     }
                   >
-                    8 Sep
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      30 Aug
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      4 Sep
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#8A8A8A",
+                          },
+                          {
+                            "textAlign": "center",
+                            "width": 48,
+                          },
+                        ]
+                      }
+                    >
+                      8 Sep
+                    </Text>
+                  </View>
                 </View>
               </View>
               <Text
@@ -8632,153 +9172,216 @@ exports[`the four Summary detail views render identically across the chrome extr
                   }
                 }
               >
-                <Text
-                  numberOfLines={1}
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  W
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    W
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  T
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    T
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  F
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    F
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  S
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    S
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  S
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    S
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  M
-                </Text>
-                <Text
-                  numberOfLines={1}
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    M
+                  </Text>
+                </View>
+                <View
                   style={
-                    [
-                      {
-                        "fontSize": 11,
-                        "fontWeight": "500",
-                        "lineHeight": 28,
-                      },
-                      {
-                        "color": "#8A8A8A",
-                      },
-                      {
-                        "flex": 1,
-                        "textAlign": "center",
-                      },
-                    ]
+                    {
+                      "alignItems": "center",
+                      "flex": 1,
+                    }
                   }
                 >
-                  T
-                </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "lineHeight": 28,
+                        },
+                        {
+                          "color": "#8A8A8A",
+                        },
+                        {
+                          "textAlign": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    T
+                  </Text>
+                </View>
               </View>
               <Text
                 style={
