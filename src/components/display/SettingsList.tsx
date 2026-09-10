@@ -23,6 +23,10 @@ const DIVIDER_INSET = space.lg + CHIP + space.md;
 
 export type SettingsRowProps = {
   icon?: string;
+  /** Category accent for the row's glyph (the design tints its settings rows
+   *  by category). Glyph only — the chip stays light1, because accents never
+   *  fill a surface. Omitted → the neutral label colour, as before. */
+  tint?: string;
   label: string;
   value?: string;
   kind?: 'link' | 'toggle' | 'plain';
@@ -72,7 +76,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
               justifyContent: 'center',
             }}
           >
-            <Icon name={row.icon} size={17} color={row.destructive ? accent.red : color.label} />
+            <Icon name={row.icon} size={17} color={row.destructive ? accent.red : (row.tint ?? color.label)} />
           </View>
         ) : null}
 

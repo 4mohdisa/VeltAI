@@ -29,7 +29,7 @@ import { showToast } from '@/components/display/toastStore';
 import { hasProEntitlement, isBillingEnabled, restorePurchases } from '@/lib/billing/purchases';
 import { useAppState } from '@/lib/auth/appState';
 import { isDevBuild } from '@/lib/env';
-import { categoryAccent, color, layout, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, space, surface } from '@/lib/design/tokens';
 import { useUserProfile, useGym } from '@/lib/data';
 
 // Restore Purchases (Apple requires this for any app with IAP). Result via toast.
@@ -134,11 +134,11 @@ export default function ProfileScreen() {
           title={t('settings.groupAccount')}
           rows={[
             { icon: 'person-outline', label: t('settings.account'), onPress: () => router.push('/profile/account') },
-            { icon: 'card-outline', label: t('settings.subscription'), onPress: () => router.push('/profile/subscription') },
+            { icon: 'card-outline', tint: accent.purple, label: t('settings.subscription'), onPress: () => router.push('/profile/subscription') },
             { icon: 'refresh-outline', label: 'Restore Purchases', onPress: () => void restore() },
-            { icon: 'flag-outline', label: t('settings.goals'), onPress: () => router.push('/profile/goals') },
-            { icon: 'options-outline', label: t('settings.scanAccuracy'), onPress: () => router.push('/profile/scan-calibration' as Href) },
-            { icon: 'sparkles-outline', label: 'AI insights', onPress: () => router.push('/insights' as Href) },
+            { icon: 'flag-outline', tint: categoryAccent.calories, label: t('settings.goals'), onPress: () => router.push('/profile/goals') },
+            { icon: 'options-outline', tint: categoryAccent.positive, label: t('settings.scanAccuracy'), onPress: () => router.push('/profile/scan-calibration' as Href) },
+            { icon: 'sparkles-outline', tint: categoryAccent.ai, label: 'AI insights', onPress: () => router.push('/insights' as Href) },
           ]}
         />
         <SettingsList
@@ -150,7 +150,7 @@ export default function ProfileScreen() {
             // notification system that does not exist in the build — dead UI
             // masquerading as a feature (App Store 2.1). Restore the row when
             // something actually sends notifications.
-            { icon: 'link-outline', label: 'Connected apps', onPress: () => router.push('/profile/integrations' as Href) },
+            { icon: 'link-outline', tint: accent.turquoise, label: 'Connected apps', onPress: () => router.push('/profile/integrations' as Href) },
           ]}
         />
         <SettingsList
