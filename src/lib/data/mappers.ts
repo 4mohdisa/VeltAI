@@ -26,7 +26,7 @@ export const isServerId = (id: string): boolean => /^[0-9a-f]{8}-[0-9a-f]{4}-/.t
 
 // --- Food logs ----------------------------------------------------------------
 
-const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+export const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
 const slotOf = (mealType: string | null): MealSlot =>
   SLOTS.find((s) => s.toLowerCase() === mealType?.toLowerCase()) ?? 'Snacks';
@@ -138,8 +138,11 @@ export function logPatchFromItem(patch: {
   protein?: number;
   carbs?: number;
   fat?: number;
+  /** A move to another meal (V6). Absent = the row stays where it is. */
+  slot?: MealSlot;
 }): Partial<FoodLogInput> {
   return {
+    meal_type: patch.slot,
     food_name: patch.name,
     quantity: patch.quantityG,
     calories: patch.calories,

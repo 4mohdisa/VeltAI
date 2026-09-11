@@ -29,7 +29,7 @@ test.each(DESIGN_SHEETS)('%s uses the design header and no header save', (route)
 test('the sheets that used to save from the header now save with a pill', () => {
   expect(app('food/custom-food')).toMatch(/<Button title="Save food" onPress=\{done\} disabled=\{!canSave\} \/>/);
   expect(app('gym/log-session')).toMatch(/<Button title="Log session" onPress=\{save\} \/>/);
-  expect(app('food/detail')).toMatch(/<Button title=\{ctaLabel\} onPress=\{\(\) => onDone\(draft\(\)\)\} \/>/);
+  expect(app('food/detail')).toMatch(/<Button title=\{ctaLabel\} onPress=\{\(\) => onDone\(draft\(\), slot\)\} \/>/);
 });
 
 test('the parked freeze sheet keeps the standard header — not restyled by this pass', () => {

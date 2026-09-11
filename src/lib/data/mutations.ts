@@ -126,9 +126,13 @@ export const logMeal = (
   return id;
 };
 
-export const editFoodItem = (itemId: string, patch: Partial<NewFoodItem>) => {
+/** `slot` moves the row to another meal (V6) — in the same PATCH as the edit. */
+export const editFoodItem = (itemId: string, patch: Partial<NewFoodItem>, slot?: MealSlot) => {
   food().editFoodItem(itemId, patch);
-  withServerId(pendingMealCreates, itemId, (serverId) => api.foodLogs.update(serverId, logPatchFromItem(patch)));
+  if (slot) food().moveFoodItem(itemId, slot);
+  withServerId(pendingMealCreates, itemId, (serverId) =>
+    api.foodLogs.update(serverId, logPatchFromItem({ ...patch, slot })),
+  );
 };
 
 export const deleteFoodItem = (itemId: string) => {

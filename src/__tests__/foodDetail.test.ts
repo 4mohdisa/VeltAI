@@ -124,6 +124,29 @@ describe('the sheet still carries the capabilities it absorbed', () => {
   });
 });
 
+describe('V6: a logged row is read, not typed', () => {
+  const sheet = src('app/food/detail.tsx');
+  const code = sheet.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+
+  test('its presets come from the row itself, not a catalog', () => {
+    expect(sheet).toContain('basisOf(item)');
+    expect(sheet).toContain('presetsFor(item.quantityG)');
+  });
+
+  test('its numbers stay values until "Edit values manually"', () => {
+    expect(sheet).toContain('lockValues={!review}');
+    expect(sheet).toContain('Edit values manually');
+  });
+
+  test('no fibre on the sheet — the log never stores it', () => {
+    expect(code).not.toMatch(/fibre/i);
+  });
+
+  test('the food tab tells the sheet which meal the row is in', () => {
+    expect(src('app/(tabs)/food.tsx')).toContain('openRow(row, section.slot)');
+  });
+});
+
 describe('the subject store round-trips every mode', () => {
   afterEach(() => useDetailSubject.getState().clearDetail());
 

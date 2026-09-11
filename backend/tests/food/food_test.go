@@ -399,6 +399,52 @@ func TestPatchLogMissing404(t *testing.T) {
 	}
 }
 
+// V6: the detail sheet's meal switch is a PATCH carrying meal_type — in the
+// app's own capitalised slot name — and nothing else changes with it.
+func TestPatchLogMealTypeMovesLog(t *testing.T) {
+	f := &fakeStore{}
+	l := seedLog(t, f, "user_1", "2026-07-11", "lunch", "Rice", 400, 8)
+	rr := do(t, newMux(f, nil), "PATCH", "/api/food/logs/"+l.ID, "user_1",
+		map[string]any{"meal_type": "Dinner"})
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
+	}
+	got := data[food.Log](t, rr)
+	if got.MealType == nil || *got.MealType != "Dinner" {
+		t.Fatalf("meal_type = %v, want Dinner", got.MealType)
+	}
+	if got.Date != "2026-07-11" || got.FoodName != "Rice" || got.Calories != 400 || got.Protein != 8 {
+		t.Errorf("a meal move changed other fields: %+v", got)
+	}
+}
+
+func TestPatchLogMealTypeRejectsUnknownMeal(t *testing.T) {
+	f := &fakeStore{}
+	l := seedLog(t, f, "user_1", "2026-07-11", "lunch", "Rice", 400, 8)
+	rr := do(t, newMux(f, nil), "PATCH", "/api/food/logs/"+l.ID, "user_1",
+		map[string]any{"meal_type": "brunch"})
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400", rr.Code)
+	}
+	if m := f.logs[0].MealType; m == nil || *m != "lunch" {
+		t.Errorf("a rejected move still moved the row: %v", m)
+	}
+}
+
+// Ownership for the move: another user's row is refused AND left where it was.
+func TestPatchLogMealTypeOtherUserCannotMove(t *testing.T) {
+	f := &fakeStore{}
+	l := seedLog(t, f, "user_2", "2026-07-11", "lunch", "Rice", 400, 8)
+	rr := do(t, newMux(f, nil), "PATCH", "/api/food/logs/"+l.ID, "user_1",
+		map[string]any{"meal_type": "Dinner"})
+	if rr.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403", rr.Code)
+	}
+	if m := f.logs[0].MealType; m == nil || *m != "lunch" {
+		t.Errorf("user_1 moved user_2's row to %v", m)
+	}
+}
+
 func TestDeleteLogRemoves(t *testing.T) {
 	f := &fakeStore{}
 	l := seedLog(t, f, "user_1", "2026-07-11", "lunch", "Rice", 400, 8)

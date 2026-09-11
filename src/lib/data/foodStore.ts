@@ -195,6 +195,8 @@ type FoodState = {
    *  pending-scan resolution). */
   logMeal: (slot: MealSlot, item: NewFoodItem, method: EntryMethod, pending?: boolean, date?: string) => string;
   editFoodItem: (itemId: string, patch: Partial<FoodItem>) => void;
+  /** Move a row to another meal on its own day; an emptied meal goes away. */
+  moveFoodItem: (itemId: string, slot: MealSlot) => void;
   deleteFoodItem: (itemId: string) => void;
   resolvePending: (itemId: string, item: NewFoodItem) => void;
 
@@ -314,6 +316,28 @@ export const useFoodStore = create<FoodState>((set) => {
                 : m,
             ),
           ),
+        ),
+      ),
+
+    moveFoodItem: (itemId, slot) =>
+      set((s) =>
+        commit(
+          s,
+          mapDayWithItem(s.byDate, itemId, (meals) => {
+            const from = meals.find((m) => m.items.some((it) => it.id === itemId));
+            const item = from?.items.find((it) => it.id === itemId);
+            if (!from || !item || from.slot === slot) return meals;
+            const rest = meals
+              .map((m) => (m === from ? recompute({ ...m, items: m.items.filter((it) => it.id !== itemId) }) : m))
+              .filter((m) => m.items.length > 0);
+            const idx = rest.findIndex((m) => m.slot === slot);
+            return idx >= 0
+              ? rest.map((m, i) => (i === idx ? recompute({ ...m, items: [...m.items, item] }) : m))
+              : [
+                  ...rest,
+                  recompute({ ...from, id: nextId('m'), slot, calories: 0, protein: 0, carbs: 0, fat: 0, items: [item] }),
+                ];
+          }),
         ),
       ),
 

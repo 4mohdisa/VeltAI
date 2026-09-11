@@ -22,9 +22,10 @@ import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SegmentedField } from '@/components/forms/SegmentedField';
 import { TextField } from '@/components/forms/TextField';
 import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatCalories, formatNumber } from '@/lib/formatting';
 import { haptics } from '@/lib/haptics';
 import {
@@ -38,8 +39,10 @@ import {
   unsaveFood,
 } from '@/lib/data';
 import { useFoodStore } from '@/lib/data/foodStore';
-import { useDetailSubject, type DetailItem } from '@/lib/food/detailSubject';
+import { SLOTS } from '@/lib/data/mappers';
+import { basisOf, presetsFor, useDetailSubject, type DetailItem } from '@/lib/food/detailSubject';
 import type { BarcodeProduct } from '@/lib/food/barcode';
+import type { MealSlot } from '@/lib/mock/data';
 
 // The search catalog carries no per-food serving suggestions, so a manual hit
 // gets the standard four.
@@ -242,20 +245,28 @@ export default function FoodDetailScreen() {
     );
   }
 
-  // 'review' edits the name only; 'logged' is the full item editor.
+  // 'review' edits the name only; 'logged' is the full item editor (V6): serving
+  // presets scaled from the row's OWN per-gram values, read-only numbers until
+  // "Edit values manually", and a meal switch that moves the row on the server.
   const item = subject.item;
   const review = subject.mode === 'review';
+  const loggedSlot = subject.mode === 'logged' ? subject.slot : undefined;
+  const basis = review ? null : basisOf(item);
   return (
     <DetailForm
       key={`${subject.mode}:${item.id}`}
       title={review ? 'Rename food' : 'Edit item'}
       ctaLabel={review ? 'Save name' : 'Save changes'}
       seed={item}
+      servings={basis ? presetsFor(item.quantityG) : undefined}
+      per100={basis ?? undefined}
       macros
       nameOnly={review}
+      lockValues={!review}
+      meal={loggedSlot}
       onClose={close}
-      onDone={(draft) => {
-        editFoodItem(item.id, review ? { name: draft.name } : draft);
+      onDone={(draft, meal) => {
+        editFoodItem(item.id, review ? { name: draft.name } : draft, meal !== loggedSlot ? meal : undefined);
         close();
       }}
       // Star equivalent: keep this logged food for one-tap re-adding later.
@@ -308,7 +319,12 @@ type DetailFormProps = {
   macros: boolean;
   /** Review rename: the name is the only editable field. */
   nameOnly?: boolean;
-  onDone: (draft: FoodValues) => void;
+  /** A logged row: its numbers are what was eaten, so they read as values —
+   *  changed by picking a serving — until "Edit values manually" opens the fields. */
+  lockValues?: boolean;
+  /** The row's meal. Given → a meal switch, whose value goes to onDone. */
+  meal?: MealSlot;
+  onDone: (draft: FoodValues, meal?: MealSlot) => void;
   /** The primary pill's words. The design names what the pill does — "Save
    *  changes" for something already logged, "Add to lunch" for a new food. */
   ctaLabel: string;
@@ -327,12 +343,16 @@ function DetailForm({
   per100,
   macros,
   nameOnly = false,
+  lockValues = false,
+  meal,
   onDone,
   ctaLabel,
   onSaveToFoods,
   remove,
   onClose,
 }: DetailFormProps) {
+  const [manual, setManual] = useState(!lockValues);
+  const [slot, setSlot] = useState(meal);
   const [name, setName] = useState(seed.name);
   const [grams, setGrams] = useState(String(seed.quantityG));
   const [calories, setCalories] = useState(String(seed.calories));
@@ -406,7 +426,42 @@ function DetailForm({
 
       <TextField label="Name" value={name} onChangeText={setName} autoCapitalize="words" />
 
-      {nameOnly ? null : (
+      {nameOnly ? null : !manual ? (
+        <>
+          {macros ? (
+            <View style={{ gap: space.md }}>
+              {(
+                [
+                  ['Protein', protein, categoryAccent.protein],
+                  ['Carbs', carbs, categoryAccent.carbs],
+                  ['Fat', fat, categoryAccent.fat],
+                ] as const
+              ).map(([label, value, tint]) => (
+                <View key={label} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+                  <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
+                  <Text variant="body" color={color.label} style={{ flex: 1 }}>
+                    {label}
+                  </Text>
+                  <Text variant="bodyMedium" color={color.label}>
+                    {`${num(value)} g`}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+          <Pressable
+            onPress={() => setManual(true)}
+            accessibilityRole="button"
+            accessibilityLabel="Edit values manually"
+            style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, alignSelf: 'flex-start' }}
+          >
+            <Icon name="pencil" size={15} color={color.secondaryLabel} />
+            <Text variant="callout" color={color.secondaryLabel}>
+              Edit values manually
+            </Text>
+          </Pressable>
+        </>
+      ) : (
         <>
           <View style={{ flexDirection: 'row', gap: space.md }}>
             <View style={{ flex: 1 }}>
@@ -456,7 +511,17 @@ function DetailForm({
 
       {/* The design's primary action: a full-width black pill after the fields,
           above the secondary "save" and the destructive remove. */}
-      <Button title={ctaLabel} onPress={() => onDone(draft())} />
+      {slot ? (
+        <SegmentedField
+          label="Meal"
+          value={slot}
+          onChange={(v) => setSlot(v)}
+          options={SLOTS.map((s) => ({ label: s, value: s }))}
+          variant="inset"
+        />
+      ) : null}
+
+      <Button title={ctaLabel} onPress={() => onDone(draft(), slot)} />
 
       {onSaveToFoods ? (
         <Button

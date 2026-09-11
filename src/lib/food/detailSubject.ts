@@ -6,6 +6,8 @@
 // lookup — so params would buy nothing anyway.
 import { create } from 'zustand';
 
+import type { MealSlot } from '@/lib/mock/data';
+
 /** The editable shape every subject collapses to once it is resolved. */
 export type DetailItem = {
   id: string;
@@ -30,10 +32,23 @@ export type DetailSubject =
   | { mode: 'search'; name: string; kcalPer100: number }
   | { mode: 'barcode'; code: string }
   | { mode: 'saved'; item: DetailItem }
-  | { mode: 'logged'; item: DetailItem }
+  | { mode: 'logged'; item: DetailItem; slot?: MealSlot }
   | { mode: 'review'; item: DetailItem };
 
 export type DetailMode = DetailSubject['mode'];
+
+/** A logged row's own per-100 g basis — its values divided by its weight. The
+ *  only honest basis it has: no catalog lookup, and no fibre (the log never
+ *  stored any). Null for a row with no weight, e.g. a kcal-only quick add. */
+export function basisOf(item: DetailItem): { calories: number; protein: number; carbs: number; fat: number } | null {
+  if (!(item.quantityG > 0)) return null;
+  const k = 100 / item.quantityG;
+  return { calories: item.calories * k, protein: item.protein * k, carbs: item.carbs * k, fat: item.fat * k };
+}
+
+/** Serving presets around what was logged: half, as logged, one and a half, double. */
+export const presetsFor = (grams: number): number[] =>
+  grams > 0 ? [...new Set([0.5, 1, 1.5, 2].map((k) => Math.round(grams * k)))].filter((g) => g > 0) : [];
 
 type DetailSubjectState = {
   subject: DetailSubject | null;

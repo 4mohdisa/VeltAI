@@ -301,9 +301,10 @@ export default function FoodLogScreen() {
   // A logged row and a search result open the SAME detail sheet, in different
   // modes. The subject travels through the store, never the URL — a food name
   // and its macros are personal data.
-  const openRow = (row: FoodRow) => {
+  const openRow = (row: FoodRow, slot: MealSlot) => {
     openFoodDetail({
       mode: 'logged',
+      slot,
       item: {
         id: row.id,
         name: row.name,
@@ -445,7 +446,7 @@ export default function FoodLogScreen() {
                 first={index === 0}
                 last={index === section.data.length - 1}
                 energyUnit={energyUnit}
-                onPress={() => openRow(row)}
+                onPress={() => openRow(row, section.slot)}
               />
             </SwipeableRow>
           );
