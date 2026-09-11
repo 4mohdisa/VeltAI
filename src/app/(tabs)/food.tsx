@@ -24,6 +24,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
+import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
@@ -556,6 +557,9 @@ export default function FoodLogScreen() {
 
       {/* Blurred strip the content scrolls under — decorative, no touches. */}
       <FloatingHeader height={insets.top + space.xl} />
+
+      {/* The way into Profile, as on Summary (V2). */}
+      <ProfileAvatarButton />
     </View>
   );
 }

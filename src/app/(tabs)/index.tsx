@@ -23,13 +23,11 @@ import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { MorningBriefCard } from '@/components/ai';
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
-import { GlassSurface } from '@/components/navigation/GlassButtons';
+import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
-import { Avatar } from '@/components/display/Avatar';
-import { Icon } from '@/components/primitives/Icon';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { showToast } from '@/components/display/toastStore';
-import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
 import { useDashboard, logGymSession } from '@/lib/data';
@@ -40,7 +38,7 @@ export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
   const energyUnit = useUnitPreferences().energy;
   const {
-    data: { profile, streak, macros, plan },
+    data: { streak, macros, plan },
     refetch,
   } = useDashboard();
   const gymLogged = streak.gymLoggedToday;
@@ -219,31 +217,8 @@ export default function DashboardScreen() {
           scroll, pointer-events none. */}
       <FloatingHeader height={insets.top + space.xl} />
 
-      {/* The design reaches Profile from here, not from a tab. It floats over
-          the scroll at the same height as the title block's eyebrow. */}
-      <Pressable
-        onPress={() => router.push('/profile')}
-        haptic={false}
-        minTapTarget={false}
-        accessibilityLabel="Profile and settings"
-        style={{ position: 'absolute', top: insets.top + space.xs, right: space.lg }}
-      >
-        <GlassSurface
-          style={{
-            width: layout.tapTarget,
-            height: layout.tapTarget,
-            borderRadius: radius.full,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {profile.name ? (
-            <Avatar name={profile.name} size={layout.tapTarget} />
-          ) : (
-            <Icon name="person" size={space.xl} color={color.label} />
-          )}
-        </GlassSurface>
-      </Pressable>
+      {/* The way into Profile — the same control Food and Gym float (V2). */}
+      <ProfileAvatarButton />
     </SafeAreaView>
   );
 }

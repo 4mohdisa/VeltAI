@@ -68,11 +68,17 @@ describe('Profile is off the tab bar', () => {
     expect(existsSync(join(root, 'src/app/profile/index.tsx'))).toBe(true);
   });
 
-  test('Summary is the way in, via a labelled control', () => {
-    const summary = src('src/app/(tabs)/index.tsx');
-    expect(summary).toContain("router.push('/profile')");
+  // V2: the design floats the way in on all three tabs, not Summary alone. The
+  // control is one shared component, so the routing and label are pinned there
+  // and each tab is pinned to mount it.
+  test('every tab is a way in, via the shared labelled control', () => {
+    const button = src('src/components/navigation/ProfileAvatarButton.tsx');
+    expect(button).toContain("router.push('/profile')");
     // Without a label this control is an unnamed circle to VoiceOver.
-    expect(summary).toMatch(/accessibilityLabel="Profile[^"]*"/);
+    expect(button).toMatch(/accessibilityLabel="Profile[^"]*"/);
+    for (const tab of ['src/app/(tabs)/index.tsx', 'src/app/(tabs)/food.tsx', 'src/app/(tabs)/gym.tsx']) {
+      expect(src(tab)).toContain('<ProfileAvatarButton />');
+    }
   });
 });
 

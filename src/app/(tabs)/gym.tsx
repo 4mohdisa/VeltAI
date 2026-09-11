@@ -16,6 +16,7 @@ import { Text } from '@/components/primitives/Text';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
+import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { TodayCard, MuscleChart, GymPatternsCard } from '@/components/gym';
 import { color, space, surface } from '@/lib/design/tokens';
@@ -162,6 +163,9 @@ export default function GymLogScreen() {
       </ScrollView>
 
       <FloatingHeader height={insets.top + space.xl} />
+
+      {/* The way into Profile, as on Summary (V2). */}
+      <ProfileAvatarButton />
     </View>
   );
 }
