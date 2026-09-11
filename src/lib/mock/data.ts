@@ -210,20 +210,6 @@ export const mockPlanReason =
 
 export type DayStatus = 'session' | 'freeze' | 'missed' | 'future' | 'today';
 
-// 30-day grid (oldest → today at index 29). Deterministic, plausible pattern.
-export const mockGymCalendar: { index: number; status: DayStatus }[] = Array.from({ length: 30 }).map(
-  (_, i) => {
-    if (i === 29) return { index: i, status: 'today' as DayStatus };
-    // current 13-day streak: last 13 days before today were sessions/freezes
-    if (i >= 16) {
-      if (i === 20) return { index: i, status: 'freeze' as DayStatus };
-      return { index: i, status: 'session' as DayStatus };
-    }
-    // earlier: mix of sessions and misses
-    const pattern: DayStatus[] = ['session', 'session', 'missed', 'session', 'missed', 'session'];
-    return { index: i, status: pattern[i % pattern.length] };
-  },
-);
 
 export type GymSession = {
   id: string;

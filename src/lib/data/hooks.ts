@@ -10,7 +10,7 @@ import { api, type Onboarding } from '@/lib/api';
 import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
 import { hasPendingCreate } from './mutations';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
-import { useGymStore, type Streak } from './gymStore';
+import { useGymStore, type LoggedDay, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
 import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
 import { isDevBuild } from '@/lib/env';
@@ -18,9 +18,7 @@ import {
   foodCatalog,
   mockPlan,
   mockPlanReason,
-  mockUpcomingDays,
-  type DayStatus,
-  type FoodResult,
+  mockUpcomingDays, type FoodResult,
   type GymSession,
   type MacroKey,
   type UpcomingDay,
@@ -150,8 +148,8 @@ async function hydrateSavedFoods(): Promise<void> {
   }));
 }
 async function hydrateGym(): Promise<void> {
-  // Sessions and streak hydrate together; the mock 30-day calendar stays local
-  // (no server representation yet).
+  // Sessions and streak hydrate together. The Gym month calendar reads its own
+  // month of sessions (useGymMonth), so nothing calendar-shaped is stored here.
   const [sessions, streak] = await Promise.all([api.gym.listSessions(), api.gym.streak()]);
   // Distinct logged days — the only total we can actually prove from server data.
   const totalGymDays = new Set(sessions.map((r) => r.date)).size;
@@ -322,21 +320,25 @@ export function useDailyMacros(): MacroTotals {
 
 export type GymData = {
   streak: Streak;
-  calendar: { index: number; status: DayStatus }[];
+  /** Days trained / frozen on this device, by date (V7 — the calendar itself is
+   *  built from server sessions by useGymMonth + monthView). */
+  loggedDays: LoggedDay[];
+  frozenDates: string[];
   sessions: GymSession[];
   upcoming: UpcomingDay[];
 };
 
 export function useGym(): Async<GymData> {
   const streak = useGymStore((s) => s.streak);
-  const calendar = useGymStore((s) => s.calendar);
+  const loggedDays = useGymStore((s) => s.loggedDays);
+  const frozenDates = useGymStore((s) => s.frozenDates);
   const sessions = useGymStore((s) => s.sessions);
   const { isLoading, error, refetch } = useHydration(hydrateGym);
   // mockUpcomingDays is a fixed list with literal past dates ('Wed 18 Jun') and
   // invented freeze/scheduled actions, and gym/streak.tsx makes those rows
   // actionable — applying a freeze to an invented day. Dev only.
   const upcoming = isDevBuild() ? mockUpcomingDays : [];
-  return { data: { streak, calendar, sessions, upcoming }, isLoading, error, refetch };
+  return { data: { streak, loggedDays, frozenDates, sessions, upcoming }, isLoading, error, refetch };
 }
 
 // --- Goals + profile --------------------------------------------------------

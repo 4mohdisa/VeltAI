@@ -217,6 +217,7 @@ export const streakFromApi = (row: GymStreak, prev: Streak, totalGymDays = prev.
   totalGymDays,
   freezesAvailable: row.freeze_used ? 0 : 1, // one freeze per streak (backend semantics)
   gymLoggedToday: row.last_gym_date === todayISO(),
+  freezeDate: row.last_freeze_date ?? null,
 });
 
 // --- Barcode / search --------------------------------------------------------------

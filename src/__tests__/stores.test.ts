@@ -1,5 +1,7 @@
 // Zustand store actions, driven via getState() — no rendering. Each suite
 // resets its store in beforeEach so tests are order-independent.
+import { addDays } from '@/lib/data/foodDays';
+import { todayISO } from '@/lib/data/mappers';
 import { useFoodStore, type StoredFoodItem } from '@/lib/data/foodStore';
 import { useGymStore } from '@/lib/data/gymStore';
 import { useUserStore } from '@/lib/data/userStore';
@@ -172,19 +174,27 @@ describe('foodStore', () => {
 
 describe('gymStore', () => {
   const gym = () => useGymStore.getState();
+  // V7: days are recorded by ISO date, not by a slot in a 30-cell grid.
+  const today = () => todayISO();
+  const inDays = (n: number) => addDays(today(), n);
   beforeEach(() => gym().reset());
 
-  test('logGymSession marks today, extends streak, prepends session', () => {
+  test('logGymSession records today by date, extends streak, prepends session', () => {
     gym().logGymSession({ durationMin: 45, effort: 9 });
     const s = gym();
     expect(s.streak.gymLoggedToday).toBe(true);
     expect(s.streak.current).toBe(mockStreak.current + 1);
     expect(s.streak.totalGymDays).toBe(mockStreak.totalGymDays + 1);
     expect(s.streak.longest).toBe(Math.max(mockStreak.longest, mockStreak.current + 1));
-    expect(s.calendar.find((d) => d.index === 29)!.status).toBe('session');
+    expect(s.loggedDays).toEqual([{ date: today(), minutes: 45 }]);
     expect(s.sessions[0]).toMatchObject({ date: 'Today', durationMin: 45, effort: 9 });
     // mock already had a 'Today' session — it gets replaced, not duplicated.
     expect(s.sessions.filter((x) => x.date === 'Today')).toHaveLength(1);
+  });
+
+  test('a quick log with no duration records null minutes, never an invented length', () => {
+    gym().logGymSession();
+    expect(gym().loggedDays).toEqual([{ date: today(), minutes: null }]);
   });
 
   test('logGymSession is idempotent same-day', () => {
@@ -193,6 +203,7 @@ describe('gymStore', () => {
     gym().logGymSession();
     expect(gym().streak).toEqual(after.streak);
     expect(gym().sessions).toEqual(after.sessions);
+    expect(gym().loggedDays).toEqual(after.loggedDays);
   });
 
   test('logGymSession retains the energy level (Phase 14: was silently discarded)', () => {
@@ -200,15 +211,13 @@ describe('gymStore', () => {
     expect(gym().sessions[0]).toMatchObject({ durationMin: 30, energy: 4 });
   });
 
-  test('applyFreeze marks the chosen upcoming day, not always today (Phase 14)', () => {
+  test('applyFreeze records the chosen day by date, not always today (Phase 14)', () => {
     const before = gym().streak.freezesAvailable;
-    gym().applyFreeze(0); // today = calendar index 29
-    expect(gym().calendar.find((d) => d.index === 29)!.status).toBe('freeze');
+    gym().applyFreeze(0);
+    expect(gym().frozenDates).toEqual([today()]);
     expect(gym().streak.freezesAvailable).toBe(before - 1);
-    // A future-day freeze (outside the 30-day window) spends the token only.
-    const cal = gym().calendar.map((d) => d.status);
     gym().applyFreeze(3);
-    expect(gym().calendar.map((d) => d.status)).toEqual(cal);
+    expect(gym().frozenDates).toEqual([today(), inDays(3)]);
     expect(gym().streak.freezesAvailable).toBe(before - 2);
   });
 
@@ -221,7 +230,7 @@ describe('gymStore', () => {
   test('applyFreeze spends a token and freezes today', () => {
     gym().applyFreeze();
     expect(gym().streak.freezesAvailable).toBe(mockStreak.freezesAvailable - 1);
-    expect(gym().calendar.find((d) => d.index === 29)!.status).toBe('freeze');
+    expect(gym().frozenDates).toEqual([today()]);
   });
 
   test('applyFreeze is a no-op with zero tokens', () => {
@@ -229,7 +238,7 @@ describe('gymStore', () => {
     const before = gym();
     gym().applyFreeze();
     expect(gym().streak.freezesAvailable).toBe(0);
-    expect(gym().calendar).toEqual(before.calendar);
+    expect(gym().frozenDates).toEqual(before.frozenDates);
   });
 
   test('reset restores the seed', () => {
@@ -238,7 +247,8 @@ describe('gymStore', () => {
     gym().reset();
     expect(gym().streak).toEqual(mockStreak);
     expect(gym().sessions).toEqual(mockGymSessions);
-    expect(gym().calendar.find((d) => d.index === 29)!.status).toBe('today');
+    expect(gym().loggedDays).toEqual([]);
+    expect(gym().frozenDates).toEqual([]);
   });
 });
 

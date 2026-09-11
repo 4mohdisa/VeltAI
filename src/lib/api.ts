@@ -710,6 +710,9 @@ export type GymStreak = {
   longest_streak: number;
   last_gym_date: string | null;
   freeze_used: boolean;
+  // The day the ACTIVE freeze covers; null when none. The server keeps no
+  // history of past freezes, so this is the only freeze day the app can show.
+  last_freeze_date: string | null;
 };
 
 // --- Gym schedule (exercise library, templates, weekly schedule, adherence) ---

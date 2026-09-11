@@ -1,12 +1,12 @@
 // D1 · Gym log (default)
 // Design-file pass: a grey page with a floating blurred header — date eyebrow +
 // large "Gym" title inside the scroll, then the streak strip, the month
-// heatmap, today's session, muscle focus, gym habits, the log CTA and the
+// month calendar, today's session, muscle focus, gym habits, the log CTA and the
 // training list. Same data, same routes; only the surfaces changed.
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { router, type Href } from 'expo-router';
+import { router, useFocusEffect, type Href } from 'expo-router';
 
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
@@ -15,30 +15,54 @@ import { StreakFlame } from '@/components/display/StreakFlame';
 import { Text } from '@/components/primitives/Text';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
-import { ChartCard } from '@/components/domain/ChartCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { TodayCard, MuscleChart, GymPatternsCard } from '@/components/gym';
 import { color, space, surface } from '@/lib/design/tokens';
 import { useGym } from '@/lib/data';
+import { addMonths } from '@/lib/data/foodDays';
+import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gymRange';
+import { todayISO } from '@/lib/data/mappers';
 
 export default function GymLogScreen() {
   const {
-    data: { streak, calendar },
+    data: { streak, loggedDays, frozenDates },
     refetch,
   } = useGym();
   const insets = useSafeAreaInsets();
   // Native pull-to-refresh: re-run the gym hydration; spinner clears on a short
   // trailing delay since refetch is fire-and-forget by design.
   const [refreshing, setRefreshing] = useState(false);
+  // V7: the month on screen, as any ISO day inside it (0 = this month). Paging
+  // stops at this month — there is nothing to show for one that hasn't happened.
+  const today = todayISO();
+  const [monthOffset, setMonthOffset] = useState(0);
+  const month = addMonths(today, monthOffset);
+  const { sessions: monthSessions, loading: monthLoading, error: monthError, refetch: refetchMonth } = useGymMonth(month);
+  const view = useMemo(
+    () => monthView(month, today, monthSessions, loggedDays, [streak.freezeDate ?? '', ...frozenDates]),
+    [month, today, monthSessions, loggedDays, streak.freezeDate, frozenDates],
+  );
+  // Never a number while the month is still loading or failed to load: that is
+  // how a real streak ended up beside a false "0 sessions".
+  const summary = monthLoading
+    ? 'Loading sessions…'
+    : monthError
+      ? "Couldn't load this month's sessions"
+      : monthSummary(view);
+  // Back from logging a session: re-read the month so the server's row, with its
+  // real duration, replaces the local echo.
+  useFocusEffect(
+    useCallback(() => {
+      refetchMonth();
+    }, [refetchMonth]),
+  );
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     refetch();
+    refetchMonth();
     setTimeout(() => setRefreshing(false), 800);
-  }, [refetch]);
-  // Computed takeaway for the calendar chart (insight, not just the grid).
-  const sessions = calendar.filter((d) => d.status === 'session').length;
-  const freezes = calendar.filter((d) => d.status === 'freeze').length;
+  }, [refetch, refetchMonth]);
   // The date eyebrow — today, the day this screen is about. Real clock, no state.
   // Device locale, like food/history — the design's order is en-GB's, but the
   // user's own formatting wins over copying the prototype's string.
@@ -104,14 +128,18 @@ export default function GymLogScreen() {
           </View>
         </Card>
 
-        {/* Month heatmap — the design's training grid, on our 30-day window. */}
-        <ChartCard
-          title="Last 30 days"
-          takeaway={`${streak.current}-day streak · ${sessions} sessions, ${freezes} freeze${freezes === 1 ? '' : 's'}`}
-          summary={`Last 30 days. ${streak.current} day streak, ${sessions} sessions and ${freezes} freezes. Each day is marked by shape: filled check for a session, snowflake for a freeze, outline for missed.`}
-        >
-          <GymCalendar days={calendar} />
-        </ChartCard>
+        {/* The design's month calendar (V7), built from the sessions the server
+            returned for this month plus today's, if it was just logged here. */}
+        <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
+          <GymCalendar
+            title={monthTitle(month, today)}
+            cells={view.cells}
+            summary={summary}
+            onPrev={() => setMonthOffset((m) => m - 1)}
+            onNext={() => setMonthOffset((m) => Math.min(0, m + 1))}
+            canNext={monthOffset < 0}
+          />
+        </Card>
 
         {/* Today's scheduled workout (renders null when nothing is scheduled). */}
         <TodayCard />

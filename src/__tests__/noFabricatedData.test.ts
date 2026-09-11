@@ -56,7 +56,8 @@ describe('release builds contain no fabricated user data', () => {
   test('the gym store starts empty — no streak the user never earned', () => {
     const s = asRelease(() => require('@/lib/data/gymStore').useGymStore.getState());
     expect(s.sessions).toEqual([]);
-    expect(s.calendar).toEqual([]);
+    expect(s.loggedDays).toEqual([]);
+    expect(s.frozenDates).toEqual([]);
     expect(s.streak.current).toBe(0);
     expect(s.streak.totalGymDays).toBe(0);
     expect(s.streak.longest).toBe(0);
