@@ -196,6 +196,11 @@ var LibrarySeed = []LibraryExercise{
 // SeedExerciseLibrary loads LibrarySeed into exercise_library. Idempotent, and
 // ON CONFLICT (name) DO UPDATE SET met_value + parameter_schema so an existing
 // library is backfilled with the current MET and Phase 12 schema on next startup.
+//
+// The muscle columns are refreshed too (D1): they are the keys of
+// muscle_volume_map, so the seed — which is canonical lowercase, pinned by
+// TestLibrarySeedMusclesAreCanonical — is their source of truth on every
+// startup, and a row that drifted from it is rewritten rather than kept.
 func SeedExerciseLibrary(pool *pgxpool.Pool) error {
 	ctx := context.Background()
 	for _, e := range LibrarySeed {
@@ -212,6 +217,8 @@ func SeedExerciseLibrary(pool *pgxpool.Pool) error {
 				(name, muscle_group_primary, muscle_groups_secondary, category, exercise_type, equipment, difficulty, description, met_value, parameter_schema)
 			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb)
 			ON CONFLICT (name) DO UPDATE SET
+				muscle_group_primary = EXCLUDED.muscle_group_primary,
+				muscle_groups_secondary = EXCLUDED.muscle_groups_secondary,
 				met_value = EXCLUDED.met_value,
 				parameter_schema = EXCLUDED.parameter_schema`,
 			e.Name, e.MuscleGroupPrimary, e.MuscleGroupsSecondary, e.Category,

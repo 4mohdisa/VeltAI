@@ -490,6 +490,28 @@ func TestLibrarySeedCoverage(t *testing.T) {
 	}
 }
 
+// D1: every muscle the seed writes — primary AND secondary — is one of the twelve
+// canonical lowercase keys. muscle_volume_map is keyed by these, so a second
+// spelling of one muscle would render as a second muscle. The migration
+// 20260911000001 enforces the same set in the database.
+func TestLibrarySeedMusclesAreCanonical(t *testing.T) {
+	canonical := map[string]bool{
+		"chest": true, "back": true, "quadriceps": true, "hamstrings": true, "glutes": true,
+		"shoulders": true, "biceps": true, "triceps": true, "core": true, "calves": true,
+		"cardio": true, "full_body": true,
+	}
+	for _, e := range gym.LibrarySeed {
+		if !canonical[e.MuscleGroupPrimary] {
+			t.Errorf("%q: primary muscle %q is not a canonical key", e.Name, e.MuscleGroupPrimary)
+		}
+		for _, m := range e.MuscleGroupsSecondary {
+			if !canonical[m] {
+				t.Errorf("%q: secondary muscle %q is not a canonical key", e.Name, m)
+			}
+		}
+	}
+}
+
 // ---------------------------------------------------------------------------
 // Exercises
 // ---------------------------------------------------------------------------
