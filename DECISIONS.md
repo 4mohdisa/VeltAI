@@ -772,13 +772,16 @@ it was built.
 Numbered V1–V17 so they are never confused with the original seven (1–6 done,
 7 — the 3D body — still deferred).
 
-- **V1. Sheet header convention is mirrored.** The design puts the sheet title
+- **V1. Sheet header convention is mirrored.** **DONE 2026-09-11 (`8815bfa`):
+  an opt-in `leading` SheetContent variant on the seven covered sheets, save
+  moved to a bottom pill; `gym/freeze` keeps the standard header.** The design puts the sheet title
   on the left and × on the right, with saving done by a bottom pill ("Save
   changes"). `SheetContent` puts × left, the title centred and a ✓ Done right —
   and the right slot carries the save action on every create/edit sheet. It is
   shared by eight sheets, one of them parked (`gym/freeze`). Matching needs a
   variant plus moving the save affordance.
-- **V2. No avatar on Food and Gym.** The design has the profile avatar top-right
+- **V2. No avatar on Food and Gym.** **DONE 2026-09-11 (`a7f0d00`): one shared
+  `ProfileAvatarButton` on Summary, Food and Gym.** The design has the profile avatar top-right
   on all three tabs; the app only on Summary. Two new navigation entry points.
 - **V3. Food's date header and week strip.** Design: one full-date eyebrow with
   a ⌄ that opens the calendar, ‹ › flanking a strip of plain day numbers.
@@ -792,11 +795,17 @@ Numbered V1–V17 so they are never confused with the original seven (1–6 done
   covering photo *and* label, Barcode, My dishes) plus a full-width Quick add,
   titled "Add to breakfast". App: 2×3 with Scan Label, Saved foods and My Meals
   as separate routes, titled "Add meal". A route merge.
-- **V6. The food detail sheet in logged mode.** Design: a thumbnail header,
+- **V6. The food detail sheet in logged mode.** **DONE 2026-09-11 (`b32607f`):
+  presets scaled from the row's own per-gram values, read-only macros behind
+  "Edit values manually", and a meal switch sent as `meal_type` in the PATCH;
+  no Fibre and no thumbnail (no data for either).** Design: a thumbnail header,
   serving-size presets with an edit chip, a read-only macro grid with Fibre, a
   meal segmented control, a "Save changes" pill and "Remove from log". App: free
   text fields for every value. A behaviour change, not a restyle.
-- **V7. The Gym calendar is not a month grid.** Design: dated cells, month
+- **V7. The Gym calendar is not a month grid.** **DONE 2026-09-11 (`7cb0ae9`):
+  a date-keyed month grid built from `listSessions({from,to})`, with paging,
+  minute-based intensity, freeze days and "N sessions · Hh Mm"; loading and
+  errors never read as "0 sessions".** Design: dated cells, month
   paging, intensity shading with a Less/More legend, "5 sessions · 4h 21m".
   App: an index-keyed 30-cell heatmap with checkmarks and a categorical legend
   (the UI pass kept "same props, same index-keyed model"). Needs date-keyed data.
@@ -831,7 +840,10 @@ Numbered V1–V17 so they are never confused with the original seven (1–6 done
   off" tile and a recent-corrections list. App: a bar hero and a "% of your
   scans" tile. The trend and list have no source (documented); the ring is a
   component change.
-- **V16. Summary's card set and order.** Design: Energy balance → This week →
+- **V16. Summary's card set and order.** **DONE 2026-09-11 (`b16cfdd`): Energy
+  balance → This week → Workouts → Macros, from one week read plus
+  `useGymRange(7)`; Steps omitted, Fibre "Not tracked", and the one-tap gym
+  card kept (a logged conflict, below).** Design: Energy balance → This week →
   Steps → Workouts → Macros (bars, Fibre, no ring). App: gym status →
   Nutrition (ring + three bars) → Energy balance → This week → Workouts →
   Today's plan. Reordering home and dropping or adding cards is a product call.
@@ -840,10 +852,73 @@ Numbered V1–V17 so they are never confused with the original seven (1–6 done
 
 ### Data defect surfaced during verification (not a design item)
 
-- **D1. Muscle focus can list a muscle twice with real data.** The exercise
+- **D1. Muscle focus can list a muscle twice with real data.** **DONE
+  2026-09-11 (`61a7660`): the premise was wrong (the seed is all lowercase; the
+  capitalised values were Category labels and stub data), but the invariant is
+  now enforced at the source: a migration lowercases existing rows and adds
+  CHECK constraints, and the seed upsert rewrites drifted muscles.** The exercise
   library mixes cases — `"Back"`/`"back"`, `"Chest"`/`"chest"`, plus `"Legs"`
   — and `muscle_volume_map` keys come straight from `muscle_group_primary`.
   `gym/muscles.tsx` merges its lowercase `MUSCLE_GROUPS` with the map's keys in
   a `Set`, so "Back" (with volume) and "back" (an em-dash row) both render.
   Fix by normalising keys (backend `lower()` or a client case-fold); that is
   data handling, so it was not changed in a style pass.
+
+## Structural pass (2026-09-11) — D1, V1, V2, V6, V7, V16 DONE
+
+Built D1 → V7 → V2 → V1 → V16 → V6 on `main`, one commit each. Captures, the
+data-gap list and test counts are in `STRUCTURAL_PASS_REPORT.md`. V3–V5,
+V8–V15, V17, item 7 and the 23 parked screens were not touched.
+
+Decisions taken during the pass (conservative defaults, all reversible):
+
+- **V16 fetch strategy.** One `GET /api/energy-balance/week` (`useEnergyWeek`)
+  feeds both Energy balance (today's row) and This week, replacing Summary's
+  separate `getBalance` read. Workouts reads `useGymRange(7)`. No new endpoint,
+  so no backend change.
+- **V16 omissions.** Steps is omitted (the HealthKit seam is a no-op). There is
+  no burn target: the inner ring is a bare track and Burned reads "No burn
+  target set". Workouts shows sessions and minutes trained, never "of 5
+  sessions" or gym kcal. Fibre is listed as "Not tracked · target X g": the
+  server has a fibre column, but the app never sends one.
+- **V16 conflict: the one-tap gym log.** The design drops the gym status card,
+  but it is the app's only one-tap gym log, so it stays on Summary below Macros
+  (pinned by `summaryNoFabrication.test.ts`).
+- **V6 presets.** A logged row has no catalog behind it, so its presets are ½×,
+  1×, 1½× and 2× the logged weight, scaled from the row's own per-gram values. A
+  row with no weight (a kcal-only quick add) gets no presets. As in the design,
+  picking a preset discards manual overrides.
+- **V6 meal write.** `PATCH /api/food/logs/{id}` already validated `meal_type`
+  behind `GetLogOwner`; the app now sends it (its capitalised slot name, which
+  the server accepts case-insensitively). One PATCH carries both the edit and
+  the move. New tests: fake-store (move, unknown meal, another user's row) and
+  real Postgres through the handler.
+- **V7.** The dev-seed calendar is gone in both builds. The grid draws only
+  server sessions plus the local echo of today's log.
+
+Human calls, not decided here:
+
+1. The log-session sheet's 0.6 detent puts its new bottom pill below the fold.
+   The fix is the sheet options in `_layout.tsx`, which this pass left alone.
+2. `gym/freeze` defaults to offset 1 (tomorrow) while the server freezes today.
+   This mismatch is pre-existing, and the sheet is parked.
+3. One session POST (today, 60 min) hit the stub at the first simulator launch
+   of the V7 check. Replay never re-dates and log-session posts only on Done,
+   and a clean launch wrote nothing. Unexplained but bounded; worth checking the
+   persisted offline queue on a real device.
+4. The local gym store defaults `durationMin` to 60 for quick-log history. This
+   is pre-existing.
+5. Offline-queue bodies (food names, macros) persist in SecureStore/Keychain.
+   Worth checking that a long offline backlog stays inside its size limits.
+6. Fibre: wire it end to end, or keep "Not tracked".
+7. Should the Summary gym card go (as V16's design has it) once another one-tap
+   log exists?
+8. Not checked on device: the Mac was locked, so the simulator took no taps.
+   That leaves V1 keyboard avoidance, the V7 tap-to-log and the V6 sheet
+   unexercised; the simulator integration also needs `sudo xcode-select -s
+   /Applications/Xcode.app/Contents/Developer`.
+9. Summary's header streak reads the store through `useDashboard()`, and only
+   `useGym` hydrates the store from the server. In the dev build Summary showed
+   the mock 13 while the server said 2 (the Gym tab showed 2). The source is the
+   same as before V16. A release build seeds 0, so it probably reads 0 until the
+   Gym tab hydrates it. Worth confirming.

@@ -92,7 +92,7 @@ came up but had nothing to compare them against.
 
 | Screen | Status | States | Screenshot | Notes |
 |---|---|---|---|---|
-| Gym tab | ❌ | S | `03_gym_success.png` | The eyebrow and title match. **The calendar is not the design's month grid (V7).** The streak card, habits card and training list differ too (V8), and there's no avatar (V2). |
+| Gym tab | ❌ | S | `03_gym_success.png` | The eyebrow and title match. **The calendar is not the design's month grid (V7).** The streak card, habits card and training list differ too (V8), and there's no avatar (V2). *Correction (2026-09-11): the calendar in this capture came from the dev seed (`mockGymCalendar`), not from any session data; the app never read sessions for it. V7 replaced it.* |
 | Muscle focus (full view) | ⚠️ | S | `20_gym_muscles_after_fix1.png` | The back control was a "‹ Gym" pill until fix 1. The header style differs, there's no Front/Back toggle and no set counts (V10); the 3D stage is item 7. Duplicate rows are possible with real data (D1). |
 | My schedule | ✅ | S | `21_gym_schedule.png`, `21b_gym_schedule_after_fix3.png` | Day names clipped to "Tues…" until fix 3. The week starts on Sunday where the design starts on Monday (V9). |
 | My workouts (templates) | ⚠️ | S | `22_gym_templates.png` | Chrome matches; the "+" is a bare glyph, not a glass circle (V9). |
