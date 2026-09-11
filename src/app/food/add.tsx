@@ -44,7 +44,7 @@ export default function AddMealScreen() {
     { icon: 'flame', tint: categoryAccent.calories, label: 'Quick Add', description: 'Just calories, fast', route: '/food/quick-add', mode: 'replace' },
   ];
   return (
-    <SheetContent title={t('addMenu.title')} onClose={() => router.canGoBack() && router.back()}>
+    <SheetContent variant="leading" title={t('addMenu.title')} onClose={() => router.canGoBack() && router.back()}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
         {methods.map((m) => (
           <Pressable

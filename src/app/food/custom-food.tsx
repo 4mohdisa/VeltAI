@@ -1,6 +1,7 @@
 // C10 · Custom food form
 // name, calories per 100g, protein, carbs, fat, fibre. Save adds it to the
 // user's custom food list for reuse.
+import { Button } from '@/components/forms/Button';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
@@ -45,7 +46,7 @@ export default function CustomFoodScreen() {
   };
 
   return (
-    <SheetContent title="Custom food" onClose={close} onDone={done} doneDisabled={!canSave}>
+    <SheetContent variant="leading" title="Custom food" onClose={close}>
       <TextField label="Name" value={name} onChangeText={setName} placeholder="e.g. Mum's chicken karahi" />
 
       <TextField
@@ -75,6 +76,10 @@ export default function CustomFoodScreen() {
           <TextField label="Fibre (g)" value={macros.fibre} onChangeText={set('fibre')} keyboardType="decimal-pad" />
         </View>
       </View>
+
+      {/* The design saves with a pill at the end of the sheet, not a header tick.
+          Same rule as before: a name and calories above zero, or it stays disabled. */}
+      <Button title="Save food" onPress={done} disabled={!canSave} />
     </SheetContent>
   );
 }

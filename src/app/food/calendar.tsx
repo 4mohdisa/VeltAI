@@ -37,12 +37,8 @@ export default function FoodCalendarScreen() {
   const nextDisabled = addMonths(month, 1) > today && fromIso(month).getMonth() === fromIso(today).getMonth();
 
   return (
-    <SheetContent title="Pick a day" onClose={() => router.back()}>
+    <SheetContent variant="leading" title="Pick a day" subtitle="Dots mark days with food logged" onClose={() => router.back()}>
       <View style={{ gap: space.lg }}>
-        <Text variant="footnote" color={color.secondaryLabel}>
-          Dots mark days with food logged.
-        </Text>
-
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <MonthArrow direction="back" onPress={() => setMonth(addMonths(month, -1))} />
           <Text variant="bodyBold" color={color.label} accessibilityRole="header">

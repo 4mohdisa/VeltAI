@@ -99,7 +99,7 @@ export default function FoodDetailScreen() {
 
   if (!subject) {
     return (
-      <SheetContent title="Food" onClose={close}>
+      <SheetContent variant="leading" title="Food" onClose={close}>
         <EmptyState
           icon="fork.knife"
           title="Nothing to show"
@@ -111,7 +111,7 @@ export default function FoodDetailScreen() {
 
   if (loading) {
     return (
-      <SheetContent title="Looking up product…" onClose={close}>
+      <SheetContent variant="leading" title="Looking up product…" onClose={close}>
         <SkeletonList rows={3} />
       </SheetContent>
     );
@@ -120,7 +120,7 @@ export default function FoodDetailScreen() {
   // The row was already gone when the sheet opened.
   if (!stillLogged) {
     return (
-      <SheetContent title="Food" onClose={close}>
+      <SheetContent variant="leading" title="Food" onClose={close}>
         <EmptyState icon="fork.knife" title="No longer in your log" message="This item has already been removed." />
       </SheetContent>
     );
@@ -131,6 +131,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`search:${subject.name}`}
         title={subject.name}
+        ctaLabel={`Add to ${slotForNow().toLowerCase()}`}
         seed={{
           name: subject.name,
           quantityG: 100,
@@ -161,7 +162,7 @@ export default function FoodDetailScreen() {
     // (AUDIT_REPORT.md M1).
     if (!product) {
       return (
-        <SheetContent title="Product not found" onClose={close}>
+        <SheetContent variant="leading" title="Product not found" onClose={close}>
           <View style={{ gap: space.lg, alignItems: 'center', paddingVertical: space.lg }}>
             <Icon name="barcode-outline" size={40} color={color.tertiaryLabel} />
             <Text variant="body" color={color.label} style={{ textAlign: 'center' }}>
@@ -179,6 +180,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`barcode:${subject.code}`}
         title="Confirm product"
+        ctaLabel={`Add to ${slotForNow().toLowerCase()}`}
         seed={{
           name: p.name,
           quantityG: first,
@@ -211,6 +213,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`saved:${item.id}`}
         title="Edit food"
+        ctaLabel="Save changes"
         seed={item}
         macros
         onClose={close}
@@ -246,6 +249,7 @@ export default function FoodDetailScreen() {
     <DetailForm
       key={`${subject.mode}:${item.id}`}
       title={review ? 'Rename food' : 'Edit item'}
+      ctaLabel={review ? 'Save name' : 'Save changes'}
       seed={item}
       macros
       nameOnly={review}
@@ -305,6 +309,9 @@ type DetailFormProps = {
   /** Review rename: the name is the only editable field. */
   nameOnly?: boolean;
   onDone: (draft: FoodValues) => void;
+  /** The primary pill's words. The design names what the pill does — "Save
+   *  changes" for something already logged, "Add to lunch" for a new food. */
+  ctaLabel: string;
   onSaveToFoods?: (draft: FoodValues) => void;
   remove?: { label: string; confirm: string; run: () => void };
   onClose: () => void;
@@ -321,6 +328,7 @@ function DetailForm({
   macros,
   nameOnly = false,
   onDone,
+  ctaLabel,
   onSaveToFoods,
   remove,
   onClose,
@@ -356,7 +364,7 @@ function DetailForm({
   };
 
   return (
-    <SheetContent title={title} onClose={onClose} onDone={() => onDone(draft())}>
+    <SheetContent variant="leading" title={title} onClose={onClose}>
       {subLine ? (
         <Card>
           <View style={{ gap: space.xs }}>
@@ -445,6 +453,10 @@ function DetailForm({
           )}
         </>
       )}
+
+      {/* The design's primary action: a full-width black pill after the fields,
+          above the secondary "save" and the destructive remove. */}
+      <Button title={ctaLabel} onPress={() => onDone(draft())} />
 
       {onSaveToFoods ? (
         <Button

@@ -1,6 +1,7 @@
 // D2 · Log gym session
 // All inputs optional: duration, perceived effort (1–10), energy (1–5), notes.
 // "Log it" extends the streak. Idempotent per UTC day.
+import { Button } from '@/components/forms/Button';
 import { useEffect, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { router } from 'expo-router';
@@ -31,21 +32,19 @@ export default function LogSessionScreen() {
     if (router.canGoBack()) router.back();
   };
 
+  const save = () => {
+    if (streak.gymLoggedToday) {
+      showToast({ message: 'Already logged today.', tone: 'info' });
+      close();
+      return;
+    }
+    logGymSession({ durationMin: duration, effort, energy, notes: notes.trim() || undefined });
+    showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
+    close();
+  };
+
   return (
-    <SheetContent
-      title="Log session"
-      onClose={close}
-      onDone={() => {
-        if (streak.gymLoggedToday) {
-          showToast({ message: 'Already logged today.', tone: 'info' });
-          close();
-          return;
-        }
-        logGymSession({ durationMin: duration, effort, energy, notes: notes.trim() || undefined });
-        showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
-        close();
-      }}
-    >
+    <SheetContent variant="leading" title="Log session" onClose={close}>
       <Text variant="callout" color={color.gray500}>
         Everything here is optional — a one-tap log still counts.
       </Text>
@@ -71,6 +70,9 @@ export default function LogSessionScreen() {
         onChangeText={setNotes}
         multiline
       />
+
+      {/* The design saves with a pill at the end of the sheet, not a header tick. */}
+      <Button title="Log session" onPress={save} />
     </SheetContent>
   );
 }

@@ -76,7 +76,7 @@ export default function QuickAddScreen() {
   };
 
   return (
-    <SheetContent title="Quick Add" onClose={() => router.canGoBack() && router.back()}>
+    <SheetContent variant="leading" title="Quick Add" onClose={() => router.canGoBack() && router.back()}>
       <View style={{ gap: space.xs }}>
         {/* Eyebrow label — the design's uppercase, tracked field heading. */}
         <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>

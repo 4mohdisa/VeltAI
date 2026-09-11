@@ -70,7 +70,7 @@ export default function SavedFoodsScreen() {
   };
 
   return (
-    <SheetContent title="Saved foods" onClose={() => router.canGoBack() && router.back()}>
+    <SheetContent variant="leading" title="Saved foods" onClose={() => router.canGoBack() && router.back()}>
       <TextField
         placeholder="Search saved…"
         value={query}
