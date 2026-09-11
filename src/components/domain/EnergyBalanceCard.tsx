@@ -1,128 +1,190 @@
-// EnergyBalanceCard — today's intake vs expenditure at a glance, for the
-// dashboard. Self-contained via useEnergyBalance(); taps through to the /energy
-// detail screen. Degrades gracefully: with no body stats the net is unknown, so
-// it shows intake + a nudge instead of a fabricated number.
+// EnergyBalanceCard — the Summary tab's lead card (V16, SummaryScreen.dc.html):
+// today's net as the hero number, two concentric rings — intake against the
+// calorie goal outside, burned inside — and an Intake / Burned key beside them.
+//
+// Driven by props: Summary reads ONE 7-day energy window and hands this card
+// today's row, so today is not fetched twice.
+//
+// Honest states, never a fabricated number:
+//   - loading → a skeleton; a failed read → says it failed
+//   - no calorie goal → the intake ring stays empty and the key says so
+//   - no burn target exists anywhere in the data model → the burned ring is an
+//     empty track, the burned total stands alone, and the key says
+//     "No burn target set" — the design's "/ 2,400 · 78% of target" is not built
+//   - the server could not compute a net (no body stats) → no net number, a
+//     one-line reason instead
+//   - nothing logged and nothing burned yet → an empty-state line, not blanks
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 import { router, type Href } from 'expo-router';
 
 import { Card } from '@/components/display/Card';
-import { Badge } from '@/components/display/Badge';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
-import { accent, categoryAccent, color, radius, space } from '@/lib/design/tokens';
-import { useEnergyBalance } from '@/lib/data/energy';
-import type { EnergyBalance } from '@/lib/types';
+import { accent, categoryAccent, color, space } from '@/lib/design/tokens';
+import { burnOf, netOf } from '@/lib/data/energyRange';
+import { ringFraction } from '@/lib/data/summaryCards';
+import { formatNumber } from '@/lib/formatting';
+import { kcalToDisplay, type EnergyUnit } from '@/lib/units';
+import type { EnergyBalance } from '@/lib/api';
 
-const round = (n: number) => Math.round(n);
-const signed = (n: number) => `${n > 0 ? '+' : ''}${round(n)}`;
+// The design's ring geometry (a 104pt box, radii 44 and 29, 10pt strokes).
+export const RING_BOX = 104;
+export const RING_OUTER_R = 44;
+export const RING_INNER_R = 29;
+export const RING_STROKE = 10;
+const DOT = 8;
+const KEY_INDENT = 16;
 
-// statusLabel maps the backend status to its human label (the Badge carries it;
-// accent colour is reserved for chart elements, not text — see tokens.ts).
-function statusLabel(status: string): string {
-  switch (status) {
-    case 'deficit':
-      return 'Deficit';
-    case 'surplus':
-      return 'Surplus';
-    case 'on_target':
-      return 'On target';
-    default:
-      return 'No goal set';
-  }
+function Ring({ r, fraction, tint }: { r: number; fraction: number; tint: string }) {
+  const c = RING_BOX / 2;
+  const circumference = 2 * Math.PI * r;
+  return (
+    <>
+      <Circle cx={c} cy={c} r={r} stroke={color.light2} strokeWidth={RING_STROKE} fill="none" />
+      {fraction > 0 ? (
+        <Circle
+          cx={c}
+          cy={c}
+          r={r}
+          stroke={tint}
+          strokeWidth={RING_STROKE}
+          strokeLinecap="round"
+          strokeDasharray={`${circumference * fraction} ${circumference}`}
+          fill="none"
+          transform={`rotate(-90 ${c} ${c})`}
+        />
+      ) : null}
+    </>
+  );
 }
 
-// MiniBar is one labelled track scaled against the larger of intake/expenditure.
-function MiniBar({ label, value, max, tint }: { label: string; value: number; max: number; tint: string }): JSX.Element {
-  const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
+function KeyRow({
+  tint,
+  label,
+  value,
+  target,
+  sub,
+}: {
+  tint: string;
+  label: string;
+  value: string;
+  target?: string;
+  sub: string;
+}) {
   return (
-    <View style={{ gap: space.xs }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text variant="caption" color={color.secondaryLabel}>
+    <View style={{ gap: 1 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+        <View style={{ width: DOT, height: DOT, borderRadius: DOT / 2, backgroundColor: tint }} />
+        <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
           {label}
         </Text>
-        <Text variant="caption" color={color.label}>
-          {round(value)} kcal
+        <Text variant="statSmall" color={color.label}>
+          {value}
         </Text>
+        {target ? (
+          <Text variant="caption" color={color.tertiaryLabel}>
+            / {target}
+          </Text>
+        ) : null}
       </View>
-      <View style={{ height: 8, borderRadius: radius.pill, backgroundColor: color.light2, overflow: 'hidden' }}>
-        <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.pill, backgroundColor: tint }} />
-      </View>
+      <Text variant="caption" color={color.tertiaryLabel} style={{ paddingLeft: KEY_INDENT }}>
+        {sub}
+      </Text>
     </View>
   );
 }
 
-function Content({ b }: { b: EnergyBalance }): JSX.Element {
-  const out = b.calories_out_total;
-  const max = Math.max(b.calories_in, out ?? b.calories_out_exercise, 1);
+export type EnergyBalanceCardProps = {
+  /** Today's row from the 7-day window; null when the window has none. */
+  day: EnergyBalance | null;
+  loading: boolean;
+  /** The window could not be read. */
+  error: boolean;
+  energyUnit: EnergyUnit;
+};
 
-  return (
-    <View style={{ gap: space.lg }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space.sm }}>
-        <View style={{ flex: 1, minWidth: 0 }}>
-          <CardHeaderRow title="Energy balance" icon="flame" tint={categoryAccent.calories} />
-        </View>
-        <Badge label={statusLabel(b.status)} />
-      </View>
-
-      {b.net_balance != null ? (
-        <View style={{ gap: space.xs }}>
-          <Text variant="statLarge" color={color.label}>
-            {signed(b.net_balance)}
-          </Text>
-          <Text variant="footnote" color={color.secondaryLabel}>
-            net kcal today {b.net_balance < 0 ? '(burning more than eaten)' : '(eaten more than burned)'}
-          </Text>
-        </View>
-      ) : (
-        <Text variant="callout" color={color.secondaryLabel}>
-          Add your body stats in onboarding to see your net balance.
-        </Text>
-      )}
-
-      <View style={{ gap: space.md }}>
-        <MiniBar label="In (food)" value={b.calories_in} max={max} tint={accent.orange} />
-        <MiniBar
-          label={out != null ? `Out (BMR ${round(b.calories_out_bmr ?? 0)} + exercise ${round(b.calories_out_exercise)})` : 'Out (exercise)'}
-          value={out ?? b.calories_out_exercise}
-          max={max}
-          tint={accent.blue}
-        />
-      </View>
-
-      {b.target != null ? (
-        <Text variant="footnote" color={color.secondaryLabel}>
-          Target {round(b.target)} kcal{b.variance != null ? ` · ${signed(b.variance)} vs target` : ''}
-        </Text>
-      ) : null}
-    </View>
-  );
-}
-
-export function EnergyBalanceCard(): JSX.Element | null {
-  const { balance, loading } = useEnergyBalance();
+export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBalanceCardProps): JSX.Element {
+  const show = (kcal: number) => formatNumber(kcalToDisplay(kcal, energyUnit));
+  const header = <CardHeaderRow title="Energy balance" icon="flame" tint={categoryAccent.calories} scope="Today" chevron />;
 
   if (loading) {
     return (
       <Card variant="elevated">
-        <View style={{ gap: space.md }}>
-          <Skeleton width="50%" height={18} />
-          <Skeleton width="35%" height={30} />
-          <Skeleton width="90%" height={12} />
-          <Skeleton width="80%" height={12} />
+        <View style={{ gap: space.lg }}>
+          {header}
+          <Skeleton width="45%" height={40} />
+          <Skeleton width="100%" height={RING_BOX} />
         </View>
       </Card>
     );
   }
 
-  // No data at all (backend down and no cached balance) → render nothing rather
-  // than an empty shell; the rest of the dashboard is unaffected.
-  if (!balance) return null;
+  if (error || !day) {
+    return (
+      <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel="Energy balance detail">
+        <View style={{ gap: space.lg }}>
+          {header}
+          <Text variant="callout" color={color.secondaryLabel}>
+            {error ? "Couldn't load today's energy balance. Pull down to try again." : 'No energy data for today yet.'}
+          </Text>
+        </View>
+      </Card>
+    );
+  }
+
+  const burned = burnOf(day);
+  const net = netOf(day);
+  const goal = day.target;
+  const nothingYet = day.calories_in === 0 && (burned == null || burned === 0);
 
   return (
     <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel="Energy balance detail">
-      <Content b={balance} />
+      <View style={{ gap: space.lg }}>
+        {header}
+
+        {net != null ? (
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+            <Text variant="statLarge" color={color.label}>
+              {net < 0 ? `−${show(-net)}` : show(net)}
+            </Text>
+            <Text variant="callout" color={color.secondaryLabel}>
+              {energyUnit} {net < 0 ? 'deficit' : 'surplus'}
+            </Text>
+          </View>
+        ) : (
+          <Text variant="callout" color={color.secondaryLabel}>
+            {nothingYet
+              ? 'Nothing logged or burned yet today. Log food and add your body stats to see your balance.'
+              : 'Add your body stats in onboarding to see your net balance.'}
+          </Text>
+        )}
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xl }}>
+          <Svg width={RING_BOX} height={RING_BOX}>
+            <Ring r={RING_OUTER_R} fraction={ringFraction(day.calories_in, goal)} tint={categoryAccent.calories} />
+            {/* No burn target exists, so the inner ring is only ever its track. */}
+            <Ring r={RING_INNER_R} fraction={0} tint={accent.blue} />
+          </Svg>
+          <View style={{ flex: 1, minWidth: 0, gap: space.md }}>
+            <KeyRow
+              tint={categoryAccent.calories}
+              label="Intake"
+              value={show(day.calories_in)}
+              target={goal != null ? show(goal) : undefined}
+              sub={goal != null ? `${Math.round((day.calories_in / goal) * 100)}% of goal` : 'No calorie goal set'}
+            />
+            <KeyRow
+              tint={accent.blue}
+              label="Burned"
+              value={burned == null ? '—' : show(burned)}
+              sub="No burn target set"
+            />
+          </View>
+        </View>
+      </View>
     </Card>
   );
 }

@@ -28,6 +28,57 @@ const MACRO: Record<string, { color: string; icon: string }> = {
   Fibre: { color: categoryAccent.fibre, icon: 'circle.grid.2x2.fill' },
 };
 
+/** A macro against its target for the Summary's design Macros card. `consumed`
+ *  is null when the app does not record that macro at all — the row then says
+ *  "Not tracked" rather than printing a zero the user never ate. */
+export type MacroTargetRow = { label: string; macroKey: MacroStyleKey; consumed: number | null; target: number };
+
+/** The design's Summary macro rows (SummaryScreen.dc.html, V16): the name, the
+ *  amount in rounded stat type over "/ target g", and a 12pt bar in the macro's
+ *  accent on a light-2 track. Separate from MacroBars, which the nutrition
+ *  detail still uses as it was. */
+export function MacroTargetRows({ rows }: { rows: MacroTargetRow[] }) {
+  return (
+    <View style={{ gap: space.lg }}>
+      {rows.map(({ label, macroKey, consumed, target }) => {
+        const tint = MACRO[macroKey]?.color ?? color.black;
+        return (
+          <View key={macroKey} style={{ gap: space.sm }} accessible accessibilityLabel={consumed == null ? `${label}, not tracked, target ${Math.round(target)} grams` : `${label}, ${Math.round(consumed)} of ${Math.round(target)} grams`}>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+              <Text variant="callout" color={color.label} style={{ flex: 1, fontWeight: '500', lineHeight: 20 }}>
+                {label}
+              </Text>
+              {consumed == null ? (
+                <Text variant="footnote" color={color.tertiaryLabel}>
+                  Not tracked · target {Math.round(target)} g
+                </Text>
+              ) : (
+                <>
+                  <Text variant="statSmall" color={color.label}>
+                    {Math.round(consumed)}
+                  </Text>
+                  <Text variant="footnote" color={color.tertiaryLabel}>
+                    / {Math.round(target)} g
+                  </Text>
+                </>
+              )}
+            </View>
+            <ProgressBar
+              value={consumed != null && target > 0 ? consumed / target : 0}
+              tint={tint}
+              track={color.light2}
+              height={MACRO_BAR_H}
+            />
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
+/** The design's 12pt macro bar. */
+export const MACRO_BAR_H = 12;
+
 export function MacroBars({ rows }: MacroBarsProps) {
   // HIG §2.2b: stack label above value at large text sizes instead of colliding.
   const large = useLargeText();

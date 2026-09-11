@@ -71,11 +71,13 @@ describe('all four Summary detail routes exist', () => {
   });
 
   test('the Summary tab links to all four', () => {
+    // V16: three of the links moved into the design cards Summary mounts. Same
+    // guarantee — every detail is reachable from Summary — pinned where it lives.
     const src = read('src/app/(tabs)/index.tsx');
-    expect(src).toContain('/dashboard/week');
-    expect(src).toContain('/dashboard/training');
     expect(src).toContain('/dashboard/nutrition');
-    // The energy card pushes /energy from inside EnergyBalanceCard.
+    for (const card of ['<EnergyBalanceCard', '<WeekEnergyCard', '<WorkoutsWeekCard']) expect(src).toContain(card);
+    expect(read('src/components/domain/WeekEnergyCard.tsx')).toContain("'/dashboard/week'");
+    expect(read('src/components/domain/WorkoutsWeekCard.tsx')).toContain("'/dashboard/training'");
     expect(read('src/components/domain/EnergyBalanceCard.tsx')).toContain("'/energy'");
   });
 });

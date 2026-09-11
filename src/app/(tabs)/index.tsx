@@ -1,8 +1,8 @@
 // B1 · Dashboard (home) — the design file's "Summary" page.
 // A grey page of white elevated cards under a floating blurred header:
 //   1. Title block: today's date as an eyebrow, "Summary", then the streak line.
-//   2. Gym status hero, then calorie ring + macro bars, then energy balance.
-//   3. Today's AI plan summary.
+//   2. The design's cards (V16): Energy balance, This week, Workouts, Macros.
+//   3. The one-tap gym card (a logged conflict), the AI brief and today's plan.
 // The scroll deliberately runs under the status bar (no top safe-area edge) so
 // the FloatingHeader has something to blur — same treatment as Screen's
 // 'floating' variant, hand-rolled here because this screen owns its own scroll.
@@ -17,8 +17,9 @@ import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { StreakFlame } from '@/components/display/StreakFlame';
-import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
-import { MacroBars } from '@/components/domain/MacroBars';
+import { MacroTargetRows } from '@/components/domain/MacroBars';
+import { WeekEnergyCard } from '@/components/domain/WeekEnergyCard';
+import { WorkoutsWeekCard } from '@/components/domain/WorkoutsWeekCard';
 import { GymStatusCard } from '@/components/domain/GymStatusCard';
 import { MorningBriefCard } from '@/components/ai';
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
@@ -27,11 +28,15 @@ import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { showToast } from '@/components/display/toastStore';
-import { accent, categoryAccent, color, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
 import { useDashboard, logGymSession } from '@/lib/data';
 import { useGymStore } from '@/lib/data/gymStore';
+import { useEnergyWeek } from '@/lib/data/energy';
+import { useGymRange } from '@/lib/data/gymRange';
+import { todayISO } from '@/lib/data/mappers';
+import { todayRow, workoutsWeek } from '@/lib/data/summaryCards';
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
@@ -46,11 +51,21 @@ export default function DashboardScreen() {
   const todayDurationMin = useGymStore((s) => s.sessions.find((x) => x.date === 'Today')?.durationMin);
   const [refreshing, setRefreshing] = useState(false);
   const nextMeal = plan.find((p) => p.kind === 'meal');
+  // V16 data: one 7-day energy window feeds Energy balance (today = its last
+  // day) and This week; the last 7 days of sessions feed Workouts. A failed read
+  // is an error state on the card, never a zero.
+  const today = todayISO();
+  const { week, loading: weekLoading, refetch: refetchWeek } = useEnergyWeek();
+  const weekError = !weekLoading && week == null;
+  const gymWeek = useGymRange(7);
+  const { refetch: refetchGymWeek } = gymWeek;
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     refetch();
+    refetchWeek();
+    refetchGymWeek();
     setTimeout(() => setRefreshing(false), 800);
-  }, [refetch]);
+  }, [refetch, refetchWeek, refetchGymWeek]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: surface.backgroundAlt }} edges={[]}>
@@ -95,15 +110,40 @@ export default function DashboardScreen() {
         {/* Offline queue indicator — renders null when nothing is pending. */}
         <PendingSyncBanner />
 
-        {/* AI morning brief — renders null when there's none. */}
-        <MorningBriefCard />
+        {/* V16 — the design's cards in the design's order: Energy balance →
+            This week → Workouts → Macros. The design's Steps card sits between
+            This week and Workouts; there is no step data anywhere in the app, so
+            it is not built rather than filled. Energy balance and This week share
+            ONE 7-day energy read (today is its last day). */}
+        <EnergyBalanceCard day={todayRow(week?.days, today)} loading={weekLoading} error={weekError} energyUnit={energyUnit} />
+        <WeekEnergyCard days={week?.days ?? []} loading={weekLoading} error={weekError} energyUnit={energyUnit} />
+        <WorkoutsWeekCard week={workoutsWeek(gymWeek.sessions, today)} loading={gymWeek.loading} error={gymWeek.error} />
 
-        {/* The AI nudge banner was REMOVED here (audit 2026-08-06): it rendered
-            a hardcoded "It's nearly your gym window" claim in every build —
-            the app computes no gym window, so it was a fabricated first-person
-            statement about the user's own routine (the same defect class as
-            the five prior fabricated-data rounds). Bring it back only driven
-            by real schedule data. */}
+        <Card
+          variant="elevated"
+          onPress={() => router.push('/dashboard/nutrition')}
+          accessibilityLabel="Macros today. Double tap for detail."
+        >
+          <View style={{ gap: space.lg }}>
+            <CardHeaderRow title="Macros" icon="circle.grid.2x2.fill" tint={categoryAccent.protein} scope="Today" chevron />
+            <MacroTargetRows
+              rows={[
+                { label: t('nutrition.protein'), macroKey: 'Protein', consumed: macros.protein.consumed, target: macros.protein.target },
+                { label: t('nutrition.carbs'), macroKey: 'Carbs', consumed: macros.carbs.consumed, target: macros.carbs.target },
+                { label: t('nutrition.fat'), macroKey: 'Fat', consumed: macros.fat.consumed, target: macros.fat.target },
+                // Fibre is NOT recorded: the app never sends it when it logs a food
+                // and its stored items carry no fibre, so the row says "Not tracked"
+                // beside the target instead of a zero the user never ate.
+                { label: t('nutrition.fibre'), macroKey: 'Fibre', consumed: null, target: macros.fibre.target },
+              ]}
+            />
+          </View>
+        </Card>
+
+        {/* CONFLICT (V16, DECISIONS.md): the design has no gym card on Summary,
+            but this card's button is the app's ONLY one-tap session log — the Gym
+            tab and the + menu both open the full log sheet. Removing it would
+            silently degrade the feature, so it stays, below the design's cards. */}
         <GymStatusCard
           logged={gymLogged}
           durationMin={todayDurationMin}
@@ -113,71 +153,8 @@ export default function DashboardScreen() {
           }}
         />
 
-        <Card
-          variant="elevated"
-          onPress={() => router.push('/dashboard/nutrition')}
-          accessibilityLabel={`Today's nutrition. ${formatEnergy(macros.calories.consumed, energyUnit)} of ${formatEnergy(macros.calories.target, energyUnit)}. Double tap for detail.`}
-        >
-          <View style={{ gap: space.lg }}>
-            <CardHeaderRow
-              title={t('nutrition.title')}
-              icon="chart.bar.fill"
-              tint={categoryAccent.calories}
-              chevron
-            />
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.lg }}>
-              <DailyMacroRing
-                consumed={macros.calories.consumed}
-                target={macros.calories.target}
-                size={132}
-                energyUnit={energyUnit}
-              />
-              <View style={{ flex: 1 }}>
-                <MacroBars
-                  rows={[
-                    { label: t('nutrition.protein'), macroKey: 'Protein', data: macros.protein },
-                    { label: t('nutrition.carbs'), macroKey: 'Carbs', data: macros.carbs },
-                    { label: t('nutrition.fat'), macroKey: 'Fat', data: macros.fat },
-                  ]}
-                />
-              </View>
-            </View>
-          </View>
-        </Card>
-
-        {/* Energy balance — intake vs BMR + exercise (renders null with no data).
-            It pushes /energy itself. */}
-        <EnergyBalanceCard />
-
-        {/* The design's other two Summary tiles reach their detail views from
-            here. Neither carries a figure: every number these details show is
-            fetched by the detail itself, and putting a second copy on Home would
-            mean either another round trip or a stale one. */}
-        <Card
-          variant="elevated"
-          onPress={() => router.push('/dashboard/week')}
-          accessibilityLabel="This week. Intake, burn and daily net across the last 14 days. Double tap for detail."
-        >
-          <View style={{ gap: space.sm }}>
-            <CardHeaderRow title="This week" icon="chart.bar.fill" tint={accent.blue} chevron />
-            <Text variant="footnote" color={color.secondaryLabel}>
-              Intake, burn and daily net across the last 14 days.
-            </Text>
-          </View>
-        </Card>
-
-        <Card
-          variant="elevated"
-          onPress={() => router.push('/dashboard/training')}
-          accessibilityLabel="Workouts. Sessions and minutes across the last 14 days. Double tap for detail."
-        >
-          <View style={{ gap: space.sm }}>
-            <CardHeaderRow title="Workouts" icon="barbell" tint={categoryAccent.positive} chevron />
-            <Text variant="footnote" color={color.secondaryLabel}>
-              Sessions and minutes across the last 14 days.
-            </Text>
-          </View>
-        </Card>
+        {/* AI morning brief — renders null when there's none. */}
+        <MorningBriefCard />
 
         {/* AI plan. Only rendered once there IS a plan: the card used to show a
             hardcoded gym time and bedtime ('18:00' / '22:30') as if they were

@@ -42,6 +42,8 @@ export type GymRange = {
   /** The `days` calendar days ending today, oldest first. */
   dates: string[];
   loading: boolean;
+  /** The read failed. A caller must say so, never show "no sessions" (V16). */
+  error: boolean;
   refetch: () => void;
 };
 
@@ -51,6 +53,7 @@ export function useGymRange(days: number): GymRange {
   const dates = useMemo(() => lastNDates(end, days), [end, days]);
   const [sessions, setSessions] = useState<GymSession[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [nonce, setNonce] = useState(0);
   const from = dates[0];
 
@@ -59,10 +62,14 @@ export function useGymRange(days: number): GymRange {
     api.gym
       .listSessions({ from, to: end })
       .then((rows) => {
-        if (active) setSessions(rows);
+        if (!active) return;
+        setSessions(rows);
+        setError(false);
       })
       .catch(() => {
-        if (active) setSessions([]);
+        if (!active) return;
+        setSessions([]);
+        setError(true);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -77,7 +84,7 @@ export function useGymRange(days: number): GymRange {
     setNonce((n) => n + 1);
   }, []);
 
-  return { sessions, dates, loading, refetch };
+  return { sessions, dates, loading, error, refetch };
 }
 
 // --- V7: the Gym month calendar ---------------------------------------------
