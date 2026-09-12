@@ -21,6 +21,7 @@ import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Stat } from '@/components/display/Stat';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Text } from '@/components/primitives/Text';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { GlassBackButton } from '@/components/navigation/GlassButtons';
@@ -71,6 +72,8 @@ export default function ProfileScreen() {
   const { dispatch } = useAppState();
   const {
     data: { streak },
+    error: gymError,
+    refetch: refetchGym,
   } = useGym();
 
   // SIGN_OUT → machine purges every store + offline queue, ends the Clerk
@@ -95,6 +98,10 @@ export default function ProfileScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
+        {/* The streak read failed, so the card below is showing whatever the
+            device already had. Label it rather than let it pass as current. */}
+        {gymError ? <LoadFailedNotice message="Couldn't load your gym data." onRetry={refetchGym} /> : null}
+
         {/* Title block — the name only appears here; the avatar below carries no
             second copy of it. Before hydration there is no name, and a
             placeholder would be a fabricated one, so the eyebrow is omitted. */}

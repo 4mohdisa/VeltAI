@@ -28,6 +28,7 @@ import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
@@ -284,9 +285,9 @@ export default function FoodLogScreen() {
     if (searching) {
       return results.length > 0 ? [{ kind: 'result', data: results }] : [];
     }
-    if (loadError || loading || itemCount === 0) return [];
+    if (loading || itemCount === 0) return [];
     return sections.map((s) => ({ kind: 'meal', ...s }));
-  }, [searching, results, loadError, loading, itemCount, sections]);
+  }, [searching, results, loading, itemCount, sections]);
 
   const onRefresh = useCallback(() => {
     haptics.impactLight(); // pull-to-refresh trigger
@@ -374,6 +375,12 @@ export default function FoodLogScreen() {
                 Food
               </Text>
             </View>
+            {/* The read failed but the device has rows (possibly queued offline
+                writes). They stay on screen, labelled — the empty-list ErrorState
+                below covers the case where there is nothing to show at all. */}
+            {loadError && itemCount > 0 ? (
+              <LoadFailedNotice message="Couldn't load today's food log." onRetry={refetch} />
+            ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library
                 view rather than a view of one day. */}
             {!searching ? (

@@ -28,6 +28,7 @@ import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { Skeleton } from '@/components/display';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
@@ -50,6 +51,7 @@ export default function DashboardScreen() {
   const {
     data: { streak, macros, plan },
     isLoading: dashLoading,
+    error: dashError,
     refetch,
   } = useDashboard();
   // null when nothing logged today came from a source that carries fibre.
@@ -107,6 +109,10 @@ export default function DashboardScreen() {
             <View style={{ paddingTop: space.xs }} accessibilityLabel="Loading your streak">
               <Skeleton width={96} height={16} />
             </View>
+          ) : dashError ? (
+            // The read FAILED, so the store's number is whatever was already
+            // there — not this user's current streak. Say so instead of printing it.
+            <LoadFailedNotice message="Couldn't load your streak." onRetry={refetch} style={{ marginTop: space.xs }} />
           ) : (
             <Pressable
               onPress={() => router.push('/gym/streak')}
@@ -145,6 +151,8 @@ export default function DashboardScreen() {
             {dashLoading ? (
               // Same rule as the streak: the food store's seed is not today's food.
               <Skeleton width="100%" height={MACRO_ROWS_H} />
+            ) : dashError ? (
+              <LoadFailedNotice message="Couldn't load today's macros." onRetry={refetch} />
             ) : (
               <MacroTargetRows
                 rows={[

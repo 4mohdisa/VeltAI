@@ -12,6 +12,7 @@ import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Stat } from '@/components/display/Stat';
 import { StreakFlame } from '@/components/display/StreakFlame';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Text } from '@/components/primitives/Text';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
@@ -28,6 +29,7 @@ import { todayISO } from '@/lib/data/mappers';
 export default function GymLogScreen() {
   const {
     data: { streak, loggedDays, frozenDates },
+    error: gymError,
     refetch,
   } = useGym();
   const insets = useSafeAreaInsets();
@@ -98,6 +100,10 @@ export default function GymLogScreen() {
             Gym
           </Text>
         </View>
+
+        {/* The streak read failed: the card below still shows what the device
+            had, so label it rather than let it read as current. */}
+        {gymError ? <LoadFailedNotice message="Couldn't load your gym data." onRetry={refetch} /> : null}
 
         {/* Streak strip: flame + count on one line, the streak's own numbers under it. */}
         <Card

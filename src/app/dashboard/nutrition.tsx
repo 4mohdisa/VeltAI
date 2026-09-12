@@ -18,6 +18,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import {
@@ -52,7 +53,7 @@ export default function NutritionDetailScreen(): JSX.Element {
   const { t } = useTranslation();
   const energyUnit = useUnitPreferences().energy;
   const macros = useDailyMacros();
-  const { data: meals, isLoading: loading } = useFoodLog();
+  const { data: meals, isLoading: loading, error: loadError, refetch } = useFoodLog();
   const cal = macros.calories;
   const remaining = formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit);
 
@@ -74,6 +75,8 @@ export default function NutritionDetailScreen(): JSX.Element {
   return (
     <Screen variant="floating" showBack>
       <KickerTitle kicker="Macros" title={t('nutrition.title')} tint={categoryAccent.protein} />
+
+      {loadError ? <LoadFailedNotice message="Couldn't load today's food." onRetry={refetch} /> : null}
 
       {/* Hero — the day's calories against the goal. */}
       <Card variant="elevated">

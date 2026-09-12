@@ -1,8 +1,9 @@
 // Data-access hooks — the ONE seam between screens and data. Reads are reactive
 // (zustand stores as the cache); on mount each wired hook attempts the real API
 // fetch and hydrates its store on success. On failure (backend down / not signed
-// in) the mock-seeded store data IS the offline experience — no crash, error
-// stays null. Writes are imperative mutation functions (see ./mutations + ./scan)
+// in) the store keeps whatever it already holds — no crash — and the hook reports
+// a real `error`, so a screen can label that data as not current instead of
+// passing it off as fresh. Writes are imperative mutation functions (./mutations + ./scan)
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -27,35 +28,53 @@ import {
 
 export type Async<T> = { data: T; isLoading: boolean; error: Error | null; refetch: () => void };
 
-/** Real-fetch shim — on mount, attempt the API and hydrate the store; on failure
- *  fall back silently to the mock-seeded store (the offline experience). Error
- *  stays null on fallback by design. */
+/** Real-fetch shim — on mount, attempt the API and hydrate the store.
+ *
+ *  A failure used to be INVISIBLE: `error` stayed null by design and the screen
+ *  silently kept whatever the store already held — the mock seed in dev, stale or
+ *  empty values in release — so "we could not reach the server" looked exactly
+ *  like "here is your data". Callers now receive the real Error and say so in
+ *  their own words; nothing here invents a reason, because the fetch layer
+ *  supplies none the user could act on.
+ *
+ *  The store is still hydrated-on-success and left alone on failure, so a screen
+ *  that wants to keep showing what the device already has (the offline
+ *  experience) still can — it just has to label it rather than pass it off as
+ *  current.
+ */
 function useHydration(hydrate: () => Promise<void>): { isLoading: boolean; error: Error | null; refetch: () => void } {
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  // `alive` is read at settle time so an unmounted screen never sets state.
+  const run = useCallback(
+    (alive: () => boolean) =>
+      hydrate()
+        .then(() => {
+          if (alive()) setError(null); // a later success clears an earlier failure
+        })
+        .catch((e: unknown) => {
+          if (__DEV__) console.warn('[data] API unreachable, keeping local data:', e instanceof Error ? e.message : e);
+          // Never rendered — screens write their own copy. It exists so the
+          // caller can tell "failed" from "fine", which is the whole point.
+          if (alive()) setError(e instanceof Error ? e : new Error('hydration failed'));
+        })
+        .finally(() => {
+          if (alive()) setIsLoading(false);
+        }),
+    [hydrate],
+  );
   const refetch = useCallback(() => {
     setIsLoading(true);
-    hydrate()
-      .catch((e: unknown) => {
-        if (__DEV__) console.warn('[data] API unreachable, using local data:', e instanceof Error ? e.message : e);
-      })
-      .finally(() => setIsLoading(false));
-  }, [hydrate]);
-  // Mount: isLoading already starts true, so hydrate directly rather than calling
-  // refetch() (whose synchronous setIsLoading(true) is the flagged set-state-in-effect).
+    void run(() => true);
+  }, [run]);
   useEffect(() => {
     let alive = true;
-    hydrate()
-      .catch((e: unknown) => {
-        if (__DEV__) console.warn('[data] API unreachable, using local data:', e instanceof Error ? e.message : e);
-      })
-      .finally(() => {
-        if (alive) setIsLoading(false);
-      });
+    void run(() => alive);
     return () => {
       alive = false;
     };
-  }, [hydrate]);
-  return { isLoading, error: null, refetch };
+  }, [run]);
+  return { isLoading, error, refetch };
 }
 
 // Hydration must not wipe local rows the server can't know about yet: pending
@@ -398,11 +417,25 @@ export function useUserProfile(): UserProfile {
 const planForBuild = () => (isDevBuild() ? mockPlan : []);
 const planReasonForBuild = () => (isDevBuild() ? mockPlanReason : null);
 
-/** Everything Summary reads that another screen owns. allSettled, because one
- *  unreachable endpoint must not stop the others from landing — and useHydration
- *  treats a failure as "fall back to what is local" anyway. */
+/** Everything Summary reads that another screen owns. allSettled, so one
+ *  unreachable endpoint cannot stop the others from landing — but the result is
+ *  then INSPECTED, because a promise that always resolves would report every
+ *  outage as success and put Summary straight back to showing seeded values as
+ *  current.
+ *
+ *  The profile read is deliberately not fatal: the avatar already falls back to a
+ *  glyph when there is no name, which is honest on its own. The food and gym
+ *  reads are the streak and the macros, so either failing means Summary cannot
+ *  claim its numbers are current.
+ *
+ *  ponytail: ONE error for both sources, so a food-only outage also labels the
+ *  streak. Split it per source if that coarseness ever misleads. */
 async function hydrateDashboard(): Promise<void> {
-  await Promise.allSettled([hydrateFoodLog(), hydrateGym(), hydrateProfile()]);
+  const [food, gym] = await Promise.allSettled([hydrateFoodLog(), hydrateGym(), hydrateProfile()]);
+  const failed = [food, gym].find((r) => r.status === 'rejected');
+  if (failed?.status === 'rejected') {
+    throw failed.reason instanceof Error ? failed.reason : new Error('hydration failed');
+  }
 }
 
 /**

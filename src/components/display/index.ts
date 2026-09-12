@@ -5,6 +5,7 @@ export { Avatar, type AvatarProps } from './Avatar';
 export { Badge, type BadgeProps } from './Badge';
 export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { ErrorState, type ErrorStateProps } from './ErrorState';
+export { LoadFailedNotice, type LoadFailedNoticeProps } from './LoadFailedNotice';
 export { Skeleton, SkeletonCard, type SkeletonProps } from './LoadingSkeleton';
 export { ProgressBar, type ProgressBarProps } from './ProgressBar';
 export { SettingsList, type SettingsListProps, type SettingsRowProps } from './SettingsList';
