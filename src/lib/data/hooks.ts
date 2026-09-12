@@ -27,25 +27,6 @@ import {
 
 export type Async<T> = { data: T; isLoading: boolean; error: Error | null; refetch: () => void };
 
-/** First-load shim — mimics a fetch's loading window so the UI's skeleton/empty/
- *  error slots are exercised for the hooks that are still mock-backed. */
-function useInitialLoad(delay = 600): { isLoading: boolean; error: Error | null; refetch: () => void } {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error] = useState<Error | null>(null);
-  const refetch = useCallback(() => {
-    setIsLoading(true);
-    const id = setTimeout(() => setIsLoading(false), delay);
-    return () => clearTimeout(id);
-  }, [delay]);
-  // Mount: isLoading already starts true, so just schedule the clear directly —
-  // calling refetch() here would setState synchronously inside the effect.
-  useEffect(() => {
-    const id = setTimeout(() => setIsLoading(false), delay);
-    return () => clearTimeout(id);
-  }, [delay]);
-  return { isLoading, error, refetch };
-}
-
 /** Real-fetch shim — on mount, attempt the API and hydrate the store; on failure
  *  fall back silently to the mock-seeded store (the offline experience). Error
  *  stays null on fallback by design. */
@@ -417,18 +398,32 @@ export function useUserProfile(): UserProfile {
 const planForBuild = () => (isDevBuild() ? mockPlan : []);
 const planReasonForBuild = () => (isDevBuild() ? mockPlanReason : null);
 
+/** Everything Summary reads that another screen owns. allSettled, because one
+ *  unreachable endpoint must not stop the others from landing — and useHydration
+ *  treats a failure as "fall back to what is local" anyway. */
+async function hydrateDashboard(): Promise<void> {
+  await Promise.allSettled([hydrateFoodLog(), hydrateGym(), hydrateProfile()]);
+}
+
+/**
+ * Summary's data. It reads the gym store (streak) and the food store (macros),
+ * which the Gym and Food tabs own — and it used to rely on one of those tabs
+ * having run first: its `isLoading` was a 600ms cosmetic timer and the only real
+ * fetch was pull-to-refresh. So a cold launch that stayed on Summary showed the
+ * SEEDED streak and macros as though they were current, forever (13 days in dev,
+ * 0 in a release build). It now hydrates on its own mount, like every other tab,
+ * and `isLoading` is true until those reads actually settle so the screen can say
+ * "loading" instead of showing a seed as fact.
+ *
+ * ponytail: no cache/staleness layer, deliberately — useHydration has none for
+ * any other screen either, so visiting Gym or Food after this still refetches
+ * exactly as it did before. Add one in useHydration for everyone if it matters.
+ */
 export function useDashboard() {
   const profile = useUserStore((s) => s.profile);
   const streak = useGymStore((s) => s.streak);
   const macros = useDailyMacros();
-  const { isLoading, error, refetch: restartSkeleton } = useInitialLoad(600);
-  // Pull-to-refresh actually refetches (audit 2026-08-06): the old refetch was
-  // ONLY the skeleton timer, so if launch-time hydration failed (offline at
-  // launch) Home could never recover its data — only visiting Food/Gym could.
-  const refetch = useCallback(() => {
-    restartSkeleton();
-    void Promise.allSettled([hydrateFoodLog(), hydrateGym(), hydrateProfile()]);
-  }, [restartSkeleton]);
+  const { isLoading, error, refetch } = useHydration(hydrateDashboard);
   return {
     data: { profile, streak, macros, plan: planForBuild(), planReason: planReasonForBuild() },
     isLoading,

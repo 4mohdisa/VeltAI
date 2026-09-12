@@ -27,6 +27,7 @@ import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
+import { Skeleton } from '@/components/display';
 import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
@@ -38,12 +39,17 @@ import { useGymRange } from '@/lib/data/gymRange';
 import { todayISO } from '@/lib/data/mappers';
 import { todayRow, workoutsWeek } from '@/lib/data/summaryCards';
 
+/** Four macro rows' worth of height, so the loading block does not resize the
+ *  card when the real rows arrive. */
+const MACRO_ROWS_H = 168;
+
 export default function DashboardScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const energyUnit = useUnitPreferences().energy;
   const {
     data: { streak, macros, plan },
+    isLoading: dashLoading,
     refetch,
   } = useDashboard();
   // null when nothing logged today came from a source that carries fibre.
@@ -95,18 +101,26 @@ export default function DashboardScreen() {
           </Text>
           {/* The streak is the only progression mechanic; the flame is the one
               tinted thing in the header (energy family). */}
-          <Pressable
-            onPress={() => router.push('/gym/streak')}
-            haptic={false}
-            minTapTarget={false}
-            accessibilityLabel={`Current streak ${streak.current} days`}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, paddingTop: space.xs }}
-          >
-            <StreakFlame size={14} active={streak.current > 0} />
-            <Text variant="footnote" color={color.secondaryLabel}>
-              {streak.current} {t('dashboard.dayStreak')}
-            </Text>
-          </Pressable>
+          {dashLoading ? (
+            // The store still holds its seed (13 days in dev, 0 in release) until
+            // the read lands. Showing that as the user's streak was the bug.
+            <View style={{ paddingTop: space.xs }} accessibilityLabel="Loading your streak">
+              <Skeleton width={96} height={16} />
+            </View>
+          ) : (
+            <Pressable
+              onPress={() => router.push('/gym/streak')}
+              haptic={false}
+              minTapTarget={false}
+              accessibilityLabel={`Current streak ${streak.current} days`}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, paddingTop: space.xs }}
+            >
+              <StreakFlame size={14} active={streak.current > 0} />
+              <Text variant="footnote" color={color.secondaryLabel}>
+                {streak.current} {t('dashboard.dayStreak')}
+              </Text>
+            </Pressable>
+          )}
         </View>
 
         {/* Offline queue indicator — renders null when nothing is pending. */}
@@ -128,17 +142,21 @@ export default function DashboardScreen() {
         >
           <View style={{ gap: space.lg }}>
             <CardHeaderRow title="Macros" icon="circle.grid.2x2.fill" tint={categoryAccent.protein} scope="Today" chevron />
-            <MacroTargetRows
-              rows={[
-                { label: t('nutrition.protein'), macroKey: 'Protein', consumed: macros.protein.consumed, target: macros.protein.target },
-                { label: t('nutrition.carbs'), macroKey: 'Carbs', consumed: macros.carbs.consumed, target: macros.carbs.target },
-                { label: t('nutrition.fat'), macroKey: 'Fat', consumed: macros.fat.consumed, target: macros.fat.target },
-                // Fibre is NOT recorded: the app never sends it when it logs a food
-                // and its stored items carry no fibre, so the row says "Not tracked"
-                // beside the target instead of a zero the user never ate.
-                { label: t('nutrition.fibre'), macroKey: 'Fibre', consumed: fibreConsumed, target: macros.fibre.target },
-              ]}
-            />
+            {dashLoading ? (
+              // Same rule as the streak: the food store's seed is not today's food.
+              <Skeleton width="100%" height={MACRO_ROWS_H} />
+            ) : (
+              <MacroTargetRows
+                rows={[
+                  { label: t('nutrition.protein'), macroKey: 'Protein', consumed: macros.protein.consumed, target: macros.protein.target },
+                  { label: t('nutrition.carbs'), macroKey: 'Carbs', consumed: macros.carbs.consumed, target: macros.carbs.target },
+                  { label: t('nutrition.fat'), macroKey: 'Fat', consumed: macros.fat.consumed, target: macros.fat.target },
+                  // Fibre is real where the source carried one (item 6); null — the
+                  // row's "Not tracked" — only when nothing logged today has a figure.
+                  { label: t('nutrition.fibre'), macroKey: 'Fibre', consumed: fibreConsumed, target: macros.fibre.target },
+                ]}
+              />
+            )}
           </View>
         </Card>
 

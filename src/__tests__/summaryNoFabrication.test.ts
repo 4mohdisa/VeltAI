@@ -64,3 +64,19 @@ test("the design's order: Energy balance → This week → Workouts → Macros, 
   expect(order.every((i) => i > 0)).toBe(true);
   expect([...order].sort((a, b) => a - b)).toEqual(order);
 });
+
+test('a seeded value is never shown as current while the read is in flight', () => {
+  // Summary reads stores the Gym and Food tabs own. Until its own read lands the
+  // store still holds the seed (13 days in dev, 0 in release), so the streak and
+  // the macro rows must show a loading state rather than that seed.
+  const s = code(src(SUMMARY));
+  expect(s).toContain('isLoading: dashLoading');
+  expect(s).toMatch(/dashLoading \? \(/);
+  expect(s).toContain('MACRO_ROWS_H');
+
+  // And the loading state must be backed by a real fetch, not the old cosmetic
+  // 600ms timer that fetched nothing.
+  const hooks = code(src('src/lib/data/hooks.ts'));
+  expect(hooks).toContain('useHydration(hydrateDashboard)');
+  expect(hooks).not.toContain('useInitialLoad');
+});
