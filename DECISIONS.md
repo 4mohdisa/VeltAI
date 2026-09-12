@@ -922,3 +922,80 @@ Human calls, not decided here:
    the mock 13 while the server said 2 (the Gym tab showed 2). The source is the
    same as before V16. A release build seeds 0, so it probably reads 0 until the
    Gym tab hydrates it. Worth confirming.
+
+### Resolved — follow-up pass (2026-09-12)
+
+All nine were decided by the owner and built or answered on `main`, one commit
+each. Detail, captures and test counts are in `FOLLOWUP_PASS_REPORT.md`.
+
+1. **Fixed** (`7c8b804`). `gym/log-session` sizes to its content
+   (`sheetAllowedDetents: 'fitToContents'`, the rule food/add already used), so
+   V1's pill is on screen at rest. Only that screen's entry changed; every other
+   sheet passes its own detents, and all were re-checked.
+2. **Explained, no fix needed** (`10c91ac`). Not a phantom: the offline queue
+   replaying a log whose POST had failed. Reproduced on the simulator — stub
+   down, log a session, restart the stub, cold launch, and the first request is
+   `POST /api/gym/sessions {"date":"2026-09-12","duration_minutes":60}`.
+   `_layout.tsx` flushes on every launch and foreground, and a queued write keeps
+   the body it was created with; the "60" came from the log-session slider's old
+   default (fixed in 4). It never recurred because the flush emptied the queue.
+   The queue is behaving correctly, so nothing was changed there; the behaviour
+   is now pinned by `coldStartReplay.test.ts`.
+3. **Fixed** (`5a114aa`). The freeze sheet applies to today. The endpoint takes
+   no date and always sets `last_freeze_date = today`, so the old default
+   (tomorrow) and the `offset` param from the parked streak screen both wrote a
+   local freeze the server never had. The params are ignored; the sheet keeps its
+   parked styling.
+4. **Fixed** (`d2a9fa7`). Nothing asserts a duration or an effort that was not
+   logged. This was not cosmetic: the backend turns a duration into burned
+   calories, so the fabricated 60 minutes also fabricated ~350 kcal of exercise
+   burn in the energy balance. `durationMin`/`effort` are `number | null`, null
+   from the one-tap log and from the mapper (the server has no effort column),
+   and the slider starts on its own "Not set".
+5. **Audited, targeted fix** (`5a114aa`..`2e89cbe`, queue changes in the item-5
+   commit). MEASURED: a queued food write is ~286 bytes and a gym write ~369, so
+   10 queued writes are ~3.1KB, 50 ~15KB, 100 ~31KB. The "~2KB" the queue's
+   comment quoted was Expo's OLD Android warning; expo-secure-store 56.0.4
+   validates no size on either platform and an iOS Keychain item holds tens of KB.
+   So no cap and no compaction — a realistic backlog fits. The REAL hazard was
+   different and is fixed: `setItem` swallowed every error, so a Keychain refusal
+   (locked device during a background flush, storage full, a key invalidated by a
+   reinstall) looked like a successful save and the queue vanished at the next
+   launch. It now reports failure, warns once and tells the user.
+6. **Built** (`2e89cbe`). Fibre is wired end to end, and honest where a source
+   has none. Open Food Facts carries `fiber_100g` for some products only; USDA
+   carries nutrient 1079 when measured; both now come through as **null** instead
+   of a confident 0, while a measured 0 survives as 0. Gemini's scan prompt asks
+   for fibre but instructs "use 0 for unknown", so its 0 is ambiguous and is not
+   treated as authoritative. Items carry an optional `fibre`, written, read back,
+   rescaled with the serving and shown on the detail sheet when present; Summary
+   shows the day's real total and keeps "Not tracked" only when nothing logged
+   that day knows its fibre.
+   **Known limit:** `food_logs.fibre` is a plain number server-side, so a stored
+   0 cannot be told apart from "never recorded" — the app treats only a positive
+   value as known, which means a genuine 0 g food reads as unknown. Making the
+   column nullable is the fix; not done tonight because it is a schema migration
+   affecting existing rows.
+7. **Not removed — the condition failed** (`f3fdd0c`). Summary's gym card stays.
+   The Gym tab's button pushes `/gym/log-session`, so logging there costs two
+   taps and a form; `logGymSession()` is called directly only by Summary (plus
+   the sheet's own save and a finished scheduled workout). Removing the card
+   would delete the app's only one-tap log. A tripwire test fails if the Gym tab
+   ever gains a direct log, which is when this should be revisited.
+8. **Done, with one honest gap** (`ac766b1`). V7 and V6 were exercised with real
+   taps on the simulator and are confirmed; V1's keyboard avoidance was NOT
+   verified, because the background accessibility tools focus a field without
+   dispatching a touch, so iOS never raises the software keyboard. The native
+   simulator integration stayed unavailable despite `xcode-select` being correct.
+9. **Confirmed, still open by choice.** Reproduced on device and worse than
+   "briefly stale": after a cold launch Summary shows the seeded streak (13 in
+   dev, 0 in release) and stays there until the Gym tab runs `useGym`. Left
+   unfixed — the owner scoped it out of this pass. The same shape applies to
+   Summary's macros, which only become real once the Food tab has hydrated the
+   store.
+
+New gaps this pass surfaced (not decided):
+
+- `food_logs.fibre` should be nullable, so "no figure" stops being 0 (see 6).
+- Summary depends on other tabs to hydrate the store (streak, macros). Fixing it
+  means Summary owning its own reads, which is a V-item-sized change.
