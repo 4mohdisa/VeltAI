@@ -1060,3 +1060,61 @@ New gap this pass surfaced (not decided):
   FAILURE state is not, and unlike the Energy/Workouts cards Summary's streak and
   macros show no "couldn't load". Fixing it means giving `useHydration` a real
   error channel, which changes every screen that uses it — out of scope tonight.
+
+## Error-state pass (2026-09-13)
+
+**Step 0 — real touch input: STILL BLOCKED, with a narrower diagnosis.**
+Accessibility was granted to osascript in System Settings, and it partly took:
+System Events *reads* now work (`get position of window 1 of process "Simulator"`
+returns the window origin, where last session the same call was denied). But
+posting a synthetic mouse event still fails:
+
+    tell application "System Events" to click at {-1127, -314}
+    → osascript is not allowed assistive access. (-25211)
+
+Reads allowed, `click at` denied. The likely cause is that `osascript` runs here
+as a child of `claude.app`, so the trusted-process check resolves to that parent
+rather than `/usr/bin/osascript` — the grant landed on the wrong binary. Per the
+owner's instruction the four already-exhausted paths were not retried.
+
+**Task 1 — the error-path fallback-to-seed bug. FIXED (`2227f55`).**
+`useHydration` swallowed every fetch error and kept `error: null` ("the
+mock-seeded store IS the offline experience"), so no caller could tell a
+successful read from an outage and all of them rendered whatever the store
+already held as current. The hook now distinguishes loading / loaded / failed,
+keeps the real Error, clears it on a later success, and still leaves the store
+alone on failure so a screen can keep showing what the device has — labelled.
+
+Decisions taken:
+
+- **No invented reasons.** The fetch layer supplies no user-facing cause, so the
+  shared `LoadFailedNotice` says only "Couldn't load …" plus Try again. A test
+  fails if any caller's message mentions a server, a network or a status code.
+- **Label, do not hide.** Screens keep local rows visible under the notice —
+  `food.tsx` used to blank its whole list on error (`if (loadError || …) return
+  []`), which hid rows the device already had, including queued offline writes.
+  Summary is the exception: its streak and macro numbers are replaced by the
+  notice, because on a failed read those come from a seed that was never the
+  user's data. That asymmetry is deliberate.
+- **`hydrateDashboard` had to change too.** It used `Promise.allSettled`, which
+  never rejects, so Summary would have called every outage a success. It now
+  inspects the results and throws when the food or gym read failed. The profile
+  read is deliberately NOT fatal — the avatar already falls back to a glyph.
+- **One error for both sources** on Summary, so a food-only outage also labels the
+  streak. Split per source if that coarseness ever misleads.
+- **Parked screens inherit nothing.** `gym/streak`, `gym/history` and `gym/freeze`
+  read `useGym().data` only and must not be edited, so they still show whatever
+  the store holds with no failure indication. Not fixed, by constraint, and noted
+  here rather than hidden.
+
+Verified on device with no backend: Summary shows "Couldn't load your streak."
+and "Couldn't load today's macros." in place of the seeded 13 and 104/135/38; the
+Food tab shows the notice and keeps its rows.
+
+**Task 2 — V1 keyboard avoidance: NOT ATTEMPTED this pass**, per the owner's
+instruction to skip it if Step 0 failed. It remains unverified for the reasons in
+the previous entry, now narrowed to "`click at` is denied while reads are
+allowed". The remaining routes are: grant Accessibility to the host app
+(`claude.app`) rather than `osascript`, accept the full-screen control card while
+someone is at the machine, or restart the simulator integration so it re-reads
+`xcode-select`.
