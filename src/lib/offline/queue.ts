@@ -4,8 +4,18 @@
 // write that actually reached the server returns the existing row instead of a
 // duplicate (backend partial unique index — see 20260718000001).
 //
-// ponytail: secure-store values are small (~2KB on iOS); a handful of queued food/
-// gym writes fit comfortably. Move to a file/db if the queue ever grows large.
+// Size (measured 2026-09-12, the real persisted shapes): one queued food write
+// is ~286 bytes and one gym write ~369 (with its exercise steps), so 10 queued
+// writes are ~3.1KB, 50 are ~15KB and 100 are ~31KB. The "~2KB" figure this
+// comment used to quote was Expo's OLD Android warning; expo-secure-store 56.0.4
+// validates no size on either platform, and an iOS Keychain item holds tens of KB
+// without complaint. So a realistic backlog — even a week offline — fits, and
+// there is no cap or compaction here on purpose.
+//
+// What is NOT safe to assume is that the write landed: the Keychain can refuse
+// (locked device during a background flush, storage full, or an encryption key
+// invalidated by a reinstall). persist() therefore checks, because a queue that
+// silently failed to persist loses every queued write on the next launch.
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { ApiError, replayQueuedPost, isTransient } from '@/lib/api';
 import { showToast } from '@/components/display/toastStore';
@@ -53,8 +63,23 @@ function notify(): void {
   for (const l of listeners) l(queue.length);
 }
 
+let warnedPersistFailed = false;
+
 async function persist(): Promise<void> {
-  await setItem(STORAGE_KEY, JSON.stringify(queue));
+  if (await setItem(STORAGE_KEY, JSON.stringify(queue))) {
+    warnedPersistFailed = false;
+    return;
+  }
+  // Once per run of failures: the writes are still in memory and will still be
+  // sent this session, but telling the user nothing would be a lie by omission.
+  if (!warnedPersistFailed) {
+    warnedPersistFailed = true;
+    console.warn(`[offline] could not persist ${queue.length} queued write(s) — they will not survive a restart`);
+    showToast({
+      message: "Couldn't save your offline changes to this device. They'll still sync while the app is open.",
+      tone: 'error',
+    });
+  }
 }
 
 /** Hydrate the queue from secure-store (once). Safe to call repeatedly. */

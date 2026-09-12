@@ -142,12 +142,20 @@ export default function FoodDetailScreen() {
           protein: 0,
           carbs: 0,
           fat: 0,
+          // Only when the source actually had one (OFF omits it for most products).
+          ...(subject.fibrePer100 != null ? { fibre: Math.round(subject.fibrePer100) } : {}),
         }}
         subLine={`${formatCalories(subject.kcalPer100)} / 100g`}
         servings={SEARCH_SERVINGS}
         // Energy only: the search catalog has no macro columns, so nothing here
         // invents protein/carbs/fat — the log stores them as 0.
-        per100={{ calories: subject.kcalPer100, protein: 0, carbs: 0, fat: 0 }}
+        per100={{
+          calories: subject.kcalPer100,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          ...(subject.fibrePer100 != null ? { fibre: subject.fibrePer100 } : {}),
+        }}
         macros={false}
         onClose={close}
         onDone={(draft) => {
@@ -191,6 +199,7 @@ export default function FoodDetailScreen() {
           protein: scale(p.proteinPer100),
           carbs: scale(p.carbsPer100),
           fat: scale(p.fatPer100),
+          ...(p.fibrePer100 != null ? { fibre: scale(p.fibrePer100) } : {}),
         }}
         subLine={`${p.brand ? `${p.brand} · ` : ''}${formatCalories(p.kcalPer100)} / 100g`}
         servings={p.servingOptions}
@@ -199,6 +208,7 @@ export default function FoodDetailScreen() {
           protein: p.proteinPer100,
           carbs: p.carbsPer100,
           fat: p.fatPer100,
+          ...(p.fibrePer100 != null ? { fibre: p.fibrePer100 } : {}),
         }}
         macros
         onClose={close}
@@ -314,7 +324,7 @@ type DetailFormProps = {
   servings?: number[];
   /** Per-100 g basis. Picking a serving — or typing grams — re-derives the
    *  numbers from it, which is also what discards a manual override. */
-  per100?: { calories: number; protein: number; carbs: number; fat: number };
+  per100?: { calories: number; protein: number; carbs: number; fat: number; fibre?: number };
   /** False when the source is energy-only (the search catalog). */
   macros: boolean;
   /** Review rename: the name is the only editable field. */
@@ -359,6 +369,9 @@ function DetailForm({
   const [protein, setProtein] = useState(String(seed.protein));
   const [carbs, setCarbs] = useState(String(seed.carbs));
   const [fat, setFat] = useState(String(seed.fat));
+  // Undefined stays undefined: a food whose source had no fibre figure must not
+  // acquire one by being opened.
+  const [fibre, setFibre] = useState<number | undefined>(seed.fibre);
 
   const num = (v: string) => Math.max(0, Math.round(Number(v) || 0));
 
@@ -369,6 +382,7 @@ function DetailForm({
     protein: num(protein),
     carbs: num(carbs),
     fat: num(fat),
+    ...(fibre != null ? { fibre } : {}),
   });
 
   // Changing the serving rescales from the product/catalog basis — so it also
@@ -381,6 +395,7 @@ function DetailForm({
     setProtein(String(Math.round(per100.protein * factor)));
     setCarbs(String(Math.round(per100.carbs * factor)));
     setFat(String(Math.round(per100.fat * factor)));
+    if (per100.fibre != null) setFibre(Math.round(per100.fibre * factor));
   };
 
   return (
@@ -430,20 +445,21 @@ function DetailForm({
         <>
           {macros ? (
             <View style={{ gap: space.md }}>
-              {(
-                [
-                  ['Protein', protein, categoryAccent.protein],
-                  ['Carbs', carbs, categoryAccent.carbs],
-                  ['Fat', fat, categoryAccent.fat],
-                ] as const
-              ).map(([label, value, tint]) => (
+              {[
+                { label: 'Protein', value: num(protein), tint: categoryAccent.protein },
+                { label: 'Carbs', value: num(carbs), tint: categoryAccent.carbs },
+                { label: 'Fat', value: num(fat), tint: categoryAccent.fat },
+                // Fibre only when this food's source carried one — the row is
+                // absent rather than showing a 0 nobody measured.
+                ...(fibre != null ? [{ label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }] : []),
+              ].map(({ label, value, tint }) => (
                 <View key={label} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
                   <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
                   <Text variant="body" color={color.label} style={{ flex: 1 }}>
                     {label}
                   </Text>
                   <Text variant="bodyMedium" color={color.label}>
-                    {`${num(value)} g`}
+                    {`${value} g`}
                   </Text>
                 </View>
               ))}

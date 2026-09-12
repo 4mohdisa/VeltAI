@@ -78,6 +78,11 @@ export function mealsFromLogs(rows: FoodLog[]): StoredMeal[] {
         protein: r.protein,
         carbs: r.carbs,
         fat: r.fat,
+        // The column is a plain number, so a stored 0 cannot be told apart from
+        // "never recorded". Only a positive value is treated as known; the
+        // consequence (a genuine 0 g food reads as unknown) is the conservative
+        // direction, and is logged in DECISIONS.md.
+        ...(r.fibre > 0 ? { fibre: r.fibre } : {}),
         ...(r.status ? { status: r.status as StoredFoodItem['status'] } : {}),
         ...(sr?.scan_session_id
           ? {
@@ -110,7 +115,7 @@ export function mealsFromLogs(rows: FoodLog[]): StoredMeal[] {
 
 export function logInputFromItem(
   slot: MealSlot,
-  item: { name: string; quantityG: number; calories: number; protein: number; carbs: number; fat: number },
+  item: { name: string; quantityG: number; calories: number; protein: number; carbs: number; fat: number; fibre?: number },
   method: EntryMethod,
   // The day this row belongs to. REQUIRED since architecture item 3: it used to
   // be an implicit todayISO(), which meant a write queued while offline replayed
@@ -127,6 +132,9 @@ export function logInputFromItem(
     protein: item.protein,
     carbs: item.carbs,
     fat: item.fat,
+    // Omitted when unknown: food_logs.fibre is a plain number server-side, so a
+    // sent 0 would be indistinguishable from a measured 0.
+    fibre: item.fibre,
     source: method,
   };
 }
@@ -138,6 +146,7 @@ export function logPatchFromItem(patch: {
   protein?: number;
   carbs?: number;
   fat?: number;
+  fibre?: number;
   /** A move to another meal (V6). Absent = the row stays where it is. */
   slot?: MealSlot;
 }): Partial<FoodLogInput> {
@@ -149,6 +158,7 @@ export function logPatchFromItem(patch: {
     protein: patch.protein,
     carbs: patch.carbs,
     fat: patch.fat,
+    fibre: patch.fibre,
   };
 }
 
@@ -172,7 +182,7 @@ export const savedInputFromApp = (f: Omit<SavedFood, 'id'>): SavedFoodInput => (
   protein: f.protein,
   carbs: f.carbs,
   fat: f.fat,
-  fibre: 0,
+  ...(f.fibre != null ? { fibre: f.fibre } : {}),
   serving_size: f.servingG,
   serving_unit: 'g',
 });
@@ -234,6 +244,7 @@ export const barcodeProductFromApi = (r: FoodSearchResult): BarcodeProduct => ({
   proteinPer100: r.protein,
   carbsPer100: r.carbs,
   fatPer100: r.fat,
+  fibrePer100: r.fibre,
   servingOptions:
     r.serving_size > 0
       ? [r.serving_size, 100, 150, 200].filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a - b)

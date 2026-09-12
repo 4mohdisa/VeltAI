@@ -155,6 +155,7 @@ function buildSections(meals: StoredMeal[]): MealSection[] {
         protein: it.protein,
         carbs: it.carbs,
         fat: it.fat,
+        ...(it.fibre != null ? { fibre: it.fibre } : {}),
         pending: it.pending,
         // A pending (unresolved) row renders as 'analyzing'.
         status: it.status ?? (it.pending ? 'analyzing' : undefined),
@@ -313,13 +314,14 @@ export default function FoodLogScreen() {
         protein: row.protein,
         carbs: row.carbs,
         fat: row.fat,
+        ...(row.fibre != null ? { fibre: row.fibre } : {}),
       },
     });
     router.push('/food/detail');
   };
 
   const pick = (food: FoodResult) => {
-    openFoodDetail({ mode: 'search', name: food.name, kcalPer100: food.kcalPer100 });
+    openFoodDetail({ mode: 'search', name: food.name, kcalPer100: food.kcalPer100, fibrePer100: food.fibre });
     router.push('/food/detail');
   };
 

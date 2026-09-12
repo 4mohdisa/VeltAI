@@ -2,6 +2,7 @@
 // cards draw comes through here from a server response or the user's own
 // goals — nothing is estimated, and a value the server could not compute stays
 // null so the card can say so instead of printing a zero.
+import type { StoredMeal } from './foodStore';
 import type { EnergyBalance, GymSession } from '@/lib/api';
 import { burnOf, mean, netOf } from './energyRange';
 import { fromIso, weekOf } from './foodDays';
@@ -75,4 +76,23 @@ export function workoutsLine(w: WorkoutsWeek): string {
 export function ringFraction(value: number, target: number | null | undefined): number {
   if (target == null || target <= 0) return 0;
   return Math.max(0, Math.min(1, value / target));
+}
+
+/** The day's fibre from the items that carry a figure, and whether ANY did.
+ *  `known: false` means nothing logged today came from a source with fibre —
+ *  the row then says "Not tracked" rather than reporting a 0 nobody measured. */
+export function fibreTotal(meals: StoredMeal[]): { consumed: number; known: boolean; items: number; withFibre: number } {
+  let consumed = 0;
+  let items = 0;
+  let withFibre = 0;
+  for (const meal of meals) {
+    for (const item of meal.items) {
+      items++;
+      if (item.fibre != null) {
+        consumed += item.fibre;
+        withFibre++;
+      }
+    }
+  }
+  return { consumed, known: withFibre > 0, items, withFibre };
 }

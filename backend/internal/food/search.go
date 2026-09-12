@@ -22,7 +22,12 @@ type SearchResult struct {
 	Protein     float64 `json:"protein"`
 	Carbs       float64 `json:"carbs"`
 	Fat         float64 `json:"fat"`
-	Fibre       float64 `json:"fibre"`
+	// Fibre is a POINTER because "this source has no fibre figure for this food"
+	// and "this food has 0 g of fibre" are different claims, and both happen a
+	// lot: Open Food Facts omits fiber_100g for most products, and USDA search
+	// rows only carry nutrient 1079 when the lab measured it. Flattening the
+	// absent case to 0 made the app report a confident 0 g it had no basis for.
+	Fibre       *float64 `json:"fibre"`
 	ServingSize float64 `json:"serving_size"`
 	ServingUnit string  `json:"serving_unit"`
 	Source      string  `json:"source"`
@@ -120,7 +125,7 @@ func (p offProduct) result() SearchResult {
 		Protein:     toFloat(p.Nutriments["proteins_100g"]),
 		Carbs:       toFloat(p.Nutriments["carbohydrates_100g"]),
 		Fat:         toFloat(p.Nutriments["fat_100g"]),
-		Fibre:       toFloat(p.Nutriments["fiber_100g"]),
+		Fibre:       optFloat(p.Nutriments["fiber_100g"]),
 		ServingSize: size,
 		ServingUnit: unit,
 		Source:      "off",
@@ -190,7 +195,8 @@ func (c *SearchClient) searchUSDA(ctx context.Context, q string) ([]SearchResult
 			case 1004:
 				r.Fat = n.Value
 			case 1079:
-				r.Fibre = n.Value
+				v := n.Value
+				r.Fibre = &v
 			}
 		}
 		out = append(out, r)
@@ -218,6 +224,25 @@ func (c *SearchClient) getJSON(ctx context.Context, u string, dst any) error {
 }
 
 // toFloat coerces OFF's number-or-string JSON values.
+// optFloat is toFloat for a field that is allowed to be missing: nil in, nil
+// out, so an absent nutrient never becomes a reported zero.
+func optFloat(v any) *float64 {
+	if v == nil {
+		return nil
+	}
+	switch n := v.(type) {
+	case float64:
+		return &n
+	case string:
+		f, err := strconv.ParseFloat(n, 64)
+		if err != nil {
+			return nil
+		}
+		return &f
+	}
+	return nil
+}
+
 func toFloat(v any) float64 {
 	switch n := v.(type) {
 	case float64:

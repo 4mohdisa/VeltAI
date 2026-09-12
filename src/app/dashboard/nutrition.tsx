@@ -7,7 +7,8 @@
 // item 3 is not done), so there is no macro history to plot. Rather than draw a
 // week of invented columns, the hero shows today's calorie ring and the
 // secondary shows each macro against its own target — both of which are real.
-// Fibre reads 0 g because food items carry no fibre yet (see useDailyMacros).
+// Fibre is real where the source provided it (Open Food Facts / USDA / a typed
+// label); items from a source without a fibre figure add nothing to the total.
 //
 // The layout chrome (kicker, stat line, plot, axis, Breakdown row) is shared
 // with the other three detail routes: src/components/display/DetailChart.tsx.

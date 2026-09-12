@@ -24,5 +24,8 @@ export function isClerkEnabled(): boolean {
  *  wrappers. Errors degrade to cache-miss (Clerk refetches). */
 export const clerkTokenCache = {
   getToken: (key: string): Promise<string | null> => getItem(key).catch(() => null),
-  saveToken: (key: string, value: string): Promise<void> => setItem(key, value).catch(() => undefined),
+  // setItem reports whether the write landed; Clerk's contract wants void, and a
+  // miss here just means Clerk refetches the token.
+  saveToken: (key: string, value: string): Promise<void> =>
+    setItem(key, value).then(() => undefined, () => undefined),
 };

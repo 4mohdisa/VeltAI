@@ -437,7 +437,10 @@ export type FoodSearchResult = {
   protein: number;
   carbs: number;
   fat: number;
-  fibre: number;
+  /** null when the source carries no fibre figure for this food (Open Food Facts
+   *  omits fiber_100g for most products; a USDA row only has nutrient 1079 when
+   *  it was measured). A real measured 0 comes through as 0. */
+  fibre: number | null;
   serving_size: number; // 0 when unknown
   serving_unit: string;
   source: string; // 'off' | 'usda'
@@ -458,11 +461,16 @@ export type SavedFood = {
   serving_unit: string | null;
   created_at: string;
 };
-export type SavedFoodInput = Omit<SavedFood, 'id' | 'user_id' | 'created_at' | 'brand' | 'barcode' | 'serving_size' | 'serving_unit'> & {
+export type SavedFoodInput = Omit<
+  SavedFood,
+  'id' | 'user_id' | 'created_at' | 'brand' | 'barcode' | 'serving_size' | 'serving_unit' | 'fibre'
+> & {
   brand?: string;
   barcode?: string;
   serving_size?: number;
   serving_unit?: string;
+  /** Omitted when unknown rather than sent as a 0 nobody measured. */
+  fibre?: number;
 };
 
 export type ScanResult = {

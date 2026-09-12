@@ -17,11 +17,14 @@ export type DetailItem = {
   protein: number;
   carbs: number;
   fat: number;
+  /** Grams of fibre, when the source behind this item had a figure. */
+  fibre?: number;
 };
 
 /** What the sheet was opened on. `mode` selects the sheet's behaviour:
- *  - `search`  a manual-search hit. The catalog is kcal-only, so it carries no
- *              macros and the sheet does not pretend otherwise.
+ *  - `search`  a manual-search hit. The sheet shows energy only (the local dev
+ *              catalog has nothing else), but a real API hit carries the per-100 g
+ *              fibre through so the logged row keeps it.
  *  - `barcode` a scanned code. The sheet does the product lookup itself.
  *  - `saved`   a dish in Saved foods (edit / un-save).
  *  - `logged`  a row already in the food log (edit / delete / save to my foods).
@@ -29,7 +32,7 @@ export type DetailItem = {
  *              re-scales its own energy from the estimate, so editing macros
  *              here would fight it). */
 export type DetailSubject =
-  | { mode: 'search'; name: string; kcalPer100: number }
+  | { mode: 'search'; name: string; kcalPer100: number; fibrePer100?: number | null }
   | { mode: 'barcode'; code: string }
   | { mode: 'saved'; item: DetailItem }
   | { mode: 'logged'; item: DetailItem; slot?: MealSlot }
@@ -38,12 +41,22 @@ export type DetailSubject =
 export type DetailMode = DetailSubject['mode'];
 
 /** A logged row's own per-100 g basis — its values divided by its weight. The
- *  only honest basis it has: no catalog lookup, and no fibre (the log never
- *  stored any). Null for a row with no weight, e.g. a kcal-only quick add. */
-export function basisOf(item: DetailItem): { calories: number; protein: number; carbs: number; fat: number } | null {
+ *  only honest basis it has: no catalog lookup. Fibre is included only when the
+ *  row has one. Null for a row with no weight, e.g. a kcal-only quick add. */
+export function basisOf(
+  item: DetailItem,
+): { calories: number; protein: number; carbs: number; fat: number; fibre?: number } | null {
   if (!(item.quantityG > 0)) return null;
   const k = 100 / item.quantityG;
-  return { calories: item.calories * k, protein: item.protein * k, carbs: item.carbs * k, fat: item.fat * k };
+  return {
+    calories: item.calories * k,
+    protein: item.protein * k,
+    carbs: item.carbs * k,
+    fat: item.fat * k,
+    // Only when the row actually has one — an unknown fibre stays unknown
+    // through a serving change.
+    ...(item.fibre != null ? { fibre: item.fibre * k } : {}),
+  };
 }
 
 /** Serving presets around what was logged: half, as logged, one and a half, double. */

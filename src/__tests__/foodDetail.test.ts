@@ -138,8 +138,12 @@ describe('V6: a logged row is read, not typed', () => {
     expect(sheet).toContain('Edit values manually');
   });
 
-  test('no fibre on the sheet — the log never stores it', () => {
-    expect(code).not.toMatch(/fibre/i);
+  // Fibre is wired end to end now (item 6), but only where a source provided
+  // one: the row renders behind a `fibre != null` guard, and the value is always
+  // the item's own — there is no literal fibre number anywhere in the sheet.
+  test('fibre shows only when the row actually has one', () => {
+    expect(code).toMatch(/fibre != null/);
+    expect(code).not.toMatch(/fibre: \d/);
   });
 
   test('the food tab tells the sheet which meal the row is in', () => {

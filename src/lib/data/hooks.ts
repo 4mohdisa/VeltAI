@@ -9,6 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api, type Onboarding } from '@/lib/api';
 import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
 import { hasPendingCreate } from './mutations';
+import { fibreTotal } from './summaryCards';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type LoggedDay, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
@@ -240,6 +241,7 @@ export function useFoodSearch(query: string): FoodSearchState {
               protein: r.protein,
               carbs: r.carbs,
               fat: r.fat,
+              fibre: r.fibre,
             })),
           );
           setError(null);
@@ -307,13 +309,23 @@ export function useDailyMacros(): MacroTotals {
       protein: { consumed: c.protein, target: goals.protein },
       carbs: { consumed: c.carbs, target: goals.carbs },
       fat: { consumed: c.fat, target: goals.fat },
-      // Fibre is not tracked per food item yet, so there is nothing real to
-      // report. It used to return a constant 18 g, which told a user with an
-      // empty log that they had eaten 18 g of fibre — and VoiceOver read it
-      // out as fact. 0 until items carry fibre; the target still shows.
-      fibre: { consumed: 0, target: goals.fibre },
+      // Real now: items carry fibre when the source that produced them had one
+      // (Open Food Facts / USDA / a typed label). Items from a source without
+      // fibre contribute nothing rather than a 0 — useFibreConsumed() below is
+      // what tells a caller whether ANY of today's food knows its fibre.
+      fibre: { consumed: fibreTotal(meals).consumed, target: goals.fibre },
     };
   }, [meals, goals]);
+}
+
+/** Today's fibre, or null when nothing logged today carries a fibre figure.
+ *  Summary shows "Not tracked" for the null case instead of a bare 0 g. */
+export function useFibreConsumed(): number | null {
+  const meals = useFoodStore((s) => s.meals);
+  return useMemo(() => {
+    const { consumed, known } = fibreTotal(meals);
+    return known ? consumed : null;
+  }, [meals]);
 }
 
 // --- Gym --------------------------------------------------------------------

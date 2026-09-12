@@ -20,11 +20,16 @@ export async function getItem(key: string): Promise<string | null> {
   }
 }
 
-export async function setItem(key: string, value: string): Promise<void> {
+/** Returns false when the write did not land. Callers storing a throwaway flag
+ *  can ignore that; anything that must survive a restart (the offline queue)
+ *  has to know, because a swallowed failure looks exactly like a success. */
+export async function setItem(key: string, value: string): Promise<boolean> {
   try {
     await SecureStore.setItemAsync(key, value);
+    return true;
   } catch {
-    // swallow — storage is best-effort for non-critical flags
+    // Still best-effort for non-critical flags — but no longer silent.
+    return false;
   }
 }
 

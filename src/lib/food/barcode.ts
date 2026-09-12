@@ -8,6 +8,8 @@ export type BarcodeProduct = {
   proteinPer100: number;
   carbsPer100: number;
   fatPer100: number;
+  /** Per 100 g. null when Open Food Facts had no fibre figure for this product. */
+  fibrePer100?: number | null;
   servingOptions: number[];
 };
 

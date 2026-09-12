@@ -39,9 +39,16 @@ test('no burn target: the Burned key has no target and says so', () => {
   expect(card).toContain('No burn target set');
 });
 
-test('fibre is not recorded, so Summary shows it as not tracked — never a zero', () => {
-  expect(code(src(SUMMARY))).toMatch(/macroKey: 'Fibre', consumed: null/);
+test('fibre is the real total, and still "Not tracked" when nothing knows it', () => {
+  // Item 6 wired fibre through (Open Food Facts / USDA / typed labels). Summary
+  // now passes the computed value rather than a hardcoded null — and that value
+  // is null exactly when no logged item carries a figure, which MacroBars still
+  // renders as "Not tracked" rather than 0 g.
+  const s = code(src(SUMMARY));
+  expect(s).toMatch(/macroKey: 'Fibre', consumed: fibreConsumed/);
+  expect(s).toContain('useFibreConsumed()');
   expect(code(src('src/components/domain/MacroBars.tsx'))).toContain('Not tracked');
+  expect(code(src('src/lib/data/summaryCards.ts'))).toContain('known: withFibre > 0');
 });
 
 test('the one-tap gym log is still on Summary (the logged V16 conflict)', () => {

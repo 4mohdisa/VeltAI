@@ -31,7 +31,7 @@ import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
-import { useDashboard, logGymSession } from '@/lib/data';
+import { useDashboard, useFibreConsumed, logGymSession } from '@/lib/data';
 import { useGymStore } from '@/lib/data/gymStore';
 import { useEnergyWeek } from '@/lib/data/energy';
 import { useGymRange } from '@/lib/data/gymRange';
@@ -46,6 +46,8 @@ export default function DashboardScreen() {
     data: { streak, macros, plan },
     refetch,
   } = useDashboard();
+  // null when nothing logged today came from a source that carries fibre.
+  const fibreConsumed = useFibreConsumed();
   const gymLogged = streak.gymLoggedToday;
   // Real logged duration for today (undefined until logged — card renders without it).
   const todayDurationMin = useGymStore((s) => s.sessions.find((x) => x.date === 'Today')?.durationMin);
@@ -134,7 +136,7 @@ export default function DashboardScreen() {
                 // Fibre is NOT recorded: the app never sends it when it logs a food
                 // and its stored items carry no fibre, so the row says "Not tracked"
                 // beside the target instead of a zero the user never ate.
-                { label: t('nutrition.fibre'), macroKey: 'Fibre', consumed: null, target: macros.fibre.target },
+                { label: t('nutrition.fibre'), macroKey: 'Fibre', consumed: fibreConsumed, target: macros.fibre.target },
               ]}
             />
           </View>

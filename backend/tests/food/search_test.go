@@ -86,7 +86,7 @@ func TestSearchMergesBothSources(t *testing.T) {
 		bySource[r.Source] = r
 	}
 	off, ok := bySource["off"]
-	if !ok || off.FoodName != "Oat Bar" || off.Calories != 400 || off.Fibre != 5 || off.Barcode != "111" {
+	if !ok || off.FoodName != "Oat Bar" || off.Calories != 400 || off.Fibre == nil || *off.Fibre != 5 || off.Barcode != "111" {
 		t.Errorf("bad OFF result: %+v", off)
 	}
 	if off.ServingSize != 30 || off.ServingUnit != "ml" {
@@ -94,7 +94,7 @@ func TestSearchMergesBothSources(t *testing.T) {
 	}
 	usda, ok := bySource["usda"]
 	if !ok || usda.FoodName != "Oat Cereal" || usda.Calories != 380 || usda.Protein != 9 ||
-		usda.Fibre != 8 || usda.ServingSize != 40 {
+		usda.Fibre == nil || *usda.Fibre != 8 || usda.ServingSize != 40 {
 		t.Errorf("bad USDA result: %+v", usda)
 	}
 }
@@ -146,5 +146,52 @@ func TestBarcodeNotFound404(t *testing.T) {
 	rr := do(t, mux, "GET", "/api/food/barcode/000", "user_1", nil)
 	if rr.Code != http.StatusNotFound {
 		t.Fatalf("status = %d, want 404 (body %s)", rr.Code, rr.Body.String())
+	}
+}
+
+// A source that does not carry fibre for a food must say so, rather than report
+// a confident 0 g. Open Food Facts omits fiber_100g for most products, and a
+// USDA search row only carries nutrient 1079 when it was measured — flattening
+// either to 0 put a number in the app's macros that nothing backed.
+func TestSearchLeavesFibreNilWhenTheSourceHasNone(t *testing.T) {
+	offBody := `{"products":[
+		{"product_name":"No Fibre Field","brands":"B","code":"222",
+		 "nutriments":{"energy-kcal_100g":250,"proteins_100g":5,"carbohydrates_100g":30,"fat_100g":10}},
+		{"product_name":"Zero Fibre","brands":"B","code":"333",
+		 "nutriments":{"energy-kcal_100g":200,"proteins_100g":20,"carbohydrates_100g":0,"fat_100g":12,"fiber_100g":0}}
+	]}`
+	off := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(offBody))
+	}))
+	t.Cleanup(off.Close)
+	// USDA row with no nutrient 1079 at all.
+	usdaBody := `{"foods":[{"description":"Plain Beef","brandOwner":"X","servingSize":100,"servingSizeUnit":"g",
+		"foodNutrients":[{"nutrientId":1008,"value":250},{"nutrientId":1003,"value":26}]}]}`
+	usda := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(usdaBody))
+	}))
+	t.Cleanup(usda.Close)
+
+	sc := food.NewSearchClient("test-key")
+	sc.OFFBase = off.URL
+	sc.USDABase = usda.URL
+	rr := do(t, newMux(&fakeStore{}, sc), "GET", "/api/food/search?q=x", "user_1", nil)
+	results := data[[]food.SearchResult](t, rr)
+
+	byName := map[string]food.SearchResult{}
+	for _, r := range results {
+		byName[r.FoodName] = r
+	}
+
+	// Absent in the payload → absent in the response.
+	if got, ok := byName["No Fibre Field"]; !ok || got.Fibre != nil {
+		t.Errorf("OFF product with no fiber_100g: Fibre = %v, want nil", got.Fibre)
+	}
+	if got, ok := byName["Plain Beef"]; !ok || got.Fibre != nil {
+		t.Errorf("USDA row with no nutrient 1079: Fibre = %v, want nil", got.Fibre)
+	}
+	// A measured 0 is still a real 0, and must survive as one.
+	if got, ok := byName["Zero Fibre"]; !ok || got.Fibre == nil || *got.Fibre != 0 {
+		t.Errorf("OFF product with fiber_100g=0: Fibre = %v, want 0", got.Fibre)
 	}
 }

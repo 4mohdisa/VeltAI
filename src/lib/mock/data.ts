@@ -55,6 +55,9 @@ export type FoodItem = {
   protein: number;
   carbs: number;
   fat: number;
+  /** Grams of fibre, when the source that produced this item carried one.
+   *  Undefined means "not known", which is NOT the same as 0 g. */
+  fibre?: number;
   confidence?: number; // 0..1; < 0.75 triggers an uncertainty prompt
 };
 
@@ -126,6 +129,8 @@ export type FoodResult = {
   protein?: number;
   carbs?: number;
   fat?: number;
+  /** Per 100 g, when the source had one; null when it explicitly did not. */
+  fibre?: number | null;
 };
 
 export const foodCatalog: FoodResult[] = [
@@ -150,6 +155,8 @@ export type SavedFood = {
   protein: number;
   carbs: number;
   fat: number;
+  /** Undefined when the food was saved without a fibre figure. */
+  fibre?: number;
 };
 
 export const mockSavedFoods: SavedFood[] = [
