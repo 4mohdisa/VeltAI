@@ -999,3 +999,64 @@ New gaps this pass surfaced (not decided):
 - `food_logs.fibre` should be nullable, so "no figure" stops being 0 (see 6).
 - Summary depends on other tabs to hydrate the store (streak, macros). Fixing it
   means Summary owning its own reads, which is a V-item-sized change.
+
+## Hydration and keyboard pass (2026-09-12)
+
+Two tasks. One fixed, one still blocked by tooling and said so rather than faked.
+
+**Task 1 — Summary's stale hydration. FIXED (`0fa3a18`).**
+Summary reads the gym store (streak) and food store (macros), which the Gym and
+Food tabs own, and `useDashboard`'s `isLoading` was a 600ms cosmetic timer
+(`useInitialLoad`) with no fetch behind it — the only real read was
+pull-to-refresh. A cold launch that stayed on Summary therefore showed the
+SEEDED streak and macros as current, indefinitely (13 days in dev, 0 in
+release). `useDashboard` now uses `useHydration(hydrateDashboard)` — the same
+path every other tab uses — with `allSettled` over the food, gym and profile
+reads. `useInitialLoad` had no other caller and was deleted. The streak line and
+the macro rows render skeletons while the read is in flight, so no seeded value
+is ever presented as current.
+
+- **No cache/staleness layer was added**, deliberately: `useHydration` has none
+  for any screen, so visiting Gym or Food afterwards refetches exactly as it did
+  before. Adding one belongs in `useHydration` for every caller, not bolted onto
+  Summary.
+- Verified on a genuinely cold launch without leaving Summary: skeletons first,
+  then "Current streak 2 days" and Macros P 60 / C 128 / F 20 / Fibre 11 — the
+  server's two rows, not the seed's 104 / 135 / 38.
+
+**Task 2 — V1 keyboard avoidance. STILL UNVERIFIED**, with a new and more
+specific blocker than last pass. Every available input path was tried:
+
+1. The native simulator integration still reports "Xcode is installed but not
+   selected" although `xcode-select -p` is correct and Xcode 26.6 is present. It
+   caches that at process start and cannot be restarted from here.
+2. The full-screen control approval card was raised three times and timed out
+   unanswered each time, so display-scope (real mouse) input never unlocked.
+3. `osascript`/System Events clicking worked for exactly one call, then began
+   failing with "osascript is not allowed assistive access (-25211)" — the first
+   call triggered a macOS TCC prompt that was never answered, which denied it.
+4. The background tools' raw-input path (drag) does not focus a text field; one
+   attempt mis-targeted and logged a gym session by accident.
+5. With the Simulator's hardware keyboard toggled OFF, focusing the field through
+   the accessibility API still does not raise the software keyboard — AX focus
+   sets a selection range, it does not make the field first responder the way a
+   touch does.
+
+So the keyboard never appears, and `KeyboardAvoidingView` cannot be exercised.
+What IS known: the sheet sizes to its content and the pill is on screen at rest,
+and the code wraps the body in `KeyboardAvoidingView` (`behavior="padding"`)
+around a `ScrollView` whose last child is the pill. Whether the keyboard
+actually clears the pill and the fields is still untested, on both
+`gym/log-session` and `food/detail`.
+
+New gap this pass surfaced (not decided):
+
+- **A failed read falls back to the seed, silently.** `useHydration` swallows
+  errors by design ("the mock-seeded store IS the offline experience"), so when
+  the reads time out, Summary drops `isLoading` and renders whatever the store
+  holds — in a dev build that is mock macros (104/135/38) presented as today's
+  food; in a release build it is empty. Observed directly while slowing the stub
+  past the client timeout in `api.ts`. The loading state is now honest; the
+  FAILURE state is not, and unlike the Energy/Workouts cards Summary's streak and
+  macros show no "couldn't load". Fixing it means giving `useHydration` a real
+  error channel, which changes every screen that uses it — out of scope tonight.
