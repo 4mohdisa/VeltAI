@@ -149,7 +149,10 @@ export default function RootLayout() {
             <Stack.Screen name="food/barcode-scan" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
             <Stack.Screen name="food/label-scan" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
             {/* Native detented sheets */}
-            <Stack.Screen name="gym/log-session" options={sheetOptions} />
+            {/* Log session sizes to its content: at the shared 0.6 detent the
+                design's save pill (V1) sat below the fold. 'fitToContents' is the
+                same rule food/add already uses. */}
+            <Stack.Screen name="gym/log-session" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
             <Stack.Screen name="gym/freeze" options={{ ...sheetOptions, sheetAllowedDetents: [0.5] }} />
             {/* Add-meal: size to the 2×2 grid so all four options show fully. */}
             <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
