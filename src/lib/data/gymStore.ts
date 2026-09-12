@@ -95,7 +95,8 @@ export const useGymStore = create<GymState>((set) => ({
         },
         loggedDays: [...s.loggedDays.filter((d) => d.date !== today), { date: today, minutes: session?.durationMin ?? null }],
         sessions: [
-          { id: sessionId(), date: 'Today', durationMin: 60, effort: 7, ...session },
+          // No fabricated duration/effort: a one-tap log knows only that it happened.
+          { id: sessionId(), date: 'Today', ...session, durationMin: session?.durationMin ?? null, effort: session?.effort ?? null },
           ...s.sessions.filter((x) => x.date !== 'Today'),
         ],
       };

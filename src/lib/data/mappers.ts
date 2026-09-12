@@ -202,9 +202,10 @@ export const sessionsFromApi = (rows: ApiGymSession[]): GymSession[] =>
   rows.map((r) => ({
     id: r.id,
     date: humanDate(r.date),
-    durationMin: r.duration_minutes ?? 0,
-    // ponytail: effort has no server column — hydrated rows show 0; add a column if it matters.
-    effort: 0,
+    durationMin: r.duration_minutes ?? null,
+    // Effort has no server column, so a hydrated row genuinely does not know it.
+    // It used to read 0, which the history list rendered as "effort 0/10".
+    effort: null,
     notes: r.notes ?? undefined,
   }));
 

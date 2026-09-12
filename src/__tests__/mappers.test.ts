@@ -132,14 +132,17 @@ test('streakFromApi carries the active freeze day (V7: the calendar draws it on 
   expect(off.freezeDate).toBeNull();
 });
 
-test('sessionsFromApi maps rows and defaults duration to 0', () => {
+test('sessionsFromApi maps rows and keeps an unrecorded duration null', () => {
   const rows: GymSession[] = [
     { id: 'g1', user_id: 'u', date: todayISO(), name: 'Push', notes: null, duration_minutes: null, created_at: '2026-07-14T00:00:00Z' },
   ];
   const out = sessionsFromApi(rows);
   expect(out[0].id).toBe('g1');
   expect(out[0].date).toBe('Today');
-  expect(out[0].durationMin).toBe(0);
+  // Was 0, which the history list rendered as a real "0 min" session. The
+  // server said "unknown", so the app says unknown (see gymDurationHonesty).
+  expect(out[0].durationMin).toBeNull();
+  expect(out[0].effort).toBeNull();
 });
 
 test('savedFoodFromApi maps snake→camel', () => {

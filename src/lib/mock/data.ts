@@ -214,8 +214,12 @@ export type DayStatus = 'session' | 'freeze' | 'missed' | 'future' | 'today';
 export type GymSession = {
   id: string;
   date: string;
-  durationMin: number;
-  effort: number;
+  /** Minutes trained, or null when none was recorded — never a stand-in number:
+   *  the backend turns a duration into burned calories (energy.CalculateSessionCalories),
+   *  so an invented 60 invents ~350 kcal of exercise burn with it. */
+  durationMin: number | null;
+  /** Perceived effort 1–10, or null when the log never asked (a one-tap log). */
+  effort: number | null;
   notes?: string;
 };
 

@@ -23,7 +23,9 @@ export default function LogSessionScreen() {
   const {
     data: { streak },
   } = useGym();
-  const [duration, setDuration] = useState(60);
+  // Starts at "Not set": the slider's own 0 label. A duration the user never
+  // chose would be sent to the server and turned into exercise calories.
+  const [duration, setDuration] = useState(0);
   const [effort, setEffort] = useState(7);
   const [energy, setEnergy] = useState(3);
   const [notes, setNotes] = useState('');
@@ -38,7 +40,7 @@ export default function LogSessionScreen() {
       close();
       return;
     }
-    logGymSession({ durationMin: duration, effort, energy, notes: notes.trim() || undefined });
+    logGymSession({ durationMin: duration > 0 ? duration : undefined, effort, energy, notes: notes.trim() || undefined });
     showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
     close();
   };

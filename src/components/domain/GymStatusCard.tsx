@@ -15,7 +15,7 @@ import { formatDuration } from '@/lib/formatting';
 export type GymStatusCardProps = {
   logged: boolean;
   onLog: () => void;
-  durationMin?: number;
+  durationMin?: number | null;
 };
 
 export function GymStatusCard({ logged, onLog, durationMin }: GymStatusCardProps) {

@@ -47,7 +47,8 @@ export default function GymHistoryScreen() {
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
               <Icon name="time-outline" size={14} color={color.gray500} />
               <Text variant="footnote" color={color.gray500}>
-                {formatDuration(session.durationMin)} · effort {session.effort}/10
+                {session.durationMin != null ? formatDuration(session.durationMin) : 'Duration not recorded'}
+                {session.effort != null ? ` · effort ${session.effort}/10` : ''}
               </Text>
             </View>
             {session.notes ? (
