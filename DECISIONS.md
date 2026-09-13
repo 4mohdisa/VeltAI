@@ -1152,3 +1152,53 @@ V1's keyboard avoidance therefore remains **unverified**, with the same split as
 before: the sheet sizes to its content and the pill is on screen at rest
 (verified on device), the `KeyboardAvoidingView` exists (verified by reading), and
 whether the keyboard actually clears the pill and the fields is still unknown.
+
+## V1 keyboard avoidance — CLOSED as a known limitation (2026-09-13)
+
+Decided by the owner. This is **not pending and not blocked** — it is closed, and
+no further automated attempts are to be made.
+
+**What is verified, and how:**
+
+- **The mechanism is correct by code review.** `SheetContent` wraps its body in a
+  `KeyboardAvoidingView` (`behavior="padding"`) around a `ScrollView` whose last
+  child is the save pill, with `keyboardShouldPersistTaps="handled"` and
+  `keyboardDismissMode="interactive"`. That is the intended React Native pattern
+  for this layout, and it applies to both sheets in question —
+  `gym/log-session` (the Notes field) and `food/detail` (the number fields).
+- **Sheet sizing and pill visibility are verified on device.** After the
+  `fitToContents` fix (`7c8b804`), the whole form and the pill are on screen at
+  rest; captured in `docs/followup/item1_log_session_pill.png` and again while
+  exercising V6 in `docs/followup/item8_v6_sheet_presets.png`.
+
+**What stays unconfirmed, by decision:** whether the raised keyboard actually
+clears the focused field and the pill at runtime. Code review establishes that
+the right mechanism is in place; it cannot prove the runtime result, and that
+distinction is deliberately preserved here rather than rounded up to "verified".
+
+**Why it is closed rather than deferred.** Host-driven touch input was pursued
+across three sessions and five distinct mechanisms, all exhausted:
+
+| Session | Report | Blocker reached |
+|---|---|---|
+| Hydration pass | `HYDRATION_AND_KEYBOARD_REPORT.md` | Native simulator tool cached "Xcode not selected"; full-screen approval timed out; raw drag does not focus a field; AX focus raises no keyboard |
+| Error-state pass | `ERROR_STATE_AND_KEYBOARD_REPORT.md` | Accessibility granted to `osascript` fixed READS only; `click at` still `-25211` |
+| Final attempt | `KEYBOARD_VERIFICATION_REPORT.md` | Accessibility granted to "claude.app" changed nothing; two bundles share that name and macOS judges the responsible process, `/Applications/Claude.app` |
+
+The environment cannot post a synthetic mouse event into the Simulator, so the
+software keyboard never appears and there is nothing to photograph. Continuing to
+spend passes on the permission chase is not a good trade against the size of the
+remaining risk.
+
+**Two ways back in, if it ever matters:**
+
+1. **A 30-second manual check**, available at any time: open `gym/log-session`,
+   tap Notes, and look at whether the keyboard covers the pill; repeat on
+   `food/detail`. This needs no tooling and settles it definitively.
+2. **In-simulator test automation** (XCUITest, Maestro or Detox) is the durable
+   path if this is ever revisited at scale. Driving the app from inside the
+   simulator sidesteps host TCC entirely and would make the check repeatable in
+   CI. It is real setup — this repo has no native test target — so it is recorded
+   as the recommended approach, not as work in progress.
+
+No code changed for this decision.
