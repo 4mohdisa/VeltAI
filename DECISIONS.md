@@ -1118,3 +1118,37 @@ allowed". The remaining routes are: grant Accessibility to the host app
 (`claude.app`) rather than `osascript`, accept the full-screen control card while
 someone is at the machine, or restart the simulator integration so it re-reads
 `xcode-select`.
+
+## Keyboard verification attempt (2026-09-13, second session)
+
+**Step 0 failed again; nothing was built.** Accessibility was granted to
+"claude.app", and the same probe returned the same error:
+
+    tell application "System Events" to click at {-1127, -314}
+    → osascript is not allowed assistive access. (-25211)
+
+Reads still work, so this is not a global switch. Two diagnostics narrow it:
+
+- `UI elements enabled` is `true` — assistive access is on; the denial is
+  per-responsible-process.
+- The shell's ancestry is `zsh` → `…/Application Support/Claude/claude-code/2.1.266/claude.app/…/claude`
+  → `/Applications/Claude.app/Contents/Helpers/disclaimer` → `/Applications/Claude.app`.
+  **Two different bundles are named `claude.app`**, and macOS judges the
+  responsible process, which resolves up to the one in `/Applications`.
+
+Decision: the ONE untried target is `/Applications/Claude.app` (not the embedded,
+version-stamped `claude-code/2.1.266/claude.app`, and not `/usr/bin/osascript`,
+which was granted earlier and fixed only reads). If that grant also fails, this is
+to be treated as a **permanent limitation of this environment** — five mechanisms
+across four passes are enough. Even on success it stays fragile, because the
+embedded bundle's path carries a version number that changes on update.
+
+The durable alternative, if the check is ever worth automating: drive the app from
+INSIDE the simulator (XCUITest / Maestro / Detox), which needs no host TCC. That
+is a real piece of setup — this repo has no native test target — so it is logged
+as a proposal, not started. Otherwise it is a 30-second manual check.
+
+V1's keyboard avoidance therefore remains **unverified**, with the same split as
+before: the sheet sizes to its content and the pill is on screen at rest
+(verified on device), the `KeyboardAvoidingView` exists (verified by reading), and
+whether the keyboard actually clears the pill and the fields is still unknown.
