@@ -15,22 +15,22 @@ import (
 const maxSearchResults = 25
 
 type SearchResult struct {
-	FoodName    string  `json:"food_name"`
-	Brand       string  `json:"brand"`
-	Barcode     string  `json:"barcode"`
-	Calories    float64 `json:"calories"`
-	Protein     float64 `json:"protein"`
-	Carbs       float64 `json:"carbs"`
-	Fat         float64 `json:"fat"`
+	FoodName string  `json:"food_name"`
+	Brand    string  `json:"brand"`
+	Barcode  string  `json:"barcode"`
+	Calories float64 `json:"calories"`
+	Protein  float64 `json:"protein"`
+	Carbs    float64 `json:"carbs"`
+	Fat      float64 `json:"fat"`
 	// Fibre is a POINTER because "this source has no fibre figure for this food"
 	// and "this food has 0 g of fibre" are different claims, and both happen a
 	// lot: Open Food Facts omits fiber_100g for most products, and USDA search
 	// rows only carry nutrient 1079 when the lab measured it. Flattening the
 	// absent case to 0 made the app report a confident 0 g it had no basis for.
 	Fibre       *float64 `json:"fibre"`
-	ServingSize float64 `json:"serving_size"`
-	ServingUnit string  `json:"serving_unit"`
-	Source      string  `json:"source"`
+	ServingSize float64  `json:"serving_size"`
+	ServingUnit string   `json:"serving_unit"`
+	Source      string   `json:"source"`
 }
 
 // SearchClient queries Open Food Facts and USDA FoodData Central. Base URLs
