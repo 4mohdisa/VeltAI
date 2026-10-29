@@ -4,7 +4,7 @@
 //
 // V1 design pass: the design's Quick add is a hero kcal figure flanked by ±50
 // discs, four +kcal preset pills, the meal chips and a black confirm pill.
-// Tapping the figure opens FoodNumberEntryBar over the keyboard and hides the
+// Tapping the figure opens NumberEntryBar over the keyboard and hides the
 // discs, presets and pill until Done — the design's one number-entry model, so
 // there is no boxed field and no stepper here.
 //
@@ -23,7 +23,7 @@ import { KeyboardAvoidingView, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
-import { FoodNumberEntryBar } from '@/components/food/FoodNumberEntryBar';
+import { NumberEntryBar } from '@/components/common/NumberEntryBar';
 import { Button, SegmentedField } from '@/components/forms';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -175,7 +175,7 @@ export default function QuickAddScreen() {
       </SheetContent>
 
       {editing ? (
-        <FoodNumberEntryBar
+        <NumberEntryBar
           label="Calories · kcal"
           value={entry}
           mode="numeric"

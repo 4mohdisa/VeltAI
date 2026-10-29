@@ -1,6 +1,6 @@
 // V6 — the logged-food sheet, rendered. Its numbers read as values until "Edit
 // values manually", after which each is a tile that docks the shared
-// FoodNumberEntryBar under that field's own caption; a preset re-derives them
+// NumberEntryBar under that field's own caption; a preset re-derives them
 // from the row's own per-gram values; the meal switch saves through the V1
 // bottom pill; and fibre appears only when the row actually stored one.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';

@@ -1,4 +1,4 @@
-// FoodNumberEntryBar — the design's number-entry convention: tapping a value
+// NumberEntryBar — the design's number-entry convention: tapping a value
 // docks this slim bar above the native keyboard (eyebrow label, borderless
 // autofocused input, "Done" pill). There is no custom keypad anywhere in the
 // design. The parent owns which field is being edited and renders the bar only
@@ -16,7 +16,7 @@ import { color, layout, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@
 
 export type NumberEntryMode = 'numeric' | 'decimal';
 
-export type FoodNumberEntryBarProps = {
+export type NumberEntryBarProps = {
   /** Eyebrow copy for the field being edited, e.g. "Calories · kcal". */
   label: string;
   /** Raw entry string — empty shows the "0" placeholder, as in the design. */
@@ -38,14 +38,14 @@ function sanitise(raw: string, mode: NumberEntryMode, maxLength: number): string
     .slice(0, maxLength);
 }
 
-export function FoodNumberEntryBar({
+export function NumberEntryBar({
   label,
   value,
   onChange,
   onDone,
   mode = 'numeric',
   maxLength = 6,
-}: FoodNumberEntryBarProps) {
+}: NumberEntryBarProps) {
   const insets = useSafeAreaInsets();
 
   return (

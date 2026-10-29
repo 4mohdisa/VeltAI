@@ -15,7 +15,7 @@ import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
-import { FoodNumberEntryBar, type NumberEntryMode } from '@/components/food/FoodNumberEntryBar';
+import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
 import { Card } from '@/components/display/Card';
 import { Button } from '@/components/forms/Button';
 import { EmptyState } from '@/components/display/EmptyState';
@@ -51,7 +51,7 @@ const SEARCH_SERVINGS = [50, 100, 150, 200];
 
 /** The design's six pads, with its own captions and keyboards: grams and energy
  *  are whole numbers, the macros take a decimal point. Every one caps at six
- *  digits, which is FoodNumberEntryBar's default, so none passes `maxLength`. */
+ *  digits, which is NumberEntryBar's default, so none passes `maxLength`. */
 type PadKey = 'grams' | 'calories' | 'protein' | 'carbs' | 'fat' | 'fibre';
 const PADS: Record<PadKey, { label: string; mode: NumberEntryMode }> = {
   grams: { label: 'Serving size · grams', mode: 'numeric' },
@@ -693,7 +693,7 @@ function DetailForm({
       </SheetContent>
 
       {editing ? (
-        <FoodNumberEntryBar
+        <NumberEntryBar
           label={PADS[editing].label}
           value={entry}
           mode={PADS[editing].mode}
