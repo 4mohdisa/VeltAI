@@ -53,18 +53,22 @@
     "fibre": "Fibre (optional)",
     "reconcileHint": "Your macros add up to {{total}} of {{target}}. That's fine — it's just a heads-up.",
     "resetToAi": "Reset to AI recommendation",
-    "saved": "Goals updated."
+    "saved": "Goals updated.",
+    "setByLume": "Set by Lume",
+    "tapToEdit": "Tap to edit",
+    "savedAsYouType": "Saved as you type"
   },
   "addMenu": {
     "title": "Add meal",
     "scanFood": "Scan food",
     "snapMeal": "Snap your meal",
+    "mealPhotoOrLabel": "Meal photo or label",
     "barcode": "Barcode",
     "scanPackage": "Scan a package",
-    "voice": "Voice",
-    "describeOutLoud": "Describe it out loud",
+    "exactDatabaseMatch": "Exact database match",
     "savedFoods": "Saved foods",
-    "oneTapReadd": "One-tap re-add"
+    "oneTapReadd": "One-tap re-add",
+    "savedGallery": "Your saved gallery"
   },
   "foodLog": {
     "today": "Today",
