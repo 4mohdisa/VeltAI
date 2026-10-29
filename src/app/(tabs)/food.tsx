@@ -356,8 +356,7 @@ export default function FoodLogScreen() {
 
   // The design's one-tap add: the row's trailing + logs the result straight to
   // the current meal instead of routing through the detail sheet. Seeded exactly
-  // as detail.tsx seeds a search result, so both paths write the same row —
-  // energy only, since the catalog carries no macro columns.
+  // as detail.tsx seeds a search result, so both paths write the same row.
   const addSlot = slotForNow();
   const quickAdd = (food: FoodResult) => {
     logMeal(
@@ -367,10 +366,11 @@ export default function FoodLogScreen() {
         quantityG: SEARCH_DEFAULT_G,
         calories: Math.round(food.kcalPer100),
         // Same per-100 g basis as the energy figure, so they match the 100 g
-        // quantity. The local dev catalog carries calories only, hence the 0s.
-        protein: food.protein ?? 0,
-        carbs: food.carbs ?? 0,
-        fat: food.fat ?? 0,
+        // quantity. A catalog result may carry macros; a missing one logs as 0
+        // (the local dev catalog carries calories only).
+        protein: Math.round(food.protein ?? 0),
+        carbs: Math.round(food.carbs ?? 0),
+        fat: Math.round(food.fat ?? 0),
         ...(food.fibre != null ? { fibre: Math.round(food.fibre) } : {}),
       },
       'manual',

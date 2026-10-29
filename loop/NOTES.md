@@ -31,26 +31,24 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Goals: borderless calorie input, hints, white card.
 - Search '+' disc in (tabs)/food.tsx logs 100 g with the result's own macros (`?? 0`).
 - Gym log-session 'How did it go?' chooser with adjust / ticklist / picker modes passed to gym/session.tsx. Side effect to tell Isa: in adjust and ticklist the rows start checked, so backing out untouched offers 'Save progress?'.
-- Search macros path step 1: detailSubject.ts optional macro fields (commit 1b8ab30).
-- Search macros path step 2: (tabs)/food.tsx pick() passes proteinPer100/carbsPer100/fatPer100 as-is into openFoodDetail (round 32, tsc/eslint exit 0, inert until step 3).
+- Search macros path, all 3 steps: detailSubject.ts optional macro fields (1b8ab30); (tabs)/food.tsx pick() passes per-100 g macros (round 32); food/detail.tsx search branch seed and per100 use them with `?? 0` (round 33, tsc/eslint exit 0, jest 4 pass). macros={false} left as is, so values stay hidden until Isa decides.
 
 ## In progress
-- Search macros through Food detail, step 3 of 3 (round 33, prompt sent): food/detail.tsx search branch uses subject.proteinPer100/carbsPer100/fatPer100 (`?? 0`) in `seed` and `per100`, and rewords the stale comment at ~169-170. macros={false} left as is (layout decision for Isa).
+- (tabs)/food.tsx quickAdd (+ disc) macro alignment (round 34, prompt sent): log protein/carbs/fat from the result (`?? 0`, Math.round) at 100 g so it writes the same row as the detail sheet, reword the stale 'no macro columns' comment, one-line Built: note edit on the Food — Search row.
 
 ## Blocked on Isa
 (none)
 
 ## Next tasks
-1. Verify step 3 landed (read report), then close the macro path.
-2. (tabs)/food.tsx quickAdd (+ disc) logs energy only and carries the same stale 'no macro columns' comment. Make it log food.protein/carbs/fat (`?? 0`) at 100 g so both paths write the same row. One file.
-3. Checkpoint (full tsc plus full jest) when the loop note asks. No checkpoint result exists yet.
-4. (tabs)/food.tsx warnConflict toast and accessibilityHint build English from a raw enum. Move to i18n keys (one file plus en.json).
-5. en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' and an addToSlot key, then wire them in add.tsx. Two tasks.
-6. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT without flipping row 76. Fix stale Food detail, Quick add and Add sheet sections.
-7. Food Search 88% sheet (pill input, thumbnails, row metrics, no filter chips) needs its own plan.
-8. ASK ISA when small non-gym tasks are done: gym log-session differences 17 (celebration card: streak hero, Time / Calories / Volume, black 'Nice one' pill), 18 (no 'Logged and locked' edit cycle), 19 (already-logged dismisses instead of routing into the day), 23 (Summary card calls logGymSession() with no arguments, a third entry point). These are behaviour changes. Also ask about the macros={false} layout on Food detail search branch.
-9. Remaining gym cluster rows (template editor etc.) need Isa's approval per item.
-10. If nothing non-gym is a one-file task and Isa is silent, stop with reason 'only owner decisions remain'.
+1. Verify the quickAdd report, then close the macro path.
+2. Checkpoint (full tsc plus full jest) when the loop note asks. No checkpoint result exists yet.
+3. (tabs)/food.tsx warnConflict toast and accessibilityHint build English from a raw enum. Move to i18n keys (one file plus en.json).
+4. en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' and an addToSlot key, then wire them in add.tsx. Two tasks.
+5. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT without flipping row 76. Fix stale Food detail, Quick add and Add sheet sections.
+6. Food Search 88% sheet (pill input, thumbnails, row metrics, no filter chips) needs its own plan.
+7. ASK ISA when small non-gym tasks are done: gym log-session differences 17 (celebration card: streak hero, Time / Calories / Volume, black 'Nice one' pill), 18 (no 'Logged and locked' edit cycle), 19 (already-logged dismisses instead of routing into the day), 23 (Summary card calls logGymSession() with no arguments, a third entry point). These are behaviour changes. Also ask about the macros={false} layout on Food detail search branch (and the stale kcal-only copy it drives: detail.tsx header comment lines 11-12 and empty-state text ~line 643).
+8. Remaining gym cluster rows (template editor etc.) need Isa's approval per item.
+9. If nothing non-gym is a one-file task and Isa is silent, stop with reason 'only owner decisions remain'.
 
 Small candidates: blinking caret in NumberEntryBar; Food detail fractional macros lose precision (Math.round in draft()); Food detail composition gaps (96x96 photo, AI note, brand sub-line); accessibilityState disabled on the Goals calorie input.
 
@@ -65,11 +63,12 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - router.setParams on the food tab rewrites its history entry.
 - useFoodSearch macros have no null signal: unknown is indistinguishable from zero.
 - Card variant="elevated" adds shadow.sm the design lacks (repo's established mapping).
-- Dev catalog carries calories only, so macro fixes are a no-op in dev.
+- Dev catalog carries calories only, so macro fixes are a no-op in dev (src/lib/mock/data.ts).
 
 ## Loop notes
 - Rounds 1-29: early rejections (two files, missing design file) then clean landings for rounds 16-28. Round 29 checkpoint prompt was rejected, no checkpoint ran.
 - Round 30: detail.tsx task blocked, no edit, because the data never reached the file.
 - Round 31: step 1 landed cleanly (detailSubject.ts, commit 1b8ab30). Handover happened after it.
 - Round 32: step 2 landed cleanly in (tabs)/food.tsx. Jev run 97%, last-clean 90%.
-- Round 33: Jev run 93%, last-clean 81%. Issued step 3, a one-file change in food/detail.tsx.
+- Round 33: step 3 landed cleanly in food/detail.tsx. Jev run 93%, last-clean 81%.
+- Round 34: Jev run 99%, last-clean 96%. Issued quickAdd macro alignment, one file (tabs)/food.tsx.

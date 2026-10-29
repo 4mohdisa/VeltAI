@@ -1022,7 +1022,8 @@ the week strip and calories card.
 the existing search input on mount when it is `search`, so a caller can land on a
 focused field as the design does. The trailing `+` disc is now a real button that
 logs the result at its default serving and toasts, as the design's one-tap add
-does. The sheet and the filter chips are untouched.
+does, and it now logs the result's per-100 g macros so it writes the same row as
+the detail sheet. The sheet and the filter chips are untouched.
 
 ## Food — My dishes / Saved foods
 
