@@ -11,7 +11,7 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - The gap analysis is authoritative, earlier verification reports are not.
 - 7-day free trial, $49.99 per year and $8.99 per month, no card up front.
 - Gym logging redesign needs Isa's approval before building.
-- Prompts are strict: one task, max 5 steps, exactly ONE editable source file named (the loop checker rejects a component plus screens, or two editable files), everything else in the do-not-touch list. A one-line status edit to DESIGN_GAP_ANALYSIS.md has been accepted alongside the one source file.
+- Prompts are strict: one task, max 5 steps, exactly ONE editable source file named (the loop checker rejects a component plus screens, or two editable files), everything else in the do-not-touch list. A one-line status edit to DESIGN_GAP_ANALYSIS.md has been accepted alongside the one source file. An en.json key addition has been tolerated when the prompt names it explicitly.
 - Testing is light: tsc plus jest --findRelatedTests --passWithNoTests on changed files. Isa verifies.
 - Clean code: reuse tokens and shared components, no dead code or debug leftovers. Never run prettier (repo has no config).
 - Design handler names (e.g. logAdjust) are not app identifiers. Find the real app path with grep before naming a file.
@@ -26,23 +26,25 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Food Add sheet rebuilt to the design chooser (src/app/food/add.tsx). Sub-lines for Scan food, Barcode and My dishes are wired to addMenu keys (commit e22c995).
 - Goals calorie figure is the borderless inline input (src/app/profile/goals.tsx). Rows 76, 78 and 97 stay DIFFERENT.
 - Goals hints (rounds 16-17): right-aligned edit hint beside the 'Daily calories' label, and goals.savedAsYouType holds the full design string.
-- Round 18: Goals white card built (Card elevated, hairline divider, calorie block + split + macro rows inside, help line below the card, custom mode only). Built line added to DESIGN_GAP_ANALYSIS.md.
-- Round 19: src/app/(tabs)/food.tsx reads route param focus and focuses the search input on mount when 'search' (ref passed via the {...({ ref } as object)} workaround, same as gym/new-template.tsx:146, because TextField has no ref prop). tsc and eslint green, no tests found. Built line added to Food - Search section; row status still DIFFERENT.
+- Round 18: Goals white card built (Card elevated, hairline divider, calorie block + split + macro rows inside, help line below the card, custom mode only).
+- Round 19: src/app/(tabs)/food.tsx reads route param focus and focuses the search input on mount when 'search' (ref via the {...({ ref } as object)} workaround, same as gym/new-template.tsx:146).
+- Round 20: src/app/food/add.tsx 'Search foods' tile now routes to /(tabs)/food?focus=search. withSlot composes with '&' when the route already has a query, '?' otherwise; other tiles produce identical URLs. tsc and eslint green, no tests found, no automated coverage of the focus path.
 - en.json: added addMenu.mealPhotoOrLabel, exactDatabaseMatch, savedGallery and goals.setByLume, tapToEdit, savedAsYouType. Removed stale addMenu.voice and describeOutLoud.
 
 ## In progress
-- Round 20: src/app/food/add.tsx only. Make the 'Search foods' tile pass focus: 'search' alongside the existing slot param when routing to /(tabs)/food. Fix a pinned test assertion only if it fails. No report yet.
+- Round 21: src/app/(tabs)/food.tsx only (plus optional en.json keys and a one-line gap-doc edit). Make the trailing '+' disc on SearchResultRow a real Pressable that logs at the default serving through an existing logging path and toasts; it must not trigger the row press. Prompt tells Claude Code to make no edits and report BLOCKED if SearchResultRow lives in another file or no existing log path fits without a backend change. No report yet.
 
 ## Blocked on Isa
 - Asked round 7, no answer (do not re-ask unless every remaining task needs Isa): (1) cardio in gym session: keep 'Distance km' or convert to speed segments (data-model change)? (2) approve the gym cluster redesign (plan-aware 'How did it go?' chooser replacing the 4-field questionnaire in log-session.tsx)? Do neither until answered. A late answer is the answer, do it next.
 - Goals structure (found round 11, not yet asked): radio cards vs 2-segment control; three read-only macro rows with colour dot, value and 6px bar vs six editable fields; app-only features absent from design (Fibre, reconciliation hint, Reset to AI recommendation, HealthDisclaimer, kcal/kJ, 'Macro targets' label). The help line now sits between the card and the Fibre field and reads as a Fibre caption. Many look deliberate, so do not remove without approval. Ask only when other tasks run out.
 
 ## Next tasks
-1. Food - Search: after round 20, the 88% search sheet with pill input and filter chips needs its own plan (new route, may need an ask). Also SearchResultRow trailing '+' disc is a plain View, not a button, so one-tap add is unreachable (needs its own one-file task, find the file first).
-2. Low value, two tasks: (a) en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' plus an interpolated addMenu.addToSlot key (add.tsx builds `Add to ${slot.toLowerCase()}` as an untranslatable template literal); (b) wire them in add.tsx.
-3. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT, do not flip row 76. Best after Isa answers the cardio question.
-4. Then remaining non-gym rows by most rows cleared per task. Confirm in the design payload which control a row uses before assigning it.
-5. If nothing non-gym is a one-file task, use action ask with both open questions (gym cluster, Goals structure).
+1. Food - Search: after round 21, the 88% search sheet with pill input and filter chips needs its own plan (new route, may need an ask). Thumbnails and row metrics are separate gaps.
+2. Small fix: (tabs)/food.tsx focus param is never cleared, so returning to the tab in the same route entry could re-focus unexpectedly (one-file task).
+3. Low value, two tasks: (a) en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' plus an interpolated addMenu.addToSlot key (add.tsx builds `Add to ${slot.toLowerCase()}` as an untranslatable template literal); (b) wire them in add.tsx.
+4. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT, do not flip row 76. Best after Isa answers the cardio question.
+5. Then remaining non-gym rows by most rows cleared per task. Confirm in the design payload which control a row uses before assigning it.
+6. If nothing non-gym is a one-file task, use action ask with both open questions (gym cluster, Goals structure).
 
 Small candidates: blinking caret in NumberEntryBar (color.primary, 1s loop); Food detail fractional macros lose precision (draft() uses Math.round, needs a test); Food detail composition gaps (96x96 photo tile, AI note, brand sub-line, title); doc-only fix of stale sections in DESIGN_GAP_ANALYSIS.md for Food detail, Quick add and Add sheet that contradict their summary rows; accessibilityState={{ disabled: !isCustom }} on the Goals calorie input.
 
@@ -63,4 +65,5 @@ Small candidates: blinking caret in NumberEntryBar (color.primary, 1s loop); Foo
 - Round 17: copy fixed in en.json, tsc green, clean.
 - Round 18: Goals card landed clean (tsc, eslint green). Jev last task clean 92%.
 - Round 19: food.tsx focus param landed clean (tsc, eslint green). Jev run 98%, last task clean 84%.
-- Round 20: Jev run 98%. Chose run for the add.tsx one-line wiring so the focus param becomes reachable.
+- Round 20: add.tsx focus wiring landed clean (tsc, eslint green). Jev last task clean 93%.
+- Round 21: Jev run 99%. Chose run for the one-tap add disc, the report's own recommended next step, with a grep-first guard and BLOCKED fallback.

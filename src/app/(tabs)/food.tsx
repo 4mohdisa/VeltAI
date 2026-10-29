@@ -50,6 +50,8 @@ import {
   saveScannedItem,
   discardScannedItem,
   submitScanFeedback,
+  logMeal,
+  slotForNow,
   type StoredMeal,
 } from '@/lib/data';
 import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
@@ -62,6 +64,10 @@ import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/l
 import type { FoodResult, MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+
+/** The search catalog is priced per 100 g, so a one-tap add logs exactly that —
+ *  the same default serving the detail sheet seeds a search result with. */
+const SEARCH_DEFAULT_G = 100;
 
 // Each meal slot gets its own glyph colour, as the design file does. Functional
 // use only: the dot is the section's category marker — nothing else on the card
@@ -334,6 +340,34 @@ export default function FoodLogScreen() {
     router.push('/food/detail');
   };
 
+  // The design's one-tap add: the row's trailing + logs the result straight to
+  // the current meal instead of routing through the detail sheet. Seeded exactly
+  // as detail.tsx seeds a search result, so both paths write the same row —
+  // energy only, since the catalog carries no macro columns.
+  const addSlot = slotForNow();
+  const quickAdd = (food: FoodResult) => {
+    logMeal(
+      addSlot,
+      {
+        name: food.name,
+        quantityG: SEARCH_DEFAULT_G,
+        calories: Math.round(food.kcalPer100),
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        ...(food.fibre != null ? { fibre: Math.round(food.fibre) } : {}),
+      },
+      'manual',
+    );
+    showToast({
+      message: t('foodLog.addedToMeal', {
+        energy: formatEnergy(Math.round(food.kcalPer100), energyUnit),
+        slot: addSlot.toLowerCase(),
+      }),
+      tone: 'success',
+    });
+  };
+
   return (
     // No SafeAreaView top edge: the scroll runs under the status bar so the
     // FloatingHeader strip has something to blur (design-file treatment).
@@ -447,6 +481,8 @@ export default function FoodLogScreen() {
                 last={index === section.data.length - 1}
                 conflict={dietaryConflict(food.name, dietaryReqs)}
                 onPick={() => pick(food)}
+                onAdd={() => quickAdd(food)}
+                slot={addSlot}
               />
             );
           }
@@ -857,12 +893,16 @@ function SearchResultRow({
   last,
   conflict,
   onPick,
+  onAdd,
+  slot,
 }: {
   food: FoodResult;
   first: boolean;
   last: boolean;
   conflict: DietaryRequirement | null;
   onPick: () => void;
+  onAdd: () => void;
+  slot: MealSlot;
 }) {
   const { t } = useTranslation();
   // Subtle, non-blocking dietary warning (Task 5): the food name matches a
@@ -901,19 +941,27 @@ function SearchResultRow({
           {t('foodLog.per100', { value: formatCalories(food.kcalPer100) })}
         </Text>
       </View>
-      {/* The design's black + disc, same mark as the meal-card add button. */}
-      <View
-        style={{
-          width: space['2xl'],
-          height: space['2xl'],
-          borderRadius: radius.full,
-          backgroundColor: color.primary,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+      {/* The design's black + disc, same mark as the meal-card add button — a
+          button of its own that logs the food, not part of the row's press. */}
+      <Pressable
+        onPress={onAdd}
+        accessibilityRole="button"
+        accessibilityLabel={t('foodLog.addToMeal', { slot })}
+        style={{ alignItems: 'center' }}
       >
-        <Icon name="add" size={16} color={color.onPrimary} />
-      </View>
+        <View
+          style={{
+            width: space['2xl'],
+            height: space['2xl'],
+            borderRadius: radius.full,
+            backgroundColor: color.primary,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="add" size={16} color={color.onPrimary} />
+        </View>
+      </Pressable>
     </Pressable>
   );
 }
