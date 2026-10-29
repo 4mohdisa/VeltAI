@@ -20,8 +20,9 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - Prompts are strict: one task, max 5 steps, named files, explicit do-not-touch list.
 - Testing is light: type check plus tests for changed files only (use --passWithNoTests). Isa verifies the UI.
 - Code must be clean: reuse tokens and shared components, no dead code or debug leftovers.
-- A component and its application to screens are separate tasks. The loop checker rejects prompts that combine a component with screens.
+- A component and its application to screens are separate tasks. The loop checker rejects prompts that combine a component with screens, and also rejects prompts that name more than one editable screen/component file (round 10 first prompt was rejected for naming PlannedValuesForm plus ExercisePicker). Name exactly ONE editable source file per prompt and put everything else in the do-not-touch list.
 - When applying the bar changes a control that an existing test pins, updating that test to the new control is a small separate follow-up task (manager may authorise it, no need to ask Isa). Source stays untouched in that task.
+- Design handler names in DESIGN_GAP_ANALYSIS.md (e.g. logAdjust) are NOT app identifiers. Before naming a file in a prompt, find the real app path with grep or from these notes. Use the gap-doc row names exactly.
 
 ## Done
 - Round 1: shared component built (now src/components/common/NumberEntryBar.tsx; props: label, value, onChange(text, value), onDone, mode?, maxLength?). Design source: design/Lume App.html (gzip+base64 embedded payloads). The bar appears 4 times identically in the design (Food detail pad, Quick add pad, Gym session pad, Gym template pad).
@@ -31,9 +32,10 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - Round 5: bar moved/renamed to src/components/common/NumberEntryBar.tsx, imports updated. Pure rename. Green.
 - Round 6: bar applied in src/app/gym/session.tsx (the screen that does real exercise logging; NOT log-session.tsx). PADS table with design captions: Weight kg (decimal), Reps (numeric), Minutes (numeric), maxLength 5. Tappable 40pt value boxes replace the four TextFields; bar docked below Screen in a KeyboardAvoidingView like quick-add; Finish workout footer hides while the bar is open. Save path, state shape, validation untouched. Cardio field is 'Distance km' (decimal), NOT 'Speed km/h', because session.tsx stores distance; the design's speed segments would be a data-model change. Row 76 ('Gym - log session', names log-session.tsx) NOT flipped to built; its reason line says only difference 16 is closed, in /gym/session. /gym/session has no row of its own in DESIGN_GAP_ANALYSIS.md.
 - Round 8: Food - Add sheet (src/app/food/add.tsx) rebuilt to the design chooser: added Search foods (-> /(tabs)/food, existing route) and My dishes (-> /food/saved), removed Scan Label and My Meals tiles (routes /food/label-scan and /food/meals untouched), per-slot title ('Add to <slot>' else t('addMenu.title')), Quick add full-width row, 2-column grid, disc/glyph 46/19. Row BUILT (not verified). tsc, eslint clean. Known half-state: Search foods lands on the day log with an unfocused search bar (the design opens a dedicated search sheet; that is the separate 'Food - Search' row).
+- Round 9: NO EDIT. Claude Code stopped correctly: 'logAdjust' is a design handler name, not an app screen (design: opens session screen in adjust mode, which is session.tsx, already done in round 6). Real template-related app files: src/app/gym/new-template.tsx (name + Duration (min, optional) only; one numeric input, the design has no Duration pad because template minutes are derived), src/components/gym/PlannedValuesForm.tsx (Sets Stepper ~71, Reps TextField ~74, Weight ~79, Rest ~108) rendered inside src/components/gym/ExercisePicker.tsx. Design template pads: Planned sets, Target reps, Target weight · kg, Rest · seconds, Target RPE · 1-10 (app has no RPE field). Gap row is named 'Gym — workout / template detail' (row 78).
 
 ## In progress
-- Round 9: Gym - template editing (logAdjust screen under src/app/gym): apply NumberEntryBar (design 4th instance, Gym template pad). Bar only. Prompt sent.
+- Round 10 (retry): Gym template pads. Apply NumberEntryBar in src/components/gym/PlannedValuesForm.tsx ONLY (single editable file; ExercisePicker.tsx explicitly forbidden, if docking needs it Claude Code must leave the bar inline and report under NEXT). Four pads: Planned sets, Target reps, Target weight · kg (decimal), Rest · seconds; no RPE, no Duration pad. One line added to row 78's reason, row NOT flipped. First prompt was rejected by the loop checker (more than one screen or component), rewritten with one file. The LATEST CLAUDE CODE REPORT shown in round 10 was the stale round 9 report, not a result of round 10. If this round also fails to land, park the template pads and move to next task 1.
 
 ## Blocked on Isa
 - Asked in round 7, NO ANSWER yet (do not ask again unless every remaining task needs Isa): (1) cardio in gym session: keep 'Distance km' (no data change) or convert to speed segments (min + km/h, data-model change)? (2) approve starting the gym cluster redesign (plan-aware 'How did it go?' chooser replacing the 4-field questionnaire in log-session.tsx)? Until answered, do neither. If a late answer arrives, treat it as the answer and do that task next.
@@ -42,11 +44,13 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - Checked-in extract of the design HTML payloads (or populate empty ds-bundle/components) so design lookups do not repeat gzip/base64 extraction. Tooling, parked unless it blocks work.
 - Repo has no prettier config. Never run prettier on files (it reformats to double quotes and 80 columns, against repo style).
 - Test harness: src/__tests__/render/setup.ts has no SafeAreaProvider, so any render test touching the bar must wrap its own. Small tooling task, only if a later round hits it again.
-- No render test covers quick-add.tsx's or session.tsx's use of the bar.
+- No render test covers quick-add.tsx's, session.tsx's or PlannedValuesForm's use of the bar.
 - Convention note in AGENTS.md on what belongs in src/components/common vs primitives. Doc-only, low priority.
 - Gym session set row order: design is [kg] x [reps] with per-set remove x; app renders [reps] [weight] with no remove. Composition work, part of gym cluster decision.
 - Cardio with a parameter schema goes through ParameterForm (src/components/gym) with its own boxed inputs; different number-entry model. Part of gym cluster decision.
 - en.json addMenu has stale keys voice / describeOutLoud (tile no longer exists).
+- Template editor real redesign (row 78): per-exercise accordion with per-set kg/reps rows, warm-up chips, Rest/Tempo/RPE tile grid; exercises are read-only once saved in the app. Large, part of gym cluster decision. Target RPE needs a PlannedValues type/state addition (data change), so also parked.
+- Design has no +/- stepper anywhere in the gym flow (gap difference 15); the Sets Stepper is replaced in round 10 only as a pad swap.
 
 ## Next task
 1. The four app-only Stepper/SliderField number entries (label-scan servings, scan-review weight, new-recipe servings, recipes-log-sheet servings), one per round.
@@ -70,4 +74,6 @@ Then take remaining rows in the order that clears the most rows per task.
 - Round 4 clean. Jev run 95%. Round 5 clean. Jev run 96%.
 - Round 6: report flagged as partly done (row 76 not flipped, speed vs distance mismatch). Jev ask 85%. Real product/data-model question plus pending gym redesign approval, so asked Isa.
 - Round 7: Isa did not answer in time; question parked under Blocked on Isa. Kept run on the independent Food - Add sheet.
-- Round 8: clean, Jev run 89%. Claude Code recommended a search-focus param as next. I chose the gym template bar instead because it clears a row, and the half-state Search tile is better fixed by the Food - Search row (kept as next task 3). The logAdjust file path is not recorded, so the round 9 prompt tells Claude Code to find it with grep; record the path in notes once reported.
+- Round 8: clean, Jev run 89%. Claude Code recommended a search-focus param as next. I chose the gym template bar instead because it clears a row, and the half-state Search tile is better fixed by the Food - Search row (kept as next task 3).
+- Round 9: my prompt named a non-existent screen (logAdjust, a design handler name), so Claude Code correctly made no edit. Jev ask 53% / run 45% with low confidence. I chose run: the blocker was only a file-permission scope I can grant, not a product decision, and Isa has not answered the earlier questions, so asking again would stall the loop.
+- Round 10: first prompt rejected by the loop checker (named two component files). Jev run 66% / ask 32%, low confidence; chose run because the fix is only a narrower prompt and not a product question. Rewrote with a single editable file.
