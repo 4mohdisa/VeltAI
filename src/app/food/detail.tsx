@@ -11,10 +11,11 @@
 // Everything on screen traces to a real value: the search catalog is kcal-only,
 // so search subjects show no macro fields at all rather than a fabricated zero.
 import { useEffect, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
+import { FoodNumberEntryBar, type NumberEntryMode } from '@/components/food/FoodNumberEntryBar';
 import { Card } from '@/components/display/Card';
 import { Button } from '@/components/forms/Button';
 import { EmptyState } from '@/components/display/EmptyState';
@@ -25,7 +26,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 import { formatCalories, formatNumber } from '@/lib/formatting';
 import { haptics } from '@/lib/haptics';
 import {
@@ -47,6 +48,24 @@ import type { MealSlot } from '@/lib/mock/data';
 // The search catalog carries no per-food serving suggestions, so a manual hit
 // gets the standard four.
 const SEARCH_SERVINGS = [50, 100, 150, 200];
+
+/** The design's six pads, with its own captions and keyboards: grams and energy
+ *  are whole numbers, the macros take a decimal point. Every one caps at six
+ *  digits, which is FoodNumberEntryBar's default, so none passes `maxLength`. */
+type PadKey = 'grams' | 'calories' | 'protein' | 'carbs' | 'fat' | 'fibre';
+const PADS: Record<PadKey, { label: string; mode: NumberEntryMode }> = {
+  grams: { label: 'Serving size · grams', mode: 'numeric' },
+  calories: { label: 'Calories · kcal', mode: 'numeric' },
+  protein: { label: 'Protein · grams', mode: 'decimal' },
+  carbs: { label: 'Carbs · grams', mode: 'decimal' },
+  fat: { label: 'Fat · grams', mode: 'decimal' },
+  fibre: { label: 'Fibre · grams', mode: 'decimal' },
+};
+
+/** The design's grams chip: a 34pt pill with a 15/20 rounded figure and a 13pt
+ *  pencil. No type or spacing token covers either figure. */
+const CHIP_HEIGHT = 34;
+const CHIP_GLYPH = 13;
 
 /** What the sheet's fields hold. NO id: `logMeal` assigns the row's own, and a
  *  subject id spread into the write would overwrite it. */
@@ -372,6 +391,10 @@ function DetailForm({
   // Undefined stays undefined: a food whose source had no fibre figure must not
   // acquire one by being opened.
   const [fibre, setFibre] = useState<number | undefined>(seed.fibre);
+  // Which pad is open, and its raw entry string. One pad at a time, as in the
+  // design (`hEdit` / `hEditStr` there).
+  const [editing, setEditing] = useState<PadKey | null>(null);
+  const [entry, setEntry] = useState('');
 
   const num = (v: string) => Math.max(0, Math.round(Number(v) || 0));
 
@@ -398,179 +421,289 @@ function DetailForm({
     if (per100.fibre != null) setFibre(Math.round(per100.fibre * factor));
   };
 
+  // The pad writes straight into the field it was opened on. Grams goes through
+  // applyGrams, which re-derives the rest — the design's "editing grams clears
+  // every other override", and the same path a serving chip takes.
+  const setPadValue: Record<PadKey, (value: number) => void> = {
+    grams: (v) => applyGrams(String(Math.round(v))),
+    calories: (v) => setCalories(String(v)),
+    protein: (v) => setProtein(String(v)),
+    carbs: (v) => setCarbs(String(v)),
+    fat: (v) => setFat(String(v)),
+    // The one number held as a number, and only ever a whole one.
+    fibre: (v) => setFibre(Math.round(v)),
+  };
+
+  // Tapping the open field closes the pad, any other field switches it, and the
+  // entry string always starts empty.
+  const startEdit = (key: PadKey) => () => {
+    setEntry('');
+    setEditing((open) => (open === key ? null : key));
+  };
+
+  // The figure greys while the pad waits for its first keystroke, to show the
+  // typed number will replace it.
+  const figureColor = (key: PadKey) => (editing === key && !entry ? color.tertiaryLabel : color.label);
+
+  const kcalRow = (tint: string) => (
+    <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+      <Text variant="statLarge" color={tint} style={{ letterSpacing: -1 }}>
+        {formatNumber(num(calories))}
+      </Text>
+      <Text variant="callout" color={color.secondaryLabel}>
+        kcal
+      </Text>
+    </View>
+  );
+
+  // Numbers are tap-to-edit once the sheet is in its editing mode. A review
+  // (rename) sheet never is: only the name goes to `onDone` there.
+  const editable = !nameOnly && manual;
+  const showServings = !!servings && servings.length > 0;
+
   return (
-    <SheetContent variant="leading" title={title} onClose={onClose}>
-      {subLine ? (
-        <Card>
-          <View style={{ gap: space.xs }}>
-            <Text variant="title3" color={color.label}>
-              {name}
-            </Text>
-            <Text variant="footnote" color={color.secondaryLabel}>
-              {subLine}
-            </Text>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <SheetContent variant="leading" title={title} onClose={onClose}>
+        {subLine ? (
+          <Card>
+            <View style={{ gap: space.xs }}>
+              <Text variant="title3" color={color.label}>
+                {name}
+              </Text>
+              <Text variant="footnote" color={color.secondaryLabel}>
+                {subLine}
+              </Text>
+            </View>
+          </Card>
+        ) : null}
+
+        {/* Serving size: the design shares one row between the caption and the
+            tappable grams chip, over the food's own presets. With no chip there is
+            nothing to share the row with, so the presets carry their own label. */}
+        {showServings || editable ? (
+          <View style={{ gap: space.sm }}>
+            {editable ? (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+                <Text
+                  variant="label"
+                  color={color.secondaryLabel}
+                  style={{ flex: 1, letterSpacing: 1.1, textTransform: 'uppercase' }}
+                >
+                  Serving size
+                </Text>
+                <Pressable
+                  onPress={startEdit('grams')}
+                  minTapTarget={false}
+                  accessibilityLabel="Serving size, tap to type"
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: space.xs,
+                    minHeight: CHIP_HEIGHT,
+                    paddingHorizontal: space.md,
+                    borderRadius: radius.pill,
+                    backgroundColor: editing === 'grams' ? surface.tilePressed : surface.tile,
+                  }}
+                >
+                  <Text
+                    color={figureColor('grams')}
+                    style={{ fontSize: 15, lineHeight: 20, fontFamily: ROUNDED_FACE_BY_WEIGHT['600'] }}
+                  >
+                    {`${num(grams)} g`}
+                  </Text>
+                  {editing === 'grams' ? null : <Icon name="pencil" size={CHIP_GLYPH} color={color.tertiaryLabel} />}
+                </Pressable>
+              </View>
+            ) : null}
+            {servings && servings.length > 0 ? (
+              <SegmentedField
+                label={editable ? undefined : 'Serving size'}
+                value={grams}
+                onChange={applyGrams}
+                options={servings.map((g) => ({ label: `${g} g`, value: String(g) }))}
+                variant="inset"
+              />
+            ) : null}
           </View>
-        </Card>
-      ) : null}
+        ) : null}
 
-      {servings && servings.length > 0 ? (
-        <SegmentedField
-          label="Serving size"
-          value={grams}
-          onChange={applyGrams}
-          options={servings.map((g) => ({ label: `${g} g`, value: String(g) }))}
-          variant="inset"
-        />
-      ) : null}
-
-      {/* The design's readout: energy as the hero rounded number over the grams
-          it belongs to. It mirrors the fields below — never a second source. */}
-      <View style={{ alignItems: 'center', gap: space.xs }}>
-        <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
-          <Text variant="statLarge" color={color.label}>
-            {formatNumber(num(calories))}
-          </Text>
-          <Text variant="callout" color={color.secondaryLabel}>
-            kcal
+        {/* The design's readout: energy as the hero rounded number over the grams
+            it belongs to. It mirrors the fields below — never a second source. */}
+        <View style={{ alignItems: 'center', gap: space.xs }}>
+          {editable ? (
+            <Pressable
+              onPress={startEdit('calories')}
+              minTapTarget={false}
+              accessibilityLabel="Calories, tap to type"
+              style={{
+                paddingHorizontal: space.sm,
+                paddingVertical: space.xs,
+                borderRadius: radius.sm,
+                backgroundColor: editing === 'calories' ? surface.tile : 'transparent',
+              }}
+            >
+              {kcalRow(figureColor('calories'))}
+            </Pressable>
+          ) : (
+            kcalRow(color.label)
+          )}
+          <Text variant="footnote" color={color.secondaryLabel}>
+            for {num(grams)} g
           </Text>
         </View>
-        <Text variant="footnote" color={color.secondaryLabel}>
-          for {num(grams)} g
-        </Text>
-      </View>
 
-      <TextField label="Name" value={name} onChangeText={setName} autoCapitalize="words" />
+        <TextField label="Name" value={name} onChangeText={setName} autoCapitalize="words" />
 
-      {nameOnly ? null : !manual ? (
-        <>
-          {macros ? (
-            <View style={{ gap: space.md }}>
-              {[
-                { label: 'Protein', value: num(protein), tint: categoryAccent.protein },
-                { label: 'Carbs', value: num(carbs), tint: categoryAccent.carbs },
-                { label: 'Fat', value: num(fat), tint: categoryAccent.fat },
-                // Fibre only when this food's source carried one — the row is
-                // absent rather than showing a 0 nobody measured.
-                ...(fibre != null ? [{ label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }] : []),
-              ].map(({ label, value, tint }) => (
-                <View key={label} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+        {nameOnly ? null : !manual ? (
+          <>
+            {macros ? (
+              <View style={{ gap: space.md }}>
+                {[
+                  { label: 'Protein', value: num(protein), tint: categoryAccent.protein },
+                  { label: 'Carbs', value: num(carbs), tint: categoryAccent.carbs },
+                  { label: 'Fat', value: num(fat), tint: categoryAccent.fat },
+                  // Fibre only when this food's source carried one — the row is
+                  // absent rather than showing a 0 nobody measured.
+                  ...(fibre != null ? [{ label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }] : []),
+                ].map(({ label, value, tint }) => (
+                  <View key={label} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+                    <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
+                    <Text variant="body" color={color.label} style={{ flex: 1 }}>
+                      {label}
+                    </Text>
+                    <Text variant="bodyMedium" color={color.label}>
+                      {`${value} g`}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            ) : null}
+            <Pressable
+              onPress={() => setManual(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Edit values manually"
+              style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, alignSelf: 'flex-start' }}
+            >
+              <Icon name="pencil" size={15} color={color.secondaryLabel} />
+              <Text variant="callout" color={color.secondaryLabel}>
+                Edit values manually
+              </Text>
+            </Pressable>
+          </>
+        ) : macros ? (
+          /* The design's macro grid: two columns of tappable tiles, each a dot, its
+             name and the value in grams. Tapping one opens its pad; grams and energy
+             are edited on the chip and the readout above. */
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.sm }}>
+            {[
+              { key: 'protein' as const, label: 'Protein', value: num(protein), tint: categoryAccent.protein },
+              { key: 'carbs' as const, label: 'Carbs', value: num(carbs), tint: categoryAccent.carbs },
+              { key: 'fat' as const, label: 'Fat', value: num(fat), tint: categoryAccent.fat },
+              // Fibre only when this food's source carried one — the tile is
+              // absent rather than showing a 0 nobody measured.
+              ...(fibre != null
+                ? [{ key: 'fibre' as const, label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }]
+                : []),
+            ].map(({ key, label, value, tint }) => (
+              <Pressable
+                key={key}
+                onPress={startEdit(key)}
+                minTapTarget={false}
+                accessibilityLabel={`${label}, tap to type`}
+                // Two columns, leaving the design's gap between them.
+                style={{
+                  width: '48%',
+                  gap: space.xs,
+                  padding: space.md,
+                  borderRadius: radius.md,
+                  backgroundColor: editing === key ? surface.tile : 'transparent',
+                }}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
                   <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
-                  <Text variant="body" color={color.label} style={{ flex: 1 }}>
+                  <Text variant="caption" color={color.secondaryLabel}>
                     {label}
                   </Text>
-                  <Text variant="bodyMedium" color={color.label}>
-                    {`${value} g`}
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.xs }}>
+                  <Text variant="statSmall" color={figureColor(key)}>
+                    {value}
+                  </Text>
+                  <Text variant="caption" color={color.tertiaryLabel}>
+                    g
                   </Text>
                 </View>
-              ))}
-            </View>
-          ) : null}
-          <Pressable
-            onPress={() => setManual(true)}
-            accessibilityRole="button"
-            accessibilityLabel="Edit values manually"
-            style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, alignSelf: 'flex-start' }}
-          >
-            <Icon name="pencil" size={15} color={color.secondaryLabel} />
-            <Text variant="callout" color={color.secondaryLabel}>
-              Edit values manually
-            </Text>
-          </Pressable>
-        </>
-      ) : (
-        <>
-          <View style={{ flexDirection: 'row', gap: space.md }}>
-            <View style={{ flex: 1 }}>
-              <TextField
-                label="Serving (g)"
-                value={grams}
-                onChangeText={applyGrams}
-                keyboardType="decimal-pad"
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <TextField label="Calories" value={calories} onChangeText={setCalories} keyboardType="decimal-pad" />
-            </View>
+              </Pressable>
+            ))}
           </View>
+        ) : (
+          // No macro tiles, and no zeros dressed as measurements: the search
+          // database returns energy only.
+          <Text variant="footnote" color={color.secondaryLabel}>
+            This search result has calories only — the food database carries no protein, carbs or fat for it.
+          </Text>
+        )}
 
-          {macros ? (
-            <>
-              <View style={{ flexDirection: 'row', gap: space.md }}>
-                <View style={{ flex: 1 }}>
-                  <TextField
-                    label="Protein (g)"
-                    value={protein}
-                    onChangeText={setProtein}
-                    keyboardType="decimal-pad"
-                  />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <TextField label="Carbs (g)" value={carbs} onChangeText={setCarbs} keyboardType="decimal-pad" />
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', gap: space.md }}>
-                <View style={{ flex: 1 }}>
-                  <TextField label="Fat (g)" value={fat} onChangeText={setFat} keyboardType="decimal-pad" />
-                </View>
-                <View style={{ flex: 1 }} />
-              </View>
-            </>
-          ) : (
-            // No macro fields, and no zeros dressed as measurements: the search
-            // database returns energy only.
-            <Text variant="footnote" color={color.secondaryLabel}>
-              This search result has calories only — the food database carries no protein, carbs or fat for it.
-            </Text>
-          )}
-        </>
-      )}
+        {/* The design's primary action: a full-width black pill after the fields,
+            above the secondary "save" and the destructive remove. */}
+        {slot ? (
+          <SegmentedField
+            label="Meal"
+            value={slot}
+            onChange={(v) => setSlot(v)}
+            options={SLOTS.map((s) => ({ label: s, value: s }))}
+            variant="inset"
+          />
+        ) : null}
 
-      {/* The design's primary action: a full-width black pill after the fields,
-          above the secondary "save" and the destructive remove. */}
-      {slot ? (
-        <SegmentedField
-          label="Meal"
-          value={slot}
-          onChange={(v) => setSlot(v)}
-          options={SLOTS.map((s) => ({ label: s, value: s }))}
-          variant="inset"
-        />
-      ) : null}
+        <Button title={ctaLabel} onPress={() => onDone(draft(), slot)} />
 
-      <Button title={ctaLabel} onPress={() => onDone(draft(), slot)} />
+        {onSaveToFoods ? (
+          <Button
+            title="Save to my foods"
+            variant="secondary"
+            icon="bookmark-outline"
+            onPress={() => onSaveToFoods(draft())}
+          />
+        ) : null}
 
-      {onSaveToFoods ? (
-        <Button
-          title="Save to my foods"
-          variant="secondary"
-          icon="bookmark-outline"
-          onPress={() => onSaveToFoods(draft())}
-        />
-      ) : null}
-
-      {remove ? (
-        <Button
-          title={remove.label}
-          variant="destructive"
-          icon="trash"
-          // Confirm before deleting — the global destructive rule, same pattern
-          // as SwipeableRow.
-          onPress={() => {
-            haptics.warning();
-            Alert.alert(remove.confirm, undefined, [
-              { text: 'Cancel', style: 'cancel' },
-              {
-                text: 'Delete',
-                style: 'destructive',
-                onPress: () => {
-                  haptics.impactHeavy();
-                  remove.run();
+        {remove ? (
+          <Button
+            title={remove.label}
+            variant="destructive"
+            icon="trash"
+            // Confirm before deleting — the global destructive rule, same pattern
+            // as SwipeableRow.
+            onPress={() => {
+              haptics.warning();
+              Alert.alert(remove.confirm, undefined, [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                  text: 'Delete',
+                  style: 'destructive',
+                  onPress: () => {
+                    haptics.impactHeavy();
+                    remove.run();
+                  },
                 },
-              },
-            ]);
+              ]);
+            }}
+          />
+        ) : null}
+      </SheetContent>
+
+      {editing ? (
+        <FoodNumberEntryBar
+          label={PADS[editing].label}
+          value={entry}
+          mode={PADS[editing].mode}
+          onChange={(text, value) => {
+            setEntry(text);
+            setPadValue[editing](value);
           }}
+          onDone={() => setEditing(null)}
         />
       ) : null}
-    </SheetContent>
+    </KeyboardAvoidingView>
   );
 }

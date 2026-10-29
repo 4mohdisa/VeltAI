@@ -83,7 +83,7 @@ this pass matched the design on every checked value.
 | Gym — "Log this session" CTA | ❌ DIFFERENT | Different copy, icon, position and conditions, and it pushes a route where the design opens a sheet in place. |
 | Gym — streak detail & session history | ❌ DIFFERENT | Neither screen exists in the design, and both are still in pre-design chrome using deprecated grey tokens. |
 | Food — Day log (main view) | ❌ DIFFERENT | Design's calories card is goal-relative with a progress bar and four macro bars; the app shows total logged, no goal, three macros — plus a search field the design puts in a sheet. |
-| Food — Food detail sheet | ❌ DIFFERENT | Design is tap-a-number → slim keyboard bar with a photo and macro grid; the app is a labelled form behind an "Edit values manually" toggle. |
+| Food — Food detail sheet | 🔨 BUILT (not verified) | All six numbers are now tap-to-edit through the shared `FoodNumberEntryBar` — the design’s captions and keyboards (`Serving size · grams` and `Calories · kcal` numeric, the four macros decimal), a grams chip, a tappable kcal readout and a 2×2 macro grid replacing the boxed fields. |
 | Food — Quick add | 🔨 BUILT (not verified) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `FoodNumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. |
 | Food — Search | ❌ DIFFERENT | Design is a dedicated sheet with filter chips and a one-tap `+`; the app has an inline field whose results replace the day view, and its `+` is decorative. |
 | Food — My dishes / Saved | ❌ DIFFERENT | Design is a photo gallery with a "New dish" tile; the app is a searchable text list with swipe-to-unsave. |
