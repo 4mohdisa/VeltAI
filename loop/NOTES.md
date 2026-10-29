@@ -24,40 +24,42 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - When applying the bar changes a control that an existing test pins, updating that test to the new control is a small separate follow-up task (manager may authorise it, no need to ask Isa). Source stays untouched in that task.
 
 ## Done
-- Round 1: shared component src/components/food/FoodNumberEntryBar.tsx built (props: label, value, onChange(text, value), onDone, mode?, maxLength?). tsc and eslint clean. No tests exist for it. Design source: design/Lume App.html (gzip+base64 embedded payloads). The bar appears 4 times identically in the design (Food detail pad, Quick add pad, Gym session pad, Gym template pad).
-- Round 2: Food - Quick add (src/app/food/quick-add.tsx) has the bar applied, maxLength 5 added to match design. tsc pass. Row marked BUILT (not verified).
-- Round 3: Food - Food detail sheet (src/app/food/detail.tsx) has the bar applied to six pads (PADS table, editing/entry state, grams chip, kcal readout, 2x2 macro tile grid; Fibre now editable; all pads use the bar's default maxLength 6 because the design caps all six at 6). Row marked BUILT (not verified). tsc pass, eslint clean. The app's manual/locked gate (lockValues={!review}, 'Edit values manually') was kept because src/__tests__/foodDetail.test.ts:137 pins it.
-- Round 4: test src/__tests__/render/foodDetailLogged.render.test.tsx updated to the new tiles/pad (now 4 tests, plus a fibre test; local SafeAreaProvider renderSheet helper). tsc, eslint and jest (foodDetailLogged.render + foodDetail.test.ts, 35 tests) all green. Source untouched.
+- Round 1: shared component built (now src/components/common/NumberEntryBar.tsx; props: label, value, onChange(text, value), onDone, mode?, maxLength?). Design source: design/Lume App.html (gzip+base64 embedded payloads). The bar appears 4 times identically in the design (Food detail pad, Quick add pad, Gym session pad, Gym template pad).
+- Round 2: Food - Quick add (src/app/food/quick-add.tsx) has the bar applied, maxLength 5. Row BUILT (not verified).
+- Round 3: Food - Food detail sheet (src/app/food/detail.tsx) has the bar applied to six pads (grams chip, kcal readout, 2x2 macro tile grid; Fibre editable; maxLength 6). Row BUILT (not verified). The app's manual/locked gate (lockValues={!review}, 'Edit values manually') kept because src/__tests__/foodDetail.test.ts:137 pins it.
+- Round 4: test src/__tests__/render/foodDetailLogged.render.test.tsx updated to the new tiles/pad. tsc, eslint, jest (35 tests) green.
+- Round 5: bar moved/renamed to src/components/common/NumberEntryBar.tsx (new folder src/components/common), imports updated in quick-add.tsx and detail.tsx, comment in the render test updated. Pure rename. tsc, eslint, jest (35 tests) green. grep for old name returns nothing.
 
 ## In progress
-- Round 5: prompt sent to move/rename src/components/food/FoodNumberEntryBar.tsx to a neutral shared folder (existing ui/common/shared, else src/components/common) as NumberEntryBar.tsx, and update imports in quick-add.tsx and detail.tsx. Pure refactor, no visual change. Run tsc, jest on foodDetailLogged.render + foodDetail.test.ts, eslint on changed files. Awaiting report.
+- Round 6: prompt sent to apply NumberEntryBar to Gym - log session (file found by Claude Code from the gap analysis row; Weight kg decimal, Reps, Minutes, Speed km/h decimal, maxLength 5). Does not touch the 'How did it go?' chooser or the questionnaire. If a pinned test fails, Claude Code reports it and a follow-up test-fix task is authorised. Awaiting report.
 
 ## Blocked on Isa
 (nothing yet)
 
 ## Parked (not v1)
-- Checked-in extract of the design HTML payloads (or populate the empty ds-bundle/components) so design lookups do not repeat the gzip/base64 extraction. Tooling, not a UI row, so parked unless it blocks work.
+- Checked-in extract of the design HTML payloads (or populate empty ds-bundle/components) so design lookups do not repeat gzip/base64 extraction. Tooling, parked unless it blocks work.
 - Repo has no prettier config. Never run prettier on files (it reformats to double quotes and 80 columns, against repo style).
-- Test harness: src/__tests__/render/setup.ts has no SafeAreaProvider, so any render test touching the bar must wrap its own. Better fixed once in setup.ts/renderScreen. Small tooling task, do only if a later round hits it again.
-- No render test covers quick-add.tsx's use of the bar (would hit the same safe-area issue).
+- Test harness: src/__tests__/render/setup.ts has no SafeAreaProvider, so any render test touching the bar must wrap its own. Better fixed once in setup.ts/renderScreen. Small tooling task, do only if a later round hits it again (Gym tests may).
+- No render test covers quick-add.tsx's use of the bar.
+- Convention note in AGENTS.md on what belongs in src/components/common vs primitives (boundary ambiguous now). Doc-only, low priority.
 
 ## Next task
 Apply the number entry bar one surface per round, in this order:
 1. Food - Quick add (done)
 2. Food - Food detail sheet (done, test fixed)
-3. Move/rename bar to neutral shared location as NumberEntryBar (round 5, in progress)
-4. Gym - log session (Weight kg decimal, Reps, Minutes, Speed km/h decimal, maxLength 5). NOTE: gym surfaces touch the gym cluster. The bar application alone is allowed, but the plan-aware 'How did it go?' chooser redesign is NOT until Isa approves.
+3. Move/rename bar to NumberEntryBar (done)
+4. Gym - log session (round 6, in progress). Gym surfaces touch the gym cluster. The bar application alone is allowed, but the plan-aware 'How did it go?' chooser redesign is NOT until Isa approves.
 5. Gym - template editing (logAdjust)
 6. The four app-only Stepper/SliderField number entries (label-scan servings, scan-review weight, new-recipe servings, recipes-log-sheet servings)
 7. Profile - Goals inline calorie figure
 Mark each row built in DESIGN_GAP_ANALYSIS.md with one line only after the bar is applied on that surface. When every row the bar covers is built, use action ask to let Isa choose whether to start the gym cluster redesign.
 
 After the bar rows, candidate small tasks:
-- Food - Add sheet (src/app/food/add.tsx, row 'Food — Add sheet', DIFFERENT): add missing Search foods and My dishes tiles, remove two extra tiles, vary title per design, Quick add as full-width row.
+- Food - Add sheet (src/app/food/add.tsx, row 'Food - Add sheet', DIFFERENT): add missing Search foods and My dishes tiles, remove two extra tiles, vary title per design, Quick add as full-width row.
 - Blinking caret beside the hero figure while a pad is open (Quick add 3x38; Food detail 2x17 on chip and tiles, 3x26 on kcal figure; color.primary, lumeCaret 1s loop). Needs an Animated loop in NumberEntryBar. Its own task.
 - Food detail: decimal macros cannot round-trip a fractional gram (draft() uses num() = Math.round, design stores 1 dp). Save-logic change in detail.tsx, its own task, probably needs a test (unpinned today).
-- Food detail remaining composition gaps: no 96x96 photo tile, no AI provenance note, no brand sub-line for logged rows, sheet title is the mode not the food, extra Name field, the app's manual/locked gate that the design lacks (pinned by foodDetail.test.ts:137).
-- Stale doc sections in DESIGN_GAP_ANALYSIS.md: '## Food — Food detail sheet' (line 907, verdict still DIFFERENT, differences 1, 2, 4, 12 now addressed, contradicts summary row at line 86) and '## Food — Quick add' (around line 974, audit table around line 1401). Doc-only fix, do at a convenient point.
+- Food detail remaining composition gaps: no 96x96 photo tile, no AI provenance note, no brand sub-line for logged rows, sheet title is the mode not the food, extra Name field, the manual/locked gate the design lacks (pinned by foodDetail.test.ts:137).
+- Stale doc sections in DESIGN_GAP_ANALYSIS.md: '## Food - Food detail sheet' (around line 907, verdict still DIFFERENT, contradicts summary row at line 86) and '## Food - Quick add' (around line 974, audit table around line 1401). Doc-only fix at a convenient point.
 Then take remaining rows in the order that clears the most rows per task.
 
 ## Loop notes
@@ -66,3 +68,4 @@ Then take remaining rows in the order that clears the most rows per task.
 - Round 2 report flagged again for the same reason. Cause: jest --findRelatedTests exits 1 when no tests match. Fix: use --passWithNoTests from round 3 on.
 - Round 3 report flagged: real failing test, fixed in round 4. Jev said ask 79%, but it was a small test fix the manager can authorise, so ran instead of asking.
 - Round 4 clean. Jev run 95%.
+- Round 5 clean. Jev run 96%. Gym file name not known to the manager, so the round 6 prompt tells Claude Code to find it from the gap analysis row.

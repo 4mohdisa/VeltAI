@@ -5,12 +5,13 @@
 // wrapped so a backend failure still leaves the screen with a toast.
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import { router, useNavigation, type Href } from 'expo-router';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
+import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
 import { Card, EmptyState, Skeleton, showToast } from '@/components/display';
-import { Button, SliderField, TextField } from '@/components/forms';
+import { Button, SliderField } from '@/components/forms';
 import { Screen } from '@/components/navigation/Screen';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -18,7 +19,7 @@ import { Text } from '@/components/primitives/Text';
 import type { ExerciseLibraryItem, GymExerciseInput, LoggedParameters, ParameterSchema } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { useToday } from '@/lib/data/gymSchedule';
-import { color, radius, space, surface } from '@/lib/design/tokens';
+import { color, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { logGymSession } from '@/lib/data';
 
@@ -49,6 +50,32 @@ const EMPTY_STATE: RowState = { checked: false, expanded: false, sets: [], durat
 
 /** "Set 1" gutter — every value box lines up on one edge (design §3.2). */
 const SET_LABEL_WIDTH = 46;
+
+/** The design's value box: 40pt tall with a 16/20 rounded figure. No token
+ *  covers either, and 40 is deliberately below the 44pt tap target because the
+ *  box sits inside a 44pt row. */
+const VALUE_BOX_HEIGHT = 40;
+const VALUE_FONT_SIZE = 16;
+const VALUE_LINE_HEIGHT = 20;
+
+/** The numbers this screen types into, with the design's pad captions, keyboards
+ *  and in-box unit suffixes. The design caps every one of them at five digits. */
+type PadField = 'weight' | 'reps' | 'duration' | 'distance';
+const PADS: Record<PadField, { label: string; mode: NumberEntryMode; unit: string }> = {
+  weight: { label: 'Weight · kg', mode: 'decimal', unit: 'kg' },
+  reps: { label: 'Reps', mode: 'numeric', unit: 'reps' },
+  duration: { label: 'Minutes', mode: 'numeric', unit: 'min' },
+  // The design logs cardio as speed segments and has no distance pad; this app
+  // stores a distance, so the caption names what it actually saves.
+  distance: { label: 'Distance · km', mode: 'decimal', unit: 'km' },
+};
+const PAD_MAX_LENGTH = 5;
+
+/** Which value the bar is docked under: the design keys it by field, row and set
+ *  index the same way ("kg:3:1"). */
+type PadTarget = { field: PadField; rowKey: string; index: number };
+const samePad = (a: PadTarget | null, b: PadTarget) =>
+  a != null && a.field === b.field && a.rowKey === b.rowKey && a.index === b.index;
 
 // Blank / non-numeric → undefined (field unset), matching PlannedValuesForm.
 function toNum(s: string): number | undefined {
@@ -126,6 +153,10 @@ export default function GymSessionScreen(): JSX.Element {
   const [extras, setExtras] = useState<Row[]>([]);
   const [pickerVisible, setPickerVisible] = useState(false);
   const [saving, setSaving] = useState(false);
+  // Which value the docked bar is editing, and its raw entry string. One at a
+  // time, as the design does.
+  const [pad, setPad] = useState<PadTarget | null>(null);
+  const [entry, setEntry] = useState('');
   const extraSeq = useRef(0);
   const leavingRef = useRef(false); // true once we intentionally navigate away (skip the guard)
 
@@ -213,6 +244,58 @@ export default function GymSessionScreen(): JSX.Element {
       const cur = prev[row.key] ?? EMPTY_STATE;
       return { ...prev, [row.key]: { ...cur, rpe } };
     });
+
+  // Tapping the open value closes the bar, any other value switches it, and the
+  // entry string always restarts empty.
+  const startEdit = (target: PadTarget) => () => {
+    setEntry('');
+    setPad((open) => (samePad(open, target) ? null : target));
+  };
+
+  // The bar writes the sanitised STRING into the same state the boxed fields
+  // used to fill, so an emptied value stays unset rather than becoming a 0.
+  const applyPad = (text: string) => {
+    setEntry(text);
+    if (!pad) return;
+    const row = rows.find((r) => r.key === pad.rowKey);
+    if (!row) return;
+    if (pad.field === 'reps' || pad.field === 'weight') updateSet(row, pad.index, pad.field, text);
+    else updateCardio(row, pad.field, text);
+  };
+
+  // The design's value box: the number and its unit on a tile that lights up
+  // while its pad is open. Tapping it again closes the pad.
+  const valueBox = (target: PadTarget, value: string, accessibilityLabel: string) => (
+    <Pressable
+      onPress={startEdit(target)}
+      minTapTarget={false}
+      accessibilityLabel={accessibilityLabel}
+      style={{
+        flex: 1,
+        minHeight: VALUE_BOX_HEIGHT,
+        borderRadius: radius.md,
+        backgroundColor: samePad(pad, target) ? surface.tilePressed : surface.tile,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: space.xs,
+      }}
+    >
+      <Text
+        color={value ? color.label : color.tertiaryLabel}
+        style={{
+          fontSize: VALUE_FONT_SIZE,
+          lineHeight: VALUE_LINE_HEIGHT,
+          fontFamily: ROUNDED_FACE_BY_WEIGHT['600'],
+        }}
+      >
+        {value || '—'}
+      </Text>
+      <Text variant="caption" color={color.tertiaryLabel}>
+        {PADS[target.field].unit}
+      </Text>
+    </Pressable>
+  );
 
   const onPickExtra = (exercise: ExerciseLibraryItem, planned: PlannedValues) => {
     const key = `extra_${extraSeq.current++}`;
@@ -349,22 +432,14 @@ export default function GymSessionScreen(): JSX.Element {
                   onParamsChange={(p) => setParams(row, p)}
                 />
               ) : (
-                <>
-                  <TextField
-                    label="Duration (min)"
-                    value={st.duration}
-                    onChangeText={(v) => updateCardio(row, 'duration', v)}
-                    keyboardType="number-pad"
-                    placeholder="30"
-                  />
-                  <TextField
-                    label="Distance (km, optional)"
-                    value={st.distance}
-                    onChangeText={(v) => updateCardio(row, 'distance', v)}
-                    keyboardType="decimal-pad"
-                    placeholder="—"
-                  />
-                </>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+                  {valueBox({ field: 'duration', rowKey: row.key, index: 0 }, st.duration, `${row.name} duration in minutes`)}
+                  {valueBox(
+                    { field: 'distance', rowKey: row.key, index: 0 },
+                    st.distance,
+                    `${row.name} distance in kilometres, optional`,
+                  )}
+                </View>
               )
             ) : (
               <>
@@ -375,24 +450,8 @@ export default function GymSessionScreen(): JSX.Element {
                     <Text variant="footnote" color={color.secondaryLabel} style={{ minWidth: SET_LABEL_WIDTH }}>
                       {`Set ${idx + 1}`}
                     </Text>
-                    <View style={{ flex: 1 }}>
-                      <TextField
-                        value={s.reps}
-                        onChangeText={(v) => updateSet(row, idx, 'reps', v)}
-                        keyboardType="number-pad"
-                        placeholder="Reps"
-                        accessibilityLabel={`Set ${idx + 1} reps`}
-                      />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <TextField
-                        value={s.weight}
-                        onChangeText={(v) => updateSet(row, idx, 'weight', v)}
-                        keyboardType="decimal-pad"
-                        placeholder="kg"
-                        accessibilityLabel={`Set ${idx + 1} weight`}
-                      />
-                    </View>
+                    {valueBox({ field: 'reps', rowKey: row.key, index: idx }, s.reps, `Set ${idx + 1} reps`)}
+                    {valueBox({ field: 'weight', rowKey: row.key, index: idx }, s.weight, `Set ${idx + 1} weight`)}
                   </View>
                 ))}
                 <Button
@@ -422,56 +481,69 @@ export default function GymSessionScreen(): JSX.Element {
   };
 
   return (
-    <Screen
-      variant="floating"
-      eyebrow="Today"
-      title={today?.template?.name ?? 'Workout'}
-      showBack
-      footer={
-        hasExercises ? (
-          <Button
-            title="Finish workout"
-            onPress={() => void finishWorkout('Workout saved')}
-            loading={saving}
-            disabled={saving}
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <Screen
+        variant="floating"
+        eyebrow="Today"
+        title={today?.template?.name ?? 'Workout'}
+        showBack
+        footer={
+          hasExercises && !pad ? (
+            <Button
+              title="Finish workout"
+              onPress={() => void finishWorkout('Workout saved')}
+              loading={saving}
+              disabled={saving}
+            />
+          ) : undefined
+        }
+      >
+        {loading ? (
+          <View style={{ gap: space.lg }}>
+            <Skeleton width="100%" height={72} rounded={radius.lg} />
+            <Skeleton width="100%" height={72} rounded={radius.lg} />
+            <Skeleton width="100%" height={72} rounded={radius.lg} />
+          </View>
+        ) : !hasExercises ? (
+          <EmptyState
+            icon="barbell"
+            title={today?.is_rest_day ? 'Rest day' : 'Nothing scheduled'}
+            message="Add an exercise to log a freestyle session."
+            actionLabel="Add exercise"
+            onAction={() => setPickerVisible(true)}
           />
-        ) : undefined
-      }
-    >
-      {loading ? (
-        <View style={{ gap: space.lg }}>
-          <Skeleton width="100%" height={72} rounded={radius.lg} />
-          <Skeleton width="100%" height={72} rounded={radius.lg} />
-          <Skeleton width="100%" height={72} rounded={radius.lg} />
-        </View>
-      ) : !hasExercises ? (
-        <EmptyState
-          icon="barbell"
-          title={today?.is_rest_day ? 'Rest day' : 'Nothing scheduled'}
-          message="Add an exercise to log a freestyle session."
-          actionLabel="Add exercise"
-          onAction={() => setPickerVisible(true)}
-        />
-      ) : (
-        <View style={{ gap: space.md }}>
-          <Text variant="footnote" color={color.secondaryLabel}>
-            Tick each exercise as you complete it
-          </Text>
-          {rows.map(renderRow)}
-          {/* The design's secondary action is a filled grey pill, not an
-              outlined one — Button keeps its variants, the fill comes from the
-              call site so no other screen's buttons change. */}
-          <Button
-            title="Add an extra exercise"
-            variant="tertiary"
-            icon="add"
-            onPress={() => setPickerVisible(true)}
-            style={{ backgroundColor: surface.tile }}
-          />
-        </View>
-      )}
+        ) : (
+          <View style={{ gap: space.md }}>
+            <Text variant="footnote" color={color.secondaryLabel}>
+              Tick each exercise as you complete it
+            </Text>
+            {rows.map(renderRow)}
+            {/* The design's secondary action is a filled grey pill, not an
+                outlined one — Button keeps its variants, the fill comes from the
+                call site so no other screen's buttons change. */}
+            <Button
+              title="Add an extra exercise"
+              variant="tertiary"
+              icon="add"
+              onPress={() => setPickerVisible(true)}
+              style={{ backgroundColor: surface.tile }}
+            />
+          </View>
+        )}
 
-      <ExercisePicker visible={pickerVisible} onClose={() => setPickerVisible(false)} onPick={onPickExtra} />
-    </Screen>
+        <ExercisePicker visible={pickerVisible} onClose={() => setPickerVisible(false)} onPick={onPickExtra} />
+      </Screen>
+
+      {pad ? (
+        <NumberEntryBar
+          label={PADS[pad.field].label}
+          value={entry}
+          mode={PADS[pad.field].mode}
+          maxLength={PAD_MAX_LENGTH}
+          onChange={applyPad}
+          onDone={() => setPad(null)}
+        />
+      ) : null}
+    </KeyboardAvoidingView>
   );
 }

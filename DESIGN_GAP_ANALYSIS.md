@@ -73,7 +73,7 @@ this pass matched the design on every checked value.
 
 | Screen / surface | Verdict | One-line reason |
 |---|---|---|
-| **Gym — session logging (log sheet)** | ❌ DIFFERENT | Design is a plan-aware chooser with four outcomes writing a real exercise list; the app is a four-field subjective questionnaire that writes a bare session row. |
+| **Gym — session logging (log sheet)** | ❌ DIFFERENT | Design is a plan-aware chooser with four outcomes writing a real exercise list; the app is a four-field subjective questionnaire that writes a bare session row. Difference 16 only is closed (not verified): `/gym/session` now types every number through the shared `NumberEntryBar` — `Weight · kg`, `Reps`, `Minutes`, `Distance · km` — instead of boxed fields. The log sheet itself is untouched. |
 | **Gym — multiple logging methods** | ❌ DIFFERENT | The design implies five logging flows; the app exposes one reachable questionnaire plus a conditional session screen, while the backend already supports nearly all five. |
 | **Gym — workout / template detail** | ❌ DIFFERENT | Design is a live accordion editor with per-set rows, warm-up marking, rest/tempo/RPE tiles, notes, supersets and a keypad bar; the app is a name + duration form whose exercises become read-only once saved. |
 | Gym — Muscle focus / 3D body | ❌ DIFFERENT | The design embeds an interactive 3D body three times with tap-to-select, a popover and volume chips; the app has no 3D body and renders a static bar list the design does not have on that card. |
