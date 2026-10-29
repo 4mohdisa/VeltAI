@@ -30,34 +30,36 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Shared src/components/common/NumberEntryBar.tsx, applied in food/quick-add, food/detail, gym/session (cardio stays 'Distance km') and gym/PlannedValuesForm (inline in BottomSheet).
 - Food Add sheet rebuilt to the design chooser (food/add.tsx). Its 'Search foods' tile routes to /(tabs)/food?focus=search, which focuses the search input.
 - Goals: borderless inline calorie input, hints, white card.
-- Search result '+' disc in (tabs)/food.tsx logs at 100 g to the slot from slotForNow() with a toast. The row label now uses foodLog.openFood. Round 22 had tsc, eslint and jest all exit 0. Nested-Pressable isolation is unverified on device.
+- Search result '+' disc in (tabs)/food.tsx logs at 100 g to the slot from slotForNow() with a toast. The row label uses foodLog.openFood. Nested-Pressable isolation is unverified on device.
+- Round 24: gym/log-session.tsx rebuilt as the 'How did it go?' chooser (SheetContent leading, Different weights / Only some of it tiles, Something else row, 'It went as planned' footer calling logGymSession with completionRate 1, rest-day EmptyState fallback). New en.json gymLog group. tsc, eslint, jest all exit 0. No test coverage on the screen. All three tiles currently route to /gym/session with no mode.
 
 ## In progress
-- Round 24: gym log-session 'How did it go?' chooser (log-session.tsx, one file plus en.json keys plus one status line). Prompt sent. If the report says BLOCKED on a data-model field, ask Isa or park it.
+- Round 25: one-file fix in (tabs)/food.tsx to clear the `focus` route param after it focuses the search input. Prompt sent.
 
 ## Blocked on Isa
 (none)
 
-## Next tasks (after the gym chooser)
-1. Small fix: the (tabs)/food.tsx focus param is never cleared, so it can re-focus unexpectedly (one file).
+## Next tasks
+1. Gym session entry modes, split in two one-file tasks: (a) src/app/gym/session.tsx reads an optional `mode` param (adjust / ticklist / picker) and opens in that mode; (b) src/app/gym/log-session.tsx passes the mode from each tile. Part of the approved chooser, but the report says session.tsx is a complex screen, so keep task (a) narrow. If (a) needs a data-model change, ask Isa.
 2. Data fidelity: the search disc in (tabs)/food.tsx and detail.tsx log macros as flat 0 although FoodResult has optional protein/carbs/fat. Two separate one-file tasks, food.tsx first.
 3. (tabs)/food.tsx warnConflict toast and accessibilityHint build English strings inline from a raw enum. Move to i18n keys (one file plus en.json).
 4. en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' and an interpolated addToSlot key, then wire them in add.tsx. Two tasks.
 5. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT without flipping row 76. Fix stale Food detail, Quick add and Add sheet sections that contradict their summary rows.
 6. Food - Search 88% sheet (pill input, thumbnails, row metrics, without filter chips) needs its own plan.
-7. Remaining gym cluster rows (template editor etc.) need Isa's approval per item, ask before starting.
-8. If nothing non-gym is a one-file task and Isa is silent, stop with reason 'only owner decisions remain'.
+7. Open gym log-session differences 17, 18, 19 (toast instead of celebration card, no 'Logged and locked' edit cycle, already-logged dismisses instead of routing into the day) and 23 (Summary card calls logGymSession() with no arguments or UI, a third entry point). These are behaviour changes, so ask Isa before starting.
+8. Remaining gym cluster rows (template editor etc.) need Isa's approval per item, ask before starting.
+9. If nothing non-gym is a one-file task and Isa is silent, stop with reason 'only owner decisions remain'.
 
 Small candidates: blinking caret in NumberEntryBar; Food detail fractional macros lose precision (draft() uses Math.round); Food detail composition gaps (96x96 photo, AI note, brand sub-line); accessibilityState disabled on the Goals calorie input.
 
 ## Parked (not v1)
 - Checked-in extract of the design payloads.
-- Render test harness lacks SafeAreaProvider, so bar render tests must wrap their own. No render tests cover quick-add, session, PlannedValuesForm or the search disc.
+- Render test harness lacks SafeAreaProvider, so bar render tests must wrap their own. No render tests cover quick-add, session, PlannedValuesForm, log-session or the search disc.
 - AGENTS.md note on common vs primitives.
 - Gym items (decide with Isa): set row order [kg] x [reps] with per-set remove; ParameterForm cardio inputs; template editor redesign (accordion, warm-up chips, Rest/Tempo/RPE tiles, Target RPE needs a data change); docking the template bar full-bleed (two files); kg/lb field vs fixed 'kg'; cardio Duration mixed with tap boxes.
 - Four app-only Stepper/SliderField entries (label-scan, scan-review, new-recipe, recipes-log-sheet) stay as is.
 - goals.tsx hardcoded 'Between 1,200 and 10,000 kcal.' and 'Daily targets' eyebrow.
-- Locale drift: es.json and fr.json lack the new keys. goals.savedAsYouType now holds two sentences.
+- Locale drift: es.json and fr.json lack the new keys (including gymLog). goals.savedAsYouType now holds two sentences.
 - Unreferenced addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods. Remove after verifying zero usage.
 - Food search filter chips (Isa said no).
 
@@ -66,4 +68,5 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Rounds 16-21 landed clean (Goals hints, card, focus param, add.tsx wiring, search disc). The round 21 report was flagged only because of the no-tests line.
 - Round 22: openFood label fix landed, tsc, eslint and jest exit 0.
 - Round 23: asked Isa about 4 items (Jev split run 51%, ask 48%).
-- Round 24: Isa answered 1 yes, 2 no, 3 no, 4 no. Jev run 74%. Running the gym chooser task.
+- Round 24: Isa answered 1 yes, 2 no, 3 no, 4 no. Gym chooser landed clean (Jev: 95% clean).
+- Round 25: Jev run 64%. Chose the small focus-param fix before the two-file session-modes split, because the tiles need both session.tsx and log-session.tsx edited and the checker allows one file per task.

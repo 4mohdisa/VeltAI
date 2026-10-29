@@ -268,7 +268,13 @@ export default function FoodLogScreen() {
   useEffect(() => subscribeToFoodLogStatus(null, () => {}), []);
 
   useEffect(() => {
-    if (focus === 'search') searchRef.current?.focus();
+    if (focus !== 'search') return;
+    searchRef.current?.focus();
+    // Drop the param once it has been honoured: without this it survives on the
+    // route entry, so any later render — or coming back to the tab — would pull
+    // the keyboard up again. Clearing re-runs this effect with no param, which
+    // returns early, and arriving again from the Add sheet still focuses.
+    router.setParams({ focus: undefined });
   }, [focus]);
 
   // Plain handlers — the React Compiler memoizes them; manual useCallback here
