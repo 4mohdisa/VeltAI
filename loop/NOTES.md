@@ -31,16 +31,17 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Food Add sheet rebuilt to the design chooser (food/add.tsx). Its 'Search foods' tile routes to /(tabs)/food?focus=search, which focuses the search input.
 - Goals: borderless inline calorie input, hints, white card.
 - Search result '+' disc in (tabs)/food.tsx logs at 100 g to the slot from slotForNow() with a toast. The row label uses foodLog.openFood. Nested-Pressable isolation is unverified on device.
-- Round 24: gym/log-session.tsx rebuilt as the 'How did it go?' chooser (SheetContent leading, Different weights / Only some of it tiles, Something else row, 'It went as planned' footer calling logGymSession with completionRate 1, rest-day EmptyState fallback). New en.json gymLog group. tsc, eslint, jest all exit 0. No test coverage on the screen. All three tiles currently route to /gym/session with no mode.
+- Round 24: gym/log-session.tsx rebuilt as the 'How did it go?' chooser (SheetContent leading, Different weights / Only some of it tiles, Something else row, 'It went as planned' footer calling logGymSession with completionRate 1, rest-day EmptyState fallback). New en.json gymLog group. All three tiles currently route to /gym/session with no mode.
+- Round 25: (tabs)/food.tsx now clears the `focus` param after focusing search (router.setParams({ focus: undefined })). tsc, eslint, jest exit 0. No test coverage on the screen.
 
 ## In progress
-- Round 25: one-file fix in (tabs)/food.tsx to clear the `focus` route param after it focuses the search input. Prompt sent.
+- Round 26: task (a) of the gym session entry modes. One-file edit to src/app/gym/session.tsx: read optional `mode` param (adjust / ticklist / picker) and set the initial state from existing views only. No data-model change; unmapped modes stay default and are reported under BLOCKED. Prompt sent.
 
 ## Blocked on Isa
 (none)
 
 ## Next tasks
-1. Gym session entry modes, split in two one-file tasks: (a) src/app/gym/session.tsx reads an optional `mode` param (adjust / ticklist / picker) and opens in that mode; (b) src/app/gym/log-session.tsx passes the mode from each tile. Part of the approved chooser, but the report says session.tsx is a complex screen, so keep task (a) narrow. If (a) needs a data-model change, ask Isa.
+1. Gym session entry modes (b): src/app/gym/log-session.tsx passes the mode from each tile. Depends on the round 26 result. If a mode was reported unmappable, ask Isa.
 2. Data fidelity: the search disc in (tabs)/food.tsx and detail.tsx log macros as flat 0 although FoodResult has optional protein/carbs/fat. Two separate one-file tasks, food.tsx first.
 3. (tabs)/food.tsx warnConflict toast and accessibilityHint build English strings inline from a raw enum. Move to i18n keys (one file plus en.json).
 4. en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' and an interpolated addToSlot key, then wire them in add.tsx. Two tasks.
@@ -54,7 +55,7 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 
 ## Parked (not v1)
 - Checked-in extract of the design payloads.
-- Render test harness lacks SafeAreaProvider, so bar render tests must wrap their own. No render tests cover quick-add, session, PlannedValuesForm, log-session or the search disc.
+- Render test harness lacks SafeAreaProvider, so bar render tests must wrap their own. No render tests cover quick-add, session, PlannedValuesForm, log-session, the search disc or the focus-param clear.
 - AGENTS.md note on common vs primitives.
 - Gym items (decide with Isa): set row order [kg] x [reps] with per-set remove; ParameterForm cardio inputs; template editor redesign (accordion, warm-up chips, Rest/Tempo/RPE tiles, Target RPE needs a data change); docking the template bar full-bleed (two files); kg/lb field vs fixed 'kg'; cardio Duration mixed with tap boxes.
 - Four app-only Stepper/SliderField entries (label-scan, scan-review, new-recipe, recipes-log-sheet) stay as is.
@@ -62,6 +63,7 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Locale drift: es.json and fr.json lack the new keys (including gymLog). goals.savedAsYouType now holds two sentences.
 - Unreferenced addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods. Remove after verifying zero usage.
 - Food search filter chips (Isa said no).
+- router.setParams on the food tab rewrites its history entry, so it may surprise a future deep-link test.
 
 ## Loop notes
 - Rounds 1-14: early rejections (two files) and wrong-premise stops. Round 15 was a no-op because the work was already committed.
@@ -69,4 +71,5 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Round 22: openFood label fix landed, tsc, eslint and jest exit 0.
 - Round 23: asked Isa about 4 items (Jev split run 51%, ask 48%).
 - Round 24: Isa answered 1 yes, 2 no, 3 no, 4 no. Gym chooser landed clean (Jev: 95% clean).
-- Round 25: Jev run 64%. Chose the small focus-param fix before the two-file session-modes split, because the tiles need both session.tsx and log-session.tsx edited and the checker allows one file per task.
+- Round 25: focus-param clear landed clean (Jev: 97% clean).
+- Round 26: Jev run 82%. Chose session.tsx mode param (task a) as one file; the log-session.tsx half follows as a separate task.

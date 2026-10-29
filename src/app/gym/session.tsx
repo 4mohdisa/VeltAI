@@ -6,7 +6,7 @@
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
-import { router, useNavigation, type Href } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation, type Href } from 'expo-router';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
 import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
@@ -33,6 +33,15 @@ type Row = {
   exerciseId?: string; // library id, for the parameter form preview/last-logged
   schema?: ParameterSchema | null; // cardio parameter schema, when present
 };
+
+// Where the "How did it go?" chooser lands. Each value opens the view that
+// already exists for that answer; anything else (or nothing) is the plain
+// check-in the screen has always opened with.
+const SESSION_MODES = ['adjust', 'ticklist', 'picker'] as const;
+type SessionMode = (typeof SESSION_MODES)[number];
+
+const isSessionMode = (v: string | undefined): v is SessionMode =>
+  v !== undefined && (SESSION_MODES as readonly string[]).includes(v);
 
 type SetEntry = { reps: string; weight: string };
 type RowState = {
@@ -103,6 +112,18 @@ function seededState(row: Row): RowState {
   return { ...EMPTY_STATE, checked: true, sets: seedSets(row.planned) };
 }
 
+// What an untouched PLANNED row starts as. The chooser's two plan-shaped
+// answers change it rather than seeding state up front: 'ticklist' ("Only some
+// of it") starts everything ticked, to untick what was skipped, and 'adjust'
+// ("Different weights") additionally opens each row's numbers. Extras are never
+// affected — the picker already writes their state when they are added.
+function initialStateFor(row: Row, mode: SessionMode | undefined): RowState {
+  if (row.isExtra) return EMPTY_STATE;
+  if (mode === 'adjust') return { ...seededState(row), expanded: true };
+  if (mode === 'ticklist') return seededState(row);
+  return EMPTY_STATE;
+}
+
 function summaryOf(row: Row): string {
   const p = row.planned;
   if (row.isCardio) return p.duration_minutes != null ? `${p.duration_minutes} min` : 'Cardio';
@@ -148,10 +169,13 @@ function inputFor(row: Row, st: RowState | undefined): GymExerciseInput | null {
 export default function GymSessionScreen(): JSX.Element {
   const { today, loading } = useToday();
   const navigation = useNavigation();
+  const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
+  const mode = isSessionMode(modeParam) ? modeParam : undefined;
 
   const [states, setStates] = useState<Record<string, RowState>>({});
   const [extras, setExtras] = useState<Row[]>([]);
-  const [pickerVisible, setPickerVisible] = useState(false);
+  // 'picker' is "Something else" — the library opens over the check-in.
+  const [pickerVisible, setPickerVisible] = useState(mode === 'picker');
   const [saving, setSaving] = useState(false);
   // Which value the docked bar is editing, and its raw entry string. One at a
   // time, as the design does.
@@ -182,17 +206,20 @@ export default function GymSessionScreen(): JSX.Element {
 
   const rows = useMemo(() => [...plannedRows, ...extras], [plannedRows, extras]);
   const hasExercises = rows.length > 0;
-  const dirty = rows.some((r) => states[r.key]?.checked);
+  // Every read goes through this, so an untouched row looks the same to the
+  // rows, to `dirty` and to the completion rate.
+  const stateOf = (row: Row) => states[row.key] ?? initialStateFor(row, mode);
+  const dirty = rows.some((r) => stateOf(r).checked);
 
   const toggleCheck = (row: Row) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       return { ...prev, [row.key]: { ...cur, checked: !cur.checked } };
     });
 
   const onLogPress = (row: Row) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       if (cur.expanded) return { ...prev, [row.key]: { ...cur, expanded: false } };
       if (row.isCardio) {
         return {
@@ -212,14 +239,14 @@ export default function GymSessionScreen(): JSX.Element {
 
   const updateSet = (row: Row, idx: number, field: keyof SetEntry, value: string) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       const sets = cur.sets.map((s, i) => (i === idx ? { ...s, [field]: value } : s));
       return { ...prev, [row.key]: { ...cur, sets, checked: true } };
     });
 
   const addSet = (row: Row) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       const last = cur.sets[cur.sets.length - 1] ?? {
         reps: row.planned.reps != null ? String(row.planned.reps) : '',
         weight: row.planned.weight != null ? String(row.planned.weight) : '',
@@ -229,19 +256,19 @@ export default function GymSessionScreen(): JSX.Element {
 
   const updateCardio = (row: Row, field: 'duration' | 'distance', value: string) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       return { ...prev, [row.key]: { ...cur, [field]: value, checked: true } };
     });
 
   const setParams = (row: Row, params: LoggedParameters) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       return { ...prev, [row.key]: { ...cur, params, checked: true } };
     });
 
   const setRpe = (row: Row, rpe: number) =>
     setStates((prev) => {
-      const cur = prev[row.key] ?? EMPTY_STATE;
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
       return { ...prev, [row.key]: { ...cur, rpe } };
     });
 
@@ -322,9 +349,9 @@ export default function GymSessionScreen(): JSX.Element {
 
       const all = [...plannedRows, ...extras];
       const inputs = all
-        .map((r) => inputFor(r, states[r.key]))
+        .map((r) => inputFor(r, states[r.key] ?? initialStateFor(r, mode)))
         .filter((x): x is GymExerciseInput => x !== null);
-      const doneCount = plannedRows.filter((r) => states[r.key]?.checked).length;
+      const doneCount = plannedRows.filter((r) => (states[r.key] ?? initialStateFor(r, mode)).checked).length;
       const rate = plannedRows.length > 0 ? doneCount / plannedRows.length : undefined;
 
       // create → N exercises → complete goes through the offline queue as ONE
@@ -344,7 +371,7 @@ export default function GymSessionScreen(): JSX.Element {
         setSaving(false);
       }
     },
-    [plannedRows, extras, states, today],
+    [plannedRows, extras, states, today, mode],
   );
 
   // Intercept every back path (header tap, swipe, hardware back) once something is
@@ -373,7 +400,7 @@ export default function GymSessionScreen(): JSX.Element {
   }, [navigation, dirty, finishWorkout]);
 
   const renderRow = (row: Row) => {
-    const st = states[row.key] ?? EMPTY_STATE;
+    const st = stateOf(row);
     return (
       <Card key={row.key} variant="elevated">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
