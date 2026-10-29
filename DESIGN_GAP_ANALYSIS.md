@@ -1253,6 +1253,11 @@ colour dots absent**; a "Macro targets" label the design lacks; **Fibre field,
 reconciliation hint, "Reset to AI recommendation" and `HealthDisclaimer` all
 app-only**; energy-unit awareness the design lacks.
 
+**Built:** the calorie block now carries the design's three hints — the edit-state
+hint beside the section label (*"Set by Lume"* / *"Tap to edit"*) and the
+custom-mode *"Saved as you type"* help line under the figure. The rest of this row
+stands.
+
 ## Profile — Scan accuracy — ❌ DIFFERENT
 
 Design: a **96×96 ring** (r40, stroke 9, `dasharray "231 251"`) with `92%` centred

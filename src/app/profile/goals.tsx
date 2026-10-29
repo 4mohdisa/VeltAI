@@ -111,9 +111,16 @@ export default function GoalsScreen() {
           in place, with the energy unit as a suffix. Lume-set mode renders it
           read-only in the secondary colour rather than as a disabled box. */}
       <View style={{ gap: space.xs }}>
-        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-          {t('goals.dailyCalories')}
-        </Text>
+        {/* The design pairs the section label with a right-aligned edit hint that
+            names why the figure is or isn't typeable. */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+          <Text variant="label" color={color.secondaryLabel} style={{ flex: 1, textTransform: 'uppercase', letterSpacing: 1 }}>
+            {t('goals.dailyCalories')}
+          </Text>
+          <Text variant="caption" color={color.tertiaryLabel}>
+            {isCustom ? t('goals.tapToEdit') : t('goals.setByLume')}
+          </Text>
+        </View>
         <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
           <TextInput
             {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
@@ -137,6 +144,11 @@ export default function GoalsScreen() {
         <Text variant="footnote" color={color.secondaryLabel}>
           Between 1,200 and 10,000 kcal.
         </Text>
+        {isCustom ? (
+          <Text variant="footnote" color={color.secondaryLabel}>
+            {t('goals.savedAsYouType')}
+          </Text>
+        ) : null}
       </View>
 
       <SegmentedField
