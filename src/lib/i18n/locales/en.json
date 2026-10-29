@@ -85,6 +85,23 @@
     "openFood": "Open {{name}}",
     "noMatchesHint": "Try another name, or add it as a custom food."
   },
+  "gymLog": {
+    "title": "How did it go?",
+    "planSummary_one": "{{count}} exercise · about {{minutes}} min",
+    "planSummary_other": "{{count}} exercises · about {{minutes}} min",
+    "differentWeights": "Different weights",
+    "differentWeightsSub": "Same exercises, change the sets, reps or load",
+    "onlySome": "Only some of it",
+    "onlySomeSub": "Tick the exercises you actually did",
+    "somethingElse": "Something else",
+    "somethingElseSub": "Add an exercise that wasn't in the plan",
+    "asPlanned": "It went as planned",
+    "asPlannedCaption": "Logs {{plan}} exactly as scheduled",
+    "thisSession": "this session",
+    "restDayTitle": "Rest day",
+    "restDayMessage": "Nothing scheduled and nothing logged.",
+    "logAnExercise": "Log an exercise"
+  },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "dayStreak": "day streak",

@@ -1,38 +1,93 @@
 // D2 · Log gym session
-// All inputs optional: duration, perceived effort (1–10), energy (1–5), notes.
-// "Log it" extends the streak. Idempotent per UTC day.
-import { Button } from '@/components/forms/Button';
-import { useEffect, useState } from 'react';
-import { track } from '@/lib/analytics';
-import { router } from 'expo-router';
+// The design's plan-aware chooser: "How did it go?" over the day's planned
+// session, three ways it can have gone differently, and a primary that commits
+// the plan verbatim. The design has no duration, effort or energy question —
+// duration is DERIVED from the plan (3.2 min a set, or a cardio exercise's own
+// planned minutes), so none of those are asked here either.
+//
+// The three tiles are distinct intents that all land on /gym/session, which is
+// where this app already edits per-set numbers, ticks off what was done and
+// picks an extra exercise. Nothing planned → the design's rest-day fallback.
+import { useEffect, useMemo } from 'react';
+import { View } from 'react-native';
+import { router, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
+import { Button } from '@/components/forms/Button';
 import { SheetContent } from '@/components/navigation/SheetContent';
-import { SliderField } from '@/components/forms/SliderField';
-import { Stepper } from '@/components/forms/Stepper';
-import { TextField } from '@/components/forms/TextField';
+import { EmptyState } from '@/components/display/EmptyState';
+import { Skeleton } from '@/components/display/LoadingSkeleton';
+import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color } from '@/lib/design/tokens';
-import { formatDuration } from '@/lib/formatting';
+import { track } from '@/lib/analytics';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { logGymSession, useGym } from '@/lib/data';
+import { useToday } from '@/lib/data/gymSchedule';
+import type { GymExerciseInput, TemplateExercise } from '@/lib/api';
+
+/** The design's chooser tile metrics: a 46pt white disc holding a 21pt glyph, a
+ *  148pt square tile, and the 88pt full-width row. No token covers any of them,
+ *  and the 2pt label-to-caption gap is tighter than the spacing scale. */
+const TILE_DISC = 46;
+const TILE_GLYPH = 21;
+const TILE_HEIGHT = 148;
+const WIDE_TILE_HEIGHT = 88;
+const TEXT_GAP = 2;
+const CHEVRON = 14;
+
+/** The design never asks how long a session took — it costs a set at 3.2 min. */
+const SET_MINUTES = 3.2;
+
+/** A cardio exercise carries its own minutes; everything else is sets × 3.2. */
+const minutesOf = (te: TemplateExercise) =>
+  te.planned_duration_minutes ?? (te.planned_sets ?? 0) * SET_MINUTES;
+
+/** The plan, verbatim — what "It went as planned" commits, exercise by exercise.
+ *  Same shape /gym/session builds from its rows, so both paths write the same. */
+const inputFor = (te: TemplateExercise): GymExerciseInput => ({
+  name: te.exercise?.name ?? 'Exercise',
+  sets: te.planned_sets ?? undefined,
+  reps: te.planned_reps ?? undefined,
+  weight: te.planned_weight ?? undefined,
+  weight_unit: te.planned_weight_unit ?? undefined,
+  rest_seconds: te.rest_seconds ?? undefined,
+});
+
+type Choice = {
+  icon: string;
+  title: string;
+  description: string;
+  /** "Something else" spans both columns as a short row (`grid-column: span 2`). */
+  wide?: boolean;
+};
 
 export default function LogSessionScreen() {
-  // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
+  // Feature entered — one mount event per major surface, so "which features
+  // does anyone actually open?" is answerable without a per-screen scheme.
   useEffect(() => track('feature_used', { name: 'gym_logging' }), []);
 
+  const { t } = useTranslation();
   const {
     data: { streak },
   } = useGym();
-  // Starts at "Not set": the slider's own 0 label. A duration the user never
-  // chose would be sent to the server and turned into exercise calories.
-  const [duration, setDuration] = useState(0);
-  const [effort, setEffort] = useState(7);
-  const [energy, setEnergy] = useState(3);
-  const [notes, setNotes] = useState('');
+  const { today, loading } = useToday();
+
+  const planned = useMemo(() => today?.exercises ?? [], [today]);
+  const planName = today?.template?.name;
+  const planMinutes = useMemo(
+    () => Math.round(planned.reduce((a, te) => a + minutesOf(te), 0)),
+    [planned],
+  );
 
   const close = () => {
     if (router.canGoBack()) router.back();
   };
+
+  // Every tile is a different way the session went, and this app edits all three
+  // on the same screen: per-set numbers, the per-exercise ticks and the picker.
+  const adjust = () => router.replace('/gym/session' as Href);
 
   const save = () => {
     if (streak.gymLoggedToday) {
@@ -40,41 +95,111 @@ export default function LogSessionScreen() {
       close();
       return;
     }
-    logGymSession({ durationMin: duration > 0 ? duration : undefined, effort, energy, notes: notes.trim() || undefined });
+    logGymSession(
+      { durationMin: today?.template?.estimated_duration_minutes ?? planMinutes },
+      { name: planName, exercises: planned.map(inputFor), completionRate: 1 },
+    );
     showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
     close();
   };
 
+  if (loading) {
+    return (
+      <SheetContent variant="leading" title={t('gymLog.title')} onClose={close}>
+        <Skeleton height={TILE_HEIGHT} rounded={radius.lg} />
+      </SheetContent>
+    );
+  }
+
+  // Nothing scheduled: the design drops the chooser entirely and offers the
+  // library instead — there is no plan for any of the four outcomes to describe.
+  if (planned.length === 0) {
+    return (
+      <SheetContent variant="leading" title={t('gymLog.title')} onClose={close}>
+        <EmptyState
+          icon="barbell-outline"
+          title={t('gymLog.restDayTitle')}
+          message={t('gymLog.restDayMessage')}
+          actionLabel={t('gymLog.logAnExercise')}
+          onAction={adjust}
+        />
+      </SheetContent>
+    );
+  }
+
+  const choices: Choice[] = [
+    { icon: 'pencil', title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub') },
+    { icon: 'list', title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub') },
+    { icon: 'add', title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), wide: true },
+  ];
+  // The design names the plan in the subtitle and falls back to a generic
+  // phrase in the footer caption when the day's template has no name.
+  const summary = t('gymLog.planSummary', { count: planned.length, minutes: planMinutes });
+
   return (
-    <SheetContent variant="leading" title="Log session" onClose={close}>
-      <Text variant="callout" color={color.gray500}>
-        Everything here is optional — a one-tap log still counts.
-      </Text>
+    <SheetContent
+      variant="leading"
+      title={t('gymLog.title')}
+      subtitle={planName ? `${planName} · ${summary}` : summary}
+      onClose={close}
+    >
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.md }}>
+        {choices.map((c) => (
+          <Pressable
+            key={c.icon}
+            onPress={adjust}
+            accessibilityLabel={`${c.title}. ${c.description}`}
+            minTapTarget={false}
+            // The design's chooser tile: a grey tile, a WHITE disc holding the
+            // one glyph, then the title and its caption pinned to the bottom.
+            // Pressed darkens the tile rather than fading it.
+            style={({ pressed }) => ({
+              width: c.wide ? '100%' : '48%',
+              minHeight: c.wide ? WIDE_TILE_HEIGHT : TILE_HEIGHT,
+              backgroundColor: pressed ? surface.tilePressed : surface.tile,
+              borderRadius: radius.lg,
+              paddingVertical: c.wide ? space.md : space.lg,
+              paddingHorizontal: space.lg,
+              flexDirection: c.wide ? 'row' : 'column',
+              alignItems: c.wide ? 'center' : 'stretch',
+              gap: c.wide ? space.md : space.sm,
+            })}
+          >
+            <View
+              style={{
+                width: TILE_DISC,
+                height: TILE_DISC,
+                borderRadius: radius.full,
+                backgroundColor: color.white,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <Icon name={c.icon} size={TILE_GLYPH} color={color.label} />
+            </View>
+            <View style={[{ gap: TEXT_GAP }, c.wide ? { flex: 1 } : { marginTop: 'auto' }]}>
+              <Text variant="bodyMedium" color={color.label}>
+                {c.title}
+              </Text>
+              <Text variant="caption" color={color.secondaryLabel}>
+                {c.description}
+              </Text>
+            </View>
+            {c.wide ? <Icon name="chevron-forward" size={CHEVRON} color={color.gray400} /> : null}
+          </Pressable>
+        ))}
+      </View>
 
-      <SliderField
-        label="Duration"
-        value={duration}
-        min={0}
-        max={180}
-        step={5}
-        onValueChange={setDuration}
-        formatValue={(v) => (v === 0 ? 'Not set' : formatDuration(v))}
-      />
-
-      <Stepper label="Perceived effort (1–10)" value={effort} min={1} max={10} onChange={setEffort} />
-
-      <Stepper label="Energy level (1–5)" value={energy} min={1} max={5} onChange={setEnergy} />
-
-      <TextField
-        label="Notes"
-        placeholder="Push day, felt strong…"
-        value={notes}
-        onChangeText={setNotes}
-        multiline
-      />
-
-      {/* The design saves with a pill at the end of the sheet, not a header tick. */}
-      <Button title="Log session" onPress={save} />
+      {/* The design's footer: a divider, the primary pill, and a caption naming
+          what it commits. The design saves with a pill at the end of the sheet. */}
+      <View style={{ height: layout.hairline, backgroundColor: surface.divider }} />
+      <View style={{ gap: space.sm }}>
+        <Button title={t('gymLog.asPlanned')} onPress={save} />
+        <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
+          {t('gymLog.asPlannedCaption', { plan: planName ?? t('gymLog.thisSession') })}
+        </Text>
+      </View>
     </SheetContent>
   );
 }
