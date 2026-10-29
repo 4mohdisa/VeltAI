@@ -342,7 +342,15 @@ export default function FoodLogScreen() {
   };
 
   const pick = (food: FoodResult) => {
-    openFoodDetail({ mode: 'search', name: food.name, kcalPer100: food.kcalPer100, fibrePer100: food.fibre });
+    openFoodDetail({
+      mode: 'search',
+      name: food.name,
+      kcalPer100: food.kcalPer100,
+      proteinPer100: food.protein,
+      carbsPer100: food.carbs,
+      fatPer100: food.fat,
+      fibrePer100: food.fibre,
+    });
     router.push('/food/detail');
   };
 
