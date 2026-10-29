@@ -158,21 +158,21 @@ export default function FoodDetailScreen() {
           name: subject.name,
           quantityG: 100,
           calories: Math.round(subject.kcalPer100),
-          protein: 0,
-          carbs: 0,
-          fat: 0,
+          protein: Math.round(subject.proteinPer100 ?? 0),
+          carbs: Math.round(subject.carbsPer100 ?? 0),
+          fat: Math.round(subject.fatPer100 ?? 0),
           // Only when the source actually had one (OFF omits it for most products).
           ...(subject.fibrePer100 != null ? { fibre: Math.round(subject.fibrePer100) } : {}),
         }}
         subLine={`${formatCalories(subject.kcalPer100)} / 100g`}
         servings={SEARCH_SERVINGS}
-        // Energy only: the search catalog has no macro columns, so nothing here
-        // invents protein/carbs/fat — the log stores them as 0.
+        // A catalog result may carry macros; one that doesn't falls back to 0
+        // (the local dev catalog carries calories only).
         per100={{
           calories: subject.kcalPer100,
-          protein: 0,
-          carbs: 0,
-          fat: 0,
+          protein: subject.proteinPer100 ?? 0,
+          carbs: subject.carbsPer100 ?? 0,
+          fat: subject.fatPer100 ?? 0,
           ...(subject.fibrePer100 != null ? { fibre: subject.fibrePer100 } : {}),
         }}
         macros={false}
