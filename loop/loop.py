@@ -418,10 +418,10 @@ def ask_manager(report, isa_reply=None, note=None, signals=None):
     if signals:
         content += f"\n\nJEV SIGNALS (a calibrated second opinion, advisory only):\n{format_signals(signals)}"
     resp = client.messages.create(
-        model=MODEL, max_tokens=4000, system=BRIEF,
+        model=MODEL, max_tokens=8000, system=BRIEF,
         messages=[{"role": "user", "content": content}],
     )
-    text = resp.content[0].text.strip()
+    text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
     text = text[text.find("{"): text.rfind("}") + 1]
     return json.loads(text)
 
