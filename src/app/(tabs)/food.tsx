@@ -917,7 +917,7 @@ function SearchResultRow({
       onPress={onPick}
       onLongPress={conflict ? warnConflict : undefined}
       accessibilityRole="button"
-      accessibilityLabel={`Add ${food.name}`}
+      accessibilityLabel={t('foodLog.openFood', { name: food.name })}
       accessibilityHint={conflictLabel ? `May not match your ${conflictLabel} preference` : undefined}
       style={{
         ...groupSurface(first, last),
