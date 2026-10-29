@@ -68,7 +68,13 @@
     "exactDatabaseMatch": "Exact database match",
     "savedFoods": "Saved foods",
     "oneTapReadd": "One-tap re-add",
-    "savedGallery": "Your saved gallery"
+    "savedGallery": "Your saved gallery",
+    "addToSlot": "Add to {{slot}}",
+    "searchFoods": "Search foods",
+    "searchPlaceholder": "Apple, banana, Indomie…",
+    "myDishes": "My dishes",
+    "quickAdd": "Quick add",
+    "quickAddSub": "Just calories, fast"
   },
   "foodLog": {
     "today": "Today",

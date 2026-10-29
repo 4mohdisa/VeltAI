@@ -50,15 +50,13 @@ export default function AddMealScreen() {
     slot ? `${route}${route.includes('?') ? '&' : '?'}slot=${slot}` : route;
   // The design titles the sheet after the meal that was tapped; opened from the
   // global "+" there is no meal to name, so the generic title stands.
-  const title = slot ? `Add to ${slot.toLowerCase()}` : t('addMenu.title');
-  // Subtitles that have an en.json key use it; the rest stay literal until the
-  // sibling that owns en.json adds keys for them.
+  const title = slot ? t('addMenu.addToSlot', { slot: slot.toLowerCase() }) : t('addMenu.title');
   const methods: Method[] = [
-    { icon: 'search', tint: accent.blue, label: 'Search foods', description: 'Apple, banana, Indomie…', route: '/(tabs)/food?focus=search' },
+    { icon: 'search', tint: accent.blue, label: t('addMenu.searchFoods'), description: t('addMenu.searchPlaceholder'), route: '/(tabs)/food?focus=search' },
     { icon: 'camera', tint: categoryAccent.ai, label: t('addMenu.scanFood'), description: t('addMenu.mealPhotoOrLabel'), route: '/food/photo-capture' },
     { icon: 'barcode', tint: accent.green, label: t('addMenu.barcode'), description: t('addMenu.exactDatabaseMatch'), route: '/food/barcode-scan' },
-    { icon: 'image', tint: accent.turquoise, label: 'My dishes', description: t('addMenu.savedGallery'), route: '/food/saved' },
-    { icon: 'flame', tint: categoryAccent.calories, label: 'Quick add', description: 'Just calories, fast', route: '/food/quick-add', wide: true },
+    { icon: 'image', tint: accent.turquoise, label: t('addMenu.myDishes'), description: t('addMenu.savedGallery'), route: '/food/saved' },
+    { icon: 'flame', tint: categoryAccent.calories, label: t('addMenu.quickAdd'), description: t('addMenu.quickAddSub'), route: '/food/quick-add', wide: true },
   ];
   return (
     <SheetContent variant="leading" title={title} onClose={() => router.canGoBack() && router.back()}>
