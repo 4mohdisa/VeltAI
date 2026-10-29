@@ -17,6 +17,7 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 
 ## Prompt rules learned
 - One task, max 5 steps, exactly ONE editable source file named (the checker rejects two). A one-line status edit to DESIGN_GAP_ANALYSIS.md is accepted alongside it. An en.json key addition is tolerated when named explicitly.
+- EVERY prompt, including read-only checkpoint prompts, must name the matching design/ file (design/Lume App.html) or the checker rejects it (round 29 checkpoint prompt was rejected for this).
 - Testing is light: tsc plus jest --findRelatedTests --passWithNoTests on changed files. Never run prettier.
 - CHECKED must paste literal exit codes and result lines for tsc, eslint and jest. 'No tests found' alone can trip the auto-checker.
 - Design handler names are not app identifiers; grep for the real path before naming a file.
@@ -26,6 +27,7 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - A test pinned to a changed control may be updated as a small separate task.
 - Goals card uses Card variant="elevated" (adds shadow.sm, the design has none). Shadowless is a one-prop change if Isa wants it.
 - react-hooks/set-state-in-effect is enforced by eslint: derive state instead of seeding it in effects.
+- Checkpoint rounds: only when the loop note says so. Run full tsc plus full jest, no file changes. Prompt is read-only and must still name design/Lume App.html.
 
 ## Done (all BUILT, not verified)
 - Shared src/components/common/NumberEntryBar.tsx, applied in food/quick-add, food/detail, gym/session (cardio stays 'Distance km') and gym/PlannedValuesForm (inline in BottomSheet).
@@ -35,16 +37,17 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Round 24: gym/log-session.tsx rebuilt as the 'How did it go?' chooser (SheetContent leading, Different weights / Only some of it tiles, Something else row, 'It went as planned' footer calling logGymSession with completionRate 1, rest-day EmptyState fallback). New en.json gymLog group.
 - Round 25: (tabs)/food.tsx clears the `focus` param after focusing search.
 - Round 26: gym/session.tsx reads optional `mode` (adjust / ticklist / picker) via a typed guard, by derivation, no effect seeding.
-- Round 27: log-session.tsx tiles now pass mode adjust / ticklist / picker via openSession(mode) (object-form router.replace). Rest-day EmptyState calls openSession() with no mode. tsc and eslint exit 0, jest no tests found. The gym entry-mode flow is complete. Side effect to tell Isa: in adjust and ticklist the rows start checked, so dirty is true on arrival and the beforeRemove guard offers 'Save progress?' if the user backs out untouched.
+- Round 27: log-session.tsx tiles now pass mode adjust / ticklist / picker via openSession(mode) (object-form router.replace). Rest-day EmptyState calls openSession() with no mode. The gym entry-mode flow is complete. Side effect to tell Isa: in adjust and ticklist the rows start checked, so dirty is true on arrival and the beforeRemove guard offers 'Save progress?' if the user backs out untouched.
+- Round 28: (tabs)/food.tsx search disc now logs the result's own protein/carbs/fat (per 100 g, `?? 0` fallback) instead of flat 0. tsc, eslint exit 0, jest no tests found. Note: local dev catalog in src/lib/mock/data.ts carries calories only, so in dev builds macros stay 0.
 
 ## In progress
-- Round 28: data fidelity, one-file edit to src/app/(tabs)/food.tsx. The search disc logs the result's own protein, carbs and fat instead of flat 0. Prompt sent.
+- Round 30: src/app/food/detail.tsx search branch uses FoodResult protein/carbs/fat (?? 0) in `seed` and `per100`. Prompt sent (names design/Lume App.html).
 
 ## Blocked on Isa
 (none)
 
 ## Next tasks
-1. Data fidelity part 2: detail.tsx logs macros as flat 0 although FoodResult has optional protein/carbs/fat. One-file task after round 28.
+1. Checkpoint (full tsc plus full jest, read-only, baseline 65 suites / 823 tests) when the loop note asks for it. The round 29 checkpoint prompt was rejected before it ran, so no checkpoint result exists yet. Name design/Lume App.html in that prompt.
 2. (tabs)/food.tsx warnConflict toast and accessibilityHint build English strings inline from a raw enum. Move to i18n keys (one file plus en.json).
 3. en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' and an interpolated addToSlot key, then wire them in add.tsx. Two tasks.
 4. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT without flipping row 76. Fix stale Food detail, Quick add and Add sheet sections that contradict their summary rows.
@@ -66,6 +69,7 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Unreferenced addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods. Remove after verifying zero usage.
 - Food search filter chips (Isa said no).
 - router.setParams on the food tab rewrites its history entry, so it may surprise a future deep-link test.
+- useFoodSearch macros have no null signal: an unknown macro is indistinguishable from a measured zero.
 
 ## Loop notes
 - Rounds 1-14: early rejections (two files) and wrong-premise stops. Round 15 was a no-op because the work was already committed.
@@ -76,4 +80,6 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Round 25: focus-param clear landed clean (Jev: 97% clean).
 - Round 26: session.tsx mode param landed clean (Jev: 96% clean).
 - Round 27: log-session.tsx mode passing landed clean (Jev: 97% clean).
-- Round 28: Jev split run 48% / ask 47%, confidence 0.22 (low), so I chose the small non-gym task (search disc macros) and deferred the gym behaviour questions (17, 18, 19, 23) until the small non-gym tasks are done.
+- Round 28: Jev split run 48% / ask 47%, low confidence, so chose the small non-gym task (search disc macros). It landed clean (Jev: 97% clean).
+- Round 29: checkpoint prompt was rejected (no design/ file named). No checkpoint ran.
+- Round 30: Jev run 94%, clean 96%. Rewrote with the design file named and switched to Next task 1 (detail.tsx macros), since the loop note did not request a checkpoint.
