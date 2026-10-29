@@ -6,7 +6,7 @@
 // never a hard block. All values are stored canonical (kcal + grams); the energy
 // unit only affects how calories are shown/entered.
 import { useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -16,7 +16,7 @@ import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
-import { color, space } from '@/lib/design/tokens';
+import { color, space, textStyle } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { useSettingsStore, useUnitPreferences } from '@/lib/settings/store';
 import { useGoals } from '@/lib/data';
@@ -25,6 +25,9 @@ import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 // Atwater factors (kcal per gram).
 const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 type MacroKey = keyof typeof KCAL_PER_G;
+
+/** The design's calorie figure is a borderless 126pt field; no token is a width. */
+const FIGURE_WIDTH = 126;
 
 export default function GoalsScreen() {
   const { t } = useTranslation();
@@ -104,14 +107,37 @@ export default function GoalsScreen() {
         </Text>
       ) : null}
 
-      <TextField
-        label={`${t('goals.dailyCalories')} (${energyUnit})`}
-        {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
-        helper="Between 1,200 and 10,000 kcal."
-        editable={isCustom}
-        disabled={!isCustom}
-        keyboardType="numeric"
-      />
+      {/* The design's calorie control: a borderless stat-large figure typed into
+          in place, with the energy unit as a suffix. Lume-set mode renders it
+          read-only in the secondary colour rather than as a disabled box. */}
+      <View style={{ gap: space.xs }}>
+        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+          {t('goals.dailyCalories')}
+        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+          <TextInput
+            {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
+            editable={isCustom}
+            keyboardType="numeric"
+            accessibilityLabel={`${t('goals.dailyCalories')} (${energyUnit})`}
+            style={[
+              textStyle('statLarge'),
+              {
+                width: FIGURE_WIDTH,
+                padding: 0,
+                letterSpacing: -1,
+                color: isCustom ? color.label : color.secondaryLabel,
+              },
+            ]}
+          />
+          <Text variant="callout" color={color.secondaryLabel}>
+            {energyUnit}
+          </Text>
+        </View>
+        <Text variant="footnote" color={color.secondaryLabel}>
+          Between 1,200 and 10,000 kcal.
+        </Text>
+      </View>
 
       <SegmentedField
         variant="inset"
