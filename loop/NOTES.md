@@ -20,9 +20,13 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - Prompts are strict: one task, max 5 steps, named files, explicit do-not-touch list.
 - Testing is light: type check plus tests for changed files only. Isa verifies the UI.
 - Code must be clean: reuse tokens and shared components, no dead code or debug leftovers.
+- A component and its application to screens are separate tasks. The loop checker rejects prompts that combine a component with screens.
 
 ## Done
 (nothing yet)
+
+## In progress
+- Round 1 (retry): build ONLY the shared component FoodNumberEntryBar.tsx. The first prompt was rejected for mixing the component with applying it to 3 surfaces. The new prompt builds the component only, does not apply it, and does not change row statuses. Claude Code finds the design source in design/ and the shared components folder itself. If design/ is missing or the bar is not found it reports BLOCKED, so then use action ask.
 
 ## Blocked on Isa
 (nothing yet)
@@ -31,4 +35,7 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 (nothing yet)
 
 ## Next task
-First confirm design/ exists in the repo with the HTML export. If it does not, use action ask. Then build the food number entry bar (the slim tap-to-edit keyboard bar) as one shared component matching the design, apply it where the gap analysis lists it, mark those rows built in DESIGN_GAP_ANALYSIS.md, and report. After it is done, use action ask to let Isa choose whether to start the gym cluster.
+Read the round 1 report. Then apply FoodNumberEntryBar to ONE surface per round, in the order Claude Code recommends in NEXT. Mark each row built in DESIGN_GAP_ANALYSIS.md with one line only after the bar is applied on that surface. When every row the bar covers is built, use action ask to let Isa choose whether to start the gym cluster redesign (plan-aware 'How did it go?' chooser replacing the 4-field questionnaire). After that, take the remaining rows in the order that clears the most rows per task.
+
+## Loop notes
+- Round 1: prompt rejected once (more than one screen or component). Jev had low confidence that the last task finished cleanly, which fits because nothing ran.
