@@ -59,6 +59,8 @@ type Choice = {
   icon: string;
   title: string;
   description: string;
+  /** Which view /gym/session opens in — this tile's answer, as a route param. */
+  mode: 'adjust' | 'ticklist' | 'picker';
   /** "Something else" spans both columns as a short row (`grid-column: span 2`). */
   wide?: boolean;
 };
@@ -85,9 +87,11 @@ export default function LogSessionScreen() {
     if (router.canGoBack()) router.back();
   };
 
-  // Every tile is a different way the session went, and this app edits all three
-  // on the same screen: per-set numbers, the per-exercise ticks and the picker.
-  const adjust = () => router.replace('/gym/session' as Href);
+  // Every tile is a different way the session went, and /gym/session opens in
+  // the matching view: per-set numbers, the per-exercise ticks, or the picker.
+  // The rest-day fallback has no plan to answer for, so it opens the screen plain.
+  const openSession = (mode?: Choice['mode']) =>
+    router.replace({ pathname: '/gym/session', ...(mode ? { params: { mode } } : {}) } as Href);
 
   const save = () => {
     if (streak.gymLoggedToday) {
@@ -121,16 +125,16 @@ export default function LogSessionScreen() {
           title={t('gymLog.restDayTitle')}
           message={t('gymLog.restDayMessage')}
           actionLabel={t('gymLog.logAnExercise')}
-          onAction={adjust}
+          onAction={() => openSession()}
         />
       </SheetContent>
     );
   }
 
   const choices: Choice[] = [
-    { icon: 'pencil', title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub') },
-    { icon: 'list', title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub') },
-    { icon: 'add', title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), wide: true },
+    { icon: 'pencil', title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub'), mode: 'adjust' },
+    { icon: 'list', title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub'), mode: 'ticklist' },
+    { icon: 'add', title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), mode: 'picker', wide: true },
   ];
   // The design names the plan in the subtitle and falls back to a generic
   // phrase in the footer caption when the day's template has no name.
@@ -147,7 +151,7 @@ export default function LogSessionScreen() {
         {choices.map((c) => (
           <Pressable
             key={c.icon}
-            onPress={adjust}
+            onPress={() => openSession(c.mode)}
             accessibilityLabel={`${c.title}. ${c.description}`}
             minTapTarget={false}
             // The design's chooser tile: a grey tile, a WHITE disc holding the
