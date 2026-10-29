@@ -83,7 +83,13 @@
     "addToMeal": "Add to {{slot}}",
     "addedToMeal": "{{energy}} added to {{slot}}",
     "openFood": "Open {{name}}",
-    "noMatchesHint": "Try another name, or add it as a custom food."
+    "noMatchesHint": "Try another name, or add it as a custom food.",
+    "conflict": {
+      "halal": "May not match your halal preference",
+      "vegan": "May not match your vegan preference",
+      "vegetarian": "May not match your vegetarian preference",
+      "gluten_free": "May not match your gluten free preference"
+    }
   },
   "gymLog": {
     "title": "How did it go?",

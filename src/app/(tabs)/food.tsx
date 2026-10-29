@@ -923,9 +923,9 @@ function SearchResultRow({
   const { t } = useTranslation();
   // Subtle, non-blocking dietary warning (Task 5): the food name matches a
   // keyword that conflicts with a requirement the user selected in onboarding.
-  const conflictLabel = conflict ? conflict.replace(/_/g, ' ') : null;
-  const warnConflict = () =>
-    conflictLabel && showToast({ message: `May not match your ${conflictLabel} preference`, tone: 'warn' });
+  // Only the requirements in CONFLICT_KEYWORDS can reach here, and each has a key.
+  const conflictMessage = conflict ? t(`foodLog.conflict.${conflict}`) : null;
+  const warnConflict = () => conflictMessage && showToast({ message: conflictMessage, tone: 'warn' });
   return (
     <Pressable
       haptic={false}
@@ -934,7 +934,7 @@ function SearchResultRow({
       onLongPress={conflict ? warnConflict : undefined}
       accessibilityRole="button"
       accessibilityLabel={t('foodLog.openFood', { name: food.name })}
-      accessibilityHint={conflictLabel ? `May not match your ${conflictLabel} preference` : undefined}
+      accessibilityHint={conflictMessage ?? undefined}
       style={{
         ...groupSurface(first, last),
         flexDirection: 'row',
