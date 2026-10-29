@@ -11,10 +11,10 @@
 // scroll, a calories card at the top, and each meal's rows grouped as a WHITE
 // elevated card. A logged row and a search result open the same detail sheet
 // (architecture item 4).
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, RefreshControl, SectionList, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, RefreshControl, SectionList, View, type TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { router, type Href } from 'expo-router';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 import { AnomalyBanner } from '@/components/ai';
@@ -180,6 +180,10 @@ export default function FoodLogScreen() {
   const energyUnit = useUnitPreferences().energy;
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
+  // The Add sheet's "Search foods" tile routes here with ?focus=search. The
+  // design opens search on a focused input rather than one the user must tap.
+  const { focus } = useLocalSearchParams<{ focus?: string }>();
+  const searchRef = useRef<TextInput>(null);
 
   // Data seam — reactive meals + first-load slot. Edits go through the mutations.
   // The day on screen. useFoodLog() follows the store's selection, so switching
@@ -256,6 +260,10 @@ export default function FoodLogScreen() {
   // Realtime seam (Task 7d) — wired for when Supabase lands; a no-op unsubscribe
   // today. Cleaning up on unmount keeps the call site honest.
   useEffect(() => subscribeToFoodLogStatus(null, () => {}), []);
+
+  useEffect(() => {
+    if (focus === 'search') searchRef.current?.focus();
+  }, [focus]);
 
   // Plain handlers — the React Compiler memoizes them; manual useCallback here
   // trips the preserve-manual-memoization rule (setters aren't listed as deps).
@@ -400,6 +408,7 @@ export default function FoodLogScreen() {
               onChangeText={setQuery}
               autoCorrect={false}
               accessibilityLabel={t('foodLog.searchPlaceholder')}
+              {...({ ref: searchRef } as object)}
             />
             {!searching && feedbackSession ? (
               <ScanFeedbackPrompt onRate={rateScan} onDismiss={() => setFeedbackSession(null)} />
