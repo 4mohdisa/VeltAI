@@ -1,6 +1,12 @@
-// Quick Add (Task 6) — a native formSheet: just calories (+ optional label + meal
-// slot), no macro breakdown. Posts to /api/food/quick-add, then reflects the row
-// in the local food log so it shows immediately.
+// Quick Add — a native formSheet: just calories (+ meal slot), no macro
+// breakdown. Posts to /api/food/quick-add, then reflects the row in the local
+// food log so it shows immediately.
+//
+// V1 design pass: the design's Quick add is a hero kcal figure flanked by ±50
+// discs, four +kcal preset pills, the meal chips and a black confirm pill.
+// Tapping the figure opens FoodNumberEntryBar over the keyboard and hides the
+// discs, presets and pill until Done — the design's one number-entry model, so
+// there is no boxed field and no stepper here.
 //
 // Offline (audit 2026-08-06): a transient failure QUEUES the equivalent
 // /api/food/logs create (idempotency-keyed replay) — pre-audit the failure was
@@ -13,14 +19,18 @@
 // the mutations wrapper's extra POST would double-write. Store insert avoids that
 // and is replaced by the real row on the next hydration.
 import { useState } from 'react';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
-import { Button, SegmentedField, TextField } from '@/components/forms';
+import { FoodNumberEntryBar } from '@/components/food/FoodNumberEntryBar';
+import { Button, SegmentedField } from '@/components/forms';
+import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { formatCalories, formatNumber } from '@/lib/formatting';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { api, isTransient } from '@/lib/api';
@@ -28,27 +38,35 @@ import { runOrQueue } from '@/lib/offline/queue';
 import type { MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+/** The design's figure: 250 kcal to start, ±50 on the discs, four add-on presets. */
+const DEFAULT_KCAL = 250;
+const STEP = 50;
+const PRESETS = [100, 250, 500, 750];
+/** The design's glyph size inside the discs — no token covers it. */
+const DISC_GLYPH = 20;
 
 export default function QuickAddScreen() {
   // Slot targeting from the food log's per-meal "+" (via the add menu).
   const { slot } = useLocalSearchParams<{ slot?: string }>();
   const initialSlot = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : slotForNow();
-  const [calories, setCalories] = useState('');
-  const [label, setLabel] = useState('');
+  const [kcal, setKcal] = useState(DEFAULT_KCAL);
+  // Raw entry string while the bar is open; empty greys the figure out, as the
+  // design does, to show the typed number will replace it.
+  const [entry, setEntry] = useState('');
+  const [editing, setEditing] = useState(false);
   const [mealType, setMealType] = useState<MealSlot>(initialSlot);
   const [submitting, setSubmitting] = useState(false);
 
-  const kcal = Number(calories);
-  const invalid = !calories || Number.isNaN(kcal) || kcal <= 0;
+  const invalid = kcal <= 0;
 
   const add = async () => {
     if (invalid) return;
     setSubmitting(true);
-    const name = label.trim() || 'Quick add';
+    const name = 'Quick add';
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
-    let toast = `Added ${kcal} kcal.`;
+    let toast = `Added ${formatCalories(kcal)}.`;
     try {
-      await api.foodLogs.quickAdd({ calories: kcal, label: label.trim() || undefined, meal_type: mealType, date: selectedFoodDate() });
+      await api.foodLogs.quickAdd({ calories: kcal, meal_type: mealType, date: selectedFoodDate() });
     } catch (e) {
       if (!isTransient(e)) {
         showToast({ message: "Couldn't add that — try again.", tone: 'error' });
@@ -64,7 +82,7 @@ export default function QuickAddScreen() {
         calories: kcal,
         source: 'quick_add',
       });
-      toast = `Added ${kcal} kcal — will sync when you're back online.`;
+      toast = `Added ${formatCalories(kcal)} — will sync when you're back online.`;
     }
     // Reflect locally so the food log updates immediately.
     useFoodStore.getState().logMeal(mealType, item, 'manual');
@@ -75,39 +93,99 @@ export default function QuickAddScreen() {
     else setSubmitting(false);
   };
 
+  const disc = (name: 'remove' | 'add', a11y: string, onPress: () => void) => (
+    <Pressable
+      onPress={onPress}
+      accessibilityLabel={a11y}
+      style={({ pressed }) => ({
+        width: layout.buttonHeight,
+        height: layout.buttonHeight,
+        borderRadius: radius.full,
+        backgroundColor: pressed ? surface.tilePressed : surface.tile,
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
+    >
+      <Icon name={name} size={DISC_GLYPH} color={color.label} />
+    </Pressable>
+  );
+
   return (
-    <SheetContent variant="leading" title="Quick Add" onClose={() => router.canGoBack() && router.back()}>
-      <View style={{ gap: space.xs }}>
-        {/* Eyebrow label — the design's uppercase, tracked field heading. */}
-        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-          Calories
-        </Text>
-        <TextField
-          value={calories}
-          onChangeText={setCalories}
-          keyboardType="number-pad"
-          placeholder="0"
-          accessibilityLabel="Calories"
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <SheetContent variant="leading" title="Quick add" onClose={() => router.canGoBack() && router.back()}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xl }}>
+          {editing ? null : disc('remove', `Decrease by ${STEP}`, () => setKcal((n) => Math.max(0, n - STEP)))}
+          <Pressable
+            onPress={() => {
+              setEntry('');
+              setEditing((open) => !open);
+            }}
+            minTapTarget={false}
+            accessibilityLabel="Calories, tap to type"
+            style={{ flex: 1, alignItems: 'center', borderRadius: radius.md }}
+          >
+            {/* The design's hero figure: tight tracking, greyed while it waits
+                for the first keystroke. */}
+            <Text variant="statHero" color={editing && !entry ? color.tertiaryLabel : color.label} style={{ letterSpacing: -1.4 }}>
+              {formatNumber(kcal)}
+            </Text>
+            <Text variant="footnote" color={color.secondaryLabel}>
+              {editing ? 'kcal' : 'kcal · tap to type'}
+            </Text>
+          </Pressable>
+          {editing ? null : disc('add', `Increase by ${STEP}`, () => setKcal((n) => n + STEP))}
+        </View>
+
+        {editing ? null : (
+          <View style={{ flexDirection: 'row', gap: space.sm }}>
+            {PRESETS.map((preset) => (
+              <Pressable
+                key={preset}
+                onPress={() => setKcal((n) => n + preset)}
+                minTapTarget={false}
+                style={({ pressed }) => ({
+                  flex: 1,
+                  minHeight: layout.tapTarget,
+                  borderRadius: radius.pill,
+                  backgroundColor: pressed ? surface.tilePressed : surface.tile,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                })}
+              >
+                {/* 15/20 semibold — the design's preset pill, no token covers it. */}
+                <Text color={color.label} style={{ fontSize: 15, lineHeight: 20, fontWeight: '600' }}>
+                  {`+${preset}`}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+
+        <SegmentedField<MealSlot>
+          label="Meal"
+          value={mealType}
+          onChange={setMealType}
+          options={SLOTS.map((s) => ({ label: s, value: s }))}
+          variant="inset"
         />
-      </View>
 
-      <TextField
-        label="Label"
-        value={label}
-        onChangeText={setLabel}
-        placeholder="What was it? (optional)"
-        accessibilityLabel="Label (optional)"
-      />
+        {editing ? null : (
+          <Button title={`Add ${formatCalories(kcal)}`} onPress={() => void add()} disabled={invalid} loading={submitting} />
+        )}
+      </SheetContent>
 
-      <SegmentedField<MealSlot>
-        label="Meal"
-        value={mealType}
-        onChange={setMealType}
-        options={SLOTS.map((s) => ({ label: s, value: s }))}
-        variant="inset"
-      />
-
-      <Button title={invalid ? 'Add calories' : `Add ${kcal} kcal`} onPress={() => void add()} disabled={invalid} loading={submitting} />
-    </SheetContent>
+      {editing ? (
+        <FoodNumberEntryBar
+          label="Calories · kcal"
+          value={entry}
+          mode="numeric"
+          onChange={(text, value) => {
+            setEntry(text);
+            setKcal(Math.round(value));
+          }}
+          onDone={() => setEditing(false)}
+        />
+      ) : null}
+    </KeyboardAvoidingView>
   );
 }

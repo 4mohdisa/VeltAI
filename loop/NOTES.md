@@ -23,19 +23,29 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - A component and its application to screens are separate tasks. The loop checker rejects prompts that combine a component with screens.
 
 ## Done
-(nothing yet)
+- Round 1: shared component src/components/food/FoodNumberEntryBar.tsx built (props: label, value, onChange(text, value), onDone, mode?, maxLength?). tsc and eslint clean. No tests exist for it. Design source: design/Lume App.html (gzip+base64 embedded payloads). The bar appears 4 times identically in the design (Food detail pad, Quick add pad, Gym session pad, Gym template pad).
 
 ## In progress
-- Round 1 (retry): build ONLY the shared component FoodNumberEntryBar.tsx. The first prompt was rejected for mixing the component with applying it to 3 surfaces. The new prompt builds the component only, does not apply it, and does not change row statuses. Claude Code finds the design source in design/ and the shared components folder itself. If design/ is missing or the bar is not found it reports BLOCKED, so then use action ask.
+- Round 2: apply FoodNumberEntryBar to Food - Quick add only (src/app/food/quick-add.tsx). Single field 'Calories · kcal', numeric. Prompt requires explicit tsc and changed-file test results in CHECKED, because the loop flagged round 1 as 'type check or tests not run' (the report did show tsc clean and no tests exist for the new file, so likely a false flag). Row 'Food - Quick add' gets marked built in this round.
 
 ## Blocked on Isa
 (nothing yet)
 
 ## Parked (not v1)
-(nothing yet)
+- Checked-in extract of the design HTML payloads (or populate the empty ds-bundle/components) so design lookups do not repeat the gzip/base64 extraction. Tooling, not a UI row, so parked unless it blocks work.
 
 ## Next task
-Read the round 1 report. Then apply FoodNumberEntryBar to ONE surface per round, in the order Claude Code recommends in NEXT. Mark each row built in DESIGN_GAP_ANALYSIS.md with one line only after the bar is applied on that surface. When every row the bar covers is built, use action ask to let Isa choose whether to start the gym cluster redesign (plan-aware 'How did it go?' chooser replacing the 4-field questionnaire). After that, take the remaining rows in the order that clears the most rows per task.
+Apply FoodNumberEntryBar one surface per round, in this order (from Claude Code's round 1 NEXT):
+1. Food - Quick add (round 2, in progress)
+2. Food - Food detail sheet: six pads (Serving size · grams, Calories · kcal numeric; Protein/Carbs/Fat/Fibre · grams decimal)
+3. Before any gym round: move/rename FoodNumberEntryBar to a neutral shared location (it is used on Gym too), update barrel/imports. This is its own small task.
+4. Gym - log session (Weight kg decimal, Reps, Minutes, Speed km/h decimal, maxLength 5). NOTE: gym surfaces touch the gym cluster. The bar application alone is allowed, but the plan-aware 'How did it go?' chooser redesign is NOT until Isa approves.
+5. Gym - template editing (logAdjust)
+6. The four app-only Stepper/SliderField number entries (label-scan servings, scan-review weight, new-recipe servings, recipes-log-sheet servings)
+7. Profile - Goals inline calorie figure
+Mark each row built in DESIGN_GAP_ANALYSIS.md with one line only after the bar is applied on that surface. When every row the bar covers is built, use action ask to let Isa choose whether to start the gym cluster redesign. After that, take remaining rows in the order that clears the most rows per task.
 
 ## Loop notes
-- Round 1: prompt rejected once (more than one screen or component). Jev had low confidence that the last task finished cleanly, which fits because nothing ran.
+- Round 1: prompt rejected once (more than one screen or component). Retry built the component only.
+- Round 1 report was flagged for 'type check or tests failed or were not run'. Report showed tsc clean and eslint clean, no tests because none exist for the new file. Handled by requiring explicit command results in the round 2 report. If flagged again with a real failure, investigate before moving on.
+- Jev: run 100%, last task clean 97%.
