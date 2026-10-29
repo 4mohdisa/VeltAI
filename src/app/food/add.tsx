@@ -44,14 +44,17 @@ export default function AddMealScreen() {
   // dishes). Scan flows resolve their slot internally (slotForNow in the scan
   // seam) and can't consume it.
   const { slot } = useLocalSearchParams<{ slot?: string }>();
-  const withSlot = (route: string) => (slot ? `${route}?slot=${slot}` : route);
+  // Routes may already carry a query of their own (Search foods asks the food
+  // tab to open focused), so pick the separator rather than always '?'.
+  const withSlot = (route: string) =>
+    slot ? `${route}${route.includes('?') ? '&' : '?'}slot=${slot}` : route;
   // The design titles the sheet after the meal that was tapped; opened from the
   // global "+" there is no meal to name, so the generic title stands.
   const title = slot ? `Add to ${slot.toLowerCase()}` : t('addMenu.title');
   // Subtitles that have an en.json key use it; the rest stay literal until the
   // sibling that owns en.json adds keys for them.
   const methods: Method[] = [
-    { icon: 'search', tint: accent.blue, label: 'Search foods', description: 'Apple, banana, Indomie…', route: '/(tabs)/food' },
+    { icon: 'search', tint: accent.blue, label: 'Search foods', description: 'Apple, banana, Indomie…', route: '/(tabs)/food?focus=search' },
     { icon: 'camera', tint: categoryAccent.ai, label: t('addMenu.scanFood'), description: t('addMenu.mealPhotoOrLabel'), route: '/food/photo-capture' },
     { icon: 'barcode', tint: accent.green, label: t('addMenu.barcode'), description: t('addMenu.exactDatabaseMatch'), route: '/food/barcode-scan' },
     { icon: 'image', tint: accent.turquoise, label: 'My dishes', description: t('addMenu.savedGallery'), route: '/food/saved' },

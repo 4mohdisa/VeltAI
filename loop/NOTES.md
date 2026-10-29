@@ -23,22 +23,23 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 ## Done (all BUILT, not verified)
 - Shared bar: src/components/common/NumberEntryBar.tsx (label, value, onChange(text, value), onDone, mode?, maxLength?).
 - Bar applied in: food/quick-add.tsx; food/detail.tsx (six pads; manual/locked gate kept, pinned by foodDetail.test.ts:137); gym/session.tsx (cardio stays 'Distance km', not speed); gym/PlannedValuesForm.tsx (inline in BottomSheet, not docked). foodDetailLogged render test updated.
-- Food Add sheet rebuilt to the design chooser (src/app/food/add.tsx). Search foods currently lands on the day log with an unfocused search bar. Sub-lines for Scan food, Barcode and My dishes are wired to addMenu keys (commit e22c995).
+- Food Add sheet rebuilt to the design chooser (src/app/food/add.tsx). Sub-lines for Scan food, Barcode and My dishes are wired to addMenu keys (commit e22c995).
 - Goals calorie figure is the borderless inline input (src/app/profile/goals.tsx). Rows 76, 78 and 97 stay DIFFERENT.
 - Goals hints (rounds 16-17): right-aligned edit hint beside the 'Daily calories' label, and goals.savedAsYouType holds the full design string.
-- Round 18: Goals white card built (Card elevated, hairline divider under figure, calorie block + split + macro rows inside, help line below the card, custom mode only). tsc and eslint green, no tests found. Built line added to DESIGN_GAP_ANALYSIS.md.
+- Round 18: Goals white card built (Card elevated, hairline divider, calorie block + split + macro rows inside, help line below the card, custom mode only). Built line added to DESIGN_GAP_ANALYSIS.md.
+- Round 19: src/app/(tabs)/food.tsx reads route param focus and focuses the search input on mount when 'search' (ref passed via the {...({ ref } as object)} workaround, same as gym/new-template.tsx:146, because TextField has no ref prop). tsc and eslint green, no tests found. Built line added to Food - Search section; row status still DIFFERENT.
 - en.json: added addMenu.mealPhotoOrLabel, exactDatabaseMatch, savedGallery and goals.setByLume, tapToEdit, savedAsYouType. Removed stale addMenu.voice and describeOutLoud.
 
 ## In progress
-- Round 19: src/app/(tabs)/food.tsx only. Read route param focus; when 'search', focus the existing search input once on mount. Plus one Built line on the Food - Search row of DESIGN_GAP_ANALYSIS.md. No report yet.
+- Round 20: src/app/food/add.tsx only. Make the 'Search foods' tile pass focus: 'search' alongside the existing slot param when routing to /(tabs)/food. Fix a pinned test assertion only if it fails. No report yet.
 
 ## Blocked on Isa
 - Asked round 7, no answer (do not re-ask unless every remaining task needs Isa): (1) cardio in gym session: keep 'Distance km' or convert to speed segments (data-model change)? (2) approve the gym cluster redesign (plan-aware 'How did it go?' chooser replacing the 4-field questionnaire in log-session.tsx)? Do neither until answered. A late answer is the answer, do it next.
-- Goals structure (found round 11, not yet asked; Claude Code repeated it in round 18 NEXT): radio cards vs 2-segment control; three read-only macro rows with colour dot, value and 6px bar vs six editable fields; app-only features absent from design (Fibre, reconciliation hint, Reset to AI recommendation, HealthDisclaimer, kcal/kJ, 'Macro targets' label). The help line now sits between the card and the Fibre field and reads as a Fibre caption. Many look deliberate, so do not remove without approval. Ask only when other tasks run out.
+- Goals structure (found round 11, not yet asked): radio cards vs 2-segment control; three read-only macro rows with colour dot, value and 6px bar vs six editable fields; app-only features absent from design (Fibre, reconciliation hint, Reset to AI recommendation, HealthDisclaimer, kcal/kJ, 'Macro targets' label). The help line now sits between the card and the Fibre field and reads as a Fibre caption. Many look deliberate, so do not remove without approval. Ask only when other tasks run out.
 
 ## Next tasks
-1. Food - Search: after round 19, a separate one-file task points the Add sheet 'Search foods' tile in src/app/food/add.tsx at /(tabs)/food with focus=search. Then the 88% search sheet with pill input and filter chips needs its own plan (new route, may need an ask).
-2. Low value, two tasks: (a) en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' plus an interpolated addMenu.addToSlot key (add.tsx line 50 builds `Add to ${slot.toLowerCase()}` as an untranslatable template literal); (b) wire them in add.tsx.
+1. Food - Search: after round 20, the 88% search sheet with pill input and filter chips needs its own plan (new route, may need an ask). Also SearchResultRow trailing '+' disc is a plain View, not a button, so one-tap add is unreachable (needs its own one-file task, find the file first).
+2. Low value, two tasks: (a) en.json addMenu keys for 'Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast' plus an interpolated addMenu.addToSlot key (add.tsx builds `Add to ${slot.toLowerCase()}` as an untranslatable template literal); (b) wire them in add.tsx.
 3. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT, do not flip row 76. Best after Isa answers the cardio question.
 4. Then remaining non-gym rows by most rows cleared per task. Confirm in the design payload which control a row uses before assigning it.
 5. If nothing non-gym is a one-file task, use action ask with both open questions (gym cluster, Goals structure).
@@ -61,4 +62,5 @@ Small candidates: blinking caret in NumberEntryBar (color.primary, 1s loop); Foo
 - Round 16: hints rendered in goals.tsx, tsc green, no tests found. Flagged as partly done (help copy only the second sentence).
 - Round 17: copy fixed in en.json, tsc green, clean.
 - Round 18: Goals card landed clean (tsc, eslint green). Jev last task clean 92%.
-- Round 19: Jev run 78% / ask 21%. Chose run for the Food Search focus param (food.tsx only), as the remaining non-gym tasks are not yet exhausted.
+- Round 19: food.tsx focus param landed clean (tsc, eslint green). Jev run 98%, last task clean 84%.
+- Round 20: Jev run 98%. Chose run for the add.tsx one-line wiring so the focus param becomes reachable.
