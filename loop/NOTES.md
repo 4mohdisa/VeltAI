@@ -26,7 +26,7 @@ Build every UI surface to match the Claude Design export in design/ exactly, wor
 - Round 1: shared component src/components/food/FoodNumberEntryBar.tsx built (props: label, value, onChange(text, value), onDone, mode?, maxLength?). tsc and eslint clean. No tests exist for it. Design source: design/Lume App.html (gzip+base64 embedded payloads). The bar appears 4 times identically in the design (Food detail pad, Quick add pad, Gym session pad, Gym template pad).
 
 ## In progress
-- Round 2: apply FoodNumberEntryBar to Food - Quick add only (src/app/food/quick-add.tsx). Single field 'Calories · kcal', numeric. Prompt requires explicit tsc and changed-file test results in CHECKED, because the loop flagged round 1 as 'type check or tests not run' (the report did show tsc clean and no tests exist for the new file, so likely a false flag). Row 'Food - Quick add' gets marked built in this round.
+- Round 2: prompt sent to apply FoodNumberEntryBar to Food - Quick add only (src/app/food/quick-add.tsx). Single field 'Calories · kcal', numeric. Prompt uses explicit commands (npx tsc --noEmit; npx jest --findRelatedTests src/app/food/quick-add.tsx) and requires exact results in CHECKED. Row 'Food - Quick add' to be marked built by Claude Code. Awaiting report.
 
 ## Blocked on Isa
 (nothing yet)
@@ -48,4 +48,4 @@ Mark each row built in DESIGN_GAP_ANALYSIS.md with one line only after the bar i
 ## Loop notes
 - Round 1: prompt rejected once (more than one screen or component). Retry built the component only.
 - Round 1 report was flagged for 'type check or tests failed or were not run'. Report showed tsc clean and eslint clean, no tests because none exist for the new file. Handled by requiring explicit command results in the round 2 report. If flagged again with a real failure, investigate before moving on.
-- Jev: run 100%, last task clean 97%.
+- Round 2 start: no report yet, so the round 2 prompt was issued this round. Jev gave run 97%, but only 6% that the last task was clean, which matches the round 1 flag. Treat the round 2 report carefully and check that tsc is green.

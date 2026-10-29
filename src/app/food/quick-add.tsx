@@ -179,6 +179,7 @@ export default function QuickAddScreen() {
           label="Calories · kcal"
           value={entry}
           mode="numeric"
+          maxLength={5}
           onChange={(text, value) => {
             setEntry(text);
             setKcal(Math.round(value));
