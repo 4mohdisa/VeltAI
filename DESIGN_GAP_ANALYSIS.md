@@ -1255,8 +1255,11 @@ app-only**; energy-unit awareness the design lacks.
 
 **Built:** the calorie block now carries the design's three hints — the edit-state
 hint beside the section label (*"Set by Lume"* / *"Tap to edit"*) and the
-custom-mode *"Saved as you type"* help line under the figure. The rest of this row
-stands.
+custom-mode *"Saved as you type"* help line under the figure. The calorie figure,
+the split control and the macro rows now also sit inside the design's one white
+`radius.xl` card (`Card variant="elevated"`, `space.xl` padding, `space.lg` gap)
+with a hairline under the figure, and the help line moved below that card. The
+rest of this row stands.
 
 ## Profile — Scan accuracy — ❌ DIFFERENT
 
