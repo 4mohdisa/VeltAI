@@ -157,7 +157,7 @@ def ignore_runtime_files():
     if not path.is_absolute():
         path = REPO / path
     existing = path.read_text() if path.exists() else ""
-    missing = [p for p in ("loop/loop.log", "loop/loop.lock", "loop/PAUSE") if p not in existing.splitlines()]
+    missing = [p for p in ("loop/loop.log", "loop/loop.lock", "loop/PAUSE", "loop/last_bad_reply.txt") if p not in existing.splitlines()]
     if missing:
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "a") as f:
@@ -418,19 +418,34 @@ def ask_manager(report, isa_reply=None, note=None, signals=None):
     if signals:
         content += f"\n\nJEV SIGNALS (a calibrated second opinion, advisory only):\n{format_signals(signals)}"
     resp = client.messages.create(
-        model=MODEL, max_tokens=8000, system=BRIEF,
+        model=MODEL, max_tokens=16000, system=BRIEF,
         messages=[{"role": "user", "content": content}],
     )
+    if getattr(resp, "stop_reason", "") == "max_tokens":
+        raise ValueError("The manager reply was cut off because it was too long")
+    # Newer models can return thinking blocks first, so join only the text blocks
     text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
-    text = text[text.find("{"): text.rfind("}") + 1]
-    return json.loads(text)
+    try:
+        # raw_decode reads the first complete JSON object and ignores anything after it
+        obj, _ = json.JSONDecoder(strict=False).raw_decode(text[text.find("{"):])
+        return obj
+    except Exception:
+        (LOOP_DIR / "last_bad_reply.txt").write_text(text)  # saved so the failure can be inspected
+        raise
+
+LAST_ERROR = ""
 
 def ask_manager_with_retry(report, isa_reply, note, signals=None):
+    global LAST_ERROR
     # One bad API response should not end an overnight run
     for attempt in range(1, 4):
         try:
-            return ask_manager(report, isa_reply, note, signals)
+            extra = note
+            if attempt > 1:
+                extra = add_note(note, "Your last reply was cut off or was not valid JSON. Keep the notes under 600 words by merging repeats and dropping finished items, keep the prompt short, and reply with valid JSON only.")
+            return ask_manager(report, isa_reply, extra, signals)
         except Exception as e:
+            LAST_ERROR = str(e)
             log(f"Manager error (attempt {attempt}): {e}")
             time.sleep(60 * attempt)
     return None
@@ -471,6 +486,7 @@ def run_loop():
     stats = {"rounds": 0, "last_key": None}
     stuck_state = {"text": "", "streak": 0}
     rewrites = 0  # how many times in a row a prompt was sent back for a rewrite
+    manager_fails = 0  # how many rounds in a row the manager failed all 3 attempts
     for round_no in range(1, MAX_ROUNDS + 1):
         while PAUSE_PATH.exists():  # create loop/PAUSE to hold the loop, delete it to resume
             time.sleep(60)
@@ -480,13 +496,21 @@ def run_loop():
             isa_reply = (isa_reply + "\n\n" if isa_reply else "") + "Isa sent this on Telegram while the loop was working:\n" + late
         if round_no % CHECKPOINT_EVERY == 0:
             note = add_note(note, "This round is a checkpoint. Make the next task one thing only: run the full type check and the full app test suite, change no files, and report any failures.")
+        if len(NOTES_PATH.read_text()) > 9000:
+            note = add_note(note, "The notes file is too long. Rewrite it in under 600 words: merge repeated items into one line each and delete finished work.")
         signals = jev_signals(report, isa_reply)
         plan = ask_manager_with_retry(report, isa_reply, note, signals)
         plan = reconsider(plan, signals, report, isa_reply, note)
         if plan is None:
-            tg_send("Manager failed 3 times in a row. The loop is stopping. It will try again at the next auto-start.")
-            push_branch()
-            return
+            manager_fails += 1
+            if manager_fails >= 4:
+                tg_send(f"Manager failed 4 rounds in a row, so the loop is stopping. Last error: {LAST_ERROR[:300]}")
+                push_branch()
+                return
+            tg_send(f"Manager failed 3 times in a row. Last error: {LAST_ERROR[:300]}\nWaiting 15 minutes, then trying again ({manager_fails} of 4).")
+            time.sleep(900)
+            continue
+        manager_fails = 0
         isa_reply, note = None, None
         NOTES_PATH.write_text(plan.get("notes") or NOTES_PATH.read_text())
         action = plan.get("action")
