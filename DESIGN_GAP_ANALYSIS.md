@@ -87,7 +87,7 @@ this pass matched the design on every checked value.
 | Food — Quick add | 🔨 BUILT (not verified) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `FoodNumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. |
 | Food — Search | ❌ DIFFERENT | Design is a dedicated sheet with filter chips and a one-tap `+`; the app has an inline field whose results replace the day view, and its `+` is decorative. |
 | Food — My dishes / Saved | ❌ DIFFERENT | Design is a photo gallery with a "New dish" tile; the app is a searchable text list with swipe-to-unsave. |
-| Food — Add sheet | ❌ DIFFERENT | Different tile set (no Search foods, no My dishes; two extra tiles), fixed title, and Quick add is not the full-width row. |
+| Food — Add sheet | 🔨 BUILT (not verified) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. |
 | Food — Scan flows | ❌ DIFFERENT | Design is one scanner with a Meal/Label/Barcode switch; the app is three separate routes with a multi-angle flow the design lacks. |
 | Food — "Not in a meal yet" inbox | ❌ DIFFERENT | Design files unassigned items into meals; the app's card confirms an estimated weight with a slider. |
 | Food — number-entry convention | ❌ DIFFERENT | The slim edit bar does not exist anywhere; a slider and ± steppers appear where the design has neither. |

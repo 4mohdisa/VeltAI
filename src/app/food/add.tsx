@@ -1,17 +1,30 @@
 // C2 · Add menu
-// 2×3 grid of large tappable cards: Scan food, Barcode, Voice, Saved foods,
-// My Meals, Quick Add. (Manual search lives in the food-log search bar, not here.
-// No gym option.)
+// The design's chooser: a 2-column grid of four tiles — Search foods, Scan food,
+// Barcode, My dishes — over Quick add as a full-width row. The title names the
+// meal the "+" was tapped on ("Add to lunch").
+//
+// The design has ONE scanner with Meal/Label/Barcode modes and ONE saved-item
+// concept, so it has no Scan Label tile and no My Meals tile. Both routes still
+// exist — they are simply not offered here.
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { navigate, replace } from '@/lib/nav';
+import { replace } from '@/lib/nav';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
+
+/** The design's tile metrics: a 46pt white disc holding a 19pt glyph, a 148pt
+ *  square tile, and the 88pt full-width Quick add row. No token covers any of
+ *  them, and the 1pt label-to-caption gap is tighter than the spacing scale. */
+const TILE_DISC = 46;
+const TILE_GLYPH = 19;
+const TILE_HEIGHT = 148;
+const WIDE_TILE_HEIGHT = 88;
+const TEXT_GAP = 1;
 
 type Method = {
   icon: string;
@@ -20,67 +33,70 @@ type Method = {
   label: string;
   description: string;
   route: string;
-  // 'replace' hands the sheet off to a full-screen flow; 'push' stacks a real
-  // screen (My Meals) on top so back returns to the log.
-  mode: 'replace' | 'push';
+  /** Quick add spans both columns as a short row (the design's `grid-column: span 2`). */
+  wide?: boolean;
 };
 
 export default function AddMealScreen() {
   const { t } = useTranslation();
   // Slot targeting — the per-meal "+" on the food log passes ?slot=Breakfast etc.
-  // Forwarded to the flows that can log into a chosen slot (Quick Add, Saved
-  // foods). Scan/label/voice flows resolve their slot internally (slotForNow in
-  // the scan seam) and can't consume it.
+  // Forwarded to the flows that can log into a chosen slot (Quick add, My
+  // dishes). Scan flows resolve their slot internally (slotForNow in the scan
+  // seam) and can't consume it.
   const { slot } = useLocalSearchParams<{ slot?: string }>();
   const withSlot = (route: string) => (slot ? `${route}?slot=${slot}` : route);
-  // Built in-component so the existing four cards keep their i18n keys while the
-  // two new ones use literal strings (no en.json edit — a sibling owns it).
+  // The design titles the sheet after the meal that was tapped; opened from the
+  // global "+" there is no meal to name, so the generic title stands.
+  const title = slot ? `Add to ${slot.toLowerCase()}` : t('addMenu.title');
+  // Subtitles are literal because they are the design's copy and en.json is
+  // owned by a sibling — only the two labels it already matches use its keys.
   const methods: Method[] = [
-    { icon: 'camera', tint: categoryAccent.ai, label: t('addMenu.scanFood'), description: t('addMenu.snapMeal'), route: '/food/photo-capture', mode: 'replace' },
-    { icon: 'barcode', tint: accent.green, label: t('addMenu.barcode'), description: t('addMenu.scanPackage'), route: '/food/barcode-scan', mode: 'replace' },
-    { icon: 'reader-outline', tint: accent.blue, label: 'Scan Label', description: 'Read a nutrition facts panel', route: '/food/label-scan', mode: 'replace' },
-    { icon: 'bookmark', tint: accent.turquoise, label: t('addMenu.savedFoods'), description: t('addMenu.oneTapReadd'), route: '/food/saved', mode: 'replace' },
-    { icon: 'restaurant', tint: accent.yellow, label: 'My Meals', description: 'Log a saved meal or recipe', route: '/food/meals', mode: 'push' },
-    { icon: 'flame', tint: categoryAccent.calories, label: 'Quick Add', description: 'Just calories, fast', route: '/food/quick-add', mode: 'replace' },
+    { icon: 'search', tint: accent.blue, label: 'Search foods', description: 'Apple, banana, Indomie…', route: '/(tabs)/food' },
+    { icon: 'camera', tint: categoryAccent.ai, label: t('addMenu.scanFood'), description: 'Meal photo or label', route: '/food/photo-capture' },
+    { icon: 'barcode', tint: accent.green, label: t('addMenu.barcode'), description: 'Exact database match', route: '/food/barcode-scan' },
+    { icon: 'image', tint: accent.turquoise, label: 'My dishes', description: 'Your saved gallery', route: '/food/saved' },
+    { icon: 'flame', tint: categoryAccent.calories, label: 'Quick add', description: 'Just calories, fast', route: '/food/quick-add', wide: true },
   ];
   return (
-    <SheetContent variant="leading" title={t('addMenu.title')} onClose={() => router.canGoBack() && router.back()}>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
+    <SheetContent variant="leading" title={title} onClose={() => router.canGoBack() && router.back()}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.md }}>
         {methods.map((m) => (
           <Pressable
             key={m.route}
             // Replace the add-menu sheet with the chosen flow so it presents
-            // cleanly full-screen (Scan/Barcode/Voice/Quick Add) instead of
-            // stacking on top of the still-open sheet. My Meals pushes instead.
-            onPress={() => (m.mode === 'push' ? navigate(withSlot(m.route)) : replace(withSlot(m.route)))}
+            // cleanly instead of stacking on top of the still-open sheet.
+            onPress={() => replace(withSlot(m.route))}
             accessibilityLabel={`${m.label}. ${m.description}`}
             minTapTarget={false}
             // The design's chooser tile: a grey tile, a WHITE disc holding the
             // one accent glyph, then the title and its caption pinned to the
             // bottom. Pressed darkens the tile rather than fading it.
             style={({ pressed }) => ({
-              width: '47.5%',
-              minHeight: 148,
+              width: m.wide ? '100%' : '48%',
+              minHeight: m.wide ? WIDE_TILE_HEIGHT : TILE_HEIGHT,
               backgroundColor: pressed ? surface.tilePressed : surface.tile,
               borderRadius: radius.lg,
-              padding: space.lg,
-              justifyContent: 'space-between',
-              gap: space.sm,
+              paddingVertical: m.wide ? space.md : space.lg,
+              paddingHorizontal: space.lg,
+              flexDirection: m.wide ? 'row' : 'column',
+              alignItems: m.wide ? 'center' : 'stretch',
+              gap: m.wide ? space.md : space.sm,
             })}
           >
             <View
               style={{
-                width: layout.tapTarget,
-                height: layout.tapTarget,
+                width: TILE_DISC,
+                height: TILE_DISC,
                 borderRadius: radius.full,
                 backgroundColor: color.white,
                 alignItems: 'center',
                 justifyContent: 'center',
+                flexShrink: 0,
               }}
             >
-              <Icon name={m.icon} size={20} color={m.tint} />
+              <Icon name={m.icon} size={TILE_GLYPH} color={m.tint} />
             </View>
-            <View style={{ gap: space.xs }}>
+            <View style={[{ gap: TEXT_GAP }, m.wide ? { flex: 1 } : { marginTop: 'auto' }]}>
               <Text variant="bodyMedium" color={color.label}>
                 {m.label}
               </Text>
