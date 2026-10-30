@@ -33,20 +33,21 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - food.tsx: slot heading, 'Add to' and VoiceOver labels, translated toast, deleteMealHint, delete dialog.
 - en, es, fr: addMenu slots, foodLog, savedMeals (logged, logFailed); SavedMealsList toasts use them.
 - en, es, fr: plan group (suggested, addTitle); plan.tsx lines 87 and 99 use them.
-- en: savedMeals lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo_one, lastLoggedDaysAgo_other (R175 added, R176 node-verified, not on screen).
+- en: savedMeals lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo_one, lastLoggedDaysAgo_other, neverLogged (R175 to R177; R177 completed neverLogged; not on screen, verification pending in R178).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Checkpoints green: R113 to R164, R166, R168, R169, R174 (tsc 0, 65 suites, 824 tests).
 - Flags: R165 cleared by R166; R167 by R168; R170 by R171; R173 cleared by R174.
 - R175 flagged (type check or tests not run). Cleared by R176 (tsc 0, en.json node parse).
-- R176 flagged by automatic check (task looked partly done). Its report left 'neverLogged' unadded. R177 adds it.
+- R176 flagged by automatic check (task looked partly done). R177 added neverLogged.
+- R177 flagged by automatic check (type check or tests failed or not run; task looked partly done). R178 is a verification round: tsc once, node parse of en.json, no edits.
 - Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx lines 87 and 99, en savedMeals last-logged keys. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Locale top-level key mismatch: es missing gymLog; fr missing goals, gymLog, dashboard, nutrition. Known, not on screen.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- SavedMealsList.tsx lastLoggedLabel (lines 26 to 33) still hardcoded. Returns 'Never logged' at lines 27 and 29 with no key. R177 adds en neverLogged; the switch to t() keys is a later round.
+- SavedMealsList.tsx lastLoggedLabel (lines 26 to 33) still hardcoded. Returns 'Never logged' at lines 27 and 29 with no key. Switch to t() keys is a later round (step 4).
 - plan.addTitle: entry.title is English, so es and fr read partly English. It must stay English for the route param at plan.tsx:101. Needs a separate display label.
 - plan.tsx screen title and 'No plan yet' empty state (lines 34 to 39) hardcoded.
 - SavedMealsList.tsx lines 59 and 63 unchecked.
@@ -79,7 +80,7 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Recipe fibre saved as 0. Food tab render test (needs new suite).
 
 ## Next
-1. R177 (in progress): add neverLogged to en.json savedMeals. Type check and node parse only, no test edits, no file changes outside en.json.
+1. R178 (verification): tsc once, node parse of en.json, savedMeals key check. No edits. Clears the R177 flag.
 2. es.json: the four last-logged keys plus neverLogged (Isa-reviewed wording pending).
 3. fr.json: the same keys (native review pending).
 4. SavedMealsList.tsx lastLoggedLabel switched to t() keys, including neverLogged; then one checkpoint run of the full suite.
@@ -93,7 +94,8 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 ## Loop notes
 - Handover after R141, R156, R167, R172. Next handover due around R187. Name files fully in prompts.
 - R175 flagged by automatic check. Cleared by R176.
-- R176 flagged by automatic check (partly done). R177 completes the missing neverLogged key before any new build.
+- R176 flagged by automatic check (partly done). Cleared by R177.
+- R177 flagged by automatic check. R178 verification round.
 - R175 prompt rejected for not naming the design/ file. Rewritten with design/Lume App.html and gap row 'none'.
 - R172 chose es plan group over SavedMealsList and fr plan.
 

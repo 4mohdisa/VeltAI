@@ -636,3 +636,7 @@
 - 2026-10-31 00:45 Ranked es.json below it because the Next list puts en first, and the SavedMealsList switch needs neverLogged in en before it can use it.
 - 2026-10-31 00:45 Kept the R176 result as verified only at the node and type-check level. Nothing reads these keys on screen yet, so the rows stay BUILT, not verified.
 - 2026-10-31 00:45 No gap analysis row changed. The work is locale data only.
+- 2026-10-31 00:46 Run a verification round, not a build, because the loop note flagged R177 and the notes require a verification round before any new build task.
+- 2026-10-31 00:46 Did not ask Isa, despite Jev leaning ask: no owner-only item blocks this check, so asking would waste a question.
+- 2026-10-31 00:46 Verification is limited to one tsc run and node parses, no suite run, to keep Claude Code usage low.
+- 2026-10-31 00:46 Next build after clearance is es.json last-logged keys, which is step 2 in the notes.
