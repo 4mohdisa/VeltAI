@@ -640,3 +640,6 @@
 - 2026-10-31 00:46 Did not ask Isa, despite Jev leaning ask: no owner-only item blocks this check, so asking would waste a question.
 - 2026-10-31 00:46 Verification is limited to one tsc run and node parses, no suite run, to keep Claude Code usage low.
 - 2026-10-31 00:46 Next build after clearance is es.json last-logged keys, which is step 2 in the notes.
+- 2026-10-31 00:47 Chose the verification round over the es.json task. Reason: the loop note says the last report was flagged, and the notes rule says flagged reports are cleared by a verification round before a new build task. Jev ranked es.json first, but it cannot see this rule.
+- 2026-10-31 00:47 Verification round checks tsc and parses all three locale files, because the R178 report only parsed en.json and the flag may have come from the unparsed locales.
+- 2026-10-31 00:47 Jest is not run this round, per the testing rules. The next checkpoint is the one that runs the full suite.
