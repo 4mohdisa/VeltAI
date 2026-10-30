@@ -978,7 +978,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 ## Food — Quick add
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** Design is a hero number with ±50 discs, `+100/+250/+500/+750` presets and the keyboard bar; the app is three plain form fields.
+**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the Meal control, confirm label, caret, offline toast and copy still differ.
 
 **Design:** centred 52×52 `surface.tile` ± discs around a tappable
 `stat-hero` (56/68, `letter-spacing -1.4px`) value with *"kcal · tap to type"*
@@ -986,16 +986,26 @@ underneath; four preset pills; the MEAL chip row; a live CTA *"Add 250 kcal"*;
 and the same docked edit bar captioned *"Calories · kcal"* (5-digit cap).
 Default value **250**.
 
-**App:** `src/app/food/quick-add.tsx` — an eyebrow + `TextField` (number-pad), a
-`Label` field, a `Meal` segmented control, and a `Button` reading *"Add calories"*
-when empty. Starts empty with the CTA disabled.
+**App (BUILT, device run outstanding):** `src/app/food/quick-add.tsx` — a tappable
+`stat-hero` figure starting at 250 with *"kcal · tap to type"* underneath, ±50 discs,
+four preset pills, and a `NumberEntryBar` captioned *"Calories · kcal"* (5-digit cap)
+that hides the discs, presets and CTA until Done.
 
-**Differences:** no hero number; no ± discs; no preset pills; no keyboard bar; no
-*"kcal · tap to type"* line; title case *"Quick Add"* vs *"Quick add"*; **a
-`Label` field the design does not have**; default empty vs 250; disabled-CTA copy;
-no digit cap or leading-zero stripping; two different label treatments in one
-sheet; toast names no meal; BUILT: detent set to fitToContents;
-offline/queueing behaviour with a loading button (a necessary addition).
+- BUILT: Meal caption (`MEAL`) above the segmented control.
+- BUILT: sheet detent `fitToContents` at `src/app/_layout.tsx:160`.
+- BUILT: confirm pill 52pt via `paddingVertical: space.md`.
+- BUILT: toast *"{kcal} added to {meal}"*.
+
+**Still open:**
+
+- Meal control: the design has 13/17 semibold and 3pt padding.
+- No blinking caret.
+- Confirm label 17/24 vs 17/22 (blocked on `Button`).
+- Offline toast names no meal.
+- Hardcoded English copy.
+- Own `flex: 1` `KeyboardAvoidingView` at `src/app/food/quick-add.tsx:114`.
+
+Offline queueing with a loading button is a necessary addition the design does not have.
 
 ## Food — Search
 

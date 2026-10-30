@@ -120,3 +120,8 @@
 - 2026-10-30 22:51 Did not ask the Quick add device-check question yet: Calories, search tile routing and inset callers are still pending Isa, so the single owner question waits.
 - 2026-10-30 22:51 Chose the Meal control task as next because it is one file and needs nothing from Isa.
 - 2026-10-30 22:51 Jev was split (run 46%, ask 45%). Kept run because the next step is read-only and low risk.
+- 2026-10-30 22:52 Chose the doc-only Quick add gap-doc fix: it is the loop note's requested cleanup, needs nothing from Isa, and is the smallest possible round (Jev 79% run).
+- 2026-10-30 22:52 Deferred the compact SegmentedField option because the shared component edit is a larger change and the loop note asks for smaller tasks while risk is 1.4.
+- 2026-10-30 22:52 Kept the three Blocked on Isa items unchanged. No question asked this round because the Calories, search routing and inset items are still pending from earlier rounds.
+- 2026-10-30 22:52 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept all Decisions lines.
+- 2026-10-30 22:52 Removed resolved stale items (R68 comment fix, detent location now in Decisions) from Open differences.

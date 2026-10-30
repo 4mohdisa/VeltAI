@@ -9,105 +9,83 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - 7-day trial, $49.99/yr, $8.99/mo, no card up front.
 - Isa r24: cardio stays Distance km; no food search chips; Goals as built (rows 76, 78, 97 accepted).
 - Isa r39: celebration card approved; row 18 edit cycle dropped; already-logged routes to the day; Summary card never calls logGymSession() with no args; food detail search shows macros.
-- r48-49: derived gym duration logged when above 0, else undefined; keep ?? for template estimate.
-- r50: test gate green before any new product task.
+- Gym duration: derived value logged when above 0, else undefined; keep ?? for template estimate (r48-49).
 - Card variant='elevated' is the repo mapping for the design's white card.
 - Session mode state is derived, not set in effects.
 - Isa r55: compare code with design/ before each row; fix only real differences.
 - R57: Search foods tile routing to food tab is a real difference; dedicated search sheet parked.
 - R58: SegmentedField inset not changed globally (11 callers); Quick add gets a compact option.
-- R59: checkpoint prompts name the design file (reference only) and the repo check scripts.
-- R60: checkpoint green: tsc, 65 suites, 824 tests. Extra test unexplained.
-- Prompts: one task, one editable source file; one-line status edit to DESIGN_GAP_ANALYSIS.md allowed; checks are tsc, eslint and jest on changed files; doc-only rounds run no tests; every prompt states the branch and no git.
-- R62: a flagged report is cleared by a verification-only run before any new build task.
-- R63: celebration card calories show a dash (no body weight; no fabricated data).
-- R64: Quick add detent lives in src/app/_layout.tsx:160 (fitToContents). Sheet-size values are not navigation structure.
-- R67: a flagged report is cleared by tsc, eslint and Jest on the related test files only, with no edits.
-- R69: same rule as R67 applies to the R68 flag (comment-only report, flagged as partly done).
-- R70: every prompt must name the matching design/ file and the gap-analysis section it clears, even for small edits.
-- R71: a report with no edit and a blocker is re-run once with the blocker file allowed to be read. If no override exists, stop the item and report the prop list. No edit to shared components.
-- R72: Quick add confirm pill height built by padding change (no Button edit). Label cannot change without a Button prop; parked for Isa. Flag cleared by verification-only run.
+- R59, R70: prompts name the design file and the gap-analysis section they clear.
+- R63: celebration calories show a dash (no body weight; no fabricated data).
+- R64: Quick add detent is fitToContents at src/app/_layout.tsx:160.
+- R71: a blocked read gets one re-run with the file allowed; no edits to shared components.
+- R72: Quick add pill height by padding, no Button edit.
+- Flagged reports are cleared by verification-only runs (tsc, eslint, related tests, no edits): R62, R67, R69.
+- Prompts: one task, one editable source file; one-line status edits to DESIGN_GAP_ANALYSIS.md allowed; doc-only rounds run no tests; every prompt states the branch and no git.
+- R60: checkpoint green at tsc, 65 suites, 824 tests. Extra test unexplained.
 
 ## Built (not verified)
-- NumberEntryBar shared: food quick-add, food detail, gym session, PlannedValuesForm.
+- NumberEntryBar (shared): food quick-add, food detail, gym session, PlannedValuesForm.
 - Food Add sheet chooser; Search routes to food tab; + disc logs 100 g with toast.
 - Goals: borderless input, hints, elevated card.
 - Gym 'How did it go?' chooser; modes adjust, ticklist, picker.
 - Row 19: already-logged routes to /gym/session.
-- Row 17 steps 1-2: CelebrationCard.tsx opens from save() as native Modal.
-- Gym duration honesty (r48-49).
-- Food macros carried through pick, search and detail; foodDetail.test.ts 31/31.
-- Quick add: toast '{kcal} added to {meal}'; MEAL caption in quick-add.tsx.
-- Quick add detent: _layout.tsx:160 'fitToContents' (R64). Comments at _layout.tsx:152-159 corrected (R68).
-- Quick add confirm pill: 52pt height via paddingVertical space.md in quick-add.tsx (R70). Label still 17/24.
+- Row 17 steps 1-2: CelebrationCard.tsx opens from save() as native Modal. Step 3 (device run) open.
+- Gym duration honesty; food macros carried through pick, search and detail.
+- Quick add: toast '{kcal} added to {meal}'; MEAL caption; detent fitToContents; confirm pill 52pt via padding.
 
 ## Open differences
-- Add sheet: title not meal-named; tile gap ~14pt not 12pt; SF Symbols not design SVGs; 'Add meal' title from global +.
-- Quick add: Meal control 13/17 semibold, 3pt padding; no blinking caret; confirm label 17/24 vs 17/22 (blocked on Button, see Blocked); offline toast names no meal; hardcoded English copy.
-- quick-add.tsx:114 own flex:1 KeyboardAvoidingView; check sheet does not collapse.
+- Add sheet: title not meal-named ('Add meal' from global +); tile gap ~14pt not 12pt; SF Symbols not design SVGs.
+- Quick add: Meal control 13/17 semibold, 3pt padding (in SegmentedField); no blinking caret; confirm label 17/24 vs 17/22 (Blocked); offline toast names no meal; own flex:1 KeyboardAvoidingView at quick-add.tsx:114, check sheet does not collapse.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
 - Recents in hooks.ts useFoodSearch drop macros; re-pick logs zeros. quickAdd and detail.tsx log missing macros as 0.
-- Stale: detailSubject.ts:25-27; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title and 0-or-less case.
-- Stale notes: loop/NOTES.md lines near 39, 42, 54 still list the 0.6 detent as open and name quick-add.tsx as its location. DESIGN_GAP_ANALYSIS.md Quick add section near 981-998 still describes the old three-field form.
-- i18n hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
+- Estimate of exactly 0 hides planMinutes (keep ?? per r49).
+- Stale: detailSubject.ts:25-27 comment; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title.
+- i18n: hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Remaining gym rows: Isa approval per item.
 
 ## Blocked on Isa
 - Row 23 one-tap log: A = route onLog to log-session; B = accepted deviation. Asked r43, unanswered.
-- Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
-- Row 17 celebration Calories column: what it shows.
-- Search foods tile routing: accepted (default) or not.
-- Inset callers: variant change or compact option (R58).
-- Quick add confirm label 17/22: Button has no label or size prop (R71 check). Choose: add a label prop to Button, change bodyBold for every caller, or accept 17/24.
-- Owner device checks, not yet asked: Quick add sheet fit at fitToContents (whole sheet incl. confirm pill, no collapse, NumberEntryBar above keyboard), MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow. Ask once, as a single question, when no other owner item is pending.
+- Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now. Celebration Calories column content.
+- Search foods tile routing: accepted or not.
+- Inset callers: variant change or compact option (R58 default: compact for Quick add).
+- Quick add confirm label 17/22: Button has no label or size prop. Choose: add a label prop, change bodyBold for all callers, or accept 17/24.
+- Owner device checks (ask once, when no other owner item is pending): Quick add sheet fit, MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow.
 
 ## Next
-1. Meal control in src/app/food/quick-add.tsx: 13/17 semibold and 3pt padding to match design/Lume App.html, Quick add.
-2. Recents: hooks.ts carries protein, carbs, fat.
-3. Compact segmented option, then Meal control 13/17 and 3pt padding (merge with 1 if the same file).
-4. Add sheet title 'Add to lunch' when opened from a meal.
-5. Doc-only: stale lines in loop/NOTES.md and DESIGN_GAP_ANALYSIS.md Quick add section (981-998); stale gap detail sections; recount the 824th test. No tests.
-6. Checkpoint (tsc, full jest) when the loop note asks.
+1. Doc-only: Quick add section of DESIGN_GAP_ANALYSIS.md (around 981-998) to current state.
+2. Compact SegmentedField option for Quick add (R58), then Meal control 13/17 semibold and 3pt padding.
+3. hooks.ts useFoodSearch recents carry protein, carbs, fat.
+4. Add sheet title 'Add to {meal}' when opened from a meal.
+5. Stale comments, stale test title, gap detail sections. Doc-only.
+6. Checkpoint (tsc, full Jest) when the loop note asks.
 7. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
-- Gym: row order, per-set remove; cardio ParameterForm; template editor; kg/lb; volume kg only.
+- Gym: row order, per-set remove; cardio ParameterForm; template editor; kg/lb; volume kg only; estimated duration logged (revisit if only measured counts); adjust and ticklist arrive checked, so 'Save progress?' fires on untouched back-out.
 - Row 17: rest-day and /gym/session exits show no card; pop-in; ring vs flame.
 - Global SegmentedField inset restyle (11 callers).
+- Food search: dedicated search sheet (R57).
 - mixHex in GymCalendar.tsx to shared helper.
-- goals.tsx hardcoded 'Between 1,200 and 10,000 kcal.' and 'Daily targets'.
+- goals.tsx hardcoded copy 'Between 1,200 and 10,000 kcal.' and 'Daily targets'.
 - es/fr locales lack new keys. CONFLICT_KEYWORDS not type-linked. Unused addMenu keys.
 - router.setParams rewrites history. Dev catalog has calories only.
 - Blinking caret; Math.round in draft(); Goals accessibilityState; English hints in food.tsx; labels in add.tsx and log-session.tsx; /gym/session shows planned not logged rows.
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx.
-- Estimated gym duration logged; revisit if only measured counts.
-- Adjust and ticklist arrive checked, so 'Save progress?' fires on untouched back-out.
-- Source-text tests in gymDurationHonesty and foodDetail do not run behaviour.
-- Estimate of exactly 0 hides planMinutes (keep ?? per r49).
+- Source-text tests (gymDurationHonesty, foodDetail) do not run behaviour.
 
-## Loop notes
-- R1-39: early rejections; data path, i18n handled.
-- R43 asked row 23, unanswered. R45 rejected (branch rule).
-- R50 gate green. R53-54 food step 3 done.
-- R55-56 re-check: Add sheet and Quick add DIFFERENT.
-- R60 checkpoint green at 824 tests.
-- R61 MEAL caption; R62 verification cleared flag.
-- R63 wrong file in notes corrected. R64 detent to fitToContents.
-- R65-69: flagged reports cleared by verification-only runs; detent confirmed; comment-only fix at _layout.tsx:152-159.
-- R70: pill size chosen; report made no edit, blocked on shared Button.
-- R71: re-run with Button read allowed; no override prop exists. Pill height built via padding instead. Jev run 68%, ask 29%.
-- R72: loop note flagged last report as partly done. Verification-only run ordered (tsc, eslint, two test files). Jev run 46%, ask 45%, stop 9%; ran (advisory).
-- Jev R64: ask 61%; ran, one-value change.
-- Jev R67: ask 75%, run 15%; ran, flag cleared without Isa.
-- Jev R71: run 68%, ask 29%, stop 3%; ran (advisory, low risk).
+## Loop notes (condensed)
+- R1-39: early rejections; data path and i18n handled. R43 asked row 23, unanswered. R45 rejected for branch rule.
+- R50 gate green. R55-56 Add sheet and Quick add re-checked DIFFERENT. R60 checkpoint green at 824.
+- R62-72: flagged reports cleared by verification-only runs. R70-72: pill built by padding; Button has no override prop.
+- Jev advisory followed where safe; ask/run disagreements resolved by verification runs.
+- R73: handover; notes rewritten under 600 words.
 
 ## Gotchas
-- Design text is in the __bundler payload; decode manifest (gzip+base64). Food entry 71f71ac4, gym 7dc211f6.
-- Source-reading tests are invisible to --findRelatedTests; grep src/__tests__. They pin exact source text.
-- zsh does not word-split unquoted variables. Expo docs requirement is in AGENTS.md.
+- Design text is in the __bundler payload. Decode manifest (gzip+base64). Food 71f71ac4, gym 7dc211f6.
+- Source-reading tests pin exact source text and are invisible to --findRelatedTests; grep src/__tests__.
+- Shared Button in src/components/forms: changing it affects all callers, so override locally first. Its style prop reaches the container only.
+- Pill 52pt: 24 line + 12 + 12 padding, minHeight 52.
+- zsh does not word-split unquoted variables. Expo docs rule is in AGENTS.md.
 - Row numbers mean numbered differences, not table rows.
-- Adjust and ticklist dirty guard; session mode derived.
-- Quick add detent is fitToContents at _layout.tsx:160; the 0.6 default is the global sheet default, not Quick add.
-- Shared Button lives in src/components/forms; changing it affects every caller, so override locally first. Button has no size or label prop; its style prop reaches the container only.
-- Pill 56pt came from 24pt line height plus 16pt padding; now 24 + 12 + 12 = 48 with minHeight 52.
