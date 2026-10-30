@@ -8,6 +8,9 @@
 //           segment lifted out in WHITE + shadow.sm and near-black text. Reads
 //           as a raised chip rather than a stamped one, which is what lets it
 //           sit on an elevated white card without fighting it.
+//
+// `compact` is the design's Quick add Meal control: 13/17 semibold labels on a
+// track with 3pt padding and gaps. Omit it for the standard size.
 import { View } from 'react-native';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
@@ -20,12 +23,18 @@ export type SegmentedOption<T extends string> = { label: string; value: T };
 
 export type SegmentedVariant = 'solid' | 'inset';
 
+/** The design's compact track padding and label line height — no token covers them. */
+const COMPACT_TRACK_INSET = 3;
+const COMPACT_LINE_HEIGHT = 17;
+
 export type SegmentedFieldProps<T extends string> = FieldShellProps & {
   options: SegmentedOption<T>[];
   value: T;
   onChange: (value: T) => void;
   /** Track/selection treatment. Omit for the original black-on-grey look. */
   variant?: SegmentedVariant;
+  /** Smaller labels and a tighter track. Omit for the standard size. */
+  compact?: boolean;
   testID?: string;
 };
 
@@ -39,6 +48,7 @@ export function SegmentedField<T extends string>({
   required,
   disabled,
   variant = 'solid',
+  compact = false,
   testID,
 }: SegmentedFieldProps<T>) {
   const inset = variant === 'inset';
@@ -50,8 +60,8 @@ export function SegmentedField<T extends string>({
           flexDirection: 'row',
           backgroundColor: inset ? color.light2 : surface.card,
           borderRadius: radius.pill,
-          padding: space.xs,
-          gap: space.xs,
+          padding: compact ? COMPACT_TRACK_INSET : space.xs,
+          gap: compact ? COMPACT_TRACK_INSET : space.xs,
         }}
       >
         {options.map((opt) => {
@@ -89,12 +99,12 @@ export function SegmentedField<T extends string>({
               {/* Scale a long label down to one line so it never bleeds past the
                   pill; short labels (Metric, Grams, kg…) stay at full size. */}
               <Text
-                variant="bodyMedium"
+                variant={compact ? 'label' : 'bodyMedium'}
                 color={selected ? (inset ? color.label : color.white) : color.secondaryLabel}
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 minimumFontScale={0.8}
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center', ...(compact && { lineHeight: COMPACT_LINE_HEIGHT }) }}
               >
                 {opt.label}
               </Text>
