@@ -482,3 +482,8 @@
 - 2026-10-31 00:17 Ran tsc only and no test suite, because no test reads locale files (notes, Verification).
 - 2026-10-31 00:17 Told Claude Code to leave known Spanish wording issues alone so this round stays one task.
 - 2026-10-31 00:17 Recorded the rejected prompt fix: design file named, branch line added, git rules stated.
+- 2026-10-31 00:19 Chose fr.json as the next task. Jev ranked it first too (92% clean), so the ranking agrees with the plan.
+- 2026-10-31 00:19 Addressed the flagged last report by asking for an explicit tsc run and a JSON parse of es.json and fr.json inside this round's CHECKED section. The flag was about checks not being shown, so the proof is now part of the report.
+- 2026-10-31 00:19 Kept the es.json work as built and did not edit it again. Only read it for the parse check.
+- 2026-10-31 00:19 French wording chosen to avoid gender agreement with the slot name: 'Suppression de {{slot}} effectuée' for mealDeleted, and 'Maintenez pour supprimer' for the hint.
+- 2026-10-31 00:19 French uses the 'vous' form and the French spacing before '?'. The French copy is an agent translation and needs native review (Isa).

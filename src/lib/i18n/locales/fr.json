@@ -59,6 +59,13 @@
   },
   "foodLog": {
     "addToMeal": "Ajouter à {{slot}}",
+    "addedToMeal": "Ajouté à {{slot}} : {{energy}}",
+    "mealDeleted": "Suppression de {{slot}} effectuée",
+    "deleteMealTitle": "Supprimer {{slot}} ?",
+    "deleteMealMessage_one": "Cela supprime {{count}} élément et recalcule les totaux de la journée.",
+    "deleteMealMessage_other": "Cela supprime {{count}} éléments et recalcule les totaux de la journée.",
+    "deleteMealConfirm": "Supprimer",
+    "deleteMealHint": "Maintenez pour supprimer tout ce qui est enregistré dans {{slot}}",
     "noMatchesHint": "Essayez un autre nom, ou ajoutez-le comme aliment personnalisé."
   }
 }
