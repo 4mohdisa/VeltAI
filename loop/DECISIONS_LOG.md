@@ -401,3 +401,8 @@
 - 2026-10-30 23:58 Jev 'ask' is not followed: nothing in this task needs Isa.
 - 2026-10-30 23:58 Explicit record mapping instead of toLowerCase, because 'Snacks' does not lowercase to the key 'snack'.
 - 2026-10-30 23:58 Row 90 gets a one-line update and stays BUILT, not verified, per the brief.
+- 2026-10-31 00:00 Chose the checkpoint: R131 changed code and ran only two targeted suites, and the flag rule requires a full run before the next code task. Clears the flag in the next round.
+- 2026-10-31 00:00 Jev and I agree on running, so no override was needed.
+- 2026-10-31 00:00 Accepted Claude Code's lowercasing of the translated slot name in add.tsx, because it keeps the English title as 'Add to lunch', matching design 'Add to ' + hMeal.toLowerCase().
+- 2026-10-31 00:00 Accepted Claude Code's fallback to the generic 'Add meal' title for an unrecognised slot. A plan title that is not one of the four slots would otherwise show 'Add to' with a raw value.
+- 2026-10-31 00:00 Left the hardcoded plan.tsx labels (lines 85 and 97) out of this round. They are a separate surface and go to Parked for now.
