@@ -34,7 +34,7 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - en, es, fr: addMenu slots, foodLog, savedMeals (logged, logFailed); SavedMealsList toasts use them.
 - en, es, fr: plan group (suggested, addTitle); plan.tsx lines 87 and 99 use them.
 - en: savedMeals lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo_one, lastLoggedDaysAgo_other, neverLogged. Not on screen yet.
-- es: last-logged keys and neverLogged being added in R181 (native review pending).
+- es: savedMeals last-logged keys and neverLogged added in R181 (native review pending). Not on screen yet.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
@@ -42,7 +42,8 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Flags: R165 cleared by R166; R167 by R168; R170 by R171; R173 cleared by R174.
 - R175 flagged, cleared by R176. R176 flagged, R177 added neverLogged. R177 flagged, cleared by R178.
 - R178 flagged by automatic check. R179 verification round (no Jest) flagged again. R180 full checkpoint run cleared the flag.
-- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx lines 87 and 99, en savedMeals last-logged keys. No test reads locale files or covers SavedMealsList or plan.tsx.
+- R181 flagged by automatic check (type check or tests not run). R182 is a checkpoint: full tsc and suite, no edits.
+- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx lines 87 and 99, en and es savedMeals last-logged keys. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Locale top-level key mismatch: es missing gymLog; fr missing goals, gymLog, dashboard, nutrition. Known, not on screen.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -51,8 +52,8 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - plan.addTitle: entry.title is English, so es and fr read partly English. It must stay English for the route param at plan.tsx:101. Needs a separate display label.
 - plan.tsx screen title and 'No plan yet' empty state (lines 34 to 39) hardcoded.
 - SavedMealsList.tsx lines 59 and 63 unchecked.
-- fr.json lacks plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy. fr also lacks the four last-logged keys and neverLogged.
-- es.json lacks gymLog, settings.scanAccuracy, some goals keys. Has addMenu.voice and describeOutLoud. Last-logged keys and neverLogged being added in R181.
+- fr.json lacks plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy. fr also lacks the five savedMeals last-logged keys and neverLogged.
+- es.json lacks gymLog, settings.scanAccuracy, some goals keys. Has addMenu.voice and describeOutLoud. Last-logged keys and neverLogged added in R181.
 - Add sheet icons are SF Symbols, not design SVGs.
 - Quick add (row 87): no caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
@@ -67,7 +68,7 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver labels and hint, toasts, saved meal toasts, plan Suggested and Add label.
 - Meal delete has no gap row: add one? Macro types for food detail (data model, parked).
-- Native review fr: all new savedMeals and plan strings, 'Appuyez sur +', 'Pas encore de repas', vegane/vegetarienne agreement, spacing before : ? and in noMatches, 'Maintenez', 'a Petit-dejeuner'. Plain vs no-break spaces. 'Suggere :' and 'Ajouter a {{title}}' pending.
+- Native review fr: all new savedMeals and plan strings, 'Appuyez sur +', 'Pas encore de repas', vegane/vegetarienne agreement, spacing before : ? and in noMatches, 'Maintenez', 'a Petit-dejeuner'. Plain vs no-break spaces. 'Suggere :' and 'Ajouter a {{title}}' pending. 'Registrado' gender agreement with saved meal names.
 - Native review es: new plan and savedMeals strings (including last-logged keys from R181), 'Puede que no coincida', addedToMeal word order, 'elemento'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin confirm on device.
 
@@ -80,8 +81,8 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Recipe fibre saved as 0. Food tab render test (needs new suite).
 
 ## Next
-1. R181: es.json the five last-logged keys (savedMeals group), tsc once, parse check. No Jest. In progress.
-2. fr.json: the same five keys (native review pending).
+1. R182: checkpoint. Full tsc and app suite, parse en, es, fr, no edits. In progress.
+2. fr.json: the five savedMeals last-logged keys and neverLogged (native review pending).
 3. SavedMealsList.tsx lastLoggedLabel switched to t() keys, including neverLogged; then one checkpoint run of the full suite.
 4. plan.tsx title and empty state to locale keys.
 5. Locale gaps, one file per round: fr plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals.
@@ -96,6 +97,7 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - R172 chose es plan group over SavedMealsList and fr plan.
 - R178 flagged by automatic check. R179 verification round, no edits.
 - R179 flagged again (Jest not run). R180 full checkpoint run cleared the flag. Jev preferred es.json (88%); es.json taken in R181.
+- R181 es.json five keys BUILT, tsc 0, parse 0. Flagged by automatic check. R182 checkpoint chosen over fr.json until the flag is cleared.
 
 ## Gotchas
 - src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.

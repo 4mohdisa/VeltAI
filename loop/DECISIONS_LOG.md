@@ -651,3 +651,6 @@
 - 2026-10-31 00:49 Wrote the Spanish values myself so the prompt has no placeholders; they are marked for native review in the notes.
 - 2026-10-31 00:49 Told Claude Code to skip Jest because no test reads locale files; tsc once is enough for this round.
 - 2026-10-31 00:49 Set the R180 checkpoint as green, which clears the R179 flag. The latest report confirms tsc 0, 65 suites, 824 tests, 4 snapshots, and JSON parse 0 for en, es and fr.
+- 2026-10-31 00:50 Chose the checkpoint first: R181 was flagged (type check or tests not run), and the loop requires a verification round before any new build task.
+- 2026-10-31 00:50 fr.json last-logged keys wait until the flag is cleared, so the next build starts from a green state.
+- 2026-10-31 00:50 Checkpoint prompt forbids edits and redirects, so the round cannot mask a failure by changing files.
