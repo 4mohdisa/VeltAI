@@ -25,6 +25,9 @@ const TILE_GLYPH = 19;
 const TILE_HEIGHT = 148;
 const WIDE_TILE_HEIGHT = 88;
 const TEXT_GAP = 1;
+/** Two tiles fit a row and a third never does; flexGrow then splits what the gap
+ *  leaves equally, giving the design's `1fr 1fr` columns at any width. */
+const TILE_BASIS = '40%';
 
 type Method = {
   icon: string;
@@ -73,7 +76,8 @@ export default function AddMealScreen() {
             // one accent glyph, then the title and its caption pinned to the
             // bottom. Pressed darkens the tile rather than fading it.
             style={({ pressed }) => ({
-              width: m.wide ? '100%' : '48%',
+              flexGrow: 1,
+              flexBasis: m.wide ? '100%' : TILE_BASIS,
               minHeight: m.wide ? WIDE_TILE_HEIGHT : TILE_HEIGHT,
               backgroundColor: pressed ? surface.tilePressed : surface.tile,
               borderRadius: radius.lg,

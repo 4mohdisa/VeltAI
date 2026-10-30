@@ -179,3 +179,7 @@
 - 2026-10-30 23:07 Told Claude Code to take the gap value from the design file, not from the 12pt guess in the last report, because R55 requires comparing against design/ before each row.
 - 2026-10-30 23:07 Kept the macros-as-0 fix for its own later round because it changes logged data and needs a verification run first.
 - 2026-10-30 23:07 Kept row 23 under Blocked on Isa rather than retrying, because the question went unanswered since r43.
+- 2026-10-30 23:08 Chose the tile grid fix over the doc truth-up: the 48% width is a visible regression from my last round, and the design source of truth is 1fr 1fr, so approval is not needed.
+- 2026-10-30 23:08 Treated the flagged 'partly done' report as cleared by the next round's doc truth-up, since the flagged gap is the stale Add sheet row and count in DESIGN_GAP_ANALYSIS.md.
+- 2026-10-30 23:08 Kept the prompt to add.tsx only so the doc update runs as its own round.
+- 2026-10-30 23:08 No question to Isa: the layout decision follows the design, and the device check stays in the owner list.

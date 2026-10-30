@@ -13,23 +13,25 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Card variant='elevated' maps the white card. Session mode derived, not set in effects.
 - Gym duration logged when above 0, else undefined; keep ?? for template estimate.
 - A task whose blocker came back twice is parked, not retried.
-- A flagged doc-only report is cleared by a verification-only run before any new edit.
+- A flagged report is cleared by a verification-only or doc-only run before any new code edit.
+- Design grid is 1fr 1fr with 12pt gap; fixed-percent tile widths are not acceptable.
 - Prompts: one task, one editable file; doc-only rounds run no tests; name design/ file, gap row and branch; say no git.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
 - Food Add sheet chooser; title 'Add to {meal}' (add.tsx:53); + logs 100 g with toast.
+- Add sheet tiles: gap changed to 12pt (add.tsx:63), tile width still 48%; grid fix in progress.
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard from save() in log-session.tsx). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros in hooks.ts. new-recipe.tsx ingredientFrom scales protein, carbs, fat by grams (no test covers it).
 
 ## Open differences
-- Add sheet: tile gap (48% tiles, space-between) vs design; SF Symbols not design SVGs; scan routes split; bottom padding 20pt plus safe area vs 34pt.
+- Add sheet: tile width (48%, must become 1fr 1fr); SF Symbols not design SVGs; scan routes split; bottom padding 20pt plus safe area vs 34pt.
 - Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; Meal chip 8pt padding, no selection transition (row 87).
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - ingredientFrom: fibre saved as 0; literal \n at new-recipe.tsx:49.
 - quickAdd and food/detail.tsx log missing macros as 0. Keep ?? for planMinutes.
-- Doc stale: DESIGN_GAP_ANALYSIS.md:86-87 says FoodNumberEntryBar (real: NumberEntryBar); summary count near line 72; Add sheet correction row near 1431; food Search lacks recents-macros note.
+- Doc stale: DESIGN_GAP_ANALYSIS.md:86-87 says FoodNumberEntryBar (real: NumberEntryBar); summary count near line 72 (26 DIFFERENT, 15 PARTIAL); Add sheet row and summary still describe 48% and 14pt gap; Add sheet correction row near 1431 still says tiles absent; food Search lacks recents-macros note.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot: design 'Snacks' vs 'Snack' default.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 
@@ -40,13 +42,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add confirm 17/22: add Button label or size prop, change bodyBold for all callers, or accept 17/24.
 - Global + title: keep 'Add meal' or name a default meal.
 - ingredientFrom device run: add a recent and a searched food to a recipe, check totals, change grams, save.
-- Owner device checks (ask once): quick add fit, MEAL caption, toast, compact chips, keyboard bar, Add sheet title, celebration flow, recipe macros.
+- Owner device checks (ask once): quick add fit, MEAL caption, toast, compact chips, keyboard bar, Add sheet title and tile grid at 320pt and 430pt, celebration flow, recipe macros.
 
 ## Next
-1. Add sheet tile gap in add.tsx: space-between to the design's column gap, checked against design/.
-2. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
-3. Same for quickAdd (own round).
-4. Doc-only truth-up of the stale lines above.
+1. Add sheet tile grid in add.tsx to 1fr 1fr, 12pt gap (in progress).
+2. Doc-only truth-up of the stale lines above, including the Add sheet row and count.
+3. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
+4. Same for quickAdd (own round).
 5. Add sheet icons, scan routes, bottom padding.
 6. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
@@ -59,6 +61,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 
 ## Loop notes
 - R83: verification-only run green (tsc, eslint, 9 suites, 146 tests). R84: notes rewritten under 600 words.
+- R85: last report flagged as partly done (Add sheet doc still stale, width left at 48%). Next round fixes the width in add.tsx; doc truth-up follows.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish.
