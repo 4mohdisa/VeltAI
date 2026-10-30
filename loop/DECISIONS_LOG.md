@@ -905,3 +905,8 @@
 - 2026-10-31 01:48 Dropped the planned 11pm-to-9am lastLoggedLabel test. The brief forbids new test suites this round, and Isa verifies on device.
 - 2026-10-31 01:48 Rewrote the rejected prompt to name design/Lume App.html and gap row none, and to forbid git, as the loop note requires.
 - 2026-10-31 01:48 Stayed on loop/design-match and did not ask Isa, since no question needs an owner.
+- 2026-10-31 01:49 Chose the read-only verification first because the loop flagged the R242 report as partly done, and the brief says flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 01:49 Ask rejected: nothing in this round needs Isa; the check is read-only code reading.
+- 2026-10-31 01:49 Jev said run 50%, ask 44%. Agreed with run. Write the reason here: the flag must be cleared before any build, and a read-only round carries no risk.
+- 2026-10-31 01:49 Treated the handover's suggestion to remove es addMenu.voice and describeOutLoud as not yet allowed: the notes require Isa approval first.
+- 2026-10-31 01:49 Next build after this round: plan.tsx:120, one file per round, per the notes order.

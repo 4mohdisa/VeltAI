@@ -27,31 +27,34 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
 - R241: lastLoggedLabel counts calendar days (local dates), not 24-hour periods. Fixes 11pm-to-9am reading 'today'.
 - R243 decision: no new test suites, per the manager brief. The planned 11pm-to-9am test is dropped; the case is checked on device by Isa.
+- Handover suggestion to remove es addMenu.voice and describeOutLoud is not followed yet: needs Isa approval first.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
-- R241: lastLoggedLabel calendar-day calculation in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe). Type check only. Not run by Jest.
+- R241: lastLoggedLabel calendar-day calculation in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe). Type check only at R241. Not run by Jest. R242 ran Jest green but added no test for it.
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr.
 - dashboard.streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
 - (tabs)/index.tsx lines 102, 109, 115, 121 use t().
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Last full checkpoint R238: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green.
-- R241 flagged: tsc exit 0 only. Jest not run.
-- R242 (this round): read-only checkpoint, full tsc and full Jest, as the rewritten prompt. Result to be recorded next round.
+- Last full checkpoint R242 (read-only): tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. This covers the R241 change at the suite level only.
+- R241 flagged: tsc exit 0 only. Cleared by R242.
+- R242 report flagged by automatic check ('task looks only partly done'). R244 is a read-only verification of the R241 lastLoggedLabel code to clear it.
 - Keys: en 149, fr 149, es 151 (extras addMenu.voice, addMenu.describeOutLoud).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R242: checkpoint. Full tsc and full Jest, read-only. Clears the R241 flag. Record the result in Verification.
-2. If green: hardcoded text, one file per round: plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
-3. Add sheet icons to design SVGs.
-4. Remaining gap rows, most cleared per task first.
-5. Full Jest checkpoint every 5 rounds after R242 (next at R247).
-6. If no non-gym work remains: stop with 'only owner decisions remain'.
-7. Remove es addMenu.voice and describeOutLoud only after Isa approves.
+1. R244: read-only verification of lastLoggedLabel in SavedMealsList.tsx. Clears the R242 flag.
+2. If it passes: plan.tsx:120 'Why this plan' to t(). One file per round.
+3. Then nutrition.tsx:77 'Macros' to t().
+4. Then (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
+5. Add sheet icons to design SVGs.
+6. Remaining gap rows, most cleared per task first.
+7. Full Jest checkpoint every 5 rounds (next at R247).
+8. If no non-gym work remains: stop with 'only owner decisions remain'.
+9. Remove es addMenu.voice and describeOutLoud only after Isa approves.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -86,6 +89,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Check key sets in both directions.
 - Prompts with more than one file or screen get rejected. One file per round.
 - src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
+- Handover summaries can be stale on what is built; check against this file.
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240 window. Latest in loop/HANDOVER.md.
@@ -93,8 +97,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R239 flagged: prompt premise false (string absent). Handled by R240 read-only trace.
 - R240 read-only report: lastLoggedDaysAgo_one unreachable. Calendar-day bug found; R241 is the fix.
 - R241 flagged by automatic check: type check or tests not fully run (Jest not run). R242 is the checkpoint that clears it.
-- R243 rejected before it ran: prompt did not name the matching design/ file. Rewritten as the R242 checkpoint prompt, naming design/Lume App.html and gap row none.
-- Jev: R240 ask 53%, run 44%; manager chose read-only run and wrote the reason in decisions.
-- Jev: R241 run 90%. Agreed with manager choice.
-- Jev: R242 run 80%. Agreed with manager choice.
-- Jev: R243 run 74%, ask 22%. Agreed with manager choice (checkpoint first).
+- R243 rejected before it ran: prompt did not name the matching design/ file. Rewritten as the R242 checkpoint prompt.
+- R242 report flagged: 'task looks only partly done'. Read-only checkpoint, so R244 is a read-only verification round.
+- Jev: R240 ask 53%, run 44%; manager chose read-only run.
+- Jev: R241 run 90%. Agreed.
+- Jev: R242 run 80%. Agreed.
+- Jev: R243 run 74%, ask 22%. Agreed.
+- Jev: R244 run 50%, ask 44%. Agreed with run: flag must be cleared first; no owner dependency.
