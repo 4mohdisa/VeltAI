@@ -822,3 +822,8 @@
 - 2026-10-31 01:29 Chose index.tsx streak wording first: the report's NEXT names it, it has a visible bug ('1 days'), and the t() pattern with count already exists at line 126, so no new keys are needed.
 - 2026-10-31 01:29 Used the existing dashboard.dayStreak_one and _other keys, which are in en, es and fr, so no locale edit is needed this round.
 - 2026-10-31 01:29 Limited testing to tsc once plus tests that import index.tsx, per the testing rules. No full suite on a build round.
+- 2026-10-31 01:31 Chose candidate 1 because the last report was flagged as partly done and its own NEXT names this task. Dealing with the flag comes first.
+- 2026-10-31 01:31 Kept the exact existing English copy for both strings, so nothing visible changes except that the text now comes from keys.
+- 2026-10-31 01:31 Limited this round to en.json plus index.tsx to respect one file per round and one locale group per round. es and fr keys are scheduled for later rounds.
+- 2026-10-31 01:31 Did not add a new load-failure key for line 121 or change the count-based label. The R222 change already uses t() with count.
+- 2026-10-31 01:31 Did not pick the 'Summary' literal at line 102 this round because it is a separate string and the brief says one task per round.

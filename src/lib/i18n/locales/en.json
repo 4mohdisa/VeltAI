@@ -151,6 +151,8 @@
     "welcome": "Welcome back, {{name}}",
     "dayStreak_one": "{{count}} day streak",
     "dayStreak_other": "{{count}} day streak",
+    "streakLoading": "Loading your streak",
+    "streakLoadError": "Couldn't load your streak.",
     "todaysPlan": "Today's plan",
     "next": "Next: {{title}} at {{time}} · {{energy}}",
     "gymBedtime": "Gym window {{gym}} · Bedtime {{bed}}"

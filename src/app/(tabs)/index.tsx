@@ -106,13 +106,13 @@ export default function DashboardScreen() {
           {dashLoading ? (
             // The store still holds its seed (13 days in dev, 0 in release) until
             // the read lands. Showing that as the user's streak was the bug.
-            <View style={{ paddingTop: space.xs }} accessibilityLabel="Loading your streak">
+            <View style={{ paddingTop: space.xs }} accessibilityLabel={t('dashboard.streakLoading')}>
               <Skeleton width={96} height={16} />
             </View>
           ) : dashError ? (
             // The read FAILED, so the store's number is whatever was already
             // there — not this user's current streak. Say so instead of printing it.
-            <LoadFailedNotice message="Couldn't load your streak." onRetry={refetch} style={{ marginTop: space.xs }} />
+            <LoadFailedNotice message={t('dashboard.streakLoadError')} onRetry={refetch} style={{ marginTop: space.xs }} />
           ) : (
             <Pressable
               onPress={() => router.push('/gym/streak')}
