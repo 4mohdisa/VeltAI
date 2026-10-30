@@ -171,3 +171,6 @@
 - 2026-10-30 23:03 Deferred the food/detail.tsx macros change because it changes logged data and needs a verification run first, per the notes.
 - 2026-10-30 23:03 Left the FoodNumberEntryBar name fix (DESIGN_GAP_ANALYSIS.md:86-87) out of this round, to keep the task on one surface. It is listed under Next.
 - 2026-10-30 23:03 Treated the previous report's 'tiles match the five' claim as a thing to verify in step 2 rather than accept, per the gap-analysis-authoritative rule and Isa r55 (compare code with design before each row).
+- 2026-10-30 23:05 Chose the verification-only run over the tile gap, though Jev ranks the tile gap at 91%. Reason: the loop rule says a flagged report must be dealt with before a new edit, and the notes say a verification-only run (tsc, eslint, related tests, no edits) clears the flag. Doing the edit first would leave the flag standing for another round.
+- 2026-10-30 23:05 Verification run uses only the source files changed this session, and only the tests that grep or findRelatedTests return, per the testing rules.
+- 2026-10-30 23:05 Summary count at DESIGN_GAP_ANALYSIS.md line 72 and the old correction row near line 1431 are recorded as NEXT, not fixed in this round, because this round makes no edits.
