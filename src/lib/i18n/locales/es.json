@@ -114,7 +114,7 @@
     "lastLoggedDaysAgo_other": "Registrado hace {{count}} días",
     "neverLogged": "Nunca registrado",
     "emptyTitle": "Todavía no hay comidas guardadas",
-    "emptyMessage": "Guarda una comida desde el registro para repetirla con un toque.",
+    "emptyMessage": "Tras registrar la misma comida 3 veces, aparecerá aquí automáticamente. O crea una a partir de una receta.",
     "itemCount_one": "{{count}} elemento",
     "itemCount_other": "{{count}} elementos",
     "logNow": "Registrar ahora"

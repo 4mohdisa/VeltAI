@@ -697,3 +697,6 @@
 - 2026-10-31 00:58 Limited checks to a node parse plus one tsc run, because the loop's testing rules forbid a full suite on a non-checkpoint round and no test reads locale files.
 - 2026-10-31 00:58 Did not add the fr.json keys yet: notes say one locale file per round, so fr follows next round.
 - 2026-10-31 00:58 Kept the round as build, not verification: the last report was clean, so the flag is already cleared.
+- 2026-10-31 00:59 Translated es savedMeals.emptyMessage from the English, not the Spanish 'Save a meal from the log' wording. Reason: the report recommended it, the code comment in SavedMealsList.tsx describes the recipe flow, and the locales stay in step. Isa can override in Telegram.
+- 2026-10-31 00:59 Ran the full suite this round instead of a light check. Reason: R191 was flagged for tests not run, and the notes say a flag is cleared by a verification round with the full suite.
+- 2026-10-31 00:59 Kept the task to es.json only so the verification round stays small and the flag can clear.
