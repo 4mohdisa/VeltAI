@@ -560,3 +560,8 @@
 - 2026-10-31 00:33 Chose verification first because the loop note flagged the last report (type check or tests not run). Notes say flagged reports must be cleared by a verification round before a new build task.
 - 2026-10-31 00:33 Verification uses tsc and node-level JSON checks only. No jest run, because fr.json is not read by any test and the brief keeps test runs light.
 - 2026-10-31 00:33 Gap row set to none, because this is a locale check with no design row.
+- 2026-10-31 00:33 Chose the verification round first because the loop note flags R162 and the notes rule says flagged reports must be cleared before a new build task. The R163 report ran tsc but not the suite by design, so the full app suite is run once here as a checkpoint-style check with no edits.
+- 2026-10-31 00:33 Treated the R163 key-parity check as satisfied by the report, but re-confirmed it in step 4 because the flag is unresolved.
+- 2026-10-31 00:33 Did not ask Isa anything; no owner-only dependency is involved.
+- 2026-10-31 00:33 Left plan.tsx, SavedMealsList.tsx and the locale gaps for the next rounds, in the order already set in Next.
+- 2026-10-31 00:33 Did not treat the earlier 'Snacks' and 'Add to Lunch' decisions as open; they stay as recorded in Blocked on Isa.

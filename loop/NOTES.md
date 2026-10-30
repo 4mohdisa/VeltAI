@@ -33,14 +33,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - food.tsx: slot heading, VoiceOver and 'Add to' labels via foodLog.addToMeal, toast with translated slot, hint via foodLog.deleteMealHint, meal delete dialog and toast use translated keys.
 - en, es, fr: addMenu slots; foodLog keys (23 each, same order).
 - en.json and es.json: savedMeals.logged and savedMeals.logFailed. SavedMealsList.tsx toasts use them (not run on device).
-- fr.json: savedMeals group after foodLog with logged and logFailed (R162). Values as supplied; logged uses U+00A0 before the colon, logFailed uses U+2019. tsc 0 at R162. Verification round R163 requested.
+- fr.json: savedMeals group after foodLog with logged and logFailed (R162). Values as supplied; logged uses U+00A0 before the colon, logFailed uses U+2019. tsc 0 at R162. R163 key check passed: tsc 0, keys match, U+00A0 and U+2019 confirmed.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151, R156, R158, R160 (tsc 0, 65 suites, 824 tests, 4 snapshots, --ci).
 - Targeted: R146, R147, R154.
 - Flags R157 and R159 partly cleared (R158, R160).
-- R162 flagged (tests not run, by design; tsc 0). Verification round R163 in progress.
+- R162 and R163 flagged (tests not run by design; tsc 0). Verification round R164 requested: tsc and full app suite, no edits.
 - Unverified: no test renders the add title, slot heading, delete dialog, toast, 'Add to' labels or saved meal toasts. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -57,7 +57,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press meal delete not discoverable; hint reaches VoiceOver only.
 - Locale wording: fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'.
-- fr review: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ? (older strings; savedMeals.logged now uses U+00A0), 'Maintenez' without 'appuye' in deleteMealHint, 'a Petit-dejeuner'.
+- fr review: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ? (older strings), 'Maintenez' without 'appuye' in deleteMealHint, 'a Petit-dejeuner'.
 - es review: 'Puede que no coincida' agreement; addedToMeal word order; 'elemento'; savedMeals 'Registrado:' and 'No se pudo registrar' need native review.
 
 ## Blocked on Isa
@@ -86,7 +86,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Food tab render test for add labels, hint and toast (needs a new test suite; not allowed).
 
 ## Next
-1. R163: verification of R162 (fr.json savedMeals). tsc and key parity only, no edits.
+1. R164: verification of R162 and R163 flags. tsc and full app suite, no edits.
 2. plan.tsx :85, :97 to locale keys: en keys first, then es, then fr, one file per round.
 3. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en first).
 4. es and fr locale gaps, one file per round.
@@ -98,9 +98,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 
 ## Loop notes
 - Handover after R141, R156. Name files fully in prompts.
-- Flags: R144, R146, R148, R149, R150, R152, R153, R155, R157, R159, R162. Cleared: R153, R155, R157. R159 partly cleared by R160.
+- Flags: R144, R146, R148, R149, R150, R152, R153, R155, R157, R159, R162, R163. Cleared: R153, R155, R157. R159 partly cleared by R160.
 - Jev ask overridden at R120, R124, R126, R131, R134.
-- Jev run 100% at R159 and 97% at R161; both agreed. Jev run 98% at R162 (advisory).
+- Jev run 100% at R159 and 97% at R161; both agreed. Jev run 98% at R162 (advisory). Jev run 93% at R163 (advisory).
 
 ## Gotchas
 - Design is in the bundler payload; decoded copy /tmp/lume-design may vanish.
