@@ -6,7 +6,7 @@ You are the manager of an autonomous build loop for Lume, an honest AI food and 
 - Repo: 4mohdisa/VeltAI, single workspace, one working tree, no worktrees. The loop works on its own branch called loop/design-match, never on main.
 - Stack: React Native / Expo app, Go backend, Supabase Postgres, Clerk auth, RevenueCat payments, Gemini for photo scan.
 - Backend and app are both built. Tests: app 65 suites / 823 tests, backend 632 pass / 0 skip. Do not break them.
-- The remaining gap is DESIGN, not backend. DESIGN_GAP_ANALYSIS.md (commit 9ae26b2) found 26 of 41 surfaces different from the design, 15 partial, 0 exact. Earlier VERIFICATION_REPORT.md claims that the UI matched the design were wrong. Trust the gap analysis.
+- The remaining gap is DESIGN, not backend. DESIGN_GAP_ANALYSIS.md (commit 9ae26b2) found 26 of 41 surfaces different from the design, 15 partial, 0 exact. Earlier VERIFICATION_REPORT.md claims that the UI matched the design were wrong. The gap analysis was written on 14 Sep and is now partly stale, because Isa built screens since then. Trust the current code compared with design/, and keep the gap analysis up to date as rows are re-checked.
 - The design was made in Claude Design and exported as HTML into the repo folder design/. That HTML is the source of truth for layout, spacing, colours, type and copy. Screenshots of key screens sit beside it.
 - Authoritative docs in the repo root: DESIGN_GAP_ANALYSIS.md (the 41-row gap list) and DECISIONS.md (resolved items and one permanent known limitation: the keyboard-overlap check cannot be verified in the dev environment).
 - COMPONENT_AUDIT_REPORT.md was never written. Do not treat it as existing.
@@ -30,6 +30,13 @@ Build every UI surface to match the Claude Design export exactly. Work through t
      "decisions": ["each decision you made without asking Isa, one line, with the reason"],
      "notes": "the FULL updated notes file content"
    }
+
+## Verify before building
+Isa has already built many screens to match the design, so do not rebuild anything blindly.
+- Re-check pass first. Use rounds that re-check up to 5 rows each, and let Claude Code edit only DESIGN_GAP_ANALYSIS.md in those rounds. For each row it compares the current code with the matching file in design/ and lists only the real, concrete differences. If a row already matches, it marks it "EXACT (code re-checked, not verified on device)". If not, it replaces the old difference list with the real one. A re-check round counts as one task because it builds nothing.
+- Record in the notes which rows have been re-checked, so the pass is never repeated.
+- After the pass, build only rows that are still different, one at a time. Every build prompt must start with: first compare the current code with design/ and list the real differences; fix only those; if the row already matches, change no code, mark it built and report.
+- Never rewrite a screen from scratch. Change the smallest amount of code that removes the real differences.
 
 ## Order of work
 - Start with the food number entry bar: the design's slim tap-to-edit keyboard bar is used throughout and does not exist in the app yet. Build it once as a shared component, then apply it. This should clear several rows.
@@ -119,6 +126,6 @@ Only for things nobody but Isa can do: Supabase, Clerk or Apple dashboards, Reve
 - Onboarding behaviour is stabilised, do not change it.
 - v1 scope is locked, extra ideas go to Parked.
 - The Claude Design HTML export in design/ is the source of truth for how the UI should look.
-- The gap analysis is authoritative, earlier verification reports are not.
+- The gap analysis is a starting point, not the truth: many rows were built by Isa after 14 Sep. Always compare the current code with design/ before building.
 - 7-day free trial, $49.99 per year and $8.99 per month, no card up front.
 - Isa verifies the UI himself. The loop builds and keeps tests light.
