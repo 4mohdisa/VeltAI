@@ -23,6 +23,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Locale keys: en first, then es, then fr, one file per round.
 - Flag rule outranks Jev. Jev 'ask' overridden when next task needs nothing from Isa.
 - Report must show tsc result and any JSON parse result in CHECKED.
+- Flagged reports must be cleared by a verification round before a new build task.
+- Every prompt must state the loop/design-match branch and forbid git commands.
 
 ## Built (not verified)
 - NumberEntryBar shared: quick-add, food detail, gym session, PlannedValuesForm.
@@ -31,11 +33,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents macros per 100 g incl. fibre; new-recipe.tsx sums fibre.
 - food.tsx: slot heading, VoiceOver and 'Add to' labels via foodLog.addToMeal, toast, meal delete hint, dialog and toast use translated keys.
 - en, es, fr: addMenu breakfast/lunch/dinner/snack; foodLog delete and addedToMeal keys.
+- fr.json foodLog: R152 added the 11 missing keys (today, searchPlaceholder, noMatches, addCustomFood, mealHistory, noMealsTitle, noMealsMessage, addMeal, per100, openFood, conflict group). Agent 'vous' translations. Reported BUILT; tsc 0 and JSON parse ok reported.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151 (tsc 0, 65 suites, 824 tests).
 - Targeted since R145: R146 (30 suites, 510 tests), R147 (8 suites, 119 tests). R148 to R150: tsc 0; en, es, fr JSON parse OK.
+- R152: tsc 0 and fr JSON parse ok reported. No tests were run; flagged. R153 is a verification round to clear the flag, prompt rewritten after rejection for not naming the branch.
 - No test renders the add title, slot heading, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -47,8 +51,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
-- fr foodLog missing 11 keys: today, searchPlaceholder, noMatches, addCustomFood, mealHistory, noMealsTitle, noMealsMessage, addMeal, per100, openFood, conflict. R152 rewritten (names design/Lume App.html, gap row none) and in progress. es missing foodLog.openFood and conflict group.
+- es missing foodLog.openFood and foodLog.conflict group.
 - Locale wording: fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'; fr has 2 es keys.
+- fr review items from R152: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ?, 'Maintenez' in deleteMealHint, 'a Petit-dejeuner'.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press meal delete not discoverable.
 - food.tsx :539, :795 'Add to' text and :771 hint hardcoded English; :390 toast lowercases raw slot.
@@ -77,19 +82,20 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recipe fibre saved as 0.
 
 ## Next
-1. R152: add 11 missing foodLog keys to fr.json (locale only, one file). Rewritten with design/Lume App.html named. In progress.
+1. R153 (in progress): verification only. Run tsc, JSON parse of en/es/fr, and targeted jest on food.tsx, add.tsx and i18n tests. No edits. Clears the R152 flag.
 2. SavedMealsList.tsx :59, :63 (locale keys; en first, then es, then fr).
 3. plan.tsx :85, :97.
-4. Add sheet icons to design SVGs, one per round.
-5. Consolidate SLOT_KEYS, one file per round.
-6. Fr and es locale gaps (es openFood and conflict; es mealDeleted, addedToMeal, deleteMeal); ask Isa only if no other non-gym task remains.
+4. es locale gaps: openFood and conflict group; then mealDeleted, addedToMeal, deleteMeal. One file per round.
+5. Add sheet icons to design SVGs, one per round.
+6. Consolidate SLOT_KEYS, one file per round.
 7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected for no design/ file were rewritten with design/Lume App.html named.
-- R152 prompt rejected before it ran for not naming design/. Rewritten to name design/Lume App.html and gap row none.
-- Flags: R144, R146, R148, R149, R150. R151 full checkpoint green, flag cleared.
-- R152 chose fr foodLog keys over SavedMealsList: single file, reported as NEXT.
+- R152 prompt rejected before it ran for not naming design/. Rewritten.
+- R153 prompt rejected before it ran for not naming the loop/design-match branch. Rewritten with branch and no-git rule.
+- R152 report flagged: type check or tests failed or not run. Tests were not run. R153 is the verification round.
+- Flags: R144, R146, R148, R149, R150, R152. R151 full checkpoint green, flag cleared.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 
@@ -98,6 +104,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - --findRelatedTests misses source-reading tests; grep src/__tests__.
 - Use LC_ALL=C /usr/bin/grep. Exclude .snap matches when passing results to jest.
 - Locales in src/lib/i18n/locales/; check key order against en.json.
-- src/lib/i18n/index.ts fixes lng to 'en'.
-- 'Snacks' is in src/lib/mock/data.ts:48, key snack.
+- src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.
+- 'Snacks' is in src/lib/mock/data.ts:48, key snack. Slot 'Snacks' maps to key snack.
 - Shared Button in src/components/forms affects all callers; override locally first.
+- Quote paths containing parentheses, such as src/app/(tabs)/food.tsx, in shell commands.

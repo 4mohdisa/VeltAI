@@ -504,3 +504,12 @@
 - 2026-10-31 00:22 Rewrote R152 to name design/Lume App.html and gap row none, because the loop rejected the previous prompt for missing the design/ file.
 - 2026-10-31 00:22 Left the fr wording 'a petit-dejeuner' for a later round to keep this prompt to one edit.
 - 2026-10-31 00:22 Kept the existing rule that the loop skips es.json in this round, to keep the locale change to one file.
+- 2026-10-31 00:23 Chose verification first because the loop flagged R152 for a type check or test run that was not shown. The fix is to run the checks, not to edit code.
+- 2026-10-31 00:23 Ran tsc and the food and i18n suites together because food.tsx and add.tsx changed since the last full checkpoint, and the earlier R152 report ran no tests.
+- 2026-10-31 00:23 Kept the prompt to no file edits so the flag clears without touching the locale or source files.
+- 2026-10-31 00:23 Did not ask Isa about the French review items. They are native-review items and do not block the build.
+- 2026-10-31 00:23 Held SavedMealsList and plan.tsx until the flag clears, per the loop rule to deal with the flag before moving on.
+- 2026-10-31 00:23 Rewrote the R153 prompt to name the loop/design-match branch and forbid git, because the loop note says the last prompt was rejected for not naming the branch.
+- 2026-10-31 00:23 Kept R153 as a verification-only round with no edits, because the R152 report was flagged and the flag rule requires clearing it before any new build task.
+- 2026-10-31 00:23 Ranked the verification round first over the candidates, because it is needed to clear the flag and needs nothing from Isa. Jev's run signal agrees.
+- 2026-10-31 00:23 Kept Jev's ask (22%) overridden: the next task needs nothing from Isa.
