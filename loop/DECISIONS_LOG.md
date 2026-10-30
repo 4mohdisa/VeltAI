@@ -979,3 +979,8 @@
 - 2026-10-31 02:05 Named the key nutrition.loadFailed, placed after nutrition.macrosTitle to match existing layout in the locale files.
 - 2026-10-31 02:05 Limited the snapshot update to the one render test file that already snapshots this screen, to keep test usage low.
 - 2026-10-31 02:05 Left :86 and :89 for the next round, since the rule is one task per round.
+- 2026-10-31 02:06 Chose the nutrition.tsx:86 and :89 copy task because the last report and the notes both name it as next, it is a single file plus locales, and it needs nothing from Isa.
+- 2026-10-31 02:06 Told Claude Code to keep English wording identical if the design lacks the string, matching the loadFailed rule already in the notes.
+- 2026-10-31 02:06 Allowed a snapshot update only for the detailChrome test, because the strings may render as keys in that snapshot. Other test failures go to BLOCKED.
+- 2026-10-31 02:06 No gap row exists for the Macros/Nutrition screen, so no DESIGN_GAP_ANALYSIS.md edit was requested. Matches the existing decision.
+- 2026-10-31 02:06 Kept the round to one copy-only task, following the handover advice after the R259 risk reading of 1.1.

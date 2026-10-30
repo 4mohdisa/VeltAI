@@ -2873,7 +2873,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    kcal from food
+                    kcal nutrition.fromFood
                   </Text>
                 </View>
                 <Text
@@ -2921,7 +2921,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  Calories today
+                  nutrition.caloriesToday
                 </Text>
                 <Text
                   style={

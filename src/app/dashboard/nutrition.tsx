@@ -83,10 +83,10 @@ export default function NutritionDetailScreen(): JSX.Element {
         <View style={{ gap: space.lg }}>
           <StatLine
             value={formatNumber(kcalToDisplay(cal.consumed, energyUnit))}
-            unit={`${energyUnit} from food`}
+            unit={`${energyUnit} ${t('nutrition.fromFood')}`}
             sub={t('nutrition.remainingToday', { value: remaining })}
           />
-          <ChartHeader title="Calories today" note={formatRelativeDate(new Date())} />
+          <ChartHeader title={t('nutrition.caloriesToday')} note={formatRelativeDate(new Date())} />
           {loading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (

@@ -162,6 +162,8 @@
     "title": "Nutrition",
     "macrosTitle": "Macros",
     "loadFailed": "Couldn't load today's food.",
+    "fromFood": "from food",
+    "caloriesToday": "Calories today",
     "remainingToday": "{{value}} remaining today",
     "protein": "Protein",
     "carbs": "Carbs",
