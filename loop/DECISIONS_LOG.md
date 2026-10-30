@@ -797,3 +797,6 @@
 - 2026-10-31 01:23 Chose verification of R215 because the loop note flagged the last report for tsc or Jest not being run; the flagged report must be cleared before a new build task (Notes rule).
 - 2026-10-31 01:23 Kept the check read-only and named the gap row as none, since no UI changes.
 - 2026-10-31 01:23 Full suite run is justified because this is the verification round for a Jest-skipped build round, per the testing rules.
+- 2026-10-31 01:24 Chose fr.json settings.scanAccuracy: smallest task, needs nothing from Isa, and it is the next open item in the notes.
+- 2026-10-31 01:24 Told Claude Code not to run the full suite, because no test covers locale files and the rules keep test runs light.
+- 2026-10-31 01:24 Rewrote the notes to under 600 words as the loop note asked: merged repeated items, removed finished work, and kept every decision line.
