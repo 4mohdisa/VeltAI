@@ -608,3 +608,13 @@
 - 2026-10-31 00:41 Wrote the fr plan values myself ('Suggéré' plus no-break space and colon; 'Ajouter à {{title}}') because Isa has not given them. They follow the es pattern and the fr savedMeals convention for the colon. Native review stays with Isa under BLOCKED.
 - 2026-10-31 00:41 Told Claude Code to skip tests because no test reads locale files; tsc alone plus a node JSON check is enough for a locale-only change.
 - 2026-10-31 00:41 Kept the fr.json encoding choice open (escapes or UTF-8) and told Claude Code to match the file, to avoid a style change.
+- 2026-10-31 00:42 Chose the verification checkpoint first because the loop note flagged R173 for tests not run, and the brief says to clear flagged reports before a new build task.
+- 2026-10-31 00:42 Kept the verification round to read-only checks so it cannot add new unverified changes.
+- 2026-10-31 00:42 Full suite run is allowed here because this is a checkpoint round and the Next list asks for one after the plan and saved meal work.
+- 2026-10-31 00:42 Did not start the SavedMealsList plurals task yet; it is next once the checkpoint is green.
+- 2026-10-31 00:42 Jev ran 70% and matched this choice, so no look-again was needed.
+- 2026-10-31 00:42 Chose the verification round first because the loop rules require a flagged report to be cleared before a new build task (R173 flag, tests not run).
+- 2026-10-31 00:42 Named design/Lume App.html and gap row none in the prompt, because the last prompt was rejected for not naming the design file.
+- 2026-10-31 00:42 Rewrote the notes to under 600 words, merging repeated items and deleting finished work, as the loop note asked.
+- 2026-10-31 00:42 Kept the plan.addTitle English-slot issue in Open, not built, because the slot display label needs a separate design decision and the route param must stay English.
+- 2026-10-31 00:42 Did not mention Jev in the prompt.
