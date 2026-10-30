@@ -1,43 +1,37 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified; Isa verifies. Expo docs requirement is in AGENTS.md. Source of truth: design/Lume App.html.
 
 BUILT SO FAR (all BUILT, not verified)
-DESIGN_GAP_ANALYSIS.md rows at BUILT: 76 Gym log sheet, 86 Food detail, 90 Add sheet. The doc was not edited this session.
-This session, locale files only, in src/lib/i18n/locales/:
-- es.json: addMenu.addToSlot plus 8 missing keys.
-- fr.json: new 16-key addMenu block.
-- en.json: addMenu.breakfast, lunch, dinner, snack (value "Snacks"); addMenu now has 20 keys.
-No code reads the four slot keys yet.
+Rows at BUILT: 76 Gym log sheet, 86 Food detail, 90 Add sheet. Row 90 gained "Slot title uses addMenu slot keys." No row covers meal delete.
+- src/lib/i18n/locales/: en, es and fr have addMenu breakfast, lunch, dinner, snack. en.json foodLog also has mealDeleted and deleteMealTitle, deleteMealMessage_one/_other, deleteMealConfirm.
+- src/app/food/add.tsx: title uses SLOT_KEYS, lowercased to match the design; unknown slot gets the generic title.
+- src/app/(tabs)/food.tsx: local SLOT_KEYS (line 83). Lines 539, 552, 770, 771, 774, 795, 975 use translated slot names. confirmDeleteMeal (line 713) takes t; its dialog and toast use locale keys.
 
-Last checks: tsc 0 errors, run after the en.json edit. Last full app suite (npm test -- --silent) predates that edit, which was tsc only: 65 suites, 824 tests, 4 snapshots.
+Last checks: tsc 0 errors and 30 food-related suites, 510 tests, after the final edit. Last full run, one edit earlier: 65 suites, 824 tests, 4 snapshots.
 
-IN PROGRESS: Add sheet slot title translation, nothing mid-edit.
-1. Add the four keys to es.json.
-2. Add them to fr.json (one file per round).
-3. Change src/app/food/add.tsx:56 to use them.
+IN PROGRESS: nothing mid-edit. Recommended next: use foodLog.addToMeal at food.tsx:539 and :795, as line 975 does.
 
 DECISIONS
-- Key name snack, value "Snacks": Isa's brief fixed the key; the value follows the design's MEALS list, the source of hMeal.
-- Keys sit in addMenu, as the brief's first choice.
-- French and Spanish are my translations; the design has no French. They use "vous" and "tú", matching each file.
+- Food log "Add to Lunch" keeps its capital, per Isa's brief; the design lowercases.
+- No fallback in the delete toast: slot is typed MealSlot, and a fallback would read "Removed Add meal".
+- SLOT_KEYS is duplicated in add.tsx and food.tsx, as instructed; share it if a third caller appears.
+- Delete button key lives in foodLog because common has no delete key; Cancel reuses common.cancel.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
-- Earlier, still open: negative margin at add.tsx:68 chosen because SheetContent is shared.
 
 GOTCHAS
-- App slot value is 'Snacks' (src/lib/mock/data.ts:48) but the key is snack, so slot.toLowerCase() finds nothing for Snacks; add.tsx needs an explicit mapping.
-- Design mealNow() returns singular 'Snack'; MEALS uses 'Snacks'.
-- Locale path is src/lib/i18n/locales/, not src/locales/.
-- No test reads locale files. sheetVariant and tabbar only mention the food/add route.
-- Decoded design is in /tmp/lume-design and may vanish (71f71ac4 is food); raw HTML is compressed.
-- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep.
+- Slot value 'Snacks' maps to key snack; slot.toLowerCase() finds nothing.
+- src/lib/i18n/index.ts fixes lng to 'en', so es and fr are not on screen.
+- No test renders the Add sheet title, delete dialog, toast or MealSectionHeader. No test reads locale files.
+- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep. Exclude the .snap match when passing grep results to jest.
+- Decoded design is in /tmp/lume-design and may vanish (71f71ac4 is food).
 
 NOT FIXED
-- src/app/(tabs)/food.tsx:543 and :965 pass raw slots; :717 and src/components/food/SavedMealsList.tsx:59, :63 are hardcoded English toasts.
-- fr.json foodLog has 2 keys; other fr blocks not compared with en.json.
-- Add sheet gap is 0pt on no-inset devices; doc omits this.
-- French "Ajouter à petit-déjeuner" may need "au".
-- Handover items not rechecked: unknown fibre shows "0g fibre"; detail.tsx num() rounds macros, saved-food calls drop fibre; no test for new-recipe.tsx.
+- food.tsx:771 hint and the "Add to" text at :539, :795 are hardcoded English; :390 toast lowercases the raw slot.
+- es and fr lack foodLog.mealDeleted, addedToMeal and the deleteMeal keys.
+- SavedMealsList.tsx:59, :63 and dashboard/plan.tsx:85, :97 are hardcoded English (not rechecked).
+- Long-press meal delete is not discoverable.
+- Add sheet gap is 0pt on no-inset devices. French "à petit-déjeuner" and Spanish "a Desayuno" need native review.
 
 WAITING ON ISA
+- Device runs: Add sheet, delete dialog plurals, header and VoiceOver.
+- Decisions: "Add to Lunch" capitals, "Delete" versus "Removed", negative margin at add.tsx.
 - Native review of Spanish and French; confirm "Snacks".
-- Device runs: Add sheet (34pt gap, grid at 320pt and 430pt, long label wrapping), recipe flow and fibre, Quick add, celebration card.
-- Decisions: macro types, negative margin, Confirm label, Calories column, global + title, last-hour scan.
