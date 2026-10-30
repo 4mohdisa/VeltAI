@@ -311,3 +311,8 @@
 - 2026-10-30 23:40 Locale check is read-only. Locale-only checks cannot clear a flag on their own (R113 rule), so the run also includes tsc and eslint on the three edited files.
 - 2026-10-30 23:40 No jest run this round. The full suite already ran in R113 and a narrow check does not cover the recipe or add.tsx edits.
 - 2026-10-30 23:40 fr.json is deferred to R115, not dropped. Jev's 88% is recorded but the flag comes first.
+- 2026-10-30 23:42 Chose the verification run over fr.json: the flag rule outranks Jev's ranking, and the flagged report must clear before new code (R114 flag, decision rule).
+- 2026-10-30 23:42 Jev gives run 87%, which agrees with run. It is not an override.
+- 2026-10-30 23:42 Jest limited to related tests for hooks.ts and the sheetVariant and tabbar suites, not the full suite, to keep usage low.
+- 2026-10-30 23:42 Notes rewritten under 600 words as the loop note asks: repeated items merged, finished work removed.
+- 2026-10-30 23:42 Jest noise (hooks.ts:56 log, tabbar act() warning) recorded as not blocking.

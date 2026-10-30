@@ -4,108 +4,85 @@
 Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch loop/design-match only. Say BUILT, never verified. Stop when all rows are BUILT or only owner items remain.
 
 ## Decisions (never delete)
-- RevenueCat over Stripe. Onboarding stabilised. v1 scope locked; extras to Parked.
+- RevenueCat over Stripe. Onboarding stabilised. v1 scope locked; extras go to Parked.
 - Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
-- design/Lume App.html is source of truth; gap analysis is authoritative.
-- Isa: cardio stays Distance km; no food search chips; Goals as built (rows 76, 78, 97); celebration card approved; already-logged routes to /gym/session; Summary card never calls logGymSession() with no args.
-- Celebration calories show a dash. Quick add detent fitToContents. Pill height by padding, no Button edit.
-- Recents macros per 100 g; missing stays undefined.
-- Macros stored unrounded; display rounds. Calories keep Math.round.
-- Card variant='elevated' maps the white card. Session mode derived, not set in effects.
-- Gym duration logged when above 0, else undefined; keep ?? for template estimate.
-- Design grid 1fr 1fr, 12pt gap; fixed-percent widths not acceptable.
-- Blocker that came back twice: park, do not retry.
-- Flagged report cleared by a verification-only run before new code (doc-only is not enough when the flag names tests).
-- Prompts: one task, one editable file (verification runs excepted); name design/ file, gap row and branch; say no git.
-- Checkpoint rounds: full tsc and full app suite, no file changes.
-- Rejected prompt: rewrite with every point fixed before re-sending.
+- design/Lume App.html is the source of truth; the gap analysis is authoritative.
+- Isa: cardio stays Distance km; no food search chips; Goals as built; celebration card approved; already-logged routes to /gym/session; Summary card never calls logGymSession() with no args.
+- Celebration calories show a dash. Quick add detent fitToContents. Pill height by padding.
+- Macros stored unrounded, display rounds; calories Math.round. Recents missing macros stay undefined.
+- Gym duration logged when above 0, else undefined.
+- Grid 1fr 1fr, 12pt gap; no fixed-percent widths.
+- Missing macros are a data model change: parked, not asked.
 - Recipe builder (/food/new-recipe) has no design counterpart.
-- Add sheet summary row BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
-- Round-scoped modified-file checks only.
-- Missing macros are a data model change: parked, not asked (R106, R107).
-- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110, R111). Flag rule outranks Jev ranking (R109, R112, R113, R114).
-- Add sheet bottom padding: negative margin on the tile grid accepted as interim (R108). SheetContent is shared, not edited.
-- A locale-only check cannot clear a flag when no test covers i18n; use a full checkpoint instead (R113).
+- Add sheet row 90 BUILT at Isa's instruction; section verdict stays PARTIAL MATCH. Negative margin accepted as interim; SheetContent is shared, not edited.
+- Flagged report: cleared by a verification-only run before new code. Flag rule outranks Jev ranking. Jev 'ask' overridden when the next task needs nothing from Isa.
+- Prompts: one task, one editable file (verification excepted); name design/ file, gap row, branch; say no git.
+- Checkpoints: full tsc and full app suite, no file changes. Round-scoped modified-file checks only.
+- A blocker that came back twice: park.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
-- Food Add sheet: title 'Add to {meal}' (add.tsx:56), + logs 100 g with toast, two equal tile columns, bottom padding via marginBottom -space.xl.
+- Food Add sheet: title, +100 g toast, two tile columns, bottom padding via negative margin.
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard). Gym duration honesty.
-- Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control. SegmentedField compact prop.
-- Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales macros and fibre by grams; totals sum fibre.
-- es.json addMenu.addToSlot added (R111): 'Añadir a {{slot}}', last key in addMenu. JSON parses, placeholder matches en.json (R112).
-- Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT, 0 EXACT. BUILT rows: 76, 86, 90.
-- Checkpoints R88 and R102 green. R113 full checkpoint green: tsc 0 errors, 65 suites, 824 tests, 4 snapshots. R113 clears the 'tests not run' flag but does not verify recent edits. No test covers recipe totals, the Spanish key or the add.tsx margin.
-- R110 verification clean: tsc 0 errors, hooks 5 suites/33 tests, sheetVariant and tabbar 22/22, eslint clean on three files. R109 flag cleared.
+- Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
+- Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales and sums fibre.
+- es.json addMenu.addToSlot.
+- Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
+- Last full checkpoint R113 green: tsc 0, 65 suites, 824 tests. Since then no test covers recipe totals, the Spanish key or the add.tsx margin.
+- R114: tsc 0; eslint clean on add.tsx, new-recipe.tsx, hooks.ts. Jest not run, so flagged.
 
 ## Open differences
-- Add sheet: SF Symbols not SVGs; scan routes split; Search foods tile goes to food tab; 0pt gap on no-inset devices (doc silent); row 1445 'This pass' cell holds build status, not audit verdict.
-- Quick add (row 87): no blinking caret; own flex:1 KeyboardAvoidingView; hardcoded English; offline toast names no meal; Meal chip padding and transition; confirm 17/24 vs 17/22; Meal chip token unconfirmed.
+- Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices; row 1445 holds build status.
+- Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; Meal chip padding and token; confirm 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- food/detail.tsx and quickAdd log missing macros as 0 (parked).
-- detail.tsx num() rounds macros on save; search seed and applyGrams round too.
-- Saved foods drop fibre in editSavedFood and saveFood (SavedFood.fibre exists).
-- Recents fibre carried in hooks.ts, not displayed.
-- Recipe Total shows 0g fibre when unknown (stored as 0).
-- Calories can drift in new-recipe editRow and recents.
-- Locales: es.json still lacks 8 addMenu keys present in en.json (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub). es.json has possible leftovers voice and describeOutLoud, unverified. fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
-- Add sheet title passes raw ?slot= value, lowercased (add.tsx:56), so Spanish shows untranslated slot names. Needs add.tsx change plus slot translations.
-- Food Search sheet (pill input, thumbnails, row metrics): plan first.
-- Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx. No test covers i18n locales (es.json flag, R112, R113).
-- Jest noise: hooks.ts:56 'API unreachable' log; tabbar act() warning from reduceMotion.ts:13. Not blocking.
-- loop/NOTES.md lines 39, 42, 54 to re-read.
+- Macros: food/detail.tsx and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
+- Saved foods drop fibre (editSavedFood, saveFood). Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
+- Calories drift in new-recipe editRow and recents.
+- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage unchecked. fr.json has no addMenu block (16 keys). Slot default 'Snack' vs design 'Snacks'.
+- add.tsx:56 passes the raw lowercased slot; Spanish and French titles show English slot names.
+- Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx; no locale test.
+- Jest noise: hooks.ts:56 log, tabbar act() warning. Not blocking.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route to log-session, or accepted deviation.
 - Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
-- Search foods tile routing: accepted or not.
+- Search foods tile routing. Global + title: keep 'Add meal' or name a default.
 - Quick add confirm 17/22: Button prop, bodyBold change, or accept 17/24.
-- Global + title: keep 'Add meal' or name a default meal.
-- Add sheet status label: BUILT or PARTIAL.
-- Negative margin: accept, or replace via a SheetContent option.
+- Add sheet status label BUILT or PARTIAL. Negative margin: accept, or SheetContent option.
 - Last-hour modified-files check: keep, or round-scoped only.
-- Device runs: Add sheet (34pt inset; grid at 320pt and 430pt); recipe flow and fibre; quick add; celebration card.
-- Macro types for food detail (parked, needs a decision before any type change).
-
-## Next
-1. R114 (this round): verification-only. tsc, eslint on the three edited files, read locale addMenu blocks. No file changes. Clears the R113 flag if green.
-2. R115: fr.json addMenu.title and addMenu.addToSlot, one file (Jev's top pick, 88%, deferred again by the flag rule).
-3. Add sheet slot translation: add.tsx:56 slot name, after locale keys are in place.
-4. Add sheet icons: SF Symbols to design SVGs, one icon per round, in src/app/food/add.tsx.
-5. Checkpoint: full tsc and full app suite, no file changes.
-6. If nothing non-gym remains: stop with 'only owner decisions remain'.
+- Device runs: Add sheet (34pt inset; grid at 320pt and 430pt); recipe and fibre; quick add; celebration card.
+- Macro types for food detail: decision needed before any type change.
 
 ## Parked (not v1)
-- Missing macros as 0 in food/detail.tsx and quickAdd: needs a data model change across types and totals.
+- Missing macros as 0 across types and totals.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
 - Row 17: rest-day and /gym/session exits show no card; pop-in; ring vs flame.
-- Global SegmentedField inset; food search sheet; single scanner with modes; compact chip padding and transition.
-- Code: mixHex to shared helper, goals.tsx copy, CONFLICT_KEYWORDS untyped, router.setParams history, blinking caret, Math.round in draft().
-- Recipe fibre saved as 0 (model needs optional field).
-- Saved foods fibre dropped in editSavedFood and saveFood.
+- Global SegmentedField inset; food search sheet; single scanner with modes; compact chip padding.
+- Code: mixHex to shared helper; goals.tsx copy; CONFLICT_KEYWORDS untyped; router.setParams history; blinking caret; Math.round in draft().
+- Recipe fibre saved as 0 (needs optional model field). Saved foods fibre drop.
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx.
-- Add sheet negative margin: SheetContent option only if Isa wants it cleaner.
 
-## Loop notes (condensed)
-- R83-R87: verification and doc rounds. R88, R102: checkpoints green.
-- R89, R99: prompts rejected (no design/ file named), rewritten.
-- R92-R96: fibre across new-recipe and recents. R105: verification run, hooks 5 suites, 33 tests.
-- R106: detail macros parked. R107: Add sheet padding via negative margin.
-- R108, R109: doc-only. R109 flag cleared by doc-only, locale keys deferred.
-- R110: verification-only, flag cleared (tsc, hooks, sheetVariant, tabbar, eslint all green).
-- R111: es.json addToSlot. Jev ask overridden. Report flagged 'tests not run' (no test covers locales).
-- R112: verification-only run for the flag. Locale JSON checked by hand; flag not cleared. Jev ranked fr.json first (85%); deferred.
-- R113: full checkpoint, 65 suites, 824 tests green. Report flagged as only partly done (NEXT still lists fr.json). Jev ranked fr.json 88%.
-- R114: verification-only chosen over fr.json, because the flag rule outranks Jev's ranking. Read-only check, no file changes.
+## Next
+1. R115 (this round): verification-only. tsc, Jest related tests (hooks.ts; sheetVariant, tabbar), eslint. No file changes. Clears the flag if green.
+2. R116: fr.json full addMenu block, all 16 keys from en.json, one file.
+3. R117: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first.
+4. Add sheet slot translation at add.tsx:56.
+5. Add sheet icons: SF Symbols to design SVGs, one per round.
+6. Checkpoint: full tsc and full app suite, no file changes.
+7. If nothing non-gym remains: stop with 'only owner decisions remain'.
+
+## Loop notes
+- R83-R87 verification and doc. R88, R102, R113 checkpoints green.
+- R89, R99 prompts rejected (no design/ file named), rewritten.
+- R106 detail macros parked. R107 Add sheet negative margin.
+- R111 es addToSlot. R112, R114 verification runs; hand checks of locales do not clear flags.
+- R114 flagged: Jest not run.
 
 ## Gotchas
-- Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
-- --findRelatedTests misses source-reading tests (foodDetail, fibrePipeline, sheetVariant, foodMealMove); grep src/__tests__.
-- --findRelatedTests hooks.ts gives 5 suites, 33 tests. 'Nine suites, 116' means nine named suites.
-- Shell grep is ugrep; use /usr/bin/grep with LC_ALL=C for long patterns.
-- zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
+- Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
+- --findRelatedTests misses source-reading tests; grep src/__tests__.
+- hooks.ts related: 5 suites, 33 tests. 'Nine suites, 116' means nine named suites.
+- Shell grep is ugrep; use /usr/bin/grep with LC_ALL=C.
 - Shared Button in src/components/forms affects all callers; override locally first.
-- SheetContent is shared; do not edit it for one screen.
-- loop/NOTES.md is edited outside the session; re-read before each update.
 - Add sheet title line moves; grep before citing a line number.
-- Claude Code once wrote tsc output to /tmp/lume-tsc.out. Keep output in the terminal or outside the repo, and clean up.
+- No tsc or test output written to the repo or /tmp.
