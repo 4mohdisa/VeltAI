@@ -29,15 +29,17 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Gym duration honesty; food macros carried through pick, search and detail.
 - Quick add: toast, MEAL caption, detent, confirm pill 52pt via padding.
 - SegmentedField compact prop, applied to quick-add Meal control (row 87 still DIFFERENT: 8pt chip horizontal padding, no selection background transition).
-- Recents macros in hooks.ts useFoodSearch. Verification green at R79 (tsc, eslint, 80 source-reading tests). No test covers recents.
+- Recents macros in hooks.ts useFoodSearch (scaled per 100 g).
+- new-recipe.tsx ingredientFrom: protein, carbs, fat scaled by grams; edit path works back to per-100 g. Flagged for verification (tsc passed, no tests cover it); verification round queued.
 
 ## Open differences
 - Add sheet: title not meal-named; tile gap ~14pt not 12pt; SF Symbols not design SVGs.
-- Quick add: no blinking caret; confirm 17/24 vs 17/22 (Blocked); own flex:1 KeyboardAvoidingView at quick-add.tsx:114; 56 vs 52pt pill to recheck; offline toast names no meal; hardcoded English copy.
+- Quick add: no blinking caret; confirm 17/24 vs 17/22 (Blocked); own flex:1 KeyboardAvoidingView at quick-add.tsx:114; offline toast names no meal; hardcoded English copy.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
-- Macros as 0: new-recipe.tsx ingredientFrom (34-44, plus header comment and edit path ~80); quickAdd and food/detail.tsx.
+- ingredientFrom: fibre still saved as 0 (FoodResult carries fibre per 100 g; recents do not yet). Literal \n in comment at new-recipe.tsx:49. Calories rounded before edit-path reverse; recents round kcalPer100 (small drift).
+- Macros as 0 still in quickAdd and food/detail.tsx.
 - Estimate of exactly 0 hides planMinutes (keep ?? per r49).
-- Stale: detailSubject.ts:25-27 comment; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title; DESIGN_GAP_ANALYSIS.md:86-87 says FoodNumberEntryBar (real: NumberEntryBar); food Search section lacks recents macros note.
+- Stale: detailSubject.ts:25-27 comment; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title; DESIGN_GAP_ANALYSIS.md:86-87 says FoodNumberEntryBar (real: NumberEntryBar); food Search section lacks recents macros note and ingredientFrom note.
 - Slot label: design uses 'Snacks' in chips and SLOTS; time-of-day default says 'Snack' (design inconsistency, decoded line 756).
 - i18n: hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
@@ -47,14 +49,15 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
 - Search foods tile routing: accepted or not.
 - Quick add confirm 17/22: Button lacks label or size prop. Choose: add prop, change bodyBold for all callers, or accept 17/24.
-- Owner device checks (ask once): Quick add sheet fit, MEAL caption, toast, compact chips, NumberEntryBar above keyboard; celebration flow.
+- Owner device checks (ask once): Quick add sheet fit, MEAL caption, toast, compact chips, NumberEntryBar above keyboard; celebration flow; recipe macros (add recent and searched food, check totals, change grams, save).
 
 ## Next
-1. new-recipe.tsx ingredientFrom: scale macros by grams (gap: Food search section).
-2. quickAdd and food/detail.tsx: stop logging missing macros as 0.
-3. Add sheet title 'Add to {meal}' when opened from a meal.
-4. Doc-only: stale comments, row 87 wording, NOTES stale lines.
-5. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
+1. Verification-only run for new-recipe.tsx ingredientFrom (tsc, eslint, related tests). Clears the flag.
+2. ingredientFrom: scale fibre by grams; carry fibre in useFoodSearch recents. Fix literal \n at new-recipe.tsx:49.
+3. quickAdd and food/detail.tsx: stop logging missing macros as 0.
+4. Add sheet title 'Add to {meal}' when opened from a meal.
+5. Doc-only: stale comments, row 87 wording, NOTES and gap-analysis stale lines.
+6. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order, per-set remove; cardio ParameterForm; template editor; kg/lb; volume kg only; estimated duration logged; adjust and ticklist arrive checked, so 'Save progress?' fires on untouched back-out.
@@ -67,10 +70,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 ## Loop notes (condensed)
 - R1-39: early rejections. R43 asked row 23, unanswered. R50, R60, R75 checkpoints green.
 - R76-78: compact and recents built. R79: verification cleared flag.
-- Handover after R79: notes rewritten under 600 words.
+- R80: new-recipe ingredientFrom macros built; flagged for no test run. Verification round queued.
 
 ## Gotchas
-- Design text in __bundler payload (gzip+base64). Food 71f71ac4, gym 7dc211f6. Decoded copies in /tmp may vanish.
+- Design text in __bundler payload (gzip+base64). Food 71f71ac4, gym 7dc211f6. Decoded copies in /tmp/lume-design may vanish.
 - Source-reading tests pin source text and are invisible to --findRelatedTests; grep src/__tests__.
 - Shared Button in src/components/forms affects all callers; override locally first.
 - Pill 52pt: 24 line + 12 + 12 padding, minHeight 52.

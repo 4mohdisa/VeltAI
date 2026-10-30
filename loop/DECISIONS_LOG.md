@@ -159,3 +159,6 @@
 - 2026-10-30 23:00 Quickadd and detail macro fix is next after this, since it affects logged data and is also one file each.
 - 2026-10-30 23:00 Row 23 stays in Blocked on Isa; it has gone unanswered since R43, so it is not retried.
 - 2026-10-30 23:00 Rewrote NOTES under 600 words as the loop asked: merged duplicates, removed finished verification detail, kept all Decisions items.
+- 2026-10-30 23:01 Chose verification-only run because the automatic check flagged the last report for tsc/tests not run; the notes say verification-only runs clear the flag.
+- 2026-10-30 23:01 Did not run the full suite; the checkpoint is not due and the rules say related tests only.
+- 2026-10-30 23:01 Fibre scaling and the stray comment fix are deferred to the next round so this run stays edit-free.
