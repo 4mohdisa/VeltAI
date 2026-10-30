@@ -552,3 +552,8 @@
 - 2026-10-31 00:31 Chose es.json over fr.json because the notes list es first in the locale order.
 - 2026-10-31 00:31 Spanish wording: 'Registrado: {{name}}.' and 'No se pudo registrar {{name}}. Inténtalo de nuevo.' are agent translations in the 'tú' register used in es.json, flagged for native review under Blocked on Isa.
 - 2026-10-31 00:31 Jev and loop agree on run; no override needed.
+- 2026-10-31 00:32 Chose the fr.json task first: it is the smallest, needs nothing from Isa, and finishes the saved-meal toast strings started in R161.
+- 2026-10-31 00:32 Wrote the French values exactly, with a non-breaking space before the colon and a typographic apostrophe, because the French review list flags plain spaces.
+- 2026-10-31 00:32 Left native review of the French and Spanish saved-meal strings to Isa under Blocked on Isa, since they are agent translations.
+- 2026-10-31 00:32 Kept the es.json gaps (gymLog, settings.scanAccuracy, goals keys, voice and describeOutLoud) out of this round; they are not on screen while lng is fixed to en and are parked for later.
+- 2026-10-31 00:32 Rewrote the notes to under 600 words, merging repeated items and removing finished work, as the loop note asked.

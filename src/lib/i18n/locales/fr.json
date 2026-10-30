@@ -83,5 +83,9 @@
       "vegetarian": "Peut ne pas correspondre à votre préférence végétarienne",
       "gluten_free": "Peut ne pas correspondre à votre préférence sans gluten"
     }
+  },
+  "savedMeals": {
+    "logged": "Enregistré : {{name}}.",
+    "logFailed": "Impossible d’enregistrer {{name}}. Réessayez."
   }
 }
