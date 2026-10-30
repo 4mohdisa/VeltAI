@@ -30,15 +30,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- R242 checkpoint green. R246, R248, R250 read-only green (R250: 65 suites, 824 tests, 4 snapshots; en 150, fr 150 after R251, es 152 with extras addMenu.voice and addMenu.describeOutLoud).
-- R247, R249, R251: flagged, Jest not run. R252 clears the R251 flag.
+- R242 checkpoint green. R246, R248, R250, R252 read-only green (R252: tsc exit 0; 65 suites, 824 tests, 4 snapshots passing; en 150, fr 150, es 152 with extras addMenu.voice and addMenu.describeOutLoud).
+- R247, R249, R251 flagged, Jest not run. R252 cleared the R251 flag.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 - No test covers locales, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 
 ## Next
-1. R252: read-only verification of R251 (tsc, full Jest, key counts both directions). Running now.
-2. nutrition.tsx:77 'Macros' to t().
-3. (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
+1. R253: nutrition.tsx:77 'Macros' to t(). Running now (no gap row; hardcoded English fix).
+2. (tabs)/gym.tsx:112 and :121 to t().
+3. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
 4. Add sheet icons to design SVGs.
 5. Remaining gap rows, most cleared first.
 6. Full Jest checkpoint every 5 rounds, read-only. Next checkpoint R255.
@@ -57,7 +57,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Long-press meal delete not discoverable; mealNow() 'Snack' vs 'Snacks'.
 - dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable (kept).
 - Future-dated saved-meal logs read 'Last logged today'.
-- Hardcoded English still open: nutrition.tsx:77; (tabs)/gym.tsx:112, :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+- Hardcoded English still open: nutrition.tsx:77 (in progress R253); (tabs)/gym.tsx:112, :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
@@ -80,5 +80,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240, latest in loop/HANDOVER.md.
 - Rejected: R236 (more than one screen), R238 and R243 (no design file named).
-- Flags cleared: R239, R241, R242, R244, R245, R246, R248, R250. R251 flag pending R252.
-- Jev: R251 and R252 run favoured; agreed.
+- Flags cleared: R239, R241, R242, R244, R245, R246, R248, R250, R251 (cleared by R252).
+- Jev: R251 and R252 run favoured; agreed. R253 run chosen, same as candidate 1.

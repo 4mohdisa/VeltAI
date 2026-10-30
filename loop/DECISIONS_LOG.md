@@ -944,3 +944,7 @@
 - 2026-10-31 01:56 Ran the full Jest suite this round, not just tsc, to clear the flag properly.
 - 2026-10-31 01:56 Did not remove es addMenu.voice and describeOutLoud, even though the last report suggested it; the notes require Isa's approval first.
 - 2026-10-31 01:56 Rewrote the notes file to under 600 words, merging repeated items and removing finished work (R239 and the old checkpoint lines), as the loop note asked.
+- 2026-10-31 01:57 Chose nutrition.tsx:77 because it is the smallest single-string fix and needs nothing from Isa.
+- 2026-10-31 01:57 Kept the es addMenu.voice and addMenu.describeOutLoud removal parked, because the Decisions section says they stay until Isa approves.
+- 2026-10-31 01:57 Told Claude Code to report BLOCKED instead of adding keys to locale files if no existing 'Macros' key exists, to keep this round to one file.
+- 2026-10-31 01:57 Treated R252 as a green read-only verification, so the R251 flag is cleared and no flag is pending.
