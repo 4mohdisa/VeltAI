@@ -89,3 +89,6 @@
 - 2026-10-30 22:45 Kept the change to one value and one doc line. The stale comment on line 159 and the keyboard check go under NEXT, not into this round.
 - 2026-10-30 22:45 Chose the detent task first because it is the smallest unbuilt Quick add item and needs nothing from Isa beyond a device check.
 - 2026-10-30 22:45 Did not ask Isa, even though Jev leans ask. The change is a single value in a file the repo already uses this way, and the report confirms the form exists, so there is no open question for Isa.
+- 2026-10-30 22:46 Chose verification-only run first: the loop note says a flagged report must be cleared before any build task (R62 rule).
+- 2026-10-30 22:46 Did not ask Isa about the device run: it is an owner check and will be raised as a single question only if it is still open after this round.
+- 2026-10-30 22:46 Kept the detent change as one value; no new edits in this round so the flag clears on evidence.
