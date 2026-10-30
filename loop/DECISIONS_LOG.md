@@ -873,3 +873,16 @@
 - 2026-10-31 01:43 Did not pick removal of es addMenu.voice and describeOutLoud. The notes decision keeps them until Isa approves. The last report's NEXT conflicts with that decision, so the decision wins.
 - 2026-10-31 01:43 Named all file paths in full because a handover just happened and the fresh session knows only the summary.
 - 2026-10-31 01:43 Asked the verification to check key sets in both directions, since a missing-only check previously hid the es extras.
+- 2026-10-31 01:44 R235 verification is green (tsc 0, 65 suites, 824 tests, locale key sets match except the es voice extras), so the R234 flag is cleared.
+- 2026-10-31 01:44 Chose SLOT_KEYS consolidation: it is the next item in the notes, touches no UI, needs nothing from Isa, and is the smallest task. Jev's run and ask scores are tied at 41%, which points to a small task.
+- 2026-10-31 01:44 Did not remove addMenu.voice and addMenu.describeOutLoud from es.json. The notes say they stay until Isa approves removal, which overrides the handover suggestion.
+- 2026-10-31 01:44 Treated the handover's (tabs)/index.tsx:121 '1 days' item as done, because the handover and the R235 report both show line 121 now uses t() with count.
+- 2026-10-31 01:44 Refactor prompt has no gap row. Step 2 forces a stop if the two definitions differ, so behaviour is protected.
+- 2026-10-31 01:44 R237 chosen: the R236 prompt was rejected for touching more than one screen or component. The rewrite is a single file and a single string, which is the smallest task that needs nothing from Isa.
+- 2026-10-31 01:44 SLOT_KEYS consolidation deferred. It spans add.tsx and food.tsx, so it must be split into a rule-compliant task later, or parked if it stays two files.
+- 2026-10-31 01:44 No gap row is cited because this is locale wording with no gap-analysis row. Jest is not run because no test covers the locale files and only JSON changed; the parse check is the proportionate check.
+- 2026-10-31 01:45 R238 full Jest run (65 suites, 824 tests, 4 snapshots, tsc 0) is accepted as the checkpoint run. Next full run is R243.
+- 2026-10-31 01:45 Chose the French wording fix: one file, one string, needs nothing from Isa. It is smaller than the other two candidates.
+- 2026-10-31 01:45 Declined the es addMenu.voice and describeOutLoud removal that the last report suggested as NEXT. It stays blocked until Isa approves, per the existing decision.
+- 2026-10-31 01:45 Prompt names design/Lume App.html and gap row 'none', because this is a locale fix with no gap row. This answers the loop rejection.
+- 2026-10-31 01:45 Jev ranked run at 81%. Manager choice matches Jev's top action.
