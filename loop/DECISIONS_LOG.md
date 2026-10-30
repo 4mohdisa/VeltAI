@@ -544,3 +544,7 @@
 - 2026-10-31 00:29 Chose SavedMealsList.tsx first because the en keys already exist and it is a single-file edit. Plan.tsx needs its en keys created first, so it ranks second.
 - 2026-10-31 00:29 Did not add es or fr savedMeals keys this round, to keep one file per round as the notes rule requires.
 - 2026-10-31 00:29 Jev's 100% run agrees with the choice, so no override was needed.
+- 2026-10-31 00:30 Flag must be cleared before a new build task, per the notes rule. Chose a verification round over the es/fr keys.
+- 2026-10-31 00:30 Used the full app suite once because this is a checkpoint-style clearance after a component change and no test covers SavedMealsList. Cost is one run.
+- 2026-10-31 00:30 Jev ranked the build task first at 95% run. I overrode its ordering only for the flag rule in the notes, which Jev cannot see. Next round I return to the es/fr keys.
+- 2026-10-31 00:30 No gap row changed; none covers saved meal toasts.
