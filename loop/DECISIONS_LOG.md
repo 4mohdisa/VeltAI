@@ -13,3 +13,8 @@
 - 2026-10-30 22:26 Kept the prompt to one editable file (log-session.tsx) so it passes the single-file checker.
 - 2026-10-30 22:26 Told Claude Code to reuse existing gymLog.celebration keys and add none, to avoid a second file edit.
 - 2026-10-30 22:26 Left the Blocked on Isa item (row 23) untouched; Isa has not answered in two rounds, so it stays parked and no action is taken.
+- 2026-10-30 22:29 Chose the flagged test fix first, because the loop note says the last report must be dealt with before moving on and the baseline suite must stay green.
+- 2026-10-30 22:29 Limited the task to one test file (gymDurationHonesty.test.ts) to respect the one-file rule; sheetVariant.test.ts is next round.
+- 2026-10-30 22:29 Kept the calorie dash as a parked item rather than asking Isa, because the design formula needs profile weight and the defaults do not cover it. Recorded as a Parked item for review.
+- 2026-10-30 22:29 Did not ask Isa about device checks; Isa verifies the UI himself, so step 3 of row 17 stays a reviewer item, not a loop task.
+- 2026-10-30 22:29 Did not run the full suite; checkpoint remains on the loop script's schedule.

@@ -27,33 +27,39 @@ Match every UI surface to design/Lume App.html through the 41 rows of DESIGN_GAP
 - Goals: borderless calorie input, hints, elevated card.
 - Gym 'How did it go?' chooser in log-session.tsx; session modes adjust / ticklist / picker. Adjust and ticklist start checked, so backing out shows 'Save progress?'.
 - Row 19: already-logged case routes to /gym/session.
-- Row 17 step 1: src/components/gym/CelebrationCard.tsx created, not wired.
+- Row 17 step 1: src/components/gym/CelebrationCard.tsx created.
+- Row 17 step 2 (round 46): save() in src/app/gym/log-session.tsx opens CelebrationCard in a transparent Modal over color.overlay instead of the toast. 'Nice one' and Android back close the modal, then close() runs. Calories shows a dash (see Blocked). Row 17 note appended.
 
 ## In progress
-- Row 17 step 2 (round 46): wire CelebrationCard into save() in src/app/gym/log-session.tsx, replacing the hardcoded toast, with a modal scrim. The round 45 prompt was rejected before it ran (no branch rule), so step 2 has not started.
-- Row 17 step 3: optional footnote prop ('Push logged - streak extended') on CelebrationCard.tsx. Own task after step 2.
+- Test repair (round 47): src/__tests__/gymDurationHonesty.test.ts has stale source-text assertions that fail after step 2. One file only. Then sheetVariant.test.ts (stale assertion on the old save wiring), one file per round.
+- Row 17 step 3: optional footnote prop ('Push logged - streak extended') on CelebrationCard.tsx. Own task after the test repair.
 
 ## Blocked on Isa
 - Row 23 / task (d). Option A: route the Summary GymStatusCard onLog in src/app/(tabs)/index.tsx:179 to log-session, remove the no-arg logGymSession call and toast, update the V16 note and src/__tests__/oneTapGymLog.test.ts (one file per task). Option B: keep the one-tap log and mark row 23 an accepted deviation (doc-only). Asked round 43, unanswered. Do not act.
+- Row 17 calories: design uses 5.5 MET x body weight x hours; no body weight on this screen. Currently shows a dash. Isa to choose: add the formula using profile weight, or accept the dash as a deviation. Asked as a Parked review item; do not invent a number.
 
 ## Next tasks
-1. Row 17 step 2 (in progress).
-2. Row 17 step 3: footnote prop on CelebrationCard.tsx.
-3. Food data path, one file per task. Step 1 done (src/lib/food/detailSubject.ts). Step 2: src/app/(tabs)/food.tsx pick() passes proteinPer100, carbsPer100, fatPer100. Step 3: src/app/food/detail.tsx search branch replaces hardcoded zeros, fixes the stale comment near lines 169-170, shows macros.
-4. If Isa answers A: three single-file tasks (index.tsx, oneTapGymLog.test.ts, V16 note in DECISIONS.md). If B: doc-only row 23 edit.
-5. i18n the hardcoded toast copy (log-session.tsx and index.tsx), once row 17 step 2 removes the first.
-6. Doc-only status sync, one row per task: Add sheet, Quick add, /gym/session summary line, row 18 accepted deviation.
-7. Checkpoint (full tsc and jest, baseline 65 suites / 823 tests) only when the loop note asks.
-8. Food Search sheet (pill input, thumbnails, row metrics, no chips): needs a plan first.
-9. Remaining gym rows: Isa approval per item.
-10. If no non-gym one-file task remains and nothing is approved, stop: 'only owner decisions remain'.
+1. Fix src/__tests__/gymDurationHonesty.test.ts stale assertions (round 47).
+2. Fix src/__tests__/sheetVariant.test.ts stale assertion for the save() wiring, one file.
+3. Row 17 step 3: footnote prop on CelebrationCard.tsx.
+4. Food data path, one file per task. Step 1 done (src/lib/food/detailSubject.ts). Step 2: src/app/(tabs)/food.tsx pick() passes proteinPer100, carbsPer100, fatPer100. Step 3: src/app/food/detail.tsx search branch replaces hardcoded zeros, fixes the stale comment near lines 169-170, shows macros.
+5. If Isa answers A: three single-file tasks (index.tsx, oneTapGymLog.test.ts, V16 note in DECISIONS.md). If B: doc-only row 23 edit.
+6. i18n the hardcoded toast copy in index.tsx and any remaining in log-session.tsx.
+7. Doc-only status sync, one row per task: Add sheet, Quick add, /gym/session summary line, row 18 accepted deviation.
+8. Checkpoint (full tsc and jest, baseline 65 suites / 823 tests) only when the loop note asks.
+9. Food Search sheet (pill input, thumbnails, row metrics, no chips): needs a plan first.
+10. Remaining gym rows: Isa approval per item.
+11. If no non-gym one-file task remains and nothing is approved, stop: 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Checked-in extract of design payloads.
 - Render test harness lacks SafeAreaProvider; no render tests on touched screens.
 - Gym: set row order with per-set remove; ParameterForm cardio inputs; template editor (Target RPE needs a data change); docking template bar; kg/lb field; cardio duration mixed with tap boxes.
-- Row 17 differences for Isa to review: uppercase Stat labels (design is sentence case); value-to-label gap 4pt vs 1pt; pill 17/24 vs 15/20; flame pulses while design ring pulses; pop-in animation omitted; hero gap 4pt vs 3pt.
-- Possible overflow for long values (52 min / 1,240 / 4,200 kg) in CelebrationCard; check on device.
+- Gym volume shows kg only, even for lb-planned exercises; no weight-unit preference hook found.
+- Gym zero volume (cardio-only or no planned weights) shows 0 kg.
+- Row 17 bare exit paths: rest-day sheet state and /gym/session logging show no celebration card; design asks for every branch.
+- Row 17 differences for Isa to review: uppercase Stat labels (design is sentence case); value-to-label gap 4pt vs 1pt; pill 17/24 vs 15/20; flame pulses while design ring pulses; static ring; pop-in animation omitted; hero gap 4pt vs 3pt.
+- Possible overflow for long values in CelebrationCard (about 233pt content in 206pt width; calories dash keeps it in bounds for now); check on device.
 - mixHex lives in src/components/domain/GymCalendar.tsx; move to a shared design helper.
 - App-only Stepper/SliderField entries (label-scan, scan-review, new-recipe, recipes-log-sheet) stay.
 - goals.tsx hardcoded 'Between 1,200 and 10,000 kcal.' and 'Daily targets'.
@@ -72,4 +78,5 @@ Match every UI surface to design/Lume App.html through the 41 rows of DESIGN_GAP
 - Round 43: Jev ask 78%; asked Isa on row 23; still unanswered.
 - Round 44: row 17 step 1 landed, flagged as partial.
 - Round 45: step 2 prompt rejected before running (missing branch rule). Row 23 still awaits Isa.
-- Round 46: step 2 re-issued with the branch rule and file limits.
+- Round 46: step 2 built. Report: tsc and eslint exit 0; findRelatedTests found none. Extra run: 2 test files fail (gymDurationHonesty.test.ts, sheetVariant.test.ts), both reading stale source text. Loop flagged the report as not fully green.
+- Round 47: repair gymDurationHonesty.test.ts first (one file), then sheetVariant.test.ts.

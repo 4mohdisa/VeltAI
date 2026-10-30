@@ -53,7 +53,9 @@ test("the server's null duration stays null, and effort it has no column for sta
 
 test('the log-session sheet starts at "Not set" and sends nothing when nothing was set', () => {
   const sheet = readFileSync(join(__dirname, '..', 'app/gym/log-session.tsx'), 'utf8');
-  expect(sheet).toContain('useState(0)');
-  expect(sheet).toContain('duration > 0 ? duration : undefined');
+  // The duration comes only from the plan, never a literal stand-in. This does
+  // not cover a plan with no estimate, sets or minutes, which still derives 0.
+  expect(sheet).toContain('{ durationMin: today?.template?.estimated_duration_minutes ?? planMinutes }');
+  expect(sheet).not.toMatch(/durationMin:\s*\d/);
   expect(sheet).not.toContain('useState(60)');
 });
