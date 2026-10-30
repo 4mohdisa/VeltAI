@@ -868,3 +868,8 @@
 - 2026-10-31 01:42 Did not follow the handover's suggestion to add settings.scanAccuracy to es.json. The notes already record it as present in es.json, so that handover item is stale.
 - 2026-10-31 01:42 Chose a read-only verification (R233) earlier because R232 was flagged. R233 came back clean, so this round can build again.
 - 2026-10-31 01:42 Jev's 88% run confidence is advisory only. The task is the smallest one available, so the choice is consistent with it.
+- 2026-10-31 01:43 Chose a read-only verification round because R234 was flagged (Jest not run). The flag rule comes before any new build task, so this overrides the run ranking for the locale work.
+- 2026-10-31 01:43 Used the full Jest run here because of the flag. It is not a checkpoint round. The checkpoint stays at R238.
+- 2026-10-31 01:43 Did not pick removal of es addMenu.voice and describeOutLoud. The notes decision keeps them until Isa approves. The last report's NEXT conflicts with that decision, so the decision wins.
+- 2026-10-31 01:43 Named all file paths in full because a handover just happened and the fresh session knows only the summary.
+- 2026-10-31 01:43 Asked the verification to check key sets in both directions, since a missing-only check previously hid the es extras.
