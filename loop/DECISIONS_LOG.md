@@ -192,3 +192,12 @@
 - 2026-10-30 23:11 Fibre scaling is the next code task after verification, since it is already the recorded Next item and touches one file.
 - 2026-10-30 23:11 Notes trimmed under 600 words. The completed doc truth-up was removed from Next. The stale-notes item is kept open until re-read.
 - 2026-10-30 23:11 The Add sheet BUILT versus PARTIAL label conflict is left for Isa to choose, as the last report asked, rather than changed now.
+- 2026-10-30 23:12 Chose the checkpoint over Jev's ranking of the fibre task (82%). The loop note marks this round as a checkpoint and requires a single full type check and full app suite with no file changes. Reason Jev cannot see: the last full-suite run was before the Quick add, SegmentedField compact prop and hooks.ts recents changes, and the handover states no full suite ran this session. Verifying the full app before more code edits is the safer order, and the fibre task moves to next round.
+- 2026-10-30 23:12 Kept the checkpoint to the app suite only, as the loop note specifies. Backend tests are not part of this round.
+- 2026-10-30 23:12 Recorded the Jev risk score (1.5) and the low task-completion confidence (23%) as the reason to keep the round to verification only.
+- 2026-10-30 23:12 Marked R87 as done, since its report was clean and cleared the R86 flag. The R87 item in Next is removed.
+- 2026-10-30 23:12 Left the Quick add row as DIFFERENT, since no device run or Isa confirmation has happened.
+- 2026-10-30 23:12 Kept the checkpoint as the next round. R88 was rejected before it ran, and the rejection says the prompt did not name the matching design/ file. Rewrote the prompt to name design/Lume App.html and gap row 87, which is the Quick add surface the checkpoint covers.
+- 2026-10-30 23:12 Checkpoint prompt makes no file changes and no git calls, so the rejection fix does not need a code edit.
+- 2026-10-30 23:12 Jev ranked the fibre task first (run 91%). Kept the checkpoint because the last full-suite run predates the Quick add, compact and recents changes, as recorded in R88 earlier.
+- 2026-10-30 23:12 Fibre task stays as the next round after the checkpoint is green, one file per round.
