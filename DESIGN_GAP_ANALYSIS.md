@@ -196,7 +196,7 @@ change nothing on the server.**
 14. **Slider.** The design contains no slider anywhere in the logging path.
 15. **Steppers.** The design contains no ± stepper anywhere. The app uses two.
 16. **Number entry.** Design: tap a value → docked native-keyboard bar with a "Done" pill. App: no such bar exists anywhere in `src`.
-17. **Confirmation.** Design: a modal celebration card with streak, Time/Calories/Volume and "Nice one". App: a toast, *"Gym logged — streak extended."* **Status: BUILT (step 1 of 3: component only, not wired).**
+17. **Confirmation.** Design: a modal celebration card with streak, Time/Calories/Volume and "Nice one". App: a toast, *"Gym logged — streak extended."* **Status: BUILT (step 1 of 3: component only, not wired).** Step 2 of 3: wired in log-session.tsx. Footnote still missing.
 18. **Post-log state.** Design: "Logged and locked" with Edit → Save changes. App: a static "Logged today" pill, no edit path.
 19. **Already-logged handling.** Design routes you into the day to edit or add extras. App shows *"Already logged today."* and dismisses.
 20. **What is written.** Design commits a full exercise list. App writes one session row with duration + notes, no exercises, no completion.

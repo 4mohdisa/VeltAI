@@ -8,12 +8,13 @@
 // The three tiles are distinct intents that all land on /gym/session, which is
 // where this app already edits per-set numbers, ticks off what was done and
 // picks an extra exercise. Nothing planned → the design's rest-day fallback.
-import { useEffect, useMemo } from 'react';
-import { View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Modal, View } from 'react-native';
 import { router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/forms/Button';
+import { CelebrationCard } from '@/components/gym/CelebrationCard';
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { EmptyState } from '@/components/display/EmptyState';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
@@ -25,6 +26,8 @@ import { track } from '@/lib/analytics';
 import { color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { logGymSession, useGym } from '@/lib/data';
 import { useToday } from '@/lib/data/gymSchedule';
+import { formatDuration } from '@/lib/formatting';
+import { displayToKg, formatWeight } from '@/lib/units';
 import type { GymExerciseInput, TemplateExercise } from '@/lib/api';
 
 /** The design's chooser tile metrics: a 46pt white disc holding a 21pt glyph, a
@@ -43,6 +46,12 @@ const SET_MINUTES = 3.2;
 /** A cardio exercise carries its own minutes; everything else is sets × 3.2. */
 const minutesOf = (te: TemplateExercise) =>
   te.planned_duration_minutes ?? (te.planned_sets ?? 0) * SET_MINUTES;
+
+/** The design's session volume in kg: sets × reps × load. Cardio plans none. */
+const volumeOf = (te: TemplateExercise) =>
+  (te.planned_sets ?? 0) *
+  (te.planned_reps ?? 0) *
+  displayToKg(te.planned_weight ?? 0, te.planned_weight_unit === 'lb' ? 'lb' : 'kg');
 
 /** The plan, verbatim — what "It went as planned" commits, exercise by exercise.
  *  Same shape /gym/session builds from its rows, so both paths write the same. */
@@ -75,6 +84,7 @@ export default function LogSessionScreen() {
     data: { streak },
   } = useGym();
   const { today, loading } = useToday();
+  const [celebrating, setCelebrating] = useState(false);
 
   const planned = useMemo(() => today?.exercises ?? [], [today]);
   const planName = today?.template?.name;
@@ -105,7 +115,11 @@ export default function LogSessionScreen() {
       { durationMin: today?.template?.estimated_duration_minutes ?? planMinutes },
       { name: planName, exercises: planned.map(inputFor), completionRate: 1 },
     );
-    showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
+    setCelebrating(true);
+  };
+
+  const finishCelebration = () => {
+    setCelebrating(false);
     close();
   };
 
@@ -143,69 +157,92 @@ export default function LogSessionScreen() {
   const summary = t('gymLog.planSummary', { count: planned.length, minutes: planMinutes });
 
   return (
-    <SheetContent
-      variant="leading"
-      title={t('gymLog.title')}
-      subtitle={planName ? `${planName} · ${summary}` : summary}
-      onClose={close}
-    >
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.md }}>
-        {choices.map((c) => (
-          <Pressable
-            key={c.icon}
-            onPress={() => openSession(c.mode)}
-            accessibilityLabel={`${c.title}. ${c.description}`}
-            minTapTarget={false}
-            // The design's chooser tile: a grey tile, a WHITE disc holding the
-            // one glyph, then the title and its caption pinned to the bottom.
-            // Pressed darkens the tile rather than fading it.
-            style={({ pressed }) => ({
-              width: c.wide ? '100%' : '48%',
-              minHeight: c.wide ? WIDE_TILE_HEIGHT : TILE_HEIGHT,
-              backgroundColor: pressed ? surface.tilePressed : surface.tile,
-              borderRadius: radius.lg,
-              paddingVertical: c.wide ? space.md : space.lg,
-              paddingHorizontal: space.lg,
-              flexDirection: c.wide ? 'row' : 'column',
-              alignItems: c.wide ? 'center' : 'stretch',
-              gap: c.wide ? space.md : space.sm,
-            })}
-          >
-            <View
-              style={{
-                width: TILE_DISC,
-                height: TILE_DISC,
-                borderRadius: radius.full,
-                backgroundColor: color.white,
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
+    <>
+      <SheetContent
+        variant="leading"
+        title={t('gymLog.title')}
+        subtitle={planName ? `${planName} · ${summary}` : summary}
+        onClose={close}
+      >
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.md }}>
+          {choices.map((c) => (
+            <Pressable
+              key={c.icon}
+              onPress={() => openSession(c.mode)}
+              accessibilityLabel={`${c.title}. ${c.description}`}
+              minTapTarget={false}
+              // The design's chooser tile: a grey tile, a WHITE disc holding the
+              // one glyph, then the title and its caption pinned to the bottom.
+              // Pressed darkens the tile rather than fading it.
+              style={({ pressed }) => ({
+                width: c.wide ? '100%' : '48%',
+                minHeight: c.wide ? WIDE_TILE_HEIGHT : TILE_HEIGHT,
+                backgroundColor: pressed ? surface.tilePressed : surface.tile,
+                borderRadius: radius.lg,
+                paddingVertical: c.wide ? space.md : space.lg,
+                paddingHorizontal: space.lg,
+                flexDirection: c.wide ? 'row' : 'column',
+                alignItems: c.wide ? 'center' : 'stretch',
+                gap: c.wide ? space.md : space.sm,
+              })}
             >
-              <Icon name={c.icon} size={TILE_GLYPH} color={color.label} />
-            </View>
-            <View style={[{ gap: TEXT_GAP }, c.wide ? { flex: 1 } : { marginTop: 'auto' }]}>
-              <Text variant="bodyMedium" color={color.label}>
-                {c.title}
-              </Text>
-              <Text variant="caption" color={color.secondaryLabel}>
-                {c.description}
-              </Text>
-            </View>
-            {c.wide ? <Icon name="chevron-forward" size={CHEVRON} color={color.gray400} /> : null}
-          </Pressable>
-        ))}
-      </View>
+              <View
+                style={{
+                  width: TILE_DISC,
+                  height: TILE_DISC,
+                  borderRadius: radius.full,
+                  backgroundColor: color.white,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <Icon name={c.icon} size={TILE_GLYPH} color={color.label} />
+              </View>
+              <View style={[{ gap: TEXT_GAP }, c.wide ? { flex: 1 } : { marginTop: 'auto' }]}>
+                <Text variant="bodyMedium" color={color.label}>
+                  {c.title}
+                </Text>
+                <Text variant="caption" color={color.secondaryLabel}>
+                  {c.description}
+                </Text>
+              </View>
+              {c.wide ? <Icon name="chevron-forward" size={CHEVRON} color={color.gray400} /> : null}
+            </Pressable>
+          ))}
+        </View>
 
-      {/* The design's footer: a divider, the primary pill, and a caption naming
-          what it commits. The design saves with a pill at the end of the sheet. */}
-      <View style={{ height: layout.hairline, backgroundColor: surface.divider }} />
-      <View style={{ gap: space.sm }}>
-        <Button title={t('gymLog.asPlanned')} onPress={save} />
-        <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-          {t('gymLog.asPlannedCaption', { plan: planName ?? t('gymLog.thisSession') })}
-        </Text>
-      </View>
-    </SheetContent>
+        {/* The design's footer: a divider, the primary pill, and a caption naming
+            what it commits. The design saves with a pill at the end of the sheet. */}
+        <View style={{ height: layout.hairline, backgroundColor: surface.divider }} />
+        <View style={{ gap: space.sm }}>
+          <Button title={t('gymLog.asPlanned')} onPress={save} />
+          <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
+            {t('gymLog.asPlannedCaption', { plan: planName ?? t('gymLog.thisSession') })}
+          </Text>
+        </View>
+      </SheetContent>
+
+      {/* A native Modal, because the sheet is only as tall as its content and an
+          in-sheet overlay could not cover the screen. */}
+      <Modal visible={celebrating} transparent animationType="fade" statusBarTranslucent onRequestClose={finishCelebration}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: color.overlay }}>
+          <CelebrationCard
+            streakDays={streak.current}
+            time={formatDuration(today?.template?.estimated_duration_minutes ?? planMinutes)}
+            // Nothing here knows a session's burn; the design derives it from body
+            // weight, which this screen doesn't have. A dash rather than an invention.
+            calories="—"
+            volume={formatWeight(Math.round(planned.reduce((a, te) => a + volumeOf(te), 0)), 'kg')}
+            streakLabel={t('gymLog.celebration.streak')}
+            timeLabel={t('gymLog.celebration.time')}
+            caloriesLabel={t('gymLog.celebration.calories')}
+            volumeLabel={t('gymLog.celebration.volume')}
+            nicePillLabel={t('gymLog.celebration.nicePill')}
+            onNice={finishCelebration}
+          />
+        </View>
+      </Modal>
+    </>
   );
 }

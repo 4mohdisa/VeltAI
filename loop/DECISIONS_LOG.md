@@ -3,3 +3,13 @@
 - 2026-10-30 22:23 Allowed en.json as a second file for gymLog.celebration keys only, per the named key additions rule. The component is created unwired so no other screen changes.
 - 2026-10-30 22:23 Recorded a conflict: the latest handover says the 3-step food data path has steps 2 and 3 pending, but the notes list the food search macro path as Done. Added a verification item to Next tasks rather than acting on it now.
 - 2026-10-30 22:23 Kept the component presentational with label props, so no strings are hardcoded in the file and i18n stays in en.json.
+- 2026-10-30 22:26 Chose row 17 step 2 because the last report was flagged as only partly done and step 2 is the remaining work on that surface. Row 23 still has no answer from Isa.
+- 2026-10-30 22:26 Direct import of CelebrationCard instead of editing the barrel, because src/components/gym/index.ts is outside this task's single file.
+- 2026-10-30 22:26 Modal scrim included in step 2, as the last report said step 2 would add it.
+- 2026-10-30 22:26 Stat label case, the 17/24 pill text, the missing footnote and the animation differences are not fixed in this task. They are parked for Isa's review as accepted-or-fix, one decision at a time.
+- 2026-10-30 22:26 Possible overflow on long values is left for a device check, not fixed in this round.
+- 2026-10-30 22:26 Chose row 17 step 2 because step 1 landed and the loop flagged the row as partly done; finishing the same surface clears the flag.
+- 2026-10-30 22:26 Re-issued the round 45 prompt with the required branch rule, since the loop note says it was rejected before running.
+- 2026-10-30 22:26 Kept the prompt to one editable file (log-session.tsx) so it passes the single-file checker.
+- 2026-10-30 22:26 Told Claude Code to reuse existing gymLog.celebration keys and add none, to avoid a second file edit.
+- 2026-10-30 22:26 Left the Blocked on Isa item (row 23) untouched; Isa has not answered in two rounds, so it stays parked and no action is taken.
