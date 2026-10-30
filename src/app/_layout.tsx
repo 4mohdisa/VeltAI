@@ -149,14 +149,14 @@ export default function RootLayout() {
             <Stack.Screen name="food/barcode-scan" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
             <Stack.Screen name="food/label-scan" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
             {/* Native detented sheets */}
-            {/* Log session sizes to its content: at the shared 0.6 detent the
+            {/* Log session sizes to its content: at the default [0.6, 1] detents the
                 design's save pill (V1) sat below the fold. 'fitToContents' is the
                 same rule food/add already uses. */}
             <Stack.Screen name="gym/log-session" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
             <Stack.Screen name="gym/freeze" options={{ ...sheetOptions, sheetAllowedDetents: [0.5] }} />
-            {/* Add-meal: size to the 2×2 grid so all four options show fully. */}
+            {/* Add-meal: size to the content so all five tiles show fully. */}
             <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
-            {/* Quick Add calories — compact sheet (calories + optional label + meal). */}
+            {/* Quick Add calories — compact sheet (calories + meal). */}
             <Stack.Screen name="food/quick-add" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
             <Stack.Screen name="food/custom-food" options={{ ...sheetOptions, sheetAllowedDetents: [0.95] }} />
             {/* The ONE food-detail sheet: a search hit, a barcode product, a

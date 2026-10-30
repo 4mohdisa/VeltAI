@@ -96,3 +96,7 @@
 - 2026-10-30 22:47 Jev leans to ask (75%). Not followed: the flag can be cleared by checks that need nothing from Isa, so asking would add a question without a blocker.
 - 2026-10-30 22:47 Jest was not run last round, so this round runs only the Jest files that reference _layout or sheet detents, not the full suite (testing rules).
 - 2026-10-30 22:47 Stale comments and the pill size change stay queued behind the cleared flag, one task per round.
+- 2026-10-30 22:48 Chose the stale comment fix over the Jev ask signal: it is a comment-only edit in one file and needs nothing from Isa, so it clears the notes before the device run is asked.
+- 2026-10-30 22:48 Limited checks to tsc, eslint on _layout.tsx and Jest only on any matching source-reading test, per the R59 and R67 rules.
+- 2026-10-30 22:48 Left the Quick add device checks in Blocked on Isa for a later single question, not this round.
+- 2026-10-30 22:48 Kept the 0.6 detent wording aligned with line 76 rather than changing the detent value, because the detent is not part of this task.
