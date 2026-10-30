@@ -1,41 +1,42 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified.
 
-BUILT THIS SESSION (no gap row fully cleared; Quick add, row 87, stays DIFFERENT)
-- src/app/_layout.tsx:160: Quick add detent is fitToContents. Three stale sheet comments corrected.
-- src/app/food/quick-add.tsx: confirm pill 52pt through paddingVertical space.md; Meal control passes compact.
-- src/components/forms/SegmentedField.tsx: optional compact prop (label token, 17 line height, 3pt track padding and gap). Default path unchanged by reading; no test covers it.
-- src/lib/data/hooks.ts: recents in useFoodSearch carry protein, carbs and fat.
-- DESIGN_GAP_ANALYSIS.md: row 87 status and the Quick add section rewritten.
+BUILT THIS SESSION
+- src/app/food/new-recipe.tsx: ingredientFrom scales protein, carbs, fat and fibre by grams; editRow carries them back to per-100 g. Literal \n in comment removed.
+- src/app/food/add.tsx: tile grid uses flexGrow 1, flexBasis TILE_BASIS (40%), gap space.md. Title "Add to {meal}" already existed at about line 56 (no code change this session).
+- DESIGN_GAP_ANALYSIS.md: count line now 23 DIFFERENT, 15 PARTIAL, 3 BUILT (not verified), 0 EXACT. Add sheet row is BUILT (not verified). Row 87 Quick add is DIFFERENT, single label, with BUILT and still-open lists. FoodNumberEntryBar renamed NumberEntryBar. Food Search has recipe macro status and recents lines. Add sheet correction row updated.
 
-Last checks: tsc and eslint clean; the five hooks source-reading tests passed 80 of 80. No full suite run this session.
+Last checks: full app suite 65 of 65 suites, 824 of 824 tests, before the fibre edit. After it: tsc 0 errors, eslint clean, nine hooks suites 116 of 116. No test covers new-recipe.tsx.
 
 IN PROGRESS: nothing mid-edit.
 
 DECISIONS
-- Recent macros are scaled to per 100 g, not copied: stored items hold totals, FoodResult holds per-100 values.
-- 17/22 pill label not built: Button's style prop reaches only the container.
-- compact is opt-in, so other SegmentedField callers (16 call sites in 11 files) keep their look.
-- Pill height uses reduced padding, so the 52pt minHeight still allows text growth.
+- Macros are unrounded: backend stores floats, display rounds. Calories keep Math.round.
+- Missing or null macros count as 0, because RecipeIngredient.fibre is a required number.
+- Row 87 stays DIFFERENT while open items remain.
+- Add sheet summary row is BUILT at Isa's instruction, though its section verdict stays PARTIAL MATCH.
+- Recipe builder has no design counterpart, so no gap row applies.
 
 WAITING ON ISA
-- Confirm label: add a Button label or size prop, change bodyBold for every caller, or accept 17/24.
-- Device run: Quick add fit, no collapse (own flex:1 KeyboardAvoidingView at quick-add.tsx:114), NumberEntryBar above the keyboard, pill, compact chips; also the celebration card flow (row 17 step 3).
-- Earlier open: Calories column on the card; Search foods tile going to the food tab.
+- Confirm label: Button prop, change bodyBold for all callers, or accept 17/24.
+- Device run: recipe flow; Quick add (fit, no collapse, NumberEntryBar, pill, compact chips); Add sheet grid at 320pt and 430pt; celebration card flow.
+- Earlier open: Calories column on the card; global + title "Add meal" vs design's default meal.
+- Whether the last-hour modified-files check stays: it failed last round (20 files, from earlier rounds and loop writes); a scan limited to the round was empty.
 
 RECOMMENDED NEXT
-Make ingredientFrom in src/app/food/new-recipe.tsx:34-44 scale macros by grams, and update its header comment and the edit path at line 80. It is the only recents consumer and hardcodes zeros, so the recents fix has no user-visible effect yet. The food tab uses results only.
+Add fibre to useFoodSearch recents in src/lib/data/hooks.ts, scaled per 100 g. Keep a missing value missing. Until then recent foods save fibre 0.
 
 NOT FIXED
-- Compact keeps 8pt horizontal chip padding; the design has none. No chip background transition.
-- quickAdd and food/detail.tsx log missing macros as 0.
-- Food Search section has no recents macros note.
-- DESIGN_GAP_ANALYSIS.md:86-87 say FoodNumberEntryBar; the component is NumberEntryBar.
-- Row 87 and the Quick add still-open list still show the Meal control type and padding as open.
-- Quick add: no blinking caret, hardcoded English copy, offline toast names no meal.
-- loop/NOTES.md lines 39, 42, 54 may be stale; it changed at 22:59 from outside this session, so re-read it.
+- totals in new-recipe.tsx omits fibre.
+- Add sheet: Search foods destination, SF Symbols vs SVGs, separate scan routes, bottom padding.
+- Correction row shows ❌ beside BUILT text.
+- Quick add open items are listed in row 87. Meal chip label token vs 600 13/17 unconfirmed.
+- es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot.
+- Rounded calories can drift in editRow and recents.
+- No test names SegmentedField.
+- loop/NOTES.md changed 23:18; re-read lines 39, 42, 54.
 
 GOTCHAS
-- Design text sits in the bundler payload; decoded copies are in /tmp/lume-design (entry 71f71ac4 is food) and may vanish.
-- Source-reading tests are invisible to --findRelatedTests; grep src/__tests__ for the path.
-- Expo docs requirement is in AGENTS.md.
+- Decoded design copies are in /tmp/lume-design (entry 71f71ac4 is food) and may vanish.
+- Source-reading tests are invisible to --findRelatedTests; grep src/__tests__.
+- Grepping "hooks" is loose. Expo docs requirement is in AGENTS.md.
 - zsh does not word-split unquoted variables.
