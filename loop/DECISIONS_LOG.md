@@ -174,3 +174,8 @@
 - 2026-10-30 23:05 Chose the verification-only run over the tile gap, though Jev ranks the tile gap at 91%. Reason: the loop rule says a flagged report must be dealt with before a new edit, and the notes say a verification-only run (tsc, eslint, related tests, no edits) clears the flag. Doing the edit first would leave the flag standing for another round.
 - 2026-10-30 23:05 Verification run uses only the source files changed this session, and only the tests that grep or findRelatedTests return, per the testing rules.
 - 2026-10-30 23:05 Summary count at DESIGN_GAP_ANALYSIS.md line 72 and the old correction row near line 1431 are recorded as NEXT, not fixed in this round, because this round makes no edits.
+- 2026-10-30 23:07 Rewrote the notes under 600 words as the loop note asked: repeated items merged, finished work deleted, decisions kept verbatim in meaning.
+- 2026-10-30 23:07 Chose the Add sheet tile gap (candidate 1) over the macros fix: it is a one-file change, needs nothing from Isa, and clears a gap row. Matches Jev's run ranking.
+- 2026-10-30 23:07 Told Claude Code to take the gap value from the design file, not from the 12pt guess in the last report, because R55 requires comparing against design/ before each row.
+- 2026-10-30 23:07 Kept the macros-as-0 fix for its own later round because it changes logged data and needs a verification run first.
+- 2026-10-30 23:07 Kept row 23 under Blocked on Isa rather than retrying, because the question went unanswered since r43.

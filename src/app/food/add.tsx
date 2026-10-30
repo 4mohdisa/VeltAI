@@ -60,7 +60,7 @@ export default function AddMealScreen() {
   ];
   return (
     <SheetContent variant="leading" title={title} onClose={() => router.canGoBack() && router.back()}>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.md }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
         {methods.map((m) => (
           <Pressable
             key={m.route}

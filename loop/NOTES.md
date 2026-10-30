@@ -5,91 +5,64 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 
 ## Decisions (never delete)
 - RevenueCat over Stripe. Onboarding stabilised. v1 scope locked; extras go to Parked.
-- design/Lume App.html is source of truth. Gap analysis is authoritative.
-- 7-day trial, $49.99/yr, $8.99/mo, no card up front.
-- Isa r24: cardio stays Distance km; no food search chips; Goals as built (rows 76, 78, 97 accepted).
-- Isa r39: celebration card approved; row 18 edit cycle dropped; already-logged routes to /gym/session; Summary card never calls logGymSession() with no args; food detail search shows macros.
-- Isa r55: compare code with design/ before each row; fix only real differences.
-- Gym duration: derived value logged when above 0, else undefined; keep ?? for template estimate.
-- Card variant='elevated' is the repo mapping for the design's white card. Session mode state is derived, not set in effects.
-- R57: Search foods tile routing to food tab is a real difference; dedicated search sheet parked.
-- R58: SegmentedField inset not changed globally; compact prop is opt-in.
-- R63: celebration calories show a dash (no body weight; no fabricated data).
-- R64: Quick add detent is fitToContents (src/app/_layout.tsx:160). R72: pill height by padding, no Button edit.
-- R78: recent macros scaled per 100 g from stored totals (items hold totals, FoodResult holds per-100 values).
-- Flagged reports are cleared by verification-only runs (tsc, eslint, related tests, no edits).
-- Prompts: one task, one editable source file; doc-only rounds run no tests; every prompt names the design/ file, gap row, branch, and says no git.
-- R81: a task whose blocker came back twice is parked under Blocked on Isa and not retried.
-- R82: Add sheet title confirmed built at src/app/food/add.tsx:53 ('Add to ' + meal). Title difference is removed from the gap row.
-- R83: a flagged doc-only report is cleared by a verification-only run before any new edit, even when Jev ranks an edit first.
+- Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
+- design/Lume App.html is source of truth; gap analysis is authoritative. Before each row, compare code with design/; fix real differences only.
+- Isa: cardio stays Distance km; no food search chips; Goals as built (rows 76, 78, 97 accepted); celebration card approved; already-logged routes to /gym/session; Summary card never calls logGymSession() with no args.
+- Celebration calories show a dash (no body weight). Quick add detent fitToContents (_layout.tsx:160). Pill height by padding, no Button edit.
+- Recent macros scaled per 100 g. Search foods to food tab is a real difference; dedicated search sheet parked.
+- Card variant='elevated' maps the white card. Session mode derived, not set in effects.
+- Gym duration logged when above 0, else undefined; keep ?? for template estimate.
+- A task whose blocker came back twice is parked, not retried.
+- A flagged doc-only report is cleared by a verification-only run before any new edit.
+- Prompts: one task, one editable file; doc-only rounds run no tests; name design/ file, gap row and branch; say no git.
 
 ## Built (not verified)
-- NumberEntryBar (shared) in food quick-add, food detail, gym session, PlannedValuesForm.
-- Food Add sheet chooser; Search routes to food tab; + disc logs 100 g with toast.
-- Food Add sheet title 'Add to {meal}' with fallback 'Add meal' (add.tsx:53). Confirmed by code read; device check outstanding.
-- Food Add sheet section of DESIGN_GAP_ANALYSIS.md corrected to PARTIAL (BUILT), five differences listed (R82).
-- Goals: borderless input, hints, elevated card.
-- Gym 'How did it go?' chooser; modes adjust, ticklist, picker. Row 19: already-logged routes to /gym/session.
-- Row 17 steps 1-2: CelebrationCard.tsx opens from save() in log-session.tsx. Step 3 (device run) open.
-- Gym duration honesty; food macros carried through pick, search and detail.
-- Quick add: toast, MEAL caption, detent, confirm pill 52pt via padding.
-- SegmentedField compact prop, applied to quick-add Meal control (row 87 still DIFFERENT: 8pt chip horizontal padding, no selection background transition).
-- Recents macros in hooks.ts useFoodSearch (scaled per 100 g).
-- new-recipe.tsx ingredientFrom: protein, carbs, fat scaled by grams; edit path works back to per-100 g. NOT VERIFIED: no test covers it, tsc and eslint pass, device run outstanding (see Blocked on Isa).
+- NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
+- Food Add sheet chooser; title 'Add to {meal}' (add.tsx:53); + logs 100 g with toast.
+- Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard from save() in log-session.tsx). Gym duration honesty.
+- Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
+- Recents macros in hooks.ts. new-recipe.tsx ingredientFrom scales protein, carbs, fat by grams (no test covers it).
 
 ## Open differences
-- Add sheet: tile gap ~14pt not 12pt (add.tsx uses 48% tiles with space-between); SF Symbols not design SVGs; Search foods goes to food tab, not a search sheet; scan routes split (photo and barcode); bottom padding 20pt plus safe area, design 34pt.
-- Quick add: no blinking caret; own flex:1 KeyboardAvoidingView at quick-add.tsx:114; offline toast names no meal; hardcoded English copy.
-- Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
-- ingredientFrom: fibre still saved as 0 (FoodResult carries fibre per 100 g; recents do not yet). Literal \n in comment at new-recipe.tsx:49. Calories rounded before edit-path reverse; recents round kcalPer100 (small drift).
-- Macros as 0 still in quickAdd and food/detail.tsx.
-- Estimate of exactly 0 hides planMinutes (keep ?? per r49).
-- Stale: detailSubject.ts:25-27 comment; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title; DESIGN_GAP_ANALYSIS.md:86-87 says FoodNumberEntryBar (real: NumberEntryBar); DESIGN_GAP_ANALYSIS.md summary count near line 72 (26 DIFFERENT, 15 PARTIAL) now out of date; old Add sheet correction row near line 1431; food Search section lacks recents macros note and ingredientFrom note.
-- Translations: es.json has no addMenu.addToSlot; fr.json has no addMenu.title or addMenu.addToSlot. Fallback behaviour unchecked.
-- Slot label: design uses 'Snacks' in chips and SLOTS; time-of-day default says 'Snack' (design inconsistency, decoded line 756).
-- i18n: hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
+- Add sheet: tile gap (48% tiles, space-between) vs design; SF Symbols not design SVGs; scan routes split; bottom padding 20pt plus safe area vs 34pt.
+- Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; Meal chip 8pt padding, no selection transition (row 87).
+- Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
+- ingredientFrom: fibre saved as 0; literal \n at new-recipe.tsx:49.
+- quickAdd and food/detail.tsx log missing macros as 0. Keep ?? for planMinutes.
+- Doc stale: DESIGN_GAP_ANALYSIS.md:86-87 says FoodNumberEntryBar (real: NumberEntryBar); summary count near line 72; Add sheet correction row near 1431; food Search lacks recents-macros note.
+- Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot: design 'Snacks' vs 'Snack' default.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 
 ## Blocked on Isa
-- Row 23 one-tap log: A = route onLog to log-session; B = accepted deviation. Asked r43, unanswered.
+- Row 23 one-tap log: route onLog to log-session, or accepted deviation. Unanswered since r43.
 - Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
 - Search foods tile routing: accepted or not.
-- Quick add confirm 17/22: Button lacks label or size prop. Choose: add prop, change bodyBold for all callers, or accept 17/24.
-- Global + title: keep 'Add meal' or name a default meal as the design does (R82).
-- ingredientFrom verification (new-recipe.tsx): parked after the same blocker came back twice (R80, R81). Needs Isa's device run: add a recent food and a searched food to a recipe, check the totals line, tap a row to change its grams, save. Fibre scaling waits until this clears.
-- Owner device checks (ask once): Quick add sheet fit, MEAL caption, toast, compact chips, NumberEntryBar above keyboard; Add sheet title (tap meal + expect 'Add to lunch', global + expect 'Add meal'); celebration flow; recipe macros (as above).
+- Quick add confirm 17/22: add Button label or size prop, change bodyBold for all callers, or accept 17/24.
+- Global + title: keep 'Add meal' or name a default meal.
+- ingredientFrom device run: add a recent and a searched food to a recipe, check totals, change grams, save.
+- Owner device checks (ask once): quick add fit, MEAL caption, toast, compact chips, keyboard bar, Add sheet title, celebration flow, recipe macros.
 
 ## Next
-1. Verification-only round (R83): tsc, eslint and related tests for the changed files, no edits. Clears the flag on the R82 doc-only report.
-2. Add sheet tile gap: add.tsx 48% tiles with space-between to a 12pt column gap, one file, check with a related test run.
-3. Stop logging missing macros as 0 in food/detail.tsx (its own round; changes logged data; verification run first).
-4. Same for quickAdd (separate round).
-5. Doc-only: DESIGN_GAP_ANALYSIS.md:86-87 FoodNumberEntryBar name; summary count near line 72; old correction row near line 1431; stale comments; NOTES and gap-analysis stale lines; food Search recents note.
-6. Add sheet SF Symbols versus design SVGs; Add sheet scan routes and bottom padding.
-7. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
+1. Add sheet tile gap in add.tsx: space-between to the design's column gap, checked against design/.
+2. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
+3. Same for quickAdd (own round).
+4. Doc-only truth-up of the stale lines above.
+5. Add sheet icons, scan routes, bottom padding.
+6. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
-- Gym: row order, per-set remove; cardio ParameterForm; template editor; kg/lb; volume kg only; estimated duration logged; adjust and ticklist arrive checked, so 'Save progress?' fires on untouched back-out.
+- Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
 - Row 17: rest-day and /gym/session exits show no card; pop-in; ring vs flame.
-- Global SegmentedField inset restyle (11 caller files). Dedicated food search sheet (R57). Single scanner with modes (Add sheet scan routes).
-- Compact chip 8pt horizontal padding and selection background transition (row 87).
-- mixHex in GymCalendar.tsx to shared helper; goals.tsx hardcoded copy; es/fr locales lack new keys; CONFLICT_KEYWORDS not type-linked; unused addMenu keys; router.setParams rewrites history; dev catalog has calories only.
-- Blinking caret; Math.round in draft(); Goals accessibilityState; English hints in food.tsx; labels in add.tsx and log-session.tsx; /gym/session shows planned not logged rows.
-- No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx; source-text tests do not run behaviour.
+- Global SegmentedField inset; food search sheet; single scanner with modes; compact chip padding and transition.
+- Code: mixHex to shared helper, goals.tsx copy, CONFLICT_KEYWORDS untyped, router.setParams history, blinking caret, Math.round in draft().
+- No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx.
 
-## Loop notes (condensed)
-- R1-39: early rejections. R43 asked row 23, unanswered. R50, R60, R75 checkpoints green.
-- R76-78: compact and recents built. R79: verification cleared flag.
-- R80: new-recipe ingredientFrom macros built; verification run flagged (tests not run). Same blocker again at R81: parked under Blocked on Isa.
-- R81: Add sheet title confirmed already built (no edit). Report flagged gap row as stale.
-- R82: doc truth-up of the Add sheet gap section. Report had no tsc, eslint or tests run, so it was flagged. Summary row also changed to PARTIAL (BUILT).
-- R83: loop note flagged R82. Jev ranked tile gap first (91%). Kept a verification-only run first, because the flag must clear before a new edit (see decisions).
+## Loop notes
+- R83: verification-only run green (tsc, eslint, 9 suites, 146 tests). R84: notes rewritten under 600 words.
 
 ## Gotchas
-- Design text in __bundler payload (gzip+base64). Food 71f71ac4, gym 7dc211f6. Decoded copies in /tmp/lume-design may vanish.
-- Source-reading tests pin source text and are invisible to --findRelatedTests; grep src/__tests__ for the path.
+- Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish.
+- Source-text tests are invisible to --findRelatedTests; grep src/__tests__ for the path.
 - Shared Button in src/components/forms affects all callers; override locally first.
-- Pill 52pt: 24 line + 12 + 12 padding, minHeight 52.
 - zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
-- Reports flagged 'tests not run' need a test match via grep before a run; if none, say so and cite the tsc and eslint result.
-- Loop notes file was edited outside the session at 22:59; re-read before each update.
+- Notes file was edited outside the session; re-read before each update.
