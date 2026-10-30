@@ -387,3 +387,8 @@
 - 2026-10-30 23:56 Jev ranked run at 94%; it agrees the next action is run, and the chosen task needs nothing from Isa.
 - 2026-10-30 23:56 Full suite run here despite the checkpoint-only rule, because it is the flag clearance pattern used at R122 and R126.
 - 2026-10-30 23:56 Notes trimmed to under 600 words as the loop note asks; finished work and repeated items merged.
+- 2026-10-30 23:57 Chose candidate 1 because Next step 2 in the notes is fr.json only, one file per round, and needs nothing from Isa.
+- 2026-10-30 23:57 Ordered the four keys by en.json position, not by a new order, so the locale files stay aligned.
+- 2026-10-30 23:57 Kept the fr 'à petit-déjeuner' grammar issue parked for native review, since it needs full-phrase strings and a native speaker.
+- 2026-10-30 23:57 Limited checks to tsc plus a JSON key check, since no test reads locale files and the brief forbids new test work.
+- 2026-10-30 23:57 Jev ask was not chosen; the notes say nothing needs Isa for this task, so the run decision stands.

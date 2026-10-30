@@ -51,7 +51,11 @@
     "searchPlaceholder": "Pomme, banane, Indomie…",
     "myDishes": "Mes plats",
     "quickAdd": "Ajout rapide",
-    "quickAddSub": "Juste les calories, rapidement"
+    "quickAddSub": "Juste les calories, rapidement",
+    "breakfast": "Petit-déjeuner",
+    "lunch": "Déjeuner",
+    "dinner": "Dîner",
+    "snack": "Snacks"
   },
   "foodLog": {
     "addToMeal": "Ajouter à {{slot}}",

@@ -25,11 +25,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx sums fibre.
-- Locales: en.json addMenu 20 keys (R125). es.json addMenu 22 keys (R127, agent translations). fr.json addMenu 16 keys (R118). No code reads the four slot keys yet.
+- Locales: en.json addMenu 20 keys (R125). es.json addMenu 22 keys (R127, verified R128, agent translations). fr.json addMenu 16 keys (R118). No code reads the four slot keys yet.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification log
 - Full checkpoints green: R113, R117, R120, R122, R126 (tsc 0, 65 suites, 824 tests, 4 snapshots).
+- R128 verification green: tsc 0, 65 suites, 824 tests, 4 snapshots; es.json parses, addMenu 22 keys.
 - Flags: R121, R125, R127 had tests not run. R127 es.json edit is cleared by R128 verification.
 - Locale hand checks do not clear flags alone. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
@@ -67,14 +68,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx. No locale tests.
 
 ## Next
-1. (R128, now) Verification: tsc and full app suite, es.json parse and key check. No file changes.
-2. Add breakfast, lunch, dinner, snack to fr.json addMenu only, same order as en.json. Values: Petit-déjeuner, Déjeuner, Dîner, Snacks. Confirm fr addMenu is 16 keys first.
-3. add.tsx:56 maps 'Snacks' to key snack explicitly and uses the keys; food.tsx:543 and :965 same mapping. One file per round.
-4. Remove unused voice and describeOutLoud from es.json after grep confirms no reads.
-5. Hardcoded English toasts: food.tsx:717, then SavedMealsList.tsx:59 and :63 (one file per round).
-6. Add sheet icons: SF Symbols to design SVGs, one per round.
-7. Checkpoint: full tsc and suite, no file changes.
-8. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. (R129, now) Add breakfast, lunch, dinner, snack to fr.json addMenu only, in en.json positions. Values: Petit-déjeuner, Déjeuner, Dîner, Snacks. Confirm fr addMenu is 16 keys first; if not, report and stop the edit. Check: JSON parses, 20 keys, key set equals en.json.
+2. add.tsx:56 maps 'Snacks' to key snack explicitly and uses the keys; food.tsx:543 and :965 same mapping. One file per round.
+3. Remove unused voice and describeOutLoud from es.json after grep confirms no reads.
+4. Hardcoded English toasts: food.tsx:717, then SavedMealsList.tsx:59 and :63 (one file per round).
+5. Add sheet icons: SF Symbols to design SVGs, one per round.
+6. Checkpoint: full tsc and suite, no file changes.
+7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected: R89, R99, R117, R125 (no design/ file named); R123 (no branch line). All rewritten.
@@ -82,6 +82,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Flags: R114, R119, R121, R125, R127. Cleared by R122 and R126 verification.
 - Handover after R125. Claude Code knows only the summary: name files fully.
 - Jev ask overridden at R120, R124 to R126 (nothing needs Isa).
+- R128 verification clean, no flags. Handover summary read at R129.
 
 ## Gotchas
 - Design text is in bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
