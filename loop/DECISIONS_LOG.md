@@ -861,3 +861,6 @@
 - 2026-10-31 01:38 Jev ranked the same candidate first in R230 notes, so no look-again is needed.
 - 2026-10-31 01:39 R232: Jev ranked the fr.json summaryTitle task first at 87%. Kept verification first because the R231 report was flagged (type check or tests not run). The standing rule is that flagged reports are cleared by a verification round before a new build task. Verification is read-only and limited to parse plus tsc, since no test covers locale files.
 - 2026-10-31 01:39 R232: the verification round is read-only and must not edit any file, so it cannot add any new scope.
+- 2026-10-31 01:41 Kept verification over fr.json: the loop flagged R232 (tests not run) and the flag rule says clear it before a new build task. Jev's 94% pick is the same task one round later.
+- 2026-10-31 01:41 Ran the full Jest suite, not only touched files: no file changed, and the flag is about tests not run, so a full run is the only way to clear it.
+- 2026-10-31 01:41 Kept the fr.json step as the next build task, unchanged, so the gap in fr.json is closed next round.
