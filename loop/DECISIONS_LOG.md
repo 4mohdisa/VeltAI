@@ -891,3 +891,8 @@
 - 2026-10-31 01:46 Chose a read-only trace of lastLoggedDaysAgo_one: it resolves the unreachable-key item without a guess and needs no edit.
 - 2026-10-31 01:46 Did not ask Isa about the fr wording, because the answer is in the code and Jev's ask score is advisory only.
 - 2026-10-31 01:46 Rewrote the notes under 600 words as the loop note requires, merging repeated items and removing finished work. Decisions kept verbatim in substance.
+- 2026-10-31 01:47 Chose the calendar-day fix over the planned hardcoded-text task because it is a wrong label on a visible surface, and it is a single-file, single-function change.
+- 2026-10-31 01:47 Treated it as a bug fix with gap row 'none', because the design does not specify this behaviour and the change does not alter layout or copy.
+- 2026-10-31 01:47 Left future-dated logs unchanged and parked them, to keep this round to one behaviour change.
+- 2026-10-31 01:47 Left the unreachable lastLoggedDaysAgo_one keys in place, because removing them gains little and the report says they are safe.
+- 2026-10-31 01:47 Ran the type check only, not Jest, to keep usage low. The file has no tests, so Jest would add little.

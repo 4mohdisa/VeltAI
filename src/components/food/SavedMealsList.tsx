@@ -26,9 +26,14 @@ import { api, type SavedMeal } from '@/lib/api';
 /** "Never logged" / "Last logged today|yesterday|N days ago" from an ISO date. */
 function lastLoggedLabel(iso: string | null, t: TFunction): string {
   if (!iso) return t('savedMeals.neverLogged');
-  const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return t('savedMeals.neverLogged');
-  const days = Math.floor((Date.now() - then) / 86_400_000);
+  const then = new Date(iso);
+  if (Number.isNaN(then.getTime())) return t('savedMeals.neverLogged');
+  const now = new Date();
+  // Local calendar dates, compared as UTC so a daylight-saving change can't make a day 23 or 25 hours.
+  const days =
+    (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
+      Date.UTC(then.getFullYear(), then.getMonth(), then.getDate())) /
+    86_400_000;
   if (days <= 0) return t('savedMeals.lastLoggedToday');
   if (days === 1) return t('savedMeals.lastLoggedYesterday');
   return t('savedMeals.lastLoggedDaysAgo', { count: days });

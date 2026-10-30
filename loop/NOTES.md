@@ -25,6 +25,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr is never shown on screen (src/lib/i18n/index.ts:41 fixes lng to 'en'). Low priority.
 - R240: 'a petit-dejeuner' is not in fr.json. R239 dropped.
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
+- R241: lastLoggedLabel counts calendar days (local dates), not 24-hour periods. Fixes 11pm-to-9am reading 'today'.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
@@ -40,7 +41,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R240 (read-only): trace lastLoggedDaysAgo_one and the days === 1 branch. Report only.
+1. R241: calendar-day fix in lastLoggedLabel (SavedMealsList.tsx). Type check only.
 2. Hardcoded text, one file per round: plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
 3. Add sheet icons to design SVGs.
 4. Remaining gap rows, most cleared per task first.
@@ -60,7 +61,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Recipe fibre saved as 0; saved foods drop fibre; detail.tsx num() rounds; food tab render test needs a suite.
 - Long-press meal delete not discoverable; mealNow() 'Snack' vs 'Snacks'.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
-- dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable (R240 checks).
+- dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable in en, es and fr (kept; safe to leave).
+- Future-dated saved-meal logs read 'Last logged today' (negative days hit line 32). Left as is in R241.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
@@ -82,4 +84,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240 window. Latest in loop/HANDOVER.md.
 - Rejected: R236 (more than one screen or component). R238 (prompt did not name design/Lume App.html). Rewritten as R237 and R239.
 - R239 flagged: prompt premise false (string absent). Handled by R240 read-only trace.
+- R240 read-only report: lastLoggedDaysAgo_one unreachable. Calendar-day bug found; R241 is the fix.
 - Jev: R240 ask 53%, run 44%; manager chose read-only run and wrote the reason in decisions.
+- Jev: R241 run 90%. Agreed with manager choice.
