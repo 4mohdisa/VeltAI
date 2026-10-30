@@ -731,3 +731,6 @@
 - 2026-10-31 01:07 Did not run Jest: the change is to a locale value that no test reads, and the R199 full suite was green. Type check and JSON parse are enough for a one-value edit.
 - 2026-10-31 01:07 Kept the R199 verification report as the record: all checks passed, so no flag is open and no clearing round is needed.
 - 2026-10-31 01:07 Did not change the locale order or the rest of the fr goals group, which stays as built pending native review.
+- 2026-10-31 01:07 Chose the verification round because the automatic check flagged R200 (Jest not run). The loop rule says a flagged report is cleared by a verification round before any new build task.
+- 2026-10-31 01:07 Full suite allowed in this round because the flag says tests were not run, per the Verification rules in the notes.
+- 2026-10-31 01:07 Read-only round, so no gap row changes and no files are touched.

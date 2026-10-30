@@ -37,7 +37,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - plan group (all three locales): suggested, addTitle, title, emptyTitle, emptyMessage. plan.tsx uses them.
 - fr goals group added (R195): 20 keys, matching en.json order. Verified as key match in R196 and R199.
 - es goals: setByLume, tapToEdit, savedAsYouType added (R198). Now 20 keys. Key count verified R199.
-- fr goals.setByLume: R200 changes 'Défini par Lume' to 'Définie par Lume' (feminine, matches 'Cible').
+- fr goals.setByLume: R200 changed 'Defini par Lume' to 'Definie par Lume' (feminine, matches 'Cible'). Built, JSON parse and tsc OK in R200, Jest not run.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
@@ -45,12 +45,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R185, R187, R189, R191 flagged, each cleared by a green verification round (R186, R188, R190, R192).
 - R193 flagged, cleared by R194. R195 flagged, cleared by R196.
 - R197: checkpoint prompt rejected before running (no design file named). Checkpoint then run in R199.
-- R200: locale fix, tsc and JSON parse only. Jest not run. Flag may refire; clear with a verification round if so.
+- R200: locale fix, tsc and JSON parse only. Jest not run. Flagged by automatic check.
+- R201: read-only verification round requested (tsc, JSON parse of en, es, fr, full suite). Clears the R200 flag if green.
 - Unverified: all new strings, add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts and states, plan group and screen, lastLoggedLabel, fr goals, es goals. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R200: fr goals.setByLume gender fix (in progress).
+1. R201: verification round (tsc, locale JSON parse, full suite). Read-only.
 2. fr.json gymLog group.
 3. fr.json dashboard, nutrition, settings.scanAccuracy. One group per round.
 4. es.json gymLog. es still has addMenu.voice and describeOutLoud.
@@ -93,9 +94,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187. Handover summary saved in loop/HANDOVER.md. Next due around R202.
-- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 cleared R194; R195 cleared R196; R198 cleared R199.
+- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 cleared R194; R195 cleared R196; R198 cleared R199; R200 flagged (Jest not run), R201 verification pending.
 - Jev R196: run 92%, ask 6%, stop 2%. Chose verification round. Matched Jev.
 - R197 prompt rejected (missing design file named). Rewritten as R198.
 - Jev R198: run 92%, ask 6%, stop 2%. Matched Jev on run.
 - R199: verification and checkpoint round, all green. Jev R199: run 87%, ask 7%, stop 6%. Last task clean chance 20%. Risk 1.6 of 2. Matched Jev on run.
-- R200: chose the fr goals.setByLume fix over gymLog. It is a confirmed one-value fix that needs nothing from Isa, and it is the next item in Next.
+- R200: chose the fr goals.setByLume fix over gymLog. Confirmed one-value fix, needs nothing from Isa.
+- R201: chose a read-only verification round to clear the R200 flag before the fr gymLog build task. Jev R201: run 97%, ask 2%, stop 1%. Matched Jev on run.
