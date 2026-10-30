@@ -115,3 +115,8 @@
 - 2026-10-30 22:50 If Button has no override, the round stops with no edit and reports the prop list. Reason: avoids changing a shared component for every caller, which is outside this task.
 - 2026-10-30 22:50 Jev ran 68%, ask 29%. Ran it. Reason: the risk is low (one file, read-only fallback) and Isa has no pending owner item that this needs.
 - 2026-10-30 22:50 Did not ask Isa about the Button change. Reason: the defaults cover it; a shared component change would be parked, not asked about.
+- 2026-10-30 22:51 Ran a verification-only round to clear the flagged report, per the R67 and R69 rule. No edits, so the flag is cleared without touching the pill.
+- 2026-10-30 22:51 Did not retry the 17/22 label: R71 already confirmed Button has no label or size prop. Parked as an Isa choice, not a retry.
+- 2026-10-30 22:51 Did not ask the Quick add device-check question yet: Calories, search tile routing and inset callers are still pending Isa, so the single owner question waits.
+- 2026-10-30 22:51 Chose the Meal control task as next because it is one file and needs nothing from Isa.
+- 2026-10-30 22:51 Jev was split (run 46%, ask 45%). Kept run because the next step is read-only and low risk.

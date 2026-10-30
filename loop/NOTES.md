@@ -26,6 +26,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R69: same rule as R67 applies to the R68 flag (comment-only report, flagged as partly done).
 - R70: every prompt must name the matching design/ file and the gap-analysis section it clears, even for small edits.
 - R71: a report with no edit and a blocker is re-run once with the blocker file allowed to be read. If no override exists, stop the item and report the prop list. No edit to shared components.
+- R72: Quick add confirm pill height built by padding change (no Button edit). Label cannot change without a Button prop; parked for Isa. Flag cleared by verification-only run.
 
 ## Built (not verified)
 - NumberEntryBar shared: food quick-add, food detail, gym session, PlannedValuesForm.
@@ -38,10 +39,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Food macros carried through pick, search and detail; foodDetail.test.ts 31/31.
 - Quick add: toast '{kcal} added to {meal}'; MEAL caption in quick-add.tsx.
 - Quick add detent: _layout.tsx:160 'fitToContents' (R64). Comments at _layout.tsx:152-159 corrected (R68).
+- Quick add confirm pill: 52pt height via paddingVertical space.md in quick-add.tsx (R70). Label still 17/24.
 
 ## Open differences
 - Add sheet: title not meal-named; tile gap ~14pt not 12pt; SF Symbols not design SVGs; 'Add meal' title from global +.
-- Quick add: Meal control 13/17 semibold, 3pt padding; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22 (R71 in progress, blocked on Button props); offline toast names no meal; hardcoded English copy.
+- Quick add: Meal control 13/17 semibold, 3pt padding; no blinking caret; confirm label 17/24 vs 17/22 (blocked on Button, see Blocked); offline toast names no meal; hardcoded English copy.
 - quick-add.tsx:114 own flex:1 KeyboardAvoidingView; check sheet does not collapse.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
 - Recents in hooks.ts useFoodSearch drop macros; re-pick logs zeros. quickAdd and detail.tsx log missing macros as 0.
@@ -57,12 +59,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 celebration Calories column: what it shows.
 - Search foods tile routing: accepted (default) or not.
 - Inset callers: variant change or compact option (R58).
+- Quick add confirm label 17/22: Button has no label or size prop (R71 check). Choose: add a label prop to Button, change bodyBold for every caller, or accept 17/24.
 - Owner device checks, not yet asked: Quick add sheet fit at fitToContents (whole sheet incl. confirm pill, no collapse, NumberEntryBar above keyboard), MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow. Ask once, as a single question, when no other owner item is pending.
 
 ## Next
-1. IN PROGRESS (R71): Quick add confirm pill 56 to 52pt, 17/24 to 17/22 in src/app/food/quick-add.tsx:177. Read src/components/forms/Button.tsx first. If no override prop exists, stop and report the prop list. Matching design: design/Lume App.html, Quick add.
+1. Meal control in src/app/food/quick-add.tsx: 13/17 semibold and 3pt padding to match design/Lume App.html, Quick add.
 2. Recents: hooks.ts carries protein, carbs, fat.
-3. Compact segmented option, then Meal control 13/17 and 3pt padding.
+3. Compact segmented option, then Meal control 13/17 and 3pt padding (merge with 1 if the same file).
 4. Add sheet title 'Add to lunch' when opened from a meal.
 5. Doc-only: stale lines in loop/NOTES.md and DESIGN_GAP_ANALYSIS.md Quick add section (981-998); stale gap detail sections; recount the 824th test. No tests.
 6. Checkpoint (tsc, full jest) when the loop note asks.
@@ -93,7 +96,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R63 wrong file in notes corrected. R64 detent to fitToContents.
 - R65-69: flagged reports cleared by verification-only runs; detent confirmed; comment-only fix at _layout.tsx:152-159.
 - R70: pill size chosen; report made no edit, blocked on shared Button.
-- R71: re-run with Button read allowed; edit only if an override prop exists. Jev run 68%, ask 29%.
+- R71: re-run with Button read allowed; no override prop exists. Pill height built via padding instead. Jev run 68%, ask 29%.
+- R72: loop note flagged last report as partly done. Verification-only run ordered (tsc, eslint, two test files). Jev run 46%, ask 45%, stop 9%; ran (advisory).
 - Jev R64: ask 61%; ran, one-value change.
 - Jev R67: ask 75%, run 15%; ran, flag cleared without Isa.
 - Jev R71: run 68%, ask 29%, stop 3%; ran (advisory, low risk).
@@ -105,4 +109,5 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row numbers mean numbered differences, not table rows.
 - Adjust and ticklist dirty guard; session mode derived.
 - Quick add detent is fitToContents at _layout.tsx:160; the 0.6 default is the global sheet default, not Quick add.
-- Shared Button lives in src/components/forms; changing it affects every caller, so override locally first.
+- Shared Button lives in src/components/forms; changing it affects every caller, so override locally first. Button has no size or label prop; its style prop reaches the container only.
+- Pill 56pt came from 24pt line height plus 16pt padding; now 24 + 12 + 12 = 48 with minHeight 52.
