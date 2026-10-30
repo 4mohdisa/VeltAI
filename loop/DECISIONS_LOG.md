@@ -969,3 +969,8 @@
 - 2026-10-31 02:02 Read the 'one file per round' rule as applying to edit order. Followed the standing rule that a new key goes to en, es and fr together.
 - 2026-10-31 02:02 Allowed one snapshot update only if the diff is just the kicker and title swap. The rule that snapshot updates need the diff to be only the swap is kept.
 - 2026-10-31 02:02 Kept the three hardcoded strings out of this round. Listed them as NEXT so the task stays to one surface.
+- 2026-10-31 02:04 Chose the read-only check first: the loop note says the last report was flagged, and the notes rule says a flagged report is cleared by a read-only round before any new build task.
+- 2026-10-31 02:04 Did not add a Macros row to DESIGN_GAP_ANALYSIS.md: no row covers this screen, and adding one would change the verdict counts in a file that is treated as authoritative. Recorded as a question for Isa under Blocked on Isa, not blocking the loop.
+- 2026-10-31 02:04 Recorded the Macros swap as BUILT, not verified. Device check is with Isa.
+- 2026-10-31 02:04 Treated the Macros key decision as resolved: nutrition.macrosTitle is in en, es and fr, so it no longer waits on Isa.
+- 2026-10-31 02:04 Kept the test run to the type check and the one render test for the changed screen, per the testing rules. No -u, no full suite on this round.
