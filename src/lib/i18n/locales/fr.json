@@ -86,7 +86,12 @@
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",
-    "logFailed": "Impossible d’enregistrer {{name}}. Réessayez."
+    "logFailed": "Impossible d’enregistrer {{name}}. Réessayez.",
+    "lastLoggedToday": "Dernier ajout aujourd’hui",
+    "lastLoggedYesterday": "Dernier ajout hier",
+    "lastLoggedDaysAgo_one": "Dernier ajout il y a {{count}} jour",
+    "lastLoggedDaysAgo_other": "Dernier ajout il y a {{count}} jours",
+    "neverLogged": "Jamais ajouté"
   },
   "plan": {
     "suggested": "Suggéré :",

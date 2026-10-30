@@ -654,3 +654,8 @@
 - 2026-10-31 00:50 Chose the checkpoint first: R181 was flagged (type check or tests not run), and the loop requires a verification round before any new build task.
 - 2026-10-31 00:50 fr.json last-logged keys wait until the flag is cleared, so the next build starts from a green state.
 - 2026-10-31 00:50 Checkpoint prompt forbids edits and redirects, so the round cannot mask a failure by changing files.
+- 2026-10-31 00:51 Chose fr.json savedMeals keys: R182 checkpoint was green, so the verification flag from R181 is cleared and this is the next item in Next.
+- 2026-10-31 00:51 Did not run the full suite: R182 was a checkpoint and no test reads locale files. Only tsc and a JSON parse check this round.
+- 2026-10-31 00:51 Excluded fr plan group from this round: the handover summary says fr has no plan group yet, but the notes list it as built. The prompt tells Claude Code to report it, not add it, so the conflict gets settled by reading the file.
+- 2026-10-31 00:51 Used French wording without a colon, to avoid the spacing-before-colon question still open for native review.
+- 2026-10-31 00:51 Kept the placeholder name read from en.json, not guessed, so interpolation matches the other locales.
