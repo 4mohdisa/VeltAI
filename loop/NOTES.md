@@ -32,19 +32,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - goals: fr 20 keys, es 3 keys. gymLog: en, es, fr (21 keys each).
 - Streak: gymLog.celebration.streak_one/_other in en, es, fr. dashboard.dayStreak_one/_other in en, es, fr. CelebrationCard gets its streak label via t() with count; log-session.tsx streakLabel prop removed. index.tsx:126 single t() call with count.
 - fr dashboard (6 keys). fr nutrition (7 keys). fr settings.scanAccuracy ('Précision du scan').
-- R220 (in progress): es settings.scanAccuracy 'Precisión del escaneo' added after goals. Pending R221 verification.
-- fr.json has every en.json key. es.json will be missing nothing once R220 is verified.
+- R220 (flagged, Jest skipped): es settings.scanAccuracy 'Precisión del escaneo' added after goals. Pending R221 verification.
+- fr.json has every en.json key. es.json has every en.json key once R220 is verified.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R216 verified fr nutrition. R214 verified fr dashboard. R211 verified en and es dashboard keys.
 - R218 read-only: tsc 0, JSON parsed, but Jest skipped. Flagged.
-- R219 full verification: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Clears the R218 flag.
+- R219 full verification: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Cleared the R218 flag.
+- R220: flagged (Jest skipped). R221 is the verification round that clears it.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard or plural selection. A passing suite says nothing about them.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R221: read-only verification, tsc plus full Jest suite. Clears R220 flag.
+1. R221 (in progress): read-only verification, tsc plus full Jest suite, JSON parse of all three locales, settings.scanAccuracy check. Clears R220 flag.
 2. index.tsx:121 streak accessibility label: count-based and translated.
 3. Other hardcoded streak wording, one file per round: index.tsx:115 (reads '1 days'), gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
 4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
@@ -89,6 +90,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, and a handover just before R220. Latest summary in loop/HANDOVER.md. Claude Code knows only the summary after a handover: name files fully.
 - R220 prompt was rejected for not naming design/Lume App.html. Rewritten with design file and gap row 'none'.
-- Flags cleared through R219. R218 flag cleared by R219. R220 will flag (tsc only, Jest skipped).
+- Flags cleared through R219. R220 flagged (tsc only). R221 verification chosen to clear it.
 - Jev matched on run for R203 to R205, R208 to R211, R213 to R216, R219.
-- R220 candidates: es settings.scanAccuracy, index.tsx:121 label, lastLoggedDaysAgo_one fix. Chose es settings.scanAccuracy. Jev 96% run.

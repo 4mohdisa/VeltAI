@@ -815,3 +815,6 @@
 - 2026-10-31 01:28 Rewrote the R220 prompt to name design/Lume App.html and gap row 'none', as the loop note requires.
 - 2026-10-31 01:28 Kept Jest skipped for R220 per testing rules, so R221 will be the read-only verification round that clears the flag.
 - 2026-10-31 01:28 Value 'Precisión del escaneo' is pending native review and is recorded under Blocked on Isa.
+- 2026-10-31 01:29 Chose R221 verification first: the R220 report skipped Jest and is flagged, and the rules require a verification round to clear a flag before any new build task.
+- 2026-10-31 01:29 Did not pick index.tsx:121 yet: it is a build task and would stack on an unverified flag.
+- 2026-10-31 01:29 Verification prompt is read-only with a full suite run, because Jest was skipped last round and a checkpoint is due.
