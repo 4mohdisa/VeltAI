@@ -20,7 +20,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R64: Quick add detent is fitToContents at src/app/_layout.tsx:160.
 - R71: a blocked read gets one re-run with the file allowed; no edits to shared components.
 - R72: Quick add pill height by padding, no Button edit.
-- Flagged reports are cleared by verification-only runs (tsc, eslint, related tests, no edits): R62, R67, R69.
+- Flagged reports are cleared by verification-only runs (tsc, eslint, related tests, no edits): R62, R67, R69, R74.
 - Prompts: one task, one editable source file; one-line status edits to DESIGN_GAP_ANALYSIS.md allowed; doc-only rounds run no tests; every prompt states the branch and no git.
 - R60: checkpoint green at tsc, 65 suites, 824 tests. Extra test unexplained.
 
@@ -33,28 +33,29 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 steps 1-2: CelebrationCard.tsx opens from save() as native Modal. Step 3 (device run) open.
 - Gym duration honesty; food macros carried through pick, search and detail.
 - Quick add: toast '{kcal} added to {meal}'; MEAL caption; detent fitToContents; confirm pill 52pt via padding.
+- Quick add section of DESIGN_GAP_ANALYSIS.md brought to current state (R73).
 
 ## Open differences
 - Add sheet: title not meal-named ('Add meal' from global +); tile gap ~14pt not 12pt; SF Symbols not design SVGs.
-- Quick add: Meal control 13/17 semibold, 3pt padding (in SegmentedField); no blinking caret; confirm label 17/24 vs 17/22 (Blocked); offline toast names no meal; own flex:1 KeyboardAvoidingView at quick-add.tsx:114, check sheet does not collapse.
+- Quick add: Meal control 13/17 semibold, 3pt padding (in SegmentedField); no blinking caret; confirm label 17/24 vs 17/22 (Blocked); offline toast names no meal; own flex:1 KeyboardAvoidingView at quick-add.tsx:114, check sheet does not collapse; 56 vs 52pt pill to recheck.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
 - Recents in hooks.ts useFoodSearch drop macros; re-pick logs zeros. quickAdd and detail.tsx log missing macros as 0.
 - Estimate of exactly 0 hides planMinutes (keep ?? per r49).
-- Stale: detailSubject.ts:25-27 comment; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title.
+- Stale: detailSubject.ts:25-27 comment; _layout.tsx sheet comments; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title; DESIGN_GAP_ANALYSIS.md:86-87 names FoodNumberEntryBar (real name NumberEntryBar); loop notes lines on stale items.
 - i18n: hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Remaining gym rows: Isa approval per item.
 
 ## Blocked on Isa
 - Row 23 one-tap log: A = route onLog to log-session; B = accepted deviation. Asked r43, unanswered.
-- Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now. Celebration Calories column content.
+- Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
 - Search foods tile routing: accepted or not.
-- Inset callers: variant change or compact option (R58 default: compact for Quick add).
+- Inset callers: variant change or compact option (R58 default already applied to Quick add).
 - Quick add confirm label 17/22: Button has no label or size prop. Choose: add a label prop, change bodyBold for all callers, or accept 17/24.
 - Owner device checks (ask once, when no other owner item is pending): Quick add sheet fit, MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow.
 
 ## Next
-1. Doc-only: Quick add section of DESIGN_GAP_ANALYSIS.md (around 981-998) to current state.
+1. Verification run (tsc, eslint, changed test files by path). No edits. Flagged report R74.
 2. Compact SegmentedField option for Quick add (R58), then Meal control 13/17 semibold and 3pt padding.
 3. hooks.ts useFoodSearch recents carry protein, carbs, fat.
 4. Add sheet title 'Add to {meal}' when opened from a meal.
@@ -79,8 +80,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R1-39: early rejections; data path and i18n handled. R43 asked row 23, unanswered. R45 rejected for branch rule.
 - R50 gate green. R55-56 Add sheet and Quick add re-checked DIFFERENT. R60 checkpoint green at 824.
 - R62-72: flagged reports cleared by verification-only runs. R70-72: pill built by padding; Button has no override prop.
+- R73: handover; notes rewritten under 600 words. Report flagged (tsc/tests not run on latest edits); R74 verification run.
 - Jev advisory followed where safe; ask/run disagreements resolved by verification runs.
-- R73: handover; notes rewritten under 600 words.
 
 ## Gotchas
 - Design text is in the __bundler payload. Decode manifest (gzip+base64). Food 71f71ac4, gym 7dc211f6.

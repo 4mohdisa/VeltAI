@@ -125,3 +125,7 @@
 - 2026-10-30 22:52 Kept the three Blocked on Isa items unchanged. No question asked this round because the Calories, search routing and inset items are still pending from earlier rounds.
 - 2026-10-30 22:52 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept all Decisions lines.
 - 2026-10-30 22:52 Removed resolved stale items (R68 comment fix, detent location now in Decisions) from Open differences.
+- 2026-10-30 22:53 Chose verification run first: the loop flagged the last report, and notes say flagged reports are cleared by no-edit verification runs (R62, R67, R69).
+- 2026-10-30 22:53 Did not ask Isa: the flagged report is ours to clear, and Isa already has three owner questions pending, so a fourth would repeat.
+- 2026-10-30 22:53 Kept run over Jev's ask lean: the question is a blocker we can clear with a check, not a new owner decision.
+- 2026-10-30 22:53 Next task set to the compact SegmentedField option, since notes R58 already sets the default for Quick add (no need to wait on the inset question).
