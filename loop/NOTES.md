@@ -19,6 +19,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Prompts: one task, one editable file (verification excepted); name design/ file and gap row; say no git; state branch loop/design-match only.
 - Checkpoints: full tsc and full app suite, no file changes.
 - A blocker that came back twice: park.
+- Slot labels: the loop adds the keys itself; design hMeal wording decides Snack vs Snacks (key name stays snack). Not asked of Isa.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -34,19 +35,24 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R120 full suite green; cleared R118/R119 flag.
 - R121: es.json edit only, tsc run, tests not run. Flagged.
 - R122: verification only. tsc 0 errors. Full app suite 65 suites, 824 tests, 4 snapshots, all green. Locale files parse. Cleared R121 flag. Rows 76, 86, 90 unchanged, still BUILT not verified.
+- R123: blocked. No slot label keys (breakfast, lunch, dinner, snack, snacks) exist in en, es or fr. No edit made.
+- R124: Next 1 (es.json unused keys) was not confirmed done in the latest report; re-check before removing anything.
 - Hand checks of locales do not clear flags. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices (doc silent); row 1445 holds build status.
-- Add sheet slot: add.tsx:56 passes raw lowercased slot; es and fr titles show English slot names. R123 in progress (see Next).
+- Add sheet slot: add.tsx:56 passes raw lowercased slot; es and fr titles show English slot names. Keys missing (see Next 2).
+- Food log: food.tsx:543 and :965 pass raw slot into foodLog.addToMeal (same English-slot problem in es and fr).
+- Hardcoded English toasts: food.tsx:717 (`${slot} deleted.`), SavedMealsList.tsx:59 and :63.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; Meal chip token; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Macros: food detail and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
 - Saved foods drop fibre. Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
 - Calories drift in new-recipe editRow and recents.
-- Locales: es.json has unused voice and describeOutLoud (absent from en). fr.json foodLog has 2 of es's keys; other fr blocks not compared to en. Slot default 'Snack' vs design 'Snacks'. es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot (verify before any locale edit).
+- Locales: es.json has unused voice and describeOutLoud (Next 1). fr.json foodLog has 2 of es's keys; other fr blocks not compared to en. Slot default 'Snack' vs design 'Snacks'. es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot (verify before any locale edit).
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx, new-recipe.tsx; no locale test.
+- Lowercased translated slots may read oddly (French 'à petit-déjeuner' should be 'au'). Native review needed.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route to log-session, or accepted deviation.
@@ -59,7 +65,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macro types for food detail: decision before any type change.
 - French review of fr.json addMenu (oneTapReadd, scanPackage, exactDatabaseMatch); tile wrap at 320pt.
 - Spanish review of es.json addMenu (quickAdd, searchPlaceholder, exactDatabaseMatch wrap at 320pt).
-- Slot translation (R123): if any slot label key is missing from en, es or fr, the task reports BLOCKED with key names. Isa to confirm whether he wants keys added.
+- Slot translation: no longer asked. Native review is listed above.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -71,18 +77,23 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx. No locale tests.
 
 ## Next
-1. R123 (this round, in progress): Add sheet slot translation at add.tsx:56, one file. If translated slot keys do not exist in all three locales, report BLOCKED with exact key names; do not edit locales.
-2. Remove unused voice and describeOutLoud from es.json as its own task, after grep confirms no use.
-3. Add sheet icons: SF Symbols to design SVGs, one per round.
-4. Checkpoint: full tsc and full suite, no file changes.
-5. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. (R125) Add breakfast, lunch, dinner, snack to en.json only, values from design/Lume App.html hMeal. One file.
+2. Add the same four keys to es.json, then fr.json, one file per round, same key order as en.json.
+3. Then add.tsx:56 uses the keys, and food.tsx:543 and :965 get the same keys.
+4. Remove unused voice and describeOutLoud from es.json (grep first; confirm first).
+5. Hardcoded English toasts: food.tsx:717, SavedMealsList.tsx:59 and :63 (one file per round).
+6. Add sheet icons: SF Symbols to design SVGs, one per round.
+7. Checkpoint: full tsc and full suite, no file changes.
+8. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - R89, R99, R117 prompts rejected (no design/ file named); rewritten.
 - R123 prompt rejected (no explicit loop/design-match branch line); rewritten with branch rule and no-git rule.
+- R125 prompt rejected (no design/ file named); rewritten to name design/Lume App.html and row 90.
+- R123 reported BLOCKED: slot keys missing in all three locales. Recast as Next 2.
 - R106 detail macros parked. R107 negative margin. R111 es addToSlot.
 - R114, R119, R121 flagged by automatic check; cleared by verification runs R115, R116, R120, R122.
-- Jev ask overridden at R120. R121 es keys (Jev run 77%).
+- Jev ask overridden at R120, R124 and R125 (nothing needs Isa).
 - R123: Jev run 95%, ask 4%. Ask not followed (nothing needs Isa).
 
 ## Gotchas

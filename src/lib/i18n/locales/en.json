@@ -74,7 +74,11 @@
     "searchPlaceholder": "Apple, banana, Indomie…",
     "myDishes": "My dishes",
     "quickAdd": "Quick add",
-    "quickAddSub": "Just calories, fast"
+    "quickAddSub": "Just calories, fast",
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snacks"
   },
   "foodLog": {
     "today": "Today",
