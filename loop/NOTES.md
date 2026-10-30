@@ -38,13 +38,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Verification
 - Last green checkpoint: R184 (tsc 0, 65 suites, 824 tests, 4 snapshots).
 - R185, R187, R189, R191 flagged, each cleared by a green verification round (R186, R188, R190, R192).
-- R193: fr savedMeals five keys added. Node parse and tsc 0 reported. Flagged. R194 verification pending.
+- R193: fr savedMeals five keys added. Flagged. R194 verification green: tsc 0, JSON parse ok, key match for savedMeals (12) and plan (5), suite 65/824/4 passing. Flag cleared.
+- R195 (this round): fr goals keys. Node checks and tsc only, full suite skipped by rule.
 - Unverified: all new strings, add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts and states, plan group and screen, lastLoggedLabel. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R194: verification only (tsc, parse, full suite).
-2. fr.json goals keys, then gymLog, dashboard, nutrition, settings.scanAccuracy. One group per round.
+1. R195: fr.json goals keys (in progress).
+2. fr.json gymLog, dashboard, nutrition, settings.scanAccuracy. One group per round.
 3. es.json gymLog. es still has addMenu.voice and describeOutLoud.
 4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
 5. Fix lastLoggedDaysAgo_one: unreachable because days === 1 returns the yesterday string.
@@ -84,5 +85,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187. Next due around R202.
-- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 flagged (tests not run), verification set for R194.
-- Jev R193: run 75%, ask 22%, stop 3%. Clean-finish 89%. Risk 1.3/2. Kept run, matching candidate 1, since verification clears the flag first.
+- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 flagged, cleared by R194.
+- Jev R194: run 92%, ask 5%, stop 3%. Clean-finish 30%. Risk 1.4/2. Jev's clean-finish estimate is low, so chose a locale-only task with a small check set. Matches Jev's run call.

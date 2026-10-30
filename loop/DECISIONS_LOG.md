@@ -708,3 +708,7 @@
 - 2026-10-31 01:02 Chose the verification round because the loop note flagged R193 and notes say a verification round clears a flag before a new build.
 - 2026-10-31 01:02 Kept the older fr savedMeals values with U+00A0 and U+2019. They are correct French typography, so the ASCII check is waived for fr savedMeals. Isa can override in native review.
 - 2026-10-31 01:02 Rewrote the notes under 600 words, merging repeated items and removing finished work. All decisions kept.
+- 2026-10-31 01:02 Chose fr.json goals first because it is the next item in the notes order, is locale-only, touches no component, and needs nothing from Isa.
+- 2026-10-31 01:02 Ran tsc once and node checks, not the full suite, because no test reads locale files and the rule limits full-suite runs to checkpoint rounds.
+- 2026-10-31 01:02 R194 verification came back green, so the R193 flag is cleared and the build task can proceed.
+- 2026-10-31 01:02 Did not pick the lastLoggedDaysAgo_one fix or the plan string this round: both touch component logic and are smaller in value than finishing the locale group the notes already queued.
