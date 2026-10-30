@@ -265,3 +265,8 @@
 - 2026-10-30 23:27 The handover's RECOMMENDED NEXT (fibre in useFoodSearch recents) is stale. Notes record it as done in R96, so I did not repeat it.
 - 2026-10-30 23:27 Named the recipe builder as having no design counterpart, so the prompt does not claim a design match. Recorded in notes.
 - 2026-10-30 23:27 Doc-only checks deferred. Re-reading loop/NOTES.md lines 39, 42 and 54 stays in the Next list.
+- 2026-10-30 23:28 Chose the verification-only run first because the R103 report was flagged (jest not run, task partly done). The flag rule requires a verification-only or doc-only run before any new code edit.
+- 2026-10-30 23:28 Jev ranked ask at 67%, but the open items (Confirm label, device runs, Calories column, global + title, last-hour scan) are already waiting on Isa in Blocked on Isa. No new question is needed, so I ran instead.
+- 2026-10-30 23:28 Did not repeat the handover's RECOMMENDED NEXT (recents fibre). It was done in R96, so it is stale.
+- 2026-10-30 23:28 Jest is not run for new-recipe.tsx because no test covers the file. tsc and eslint are enough for a verification-only round.
+- 2026-10-30 23:28 Logged the fibre-unknown display (0g fibre when fibre is unknown in new-recipe.tsx) as a risk for Isa's device run, not as a new code task, because the stored 0 is a parked model limit.
