@@ -183,3 +183,8 @@
 - 2026-10-30 23:08 Treated the flagged 'partly done' report as cleared by the next round's doc truth-up, since the flagged gap is the stale Add sheet row and count in DESIGN_GAP_ANALYSIS.md.
 - 2026-10-30 23:08 Kept the prompt to add.tsx only so the doc update runs as its own round.
 - 2026-10-30 23:08 No question to Isa: the layout decision follows the design, and the device check stays in the owner list.
+- 2026-10-30 23:09 Chose the doc-only truth-up because the latest report flagged a stale Add sheet doc, and the rules require a verification-only or doc-only run before any new code edit.
+- 2026-10-30 23:09 Doc-only round runs no tests, per the testing rules and the notes' prompt rule.
+- 2026-10-30 23:09 Left the Add sheet status as BUILT, not verified, because Isa verifies the UI himself.
+- 2026-10-30 23:09 Recent macros per 100 g added to the Food Search section, since the notes list it as missing and the code already does this.
+- 2026-10-30 23:09 Handover recommended the ingredientFrom grams fix as next, but the notes mark it Built and the latest notes are newer, so I did not repeat it.

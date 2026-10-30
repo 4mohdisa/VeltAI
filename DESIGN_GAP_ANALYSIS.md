@@ -68,7 +68,7 @@ app departs from most often, and it is the core of the gym log-session problem.
 
 ## Summary table — worst first
 
-**26 surfaces ❌ DIFFERENT, 15 ⚠️ PARTIAL, 0 ✅ EXACT.** No surface compared in
+**23 surfaces ❌ DIFFERENT, 15 ⚠️ PARTIAL, 3 🔨 BUILT (not verified), 0 ✅ EXACT.** No surface compared in
 this pass matched the design on every checked value.
 
 | Screen / surface | Verdict | One-line reason |
@@ -83,11 +83,11 @@ this pass matched the design on every checked value.
 | Gym — "Log this session" CTA | ❌ DIFFERENT | Different copy, icon, position and conditions, and it pushes a route where the design opens a sheet in place. |
 | Gym — streak detail & session history | ❌ DIFFERENT | Neither screen exists in the design, and both are still in pre-design chrome using deprecated grey tokens. |
 | Food — Day log (main view) | ❌ DIFFERENT | Design's calories card is goal-relative with a progress bar and four macro bars; the app shows total logged, no goal, three macros — plus a search field the design puts in a sheet. |
-| Food — Food detail sheet | 🔨 BUILT (not verified) | All six numbers are now tap-to-edit through the shared `FoodNumberEntryBar` — the design’s captions and keyboards (`Serving size · grams` and `Calories · kcal` numeric, the four macros decimal), a grams chip, a tappable kcal readout and a 2×2 macro grid replacing the boxed fields. |
-| Food — Quick add | ❌ DIFFERENT (MEAL caption built; BUILT: detent set to fitToContents; BUILT: confirm pill 52pt, label still 17/24 vs 17/22; compact option added to SegmentedField; compact applied to Meal control) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `FoodNumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. Main remaining difference: the Meal control uses 17pt segment labels, where the design has 13/17 semibold chips. |
+| Food — Food detail sheet | 🔨 BUILT (not verified) | All six numbers are now tap-to-edit through the shared `NumberEntryBar` — the design’s captions and keyboards (`Serving size · grams` and `Calories · kcal` numeric, the four macros decimal), a grams chip, a tappable kcal readout and a 2×2 macro grid replacing the boxed fields. |
+| Food — Quick add | ❌ DIFFERENT (MEAL caption built; BUILT: detent set to fitToContents; BUILT: confirm pill 52pt, label still 17/24 vs 17/22; compact option added to SegmentedField; compact applied to Meal control) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `NumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. Main remaining difference: the Meal control uses 17pt segment labels, where the design has 13/17 semibold chips. |
 | Food — Search | ❌ DIFFERENT | Design is a dedicated sheet with filter chips and a one-tap `+`; the app has an inline field whose results replace the day view, and its `+` is decorative. |
 | Food — My dishes / Saved | ❌ DIFFERENT | Design is a photo gallery with a "New dish" tile; the app is a searchable text list with swipe-to-unsave. |
-| Food — Add sheet | ⚠️ PARTIAL (BUILT) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. Also open: tile column gap, SF Symbols vs inline SVGs, separate scan routes, body bottom padding. |
+| Food — Add sheet | 🔨 BUILT (not verified) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. Also open: SF Symbols vs inline SVGs, separate scan routes, body bottom padding. |
 | Food — Scan flows | ❌ DIFFERENT | Design is one scanner with a Meal/Label/Barcode switch; the app is three separate routes with a multi-angle flow the design lacks. |
 | Food — "Not in a meal yet" inbox | ❌ DIFFERENT | Design files unassigned items into meals; the app's card confirms an estimated weight with a slider. |
 | Food — number-entry convention | ❌ DIFFERENT | The slim edit bar does not exist anywhere; a slider and ± steppers appear where the design has neither. |
@@ -1041,6 +1041,8 @@ the detail sheet. The sheet and the filter chips are untouched.
 
 **Status:** recipe ingredient macros now scale by grams, BUILT, not verified.
 
+Recent items carry protein, carbs and fat per 100 g (hooks.ts useFoodSearch).
+
 ## Food — My dishes / Saved foods
 
 **Verdict:** ❌ DIFFERENT
@@ -1060,7 +1062,7 @@ exactly one saved-item concept.
 ## Food — Add sheet
 
 **Verdict:** ⚠️ PARTIAL MATCH
-**One-line reason:** Title, tile set, copy and disc/glyph sizes match; the Search foods destination, tile column gap, glyphs, scan routes and body bottom padding differ.
+**One-line reason:** Title, tile set, tile grid, copy and disc/glyph sizes match; the Search foods destination, glyphs, scan routes and body bottom padding differ.
 **Status:** BUILT. `src/app/food/add.tsx` renders the design's five tiles in its order and titles the sheet "Add to {meal}" when a slot is passed. Device run outstanding.
 
 **Design:** title **"Add to lunch"** (lower-cased target meal, follows the `+`
@@ -1074,12 +1076,13 @@ padding 34pt.
 **App:** title **"Add to {meal}"** from the `slot` param (`add.tsx:53`), or **"Add
 meal"** when no slot is passed. The same five tiles with the same copy, in the same
 order, with Quick add as the full-width 88pt row and the others 148pt. Disc 46,
-glyph 19, as SF Symbols through `Icon`. Tiles are 48% wide with `space-between`
-and a 12pt `rowGap`. Body bottom padding 20pt plus the bottom safe-area inset.
+glyph 19, as SF Symbols through `Icon`. Tile grid: two equal columns (flexGrow 1,
+flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT,
+not verified. Owner to check at 320pt and 430pt. Body bottom padding 20pt plus the
+bottom safe-area inset.
 
 **Differences:** Search foods lands on the food tab with its field focused vs the
-design's dedicated search sheet; column gap is 4% of the body width (14pt on a
-390pt screen) vs 12pt; SF Symbols vs the design's inline SVGs, so the camera is
+design's dedicated search sheet; SF Symbols vs the design's inline SVGs, so the camera is
 filled vs outlined and My dishes is a single `photo` frame vs a stacked gallery;
 separate scan routes (`/food/photo-capture`, `/food/barcode-scan`) vs one scanner
 with modes; body bottom padding 54pt on a 34pt-inset iPhone vs 34pt.
@@ -1435,7 +1438,7 @@ drift 13 / ❌ Doesn't match 3". Against this pass:
 | Screen | Its verdict | This pass | Why its verdict was wrong |
 |---|---|---|---|
 | **Log session sheet** (line 100) | ⚠️ minor drift, "Controls are native: Duration slider, effort and energy steppers. Header mirrored." | ❌ | The design has no slider, no steppers and no effort/energy at all; all four of its logging outcomes are missing; two app controls are never persisted. The reported issue (a mirrored header) is the least of it. |
-| **Add sheet** (line 84) | ⚠️ "Tile language matches… the composition differs" | ❌ | Two design tiles (Search foods, My dishes) are absent, two extra tiles exist, the title is fixed, and Quick add is not the full-width row. |
+| **Add sheet** (line 84) | ⚠️ "Tile language matches… the composition differs" | ❌ | The tile set and title differed from the design when this was checked. Since then the design's five tiles, Quick add as the full-width row and the title "Add to {meal}" are BUILT. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. |
 | **Quick add** (line 86) | ⚠️ | ❌ | No hero number, no ± discs, no preset pills, no keyboard bar; plus a `Label` field the design lacks. |
 | **Saved foods** (line 87) | ⚠️ | ❌ | The design is a photo gallery with a "New dish" tile; the app is a text list. Reducing this to "photos have no source" understates it. |
 | **My schedule** (line 97) | ✅ "Day names clipped until fix 3. The week starts on Sunday where the design starts on Monday." | ⚠️ | A ✅ cannot stand next to a listed defect. Beyond the week order it names, the design's entire "My workouts" section belongs on this screen and is absent, the row sub-line drops the muscle-group phrase, and the picker sheet differs in five ways (order, copy, sublabel, check treatment, an extra create row). |
