@@ -668,3 +668,8 @@
 - 2026-10-31 00:52 Told Claude Code to add any missing last-logged keys to all three locales in one round, because the handover and notes disagree on whether they exist. Checking first avoids a second round.
 - 2026-10-31 00:52 Chose to write es and fr values for missing keys as plain translations flagged for native review, consistent with the existing plan group decision.
 - 2026-10-31 00:52 Left the savedMeals toasts untouched, as they were already built and are waiting on device checks.
+- 2026-10-31 00:53 Chose a verification round first because the loop note flagged the last report (tests not run). Notes rule: flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 00:53 Ran the full suite as this round's checkpoint, since the flag means it was never run on the last change.
+- 2026-10-31 00:53 Left the lastLoggedDaysAgo_one unreachable branch for NEXT, not fixed, to keep this round verification-only.
+- 2026-10-31 00:53 Candidate 2 is next after clearance, because it clears the plan.tsx hardcoded strings from Next item 2 and touches only one file.
+- 2026-10-31 00:53 Jev's run and ask probabilities agree with this choice; no look-again needed.
