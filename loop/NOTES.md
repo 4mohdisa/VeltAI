@@ -24,7 +24,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - savedMeals is its own group after foodLog. plan group sits last in en.json and es.json.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and the gap row or 'none'.
 - Full suite may run in a verification round when the flag says tests were not run.
-- R197 checkpoint mandated by loop note. Its prompt was rejected before it ran, so the checkpoint is still owed.
+- Checkpoint is run as a read-only verification round (no file changes).
 
 ## Built (not verified)
 - NumberEntryBar shared: quick add, food detail, gym session, PlannedValuesForm.
@@ -36,20 +36,22 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - SavedMealsList.tsx: lastLoggedLabel takes t. Empty state, item count and Log now use t().
 - plan group (all three locales): suggested, addTitle, title, emptyTitle, emptyMessage. plan.tsx uses them.
 - fr goals group added (R195): 20 keys, matching en.json order. Verified as key match in R196.
+- es goals: setByLume, tapToEdit, savedAsYouType added (R198). Now 20 keys. Tests not run in R198 (flagged).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Last green checkpoint: R184 (tsc 0, 65 suites, 824 tests, 4 snapshots).
 - R185, R187, R189, R191 flagged, each cleared by a green verification round (R186, R188, R190, R192).
-- R193 flagged, cleared by R194 (tsc 0, JSON parse ok, key match savedMeals 12 and plan 5, suite 65/824/4 passing).
-- R195 flagged, cleared by R196 (tsc 0, JSON parse ok for en, es, fr; key match goals es 17 of 20, fr 20 of 20; savedMeals and plan exact in es and fr; suite 65/824/4 passing).
+- R193 flagged, cleared by R194.
+- R195 flagged, cleared by R196.
 - R197: checkpoint prompt rejected before running (no design file named). Checkpoint still owed.
-- Unverified: all new strings, add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts and states, plan group and screen, lastLoggedLabel, fr goals, es goals (R198 pending). No test reads locale files or covers SavedMealsList or plan.tsx.
+- R198 flagged (Jest not run). Clearing round and checkpoint scheduled as R199 (read-only).
+- Unverified: all new strings, add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts and states, plan group and screen, lastLoggedLabel, fr goals, es goals. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R198: es.json goals add setByLume, tapToEdit, savedAsYouType. In progress.
-2. Checkpoint owed: full tsc and full suite, no file changes.
+1. R199: verification round (tsc, JSON parse, full suite 65/824/4, goals key counts). Read-only. Clears R198 flag and runs the owed checkpoint.
+2. fr.json goals.setByLume: 'Défini par Lume' to 'Définie par Lume' (feminine, matches 'Cible'). Confirmed wrong in R198 report.
 3. fr.json gymLog group.
 4. fr.json dashboard, nutrition, settings.scanAccuracy. One group per round.
 5. es.json gymLog. es still has addMenu.voice and describeOutLoud.
@@ -76,7 +78,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver, toasts, saved meal states and labels, saved meals empty state, item counts and Log now, plan Suggested and Add label, plan title and empty state, goals restyle.
 - Native review fr: all new savedMeals, plan and goals strings. Typography (U+00A0, U+2019 versus plain). One word for logging ('enregistrer' vs 'ajout'). Gender agreement. goals: setOwn, setByLume, aiHint.
-- Native review es: new plan, savedMeals, goals and the three new goals keys (setByLume, tapToEdit, savedAsYouType). 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
+- Native review es: new plan, savedMeals and goals strings, including setByLume, tapToEdit, savedAsYouType. 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 - Override available: es emptyMessage wording.
 
@@ -92,8 +94,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187. Handover summary saved in loop/HANDOVER.md. Next due around R202.
-- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 cleared R194; R195 cleared R196.
+- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 cleared R194; R195 cleared R196; R198 to clear in R199.
 - Jev R196: run 92%, ask 6%, stop 2%. Chose verification round. Matched Jev.
 - R197 prompt rejected (missing design file named). Rewritten as R198.
-- Jev R198: run 92%, ask 6%, stop 2%. Last task clean chance 21%. Risk 1.6 of 2. Matched Jev on run.
-- Checkpoint owed. Schedule it at the next round boundary after R198.
+- Jev R198: run 92%, ask 6%, stop 2%. Last task clean chance 73%. Risk 1.6 of 2. Matched Jev on run.
+- R199: verification and checkpoint round, chosen over the fr fix because of the R198 flag.

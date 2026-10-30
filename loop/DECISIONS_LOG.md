@@ -724,3 +724,6 @@
 - 2026-10-31 01:05 Left the R197 checkpoint owed rather than running it now, because this round is a single locale task and the checkpoint is mandated by the loop note for the next round boundary.
 - 2026-10-31 01:05 Told Claude Code to translate the values itself, since the English values are not in this brief and placeholders are banned. Spanish stays pending native review.
 - 2026-10-31 01:05 Asked for tsc plus a JSON parse only, not Jest, because no test reads locale files (testing rules).
+- 2026-10-31 01:06 Chose the verification round first: R198 was flagged for skipping Jest, and the owed checkpoint can run in the same round with no file changes. Notes say flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 01:06 Did not run the fr setByLume gender fix yet. It is a one-word build change and waits until the flag is cleared.
+- 2026-10-31 01:06 Kept the checkpoint as a read-only round so it cannot add a second change to the flagged state.
