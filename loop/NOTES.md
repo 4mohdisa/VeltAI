@@ -14,93 +14,72 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Meal delete toast and dialog use design defaults until Isa overrides.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 - es addedToMeal and mealDeleted avoid gender agreement. es savedMeals.emptyMessage translated from en (Isa may override).
-- fr savedMeals keeps U+00A0 and U+2019 (accepted). fr plan, savedMeals, gymLog, goals, dashboard, nutrition are manager-written, pending native review.
 - es goals.setByLume 'Definida' and fr 'Definie' are feminine, matching src/app/profile/goals.tsx:125.
+- fr savedMeals keeps U+00A0 and U+2019 (accepted). fr plan, savedMeals, gymLog, goals, dashboard, nutrition are manager-written, pending native review.
 - Plan file: src/app/dashboard/plan.tsx.
-- Locale order en, es, fr; one file per round. Streak labels are count-based _one/_other keys. Celebration strings have no {{count}}; dashboard strings do.
-- Each new group sits at its en.json position.
+- Locale order en, es, fr; one file per round. Streak labels are count-based _one/_other keys. Celebration strings have no {{count}}; dashboard strings do. Each new group sits at its en.json position.
+- Line 121 label reads 'N day streak'. Line 115 is the load-failure notice with its own key.
+- fr remainingToday 'Il reste {{value}} aujourd’hui'. fr streak strings use 'jours d’affilée' and 'vos'.
 - Flagged reports are cleared by a verification round before a new build task. Checkpoint rounds are read-only.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
-- fr remainingToday is 'Il reste {{value}} aujourd’hui'.
+- fr is never shown on screen (src/lib/i18n/index.ts:41 fixes lng to 'en'). Low priority.
+- R240: 'a petit-dejeuner' is not in fr.json. R239 dropped.
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
-- R233: full Jest run chosen over fr.json, because R232 was flagged (tests not run).
-- R234: fr.json summaryTitle chosen as the smallest task that clears locale parity.
-- R235: read-only verification chosen over es voice removal, because R234 was flagged (Jest not run). Removal stays blocked by the voice decision above.
-- R236: SLOT_KEYS consolidation chosen, then REJECTED for touching more than one screen or component. Not retried as a two-file task.
-- R237: es 'Anadir a Desayuno' changed to 'Anadir al desayuno'. One file, one string, needs nothing from Isa.
-- R238: full Jest checkpoint accepted (65 suites, 824 tests, 4 snapshots, tsc 0). Clears the R237 unrun-Jest flag.
-- R239: fr 'a petit-dejeuner' to 'au petit-dejeuner' chosen as the smallest task that needs nothing from Isa.
-- Line 121 label reads 'N day streak' (no 'Current streak'), because the existing key has no such wording.
-- Line 115 is the load-failure notice and has its own key, not dayStreak: the stored number is untrustworthy on that path.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
-- Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
-- en.json: dashboard.streakLoading, streakLoadError, summaryTitle ('Summary', used at (tabs)/index.tsx:102).
-- es.json: dashboard.streakLoading, streakLoadError, summaryTitle ('Resumen'), gymLog group, settings.scanAccuracy. R237: 'Anadir al desayuno' wording fix (pending check).
-- fr.json: dashboard.summaryTitle 'Résumé' added in R234. Verified by R235.
-- (tabs)/index.tsx lines 102, 109, 115, 121 use t(). Line 121 '1 days' item is resolved.
+- Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr.
+- dashboard.streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
+- (tabs)/index.tsx lines 102, 109, 115, 121 use t().
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- R219, R228: full suite green (65 suites, 824 tests, 4 snapshots). R226 checkpoint green.
-- R230: 6 suites, 96 tests pass. R232: parse and tsc only, Jest not run (flagged).
-- R233: read-only. tsc exit 0, full Jest 65 suites, 824 tests, 4 snapshots green. Clears R232 flag.
-- R234: tsc exit 0, fr.json parses, key sets match. Jest not run (flagged).
-- R235: read-only verification green. tsc exit 0; Jest 65/65 suites, 824/824 tests, 4/4 snapshots; en 149, fr 149 (exact match), es 151 (extras addMenu.voice, addMenu.describeOutLoud). Clears R234 flag.
-- R237: parse check of es.json and grep only, Jest not run (JSON-only change, no test covers locale files).
-- R238: full checkpoint green. tsc exit 0; Jest 65/65 suites, 824/824 tests, 4/4 snapshots; en 149, fr 149, es 151 (2 extras as expected).
+- Last full checkpoint R238: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green.
+- Keys: en 149, fr 149, es 151 (extras addMenu.voice, addMenu.describeOutLoud).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R239: fr 'a petit-dejeuner' to 'au petit-dejeuner'. In progress.
-2. Fix lastLoggedDaysAgo_one: unreachable, since days === 1 returns the yesterday string. Locate the file with grep first.
-3. Hardcoded text, one file per round: plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
-4. Add sheet icons to design SVGs.
-5. Remaining gap rows, most cleared per task first.
-6. Checkpoint full suite run: next is R243, then every 5 rounds.
-7. If no non-gym work remains: stop with 'only owner decisions remain'.
-8. Remove es addMenu.voice and describeOutLoud only after Isa approves (blocked, see decisions).
+1. R240 (read-only): trace lastLoggedDaysAgo_one and the days === 1 branch. Report only.
+2. Hardcoded text, one file per round: plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+3. Add sheet icons to design SVGs.
+4. Remaining gap rows, most cleared per task first.
+5. Full Jest checkpoint at R243, then every 5 rounds.
+6. If no non-gym work remains: stop with 'only owner decisions remain'.
+7. Remove es addMenu.voice and describeOutLoud only after Isa approves.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
 - Row 17: rest-day exits show no card; pop-in; ring vs flame; footnote missing.
-- fr gymLog.celebration.streak wording needs a count-based key and a log-session change.
+- fr gymLog.celebration.streak needs a count-based key and a log-session change.
+- fr slot phrasing: 'Ajouter à {{slot}}' with 'Petit-déjeuner' reads oddly. Low priority.
+- plan.addTitle: entry.title stays English (plan.tsx:99). fr 'Ajouter à' vs en 'Add'.
 - Global SegmentedField inset; food search sheet; single scanner; chip padding.
 - Design '14-day streak' hyphen; app keeps the space.
 - Code: mixHex; goals.tsx copy; CONFLICT_KEYWORDS untyped; router.setParams history; blinking caret; Math.round in draft(); console.warn at hooks.ts:56.
 - Recipe fibre saved as 0; saved foods drop fibre; detail.tsx num() rounds; food tab render test needs a suite.
 - Long-press meal delete not discoverable; mealNow() 'Snack' vs 'Snacks'.
-- SLOT_KEYS duplicated in add.tsx and food.tsx: consolidate as a one-file task or park.
-- entry.title stays English in plan.addTitle (needed for slot param at plan.tsx:101).
-- dashboard.welcome and gymBedtime unused: keep or remove after native review.
-- addMenu.voice and describeOutLoud in es.json: remove only after Isa approves.
+- SLOT_KEYS duplicated in add.tsx and food.tsx.
+- dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable (R240 checks).
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
-- Device runs: Add sheet, recipe/fibre, quick add, celebration (streak 1 and above), Summary title and streak, streak loading and failure, delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog, nutrition.
-- Native review fr and es: all new strings, including 'Resumen', 'Résumé', 'Creneau de sport', 'A suivre', gender, U+00A0/U+2019 standard.
-- Remove es voice and describeOutLoud? Delete vs Removed wording; negative margin on device.
-- Override available: es emptyMessage wording.
-- Whether French standardises on U+00A0 and U+2019 (fr.json still mixes apostrophes).
+- Device runs: Summary title and streak, streak loading and failure, celebration (streak 1+), delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog, nutrition, Add sheet, recipe/fibre, quick add.
+- Native review fr and es: new strings, gender, 'Resumen', 'Résumé', 'Creneau de sport', 'A suivre', U+00A0/U+2019.
+- Remove es voice and describeOutLoud: Delete vs Removed wording; negative margin on device.
+- Override: es emptyMessage wording. Whether fr standardises on U+00A0 and U+2019.
 
 ## Gotchas
-- src/lib/i18n/index.ts:41 fixes lng to 'en'. es and fr never show on screen.
 - Edit tool writes a plain space for U+00A0 and a plain apostrophe for U+2019. Patch with node escapes and check code points.
 - Keep output inside the repo. No /tmp, no redirection.
 - zsh: quote paths with parentheses. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
-- If a locale keeps a base key while code passes count, i18next uses it before en.
-- Design HTML is a bundle: decode the manifest with node -e.
-- Check key sets in both directions; a missing-only check hid the es extras.
-- --findRelatedTests on a file with no tests exits 1. That is not a failure by itself.
-- Prompts with more than one file or screen get rejected by the loop. Keep one file per round.
-- Loop rejects prompts that do not name design/Lume App.html. Always name it, plus a gap row or 'none'.
+- --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
+- Check key sets in both directions.
+- Prompts with more than one file or screen get rejected. One file per round.
 
 ## Loop notes
-- Handovers after R141, R156, R167, R172, R187, R204, R220, R235. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218, R220 (Jest skipped); R222, R223, R230 (partly done); R225, R227, R229 (cleared); R231 (handled by R232); R232 (handled by R233, cleared); R234 (handled by R235, cleared).
-- Rejected: R236 (prompt covered more than one screen or component). Rewritten as R237.
-- Rejected: R238 prompt-less loop note said the prompt did not name design/Lume App.html. R239 names it.
-- Jev matched on run for most rounds. R232, R233: Jev ranked fr.json first; manager chose verification (flag rule). R234: run 88%; manager chose fr.json summaryTitle. R235: Jev run 61%; manager chose verification (flag rule). R236: Jev run 41%, ask 41%, low confidence; manager chose the smallest refactor. R237: Jev run 94%; manager chose the single-file es wording fix. R239: Jev run 81%; manager chose the single-file fr wording fix.
+- Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240 window. Latest in loop/HANDOVER.md.
+- Rejected: R236 (more than one screen or component). R238 (prompt did not name design/Lume App.html). Rewritten as R237 and R239.
+- R239 flagged: prompt premise false (string absent). Handled by R240 read-only trace.
+- Jev: R240 ask 53%, run 44%; manager chose read-only run and wrote the reason in decisions.

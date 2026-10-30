@@ -886,3 +886,8 @@
 - 2026-10-31 01:45 Declined the es addMenu.voice and describeOutLoud removal that the last report suggested as NEXT. It stays blocked until Isa approves, per the existing decision.
 - 2026-10-31 01:45 Prompt names design/Lume App.html and gap row 'none', because this is a locale fix with no gap row. This answers the loop rejection.
 - 2026-10-31 01:45 Jev ranked run at 81%. Manager choice matches Jev's top action.
+- 2026-10-31 01:46 Dropped the R239 fr wording task: R240 confirmed 'a petit-dejeuner' is not in fr.json, so the brief's premise was wrong.
+- 2026-10-31 01:46 Parked the fr slot phrasing: src/lib/i18n/index.ts:41 fixes lng to 'en', so fr never shows on screen and the fix is low priority.
+- 2026-10-31 01:46 Chose a read-only trace of lastLoggedDaysAgo_one: it resolves the unreachable-key item without a guess and needs no edit.
+- 2026-10-31 01:46 Did not ask Isa about the fr wording, because the answer is in the code and Jev's ask score is advisory only.
+- 2026-10-31 01:46 Rewrote the notes under 600 words as the loop note requires, merging repeated items and removing finished work. Decisions kept verbatim in substance.
