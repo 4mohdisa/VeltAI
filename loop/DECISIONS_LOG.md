@@ -349,3 +349,7 @@
 - 2026-10-30 23:48 Spanish values are the agent's own translation (the design has English only), so the report marks native review as BLOCKED rather than asking Isa now.
 - 2026-10-30 23:48 Ran tsc once only and no full suite: no locale test exists, and the full suite last ran green at R120.
 - 2026-10-30 23:48 Jev's 77% run agrees with my pick, so no look-again.
+- 2026-10-30 23:49 Flag rule outranks Jev ranking: R121 was flagged, so a verification-only run goes first (R122).
+- 2026-10-30 23:49 Chose the full app suite over tsc only, because the flag names tests as well as the type check, and the last clean full run (R120) predates R121.
+- 2026-10-30 23:49 Slot translation and the unused-key removal wait until the flag is cleared.
+- 2026-10-30 23:49 Rewrote the notes below 600 words: merged repeated items and removed finished work, as the loop note asked.
