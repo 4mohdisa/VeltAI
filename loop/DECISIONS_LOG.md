@@ -763,3 +763,6 @@
 - 2026-10-31 01:15 Kept the verification read-only so it cannot add new changes on top of unverified R207 work.
 - 2026-10-31 01:15 Deferred dashboard.dayStreak to the next build round so it follows the same pattern as R207 once the streak change is confirmed green.
 - 2026-10-31 01:15 The prompt does not name the branch check as a git command, because the brief forbids git commands for the loop and the branch rule is already in the notes.
+- 2026-10-31 01:16 Chose the dayStreak fix: R208 verification came back clean, so the flag is cleared and a build task can start. It fixes a visible bug in es (1 días seguidos).
+- 2026-10-31 01:16 Limited this round to en.json and index.tsx, to keep to one locale file per round as the order rule says. es and fr follow in later rounds.
+- 2026-10-31 01:16 Did not add a fr dashboard group yet: one locale file per round, and fr dayStreak needs both keys in one go with the group.

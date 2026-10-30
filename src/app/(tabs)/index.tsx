@@ -123,7 +123,7 @@ export default function DashboardScreen() {
             >
               <StreakFlame size={14} active={streak.current > 0} />
               <Text variant="footnote" color={color.secondaryLabel}>
-                {streak.current} {t('dashboard.dayStreak')}
+                {t('dashboard.dayStreak', { count: streak.current })}
               </Text>
             </Pressable>
           )}

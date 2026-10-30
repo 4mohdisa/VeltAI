@@ -149,7 +149,8 @@
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
-    "dayStreak": "day streak",
+    "dayStreak_one": "{{count}} day streak",
+    "dayStreak_other": "{{count}} day streak",
     "todaysPlan": "Today's plan",
     "next": "Next: {{title}} at {{time}} · {{energy}}",
     "gymBedtime": "Gym window {{gym}} · Bedtime {{bed}}"

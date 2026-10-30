@@ -20,7 +20,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Flagged reports are cleared by a verification round before a new build task.
 - Checkpoint is a read-only verification round. Full suite runs in verification rounds after rounds that skipped Jest.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
-- Streak labels must be count-based plural keys (R207 decision, now built).
+- Streak labels must be count-based plural keys (R207 decision, now built). dashboard.dayStreak follows the same rule (R209, en first).
 
 ## Built (not verified)
 - NumberEntryBar shared (quick add, food detail, gym session, PlannedValuesForm).
@@ -32,21 +32,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - plan group in en, es, fr. plan.tsx uses it.
 - goals: fr (20 keys), es (setByLume, tapToEdit, savedAsYouType).
 - gymLog: fr (21 keys, R203), es (21 keys, R205). Same order as en.
-- R207: celebration streak label is count-based. gymLog.celebration.streak replaced by streak_one and streak_other in en, es, fr. CelebrationCard.tsx makes one t() call with streakDays; the streakLabel prop and its line in log-session.tsx are removed. Not verified.
+- R207: celebration streak label is count-based. gymLog.celebration.streak replaced by streak_one and streak_other in en, es, fr. CelebrationCard.tsx makes one t() call with streakDays.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Last full green run: R206 (read-only verification). tsc 0, JSON ok x3, gymLog keys match en in es and fr, 65/65 suites, 824/824 tests, 4/4 snapshots.
+- R208 (read-only verification after R207): tsc 0, JSON ok x3, gymLog and celebration key match in es and fr, 65/65 suites, 824/824 tests, 4/4 snapshots. Clean. R207 flag cleared.
 - R205 (es gymLog) flag cleared by R206.
-- R207 ran only sheetVariant.test.ts and gymDurationHonesty.test.ts (2 suites, 13 tests). Tsc 0. Full suite not run. R208 is the verification round that clears this.
 - Unverified: all new strings, plan screen, saved meal states, toasts, delete dialog, Add to labels, slot heading, goals, gymLog, streak label. No test reads locale files or covers SavedMealsList, plan.tsx or CelebrationCard.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. (R208, in progress) Read-only verification after R207: tsc, JSON x3, streak and gymLog key match, full suite. No edits.
-2. dashboard.dayStreak: 'src/app/(tabs)/index.tsx:126' puts {streak.current} before a fixed label, so es reads '1 días seguidos'. Replace with a count-based key in the same style as R207 (en, es, fr). Add the fr dashboard group in the same round only if it fits one file per round, otherwise next round.
-3. fr.json dashboard, nutrition, settings.scanAccuracy. One group per round.
-4. es.json gymLog check (listed as missing in handover; notes say built R205, confirm once).
+1. (R209, in progress) dashboard.dayStreak in en.json and src/app/(tabs)/index.tsx:126 to count-based key. en only this round.
+2. dashboard.dayStreak in es.json and fr.json, same key style. fr needs a dashboard group (fr.json has none).
+3. fr.json nutrition and settings.scanAccuracy. One group per round.
+4. es.json gymLog check (confirmed present in R208 handover; verify once more with the full key match).
 5. Consolidate SLOT_KEYS (add.tsx, food.tsx).
 6. Fix lastLoggedDaysAgo_one: unreachable, because days === 1 returns the yesterday string.
 7. 'Why this plan' hardcoded at src/app/dashboard/plan.tsx:120. Move to plan keys.
@@ -69,7 +68,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 23 one-tap log: route or accepted deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe and fibre, quick add, celebration (including streak 1 and streak above 1), delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog.
-- Native review fr: savedMeals, plan, goals, gymLog, streak_one and streak_other. Typography (U+00A0, U+2019, straight apostrophes in goals). 'enregistrer' vs 'ajout'. Gender agreement. differentWeights.
+- Native review fr: savedMeals, plan, goals, gymLog, streak_one and streak_other. Typography (U+00A0, U+2019, straight apostrophes in goals). 'enregistrer' vs 'ajout'. Gender agreement. differentWeights. fr gymLog.celebration.streak wording (1 jours) is now replaced by count keys, confirm.
 - Native review es: plan, savedMeals, goals, gymLog, streak_one and streak_other. Check 'Registra {{plan}} tal como estaba programado' and 'Bien hecho!'. Also 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 - Override available: es emptyMessage wording.
@@ -85,7 +84,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187, R204. Summary in loop/HANDOVER.md.
-- Flags R183 to R205 all cleared by R206.
+- Flags R183 to R205 all cleared by R206. R207 flag cleared by R208.
 - R207 candidates: streak key fix, fr dashboard group, SLOT_KEYS consolidation. Chose streak key fix.
-- R208 candidates: verification after R207, dashboard.dayStreak fix, fr dashboard group. Chose verification so the R207 flag clears before the next build task.
-- Jev matched on run for R203, R204, R205, R208 choice (verification).
+- R208 candidates: verification after R207, dashboard.dayStreak fix, fr dashboard group. Chose verification.
+- R209 candidates: dayStreak en fix, fr dashboard group, SLOT_KEYS consolidation. Chose dayStreak en fix (en first, one locale per round).
+- Jev matched on run for R203, R204, R205, R208 choice (verification). Jev 98% run for R209.
