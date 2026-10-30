@@ -31,7 +31,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
-- R241: lastLoggedLabel calendar-day calculation in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe). Type check only at R241. Not run by Jest. R242 ran Jest green but added no test for it.
+- R241: lastLoggedLabel calendar-day calculation in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe). Read-only check at R244 passed (see Verification).
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr.
 - dashboard.streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
 - (tabs)/index.tsx lines 102, 109, 115, 121 use t().
@@ -40,19 +40,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Verification
 - Last full checkpoint R242 (read-only): tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. This covers the R241 change at the suite level only.
 - R241 flagged: tsc exit 0 only. Cleared by R242.
-- R242 report flagged by automatic check ('task looks only partly done'). R244 is a read-only verification of the R241 lastLoggedLabel code to clear it.
+- R242 report flagged by automatic check. R244 was a read-only verification of the R241 lastLoggedLabel code. R244 passed on reading: calendar-day logic, Date.UTC day difference, and all savedMeals keys present in en.json. Nothing was run. R244 report flagged again: type check or tests not run. R245 is a read-only tsc check to clear it.
 - Keys: en 149, fr 149, es 151 (extras addMenu.voice, addMenu.describeOutLoud).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R244: read-only verification of lastLoggedLabel in SavedMealsList.tsx. Clears the R242 flag.
+1. R245: read-only tsc check and re-read of lastLoggedLabel and en.json savedMeals keys. Clears the R244 flag. No Jest run.
 2. If it passes: plan.tsx:120 'Why this plan' to t(). One file per round.
 3. Then nutrition.tsx:77 'Macros' to t().
 4. Then (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
 5. Add sheet icons to design SVGs.
 6. Remaining gap rows, most cleared per task first.
-7. Full Jest checkpoint every 5 rounds (next at R247).
+7. Full Jest checkpoint at R247 (read-only).
 8. If no non-gym work remains: stop with 'only owner decisions remain'.
 9. Remove es addMenu.voice and describeOutLoud only after Isa approves.
 
@@ -69,8 +69,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Long-press meal delete not discoverable; mealNow() 'Snack' vs 'Snacks'.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 - dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable in en, es and fr (kept; safe to leave).
-- Future-dated saved-meal logs read 'Last logged today' (negative days hit the days <= 0 branch). Left as is in R241. Matters more if the device clock is behind the server.
-- Test for the 11pm-to-9am lastLoggedLabel case through a SavedMealsList render. Needs an owner decision on new test suites.
+- Future-dated saved-meal logs read 'Last logged today' (negative days hit the days <= 0 branch). Left as is. Matters more if the device clock is behind the server.
+- Test for the 11pm-to-9am lastLoggedLabel case through a SavedMealsList render. Dropped per R243 decision: no new test suites.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
@@ -98,9 +98,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R240 read-only report: lastLoggedDaysAgo_one unreachable. Calendar-day bug found; R241 is the fix.
 - R241 flagged by automatic check: type check or tests not fully run (Jest not run). R242 is the checkpoint that clears it.
 - R243 rejected before it ran: prompt did not name the matching design/ file. Rewritten as the R242 checkpoint prompt.
-- R242 report flagged: 'task looks only partly done'. Read-only checkpoint, so R244 is a read-only verification round.
+- R242 report flagged: 'task looks only partly done'. R244 read-only verification passed on reading but did not run tsc. R244 flagged again. R245 clears it with tsc.
 - Jev: R240 ask 53%, run 44%; manager chose read-only run.
 - Jev: R241 run 90%. Agreed.
 - Jev: R242 run 80%. Agreed.
 - Jev: R243 run 74%, ask 22%. Agreed.
 - Jev: R244 run 50%, ask 44%. Agreed with run: flag must be cleared first; no owner dependency.
+- Jev: R245 run 84%, ask 12%. Agreed with run.

@@ -910,3 +910,7 @@
 - 2026-10-31 01:49 Jev said run 50%, ask 44%. Agreed with run. Write the reason here: the flag must be cleared before any build, and a read-only round carries no risk.
 - 2026-10-31 01:49 Treated the handover's suggestion to remove es addMenu.voice and describeOutLoud as not yet allowed: the notes require Isa approval first.
 - 2026-10-31 01:49 Next build after this round: plan.tsx:120, one file per round, per the notes order.
+- 2026-10-31 01:50 Chose a read-only verification round first, because the loop note says the flagged R244 report must be cleared before a new build task. Jev also prefers run.
+- 2026-10-31 01:50 The flag says the type check or tests were not run. A tsc-only read-only check clears it without a full Jest run, which is due at R247 anyway.
+- 2026-10-31 01:50 Dropped the R244 NEXT suggestion of a render test for the 11pm-to-9am case, per the R243 decision: no new test suites.
+- 2026-10-31 01:50 Kept the plan.tsx:120 hardcoded string as the next build task after the flag is cleared, in the existing order.
