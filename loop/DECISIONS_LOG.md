@@ -45,3 +45,13 @@
 - 2026-10-30 22:35 Treated the energy-only test as out of date, not the code, because decision (e) and step 4 approve macros on food detail search.
 - 2026-10-30 22:35 Marked food data path step 3 as done: the r53 report confirmed the code already meets it, with no edit needed.
 - 2026-10-30 22:35 Left the detailSubject.ts stale comment and the recents macro gap to later rounds as NEXT items, to keep this round to one file.
+- 2026-10-30 22:36 Chose the re-check pass because Isa's Telegram reply (r55) says to re-check rows against the design first, a few per round, and fix only real differences. Isa's latest word overrides the earlier queue order.
+- 2026-10-30 22:36 Limited the round to 4 rows and a doc-only edit so no code changes until the rows are confirmed, which keeps the risk low (Jev risk 1.6).
+- 2026-10-30 22:36 Skipped tests this round because the change is markdown only; the gate stays green from r54.
+- 2026-10-30 22:36 Recents fix (candidate 2) kept as the next code task after the re-check pass, since it is a real data bug in one file.
+- 2026-10-30 22:36 Did not re-open row 23 or the calories questions; they stay blocked on Isa.
+- 2026-10-30 22:36 Chose the re-check pass over the recents fix, because Isa's Telegram instruction (r55) says to re-check rows first, a few per round, before fixing.
+- 2026-10-30 22:36 Limited the round to two rows (Add sheet, Quick add) to keep it small and doc-only, as the notes ask.
+- 2026-10-30 22:36 Edits only DESIGN_GAP_ANALYSIS.md, so no tsc, eslint or jest run, since no code changes.
+- 2026-10-30 22:36 Prompt now names loop/design-match and forbids git and push, which fixes the rejection in the loop note.
+- 2026-10-30 22:36 Did not ask Isa about the Calories or Time columns on the celebration card, because the defaults and notes already cover them as parked or blocked items.
