@@ -188,7 +188,7 @@ def startup_check():
     if not (REPO / "design").is_dir():
         problems.append("The design folder is missing. Export the design from Claude Design into design/ in the repo and commit it.")
     try:
-        r = subprocess.run(["claude", "--version"], capture_output=True, text=True, timeout=60)
+        r = subprocess.run(["claude", "--version"], capture_output=True, text=True, timeout=60, env=CLAUDE_ENV)
         if r.returncode != 0:
             problems.append("Claude Code did not run. Check that claude works in Terminal.")
     except Exception:
@@ -219,6 +219,9 @@ def limit_wait_seconds(text):
         return max(60, min(int(m.group(1)) - int(time.time()) + 60, 6 * 3600))
     return 20 * 60
 
+# Claude Code must use your Claude subscription login. If ANTHROPIC_API_KEY is passed to it, it bills the API instead.
+CLAUDE_ENV = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
+
 class Session:
     # One continuous Claude Code conversation, resumed by session id
     def __init__(self):
@@ -230,7 +233,7 @@ class Session:
         for attempt in range(LIMIT_RETRIES):
             cmd = ["claude", "-p", prompt, "--dangerously-skip-permissions"]
             cmd += ["--resume", self.id] if self.started else ["--session-id", self.id]
-            result = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True, timeout=CLAUDE_TIMEOUT)
+            result = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True, timeout=CLAUDE_TIMEOUT, env=CLAUDE_ENV)
             text = (result.stdout + ("\n" + result.stderr if result.returncode else "")).strip()
             if LIMIT_PATTERN.search(text) and (result.returncode != 0 or len(text) < 400):
                 seconds = limit_wait_seconds(text)
