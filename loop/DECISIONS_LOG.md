@@ -917,3 +917,8 @@
 - 2026-10-31 01:51 Chose a read-only tsc and full Jest run to clear the flag. Jest has not run since R242, so the flag is valid and a type check alone is not enough.
 - 2026-10-31 01:51 Declined the render-test NEXT from the last report, because the R243 rule bans new test suites.
 - 2026-10-31 01:51 Rewrote the notes under 600 words. No decision was deleted; repeated items are merged.
+- 2026-10-31 01:52 Chose plan.tsx:120 as the smallest unbuilt item that needs nothing from Isa; it is next in the notes order.
+- 2026-10-31 01:52 Declined the latest report's suggestion to add a render test for SavedMealsList; testing rules forbid new test suites (R243 precedent).
+- 2026-10-31 01:52 Limited this round to en.json and plan.tsx to keep to one surface; es and fr keys follow in a later round, and es and fr are never shown on screen (index.ts:41).
+- 2026-10-31 01:52 Tests limited to the type check plus any existing suite importing plan.tsx, to keep Claude Code usage low.
+- 2026-10-31 01:52 Jev run 91% agreed with manager choice of run.

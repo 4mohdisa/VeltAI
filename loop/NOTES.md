@@ -24,6 +24,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R240: 'a petit-dejeuner' is not in fr.json. R239 dropped.
 - R241: lastLoggedLabel counts calendar days (local dates), not 24-hour periods.
 - R243: no new test suites. The 11pm-to-9am case is checked on device by Isa.
+- R247: the latest report's suggestion to add a render test for SavedMealsList is declined under the R243 rule.
 - Flagged reports are cleared by a verification round before a new build task. Checkpoint rounds are read-only.
 - Handover suggestion to remove es addMenu.voice and describeOutLoud is not followed until Isa approves.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
@@ -37,14 +38,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Verification
 - R242 full checkpoint: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. This covers the R241 change at suite level only.
-- R244, R245, R246 read-only checks: lastLoggedLabel and savedMeals keys re-read. Jest not run since R242.
-- Keys: en 149, fr 149, es 151 (extras addMenu.voice, addMenu.describeOutLoud).
+- R246 read-only checks: tsc exit 0; full Jest 65 suites, 824 tests, 4 snapshots green. Clears the R246 flag.
+- Keys: en 149, fr 149, es 151 (extras addMenu.voice, addMenu.describeOutLoud). Round R247 adds plan.whyThisPlan to en only; expect en 150 and es/fr 149 until the es and fr rounds.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R246: read-only tsc and full Jest. Clears the flag. No edits.
-2. plan.tsx:120 'Why this plan' to t().
+1. R247: plan.tsx:120 'Why this plan' to t() (en.json and plan.tsx only). In progress.
+2. Add plan.whyThisPlan to es.json and fr.json (native review pending).
 3. nutrition.tsx:77 'Macros' to t().
 4. (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
 5. Add sheet icons to design SVGs.
@@ -84,12 +85,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - zsh: quote paths with parentheses. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - Check key sets in both directions.
-- Prompts with more than one file or screen get rejected. One file per round.
+- Prompts with more than one file or screen get rejected. One file per round where possible.
 - Handover summaries can be stale on what is built; check against this file.
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240. Latest in loop/HANDOVER.md.
 - Rejected: R236 (more than one screen), R238 (no design file named), R243 (no design file named). Rewritten as R237, R239 and the R242 checkpoint.
 - Flags R239, R241, R242, R244, R245: cleared by read-only verification rounds.
-- R246: flagged on the type check only. Cleared by full Jest in this round.
-- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R245 run favoured; agreed each time. R246 run 85%; agreed.
+- R246: flagged on the type check only. Cleared by full Jest in that round.
+- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R246 run favoured; agreed each time. R247 run 91%; agreed.

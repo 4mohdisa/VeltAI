@@ -117,7 +117,7 @@ export default function PlanDetailScreen() {
             <Icon name="sparkles" size={18} color={categoryAccent.ai} />
             <View style={{ flex: 1, gap: space.xs }}>
               <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
-                Why this plan
+                {t('plan.whyThisPlan')}
               </Text>
               <Text variant="footnote" color={color.gray700}>
                 {reason}
