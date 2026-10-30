@@ -1,23 +1,42 @@
-HANDOVER — branch loop/design-match, tree clean at 1b8ab30.
+HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified.
 
-BUILT THIS RUN
-- Profile — Goals (src/app/profile/goals.tsx): three design hints wired (goals.setByLume / tapToEdit beside the "Daily calories" label, goals.savedAsYouType below); calorie figure + split control + macro rows wrapped in one Card variant="elevated" with a hairline under the figure. Row stays DIFFERENT with a Built: note.
-- Gym — session logging (src/app/gym/log-session.tsx): row now 🔨 BUILT (not verified). Replaced the 4-field questionnaire with the design's "How did it go?" chooser — plan subtitle, three tiles, footer pill committing the plan via logGymSession(session, workout) at completionRate 1. New gymLog group in en.json.
-- Gym session modes (src/app/gym/session.tsx): optional mode param 'adjust' | 'ticklist' | 'picker'; log-session passes it per tile.
-- Food — Search (src/app/(tabs)/food.tsx): focus=search param focuses the input then clears itself; the trailing + disc is a real button logging at 100 g with a toast; row label uses foodLog.openFood. Row stays DIFFERENT with a Built: note.
-- Food — Add sheet (src/app/food/add.tsx): three sub-lines on i18n keys; "Search foods" routes to /(tabs)/food?focus=search.
+BUILT THIS SESSION
+- Row 17 (difference 17, celebration card): src/components/gym/CelebrationCard.tsx, wired into save() in src/app/gym/log-session.tsx as a native Modal replacing the toast. Status records steps 1 and 2. Step 3, the device run, is not done.
+- save() sends durationMin as undefined when the derived value is 0 or less.
+- Quick add (src/app/food/quick-add.tsx): toast now "250 kcal added to lunch"; MEAL caption built. Row stays "DIFFERENT (MEAL caption built)".
+- Test repairs: gymDurationHonesty, sheetVariant, foodDetail.
+- Add sheet row set back to DIFFERENT after re-check.
+- Already present, no edit needed: search macros in (tabs)/food.tsx pick() and food/detail.tsx.
 
-IN PROGRESS — 3-step data path, step 1 of 3 done
-Goal: the detail sheet and the + disc must write the same row. Step 1 (done, 1b8ab30): src/lib/food/detailSubject.ts search variant gained optional proteinPer100 / carbsPer100 / fatPer100. Step 2: src/app/(tabs)/food.tsx pick() must pass those from food. Step 3: src/app/food/detail.tsx search branch replaces its hardcoded protein/carbs/fat zeros in both seed and per100.
+Last full run: 65 suites, 824 tests passed (baseline said 823; the extra test is unexplained). tsc clean. That run predates the Quick add edits; since then only tsc, eslint and two source-reading test files have been run.
+
+IN PROGRESS: nothing mid-edit.
 
 DECISIONS
-- Design payload: decode via the __bundler/manifest JSON in design/Lume App.html, gzip+base64 per entry (I used a python one-liner to /tmp/bundle.txt).
-- Card variant="elevated" is the repo's established mapping for the design's white card; it adds shadow.sm the design lacks.
-- session.tsx seeds mode state by derivation, not an effect — eslint react-hooks/set-state-in-effect is active and rejects setState in effects.
+- Calories on the card shows "—": no body weight on that screen, and the repo forbids fabricated data.
+- Reused Stat and Button over exact design type, so labels are uppercase and pill text is 17/24.
+- SegmentedField inset unchanged: 11 other callers would restyle.
+- MEAL caption rendered in quick-add.tsx, not through the SegmentedField label.
+- Gap rows keep DIFFERENT while any real difference remains.
+
+WAITING ON ISA
+- Calories column: formula or accepted deviation.
+- Search foods tile going to the food tab: accepted or not.
+- How to handle the inset callers: variant change or compact option.
+
+NOT FIXED
+- Quick add: Meal control 13/17 semibold and 3pt padding, 0.6 detent, no blinking caret, 56 vs 52pt pill, hardcoded English copy, offline toast names no meal.
+- Add sheet: "Add meal" title from the global +.
+- Card can show "0 min"; possible stat row overflow. Footnote missing.
+- An estimate of exactly 0 hides planMinutes (notes r49: keep ??).
+- src/lib/data/hooks.ts recents drop macros, so re-picking logs zeros.
+- Missing macros log as 0 in food/detail.tsx and quickAdd.
+- Stale: src/lib/food/detailSubject.ts:25-27 comment, the _layout.tsx sheet comments, gap detail sections (around lines 978, 1048, 1419), the "Not set" test title.
 
 GOTCHAS
-- adjust/ticklist arrive with rows checked, so dirty is true and the beforeRemove "Save progress?" guard fires on an untouched back-out.
-- detail.tsx:169-170 comment ("search catalog has no macro columns") goes stale at step 3; that branch also passes macros={false}, so values stay hidden until Isa decides.
-- Dev catalog carries calories only, so macro fixes are a no-op in dev.
-- No tests exist on any screen touched; findRelatedTests returns none except detailSubject.ts (51 pass).
-- Gym row differences 17, 18, 19, 23 still open.
+- Design text sits in the __bundler payload, so grep misses it. Decode the manifest (gzip+base64); /tmp/lume-design and /tmp/lume_decode.py may be gone. Food screens are entry 71f71ac4, gym is 7dc211f6.
+- Source-reading tests are invisible to --findRelatedTests; grep src/__tests__ for the path.
+- Those tests pin exact source text, so edits can break them.
+- zsh does not word-split unquoted variables.
+- The Expo docs requirement is in AGENTS.md.
+- Row numbers mean the numbered differences, not table rows.
