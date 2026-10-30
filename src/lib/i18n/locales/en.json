@@ -113,7 +113,8 @@
     "lastLoggedToday": "Last logged today",
     "lastLoggedYesterday": "Last logged yesterday",
     "lastLoggedDaysAgo_one": "Last logged {{count}} day ago",
-    "lastLoggedDaysAgo_other": "Last logged {{count}} days ago"
+    "lastLoggedDaysAgo_other": "Last logged {{count}} days ago",
+    "neverLogged": "Never logged"
   },
   "gymLog": {
     "title": "How did it go?",

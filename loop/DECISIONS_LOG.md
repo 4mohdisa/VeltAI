@@ -632,3 +632,7 @@
 - 2026-10-31 00:45 Did not ask Isa: Jev's ask/run split is close (51/47) and nothing in the flagged task needs his dashboard, device or wording decision.
 - 2026-10-31 00:45 Verification is limited to one tsc run and tests that touch en.json, per the testing rules; no new test was written.
 - 2026-10-31 00:45 Logged the missing 'Never logged' key as the next build item, since SavedMealsList lines 27 and 29 would stay hardcoded after the switch to t() keys.
+- 2026-10-31 00:45 Chose the en.json neverLogged key first: the last report was flagged as partly done, and this key was the missing item it named. It is the smallest task and needs nothing from Isa.
+- 2026-10-31 00:45 Ranked es.json below it because the Next list puts en first, and the SavedMealsList switch needs neverLogged in en before it can use it.
+- 2026-10-31 00:45 Kept the R176 result as verified only at the node and type-check level. Nothing reads these keys on screen yet, so the rows stay BUILT, not verified.
+- 2026-10-31 00:45 No gap analysis row changed. The work is locale data only.
