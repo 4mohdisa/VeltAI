@@ -998,3 +998,7 @@
 - 2026-10-31 02:09 Treated the Macros kicker as built (per notes, nutrition.tsx:77). The handover item asking for a Macros key is stale and was dropped.
 - 2026-10-31 02:09 Did not ask Isa about the new es and fr sentences. They stay in the existing native review queue.
 - 2026-10-31 02:09 Clean report from R261 with no failures, so no read-only flag round is needed before this task.
+- 2026-10-31 02:10 Chose a read-only check round first, because the notes say flagged reports are cleared by a read-only round before a new build task.
+- 2026-10-31 02:10 Did not choose the test edit to hydrationErrorScreens.test.ts yet, because the brief forbids test changes this round and the check must come first.
+- 2026-10-31 02:10 Chose run over ask: the check needs nothing from Isa, so no question.
+- 2026-10-31 02:10 Kept run over Jev's 34% ask: Jev cannot see that the check needs no owner input, and it is the smallest safe step.
