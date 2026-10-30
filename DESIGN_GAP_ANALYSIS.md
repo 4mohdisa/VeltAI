@@ -84,7 +84,7 @@ this pass matched the design on every checked value.
 | Gym — streak detail & session history | ❌ DIFFERENT | Neither screen exists in the design, and both are still in pre-design chrome using deprecated grey tokens. |
 | Food — Day log (main view) | ❌ DIFFERENT | Design's calories card is goal-relative with a progress bar and four macro bars; the app shows total logged, no goal, three macros — plus a search field the design puts in a sheet. |
 | Food — Food detail sheet | 🔨 BUILT (not verified) | All six numbers are now tap-to-edit through the shared `NumberEntryBar` — the design’s captions and keyboards (`Serving size · grams` and `Calories · kcal` numeric, the four macros decimal), a grams chip, a tappable kcal readout and a 2×2 macro grid replacing the boxed fields. |
-| Food — Quick add | ❌ DIFFERENT (MEAL caption built; BUILT: detent set to fitToContents; BUILT: confirm pill 52pt, label still 17/24 vs 17/22; compact option added to SegmentedField; compact applied to Meal control) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `NumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. Main remaining difference: the Meal control uses 17pt segment labels, where the design has 13/17 semibold chips. |
+| Food — Quick add | ❌ DIFFERENT | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `NumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. BUILT, not verified: the confirm pill is 52pt high (padding via space.md), the Meal control passes the compact prop of SegmentedField, the quick add detent is fitToContents, and the MEAL caption and toast exist. Still open: the confirm label is 17/24 against the design's 17/22 (waiting on Isa); the Meal chip keeps 8pt horizontal padding where the design has none; there is no selection transition on the Meal chip; there is no blinking caret; the copy is hardcoded English; the offline toast names no meal; the screen has its own flex:1 KeyboardAvoidingView at src/app/food/quick-add.tsx:114. |
 | Food — Search | ❌ DIFFERENT | Design is a dedicated sheet with filter chips and a one-tap `+`; the app has an inline field whose results replace the day view, and its `+` is decorative. |
 | Food — My dishes / Saved | ❌ DIFFERENT | Design is a photo gallery with a "New dish" tile; the app is a searchable text list with swipe-to-unsave. |
 | Food — Add sheet | 🔨 BUILT (not verified) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. Also open: SF Symbols vs inline SVGs, separate scan routes, body bottom padding. |
@@ -978,7 +978,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 ## Food — Quick add
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the Meal control, confirm label, caret, offline toast and copy still differ.
+**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the Meal chip padding and transition, confirm label, caret, offline toast and copy still differ.
 
 **Design:** centred 52×52 `surface.tile` ± discs around a tappable
 `stat-hero` (56/68, `letter-spacing -1.4px`) value with *"kcal · tap to type"*
@@ -991,19 +991,21 @@ Default value **250**.
 four preset pills, and a `NumberEntryBar` captioned *"Calories · kcal"* (5-digit cap)
 that hides the discs, presets and CTA until Done.
 
-- BUILT: Meal caption (`MEAL`) above the segmented control.
-- BUILT: sheet detent `fitToContents` at `src/app/_layout.tsx:160`.
-- BUILT: confirm pill 52pt via `paddingVertical: space.md`.
-- BUILT: toast *"{kcal} added to {meal}"*.
+- BUILT, not verified: Meal caption (`MEAL`) above the segmented control.
+- BUILT, not verified: the Meal control passes the `compact` prop of `SegmentedField`.
+- BUILT, not verified: sheet detent `fitToContents` at `src/app/_layout.tsx:160`.
+- BUILT, not verified: confirm pill 52pt high via `paddingVertical: space.md`.
+- BUILT, not verified: toast *"{kcal} added to {meal}"*.
 
 **Still open:**
 
-- Meal control: the design has 13/17 semibold and 3pt padding.
-- No blinking caret.
-- Confirm label 17/24 vs 17/22 (blocked on `Button`).
-- Offline toast names no meal.
-- Hardcoded English copy.
-- Own `flex: 1` `KeyboardAvoidingView` at `src/app/food/quick-add.tsx:114`.
+- The confirm label is 17/24 against the design's 17/22 (waiting on Isa).
+- The Meal chip keeps 8pt horizontal padding where the design has none.
+- There is no selection transition on the Meal chip.
+- There is no blinking caret.
+- The copy is hardcoded English.
+- The offline toast names no meal.
+- The screen has its own flex:1 KeyboardAvoidingView at src/app/food/quick-add.tsx:114.
 
 Offline queueing with a loading button is a necessary addition the design does not have.
 

@@ -201,3 +201,8 @@
 - 2026-10-30 23:12 Checkpoint prompt makes no file changes and no git calls, so the rejection fix does not need a code edit.
 - 2026-10-30 23:12 Jev ranked the fibre task first (run 91%). Kept the checkpoint because the last full-suite run predates the Quick add, compact and recents changes, as recorded in R88 earlier.
 - 2026-10-30 23:12 Fibre task stays as the next round after the checkpoint is green, one file per round.
+- 2026-10-30 23:13 Flag cleared with a doc-only run first, per the rule that a flagged report is cleared before any new code edit. Chose this over fibre, which is a code edit.
+- 2026-10-30 23:13 Doc-only round runs no tests, since the flag concerns the report and not code.
+- 2026-10-30 23:13 Scope limited to DESIGN_GAP_ANALYSIS.md. Fixes the stale FoodNumberEntryBar names and the mixed row 87 status that the checkpoint report flagged. Reason: these misstate the state of the work.
+- 2026-10-30 23:13 Add sheet label conflict left for Isa to pick, as the notes already say. Not touched this round.
+- 2026-10-30 23:13 Checkpoint R88 result recorded: tsc 0 errors, 65 of 65 suites, 824 of 824 tests passed. Row 87 remains BUILT, not verified.
