@@ -922,3 +922,7 @@
 - 2026-10-31 01:52 Limited this round to en.json and plan.tsx to keep to one surface; es and fr keys follow in a later round, and es and fr are never shown on screen (index.ts:41).
 - 2026-10-31 01:52 Tests limited to the type check plus any existing suite importing plan.tsx, to keep Claude Code usage low.
 - 2026-10-31 01:52 Jev run 91% agreed with manager choice of run.
+- 2026-10-31 01:53 Chose the read-only verification round because the loop flagged R247 for a type check or test run that was not done. Notes say flags are cleared by a verification round before a new build task.
+- 2026-10-31 01:53 Jev ran 90% in favour of run. Agreed, since the flag must be cleared before any build work.
+- 2026-10-31 01:53 Did not start the es and fr plan.whyThisPlan strings yet. They wait until the flag is cleared, to keep this round to one purpose.
+- 2026-10-31 01:53 Step 4 checks the key counts so the en, es and fr gap is confirmed before the next locale round.
