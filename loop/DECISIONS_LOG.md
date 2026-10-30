@@ -233,3 +233,7 @@
 - 2026-10-30 23:21 Jev ranked the fibre edit first at 92%. I kept the verification-only run first because the standing rule says a flagged report is cleared by a verification-only or doc-only run before any new code edit. The fibre edit is next round, so the loss is one round.
 - 2026-10-30 23:21 The verification run makes no edits, runs tsc and eslint once, and runs no test suite, to keep usage low.
 - 2026-10-30 23:21 The verification run does not touch the notes or the gap analysis. Notes are updated by the manager this round.
+- 2026-10-30 23:22 Chose the fibre edit as R96 because R95 verification cleared the flag and the fibre task is the next item in Next.
+- 2026-10-30 23:22 Kept to one editable file (hooks.ts) per the one-file prompt rule; the gap row update is deferred to a doc-only run.
+- 2026-10-30 23:22 Missing fibre stays undefined in recents, not 0, matching FoodItem.fibre semantics; recipe save remains 0 by the model limit already decided.
+- 2026-10-30 23:22 Ran tsc once and only the hooks test files, per the testing rules.

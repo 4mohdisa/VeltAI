@@ -284,6 +284,7 @@ export function useFoodSearch(query: string): FoodSearchState {
           protein: it.protein * scale,
           carbs: it.carbs * scale,
           fat: it.fat * scale,
+          fibre: it.fibre == null ? undefined : it.fibre * scale,
         });
         if (out.length === 5) return out;
       }
