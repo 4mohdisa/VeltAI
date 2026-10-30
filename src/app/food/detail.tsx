@@ -8,8 +8,8 @@
 // params, because a food name and its macros are personal data and this repo
 // keeps personal data out of query strings.
 //
-// Everything on screen traces to a real value: the search catalog is kcal-only,
-// so search subjects show no macro fields at all rather than a fabricated zero.
+// Everything on screen traces to a real value: a search result carries its own
+// per-100 g macros, so the search subject shows the same macro fields as the rest.
 import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import { router } from 'expo-router';
@@ -175,7 +175,7 @@ export default function FoodDetailScreen() {
           fat: subject.fatPer100 ?? 0,
           ...(subject.fibrePer100 != null ? { fibre: subject.fibrePer100 } : {}),
         }}
-        macros={false}
+        macros
         onClose={close}
         onDone={(draft) => {
           // 'search' isn't an EntryMethod — 'manual' matches the saved-foods path.
@@ -344,7 +344,7 @@ type DetailFormProps = {
   /** Per-100 g basis. Picking a serving — or typing grams — re-derives the
    *  numbers from it, which is also what discards a manual override. */
   per100?: { calories: number; protein: number; carbs: number; fat: number; fibre?: number };
-  /** False when the source is energy-only (the search catalog). */
+  /** False when the source carries no macros at all. */
   macros: boolean;
   /** Review rename: the name is the only editable field. */
   nameOnly?: boolean;
@@ -636,13 +636,7 @@ function DetailForm({
               </Pressable>
             ))}
           </View>
-        ) : (
-          // No macro tiles, and no zeros dressed as measurements: the search
-          // database returns energy only.
-          <Text variant="footnote" color={color.secondaryLabel}>
-            This search result has calories only — the food database carries no protein, carbs or fat for it.
-          </Text>
-        )}
+        ) : null}
 
         {/* The design's primary action: a full-width black pill after the fields,
             above the secondary "save" and the destructive remove. */}

@@ -971,6 +971,8 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 23. Barcode "not found" and "No longer in your log" screens have no design counterpart.
 24. The design's search subject carries full macros; the app's is energy-only.
 
+**Built:** difference 24 is closed — the search branch of `src/app/food/detail.tsx` now shows the macro row from the result's per-100 g macros, and the kcal-only copy and comments were removed.
+
 ## Food — Quick add
 
 **Verdict:** ❌ DIFFERENT

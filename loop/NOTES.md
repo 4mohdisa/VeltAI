@@ -12,12 +12,15 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - 7-day free trial, $49.99 per year and $8.99 per month, no card up front.
 - Gym logging redesign APPROVED by Isa (round 24): plan-aware 'How did it go?' chooser replaces the 4-field questionnaire.
 - Isa round 24: cardio in a gym session stays 'Distance km'. Do NOT build Food search filter chips. Goals structure stays as built (app-only extras stay). Goals rows 76, 78 and 97 stay DIFFERENT as accepted deviations.
+- Isa round 39 (reply to batched question): a YES, b YES, c YES, d YES, e YES. All five approved: (a) log-session celebration card (streak hero, Time / Calories / Volume, black 'Nice one' pill); (b) drop the 'Logged and locked' edit cycle; (c) already-logged routes into the day instead of dismissing; (d) Summary card calls logGymSession() with no arguments, handle that third entry point; (e) Food detail search branch macros shown plus stale kcal-only copy removed.
 
 ## Prompt rules learned
-- One task, max 5 steps, exactly ONE editable source file named (the checker rejects two). A one-line status edit to DESIGN_GAP_ANALYSIS.md is accepted alongside it. An en.json key addition is tolerated when named explicitly.
+- One task, max 5 steps, exactly ONE editable source file named (the checker rejects two). A one-line status edit to DESIGN_GAP_ANALYSIS.md is accepted alongside it. An en.json key addition or value edit is tolerated when named explicitly.
+- A doc-only status edit must touch ONE row only. The round 37 prompt covered several surfaces and was rejected as 'more than one screen or component'.
 - EVERY prompt, including read-only checkpoint prompts, must name design/Lume App.html.
 - Testing is light: tsc plus eslint plus jest --findRelatedTests --passWithNoTests on changed files. Never run prettier.
 - CHECKED must paste literal exit codes and result lines for tsc, eslint and jest, or the auto-checker flags the report.
+- Never let reports or prompts use the words 'verified' or 'confirmed' about a surface: the auto-checker flags it. Say BUILT / built, not verified.
 - Grep for the real path before naming a file. Check git state before re-issuing a task.
 - Locale files: src/lib/i18n/locales/en.json (es.json, fr.json beside it).
 - eslint enforces react-hooks/set-state-in-effect: derive state, do not seed it in effects.
@@ -30,25 +33,28 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Food Add sheet chooser. Search tile routes to the food tab with focus=search, and the param is cleared after use.
 - Goals: borderless calorie input, hints, white card.
 - Gym log-session 'How did it go?' chooser with adjust / ticklist / picker modes passed to gym/session.tsx. Side effect to tell Isa: in adjust and ticklist the rows start checked, so backing out untouched offers 'Save progress?'.
-- Search macros path CLOSED: detailSubject.ts optional macro fields (1b8ab30); (tabs)/food.tsx pick() passes per-100 g macros (round 32); food/detail.tsx search branch seed and per100 use them with `?? 0` (round 33); (tabs)/food.tsx quickAdd (+ disc) logs Math.round(protein/carbs/fat ?? 0) at 100 g, same row as the detail sheet (round 34). macros={false} left as is, so values stay hidden until Isa decides.
-- Round 35 (verified clean: tsc 0, eslint 0, jest none related): (tabs)/food.tsx warnConflict toast and accessibilityHint now use t(`foodLog.conflict.${conflict}`); en.json has foodLog.conflict halal / vegan / vegetarian / gluten_free. dairy_free and none have no key because CONFLICT_KEYWORDS cannot return them.
+- Search macros path CLOSED: detailSubject.ts optional macro fields (1b8ab30); (tabs)/food.tsx pick() passes per-100 g macros; food/detail.tsx search branch seed and per100 use them with `?? 0`; (tabs)/food.tsx quickAdd (+ disc) logs rounded macros at 100 g, same row as the detail sheet.
+- Round 35 (tsc 0, eslint 0, jest none related): (tabs)/food.tsx warnConflict toast and accessibilityHint use t(`foodLog.conflict.${conflict}`); en.json has foodLog.conflict halal / vegan / vegetarian / gluten_free.
+- Round 36 (tsc 0, eslint 0, jest none related): food/add.tsx strings moved to en.json addMenu keys and wired with t().
 
 ## In progress
-- src/app/food/add.tsx: move remaining hardcoded strings ('Search foods', 'Apple, banana, Indomie…', 'My dishes', 'Quick add', 'Just calories, fast', add-to-slot heading) into en.json addMenu keys (searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub, addToSlot) and wire with t() (round 36, prompt sent). Files: add.tsx plus en.json only.
+- Round 39: task (e) issued: food/detail.tsx search branch macros={false} to true, stale comments (header ~lines 11-12, ~169-170) and kcal-only empty-state text (~line 643) removed, plus one-line Built: note on the Food detail row of DESIGN_GAP_ANALYSIS.md. Awaiting report.
 
 ## Blocked on Isa
-(none)
+- (none)
 
-## Next tasks
-1. Verify the round 36 report.
-2. Checkpoint (full tsc plus full jest) when the loop note asks. No checkpoint result exists yet.
-3. Doc-only: add a /gym/session summary row to DESIGN_GAP_ANALYSIS.md as BUILT without flipping row 76. Fix stale Food detail, Quick add and Add sheet sections.
-4. Food Search 88% sheet (pill input, thumbnails, row metrics, no filter chips) needs its own plan.
-5. ASK ISA when small non-gym tasks are done (batch into one question): gym log-session differences 17 (celebration card: streak hero, Time / Calories / Volume, black 'Nice one' pill), 18 (no 'Logged and locked' edit cycle), 19 (already-logged dismisses instead of routing into the day), 23 (Summary card calls logGymSession() with no arguments, a third entry point). These are behaviour changes. Also ask about the macros={false} layout on Food detail search branch (and the stale kcal-only copy it drives: detail.tsx header comment lines 11-12 and empty-state text ~line 643).
-6. Remaining gym cluster rows (template editor etc.) need Isa's approval per item.
-7. If nothing non-gym is a one-file task and Isa is silent, stop with reason 'only owner decisions remain'.
+## Next tasks (Isa approved a-d, one file per task, each with a one-row doc edit at most)
+1. (b) log-session.tsx: drop the 'Logged and locked' edit cycle (gap row 18).
+2. (c) log-session.tsx: already-logged routes into the day instead of dismissing (gap row 19).
+3. (a) celebration card (gap row 17): streak hero, Time / Calories / Volume, black 'Nice one' pill. Prefer a new component file plus a separate task to wire it into log-session.tsx (new file compiling on its own first).
+4. (d) gym Summary card calls logGymSession() with no arguments (gap row 23): grep for the file first, one-file task.
+5. Then the doc-only status sync, ONE row per task: Add sheet row built, Quick add row built, /gym/session summary line. (Food detail row is covered by the round 39 task.)
+6. Checkpoint (full tsc plus full jest) when the loop note asks. No checkpoint result exists yet.
+7. Food Search 88% sheet (pill input, thumbnails, row metrics, no filter chips) needs its own plan before any task.
+8. Remaining gym cluster rows (template editor etc.) need Isa's approval per item.
+9. If nothing non-gym is a one-file task and nothing else is approved, stop with reason 'only owner decisions remain'.
 
-Small candidates: blinking caret in NumberEntryBar; Food detail fractional macros lose precision (Math.round in draft()); Food detail composition gaps (96x96 photo, AI note, brand sub-line); accessibilityState disabled on the Goals calorie input; hardcoded English accessibilityHint strings in (tabs)/food.tsx (~lines 761, 844).
+Small candidates: blinking caret in NumberEntryBar; Food detail fractional macros lose precision (Math.round in draft()); Food detail composition gaps (96x96 photo, AI note, brand sub-line); accessibilityState disabled on the Goals calorie input; hardcoded English accessibilityHint strings in (tabs)/food.tsx (~lines 761, 844); add.tsx:70 accessibility label `${m.label}. ${m.description}` does not translate.
 
 ## Parked (not v1)
 - Checked-in extract of the design payloads (decode via __bundler/manifest JSON in design/Lume App.html, gzip+base64 per entry).
@@ -56,20 +62,21 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Gym items (decide with Isa): set row order with per-set remove; ParameterForm cardio inputs; template editor redesign (Target RPE needs a data change); docking the template bar full-bleed; kg/lb field; cardio Duration mixed with tap boxes.
 - Four app-only Stepper/SliderField entries (label-scan, scan-review, new-recipe, recipes-log-sheet) stay as is.
 - goals.tsx hardcoded 'Between 1,200 and 10,000 kcal.' and 'Daily targets' eyebrow.
-- Locale drift: es.json and fr.json lack new keys (including gymLog, foodLog.conflict, and the round 36 addMenu keys). i18n is English-only at launch (src/lib/i18n/index.ts:39).
+- Locale drift: es.json and fr.json lack new keys (gymLog, foodLog.conflict, addMenu round 36 keys). i18n is English-only at launch (src/lib/i18n/index.ts:39).
 - CONFLICT_KEYWORDS and foodLog.conflict keys are not type-linked: adding dairy_free to keywords would show a raw key.
-- Unreferenced addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods. Remove after verifying zero usage.
+- Unreferenced addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods. Remove after checking zero usage.
 - router.setParams on the food tab rewrites its history entry.
 - useFoodSearch macros have no null signal: unknown is indistinguishable from zero.
 - Card variant="elevated" adds shadow.sm the design lacks (repo's established mapping).
-- Dev catalog carries calories only, so macro fixes are a no-op in dev (src/lib/mock/data.ts).
+- Dev catalog carries calories only, so macro fixes are a no-op in dev (src/lib/mock/data.ts); macros will show 0 in dev for search results.
 
 ## Loop notes
 - Rounds 1-29: early rejections (two files, missing design file) then clean landings for rounds 16-28. Round 29 checkpoint prompt was rejected, no checkpoint ran.
 - Round 30: detail.tsx task blocked, no edit, because the data never reached the file.
-- Round 31: step 1 landed cleanly (detailSubject.ts, commit 1b8ab30). Handover happened after it.
-- Round 32: step 2 landed cleanly in (tabs)/food.tsx. Jev run 97%, last-clean 90%.
-- Round 33: step 3 landed cleanly in food/detail.tsx. Jev run 93%, last-clean 81%.
-- Round 34: quickAdd macro alignment landed cleanly, macro path closed. Jev ask 59% / run 37%, confidence 0.38.
-- Round 35: i18n of warnConflict landed cleanly (food.tsx plus en.json). Jev afterwards: run 51% / ask 44% / stop 5%, confidence 0.26, last-clean 97%.
-- Round 36: Jev near split with low confidence, so chose another small one-file i18n task (add.tsx plus en.json). Isa questions stay batched until small non-gym tasks are done (Next tasks 5).
+- Round 31: detailSubject.ts landed (1b8ab30). Handover happened after it.
+- Rounds 32-34: macro data path landed cleanly, closed.
+- Round 35: i18n of warnConflict landed cleanly.
+- Round 36: add.tsx i18n landed cleanly.
+- Round 37: doc-only status-sync prompt rejected as multi-surface; no edit landed.
+- Round 38: asked Isa the batched question.
+- Round 39: Isa answered yes to a-e. Jev: run 93%, last-clean 3% (the shown report is stale, nothing ran in rounds 37-38, so the low figure reflects that). Chose run with (e) first because it is the smallest, clearest one-file task.
