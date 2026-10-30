@@ -31,12 +31,12 @@ export default function PlanDetailScreen() {
   const { plan, reason } = usePlan();
   const energyUnit = useUnitPreferences().energy;
   return (
-    <Screen title="Today's plan" showBack>
+    <Screen title={t('plan.title')} showBack>
       {plan.length === 0 ? (
         <EmptyState
           icon="sparkles-outline"
-          title="No plan yet"
-          message="Once Lume has learned your routine, your day will be planned here."
+          title={t('plan.emptyTitle')}
+          message={t('plan.emptyMessage')}
         />
       ) : null}
       <View style={{ gap: space.md }}>

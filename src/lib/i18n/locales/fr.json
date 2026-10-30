@@ -95,6 +95,9 @@
   },
   "plan": {
     "suggested": "Suggéré :",
-    "addTitle": "Ajouter à {{title}}"
+    "addTitle": "Ajouter à {{title}}",
+    "title": "Plan du jour",
+    "emptyTitle": "Pas encore de plan",
+    "emptyMessage": "Une fois que Lume aura appris votre routine, votre journée sera planifiée ici."
   }
 }

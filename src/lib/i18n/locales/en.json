@@ -159,6 +159,9 @@
   },
   "plan": {
     "suggested": "Suggested:",
-    "addTitle": "Add {{title}}"
+    "addTitle": "Add {{title}}",
+    "title": "Today's plan",
+    "emptyTitle": "No plan yet",
+    "emptyMessage": "Once Lume has learned your routine, your day will be planned here."
   }
 }

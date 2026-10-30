@@ -35,22 +35,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Verification
 - Last green checkpoint: R184 (tsc 0, 65 suites, 824 tests, 4 snapshots; parse en, es, fr 0).
-- R185 flagged: tsc run, full suite not run. Cleared by verification round R186 (see Next).
+- R185 flagged (tsc run, full suite not run). Cleared by R186 verification: tsc 0, 65 suites, 824 tests, 4 snapshots passing; locale parse en, es, fr OK; lastLoggedLabel keys present in all three files.
 - Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx 87 and 99, lastLoggedLabel. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R186 (verification, in progress): tsc, full suite checkpoint, locale parse, key check for lastLoggedLabel. No edits unless a step fails.
-2. plan.tsx screen title and 'No plan yet' (lines 34 to 39) to locale keys.
-3. SavedMealsList empty state (lines 85 to 86), item/items count (line 102), 'Log now' (line 109) to savedMeals keys.
-4. Fix SavedMealsList lastLoggedDaysAgo_one: branch is unreachable because days === 1 returns the yesterday string first.
-5. Locale gaps, one file per round: fr plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals; es still has addMenu.voice and describeOutLoud.
-6. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-7. plan.addTitle display label. entry.title stays English for the route param at plan.tsx:101.
-8. Add sheet icons to design SVGs.
-9. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-10. Remaining gap rows, most rows cleared per task first.
-11. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R187 (in progress): plan.tsx screen title and 'No plan yet' empty state (lines 34 to 39) to plan.title, plan.emptyTitle, plan.emptyMessage in en, es, fr. es and fr values pending native review. entry.title stays English at plan.tsx:101.
+2. SavedMealsList empty state (lines 85 to 86), item/items count (line 102), 'Log now' (line 109) to savedMeals keys.
+3. Fix SavedMealsList lastLoggedDaysAgo_one: branch is unreachable because days === 1 returns the yesterday string first.
+4. Locale gaps, one file per round: fr goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals; es still has addMenu.voice and describeOutLoud.
+5. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+6. plan.addTitle display label. entry.title stays English for the route param at plan.tsx:101.
+7. Add sheet icons to design SVGs.
+8. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+9. Remaining gap rows, most rows cleared per task first.
+10. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -81,7 +80,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 
 ## Loop notes
-- Handover after R141, R156, R167, R172. Next due around R187.
+- Handover after R141, R156, R167, R172. Last handover R172; next due around R187.
 - R183 flagged, cleared by R184 (green).
-- R185 flagged (tests not run). R186 chosen as verification round.
-- Jev preferred fr.json over checkpoint; taken once the flag was cleared.
+- R185 flagged (tests not run). R186 verification green, flag cleared.
+- R187 chosen: plan.tsx title and empty state (Next 1). Jev preferred the same run, 96% confidence.
+- Handover summary's 'fr lacks plan' is stale; fr plan group is present.

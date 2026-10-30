@@ -673,3 +673,8 @@
 - 2026-10-31 00:53 Left the lastLoggedDaysAgo_one unreachable branch for NEXT, not fixed, to keep this round verification-only.
 - 2026-10-31 00:53 Candidate 2 is next after clearance, because it clears the plan.tsx hardcoded strings from Next item 2 and touches only one file.
 - 2026-10-31 00:53 Jev's run and ask probabilities agree with this choice; no look-again needed.
+- 2026-10-31 00:54 Chose plan.tsx strings first: smallest task, no data model or design change, and Next item 2 in the notes. Jev agrees with run.
+- 2026-10-31 00:54 Treated the plan group in fr.json as present, because the latest Claude Code report and the notes both confirm it. The handover summary's note that fr lacks plan is stale.
+- 2026-10-31 00:54 Used 'none' for the design row because plan screen localisation has no row in DESIGN_GAP_ANALYSIS.md.
+- 2026-10-31 00:54 Kept entry.title English at plan.tsx:101, as the route param requires. This also resolves the 'Añadir a Breakfast' issue for the title, but not for other slot labels.
+- 2026-10-31 00:54 Deferred the lastLoggedDaysAgo_one unreachable branch to after the plan task, since it is a logic fix and needs its own round.
