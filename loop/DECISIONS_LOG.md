@@ -155,3 +155,7 @@
 - 2026-10-30 22:59 Chose the verification-only run first because the last report was flagged and the notes rule (R77, flagged reports cleared before any new build) requires it.
 - 2026-10-30 22:59 Deferred new-recipe.tsx ingredientFrom macro fix until the flag is cleared, because it edits the same recents path and needs the five test files green first.
 - 2026-10-30 22:59 Kept the run to tsc, eslint on hooks.ts and the matching jest files so Claude Code usage stays low.
+- 2026-10-30 23:00 Chose ingredientFrom because the handover and the R79 report both recommend it and it is one file with a clear data-honesty fix. Jev ranks the same task first in effect (run 97%).
+- 2026-10-30 23:00 Quickadd and detail macro fix is next after this, since it affects logged data and is also one file each.
+- 2026-10-30 23:00 Row 23 stays in Blocked on Isa; it has gone unanswered since R43, so it is not retried.
+- 2026-10-30 23:00 Rewrote NOTES under 600 words as the loop asked: merged duplicates, removed finished verification detail, kept all Decisions items.

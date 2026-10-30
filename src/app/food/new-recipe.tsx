@@ -4,9 +4,9 @@
 // Live totals recompute every render. Save posts to the backend, best-effort +
 // offline-safe (a failed create surfaces an error toast and keeps the draft).
 //
-// ponytail: the mock search catalog (FoodResult) only carries kcal/100g — no
-// protein/carbs/fat — so ingredient macros beyond calories are 0 until the real
-// /api/food/search fills them in. Totals reflect what the source data has.
+// Ingredient protein/carbs/fat are the food's per-100g values scaled by grams. A
+// source without a macro (the dev catalog carries kcal only) adds nothing to that
+// macro. Totals reflect what the source data has.
 import { useCallback, useEffect, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { View } from 'react-native';
@@ -29,16 +29,16 @@ import { useFoodSearch } from '@/lib/data';
 import { api, type RecipeIngredient } from '@/lib/api';
 import type { FoodResult } from '@/lib/mock/data';
 
-/** Scale a per-100g search hit to a fixed gram quantity. Mock catalog has kcal
- *  only, so protein/carbs/fat stay 0 (see file header). */
+/** Scale a per-100g search hit to a fixed gram quantity (see file header). */
 function ingredientFrom(food: FoodResult, grams: number): RecipeIngredient {
+  const scale = (per100 = 0) => (per100 * grams) / 100;
   return {
     food_name: food.name,
     quantity_g: grams,
-    calories: Math.round((food.kcalPer100 * grams) / 100),
-    protein: 0,
-    carbs: 0,
-    fat: 0,
+    calories: Math.round(scale(food.kcalPer100)),
+    protein: scale(food.protein),
+    carbs: scale(food.carbs),
+    fat: scale(food.fat),
     fibre: 0,
   };
 }
@@ -76,8 +76,16 @@ export default function NewRecipeScreen() {
   const pickFood = (food: FoodResult) => setStage({ kind: 'qty', food, grams: '' });
   const editRow = (i: number) => {
     const ing = ingredients[i];
-    const kcalPer100 = ing.quantity_g > 0 ? (ing.calories / ing.quantity_g) * 100 : 0;
-    setStage({ kind: 'qty', food: { name: ing.food_name, kcalPer100 }, grams: String(ing.quantity_g), editIndex: i });
+    // Back to per-100g, so ingredientFrom rescales every macro to the new grams.
+    const per100 = (total: number) => (ing.quantity_g > 0 ? (total / ing.quantity_g) * 100 : 0);
+    const food: FoodResult = {
+      name: ing.food_name,
+      kcalPer100: per100(ing.calories),
+      protein: per100(ing.protein),
+      carbs: per100(ing.carbs),
+      fat: per100(ing.fat),
+    };
+    setStage({ kind: 'qty', food, grams: String(ing.quantity_g), editIndex: i });
   };
   const setGrams = (text: string) => setStage((s) => (s && s.kind === 'qty' ? { ...s, grams: text } : s));
   const commitQty = () => {

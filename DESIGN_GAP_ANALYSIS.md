@@ -1039,6 +1039,8 @@ logs the result at its default serving and toasts, as the design's one-tap add
 does, and it now logs the result's per-100 g macros so it writes the same row as
 the detail sheet. The sheet and the filter chips are untouched.
 
+**Status:** recipe ingredient macros now scale by grams, BUILT, not verified.
+
 ## Food — My dishes / Saved foods
 
 **Verdict:** ❌ DIFFERENT
