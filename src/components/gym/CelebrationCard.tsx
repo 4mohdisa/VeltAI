@@ -1,10 +1,11 @@
 // CelebrationCard — the design's post-log confirmation: a streak hero, the
 // session's Time / Calories / Volume and a black "Nice one" pill. Presentational
-// only: the parent supplies the formatted values, the copy and the modal around it.
+// only: the parent supplies the formatted values, the other copy and the modal around it.
 //
 // A few values here are raw because the design sets them raw: the 262pt card
 // width and the 88/64/30 ring, disc and flame sizes. No token covers them.
 import type { JSX } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Card, Stat } from '@/components/display';
@@ -19,7 +20,6 @@ type CelebrationCardProps = {
   time: string;
   calories: string;
   volume: string;
-  streakLabel: string;
   timeLabel: string;
   caloriesLabel: string;
   volumeLabel: string;
@@ -32,13 +32,15 @@ export function CelebrationCard({
   time,
   calories,
   volume,
-  streakLabel,
   timeLabel,
   caloriesLabel,
   volumeLabel,
   nicePillLabel,
   onNice,
 }: CelebrationCardProps): JSX.Element {
+  const { t } = useTranslation();
+  const streakLabel = t('gymLog.celebration.streak', { count: streakDays });
+
   return (
     <Card
       variant="elevated"

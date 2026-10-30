@@ -139,7 +139,8 @@
     "logAnExercise": "Log an exercise",
     "alreadyLogged": "Today is already logged — open it to edit or add something extra",
     "celebration": {
-      "streak": "day streak",
+      "streak_one": "day streak",
+      "streak_other": "day streak",
       "time": "Time",
       "calories": "Calories",
       "volume": "Volume",

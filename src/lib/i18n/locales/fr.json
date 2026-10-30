@@ -138,7 +138,8 @@
     "logAnExercise": "Enregistrer un exercice",
     "alreadyLogged": "La séance du jour est déjà enregistrée — ouvrez-la pour modifier ou ajouter quelque chose",
     "celebration": {
-      "streak": "jours d’affilée",
+      "streak_one": "jour d’affilée",
+      "streak_other": "jours d’affilée",
       "time": "Durée",
       "calories": "Calories",
       "volume": "Volume",

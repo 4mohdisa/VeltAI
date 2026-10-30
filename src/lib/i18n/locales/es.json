@@ -140,7 +140,8 @@
     "logAnExercise": "Registrar un ejercicio",
     "alreadyLogged": "Hoy ya está registrado — ábrelo para editarlo o añadir algo más",
     "celebration": {
-      "streak": "días seguidos",
+      "streak_one": "día seguido",
+      "streak_other": "días seguidos",
       "time": "Tiempo",
       "calories": "Calorías",
       "volume": "Volumen",

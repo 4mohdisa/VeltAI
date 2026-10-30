@@ -236,7 +236,6 @@ export default function LogSessionScreen() {
             // weight, which this screen doesn't have. A dash rather than an invention.
             calories="—"
             volume={formatWeight(Math.round(planned.reduce((a, te) => a + volumeOf(te), 0)), 'kg')}
-            streakLabel={t('gymLog.celebration.streak')}
             timeLabel={t('gymLog.celebration.time')}
             caloriesLabel={t('gymLog.celebration.calories')}
             volumeLabel={t('gymLog.celebration.volume')}

@@ -754,3 +754,8 @@
 - 2026-10-31 01:12 Streak label fix and fr groups deferred to later rounds; both touch more than one file or locale.
 - 2026-10-31 01:12 Rewrote notes under 600 words per the loop note: merged repeated items and removed finished work.
 - 2026-10-31 01:12 Did not ask Isa: nothing in this round needs owner dashboards or devices.
+- 2026-10-31 01:13 R206 verification round came back green and cleared the R205 flag, so a build task is allowed now.
+- 2026-10-31 01:13 Chose the streak key fix over the fr dashboard group: it is a visible wrong-plural fault, and it is a single component with locale keys, so it stays one task.
+- 2026-10-31 01:13 Kept dashboard.dayStreak out of scope and listed it under NEXT, because it is a separate surface and must not join this task.
+- 2026-10-31 01:13 Used plural keys (streak_one, streak_other) following the repo's existing _one/_other pattern, so the fix is count-based as the notes require.
+- 2026-10-31 01:13 Asked for U+2019 as a node escape in fr, following the notes gotcha that the Edit tool writes plain apostrophes.
