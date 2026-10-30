@@ -77,3 +77,6 @@
 - 2026-10-30 22:42 Kept the offline toast out of scope: the design has no offline version, so there is nothing to match.
 - 2026-10-30 22:42 Skipped the jest run: no test imports quick-add.tsx, so tsc and eslint are the proportionate checks.
 - 2026-10-30 22:42 Marked the Quick add row as a one-line status edit only, so the gap analysis stays accurate without a full re-audit.
+- 2026-10-30 22:43 Loop note flagged R61 as not fully checked (jest not run). Clearing the flag comes before any new build, so this round is a verification-only run with no edits.
+- 2026-10-30 22:43 Jest limited to related tests of quick-add.tsx (none expected) to keep usage low, per the testing rules.
+- 2026-10-30 22:43 Detent and confirm pill fixes deferred to the next round, after the flag is cleared.
