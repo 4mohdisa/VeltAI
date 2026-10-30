@@ -557,3 +557,6 @@
 - 2026-10-31 00:32 Left native review of the French and Spanish saved-meal strings to Isa under Blocked on Isa, since they are agent translations.
 - 2026-10-31 00:32 Kept the es.json gaps (gymLog, settings.scanAccuracy, goals keys, voice and describeOutLoud) out of this round; they are not on screen while lng is fixed to en and are parked for later.
 - 2026-10-31 00:32 Rewrote the notes to under 600 words, merging repeated items and removing finished work, as the loop note asked.
+- 2026-10-31 00:33 Chose verification first because the loop note flagged the last report (type check or tests not run). Notes say flagged reports must be cleared by a verification round before a new build task.
+- 2026-10-31 00:33 Verification uses tsc and node-level JSON checks only. No jest run, because fr.json is not read by any test and the brief keeps test runs light.
+- 2026-10-31 00:33 Gap row set to none, because this is a locale check with no design row.
