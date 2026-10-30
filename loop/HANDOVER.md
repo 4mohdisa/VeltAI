@@ -1,36 +1,39 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified; Isa verifies. Expo docs requirement is in AGENTS.md. Source of truth: design/Lume App.html.
 
 BUILT THIS SESSION (all BUILT, not verified; no DESIGN_GAP_ANALYSIS.md row covers this work, none changed)
-- src/lib/i18n/locales/en.json, es.json, fr.json: savedMeals now has logged, logFailed, lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo_one, lastLoggedDaysAgo_other, neverLogged. plan now has suggested, addTitle, title, emptyTitle, emptyMessage.
-- src/components/food/SavedMealsList.tsx: lastLoggedLabel takes t and uses savedMeals keys.
-- src/app/dashboard/plan.tsx: title and empty state use plan keys.
+- src/components/food/SavedMealsList.tsx: no hardcoded display text left.
+- src/lib/i18n/locales/en.json: savedMeals gained emptyTitle, emptyMessage, itemCount_one, itemCount_other, logNow.
+- es.json: those five keys; goals gained setByLume, tapToEdit, savedAsYouType.
+- fr.json: those five keys; new goals group; new gymLog group.
 
-Last full suite, before the plan.tsx title edits: 65 suites, 824 tests, 4 snapshots, passing. Last tsc, after them: exit 0.
+Last checks, after all edits: tsc exit 0; all three locales parse; 65 suites, 824 tests, 4 snapshots passing.
 
-IN PROGRESS: nothing mid-edit. Recommended next: move the remaining hardcoded SavedMealsList.tsx strings to savedMeals keys: empty state (lines 85-86), item/items count (line 102), "Log now" (line 109).
+IN PROGRESS: nothing mid-edit. Recommended next: add the es.json gymLog group.
 
 DECISIONS
-- lastLoggedLabel takes t as a parameter because it sits outside the component, matching confirmDeleteMeal in src/app/(tabs)/food.tsx.
-- Plurals use _one and _other with count, matching deleteMealMessage and planSummary.
-- plan group sits last in all three locales; savedMeals directly follows foodLog.
-- plan.title English keeps the straight apostrophe, copied exactly.
-- fr plan.suggested uses U+00A0 before the colon; aujourd’hui uses U+2019. Older French strings use plain spaces, an open question for Isa.
+- Each new group sits at its en.json position. fr.json gymLog is followed by plan because dashboard and nutrition are missing.
+- es savedMeals.emptyMessage was rewritten to match the English meaning, on instruction.
+- es goals.setByLume "Definida" and fr "Définie" are feminine, agreeing with the calorie label at src/app/profile/goals.tsx:125.
+- fr gymLog uses U+2019 and U+00A0 as instructed. I also applied U+00A0 before "?" in title, beyond the brief's colons. U+00A0 and U+2019 in fr savedMeals are accepted.
+- fr goals uses straight apostrophes, following older strings, so French is mixed.
 
 GOTCHAS
 - src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
-- No test covers locale files, SavedMealsList or plan.tsx. A passing suite says nothing about them.
+- No test covers locale files or SavedMealsList. A passing suite says nothing about them.
 - The Edit tool can write a plain space for U+00A0. Patch with node using escapes and check code points.
-- Grep of the design file found no plan empty-state wording.
-- Briefs often ban writing to /tmp. Use plain commands without redirecting output.
+- Briefs often ban writing to /tmp and output redirection.
 - Shell is zsh: quote paths with parentheses; globs that match nothing error. Grep with LC_ALL=C /usr/bin/grep.
-- Verification rounds keep being requested after rounds that skip Jest, so the automatic flag may refire.
+- Verification rounds keep following rounds that skip Jest, so the automatic flag may refire.
 
 NOT FIXED
-- entry.title is English inside plan.addTitle, giving "Añadir a Breakfast" and "Ajouter à Breakfast". It must stay English for the slot route param at plan.tsx:101.
-- lastLoggedDaysAgo_one is unreachable: days === 1 returns the yesterday string.
-- fr.json lacks goals, gymLog, dashboard, nutrition, settings.scanAccuracy. es.json lacks gymLog.
+- fr.json lacks dashboard, nutrition, settings.scanAccuracy. es.json lacks gymLog.
+- fr gymLog.celebration.streak gives "1 jours d’affilée": CelebrationCard.tsx:72 puts the number before a fixed label. A fix needs a count-based key and a log-session.tsx change, affecting all locales.
+- Hardcoded "Why this plan" at src/app/dashboard/plan.tsx:120.
+- entry.title stays English in plan.addTitle ("Añadir a Breakfast"); needed for the slot param at plan.tsx:101.
+- lastLoggedDaysAgo_one is unreachable.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 
 WAITING ON ISA
-- Device runs: saved meal card label states and toasts, plan title, empty state and Suggested line, VoiceOver Add label.
-- Native review: all new Spanish and French strings, including French "ajout" versus "Enregistré" and Spanish masculine "Registrado".
+- Device runs: saved meal cards (labels, toasts, counts, Log now, empty state); plan title, empty state, Suggested line; VoiceOver Add label.
+- Native review of all new Spanish and French strings, including French "enregistrer" meaning both save and log, and "ajout" for logging.
+- Whether French standardises on U+00A0 and U+2019.
