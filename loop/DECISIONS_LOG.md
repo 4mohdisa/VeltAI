@@ -491,3 +491,7 @@
 - 2026-10-31 00:20 Kept the step to no file changes and no Jest run, to keep Claude Code usage low and avoid new suites.
 - 2026-10-31 00:20 Left the 11 missing fr keys and the es gaps out of this round; they need French and Spanish values from a native reviewer, so they stay in NEXT.
 - 2026-10-31 00:20 Jev suggested run at 70%, which agrees with this choice; no override needed.
+- 2026-10-31 00:20 Chose the full checkpoint first because the loop flagged the last report for tests not run; the flag rule outranks the other candidates.
+- 2026-10-31 00:20 Ignored Jev's ask at 33% because the next task needs nothing from Isa.
+- 2026-10-31 00:20 Kept the checkpoint to tsc and the app suite with no file changes, as the checkpoint rule requires.
+- 2026-10-31 00:20 Rewrote the notes file to under 600 words, merging repeated items and removing finished work, as the loop note requires.
