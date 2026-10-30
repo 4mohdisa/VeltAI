@@ -146,6 +146,14 @@
       "nicePill": "Bien joué"
     }
   },
+  "dashboard": {
+    "welcome": "Bon retour, {{name}}",
+    "dayStreak_one": "{{count}} jour d’affilée",
+    "dayStreak_other": "{{count}} jours d’affilée",
+    "todaysPlan": "Plan du jour",
+    "next": "À suivre : {{title}} à {{time}} · {{energy}}",
+    "gymBedtime": "Créneau de sport {{gym}} · Coucher {{bed}}"
+  },
   "plan": {
     "suggested": "Suggéré :",
     "addTitle": "Ajouter à {{title}}",

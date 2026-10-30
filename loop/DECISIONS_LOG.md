@@ -780,3 +780,8 @@
 - 2026-10-31 01:19 Rewrote notes under 600 words: merged repeated items, deleted finished work, kept all Decisions lines.
 - 2026-10-31 01:19 R209 and R210 flags are cleared by R211, which already ran the full suite and reported green.
 - 2026-10-31 01:19 Dropped the old fr gymLog.celebration gotcha, because R207 already made the streak keys count-based.
+- 2026-10-31 01:20 Chose the fr dashboard group because it is the Next item 2 in the notes, the latest report recommends it, and it clears the streak locale gap in one small file.
+- 2026-10-31 01:20 Ignored the handover line that says es.json lacks gymLog. The notes say the R208 verification is authoritative and shows es gymLog present with 21 keys, so the handover line is stale.
+- 2026-10-31 01:20 Kept the rule of one locale group per round, so nutrition and settings.scanAccuracy wait for later rounds.
+- 2026-10-31 01:20 Asked for U+2019 via node escapes, following the gotcha that the Edit tool writes plain apostrophes.
+- 2026-10-31 01:20 Set the fr dashboard group to sit at its en.json position, consistent with the handover decision on group placement.
