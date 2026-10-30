@@ -87,7 +87,7 @@ this pass matched the design on every checked value.
 | Food — Quick add | ❌ DIFFERENT (MEAL caption built; BUILT: detent set to fitToContents; BUILT: confirm pill 52pt, label still 17/24 vs 17/22; compact option added to SegmentedField; compact applied to Meal control) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `FoodNumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. Main remaining difference: the Meal control uses 17pt segment labels, where the design has 13/17 semibold chips. |
 | Food — Search | ❌ DIFFERENT | Design is a dedicated sheet with filter chips and a one-tap `+`; the app has an inline field whose results replace the day view, and its `+` is decorative. |
 | Food — My dishes / Saved | ❌ DIFFERENT | Design is a photo gallery with a "New dish" tile; the app is a searchable text list with swipe-to-unsave. |
-| Food — Add sheet | ❌ DIFFERENT | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. |
+| Food — Add sheet | ⚠️ PARTIAL (BUILT) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. Also open: tile column gap, SF Symbols vs inline SVGs, separate scan routes, body bottom padding. |
 | Food — Scan flows | ❌ DIFFERENT | Design is one scanner with a Meal/Label/Barcode switch; the app is three separate routes with a multi-angle flow the design lacks. |
 | Food — "Not in a meal yet" inbox | ❌ DIFFERENT | Design files unassigned items into meals; the app's card confirms an estimated weight with a slider. |
 | Food — number-entry convention | ❌ DIFFERENT | The slim edit bar does not exist anywhere; a slider and ± steppers appear where the design has neither. |
@@ -1059,23 +1059,30 @@ exactly one saved-item concept.
 
 ## Food — Add sheet
 
-**Verdict:** ❌ DIFFERENT
-**One-line reason:** Different tile set, fixed title, and Quick add is not the full-width row.
+**Verdict:** ⚠️ PARTIAL MATCH
+**One-line reason:** Title, tile set, copy and disc/glyph sizes match; the Search foods destination, tile column gap, glyphs, scan routes and body bottom padding differ.
+**Status:** BUILT. `src/app/food/add.tsx` renders the design's five tiles in its order and titles the sheet "Add to {meal}" when a slot is passed. Device run outstanding.
 
 **Design:** title **"Add to lunch"** (lower-cased target meal, follows the `+`
-that was tapped); a 2-column grid of five tiles — **Search foods** (*"Apple,
-banana, Indomie…"*), **Scan food** (*"Meal photo or label"*), **Barcode**
-(*"Exact database match"*), **My dishes** (*"Your saved gallery"*), and **Quick
-add** (*"Just calories, fast"*) as a **full-width 88pt row**. Icon disc 46, glyph 19.
+that was tapped; the state defaults to Lunch); a 2-column grid with a 12pt gap of
+five tiles — **Search foods** (*"Apple, banana, Indomie…"*), **Scan food** (*"Meal
+photo or label"*), **Barcode** (*"Exact database match"*), **My dishes** (*"Your
+saved gallery"*), and **Quick add** (*"Just calories, fast"*) as a **full-width
+88pt row**. Other tiles 148pt. Icon disc 46, glyph 19, as inline SVGs. Body bottom
+padding 34pt.
 
-**App:** title fixed **"Add meal"**; six equal 47.5% tiles — Scan food, Barcode,
-**Scan Label**, **Saved foods**, **My Meals**, Quick Add. Disc 44, glyph 20.
+**App:** title **"Add to {meal}"** from the `slot` param (`add.tsx:53`), or **"Add
+meal"** when no slot is passed. The same five tiles with the same copy, in the same
+order, with Quick add as the full-width 88pt row and the others 148pt. Disc 46,
+glyph 19, as SF Symbols through `Icon`. Tiles are 48% wide with `space-between`
+and a 12pt `rowGap`. Body bottom padding 20pt plus the bottom safe-area inset.
 
-**Differences:** title; **no "Search foods" tile**; **no "My dishes" tile**; two
-extra tiles; scan subtitles (the design has one scanner with modes); *"Quick add"*
-vs *"Quick Add"*; Quick add not full-width; disc/glyph sizes; `flexWrap` at 47.5%
-vs a true grid with a 12pt gap; text pinned to the bottom vs `space-between`;
-three separate scan routes vs one scanner; body bottom padding.
+**Differences:** Search foods lands on the food tab with its field focused vs the
+design's dedicated search sheet; column gap is 4% of the body width (14pt on a
+390pt screen) vs 12pt; SF Symbols vs the design's inline SVGs, so the camera is
+filled vs outlined and My dishes is a single `photo` frame vs a stacked gallery;
+separate scan routes (`/food/photo-capture`, `/food/barcode-scan`) vs one scanner
+with modes; body bottom padding 54pt on a 34pt-inset iPhone vs 34pt.
 
 ## Food — Scan flows
 

@@ -166,3 +166,8 @@
 - 2026-10-30 23:02 Chose the Add sheet title over the macros-as-0 fix: it is UI-only, one file, and matches the design. The macros fix changes logged data with no tests behind it, so it waits.
 - 2026-10-30 23:02 Did not ask Isa: the title format is defined by the design, so no product question is needed.
 - 2026-10-30 23:02 Kept the tile gap, SF Symbols and English copy out of this round to keep it to one change.
+- 2026-10-30 23:03 Chose the doc truth-up first: the gap analysis is authoritative and the Add sheet section still lists the title as a difference after it was built at add.tsx:53. Doc-only, one file, no test run, which keeps Claude usage low.
+- 2026-10-30 23:03 Deferred the tile gap change to the next round so the doc round stays one file and does not mix code and doc edits.
+- 2026-10-30 23:03 Deferred the food/detail.tsx macros change because it changes logged data and needs a verification run first, per the notes.
+- 2026-10-30 23:03 Left the FoodNumberEntryBar name fix (DESIGN_GAP_ANALYSIS.md:86-87) out of this round, to keep the task on one surface. It is listed under Next.
+- 2026-10-30 23:03 Treated the previous report's 'tiles match the five' claim as a thing to verify in step 2 rather than accept, per the gap-analysis-authoritative rule and Isa r55 (compare code with design before each row).
