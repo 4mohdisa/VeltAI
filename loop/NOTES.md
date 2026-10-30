@@ -22,6 +22,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R62: a flagged report is cleared by a verification-only run before any new build task.
 - R63: celebration card calories show a dash (no body weight; no fabricated data).
 - R64: Quick add detent lives in src/app/_layout.tsx:160. Sheet-size values are not navigation structure.
+- R67: a flagged report is cleared by tsc, eslint and Jest on the related test files only, with no edits.
 
 ## Built (not verified)
 - NumberEntryBar shared: food quick-add, food detail, gym session, PlannedValuesForm.
@@ -41,7 +42,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - quick-add.tsx:114 own flex:1 KeyboardAvoidingView; check sheet does not collapse.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
 - Recents in hooks.ts useFoodSearch drop macros; re-pick logs zeros. quickAdd and detail.tsx log missing macros as 0.
-- Stale: detailSubject.ts:25-27; _layout.tsx:152-154 and 159; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title and 0-or-less case.
+- Stale: detailSubject.ts:25-27; _layout.tsx:152-154, 157 (food/add says 2x2, now five tiles) and 159 (Label field gone); gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title and 0-or-less case.
 - i18n hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Remaining gym rows: Isa approval per item.
@@ -55,8 +56,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Owner device checks, not yet asked: Quick add sheet fit at fitToContents, MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow.
 
 ## Next
-1. Verification-only run (R66): confirm _layout.tsx:160, tsc, eslint, no edits.
-2. Stale comments at _layout.tsx:152-154 and 159.
+1. Verification-only run (R67): tsc, eslint on _layout.tsx, Jest on related test files only; no edits.
+2. Stale comments at _layout.tsx:152-154, 157 and 159.
 3. Quick add confirm pill 56 to 52pt, 17/24 to 17/22.
 4. Recents: hooks.ts carries protein, carbs, fat.
 5. Compact segmented option, then Meal control 13/17 and 3pt padding.
@@ -88,8 +89,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R60 checkpoint green at 824 tests.
 - R61 MEAL caption; R62 verification cleared flag.
 - R63 wrong file in notes corrected. R64 detent to fitToContents.
-- R65 flagged as partly done (device run open, notes too long). Handled by R66 verification and this rewrite.
+- R65 flagged as partly done (device run open, notes too long). Handled by R66 verification and rewrite.
+- R66 verification-only run: detent confirmed, tsc and eslint green, Jest not run.
+- R67 flagged: Jest not run and last report incomplete. Verification-only run queued.
 - Jev R64: ask 61%; ran, one-value change.
+- Jev R67: ask 75%, run 15%; ran, flag clears without Isa.
 
 ## Gotchas
 - Design text is in the __bundler payload; decode manifest (gzip+base64). Food entry 71f71ac4, gym 7dc211f6.

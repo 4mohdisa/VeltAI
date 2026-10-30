@@ -92,3 +92,7 @@
 - 2026-10-30 22:46 Chose verification-only run first: the loop note says a flagged report must be cleared before any build task (R62 rule).
 - 2026-10-30 22:46 Did not ask Isa about the device run: it is an owner check and will be raised as a single question only if it is still open after this round.
 - 2026-10-30 22:46 Kept the detent change as one value; no new edits in this round so the flag clears on evidence.
+- 2026-10-30 22:47 Chose the verification-only run first, because the loop note flagged the last report and the R62 rule says a flagged report is cleared before any new build task.
+- 2026-10-30 22:47 Jev leans to ask (75%). Not followed: the flag can be cleared by checks that need nothing from Isa, so asking would add a question without a blocker.
+- 2026-10-30 22:47 Jest was not run last round, so this round runs only the Jest files that reference _layout or sheet detents, not the full suite (testing rules).
+- 2026-10-30 22:47 Stale comments and the pill size change stay queued behind the cleared flag, one task per round.
