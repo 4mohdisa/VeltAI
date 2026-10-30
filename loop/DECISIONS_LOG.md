@@ -450,3 +450,8 @@
 - 2026-10-31 00:11 Jev ranked run at 99%, which agrees with this choice. No Isa input is needed.
 - 2026-10-31 00:11 Left the hint at food.tsx:771 for a later round, because it needs a new locale key and that is a separate change.
 - 2026-10-31 00:11 Left the locale gaps (addedToMeal, mealDeleted, deleteMeal keys in es and fr) for later, one file per round, per the open list.
+- 2026-10-31 00:12 Chose the food.tsx toast because it is one file, needs no new locale key, and is the smallest open item. Jev also ranks run at 92%.
+- 2026-10-31 00:12 Skipped the lowercase 'Add to' task at food.tsx :551 and :973. Isa's standing decision keeps the capital in 'Add to Lunch', so the design lowercase is not applied there. The R142 report also said those lines did not need touching.
+- 2026-10-31 00:12 Deferred the food.tsx:771 hint. It needs a new locale key in en, es and fr, which breaks the one-locale-file-per-round rule. It comes after the single-file tasks.
+- 2026-10-31 00:12 Recorded that no gap row covers the meal delete toast or the Add to labels, and the prompt states 'Gap row: none' for this task.
+- 2026-10-31 00:12 Kept the Jev ranking for run. No override was needed.

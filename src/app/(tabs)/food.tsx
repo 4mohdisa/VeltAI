@@ -387,7 +387,7 @@ export default function FoodLogScreen() {
     showToast({
       message: t('foodLog.addedToMeal', {
         energy: formatEnergy(Math.round(food.kcalPer100), energyUnit),
-        slot: addSlot.toLowerCase(),
+        slot: t(`addMenu.${SLOT_KEYS[addSlot]}`).toLowerCase(),
       }),
       tone: 'success',
     });
