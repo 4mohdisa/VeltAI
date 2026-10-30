@@ -277,7 +277,14 @@ export function useFoodSearch(query: string): FoodSearchState {
         if (seen.has(key)) continue;
         seen.add(key);
         const per100 = it.quantityG > 0 ? Math.round((it.calories / it.quantityG) * 100) : it.calories;
-        out.push({ name: it.name, kcalPer100: per100 });
+        const scale = it.quantityG > 0 ? 100 / it.quantityG : 1;
+        out.push({
+          name: it.name,
+          kcalPer100: per100,
+          protein: it.protein * scale,
+          carbs: it.carbs * scale,
+          fat: it.fat * scale,
+        });
         if (out.length === 5) return out;
       }
     }

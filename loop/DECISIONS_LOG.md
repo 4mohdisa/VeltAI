@@ -147,3 +147,8 @@
 - 2026-10-30 22:57 Jev ranked ask at 39% and run at 48%. Kept run because no owner-only item is needed right now; the flag is cleared by checks Isa does not have to make.
 - 2026-10-30 22:57 Kept row 87 DIFFERENT and made no status edit this round, since the report already says the row stays DIFFERENT and the Meal control still has 8pt chip padding and no background transition.
 - 2026-10-30 22:57 Parked the row 87 'main remaining difference' wording and the Quick add open-list cleanup for a later doc-only round, to keep this round edit-free.
+- 2026-10-30 22:57 Chose recents macros first: re-picking a recent currently logs zeros, which is a data honesty bug. It is the next item in the notes and is a one-file change.
+- 2026-10-30 22:57 Kept the prompt to one file (src/lib/data/hooks.ts) and one type check plus only the test files that reference useFoodSearch, per the testing rules.
+- 2026-10-30 22:57 Did not name a DESIGN_GAP_ANALYSIS.md row number because the notes do not record one for recents; referenced the food Search section instead.
+- 2026-10-30 22:57 Jev's run recommendation agrees with this choice; no override needed.
+- 2026-10-30 22:57 Left the Add sheet title and the doc-only cleanup for later rounds to keep this round to one task.
