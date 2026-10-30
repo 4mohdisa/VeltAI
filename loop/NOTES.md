@@ -26,9 +26,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R240: 'a petit-dejeuner' is not in fr.json. R239 dropped.
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
 - R241: lastLoggedLabel counts calendar days (local dates), not 24-hour periods. Fixes 11pm-to-9am reading 'today'.
+- R243 decision: no new test suites, per the manager brief. The planned 11pm-to-9am test is dropped; the case is checked on device by Isa.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
+- R241: lastLoggedLabel calendar-day calculation in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe). Type check only. Not run by Jest.
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr.
 - dashboard.streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
 - (tabs)/index.tsx lines 102, 109, 115, 121 use t().
@@ -36,16 +38,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Verification
 - Last full checkpoint R238: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green.
+- R241 flagged: tsc exit 0 only. Jest not run.
+- R242 (this round): read-only checkpoint, full tsc and full Jest, as the rewritten prompt. Result to be recorded next round.
 - Keys: en 149, fr 149, es 151 (extras addMenu.voice, addMenu.describeOutLoud).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R241: calendar-day fix in lastLoggedLabel (SavedMealsList.tsx). Type check only.
-2. Hardcoded text, one file per round: plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+1. R242: checkpoint. Full tsc and full Jest, read-only. Clears the R241 flag. Record the result in Verification.
+2. If green: hardcoded text, one file per round: plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
 3. Add sheet icons to design SVGs.
 4. Remaining gap rows, most cleared per task first.
-5. Full Jest checkpoint at R243, then every 5 rounds.
+5. Full Jest checkpoint every 5 rounds after R242 (next at R247).
 6. If no non-gym work remains: stop with 'only owner decisions remain'.
 7. Remove es addMenu.voice and describeOutLoud only after Isa approves.
 
@@ -62,15 +66,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Long-press meal delete not discoverable; mealNow() 'Snack' vs 'Snacks'.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 - dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable in en, es and fr (kept; safe to leave).
-- Future-dated saved-meal logs read 'Last logged today' (negative days hit line 32). Left as is in R241.
+- Future-dated saved-meal logs read 'Last logged today' (negative days hit the days <= 0 branch). Left as is in R241. Matters more if the device clock is behind the server.
+- Test for the 11pm-to-9am lastLoggedLabel case through a SavedMealsList render. Needs an owner decision on new test suites.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
-- Device runs: Summary title and streak, streak loading and failure, celebration (streak 1+), delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog, nutrition, Add sheet, recipe/fibre, quick add.
+- Device runs: Summary title and streak, streak loading and failure, celebration (streak 1+), delete dialog, VoiceOver, toasts, saved meals (incl. a meal logged late the previous evening), plan, goals, gymLog, nutrition, Add sheet, recipe/fibre, quick add.
 - Native review fr and es: new strings, gender, 'Resumen', 'Résumé', 'Creneau de sport', 'A suivre', U+00A0/U+2019.
 - Remove es voice and describeOutLoud: Delete vs Removed wording; negative margin on device.
 - Override: es emptyMessage wording. Whether fr standardises on U+00A0 and U+2019.
+- Design check for 'breakfast' in the French templates: needs re-running on the decoded manifest assets, not the compressed HTML.
 
 ## Gotchas
 - Edit tool writes a plain space for U+00A0 and a plain apostrophe for U+2019. Patch with node escapes and check code points.
@@ -79,11 +85,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - Check key sets in both directions.
 - Prompts with more than one file or screen get rejected. One file per round.
+- src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240 window. Latest in loop/HANDOVER.md.
 - Rejected: R236 (more than one screen or component). R238 (prompt did not name design/Lume App.html). Rewritten as R237 and R239.
 - R239 flagged: prompt premise false (string absent). Handled by R240 read-only trace.
 - R240 read-only report: lastLoggedDaysAgo_one unreachable. Calendar-day bug found; R241 is the fix.
+- R241 flagged by automatic check: type check or tests not fully run (Jest not run). R242 is the checkpoint that clears it.
+- R243 rejected before it ran: prompt did not name the matching design/ file. Rewritten as the R242 checkpoint prompt, naming design/Lume App.html and gap row none.
 - Jev: R240 ask 53%, run 44%; manager chose read-only run and wrote the reason in decisions.
 - Jev: R241 run 90%. Agreed with manager choice.
+- Jev: R242 run 80%. Agreed with manager choice.
+- Jev: R243 run 74%, ask 22%. Agreed with manager choice (checkpoint first).

@@ -896,3 +896,12 @@
 - 2026-10-31 01:47 Left future-dated logs unchanged and parked them, to keep this round to one behaviour change.
 - 2026-10-31 01:47 Left the unreachable lastLoggedDaysAgo_one keys in place, because removing them gains little and the report says they are safe.
 - 2026-10-31 01:47 Ran the type check only, not Jest, to keep usage low. The file has no tests, so Jest would add little.
+- 2026-10-31 01:48 Chose the read-only checkpoint because the loop note flags R241 as not fully checked (Jest never run). Clearing flagged reports comes before any new build task, per the notes rule.
+- 2026-10-31 01:48 Prompt forbids all git commands and file changes, because checkpoint rounds are read-only.
+- 2026-10-31 01:48 Jev ranks run at 80%, which agrees with this choice.
+- 2026-10-31 01:48 Deferred the 11pm test to after the checkpoint so a failing suite is not mixed with new work.
+- 2026-10-31 01:48 Chose the read-only checkpoint first because the R241 report was flagged (Jest not run) and the notes require a verification round before a new build task.
+- 2026-10-31 01:48 Jev ran 74% and the manager agreed. The R241 change is unverified by Jest, so a checkpoint is the lower-risk choice.
+- 2026-10-31 01:48 Dropped the planned 11pm-to-9am lastLoggedLabel test. The brief forbids new test suites this round, and Isa verifies on device.
+- 2026-10-31 01:48 Rewrote the rejected prompt to name design/Lume App.html and gap row none, and to forbid git, as the loop note requires.
+- 2026-10-31 01:48 Stayed on loop/design-match and did not ask Isa, since no question needs an owner.
