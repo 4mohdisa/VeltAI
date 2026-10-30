@@ -378,3 +378,8 @@
 - 2026-10-30 23:54 Overrode the Jev ask-side signal at 16%: nothing here needs Isa, so no question is asked.
 - 2026-10-30 23:54 Kept the full suite in this round because it clears the flag and it is a checkpoint-style run with no file changes.
 - 2026-10-30 23:54 Left the Snacks versus Snack label question with Isa; it does not block verification.
+- 2026-10-30 23:55 Chose es.json first because the brief allows one locale file per round and the es addMenu keys are the next open step in Next 3.
+- 2026-10-30 23:55 Kept fr.json for the following round, as Next 4 says.
+- 2026-10-30 23:55 Set the Spanish snack value to Snacks to match the en.json value decided in R125 and the design MEALS list.
+- 2026-10-30 23:55 Added a stop-and-report rule if the keys already exist, following the R123 gotcha.
+- 2026-10-30 23:55 Jev ranked run at 98%; agreed, no conflict to resolve.

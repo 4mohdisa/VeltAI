@@ -42,8 +42,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R123: blocked. No slot label keys existed. No edit made.
 - R124: Next 1 (es.json unused keys) not confirmed done; re-check before removing anything.
 - R125: en.json addMenu four keys added. tsc 0, exit 0. Tests not run. Flagged by automatic check after handover.
-- R126: verification round queued (tsc, full app suite, locale parse). No file changes.
-- Hand checks of locales do not clear flags. No test reads locale files.
+- R126: verification only. tsc 0 errors. Full app suite 65/65 suites, 824/824 tests, 4/4 snapshots. en.json parses, addMenu 20 keys, four slot keys present once each. es.json parses, addMenu 18 keys. fr.json parses, addMenu 16 keys. Cleared R125 flag. No file changes.
+- Hand checks of locales do not clear flags alone. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open differences
@@ -57,8 +57,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macros: food detail and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
 - Saved foods drop fibre. Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
 - Calories drift in new-recipe editRow and recents.
-- Locales: es.json has unused voice and describeOutLoud (Next 4). fr.json foodLog has 2 of es's keys; other fr blocks not compared to en. Slot default 'Snack' vs design 'Snacks'. es.json lacks addMenu.addToSlot in some versions; verify before any locale edit.
-- Test gap: no test names SegmentedField.tsx, quick-add.tsx, new-recipe.tsx; no locale test.
+- Locales: es.json has unused voice and describeOutLoud (Next 6). fr.json foodLog has 2 of es's keys; other fr blocks not compared to en. Slot default 'Snack' vs design 'Snacks'. Key counts differ across locales (en 20, es 18, fr 16) until slot keys are added to es and fr.
 - Lowercased translated slots may read oddly (French 'à petit-déjeuner' should be 'au'). Native review needed.
 
 ## Blocked on Isa
@@ -84,9 +83,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx. No locale tests.
 
 ## Next
-1. (done R125) en.json breakfast, lunch, dinner, snack added. Not verified until R126 clears the flag.
-2. (R126) Verification: tsc, full app suite, locale parse. No file changes.
-3. Add the same four keys to es.json only, same key order as en.json.
+1. (done R125) en.json breakfast, lunch, dinner, snack added. Verified as parse-only in R126.
+2. (done R126) Verification: tsc, full app suite, locale parse. Green.
+3. (R127, in progress) Add breakfast, lunch, dinner, snack to es.json addMenu only, same order as en.json. Values: Desayuno, Almuerzo, Cena, Snacks.
 4. Add the same four keys to fr.json only, same key order as en.json.
 5. Then add.tsx:56 maps 'Snacks' to key snack explicitly and uses the keys; food.tsx:543 and :965 get the same mapping.
 6. Remove unused voice and describeOutLoud from es.json (grep first; confirm first).
@@ -101,9 +100,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R125 prompt rejected (no design/ file named); rewritten to name design/Lume App.html and row 90.
 - R123 reported BLOCKED: slot keys missing in all three locales. Recast as Next 3-4.
 - R106 detail macros parked. R107 negative margin. R111 es addToSlot.
-- R114, R119, R121, R125 flagged by automatic check; R125 flag to be cleared by R126 verification.
+- R114, R119, R121, R125 flagged by automatic check; R125 flag cleared by R126 verification.
 - Handover occurred after R125. Claude Code knows only the handover summary: name files fully.
 - Jev ask overridden at R120, R124, R125, R126 (nothing needs Isa).
+- R127: Jev run 98%, chose es.json task. Jev and manager agree.
 
 ## Gotchas
 - Design text is in bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
@@ -115,3 +115,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Locale files: src/lib/i18n/locales/ (not src/locales/). Check key order against en.json before editing.
 - App slot value is 'Snacks' (src/lib/mock/data.ts:48) but key is snack.
 - Handover file: loop/HANDOVER.md.
+- Handover summary says es addMenu has addToSlot plus 8 missing keys; R126 counted 18. Verify the count before the next es edit.

@@ -72,7 +72,11 @@
     "searchPlaceholder": "Manzana, plátano, Indomie…",
     "myDishes": "Mis platos",
     "quickAdd": "Añadir rápido",
-    "quickAddSub": "Solo calorías, rápido"
+    "quickAddSub": "Solo calorías, rápido",
+    "breakfast": "Desayuno",
+    "lunch": "Almuerzo",
+    "dinner": "Cena",
+    "snack": "Snacks"
   },
   "foodLog": {
     "today": "Hoy",
