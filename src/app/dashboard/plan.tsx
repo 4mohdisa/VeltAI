@@ -4,6 +4,7 @@
 // meal → Add Meal pre-filled with that slot. Generation reason shown (transparency).
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -26,6 +27,7 @@ const iconFor: Record<PlanEntry['kind'], string> = {
 };
 
 export default function PlanDetailScreen() {
+  const { t } = useTranslation();
   const { plan, reason } = usePlan();
   const energyUnit = useUnitPreferences().energy;
   return (
@@ -82,7 +84,7 @@ export default function PlanDetailScreen() {
                 ) : null}
                 {entry.suggestions ? (
                   <Text variant="footnote" color={color.gray700}>
-                    Suggested: {entry.suggestions.join(', ')}
+                    {t('plan.suggested')} {entry.suggestions.join(', ')}
                   </Text>
                 ) : null}
               </View>
@@ -94,7 +96,7 @@ export default function PlanDetailScreen() {
               key={index}
               haptic={false}
               minTapTarget={false}
-              accessibilityLabel={`Add ${entry.title}`}
+              accessibilityLabel={t('plan.addTitle', { title: entry.title })}
               // Meal titles ARE the slot names ('Breakfast'/'Lunch'/'Dinner').
               onPress={() => router.push({ pathname: '/food/add', params: { slot: entry.title } })}
             >

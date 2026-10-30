@@ -16,7 +16,7 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - SLOT_KEYS duplicated in add.tsx and food.tsx; share if a third caller appears.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 - es addedToMeal and mealDeleted avoid gender agreement.
-- No new test suites. No food tab render test (handover suggestion rejected, R167, R168 and R169 checkpoint).
+- No new test suites. No food tab render test (handover suggestion rejected, R167, R168, R169 and R170 checkpoint).
 - Plan file is src/app/dashboard/plan.tsx (only plan.tsx under src; (tabs) path does not exist).
 - Locale order: en, es, fr, one file per round.
 - Flagged reports are cleared by a verification round before a new build task.
@@ -33,15 +33,15 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Checkpoints green: R113 to R164, R166 and R168 (tsc 0, 65 suites, 824 tests, 4 snapshots; en, es and fr JSON parse).
+- Checkpoints green: R113 to R164, R166, R168 and R169 (tsc 0, 65 suites, 824 tests, 4 snapshots; en, es and fr JSON parse).
 - Flags R144 to R163 cleared or partly cleared. R165 flagged (wrong path); cleared by R166 checkpoint.
-- R167 flag cleared by R168 verification round (latest report: tsc 0, full suite and three locale parses pass).
-- R169: checkpoint round requested by loop note (tsc and full app suite, no edits). Result pending.
+- R167 flag cleared by R168 verification round.
+- R169 checkpoint result: green (tsc 0, 65 suites, 824 tests, 4 snapshots). No edits.
 - Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group. No test reads locale files. plan keys are not used by any code yet.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- plan.tsx :85 'Suggested:' and :97 'Add ${title}' hardcoded. en.json keys plan.suggested and plan.addTitle exist. Next: plan.tsx uses them (keep literal space after the label on :85), then es, then fr. entry.title is an English slot name, so addTitle still reads partly English in es and fr; translate the slot name too.
+- plan.tsx :85 'Suggested:' and :97 'Add ${title}' being switched to plan.suggested and plan.addTitle (R170 task). Keep literal space after the label on :85. entry.title is an English slot name, so addTitle still reads partly English in es and fr; translate the slot name too (parked to NEXT).
 - SavedMealsList.tsx lastLoggedLabel lines 26-33 hardcoded; 'N days ago' needs plurals. Lines :59 and :63 unchecked.
 - es.json lacks plan, gymLog, settings.scanAccuracy, some goals keys. Has addMenu.voice and describeOutLoud.
 - fr.json lacks plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy.
@@ -70,24 +70,24 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Global SegmentedField inset; food search sheet; single scanner; chip padding.
 - Code: mixHex helper; goals.tsx copy; CONFLICT_KEYWORDS untyped; router.setParams history; blinking caret; Math.round in draft().
 - Recipe fibre saved as 0. Food tab render test (needs new suite). Long-press meal delete not discoverable.
+- Slot name translation for plan.addTitle in es and fr (entry.title is English).
 
 ## Next
-1. R169: checkpoint (tsc, full app suite, no edits). Result pending.
-2. Then plan.tsx uses plan.suggested (line 85, keep space) and plan.addTitle (line 97).
-3. plan group to es, then fr (one file per round).
-4. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en, es, fr).
-5. es and fr locale gaps, one file per round.
-6. fr and es wording fixes, one file per round.
-7. Add sheet icons to design SVGs.
-8. Consolidate SLOT_KEYS.
-9. Full checkpoint after plan and saved meal work.
-10. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R170: plan.tsx uses plan.suggested (line 85, keep space) and plan.addTitle (line 97). In progress.
+2. plan group to es, then fr (one file per round).
+3. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en, es, fr).
+4. es and fr locale gaps, one file per round.
+5. fr and es wording fixes, one file per round.
+6. Add sheet icons to design SVGs.
+7. Consolidate SLOT_KEYS.
+8. Full checkpoint after plan and saved meal work.
+9. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Handover after R141, R156 and R167 session. Name files fully in prompts.
 - R168 verification passed; R167 flag cleared.
-- R169 is a checkpoint round per loop note. Make the task one thing: tsc and full app suite, no file changes.
-- Jev run signals favoured running at R159 to R168; agreed each time. R169: Jev run 99%, agreed.
+- R169 checkpoint green. Latest report clean, no flag.
+- R170: Jev run 99%, agreed. Task is plan.tsx only (one file, gap row none, notes item).
 
 ## Gotchas
 - src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.
