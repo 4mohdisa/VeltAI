@@ -800,3 +800,6 @@
 - 2026-10-31 01:24 Chose fr.json settings.scanAccuracy: smallest task, needs nothing from Isa, and it is the next open item in the notes.
 - 2026-10-31 01:24 Told Claude Code not to run the full suite, because no test covers locale files and the rules keep test runs light.
 - 2026-10-31 01:24 Rewrote the notes to under 600 words as the loop note asked: merged repeated items, removed finished work, and kept every decision line.
+- 2026-10-31 01:25 Chose the read-only verification of R217 over Jev's 91% pick (es settings.scanAccuracy). Reason: the notes decision says flagged reports are cleared by a verification round before a new build task. The flag came from R217, which was never verified. Next round I will do es settings.scanAccuracy.
+- 2026-10-31 01:25 The type check exited 0 in R217, but Jest was not run. Step 5 runs Jest only if a test imports the i18n code, to avoid spending on a full suite outside a checkpoint.
+- 2026-10-31 01:25 Kept the round read-only so the flag clears without new changes to locale files.

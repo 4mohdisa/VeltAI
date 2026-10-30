@@ -30,28 +30,31 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - goals: fr 20 keys, es 3 keys. gymLog: en, es, fr (21 keys each).
 - Streak: gymLog.celebration streak_one/_other in en, es, fr. dashboard.dayStreak_one/_other in en, es.
 - fr dashboard (6 keys, R213). fr nutrition (7 keys, R215).
+- fr settings.scanAccuracy ('Précision du scan'), R217. Not yet verified (see Verification).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R216 verified fr nutrition and cleared the R215 flag.
 - R214 verified fr dashboard. R211 verified en and es dashboard keys.
 - R212 checkpoint: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots.
+- R217 (fr settings.scanAccuracy) flagged: type check or tests not run. R218 is a read-only verification round to clear it. Next build task is es settings.scanAccuracy.
 - No test covers locale files, SavedMealsList, plan.tsx or CelebrationCard. A passing suite says nothing about them.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. fr.json settings.scanAccuracy (R217, in progress).
-2. index.tsx:121 streak accessibility label: count-based and translated.
-3. Other hardcoded streak wording, one file per round: index.tsx:115, gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
-4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-5. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
-6. Hardcoded 'Why this plan' at src/app/dashboard/plan.tsx:120: move to plan keys.
-7. Hardcoded 'Macros' kicker at src/app/dashboard/nutrition.tsx:77: move to nutrition keys.
-8. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-9. Add sheet icons to design SVGs.
-10. dashboard.welcome and dashboard.gymBedtime have no callers. Keep or remove after Isa's native review.
-11. Remaining gap rows, most cleared per task first.
-12. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R218: verify R217 fr settings.scanAccuracy (read-only).
+2. es.json settings.scanAccuracy after goals (same position as en.json). It is the last key missing from any locale. src/app/profile/index.tsx:147 uses it.
+3. index.tsx:121 streak accessibility label: count-based and translated.
+4. Other hardcoded streak wording, one file per round: index.tsx:115, gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
+5. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+6. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
+7. Hardcoded 'Why this plan' at src/app/dashboard/plan.tsx:120: move to plan keys.
+8. Hardcoded 'Macros' kicker at src/app/dashboard/nutrition.tsx:77: move to nutrition keys.
+9. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+10. Add sheet icons to design SVGs.
+11. dashboard.welcome and dashboard.gymBedtime have no callers. Keep or remove after Isa's native review.
+12. Remaining gap rows, most cleared per task first.
+13. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -69,7 +72,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 23 one-tap log: route or accepted deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe and fibre, quick add, celebration (streak 1 and above 1), Summary streak line, delete dialog, VoiceOver, toasts, saved meals (labels, toasts, counts, Log now, empty state), plan (title, empty state, Suggested line), goals, gymLog, nutrition, VoiceOver Add label.
-- Native review fr: savedMeals, plan, goals, gymLog, nutrition, streak, dayStreak, dashboard ('Creneau de sport', 'A suivre'). Whether fr standardises on U+00A0 and U+2019. Straight versus curly apostrophes in fr goals. 'enregistrer' (save and log) versus 'ajout' for logging. Gender agreement. differentWeights.
+- Native review fr: savedMeals, plan, goals, gymLog, nutrition, streak, dayStreak, dashboard ('Creneau de sport', 'A suivre'), settings.scanAccuracy. Whether fr standardises on U+00A0 and U+2019. Straight versus curly apostrophes in fr goals. 'enregistrer' (save and log) versus 'ajout' for logging. Gender agreement. differentWeights.
 - Native review es: plan, savedMeals, goals, gymLog, streak, dayStreak. Check 'Registra {{plan}} tal como estaba programado', 'Bien hecho!', 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' versus 'Removed'; negative margin on device.
 - Override available: es emptyMessage wording.
@@ -83,6 +86,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204. Latest summary in loop/HANDOVER.md.
-- Flags cleared through R216.
+- Flags cleared through R216. R217 flagged (tsc run, Jest not run). R218 verifies it.
 - Jev matched on run for R203 to R205, R208 to R211, R213 to R216.
-- R217 candidates: fr settings.scanAccuracy, index.tsx:121 label, lastLoggedDaysAgo_one fix. Chose fr settings.scanAccuracy (smallest, no Isa dependency). Jev 86% run.
+- R217 candidates: fr settings.scanAccuracy, index.tsx:121 label, lastLoggedDaysAgo_one fix. Chose fr settings.scanAccuracy. Jev 86% run.
+- R218: Jev ranked es settings.scanAccuracy first (91%). Kept verification of R217 instead, because the flagged report must be cleared before a new build task. Next round builds es settings.scanAccuracy.
