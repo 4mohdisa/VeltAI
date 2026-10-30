@@ -411,3 +411,7 @@
 - 2026-10-31 00:01 Jev run 99% agrees with the checkpoint-free run; no override needed.
 - 2026-10-31 00:01 R131 flag cleared by the R132 checkpoint (tsc 0, 65 suites, 824 tests, 4 snapshots, no file changes). The add.tsx slot title is still untested; recorded in Parked.
 - 2026-10-31 00:01 Kept the mapping local to food.tsx rather than extracting a shared helper this round, to stay one-file. Duplication of SLOT_KEYS logged under Next as a consolidation item.
+- 2026-10-31 00:02 Chose the food.tsx toast over SavedMealsList and plan.tsx: it is Next item 4, one file, and the smallest step.
+- 2026-10-31 00:02 Jev ask (46%) overridden: nothing in this task needs Isa.
+- 2026-10-31 00:02 Kept 'Add to Lunch' capitalisation out of this prompt. Following the design default (lowercase) is scheduled as its own round after this toast fix, so Isa can still override.
+- 2026-10-31 00:02 Literals with no existing locale key are reported as BLOCKED rather than adding keys, because a locale edit would be a second file in the same round.

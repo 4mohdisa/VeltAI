@@ -19,6 +19,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet slot title: lowercases the translated slot name (matches design 'Add to ' + hMeal.toLowerCase()); unrecognised slot falls back to generic 'Add meal'. Accepted R131.
 - French and Spanish slot translations are agent translations: 'vous' in fr, 'tú' in es.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
+- Add to slot lowercase in food.tsx (design says lowercase): follow design default, scheduled as its own round after the toast fix. Isa may override.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -27,6 +28,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx sums fibre.
 - Locales: en.json addMenu 20 keys (R125). es.json addMenu 22 keys (R127, verified R128, agent translations). fr.json addMenu 20 keys (16 from R118, plus breakfast, lunch, dinner, snack added R129).
+- food.tsx slot mapping: local SLOT_KEYS record added at food.tsx:83; slot keys at food.tsx:551 and :973 now go through addMenu keys (R133). English text unchanged.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification log
@@ -35,16 +37,20 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R129 flag cleared by R130 checkpoint.
 - R131 (add.tsx slot keys): targeted only. tsc 0. sheetVariant.test.ts and render/tabbar.render.test.tsx pass (2 suites, 22 tests). No test renders the slot title or its fallback.
 - R132 checkpoint green; R131 flag cleared. The add.tsx slot title remains untested (Parked).
-- R133 (now): food.tsx slot mapping, targeted tests only.
-- Flags: R121, R125, R127 had tests not run (cleared earlier). No open flags after R132.
+- R133 (food.tsx slot mapping): tsc 0, 30 related suites and 510 tests passed (targeted, not full). No test renders these lines.
+- Flags: R121, R125, R127 had tests not run (cleared earlier). R133 targeted run is a new open flag until the next checkpoint.
 - Locale hand checks do not clear flags alone. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices.
-- Slot mapping: add.tsx done (R131). food.tsx:543 and :965 issued R133 (grep confirms lines first). A local SLOT_KEYS copy now exists in food.tsx and add.tsx: consolidate later into one shared helper. 'Snacks' gives 'snacks', which has no key, if left raw.
+- Slot mapping: add.tsx done (R131). food.tsx slot keys done (R133). A local SLOT_KEYS copy now exists in food.tsx and add.tsx: consolidate later into one shared helper.
+- food.tsx 'Add to' slot labels (:551, :973) keep capital 'Lunch'; design uses lowercase via toLowerCase(). Pending its own round.
+- food.tsx toast at ~:389 uses addSlot.toLowerCase(), which misses translation for all four slots. Not fixed.
+- food.tsx VoiceOver labels (~:538, :768, :769, :793) and visible slot heading (~:772) still show raw slot in English.
+- foodLog.addedToMeal used by the toast at ~:389 is in en.json but missing from es.json and fr.json.
 - Design: mealNow() returns 'Snack' for scans; MEALS uses 'Snacks'.
-- Hardcoded English toasts: food.tsx:717, SavedMealsList.tsx:59 and :63.
+- Hardcoded English toasts: food.tsx toast at ~:715 and ~:725 (in progress R134), SavedMealsList.tsx:59 and :63.
 - Hardcoded English in plan.tsx: line 97 'Add ${entry.title}' accessibility label, line 85 'Suggested:'. Found R131, not fixed.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
@@ -57,13 +63,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
 - Search foods tile routing. Global + title: keep 'Add meal' or name a default.
 - Quick add confirm 17/22: Button prop, bodyBold change, or accept 17/24.
-- Add sheet status BUILT or PARTIAL. Negative margin: accept or SheetContent option. Is 0pt acceptable on no-inset devices?
+- Add sheet status BUILT or PARTIAL (answered: PARTIAL MATCH). Negative margin: accepted as interim. Is 0pt acceptable on no-inset devices?
 - Confirm 'Snacks' as English label (design mealNow() says 'Snack').
 - Last-hour modified-files check: keep, or round-scoped only.
 - Device runs: Add sheet (34pt inset; grid at 320pt and 430pt; 'Add to snacks' label wrap); recipe and fibre; quick add; celebration card.
 - Macro types for food detail: decision before any type change.
 - Native review: fr addMenu (oneTapReadd, scanPackage, exactDatabaseMatch, and the four slot keys); es addMenu (quickAdd, searchPlaceholder, exactDatabaseMatch wrap at 320pt). Low urgency while lng is 'en'.
 - Remove es.json voice and describeOutLoud: needs Isa approval (DECISIONS).
+- Lowercase 'Add to <slot>' in food.tsx: default is to follow design (see Decisions). Isa may override.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -78,30 +85,33 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 ## Next
 1. DONE R131: add.tsx slot keys with explicit record mapping.
 2. DONE R132: checkpoint green.
-3. R133 (now): food.tsx slot mapping at lines 543 and 965, one file.
-4. food.tsx:717 hardcoded English toast.
-5. SavedMealsList.tsx:59 and :63 hardcoded English toasts (one file per round).
-6. Hardcoded English in plan.tsx lines 85 and 97 (one file, one round).
-7. Add sheet icons: SF Symbols to design SVGs, one per round.
-8. Consolidate SLOT_KEYS into one shared helper (add.tsx and food.tsx), one file per round.
-9. Checkpoint: full tsc and suite, no file changes.
-10. If nothing non-gym remains: stop with 'only owner decisions remain'.
+3. DONE R133: food.tsx slot keys at :551 and :973.
+4. R134 (now): food.tsx hardcoded English toast, reuse existing en.json keys only; literals with no key go to BLOCKED.
+5. Lowercase 'Add to <slot>' in food.tsx :551 and :973 (design default), one file, one round.
+6. SavedMealsList.tsx:59 and :63 hardcoded English toasts (one file per round).
+7. Hardcoded English in plan.tsx lines 85 and 97 (one file, one round).
+8. Missing foodLog.addedToMeal in es.json and fr.json (locale round, one file per round).
+9. Add sheet icons: SF Symbols to design SVGs, one per round.
+10. Consolidate SLOT_KEYS into one shared helper (add.tsx and food.tsx), one file per round.
+11. Checkpoint: full tsc and suite, no file changes.
+12. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected: R89, R99, R117, R125 (no design/ file named); R123 (no branch line). All rewritten.
 - R123 BLOCKED on missing slot keys; recast as Next 2 and 3.
-- Flags: R114, R119, R121, R125, R127, R129, R131. Cleared by R122, R126, R130 and R132 checkpoints.
+- Flags: R114, R119, R121, R125, R127, R129, R131, R133. Cleared by R122, R126, R130 and R132 checkpoints; R133 awaits next checkpoint.
 - R130 checkpoint clean (tsc 0, 65 suites, 824 tests). R131 add.tsx slot keys done with targeted tests only.
-- Jev ask overridden at R120, R124 to R126 and R131 (nothing needs Isa).
+- Jev ask overridden at R120, R124 to R126, R131 and R134 (nothing needs Isa).
 - Jev ranked add.tsx:56 first at R130 (81%); overridden for the checkpoint under the flag rule. R131 followed Jev.
 - R132: Jev run 94%, agreed with checkpoint pick. Checkpoint clean.
-- R133: Jev run 99%, agreed with food.tsx slot mapping.
-- Handover after R125. Handover summary read at R129 and again at this handover. Claude Code knows only the summary after a handover: name files fully.
+- R133: Jev run 99%, agreed with food.tsx slot mapping. Report flagged a pending Isa decision on lowercase, which is now a design default.
+- R134: Jev run 51%, ask 46%, stop 3%. Chose run on the food.tsx toast task.
+- Handover after R125. Handover summary read at R129 and at the later handover. Claude Code knows only the summary after a handover: name files fully.
 
 ## Gotchas
 - Design text is in bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
 - --findRelatedTests misses source-reading tests; grep src/__tests__.
-- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep. Grep before citing line numbers.
+- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep. Grep before citing line numbers; they shift after edits.
 - Locales: src/lib/i18n/locales/. Check key order against en.json.
 - App slot value 'Snacks' (src/lib/mock/data.ts:48), key snack.
 - Shared Button in src/components/forms affects all callers; override locally first.
