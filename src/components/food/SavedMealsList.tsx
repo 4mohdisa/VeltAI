@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
@@ -33,6 +34,7 @@ function lastLoggedLabel(iso: string | null): string {
 }
 
 export function SavedMealsList() {
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const [meals, setMeals] = useState<SavedMeal[] | null>(null);
   const [loggingId, setLoggingId] = useState<string | null>(null);
@@ -56,11 +58,11 @@ export function SavedMealsList() {
     setLoggingId(meal.id);
     try {
       await api.savedMeals.log(meal.id, slotForNow(), selectedFoodDate());
-      showToast({ message: `Logged ${meal.name}.`, tone: 'success' });
+      showToast({ message: t('savedMeals.logged', { name: meal.name }), tone: 'success' });
       void load();
     } catch (e) {
       if (__DEV__) console.warn('[meals] savedMeals.log failed:', e instanceof Error ? e.message : e);
-      showToast({ message: `Couldn't log ${meal.name}. Try again.`, tone: 'error' });
+      showToast({ message: t('savedMeals.logFailed', { name: meal.name }), tone: 'error' });
     } finally {
       setLoggingId(null);
     }
