@@ -20,6 +20,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Prompts: one task, one editable source file; one-line status edit to DESIGN_GAP_ANALYSIS.md allowed; checks are tsc, eslint and jest on changed files only; doc-only rounds run no tests; every prompt states the branch and no git.
 - R62: a flagged report must be cleared (verification run, no edits) before any new build task.
 - R63: calories on the celebration card show a dash (no body weight on that screen; no fabricated data).
+- R64: the Quick add detent lives in src/app/_layout.tsx:160, not quick-add.tsx. Changing that one value to fitToContents is allowed, matching food/add. Sheet-size values are not navigation structure.
 
 ## Done (BUILT, not verified)
 - Shared NumberEntryBar: food quick-add, food detail, gym session, PlannedValuesForm.
@@ -33,13 +34,15 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add toast (R61): reads '{kcal} added to {meal}' via formatCalories. Hardcoded English, not in en.json.
 - Quick add MEAL caption (R61): uppercase, 13/16 semibold, 1.1 tracking, secondary label grey, 8pt gap above control. Caption sits in quick-add.tsx, not in SegmentedField.
 - R62 verification: tsc exit 0, eslint exit 0 on quick-add.tsx, findRelatedTests found no tests. Device check still open (owner item).
+- R64 (in progress): Quick add detent in _layout.tsx:160 to 'fitToContents'. Status line updated on completion.
 
 ## Re-check findings (open)
 - Add sheet: title not meal-named; tile gap ~14pt not 12pt; SF Symbols not design SVGs.
-- Quick add: Meal control 13/17 semibold, 3pt padding; detent 0.6 not fit-content; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22; offline toast does not name the meal (no design equivalent).
+- Quick add: Meal control 13/17 semibold, 3pt padding; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22; offline toast does not name the meal (no design equivalent).
+- quick-add.tsx:114 wraps the sheet in its own flex:1 KeyboardAvoidingView (food/add does not). Check on device that the sheet does not collapse and NumberEntryBar sits above the keyboard.
 
 ## In progress
-- R63: Quick add detent 0.6 to fit-content in src/app/food/quick-add.tsx (one value, reuse repo's fit-content sheet form; stop without edit if none exists).
+- R64: _layout.tsx:160 detent to 'fitToContents' (one value). Then gap row status to BUILT.
 - Compact segmented option for Quick add Meal: (a) check 11 inset callers vs design (doc-only); (b) add compact option to SegmentedField; (c) apply in quick-add.tsx.
 
 ## Blocked on Isa
@@ -48,11 +51,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 celebration Calories column: what it shows (raised r53).
 - Search foods tile routing accepted or not (raised r57; default is accepted, Isa to confirm).
 - Inset callers: variant change or compact option (R58).
-- Device check (owner): Quick add MEAL caption, new toast, sheet fit at detent; celebration card modal flow on a device (row 17 step 3). Not asked; for Isa's own UI check.
+- Device check (owner): Quick add sheet fit at detent, MEAL caption, new toast, NumberEntryBar above keyboard; celebration card modal flow (row 17 step 3). Not asked; for Isa's own UI check.
 
 ## Next tasks
-1. Quick add detent 0.6 to fit-content in quick-add.tsx (R63, in progress).
-2. Quick add confirm pill 56pt to 52pt, 17/24 to 17/22, in quick-add.tsx.
+1. Quick add confirm pill 56pt to 52pt, 17/24 to 17/22, in quick-add.tsx.
+2. Stale comment src/app/_layout.tsx:159 ('optional label'); fix in the same file as a one-line comment task.
 3. Recents: hooks.ts useFoodSearch drops macros; carry protein, carbs, fat per 100 g.
 4. Compact segmented option (see In progress).
 5. Quick add Meal control 13/17 semibold and 3pt padding, via the compact option.
@@ -83,7 +86,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx or log-session.tsx (harness lacks SafeAreaProvider).
 - Estimated gym duration is logged; backend derives kcal. Revisit if only measured durations should count.
 - Adjust and ticklist arrive checked, so 'Save progress?' fires on an untouched back-out.
-- Stale comments in src/app/_layout.tsx for add and quick sheets.
+- Stale comments in src/app/_layout.tsx for add and quick sheets (see Next task 2).
 - Source-text tests in gymDurationHonesty.test.ts and foodDetail.test.ts do not run the behaviour they name.
 - Add sheet 'Add meal' title from the global + (if not fixed by next task 8).
 
@@ -98,5 +101,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R60: checkpoint green at 824 tests. Flagged as partly done; resolved by the checkpoint result.
 - R61: MEAL caption built; tsc and eslint green, jest not run. Flagged.
 - R62: verification-only round, tsc and eslint green, no related tests. Flag cleared.
-- R63: handover occurred before this round. Claude Code knows only the handover summary; prompt names files fully.
-- Gotchas kept: adjust/ticklist dirty guard, dev catalog calories only, session.tsx mode derived not set in effects. Design text lives in the __bundler payload; decode the manifest (gzip+base64) rather than grep. Source-reading tests are invisible to --findRelatedTests; grep src/__tests__. zsh does not word-split unquoted variables.
+- R63: no edit. Detent is not in quick-add.tsx; it is at _layout.tsx:160. Report flagged the wrong file in notes; corrected here.
+- R64: prompt issued to change _layout.tsx:160 to fitToContents, with status line update. Jev leaned ask (61%); decided to run, since the repo already uses this form and the change is one value.
+- Jev R63: risk 1.9 of 2 on continuing without Isa. Kept to one value and one doc line to limit exposure.
+- Gotchas kept: adjust/ticklist dirty guard, dev catalog calories only, session.tsx mode derived not set in effects. Design text lives in the __bundler payload; decode the manifest (gzip+base64) rather than grep. Food screens are entry 71f71ac4, gym is 7dc211f6. Source-reading tests are invisible to --findRelatedTests; grep src/__tests__. Those tests pin exact source text, so edits can break them. zsh does not word-split unquoted variables. The Expo docs requirement is in AGENTS.md. Row numbers mean the numbered differences, not table rows.

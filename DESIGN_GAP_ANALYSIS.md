@@ -84,7 +84,7 @@ this pass matched the design on every checked value.
 | Gym — streak detail & session history | ❌ DIFFERENT | Neither screen exists in the design, and both are still in pre-design chrome using deprecated grey tokens. |
 | Food — Day log (main view) | ❌ DIFFERENT | Design's calories card is goal-relative with a progress bar and four macro bars; the app shows total logged, no goal, three macros — plus a search field the design puts in a sheet. |
 | Food — Food detail sheet | 🔨 BUILT (not verified) | All six numbers are now tap-to-edit through the shared `FoodNumberEntryBar` — the design’s captions and keyboards (`Serving size · grams` and `Calories · kcal` numeric, the four macros decimal), a grams chip, a tappable kcal readout and a 2×2 macro grid replacing the boxed fields. |
-| Food — Quick add | ❌ DIFFERENT (MEAL caption built) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `FoodNumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. Main remaining difference: the Meal control uses 17pt segment labels, where the design has 13/17 semibold chips. |
+| Food — Quick add | ❌ DIFFERENT (MEAL caption built; BUILT: detent set to fitToContents) | Rebuilt to the design: hero kcal figure, ±50 discs, +100/+250/+500/+750 presets, no Label field, and tapping the figure opens the shared `FoodNumberEntryBar` ("Calories · kcal", numeric, 5-digit cap) with the discs, presets and CTA hidden until Done. Main remaining difference: the Meal control uses 17pt segment labels, where the design has 13/17 semibold chips. |
 | Food — Search | ❌ DIFFERENT | Design is a dedicated sheet with filter chips and a one-tap `+`; the app has an inline field whose results replace the day view, and its `+` is decorative. |
 | Food — My dishes / Saved | ❌ DIFFERENT | Design is a photo gallery with a "New dish" tile; the app is a searchable text list with swipe-to-unsave. |
 | Food — Add sheet | ❌ DIFFERENT | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. |
@@ -994,7 +994,7 @@ when empty. Starts empty with the CTA disabled.
 *"kcal · tap to type"* line; title case *"Quick Add"* vs *"Quick add"*; **a
 `Label` field the design does not have**; default empty vs 250; disabled-CTA copy;
 no digit cap or leading-zero stripping; two different label treatments in one
-sheet; toast names no meal; sheet pinned to a 0.6 detent vs fitting content;
+sheet; toast names no meal; BUILT: detent set to fitToContents;
 offline/queueing behaviour with a loading button (a necessary addition).
 
 ## Food — Search

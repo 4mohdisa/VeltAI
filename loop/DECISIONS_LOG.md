@@ -85,3 +85,7 @@
 - 2026-10-30 22:44 Device check of the MEAL caption, toast and sheet fit is an owner item. Not asked this round; noted under Blocked on Isa for when Isa checks the UI himself.
 - 2026-10-30 22:44 Prompt tells Claude Code to reuse the repo's existing fit-content sheet form and to stop without editing if none exists, so it does not invent an API.
 - 2026-10-30 22:44 Source-reading tests are checked by grep of src/__tests__, per the handover gotcha.
+- 2026-10-30 22:45 Allowed the detent change in src/app/_layout.tsx:160. It is a sheet-size value, not navigation structure, and the report confirmed fitToContents already exists in the repo for food/add and gym/log-session. The earlier file restriction blocked a task that could not be done without this edit.
+- 2026-10-30 22:45 Kept the change to one value and one doc line. The stale comment on line 159 and the keyboard check go under NEXT, not into this round.
+- 2026-10-30 22:45 Chose the detent task first because it is the smallest unbuilt Quick add item and needs nothing from Isa beyond a device check.
+- 2026-10-30 22:45 Did not ask Isa, even though Jev leans ask. The change is a single value in a file the repo already uses this way, and the report confirms the form exists, so there is no open question for Isa.

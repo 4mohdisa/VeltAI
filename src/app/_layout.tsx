@@ -157,7 +157,7 @@ export default function RootLayout() {
             {/* Add-meal: size to the 2×2 grid so all four options show fully. */}
             <Stack.Screen name="food/add" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
             {/* Quick Add calories — compact sheet (calories + optional label + meal). */}
-            <Stack.Screen name="food/quick-add" options={{ ...sheetOptions, sheetAllowedDetents: [0.6] }} />
+            <Stack.Screen name="food/quick-add" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
             <Stack.Screen name="food/custom-food" options={{ ...sheetOptions, sheetAllowedDetents: [0.95] }} />
             {/* The ONE food-detail sheet: a search hit, a barcode product, a
                 saved dish, a logged row and a scan rename all land here. Tall
