@@ -170,6 +170,7 @@ export default function QuickAddScreen() {
             onChange={setMealType}
             options={SLOTS.map((s) => ({ label: s, value: s }))}
             variant="inset"
+            compact
           />
         </View>
 

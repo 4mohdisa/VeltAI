@@ -138,3 +138,7 @@
 - 2026-10-30 22:54 Chose the Meal control over the recents fix because it is the next item in Next and clears a design row. Recents goes to the following rounds.
 - 2026-10-30 22:54 Did not ask Isa about the 17/22 confirm label. It stays Blocked until he picks an option.
 - 2026-10-30 22:54 Named design/Lume App.html and entry 71f71ac4 in the prompt, and the DESIGN_GAP_ANALYSIS.md row, to clear the rejection.
+- 2026-10-30 22:56 Kept candidate 1 and matched Jev's ranking: the compact option built last round is dead code until this caller passes it, so finishing it comes first.
+- 2026-10-30 22:56 Left the 8pt chip padding, the Snack/Snacks label and the FoodNumberEntryBar doc name out of this prompt: they are separate, and the rules allow one task per round. They are listed under NEXT.
+- 2026-10-30 22:56 The flagged report is cleared by this round's tsc and eslint run plus related tests, not by a separate verification-only run.
+- 2026-10-30 22:56 Row 87 stays DIFFERENT. The 56 vs 52pt pill, blinking caret, hardcoded copy and offline toast are still open.
