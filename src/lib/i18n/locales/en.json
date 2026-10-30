@@ -93,6 +93,10 @@
     "addToMeal": "Add to {{slot}}",
     "addedToMeal": "{{energy}} added to {{slot}}",
     "mealDeleted": "Removed {{slot}}",
+    "deleteMealTitle": "Delete {{slot}}?",
+    "deleteMealMessage_one": "This removes {{count}} item and recomputes the day's totals.",
+    "deleteMealMessage_other": "This removes {{count}} items and recomputes the day's totals.",
+    "deleteMealConfirm": "Delete",
     "openFood": "Open {{name}}",
     "noMatchesHint": "Try another name, or add it as a custom food.",
     "conflict": {

@@ -423,3 +423,8 @@
 - 2026-10-31 00:04 Chose to pass t as a parameter to confirmDeleteMeal rather than import the global i18next, to match the file's existing useTranslation pattern.
 - 2026-10-31 00:04 Jev ranks run at 98%, which agrees with my choice. No override needed.
 - 2026-10-31 00:04 Treated the R135 wording stretch (whole-meal delete versus single-entry design) as covered by the notes decision 'Removed {{slot}}, Isa may override'. Not asking now; it stays on the device-run list.
+- 2026-10-31 00:06 Treated the loop flag as a partly done R136. The toast wiring is in place, but the delete dialog still says Delete and Delete Lunch?, and its strings need keys before food.tsx can use them. Chose the locale prerequisite as the next task so the dialog can be finished in one file per round.
+- 2026-10-31 00:06 Kept the existing English dialog wording, since the design has no whole-meal delete dialog. Isa can override.
+- 2026-10-31 00:06 Chose candidate 1 over candidates 2 and 3 because it unblocks the next food.tsx change and needs nothing from Isa. Jev ranked run first (83%), so no override was needed.
+- 2026-10-31 00:06 Marked the delete wording as having no gap row, as the R136 report found. Left the row question under Blocked on Isa.
+- 2026-10-31 00:06 Added the read-only confirmDeleteMeal grep to CHECKED, to confirm the caller passes t before the dialog change.
