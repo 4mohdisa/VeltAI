@@ -105,6 +105,10 @@
       "gluten_free": "Puede que no coincida con tu preferencia sin gluten"
     }
   },
+  "savedMeals": {
+    "logged": "Registrado: {{name}}.",
+    "logFailed": "No se pudo registrar {{name}}. Inténtalo de nuevo."
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak": "días seguidos",

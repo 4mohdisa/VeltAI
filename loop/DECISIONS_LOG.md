@@ -548,3 +548,7 @@
 - 2026-10-31 00:30 Used the full app suite once because this is a checkpoint-style clearance after a component change and no test covers SavedMealsList. Cost is one run.
 - 2026-10-31 00:30 Jev ranked the build task first at 95% run. I overrode its ordering only for the flag rule in the notes, which Jev cannot see. Next round I return to the es/fr keys.
 - 2026-10-31 00:30 No gap row changed; none covers saved meal toasts.
+- 2026-10-31 00:31 R160 report was flagged as only partly done. Treated the R159 toast check as closed in part: no test can render SavedMealsList, so the device run stays under Blocked on Isa and the toasts stay BUILT, not verified. Moving on to the next build task.
+- 2026-10-31 00:31 Chose es.json over fr.json because the notes list es first in the locale order.
+- 2026-10-31 00:31 Spanish wording: 'Registrado: {{name}}.' and 'No se pudo registrar {{name}}. Inténtalo de nuevo.' are agent translations in the 'tú' register used in es.json, flagged for native review under Blocked on Isa.
+- 2026-10-31 00:31 Jev and loop agree on run; no override needed.
