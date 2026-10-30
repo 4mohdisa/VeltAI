@@ -745,3 +745,8 @@
 - 2026-10-31 01:10 Jev and my pick agree on run. Chose the verification round, not es gymLog, because the flag is open.
 - 2026-10-31 01:10 French streak label ('1 jours d’affilée') moved from Blocked to Parked. It needs a count-based key, a change to log-session.tsx and matching en and es edits, so it is not a one-locale round. Not an Isa question: the defaults cover it.
 - 2026-10-31 01:10 Mixed apostrophe use (goals straight, savedMeals and gymLog U+2019) goes under native review, not a separate fix now.
+- 2026-10-31 01:11 Chose es gymLog: it is the next item in Next and the smallest task. It needs nothing from Isa and does not depend on a device run.
+- 2026-10-31 01:11 Locale work clears no DESIGN_GAP_ANALYSIS.md row. Accepted because the locale parity gap is already recorded and the current Next order is kept.
+- 2026-10-31 01:11 es gymLog placed between savedMeals and plan, matching the fr.json layout.
+- 2026-10-31 01:11 Jev signals low confidence on the last task being clean. A small locale-only task was preferred over a larger build, as Jev advises.
+- 2026-10-31 01:11 Matched Jev on run.

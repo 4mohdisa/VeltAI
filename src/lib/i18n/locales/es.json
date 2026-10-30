@@ -122,6 +122,31 @@
     "itemCount_other": "{{count}} elementos",
     "logNow": "Registrar ahora"
   },
+  "gymLog": {
+    "title": "¿Cómo ha ido?",
+    "planSummary_one": "{{count}} ejercicio · unos {{minutes}} min",
+    "planSummary_other": "{{count}} ejercicios · unos {{minutes}} min",
+    "differentWeights": "Pesos diferentes",
+    "differentWeightsSub": "Mismos ejercicios, cambia las series, las repeticiones o la carga",
+    "onlySome": "Solo una parte",
+    "onlySomeSub": "Marca los ejercicios que hiciste de verdad",
+    "somethingElse": "Otra cosa",
+    "somethingElseSub": "Añade un ejercicio que no estaba en el plan",
+    "asPlanned": "Ha ido según lo previsto",
+    "asPlannedCaption": "Registra {{plan}} tal como estaba programado",
+    "thisSession": "esta sesión",
+    "restDayTitle": "Día de descanso",
+    "restDayMessage": "Nada programado y nada registrado.",
+    "logAnExercise": "Registrar un ejercicio",
+    "alreadyLogged": "Hoy ya está registrado — ábrelo para editarlo o añadir algo más",
+    "celebration": {
+      "streak": "días seguidos",
+      "time": "Tiempo",
+      "calories": "Calorías",
+      "volume": "Volumen",
+      "nicePill": "¡Bien hecho!"
+    }
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak": "días seguidos",
