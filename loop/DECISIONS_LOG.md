@@ -298,3 +298,7 @@
 - 2026-10-30 23:37 Jev suggested ask at 39%, but this task needs nothing from Isa (same override as R106, R107, R110).
 - 2026-10-30 23:37 Did not give exact Spanish wording; Claude Code takes the design copy from design/Lume App.html so the prompt has no guessed text.
 - 2026-10-30 23:37 Checkpoint not due this round; last full suite run was R102-era, next checkpoint scheduled after the locale and icon work.
+- 2026-10-30 23:38 Flag rule outranks Jev ranking: the last report was flagged 'type check or tests not run', so a verification-only run goes first. Same precedent as R109 and R110.
+- 2026-10-30 23:38 Jev's fr.json pick (85%) is deferred one round, not dropped. It is R113 once the flag is cleared.
+- 2026-10-30 23:38 The verification run makes no file changes and no new tests, per the testing rules.
+- 2026-10-30 23:38 No question to Isa: nothing here needs his dashboards or devices.

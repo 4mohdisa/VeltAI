@@ -23,7 +23,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet summary row BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
 - Round-scoped modified-file checks only.
 - Missing macros are a data model change: parked, not asked (R106, R107).
-- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110, R111). Flag rule outranks Jev ranking (R109).
+- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110, R111). Flag rule outranks Jev ranking (R109, R112).
 - Add sheet bottom padding: negative margin on the tile grid accepted as interim (R108). SheetContent is shared, not edited.
 
 ## Built (not verified)
@@ -32,6 +32,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control. SegmentedField compact prop.
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales macros and fibre by grams; totals sum fibre.
+- es.json addMenu.addToSlot added (R111): 'Añadir a {{slot}}', last key in addMenu.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT, 0 EXACT. BUILT rows: 76, 86, 90.
 - Checkpoints R88 and R102 green. Last full suite (824 tests) predates the recipe totals and add.tsx edits.
 - R110 verification clean: tsc 0 errors, hooks 5 suites/33 tests, sheetVariant and tabbar 22/22, eslint clean on three files. R109 flag cleared.
@@ -46,9 +47,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents fibre carried in hooks.ts, not displayed.
 - Recipe Total shows 0g fibre when unknown (stored as 0).
 - Calories can drift in new-recipe editRow and recents.
-- Locales: es.json lacks addMenu.addToSlot (in progress R111); fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
+- Locales: es.json still lacks 8 addMenu keys present in en.json (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub). es.json has possible leftovers voice and describeOutLoud, unverified. fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
+- Add sheet title passes raw ?slot= value, lowercased (add.tsx:56), so Spanish shows untranslated slot names. Needs add.tsx change plus slot translations.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
-- Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx.
+- Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx. No test covers i18n locales (es.json flag, R112).
 - Jest noise: hooks.ts:56 'API unreachable' log; tabbar act() warning from reduceMotion.ts:13. Not blocking.
 - loop/NOTES.md lines 39, 42, 54 to re-read.
 
@@ -65,11 +67,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macro types for food detail (parked, needs a decision before any type change).
 
 ## Next
-1. R111 (this round): es.json addMenu.addToSlot, one file.
-2. R112: fr.json addMenu.title and addToSlot, one file.
-3. Add sheet icons: SF Symbols to design SVGs, one icon per round, in src/app/food/add.tsx.
-4. Checkpoint: full tsc and full app suite, no file changes.
-5. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R112 (this round): verification-only run to clear the es.json 'tests not run' flag. No file changes.
+2. R113: fr.json addMenu.title and addToSlot, one file (Jev's top pick, deferred one round).
+3. Add sheet slot translation: add.tsx:56 slot name, after locale keys are in place.
+4. Add sheet icons: SF Symbols to design SVGs, one icon per round, in src/app/food/add.tsx.
+5. Checkpoint: full tsc and full app suite, no file changes.
+6. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0 in food/detail.tsx and quickAdd: needs a data model change across types and totals.
@@ -89,15 +92,16 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R106: detail macros parked. R107: Add sheet padding via negative margin.
 - R108, R109: doc-only. R109 flag cleared by doc-only, locale keys deferred.
 - R110: verification-only, flag cleared (tsc, hooks, sheetVariant, tabbar, eslint all green).
-- R111: es.json addToSlot. Jev ask overridden.
+- R111: es.json addToSlot. Jev ask overridden. Report flagged 'tests not run' (no test covers locales).
+- R112: flag rule applied. Jev ranked fr.json first (85%); verification-only run chosen instead, fr.json deferred to R113.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
 - --findRelatedTests misses source-reading tests (foodDetail, fibrePipeline, sheetVariant, foodMealMove); grep src/__tests__.
 - --findRelatedTests hooks.ts gives 5 suites, 33 tests. 'Nine suites, 116' means nine named suites.
 - Shell grep is ugrep; use /usr/bin/grep with LC_ALL=C for long patterns.
+- zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
 - Shared Button in src/components/forms affects all callers; override locally first.
 - SheetContent is shared; do not edit it for one screen.
-- zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
 - loop/NOTES.md is edited outside the session; re-read before each update.
 - Add sheet title line moves; grep before citing a line number.
