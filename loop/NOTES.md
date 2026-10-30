@@ -25,6 +25,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
 - R230: Jev preferred es.json summaryTitle. Kept verification first because R229 was flagged. Verification is read-only and tsc-plus-touched-tests only.
 - R231: flag on R230 report ('partly done'). Chose es.json summaryTitle as the completing step of the same task, not a new task.
+- R232: flag on R231 report (tests not run). Jev preferred fr.json summaryTitle at 87%. Kept verification first per the flag rule. Verification is read-only: parse and tsc only.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
@@ -33,6 +34,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - en.json has dashboard.streakLoading and dashboard.streakLoadError (R223), used at (tabs)/index.tsx:109 and :115.
 - en.json has dashboard.summaryTitle ('Summary'), directly after streakLoadError (R229). Used at (tabs)/index.tsx:102. R230 checked: parses, tsc 0, 6 related suites pass. Rendering not verified.
 - es.json has dashboard.streakLoading and streakLoadError after dayStreak_other (R225).
+- es.json has dashboard.summaryTitle 'Resumen' after streakLoadError (R231). Parse and tsc reported OK; Jest not run. Verification pending (R232).
 - fr.json has every en.json key up to R228. fr.json is still missing dashboard.summaryTitle.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
@@ -44,12 +46,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R228 also found es.json has 150 keys: two extra, addMenu.voice and addMenu.describeOutLoud. Kept per decision above. Not a failure.
 - R229 (summaryTitle): tsc and Jest not run, flagged.
 - R230: read-only check. tsc 0. 6 suites, 96 tests pass (tabNavigation, oneTapGymLog, summaryDetails, hydrationErrorScreens, summaryNoFabrication, render/tabbar.render). Clears R229 flag. Coverage gap: no test covers the title.
-- R231 (pending): es.json summaryTitle, parse check and tsc only.
+- R231: es.json summaryTitle added. Parse OK, tsc reported 0, Jest not run by rule. Flagged for tests not run.
+- R232 (pending): read-only verification of R231. Parse, key comparison, tsc only.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection, or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R231: add dashboard.summaryTitle 'Resumen' to es.json, directly after streakLoadError. Parse and tsc only.
+1. R232: verify R231 es.json summaryTitle (read-only, parse and tsc). Clears the R231 flag.
 2. Add dashboard.summaryTitle to fr.json, directly after streakLoadError (fr keeps U+2019 in any apostrophe). Then fr matches en again.
 3. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
 4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
@@ -77,7 +80,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe/fibre, quick add, celebration (streak 1 and above 1), Summary title and streak (VoiceOver 'day streak'), streak loading and failure, delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog, nutrition, VoiceOver Add label.
 - Native review fr: savedMeals, plan, goals, gymLog, nutrition, streak, dayStreak, dashboard ('Creneau de sport', 'A suivre'), scanAccuracy, streakLoading, streakLoadError; U+00A0/U+2019 standard; goals apostrophes; 'enregistrer' vs 'ajout'; gender; differentWeights; 'vos jours d’affilée' wording.
-- Native review es: plan, savedMeals, goals, gymLog, streak, dayStreak, scanAccuracy, streakLoading, streakLoadError; 'Registra {{plan}} tal como estaba programado'; 'Bien hecho!'; 'Puede que no coincida'; addedToMeal order; 'elemento'; masculine 'Registrado'.
+- Native review es: plan, savedMeals, goals, gymLog, streak, dayStreak, scanAccuracy, streakLoading, streakLoadError, summaryTitle ('Resumen'); 'Registra {{plan}} tal como estaba programado'; 'Bien hecho!'; 'Puede que no coincida'; addedToMeal order; 'elemento'; masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 - Override available: es emptyMessage wording.
 
@@ -91,5 +94,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (cleared R226); R227 (cleared R228); R229 (cleared R230); R230 (partly done, handled by R231).
-- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225-R229. R230: Jev ranked es.json first; manager chose verification (flag rule). R231: Jev ranked es.json first; manager chose es.json.
+- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (cleared R226); R227 (cleared R228); R229 (cleared R230); R230 (partly done, handled by R231); R231 (tests not run, handled by R232).
+- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225-R229. R230: Jev ranked es.json first; manager chose verification (flag rule). R231: Jev ranked es.json first; manager chose es.json. R232: Jev ranked fr.json first (87%); manager chose verification (flag rule).

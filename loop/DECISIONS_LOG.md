@@ -859,3 +859,5 @@
 - 2026-10-31 01:38 Spanish value 'Resumen' used for the title, since the design and English value are both 'Summary' and no other Spanish title key exists to match.
 - 2026-10-31 01:38 Check limited to a parse, one key lookup and tsc, per the testing rules; full Jest is not run on a non-checkpoint round.
 - 2026-10-31 01:38 Jev ranked the same candidate first in R230 notes, so no look-again is needed.
+- 2026-10-31 01:39 R232: Jev ranked the fr.json summaryTitle task first at 87%. Kept verification first because the R231 report was flagged (type check or tests not run). The standing rule is that flagged reports are cleared by a verification round before a new build task. Verification is read-only and limited to parse plus tsc, since no test covers locale files.
+- 2026-10-31 01:39 R232: the verification round is read-only and must not edit any file, so it cannot add any new scope.
