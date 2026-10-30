@@ -329,3 +329,8 @@
 - 2026-10-30 23:44 Kept the R117 checkpoint over the fr.json pick (Jev 82%) because the loop note requires a checkpoint round after the recipe, Spanish key and add.tsx margin changes.
 - 2026-10-30 23:44 Overrode Jev's ask (32%) with run, because the next task needs nothing from Isa.
 - 2026-10-30 23:44 Did not mention Jev in the prompt.
+- 2026-10-30 23:45 R117 checkpoint came back green (tsc 0, 65 suites, 824 tests, identical to R113), so the R118 fr.json task proceeds as planned in Next.
+- 2026-10-30 23:45 Chose fr.json over es.json and add.tsx:56: it is one file, needs nothing from Isa, and clears the missing-block gap the R116 audit found. Jev's 95% run matches.
+- 2026-10-30 23:45 Prompt names design/Lume App.html and row 90, says no git, names the one file, and limits the checks to a JSON parse and tsc, per the testing rules.
+- 2026-10-30 23:45 Left es.json and the add.tsx:56 slot issue out of this round, so the change stays to one file.
+- 2026-10-30 23:45 Did not mark row 90 verified; it stays BUILT, as the notes require.

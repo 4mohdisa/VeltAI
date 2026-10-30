@@ -33,7 +33,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R114: tsc 0; eslint clean on add.tsx, new-recipe.tsx, hooks.ts. Jest not run, flagged.
 - R115: verification only. tsc 0; hooks.ts related 5 suites / 33 tests green; sheetVariant and tabbar 22 of 22 green; eslint clean. Cleared the 'Jest not run' flag. Does not verify row 90, recipe fibre total, or the Spanish key.
 - R116: verification only, no file changes. tsc 0. Locale audit: en 16 addMenu keys; es 10 (missing 8, has voice and describeOutLoud not in en); fr has no addMenu block. add.tsx:56 passes raw lowercased slot. Margin arithmetic: -20pt + 20pt = 0pt, leaving only the device inset (34pt on 34pt-inset, 0pt on no-inset). Arithmetic only, not measured. Cleared the R115 flag.
-- R117: rejected prompt (did not name design/ file). Rewritten as a full checkpoint naming design/Lume App.html and row 90.
+- R117: full checkpoint, no file changes. tsc 0; full app suite 65 of 65 suites, 824 of 824 tests, 4 of 4 snapshots, identical to R113. Green. Row 90 still BUILT, not verified.
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices (doc does not say so); row 1445 holds build status.
@@ -42,7 +42,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macros: food/detail.tsx and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
 - Saved foods drop fibre (editSavedFood, saveFood). Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
 - Calories drift in new-recipe editRow and recents.
-- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage unchecked. fr.json has no addMenu block (16 keys). Slot default 'Snack' vs design 'Snacks'.
+- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage unchecked. fr.json has no addMenu block (16 keys). Slot default 'Snack' vs design 'Snacks'. Handover says es.json lacks addMenu.addToSlot but R111 built it: re-check before R119.
 - add.tsx:56 passes the raw lowercased slot; Spanish and French titles show English slot names (e.g. 'Añadir a breakfast'). Check whether translated slot names exist.
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx; no locale test.
 - Jest noise: hooks.ts:56 log, tabbar act() warning. Not blocking.
@@ -68,24 +68,23 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx.
 
 ## Next
-1. R117 (this round, rewritten): full checkpoint. tsc and full app suite, no file changes. Names design/Lume App.html and row 90. Compare with R113 (65 suites, 824 tests).
-2. R118: fr.json full addMenu block, all 16 keys from en.json, one file. Only if R117 is green.
-3. R119: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first.
-4. Add sheet slot translation at add.tsx:56. Check whether translated slot names exist first.
-5. Add sheet icons: SF Symbols to design SVGs, one per round.
-6. Checkpoint: full tsc and full app suite, no file changes.
-7. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R118 (this round): fr.json full addMenu block, all 16 keys from en.json, one file. Names design/Lume App.html and row 90. Check JSON parses and tsc is 0.
+2. R119: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first. Re-check es addToSlot exists.
+3. Add sheet slot translation at add.tsx:56. Check whether translated slot names exist first.
+4. Add sheet icons: SF Symbols to design SVGs, one per round.
+5. Checkpoint: full tsc and full app suite, no file changes.
+6. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
-- R83-R87 verification and doc. R88, R102, R113 checkpoints green.
-- R89, R99 prompts rejected (no design/ file named), rewritten.
+- R83-R87 verification and doc. R88, R102, R113, R117 checkpoints green.
+- R89, R99, R117 prompts rejected (no design/ file named), rewritten.
 - R106 detail macros parked. R107 Add sheet negative margin.
 - R111 es addToSlot. R112, R114, R115, R116 verification runs; hand checks of locales do not clear flags.
 - R114 flagged: Jest not run. R115 cleared that point.
 - R115 flagged again by automatic check: report looked partly done. R116 verification-only cleared it.
 - R116 report: nothing changed, tsc 0, locale audit done. Its NEXT was fr.json.
-- R117 checkpoint. Jev ranked fr.json first (82%); kept the checkpoint for the reasons above.
-- R117 prompt rejected: did not name the design/ file. Rewritten with design/Lume App.html and row 90 named.
+- R117 checkpoint green. Jev ranked fr.json first (82%); kept the checkpoint for the reasons above.
+- R118: fr.json addMenu block chosen (Jev 95%, run).
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
@@ -95,3 +94,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Shared Button in src/components/forms affects all callers; override locally first.
 - Add sheet title line moves; grep before citing a line number.
 - No tsc or test output written to the repo or /tmp.
+- Handover file loop/HANDOVER.md: read after a handover; loop/NOTES.md lines 39, 42, 54 need re-reading.

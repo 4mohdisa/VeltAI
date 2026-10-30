@@ -35,6 +35,24 @@
     "language": "Langue",
     "systemDefault": "Par défaut du système"
   },
+  "addMenu": {
+    "title": "Ajouter un repas",
+    "scanFood": "Scanner un aliment",
+    "snapMeal": "Photographiez votre repas",
+    "mealPhotoOrLabel": "Photo du repas ou étiquette",
+    "barcode": "Code-barres",
+    "scanPackage": "Scannez un emballage",
+    "exactDatabaseMatch": "Correspondance exacte dans la base",
+    "savedFoods": "Aliments enregistrés",
+    "oneTapReadd": "Rajouter en un toucher",
+    "savedGallery": "Votre galerie enregistrée",
+    "addToSlot": "Ajouter à {{slot}}",
+    "searchFoods": "Rechercher des aliments",
+    "searchPlaceholder": "Pomme, banane, Indomie…",
+    "myDishes": "Mes plats",
+    "quickAdd": "Ajout rapide",
+    "quickAddSub": "Juste les calories, rapidement"
+  },
   "foodLog": {
     "addToMeal": "Ajouter à {{slot}}",
     "noMatchesHint": "Essayez un autre nom, ou ajoutez-le comme aliment personnalisé."
