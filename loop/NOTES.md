@@ -27,22 +27,22 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control. SegmentedField compact prop (opt-in).
 - Recents macros in hooks.ts (per 100 g). new-recipe.tsx ingredientFrom scales protein, carbs, fat by grams (no test covers it).
 - DESIGN_GAP_ANALYSIS.md truth-up done (R86): count 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
-- R87 verification green; R86 flag cleared.
+- R90 doc truth-up done: FoodNumberEntryBar wording gone; row 87 status is a single DIFFERENT label, BUILT and open items in the reason cell.
 - R88 checkpoint green: tsc 0 errors; full app suite 65 of 65 suites, 824 of 824 tests, 4 of 4 snapshots. No file changes.
 
 ## Open differences
 - Add sheet: SF Symbols not design SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab.
 - Add sheet status conflict: summary says BUILT, section verdict says PARTIAL. Isa to pick one label.
-- Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; offline toast names no meal; Meal chip 8pt horizontal padding, no selection transition (row 87). Confirm label 17/24 vs design 17/22.
+- Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; offline toast names no meal; Meal chip 8pt horizontal padding, no chip background transition (row 87). Confirm label 17/24 vs design 17/22. Meal chip weight (label token) not confirmed against design 600 13/17.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - ingredientFrom: fibre saved as 0 (new-recipe.tsx:34-44 and edit path near 80); literal \n in comment at new-recipe.tsx:49.
 - quickAdd and food/detail.tsx log missing macros as 0. Keep ?? for planMinutes.
 - Food Search section has no recents macros note.
-- DESIGN_GAP_ANALYSIS.md:86-87 say FoodNumberEntryBar; should be NumberEntryBar. (Being fixed in R90.)
-- Row 87 status mixes DIFFERENT with BUILT parts. (Being fixed in R90.)
+- Row 87 reason cell lists open items; BUILT count of 3 does not mean those surfaces fully match. Add sheet row is BUILT but lists open differences.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot: design 'Snacks' vs 'Snack' default.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Calorie rounding in new-recipe edit path and useFoodSearch recents can drift ingredient calories slightly.
+- Test gap: no test names SegmentedField.tsx or quick-add.tsx by path.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route onLog to log-session, or accepted deviation. Unanswered since r43.
@@ -52,16 +52,17 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Global + title: keep 'Add meal' or name a default meal.
 - Add sheet status label: BUILT or PARTIAL.
 - ingredientFrom device run: add a recent and a searched food to a recipe, check totals, change grams, save.
-- Owner device checks (ask once): quick add fit, MEAL caption, toast, compact chips, keyboard bar, Add sheet title and tile grid at 320pt and 430pt, celebration flow, recipe macros.
+- Owner device checks (ask once): quick add fit, no collapse, MEAL caption, toast, compact chips, keyboard bar, Add sheet title and tile grid at 320pt and 430pt, celebration flow (row 17 step 3), recipe macros.
 
 ## Next
-1. R90 (in progress): doc-only truth-up of DESIGN_GAP_ANALYSIS.md lines 86-87 and row 87. No code, no tests. Clears the R88 flag.
-2. Fibre and macro scaling. In src/app/food/new-recipe.tsx scale fibre in ingredientFrom (lines 34-44) and update the edit path (near line 80); in src/lib/data/hooks.ts include fibre in useFoodSearch recents. One file per round.
+1. R91 (in progress): verification-only run. tsc, eslint on the four changed source files, related source-reading suites (hooks; SegmentedField and quick-add if any match). No file edits. Clears the R90 flag.
+2. Fibre and macro scaling. In src/app/food/new-recipe.tsx scale fibre in ingredientFrom (lines 34-44) and update the edit path (near line 80); fix the literal \n at line 49; in src/lib/data/hooks.ts include fibre in useFoodSearch recents. One file per round.
 3. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
 4. Same for quickAdd (own round).
 5. Add sheet icons, scan routes, bottom padding.
-6. Re-read loop/NOTES.md lines 39, 42, 54 (may be stale).
-7. If nothing non-gym remains: stop with 'only owner decisions remain'.
+6. Doc-only round: re-read loop/NOTES.md lines 39, 42, 54 (may be stale) and correct if needed.
+7. Checkpoint round: full tsc and full app suite, no file changes.
+8. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
@@ -77,7 +78,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R87: verification-only run green. R86 flag cleared.
 - R88: checkpoint green (tsc 0 errors, 65 of 65 suites, 824 of 824 tests). Report flagged as partly done.
 - R89: prompt rejected before running: did not name the matching design/ file. Rewritten and re-sent as R88.
-- R90: doc-only run to clear the R88 flag before any code edit. Jev: run 82%, last task clean 38%, risk 1.5/2.
+- R90: doc-only run to clear the R88 flag. Doc truth-up done; flagged again for no type check or tests run.
+- R91: verification-only run to clear the R90 flag before any code edit. Jev: run 78%, last task clean 6%, risk 1.6/2.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish.
@@ -85,4 +87,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Shared Button in src/components/forms affects all callers; override locally first.
 - zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
 - Notes file was edited outside the session; re-read before each update.
-- Prefer small, verified steps. Jev risk has been 1.5/2 with low clean-completion confidence.
+- Prefer small, verified steps. Jev risk has been 1.5-1.6 with low clean-completion confidence.

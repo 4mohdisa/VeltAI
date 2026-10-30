@@ -206,3 +206,7 @@
 - 2026-10-30 23:13 Scope limited to DESIGN_GAP_ANALYSIS.md. Fixes the stale FoodNumberEntryBar names and the mixed row 87 status that the checkpoint report flagged. Reason: these misstate the state of the work.
 - 2026-10-30 23:13 Add sheet label conflict left for Isa to pick, as the notes already say. Not touched this round.
 - 2026-10-30 23:13 Checkpoint R88 result recorded: tsc 0 errors, 65 of 65 suites, 824 of 824 tests passed. Row 87 remains BUILT, not verified.
+- 2026-10-30 23:15 Chose the verification-only run first: the loop note says the last report was flagged for no type check or tests, and the notes rule is to clear a flag before any new code edit. Jev also ranks run highest and last-task-clean at 6%.
+- 2026-10-30 23:15 Scoped the test run to the four changed source files and the matching source-reading suites, not the full suite, to keep usage low. Checkpoint full suite is not due until the next checkpoint round.
+- 2026-10-30 23:15 Kept row 87 status as DIFFERENT and made no doc edit, since the R90 doc truth-up is already in place.
+- 2026-10-30 23:15 Deferred the stale loop/NOTES.md lines 39, 42 and 54 check: it is a read-only task that does not need its own round, so it is folded into the next doc-only round.
