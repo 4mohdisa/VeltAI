@@ -930,3 +930,8 @@
 - 2026-10-31 01:53 Spanish wording 'Por qué este plan' follows the English heading. Native review stays pending on Isa's list.
 - 2026-10-31 01:53 Left addMenu.voice and addMenu.describeOutLoud in place because the removal waits on Isa's approval.
 - 2026-10-31 01:53 Verification uses tsc and a node parse only, not Jest, to keep usage low. Jest is not required for a JSON key change.
+- 2026-10-31 01:54 Chose the read-only verification round first, because the R249 report was flagged and the notes require a verification round to clear a flag before a new build task.
+- 2026-10-31 01:54 Ran the full Jest suite in this round, as R246 did, because the flag was for tests not run.
+- 2026-10-31 01:54 Did not follow the handover suggestion to remove es addMenu.voice and describeOutLoud, because the notes require Isa's approval first.
+- 2026-10-31 01:54 Treated the handover's 'en 149' key count as stale; the latest report and R248 read-only check both show en at 150.
+- 2026-10-31 01:54 fr.json plan.whyThisPlan moves to R251, one file per round.

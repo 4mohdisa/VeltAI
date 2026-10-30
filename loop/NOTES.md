@@ -25,30 +25,32 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R241: lastLoggedLabel counts calendar days (local dates), not 24-hour periods.
 - R243: no new test suites. The 11pm-to-9am case is checked on device by Isa.
 - R247: the latest report's suggestion to add a render test for SavedMealsList is declined under the R243 rule.
+- R249: es plan.whyThisPlan value 'Por qué este plan' follows the English wording. Native review pending.
 - Flagged reports are cleared by a verification round before a new build task. Checkpoint rounds are read-only.
 - Handover suggestion to remove es addMenu.voice and describeOutLoud is not followed until Isa approves.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
-- R249: es plan.whyThisPlan value 'Por qué este plan' follows the English wording. Native review pending.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - lastLoggedLabel calendar-day logic in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe).
 - Streak keys: gymLog.celebration.streak_one/_other; dashboard.dayStreak_one/_other, streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
 - (tabs)/index.tsx lines 102, 109, 115, 121 use t().
-- R247: plan.tsx:120 'Why this plan' uses t('plan.whyThisPlan'). Added to en.json only, then to es.json in R249 (pending). Status BUILT, not verified. Heading shows only when the plan has a reason.
+- plan.tsx:120 'Why this plan' uses t('plan.whyThisPlan'). Added to en.json (R247) and es.json (R249, pending report check). fr.json still missing. Heading shows only when the plan has a reason.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- R242 full checkpoint: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. This covers the R241 change at suite level only.
-- R246 read-only checks: tsc exit 0; full Jest 65 suites, 824 tests, 4 snapshots green. Clears the R246 flag.
+- R242 full checkpoint: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green.
+- R246 read-only: tsc exit 0; full Jest green. Cleared R246 flag.
 - R247: tsc exit 0 reported. Jest not run. Flagged. Cleared by R248.
-- R248 read-only: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. Key counts en 150, es 151 (missing plan.whyThisPlan, extras addMenu.voice and addMenu.describeOutLoud), fr 149 (missing plan.whyThisPlan). Clears the R247 flag.
+- R248 read-only: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. Cleared R247 flag.
+- R249 (es plan.whyThisPlan): tsc exit 0 reported; Jest not run. Flagged.
+- R250 read-only (this round): clearing the R249 flag. Result pending in next report.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 
 ## Next
-1. R249: add plan.whyThisPlan to es.json (in progress). Check with tsc and node parse.
-2. Add plan.whyThisPlan to fr.json (next round).
+1. R250: read-only verification of R249 (tsc, full Jest, key counts both directions).
+2. R251: add plan.whyThisPlan to fr.json ('Pourquoi ce plan'). This brings fr to 150 keys.
 3. nutrition.tsx:77 'Macros' to t().
 4. (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
 5. Add sheet icons to design SVGs.
@@ -62,7 +64,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 17: rest-day exits show no card; pop-in; ring vs flame; footnote missing.
 - fr gymLog.celebration.streak needs a count-based key and a log-session change.
 - fr slot phrasing 'Ajouter à {{slot}}' with 'Petit-déjeuner' reads oddly.
-- plan.addTitle: entry.title stays English (plan.tsx:99). French 'Ajouter à {{title}}' differs in meaning from English 'Add {{title}}'.
+- plan.addTitle: entry.title stays English (plan.tsx:99). French 'Ajouter à {{title}}' differs in meaning from English 'Add {{title}}'. es 'Añadir a {{title}}' same issue.
 - Global SegmentedField inset; food search sheet; single scanner; chip padding.
 - Design '14-day streak' hyphen; app keeps the space.
 - Code: mixHex; goals.tsx copy; CONFLICT_KEYWORDS untyped; router.setParams history; blinking caret; Math.round in draft(); console.warn at hooks.ts:56.
@@ -72,7 +74,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable (kept).
 - Future-dated saved-meal logs read 'Last logged today'. Matters if device clock is behind.
 - Render test for 11pm-to-9am lastLoggedLabel. Dropped per R243.
-- Hardcoded English, not yet fixed: nutrition.tsx:77; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+- Hardcoded English, not yet fixed: nutrition.tsx:77; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 (now uses t(), see Built).
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
@@ -90,7 +92,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - Check key sets in both directions.
 - Prompts with more than one file or screen get rejected. One file per round where possible.
-- Handover summaries can be stale on what is built; check against this file.
+- Handover summaries can be stale on what is built and on key counts; check against this file.
 - src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
 
 ## Loop notes
@@ -98,6 +100,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Rejected: R236 (more than one screen), R238 (no design file named), R243 (no design file named). Rewritten as R237, R239 and the R242 checkpoint.
 - Flags R239, R241, R242, R244, R245: cleared by read-only verification rounds.
 - R246: flagged on the type check only. Cleared by full Jest in that round.
-- R247: flagged, type check or tests not run (Jest skipped). Cleared by R248 read-only verification.
-- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R246 run favoured; agreed each time. R247 run 91%; agreed. R248 run 90%; agreed. R249 run 88%; agreed.
-- R249: es.json plan.whyThisPlan, one file, per the one-file-per-round rule. fr.json follows in R250.
+- R247: flagged, Jest skipped. Cleared by R248.
+- R249: flagged, Jest skipped. Cleared by R250 read-only verification.
+- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R249 run favoured; agreed each time. R250 run 95%; agreed.
