@@ -596,3 +596,11 @@
 - 2026-10-31 00:39 Left entry.title untranslated this round; the es and fr slot-name issue is parked to NEXT so the task stays one file.
 - 2026-10-31 00:39 Used the 'none' gap row because the plan items live in notes, not in DESIGN_GAP_ANALYSIS.md, and I did not invent a row number.
 - 2026-10-31 00:39 Jev run 99% agreed with my run choice; no look-again needed.
+- 2026-10-31 00:40 Chose the verification round first because the loop note flagged R170 (tests not run) and the notes say flags are cleared by a verification round before a new build task.
+- 2026-10-31 00:40 Allowed the full suite on this round because the flag is about tests not being run and it doubles as the plan/saved-meal checkpoint in Next 8. No new test files.
+- 2026-10-31 00:40 Set no-edit-unless-failure so the verification cannot add scope while clearing the flag.
+- 2026-10-31 00:40 Kept Jev's 94% run agreement; no conflict to resolve.
+- 2026-10-31 00:40 Rewrote the rejected prompt to name design/Lume App.html and gap row none, since this is a locale change with no gap row.
+- 2026-10-31 00:40 Chose the es plan group first because it is the next step in Next and clears the Spanish gap for strings already built in plan.tsx. Jev ranks it highest among the candidates.
+- 2026-10-31 00:40 Set plan.suggested to 'Sugerido:' and plan.addTitle to 'Añadir a {{title}}' to match the existing Spanish addMenu pattern and avoid the capital letter problem noted in Open.
+- 2026-10-31 00:40 Kept the slot name English in plan.addTitle, because entry.title must stay English for the /food/add route param. Translating it stays parked.

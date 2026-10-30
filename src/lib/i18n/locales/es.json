@@ -124,5 +124,9 @@
     "fat": "Grasa",
     "fibre": "Fibra",
     "mealsToday": "Comidas de hoy"
+  },
+  "plan": {
+    "suggested": "Sugerido:",
+    "addTitle": "Añadir a {{title}}"
   }
 }

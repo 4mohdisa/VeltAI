@@ -29,21 +29,23 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Recents macros per 100 g incl. fibre; recipe fibre sum.
 - food.tsx: slot heading, 'Add to' and VoiceOver labels, translated toast, deleteMealHint, delete dialog.
 - en, es, fr: addMenu slots; foodLog (23 keys each); savedMeals logged and logFailed. SavedMealsList toasts use them.
-- en.json: plan group with suggested and addTitle (R167). Not yet used by plan.tsx.
+- en.json: plan group with suggested and addTitle (R167).
+- plan.tsx: line 87 uses plan.suggested (R170); line 99 uses plan.addTitle with entry.title (R170). Not device checked.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Checkpoints green: R113 to R164, R166, R168 and R169 (tsc 0, 65 suites, 824 tests, 4 snapshots; en, es and fr JSON parse).
 - Flags R144 to R163 cleared or partly cleared. R165 flagged (wrong path); cleared by R166 checkpoint.
 - R167 flag cleared by R168 verification round.
-- R169 checkpoint result: green (tsc 0, 65 suites, 824 tests, 4 snapshots). No edits.
-- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group. No test reads locale files. plan keys are not used by any code yet.
+- R170 flagged by loop note (type check or tests not run). R171 verification round.
+- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx line 87 and 99. No test reads locale files. No test imports plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- plan.tsx :85 'Suggested:' and :97 'Add ${title}' being switched to plan.suggested and plan.addTitle (R170 task). Keep literal space after the label on :85. entry.title is an English slot name, so addTitle still reads partly English in es and fr; translate the slot name too (parked to NEXT).
+- plan.addTitle: entry.title is an English slot name, so it still reads partly English in es and fr; translate the slot name too (parked to NEXT). entry.title must stay English for the /food/add slot route param.
+- plan.tsx screen title and 'No plan yet' empty state (lines 34 to 39) still hardcoded English.
 - SavedMealsList.tsx lastLoggedLabel lines 26-33 hardcoded; 'N days ago' needs plurals. Lines :59 and :63 unchecked.
-- es.json lacks plan, gymLog, settings.scanAccuracy, some goals keys. Has addMenu.voice and describeOutLoud.
+- es.json lacks gymLog, settings.scanAccuracy, some goals keys. Has addMenu.voice and describeOutLoud. Plan group added in R172 (in progress).
 - fr.json lacks plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy.
 - Add sheet icons are SF Symbols, not design SVGs.
 - Quick add (row 87): no caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
@@ -57,7 +59,7 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 ## Blocked on Isa
 - Row 23 one-tap log: route or accepted deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
-- Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver labels and hint, toasts, saved meal toasts.
+- Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver labels and hint, toasts, saved meal toasts, plan Suggested and Add label.
 - Meal delete has no gap row: add one? Macro types for food detail (data model, parked).
 - Native review fr: 'Appuyez sur +', 'Pas encore de repas', vegane/vegetarienne agreement, spacing before : and ? and in noMatches, 'Maintenez' without 'appuye', 'a Petit-dejeuner'.
 - Native review es: 'Puede que no coincida', addedToMeal word order, 'elemento', savedMeals 'Registrado:' and 'No se pudo registrar'.
@@ -73,8 +75,8 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Slot name translation for plan.addTitle in es and fr (entry.title is English).
 
 ## Next
-1. R170: plan.tsx uses plan.suggested (line 85, keep space) and plan.addTitle (line 97). In progress.
-2. plan group to es, then fr (one file per round).
+1. R172: es.json plan group (plan.suggested and plan.addTitle, plus the rest of the en.json plan group). In progress.
+2. fr.json plan group, same keys (one file per round).
 3. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en, es, fr).
 4. es and fr locale gaps, one file per round.
 5. fr and es wording fixes, one file per round.
@@ -86,15 +88,18 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 ## Loop notes
 - Handover after R141, R156 and R167 session. Name files fully in prompts.
 - R168 verification passed; R167 flag cleared.
-- R169 checkpoint green. Latest report clean, no flag.
-- R170: Jev run 99%, agreed. Task is plan.tsx only (one file, gap row none, notes item).
+- R169 checkpoint green. No edits.
+- R170: plan.tsx switched to plan keys. Report flagged: tests not run. Jev agreed with run earlier.
+- R171: verification round, passed or cleared by loop; no edits.
+- R172: prompt rejected for not naming the design/ file. Rewritten to name design/Lume App.html and gap row none. Jev run 93%. Chose es plan group over SavedMealsList and fr plan group.
 
 ## Gotchas
 - src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.
 - zsh: use xargs or --runTestsByPath. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
 - Quote paths with parentheses. i18n does not escape values.
 - SavedMealsList has no test file; only src/app/food/meals.tsx imports it.
-- No food-named test imports or renders add.tsx, (tabs)/food.tsx or src/lib/i18n directly.
+- No food-named test imports or renders add.tsx, (tabs)/food.tsx or src/lib/i18n directly. No test imports plan.tsx.
 - Slot value 'Snacks' maps to key snack; slot.toLowerCase() finds nothing.
-- Decoded design in /tmp/lume-design may vanish. Only 'Search foods' was found there.
 - Claude Code may have tried writing to /tmp (R166). Keep all output inside the repo.
+- Decoded design in /tmp/lume-design may vanish. Only 'Search foods' was found there.
+- Handover summary (R167) noted the Expo docs requirement is in AGENTS.md.
