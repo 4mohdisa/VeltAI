@@ -473,3 +473,12 @@
 - 2026-10-31 00:16 Kept the capital in 'Add to Lunch', per Isa's brief. Did not lowercase.
 - 2026-10-31 00:16 Left the locale work for later rounds, because it needs one file per round and no visible change until the language is switched on.
 - 2026-10-31 00:16 Jev ranked the same task first at 98% run, so no override was needed.
+- 2026-10-31 00:17 R147 flag cleared: the Claude Code report confirms food.tsx lines 539 and 795 already use foodLog.addToMeal. They are VoiceOver labels, so no further change is needed.
+- 2026-10-31 00:17 Chose the es.json keys task (candidate 1) because it is next in the agreed order and needs nothing from Isa. Candidates 2 and 3 come after it.
+- 2026-10-31 00:17 Spanish translations are agent translations in the 'tu' form, per the existing decision. Native review stays on the owner list.
+- 2026-10-31 00:17 Kept the file-by-file rule for locales: es.json this round, fr.json next round.
+- 2026-10-31 00:17 Chose es.json keys first because the locale order rule says en, then es, then fr, one file per round.
+- 2026-10-31 00:17 Gap row set to none: locale keys have no visible surface row, and the rule allows 'none'.
+- 2026-10-31 00:17 Ran tsc only and no test suite, because no test reads locale files (notes, Verification).
+- 2026-10-31 00:17 Told Claude Code to leave known Spanish wording issues alone so this round stays one task.
+- 2026-10-31 00:17 Recorded the rejected prompt fix: design file named, branch line added, git rules stated.

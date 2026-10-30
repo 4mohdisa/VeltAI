@@ -89,6 +89,13 @@
     "addMeal": "Añadir comida",
     "per100": "{{value}} / 100g",
     "addToMeal": "Añadir a {{slot}}",
+    "addedToMeal": "Añadido a {{slot}}: {{energy}}",
+    "mealDeleted": "Se ha eliminado {{slot}}",
+    "deleteMealTitle": "¿Eliminar {{slot}}?",
+    "deleteMealMessage_one": "Esto elimina {{count}} elemento y recalcula los totales del día.",
+    "deleteMealMessage_other": "Esto elimina {{count}} elementos y recalcula los totales del día.",
+    "deleteMealConfirm": "Eliminar",
+    "deleteMealHint": "Mantén pulsado para eliminar todo lo registrado en {{slot}}",
     "noMatchesHint": "Prueba otro nombre o añádelo como comida personalizada."
   },
   "dashboard": {
