@@ -415,3 +415,6 @@
 - 2026-10-31 00:02 Jev ask (46%) overridden: nothing in this task needs Isa.
 - 2026-10-31 00:02 Kept 'Add to Lunch' capitalisation out of this prompt. Following the design default (lowercase) is scheduled as its own round after this toast fix, so Isa can still override.
 - 2026-10-31 00:02 Literals with no existing locale key are reported as BLOCKED rather than adding keys, because a locale edit would be a second file in the same round.
+- 2026-10-31 00:04 Split the R134 blocked task: key in en.json this round, wiring in food.tsx next round, so each round edits one file. Reason: the last report flagged it as partly done and the prompt rule is one editable file.
+- 2026-10-31 00:04 Meal delete toast wording set to 'Removed {{slot}}' to match the design's 'Removed ' + name pattern, rather than the literal '{{slot}} deleted.'. Reason: design default. Isa may override.
+- 2026-10-31 00:04 Ran the Jev 'ask' overrule: the next task needs nothing from Isa.
