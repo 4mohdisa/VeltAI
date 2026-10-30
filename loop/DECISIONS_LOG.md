@@ -316,3 +316,7 @@
 - 2026-10-30 23:42 Jest limited to related tests for hooks.ts and the sheetVariant and tabbar suites, not the full suite, to keep usage low.
 - 2026-10-30 23:42 Notes rewritten under 600 words as the loop note asks: repeated items merged, finished work removed.
 - 2026-10-30 23:42 Jest noise (hooks.ts:56 log, tabbar act() warning) recorded as not blocking.
+- 2026-10-30 23:43 The last report was flagged as partly done. The flag rule outranks Jev's ranking, so this round is verification-only before any new code. It checks the locale state and the slot-title line that the flagged report left open.
+- 2026-10-30 23:43 Jev ranked fr.json first at 87%. I kept the verification round because the flagged report must be cleared first. The concrete reason Jev cannot see: the flag rule requires a verification-only run before new code. fr.json is next (R117) and keeps its place.
+- 2026-10-30 23:43 The verification uses no file edits and no new tests, so it adds no usage beyond one tsc run and read-only greps.
+- 2026-10-30 23:43 Locale and slot-title fixes stay as separate single-file rounds after this, as planned.

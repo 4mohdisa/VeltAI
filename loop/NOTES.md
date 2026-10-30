@@ -29,10 +29,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - es.json addMenu.addToSlot.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 - Last full checkpoint R113 green: tsc 0, 65 suites, 824 tests. Since then no test covers recipe totals, the Spanish key or the add.tsx margin.
-- R114: tsc 0; eslint clean on add.tsx, new-recipe.tsx, hooks.ts. Jest not run, so flagged.
+- R114: tsc 0; eslint clean on add.tsx, new-recipe.tsx, hooks.ts. Jest not run, flagged.
+- R115: verification only. tsc 0; hooks.ts related 5 suites / 33 tests green; sheetVariant and tabbar 22 of 22 green; eslint clean. Clears the 'Jest not run' flag. Does not verify row 90, recipe fibre total, or the Spanish key.
 
 ## Open differences
-- Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices; row 1445 holds build status.
+- Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices (doc does not say so); row 1445 holds build status.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; Meal chip padding and token; confirm 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Macros: food/detail.tsx and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
@@ -63,9 +64,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx.
 
 ## Next
-1. R115 (this round): verification-only. tsc, Jest related tests (hooks.ts; sheetVariant, tabbar), eslint. No file changes. Clears the flag if green.
-2. R116: fr.json full addMenu block, all 16 keys from en.json, one file.
-3. R117: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first.
+1. R116 (this round): verification-only, no file changes. tsc; addMenu key audit for en, es, fr; add.tsx slot-title line; tile grid margin vs SheetContent padding. Clears the flag if it reports cleanly.
+2. R117: fr.json full addMenu block, all 16 keys from en.json, one file.
+3. R118: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first.
 4. Add sheet slot translation at add.tsx:56.
 5. Add sheet icons: SF Symbols to design SVGs, one per round.
 6. Checkpoint: full tsc and full app suite, no file changes.
@@ -75,8 +76,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R83-R87 verification and doc. R88, R102, R113 checkpoints green.
 - R89, R99 prompts rejected (no design/ file named), rewritten.
 - R106 detail macros parked. R107 Add sheet negative margin.
-- R111 es addToSlot. R112, R114 verification runs; hand checks of locales do not clear flags.
-- R114 flagged: Jest not run.
+- R111 es addToSlot. R112, R114, R115 verification runs; hand checks of locales do not clear flags.
+- R114 flagged: Jest not run. R115 cleared that point.
+- R115 flagged again by automatic check: report looked partly done. R116 is verification-only to deal with it. Jev ranked fr.json first (87%); kept the verification round because the flag rule outranks Jev ranking.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
