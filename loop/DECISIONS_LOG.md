@@ -307,3 +307,7 @@
 - 2026-10-30 23:39 Verification-only run with no file changes, per the R112 rule for flagged reports.
 - 2026-10-30 23:39 Jev 'ask' 15% not acted on: the next task needs nothing from Isa, so no question is asked this round.
 - 2026-10-30 23:39 Jev 'last task clean' at 46%: treated as a reason to run the suite, not a reason to skip the flag.
+- 2026-10-30 23:40 Chose the verification-only run over fr.json because the flag rule outranks Jev's ranking. The R113 report was flagged as only partly done, and the notes say a flagged report is cleared by a verification-only run before new code.
+- 2026-10-30 23:40 Locale check is read-only. Locale-only checks cannot clear a flag on their own (R113 rule), so the run also includes tsc and eslint on the three edited files.
+- 2026-10-30 23:40 No jest run this round. The full suite already ran in R113 and a narrow check does not cover the recipe or add.tsx edits.
+- 2026-10-30 23:40 fr.json is deferred to R115, not dropped. Jev's 88% is recorded but the flag comes first.

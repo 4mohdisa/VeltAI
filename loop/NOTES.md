@@ -23,7 +23,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet summary row BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
 - Round-scoped modified-file checks only.
 - Missing macros are a data model change: parked, not asked (R106, R107).
-- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110, R111). Flag rule outranks Jev ranking (R109, R112, R113).
+- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110, R111). Flag rule outranks Jev ranking (R109, R112, R113, R114).
 - Add sheet bottom padding: negative margin on the tile grid accepted as interim (R108). SheetContent is shared, not edited.
 - A locale-only check cannot clear a flag when no test covers i18n; use a full checkpoint instead (R113).
 
@@ -35,7 +35,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales macros and fibre by grams; totals sum fibre.
 - es.json addMenu.addToSlot added (R111): 'Añadir a {{slot}}', last key in addMenu. JSON parses, placeholder matches en.json (R112).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT, 0 EXACT. BUILT rows: 76, 86, 90.
-- Checkpoints R88 and R102 green. Last full suite (824 tests) predates the recipe totals and add.tsx edits. R113 checkpoint runs it again.
+- Checkpoints R88 and R102 green. R113 full checkpoint green: tsc 0 errors, 65 suites, 824 tests, 4 snapshots. R113 clears the 'tests not run' flag but does not verify recent edits. No test covers recipe totals, the Spanish key or the add.tsx margin.
 - R110 verification clean: tsc 0 errors, hooks 5 suites/33 tests, sheetVariant and tabbar 22/22, eslint clean on three files. R109 flag cleared.
 
 ## Open differences
@@ -68,8 +68,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macro types for food detail (parked, needs a decision before any type change).
 
 ## Next
-1. R113 (this round): full checkpoint, tsc and full app suite, no file changes. Clears the R111-R112 'tests not run' flag if green.
-2. R114: fr.json addMenu.title and addToSlot, one file (Jev's top pick, deferred again by the flag rule).
+1. R114 (this round): verification-only. tsc, eslint on the three edited files, read locale addMenu blocks. No file changes. Clears the R113 flag if green.
+2. R115: fr.json addMenu.title and addMenu.addToSlot, one file (Jev's top pick, 88%, deferred again by the flag rule).
 3. Add sheet slot translation: add.tsx:56 slot name, after locale keys are in place.
 4. Add sheet icons: SF Symbols to design SVGs, one icon per round, in src/app/food/add.tsx.
 5. Checkpoint: full tsc and full app suite, no file changes.
@@ -94,8 +94,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R108, R109: doc-only. R109 flag cleared by doc-only, locale keys deferred.
 - R110: verification-only, flag cleared (tsc, hooks, sheetVariant, tabbar, eslint all green).
 - R111: es.json addToSlot. Jev ask overridden. Report flagged 'tests not run' (no test covers locales).
-- R112: verification-only run for the flag. Locale JSON checked by hand; flag not cleared (no test reads locales). Jev ranked fr.json first (85%); deferred.
-- R113: full checkpoint chosen to clear the flag (Jev run 81%, ask 15%). Flag rule applied.
+- R112: verification-only run for the flag. Locale JSON checked by hand; flag not cleared. Jev ranked fr.json first (85%); deferred.
+- R113: full checkpoint, 65 suites, 824 tests green. Report flagged as only partly done (NEXT still lists fr.json). Jev ranked fr.json 88%.
+- R114: verification-only chosen over fr.json, because the flag rule outranks Jev's ranking. Read-only check, no file changes.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
