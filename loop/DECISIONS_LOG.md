@@ -532,3 +532,11 @@
 - 2026-10-31 00:27 Declined the food tab render test again. The brief forbids new test suites, and Isa verifies the UI himself.
 - 2026-10-31 00:27 R156 is a green full checkpoint, so it clears the R155 flag. No flag blocks the next build task.
 - 2026-10-31 00:27 Left Isa's blocked items unchanged. None of them is needed for this task.
+- 2026-10-31 00:28 The loop note flagged R157 because tsc and tests were not run. Per the flag rule, a verification round comes before any new build task, so I chose verification.
+- 2026-10-31 00:28 Verification uses the full app suite and tsc, not a targeted run, because the en.json change was never tested and the checkpoint rule covers it with no file changes.
+- 2026-10-31 00:28 Next build stays SavedMealsList.tsx, the first item in the Next list, once this round is clean.
+- 2026-10-31 00:28 Jev's 'run' call is consistent with my choice; the flag rule was the deciding factor.
+- 2026-10-31 00:28 Chose the R158 verification round first, because the R157 flag must clear before any build task (standing flag rule).
+- 2026-10-31 00:28 Rewrote the prompt to name design/Lume App.html and the gap row (none), as the loop note required.
+- 2026-10-31 00:28 Kept the round verification-only with no file changes, so the rejected-prompt fix does not add scope.
+- 2026-10-31 00:28 Used the full app suite once here because the change touches en.json, which every test loads, and this is the first run since R157.

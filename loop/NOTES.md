@@ -23,6 +23,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Locale keys: en first, then es, then fr, one file per round.
 - Flagged reports must be cleared by a verification round before a new build task.
 - Verification rounds list exact test paths and state what they cover.
+- New savedMeals group sits after foodLog, not inside it, so foodLog keeps its 23-key match with es and fr.
 
 ## Built (not verified)
 - NumberEntryBar shared: quick-add, food detail, gym session, PlannedValuesForm.
@@ -31,16 +32,18 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents macros per 100 g incl. fibre; new-recipe.tsx sums fibre.
 - food.tsx: slot heading, VoiceOver and 'Add to' labels via foodLog.addToMeal (lines 539, 795), toast with translated slot (390), hint via foodLog.deleteMealHint (771), meal delete dialog and toast use translated keys.
 - en, es, fr: addMenu breakfast/lunch/dinner/snack; foodLog keys (23 each, same order).
+- en.json (R157): savedMeals.logged 'Logged {{name}}.' and savedMeals.logFailed 'Couldn\'t log {{name}}. Try again.' Not yet used by any component. Not jest-tested at time of writing; R158 verifies.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151, R156 (tsc 0, 65 suites, 824 tests, 4 snapshots).
 - Targeted: R146, R147, R154 (foodDates, foodDetail, foodMealMove, foodDetailLogged render).
+- R157 flagged: tsc and tests not run for the en.json change. R158 verification round issued (tsc, en/es/fr JSON parse, full app suite). Result pending.
 - Unverified: no test renders the add title, slot heading, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- SavedMealsList.tsx :59, :63 hardcoded English toasts. en.json first.
+- SavedMealsList.tsx :59, :63 hardcoded English toasts. en.json keys done (R157); component switch is next after verification.
 - plan.tsx :85 'Suggested:', :97 'Add ${entry.title}'.
 - Add sheet icons are SF Symbols, not design SVGs.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
@@ -49,7 +52,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press meal delete not discoverable; hint reaches VoiceOver only.
-- es and fr lack foodLog.mealDeleted, addedToMeal and deleteMeal keys (check, may be done).
+- es and fr lack savedMeals keys (added to en only). es and fr lack foodLog.mealDeleted, addedToMeal and deleteMeal keys (check, may be done).
 - Locale wording: fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'.
 - fr review: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ?, 'Maintenez' without 'appuye' in deleteMealHint, 'a Petit-dejeuner'.
 - es review: 'Puede que no coincida' feminine agreement; addedToMeal word order; 'elemento'.
@@ -61,7 +64,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add 17/22 vs 17/24.
 - Add sheet 0pt gap on no-inset devices.
 - 'Snacks' English label; 'added to snacks' wording.
-- Device runs: Add sheet; recipe and fibre; quick add; celebration card; meal delete dialog and header; VoiceOver labels and hint; toast.
+- Device runs: Add sheet; recipe and fibre; quick add; celebration card; meal delete dialog and header; VoiceOver labels and hint; toast; saved meal toasts once built.
 - Meal delete has no gap row: add one?
 - Macro types for food detail (data model, parked).
 - Native review of fr and es strings listed above.
@@ -79,19 +82,23 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Food tab render test for add labels, hint and toast (needs a new test suite; not allowed by the brief).
 
 ## Next
-1. SavedMealsList.tsx :59, :63. en.json keys (this round R157), then the component, then es, then fr. One file per round.
-2. plan.tsx :85, :97 to locale keys, same order.
-3. es and fr locale gaps, if any remain after step 1 check. One file per round.
-4. fr and es wording fixes listed above, one file per round.
-5. Add sheet icons to design SVGs, one per round.
-6. Consolidate SLOT_KEYS, one file per round.
-7. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R158 verification: tsc, en/es/fr JSON parse, full app suite. No file changes. Must clear before any build.
+2. SavedMealsList.tsx :59 and :63 switched to t('savedMeals.logged', { name: meal.name }) and t('savedMeals.logFailed', { name: meal.name }). One file per round.
+3. plan.tsx :85, :97 to locale keys, same order (en first, then es, then fr).
+4. es and fr savedMeals keys, one file per round.
+5. es and fr locale gaps, if any remain. One file per round.
+6. fr and es wording fixes listed above, one file per round.
+7. Add sheet icons to design SVGs, one per round.
+8. Consolidate SLOT_KEYS, one file per round.
+9. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Handover after R141 and R156 (R156 summary). Name files fully in prompts.
-- Flags: R144, R146, R148, R149, R150, R152, R153, R155. Cleared: R153 (R154), R155 (R156).
+- Flags: R144, R146, R148, R149, R150, R152, R153, R155, R157. Cleared: R153 (R154), R155 (R156). R157 pending R158.
 - Jev ask overridden at R120, R124, R126, R131, R134.
+- R158 prompt rejected for missing design/ file; rewritten to name design/Lume App.html and gap row none.
 - Prompts rejected without design/ file or branch name were rewritten.
+- Jev run 99% at R158 decision; followed the flag rule instead.
 
 ## Gotchas
 - Design is in the bundler payload; decoded copy /tmp/lume-design may vanish.
@@ -101,3 +108,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quote paths containing parentheses, such as src/app/(tabs)/food.tsx.
 - Shell is zsh; shell grep is ugrep; use LC_ALL=C /usr/bin/grep.
 - Use --runTestsByPath for specific jest files.
+- i18n index does not escape values (escapeValue false), so meal names with apostrophes show as typed.
