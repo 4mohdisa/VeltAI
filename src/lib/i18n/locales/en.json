@@ -97,6 +97,7 @@
     "deleteMealMessage_one": "This removes {{count}} item and recomputes the day's totals.",
     "deleteMealMessage_other": "This removes {{count}} items and recomputes the day's totals.",
     "deleteMealConfirm": "Delete",
+    "deleteMealHint": "Long press to delete everything logged to {{slot}}",
     "openFood": "Open {{name}}",
     "noMatchesHint": "Try another name, or add it as a custom food.",
     "conflict": {

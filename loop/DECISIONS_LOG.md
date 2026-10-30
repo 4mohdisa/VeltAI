@@ -455,3 +455,8 @@
 - 2026-10-31 00:12 Deferred the food.tsx:771 hint. It needs a new locale key in en, es and fr, which breaks the one-locale-file-per-round rule. It comes after the single-file tasks.
 - 2026-10-31 00:12 Recorded that no gap row covers the meal delete toast or the Add to labels, and the prompt states 'Gap row: none' for this task.
 - 2026-10-31 00:12 Kept the Jev ranking for run. No override was needed.
+- 2026-10-31 00:13 Chose the en.json key first because Next item 2 puts en before es and fr, and the notes allow one editable file per round.
+- 2026-10-31 00:13 Gave the hint no gap row and set the row to none, because the notes list it as a non-gap item and no gap row covers it.
+- 2026-10-31 00:13 Used a single key deleteMealHint with a slot placeholder, so the food.tsx change next round is one line.
+- 2026-10-31 00:13 Ran tsc only and no tests, because there is no locale test and the key is not yet used on screen.
+- 2026-10-31 00:13 Accepted Jev's run recommendation, since the task needs nothing from Isa and is the smallest unfinished item.
