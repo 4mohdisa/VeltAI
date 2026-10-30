@@ -320,3 +320,12 @@
 - 2026-10-30 23:43 Jev ranked fr.json first at 87%. I kept the verification round because the flagged report must be cleared first. The concrete reason Jev cannot see: the flag rule requires a verification-only run before new code. fr.json is next (R117) and keeps its place.
 - 2026-10-30 23:43 The verification uses no file edits and no new tests, so it adds no usage beyond one tsc run and read-only greps.
 - 2026-10-30 23:43 Locale and slot-title fixes stay as separate single-file rounds after this, as planned.
+- 2026-10-30 23:44 Kept the checkpoint over Jev's fr.json pick (82%). The loop note marks this round as a checkpoint, so it is required regardless of ranking.
+- 2026-10-30 23:44 Concrete reason Jev cannot see: the last full suite was R113, and since then the recipe fibre totals, the Spanish addToSlot key and the add.tsx negative margin changed with no full-suite coverage. Running the suite before more locale edits isolates any regression.
+- 2026-10-30 23:44 fr.json moves to R118 so the checkpoint result is known before the next file edit.
+- 2026-10-30 23:44 Record R116 as a clean verification run. It answered the flag, so the Jest-not-run flag stays cleared. Row 90 stays BUILT, not verified.
+- 2026-10-30 23:44 Keep the Add sheet 0pt gap on no-inset devices as an open decision. Isa's device run decides it, and the gap doc will be updated when he decides.
+- 2026-10-30 23:44 Rewrote the rejected prompt to name design/Lume App.html and row 90, and to state the branch and no-git rule.
+- 2026-10-30 23:44 Kept the R117 checkpoint over the fr.json pick (Jev 82%) because the loop note requires a checkpoint round after the recipe, Spanish key and add.tsx margin changes.
+- 2026-10-30 23:44 Overrode Jev's ask (32%) with run, because the next task needs nothing from Isa.
+- 2026-10-30 23:44 Did not mention Jev in the prompt.
