@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
@@ -23,14 +24,14 @@ import { selectedFoodDate } from '@/lib/data/foodStore';
 import { api, type SavedMeal } from '@/lib/api';
 
 /** "Never logged" / "Last logged today|yesterday|N days ago" from an ISO date. */
-function lastLoggedLabel(iso: string | null): string {
-  if (!iso) return 'Never logged';
+function lastLoggedLabel(iso: string | null, t: TFunction): string {
+  if (!iso) return t('savedMeals.neverLogged');
   const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return 'Never logged';
+  if (Number.isNaN(then)) return t('savedMeals.neverLogged');
   const days = Math.floor((Date.now() - then) / 86_400_000);
-  if (days <= 0) return 'Last logged today';
-  if (days === 1) return 'Last logged yesterday';
-  return `Last logged ${days} days ago`;
+  if (days <= 0) return t('savedMeals.lastLoggedToday');
+  if (days === 1) return t('savedMeals.lastLoggedYesterday');
+  return t('savedMeals.lastLoggedDaysAgo', { count: days });
 }
 
 export function SavedMealsList() {
@@ -101,7 +102,7 @@ export function SavedMealsList() {
                 {formatCalories(m.total_calories)} · {m.items.length} {m.items.length === 1 ? 'item' : 'items'}
               </Text>
               <Text variant="caption" color={color.secondaryLabel}>
-                {lastLoggedLabel(m.last_logged)}
+                {lastLoggedLabel(m.last_logged, t)}
               </Text>
               <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>
                 <Button

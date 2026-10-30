@@ -28,21 +28,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre. Recipe fibre sum.
 - food.tsx: slot heading, 'Add to' and VoiceOver labels, translated toast, deleteMealHint, delete dialog.
-- en, es, fr: addMenu slots, foodLog, savedMeals (logged, logFailed, last-logged keys, neverLogged). SavedMealsList toasts use logged and logFailed. Last-logged keys not on screen yet.
-- en, es, fr: plan group (suggested, addTitle). plan.tsx lines 87 and 99 use them. fr plan group status conflicting (see Next 1).
+- en, es, fr: addMenu slots, foodLog, savedMeals (logged, logFailed). SavedMealsList toasts use logged and logFailed.
+- en, es, fr: plan group (suggested, addTitle). plan.tsx lines 87 and 99 use them. fr plan group confirmed present (R184).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Last green checkpoint: R182 (tsc 0, 65 suites, 824 tests, 4 snapshots; parse en, es, fr 0).
-- R183 flagged: type check and tests not run. Cleared by a verification round before any build.
-- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx 87 and 99, locale last-logged keys. No test reads locale files or covers SavedMealsList or plan.tsx.
+- Last green checkpoint: R184 (tsc 0, 65 suites, 824 tests, 4 snapshots; parse en, es, fr 0; fr.json plan group present).
+- R183 flagged, cleared by R184.
+- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx 87 and 99. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R184 verification round, read-only: tsc, parse en, es, fr, full suite, and whether fr.json has a top-level plan group.
-2. SavedMealsList.tsx lastLoggedLabel (lines 26 to 33) to t() keys, with neverLogged and plurals. Then a checkpoint run.
-3. plan.tsx screen title and 'No plan yet' (lines 34 to 39) to locale keys.
-4. Locale gaps, one file per round: fr goals, gymLog, dashboard, nutrition, settings.scanAccuracy, plan if missing; es gymLog, settings.scanAccuracy, goals.
+1. R185: SavedMealsList.tsx lastLoggedLabel (lines 26 to 33) to savedMeals t() keys, with neverLogged and counted plurals. Add any missing keys to en, es, fr in that order. tsc only.
+2. plan.tsx screen title and 'No plan yet' (lines 34 to 39) to locale keys.
+3. Checkpoint full suite after items 1 and 2.
+4. Locale gaps, one file per round: fr goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals.
 5. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
 6. plan.addTitle display label. entry.title stays English for the route param at plan.tsx:101.
 7. Add sheet icons to design SVGs.
@@ -64,8 +64,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver, toasts, saved meal toasts, plan Suggested and Add label.
 - Meal delete has no gap row. Macro types for food detail (data model, parked).
-- Native review fr: all new savedMeals and plan strings, plain vs no-break spaces, gender agreement, last-logged wording.
-- Native review es: new plan and savedMeals strings, 'Puede que no coincida', addedToMeal word order, 'elemento'.
+- Native review fr: all new savedMeals and plan strings, plain vs no-break spaces, gender agreement, last-logged wording, 'ajout' vs 'Enregistre'.
+- Native review es: new plan and savedMeals strings, 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 
 ## Gotchas
@@ -74,8 +74,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Edit tool writes a plain space for U+00A0 and a plain apostrophe for U+2019. Check code points with node.
 - Keep all output inside the repo. No /tmp.
 - SavedMealsList has no test file. Slot 'Snacks' maps to key snack.
+- Handover summary and notes disagree on which savedMeals last-logged keys exist. Check the locale files before editing.
 
 ## Loop notes
 - Handover after R141, R156, R167, R172. Next due around R187.
-- R183 flagged (tsc or tests not run). R184 verification round next.
+- R183 flagged, cleared by R184 (green).
+- R185 chosen: SavedMealsList lastLoggedLabel. Jev agrees on run.
 - Jev preferred fr.json over checkpoint; taken once the flag was cleared.
