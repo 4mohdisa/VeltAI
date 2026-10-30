@@ -1,42 +1,41 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified.
 
-BUILT THIS SESSION
-- Row 17 (difference 17, celebration card): src/components/gym/CelebrationCard.tsx, wired into save() in src/app/gym/log-session.tsx as a native Modal replacing the toast. Status records steps 1 and 2. Step 3, the device run, is not done.
-- save() sends durationMin as undefined when the derived value is 0 or less.
-- Quick add (src/app/food/quick-add.tsx): toast now "250 kcal added to lunch"; MEAL caption built. Row stays "DIFFERENT (MEAL caption built)".
-- Test repairs: gymDurationHonesty, sheetVariant, foodDetail.
-- Add sheet row set back to DIFFERENT after re-check.
-- Already present, no edit needed: search macros in (tabs)/food.tsx pick() and food/detail.tsx.
+BUILT THIS SESSION (no gap row fully cleared; Quick add, row 87, stays DIFFERENT)
+- src/app/_layout.tsx:160: Quick add detent is fitToContents. Three stale sheet comments corrected.
+- src/app/food/quick-add.tsx: confirm pill 52pt through paddingVertical space.md; Meal control passes compact.
+- src/components/forms/SegmentedField.tsx: optional compact prop (label token, 17 line height, 3pt track padding and gap). Default path unchanged by reading; no test covers it.
+- src/lib/data/hooks.ts: recents in useFoodSearch carry protein, carbs and fat.
+- DESIGN_GAP_ANALYSIS.md: row 87 status and the Quick add section rewritten.
 
-Last full run: 65 suites, 824 tests passed (baseline said 823; the extra test is unexplained). tsc clean. That run predates the Quick add edits; since then only tsc, eslint and two source-reading test files have been run.
+Last checks: tsc and eslint clean; the five hooks source-reading tests passed 80 of 80. No full suite run this session.
 
 IN PROGRESS: nothing mid-edit.
 
 DECISIONS
-- Calories on the card shows "—": no body weight on that screen, and the repo forbids fabricated data.
-- Reused Stat and Button over exact design type, so labels are uppercase and pill text is 17/24.
-- SegmentedField inset unchanged: 11 other callers would restyle.
-- MEAL caption rendered in quick-add.tsx, not through the SegmentedField label.
-- Gap rows keep DIFFERENT while any real difference remains.
+- Recent macros are scaled to per 100 g, not copied: stored items hold totals, FoodResult holds per-100 values.
+- 17/22 pill label not built: Button's style prop reaches only the container.
+- compact is opt-in, so other SegmentedField callers (16 call sites in 11 files) keep their look.
+- Pill height uses reduced padding, so the 52pt minHeight still allows text growth.
 
 WAITING ON ISA
-- Calories column: formula or accepted deviation.
-- Search foods tile going to the food tab: accepted or not.
-- How to handle the inset callers: variant change or compact option.
+- Confirm label: add a Button label or size prop, change bodyBold for every caller, or accept 17/24.
+- Device run: Quick add fit, no collapse (own flex:1 KeyboardAvoidingView at quick-add.tsx:114), NumberEntryBar above the keyboard, pill, compact chips; also the celebration card flow (row 17 step 3).
+- Earlier open: Calories column on the card; Search foods tile going to the food tab.
+
+RECOMMENDED NEXT
+Make ingredientFrom in src/app/food/new-recipe.tsx:34-44 scale macros by grams, and update its header comment and the edit path at line 80. It is the only recents consumer and hardcodes zeros, so the recents fix has no user-visible effect yet. The food tab uses results only.
 
 NOT FIXED
-- Quick add: Meal control 13/17 semibold and 3pt padding, 0.6 detent, no blinking caret, 56 vs 52pt pill, hardcoded English copy, offline toast names no meal.
-- Add sheet: "Add meal" title from the global +.
-- Card can show "0 min"; possible stat row overflow. Footnote missing.
-- An estimate of exactly 0 hides planMinutes (notes r49: keep ??).
-- src/lib/data/hooks.ts recents drop macros, so re-picking logs zeros.
-- Missing macros log as 0 in food/detail.tsx and quickAdd.
-- Stale: src/lib/food/detailSubject.ts:25-27 comment, the _layout.tsx sheet comments, gap detail sections (around lines 978, 1048, 1419), the "Not set" test title.
+- Compact keeps 8pt horizontal chip padding; the design has none. No chip background transition.
+- quickAdd and food/detail.tsx log missing macros as 0.
+- Food Search section has no recents macros note.
+- DESIGN_GAP_ANALYSIS.md:86-87 say FoodNumberEntryBar; the component is NumberEntryBar.
+- Row 87 and the Quick add still-open list still show the Meal control type and padding as open.
+- Quick add: no blinking caret, hardcoded English copy, offline toast names no meal.
+- loop/NOTES.md lines 39, 42, 54 may be stale; it changed at 22:59 from outside this session, so re-read it.
 
 GOTCHAS
-- Design text sits in the __bundler payload, so grep misses it. Decode the manifest (gzip+base64); /tmp/lume-design and /tmp/lume_decode.py may be gone. Food screens are entry 71f71ac4, gym is 7dc211f6.
+- Design text sits in the bundler payload; decoded copies are in /tmp/lume-design (entry 71f71ac4 is food) and may vanish.
 - Source-reading tests are invisible to --findRelatedTests; grep src/__tests__ for the path.
-- Those tests pin exact source text, so edits can break them.
+- Expo docs requirement is in AGENTS.md.
 - zsh does not word-split unquoted variables.
-- The Expo docs requirement is in AGENTS.md.
-- Row numbers mean the numbered differences, not table rows.
