@@ -22,16 +22,19 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Food Add sheet chooser; title 'Add to {meal}' (add.tsx:53); + logs 100 g with toast.
 - Add sheet tiles: two equal columns, flexGrow 1, flexBasis 40% (TILE_BASIS), 12pt gap from space.md. Quick add row flexBasis 100%. Owner to check at 320pt and 430pt.
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard from save() in log-session.tsx). Gym duration honesty.
-- Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
-- Recents macros in hooks.ts. new-recipe.tsx ingredientFrom scales protein, carbs, fat by grams (no test covers it).
+- Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control. SegmentedField compact prop (opt-in).
+- Recents macros in hooks.ts (per 100 g). new-recipe.tsx ingredientFrom scales protein, carbs, fat by grams (no test covers it).
+- DESIGN_GAP_ANALYSIS.md truth-up done (R86): count 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
 
 ## Open differences
-- Add sheet: SF Symbols not design SVGs; scan routes split; bottom padding 20pt plus safe area vs 34pt.
-- Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; Meal chip 8pt padding, no selection transition (row 87).
+- Add sheet: SF Symbols not design SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab.
+- Add sheet status conflict: summary says BUILT, section verdict says PARTIAL. Isa to pick one label.
+- Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; offline toast names no meal; Meal chip 8pt horizontal padding, no selection transition (row 87).
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- ingredientFrom: fibre saved as 0; literal \n at new-recipe.tsx:49.
+- ingredientFrom: fibre saved as 0; literal \n in comment at new-recipe.tsx:49.
 - quickAdd and food/detail.tsx log missing macros as 0. Keep ?? for planMinutes.
-- Doc stale (in progress R86): summary count near line 72; Add sheet row, summary and correction row near 1431; FoodNumberEntryBar at 86-87; food Search recents-macros note.
+- Food Search section has no recents macros note.
+- DESIGN_GAP_ANALYSIS.md:86-87 say FoodNumberEntryBar; should be NumberEntryBar.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot: design 'Snacks' vs 'Snack' default.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 
@@ -45,11 +48,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Owner device checks (ask once): quick add fit, MEAL caption, toast, compact chips, keyboard bar, Add sheet title and tile grid at 320pt and 430pt, celebration flow, recipe macros.
 
 ## Next
-1. Doc-only truth-up of DESIGN_GAP_ANALYSIS.md (R86, in progress).
-2. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
-3. Same for quickAdd (own round).
-4. Add sheet icons, scan routes, bottom padding.
-5. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R87: verification-only run (tsc, eslint, related tests). Clears the flagged R86 report.
+2. Scale fibre in ingredientFrom (new-recipe.tsx:34-44), edit path (near line 80), and useFoodSearch recents (hooks.ts).
+3. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
+4. Same for quickAdd (own round).
+5. Add sheet icons, scan routes, bottom padding.
+6. Re-read loop/NOTES.md lines 39, 42, 54 (may be stale).
+7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
@@ -59,9 +64,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx.
 
 ## Loop notes
-- R83: verification-only run green (tsc, eslint, 9 suites, 146 tests). R84: notes rewritten under 600 words.
-- R85: last report flagged (Add sheet doc still stale). Tile width fixed to 1fr 1fr equivalent with 12pt gap; BUILT, not verified.
-- R86: doc-only truth-up of the Add sheet rows and summary count. No code, no tests.
+- R83: verification-only run green (tsc, eslint, 9 suites, 146 tests).
+- R85: last report flagged. Tile width fixed to 1fr 1fr with 12pt gap; BUILT, not verified.
+- R86: doc-only truth-up. No code, no tests. Flagged for no checks run.
+- R87: verification-only run requested to clear the R86 flag.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish.

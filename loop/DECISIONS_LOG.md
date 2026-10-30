@@ -188,3 +188,7 @@
 - 2026-10-30 23:09 Left the Add sheet status as BUILT, not verified, because Isa verifies the UI himself.
 - 2026-10-30 23:09 Recent macros per 100 g added to the Food Search section, since the notes list it as missing and the code already does this.
 - 2026-10-30 23:09 Handover recommended the ingredientFrom grams fix as next, but the notes mark it Built and the latest notes are newer, so I did not repeat it.
+- 2026-10-30 23:11 Chose the verification-only run first because a flagged report must be cleared before any new code edit (decision rule).
+- 2026-10-30 23:11 Fibre scaling is the next code task after verification, since it is already the recorded Next item and touches one file.
+- 2026-10-30 23:11 Notes trimmed under 600 words. The completed doc truth-up was removed from Next. The stale-notes item is kept open until re-read.
+- 2026-10-30 23:11 The Add sheet BUILT versus PARTIAL label conflict is left for Isa to choose, as the last report asked, rather than changed now.
