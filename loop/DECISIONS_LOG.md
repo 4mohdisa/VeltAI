@@ -513,3 +513,8 @@
 - 2026-10-31 00:23 Kept R153 as a verification-only round with no edits, because the R152 report was flagged and the flag rule requires clearing it before any new build task.
 - 2026-10-31 00:23 Ranked the verification round first over the candidates, because it is needed to clear the flag and needs nothing from Isa. Jev's run signal agrees.
 - 2026-10-31 00:23 Kept Jev's ask (22%) overridden: the next task needs nothing from Isa.
+- 2026-10-31 00:24 Chose the verification round first: the R153 report was flagged for only partly done, and the notes rule says a flagged report must be cleared by a verification round before any build task.
+- 2026-10-31 00:24 Required the exact jest path list in CHECKED and a coverage statement, because the R153 run matched 42 suites by loose name and did not show what they cover.
+- 2026-10-31 00:24 Deferred the es.json openFood and conflict task until the flag is cleared.
+- 2026-10-31 00:24 Used action run, not ask: the next step needs nothing from Isa.
+- 2026-10-31 00:24 Jev ranks run at 89%, which agrees with this choice, so no override was needed.
