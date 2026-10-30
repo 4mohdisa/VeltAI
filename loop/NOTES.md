@@ -22,6 +22,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recipe builder (/food/new-recipe) has no design counterpart.
 - Add sheet summary row BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
 - Round-scoped modified-file checks only.
+- R106: Jev's 'ask' signal overridden; next task needs nothing from Isa (see Loop notes).
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -36,13 +37,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet: SF Symbols not SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab; correction row shows a cross beside BUILT.
 - Quick add (row 87): no blinking caret; own flex:1 KeyboardAvoidingView; hardcoded English; offline toast names no meal; Meal chip padding, no background transition; confirm label 17/24 vs 17/22; Meal chip label token unconfirmed.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- food/detail.tsx and quickAdd log missing macros as 0.
-- Food Search: recents fibre carried, not displayed.
+- food/detail.tsx and quickAdd log missing macros as 0 (R106 fixes detail.tsx; quickAdd is R107).
+- Food Search: recents fibre carried in hooks.ts, not displayed.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Rounded calories can drift in new-recipe editRow and recents.
 - new-recipe Total shows 0g fibre when unknown (stored as 0).
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx.
+- Doc: DESIGN_GAP_ANALYSIS.md correction row for food detail to be updated in a doc-only round.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route to log-session, or accepted deviation (since r43).
@@ -55,14 +57,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device runs: recipe flow (fibre totals, recents fibre, 0g when unknown, save); quick add (fit, NumberEntryBar, pill, chips, MEAL caption, toast); Add sheet grid at 320pt and 430pt; celebration flow (row 17 step 3).
 
 ## Next
-1. R105 (this round): verification-only. tsc once; jest via findRelatedTests on src/lib/data/hooks.ts. No edits. Clears R104 flag.
-2. R106: stop logging missing macros as 0 in src/app/food/detail.tsx.
-3. R107: same for quickAdd.
-4. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
-5. Locale keys: es.json and fr.json.
-6. Doc-only: re-read loop/NOTES.md lines 39, 42, 54 and correct.
-7. Checkpoint: full tsc and full app suite, no file changes.
-8. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R106 (this round): stop logging missing macros as 0 in src/app/food/detail.tsx. tsc once; jest findRelatedTests on that file.
+2. R107: same for quickAdd.
+3. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
+4. Locale keys: es.json and fr.json.
+5. Doc-only: re-read loop/NOTES.md lines 39, 42, 54 and correct; update food detail row in DESIGN_GAP_ANALYSIS.md.
+6. Checkpoint: full tsc and full app suite, no file changes.
+7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
@@ -77,8 +78,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R88, R102: checkpoints green.
 - R89, R99: prompts rejected (no design/ file named); rewritten.
 - R92-R96: fibre across new-recipe and recents; flags cleared by verification runs.
-- R103: totals fibre fix. R104: tsc 0, eslint clean, jest not run (no test names new-recipe.tsx). Flagged.
-- R105 clears the flag with hooks jest.
+- R103: totals fibre fix. R104: tsc 0, eslint clean, jest not run. Flagged.
+- R105: verification-only, tsc 0, hooks jest 5/5 suites, 33/33 tests. Flag cleared. Count of 116 came from the nine named suites in R94, not from findRelatedTests; name the set explicitly in future checks.
+- R106: Jev advised ask (70%, confidence 0.55). Run chosen: next task needs nothing from Isa; open questions already logged.
+- Handover recommendation (fibre in useFoodSearch recents) already built in R92-R96; not repeated.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
@@ -86,3 +89,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Shared Button in src/components/forms affects all callers; override locally first.
 - zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
 - loop/NOTES.md is edited outside the session; re-read before each update.
+- Grepping 'hooks' is loose; name the exact test set.

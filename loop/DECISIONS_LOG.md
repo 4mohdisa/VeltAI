@@ -273,3 +273,8 @@
 - 2026-10-30 23:29 Chose the verification-only run first because the flag rule requires a verification or doc run before new code. Jev ranked ask at 50%, but the open questions already sit under Blocked on Isa, so no new question is needed.
 - 2026-10-30 23:29 Scoped jest to hooks suites via findRelatedTests on src/lib/data/hooks.ts, the file changed for recents fibre, to keep usage low.
 - 2026-10-30 23:29 Rewrote the notes under 600 words: merged repeated items, removed finished work, kept every decision line.
+- 2026-10-30 23:30 Chose R106 from the NOTES Next list (detail.tsx) over the handover's recommended fibre-in-recents task, because hooks.ts recents fibre was already built in R92-R96 and the notes list is the newer record.
+- 2026-10-30 23:30 Jev advised ask at 70% (confidence 0.55). Overriding it: the next task needs nothing from Isa, the open questions are already logged under Blocked on Isa, and a single-file fix is the smaller task Jev's low confidence calls for.
+- 2026-10-30 23:30 Scoped the test run to findRelatedTests on detail.tsx and one tsc. detail.tsx has no render tests, so no suite is expected to match.
+- 2026-10-30 23:30 Doc correction for DESIGN_GAP_ANALYSIS.md is held back until a doc-only round, to keep this round to one editable file.
+- 2026-10-30 23:30 Missing macros stay undefined on detail.tsx. The 0 fallback for recipe fibre is a separate case, because RecipeIngredient.fibre is a required number.
