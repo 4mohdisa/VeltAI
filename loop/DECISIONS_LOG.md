@@ -18,3 +18,7 @@
 - 2026-10-30 22:29 Kept the calorie dash as a parked item rather than asking Isa, because the design formula needs profile weight and the defaults do not cover it. Recorded as a Parked item for review.
 - 2026-10-30 22:29 Did not ask Isa about device checks; Isa verifies the UI himself, so step 3 of row 17 stays a reviewer item, not a loop task.
 - 2026-10-30 22:29 Did not run the full suite; checkpoint remains on the loop script's schedule.
+- 2026-10-30 22:30 Derived gym duration stays as the logged duration when above 0. The design derives duration and the screen header agrees. Reason: no need to ask Isa on a default the design already answers.
+- 2026-10-30 22:30 A derived duration of 0 is sent as undefined, never 0. Reason: a made-up 0 is recorded as logged time and feeds the energy balance, which is a data honesty bug.
+- 2026-10-30 22:30 Chose the save() fix over the test tightening because the bug is live in the save path. The test change follows in its own round (one file per task).
+- 2026-10-30 22:30 sheetVariant.test.ts stays after the duration fix. Reason: it is a test-only stale assertion with no user impact.

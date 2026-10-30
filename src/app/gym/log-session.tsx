@@ -111,8 +111,10 @@ export default function LogSessionScreen() {
       openSession();
       return;
     }
+    // A plan with nothing to derive from has no duration; 0 would be logged as real.
+    const derivedMinutes = today?.template?.estimated_duration_minutes ?? planMinutes;
     logGymSession(
-      { durationMin: today?.template?.estimated_duration_minutes ?? planMinutes },
+      { durationMin: derivedMinutes > 0 ? derivedMinutes : undefined },
       { name: planName, exercises: planned.map(inputFor), completionRate: 1 },
     );
     setCelebrating(true);
