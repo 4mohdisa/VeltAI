@@ -766,3 +766,8 @@
 - 2026-10-31 01:16 Chose the dayStreak fix: R208 verification came back clean, so the flag is cleared and a build task can start. It fixes a visible bug in es (1 días seguidos).
 - 2026-10-31 01:16 Limited this round to en.json and index.tsx, to keep to one locale file per round as the order rule says. es and fr follow in later rounds.
 - 2026-10-31 01:16 Did not add a fr dashboard group yet: one locale file per round, and fr dayStreak needs both keys in one go with the group.
+- 2026-10-31 01:17 Chose the es dayStreak fix: it is one key in one locale file and removes a regression the last report flagged (Spanish would show no number). The fr dashboard group needs a new group, so it waits.
+- 2026-10-31 01:17 Treated the R208 verification (es and fr gymLog key match) as newer than the older handover that says es.json lacks gymLog. Not re-building es gymLog.
+- 2026-10-31 01:17 Added the index.tsx:121 hardcoded accessibility label ('Current streak 1 days') to Next, because it is a visible plural bug in English.
+- 2026-10-31 01:17 Kept the existing English wording '14 day streak' with a space; the hyphen in the design is parked, as the last report advised.
+- 2026-10-31 01:17 Chose a locale-only round with tsc and no Jest, because no test reads locale files.

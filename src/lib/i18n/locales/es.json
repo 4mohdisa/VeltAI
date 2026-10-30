@@ -150,7 +150,8 @@
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
-    "dayStreak": "días seguidos",
+    "dayStreak_one": "{{count}} día seguido",
+    "dayStreak_other": "{{count}} días seguidos",
     "todaysPlan": "Plan de hoy",
     "next": "Siguiente: {{title}} a las {{time}} · {{energy}}",
     "gymBedtime": "Gimnasio {{gym}} · Dormir {{bed}}"
