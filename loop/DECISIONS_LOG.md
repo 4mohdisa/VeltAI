@@ -953,3 +953,11 @@
 - 2026-10-31 01:58 Allowed the three locale files in one round as an exception, because the key sets must match in all three or the i18n key check fails.
 - 2026-10-31 01:58 Told Claude Code to check the design file for the kicker wording and stop if it differs, rather than guessing.
 - 2026-10-31 01:58 Parked the nutrition.tsx:79 message string as the next hardcoded item, to keep this round to one surface.
+- 2026-10-31 02:00 Jev said ask 97%, I chose run. Reason Jev may not weigh: the Macros question is a design-vs-app disagreement, and the brief's default is to follow the design. It is not an owner-only item, so asking would breach the rule against product questions the defaults cover. The flagged report must be cleared first, and a read-only run is the way to do that. Recorded in Loop notes.
+- 2026-10-31 02:00 The flagged R254 report (no tsc or tests run) is cleared by this read-only checkpoint before any build task, per the notes rule. This is also the scheduled R255 full Jest checkpoint.
+- 2026-10-31 02:00 Macros kicker and title: follow the design. Design shows kicker 'Nutrition' and title 'Macros'; the app has them reversed at nutrition.tsx:77. The swap is deferred to the next round, after this verification, so the snapshot diff can be checked first.
+- 2026-10-31 02:00 Snapshot update in detailChrome.render.test.tsx is allowed only after the diff is confirmed to contain just the kicker and title swap. This is an existing snapshot, not a new test suite.
+- 2026-10-31 02:00 Chose the read-only checkpoint first. R254 and R255 are flagged, and the R255 report never ran tsc or Jest. Agrees with Jev's run signal (83%).
+- 2026-10-31 02:00 Rewrote the prompt to state the loop/design-match branch rule, which the loop note said was missing.
+- 2026-10-31 02:00 Cut the notes under 600 words. Merged repeated items, removed finished work, and kept every decision.
+- 2026-10-31 02:00 Kept the Macros default from the notes (follow the design). It runs after the checkpoint clears the flag.
