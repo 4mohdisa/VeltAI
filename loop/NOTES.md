@@ -22,7 +22,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R72: Quick add pill height by padding, no Button edit.
 - Flagged reports are cleared by verification-only runs (tsc, eslint, related tests, no edits).
 - Prompts: one task, one editable source file; one-line status edits to DESIGN_GAP_ANALYSIS.md allowed; doc-only rounds run no tests; every prompt names the design/ file, the gap row and the branch, and says no git.
-- Latest round: Jev ranked the Quick add Meal caller first; kept my chosen task after looking again only because compact is dead code until the caller passes it. Same task, now the chosen one.
+- R77: flagged report cleared by a verification-only run before any new build task.
 
 ## Built (not verified)
 - NumberEntryBar (shared, src/components/...): food quick-add, food detail, gym session, PlannedValuesForm.
@@ -33,17 +33,18 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 steps 1-2: CelebrationCard.tsx (src/components/gym/) opens from save() in log-session.tsx as native Modal. Step 3 (device run) open.
 - Gym duration honesty; food macros carried through pick, search and detail.
 - Quick add: toast '{kcal} added to {meal}'; MEAL caption built in quick-add.tsx; detent fitToContents; confirm pill 52pt via padding.
-- SegmentedField (src/components/forms/SegmentedField.tsx): optional compact prop built (13pt label token, lineHeight 17, 3pt track padding and gap as named constants). No caller uses it yet.
+- SegmentedField (src/components/forms/SegmentedField.tsx): optional compact prop built (13pt label token, lineHeight 17, 3pt track padding and gap as named constants).
+- Compact applied to the Meal SegmentedField in src/app/food/quick-add.tsx (row 87). Row stays DIFFERENT: 8pt chip horizontal padding and no background transition on selection remain. Not run on a device.
 
 ## Open differences
 - Add sheet: title not meal-named ('Add meal' from global +); tile gap ~14pt not 12pt; SF Symbols not design SVGs.
-- Quick add: Meal control compact applied next round (row 87); no blinking caret; confirm label 17/24 vs 17/22 (Blocked); own flex:1 KeyboardAvoidingView at quick-add.tsx:114; 56 vs 52pt pill to recheck; offline toast names no meal; hardcoded English copy.
+- Quick add: no blinking caret; confirm label 17/24 vs 17/22 (Blocked); own flex:1 KeyboardAvoidingView at quick-add.tsx:114; 56 vs 52pt pill to recheck; offline toast names no meal; hardcoded English copy; Meal control 8pt chip horizontal padding and no selection background transition.
 - Compact keeps 8pt horizontal chip padding where the design has none.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
 - Recents in hooks.ts useFoodSearch drop protein, carbs, fat; re-pick logs zeros. quickAdd and detail.tsx log missing macros as 0.
 - Estimate of exactly 0 hides planMinutes (keep ?? per r49).
-- Stale: detailSubject.ts:25-27 comment; _layout.tsx sheet comments; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title; DESIGN_GAP_ANALYSIS.md:86-87 names FoodNumberEntryBar (real name NumberEntryBar); loop/NOTES.md lines 39, 42, 54 stale.
-- Slot label: design uses 'Snack' (decoded line 756), SLOTS has 'Snacks'.
+- Stale: detailSubject.ts:25-27 comment; _layout.tsx sheet comments; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title; DESIGN_GAP_ANALYSIS.md:86-87 names FoodNumberEntryBar (real name NumberEntryBar) and row 87 still says 'main remaining difference' about 17pt labels; loop/NOTES.md lines 39, 42, 54 stale.
+- Slot label: design chips and SLOTS say 'Snacks' (decoded line 672); only the time-of-day default says 'Snack' (line 756), which looks like a design inconsistency.
 - i18n: hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Remaining gym rows: Isa approval per item.
@@ -52,15 +53,15 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 23 one-tap log: A = route onLog to log-session; B = accepted deviation. Asked r43, unanswered.
 - Row 17 Calories: formula or accepted deviation (needs profile weight). Dash for now.
 - Search foods tile routing: accepted or not.
-- Inset callers: variant change or compact option (compact option built; caller wiring next).
+- Inset callers: variant change or compact option (compact option built and applied to quick-add Meal control; other callers unchanged).
 - Quick add confirm label 17/22: Button has no label or size prop. Choose: add a label prop, change bodyBold for all callers, or accept 17/24.
-- Owner device checks (ask once, when no other owner item is pending): Quick add sheet fit, MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow.
+- Owner device checks (ask once, when no other owner item is pending): Quick add sheet fit, MEAL caption, toast, compact Meal chips, NumberEntryBar above keyboard; celebration modal flow.
 
 ## Next
-1. Pass compact to the Meal SegmentedField in src/app/food/quick-add.tsx (row 87), per current prompt.
+1. Verification-only run on the compact Meal control in src/app/food/quick-add.tsx (row 87): tsc, eslint, related Jest, no edits. Per current prompt.
 2. Keep protein, carbs and fat in useFoodSearch recents in src/lib/data/hooks.ts.
 3. Add sheet title 'Add to {meal}' when opened from a meal.
-4. Stale comments, stale test title, gap detail sections. Doc-only.
+4. Stale comments, stale test title, gap detail sections, row 87 wording. Doc-only.
 5. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
@@ -82,7 +83,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R62-74: flagged reports cleared by verification-only runs. R70-72: pill built by padding.
 - R73: handover; notes rewritten. R75 checkpoint green per Jev and loop note.
 - R76: Quick add Meal control prompt rejected for not naming the design/ file. Rewritten with design/Lume App.html entry 71f71ac4 and row 87.
-- Latest: SegmentedField compact built, no caller yet. Loop flagged the report (tsc and eslint ran; Jest not run, no covering test). Next prompt wires the caller and runs tsc, eslint and related tests.
+- R76 report: compact built on Meal control; tsc and eslint green; Jest on sheetVariant and apiSurface green (2 suites, 88 tests). Flagged as partly done.
+- R77: flag handled by verification-only run (current prompt).
 
 ## Gotchas
 - Design text is in the __bundler payload. Decode manifest (gzip+base64). Food 71f71ac4, gym 7dc211f6.

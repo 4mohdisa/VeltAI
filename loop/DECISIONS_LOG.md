@@ -142,3 +142,8 @@
 - 2026-10-30 22:56 Left the 8pt chip padding, the Snack/Snacks label and the FoodNumberEntryBar doc name out of this prompt: they are separate, and the rules allow one task per round. They are listed under NEXT.
 - 2026-10-30 22:56 The flagged report is cleared by this round's tsc and eslint run plus related tests, not by a separate verification-only run.
 - 2026-10-30 22:56 Row 87 stays DIFFERENT. The 56 vs 52pt pill, blinking caret, hardcoded copy and offline toast are still open.
+- 2026-10-30 22:57 Chose the verification-only run first because the loop note flagged the last report as partly done, and the notes say flagged reports are cleared by verification-only runs (tsc, eslint, related tests, no edits).
+- 2026-10-30 22:57 Did not ask Isa about the 17/22 confirm label or the device run. Both are owner items already listed as Blocked, and neither is needed to clear this flag.
+- 2026-10-30 22:57 Jev ranked ask at 39% and run at 48%. Kept run because no owner-only item is needed right now; the flag is cleared by checks Isa does not have to make.
+- 2026-10-30 22:57 Kept row 87 DIFFERENT and made no status edit this round, since the report already says the row stays DIFFERENT and the Meal control still has 8pt chip padding and no background transition.
+- 2026-10-30 22:57 Parked the row 87 'main remaining difference' wording and the Quick add open-list cleanup for a later doc-only round, to keep this round edit-free.
