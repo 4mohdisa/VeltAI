@@ -37,32 +37,31 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - plan group (all three locales): suggested, addTitle, title, emptyTitle, emptyMessage. plan.tsx uses them.
 - fr goals group added (R195): 20 keys, matching en.json order. Verified as key match in R196 and R199.
 - es goals: setByLume, tapToEdit, savedAsYouType added (R198). Now 20 keys. Key count verified R199.
-- fr goals.setByLume: R200 changed 'Defini par Lume' to 'Definie par Lume' (feminine, matches 'Cible'). Built, JSON parse and tsc OK in R200, Jest not run.
+- fr goals.setByLume: R200 changed 'Defini par Lume' to 'Definie par Lume' (feminine, matches 'Cible'). Built, JSON parse and tsc OK in R200. Jest verified green in R201.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Last green checkpoint: R199 (read-only): tsc 0, JSON parse ok for en, es, fr, 65 suites, 824 tests, 4 snapshots, goals 20 keys in each locale. Clears the R198 flag.
+- Last green checkpoint: R199 (read-only): tsc 0, JSON parse ok for en, es, fr, 65 suites, 824 tests, 4 snapshots, goals 20 keys in each locale.
+- R201: read-only verification round green: tsc 0, JSON parse ok for en, es, fr, 65 of 65 suites, 824 of 824 tests, 4 of 4 snapshots. Clears the R200 flag.
 - R185, R187, R189, R191 flagged, each cleared by a green verification round (R186, R188, R190, R192).
 - R193 flagged, cleared by R194. R195 flagged, cleared by R196.
 - R197: checkpoint prompt rejected before running (no design file named). Checkpoint then run in R199.
-- R200: locale fix, tsc and JSON parse only. Jest not run. Flagged by automatic check.
-- R201: read-only verification round requested (tsc, JSON parse of en, es, fr, full suite). Clears the R200 flag if green.
-- Unverified: all new strings, add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts and states, plan group and screen, lastLoggedLabel, fr goals, es goals. No test reads locale files or covers SavedMealsList or plan.tsx.
+- R202: fr gymLog build prompt rejected before it ran (no loop/design-match branch rule). Rewritten as R203 (same task). Verification pending.
+- Unverified: all new strings, add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts and states, plan group and screen, lastLoggedLabel, fr goals, es goals, fr gymLog (once built). No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R201: verification round (tsc, locale JSON parse, full suite). Read-only.
-2. fr.json gymLog group.
-3. fr.json dashboard, nutrition, settings.scanAccuracy. One group per round.
-4. es.json gymLog. es still has addMenu.voice and describeOutLoud.
-5. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-6. Fix lastLoggedDaysAgo_one: unreachable because days === 1 returns the yesterday string.
-7. 'Why this plan' hardcoded at src/app/dashboard/plan.tsx:120; move to plan keys.
-8. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-9. plan.addTitle display label. entry.title stays English for the route param at plan.tsx:101.
-10. Add sheet icons to design SVGs.
-11. Remaining gap rows, most rows cleared per task first.
-12. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R203: fr.json gymLog group (key match with en.json, tsc, JSON parse). Same task as R202, rewritten.
+2. fr.json dashboard, nutrition, settings.scanAccuracy. One group per round.
+3. es.json gymLog. es still has addMenu.voice and describeOutLoud.
+4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+5. Fix lastLoggedDaysAgo_one: unreachable because days === 1 returns the yesterday string.
+6. 'Why this plan' hardcoded at src/app/dashboard/plan.tsx:120; move to plan keys.
+7. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+8. plan.addTitle display label. entry.title stays English for the route param at plan.tsx:101.
+9. Add sheet icons to design SVGs.
+10. Remaining gap rows, most rows cleared per task first.
+11. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -77,7 +76,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 23 one-tap log: route or accepted deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver, toasts, saved meal states and labels, saved meals empty state, item counts and Log now, plan Suggested and Add label, plan title and empty state, goals restyle.
-- Native review fr: all new savedMeals, plan and goals strings. Typography (U+00A0, U+2019 versus plain). One word for logging ('enregistrer' vs 'ajout'). Gender agreement. goals: setOwn, setByLume, aiHint.
+- Native review fr: all new savedMeals, plan and goals strings. Typography (U+00A0, U+2019 versus plain). One word for logging ('enregistrer' vs 'ajout'). Gender agreement. goals: setOwn, setByLume, aiHint. gymLog once built.
 - Native review es: new plan, savedMeals and goals strings, including setByLume, tapToEdit, savedAsYouType. 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 - Override available: es emptyMessage wording.
@@ -91,13 +90,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Verification rounds keep being requested after rounds that skip Jest, so the flag may refire.
 - Design file has no plan empty-state or saved-meal empty-state wording; English values are the old app text.
 - Prompts with no design file named get rejected. Always name design/Lume App.html.
+- Prompts with no loop/design-match branch rule get rejected. Always state it.
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187. Handover summary saved in loop/HANDOVER.md. Next due around R202.
-- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 cleared R194; R195 cleared R196; R198 cleared R199; R200 flagged (Jest not run), R201 verification pending.
+- Flags: R183 cleared R184; R185 cleared R186; R187 cleared R188; R189 cleared R190; R191 cleared R192; R193 cleared R194; R195 cleared R196; R198 cleared R199; R200 cleared R201.
 - Jev R196: run 92%, ask 6%, stop 2%. Chose verification round. Matched Jev.
 - R197 prompt rejected (missing design file named). Rewritten as R198.
 - Jev R198: run 92%, ask 6%, stop 2%. Matched Jev on run.
-- R199: verification and checkpoint round, all green. Jev R199: run 87%, ask 7%, stop 6%. Last task clean chance 20%. Risk 1.6 of 2. Matched Jev on run.
+- R199: verification and checkpoint round, all green. Jev R199: run 87%, ask 7%, stop 6%. Matched Jev on run.
 - R200: chose the fr goals.setByLume fix over gymLog. Confirmed one-value fix, needs nothing from Isa.
-- R201: chose a read-only verification round to clear the R200 flag before the fr gymLog build task. Jev R201: run 97%, ask 2%, stop 1%. Matched Jev on run.
+- R201: read-only verification round, green. Jev R201: run 97%, ask 2%, stop 1%. Matched Jev on run.
+- R202: chose fr gymLog build. Jev R202: run 98%, ask 1%, stop 1%. Matched Jev on run. Prompt rejected for missing branch rule.
+- R203: rewrote the R202 prompt for the same fr gymLog task. Candidates: fr gymLog, fr dashboard/nutrition/scanAccuracy, SLOT_KEYS consolidation. Chose fr gymLog. Jev R203: run 99%, ask 1%, stop 0%, last task clean 23%, risk 1.5 of 2. Matched Jev on run. Low clean-finish odds noted, so the task stays as small as possible.

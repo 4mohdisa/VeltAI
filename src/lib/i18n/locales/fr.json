@@ -120,6 +120,31 @@
     "itemCount_other": "{{count}} éléments",
     "logNow": "Enregistrer maintenant"
   },
+  "gymLog": {
+    "title": "Comment ça s’est passé ?",
+    "planSummary_one": "{{count}} exercice · environ {{minutes}} min",
+    "planSummary_other": "{{count}} exercices · environ {{minutes}} min",
+    "differentWeights": "Charges différentes",
+    "differentWeightsSub": "Mêmes exercices, changez les séries, répétitions ou charges",
+    "onlySome": "Seulement une partie",
+    "onlySomeSub": "Cochez les exercices que vous avez vraiment faits",
+    "somethingElse": "Autre chose",
+    "somethingElseSub": "Ajoutez un exercice qui n’était pas prévu",
+    "asPlanned": "Tout s’est passé comme prévu",
+    "asPlannedCaption": "Enregistre {{plan}} exactement comme prévu",
+    "thisSession": "cette séance",
+    "restDayTitle": "Jour de repos",
+    "restDayMessage": "Rien de prévu et rien d’enregistré.",
+    "logAnExercise": "Enregistrer un exercice",
+    "alreadyLogged": "La séance du jour est déjà enregistrée — ouvrez-la pour modifier ou ajouter quelque chose",
+    "celebration": {
+      "streak": "jours d’affilée",
+      "time": "Durée",
+      "calories": "Calories",
+      "volume": "Volume",
+      "nicePill": "Bien joué"
+    }
+  },
   "plan": {
     "suggested": "Suggéré :",
     "addTitle": "Ajouter à {{title}}",
