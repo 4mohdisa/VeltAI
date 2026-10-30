@@ -21,8 +21,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Prompts: one task, one editable source file; one-line status edit to DESIGN_GAP_ANALYSIS.md allowed; checks are tsc, eslint and jest on changed files; doc-only rounds run no tests; every prompt states the branch and no git.
 - R62: a flagged report is cleared by a verification-only run before any new build task.
 - R63: celebration card calories show a dash (no body weight; no fabricated data).
-- R64: Quick add detent lives in src/app/_layout.tsx:160. Sheet-size values are not navigation structure.
+- R64: Quick add detent lives in src/app/_layout.tsx:160 (fitToContents). Sheet-size values are not navigation structure.
 - R67: a flagged report is cleared by tsc, eslint and Jest on the related test files only, with no edits.
+- R69: same rule as R67 applies to the R68 flag (comment-only report, flagged as partly done).
+- R70: every prompt must name the matching design/ file and the gap-analysis section it clears, even for small edits.
 
 ## Built (not verified)
 - NumberEntryBar shared: food quick-add, food detail, gym session, PlannedValuesForm.
@@ -34,15 +36,16 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Gym duration honesty (r48-49).
 - Food macros carried through pick, search and detail; foodDetail.test.ts 31/31.
 - Quick add: toast '{kcal} added to {meal}'; MEAL caption in quick-add.tsx.
-- Quick add detent: _layout.tsx:160 'fitToContents' (R64).
+- Quick add detent: _layout.tsx:160 'fitToContents' (R64). Comments at _layout.tsx:152-159 corrected (R68).
 
 ## Open differences
 - Add sheet: title not meal-named; tile gap ~14pt not 12pt; SF Symbols not design SVGs; 'Add meal' title from global +.
-- Quick add: Meal control 13/17 semibold, 3pt padding; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22; offline toast names no meal; hardcoded English copy.
+- Quick add: Meal control 13/17 semibold, 3pt padding; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22 (R70 in progress); offline toast names no meal; hardcoded English copy.
 - quick-add.tsx:114 own flex:1 KeyboardAvoidingView; check sheet does not collapse.
 - Row 17: footnote 'Push logged - streak extended' missing; Time dash on empty plan; card can show '0 min'; possible stat overflow.
 - Recents in hooks.ts useFoodSearch drop macros; re-pick logs zeros. quickAdd and detail.tsx log missing macros as 0.
 - Stale: detailSubject.ts:25-27; gap detail sections near 978, 1048, 1419; gymDurationHonesty.test.ts 'Not set' title and 0-or-less case.
+- Stale notes: loop/NOTES.md lines near 39, 42, 54 still list the 0.6 detent as open and name quick-add.tsx as its location. DESIGN_GAP_ANALYSIS.md Quick add section near 981-998 still describes the old three-field form. Both fixed in the doc-only round.
 - i18n hardcoded toast copy in index.tsx, log-session.tsx, quick-add.tsx.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Remaining gym rows: Isa approval per item.
@@ -53,18 +56,17 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 celebration Calories column: what it shows.
 - Search foods tile routing: accepted (default) or not.
 - Inset callers: variant change or compact option (R58).
-- Owner device checks, not yet asked: Quick add sheet fit at fitToContents, MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow. Ask once, as a single question, when no other owner item is pending.
+- Owner device checks, not yet asked: Quick add sheet fit at fitToContents (whole sheet incl. confirm pill, no collapse, NumberEntryBar above keyboard), MEAL caption, toast, NumberEntryBar above keyboard; celebration modal flow. Ask once, as a single question, when no other owner item is pending.
 
 ## Next
-1. DONE (R67 verification cleared the flag).
-2. Stale comments at _layout.tsx:152-154, 157 and 159 (this round, R68).
-3. Quick add confirm pill 56 to 52pt, 17/24 to 17/22.
-4. Recents: hooks.ts carries protein, carbs, fat.
-5. Compact segmented option, then Meal control 13/17 and 3pt padding.
-6. Add sheet title 'Add to lunch' when opened from a meal.
-7. Doc-only: stale gap detail sections; recount the 824th test.
-8. Checkpoint (tsc, full jest) when the loop note asks.
-9. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
+1. DONE (R69 verification run, cleared R68 flag).
+2. IN PROGRESS (R70): Quick add confirm pill 56 to 52pt, 17/24 to 17/22, in src/app/food/quick-add.tsx. Matching design: design/Lume App.html, Quick add.
+3. Recents: hooks.ts carries protein, carbs, fat.
+4. Compact segmented option, then Meal control 13/17 and 3pt padding.
+5. Add sheet title 'Add to lunch' when opened from a meal.
+6. Doc-only: stale lines in loop/NOTES.md and DESIGN_GAP_ANALYSIS.md Quick add section (981-998); stale gap detail sections; recount the 824th test. No tests.
+7. Checkpoint (tsc, full jest) when the loop note asks.
+8. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order, per-set remove; cardio ParameterForm; template editor; kg/lb; volume kg only.
@@ -92,7 +94,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R65 flagged as partly done (device run open, notes too long). Handled by R66 verification and rewrite.
 - R66 verification-only run: detent confirmed, tsc and eslint green, Jest not run.
 - R67 flagged: Jest not run and last report incomplete. Cleared by verification-only run: tsc, eslint, 5 related Jest suites green (62 tests).
-- R68: stale comment fix run chosen over Jev ask 75%. Reason: comment-only, one file, needs nothing from Isa.
+- R68: comment-only fix to _layout.tsx:152-159 (no code). Flagged as partly done; report left a device run and stale notes as NEXT.
+- R69: verification-only run chosen over doc-only fix and Jev ask 49%/run 41%. Reason: flagged report must be cleared first (R62/R67 rule).
+- R70: rejected prompt (no design/ file named) rewritten. Chose Quick add pill size over recents: one file, clears a listed difference. Jev run 79%.
 - Jev R64: ask 61%; ran, one-value change.
 - Jev R67: ask 75%, run 15%; ran, flag cleared without Isa.
 
@@ -102,3 +106,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - zsh does not word-split unquoted variables. Expo docs requirement is in AGENTS.md.
 - Row numbers mean numbered differences, not table rows.
 - Adjust and ticklist dirty guard; session mode derived.
+- Quick add detent is fitToContents at _layout.tsx:160; the 0.6 default is the global sheet default, not Quick add.
