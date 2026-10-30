@@ -225,3 +225,8 @@
 - 2026-10-30 23:18 Named no gap row because the recipe builder has no design counterpart, per the notes decision.
 - 2026-10-30 23:18 Left the fibre recents change for the next round so the flag is cleared before any hooks.ts edit.
 - 2026-10-30 23:18 Kept the recents fibre item as the next code task, since the R93 report recommended it and it is on the Next list.
+- 2026-10-30 23:19 Chose the verification-only run first, because the R94 report is flagged and the notes rule says a flag is cleared by a verification-only or doc-only run before new code.
+- 2026-10-30 23:19 Replaced the 60-minute modified-files scan with a round-scoped check (files newer than the run start, limited to src/ and design/), because the old scan failed on loop writes.
+- 2026-10-30 23:19 Kept the fibre recents task next, with the rule that a missing fibre figure stays missing. The handover's 'missing counts as 0' applies only to new-recipe.tsx, where the model requires a number. That is parked.
+- 2026-10-30 23:19 Rewrote the notes under 600 words as the loop note asks, merging repeated items and removing finished work. All decisions kept.
+- 2026-10-30 23:19 Dropped the 'last-hour scan' as a standing check. Future rounds use round-scoped checks instead.
