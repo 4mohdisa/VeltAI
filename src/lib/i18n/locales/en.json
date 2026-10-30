@@ -162,6 +162,7 @@
     "title": "Nutrition",
     "macrosTitle": "Macros",
     "loadFailed": "Couldn't load today's food.",
+    "macrosLoadFailed": "Couldn't load today's macros.",
     "fromFood": "from food",
     "caloriesToday": "Calories today",
     "caloriesTodayLabel": "Calories today. {{consumed}} of {{target}}, {{remaining}} left.",

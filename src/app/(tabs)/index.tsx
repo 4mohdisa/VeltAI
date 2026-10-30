@@ -152,7 +152,7 @@ export default function DashboardScreen() {
               // Same rule as the streak: the food store's seed is not today's food.
               <Skeleton width="100%" height={MACRO_ROWS_H} />
             ) : dashError ? (
-              <LoadFailedNotice message="Couldn't load today's macros." onRetry={refetch} />
+              <LoadFailedNotice message={t('nutrition.macrosLoadFailed')} onRetry={refetch} />
             ) : (
               <MacroTargetRows
                 rows={[

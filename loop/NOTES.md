@@ -21,29 +21,31 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - a petit-dejeuner dropped. lastLoggedLabel counts calendar days.
 - No new test suites or render tests. 11pm-to-9am case checked on device by Isa.
 - Macros screen has no gap row; none added to keep verdict counts. Isa may name one.
+- Nutrition load-failure and a11y wording live in the nutrition namespace (nutrition.macrosLoadFailed, nutrition.caloriesTodayLabel).
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet; gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - lastLoggedLabel (SavedMealsList.tsx); plan.whyThisPlan (plan.tsx:120).
 - Streak and summary keys in en, es, fr; settings.scanAccuracy in es; (tabs)/index.tsx lines 102, 109, 115, 121.
-- nutrition.tsx: Macros kicker/title swap (:77), loadFailed (:79), fromFood (:86), caloriesToday (:89).
+- nutrition.tsx: Macros kicker/title swap (:77), loadFailed (:79), fromFood (:86), caloriesToday (:89), caloriesTodayLabel a11y label (:95, R261).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Last full run R257: tsc 0; 65 suites, 824 tests, 4 snapshots.
 - R258 read-only check passed. R259 and R260: tsc 0; detailChrome render 4/4 after snapshot edits.
-- Keys after R260: en 154, fr 154, es 156 (es extras addMenu.voice, addMenu.describeOutLoud).
+- R261: tsc 0; detailChrome render 4/4, 4 snapshots. Snapshot line 2945 edited by hand.
+- Keys after R261: en 155, fr 155, es 157 (es extras addMenu.voice, addMenu.describeOutLoud).
 - Snapshots show raw keys, so on-screen text needs a device run.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R261 (rewritten after rejection): nutrition.tsx:95 a11y label to t('nutrition.caloriesTodayLabel'). Expect en 155, fr 155, es 157. Snapshot line 2945 edited by hand.
+1. R262: (tabs)/index.tsx:155 'Couldn't load today's macros.' to t('nutrition.macrosLoadFailed'). Add key to en, es, fr. Expect en 156, fr 156, es 158.
 2. (tabs)/gym.tsx:112 and :121 to t().
 3. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
-4. Same pattern: (tabs)/index.tsx:155, (tabs)/food.tsx:449, components/domain/EnergyBalanceCard.tsx:131 (asserted in energyBalanceCard.render.test.tsx:62).
+4. (tabs)/food.tsx:449; components/domain/EnergyBalanceCard.tsx:131 (asserted in energyBalanceCard.render.test.tsx:62).
 5. Add sheet icons to design SVGs.
 6. Remaining gap rows, most cleared first.
-7. Read-only full Jest checkpoint after R261.
+7. Read-only full Jest checkpoint after R262.
 8. If no non-gym work remains: stop with 'only owner decisions remain'.
 9. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
 
@@ -60,12 +62,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Future-dated saved-meal logs read 'Last logged today'.
 - Re-run 'breakfast' search on decoded assets. Check fr U+00A0 locations (4 instances).
 - Chart title: design 'Where the calories came from' / 'This week' vs app 'Calories today'. Compare in a design row.
+- No 'a petit-dejeuner' value in fr.json; a real fix needs per-meal strings in all locales.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
-- Device runs: Summary, streak, celebration, delete dialog, VoiceOver, toasts, saved meals (incl. a meal logged late the previous evening), plan ('Why this plan'), goals, gymLog, nutrition (kicker, title, 'kcal from food', 'Calories today', load-failure), Add sheet, recipe/fibre, quick add.
-- Native review of es and fr strings (gender, U+00A0, U+2019). Doubt: 'du repas' and 'de la comida' read as 'from the meal'.
+- Device runs: Summary, streak, celebration, delete dialog, VoiceOver (incl. nutrition calories label, R261), toasts, saved meals (incl. a meal logged late the previous evening), plan ('Why this plan'), goals, gymLog, nutrition (kicker, title, 'kcal from food', 'Calories today', load-failure), Add sheet, recipe/fibre, quick add.
+- Native review of es and fr strings (gender, U+00A0, U+2019), including the R261 nutrition.caloriesTodayLabel sentences. Doubt: 'du repas' and 'de la comida' read as 'from the meal'.
 - Remove es voice and describeOutLoud. Override es emptyMessage.
 
 ## Gotchas
@@ -74,11 +77,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - zsh: quote parenthesised paths. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - design/Lume App.html is gzip-compressed inside __bundler/manifest. Decode before searching.
-- Real path: src/app/dashboard/nutrition.tsx.
+- Real path: src/app/dashboard/nutrition.tsx (not src/app/nutrition.tsx).
 - Handover summaries can be stale. Check them against this file.
+- src/lib/i18n/index.ts:41 fixes lng to 'en'; fallbackLng is 'en'. es and fr never show.
 
 ## Loop notes
-- Handovers after R141 to R254 (latest in loop/HANDOVER.md).
+- Handovers after R141 to R254 (latest in loop/HANDOVER.md). Stale: its Macros key item was built already.
 - Rejected: R236, R238, R243, R255, R257 (no design file or branch rule), R261 first prompt (no branch rule, notes too long).
-- Flags cleared through R258. R260 report had no failures.
-- R261 candidates: 1 nutrition.tsx:95; 2 gym.tsx:112 and :121; 3 freeze.tsx:48. Jev: run 97%, last task clean 89%, risk 1.1.
+- Flags cleared through R258. R260 and R261 reports had no failures.
+- R262 candidates: 1 index.tsx:155; 2 gym.tsx:112 and :121; 3 food.tsx:449. Chosen 1 (smallest, no owner input).

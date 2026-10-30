@@ -993,3 +993,8 @@
 - 2026-10-31 02:08 Rewrote the rejected prompt: added the branch rule, cut to five steps, named every file, and stated the expected key counts.
 - 2026-10-31 02:08 Condensed the notes to under 600 words: merged repeated items, dropped finished rounds and the old Macros decoded-file note.
 - 2026-10-31 02:08 Kept the Jev run signal (97%, clean 89%, risk 1.1). No ask needed, since the task needs nothing from Isa.
+- 2026-10-31 02:09 Chose index.tsx:155 over gym.tsx because it is the smallest change, needs no owner input, and repeats the nutrition.tsx pattern that was just built.
+- 2026-10-31 02:09 Used the nutrition namespace for the new key because nutrition.loadFailed already holds the load-failure wording.
+- 2026-10-31 02:09 Treated the Macros kicker as built (per notes, nutrition.tsx:77). The handover item asking for a Macros key is stale and was dropped.
+- 2026-10-31 02:09 Did not ask Isa about the new es and fr sentences. They stay in the existing native review queue.
+- 2026-10-31 02:09 Clean report from R261 with no failures, so no read-only flag round is needed before this task.
