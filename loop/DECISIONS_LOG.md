@@ -220,3 +220,8 @@
 - 2026-10-30 23:17 Logged R92 as done and flagged in the Loop notes, and moved the hooks.ts fibre edit to after this verification round.
 - 2026-10-30 23:17 Kept Jev's run signal (81%) in view; it matches my choice of run. Jev's ask at 18% is covered by the owner device checks already in Blocked on Isa, so no new question is asked.
 - 2026-10-30 23:17 Left the stale NOTES lines 39, 42, 54 check in Next, to be done as a doc-only round after the hooks.ts fibre edit.
+- 2026-10-30 23:18 Chose a verification-only run first because the loop flagged the last report, and the rule is to clear a flag before any new code edit.
+- 2026-10-30 23:18 Limited checks to tsc, eslint and the suites that reference the changed files, not the full suite, because this is not a checkpoint round and the flag reason is unclear.
+- 2026-10-30 23:18 Named no gap row because the recipe builder has no design counterpart, per the notes decision.
+- 2026-10-30 23:18 Left the fibre recents change for the next round so the flag is cleared before any hooks.ts edit.
+- 2026-10-30 23:18 Kept the recents fibre item as the next code task, since the R93 report recommended it and it is on the Next list.

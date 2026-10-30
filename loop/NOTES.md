@@ -45,6 +45,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot: design 'Snacks' vs 'Snack' default.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Calorie rounding in new-recipe edit path and useFoodSearch recents can drift ingredient calories slightly.
+- new-recipe.tsx totals (around lines 64-72) leave out fibre; the totals line does not show it.
+- Missing fibre saved as 0 in new-recipe: RecipeIngredient.fibre is a required number, so 'no figure' and 'zero' look the same once saved.
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx by path. Source-reading suites mention the word only; the hooks grep was loose.
 
 ## Blocked on Isa
@@ -58,12 +60,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Owner device checks (ask once): quick add fit, no collapse, MEAL caption, toast, compact chips, keyboard bar, Add sheet title and tile grid at 320pt and 430pt, celebration flow (row 17 step 3), recipe macros.
 
 ## Next
-1. R93 (in progress): verification-only run to clear the R92 flag. tsc once, eslint on new-recipe.tsx, grep of src/__tests__ for the file. No edits.
+1. R94 (in progress): verification-only run to clear the R93 flag. tsc once, eslint on new-recipe.tsx and hooks.ts, suites referencing hooks and new-recipe (grep src/__tests__ for the path). No edits.
 2. Carry fibre in useFoodSearch recents in src/lib/data/hooks.ts, scaled per 100 g. A missing fibre figure stays missing. One file per round, verification first.
 3. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
 4. Same for quickAdd (own round).
 5. Add sheet icons, scan routes, bottom padding.
-6. Doc-only round: re-read loop/NOTES.md lines 39, 42, 54 (may be stale) and correct if needed.
+6. Doc-only round: re-read loop/NOTES.md lines 39, 42, 54 (may be stale) and correct if needed. The file was edited outside the session; re-read before updating.
 7. Checkpoint round: full tsc and full app suite, no file changes.
 8. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
@@ -83,8 +85,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R89: prompt rejected before running: did not name the matching design/ file. Rewritten and re-sent as R88.
 - R90: doc-only run to clear the R88 flag. Doc truth-up done; flagged again for no type check or tests run.
 - R91: verification-only run green (tsc 0 errors, eslint clean, hooks 116 of 116, quick-add 88 of 88). R90 flag cleared. No file edits.
-- R92: fibre in new-recipe.tsx only. Type check and eslint clean. Loop flagged the report as type check or tests not run, though tsc and eslint were run. Flag to be cleared by R93 before any new code edit.
-- R93: prompt issued, verification-only, to clear the R92 flag. Jev: run 81%, ask 18%, last task clean 85%, risk 1.5/2.
+- R92: fibre in new-recipe.tsx only. Type check and eslint clean. Loop flagged the report as type check or tests not run, though tsc and eslint were run.
+- R93: verification-only run. tsc exit 0, eslint clean on new-recipe.tsx, no suite references the file, no file changes. Loop flagged it again as type check or tests not run. Jev: run 81%, ask 18%, clean 85%, risk 1.5/2.
+- R94: verification-only run to clear the R93 flag. Jev: run 90%, ask 9%, stop 1%, clean 84%, risk 1.5/2 (low confidence 0.26).
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
