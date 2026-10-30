@@ -52,7 +52,10 @@
     "fibre": "Fibra (opcional)",
     "reconcileHint": "Tus macros suman {{total}} de {{target}}. Está bien, solo es un aviso.",
     "resetToAi": "Restablecer a la recomendación de IA",
-    "saved": "Objetivos actualizados."
+    "saved": "Objetivos actualizados.",
+    "setByLume": "Definida por Lume",
+    "tapToEdit": "Toca para editar",
+    "savedAsYouType": "Tus números, sin cambios de Lume. Se guardan mientras escribes."
   },
   "addMenu": {
     "title": "Añadir comida",

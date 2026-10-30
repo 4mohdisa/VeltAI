@@ -717,3 +717,10 @@
 - 2026-10-31 01:03 Kept the verification prompt read-only so the flag clears without new changes.
 - 2026-10-31 01:03 Next build is es.json goals, because locale order is en, es, fr and the es gap is the smallest open item.
 - 2026-10-31 01:03 Jev recommends run at 92%, and the clean-finish estimate is 80%. Matches my choice.
+- 2026-10-31 01:04 Kept the checkpoint over Jev's pick (es.json goals, 87%). The loop note for this round requires a checkpoint with no file changes, and a full suite has not run since the plan.tsx title edits. The es.json goals task is the next round.
+- 2026-10-31 01:04 Kept the R196 verification result (green) as the last checkpoint basis; R195 flag is cleared.
+- 2026-10-31 01:05 Chose es.json goals keys: smallest task, needs nothing from Isa, and closes the flagged key gap from R196.
+- 2026-10-31 01:05 Named design/Lume App.html and gap row 'none' in the prompt, because the loop note rejected the last prompt for omitting the design file.
+- 2026-10-31 01:05 Left the R197 checkpoint owed rather than running it now, because this round is a single locale task and the checkpoint is mandated by the loop note for the next round boundary.
+- 2026-10-31 01:05 Told Claude Code to translate the values itself, since the English values are not in this brief and placeholders are banned. Spanish stays pending native review.
+- 2026-10-31 01:05 Asked for tsc plus a JSON parse only, not Jest, because no test reads locale files (testing rules).
