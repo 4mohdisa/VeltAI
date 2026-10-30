@@ -155,6 +155,7 @@
     "dayStreak_other": "{{count}} días seguidos",
     "streakLoading": "Cargando tu racha",
     "streakLoadError": "No se pudo cargar tu racha.",
+    "summaryTitle": "Resumen",
     "todaysPlan": "Plan de hoy",
     "next": "Siguiente: {{title}} a las {{time}} · {{energy}}",
     "gymBedtime": "Gimnasio {{gym}} · Dormir {{bed}}"

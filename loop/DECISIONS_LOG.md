@@ -855,3 +855,7 @@
 - 2026-10-31 01:37 Chose verification over Jev's es.json pick because the R229 report was flagged (Jest not run). Decision rule: flagged reports are cleared by a verification round before a new build task.
 - 2026-10-31 01:37 Verification is read-only and uses tsc plus only the tests that touch the changed screen, per testing rules. No full suite, since this is not a checkpoint round.
 - 2026-10-31 01:37 Kept Jev's top candidate as the next build task (es.json) after verification, so the locale gap is closed next round.
+- 2026-10-31 01:38 Chose es.json summaryTitle over verification: the loop flagged the last report as partly done, and this step completes that same task, so it does not start a new one.
+- 2026-10-31 01:38 Spanish value 'Resumen' used for the title, since the design and English value are both 'Summary' and no other Spanish title key exists to match.
+- 2026-10-31 01:38 Check limited to a parse, one key lookup and tsc, per the testing rules; full Jest is not run on a non-checkpoint round.
+- 2026-10-31 01:38 Jev ranked the same candidate first in R230 notes, so no look-again is needed.

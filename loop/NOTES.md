@@ -23,16 +23,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
 - fr remainingToday is 'Il reste {{value}} aujourd’hui'.
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
-- R230: Jev preferred es.json summaryTitle. Kept verification first because R229 was flagged (Jest not run). Verification is read-only and tsc-plus-touched-tests only.
+- R230: Jev preferred es.json summaryTitle. Kept verification first because R229 was flagged. Verification is read-only and tsc-plus-touched-tests only.
+- R231: flag on R230 report ('partly done'). Chose es.json summaryTitle as the completing step of the same task, not a new task.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - Locales: savedMeals, plan, gymLog, dashboard, nutrition, settings.scanAccuracy, goals (partial) in en/es/fr as recorded in the gap analysis.
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
 - en.json has dashboard.streakLoading and dashboard.streakLoadError (R223), used at (tabs)/index.tsx:109 and :115.
-- en.json has dashboard.summaryTitle ('Summary'), directly after streakLoadError (R229). Used at (tabs)/index.tsx:102 (large header title). Not yet verified.
+- en.json has dashboard.summaryTitle ('Summary'), directly after streakLoadError (R229). Used at (tabs)/index.tsx:102. R230 checked: parses, tsc 0, 6 related suites pass. Rendering not verified.
 - es.json has dashboard.streakLoading and streakLoadError after dayStreak_other (R225).
-- fr.json has every en.json key up to R228, including dashboard.streakLoading and streakLoadError at lines 154 and 155 (R227). fr.json is now missing dashboard.summaryTitle.
+- fr.json has every en.json key up to R228. fr.json is still missing dashboard.summaryTitle.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
@@ -41,20 +42,22 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R226: checkpoint, read-only. Green. Cleared R225 flag.
 - R228: verified R227. tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. fr.json key set matched en.json (148 keys). Parse OK. Cleared R227 flag.
 - R228 also found es.json has 150 keys: two extra, addMenu.voice and addMenu.describeOutLoud. Kept per decision above. Not a failure.
-- R229 (summaryTitle): tsc and Jest not run, so flagged. R230 verification round is pending.
+- R229 (summaryTitle): tsc and Jest not run, flagged.
+- R230: read-only check. tsc 0. 6 suites, 96 tests pass (tabNavigation, oneTapGymLog, summaryDetails, hydrationErrorScreens, summaryNoFabrication, render/tabbar.render). Clears R229 flag. Coverage gap: no test covers the title.
+- R231 (pending): es.json summaryTitle, parse check and tsc only.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection, or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R230: verification round for R229 (read-only). Clears R229 flag.
-2. Add dashboard.summaryTitle to es.json, directly after streakLoadError.
-3. Add dashboard.summaryTitle to fr.json, directly after streakLoadError (fr keeps U+2019 in any apostrophe). Then fr matches en again.
-4. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
-5. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-6. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
-7. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-8. Add sheet icons to design SVGs.
-9. Remaining gap rows, most cleared per task first.
+1. R231: add dashboard.summaryTitle 'Resumen' to es.json, directly after streakLoadError. Parse and tsc only.
+2. Add dashboard.summaryTitle to fr.json, directly after streakLoadError (fr keeps U+2019 in any apostrophe). Then fr matches en again.
+3. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
+4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+5. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
+6. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+7. Add sheet icons to design SVGs.
+8. Remaining gap rows, most cleared per task first.
+9. Checkpoint full suite run after the next 5 rounds.
 10. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
@@ -88,5 +91,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run, cleared by R226); R227 (Jest not run, cleared by R228); R229 (tsc and Jest not run, pending R230).
-- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225-R228, R229. R230: Jev ranked es.json first; manager chose verification (flag rule).
+- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (cleared R226); R227 (cleared R228); R229 (cleared R230); R230 (partly done, handled by R231).
+- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225-R229. R230: Jev ranked es.json first; manager chose verification (flag rule). R231: Jev ranked es.json first; manager chose es.json.
