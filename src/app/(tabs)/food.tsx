@@ -536,7 +536,7 @@ export default function FoodLogScreen() {
               haptic={false}
               minTapTarget={false}
               onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
-              accessibilityLabel={`Add to ${t(`addMenu.${SLOT_KEYS[section.slot]}`)}`}
+              accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[section.slot]}`) })}
               style={{
                 ...groupSurface(false, true),
                 paddingHorizontal: space.lg,
@@ -792,7 +792,7 @@ function MealSectionHeader({
         minTapTarget={false}
         onPress={onAdd}
         accessibilityRole="button"
-        accessibilityLabel={`Add to ${t(`addMenu.${SLOT_KEYS[slot]}`)}`}
+        accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) })}
         style={{
           width: layout.tapTarget,
           height: layout.tapTarget,

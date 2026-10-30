@@ -446,3 +446,7 @@
 - 2026-10-31 00:09 Gap row stated as none, because the change is a translation fix with no layout change, and the prompt rule allows 'none'.
 - 2026-10-31 00:09 Jev ranked run at 98%, which matches this choice; no override needed.
 - 2026-10-31 00:09 Rewrote the notes below 600 words: merged repeated items, deleted finished work, kept all Decisions lines.
+- 2026-10-31 00:11 Chose the flagged partial work first, because the loop note says to deal with it before moving on. It is a one-file change that uses an existing key, so it is the smallest option.
+- 2026-10-31 00:11 Jev ranked run at 99%, which agrees with this choice. No Isa input is needed.
+- 2026-10-31 00:11 Left the hint at food.tsx:771 for a later round, because it needs a new locale key and that is a separate change.
+- 2026-10-31 00:11 Left the locale gaps (addedToMeal, mealDeleted, deleteMeal keys in es and fr) for later, one file per round, per the open list.
