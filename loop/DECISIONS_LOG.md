@@ -785,3 +785,7 @@
 - 2026-10-31 01:20 Kept the rule of one locale group per round, so nutrition and settings.scanAccuracy wait for later rounds.
 - 2026-10-31 01:20 Asked for U+2019 via node escapes, following the gotcha that the Edit tool writes plain apostrophes.
 - 2026-10-31 01:20 Set the fr dashboard group to sit at its en.json position, consistent with the handover decision on group placement.
+- 2026-10-31 01:21 Chose verification first because the loop note flags the R213 report (tests not run) and the notes say flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 01:21 Ran the full suite in this round because the flag says tests were not run and the round is read-only; this does not count as a checkpoint.
+- 2026-10-31 01:21 Kept the fr nutrition group as the next build task, as the R213 report recommends, once the flag is cleared.
+- 2026-10-31 01:21 Jev ranks run at 95%; no conflict with my choice.
