@@ -827,3 +827,7 @@
 - 2026-10-31 01:31 Limited this round to en.json plus index.tsx to respect one file per round and one locale group per round. es and fr keys are scheduled for later rounds.
 - 2026-10-31 01:31 Did not add a new load-failure key for line 121 or change the count-based label. The R222 change already uses t() with count.
 - 2026-10-31 01:31 Did not pick the 'Summary' literal at line 102 this round because it is a separate string and the brief says one task per round.
+- 2026-10-31 01:31 Chose the verification round first because the loop note flagged R223 as partly done, and the brief says flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 01:31 Treated the R223 report's NEXT line about scanAccuracy in es.json as stale. R221 verified settings.scanAccuracy is present in es and fr.
+- 2026-10-31 01:31 Kept the es and fr streakLoading keys as separate later rounds, one locale per round, per the locale order rule.
+- 2026-10-31 01:31 Verification round is read-only: if a check fails, the failure goes to BLOCKED and is not fixed in the same round.
