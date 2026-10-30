@@ -16,34 +16,38 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - es addedToMeal and mealDeleted avoid gender. es goals.setByLume feminine, matching goals.tsx:125.
 - fr savedMeals keeps U+00A0 and U+2019 (accepted, pending native review).
 - fr is never shown on screen (src/lib/i18n/index.ts:41 fixes lng to 'en'). Low priority.
-- Locale order en, es, fr; one file per round. New groups sit at their en.json position.
+- Locale order en, es, fr; one file per round. New groups sit at their en.json position. Exception: a new key goes to all three locales together so key sets match.
 - R240: 'a petit-dejeuner' not in fr.json, dropped. R241: lastLoggedLabel counts calendar days.
 - R243 and R247: no new test suites or render tests. 11pm-to-9am case checked on device by Isa.
 - R249: es plan.whyThisPlan follows English wording; native review pending.
 - Flagged reports are cleared by a read-only verification round before a new build task. Checkpoint rounds are read-only.
+- R254: nutrition kicker uses new key nutrition.macrosKicker = 'Macros' in en, es, fr. goals.macros not reused ('Macro targets' changes English display).
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - lastLoggedLabel in src/components/food/SavedMealsList.tsx (calendar days, DST-safe).
 - Streak and summary keys (gymLog.celebration, dashboard.dayStreak_one/_other, streakLoading, streakLoadError, summaryTitle) in en, es, fr. settings.scanAccuracy in es.
-- (tabs)/index.tsx lines 102, 109, 115, 121 use t(). plan.tsx:120 uses t('plan.whyThisPlan'), in all three locales (fr added R251).
+- (tabs)/index.tsx lines 102, 109, 115, 121 use t(). plan.tsx:120 uses t('plan.whyThisPlan'), in all three locales.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R242 checkpoint green. R246, R248, R250, R252 read-only green (R252: tsc exit 0; 65 suites, 824 tests, 4 snapshots passing; en 150, fr 150, es 152 with extras addMenu.voice and addMenu.describeOutLoud).
 - R247, R249, R251 flagged, Jest not run. R252 cleared the R251 flag.
+- R253 (Macros) made no edits: its brief named the wrong path (real file src/app/dashboard/nutrition.tsx) and no exact-value key existed.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 - No test covers locales, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
+- src/__tests__/render/detailChrome.render.test.tsx renders dashboard/nutrition.tsx; may assert on the kicker. Run after R254.
 
 ## Next
-1. R253: nutrition.tsx:77 'Macros' to t(). Running now (no gap row; hardcoded English fix).
-2. (tabs)/gym.tsx:112 and :121 to t().
-3. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
-4. Add sheet icons to design SVGs.
-5. Remaining gap rows, most cleared first.
-6. Full Jest checkpoint every 5 rounds, read-only. Next checkpoint R255.
-7. If no non-gym work remains: stop with 'only owner decisions remain'.
-8. Remove es addMenu.voice and describeOutLoud only after Isa approves.
+1. R254: add nutrition.macrosKicker ('Macros') to en, es, fr; use it at src/app/dashboard/nutrition.tsx:77. Running now.
+2. nutrition.tsx:79 message "Couldn't load today's food." to t().
+3. (tabs)/gym.tsx:112 and :121 to t().
+4. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
+5. Add sheet icons to design SVGs.
+6. Remaining gap rows, most cleared first.
+7. Full Jest checkpoint every 5 rounds, read-only. Next checkpoint R255.
+8. If no non-gym work remains: stop with 'only owner decisions remain'.
+9. Remove es addMenu.voice and describeOutLoud only after Isa approves.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -57,16 +61,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Long-press meal delete not discoverable; mealNow() 'Snack' vs 'Snacks'.
 - dashboard.welcome and gymBedtime unused; lastLoggedDaysAgo_one unreachable (kept).
 - Future-dated saved-meal logs read 'Last logged today'.
-- Hardcoded English still open: nutrition.tsx:77 (in progress R253); (tabs)/gym.tsx:112, :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+- Hardcoded English still open: nutrition.tsx:79; (tabs)/gym.tsx:112, :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Summary title and streak, streak loading and failure, celebration (streak 1+), delete dialog, VoiceOver, toasts, saved meals (incl. a meal logged late the previous evening), plan (incl. 'Why this plan'), goals, gymLog, nutrition, Add sheet, recipe/fibre, quick add.
-- Native review fr and es: new strings, gender, 'Resumen', 'Résumé', 'Creneau de sport', 'A suivre', U+00A0 and U+2019.
+- Native review fr and es: new strings, gender, 'Resumen', 'Résumé', 'Creneau de sport', 'A suivre', U+00A0 and U+2019, 'Macros' kicker.
 - Remove es voice and describeOutLoud: Delete vs Removed wording; negative margin on device.
 - Override: es emptyMessage wording; whether fr standardises on U+00A0 and U+2019.
-- Design check for 'breakfast' in French templates.
+- Design check for 'breakfast' in French templates (re-run on decoded design assets).
 
 ## Gotchas
 - Edit tool writes a plain space for U+00A0 and a plain apostrophe for U+2019. Patch with node escapes and check code points.
@@ -74,11 +78,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - zsh: quote paths with parentheses. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - Check key sets in both directions.
-- One file per round where possible. Handover summaries can be stale on built items and key counts; check against this file.
-- src/lib/i18n/index.ts:41 fixes lng to 'en'.
+- One file per round where possible. Handover summaries can be stale on built items, key counts and file paths; check against this file.
+- src/lib/i18n/index.ts:41 fixes lng to 'en'. fallbackLng is 'en'.
+- design/Lume App.html is gzip-compressed inside its __bundler/manifest; decode assets before searching.
+- Real paths: nutrition screen is src/app/dashboard/nutrition.tsx (not src/app/nutrition.tsx).
 
 ## Loop notes
-- Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240, latest in loop/HANDOVER.md.
+- Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240, R254 (after R253 Macros round), latest in loop/HANDOVER.md.
 - Rejected: R236 (more than one screen), R238 and R243 (no design file named).
 - Flags cleared: R239, R241, R242, R244, R245, R246, R248, R250, R251 (cleared by R252).
-- Jev: R251 and R252 run favoured; agreed. R253 run chosen, same as candidate 1.
+- R253: no edits; brief named wrong path and missing key. Re-briefed as R254 with the correct path and locale exception.
+- Jev: R251 and R252 run favoured; agreed. R253 run chosen. R254 run chosen (ask 50 / run 45 per Jev); Jev's ask lean noted, but the value is already on screen and Isa's Macros decision is covered by the default.
+- Jev risk 1.5 noted on R254; the task is one surface with a read-only fallback if the design text differs.

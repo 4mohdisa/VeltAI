@@ -948,3 +948,8 @@
 - 2026-10-31 01:57 Kept the es addMenu.voice and addMenu.describeOutLoud removal parked, because the Decisions section says they stay until Isa approves.
 - 2026-10-31 01:57 Told Claude Code to report BLOCKED instead of adding keys to locale files if no existing 'Macros' key exists, to keep this round to one file.
 - 2026-10-31 01:57 Treated R252 as a green read-only verification, so the R251 flag is cleared and no flag is pending.
+- 2026-10-31 01:58 Chose candidate 1: it clears a known hardcoded-English item and the value 'Macros' is already on screen, so the English display does not change. Needs no Isa input.
+- 2026-10-31 01:58 Used nutrition.macrosKicker with value 'Macros' in en, es and fr. goals.macros was not reused, because 'Macro targets' would change the English kicker.
+- 2026-10-31 01:58 Allowed the three locale files in one round as an exception, because the key sets must match in all three or the i18n key check fails.
+- 2026-10-31 01:58 Told Claude Code to check the design file for the kicker wording and stop if it differs, rather than guessing.
+- 2026-10-31 01:58 Parked the nutrition.tsx:79 message string as the next hardcoded item, to keep this round to one surface.
