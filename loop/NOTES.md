@@ -28,26 +28,27 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Flagged reports are cleared by a verification round before a new build task. Checkpoint rounds are read-only.
 - Handover suggestion to remove es addMenu.voice and describeOutLoud is not followed until Isa approves.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
+- R249: es plan.whyThisPlan value 'Por qué este plan' follows the English wording. Native review pending.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - lastLoggedLabel calendar-day logic in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe).
 - Streak keys: gymLog.celebration.streak_one/_other; dashboard.dayStreak_one/_other, streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
 - (tabs)/index.tsx lines 102, 109, 115, 121 use t().
-- R247: plan.tsx:120 'Why this plan' uses t('plan.whyThisPlan'). Added to en.json only. Status BUILT, not verified. Heading shows only when the plan has a reason.
+- R247: plan.tsx:120 'Why this plan' uses t('plan.whyThisPlan'). Added to en.json only, then to es.json in R249 (pending). Status BUILT, not verified. Heading shows only when the plan has a reason.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R242 full checkpoint: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. This covers the R241 change at suite level only.
 - R246 read-only checks: tsc exit 0; full Jest 65 suites, 824 tests, 4 snapshots green. Clears the R246 flag.
-- R247: tsc exit 0 reported. Jest not run. Flagged. R248 is a read-only verification round to clear it.
-- Keys: en 150, es 151 (extras addMenu.voice, addMenu.describeOutLoud), fr 149. Expect en 150 and fr 149 until the es and fr rounds add plan.whyThisPlan.
-- No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
+- R247: tsc exit 0 reported. Jest not run. Flagged. Cleared by R248.
+- R248 read-only: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. Key counts en 150, es 151 (missing plan.whyThisPlan, extras addMenu.voice and addMenu.describeOutLoud), fr 149 (missing plan.whyThisPlan). Clears the R247 flag.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
+- No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 
 ## Next
-1. R248: read-only verification (tsc, full Jest, key counts). In progress. Clears the R247 flag.
-2. Add plan.whyThisPlan to es.json and fr.json (native review pending).
+1. R249: add plan.whyThisPlan to es.json (in progress). Check with tsc and node parse.
+2. Add plan.whyThisPlan to fr.json (next round).
 3. nutrition.tsx:77 'Macros' to t().
 4. (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
 5. Add sheet icons to design SVGs.
@@ -98,4 +99,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Flags R239, R241, R242, R244, R245: cleared by read-only verification rounds.
 - R246: flagged on the type check only. Cleared by full Jest in that round.
 - R247: flagged, type check or tests not run (Jest skipped). Cleared by R248 read-only verification.
-- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R246 run favoured; agreed each time. R247 run 91%; agreed. R248 run 90%; agreed.
+- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R246 run favoured; agreed each time. R247 run 91%; agreed. R248 run 90%; agreed. R249 run 88%; agreed.
+- R249: es.json plan.whyThisPlan, one file, per the one-file-per-round rule. fr.json follows in R250.

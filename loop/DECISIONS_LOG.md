@@ -926,3 +926,7 @@
 - 2026-10-31 01:53 Jev ran 90% in favour of run. Agreed, since the flag must be cleared before any build work.
 - 2026-10-31 01:53 Did not start the es and fr plan.whyThisPlan strings yet. They wait until the flag is cleared, to keep this round to one purpose.
 - 2026-10-31 01:53 Step 4 checks the key counts so the en, es and fr gap is confirmed before the next locale round.
+- 2026-10-31 01:53 Chose es.json first because the locale rule is one file per round and en, es, fr is the order. fr.json follows next round.
+- 2026-10-31 01:53 Spanish wording 'Por qué este plan' follows the English heading. Native review stays pending on Isa's list.
+- 2026-10-31 01:53 Left addMenu.voice and addMenu.describeOutLoud in place because the removal waits on Isa's approval.
+- 2026-10-31 01:53 Verification uses tsc and a node parse only, not Jest, to keep usage low. Jest is not required for a JSON key change.
