@@ -36,3 +36,8 @@
 - 2026-10-30 22:33 Rewrote the notes under 600 words as the loop note asked: merged repeats, removed finished work, kept all decisions and blocked items.
 - 2026-10-30 22:33 Row 23 stays blocked on Isa's answer. No action taken, since the question was asked in round 43 and is still unanswered.
 - 2026-10-30 22:33 Prompt tells Claude Code to stop and report if the food item lacks the macro fields, so no values are invented.
+- 2026-10-30 22:34 Chose step 3 over the recents fix because the data path is the open item in progress and the flagged report was a checks gap, so this round must run tsc, eslint and jest.
+- 2026-10-30 22:34 Treated food data path step 2 as done: the last report confirmed pick() in src/app/(tabs)/food.tsx already passes proteinPer100, carbsPer100 and fatPer100.
+- 2026-10-30 22:34 Kept the macros-visible decision from Isa r39 (food detail search shows macros) and removed macros={false} in the search branch.
+- 2026-10-30 22:34 Asked jest to run on src/lib/food/detailSubject via path pattern, since the test file name is not in the notes.
+- 2026-10-30 22:34 Parked the recents bug under next tasks rather than fixing it inside this one-file task.
