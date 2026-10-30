@@ -565,3 +565,7 @@
 - 2026-10-31 00:33 Did not ask Isa anything; no owner-only dependency is involved.
 - 2026-10-31 00:33 Left plan.tsx, SavedMealsList.tsx and the locale gaps for the next rounds, in the order already set in Next.
 - 2026-10-31 00:33 Did not treat the earlier 'Snacks' and 'Add to Lunch' decisions as open; they stay as recorded in Blocked on Isa.
+- 2026-10-31 00:34 R164 verification is complete (tsc 0, 65 suites, 824 tests, 4 snapshots, no edits), so it is marked done and the plan.tsx step starts.
+- 2026-10-31 00:34 Chose the plan.tsx en keys because the Next list puts it first and it needs nothing from Isa. Its en step is a single-file edit, which fits the one-editable-file rule.
+- 2026-10-31 00:34 The plan.tsx code change is deferred to the next round, so this round edits only en.json, as the en-then-es-then-fr rule requires.
+- 2026-10-31 00:34 SavedMealsList lastLoggedLabel and SLOT_KEYS are kept for later rounds to respect one task per round.

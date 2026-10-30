@@ -40,7 +40,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151, R156, R158, R160 (tsc 0, 65 suites, 824 tests, 4 snapshots, --ci).
 - Targeted: R146, R147, R154.
 - Flags R157 and R159 partly cleared (R158, R160).
-- R162 and R163 flagged (tests not run by design; tsc 0). Verification round R164 requested: tsc and full app suite, no edits.
+- R162 and R163 flagged; cleared by R164 (tsc 0, 65 suites, 824 tests, 4 snapshots, no edits). Key sets for savedMeals and foodLog match en.json in es and fr.
 - Unverified: no test renders the add title, slot heading, delete dialog, toast, 'Add to' labels or saved meal toasts. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -48,7 +48,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - es.json missing gymLog, settings.scanAccuracy, some goals keys; has addMenu.voice and describeOutLoud.
 - fr.json missing goals, gymLog, dashboard, nutrition groups and settings.scanAccuracy (falls back to English; lng is fixed to en anyway).
 - SavedMealsList.tsx lastLoggedLabel (lines 26-33) hardcoded English; 'N days ago' needs plurals. Lines :59 and :63 reported hardcoded, not rechecked.
-- plan.tsx :85 'Suggested:' and :97 'Add ${entry.title}' hardcoded. Needs en keys first.
+- plan.tsx :85 'Suggested:' and :97 'Add ${entry.title}' hardcoded. IN PROGRESS: en keys (R165), then plan.tsx uses keys, then es, then fr.
 - Add sheet icons are SF Symbols, not design SVGs.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
@@ -86,21 +86,22 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Food tab render test for add labels, hint and toast (needs a new test suite; not allowed).
 
 ## Next
-1. R164: verification of R162 and R163 flags. tsc and full app suite, no edits.
-2. plan.tsx :85, :97 to locale keys: en keys first, then es, then fr, one file per round.
-3. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en first).
-4. es and fr locale gaps, one file per round.
-5. fr and es wording fixes, one file per round.
-6. Add sheet icons to design SVGs, one per round.
-7. Consolidate SLOT_KEYS, one file per round.
-8. Full checkpoint after saved meal and plan work.
-9. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R165: add en.json keys for plan.tsx :85 ('Suggested:') and :97 (add text with {{title}}). en.json only.
+2. R166: plan.tsx :85 and :97 use the new keys. One file.
+3. es.json then fr.json for the plan keys, one file per round.
+4. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en first, then es, then fr).
+5. es and fr locale gaps, one file per round.
+6. fr and es wording fixes, one file per round.
+7. Add sheet icons to design SVGs, one per round.
+8. Consolidate SLOT_KEYS, one file per round.
+9. Full checkpoint after saved meal and plan work.
+10. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Handover after R141, R156. Name files fully in prompts.
-- Flags: R144, R146, R148, R149, R150, R152, R153, R155, R157, R159, R162, R163. Cleared: R153, R155, R157. R159 partly cleared by R160.
+- Flags: R144, R146, R148, R149, R150, R152, R153, R155, R157, R159, R162, R163. Cleared: R153, R155, R157, R164 (R162 and R163). R159 partly cleared by R160.
 - Jev ask overridden at R120, R124, R126, R131, R134.
-- Jev run 100% at R159 and 97% at R161; both agreed. Jev run 98% at R162 (advisory). Jev run 93% at R163 (advisory).
+- Jev run 100% at R159 and 97% at R161; both agreed. Jev run 98% at R162 (advisory). Jev run 93% at R163 (advisory). Jev run 96% at R164 (advisory).
 
 ## Gotchas
 - Design is in the bundler payload; decoded copy /tmp/lume-design may vanish.
