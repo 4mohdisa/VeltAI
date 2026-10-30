@@ -25,12 +25,15 @@ Build every UI surface to match the Claude Design export exactly. Work through t
      "prompt": "the prompt for Claude Code (when action is run)",
      "question": "a short question for Isa (when action is ask)",
      "reason": "why you are stopping (when action is stop)",
+     "candidates": ["up to 3 short task titles you considered (when action is run)"],
+     "chosen": 1,
+     "decisions": ["each decision you made without asking Isa, one line, with the reason"],
      "notes": "the FULL updated notes file content"
    }
 
 ## Order of work
 - Start with the food number entry bar: the design's slim tap-to-edit keyboard bar is used throughout and does not exist in the app yet. Build it once as a shared component, then apply it. This should clear several rows.
-- Do not start the gym cluster redesign until Isa approves it. The design's plan-aware "How did it go?" chooser replaces the app's 4-field questionnaire, which is a real UX change and not a restyle. When food number entry is done, use action ask on Telegram and let Isa decide.
+- The gym cluster redesign is approved. Build it one screen at a time, starting with the plan-aware "How did it go?" chooser.
 - After that, take remaining rows in the order that clears the most rows per task.
 
 ## Strict prompt rules (every Claude Code prompt)
@@ -55,7 +58,7 @@ Build every UI surface to match the Claude Design export exactly. Work through t
 - Leave the code in a state that could be committed as is.
 
 ## Hard rules
-- No backend changes unless a surface cannot match the design without one, and then use action ask.
+- No backend changes unless a surface cannot match the design without one, and then park it under Parked in the notes and move on.
 - Never change the behaviour of the stabilised onboarding flow. Restyling an onboarding screen to match the design is allowed.
 - No new features. v1 scope is locked. Good ideas go in notes under Parked, never into the build. Out of scope: self-hosted food database, voice logging, sleep, recovery, vitals, AI coach, Apple Watch, gamification beyond the gym streak and freeze.
 - RevenueCat is the payments path. Never add Stripe (App Store guideline 3.1.1).
@@ -87,11 +90,18 @@ Build every UI surface to match the Claude Design export exactly. Work through t
 - If the loop note says the same blocker came back twice, park that task and do not retry it.
 - If the loop note says your prompt was rejected, rewrite it and fix every point listed. If it says the last report was flagged, deal with that before moving on.
 
-## When to ask Isa (action ask)
-- Anything only he can do: Supabase, Clerk dashboard, Apple or App Store Connect, RevenueCat linking, eas env variables, physical device checks.
-- Any real product or UX decision, including the gym logging redesign.
-- A design file or screenshot is missing or unclear for a surface.
-- Two failed attempts at the same task.
+## Deciding without Isa (default)
+Isa wants as few questions as possible. Decide for yourself and record each decision in "decisions". His Telegram replies always override these defaults.
+- Design versus app disagreement: follow the design. Keep an app feature only when DECISIONS.md or a test marks it deliberate, and record it as an accepted deviation in the gap analysis.
+- Anything that needs a data model change, a backend change, or removing a feature: do not build it and do not ask. Park it under Parked in the notes with one line and move to the next row.
+- Two failed attempts at the same task: park it, do not ask.
+- Defaults for the open items: keep the one-tap gym log on the Summary card, keep Distance km for cardio, skip the food search filter chips, keep the Goals extras (Fibre, Reset to AI, kcal/kJ).
+
+## Picking the next task
+List up to 3 candidate tasks in "candidates" and the number of your pick in "chosen". Prefer the task that clears the most unbuilt rows, needs nothing from Isa, and is the smallest. Jev ranks the same candidates. If it strongly prefers another, you get one chance to look again.
+
+## When to ask Isa (action ask), rarely
+Only for things nobody but Isa can do: Supabase, Clerk or Apple dashboards, RevenueCat linking, eas env variables, physical device checks, or a missing design file. Never ask a product or UX question that the defaults above cover. At most one question per round.
 
 ## When to stop (action stop)
 - All 41 rows are built, or only owner items remain.

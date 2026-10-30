@@ -11,14 +11,18 @@ HANDOVER_PATH = LOOP_DIR / "HANDOVER.md"
 LOG_PATH = LOOP_DIR / "loop.log"
 LOCK_PATH = LOOP_DIR / "loop.lock"
 PAUSE_PATH = LOOP_DIR / "PAUSE"  # create this file to hold the loop, delete it to resume
+STOP_PATH = LOOP_DIR / "STOP"  # makes the restart wrapper exit as well
+STOP_ASK_HOUR = int(os.environ.get("STOP_ASK_HOUR", "21"))  # local hour for the daily "should I stop?" message
+USAGE_PATH = LOOP_DIR / "usage.json"  # manager tokens used today, survives restarts
+DAILY_TOKEN_CAP = int(os.environ.get("DAILY_TOKEN_CAP", "2500000"))  # manager tokens per day, send /more on Telegram to add 1,000,000
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
-MODEL = os.environ.get("MANAGER_MODEL", "claude-sonnet-5-5")
+MODEL = os.environ.get("MANAGER_MODEL", "claude-haiku-5-5")
 MAX_ROUNDS = int(os.environ.get("MAX_ROUNDS", "500"))
 HANDOVER_EVERY = int(os.environ.get("HANDOVER_EVERY", "15"))  # Claude Code prompts per session
 PUSH_EVERY = int(os.environ.get("PUSH_EVERY", "5"))  # rounds between pushes of the loop branch
 CHECKPOINT_EVERY = int(os.environ.get("CHECKPOINT_EVERY", "15"))  # rounds between full test suite runs
-ASK_TIMEOUT = int(os.environ.get("ASK_TIMEOUT_MIN", "30")) * 60  # wait this long for an answer, then move on
+ASK_TIMEOUT = int(os.environ.get("ASK_TIMEOUT_MIN", "15")) * 60  # wait this long for an answer, then move on
 SUMMARY_HOURS = [int(h) for h in os.environ.get("SUMMARY_HOURS", "7,18").split(",")]  # local hours for the summary message
 CLAUDE_TIMEOUT = 60 * 60  # 1 hour per Claude Code run
 INIT_PROMPT = (
@@ -112,6 +116,11 @@ def tg_wait_reply(max_seconds):
             m = u.get("message", {})
             if str(m.get("chat", {}).get("id")) == str(CHAT_ID) and m.get("text"):
                 tg_confirm(offset)
+                if m["text"].startswith("/"):
+                    handle_command(m["text"])
+                    if STOP_PATH.exists():
+                        return None
+                    continue
                 return m["text"]
     return None
 
@@ -128,9 +137,80 @@ def tg_collect_messages():
     for u in results:
         m = u.get("message", {})
         if str(m.get("chat", {}).get("id")) == str(CHAT_ID) and m.get("text"):
-            texts.append(m["text"])
+            if m["text"].startswith("/"):
+                handle_command(m["text"])
+            else:
+                texts.append(m["text"])
     tg_confirm(results[-1]["update_id"] + 1)
     return "\n".join(texts)
+
+def rows_counts():
+    # Counts the table rows in DESIGN_GAP_ANALYSIS.md. A row is built once it says BUILT or EXACT.
+    try:
+        lines = (REPO / "DESIGN_GAP_ANALYSIS.md").read_text().splitlines()
+    except Exception:
+        return None
+    rows = [l for l in lines if l.startswith("|") and re.search(r"DIFFERENT|PARTIAL|BUILT|EXACT", l)]
+    return sum(1 for l in rows if re.search(r"BUILT|EXACT", l)), len(rows)
+
+def rows_progress():
+    c = rows_counts()
+    return f"{c[0]} of {c[1]} rows built" if c else "progress unknown"
+
+def rows_all_built():
+    c = rows_counts()
+    return bool(c and c[1] and c[0] == c[1])
+
+def load_usage():
+    try:
+        d = json.loads(USAGE_PATH.read_text())
+        if d.get("date") == time.strftime("%Y-%m-%d"):
+            return d
+    except Exception:
+        pass
+    return {"date": time.strftime("%Y-%m-%d"), "tokens": 0, "bonus": 0}
+
+def add_usage(tokens):
+    d = load_usage()
+    d["tokens"] += tokens
+    USAGE_PATH.write_text(json.dumps(d))
+
+def over_cap():
+    d = load_usage()
+    return d["tokens"] >= DAILY_TOKEN_CAP + d["bonus"]
+
+def handle_command(text):
+    # Remote control from Telegram. Only messages from Isa's chat ever reach this.
+    cmd = text.strip().split()[0].lower().split("@")[0]
+    if cmd == "/pause":
+        PAUSE_PATH.touch()
+        tg_send("Paused. The current round finishes first. Send /resume to continue.")
+    elif cmd == "/resume":
+        PAUSE_PATH.unlink(missing_ok=True)
+        tg_send("Resuming.")
+    elif cmd == "/stop":
+        STOP_PATH.touch()
+        tg_send("Stopping after the current round. The restart wrapper exits too, so start it again from the Mac to continue.")
+    elif cmd == "/more":
+        d = load_usage()
+        d["bonus"] += 1000000
+        USAGE_PATH.write_text(json.dumps(d))
+        tg_send("Added 1,000,000 tokens to today's cap.")
+    elif cmd == "/status":
+        d = load_usage()
+        paused = "Paused. " if PAUSE_PATH.exists() else ""
+        tg_send(f"{rows_progress()}. {paused}Manager tokens today: {d['tokens']:,} of {DAILY_TOKEN_CAP + d['bonus']:,}.")
+    else:
+        tg_send("Commands: /status, /pause, /resume, /stop, /more (adds 1,000,000 tokens to today's cap).")
+
+def maybe_ask_stop(stats):
+    # Once a day at STOP_ASK_HOUR: tell Isa the loop keeps running unless he replies /stop
+    now = time.localtime()
+    key = (now.tm_yday, "stop-ask")
+    if now.tm_hour != STOP_ASK_HOUR or stats.get("stop_ask_key") == key:
+        return
+    stats["stop_ask_key"] = key
+    tg_send(f"It is {STOP_ASK_HOUR}:00. I keep running unless you reply /stop. {rows_progress()}. A stopped loop starts again by itself at 1am.")
 
 def acquire_lock():
     # Only one loop at a time, so the 1am auto-start does nothing if you already started it
@@ -157,7 +237,7 @@ def ignore_runtime_files():
     if not path.is_absolute():
         path = REPO / path
     existing = path.read_text() if path.exists() else ""
-    missing = [p for p in ("loop/loop.log", "loop/loop.lock", "loop/PAUSE", "loop/last_bad_reply.txt") if p not in existing.splitlines()]
+    missing = [p for p in ("loop/loop.log", "loop/loop.lock", "loop/PAUSE", "loop/last_bad_reply.txt", "loop/STOP", "loop/usage.json") if p not in existing.splitlines()]
     if missing:
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "a") as f:
@@ -193,6 +273,12 @@ def startup_check():
             problems.append("Claude Code did not run. Check that claude works in Terminal.")
     except Exception:
         problems.append("Claude Code was not found. Check that claude works in Terminal and the PATH in the launchd file.")
+    try:
+        r = subprocess.run(["claude", "-p", "reply with the single word ok"], capture_output=True, text=True, timeout=180, env=CLAUDE_ENV)
+        if "ok" not in (r.stdout or "").lower():
+            problems.append("Claude Code is not logged in to your subscription. Run claude in Terminal and use /login. The loop never gives it the API key.")
+    except Exception:
+        pass
     if not git("remote").stdout.strip():
         problems.append("The repo has no git remote, so pushes to GitHub would fail.")
     return problems
@@ -220,7 +306,7 @@ def limit_wait_seconds(text):
     return 20 * 60
 
 # Claude Code must use your Claude subscription login. If ANTHROPIC_API_KEY is passed to it, it bills the API instead.
-CLAUDE_ENV = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
+CLAUDE_ENV = {k: v for k, v in os.environ.items() if k not in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN")}
 
 class Session:
     # One continuous Claude Code conversation, resumed by session id
@@ -306,6 +392,9 @@ def notes_section(name):
     parts = body.split("\n", 1)
     return (parts[1].strip() if len(parts) > 1 else "") or "(none)"
 
+PENDING_DECISIONS = []  # decisions the manager made without asking, reported in the next summary
+USAGE = {"in": 0, "out": 0}  # manager tokens used, so the cost is visible
+
 def maybe_send_summary(stats):
     # One summary message at each of the SUMMARY_HOURS, using the Mac's local time
     now = time.localtime()
@@ -313,10 +402,14 @@ def maybe_send_summary(stats):
     if now.tm_hour not in SUMMARY_HOURS or stats["last_key"] == key:
         return
     stats["last_key"] = key
+    decided = "\n".join(PENDING_DECISIONS[-10:]) or "(none)"
+    PENDING_DECISIONS.clear()
     tg_send(
         f"Lume loop summary. Rounds since the last summary: {stats['rounds']}.\n\n"
         f"Done so far:\n{notes_section('Done')[-1200:]}\n\n"
-        f"Waiting on you:\n{notes_section('Blocked on Isa')[:1200]}"
+        f"Waiting on you:\n{notes_section('Blocked on Isa')[:1200]}\n\n"
+        f"Decided without asking you:\n{decided}\n\n"
+        f"Progress: {rows_progress()}. Manager tokens today: {load_usage()['tokens']:,}."
     )
     stats["rounds"] = 0
 
@@ -389,6 +482,46 @@ def format_signals(a):
         lines.append(f"Risk of continuing without Isa: {risk['score']:.1f} on a 0 to 2 scale, 2 meaning high (confidence {risk['confidence']:.2f})")
     return "\n".join(lines)
 
+def jev_rank_tasks(plan, report):
+    # Jev scores the manager's candidate tasks. Returns None if Jev is off or the plan has no usable candidates.
+    cands = plan.get("candidates")
+    chosen = plan.get("chosen")
+    if not JEV_KEY or not isinstance(cands, list) or len(cands) < 2 or chosen not in range(1, min(len(cands), 3) + 1):
+        return None
+    state = {"notes": NOTES_PATH.read_text()[-12000:], "latest_report": (report or "(none yet)")[-4000:]}
+    question = {"best_task": {
+        "type": "choice",
+        "instructions": "Which candidate should be built next? Prefer the task that closes the most unbuilt design rows, needs nothing from Isa, and is the smallest and safest.",
+        "criteria": {f"task{i + 1}": str(c)[:300] for i, c in enumerate(cands[:3])},
+    }}
+    answers = jev(state, question)
+    return answers.get("best_task") if answers else None
+
+def reconsider_task(plan, report, isa_reply, note, signals):
+    # If Jev is strongly sure another candidate task is better, the manager looks once more and keeps the final say
+    if not plan or plan.get("action") != "run":
+        return plan
+    try:
+        best = jev_rank_tasks(plan, report)
+        if not best:
+            return plan
+        pick = best["choice"]
+        conf = best["probabilities"].get(pick, 0)
+        if pick == f"task{plan['chosen']}" or conf < JEV_THRESHOLD:
+            return plan
+        title = plan["candidates"][int(pick[4:]) - 1]
+    except Exception as e:
+        log(f"Jev task ranking skipped: {e}")
+        return plan
+    log(f"Jev prefers {pick} at {conf:.2f}, manager chose task{plan['chosen']}")
+    extra = (
+        f"Jev ranked a different task first. It put {conf:.0%} on this one: {title}. "
+        "Look again. Keep your pick only for a concrete reason in the notes or report that Jev cannot see, and write that reason in the notes. "
+        "Reply in the same JSON format."
+    )
+    second = ask_manager_with_retry(report, isa_reply, add_note(note, extra), signals)
+    return second or plan
+
 def reconsider(plan, signals, report, isa_reply, note):
     # If Jev is strongly sure of a different action, ask the manager once to look again. The manager keeps the final say.
     if not plan or not signals:
@@ -426,6 +559,11 @@ def ask_manager(report, isa_reply=None, note=None, signals=None):
     )
     if getattr(resp, "stop_reason", "") == "max_tokens":
         raise ValueError("The manager reply was cut off because it was too long")
+    usage = getattr(resp, "usage", None)
+    if usage:
+        USAGE["in"] += getattr(usage, "input_tokens", 0) or 0
+        USAGE["out"] += getattr(usage, "output_tokens", 0) or 0
+        add_usage((getattr(usage, "input_tokens", 0) or 0) + (getattr(usage, "output_tokens", 0) or 0))
     # Newer models can return thinking blocks first, so join only the text blocks
     text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
     try:
@@ -490,11 +628,26 @@ def run_loop():
     stuck_state = {"text": "", "streak": 0}
     rewrites = 0  # how many times in a row a prompt was sent back for a rewrite
     manager_fails = 0  # how many rounds in a row the manager failed all 3 attempts
+    held = ""  # anything Isa wrote while the loop was paused
     for round_no in range(1, MAX_ROUNDS + 1):
-        while PAUSE_PATH.exists():  # create loop/PAUSE to hold the loop, delete it to resume
-            time.sleep(60)
+        capped_told = False
+        held = (held + "\n\n" + tg_collect_messages()).strip()  # also runs any /commands Isa sent
+        while True:
+            if STOP_PATH.exists():
+                push_branch()
+                tg_send("Loop stopped. Start it again from the Mac when you want to continue.")
+                return
+            if PAUSE_PATH.exists() or over_cap():
+                if over_cap() and not capped_told:
+                    capped_told = True
+                    tg_send("Daily manager token cap reached. Pausing until tomorrow. Send /more to add 1,000,000 tokens today.")
+                time.sleep(30)
+                held = (held + "\n\n" + tg_collect_messages()).strip()
+                continue
+            break
         maybe_send_summary(stats)
-        late = tg_collect_messages()  # late answers, or any instruction Isa sent while the loop was working
+        maybe_ask_stop(stats)
+        late, held = held, ""  # late answers, or any instruction Isa sent while the loop was working
         if late:
             isa_reply = (isa_reply + "\n\n" if isa_reply else "") + "Isa sent this on Telegram while the loop was working:\n" + late
         if round_no % CHECKPOINT_EVERY == 0:
@@ -504,6 +657,7 @@ def run_loop():
         signals = jev_signals(report, isa_reply)
         plan = ask_manager_with_retry(report, isa_reply, note, signals)
         plan = reconsider(plan, signals, report, isa_reply, note)
+        plan = reconsider_task(plan, report, isa_reply, note, signals)
         if plan is None:
             manager_fails += 1
             if manager_fails >= 4:
@@ -515,6 +669,10 @@ def run_loop():
             continue
         manager_fails = 0
         isa_reply, note = None, None
+        for d in (plan.get("decisions") or [])[:5]:
+            PENDING_DECISIONS.append(f"- {str(d)[:200]}")
+            with open(LOOP_DIR / "DECISIONS_LOG.md", "a") as f:
+                f.write(f"- {time.strftime('%Y-%m-%d %H:%M')} {d}\n")
         NOTES_PATH.write_text(plan.get("notes") or NOTES_PATH.read_text())
         action = plan.get("action")
         log(f"Round {round_no}: {action}")
@@ -522,6 +680,15 @@ def run_loop():
             commit_round(f"round {round_no} stop")
             push_branch()
             tg_send(f"Loop stopped: {plan.get('reason', '')}")
+            if rows_all_built():
+                STOP_PATH.touch()
+            else:
+                tg_send("Rows are still unbuilt, so I will wait 30 minutes and ask the manager again. Send /stop to end it for good.")
+                for _ in range(60):
+                    time.sleep(30)
+                    tg_collect_messages()
+                    if STOP_PATH.exists():
+                        break
             return
         if action == "run":
             problems = prompt_problems(plan.get("prompt", ""))
