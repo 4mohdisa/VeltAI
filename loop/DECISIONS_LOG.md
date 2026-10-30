@@ -940,3 +940,7 @@
 - 2026-10-31 01:55 Ran tsc only, not Jest, because no test covers locale files and the R250 read-only round already ran the full suite green.
 - 2026-10-31 01:55 Used 'Pourquoi ce plan' per the NOTES Next list, marked as manager-written and pending native review.
 - 2026-10-31 01:55 Cleared the R249 flag: the R250 read-only report shows tsc 0, Jest 65/824/4 green, and the expected key counts.
+- 2026-10-31 01:56 Chose read-only verification first because the loop note flagged R251 for not running Jest; the notes rule is that a flag clears before a new build task.
+- 2026-10-31 01:56 Ran the full Jest suite this round, not just tsc, to clear the flag properly.
+- 2026-10-31 01:56 Did not remove es addMenu.voice and describeOutLoud, even though the last report suggested it; the notes require Isa's approval first.
+- 2026-10-31 01:56 Rewrote the notes file to under 600 words, merging repeated items and removing finished work (R239 and the old checkpoint lines), as the loop note asked.
