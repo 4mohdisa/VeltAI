@@ -392,3 +392,7 @@
 - 2026-10-30 23:57 Kept the fr 'à petit-déjeuner' grammar issue parked for native review, since it needs full-phrase strings and a native speaker.
 - 2026-10-30 23:57 Limited checks to tsc plus a JSON key check, since no test reads locale files and the brief forbids new test work.
 - 2026-10-30 23:57 Jev ask was not chosen; the notes say nothing needs Isa for this task, so the run decision stands.
+- 2026-10-30 23:58 Chose the checkpoint over Jev's pick (add.tsx:56 wiring, 81%). Reason: the loop note flags R129 because its tests were not run, and the flag rule outranks the Jev ranking. Wiring add.tsx on top of an unverified round would stack a second unverified change.
+- 2026-10-30 23:58 Jev's 'run' action is agreed. Only the task choice differs.
+- 2026-10-30 23:58 Recorded R129 as BUILT, not verified: fr.json addMenu now has 20 keys, so the Built and Next lists were updated.
+- 2026-10-30 23:58 No Isa question: the checkpoint needs nothing from him.
