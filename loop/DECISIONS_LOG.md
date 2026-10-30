@@ -759,3 +759,7 @@
 - 2026-10-31 01:13 Kept dashboard.dayStreak out of scope and listed it under NEXT, because it is a separate surface and must not join this task.
 - 2026-10-31 01:13 Used plural keys (streak_one, streak_other) following the repo's existing _one/_other pattern, so the fix is count-based as the notes require.
 - 2026-10-31 01:13 Asked for U+2019 as a node escape in fr, following the notes gotcha that the Edit tool writes plain apostrophes.
+- 2026-10-31 01:15 Chose the verification round first because R207 ran only two suites, and the notes say a verification round must clear the expected flag before a new build task.
+- 2026-10-31 01:15 Kept the verification read-only so it cannot add new changes on top of unverified R207 work.
+- 2026-10-31 01:15 Deferred dashboard.dayStreak to the next build round so it follows the same pattern as R207 once the streak change is confirmed green.
+- 2026-10-31 01:15 The prompt does not name the branch check as a git command, because the brief forbids git commands for the loop and the branch rule is already in the notes.
