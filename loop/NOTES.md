@@ -16,7 +16,7 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - SLOT_KEYS duplicated in add.tsx and food.tsx; share if a third caller appears.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 - es addedToMeal and mealDeleted avoid gender agreement.
-- No new test suites. No food tab render test (handover suggestion rejected, R167 and R168).
+- No new test suites. No food tab render test (handover suggestion rejected, R167, R168 and R169 checkpoint).
 - Plan file is src/app/dashboard/plan.tsx (only plan.tsx under src; (tabs) path does not exist).
 - Locale order: en, es, fr, one file per round.
 - Flagged reports are cleared by a verification round before a new build task.
@@ -33,11 +33,11 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Checkpoints green: R113 to R164 and R166 (tsc 0, 65 suites, 824 tests, 4 snapshots).
-- Flags R144 to R163 cleared or partly cleared. R165 flagged (not run, wrong path); cleared by R166 checkpoint.
-- R167 flagged: jest not run, only tsc and a JSON parse. Still open.
-- R168 (verification round, no edits): requested as tsc, full app suite and locale JSON parse. The first R168 prompt was rejected for missing design file name and missing branch rule. Rewritten and re-issued this round. Result pending.
-- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group. No test reads locale files.
+- Checkpoints green: R113 to R164, R166 and R168 (tsc 0, 65 suites, 824 tests, 4 snapshots; en, es and fr JSON parse).
+- Flags R144 to R163 cleared or partly cleared. R165 flagged (wrong path); cleared by R166 checkpoint.
+- R167 flag cleared by R168 verification round (latest report: tsc 0, full suite and three locale parses pass).
+- R169: checkpoint round requested by loop note (tsc and full app suite, no edits). Result pending.
+- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group. No test reads locale files. plan keys are not used by any code yet.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
@@ -72,7 +72,7 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Recipe fibre saved as 0. Food tab render test (needs new suite). Long-press meal delete not discoverable.
 
 ## Next
-1. R168: verification round (tsc, full app suite, en, es and fr JSON parse). Clears R167 flag. No edits. Re-issued after rejection.
+1. R169: checkpoint (tsc, full app suite, no edits). Result pending.
 2. Then plan.tsx uses plan.suggested (line 85, keep space) and plan.addTitle (line 97).
 3. plan group to es, then fr (one file per round).
 4. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en, es, fr).
@@ -85,8 +85,9 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 
 ## Loop notes
 - Handover after R141, R156 and R167 session. Name files fully in prompts.
-- Loop flagged R167 (type check or tests not run). R168 verification round requested; first prompt rejected for missing design file name and missing loop/design-match rule. Re-issued with both fixed.
-- Jev run signals favoured running at R159 to R164; both agreed when run. R167: Jev run 93%, agreed. R168: Jev run 98%, agreed.
+- R168 verification passed; R167 flag cleared.
+- R169 is a checkpoint round per loop note. Make the task one thing: tsc and full app suite, no file changes.
+- Jev run signals favoured running at R159 to R168; agreed each time. R169: Jev run 99%, agreed.
 
 ## Gotchas
 - src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.
