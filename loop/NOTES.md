@@ -29,18 +29,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Locales: savedMeals, plan, gymLog, dashboard, nutrition, settings.scanAccuracy, goals (partial) in en/es/fr as recorded in the gap analysis.
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
 - en.json has dashboard.streakLoading and dashboard.streakLoadError (R223), used at (tabs)/index.tsx:109 and :115.
-- fr.json and es.json have every en.json key except streakLoading and streakLoadError.
+- R225: es.json has dashboard.streakLoading and streakLoadError after dayStreak_other. es.json now has every en.json key.
+- fr.json has every en.json key except dashboard.streakLoading and streakLoadError.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R219: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Cleared R218 flag.
 - R221: cleared R220 flag. R224 read-only check of R223: tsc 0, en keys and index.tsx lines confirmed.
+- R226 (this round): checkpoint, read-only. Full tsc and full app suite run to clear the R225 flag (Jest not run in R225).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection, or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R225: add dashboard.streakLoading and streakLoadError to es.json after dayStreak_other. Clears the R224 flag.
-2. Same two keys in fr.json.
+1. R226 checkpoint: full tsc and app suite, read-only. Done when the result is reported.
+2. R227: add dashboard.streakLoading and streakLoadError to fr.json after dayStreak_other. Only after R226 is green.
 3. Hardcoded 'Summary' title at (tabs)/index.tsx:102.
 4. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
 5. Consolidate SLOT_KEYS (add.tsx, food.tsx).
@@ -81,5 +83,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done). R224 verified the en side.
-- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, and R225.
+- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run). R224 verified the en side. R226 checkpoint clears R225 if green.
+- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225, and R226.
