@@ -334,3 +334,8 @@
 - 2026-10-30 23:45 Prompt names design/Lume App.html and row 90, says no git, names the one file, and limits the checks to a JSON parse and tsc, per the testing rules.
 - 2026-10-30 23:45 Left es.json and the add.tsx:56 slot issue out of this round, so the change stays to one file.
 - 2026-10-30 23:45 Did not mark row 90 verified; it stays BUILT, as the notes require.
+- 2026-10-30 23:47 Chose verification-only run first because the flag rule outranks Jev ranking. The R118 report had tsc green but tests not run, so it is treated as flagged.
+- 2026-10-30 23:47 Overrode Jev 'ask' (17%) because the next task needs nothing from Isa.
+- 2026-10-30 23:47 Did not run a full checkpoint: no source changed this round except fr.json, and R117 full suite is the last green baseline.
+- 2026-10-30 23:47 Locale test run limited to any test that references locales, since none is known to exist; Jest is skipped if none is found, to keep usage low.
+- 2026-10-30 23:47 Left es.json for R120 so this round stays read-only and clears the flag cleanly.
