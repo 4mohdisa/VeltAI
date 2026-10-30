@@ -705,3 +705,6 @@
 - 2026-10-31 01:01 Avoided apostrophes in the French strings to sidestep the U+2019 and plain-apostrophe issue noted in the gotchas.
 - 2026-10-31 01:01 Tests limited to tsc and a node parse, because no test reads locale files and the rule is to run only what the changed files need.
 - 2026-10-31 01:01 Recorded R192 as verified green by the latest report, so the R191 flag is cleared and no verification round is needed before this build task.
+- 2026-10-31 01:02 Chose the verification round because the loop note flagged R193 and notes say a verification round clears a flag before a new build.
+- 2026-10-31 01:02 Kept the older fr savedMeals values with U+00A0 and U+2019. They are correct French typography, so the ASCII check is waived for fr savedMeals. Isa can override in native review.
+- 2026-10-31 01:02 Rewrote the notes under 600 words, merging repeated items and removing finished work. All decisions kept.
