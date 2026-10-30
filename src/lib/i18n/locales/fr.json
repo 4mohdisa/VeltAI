@@ -153,6 +153,7 @@
     "dayStreak_other": "{{count}} jours d’affilée",
     "streakLoading": "Chargement de vos jours d’affilée",
     "streakLoadError": "Impossible de charger vos jours d’affilée.",
+    "summaryTitle": "Résumé",
     "todaysPlan": "Plan du jour",
     "next": "À suivre : {{title}} à {{time}} · {{energy}}",
     "gymBedtime": "Créneau de sport {{gym}} · Coucher {{bed}}"

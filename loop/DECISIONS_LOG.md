@@ -864,3 +864,7 @@
 - 2026-10-31 01:41 Kept verification over fr.json: the loop flagged R232 (tests not run) and the flag rule says clear it before a new build task. Jev's 94% pick is the same task one round later.
 - 2026-10-31 01:41 Ran the full Jest suite, not only touched files: no file changed, and the flag is about tests not run, so a full run is the only way to clear it.
 - 2026-10-31 01:41 Kept the fr.json step as the next build task, unchanged, so the gap in fr.json is closed next round.
+- 2026-10-31 01:42 Chose the fr.json summaryTitle key: it is the smallest task, needs nothing from Isa, and removes the last key gap between locales. Its wording is taken from the existing es 'Resumen' pattern.
+- 2026-10-31 01:42 Did not follow the handover's suggestion to add settings.scanAccuracy to es.json. The notes already record it as present in es.json, so that handover item is stale.
+- 2026-10-31 01:42 Chose a read-only verification (R233) earlier because R232 was flagged. R233 came back clean, so this round can build again.
+- 2026-10-31 01:42 Jev's 88% run confidence is advisory only. The task is the smallest one available, so the choice is consistent with it.

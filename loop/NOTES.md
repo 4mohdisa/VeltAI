@@ -24,32 +24,33 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr remainingToday is 'Il reste {{value}} aujourd’hui'.
 - Handover notes saying es.json lacks gymLog or scanAccuracy are stale.
 - R233: full Jest run chosen over fr.json, because R232 was flagged (tests not run). Jev ranked fr.json first at 94%.
+- R234: fr.json summaryTitle chosen as the smallest task that clears locale parity. Jev run 88%.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet (row 90); gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
 - en.json: dashboard.streakLoading, streakLoadError, summaryTitle ('Summary', used at (tabs)/index.tsx:102).
 - es.json: dashboard.streakLoading, streakLoadError, summaryTitle ('Resumen'), gymLog group, settings.scanAccuracy.
-- fr.json: has every en.json key except dashboard.summaryTitle.
+- fr.json: has every en.json key except dashboard.summaryTitle. R234 adds it (pending parse and key-set check).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R219, R228: full suite green (65 suites, 824 tests, 4 snapshots). R226 checkpoint green.
 - R230: 6 suites, 96 tests pass. R232: parse and tsc only, Jest not run (flagged).
+- R233: read-only. tsc exit 0, full Jest 65 suites, 824 tests, 4 snapshots green. Clears R232 flag.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R233: read-only full tsc and Jest run, parse check. Clears the R232 flag.
-2. Add dashboard.summaryTitle to fr.json directly after streakLoadError. Keep U+2019 in any apostrophe. Then fr matches en.
-3. Hardcoded text, one file per round: (tabs)/index.tsx:121 ('1 days'); (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
-4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-5. Fix lastLoggedDaysAgo_one: unreachable, since days === 1 returns the yesterday string.
-6. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-7. Add sheet icons to design SVGs.
-8. Remaining gap rows, most cleared per task first.
-9. Checkpoint full suite run after R233, then every 5 rounds.
-10. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R234: add dashboard.summaryTitle 'Résumé' to fr.json after streakLoadError. Parse and key-set check. Then fr matches en for dashboard.
+2. Hardcoded text, one file per round: (tabs)/index.tsx:121 ('1 days'); (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
+3. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+4. Fix lastLoggedDaysAgo_one: unreachable, since days === 1 returns the yesterday string.
+5. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+6. Add sheet icons to design SVGs.
+7. Remaining gap rows, most cleared per task first.
+8. Checkpoint full suite run after R233, then every 5 rounds (next: R238).
+9. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -67,7 +68,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe/fibre, quick add, celebration (streak 1 and above), Summary title and streak, streak loading and failure, delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog, nutrition.
-- Native review fr and es: all new strings, including 'Resumen', 'Creneau de sport', 'A suivre', gender, U+00A0/U+2019 standard.
+- Native review fr and es: all new strings, including 'Resumen', 'Résumé', 'Creneau de sport', 'A suivre', gender, U+00A0/U+2019 standard.
 - Remove es voice and describeOutLoud? Delete vs Removed wording; negative margin on device.
 - Override available: es emptyMessage wording.
 
@@ -81,5 +82,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218, R220 (Jest skipped); R222, R223, R230 (partly done); R225, R227, R229 (cleared); R231 (tests not run, handled by R232); R232 (tests not run, handled by R233).
-- Jev matched on run for most rounds. R232: Jev ranked fr.json first (87%); manager chose verification. R233: Jev ranked fr.json first (94%); manager chose verification (flag rule).
+- Flags: R218, R220 (Jest skipped); R222, R223, R230 (partly done); R225, R227, R229 (cleared); R231 (tests not run, handled by R232); R232 (tests not run, handled by R233, cleared).
+- Jev matched on run for most rounds. R232: Jev ranked fr.json first (87%); manager chose verification. R233: Jev ranked fr.json first (94%); manager chose verification (flag rule). R234: run 88%; manager chose fr.json summaryTitle.
