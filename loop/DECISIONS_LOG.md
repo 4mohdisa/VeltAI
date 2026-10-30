@@ -569,3 +569,7 @@
 - 2026-10-31 00:34 Chose the plan.tsx en keys because the Next list puts it first and it needs nothing from Isa. Its en step is a single-file edit, which fits the one-editable-file rule.
 - 2026-10-31 00:34 The plan.tsx code change is deferred to the next round, so this round edits only en.json, as the en-then-es-then-fr rule requires.
 - 2026-10-31 00:34 SavedMealsList lastLoggedLabel and SLOT_KEYS are kept for later rounds to respect one task per round.
+- 2026-10-31 00:35 Used src/app/dashboard/plan.tsx: it is the only plan.tsx under src and the (tabs) path does not exist.
+- 2026-10-31 00:35 Ran a checkpoint first to clear the R165 flag, as the notes require before a new build task.
+- 2026-10-31 00:35 Rewrote the notes under 600 words: merged repeats, removed finished work, kept all decisions.
+- 2026-10-31 00:35 Treated the Jev ask signal as advisory; a no-edit checkpoint is the lowest-risk next step.
