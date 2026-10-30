@@ -162,3 +162,7 @@
 - 2026-10-30 23:01 Chose verification-only run because the automatic check flagged the last report for tsc/tests not run; the notes say verification-only runs clear the flag.
 - 2026-10-30 23:01 Did not run the full suite; the checkpoint is not due and the rules say related tests only.
 - 2026-10-30 23:01 Fibre scaling and the stray comment fix are deferred to the next round so this run stays edit-free.
+- 2026-10-30 23:02 Parked the ingredientFrom verification run under Blocked on Isa: the same blocker came back twice (tests not run, no test covers new-recipe.tsx) and it needs Isa's device run anyway. Also held the fibre scaling in new-recipe.tsx until that clears, to avoid stacking unverified edits on one file.
+- 2026-10-30 23:02 Chose the Add sheet title over the macros-as-0 fix: it is UI-only, one file, and matches the design. The macros fix changes logged data with no tests behind it, so it waits.
+- 2026-10-30 23:02 Did not ask Isa: the title format is defined by the design, so no product question is needed.
+- 2026-10-30 23:02 Kept the tile gap, SF Symbols and English copy out of this round to keep it to one change.
