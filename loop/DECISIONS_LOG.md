@@ -831,3 +831,7 @@
 - 2026-10-31 01:31 Treated the R223 report's NEXT line about scanAccuracy in es.json as stale. R221 verified settings.scanAccuracy is present in es and fr.
 - 2026-10-31 01:31 Kept the es and fr streakLoading keys as separate later rounds, one locale per round, per the locale order rule.
 - 2026-10-31 01:31 Verification round is read-only: if a check fails, the failure goes to BLOCKED and is not fixed in the same round.
+- 2026-10-31 01:33 Chose the es.json keys first because locale order is en, es, fr, one file per round, and this clears the automatic 'partly done' flag on R224.
+- 2026-10-31 01:33 Treated the flag as cleared by finishing the es side, not by re-verifying R223, since R224 already verified the en side and index.tsx.
+- 2026-10-31 01:33 Used the English copy from en.json, translated to Spanish. It is marked pending native review, as with the other es strings.
+- 2026-10-31 01:33 Kept the Spanish wording within the existing es dashboard group, so no new group or file layout is needed.
