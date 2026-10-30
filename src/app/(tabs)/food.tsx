@@ -79,6 +79,14 @@ const SLOT_TINT: Record<MealSlot, string> = {
   Snacks: accent.turquoise,
 };
 
+/** The addMenu key for each slot. Explicit because 'Snacks' is keyed `snack`. */
+const SLOT_KEYS: Record<MealSlot, string> = {
+  Breakfast: 'breakfast',
+  Lunch: 'lunch',
+  Dinner: 'dinner',
+  Snacks: 'snack',
+};
+
 // The white elevated group a meal's rows sit in: one card per meal, `radius.xl`
 // on the outer corners only, so consecutive rows read as a single surface on the
 // grey page. `first`/`last` come from the row's index in its section.
@@ -540,7 +548,7 @@ export default function FoodLogScreen() {
             >
               <Icon name="add-circle-outline" size={20} color={color.tertiaryLabel} />
               <Text variant="footnote" color={color.tertiaryLabel}>
-                {t('foodLog.addToMeal', { slot: section.slot })}
+                {t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[section.slot]}`) })}
               </Text>
             </Pressable>
           ) : (
@@ -962,7 +970,7 @@ function SearchResultRow({
       <Pressable
         onPress={onAdd}
         accessibilityRole="button"
-        accessibilityLabel={t('foodLog.addToMeal', { slot })}
+        accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) })}
         style={{ alignItems: 'center' }}
       >
         <View

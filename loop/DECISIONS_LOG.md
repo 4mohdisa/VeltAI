@@ -406,3 +406,8 @@
 - 2026-10-31 00:00 Accepted Claude Code's lowercasing of the translated slot name in add.tsx, because it keeps the English title as 'Add to lunch', matching design 'Add to ' + hMeal.toLowerCase().
 - 2026-10-31 00:00 Accepted Claude Code's fallback to the generic 'Add meal' title for an unrecognised slot. A plan title that is not one of the four slots would otherwise show 'Add to' with a raw value.
 - 2026-10-31 00:00 Left the hardcoded plan.tsx labels (lines 85 and 97) out of this round. They are a separate surface and go to Parked for now.
+- 2026-10-31 00:01 Chose food.tsx slot mapping: it is the next item in Next and is a single file with a clear, testable scope.
+- 2026-10-31 00:01 Ranked the es.json cleanup third and did not run it: DECISIONS in the notes say voice and describeOutLoud stay until Isa approves removal, which overrides the Next list item 4.
+- 2026-10-31 00:01 Jev run 99% agrees with the checkpoint-free run; no override needed.
+- 2026-10-31 00:01 R131 flag cleared by the R132 checkpoint (tsc 0, 65 suites, 824 tests, 4 snapshots, no file changes). The add.tsx slot title is still untested; recorded in Parked.
+- 2026-10-31 00:01 Kept the mapping local to food.tsx rather than extracting a shared helper this round, to stay one-file. Duplication of SLOT_KEYS logged under Next as a consolidation item.
