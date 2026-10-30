@@ -270,3 +270,6 @@
 - 2026-10-30 23:28 Did not repeat the handover's RECOMMENDED NEXT (recents fibre). It was done in R96, so it is stale.
 - 2026-10-30 23:28 Jest is not run for new-recipe.tsx because no test covers the file. tsc and eslint are enough for a verification-only round.
 - 2026-10-30 23:28 Logged the fibre-unknown display (0g fibre when fibre is unknown in new-recipe.tsx) as a risk for Isa's device run, not as a new code task, because the stored 0 is a parked model limit.
+- 2026-10-30 23:29 Chose the verification-only run first because the flag rule requires a verification or doc run before new code. Jev ranked ask at 50%, but the open questions already sit under Blocked on Isa, so no new question is needed.
+- 2026-10-30 23:29 Scoped jest to hooks suites via findRelatedTests on src/lib/data/hooks.ts, the file changed for recents fibre, to keep usage low.
+- 2026-10-30 23:29 Rewrote the notes under 600 words: merged repeated items, removed finished work, kept every decision line.
