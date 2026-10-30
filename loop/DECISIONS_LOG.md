@@ -984,3 +984,12 @@
 - 2026-10-31 02:06 Allowed a snapshot update only for the detailChrome test, because the strings may render as keys in that snapshot. Other test failures go to BLOCKED.
 - 2026-10-31 02:06 No gap row exists for the Macros/Nutrition screen, so no DESIGN_GAP_ANALYSIS.md edit was requested. Matches the existing decision.
 - 2026-10-31 02:06 Kept the round to one copy-only task, following the handover advice after the R259 risk reading of 1.1.
+- 2026-10-31 02:07 Chose nutrition.tsx:95 over gym.tsx: it finishes the same screen the last round touched, names one line and one key, and is the smallest task. Jev also ranks run highest (93%).
+- 2026-10-31 02:07 Key name nutrition.caloriesTodayLabel chosen so it does not collide with the existing nutrition.caloriesToday key.
+- 2026-10-31 02:07 No design string exists for the label, so English wording is kept identical per R260.
+- 2026-10-31 02:07 Snapshot is edited by hand, not with jest -u, so no other snapshot lines can change.
+- 2026-10-31 02:07 Test run limited to the one render file touched, plus tsc. No full suite (not a checkpoint round).
+- 2026-10-31 02:08 Chose nutrition.tsx:95: copy-only, one file, named as NEXT in the last report, and it finishes the nutrition screen. Reason: smallest safe task.
+- 2026-10-31 02:08 Rewrote the rejected prompt: added the branch rule, cut to five steps, named every file, and stated the expected key counts.
+- 2026-10-31 02:08 Condensed the notes to under 600 words: merged repeated items, dropped finished rounds and the old Macros decoded-file note.
+- 2026-10-31 02:08 Kept the Jev run signal (97%, clean 89%, risk 1.1). No ask needed, since the task needs nothing from Isa.

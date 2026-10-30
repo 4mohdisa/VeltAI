@@ -92,7 +92,7 @@ export default function NutritionDetailScreen(): JSX.Element {
           ) : (
             <View
               accessible
-              accessibilityLabel={`Calories today. ${formatEnergy(cal.consumed, energyUnit)} of ${formatEnergy(cal.target, energyUnit)}, ${remaining} left.`}
+              accessibilityLabel={t('nutrition.caloriesTodayLabel', { consumed: formatEnergy(cal.consumed, energyUnit), target: formatEnergy(cal.target, energyUnit), remaining })}
               style={{ alignItems: 'center' }}
             >
               <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />

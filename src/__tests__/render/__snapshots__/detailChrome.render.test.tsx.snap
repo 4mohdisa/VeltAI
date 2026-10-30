@@ -2942,7 +2942,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </Text>
               </View>
               <View
-                accessibilityLabel="Calories today. 1,840 kcal of 2,100 kcal, 260 kcal left."
+                accessibilityLabel="nutrition.caloriesTodayLabel"
                 accessible={true}
                 style={
                   {

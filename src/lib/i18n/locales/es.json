@@ -166,6 +166,7 @@
     "loadFailed": "No se pudo cargar la comida de hoy.",
     "fromFood": "de la comida",
     "caloriesToday": "Calorías de hoy",
+    "caloriesTodayLabel": "Calorías de hoy. {{consumed}} de {{target}}, quedan {{remaining}}.",
     "remainingToday": "{{value}} restantes hoy",
     "protein": "Proteína",
     "carbs": "Carbohidratos",

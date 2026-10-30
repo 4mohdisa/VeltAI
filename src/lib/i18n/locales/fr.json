@@ -164,6 +164,7 @@
     "loadFailed": "Impossible de charger le repas d’aujourd’hui.",
     "fromFood": "du repas",
     "caloriesToday": "Calories aujourd\u2019hui",
+    "caloriesTodayLabel": "Calories aujourd’hui. {{consumed}} sur {{target}}, il reste {{remaining}}.",
     "remainingToday": "Il reste {{value}} aujourd’hui",
     "protein": "Protéines",
     "carbs": "Glucides",
