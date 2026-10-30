@@ -1,0 +1,5 @@
+- 2026-10-30 22:23 Chose row 17 step 1 (component only) because Isa approved option (a) in round 39 and it needs no answer on row 23.
+- 2026-10-30 22:23 Left row 23 in Blocked on Isa. Jev's 72% ask is about row 23, which remains unanswered; the approved celebration card does not depend on it.
+- 2026-10-30 22:23 Allowed en.json as a second file for gymLog.celebration keys only, per the named key additions rule. The component is created unwired so no other screen changes.
+- 2026-10-30 22:23 Recorded a conflict: the latest handover says the 3-step food data path has steps 2 and 3 pending, but the notes list the food search macro path as Done. Added a verification item to Next tasks rather than acting on it now.
+- 2026-10-30 22:23 Kept the component presentational with label props, so no strings are hardcoded in the file and i18n stays in en.json.

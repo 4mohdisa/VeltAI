@@ -37,20 +37,22 @@ Build every UI surface to match the Claude Design export in design/ (source: des
 - Round 41 (c): log-session.tsx already-logged case toasts gymLog.alreadyLogged (design copy) and routes to /gym/session via openSession(). Row 19 built.
 
 ## In progress
-- (none)
+- Row 17 (a) celebration card, step 1 of 3: create src/components/gym/CelebrationCard.tsx (presentational, unwired) plus gymLog.celebration keys in en.json. Steps 2 and 3 are wiring into log-session.tsx save() replacing the hardcoded toast.
 
 ## Blocked on Isa
-- Difference 23 / task (d): (A) route Summary GymStatusCard onLog in src/app/(tabs)/index.tsx to /gym/log-session, delete unused logGymSession import and toast, rewrite V16 comment, update or delete src/__tests__/oneTapGymLog.test.ts (needs its own one-file task per file); or (B) keep the one-tap log and mark row 23 as an accepted deviation (doc-only one-row edit). Asked round 43.
+- Difference 23 / task (d): (A) route Summary GymStatusCard onLog in src/app/(tabs)/index.tsx to /gym/log-session, delete unused logGymSession import and toast, rewrite V16 comment, update or delete src/__tests__/oneTapGymLog.test.ts (needs its own one-file task per file); or (B) keep the one-tap log and mark row 23 as an accepted deviation (doc-only one-row edit). Asked round 43, still unanswered in round 44.
 
 ## Next tasks
-1. If Isa answers B: doc-only task, mark row 23 accepted deviation. If A: three single-file tasks (index.tsx; oneTapGymLog.test.ts; V16 note in DECISIONS.md), each compiling alone.
-2. i18n the hardcoded 'Gym logged — streak extended.' toast in src/app/gym/log-session.tsx:108 (becomes moot if (a) replaces it; do (a) first if it lands first).
-3. (a) celebration card (row 17): new component file first, then a separate task wiring it into log-session.tsx save() replacing the hardcoded toast.
-4. Doc-only status sync, ONE row per task: Add sheet, Quick add, /gym/session summary line, row 18 accepted deviation.
-5. Checkpoint (full tsc plus jest) when the loop note asks. None has run yet.
-6. Food Search 88% sheet (pill input, thumbnails, row metrics, no chips) needs its own plan.
-7. Remaining gym rows (template editor etc.) need Isa's approval per item.
-8. If nothing non-gym is a one-file task and nothing else is approved, stop: 'only owner decisions remain'.
+1. Row 17 step 2: wire CelebrationCard into src/app/gym/log-session.tsx save(), replacing the hardcoded toast. Single file.
+2. Row 17 step 3 is covered by step 2 once the component exists. Do not combine with step 1.
+3. Verify premise first: the 3-step food data path (src/lib/food/detailSubject.ts, src/app/(tabs)/food.tsx pick(), src/app/food/detail.tsx search branch). Handover says steps 2 and 3 are pending; notes say macros path is Done. Check git state and grep before any edit. One file per task.
+4. If Isa answers B: doc-only task, mark row 23 accepted deviation. If A: three single-file tasks (index.tsx; oneTapGymLog.test.ts; V16 note in DECISIONS.md), each compiling alone.
+5. i18n the hardcoded 'Gym logged — streak extended.' toast in src/app/gym/log-session.tsx:108 (moot once row 17 wiring replaces it).
+6. Doc-only status sync, ONE row per task: Add sheet, Quick add, /gym/session summary line, row 18 accepted deviation.
+7. Checkpoint (full tsc plus jest) when the loop note asks. None has run yet.
+8. Food Search 88% sheet (pill input, thumbnails, row metrics, no chips) needs its own plan.
+9. Remaining gym rows (template editor etc.) need Isa's approval per item.
+10. If nothing non-gym is a one-file task and nothing else is approved, stop: 'only owner decisions remain'.
 
 Small candidates: blinking caret in NumberEntryBar; Food detail fractional macros precision (Math.round in draft()); Food detail composition (96x96 photo, AI note, brand sub-line); accessibilityState on Goals calorie input; hardcoded English accessibilityHints in (tabs)/food.tsx (~761, 844); untranslatable a11y labels in add.tsx:70 and log-session.tsx:155; DetailForm `macros` prop always true (remove prop, own round); shorten gymLog.alreadyLogged to 'edit it or add something extra' if Isa wants; /gym/session opened for an already-logged day shows planned rows, not logged ones (difference 20); duplicated hardcoded toast copy in index.tsx:179 and log-session.tsx:108.
 
@@ -60,7 +62,7 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Gym items (decide with Isa): set row order with per-set remove; ParameterForm cardio inputs; template editor redesign (Target RPE needs data change); docking template bar; kg/lb field; cardio Duration mixed with tap boxes.
 - App-only Stepper/SliderField entries (label-scan, scan-review, new-recipe, recipes-log-sheet) stay.
 - goals.tsx hardcoded 'Between 1,200 and 10,000 kcal.' and 'Daily targets'.
-- Locale drift: es.json/fr.json lack new keys (foodLog.conflict, addMenu keys, gymLog.alreadyLogged); i18n English-only at launch.
+- Locale drift: es.json/fr.json lack new keys (foodLog.conflict, addMenu keys, gymLog.alreadyLogged, gymLog.celebration); i18n English-only at launch.
 - CONFLICT_KEYWORDS and foodLog.conflict keys not type-linked.
 - Unreferenced addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods.
 - router.setParams on food tab rewrites history entry.
@@ -75,3 +77,4 @@ Small candidates: blinking caret in NumberEntryBar; Food detail fractional macro
 - Round 41: (c) landed cleanly despite Jev leaning ask; no open decision existed.
 - Round 42: (d) produced no edit. Claude Code stopped correctly: wrong file named, and the real call site is protected by V16 and a tripwire test. No files changed.
 - Round 43: Jev ask 78%. Asked Isa to choose A or B on row 23. Task parked under Blocked on Isa.
+- Round 44: Handover received (branch clean at 1b8ab30). Handover conflicts with notes on the food data path; flagged as Next task 3. Chose row 17 step 1 (approved in round 39, independent of row 23). Jev ask 72% on row 23 noted, not acted on. Row 17 now IN PROGRESS.
