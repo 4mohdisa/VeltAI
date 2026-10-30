@@ -803,3 +803,6 @@
 - 2026-10-31 01:25 Chose the read-only verification of R217 over Jev's 91% pick (es settings.scanAccuracy). Reason: the notes decision says flagged reports are cleared by a verification round before a new build task. The flag came from R217, which was never verified. Next round I will do es settings.scanAccuracy.
 - 2026-10-31 01:25 The type check exited 0 in R217, but Jest was not run. Step 5 runs Jest only if a test imports the i18n code, to avoid spending on a full suite outside a checkpoint.
 - 2026-10-31 01:25 Kept the round read-only so the flag clears without new changes to locale files.
+- 2026-10-31 01:26 Flagged reports are cleared before a new build task (standing rule). R218 skipped Jest, so this round runs the full suite once. It doubles as the checkpoint, so the other build tasks can go ahead cleanly.
+- 2026-10-31 01:26 Jev put es settings.scanAccuracy first at 87%. I kept the verification round because building on top of an unverified flagged report breaks the standing rule. Next round builds es settings.scanAccuracy.
+- 2026-10-31 01:26 The R218 report only ran tsc and a JSON parse. The flag is about Jest not being run, and a locale change can reach Jest indirectly through i18n, so a full run is the only clean clear.

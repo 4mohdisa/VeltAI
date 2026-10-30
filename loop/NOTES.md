@@ -30,19 +30,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - goals: fr 20 keys, es 3 keys. gymLog: en, es, fr (21 keys each).
 - Streak: gymLog.celebration streak_one/_other in en, es, fr. dashboard.dayStreak_one/_other in en, es.
 - fr dashboard (6 keys, R213). fr nutrition (7 keys, R215).
-- fr settings.scanAccuracy ('Précision du scan'), R217. Not yet verified (see Verification).
+- fr settings.scanAccuracy ('Précision du scan'), R217. Verified read-only in R218 (value and position OK).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R216 verified fr nutrition and cleared the R215 flag.
 - R214 verified fr dashboard. R211 verified en and es dashboard keys.
 - R212 checkpoint: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots.
-- R217 (fr settings.scanAccuracy) flagged: type check or tests not run. R218 is a read-only verification round to clear it. Next build task is es settings.scanAccuracy.
+- R217 flagged (tsc run, Jest not run). R218 was read-only: tsc 0, JSON parses, fr value confirmed, but Jest skipped, so R218 is flagged too.
+- R219 is a read-only verification round: tsc plus the full Jest suite once. It clears the R218 flag.
 - No test covers locale files, SavedMealsList, plan.tsx or CelebrationCard. A passing suite says nothing about them.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R218: verify R217 fr settings.scanAccuracy (read-only).
+1. R219: read-only verification, tsc and full Jest suite, clears R218.
 2. es.json settings.scanAccuracy after goals (same position as en.json). It is the last key missing from any locale. src/app/profile/index.tsx:147 uses it.
 3. index.tsx:121 streak accessibility label: count-based and translated.
 4. Other hardcoded streak wording, one file per round: index.tsx:115, gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
@@ -86,7 +87,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204. Latest summary in loop/HANDOVER.md.
-- Flags cleared through R216. R217 flagged (tsc run, Jest not run). R218 verifies it.
+- Flags cleared through R216. R217 flagged (tsc run, Jest not run). R218 flagged (tsc run, Jest skipped). R219 clears both with a full suite run.
 - Jev matched on run for R203 to R205, R208 to R211, R213 to R216.
 - R217 candidates: fr settings.scanAccuracy, index.tsx:121 label, lastLoggedDaysAgo_one fix. Chose fr settings.scanAccuracy. Jev 86% run.
-- R218: Jev ranked es settings.scanAccuracy first (91%). Kept verification of R217 instead, because the flagged report must be cleared before a new build task. Next round builds es settings.scanAccuracy.
+- R218: Jev ranked es settings.scanAccuracy first (91%). Kept verification of R217 instead, because the flagged report must be cleared before a new build task.
+- R219: Jev ranked es settings.scanAccuracy first (87%) after the loop note. Kept verification of R218 for the same reason. R218 skipped Jest, and i18n can reach Jest indirectly, so a full run is the clean clear. Next round builds es settings.scanAccuracy.
