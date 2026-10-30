@@ -294,3 +294,7 @@
 - 2026-10-30 23:36 Overrode Jev's ask (67%): the flag clearance needs nothing from Isa, so asking adds no value.
 - 2026-10-30 23:36 Kept the Add sheet device checks and the other open owner items under BLOCKED on Isa; none is needed to clear the flag.
 - 2026-10-30 23:36 Rewrote the notes to under 600 words per the loop note: merged repeats, deleted finished work, kept every decision line.
+- 2026-10-30 23:37 Chose es.json addToSlot first: smallest copy-only task, one file, needs nothing from Isa. fr.json follows next round to keep one editable file per prompt.
+- 2026-10-30 23:37 Jev suggested ask at 39%, but this task needs nothing from Isa (same override as R106, R107, R110).
+- 2026-10-30 23:37 Did not give exact Spanish wording; Claude Code takes the design copy from design/Lume App.html so the prompt has no guessed text.
+- 2026-10-30 23:37 Checkpoint not due this round; last full suite run was R102-era, next checkpoint scheduled after the locale and icon work.

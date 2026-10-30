@@ -63,7 +63,8 @@
     "voice": "Voz",
     "describeOutLoud": "Descríbelo en voz alta",
     "savedFoods": "Comidas guardadas",
-    "oneTapReadd": "Añadir con un toque"
+    "oneTapReadd": "Añadir con un toque",
+    "addToSlot": "Añadir a {{slot}}"
   },
   "foodLog": {
     "today": "Hoy",

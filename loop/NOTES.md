@@ -23,7 +23,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet summary row BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
 - Round-scoped modified-file checks only.
 - Missing macros are a data model change: parked, not asked (R106, R107).
-- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110). Flag rule outranks Jev ranking (R109).
+- Jev 'ask' overridden when next task needs nothing from Isa (R106, R107, R110, R111). Flag rule outranks Jev ranking (R109).
 - Add sheet bottom padding: negative margin on the tile grid accepted as interim (R108). SheetContent is shared, not edited.
 
 ## Built (not verified)
@@ -34,6 +34,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales macros and fibre by grams; totals sum fibre.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT, 0 EXACT. BUILT rows: 76, 86, 90.
 - Checkpoints R88 and R102 green. Last full suite (824 tests) predates the recipe totals and add.tsx edits.
+- R110 verification clean: tsc 0 errors, hooks 5 suites/33 tests, sheetVariant and tabbar 22/22, eslint clean on three files. R109 flag cleared.
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods tile goes to food tab; 0pt gap on no-inset devices (doc silent); row 1445 'This pass' cell holds build status, not audit verdict.
@@ -45,9 +46,10 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents fibre carried in hooks.ts, not displayed.
 - Recipe Total shows 0g fibre when unknown (stored as 0).
 - Calories can drift in new-recipe editRow and recents.
-- Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
+- Locales: es.json lacks addMenu.addToSlot (in progress R111); fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx.
+- Jest noise: hooks.ts:56 'API unreachable' log; tabbar act() warning from reduceMotion.ts:13. Not blocking.
 - loop/NOTES.md lines 39, 42, 54 to re-read.
 
 ## Blocked on Isa
@@ -63,8 +65,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macro types for food detail (parked, needs a decision before any type change).
 
 ## Next
-1. R110 (this round): verification only. tsc, hooks suites (5 suites, 33 tests), sheetVariant and tabbar, eslint on three files. Clears R109 flag.
-2. Locale keys: es.json addMenu.addToSlot; fr.json addMenu.title and addToSlot. Design copy only.
+1. R111 (this round): es.json addMenu.addToSlot, one file.
+2. R112: fr.json addMenu.title and addToSlot, one file.
 3. Add sheet icons: SF Symbols to design SVGs, one icon per round, in src/app/food/add.tsx.
 4. Checkpoint: full tsc and full app suite, no file changes.
 5. If nothing non-gym remains: stop with 'only owner decisions remain'.
@@ -86,7 +88,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R92-R96: fibre across new-recipe and recents. R105: verification run, hooks 5 suites, 33 tests.
 - R106: detail macros parked. R107: Add sheet padding via negative margin.
 - R108, R109: doc-only. R109 flag cleared by doc-only, locale keys deferred.
-- R110: verification-only to clear the R109 flag (no tsc or tests run).
+- R110: verification-only, flag cleared (tsc, hooks, sheetVariant, tabbar, eslint all green).
+- R111: es.json addToSlot. Jev ask overridden.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
