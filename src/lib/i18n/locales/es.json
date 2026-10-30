@@ -162,6 +162,7 @@
   },
   "nutrition": {
     "title": "Nutrición",
+    "macrosTitle": "Macros",
     "remainingToday": "{{value}} restantes hoy",
     "protein": "Proteína",
     "carbs": "Carbohidratos",

@@ -74,7 +74,7 @@ export default function NutritionDetailScreen(): JSX.Element {
 
   return (
     <Screen variant="floating" showBack>
-      <KickerTitle kicker="Macros" title={t('nutrition.title')} tint={categoryAccent.protein} />
+      <KickerTitle kicker={t('nutrition.title')} title={t('nutrition.macrosTitle')} tint={categoryAccent.protein} />
 
       {loadError ? <LoadFailedNotice message="Couldn't load today's food." onRetry={refetch} /> : null}
 

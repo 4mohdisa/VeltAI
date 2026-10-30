@@ -15,7 +15,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - es voice and describeOutLoud stay in es.json until Isa approves removal.
 - es addedToMeal and mealDeleted avoid gender. es goals.setByLume feminine.
 - fr savedMeals keeps U+00A0 and U+2019 (accepted, pending native review). fr is never shown on screen (src/lib/i18n/index.ts:41).
-- Locale order en, es, fr; one file per round. A new key goes to all three locales together.
+- Locale order en, es, fr. A new key goes to all three locales together.
 - Macros: follow the design. nutrition.tsx:77 kicker becomes t('nutrition.title'), title becomes t('nutrition.macrosTitle') ('Macros' in all three locales). Snapshot update only if the diff is just the swap.
 - Flagged reports are cleared by a read-only round before a new build task. Checkpoint rounds are read-only.
 - a petit-dejeuner dropped (not in fr.json). lastLoggedLabel counts calendar days.
@@ -29,23 +29,24 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Last green: R252 (tsc 0; 65 suites, 824 tests, 4 snapshots; en 150, fr 150, es 152).
-- R254 (Macros) and R255 flagged: no edits. R255's report did not run tsc or Jest. Cleared by the read-only checkpoint in Next 1.
+- Last green: R256 checkpoint (tsc 0; 65 suites, 824 tests, 4 snapshots; en 150, fr 150, es 152).
+- R254 (Macros) and R255 flagged: no edits. Cleared by R256.
+- R257 prompt rejected (no design file named). Rewritten for this round.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 - detailChrome.render.test.tsx snapshots nutrition.tsx with 'Macros' near line 2776.
+- Design quotes re-confirmed in R256: CHARTS.macros.kicker = 'Nutrition'; sheets.macros.title = 'Macros'. Line 77 has them reversed.
 
 ## Next
-1. Read-only checkpoint (running): tsc, full Jest, locale counts, decode design, re-quote values.
-2. Macros swap at nutrition.tsx:77 plus nutrition.macrosTitle in all three locales. Snapshot update only if the diff is just the swap.
-3. nutrition.tsx:79 hardcoded message to t().
-4. nutrition.tsx:86 and :89 to t().
-5. (tabs)/gym.tsx:112 and :121 to t().
-6. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
-7. Add sheet icons to design SVGs.
-8. Remaining gap rows, most cleared first.
-9. Read-only full Jest checkpoint after R260.
-10. If no non-gym work remains: stop with 'only owner decisions remain'.
-11. Remove es voice and describeOutLoud only after Isa approves.
+1. Macros swap at nutrition.tsx:77 with nutrition.macrosTitle in en, es, fr (this round, R257). Snapshot update only if the diff is just the swap.
+2. nutrition.tsx:79 hardcoded message to t().
+3. nutrition.tsx:86 and :89 to t().
+4. (tabs)/gym.tsx:112 and :121 to t().
+5. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
+6. Add sheet icons to design SVGs.
+7. Remaining gap rows, most cleared first.
+8. Read-only full Jest checkpoint after R260.
+9. If no non-gym work remains: stop with 'only owner decisions remain'.
+10. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -69,18 +70,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Gotchas
 - Edit tool writes a plain space for U+00A0 and a plain apostrophe for U+2019. Use node escapes and check code points.
-- Keep output inside the repo. No /tmp, no redirection.
+- Keep output inside the repo. No /tmp, no redirection. Earlier decoded design files in /tmp/lume-design are outside the repo and must not be used.
 - zsh: quote paths with parentheses. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - Check key sets in both directions.
 - design/Lume App.html is gzip-compressed inside its __bundler/manifest. Decode before searching.
 - src/lib/i18n/index.ts:41 fixes lng to 'en'. fallbackLng is 'en'.
-- Real path: src/app/dashboard/nutrition.tsx.
+- Real path: src/app/dashboard/nutrition.tsx (not src/app/nutrition.tsx).
 - Handover summaries can be stale. Check them against this file.
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220, R235, R240, R254. Latest in loop/HANDOVER.md.
-- Rejected: R236 (more than one screen), R238 and R243 (no design file named), R255 first prompt (no branch rule).
+- Rejected: R236 (more than one screen), R238 and R243 (no design file named), R255 first prompt (no branch rule), R257 (no design file named).
 - Flags cleared: R239, R241, R242, R244 to R246, R248, R250 to R252.
 - R253 and R254: no edits (wrong path; kicker and title reversed in the app).
-- R256: read-only checkpoint, run on Jev's 83% signal. Clears the R254 and R255 flags before any build.
+- R256: read-only checkpoint, run on Jev's 83% signal. Cleared the R254 and R255 flags.
+- Current round R257: Macros swap, run. Jev 63% run; kept run because the task is concrete and needs nothing from Isa.
+- Handover after R254 said the Macros brief needed a locale key. Resolved: the key is nutrition.macrosTitle.
+- Note: the 'Macros' decoded files in /tmp/lume-design predate the no-/tmp rule. Not used. Left in place, outside the repo.

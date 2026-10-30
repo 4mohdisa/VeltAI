@@ -2773,7 +2773,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                   ]
                 }
               >
-                Macros
+                nutrition.title
               </Text>
             </View>
             <Text
@@ -2792,7 +2792,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 ]
               }
             >
-              nutrition.title
+              nutrition.macrosTitle
             </Text>
           </View>
           <View
