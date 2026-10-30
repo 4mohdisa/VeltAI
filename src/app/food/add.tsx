@@ -16,6 +16,7 @@ import { SheetContent } from '@/components/navigation/SheetContent';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
+import type { MealSlot } from '@/lib/mock/data';
 
 /** The design's tile metrics: a 46pt white disc holding a 19pt glyph, a 148pt
  *  square tile, and the 88pt full-width Quick add row. No token covers any of
@@ -28,6 +29,14 @@ const TEXT_GAP = 1;
 /** Two tiles fit a row and a third never does; flexGrow then splits what the gap
  *  leaves equally, giving the design's `1fr 1fr` columns at any width. */
 const TILE_BASIS = '40%';
+
+/** The addMenu key for each slot. Explicit because 'Snacks' is keyed `snack`. */
+const SLOT_KEYS: Record<MealSlot, string> = {
+  Breakfast: 'breakfast',
+  Lunch: 'lunch',
+  Dinner: 'dinner',
+  Snacks: 'snack',
+};
 
 type Method = {
   icon: string;
@@ -53,7 +62,10 @@ export default function AddMealScreen() {
     slot ? `${route}${route.includes('?') ? '&' : '?'}slot=${slot}` : route;
   // The design titles the sheet after the meal that was tapped; opened from the
   // global "+" there is no meal to name, so the generic title stands.
-  const title = slot ? t('addMenu.addToSlot', { slot: slot.toLowerCase() }) : t('addMenu.title');
+  const slotKey = slot ? SLOT_KEYS[slot as MealSlot] : undefined;
+  const title = slotKey
+    ? t('addMenu.addToSlot', { slot: t(`addMenu.${slotKey}`).toLowerCase() })
+    : t('addMenu.title');
   const methods: Method[] = [
     { icon: 'search', tint: accent.blue, label: t('addMenu.searchFoods'), description: t('addMenu.searchPlaceholder'), route: '/(tabs)/food?focus=search' },
     { icon: 'camera', tint: categoryAccent.ai, label: t('addMenu.scanFood'), description: t('addMenu.mealPhotoOrLabel'), route: '/food/photo-capture' },

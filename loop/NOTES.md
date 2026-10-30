@@ -32,14 +32,15 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Full checkpoints green: R113, R117, R120, R122, R126 (tsc 0, 65 suites, 824 tests, 4 snapshots).
 - R128 verification green: tsc 0, 65 suites, 824 tests, 4 snapshots; es.json parses, addMenu 22 keys.
 - R129 (fr.json addMenu 20 keys): tsc 0 only. Tests not run. Flagged.
-- R130: checkpoint (full tsc and full app suite) requested by loop note. Result pending.
+- R130 checkpoint green: tsc 0, 65 suites, 824 tests, 4 snapshots. Clears the R129 flag.
+- R131: add.tsx slot keys (targeted tests only). Result pending.
 - Flags: R121, R125, R127 had tests not run. R127 es.json edit is cleared by R128 verification.
 - Locale hand checks do not clear flags alone. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices.
-- Slot mapping: add.tsx:56 and food.tsx:543, :965 pass lowercased slot; 'Snacks' gives 'snacks', which has no key. es and fr titles show English until wired.
+- Slot mapping: add.tsx:56 (in progress R131) and food.tsx:543, :965 pass lowercased slot; 'Snacks' gives 'snacks', which has no key. es and fr titles show English until wired.
 - Design: mealNow() returns 'Snack' for scans; MEALS uses 'Snacks'.
 - Hardcoded English toasts: food.tsx:717, SavedMealsList.tsx:59 and :63.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
@@ -70,23 +71,22 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx. No locale tests.
 
 ## Next
-1. (R130, now) Checkpoint: full tsc and full app suite, no file changes. Required by loop note after the untested R129 round.
-2. (R131) Change src/app/food/add.tsx:56 to use the four addMenu slot keys, with an explicit mapping from the value 'Snacks' to key snack. All three locale files now have the keys.
-3. food.tsx:543 and :965 use the same mapping, one file per round.
-4. Remove unused voice and describeOutLoud from es.json after grep confirms no reads.
-5. Hardcoded English toasts: food.tsx:717, then SavedMealsList.tsx:59 and :63 (one file per round).
-6. Add sheet icons: SF Symbols to design SVGs, one per round.
-7. Checkpoint: full tsc and suite, no file changes.
-8. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. (R131, now) add.tsx:56 uses the four addMenu slot keys with an explicit record mapping 'Snacks' to snack. Targeted tests only. Row 90 note appended. DONE in R130 checkpoint: none pending.
+2. food.tsx:543 and :965 use the same mapping, one file per round.
+3. Remove unused voice and describeOutLoud from es.json after grep confirms no reads.
+4. Hardcoded English toasts: food.tsx:717, then SavedMealsList.tsx:59 and :63 (one file per round).
+5. Add sheet icons: SF Symbols to design SVGs, one per round.
+6. Checkpoint: full tsc and suite, no file changes.
+7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected: R89, R99, R117, R125 (no design/ file named); R123 (no branch line). All rewritten.
 - R123 BLOCKED on missing slot keys; recast as Next 2 and 3.
-- Flags: R114, R119, R121, R125, R127, R129. Cleared by R122 and R126 verification. R129 flag is cleared by the R130 checkpoint.
-- R129: fr.json addMenu task done (20 keys). Loop flagged for no test run; R130 is the checkpoint.
+- Flags: R114, R119, R121, R125, R127, R129. Cleared by R122 and R126 verification. R129 flag cleared by the R130 checkpoint.
+- R130 checkpoint clean (tsc 0, 65 suites, 824 tests). Prompt for add.tsx:56 issued at R131.
 - Handover after R125. Claude Code knows only the summary: name files fully.
-- Jev ask overridden at R120, R124 to R126 (nothing needs Isa).
-- Jev ranked add.tsx:56 first at R130 (81%); overridden for the checkpoint under the flag rule.
+- Jev ask overridden at R120, R124 to R126 and R131 (nothing needs Isa).
+- Jev ranked add.tsx:56 first at R130 (81%); overridden for the checkpoint under the flag rule. R131 follows Jev.
 - R128 verification clean, no flags. Handover summary read at R129.
 
 ## Gotchas

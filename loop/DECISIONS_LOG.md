@@ -396,3 +396,8 @@
 - 2026-10-30 23:58 Jev's 'run' action is agreed. Only the task choice differs.
 - 2026-10-30 23:58 Recorded R129 as BUILT, not verified: fr.json addMenu now has 20 keys, so the Built and Next lists were updated.
 - 2026-10-30 23:58 No Isa question: the checkpoint needs nothing from him.
+- 2026-10-30 23:58 Chose add.tsx:56 slot keys first: it is the next item in the notes, it needs nothing from Isa, and it is the smallest change. Matches Jev's ranking.
+- 2026-10-30 23:58 R130 checkpoint is green (tsc 0, 65 suites, 824 tests), so the flag from R129 is cleared and I continue with normal work.
+- 2026-10-30 23:58 Jev 'ask' is not followed: nothing in this task needs Isa.
+- 2026-10-30 23:58 Explicit record mapping instead of toLowerCase, because 'Snacks' does not lowercase to the key 'snack'.
+- 2026-10-30 23:58 Row 90 gets a one-line update and stays BUILT, not verified, per the brief.
