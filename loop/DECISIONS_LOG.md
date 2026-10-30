@@ -935,3 +935,8 @@
 - 2026-10-31 01:54 Did not follow the handover suggestion to remove es addMenu.voice and describeOutLoud, because the notes require Isa's approval first.
 - 2026-10-31 01:54 Treated the handover's 'en 149' key count as stale; the latest report and R248 read-only check both show en at 150.
 - 2026-10-31 01:54 fr.json plan.whyThisPlan moves to R251, one file per round.
+- 2026-10-31 01:55 Chose the fr plan.whyThisPlan key: it is the only remaining locale gap, the last report confirmed it, and it is the smallest task that needs nothing from Isa.
+- 2026-10-31 01:55 Used the R250 report key counts (en 150, es 152, fr 149) over the handover's stale counts (en 149, es 151).
+- 2026-10-31 01:55 Ran tsc only, not Jest, because no test covers locale files and the R250 read-only round already ran the full suite green.
+- 2026-10-31 01:55 Used 'Pourquoi ce plan' per the NOTES Next list, marked as manager-written and pending native review.
+- 2026-10-31 01:55 Cleared the R249 flag: the R250 read-only report shows tsc 0, Jest 65/824/4 green, and the expected key counts.

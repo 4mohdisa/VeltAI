@@ -35,7 +35,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - lastLoggedLabel calendar-day logic in src/components/food/SavedMealsList.tsx (Date.UTC day difference, DST-safe).
 - Streak keys: gymLog.celebration.streak_one/_other; dashboard.dayStreak_one/_other, streakLoading, streakLoadError, summaryTitle in en, es, fr. es settings.scanAccuracy and gymLog group.
 - (tabs)/index.tsx lines 102, 109, 115, 121 use t().
-- plan.tsx:120 'Why this plan' uses t('plan.whyThisPlan'). Added to en.json (R247) and es.json (R249, pending report check). fr.json still missing. Heading shows only when the plan has a reason.
+- plan.tsx:120 'Why this plan' uses t('plan.whyThisPlan'). Added to en.json (R247) and es.json (R249, checked R250). fr.json: R251 adds it (pending report). Heading shows only when the plan has a reason.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
@@ -44,18 +44,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R247: tsc exit 0 reported. Jest not run. Flagged. Cleared by R248.
 - R248 read-only: tsc exit 0; Jest 65 suites, 824 tests, 4 snapshots green. Cleared R247 flag.
 - R249 (es plan.whyThisPlan): tsc exit 0 reported; Jest not run. Flagged.
-- R250 read-only (this round): clearing the R249 flag. Result pending in next report.
+- R250 read-only: tsc exit 0; Jest 65/65 suites, 824/824 tests, 4/4 snapshots green. Key counts: en 150; es 152 with 0 missing and extras addMenu.voice and addMenu.describeOutLoud only; fr 149 missing only plan.whyThisPlan. Cleared R249 flag.
+- R251 (fr plan.whyThisPlan): tsc only, Jest not run (no test covers locales). Flagged until a verification round clears it.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection or (tabs)/index.tsx.
 
 ## Next
-1. R250: read-only verification of R249 (tsc, full Jest, key counts both directions).
-2. R251: add plan.whyThisPlan to fr.json ('Pourquoi ce plan'). This brings fr to 150 keys.
+1. R251: add plan.whyThisPlan to fr.json ('Pourquoi ce plan'). This brings fr to 150 keys. Running now.
+2. R252: read-only verification of R251 (tsc, key counts both directions). Jest only if R251 report is unclear.
 3. nutrition.tsx:77 'Macros' to t().
 4. (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
 5. Add sheet icons to design SVGs.
 6. Remaining gap rows, most cleared first.
-7. Full Jest checkpoint every 5 rounds (read-only).
+7. Full Jest checkpoint every 5 rounds (read-only). Next checkpoint R255.
 8. If no non-gym work remains: stop with 'only owner decisions remain'.
 9. Remove es addMenu.voice and describeOutLoud only after Isa approves.
 
@@ -92,7 +93,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - Check key sets in both directions.
 - Prompts with more than one file or screen get rejected. One file per round where possible.
-- Handover summaries can be stale on what is built and on key counts; check against this file.
+- Handover summaries can be stale on what is built and on key counts; check against this file and the latest report.
 - src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
 
 ## Loop notes
@@ -101,5 +102,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Flags R239, R241, R242, R244, R245: cleared by read-only verification rounds.
 - R246: flagged on the type check only. Cleared by full Jest in that round.
 - R247: flagged, Jest skipped. Cleared by R248.
-- R249: flagged, Jest skipped. Cleared by R250 read-only verification.
-- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R249 run favoured; agreed each time. R250 run 95%; agreed.
+- R249: flagged, Jest skipped. Cleared by R250 read-only verification (done, all green).
+- Jev: R240 ask 53%, run 44%; manager chose read-only run. R241 to R249 run favoured; agreed each time. R250 run 95%; agreed. R251 run favoured; agreed.

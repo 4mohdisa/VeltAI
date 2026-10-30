@@ -170,6 +170,7 @@
   "plan": {
     "suggested": "Suggéré :",
     "addTitle": "Ajouter à {{title}}",
+    "whyThisPlan": "Pourquoi ce plan",
     "title": "Plan du jour",
     "emptyTitle": "Pas encore de plan",
     "emptyMessage": "Une fois que Lume aura appris votre routine, votre journée sera planifiée ici."
