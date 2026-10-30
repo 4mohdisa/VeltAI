@@ -643,3 +643,6 @@
 - 2026-10-31 00:47 Chose the verification round over the es.json task. Reason: the loop note says the last report was flagged, and the notes rule says flagged reports are cleared by a verification round before a new build task. Jev ranked es.json first, but it cannot see this rule.
 - 2026-10-31 00:47 Verification round checks tsc and parses all three locale files, because the R178 report only parsed en.json and the flag may have come from the unparsed locales.
 - 2026-10-31 00:47 Jest is not run this round, per the testing rules. The next checkpoint is the one that runs the full suite.
+- 2026-10-31 00:48 Chose the checkpoint over es.json (Jev 88% for es.json). Reason: the R179 flag is about Jest not being run, and R179 and R178 both skipped Jest, so another no-Jest round would be flagged again. The last checkpoint was R174, so a full run is due anyway. The es.json task follows in R181.
+- 2026-10-31 00:48 The checkpoint makes no edits, so it adds no new risk and keeps the flagged-report rule first.
+- 2026-10-31 00:48 Recorded in notes under Verification and Loop notes.

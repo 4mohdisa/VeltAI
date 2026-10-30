@@ -40,7 +40,8 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Checkpoints green: R113 to R164, R166, R168, R169, R174 (tsc 0, 65 suites, 824 tests).
 - Flags: R165 cleared by R166; R167 by R168; R170 by R171; R173 cleared by R174.
 - R175 flagged, cleared by R176. R176 flagged, R177 added neverLogged. R177 flagged, cleared by R178 (tsc 0, en.json parse 0, savedMeals keys checked, no Jest run).
-- R178 flagged by automatic check (type check or tests not run for the report). R179 is a verification round: tsc once, parse en, es and fr, no edits.
+- R178 flagged by automatic check (type check or tests not run for the report). R179 verification round: tsc 0, parse en, es, fr exit 0, no edits. R179 flagged again by automatic check. Cause: Jest not run. R179 does not clear it.
+- R180 is a checkpoint: tsc once plus full Jest run (npm test -- --ci), parse en, es, fr, no edits. This clears the flag for real. Last checkpoint before it was R174.
 - Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx lines 87 and 99, en savedMeals last-logged keys. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Locale top-level key mismatch: es missing gymLog; fr missing goals, gymLog, dashboard, nutrition. Known, not on screen.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
@@ -79,7 +80,7 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Recipe fibre saved as 0. Food tab render test (needs new suite).
 
 ## Next
-1. R179 (verification): tsc once, parse en, es and fr JSON, check en savedMeals keys. No edits. Clears the R178 flag.
+1. R180 (checkpoint): tsc once, full Jest run (npm test -- --ci), parse en, es and fr JSON. No edits. Clears the R179 flag.
 2. es.json: the four last-logged keys plus neverLogged (Isa-reviewed wording pending).
 3. fr.json: the same keys (native review pending).
 4. SavedMealsList.tsx lastLoggedLabel switched to t() keys, including neverLogged; then one checkpoint run of the full suite.
@@ -95,6 +96,7 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - R175 prompt rejected for not naming the design/ file. Rewritten with design/Lume App.html and gap row 'none'.
 - R172 chose es plan group over SavedMealsList and fr plan.
 - R178 flagged by automatic check. R179 verification round, no edits. Jev preferred es.json (80%); kept verification because the flagged-report rule comes first.
+- R179 flagged again (Jest not run). R180 chosen as a full checkpoint run, not another no-Jest round. Jev preferred es.json (88%). Kept the checkpoint: the flag is about Jest, and only a Jest run clears it. es.json moves to R181.
 
 ## Gotchas
 - src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.
