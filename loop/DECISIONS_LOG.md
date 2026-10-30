@@ -302,3 +302,8 @@
 - 2026-10-30 23:38 Jev's fr.json pick (85%) is deferred one round, not dropped. It is R113 once the flag is cleared.
 - 2026-10-30 23:38 The verification run makes no file changes and no new tests, per the testing rules.
 - 2026-10-30 23:38 No question to Isa: nothing here needs his dashboards or devices.
+- 2026-10-30 23:39 Flag rule outranks Jev ranking (fr.json was Jev's top pick at 81% run). The flag names tests, so a verification run comes first.
+- 2026-10-30 23:39 Chose the full checkpoint over the locale-only check: no test covers i18n, and the app suite is stale since the recipe totals and add.tsx edits.
+- 2026-10-30 23:39 Verification-only run with no file changes, per the R112 rule for flagged reports.
+- 2026-10-30 23:39 Jev 'ask' 15% not acted on: the next task needs nothing from Isa, so no question is asked this round.
+- 2026-10-30 23:39 Jev 'last task clean' at 46%: treated as a reason to run the suite, not a reason to skip the flag.
