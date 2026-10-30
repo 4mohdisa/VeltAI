@@ -433,3 +433,11 @@
 - 2026-10-31 00:07 Kept the delete title on the translated slot with no casing change, since the lowercase question for delete wording is still open with Isa and the design default applies.
 - 2026-10-31 00:07 Used t('common.cancel') for Cancel, since the existing common key covers it and no new key is needed.
 - 2026-10-31 00:07 Left the hardcoded 'Add to' capitals and SavedMealsList toasts for later rounds, one file per round.
+- 2026-10-31 00:08 Loop flag on R138 treated as needing a full checkpoint: the delete dialog and en.json edits have only food-subset test coverage, and no test opens confirmDeleteMeal. The checkpoint clears this before item 2 of Next.
+- 2026-10-31 00:08 Jev run 92% agreed with my choice. No override needed.
+- 2026-10-31 00:08 Checkpoint kept to no file changes, per the standing rule. Failures go to BLOCKED, not to fixes.
+- 2026-10-31 00:08 Chose the R139 checkpoint first: it is the flagged round that clears R131 to R138, and the latest report also recommends it. Jev and I agree on run.
+- 2026-10-31 00:08 Stated design/ file as none and gap row as none, because a checkpoint has no UI surface. The loop note rejected the previous prompt for not naming a design/ file, so the rewrite says this explicitly.
+- 2026-10-31 00:08 Kept the prompt to no edits, so the checkpoint cannot change code while it verifies the state of the tree.
+- 2026-10-31 00:08 Handover summary conflicts with the notes: it lists the add.tsx slot title as in progress, but the notes record it as built at R131. The checkpoint will show whether the tree is green. Isa to verify the Add sheet on device.
+- 2026-10-31 00:08 Did not ask Isa anything this round: nothing here needs a dashboard, device or product decision.
