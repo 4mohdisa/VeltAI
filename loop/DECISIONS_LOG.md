@@ -573,3 +573,8 @@
 - 2026-10-31 00:35 Ran a checkpoint first to clear the R165 flag, as the notes require before a new build task.
 - 2026-10-31 00:35 Rewrote the notes under 600 words: merged repeats, removed finished work, kept all decisions.
 - 2026-10-31 00:35 Treated the Jev ask signal as advisory; a no-edit checkpoint is the lowest-risk next step.
+- 2026-10-31 00:36 Picked the plan.tsx en keys because it is next in the Next list, needs nothing from Isa, and is the smallest step.
+- 2026-10-31 00:36 Split plan.tsx work into two rounds (en.json now, plan.tsx usage next) to keep one file per round.
+- 2026-10-31 00:36 Ignored the handover suggestion of a food tab render test, because Decisions says no new test suites and no food tab render test.
+- 2026-10-31 00:36 Treated R166 checkpoint as done: the latest report shows tsc 0 errors, 65 suites, 824 tests and 4 snapshots passing, which clears the R165 flag.
+- 2026-10-31 00:36 Used design/Lume App.html as wording reference only and gap row none, because locale keys have no row in DESIGN_GAP_ANALYSIS.md.

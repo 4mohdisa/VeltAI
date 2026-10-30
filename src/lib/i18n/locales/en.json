@@ -151,5 +151,9 @@
     "fat": "Fat",
     "fibre": "Fibre",
     "mealsToday": "Meals today"
+  },
+  "plan": {
+    "suggested": "Suggested:",
+    "addTitle": "Add {{title}}"
   }
 }

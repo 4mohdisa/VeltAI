@@ -16,7 +16,7 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - SLOT_KEYS duplicated in add.tsx and food.tsx; share if a third caller appears.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 - es addedToMeal and mealDeleted avoid gender agreement.
-- No new test suites. No food tab render test.
+- No new test suites. No food tab render test (handover suggestion rejected, R167).
 - Plan file is src/app/dashboard/plan.tsx (only plan.tsx under src; (tabs) path does not exist).
 - Locale order: en, es, fr, one file per round.
 - Flagged reports are cleared by a verification round before a new build task.
@@ -32,13 +32,13 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Checkpoints green: R113 to R164 (tsc 0, 65 suites, 824 tests, 4 snapshots).
+- Checkpoints green: R113 to R164 and R166 (tsc 0, 65 suites, 824 tests, 4 snapshots).
 - Flags R144 to R163 cleared or partly cleared. R165 flagged (not run, wrong path); cleared by R166 checkpoint.
 - Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- plan.tsx :85 'Suggested:' and :97 'Add ${title}' hardcoded.
+- plan.tsx :85 'Suggested:' and :97 'Add ${title}' hardcoded. R167: en.json keys being added (plan namespace, suggested and addTitle). Next: plan.tsx uses them, then es, then fr.
 - SavedMealsList.tsx lastLoggedLabel lines 26-33 hardcoded; 'N days ago' needs plurals. Lines :59 and :63 unchecked.
 - es.json lacks gymLog, settings.scanAccuracy, some goals keys. Has addMenu.voice and describeOutLoud.
 - fr.json lacks goals, gymLog, dashboard, nutrition, settings.scanAccuracy.
@@ -67,8 +67,8 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Recipe fibre saved as 0. Food tab render test (needs new suite). Long-press meal delete not discoverable.
 
 ## Next
-1. R166: verification checkpoint, tsc and full suite, no edits.
-2. plan.tsx :85 and :97 en keys; then plan.tsx uses them; then es; then fr.
+1. DONE R166: verification checkpoint green.
+2. R167: add en.json keys for plan.tsx (in progress). Then plan.tsx uses them; then es; then fr.
 3. SavedMealsList.tsx lastLoggedLabel to locale keys with plurals (en, es, fr).
 4. es and fr locale gaps, one file per round.
 5. fr and es wording fixes, one file per round.
@@ -79,7 +79,7 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 
 ## Loop notes
 - Handover after R141 and R156. Name files fully in prompts.
-- Jev run signals favoured running at R159 to R164; both agreed when run.
+- Jev run signals favoured running at R159 to R164; both agreed when run. R167: Jev run 93%, agreed.
 
 ## Gotchas
 - src/lib/i18n/index.ts fixes lng to 'en'; es and fr are not on screen.
@@ -87,3 +87,4 @@ Match design/Lume App.html across the DESIGN_GAP_ANALYSIS.md rows. Branch loop/d
 - Quote paths with parentheses. i18n does not escape values.
 - SavedMealsList has no test file; only src/app/food/meals.tsx imports it.
 - Decoded design in /tmp/lume-design may vanish.
+- Claude Code may have tried writing to /tmp (R166). Keep all output inside the repo.
