@@ -94,9 +94,11 @@ export default function LogSessionScreen() {
     router.replace({ pathname: '/gym/session', ...(mode ? { params: { mode } } : {}) } as Href);
 
   const save = () => {
+    // A logged day is never re-logged: the design drops you into the day to
+    // edit it or add an extra, which is what /gym/session does here.
     if (streak.gymLoggedToday) {
-      showToast({ message: 'Already logged today.', tone: 'info' });
-      close();
+      showToast({ message: t('gymLog.alreadyLogged'), tone: 'info' });
+      openSession();
       return;
     }
     logGymSession(

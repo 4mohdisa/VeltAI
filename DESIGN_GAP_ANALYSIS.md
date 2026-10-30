@@ -204,6 +204,8 @@ change nothing on the server.**
 22. **Sheet height.** Design `max-height: 92%` with internal scroll; app `fitToContents`.
 23. **Entry-point behaviour is inconsistent in the app.** Gym tab and the `+` menu open the questionnaire; Summary's card calls `logGymSession()` with **no arguments and no UI at all** — a third, silently different behaviour.
 
+**Built:** difference 19 — an already-logged day no longer dismisses with *"Already logged today."*; `src/app/gym/log-session.tsx` now toasts the design's copy and routes to `/gym/session`, where the day can be edited or an extra added. Difference 18 (the "Logged and locked" Edit → Save changes cycle) stays an accepted deviation.
+
 ## Explicit correction of the prior report
 
 `VERIFICATION_REPORT.md` line 100 records:
