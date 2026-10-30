@@ -852,3 +852,6 @@
 - 2026-10-31 01:36 Chose the Summary title over SLOT_KEYS and the unreachable plural key. It is the next item in the agreed order, is a small single-surface change, and needs nothing from Isa.
 - 2026-10-31 01:36 Limited this round to en.json and index.tsx, following the one-file-per-round rule. es.json and fr.json get summaryTitle next round.
 - 2026-10-31 01:36 Did not run Jest this round because no test covers index.tsx or the locale files. Ran tsc and a JSON parse instead.
+- 2026-10-31 01:37 Chose verification over Jev's es.json pick because the R229 report was flagged (Jest not run). Decision rule: flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 01:37 Verification is read-only and uses tsc plus only the tests that touch the changed screen, per testing rules. No full suite, since this is not a checkpoint round.
+- 2026-10-31 01:37 Kept Jev's top candidate as the next build task (es.json) after verification, so the locale gap is closed next round.
