@@ -487,3 +487,7 @@
 - 2026-10-31 00:19 Kept the es.json work as built and did not edit it again. Only read it for the parse check.
 - 2026-10-31 00:19 French wording chosen to avoid gender agreement with the slot name: 'Suppression de {{slot}} effectuée' for mealDeleted, and 'Maintenez pour supprimer' for the hint.
 - 2026-10-31 00:19 French uses the 'vous' form and the French spacing before '?'. The French copy is an agent translation and needs native review (Isa).
+- 2026-10-31 00:20 Chose the verification task first because the loop note flags the last report as partly done, and the flag rule outranks the ranking. Re-running tsc and the JSON parse explicitly lets the flag clear from the report alone.
+- 2026-10-31 00:20 Kept the step to no file changes and no Jest run, to keep Claude Code usage low and avoid new suites.
+- 2026-10-31 00:20 Left the 11 missing fr keys and the es gaps out of this round; they need French and Spanish values from a native reviewer, so they stay in NEXT.
+- 2026-10-31 00:20 Jev suggested run at 70%, which agrees with this choice; no override needed.

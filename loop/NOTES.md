@@ -33,25 +33,28 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - food.tsx: local SLOT_KEYS (line 84); slot heading, VoiceOver, 'Add to' labels (539, 795) using foodLog.addToMeal, toast (390), delete dialog and toast use translated keys.
 - food.tsx:771 meal delete hint uses t('foodLog.deleteMealHint', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }) (R146, unverified).
 - en.json: foodLog.deleteMealHint, mealDeleted, deleteMealTitle, deleteMealMessage_one/_other, deleteMealConfirm (unverified).
-- es.json: seven foodLog keys added R148 (addedToMeal, mealDeleted, deleteMealTitle, deleteMealMessage_one/_other, deleteMealConfirm, deleteMealHint). Flagged for missing checks; R149 re-checks tsc and JSON parse of es.json and fr.json.
+- es.json: seven foodLog keys added R148 (addedToMeal, mealDeleted, deleteMealTitle, deleteMealMessage_one/_other, deleteMealConfirm, deleteMealHint).
+- fr.json: seven foodLog keys added R149 after addToMeal, same order as en.json, 'vous' form. Parse and tsc checks re-run in R150.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145 (tsc 0, 65 suites, 824 tests).
 - Targeted only since R145: R146 (30 food-referencing suites, 510 tests, passed; no test renders the hint). R147: no file changes; 8 food suites, 119 tests, passed.
 - R148: tsc 0 errors; es.json parses; no tests run (no test reads locale files).
+- R149: tsc 0 errors; es.json and fr.json parse; no tests run. Flagged for missing explicit checks; R150 re-runs tsc and parse for es, fr and en and reports them in CHECKED.
 - No test renders the add.tsx title, food.tsx slot heading, MealSectionHeader, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
 - SavedMealsList.tsx :59, :63 hardcoded English toasts. plan.tsx :85 'Suggested:', :97 'Add ${entry.title}'.
-- fr.json lacks the seven foodLog keys (R149 doing now). es.json lacks foodLog.openFood and the foodLog.conflict group.
+- fr.json lacks 11 foodLog keys: today, searchPlaceholder, noMatches, addCustomFood, mealHistory, noMealsTitle, noMealsMessage, addMeal, per100, openFood, conflict. Needs French values from Isa or a native reviewer.
+- es.json lacks foodLog.openFood and the foodLog.conflict group.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 - Add sheet icons are SF Symbols, not design SVGs.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
-- Locales: es voice and describeOutLoud unused; fr foodLog has 2 es keys; fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'. Native review needed.
+- Locales: es voice and describeOutLoud unused; fr foodLog has 2 es keys; fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'. fr deleteMealHint: 'Maintenez appuye pour supprimer' is the usual form; fr uses plain spaces before ':' and '?' where French typography uses non-breaking spaces. Native review needed.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press delete not discoverable (design call open).
 
@@ -65,7 +68,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device runs: Add sheet; recipe and fibre; quick add; celebration card; meal delete dialog (singular and plural), 'Removed {{slot}}', header and VoiceOver.
 - Meal delete has no gap row: add one?
 - Macro types for food detail (data model change, parked).
-- Native review of fr and es addMenu and the new es and fr foodLog strings (es: 'Se ha eliminado', 'elemento'; fr: 'Suppression de ... effectuée').
+- Native review of fr and es addMenu and the new es and fr foodLog strings (es: 'Se ha eliminado', 'elemento'; fr: 'Suppression de ... effectuee'; fr 'Maintenez pour supprimer' versus 'Maintenez appuye pour supprimer'; fr spacing before ':' and '?').
 - Remove es voice and describeOutLoud.
 - 'Add to Lunch' capitals: confirm or override. Delete and Removed wording: design defaults apply.
 - Last-hour modified-files check: keep or round-scoped only.
@@ -81,20 +84,21 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests for food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx, add.tsx title, MealSectionHeader. No locale tests. No confirmDeleteMeal test.
 
 ## Next
-1. R149 (now): fr.json, add the seven foodLog keys in en.json order, 'vous' form, skip existing keys. Re-parse es.json and fr.json. tsc only. Gap row: none.
+1. R150 (now): verify only. Run tsc and JSON parse for en, es and fr; report in CHECKED. No file changes. Gap row: none. Clears the R149 flag.
 2. SavedMealsList.tsx :59, :63 (locale keys if none fit).
 3. plan.tsx :85, :97.
 4. Add sheet icons: SF Symbols to design SVGs, one per round.
 5. Consolidate SLOT_KEYS, one file per round.
 6. Checkpoint: full tsc and full suite.
-7. If nothing non-gym remains: stop with 'only owner decisions remain'.
+7. Locale gaps (fr 11 keys, es openFood and conflict) need native values; ask Isa only if no other non-gym task remains.
+8. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected for no design/ file: R89, R99, R117, R125, R139, R146 earlier attempt, R147 prompt. All rewritten with design/Lume App.html named.
 - R147 prompt also rejected for no loop/design-match branch line. R148 prompt names both.
 - R144 flagged: no suites run. R145 checkpoint ran clean but was flagged again as partly done. R146 finished food.tsx:771 and reported it done.
 - R146 flagged as partly done because food.tsx 539 and 795 were listed as hardcoded. R147 reported they already use foodLog.addToMeal (VoiceOver labels). Flag cleared.
-- R148 flagged: type check or tests failed or not run. tsc was run (0 errors) but the report did not show the JSON parse as a check. R149 re-runs tsc and the parse explicitly.
+- R148 flagged: type check or tests failed or not run. R149 re-ran tsc, and the JSON parse was reported, but the loop flagged R149 again as partly done. R150 re-runs tsc and parse for all three locale files and reports each result.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 
