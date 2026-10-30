@@ -750,3 +750,7 @@
 - 2026-10-31 01:11 es gymLog placed between savedMeals and plan, matching the fr.json layout.
 - 2026-10-31 01:11 Jev signals low confidence on the last task being clean. A small locale-only task was preferred over a larger build, as Jev advises.
 - 2026-10-31 01:11 Matched Jev on run.
+- 2026-10-31 01:12 Chose the verification round first: the rules say a flagged report is cleared before a new build task, and R205 skipped Jest.
+- 2026-10-31 01:12 Streak label fix and fr groups deferred to later rounds; both touch more than one file or locale.
+- 2026-10-31 01:12 Rewrote notes under 600 words per the loop note: merged repeated items and removed finished work.
+- 2026-10-31 01:12 Did not ask Isa: nothing in this round needs owner dashboards or devices.
