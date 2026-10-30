@@ -25,6 +25,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Round-scoped modified-file checks only. Last-hour scan dropped unless Isa replies otherwise.
 - R95: Jev ranked the fibre edit first (92%). Kept the verification-only run first, per the flag rule above. Fibre edit is R96.
 - R96: recents fibre stays undefined when unknown (not 0). Recipe save still 0 by model limit.
+- R102: checkpoint chosen after the R101 flag (tsc and tests not run). Jev ranked run first at 95%.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -59,8 +60,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device run, owner checks: quick add fit and no collapse, NumberEntryBar above keyboard, pill, compact chips, MEAL caption, toast; Add sheet title and tile grid at 320pt and 430pt; celebration flow (row 17 step 3); recipe macros.
 
 ## Next
-1. R101 (this round): verification-only. tsc once, eslint on new-recipe.tsx and hooks.ts. No file edits. Clears the R100 flag.
-2. R102: add fibre to totals in src/app/food/new-recipe.tsx (own round, one file).
+1. R102 (this round): checkpoint. Full tsc and full app suite, no file changes. Clears the R101 flag if green.
+2. R103: add fibre to totals in src/app/food/new-recipe.tsx (own round, one file).
 3. Stop logging missing macros as 0 in src/app/food/detail.tsx (own round). Same for quickAdd (own round).
 4. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
 5. Locale keys: es.json and fr.json, own round.
@@ -87,7 +88,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R98: verification-only run to clear the R97 flag. No file edits. Flagged.
 - R99: prompt rejected (no design/ file named). Rewritten as verification-only. Green: tsc 0, eslint clean, 33/33 hooks tests. Flagged as partly done.
 - R100: doc-only wording fix (line about 1046 in DESIGN_GAP_ANALYSIS.md, 'show' changed to 'carry'). Flagged: no type check or tests run.
-- R101: verification-only run (tsc, eslint on touched files, no edits) to clear the R100 flag.
+- R101: verification-only run (tsc, eslint on touched files, no edits). Green: tsc 0, eslint clean. Flagged: tests not run and no full suite.
+- R102: checkpoint round, full tsc and full app suite, no file changes, requested by loop note.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.

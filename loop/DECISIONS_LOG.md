@@ -256,3 +256,7 @@
 - 2026-10-30 23:26 Chose the verification-only run first because the loop flagged R100 (doc-only, no type check). Flag rule: clear it before any code edit.
 - 2026-10-30 23:26 Scoped checks to tsc once plus eslint on the two touched files. Full suite stays for the checkpoint round.
 - 2026-10-30 23:26 Kept the fibre totals edit as NEXT, not this round, to respect the flag rule and one-task-per-round.
+- 2026-10-30 23:26 Chose the checkpoint because the loop note flags the last report (type check or tests not run) and says this round must be a checkpoint. Jev also ranks run first at 95%.
+- 2026-10-30 23:26 Kept the checkpoint to tsc and the app suite only, with no file changes, as the loop note requires.
+- 2026-10-30 23:26 Superseded the handover's recommended next (recents fibre in hooks.ts). That work was done in R96, so it is no longer open.
+- 2026-10-30 23:26 Re-sequenced the Next list so the fibre totals fix in new-recipe.tsx follows the checkpoint at R103.
