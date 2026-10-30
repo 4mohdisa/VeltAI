@@ -118,7 +118,7 @@ export default function DashboardScreen() {
               onPress={() => router.push('/gym/streak')}
               haptic={false}
               minTapTarget={false}
-              accessibilityLabel={`Current streak ${streak.current} days`}
+              accessibilityLabel={t('dashboard.dayStreak', { count: streak.current })}
               style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, paddingTop: space.xs }}
             >
               <StreakFlame size={14} active={streak.current > 0} />

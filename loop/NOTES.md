@@ -32,31 +32,31 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - goals: fr 20 keys, es 3 keys. gymLog: en, es, fr (21 keys each).
 - Streak: gymLog.celebration.streak_one/_other in en, es, fr. dashboard.dayStreak_one/_other in en, es, fr. CelebrationCard gets its streak label via t() with count; log-session.tsx streakLabel prop removed. index.tsx:126 single t() call with count.
 - fr dashboard (6 keys). fr nutrition (7 keys). fr settings.scanAccuracy ('Précision du scan').
-- R220 (flagged, Jest skipped): es settings.scanAccuracy 'Precisión del escaneo' added after goals. Pending R221 verification.
-- fr.json has every en.json key. es.json has every en.json key once R220 is verified.
+- es settings.scanAccuracy 'Precisión del escaneo' added after goals (R220). Verified as present in R221.
+- fr.json and es.json have every en.json key.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R216 verified fr nutrition. R214 verified fr dashboard. R211 verified en and es dashboard keys.
 - R218 read-only: tsc 0, JSON parsed, but Jest skipped. Flagged.
 - R219 full verification: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Cleared the R218 flag.
-- R220: flagged (Jest skipped). R221 is the verification round that clears it.
+- R220: flagged (Jest skipped).
+- R221 verification: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots, all three locales parse, settings.scanAccuracy present in es and fr. Cleared the R220 flag.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard or plural selection. A passing suite says nothing about them.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R221 (in progress): read-only verification, tsc plus full Jest suite, JSON parse of all three locales, settings.scanAccuracy check. Clears R220 flag.
-2. index.tsx:121 streak accessibility label: count-based and translated.
-3. Other hardcoded streak wording, one file per round: index.tsx:115 (reads '1 days'), gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
-4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-5. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
-6. Hardcoded 'Why this plan' at src/app/dashboard/plan.tsx:120: move to plan keys.
-7. Hardcoded 'Macros' kicker at src/app/dashboard/nutrition.tsx:77: move to nutrition keys.
-8. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-9. Add sheet icons to design SVGs.
-10. dashboard.welcome and dashboard.gymBedtime have no callers. Keep or remove after Isa's native review.
-11. Remaining gap rows, most cleared per task first.
-12. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R222 (in progress): index.tsx streak wording. Replace the hardcoded text near :115 and the accessibility label near :121 with t() calls using dashboard.dayStreak_one/_other with count. Clears the visible '1 days' bug.
+2. Other hardcoded streak wording, one file per round: gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
+3. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+4. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
+5. Hardcoded 'Why this plan' at src/app/dashboard/plan.tsx:120: move to plan keys.
+6. Hardcoded 'Macros' kicker at src/app/dashboard/nutrition.tsx:77: move to nutrition keys.
+7. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+8. Add sheet icons to design SVGs.
+9. dashboard.welcome and dashboard.gymBedtime have no callers. Keep or remove after Isa's native review.
+10. Remaining gap rows, most cleared per task first.
+11. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -90,5 +90,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, and a handover just before R220. Latest summary in loop/HANDOVER.md. Claude Code knows only the summary after a handover: name files fully.
 - R220 prompt was rejected for not naming design/Lume App.html. Rewritten with design file and gap row 'none'.
-- Flags cleared through R219. R220 flagged (tsc only). R221 verification chosen to clear it.
-- Jev matched on run for R203 to R205, R208 to R211, R213 to R216, R219.
+- R221 verification cleared the R220 flag. R222 is the first build task after it.
+- Jev matched on run for R203 to R205, R208 to R211, R213 to R216, R219, R221.

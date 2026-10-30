@@ -818,3 +818,7 @@
 - 2026-10-31 01:29 Chose R221 verification first: the R220 report skipped Jest and is flagged, and the rules require a verification round to clear a flag before any new build task.
 - 2026-10-31 01:29 Did not pick index.tsx:121 yet: it is a build task and would stack on an unverified flag.
 - 2026-10-31 01:29 Verification prompt is read-only with a full suite run, because Jest was skipped last round and a checkpoint is due.
+- 2026-10-31 01:29 R221 counts as the verification round: tsc 0, 65/65 suites, 824/824 tests, JSON parse of all three locales, and settings.scanAccuracy present. The R220 flag is cleared, so a build task can go next.
+- 2026-10-31 01:29 Chose index.tsx streak wording first: the report's NEXT names it, it has a visible bug ('1 days'), and the t() pattern with count already exists at line 126, so no new keys are needed.
+- 2026-10-31 01:29 Used the existing dashboard.dayStreak_one and _other keys, which are in en, es and fr, so no locale edit is needed this round.
+- 2026-10-31 01:29 Limited testing to tsc once plus tests that import index.tsx, per the testing rules. No full suite on a build round.
