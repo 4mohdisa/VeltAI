@@ -107,7 +107,12 @@
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",
-    "logFailed": "No se pudo registrar {{name}}. Inténtalo de nuevo."
+    "logFailed": "No se pudo registrar {{name}}. Inténtalo de nuevo.",
+    "lastLoggedToday": "Registrado hoy",
+    "lastLoggedYesterday": "Registrado ayer",
+    "lastLoggedDaysAgo_one": "Registrado hace {{count}} día",
+    "lastLoggedDaysAgo_other": "Registrado hace {{count}} días",
+    "neverLogged": "Nunca registrado"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

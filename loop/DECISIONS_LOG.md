@@ -646,3 +646,8 @@
 - 2026-10-31 00:48 Chose the checkpoint over es.json (Jev 88% for es.json). Reason: the R179 flag is about Jest not being run, and R179 and R178 both skipped Jest, so another no-Jest round would be flagged again. The last checkpoint was R174, so a full run is due anyway. The es.json task follows in R181.
 - 2026-10-31 00:48 The checkpoint makes no edits, so it adds no new risk and keeps the flagged-report rule first.
 - 2026-10-31 00:48 Recorded in notes under Verification and Loop notes.
+- 2026-10-31 00:49 Chose es.json over fr.json and SavedMealsList.tsx: the notes already moved es.json to R181, and the locale keys must exist before the component can read them.
+- 2026-10-31 00:49 Chose es.json over fr.json because Jev preferred it (88%) and the notes record the same order.
+- 2026-10-31 00:49 Wrote the Spanish values myself so the prompt has no placeholders; they are marked for native review in the notes.
+- 2026-10-31 00:49 Told Claude Code to skip Jest because no test reads locale files; tsc once is enough for this round.
+- 2026-10-31 00:49 Set the R180 checkpoint as green, which clears the R179 flag. The latest report confirms tsc 0, 65 suites, 824 tests, 4 snapshots, and JSON parse 0 for en, es and fr.
