@@ -107,6 +107,10 @@
       "gluten_free": "May not match your gluten free preference"
     }
   },
+  "savedMeals": {
+    "logged": "Logged {{name}}.",
+    "logFailed": "Couldn't log {{name}}. Try again."
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

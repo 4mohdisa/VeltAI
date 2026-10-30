@@ -527,3 +527,8 @@
 - 2026-10-31 00:26 Did not follow the R155 NEXT suggestion of a food tab render test. The brief forbids new test suites.
 - 2026-10-31 00:26 Did not use the handover's recommended food.tsx addToMeal change this round. It is a build task and the flag comes first. It stays in Open for a later round.
 - 2026-10-31 00:26 Kept the food tab hardcoded strings (:539, :771, :795) in Open rather than parking them, because they are buildable with locale keys.
+- 2026-10-31 00:27 Chose SavedMealsList: it is in the open non-gym list, needs nothing from Isa, and is small. The plan.tsx items are next.
+- 2026-10-31 00:27 Split the work so en.json is edited alone this round, per the one-file-per-round rule for locale work.
+- 2026-10-31 00:27 Declined the food tab render test again. The brief forbids new test suites, and Isa verifies the UI himself.
+- 2026-10-31 00:27 R156 is a green full checkpoint, so it clears the R155 flag. No flag blocks the next build task.
+- 2026-10-31 00:27 Left Isa's blocked items unchanged. None of them is needed for this task.
