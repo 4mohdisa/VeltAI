@@ -1,39 +1,43 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified; Isa verifies. Expo docs requirement is in AGENTS.md. Source of truth: design/Lume App.html.
 
-BUILT THIS SESSION (all BUILT, not verified; no DESIGN_GAP_ANALYSIS.md row covers this work, none changed)
-- src/components/food/SavedMealsList.tsx: no hardcoded display text left.
-- src/lib/i18n/locales/en.json: savedMeals gained emptyTitle, emptyMessage, itemCount_one, itemCount_other, logNow.
-- es.json: those five keys; goals gained setByLume, tapToEdit, savedAsYouType.
-- fr.json: those five keys; new goals group; new gymLog group.
+BUILT THIS SESSION (all BUILT, not verified)
+- src/lib/i18n/locales/es.json: gymLog group; dashboard.dayStreak_one/_other; gymLog.celebration.streak_one/_other.
+- src/lib/i18n/locales/fr.json: dashboard and nutrition groups; settings.scanAccuracy; streak_one/_other. fr.json now has every en.json key.
+- src/lib/i18n/locales/en.json: dashboard.dayStreak_one/_other; streak_one/_other.
+- src/components/gym/CelebrationCard.tsx: gets the streak label itself via t() with count; streakLabel prop removed.
+- src/app/gym/log-session.tsx: streakLabel line removed.
+- src/app/(tabs)/index.tsx:126: single t() call with count.
 
-Last checks, after all edits: tsc exit 0; all three locales parse; 65 suites, 824 tests, 4 snapshots passing.
+GAP ROWS: none newly built or edited. Row 17 (celebration card) was touched by the streak work, but its text is unchanged and still says "Footnote still missing".
 
-IN PROGRESS: nothing mid-edit. Recommended next: add the es.json gymLog group.
+IN PROGRESS: nothing mid-edit. Recommended next: add settings.scanAccuracy to es.json, directly after goals. It is the last key missing from any locale.
+
+LAST CHECKS: tsc exit 0; all three locales parse; 65 suites, 824 tests, 4 snapshots passing.
 
 DECISIONS
-- Each new group sits at its en.json position. fr.json gymLog is followed by plan because dashboard and nutrition are missing.
-- es savedMeals.emptyMessage was rewritten to match the English meaning, on instruction.
-- es goals.setByLume "Definida" and fr "Définie" are feminine, agreeing with the calorie label at src/app/profile/goals.tsx:125.
-- fr gymLog uses U+2019 and U+00A0 as instructed. I also applied U+00A0 before "?" in title, beyond the brief's colons. U+00A0 and U+2019 in fr savedMeals are accepted.
-- fr goals uses straight apostrophes, following older strings, so French is mixed.
+- Celebration strings have no {{count}}: the design shows the number and "day streak" as separate lines, so embedding it would print the number twice. Count only selects the plural.
+- Dashboard strings do contain {{count}}, per brief.
+- English one and other are identical ("day streak"), keeping existing wording. The design's Summary line is hyphenated ("14-day streak"); not changed.
+- fr remainingToday is "Il reste {{value}} aujourd’hui", avoiding agreement with an unknown value.
+- fr gymBedtime is "Créneau de sport"; es uses "Gimnasio".
+- New fr strings use U+2019, and U+00A0 before colons.
 
 GOTCHAS
 - src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
-- No test covers locale files or SavedMealsList. A passing suite says nothing about them.
+- No test covers locale files, plural selection or CelebrationCard rendering. A passing suite says nothing about them.
+- If a locale keeps a base key while code passes count, i18next is expected to use that base key before falling back to en.
 - The Edit tool can write a plain space for U+00A0. Patch with node using escapes and check code points.
-- Briefs often ban writing to /tmp and output redirection.
-- Shell is zsh: quote paths with parentheses; globs that match nothing error. Grep with LC_ALL=C /usr/bin/grep.
-- Verification rounds keep following rounds that skip Jest, so the automatic flag may refire.
+- The design HTML is a bundle: decode the manifest in memory with node -e to search its copy.
+- Briefs often ban /tmp and output redirection. Shell is zsh: quote parenthesised paths; grep with LC_ALL=C /usr/bin/grep.
 
 NOT FIXED
-- fr.json lacks dashboard, nutrition, settings.scanAccuracy. es.json lacks gymLog.
-- fr gymLog.celebration.streak gives "1 jours d’affilée": CelebrationCard.tsx:72 puts the number before a fixed label. A fix needs a count-based key and a log-session.tsx change, affecting all locales.
-- Hardcoded "Why this plan" at src/app/dashboard/plan.tsx:120.
-- entry.title stays English in plan.addTitle ("Añadir a Breakfast"); needed for the slot param at plan.tsx:101.
+- Hardcoded: plan.tsx:120 "Why this plan"; nutrition.tsx:77 "Macros"; (tabs)/index.tsx:115 and :121 (reads "1 days"); (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+- dashboard.welcome and gymBedtime look unused.
+- entry.title stays English in plan.addTitle.
 - lastLoggedDaysAgo_one is unreachable.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 
 WAITING ON ISA
-- Device runs: saved meal cards (labels, toasts, counts, Log now, empty state); plan title, empty state, Suggested line; VoiceOver Add label.
-- Native review of all new Spanish and French strings, including French "enregistrer" meaning both save and log, and "ajout" for logging.
+- Device runs: celebration card and Summary streak at 1 and above; saved meal cards; plan screen; VoiceOver Add label.
+- Native review of all new Spanish and French strings.
 - Whether French standardises on U+00A0 and U+2019.
