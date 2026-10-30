@@ -847,3 +847,8 @@
 - 2026-10-31 01:35 Ran the full Jest suite once in this round, which is a deliberate exception to the no-full-suite rule, because the flag concerns tests that were not run.
 - 2026-10-31 01:35 Did not start the Summary title task until the flag is cleared, so the build step does not stack on an unverified change.
 - 2026-10-31 01:35 Kept the Summary title as the next build task, since it is the cheapest open row with no owner dependency.
+- 2026-10-31 01:36 Kept the es.json addMenu.voice and addMenu.describeOutLoud keys. The standing decision says they stay until Isa approves removal, which overrides the R228 suggestion to remove them now.
+- 2026-10-31 01:36 Cleared the R227 flag. R228 ran tsc, the full Jest suite (65/65, 824/824) and the fr key check, all green.
+- 2026-10-31 01:36 Chose the Summary title over SLOT_KEYS and the unreachable plural key. It is the next item in the agreed order, is a small single-surface change, and needs nothing from Isa.
+- 2026-10-31 01:36 Limited this round to en.json and index.tsx, following the one-file-per-round rule. es.json and fr.json get summaryTitle next round.
+- 2026-10-31 01:36 Did not run Jest this round because no test covers index.tsx or the locale files. Ran tsc and a JSON parse instead.

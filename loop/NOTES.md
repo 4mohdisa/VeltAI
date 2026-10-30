@@ -12,7 +12,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Add sheet row 90 BUILT. Negative margin at add.tsx:68 accepted.
 - Slot key snack = 'Snacks'. Unknown slot falls back to 'Add meal'. 'Add to Lunch' keeps capital. Toast keeps toLowerCase().
 - Meal delete toast and dialog use design defaults until Isa overrides.
-- voice and describeOutLoud stay in es.json until Isa approves removal.
+- voice and describeOutLoud stay in es.json until Isa approves removal (reaffirmed R229 over R228 suggestion).
 - es addedToMeal and mealDeleted avoid gender agreement. es savedMeals.emptyMessage translated from en (Isa may override).
 - fr savedMeals keeps U+00A0 and U+2019 (accepted). fr plan, savedMeals, gymLog, goals, dashboard, nutrition are manager-written, pending native review.
 - es goals.setByLume 'Definida' and fr 'Definie' are feminine, matching src/app/profile/goals.tsx:125.
@@ -29,22 +29,22 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Locales: savedMeals, plan, gymLog, dashboard, nutrition, settings.scanAccuracy, goals (partial) in en/es/fr as recorded in the gap analysis.
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
 - en.json has dashboard.streakLoading and dashboard.streakLoadError (R223), used at (tabs)/index.tsx:109 and :115.
-- R225: es.json has dashboard.streakLoading and streakLoadError after dayStreak_other. es.json now has every en.json key.
-- fr.json has every en.json key. R227 added dashboard.streakLoading and streakLoadError after dayStreak_other; verification pending (see R228).
+- es.json has dashboard.streakLoading and streakLoadError after dayStreak_other (R225).
+- fr.json has every en.json key, including dashboard.streakLoading and streakLoadError at lines 154 and 155 (R227).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R219: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Cleared R218 flag.
 - R221: cleared R220 flag. R224 read-only check of R223: tsc 0, en keys and index.tsx lines confirmed.
-- R226: checkpoint, read-only. tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Green. Cleared R225 flag.
-- R227: flagged (fr.json tests not run). Changes made; checks were tsc, JSON parse and key-set only, no Jest.
-- R228 (this round): read-only verification of R227. Runs tsc, full Jest once, locale key check, and line check of the two fr keys. Clears the R227 flag if green.
+- R226: checkpoint, read-only. Green. Cleared R225 flag.
+- R228: verified R227. tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. fr.json key set matches en.json (148 keys). Parse OK. Cleared R227 flag.
+- R228 also found es.json has 150 keys: two extra, addMenu.voice and addMenu.describeOutLoud. Kept per decision above. Not a failure.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection, or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R228: verify R227 (read-only). Clears flag if tsc, Jest and key check are green.
-2. Hardcoded 'Summary' title at (tabs)/index.tsx:102: move to a locale key, starting with en.json.
+1. R229: move hardcoded 'Summary' title at (tabs)/index.tsx:102 to dashboard.summaryTitle in en.json, and use t() there. es.json and fr.json next.
+2. Add dashboard.summaryTitle to es.json and fr.json (one file per round).
 3. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
 4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
 5. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
@@ -84,5 +84,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run, cleared by R226); R227 (Jest not run, fr.json keys added). R227 flag is being cleared by R228.
-- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225, R226, R227, and R228.
+- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run, cleared by R226); R227 (Jest not run, cleared by R228).
+- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225-R228, and R229.

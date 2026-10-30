@@ -99,7 +99,7 @@ export default function DashboardScreen() {
             {new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
           </Text>
           <Text variant="title1" color={color.label} accessibilityRole="header">
-            Summary
+            {t('dashboard.summaryTitle')}
           </Text>
           {/* The streak is the only progression mechanic; the flame is the one
               tinted thing in the header (energy family). */}
