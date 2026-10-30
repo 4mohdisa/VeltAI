@@ -418,3 +418,8 @@
 - 2026-10-31 00:04 Split the R134 blocked task: key in en.json this round, wiring in food.tsx next round, so each round edits one file. Reason: the last report flagged it as partly done and the prompt rule is one editable file.
 - 2026-10-31 00:04 Meal delete toast wording set to 'Removed {{slot}}' to match the design's 'Removed ' + name pattern, rather than the literal '{{slot}} deleted.'. Reason: design default. Isa may override.
 - 2026-10-31 00:04 Ran the Jev 'ask' overrule: the next task needs nothing from Isa.
+- 2026-10-31 00:04 Chose R136 (wire the toast) as the next step, per the notes order, because R135 added the key and nothing reads it yet.
+- 2026-10-31 00:04 Answered the flagged R135 report by requiring tsc plus targeted food-related suites in this round, since the flag was for tests not run. Full suite is not required until the next checkpoint.
+- 2026-10-31 00:04 Chose to pass t as a parameter to confirmDeleteMeal rather than import the global i18next, to match the file's existing useTranslation pattern.
+- 2026-10-31 00:04 Jev ranks run at 98%, which agrees with my choice. No override needed.
+- 2026-10-31 00:04 Treated the R135 wording stretch (whole-meal delete versus single-entry design) as covered by the notes decision 'Removed {{slot}}, Isa may override'. Not asking now; it stays on the device-run list.

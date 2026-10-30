@@ -15,6 +15,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, RefreshControl, SectionList, View, type TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams, type Href } from 'expo-router';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 import { AnomalyBanner } from '@/components/ai';
@@ -491,7 +492,7 @@ export default function FoodLogScreen() {
               subtotal={section.subtotal}
               energyUnit={energyUnit}
               onAdd={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
-              onDeleteMeal={section.data.length > 0 ? () => confirmDeleteMeal(section.slot, section.data) : undefined}
+              onDeleteMeal={section.data.length > 0 ? () => confirmDeleteMeal(section.slot, section.data, t) : undefined}
             />
           ) : null
         }
@@ -709,7 +710,7 @@ function CaloriesCard({
  *  it to VoiceOver, but a sighted user will not find it unaided. Flagged for a
  *  human — the right answer is probably swipe-to-delete on the header or an
  *  overflow, and that is a design call, not one to make at random. */
-function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[]): void {
+function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[], t: TFunction): void {
   haptics.warning();
   Alert.alert(
     `Delete ${slot}?`,
@@ -722,7 +723,7 @@ function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[])
         onPress: () => {
           haptics.impactHeavy();
           rows.forEach((r) => deleteFoodItem(r.id));
-          showToast({ message: `${slot} deleted.`, tone: 'info' });
+          showToast({ message: t('foodLog.mealDeleted', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }), tone: 'info' });
         },
       },
     ],
