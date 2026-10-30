@@ -290,3 +290,7 @@
 - 2026-10-30 23:34 Chose the doc-only flag clearance over locale keys, though Jev ranks locale keys first at 85%. Reason Jev cannot see: the decision rule says a flagged report must be cleared by a verification-only or doc-only run before new code. The last report was flagged and its two stale items are doc errors, so this round fixes them first.
 - 2026-10-30 23:34 Kept the '(line 84)' check inside this doc-only round. The report explicitly said it was not checked, so the flag only clears once it is confirmed or marked unchecked.
 - 2026-10-30 23:34 Did not add the no-inset device wording to the gap analysis. It is a Next item from the report, not a flagged error, and adding it would widen this doc round.
+- 2026-10-30 23:36 Chose the verification-only run over locale keys because the loop flagged R109 for no type check or tests. The flag rule outranks the ranking, as in R109.
+- 2026-10-30 23:36 Overrode Jev's ask (67%): the flag clearance needs nothing from Isa, so asking adds no value.
+- 2026-10-30 23:36 Kept the Add sheet device checks and the other open owner items under BLOCKED on Isa; none is needed to clear the flag.
+- 2026-10-30 23:36 Rewrote the notes to under 600 words per the loop note: merged repeats, deleted finished work, kept every decision line.
