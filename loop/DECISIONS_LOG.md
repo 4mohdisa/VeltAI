@@ -152,3 +152,6 @@
 - 2026-10-30 22:57 Did not name a DESIGN_GAP_ANALYSIS.md row number because the notes do not record one for recents; referenced the food Search section instead.
 - 2026-10-30 22:57 Jev's run recommendation agrees with this choice; no override needed.
 - 2026-10-30 22:57 Left the Add sheet title and the doc-only cleanup for later rounds to keep this round to one task.
+- 2026-10-30 22:59 Chose the verification-only run first because the last report was flagged and the notes rule (R77, flagged reports cleared before any new build) requires it.
+- 2026-10-30 22:59 Deferred new-recipe.tsx ingredientFrom macro fix until the flag is cleared, because it edits the same recents path and needs the five test files green first.
+- 2026-10-30 22:59 Kept the run to tsc, eslint on hooks.ts and the matching jest files so Claude Code usage stays low.
