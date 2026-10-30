@@ -712,3 +712,8 @@
 - 2026-10-31 01:02 Ran tsc once and node checks, not the full suite, because no test reads locale files and the rule limits full-suite runs to checkpoint rounds.
 - 2026-10-31 01:02 R194 verification came back green, so the R193 flag is cleared and the build task can proceed.
 - 2026-10-31 01:02 Did not pick the lastLoggedDaysAgo_one fix or the plan string this round: both touch component logic and are smaller in value than finishing the locale group the notes already queued.
+- 2026-10-31 01:03 Chose the R196 verification round because the loop note flags R195 (type check or tests not run) and the notes rule says a flagged report is cleared by a verification round before any new build.
+- 2026-10-31 01:03 Ran the full suite this round, despite the testing rule, because the flag explicitly says tests were not run. This is the one exception and it is recorded here.
+- 2026-10-31 01:03 Kept the verification prompt read-only so the flag clears without new changes.
+- 2026-10-31 01:03 Next build is es.json goals, because locale order is en, es, fr and the es gap is the smallest open item.
+- 2026-10-31 01:03 Jev recommends run at 92%, and the clean-finish estimate is 80%. Matches my choice.
