@@ -41,3 +41,7 @@
 - 2026-10-30 22:34 Kept the macros-visible decision from Isa r39 (food detail search shows macros) and removed macros={false} in the search branch.
 - 2026-10-30 22:34 Asked jest to run on src/lib/food/detailSubject via path pattern, since the test file name is not in the notes.
 - 2026-10-30 22:34 Parked the recents bug under next tasks rather than fixing it inside this one-file task.
+- 2026-10-30 22:35 Chose the foodDetail.test.ts fix over recents because the decision r50 says the test gate must be green before any new product task, and the last report was flagged for failed tests.
+- 2026-10-30 22:35 Treated the energy-only test as out of date, not the code, because decision (e) and step 4 approve macros on food detail search.
+- 2026-10-30 22:35 Marked food data path step 3 as done: the r53 report confirmed the code already meets it, with no edit needed.
+- 2026-10-30 22:35 Left the detailSubject.ts stale comment and the recents macro gap to later rounds as NEXT items, to keep this round to one file.

@@ -113,9 +113,12 @@ describe('the sheet still carries the capabilities it absorbed', () => {
     expect(sheet).toContain('servings={p.servingOptions}');
   });
 
-  test('the search catalog is treated as energy-only', () => {
-    expect(sheet).toContain('macros={false}');
-    expect(sheet).toContain('calories only');
+  test('the search branch shows macros from the subject', () => {
+    const search = sheet.slice(sheet.indexOf("subject.mode === 'search'"), sheet.indexOf("subject.mode === 'barcode'"));
+    expect(search).toMatch(/^\s+macros$/m);
+    expect(search).toContain('subject.proteinPer100');
+    expect(search).toContain('subject.carbsPer100');
+    expect(search).toContain('subject.fatPer100');
   });
 
   test('logging still names the entry method it came from', () => {
