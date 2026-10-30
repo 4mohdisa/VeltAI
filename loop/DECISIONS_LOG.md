@@ -794,3 +794,6 @@
 - 2026-10-31 01:22 Placement rule: keep nutrition at its en.json position relative to existing fr groups, and report any move under NEXT rather than reordering other groups.
 - 2026-10-31 01:22 R214 report accepted as verification of R213 (tsc 0, JSON ok, fr dashboard keys in order, full suite 65/65, 824/824, 4/4 snapshots). Flag cleared.
 - 2026-10-31 01:22 Jev 94% run agreed with my choice of run.
+- 2026-10-31 01:23 Chose verification of R215 because the loop note flagged the last report for tsc or Jest not being run; the flagged report must be cleared before a new build task (Notes rule).
+- 2026-10-31 01:23 Kept the check read-only and named the gap row as none, since no UI changes.
+- 2026-10-31 01:23 Full suite run is justified because this is the verification round for a Jest-skipped build round, per the testing rules.
