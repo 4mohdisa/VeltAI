@@ -775,3 +775,8 @@
 - 2026-10-31 01:18 Full suite run in this verification round, because the two prior rounds skipped Jest. This is the only round that runs the full suite.
 - 2026-10-31 01:18 Read-only round: no edits, so the flag is cleared on evidence, not by another change.
 - 2026-10-31 01:18 Kept the fr dashboard group and the index.tsx:121 label for the following rounds, per the Next list order.
+- 2026-10-31 01:19 Kept the checkpoint. The loop note says this round is a checkpoint and sets the task, which Jev cannot see. A green baseline should come before the next locale edit.
+- 2026-10-31 01:19 fr dashboard group moves to R213, first in Next, once the checkpoint is green.
+- 2026-10-31 01:19 Rewrote notes under 600 words: merged repeated items, deleted finished work, kept all Decisions lines.
+- 2026-10-31 01:19 R209 and R210 flags are cleared by R211, which already ran the full suite and reported green.
+- 2026-10-31 01:19 Dropped the old fr gymLog.celebration gotcha, because R207 already made the streak keys count-based.
