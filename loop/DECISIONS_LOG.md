@@ -914,3 +914,6 @@
 - 2026-10-31 01:50 The flag says the type check or tests were not run. A tsc-only read-only check clears it without a full Jest run, which is due at R247 anyway.
 - 2026-10-31 01:50 Dropped the R244 NEXT suggestion of a render test for the 11pm-to-9am case, per the R243 decision: no new test suites.
 - 2026-10-31 01:50 Kept the plan.tsx:120 hardcoded string as the next build task after the flag is cleared, in the existing order.
+- 2026-10-31 01:51 Chose a read-only tsc and full Jest run to clear the flag. Jest has not run since R242, so the flag is valid and a type check alone is not enough.
+- 2026-10-31 01:51 Declined the render-test NEXT from the last report, because the R243 rule bans new test suites.
+- 2026-10-31 01:51 Rewrote the notes under 600 words. No decision was deleted; repeated items are merged.
