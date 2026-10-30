@@ -741,3 +741,7 @@
 - 2026-10-31 01:08 Did not ask Isa about apostrophe style: the existing fr strings set the pattern, so Claude Code follows them.
 - 2026-10-31 01:08 R203: rewrote the rejected R202 prompt for the same fr gymLog task. Added the loop/design-match branch rule, named the design file, and gave the gap row as none. Reason: the loop note said the prompt was rejected for the missing branch rule.
 - 2026-10-31 01:08 Chose fr gymLog over the other fr groups and SLOT_KEYS. Reason: it is the smallest task, needs nothing from Isa, and is the next item in Next.
+- 2026-10-31 01:10 Flag on R203 cleared first with a read-only verification round, per the rule that flagged reports are cleared before a new build task. Full suite allowed because the flag says tests were not run.
+- 2026-10-31 01:10 Jev and my pick agree on run. Chose the verification round, not es gymLog, because the flag is open.
+- 2026-10-31 01:10 French streak label ('1 jours d’affilée') moved from Blocked to Parked. It needs a count-based key, a change to log-session.tsx and matching en and es edits, so it is not a one-locale round. Not an Isa question: the defaults cover it.
+- 2026-10-31 01:10 Mixed apostrophe use (goals straight, savedMeals and gymLog U+2019) goes under native review, not a separate fix now.
