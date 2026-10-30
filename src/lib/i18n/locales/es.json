@@ -96,7 +96,14 @@
     "deleteMealMessage_other": "Esto elimina {{count}} elementos y recalcula los totales del día.",
     "deleteMealConfirm": "Eliminar",
     "deleteMealHint": "Mantén pulsado para eliminar todo lo registrado en {{slot}}",
-    "noMatchesHint": "Prueba otro nombre o añádelo como comida personalizada."
+    "openFood": "Abrir {{name}}",
+    "noMatchesHint": "Prueba otro nombre o añádelo como comida personalizada.",
+    "conflict": {
+      "halal": "Puede que no coincida con tu preferencia halal",
+      "vegan": "Puede que no coincida con tu preferencia vegana",
+      "vegetarian": "Puede que no coincida con tu preferencia vegetariana",
+      "gluten_free": "Puede que no coincida con tu preferencia sin gluten"
+    }
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

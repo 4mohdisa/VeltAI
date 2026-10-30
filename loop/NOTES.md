@@ -26,6 +26,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Flagged reports must be cleared by a verification round before a new build task.
 - Every prompt must state the loop/design-match branch and forbid git commands.
 - Verification rounds list the exact test paths run and state what they cover.
+- No new test suites or render tests for the loop to write (brief rule). Isa verifies UI himself. Coverage gaps are recorded as unverified, not tested.
 
 ## Built (not verified)
 - NumberEntryBar shared: quick-add, food detail, gym session, PlannedValuesForm.
@@ -41,8 +42,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151 (tsc 0, 65 suites, 824 tests).
 - Targeted since R145: R146 (30 suites, 510 tests), R147 (8 suites, 119 tests). R148 to R150: tsc 0; en, es, fr JSON parse OK.
 - R152: tsc 0 and fr JSON parse ok reported. No tests were run; flagged.
-- R153: tsc 0; en, es, fr JSON parse OK; jest 42 suites, 647 tests, 4 snapshots, all passed. Matching was by loose name ('add' matched unrelated files), so coverage of food.tsx, add.tsx and i18n is not confirmed. Flagged 'task looks only partly done'.
-- R154 is a strict verification round: exact jest path list and coverage statement. It must clear the R153 flag before any build task.
+- R153: tsc 0; en, es, fr JSON parse OK; jest 42 suites, 647 tests, 4 snapshots, all passed. Loose name matching; coverage of food.tsx, add.tsx and i18n not confirmed. Flagged.
+- R154 (strict verification, cleared R153 flag): tsc 0; en, es, fr JSON parse OK. Jest exact paths: foodDates.test.ts, foodDetail.test.ts, foodMealMove.test.ts, render/foodDetailLogged.render.test.tsx. 4 suites, 67 tests, all passed, 0 snapshots. Coverage: none of these import or render src/app/food/add.tsx, src/app/(tabs)/food.tsx or src/lib/i18n. So no test covers the Add sheet title, food log labels, hint, toast or any locale value. Those stay BUILT, unverified.
 - No test renders the add title, slot heading, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -54,7 +55,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
-- es missing foodLog.openFood and foodLog.conflict group.
+- es missing foodLog.openFood and foodLog.conflict group (in progress R155).
 - Locale wording: fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'; fr has 2 es keys.
 - fr review items from R152: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ?, 'Maintenez' in deleteMealHint, 'a Petit-dejeuner'.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
@@ -83,13 +84,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Global SegmentedField inset; food search sheet; single scanner with modes; compact chip padding.
 - Code: mixHex helper; goals.tsx copy; CONFLICT_KEYWORDS untyped; router.setParams history; blinking caret; Math.round in draft().
 - Recipe fibre saved as 0.
+- Food tab render test for add labels, hint and toast (needs a new test suite; not allowed by the brief).
 
 ## Next
-1. R154 (in progress): strict verification. Run tsc, JSON parse of en/es/fr, and jest on the exact food, add and i18n test paths, with the coverage statement. No edits. Clears the R153 flag.
-2. es.json foodLog.openFood and foodLog.conflict group (one file per round).
-3. SavedMealsList.tsx :59, :63 (locale keys; en first, then es, then fr).
-4. plan.tsx :85, :97.
-5. es locale gaps: mealDeleted, addedToMeal, deleteMeal. One file per round.
+1. R155 (in progress): es.json foodLog.openFood and foodLog.conflict group. One file, locale only.
+2. SavedMealsList.tsx :59, :63 (locale keys; en first, then es, then fr).
+3. plan.tsx :85, :97.
+4. es locale gaps: mealDeleted, addedToMeal, deleteMeal. One file per round.
+5. fr locale wording fixes listed above, one file per round.
 6. Add sheet icons to design SVGs, one per round.
 7. Consolidate SLOT_KEYS, one file per round.
 8. If nothing non-gym remains: stop with 'only owner decisions remain'.
@@ -98,9 +100,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Prompts rejected for no design/ file were rewritten with design/Lume App.html named.
 - R152 prompt rejected before it ran for not naming design/. Rewritten.
 - R153 prompt rejected before it ran for not naming the loop/design-match branch. Rewritten with branch and no-git rule.
-- R152 report flagged: tests not run. R153 was the verification round.
-- R153 report flagged again: 'task looks only partly done'. Loose jest matching. R154 is the strict re-check.
-- Flags: R144, R146, R148, R149, R150, R152, R153. R151 full checkpoint green, flag cleared.
+- R152 report flagged: tests not run. R153 flagged: 'task looks only partly done'. R154 strict re-check ran exact paths and cleared the flag; its coverage gap is recorded above.
+- R154 NEXT suggested a render test for the food tab. Declined: brief forbids new test suites.
+- Flags: R144, R146, R148, R149, R150, R152, R153. R151 full checkpoint green. R154 cleared R153.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 
@@ -113,3 +115,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - 'Snacks' is in src/lib/mock/data.ts:48, key snack. Slot 'Snacks' maps to key snack.
 - Shared Button in src/components/forms affects all callers; override locally first.
 - Quote paths containing parentheses, such as src/app/(tabs)/food.tsx, in shell commands.
+- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep.
