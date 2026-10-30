@@ -215,3 +215,8 @@
 - 2026-10-30 23:16 Gap row referenced by topic, not number, because the exact row is not in the notes; the worker must find it by searching for new-recipe.
 - 2026-10-30 23:16 Ran no full suite and no new tests, per the testing rules and the notes rule that prompts run only related checks.
 - 2026-10-30 23:16 Kept the literal backslash-n comment fix in this round because it is in the same file and listed in the notes sequence for this file.
+- 2026-10-30 23:17 Chose verification-only over the hooks.ts fibre edit, because the rules say a flagged report is cleared by a verification-only or doc-only run before any new code edit.
+- 2026-10-30 23:17 Did not run Jest suites this round: grep shows no test covers new-recipe.tsx, and the rules limit tests to files changed.
+- 2026-10-30 23:17 Logged R92 as done and flagged in the Loop notes, and moved the hooks.ts fibre edit to after this verification round.
+- 2026-10-30 23:17 Kept Jev's run signal (81%) in view; it matches my choice of run. Jev's ask at 18% is covered by the owner device checks already in Blocked on Isa, so no new question is asked.
+- 2026-10-30 23:17 Left the stale NOTES lines 39, 42, 54 check in Next, to be done as a doc-only round after the hooks.ts fibre edit.
