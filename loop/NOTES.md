@@ -10,49 +10,46 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Isa: cardio Distance km; no food search chips; Goals as built; celebration card approved; already-logged routes to /gym/session; Summary card never calls logGymSession() with no args.
 - Celebration calories show a dash. Quick add detent fitToContents. Pill height by padding.
 - Macros stored unrounded, display rounds. Gym duration logged when above 0. Grid 1fr 1fr, 12pt gap.
-- Add sheet row 90 BUILT at Isa's instruction (PARTIAL MATCH). Negative margin at add.tsx:68 accepted; SheetContent is shared, not edited.
+- Add sheet row 90 BUILT at Isa's instruction. Negative margin at add.tsx:68 accepted; SheetContent is shared, not edited.
 - Slot key snack = 'Snacks'. Add sheet title lowercases translated slot; unknown slot falls back to 'Add meal'.
-- French and Spanish slot translations are agent translations ('vous' fr, 'tú' es).
-- voice and describeOutLoud stay in es.json until Isa approves removal.
-- Meal delete toast 'Removed {{slot}}' and dialog design defaults for casing and wording until Isa overrides.
-- Food log 'Add to Lunch' keeps its capital per Isa's brief; design lowercases. (Standing decision: do not lowercase at food.tsx :551 or :973.)
+- Food log 'Add to Lunch' keeps its capital per Isa's brief. Do not lowercase at food.tsx:552 or :975.
 - No fallback in the delete toast: slot is typed MealSlot.
-- SLOT_KEYS duplicated in add.tsx and food.tsx as instructed; share it if a third caller appears.
+- SLOT_KEYS duplicated in add.tsx and food.tsx; share it if a third caller appears.
 - Delete button key lives in foodLog; Cancel reuses common.cancel.
-- Flag rule outranks Jev ranking. Jev 'ask' overridden when the next task needs nothing from Isa.
+- voice and describeOutLoud stay in es.json until Isa approves removal.
+- Meal delete toast and dialog use design defaults for casing and wording until Isa overrides.
+- French and Spanish slot translations are agent translations ('vous' fr, 'tu' es).
 - Prompts: one task, one editable file, name design/ file and gap row (or 'none'). No git. Branch loop/design-match only.
 - Checkpoints: full tsc and full app suite, no file changes.
 - Locale keys: add to en first, then es, then fr, one file per round.
+- Flag rule outranks Jev ranking. Jev 'ask' overridden when the next task needs nothing from Isa.
 
 ## Built (not verified)
 - NumberEntryBar shared: quick-add, food detail, gym session, PlannedValuesForm.
-- Food Add sheet (row 90): title, +100 g toast, tile columns, SLOT_KEYS in add.tsx.
-- Goals restyle; gym 'How did it go?' chooser; row 17 steps 1-2 (CelebrationCard); gym duration honesty.
+- Food Add sheet (row 90), gym 'How did it go?' chooser, Goals restyle, CelebrationCard (row 17 steps 1-2), gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
-- Recents macros per 100 g incl. fibre (hooks.ts); new-recipe.tsx sums fibre.
-- Locales: en addMenu 20 keys; es 22; fr 20. en foodLog.mealDeleted, deleteMealTitle, deleteMealMessage_one/_other, deleteMealConfirm.
-- food.tsx delete dialog and toast read translated keys; English wording unchanged; no test covers it.
-- food.tsx slot heading and VoiceOver strings use translated slot names via local SLOT_KEYS (line 84). confirmDeleteMeal takes t.
-- R142: food.tsx 'Add to' VoiceOver labels at 539 and 795 use t('foodLog.addToMeal', { slot }).
-- R143: food.tsx toast at line 390 uses t(`addMenu.${SLOT_KEYS[addSlot]}`).toLowerCase(). Toast still reads 'added to snacks' for Snacks; Isa to confirm.
+- Recents macros per 100 g incl. fibre; new-recipe.tsx sums fibre.
+- food.tsx: local SLOT_KEYS (line 84); slot heading, VoiceOver, 'Add to' labels (539, 795), toast (390), delete dialog and toast use translated keys.
+- en.json: foodLog.deleteMealHint (R144, unverified). es and fr lack it.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140 (tsc 0, 65 suites, 824 tests).
-- Targeted only: R131, R133, R136, R138, R141, R142, R143 (tsc 0; R143 also 6 food suites, 111 tests).
-- No test renders the add.tsx title, food.tsx slot heading, MealSectionHeader, delete dialog, toast or the 'Add to' VoiceOver labels. No test reads locale files.
+- Targeted only since R140: R131, R133, R136, R138, R141, R142, R143, R144 (R144 ran no suites).
+- No test renders the add.tsx title, food.tsx slot heading, MealSectionHeader, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- food.tsx hint at 771 'Long press to delete everything logged to' hardcoded. Key foodLog.deleteMealHint added to en in R144 (this round). food.tsx to use it next, then es, then fr.
+- food.tsx:771 hint hardcoded English. Use foodLog.deleteMealHint with slot t(`addMenu.${SLOT_KEYS[slot]}`).
+- food.tsx:539, :795 'Add to' text hardcoded (labels done; check visible text).
 - SavedMealsList.tsx :59, :63 hardcoded English toasts. plan.tsx :85 'Suggested:', :97 'Add ${entry.title}'.
-- foodLog.addedToMeal, mealDeleted and the deleteMeal keys missing in es.json and fr.json.
+- es.json and fr.json lack deleteMealHint, addedToMeal, mealDeleted, deleteMeal keys.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
-- Add sheet icons are SF Symbols, not design SVGs. Scan routes split; Search foods goes to food tab.
+- Add sheet icons are SF Symbols, not design SVGs.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- Recipe Total shows 0g fibre when unknown. Saved foods drop fibre; recents fibre not displayed. detail.tsx num() rounds on save.
-- Locales: es voice and describeOutLoud unused; fr foodLog has 2 es keys; fr 'à petit-déjeuner' should be 'au'; es 'Añadir a Desayuno' should be 'Añadir al desayuno'. Native review needed.
+- Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
+- Locales: es voice and describeOutLoud unused; fr foodLog has 2 es keys; fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'. Native review needed.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press delete not discoverable (design call open).
 
@@ -62,15 +59,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Search foods tile routing; global + title default.
 - Quick add 17/22 vs 17/24.
 - Add sheet 0pt gap on no-inset devices: acceptable?
-- Confirm 'Snacks' English label, and whether 'added to snacks' toast wording is acceptable.
-- Last-hour modified-files check: keep or round-scoped only.
-- Device runs: Add sheet; recipe and fibre; quick add; celebration card; meal delete dialog (singular and plural), 'Removed {{slot}}', header plus VoiceOver labels.
+- 'Snacks' English label; 'added to snacks' toast wording.
+- Device runs: Add sheet; recipe and fibre; quick add; celebration card; meal delete dialog (singular and plural), 'Removed {{slot}}', header and VoiceOver.
 - Meal delete has no gap row: add one?
 - Macro types for food detail (data model change, parked).
 - Native review of fr and es addMenu.
 - Remove es voice and describeOutLoud.
-- Lowercase 'Add to' and delete wording: design defaults apply unless Isa overrides.
-- 'Add to Lunch' capitals: standing decision keeps capital; confirm or override.
+- 'Add to Lunch' capitals: confirm or override. Delete and Removed wording: design defaults apply.
+- Last-hour modified-files check: keep or round-scoped only.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -83,11 +79,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests for food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx, add.tsx title, MealSectionHeader. No locale tests. No confirmDeleteMeal test.
 
 ## Next
-1. R144 (now): en.json only, add foodLog.deleteMealHint = 'Long press to delete everything logged to {{slot}}' (matches food.tsx:771 wording).
-2. Next round: food.tsx line 771 uses t('foodLog.deleteMealHint', { slot }). One file.
-3. es.json then fr.json for deleteMealHint, one file per round.
+1. R145 (now): checkpoint, full tsc and full app suite, no file changes. Clears the R144 flag.
+2. food.tsx:771 uses t('foodLog.deleteMealHint', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }). One file.
+3. es.json then fr.json: deleteMealHint, one file per round.
 4. es.json then fr.json: addedToMeal, mealDeleted, deleteMeal keys.
-5. SavedMealsList.tsx :59, :63 (locale keys if no existing ones fit).
+5. SavedMealsList.tsx :59, :63 (locale keys if none fit).
 6. plan.tsx :85, :97.
 7. Add sheet icons: SF Symbols to design SVGs, one per round.
 8. Consolidate SLOT_KEYS, one file per round.
@@ -95,20 +91,17 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 10. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
-- Prompts rejected for no design/ file: R89, R99, R117, R125, R139. R123 had no branch line. All rewritten.
-- R134 split into R135 and R136. R135, R137 untested at the time. R138 flagged; R140 checkpoint green.
-- R141 report flagged as partly done; R142 handled 539 and 795.
-- R143 reported done. Its handover summary still listed 390 and 539/795 as open; notes are newer and authoritative.
+- Prompts rejected for no design/ file: R89, R99, R117, R125, R139, R146 (checkpoint lacked design/ reference). All rewritten with design/Lume App.html named.
+- R144 flagged: no suites run. Checkpoint R145 chosen over Jev's food.tsx:771 pick (86%) because the flag rule outranks Jev.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 
 ## Gotchas
-- Design is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; decoded copy was at 71f71ac4 (food).
+- Design is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; decoded copy was at 71f71ac4 (food). Grep the decoded copy for copy such as 'Long press'.
 - --findRelatedTests misses source-reading tests; grep src/__tests__.
-- Use LC_ALL=C /usr/bin/grep. Shell grep is ugrep. Grep before citing line numbers. Earlier brief line numbers 551/973 were really 552/975. SLOT_KEYS is now at line 84.
+- Use LC_ALL=C /usr/bin/grep. Shell grep is ugrep. Grep before citing line numbers.
 - Exclude the .snap match when passing grep results to jest.
 - Locales: src/lib/i18n/locales/. Check key order against en.json.
 - src/lib/i18n/index.ts fixes lng to 'en', so es and fr are not on screen.
-- App slot 'Snacks' is in src/lib/mock/data.ts:48, key snack. slot.toLowerCase() finds nothing for it.
+- Slot 'Snacks' is in src/lib/mock/data.ts:48, key snack. slot.toLowerCase() finds nothing for it.
 - Shared Button in src/components/forms affects all callers: override locally first.
-- Handover file: loop/HANDOVER.md. Its summary conflicted with notes; the R140 checkpoint settled it.
