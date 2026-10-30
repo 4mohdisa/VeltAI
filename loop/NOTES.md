@@ -26,6 +26,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R95: Jev ranked the fibre edit first (92%). Kept the verification-only run first, per the flag rule above. Fibre edit is R96.
 - R96: recents fibre stays undefined when unknown (not 0). Recipe save still 0 by model limit.
 - R102: checkpoint chosen after the R101 flag (tsc and tests not run). Jev ranked run first at 95%.
+- R103: handover RECOMMENDED NEXT (recents fibre) is stale; recents fibre was done in R96. Did not repeat it.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -35,6 +36,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents macros per 100 g in hooks.ts, including fibre (R96; undefined when unknown; not verified by any test). new-recipe.tsx ingredientFrom scales protein, carbs, fat, fibre by grams; editRow carries fibre. No test covers new-recipe.tsx.
 - DESIGN_GAP_ANALYSIS.md: 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
 - Checkpoint R88 green: tsc 0 errors, 65/65 suites, 824/824 tests.
+- Checkpoint R102 green: tsc 0 errors, 65/65 suites, 824/824 tests.
 
 ## Open differences
 - Add sheet: SF Symbols not design SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab; correction row shows a cross beside BUILT text.
@@ -45,7 +47,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Rounded calories can drift in new-recipe edit path and recents.
-- new-recipe.tsx totals (around lines 64-72) omit fibre.
+- new-recipe.tsx totals (around lines 64-72) omit fibre. R103 fixes this; re-check after the round.
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx by path.
 
 ## Blocked on Isa
@@ -60,14 +62,13 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device run, owner checks: quick add fit and no collapse, NumberEntryBar above keyboard, pill, compact chips, MEAL caption, toast; Add sheet title and tile grid at 320pt and 430pt; celebration flow (row 17 step 3); recipe macros.
 
 ## Next
-1. R102 (this round): checkpoint. Full tsc and full app suite, no file changes. Clears the R101 flag if green.
-2. R103: add fibre to totals in src/app/food/new-recipe.tsx (own round, one file).
-3. Stop logging missing macros as 0 in src/app/food/detail.tsx (own round). Same for quickAdd (own round).
-4. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
-5. Locale keys: es.json and fr.json, own round.
-6. Doc-only: re-read loop/NOTES.md lines 39, 42, 54 (may be stale) and correct.
-7. Checkpoint: full tsc and full app suite, no file changes.
-8. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R103 (this round): add fibre to the totals in src/app/food/new-recipe.tsx (one file, tsc and eslint only).
+2. R104: stop logging missing macros as 0 in src/app/food/detail.tsx (own round). Same for quickAdd (own round).
+3. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
+4. Locale keys: es.json and fr.json, own round.
+5. Doc-only: re-read loop/NOTES.md lines 39, 42, 54 (may be stale) and correct.
+6. Checkpoint: full tsc and full app suite, no file changes.
+7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
@@ -89,7 +90,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R99: prompt rejected (no design/ file named). Rewritten as verification-only. Green: tsc 0, eslint clean, 33/33 hooks tests. Flagged as partly done.
 - R100: doc-only wording fix (line about 1046 in DESIGN_GAP_ANALYSIS.md, 'show' changed to 'carry'). Flagged: no type check or tests run.
 - R101: verification-only run (tsc, eslint on touched files, no edits). Green: tsc 0, eslint clean. Flagged: tests not run and no full suite.
-- R102: checkpoint round, full tsc and full app suite, no file changes, requested by loop note.
+- R102: checkpoint round, full tsc and full app suite, no file changes. Green: tsc 0, 65/65 suites, 824/824 tests. R101 flag cleared.
+- R103: one-file fibre totals fix in new-recipe.tsx, tsc once and eslint on the file. No jest (no test covers the file).
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.

@@ -67,8 +67,9 @@ export default function NewRecipeScreen() {
       protein: a.protein + it.protein,
       carbs: a.carbs + it.carbs,
       fat: a.fat + it.fat,
+      fibre: a.fibre + it.fibre,
     }),
-    { calories: 0, protein: 0, carbs: 0, fat: 0 },
+    { calories: 0, protein: 0, carbs: 0, fat: 0, fibre: 0 },
   );
 
   const openSearch = () => {
@@ -173,9 +174,9 @@ export default function NewRecipeScreen() {
         <Card variant="elevated">
           <Text variant="footnote" color={color.secondaryLabel}>
             {/* Kcal-only catalog → all-zero macros are meaningless; show calories only. */}
-            {totals.protein + totals.carbs + totals.fat === 0
+            {totals.protein + totals.carbs + totals.fat + totals.fibre === 0
               ? `Total: ${formatNumber(totals.calories)} kcal`
-              : `Total: ${formatNumber(totals.calories)} kcal · ${Math.round(totals.protein)}g protein · ${Math.round(totals.carbs)}g carbs · ${Math.round(totals.fat)}g fat`}
+              : `Total: ${formatNumber(totals.calories)} kcal · ${Math.round(totals.protein)}g protein · ${Math.round(totals.carbs)}g carbs · ${Math.round(totals.fat)}g fat · ${Math.round(totals.fibre)}g fibre`}
           </Text>
         </Card>
       ) : null}

@@ -260,3 +260,8 @@
 - 2026-10-30 23:26 Kept the checkpoint to tsc and the app suite only, with no file changes, as the loop note requires.
 - 2026-10-30 23:26 Superseded the handover's recommended next (recents fibre in hooks.ts). That work was done in R96, so it is no longer open.
 - 2026-10-30 23:26 Re-sequenced the Next list so the fibre totals fix in new-recipe.tsx follows the checkpoint at R103.
+- 2026-10-30 23:27 Chose the recipe totals fibre fix (candidate 1) because it is one file, needs nothing from Isa, and was the planned R103 step.
+- 2026-10-30 23:27 R102 checkpoint was green (tsc 0, 65/65 suites, 824/824 tests) with no file changes, so the R101 flag is cleared.
+- 2026-10-30 23:27 The handover's RECOMMENDED NEXT (fibre in useFoodSearch recents) is stale. Notes record it as done in R96, so I did not repeat it.
+- 2026-10-30 23:27 Named the recipe builder as having no design counterpart, so the prompt does not claim a design match. Recorded in notes.
+- 2026-10-30 23:27 Doc-only checks deferred. Re-reading loop/NOTES.md lines 39, 42 and 54 stays in the Next list.
