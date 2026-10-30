@@ -282,3 +282,8 @@
 - 2026-10-30 23:31 Jev's ask signal overridden again: the chosen task is one file and needs nothing from Isa. The open questions are already in Blocked on Isa.
 - 2026-10-30 23:31 Chose the Add sheet padding over the locale keys (copy would have to be guessed) and over the doc fix (doc edits get their own round, one editable file per prompt).
 - 2026-10-30 23:31 The Confirm label, device runs, Calories column, global + title and last-hour scan stay in Blocked on Isa.
+- 2026-10-30 23:33 Chose the doc-only run first: the R107 report was flagged as partly done, and the notes rule says a flagged report is cleared by a verification or doc-only run before new code.
+- 2026-10-30 23:33 Accepted the negative margin (marginBottom -space.xl on the tile grid in add.tsx) as an interim workaround. SheetContent is shared by other sheets and out of scope for a one-screen fix. Device check on a 34pt-inset iPhone stays with Isa.
+- 2026-10-30 23:33 Recorded the Add sheet bottom padding as BUILT (not verified). Section verdict stays PARTIAL MATCH.
+- 2026-10-30 23:33 Jev's run signal (86%) agrees with the chosen action; no override needed.
+- 2026-10-30 23:33 The handover's recommended next task (fibre in useFoodSearch recents) was already built in R92-R96, so it is not repeated.
