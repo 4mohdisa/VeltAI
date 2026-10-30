@@ -659,3 +659,7 @@
 - 2026-10-31 00:51 Excluded fr plan group from this round: the handover summary says fr has no plan group yet, but the notes list it as built. The prompt tells Claude Code to report it, not add it, so the conflict gets settled by reading the file.
 - 2026-10-31 00:51 Used French wording without a colon, to avoid the spacing-before-colon question still open for native review.
 - 2026-10-31 00:51 Kept the placeholder name read from en.json, not guessed, so interpolation matches the other locales.
+- 2026-10-31 00:52 Last report flagged (tsc and tests not run), so a read-only verification round goes first; the decision rule says flags are cleared before any build task.
+- 2026-10-31 00:52 Chose the verification round over SavedMealsList: it clears the flag and checks the conflicting fr.json plan status (handover says absent, report says present) in one step.
+- 2026-10-31 00:52 Rewrote the notes to under 600 words: merged repeated items, removed finished work, kept all decisions.
+- 2026-10-31 00:52 Kept prompt to one read-only task with no edits, so Claude Code cannot add unrelated fixes.
