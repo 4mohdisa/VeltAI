@@ -682,3 +682,8 @@
 - 2026-10-31 00:56 Ran the full suite this round because the flag says tests were not run and earlier verification rounds were needed for the same reason.
 - 2026-10-31 00:56 Kept the round read-only with an instruction to stop and report on any failure, so a red check is not hidden under a new edit.
 - 2026-10-31 00:56 Jev also ranks run first (95%), so no second look was needed.
+- 2026-10-31 00:57 Chose the SavedMealsList strings task (candidate 1) because it is Next 2, clears a hardcoded-string gap, needs nothing from Isa and is small.
+- 2026-10-31 00:57 Kept this round to en.json only, because the notes rule is one locale file per round. es and fr keys follow in later rounds; lng is fixed to en, so nothing shows on screen in the meantime.
+- 2026-10-31 00:57 Did not run the full suite: R188 verification was green, and no test covers SavedMealsList. Type check and JSON parse are enough for this round.
+- 2026-10-31 00:57 Treated the R188 verification as complete and the R187 flag as cleared, based on the latest report (tsc 0, 65 suites, 824 tests, locale keys present).
+- 2026-10-31 00:57 Left the 'Why this plan' hardcoded string and the entry.title English slot names for later rounds, as they are separate tasks.

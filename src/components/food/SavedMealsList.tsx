@@ -82,8 +82,8 @@ export function SavedMealsList() {
     return (
       <EmptyState
         icon="bookmark"
-        title="No saved meals yet"
-        message="After logging the same meal 3 times, it appears here automatically. Or create one from a recipe."
+        title={t('savedMeals.emptyTitle')}
+        message={t('savedMeals.emptyMessage')}
       />
     );
   }
@@ -99,14 +99,14 @@ export function SavedMealsList() {
             <View style={{ gap: space.sm }}>
               <CardHeaderRow title={m.name} icon="bookmark" tint={accent.turquoise} />
               <Text variant="footnote" color={color.secondaryLabel}>
-                {formatCalories(m.total_calories)} · {m.items.length} {m.items.length === 1 ? 'item' : 'items'}
+                {formatCalories(m.total_calories)} · {t('savedMeals.itemCount', { count: m.items.length })}
               </Text>
               <Text variant="caption" color={color.secondaryLabel}>
                 {lastLoggedLabel(m.last_logged, t)}
               </Text>
               <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>
                 <Button
-                  title="Log now"
+                  title={t('savedMeals.logNow')}
                   variant="secondary"
                   fullWidth={false}
                   loading={loggingId === m.id}

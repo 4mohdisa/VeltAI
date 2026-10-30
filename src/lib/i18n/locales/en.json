@@ -114,7 +114,12 @@
     "lastLoggedYesterday": "Last logged yesterday",
     "lastLoggedDaysAgo_one": "Last logged {{count}} day ago",
     "lastLoggedDaysAgo_other": "Last logged {{count}} days ago",
-    "neverLogged": "Never logged"
+    "neverLogged": "Never logged",
+    "emptyTitle": "No saved meals yet",
+    "emptyMessage": "After logging the same meal 3 times, it appears here automatically. Or create one from a recipe.",
+    "itemCount_one": "{{count}} item",
+    "itemCount_other": "{{count}} items",
+    "logNow": "Log now"
   },
   "gymLog": {
     "title": "How did it go?",
