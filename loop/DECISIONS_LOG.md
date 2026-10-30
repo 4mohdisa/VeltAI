@@ -687,3 +687,8 @@
 - 2026-10-31 00:57 Did not run the full suite: R188 verification was green, and no test covers SavedMealsList. Type check and JSON parse are enough for this round.
 - 2026-10-31 00:57 Treated the R188 verification as complete and the R187 flag as cleared, based on the latest report (tsc 0, 65 suites, 824 tests, locale keys present).
 - 2026-10-31 00:57 Left the 'Why this plan' hardcoded string and the entry.title English slot names for later rounds, as they are separate tasks.
+- 2026-10-31 00:58 Chose the verification round first because the last report was flagged for a missing full suite run, and the notes rule is that flags are cleared before a new build task.
+- 2026-10-31 00:58 Used the full suite for this round because the last green checkpoint is R184 and many strings and components have changed since, matching the R186 and R188 precedent.
+- 2026-10-31 00:58 Kept the round to checks only with no edits, so the flag clears without adding new changes.
+- 2026-10-31 00:58 Kept action run because Jev gives run 95% and the task needs nothing from Isa.
+- 2026-10-31 00:58 Left the es and fr savedMeals keys and the unreachable branch fix as the next items, one task per round.
