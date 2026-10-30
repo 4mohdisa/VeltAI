@@ -441,3 +441,8 @@
 - 2026-10-31 00:08 Kept the prompt to no edits, so the checkpoint cannot change code while it verifies the state of the tree.
 - 2026-10-31 00:08 Handover summary conflicts with the notes: it lists the add.tsx slot title as in progress, but the notes record it as built at R131. The checkpoint will show whether the tree is green. Isa to verify the Add sheet on device.
 - 2026-10-31 00:08 Did not ask Isa anything this round: nothing here needs a dashboard, device or product decision.
+- 2026-10-31 00:09 Dealt with the loop flag by completing the task Claude Code's report named as NEXT (slot heading and VoiceOver labels), which was the partly done item.
+- 2026-10-31 00:09 Chose candidate 1 over the 'Add to' lowercase change: it is the open flagged item and touches only food.tsx.
+- 2026-10-31 00:09 Gap row stated as none, because the change is a translation fix with no layout change, and the prompt rule allows 'none'.
+- 2026-10-31 00:09 Jev ranked run at 98%, which matches this choice; no override needed.
+- 2026-10-31 00:09 Rewrote the notes below 600 words: merged repeated items, deleted finished work, kept all Decisions lines.

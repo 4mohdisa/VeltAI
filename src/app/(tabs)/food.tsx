@@ -536,7 +536,7 @@ export default function FoodLogScreen() {
               haptic={false}
               minTapTarget={false}
               onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
-              accessibilityLabel={`Add to ${section.slot}`}
+              accessibilityLabel={`Add to ${t(`addMenu.${SLOT_KEYS[section.slot]}`)}`}
               style={{
                 ...groupSurface(false, true),
                 paddingHorizontal: space.lg,
@@ -743,6 +743,7 @@ function MealSectionHeader({
   onAdd: () => void;
   onDeleteMeal?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -766,11 +767,11 @@ function MealSectionHeader({
         onLongPress={onDeleteMeal}
         disabled={!onDeleteMeal}
         accessibilityRole="header"
-        accessibilityLabel={`${slot}, ${formatEnergy(subtotal, energyUnit)}`}
-        accessibilityHint={onDeleteMeal ? `Long press to delete everything logged to ${slot}` : undefined}
+        accessibilityLabel={`${t(`addMenu.${SLOT_KEYS[slot]}`)}, ${formatEnergy(subtotal, energyUnit)}`}
+        accessibilityHint={onDeleteMeal ? `Long press to delete everything logged to ${t(`addMenu.${SLOT_KEYS[slot]}`)}` : undefined}
       >
         <Text variant="bodyMedium" color={color.label}>
-          {slot}
+          {t(`addMenu.${SLOT_KEYS[slot]}`)}
         </Text>
       </Pressable>
       <View
@@ -791,7 +792,7 @@ function MealSectionHeader({
         minTapTarget={false}
         onPress={onAdd}
         accessibilityRole="button"
-        accessibilityLabel={`Add to ${slot}`}
+        accessibilityLabel={`Add to ${t(`addMenu.${SLOT_KEYS[slot]}`)}`}
         style={{
           width: layout.tapTarget,
           height: layout.tapTarget,
