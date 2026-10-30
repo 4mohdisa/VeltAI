@@ -64,7 +64,7 @@ export default function QuickAddScreen() {
     setSubmitting(true);
     const name = 'Quick add';
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
-    let toast = `Added ${formatCalories(kcal)}.`;
+    let toast = `${formatCalories(kcal)} added to ${mealType.toLowerCase()}`;
     try {
       await api.foodLogs.quickAdd({ calories: kcal, meal_type: mealType, date: selectedFoodDate() });
     } catch (e) {

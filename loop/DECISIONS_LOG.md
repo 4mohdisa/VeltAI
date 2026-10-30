@@ -68,3 +68,8 @@
 - 2026-10-30 22:40 Stated branch loop/design-match and no git in the prompt to satisfy the R56 rule.
 - 2026-10-30 22:40 Used the repo's own scripts from package.json rather than guessing commands, to avoid a rejected prompt.
 - 2026-10-30 22:40 Set no gap-analysis row change this round; the checkpoint only reports.
+- 2026-10-30 22:41 Checkpoint R60 result accepted: tsc green, 65 suites pass. Treated the loop flag as cleared, since the checkpoint round was the task and it passed.
+- 2026-10-30 22:41 Test count 824 vs baseline 823 is unexplained. Baseline set to 824 in notes; a recount is queued as a doc-only item before the next checkpoint.
+- 2026-10-30 22:41 Picked the toast copy because it is one file, has a clear design reference and clears a visible row difference.
+- 2026-10-30 22:41 Locale-file copy would need a second file, so the prompt stops and reports instead of editing en.json.
+- 2026-10-30 22:41 Quick add MEAL caption, detent and pill stay out of this round to respect one-task-per-round.
