@@ -678,3 +678,7 @@
 - 2026-10-31 00:54 Used 'none' for the design row because plan screen localisation has no row in DESIGN_GAP_ANALYSIS.md.
 - 2026-10-31 00:54 Kept entry.title English at plan.tsx:101, as the route param requires. This also resolves the 'Añadir a Breakfast' issue for the title, but not for other slot labels.
 - 2026-10-31 00:54 Deferred the lastLoggedDaysAgo_one unreachable branch to after the plan task, since it is a logic fix and needs its own round.
+- 2026-10-31 00:56 Chose a verification round first because the last report was flagged for tests not run; the flagged-report rule requires clearing it before a new build task.
+- 2026-10-31 00:56 Ran the full suite this round because the flag says tests were not run and earlier verification rounds were needed for the same reason.
+- 2026-10-31 00:56 Kept the round read-only with an instruction to stop and report on any failure, so a red check is not hidden under a new edit.
+- 2026-10-31 00:56 Jev also ranks run first (95%), so no second look was needed.
