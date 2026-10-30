@@ -73,3 +73,7 @@
 - 2026-10-30 22:41 Picked the toast copy because it is one file, has a clear design reference and clears a visible row difference.
 - 2026-10-30 22:41 Locale-file copy would need a second file, so the prompt stops and reports instead of editing en.json.
 - 2026-10-30 22:41 Quick add MEAL caption, detent and pill stay out of this round to respect one-task-per-round.
+- 2026-10-30 22:42 Chose the MEAL caption over the Meal control: it is one file, while the control needs the compact SegmentedField option, which is a shared component and stays in progress.
+- 2026-10-30 22:42 Kept the offline toast out of scope: the design has no offline version, so there is nothing to match.
+- 2026-10-30 22:42 Skipped the jest run: no test imports quick-add.tsx, so tsc and eslint are the proportionate checks.
+- 2026-10-30 22:42 Marked the Quick add row as a one-line status edit only, so the gap analysis stays accurate without a full re-audit.

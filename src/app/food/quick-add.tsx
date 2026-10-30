@@ -161,13 +161,17 @@ export default function QuickAddScreen() {
           </View>
         )}
 
-        <SegmentedField<MealSlot>
-          label="Meal"
-          value={mealType}
-          onChange={setMealType}
-          options={SLOTS.map((s) => ({ label: s, value: s }))}
-          variant="inset"
-        />
+        <View style={{ gap: space.sm }}>
+          <Text variant="label" color={color.secondaryLabel} style={{ letterSpacing: 1.1, textTransform: 'uppercase' }}>
+            Meal
+          </Text>
+          <SegmentedField<MealSlot>
+            value={mealType}
+            onChange={setMealType}
+            options={SLOTS.map((s) => ({ label: s, value: s }))}
+            variant="inset"
+          />
+        </View>
 
         {editing ? null : (
           <Button title={`Add ${formatCalories(kcal)}`} onPress={() => void add()} disabled={invalid} loading={submitting} />

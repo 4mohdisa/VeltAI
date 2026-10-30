@@ -28,34 +28,37 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 steps 1-2: CelebrationCard.tsx opens from save().
 - Gym duration honesty (r48-49); gymDurationHonesty.test.ts.
 - Food data path steps 1-3: detailSubject macros, food.tsx pick passes macros, detail.tsx search reads subject macros; foodDetail.test.ts 31/31.
+- Quick add toast (R61 report): now reads '{kcal} added to {meal}' via formatCalories. Hardcoded English, not in en.json.
 
 ## Re-check findings (open)
 - Add sheet: title not meal-named; tile gap ~14pt not 12pt; SF Symbols not design SVGs.
-- Quick add: Meal control 13/17 semibold, 3pt padding; MEAL caption sentence case; toast copy; detent 0.6 not fit-content; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22.
+- Quick add: Meal control 13/17 semibold, 3pt padding; MEAL caption sentence case (in progress R61); detent 0.6 not fit-content; no blinking caret; confirm pill 56 vs 52pt, 17/24 vs 17/22; offline toast does not name the meal (no design equivalent).
 
 ## In progress
 - Compact segmented option for Quick add Meal: (a) check 11 inset callers vs design (doc-only); (b) add compact option to SegmentedField; (c) apply in quick-add.tsx.
+- MEAL caption uppercase in quick-add.tsx (R61 prompt issued).
 
 ## Blocked on Isa
 - Row 23 one-tap log: A = route onLog to log-session (index.tsx, oneTapGymLog.test.ts, V16 note); B = accepted deviation, doc-only. Asked r43, unanswered. Do not act.
 - Row 17 Calories: design needs profile weight (5.5 MET). Show dash or add formula? Do not invent a number.
 - Row 17 celebration Calories column: what it shows (raised r53).
+- Search foods tile routing accepted or not (raised r57; default is accepted, Isa to confirm).
 
 ## Next tasks
-1. Quick add toast copy in quick-add.tsx (in progress R60).
-2. Quick add MEAL caption: 13 semibold uppercase tracked label (check uppercase-labels parked item first).
+1. Quick add MEAL caption uppercase (R61, in progress).
+2. Quick add detent and confirm pill sizing in quick-add.tsx.
 3. Compact segmented option (see In progress).
-4. Recents: hooks.ts useFoodSearch drops macros; carry protein, carbs, fat per 100 g.
-5. quickAdd and detail.tsx log missing macros as 0; decide display or park.
-6. Add sheet title: 'Add to lunch' when opened from a meal.
-7. Quick add detent, blinking caret, confirm pill sizing.
+4. Quick add blinking caret (check parked item first).
+5. Recents: hooks.ts useFoodSearch drops macros; carry protein, carbs, fat per 100 g.
+6. quickAdd and detail.tsx log missing macros as 0; decide display or park.
+7. Add sheet title: 'Add to lunch' when opened from a meal.
 8. detailSubject.ts lines 25-27: stale comment.
 9. gymDurationHonesty.test.ts: rename stale 'Not set' title; cover 0-or-less case.
-10. Row 17: CelebrationCard footnote 'Push logged - streak extended'; Time shows a dash on empty plan.
+10. Row 17: CelebrationCard footnote 'Push logged - streak extended'; Time shows a dash on empty plan; card can show '0 min'.
 11. Row 23 per Isa's answer.
-12. i18n hardcoded toast copy in index.tsx and log-session.tsx.
+12. i18n hardcoded toast copy in index.tsx, log-session.tsx and quick-add.tsx.
 13. Food Search sheet (pill input, thumbnails, row metrics): plan first.
-14. Doc-only: status sync for /gym/session summary and row 18.
+14. Doc-only: status sync for /gym/session summary and row 18; Quick add row wording.
 15. Doc-only recount: list tests added since baseline to find the 824th test.
 16. Checkpoint (tsc, full jest) when the loop note asks.
 17. Remaining gym rows: Isa approval per item.
@@ -70,7 +73,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - es/fr locales lack new keys. CONFLICT_KEYWORDS not type-linked. Unused addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods.
 - router.setParams rewrites history. Dev catalog has calories only, so macro fixes are a no-op in dev.
 - Small a11y and copy: blinking caret; Math.round in draft(); Goals accessibilityState; English hints in food.tsx near 761 and 844; labels at add.tsx:70 and log-session.tsx:155; /gym/session shows planned not logged rows.
-- No render tests on food.tsx, detail.tsx or log-session.tsx (harness lacks SafeAreaProvider).
+- No render tests on food.tsx, detail.tsx, quick-add.tsx or log-session.tsx (harness lacks SafeAreaProvider).
 - Estimated gym duration is logged; backend derives kcal. Revisit if only measured durations should count.
 - Adjust and ticklist arrive checked, so 'Save progress?' fires on an untouched back-out.
 - Stale comments in src/app/_layout.tsx for add and quick sheets; stale detail sections in DESIGN_GAP_ANALYSIS.md for Add sheet and Quick add.
@@ -84,4 +87,5 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R57: flagged (checks not run); inset change parked.
 - R58: detailSubject comment chosen; flagged for checks not run.
 - R59: rejected (design file not named); rewritten as no-edit checkpoint.
-- R60: checkpoint green at 824 tests. Flagged as partly done; resolved by the checkpoint result. Notes rewritten under 600 words.
+- R60: checkpoint green at 824 tests. Flagged as partly done; resolved by the checkpoint result.
+- R61: toast copy done (tsc and eslint green). Next: MEAL caption, one file, same checks. Handover at R60 noted gotchas kept: adjust/ticklist dirty guard, dev catalog calories only.
