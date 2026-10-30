@@ -22,3 +22,8 @@
 - 2026-10-30 22:30 A derived duration of 0 is sent as undefined, never 0. Reason: a made-up 0 is recorded as logged time and feeds the energy balance, which is a data honesty bug.
 - 2026-10-30 22:30 Chose the save() fix over the test tightening because the bug is live in the save path. The test change follows in its own round (one file per task).
 - 2026-10-30 22:30 sheetVariant.test.ts stays after the duration fix. Reason: it is a test-only stale assertion with no user impact.
+- 2026-10-30 22:31 Chose the failing-gate repair first: the last report flagged a red test run and the loop note says deal with it before moving on.
+- 2026-10-30 22:31 Kept the rule as written: derived 0 is sent as undefined, and the estimate uses ?? as the report described. The || fallback question is parked for Isa rather than changed silently.
+- 2026-10-30 22:31 Kept the test title rename out of this task to respect the one-task rule. It goes to the next round.
+- 2026-10-30 22:31 Did not fix the celebration card showing 0 min. Parked, because it is a display question for the card wiring.
+- 2026-10-30 22:31 Jev recommended run at 97%; agreed with run.
