@@ -22,29 +22,32 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recipe builder (/food/new-recipe) has no design counterpart.
 - Add sheet summary row BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
 - Round-scoped modified-file checks only.
-- R106: Jev's 'ask' signal overridden; next task needs nothing from Isa (see Loop notes).
+- Missing macros: a data model change, so parked, not asked (R107).
+- R106: Jev's 'ask' signal overridden; next task needs nothing from Isa. R107: same reason.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
-- Food Add sheet: title 'Add to {meal}', + logs 100 g with toast, two equal tile columns.
+- Food Add sheet: title 'Add to {meal}', + logs 100 g with toast, two equal tile columns (flexGrow 1, flexBasis 40%, gap space.md).
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control. SegmentedField compact prop.
-- Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales macros and fibre by grams; totals sum fibre.
+- Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales macros and fibre by grams; ingredientFrom and editRow carry them back.
 - DESIGN_GAP_ANALYSIS.md: 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
 - Checkpoints R88 and R102 green (tsc 0, 65/65 suites, 824/824 tests).
 
 ## Open differences
-- Add sheet: SF Symbols not SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab; correction row shows a cross beside BUILT.
+- Add sheet: SF Symbols not SVGs; scan routes split; bottom padding 54pt vs design value (R107 task); Search foods tile goes to food tab; correction row shows a cross beside BUILT.
 - Quick add (row 87): no blinking caret; own flex:1 KeyboardAvoidingView; hardcoded English; offline toast names no meal; Meal chip padding, no background transition; confirm label 17/24 vs 17/22; Meal chip label token unconfirmed.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- food/detail.tsx and quickAdd log missing macros as 0 (R106 fixes detail.tsx; quickAdd is R107).
+- food/detail.tsx and quickAdd log missing macros as 0. Parked: needs a type change across FoodItem, NewFoodItem, DetailItem, logInputFromItem and the summing code in foodStore.ts, mappers.ts and hooks.ts.
+- Saved foods lose fibre: editSavedFood and saveFood in detail.tsx omit fibre although SavedFood.fibre exists.
+- Rounded macros: num() in detail.tsx rounds macros when saving; search seed and applyGrams round too. Conflicts with the unrounded decision.
 - Food Search: recents fibre carried in hooks.ts, not displayed.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Rounded calories can drift in new-recipe editRow and recents.
-- new-recipe Total shows 0g fibre when unknown (stored as 0).
+- new-recipe Total omits fibre; shows 0g fibre when unknown (stored as 0).
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx.
-- Doc: DESIGN_GAP_ANALYSIS.md correction row for food detail to be updated in a doc-only round.
+- Doc: DESIGN_GAP_ANALYSIS.md food detail correction row and the cross beside BUILT in the Add sheet correction row, to be fixed in a doc-only round.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route to log-session, or accepted deviation (since r43).
@@ -53,24 +56,25 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add confirm 17/22: Button prop, change bodyBold for all callers, or accept 17/24.
 - Global + title: keep 'Add meal' or name a default meal.
 - Add sheet status label: BUILT or PARTIAL.
-- Last-hour modified-files check: keep, or round-scoped scan only.
+- Last-hour modified-files check: keep, or round-scoped scan only. Failed last time (20 files, from earlier rounds); a round-scoped scan was empty.
 - Device runs: recipe flow (fibre totals, recents fibre, 0g when unknown, save); quick add (fit, NumberEntryBar, pill, chips, MEAL caption, toast); Add sheet grid at 320pt and 430pt; celebration flow (row 17 step 3).
 
 ## Next
-1. R106 (this round): stop logging missing macros as 0 in src/app/food/detail.tsx. tsc once; jest findRelatedTests on that file.
-2. R107: same for quickAdd.
-3. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
-4. Locale keys: es.json and fr.json.
-5. Doc-only: re-read loop/NOTES.md lines 39, 42, 54 and correct; update food detail row in DESIGN_GAP_ANALYSIS.md.
-6. Checkpoint: full tsc and full app suite, no file changes.
-7. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R107 (this round): Add sheet bottom padding to the design value in src/app/food/add.tsx only. tsc once; jest on the add-screen test files by path.
+2. Locale keys: es.json addMenu.addToSlot; fr.json addMenu.title and addToSlot. Use design copy only.
+3. Doc-only: fix the food detail correction row and the cross beside BUILT; re-read loop/NOTES.md lines 39, 42, 54 and correct them. No tests.
+4. Add sheet icons (SF Symbols to design SVGs) and scan routes, one at a time, in src/app/food/add.tsx.
+5. Checkpoint: full tsc and full app suite, no file changes.
+6. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
+- Missing macros as 0 in food/detail.tsx and quickAdd: needs a data model change across types and totals (R106 finding). Option: make the three macros optional on FoodItem, NewFoodItem, DetailItem and logInputFromItem, and count missing as 0 only when summing. Backend storage of macros not yet checked.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration logged.
 - Row 17: rest-day and /gym/session exits show no card; pop-in; ring vs flame.
 - Global SegmentedField inset; food search sheet; single scanner with modes; compact chip padding and transition.
 - Code: mixHex to shared helper, goals.tsx copy, CONFLICT_KEYWORDS untyped, router.setParams history, blinking caret, Math.round in draft().
 - Recipe fibre saved as 0 (model needs optional field).
+- Saved foods fibre dropped in editSavedFood and saveFood.
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx.
 
 ## Loop notes (condensed)
@@ -79,8 +83,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R89, R99: prompts rejected (no design/ file named); rewritten.
 - R92-R96: fibre across new-recipe and recents; flags cleared by verification runs.
 - R103: totals fibre fix. R104: tsc 0, eslint clean, jest not run. Flagged.
-- R105: verification-only, tsc 0, hooks jest 5/5 suites, 33/33 tests. Flag cleared. Count of 116 came from the nine named suites in R94, not from findRelatedTests; name the set explicitly in future checks.
-- R106: Jev advised ask (70%, confidence 0.55). Run chosen: next task needs nothing from Isa; open questions already logged.
+- R105: verification-only, tsc 0, hooks jest 5/5 suites, 33/33 tests. Flag cleared. Name the test set explicitly in future checks.
+- R106: detail.tsx missing-macros fix blocked: needs a type change across files, so the report asked Isa to choose. Per rules, moved to Parked, not asked. Report flagged 'related-test gap': foodDetail, fibrePipeline, sheetVariant, foodMealMove name this screen and should be run by name when that work happens.
+- R107: Jev ask overridden (one-file task needing nothing from Isa). Running Add sheet padding.
 - Handover recommendation (fibre in useFoodSearch recents) already built in R92-R96; not repeated.
 
 ## Gotchas

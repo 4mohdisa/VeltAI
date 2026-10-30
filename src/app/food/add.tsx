@@ -63,7 +63,9 @@ export default function AddMealScreen() {
   ];
   return (
     <SheetContent variant="leading" title={title} onClose={() => router.canGoBack() && router.back()}>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
+      {/* Cancels the sheet body's 20pt bottom padding, so the 34pt safe-area inset
+          alone is the design's 34pt under the grid. */}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md, marginBottom: -space.xl }}>
         {methods.map((m) => (
           <Pressable
             key={m.route}

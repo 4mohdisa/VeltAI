@@ -278,3 +278,7 @@
 - 2026-10-30 23:30 Scoped the test run to findRelatedTests on detail.tsx and one tsc. detail.tsx has no render tests, so no suite is expected to match.
 - 2026-10-30 23:30 Doc correction for DESIGN_GAP_ANALYSIS.md is held back until a doc-only round, to keep this round to one editable file.
 - 2026-10-30 23:30 Missing macros stay undefined on detail.tsx. The 0 fallback for recipe fibre is a separate case, because RecipeIngredient.fibre is a required number.
+- 2026-10-30 23:31 Missing-macros-as-0 fix (detail.tsx and quickAdd) moved to Parked. The fix needs type changes across FoodItem, NewFoodItem, DetailItem and logInputFromItem, which is a data model change. Parked, not asked.
+- 2026-10-30 23:31 Jev's ask signal overridden again: the chosen task is one file and needs nothing from Isa. The open questions are already in Blocked on Isa.
+- 2026-10-30 23:31 Chose the Add sheet padding over the locale keys (copy would have to be guessed) and over the doc fix (doc edits get their own round, one editable file per prompt).
+- 2026-10-30 23:31 The Confirm label, device runs, Calories column, global + title and last-hour scan stay in Blocked on Isa.
