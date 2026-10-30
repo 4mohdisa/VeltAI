@@ -80,3 +80,8 @@
 - 2026-10-30 22:43 Loop note flagged R61 as not fully checked (jest not run). Clearing the flag comes before any new build, so this round is a verification-only run with no edits.
 - 2026-10-30 22:43 Jest limited to related tests of quick-add.tsx (none expected) to keep usage low, per the testing rules.
 - 2026-10-30 22:43 Detent and confirm pill fixes deferred to the next round, after the flag is cleared.
+- 2026-10-30 22:44 R62 verification ran with tsc and eslint green and no related tests, so the R61 flag is cleared and a build task may follow (R62 rule).
+- 2026-10-30 22:44 Chose the detent change: one value in one file, the smallest of the Quick add items, and it clears a listed difference.
+- 2026-10-30 22:44 Device check of the MEAL caption, toast and sheet fit is an owner item. Not asked this round; noted under Blocked on Isa for when Isa checks the UI himself.
+- 2026-10-30 22:44 Prompt tells Claude Code to reuse the repo's existing fit-content sheet form and to stop without editing if none exists, so it does not invent an API.
+- 2026-10-30 22:44 Source-reading tests are checked by grep of src/__tests__, per the handover gotcha.
