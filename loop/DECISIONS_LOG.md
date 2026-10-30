@@ -469,3 +469,7 @@
 - 2026-10-31 00:15 Chose the food.tsx:771 hint over the checkpoint because the last report was flagged as partly done. The unwired hint is the unfinished part, and the flag rule outranks Jev.
 - 2026-10-31 00:15 Jev ranked this same task first at 99% run, so this pick matches Jev and needs no override.
 - 2026-10-31 00:15 Scoped the test run to food-referencing suites, since no checkpoint is due this round and only food.tsx changes.
+- 2026-10-31 00:16 Chose the 'Add to' visible text at food.tsx 539 and 795 because the flag says the last task is only partly done, and the handover lists these two lines as still hardcoded. The report's food.tsx:771 change is accepted as done.
+- 2026-10-31 00:16 Kept the capital in 'Add to Lunch', per Isa's brief. Did not lowercase.
+- 2026-10-31 00:16 Left the locale work for later rounds, because it needs one file per round and no visible change until the language is switched on.
+- 2026-10-31 00:16 Jev ranked the same task first at 98% run, so no override was needed.

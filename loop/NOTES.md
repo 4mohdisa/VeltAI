@@ -30,18 +30,18 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre; new-recipe.tsx sums fibre.
 - food.tsx: local SLOT_KEYS (line 84); slot heading, VoiceOver, 'Add to' labels (539, 795), toast (390), delete dialog and toast use translated keys.
-- food.tsx:771 meal delete hint uses t('foodLog.deleteMealHint', slot) (R146, unverified).
+- food.tsx:771 meal delete hint uses t('foodLog.deleteMealHint', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }) (R146, unverified).
 - en.json: foodLog.deleteMealHint (R144, unverified). es and fr lack it.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145 (tsc 0, 65 suites, 824 tests).
-- Targeted only since R145: R146 (food-referencing suites).
+- Targeted only since R145: R146 (30 food-referencing suites, 510 tests, passed; no test renders the hint).
 - No test renders the add.tsx title, food.tsx slot heading, MealSectionHeader, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- food.tsx:539, :795 'Add to' text hardcoded (labels done; check visible text).
+- food.tsx:539, :795 'Add to' visible text: R147 switches these to foodLog.addToMeal, as line 975 does.
 - SavedMealsList.tsx :59, :63 hardcoded English toasts. plan.tsx :85 'Suggested:', :97 'Add ${entry.title}'.
 - es.json and fr.json lack deleteMealHint, addedToMeal, mealDeleted, deleteMeal keys.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
@@ -79,20 +79,20 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests for food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx, add.tsx title, MealSectionHeader. No locale tests. No confirmDeleteMeal test.
 
 ## Next
-1. R146 (now): food.tsx:771 hint uses foodLog.deleteMealHint with slot t(`addMenu.${SLOT_KEYS[slot]}`). One file. Clears the R145 flag.
+1. R147 (now): food.tsx 'Add to' visible text at 539 and 795 uses foodLog.addToMeal, as line 975 does. One file. Clears the R146 flag.
 2. es.json then fr.json: deleteMealHint, one file per round.
 3. es.json then fr.json: addedToMeal, mealDeleted, deleteMeal keys.
 4. SavedMealsList.tsx :59, :63 (locale keys if none fit).
 5. plan.tsx :85, :97.
-6. food.tsx:539, :795 'Add to' visible text.
-7. Add sheet icons: SF Symbols to design SVGs, one per round.
-8. Consolidate SLOT_KEYS, one file per round.
-9. Checkpoint: full tsc and full suite.
-10. If nothing non-gym remains: stop with 'only owner decisions remain'.
+6. Add sheet icons: SF Symbols to design SVGs, one per round.
+7. Consolidate SLOT_KEYS, one file per round.
+8. Checkpoint: full tsc and full suite.
+9. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
-- Prompts rejected for no design/ file: R89, R99, R117, R125, R139, R146 earlier attempt (checkpoint lacked design/ reference). All rewritten with design/Lume App.html named.
-- R144 flagged: no suites run. R145 checkpoint ran clean but was flagged again as partly done, because the R144 hint was never wired. R146 finishes food.tsx:771 to clear the flag. Jev agreed at 99%.
+- Prompts rejected for no design/ file: R89, R99, R117, R125, R139, R146 earlier attempt. All rewritten with design/Lume App.html named.
+- R144 flagged: no suites run. R145 checkpoint ran clean but was flagged again as partly done. R146 finished food.tsx:771 and reported it done.
+- R146 flagged again as partly done. The handover still lists food.tsx 539 and 795 as hardcoded, so R147 targets those. Jev run 98%.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 
