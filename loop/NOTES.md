@@ -27,7 +27,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx scales and sums fibre.
-- es.json addMenu.addToSlot (R111). Handover said it is missing; re-check before R120.
+- es.json addMenu.addToSlot (R111). Re-checked in R119 report: value 'Añadir a {{slot}}', unchanged.
 - R118: fr.json full addMenu block, 16 keys from en.json, placed before foodLog. Wording is the agent's own translation (no French in design). Needs French review.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
@@ -37,7 +37,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R115: verification only. tsc 0; hooks.ts related 5 suites / 33 tests green; sheetVariant and tabbar 22 of 22 green. Cleared R114 flag. Does not verify row 90, recipe fibre total, or the Spanish key.
 - R116: verification only. tsc 0. Locale audit done. Margin arithmetic: -20pt + 20pt = 0pt, leaving only the device inset (34pt on 34pt-inset, 0pt on no-inset). Arithmetic only, not measured. Cleared R115 flag.
 - R117: full checkpoint, no file changes. tsc 0; full app suite 65/65 suites, 824/824 tests, 4/4 snapshots, identical to R113. Green.
-- R118: fr.json addMenu added. Flagged by automatic check (type check or tests not run). R119 verification-only run pending to clear it.
+- R118: fr.json addMenu added. Flagged by automatic check (type check or tests not run).
+- R119: verification only. tsc 0 (exit 0). fr.json and en.json parse; fr addMenu key order matches en (16 keys); no empty or copied-English values. No locale test exists (src/__tests__ search for locales, i18n, fr.json: none). Jest not run. Flag only partly cleared: flagged again by automatic check. Clearing needs a full run.
+- R120 (pending): verification only, tsc plus full app suite, no file changes. Intended to clear the R118/R119 Jest flag.
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices (doc does not say so); row 1445 holds build status.
@@ -47,7 +49,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macros: food/detail.tsx and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
 - Saved foods drop fibre (editSavedFood, saveFood). Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
 - Calories drift in new-recipe editRow and recents.
-- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage unchecked. fr.json now has 16 addMenu keys. Slot default 'Snack' vs design 'Snacks'. foodLog in fr.json has only 2 of es's keys; other fr blocks not compared to en.
+- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage unchecked. fr.json has 16 addMenu keys. Slot default 'Snack' vs design 'Snacks'. foodLog in fr.json has only 2 of es's keys; other fr blocks not compared to en.
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx; no locale test.
 - Jest noise: hooks.ts:56 log, tabbar act() warning. Not blocking.
 
@@ -71,10 +73,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Code: mixHex to shared helper; goals.tsx copy; CONFLICT_KEYWORDS untyped; router.setParams history; blinking caret; Math.round in draft().
 - Recipe fibre saved as 0 (needs optional model field). Saved foods fibre drop.
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx.
+- Locale test coverage (no test reads fr.json or es.json).
 
 ## Next
-1. R119 (this round): verification only, no file changes. tsc, fr.json parse and key order, locale-referencing tests only. Clears the R118 flag.
-2. R120: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first. Re-check es addToSlot exists.
+1. R120 (this round): verification only, no file changes. tsc and full app suite, same as R117. Clears the R118/R119 Jest flag. Report any failure as is.
+2. R121: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first.
 3. Add sheet slot translation at add.tsx:56. Check whether translated slot names exist first.
 4. Add sheet icons: SF Symbols to design SVGs, one per round.
 5. Checkpoint: full tsc and full app suite, no file changes.
@@ -84,11 +87,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R83-R87 verification and doc. R88, R102, R113, R117 checkpoints green.
 - R89, R99, R117 prompts rejected (no design/ file named), rewritten.
 - R106 detail macros parked. R107 Add sheet negative margin.
-- R111 es addToSlot. R112, R114, R115, R116 verification runs; hand checks of locales do not clear flags.
-- R114 flagged: Jest not run. R115 cleared that point.
-- R115 flagged again by automatic check. R116 verification-only cleared it.
+- R111 es addToSlot. R112, R114, R115, R116, R119 verification runs; hand checks of locales do not clear flags.
+- R114 flagged: Jest not run. R115 cleared that point. R115 flagged again by automatic check; R116 cleared it.
 - R117 checkpoint green.
-- R118: fr.json addMenu block chosen (Jev 95%, run). Flagged by automatic check (tsc or tests not run per loop note). R119 verification-only to clear.
+- R118: fr.json addMenu block chosen (Jev 95%, run). Flagged by automatic check.
+- R119: verification only, flagged again (Jest not run). R120 is a full-suite verification run to clear it.
+- Jev ask 39% at R120 overridden: next task needs nothing from Isa.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
@@ -99,3 +103,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet title line moves; grep before citing a line number.
 - No tsc or test output written to the repo or /tmp.
 - Handover file loop/HANDOVER.md: read after a handover; loop/NOTES.md lines 39, 42, 54 need re-reading.
+- Locale files: src/locales/en.json, es.json, fr.json. Check key order against en.json before editing.

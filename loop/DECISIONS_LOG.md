@@ -339,3 +339,8 @@
 - 2026-10-30 23:47 Did not run a full checkpoint: no source changed this round except fr.json, and R117 full suite is the last green baseline.
 - 2026-10-30 23:47 Locale test run limited to any test that references locales, since none is known to exist; Jest is skipped if none is found, to keep usage low.
 - 2026-10-30 23:47 Left es.json for R120 so this round stays read-only and clears the flag cleanly.
+- 2026-10-30 23:47 Flag rule outranks Jev: the R119 report was flagged (Jest not run), so the next round is verification-only, not new code.
+- 2026-10-30 23:47 Chose a verification run with tsc and the full app suite, because no locale test exists and only a full run clears the 'tests not run' point.
+- 2026-10-30 23:47 Jev's 'ask' (39%) overridden: the next task needs nothing from Isa.
+- 2026-10-30 23:47 The es.json key work and the slot title are deferred until the flag is cleared, to keep one task per round.
+- 2026-10-30 23:47 Prompt is read-only with no file changes, so the loop commit adds nothing new and the R117 baseline stays comparable.
