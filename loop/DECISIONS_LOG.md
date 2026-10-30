@@ -32,3 +32,7 @@
 - 2026-10-30 22:32 Left the gymDurationHonesty title rename and the food data path for later rounds to keep this round to one file.
 - 2026-10-30 22:32 Did not reopen the round 49 || fallback question. It stays parked for Isa and is not needed to clear the gate.
 - 2026-10-30 22:32 Kept row 23 blocked on Isa (no action). The one-tap log decision still awaits Isa's answer.
+- 2026-10-30 22:33 Chose food data path step 2: it is the in-progress item, touches one file, needs nothing from Isa, and is the smallest candidate. Jev ran 65% for run.
+- 2026-10-30 22:33 Rewrote the notes under 600 words as the loop note asked: merged repeats, removed finished work, kept all decisions and blocked items.
+- 2026-10-30 22:33 Row 23 stays blocked on Isa's answer. No action taken, since the question was asked in round 43 and is still unanswered.
+- 2026-10-30 22:33 Prompt tells Claude Code to stop and report if the food item lacks the macro fields, so no values are invented.
