@@ -161,6 +161,7 @@
   "nutrition": {
     "title": "Nutrition",
     "macrosTitle": "Macros",
+    "loadFailed": "Impossible de charger le repas d’aujourd’hui.",
     "remainingToday": "Il reste {{value}} aujourd’hui",
     "protein": "Protéines",
     "carbs": "Glucides",

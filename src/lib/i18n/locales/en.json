@@ -161,6 +161,7 @@
   "nutrition": {
     "title": "Nutrition",
     "macrosTitle": "Macros",
+    "loadFailed": "Couldn't load today's food.",
     "remainingToday": "{{value}} remaining today",
     "protein": "Protein",
     "carbs": "Carbs",

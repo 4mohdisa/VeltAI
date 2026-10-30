@@ -974,3 +974,8 @@
 - 2026-10-31 02:04 Recorded the Macros swap as BUILT, not verified. Device check is with Isa.
 - 2026-10-31 02:04 Treated the Macros key decision as resolved: nutrition.macrosTitle is in en, es and fr, so it no longer waits on Isa.
 - 2026-10-31 02:04 Kept the test run to the type check and the one render test for the changed screen, per the testing rules. No -u, no full suite on this round.
+- 2026-10-31 02:05 Chose candidate 1 because it is the next item in the notes order, is one surface, and needs no answer from Isa.
+- 2026-10-31 02:05 Kept English wording identical to the current hardcoded string so the copy does not change until a design match is confirmed.
+- 2026-10-31 02:05 Named the key nutrition.loadFailed, placed after nutrition.macrosTitle to match existing layout in the locale files.
+- 2026-10-31 02:05 Limited the snapshot update to the one render test file that already snapshots this screen, to keep test usage low.
+- 2026-10-31 02:05 Left :86 and :89 for the next round, since the rule is one task per round.
