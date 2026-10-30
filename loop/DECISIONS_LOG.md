@@ -839,3 +839,7 @@
 - 2026-10-31 01:33 No code task this round, so no files are edited; the fr locale task waits until the checkpoint is green.
 - 2026-10-31 01:33 Jev's run signal agrees with this round's action; the checkpoint is not a build task, so no conflict to resolve.
 - 2026-10-31 01:33 Marked R225 es.json streakLoading and streakLoadError as done in Next, since the report confirmed the change.
+- 2026-10-31 01:34 Chose the fr.json completion first: the loop flagged the last report as partly done, and fr.json is the only locale still missing these two keys. The R226 checkpoint was green, so the R227 precondition is met.
+- 2026-10-31 01:34 Asked for French values translated from en.json rather than copying English: the notes list fr.json as the only locale that must match en.json keys, and the French copy is pending native review anyway.
+- 2026-10-31 01:34 Gap row set to 'none' because the work is locale completeness, not a design surface.
+- 2026-10-31 01:34 Limited checks to tsc plus a JSON and key-set comparison, because no test covers locale files and the brief forbids extra test work.

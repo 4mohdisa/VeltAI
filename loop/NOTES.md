@@ -30,27 +30,27 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
 - en.json has dashboard.streakLoading and dashboard.streakLoadError (R223), used at (tabs)/index.tsx:109 and :115.
 - R225: es.json has dashboard.streakLoading and streakLoadError after dayStreak_other. es.json now has every en.json key.
-- fr.json has every en.json key except dashboard.streakLoading and streakLoadError.
+- fr.json has every en.json key except dashboard.streakLoading and streakLoadError (R227 adds them).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R219: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Cleared R218 flag.
 - R221: cleared R220 flag. R224 read-only check of R223: tsc 0, en keys and index.tsx lines confirmed.
-- R226 (this round): checkpoint, read-only. Full tsc and full app suite run to clear the R225 flag (Jest not run in R225).
+- R226: checkpoint, read-only. tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Green. Cleared R225 flag.
+- R227 (this round): flagged as partly done (fr.json missing streakLoading and streakLoadError). Fixing by adding both keys. Checks: tsc, JSON parse and key-set match, no Jest.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection, or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R226 checkpoint: full tsc and app suite, read-only. Done when the result is reported.
-2. R227: add dashboard.streakLoading and streakLoadError to fr.json after dayStreak_other. Only after R226 is green.
-3. Hardcoded 'Summary' title at (tabs)/index.tsx:102.
-4. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
-5. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-6. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
-7. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-8. Add sheet icons to design SVGs.
-9. Remaining gap rows, most cleared per task first.
-10. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R227: add dashboard.streakLoading and streakLoadError to fr.json after dayStreak_other. In progress.
+2. Hardcoded 'Summary' title at (tabs)/index.tsx:102.
+3. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
+4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+5. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
+6. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+7. Add sheet icons to design SVGs.
+8. Remaining gap rows, most cleared per task first.
+9. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -83,5 +83,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run). R224 verified the en side. R226 checkpoint clears R225 if green.
-- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225, and R226.
+- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run, cleared by R226); R227 flag (fr.json partly done) being fixed now.
+- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225, R226, and R227.
