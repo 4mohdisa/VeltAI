@@ -27,3 +27,8 @@
 - 2026-10-30 22:31 Kept the test title rename out of this task to respect the one-task rule. It goes to the next round.
 - 2026-10-30 22:31 Did not fix the celebration card showing 0 min. Parked, because it is a display question for the card wiring.
 - 2026-10-30 22:31 Jev recommended run at 97%; agreed with run.
+- 2026-10-30 22:32 Chose the sheetVariant.test.ts fix over other tasks because the gate is still red. The notes require a green gate before the next task. It is a one-file test fix.
+- 2026-10-30 22:32 Added a guard to stop and report if the live Button line in log-session.tsx does not match the expected text, so the test is not rewritten against a stale assumption.
+- 2026-10-30 22:32 Left the gymDurationHonesty title rename and the food data path for later rounds to keep this round to one file.
+- 2026-10-30 22:32 Did not reopen the round 49 || fallback question. It stays parked for Isa and is not needed to clear the gate.
+- 2026-10-30 22:32 Kept row 23 blocked on Isa (no action). The one-tap log decision still awaits Isa's answer.
