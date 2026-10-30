@@ -373,3 +373,8 @@
 - 2026-10-30 23:52 Limited to en.json this round, because the notes say one locale file per round and the English values must exist before es and fr.
 - 2026-10-30 23:52 Key name stays snack; the value follows the design hMeal wording, so Snack vs Snacks is settled by the design, not by Isa.
 - 2026-10-30 23:52 Jev ask (52%) overridden: the task needs nothing from Isa, and the design file answers the wording question.
+- 2026-10-30 23:54 Flag rule outranks the ranking: R125 was flagged because tests were not run, so this round is a verification run before any new edit.
+- 2026-10-30 23:54 Chose the verification round over the es.json edit because the flag must be cleared first.
+- 2026-10-30 23:54 Overrode the Jev ask-side signal at 16%: nothing here needs Isa, so no question is asked.
+- 2026-10-30 23:54 Kept the full suite in this round because it clears the flag and it is a checkpoint-style run with no file changes.
+- 2026-10-30 23:54 Left the Snacks versus Snack label question with Isa; it does not block verification.
