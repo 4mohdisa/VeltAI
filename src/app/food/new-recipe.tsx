@@ -4,7 +4,7 @@
 // Live totals recompute every render. Save posts to the backend, best-effort +
 // offline-safe (a failed create surfaces an error toast and keeps the draft).
 //
-// Ingredient protein/carbs/fat are the food's per-100g values scaled by grams. A
+// Ingredient fibre/protein/carbs/fat are the food's per-100g values scaled by grams. A
 // source without a macro (the dev catalog carries kcal only) adds nothing to that
 // macro. Totals reflect what the source data has.
 import { useCallback, useEffect, useState } from 'react';
@@ -29,9 +29,10 @@ import { useFoodSearch } from '@/lib/data';
 import { api, type RecipeIngredient } from '@/lib/api';
 import type { FoodResult } from '@/lib/mock/data';
 
-/** Scale a per-100g search hit to a fixed gram quantity (see file header). */
+/** Scale a per-100g search hit to a fixed gram quantity: calories, plus fibre,
+ *  protein, carbs and fat, each per 100 g by grams (see file header). */
 function ingredientFrom(food: FoodResult, grams: number): RecipeIngredient {
-  const scale = (per100 = 0) => (per100 * grams) / 100;
+  const scale = (per100?: number | null) => ((per100 ?? 0) * grams) / 100;
   return {
     food_name: food.name,
     quantity_g: grams,
@@ -39,14 +40,15 @@ function ingredientFrom(food: FoodResult, grams: number): RecipeIngredient {
     protein: scale(food.protein),
     carbs: scale(food.carbs),
     fat: scale(food.fat),
-    fibre: 0,
+    fibre: scale(food.fibre),
   };
 }
 
 type Stage = { kind: 'search' } | { kind: 'qty'; food: FoodResult; grams: string; editIndex?: number };
 
 export default function NewRecipeScreen() {
-  // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
+  // Feature entered — one mount event per major surface, so "which features
+  // does anyone actually open?" is answerable without a per-screen scheme.
   useEffect(() => track('feature_used', { name: 'recipes' }), []);
 
   const [name, setName] = useState('');
@@ -84,6 +86,7 @@ export default function NewRecipeScreen() {
       protein: per100(ing.protein),
       carbs: per100(ing.carbs),
       fat: per100(ing.fat),
+      fibre: per100(ing.fibre),
     };
     setStage({ kind: 'qty', food, grams: String(ing.quantity_g), editIndex: i });
   };

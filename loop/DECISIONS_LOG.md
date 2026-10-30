@@ -210,3 +210,8 @@
 - 2026-10-30 23:15 Scoped the test run to the four changed source files and the matching source-reading suites, not the full suite, to keep usage low. Checkpoint full suite is not due until the next checkpoint round.
 - 2026-10-30 23:15 Kept row 87 status as DIFFERENT and made no doc edit, since the R90 doc truth-up is already in place.
 - 2026-10-30 23:15 Deferred the stale loop/NOTES.md lines 39, 42 and 54 check: it is a read-only task that does not need its own round, so it is folded into the next doc-only round.
+- 2026-10-30 23:16 Chose fibre in new-recipe.tsx first because it is one file and the notes sequence it before hooks.ts (one file per round).
+- 2026-10-30 23:16 Did not use line numbers in the prompt because the report says they shifted; the prompt names functions instead.
+- 2026-10-30 23:16 Gap row referenced by topic, not number, because the exact row is not in the notes; the worker must find it by searching for new-recipe.
+- 2026-10-30 23:16 Ran no full suite and no new tests, per the testing rules and the notes rule that prompts run only related checks.
+- 2026-10-30 23:16 Kept the literal backslash-n comment fix in this round because it is in the same file and listed in the notes sequence for this file.

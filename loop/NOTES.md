@@ -29,20 +29,22 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - DESIGN_GAP_ANALYSIS.md truth-up done (R86): count 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
 - R90 doc truth-up done: FoodNumberEntryBar wording gone; row 87 status is a single DIFFERENT label, BUILT and open items in the reason cell.
 - R88 checkpoint green: tsc 0 errors; full app suite 65 of 65 suites, 824 of 824 tests, 4 of 4 snapshots. No file changes.
+- R91 verification green: tsc 0 errors; eslint clean on four changed source files; hooks-related suites 9 of 9, 116 of 116; quick-add suites 2 of 2, 88 of 88. R90 flag cleared.
 
 ## Open differences
 - Add sheet: SF Symbols not design SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab.
 - Add sheet status conflict: summary says BUILT, section verdict says PARTIAL. Isa to pick one label.
 - Quick add: no blinking caret; own flex:1 KeyboardAvoidingView (quick-add.tsx:114); hardcoded English; offline toast names no meal; Meal chip 8pt horizontal padding, no chip background transition (row 87). Confirm label 17/24 vs design 17/22. Meal chip weight (label token) not confirmed against design 600 13/17.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- ingredientFrom: fibre saved as 0 (new-recipe.tsx:34-44 and edit path near 80); literal \n in comment at new-recipe.tsx:49.
+- ingredientFrom: fibre saved as 0 (new-recipe.tsx, function ingredientFrom and the edit path). Round R92 in progress for new-recipe.tsx only. Literal backslash-n in a comment near line 49 also in R92.
+- hooks.ts useFoodSearch recents: fibre not yet carried (next round after R92).
 - quickAdd and food/detail.tsx log missing macros as 0. Keep ?? for planMinutes.
 - Food Search section has no recents macros note.
 - Row 87 reason cell lists open items; BUILT count of 3 does not mean those surfaces fully match. Add sheet row is BUILT but lists open differences.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot: design 'Snacks' vs 'Snack' default.
 - Food Search sheet (pill input, thumbnails, row metrics): plan first.
 - Calorie rounding in new-recipe edit path and useFoodSearch recents can drift ingredient calories slightly.
-- Test gap: no test names SegmentedField.tsx or quick-add.tsx by path.
+- Test gap: no test names SegmentedField.tsx or quick-add.tsx by path. Source-reading suites mention the word only; the hooks grep was loose.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route onLog to log-session, or accepted deviation. Unanswered since r43.
@@ -55,8 +57,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Owner device checks (ask once): quick add fit, no collapse, MEAL caption, toast, compact chips, keyboard bar, Add sheet title and tile grid at 320pt and 430pt, celebration flow (row 17 step 3), recipe macros.
 
 ## Next
-1. R91 (in progress): verification-only run. tsc, eslint on the four changed source files, related source-reading suites (hooks; SegmentedField and quick-add if any match). No file edits. Clears the R90 flag.
-2. Fibre and macro scaling. In src/app/food/new-recipe.tsx scale fibre in ingredientFrom (lines 34-44) and update the edit path (near line 80); fix the literal \n at line 49; in src/lib/data/hooks.ts include fibre in useFoodSearch recents. One file per round.
+1. R92 (in progress): fibre in src/app/food/new-recipe.tsx only. ingredientFrom scales fibre by grams; edit path carries fibre; literal backslash-n comment fixed near line 49. Checks: tsc once, eslint on the file, related suites only.
+2. Fibre in useFoodSearch recents in src/lib/data/hooks.ts. One file per round.
 3. Stop logging missing macros as 0 in food/detail.tsx (own round, verification first).
 4. Same for quickAdd (own round).
 5. Add sheet icons, scan routes, bottom padding.
@@ -79,10 +81,11 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R88: checkpoint green (tsc 0 errors, 65 of 65 suites, 824 of 824 tests). Report flagged as partly done.
 - R89: prompt rejected before running: did not name the matching design/ file. Rewritten and re-sent as R88.
 - R90: doc-only run to clear the R88 flag. Doc truth-up done; flagged again for no type check or tests run.
-- R91: verification-only run to clear the R90 flag before any code edit. Jev: run 78%, last task clean 6%, risk 1.6/2.
+- R91: verification-only run green (tsc 0 errors, eslint clean, hooks 116 of 116, quick-add 88 of 88). R90 flag cleared. No file edits. Jev: run 94%, last task clean 66%, risk 1.5/2.
+- R92: prompt issued for fibre in new-recipe.tsx only. Jev: run 94%.
 
 ## Gotchas
-- Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish.
+- Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
 - Source-text tests are invisible to --findRelatedTests; grep src/__tests__ for the path.
 - Shared Button in src/components/forms affects all callers; override locally first.
 - zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
