@@ -230,3 +230,6 @@
 - 2026-10-30 23:19 Kept the fibre recents task next, with the rule that a missing fibre figure stays missing. The handover's 'missing counts as 0' applies only to new-recipe.tsx, where the model requires a number. That is parked.
 - 2026-10-30 23:19 Rewrote the notes under 600 words as the loop note asks, merging repeated items and removing finished work. All decisions kept.
 - 2026-10-30 23:19 Dropped the 'last-hour scan' as a standing check. Future rounds use round-scoped checks instead.
+- 2026-10-30 23:21 Jev ranked the fibre edit first at 92%. I kept the verification-only run first because the standing rule says a flagged report is cleared by a verification-only or doc-only run before any new code edit. The fibre edit is next round, so the loss is one round.
+- 2026-10-30 23:21 The verification run makes no edits, runs tsc and eslint once, and runs no test suite, to keep usage low.
+- 2026-10-30 23:21 The verification run does not touch the notes or the gap analysis. Notes are updated by the manager this round.

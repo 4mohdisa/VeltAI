@@ -22,7 +22,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macros stored unrounded; display rounds. Calories keep Math.round.
 - Missing macros stay missing in recents. new-recipe.tsx saves missing fibre as 0 (model limit); parked.
 - Add sheet summary row is BUILT at Isa's instruction; section verdict stays PARTIAL MATCH.
-- Standing last-hour modified-files scan dropped. Use round-scoped checks.
+- Round-scoped modified-file checks only. Last-hour scan dropped unless Isa replies otherwise.
+- R95: Jev ranked the fibre edit first (92%). Kept the verification-only run first, per the flag rule above. Fibre edit is R96.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -30,14 +31,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard in log-session.tsx). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control. SegmentedField compact prop (opt-in).
 - Recents macros per 100 g in hooks.ts. new-recipe.tsx ingredientFrom scales protein, carbs, fat, fibre by grams; editRow carries fibre. No test covers new-recipe.tsx.
-- DESIGN_GAP_ANALYSIS.md truth-up: 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
+- DESIGN_GAP_ANALYSIS.md: 23 DIFFERENT / 15 PARTIAL / 3 BUILT / 0 EXACT.
 - Checkpoint R88 green: tsc 0 errors, 65/65 suites, 824/824 tests.
 
 ## Open differences
 - Add sheet: SF Symbols not design SVGs; scan routes split; bottom padding 54pt vs 34pt; Search foods tile goes to food tab; correction row shows a cross beside BUILT text.
 - Quick add (row 87): no blinking caret; own flex:1 KeyboardAvoidingView; hardcoded English; offline toast names no meal; Meal chip padding and no background transition; confirm label 17/24 vs 17/22; Meal chip label token vs 600 13/17 unconfirmed.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
-- hooks.ts useFoodSearch recents: fibre not carried yet.
+- hooks.ts useFoodSearch recents: fibre not carried yet (R96 task).
 - food/detail.tsx and quickAdd log missing macros as 0. Keep ?? for planMinutes.
 - Food Search section has no recents macros note.
 - Locales: es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot. Slot default 'Snack' vs design 'Snacks'.
@@ -53,14 +54,15 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add confirm 17/22: Button label or size prop, change bodyBold for all callers, or accept 17/24.
 - Global + title: keep 'Add meal' or name a default meal.
 - Add sheet status label: BUILT or PARTIAL.
+- Whether the last-hour modified-files check stays, or a round-scoped scan replaces it.
 - Device run, recipe: add a recent and a searched food, check totals and fibre, change grams, save.
 - Device run, owner checks: quick add fit and no collapse, NumberEntryBar above keyboard, pill, compact chips, MEAL caption, toast; Add sheet title and tile grid at 320pt and 430pt; celebration flow (row 17 step 3); recipe macros.
 
 ## Next
-1. R94 flag: verification-only run (tsc, eslint on new-recipe.tsx and hooks.ts, nine named hooks suites). No edits. Round-scoped modified-file check.
-2. Carry fibre in useFoodSearch recents in src/lib/data/hooks.ts, scaled per 100 g. Missing fibre stays missing. One file, verification first.
-3. Stop logging missing macros as 0 in src/app/food/detail.tsx (own round).
-4. Same for quickAdd (own round).
+1. R95 verification-only (this round): read hooks.ts, new-recipe.tsx, the design recents section and its gap row; tsc and eslint once; no edits. Clears the R94 flag.
+2. R96: carry fibre in useFoodSearch recents in src/lib/data/hooks.ts, scaled per 100 g. Missing fibre stays missing. One file.
+3. Then totals in new-recipe.tsx to include fibre (own round).
+4. Stop logging missing macros as 0 in src/app/food/detail.tsx (own round). Same for quickAdd (own round).
 5. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
 6. Locale keys: es.json and fr.json, own round.
 7. Doc-only: re-read loop/NOTES.md lines 39, 42, 54 (may be stale) and correct.
@@ -79,8 +81,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R83-R87: verification and doc rounds green; flags cleared as they came.
 - R88: checkpoint green. R89: prompt rejected (no design/ file named), re-sent.
 - R90-R91: doc truth-up, then verification green.
-- R92-R94: fibre in new-recipe.tsx; checks green, but flagged for tsc/tests not run and last-hour scan (20 files, from earlier rounds and loop writes). Jev risk 1.5, clean-completion confidence low.
-- Handover at R94: notes rewritten under 600 words.
+- R92-R94: fibre in new-recipe.tsx; checks green. Flagged for tsc/tests not run and a last-hour scan of 20 files. R94 verification run green (tsc 0, eslint clean, 116/116 hooks tests), but the flag remained because the recents fibre task was not yet done.
+- R95: flag clearance round. Jev asked for the fibre edit first; kept verification first (see decisions).
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
