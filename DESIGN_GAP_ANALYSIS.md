@@ -1043,7 +1043,7 @@ the detail sheet. The sheet and the filter chips are untouched.
 
 **Status:** recipe ingredient macros now scale by grams, BUILT, not verified.
 
-Recents show macros scaled per 100 g, including fibre (undefined when unknown), in hooks.ts useFoodSearch; BUILT, not verified.
+Recents carry macros scaled per 100 g, including fibre (undefined when unknown), in hooks.ts useFoodSearch; BUILT, not verified.
 
 ## Food — My dishes / Saved foods
 

@@ -248,3 +248,8 @@
 - 2026-10-30 23:24 The last Claude Code report was doc-only with no checks, and Jev gives it a 6% chance of finishing cleanly. Per the flag rule, a verification-only run goes before the new fibre edit.
 - 2026-10-30 23:24 The fibre totals edit moves to R100, one file, its own round.
 - 2026-10-30 23:24 No git, no branch change, no full suite this round (not a checkpoint).
+- 2026-10-30 23:25 Flagged R99 report: following the flag rule, the next run is doc-only or verification-only, so the R100 run is doc-only before the fibre totals edit.
+- 2026-10-30 23:25 Chose the doc-only fix at about line 1046 ('show' to 'carry') because the R99 report said the wording may overstate what the code does. It is the smallest safe clearing run.
+- 2026-10-30 23:25 Fibre totals edit in new-recipe.tsx moves to R101, its own round, one file.
+- 2026-10-30 23:25 Did not run tsc or tests: doc-only runs run no tests, per the prompt rules.
+- 2026-10-30 23:25 Jev ranked run at 94%; my choice is run. Agreed.
