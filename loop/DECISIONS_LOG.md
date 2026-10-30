@@ -344,3 +344,8 @@
 - 2026-10-30 23:47 Jev's 'ask' (39%) overridden: the next task needs nothing from Isa.
 - 2026-10-30 23:47 The es.json key work and the slot title are deferred until the flag is cleared, to keep one task per round.
 - 2026-10-30 23:47 Prompt is read-only with no file changes, so the loop commit adds nothing new and the R117 baseline stays comparable.
+- 2026-10-30 23:48 Chose the es.json addMenu keys: smallest task, one file, needs nothing from Isa, and the last report was clean (not flagged), so no flag rule applies.
+- 2026-10-30 23:48 Did not remove voice and describeOutLoud this round: only checking usage, because removing a key is a separate decision.
+- 2026-10-30 23:48 Spanish values are the agent's own translation (the design has English only), so the report marks native review as BLOCKED rather than asking Isa now.
+- 2026-10-30 23:48 Ran tsc once only and no full suite: no locale test exists, and the full suite last ran green at R120.
+- 2026-10-30 23:48 Jev's 77% run agrees with my pick, so no look-again.

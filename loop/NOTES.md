@@ -38,8 +38,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R116: verification only. tsc 0. Locale audit done. Margin arithmetic: -20pt + 20pt = 0pt, leaving only the device inset (34pt on 34pt-inset, 0pt on no-inset). Arithmetic only, not measured. Cleared R115 flag.
 - R117: full checkpoint, no file changes. tsc 0; full app suite 65/65 suites, 824/824 tests, 4/4 snapshots, identical to R113. Green.
 - R118: fr.json addMenu added. Flagged by automatic check (type check or tests not run).
-- R119: verification only. tsc 0 (exit 0). fr.json and en.json parse; fr addMenu key order matches en (16 keys); no empty or copied-English values. No locale test exists (src/__tests__ search for locales, i18n, fr.json: none). Jest not run. Flag only partly cleared: flagged again by automatic check. Clearing needs a full run.
-- R120 (pending): verification only, tsc plus full app suite, no file changes. Intended to clear the R118/R119 Jest flag.
+- R119: verification only. tsc 0. fr.json and en.json parse; fr addMenu key order matches en (16 keys); no empty or copied-English values. No locale test exists. Jest not run. Flagged again by automatic check.
+- R120: verification only, tsc plus full app suite, no file changes. Clean: tsc 0; 65/65 suites; 824/824 tests; 4 snapshots. Both fr.json and es.json parse. Cleared the R118/R119 Jest flag. Row 76, 86, 90 remain BUILT, not verified. No test reads locale files, so the French text is not verified.
+- R121 (pending): es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage (report only).
 
 ## Open differences
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices (doc does not say so); row 1445 holds build status.
@@ -49,7 +50,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Macros: food/detail.tsx and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
 - Saved foods drop fibre (editSavedFood, saveFood). Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
 - Calories drift in new-recipe editRow and recents.
-- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage unchecked. fr.json has 16 addMenu keys. Slot default 'Snack' vs design 'Snacks'. foodLog in fr.json has only 2 of es's keys; other fr blocks not compared to en.
+- Locales: es.json lacks 8 addMenu keys (mealPhotoOrLabel, exactDatabaseMatch, savedGallery, searchFoods, searchPlaceholder, myDishes, quickAdd, quickAddSub); has voice and describeOutLoud, absent from en, usage being checked in R121. fr.json has 16 addMenu keys. Slot default 'Snack' vs design 'Snacks'. foodLog in fr.json has only 2 of es's keys; other fr blocks not compared to en.
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx; no locale test.
 - Jest noise: hooks.ts:56 log, tabbar act() warning. Not blocking.
 
@@ -64,6 +65,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device runs: Add sheet (34pt inset; grid at 320pt and 430pt); recipe and fibre; quick add; celebration card.
 - Macro types for food detail: decision needed before any type change.
 - French review of fr.json addMenu wording (oneTapReadd, scanPackage, exactDatabaseMatch); tile wrap at 320pt.
+- Spanish review of es.json addMenu keys added in R121 (agent translation).
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -76,23 +78,22 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Locale test coverage (no test reads fr.json or es.json).
 
 ## Next
-1. R120 (this round): verification only, no file changes. tsc and full app suite, same as R117. Clears the R118/R119 Jest flag. Report any failure as is.
-2. R121: es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage first.
-3. Add sheet slot translation at add.tsx:56. Check whether translated slot names exist first.
+1. R121 (this round): es.json 8 missing addMenu keys, one file. Check voice and describeOutLoud usage (report only). tsc once, no full suite.
+2. Add sheet slot translation at add.tsx:56. Check whether translated slot names exist first.
+3. Decide on voice and describeOutLoud keys (remove if unused, as its own task).
 4. Add sheet icons: SF Symbols to design SVGs, one per round.
 5. Checkpoint: full tsc and full app suite, no file changes.
 6. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
-- R83-R87 verification and doc. R88, R102, R113, R117 checkpoints green.
+- R83-R87 verification and doc. R88, R102, R113, R117 checkpoints green. R120 full-suite verification green.
 - R89, R99, R117 prompts rejected (no design/ file named), rewritten.
 - R106 detail macros parked. R107 Add sheet negative margin.
 - R111 es addToSlot. R112, R114, R115, R116, R119 verification runs; hand checks of locales do not clear flags.
 - R114 flagged: Jest not run. R115 cleared that point. R115 flagged again by automatic check; R116 cleared it.
-- R117 checkpoint green.
-- R118: fr.json addMenu block chosen (Jev 95%, run). Flagged by automatic check.
-- R119: verification only, flagged again (Jest not run). R120 is a full-suite verification run to clear it.
+- R118 fr.json addMenu block (Jev 95%, run). Flagged by automatic check. R119 flagged again; R120 full-suite run cleared it.
 - Jev ask 39% at R120 overridden: next task needs nothing from Isa.
+- R121: es.json addMenu keys (Jev run 77%).
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
@@ -103,4 +104,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet title line moves; grep before citing a line number.
 - No tsc or test output written to the repo or /tmp.
 - Handover file loop/HANDOVER.md: read after a handover; loop/NOTES.md lines 39, 42, 54 need re-reading.
-- Locale files: src/locales/en.json, es.json, fr.json. Check key order against en.json before editing.
+- Locale files: src/lib/i18n/locales/en.json, es.json, fr.json (not src/locales/). Check key order against en.json before editing.

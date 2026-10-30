@@ -58,13 +58,21 @@
     "title": "Añadir comida",
     "scanFood": "Escanear comida",
     "snapMeal": "Haz una foto",
+    "mealPhotoOrLabel": "Foto de la comida o etiqueta",
     "barcode": "Código de barras",
     "scanPackage": "Escanea un paquete",
+    "exactDatabaseMatch": "Coincidencia exacta en la base de datos",
     "voice": "Voz",
     "describeOutLoud": "Descríbelo en voz alta",
     "savedFoods": "Comidas guardadas",
     "oneTapReadd": "Añadir con un toque",
-    "addToSlot": "Añadir a {{slot}}"
+    "savedGallery": "Tu galería guardada",
+    "addToSlot": "Añadir a {{slot}}",
+    "searchFoods": "Buscar comidas",
+    "searchPlaceholder": "Manzana, plátano, Indomie…",
+    "myDishes": "Mis platos",
+    "quickAdd": "Añadir rápido",
+    "quickAddSub": "Solo calorías, rápido"
   },
   "foodLog": {
     "today": "Hoy",
