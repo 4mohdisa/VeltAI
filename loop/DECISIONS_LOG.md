@@ -237,3 +237,7 @@
 - 2026-10-30 23:22 Kept to one editable file (hooks.ts) per the one-file prompt rule; the gap row update is deferred to a doc-only run.
 - 2026-10-30 23:22 Missing fibre stays undefined in recents, not 0, matching FoodItem.fibre semantics; recipe save remains 0 by the model limit already decided.
 - 2026-10-30 23:22 Ran tsc once and only the hooks test files, per the testing rules.
+- 2026-10-30 23:23 The flag says R96 looks partly done. Per the flag rule, a doc-only run comes before any new code edit, so the Food, Search row update goes first.
+- 2026-10-30 23:23 The R96 report did not confirm that any test exercises the new recents fibre. This is recorded as BUILT, not verified, and no new test is written.
+- 2026-10-30 23:23 The doc-only prompt names the single file, the design file and the gap row, and says no tests, no git, and BLOCKED if the hooks line is missing.
+- 2026-10-30 23:23 Jev's 85% run confidence and 81% clean-finish estimate agree with the run. The 1.1 risk score is noted, and the task stays small to keep it low.
