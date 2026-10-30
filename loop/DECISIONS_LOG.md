@@ -727,3 +727,7 @@
 - 2026-10-31 01:06 Chose the verification round first: R198 was flagged for skipping Jest, and the owed checkpoint can run in the same round with no file changes. Notes say flagged reports are cleared by a verification round before a new build task.
 - 2026-10-31 01:06 Did not run the fr setByLume gender fix yet. It is a one-word build change and waits until the flag is cleared.
 - 2026-10-31 01:06 Kept the checkpoint as a read-only round so it cannot add a second change to the flagged state.
+- 2026-10-31 01:07 Chose the goals.setByLume fix: it is a confirmed one-value correction flagged in the R199 report and is the smallest task that needs nothing from Isa.
+- 2026-10-31 01:07 Did not run Jest: the change is to a locale value that no test reads, and the R199 full suite was green. Type check and JSON parse are enough for a one-value edit.
+- 2026-10-31 01:07 Kept the R199 verification report as the record: all checks passed, so no flag is open and no clearing round is needed.
+- 2026-10-31 01:07 Did not change the locale order or the rest of the fr goals group, which stays as built pending native review.
