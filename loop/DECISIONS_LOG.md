@@ -618,3 +618,13 @@
 - 2026-10-31 00:42 Rewrote the notes to under 600 words, merging repeated items and deleting finished work, as the loop note asked.
 - 2026-10-31 00:42 Kept the plan.addTitle English-slot issue in Open, not built, because the slot display label needs a separate design decision and the route param must stay English.
 - 2026-10-31 00:42 Did not mention Jev in the prompt.
+- 2026-10-31 00:43 Chose en.json keys first for lastLoggedLabel, then es, then fr, then the component swap, so each round edits one file as the locale rule requires. Reason: the component cannot switch until all keys exist.
+- 2026-10-31 00:43 Agreed with Jev: run. Chose the smallest candidate that needs nothing from Isa.
+- 2026-10-31 00:43 Trusted the R174 node check that plan is present in fr.json. The handover said it was missing, but the latest verification report is newer and checked by node.
+- 2026-10-31 00:43 R174 BLOCKED top-level key mismatch (es, fr missing groups) is a known gap, not a failure. Not a flag. Parked as locale gaps, not a fix this round.
+- 2026-10-31 00:43 No test run this round: the change is an en.json key addition with no test reading locale files. Type check only.
+- 2026-10-31 00:44 Chose candidate 1 because it is Next step 1 in the notes, needs nothing from Isa, and is the smallest change.
+- 2026-10-31 00:44 Restricted the prompt to en.json only, one locale per round, to follow the locale order rule (en, es, fr).
+- 2026-10-31 00:44 Named design/Lume App.html and gap row 'none' to fix the rejected prompt, as the loop note requires.
+- 2026-10-31 00:44 Told Claude Code to match an existing plural suffix if the repo already uses one, since the i18next format was not confirmed in the notes.
+- 2026-10-31 00:44 Asked for only tsc plus a node parse check, not jest, to keep test usage low, as the testing rules require.

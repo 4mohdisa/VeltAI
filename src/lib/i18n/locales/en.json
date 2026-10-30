@@ -109,7 +109,11 @@
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",
-    "logFailed": "Couldn't log {{name}}. Try again."
+    "logFailed": "Couldn't log {{name}}. Try again.",
+    "lastLoggedToday": "Last logged today",
+    "lastLoggedYesterday": "Last logged yesterday",
+    "lastLoggedDaysAgo_one": "Last logged {{count}} day ago",
+    "lastLoggedDaysAgo_other": "Last logged {{count}} days ago"
   },
   "gymLog": {
     "title": "How did it go?",
