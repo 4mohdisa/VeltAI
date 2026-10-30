@@ -353,3 +353,13 @@
 - 2026-10-30 23:49 Chose the full app suite over tsc only, because the flag names tests as well as the type check, and the last clean full run (R120) predates R121.
 - 2026-10-30 23:49 Slot translation and the unused-key removal wait until the flag is cleared.
 - 2026-10-30 23:49 Rewrote the notes below 600 words: merged repeated items and removed finished work, as the loop note asked.
+- 2026-10-30 23:50 Chose slot translation at add.tsx:56 as the next task because the R122 report named it as NEXT and it is one file with no owner input.
+- 2026-10-30 23:50 Ranked it above es.json cleanup because it is user-visible in two languages and touches the Add sheet, which is already BUILT and needs the fix to stay accurate.
+- 2026-10-30 23:50 Told Claude Code to make no locale edits. If translated slot keys are missing, it reports BLOCKED, so the handover note about missing addToSlot keys is resolved by a later round, not guessed now.
+- 2026-10-30 23:50 Jev 'ask' (13%) not followed: nothing in this task needs Isa. Flag rule is clear: R122 cleared the R121 flag.
+- 2026-10-30 23:50 Test scope kept to tsc plus files found by grep for food/add, because source-reading tests are invisible to --findRelatedTests.
+- 2026-10-30 23:50 Chose the add.tsx slot translation (candidate 1) because it is the next item in the notes, touches one file and needs nothing from Isa.
+- 2026-10-30 23:50 Jev said ask 4% and run 95%. Run kept, because nothing in this task needs Isa and the notes say to decide without asking.
+- 2026-10-30 23:50 Rewrote the prompt after the loop note: added an explicit line that work stays on loop/design-match, with no switching, pushing or merging.
+- 2026-10-30 23:50 Told Claude Code not to edit locale files. Per the notes, missing slot keys mean BLOCKED, not a locale edit.
+- 2026-10-30 23:50 Limited tests to files that reference add.tsx, with a single type check, to keep Claude Code usage low.
