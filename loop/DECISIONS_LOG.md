@@ -253,3 +253,6 @@
 - 2026-10-30 23:25 Fibre totals edit in new-recipe.tsx moves to R101, its own round, one file.
 - 2026-10-30 23:25 Did not run tsc or tests: doc-only runs run no tests, per the prompt rules.
 - 2026-10-30 23:25 Jev ranked run at 94%; my choice is run. Agreed.
+- 2026-10-30 23:26 Chose the verification-only run first because the loop flagged R100 (doc-only, no type check). Flag rule: clear it before any code edit.
+- 2026-10-30 23:26 Scoped checks to tsc once plus eslint on the two touched files. Full suite stays for the checkpoint round.
+- 2026-10-30 23:26 Kept the fibre totals edit as NEXT, not this round, to respect the flag rule and one-task-per-round.
