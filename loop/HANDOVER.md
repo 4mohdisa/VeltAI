@@ -1,42 +1,39 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified; Isa verifies. Expo docs requirement is in AGENTS.md. Source of truth: design/Lume App.html.
 
 BUILT THIS SESSION (all BUILT, not verified)
-- es.json: settings.scanAccuracy; dashboard.streakLoading, streakLoadError, summaryTitle ("Resumen").
-- fr.json: dashboard.streakLoading, streakLoadError, summaryTitle ("Résumé").
-- en.json: dashboard.streakLoading, streakLoadError, summaryTitle.
-- src/app/(tabs)/index.tsx: lines 102, 109, 115 and 121 now use t().
+- src/components/food/SavedMealsList.tsx, lastLoggedLabel: counts local calendar days through Date.UTC, not elapsed 24-hour periods.
+- src/app/dashboard/plan.tsx:120: uses t('plan.whyThisPlan').
+- plan.whyThisPlan added after addTitle in en.json ("Why this plan"), es.json ("Por qué este plan"), fr.json ("Pourquoi ce plan").
 
-GAP ROWS: none newly built or edited. This was locale work with no gap row.
+GAP ROWS: none built or edited; this was locale and bug-fix work.
 
-IN PROGRESS: nothing mid-edit. Recommended next: remove addMenu.voice and addMenu.describeOutLoud from es.json after confirming nothing uses them. They are the last key difference from en.json. A search found no direct use; dynamic addMenu lookups traced so far use SLOT_KEYS.
+IN PROGRESS: nothing mid-edit. The "Macros" task made no edits. Its brief named src/app/nutrition.tsx, which doesn't exist, and no en.json key has the exact value "Macros".
+
+RECOMMENDED NEXT: with a brief allowing locale edits, add a key such as nutrition.macrosKicker to all three locales and use it at src/app/dashboard/nutrition.tsx:77 (kicker="Macros"; t is at line 53). Then run src/__tests__/render/detailChrome.render.test.tsx, which renders this screen and may assert on or snapshot the kicker (not checked).
 
 LAST CHECKS
-- Last full run, before the fr summaryTitle edit: tsc exit 0; 65 suites, 824 tests, 4 snapshots passing.
-- After that edit: tsc exit 0, fr.json parses, Jest not run.
-- Keys: en 149, fr 149 matching; es 151 (the two extras).
+- Last full run, after the fr key: tsc exit 0; 65 suites, 824 tests, 4 snapshots passing. tsc exit 0 again in the Macros round; nothing edited since.
+- Keys: en 150, fr 150 matching; es 152 (extras addMenu.voice, addMenu.describeOutLoud).
 
 DECISIONS
-- Line 121 label now reads "N day streak", dropping "Current streak", because the existing key has no such wording.
-- Line 115 is the load-failure notice, so it got its own key rather than dayStreak: the stored number is untrustworthy on that path.
-- French streak strings use "jours d’affilée", not "série", because gymLog already uses "séries" for sets. "vos" matches the file's formal address. The wording is a little literal.
-- Celebration strings have no {{count}}, since the design shows the number separately. Dashboard strings do.
+- goals.macros not reused: "Macro targets" would change the English kicker.
+- Future-dated logs still read "Last logged today", per brief.
+- No "a petit-dejeuner" value exists in fr.json, so nothing was changed. The likely source is "Ajouter à {{slot}}" plus a meal name; a real fix needs per-meal strings in all locales. Waiting on Isa to say where the wording appears.
 
 GOTCHAS
-- src/lib/i18n/index.ts:41 fixes lng to 'en', so es and fr never show on screen.
-- No test renders (tabs)/index.tsx, and none covers locale files, plural selection or CelebrationCard. Passing suites say nothing about them. --findRelatedTests on index.tsx finds nothing and exits 1.
-- The Edit tool can write a plain space for U+00A0. Patch with node using escapes and check code points.
-- Briefs often ban /tmp and output redirection. Shell is zsh: quote parenthesised paths and --include globs; grep with LC_ALL=C /usr/bin/grep.
-- Check key sets in both directions; a missing-only check hid the es extras.
+- src/lib/i18n/index.ts:41 fixes lng to 'en' (handover, not rechecked); fallbackLng is 'en'. es and fr never show.
+- Handover paths can be wrong: nutrition.tsx is under src/app/dashboard/.
+- No test imports plan.tsx. I never checked whether a suite renders SavedMealsList; no test I know of checks the 11pm case.
+- design/Lume App.html is gzip-compressed inside its __bundler/manifest; decode assets before searching. The earlier "breakfast" search ran on raw HTML and needs re-running.
+- Edit tool can write a plain space for U+00A0. Shell is zsh: quote parenthesised paths; grep with LC_ALL=C /usr/bin/grep.
 
 NOT FIXED
-- Hardcoded: plan.tsx:120; nutrition.tsx:77; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
-- dashboard.welcome and gymBedtime look unused; lastLoggedDaysAgo_one is unreachable.
-- entry.title stays English in plan.addTitle.
-- SLOT_KEYS duplicated in add.tsx and food.tsx.
-- Design's "14-day streak" is hyphenated; the app's string is not.
-- Gap row 17 still says "Footnote still missing".
+- Hardcoded: dashboard/nutrition.tsx:77 and :79; (tabs)/gym.tsx:112, :121; gym/freeze.tsx:48; StreakCounter.tsx:15.
+- lastLoggedDaysAgo_one unreachable in en, es, fr.
+- plan.addTitle: es and fr mean "Add to" but en is "Add"; entry.title stays English.
+- es extras unremoved; need a confirmed no-use search.
 
 WAITING ON ISA
-- Device runs: Summary title; streak loading and failure states; VoiceOver streak labels; celebration card and streak at 1 and above; saved meal cards; plan screen; VoiceOver Add label.
-- Native review of all new Spanish and French strings.
-- Whether French standardises on U+00A0 and U+2019; fr.json still mixes apostrophes.
+- Device runs: saved meal labels, including a meal logged late the previous evening; Why this plan heading on a plan with a reason.
+- Native review of new es and fr strings.
+- Macros key decision.
