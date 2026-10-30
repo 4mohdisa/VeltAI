@@ -692,3 +692,8 @@
 - 2026-10-31 00:58 Kept the round to checks only with no edits, so the flag clears without adding new changes.
 - 2026-10-31 00:58 Kept action run because Jev gives run 95% and the task needs nothing from Isa.
 - 2026-10-31 00:58 Left the es and fr savedMeals keys and the unreachable branch fix as the next items, one task per round.
+- 2026-10-31 00:58 Chose es.json keys over the SavedMealsList branch fix: the Claude Code report named it as NEXT and it is a locale-only change with no code risk.
+- 2026-10-31 00:58 Used Spanish values I wrote myself; they are flagged for native review under Blocked on Isa, so no string is claimed as verified.
+- 2026-10-31 00:58 Limited checks to a node parse plus one tsc run, because the loop's testing rules forbid a full suite on a non-checkpoint round and no test reads locale files.
+- 2026-10-31 00:58 Did not add the fr.json keys yet: notes say one locale file per round, so fr follows next round.
+- 2026-10-31 00:58 Kept the round as build, not verification: the last report was clean, so the flag is already cleared.

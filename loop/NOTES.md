@@ -31,20 +31,22 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - en, es, fr: addMenu slots, foodLog, savedMeals (logged, logFailed, lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo_one, lastLoggedDaysAgo_other, neverLogged). SavedMealsList toasts use logged and logFailed.
 - SavedMealsList lastLoggedLabel takes t and uses savedMeals keys (all four branches, days passed as count). Built in R185, not verified.
 - en, es, fr: plan group (suggested, addTitle, title, emptyTitle, emptyMessage). plan.tsx uses them for suggested line, add title, screen title and empty state. R187, not verified.
-- en.json only: savedMeals emptyTitle, emptyMessage, itemCount_one, itemCount_other, logNow added. SavedMealsList.tsx lines 85, 86, 102 and 109 call t(). R189, not verified. es.json and fr.json do not have these keys yet.
+- en.json: savedMeals emptyTitle, emptyMessage, itemCount_one, itemCount_other, logNow added. SavedMealsList.tsx lines 85, 86, 102 and 109 call t(). R189, verified by R190 as present in en.json only.
+- es.json: savedMeals emptyTitle, emptyMessage, itemCount_one, itemCount_other, logNow added this round (R191). Spanish values are manager-written, pending native review. fr.json still lacks these five.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Last green checkpoint: R184 (tsc 0, 65 suites, 824 tests, 4 snapshots; parse en, es, fr 0).
 - R185 flagged, cleared by R186 verification (green).
-- R187 flagged (tsc 0 and JSON parse OK, full suite not run). R188 verification: tsc 0, 65 suites, 824 tests, 4 snapshots passing; plan.tsx title and empty state use t(); en, es, fr parse and hold plan keys. R187 flag cleared.
-- R189 flagged (tsc 0 and en.json parse OK, full suite not run). R190 is a verification round (tsc, full suite, three locale parses, SavedMealsList check, no edits).
-- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx title and empty state, lastLoggedLabel, R189 savedMeals strings. No test reads locale files or covers SavedMealsList or plan.tsx.
+- R187 flagged. R188 verification: tsc 0, 65 suites, 824 tests, 4 snapshots passing. R187 flag cleared.
+- R189 flagged. R190 verification: tsc 0, 65 suites, 824 tests, 4 snapshots passing; en, es, fr parse; SavedMealsList lines 85, 86, 102, 109 call t(). R189 flag cleared.
+- R191: es.json savedMeals keys added (node parse and tsc to run; no Jest).
+- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx title and empty state, lastLoggedLabel, R189 savedMeals strings, es savedMeals keys. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R190: verification round (tsc, full suite, locale parse, SavedMealsList check). No edits. Clears R189 flag.
-2. Add the five savedMeals keys (emptyTitle, emptyMessage, itemCount_one, itemCount_other, logNow) to es.json, then fr.json (one file per round). fallbackLng is en, so no raw key shows.
+1. R191: es.json savedMeals five keys (in progress; check with node parse and tsc).
+2. fr.json: add the same five savedMeals keys. One file per round.
 3. Fix SavedMealsList lastLoggedDaysAgo_one: branch is unreachable because days === 1 returns the yesterday string.
 4. Locale gaps, one file per round: fr goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals; es still has addMenu.voice and describeOutLoud.
 5. 'Why this plan' hardcoded at src/app/dashboard/plan.tsx:120 to plan keys.
@@ -70,7 +72,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Device runs: Add sheet, recipe and fibre, quick add, celebration, delete dialog, VoiceOver, toasts, saved meal toasts (both states, all four last-logged labels), saved meals empty state and item counts and Log now, plan Suggested and Add label, plan title and empty state.
 - Meal delete has no gap row. Macro types for food detail (data model, parked).
 - Native review fr: all new savedMeals and plan strings, plain vs no-break spaces, gender agreement, last-logged wording, 'ajout' vs 'Enregistre'. Older French strings use plain spaces; open question.
-- Native review es: new plan and savedMeals strings, 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
+- Native review es: new plan and savedMeals strings (including the five R191 keys), 'Puede que no coincida', addedToMeal word order, 'elemento', masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 
 ## Gotchas
@@ -84,14 +86,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 - Verification rounds keep being requested after rounds that skip Jest, so the automatic flag may refire.
 - Grep of design/Lume App.html found no plan empty-state wording and no saved-meal empty-state wording; the English values are the exact old app text.
+- Handover summary's 'fr lacks plan' is stale; fr plan group is present.
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187. Next due around R202.
 - R183 flagged, cleared by R184 (green).
 - R185 flagged (tests not run). R186 verification green, flag cleared.
 - R187 flagged (full suite not run). R188 verification green, flag cleared.
-- R189 flagged (full suite not run, tsc and en.json parse ran). R190 verification round assigned.
-- Jev R190: run 95%, ask 4%, stop 1%. Risk 1.3/2 noted; kept run. Flag clearance comes first, then the es keys.
-- Handover summary's 'fr lacks plan' is stale; fr plan group is present.
+- R189 flagged (full suite not run). R190 verification green, flag cleared.
+- Jev R190: run 95%, ask 4%, stop 1%. Risk 1.3/2 noted; kept run.
+- Jev R191 (from handover): run 96%, ask 3%, stop 1%. Last task clean-finish 32%. Risk 1.4/2. Kept run; task is locale-only and small, which lowers the risk.
 - Handover summary's 'fr lacks goals, gymLog, dashboard, nutrition, settings.scanAccuracy' still applies (Next 4).
 - Handover summary's 'Recommended next: move remaining SavedMealsList strings' is done (R189).

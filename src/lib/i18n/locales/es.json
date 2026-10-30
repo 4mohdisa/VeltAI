@@ -112,7 +112,12 @@
     "lastLoggedYesterday": "Registrado ayer",
     "lastLoggedDaysAgo_one": "Registrado hace {{count}} día",
     "lastLoggedDaysAgo_other": "Registrado hace {{count}} días",
-    "neverLogged": "Nunca registrado"
+    "neverLogged": "Nunca registrado",
+    "emptyTitle": "Todavía no hay comidas guardadas",
+    "emptyMessage": "Guarda una comida desde el registro para repetirla con un toque.",
+    "itemCount_one": "{{count}} elemento",
+    "itemCount_other": "{{count}} elementos",
+    "logNow": "Registrar ahora"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
