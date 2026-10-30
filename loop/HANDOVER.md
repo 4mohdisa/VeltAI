@@ -1,37 +1,43 @@
-HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified. Expo docs requirement is in AGENTS.md.
+HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified; Isa verifies. Expo docs requirement is in AGENTS.md. Source of truth: design/Lume App.html.
 
-BUILT THIS SESSION (all BUILT, not verified)
-- src/lib/data/hooks.ts: useFoodSearch recents carry fibre per 100 g; unknown stays undefined.
-- src/app/food/new-recipe.tsx: totals sum fibre; Total line ends "· Xg fibre"; fibre added to the all-zero check.
-- src/app/food/add.tsx: marginBottom -space.xl on the tile grid cancels SheetContent's 20pt, leaving the 34pt inset (design: 34px).
-- DESIGN_GAP_ANALYSIS.md: Food Search line 1046 updated (status stays DIFFERENT). Add sheet row 90, section and correction row 1445 updated; add.tsx:56 reference fixed. Count line unchanged: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (not verified), 0 EXACT. BUILT rows: 76 Gym log sheet, 86 Food detail, 90 Add sheet.
+BUILT SO FAR (all BUILT, not verified)
+DESIGN_GAP_ANALYSIS.md rows at BUILT: 76 Gym log sheet, 86 Food detail, 90 Add sheet. The doc was not edited this session.
+This session, locale files only, in src/lib/i18n/locales/:
+- es.json: addMenu.addToSlot plus 8 missing keys.
+- fr.json: new 16-key addMenu block.
+- en.json: addMenu.breakfast, lunch, dinner, snack (value "Snacks"); addMenu now has 20 keys.
+No code reads the four slot keys yet.
 
-Last checks: tsc 0 errors at the add.tsx edit; sheetVariant and tabbar 22 of 22. Last full app suite, 65 suites, 824 tests, predates the recipe totals and add.tsx edits.
+Last checks: tsc 0 errors, run after the en.json edit. Last full app suite (npm test -- --silent) predates that edit, which was tsc only: 65 suites, 824 tests, 4 snapshots.
 
-IN PROGRESS: nothing mid-edit.
+IN PROGRESS: Add sheet slot title translation, nothing mid-edit.
+1. Add the four keys to es.json.
+2. Add them to fr.json (one file per round).
+3. Change src/app/food/add.tsx:56 to use them.
 
 DECISIONS
-- Food detail "missing macros stay undefined": no edit made. Protein, carbs and fat are required numbers on FoodItem, NewFoodItem, DetailItem and logInputFromItem; a cast gives NaN totals; display-only would show a dash but log 0. Recommended: widen types across files, count missing as 0 in sums. FoodLog response requires them; backend storage unchecked.
-- Negative margin chosen because only add.tsx was in scope and SheetContent is shared.
-- Recipe missing fibre saves 0 (RecipeIngredient.fibre required). Macros unrounded; calories rounded.
-- Recipe builder has no design counterpart.
-
-WAITING ON ISA
-- Macro types decision; accept or replace the negative margin.
-- Device runs: Add sheet (34pt on 34pt-inset iPhone; grid at 320pt and 430pt); recipe flow and fibre; Quick add; celebration card.
-- Confirm label; Calories column; global + title; whether the last-hour scan stays.
-
-NOT FIXED
-- Unknown fibre shows "0g fibre" in recipe Total.
-- Add sheet gap is 0pt on no-inset devices; doc doesn't say so.
-- Cell 1445 "This pass" now holds a build status, unlike other rows.
-- detail.tsx: num() rounds macros on save; saved-food calls drop fibre.
-- Add sheet: Search foods destination, SF Symbols vs SVGs, scan routes.
-- No test for new-recipe.tsx or SegmentedField. Calories drift in editRow and recents. Row 87 open items. Meal chip token unconfirmed.
-- es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot.
-- loop/NOTES.md lines 39, 42, 54 need re-reading.
+- Key name snack, value "Snacks": Isa's brief fixed the key; the value follows the design's MEALS list, the source of hMeal.
+- Keys sit in addMenu, as the brief's first choice.
+- French and Spanish are my translations; the design has no French. They use "vous" and "tú", matching each file.
+- voice and describeOutLoud stay in es.json until Isa approves removal.
+- Earlier, still open: negative margin at add.tsx:68 chosen because SheetContent is shared.
 
 GOTCHAS
-- --findRelatedTests hooks.ts gives 5 suites, 33 tests; the "9 suites, 116" figure means nine named suites (R94 list). Source-reading tests are invisible to it, including foodDetail, fibrePipeline, sheetVariant and foodMealMove for detail.tsx.
-- Decoded design is in /tmp/lume-design (71f71ac4 is food) and may vanish; the raw HTML is compressed.
-- Shell grep is ugrep; long context patterns can error. Use /usr/bin/grep with LC_ALL=C.
+- App slot value is 'Snacks' (src/lib/mock/data.ts:48) but the key is snack, so slot.toLowerCase() finds nothing for Snacks; add.tsx needs an explicit mapping.
+- Design mealNow() returns singular 'Snack'; MEALS uses 'Snacks'.
+- Locale path is src/lib/i18n/locales/, not src/locales/.
+- No test reads locale files. sheetVariant and tabbar only mention the food/add route.
+- Decoded design is in /tmp/lume-design and may vanish (71f71ac4 is food); raw HTML is compressed.
+- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep.
+
+NOT FIXED
+- src/app/(tabs)/food.tsx:543 and :965 pass raw slots; :717 and src/components/food/SavedMealsList.tsx:59, :63 are hardcoded English toasts.
+- fr.json foodLog has 2 keys; other fr blocks not compared with en.json.
+- Add sheet gap is 0pt on no-inset devices; doc omits this.
+- French "Ajouter à petit-déjeuner" may need "au".
+- Handover items not rechecked: unknown fibre shows "0g fibre"; detail.tsx num() rounds macros, saved-food calls drop fibre; no test for new-recipe.tsx.
+
+WAITING ON ISA
+- Native review of Spanish and French; confirm "Snacks".
+- Device runs: Add sheet (34pt gap, grid at 320pt and 430pt, long label wrapping), recipe flow and fibre, Quick add, celebration card.
+- Decisions: macro types, negative margin, Confirm label, Calories column, global + title, last-hour scan.
