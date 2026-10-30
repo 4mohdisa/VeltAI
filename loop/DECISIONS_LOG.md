@@ -287,3 +287,6 @@
 - 2026-10-30 23:33 Recorded the Add sheet bottom padding as BUILT (not verified). Section verdict stays PARTIAL MATCH.
 - 2026-10-30 23:33 Jev's run signal (86%) agrees with the chosen action; no override needed.
 - 2026-10-30 23:33 The handover's recommended next task (fibre in useFoodSearch recents) was already built in R92-R96, so it is not repeated.
+- 2026-10-30 23:34 Chose the doc-only flag clearance over locale keys, though Jev ranks locale keys first at 85%. Reason Jev cannot see: the decision rule says a flagged report must be cleared by a verification-only or doc-only run before new code. The last report was flagged and its two stale items are doc errors, so this round fixes them first.
+- 2026-10-30 23:34 Kept the '(line 84)' check inside this doc-only round. The report explicitly said it was not checked, so the flag only clears once it is confirmed or marked unchecked.
+- 2026-10-30 23:34 Did not add the no-inset device wording to the gap analysis. It is a Next item from the report, not a flagged error, and adding it would widen this doc round.

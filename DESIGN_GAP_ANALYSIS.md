@@ -1075,7 +1075,7 @@ saved gallery"*), and **Quick add** (*"Just calories, fast"*) as a **full-width
 88pt row**. Other tiles 148pt. Icon disc 46, glyph 19, as inline SVGs. Body bottom
 padding 34pt.
 
-**App:** title **"Add to {meal}"** from the `slot` param (`add.tsx:53`), or **"Add
+**App:** title **"Add to {meal}"** from the `slot` param (`add.tsx:56`), or **"Add
 meal"** when no slot is passed. The same five tiles with the same copy, in the same
 order, with Quick add as the full-width 88pt row and the others 148pt. Disc 46,
 glyph 19, as SF Symbols through `Icon`. Tile grid: two equal columns (flexGrow 1,
@@ -1442,7 +1442,7 @@ drift 13 / ❌ Doesn't match 3". Against this pass:
 | Screen | Its verdict | This pass | Why its verdict was wrong |
 |---|---|---|---|
 | **Log session sheet** (line 100) | ⚠️ minor drift, "Controls are native: Duration slider, effort and energy steppers. Header mirrored." | ❌ | The design has no slider, no steppers and no effort/energy at all; all four of its logging outcomes are missing; two app controls are never persisted. The reported issue (a mirrored header) is the least of it. |
-| **Add sheet** (line 84) | ⚠️ "Tile language matches… the composition differs" | | The tile set and title differed from the design when this was checked. Since then the design's five tiles, Quick add as the full-width row and the title "Add to {meal}" are BUILT. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. |
+| **Add sheet** (line 84) | ⚠️ "Tile language matches… the composition differs" | BUILT (not verified) | The tile set and title differed from the design when this was checked. Since then the design's five tiles, Quick add as the full-width row and the title "Add to {meal}" are BUILT. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. |
 | **Quick add** (line 86) | ⚠️ | ❌ | No hero number, no ± discs, no preset pills, no keyboard bar; plus a `Label` field the design lacks. |
 | **Saved foods** (line 87) | ⚠️ | ❌ | The design is a photo gallery with a "New dish" tile; the app is a text list. Reducing this to "photos have no source" understates it. |
 | **My schedule** (line 97) | ✅ "Day names clipped until fix 3. The week starts on Sunday where the design starts on Monday." | ⚠️ | A ✅ cannot stand next to a listed defect. Beyond the week order it names, the design's entire "My workouts" section belongs on this screen and is absent, the row sub-line drops the muscle-group phrase, and the picker sheet differs in five ways (order, copy, sublabel, check treatment, an extra create row). |

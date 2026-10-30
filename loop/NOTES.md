@@ -25,6 +25,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Missing macros: a data model change, so parked, not asked (R107).
 - R106: Jev's 'ask' signal overridden; next task needs nothing from Isa. R107: same reason.
 - Add sheet bottom padding: negative margin (marginBottom -space.xl on tile grid in add.tsx) accepted as interim workaround (R108). SheetContent is shared, so not edited.
+- R109: Jev's locale-keys ranking overridden to clear the flag from the R108 report first (doc-only fix). Flag rule outranks ranking.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -48,7 +49,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Rounded calories can drift in new-recipe editRow and recents.
 - new-recipe Total omits fibre; shows 0g fibre when unknown (stored as 0).
 - Test gap: no test names SegmentedField.tsx, quick-add.tsx or new-recipe.tsx.
-- Doc: correction rows (food detail and Add sheet) carried a cross beside BUILT; fix in R108 doc-only run. Add sheet bottom padding entries updated in R108.
+- Doc: stale 'add.tsx:53' reference (title now at line 56) and '(line 84)' reference in the Add sheet correction row; empty 'This pass' cell in that row. Fixed in R109 doc-only run.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route to log-session, or accepted deviation (since r43).
@@ -62,7 +63,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device runs: recipe flow (fibre totals, recents fibre, 0g when unknown, save); quick add (fit, NumberEntryBar, pill, chips, MEAL caption, toast); Add sheet grid at 320pt and 430pt; celebration flow (row 17 step 3).
 
 ## Next
-1. R108 (this round): doc-only. Update Add sheet bottom padding entries and remove crosses beside BUILT in correction rows, in DESIGN_GAP_ANALYSIS.md only. No tests.
+1. R109 (this round): doc-only. Fix stale add.tsx line reference, confirm or mark '(line 84)', fill empty This pass cell in the Add sheet correction row, in DESIGN_GAP_ANALYSIS.md only. No tests. Clears the R108 flag.
 2. Locale keys: es.json addMenu.addToSlot; fr.json addMenu.title and addToSlot. Design copy only.
 3. Add sheet icons (SF Symbols to design SVGs), one icon per round, in src/app/food/add.tsx.
 4. Checkpoint: full tsc and full app suite, no file changes.
@@ -78,6 +79,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Saved foods fibre dropped in editSavedFood and saveFood.
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx.
 - Add sheet negative margin: replace with a SheetContent option only if Isa wants it cleaner (shared file).
+- Recents-fibre handover item already built in R92-R96; not pending.
 
 ## Loop notes (condensed)
 - R83-R87: verification and doc rounds; flags cleared.
@@ -88,7 +90,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R105: verification-only, tsc 0, hooks jest 5/5 suites, 33/33 tests. Flag cleared. Name the test set explicitly in future checks.
 - R106: detail.tsx missing-macros fix blocked (needs type change); moved to Parked, not asked. Related tests to run by name when that work happens: foodDetail, fibrePipeline, sheetVariant, foodMealMove.
 - R107: Jev ask overridden. Add sheet padding built via negative margin; report flagged as partly done (padding workaround, device check open).
-- R108: flag from R107 being cleared by doc-only run (gap analysis Add sheet entries). Handover recommendation (fibre in useFoodSearch recents) already built in R92-R96; dropped from Next.
+- R108: doc-only, Add sheet padding entries and correction rows updated. Report flagged (type check and tests not run, task partly done: stale line ref, '(line 84)' unchecked, empty cell).
+- R109: doc-only flag clearance chosen over locale keys (Jev 85%); flag rule applies.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
@@ -98,3 +101,4 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - zsh does not word-split unquoted variables. Expo rules in AGENTS.md.
 - loop/NOTES.md is edited outside the session; re-read before each update.
 - Grepping 'hooks' is loose; name the exact test set.
+- Add sheet title line moves; grep before citing a line number.
