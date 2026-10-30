@@ -713,12 +713,12 @@ function CaloriesCard({
 function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[], t: TFunction): void {
   haptics.warning();
   Alert.alert(
-    `Delete ${slot}?`,
-    `This removes ${rows.length} ${rows.length === 1 ? 'item' : 'items'} and recomputes the day's totals.`,
+    t('foodLog.deleteMealTitle', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }),
+    t('foodLog.deleteMealMessage', { count: rows.length }),
     [
-      { text: 'Cancel', style: 'cancel' },
+      { text: t('common.cancel'), style: 'cancel' },
       {
-        text: 'Delete',
+        text: t('foodLog.deleteMealConfirm'),
         style: 'destructive',
         onPress: () => {
           haptics.impactHeavy();

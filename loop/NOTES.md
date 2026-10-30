@@ -16,8 +16,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - French and Spanish slot translations are agent translations ('vous' in fr, 'tú' in es).
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 - Meal delete toast: 'Removed {{slot}}' (design wording). Isa may override. R135.
+- Meal delete dialog: design defaults apply for casing and wording until Isa overrides. R137 keys added.
 - Flag rule outranks Jev ranking. Jev 'ask' overridden when the next task needs nothing from Isa.
-- Prompts: one task, one editable file. Name design/ file and gap row. No git. Branch loop/design-match only.
+- Prompts: one task, one editable file. Name design/ file and gap row (or state none). No git. Branch loop/design-match only.
 - Checkpoints: full tsc and full app suite, no file changes.
 
 ## Built (not verified)
@@ -27,7 +28,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx sums fibre.
 - Locales: en addMenu 20 keys; es addMenu 22; fr addMenu 20.
-- en.json foodLog.mealDeleted = 'Removed {{slot}}' (R135). Now read by food.tsx confirmDeleteMeal toast (R136), via t(`addMenu.${SLOT_KEYS[slot]}`). Toast not covered by any test.
+- en.json foodLog.mealDeleted = 'Removed {{slot}}' (R135). Read by food.tsx confirmDeleteMeal toast (R136) via t(`addMenu.${SLOT_KEYS[slot]}`). Toast not covered by any test.
+- R137: en.json foodLog gained deleteMealTitle ('Delete {{slot}}?'), deleteMealMessage_one, deleteMealMessage_other, deleteMealConfirm ('Delete'). Cancel uses existing common.cancel. No code reads them yet.
 - food.tsx slot keys at :551 and :973 via local SLOT_KEYS at :83. t imported as type TFunction at :18.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
@@ -35,7 +37,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132 (tsc 0, 65 suites, 824 tests).
 - Targeted only, not cleared: R131 add.tsx slot title (untested); R133 food.tsx slot mapping (tsc 0, 30 suites, 510 tests). R134 no edit, 6 suites green.
 - R135 flagged: tsc 0 and JSON parse OK, tests not run. R136: tsc 0, 30 suites, 510 tests green (food-related). Toast not exercised by any test.
-- R136 flagged as partly done by loop check: delete dialog strings still hardcoded. Handled in R137 (en.json keys first).
+- R137: tsc 0, JSON parse OK, 4 keys present once each. Tests not run by instruction; flagged by loop check. R138 runs tsc and targeted food suites to clear it.
 - Locale hand checks do not clear flags. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -43,10 +45,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices.
 - SLOT_KEYS duplicated in add.tsx and food.tsx.
 - food.tsx: 'Add to' labels :551, :973 keep capital (design lowercase). Toast :390 uses addSlot.toLowerCase(), no translation match.
-- food.tsx delete dialog (confirmDeleteMeal, about :715-:721) hardcoded English: title 'Delete {{slot}}?' pattern, message and buttons. Needs en.json keys first (R137), then food.tsx (next round).
-- food.tsx :725 former hardcoded toast now replaced (R136).
+- food.tsx confirmDeleteMeal (about :713-:730): still hardcoded English until R138 wires the keys.
 - VoiceOver labels ~:538, :768, :769, :793 and heading ~:772 show raw slot.
-- foodLog.addedToMeal and foodLog.mealDeleted missing in es.json and fr.json.
+- foodLog.addedToMeal, foodLog.mealDeleted and the four R137 delete keys missing in es.json and fr.json.
 - Hardcoded toasts: SavedMealsList.tsx :59, :63. plan.tsx :85 'Suggested:', :97 'Add ${entry.title}'.
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
@@ -81,23 +82,23 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx, or the add.tsx slot title. No locale tests.
 
 ## Next
-1. R137 (now): add en.json keys for the meal delete dialog (foodLog.deleteMealTitle plus any message or button keys, English copied from food.tsx). Read-only grep of confirmDeleteMeal call sites.
-2. R138: food.tsx confirmDeleteMeal dialog strings at about :715-:721 use t(...) with the new keys. One file.
-3. Lowercase 'Add to <slot>' in food.tsx :551 and :973.
-4. food.tsx :389 slot lookup, so it finds the translated slot.
-5. SavedMealsList.tsx :59 and :63.
-6. plan.tsx :85 and :97 (one file).
-7. foodLog.addedToMeal and mealDeleted into es.json and fr.json (one file per round).
-8. Add sheet icons: SF Symbols to design SVGs, one per round.
-9. Consolidate SLOT_KEYS into one shared helper, one file per round.
-10. Checkpoint: full tsc and full suite, no file changes.
-11. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. R138 (now): food.tsx confirmDeleteMeal wired to R137 keys (title via SLOT_KEYS, message with count, delete and cancel keys). Run tsc and targeted food suites.
+2. Lowercase 'Add to <slot>' in food.tsx :551 and :973.
+3. food.tsx :389 slot lookup, so it finds the translated slot.
+4. SavedMealsList.tsx :59 and :63.
+5. plan.tsx :85 and :97 (one file).
+6. foodLog.addedToMeal, mealDeleted and the R137 delete keys into es.json and fr.json (one file per round).
+7. Add sheet icons: SF Symbols to design SVGs, one per round.
+8. Consolidate SLOT_KEYS into one shared helper, one file per round.
+9. Checkpoint: full tsc and full suite, no file changes.
+10. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected: R89, R99, R117, R125 (no design/ file named); R123 (no branch line). All rewritten.
 - R134 flagged partly done: literal needed a key. Split into R135 (en.json) and R136 (wire).
 - R135 flagged: tests not run. R136 ran targeted suites to clear it.
-- R136 flagged by loop check as partly done (dialog strings still hardcoded). R137 addresses it as the locale prerequisite.
+- R136 flagged by loop check as partly done (dialog strings still hardcoded). R137 added en.json keys; R138 wires them.
+- R137 flagged by loop check: tests not run. R138 runs tsc and targeted food suites.
 - Jev ask overridden at R120, R124 to R126, R131, R134.
 - Open flags: R131, R133 (targeted), R134 (no edit). Next checkpoint clears them.
 - Handovers after R125 and later. Name files fully in prompts.

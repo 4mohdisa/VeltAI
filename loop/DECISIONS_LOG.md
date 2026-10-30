@@ -428,3 +428,8 @@
 - 2026-10-31 00:06 Chose candidate 1 over candidates 2 and 3 because it unblocks the next food.tsx change and needs nothing from Isa. Jev ranked run first (83%), so no override was needed.
 - 2026-10-31 00:06 Marked the delete wording as having no gap row, as the R136 report found. Left the row question under Blocked on Isa.
 - 2026-10-31 00:06 Added the read-only confirmDeleteMeal grep to CHECKED, to confirm the caller passes t before the dialog change.
+- 2026-10-31 00:07 Chose the delete-dialog wiring first because R137 added the keys and the dialog still shows hardcoded English. Clearing the R137 flag is the earlier unfinished step.
+- 2026-10-31 00:07 Required tsc plus targeted food-related jest suites this round, because the last report was flagged for tests not run.
+- 2026-10-31 00:07 Kept the delete title on the translated slot with no casing change, since the lowercase question for delete wording is still open with Isa and the design default applies.
+- 2026-10-31 00:07 Used t('common.cancel') for Cancel, since the existing common key covers it and no new key is needed.
+- 2026-10-31 00:07 Left the hardcoded 'Add to' capitals and SavedMealsList toasts for later rounds, one file per round.
