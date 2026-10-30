@@ -1,42 +1,37 @@
-HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified.
+HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified. Expo docs requirement is in AGENTS.md.
 
-BUILT THIS SESSION
-- src/app/food/new-recipe.tsx: ingredientFrom scales protein, carbs, fat and fibre by grams; editRow carries them back to per-100 g. Literal \n in comment removed.
-- src/app/food/add.tsx: tile grid uses flexGrow 1, flexBasis TILE_BASIS (40%), gap space.md. Title "Add to {meal}" already existed at about line 56 (no code change this session).
-- DESIGN_GAP_ANALYSIS.md: count line now 23 DIFFERENT, 15 PARTIAL, 3 BUILT (not verified), 0 EXACT. Add sheet row is BUILT (not verified). Row 87 Quick add is DIFFERENT, single label, with BUILT and still-open lists. FoodNumberEntryBar renamed NumberEntryBar. Food Search has recipe macro status and recents lines. Add sheet correction row updated.
+BUILT THIS SESSION (all BUILT, not verified)
+- src/lib/data/hooks.ts: useFoodSearch recents carry fibre per 100 g; unknown stays undefined.
+- src/app/food/new-recipe.tsx: totals sum fibre; Total line ends "· Xg fibre"; fibre added to the all-zero check.
+- src/app/food/add.tsx: marginBottom -space.xl on the tile grid cancels SheetContent's 20pt, leaving the 34pt inset (design: 34px).
+- DESIGN_GAP_ANALYSIS.md: Food Search line 1046 updated (status stays DIFFERENT). Add sheet row 90, section and correction row 1445 updated; add.tsx:56 reference fixed. Count line unchanged: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (not verified), 0 EXACT. BUILT rows: 76 Gym log sheet, 86 Food detail, 90 Add sheet.
 
-Last checks: full app suite 65 of 65 suites, 824 of 824 tests, before the fibre edit. After it: tsc 0 errors, eslint clean, nine hooks suites 116 of 116. No test covers new-recipe.tsx.
+Last checks: tsc 0 errors at the add.tsx edit; sheetVariant and tabbar 22 of 22. Last full app suite, 65 suites, 824 tests, predates the recipe totals and add.tsx edits.
 
 IN PROGRESS: nothing mid-edit.
 
 DECISIONS
-- Macros are unrounded: backend stores floats, display rounds. Calories keep Math.round.
-- Missing or null macros count as 0, because RecipeIngredient.fibre is a required number.
-- Row 87 stays DIFFERENT while open items remain.
-- Add sheet summary row is BUILT at Isa's instruction, though its section verdict stays PARTIAL MATCH.
-- Recipe builder has no design counterpart, so no gap row applies.
+- Food detail "missing macros stay undefined": no edit made. Protein, carbs and fat are required numbers on FoodItem, NewFoodItem, DetailItem and logInputFromItem; a cast gives NaN totals; display-only would show a dash but log 0. Recommended: widen types across files, count missing as 0 in sums. FoodLog response requires them; backend storage unchecked.
+- Negative margin chosen because only add.tsx was in scope and SheetContent is shared.
+- Recipe missing fibre saves 0 (RecipeIngredient.fibre required). Macros unrounded; calories rounded.
+- Recipe builder has no design counterpart.
 
 WAITING ON ISA
-- Confirm label: Button prop, change bodyBold for all callers, or accept 17/24.
-- Device run: recipe flow; Quick add (fit, no collapse, NumberEntryBar, pill, compact chips); Add sheet grid at 320pt and 430pt; celebration card flow.
-- Earlier open: Calories column on the card; global + title "Add meal" vs design's default meal.
-- Whether the last-hour modified-files check stays: it failed last round (20 files, from earlier rounds and loop writes); a scan limited to the round was empty.
-
-RECOMMENDED NEXT
-Add fibre to useFoodSearch recents in src/lib/data/hooks.ts, scaled per 100 g. Keep a missing value missing. Until then recent foods save fibre 0.
+- Macro types decision; accept or replace the negative margin.
+- Device runs: Add sheet (34pt on 34pt-inset iPhone; grid at 320pt and 430pt); recipe flow and fibre; Quick add; celebration card.
+- Confirm label; Calories column; global + title; whether the last-hour scan stays.
 
 NOT FIXED
-- totals in new-recipe.tsx omits fibre.
-- Add sheet: Search foods destination, SF Symbols vs SVGs, separate scan routes, bottom padding.
-- Correction row shows ❌ beside BUILT text.
-- Quick add open items are listed in row 87. Meal chip label token vs 600 13/17 unconfirmed.
+- Unknown fibre shows "0g fibre" in recipe Total.
+- Add sheet gap is 0pt on no-inset devices; doc doesn't say so.
+- Cell 1445 "This pass" now holds a build status, unlike other rows.
+- detail.tsx: num() rounds macros on save; saved-food calls drop fibre.
+- Add sheet: Search foods destination, SF Symbols vs SVGs, scan routes.
+- No test for new-recipe.tsx or SegmentedField. Calories drift in editRow and recents. Row 87 open items. Meal chip token unconfirmed.
 - es.json lacks addMenu.addToSlot; fr.json lacks addMenu.title and addToSlot.
-- Rounded calories can drift in editRow and recents.
-- No test names SegmentedField.
-- loop/NOTES.md changed 23:18; re-read lines 39, 42, 54.
+- loop/NOTES.md lines 39, 42, 54 need re-reading.
 
 GOTCHAS
-- Decoded design copies are in /tmp/lume-design (entry 71f71ac4 is food) and may vanish.
-- Source-reading tests are invisible to --findRelatedTests; grep src/__tests__.
-- Grepping "hooks" is loose. Expo docs requirement is in AGENTS.md.
-- zsh does not word-split unquoted variables.
+- --findRelatedTests hooks.ts gives 5 suites, 33 tests; the "9 suites, 116" figure means nine named suites (R94 list). Source-reading tests are invisible to it, including foodDetail, fibrePipeline, sheetVariant and foodMealMove for detail.tsx.
+- Decoded design is in /tmp/lume-design (71f71ac4 is food) and may vanish; the raw HTML is compressed.
+- Shell grep is ugrep; long context patterns can error. Use /usr/bin/grep with LC_ALL=C.
