@@ -35,15 +35,18 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recents macros per 100 g incl. fibre; new-recipe.tsx sums fibre.
 - food.tsx: slot heading, VoiceOver and 'Add to' labels via foodLog.addToMeal, toast, meal delete hint, dialog and toast use translated keys.
 - en, es, fr: addMenu breakfast/lunch/dinner/snack; foodLog delete and addedToMeal keys.
-- fr.json foodLog: R152 added the 11 missing keys (today, searchPlaceholder, noMatches, addCustomFood, mealHistory, noMealsTitle, noMealsMessage, addMeal, per100, openFood, conflict group). Agent 'vous' translations.
+- fr.json foodLog: R152 added the 11 missing keys. Agent 'vous' translations.
+- R155: es.json foodLog.openFood and foodLog.conflict group (4 keys). es and fr now match en foodLog key set (23 keys, same order). Agent translations, needs native review.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151 (tsc 0, 65 suites, 824 tests).
 - Targeted since R145: R146 (30 suites, 510 tests), R147 (8 suites, 119 tests). R148 to R150: tsc 0; en, es, fr JSON parse OK.
 - R152: tsc 0 and fr JSON parse ok reported. No tests were run; flagged.
-- R153: tsc 0; en, es, fr JSON parse OK; jest 42 suites, 647 tests, 4 snapshots, all passed. Loose name matching; coverage of food.tsx, add.tsx and i18n not confirmed. Flagged.
-- R154 (strict verification, cleared R153 flag): tsc 0; en, es, fr JSON parse OK. Jest exact paths: foodDates.test.ts, foodDetail.test.ts, foodMealMove.test.ts, render/foodDetailLogged.render.test.tsx. 4 suites, 67 tests, all passed, 0 snapshots. Coverage: none of these import or render src/app/food/add.tsx, src/app/(tabs)/food.tsx or src/lib/i18n. So no test covers the Add sheet title, food log labels, hint, toast or any locale value. Those stay BUILT, unverified.
+- R153: tsc 0; JSON parse OK; jest 42 suites, 647 tests, 4 snapshots, all passed. Loose name matching; coverage not confirmed. Flagged.
+- R154 (strict verification, cleared R153 flag): tsc 0; JSON parse OK. Exact paths: foodDates.test.ts, foodDetail.test.ts, foodMealMove.test.ts, render/foodDetailLogged.render.test.tsx. 4 suites, 67 tests, all passed. None of these import or render src/app/food/add.tsx, src/app/(tabs)/food.tsx or src/lib/i18n. Add sheet title, food log labels, hint, toast and locale values stay BUILT, unverified.
+- R155: tsc 0; es.json parse OK. Jest not run; flagged.
+- R156 (in progress): checkpoint, full tsc and full app suite, no file changes.
 - No test renders the add title, slot heading, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -55,12 +58,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
-- es missing foodLog.openFood and foodLog.conflict group (in progress R155).
+- food.tsx :539, :795 'Add to' text and :771 hint hardcoded English; :390 toast lowercases raw slot. Handover suggests :539 and :795 use foodLog.addToMeal, as :975 does.
 - Locale wording: fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'; fr has 2 es keys.
-- fr review items from R152: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ?, 'Maintenez' in deleteMealHint, 'a Petit-dejeuner'.
+- fr review items from R152: 'Appuyez sur +', 'Pas encore de repas', 'preference vegane/vegetarienne' agreement, plain spaces in noMatches and before : and ?, 'Maintenez' without 'appuye' in deleteMealHint, 'a Petit-dejeuner'.
+- es review: Puede que no coincida con tu preferencia (feminine agreement for vegana/vegetariana); 'Anadir a Desayuno'; addedToMeal word order; mealDeleted wording; 'elemento'.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press meal delete not discoverable.
-- food.tsx :539, :795 'Add to' text and :771 hint hardcoded English; :390 toast lowercases raw slot.
 - es and fr lack foodLog.mealDeleted, addedToMeal and deleteMeal keys.
 
 ## Blocked on Isa
@@ -87,22 +90,24 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Food tab render test for add labels, hint and toast (needs a new test suite; not allowed by the brief).
 
 ## Next
-1. R155 (in progress): es.json foodLog.openFood and foodLog.conflict group. One file, locale only.
+1. R156 (in progress): full checkpoint, tsc and full app suite, no file changes. Clears the R155 flag.
 2. SavedMealsList.tsx :59, :63 (locale keys; en first, then es, then fr).
 3. plan.tsx :85, :97.
-4. es locale gaps: mealDeleted, addedToMeal, deleteMeal. One file per round.
-5. fr locale wording fixes listed above, one file per round.
-6. Add sheet icons to design SVGs, one per round.
-7. Consolidate SLOT_KEYS, one file per round.
-8. If nothing non-gym remains: stop with 'only owner decisions remain'.
+4. food.tsx :539, :795 use foodLog.addToMeal; :771 hint and :390 toast to locale keys.
+5. es and fr locale gaps: mealDeleted, addedToMeal, deleteMeal. One file per round.
+6. fr and es wording fixes listed above, one file per round.
+7. Add sheet icons to design SVGs, one per round.
+8. Consolidate SLOT_KEYS, one file per round.
+9. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected for no design/ file were rewritten with design/Lume App.html named.
 - R152 prompt rejected before it ran for not naming design/. Rewritten.
 - R153 prompt rejected before it ran for not naming the loop/design-match branch. Rewritten with branch and no-git rule.
-- R152 report flagged: tests not run. R153 flagged: 'task looks only partly done'. R154 strict re-check ran exact paths and cleared the flag; its coverage gap is recorded above.
-- R154 NEXT suggested a render test for the food tab. Declined: brief forbids new test suites.
-- Flags: R144, R146, R148, R149, R150, R152, R153. R151 full checkpoint green. R154 cleared R153.
+- R152 report flagged: tests not run. R153 flagged: 'task looks only partly done'. R154 strict re-check cleared it.
+- R154 NEXT suggested a food tab render test. Declined: brief forbids new test suites. R155 NEXT repeated it. Still declined.
+- R155 report flagged: tests not run. R156 is a checkpoint to clear it.
+- Flags: R144, R146, R148, R149, R150, R152, R153, R155. R151 full checkpoint green. R154 cleared R153.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 

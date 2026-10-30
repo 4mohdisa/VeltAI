@@ -523,3 +523,7 @@
 - 2026-10-31 00:25 Chose the es locale gap first: smallest task, needs nothing from Isa, and already in the agreed Next order. The loop's default order puts locale rounds before the hardcoded-string work.
 - 2026-10-31 00:25 Jev's 'run' (81%) matches my choice, so no look-again was needed.
 - 2026-10-31 00:25 Kept the locale-only round naming design/Lume App.html and gap row 'none', per the rule for locale rounds.
+- 2026-10-31 00:26 Chose the checkpoint because the loop note says the R155 report was flagged for tests not run and the flag must be cleared before a new build task. Flag rule outranks Jev, which also favours running.
+- 2026-10-31 00:26 Did not follow the R155 NEXT suggestion of a food tab render test. The brief forbids new test suites.
+- 2026-10-31 00:26 Did not use the handover's recommended food.tsx addToMeal change this round. It is a build task and the flag comes first. It stays in Open for a later round.
+- 2026-10-31 00:26 Kept the food tab hardcoded strings (:539, :771, :795) in Open rather than parking them, because they are buildable with locale keys.
