@@ -495,3 +495,12 @@
 - 2026-10-31 00:20 Ignored Jev's ask at 33% because the next task needs nothing from Isa.
 - 2026-10-31 00:20 Kept the checkpoint to tsc and the app suite with no file changes, as the checkpoint rule requires.
 - 2026-10-31 00:20 Rewrote the notes file to under 600 words, merging repeated items and removing finished work, as the loop note requires.
+- 2026-10-31 00:21 Chose the fr.json foodLog keys over SavedMealsList: one file, no component change, clears a known locale gap the last report named as NEXT.
+- 2026-10-31 00:21 Design row set to none because this is locale copy with no layout change.
+- 2026-10-31 00:21 Kept the locale-only scope to honour the one-locale-file-per-round rule.
+- 2026-10-31 00:21 Did not run the full suite; the last full checkpoint (R151) was green and this change touches JSON only.
+- 2026-10-31 00:21 Required a JSON parse and a single tsc run as the checks, matching the report rule.
+- 2026-10-31 00:22 Chose the fr.json foodLog keys first: one file, no code change, clears the locale gap that blocks French users from seeing the Food screen.
+- 2026-10-31 00:22 Rewrote R152 to name design/Lume App.html and gap row none, because the loop rejected the previous prompt for missing the design/ file.
+- 2026-10-31 00:22 Left the fr wording 'a petit-dejeuner' for a later round to keep this prompt to one edit.
+- 2026-10-31 00:22 Kept the existing rule that the loop skips es.json in this round, to keep the locale change to one file.

@@ -58,6 +58,15 @@
     "snack": "Snacks"
   },
   "foodLog": {
+    "today": "Aujourd'hui",
+    "searchPlaceholder": "Rechercher des aliments…",
+    "noMatches": "Aucun résultat pour « {{query}} ».",
+    "addCustomFood": "Ajouter un aliment personnalisé",
+    "mealHistory": "Historique des repas",
+    "noMealsTitle": "Pas encore de repas",
+    "noMealsMessage": "Appuyez sur + pour ajouter votre premier repas.",
+    "addMeal": "Ajouter un repas",
+    "per100": "{{value}} / 100g",
     "addToMeal": "Ajouter à {{slot}}",
     "addedToMeal": "Ajouté à {{slot}} : {{energy}}",
     "mealDeleted": "Suppression de {{slot}} effectuée",
@@ -66,6 +75,13 @@
     "deleteMealMessage_other": "Cela supprime {{count}} éléments et recalcule les totaux de la journée.",
     "deleteMealConfirm": "Supprimer",
     "deleteMealHint": "Maintenez pour supprimer tout ce qui est enregistré dans {{slot}}",
-    "noMatchesHint": "Essayez un autre nom, ou ajoutez-le comme aliment personnalisé."
+    "openFood": "Ouvrir {{name}}",
+    "noMatchesHint": "Essayez un autre nom, ou ajoutez-le comme aliment personnalisé.",
+    "conflict": {
+      "halal": "Peut ne pas correspondre à votre préférence halal",
+      "vegan": "Peut ne pas correspondre à votre préférence végane",
+      "vegetarian": "Peut ne pas correspondre à votre préférence végétarienne",
+      "gluten_free": "Peut ne pas correspondre à votre préférence sans gluten"
+    }
   }
 }

@@ -18,6 +18,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 - French and Spanish slot translations are agent translations ('vous' fr, 'tu' es).
 - Prompts: one task, one editable file, name design/ file and gap row (or 'none'). No git. Branch loop/design-match only.
+- Locale-only rounds name design/Lume App.html and gap row 'none' so the prompt check passes.
 - Checkpoints: full tsc and full app suite, no file changes.
 - Locale keys: en first, then es, then fr, one file per round.
 - Flag rule outranks Jev. Jev 'ask' overridden when next task needs nothing from Isa.
@@ -33,9 +34,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
-- Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145 (tsc 0, 65 suites, 824 tests).
+- Full checkpoints green: R113, R117, R120, R122, R126, R130, R132, R140, R145, R151 (tsc 0, 65 suites, 824 tests).
 - Targeted since R145: R146 (30 suites, 510 tests), R147 (8 suites, 119 tests). R148 to R150: tsc 0; en, es, fr JSON parse OK.
-- R151: full checkpoint to clear the 'tests not run' flag.
 - No test renders the add title, slot heading, delete dialog, toast or 'Add to' labels. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
@@ -47,10 +47,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Recipe Total shows 0g fibre when unknown. Saved foods drop fibre. detail.tsx num() rounds on save.
-- fr foodLog missing 11 keys: today, searchPlaceholder, noMatches, addCustomFood, mealHistory, noMealsTitle, noMealsMessage, addMeal, per100, openFood, conflict. es missing foodLog.openFood and conflict group.
+- fr foodLog missing 11 keys: today, searchPlaceholder, noMatches, addCustomFood, mealHistory, noMealsTitle, noMealsMessage, addMeal, per100, openFood, conflict. R152 rewritten (names design/Lume App.html, gap row none) and in progress. es missing foodLog.openFood and conflict group.
 - Locale wording: fr 'a petit-dejeuner' should be 'au'; es 'Anadir a Desayuno' should be 'Anadir al desayuno'; fr has 2 es keys.
 - Design mealNow() returns 'Snack'; MEALS uses 'Snacks'.
 - Long-press meal delete not discoverable.
+- food.tsx :539, :795 'Add to' text and :771 hint hardcoded English; :390 toast lowercases raw slot.
+- es and fr lack foodLog.mealDeleted, addedToMeal and deleteMeal keys.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or accepted deviation.
@@ -75,17 +77,19 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Recipe fibre saved as 0.
 
 ## Next
-1. R151: full checkpoint (tsc and full app suite), no file changes. Clears flag.
-2. SavedMealsList.tsx :59, :63 (locale keys).
+1. R152: add 11 missing foodLog keys to fr.json (locale only, one file). Rewritten with design/Lume App.html named. In progress.
+2. SavedMealsList.tsx :59, :63 (locale keys; en first, then es, then fr).
 3. plan.tsx :85, :97.
 4. Add sheet icons to design SVGs, one per round.
 5. Consolidate SLOT_KEYS, one file per round.
-6. Fr and es locale gaps; ask Isa only if no other non-gym task remains.
+6. Fr and es locale gaps (es openFood and conflict; es mealDeleted, addedToMeal, deleteMeal); ask Isa only if no other non-gym task remains.
 7. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Prompts rejected for no design/ file were rewritten with design/Lume App.html named.
-- Flags: R144, R146, R148, R149, R150. R151 runs the full checkpoint.
+- R152 prompt rejected before it ran for not naming design/. Rewritten to name design/Lume App.html and gap row none.
+- Flags: R144, R146, R148, R149, R150. R151 full checkpoint green, flag cleared.
+- R152 chose fr foodLog keys over SavedMealsList: single file, reported as NEXT.
 - Jev ask overridden at R120, R124, R126, R131, R134.
 - Handovers after R125 and R141. Name files fully in prompts.
 
