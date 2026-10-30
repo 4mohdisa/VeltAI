@@ -9,19 +9,14 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - design/Lume App.html is source of truth; gap analysis is authoritative.
 - Isa: cardio stays Distance km; no food search chips; Goals as built; celebration card approved; already-logged routes to /gym/session; Summary card never calls logGymSession() with no args.
 - Celebration calories show a dash. Quick add detent fitToContents. Pill height by padding.
-- Macros stored unrounded, display rounds; calories Math.round. Recents missing macros stay undefined.
-- Gym duration logged when above 0, else undefined.
-- Grid 1fr 1fr, 12pt gap.
-- Missing macros are a data model change: parked, not asked.
-- Recipe builder has no design counterpart.
-- Add sheet row 90 BUILT at Isa's instruction; section verdict PARTIAL MATCH. Negative margin accepted as interim; SheetContent is shared, not edited.
+- Macros stored unrounded, display rounds; calories Math.round. Recents missing macros stay undefined. Gym duration logged when above 0, else undefined.
+- Grid 1fr 1fr, 12pt gap. Recipe builder has no design counterpart. Missing macros are a data model change: parked.
+- Add sheet row 90 BUILT at Isa's instruction; verdict PARTIAL MATCH. Negative margin accepted as interim; SheetContent is shared, not edited.
 - Flag rule outranks Jev ranking. Jev 'ask' overridden when the next task needs nothing from Isa.
-- Prompts: one task, one editable file (verification excepted); name design/ file and gap row; say no git; state branch loop/design-match only.
-- Checkpoints: full tsc and full app suite, no file changes.
-- A blocker that came back twice: park.
-- Slot labels: the loop adds the keys itself; design hMeal wording decides Snack vs Snacks (key name stays snack). Not asked of Isa.
-- Key name snack, value 'Snacks' (from design MEALS list). Keys sit in addMenu.
-- French and Spanish slot translations are agent translations; 'vous' in fr, 'tú' in es.
+- Prompts: one task, one editable file (verification excepted); name design/ file and gap row; no git; branch loop/design-match only.
+- Checkpoints: full tsc and full app suite, no file changes. A blocker that came back twice: park.
+- Slots: key snack, value 'Snacks' (design MEALS list). Keys sit in addMenu. Not asked of Isa.
+- French and Spanish slot translations are agent translations: 'vous' in fr, 'tú' in es.
 - voice and describeOutLoud stay in es.json until Isa approves removal.
 
 ## Built (not verified)
@@ -30,35 +25,25 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Goals restyle. Gym 'How did it go?' chooser. Row 17 steps 1-2 (CelebrationCard). Gym duration honesty.
 - Quick add: toast, MEAL caption, detent, 52pt pill, compact Meal control.
 - Recents macros per 100 g incl. fibre (hooks.ts). new-recipe.tsx sums fibre.
-- es.json addMenu: 18 keys plus addToSlot (R121, agent translation). fr.json addMenu: 16 keys (R118, agent translation).
-- en.json addMenu: breakfast, lunch, dinner, snack ('Snacks') added (R125). No code reads them yet.
+- Locales: en.json addMenu 20 keys (R125). es.json addMenu 22 keys (R127, agent translations). fr.json addMenu 16 keys (R118). No code reads the four slot keys yet.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification log
-- R113, R117 full checkpoints green: tsc 0, 65 suites, 824 tests, 4 snapshots.
-- R120 full suite green; cleared R118/R119 flag.
-- R121: es.json edit only, tsc run, tests not run. Flagged.
-- R122: verification only. tsc 0, full app suite 65 suites, 824 tests, 4 snapshots green. Cleared R121 flag.
-- R123: blocked. No slot label keys existed. No edit made.
-- R124: Next 1 (es.json unused keys) not confirmed done; re-check before removing anything.
-- R125: en.json addMenu four keys added. tsc 0, exit 0. Tests not run. Flagged by automatic check after handover.
-- R126: verification only. tsc 0 errors. Full app suite 65/65 suites, 824/824 tests, 4/4 snapshots. en.json parses, addMenu 20 keys, four slot keys present once each. es.json parses, addMenu 18 keys. fr.json parses, addMenu 16 keys. Cleared R125 flag. No file changes.
-- Hand checks of locales do not clear flags alone. No test reads locale files.
+- Full checkpoints green: R113, R117, R120, R122, R126 (tsc 0, 65 suites, 824 tests, 4 snapshots).
+- Flags: R121, R125, R127 had tests not run. R127 es.json edit is cleared by R128 verification.
+- Locale hand checks do not clear flags alone. No test reads locale files.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open differences
-- Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices (doc silent); row 1445 holds build status.
-- Add sheet slot: add.tsx:56 passes raw lowercased slot; 'Snacks' lowercased gives 'snacks', which has no key (needs explicit mapping to snack). es and fr titles show English slot names until keys are added.
-- Food log: food.tsx:543 and :965 pass raw slot into foodLog.addToMeal (same English-slot problem in es and fr).
-- Design inconsistency: design mealNow() returns singular 'Snack' for scans; MEALS uses 'Snacks'.
-- Hardcoded English toasts: food.tsx:717 (`${slot} deleted.`), SavedMealsList.tsx:59 and :63.
-- Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; Meal chip token; 17/24 vs 17/22.
+- Add sheet: SF Symbols not SVGs; scan routes split; Search foods goes to food tab; 0pt gap on no-inset devices.
+- Slot mapping: add.tsx:56 and food.tsx:543, :965 pass lowercased slot; 'Snacks' gives 'snacks', which has no key. es and fr titles show English until wired.
+- Design: mealNow() returns 'Snack' for scans; MEALS uses 'Snacks'.
+- Hardcoded English toasts: food.tsx:717, SavedMealsList.tsx:59 and :63.
+- Quick add (row 87): no blinking caret; own KAV; hardcoded English; offline toast names no meal; 17/24 vs 17/22.
 - Row 17: streak footnote missing; Time dash on empty plan; '0 min' possible; stat overflow.
 - Macros: food detail and quickAdd log missing as 0 (parked). detail.tsx num() rounds on save.
-- Saved foods drop fibre. Recents fibre not displayed. Recipe Total shows 0g fibre when unknown.
-- Calories drift in new-recipe editRow and recents.
-- Locales: es.json has unused voice and describeOutLoud (Next 6). fr.json foodLog has 2 of es's keys; other fr blocks not compared to en. Slot default 'Snack' vs design 'Snacks'. Key counts differ across locales (en 20, es 18, fr 16) until slot keys are added to es and fr.
-- Lowercased translated slots may read oddly (French 'à petit-déjeuner' should be 'au'). Native review needed.
+- Saved foods drop fibre. Recents fibre not displayed. Recipe Total shows 0g fibre when unknown. Calories drift in new-recipe editRow and recents.
+- Locales: es.json unused voice and describeOutLoud. fr.json foodLog has 2 of es's keys. Translated slots read oddly: fr 'à petit-déjeuner' should be 'au'; es 'Añadir a Desayuno' should be 'Añadir al desayuno'. Fix likely needs full-phrase strings. Native review needed.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route to log-session, or accepted deviation.
@@ -70,8 +55,7 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Last-hour modified-files check: keep, or round-scoped only.
 - Device runs: Add sheet (34pt inset; grid at 320pt and 430pt); recipe and fibre; quick add; celebration card.
 - Macro types for food detail: decision before any type change.
-- French review of fr.json addMenu (oneTapReadd, scanPackage, exactDatabaseMatch); tile wrap at 320pt.
-- Spanish review of es.json addMenu (quickAdd, searchPlaceholder, exactDatabaseMatch wrap at 320pt).
+- Native review: fr addMenu (oneTapReadd, scanPackage, exactDatabaseMatch); es addMenu (quickAdd, searchPlaceholder, exactDatabaseMatch wrap at 320pt).
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -83,36 +67,27 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - No render tests on food.tsx, detail.tsx, quick-add.tsx, log-session.tsx, new-recipe.tsx. No locale tests.
 
 ## Next
-1. (done R125) en.json breakfast, lunch, dinner, snack added. Verified as parse-only in R126.
-2. (done R126) Verification: tsc, full app suite, locale parse. Green.
-3. (R127, in progress) Add breakfast, lunch, dinner, snack to es.json addMenu only, same order as en.json. Values: Desayuno, Almuerzo, Cena, Snacks.
-4. Add the same four keys to fr.json only, same key order as en.json.
-5. Then add.tsx:56 maps 'Snacks' to key snack explicitly and uses the keys; food.tsx:543 and :965 get the same mapping.
-6. Remove unused voice and describeOutLoud from es.json (grep first; confirm first).
-7. Hardcoded English toasts: food.tsx:717, SavedMealsList.tsx:59 and :63 (one file per round).
-8. Add sheet icons: SF Symbols to design SVGs, one per round.
-9. Checkpoint: full tsc and full suite, no file changes.
-10. If nothing non-gym remains: stop with 'only owner decisions remain'.
+1. (R128, now) Verification: tsc and full app suite, es.json parse and key check. No file changes.
+2. Add breakfast, lunch, dinner, snack to fr.json addMenu only, same order as en.json. Values: Petit-déjeuner, Déjeuner, Dîner, Snacks. Confirm fr addMenu is 16 keys first.
+3. add.tsx:56 maps 'Snacks' to key snack explicitly and uses the keys; food.tsx:543 and :965 same mapping. One file per round.
+4. Remove unused voice and describeOutLoud from es.json after grep confirms no reads.
+5. Hardcoded English toasts: food.tsx:717, then SavedMealsList.tsx:59 and :63 (one file per round).
+6. Add sheet icons: SF Symbols to design SVGs, one per round.
+7. Checkpoint: full tsc and suite, no file changes.
+8. If nothing non-gym remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
-- R89, R99, R117 prompts rejected (no design/ file named); rewritten.
-- R123 prompt rejected (no explicit loop/design-match branch line); rewritten with branch rule and no-git rule.
-- R125 prompt rejected (no design/ file named); rewritten to name design/Lume App.html and row 90.
-- R123 reported BLOCKED: slot keys missing in all three locales. Recast as Next 3-4.
-- R106 detail macros parked. R107 negative margin. R111 es addToSlot.
-- R114, R119, R121, R125 flagged by automatic check; R125 flag cleared by R126 verification.
-- Handover occurred after R125. Claude Code knows only the handover summary: name files fully.
-- Jev ask overridden at R120, R124, R125, R126 (nothing needs Isa).
-- R127: Jev run 98%, chose es.json task. Jev and manager agree.
+- Prompts rejected: R89, R99, R117, R125 (no design/ file named); R123 (no branch line). All rewritten.
+- R123 BLOCKED on missing slot keys; recast as Next 2 and 3.
+- Flags: R114, R119, R121, R125, R127. Cleared by R122 and R126 verification.
+- Handover after R125. Claude Code knows only the summary: name files fully.
+- Jev ask overridden at R120, R124 to R126 (nothing needs Isa).
 
 ## Gotchas
 - Design text is in bundler payload (gzip+base64). /tmp/lume-design may vanish; 71f71ac4 is food.
 - --findRelatedTests misses source-reading tests; grep src/__tests__.
-- hooks.ts related: 5 suites, 33 tests. 'Nine suites, 116' = nine named suites.
-- Shell grep is ugrep; use /usr/bin/grep with LC_ALL=C.
+- Shell grep is ugrep; use LC_ALL=C /usr/bin/grep. Grep before citing line numbers.
+- Locales: src/lib/i18n/locales/. Check key order against en.json.
+- App slot value 'Snacks' (src/lib/mock/data.ts:48), key snack.
 - Shared Button in src/components/forms affects all callers; override locally first.
-- Grep before citing a line number. No tsc or test output written to repo or /tmp.
-- Locale files: src/lib/i18n/locales/ (not src/locales/). Check key order against en.json before editing.
-- App slot value is 'Snacks' (src/lib/mock/data.ts:48) but key is snack.
 - Handover file: loop/HANDOVER.md.
-- Handover summary says es addMenu has addToSlot plus 8 missing keys; R126 counted 18. Verify the count before the next es edit.

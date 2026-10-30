@@ -383,3 +383,7 @@
 - 2026-10-30 23:55 Set the Spanish snack value to Snacks to match the en.json value decided in R125 and the design MEALS list.
 - 2026-10-30 23:55 Added a stop-and-report rule if the keys already exist, following the R123 gotcha.
 - 2026-10-30 23:55 Jev ranked run at 98%; agreed, no conflict to resolve.
+- 2026-10-30 23:56 Chose verification first: the R127 flag (tests not run) outranks the fr.json task under the flag rule.
+- 2026-10-30 23:56 Jev ranked run at 94%; it agrees the next action is run, and the chosen task needs nothing from Isa.
+- 2026-10-30 23:56 Full suite run here despite the checkpoint-only rule, because it is the flag clearance pattern used at R122 and R126.
+- 2026-10-30 23:56 Notes trimmed to under 600 words as the loop note asks; finished work and repeated items merged.
