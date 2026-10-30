@@ -771,3 +771,7 @@
 - 2026-10-31 01:17 Added the index.tsx:121 hardcoded accessibility label ('Current streak 1 days') to Next, because it is a visible plural bug in English.
 - 2026-10-31 01:17 Kept the existing English wording '14 day streak' with a space; the hyphen in the design is parked, as the last report advised.
 - 2026-10-31 01:17 Chose a locale-only round with tsc and no Jest, because no test reads locale files.
+- 2026-10-31 01:18 Chose verification: the loop note flagged R210 (type check or tests not run), and R209 and R210 both skipped Jest. Notes say flagged reports are cleared by a verification round before a new build task.
+- 2026-10-31 01:18 Full suite run in this verification round, because the two prior rounds skipped Jest. This is the only round that runs the full suite.
+- 2026-10-31 01:18 Read-only round: no edits, so the flag is cleared on evidence, not by another change.
+- 2026-10-31 01:18 Kept the fr dashboard group and the index.tsx:121 label for the following rounds, per the Next list order.

@@ -20,7 +20,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Flagged reports are cleared by a verification round before a new build task.
 - Checkpoint is a read-only verification round. Full suite runs in verification rounds after rounds that skipped Jest.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
-- Streak labels must be count-based plural keys (R207 decision, now built). dashboard.dayStreak follows the same rule (R209 en done, es next).
+- Streak labels must be count-based plural keys (R207 decision, now built). dashboard.dayStreak follows the same rule (R209 en done, R210 es done, fr next).
 - Handover notes that say es.json lacks gymLog are older than R205 and R208. R208 verification is authoritative.
 
 ## Built (not verified)
@@ -34,19 +34,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - goals: fr (20 keys), es (setByLume, tapToEdit, savedAsYouType).
 - gymLog: fr (21 keys, R203), es (21 keys, R205). Same order as en.
 - R207: celebration streak label is count-based. gymLog.celebration.streak replaced by streak_one and streak_other in en, es, fr. CelebrationCard.tsx makes one t() call with streakDays.
-- R209: dashboard.dayStreak replaced by dayStreak_one and dayStreak_other in en.json. src/app/(tabs)/index.tsx:126 makes one t() call with count: streak.current. Spanish key still old (see Next 1).
+- R209: dashboard.dayStreak replaced by dayStreak_one and dayStreak_other in en.json. src/app/(tabs)/index.tsx:126 makes one t() call with count: streak.current.
+- R210: dashboard.dayStreak replaced by dayStreak_one ('{{count}} día seguido') and dayStreak_other ('{{count}} días seguidos') in es.json, same position. Spanish now matches en structure. Not verified on screen (lng fixed to en).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R208 (read-only verification after R207): tsc 0, JSON ok x3, gymLog and celebration key match in es and fr, 65/65 suites, 824/824 tests, 4/4 snapshots. Clean. R207 flag cleared.
-- R209 (dayStreak en): tsc 0, en.json parses, 7 related suites and 105 tests pass. Not a full suite run. Flag to clear with the next verification round.
+- R209 (dayStreak en): tsc 0, en.json parses, 7 related suites and 105 tests pass. Not a full suite run. Skipped Jest for the rest.
+- R210 (dayStreak es): tsc 0, es.json parses, keys match en order. Jest not run. Loop note flagged R210 (type check or tests not run). R211 is a read-only verification round that runs tsc, JSON parse, the dashboard key check and the full suite. It clears the R209 and R210 flags if green.
 - R205 (es gymLog) flag cleared by R206.
 - Unverified: all new strings, plan screen, saved meal states, toasts, delete dialog, Add to labels, slot heading, goals, gymLog, streak label. No test reads locale files or covers SavedMealsList, plan.tsx or CelebrationCard.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. (R210, in progress) es.json dashboard.dayStreak to dayStreak_one '{{count}} día seguido' and dayStreak_other '{{count}} días seguidos'. es only.
-2. fr.json dashboard group with dayStreak_one and dayStreak_other. fr has no dashboard group yet. One group per round.
+1. (R211, in progress) Read-only verification of R209 and R210: tsc, JSON parse, dashboard key check, index.tsx call check, full suite (npm test -- --ci). Clears the flags if green.
+2. fr.json dashboard group with dayStreak_one and dayStreak_other ('{{count}} jour d’affilée' and '{{count}} jours d’affilée'). fr has no dashboard group yet. One group per round.
 3. fr.json nutrition and settings.scanAccuracy. One group per round.
 4. index.tsx:121 accessibility label is hardcoded English and reads 'Current streak 1 days'. Make it count-based and translated.
 5. Other hardcoded streak wording, one file per round: index.tsx:115 ('Couldn't load your streak.'), gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
@@ -85,13 +87,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Keep all output inside the repo. No /tmp, no output redirection.
 - zsh: quote paths with parentheses. Grep: LC_ALL=C /usr/bin/grep. Tests: npm test -- --ci.
 - Prompts with no design file or no branch rule get rejected.
-- Verification rounds after Jest-skipping rounds will flag automatically. R209 and R210 skip Jest, so the next verification round should be a read-only check.
+- Verification rounds after Jest-skipping rounds will flag automatically. R209 and R210 skipped Jest; R211 runs the full suite.
+- fr gymLog.celebration.streak gives '1 jours d’affilée' (CelebrationCard.tsx:72 puts the number before a fixed label). Fix needs a count-based key and a log-session.tsx change, all locales. Not yet scheduled.
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187, R204. Summary in loop/HANDOVER.md.
-- Flags R183 to R205 all cleared by R206. R207 flag cleared by R208.
+- Flags R183 to R205 all cleared by R206. R207 flag cleared by R208. R209 and R210 flags to clear in R211.
 - R207 candidates: streak key fix, fr dashboard group, SLOT_KEYS consolidation. Chose streak key fix.
 - R208 candidates: verification after R207, dashboard.dayStreak fix, fr dashboard group. Chose verification.
 - R209 candidates: dayStreak en fix, fr dashboard group, SLOT_KEYS consolidation. Chose dayStreak en fix (en first, one locale per round).
 - R210 candidates: es dayStreak fix, fr dashboard group, index.tsx:121 streak label. Chose es dayStreak fix (fixes a Spanish regression, one key, one file).
-- Jev matched on run for R203, R204, R205, R208 choice (verification). Jev 98% run for R209. Jev 87% run for R210.
+- R211 candidates: read-only verification of R209 and R210, fr dashboard group, index.tsx:121 streak label. Chose verification (loop note flagged R210 as not run; Jest skipped in R209 and R210).
+- Jev matched on run for R203, R204, R205, R208 choice (verification). Jev 98% run for R209. Jev 87% run for R210. Jev 96% run for R211.
