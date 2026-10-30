@@ -604,3 +604,7 @@
 - 2026-10-31 00:40 Chose the es plan group first because it is the next step in Next and clears the Spanish gap for strings already built in plan.tsx. Jev ranks it highest among the candidates.
 - 2026-10-31 00:40 Set plan.suggested to 'Sugerido:' and plan.addTitle to 'Añadir a {{title}}' to match the existing Spanish addMenu pattern and avoid the capital letter problem noted in Open.
 - 2026-10-31 00:40 Kept the slot name English in plan.addTitle, because entry.title must stay English for the /food/add route param. Translating it stays parked.
+- 2026-10-31 00:41 Chose fr.json plan group: it is the next item in Next, needs nothing from Isa, and is a single-file edit. Candidate 2 is larger (plurals across three locales), candidate 3 is a checkpoint that waits for this edit.
+- 2026-10-31 00:41 Wrote the fr plan values myself ('Suggéré' plus no-break space and colon; 'Ajouter à {{title}}') because Isa has not given them. They follow the es pattern and the fr savedMeals convention for the colon. Native review stays with Isa under BLOCKED.
+- 2026-10-31 00:41 Told Claude Code to skip tests because no test reads locale files; tsc alone plus a node JSON check is enough for a locale-only change.
+- 2026-10-31 00:41 Kept the fr.json encoding choice open (escapes or UTF-8) and told Claude Code to match the file, to avoid a style change.

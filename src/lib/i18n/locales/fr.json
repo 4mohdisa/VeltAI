@@ -87,5 +87,9 @@
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",
     "logFailed": "Impossible d’enregistrer {{name}}. Réessayez."
+  },
+  "plan": {
+    "suggested": "Suggéré :",
+    "addTitle": "Ajouter à {{title}}"
   }
 }
