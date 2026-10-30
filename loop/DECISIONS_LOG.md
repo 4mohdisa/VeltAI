@@ -241,3 +241,10 @@
 - 2026-10-30 23:23 The R96 report did not confirm that any test exercises the new recents fibre. This is recorded as BUILT, not verified, and no new test is written.
 - 2026-10-30 23:23 The doc-only prompt names the single file, the design file and the gap row, and says no tests, no git, and BLOCKED if the hooks line is missing.
 - 2026-10-30 23:23 Jev's 85% run confidence and 81% clean-finish estimate agree with the run. The 1.1 risk score is noted, and the task stays small to keep it low.
+- 2026-10-30 23:24 R98 is verification-only, to clear the R97 flag before any new code edit. Matches the flag rule in the notes. Jev also ranks run first (93%).
+- 2026-10-30 23:24 Verification run edits no files and runs tsc once, eslint on the two changed files, and the hooks.ts related jest tests. Full suite not run; this is not a checkpoint round.
+- 2026-10-30 23:24 Fibre totals edit in new-recipe.tsx moved to R99, after the flag is cleared.
+- 2026-10-30 23:24 Previous prompt was rejected for not naming the design/ file. This prompt names design/Lume App.html and the gap row at line 1046.
+- 2026-10-30 23:24 The last Claude Code report was doc-only with no checks, and Jev gives it a 6% chance of finishing cleanly. Per the flag rule, a verification-only run goes before the new fibre edit.
+- 2026-10-30 23:24 The fibre totals edit moves to R100, one file, its own round.
+- 2026-10-30 23:24 No git, no branch change, no full suite this round (not a checkpoint).

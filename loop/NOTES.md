@@ -26,6 +26,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R95: Jev ranked the fibre edit first (92%). Kept the verification-only run first, per the flag rule above. Fibre edit is R96.
 - R96: recents fibre stays undefined when unknown (not 0). Recipe save still 0 by model limit.
 - R97: flag on R96 (partly done) handled by doc-only run before any new code edit.
+- R98: flag on R97 (doc-only, no checks) handled by verification-only run (tsc once, eslint on hooks.ts and new-recipe.tsx, hooks related tests). No file edits.
+- R99: prompt rejected for not naming the design/ file. Rewritten as verification-only run (tsc once, eslint on hooks.ts and new-recipe.tsx, hooks related tests, grep line 1046). Clears the flag on the R98 doc-only report. Fibre totals edit moves to R100.
 
 ## Built (not verified)
 - NumberEntryBar (shared) in quick-add, food detail, gym session, PlannedValuesForm.
@@ -60,8 +62,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Device run, owner checks: quick add fit and no collapse, NumberEntryBar above keyboard, pill, compact chips, MEAL caption, toast; Add sheet title and tile grid at 320pt and 430pt; celebration flow (row 17 step 3); recipe macros.
 
 ## Next
-1. R97 (this round): doc-only. Food, Search row in DESIGN_GAP_ANALYSIS.md records recents fibre BUILT, not verified (row stays DIFFERENT). No tests.
-2. Totals in new-recipe.tsx to include fibre (own round).
+1. R99 (this round): verification-only. tsc once, eslint on hooks.ts and new-recipe.tsx, jest findRelatedTests on hooks.ts. No file edits.
+2. R100: add fibre to totals in src/app/food/new-recipe.tsx (own round, one file).
 3. Stop logging missing macros as 0 in src/app/food/detail.tsx (own round). Same for quickAdd (own round).
 4. Add sheet icons, scan routes, bottom padding (src/app/food/add.tsx).
 5. Locale keys: es.json and fr.json, own round.
@@ -84,7 +86,9 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R92-R94: fibre in new-recipe.tsx; checks green. Flagged for tsc/tests not run and a last-hour scan of 20 files.
 - R95: verification-only run green (tsc 0, eslint clean, 116/116 hooks tests). Flag cleared by the handover-era check; a round-scoped scan was empty.
 - R96: fibre in recents, one-file prompt, tsc once and hooks tests only. Flagged as partly done (no test confirms the new field; totals in new-recipe.tsx still omit fibre).
-- R97: doc-only run to clear the R96 flag. No tests.
+- R97: doc-only run to clear the R96 flag. No tests. Flagged: no type check or tests run.
+- R98: verification-only run to clear the R97 flag. No file edits. Report was doc-only (line 1046 edit), no checks run, flagged.
+- R99: prompt rejected (no design/ file named). Rewritten as verification-only.
 
 ## Gotchas
 - Design text is in the bundler payload (gzip+base64). /tmp/lume-design may vanish; entry 71f71ac4 is food.
