@@ -174,7 +174,14 @@ export default function QuickAddScreen() {
         </View>
 
         {editing ? null : (
-          <Button title={`Add ${formatCalories(kcal)}`} onPress={() => void add()} disabled={invalid} loading={submitting} />
+          // Less padding lets the Button's 52pt minHeight set the pill's height, as in the design.
+          <Button
+            title={`Add ${formatCalories(kcal)}`}
+            onPress={() => void add()}
+            disabled={invalid}
+            loading={submitting}
+            style={{ paddingVertical: space.md }}
+          />
         )}
       </SheetContent>
 

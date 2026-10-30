@@ -110,3 +110,8 @@
 - 2026-10-30 22:49 Kept the doc-only stale-line fix for later: the flagged-report rule (R62/R67) is cleared, so a build task can go first.
 - 2026-10-30 22:49 Did not ask Isa about the Quick add device run: it stays in Blocked on Isa and is batched into one owner question later, per the notes.
 - 2026-10-30 22:49 Jev ranked run highest at 79%; my pick matches it.
+- 2026-10-30 22:50 Chose the pill task again: the last report made no edit and was blocked only on a read of Button, so this round allows that read and applies the change only if an override exists. Reason: it clears a listed difference with one screen-level edit.
+- 2026-10-30 22:50 Allowed reading src/components/forms/Button.tsx in this prompt, read only. Reason: the previous report named it as the blocker, and reading it does not change the shared component.
+- 2026-10-30 22:50 If Button has no override, the round stops with no edit and reports the prop list. Reason: avoids changing a shared component for every caller, which is outside this task.
+- 2026-10-30 22:50 Jev ran 68%, ask 29%. Ran it. Reason: the risk is low (one file, read-only fallback) and Isa has no pending owner item that this needs.
+- 2026-10-30 22:50 Did not ask Isa about the Button change. Reason: the defaults cover it; a shared component change would be parked, not asked about.
