@@ -806,3 +806,12 @@
 - 2026-10-31 01:26 Flagged reports are cleared before a new build task (standing rule). R218 skipped Jest, so this round runs the full suite once. It doubles as the checkpoint, so the other build tasks can go ahead cleanly.
 - 2026-10-31 01:26 Jev put es settings.scanAccuracy first at 87%. I kept the verification round because building on top of an unverified flagged report breaks the standing rule. Next round builds es settings.scanAccuracy.
 - 2026-10-31 01:26 The R218 report only ran tsc and a JSON parse. The flag is about Jest not being run, and a locale change can reach Jest indirectly through i18n, so a full run is the only clean clear.
+- 2026-10-31 01:27 Treated the latest report as the R219 full verification: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. This clears the R218 flag, so a new build task is allowed.
+- 2026-10-31 01:27 Chose es settings.scanAccuracy: smallest task, clears the last missing locale key, needs nothing from Isa. Matches Jev's ranking.
+- 2026-10-31 01:27 Used Precisión del escaneo as the Spanish value. No design file text exists for this key, so it is a translation of the fr value, pending native review.
+- 2026-10-31 01:27 Prompt asks for tsc only, not Jest. The change is JSON only and no test covers locale files, so this round will flag as Jest-skipped and the next round will be a verification round.
+- 2026-10-31 01:27 Kept Jest out of this round to keep Claude Code usage low, per the testing rules.
+- 2026-10-31 01:28 Chose es settings.scanAccuracy: it is the smallest task, needs nothing from Isa, and completes locale parity with fr.json.
+- 2026-10-31 01:28 Rewrote the R220 prompt to name design/Lume App.html and gap row 'none', as the loop note requires.
+- 2026-10-31 01:28 Kept Jest skipped for R220 per testing rules, so R221 will be the read-only verification round that clears the flag.
+- 2026-10-31 01:28 Value 'Precisión del escaneo' is pending native review and is recorded under Blocked on Isa.
