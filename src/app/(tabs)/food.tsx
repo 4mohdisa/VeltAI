@@ -768,7 +768,7 @@ function MealSectionHeader({
         disabled={!onDeleteMeal}
         accessibilityRole="header"
         accessibilityLabel={`${t(`addMenu.${SLOT_KEYS[slot]}`)}, ${formatEnergy(subtotal, energyUnit)}`}
-        accessibilityHint={onDeleteMeal ? `Long press to delete everything logged to ${t(`addMenu.${SLOT_KEYS[slot]}`)}` : undefined}
+        accessibilityHint={onDeleteMeal ? t('foodLog.deleteMealHint', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }) : undefined}
       >
         <Text variant="bodyMedium" color={color.label}>
           {t(`addMenu.${SLOT_KEYS[slot]}`)}

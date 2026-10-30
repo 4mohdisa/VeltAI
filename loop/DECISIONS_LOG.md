@@ -466,3 +466,6 @@
 - 2026-10-31 00:14 Chose the checkpoint over the food.tsx:771 hint because the R144 en.json edit is unverified and the flag rule outranks Jev's ranking.
 - 2026-10-31 00:14 Named design/Lume App.html and gap row none, because the rejected prompt lacked the design/ file and meal delete has no gap row.
 - 2026-10-31 00:14 Jev's run/ask ranking accepted; the checkpoint is a run with no file changes, so nothing needs Isa.
+- 2026-10-31 00:15 Chose the food.tsx:771 hint over the checkpoint because the last report was flagged as partly done. The unwired hint is the unfinished part, and the flag rule outranks Jev.
+- 2026-10-31 00:15 Jev ranked this same task first at 99% run, so this pick matches Jev and needs no override.
+- 2026-10-31 00:15 Scoped the test run to food-referencing suites, since no checkpoint is due this round and only food.tsx changes.
