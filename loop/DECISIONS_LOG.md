@@ -700,3 +700,8 @@
 - 2026-10-31 00:59 Translated es savedMeals.emptyMessage from the English, not the Spanish 'Save a meal from the log' wording. Reason: the report recommended it, the code comment in SavedMealsList.tsx describes the recipe flow, and the locales stay in step. Isa can override in Telegram.
 - 2026-10-31 00:59 Ran the full suite this round instead of a light check. Reason: R191 was flagged for tests not run, and the notes say a flag is cleared by a verification round with the full suite.
 - 2026-10-31 00:59 Kept the task to es.json only so the verification round stays small and the flag can clear.
+- 2026-10-31 01:01 Chose the fr.json savedMeals keys because Next item 2 is the current open item after R192 cleared the R191 flag, and it is a single locale file with no device or Isa dependency.
+- 2026-10-31 01:01 Supplied the French values in the prompt so Claude Code does not need to translate, and told it to match the placeholder syntax from en.json rather than guessing it.
+- 2026-10-31 01:01 Avoided apostrophes in the French strings to sidestep the U+2019 and plain-apostrophe issue noted in the gotchas.
+- 2026-10-31 01:01 Tests limited to tsc and a node parse, because no test reads locale files and the rule is to run only what the changed files need.
+- 2026-10-31 01:01 Recorded R192 as verified green by the latest report, so the R191 flag is cleared and no verification round is needed before this build task.

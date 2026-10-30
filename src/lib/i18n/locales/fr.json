@@ -91,7 +91,12 @@
     "lastLoggedYesterday": "Dernier ajout hier",
     "lastLoggedDaysAgo_one": "Dernier ajout il y a {{count}} jour",
     "lastLoggedDaysAgo_other": "Dernier ajout il y a {{count}} jours",
-    "neverLogged": "Jamais ajouté"
+    "neverLogged": "Jamais ajouté",
+    "emptyTitle": "Aucun repas enregistré pour le moment",
+    "emptyMessage": "Après avoir enregistré le même repas 3 fois, il apparaîtra ici automatiquement. Ou créez-en un depuis une recette.",
+    "itemCount_one": "{{count}} élément",
+    "itemCount_other": "{{count}} éléments",
+    "logNow": "Enregistrer maintenant"
   },
   "plan": {
     "suggested": "Suggéré :",
