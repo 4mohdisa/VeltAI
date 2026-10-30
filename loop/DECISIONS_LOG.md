@@ -843,3 +843,7 @@
 - 2026-10-31 01:34 Asked for French values translated from en.json rather than copying English: the notes list fr.json as the only locale that must match en.json keys, and the French copy is pending native review anyway.
 - 2026-10-31 01:34 Gap row set to 'none' because the work is locale completeness, not a design surface.
 - 2026-10-31 01:34 Limited checks to tsc plus a JSON and key-set comparison, because no test covers locale files and the brief forbids extra test work.
+- 2026-10-31 01:35 Loop flagged R227 for tests not run. Per the rule that flagged reports are cleared by a verification round before a new build task, chose a read-only verification round first.
+- 2026-10-31 01:35 Ran the full Jest suite once in this round, which is a deliberate exception to the no-full-suite rule, because the flag concerns tests that were not run.
+- 2026-10-31 01:35 Did not start the Summary title task until the flag is cleared, so the build step does not stack on an unverified change.
+- 2026-10-31 01:35 Kept the Summary title as the next build task, since it is the cheapest open row with no owner dependency.

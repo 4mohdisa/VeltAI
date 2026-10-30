@@ -30,20 +30,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Streak: gymLog.celebration.streak_one/_other and dashboard.dayStreak_one/_other in en, es, fr. Summary streak label uses t() with count.
 - en.json has dashboard.streakLoading and dashboard.streakLoadError (R223), used at (tabs)/index.tsx:109 and :115.
 - R225: es.json has dashboard.streakLoading and streakLoadError after dayStreak_other. es.json now has every en.json key.
-- fr.json has every en.json key except dashboard.streakLoading and streakLoadError (R227 adds them).
+- fr.json has every en.json key. R227 added dashboard.streakLoading and streakLoadError after dayStreak_other; verification pending (see R228).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R219: tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Cleared R218 flag.
 - R221: cleared R220 flag. R224 read-only check of R223: tsc 0, en keys and index.tsx lines confirmed.
 - R226: checkpoint, read-only. tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. Green. Cleared R225 flag.
-- R227 (this round): flagged as partly done (fr.json missing streakLoading and streakLoadError). Fixing by adding both keys. Checks: tsc, JSON parse and key-set match, no Jest.
+- R227: flagged (fr.json tests not run). Changes made; checks were tsc, JSON parse and key-set only, no Jest.
+- R228 (this round): read-only verification of R227. Runs tsc, full Jest once, locale key check, and line check of the two fr keys. Clears the R227 flag if green.
 - No test covers locale files, SavedMealsList, plan.tsx, CelebrationCard, plural selection, or (tabs)/index.tsx.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R227: add dashboard.streakLoading and streakLoadError to fr.json after dayStreak_other. In progress.
-2. Hardcoded 'Summary' title at (tabs)/index.tsx:102.
+1. R228: verify R227 (read-only). Clears flag if tsc, Jest and key check are green.
+2. Hardcoded 'Summary' title at (tabs)/index.tsx:102: move to a locale key, starting with en.json.
 3. Other hardcoded text, one file per round: streak wording ('1 days') in (tabs)/index.tsx near :121; (tabs)/gym.tsx:112 and :121; gym/freeze.tsx:48; StreakCounter.tsx:15; plan.tsx:120 'Why this plan'; nutrition.tsx:77 'Macros'.
 4. Consolidate SLOT_KEYS (add.tsx, food.tsx).
 5. lastLoggedDaysAgo_one unreachable: days === 1 returns the yesterday string. Fix.
@@ -68,7 +69,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title default; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Add sheet, recipe/fibre, quick add, celebration (streak 1 and above 1), Summary streak (VoiceOver 'day streak'), streak loading and failure, delete dialog, VoiceOver, toasts, saved meals, plan, goals, gymLog, nutrition, VoiceOver Add label.
-- Native review fr: savedMeals, plan, goals, gymLog, nutrition, streak, dayStreak, dashboard ('Creneau de sport', 'A suivre'), scanAccuracy, streakLoading, streakLoadError; U+00A0/U+2019 standard; goals apostrophes; 'enregistrer' vs 'ajout'; gender; differentWeights.
+- Native review fr: savedMeals, plan, goals, gymLog, nutrition, streak, dayStreak, dashboard ('Creneau de sport', 'A suivre'), scanAccuracy, streakLoading, streakLoadError; U+00A0/U+2019 standard; goals apostrophes; 'enregistrer' vs 'ajout'; gender; differentWeights; 'vos jours d’affilée' wording.
 - Native review es: plan, savedMeals, goals, gymLog, streak, dayStreak, scanAccuracy, streakLoading, streakLoadError; 'Registra {{plan}} tal como estaba programado'; 'Bien hecho!'; 'Puede que no coincida'; addedToMeal order; 'elemento'; masculine 'Registrado'.
 - Remove es voice and describeOutLoud? 'Add to Lunch' capitals; 'Delete' vs 'Removed'; negative margin on device.
 - Override available: es emptyMessage wording.
@@ -83,5 +84,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141, R156, R167, R172, R187, R204, R220. Latest in loop/HANDOVER.md. Name files fully after a handover.
-- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run, cleared by R226); R227 flag (fr.json partly done) being fixed now.
-- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225, R226, and R227.
+- Flags: R218 and R220 (Jest skipped); R222 and R223 (partly done); R225 (Jest not run, cleared by R226); R227 (Jest not run, fr.json keys added). R227 flag is being cleared by R228.
+- Jev matched on run for R203-R205, R208-R211, R213-R216, R219, R221, R223, R225, R226, R227, and R228.
