@@ -55,3 +55,7 @@
 - 2026-10-30 22:36 Edits only DESIGN_GAP_ANALYSIS.md, so no tsc, eslint or jest run, since no code changes.
 - 2026-10-30 22:36 Prompt now names loop/design-match and forbids git and push, which fixes the rejection in the loop note.
 - 2026-10-30 22:36 Did not ask Isa about the Calories or Time columns on the celebration card, because the defaults and notes already cover them as parked or blocked items.
+- 2026-10-30 22:38 Kept Jev's pick (SegmentedField inset) over my earlier recents fix: it clears a real design row difference, it is one shared component, and it is the smallest step with nothing needed from Isa. Recents is a data bug, not a design row, so it waits.
+- 2026-10-30 22:38 Scoped the inset change to stop if any other inset caller exists, so other screens are not restyled in the same round.
+- 2026-10-30 22:38 Treated the Search foods tile routing to the food tab as a real difference, not an accepted deviation. Default is design first, and Isa's r24 note covers chips only. The dedicated search sheet is parked until a plan exists (notes item 13).
+- 2026-10-30 22:38 This round runs tsc, eslint and jest on the changed file, which clears the flagged last report (checks not run).
