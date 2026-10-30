@@ -789,3 +789,8 @@
 - 2026-10-31 01:21 Ran the full suite in this round because the flag says tests were not run and the round is read-only; this does not count as a checkpoint.
 - 2026-10-31 01:21 Kept the fr nutrition group as the next build task, as the R213 report recommends, once the flag is cleared.
 - 2026-10-31 01:21 Jev ranks run at 95%; no conflict with my choice.
+- 2026-10-31 01:22 Chose the fr nutrition group: it is the next item in Next list, needs nothing from Isa, and is a single locale group per round.
+- 2026-10-31 01:22 Chose not to run Jest for a JSON-only change, since no test covers locale files; type check only, per testing rules.
+- 2026-10-31 01:22 Placement rule: keep nutrition at its en.json position relative to existing fr groups, and report any move under NEXT rather than reordering other groups.
+- 2026-10-31 01:22 R214 report accepted as verification of R213 (tsc 0, JSON ok, fr dashboard keys in order, full suite 65/65, 824/824, 4/4 snapshots). Flag cleared.
+- 2026-10-31 01:22 Jev 94% run agreed with my choice of run.

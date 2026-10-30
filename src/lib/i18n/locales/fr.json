@@ -154,6 +154,15 @@
     "next": "À suivre : {{title}} à {{time}} · {{energy}}",
     "gymBedtime": "Créneau de sport {{gym}} · Coucher {{bed}}"
   },
+  "nutrition": {
+    "title": "Nutrition",
+    "remainingToday": "Il reste {{value}} aujourd’hui",
+    "protein": "Protéines",
+    "carbs": "Glucides",
+    "fat": "Lipides",
+    "fibre": "Fibres",
+    "mealsToday": "Repas du jour"
+  },
   "plan": {
     "suggested": "Suggéré :",
     "addTitle": "Ajouter à {{title}}",

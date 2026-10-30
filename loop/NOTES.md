@@ -22,7 +22,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Checkpoint rounds are read-only: tsc and full suite, no file changes.
 - Prompts name loop/design-match, forbid git, name design/Lume App.html and a gap row or 'none'.
 - Handover notes that say es.json lacks gymLog are older than R208. R208 verification is authoritative.
-- Each new locale group sits at its en.json position. fr dashboard sits between gymLog and plan; nutrition is still missing from fr.
+- Each new locale group sits at its en.json position. Nutrition is being added to fr.json at its en.json position (R215).
 
 ## Built (not verified)
 - NumberEntryBar shared. Food Add sheet (row 90). Gym chooser. Goals restyle. CelebrationCard (row 17 steps 1-2). Gym duration.
@@ -32,32 +32,31 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - plan group in en, es, fr. plan.tsx uses it.
 - goals: fr (20 keys), es (3 keys: setByLume, tapToEdit, savedAsYouType). gymLog: fr (21), es (21).
 - Streak: gymLog.celebration streak_one/_other in en, es, fr (R207). dashboard.dayStreak_one/_other in en (R209) and es (R210).
-- R213 (flagged, awaiting verification R214): fr.json dashboard group, six keys, same order as en.json. Report says tsc 0 and JSON ok; tests not run.
+- fr.json dashboard group, six keys, same order as en.json (R213). Verified structurally by R214.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - R211 (read-only): tsc 0, JSON ok x3, dashboard keys ok in en and es, index.tsx:126 single call, 65/65 suites, 824/824 tests, 4/4 snapshots. R209 and R210 flags cleared.
 - R212 (read-only checkpoint): tsc 0, 65/65 suites, 824/824 tests, 4/4 snapshots. No changes.
-- R214 (read-only, in progress): verifies R213 fr dashboard group. Checks tsc, JSON x3, fr dashboard keys, order, U+2019, placeholders, and full suite (flag said tests not run).
+- R214 (read-only): tsc 0, JSON ok x3, fr dashboard keys and order ok, U+2019 ok, placeholders ok, full suite 65/65, 824/824, 4/4 snapshots. R213 flag cleared.
 - Unverified: all new strings, plan, saved meal states, toasts, delete dialog, labels, goals, gymLog, streak wording, dashboard fr. No test covers locale files, SavedMealsList, plan.tsx or CelebrationCard.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. (R214, in progress) Verify R213 fr dashboard group. Clears the flag. Read-only.
-2. fr.json nutrition group, directly after dashboard. Also puts dashboard and plan in en.json order. One group per round.
-3. fr.json settings.scanAccuracy. One group per round.
-4. es.json gymLog check: confirm it exists and is 21 keys in the next verification round. Handover saying it is missing is stale.
-5. index.tsx:121 accessibility label is hardcoded English and reads 'Current streak 1 days'. Make it count-based and translated.
-6. Other hardcoded streak wording, one file per round: index.tsx:115, gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
-7. Consolidate SLOT_KEYS (add.tsx, food.tsx).
-8. lastLoggedDaysAgo_one is unreachable: days === 1 returns the yesterday string. Fix.
-9. 'Why this plan' hardcoded at src/app/dashboard/plan.tsx:120. Move to plan keys.
-10. plan.addTitle is display only. entry.title stays English for the route param at plan.tsx:101.
-11. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
-12. Add sheet icons to design SVGs.
-13. Review dashboard.welcome and dashboard.gymBedtime: no callers found in src/app or src/components. Decide keep or remove with Isa's native review.
-14. Remaining gap rows, most cleared per task first.
-15. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. (R215, in progress) fr.json nutrition group, at its en.json position. One group, read-only tests not needed beyond tsc. Clears nothing in the gap list directly.
+2. fr.json settings.scanAccuracy. One group per round.
+3. es.json gymLog check: confirm it exists and is 21 keys in the next verification round. Handover saying it is missing is stale.
+4. index.tsx:121 accessibility label is hardcoded English and reads 'Current streak 1 days'. Make it count-based and translated.
+5. Other hardcoded streak wording, one file per round: index.tsx:115, gym.tsx:112 and :121, freeze.tsx:48, StreakCounter.tsx:15 default caption.
+6. Consolidate SLOT_KEYS (add.tsx, food.tsx).
+7. lastLoggedDaysAgo_one is unreachable: days === 1 returns the yesterday string. Fix.
+8. 'Why this plan' hardcoded at src/app/dashboard/plan.tsx:120. Move to plan keys.
+9. plan.addTitle is display only. entry.title stays English for the route param at plan.tsx:101.
+10. Locale wording: fr 'a petit-dejeuner' to 'au'; es 'Anadir a Desayuno' to 'Anadir al desayuno'.
+11. Add sheet icons to design SVGs.
+12. Review dashboard.welcome and dashboard.gymBedtime: no callers found in src/app or src/components. Decide keep or remove with Isa's native review.
+13. Remaining gap rows, most cleared per task first.
+14. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Missing macros as 0 across types and totals.
@@ -90,10 +89,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handover after R141, R156, R167, R172, R187, R204. Summary in loop/HANDOVER.md.
-- Flags R183 to R207 cleared. R209 and R210 flags cleared by R211.
+- Flags R183 to R207 cleared. R209 and R210 flags cleared by R211. R213 flag cleared by R214.
 - R211 candidates: verification of R209 and R210, fr dashboard group, index.tsx:121 label. Chose verification.
 - R212 candidates: checkpoint, fr dashboard group, index.tsx:121 label. Chose checkpoint per loop note.
 - R213 candidates: fr dashboard group, index.tsx:121 label, fr nutrition group. Chose fr dashboard group. Jev 94% run.
-- R213 report flagged: tests not run. Loop note asks for it to be dealt with.
 - R214 candidates: verify R213, fr nutrition group, index.tsx:121 label. Chose verify R213 to clear the flag. Jev 95% run.
-- Jev matched on run for R203 to R205, R208 to R211, R213 and R214.
+- R215 candidates: fr nutrition group, index.tsx:121 label, fr settings.scanAccuracy. Chose fr nutrition group. Jev 94% run.
+- Jev matched on run for R203 to R205, R208 to R211, R213 to R215.
