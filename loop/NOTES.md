@@ -33,17 +33,19 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - food.tsx: slot heading, 'Add to' and VoiceOver labels, translated toast, deleteMealHint, delete dialog.
 - en, es, fr: addMenu slots, foodLog, savedMeals (logged, logFailed); SavedMealsList toasts use them.
 - en, es, fr: plan group (suggested, addTitle); plan.tsx lines 87 and 99 use them.
+- en: savedMeals lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo_one, lastLoggedDaysAgo_other (R175, awaiting verification in R176).
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Checkpoints green: R113 to R164, R166, R168, R169, R174 (tsc 0, 65 suites, 824 tests).
 - Flags: R165 cleared by R166; R167 by R168; R170 by R171; R173 cleared by R174.
-- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx lines 87 and 99. No test reads locale files or covers SavedMealsList or plan.tsx.
+- R175 flagged (type check or tests not run). R176 is a verification round for it.
+- Unverified: add title, slot heading, delete dialog, toasts, 'Add to' labels, saved meal toasts, plan group, plan.tsx lines 87 and 99, en savedMeals last-logged keys. No test reads locale files or covers SavedMealsList or plan.tsx.
 - Locale top-level key mismatch: es missing gymLog; fr missing goals, gymLog, dashboard, nutrition. Known, not on screen.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Open (buildable, non-gym)
-- SavedMealsList.tsx lastLoggedLabel (lines 26 to 33) hardcoded; needs plurals. R175 in progress: en keys (lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo _one/_other).
+- SavedMealsList.tsx lastLoggedLabel (lines 26 to 33) still hardcoded. Also returns 'Never logged' at lines 27 and 29 with no key. Needs a neverLogged key before the switch.
 - plan.addTitle: entry.title is English, so es and fr read partly English. It must stay English for the route param at plan.tsx:101. Needs a separate display label.
 - plan.tsx screen title and 'No plan yet' empty state (lines 34 to 39) hardcoded.
 - SavedMealsList.tsx lines 59 and 63 unchecked.
@@ -76,19 +78,21 @@ Match design/Lume App.html across DESIGN_GAP_ANALYSIS.md rows. Branch loop/desig
 - Recipe fibre saved as 0. Food tab render test (needs new suite).
 
 ## Next
-1. R175 (in progress): add lastLoggedToday, lastLoggedYesterday, lastLoggedDaysAgo (_one, _other) to en.json savedMeals. Type check and node parse only.
-2. es.json same keys (Isa-reviewed wording pending).
-3. fr.json same keys.
-4. SavedMealsList.tsx lastLoggedLabel switched to t() keys; then one checkpoint run of the full suite.
-5. plan.tsx title and empty state to locale keys.
-6. Locale gaps, one file per round: fr plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals.
-7. Locale wording fixes, one file per round.
-8. Add sheet icons to design SVGs.
-9. Consolidate SLOT_KEYS.
-10. If no non-gym work remains: stop with 'only owner decisions remain'.
+1. R176 (in progress): verify R175 en.json savedMeals keys. Type check, node parse, no test edits, no file changes.
+2. Add neverLogged to en.json savedMeals ('Never logged'). Type check and node parse only.
+3. es.json: the four last-logged keys plus neverLogged (Isa-reviewed wording pending).
+4. fr.json: the same keys (native review pending).
+5. SavedMealsList.tsx lastLoggedLabel switched to t() keys, including neverLogged; then one checkpoint run of the full suite.
+6. plan.tsx title and empty state to locale keys.
+7. Locale gaps, one file per round: fr plan, goals, gymLog, dashboard, nutrition, settings.scanAccuracy; es gymLog, settings.scanAccuracy, goals.
+8. Locale wording fixes, one file per round.
+9. Add sheet icons to design SVGs.
+10. Consolidate SLOT_KEYS.
+11. If no non-gym work remains: stop with 'only owner decisions remain'.
 
 ## Loop notes
 - Handover after R141, R156, R167, R172. Next handover due around R187. Name files fully in prompts.
+- R175 flagged by automatic check (type check or tests not run). R176 verifies it before any new build.
 - R175 prompt rejected for not naming the design/ file. Rewritten with design/Lume App.html and gap row 'none'.
 - R174 verification clean. Node check still reports top-level key mismatch in es and fr; known, parked as locale gaps.
 - R172 chose es plan group over SavedMealsList and fr plan.

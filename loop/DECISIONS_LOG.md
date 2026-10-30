@@ -628,3 +628,7 @@
 - 2026-10-31 00:44 Named design/Lume App.html and gap row 'none' to fix the rejected prompt, as the loop note requires.
 - 2026-10-31 00:44 Told Claude Code to match an existing plural suffix if the repo already uses one, since the i18next format was not confirmed in the notes.
 - 2026-10-31 00:44 Asked for only tsc plus a node parse check, not jest, to keep test usage low, as the testing rules require.
+- 2026-10-31 00:45 Chose the verification round because the loop flagged R175, and the brief says a flagged report is cleared by a verification round before a new build task.
+- 2026-10-31 00:45 Did not ask Isa: Jev's ask/run split is close (51/47) and nothing in the flagged task needs his dashboard, device or wording decision.
+- 2026-10-31 00:45 Verification is limited to one tsc run and tests that touch en.json, per the testing rules; no new test was written.
+- 2026-10-31 00:45 Logged the missing 'Never logged' key as the next build item, since SavedMealsList lines 27 and 29 would stay hardcoded after the switch to t() keys.
