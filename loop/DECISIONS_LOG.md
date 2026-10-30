@@ -59,3 +59,12 @@
 - 2026-10-30 22:38 Scoped the inset change to stop if any other inset caller exists, so other screens are not restyled in the same round.
 - 2026-10-30 22:38 Treated the Search foods tile routing to the food tab as a real difference, not an accepted deviation. Default is design first, and Isa's r24 note covers chips only. The dedicated search sheet is parked until a plan exists (notes item 13).
 - 2026-10-30 22:38 This round runs tsc, eslint and jest on the changed file, which clears the flagged last report (checks not run).
+- 2026-10-30 22:39 Picked the comment fix: smallest one-file task that needs nothing from Isa, and it lets the flagged state clear with checks actually run.
+- 2026-10-30 22:39 Parked the global SegmentedField inset change: 11 other callers would restyle, so it is not a one-file task. Replaced by a plan for a separate compact option, to be done in two rounds (SegmentedField first, then quick-add.tsx).
+- 2026-10-30 22:39 Did not ask Isa about the inset callers: this is a design-vs-app question the defaults cover (follow the design per surface), so it is handled as a per-surface check later.
+- 2026-10-30 22:39 Kept the prompt to a single file with checks run on that file only, because the last report was flagged for checks not run.
+- 2026-10-30 22:40 Chose the checkpoint because the loop note says this round is a checkpoint and asks for a no-edit full run; this matches decision r50 (test gate green before any new product task).
+- 2026-10-30 22:40 Named design/Lume App.html as the matching design file (reference only) to fix the rejected prompt, since the checkpoint touches no design surface.
+- 2026-10-30 22:40 Stated branch loop/design-match and no git in the prompt to satisfy the R56 rule.
+- 2026-10-30 22:40 Used the repo's own scripts from package.json rather than guessing commands, to avoid a rejected prompt.
+- 2026-10-30 22:40 Set no gap-analysis row change this round; the checkpoint only reports.

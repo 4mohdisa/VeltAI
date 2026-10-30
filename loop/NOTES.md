@@ -16,6 +16,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Isa Telegram r55: many screens already match the design. Do not rebuild. Before each row, compare current code with design/ HTML and list only real differences. Fix only those.
 - R56: every prompt states the branch and no git.
 - R57: Search foods tile routing to the food tab counted as a real difference (not accepted). Dedicated search sheet parked until planned (item 13).
+- R58: a global change to SegmentedField inset is not a one-file task (11 callers). Do not change the inset variant globally. Any Quick add fix goes through a separate compact option, in two rounds.
+- R59: prompts for checkpoint rounds must name the design file (reference only) and the repo's own check scripts.
 
 ## Done (BUILT, not verified)
 - Shared NumberEntryBar: food quick-add, food detail, gym session, PlannedValuesForm.
@@ -31,11 +33,12 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 
 ## Re-check pass (R56)
 - Food Add sheet: DIFFERENT. Remaining: Search foods tile route (see Decisions); title 'Add meal' not meal-named; tile gap about 14pt not 12pt; SF Symbols not design SVGs.
-- Food Quick add: DIFFERENT. Remaining: Meal control label size/weight/padding (in progress); toast copy; detent 0.6 not fit-content; no blinking caret; confirm pill 56pt vs 52pt, 17/24 vs 17/22.
+- Food Quick add: DIFFERENT. Remaining: Meal control label size/weight/padding (blocked, see In progress); sentence-case MEAL caption; toast copy; detent 0.6 not fit-content; no blinking caret; confirm pill 56pt vs 52pt, 17/24 vs 17/22.
 - Remaining rows still to re-check, a few per round.
 
 ## In progress
-- R57: SegmentedField inset variant to design 13/17 semibold and 3pt padding for the Quick add Meal control. Stops if another inset caller exists.
+- Quick add Meal control (13/17 semibold, 3pt padding). R57 stopped: SegmentedField variant='inset' has 11 other callers (week.tsx:113, goals.tsx:96 and :156, preferences.tsx:35 and :52, meals.tsx:61, detail.tsx:524 and :649, ParameterForm.tsx:242, PlannedValuesForm.tsx:172, WeekEnergyCard.tsx:103).
+- Plan: (a) check those callers against design/ HTML; (b) add a separate compact option to SegmentedField, used only by Quick add Meal. Do not edit the inset variant globally.
 
 ## Blocked on Isa
 - Row 23 (Summary one-tap log). A: route onLog to log-session; edit index.tsx, oneTapGymLog.test.ts and V16 note. B: accepted deviation, doc-only. Asked r43, unanswered. Do not act.
@@ -43,27 +46,30 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Row 17 Calories column on the celebration card: Isa still to decide what it shows (raised r53).
 
 ## Next tasks
-1. Finish the Quick add Meal control (in progress), then re-check remaining gap rows, a few per round, doc-only where they match.
-2. Quick add MEAL uppercase tracked caption (design 13 semibold uppercase tracked label above the control).
-3. Recents: src/lib/data/hooks.ts useFoodSearch builds { name, kcalPer100 } only, so re-picking a recent logs 0 macros. Carry protein, carbs, fat per 100 g.
-4. Stale comment in src/lib/food/detailSubject.ts lines 25-27 still says the sheet shows energy only. Fix to match behaviour.
-5. quickAdd and detail.tsx log a missing macro as 0; unknown looks like zero. Decide display or leave as parked.
-6. Add sheet title: name the meal in the design copy ('Add to lunch') when opened from a meal.
-7. Quick add toast copy: '250 kcal added to lunch' per design.
-8. gymDurationHonesty.test.ts: rename stale 'Not set' title; cover the 0-or-less case.
-9. Row 17 step 3: footnote 'Push logged - streak extended' on CelebrationCard.tsx.
-10. Row 17: Time shows 0 min on an empty plan; show a dash like Calories.
-11. Row 23 per Isa's answer.
-12. i18n hardcoded toast copy in index.tsx and log-session.tsx.
-13. Food Search sheet (pill input, thumbnails, row metrics, no chips): needs a plan first.
-14. Doc-only status sync for /gym/session summary and row 18.
-15. Checkpoint (full tsc and jest, baseline 65 suites / 823 tests) when the loop note asks.
-16. Remaining gym rows: Isa approval per item.
-17. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
+1. Checkpoint (R59, in progress): full type check and full app suite, no edits, baseline 65 suites / 823 tests.
+2. Stale comment in src/lib/food/detailSubject.ts lines 25-27.
+3. Compact segmented option for Quick add Meal: first check the 11 inset callers against design/ HTML (doc-only findings), then add the compact option to SegmentedField (one file), then apply it in quick-add.tsx (one file).
+4. Quick add MEAL caption: design 13 semibold uppercase tracked label above the control. Check the uppercase-labels parked item first.
+5. Quick add toast copy: '250 kcal added to lunch' per design (quick-add.tsx only).
+6. Recents: src/lib/data/hooks.ts useFoodSearch builds { name, kcalPer100 } only, so re-picking a recent logs 0 macros. Carry protein, carbs, fat per 100 g.
+7. quickAdd and detail.tsx log a missing macro as 0; unknown looks like zero. Decide display or leave as parked.
+8. Add sheet title: name the meal in the design copy ('Add to lunch') when opened from a meal.
+9. Quick add detent 0.6 vs fit-content; blinking caret; confirm pill 56pt vs 52pt, 17/24 vs 17/22.
+10. gymDurationHonesty.test.ts: rename stale 'Not set' title; cover the 0-or-less case.
+11. Row 17 step 3: footnote 'Push logged - streak extended' on CelebrationCard.tsx.
+12. Row 17: Time shows 0 min on an empty plan; show a dash like Calories.
+13. Row 23 per Isa's answer.
+14. i18n hardcoded toast copy in index.tsx and log-session.tsx.
+15. Food Search sheet (pill input, thumbnails, row metrics, no chips): needs a plan first.
+16. Doc-only status sync for /gym/session summary and row 18.
+17. Checkpoint (full tsc and jest, baseline 65 suites / 823 tests) when the loop note asks.
+18. Remaining gym rows: Isa approval per item.
+19. If no non-gym one-file task remains: stop with 'only owner decisions remain'.
 
 ## Parked (not v1)
 - Gym: row order and per-set remove; cardio ParameterForm inputs; template editor and dock; kg/lb field; volume shows kg only.
 - Row 17: rest-day and /gym/session exits show no card; uppercase labels; spacing and pill differences; ring vs flame; pop-in omitted; possible overflow on device; modal flow not yet run on a device.
+- Global SegmentedField inset restyle (11 callers) until each caller is checked against design.
 - mixHex in GymCalendar.tsx to a shared helper. App-only Stepper/SliderField entries stay.
 - goals.tsx hardcoded 'Between 1,200 and 10,000 kcal.' and 'Daily targets'.
 - es/fr locales lack new keys. CONFLICT_KEYWORDS not type-linked. Unused addMenu keys: snapMeal, scanPackage, oneTapReadd, savedFoods.
@@ -73,8 +79,8 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - Estimated gym duration is logged and the backend derives kcal. Revisit if only measured durations should count.
 - Adjust and ticklist arrive checked, so 'Save progress?' fires on an untouched back-out.
 - Cardio Distance km kept; food search chips skipped (Isa r24).
-- Stale comments in src/app/_layout.tsx for the add and quick sheets ('2x2 grid', 'optional label'); stale detail sections near design lines 978 and 1048.
-- Food Search sheet as a dedicated route (see Next item 13).
+- Stale comments in src/app/_layout.tsx for the add and quick sheets ('2x2 grid', 'optional label'); stale detail sections near design lines 978 and 1048 and the Add sheet and Quick add detail rows in DESIGN_GAP_ANALYSIS.md.
+- Food Search sheet as a dedicated route (see Next item 15).
 
 ## Loop notes
 - R1-39: early rejections; data path, i18n and (a)-(e) handled.
@@ -84,5 +90,6 @@ Match design/Lume App.html across the 41 rows of DESIGN_GAP_ANALYSIS.md. Branch 
 - R53 report: step 3 already done. foodDetail.test.ts failing on macros={false}; fixed R54 (31/31).
 - R55: Isa Telegram reply: re-check before fixing. Re-check pass chosen.
 - R56: prompt rejected for missing branch rule; rewritten. Re-check of Add sheet and Quick add: both DIFFERENT. Doc-only.
-- R57: last report flagged (checks not run). Jev ranked SegmentedField inset first (86%); I switched to it. Prompt runs tsc, eslint and jest on the changed file. Inset caller check gates the edit.
-- Handover at tree 1b8ab30 recorded; many screens already match design per Isa, so verify before building.
+- R57: last report flagged (checks not run). Jev ranked SegmentedField inset first (86%). Report: stopped at inset caller check, no edits, no checks run. Global inset change parked (see Decisions R58).
+- R58: last report flagged for checks not run. Picked the detailSubject.ts comment fix (one file, checks run on that file). Handover summary at tree 1b8ab30; many screens already match design per Isa, so verify before building. Jev R58: run 55%, risk 1.5/2.
+- R59: prompt rejected for not naming the matching design/ file. Rewritten as a no-edit checkpoint: full tsc and full app jest, report failures only. Jev R59: run 92%, risk 1.6/2 (low confidence 0.42). Chose run; no edits so risk is contained.
