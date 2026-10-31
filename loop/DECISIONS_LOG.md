@@ -1155,3 +1155,8 @@
 - 2026-10-31 14:14 Loop flag was 'type check or tests not run' on R292. This round explicitly requires tsc and three Jest suites, so the flag is answered.
 - 2026-10-31 14:14 Row 89 left DIFFERENT; the removal does not touch the saved-foods screen or its gallery question.
 - 2026-10-31 14:14 No design file or gap row change; this is dead-key cleanup only.
+- 2026-10-31 14:15 Chose the read-only flag clearance because the loop note says flagged reports are cleared by a read-only round before build work (notes Decisions).
+- 2026-10-31 14:15 Dropped npx jest i18n from the check because the R293 report showed it always exits 1 with no matching tests.
+- 2026-10-31 14:15 Ran only tsc and three suites, not the full Jest run, because the next checkpoint is planned for later and the brief keeps testing light.
+- 2026-10-31 14:15 Included the key-usage search for voice, describeOutLoud and the unused-looking keys so the next round can act without a second search. This is still read-only and needs no Isa approval.
+- 2026-10-31 14:15 Did not remove es voice or describeOutLoud, because notes require Isa approval first, even if the search finds no use.
