@@ -1879,3 +1879,7 @@
 - 2026-10-31 21:05 Asked for es and fr wording with each new key listed in DONE, so Isa can review it in one place. Native review stays a Blocked item.
 - 2026-10-31 21:05 Kept the Week row question blocked. Isa has not answered it, and it does not stop this task.
 - 2026-10-31 21:05 Parked the date-format check and the 'of N days' plural bug as spotted items, not fixes. They touch week-specific wording that is still unreviewed.
+- 2026-10-31 21:10 Chose the training.tsx completion sweep over Jev's energy.tsx pick (88%). The loop note flagged the last report as partly done, and Jev's own 53% clean-completion score agrees. Clearing the flag comes first. Energy.tsx is next.
+- 2026-10-31 21:10 Did not change formatDuration: it is a shared helper outside the named file and is parked under Next.
+- 2026-10-31 21:10 No gap row is added for training.tsx: no table row cites it and Isa has not chosen where it belongs.
+- 2026-10-31 21:10 Rewrote the notes below 600 words: merged repeated items, removed finished work and kept every decision.
