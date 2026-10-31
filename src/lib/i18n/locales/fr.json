@@ -166,7 +166,11 @@
     "dayStreak_other": "jours d’affilée",
     "nothingScheduledSub": "Rien de prévu — ajoutez ce que vous avez fait",
     "logged": "Enregistré",
-    "loggedTodayBurned": "Enregistré aujourd’hui · {{energy}} brûlées"
+    "loggedTodayBurned": "Enregistré aujourd’hui · {{energy}} brûlées",
+    "loggedDuration": "Durée",
+    "loggedMinutes": "{{minutes}} min",
+    "loggedSets": "Séries",
+    "loggedMore": "+{{extra}} de plus"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",

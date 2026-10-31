@@ -168,7 +168,11 @@
     "dayStreak_other": "días seguidos",
     "nothingScheduledSub": "Nada programado — añade lo que hiciste",
     "logged": "Registrado",
-    "loggedTodayBurned": "Registrado hoy · {{energy}} quemadas"
+    "loggedTodayBurned": "Registrado hoy · {{energy}} quemadas",
+    "loggedDuration": "Duración",
+    "loggedMinutes": "{{minutes}} min",
+    "loggedSets": "Series",
+    "loggedMore": "+{{extra}} más"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

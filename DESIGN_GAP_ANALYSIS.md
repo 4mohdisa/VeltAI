@@ -488,6 +488,8 @@ drops the calories figure; the planned sub-line
 drops the muscle-group phrase and adds a duration; and the design's `ready` state
 (a day with a draft) has no counterpart.
 
+Logged-state stats grid and chips, BUILT (not verified): when the logged session returned by `listSessions` has exercises, the card shows Duration, Volume and Sets from that session, then the first three exercise names and a "+N more" chip. There is no Calories cell because session rows carry no per-session calories, so this is 3-up against the design's 4-up.
+
 ## Gym — the "Log this session" CTA — ❌ DIFFERENT
 
 **Design:** `showLogCta = !past && !logged && exList.length > 0` — a black 52pt pill

@@ -166,7 +166,11 @@
     "dayStreak_other": "day streak",
     "nothingScheduledSub": "Nothing scheduled — add anything you did",
     "logged": "Logged",
-    "loggedTodayBurned": "Logged today · {{energy}} burned"
+    "loggedTodayBurned": "Logged today · {{energy}} burned",
+    "loggedDuration": "Duration",
+    "loggedMinutes": "{{minutes}} min",
+    "loggedSets": "Sets",
+    "loggedMore": "+{{extra}} more"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

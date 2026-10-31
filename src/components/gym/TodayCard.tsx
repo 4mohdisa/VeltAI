@@ -12,11 +12,13 @@ import { Card, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
+import type { GymSession } from '@/lib/api';
 import { useEnergyBalance } from '@/lib/data/energy';
+import { useGymRange } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
-import { formatEnergy } from '@/lib/units';
+import { displayToKg, formatEnergy, formatWeight } from '@/lib/units';
 
 /** The state dot the design puts at the head of the session card. */
 function Dot({ tint }: { tint: string }): JSX.Element {
@@ -94,25 +96,84 @@ function Header({
   );
 }
 
+/** One cell of the logged stats grid; a long value shrinks rather than wraps. */
+function StatCell({ value, label }: { value: string; label: string }): JSX.Element {
+  return (
+    <View style={{ flex: 1, minWidth: 0 }}>
+      <Text variant="bodyBold" color={color.label} numberOfLines={1} adjustsFontSizeToFit>
+        {value}
+      </Text>
+      <Text variant="caption" color={color.secondaryLabel} numberOfLines={1}>
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+/** The logged session's stats and exercise chips. The session row carries no
+ *  calories, so that cell is left out, and an unrecorded duration or volume
+ *  reads as a dash, never 0. */
+function LoggedSessionDetail({ session }: { session: GymSession }): JSX.Element | null {
+  const { t } = useTranslation();
+  const weightUnit = useUnitPreferences().weight;
+  const exercises = session.exercises ?? [];
+  if (exercises.length === 0) return null;
+
+  const sets = exercises.reduce((sum, e) => sum + (e.sets ?? 0), 0);
+  const volumeKg = exercises.reduce(
+    (sum, e) => sum + (e.sets ?? 0) * (e.reps ?? 0) * displayToKg(e.weight ?? 0, e.weight_unit === 'lb' ? 'lb' : 'kg'),
+    0,
+  );
+  const shown = exercises.slice(0, 3);
+  const more = exercises.length - shown.length;
+
+  return (
+    <>
+      <View style={{ flexDirection: 'row', gap: space.sm }}>
+        <StatCell
+          value={session.duration_minutes != null ? t('gym.loggedMinutes', { minutes: session.duration_minutes }) : '—'}
+          label={t('gym.loggedDuration')}
+        />
+        <StatCell
+          value={volumeKg > 0 ? formatWeight(volumeKg, weightUnit) : '—'}
+          label={t('gymLog.celebration.volume')}
+        />
+        <StatCell value={String(sets)} label={t('gym.loggedSets')} />
+      </View>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
+        {shown.map((e) => (
+          <Chip key={e.id} label={e.name} />
+        ))}
+        {more > 0 ? <Chip label={t('gym.loggedMore', { extra: more })} muted /> : null}
+      </View>
+    </>
+  );
+}
+
 /** Logged state. Owns the balance fetch so the other states never make it. The
  *  burn is the day's total; with none recorded the sub-line stays kcal-free
  *  rather than claiming 0 kcal burned. */
-function LoggedCard({ title }: { title: string }): JSX.Element {
+function LoggedCard({ title, sessionId }: { title: string; sessionId: string | null }): JSX.Element {
   const { t } = useTranslation();
   const { balance } = useEnergyBalance();
   const energyUnit = useUnitPreferences().energy;
   const burned = balance?.calories_out_exercise ?? 0;
+  const { sessions } = useGymRange(1);
+  const session = sessions.find((s) => s.id === sessionId);
 
   return (
     <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-      <Header
-        tint={categoryAccent.positive}
-        title={title}
-        sub={burned > 0 ? t('gym.loggedTodayBurned', { energy: formatEnergy(burned, energyUnit) }) : 'Logged today'}
-        pill={t('gym.logged')}
-        pillFill={categoryAccent.positive}
-        chevron
-      />
+      <View style={{ gap: space.lg }}>
+        <Header
+          tint={categoryAccent.positive}
+          title={title}
+          sub={burned > 0 ? t('gym.loggedTodayBurned', { energy: formatEnergy(burned, energyUnit) }) : 'Logged today'}
+          pill={t('gym.logged')}
+          pillFill={categoryAccent.positive}
+          chevron
+        />
+        {session ? <LoggedSessionDetail session={session} /> : null}
+      </View>
     </Card>
   );
 }
@@ -136,7 +197,7 @@ export function TodayCard(): JSX.Element | null {
   if (!today) return null;
 
   if (today.already_checked_in) {
-    return <LoggedCard title={today.template?.name ?? t('gymLog.freestyleTitle')} />;
+    return <LoggedCard title={today.template?.name ?? t('gymLog.freestyleTitle')} sessionId={today.session_id} />;
   }
 
   if (today.is_rest_day || !today.template) {

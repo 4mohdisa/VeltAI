@@ -1381,3 +1381,8 @@
 - 2026-10-31 15:50 Limited the round to TodayCard.tsx so no new edits land on the gap doc in the same round as the code. Gap-doc fixes stay in their own round, per the rule.
 - 2026-10-31 15:50 Asked for a design read in step 1 because the last report did not name the design file for the logged state. Without that, the BUILT claim is partial.
 - 2026-10-31 15:50 No new tests written: no test matched TodayCard, and the brief forbids new suites this round.
+- 2026-10-31 15:51 Chose the stats grid and chips over chevron removal: the grid is a design item that clears a DIFFERENT point without Isa input, while chevron removal is a workaround.
+- 2026-10-31 15:51 Kept the solid green pill: the wash token question is already in Blocked on Isa and must not be asked again.
+- 2026-10-31 15:51 Grid calories must come from the logged session only, not the whole-day calories_out_exercise figure, so the grid does not repeat the sub-line's mismatch.
+- 2026-10-31 15:51 Gap row kept DIFFERENT: the grid and chips are built but the card is not yet verified, and the pill, chevron and tap target still differ.
+- 2026-10-31 15:51 Jev followed (run 52%, ask 46%): a bounded build with a data check first is a smaller task than asking Isa.
