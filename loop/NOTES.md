@@ -12,12 +12,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - New keys go to en, es, fr together. Hardcoded strings not in design stay English and are recorded.
 - Streak strip links to /gym/streak (accepted). Training, freeze, session history: app-only, English.
 - Saved foods title 'My dishes'. Card: padded={false} plus style padding; Card.tsx untouched.
-- TodayCard: already_checked_in before is_rest_day. Rest day = is_rest_day || !template. Logged calories from logged session only. Solid green pill kept. Failure = today === null after loading; hook unchanged.
-- Log sheet: rest-day check keeps planned.length === 0. Failure shows LoadFailedNotice, Try again = refetch, not a rest day.
+- TodayCard: already_checked_in before is_rest_day. Rest day = is_rest_day || !template. Logged calories from logged session only. Solid green pill. Failure = today === null after loading; hook unchanged.
+- Log sheet: rest-day check keeps planned.length === 0. Failure shows LoadFailedNotice; Try again = refetch.
 - Header counts derived from the table, never earlier figures.
 - Defaults: one-tap gym log kept; Distance km kept; food chips skipped; Goals extras kept.
-- Checkpoint rounds read-only. Doc-only rounds: tsc only, no Jest.
-- A report with no tsc or no tests = partial; fix before next build round. Exception: a doc-only round with tsc run and Jest not required is complete. The tsc exit code must be stated explicitly in CHECKED.
+- Checkpoint rounds read-only. Doc-only rounds: tsc only, exit code stated in CHECKED, no Jest. Doc-only round with tsc exit 0 is complete.
 - Doc factual corrections with accurate report text are applied without asking.
 - Prompts name the design/ file and gap row, even for doc rounds.
 - Claude Code must not open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
@@ -25,51 +24,47 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard (padding, title, sub-line, rest, logged state, failed-fetch notice); Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice.
-Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status line still empty.
+Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status empty.
 Last checkpoint R34 green (tsc 0, 65 suites, 824 tests), predates failed-fetch code. No tests cover TodayCard or failure paths.
-R35 read-only check: log-session.tsx failure branch correct.
-R37: eight stale log-session.tsx cites fixed in gap doc.
-R38: line 166 count fixed (261 lines). Line 275-276 fixed (LoggedCard).
-R39: 'What the app does' rewritten to describe the current chooser. tsc 0.
-R40: 'The differences, exhaustively' rewritten against current code (items 1-7, 9, 13, 20 BUILT; 8, 10-12, 14, 16-19, 22, 23 still different or partial). Items 15 and 21 removed. Item numbering kept for cross-reference to item 16. tsc 0. Jest not run (doc-only). Report flagged by loop for not clearly showing a passing tsc; re-check in R41.
+Doc rounds R37-R41 done: stale cites, 'What the app does', differences list, Freestyle wording.
 
-## Next
-1. R41 (in progress): doc round. In 'Freestyle / no plan' row, reword 'Add exercise' so it names /gym/session explicitly and does not read as the log sheet's empty state. Names design/Lume App.html. tsc only, exit code stated.
-2. Gap row 76 ('Gym — session logging (log sheet)'): 'Difference 16 remains closed' and the claim that /gym/session is where numbers are adjusted must agree with items 16 and 19. Doc round, tsc only.
-3. Stale comment src/components/navigation/SheetContent.tsx:156 ('log-session Notes', field no longer exists). Code round, targeted test only.
-4. Rest seconds: picker collects them, /gym/session never saves them (src/app/gym/session.tsx:159-166). Note under Parked or fix if it is a plain save; check premise first.
-5. 'What the app does' still says 'As recorded on 2026-09-13' and 'The differences listed below were written against this state'. Doc factual correction, apply without asking.
+## Next (in order)
+1. Gap row 'Gym — session logging (log sheet)': make 'Difference 16' and the /gym/session adjust claim agree with items 16 and 19. Doc round.
+2. Stale comment src/components/navigation/SheetContent.tsx:156 ('log-session Notes'). Code round, targeted test.
+3. Rest seconds: picker collects them, /gym/session never saves them (src/app/gym/session.tsx:159-166). Check premise; park, or fix if it is a plain save.
+4. Doc correction: 'What the app does' still says 'As recorded on 2026-09-13' and 'written against this state'; a line near 320 says nothing surfaces session_id. Apply without asking.
+5. Copy: session.tsx:539 says 'Add exercise'; design addLabel says 'Add an exercise'. Fix if it is a plain string.
 6. Add sheet icons from design SVGs.
-7. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check before the rest-day return.
+7. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check.
 8. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-9. Empty-list copy food.tsx ~445. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-10. summaryNoFabrication.test.ts header comment: fibre note stale.
+9. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+10. summaryNoFabrication.test.ts header: fibre note stale.
 11. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
 12. Checkpoint: full tsc and full app Jest, read-only.
 13. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
-- Device checks: logged card and both failure states with network off. Double notice with gym tab (src/app/(tabs)/gym.tsx:107).
-- Row 90 merge into 'Food - My dishes / Saved' (do only if Isa answers). Handover suggested doing it; notes keep it blocked. Handover is stale on this point.
+- Device checks: logged card and both failure states offline. Double notice with gym tab (src/app/(tabs)/gym.tsx:107).
+- Row 90 merge into 'Food - My dishes / Saved' (only if Isa answers).
 - Footnote '23 sessions 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review; 'My dishes'; Macros wording.
 - Freestyle row 'No'; es emptyMessage; es voice and describeOutLoud removal.
 - Group names food.loadFailed, gym.loadFailed, profile.loadFailed.
 - Training list keep or remove (gym.tsx:153); profile row 94; streak strip wording; backend GetToday flag.
-- Log as planned (~296): minutes as note text enough for BUILT?
+- Log as planned (~296): is minutes as note text enough for BUILT?
 - Energy literals English? Remaining-calories line removed: acceptable?
 - Users without body stats see 1,500 kcal goal; design uses 2,100.
 - TodayCard: wash pill token; whole-day kcal under session card; chevron before tappable.
 - Volume: session.tsx saves top-set weight for all sets. Fix, show only when consistent, or accept?
-- Heatmap route wording (R33): Isa may override.
+- Heatmap route wording (R33).
 - Calories cell needs gym_sessions.calories_burned from backend; omitted. Accept?
-- Already-logged days: real editing (code task, /gym/session writes a second row per src/lib/data/mutations.ts:173-178) or change the 'open it to edit' copy (gymLog.alreadyLogged in en.json)?
+- Already-logged days: real editing (/gym/session writes a second row, src/lib/data/mutations.ts:173-178) or change gymLog.alreadyLogged copy?
 
 ## Parked
-- Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0.
+- Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route (customLabel).
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
-- TodayCard: header dot, min-height, gaps, pill and chip type, grid 17/24 vs 16/21, Chip 11/14, grid shift after fetch, stale burn, two sessions shows earliest, date mismatch near midnight, per-session calories (backend), 'Try again' small tap target, GetToday clears is_rest_day only with template, '0 exercises planned' sub-line (TodayCard.tsx ~203, ~225-227).
+- TodayCard: header dot, min-height, gaps, pill and chip type, grid 17/24 vs 16/21, Chip 11/14, grid shift after fetch, stale burn, earliest-session rule, date mismatch near midnight, per-session calories (backend), small 'Try again' target, GetToday clears is_rest_day only with template, '0 exercises planned' sub-line.
 - Logged card tap target needs a day-detail route.
 - Macros: history chart; app-only gauge and meals list.
 - fr 'Ajouter a {{slot}}'; plan.addTitle in es and fr.
@@ -78,25 +73,22 @@ R40: 'The differences, exhaustively' rewritten against current code (items 1-7, 
 - Recipe fibre saved as 0; num() rounds; long-press meal delete hidden.
 - Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if profile field undefined.
-- Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes api.gym.getToday never returns null for a real response (unread).
+- Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes api.gym.getToday never returns null for a real response.
 
 ## Gotchas
 - Edit tool: node escapes for NBSP and U+2019.
 - i18n lng fixed to 'en' (src/lib/i18n/index.ts:41).
 - Grep: LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
-- Check premises first: nutrition.tsx is src/app/dashboard/; hook is src/lib/data/gymSchedule.ts; gym tests in src/__tests__. Briefs have named wrong paths and conditions.
+- Check premises first: nutrition.tsx is src/app/dashboard/; hook is src/lib/data/gymSchedule.ts; gym tests in src/__tests__. Briefs have named wrong paths.
 - Row 113 'My schedule' label is correct.
 - Design assets: 185bb533 Summary, 7dc211f6 gym, 71f71ac4 food. Decode with node -e from __bundler/manifest.
 - zsh breaks on echo ==.
 - Every prompt names the design/ file and gap row, says 'work only on loop/design-match', and says 'no matching tests' when none apply.
-- Line numbers shift; locate rows by content.
+- Locate rows by content; line numbers shift.
 - Handover text can be stale against notes; notes win.
 
 ## Round log
-- R9-R34: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard logged state, failed-fetch notices, gap-doc rounds, checkpoint R34 green.
+- R9-R34: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard logged state, failed-fetch notices, checkpoint R34 green.
 - R35: read-only check of log-session.tsx failure branch: pass.
-- R37: doc round, eight cites fixed, tsc 0.
-- R38: line 166 count fixed, 275-276 fixed, tsc 0. Doc-only round, treated as complete.
-- R39: 'What the app does' rewritten, tsc 0. Complete under doc-only exception.
-- R40: 'The differences, exhaustively' rewritten, tsc 0. Flagged by loop (tsc not clearly shown).
-- R41: planned doc round on 'Freestyle / no plan' 'Add exercise' wording, tsc exit code stated explicitly.
+- R37-R41: doc rounds, tsc 0 each. R41 exit code stated.
+- R41 flagged by loop (tsc not clearly shown). R42 re-runs tsc with exit code printed.
