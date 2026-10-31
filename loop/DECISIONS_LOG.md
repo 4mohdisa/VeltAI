@@ -2289,3 +2289,15 @@
 - 2026-11-01 00:27 Scoped the round to macro bars only. The 12px calorie bar and 'left today' need a goal read and stay as the next task.
 - 2026-11-01 00:27 Rewrote notes to under 600 words, merged repeated items and deleted finished work. Decisions kept verbatim in substance.
 - 2026-11-01 00:27 Parked the stale claim that food detail Save changes is still open (handover says built at line 301). Next round must grep before acting.
+- 2026-11-01 00:29 Chose the checkpoint because the loop note requires it and it also resolves the R207 report, which was flagged for not running tests.
+- 2026-11-01 00:29 Kept the row 85 doc update as next step, since the R207 report says the gap doc still shows dots and this is a doc-only round.
+- 2026-11-01 00:29 Parked the R207 comment citation to UI_PASS_GAPS.md section 2 and the missing 700ms bar animation, since neither is a row task on its own.
+- 2026-11-01 00:29 Jev gave run 61% and ask 37%. Kept run: the checkpoint needs no owner input, and ask would only park a task that can run now.
+- 2026-11-01 00:29 The rejected prompt did not name the design file. The checkpoint was the pending item for this round, so I rewrote it as a read-only checkpoint that names design/Lume App.html, food screen 71f71ac4, and gap row 85.
+- 2026-11-01 00:29 Kept the run action: a read-only checkpoint needs no owner input (Jev 74% run).
+- 2026-11-01 00:29 Did not start the row 85 doc update in this round, so each round keeps one task. It is next in the Next list.
+- 2026-11-01 00:29 Checkpoint runs the app suite only. The backend suite is not needed to check row 85.
+- 2026-11-01 00:30 Kept the checkpoint as the run action. It needs no owner input and the R208 check was never run.
+- 2026-11-01 00:30 Rewrote the rejected prompt with the loop/design-match branch rule, the design file, the food screen id and the row number.
+- 2026-11-01 00:30 Limited the checkpoint to tsc and the app suite, as the loop rules require for checkpoint rounds.
+- 2026-11-01 00:30 Cut the notes to under 600 words by merging repeated items and removing finished work. The decisions list is kept in full.
