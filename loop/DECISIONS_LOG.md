@@ -1750,3 +1750,8 @@
 - 2026-10-31 20:33 Used the notes list as the source of order, not the handover NEXT line, which the handover says may be stale.
 - 2026-10-31 20:33 Rewrote the notes under 600 words: merged repeated items, removed finished work, kept every decision and every Blocked and Parked item.
 - 2026-10-31 20:33 The handover says the freeze sheet and '+' serving items are open. Kept them in Blocked on Isa, so they are not retried.
+- 2026-10-31 20:34 Picked the LoadFailedNotice task because it is shared, needs nothing from Isa, and is small.
+- 2026-10-31 20:34 The loop flagged the last report because tests were not run. This round runs tsc with the exit line printed, plus tests that reference LoadFailedNotice, and reports the counts.
+- 2026-10-31 20:34 Gap row is located by search, not by number, so a stale row citation does not cause an error.
+- 2026-10-31 20:34 Added the key to en, es and fr together, per the locale rule. The es and fr wording is a first draft for Isa's native review.
+- 2026-10-31 20:34 gym.tsx streak freeze strings stay blocked until Isa confirms the freeze screen stays (Blocked on Isa).

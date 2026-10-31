@@ -3,7 +3,8 @@
     "save": "Guardar",
     "cancel": "Cancelar",
     "done": "Listo",
-    "reset": "Restablecer"
+    "reset": "Restablecer",
+    "tryAgain": "Intentar de nuevo"
   },
   "settings": {
     "title": "Ajustes",

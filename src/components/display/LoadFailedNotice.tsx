@@ -6,6 +6,7 @@
 // place it ABOVE whatever the device already had, so local data stays visible and
 // is labelled rather than presented as current.
 import { View, type ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -21,6 +22,7 @@ export type LoadFailedNoticeProps = {
 };
 
 export function LoadFailedNotice({ message = "Couldn't load the latest.", onRetry, style }: LoadFailedNoticeProps) {
+  const { t } = useTranslation();
   return (
     <View
       accessibilityRole="alert"
@@ -42,9 +44,9 @@ export function LoadFailedNotice({ message = "Couldn't load the latest.", onRetr
         {message}
       </Text>
       {onRetry ? (
-        <Pressable onPress={onRetry} haptic={false} minTapTarget={false} accessibilityRole="button" accessibilityLabel="Try again">
+        <Pressable onPress={onRetry} haptic={false} minTapTarget={false} accessibilityRole="button" accessibilityLabel={t('common.tryAgain')}>
           <Text variant="footnote" color={color.label}>
-            Try again
+            {t('common.tryAgain')}
           </Text>
         </Pressable>
       ) : null}

@@ -3,7 +3,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "done": "Done",
-    "reset": "Reset"
+    "reset": "Reset",
+    "tryAgain": "Try again"
   },
   "settings": {
     "title": "Settings",
