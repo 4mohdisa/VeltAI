@@ -20,13 +20,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - LoadFailedNotice: no design counterpart. minTapTarget={false} kept (row 114). Message required, no default (R98).
 - R100 flag cleared: tsc 0, locale JSON parses, key in en, es, fr.
 - fr Breakdown is 'Détail' as Isa specified, despite nutrition.breakdown 'Répartition'.
-- summaryDetails.test.ts Breakdown check now strict for week, training and energy (R108). It picks the key for those routes and the word 'Breakdown' for others. It reads source text only and does not prove rendering. macros check is next (R109).
+- summaryDetails.test.ts Breakdown check is strict for all four detail routes (R108, R109). macros expects t('nutrition.breakdown'); week, training and energy expect t('dashboard.breakdown'). Reads source text only; does not prove rendering.
 
 ## Status
-24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later. R108 render check: detailChrome.render.test.tsx 4 tests, 4 snapshots, English Breakdown on Energy, Week, Training, Macros.
+24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later. R108 render check: detailChrome.render.test.tsx 4 tests, 4 snapshots, English Breakdown on Energy, Week, Training, Macros. R109 result: summaryDetails 47 tests pass, tsc 0.
 
 ## Next
-1. summaryDetails.test.ts: strict Breakdown check for macros, expecting t('nutrition.breakdown') (issued R109, test file only). Then drop the Test weakness line under Parked.
+1. gym.tsx lines 151-156: 'Training', 'My schedule', 'My workouts', 'Session history' to t() (issued R110).
 2. Doc only: record Week and Training Breakdown once Isa picks a row.
 3. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
 4. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
@@ -40,11 +40,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 12. week.tsx English copy ('This week', 'In & out', 'Daily net', footer): per row or English-only.
 13. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
 14. Freeze strings at count 1 read wrongly.
-15. gym.tsx ~151-156 'Training', 'My schedule', 'My workouts', 'Session history': per row or English-only.
-16. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
-17. energy.tsx remaining English copy ('Energy balance', 'In and out', 'Intake', 'Total burned'): per row or English-only.
-18. Re-issue read-only checkpoint (full tsc and full app suite).
-19. No rows left: stop with 'only owner decisions remain'.
+15. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
+16. energy.tsx remaining English copy ('Energy balance', 'In and out', 'Intake', 'Total burned'): per row or English-only.
+17. Re-issue read-only checkpoint (full tsc and full app suite).
+18. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? mutations.ts:173-178.
@@ -76,7 +75,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; duplicate nutrition.breakdown and dashboard.breakdown (merge once fr settled).
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
-- Test weakness: summaryDetails macros check passes on BreakdownRow and comments alone, although the route uses t('nutrition.breakdown'). Fix issued R109 (test-only).
 
 ## Accepted limits
 Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
@@ -86,6 +84,7 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - Design copy is encoded: decode the __bundler/manifest script with node. Raw grep misses it.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
 - The third Breakdown screen is src/app/energy.tsx, not src/app/dashboard/energy.tsx. The training file is src/app/dashboard/training.tsx, not src/app/training.tsx.
+- Summary of earlier handover (R105-R109 Breakdown work) is complete; do not redo it.
 
 ## Round log
 R9-R89: most surfaces built. Checkpoints R34, R48, R61, R77, R89 green.
@@ -96,7 +95,8 @@ R102: checkpoint issued, never reported.
 R103: Breakdown on week.tsx via t(). Gap line not added. Flagged partial.
 R104: test check widened by route, passes. Test is weak for non-week routes.
 R105: training.tsx Breakdown via t('dashboard.breakdown'). Flagged partial by loop.
-R106: widening of summaryDetails.test.ts to training done. Loop flagged partly done.
-R107: energy.tsx line 207 Breakdown via t('dashboard.breakdown'). Flagged partial because the energy check was loose and the render test was not run.
-R108: energy added to the strict Breakdown check (test file only). tsc 0, summaryDetails 47 tests pass, detailChrome.render 4 tests and 4 snapshots pass. BUILT, not verified.
-R109: issued. Strict Breakdown check for macros, expecting t('nutrition.breakdown') (test file only).
+R106: widening of summaryDetails.test.ts to training done.
+R107: energy.tsx line 207 Breakdown via t('dashboard.breakdown').
+R108: energy added to the strict Breakdown check (test file only). BUILT, not verified.
+R109: strict Breakdown check for macros, all four routes pass (47 tests, tsc 0). Test weakness resolved. BUILT, not verified.
+R110: issued. gym.tsx lines 151-156 labels to t().

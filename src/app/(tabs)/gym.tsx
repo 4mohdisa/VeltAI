@@ -148,12 +148,12 @@ export default function GymLogScreen() {
         <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
 
         <SettingsList
-          title="Training"
+          title={t('gym.training')}
           rows={[
-            { icon: 'calendar', label: 'My schedule', onPress: () => router.push('/gym/schedule' as Href) },
-            { icon: 'barbell', label: 'My workouts', onPress: () => router.push('/gym/templates' as Href) },
+            { icon: 'calendar', label: t('gym.mySchedule'), onPress: () => router.push('/gym/schedule' as Href) },
+            { icon: 'barbell', label: t('gym.myWorkouts'), onPress: () => router.push('/gym/templates' as Href) },
             { icon: 'snow', label: t('gym.applyStreakFreeze'), onPress: () => router.push('/gym/freeze') },
-            { icon: 'time', label: 'Session history', onPress: () => router.push('/gym/history') },
+            { icon: 'time', label: t('gym.sessionHistory'), onPress: () => router.push('/gym/history') },
           ]}
         />
       </ScrollView>

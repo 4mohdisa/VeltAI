@@ -1823,3 +1823,8 @@
 - 2026-10-31 20:51 Kept the Breakdown key duplication (dashboard.breakdown and nutrition.breakdown) parked until the fr wording is settled, as before.
 - 2026-10-31 20:51 Kept the Blocked on Isa list unchanged. No answer from Isa arrived this round.
 - 2026-10-31 20:51 No gap row status changed. Row 103 is only cited for context, and the rule is still BUILT, not verified.
+- 2026-10-31 20:52 R109 test check is now strict for all four detail routes, so the 'Test weakness' line is removed from Parked.
+- 2026-10-31 20:52 Chose gym.tsx labels (candidate 1) because it is the next item in the notes, touches one file and is the smallest change that clears English-only copy.
+- 2026-10-31 20:52 Kept the rule that rows stay DIFFERENT while other differences remain, so no status cell is changed in this round.
+- 2026-10-31 20:52 Asked Claude Code to reuse existing keys where the English value matches, to avoid duplicate keys.
+- 2026-10-31 20:52 Doc-only follow-ups (stray br, line 76, citation at 1505) stay queued and are not mixed into this code task.
