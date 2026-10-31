@@ -216,31 +216,29 @@ changed nothing on the server.**
 
 ## The differences, exhaustively
 
-1. **Purpose.** Design: record *how the planned session actually went*. App: rate an unspecified workout. Different features.
-2. **Plan awareness.** The design's sheet only exists when `exList.length > 0` and every string in it derives from the day's template. The app's sheet never reads `api.gym.getToday()`.
-3. **Layout.** Design: a 2-column grid of 148pt choice tiles plus one full-width 88pt row, then a bordered footer with a pill and caption. App: a vertical stack of four labelled form fields.
-4. **Title.** "How did it go?" vs "Log session".
-5. **Subtitle.** Design carries the plan line; the app passes no `subtitle` at all.
-6. **Primary button.** "It went as planned" (+ caption) vs "Log session".
-7. **"Different weights" branch — missing.** No adjust mode, no route from the sheet into per-exercise editing.
-8. **"Only some of it" branch — missing.** No tick list, no "What did you do?", no dynamic "Log N exercises" label, no partial commit.
-9. **"Something else" branch — missing.** The log sheet offers no way into the exercise library.
-10. **Empty-day fallback — missing.** In the design, opening "log" with nothing planned goes straight to the library; the app shows the same four fields regardless.
-11. **Fields in the design, absent in the app:** per-exercise names, per-set kg, per-set reps, add/remove set, cardio minutes, cardio km/h, add/remove segment, per-exercise tick boxes, RPE, rest seconds, tempo, superset toggle, per-exercise notes.
-12. **Fields in the app, absent in the design:** "Perceived effort (1–10)" and "Energy level (1–5)". The design has no session-level effort or energy concept at all.
-13. **Duration.** The design never asks — it derives. The app asks on a 0–180 slider.
-14. **Slider.** The design contains no slider anywhere in the logging path.
-15. **Steppers.** The design contains no ± stepper anywhere. The app uses two.
-16. **Number entry.** Design: tap a value → docked native-keyboard bar with a "Done" pill. App: no such bar exists anywhere in `src`.
-17. **Confirmation.** Design: a modal celebration card with streak, Time/Calories/Volume and "Nice one". App: a toast, *"Gym logged — streak extended."* **Status: BUILT (step 1 of 3: component only, not wired).** Step 2 of 3: wired in log-session.tsx. Footnote still missing.
-18. **Post-log state.** Design: "Logged and locked" with Edit → Save changes. App: a static "Logged today" pill, no edit path.
-19. **Already-logged handling.** Design routes you into the day to edit or add extras. App shows *"Already logged today."* and dismisses.
-20. **What is written.** Design commits a full exercise list. App writes one session row with duration + notes, no exercises, no completion.
-21. **Silent data loss.** `effort` and `energy` never reach the server.
-22. **Sheet height.** Design `max-height: 92%` with internal scroll; app `fitToContents`.
-23. **Entry-point behaviour is inconsistent in the app.** Gym tab and the `+` menu open the questionnaire; Summary's card calls `logGymSession()` with **no arguments and no UI at all** — a third, silently different behaviour.
+Numbers are kept from the 2026-09-13 list, because other rows cite them. Differences 15 and 21 are removed: the code no longer shows them. Design-side statements are carried over from that list.
 
-**Built:** difference 19 — an already-logged day no longer dismisses with *"Already logged today."*; `src/app/gym/log-session.tsx` now toasts the design's copy and routes to `/gym/session`, where the day can be edited or an extra added. Difference 18 (the "Logged and locked" Edit → Save changes cycle) stays an accepted deviation.
+1. **Purpose.** BUILT: the sheet records how the day's planned session went, as the design does (`src/app/gym/log-session.tsx:173-238`).
+2. **Plan awareness.** BUILT: the sheet reads the day's plan through `useToday` (`src/app/gym/log-session.tsx:87`), and drops the chooser when nothing is planned (`src/app/gym/log-session.tsx:150`).
+3. **Layout.** BUILT: a 2-column grid of 148pt tiles plus one full-width 88pt row, then a divider, pill and caption (`src/app/gym/log-session.tsx:39-40`, `:181-236`).
+4. **Title.** BUILT: "How did it go?" (`src/app/gym/log-session.tsx:177`, `src/lib/i18n/locales/en.json:132`).
+5. **Subtitle.** BUILT: the plan line, without the name when the template has none (`src/app/gym/log-session.tsx:178`).
+6. **Primary button.** BUILT: "It went as planned" with its caption (`src/app/gym/log-session.tsx:233-236`).
+7. **"Different weights" branch.** BUILT: the tile opens `/gym/session` in `adjust` mode, with every row's numbers open (`src/app/gym/log-session.tsx:185`, `src/app/gym/session.tsx:122`).
+8. **Tick-list branch — partial.** The tile opens `/gym/session` in `ticklist` mode with every row ticked, and the commit carries a partial rate (`src/app/gym/session.tsx:123`, `:354-355`). Design: a second sheet, "What did you do?", with a dynamic "Log N exercises" label. App: no second sheet, and the label stays "Finish workout" (`src/app/gym/session.tsx:520`).
+9. **"Something else" branch.** BUILT: the row opens `/gym/session` in `picker` mode, with the exercise library over it (`src/app/gym/session.tsx:178`, `:561`).
+10. **Empty-day fallback — partial.** Design: opening "log" with nothing planned goes straight to the library. App: a "Rest day" state whose "Log an exercise" action opens `/gym/session` plain (`src/app/gym/log-session.tsx:150-162`); the library is one more tap, on "Add exercise" (`src/app/gym/session.tsx:539-540`).
+11. **Fields in the design, absent in the app:** remove set, add/remove segment, tempo, superset toggle, per-exercise notes. Rest seconds appears only in the picker's planned values (`src/components/gym/PlannedValuesForm.tsx:186`), and `/gym/session` does not save it (`src/app/gym/session.tsx:159-166`). Per-set kg and reps are entered but saved as one row at the top weight (`src/app/gym/session.tsx:151-164`). Exercise names, add set, cardio minutes, tick boxes and RPE are present (`src/app/gym/session.tsx:432-433`, `:484-501`, `:463`, `:416-420`).
+12. **Fields in the app, absent in the design:** cardio distance, on an exercise with no parameter schema (`src/app/gym/session.tsx:79`, `:464-468`). The sheet has no effort or energy field.
+13. **Duration.** BUILT: neither the sheet nor `/gym/session` asks. The sheet derives it from the template or the plan (`src/app/gym/log-session.tsx:116-118`), and `/gym/session` takes the template's estimate (`src/app/gym/session.tsx:362`).
+14. **Slider.** The design contains no slider anywhere in the logging path. The sheet has none. `/gym/session` keeps one for RPE (`src/app/gym/session.tsx:493-501`), and `ParameterForm` uses one for a schema's slider fields (`src/components/gym/ParameterForm.tsx:224-231`).
+16. **Number entry — partial.** BUILT on `/gym/session` and the picker's planned values: tapping a value docks `NumberEntryBar` with a "Done" pill (`src/app/gym/session.tsx:564-573`, `src/components/gym/PlannedValuesForm.tsx:191`). Two boxed fields remain: a schema's number fields (`src/components/gym/ParameterForm.tsx:258-265`) and planned cardio duration (`src/components/gym/PlannedValuesForm.tsx:177-183`).
+17. **Confirmation — partial.** BUILT on the "It went as planned" pill: a modal celebration card with streak, Time, Volume and "Nice one" (`src/app/gym/log-session.tsx:242-258`). Calories shows a dash, because the sheet has no burn figure (`src/app/gym/log-session.tsx:249`), and the footnote is missing. `/gym/session` and Summary's card confirm with a toast instead (`src/app/gym/session.tsx:366`, `src/app/(tabs)/index.tsx:180`).
+18. **Post-log state.** Design: "Logged and locked" with Edit → Save changes. App: a static "Logged today" pill (`src/components/domain/GymSessionButton.tsx:15-39`) and a logged card (`src/components/gym/TodayCard.tsx:199-201`), with no edit path. This stays an accepted deviation.
+19. **Already-logged handling — partial.** BUILT: the pill shows the design's toast and routes to `/gym/session` (`src/app/gym/log-session.tsx:110-113`). Design: you edit the day. App: `/gym/session` opens a new check-in, not the logged session, and finishing it writes a second session row (`src/lib/data/mutations.ts:173-178`).
+20. **What is written.** BUILT: the pill commits the plan's exercises and a completion rate as one queued sequence (`src/app/gym/log-session.tsx:117-120`, `src/lib/data/mutations.ts:186-197`). `/gym/session` commits the same sequence with the collapsed rows in difference 11.
+22. **Sheet height.** Design `max-height: 92%` with internal scroll; app `fitToContents` (`src/app/_layout.tsx:155`).
+23. **Entry-point behaviour is inconsistent in the app.** Gym tab and the `+` menu open the chooser (`src/app/(tabs)/gym.tsx:148`, `src/components/navigation/LumeTabBar.tsx:176`); Summary's card calls `logGymSession()` with **no arguments and no UI at all** (`src/app/(tabs)/index.tsx:179`), a third, silently different behaviour.
 
 ## Explicit correction of the prior report
 

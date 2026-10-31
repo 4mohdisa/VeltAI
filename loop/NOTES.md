@@ -30,19 +30,19 @@ Last checkpoint R34 green (tsc 0, 65 suites, 824 tests), predates failed-fetch c
 R35 read-only check: log-session.tsx failure branch correct.
 R37: eight stale log-session.tsx cites fixed in gap doc.
 R38: line 166 count fixed (261 lines). Line 275-276 fixed (LoggedCard). Line 300 left: 'Add exercise' is correct for /gym/session.
+R39: 'What the app does' rewritten to describe the current chooser. tsc 0. Loop flag reviewed: doc-only round, complete.
 
 ## Next
-1. R39 (in progress): doc round. Rewrite 'What the app does' (gap ~166-181) to describe the current chooser; remove the 'four subjective questions' claim. Names design/Lume App.html. tsc only.
-2. R40: rewrite 'The differences, exhaustively' (gap ~185-207) for current app state; same rules, tsc only.
-3. Line 300 wording: name /gym/session explicitly in the 'Add exercise' row so 'where' cannot read as the log sheet's empty state. Doc round, tsc only.
-4. Add sheet icons from design SVGs.
-5. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check before the rest-day return.
-6. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today'.
-7. Empty-list copy food.tsx ~445. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-8. summaryNoFabrication.test.ts header comment: fibre note stale.
-9. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-10. Checkpoint: full tsc and full app Jest, read-only.
-11. No rows remain: stop with 'only owner decisions remain'.
+1. R40 (in progress): doc round. Rewrite 'The differences, exhaustively' (gap ~217 onward) for current app state; match each item to its source file; remove 'Only some of it'. Names design/Lume App.html. tsc only.
+2. Line 300 wording: name /gym/session explicitly in the 'Add exercise' row so 'where' cannot read as the log sheet's empty state. Doc round, tsc only.
+3. Add sheet icons from design SVGs.
+4. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check before the rest-day return.
+5. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+6. Empty-list copy food.tsx ~445. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+7. summaryNoFabrication.test.ts header comment: fibre note stale.
+8. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
+9. Checkpoint: full tsc and full app Jest, read-only.
+10. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
 - Device checks: logged card and both failure states with network off. Double notice with gym tab (src/app/(tabs)/gym.tsx:107).
@@ -64,7 +64,7 @@ R38: line 166 count fixed (261 lines). Line 275-276 fixed (LoggedCard). Line 300
 ## Parked
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0.
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
-- TodayCard: header dot, min-height, gaps, pill and chip type, grid 17/24 vs 16/21, Chip 11/14, grid shift after fetch, stale burn, two sessions shows earliest, date mismatch near midnight, per-session calories (backend), 'Try again' hardcoded with small tap target, GetToday clears is_rest_day only with template, '0 exercises planned' sub-line (TodayCard.tsx ~203, ~225-227).
+- TodayCard: header dot, min-height, gaps, pill and chip type, grid 17/24 vs 16/21, Chip 11/14, grid shift after fetch, stale burn, two sessions shows earliest, date mismatch near midnight, per-session calories (backend), 'Try again' small tap target, GetToday clears is_rest_day only with template, '0 exercises planned' sub-line (TodayCard.tsx ~203, ~225-227).
 - Logged card tap target needs a day-detail route.
 - Macros: history chart; app-only gauge and meals list.
 - fr 'Ajouter a {{slot}}'; plan.addTitle in es and fr.
@@ -72,7 +72,7 @@ R38: line 166 count fixed (261 lines). Line 275-276 fixed (LoggedCard). Line 300
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; i18next console.info banner.
 - Recipe fibre saved as 0; num() rounds; long-press meal delete hidden.
 - Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
-- Stale 'Only some of it' (gap ~191). Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if profile field undefined.
+- Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if profile field undefined.
 - Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes api.gym.getToday never returns null for a real response (unread).
 
 ## Gotchas
@@ -91,5 +91,6 @@ R38: line 166 count fixed (261 lines). Line 275-276 fixed (LoggedCard). Line 300
 - R9-R34: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard logged state, failed-fetch notices, gap-doc rounds, checkpoint R34 green.
 - R35: read-only check of log-session.tsx failure branch: pass.
 - R37: doc round, eight cites fixed, tsc 0.
-- R38: line 166 count fixed, 275-276 fixed, tsc 0. Flagged as 'tests not run'; doc-only round, so treated as complete. Prose still stale (R39 target). Row 90 not merged.
-- R39: planned doc round on 'What the app does' (tsc only).
+- R38: line 166 count fixed, 275-276 fixed, tsc 0. Doc-only round, treated as complete.
+- R39: 'What the app does' rewritten, tsc 0. Loop flag reviewed; complete under doc-only exception.
+- R40: planned doc round on 'The differences, exhaustively' (tsc only).

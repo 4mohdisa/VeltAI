@@ -1467,3 +1467,7 @@
 - 2026-10-31 16:55 Kept 'The differences, exhaustively' for the next round so this prompt stays to one section.
 - 2026-10-31 16:55 Did not run the handover's suggested line 90 merge. Notes say it waits for Isa's answer, and the handover does not override that.
 - 2026-10-31 16:55 Did not act on the line 300 wording fix in this round; it is queued after the two prose sections.
+- 2026-10-31 16:57 Loop note flagged the R39 report as 'tsc or tests not run'. R39 ran tsc (exit 0) and was a doc-only round where Jest is not required, so under the notes exception it is complete. No fix round; moving on.
+- 2026-10-31 16:57 Handover NEXT says to merge the empty-status line (gap line 90). Notes keep row 90 blocked on Isa, so it stays blocked and is not retried.
+- 2026-10-31 16:57 Chose R40 over the 'Add exercise' wording and the add sheet icons because it is the next item in the notes order and is a doc-only round that needs nothing from Isa.
+- 2026-10-31 16:57 Log-session failure branch read-only check (handover NEXT) is already recorded as passed in R35, so it is not repeated now.
