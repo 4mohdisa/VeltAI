@@ -1,44 +1,39 @@
-HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Bundle id fit.lume.app.
+HANDOVER: LumeAI (remote 4mohdisa/VeltAI), branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html.
 
 BUILT THIS SESSION (not verified; es and fr are unreviewed drafts)
-- src/components/display/SwipeableRow.tsx: Cancel, Delete and action label translated.
-- src/app/food/saved.tsx: all own strings.
-- src/app/food/new-recipe.tsx: swipe title only.
-- src/app/gym/new-template.tsx: swipe title and trash dialog.
-- src/app/(tabs)/food.tsx: visible pending label, using food.rowAnalysing.
-- src/app/food/detail.tsx: Delete item, delete dialog and toast, saved-mode removal, save-to-dishes button and toast, PADS captions.
-- src/lib/i18n/locales/{en,es,fr}.json: matching keys.
+- src/app/food/detail.tsx: macro labels (both layouts), tile, serving and calories VoiceOver labels, Serving size caption, Edit values manually, meal chips and caption, "for {n} g", Edit item and Rename food titles, Save name and Save changes (line 301).
+- src/app/food/quick-add.tsx: all screen copy, including seven strings the brief missed.
+- src/lib/i18n/locales/{en,es,fr}.json: matching food.* keys.
+- src/__tests__/foodDetail.test.ts: one assertion now looks for food.editValuesManually.
 
-GAP ROWS
-No status or header count changed. Row 86 was already BUILT (not verified); reason text added. Notes added: item 28 continuation (line 957), new-template description (about line 780).
+GAP ROWS (DESIGN_GAP_ANALYSIS.md)
+No status or header count changed. BUILT sentences added: food detail items 3, 7, 11, 14, 17; quick add row (line 87). Those rows stay open because layout or mode differences remain.
 
 IN PROGRESS: nothing.
 
 LAST CHECKS
-tsc exit 0. foodDetail, foodDetailLogged.render and sheetVariant: 44 passed, after the final edit. Last full suite: 824 passed, at the mid-session checkpoint, before the detail.tsx and Analysing rounds.
+tsc exit 0. foodDetail.test.ts: 31 passed, after the final edit. foodDetailLogged.render (35 with foodDetail) last ran before the sub-label re-check. Full suite not run this session. Tests run in English, so es and fr are not exercised.
 
 DECISIONS
-- Toast "Removed {{name}}" and "dishes" wording follow the design.
-- Delete dialog kept; design has none. App rule confirms destructive actions.
-- "Delete item" kept per brief; design says "Remove from log".
-- food.rowAnalysing is en "Analysing", also used by VoiceOver; es and fr carry a brief-specified ellipsis.
-- PADS holds labelKey because it is module scope.
+- Calories label uses gymLog.celebration.calories; nutrition.calories does not exist and the brief barred new keys.
+- grams: num(grams), not raw grams, keeps the displayed number unchanged.
+- Meal chip fallback foodLog.addMeal was requested but cannot currently trigger.
+- quick-add.tsx:73 name 'Quick add' stays English: it is saved data.
+- Design lacks Edit values manually, for {n} g, Edit item, Rename food and Save name, so app English stays.
+- quick-add reuses dashboard.kcal and foodLog.addedToMeal (masculine in es and fr; offline toast is feminine).
 
 WAITING ON ISA
-Native review; device and VoiceOver checks; long fr and es labels; rowAnalysing wording and ellipsis; "Delete item" vs "Remove from log"; extra es keys addMenu.voice and describeOutLoud; row 86 BUILT vs section verdict DIFFERENT (about line 964).
+Device and VoiceOver checks; long labels (Petit-déjeuner, Carbohidratos, Tamaño de la porción, Enregistrer les modifications); es and fr wording; "Snacks" untranslated; keep or drop for {n} g; title as mode vs food name; gymLog calories key.
 
 NOT FIXED (recommended next: first item)
-- detail.tsx macro labels (about 567-610): reuse nutrition.protein, carbs, fat, fibre.
-- detail.tsx: Edit item, Rename food, other titles, Serving size caption and VoiceOver.
-- quick-add.tsx:191 hardcoded Calories · kcal.
-- scan.ts:305 "Scan failed" visible at food.tsx:887 and in VoiceOver; scanSeam.test.ts asserts it, so translate at display. scan.ts:118 placeholder does not reach failed rows.
-- new-template.tsx: Remove ${name}, Remove exercise action label, others. new-recipe.tsx: most strings.
-- Gap doc stale: line 957 (new-template swipe title), item 18 line 1020.
-- SwipeableRow.tsx:2 says red; code uses color.primary.
-- formatting.ts kcal and g; P letter; RecipesList.tsx and detailSubject.ts "my foods"; handover earlier list: P, C, F letters, date formatters, plurals.
+- detail.tsx:259-260: Edit food title and Save changes; reuse food.saveChanges.
+- detail.tsx:168, 225: Add to {slot} labels.
+- detail.tsx: Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, g unit, Name field.
+- SLOT_KEYS in four files: food.tsx, add.tsx, quick-add.tsx, detail.tsx.
+- Gap doc: line 87 still says copy hardcoded and cites quick-add.tsx:116 (now about 125); other quick-add references about 11 lines out; detail.tsx references at least 7 out; stale line 957 and item 18.
+- scan.ts:305 Scan failed; new-template.tsx, new-recipe.tsx strings; formatting.ts kcal and g.
 
 GOTCHAS
-- Briefs quote stale paths and finished work; check first. SwipeableRow is under components/display.
-- zsh breaks unquoted globs and (tabs) paths; quote --include. Use LC_ALL=C /usr/bin/grep.
-- Decode design from __bundler/manifest with node; screens 71f71ac4, 185bb533, 7dc211f6. Scripts in /tmp/lume-decode may be gone.
-- Test i18n is English. foodDetail.test.ts searches source text, so literals moved to keys can break it.
+- Briefs repeat finished work and stale paths; check first. Tests are in src/__tests__.
+- zsh breaks echo === and unquoted (tabs) paths. Use LC_ALL=C /usr/bin/grep.
+- Decode from __bundler/manifest with node; screen 71f71ac4. /tmp/lume-decode may be gone.
