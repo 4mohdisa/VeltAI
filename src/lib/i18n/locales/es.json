@@ -147,6 +147,7 @@
     "restDayMessage": "Nada programado y nada registrado.",
     "logAnExercise": "Registrar un ejercicio",
     "alreadyLogged": "Hoy ya está registrado — ábrelo para editarlo o añadir algo más",
+    "freestyleTitle": "Sesión libre",
     "celebration": {
       "streak_one": "día seguido",
       "streak_other": "días seguidos",

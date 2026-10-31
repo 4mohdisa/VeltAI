@@ -145,6 +145,7 @@
     "restDayMessage": "Nothing scheduled and nothing logged.",
     "logAnExercise": "Log an exercise",
     "alreadyLogged": "Today is already logged — open it to edit or add something extra",
+    "freestyleTitle": "Freestyle session",
     "celebration": {
       "streak_one": "day streak",
       "streak_other": "day streak",

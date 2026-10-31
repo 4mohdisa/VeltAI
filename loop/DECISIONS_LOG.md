@@ -1249,3 +1249,7 @@
 - 2026-10-31 15:09 Branch order and session.tsx:537 go to NEXT, not this round, to keep the prompt to one task.
 - 2026-10-31 15:09 Key counts follow R314's recount (en 168, es 170, fr 168). The handover's 167 predates R313 and is stale.
 - 2026-10-31 15:09 Notes rewritten under 600 words as the loop note asked. Repeated items merged and finished work removed. Decisions kept verbatim in substance.
+- 2026-10-31 15:10 Chose the unfinished step from the flagged report over new build work, because the loop note requires the flag to be cleared first.
+- 2026-10-31 15:10 Reorder already_checked_in above is_rest_day: the report confirmed GetToday sets both flags, and the design shows Logged whenever a session exists. Step 1 re-checks the server before editing.
+- 2026-10-31 15:10 Fallback title uses the design copy 'Freestyle session'. Reuses an existing key if one is present, otherwise adds gymLog.freestyleTitle to en, es and fr together. Native es/fr review stays on the Blocked list.
+- 2026-10-31 15:10 Whether the final TodayCard branch is reachable is not a build task. It goes to Next as a read-only trace before any gap-file wording changes.

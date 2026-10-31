@@ -106,6 +106,20 @@ export function TodayCard(): JSX.Element | null {
   // No backend / not scheduled → render nothing (the gym tab shows other content).
   if (!today) return null;
 
+  if (today.already_checked_in) {
+    return (
+      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
+        <Header
+          tint={categoryAccent.positive}
+          title={today.template?.name ?? t('gymLog.freestyleTitle')}
+          sub="Logged today"
+          pill="Logged"
+          pillFill={color.light1}
+        />
+      </Card>
+    );
+  }
+
   if (today.is_rest_day) {
     return (
       <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
@@ -114,20 +128,6 @@ export function TodayCard(): JSX.Element | null {
           title={t('gymLog.restDayTitle')}
           sub={t('gym.nothingScheduledSub')}
           pill="Rest"
-          pillFill={color.light1}
-        />
-      </Card>
-    );
-  }
-
-  if (today.already_checked_in) {
-    return (
-      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-        <Header
-          tint={categoryAccent.positive}
-          title={today.template?.name ?? 'Session'}
-          sub="Logged today"
-          pill="Logged"
           pillFill={color.light1}
         />
       </Card>

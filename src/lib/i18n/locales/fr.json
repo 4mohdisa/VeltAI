@@ -145,6 +145,7 @@
     "restDayMessage": "Rien de prévu et rien d’enregistré.",
     "logAnExercise": "Enregistrer un exercice",
     "alreadyLogged": "La séance du jour est déjà enregistrée — ouvrez-la pour modifier ou ajouter quelque chose",
+    "freestyleTitle": "Séance libre",
     "celebration": {
       "streak_one": "jour d’affilée",
       "streak_other": "jours d’affilée",
