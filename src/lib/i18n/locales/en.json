@@ -221,7 +221,8 @@
       "intake": "Intake",
       "burned": "Burned",
       "percentOfGoal": "{{percent}}% of goal"
-    }
+    },
+    "breakdown": "Breakdown"
   },
   "nutrition": {
     "title": "Nutrition",

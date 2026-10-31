@@ -221,7 +221,8 @@
       "intake": "Apport",
       "burned": "Brûlées",
       "percentOfGoal": "{{percent}} % de l'objectif"
-    }
+    },
+    "breakdown": "Détail"
   },
   "nutrition": {
     "title": "Nutrition",

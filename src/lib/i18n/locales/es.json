@@ -223,7 +223,8 @@
       "intake": "Ingesta",
       "burned": "Quemadas",
       "percentOfGoal": "{{percent}} % del objetivo"
-    }
+    },
+    "breakdown": "Desglose"
   },
   "nutrition": {
     "title": "Nutrición",

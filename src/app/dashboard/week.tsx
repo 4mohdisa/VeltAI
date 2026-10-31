@@ -13,6 +13,7 @@
 import type { JSX } from 'react';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -70,6 +71,7 @@ export default function WeekDetailScreen(): JSX.Element {
 }
 
 function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<Mode>('balance');
   const week = days.slice(-7);
 
@@ -188,7 +190,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
-            Breakdown
+            {t('dashboard.breakdown')}
           </Text>
           {week.map((d) => {
             const net = netOf(d);

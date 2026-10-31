@@ -19,29 +19,35 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Backend-dependent items stay Parked.
 - LoadFailedNotice has no design counterpart. minTapTarget={false} kept (row 114).
 - LoadFailedNotice message is required; no default copy (R98).
+- R100 flag treated as cleared: tsc 0, locale JSON parses, key present in en, es, fr. No repo test loads the locale files.
+- One task per prompt. Multi-file prompts get rejected (R101). Split by file.
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (recheck header). Last checkpoint R89 green (tsc 0, 65 suites, 824 tests).
-R99 built, tsc 0, locale tests not yet run. R100 issued to clear this flag.
-Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice label and size, R92 keys, R98 required message, R99 label.
+R99 built. R100 verification done; flag treated as cleared.
+R101 REJECTED (asked for three files; loop note also says the prompt did not name the design/ file). 'Breakdown' via t() is still open.
+R102 checkpoint: issued earlier, result NOT yet reported. Re-issue as read-only checkpoint later.
+R103 issued: 'Breakdown' via t() on src/app/dashboard/week.tsx, names design/Lume App.html and the gap row.
 
 ## Next
-1. R100 ISSUED: clear the flagged R99 check. Run tsc and the tests that load the locale files, confirm gym.applyStreakFreeze in en, es, fr, fix only a single missing key. Report without claiming verified.
-2. 'Breakdown' on dashboard/week.tsx, training.tsx, energy.tsx via t().
-3. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-4. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-6. add.tsx slotKey (~67). Remove unused keys if confirmed.
-7. Raw item values: food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
-8. Doc only: gap line 82 stray br (R99 text appended, stray br removed); line 76 record Try again change; MACRO_PRECISION comment; lines 1014 on unchecked; line 90 merge; line 1495 stale.
-9. LoadFailedNotice.tsx lines 4-5 header comment: remove the 'we could not load the latest' wording (default removed R98).
-10. /gym/session saves top weight on all sets. Fix or park.
-11. summaryDetails.test.ts:65 source-checks 'Breakdown'. Replace with a render check, own round.
-12. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-13. StreakCounter.tsx: stale comment; colour tokens to color.label and secondaryLabel.
-14. Freeze strings at count 1 read wrongly.
-15. Gym screen hardcoded strings 'Training', 'My schedule', 'My workouts', 'Session history' (gym.tsx ~151-156): decide per row, or record as English-only.
-16. No rows left: stop with 'only owner decisions remain'.
+1. R103 ISSUED: 'Breakdown' via t() on src/app/dashboard/week.tsx (adds dashboard.breakdown to en, es, fr). Gap row found by grep for 'Breakdown'. Check the summaryDetails test source-check before closing.
+2. 'Breakdown' via t() on src/app/dashboard/training.tsx only (next round).
+3. 'Breakdown' via t() on src/app/dashboard/energy.tsx only (next round).
+4. LoadFailedNotice.tsx lines 4-5 header comment: remove the 'we could not load the latest' wording (default removed R98).
+5. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
+6. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+8. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+9. add.tsx slotKey (~67). Remove unused keys if confirmed.
+10. Raw item values: food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
+11. Doc only: gap line 82 stray br; line 76 record Try again change; MACRO_PRECISION comment; lines 1014 on unchecked; line 90 merge; line 1495 stale.
+12. /gym/session saves top weight on all sets. Fix or park.
+13. summaryDetails.test.ts:65 source-checks 'Breakdown'. Replace with a render check, own round.
+14. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+15. Freeze strings at count 1 read wrongly.
+16. Gym screen hardcoded strings 'Training', 'My schedule', 'My workouts', 'Session history' (gym.tsx ~151-156): decide per row, or record as English-only.
+17. Re-issue R102-style read-only checkpoint (full tsc and full app suite).
+18. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? /gym/session second row (mutations.ts:173-178).
@@ -74,12 +80,25 @@ Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice lab
 - LoadFailedNotice tap target: revisit only if a design failure state appears.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Round log
 R9-R82: most surfaces built. Checkpoints R34, R48, R61, R77, R89 green.
 R90-R96: TodayCard, freeze, profile, StreakCounter, LoadFailedNotice strings via t(). Row 114 accepted deviation recorded.
 R97: LoadFailedNotice default message via t(); tsc and its tests run. Flagged as partly done: default unreachable.
 R98: DONE. Default removed, message required at all 9 usages, common.loadFailedDefault deleted from en, es, fr. tsc 0. Built, not verified.
-R99: 'Apply a streak freeze' in (tabs)/gym.tsx via t(gym.applyStreakFreeze). Keys added to en, es, fr. Row 82 reason cell line added. tsc 0. Locale tests not run, so the report was flagged.
-R100: issued after a rejected prompt (design file not named). Reissued as verification-only: tsc, locale-file tests, key check. Matching design file design/Lume App.html, gap row 82.
+R99: 'Apply a streak freeze' in (tabs)/gym.tsx via t(gym.applyStreakFreeze). Keys added to en, es, fr. Row 82 reason cell line added. tsc 0. Locale tests not run; flagged.
+R100: verification-only. tsc 0, en/es/fr JSON parse, key present in all three, call site gym.tsx:155. Flag treated as cleared; fr wording still blocked on Isa.
+R101: issued with three files, REJECTED by loop before it ran (also: design/ file not named). Re-planned as one file per round, starting with week.tsx.
+R102: checkpoint issued, read-only, full tsc and full app suite. Result not yet reported.
+R103: issued 'Breakdown' via t() on src/app/dashboard/week.tsx; names design/Lume App.html and the gap row found by grep.
+
+LATEST CLAUDE CODE REPORT: R100 verification (see round log). Nothing pending from it except fr wording and device check, both Blocked on Isa.
+
+LATEST HANDOVER SUMMARY: see loop/HANDOVER.md. Key points: no git from Claude Code; say BUILT, never verified; design source is design/Lume App.html (decode __bundler/manifest with node); zsh breaks on unquoted globs; use LC_ALL=C /usr/bin/grep.
+
+GOTCHAS
+- Briefs repeat finished work, quote stale lines and name rows or strings that don't exist; check first.
+- Design copy is encoded: decode from the __bundler/manifest script with node. Raw grep misses it.
+- zsh breaks on echo === and unquoted globs; quote (tabs) paths.
+- grep exiting 1 means no match. Use LC_ALL=C /usr/bin/grep.

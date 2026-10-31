@@ -1783,3 +1783,17 @@
 - 2026-10-31 20:42 Ruled that a run matching no test files is not a pass, per the testing rule in the notes.
 - 2026-10-31 20:42 Limited edits to a missing key in a single locale file, so no new wording is invented for es or fr.
 - 2026-10-31 20:42 Left the fr 'congélation' versus 'gel' question under BLOCKED for Isa, since it is a wording decision only he can make.
+- 2026-10-31 20:43 Loop note flagged the R100 report. I treated the flag as cleared: tsc exit 0, the three locale JSON files parse, gym.applyStreakFreeze is present in en, es and fr, and the call site is in place. The repo has no test that loads the locale files, so the flag stays open only as a fact, and the key is recorded as BUILT, not verified.
+- 2026-10-31 20:43 Chose the Breakdown task first because it is item 2 in the agreed order and is the smallest change that clears a visible hardcoded label.
+- 2026-10-31 20:43 Ruled out editing summaryDetails.test.ts in this round. It source-checks the literal, so its fix is item 11 and has its own round.
+- 2026-10-31 20:43 Did not ask Isa about the fr 'congélation' vs 'gel' wording. The recommended fix is 'Appliquer un gel de série', but the existing key is kept as written until Isa replies, per the notes.
+- 2026-10-31 20:43 Did not touch the stale LoadFailedNotice header comment or the StreakCounter colour tokens this round, because the rule is one task per round.
+- 2026-10-31 20:43 R101 prompt was rejected for covering three files. Replaced it with a single-file plan: checkpoint now, then week.tsx, then training.tsx, then energy.tsx, one per round.
+- 2026-10-31 20:43 Checkpoint chosen first because the loop note marks this round as a checkpoint and the last full run (R89) predates R90-R100 changes.
+- 2026-10-31 20:43 Checkpoint kept read-only so the suite result reflects the current state with no new edits mixed in.
+- 2026-10-31 20:43 Jev's advice (run 97%) agrees with this choice.
+- 2026-10-31 20:44 Chose week.tsx first because the R101 rejection was for bundling three files; one file per round, as planned in the notes.
+- 2026-10-31 20:44 Added the key to the three locale files in the same task, since a t() call cannot work without it; this is the one shared step, not a separate task.
+- 2026-10-31 20:44 Kept the gap row status as DIFFERENT because other differences remain on the Week surface, per the rule that rows stay DIFFERENT until all differences are gone.
+- 2026-10-31 20:44 Told Claude Code to leave summaryDetails.test.ts alone and report a source-check failure under BLOCKED, so the test is not silently rewritten.
+- 2026-10-31 20:44 Rewrote the prompt to name design/Lume App.html and the gap row explicitly, to fix the loop rejection.
