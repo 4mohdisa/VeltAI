@@ -2463,3 +2463,7 @@
 - 2026-11-01 01:17 Asked the prompt to compare the design before editing, because the handover says many rows were built after 14 Sep.
 - 2026-11-01 01:17 Included the paddingBottom check in this round, as the last report asked, rather than leaving it for later.
 - 2026-11-01 01:17 Kept the eyebrow wrapper untouched: it is built and waiting on a device check, so it is out of scope for this round.
+- 2026-11-01 01:18 Chose row 112 card gap: it is the smallest open item on the gym surface, needs no Isa input, and is already scoped to gym.tsx.
+- 2026-11-01 01:18 Kept the page bottom padding (design 158) out of this round, because it is a separate open item and changing it is not the smallest step.
+- 2026-11-01 01:18 Kept the literal 14 with no token, because no spacing token covers 14 and the clean code rule only forbids hardcoding values a token covers.
+- 2026-11-01 01:18 Doc fixes (rows 81, 83, the App paragraphs, the My schedule section) stay deferred until no build row is open, per the notes rule.

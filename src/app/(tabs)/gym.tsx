@@ -102,7 +102,7 @@ export default function GymLogScreen() {
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
-        <Animated.View entering={reduceMotion ? undefined : PAGE_ENTRANCE} style={{ gap: space.md }}>
+        <Animated.View entering={reduceMotion ? undefined : PAGE_ENTRANCE} style={{ gap: 14 }}>
           {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
               passes under the blur rather than sitting in a bar. */}
           <View style={{ paddingHorizontal: space.xs }}>
