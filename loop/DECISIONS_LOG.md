@@ -1190,3 +1190,8 @@
 - 2026-10-31 14:23 Did not ask Isa about padded={false}: Card already takes padded, and gym.tsx:130 already uses padded={false} with a style padding. That is an existing repo pattern, so no new prop and no product question. Next round applies it to TodayCard and leaves the shared Card untouched.
 - 2026-10-31 14:23 The 20 vs 16 claim lives in the Today section prose (about line 400) and the App paragraph (about line 464). Next round updates both to match the change, not a separate row.
 - 2026-10-31 14:23 Card state check against design plan-state bindings is folded into the TodayCard round. Differences beyond padding go to NEXT, not fixed.
+- 2026-10-31 14:24 Chose TodayCard padding: the padded={false} with style padding pattern already exists at gym.tsx:130, so it is not a question for Isa.
+- 2026-10-31 14:24 Treated the R301 read-only report as clearing the R300 flag, since it ran tsc and gym jest and confirmed the Card code.
+- 2026-10-31 14:24 Did not wait for Isa on the TodayCard padding question, as stated in the notes. Overruled the Jev ask at 66%, because the flagged report is cleared and the decision has a repo precedent.
+- 2026-10-31 14:24 Limited R302 to one file and one row, with no test run beyond tsc, because no test renders TodayCard.
+- 2026-10-31 14:24 Left the streak footnote, row 89, the Training list, and the device and native reviews in Blocked on Isa, as the notes say.

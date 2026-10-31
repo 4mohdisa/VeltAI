@@ -110,7 +110,7 @@ this pass matched the design on every checked value.
 | Food — FAB add menu | ⚠️ PARTIAL | Same two rows and copy; solid panel, darker scrim, different radius and row metrics. |
 | Gym — main tab chrome & card order | ⚠️ PARTIAL | Same title block and card vocabulary, but the log CTA moves below two other cards, two app-only cards are added, and padding is 20 vs 16 throughout. |
 | Gym — "My schedule" screen | ⚠️ PARTIAL | The week card is close; the design's whole "My workouts" section is missing from it, the sub-line is truncated, and the picker sheet differs in five ways. |
-| Gym — today's session card | ⚠️ PARTIAL | Same header row, but the 4-up stats grid is missing, the card is not tappable, and it renders nothing at all when there is no schedule data. |
+| Gym — today's session card | ⚠️ PARTIAL | TodayCard cards use padding 16 (space.lg) via padded={false} (not verified); all five states still differ: rest day, logged and planned lack the tap target and chevron, logged and planned lack the 4-up stats grid, nothing scheduled is app-only, loading has no design state, and it renders nothing when there is no schedule data. |
 | Gym — exercise progress | ⚠️ PARTIAL | Same chart idea, but no Muscles worked or Form guide cards, the bars encode weight rather than the design's metric, and the bottom stat pair is missing. |
 | Gym — month heatmap | ⚠️ PARTIAL | Geometry, ramp and legend match value for value; the cells are not tappable, so the design's only route into the day detail is gone. |
 | Gym — cross-cutting token drift | ⚠️ PARTIAL | The token system is faithfully mirrored; its application rounds the design's untokenised pixels and substitutes lighter type faces throughout. |
@@ -397,8 +397,8 @@ card → calendar card → `TodayCard` → `MuscleChart` → **`GymPatternsCard`
 Apply a streak freeze / Session history).
 
 **Differences:** card padding matches on the streak strip (`12px 16px`, `gym.tsx:115`)
-and the calendar card (16, `gym.tsx:130`); `TodayCard` and `MuscleChart` keep the `Card`
-default, DIFFERENT: 20 vs the design's 16; inter-card gap 12 vs 14; **the log CTA moves
+the calendar card (16, `gym.tsx:130`) and `TodayCard` (16, `space.lg`); `MuscleChart` keeps
+the `Card` default, DIFFERENT: 20 vs the design's 16; inter-card gap 12 vs 14; **the log CTA moves
 from directly under the session card to below two other cards**; `GymPatternsCard`
 ("Your gym habits") is app-only; the four-row `Training` settings list is app-only
 (the design reaches schedule via its own card and has no freeze or history screen
@@ -462,7 +462,8 @@ rule (year appended only outside the current year).
 grid** (Duration / Calories / Volume / Sets) and a wrapped row of exercise chips.
 
 **App** (`TodayCard.tsx`): four mutually exclusive branches, a header row, chips in
-the `template` branch only, and a **"Start workout"** button.
+the `template` branch only, and a **"Start workout"** button. Every state's card,
+including loading, uses padding 16 (`padded={false}`, `space.lg`), matching the design.
 
 **Differences:** the card is **not tappable** and has **no chevron**; **the entire
 4-up stats grid is missing**; "Start workout" and a `Set schedule →` link are

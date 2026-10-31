@@ -92,7 +92,7 @@ export function TodayCard(): JSX.Element | null {
 
   if (loading) {
     return (
-      <Card variant="elevated">
+      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
         <View style={{ gap: space.sm }}>
           <Skeleton width="55%" height={18} />
           <Skeleton width="80%" height={14} />
@@ -106,7 +106,7 @@ export function TodayCard(): JSX.Element | null {
 
   if (today.is_rest_day) {
     return (
-      <Card variant="elevated">
+      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
         <Header tint={color.light2} title="Rest day" sub="Nothing scheduled today" pill="Rest" pillFill={color.light1} />
       </Card>
     );
@@ -114,7 +114,7 @@ export function TodayCard(): JSX.Element | null {
 
   if (today.already_checked_in) {
     return (
-      <Card variant="elevated">
+      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
         <Header
           tint={categoryAccent.positive}
           title={today.template?.name ?? 'Session'}
@@ -140,7 +140,7 @@ export function TodayCard(): JSX.Element | null {
       `${count} exercise${count === 1 ? '' : 's'} planned` + (duration != null ? ` · about ${duration} min` : '');
 
     return (
-      <Card variant="elevated">
+      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
         <View style={{ gap: space.lg }}>
           <Header
             tint={categoryAccent.streak}
@@ -167,7 +167,7 @@ export function TodayCard(): JSX.Element | null {
 
   // Today exists but has no template and isn't a rest day → nothing scheduled.
   return (
-    <Card variant="elevated">
+    <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
       <View style={{ gap: space.md }}>
         <Header
           tint={color.light2}
