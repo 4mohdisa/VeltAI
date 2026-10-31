@@ -1290,3 +1290,8 @@
 - 2026-10-31 15:24 Did not ask Isa whether the cardio loss is acceptable. The design is the source of truth and the caption promises an exact copy, so the fix goes ahead without a question.
 - 2026-10-31 15:24 Gap row 113 (TodayCard) stays DIFFERENT, as the notes say.
 - 2026-10-31 15:24 Stayed with the cardio inputFor fix as the next build task, using notes like session.tsx:144-149 with no new fields. Parked the logged-day pill and the gym log sheet row 76 changes until the cardio fix is done.
+- 2026-10-31 15:25 Chose the cardio inputFor fix: it clears a DIFFERENT row, is small, and needs nothing from Isa. Jev strongly agrees on run.
+- 2026-10-31 15:25 Row 295 becomes BUILT only if the caption is true after the fix. The loop will not mark it on faith.
+- 2026-10-31 15:25 No i18n key changes this round, so the key counts stay en 169, es 171, fr 169.
+- 2026-10-31 15:25 Gym tests run on the six real paths found in round 6. Jest with src/components/gym is not used again.
+- 2026-10-31 15:25 Round 6 read-only result accepted: tsc green, gym Jest 6 of 6 suites and 37 of 37 tests. Round 5 flag cleared.

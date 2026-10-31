@@ -53,8 +53,7 @@ const volumeOf = (te: TemplateExercise) =>
   (te.planned_reps ?? 0) *
   displayToKg(te.planned_weight ?? 0, te.planned_weight_unit === 'lb' ? 'lb' : 'kg');
 
-/** The plan, verbatim — what "It went as planned" commits, exercise by exercise.
- *  Same shape /gym/session builds from its rows, so both paths write the same. */
+/** The plan, verbatim — what "It went as planned" commits; cardio minutes go in notes, as /gym/session's do. */
 const inputFor = (te: TemplateExercise): GymExerciseInput => ({
   name: te.exercise?.name ?? 'Exercise',
   sets: te.planned_sets ?? undefined,
@@ -62,6 +61,7 @@ const inputFor = (te: TemplateExercise): GymExerciseInput => ({
   weight: te.planned_weight ?? undefined,
   weight_unit: te.planned_weight_unit ?? undefined,
   rest_seconds: te.rest_seconds ?? undefined,
+  notes: te.exercise?.exercise_type === 'cardio' && te.planned_duration_minutes != null ? `${te.planned_duration_minutes} min` : undefined,
 });
 
 type Choice = {
