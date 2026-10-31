@@ -294,7 +294,7 @@ camera analogue to Food's scanning. Templates and the weekly schedule are
 
 `/gym/session` has these entry points:
 
-- `src/components/gym/TodayCard.tsx:249` — "Start workout", opens the screen plain.
+- `src/components/gym/TodayCard.tsx:246` — "Start workout", opens the screen plain.
 - `src/app/gym/log-session.tsx:185` — the three chooser tiles, shown when today has planned exercises; each opens the screen in its mode (`adjust`, `ticklist`, `picker`).
 - `src/app/gym/log-session.tsx:158` — the empty state's action, shown when today has no planned exercises; opens the screen plain.
 - `src/app/gym/log-session.tsx:112` — the "It went as planned" pill when the gym is already logged today; opens the screen plain.

@@ -1745,3 +1745,8 @@
 - 2026-10-31 20:32 Jev asked for a question (57%). Not asking: the open item is a key name and a test gap, both decided by defaults, so nothing needs Isa. Jev is advisory and its confidence is low (0.35).
 - 2026-10-31 20:32 Stale citation at DESIGN_GAP_ANALYSIS.md:297 deferred to a doc-only round so this round touches one file.
 - 2026-10-31 20:32 Recorded R92 as BUILT, NOT TESTED for TodayCard sub-line, per the Decisions rule that 'No related tests found' is not a pass.
+- 2026-10-31 20:33 R93 flag closed by stating why not: the comment fix is done, tsc is 0, and no test references TodayCard. The sub-line stays BUILT, NOT TESTED, as an accepted limit until Isa's device check or a render test.
+- 2026-10-31 20:33 Chose the doc-only citation fix next because it is the smallest task, needs nothing from Isa, and the loop note asks for the flagged report to be dealt with before moving on.
+- 2026-10-31 20:33 Used the notes list as the source of order, not the handover NEXT line, which the handover says may be stale.
+- 2026-10-31 20:33 Rewrote the notes under 600 words: merged repeated items, removed finished work, kept every decision and every Blocked and Parked item.
+- 2026-10-31 20:33 The handover says the freeze sheet and '+' serving items are open. Kept them in Blocked on Isa, so they are not retried.
