@@ -2279,3 +2279,8 @@
 - 2026-11-01 00:24 Did not build the 6px macro bars this round. The report says Isa excluded these bars, but nothing in DECISIONS.md records it and the notes say to build them after step 1. Conflict recorded; if the next round still needs an answer, ask Isa once.
 - 2026-11-01 00:24 The calorie progress bar and 'left today' figure need a goal read via useGoals (src/lib/data/hooks.ts:366). The design wins over the code comment in UI_PASS_GAPS.md §2, which is not in DECISIONS.md. Plan to build it after the macro bar question is settled, not now.
 - 2026-11-01 00:24 Tests: doc-only round, so tsc only, per the checkpoint rules.
+- 2026-11-01 00:25 Chose the doc-only fix first because the loop flagged R205: the report says the type check ran but step 1 missed line 890. Closing that is the flagged item.
+- 2026-11-01 00:25 Did not ask Isa about the macro bars conflict this round. DECISIONS.md has no entry excluding the 6px bars, so the default (follow design) applies. The R204 exclusion stays recorded as an open conflict in the notes.
+- 2026-11-01 00:25 Did not accept the report's BLOCKED claim that the calorie goal bar needs Isa's decision. The goal can be read via useGoals (src/lib/data/hooks.ts:366), so no owner input is needed. That build waits until the doc fix is done.
+- 2026-11-01 00:25 Jev said ask 63%, run 34%. Kept run: the open item is a doc correction that needs no owner input, and it clears the flagged report. Risk 1.6 noted; the next task is small and doc-only.
+- 2026-11-01 00:25 Left the row 85 <br> list format and the Fibre opening sentence as they are. They are not part of the flagged problem.

@@ -20,22 +20,24 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Loop flags are cleared by the loop, not by Claude Code.
 - Every prompt must name the matching design/ file and the gap row. Rejected prompts are rewritten, not resent.
 - Tasks must be gap-doc rows. Non-row items are not picked over row work.
-- R205: macro bars excluded by Isa per R204 report, not in DECISIONS.md; conflict open. Calorie goal bar follows design (goal read via useGoals) once bars question settled.
+- R205: macro bars excluded by Isa per R204 report, not in DECISIONS.md; conflict open. Default applied: follow design (R206). Calorie goal bar follows design (goal read via useGoals) once bars question settled.
 
 ## Status
 - Checkpoint R200 green: 824 app tests, 65 suites; backend 614 pass, 18 skip; tsc 0. Next full checkpoint R210.
 - R201-R203: row 85 partly built (rounded macro line, food.gramsUnit in VoiceOver label). BUILT, not verified.
 - R204: row 85 Fibre column added (summed from logged rows, 0 when absent). BUILT, not verified. Row 85 still DIFFERENT: dots not 6px bars; no 12px calorie bar; no 'left today'.
-- R205: flagged R204 report dealt with via doc-only correction of stale lines (row 85 opening sentence and the 'Three macro columns' line).
+- R205: doc-only correction of stale lines (row 85 opening sentence, 'Three macro columns' line). Report flagged: line 890 still said 'three macros'.
+- R206: doc-only fix of line 890 wording to four columns including Fibre (in progress).
 
 ## Next (in order)
-1. Row 85 macro bars: resolve Isa's exclusion conflict. If still open after one more check, ask Isa once (Telegram). Otherwise build 6px bars replacing dots.
-2. Row 85 calorie progress bar (12px vs goal) and 'left today' figure, reading goal via useGoals (src/lib/data/hooks.ts:366). Re-check design 71f71ac4 first.
-3. food.rowAnalysing 'Analysing photo': blocked on design question, do not build.
-4. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each row first.
-5. food/detail.tsx rows still open: Add to slot labels (168, 225), Edit food title and Save changes (259-260, reuse food.saveChanges), Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, g unit, Name field. Re-check first.
-6. nutrition, week, training, energy copy; food/new-recipe.tsx rest of screen; PlannedValuesForm 'Add exercise'.
-7. No rows left: stop with 'only owner decisions remain'.
+1. Finish R206 doc fix; confirm grep shows no 'three macro' left.
+2. Row 85 macro bars: follow design (6px bars replacing dots) unless Isa has an explicit exclusion in Telegram or DECISIONS.md. If still open after this, ask Isa once.
+3. Row 85 calorie progress bar (12px vs goal) and 'left today' figure, reading goal via useGoals (src/lib/data/hooks.ts:366). Re-check design 71f71ac4 first.
+4. food.rowAnalysing 'Analysing photo': blocked on design question, do not build.
+5. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each row first.
+6. food/detail.tsx rows still open: Add to slot labels (168, 225), Edit food title and Save changes (259-260, reuse food.saveChanges), Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, g unit, Name field. Re-check first.
+7. nutrition, week, training, energy copy; food/new-recipe.tsx rest of screen; PlannedValuesForm 'Add exercise'.
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Device and VoiceOver: tab bar es/fr width; Training labels; food row; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt width; long es/fr text; pending row; saved-mode removal; PADS captions; quick-add, meal chips, Save buttons fit; formatCalories on device; row 85 label and four-column wrap on device; long labels (Petit-dejeuner, Carbohidratos, Tamano de la porcion, Enregistrer les modifications).
@@ -47,7 +49,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - food/detail.tsx inline gram strings near 527, 538, 590.
 - Quick add serving data missing (src/lib/mock/data.ts:124); editSavedFood local only (backend).
 - quick-add.tsx:73 stores 'Quick add' as row name (saved data). NumberEntryBar.tsx:108 hardcodes 'Done'.
-- Gap doc: difference 18 near 1017 still says 'Save to my foods'; review difference 7 near 1009; line 1058 stale bullet; line 87 still says copy hardcoded; stale line refs; stale line 957 and item 18.
+- Gap doc: difference 18 near 1017 still says 'Save to my foods'; review difference 7 near 1009; line 1058 stale bullet; line 87 still says copy hardcoded; stale line refs; stale line 957 and item 18. Row 85 remaining differences are a single <br> line; split into bullets when the doc is next tidied.
 - GymPatternsCard server values untranslated (src/lib/api.ts:795-800).
 - Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - TodayCard, StreakCounter, Freeze, streak.tsx:73; tabBar.addHint reads badly in es.
@@ -81,3 +83,4 @@ Last handover before R187 (loop/HANDOVER.md). Next due R210.
 - R203: Jev 77% run. Agreed.
 - R204: Jev 57% ask, 39% run. Kept run: task needs no owner input; Fibre data gap is parked, not asked.
 - R205: Jev 61% run, 36% ask (confidence 0.42), last task 72% clean, risk 1.3. Kept run: doc-only fix needs no owner input and closes the flagged report.
+- R206: Jev 63% ask, 34% run (confidence 0.44), last task 63% clean, risk 1.6. Kept run: open item is a doc correction, no owner input needed. Calorie bar question is answerable from code (useGoals), so not asked.
