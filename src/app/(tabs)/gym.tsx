@@ -19,7 +19,7 @@ import { GymCalendar } from '@/components/domain/GymCalendar';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
-import { TodayCard, MuscleChart, GymPatternsCard } from '@/components/gym';
+import { TodayCard, MuscleChart, MyScheduleCard, GymPatternsCard } from '@/components/gym';
 import { color, space, surface } from '@/lib/design/tokens';
 import { useGym } from '@/lib/data';
 import { addMonths } from '@/lib/data/foodDays';
@@ -150,6 +150,7 @@ export default function GymLogScreen() {
 
         {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
         <MuscleChart />
+        <MyScheduleCard />
         <GymPatternsCard />
 
         <SettingsList

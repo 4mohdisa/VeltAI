@@ -2414,3 +2414,8 @@
 - 2026-11-01 01:03 Kept addMenu.logGymSession unchanged so the + menu still matches the design's 'Log gym session'.
 - 2026-11-01 01:03 Left the button height, label weight and logged branch out of this task. Those are outside copy and icon, so they go to Parked.
 - 2026-11-01 01:03 Counted the R232 report as flagged-partial, and this round finishes its step 3 instead of moving on.
+- 2026-11-01 01:04 Chose row 112 My schedule card over the row 83 doc fix: doc fixes wait until no build row is open, and row 112 is still open.
+- 2026-11-01 01:04 Kept the Training list's My schedule row for now, as the notes say, to keep this round to one card.
+- 2026-11-01 01:04 Did not follow the R233 Jev ask signal, which was low confidence: the R233 report is clean and the next task is a build, not a question.
+- 2026-11-01 01:04 Parked the dead logged branch in GymSessionButton, the hardcoded 'Gym logged today' copy, and the 56pt height vs 52 and 17/24 vs 16/21 type differences: all already in Parked or Blocked, not row 112's card.
+- 2026-11-01 01:04 Row 83 es/fr wording is marked BUILT with the notes' default wording; native review stays in Blocked on Isa.
