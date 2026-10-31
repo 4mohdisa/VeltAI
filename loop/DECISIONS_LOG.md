@@ -1864,3 +1864,8 @@
 - 2026-10-31 21:00 No gap row is edited this round, because the streak wrap row is blocked on Isa and no other row exists for this file.
 - 2026-10-31 21:00 R117 checkpoint result has not been reported. Treated as still pending, not failed. The loop will tell me if it needs re-issuing.
 - 2026-10-31 21:00 The week.tsx leftovers stay queued next, after the StreakCounter round.
+- 2026-10-31 21:01 Chose to finish StreakCounter first because the loop flagged the last report as partly done, and the remaining items are a small single-file fix.
+- 2026-10-31 21:01 Dimmed count moves from gray400 to tertiaryLabel: identical hex, so no visual change, and it keeps the inactive state the report warned about.
+- 2026-10-31 21:01 Caption colour follows the design (label) rather than waiting for Isa, under the default 'follow the design' rule. Isa can override it.
+- 2026-10-31 21:01 Accessibility label: decided by reading gym.dayStreak, so the count is not read twice if the string already contains it.
+- 2026-10-31 21:01 No gap row edited, since the streak wrap row is blocked on Isa.

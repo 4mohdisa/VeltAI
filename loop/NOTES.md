@@ -23,15 +23,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - summaryDetails.test.ts Breakdown check is strict for all four detail routes. It reads source text only.
 - R112 accepted for its scope. Rendered Gym Training labels are a device check for Isa, not a loop test gap.
 - R115: LoadFailedNotice has no render test. Accepted as NOT COVERED. No new test suites (brief rule). Isa verifies on device.
+- R119: StreakCounter caption follows the design colour (label) by default. Isa may override.
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (counts from R89; later changes recorded in the round log, not recounted). Last green checkpoint R89 (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported. R117 checkpoint issued (read-only, tsc and full app suite), result not yet reported.
 R114 LoadFailedNotice: BUILT, not verified. NOT COVERED (R115: no test imports or renders it).
 R116 week.tsx: four strings BUILT, not verified. Remaining hardcoded copy in week.tsx flagged in the R116 report (partly done).
+R118 StreakCounter.tsx: colour tokens and comment BUILT, not verified. Report flagged partly done. R119 finishes it (dimmed count token, caption colour, accessibility label). NOT COVERED.
 
 ## Next
 1. R117 checkpoint result: handle any failures first. If still not reported, re-issue per item 14.
-2. StreakCounter.tsx (R118, in progress): stale line 2 comment; colour tokens to color.label and secondaryLabel. No gap row edited.
+2. StreakCounter.tsx (R119, in progress): dimmed count gray400 to tertiaryLabel; caption to label; accessibility label checked against gym.dayStreak. No gap row edited.
 3. week.tsx: remaining hardcoded copy from the R116 report (labels and units, empty states, sentences, accessibility summaries at lines 146 and 177), with es and fr keys.
 4. training.tsx and energy.tsx: remaining hardcoded copy, per row or English-only (see item 13).
 5. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
@@ -73,6 +75,7 @@ R116 week.tsx: four strings BUILT, not verified. Remaining hardcoded copy in wee
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; duplicate nutrition.breakdown and dashboard.breakdown (merge once fr settled).
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
+- StreakCounter: caption type and case differences from the design (parked with the colour decision).
 
 ## Accepted limits
 Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice or the Gym Training labels. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
@@ -97,4 +100,5 @@ R114: LoadFailedNotice header fixed, default removed. Handover flagged for faile
 R115: check-only. tsc 0. Hydration tests 16 passed, 2 suites. LoadFailedNotice: message required, no default; NOT COVERED (no test imports or renders it). Recommendation for a render test declined under the no-new-tests rule.
 R116: week.tsx copy to t(), new es/fr keys flagged for review. Report flagged as partly done (remaining hardcoded copy listed).
 R117: read-only checkpoint issued (tsc and full app suite, no file changes). Chosen over week.tsx leftovers per checkpoint rule. Result not yet reported.
-R118: rejected (design file not named). Reissued as StreakCounter.tsx task, naming design/Lume App.html. No gap row edited.
+R118: StreakCounter.tsx colour tokens and comment changed; report flagged as partly done (gray400 on the dimmed count, caption colour, accessibility label). Reissue for R119 is the completion task. No gap row edited.
+R119: issued to finish StreakCounter.tsx (tertiaryLabel, caption label, accessibility label per gym.dayStreak). Caption colour decided by default rule (follow design).
