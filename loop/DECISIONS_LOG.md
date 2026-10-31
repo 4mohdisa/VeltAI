@@ -1295,3 +1295,7 @@
 - 2026-10-31 15:25 No i18n key changes this round, so the key counts stay en 169, es 171, fr 169.
 - 2026-10-31 15:25 Gym tests run on the six real paths found in round 6. Jest with src/components/gym is not used again.
 - 2026-10-31 15:25 Round 6 read-only result accepted: tsc green, gym Jest 6 of 6 suites and 37 of 37 tests. Round 5 flag cleared.
+- 2026-10-31 15:26 Row 295 Log as planned set to BUILT, not verified. Reason: the notes condition in the Next list (inputFor carries cardio planned minutes via notes) is met in code. Isa's device run on a planned cardio exercise is the real test. If he says calories or structure are required, the row goes back to DIFFERENT.
+- 2026-10-31 15:26 Picked the doc reachability fix first. It is the smallest task, needs nothing from Isa, and the notes require doc fixes in their own round.
+- 2026-10-31 15:26 Freestyle row 299 verdict, 'No edit bar' row 296 and picker wording row 298 are deferred to later doc rounds. Only the reachability claims are in this round.
+- 2026-10-31 15:26 Did not ask Isa about the Blocked item on minutes-as-notes. Jev rates the risk of continuing without him as low. It is recorded under device runs instead.
