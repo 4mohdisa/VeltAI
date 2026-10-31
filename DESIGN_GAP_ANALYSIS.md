@@ -1009,7 +1009,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 9. No brand/density sub-line for logged rows (*"Logged today"*).
 10. **No AI provenance note.**
 11. Macro layout: a vertical list until *"Edit values manually"* is tapped, then two columns of tappable tiles (`src/app/food/detail.tsx:564-570`, `:600-608`), vs the design's 2×2 tappable grid.
-12. Fibre has a tile with its own number pad (`src/app/food/detail.tsx:62`, `:437`, `:607-608`). **The tile is conditional**: it shows only when the food's source has a fibre figure, and the design's grid always includes Fibre.
+12. The Fibre tile has its own decimal pad, and picking a serving rescales fibre rather than editing it (`src/app/food/detail.tsx:62`, `:424`, `:437`, `:607-608`). **The tile is conditional**: it shows only when the food's source has a fibre figure, and the design's grid always includes Fibre.
 13. Macro precision: BUILT (not verified): picked servings keep 1 decimal place for protein, carbs and fat, as the design shows (`per100.p * scale`, shown through `r1`). `applyGrams` scales them unrounded (`src/app/food/detail.tsx:421-423`), and `num` with `MACRO_PRECISION` shows and saves them to 1 decimal place (`src/app/food/detail.tsx:66`, `:402`). Fibre also keeps 1 decimal place, typed or picked, as the design shows through `r1`: BUILT (not verified) (`src/app/food/detail.tsx:411`, `:424`, `:437`, `:570`, `:608`).
 14. Energy readout centred vs left-aligned; an extra *"for 250 g"* line the design does not have.
 15. Serving presets differ — fixed `[50,100,150,200]` or `[½×,1×,1½×,2×]` vs the food's own catalog servings.

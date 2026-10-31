@@ -21,14 +21,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Handover NEXT lines may be stale; latest report and notes win. Jev is advisory.
 - Tests: a report that skips tests for changed files is flagged. tsc once and tests for changed files each round; full suite at checkpoints.
 - Flagged-as-partial work is closed only by finishing the change or stating why it cannot be finished.
+- Macro totals stay whole (design rounds them: hMacroCols, gMacroDefs). Round 1 decimal is only on Food detail.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds; food detail macros and fibre at 1 decimal; citations; macro totals; quick add rounds to 1 decimal (type-checked only).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx:200); food detail macros and fibre at 1 decimal (detail.tsx MACRO_PRECISION :66, num :402); citations; macro totals; quick add rounds to 1 decimal (type-checked only).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R73. No test covers decimal macros or quickAdd rounding.
+Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R74. No test covers decimal macros or quickAdd rounding.
 
 ## Next
-1. R73 (in progress): doc-only fix of stale lines in DESIGN_GAP_ANALYSIS.md: '2-up inputs', 'Fibre is not editable', 'Fibre is still rounded as it is typed', 'logs the result at its default serving'. tsc only. Closes R72 flag.
+1. R74 (in progress): doc-only check of fibre lines in DESIGN_GAP_ANALYSIS.md ('2-up inputs', 'Fibre is not editable', 'Fibre is still rounded as it is typed') against src/app/food/detail.tsx, by content. Closes the R73 partial flag.
 2. Raw item values display: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135. Decide, then build.
 3. Shared macro rounding helper: inline Math.round(x * 10) / 10 in detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25. Park if it needs more than one file.
 4. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
@@ -50,7 +51,7 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R73.
 - Row 90 merge; log-sheet row BUILT?; line 330 Partial or BUILT; line 334 No.
 - Food detail differences 1, 2, 4; verdicts at lines 961 and 1210.
 - Footnote '23 sessions 2 freezes'; rows 89, 23, 17.
-- Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
+- Search routing; global + title; quick add first or second serving (17/22 vs 17/24); add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review; 'My dishes'; Macros wording; Freestyle 'No'; es emptyMessage; es voice and describeOutLoud removal.
 - Group names food/gym/profile.loadFailed; training list (gym.tsx:153); profile row 94; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals English; remaining-kcal line removal.
@@ -76,5 +77,6 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R73.
 - R62-R65: precision and fibre fixes; doc lines fixed.
 - R66: rejected (more than one screen).
 - R67-R71: seed fix reported unverified; quickAdd rounding type-checked only; R71 flagged.
-- R72: quick add serving parked (no serving data). Report not flagged for tsc, but flagged as not run.
-- R73: doc-only fix plus tsc.
+- R72: quick add serving parked (no serving data).
+- R73: doc-only fix of stale fibre lines. Report flagged as partly done: line 1012 wording left open.
+- R74: doc-only check by content of fibre lines; closes the R73 flag by finishing or stating why.

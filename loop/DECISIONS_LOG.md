@@ -1630,3 +1630,8 @@
 - 2026-10-31 17:39 Quick add serving stays parked: FoodResult carries no serving data, so this needs a data change, which I do not build.
 - 2026-10-31 17:39 Design uses the second serving (x.serv[1]). Recorded in Decisions as the target once search carries serving data. Isa's first-or-second question is answered by the design, so I do not ask.
 - 2026-10-31 17:39 Line 1090 now says 100 g with the design serving noted, so the gap doc no longer overstates the match. Status unchanged.
+- 2026-10-31 17:40 Chose the doc check first because the loop flagged R73 as partly done; the report left line 1012 wording open, so it must be closed by checking the code, not by trusting the report.
+- 2026-10-31 17:40 Line 1012 wording decided by code: picked servings rescale fibre rather than edit it, so the line must not claim picking edits fibre.
+- 2026-10-31 17:40 Doc-only round: tsc only, per checkpoint and doc-only rules; no test runs.
+- 2026-10-31 17:40 Kept the rule that line numbers are never trusted; citations are checked by content.
+- 2026-10-31 17:40 Raw item values left for a later round because they need a display decision first.
