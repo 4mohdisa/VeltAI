@@ -1655,3 +1655,12 @@
 - 2026-10-31 17:44 Followed Jev's run call (89%). Its 42% clean-finish estimate is low, so the prompt stays to one file and five steps.
 - 2026-10-31 17:44 This round rewrites the notes to under 600 words, as the loop note asks. Finished work was removed and repeated items merged.
 - 2026-10-31 17:44 Checkpoint R77 is recorded as green (tsc 0, 65 suites, 824 tests). No further checkpoint is due until R91.
+- 2026-10-31 17:45 Chose the toEditable fix first because the loop flagged the last report as partly done, and the mismatch (!= null vs > 0) is the unfinished part of that same change. Flagged work is closed by finishing it.
+- 2026-10-31 17:45 Did not add a gap row for saved-food fibre this round. Row changes go in the doc-only round, to keep this round to one file.
+- 2026-10-31 17:45 No test written, per the testing rules. The three existing suites that import saved.tsx are the check, and the untested status stays recorded under Accepted limits.
+- 2026-10-31 17:45 Doc citation fixes deferred to the next doc-only round, per the rule that doc-only rounds run tsc only.
+- 2026-10-31 17:45 Chose the flagged partial work first: the saved.tsx toEditable fibre rule (R78 partial) must be closed or explained before new work, per the Decisions list.
+- 2026-10-31 17:45 Rewrote the rejected prompt to name loop/design-match as the only branch and to forbid branch switches, pushes and merges, as the loop note required.
+- 2026-10-31 17:45 Kept the prompt to one file and one function. The test run covers only the three suites that name saved.tsx, per the testing rule that changed files get their own tests.
+- 2026-10-31 17:45 Did not edit DESIGN_GAP_ANALYSIS.md this round. The saved-food fibre row gap is a doc task for a later doc-only round, so this round stays one surface.
+- 2026-10-31 17:45 Did not ask Isa anything. The fibre rule is an app data rule, not a visible design question, so the defaults cover it.
