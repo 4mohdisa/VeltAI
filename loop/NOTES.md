@@ -22,40 +22,47 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - No new test suites. 11pm-to-9am case checked on device by Isa.
 - Load-failure keys are per screen: food.loadFailed, gym.loadFailed, profile.loadFailed, food.savedLoadFailed, nutrition.macrosLoadFailed.
 - R267: gym.tsx may gain one react-i18next import and one useTranslation hook.
-- hydrationErrorScreens checks locale values in the key list; the string-literal check stays.
+- hydrationErrorScreens derives its key list from LoadFailedNotice callers in source (R273, re-prompted as R274). It checks locale values; the string-literal check stays.
+- profile.loadFailed is separate from gym.loadFailed by request, with identical text.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet; gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - lastLoggedLabel; plan.whyThisPlan; streak and summary keys; settings.scanAccuracy (es).
-- Macros kicker and title; nutrition.macrosLoadFailed; nutrition.caloriesTodayLabel.
-- Load-failure keys: food.tsx (R-earlier), gym.tsx (R269), profile/index.tsx (R270), food/saved.tsx (R271).
+- Macros kicker and title (nutrition.tsx :77); nutrition.macrosLoadFailed; nutrition.caloriesTodayLabel; t() on nutrition.tsx :79, :86, :89, :95.
+- Load-failure keys: food.tsx (449), gym.tsx (108, R269), profile/index.tsx (103, R270), food/saved.tsx (85, R271), (tabs)/index.tsx (155).
+- Macros snapshot in detailChrome.render.test.tsx.snap updated.
 - Gap count before R269: 23 DIFFERENT, 15 PARTIAL, 3 BUILT, 0 EXACT. Profile row left DIFFERENT. Macros has no gap row.
 
 ## Verification
 - Last full Jest run R257: tsc 0; 65 suites, 824 tests.
-- Not run since R268-R271 edits. Do not assume green. Run at next checkpoint.
-- R271: tsc 0; hydrationErrorScreens 10/10. Keys en 160, fr 160, es 162.
+- Not run since R268-R272 edits. Do not assume green. Run at next checkpoint.
+- R272 read-only: tsc 0; hydrationErrorScreens 10/10. Literal check scans all six callers and finds 0 literals.
+- R272 also found dashboard.streakLoadError (on (tabs)/index.tsx:115) missing from the hand-written key list. Present in en, es and fr.
+- Keys en 159, fr 159, es 161 (es extras addMenu.voice, addMenu.describeOutLoud).
 - Snapshots show raw keys. Device runs needed.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
-## Open (flagged R271)
-- Literal check now scans nothing on the six screens. Confirm in R272 read-only check, then fix or record.
+## Open
+- R274 (in progress): derive hydrationErrorScreens key list from CALLERS source; closes streakLoadError gap. Prompt was rejected once for not naming design/Lume App.html; rewritten.
+- Weak es/fr check: the test only confirms non-empty strings, so an invented reason would pass. Strengthen later.
+- Literal check misses message={"..."}, single quotes and template strings. Widen later or record.
+- Stale comment at hydrationErrorScreens.test.ts ~line 64 ('already moved'): removed in R274.
 - No Saved meals row in DESIGN_GAP_ANALYSIS.md. Closest is the Saved foods row (~line 1447).
+- Stale line refs in gap file: :393, :420 (gym.tsx lines now two out).
 
 ## Next
-1. R272 read-only: confirm literal check coverage and key list.
-2. Add dashboard.streakLoadError to the hydration key list ((tabs)/index.tsx:115).
-3. (tabs)/index.tsx:150 'Macros' and 'Today': record as hardcoded.
+1. R274: derive hydrationErrorScreens key list from source (in progress).
+2. Hardcoded text in food/saved.tsx:83 and other literals: toasts, sheet title, placeholder, field label, empty states, swipe text, row labels.
+3. (tabs)/index.tsx:150 'Macros' and 'Today': record as hardcoded or t().
 4. (tabs)/gym.tsx :56, :102, :114, :123: t() or record.
 5. profile/index.tsx :62 toast and :82-83 sign-out alert: t() or record.
 6. gym/freeze.tsx:48; StreakCounter.tsx:15; EnergyBalanceCard.tsx:131 (asserted at render test :62).
-7. food/saved.tsx other hardcoded text: toasts, sheet title, placeholder, field label, empty states, swipe text, row labels.
-8. Add sheet icons to design SVGs.
-9. food.tsx:445-447: check whether empty-list ErrorState copy uses t().
-10. Remaining gap rows, most cleared first.
-11. Full Jest run at the next checkpoint round.
-12. If no non-gym work remains: stop with 'only owner decisions remain'.
-13. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
+7. Add sheet icons to design SVGs.
+8. food.tsx:445-447: check whether empty-list ErrorState copy uses t().
+9. Remaining gap rows, most cleared first.
+10. Full Jest run at the next checkpoint round.
+11. If no non-gym work remains: stop with 'only owner decisions remain'.
+12. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -83,16 +90,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Gotchas
 - Edit tool writes plain space for U+00A0 and plain apostrophe for U+2019. Use node escapes and check code points. Avoid \u0027 inside node -e; use String.fromCharCode(39).
-- Keep output inside the repo. No /tmp.
+- Keep output inside the repo. No /tmp. Old decoded design files may sit in /tmp/lume-design; decode in memory instead.
 - zsh: quote parenthesised paths. Grep: LC_ALL=C /usr/bin/grep. Tests: npx jest --ci with a name pattern.
 - design/Lume App.html is gzip-compressed in __bundler/manifest. Decode before searching.
 - src/lib/i18n/index.ts:41 fixes lng to 'en'.
-- Render tests have no i18n instance; snapshots show raw keys. hydrationErrorScreens reads source and locale text only.
+- Render tests have no i18n instance; snapshots show raw keys. hydrationErrorScreens reads source and locale text only; it does not confirm screens use the keys at render.
+- fr apostrophes mixed: plain in foodLog and food; U+2019 elsewhere; caloriesToday uses the \u2019 escape.
 - Handover summaries can be stale. Check them against this file.
 
 ## Loop notes
 - Handovers ran after R141 to R254, around R270, and next due after R284.
 - Rejected earlier: several first prompts (R236 to R271). Rewrite with file, row and branch named.
 - R266 flagged, cleared by read-only R267.
-- R271 flagged as partly done. Read-only R272 checks coverage before any new build.
+- R271 flagged as partly done. R272 read-only confirmed literal coverage and found streakLoadError gap.
+- R273 prompt rejected: did not name the matching design/ file. Rewritten as R274 with design/Lume App.html named and no visual change.
 - Prefer small tasks. Check tsc and relevant tests on every build round.

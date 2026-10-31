@@ -1059,3 +1059,12 @@
 - 2026-10-31 13:47 Chose the read-only check over the streakLoadError key addition, because it confirms the coverage question before any more keys are added.
 - 2026-10-31 13:47 Rewrote the notes file to under 600 words: merged repeated items, deleted finished work, kept every Decision and Parked item in one line each.
 - 2026-10-31 13:47 Kept the Jev signal out of the prompt, as required.
+- 2026-10-31 13:48 Chose the test derivation first: it is test-only, needs nothing from Isa, and closes the flagged R272 gap (streakLoadError uncovered) that would otherwise recur.
+- 2026-10-31 13:48 Kept the literal check because saved.tsx and other screens could regress to literals; it was already recorded as a decision.
+- 2026-10-31 13:48 Did not add a stronger es/fr check this round to keep to one task; recorded under Open for a later round.
+- 2026-10-31 13:48 No gap row changed: this is a test change, and the Macros and Profile rows stay as they are until Isa decides.
+- 2026-10-31 13:49 Chose R274 (test derivation) over new copy work: it is in progress, touches one file, and closes the known streakLoadError gap so the same gap cannot return.
+- 2026-10-31 13:49 Rewrote the rejected prompt to name design/Lume App.html and state that no visual change is made, because the loop note said the design file was not named.
+- 2026-10-31 13:49 Used a regex that only matches message={t('...')} so the derived list reflects translated messages; the literal check remains as a separate guard.
+- 2026-10-31 13:49 Kept the literal check unwidened this round to keep the change small; widening is parked in notes.
+- 2026-10-31 13:49 Test-only round: runs tsc and only the hydrationErrorScreens test, not the full suite, per testing rules.
