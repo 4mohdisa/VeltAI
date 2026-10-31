@@ -87,7 +87,7 @@ describe('every tab screen clears the floating bar', () => {
   // each scrolling tab screen has to pad itself or its last row is unreachable.
   test.each([
     ['src/app/(tabs)/index.tsx', /paddingBottom: 158/],
-    ['src/app/(tabs)/food.tsx', /paddingBottom: TAB_BAR_CLEARANCE\(insets\)/],
+    ['src/app/(tabs)/food.tsx', /paddingBottom: 158/],
     ['src/app/(tabs)/gym.tsx', /paddingBottom: 158/],
   ])('%s pads its scroll past the bar', (file, padding) => {
     expect(src(file)).toMatch(padding);

@@ -2515,3 +2515,7 @@
 - 2026-11-01 01:35 R255: picked the Food re-check, which also runs the type check that the flagged report skipped. Jev gave run 72%, and this was the recommended next step. The re-check is doc only, so it is the cheapest way to clear the flag.
 - 2026-11-01 01:35 R255: did not pick the Gym re-check first, because the flagged report must be cleared before moving on. Gym padding is the next re-check after this round.
 - 2026-11-01 01:35 R255: the type check is run here, not in a separate round, so the flag is cleared in the same task as the Food re-check.
+- 2026-11-01 01:37 Adopted Jev's build pick (94%) over the queued Gym re-check. The Food re-check finished in R255, the build is the next step in the notes, and it clears row 85 page values. The Gym re-check stays queued as Next item 2.
+- 2026-11-01 01:37 R255 was flagged for no tests run. R256 runs tsc once and the tabNavigation test, because the test asserts TAB_BAR_CLEARANCE on Food and must change for the build to pass.
+- 2026-11-01 01:37 Top padding on Food stays insets.top + space.md, since it is pending Isa. Only bottom 158, header 82 and gap 14 are built.
+- 2026-11-01 01:37 Kept TAB_BAR_CLEARANCE in place even though Food will no longer use it. Removing it is tidying, so it is parked, not built.

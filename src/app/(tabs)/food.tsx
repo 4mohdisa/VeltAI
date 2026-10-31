@@ -26,7 +26,6 @@ import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
-import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
@@ -413,7 +412,7 @@ export default function FoodLogScreen() {
         contentContainerStyle={{
           paddingHorizontal: space.lg,
           paddingTop: insets.top + space.md,
-          paddingBottom: TAB_BAR_CLEARANCE(insets),
+          paddingBottom: 158,
           flexGrow: 1,
         }}
         refreshControl={
@@ -427,7 +426,7 @@ export default function FoodLogScreen() {
         // constant header on one always-mounted SectionList means the search field
         // never remounts (no focus loss) when results appear.
         ListHeaderComponent={
-          <View style={{ paddingBottom: space.md, gap: space.md }}>
+          <View style={{ paddingBottom: 14, gap: 14 }}>
             {/* Amber anomaly banner — self-contained, renders null when there are none. */}
             <AnomalyBanner onPress={() => router.push('/insights' as Href)} />
             {/* Eyebrow + large title inside the scroll — the design's header. The
@@ -551,7 +550,7 @@ export default function FoodLogScreen() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: space.sm,
-                marginBottom: space.md,
+                marginBottom: 14,
               }}
             >
               <Icon name="add-circle-outline" size={20} color={color.tertiaryLabel} />
@@ -560,7 +559,7 @@ export default function FoodLogScreen() {
               </Text>
             </Pressable>
           ) : (
-            <View style={{ height: space.md }} />
+            <View style={{ height: 14 }} />
           )
         }
         ListEmptyComponent={
@@ -643,7 +642,7 @@ export default function FoodLogScreen() {
 
 
       {/* Blurred strip the content scrolls under — decorative, no touches. */}
-      <FloatingHeader height={insets.top + space.xl} />
+      <FloatingHeader />
 
       {/* The way into Profile, as on Summary (V2). */}
       <ProfileAvatarButton />
