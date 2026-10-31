@@ -35,6 +35,7 @@ const toEditable = (f: SavedFood): DetailItem => ({
   protein: f.protein,
   carbs: f.carbs,
   fat: f.fat,
+  ...(f.fibre != null ? { fibre: f.fibre } : {}),
 });
 
 export default function SavedFoodsScreen() {

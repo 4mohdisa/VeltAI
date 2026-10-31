@@ -1640,3 +1640,8 @@
 - 2026-10-31 17:40 Deferred seed rounding: it spans two files and needs a grep first.
 - 2026-10-31 17:40 Did not ask Isa about the volume bug in /gym/session: it is a data fix that may touch the backend, so it stays queued until the one-file fixes are done.
 - 2026-10-31 17:40 Jev ask 56% vs run 43% is not a strong disagreement, so no reconsideration.
+- 2026-10-31 17:42 Chose the saved-food fibre round trip first because the loop flagged R75 as partly done and this closes that flag (Decisions: flagged work closes only by finishing it or stating why it cannot be finished).
+- 2026-10-31 17:42 Limited the round to mappers.ts and saved.tsx toEditable; editSavedFood server sync is a mutation and backend change, so it is parked, not built.
+- 2026-10-31 17:42 If the API response type has no fibre field, do not add a backend change; record it as BLOCKED and park the read-back (Hard rules: no backend change without need).
+- 2026-10-31 17:42 Left the add action at saved.tsx:58 for later, as its own single-surface task.
+- 2026-10-31 17:42 Doc citation fixes deferred to a doc-only round so this round stays on one surface.
