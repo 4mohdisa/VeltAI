@@ -161,11 +161,11 @@ export default function FoodDetailScreen() {
           name: subject.name,
           quantityG: 100,
           calories: Math.round(subject.kcalPer100),
-          protein: Math.round(subject.proteinPer100 ?? 0),
-          carbs: Math.round(subject.carbsPer100 ?? 0),
-          fat: Math.round(subject.fatPer100 ?? 0),
+          protein: subject.proteinPer100 ?? 0,
+          carbs: subject.carbsPer100 ?? 0,
+          fat: subject.fatPer100 ?? 0,
           // Only when the source actually had one (OFF omits it for most products).
-          ...(subject.fibrePer100 != null ? { fibre: Math.round(subject.fibrePer100) } : {}),
+          ...(subject.fibrePer100 != null ? { fibre: subject.fibrePer100 } : {}),
         }}
         subLine={`${formatCalories(subject.kcalPer100)} / 100g`}
         servings={SEARCH_SERVINGS}
@@ -208,7 +208,7 @@ export default function FoodDetailScreen() {
     }
     const p = product;
     const first = p.servingOptions[0] ?? 100;
-    const scale = (per100: number) => Math.round((per100 * first) / 100);
+    const scale = (per100: number) => (per100 * first) / 100;
     return (
       <DetailForm
         key={`barcode:${subject.code}`}
@@ -217,7 +217,7 @@ export default function FoodDetailScreen() {
         seed={{
           name: p.name,
           quantityG: first,
-          calories: scale(p.kcalPer100),
+          calories: Math.round(scale(p.kcalPer100)),
           protein: scale(p.proteinPer100),
           carbs: scale(p.carbsPer100),
           fat: scale(p.fatPer100),

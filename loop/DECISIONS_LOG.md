@@ -1597,3 +1597,13 @@
 - 2026-10-31 17:32 Kept it doc-only with tsc only, per the testing rules for doc-only rounds, and required the line count to stay the same so no citations move.
 - 2026-10-31 17:32 Chose not to build the seeds task yet: it touches code and is two files, so it breaks the one-surface rule for this round.
 - 2026-10-31 17:32 Recorded that the Jev 'run' signal agrees with my choice, so no second look was needed.
+- 2026-10-31 17:33 Chose the seed fix: it is the smallest task, needs nothing from Isa, and closes the gap left by difference 13.
+- 2026-10-31 17:33 Did not ask Claude Code to add a test, because the testing rules forbid new test suites. The latest report suggested one; I rejected it.
+- 2026-10-31 17:33 Step 1 is a premise check, because named lines are often wrong.
+- 2026-10-31 17:33 Step 4 requires an in-place edit, so citations do not move.
+- 2026-10-31 17:33 Doc-only R65 was accepted as done. Its report confirmed the three fibre lines were fixed and tsc was 0.
+- 2026-10-31 17:34 Chose the detail.tsx seed fix: it is one surface, has the smallest change, and is the first item the last report named as blocking difference 13.
+- 2026-10-31 17:34 Rewrote the rejected prompt to name one file only. The food tab seed fix moves to next round.
+- 2026-10-31 17:34 Did not ask for a new test: the brief bans new suites, and the existing foodDetail tests cover the screen.
+- 2026-10-31 17:34 Named the code by content, not line number, because the handover says line numbers are often wrong.
+- 2026-10-31 17:34 Kept the doc edit as a same-line correction so no citations or counts move.
