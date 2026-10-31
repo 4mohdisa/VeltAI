@@ -2581,3 +2581,7 @@
 - 2026-11-01 02:16 Did not pick the Food title block (row 85). Its open items overlap with blocked calorie bar and 'left today' questions, and the latest report has no build ready for it.
 - 2026-11-01 02:16 Kept the Summary re-check batch at 5 rows, per the brief's cap on re-check rounds.
 - 2026-11-01 02:16 Treated the flag as a missing check, because the R269 report ran tsc but the loop note says no check was run. The prompt asks for tsc again so the result is on record.
+- 2026-11-01 02:18 Answered the flagged R270 report with a doc-only round that re-runs tsc and records the exit code (existing rule).
+- 2026-11-01 02:18 Corrected row 16 inside a re-check round because the figures are wrong, not as a separate doc fix.
+- 2026-11-01 02:18 Chose the re-check over the Food build: Jev ranks run at 93%, and the re-check needs no Isa input and cannot break the build.
+- 2026-11-01 02:18 Parked the WeekEnergyCard zero-sign and hardcoded English items under Parked, not as tasks.
