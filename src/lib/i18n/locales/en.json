@@ -157,6 +157,7 @@
   "gym": {
     "loadFailed": "Couldn't load your gym data.",
     "title": "Gym",
+    "loadingSessions": "Loading sessions…",
     "monthLoadFailed": "Couldn't load this month's sessions",
     "streakDetailLabel_one": "Streak detail. {{count}} day streak",
     "streakDetailLabel_other": "Streak detail. {{count}} day streak",

@@ -159,6 +159,7 @@
   "gym": {
     "loadFailed": "No se pudieron cargar tus datos del gimnasio.",
     "title": "Gimnasio",
+    "loadingSessions": "Cargando sesiones…",
     "monthLoadFailed": "No se pudieron cargar las sesiones de este mes",
     "streakDetailLabel_one": "Detalle de la racha. {{count}} día seguido",
     "streakDetailLabel_other": "Detalle de la racha. {{count}} días seguidos",

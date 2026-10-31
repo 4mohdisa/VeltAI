@@ -50,7 +50,7 @@ export default function GymLogScreen() {
   // Never a number while the month is still loading or failed to load: that is
   // how a real streak ended up beside a false "0 sessions".
   const summary = monthLoading
-    ? 'Loading sessions…'
+    ? t('gym.loadingSessions')
     : monthError
       ? t('gym.monthLoadFailed')
       : monthSummary(view);

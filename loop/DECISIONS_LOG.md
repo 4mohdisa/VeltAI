@@ -1109,3 +1109,7 @@
 - 2026-10-31 14:02 Jev put ask at 83%. I did not ask a new question. The footnote decisions were already put to Isa in the R281 report and are listed under Blocked on Isa. Asking again would repeat an open question.
 - 2026-10-31 14:02 Read-only round, so no design match work this round and no gap rows edited. Row corrections wait for the next build round.
 - 2026-10-31 14:02 Streak footnote stays parked until Isa answers the three decisions. Plural keys and the session count are not built without that answer.
+- 2026-10-31 14:03 Chose the Loading sessions wrap: the R283 checkpoint is green (tsc 0, full Jest 65 suites, 824 tests), so the base is verified, and the task needs nothing from Isa.
+- 2026-10-31 14:03 Kept run over Jev's ask (45%): no Isa dependency for this task. The footnote stays blocked until Isa answers the three decisions.
+- 2026-10-31 14:03 Gap-row fixes (row 82, :393, :414, :420) are deferred to after the footnote, so this round touches one string only.
+- 2026-10-31 14:03 Added es and fr translations for the new key, as the new-keys rule requires. Recorded for native review.
