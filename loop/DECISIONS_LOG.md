@@ -2072,3 +2072,18 @@
 - 2026-10-31 22:46 No checkpoint this round: R162 ran the full suite green, so no full suite is owed.
 - 2026-10-31 22:46 Prompt tells Claude Code to grep for the defaults first, because line numbers drift and the handover list may be stale.
 - 2026-10-31 22:46 Other swipe prompts and food/detail.tsx go to NEXT, not this round.
+- 2026-10-31 22:47 Chose the verification round first because the loop note flagged the last report for tests not being run. Nothing new is built until that is cleared.
+- 2026-10-31 22:47 Recorded that SwipeableRow defaults and the other swipe prompts are already translated, so the brief's list is stale. Removed them from Next.
+- 2026-10-31 22:47 Limited the test run to the files touched in the session, not the full suite, to keep usage low. The full suite is due at the next checkpoint.
+- 2026-10-31 22:47 Allowed one selector-only test fix if a test finds a control by English label, because that failure is caused by our own wording change. Locale and component changes are not allowed in this round.
+- 2026-10-31 22:47 Did not reopen the swipe colour or the 88pt width questions, since both are already on the Blocked on Isa list.
+- 2026-10-31 22:47 Chose the food.tsx 'Analyzing…' string: it is the next item in the notes, is a single literal, and clears wording work without new UI.
+- 2026-10-31 22:47 Named design/Lume App.html bundle 71f71ac4 explicitly, because the loop note said the last prompt was rejected for not naming the design file.
+- 2026-10-31 22:47 Told Claude Code to reuse an existing matching locale key before adding one, to avoid a duplicate.
+- 2026-10-31 22:47 Limited test edits to assertions on the visible text found by grep, so no new test suites are written.
+- 2026-10-31 22:47 Left Fibre column and the CaloriesCard dot vs bar for later: each needs more design checking than a single string.
+- 2026-10-31 22:48 Picked the 'Analyzing…' string first: it is the smallest change, needs nothing from Isa, and was the agreed next step at the R163 checkpoint.
+- 2026-10-31 22:48 Rewrote the R164/R165 prompt to name design/Lume App.html bundle 71f71ac4, the gap row 85 and the loop/design-match branch rule, because the loop note rejected the previous prompt for omitting the branch rule.
+- 2026-10-31 22:48 Told Claude Code to take the wording from the design bundle rather than guess 'Analysing', since the design file is the source of truth.
+- 2026-10-31 22:48 Set es and fr values to 'Analizando…' and 'Analyse…' so the key is complete in all three locales, as the locale rule requires.
+- 2026-10-31 22:48 Limited tests to tsc plus files that reference food.tsx or the key, per the testing rules.

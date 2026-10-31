@@ -872,7 +872,7 @@ function FoodItemRow({
         <>
           <View style={{ flex: large ? undefined : 1, gap: space.xs, paddingVertical: space.sm }}>
             <Text variant="footnote" color={color.secondaryLabel}>
-              Analyzing…
+              {t('food.rowAnalysing')}
             </Text>
             <Skeleton width="60%" height={14} />
           </View>

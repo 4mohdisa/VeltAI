@@ -15,33 +15,35 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Swipe colour: keep color.primary until Isa decides.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras.
 - Grep briefs and handover lists before acting. They can be stale.
+- Prompts must name the matching design/ file and bundle id, and must state the loop/design-match branch rule. A prompt without either is rejected.
 
 ## Status
 R162 checkpoint green: tsc 0, 65 suites, 824 tests. Last full suite R162. Gap counts at R142: 24 DIFFERENT, 14 PARTIAL, 4 BUILT.
 
 ## Built, not verified (es and fr are unreviewed drafts)
-- Tab labels and titles; CaloriesCard labels; add menu and add/close VoiceOver; food row VoiceOver label and hint.
-- Swipe titles and messages: food.tsx, food/saved.tsx, food/new-recipe.tsx, gym/new-template.tsx (title and trash dialog).
-- LoadFailedNotice and StreakCounter tokens; GymPatternsCard, week, training, energy copy; freeze label; nutrition.energyLogged.
+- Tab labels and titles (LumeTabBar, AddMenu, (tabs)/_layout.tsx); CaloriesCard labels; add menu and add/close VoiceOver; food row VoiceOver label and hint.
+- Swipe titles and messages: food.tsx (date-neutral), food/saved.tsx, food/new-recipe.tsx, gym/new-template.tsx (title and trash dialog).
+- SwipeableRow (src/components/display/SwipeableRow.tsx) default labels use t('common.delete') and t('common.cancel') (confirmed R163, no edit).
+- LoadFailedNotice and StreakCounter tokens; GymPatternsCard, week, training, energy copy; freeze label; nutrition.energyLogged (es 'en total', fr 'au total').
+- tabs.summary and tabs.gym do not exist; tab labels reuse food.title, dashboard.summaryTitle, gym.title. tabBar.closeMenu kept separate from closeAddMenu (a test finds 'Close menu').
 
 ## Next
-1. SwipeableRow.tsx defaults 'Delete' and 'Cancel' (R163, in progress).
-2. Other swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
-3. food.tsx visible 'Analyzing…' (~875) to t(), spelling 'Analysing'.
-4. food/detail.tsx ~326 'Delete item'.
-5. CaloriesCard: missing Fibre column; dot vs bar (row 85, not BUILT).
-6. food.tsx: 'Check your connection' invents a cause; visible P, C, F letters (~899); g suffixes; raw energyUnit.
-7. gym/new-template.tsx: `Remove ${name}` label, 'Remove exercise' (~180), rest of English strings.
-8. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-9. PlannedValuesForm 'Add exercise'; add.tsx unused slotKey keys; dedupe SLOT_KEYS; food.savedTitle vs addMenu.myDishes.
-10. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
-11. week.tsx, training.tsx, energy.tsx remaining copy.
-12. No rows left: stop with 'only owner decisions remain'.
+1. R166 (in progress): food.tsx visible 'Analyzing…' to t('food.rowAnalysing') with design wording from design/Lume App.html bundle 71f71ac4 (row 85). en set to design wording; es 'Analizando…', fr 'Analyse…'.
+2. food/detail.tsx ~326 'Delete item'.
+3. CaloriesCard: missing Fibre column; dot vs bar (row 85, not BUILT).
+4. food.tsx: 'Check your connection' invents a cause; visible P, C, F letters (~899); g suffixes; raw energyUnit.
+5. gym/new-template.tsx: `Remove ${name}` label, 'Remove exercise' (~180), rest of English strings.
+6. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. PlannedValuesForm 'Add exercise'; add.tsx unused slotKey keys; dedupe SLOT_KEYS; food.savedTitle vs addMenu.myDishes.
+8. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
+9. week.tsx, training.tsx, energy.tsx remaining copy.
+10. Other food/new-recipe.tsx English strings (rest of screen).
+11. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width (Eliminar, Supprimer); long es/fr text in food/saved.tsx.
 - Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, tabBar.*, addMenu, energyLogged, common.delete, gym.removeExerciseTitle); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
-- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); swipe colour; tabs.* namespace; body stats (app 1,500 vs design 2,100).
+- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); swipe colour; tabs.* namespace (decide whether to add tabs.* keys); body stats (app 1,500 vs design 2,100).
 
 ## Parked
 - Helpers English-only: formatRelativeDate, weekdayShort, dayMonth, formatDuration. formatCalories and formatGrams ignore energyUnit. Plurals: '1 of 1 days', 'longest 1 minutes', 'of N days'.
@@ -50,8 +52,9 @@ R162 checkpoint green: tsc 0, 65 suites, 824 tests. Last full suite R162. Gap co
 - Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - TodayCard, StreakCounter, Freeze, streak.tsx:73 details.
 - Spanish: tabBar.addHint reads badly; addMenu.voice and describeOutLoud only in es.json.
-- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN; key={c.name} translated; food.unsaveTitle and removeTitle split in es and fr.
-- Stale citations: DESIGN_GAP_ANALYSIS.md 437, 955, 957, 1505. SwipeableRow.tsx:2 'red' comment. Hardcoded kcal and g in src/lib/formatting.ts; 'P' abbreviation.
+- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN; key={c.name} translated; food.unsaveTitle and removeTitle split in es and fr; duplicate goals.* and nutrition.* macros.
+- Stale citations: DESIGN_GAP_ANALYSIS.md 437, 955, 957, 1505 (957 still says the new-template swipe title is English, which is no longer true). SwipeableRow.tsx:2 'red' comment (file is at src/components/display/SwipeableRow.tsx). Hardcoded kcal and g in src/lib/formatting.ts; 'P' abbreviation.
+- Earlier list to revisit: date formatters, 'of N days' plurals, GymPatternsCard values, SLOT_KEYS, savedTitle.
 
 ## Accepted limits
 Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). SwipeableRow and saved.tsx rendering untested.
@@ -62,6 +65,7 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - i18next plurals need _one and _other; fr treats 0 as one. kcal is feminine, kJ masculine.
 - Test i18n is fixed to English; some tests find controls by English label.
 - Claude Code forgets context at handover. Name files fully.
+- Briefs quote stale paths and finished items. Check the file first.
 
 ## Last round
-R163: SwipeableRow default labels, chosen over food.tsx 'Analyzing' to finish the swipe dialog set first.
+R163: confirmed SwipeableRow already translated; no edits; tsc exit 0. R164: prompt for food.tsx 'Analyzing…' rejected because it did not name the design/ file. R165: rejected again because it did not state the loop/design-match branch rule. R166 issues a rewritten prompt that names design/Lume App.html bundle 71f71ac4, row 85 and the branch rule.
