@@ -26,25 +26,24 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 - Built (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip; Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() at food.tsx:449, gym.tsx:108, profile/index.tsx:103, food/saved.tsx:85, (tabs)/index.tsx:155; gym.loadingSessions; saved.tsx title at :76.
-- Last full checkpoint R283 green (tsc 0, 65 suites, 824 tests). Later changes not covered. Do not assume green.
+- R294 read-only, green: tsc 0; jest food gym hydrationErrorScreens 11 suites, 114 tests; locale files parse. Flag cleared.
+- Last full suite R283 green (65 suites, 824 tests). Not run since. Run at next checkpoint.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- R293 report flagged (tsc and three suites ran; full suite not run; npx jest i18n matched no tests). Clearing it with a read-only round R294 before build work.
+- None.
 
 ## Next
-1. R294 (current, read-only): tsc, jest food gym hydrationErrorScreens, locale parse, grep for addMenu.voice, addMenu.describeOutLoud, addMenu.snapMeal, addMenu.scanPackage, addMenu.oneTapReadd, food.savedTitle, addMenu.myDishes.
-2. If the grep shows no use of voice and describeOutLoud: ask Isa for approval to remove them (blocked item).
-3. Remove unused addMenu keys only after the grep confirms no use, in en, es and fr together.
-4. Remove duplicate food.savedTitle or addMenu.myDishes only after wording is decided; both say 'My dishes'.
-5. Move the row 89 note into row 89's reason cell (gap file, one round).
-6. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'.
-7. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15.
-8. Read and wrap: gymRange.ts, TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
-9. Add sheet icons to design SVGs. Empty-list copy at src/app/(tabs)/food.tsx ~:445-447.
-10. Gap file: row 82 and section ~:414 still describe the old streak strip; ranges ~:394 and ~:421.
-11. Full Jest at next checkpoint.
-12. If no rows remain: stop with 'only owner decisions remain'.
+1. R295 (current, doc only): gap file row 82 and streak section ~414 describe the old strip; fix ranges ~394 and ~421.
+2. Trace add.tsx:30-70 slotKey. If it only yields breakfast, lunch, dinner, snack, remove addMenu.snapMeal, scanPackage, oneTapReadd from en, es, fr together. Keep es voice and describeOutLoud (blocked).
+3. Move row 89 note (gap file ~line 90) into row 89 reason cell.
+4. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'.
+5. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15.
+6. Read and wrap: gymRange.ts, TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
+7. Add sheet icons to design SVGs. Empty-list copy at src/app/(tabs)/food.tsx ~:445-447.
+8. saved.tsx literals :61, :72, :78, :82, :92, :95-96, :106-108, :127, :144; stale comments :1, :5.
+9. Full Jest at next checkpoint.
+10. If no rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
@@ -65,11 +64,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr: 'Ajouter a {{slot}}'; gymLog.celebration.streak needs count key; plan.addTitle means 'Add to' in es and fr.
 - Global SegmentedField inset; food search sheet; single scanner; chip padding; '14-day streak' hyphen.
 - Gym date line gym.tsx:73-74 uses device locale. 'Sessions' label /gym/streak:89; 'Total days' profile/index.tsx:135.
-- Code: mixHex; goals.tsx copy; untyped CONFLICT_KEYWORDS; router.setParams; blinking caret; Math.round in draft(); console.warn hooks.ts:56; SLOT_KEYS duplicated (add.tsx:34 and (tabs)/food.tsx:83).
+- Code: mixHex; goals.tsx copy; untyped CONFLICT_KEYWORDS; router.setParams; blinking caret; Math.round in draft(); console.warn hooks.ts:56; SLOT_KEYS duplicated (add.tsx:34 and (tabs)/food.tsx:84).
 - Recipe fibre saved as 0; saved foods drop fibre; detail.tsx num() rounds.
 - Long-press meal delete not discoverable; 'Snack' vs 'Snacks' in mealNow().
 - Unused: dashboard.welcome, gymBedtime. lastLoggedDaysAgo_one unreachable. Future-dated logs read 'Last logged today'.
-- Duplicate streak copy: gym.dayStreak and gymLog.celebration.streak_*.
+- Duplicate streak copy: gym.dayStreak and gymLog.celebration.streak_*. food.savedTitle duplicates addMenu.myDishes.
 
 ## Gotchas
 - Edit tool writes plain space for NBSP and plain apostrophe for U+2019. Use node escapes and check code points.
@@ -82,5 +81,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Rejected prompts lacked the design/ file. Name it every time.
-- Weak checks: hydration test accepts invented reasons; no plural test; no test renders the gym streak card or saved foods.
+- Weak checks: hydration test accepts invented reasons; no plural test; no test renders the gym streak card or saved foods; no locale parity test.
+- R294 key counts: report says en 167, fr 167, es 169; handover says en 168, fr 168, es 170. Recount with a script before any removal. Report's target of 164 for es ignores the kept voice and describeOutLoud.
 - Notes kept under 600 words; trim Parked first if over.

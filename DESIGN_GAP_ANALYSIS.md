@@ -79,7 +79,7 @@ this pass matched the design on every checked value.
 | Gym — Muscle focus / 3D body | ❌ DIFFERENT | The design embeds an interactive 3D body three times with tap-to-select, a popover and volume chips; the app has no 3D body and renders a static bar list the design does not have on that card. |
 | Gym — day / session detail | ❌ DIFFERENT | The design's calendar cells open a full day view (energy in/out, what I ate, muscles hit, locked/unlocked editing); the app has no such route, and its calendar cells are not even tappable. |
 | Gym — "My schedule" card | ❌ DIFFERENT | The design's three-day preview card on the main tab does not exist in the app at all — only a settings row. |
-| Gym — streak strip | ❌ DIFFERENT | Design is a static display row with a summary footnote; the app makes it tappable, adds a three-stat section, drops the footnote and animates the flame. |
+| Gym — streak strip | 🔨 BUILT (not verified) | One-row streak strip built; drops Longest, Total and Freezes; tap to /gym/streak kept as accepted deviation; flame pulses, zero-state greys and artwork remain different and are parked. |
 | Gym — "Log this session" CTA | ❌ DIFFERENT | Different copy, icon, position and conditions, and it pushes a route where the design opens a sheet in place. |
 | Gym — streak detail & session history | ❌ DIFFERENT | Neither screen exists in the design, and both are still in pre-design chrome using deprecated grey tokens. |
 | Food — Day log (main view) | ❌ DIFFERENT | Design's calories card is goal-relative with a progress bar and four macro bars; the app shows total logged, no goal, three macros — plus a search field the design puts in a sheet. |
@@ -391,7 +391,7 @@ today's session card → **"Log this session" pill** → Muscle focus (3D body) 
 `shadow.sm`, `padding: space.lg` **16** (the streak strip is `12px 16px`).
 Content `padding: 70px 16px 158px`, `gap: 14px`, entrance `lumeFade`.
 
-**App order** (`gym.tsx:95-168`): eyebrow + title → `LoadFailedNotice` → streak
+**App order** (`gym.tsx:94-158`): eyebrow + title → `LoadFailedNotice` → streak
 card → calendar card → `TodayCard` → `MuscleChart` → **`GymPatternsCard`** →
 `GymSessionButton` → **`SettingsList "Training"`** (My schedule / My workouts /
 Apply a streak freeze / Session history).
@@ -412,20 +412,22 @@ and **no `padding-right: 52px`** — so a long localised title can run under the
 avatar. The design's date follows the *selected* day; the app always shows today
 (it has no day-selection model).
 
-## Gym — streak strip — ❌ DIFFERENT
+## Gym — streak strip — 🔨 BUILT (not verified)
 
 **Design:** one non-interactive row — a 20px static flame in `category-streak`, the
 count at `700 20/26` rounded, "day streak" at `500 17/24`, and a right-aligned
 footnote *"23 sessions · 2 freezes"*. Padding `12px 16px`, gap 11.
 
-**App** (`gym.tsx:109-136`): a **tappable** `Card` pushing `/gym/streak`, containing
-that row **plus a second section** — a three-`Stat` row (Longest / Total / Freezes).
+**App** (`gym.tsx:109-126`): one row inside a **tappable** `Card` pushing
+`/gym/streak` — a 20pt `StreakFlame`, the count (`statSmall`, `700 20/26` rounded)
+and "day streak" (`bodyMedium`, `500 17/24`). Padding `12px 16px`. Longest, Total
+and Freezes are gone from this card.
 
-**Differences:** tappable vs display-only; two sections vs one; **the right-aligned
-summary footnote is missing**; the three-stat row is app-only; padding 20 vs 12/16;
-gap 12 vs 11; **the flame pulses infinitely** (`scale 1 → 1.14`, 700 ms) where the
-design's is static; the app greys the flame at streak 0 (no design counterpart);
-different flame artwork (SF Symbol vs a bespoke evenodd path).
+**Differences:** tappable vs display-only, kept as an accepted deviation; **the
+right-aligned summary footnote is not built**, waiting on Isa; gap 12 vs 11. Parked:
+**the flame pulses infinitely** (`scale 1 → 1.14`) where the design's is static; the
+app greys the flame at streak 0 (no design counterpart); different flame artwork
+(SF Symbol vs a bespoke evenodd path).
 
 ## Gym — month heatmap — ⚠️ PARTIAL MATCH
 

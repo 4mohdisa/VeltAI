@@ -1160,3 +1160,8 @@
 - 2026-10-31 14:15 Ran only tsc and three suites, not the full Jest run, because the next checkpoint is planned for later and the brief keeps testing light.
 - 2026-10-31 14:15 Included the key-usage search for voice, describeOutLoud and the unused-looking keys so the next round can act without a second search. This is still read-only and needs no Isa approval.
 - 2026-10-31 14:15 Did not remove es voice or describeOutLoud, because notes require Isa approval first, even if the search finds no use.
+- 2026-10-31 14:16 Chose the gap file fix first: it is documentation only, needs nothing from Isa and clears a stale claim before any further removals.
+- 2026-10-31 14:16 Deferred removing the three unused addMenu keys until the add.tsx:67 dynamic lookup is traced, since R294 flagged that as unread.
+- 2026-10-31 14:16 Kept es addMenu.voice and describeOutLoud: removal still needs Isa's approval (blocked item, decided earlier).
+- 2026-10-31 14:16 Did not re-ask the streak footnote or row 89 questions: no new information, per notes.
+- 2026-10-31 14:16 Recorded that handover and R294 key counts disagree, so the next removal round must recount with a script rather than trust totals.
