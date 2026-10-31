@@ -1095,3 +1095,8 @@
 - 2026-10-31 13:58 Did not ask Isa about the footnote. Reason: the footnote copy is a code-level choice, not an owner-only item. Default: use separate _one and _other plural keys for sessions and freezes in en, es and fr, joined by ' · ', with the session count from streak.totalGymDays and the freeze count from streak.freezesAvailable. Records this so the next build round can follow it. Isa's replies override this.
 - 2026-10-31 13:58 Chose not to edit the DESIGN_GAP_ANALYSIS.md rows at :393 and :420 yet. Reason: the strip is not complete until the footnote is built.
 - 2026-10-31 13:58 Treated the flame pulse, grey flame at 0, flame artwork and 12 vs 11 row gap as Parked, not built. Reason: they are visual differences outside the one-row strip task and no token covers 11.
+- 2026-10-31 14:00 Chose the read-only round over Jev's pick (wrap 'Loading sessions'). Reason: the flag rule says a flagged report must be cleared by a read-only round before any build work, and a literal wrap is build work.
+- 2026-10-31 14:00 Did not ask Isa about the footnote keys. The Decisions section already approves separate plural keys and the session and freeze sources, so the blocker in the R280 report is resolved.
+- 2026-10-31 14:00 Declined Jev's ask, because the defaults in the brief cover this decision.
+- 2026-10-31 14:00 Rewrote the notes to under 600 words: merged duplicates and removed finished work.
+- 2026-10-31 14:00 Moved the footnote build to R282, after the flag is cleared.
