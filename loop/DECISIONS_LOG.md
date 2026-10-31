@@ -2364,3 +2364,8 @@
 - 2026-11-01 00:46 Kept the checkpoint read-only, with no file edits, as the loop note requires for checkpoint rounds.
 - 2026-11-01 00:46 Added a read-only design comparison of the compact SegmentedField against the Meal control. It adds no code change and gives the next build a concrete list.
 - 2026-11-01 00:46 Kept the doc-only row 87 fix as R223, as already planned. It stays out of this round to keep the checkpoint read-only.
+- 2026-11-01 00:47 R223 is the row 87 doc fix. It follows the clean R222 checkpoint, and the R221 report it was waiting on is now handled.
+- 2026-11-01 00:47 Row 87 stays DIFFERENT for the 180ms transition and the truncation risk, which need a build or a device check.
+- 2026-11-01 00:47 Row 85 calorie bar and 'left today' stay Blocked on Isa, not retried.
+- 2026-11-01 00:47 The prompt says to grep rather than trust line numbers, because the gap doc line references are stale.
+- 2026-11-01 00:47 Notes condensed below 600 words, per the loop note. Finished work and repeated items were merged.
