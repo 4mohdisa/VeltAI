@@ -2236,3 +2236,8 @@
 - 2026-11-01 00:11 The handover lists Save changes (detail.tsx 259-260) as not fixed, but also lists it as built at line 301. The prompt tells Claude Code to grep first and trust the code, not either note.
 - 2026-11-01 00:11 Day log macro spacing (spaced on food detail, unspaced on Day log) is a design inconsistency. Parked as a question for Isa, not built.
 - 2026-11-01 00:11 formatMacro has no callers outside its test and gram strings in detail.tsx bypass formatGrams (needs num precision). Both parked as code notes, not tasks.
+- 2026-11-01 00:13 Chose the doc fix first: the latest report flagged row 86 with duplicate BUILT lines and stale quick-add references, and the rule is to finish a flagged partial before the next task.
+- 2026-11-01 00:13 Doc-only round, so tsc only and no tests, per the checkpoint rules.
+- 2026-11-01 00:13 Moved the SLOT_KEYS dedupe from Next to Parked: it is code tidying, not a row build, so it is not a task.
+- 2026-11-01 00:13 food.deleteItem wording ('Delete item' vs 'Remove from log') stays under Blocked on Isa as a design question. Not re-asked this round.
+- 2026-11-01 00:13 Logged-edit 'Updated' toast and the 'Added {{name}}' toast with no design match go to Parked, not to a build, because they need a behaviour decision.
