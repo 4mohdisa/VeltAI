@@ -1390,3 +1390,6 @@
 - 2026-10-31 15:54 Did not add tests for the new TodayCard grid and chips. The rules forbid new test suites, so the report says the grid is unverified.
 - 2026-10-31 15:54 Volume overstatement (session.tsx saves top-set reps and weight for all sets) is parked, not fixed. Changing save logic changes stored data, and the decision belongs to Isa. Added to Blocked on Isa.
 - 2026-10-31 15:54 Rewrote the notes to under 600 words as the loop note asked. Merged repeated items and removed finished work. Kept every never-delete decision.
+- 2026-10-31 15:55 Chose the read-only checkpoint first because the loop flagged R23 for no full tsc or Jest run, and the notes say a flagged report is partial until fixed before the next build round.
+- 2026-10-31 15:55 The checkpoint is read-only because the notes say checkpoint rounds are read-only and the stale summary row fix needs its own round with tsc.
+- 2026-10-31 15:55 Did not ask Isa anything: the checkpoint and gap-doc fixes need no owner input.
