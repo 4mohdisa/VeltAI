@@ -197,6 +197,7 @@ export default function GymSessionScreen(): JSX.Element {
           weight: te.planned_weight ?? undefined,
           weight_unit: te.planned_weight_unit ?? undefined,
           duration_minutes: te.planned_duration_minutes ?? undefined,
+          rest_seconds: te.rest_seconds ?? undefined,
         },
         isExtra: false,
         exerciseId: te.exercise?.id,

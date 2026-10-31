@@ -1512,3 +1512,7 @@
 - 2026-10-31 17:09 Rewrote the notes under 600 words as the loop note asked. Kept every decision, blocked item and parked item; merged duplicates and removed finished work into the round log.
 - 2026-10-31 17:09 Kept the planned-rows rest fix as its own later round, per the earlier one-task rule.
 - 2026-10-31 17:09 Took the Jev run signal as agreement.
+- 2026-10-31 17:10 Picked the planned-row rest fix first: it is a real data bug, a one-line change, and the notes put it ahead of the doc corrections. The doc corrections follow next round.
+- 2026-10-31 17:10 The loop note flagged R49 because the type check result was not shown as printed output. This prompt requires the literal 'TSC EXIT <n>' line, and the report must include it.
+- 2026-10-31 17:10 Did not ask Isa anything: the change is fully covered by the design and the existing row shape, so no owner input is needed.
+- 2026-10-31 17:10 Kept the gap doc out of this round so the code round stays to one file, as the rules require.

@@ -23,22 +23,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Jev is advisory.
 
 ## Status
-- BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard (padding, title, sub-line, rest, logged state, failed-fetch notice); Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; session.tsx 'Add an exercise' label; session.tsx picked-exercise rest seconds (R47); gap lines 229 and 331 corrected (R46).
+- BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard (padding, title, sub-line, rest, logged state, failed-fetch notice); Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; session.tsx 'Add an exercise' label; session.tsx picked-exercise rest seconds (R47); gap lines 229 and 331 corrected (R46); session.tsx citations above line 165 shifted by 1 in gap doc (R49).
 - Counts (last recorded): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status empty.
 - Checkpoint R48 green: tsc 0, 65 suites, 824 tests. No tests cover TodayCard, failure paths, rest seconds or the label.
 
 ## Next (in order)
-- Now (R49): add 1 to session.tsx citations after line 165 in the gap doc (part of item 3).
-1. Add sheet icons from design SVGs.
-2. Planned rows rest: plannedRows in src/app/gym/session.tsx (~193-199) never copies te.rest_seconds; log-session.tsx:64 sends it. One-line fix, own round.
-3. Gap doc corrections: row 2 'no edit bar' stale (session docks NumberEntryBar); row 7 stale (sheet has no effort/energy fields); log-session cites near gap line 266 stale; 'What the app does' old-form block (restore date only if accurate); gap line 90 empty-status merge into 'Food - My dishes / Saved'; 'Gym - session logging' status cell says BUILT while items are partial; gap lines 328 and 334 stale.
-4. Logged-day sheet from + menu: log-session.tsx ~150-158 has no logged-day check. Design addLabel on a logged day is 'Add something extra'; session.tsx empty state says 'Add an exercise'. Decide from design.
-5. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-6. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-7. summaryNoFabrication.test.ts header: fibre note stale.
-8. Trace add.tsx slotKey (~67). Remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-9. Checkpoint: full tsc and full app Jest, read-only, only if new code landed since R48.
-10. No rows remain: stop with 'only owner decisions remain'.
+- Now (R50): planned rows rest. plannedRows in src/app/gym/session.tsx (~193-200) gets te.rest_seconds, matching picked exercises. log-session.tsx:64 already sends it. One-line fix.
+1. Gap doc corrections: row 2 'no edit bar' stale (session docks NumberEntryBar); row 7 stale (sheet has no effort/energy fields); log-session cites near gap line 266 stale; 'What the app does' old-form block (restore date only if accurate); gap line 90 empty-status merge into 'Food - My dishes / Saved'; 'Gym - session logging' status cell says BUILT while items are partial; gap lines 328 and 334 stale.
+2. Logged-day sheet from + menu: log-session.tsx ~150-158 has no logged-day check. Design addLabel on a logged day is 'Add something extra'; session.tsx empty state says 'Add an exercise'. Decide from design.
+3. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+4. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+5. summaryNoFabrication.test.ts header: fibre note stale.
+6. Trace add.tsx slotKey (~67). Remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
+7. Checkpoint: full tsc and full app Jest, read-only, only if new code landed since R48.
+8. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
 - Device checks: logged card and both failure states offline. Possible double notice with gym tab (src/app/(tabs)/gym.tsx:107).
@@ -80,6 +78,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 113 'My schedule' label is correct.
 - Design assets: 185bb533 Summary, 7dc211f6 gym, 71f71ac4 food. Decode with node -e from __bundler/manifest.
 - zsh breaks on echo == and unquoted globs. grep -c returning 0 exits 1.
+- Doc citations shift when code lines change. Locate by content.
 
 ## Round log
 - R9-R34: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard logged state, failed-fetch notices, checkpoint R34 green.
@@ -88,4 +87,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R45: session.tsx label 'Add an exercise'. R46: gap lines 229 and 331 corrected.
 - R47: picked-exercise rest seconds sent from inputFor. gymDurationHonesty.test.ts pass.
 - R48: checkpoint green (TSC 0, 65 suites, 824 tests).
-- R49: session.tsx citation shift in gap doc (in progress).
+- R49: session.tsx citations above line 165 shifted +1 in gap doc. Loop note: report flagged because the type check was not shown as a printed 'TSC EXIT' line. Rule restated.
+- R50: planned rows rest seconds (in progress).
