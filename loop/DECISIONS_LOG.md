@@ -2604,3 +2604,8 @@
 - 2026-11-01 02:24 Left the streak skeleton and load-failed spacing (index.tsx:108, :114) alone. They are not in the design, so changing them is out of scope; parked.
 - 2026-11-01 02:24 Food title block: the latest report says it is done, but the handover lists tracking and padding as open. The prompt for it must re-check first.
 - 2026-11-01 02:24 Meal history link, Training list and LoadFailedNotice: kept as app features per the default rules, so they are not asked about again.
+- 2026-11-01 02:25 Chose the food title block: it is item 2 in Next and the handover's recommended next task, and it needs no Isa answer.
+- 2026-11-01 02:25 Did not pick the Energy hero stat (difference 14) this round: the handover lists it as the report's suggestion, but its row mapping in the gap doc is not confirmed. Parked as the next candidate once the row is confirmed.
+- 2026-11-01 02:25 Kept the re-check step inside the build prompt, so Claude Code compares the code with bundle 71f71ac4 before changing anything.
+- 2026-11-01 02:25 Limited tests to food-referencing test files, per the testing rules. No full suite this round; next checkpoint remains R290.
+- 2026-11-01 02:25 Workouts stat (difference 21, WorkoutsWeekCard.tsx:40-41) parked as a duplicate of the Energy stat fix; not a new row task.
