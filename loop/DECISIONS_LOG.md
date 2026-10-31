@@ -2180,3 +2180,8 @@
 - 2026-10-31 23:50 Kept the smallest single-surface task with the most rows cleared per task, as the Order of work prefers.
 - 2026-10-31 23:50 Left the gap-row number unnamed in the prompt and told Claude Code to find it by searching for 'Edit item', because the exact row for these titles is not recorded in the notes.
 - 2026-10-31 23:50 Did not ask Isa anything: the defaults cover this and no owner item is involved.
+- 2026-10-31 23:51 Picked the Save name and Save changes labels because they sit on the same sheet as the R185 titles, need no new design decision, and are the smallest change Claude Code proposed as NEXT.
+- 2026-10-31 23:51 Told Claude Code to keep app wording if the design has no matching button, rather than invent wording, because the design is the source of truth only where it has an answer.
+- 2026-10-31 23:51 Allowed one assertion change in foodDetail.test.ts only, because that test searches source literals and would otherwise break for a reason unrelated to behaviour.
+- 2026-10-31 23:51 Kept the other detail.tsx titles and the g unit for later rounds, to keep each round to one surface.
+- 2026-10-31 23:51 Left the gap row status unchanged and added a BUILT, not verified sentence, consistent with the R185 approach.

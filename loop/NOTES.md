@@ -23,18 +23,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Meal chip caption reuses food.quickAddMeal (only English text left on the control).
 
 ## Status
-R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 quick-add.tsx copy BUILT. R180 macro tile labels confirmed BUILT. R181 meal chip labels BUILT. R181 'Meal' caption BUILT. R182 loop flag on the caption cleared. R183 'for {n} g' under calories built (food.caloriesForGrams, detail.tsx:566). R184 loop flag on R183 checked: already complete, no change needed; tsc 0, foodDetail 31 passed. Gap item 14 stays open as a difference (design has no such line).
+R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 quick-add.tsx copy BUILT. R180 macro tile labels confirmed BUILT. R181 meal chip labels BUILT. R181 'Meal' caption BUILT. R182 loop flag on the caption cleared. R183 'for {n} g' under calories built (food.caloriesForGrams, detail.tsx:566). R184 loop flag on R183 checked: already complete; tsc 0, foodDetail 31 passed. Gap item 14 stays open as a difference (design has no such line). R185 'Edit item' and 'Rename food' titles BUILT (food.editItemTitle, food.renameFoodTitle, detail.tsx:300). Gap item 7 still open: the title shows the mode, not the food name.
 
 ## Built, not verified (es and fr are unreviewed drafts)
 - Tabs, tab bar, add menu, CaloriesCard labels, food row VoiceOver.
 - Swipe titles and messages: food.tsx, food/saved.tsx, food/new-recipe.tsx, gym/new-template.tsx.
 - LoadFailedNotice, StreakCounter, GymPatternsCard, week, training, energy copy, freeze label, nutrition.energyLogged.
 - food.tsx pending pill (food.rowAnalysing).
-- food/detail.tsx: meal chip labels (addMenu keys, addMeal fallback), 'Meal' caption (food.quickAddMeal), delete item and dialog, saved-mode removal, Save to my dishes, PADS captions, macro tiles, editable tile VoiceOver, serving size and calories VoiceOver, 'Serving size' caption, SegmentedField label, 'Edit values manually', 'for {n} g' under calories (food.caloriesForGrams).
+- food/detail.tsx: meal chip labels (addMenu keys, addMeal fallback), 'Meal' caption (food.quickAddMeal), delete item and dialog, saved-mode removal, Save to my dishes, PADS captions, macro tiles, editable tile VoiceOver, serving size and calories VoiceOver, 'Serving size' caption, SegmentedField label, 'Edit values manually', 'for {n} g' under calories (food.caloriesForGrams), 'Edit item' and 'Rename food' titles.
 - quick-add.tsx: all copy through t(), including offline and failed toasts (food.quickAddOffline, food.quickAddFailed).
 
 ## Next (in order)
-1. food/detail.tsx: 'Edit item' and 'Rename food' titles at about line 300 (header of the same sheet). IN PROGRESS, round 185.
+1. food/detail.tsx: 'Save name' and 'Save changes' button labels, same sheet, about line 301. IN PROGRESS, round 186.
 2. food/detail.tsx: other titles (Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, Edit food), 'g' unit in tile values, Name field. Remove stale comment near line 488. Grep macro tile labels first.
 3. Doc-only: DESIGN_GAP_ANALYSIS.md quick-add row (about line 87) and references (about 94, 957, 1020, 1060, 1213-1221). Fix quick-add.tsx:116 to :125. Reconcile wording, no count change.
 4. Read-only: scan.ts:305 'Scan failed' shows at food.tsx:887 and in VoiceOver. Translate at display; keep stored value (scanSeam.test.ts asserts it).
@@ -50,9 +50,9 @@ R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint d
 14. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width; long es/fr text in saved and detail tiles; pending row; saved-mode removal; Save to my dishes; PADS captions; tile, serving size and calories VoiceOver; serving caption with grams chip; edit values manually VoiceOver; quick-add fit and VoiceOver in es/fr; meal chips fit, especially 'Petit-dejeuner' (no compact prop); 'for {n} g' line fit and whether it should exist at all.
+- Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width; long es/fr text in saved and detail tiles; pending row; saved-mode removal; Save to my dishes; PADS captions; tile, serving size and calories VoiceOver; serving caption with grams chip; edit values manually VoiceOver; quick-add fit and VoiceOver in es/fr; meal chips fit, especially 'Petit-dejeuner' (no compact prop); 'for {n} g' line fit and whether it should exist at all; Edit item and Rename food title fit and VoiceOver.
 - Native review: all es/fr drafts, including 'Guardado', 'Enregistre' gender with dish names, 'Tamano de la porcion', 'Taille de la portion', quick-add toasts, 'Snacks' left English in es and fr.
-- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for logged days (mutations.ts:173-178); swipe colour; tabs.* namespace; body stats (1,500 vs 2,100); 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm in app, immediately in design.
+- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for logged days (mutations.ts:173-178); swipe colour; tabs.* namespace; body stats (1,500 vs 2,100); 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm in app, immediately in design; Rename food sheet header shows food name in design, mode in app (item 7).
 - Calories VoiceOver: keep gymLog key or add food key.
 - Extra es keys addMenu.voice and addMenu.describeOutLoud: remove, or add to en and fr?
 - Gap item 11 macro layout: can the row close?
@@ -82,7 +82,7 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Briefs quote stale paths and finished work; check first.
 
 ## Last round
-R184: R183 calories sub-label confirmed complete (no change), tsc 0, foodDetail 31 passed. Loop flag cleared. R185 starts on item 1 (Edit item and Rename food titles).
+R185: 'Edit item' and 'Rename food' titles BUILT (detail.tsx:300, two new keys in en, es, fr). tsc 0, foodDetail 31 passed. R186 starts on item 1 (Save name and Save changes labels).
 
 ## Handover pending
 None.

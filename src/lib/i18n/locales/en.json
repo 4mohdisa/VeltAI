@@ -182,7 +182,9 @@
     "quickAddMeal": "Meal",
     "caloriesForGrams": "for {{grams}} g",
     "editItemTitle": "Edit item",
-    "renameFoodTitle": "Rename food"
+    "renameFoodTitle": "Rename food",
+    "saveName": "Save name",
+    "saveChanges": "Save changes"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",
