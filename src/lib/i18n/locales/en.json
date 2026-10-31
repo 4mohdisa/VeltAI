@@ -155,7 +155,11 @@
     }
   },
   "gym": {
-    "loadFailed": "Couldn't load your gym data."
+    "loadFailed": "Couldn't load your gym data.",
+    "title": "Gym",
+    "monthLoadFailed": "Couldn't load this month's sessions",
+    "streakDetailLabel": "Streak detail. {{current}} day streak",
+    "dayStreak": "day streak"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

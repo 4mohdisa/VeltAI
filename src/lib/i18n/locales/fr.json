@@ -155,7 +155,11 @@
     }
   },
   "gym": {
-    "loadFailed": "Impossible de charger vos données de sport."
+    "loadFailed": "Impossible de charger vos données de sport.",
+    "title": "Sport",
+    "monthLoadFailed": "Impossible de charger les séances de ce mois",
+    "streakDetailLabel": "Détail de la série. {{current}} jours d’affilée",
+    "dayStreak": "jours d’affilée"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",

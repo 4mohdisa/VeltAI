@@ -53,7 +53,7 @@ export default function GymLogScreen() {
   const summary = monthLoading
     ? 'Loading sessions…'
     : monthError
-      ? "Couldn't load this month's sessions"
+      ? t('gym.monthLoadFailed')
       : monthSummary(view);
   // Back from logging a session: re-read the month so the server's row, with its
   // real duration, replaces the local echo.
@@ -99,7 +99,7 @@ export default function GymLogScreen() {
             {dateLine}
           </Text>
           <Text variant="title1" color={color.label} accessibilityRole="header">
-            Gym
+            {t('gym.title')}
           </Text>
         </View>
 
@@ -111,7 +111,7 @@ export default function GymLogScreen() {
         <Card
           variant="elevated"
           onPress={() => router.push('/gym/streak')}
-          accessibilityLabel={`Streak detail. ${streak.current} day streak`}
+          accessibilityLabel={t('gym.streakDetailLabel', { current: streak.current })}
         >
           <View style={{ gap: space.lg }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
@@ -120,7 +120,7 @@ export default function GymLogScreen() {
                 {streak.current}
               </Text>
               <Text variant="bodyMedium" color={color.label}>
-                day streak
+                {t('gym.dayStreak')}
               </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>

@@ -1068,3 +1068,8 @@
 - 2026-10-31 13:49 Used a regex that only matches message={t('...')} so the derived list reflects translated messages; the literal check remains as a separate guard.
 - 2026-10-31 13:49 Kept the literal check unwidened this round to keep the change small; widening is parked in notes.
 - 2026-10-31 13:49 Test-only round: runs tsc and only the hydrationErrorScreens test, not the full suite, per testing rules.
+- 2026-10-31 13:50 Chose gym.tsx literals: it is the largest remaining hardcoded group on one screen, needs nothing from Isa, and is a small edit. The report recommended it as NEXT.
+- 2026-10-31 13:50 Dropped food/saved.tsx:83 from the queue: the report confirmed it already uses t('food.savedLoadFailed') at line 85.
+- 2026-10-31 13:50 Kept English wording identical for the gym literals, per the rule for hardcoded strings not in the design. The strings are wrapped, not reworded.
+- 2026-10-31 13:50 Allowed a single-file snapshot update for the gym tab only, because wrapping in t() changes rendered raw keys. Other snapshots stay untouched.
+- 2026-10-31 13:50 Full Jest suite not run this round. Left for the checkpoint the loop script announces. Only tsc and gym tab tests run now.
