@@ -15,6 +15,7 @@
 // with the other three detail routes: src/components/display/DetailChart.tsx.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -90,6 +91,7 @@ function Body({
   energyDays: EnergyBalance[];
   energyLoading: boolean;
 }): JSX.Element {
+  const { t } = useTranslation();
   const minutes = minutesByDate(sessions, dates);
   const weekDates = dates.slice(-7);
   const weekMinutes = minutes.slice(-7);
@@ -195,7 +197,7 @@ function Body({
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
-            Breakdown
+            {t('dashboard.breakdown')}
           </Text>
           {weekDates.map((d, i) => {
             const m = weekMinutes[i];

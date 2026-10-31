@@ -1802,3 +1802,6 @@
 - 2026-10-31 20:45 Gap line for Week Breakdown: the only hit is inventory item near line 364, with no table row. Recorded the BUILT line as a doc-only round next, not this one, to keep one file per prompt. Default: add it inside the inventory item.
 - 2026-10-31 20:45 French wording: keep dashboard.breakdown as 'Détail' as Isa specified. Do not switch to 'Répartition'. Mismatch with nutrition.breakdown is accepted and recorded. Native review still open.
 - 2026-10-31 20:45 Corrected path for the third Breakdown screen: src/app/energy.tsx:205, not src/app/dashboard/energy.tsx.
+- 2026-10-31 20:47 Picked training.tsx. It is the open UI label gap, and Jev ranked it first too. The flagged partial report is handled by queuing the test-only fix as the next round, because prompts must name one file.
+- 2026-10-31 20:47 No gap-row edit this round. Week and training Breakdown have no table row, and Isa has not chosen one. Doc round waits.
+- 2026-10-31 20:47 Notes rewritten under 600 words: finished work deleted, repeated items merged.
