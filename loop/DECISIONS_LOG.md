@@ -2190,3 +2190,8 @@
 - 2026-10-31 23:53 Add or reuse a title key for Edit food only after grepping for an existing exact match, to avoid duplicate keys.
 - 2026-10-31 23:53 Kept Add to {slot}, other titles, SLOT_KEYS and g unit out of this round to keep one task per prompt.
 - 2026-10-31 23:53 Used the foodDetail test file only, per the testing rules, after a single tsc run.
+- 2026-10-31 23:54 Picked the Add to {slot} labels because the last report named them as the next item and they are small and need no Isa input.
+- 2026-10-31 23:54 Jev and I agree on run; Jev's 84% clean-finish estimate is acceptable for a two-line change.
+- 2026-10-31 23:54 Left the other detail.tsx hardcoded strings for the next round to keep this task to one change.
+- 2026-10-31 23:54 Reuse an existing es/fr key if one matches, otherwise add food.addToSlot to all three locales together, per the new-keys rule.
+- 2026-10-31 23:54 Marked R187 done in notes because the report says the Edit food sheet is BUILT; Isa still verifies.

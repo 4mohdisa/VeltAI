@@ -165,7 +165,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`search:${subject.name}`}
         title={subject.name}
-        ctaLabel={`Add to ${slotForNow().toLowerCase()}`}
+        ctaLabel={t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slotForNow()]}`).toLowerCase() })}
         seed={{
           name: subject.name,
           quantityG: 100,
@@ -222,7 +222,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`barcode:${subject.code}`}
         title="Confirm product"
-        ctaLabel={`Add to ${slotForNow().toLowerCase()}`}
+        ctaLabel={t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slotForNow()]}`).toLowerCase() })}
         seed={{
           name: p.name,
           quantityG: first,
