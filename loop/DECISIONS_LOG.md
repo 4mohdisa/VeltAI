@@ -2512,3 +2512,6 @@
 - 2026-11-01 01:34 Chose the row 104 record fix because the loop flagged R253 as partly done; it is the smallest task and clears the flag before any new row.
 - 2026-11-01 01:34 Kept the task doc-only with no tsc or tests, because the change is text in DESIGN_GAP_ANALYSIS.md.
 - 2026-11-01 01:34 Rewrote the notes under 600 words as the loop note asked. Merged repeats and removed finished detail; decisions kept in shorter form.
+- 2026-11-01 01:35 R255: picked the Food re-check, which also runs the type check that the flagged report skipped. Jev gave run 72%, and this was the recommended next step. The re-check is doc only, so it is the cheapest way to clear the flag.
+- 2026-11-01 01:35 R255: did not pick the Gym re-check first, because the flagged report must be cleared before moving on. Gym padding is the next re-check after this round.
+- 2026-11-01 01:35 R255: the type check is run here, not in a separate round, so the flag is cleared in the same task as the Food re-check.

@@ -20,16 +20,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R252: followed the Summary re-check over Jev's first pick (Jev confidence 0.02).
 - R253: adopted Jev's Summary values build (94%).
 - R254: finished row 104 doc record first, to clear the R253 flag.
+- R255: Food re-check chosen, with the type check included to clear the R254 flag (no tsc run in R254).
 
 ## Status
+- R254: row 104 doc record finished. Doc only. Flagged: no type check run.
+- R255 (dispatched): tsc run plus Food bottom padding and header re-check. Doc only.
 - R253: row 104 values BUILT (bottom 158, header 82, card gap 14). Not verified. tsc 0; tabNavigation 11/11.
-- R253 flagged as partly done: app write-up near DESIGN_GAP_ANALYSIS.md 375-377 still stale; difference 26 cites index.tsx:101 (now :100).
-- R254 (dispatched): finish row 104 doc record, doc only.
 - R251 checkpoint: tsc 0, 65/65 suites, 824/824 tests.
 - R240-248: lumeFade, eyebrow, title block, page gap 14, gym header 82, gym bottom 158, Log button, My schedule card, es/fr copy. BUILT, not verified.
 
 ## Open rows
-- 83 DIFFERENT: sheet-in-place route parked; button height and type parked.
+- 83 DIFFERENT: sheet-in-place route parked; button height and type parked. Copy and icon BUILT (gym.logThisSession en/es/fr, trailing chevron-up).
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
 - 103 DIFFERENT (Macros detail): 176pt 7-day chart missing; card gap 12 vs 16; top padding 115 vs 110 and header 79 vs 82 at 59 inset; kicker, stat line, Breakdown dots differ. Bottom padding and back button not compared.
@@ -37,8 +38,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 112 PARTIAL (Gym): top padding pending Isa; GymPatternsCard typography blocked; Training list, LoadFailedNotice and pull-to-refresh app-only.
 
 ## Next
-1. R254 (dispatched): finish row 104 doc record.
-2. Re-check Food bottom padding and header vs design. Doc only.
+1. R255 (dispatched): tsc + Food bottom padding and header re-check. Doc only.
+2. Re-check Gym top and bottom padding vs design 70 and 158. Doc only.
 3. Re-check header callers profile/index.tsx and Screen.tsx vs design. Doc only. Screen.tsx affects floating detail screens.
 4. Re-check Summary differences 1-25, 29, 30. Doc only. Difference 25 eyebrow tracking at index.tsx.
 5. Row 104 Steps card and scope: build or park.
@@ -61,7 +62,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - TestPG_* (18 skipped): run against Postgres?
 
 ## Parked (one line each)
-- i18n: English helpers; hardcoded month, weekday, Today, Yesterday; formatNumber en-AU; formatGrams and formatCalories ignore energy unit; hardcoded 'Quick add', 'Done', 'Close', GymStatusCard.tsx:30, scan.ts:305; MyScheduleCard weekday follows device language; Summary index.tsx accessibility label, 'Macros'/'Today', toast.
+- i18n: English helpers; hardcoded month, weekday, Today, Yesterday; formatNumber en-AU; formatGrams and formatCalories ignore energy unit; hardcoded 'Quick add', 'Done', 'Close', GymStatusCard.tsx:30, scan.ts:305; MyScheduleCard weekday follows device language; Summary index.tsx:146, :149, :179 hardcoded English, accessibility label, 'Macros'/'Today', toast.
 - Copy: foodLog.per100; CaloriesCard g; 'Check your connection'; food.rowAnalysing; food.deleteItem.
 - Missing: 'Updated {name}' toast; foodLog.savedAdded toast; + menu toast; toast fade; row 83 sheet-in-place.
 - Gym button: 56pt vs 52; label 17/24 vs 16/21; duplicated Button pill styles; logged branch dead.
@@ -69,11 +70,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gym UI: card pressed 0.85 vs light1; pull-to-refresh and focus do not re-read TodayCard or Log button; GymPatternsCard server values.
 - Comments: TAB_BAR_CLEARANCE and _layout.tsx:26; gym.tsx header and :144; SegmentedField label; food.tsx:656-659.
 - Easing bezier duplicated in gym.tsx and AddMenu.tsx.
-- Code: SLOT_KEYS duplicated; StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}; SettingsList.tsx:129; duplicate 'training' key.
+- Code: SLOT_KEYS duplicated; StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}; SettingsList.tsx:129 identical branches; duplicate 'training' key.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, gym.tsx render, MyScheduleCard render, header height.
-- Doc: summary table Quick add '(line 86)'; stale lines 895-897, 930, 934, 1017, 1058, 1504; stale ref near 1518; row 87 repeated BUILT; line 103 unchecked.
+- Doc: summary table Quick add '(line 86)'; stale lines 895-897, 930, 934, 1017, 1058, 1504; stale ref near 1518; row 87 repeated BUILT; line 103 unchecked; stale text near 586, 436, 446, 532; lines 236, 310.
+- Screen.tsx:163: inset-based header height applies to every floating detail screen, including Macros detail.
+- _layout.tsx:26 and TAB_BAR_CLEARANCE comment say each tab pads itself, not true for Summary or Gym.
 
 ## Accepted limits
 Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). SwipeableRow and saved.tsx untested. Tests English only. Three gym suites read source text only.
@@ -84,8 +87,10 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 - Claude Code forgets context at handover: name files fully.
 - loop/ files show modified; not ours. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Line numbers shift; grep before citing. Say BUILT, never verified.
+- Gym tab and Summary: the three gym suites only read source text; nothing renders these screens.
 
 ## Handover and Jev
 - Handover in loop/HANDOVER.md every 15 rounds.
 - Jev R251-253: run agreed or adopted each time; R253 ask not used.
 - Jev R254: run 85%, ask 13%, stop 2%; last task clean 87%; risk 1.3.
+- Jev R255: run 72%, ask 25%, stop 3%; last task clean 10%; risk 1.1 (confidence 0.46). Run agreed.
