@@ -139,14 +139,14 @@ function inputFor(row: Row, st: RowState | undefined): GymExerciseInput | null {
     // Schema-driven cardio → send the captured parameters (the backend computes
     // calories). No schema → fall back to the free-text duration/distance note.
     if (row.schema && Object.keys(st.params).length > 0) {
-      return { name: row.name, parameters: st.params };
+      return { name: row.name, parameters: st.params, rest_seconds: row.planned.rest_seconds };
     }
     const parts: string[] = [];
     const dur = toNum(st.duration);
     const dist = toNum(st.distance);
     if (dur != null) parts.push(`${dur} min`);
     if (dist != null) parts.push(`${dist} km`);
-    return { name: row.name, notes: parts.length > 0 ? parts.join(' · ') : undefined };
+    return { name: row.name, rest_seconds: row.planned.rest_seconds, notes: parts.length > 0 ? parts.join(' · ') : undefined };
   }
   let top: { reps?: number; weight: number } | null = null;
   let firstReps: number | undefined;
@@ -162,6 +162,7 @@ function inputFor(row: Row, st: RowState | undefined): GymExerciseInput | null {
     reps: top?.reps ?? firstReps,
     weight: top?.weight,
     weight_unit: top !== null ? row.planned.weight_unit ?? 'kg' : undefined,
+    rest_seconds: row.planned.rest_seconds,
     rpe: st.rpe != null && st.rpe >= 1 ? st.rpe : undefined, // 0 = "not set"
   };
 }

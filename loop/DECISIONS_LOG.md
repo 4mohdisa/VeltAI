@@ -1497,3 +1497,8 @@
 - 2026-10-31 17:04 Notes Next list renumbered. Item 1 (stale comment) and the read-only log-session failure check (R35, already passed) are removed from Next.
 - 2026-10-31 17:05 R45 flagged as partly done: the code change is in, but DESIGN_GAP_ANALYSIS.md lines that quote 'Add exercise' are stale. Chose the doc-only correction first, since it is a factual correction with accurate report text and needs no Isa decision.
 - 2026-10-31 17:05 Left the PlannedValuesForm.tsx:200 'Add exercise' submit control out of this round. It is a separate control and has not been compared with the design.
+- 2026-10-31 17:06 Chose the rest seconds premise check: it is one read-only-first task, needs nothing from Isa, and is the smallest open code item.
+- 2026-10-31 17:06 Treated the R46 loop flag as closed: the task was the two quoted lines in the gap doc, and the count of the old label is now 0. The stale rows are separate items and stay in Next.
+- 2026-10-31 17:06 Kept the already-logged days blocker under Blocked on Isa. It came back twice, so it is not retried.
+- 2026-10-31 17:06 Rest seconds fix limited to a plain save in session.tsx. Any data model or backend change is parked, not built.
+- 2026-10-31 17:06 Notes rewritten under 600 words: repeated items merged, finished work removed, decisions kept verbatim in meaning.
