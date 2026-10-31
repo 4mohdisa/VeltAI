@@ -568,7 +568,7 @@ export default function FoodLogScreen() {
             </View>
           ) : searching && searchError ? (
             <ErrorState
-              message="Search couldn't reach the food database. Check your connection and try again."
+              message={t('food.empty.searchFailed')}
               onRetry={retrySearch}
             />
           ) : searching ? (
@@ -581,7 +581,7 @@ export default function FoodLogScreen() {
             />
           ) : loadError ? (
             <ErrorState
-              message="We couldn't load today's food log. Check your connection and try again."
+              message={t('food.empty.loadFailed')}
               onRetry={refetch}
             />
           ) : loading ? (

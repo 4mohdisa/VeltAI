@@ -1921,3 +1921,7 @@
 - 2026-10-31 21:22 Limited checks to tsc plus the three source-text gym tests that read gym.tsx, so the run stays light; no new tests.
 - 2026-10-31 21:22 Did not start GymPatternsCard verification (R128): the card already has no test coverage, and the item needs no edit, so it adds no value this round.
 - 2026-10-31 21:22 Did not change the GymPatternsCard padding (20 vs 16) or the es/fr wording; both stay with Isa.
+- 2026-10-31 22:05 Chose food.tsx empty copy: it is a single file, has a design source, and needs no backend or Isa input. GymPatternsCard server values need a backend check first, which the brief says to park if a backend change is needed. week.tsx has no gap row.
+- 2026-10-31 22:05 Jev said ask 53%, run 40%. Not a strong disagreement, and the open questions are covered by the defaults, so no question to Isa this round.
+- 2026-10-31 22:05 Prompt names the food empty-state row by search because its row number was not in the handover. If no row exists, Claude Code reports it under BLOCKED.
+- 2026-10-31 22:05 Kept SLOT_KEYS dedupe and food.savedTitle out of this round to keep the task to one surface.

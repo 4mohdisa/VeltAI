@@ -129,6 +129,10 @@
     }
   },
   "food": {
+    "empty": {
+      "searchFailed": "Search couldn't reach the food database. Check your connection and try again.",
+      "loadFailed": "We couldn't load today's food log. Check your connection and try again."
+    },
     "loadFailed": "Couldn't load today's food log.",
     "savedLoadFailed": "Couldn't load your saved foods.",
     "savedTitle": "My dishes"

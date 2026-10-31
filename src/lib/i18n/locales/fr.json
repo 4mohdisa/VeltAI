@@ -129,6 +129,10 @@
     }
   },
   "food": {
+    "empty": {
+      "searchFailed": "La recherche n’a pas pu accéder à la base de données alimentaire. Vérifiez votre connexion et réessayez.",
+      "loadFailed": "Impossible de charger le journal alimentaire d’aujourd’hui. Vérifiez votre connexion et réessayez."
+    },
     "loadFailed": "Impossible de charger le journal alimentaire d'aujourd'hui.",
     "savedLoadFailed": "Impossible de charger vos aliments enregistrés.",
     "savedTitle": "Mes plats"

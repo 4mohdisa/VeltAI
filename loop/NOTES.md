@@ -32,18 +32,19 @@ BUILT, not verified (Isa to check):
 - GymPatternsCard copy via seven gym.* keys (en, es, fr). NOT COVERED. es and fr unreviewed.
 
 ## Next
-1. R128 (pending): verify GymPatternsCard with existing tests only. tsc once, three gym-tab source tests. No edits.
-2. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-3. One file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-4. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-5. add.tsx slotKey (~67): remove unused keys if confirmed.
-6. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
-7. /gym/session saves top weight on all sets: fix or park.
-8. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-9. Freeze strings at count 1 read wrongly.
-10. week.tsx remaining hardcoded copy, then training.tsx and energy.tsx.
-11. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117.
-12. No rows left: stop with 'only owner decisions remain'.
+1. food.tsx ~445 empty copy to design, with en/es/fr keys (R130, in progress).
+2. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+3. GymPatternsCard server values (most_missed_day, muscle names): check backend first; map to translations or park.
+4. One file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+6. add.tsx slotKey (~67): remove unused keys if confirmed.
+7. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
+8. /gym/session saves top weight on all sets: fix or park.
+9. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+10. Freeze strings at count 1 read wrongly.
+11. week.tsx remaining hardcoded copy, then training.tsx and energy.tsx.
+12. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117.
+13. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
@@ -51,7 +52,7 @@ BUILT, not verified (Isa to check):
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review: fr 'Détail' vs 'Répartition'; fr 'gel' vs 'congélation'; 'Ingesta y gasto' and 'Apport et dépense'; energy 'eatenAgainstBurned' fr; gym.oftenSkip es and fr (no article for {{day}}).
+- Native es/fr review: fr 'Detail' vs 'Repartition'; fr 'gel' vs 'congelation'; 'Ingesta y gasto' and 'Apport et depense'; energy 'eatenAgainstBurned' fr; gym.oftenSkip es and fr (no article for {{day}}).
 - Which row records week.tsx, or whether a Week row should exist.
 - energy.tsx design wording: deficit caption, steps row, burn target sub.
 - Group names; training list; profile row; streak wording; GetToday flag.
@@ -94,4 +95,5 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - zsh: quote (tabs) paths and globs. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
 
 ## Round log
-- R129: gym.tsx header comment 'month month' typo fix (comment only, no gap row). Chosen over food.tsx empty copy and week.tsx copy as the smallest task.
+- R129: gym.tsx header comment 'month month' typo fix (comment only, no gap row). Done and checked: tsc 0, three source tests 24 passed. Chosen over food.tsx empty copy and week.tsx copy as the smallest task.
+- R130: food.tsx empty-state copy to design, with en/es/fr keys. Chosen over GymPatternsCard server values (needs backend check) and week.tsx copy (no gap row). Jev ask 53% vs run 40%: not strong, and the open questions are covered by defaults, so run.
