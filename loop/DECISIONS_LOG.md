@@ -1231,3 +1231,7 @@
 - 2026-10-31 15:04 Kept the three wording edits as one doc change on one row (113), so the one-task rule holds.
 - 2026-10-31 15:04 Left TodayCard code problems to NEXT, per the rule against bundling a doc round with a component change.
 - 2026-10-31 15:04 Locate lines by text because gap line numbers move with inserts.
+- 2026-10-31 15:05 Chose the read-only full checkpoint because the brief flags R311 as unverified (Jest not run) and the loop note requires a checkpoint with no file changes.
+- 2026-10-31 15:05 Put the R311 gap-line check in step 1 so the doc wording is verified by reading, not trusted from the report.
+- 2026-10-31 15:05 Deferred the TodayCard Rest pill fix, which the report suggested as NEXT, until the flag is cleared; the brief says a flagged report is cleared before build work.
+- 2026-10-31 15:05 Jev (run 87%) agrees with the run action; no override.

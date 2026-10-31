@@ -26,15 +26,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 - BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() calls; gym.loadingSessions; saved.tsx title; TodayCard padding 16 on five uses.
 - MuscleChart (2 uses): padding 16 BUILT (not verified). R307 done: padded={false} with style padding space.lg at MuscleChart.tsx ~114 and ~141. R308 gap lines 399-401 corrected.
+- R311 doc wording done: gap line 458 reads DIFFERENT; line 464 reads five mutually exclusive branches including loading; line 466 says loading and nothing-scheduled differ from the design. Line 298 still says 'four branches' (not named, left alone).
 - Row 113 TodayCard: DIFFERENT (header, chips, states).
-- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37. R308 doc-only, no tests run. R309 read-only: tsc 0. R310 read-only: tsc 0, jest gym 6 suites / 37 tests passed, grep confirmed padded={false} in MuscleChart.tsx (114, 141) and TodayCard.tsx (95, 109, 117, 143, 170), each with style padding space.lg.
+- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37. R308 doc-only, no tests run. R309 read-only: tsc 0. R310 read-only: tsc 0, jest gym 6 suites / 37 tests passed. R311 doc-only: tsc 0, Jest not run (flagged).
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- Cleared: R310 ran tsc and npx jest gym, no edits. No open flag.
+- R311 flagged: the report said Jest was not run after the doc edit. R312 (current) is the read-only checkpoint that runs tsc and the full app Jest suite to clear it. No edits in R312.
 
 ## Next
-1. R311 (current): doc-only wording in DESIGN_GAP_ANALYSIS.md for row 113. Line 458 'PARTIAL MATCH' to 'DIFFERENT'. Line 464 'four branches' to 'five branches, including loading'. Line 466 loading and nothing-scheduled wording to say they differ from the design. tsc once. No Jest.
+1. R312 (current): read-only checkpoint. Verify gap lines 458, 464, 466; run tsc once and full app Jest once; no edits.
 2. Trace add.tsx slotKey near :67. If unused addMenu keys (voice, describeOutLoud es; snapMeal, scanPackage, oneTapReadd all locales) are safe, remove from en, es, fr together.
 3. Move row 89 note into the reason cell.
 4. Hardcoded strings to wrap: gym.tsx :56, :102, :114, :123, :151-156, 'My schedule', 'My workouts'; profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15; TodayCard :110, :174; GymPatternsCard :85; saved.tsx :61-144.
@@ -87,4 +88,4 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Key counts R305: en 167, es 169, fr 167. Recount before any removal.
 - Weak checks: hydration test accepts invented reasons; no plural test; no locale parity test.
 - Jev overrules R300-R306 and R309 were all flag or unfinished-step ordering. Keep that rule.
-- R310 report: flag cleared (tsc 0, jest gym 37/37, grep confirmed). R311 is the gap wording round, doc-only, with one tsc run to avoid another flag.
+- R311 report: doc edits done, Jest not run, so flagged. R312 is a read-only checkpoint: tsc once, full app Jest once, no edits. Next build round is the TodayCard Rest pill, after the flag clears.
