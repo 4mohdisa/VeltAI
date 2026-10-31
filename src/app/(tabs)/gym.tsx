@@ -152,7 +152,7 @@ export default function GymLogScreen() {
           rows={[
             { icon: 'calendar', label: 'My schedule', onPress: () => router.push('/gym/schedule' as Href) },
             { icon: 'barbell', label: 'My workouts', onPress: () => router.push('/gym/templates' as Href) },
-            { icon: 'snow', label: 'Apply a streak freeze', onPress: () => router.push('/gym/freeze') },
+            { icon: 'snow', label: t('gym.applyStreakFreeze'), onPress: () => router.push('/gym/freeze') },
             { icon: 'time', label: 'Session history', onPress: () => router.push('/gym/history') },
           ]}
         />

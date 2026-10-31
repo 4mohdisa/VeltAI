@@ -1769,3 +1769,8 @@
 - 2026-10-31 20:39 Did not run the full suite. Ran tsc once and the one test file that imports the barrel, per the testing rules.
 - 2026-10-31 20:39 Jev rated run at 97% and the risk at 1.5/2 with low confidence. I took the smaller task, which fits that advice.
 - 2026-10-31 20:39 Left the es and fr wording unreviewed. The key is removed, so it does not need review now.
+- 2026-10-31 20:40 Chose candidate 1 because it is the smallest, needs nothing from Isa, and is the next item in the agreed order. Jev also ranks run at 100%.
+- 2026-10-31 20:40 Wrote the es and fr values for the new key myself. They are unreviewed and go onto Isa's native review list.
+- 2026-10-31 20:40 Left the LoadFailedNotice.tsx header comment for a later round, because one task per round is the rule. It is listed under NEXT.
+- 2026-10-31 20:40 Kept the status cell and header counts of row 82 unchanged, since the surface still has differences. The reason-cell line records the string change only.
+- 2026-10-31 20:40 Ignored the stale 'Lume' gotcha about 'Apply a streak freeze' possibly being absent from the design. The string exists in the app, so the label is still moved to a key.

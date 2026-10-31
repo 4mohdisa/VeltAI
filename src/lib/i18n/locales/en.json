@@ -201,7 +201,8 @@
       "applied": "Freeze applied — today is protected.",
       "confirm": "Use 1 of your {{available}} freezes for today?",
       "explainer": "A freeze protects your {{days}}-day streak on a planned rest day — it just keeps the streak alive."
-    }
+    },
+    "applyStreakFreeze": "Apply a streak freeze"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

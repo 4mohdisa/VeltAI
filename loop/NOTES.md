@@ -21,18 +21,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (recheck header). Last checkpoint R89 green (tsc 0, 65 suites, 824 tests).
-Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice label and size, R92 keys.
+Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice label and size, R92 keys, R98 required message.
 
 ## Next
-1. IN PROGRESS R98: make LoadFailedNotice message required, delete common.loadFailedDefault from en, es, fr. Clears the R97 flag (default was unreachable).
-2. (tabs)/gym.tsx:155 'Apply a streak freeze' via t().
-3. 'Breakdown' on dashboard/week.tsx, training.tsx, energy.tsx via t().
-4. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-5. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-6. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-7. add.tsx slotKey (~67). Remove unused keys if confirmed.
-8. Raw item values: food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
-9. Doc only: gap line 82 stray br; line 76 record Try again change; MACRO_PRECISION comment; lines 1014 on unchecked; line 90 merge; line 1495 stale.
+1. IN PROGRESS R99: src/app/(tabs)/gym.tsx:155 'Apply a streak freeze' via t(). Adds gym.applyStreakFreeze to en, es, fr. Row 82 reason cell gets one line.
+2. 'Breakdown' on dashboard/week.tsx, training.tsx, energy.tsx via t().
+3. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+4. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+6. add.tsx slotKey (~67). Remove unused keys if confirmed.
+7. Raw item values: food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
+8. Doc only: gap line 82 stray br; line 76 record Try again change; MACRO_PRECISION comment; lines 1014 on unchecked; line 90 merge; line 1495 stale.
+9. LoadFailedNotice.tsx lines 4-5 header comment: remove the 'we could not load the latest' wording (default removed R98).
 10. /gym/session saves top weight on all sets. Fix or park.
 11. summaryDetails.test.ts:65 source-checks 'Breakdown'. Replace with a render check, own round.
 12. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
@@ -46,20 +46,20 @@ Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice lab
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review: Gels, Congelaciones, AI insights, My dishes, Macros wording.
+- Native es/fr review: Gels, Congelaciones, AI insights, My dishes, Macros wording, new gym.applyStreakFreeze es/fr.
 - Group names; training list; profile row; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals; remaining-kcal line.
 - Users without body stats see 1,500 kcal; design uses 2,100.
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume fix; heatmap wording; calories cell needs a backend field.
-- Rename gym.plannedExercisesNoDuration? Which row records the StreakCounter wrap? 'Start workout' wording is not in the design.
+- Rename gym.plannedExercisesNoDuration to plannedExercises? Which row records the StreakCounter wrap? 'Start workout' wording is not in the design.
 - Should the freeze screen stay (design has none), and the freeze sentence on line 82?
 
 ## Parked
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) lacks serving data.
 - editSavedFood (mutations.ts:157) local only; server sync needs backend.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, custom exercise route, PlannedValuesForm submit.
-- TodayCard: muscle prefix, header dot, min-height, gaps, pill type, grid, stale burn, per-session kcal.
+- TodayCard: muscle prefix, header dot, min-height, gaps, pill type, grid, stale burn, per-session kcal, plan.sub prefix (needs a data field).
 - Row 17 rest-day exits, pop-in, ring vs flame. Streak flame pulses, artwork.
 - Freeze sheet: singular counts; toast before server reply; refusal unhandled; stale params streak.tsx:73.
 - Logged card tap target needs a day route. Macros history chart. Percent-of-target title follows today.
@@ -76,4 +76,5 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 R9-R82: most surfaces built. Checkpoints R34, R48, R61, R77, R89 green.
 R90-R96: TodayCard, freeze, profile, StreakCounter, LoadFailedNotice strings via t(). Row 114 accepted deviation recorded.
 R97: LoadFailedNotice default message via t(); tsc and its tests run. Flagged as partly done: default unreachable.
-R98: planned. Remove the unreachable default; message becomes required; key deleted from en, es, fr.
+R98: DONE. Default removed, message required at all 9 usages, common.loadFailedDefault deleted from en, es, fr. tsc 0. Built, not verified.
+R99: planned. 'Apply a streak freeze' in (tabs)/gym.tsx via t(gym.applyStreakFreeze). Locale keys added to en, es, fr. Row 82 reason cell line added.

@@ -201,7 +201,8 @@
       "applied": "Gel appliqué — aujourd’hui est protégé.",
       "confirm": "Utiliser 1 de vos {{available}} gels pour aujourd’hui ?",
       "explainer": "Un gel protège votre série de {{days}} jours lors d’un jour de repos prévu — il maintient simplement la série."
-    }
+    },
+    "applyStreakFreeze": "Appliquer une congélation de série"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
