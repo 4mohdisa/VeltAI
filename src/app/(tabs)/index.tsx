@@ -89,7 +89,7 @@ export default function DashboardScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
         {/* Title block — eyebrow (the real device date), large title, streak line. */}
-        <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+        <View style={{ gap: 2, paddingHorizontal: space.xs, paddingBottom: 6 }}>
           <Text
             variant="label"
             color={color.secondaryLabel}
@@ -97,7 +97,7 @@ export default function DashboardScreen() {
           >
             {new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
           </Text>
-          <Text variant="title1" color={color.label} accessibilityRole="header">
+          <Text variant="title1" color={color.label} accessibilityRole="header" style={{ paddingRight: 52, letterSpacing: -0.6 }}>
             {t('dashboard.summaryTitle')}
           </Text>
           {/* The streak is the only progression mechanic; the flame is the one
@@ -118,7 +118,7 @@ export default function DashboardScreen() {
               haptic={false}
               minTapTarget={false}
               accessibilityLabel={t('dashboard.dayStreak', { count: streak.current })}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, paddingTop: space.xs }}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingTop: 6 }}
             >
               <StreakFlame size={14} active={streak.current > 0} />
               <Text variant="footnote" color={color.secondaryLabel}>

@@ -2595,3 +2595,8 @@
 - 2026-11-01 02:20 Told Claude Code to grep for line numbers, because rows 26 and 27 cite stale lines (reported in R272).
 - 2026-11-01 02:20 Parked the hardcoded English citations from R272 (WorkoutsWeekCard, summaryCards, MacroBars) under the existing i18n Parked line instead of making them tasks.
 - 2026-11-01 02:20 Jev ranked run first and chose run at 89%, so no second look was needed.
+- 2026-11-01 02:22 Chose Jev's top pick (Summary rows 26-27) over my earlier recommendation (Food title block, row 85). Reason: it is value-only in index.tsx, needs no Isa decision, and it can be checked with tsc plus the changed file's tests.
+- 2026-11-01 02:22 Answered the R273 flag with a code round instead of another doc-only round. Reason: doc-only rounds R272, R273 and R274 each drew the same 'tests not run' flag, so the cycle was stalling. This round runs tsc and the tests for the changed file.
+- 2026-11-01 02:22 Did not ask Isa about Summary differences 28 (glass and blur surface), 29 (profile initials) or 30 (pull-to-refresh). They are already listed under Blocked on Isa, and the question was asked in R273.
+- 2026-11-01 02:22 Left the Summary title block and streak row alone where the design already matches (card gap 14, bottom 158), so the build changes only real differences.
+- 2026-11-01 02:22 Parked the stale recap lines and the row 104 BUILT wording as doc fixes for a later re-check round, since no build row should be touched in a doc fix round.
