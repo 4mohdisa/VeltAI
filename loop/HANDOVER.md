@@ -1,46 +1,46 @@
-HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs requirement is in AGENTS.md.
+HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs rule is in AGENTS.md.
 
-BUILT THIS SESSION (not verified)
-- src/app/food/detail.tsx: search and barcode seeds keep macros and fibre unrounded, calories whole. editSavedFood and saveFood write fibre (:263, :317).
-- src/app/(tabs)/food.tsx: quickAdd (the + on search rows) logs macros and fibre to 1 decimal.
-- src/lib/data/mappers.ts: savedFoodFromApi reads fibre when > 0.
-- src/app/food/saved.tsx: toEditable (:38) and add (:66) pass fibre when > 0.
-- DESIGN_GAP_ANALYSIS.md: lines 1011, 1012, 1219 rewritten; 1090-1091 say + logs 100 g, parked; all detail.tsx citations moved to current lines.
+BUILT THIS SESSION (not verified; all via t() with en, es, fr; es and fr unreviewed)
+- src/app/dashboard/nutrition.tsx
+- src/app/gym/freeze.tsx
+- src/components/domain/StreakCounter.tsx (reuses gym.dayStreak)
+- src/app/profile/index.tsx (restore() now takes t)
+- src/components/gym/TodayCard.tsx: strings; sub-line now only "N exercises planned"
+- src/components/display/LoadFailedNotice.tsx: Try again label (common.tryAgain)
 
 GAP ROWS
-Food detail difference 13 stays BUILT. No status cell or header count changed. No row covers saved-food fibre.
+No status cell or header count changed. BUILT lines were added inside reason cells: 103 (Macros detail), 82 (freeze), 95 (Settings root), 114 (today's session card). 114 also records the accepted tap-target deviation. Citation at 297 now reads TodayCard.tsx:246.
 
 IN PROGRESS: nothing.
 
 LAST CHECKS
-tsc exit 0 after the final edits. Five suites naming food/detail: 60 tests passed. Last full suite: 65 suites, 824 tests passed; it predates the saved.tsx add and toEditable edits. No test covers decimal macros, quickAdd or saved-food fibre.
+tsc exit 0 after the final edit. Last full suite: 65 suites, 824 tests passed; it predates the TodayCard and LoadFailedNotice edits. No test references TodayCard or renders freeze, StreakCounter, the profile screen or the retry label.
 
 DECISIONS
-- Seeds store unrounded values because num sits inside DetailForm; display and save round through num and MACRO_PRECISION.
-- quickAdd rounds inline because it bypasses the form and MACRO_PRECISION is not exported.
-- Fibre uses > 0 on saved foods because the column is a plain number, so 0 means unknown, as on log rows.
-- Macro totals stay whole, as the design rounds them.
+- Rows stay ❌ when other differences remain, because BUILT would be false.
+- TodayCard uses plannedExercisesNoDuration, because the es and fr plannedExercises values held minutes text and showed a literal {{minutes}}; those keys were deleted.
+- Design has no failure notice, so Try again keeps minTapTarget={false}; Isa accepted this.
 
 WAITING ON ISA
-- First or second serving for the + button: the design uses x.serv[1]. FoodResult has no serving data, so parked as a data change.
-- Food detail differences 1, 2, 4; do the ❌ verdicts at lines 961, 1210 hold?
-- Line 330: stay Partial?
-- Already-logged days: real editing or change toast? /gym/session writes a second session row (mutations.ts:173-178).
-- Log-sheet row: stay BUILT?
-- Device check, es/fr review, wash pill token, whole-day kcal, note-text cardio, Freestyle "No", "1,500 kcal" goal.
+- Rename plannedExercisesNoDuration to plannedExercises?
+- Should the freeze screen stay (design has none, tests call it parked), and the freeze sentence stay on line 82?
+- Which row should record the StreakCounter wrap (removed from 82)?
+- Start workout wording is not in the design.
+- Review es and fr, including Gels, Congelaciones and the AI insights wording.
+- Device check.
 
 NOT FIXED (recommended next: first item)
-- editSavedFood (src/lib/data/mutations.ts:157) is local only, so edits are lost on reload.
-- Raw item values: (tabs)/food.tsx:852, :895; food/saved.tsx:144. Needs a design decision.
-- MACRO_PRECISION comment omits fibre; inline Math.round(x * 10) / 10 repeats.
-- Gap lines 1014 onward unchecked; line 90 merge; line 1495.
-- 'Add something extra' missing on logged days.
-- /gym/session saves all sets at top weight.
-- Try again hardcoded with small tap target; session.tsx strings untranslated.
-- PlannedValuesForm.tsx:200 not compared to design.
+- Default message "Couldn't load the latest." in LoadFailedNotice.tsx.
+- (tabs)/gym.tsx:155 'Apply a streak freeze'; "Breakdown" on week.tsx, training.tsx, energy.tsx.
+- Line 82 stray trailing <br>; line 76 doesn't record the Try again change.
+- StreakCounter.tsx: stale line 2 comment, old colour tokens.
+- Freeze strings read wrongly at count 1 ("1 of your 1 freezes", "racha de 1 días").
+- Freeze toast shows before the server replies; refusal handling unchecked.
+- TodayCard: design's plan.sub prefix needs a data field.
+- Earlier handover list (editSavedFood local only, raw item values, /gym/session second row) still stands.
 
 GOTCHAS
-- Briefs repeat finished work and quote phrases already gone; check content first.
-- Design assets decode in memory with node -e from the __bundler/manifest script; food 71f71ac4.
-- zsh breaks on unquoted globs and echo ==; quote (tabs) paths.
-- grep -c returning 0 exits 1. Use LC_ALL=C /usr/bin/grep.
+- Briefs repeat finished work, quote stale lines and name rows or strings that don't exist; check first.
+- Design copy is encoded: decode from the __bundler/manifest script with node. Raw grep misses it. Lume screens: 7dc211f6, 185bb533, 71f71ac4, b09a5e65.
+- zsh breaks on echo === and unquoted globs; quote (tabs) paths.
+- grep exiting 1 means no match. Use LC_ALL=C /usr/bin/grep.
