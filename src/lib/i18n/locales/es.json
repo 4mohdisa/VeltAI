@@ -143,6 +143,7 @@
     "savedLoadFailed": "No se pudieron cargar tus comidas guardadas.",
     "savedTitle": "Mis platos",
     "rowAnalysing": "Analizando…",
+    "rowMacros": "{{grams}} g · P {{protein}} · C {{carbs}} · G {{fat}}",
     "rowAnalysisFailed": "{{name}}: no se pudo analizar",
     "rowHint": "Toca dos veces para editar, desliza a la izquierda para eliminar",
     "removeTitle": "¿Eliminar {{name}}?",

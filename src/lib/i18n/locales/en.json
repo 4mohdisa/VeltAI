@@ -141,6 +141,7 @@
     "savedLoadFailed": "Couldn't load your saved foods.",
     "savedTitle": "My dishes",
     "rowAnalysing": "Analysing",
+    "rowMacros": "{{grams}} g · P {{protein}} · C {{carbs}} · F {{fat}}",
     "rowAnalysisFailed": "{{name}} — couldn't be analysed",
     "rowHint": "Double tap to edit, swipe left to delete",
     "removeTitle": "Remove {{name}}?",

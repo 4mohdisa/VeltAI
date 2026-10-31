@@ -2259,3 +2259,7 @@
 - 2026-11-01 00:17 Made the food/detail.tsx rest-of-screen strings the next build, but the R200 grep decides which literals still exist, because three rounds in a row found stale premises.
 - 2026-11-01 00:17 Kept the 'Edit food' title question parked as a design question (title as mode vs food name). It changes screen behaviour, and Isa already has it under Blocked on Isa.
 - 2026-11-01 00:17 Did not ask Isa anything this round; no owner-only item blocks the next step.
+- 2026-11-01 00:19 Kept the food.tsx macro letters task over Jev's scan.ts:305 pick. scan.ts is not a design row in DESIGN_GAP_ANALYSIS.md, and the brief's stay-on-rows rule forbids tasks that are not rows. The notes also mark scan.ts as read-only.
+- 2026-11-01 00:19 Closed Next step 2 (food/detail.tsx rest of screen). The R200 grep shows none of the listed literals is hardcoded, so no code change is needed there.
+- 2026-11-01 00:19 Did not pick the gym or swipe tasks, because the food.tsx rows come first in the order of work and are the smallest.
+- 2026-11-01 00:19 Left food.deleteItem, foodLog.per100 and the Updated toast as design questions or Parked items, since they need Isa's decision or were already recorded.

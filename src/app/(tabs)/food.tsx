@@ -894,7 +894,12 @@ function FoodItemRow({
               {item.name}
             </Text>
             <Text variant="footnote" color={color.secondaryLabel} numberOfLines={large ? 0 : 1}>
-              {item.quantityG} g · P {item.protein} · C {item.carbs} · F {item.fat}
+              {t('food.rowMacros', {
+                grams: item.quantityG,
+                protein: Math.round(item.protein),
+                carbs: Math.round(item.carbs),
+                fat: Math.round(item.fat),
+              })}
             </Text>
           </View>
           {/* Trailing energy: the design's rounded stat number with a small unit

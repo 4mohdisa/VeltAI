@@ -141,6 +141,7 @@
     "savedLoadFailed": "Impossible de charger vos aliments enregistrés.",
     "savedTitle": "Mes plats",
     "rowAnalysing": "Analyse…",
+    "rowMacros": "{{grams}} g · P {{protein}} · G {{carbs}} · L {{fat}}",
     "rowAnalysisFailed": "{{name}} : analyse impossible",
     "rowHint": "Touchez deux fois pour modifier, balayez vers la gauche pour supprimer",
     "removeTitle": "Supprimer {{name}} ?",
