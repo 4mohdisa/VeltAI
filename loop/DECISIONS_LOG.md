@@ -1925,3 +1925,11 @@
 - 2026-10-31 22:05 Jev said ask 53%, run 40%. Not a strong disagreement, and the open questions are covered by the defaults, so no question to Isa this round.
 - 2026-10-31 22:05 Prompt names the food empty-state row by search because its row number was not in the handover. If no row exists, Claude Code reports it under BLOCKED.
 - 2026-10-31 22:05 Kept SLOT_KEYS dedupe and food.savedTitle out of this round to keep the task to one surface.
+- 2026-10-31 22:07 Chose the checkpoint over Jev's food.tsx pick (89%) because the loop note marks this round as a checkpoint and asks for a read-only full tsc and full suite. The checkpoint is due (R102 and R117 were never reported, last green is R89), and a green baseline is needed before more edits.
+- 2026-10-31 22:07 The flagged partial work (food.tsx title and Calories title) moves to the next round as the single recommended task, so it is not dropped.
+- 2026-10-31 22:07 Checkpoint is read-only: no file changes, no new tests, so Claude Code usage stays low and the baseline is clean.
+- 2026-10-31 22:07 Did not add a gap row for the food log empty state. Isa still needs to decide on a row or reason line (blocked, not retried).
+- 2026-10-31 22:08 Switched to food.tsx titles: Jev ranks it 91%, it is item 1 in Next, and R130 carried it over. Week.tsx has no gap row, so it is harder to record.
+- 2026-10-31 22:08 Row 85 gets a reason line only and stays DIFFERENT, because the rest of the screen still differs.
+- 2026-10-31 22:08 The R131 checkpoint is still owed. Its prompt was rejected before it ran, so no result is recorded and none is invented.
+- 2026-10-31 22:08 Notes rewritten under 600 words: repeated items merged, finished work deleted.

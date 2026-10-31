@@ -439,7 +439,7 @@ export default function FoodLogScreen() {
                 })}
               </Text>
               <Text variant="title1" color={color.label} accessibilityRole="header">
-                Food
+                {t('food.title')}
               </Text>
             </View>
             {/* The read failed but the device has rows (possibly queued offline
@@ -660,6 +660,7 @@ function CaloriesCard({
   macros: { protein: number; carbs: number; fat: number };
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
 }) {
+  const { t } = useTranslation();
   const columns = [
     { name: 'Protein', tint: categoryAccent.protein, value: macros.protein },
     { name: 'Carbs', tint: categoryAccent.carbs, value: macros.carbs },
@@ -667,7 +668,7 @@ function CaloriesCard({
   ];
   return (
     <Card variant="elevated" style={{ gap: space.lg }}>
-      <CardHeaderRow title="Calories" icon="flame.fill" tint={categoryAccent.calories} />
+      <CardHeaderRow title={t('gymLog.celebration.calories')} icon="flame.fill" tint={categoryAccent.calories} />
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
         <Text variant="statLarge" color={color.label}>
           {formatNumber(kcalToDisplay(total, energyUnit))}
