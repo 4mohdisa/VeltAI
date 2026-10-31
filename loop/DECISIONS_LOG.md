@@ -1235,3 +1235,8 @@
 - 2026-10-31 15:05 Put the R311 gap-line check in step 1 so the doc wording is verified by reading, not trusted from the report.
 - 2026-10-31 15:05 Deferred the TodayCard Rest pill fix, which the report suggested as NEXT, until the flag is cleared; the brief says a flagged report is cleared before build work.
 - 2026-10-31 15:05 Jev (run 87%) agrees with the run action; no override.
+- 2026-10-31 15:06 Chose the TodayCard nothing-scheduled pill: notes Next step 7 and the R312 NEXT both name it, and the flag is cleared by R312 (tsc 0, full Jest 65/65 and 824/824).
+- 2026-10-31 15:06 Moved the 'Rest' pill item out of Parked into the active task, because Next step 7 and the R312 NEXT both call for fixing it now. The Parked line remains for the other TodayCard items.
+- 2026-10-31 15:06 Kept the header, chips, padding, loading state, null branch and chip key out of this round, to keep it to one state.
+- 2026-10-31 15:06 Left the gap-file marker fix (line 458) for its own doc round, since gap-file doc fixes are never bundled with a component change.
+- 2026-10-31 15:06 Jev and my pick agree on run; Jev's 40% clean-finish figure favours keeping the change to one state, which this prompt does.

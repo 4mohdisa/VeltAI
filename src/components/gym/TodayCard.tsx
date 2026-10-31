@@ -5,6 +5,7 @@
 // nothing when there's no schedule data.
 import type { JSX } from 'react';
 import { router, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { Card, Skeleton } from '@/components/display';
@@ -88,6 +89,7 @@ function Header({
 }
 
 export function TodayCard(): JSX.Element | null {
+  const { t } = useTranslation();
   const { today, loading } = useToday();
 
   if (loading) {
@@ -171,8 +173,8 @@ export function TodayCard(): JSX.Element | null {
       <View style={{ gap: space.md }}>
         <Header
           tint={color.light2}
-          title="Nothing scheduled"
-          sub="Add anything you did"
+          title={t('gymLog.restDayTitle')}
+          sub={t('gym.nothingScheduledSub')}
           pill="Rest"
           pillFill={color.light1}
         />

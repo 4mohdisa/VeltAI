@@ -164,7 +164,8 @@
     "streakDetailLabel_one": "Detalle de la racha. {{count}} día seguido",
     "streakDetailLabel_other": "Detalle de la racha. {{count}} días seguidos",
     "dayStreak_one": "día seguido",
-    "dayStreak_other": "días seguidos"
+    "dayStreak_other": "días seguidos",
+    "nothingScheduledSub": "Nada programado — añade lo que hiciste"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

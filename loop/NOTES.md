@@ -28,24 +28,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - MuscleChart (2 uses): padding 16 BUILT (not verified). R307 done: padded={false} with style padding space.lg at MuscleChart.tsx ~114 and ~141. R308 gap lines 399-401 corrected.
 - R311 doc wording done: gap line 458 reads DIFFERENT; line 464 reads five mutually exclusive branches including loading; line 466 says loading and nothing-scheduled differ from the design. Line 298 still says 'four branches' (not named, left alone).
 - Row 113 TodayCard: DIFFERENT (header, chips, states).
-- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37. R308 doc-only, no tests run. R309 read-only: tsc 0. R310 read-only: tsc 0, jest gym 6 suites / 37 tests passed. R311 doc-only: tsc 0, Jest not run (flagged).
+- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37. R308 doc-only, no tests run. R309 read-only: tsc 0. R310 read-only: tsc 0, jest gym 6 suites / 37 tests passed. R311 doc-only: tsc 0, Jest not run (flagged). R312 read-only checkpoint: gap lines 458, 464, 466 verified; tsc 0; full app Jest 65/65 suites, 824/824 tests, 4/4 snapshots. Five console blocks printed, none failed; content not checked.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- R311 flagged: the report said Jest was not run after the doc edit. R312 (current) is the read-only checkpoint that runs tsc and the full app Jest suite to clear it. No edits in R312.
+- None. R311 flag cleared by R312 (read-only checkpoint, green).
 
 ## Next
-1. R312 (current): read-only checkpoint. Verify gap lines 458, 464, 466; run tsc once and full app Jest once; no edits.
-2. Trace add.tsx slotKey near :67. If unused addMenu keys (voice, describeOutLoud es; snapMeal, scanPackage, oneTapReadd all locales) are safe, remove from en, es, fr together.
-3. Move row 89 note into the reason cell.
-4. Hardcoded strings to wrap: gym.tsx :56, :102, :114, :123, :151-156, 'My schedule', 'My workouts'; profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15; TodayCard :110, :174; GymPatternsCard :85; saved.tsx :61-144.
-5. Fix gym.tsx:3-4 'month month' typo. gym.tsx:117 gap 12 to 11.
-6. Read and wrap: gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
-7. TodayCard code: Nothing scheduled shows Rest pill (:176); chip key uses index (:156); header, pill, chip values differ; returns null with no schedule.
-8. Add sheet icons to design SVGs. Empty-list copy at food.tsx ~:445-447.
-9. Duplicates: SLOT_KEYS in (tabs)/food.tsx:84 and food/add.tsx:34; food.savedTitle vs addMenu.myDishes.
-10. Full Jest at next checkpoint.
-11. No rows remain: stop with 'only owner decisions remain'.
+1. R313 (current): TodayCard nothing-scheduled state. Match design text. Remove 'Rest' pill if design shows none. Add any new key to en, es, fr together. Run tsc once and jest gym once.
+2. Gap file line 458 marker: heading says PARTIAL MATCH, should match row 113 DIFFERENT (doc-only round).
+3. Gap file line 464 comma wording (doc-only round, after step 2).
+4. Trace add.tsx slotKey near :67. If unused addMenu keys (voice, describeOutLoud es; snapMeal, scanPackage, oneTapReadd all locales) are safe, remove from en, es, fr together.
+5. Move row 89 note into the reason cell.
+6. Hardcoded strings to wrap: gym.tsx :56, :102, :114, :123, :151-156, 'My schedule', 'My workouts'; profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15; TodayCard :110, :174; GymPatternsCard :85; saved.tsx :61-144; MuscleChart.tsx :132, :135, :149, :159.
+7. Fix gym.tsx:3-4 'month month' typo. gym.tsx:117 gap 12 to 11.
+8. Read and wrap: gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
+9. TodayCard code: chip key uses index (:156); header, pill, chip values differ; returns null with no schedule.
+10. Add sheet icons to design SVGs. Empty-list copy at food.tsx ~:445-447.
+11. Duplicates: SLOT_KEYS in (tabs)/food.tsx:84 and food/add.tsx:34; food.savedTitle vs addMenu.myDishes.
+12. Full Jest at next checkpoint.
+13. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa
 - Footnote '23 sessions · 2 freezes': (a) gym.streakSessions and gym.streakFreezes in en, es, fr; (b) streak.totalGymDays as session count (recommended); (c) separate plural keys. Do not ask again.
@@ -53,7 +55,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: all BUILT surfaces, load-failure messages, Macros, gym tab title, plurals, streak strip, VoiceOver label, loading line, 'My dishes', TodayCard padding, MuscleChart padding.
-- Native es/fr review: gender, NBSP, apostrophe, load-failure strings, caloriesTodayLabel, 'Sport', 'Detail de la serie', 'du repas', 'de la comida', 'de sport', streak plurals, gym.loadingSessions, food.savedTitle.
+- Native es/fr review: gender, NBSP, apostrophe, load-failure strings, caloriesTodayLabel, 'Sport', 'Detail de la serie', 'du repas', 'de la comida', 'de sport', streak plurals, gym.loadingSessions, food.savedTitle, and any new TodayCard key from R313.
 - Group names: food.loadFailed vs foodLog; gym.loadFailed beside gymLog; profile.loadFailed same text as gym.loadFailed (by request).
 - Override es emptyMessage. Remove es voice and describeOutLoud.
 - Training list: app-only row or removed.
@@ -64,7 +66,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
 - Row 17: rest-day exits, pop-in, ring vs flame.
 - Streak strip: flame pulses, greys at 0, artwork, row gap 12 vs 11.
-- TodayCard: header dot, min-height, gaps, pill and chip type; returns null with no schedule; 'Rest' pill on Nothing scheduled (:176); chip key uses index (:156).
+- TodayCard: header dot, min-height, gaps, pill and chip type; returns null with no schedule; chip key uses index (:156).
 - fr: 'Ajouter a {{slot}}'; gymLog.celebration.streak needs count key; plan.addTitle reads 'Add to' in es and fr.
 - Global SegmentedField inset; food search sheet; single scanner; chip padding; '14-day streak' hyphen.
 - Gym date line gym.tsx:73-74 uses device locale. 'Sessions' label /gym/streak:89; 'Total days' profile/index.tsx:135.
@@ -81,6 +83,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Grep with LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
 - No test renders saved foods, the gym streak card or TodayCard. npx jest i18n finds no tests and exits 1.
 - Handover summaries can be stale. Check the files. Gap line numbers move with inserts.
+- R312 console blocks (5) not inspected. Check if a round needs it.
 
 ## Loop notes
 - Prompts must name the design/ file every time.
@@ -88,4 +91,4 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Key counts R305: en 167, es 169, fr 167. Recount before any removal.
 - Weak checks: hydration test accepts invented reasons; no plural test; no locale parity test.
 - Jev overrules R300-R306 and R309 were all flag or unfinished-step ordering. Keep that rule.
-- R311 report: doc edits done, Jest not run, so flagged. R312 is a read-only checkpoint: tsc once, full app Jest once, no edits. Next build round is the TodayCard Rest pill, after the flag clears.
+- R312 cleared the R311 flag. R313 is the first build round since R307, so keep it to one state.
