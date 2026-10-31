@@ -1007,3 +1007,8 @@
 - 2026-10-31 02:11 Limited the new test check to en values for the two keys. The es and fr values are not shown (src/lib/i18n/index.ts:41), and the English-word check cannot meaningfully apply to them.
 - 2026-10-31 02:11 Kept the Macros kicker and title as built (nutrition.title and nutrition.macrosTitle, design-confirmed). The handover's Macros key item is stale and was not reopened.
 - 2026-10-31 02:11 Ran only the one test file and tsc once, under the testing rules. No full suite this round.
+- 2026-10-31 13:36 Chose candidate 1: it is pre-planned, test-only, needs nothing from Isa, and the notes name the exact lines.
+- 2026-10-31 13:36 Rewrote the prompt because the loop reported it was rejected for not naming the matching design/ file. Named design/Lume App.html and stated that no gap row exists for the Macros screen.
+- 2026-10-31 13:36 Checked the en-only rule against the Claude report: ^Couldn't load and the English banned-word list apply to en only. es and fr only need a non-empty string, since English words do not apply to them.
+- 2026-10-31 13:36 Treated the handover's 'Macros key' item as stale. nutrition.macrosLoadFailed and the Macros kicker are already built per the notes.
+- 2026-10-31 13:36 No new keys, no locale edits, no snapshot edits this round.

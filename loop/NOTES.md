@@ -22,7 +22,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - No new test suites or render tests. 11pm-to-9am case checked on device by Isa.
 - Macros screen has no gap row; none added to keep verdict counts. Isa may name one.
 - Nutrition load-failure and a11y wording live in the nutrition namespace (nutrition.macrosLoadFailed, nutrition.caloriesTodayLabel).
-- Test 'no screen invents a reason' (hydrationErrorScreens.test.ts:54-64) only checks message= string literals. It must be changed to check locale values. R264 does this for en values only.
+- Test 'no screen invents a reason' (hydrationErrorScreens.test.ts:54-64) only checks message= string literals. It must be changed to check locale values. en values get the ^Couldn't load and banned-word check. es and fr values only need to be non-empty.
+- Handover item 'Macros key' is stale. nutrition.macrosLoadFailed and the Macros kicker are built.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet; gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
@@ -42,7 +43,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R264 (current): hydrationErrorScreens test edit, lines 54-64, en values only for nutrition.macrosLoadFailed (index.tsx:155) and nutrition.loadFailed (nutrition.tsx:79). tsc once, jest on that file once.
+1. R264 (current, rewrite): hydrationErrorScreens test edit, lines 54-64. en values get ^Couldn't load and banned-word check, es and fr only non-empty, for nutrition.macrosLoadFailed (index.tsx:155) and nutrition.loadFailed (nutrition.tsx:79). Matching design file design/Lume App.html named in prompt. tsc once, jest on that file once.
 2. (tabs)/index.tsx:150 hardcoded title='Macros' and scope='Today' (record as hardcoded, keep wording).
 3. (tabs)/gym.tsx:112 and :121 to t().
 4. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
@@ -87,9 +88,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Handovers after R141 to R254 (latest in loop/HANDOVER.md).
-- Rejected: R236, R238, R243, R255, R257 (no design file or branch rule), R261 first prompt (no branch rule, notes too long).
+- Rejected: R236, R238, R243, R255, R257 (no design file or branch rule), R261 first prompt (no branch rule, notes too long), R264 first prompt (no matching design/ file named). R264 rewritten with design/Lume App.html.
 - R262 flagged, cleared by read-only R263 (passed: 6 suites, 87 tests).
 - R263 candidates: 1 read-only check of R262; 2 hydrationErrorScreens test edit; 3 food.tsx:449 to t(). Chosen 1.
 - R264 candidates: 1 hydrationErrorScreens test edit (lines 54-64); 2 (tabs)/index.tsx:150 hardcoded Macros/Today; 3 gym.tsx:112 and :121 to t(). Chosen 1.
-- R264 Jev: ask 56%, run 41%, confidence 0.34, risk 1.4. Ran anyway: the step is pre-planned, test-only, needs nothing from Isa, and the notes name the exact lines. Jev is low confidence and not strongly sure.
+- R264 Jev (first pass): ask 56%, run 41%, confidence 0.34, risk 1.4. Ran anyway: the step is pre-planned, test-only, needs nothing from Isa, and the notes name the exact lines.
+- R264 Jev (rewrite pass): run 91%, ask 8%, stop 1%, confidence 0.86, risk 1.1. Chosen action remains run.
 - Handover due after R269 (every 15 rounds from R254).
