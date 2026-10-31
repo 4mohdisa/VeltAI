@@ -1141,3 +1141,8 @@
 - 2026-10-31 14:11 Chose the saved.tsx comment fix as the smallest task that needs nothing from Isa. It is the first item in the R289 report's fault list and it touches one file.
 - 2026-10-31 14:11 Left row 89 status and the gap-file note untouched this round. Moving the note into row 89's reason cell is a later gap-file task, to keep this round to one file.
 - 2026-10-31 14:11 Left the on-screen 'saved' strings alone. They wait on the row 89 decision, as the notes already say.
+- 2026-10-31 14:11 Chose a read-only round because the loop note flagged the last report and the notes require a read-only clear before build work.
+- 2026-10-31 14:11 Chose the read-only check over the row 89 gap-file move because the flag must clear first and the move is a single edit that can follow.
+- 2026-10-31 14:11 Did not re-ask Isa about row 89 or the streak footnote: both are already in Blocked on Isa with no new information, and Isa said not to ask again without it.
+- 2026-10-31 14:11 Kept Jev's 45/45 split on run versus ask in mind: the run is read-only and needs no Isa input, so asking would add nothing.
+- 2026-10-31 14:11 Recorded that the R290 report did run tsc (exit 0) and skipped Jest by instruction, which is the likely reason for the flag.
