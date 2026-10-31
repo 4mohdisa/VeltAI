@@ -24,21 +24,23 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx :200); food detail macros and fibre 1 decimal typed or picked (R56, R63, R64); citations fixed (R57-R59); macro totals checked, whole (R60); fibre doc lines fixed (R65).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R67. No test covers decimal macros.
+Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R69. No test covers decimal macros.
 
 ## Next
-1. IN PROGRESS (R67): seed fix in src/app/food/detail.tsx, found by content (seed code near MACRO_PRECISION). Same-line doc correction if the Food detail precision text says search or barcode foods open rounded.
+1. IN PROGRESS (R69): finish seed rounding in src/app/food/detail.tsx. The R67 report claimed done, but the loop flagged it as partly done and the handover still lists detail.tsx:164-168 and :224. Locate by content (Math.round, toFixed, seed code for search and barcode foods). Do not touch applyGrams, draft(), num or MACRO_PRECISION.
 2. Seeds round macros, food tab: src/app/(tabs)/food.tsx ~380-382, to 1 decimal. Locate by content.
 3. Raw item values: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135.
-4. Logged-day 'Add something extra': follow design copy.
-5. Gap lines 1006 onward after 1013 are unchecked. Line 90 merge. Line 1495 'no keyboard bar' is stale.
-6. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-7. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-8. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-9. add.tsx slotKey (~67). Remove unused keys if confirmed.
-10. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park.
-11. Checkpoint: full tsc and app Jest, read-only.
-12. No rows left: stop with 'only owner decisions remain'.
+4. Saved-food fibre: check whether editSavedFood and saveFood in detail.tsx drop draft.fibre on save.
+5. Doc lines 1011 ('2-up inputs'), 1012 ('Fibre is not editable') and 1219 ('Fibre is still rounded as it is typed') are stale. Fix after the code is settled.
+6. Logged-day 'Add something extra': follow design copy.
+7. Gap lines 1006 onward after 1013 are unchecked. Line 90 merge. Line 1495 'no keyboard bar' is stale.
+8. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+9. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+10. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+11. add.tsx slotKey (~67). Remove unused keys if confirmed.
+12. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park.
+13. Checkpoint: full tsc and app Jest, read-only.
+14. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing or change the toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -80,5 +82,7 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R67.
 - R61: checkpoint green (tsc 0, 65 suites, 824 tests).
 - R62-R64: picked-serving precision; fibre 1 decimal.
 - R65: stale fibre doc lines fixed.
-- R66: rejected for asking more than one screen (seed fix spanned detail.tsx and food.tsx). Not built.
-- R67: seed fix, detail.tsx only (in progress). food.tsx seeds next.
+- R66: rejected for asking more than one screen. Not built.
+- R67: seed fix in detail.tsx. Reported done, but loop flagged as partly done (search and barcode seeds may still round; detail.tsx:164-168 and :224 unverified).
+- R68: loop flagged R67 as partly done. Handover lists seeds still open.
+- R69: finish detail.tsx seed rounding, one file. Then food.tsx seeds (R70).

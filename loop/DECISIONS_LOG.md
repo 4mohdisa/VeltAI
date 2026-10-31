@@ -1607,3 +1607,8 @@
 - 2026-10-31 17:34 Did not ask for a new test: the brief bans new suites, and the existing foodDetail tests cover the screen.
 - 2026-10-31 17:34 Named the code by content, not line number, because the handover says line numbers are often wrong.
 - 2026-10-31 17:34 Kept the doc edit as a same-line correction so no citations or counts move.
+- 2026-10-31 17:35 Chose the detail.tsx seed fix because the loop flagged the last report as partly done, and the handover still lists detail.tsx:164-168 and :224 as unrounded. Finishing this file closes the flagged gap before moving on.
+- 2026-10-31 17:35 Did not start food.tsx seeds, because prompts are one file per round.
+- 2026-10-31 17:35 Doc line fixes deferred until the code matches the doc, so the doc is not corrected twice.
+- 2026-10-31 17:35 Kept the prompt to one file and the existing tests, since foodDetail and foodDetailLogged cover this screen. No new tests, per testing rules.
+- 2026-10-31 17:35 Did not change the MACRO_PRECISION comment, to avoid an extra edit. Listed under NEXT.
