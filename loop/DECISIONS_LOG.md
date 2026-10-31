@@ -1146,3 +1146,8 @@
 - 2026-10-31 14:11 Did not re-ask Isa about row 89 or the streak footnote: both are already in Blocked on Isa with no new information, and Isa said not to ask again without it.
 - 2026-10-31 14:11 Kept Jev's 45/45 split on run versus ask in mind: the run is read-only and needs no Isa input, so asking would add nothing.
 - 2026-10-31 14:11 Recorded that the R290 report did run tsc (exit 0) and skipped Jest by instruction, which is the likely reason for the flag.
+- 2026-10-31 14:12 Chose the read-only grep to clear the R291 flag, because the flag rule says no build work until the report is clean.
+- 2026-10-31 14:12 Jev suggested run at 81%; kept run. It matches the flag rule.
+- 2026-10-31 14:12 Rewrote notes under 600 words, merging repeats and removing finished work. Kept all Decisions lines.
+- 2026-10-31 14:12 Did not remove addMenu.savedFoods yet. The grep must confirm zero uses first.
+- 2026-10-31 14:12 Streak footnote and row 89 stay in Blocked on Isa with no new question, because nothing new has arrived.
