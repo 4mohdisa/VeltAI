@@ -2129,3 +2129,6 @@
 - 2026-10-31 22:59 If no 'Serving size' key exists, add food.servingSize in en, es and fr together, because the new-keys rule requires all three.
 - 2026-10-31 22:59 Visible Serving size caption stays for a later round to keep this task to one step; the sibling VoiceOver label now matches the tiles.
 - 2026-10-31 22:59 Gap doc touched only with a BUILT sentence, no count change, per the R172 pattern.
+- 2026-10-31 23:00 Chose candidate 1: the loop note flagged the last report as partly done, and the visible caption and SegmentedField label are the open part of the same task. Finishing it clears the flag before moving on.
+- 2026-10-31 23:00 Kept gymLog.celebration.calories for the VoiceOver calories label rather than adding a food-owned key. Reason: the brief said reuse existing keys and add none. Isa is asked to decide later (in BLOCKED on the report), so this is not a question this round.
+- 2026-10-31 23:00 Did not touch the 'g' unit, Edit item, Rename food or the Name field, because they are separate items on the next-steps list and the brief allows one task per round.

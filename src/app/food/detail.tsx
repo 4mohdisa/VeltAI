@@ -497,7 +497,7 @@ function DetailForm({
                   color={color.secondaryLabel}
                   style={{ flex: 1, letterSpacing: 1.1, textTransform: 'uppercase' }}
                 >
-                  Serving size
+                  {t('food.servingSize')}
                 </Text>
                 <Pressable
                   onPress={startEdit('grams')}
@@ -525,7 +525,7 @@ function DetailForm({
             ) : null}
             {servings && servings.length > 0 ? (
               <SegmentedField
-                label={editable ? undefined : 'Serving size'}
+                label={editable ? undefined : t('food.servingSize')}
                 value={grams}
                 onChange={applyGrams}
                 options={servings.map((g) => ({ label: `${g} g`, value: String(g) }))}
