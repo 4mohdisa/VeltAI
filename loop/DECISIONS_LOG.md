@@ -1626,3 +1626,7 @@
 - 2026-10-31 17:38 Kept the existing 1-decimal rounding on macros and whole calories, because the notes record that draft() rounds on save and Food day card totals stay whole.
 - 2026-10-31 17:38 Told Claude Code to say 'no matching tests' rather than write a test, per the testing rules; the flag stays open until Isa verifies the UI.
 - 2026-10-31 17:38 Kept the raw item values, shared rounding helper and stale doc lines out of this round to respect one task per prompt.
+- 2026-10-31 17:39 Chose the doc-only fix first: the R72 report was flagged for no type check, and tsc now runs as part of this round.
+- 2026-10-31 17:39 Quick add serving stays parked: FoodResult carries no serving data, so this needs a data change, which I do not build.
+- 2026-10-31 17:39 Design uses the second serving (x.serv[1]). Recorded in Decisions as the target once search carries serving data. Isa's first-or-second question is answered by the design, so I do not ask.
+- 2026-10-31 17:39 Line 1090 now says 100 g with the design serving noted, so the gap doc no longer overstates the match. Status unchanged.

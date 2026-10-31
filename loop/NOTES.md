@@ -5,49 +5,47 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
-- Design HTML and gap doc are authoritative. Design wins copy and layout disputes unless Isa overrides. Accepted deviations go in the gap doc.
+- Design HTML and gap doc are authoritative. Design wins copy and layout unless Isa overrides. Accepted deviations go in the gap doc.
 - Cardio uses Distance km. No food search chips. Goals as built. Summary card never calls logGymSession() without args.
-- Macros stored unrounded. Food detail macros and fibre show 1 decimal. Food day card, Summary card, Macros detail and totals stay whole (design uses hMacroCols, gMacroDefs). draft() rounds to 1 decimal on save (R63).
-- Empty profile floors at 1,500 kcal.
-- Slot 'Snacks'. Unknown slot falls back to 'Add meal'.
+- Macros stored unrounded. Food detail macros and fibre show 1 decimal. Food day card, Summary, Macros detail and totals stay whole. draft() rounds to 1 decimal on save.
+- Quick add targets the design's second serving (x.serv[1]) once search carries serving data. Until then it logs 100 g.
+- Empty profile floors at 1,500 kcal. Slot 'Snacks'; unknown slot falls back to 'Add meal'.
 - New keys go to en, es, fr together. Other hardcoded strings stay English and are recorded.
 - TodayCard: already_checked_in before is_rest_day. Rest = is_rest_day || !template. Failure = today === null after loading.
 - Log sheet: rest check keeps planned.length === 0. Failure shows LoadFailedNotice; Try again refetches.
-- Header counts derived from the table. Difference numbers kept; 15 and 21 removed because other text cites them.
+- Header counts derived from the table. Rows 15 and 21 removed because other text cites them.
 - Citations: an insertion at line N moves only citations at or after N. Check by content.
 - Checkpoint rounds read-only. Doc-only rounds: tsc only, print 'TSC EXIT <n>'.
-- Prompts name the design/ file and gap row; say 'no matching tests' when none apply; state the branch rule.
-- Prompts are ONE surface or ONE shared component. A rejected prompt is rewritten to one file.
+- Prompts: one surface or one shared component; name design/ file and gap row; say 'no matching tests' when none apply; state branch rule.
 - Claude Code never opens or edits loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Handover NEXT lines may be stale; latest report and notes win. Jev is advisory.
-- Tests: a report that skips the tests for changed files is flagged. Run tsc once and the tests for changed files each round; full suite only at checkpoints.
-- Flagged-as-partial work is closed by a report that either finishes the change or states why it cannot be finished; a read-only re-check alone does not close a flag.
+- Tests: a report that skips tests for changed files is flagged. tsc once and tests for changed files each round; full suite at checkpoints.
+- Flagged-as-partial work is closed only by finishing the change or stating why it cannot be finished.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx :200); food detail macros and fibre 1 decimal typed or picked (R56, R63, R64); citations fixed (R57-R59); macro totals checked, whole (R60); fibre doc lines fixed (R65); food search one-tap add (quickAdd) rounds protein, carbs, fat, fibre to 1 decimal (R70, type-checked only, no test covers it).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds; food detail macros and fibre at 1 decimal; citations; macro totals; quick add rounds to 1 decimal (type-checked only).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R72. No test covers decimal macros or quickAdd rounding.
+Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R73. No test covers decimal macros or quickAdd rounding.
 
 ## Next
-1. IN PROGRESS (R72): quick add logs the food's own serving (design onQuickAdd uses x.serv[1]) instead of SEARCH_DEFAULT_G. Conditional: if FoodResult has no serving data, park it under Parked as a data change. Edits only in src/app/(tabs)/food.tsx.
-2. Raw item values: decide display at (tabs)/food.tsx ~895 and ~852; food/saved.tsx ~135. Rows added with + now show decimals (e.g. P 3.1).
-3. Shared macro rounding: Math.round(x * 10) / 10 is inline in detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25. Consider one shared helper. Park if it needs more than one file.
-4. Verify detail.tsx seed rounding by read-only grep (search and barcode seeds, around :164-168 and :224). Latest reports disagree. Do not edit unless the grep proves it is unfixed.
-5. Saved-food fibre: check whether editSavedFood and saveFood in detail.tsx drop draft.fibre on save.
-6. MACRO_PRECISION comment at detail.tsx ~65 omits fibre (doc-only, low priority).
-7. Doc lines 1011 ('2-up inputs'), 1012 ('Fibre is not editable') and 1219 ('Fibre is still rounded as it is typed') are stale. Fix after the code is settled.
-8. Logged-day 'Add something extra': follow design copy.
-9. Gap lines 1006 onward after 1013 are unchecked. Line 90 merge. Line 1495 'no keyboard bar' is stale.
-10. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'. session.tsx strings untranslated.
-11. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-12. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-13. add.tsx slotKey (~67). Remove unused keys if confirmed.
-14. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park.
-15. Checkpoint: full tsc and app Jest, read-only.
-16. No rows left: stop with 'only owner decisions remain'.
+1. R73 (in progress): doc-only fix of stale lines in DESIGN_GAP_ANALYSIS.md: '2-up inputs', 'Fibre is not editable', 'Fibre is still rounded as it is typed', 'logs the result at its default serving'. tsc only. Closes R72 flag.
+2. Raw item values display: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135. Decide, then build.
+3. Shared macro rounding helper: inline Math.round(x * 10) / 10 in detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25. Park if it needs more than one file.
+4. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
+5. Saved-food fibre: check whether editSavedFood and saveFood in detail.tsx drop draft.fibre.
+6. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
+7. Logged-day 'Add something extra': follow design copy.
+8. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' line (~1495) stale.
+9. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+10. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+11. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+12. add.tsx slotKey (~67). Remove unused keys if confirmed.
+13. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park.
+14. Checkpoint: full tsc and app Jest, read-only.
+15. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Already-logged days: real editing or change the toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
+- Already-logged days: real editing or change toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
 - Device checks: logged card and failure offline; possible double notice (gym.tsx:107).
 - Row 90 merge; log-sheet row BUILT?; line 330 Partial or BUILT; line 334 No.
 - Food detail differences 1, 2, 4; verdicts at lines 961 and 1210.
@@ -56,13 +54,13 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R72.
 - Native es/fr review; 'My dishes'; Macros wording; Freestyle 'No'; es emptyMessage; es voice and describeOutLoud removal.
 - Group names food/gym/profile.loadFailed; training list (gym.tsx:153); profile row 94; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals English; remaining-kcal line removal.
-- Users without body stats see 1,500 kcal goal; design uses 2,100.
+- Users without body stats see 1,500 kcal; design uses 2,100.
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume: fix, show when consistent, or accept. Heatmap wording. Calories cell needs backend field.
 - Try again hardcoded English, small tap target.
 
 ## Parked
-- Quick add serving, if FoodResult carries no serving data (needs a data change).
+- Quick add serving: FoodResult (src/lib/mock/data.ts:124) has no serving data. Needs a data or backend change. Only barcode products carry servingOptions.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route, PlannedValuesForm submit.
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
 - TodayCard: header dot, min-height, gaps, pill/chip type, grid 17/24 vs 16/21, grid shift after fetch, stale burn, earliest-session rule, near-midnight mismatch, per-session calories, GetToday is_rest_day, '0 exercises planned'.
@@ -72,22 +70,11 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R72.
 - Recipe fibre saved as 0; num() rounds grams and kcal; long-press meal delete hidden. Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if a profile field is undefined.
 - Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes getToday never returns null for a real response.
-- 'What the app does' old-form block lacks a recorded date.
-
-## Gotchas
-- Edit tool: node escapes for NBSP and U+2019. i18n lng fixed to 'en' (src/lib/i18n/index.ts:41).
-- Grep: LC_ALL=C /usr/bin/grep. Quote (tabs) paths. grep -c returning 0 exits 1.
-- Check premises first; named files and line numbers are often wrong. Locate by content.
-- Design assets: node -e from __bundler/manifest (gym 7dc211f6, Summary 185bb533, food 71f71ac4).
-- zsh: quote globs; avoid echo ==.
 
 ## Round log
-- R9-R50: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard, failure notices, checkpoints R34 and R48 green, session label, rest seconds, gap fixes.
-- R51-R60: citation and doc fixes; macros 1 decimal (R56); R60 totals checked, whole.
-- R61: checkpoint green (tsc 0, 65 suites, 824 tests).
-- R62-R65: picked-serving precision; fibre 1 decimal; stale fibre doc lines fixed.
-- R66: rejected for asking more than one screen. Not built.
-- R67-R69: seed fix in detail.tsx reported; flagged; R69 reported already fixed, not independently confirmed. Re-check by grep (Next 4).
-- R70: quickAdd rounds protein, carbs, fat, fibre to 1 decimal (src/app/(tabs)/food.tsx). Type check only, no tests run. Flagged.
-- R71: re-check of R70. tsc 0; 8 test files pass, none covers quickAdd rounding. No edits. Report also found quickAdd logs 100 g, not the design serving. Flagged as partly done, so R72 closes it.
-- R72: prompt issued for quick add serving (conditional on FoodResult carrying servings).
+- R9-R61: built most surfaces; checkpoints R34, R48, R61 green.
+- R62-R65: precision and fibre fixes; doc lines fixed.
+- R66: rejected (more than one screen).
+- R67-R71: seed fix reported unverified; quickAdd rounding type-checked only; R71 flagged.
+- R72: quick add serving parked (no serving data). Report not flagged for tsc, but flagged as not run.
+- R73: doc-only fix plus tsc.
