@@ -20,13 +20,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - LoadFailedNotice: no design counterpart. minTapTarget={false} kept (row 114). Message required, no default (R98).
 - R100 flag cleared: tsc 0, locale JSON parses, key in en, es, fr.
 - fr Breakdown is 'Détail' as Isa specified, despite nutrition.breakdown 'Répartition'.
-- summaryDetails.test.ts Breakdown check (R104, widened for training in R106) picks the key for 'week', 'training' and, from R108, 'energy', and the word 'Breakdown' for other routes. It reads source text only and does not prove rendering.
+- summaryDetails.test.ts Breakdown check now strict for week, training and energy (R108). It picks the key for those routes and the word 'Breakdown' for others. It reads source text only and does not prove rendering. macros check is next (R109).
 
 ## Status
-24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later.
+24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later. R108 render check: detailChrome.render.test.tsx 4 tests, 4 snapshots, English Breakdown on Energy, Week, Training, Macros.
 
 ## Next
-1. summaryDetails.test.ts: widen Breakdown check to energy.tsx (issued R108, test file only). Also run render/detailChrome.render.test.tsx and report its result.
+1. summaryDetails.test.ts: strict Breakdown check for macros, expecting t('nutrition.breakdown') (issued R109, test file only). Then drop the Test weakness line under Parked.
 2. Doc only: record Week and Training Breakdown once Isa picks a row.
 3. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
 4. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
@@ -76,7 +76,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; duplicate nutrition.breakdown and dashboard.breakdown (merge once fr settled).
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
-- Test weakness: summaryDetails macros check passes on BreakdownRow and comments alone, although the route uses t('nutrition.breakdown'). Test-only fix, next round after energy.
+- Test weakness: summaryDetails macros check passes on BreakdownRow and comments alone, although the route uses t('nutrition.breakdown'). Fix issued R109 (test-only).
 
 ## Accepted limits
 Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
@@ -96,6 +96,7 @@ R102: checkpoint issued, never reported.
 R103: Breakdown on week.tsx via t(). Gap line not added. Flagged partial.
 R104: test check widened by route, passes. Test is weak for non-week routes.
 R105: training.tsx Breakdown via t('dashboard.breakdown'). Flagged partial by loop.
-R106: widening of summaryDetails.test.ts to training done. Loop flagged the round as partly done: energy.tsx still hardcoded.
-R107: energy.tsx line 207 Breakdown via t('dashboard.breakdown'), one file, plus useTranslation import and hook in Body. Type check exit 0, summaryDetails.test.ts passes. Loop flagged as partial because the energy check is still loose and the render test was not run.
-R108: issued. Widen summaryDetails.test.ts Breakdown check to energy (test file only). Run detailChrome.render.test.tsx without editing it.
+R106: widening of summaryDetails.test.ts to training done. Loop flagged partly done.
+R107: energy.tsx line 207 Breakdown via t('dashboard.breakdown'). Flagged partial because the energy check was loose and the render test was not run.
+R108: energy added to the strict Breakdown check (test file only). tsc 0, summaryDetails 47 tests pass, detailChrome.render 4 tests and 4 snapshots pass. BUILT, not verified.
+R109: issued. Strict Breakdown check for macros, expecting t('nutrition.breakdown') (test file only).

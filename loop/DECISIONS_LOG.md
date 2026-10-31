@@ -1818,3 +1818,8 @@
 - 2026-10-31 20:50 Asked for the render test to be run but not edited, so any failure shows up without a second change in the same round.
 - 2026-10-31 20:50 Kept gap rows unchanged. The Breakdown label has no separate gap row, and the Week and Training row question is still with Isa.
 - 2026-10-31 20:50 Recorded that the energy label is BUILT, not verified, because the check reads source text only.
+- 2026-10-31 20:51 Chose the macros test check: it is the next step named in the last report, it is test-file only, it needs nothing from Isa and it is the smallest task. Jev also favours run.
+- 2026-10-31 20:51 Did not reopen the energy check: R108 passed tsc, summaryDetails (47 tests) and detailChrome.render (4 tests, 4 snapshots, English Breakdown on Energy, Week, Training and Macros).
+- 2026-10-31 20:51 Kept the Breakdown key duplication (dashboard.breakdown and nutrition.breakdown) parked until the fr wording is settled, as before.
+- 2026-10-31 20:51 Kept the Blocked on Isa list unchanged. No answer from Isa arrived this round.
+- 2026-10-31 20:51 No gap row status changed. Row 103 is only cited for context, and the rule is still BUILT, not verified.
