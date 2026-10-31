@@ -1730,3 +1730,8 @@
 - 2026-10-31 20:28 Start workout has no design copy, so its English stays and is recorded as a design gap, not asked of Isa.
 - 2026-10-31 20:28 Try again is left alone: it sits in a shared component outside the card and is not in the design.
 - 2026-10-31 20:28 Kept the change to one line so no citations to TodayCard.tsx move in the gap doc.
+- 2026-10-31 20:30 Chose verification first because the loop note flagged R91 as not run; the flag rule requires dealing with it before new work.
+- 2026-10-31 20:30 Sub-line wording follows the design (design vs app default): drop minutes and the duration key; park the muscle-group prefix (needs template data). Applied in the round after verification.
+- 2026-10-31 20:30 Did not ask Isa about the wording although Jev ranked ask first; the question is covered by the default, and no owner action is needed.
+- 2026-10-31 20:30 Start workout stays English; design has no copy for it; recorded.
+- 2026-10-31 20:30 Rewrote notes under 600 words: merged repeats, deleted finished work, kept all decisions.

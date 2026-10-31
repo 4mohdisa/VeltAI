@@ -1,98 +1,97 @@
 # Lume Loop Notes
 
 ## Goal
-Match design/Lume App.html through DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-match only. Say BUILT, never verified. Stop when all rows are BUILT or only owner items remain.
+Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-match. Say BUILT, never verified. Stop when all rows BUILT or only owner items remain.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
-- Design HTML and gap doc are authoritative. Accepted deviations go in the gap doc.
+- Design HTML and gap doc authoritative. Accepted deviations go in gap doc.
 - Cardio uses Distance km. No food search chips. Goals as built. Summary card never calls logGymSession() without args.
-- Macros stored unrounded; draft() rounds to 1 dp on save. Food detail macros and fibre 1 dp. Food day card, Summary, Macros detail and totals stay whole.
+- Macros stored unrounded; draft() rounds to 1 dp on save. Food detail macros and fibre 1 dp. Food day card, Summary, Macros detail, totals stay whole.
 - Quick add logs 100 g until search has serving data.
 - Empty profile floors at 1,500 kcal. Slot 'Snacks'; unknown slot falls back to 'Add meal'.
 - New keys go to en, es, fr together. Other hardcoded strings stay English and are recorded.
 - TodayCard: already_checked_in before is_rest_day. Rest = is_rest_day || !template. Failure = today === null after loading.
 - Log sheet: rest check keeps planned.length === 0. Failure shows LoadFailedNotice; Try again refetches.
-- Header counts derived from the table. Rows 15 and 21 removed because other text cites them.
-- Citations: an insertion at line N moves only citations at or after N; check by content. A deletion inside a line moves nothing.
-- Gap-row placement checked against the row's subject before a reason sentence is added.
+- Header counts derived from table. Rows 15 and 21 removed because other text cites them.
+- Citations: insertion at line N moves only citations at or after N; check by content. Deletion inside a line moves nothing.
+- Gap-row placement checked against row subject before a reason sentence is added.
 - Checkpoint rounds read-only. Doc-only rounds: tsc only, print 'TSC EXIT <n>'.
-- Claude Code never opens or edits loop/NOTES.md or loop/DECISIONS_LOG.md. Every prompt names branch loop/design-match and forbids git.
-- Handover NEXT lines may be stale; latest report and notes win. Jev is advisory.
+- Claude Code never opens or edits loop/NOTES.md or loop/DECISIONS_LOG.md. Prompts name branch loop/design-match and forbid git.
+- Handover NEXT lines may be stale; latest report and notes win. Jev advisory.
 - Tests: tsc once plus tests for changed files. Full suite at checkpoints. 'No related tests found' is not a pass.
-- Flagged partial work is closed only by finishing it or stating why it cannot be finished.
-- Macro totals stay whole. One-dp rounding only on Food detail. Backend-dependent items stay Parked.
-- Gym freeze sheet (src/app/gym/freeze.tsx) kept as built. App-only; removal is a parked decision.
-- Nutrition gap row: DESIGN_GAP_ANALYSIS.md line 103. Accepted R82. Verdict stays DIFFERENT until the macro history chart exists.
-- Every prompt names the matching design/ file and the gap row it serves.
-- R91: when a loop note flags 'tests not run', the next prompt must run tsc once and the tests that reference the changed file, and must not treat 'No related tests found' as a pass.
+- Flagged partial work closed only by finishing it or stating why not.
+- Backend-dependent items stay Parked. Gym freeze sheet (src/app/gym/freeze.tsx) kept as built; app-only.
+- Nutrition gap row: DESIGN_GAP_ANALYSIS.md line 103. Accepted R82. Verdict stays DIFFERENT until macro history chart exists.
+- Every prompt names matching design/ file and gap row.
+- Loop note flags 'tests not run': next prompt runs tsc once and tests referencing the changed file.
+- TodayCard sub-line follows design wording 'N exercises planned' (minutes dropped; muscle-group prefix parked). R92.
 
 ## Status
-Last recorded counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre 1 dp; saved-food fibre; citations; macro totals; quick add rounding; nutrition, freeze and StreakCounter strings via t(); profile strings via t() (R88); TodayCard Planned, Rest, Logged today, +N more via t() (R90).
-Last checkpoint R89 green (tsc 0, Jest 65 suites, 824 tests). Next checkpoint due later, not this round.
-Untested: decimal macros, quickAdd, fibre write and read-back, saved.tsx toEditable, StreakCounter render, profile screen render, TodayCard strings (no test references TodayCard).
+Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
+BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre; citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard planned sub-line via t() (R91; es/fr unreviewed).
+Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). Next checkpoint not due.
+Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, StreakCounter, profile render, TodayCard (no test references it), R91 locale keys.
 
 ## Next (in order)
-1. TodayCard: planned sub-line 'N exercises planned · about M min' via plural keys gym.plannedExercises_one/_other (R91, in progress). Then 'Try again' only if it moves into the card; it lives in LoadFailedNotice.tsx:47, shared, so separate round. 'Start workout' stays English (not in design; recorded).
-2. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze'. Only after Isa confirms the freeze screen stays.
-3. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx ('Breakdown' hardcoded).
-4. One file per round: GymPatternsCard, saved, MuscleChart, session (also 'Try again' and strings untranslated), gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-5. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-6. PlannedValuesForm.tsx:200 'Add exercise' vs design; not yet compared to design.
-7. add.tsx slotKey (~67). Remove unused keys if confirmed.
-8. Raw item values: (tabs)/food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
-9. Shared macro rounding helper for inline Math.round(x*10)/10. Park if it needs more than one file.
-10. MACRO_PRECISION comment omits fibre (doc only).
-11. Logged-day 'Add something extra': follow design copy.
-12. Gap lines 1014 onward unchecked; line 90 merge; line 1495 stale.
-13. /gym/session saves top weight on all sets. Fix or park.
-14. summaryDetails.test.ts:65 source-checks 'Breakdown'; replace with render check, own round.
-15. nutrition.tsx:120 '80%' vs '80 %'; nutrition.tsx:164 and :180 raw meal.slot. Own rounds.
-16. StreakCounter.tsx: header comment says Gym tab; colour tokens color.black, gray400, gray500 to color.label and secondaryLabel. Own rounds.
-17. Gap line 82: remove stray <br> (doc-only).
-18. No rows left: stop with 'only owner decisions remain'.
+1. R92: verify R91 (read-only). Then TodayCard sub-line to 'N exercises planned': delete line 224 duration, plannedExercises_* keys, and the conditional; resolve NoDuration keys.
+2. 'Try again' in LoadFailedNotice.tsx:47 (shared, own round).
+3. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze'. Only after Isa confirms freeze screen stays.
+4. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx ('Breakdown').
+5. One file per round: GymPatternsCard, saved, MuscleChart, session (Try again, untranslated strings), gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+6. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+7. PlannedValuesForm.tsx:200 'Add exercise' vs design (not compared).
+8. add.tsx slotKey (~67). Remove unused keys if confirmed.
+9. Raw item values: (tabs)/food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
+10. Shared macro rounding helper for inline Math.round(x*10)/10. Park if >1 file.
+11. MACRO_PRECISION comment omits fibre (doc only).
+12. Logged-day 'Add something extra': follow design copy.
+13. Gap lines 1014 onward unchecked; line 90 merge; line 1495 stale.
+14. /gym/session saves top weight on all sets. Fix or park.
+15. summaryDetails.test.ts:65 source-checks 'Breakdown'; replace with render check, own round.
+16. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+17. StreakCounter.tsx: stale header comment; colour tokens color.black, gray400, gray500 to color.label, secondaryLabel.
+18. Gap line 82: remove stray <br> (doc-only).
+19. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Already-logged days: edit or change toast? /gym/session writes a second row (mutations.ts:173-178).
+- Already-logged days: edit or change toast? /gym/session writes second row (mutations.ts:173-178).
 - Device checks: logged card, offline failure, double notice (gym.tsx:107).
 - Row 90 merge; log-sheet row BUILT?; line 330 Partial or BUILT; line 334 No.
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Footnote '23 sessions 2 freezes'; rows 89, 23, 17.
-- Search routing; global + title; quick add first or second serving (x.serv[1]); add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review (profile, nutrition, freeze, StreakCounter, TodayCard, gym.planned, gym.rest, gym.startWorkout, gym.loggedToday, gym.plannedExercises). Specific terms: fr 'Gels' and es 'Congelaciones' for freezes; 'AI insights' wording; 'My dishes'; Macros wording; Freestyle 'No'; es emptyMessage; es voice and describeOutLoud removal.
-- Group names food/gym/profile.loadFailed; training list (gym.tsx:153); profile row (95 after R88); streak wording; GetToday flag.
-- Log as planned: minutes as note text; energy literals English; remaining-kcal line removal.
+- Search routing; global + title; quick add first or second serving; add sheet 0pt gap; 'Snacks' label.
+- Native es/fr review (profile, nutrition, freeze, StreakCounter, TodayCard, gym.planned*, gym.rest, gym.loggedToday). Terms: fr 'Gels', es 'Congelaciones'; 'AI insights'; 'My dishes'; Macros wording; Freestyle 'No'; es emptyMessage; es voice removal.
+- Group names food/gym/profile.loadFailed; training list; profile row; streak wording; GetToday flag.
+- Log as planned: minutes as note text; energy literals; remaining-kcal line removal.
 - Users without body stats see 1,500 kcal; design uses 2,100.
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume fix, show or accept. Heatmap wording. Calories cell needs backend field.
-- Freeze screen: does gym/freeze.tsx stay? Gates Next item 2.
-- Gap line 82: freeze sentence sits on a row about another surface. Kept for now.
-- StreakCounter wrap has no row of its own. Isa may want one.
-- Start workout: design has no copy for it; English kept. Recorded, not asked (R91).
+- Freeze screen: does gym/freeze.tsx stay? Gates Next item 3.
+- StreakCounter wrap has no row. Gap line 82 freeze sentence kept for now.
 
 ## Parked
-- Quick add serving: FoodResult (src/lib/mock/data.ts:124) has no serving data.
+- Quick add serving: FoodResult (src/lib/mock/data.ts:124) lacks serving data.
 - editSavedFood (mutations.ts:157) local only; server sync needs backend.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros as 0, custom exercise route, PlannedValuesForm submit.
+- TodayCard muscle-group prefix (needs template data); header dot, min-height, gaps, pill type, grid, stale burn, earliest-session rule, near-midnight mismatch, per-session kcal, '0 exercises planned'.
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
-- Freeze sheet: singular counts ('Use 1 of your 1 freezes', 'racha de 1 días'); toast before server reply; refusal not handled; old colour tokens; stale params at streak.tsx:73.
-- TodayCard: header dot, min-height, gaps, pill type, 17/24 vs 16/21 grid, grid shift, stale burn, earliest-session rule, near-midnight mismatch, per-session kcal, '0 exercises planned'.
-- Logged card tap target needs day route. Macros history chart. App-only gauge and meals list.
-- Percent of target card title follows picked day in design; app fixed to today.
+- Freeze sheet: singular counts; toast before server reply; refusal unhandled; old colour tokens; stale params streak.tsx:73.
+- Logged card tap target needs day route. Macros history chart. App-only gauge and meals list. Percent-of-target title follows today, design follows picked day.
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; SegmentedField inset; single scanner; chip padding; '14-day' hyphen.
-- Streak keys (streak, longest, totalDays, freezes) go if the profile streak cards are removed.
+- Streak keys go if profile streak cards removed.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; i18next console.info banner.
 - Recipe fibre saved as 0; num() rounds grams and kcal; long-press meal delete hidden. Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
-- Untraced: other goals.calories screens may show 1,500; Math.max NaN if a profile field is undefined.
+- Untraced: other goals.calories screens may show 1,500; Math.max NaN if profile field undefined.
 
 ## Accepted limits
-Summary guard cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0, so a true 0 g food shows no tile. Saved-food edits local only. No test renders the profile screen. StreakCounter has no test. TodayCard has no test.
+Summary guard cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for real response. Fibre uses > 0, so true 0 g food shows no tile. Saved-food edits local only. No test renders profile. StreakCounter and TodayCard have no test.
 
 ## Round log
 R9-R82: most surfaces built. Checkpoints R34, R48, R61, R77 green.
-R83-R87: freeze strings via t(); gap line 82 annotated, then StreakCounter sentence removed (doc-only).
-R88: profile/index.tsx strings via t(); restore(t) takes t as a parameter; profile row reason added; tsc 0; 2 suites, 21 tests pass.
-R89: checkpoint green. tsc 0; full Jest 65 suites, 824 tests, 4 snapshots pass. Read-only, no repo changes.
-R90: TodayCard Planned, Rest, Start workout, Logged today, +N more via t(). tsc 0. No tests run: no test references TodayCard. Flagged by loop note. Start workout kept English (not in design). Try again not in this file, left alone.
-R91: tsc once plus any tests referencing TodayCard; planned sub-line to plural keys. Jev ranked this first at 83%; picked it too (same card, one line, needs nothing from Isa).
+R83-R87: freeze strings via t(); gap line 82 annotated, then StreakCounter sentence removed.
+R88: profile strings via t(); tsc 0; 21 tests pass.
+R89: checkpoint green (tsc 0, 65 suites, 824 tests).
+R90: TodayCard strings via t(); tsc 0; no tests run (flagged).
+R91: planned sub-line plural keys; tsc 0; no test references TodayCard (flagged, not a pass).
+R92: verification of R91 (read-only), then wording change next.
