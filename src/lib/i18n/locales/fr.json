@@ -182,6 +182,7 @@
     "quickAddMeal": "Repas",
     "caloriesForGrams": "pour {{grams}} g",
     "editItemTitle": "Modifier l’élément",
+    "editFoodTitle": "Modifier l’aliment",
     "renameFoodTitle": "Renommer l’aliment",
     "saveName": "Enregistrer le nom",
     "saveChanges": "Enregistrer les modifications"

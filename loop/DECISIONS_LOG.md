@@ -2185,3 +2185,8 @@
 - 2026-10-31 23:51 Allowed one assertion change in foodDetail.test.ts only, because that test searches source literals and would otherwise break for a reason unrelated to behaviour.
 - 2026-10-31 23:51 Kept the other detail.tsx titles and the g unit for later rounds, to keep each round to one surface.
 - 2026-10-31 23:51 Left the gap row status unchanged and added a BUILT, not verified sentence, consistent with the R185 approach.
+- 2026-10-31 23:53 Chose the partly finished Edit food sheet first, because a loop flag on a partly finished task means finish it before the next one.
+- 2026-10-31 23:53 Reuse food.saveChanges for the Edit food button, as the last report proposed, so the two sheets use one key.
+- 2026-10-31 23:53 Add or reuse a title key for Edit food only after grepping for an existing exact match, to avoid duplicate keys.
+- 2026-10-31 23:53 Kept Add to {slot}, other titles, SLOT_KEYS and g unit out of this round to keep one task per prompt.
+- 2026-10-31 23:53 Used the foodDetail test file only, per the testing rules, after a single tsc run.

@@ -184,6 +184,7 @@
     "quickAddMeal": "Comida",
     "caloriesForGrams": "para {{grams}} g",
     "editItemTitle": "Editar elemento",
+    "editFoodTitle": "Editar alimento",
     "renameFoodTitle": "Renombrar alimento",
     "saveName": "Guardar nombre",
     "saveChanges": "Guardar cambios"

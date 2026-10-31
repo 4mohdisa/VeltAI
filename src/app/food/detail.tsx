@@ -256,8 +256,8 @@ export default function FoodDetailScreen() {
     return (
       <DetailForm
         key={`saved:${item.id}`}
-        title="Edit food"
-        ctaLabel="Save changes"
+        title={t('food.editFoodTitle')}
+        ctaLabel={t('food.saveChanges')}
         seed={item}
         macros
         onClose={close}
