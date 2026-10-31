@@ -1340,3 +1340,8 @@
 - 2026-10-31 15:37 Chose the doc fix first: the last report left the header count stale (23 vs 24) and the Macros row unedited; a doc-only round with one tsc run clears the flag cleanly.
 - 2026-10-31 15:37 Macros copy will follow the design (sub-line, title, footer). App-only removals and the macro history chart go to Parked, since removal and new data are excluded from this loop.
 - 2026-10-31 15:37 Notes rewritten under 600 words per loop note; finished work merged into single lines.
+- 2026-10-31 15:39 Chose the Macros copy task this round: it clears the flagged R14 round (type check and Jest not run) and is the open row with the clearest design answer. Jev ranks it first (run 89%).
+- 2026-10-31 15:39 Sub-line 'remaining today' replaced by the design sub-line. The copy change wins over the parked app-only list, as the R14 report recommended.
+- 2026-10-31 15:39 Footer follows the design wording and drops the 'no macro history' sentence, per the R14 copy decision. The missing chart stays recorded on the gap row, so nothing else changes.
+- 2026-10-31 15:39 Footer 2,100 is interpolated from the user's calorie goal already on screen, not hardcoded, because the design shows a live value.
+- 2026-10-31 15:39 The 'Today' in the sub-line is kept as the literal word, because the app only tracks today.

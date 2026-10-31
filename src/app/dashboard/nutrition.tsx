@@ -84,7 +84,7 @@ export default function NutritionDetailScreen(): JSX.Element {
           <StatLine
             value={formatNumber(kcalToDisplay(cal.consumed, energyUnit))}
             unit={`${energyUnit} ${t('nutrition.fromFood')}`}
-            sub={t('nutrition.remainingToday', { value: remaining })}
+            sub={t('nutrition.remainingToday')}
           />
           <ChartHeader title={t('nutrition.caloriesToday')} note={formatRelativeDate(new Date())} />
           {loading ? (
@@ -104,7 +104,7 @@ export default function NutritionDetailScreen(): JSX.Element {
       {/* Secondary — each macro against its own target. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <ChartHeader title="Against targets" note="Percent of target" />
+          <ChartHeader title={t('nutrition.todayAgainstTargets')} note="Percent of target" />
           {loading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (
@@ -189,7 +189,7 @@ export default function NutritionDetailScreen(): JSX.Element {
       </Card>
 
       <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
-        Targets scale with your calorie goal. Lume tracks today only, so there is no macro history to chart yet.
+        {t('nutrition.targetsScale', { goal: formatEnergy(cal.target, energyUnit) })}
       </Text>
 
       <HealthDisclaimer />

@@ -2891,7 +2891,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  260 kcal remaining today
+                  Today · against daily targets
                 </Text>
               </View>
               <View
@@ -3150,7 +3150,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  Against targets
+                  Today against targets
                 </Text>
                 <Text
                   style={
@@ -4456,7 +4456,7 @@ exports[`the four Summary detail views render identically across the chrome extr
               ]
             }
           >
-            Targets scale with your calorie goal. Lume tracks today only, so there is no macro history to chart yet.
+            Targets scale with your 2,100 kcal calorie goal.
           </Text>
           <View
             accessibilityRole="text"
