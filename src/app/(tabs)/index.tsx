@@ -93,7 +93,7 @@ export default function DashboardScreen() {
           <Text
             variant="label"
             color={color.secondaryLabel}
-            style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+            style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}
           >
             {new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
           </Text>

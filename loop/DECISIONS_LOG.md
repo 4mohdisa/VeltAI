@@ -2600,3 +2600,7 @@
 - 2026-11-01 02:22 Did not ask Isa about Summary differences 28 (glass and blur surface), 29 (profile initials) or 30 (pull-to-refresh). They are already listed under Blocked on Isa, and the question was asked in R273.
 - 2026-11-01 02:22 Left the Summary title block and streak row alone where the design already matches (card gap 14, bottom 158), so the build changes only real differences.
 - 2026-11-01 02:22 Parked the stale recap lines and the row 104 BUILT wording as doc fixes for a later re-check round, since no build row should be touched in a doc fix round.
+- 2026-11-01 02:24 Took Jev's pick (Summary eyebrow, row 25). It is value-only in index.tsx, the report's recommended next task, and needs no Isa decision.
+- 2026-11-01 02:24 Left the streak skeleton and load-failed spacing (index.tsx:108, :114) alone. They are not in the design, so changing them is out of scope; parked.
+- 2026-11-01 02:24 Food title block: the latest report says it is done, but the handover lists tracking and padding as open. The prompt for it must re-check first.
+- 2026-11-01 02:24 Meal history link, Training list and LoadFailedNotice: kept as app features per the default rules, so they are not asked about again.
