@@ -2458,3 +2458,8 @@
 - 2026-11-01 01:16 Report NEXT items (row 81, My schedule section, row 83 paragraph, stale doc lines) are doc fixes and wait until no build row is open. Not turned into tasks now.
 - 2026-11-01 01:16 Min height 26 may shift content below the eyebrow by about 10pt. Recorded for Isa's device check, not fixed in this round.
 - 2026-11-01 01:16 Eyebrow build kept to gym.tsx and one doc clause, so the prompt stays a single surface.
+- 2026-11-01 01:17 Chose row 112 title block: it is the next open part of row 112 and needs nothing from Isa; it is a few lines in one file, so it is the smallest build.
+- 2026-11-01 01:17 Ranked above row 83 doc update: the doc fix waits until no build row is open, per the order of work.
+- 2026-11-01 01:17 Asked the prompt to compare the design before editing, because the handover says many rows were built after 14 Sep.
+- 2026-11-01 01:17 Included the paddingBottom check in this round, as the last report asked, rather than leaving it for later.
+- 2026-11-01 01:17 Kept the eyebrow wrapper untouched: it is built and waiting on a device check, so it is out of scope for this round.
