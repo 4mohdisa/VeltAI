@@ -1280,3 +1280,8 @@
 - 2026-10-31 15:21 Limited the round to the two stale rows named in the report plus the 'Log as planned' row. 'No edit bar' and the picker wording are left for a later round, to keep one task per prompt.
 - 2026-10-31 15:21 Recorded the failed-fetch behaviour (log-session.tsx:89 treats a null response as a rest day) under Parked and Not fixed, because it is a behaviour change, not a doc fix.
 - 2026-10-31 15:21 Recorded that the last report ran git status once. This is read-only, but it breaks the no-git rule, so the prompt repeats the rule.
+- 2026-10-31 15:22 Chose the Log as planned doc round: it clears the flagged step, needs nothing from Isa, and is the smallest. Jev ranks the same task highest in run.
+- 2026-10-31 15:22 Did not ask Isa about the Log as planned and Freestyle verdicts. The design and code can settle the Log as planned verdict, and the defaults say the design decides.
+- 2026-10-31 15:22 Freestyle verdict moved to Next 2 and will be decided from evidence in a later doc round, not asked.
+- 2026-10-31 15:22 Flag cleared by running tsc and gym Jest in this round, since the last report was flagged for Jest not run.
+- 2026-10-31 15:22 Rewrote notes to under 600 words: merged repeats, deleted finished round logs, kept all Decisions lines.

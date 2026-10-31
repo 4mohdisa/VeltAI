@@ -292,7 +292,7 @@ the Gym tab until the day is logged (`GymSessionButton` is not pressable after t
 
 | Logging method the design implies | Backend support? | Reachable UI today? |
 |---|---|---|
-| 1. Log as planned (one tap, verbatim) | **Yes** — sessions + exercises + complete; `GET /today` supplies the plan | **No** — the log sheet's "It went as planned" pill (`src/app/gym/log-session.tsx:221`) commits the plan's exercises in one tap at completion rate 1 (`src/app/gym/log-session.tsx:116-119`) when today has a plan and is not yet logged |
+| 1. Log as planned (one tap, verbatim) | **Yes** — sessions + exercises + complete; `GET /today` supplies the plan | **DIFFERENT** — label, placement and one-tap commit match, but the commit drops a cardio exercise's planned minutes (`inputFor`, `src/app/gym/log-session.tsx:58-65`), which the design keeps |
 | 2. Log adjusted | **Yes** — same routes, `gym_exercises` columns | **Partial** — only inside `/gym/session`, opened by the conditional Start button or the log sheet's "Different weights" tile (`adjust` mode); no edit bar |
 | 3. Log partial | **Yes** — `completion_rate`, `gym_adherence` | **Partial** — `/gym/session` checkboxes produce a rate; no tick-list sheet; the log sheet's "Only some of it" tile opens the screen in `ticklist` mode |
 | 4. Log off-plan | **Yes** — exercise library | **Partial** — `ExercisePicker` only once already inside `/gym/session` |
