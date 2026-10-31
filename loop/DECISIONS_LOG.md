@@ -1078,3 +1078,6 @@
 - 2026-10-31 13:52 Left gym.tsx lines 54 and 127-131 for a later round to keep this task to one concern.
 - 2026-10-31 13:52 Did not run the full suite because this is not a checkpoint round; the full run is still due at the next checkpoint.
 - 2026-10-31 13:52 Jev agreed on run (83%). No override needed.
+- 2026-10-31 13:53 Read-only round first: the loop note flagged R275 as partly done, and the rules say flagged reports are cleared by a read-only round before new build work.
+- 2026-10-31 13:53 Kept 'wrap remaining gym.tsx literals' as the next build task, to run only after this check confirms the list.
+- 2026-10-31 13:53 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept every decision line.
