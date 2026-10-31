@@ -21,7 +21,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 112 lumeFade: mount-only fade (R240), accepted. Reduce Motion skips the fade (app-only accessibility guard), accepted unless Isa overrides.
 
 ## Status
-- R241: row 112 eyebrow tracking and min height re-check (doc only).
+- R242: row 112 eyebrow build (letterSpacing 1.1, minHeight 26 in gym.tsx). Prompt issued; tsc and gym tests required this round because R241 report was flagged for not running them.
+- R241: row 112 eyebrow re-check (doc only). Differences found: letter spacing 1.1 vs 1; min height 26 vs none.
 - R240: lumeFade mount-only fade built in gym.tsx (BUILT, not verified on device). tsc exit 0; 24/24 gym-related tests.
 - R236 checkpoint green: tsc 0, app 65/65 suites, 824/824 tests.
 - R231-R235: My schedule card and row 83 copy, icon, es/fr; card typography and gap. BUILT.
@@ -30,13 +31,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R207: rows 85 and 86 parts. BUILT.
 
 ## Open rows
-- 83 DIFFERENT: route (sheet-in-place) parked; button height and type parked.
+- 83 DIFFERENT: route (sheet-in-place) parked; button height and type parked. App paragraph near line 532 stale.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: eyebrow tracking and min height; title tracking, padding, gap; GymPatternsCard typography (padding Blocked). Pull-to-refresh app-only.
+- 112 PARTIAL: eyebrow letter spacing and min height (R242 building); title tracking, padding, gap still to re-check; GymPatternsCard typography (padding Blocked). Pull-to-refresh app-only.
 
 ## Next
-1. R241 re-check row 112 eyebrow tracking and min height. Then title tracking, padding, gap. One per round, re-check first.
+1. R242 build row 112 eyebrow (gym.tsx). Then re-check row 112 title block: tracking -0.6, 4pt side padding, 52pt right padding, block gap 4. One per round, re-check first.
 2. Gym cluster, one file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 3. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
 4. Doc fix once no build row is open: gap doc near lines 310 and 236 (contradict row 83); row 81 duplicates row 112 card (keep 112); row 83 App paragraph near 532; gym App paragraph near 436 and Differences near 446 (omit MyScheduleCard, stale refs, LoadFailedNotice accepted); My schedule section near 586; record Training list, LoadFailedNotice and lumeFade reduce-motion as accepted; lumeFade written section 'no page entrance animation' is wrong.
@@ -47,7 +48,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 87: 17/24 vs 17/22; bottom spacing 20pt + safe area vs 34pt; figure and meal defaults; 180ms transition; chip truncation incl. French.
 - Row 112: GymPatternsCard padding 20 vs 16.
 - Gym Log button hidden on rest days and with no schedule: acceptable?
-- Device checks: lumeFade on first Gym open, shadows during fade, pull-to-refresh with new wrapper; tab bar es/fr width; Training labels; food row; offline failure; add menu wrap at 232pt; swipe dialogs; long es/fr text; pending row; gym button position, width, French, chevron; Quick add bottom spacing and KeyboardAvoidingView; My schedule spacing, 12.5pt, short weekday fr/es.
+- Device checks: eyebrow min height 26 shifts content below by about 10pt; lumeFade on first Gym open, shadows during fade, pull-to-refresh with new wrapper; tab bar es/fr width; Training labels; food row; offline failure; add menu wrap at 232pt; swipe dialogs; long es/fr text; pending row; gym button position, width, French, chevron; Quick add bottom spacing and KeyboardAvoidingView; My schedule spacing, 12.5pt, short weekday fr/es.
 - Long labels: Petit-dejeuner, Carbohidratos, Tamano de la porcion, Enregistrer les modifications.
 - Native review es/fr: 'Log this session', 'Registrar esta sesion', 'Enregistrer cette seance'.
 - Design questions: food.title shared; empty day layout; edit or toast for logged days; tabs.* namespace; body stats 1,500 vs 2,100; 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm; sheet title mode; gymLog calories key; kJ at food.tsx:912; disc glyph strokes.
@@ -64,7 +65,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gym error: TodayCard.tsx:197 and gym.tsx both render gym.loadFailed (double notice possible); MyScheduleCard silent on failed read.
 - Easing: bezier numbers duplicated in gym.tsx and AddMenu.tsx; a shared Reanimated easing token would remove repeats.
 - Stale comments: gym.tsx header and above MuscleChart; gym.tsx:144; SegmentedField label; food.tsx:656-659 cites UI_PASS_GAPS.md.
-- Code: SLOT_KEYS duplicated; TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}.
+- Code: SLOT_KEYS duplicated (detail.tsx, quick-add.tsx); TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}.
 - Code tidying: SettingsList.tsx:129 identical branches; duplicate 'training' key in locale files.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
@@ -81,7 +82,9 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 - Repo: src/app/(tabs)/food.tsx. detail.tsx strings already translated.
 - loop/ files show modified; not ours. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Line numbers shift; grep before citing. Say BUILT, never verified.
+- Test suites only read source text; no test renders quick-add, gym.tsx or SegmentedField.
 
 ## Handover and Jev
 - Handover summary in loop/HANDOVER.md; last received R236. Script-managed every 15 rounds.
 - Jev R240: run 67%, last task clean 75%, risk 1.1. R241: run 79%, last task clean 93%, risk 1.1. Agreed with run.
+- Jev R242: run 86% (confidence 0.79), last task clean 5%, risk 1.3 (confidence 0.28). Ranked row 112 eyebrow build first at 84%; agreed. Last task flagged for missing tsc/tests; R242 prompt requires them.

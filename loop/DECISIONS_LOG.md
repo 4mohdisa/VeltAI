@@ -2453,3 +2453,8 @@
 - 2026-11-01 01:15 Kept lumeFade reduce-motion skip as an accepted deviation: it is an accessibility guard, app-only, and the design does not cover it. Isa can override.
 - 2026-11-01 01:15 Ran the doc fix list only after row 112 has no open build item, per the existing rule.
 - 2026-11-01 01:15 Jev and my pick agree (run). No override needed.
+- 2026-11-01 01:16 Picked the eyebrow build over the title re-check. The latest re-check already found two concrete differences, so building them is the next step in the plan. Jev ranked the same task first at 84%, so no override needed.
+- 2026-11-01 01:16 The flagged report had no type check or tests. This prompt requires tsc once and gym-related test files, with exit codes reported.
+- 2026-11-01 01:16 Report NEXT items (row 81, My schedule section, row 83 paragraph, stale doc lines) are doc fixes and wait until no build row is open. Not turned into tasks now.
+- 2026-11-01 01:16 Min height 26 may shift content below the eyebrow by about 10pt. Recorded for Isa's device check, not fixed in this round.
+- 2026-11-01 01:16 Eyebrow build kept to gym.tsx and one doc clause, so the prompt stays a single surface.

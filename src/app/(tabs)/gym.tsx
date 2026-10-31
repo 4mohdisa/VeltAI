@@ -106,9 +106,12 @@ export default function GymLogScreen() {
           {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
               passes under the blur rather than sitting in a bar. */}
           <View style={{ gap: space.xs, paddingBottom: space.xs }}>
-            <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-              {dateLine}
-            </Text>
+            {/* On the wrapper: a Text's own minHeight would leave the line at the top, not centred as in the design. */}
+            <View style={{ minHeight: 26, justifyContent: 'center' }}>
+              <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}>
+                {dateLine}
+              </Text>
+            </View>
             <Text variant="title1" color={color.label} accessibilityRole="header">
               {t('gym.title')}
             </Text>
