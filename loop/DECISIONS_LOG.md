@@ -1113,3 +1113,13 @@
 - 2026-10-31 14:03 Kept run over Jev's ask (45%): no Isa dependency for this task. The footnote stays blocked until Isa answers the three decisions.
 - 2026-10-31 14:03 Gap-row fixes (row 82, :393, :414, :420) are deferred to after the footnote, so this round touches one string only.
 - 2026-10-31 14:03 Added es and fr translations for the new key, as the new-keys rule requires. Recorded for native review.
+- 2026-10-31 14:04 Chose a read-only round because the last report was flagged as partly done, and the notes say flagged reports are cleared by a read-only round before build work.
+- 2026-10-31 14:04 Chose candidate 1 over the literal wraps: it needs nothing from Isa, is the smallest, and verifies the handover claims (which may be stale) before building further.
+- 2026-10-31 14:04 Jev ranked ask at 45% versus run at 52%. Ask was not chosen: the question about the footnote decisions is already blocked on Isa, and nothing new is needed from him for a read-only check.
+- 2026-10-31 14:04 Did not ask Isa about the Macros and Profile gap-file records. Left them as blocked; they are owner items and are not needed to continue.
+- 2026-10-31 14:04 Kept the Training list, date locale and footnote work out of this round; they need Isa's decisions first.
+- 2026-10-31 14:05 Chose a run over ask: Jev gave ask 62%, but the task needs nothing from Isa, and the brief says prefer small tasks that need nothing from him. Ask is reserved for owner-only items.
+- 2026-10-31 14:05 Chose food/saved.tsx:83: the handover marks it as the recommended next task, and it is a single literal with a clear design file.
+- 2026-10-31 14:05 Prompt names design/Lume App.html and the saved foods row, with the branch, to fix the rejection reason.
+- 2026-10-31 14:05 Did not edit the gap file this round: the saved foods row stays until all its literals are wrapped and Isa has reviewed.
+- 2026-10-31 14:05 Streak footnote stays blocked: Isa has not confirmed the three decisions, so it is not a candidate to build now.
