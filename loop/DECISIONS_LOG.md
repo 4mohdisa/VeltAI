@@ -1982,3 +1982,8 @@
 - 2026-10-31 22:21 es and fr wording for the new keys is unreviewed and is flagged for native review.
 - 2026-10-31 22:21 Did not change DESIGN_GAP_ANALYSIS.md because no row covers VoiceOver strings.
 - 2026-10-31 22:21 Layout titles and CaloriesCard macro names left for later rounds. They are listed as candidates 2 and 3, and the handover conflicts on whether CaloriesCard is still open, so it needs a grep before any task.
+- 2026-10-31 22:23 Chose the AddMenu close label because the loop flagged R143 as partly done and this string is the one remaining add-menu VoiceOver literal. Smallest step that clears the flag.
+- 2026-10-31 22:23 Left the visible 'Log gym session' and 'Log food' strings for a later round. They need new keys in three locales and native review, so they are a separate task.
+- 2026-10-31 22:23 Did not edit LumeTabBar.tsx again. R143 is built; the flag was about the menu's remaining literal, not the tab bar.
+- 2026-10-31 22:23 Did not change the add-button hint wording. The Spanish hint is pending Isa's native review, so no edit this round.
+- 2026-10-31 22:23 Gap row update says BUILT, not verified, per the brief. Header counts left unchanged.

@@ -19,10 +19,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras.
 - energyLogged es and fr: '{{unit}} en total', '{{unit}} au total'. No agreement, no colon, reads after the number.
 - Tab labels reuse existing keys with the same English value (R142): Summary = dashboard.summaryTitle, Food = food.title, Gym = gym.title. Native review pending.
-- Add-button VoiceOver strings use a new tabBar namespace (R143), en, es and fr together.
+- Add-button VoiceOver strings use the tabBar namespace (R143), en, es and fr together.
+- Add menu strings follow the same rule: tabBar keys, en, es and fr together.
 
 ## Status
-R143 (pending): add-button VoiceOver strings to tabBar.* keys. Gap counts from R142: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
+R144 (pending): AddMenu close label 'Close menu' to t('tabBar.closeAddMenu'). This clears the flagged partial from R143.
+Gap counts from R142: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102, R117, R131 never reported. Still owed; run when announced.
 
 ## BUILT, not verified
@@ -36,9 +38,11 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102,
 - CaloriesCard macro labels via nutrition.protein, carbs, fat.
 - food.tsx unit label via nutrition.energyLogged (NOT COVERED).
 - Food, Summary and Gym tab labels via t() in LumeTabBar.tsx (R140, R142). Render test is English only.
+- Add-button VoiceOver strings via tabBar.closeAddMenu, tabBar.add, tabBar.addHint (R143). closeAddMenu and addHint NOT COVERED; es and fr unreviewed.
+- AddMenu close label via tabBar.closeAddMenu (R144, pending result).
 
 ## Next
-1. Add-button VoiceOver strings in LumeTabBar.tsx via tabBar.closeAddMenu, tabBar.add, tabBar.addHint (R143).
+1. Check R144 result. If the close label is in, next is AddMenu 'Log gym session' and 'Log food' via t() with new tabBar keys in en, es and fr (visible text; es and fr users currently see English).
 2. (tabs)/_layout.tsx Summary and Gym titles via existing keys (dashboard.summaryTitle, gym.title).
 3. Owed checkpoint: full tsc and app suite, read-only. Run when announced.
 4. Dedupe SLOT_KEYS (food.tsx). Resolve food.savedTitle vs addMenu.myDishes.
@@ -55,7 +59,7 @@ Grep first. Line numbers drift.
 
 ## Blocked on Isa (do not retry)
 - Device checks: tab bar in es and fr (Gimnasio is longer than Gym), gym Training labels, logged card, offline failure, double notice, TodayCard sub-line, LoadFailedNotice, StreakCounter caption, es/fr fit, minutesCeiling, eatenAgainstBurned, inAndOut, energy unit card, energyLogged in es and fr.
-- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es and fr (tabs.food, tabs.summary, tabs.gym as now reused: Resumen, Comida, Gimnasio; Résumé, Repas, Sport); add-button tabBar.* es and fr (R143).
+- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es and fr (tabs.food, tabs.summary, tabs.gym as now reused: Resumen, Comida, Gimnasio; Résumé, Repas, Sport); add-button tabBar.* es and fr (R143), including the Spanish hint 'Registra una sesion de gimnasio o comida' vs the briefed wording, and command vs infinitive form across es and fr.
 - Shared keys: food.title for tab and Food title; dashboard.summaryTitle and gym.title for tabs. Split if wording should differ. Comida and Repas read as 'meal': separate food.caloriesTitle?
 - Already-logged days: edit or toast? (mutations.ts:173-178).
 - Gap rows: detail screens, tab bar label, week row, empty food day (four meal cards or 'No meals yet').
@@ -84,7 +88,7 @@ Grep first. Line numbers drift.
 - Stale citations: gap doc lines 437 and 1505.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week, training empty states, GymPatternsCard, or the food log empty state. Only the hydration test loads locale files. energyLogged and tab label es/fr are not covered. Add-button tabBar keys are not covered in es or fr.
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week, training empty states, GymPatternsCard, or the food log empty state. Only the hydration test loads locale files. energyLogged, tab label es/fr, and add-menu and add-button tabBar keys in es and fr are not covered.
 
 ## Gotchas
 - Briefs repeat finished work and quote stale lines. Check first.
@@ -100,4 +104,5 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - R140: Food tab label via labelKey. Render test passed in English.
 - R141: rejected (asked for more than one screen). Summary and Gym tab labels not done.
 - R142: Summary and Gym tab labels via existing keys in LumeTabBar.tsx. Tab render test 13 of 13 in English. No locale edits.
-- R143: add-button VoiceOver strings to tabBar.* (this round).
+- R143: add-button VoiceOver strings to tabBar.* (en, es, fr). Flagged as partly done: AddMenu close label still literal.
+- R144: AddMenu close label to tabBar.closeAddMenu (this round). Result pending.
