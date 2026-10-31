@@ -147,7 +147,17 @@
     "removeMessage": "Cela le supprime du journal de ce jour.",
     "unsaveTitle": "Retirer {{name}} ?",
     "unsaveMessage": "Cela le retire de vos aliments enregistrés.",
-    "unsave": "Retirer"
+    "unsave": "Retirer",
+    "savedAdded": "Ajouté : {{name}}.",
+    "savedRemoved": "Retiré de vos aliments enregistrés.",
+    "savedSearchPlaceholder": "Rechercher un aliment…",
+    "savedSearchLabel": "Rechercher dans les aliments enregistrés",
+    "savedEmptyTitle": "Aucun aliment enregistré pour l'instant",
+    "savedEmptyMessage": "Enregistrez un aliment depuis un repas ou la fiche de modification pour le rajouter ici en un seul geste.",
+    "savedEmptySearchMessage": "Essayez un autre nom.",
+    "savedEditLabel": "Modifier {{name}}",
+    "savedAddLabel": "Ajouter {{name}}",
+    "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}} g"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

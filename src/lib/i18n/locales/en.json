@@ -147,7 +147,17 @@
     "removeMessage": "This removes it from this day's log.",
     "unsaveTitle": "Remove {{name}}?",
     "unsaveMessage": "This un-saves it.",
-    "unsave": "Unsave"
+    "unsave": "Unsave",
+    "savedAdded": "Added {{name}}.",
+    "savedRemoved": "Removed from saved.",
+    "savedSearchPlaceholder": "Search saved…",
+    "savedSearchLabel": "Search saved foods",
+    "savedEmptyTitle": "No saved foods yet",
+    "savedEmptyMessage": "Save a food from a meal or the edit sheet to re-add it here in one tap.",
+    "savedEmptySearchMessage": "Try another name.",
+    "savedEditLabel": "Edit {{name}}",
+    "savedAddLabel": "Add {{name}}",
+    "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}}g"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

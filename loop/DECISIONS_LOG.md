@@ -2040,3 +2040,8 @@
 - 2026-10-31 22:37 Added exactly three keys (food.unsaveTitle, food.unsaveMessage, food.unsave) in all three locales together, and reused common.cancel and common.delete.
 - 2026-10-31 22:37 Treated the R155 SwipeableRow verification as cleared: tsc exited 0 and no test file references the component. Recorded in notes, not rerun.
 - 2026-10-31 22:37 Named design/Lume App.html and screen 71f71ac4 and forbade git, because the last prompt was rejected for missing both.
+- 2026-10-31 22:38 Chose saved.tsx completion over the handover's SwipeableRow item: the notes say R155 already translated SwipeableRow defaults, so the handover is stale (grep confirms before acting).
+- 2026-10-31 22:38 Finish saved.tsx before starting another surface, because a partly finished string set counts as unfinished (Decisions rule).
+- 2026-10-31 22:38 Include the item 28 gap-doc line edit in this round, since it covers the same surface and the report flagged it as out of date.
+- 2026-10-31 22:38 Kept the swipe action colour as color.primary, per the decision not to change colour in a string round.
+- 2026-10-31 22:38 Jev's view (run, 94%) matches this choice; no loop note was raised.

@@ -149,7 +149,17 @@
     "removeMessage": "Esto lo elimina del registro de este día.",
     "unsaveTitle": "¿Quitar {{name}}?",
     "unsaveMessage": "Esto lo quita de tus comidas guardadas.",
-    "unsave": "Quitar"
+    "unsave": "Quitar",
+    "savedAdded": "Se añadió {{name}}.",
+    "savedRemoved": "Se quitó de tus comidas guardadas.",
+    "savedSearchPlaceholder": "Buscar en guardados…",
+    "savedSearchLabel": "Buscar comidas guardadas",
+    "savedEmptyTitle": "Aún no hay comidas guardadas",
+    "savedEmptyMessage": "Guarda una comida desde un registro o desde la hoja de edición para volver a añadirla aquí con un toque.",
+    "savedEmptySearchMessage": "Prueba otro nombre.",
+    "savedEditLabel": "Editar {{name}}",
+    "savedAddLabel": "Añadir {{name}}",
+    "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}} g"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

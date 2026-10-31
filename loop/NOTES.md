@@ -28,12 +28,13 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - Summary and Gym titles, Food title, Calories card macro labels and energy label, add menu labels, add-button VoiceOver strings, close menu label.
 - Food row VoiceOver label and hint (food.row* keys). food.rowAnalysing and rowAnalysisFailed keys added.
 - Swipe-delete title and message, now date-neutral and translated (food.removeTitle, food.removeMessage; food.tsx).
-- SwipeableRow.tsx: Cancel uses common.cancel; confirm, swipe action and VoiceOver use common.delete unless a caller passes deleteLabel. Added common.delete (Delete / Eliminar / Supprimer). Gap doc item 28 has a reason line only. R155 check: tsc exit 0; no test file references SwipeableRow. Flag cleared.
+- Swipe-unsave dialog in food/saved.tsx: title, message and 'Unsave' via food.unsaveTitle, food.unsaveMessage, food.unsave (R156).
+- SwipeableRow.tsx: Cancel uses common.cancel; confirm, swipe action and VoiceOver use common.delete unless a caller passes deleteLabel. Added common.delete (Delete / Eliminar / Supprimer). Gap doc item 28 has a reason line only. Flag cleared at R155.
 - LoadFailedNotice and StreakCounter tokens, GymPatternsCard copy, week, training, energy copy, freeze label.
 - nutrition.energyLogged (es 'en total', fr 'au total').
 
 ## Next
-1. (Running R156) Translate swipe-unsave dialog in src/app/food/saved.tsx: title, message and 'Unsave' via food.unsaveTitle, food.unsaveMessage, food.unsave in en, es, fr. Matches design/Lume App.html food screen (71f71ac4). Gap item 28.
+1. (Running R157) Finish food/saved.tsx: added toast, removed toast, search placeholder and VoiceOver label, empty-state strings. New keys food.saved<Purpose> in en, es, fr. Update item 28 line in gap doc. Matches design/Lume App.html food screen (71f71ac4).
 2. Swipe prompt in src/app/food/new-recipe.tsx:144 (title).
 3. Swipe prompt in src/app/gym/new-template.tsx:220 (title).
 4. Visible 'Analyzing…' on food row (food.tsx ~875) to t(), spelling 'Analysing'.
@@ -48,8 +49,8 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 13. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es/fr width; gym Training labels; logged, analysing and failed food rows (VoiceOver); offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu labels wrap at 232pt (fr, es); swipe-delete dialog on device; SwipeableRow 'Eliminar' and 'Supprimer' fit the 88pt swipe action, and the dialog itself.
-- Native review: es/fr draft strings incl. food.row*, food.removeTitle, food.removeMessage (the 'it' agreement assumes a masculine food name), tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned, common.delete, food.unsave*; fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
+- Device checks: tab bar es/fr width; gym Training labels; logged, analysing and failed food rows (VoiceOver); offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu labels wrap at 232pt (fr, es); swipe-delete dialog on device; swipe-unsave dialog on device; SwipeableRow 'Eliminar' and 'Supprimer' fit the 88pt swipe action, and the dialog itself.
+- Native review: es/fr draft strings incl. food.row*, food.removeTitle, food.removeMessage (the 'it' agreement assumes a masculine food name), food.unsave*, tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned, common.delete; fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
 - Design questions: food.title shared by tab and screen (Comida, Repas); separate caloriesTitle? Empty day: four meal cards or 'No meals yet'? GymPatternsCard padding 20 or 16? Already-logged days: edit or toast (mutations.ts:173-178)? Design wording: energy deficit caption, steps, burn target, weekly target, GetToday flag, group names, training list, profile row, streak wording, footnote '23 sessions 2 freezes'. Rows 90, 330, 334, 89, 23, 17. Search routing; quick add serving order; add sheet 0pt gap; 'Snacks'; TodayCard wash pill, whole-day kcal, chevron; remaining-kcal line. No body stats: app 1,500 kcal, design 2,100. Decision on a tabs.* namespace. Swipe action colour: design uses accent red on remove buttons, app fills with color.primary (SwipeableRow.tsx comment says 'destructive red'). Follow the design, or keep black?
 
 ## Parked
@@ -67,13 +68,13 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - Food row: key={c.name} uses a translated string (fix when the Fibre column is built).
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN on undefined profile field.
 - Raw item values: food.tsx, food/saved.tsx:144.
-- Stale citations: gap doc lines 437 and 1505 (verify before editing). Gap doc line 955 says swipe confirmation is 'translated'; true only for food.tsx.
+- Stale citations: gap doc lines 437 and 1505 (verify before editing). Gap doc line 955 says swipe confirmation is 'translated'; true only for food.tsx and, now, food/saved.tsx.
 
 ## Accepted limits
 Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Fibre uses > 0. No full suite run since R146; not owed until the next checkpoint. SwipeableRow has no test file; its dialog and swipe rendering are not covered.
 
 ## Gotchas
-- Briefs repeat finished work and quote stale lines. Grep first. Line numbers drift.
+- Briefs repeat finished work and quote stale lines. Grep first. Line numbers drift. Handover items can predate later reports (R155 fixed SwipeableRow defaults).
 - Design copy is encoded: decode __bundler/manifest with node. Food 71f71ac4; energy, week, training 185bb533; 7dc211f6.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match. A piped grep's exit code can mislead.
 - i18next plurals need _one and _other; fr treats 0 as one.
@@ -81,5 +82,6 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Test i18n is fixed to English. Some tests find controls by English label, so English changes can break them.
 - Claude Code forgets context at handover. Name files fully in every prompt.
 
-## Last round (R155 to R156)
-R155 report: SwipeableRow defaults translated; tsc exit 0; no test references the component. Flag cleared. R156 prompt was rejected for not naming the design/ file and not stating the loop/design-match branch; rewritten with both, and with the git ban. Next: saved.tsx swipe dialog set.
+## Last round (R156 to R157)
+R156 report: saved.tsx unsave dialog translated (food.unsaveTitle, food.unsaveMessage, food.unsave); tsc exit 0; 4 suites / 129 tests passed. Not covered: swipe action, dialog, VoiceOver, es and fr display. Flagged: item 28 line out of date.
+R157 (running): finish saved.tsx remaining strings, update item 28, tsc once, tests for saved.tsx references only. Then swipe prompts in new-recipe.tsx and new-template.tsx.

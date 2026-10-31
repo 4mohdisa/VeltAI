@@ -67,7 +67,7 @@ export default function SavedFoodsScreen() {
       },
       'manual',
     );
-    showToast({ message: `Added ${f.name}.`, tone: 'success' });
+    showToast({ message: t('food.savedAdded', { name: f.name }), tone: 'success' });
   };
 
   // Editing / un-saving happens in the one shared detail sheet.
@@ -78,17 +78,17 @@ export default function SavedFoodsScreen() {
 
   const unsave = (id: string) => {
     unsaveFood(id);
-    showToast({ message: 'Removed from saved.', tone: 'info' });
+    showToast({ message: t('food.savedRemoved'), tone: 'info' });
   };
 
   return (
     <SheetContent variant="leading" title={t('food.savedTitle')} onClose={() => router.canGoBack() && router.back()}>
       <TextField
-        placeholder="Search saved…"
+        placeholder={t('food.savedSearchPlaceholder')}
         value={query}
         onChangeText={setQuery}
         autoCorrect={false}
-        accessibilityLabel="Search saved foods"
+        accessibilityLabel={t('food.savedSearchLabel')}
       />
 
       {loadError ? <LoadFailedNotice message={t('food.savedLoadFailed')} onRetry={refetch} /> : null}
@@ -98,12 +98,8 @@ export default function SavedFoodsScreen() {
       ) : results.length === 0 ? (
         <EmptyState
           icon={query.trim() ? 'magnifyingglass' : 'bookmark'}
-          title={query.trim() ? `No matches for “${query.trim()}”.` : 'No saved foods yet'}
-          message={
-            query.trim()
-              ? 'Try another name.'
-              : 'Save a food from a meal or the edit sheet to re-add it here in one tap.'
-          }
+          title={query.trim() ? t('foodLog.noMatches', { query: query.trim() }) : t('food.savedEmptyTitle')}
+          message={query.trim() ? t('food.savedEmptySearchMessage') : t('food.savedEmptyMessage')}
         />
       ) : (
         <Card padded={false}>
@@ -133,7 +129,7 @@ export default function SavedFoodsScreen() {
                   haptic={false}
                   minTapTarget={false}
                   onPress={() => openDish(f)}
-                  accessibilityLabel={`Edit ${f.name}`}
+                  accessibilityLabel={t('food.savedEditLabel', { name: f.name })}
                   style={{ flex: 1, gap: space.xs, paddingVertical: space.lg, paddingLeft: space.lg }}
                 >
                   <Text variant="body" color={color.label}>
@@ -141,7 +137,11 @@ export default function SavedFoodsScreen() {
                   </Text>
                   <Text variant="footnote" color={color.secondaryLabel}>
                     {f.brand ? `${f.brand} · ` : ''}
-                    {f.servingG} g · {formatCalories(f.calories)} · P {f.protein}g
+                    {t('food.savedRowDetail', {
+                      grams: f.servingG,
+                      energy: formatCalories(f.calories),
+                      protein: f.protein,
+                    })}
                   </Text>
                 </Pressable>
 
@@ -150,7 +150,7 @@ export default function SavedFoodsScreen() {
                   haptic
                   minTapTarget={false}
                   onPress={() => add(f)}
-                  accessibilityLabel={`Add ${f.name}`}
+                  accessibilityLabel={t('food.savedAddLabel', { name: f.name })}
                   hitSlop={4}
                   style={{
                     width: space['2xl'],

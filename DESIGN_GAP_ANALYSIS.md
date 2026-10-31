@@ -953,7 +953,7 @@ calendar) with both arrows at the right, then the seven chips at
 26. Units are `energyUnit` (kcal **or kJ**) throughout; the design is kcal-only.
 27. Elements with no design counterpart: `AnomalyBanner`, `LoadFailedNotice`, `ScanFeedbackPrompt`, `ScanReviewCard`, `ScanFailedCard`, the "Meal history" footer, the "Add custom food" footer, the day empty state, both error states.
 28. Swipe-to-delete with confirm, and long-press-to-delete a whole meal — no design counterpart. The swipe confirmation is now date-neutral and translated (BUILT, not verified).
-    The `SwipeableRow` confirm buttons and the swipe action label are now translated, except where a caller passes its own English label (BUILT, not verified).
+    The `SwipeableRow` confirm buttons and the swipe action label are now translated. `src/app/food/saved.tsx` strings are translated (unsave dialog, toasts, search, empty state, row detail and VoiceOver labels); es and fr are unreviewed drafts. The swipe titles in `food/new-recipe.tsx` and `gym/new-template.tsx` are still English (BUILT, not verified).
 29. Pending-row copy and treatment differ (grey skeletons vs AI-tinted spinner and copy); a "failed" row state exists only in the app; the `"Confirm meal"` pill is absent.
 30. Header strip ≈79 vs 82; bottom padding ≈100 vs 158; block gap 12 vs 14.
 
