@@ -2231,3 +2231,8 @@
 - 2026-11-01 00:10 Named the branch and forbade all git commands in the prompt, because R193 was rejected for omitting this.
 - 2026-11-01 00:10 Allowed a new 'g' unit key in en, es and fr together, per the new-keys rule.
 - 2026-11-01 00:10 Limited test runs to two files and tsc, per the testing rules.
+- 2026-11-01 00:11 R194 formatGrams already matches design ('33 g'); no code change, row kept as BUILT in the latest report. Removed from Next.
+- 2026-11-01 00:11 Chose the detail.tsx leftover strings over the doc fixes: it is code, it clears more open rows, and the doc fixes can follow.
+- 2026-11-01 00:11 The handover lists Save changes (detail.tsx 259-260) as not fixed, but also lists it as built at line 301. The prompt tells Claude Code to grep first and trust the code, not either note.
+- 2026-11-01 00:11 Day log macro spacing (spaced on food detail, unspaced on Day log) is a design inconsistency. Parked as a question for Isa, not built.
+- 2026-11-01 00:11 formatMacro has no callers outside its test and gram strings in detail.tsx bypass formatGrams (needs num precision). Both parked as code notes, not tasks.
