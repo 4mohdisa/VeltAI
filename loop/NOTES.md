@@ -27,26 +27,31 @@ R162 checkpoint green: tsc 0, 65 suites, 824 tests. Last full suite R162. Gap co
 - SwipeableRow (src/components/display/SwipeableRow.tsx) default labels use t('common.delete') and t('common.cancel') (confirmed R163, no edit).
 - LoadFailedNotice and StreakCounter tokens; GymPatternsCard, week, training, energy copy; freeze label; nutrition.energyLogged (es 'en total', fr 'au total').
 - R166: food.tsx pending pill uses t('food.rowAnalysing') with design wording 'Analysing' (en). es 'Analizando…', fr 'Analyse…'. Row 85 reason line added. Also affects VoiceOver.
+- R167: food/detail.tsx 'Delete item' now t('food.deleteItem') (en 'Delete item', es 'Eliminar elemento', fr 'Supprimer l’élément'). Row 86 reason line added.
 - tabs.summary and tabs.gym do not exist; tab labels reuse food.title, dashboard.summaryTitle, gym.title. tabBar.closeMenu kept separate from closeAddMenu (a test finds 'Close menu').
 
 ## Next
-1. R167 (in progress): food/detail.tsx 'Delete item' to a translated key (food.deleteItem or an existing matching key), in en, es, fr. Gap row for food/detail.tsx set to BUILT.
-2. Read-only trace: src/lib/data/scan.ts:118 placeholder name 'Analyzing…' and whether it reaches users (food.tsx:853 VoiceOver builds from item.name). Report only.
-3. CaloriesCard: missing Fibre column; dot vs bar (row 85, not BUILT).
-4. food.tsx: 'Check your connection' invents a cause; visible P, C, F letters (~899); g suffixes; raw energyUnit.
-5. gym/new-template.tsx: `Remove ${name}` label, 'Remove exercise' (~180), rest of English strings.
-6. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-7. PlannedValuesForm 'Add exercise'; add.tsx unused slotKey keys; dedupe SLOT_KEYS; food.savedTitle vs addMenu.myDishes.
-8. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
-9. week.tsx, training.tsx, energy.tsx remaining copy.
-10. Other food/new-recipe.tsx English strings (rest of screen).
-11. Pending-row ellipsis: en none, es and fr have one. Flagged for native review; no change without Isa.
-12. No rows left: stop with 'only owner decisions remain'.
+1. R168 (picked): food/detail.tsx delete confirm title 'Delete ${item.name}?', message, Cancel and confirm buttons (about lines 679-686), and 'Item deleted.' toast, all translated. Reuse common.cancel and common.delete if the wording matches.
+2. food/detail.tsx saved-mode strings ('Remove from saved', 'Saved ${name} to your foods.' toast), PADS captions (57-62), macro labels (about 567-610), 'Edit item'.
+3. Doc-only round: DESIGN_GAP_ANALYSIS.md row 86 says BUILT but the section verdict near line 964 says DIFFERENT. Reconcile wording without changing counts unless evidence shows otherwise.
+4. Read-only follow-up: scan.ts:305 hardcoded 'Scan failed' feeds food.tsx:887 and VoiceOver. Plan a display-time translation, keep the stored value (scanSeam.test.ts asserts it).
+5. food.tsx: visible 'Analyzing…' (about 875) spelling differs from VoiceOver; P, C, F letters (about 899); g suffixes; raw energyUnit; 'Check your connection' invents a cause.
+6. gym/new-template.tsx: `Remove ${name}` label, 'Remove exercise' (about 180), rest of English strings.
+7. SwipeableRow.tsx:32,39 defaults: grep first. Notes say already translated (R163). Handover claim is stale unless grep proves otherwise.
+8. Other swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220 (check each is translated before editing).
+9. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+10. CaloriesCard: missing Fibre column; dot vs bar (row 85, not BUILT).
+11. PlannedValuesForm 'Add exercise'; add.tsx unused slotKey keys; dedupe SLOT_KEYS; food.savedTitle vs addMenu.myDishes.
+12. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
+13. week.tsx, training.tsx, energy.tsx remaining copy.
+14. Other food/new-recipe.tsx English strings (rest of screen).
+15. Pending-row ellipsis: en none, es and fr have one. Flagged for native review; no change without Isa.
+16. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width (Eliminar, Supprimer); long es/fr text in food/saved.tsx; pending row on screen and VoiceOver.
 - Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, food.deleteItem, tabBar.*, addMenu, energyLogged, common.delete, gym.removeExerciseTitle); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport; ellipsis on es/fr pending wording.
-- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); swipe colour; tabs.* namespace (decide whether to add tabs.* keys); body stats (app 1,500 vs design 2,100); shared VoiceOver wording 'Analysing' vs 'Analysing photo' (needs second key if kept).
+- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); swipe colour; tabs.* namespace (decide whether to add tabs.* keys); body stats (app 1,500 vs design 2,100); shared VoiceOver wording 'Analysing' vs 'Analysing photo' (needs second key if kept); food.deleteItem wording 'Delete item' vs design 'Remove from log'.
 
 ## Parked
 - Helpers English-only: formatRelativeDate, weekdayShort, dayMonth, formatDuration. formatCalories and formatGrams ignore energyUnit. Plurals: '1 of 1 days', 'longest 1 minutes', 'of N days'.
@@ -67,10 +72,13 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Decode design from __bundler/manifest with node. Screens: food 71f71ac4; energy, week, training 185bb533; 7dc211f6.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep. Exit 1 means no match.
 - i18next plurals need _one and _other; fr treats 0 as one. kcal is feminine, kJ masculine.
-- Test i18n is fixed to English; some tests find controls by English label.
+- Test i18n is fixed to English; some tests find controls by English label, so English changes can break them.
 - Claude Code forgets context at handover. Name files fully.
 - Briefs quote stale paths and finished items. Check the file first.
 
 ## Last round
-R166: food.tsx pending label built to design wording, tsc 0, 7 test files 115 passed. Not verified on screen or in es/fr.
-R167: picked food/detail.tsx 'Delete item'. Handover claim about SwipeableRow treated as stale (R163 says translated). Jev: run 49 / ask 49, confidence 0.24, so chose the smallest task.
+R167: food/detail.tsx 'Delete item' built, tsc 0, 5 test files 60 passed. Not verified on screen or in es/fr. Report flagged the rest of the delete flow as untranslated.
+R168: picked food/detail.tsx delete confirm wording (candidate 1). SwipeableRow defaults not picked: notes say already translated. Jev: run 77% / ask 22%, confidence 0.66, so run the smallest same-surface task.
+
+## Handover pending
+None.

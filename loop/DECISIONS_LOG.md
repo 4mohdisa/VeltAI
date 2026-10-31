@@ -2092,3 +2092,8 @@
 - 2026-10-31 22:49 Pending-row ellipsis: kept the current state (en without, es and fr with) and flagged it for native review, because the brief specified the es and fr wording. Revisit if Isa asks for a change.
 - 2026-10-31 22:49 Shared food.rowAnalysing key now also drives VoiceOver. Accepted for v1; a second key would be needed to split them, which is not worth a new key right now.
 - 2026-10-31 22:49 Did not trace the scan.ts:118 failed-scan name in this round; it is recorded in NEXT for a read-only check so the build stays one task.
+- 2026-10-31 22:51 Chose the food/detail.tsx delete dialog: the latest report's NEXT item, finishes the label set started in R167, and is one file.
+- 2026-10-31 22:51 Did not pick SwipeableRow defaults: notes record R163 confirmed them translated, and the handover claim is treated as stale. The prompt does not ask for an edit there.
+- 2026-10-31 22:51 Kept 'Delete item' wording (already built) and left the design's 'Remove from log' question for Isa under Blocked.
+- 2026-10-31 22:51 Gap doc row 86 says BUILT but the section verdict near line 964 says DIFFERENT. Left as is; flagged in notes for a later doc-only round.
+- 2026-10-31 22:51 Bundle id not stated in the brief, so the prompt tells Claude Code to read it from app.json rather than inventing a value.

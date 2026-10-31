@@ -160,7 +160,9 @@
     "savedEditLabel": "Editar {{name}}",
     "savedAddLabel": "Añadir {{name}}",
     "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}} g",
-    "deleteItem": "Eliminar elemento"
+    "deleteItem": "Eliminar elemento",
+    "deleteConfirm": "¿Eliminar {{name}}?",
+    "deleteToast": "Se eliminó {{name}}"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

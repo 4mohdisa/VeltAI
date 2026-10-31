@@ -326,11 +326,11 @@ export default function FoodDetailScreen() {
           ? undefined
           : {
               label: t('food.deleteItem'),
-              confirm: `Delete ${item.name}?`,
+              confirm: t('food.deleteConfirm', { name: item.name }),
               run: () => {
                 deleteFoodItem(item.id);
                 clearDetail();
-                showToast({ message: 'Item deleted.', tone: 'info' });
+                showToast({ message: t('food.deleteToast', { name: item.name }), tone: 'info' });
                 if (router.canGoBack()) router.back();
               },
             }
@@ -387,6 +387,7 @@ function DetailForm({
   remove,
   onClose,
 }: DetailFormProps) {
+  const { t } = useTranslation();
   const [manual, setManual] = useState(!lockValues);
   const [slot, setSlot] = useState(meal);
   const [name, setName] = useState(seed.name);
@@ -678,9 +679,9 @@ function DetailForm({
             onPress={() => {
               haptics.warning();
               Alert.alert(remove.confirm, undefined, [
-                { text: 'Cancel', style: 'cancel' },
+                { text: t('common.cancel'), style: 'cancel' },
                 {
-                  text: 'Delete',
+                  text: t('common.delete'),
                   style: 'destructive',
                   onPress: () => {
                     haptics.impactHeavy();
