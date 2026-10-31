@@ -11,7 +11,7 @@ import { APP_VERSION, BUILD_NUMBER } from '@/lib/appVersion';
 
 export default function AboutScreen() {
   return (
-    <Screen variant="floating" eyebrow="The app" title="About" showBack>
+    <Screen variant="floating" eyebrow="The app" title="About" showBack contentStyle={{ gap: 26 }}>
       <View style={{ alignItems: 'center', gap: space.xs, paddingVertical: space.xl }}>
         <Text variant="title1" color={color.label}>
           Lume

@@ -2677,3 +2677,12 @@
 - 2026-11-01 07:29 Chose row 108 gap over the doc re-check: it is one value in one file, and the report recommends it. The re-check of row 107 doc line and rows 114-118 follows next round.
 - 2026-11-01 07:29 Kept Jev's run call (99%): the build needs no Isa answer.
 - 2026-11-01 07:29 Step 4 updates only the row status line, as the brief requires after a surface is finished. It does not rewrite the doc.
+- 2026-11-01 07:31 Kept row 108 flagged check over Jev's row 109 pick (81%): the last report was flagged as tests not run, and the brief says to clear a flag before moving on. Jev cannot see the flag.
+- 2026-11-01 07:31 Used findRelatedTests instead of the full suite: no test file references support.tsx, and the loop rules forbid full runs outside checkpoints.
+- 2026-11-01 07:31 No code change in this round: the flag is about verification, not a missing build.
+- 2026-11-01 07:31 Row 109 header stays an open decision for Isa; the default is to follow the design, but the header removal is larger than one round.
+- 2026-11-01 07:32 Rewrote the rejected prompt to name design/Lume App.html and bundle b09a5e65, and to list the real steps.
+- 2026-11-01 07:32 Chose row 109 over the flag-only task: the flag check (tsc plus related jest) is folded into this build as step 2, so the flag clears before the next build without a separate round.
+- 2026-11-01 07:32 Left the About header and wordmark tracking out of this round and parked them. Removing or restyling the header is a visible change, so it is not built by default, and it is not asked as a question this round.
+- 2026-11-01 07:32 Gap 26 uses an existing token if one equals 26, otherwise the literal, following the tokens rule already in the notes.
+- 2026-11-01 07:32 Jev ranked row 109 first in R292 and the candidate list agrees. The Jev 'ask' lean was not followed because no answer from Isa is needed to do this task.
