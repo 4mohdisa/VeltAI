@@ -4,8 +4,7 @@
     "cancel": "Cancel",
     "done": "Done",
     "reset": "Reset",
-    "tryAgain": "Try again",
-    "loadFailedDefault": "Couldn't load the latest."
+    "tryAgain": "Try again"
   },
   "settings": {
     "title": "Settings",

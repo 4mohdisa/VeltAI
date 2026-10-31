@@ -17,13 +17,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Tests: tsc once, plus tests for changed files. 'No related tests found' is not a pass.
 - Backend-dependent items stay Parked.
 - LoadFailedNotice has no design counterpart. minTapTarget={false} kept (row 114).
+- LoadFailedNotice message is required; no default copy (R98).
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (recheck header). Last checkpoint R89 green (tsc 0, 65 suites, 824 tests).
 Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice label and size, R92 keys.
 
 ## Next
-1. IN PROGRESS R97: LoadFailedNotice default message via t(). Clears the R96 flag.
+1. IN PROGRESS R98: make LoadFailedNotice message required, delete common.loadFailedDefault from en, es, fr. Clears the R97 flag (default was unreachable).
 2. (tabs)/gym.tsx:155 'Apply a streak freeze' via t().
 3. 'Breakdown' on dashboard/week.tsx, training.tsx, energy.tsx via t().
 4. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
@@ -52,6 +53,7 @@ Untested: TodayCard, freeze, StreakCounter, profile render, LoadFailedNotice lab
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume fix; heatmap wording; calories cell needs a backend field.
 - Rename gym.plannedExercisesNoDuration? Which row records the StreakCounter wrap? 'Start workout' wording is not in the design.
+- Should the freeze screen stay (design has none), and the freeze sentence on line 82?
 
 ## Parked
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) lacks serving data.
@@ -73,4 +75,5 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 ## Round log
 R9-R82: most surfaces built. Checkpoints R34, R48, R61, R77, R89 green.
 R90-R96: TodayCard, freeze, profile, StreakCounter, LoadFailedNotice strings via t(). Row 114 accepted deviation recorded.
-R97: LoadFailedNotice default message via t(); tsc and its tests run.
+R97: LoadFailedNotice default message via t(); tsc and its tests run. Flagged as partly done: default unreachable.
+R98: planned. Remove the unreachable default; message becomes required; key deleted from en, es, fr.

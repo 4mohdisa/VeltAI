@@ -14,9 +14,9 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space, surface } from '@/lib/design/tokens';
 
 export type LoadFailedNoticeProps = {
-  /** Override only to name WHAT failed ("Couldn't load your streak."). Never a
-   *  reason — the fetch layer does not supply one. */
-  message?: string;
+  /** Names WHAT failed ("Couldn't load your streak."). Never a reason — the
+   *  fetch layer does not supply one. */
+  message: string;
   onRetry?: () => void;
   style?: ViewStyle;
 };
@@ -41,7 +41,7 @@ export function LoadFailedNotice({ message, onRetry, style }: LoadFailedNoticePr
     >
       <Icon name="alert-circle-outline" size={16} color={color.secondaryLabel} />
       <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
-        {message ?? t('common.loadFailedDefault')}
+        {message}
       </Text>
       {onRetry ? (
         <Pressable onPress={onRetry} haptic={false} minTapTarget={false} accessibilityRole="button" accessibilityLabel={t('common.tryAgain')}>

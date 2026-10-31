@@ -1764,3 +1764,8 @@
 - 2026-10-31 20:38 Gave es and fr values now so the key lands in all three locales together, per the locale rule. Native review stays on the blocked list.
 - 2026-10-31 20:38 Kept minTapTarget={false} and said so in the prompt, since row 114 accepts that deviation.
 - 2026-10-31 20:38 Rewrote the notes under 600 words, merging repeated items and removing finished work, as the loop note asked.
+- 2026-10-31 20:39 Chose the LoadFailedNotice cleanup first because the loop note flagged R97 as partly done: the new default is unreachable, so it is dead code. Removing it follows the clean code rule.
+- 2026-10-31 20:39 Kept minTapTarget={false} (row 114) and the required-prop change does not touch the design.
+- 2026-10-31 20:39 Did not run the full suite. Ran tsc once and the one test file that imports the barrel, per the testing rules.
+- 2026-10-31 20:39 Jev rated run at 97% and the risk at 1.5/2 with low confidence. I took the smaller task, which fits that advice.
+- 2026-10-31 20:39 Left the es and fr wording unreviewed. The key is removed, so it does not need review now.
