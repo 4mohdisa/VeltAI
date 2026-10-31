@@ -20,7 +20,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - gym.tsx may use the react-i18next hook. English unchanged.
 - gym.dayStreak and gym.streakDetailLabel are _one/_other. Pass count, never current.
 - Streak strip: one row. Drop Longest, Total, Freezes. Keep tap to /gym/streak (accepted deviation).
-- Streak footnote: separate plural keys gym.streakSessions_one/_other and gym.streakFreezes_one/_other in en, es, fr, joined with ' · '. Sessions from streak.totalGymDays, freezes from streak.freezesAvailable. Native review pending.
+- Streak footnote: separate plural keys gym.streakSessions_one/_other and gym.streakFreezes_one/_other in en, es, fr, joined with ' · '. Sessions from streak.totalGymDays, freezes from streak.freezesAvailable. Native review pending. Approval still pending per R281 report. Isa must confirm the three decisions before build.
 - Training, Apply a streak freeze, Session history: app-only. Keep, wrap later, English unchanged.
 - Petit-dejeuner dropped. lastLoggedLabel counts calendar days. No new test suites.
 - Defaults: one-tap gym log stays on Summary card; Distance km; no food search chips; Goals extras kept.
@@ -34,23 +34,25 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Load-failure t(): food.tsx:449, gym.tsx:108, profile/index.tsx:103, food/saved.tsx:85, (tabs)/index.tsx:155.
 
 ## Verification
-- Last full Jest R257: tsc 0, 65 suites, 824 tests. Stale. Run at next checkpoint.
-- Since: tsc 0 (R276, R278, R279, R280). gym 6 suites, 37 tests (R279). hydrationErrorScreens 10/10.
-- Keys: en 166, fr 166, es 168 (recount after footnote).
+- R281 read-only: tsc 0. npx jest gym 6 suites, 37 tests. npx jest hydrationErrorScreens 10/10.
+- Last FULL Jest run was R257 (65 suites, 824 tests). Stale. Subset runs since then do not clear it.
+- R283 (this round): read-only full checkpoint. Full `npx tsc --noEmit` and full `npx jest`. No edits. Result pending.
+- Keys: en 166, fr 166, es 168.
 - Snapshots show raw keys. Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R281 (this round): read-only. Run tsc, npx jest gym, npx jest hydrationErrorScreens. No edits. Clears the R280 flag (Jest was not run).
-2. R282: build the footnote in src/app/(tabs)/gym.tsx as a third Text in the streak row (about :124). Variant footnote, color.secondaryLabel, marginLeft auto. Keys in en, es, fr. Match design/Lume App.html. In the same round set gap rows ~:393 and ~:420 to BUILT.
-3. Wrap remaining gym.tsx literals, one per round: 'Loading sessions...' (about :53), then the other lines from R276 (re-grep first, lines have moved). 'My schedule' and 'My workouts' match design wording; wrap them too.
-4. food/saved.tsx hardcoded strings: toasts, sheet title, placeholder, labels, empty states, swipe text, rows.
-5. profile/index.tsx :62, :82-83; (tabs)/index.tsx :150; add dashboard.streakLoadError to the test key list.
-6. EnergyBalanceCard.tsx :131; gym/freeze.tsx :48; StreakCounter.tsx :15.
-7. Read and wrap: gymRange.ts (monthSummary, monthTitle), TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
-8. Add sheet icons to design SVGs. food.tsx about :445-447 empty-list copy.
-9. Full Jest run at next checkpoint.
-10. Remaining gap rows, most cleared first. If none remain: stop with 'only owner decisions remain'.
-11. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
+1. R283 (this round, checkpoint): read-only full tsc and full jest. Report failures with file and first error line. If red, stop.
+2. After a green checkpoint: wrap gym.tsx 'Loading sessions...' (about :53), named in the prompt with design/Lume App.html and the gym row.
+3. Streak footnote in src/app/(tabs)/gym.tsx as a third Text in the streak row (about :124). Only after Isa confirms the three decisions. Then set gap rows ~:393 and ~:420 to BUILT.
+4. Wrap remaining gym.tsx literals, one per round, re-grep first: other lines from R276. 'My schedule' and 'My workouts' match design wording; wrap them too.
+5. food/saved.tsx hardcoded strings: toasts, sheet title, placeholder, labels, empty states, swipe text, rows.
+6. profile/index.tsx :62, :82-83; (tabs)/index.tsx :150; add dashboard.streakLoadError to the test key list.
+7. EnergyBalanceCard.tsx :131; gym/freeze.tsx :48; StreakCounter.tsx :15.
+8. Read and wrap: gymRange.ts (monthSummary, monthTitle), TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
+9. Add sheet icons to design SVGs. food.tsx about :445-447 empty-list copy.
+10. Full Jest run at next checkpoint.
+11. Remaining gap rows, most cleared first. If none remain: stop with 'only owner decisions remain'.
+12. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -78,6 +80,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Record Macros and Profile changes in the gap file?
 - Override es emptyMessage; remove es voice and describeOutLoud.
 - Training list (gym.tsx): app-only row or removed.
+- Streak footnote, three decisions (asked in R281, still open): (a) permission to add gym.streakSessions and gym.streakFreezes keys in en, es, fr; (b) streak.totalGymDays as session count; (c) separate plural keys for sessions and freezes.
 
 ## Gotchas
 - The edit tool writes plain space for U+00A0 and plain apostrophe for U+2019. Use node escapes; check code points.
@@ -86,15 +89,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Plurals use count, not current.
 - Handover summaries can be stale. Check them here.
 - Grep: LC_ALL=C /usr/bin/grep. Quote zsh paths.
-- The streak strip has no render test.
-- Gap rows :393 and :420 cite old line ranges. Row 82 and section :414 describe the old three-stat strip. Fix in R282.
+- The streak strip has no render test. Strip tests in gym: GymCalendar only.
+- Gap rows :393 and :420 cite old line ranges (gym.tsx now two lines out). Row 82 and section :414 describe the old three-stat strip. Fix when the footnote is built.
 - No Saved meals row in the gap file. Closest is Saved foods (~:1447).
 
 ## Loop notes
-- R280 flagged: Jest not run in a read-only round. Cleared by R281.
-- Jev ranked 'Loading sessions' first (91%). Kept the read-only round: the flag must clear before build work, and a literal wrap is build work.
+- R283: loop note said the prior prompt was rejected for not naming the design/ file. Rewritten to name design/Lume App.html, DESIGN_GAP_ANALYSIS.md rows and branch loop/design-match.
+- R283: Jev ranked Loading sessions wrap at 99%. Kept the full checkpoint. Reason Jev cannot see: last full Jest was R257; R281 and R282 ran only gym and hydrationErrorScreens subsets. A literal wrap would sit on an unverified base. The R282 report's 'flag cleared' covers the subsets only.
+- R282: loop note flagged R281 as partly done. Checkpoint chosen over Jev's Loading sessions pick (96%) for the same reason.
+- R280 flagged: Jest not run in a read-only round. Cleared by R281 (subsets only).
 - Weak checks: hydration test accepts invented reasons; literal check misses message={"..."}, single quotes, template strings; no plural test.
 - Rejected prompts lacked the file, row or branch. Name all three every time.
 
 ## Handover
 - The last handover is stale on gym.tsx line numbers and on Macros and Profile status. Trust the current files and the gap file.
+- Handover says 'last full suite before these edits; don't assume green'. Confirm with R283.
