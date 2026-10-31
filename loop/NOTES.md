@@ -24,28 +24,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macro totals stay whole (design rounds them: hMacroCols, gMacroDefs). Round 1 decimal is only on Food detail.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx:200); food detail macros and fibre at 1 decimal (detail.tsx MACRO_PRECISION :66, num :402); saved-food fibre write in detail.tsx (editSavedFood ~263, saveFood ~317); citations; macro totals; quick add rounds to 1 decimal (type-checked only); gap lines 1011, 1012, 1219 checked by content (R74).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx:200); food detail macros and fibre at 1 decimal (detail.tsx MACRO_PRECISION :66, num :402); saved-food fibre write in detail.tsx (editSavedFood ~263, saveFood ~317); saved-food fibre read-back (mappers.ts savedFoodFromApi, positive-only rule) and toEditable fibre (saved.tsx); citations; macro totals; quick add rounds to 1 decimal (type-checked only); gap lines 1011, 1012, 1219 checked by content (R74).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R76. No test covers decimal macros, quickAdd rounding or the fibre write.
+Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R76. R77 is a read-only checkpoint running now; result pending. No test covers decimal macros, quickAdd rounding, the fibre write or the saved-food fibre read-back.
 Doc citations after detail.tsx shifts (+1 after :263, +2 after :317) are stale: :402, :411, :424, :437, :570, :608. Fix by content in a doc-only round.
 
 ## Next
-1. R76 (in progress): saved-food fibre round trip. savedFoodFromApi (src/lib/data/mappers.ts ~167) reads fibre if the API type has it; toEditable (src/app/food/saved.tsx ~30) passes fibre into the draft. One surface.
-2. Doc-only: fix stale citations in DESIGN_GAP_ANALYSIS.md after detail.tsx shifts. Line 1219 'Fibre is still rounded as it is typed' is false. Line 1012 'Fibre is not editable' and line 1011 '2-up inputs' are stale. Match by content.
-3. Raw item values display: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135. Needs a design decision first, then build.
-4. Shared macro rounding helper: inline Math.round(x * 10) / 10 in detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25. Park if it needs more than one file.
-5. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
-6. add action at saved.tsx:58 logs saved foods without fibre. One file.
-7. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
-8. Logged-day 'Add something extra': follow design copy.
-9. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' line (~1495) stale.
-10. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-11. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-12. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-13. add.tsx slotKey (~67). Remove unused keys if confirmed.
-14. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park. Hold until items 1-13 are done.
-15. Checkpoint: full tsc and app Jest, read-only.
-16. No rows left: stop with 'only owner decisions remain'.
+1. R77 (in progress): checkpoint. Full tsc and full app Jest, read-only, no file changes. Record the exit code and the suite counts. Any failure is reported, not fixed.
+2. After R77 result: if green, make editSavedFood (src/lib/data/mutations.ts:157) sync to the server, or park it under Parked if it needs a backend change. Saved-food edits are lost on reload until then.
+3. Doc-only: fix stale citations in DESIGN_GAP_ANALYSIS.md after detail.tsx shifts. Line 1219 'Fibre is still rounded as it is typed' is false. Line 1012 'Fibre is not editable' and line 1011 '2-up inputs' are stale. Match by content.
+4. add action at saved.tsx:59 logs saved foods without fibre. One file.
+5. Raw item values display: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~136. Needs a design decision first, then build.
+6. Shared macro rounding helper: inline Math.round(x * 10) / 10 in detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25. Park if it needs more than one file.
+7. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
+8. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
+9. Logged-day 'Add something extra': follow design copy.
+10. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' line (~1495) stale.
+11. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+12. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+13. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+14. add.tsx slotKey (~67). Remove unused keys if confirmed.
+15. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park. Hold until items 1-14 are done.
+16. Checkpoint: full tsc and app Jest, read-only.
+17. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing or change toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -73,7 +74,7 @@ Doc citations after detail.tsx shifts (+1 after :263, +2 after :317) are stale: 
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; i18next console.info banner.
 - Recipe fibre saved as 0; num() rounds grams and kcal; long-press meal delete hidden. Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if a profile field is undefined.
-- Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes getToday never returns null for a real response.
+- Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes getToday never returns null for a real response. Fibre mapping uses fibre > 0, so a true 0 g food shows no Fibre tile (accepted, R76). Saved-food edit is local only until the parked backend change.
 
 ## Round log
 - R9-R61: built most surfaces; checkpoints R34, R48, R61 green.
@@ -84,4 +85,5 @@ Doc citations after detail.tsx shifts (+1 after :263, +2 after :317) are stale: 
 - R73: doc-only fix of stale fibre lines. Report flagged as partly done: line 1012 wording left open.
 - R74: doc-only check by content of fibre lines. Done: line 1012 reworded, 1011 and 1219 already matched code. TSC EXIT 0. Flag closed.
 - R75: saved-food fibre write added to editSavedFood (~263) and saveFood (~317) in detail.tsx. Flagged as partly done: read-back in mappers.ts, toEditable in saved.tsx and server sync still missing.
-- R76: planned, saved-food fibre round trip (mappers.ts savedFoodFromApi, saved.tsx toEditable). Closes the R75 flag. Doc citations queued as next doc-only round.
+- R76: saved-food fibre read-back (mappers.ts savedFoodFromApi, fibre > 0) and toEditable fibre (saved.tsx). TSC EXIT 0; mappers, fibrePipeline, foodDetail, hydrationErrorScreens, sheetVariant passed (5 suites, 74 tests). Editing still local only. Flagged by the auto check as partly done (server sync and add action open).
+- R77: loop note says checkpoint. Run full tsc and full app Jest, read-only. Chosen over Jev's doc-only pick (90%) because the loop note fixes the round as a checkpoint and checkpoint rounds are read-only by decision. Doc citation fix moves to the next doc-only round.

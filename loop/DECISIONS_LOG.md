@@ -1645,3 +1645,8 @@
 - 2026-10-31 17:42 If the API response type has no fibre field, do not add a backend change; record it as BLOCKED and park the read-back (Hard rules: no backend change without need).
 - 2026-10-31 17:42 Left the add action at saved.tsx:58 for later, as its own single-surface task.
 - 2026-10-31 17:42 Doc citation fixes deferred to a doc-only round so this round stays on one surface.
+- 2026-10-31 17:43 Chose the checkpoint over Jev's top pick (doc-only citation fix). The loop note says this round is a checkpoint, so the task is fixed by the loop script.
+- 2026-10-31 17:43 Decisions log says checkpoint rounds are read-only, so this round changes no files and the citation fix waits for the next doc-only round.
+- 2026-10-31 17:43 The last full suite (R61, 65 suites, 824 tests) predates R63 to R76, and the R75 and R76 fibre and precision changes have no test. The full run is the only way to see whether those changes broke anything.
+- 2026-10-31 17:43 The latest report was flagged as partly done (saved-food sync and add action still open). Running the checkpoint first confirms the current state before any server-sync work starts.
+- 2026-10-31 17:43 Did not mention Jev in the prompt. Did not expand scope beyond the two commands.
