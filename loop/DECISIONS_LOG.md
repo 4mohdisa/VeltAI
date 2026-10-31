@@ -1516,3 +1516,13 @@
 - 2026-10-31 17:10 The loop note flagged R49 because the type check result was not shown as printed output. This prompt requires the literal 'TSC EXIT <n>' line, and the report must include it.
 - 2026-10-31 17:10 Did not ask Isa anything: the change is fully covered by the design and the existing row shape, so no owner input is needed.
 - 2026-10-31 17:10 Kept the gap doc out of this round so the code round stays to one file, as the rules require.
+- 2026-10-31 17:11 Chose the doc correction first: it is smallest, needs nothing from Isa, and clears stale text that the R50 change made wrong.
+- 2026-10-31 17:11 Rejected the report's rule that session.tsx citations above line 199 need +1. An insertion at line 200 only moves lines at or after 200. The prompt tells Claude Code to check each citation by content and not to apply a blanket shift.
+- 2026-10-31 17:11 Kept the status cells and header counts unchanged, as the handover recorded, because Isa has not verified the rows.
+- 2026-10-31 17:11 Kept the old-form block, the gap line 90 merge and the PlannedValuesForm.tsx:200 comparison out of this round. They go to NEXT.
+- 2026-10-31 17:11 Carried the report's unfixed PlannedValuesForm.tsx:200 'Add exercise' item into Next, since it has not been compared to the design yet.
+- 2026-10-31 17:12 Chose the doc recheck first: it is small, needs nothing from Isa, and is the open R51 item.
+- 2026-10-31 17:12 Told Claude Code to check citations by content, not by a blanket shift, because R50's insertion at line 200 moves only citations at or after 200 and the proposed +1 above line 199 was wrong.
+- 2026-10-31 17:12 Named the working branch and the forbidden git commands, because the last prompt was rejected for omitting the branch rule.
+- 2026-10-31 17:12 Kept the report format at the end, as the brief requires.
+- 2026-10-31 17:12 Compressed notes to under 600 words, merged repeated blockers, and removed finished rounds (R9 to R48 detail) as the loop note asked.
