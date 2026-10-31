@@ -213,18 +213,23 @@ export default function FoodLogScreen() {
   const total = sections.reduce((sum, s) => sum + s.subtotal, 0);
   const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
   // Day macro totals for the calories card — summed off the SAME rows the list
-  // renders, so nothing here is a second source of truth. (No fibre column: food
-  // items carry protein/carbs/fat only. No goal ring / "left today" number
-  // either — the calorie goal is not read on this screen.)
+  // renders, so nothing here is a second source of truth. (A row from a source
+  // without a fibre figure adds nothing to that total. No goal ring / "left today"
+  // number — the calorie goal is not read on this screen.)
   const macroTotals = useMemo(
     () =>
       sections.reduce(
         (a, s) =>
           s.data.reduce(
-            (b, i) => ({ protein: b.protein + i.protein, carbs: b.carbs + i.carbs, fat: b.fat + i.fat }),
+            (b, i) => ({
+              protein: b.protein + i.protein,
+              carbs: b.carbs + i.carbs,
+              fat: b.fat + i.fat,
+              fibre: b.fibre + (i.fibre ?? 0),
+            }),
             a,
           ),
-        { protein: 0, carbs: 0, fat: 0 },
+        { protein: 0, carbs: 0, fat: 0, fibre: 0 },
       ),
     [sections],
   );
@@ -657,7 +662,7 @@ function CaloriesCard({
   energyUnit,
 }: {
   total: number;
-  macros: { protein: number; carbs: number; fat: number };
+  macros: { protein: number; carbs: number; fat: number; fibre: number };
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
 }) {
   const { t } = useTranslation();
@@ -665,6 +670,7 @@ function CaloriesCard({
     { name: t('nutrition.protein'), tint: categoryAccent.protein, value: macros.protein },
     { name: t('nutrition.carbs'), tint: categoryAccent.carbs, value: macros.carbs },
     { name: t('nutrition.fat'), tint: categoryAccent.fat, value: macros.fat },
+    { name: t('nutrition.fibre'), tint: categoryAccent.fibre, value: macros.fibre },
   ];
   return (
     <Card variant="elevated" style={{ gap: space.lg }}>

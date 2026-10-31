@@ -2272,3 +2272,6 @@
 - 2026-11-01 00:22 Did not pick energyUnit at food.tsx:912 (candidate 3). The Parked note says kJ handling is unchecked, so this may be a deliberate setting. Needs a design-versus-app decision first.
 - 2026-11-01 00:22 Kept the rule that the prompt forbids the other hardcoded unit at food.tsx:690, since it is a separate visible-line item and is parked as not translatable.
 - 2026-11-01 00:22 Jev 77% run agrees with the pick, so no look-again was needed.
+- 2026-11-01 00:22 Picked row 85 CaloriesCard: it is the open part of a row that still differs, needs no Isa input and is one file. The R203 report was flagged as partly done because its NEXT item (food.rowAnalysing 'Analysing photo') is blocked on a design question, so I did not pick it.
+- 2026-11-01 00:22 Kept run over Jev's ask (57%): the task needs no owner input; the only unknown (Fibre data source) is handled by parking rather than asking.
+- 2026-11-01 00:22 Rewrote notes under 600 words per the loop note: merged repeats, removed finished work, kept all Decisions lines.
