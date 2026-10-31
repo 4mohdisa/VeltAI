@@ -1433,3 +1433,7 @@
 - 2026-10-31 16:48 Applied the report's suggested wording for lines 116 and 457 without asking Isa. It corrects a factual route claim, the change is doc-only, and it matches the app as it stands. This overrides Jev's ask score (advisory); the reason is the factual correction, which Jev cannot see.
 - 2026-10-31 16:48 Removed the line 90 merge from the Next list because that row is on Blocked on Isa. The merge runs only if Isa answers.
 - 2026-10-31 16:48 Chose the doc round over the read-only log-session check: it clears the flagged report and is the smallest task.
+- 2026-10-31 16:49 Chose the checkpoint over a build round: the loop note flagged the last report because tsc passed but Jest was not run on the failed-fetch code, so a full run clears the flag before any new build.
+- 2026-10-31 16:49 Kept row 90 empty-status merge parked: the handover NEXT says to merge it, but the Blocked on Isa list says do it only if Isa answers, and no answer has arrived.
+- 2026-10-31 16:49 Kept the log-session.tsx failure-branch check as a read-only round: the handover says the failed-fetch fix is built, but the check that it does not treat the user as a rest day was never recorded as closed.
+- 2026-10-31 16:49 Logged the R33 handover in the round log so the next session starts from the summary, not from memory.
