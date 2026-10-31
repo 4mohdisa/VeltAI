@@ -1897,3 +1897,8 @@
 - 2026-10-31 21:15 Allowed the locale files to change in the same task because new keys must go to en, es and fr together. This is the only extra file.
 - 2026-10-31 21:15 Did not add a gap row for week.tsx. Isa has not answered whether one should exist, and line 364 has no reason cell to write into.
 - 2026-10-31 21:15 Marked energy.tsx Breakdown keys (R124) as closed, because the report confirmed no literal text is left and the file type-checks.
+- 2026-10-31 21:16 Chose the doc-only task first because it is the open flagged item from the last report and needs nothing from Isa; it is also the smallest task.
+- 2026-10-31 21:16 Closed the week.tsx copy sweep as complete for this round: the last report found no inline English UI text. The remaining English comes from Parked helpers, so no further sweep is needed.
+- 2026-10-31 21:16 No new Week row: the gap doc has no table row for week.tsx, so the reason cell is not used to record it. Recorded here instead; Isa can override.
+- 2026-10-31 21:16 Removed 'which row records week.tsx' from the Blocked list because this decision now covers it.
+- 2026-10-31 21:16 Did not follow Jev's 'ask' signal: nothing in this round needs Isa, and the only open question has a default the notes already cover.

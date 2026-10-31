@@ -24,6 +24,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - training.tsx has no hardcoded copy left. Helper English goes to Parked.
 - energy.tsx: design wording kept where the app has the data; app wording kept where the design states things the app cannot compute (deficit count, steps row, burn target sub). Recorded for Isa.
 - R125: shared date and duration helpers are not translated in this loop. They stay Parked.
+- R126: week.tsx has no row in the gap doc. Its copy is recorded in these notes only. No Week row is added unless Isa overrides.
 
 ## Status
 Last counted R89: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last green checkpoint R89 (tsc 0, 65 suites, 824 tests). R102 and R117 checkpoint results never reported.
@@ -31,23 +32,22 @@ BUILT, not verified:
 - LoadFailedNotice (R114, NOT COVERED).
 - StreakCounter colours and caption (R118-R119, NOT COVERED).
 - gym.tsx Training list title, row labels, Try again (R112). Device check pending.
-- week.tsx copy via t() (R116, R120, R125 sweep in progress). No gap row. Sweep incomplete.
+- week.tsx copy via t() (R116, R120, R125). No gap row. Sweep closed in R126: no inline English UI text left. Remaining English is from Parked helpers.
 - training.tsx copy via t() (R121-R122). No gap row.
 - energy.tsx copy via t() (R123). Breakdown row keys now stable ids (R124, closed). No gap row.
 
 ## Next
-1. week.tsx: finish the hardcoded copy sweep (R125, in progress).
-2. Doc only: record Try again at gap line 76; fix stale citations at line 437 (gym.tsx:94-158) and line 1505 ('lines 72-75'); check row 112 'padding 20 vs 16' first.
-3. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-4. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-6. add.tsx slotKey (~67): remove unused keys if confirmed.
-7. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
-8. /gym/session saves top weight on all sets: fix or park.
-9. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-10. Freeze strings at count 1 read wrongly.
-11. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117 results.
-12. No rows left: stop with 'only owner decisions remain'.
+1. Doc only (R126, in progress): record Try again at gap line 76; fix stale citations at line 437 (gym.tsx:94-158) and line 1505 ('lines 72-75'); check row 112 'padding 20 vs 16' against design and code.
+2. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+3. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+4. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+5. add.tsx slotKey (~67): remove unused keys if confirmed.
+6. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
+7. /gym/session saves top weight on all sets: fix or park.
+8. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+9. Freeze strings at count 1 read wrongly.
+10. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117 results.
+11. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
@@ -57,7 +57,6 @@ BUILT, not verified:
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review. week.tsx weekNoNetMessage; weekNetAveragedOver; 'Ingesta y gasto' and 'Apport et dépense' fit in segmented control; fr 'gel' vs 'congélation' (recommend 'Appliquer un gel de série'); Breakdown 'Détail' vs 'Répartition' (recommend Répartition); training dashboard.workouts; energy.tsx 'eatenAgainstBurned' fr wording and chart header fit.
 - energy.tsx design wording differences (deficit caption, steps row, burn target sub): keep app or match design.
-- Which row records week.tsx, training.tsx and energy.tsx, or whether new rows should exist.
 - Group names; training list; profile row; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals; remaining-kcal line.
 - Users without body stats see 1,500 kcal; design uses 2,100.
@@ -99,4 +98,5 @@ R101, R113 rejected. R102 and R117 checkpoints issued, never reported.
 R103-R112: Breakdown via t() across screens; gym.tsx Training labels via t().
 R116-R122: week.tsx and training.tsx copy to t(); StreakCounter colours and caption.
 R123: energy.tsx copy to t(). R124: Breakdown row keys made stable ids, closed.
-R125: week.tsx hardcoded copy sweep (en, es, fr keys together). Handover NEXT item on shared helpers rejected: they are Parked.
+R125: week.tsx hardcoded copy sweep (en, es, fr keys together). Handover NEXT item on shared helpers rejected: they are Parked. Report found no edits; loop flagged it as partly done. Resolved in R126: sweep closed, remaining English is Parked.
+R126: doc-only round for gap line 76, row 112 and stale citations at lines 437 and 1505.
