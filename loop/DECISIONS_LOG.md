@@ -1847,3 +1847,8 @@
 - 2026-10-31 20:56 Did not act on the handover's 'Couldn't load the latest.' default. The latest report says the default was removed, so step 2 of the prompt checks the code first and blocks if a default still exists (R98 rule).
 - 2026-10-31 20:56 Kept to one file and comment-only, with tsc once and changed-file tests only, to follow the one-task and testing rules.
 - 2026-10-31 20:56 Did not ask Isa anything. Nothing here needs his dashboards or devices.
+- 2026-10-31 20:57 Chose the verification round first because the loop note flagged the last report for tsc or tests not run. Every later task depends on a clean baseline.
+- 2026-10-31 20:57 Asked for jest on the two hydration files only, because the rule is changed-file tests and those are the closest existing tests. Told Claude Code to report NOT COVERED if nothing imports the component, rather than claim a pass.
+- 2026-10-31 20:57 Condensed NOTES to under 600 words as the loop note requested. Merged repeated items, deleted finished work, kept every Decisions line.
+- 2026-10-31 20:57 Recorded the handover conflict on the default message as resolved: the default was removed in R114 because all nine call sites pass their own message.
+- 2026-10-31 20:57 Kept row 112 padding check as an open item under Next, because the handover flags it as possibly stale.
