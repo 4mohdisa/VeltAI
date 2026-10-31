@@ -2585,3 +2585,8 @@
 - 2026-11-01 02:18 Corrected row 16 inside a re-check round because the figures are wrong, not as a separate doc fix.
 - 2026-11-01 02:18 Chose the re-check over the Food build: Jev ranks run at 93%, and the re-check needs no Isa input and cannot break the build.
 - 2026-11-01 02:18 Parked the WeekEnergyCard zero-sign and hardcoded English items under Parked, not as tasks.
+- 2026-11-01 02:19 Chose the Summary 21-25 re-check: it is doc only, answers the flagged R272 report with a recorded tsc exit code, and follows the agreed order.
+- 2026-11-01 02:19 Did not start the Food title block: the loop note says the last report was flagged, and that must be answered in a doc-only round first.
+- 2026-11-01 02:19 Did not start the Gym cluster: it is a build, and the flagged report needs a doc-only answer first.
+- 2026-11-01 02:19 Added the SegmentedField option change for row 17 to Blocked on Isa: SegmentedField is shared, so the edit needs approval, like DetailChart.tsx.
+- 2026-11-01 02:19 Added the week stat baseline and letter spacing gap and the stale Food citations to Parked, as the report asked, without adding doc rows this round.
