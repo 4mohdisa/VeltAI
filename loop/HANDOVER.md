@@ -1,39 +1,59 @@
-HANDOVER: LumeAI (remote 4mohdisa/VeltAI), branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html.
+HANDOVER: branch loop/design-match. Don't switch, push or merge. The loop script commits. Don't open loop/NOTES.md or loop/DECISIONS_LOG.md.
 
-BUILT THIS SESSION (not verified; es and fr are unreviewed drafts)
-- src/app/food/detail.tsx: macro labels (both layouts), tile, serving and calories VoiceOver labels, Serving size caption, Edit values manually, meal chips and caption, "for {n} g", Edit item and Rename food titles, Save name and Save changes (line 301).
-- src/app/food/quick-add.tsx: all screen copy, including seven strings the brief missed.
-- src/lib/i18n/locales/{en,es,fr}.json: matching food.* keys.
-- src/__tests__/foodDetail.test.ts: one assertion now looks for food.editValuesManually.
+ROW STATUS (DESIGN_GAP_ANALYSIS.md)
+- Row 86, Food detail sheet: BUILT, not verified. All copy in detail.tsx uses t().
+- Row 87, Quick add: still DIFFERENT. Screen copy uses t(); citations refreshed.
+- Row 85, Day log: still DIFFERENT, with these parts BUILT, not verified:
+  - Logged-row macro line uses food.rowMacros, with macros rounded.
+  - VoiceOver label is rounded and uses food.gramsUnit.
+  - CaloriesCard has a fourth Fibre column.
+  - Dots replaced by 6px ProgressBars filled from useGoals().
 
-GAP ROWS (DESIGN_GAP_ANALYSIS.md)
-No status or header count changed. BUILT sentences added: food detail items 3, 7, 11, 14, 17; quick add row (line 87). Those rows stay open because layout or mode differences remain.
+IN PROGRESS: nothing. Last check: tsc exit 0, app suite 824/824 (before the doc-only round; tsc re-passed after it). Backend last ran earlier at 614 passed, with 18 skipped, the ones seen being TestPG_* (probably need Postgres).
 
-IN PROGRESS: nothing.
-
-LAST CHECKS
-tsc exit 0. foodDetail.test.ts: 31 passed, after the final edit. foodDetailLogged.render (35 with foodDetail) last ran before the sub-label re-check. Full suite not run this session. Tests run in English, so es and fr are not exercised.
+KEY FILES
+- src/app/(tabs)/food.tsx (src/app/food/food.tsx does not exist)
+- src/app/food/detail.tsx, src/app/food/quick-add.tsx
+- src/components/display/ProgressBar.tsx
+- src/lib/i18n/locales/{en,es,fr}.json
+- design/Lume App.html: food screen is bundle 71f71ac4. Decode the __bundler/manifest with node, into /tmp only.
 
 DECISIONS
-- Calories label uses gymLog.celebration.calories; nutrition.calories does not exist and the brief barred new keys.
-- grams: num(grams), not raw grams, keeps the displayed number unchanged.
-- Meal chip fallback foodLog.addMeal was requested but cannot currently trigger.
-- quick-add.tsx:73 name 'Quick add' stays English: it is saved data.
-- Design lacks Edit values manually, for {n} g, Edit item, Rename food and Save name, so app English stays.
-- quick-add reuses dashboard.kcal and foodLog.addedToMeal (masculine in es and fr; offline toast is feminine).
+- Rows with no fibre figure add 0, matching dashboard/nutrition.tsx; the column always shows, as in the design.
+- Macro bars use real targets, with a zero-target guard from MacroBars.tsx.
+- es and fr macro letters are unreviewed drafts: es P/C/G, fr P/G/L.
+- Row 85 stays DIFFERENT because large differences remain.
 
 WAITING ON ISA
-Device and VoiceOver checks; long labels (Petit-déjeuner, Carbohidratos, Tamaño de la porción, Enregistrer les modifications); es and fr wording; "Snacks" untranslated; keep or drop for {n} g; title as mode vs food name; gymLog calories key.
+- Whether to build the 12px calorie bar and 'left today' figure. useGoals() now supplies the calorie goal.
+- Device check of the macro bars and four-column wrapping (es 'Carbohidratos').
+- Whether TestPG_* tests must run against Postgres.
 
-NOT FIXED (recommended next: first item)
-- detail.tsx:259-260: Edit food title and Save changes; reuse food.saveChanges.
-- detail.tsx:168, 225: Add to {slot} labels.
-- detail.tsx: Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, g unit, Name field.
-- SLOT_KEYS in four files: food.tsx, add.tsx, quick-add.tsx, detail.tsx.
-- Gap doc: line 87 still says copy hardcoded and cites quick-add.tsx:116 (now about 125); other quick-add references about 11 lines out; detail.tsx references at least 7 out; stale line 957 and item 18.
-- scan.ts:305 Scan failed; new-template.tsx, new-recipe.tsx strings; formatting.ts kcal and g.
+SPOTTED, NOT FIXED
+Recommended next: DESIGN_GAP_ANALYSIS.md lines 895-897 (stale three-column wording, food.tsx:584-626 citation).
+
+Other doc items:
+- Line 930 and row 85's opening say no goal is read.
+- Line 1058, "The copy is hardcoded English", contradicts row 87.
+- Line 1017 says "Save to my foods"; the app now says "Save to my dishes".
+- Line 934 states a current fact inside a differences list.
+
+Code and copy:
+- food.rowAnalysing is "Analysing"; design says "Analysing photo — this can take a moment".
+- CaloriesCard has a hardcoded g unit.
+- Raw energyUnit on logged rows; design is kcal-only.
+- No 700ms bar fill animation.
+- food.deleteItem is "Delete item"; design says "Remove from log".
+- foodLog.per100 is "/ 100g"; design has "/ 100 g".
+- No 'Updated {name}' toast after saving.
+- Sheet title shows the mode, not the food name (needs Isa).
+- 'Check your connection' assumes a cause (food.searchFailed, food.loadFailed).
+- Hardcoded strings: scan.ts:305 'Scan failed', quick-add.tsx:73 'Quick add', NumberEntryBar.tsx:108 'Done'.
+- SLOT_KEYS duplicated in detail.tsx and quick-add.tsx.
+- The CaloriesCard comment cites UI_PASS_GAPS.md §2, unconfirmed.
 
 GOTCHAS
-- Briefs repeat finished work and stale paths; check first. Tests are in src/__tests__.
-- zsh breaks echo === and unquoted (tabs) paths. Use LC_ALL=C /usr/bin/grep.
-- Decode from __bundler/manifest with node; screen 71f71ac4. /tmp/lume-decode may be gone.
+- Use LC_ALL=C /usr/bin/grep and quote (tabs) paths.
+- detail.tsx strings are already translated; several rounds found nothing to do, so don't requeue them.
+- No test covers CaloriesCard, the macro line or its VoiceOver label, or renders quick-add.tsx, so passing suites don't prove these.
+- Say BUILT, never verified.
