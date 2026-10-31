@@ -1725,3 +1725,8 @@
 - 2026-10-31 20:26 Did not include the session.tsx 'Try again' item: it is a separate row in the notes. Only the TodayCard copy is in scope.
 - 2026-10-31 20:26 The TodayCard gap row number is not stated in the brief, so the prompt tells Claude Code to find it by search. Recheck the row number in the next report.
 - 2026-10-31 20:26 R89 checkpoint recorded as green (tsc 0, Jest 65 suites, 824 tests). Checkpoint rounds are read-only, so no edits were made.
+- 2026-10-31 20:28 Kept Jev's top pick (sub-line) because it finishes the same card the flagged R90 report covered, is one line, and needs nothing from Isa.
+- 2026-10-31 20:28 Added a test step that runs tsc and only the tests that reference TodayCard, because the flagged report said no tests were run. If none exist, the report must say so and not claim a pass.
+- 2026-10-31 20:28 Start workout has no design copy, so its English stays and is recorded as a design gap, not asked of Isa.
+- 2026-10-31 20:28 Try again is left alone: it sits in a shared component outside the card and is not in the design.
+- 2026-10-31 20:28 Kept the change to one line so no citations to TodayCard.tsx move in the gap doc.

@@ -193,6 +193,10 @@
     "planned": "Prévu",
     "rest": "Repos",
     "startWorkout": "Commencer la séance",
+    "plannedExercises_one": "{{count}} exercice prévu · environ {{minutes}} min",
+    "plannedExercises_other": "{{count}} exercices prévus · environ {{minutes}} min",
+    "plannedExercisesNoDuration_one": "{{count}} exercice prévu",
+    "plannedExercisesNoDuration_other": "{{count}} exercices prévus",
     "freeze": {
       "title": "Gel de série",
       "applied": "Gel appliqué — aujourd’hui est protégé.",

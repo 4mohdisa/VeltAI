@@ -193,6 +193,10 @@
     "planned": "Planned",
     "rest": "Rest",
     "startWorkout": "Start workout",
+    "plannedExercises_one": "{{count}} exercise planned · about {{minutes}} min",
+    "plannedExercises_other": "{{count}} exercises planned · about {{minutes}} min",
+    "plannedExercisesNoDuration_one": "{{count}} exercise planned",
+    "plannedExercisesNoDuration_other": "{{count}} exercises planned",
     "freeze": {
       "title": "Streak freeze",
       "applied": "Freeze applied — today is protected.",
