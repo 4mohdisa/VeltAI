@@ -4,7 +4,8 @@
     "cancel": "Cancelar",
     "done": "Listo",
     "reset": "Restablecer",
-    "tryAgain": "Intentar de nuevo"
+    "tryAgain": "Intentar de nuevo",
+    "loadFailedDefault": "No se pudo cargar lo último."
   },
   "settings": {
     "title": "Ajustes",

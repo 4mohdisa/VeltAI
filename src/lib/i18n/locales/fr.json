@@ -4,7 +4,8 @@
     "cancel": "Annuler",
     "done": "Terminé",
     "reset": "Réinitialiser",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "loadFailedDefault": "Impossible de charger les dernières données."
   },
   "settings": {
     "title": "Réglages",

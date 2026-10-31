@@ -1759,3 +1759,8 @@
 - 2026-10-31 20:36 Row 114 stays DIFFERENT. Only the BUILT line for the Try again label counts as built, so header counts stay unchanged.
 - 2026-10-31 20:36 Treated the freeze screen question as answered by the existing decision 'Gym freeze sheet kept as built; app-only', so the gym.tsx:155 'Apply a streak freeze' task is unblocked for the next round.
 - 2026-10-31 20:36 Chose the doc-only task first because the loop flagged the last report as partly done and one flagged item must be closed before moving on.
+- 2026-10-31 20:38 Chose the LoadFailedNotice default message: it is the smallest task, needs nothing from Isa, and its tests run clears the R96 flag that tests were not run.
+- 2026-10-31 20:38 Used common.loadFailedDefault as the new key name; the prompt requires a grep to confirm it is unused first.
+- 2026-10-31 20:38 Gave es and fr values now so the key lands in all three locales together, per the locale rule. Native review stays on the blocked list.
+- 2026-10-31 20:38 Kept minTapTarget={false} and said so in the prompt, since row 114 accepts that deviation.
+- 2026-10-31 20:38 Rewrote the notes under 600 words, merging repeated items and removing finished work, as the loop note asked.

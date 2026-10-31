@@ -21,7 +21,7 @@ export type LoadFailedNoticeProps = {
   style?: ViewStyle;
 };
 
-export function LoadFailedNotice({ message = "Couldn't load the latest.", onRetry, style }: LoadFailedNoticeProps) {
+export function LoadFailedNotice({ message, onRetry, style }: LoadFailedNoticeProps) {
   const { t } = useTranslation();
   return (
     <View
@@ -41,7 +41,7 @@ export function LoadFailedNotice({ message = "Couldn't load the latest.", onRetr
     >
       <Icon name="alert-circle-outline" size={16} color={color.secondaryLabel} />
       <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
-        {message}
+        {message ?? t('common.loadFailedDefault')}
       </Text>
       {onRetry ? (
         <Pressable onPress={onRetry} haptic={false} minTapTarget={false} accessibilityRole="button" accessibilityLabel={t('common.tryAgain')}>
