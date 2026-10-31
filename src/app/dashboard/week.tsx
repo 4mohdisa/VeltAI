@@ -52,7 +52,7 @@ export default function WeekDetailScreen(): JSX.Element {
 
   return (
     <Screen variant="floating" showBack>
-      <KickerTitle kicker="Nutrition" title={t('dashboard.thisWeek')} tint={accent.blue} />
+      <KickerTitle kicker={t('nutrition.title')} title={t('dashboard.thisWeek')} tint={accent.blue} />
       {loading ? (
         <>
           <Skeleton height={HERO_H} rounded={radius.xl} />
@@ -61,8 +61,8 @@ export default function WeekDetailScreen(): JSX.Element {
       ) : days.length === 0 ? (
         <EmptyState
           icon="chart.bar.xaxis"
-          title="No days yet"
-          message="Log some food and workouts to see your week."
+          title={t('dashboard.weekNoDaysTitle')}
+          message={t('dashboard.weekNoDaysMessage')}
         />
       ) : (
         <Body days={days} />
@@ -116,7 +116,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
             variant="inset"
             options={[
               { label: t('dashboard.inAndOut'), value: 'balance' },
-              { label: 'Net', value: 'net' },
+              { label: t('dashboard.net'), value: 'net' },
             ]}
             value={mode}
             onChange={setMode}
@@ -124,7 +124,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
           {mode === 'balance' ? (
             <StatLine
               value={avgInWeek != null ? formatNumber(avgInWeek) : '—'}
-              unit="kcal eaten per day"
+              unit={t('dashboard.kcalEatenPerDay')}
               sub={
                 week.length > 0
                   ? `${dayMonth(week[0].date)} – ${dayMonth(week[week.length - 1].date)}`
@@ -134,24 +134,24 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
           ) : (
             <StatLine
               value={avgNetWeek != null ? signed(avgNetWeek) : '—'}
-              unit="kcal net per day"
-              sub={`Averaged over the ${weekNets.length} of ${week.length} days Lume could compute`}
+              unit={t('dashboard.kcalNetPerDay')}
+              sub={t('dashboard.weekNetAveragedOver', { value: weekNets.length, total: week.length })}
             />
           )}
           <View style={{ gap: space.sm }}>
-            <ChartHeader title="Calories eaten" note={`Last ${days.length} days`} />
+            <ChartHeader title={t('dashboard.caloriesEaten')} note={t('dashboard.lastDays', { count: days.length })} />
             <Plot
               cols={heroCols}
               height={HERO_H}
               ceiling={formatNumber(heroScale)}
-              summary={`Calories eaten on each of the last ${days.length} days, scale up to ${formatNumber(heroScale)} kcal.`}
+              summary={t('dashboard.weekEatenSummary', { count: days.length, value: formatNumber(heroScale) })}
             />
             <Axis labels={heroLabels(days.map((d) => d.date))} />
           </View>
           {avgIn14 != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
-              {`Over the last ${days.length} days you ate ${formatNumber(avgIn14)} kcal a day on average.${
-                target != null ? ` Target ${formatNumber(target)} kcal.` : ''
+              {`${t('dashboard.weekEatenAverage', { count: days.length, value: formatNumber(avgIn14) })}${
+                target != null ? ` ${t('dashboard.weekTarget', { value: formatNumber(target) })}` : ''
               }`}
             </Text>
           ) : null}
@@ -161,12 +161,12 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
       {/* Secondary — surplus against deficit, day by day. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <ChartHeader title={t('dashboard.dailyNet')} note="Surplus vs deficit" />
+          <ChartHeader title={t('dashboard.dailyNet')} note={t('dashboard.surplusVsDeficit')} />
           {weekNets.length === 0 ? (
             <EmptyState
               icon="chart.bar.xaxis"
-              title="No net yet"
-              message="Add your body stats in onboarding so Lume can work out what you burn."
+              title={t('dashboard.weekNoNetTitle')}
+              message={t('dashboard.weekNoNetMessage')}
             />
           ) : (
             <>
@@ -174,12 +174,12 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                 cols={secCols}
                 height={SEC_H}
                 ceiling={formatNumber(secScale)}
-                summary={`Daily net for ${weekNets.length} of the last ${week.length} days, largest ${formatNumber(secScale)} kcal.`}
+                summary={t('dashboard.weekNetSummary', { value: weekNets.length, total: week.length, largest: formatNumber(secScale) })}
               />
               <Axis labels={week.map((d) => weekdayShort(d.date).charAt(0))} />
               {avgNetWeek != null ? (
                 <Text variant="footnote" color={color.secondaryLabel}>
-                  {`Average ${signed(avgNetWeek)} kcal per day · ${deficits} of ${weekNets.length} days in deficit.`}
+                  {t('dashboard.weekNetAverage', { value: signed(avgNetWeek), deficits, total: weekNets.length })}
                 </Text>
               ) : null}
             </>
@@ -203,11 +203,11 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                 label={formatRelativeDate(new Date(`${d.date}T00:00:00`))}
                 sub={
                   burn != null
-                    ? `In ${formatNumber(d.calories_in)} · burned ${formatNumber(burn)}`
-                    : `In ${formatNumber(d.calories_in)} · burn not computed`
+                    ? t('dashboard.weekRowBurned', { eaten: formatNumber(d.calories_in), burned: formatNumber(burn) })
+                    : t('dashboard.weekRowNoBurn', { eaten: formatNumber(d.calories_in) })
                 }
                 value={net == null ? '—' : signed(net)}
-                unit={net == null ? undefined : 'kcal'}
+                unit={net == null ? undefined : t('dashboard.kcal')}
                 fraction={net == null ? 0 : Math.abs(net) / rowMax}
               />
             );

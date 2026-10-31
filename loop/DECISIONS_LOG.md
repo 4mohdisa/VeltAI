@@ -1869,3 +1869,8 @@
 - 2026-10-31 21:01 Caption colour follows the design (label) rather than waiting for Isa, under the default 'follow the design' rule. Isa can override it.
 - 2026-10-31 21:01 Accessibility label: decided by reading gym.dayStreak, so the count is not read twice if the string already contains it.
 - 2026-10-31 21:01 No gap row edited, since the streak wrap row is blocked on Isa.
+- 2026-10-31 21:02 Chose week.tsx leftovers over the R117 checkpoint. Checkpoints are read-only and the loop script schedules them; the R117 result is still missing and stays recorded in the notes for the next checkpoint.
+- 2026-10-31 21:02 Treated the StreakCounter tests gap as NOT COVERED, following the R115 precedent. No new tests, per the brief. Isa checks on device.
+- 2026-10-31 21:02 Did not edit a gap row for week.tsx, because Isa has not chosen which row should record it. Reason-cell changes are not needed for string-only work.
+- 2026-10-31 21:02 Kept the StreakCounter caption on the design colour (label), per the default rule. Isa can override on device.
+- 2026-10-31 21:02 Parked StreakCounter extras (unused active and caption props, accessible prop on the View, duplicate gym.dayStreak and dashboard.dayStreak keys, stat-hero vs statLarge, caption case). They are cleanup or design decisions, not part of the current task.
