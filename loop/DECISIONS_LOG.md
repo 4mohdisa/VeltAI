@@ -1275,3 +1275,8 @@
 - 2026-10-31 15:19 Chose the /gym/session doc correction: the last report shows false reachability claims that contradict row 113 and the flow conclusions, and the notes say doc fixes get their own round. It is doc-only with one tsc run, which clears the state before build work (Jev 86% run).
 - 2026-10-31 15:19 Limited the round to DESIGN_GAP_ANALYSIS.md with no status changes, so the build queue is untouched.
 - 2026-10-31 15:19 Required step 2 to read the code before editing, because the last round wrote the claims without checking log-session.tsx.
+- 2026-10-31 15:21 Kept gap doc round 4 as the pick. It matches the Jev ranking (84%) and it is the unfinished step from the flagged report, so it clears the flag before build work, as the flag rule requires.
+- 2026-10-31 15:21 Treated the flag as a missing type check or test run. The report did run tsc; Jest was correctly skipped for a read-only doc round. The round still runs tsc once so the check is recorded.
+- 2026-10-31 15:21 Limited the round to the two stale rows named in the report plus the 'Log as planned' row. 'No edit bar' and the picker wording are left for a later round, to keep one task per prompt.
+- 2026-10-31 15:21 Recorded the failed-fetch behaviour (log-session.tsx:89 treats a null response as a rest day) under Parked and Not fixed, because it is a behaviour change, not a doc fix.
+- 2026-10-31 15:21 Recorded that the last report ran git status once. This is read-only, but it breaks the no-git rule, so the prompt repeats the rule.

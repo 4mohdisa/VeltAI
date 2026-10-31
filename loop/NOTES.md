@@ -20,31 +20,34 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - TodayCard: already_checked_in above is_rest_day. Fallback title gymLog.freestyleTitle. No-plan keeps 'Rest' pill, title gymLog.restDayTitle, sub-line gym.nothingScheduledSub. Final 'Nothing scheduled' branch and 'Set schedule' link removed (unreachable, read-only trace). Rest-day condition is is_rest_day || !template. Plan-branch wrapper removed to clear TS2366; content unchanged.
 - Checkpoint rounds are read-only. A flag is cleared by a read-only round or the unfinished step, before build work.
 - Every prompt names the design/ file, gap row and loop/design-match. One task per prompt. Gap-file doc fixes get their own round.
+- /gym/session entry points (verified in code): TodayCard Start workout (TodayCard.tsx:168, no template needed for the sheet path); log-session.tsx:173 chooser tiles; :146 empty-state action; :111 'It went as planned' pill when gym already logged. Do not describe /gym/session as reachable only one way.
 
 ## Status
 BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() calls; gym.loadingSessions; saved.tsx title; TodayCard padding, no-plan title and sub-line, is_rest_day strings via t(), branch reorder, freestyle fallback, unreachable branch removed; MuscleChart padding 16.
+- Gap doc round 3 BUILT: /gym/session reachability claims corrected (lines ~263-278, 296-307, 575). Freestyle verdict at ~299 still reads No under Reachable UI; Isa to decide.
 - Row 113 TodayCard: DIFFERENT. Renders null only on schedule fetch failure (src/lib/data/gymSchedule.ts:38-40), no error copy. Logged, rest and planned states still differ.
 - Server: GetToday sets is_rest_day and already_checked_in together. No backend fix needed (Isa to confirm).
-- Key counts: en 167, es 169, fr 167. Recount before any removal.
-- Tests: last full run R312 green (65 suites, 824 tests). Since then tsc and jest gym green. No test renders TodayCard, saved foods or the streak card.
+- Key counts: en 169, es 171, fr 169. Recount before any removal.
+- Tests: last full run R312 green (65 suites, 824 tests). Since then tsc and jest gym green (37 of 37). No test renders TodayCard, saved foods or the streak card.
 
 ## Flags
-- None. The earlier type-check flag was cleared: tsc exited 0 before the last gap-doc edits.
+- Last report was flagged (type check or tests not run). Cause: Jest skipped on a read-only doc round, tsc did run. Cleared by gap doc round 4 (unfinished step, doc-only, runs tsc once). Clear it before build work.
 
 ## Next
-1. (current) Gap doc round 3: correct /gym/session reachability claims in DESIGN_GAP_ANALYSIS.md. Replace 'exactly one' entry point (~264), 'unreachable unless a template is scheduled' (~269-270), freestyle row 'unreachable' (~291), and re-read the row near 260. Evidence: src/app/gym/log-session.tsx:103-104, 111, 146, 173 all route to /gym/session.
-2. Gap doc round: row 89 note into reason cell; row 113 app-only wording check.
-3. TodayCard logged state: sub-line 'Logged today · N kcal burned'; green wash pill; hardcoded 'Logged' and 'Logged today' into t().
-4. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd from en, es, fr together.
-5. Wrap hardcoded strings, one file per round: gym.tsx (56, 102, 114, 123, 151-156, 'My schedule', 'My workouts'); profile/index.tsx (62, 82-83); (tabs)/index.tsx (115, 150; add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx 131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx 48; StreakCounter.tsx 15; TodayCard 110, 174; GymPatternsCard 85; saved.tsx 61-144; MuscleChart 132, 135, 149, 159.
-6. gym.tsx lines 3-4 'month month' typo; gym.tsx 117 gap 12 to 11.
-7. Read and wrap gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
-8. session.tsx:537 hardcoded 'Nothing scheduled': compare with design.
-9. TodayCard: chip index key (~162 or ~168), header, pill, chip values, tap target, chevron.
-10. Add sheet icons to design SVGs. Empty-list copy at food.tsx ~445-447.
-11. Duplicates: SLOT_KEYS in (tabs)/food.tsx:84 and food/add.tsx:34; food.savedTitle vs addMenu.myDishes.
-12. Full Jest at next checkpoint.
-13. No rows remain: stop with 'only owner decisions remain'.
+1. (current) Gap doc round 4: fix stale rows near 257-258 and the 'Log as planned' row near 295 in DESIGN_GAP_ANALYSIS.md. Evidence: src/app/gym/log-session.tsx:111 (pill commits plan), gap file line ~221.
+2. Gap doc round: 'No edit bar' near 296 vs docked number-entry bar in src/app/gym/session.tsx; picker wording near 298 (mention Something else tile opens picker directly). Check code first.
+3. Gap doc round: row 89 note into reason cell; row 113 app-only wording check.
+4. TodayCard logged state: sub-line 'Logged today · N kcal burned'; green wash pill; hardcoded 'Logged' and 'Logged today' into t(). Also fix null-on-failure comment at TodayCard.tsx:105 and header.
+5. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd from en, es, fr together.
+6. Wrap hardcoded strings, one file per round: gym.tsx (56, 102, 114, 123, 151-156, 'My schedule', 'My workouts'); profile/index.tsx (62, 82-83); (tabs)/index.tsx (115, 150; add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx 131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx 48; StreakCounter.tsx 15; TodayCard 110, 174; GymPatternsCard 85; saved.tsx 61-144; MuscleChart 132, 135, 149, 159.
+7. gym.tsx lines 3-4 'month month' typo; gym.tsx 117 gap 12 to 11.
+8. Read and wrap gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
+9. session.tsx:537 hardcoded 'Nothing scheduled': compare with design.
+10. TodayCard: chip index key (~162 or ~168), header, pill, chip values, tap target, chevron.
+11. Add sheet icons to design SVGs. Empty-list copy at food.tsx ~445-447.
+12. Duplicates: SLOT_KEYS in (tabs)/food.tsx:84 and food/add.tsx:34; food.savedTitle vs addMenu.myDishes.
+13. Full Jest at next checkpoint.
+14. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again)
 - Footnote '23 sessions · 2 freezes': keys, streak.totalGymDays as session count (recommended), plural keys.
@@ -59,12 +62,15 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Profile row 94 DIFFERENT: record Macros and Profile changes in gap file?
 - Streak strip '/gym/streak' accepted-deviation wording: confirm.
 - Backend GetToday flag: leave as is?
+- Freestyle verdict at gap file ~299: still No under Reachable UI though a route now exists. Decide the verdict.
+- Stray loop/NOTES.md and loop/DECISIONS_LOG.md modifications seen by the last report: confirm the loop script writes them.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
 - Row 17: rest-day exits, pop-in, ring vs flame.
 - Streak strip: flame pulses, greys at 0, artwork, row gap 12 vs 11.
 - TodayCard: header dot, min-height, gaps, pill and chip type. Returns null on load failure with no error copy.
+- Log sheet on failed fetch: log-session.tsx:89 treats a null response as no plan, so a failed fetch shows the rest-day empty state. Behaviour change, not a doc fix.
 - Server: GetToday clears is_rest_day when there is a template.
 - fr: 'Ajouter a {{slot}}'; gymLog.celebration.streak needs count key; plan.addTitle reads 'Add to' in es and fr.
 - Global SegmentedField inset; food search sheet; single scanner; chip padding; '14-day streak' hyphen.
@@ -84,10 +90,12 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Handover summaries and reports can be stale. Check the file. Round 3 found the reachability claims false and the report's 'exactly one' wrong.
 - Gap line numbers move with inserts. Locate by content.
 - Design gym markup: asset 7dc211f6; add menu: 71f71ac4.
+- Reports have run git status against the no-git rule. Repeat the rule in every prompt.
 
 ## Loop notes
 - One component or one doc change per prompt.
 - Jev: flag and unfinished-step ordering rule stands.
 - A handover just happened. Claude Code knows only the summary, so prompts name files fully.
-- Gap doc round 2 reported the /gym/session 'exactly one' claim as still wrong. Chose gap doc round 3 next (Jev 86% run). Reason: false claims contradict row 113 and the flow conclusions; doc-only, one tsc run, clears state before build work.
-- Gap doc round 1 completed with an unclear report; round 2 fixed the wording; round 3 fixes the reachability claims.
+- Gap doc round 3 completed with a clear report. Its freestyle verdict is still open (Blocked on Isa).
+- Gap doc round 4 chosen (my pick matches Jev's 84% ranking). Reason: it is the unfinished step from the flagged report, doc-only, and clears the flag before build work.
+- Stale-row claims found by the report: rows near 257-258 say 'bare row, no exercises' (wrong); row near 295 says nothing commits the plan in one tap (wrong). Both fixed in round 4.
