@@ -62,7 +62,7 @@ describe('all four Summary detail routes exist', () => {
   test.each(Object.entries(ROUTES))('%s renders the shared kicker and Breakdown', (key, path) => {
     const src = read(path);
     expect(src).toContain('<KickerTitle');
-    if (key === 'week' || key === 'training') {
+    if (key === 'energy' || key === 'week' || key === 'training') {
       expect(src).toContain("t('dashboard.breakdown')");
       expect(code(path)).not.toMatch(/\bBreakdown\b/);
     } else {

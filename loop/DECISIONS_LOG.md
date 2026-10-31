@@ -1814,3 +1814,7 @@
 - 2026-10-31 20:49 Kept the test run to the one changed-area test file, since the full suite is reserved for checkpoints.
 - 2026-10-31 20:49 Did not edit the gap doc, because no row is changed by this label swap alone.
 - 2026-10-31 20:49 Parked the macros test weakness for later, since it is a test-only issue and not on the critical path.
+- 2026-10-31 20:50 Chose the test widening first. The loop flagged R106 as partial because energy.tsx was not yet covered by the check. This clears that flag with a test-only change.
+- 2026-10-31 20:50 Asked for the render test to be run but not edited, so any failure shows up without a second change in the same round.
+- 2026-10-31 20:50 Kept gap rows unchanged. The Breakdown label has no separate gap row, and the Week and Training row question is still with Isa.
+- 2026-10-31 20:50 Recorded that the energy label is BUILT, not verified, because the check reads source text only.

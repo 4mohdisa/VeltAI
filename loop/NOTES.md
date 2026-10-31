@@ -20,29 +20,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - LoadFailedNotice: no design counterpart. minTapTarget={false} kept (row 114). Message required, no default (R98).
 - R100 flag cleared: tsc 0, locale JSON parses, key in en, es, fr.
 - fr Breakdown is 'Détail' as Isa specified, despite nutrition.breakdown 'Répartition'.
-- summaryDetails.test.ts Breakdown check (R104, widened for training in R106) picks the key for 'week' and 'training' and the word 'Breakdown' for other routes. It reads source text only and does not prove rendering.
+- summaryDetails.test.ts Breakdown check (R104, widened for training in R106) picks the key for 'week', 'training' and, from R108, 'energy', and the word 'Breakdown' for other routes. It reads source text only and does not prove rendering.
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later.
 
 ## Next
-1. energy.tsx:205: Breakdown via t('dashboard.breakdown') (issued R107, one file).
-2. Widen summaryDetails.test.ts Breakdown check to energy once energy.tsx uses t(). Test file only.
-3. Doc only: record Week and Training Breakdown once Isa picks a row.
-4. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
-5. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
-6. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-7. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-8. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-9. add.tsx slotKey (~67): remove unused keys if confirmed.
-10. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
-11. Doc only: gap line 82 stray br; line 76 record Try again; MACRO_PRECISION comment; lines 90, 1014, 1495; line 1505 cites lines 72-75, now table rows.
-12. /gym/session saves top weight on all sets: fix or park.
-13. week.tsx English copy ('This week', 'In & out', 'Daily net', footer): per row or English-only.
-14. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-15. Freeze strings at count 1 read wrongly.
-16. gym.tsx ~151-156 'Training', 'My schedule', 'My workouts', 'Session history': per row or English-only.
-17. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
+1. summaryDetails.test.ts: widen Breakdown check to energy.tsx (issued R108, test file only). Also run render/detailChrome.render.test.tsx and report its result.
+2. Doc only: record Week and Training Breakdown once Isa picks a row.
+3. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
+4. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
+5. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+6. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+7. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+8. add.tsx slotKey (~67): remove unused keys if confirmed.
+9. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
+10. Doc only: gap line 82 stray br; line 76 record Try again; MACRO_PRECISION comment; lines 90, 1014, 1495; line 1505 cites lines 72-75, now table rows.
+11. /gym/session saves top weight on all sets: fix or park.
+12. week.tsx English copy ('This week', 'In & out', 'Daily net', footer): per row or English-only.
+13. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+14. Freeze strings at count 1 read wrongly.
+15. gym.tsx ~151-156 'Training', 'My schedule', 'My workouts', 'Session history': per row or English-only.
+16. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
+17. energy.tsx remaining English copy ('Energy balance', 'In and out', 'Intake', 'Total burned'): per row or English-only.
 18. Re-issue read-only checkpoint (full tsc and full app suite).
 19. No rows left: stop with 'only owner decisions remain'.
 
@@ -54,7 +54,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review: Gels, Congelaciones, AI insights, My dishes, Macros wording, gym.applyStreakFreeze.
 - fr 'congélation' vs 'gel' (gym.applyStreakFreeze). Recommended 'Appliquer un gel de série'; kept as written.
-- fr Breakdown: 'Détail' vs 'Répartition'.
+- fr Breakdown: 'Détail' vs 'Répartition'. Recommended 'Répartition'.
+- Gap row for Week and Training Breakdown (and Energy, if it needs its own row).
 - Group names; training list; profile row; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals; remaining-kcal line.
 - Users without body stats see 1,500 kcal; design uses 2,100.
@@ -63,7 +64,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Rename plannedExercisesNoDuration to plannedExercises?
 - Which row records the StreakCounter wrap? 'Start workout' is not in the design.
 - Keep freeze screen (design has none) and the freeze sentence on line 82?
-- Gap row for Week and Training Breakdown.
 
 ## Parked
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) lacks serving data.
@@ -76,16 +76,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; duplicate nutrition.breakdown and dashboard.breakdown (merge once fr settled).
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
-- Test weakness: summaryDetails macros check passes on BreakdownRow and comments alone, although the route uses t('nutrition.breakdown'). Test-only fix, after energy.
+- Test weakness: summaryDetails macros check passes on BreakdownRow and comments alone, although the route uses t('nutrition.breakdown'). Test-only fix, next round after energy.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
 
 ## Gotchas
 - Briefs repeat finished work, quote stale lines and name strings that don't exist. Check first.
 - Design copy is encoded: decode the __bundler/manifest script with node. Raw grep misses it.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
-- The third Breakdown screen is src/app/energy.tsx, not src/app/dashboard/energy.tsx.
+- The third Breakdown screen is src/app/energy.tsx, not src/app/dashboard/energy.tsx. The training file is src/app/dashboard/training.tsx, not src/app/training.tsx.
 
 ## Round log
 R9-R89: most surfaces built. Checkpoints R34, R48, R61, R77, R89 green.
@@ -95,6 +95,7 @@ R101: rejected (three files).
 R102: checkpoint issued, never reported.
 R103: Breakdown on week.tsx via t(). Gap line not added. Flagged partial.
 R104: test check widened by route, passes. Test is weak for non-week routes.
-R105: training.tsx Breakdown via t('dashboard.breakdown'). Flagged partial by loop: test check for training still missing.
-R106: widening of summaryDetails.test.ts to training done (test file only). Loop flagged the round as partly done: energy.tsx still has a hardcoded Breakdown, and the energy check is still loose.
-R107: issued energy.tsx:205 Breakdown via t('dashboard.breakdown'), one file. Energy test widening follows in R108.
+R105: training.tsx Breakdown via t('dashboard.breakdown'). Flagged partial by loop.
+R106: widening of summaryDetails.test.ts to training done. Loop flagged the round as partly done: energy.tsx still hardcoded.
+R107: energy.tsx line 207 Breakdown via t('dashboard.breakdown'), one file, plus useTranslation import and hook in Body. Type check exit 0, summaryDetails.test.ts passes. Loop flagged as partial because the energy check is still loose and the render test was not run.
+R108: issued. Widen summaryDetails.test.ts Breakdown check to energy (test file only). Run detailChrome.render.test.tsx without editing it.
