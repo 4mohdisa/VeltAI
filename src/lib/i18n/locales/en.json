@@ -206,7 +206,14 @@
     "training": "Training",
     "mySchedule": "My schedule",
     "myWorkouts": "My workouts",
-    "sessionHistory": "Session history"
+    "sessionHistory": "Session history",
+    "keepLoggingPatterns": "Keep logging to see patterns",
+    "yourGymHabits": "Your gym habits",
+    "sessionsAWeek": "Sessions a week",
+    "scheduleAdherence": "Schedule adherence",
+    "mostTrained": "Most trained",
+    "needsAttention": "Needs attention",
+    "oftenSkip": "You often skip {{day}}"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

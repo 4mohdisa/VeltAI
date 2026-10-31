@@ -206,7 +206,14 @@
     "training": "Entraînement",
     "mySchedule": "Mon programme",
     "myWorkouts": "Mes séances",
-    "sessionHistory": "Historique des séances"
+    "sessionHistory": "Historique des séances",
+    "keepLoggingPatterns": "Continuez à enregistrer pour voir vos tendances",
+    "yourGymHabits": "Vos habitudes de sport",
+    "sessionsAWeek": "Séances par semaine",
+    "scheduleAdherence": "Respect du programme",
+    "mostTrained": "Les plus entraînés",
+    "needsAttention": "À travailler",
+    "oftenSkip": "Vous sautez souvent {{day}}"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",

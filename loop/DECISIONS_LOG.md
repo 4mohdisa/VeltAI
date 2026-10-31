@@ -1902,3 +1902,7 @@
 - 2026-10-31 21:16 No new Week row: the gap doc has no table row for week.tsx, so the reason cell is not used to record it. Recorded here instead; Isa can override.
 - 2026-10-31 21:16 Removed 'which row records week.tsx' from the Blocked list because this decision now covers it.
 - 2026-10-31 21:16 Did not follow Jev's 'ask' signal: nothing in this round needs Isa, and the only open question has a default the notes already cover.
+- 2026-10-31 21:18 Chose GymPatternsCard copy: it is the NEXT item from R126, it is a single file, and it lets this round run the tests the loop flagged as missing.
+- 2026-10-31 21:18 Ran tsc and changed-file tests this round, because the loop flagged R126 for not running them. The doc-only rule was not the right reason to skip tests on a code round.
+- 2026-10-31 21:18 Kept GymPatternsCard padding at 20: it has no design counterpart, so Isa decides whether it matches the others at 16.
+- 2026-10-31 21:18 Put the gym.tsx header typo under NEXT, not in this round, because the one-file rule applies.
