@@ -2534,3 +2534,11 @@
 - 2026-11-01 01:44 The R259 flag ('type check or tests not run') is closed. R259 was doc-only, changed no code, and the rules say doc-only rounds run no tests.
 - 2026-11-01 01:44 The -0.6 title tracking and 52pt right padding follow the design for Food. The accepted-deviation list for those values covers row 112 (Gym) only, not Food.
 - 2026-11-01 01:44 Top padding, the Meal history link, the calorie bar, 'left today' and the four-column wrap stay out of this task because they are blocked on Isa.
+- 2026-11-01 01:46 Flag on R260 closed: tsc exit 0 and 111/111 changed-file tests ran; full suite is only for checkpoints, so no rerun.
+- 2026-11-01 01:46 Kept run over Jev's ask (81%): the design wins by default, the eyebrow only opens an existing route used by WeekStrip, and no navigation structure changes. Jev cannot see that the route already exists.
+- 2026-11-01 01:46 Chose the eyebrow as the smallest step that clears the last title block difference on row 85.
+- 2026-11-01 01:46 Asked for no question to Isa: the chevron case is handled by stopping into BLOCKED, not by asking now.
+- 2026-11-01 01:47 Rewrote the rejected R261 prompt so it names the loop/design-match branch and forbids branch switches, pushes and merges.
+- 2026-11-01 01:47 Kept run over Jev's ask (83%). Reason: Isa's default is to follow the design. The calendar route already exists and WeekStrip uses it, so the eyebrow only opens an existing screen with no new route or navigation change. Jev cannot see that the route already exists.
+- 2026-11-01 01:47 Superseded the handover's 'RECOMMENDED NEXT: title block' with the eyebrow task, because the title block values were already built in R260.
+- 2026-11-01 01:47 Limited checks to tsc plus the six food.tsx suites, per the testing rules. Full suite is reserved for the next checkpoint.

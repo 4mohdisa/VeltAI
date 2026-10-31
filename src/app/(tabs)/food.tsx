@@ -37,7 +37,7 @@ import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanRevi
 import { ScanFailedCard } from '@/components/food/scan/ScanFailedCard';
 import { ScanFeedbackPrompt } from '@/components/food/scan/ScanFeedbackPrompt';
 import { showToast } from '@/components/display/toastStore';
-import { accent, categoryAccent, color, layout, radius, shadow, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, opacity, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { haptics } from '@/lib/haptics';
 import { formatCalories, formatNumber } from '@/lib/formatting';
@@ -399,6 +399,12 @@ export default function FoodLogScreen() {
     });
   };
 
+  const dayLabel = fromIso(selectedDate).toLocaleDateString(undefined, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
+
   return (
     // No SafeAreaView top edge: the scroll runs under the status bar so the
     // FloatingHeader strip has something to blur (design-file treatment).
@@ -433,19 +439,28 @@ export default function FoodLogScreen() {
                 eyebrow names the day being shown, which is no longer always today
                 (architecture item 3). */}
             <View style={{ paddingHorizontal: space.xs }}>
-              <View style={{ minHeight: 40, justifyContent: 'center' }}>
+              <Pressable
+                haptic={false}
+                onPress={() => router.push('/food/calendar')}
+                accessibilityLabel={t('food.pickDayLabel', { date: dayLabel })}
+                style={({ pressed }) => ({
+                  alignSelf: 'flex-start',
+                  minHeight: 40,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 7,
+                  opacity: pressed ? 0.55 : opacity.full,
+                })}
+              >
                 <Text
                   variant="label"
                   color={color.secondaryLabel}
-                  style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}
+                  style={{ flexShrink: 1, textTransform: 'uppercase', letterSpacing: 1.1 }}
                 >
-                  {fromIso(selectedDate).toLocaleDateString(undefined, {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                  })}
+                  {dayLabel}
                 </Text>
-              </View>
+                <Icon name="chevron-down" size={10} color={color.secondaryLabel} weight="bold" />
+              </Pressable>
               <Text
                 variant="title1"
                 color={color.label}

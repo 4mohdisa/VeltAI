@@ -197,7 +197,8 @@
     "scanAgain": "Scan again",
     "confirmProduct": "Confirm product",
     "nameField": "Name",
-    "gramsUnit": "g"
+    "gramsUnit": "g",
+    "pickDayLabel": "{{date}}. Pick a day"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",
