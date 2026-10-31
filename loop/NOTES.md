@@ -29,10 +29,10 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Tests: last full run R312 green (65 suites, 824 tests). Since then tsc and jest gym green. No test renders TodayCard, saved foods or the streak card.
 
 ## Flags
-- None. The earlier type-check flag was cleared: tsc exited 0 before the last gap-doc edits. Re-run tsc once in this round.
+- None. The earlier type-check flag was cleared: tsc exited 0 before the last gap-doc edits.
 
 ## Next
-1. (current) Gap doc round 2: line 458 status to DIFFERENT; line 470 null means fetch failure; line 476 delete 'Session' vs 'Freestyle session'; lines 264-267 citation to TodayCard.tsx:168 and branch order; lines 399-400 comma (doc-only).
+1. (current) Gap doc round 3: correct /gym/session reachability claims in DESIGN_GAP_ANALYSIS.md. Replace 'exactly one' entry point (~264), 'unreachable unless a template is scheduled' (~269-270), freestyle row 'unreachable' (~291), and re-read the row near 260. Evidence: src/app/gym/log-session.tsx:103-104, 111, 146, 173 all route to /gym/session.
 2. Gap doc round: row 89 note into reason cell; row 113 app-only wording check.
 3. TodayCard logged state: sub-line 'Logged today · N kcal burned'; green wash pill; hardcoded 'Logged' and 'Logged today' into t().
 4. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd from en, es, fr together.
@@ -40,7 +40,7 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 6. gym.tsx lines 3-4 'month month' typo; gym.tsx 117 gap 12 to 11.
 7. Read and wrap gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
 8. session.tsx:537 hardcoded 'Nothing scheduled': compare with design.
-9. TodayCard: chip index key (~168), header, pill, chip values, tap target, chevron.
+9. TodayCard: chip index key (~162 or ~168), header, pill, chip values, tap target, chevron.
 10. Add sheet icons to design SVGs. Empty-list copy at food.tsx ~445-447.
 11. Duplicates: SLOT_KEYS in (tabs)/food.tsx:84 and food/add.tsx:34; food.savedTitle vs addMenu.myDishes.
 12. Full Jest at next checkpoint.
@@ -81,12 +81,13 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Render tests have no i18n instance; lng fixed to 'en' (src/lib/i18n/index.ts:41).
 - Grep with LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
 - npx jest i18n finds no tests and exits 1.
-- Handover summaries and reports can be stale. Check the file. The handover NEXT of MuscleChart padding was stale (already BUILT).
+- Handover summaries and reports can be stale. Check the file. Round 3 found the reachability claims false and the report's 'exactly one' wrong.
 - Gap line numbers move with inserts. Locate by content.
 - Design gym markup: asset 7dc211f6; add menu: 71f71ac4.
 
 ## Loop notes
 - One component or one doc change per prompt.
 - Jev: flag and unfinished-step ordering rule stands.
-- Round after the TodayCard doc edit: gap doc round 2 chosen (Jev 87% run, accepted). Reason: the gap file still has false claims that contradict row 113; it is doc-only with one tsc run and clears the state before build work.
-- Gap doc round 1 completed with an unclear report: lines 458, 470, 476 and 264-267 still contain false claims. Handled in gap doc round 2.
+- A handover just happened. Claude Code knows only the summary, so prompts name files fully.
+- Gap doc round 2 reported the /gym/session 'exactly one' claim as still wrong. Chose gap doc round 3 next (Jev 86% run). Reason: false claims contradict row 113 and the flow conclusions; doc-only, one tsc run, clears state before build work.
+- Gap doc round 1 completed with an unclear report; round 2 fixed the wording; round 3 fixes the reachability claims.

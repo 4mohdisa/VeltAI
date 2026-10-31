@@ -260,14 +260,22 @@ camera analogue to Food's scanning. Templates and the weekly schedule are
 | Gym tab → TodayCard → "Start workout" → `/gym/session` | **Conditional** | Yes — full exercise logging |
 | Profile → Connected apps → Strava / WHOOP sync | Yes | Yes, server-side import |
 
-I verified the conditional myself: `/gym/session` has **exactly one** entry point
-in the entire app (`src/components/gym/TodayCard.tsx:168`), and `TodayCard`
-returns `null` when the fetch failed (null). Its branches then run in this order:
-`already_checked_in` first (a bare header), then `is_rest_day` or no template (the
-rest day card, also a bare header), then planned, the only state that renders the
-"Start workout" button. So the app's richest logging screen — the one that does
-roughly what design flows 2–4 describe — is unreachable unless a template is
-scheduled for today and the day is not yet checked in.
+`/gym/session` has these entry points:
+
+- `src/components/gym/TodayCard.tsx:168` — "Start workout", opens the screen plain.
+- `src/app/gym/log-session.tsx:173` — the three chooser tiles, shown when today has planned exercises; each opens the screen in its mode (`adjust`, `ticklist`, `picker`).
+- `src/app/gym/log-session.tsx:146` — the empty state's action, shown when today has no planned exercises; opens the screen plain.
+- `src/app/gym/log-session.tsx:111` — the "It went as planned" pill when the gym is already logged today; opens the screen plain.
+
+The three log sheet paths all route through `openSession` (`src/app/gym/log-session.tsx:103-104`).
+
+The Start workout path is the conditional one. `TodayCard` returns `null` when the
+fetch failed (null). Its branches then run in this order: `already_checked_in`
+first (a bare header), then `is_rest_day` or no template (the rest day card, also a
+bare header), then planned, the only state that renders the "Start workout" button.
+So that button needs a template scheduled for today and a day not yet checked in.
+The log sheet paths do not: the sheet opens from the `+` menu on any day, and from
+the Gym tab until the day is logged (`GymSessionButton` is not pressable after that).
 
 ## What exists in the backend but is not a reachable logging flow
 
@@ -285,20 +293,19 @@ scheduled for today and the day is not yet checked in.
 | Logging method the design implies | Backend support? | Reachable UI today? |
 |---|---|---|
 | 1. Log as planned (one tap, verbatim) | **Yes** — sessions + exercises + complete; `GET /today` supplies the plan | **No** — nothing commits the plan in one tap |
-| 2. Log adjusted | **Yes** — same routes, `gym_exercises` columns | **Partial** — only inside `/gym/session`, behind the conditional Start button; no "Different weights" affordance, no edit bar |
-| 3. Log partial | **Yes** — `completion_rate`, `gym_adherence` | **Partial** — `/gym/session` checkboxes produce a rate; no tick-list sheet, no path from the log sheet |
+| 2. Log adjusted | **Yes** — same routes, `gym_exercises` columns | **Partial** — only inside `/gym/session`, opened by the conditional Start button or the log sheet's "Different weights" tile (`adjust` mode); no edit bar |
+| 3. Log partial | **Yes** — `completion_rate`, `gym_adherence` | **Partial** — `/gym/session` checkboxes produce a rate; no tick-list sheet; the log sheet's "Only some of it" tile opens the screen in `ticklist` mode |
 | 4. Log off-plan | **Yes** — exercise library | **Partial** — `ExercisePicker` only once already inside `/gym/session` |
-| 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — a response with no template shows the rest-day card, so `/gym/session` is unreachable; only the questionnaire remains |
+| 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — a response with no template shows the rest-day card, which has no Start button; `/gym/session` is still reachable from the log sheet's empty state (`src/app/gym/log-session.tsx:146`), where "Add exercise" opens the picker and the session saves with no template |
 | 5b. Custom exercise ("Add 'X' as a custom exercise") | **No** — every write path uses `exercise_id` into `exercise_library`; no create-exercise route | **No** |
 | 6. Per-segment cardio (`Leg 1: 10 min @ 7 km/h`, "Add segment") | **Partial** — schemas capture ONE flat parameter set per exercise, not a list of segments (`parameters` is jsonb, so a list is storable but not validated) | **No** |
 | 7. Session-level effort / energy (**app-only, not in the design**) | **No** — `rpe` is per-exercise; no session column, no API field | **Yes** — and the values are discarded before the request |
 | 8. Strava / WHOOP / Apple Health import (**not in the design**) | **Yes** — dedupe columns and a session insert path | **Yes** for Strava/WHOOP |
 
 **The short version:** the backend already supports essentially every logging
-method the design implies. What is missing is the UI layer — there is no chooser,
-so the four branches never become four choices, and the one screen that implements
-most of them sits behind a conditional button that the three entry points users
-actually reach all bypass.
+method the design implies. The log sheet is the chooser, and its tiles open the one
+screen that implements most of the branches, so that screen does not depend on the
+conditional Start button.
 
 Per the brief, no new flow is proposed here.
 
@@ -565,7 +572,7 @@ and the locked/unlocked model (*"Logged and locked. Numbers are saved as they we
 with an **Edit** → **Save changes** cycle).
 
 **App:** **no route corresponds to this view.** `/gym/session` is the live-logging
-screen reachable only from "Start workout"; `/gym/history` is a flat list. Neither
+screen reachable from "Start workout" and the log sheet; `/gym/history` is a flat list. Neither
 is reachable from the calendar, because the calendar's cells are not pressable.
 
 **Differences:** no route into a specific past day; no energy card; no "What I ate";

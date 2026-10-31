@@ -1272,3 +1272,6 @@
 - 2026-10-31 15:17 Kept the TodayCard logged-state build for the round after, since it needs a source edit and the gap file should be correct first.
 - 2026-10-31 15:17 Left row 89 reason-cell move and row 113 app-only wording to a later doc round. The row 113 wording is already corrected in the last report, so this round covers only the remaining false claims.
 - 2026-10-31 15:17 Accepted Jev's run pick (87%) for the same reasons. Its risk reading of 1.4 is about continuing without Isa, and this round asks Isa nothing and changes no code.
+- 2026-10-31 15:19 Chose the /gym/session doc correction: the last report shows false reachability claims that contradict row 113 and the flow conclusions, and the notes say doc fixes get their own round. It is doc-only with one tsc run, which clears the state before build work (Jev 86% run).
+- 2026-10-31 15:19 Limited the round to DESIGN_GAP_ANALYSIS.md with no status changes, so the build queue is untouched.
+- 2026-10-31 15:19 Required step 2 to read the code before editing, because the last round wrote the claims without checking log-session.tsx.
