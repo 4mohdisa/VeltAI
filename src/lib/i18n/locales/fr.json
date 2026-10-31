@@ -175,7 +175,15 @@
     "summaryTitle": "Résumé",
     "todaysPlan": "Plan du jour",
     "next": "À suivre : {{title}} à {{time}} · {{energy}}",
-    "gymBedtime": "Créneau de sport {{gym}} · Coucher {{bed}}"
+    "gymBedtime": "Créneau de sport {{gym}} · Coucher {{bed}}",
+    "energyBalance": {
+      "title": "Bilan énergétique",
+      "deficit": "déficit",
+      "surplus": "surplus",
+      "intake": "Apport",
+      "burned": "Brûlées",
+      "percentOfGoal": "{{percent}} % de l'objectif"
+    }
   },
   "nutrition": {
     "title": "Nutrition",

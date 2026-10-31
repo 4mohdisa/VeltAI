@@ -1307,3 +1307,8 @@
 - 2026-10-31 15:27 Chose the line 284 doc fix: it needs no owner input, touches one sentence, and is the smallest task.
 - 2026-10-31 15:27 Recorded the round 8 checkpoint as not reported in any report. The handover shows tsc exit 0. Full Jest is deferred to the next checkpoint.
 - 2026-10-31 15:27 Named design/Lume App.html as the matching file even though this is a doc-only round, because the prompt rules require it.
+- 2026-10-31 15:29 Parked the gap-doc line 284 wording task under Blocked on Isa. The loop flagged the last report twice for not running tsc or Jest, and the rule is to park a repeated blocker and not retry it.
+- 2026-10-31 15:29 Chose EnergyBalanceCard over the other two. It is a small, single-file wrap with no dependency on Isa's pending decisions, and it runs tsc and Jest for the changed file, which clears the flag.
+- 2026-10-31 15:29 Did not pick the Logged-day sheet change (Jev's risk reading was high). It alters the log sheet behaviour, so it needs a small, separate round after this one.
+- 2026-10-31 15:29 Did not pick the (tabs)/gym.tsx Training list or profile wrapping. Both touch items Isa has not yet decided.
+- 2026-10-31 15:29 Doc-only rounds must also run tsc once, so they are not flagged again. Recorded in Next.

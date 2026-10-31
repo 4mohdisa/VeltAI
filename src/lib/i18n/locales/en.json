@@ -175,7 +175,15 @@
     "summaryTitle": "Summary",
     "todaysPlan": "Today's plan",
     "next": "Next: {{title}} at {{time}} · {{energy}}",
-    "gymBedtime": "Gym window {{gym}} · Bedtime {{bed}}"
+    "gymBedtime": "Gym window {{gym}} · Bedtime {{bed}}",
+    "energyBalance": {
+      "title": "Energy balance",
+      "deficit": "deficit",
+      "surplus": "surplus",
+      "intake": "Intake",
+      "burned": "Burned",
+      "percentOfGoal": "{{percent}}% of goal"
+    }
   },
   "nutrition": {
     "title": "Nutrition",

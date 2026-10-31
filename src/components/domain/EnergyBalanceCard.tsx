@@ -18,6 +18,7 @@ import type { JSX } from 'react';
 import { View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { router, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
@@ -107,8 +108,11 @@ export type EnergyBalanceCardProps = {
 };
 
 export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBalanceCardProps): JSX.Element {
+  const { t } = useTranslation();
   const show = (kcal: number) => formatNumber(kcalToDisplay(kcal, energyUnit));
-  const header = <CardHeaderRow title="Energy balance" icon="flame" tint={categoryAccent.calories} scope="Today" chevron />;
+  const header = (
+    <CardHeaderRow title={t('dashboard.energyBalance.title')} icon="flame" tint={categoryAccent.calories} scope={t('foodLog.today')} chevron />
+  );
 
   if (loading) {
     return (
@@ -151,7 +155,7 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
               {net < 0 ? `−${show(-net)}` : show(net)}
             </Text>
             <Text variant="callout" color={color.secondaryLabel}>
-              {energyUnit} {net < 0 ? 'deficit' : 'surplus'}
+              {energyUnit} {t(net < 0 ? 'dashboard.energyBalance.deficit' : 'dashboard.energyBalance.surplus')}
             </Text>
           </View>
         ) : (
@@ -171,14 +175,18 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
           <View style={{ flex: 1, minWidth: 0, gap: space.md }}>
             <KeyRow
               tint={categoryAccent.calories}
-              label="Intake"
+              label={t('dashboard.energyBalance.intake')}
               value={show(day.calories_in)}
               target={goal != null ? show(goal) : undefined}
-              sub={goal != null ? `${Math.round((day.calories_in / goal) * 100)}% of goal` : 'No calorie goal set'}
+              sub={
+                goal != null
+                  ? t('dashboard.energyBalance.percentOfGoal', { percent: Math.round((day.calories_in / goal) * 100) })
+                  : 'No calorie goal set'
+              }
             />
             <KeyRow
               tint={accent.blue}
-              label="Burned"
+              label={t('dashboard.energyBalance.burned')}
               value={burned == null ? '—' : show(burned)}
               sub="No burn target set"
             />

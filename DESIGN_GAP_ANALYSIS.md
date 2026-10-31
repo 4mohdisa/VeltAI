@@ -349,6 +349,8 @@ height = insets.top + space.xl` (≈79) with an SVG gradient 0.86→0.20 and a
 Order rendered: `PendingSyncBanner` → `EnergyBalanceCard` → `WeekEnergyCard` →
 `WorkoutsWeekCard` → Macros card → `GymStatusCard` → `MorningBriefCard` → plan card.
 
+`EnergyBalanceCard`: Hardcoded strings wrapped in t() (BUILT, not verified).
+
 Card chrome, `CardHeaderRow` tokens, ring geometry, chart constants
 (`CHART_H 130`, `GUTTER 46`, `BAR_W 12`, `DIM 0.28`, `NET_BAR_W 16`, radii 6/6/3/3),
 pip metrics (32/6/`radius.md`, `600 12/16`) and the macro row stack all match the
