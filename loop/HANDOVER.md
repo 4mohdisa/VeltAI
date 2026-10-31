@@ -1,42 +1,45 @@
-HANDOVER: branch loop/design-match. Don't switch, push or merge; the loop script commits. Don't open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; nothing has been checked on a device.
+HANDOVER: branch loop/design-match. Don't switch, push or merge; the loop script commits. Don't open loop/NOTES.md or loop/DECISIONS_LOG.md (both show modified; not ours). Say BUILT, never verified; nothing has been checked on a device.
 
-BUILT THIS SESSION (no whole row is built)
-- Row 85, Food day log (still DIFFERENT): title block values; eyebrow button with chevron opening /food/calendar; new key food.pickDayLabel in en, es, fr (es and fr unreviewed).
-- Row 103, Macros detail (still DIFFERENT): card gap 16 via contentStyle in dashboard/nutrition.tsx. Kicker and Breakdown dots NOT BUILT.
-- Summary differences (lines 395-424): 14, 25 (letter spacing only), 26, 27 built. Header height 82 EXACT on all three tabs.
-- All Summary differences 1-30 re-checked with file and line. Row 110 Profile chrome re-checked.
+BUILT (no whole table row is built)
+- Summary difference 12 (doc line 406): net sign. BUILT.
+- Line 76, Gym chooser: PARTIAL, eight differences listed.
+- Line 103, card gap: PARTIAL. nutrition.tsx:76 and energy.tsx:52 are 16; week.tsx:54 and training.tsx:64 still 12. Row status stays DIFFERENT.
+- Line 107 Privacy: gap 22, footnotes on SettingsList footer. PARTIAL.
+- Line 108 Support: gap 20 (space.xl). PARTIAL.
+- Line 109 About: gap 26, wordmark gap 6, app-only padding removed. PARTIAL.
+- Lines 111, 113 re-checked: PARTIAL, doc only.
 
 IN PROGRESS: nothing.
-Last checks: tsc 0; EnergyBalanceCard's three test files pass, 65/65.
+Last full run: tsc 0; jest 64/65 suites, 822/824 tests. Later rounds changed no code.
 
 KEY FILES
-src/app/(tabs)/index.tsx, food.tsx; src/app/dashboard/nutrition.tsx; src/components/domain/EnergyBalanceCard.tsx, WeekEnergyCard.tsx, WorkoutsWeekCard.tsx; src/components/display/DetailChart.tsx; src/components/navigation/Screen.tsx, FloatingHeader.tsx.
-design/Lume App.html bundles: Summary 185bb533, Food 71f71ac4, Gym 7dc211f6, Profile b09a5e65. Decode into /tmp only.
+src/app/gym/log-session.tsx; src/app/profile/privacy.tsx, support.tsx, about.tsx; src/app/energy.tsx; src/app/dashboard/*; src/components/display/SettingsList.tsx; src/components/navigation/Screen.tsx, AddMenu.tsx, LumeTabBar.tsx; src/lib/design/tokens.ts.
+design/Lume App.html bundles: Summary 185bb533, Food 71f71ac4, Gym 7dc211f6, Profile b09a5e65. Decode to /tmp only, delete after.
 
 DECISIONS
-- Literals only where no token covers the value (7, -1, 1.1, -0.6, 52).
-- Food eyebrow uses Pressable defaults for hit slop; haptics off, matching neighbouring links.
-- No BUILT claims for kicker or dots: the differences live in shared DetailChart.tsx, and forking it would break the shared-component rule.
+- Literals only where no token covers the value (22, 26, 6).
+- Rest day redirects to /gym/session picker; closing it does not return to the Gym tab, unlike the design.
+- Row lists live in the summary table; detail sections point to them.
+- Rows keep their open items even if a brief says fewer remain.
 
 WAITING ON ISA
-- Snapshot: detailChrome macros snapshot is RED from the card gap. Fix is one approved jest -u on that file. Never run -u unasked.
-- DetailChart.tsx edit approval (kicker, Breakdown dots, stat line); it affects all four detail views and their snapshots.
-- Top padding on three tabs. Recommended inset-based.
-- Week chart axis: recommended accepting data-driven, because fixed axes clip real values.
-- Burn target, weekly target, calories per session, steps data source.
-- Profile button initials.
+- One jest -u on detailChrome for the red energy and macros snapshots (only failures; diff was the intended gap). Never run -u unasked.
+- DetailChart.tsx approval (Kicker, Breakdown dots).
+- LumeTabBar.tsx approval: + menu opens the chooser on logged days; finishing can write a second session row.
+- About header: recommended removing, keeping an accessible heading.
+- Row count: table has 42 rows, not 41, no numbers. Top padding, week chart axis, burn and weekly targets, steps source, Profile initials remain from earlier.
 
-RECOMMENDED NEXT: Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155). One line, no Isa decision.
+RECOMMENDED NEXT: doc-only fix of line 107 (footnote text false, citations shifted) and line 108 items 1-3 (one line off).
 
 SPOTTED, NOT FIXED
-- Screen.tsx:163 strip is inset-based, not 82 or 84, on all floating detail screens.
-- Parked stats: WorkoutsWeekCard.tsx:40-41, WeekEnergyCard.tsx:106-107.
-- energy.tsx, dashboard/week.tsx, training.tsx still have card gap 12.
-- Fixing difference 17 needs a SegmentedField change; check inset callers first.
-- Streak skeleton and notice (index.tsx:108, :114) sit 2 higher than the loaded row.
-- Hardcoded English across EnergyBalanceCard, WeekEnergyCard, WorkoutsWeekCard, MacroBars, index.tsx, calendar.tsx, WeekStrip.tsx.
-- Stale doc text: recap lines 430-431; row 85 cites food.tsx:633 and :542 (now about :655, :564); row 104 says BUILT where the list says EXACT.
-- Two "flagged report" requests never said what was flagged.
+- Row 103's Energy snapshot stays red until approval; week and training pass only because they still differ.
+- No test covers privacy, support, about or log-session layout.
+- About: tracking 0 vs -0.6 (about.tsx:16), tagline centring (:19).
+- Screen.tsx:117 paddingBottom 4 (parked).
+- Unused keys gymLog.restDayMessage, logAnExercise.
+- Doc lines 192, 229 stale; section at 855 overlaps FAB row.
+- Hardcoded English across the Profile screens, schedule.tsx, EnergyBalanceCard.
+- Old /tmp/lume-* folders from earlier sessions remain.
 
 GOTCHAS
-Use LC_ALL=C /usr/bin/grep; quote (tabs) paths. Doc row numbers are file lines; grep first. Most suites read source text, so layout is largely untested. src/app/(tabs)/profile does not exist; use src/app/profile.
+Briefs can cite stale paths or values: src/theme/tokens.ts and dashboard/energy.tsx don't exist; check first. Use LC_ALL=C /usr/bin/grep; quote (tabs) paths. Doc row numbers are file lines. Most suites read source text.
