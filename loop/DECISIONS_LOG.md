@@ -2067,3 +2067,8 @@
 - 2026-10-31 22:45 Kept the checkpoint over Jev's pick (food.tsx 'Analyzing', 89%). Reason: the loop note requires a checkpoint this round, and the notes say the full suite has been owed since R146. Checkpoint rounds are read-only, so the food.tsx change moves to the next round.
 - 2026-10-31 22:45 Logged R161 as flagged. Its tsc result and no-matching-tests result are recorded in CHECKED, so the flag is cleared by this checkpoint's run.
 - 2026-10-31 22:45 Did not reopen the R161 device, native review or design-question items. They remain in Blocked on Isa.
+- 2026-10-31 22:46 Chose SwipeableRow defaults over food.tsx 'Analyzing' because the notes say to finish a dialog or label set before starting another surface, and the handover lists it first.
+- 2026-10-31 22:46 Kept this round to a single shared component so the swipe dialog set is complete before the next surface.
+- 2026-10-31 22:46 No checkpoint this round: R162 ran the full suite green, so no full suite is owed.
+- 2026-10-31 22:46 Prompt tells Claude Code to grep for the defaults first, because line numbers drift and the handover list may be stale.
+- 2026-10-31 22:46 Other swipe prompts and food/detail.tsx go to NEXT, not this round.
