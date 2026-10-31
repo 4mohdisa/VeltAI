@@ -2333,3 +2333,6 @@
 - 2026-11-01 00:36 The prompt names design/Lume App.html (food bundle 71f71ac4) as the matching design file, to meet the rejection point in the loop note. It tells Claude Code not to open the bundle, because a doc-only fix does not need it.
 - 2026-11-01 00:36 Kept the status of row 85 as DIFFERENT, because the 12px calorie bar, 'left today' figure and 700ms animation are still missing.
 - 2026-11-01 00:36 Jev's low-confidence ask case (R215) is not repeated: no Isa input is needed, and the task is small.
+- 2026-11-01 00:37 Loop flagged R216 again, though its report shows tsc exit 0. Row 85 doc-wording rounds R213-R216 have now been flagged more than twice, so per the two-flag rule they go to Blocked on Isa and are not retried.
+- 2026-11-01 00:37 Chose the row 87 re-check next: doc-only, tsc only, needs no owner input, and it is the next item in the Next list.
+- 2026-11-01 00:37 Row 87 re-check also checks the 'Check your connection' and hardcoded 'Quick add' items against the design, without fixing them, since they are already in Parked or the difference list.

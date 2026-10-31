@@ -21,29 +21,30 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - A prompt that does not name the matching design/ file is rejected. Name it every time.
 
 ## Status
-- R216 (now): doc-only fix of 'no goal' wording on the row 85 'One-line reason' (around line 890), tsc only. Rewritten after R215 prompt was rejected for not naming the design/ file. Scope of R215 was too narrow (lines 85 and 933 only).
-- R215: flagged. Fixed row 85 opening sentence and differences item 2 (lines 85, 933). Line 890 still says no goal. tsc exit 0.
+- R217 (now): doc-only re-check of row 87 Quick add against design/Lume App.html (food bundle 71f71ac4), tsc only. No code changes.
+- R216: flagged again by the loop, though the report shows tsc exit 0. Edited line 890 ('no goal' wording removed). Row 85 doc-wording rounds R213-R216 are now parked under Blocked on Isa.
+- R215: flagged. tsc exit 0.
 - R214: flagged, same wording issue. tsc exit 0.
-- R213: doc-only row 85 summary rewrite (lines 895-900); CaloriesCard citation food.tsx:660-703. tsc exit 0.
+- R213: doc-only row 85 summary rewrite; CaloriesCard citation food.tsx:660-703. tsc exit 0.
 - R209: checkpoint clean. App 65/65 suites, 824/824 tests.
 - R207: row 85 macro bars built in CaloriesCard (6px ProgressBars from useGoals()). BUILT, not verified.
 - Row 85 still DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill animation.
 - Row 86 food detail: BUILT, not verified.
-- Row 87 Quick add: still DIFFERENT.
+- Row 87 Quick add: still DIFFERENT. Re-check in progress (R217).
 
 ## Next (in order)
-1. R216: fix line 890 'no goal' wording, tsc only. Confirm by grep that no 'no goal' remains in row 85.
+1. R217: row 87 re-check against design/Lume App.html, doc-only, tsc only.
 2. Row 85 calorie bar and 'left today': Blocked on Isa.
-3. Row 85 stale lines 895-897 (three-column wording, food.tsx:584-626 citation): doc-only fix, tsc only.
-4. Row 87 Quick add: re-check copy and layout against design/Lume App.html (food bundle 71f71ac4) before building.
-5. food/detail.tsx: requeue only if a re-check finds a real difference.
-6. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each first.
-7. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-8. food.rowAnalysing 'Analysing photo': design question, do not build.
-9. No rows left: stop with 'only owner decisions remain'.
+3. Row 85 doc wording (lines 895-897, 930, 934, 937): parked under Blocked on Isa after two flags.
+4. food/detail.tsx: do not requeue unless a re-check finds a real difference.
+5. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each first.
+6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+7. food.rowAnalysing 'Analysing photo': design question, do not build.
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Row 85 12px calorie bar and 'left today'.
+- Row 85 doc wording fixes (lines 895-897, 930, 934, 937). Flagged R214, R215, R216.
 - Device and VoiceOver: tab bar es/fr width; Training labels; food row; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs; long es/fr text; pending row; PADS captions; row 85 four-column wrap (es 'Carbohidratos'); row 85 macro bars on device.
 - Long labels: Petit-dejeuner, Carbohidratos, Tamano de la porcion, Enregistrer les modifications.
 - Native review of es and fr drafts (es macro P/C/G; fr P/G/L).
@@ -89,3 +90,4 @@ Last handover after R210. Next due R225.
 - R214: Jev run 66%, ask 31%, stop 3%; risk 1.1. Run kept. Flagged report needs a tsc check, which needs no owner input.
 - R215: Jev ask 46%, run 41%, stop 13% (confidence 0.19); risk 1.3. Run kept. Doc-only, tsc only, no owner input needed.
 - R216: Jev run 80%, ask 17%, stop 3% (confidence 0.70); risk 1.2. Run kept. Prompt rewritten to name design/Lume App.html, per the loop note rejection.
+- R216 (second signal): Jev run 55%, ask 43%, stop 2% (confidence 0.33); risk 1.2. Run kept. Flagged twice on row 85 wording, so moved to row 87 re-check.
