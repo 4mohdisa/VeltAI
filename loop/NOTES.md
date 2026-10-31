@@ -9,87 +9,78 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macros unrounded, 1 dp on save; day card, Summary, totals whole. Empty profile floors at 1,500 kcal. Unknown slot falls back to 'Add meal'.
 - New keys go to en, es, fr together. Other hardcoded strings stay English (Parked).
 - SegmentedField compact drops chip padding and shrink; only Quick add passes it.
-- Gym Log button follows showLogCta. No not-past check: Gym tab shows today only.
+- Gym Log button follows showLogCta. Gym tab shows today only.
 - Saving 0 kcal allowed. Design wins on zero-kcal confirm state.
 - Swipe colour: color.primary until Isa decides.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras.
 - My schedule card on Gym tab shows three days. Seven days belongs to My schedule screen.
+- Row 112 accepted deviations: Training list (keep); LoadFailedNotice (keep); lumeFade mount-only, skipped under Reduce Motion; literal -0.6 tracking, 52pt right padding, page gap 14, eyebrow minHeight 26 on wrapper.
 - Doc fixes wait until no build row is open. Grep before acting. Code tidying is never a task. A task flagged twice goes to Blocked on Isa.
 - Every prompt names design/Lume App.html, the gap row, and the branch rule.
-- Row 112 Training list: accepted deviation (only route to /gym/templates and /gym/history). Keep.
-- Row 112 LoadFailedNotice: accepted deviation (R239). Keep unless Isa overrides.
-- Row 112 lumeFade: mount-only fade (R240), accepted. Reduce Motion skips the fade (app-only accessibility guard), accepted unless Isa overrides.
-- Row 112 literal values -0.6 letter spacing and 52 right padding: no token exists, written as literals (R243).
 
 ## Status
-- R244: row 112 card gap 12 vs design (14). Prompt issued; compare first, change only real differences. tsc and three gym suites required.
-- R243: row 112 title block (tracking -0.6, 4pt side padding, 52pt right padding, block gap 0, block bottom padding 0). BUILT, not verified. tsc 0; hydrationErrorScreens 10/10, oneTapGymLog 3/3, tabNavigation 11/11. Isa to check eyebrow-to-title distance and clearance from profile button on device.
-- R242: row 112 eyebrow build (letterSpacing 1.1, minHeight 26 wrapper View in gym.tsx). BUILT, not verified. tsc 0; hydrationErrorScreens 10/10, oneTapGymLog 3/3, tabNavigation 11/11. Isa to check centring and ~10pt shift on device.
-- R241: row 112 eyebrow re-check (doc only). Differences found: letter spacing 1.1 vs 1; min height 26 vs none.
-- R240: lumeFade mount-only fade built in gym.tsx (BUILT, not verified on device). tsc exit 0; 24/24 gym-related tests.
-- R236 checkpoint green: tsc 0, app 65/65 suites, 824/824 tests.
-- R231-R235: My schedule card and row 83 copy, icon, es/fr; card typography and gap. BUILT.
-- R227-R230: Log button under session card per showLogCta. BUILT.
-- R218-R223: row 87 items, chip padding and shrink. BUILT.
+- R245: row 112 page gap 12 to 14 in gym.tsx. BUILT, not verified. Flagged as partly done (row 112 still PARTIAL).
+- R244: row 112 gap change prepared; see R245.
+- R243: row 112 title block BUILT (tracking, padding, gap 0). Not verified.
+- R242: row 112 eyebrow BUILT (letter spacing 1.1, minHeight 26 wrapper). Not verified.
+- R241: row 112 eyebrow re-check (doc only).
+- R240: row 112 lumeFade mount-only fade BUILT. Not verified.
+- R236 checkpoint green: tsc 0, 65/65 suites, 824/824 tests.
+- R231-235: My schedule card and row 83 copy, icon, es/fr. BUILT.
+- R227-230: Log button under session card per showLogCta. BUILT.
+- R218-223: row 87 items, chip padding and shrink. BUILT.
 - R207: rows 85 and 86 parts. BUILT.
 
 ## Open rows
-- 83 DIFFERENT: route (sheet-in-place) parked; button height and type parked. App paragraph near line 532 stale. Settle 83 vs 112 overlap.
+- 83 DIFFERENT: route (sheet-in-place) parked; button height and type parked. Doc App paragraph near 532 stale.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: eyebrow BUILT (R242, not verified). Title block BUILT (R243, not verified). Card gap 12 vs 14 in progress (R244). GymPatternsCard typography (padding Blocked). Pull-to-refresh app-only.
+- 112 PARTIAL: eyebrow, title block, card gap BUILT. Next: re-check page top and bottom padding (design 70 and 158; app insets.top + space.md and TAB_BAR_CLEARANCE). GymPatternsCard typography Blocked. Pull-to-refresh app-only.
 
 ## Next
-1. R244 row 112 card gap in gym.tsx (compare first). Then the cluster below.
-2. Gym cluster, one file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+1. Re-check row 112 top and bottom padding (doc only). Build only if a real difference is found.
+2. Gym cluster, one file per round: GymSessionButton, GymCalendar, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts.
 3. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-4. Doc fix once no build row is open: gap doc near lines 310 and 236 (contradict row 83); row 81 duplicates row 112 card (keep 112); row 83 App paragraph near 532; gym App paragraph near 436 and Differences near 446 (omit MyScheduleCard, stale refs, LoadFailedNotice accepted); My schedule section near 586; record Training list, LoadFailedNotice and lumeFade reduce-motion as accepted; lumeFade written section 'no page entrance animation' is wrong; page bottom padding design 158 vs doc ~100, re-check.
+4. Doc fix once no build row is open: lines 236, 310 (old pill text); row 81 duplicates 112 (keep 112); row 83 App paragraph near 532; gym App paragraph near 436 and Differences near 446; My schedule section near 586; record Training list, LoadFailedNotice and lumeFade reduce-motion as accepted; lumeFade 'no page entrance animation' is wrong; page bottom padding.
 5. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Row 85: 12px calorie bar; 'left today'; four-column wrap (es 'Carbohidratos').
-- Row 87: 17/24 vs 17/22; bottom spacing 20pt + safe area vs 34pt; figure and meal defaults; 180ms transition; chip truncation incl. French.
-- Row 112: GymPatternsCard padding 20 vs 16.
+- 85: 12px calorie bar; 'left today'; four-column wrap.
+- 87: 17/24 vs 17/22; bottom spacing; figure and meal defaults; 180ms transition; chip truncation incl. French.
+- 112: GymPatternsCard padding 20 vs 16. Training list and LoadFailedNotice confirm (recommended keep).
 - Gym Log button hidden on rest days and with no schedule: acceptable?
-- Device checks: eyebrow min height 26 shifts content below by about 10pt, centring; title block eyebrow-to-title distance and profile button clearance; lumeFade on first Gym open, shadows during fade, pull-to-refresh with new wrapper; tab bar es/fr width; Training labels; food row; offline failure; add menu wrap at 232pt; swipe dialogs; long es/fr text; pending row; gym button position, width, French, chevron; Quick add bottom spacing and KeyboardAvoidingView; My schedule spacing, 12.5pt, short weekday fr/es.
+- Device checks: eyebrow centring and ~10pt shift; title block spacing and profile clearance; lumeFade and shadows; pull-to-refresh; tab bar es/fr width; food row; offline failure; add menu wrap at 232pt; swipe dialogs; long es/fr text; gym button position, width, French, chevron; Quick add bottom spacing; My schedule spacing and short weekday fr/es.
 - Long labels: Petit-dejeuner, Carbohidratos, Tamano de la porcion, Enregistrer les modifications.
 - Native review es/fr: 'Log this session', 'Registrar esta sesion', 'Enregistrer cette seance'.
 - Design questions: food.title shared; empty day layout; edit or toast for logged days; tabs.* namespace; body stats 1,500 vs 2,100; 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm; sheet title mode; gymLog calories key; kJ at food.tsx:912; disc glyph strokes.
 - TestPG_* (18 skipped): run against Postgres?
 
 ## Parked (one line each)
-- i18n: English helpers; hardcoded month, weekday, Today, Yesterday; formatNumber en-AU; formatGrams and formatCalories ignore energy unit; hardcoded 'Quick add', NumberEntryBar 'Done', SheetContent 'Close', GymStatusCard.tsx:30, scan.ts:305; GymPatternsCard server values untranslated; MyScheduleCard weekday follows device language.
-- Copy: foodLog.per100; CaloriesCard hardcoded g; 'Check your connection'; food.rowAnalysing; food.deleteItem.
-- Missing: 700ms bar fill; 'Updated {name}' toast; foodLog.savedAdded toast; + menu toast when logged; row 83 sheet-in-place route; gym toast fade (ToastHost has own entrance code).
-- Gym button: about 56pt vs 52; label 17/24 vs 600 16/21; duplicated Button pill styles and haptic.
-- Gym code: GymSessionButton logged branch dead; two logged sources (streak.gymLoggedToday, today.already_checked_in); two getToday requests; MyScheduleCard fetches twice; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
-- Gym UI: Training list 'My schedule' row duplicates card (keep); card pressed 0.85 vs light1; 'N days planned' colour.
-- Pull-to-refresh and focus do not re-read TodayCard or Log button.
-- Gym error: TodayCard.tsx:197 and gym.tsx both render gym.loadFailed (double notice possible); MyScheduleCard silent on failed read.
-- Easing: bezier numbers duplicated in gym.tsx and AddMenu.tsx; a shared Reanimated easing token would remove repeats.
-- Stale comments: gym.tsx header and above MuscleChart; gym.tsx:144; SegmentedField label; food.tsx:656-659 cites UI_PASS_GAPS.md.
-- Code: SLOT_KEYS duplicated (detail.tsx, quick-add.tsx); TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}.
-- Code tidying: SettingsList.tsx:129 identical branches; duplicate 'training' key in locale files.
+- i18n: English helpers; hardcoded month, weekday, Today, Yesterday; formatNumber en-AU; formatGrams and formatCalories ignore energy unit; hardcoded 'Quick add', 'Done', 'Close', GymStatusCard.tsx:30, scan.ts:305; GymPatternsCard server values; MyScheduleCard weekday follows device language.
+- Copy: foodLog.per100; CaloriesCard g; 'Check your connection'; food.rowAnalysing; food.deleteItem.
+- Missing: 'Updated {name}' toast; foodLog.savedAdded toast; + menu toast; row 83 sheet-in-place; gym toast fade.
+- Gym button: 56pt vs 52; label 17/24 vs 16/21; duplicated Button pill styles.
+- Gym code: GymSessionButton logged branch dead; two logged sources; two getToday requests; MyScheduleCard fetches twice, silent on failure, not refreshed on pull; two LoadFailedNotices can stack (TodayCard.tsx:197, gym.tsx); per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
+- Gym UI: card pressed 0.85 vs light1; 'N days planned' colour; pull-to-refresh and focus do not re-read TodayCard or Log button.
+- Easing bezier duplicated in gym.tsx and AddMenu.tsx.
+- Stale comments: gym.tsx header; gym.tsx:144; SegmentedField label; food.tsx:656-659.
+- Code: SLOT_KEYS duplicated; StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}; SettingsList.tsx:129 identical branches; duplicate 'training' key.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, gym.tsx render, MyScheduleCard render.
-- Doc: summary table Quick add '(line 86)' wrong column; stale lines 895-897, 930, 934, 1017, 1058, 1504; row 87 repeated BUILT; line 103 unchecked.
+- Doc: summary table Quick add '(line 86)'; stale lines 895-897, 930, 934, 1017, 1058, 1504; row 87 repeated BUILT; line 103 unchecked.
 
 ## Accepted limits
-Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). SwipeableRow and saved.tsx untested. Tests English only.
+Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). SwipeableRow and saved.tsx untested. Tests English only. Three gym suites read source text only.
 
 ## Gotchas
-- Decode design with node from __bundler/manifest into /tmp only.
+- Decode design with node from __bundler/manifest into /tmp only. Gym bundle 7dc211f6.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep.
 - Claude Code forgets context at handover: name files fully.
-- Repo: src/app/(tabs)/food.tsx. detail.tsx strings already translated.
 - loop/ files show modified; not ours. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Line numbers shift; grep before citing. Say BUILT, never verified.
-- Test suites only read source text; no test renders quick-add, gym.tsx or SegmentedField.
 
 ## Handover and Jev
-- Handover summary in loop/HANDOVER.md; last received R243 (summary dated before R243 build). Script-managed every 15 rounds.
-- Jev R240: run 67%, last task clean 75%, risk 1.1. R241: run 79%, last task clean 93%, risk 1.1. Agreed with run.
-- Jev R242: run 86%, last task clean 5% (flagged for missing tsc/tests; R242 prompt requires them), risk 1.3. Ranked row 112 eyebrow build first; agreed.
-- Jev R243: run 93%, last task clean 87%, risk 1.3. Agreed with run; row 112 title block chosen.
-- Jev R244: run 97% (confidence 0.96), last task clean 90%, risk 1.2 (confidence 0.48). Agreed with run; row 112 card gap chosen.
+- Handover summary in loop/HANDOVER.md. Received after R244, before R245. Script-managed every 15 rounds.
+- Jev R244: run 97%, last task clean 90%, risk 1.2. Agreed.
+- Jev R245: run 88%, last task clean 90%, risk 1.4 (confidence 0.36). Agreed with run; re-check chosen.

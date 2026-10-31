@@ -2467,3 +2467,8 @@
 - 2026-11-01 01:18 Kept the page bottom padding (design 158) out of this round, because it is a separate open item and changing it is not the smallest step.
 - 2026-11-01 01:18 Kept the literal 14 with no token, because no spacing token covers 14 and the clean code rule only forbids hardcoding values a token covers.
 - 2026-11-01 01:18 Doc fixes (rows 81, 83, the App paragraphs, the My schedule section) stay deferred until no build row is open, per the notes rule.
+- 2026-11-01 01:20 R245 was flagged as partly done. Row 112 is still PARTIAL, so the next task is the padding re-check the report recommended, not a new surface. Reason: it is the open part of the row and needs no code.
+- 2026-11-01 01:20 Re-check round edits only DESIGN_GAP_ANALYSIS.md, as the brief requires. Reason: compare before building.
+- 2026-11-01 01:20 Skipped tsc and tests for this round. Reason: no code changes, so nothing to type check.
+- 2026-11-01 01:20 Notes rewritten under 600 words. Merged repeated items and deleted finished work. Reason: the loop note asked for it.
+- 2026-11-01 01:20 Training list and LoadFailedNotice kept as accepted deviations, per the recommended default. Reason: Isa has not overridden them, and the path grep showed no other entry point.
