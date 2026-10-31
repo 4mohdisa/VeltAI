@@ -1954,3 +1954,7 @@
 - 2026-10-31 22:15 Deferred the tab label: it touches files that were off limits, and the design wording is unconfirmed.
 - 2026-10-31 22:15 Deferred the owed checkpoint: it is read-only and has been skipped since R89, so it goes after this fix when the next round is clean.
 - 2026-10-31 22:15 Jev asks (73%) with confidence 0.60. I kept run because the task is a two-line locale edit with a clear fix and no open question for Isa; risk is 1.8, but the change is reversible and touches no logic.
+- 2026-10-31 22:16 Chose run over Jev's ask at 73%: the word-order question has a recommended default that the rules cover, and asking would spend the one question on a copy choice. The change is two values.
+- 2026-10-31 22:16 Chose '{{unit}} en total' and '{{unit}} au total': no agreement with kcal or kJ, no colon (so no French spacing issue), and they read correctly after the number on screen.
+- 2026-10-31 22:16 Ran tsc and the locale-touching test, as the loop note required. Reported 'not covered' rather than a pass if no test is found.
+- 2026-10-31 22:16 Rewrote the notes under 600 words, as the loop note required. Merged repeated items and removed finished work. Kept all Decisions.
