@@ -2395,3 +2395,8 @@
 - 2026-11-01 00:55 Log button visibility: design wins by default, so the button follows the showLogCta condition. The 'whether the Log button should follow showLogCta' question is decided and removed from Blocked on Isa. Reason: the design defaults cover it, and the decision rules say not to ask.
 - 2026-11-01 00:55 Row 83 and row 112 overlap on the Log button. Row 112 is the row I build; the row 83 wording update is queued as a doc fix after this build, not a separate task now.
 - 2026-11-01 00:55 Row 85 calorie bar and 'left today' stay blocked on Isa; not retried.
+- 2026-11-01 00:57 Chose the row 83 doc update: it is the handover's recommended next step, needs nothing from Isa, and removes stale claims that conflict with row 112.
+- 2026-11-01 00:57 Kept the run over Jev's 20% ask: the Log button visibility question is settled by the design default (showLogCta), so no question for Isa is needed.
+- 2026-11-01 00:57 Doc-only round, but tsc exit code and output lines are required in the report, because the earlier R228 flag was about an unshown tsc step.
+- 2026-11-01 00:57 Left row 112 untouched in this round, so the overlap is settled in row 83 only, with a pointer to row 112.
+- 2026-11-01 00:57 Parked the two-logged-sources issue, the dead GymSessionButton branch, the double getToday request, the + menu toast and the stale comments. They are code tidying or outside the row, not tasks.
