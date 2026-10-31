@@ -2275,3 +2275,7 @@
 - 2026-11-01 00:22 Picked row 85 CaloriesCard: it is the open part of a row that still differs, needs no Isa input and is one file. The R203 report was flagged as partly done because its NEXT item (food.rowAnalysing 'Analysing photo') is blocked on a design question, so I did not pick it.
 - 2026-11-01 00:22 Kept run over Jev's ask (57%): the task needs no owner input; the only unknown (Fibre data source) is handled by parking rather than asking.
 - 2026-11-01 00:22 Rewrote notes under 600 words per the loop note: merged repeats, removed finished work, kept all Decisions lines.
+- 2026-11-01 00:24 Dealt with the flagged report first: a doc-only fix of the two stale statements the report named, since the card is partly built and its open differences must be stated correctly before the next build. Reason: the loop note says to deal with the flag before moving on, and this is the smallest safe step.
+- 2026-11-01 00:24 Did not build the 6px macro bars this round. The report says Isa excluded these bars, but nothing in DECISIONS.md records it and the notes say to build them after step 1. Conflict recorded; if the next round still needs an answer, ask Isa once.
+- 2026-11-01 00:24 The calorie progress bar and 'left today' figure need a goal read via useGoals (src/lib/data/hooks.ts:366). The design wins over the code comment in UI_PASS_GAPS.md §2, which is not in DECISIONS.md. Plan to build it after the macro bar question is settled, not now.
+- 2026-11-01 00:24 Tests: doc-only round, so tsc only, per the checkpoint rules.
