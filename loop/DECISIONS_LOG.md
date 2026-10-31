@@ -2632,3 +2632,13 @@
 - 2026-11-01 07:12 Left the energy.tsx gap 16 change in place with its red snapshot. It matches the design and Isa can approve the update in one run.
 - 2026-11-01 07:12 Named design/Lume App.html and bundle 7dc211f6 explicitly, to fix the rejected prompt from the loop note.
 - 2026-11-01 07:12 Chose a grep to find the chooser and the row, because the exact file name and row number for the chooser are not in the notes.
+- 2026-11-01 07:15 Chose the chooser re-check (doc-only) to deal with the flagged report before moving on, as the loop note requires. The row was marked BUILT while its own differences remained, so it is set to PARTIAL.
+- 2026-11-01 07:15 Did not ask Isa. Jev rated ask at 71%, but the re-check needs no answer and does not repeat a blocked question. Its risk is low because no code changes.
+- 2026-11-01 07:15 Added a rule: a row can say BUILT only when no differences remain in its own files.
+- 2026-11-01 07:15 Parked the + menu logged-day fix and the shared SheetContent, Button and sheet-height changes until Isa allows edits to those files.
+- 2026-11-01 07:15 Rewrote the notes under 600 words as the loop note asked, merging repeated items and removing finished work.
+- 2026-11-01 07:16 Chose the doc re-check: row 76 status conflicts (report says BUILT, notes say PARTIAL). Resolving it first avoids building on a wrong status and adds no snapshot red.
+- 2026-11-01 07:16 Rewrote the rejected prompt to state the loop/design-match branch rule, with no push, merge or branch switch.
+- 2026-11-01 07:16 Did not re-ask Isa about the detailChrome snapshot approval or DetailChart.tsx. Both were asked three or more times without an answer, so they stay parked under Blocked on Isa.
+- 2026-11-01 07:16 Jev asked 57%, but its reason is the repeated unanswered blocker. A doc-only re-check needs no Isa answer, so I kept run.
+- 2026-11-01 07:16 Row 103 Energy line: R279 set energy.tsx to gap 16, but the handover still lists it at 12. The re-check reads the file directly to settle this.
