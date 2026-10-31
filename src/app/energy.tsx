@@ -116,18 +116,19 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
 
   // Breakdown: the parts of the latest day the server actually reported.
   const rows = [
-    { tint: categoryAccent.calories, label: t('dashboard.energyBalance.intake'), sub: t('dashboard.foodYouLogged'), value: latest.calories_in },
+    { id: 'intake', tint: categoryAccent.calories, label: t('dashboard.energyBalance.intake'), sub: t('dashboard.foodYouLogged'), value: latest.calories_in },
     ...(latest.calories_out_bmr != null
-      ? [{ tint: color.light3, label: t('dashboard.restingEnergy'), sub: t('dashboard.baselineMetabolism'), value: latest.calories_out_bmr }]
+      ? [{ id: 'resting', tint: color.light3, label: t('dashboard.restingEnergy'), sub: t('dashboard.baselineMetabolism'), value: latest.calories_out_bmr }]
       : []),
     {
+      id: 'workout',
       tint: categoryAccent.positive,
       label: t('dashboard.workout'),
       sub: latest.calories_out_exercise > 0 ? t('dashboard.loggedGymSessions') : t('dashboard.noSessionLogged'),
       value: latest.calories_out_exercise,
     },
     ...(latestBurn != null
-      ? [{ tint: accent.blue, label: t('dashboard.totalBurned'), sub: t('dashboard.restingPlusTraining'), value: latestBurn }]
+      ? [{ id: 'totalBurned', tint: accent.blue, label: t('dashboard.totalBurned'), sub: t('dashboard.restingPlusTraining'), value: latestBurn }]
       : []),
   ];
   const rowMax = Math.max(1, ...rows.map((r) => r.value));
@@ -209,7 +210,7 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
           </Text>
           {rows.map((r) => (
             <BreakdownRow
-              key={r.label}
+              key={r.id}
               tint={r.tint}
               label={r.label}
               sub={r.sub}

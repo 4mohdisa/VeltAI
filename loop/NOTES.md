@@ -16,36 +16,38 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Every prompt names the matching design/ file and gap row (or says none exists). One task, one file per prompt.
 - Tests: tsc once plus changed-file tests. 'No related tests found' is not a pass. No test covering a file means NOT COVERED.
 - Backend-dependent items stay Parked.
-- LoadFailedNotice: message required, no default. minTapTarget={false} kept (row 114). Do not restore the old handover default.
-- fr Breakdown is 'Détail' as Isa specified, pending his choice.
-- summaryDetails.test.ts Breakdown check is strict for all four detail routes. Reads source text only.
-- LoadFailedNotice NOT COVERED (no render test; no new test suites).
+- LoadFailedNotice: message required, no default. minTapTarget={false} kept (row 114).
+- fr Breakdown is 'Détail' pending Isa's choice.
+- summaryDetails.test.ts Breakdown check is strict for all four detail routes. Source text only.
 - StreakCounter caption follows design colour (label). Dimmed count uses tertiaryLabel. Isa may override.
 - Rendered Gym Training labels are a device check for Isa, not a loop test gap.
-- R122: training.tsx sweep found no hardcoded copy left in the file. Helper English (formatDuration etc.) goes to Parked, not this file.
+- training.tsx has no hardcoded copy left. Helper English goes to Parked.
+- energy.tsx: design wording kept where the app has the data; app wording kept where the design states things the app cannot compute (deficit count, steps row, burn target sub). Recorded for Isa.
 
 ## Status
-As of R89: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last green checkpoint R89 (tsc 0, 65 suites, 824 tests). R102 and R117 checkpoint results never reported.
+Last counted R89: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last green checkpoint R89 (tsc 0, 65 suites, 824 tests). R102 and R117 checkpoint results never reported.
 BUILT, not verified:
 - LoadFailedNotice (R114, NOT COVERED).
-- week.tsx: all copy via t() (R116, R120). es/fr unreviewed. No gap row.
 - StreakCounter colours and caption (R118-R119, NOT COVERED).
-- gym.tsx Training list title, four row labels, Try again (R112). es/fr unreviewed. Device check pending.
-- training.tsx copy via t() (R121, sweep R122 found nothing left). es/fr unreviewed. No gap row.
+- gym.tsx Training list title, row labels, Try again (R112). Device check pending.
+- week.tsx copy via t() (R116, R120). No gap row. Sweep incomplete.
+- training.tsx copy via t() (R121-R122). No gap row.
+- energy.tsx copy via t() (R123). No gap row. Breakdown key fix in progress (R124).
 
 ## Next
-1. energy.tsx: remaining hardcoded copy to t() (R123, in progress).
-2. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-3. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-4. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-5. add.tsx slotKey (~67): remove unused keys if confirmed.
-6. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
-7. Doc only: gap line 76 record Try again; MACRO_PRECISION comment; lines 90, 1014, 1495; line 1505 cites 'lines 72-75' (stale); line 437 cites gym.tsx:94-158 (stale). Row 112 'padding 20 vs 16' may be stale: check first.
-8. /gym/session saves top weight on all sets: fix or park.
-9. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-10. Freeze strings at count 1 read wrongly.
-11. Checkpoint: full tsc and full app suite, read-only, including the R117 result.
-12. No rows left: stop with 'only owner decisions remain'.
+1. energy.tsx: stable Breakdown row keys; confirm no literal text left. Close the file.
+2. week.tsx: sweep remaining hardcoded copy.
+3. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+4. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+6. add.tsx slotKey (~67): remove unused keys if confirmed.
+7. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
+8. Doc only: gap line 76 record Try again; line 437 cites gym.tsx:94-158 (stale); line 1505 cites 'lines 72-75' (stale); row 112 'padding 20 vs 16' check first.
+9. /gym/session saves top weight on all sets: fix or park.
+10. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+11. Freeze strings at count 1 read wrongly.
+12. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117 results.
+13. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
@@ -53,8 +55,9 @@ BUILT, not verified:
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review of new keys. Points: week.tsx weekNoNetMessage ('configuración inicial', 'configuration'); weekNetAveragedOver awkward in both; 'Ingesta y gasto' and 'Apport et dépense' fit in segmented control; fr 'gel' vs 'congélation' (recommend 'Appliquer un gel de série'); Breakdown 'Détail' vs 'Répartition' (recommend Répartition); training.tsx dashboard.workouts (fr 'Séances', es 'Entrenamientos').
-- Which row records week.tsx and training.tsx, or whether a Week or Training row should exist.
+- Native es/fr review. week.tsx weekNoNetMessage; weekNetAveragedOver; 'Ingesta y gasto' and 'Apport et dépense' fit in segmented control; fr 'gel' vs 'congélation' (recommend 'Appliquer un gel de série'); Breakdown 'Détail' vs 'Répartition' (recommend Répartition); training dashboard.workouts; energy.tsx 'eatenAgainstBurned' fr wording and chart header fit.
+- energy.tsx design wording differences (deficit caption, steps row, burn target sub): keep app or match design.
+- Which row records week.tsx, training.tsx and energy.tsx, or whether new rows should exist.
 - Group names; training list; profile row; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals; remaining-kcal line.
 - Users without body stats see 1,500 kcal; design uses 2,100.
@@ -64,24 +67,23 @@ BUILT, not verified:
 - Gym calories vs Training energy; training caption wording; minutesCeiling 'min' vs 'm' fit.
 
 ## Parked
+- Shared helpers, English-only, feed translated screens: formatRelativeDate (formatting.ts:44, outputs 'Today'/'Yesterday' into energyNetSub); weekdayShort and dayMonth (energyRange.ts:60, :67; day axis uses weekdayShort letters); formatDuration (formatting.ts:25, feeds sessionSummary).
+- Plural sentences read '1 of 1 days': weekNetAveragedOver, weekNetSummary, weekNetAverage. trainingMinutesSummary reads 'longest 1 minutes'.
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) lacks serving data.
 - editSavedFood local only (mutations.ts:157); server sync needs backend.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, custom exercise route, PlannedValuesForm submit.
-- formatDuration (src/lib/formatting.ts:25) English-only; feeds translated strings (energy, training Breakdown rows via sessionSummary).
 - TodayCard: muscle prefix, header dot, min-height, gaps, pill type, grid, stale burn, per-session kcal, plan.sub prefix.
 - Row 17 rest-day exits, pop-in, ring vs flame. Streak flame pulses, artwork.
 - StreakCounter: unused active and caption props; accessible prop missing; gym.dayStreak vs dashboard.dayStreak; count style; caption case.
 - Freeze: singular counts; toast before server reply; refusal unhandled; stale params streak.tsx:73.
 - Logged card tap target needs a day route. Macros history chart. Percent-of-target title.
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen.
-- Date helpers: dayMonth, weekdayShort, formatRelativeDate may output English regardless of language. Verify first.
-- Week: single-letter day axis (~179) depends on weekdayShort. 'of N days' sentences read '1 of 1 days' (weekNetAveragedOver, weekNetSummary, weekNetAverage). trainingMinutesSummary reads 'longest 1 minutes'.
-- Duplicates: dashboard.training vs gym.training; dashboard.restDay vs gymLog.restDayTitle; nutrition.breakdown vs dashboard.breakdown (merge once fr settled).
+- Duplicates: dashboard.training vs gym.training; dashboard.restDay vs gymLog.restDayTitle; dashboard.breakdown vs nutrition.breakdown; dashboard.energy vs preferences.energy.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; dashboard.kcal may duplicate another namespace.
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week empty states, training empty states or the Gym Training labels. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week or training empty states, or the Gym Training labels. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
 
 ## Gotchas
 - Briefs repeat finished work, quote stale lines and name wrong paths. Check first.
@@ -92,14 +94,8 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 
 ## Round log (condensed)
 R9-R89: most surfaces built. Checkpoints R34, R48, R61, R77, R89 green.
-R90-R100: strings via t(); LoadFailedNotice message required; row 114 deviation recorded.
-R101, R113: rejected. R102: checkpoint issued, never reported.
-R103-R112: Breakdown via t() across week, training, energy, macros; gym.tsx Training labels via t().
-R114: LoadFailedNotice header fixed, default removed.
-R115: check-only. tsc 0. LoadFailedNotice NOT COVERED.
-R116-R120: week.tsx copy to t(), new dashboard keys in en, es, fr.
-R117: read-only checkpoint issued. Result not reported.
-R118-R119: StreakCounter colour tokens and caption.
-R121: training.tsx copy to t(). Flagged as partly done (loop note).
-R122: training.tsx completion sweep. No hardcoded copy left. tsc 0. Partial tests green (summaryDetails 51, detailChrome 4 snapshots).
-R123: energy.tsx copy to t() (this round).
+R90-R114: strings via t(); LoadFailedNotice message required; row 114 deviation recorded.
+R101, R113 rejected. R102 and R117 checkpoints issued, never reported.
+R103-R112: Breakdown via t() across screens; gym.tsx Training labels via t().
+R116-R122: week.tsx and training.tsx copy to t(); StreakCounter colours and caption.
+R123: energy.tsx copy to t(). Flagged as partly done (loop note). R124: closing it.

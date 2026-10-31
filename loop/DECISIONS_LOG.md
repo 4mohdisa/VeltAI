@@ -1888,3 +1888,7 @@
 - 2026-10-31 21:11 Did not start nutrition.tsx: the 80% spacing is a one-line fix, but it comes after energy and does not clear a gap row by itself.
 - 2026-10-31 21:11 Kept the training.tsx es and fr wording review with Isa: it is an owner item, not a loop task.
 - 2026-10-31 21:11 Treated Jev's 'run' as agreement with my choice; no override needed.
+- 2026-10-31 21:14 Chose the energy.tsx close-out because the loop flagged the last round as partly done, and this is the smallest change that finishes the file without touching shared helpers.
+- 2026-10-31 21:14 Kept energy.tsx's app wording where the design states data the app cannot compute, as recorded in the notes, and left it for Isa to decide.
+- 2026-10-31 21:14 Shared date and duration helpers (formatRelativeDate, weekdayShort, dayMonth, formatDuration) are multi-file, so they go to Parked, not this round.
+- 2026-10-31 21:14 Notes rewritten under 600 words: finished work merged, duplicates collapsed, decisions kept verbatim.
