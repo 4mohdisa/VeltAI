@@ -187,7 +187,18 @@
     "editFoodTitle": "Editar alimento",
     "renameFoodTitle": "Renombrar alimento",
     "saveName": "Guardar nombre",
-    "saveChanges": "Guardar cambios"
+    "saveChanges": "Guardar cambios",
+    "nothingToShow": "Nada que mostrar",
+    "nothingToShowMessage": "Abre un alimento de tu registro, de un resultado de búsqueda o de un escaneo.",
+    "lookingUpBarcode": "Buscando el código de barras…",
+    "noLongerInLog": "Ya no está en tu registro",
+    "noLongerInLogMessage": "Este elemento ya se ha eliminado.",
+    "productNotFound": "Producto no encontrado",
+    "productNotFoundMessage": "No hemos encontrado ese código de barras. Vuelve a escanearlo o fotografía la etiqueta nutricional.",
+    "scanAgain": "Escanear de nuevo",
+    "confirmProduct": "Confirmar producto",
+    "nameField": "Nombre",
+    "gramsUnit": "g"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

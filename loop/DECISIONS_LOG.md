@@ -2195,3 +2195,8 @@
 - 2026-10-31 23:54 Left the other detail.tsx hardcoded strings for the next round to keep this task to one change.
 - 2026-10-31 23:54 Reuse an existing es/fr key if one matches, otherwise add food.addToSlot to all three locales together, per the new-keys rule.
 - 2026-10-31 23:54 Marked R187 done in notes because the report says the Edit food sheet is BUILT; Isa still verifies.
+- 2026-10-31 23:55 Chose candidate 1 because it is the next item in Next and clears the most remaining detail.tsx rows with no input from Isa.
+- 2026-10-31 23:55 Treated R188 (Add to {slot}) as finished. The handover's NOT FIXED list still shows Edit food title and Save changes at detail.tsx:259-260, but R187 already built them, so I ignored that stale line.
+- 2026-10-31 23:55 Kept addMenu.addToSlot and the current 'Add to {slot}' wording. Grammar fix stays with Isa under Blocked on Isa.
+- 2026-10-31 23:55 Told Claude Code to reuse existing keys where wording matches, to avoid new keys and duplicates.
+- 2026-10-31 23:55 Told Claude Code to update only one foodDetail.test.ts assertion if a moved literal breaks it, since the brief allows that test to change.

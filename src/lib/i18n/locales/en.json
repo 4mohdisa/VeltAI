@@ -185,7 +185,18 @@
     "editFoodTitle": "Edit food",
     "renameFoodTitle": "Rename food",
     "saveName": "Save name",
-    "saveChanges": "Save changes"
+    "saveChanges": "Save changes",
+    "nothingToShow": "Nothing to show",
+    "nothingToShowMessage": "Open a food from your log, a search result or a scan.",
+    "lookingUpBarcode": "Looking up the barcode…",
+    "noLongerInLog": "No longer in your log",
+    "noLongerInLogMessage": "This item has already been removed.",
+    "productNotFound": "Product not found",
+    "productNotFoundMessage": "We couldn't find that barcode. Try scanning again, or photograph the nutrition label instead.",
+    "scanAgain": "Scan again",
+    "confirmProduct": "Confirm product",
+    "nameField": "Name",
+    "gramsUnit": "g"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

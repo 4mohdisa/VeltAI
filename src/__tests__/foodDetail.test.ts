@@ -93,8 +93,8 @@ describe('the sheet still carries the capabilities it absorbed', () => {
   const sheet = src('app/food/detail.tsx');
 
   test('the barcode not-found recovery path survives (AUDIT_REPORT M1)', () => {
-    expect(sheet).toContain('Product not found');
-    expect(sheet).toContain('Scan again');
+    expect(sheet).toContain('food.productNotFound');
+    expect(sheet).toContain('food.scanAgain');
     expect(sheet).toContain("router.replace('/food/barcode-scan')");
   });
 

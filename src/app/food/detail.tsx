@@ -127,17 +127,17 @@ export default function FoodDetailScreen() {
   // out and land back on the food tab.
   const logAndLeave = (name: string) => {
     clearDetail();
-    showToast({ message: `Added ${name}.`, tone: 'success' });
+    showToast({ message: t('food.savedAdded', { name }), tone: 'success' });
     router.replace('/(tabs)/food');
   };
 
   if (!subject) {
     return (
-      <SheetContent variant="leading" title="Food" onClose={close}>
+      <SheetContent variant="leading" title={t('food.title')} onClose={close}>
         <EmptyState
           icon="fork.knife"
-          title="Nothing to show"
-          message="Open a food from your log, a search result or a scan."
+          title={t('food.nothingToShow')}
+          message={t('food.nothingToShowMessage')}
         />
       </SheetContent>
     );
@@ -145,7 +145,7 @@ export default function FoodDetailScreen() {
 
   if (loading) {
     return (
-      <SheetContent variant="leading" title="Looking up product…" onClose={close}>
+      <SheetContent variant="leading" title={t('food.lookingUpBarcode')} onClose={close}>
         <SkeletonList rows={3} />
       </SheetContent>
     );
@@ -154,8 +154,8 @@ export default function FoodDetailScreen() {
   // The row was already gone when the sheet opened.
   if (!stillLogged) {
     return (
-      <SheetContent variant="leading" title="Food" onClose={close}>
-        <EmptyState icon="fork.knife" title="No longer in your log" message="This item has already been removed." />
+      <SheetContent variant="leading" title={t('food.title')} onClose={close}>
+        <EmptyState icon="fork.knife" title={t('food.noLongerInLog')} message={t('food.noLongerInLogMessage')} />
       </SheetContent>
     );
   }
@@ -176,7 +176,7 @@ export default function FoodDetailScreen() {
           // Only when the source actually had one (OFF omits it for most products).
           ...(subject.fibrePer100 != null ? { fibre: subject.fibrePer100 } : {}),
         }}
-        subLine={`${formatCalories(subject.kcalPer100)} / 100g`}
+        subLine={t('foodLog.per100', { value: formatCalories(subject.kcalPer100) })}
         servings={SEARCH_SERVINGS}
         // A catalog result may carry macros; one that doesn't falls back to 0
         // (the local dev catalog carries calories only).
@@ -204,13 +204,13 @@ export default function FoodDetailScreen() {
     // (AUDIT_REPORT.md M1).
     if (!product) {
       return (
-        <SheetContent variant="leading" title="Product not found" onClose={close}>
+        <SheetContent variant="leading" title={t('food.productNotFound')} onClose={close}>
           <View style={{ gap: space.lg, alignItems: 'center', paddingVertical: space.lg }}>
             <Icon name="barcode-outline" size={40} color={color.tertiaryLabel} />
             <Text variant="body" color={color.label} style={{ textAlign: 'center' }}>
-              We couldn&apos;t find that barcode. Try scanning again, or photograph the nutrition label instead.
+              {t('food.productNotFoundMessage')}
             </Text>
-            <Button title="Scan again" variant="secondary" onPress={() => router.replace('/food/barcode-scan')} />
+            <Button title={t('food.scanAgain')} variant="secondary" onPress={() => router.replace('/food/barcode-scan')} />
           </View>
         </SheetContent>
       );
@@ -221,7 +221,7 @@ export default function FoodDetailScreen() {
     return (
       <DetailForm
         key={`barcode:${subject.code}`}
-        title="Confirm product"
+        title={t('food.confirmProduct')}
         ctaLabel={t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slotForNow()]}`).toLowerCase() })}
         seed={{
           name: p.name,
@@ -232,7 +232,7 @@ export default function FoodDetailScreen() {
           fat: scale(p.fatPer100),
           ...(p.fibrePer100 != null ? { fibre: scale(p.fibrePer100) } : {}),
         }}
-        subLine={`${p.brand ? `${p.brand} · ` : ''}${formatCalories(p.kcalPer100)} / 100g`}
+        subLine={`${p.brand ? `${p.brand} · ` : ''}${t('foodLog.per100', { value: formatCalories(p.kcalPer100) })}`}
         servings={p.servingOptions}
         per100={{
           calories: p.kcalPer100,
@@ -466,7 +466,7 @@ function DetailForm({
         {formatNumber(num(calories))}
       </Text>
       <Text variant="callout" color={color.secondaryLabel}>
-        kcal
+        {t('dashboard.kcal')}
       </Text>
     </View>
   );
@@ -524,7 +524,7 @@ function DetailForm({
                     color={figureColor('grams')}
                     style={{ fontSize: 15, lineHeight: 20, fontFamily: ROUNDED_FACE_BY_WEIGHT['600'] }}
                   >
-                    {`${num(grams)} g`}
+                    {`${num(grams)} ${t('food.gramsUnit')}`}
                   </Text>
                   {editing === 'grams' ? null : <Icon name="pencil" size={CHIP_GLYPH} color={color.tertiaryLabel} />}
                 </Pressable>
@@ -535,7 +535,7 @@ function DetailForm({
                 label={editable ? undefined : t('food.servingSize')}
                 value={grams}
                 onChange={applyGrams}
-                options={servings.map((g) => ({ label: `${g} g`, value: String(g) }))}
+                options={servings.map((g) => ({ label: `${g} ${t('food.gramsUnit')}`, value: String(g) }))}
                 variant="inset"
               />
             ) : null}
@@ -567,7 +567,7 @@ function DetailForm({
           </Text>
         </View>
 
-        <TextField label="Name" value={name} onChangeText={setName} autoCapitalize="words" />
+        <TextField label={t('food.nameField')} value={name} onChangeText={setName} autoCapitalize="words" />
 
         {nameOnly ? null : !manual ? (
           <>
@@ -587,7 +587,7 @@ function DetailForm({
                       {label}
                     </Text>
                     <Text variant="bodyMedium" color={color.label}>
-                      {`${value} g`}
+                      {`${value} ${t('food.gramsUnit')}`}
                     </Text>
                   </View>
                 ))}
@@ -645,7 +645,7 @@ function DetailForm({
                     {value}
                   </Text>
                   <Text variant="caption" color={color.tertiaryLabel}>
-                    g
+                    {t('food.gramsUnit')}
                   </Text>
                 </View>
               </Pressable>
