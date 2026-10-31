@@ -13,6 +13,7 @@
 import { useEffect } from 'react';
 import { Pressable as RNPressable, StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -33,6 +34,7 @@ export type AddMenuProps = {
 };
 
 export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }: AddMenuProps) {
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const progress = useSharedValue(0);
 
@@ -68,7 +70,7 @@ export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }:
     <View style={[StyleSheet.absoluteFill, { zIndex: zIndex.modal }]}>
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: color.overlay }, scrimStyle]}>
         {/* Tapping the scrim dismisses. Labelled so VoiceOver can leave the menu. */}
-        <RNPressable style={{ flex: 1 }} onPress={onClose} accessibilityRole="button" accessibilityLabel="Close menu" />
+        <RNPressable style={{ flex: 1 }} onPress={onClose} accessibilityRole="button" accessibilityLabel={t('tabBar.closeMenu')} />
       </Animated.View>
 
       <Animated.View

@@ -1987,3 +1987,7 @@
 - 2026-10-31 22:23 Did not edit LumeTabBar.tsx again. R143 is built; the flag was about the menu's remaining literal, not the tab bar.
 - 2026-10-31 22:23 Did not change the add-button hint wording. The Spanish hint is pending Isa's native review, so no edit this round.
 - 2026-10-31 22:23 Gap row update says BUILT, not verified, per the brief. Header counts left unchanged.
+- 2026-10-31 22:24 Chose option A from the R144 report: add tabBar.closeMenu. The standing rule puts new keys in en, es and fr together, and this keeps tabbar.render.test.tsx passing without an edit.
+- 2026-10-31 22:24 Kept run over Jev's ask. The choice falls inside the standing defaults and needs no dashboard action from Isa. The R144 flag is closed this round by requiring tsc and the changed-file tests.
+- 2026-10-31 22:24 Spanish and French wording for tabBar.closeMenu is unreviewed; listed under native review in Blocked.
+- 2026-10-31 22:24 Rewrote the notes under 600 words, as the loop note asked, merging repeats and removing finished work.

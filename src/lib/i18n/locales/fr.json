@@ -353,6 +353,7 @@
   },
   "tabBar": {
     "closeAddMenu": "Fermer le menu d’ajout",
+    "closeMenu": "Fermer le menu",
     "add": "Ajouter",
     "addHint": "Enregistrer une séance de sport ou un repas"
   }

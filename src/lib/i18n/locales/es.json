@@ -355,6 +355,7 @@
   },
   "tabBar": {
     "closeAddMenu": "Cerrar menú de añadir",
+    "closeMenu": "Cerrar menú",
     "add": "Añadir",
     "addHint": "Registra una sesión de gym o un registro de comida"
   }

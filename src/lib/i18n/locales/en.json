@@ -353,6 +353,7 @@
   },
   "tabBar": {
     "closeAddMenu": "Close add menu",
+    "closeMenu": "Close menu",
     "add": "Add",
     "addHint": "Log a gym session or log food"
   }

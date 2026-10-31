@@ -1500,7 +1500,7 @@ drift 13 / ❌ Doesn't match 3". Against this pass:
 | **Muscle focus (full view)** (line 96) | ⚠️ "no Front/Back toggle and no set counts (V10); the 3D stage is item 7" | ❌ | Accurate as far as it goes, but grading it ⚠️ understates a screen whose central element — an interactive 3D body appearing three times in the design — does not exist, along with the selection popover, the volume chips and the per-muscle exercise lists. |
 | **Month calendar sheet** (line 83) | ⚠️ "Grid, today disc, dots… all match" | ⚠️ (agree on grade) | But "today disc" is wrong — the app draws a **ring**, not the design's `light-2` filled disc. |
 | **My Meals** (line 88), **New Recipe** (line 89) | ✅ | n/a | These screens have **no design counterpart at all**, so "✅ matches" cannot be true of them; they can only be "not in the design". |
-| **"+" menu** (line 64) | ✅ | ⚠️ | Solid white panel vs translucent, `0.45` scrim vs `0.10`, radius 20 vs 18, row 52 vs 54, label 17/24 vs 16/20, icon 20 vs 19 — all documented in `AddMenu.tsx` as deliberate, but not "matches". |
+| **"+" menu** (line 64) | ✅ | ⚠️ | Solid white panel vs translucent, `0.45` scrim vs `0.10`, radius 20 vs 18, row 52 vs 54, label 17/24 vs 16/20, icon 20 vs 19 — all documented in `AddMenu.tsx` as deliberate, but not "matches".<br>Close label now uses `tabBar.closeMenu` (BUILT, not verified). |
 | **Avatar → Profile** (line 65) | ✅ | ⚠️ | Its own note admits the app shows initials where the design shows a person glyph — which is a difference, not a match. |
 | **Summary detail views** (lines 72-75) | ✅ ×4 | **not assessed** | This pass did not compare them; I am not endorsing those verdicts either. |
 
