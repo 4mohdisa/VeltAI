@@ -1617,3 +1617,7 @@
 - 2026-10-31 17:36 Allowed the matching difference 13 line in DESIGN_GAP_ANALYSIS.md to be updated, because the rules require the gap row to be updated when a surface is finished.
 - 2026-10-31 17:36 Kept calories and whole-number display totals unchanged, as recorded in the macro decisions.
 - 2026-10-31 17:36 Used a type check only, since no existing test covers decimal macros and the brief says not to write new tests.
+- 2026-10-31 17:37 Chose the flagged check first: the loop note says the last report was flagged for tests not run, and the brief requires tsc once plus tests for changed files. The report said 'no tests run, as instructed', which is not what the brief asks.
+- 2026-10-31 17:37 Limited the round to re-check and fix-only-if-red, so no new behaviour is added while a flag is open.
+- 2026-10-31 17:37 Parked the shared rounding helper and raw value display as NEXT. Each touches more than one file, which breaks the one-file rule for this round.
+- 2026-10-31 17:37 Treated the report's line-count and comment changes in food.tsx as accepted for this round; the re-check will confirm they compile and pass.
