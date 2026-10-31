@@ -418,9 +418,9 @@ function DetailForm({
     if (!per100) return;
     const factor = num(next) / 100;
     setCalories(String(Math.round(per100.calories * factor)));
-    setProtein(String(Math.round(per100.protein * factor)));
-    setCarbs(String(Math.round(per100.carbs * factor)));
-    setFat(String(Math.round(per100.fat * factor)));
+    setProtein(String(per100.protein * factor));
+    setCarbs(String(per100.carbs * factor));
+    setFat(String(per100.fat * factor));
     if (per100.fibre != null) setFibre(Math.round(per100.fibre * factor));
   };
 

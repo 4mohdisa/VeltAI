@@ -1584,3 +1584,7 @@
 - 2026-10-31 17:27 The Blocked item on food detail decimals is treated as a design check: the design decides whether picked servings show decimals, and the prompt records the result in the gap doc rather than asking Isa again.
 - 2026-10-31 17:27 Per-100 display at 1 decimal (R56) is left unchanged, since it is already built.
 - 2026-10-31 17:27 Seeds and copy tasks are deferred until this is settled, as the Next list orders them.
+- 2026-10-31 17:29 Picked-serving decimals: the design settles it (design shows r1 on unrounded per100 * scale). Recorded the result and dropped the Blocked item 'Do picked servings keep decimals?'. Reason: the design answers the question, and Isa's default is to follow the design.
+- 2026-10-31 17:29 Chose candidate 1 over fibre (candidate 2): it is the open R62 step and matches the 'macros stored unrounded' decision. Fibre is queued as NEXT.
+- 2026-10-31 17:29 Left the search seed and food tab seeds for later: they are separate surfaces and the brief says one task per round.
+- 2026-10-31 17:29 Did not ask Isa: the change is in the design-match scope and needs no owner input. Jev's 'ask' 33% is noted, but nothing here needs Isa.
