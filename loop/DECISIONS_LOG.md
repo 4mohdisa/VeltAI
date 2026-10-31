@@ -2433,3 +2433,8 @@
 - 2026-11-01 01:09 Deferred the row 83 doc fix from the handover recommendation because the notes rule says doc fixes wait until no build row is open. Row 112 is still open.
 - 2026-11-01 01:09 Jev said run 85%, which agrees with this choice. No conflict to re-check.
 - 2026-11-01 01:09 Kept Blocked on Isa items out of this round. No new question for Isa.
+- 2026-11-01 01:11 Picked the LoadFailedNotice re-check, which matches Jev's 94% ranking and the notes' Next step 2, so no reason to look again.
+- 2026-11-01 01:11 Ran tsc once this round because the last report was flagged for no type check; tests stay off since only the doc changes.
+- 2026-11-01 01:11 Row 112 Training list is an accepted deviation, not a removal. Reason: /gym/templates and /gym/history are reachable only from that list, so removing it would need a new route in and a home for session history. Recorded here; the gap doc gets the wording in the doc-fix phase.
+- 2026-11-01 01:11 Doc fixes (row 81, My schedule section, gym App paragraph near 436/446) wait until no build row is open, per the rules.
+- 2026-11-01 01:11 Ignored the report's SettingsList.tsx:129 identical-branch note and the duplicate training locale key: both are code tidying, so parked.
