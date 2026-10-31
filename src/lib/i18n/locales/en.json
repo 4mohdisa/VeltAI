@@ -170,7 +170,13 @@
     "loggedDuration": "Duration",
     "loggedMinutes": "{{minutes}} min",
     "loggedSets": "Sets",
-    "loggedMore": "+{{extra}} more"
+    "loggedMore": "+{{extra}} more",
+    "freeze": {
+      "title": "Streak freeze",
+      "applied": "Freeze applied — today is protected.",
+      "confirm": "Use 1 of your {{available}} freezes for today?",
+      "explainer": "A freeze protects your {{days}}-day streak on a planned rest day — it just keeps the streak alive."
+    }
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

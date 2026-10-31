@@ -1677,3 +1677,13 @@
 - 2026-10-31 20:14 R81 closed with no edit: the latest report shows the seeds in detail.tsx already store unrounded macros, so the fix is already in place.
 - 2026-10-31 20:14 Did not start editSavedFood server sync, even though the handover NEXT line names it: it is a backend change and is Parked by decision. The notes win over the stale handover line.
 - 2026-10-31 20:14 Did not start the raw item values task: it needs a design decision and no design answer is recorded. Left in Next 4 for a later round.
+- 2026-10-31 20:16 Kept the queue order in notes item 9 over the report's suggested week/training/energy task, because the report's task spans three files and the rules allow one file per round.
+- 2026-10-31 20:16 Accepted src/app/dashboard/nutrition.tsx and line 103 of DESIGN_GAP_ANALYSIS.md as the Macros detail row, since that row covers this screen's copy. Verdict stays DIFFERENT because the macro history chart is still missing. No question to Isa needed.
+- 2026-10-31 20:16 Left the summaryDetails.test.ts:65 weakness for a later round. It is a test quality issue, not a UI mismatch, and the brief forbids new test work this round. Listed in Next.
+- 2026-10-31 20:16 Left nutrition.tsx:120 '80%' vs '80 %' spacing and the unverified meal.slot values at :164 and :180 for a later check. Listed in Next.
+- 2026-10-31 20:16 Asked Claude Code to confirm the gym freeze file path first, because the notes name the screen as 'gym/freeze' and the exact path is not confirmed.
+- 2026-10-31 20:17 Chose freeze.tsx because the notes order puts it first after R82 and it is one file.
+- 2026-10-31 20:17 Rewrote the prompt to name branch loop/design-match and the no-git rule, which the loop note said was missing.
+- 2026-10-31 20:17 Told Claude Code to stop if freeze.tsx is missing, rather than guess the path, as the notes asked.
+- 2026-10-31 20:17 Limited tests to files that import freeze.tsx, following the testing rule to keep usage low.
+- 2026-10-31 20:17 Cut the notes to under 600 words by merging repeated items and removing finished work. Kept every decision line.

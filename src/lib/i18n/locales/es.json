@@ -172,7 +172,13 @@
     "loggedDuration": "Duración",
     "loggedMinutes": "{{minutes}} min",
     "loggedSets": "Series",
-    "loggedMore": "+{{extra}} más"
+    "loggedMore": "+{{extra}} más",
+    "freeze": {
+      "title": "Congelar racha",
+      "applied": "Congelación aplicada — hoy está protegido.",
+      "confirm": "¿Usar 1 de tus {{available}} congelaciones para hoy?",
+      "explainer": "Una congelación protege tu racha de {{days}} días en un día de descanso planificado — simplemente mantiene viva la racha."
+    }
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
