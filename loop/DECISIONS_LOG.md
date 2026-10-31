@@ -1240,3 +1240,7 @@
 - 2026-10-31 15:06 Kept the header, chips, padding, loading state, null branch and chip key out of this round, to keep it to one state.
 - 2026-10-31 15:06 Left the gap-file marker fix (line 458) for its own doc round, since gap-file doc fixes are never bundled with a component change.
 - 2026-10-31 15:06 Jev and my pick agree on run; Jev's 40% clean-finish figure favours keeping the change to one state, which this prompt does.
+- 2026-10-31 15:08 Flag on the R313 report: its DONE says the sub-line was changed to gym.nothingScheduledSub, but its NEXT says the is_rest_day branch still reads 'Nothing scheduled today'. Treated as an unfinished step. Read-only verification goes first, per the flag rule, before any build work.
+- 2026-10-31 15:08 Kept the 'Rest' pill in the no-plan state, because the design shows it there (R313 report).
+- 2026-10-31 15:08 Parked the R313 NEXT items (Set schedule link, tap target and chevron, chip index key, null return with no schedule, pill and chip type) until the read-only check confirms the current state.
+- 2026-10-31 15:08 Recorded that the en, es and fr key counts should be 168, 170 and 168 after R313 (one key added to each), to be recounted before any removal.
