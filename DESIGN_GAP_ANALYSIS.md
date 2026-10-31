@@ -777,6 +777,7 @@ cards showing name + `N exercises · about M min`, with a 26px `+` in the header
 optional)"** field, an `EXERCISES` label, one shared card whose rows show only
 `3 × 10 @ 60kg` or `30 min` with a trash button and swipe-to-delete, an
 **"Add an exercise"** tertiary button, and a **"Save workout"** footer pill.
+The swipe-delete dialog title is built and translated (es and fr are unreviewed drafts); the same title on the trash-button dialog is still English.
 
 **Differences:**
 

@@ -2055,3 +2055,8 @@
 - 2026-10-31 22:42 Kept the swipe colour as color.primary, per the existing decision not to change colour in a string round.
 - 2026-10-31 22:42 Rewrote the notes file under 600 words, merging repeated items and removing finished work, as the loop note asked. Decisions were kept verbatim in substance.
 - 2026-10-31 22:42 Did not reopen the gym/new-template.tsx task until the flag is cleared.
+- 2026-10-31 22:42 Cleared the R159 flag: tsc ran and exited 0 in this round, and no test file references new-recipe, so no tests were skipped that could run. Logged as cleared, not verified.
+- 2026-10-31 22:42 Ignored the handover's first NOT FIXED item (SwipeableRow.tsx 'Delete' and 'Cancel' defaults). Notes already record SwipeableRow as built (Cancel uses common.cancel; delete uses common.delete). The handover predates later reports.
+- 2026-10-31 22:42 Picked gym/new-template.tsx because it is step 2 of the notes' Next list and is the smallest remaining swipe title. It also clears the last swipe-prompt item from the handover.
+- 2026-10-31 22:42 Told Claude Code to reuse food.removeTitle if the English matches, otherwise add a key in all three locales together. This follows the existing new-recipe pattern.
+- 2026-10-31 22:42 Told Claude Code to keep existing English if the design has no wording for this dialog. Avoids inventing copy.

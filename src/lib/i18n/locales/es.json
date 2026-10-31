@@ -241,7 +241,8 @@
     "scheduleAdherence": "Cumplimiento del plan",
     "mostTrained": "Más entrenados",
     "needsAttention": "Necesitan atención",
-    "oftenSkip": "Sueles saltarte {{day}}"
+    "oftenSkip": "Sueles saltarte {{day}}",
+    "removeExerciseTitle": "¿Quitar el ejercicio?"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

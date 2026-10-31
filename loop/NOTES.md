@@ -19,6 +19,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - A partly finished string set counts as unfinished. Finish a dialog or label set before starting another surface.
 - Swipe action colour: keep color.primary until Isa decides on design red. Do not change it in a string round.
 - Prompts must name the matching design/ file and the loop/design-match branch, and must forbid git.
+- Handover NOT FIXED lists can be stale. Grep before acting on them.
 
 ## Status
 Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint R89 (tsc 0, 65 suites, 824 tests). Full suite owed since R146; run at the next checkpoint.
@@ -27,13 +28,14 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - Tab labels and titles; CaloriesCard macro and energy labels; add menu labels; add-button and close VoiceOver strings.
 - Food row VoiceOver label and hint (food.row*); swipe titles and messages in food.tsx, food/saved.tsx (incl. unsave), food/new-recipe.tsx (reuses food.removeTitle).
 - food/saved.tsx strings (R157).
+- new-recipe.tsx swipe title (R158; tsc passed R159, no matching tests).
 - SwipeableRow: Cancel uses common.cancel; confirm and swipe use common.delete unless deleteLabel is passed.
 - LoadFailedNotice and StreakCounter tokens; GymPatternsCard copy; week, training, energy copy; freeze label.
 - nutrition.energyLogged (es 'en total', fr 'au total').
 
 ## Next
-1. (R159, flagged) Verify new-recipe.tsx: run tsc once and any test files that reference it. R158 reported tsc passed but ran no tests.
-2. Swipe title in src/app/gym/new-template.tsx around line 220 (reuse food.removeTitle if the English matches, else add a key in en, es, fr).
+1. DONE R159: new-recipe.tsx flag cleared (tsc 0, no matching tests exist). Logged as cleared, not verified.
+2. (In progress R160) Swipe-delete title in src/app/gym/new-template.tsx (reuse food.removeTitle if English matches, else add key in en, es, fr).
 3. Visible 'Analyzing…' on food row (food.tsx ~875) to t(), spelling 'Analysing'.
 4. CaloriesCard: missing Fibre column; dot vs bar (row 85, do not mark BUILT).
 5. 'Check your connection' invents a cause (food.tsx).
@@ -47,7 +49,7 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 13. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es/fr width; gym Training labels; food rows (logged, analysing, failed) VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu wrap at 232pt (fr, es); swipe dialogs on device (food log, saved, recipe); SwipeableRow 'Eliminar' and 'Supprimer' fit 88pt; food/saved.tsx longer es and fr text.
+- Device checks: tab bar es/fr width; gym Training labels; food rows (logged, analysing, failed) VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu wrap at 232pt (fr, es); swipe dialogs on device (food log, saved, recipe, gym template); SwipeableRow 'Eliminar' and 'Supprimer' fit 88pt; food/saved.tsx longer es and fr text.
 - Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned, common.delete); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
 - Design questions: food.title shared by tab and screen; separate caloriesTitle; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); design wording for energy deficit, steps, burn target, weekly target, group names, training list, profile row, streak, footnote; rows 90, 330, 334, 89, 23, 17; search routing; quick add serving order; add sheet 0pt gap; 'Snacks'; TodayCard wash pill, whole-day kcal, chevron; remaining-kcal line; body stats (app 1,500 kcal vs design 2,100); tabs.* namespace; swipe colour (accent red or black).
 
@@ -83,4 +85,4 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Claude Code forgets context at handover. Name files fully in every prompt.
 
 ## Last round
-R158: new-recipe.tsx swipe title built. Flagged: tsc passed but no tests ran. R159 verifies tsc and any matching tests. Next after the flag clears: gym/new-template.tsx.
+R159: flag on R158 cleared. tsc 0, no matching tests. R160 (this round): gym/new-template.tsx swipe title. Next after that: food.tsx 'Analyzing' (notes step 3).

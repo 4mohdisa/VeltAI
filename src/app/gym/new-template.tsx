@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, View, type TextInput } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { showToast } from '@/components/display/toastStore';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
@@ -36,6 +37,7 @@ function summarize(ex: ExerciseLibraryItem, p: PlannedValues): string {
 }
 
 export default function NewTemplateScreen() {
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id?: string }>();
   const editing = typeof id === 'string' && id.length > 0;
 
@@ -217,7 +219,11 @@ export default function NewTemplateScreen() {
                 return editing ? (
                   <View key={`${it.exercise.id}-${i}`}>{inner}</View>
                 ) : (
-                  <SwipeableRow key={`${it.exercise.id}-${i}`} confirmTitle="Remove exercise?" onDelete={removeAt}>
+                  <SwipeableRow
+                    key={`${it.exercise.id}-${i}`}
+                    confirmTitle={t('gym.removeExerciseTitle')}
+                    onDelete={removeAt}
+                  >
                     {inner}
                   </SwipeableRow>
                 );

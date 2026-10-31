@@ -239,7 +239,8 @@
     "scheduleAdherence": "Schedule adherence",
     "mostTrained": "Most trained",
     "needsAttention": "Needs attention",
-    "oftenSkip": "You often skip {{day}}"
+    "oftenSkip": "You often skip {{day}}",
+    "removeExerciseTitle": "Remove exercise?"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

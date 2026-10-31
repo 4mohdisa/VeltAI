@@ -239,7 +239,8 @@
     "scheduleAdherence": "Respect du programme",
     "mostTrained": "Les plus entraînés",
     "needsAttention": "À travailler",
-    "oftenSkip": "Vous sautez souvent {{day}}"
+    "oftenSkip": "Vous sautez souvent {{day}}",
+    "removeExerciseTitle": "Retirer l'exercice ?"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
