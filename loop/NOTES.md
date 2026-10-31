@@ -18,23 +18,25 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Checkpoint rounds read-only. Gap-doc fixes get their own round with tsc. Snapshots re-recorded only after a full diff read.
 - The loop script writes loop/NOTES.md and loop/DECISIONS_LOG.md. Claude Code must not open or edit them.
 - Jev is advisory. Where Jev is strongly sure of another action or task, follow it unless a concrete reason is written here.
+- A report flagged for no tsc or no tests is partial. Fix it before the next build round.
 
 ## Status
-BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy, TodayCard padding/title/sub-line/rest, Macros copy, Burned guard (EnergyBalanceCard), EnergyBalanceCard six strings, i18n setup, Log as planned minutes in notes (row 296).
-DIFFERENT: row 113 TodayCard fetch failure; Summary Macros detail (no chart, line 103).
+BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy, TodayCard padding/title/sub-line/rest, TodayCard logged state (green pill, 'Logged' via gym.logged, kcal sub-line via gym.loggedTodayBurned, chevron; R20, no tap target, no chips, no 4-up grid), Macros copy, Burned guard (EnergyBalanceCard), EnergyBalanceCard six strings, i18n setup, Log as planned minutes in notes (row 296).
+DIFFERENT: row 113 TodayCard fetch failure; Summary Macros detail (no chart, line 103); gym today's session card (all four states, still DIFFERENT).
 Header counts (line 71): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Table has 43 rows; line 90 is empty-status.
 Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
+R20 logged state: tsc exit 0, no tests matched. Verification owed (R21).
 
 ## Next
-1. R20 (this round): TodayCard logged state: green pill, t() 'Logged', kcal sub-line, chevron. Gap row located by content. Named design/Lume App.html.
+1. R21 (this round): verify TodayCard logged state. tsc once, run only tests that match TodayCard or log-session, read design/Lume App.html logged state, report mismatches. Clears the loop flag. No gap-doc edits.
 2. Checkpoint still owed: full tsc and full app Jest, read-only. Run when the loop script schedules it.
-3. TodayCard logged state, remaining items: tap target and chip. Do after step 1 is green.
-4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html.
+3. TodayCard logged state, remaining items: tap target, chip, 4-up stats grid. Do after step 1 is green.
+4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html. Pill still shows there.
 5. Gap doc round, tsc once, only if Isa has not objected: merge line 90 empty-status row into the Saved foods row above.
-6. Gap doc wording, one round each, tsc once: lines ~76 (cardio handling missing), ~281 (heading conflicts with reachable rows), ~296-298, rows 89 and 113, EnergyBalanceCard line (overstates; eight literals remain English), audit row ~1460 and ~1471 (stale wording).
+6. Gap doc wording, one round each, tsc once: lines ~76 (cardio handling missing), ~281 (heading conflicts with reachable rows), ~296-298, rows 89 and 113, the gym today's session card detail prose (still says no chevron, no green wash, no calories on logged sub-line), EnergyBalanceCard line (overstates; eight literals remain English), audit row ~1460 and ~1471 (stale wording).
 7. summaryNoFabrication.test.ts header comment (says fibre not built). Update when the burn string is wrapped.
 8. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd keys.
-9. Wrap hardcoded strings, one file per round: nutrition.tsx ('Percent of target', 'Breakdown', 'No meals logged yet today.', '% of target', 'of ... g'), gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. Then EnergyBalanceCard literals once Isa confirms.
+9. Wrap hardcoded strings, one file per round: nutrition.tsx ('Percent of target', 'Breakdown', 'No meals logged yet today.', '% of target', 'of ... g'), gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard literals too: 'Planned', 'Rest', 'Start workout', planned sub-line. Then EnergyBalanceCard literals once Isa confirms.
 10. Failed today fetch shows as rest day (log-session.tsx:89): fix or park.
 11. Add sheet icons from design SVGs. Empty-list copy food.tsx ~445.
 12. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes. Compare Energy, Week, Training detail views with design.
@@ -52,11 +54,14 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 - Log as planned (line 296): minutes as note text enough for BUILT?
 - Energy literals stay English? Remaining-calories line removed: acceptable?
 - Should users with no body stats see 'your 1,500 kcal calorie goal'? Design uses a 2,100 fallback.
+- TodayCard logged: pill is solid green, design uses 22% green wash (needs a token). Keep solid or add token?
+- TodayCard logged: kcal figure is the whole day's exercise burn, not this session. Accept, or park for a backend per-session figure?
+- TodayCard logged: chevron shows before the card is tappable. Accept until tap target lands?
 
 ## Parked
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros as 0.
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
-- TodayCard: header dot, min-height, gaps, pill and chip type.
+- TodayCard: header dot, min-height, gaps, pill and chip type, 'Logged today' fallback with no burn (hardcoded English), stale burn figure (energy fetched on mount only).
 - Macros: history chart; app-only gauge and meals list.
 - Log sheet failed fetch shows rest day; server GetToday clears is_rest_day only with a template.
 - fr 'Ajouter a {{slot}}'; plan.addTitle in es and fr.
@@ -75,12 +80,13 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 - Reports can be stale. Locate gap lines by content. Check premises: nutrition.tsx is src/app/dashboard/; Burned is on EnergyBalanceCard; the 'It went as planned' pill is not the logged-day control.
 - Gym tests are in src/__tests__, not src/components/gym.
 - Every prompt names the design/ file and gap row and says 'work only on loop/design-match'.
-- DONE without the design file read or gap row edited is partial. CHECKED without tsc and Jest is partial.
+- DONE without the design file read or gap row edited is partial. CHECKED without tsc and Jest is partial. CHECKED with no matching tests must say so.
 - Design assets: 185bb533 Summary, 7dc211f6 gym, 71f71ac4 food. Decode in memory only.
 
 ## Round log
 - R9-R17: EnergyBalanceCard, i18n, Macros row, header counts flagged, Macros copy, Burned guard, unset-goal check (no code change).
 - R11, R12 rejected (no design file; no branch rule). Handover at R17.
 - R18: prompt rejected (no design/ file named). Reissued. Built: header counts corrected (24 DIFFERENT, 14 PARTIAL, 4 BUILT). tsc exit 0. Jest not run.
-- R19: checkpoint requested, read-only. Prompt rejected before it ran (no design/ file named). Checkpoint still owed.
-- R20: Jev ranked TodayCard logged state first (84%). Followed it. Prompt rewritten to name design/Lume App.html, gap row, branch rule and file-locating step. Checkpoint deferred to a scheduled round.
+- R19: checkpoint requested, read-only. Prompt rejected before it ran. Checkpoint still owed.
+- R20: Jev ranked TodayCard logged state first (84%). Built logged state (not verified). Report flagged: tests not run, design read not stated. Gap row kept DIFFERENT.
+- R21: flag response. Verify TodayCard logged state with tsc and matching tests only, plus design read. No gap-doc edits. Jev run 93%, followed.

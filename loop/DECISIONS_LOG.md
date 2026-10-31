@@ -1376,3 +1376,8 @@
 - 2026-10-31 15:47 Rewrote the prompt to name design/Lume App.html, the gap row, the exact branch rule and the file-locating step. This fixes the rejection.
 - 2026-10-31 15:47 Checkpoint (full tsc and Jest) stays owed but is not run this round. The loop script has not scheduled it yet, and the brief says it runs only on a checkpoint round. It is kept in Next so it is not lost.
 - 2026-10-31 15:47 Snapshot failures are reported, not re-recorded, to follow the rule that snapshots are re-recorded only after a full diff read.
+- 2026-10-31 15:50 Chose candidate 1 because the loop note flagged the last report (type check or tests not run). The brief says deal with a flag before moving on. Candidate 1 clears it with the smallest change.
+- 2026-10-31 15:50 Jev ranked run first at 93%, which matches this choice. No conflict to resolve.
+- 2026-10-31 15:50 Limited the round to TodayCard.tsx so no new edits land on the gap doc in the same round as the code. Gap-doc fixes stay in their own round, per the rule.
+- 2026-10-31 15:50 Asked for a design read in step 1 because the last report did not name the design file for the logged state. Without that, the BUILT claim is partial.
+- 2026-10-31 15:50 No new tests written: no test matched TodayCard, and the brief forbids new suites this round.
