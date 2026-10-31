@@ -21,27 +21,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macros copy follows design (R14, R15). Chart and app-only items parked.
 - Snapshots re-recorded only after full diff read and key-to-text confirmed.
 - R16: guard fix chosen over TodayCard logged state (smallest, no Isa input).
+- Burned guard (summaryNoFabrication 'no burn target') checks EnergyBalanceCard, not the Macros detail. Macros row unchanged.
 
 ## Status
-BUILT (not verified): food entry bar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys and strip, Goals, plan.whyThisPlan, lastLoggedLabel, Macros copy, load-failure t(), saved.tsx title, TodayCard padding/title/sub-line/rest/branch order, MuscleChart padding, row 295, /gym/session wording, EnergyBalanceCard wrapped, i18n in setup, macros snapshot re-recorded.
+BUILT (not verified): food entry bar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys and strip, Goals, plan.whyThisPlan, lastLoggedLabel, Macros copy, load-failure t(), saved.tsx title, TodayCard padding/title/sub-line/rest/branch order, MuscleChart padding, row 295, /gym/session wording, EnergyBalanceCard wrapped, i18n in setup, macros snapshot re-recorded, Burned no-target guard (R16, test only).
 DIFFERENT: row 113 TodayCard (null on fetch failure, gymSchedule.ts:38-40); Summary Macros detail (no chart, app-only items).
 Keys: en 169, es 171, fr 169, plus six dashboard.energyBalance each. Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 
 ## Next
-1. R16: fix weakened guard summaryNoFabrication.test.ts:38. tsc once, that file only.
-2. Check goals.calories when unset. Fix nutrition.tsx footer only if it is 0.
-3. Logged-day sheet: design hides it once logged; app shows it from + menu. Own round, decide from design/.
-4. TodayCard logged state (one surface): kcal sub-line, green pill, t() 'Logged', comment at TodayCard.tsx:105, chip key ~162, tap target, chevron.
-5. Gap doc wording, one round each, tsc once: lines ~280, ~76, ~296-298, rows 89 and 113, EnergyBalanceCard line, /gym/session reachability (264, 269-270, 291).
-6. Gap doc header counts (line 71) and empty row (line 90): Isa to confirm first.
-7. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd from en, es, fr.
-8. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard:85, saved.tsx, MuscleChart, session.tsx:537, gym.tsx (not Training list), profile/index.tsx, (tabs)/index.tsx.
-9. Read and wrap gymRange.ts, GymSessionButton, GymCalendar.
-10. Add sheet icons from design SVGs. Empty-list copy food.tsx ~445.
-11. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-12. Compare Energy, Week, Training summary detail views with design; fix audit row ~1471 ('not assessed').
-13. Full tsc and Jest at next checkpoint.
-14. No rows remain: stop with 'only owner decisions remain'.
+1. DONE R16: guard fix summaryNoFabrication.test.ts:38.
+2. R17 (in progress): check goals.calories when unset; fix nutrition.tsx footer only if it is 0. tsc once; nutrition test file only if it exists.
+3. Fix summaryNoFabrication.test.ts header comment (lines 2-3 say fibre not built). Note: wrapping 'No burn target set' in t() will need that test updated.
+4. Logged-day sheet: design hides it once logged; app shows it from + menu. Own round, decide from design/.
+5. TodayCard logged state (one surface): kcal sub-line, green pill, t() 'Logged', comment at TodayCard.tsx:105, chip key ~162, tap target, chevron.
+6. Gap doc wording, one round each, tsc once: lines ~280, ~76, ~296-298, rows 89 and 113, EnergyBalanceCard line, /gym/session reachability (264, 269-270, 291).
+7. Gap doc header counts (line 71) and empty row (line 90): Isa to confirm first.
+8. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd from en, es, fr.
+9. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard:85, saved.tsx, MuscleChart, session.tsx:537, gym.tsx (not Training list), profile/index.tsx, (tabs)/index.tsx.
+10. Read and wrap gymRange.ts, GymSessionButton, GymCalendar.
+11. Add sheet icons from design SVGs. Empty-list copy food.tsx ~445.
+12. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+13. Compare Energy, Week, Training summary detail views with design; fix audit row ~1471 ('not assessed').
+14. Full tsc and Jest at next checkpoint.
+15. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again)
 - Footnote '23 sessions · 2 freezes'. Row 89 photo vs text. Row 23 one-tap log. Row 17 Calories formula.
@@ -53,6 +55,8 @@ Keys: en 169, es 171, fr 169, plus six dashboard.energyBalance each. Last full r
 - Confirm loop writes loop/NOTES.md and loop/DECISIONS_LOG.md.
 - Energy literals stay English? Remaining-calories line removed in R15: acceptable?
 - Gap doc line 284 wording: retry only after Isa confirms.
+- Log as planned (line 296): are minutes saved only as note text enough for BUILT?
+- Freestyle (line 300): does No stay?
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes.
@@ -66,6 +70,7 @@ Keys: en 169, es 171, fr 169, plus six dashboard.energyBalance each. Last full r
 - Recipe fibre saved as 0; num() rounds; long-press meal delete hidden.
 - Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - 'Only some of it' (gap ~191): check if stale. Energy literals English: EnergyBalanceCard 131, 135, 148, 164, 165, 184, 191.
+- Summary guard test cannot see targets passed via spread props ({...props}). Accepted limit.
 
 ## Gotchas
 - Edit tool writes plain space for NBSP and plain apostrophe for U+2019. Use node escapes.
@@ -82,4 +87,5 @@ Keys: en 169, es 171, fr 169, plus six dashboard.energyBalance each. Last full r
 - R11, R12: rejected (no design file named; no branch rule).
 - R13: Macros row added. R14: header counts wrong, line 90 empty.
 - R15: Macros copy to design; tsc 0; native es/fr review blocked.
-- R16: guard fix (Jev 91% run). Report pending.
+- R16: guard fix done. tsc 0; summaryNoFabrication 12 of 12 pass. Burned check reads EnergyBalanceCard (not Macros). Test-by-reading only, no temporary edits.
+- R17: loop note said Jev ranked goals.calories check at 88%. Accepted it: next item in notes, smallest, no Isa input. Prompt issued.

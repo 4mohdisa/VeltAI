@@ -1353,3 +1353,7 @@
 - 2026-10-31 15:41 Named design/Lume App.html (Summary Macros detail) and the Macros gap row, to meet the rejection rule.
 - 2026-10-31 15:41 Kept the check read-only with no temporary fixture, to keep Claude Code usage low.
 - 2026-10-31 15:41 Rewrote the notes to under 600 words: merged repeats, removed finished work, kept all decisions and blockers.
+- 2026-10-31 15:43 Followed Jev's pick (goals.calories check) over my earlier plan. It is the next item in the notes, it is the smallest, and it needs no Isa input. Reason: R16 is finished, so this is the correct next step.
+- 2026-10-31 15:43 Burned guard lives in EnergyBalanceCard, not the Summary Macros detail. Macros gap row left unchanged, as the report asked.
+- 2026-10-31 15:43 Header-comment fix in summaryNoFabrication.test.ts parked as a NEXT item, not fixed now, to keep one task per round.
+- 2026-10-31 15:43 Logged-day sheet and TodayCard logged state kept for later rounds, one task per round.
