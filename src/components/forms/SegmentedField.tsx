@@ -9,8 +9,9 @@
 //           as a raised chip rather than a stamped one, which is what lets it
 //           sit on an elevated white card without fighting it.
 //
-// `compact` is the design's Quick add Meal control: 13/17 semibold labels on a
-// track with 3pt padding and gaps. Omit it for the standard size.
+// `compact` is the design's Quick add Meal control: fixed 13/17 semibold labels
+// on a track with 3pt padding and gaps, and no padding inside the segments. Omit
+// it for the standard size.
 import { View } from 'react-native';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
@@ -84,8 +85,10 @@ export function SegmentedField<T extends string>({
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  paddingVertical: space.md,
-                  paddingHorizontal: space.sm, // keep the label off the rounded edge
+                  ...(!compact && {
+                    paddingVertical: space.md,
+                    paddingHorizontal: space.sm, // keep the label off the rounded edge
+                  }),
                   borderRadius: radius.pill,
                   minHeight: layout.tapTarget,
                 },
@@ -102,7 +105,7 @@ export function SegmentedField<T extends string>({
                 variant={compact ? 'label' : 'bodyMedium'}
                 color={selected ? (inset ? color.label : color.white) : color.secondaryLabel}
                 numberOfLines={1}
-                adjustsFontSizeToFit
+                adjustsFontSizeToFit={!compact}
                 minimumFontScale={0.8}
                 style={{ textAlign: 'center', ...(compact && { lineHeight: COMPACT_LINE_HEIGHT }) }}
               >

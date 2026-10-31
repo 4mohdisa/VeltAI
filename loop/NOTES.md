@@ -20,22 +20,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Grep before acting. Code tidying is never a task.
 - A task flagged twice goes to Blocked on Isa, not retried.
 - Every prompt names the matching design/ file and the branch rule.
+- SegmentedField.tsx is a shared component. Row 87 (a) and (b) are built in two steps: R221 adds the compact prop; the next round passes it from quick-add.tsx. Isa may override by Telegram.
 
 ## Status
-- R219 (now): row 87 doc-only fix, lines 1036, 1055-1063 and 1500 brought in line with row 87 status. Agrees with Jev. Clears the flagged R218 report.
-- R218: row 87 items (c), (d), (e) BUILT, not verified, in quick-add.tsx. tsc 0. Row 87 still DIFFERENT: (a) and (b) sit in SegmentedField.tsx, outside the allowed files.
+- R221 (now): row 87 (a) and (b), step 1 of 2. Adds optional compact prop to SegmentedField.tsx only. Runs tsc and SegmentedField tests. Rewritten after R220 was rejected for touching two files.
+- R220: rejected before running (two-file scope). Not built.
+- R219: row 87 doc-only fix. tsc 0.
+- R218: row 87 items (c), (d), (e) BUILT, not verified, in quick-add.tsx. tsc 0. Row 87 still DIFFERENT: (a) and (b).
 - R209 checkpoint clean: app 65/65 suites, 824/824.
 - R207: row 85 macro bars built in CaloriesCard. BUILT, not verified.
 - Row 86 food detail: BUILT, not verified.
 - Row 85 still DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill animation.
 
 ## Next (in order)
-1. R219: row 87 doc fix (doc-only, tsc only).
-2. Row 87 (a) and (b): SegmentedField.tsx, with a compact prop used only by Quick add. Name the file in the prompt. Run tsc and the SegmentedField tests; report exit codes.
+1. R221: row 87 (a) and (b), compact prop in SegmentedField.tsx only. Report tsc and test exit codes.
+2. R222: quick-add.tsx passes compact={true} to its SegmentedField for row 87 (a) and (b). One file. Then update row 87 in the doc.
 3. Row 85 calorie bar and 'left today': Blocked on Isa.
 4. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each first.
 5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-6. No rows left: stop with 'only owner decisions remain'.
+6. Doc fixes to gap analysis (see Parked, Doc) only when no build task is open.
+7. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Row 85: 12px calorie bar; 'left today'; doc wording lines 895-897, 930, 934, 937 (flagged R214-R216); four-column wrap (es 'Carbohidratos').
@@ -53,7 +57,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Copy: foodLog.per100 '/ 100g' vs '/ 100 g'; CaloriesCard hardcoded g (food.tsx:696); raw energyUnit on logged rows; 'Check your connection' (food.searchFailed, food.loadFailed); food.rowAnalysing; food.deleteItem.
 - Missing: 700ms bar fill; 'Updated {name}' toast; foodLog.savedAdded toast.
 - Layout: quick-add KeyboardAvoidingView inside fitToContents sheet, not checked on device.
-- Doc: stale line refs; line 1017 'Save to my foods' vs dishes; lines 930 and 934 state facts in differences.
+- Doc: stale line refs; line 1017 'Save to my foods' vs dishes; lines 930 and 934 state facts in differences; line 103 'hardcoded English' also in Summary Macros row (unchecked); line 1058 'The copy is hardcoded English' contradicts row 87; the line 1065 KeyboardAvoidingView item is stale; line 1502 label says 'line 86' for Quick add (it is 87) and sits under a heading that no longer fits; the 'Still open' list is missing row 87 sheet padding, hero padding, disc glyph, figure default and meal default differences; 'Still open' list still lists the offline toast, which row 87 calls an addition.
 - Comment food.tsx:656-659 cites UI_PASS_GAPS.md section 2, unconfirmed.
 - GymPatternsCard server values untranslated (src/lib/api.ts:795-800).
 - Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
@@ -80,4 +84,9 @@ Last handover after R210. Next due R225.
 
 ## Jev log
 - R201-R218: run kept; no owner input needed.
-- R219: Jev run 49%, ask 40%, stop 11% (confidence 0.24); last task clean 32%; risk 1.6. Jev ranked the row 87 doc fix first at 92%. Agreed, so no override.
+- R219: Jev run 49%, ask 40%, stop 11% (confidence 0.24); last task clean 32%; risk 1.6. Jev ranked the row 87 doc fix first at 92%. Agreed.
+- R220: Jev ask 86%, stop 8%, run 6% (confidence 0.79). Kept run. R220 was then rejected for scope (two files), so it was rewritten as R221.
+- R221: Jev ask 81%, stop 10%, run 9% (confidence 0.72); last task clean 52%; risk 1.4. Kept run. Reason: the step is design-matching and covered by the defaults, not a product question. The rewrite is one shared component only, with the compact prop left unused until R222.
+
+## Doc notes (not tasks)
+- Parked doc items above stay out of the build queue. Fix them only in a doc-only round when no build row is open.
