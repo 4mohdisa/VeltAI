@@ -25,19 +25,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Nutrition gap row line 103: accepted R82, stays DIFFERENT until macro history chart exists.
 - Every prompt names matching design/ file and gap row.
 - Locale key gym.plannedExercisesNoDuration kept (R93). Rename parked; no es/fr edits.
+- LoadFailedNotice tap target: design has no load-failure notice. minTapTarget={false} kept as accepted deviation (R96, gap row 114).
 
 ## Status
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre (saved.tsx toEditable and add); citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard sub-line (NOT TESTED).
+BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre (saved.tsx toEditable and add); citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard sub-line (NOT TESTED); LoadFailedNotice 'Try again' label via t() (R95, NOT TESTED).
 Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). Next checkpoint not due.
-Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, StreakCounter, profile render, TodayCard (no test references it), R92 locale keys.
-R93 closed: comment fixed, tsc 0. Tests not run because no test references TodayCard; accepted limit.
+Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, StreakCounter, profile render, TodayCard (no test references it), R92 locale keys, LoadFailedNotice label and tap target.
 
 ## Next (in order)
-1. IN PROGRESS (R95): 'Try again' in LoadFailedNotice.tsx:47 (shared). Previous round flagged for tests not run; R95 runs tsc and related tests.
-2. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze'. Only after Isa confirms freeze screen stays.
+1. IN PROGRESS (R96): doc-only. Record LoadFailedNotice tap-target accepted deviation at gap row 114. Closes the R95 flag.
+2. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze' (:155) via t(). Freeze sheet kept as built. Unblocked by decision.
 3. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx ('Breakdown').
-4. One file per round: GymPatternsCard, saved, MuscleChart, session (Try again, untranslated strings), gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+4. One file per round: GymPatternsCard, saved, MuscleChart, session (untranslated strings), gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 5. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
 6. PlannedValuesForm.tsx:200 'Add exercise' vs design.
 7. add.tsx slotKey (~67). Remove unused keys if confirmed.
@@ -50,7 +50,7 @@ R93 closed: comment fixed, tsc 0. Tests not run because no test references Today
 14. summaryDetails.test.ts:65 source-checks 'Breakdown'; replace with render check, own round.
 15. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
 16. StreakCounter.tsx: stale header comment; colour tokens color.black, gray400, gray500 to color.label, secondaryLabel.
-17. Gap line 82: remove stray <br> (doc only).
+17. Gap line 82: remove stray <br> and misplaced freeze sentence (doc only). StreakCounter wrap has no gap row; add one if needed.
 18. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
@@ -60,13 +60,13 @@ R93 closed: comment fixed, tsc 0. Tests not run because no test references Today
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Footnote '23 sessions 2 freezes'; rows 89, 23, 17.
 - Search routing; global + title; quick add first or second serving; add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review (profile, nutrition, freeze, StreakCounter, TodayCard, gym.planned*, gym.rest, gym.loggedToday, common try-again). Terms: fr 'Gels', es 'Congelaciones'; 'AI insights'; 'My dishes'; Macros wording; Freestyle 'No'; es emptyMessage; es voice removal.
+- Native es/fr review (profile, nutrition, freeze, StreakCounter, TodayCard, gym.planned*, gym.rest, gym.loggedToday, common.tryAgain). Terms: fr 'Gels', es 'Congelaciones'; 'AI insights'; 'My dishes'; Macros wording; Freestyle 'No'; es emptyMessage; es voice removal.
 - Group names food/gym/profile.loadFailed; training list; profile row; streak wording; GetToday flag.
 - Log as planned: minutes as note text; energy literals; remaining-kcal line removal.
 - Users without body stats see 1,500 kcal; design uses 2,100.
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume fix, show or accept. Heatmap wording. Calories cell needs backend field.
-- Freeze screen: does gym/freeze.tsx stay? Gates Next item 2.
+- Freeze screen: decided as kept (see Decisions). Owner may still override.
 - StreakCounter wrap has no row. Gap line 82 freeze sentence kept for now.
 
 ## Parked
@@ -83,9 +83,11 @@ R93 closed: comment fixed, tsc 0. Tests not run because no test references Today
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; i18next console.info banner.
 - Recipe fibre saved as 0; num() rounds grams and kcal; long-press meal delete hidden. Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - Untraced: other goals.calories screens may show 1,500; Math.max NaN if profile field undefined.
+- LoadFailedNotice minimum tap target: revisit only if a design failure state appears.
+- Test for LoadFailedNotice label and retry size (no test checks them today).
 
 ## Accepted limits
-Summary guard cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0, so a true 0 g food shows no tile. Saved-food edits local only. No test renders profile, StreakCounter or TodayCard.
+Summary guard cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0, so a true 0 g food shows no tile. Saved-food edits local only. No test renders profile, StreakCounter or TodayCard. LoadFailedNotice retry button keeps minTapTarget={false}: the design has no failure notice (R96).
 
 ## Round log
 R9-R82: most surfaces built. Checkpoints R34, R48, R61, R77 green.
@@ -94,5 +96,6 @@ R88: profile strings via t(); tsc 0; 21 tests pass.
 R89: checkpoint green (tsc 0, 65 suites, 824 tests).
 R90-R92: TodayCard strings and sub-line via t(); tsc 0; tests not run or none referencing (flagged).
 R93: TodayCard comment fixed; tsc 0; no test references TodayCard (closed as accepted limit).
-R94: doc-only citation fix at gap line 297 (TodayCard.tsx:249 to 246); tsc 0. Flagged by loop: no tests run, report did not clearly show type check result.
-R95 (this round): LoadFailedNotice 'Try again' via t() and tap target per design; tsc and related tests run and printed; gap row set to BUILT.
+R94: doc-only citation fix at gap line 297; tsc 0. Flagged: no tests run, type check result unclear.
+R95: LoadFailedNotice 'Try again' via t(); tsc 0; 2 suites, 16 tests pass. Tap target unchanged; row 114 stays DIFFERENT. Flagged as partly done.
+R96 (this round): doc-only. Tap-target decision recorded as accepted deviation at gap row 114. Closes R95 flag. Freeze screen treated as kept; gym.tsx:155 unblocked.

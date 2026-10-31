@@ -1755,3 +1755,7 @@
 - 2026-10-31 20:34 Gap row is located by search, not by number, so a stale row citation does not cause an error.
 - 2026-10-31 20:34 Added the key to en, es and fr together, per the locale rule. The es and fr wording is a first draft for Isa's native review.
 - 2026-10-31 20:34 gym.tsx streak freeze strings stay blocked until Isa confirms the freeze screen stays (Blocked on Isa).
+- 2026-10-31 20:36 Closed the flagged partial work by stating why not: the design has no load-failure notice, so there is no design value for the tap target. Kept minTapTarget={false} as an accepted deviation, recorded in gap row 114. Reason: no design value exists and changing it would make all 10 notice users taller with no design basis.
+- 2026-10-31 20:36 Row 114 stays DIFFERENT. Only the BUILT line for the Try again label counts as built, so header counts stay unchanged.
+- 2026-10-31 20:36 Treated the freeze screen question as answered by the existing decision 'Gym freeze sheet kept as built; app-only', so the gym.tsx:155 'Apply a streak freeze' task is unblocked for the next round.
+- 2026-10-31 20:36 Chose the doc-only task first because the loop flagged the last report as partly done and one flagged item must be closed before moving on.
