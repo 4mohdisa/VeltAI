@@ -1805,3 +1805,7 @@
 - 2026-10-31 20:47 Picked training.tsx. It is the open UI label gap, and Jev ranked it first too. The flagged partial report is handled by queuing the test-only fix as the next round, because prompts must name one file.
 - 2026-10-31 20:47 No gap-row edit this round. Week and training Breakdown have no table row, and Isa has not chosen one. Doc round waits.
 - 2026-10-31 20:47 Notes rewritten under 600 words: finished work deleted, repeated items merged.
+- 2026-10-31 20:48 Chose the test widening first because the loop flagged R105 as partly done and training is the open part of it; energy.tsx follows next round.
+- 2026-10-31 20:48 Did not edit DESIGN_GAP_ANALYSIS.md for Training Breakdown, because which row holds it is still blocked on Isa.
+- 2026-10-31 20:48 Kept the Training check at source-text level, matching the existing week check; render proof is not claimed.
+- 2026-10-31 20:48 Left fr Breakdown as 'Détail' per Isa's instruction; the Répartition question stays in Blocked on Isa.

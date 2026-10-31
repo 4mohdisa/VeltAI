@@ -62,7 +62,12 @@ describe('all four Summary detail routes exist', () => {
   test.each(Object.entries(ROUTES))('%s renders the shared kicker and Breakdown', (key, path) => {
     const src = read(path);
     expect(src).toContain('<KickerTitle');
-    expect(src).toContain(key === 'week' ? "t('dashboard.breakdown')" : 'Breakdown');
+    if (key === 'week' || key === 'training') {
+      expect(src).toContain("t('dashboard.breakdown')");
+      expect(code(path)).not.toMatch(/\bBreakdown\b/);
+    } else {
+      expect(src).toContain('Breakdown');
+    }
   });
 
   // Pushed routes cover the floating tab bar; padding for it would leave a gap.

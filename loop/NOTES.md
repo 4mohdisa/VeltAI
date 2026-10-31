@@ -20,15 +20,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - LoadFailedNotice: no design counterpart. minTapTarget={false} kept (row 114). Message required, no default (R98).
 - R100 flag cleared: tsc 0, locale JSON parses, key in en, es, fr.
 - fr Breakdown is 'Détail' as Isa specified, despite nutrition.breakdown 'Répartition'.
-- summaryDetails.test.ts Breakdown check (R104) picks the key for 'week' and the word 'Breakdown' for other routes. It reads source text only and does not prove rendering.
+- summaryDetails.test.ts Breakdown check (R104, widened for training in R106) picks the key for 'week' and 'training' and the word 'Breakdown' for other routes. It reads source text only and does not prove rendering.
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later.
 
 ## Next
-1. training.tsx: Breakdown via t('dashboard.breakdown') (R105, issued).
-2. summaryDetails.test.ts: extend the key check to training and energy once their labels use t(). Test file only.
-3. energy.tsx:205: Breakdown via t() (correct path).
+1. summaryDetails.test.ts: widen Breakdown check to training (R106, issued). Test file only. Closes the R105 partial flag.
+2. energy.tsx:205: Breakdown via t('dashboard.breakdown') (correct path).
+3. Extend the summaryDetails key check to energy once energy.tsx uses t().
 4. Doc only: record Week and Training Breakdown once Isa picks a row.
 5. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
 6. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
@@ -43,8 +43,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 15. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
 16. Freeze strings at count 1 read wrongly.
 17. gym.tsx ~151-156 'Training', 'My schedule', 'My workouts', 'Session history': per row or English-only.
-18. Re-issue read-only checkpoint (full tsc and full app suite).
-19. No rows left: stop with 'only owner decisions remain'.
+18. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
+19. Re-issue read-only checkpoint (full tsc and full app suite).
+20. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? mutations.ts:173-178.
@@ -94,4 +95,5 @@ R101: rejected (three files).
 R102: checkpoint issued, never reported.
 R103: Breakdown on week.tsx via t(). Gap line not added. Flagged partial.
 R104: test check widened by route, passes. Test is weak for non-week routes.
-R105: training.tsx Breakdown issued (one file).
+R105: training.tsx Breakdown via t('dashboard.breakdown'). Flagged partial by loop: test check for training still missing.
+R106: issued widening of summaryDetails.test.ts to training (test file only).
