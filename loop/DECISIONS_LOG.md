@@ -2064,3 +2064,6 @@
 - 2026-10-31 22:44 Treated the flagged report as 'tests not run': the type check was run and no test file references new-template, so the prompt asks Claude Code to record that explicitly in CHECKED.
 - 2026-10-31 22:44 Left DESIGN_GAP_ANALYSIS.md line ~957 stale citation for later, as it is a doc cleanup and not part of this dialog.
 - 2026-10-31 22:44 No status word or header count changes; the row stays PARTIAL until Isa verifies.
+- 2026-10-31 22:45 Kept the checkpoint over Jev's pick (food.tsx 'Analyzing', 89%). Reason: the loop note requires a checkpoint this round, and the notes say the full suite has been owed since R146. Checkpoint rounds are read-only, so the food.tsx change moves to the next round.
+- 2026-10-31 22:45 Logged R161 as flagged. Its tsc result and no-matching-tests result are recorded in CHECKED, so the flag is cleared by this checkpoint's run.
+- 2026-10-31 22:45 Did not reopen the R161 device, native review or design-question items. They remain in Blocked on Isa.

@@ -20,9 +20,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Swipe action colour: keep color.primary until Isa decides on design red. Do not change it in a string round.
 - Prompts must name the matching design/ file and the loop/design-match branch, and must forbid git.
 - Handover NOT FIXED lists can be stale. Grep before acting on them.
+- Loop checkpoint requests override Jev's ranking when the notes owe a full suite run (R162: checkpoint kept over food.tsx 'Analyzing').
 
 ## Status
-Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint R89 (tsc 0, 65 suites, 824 tests). Full suite owed since R146; run at the next checkpoint.
+Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint R89 (tsc 0, 65 suites, 824 tests). Full suite owed since R146. R162 is a read-only checkpoint running tsc and the full app suite. Its result is pending in the next report.
 
 ## Built, not verified (es and fr are unreviewed drafts)
 - Tab labels and titles; CaloriesCard macro and energy labels; add menu labels; add-button and close VoiceOver strings.
@@ -30,14 +31,15 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - food/saved.tsx strings (R157).
 - new-recipe.tsx swipe title (R158; tsc passed R159, no matching tests).
 - gym/new-template.tsx swipe title, gym.removeExerciseTitle (R160; tsc 0, no matching tests).
+- gym/new-template.tsx trash-button dialog uses gym.removeExerciseTitle, common.cancel, common.delete (R161; tsc 0, no matching tests).
 - SwipeableRow: Cancel uses common.cancel; confirm and swipe use common.delete unless deleteLabel is passed.
 - LoadFailedNotice and StreakCounter tokens; GymPatternsCard copy; week, training, energy copy; freeze label.
 - nutrition.energyLogged (es 'en total', fr 'au total').
 
 ## Next
 1. DONE R159: new-recipe.tsx flag cleared (tsc 0, no matching tests exist). Logged as cleared, not verified.
-2. DONE R160: gym/new-template.tsx swipe title. IN PROGRESS R161: trash-button dialog in new-template.tsx (~173-176) to gym.removeExerciseTitle, common.cancel, common.delete. The R160 report was flagged for tests not run; R161 records tsc and the no-matching-tests result in CHECKED.
-3. Visible 'Analyzing…' on food row (food.tsx ~875) to t(), spelling 'Analysing'.
+2. DONE R160 and R161: gym/new-template.tsx swipe title and trash-button dialog. Both logged as built, not verified. Remaining on this row: `Remove ${it.exercise.name}` VoiceOver label and 'Remove exercise' action label (~line 180), then the rest of the screen's English strings.
+3. Visible 'Analyzing…' on food row (food.tsx ~875) to t(), spelling 'Analysing'. Recommended next after R162 checkpoint.
 4. CaloriesCard: missing Fibre column; dot vs bar (row 85, do not mark BUILT).
 5. 'Check your connection' invents a cause (food.tsx).
 6. Visible P, C, F letters on food row (~899); g suffixes (~690, ~856, VoiceOver ~854); raw energyUnit.
@@ -47,7 +49,9 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 10. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
 11. week.tsx remaining copy, then training.tsx, energy.tsx.
 12. food/detail.tsx ~326 'Delete item' still English.
-13. No rows left: stop with 'only owner decisions remain'.
+13. SwipeableRow.tsx:32,39 'Delete' and 'Cancel' defaults; the dialog is half translated. common.cancel exists.
+14. Other swipe prompts still English: food/saved.tsx:115-116, food/new-recipe.tsx:144.
+15. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Device checks: tab bar es/fr width; gym Training labels; food rows (logged, analysing, failed) VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu wrap at 232pt (fr, es); swipe dialogs on device (food log, saved, recipe, gym template); SwipeableRow 'Eliminar' and 'Supprimer' fit 88pt; food/saved.tsx longer es and fr text.
@@ -70,11 +74,12 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN on undefined profile field.
 - Raw item values: food.tsx, food/saved.tsx:144.
 - food.unsaveTitle and food.removeTitle share English but differ in es and fr.
-- Stale gap doc citations (lines 437, 957, 1505); line 955 wrongly says swipe confirmation is translated everywhere.
+- Stale gap doc citations (lines 437, 957, 1505); line 955 wrongly says swipe confirmation is translated everywhere. DESIGN_GAP_ANALYSIS.md:957 still says the new-template swipe title is English; now false after R160.
 - SwipeableRow.tsx:2 'red' comment.
+- Hardcoded 'kcal' and 'g' in src/lib/formatting.ts; the 'P' abbreviation.
 
 ## Accepted limits
-Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Fibre uses > 0. No full suite since R146. SwipeableRow and saved.tsx rendering are not covered by tests.
+Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Fibre uses > 0. No full suite since R146 (checkpoint R162 requested). SwipeableRow and saved.tsx rendering are not covered by tests.
 
 ## Gotchas
 - Briefs repeat finished work and quote stale lines. Grep first. Line numbers drift. Handover items can predate later reports.
@@ -86,4 +91,4 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Claude Code forgets context at handover. Name files fully in every prompt.
 
 ## Last round
-R160: gym/new-template.tsx swipe title BUILT (tsc 0, no matching tests). Flagged for tests not run; cleared by R161 run and CHECKED entry. R161 (this round): trash-button dialog in new-template.tsx. Next after that: food.tsx 'Analyzing' (notes step 3).
+R161: trash-button dialog in new-template.tsx BUILT (tsc 0, no matching tests). R161 report flagged for tests not run; R162 checkpoint runs tsc and the full app suite to clear it. Loop note asked for a checkpoint, and the notes owe a full suite since R146, so the checkpoint overrode Jev's pick. Next after R162: food.tsx 'Analyzing' (notes step 3).
