@@ -1502,3 +1502,8 @@
 - 2026-10-31 17:06 Kept the already-logged days blocker under Blocked on Isa. It came back twice, so it is not retried.
 - 2026-10-31 17:06 Rest seconds fix limited to a plain save in session.tsx. Any data model or backend change is parked, not built.
 - 2026-10-31 17:06 Notes rewritten under 600 words: repeated items merged, finished work removed, decisions kept verbatim in meaning.
+- 2026-10-31 17:07 Chose the checkpoint because the loop note requires one read-only round with tsc and full app Jest and no file changes.
+- 2026-10-31 17:07 Marked notes Next item 1 (rest seconds premise) as done. R47 was a plain save fix in session.tsx inputFor, with gap line 230 updated to BUILT.
+- 2026-10-31 17:07 Kept the planned-row rest_seconds fix out of this round to respect the one-task rule. It is queued as its own round after the checkpoint.
+- 2026-10-31 17:07 Jev ranks run at 93% and I agree, so no second look is needed.
+- 2026-10-31 17:07 Logged the R47 gap-doc cite shift (session.tsx lines after 165 moved by one) as a doc correction to apply after the checkpoint.
