@@ -1556,3 +1556,8 @@
 - 2026-10-31 17:20 Logged-day copy: design wins by default. 'Add something extra' is queued as the next candidate after the macro fix.
 - 2026-10-31 17:20 plannedRows rest_seconds is queued as a candidate. It is not built this round because the macro fix is the smaller, already-scoped task.
 - 2026-10-31 17:20 Prompt names the design asset, the gap lines, and the branch rule explicitly, per the R54 and R55 lessons.
+- 2026-10-31 17:22 Chose the R56 citation fix over the handover's session.tsx citation item, because the notes say the latest report wins over stale handover NEXT lines.
+- 2026-10-31 17:22 Kept the task doc-only, so it is cheap and only needs tsc, consistent with the doc-round rule.
+- 2026-10-31 17:22 Left the logged-day copy and plannedRows items queued, because each one is a code change that should follow a clean doc state.
+- 2026-10-31 17:22 Asked the agent to verify each citation by content rather than trusting the report's example line numbers, because the report itself lists lines that may have shifted differently.
+- 2026-10-31 17:22 Kept the status cells and counts unchanged, as the R56 report stated they should be.

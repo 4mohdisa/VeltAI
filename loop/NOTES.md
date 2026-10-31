@@ -27,25 +27,27 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Jev is advisory.
 
 ## Status
-- BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard; Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; session.tsx 'Add an exercise' label and picked-exercise rest seconds.
-- Gap doc corrected: session.tsx citations, Food detail edit-bar lines (994-1005, 1211, 1218), line 962, line 330, line 334 set to No. R55: lines 1213-1214 and 1219-1221 rewritten against NumberEntryBar.tsx and detail.tsx (NumberEntryBar at detail.tsx:690 and quick-add.tsx:190; autofocus, leading-zero strip, 6/5 digit caps).
+- BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard; Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; session.tsx 'Add an exercise' label and picked-exercise rest seconds; food detail macros to 1 decimal place (R56, src/app/food/detail.tsx MACRO_PRECISION, num, save and grid).
+- Gap doc corrected: session.tsx citations, Food detail edit-bar lines (994-1005, 1211, 1218), line 962, line 330, line 334 set to No. R55: lines 1213-1214 and 1219-1221 rewritten against NumberEntryBar.tsx and detail.tsx. R56: rounding sentence at 1219 updated to 1 decimal place.
 - Counts (last recorded): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-- Last checkpoint R48 green: tsc 0, 65 suites, 824 tests.
+- Last checkpoint R48 green: tsc 0, 65 suites, 824 tests. Code has landed since R48 (R56 detail.tsx, session.tsx label and rest seconds), so the next checkpoint is due.
 
 ## Next
-1. R56 (in progress): Food detail macros to 1 decimal place in src/app/food/detail.tsx (num calls near 399, 405-407, 599-601), gap rounding sentence at 1219-1221 updated. Stop with BLOCKED if the API or FoodValues rejects decimals.
-2. Logged-day sheet: design says 'Add something extra'; empty state says 'Add an exercise'. Default: follow design. Locate the logged-day copy first, then change it.
-3. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean with no owner input.
-4. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-5. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-6. PlannedValuesForm.tsx:200 'Add exercise': compare to design, decide.
-7. summaryNoFabrication.test.ts header: fibre note stale.
-8. Trace add.tsx slotKey (~67). Remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-9. Volume: /gym/session saves top-set weight for all sets. Fix only if no owner input, else park.
-10. Gap lines 1006 onward not rechecked since R52.
-11. Gap line 90 empty-status merge into 'Food — My dishes / Saved' still open; record only.
-12. Checkpoint: full tsc and app Jest, read-only, only if code landed since R48.
-13. No rows remain: stop with 'only owner decisions remain'.
+1. R57 (in progress): doc-only citation fix in DESIGN_GAP_ANALYSIS.md for src/app/food/detail.tsx lines moved by R56 (MACRO_PRECISION at 66, num near 402, save 408-410, grid 602-604, locked list 565-567). Verify by content. Candidates to check: lines 94, 962, 995, 1001, 1002, 1004, 1005, 1211, 1213. Only numbers change. Doc-only, tsc only.
+2. Also queued from handover: add 1 to session.tsx citations above line 165 in DESIGN_GAP_ANALYSIS.md. Verify first whether it is already done. Do not touch log-session.tsx cites.
+3. Logged-day sheet: design says 'Add something extra'; empty state says 'Add an exercise'. Default: follow design. Locate the logged-day copy first, then change it.
+4. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean with no owner input.
+5. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+6. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+7. PlannedValuesForm.tsx:200 'Add exercise': compare to design, decide.
+8. summaryNoFabrication.test.ts header: fibre note stale.
+9. Trace add.tsx slotKey (~67). Remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
+10. Volume: /gym/session saves top-set weight for all sets. Fix only if no owner input, else park.
+11. Gap lines 1006 onward not rechecked since R52.
+12. Gap line 90 empty-status merge into 'Food — My dishes / Saved' still open; record only.
+13. Macro precision in other paths (R56 report): applyGrams (detail.tsx ~421-423), search seed (detail.tsx ~164-166), food tab row seeds ((tabs)/food.tsx ~380-382) still round to whole numbers; totals in hooks.ts ~116-118 unrounded; (tabs)/food.tsx ~895 unformatted. Check the design for picked-serving behaviour before changing. Record first.
+14. Checkpoint: full tsc and app Jest, read-only, due now (code landed since R48).
+15. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
 - Already-logged days: real editing, or change the 'open it to edit' toast. /gym/session writes a second session row (src/lib/data/mutations.ts:173-178).
@@ -66,6 +68,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Volume: fix, show only when consistent, or accept?
 - Heatmap route wording; calories cell needs gym_sessions.calories_burned from backend. Accept?
 - Try again hardcoded English with small tap target.
+- Food detail decimals: is 1 decimal place for macros accepted, and should picked servings keep decimals? (R56 change is built; Isa verifies.)
 
 ## Parked
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route, PlannedValuesForm.tsx:200 submit.
@@ -88,9 +91,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Check premises first: nutrition.tsx is src/app/dashboard/; hook is src/lib/data/gymSchedule.ts; gym tests in src/__tests__.
 - Design assets decode with node -e from __bundler/manifest: Summary 185bb533, gym 7dc211f6, food 71f71ac4.
 - zsh breaks on unquoted globs and echo ==.
+- Handover NEXT lines can be stale; check against the latest report.
 
 ## Round log
 - R9-R50: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard, failed-fetch notices, checkpoints R34 and R48 green, session label, rest seconds, gap fixes.
 - R51-R54: citation rechecks; doc corrections on the edit bar and number entry. Loop flagged R52 and R54 as partly done.
 - R55: doc-only round on gap lines 1213-1221 with branch rule. Done: NumberEntryBar and detail.tsx citations corrected; macro rounding claim found to conflict with design.
-- R56: chose Food detail macros at 1 decimal place (queued from R55). Candidates considered: logged-day copy, plannedRows rest_seconds.
+- R56: Food detail macros to 1 decimal place (src/app/food/detail.tsx, MACRO_PRECISION at 66, num with precision, save and grid, locked list). Gap rounding sentence at 1219 updated. Type check run twice, exit 0; detail render test 4 passed. Citations in the gap doc not yet updated for the moved lines.
+- R57: doc-only citation fix for detail.tsx lines moved by R56 (queued). Candidates: detail citations fix, logged-day copy, plannedRows rest_seconds.
