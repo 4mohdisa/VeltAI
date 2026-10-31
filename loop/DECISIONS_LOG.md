@@ -2241,3 +2241,8 @@
 - 2026-11-01 00:13 Moved the SLOT_KEYS dedupe from Next to Parked: it is code tidying, not a row build, so it is not a task.
 - 2026-11-01 00:13 food.deleteItem wording ('Delete item' vs 'Remove from log') stays under Blocked on Isa as a design question. Not re-asked this round.
 - 2026-11-01 00:13 Logged-edit 'Updated' toast and the 'Added {{name}}' toast with no design match go to Parked, not to a build, because they need a behaviour decision.
+- 2026-11-01 00:14 Chose the flag fix first because the loop note says to deal with it before moving on, and Jev's last-task confidence is high. Keeping it to one surface and only the test files that cover it.
+- 2026-11-01 00:14 Did not run the full suite: handover says the checkpoint is due at R200 and the rules say to run it only on checkpoint rounds.
+- 2026-11-01 00:14 Kept the stale doc bullet out of this task because a doc edit is a separate single task and the report asked to keep it in NEXT.
+- 2026-11-01 00:14 Parked the 'Quick add' stored name, NumberEntryBar 'Done', and the Save to my foods wording check from the R196 report as code and copy items outside row 86 and 87 scope.
+- 2026-11-01 00:14 Jev ranked the same candidates and is 89% confident in run, so I kept run.
