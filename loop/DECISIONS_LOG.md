@@ -2301,3 +2301,7 @@
 - 2026-11-01 00:30 Rewrote the rejected prompt with the loop/design-match branch rule, the design file, the food screen id and the row number.
 - 2026-11-01 00:30 Limited the checkpoint to tsc and the app suite, as the loop rules require for checkpoint rounds.
 - 2026-11-01 00:30 Cut the notes to under 600 words by merging repeated items and removing finished work. The decisions list is kept in full.
+- 2026-11-01 00:30 Chose the doc-only row 85 update as step 2 of the agreed Next list, because the R209 checkpoint was green and the doc is stale about macro bars.
+- 2026-11-01 00:30 Kept row 85 status as DIFFERENT, since the calorie bar, 'left today' and fill animation are still missing.
+- 2026-11-01 00:30 Left the lines 895-897 stale wording out of this task and listed it under NEXT, because it is a separate row area.
+- 2026-11-01 00:30 Did not run the full test suite, since this round changes only a markdown file and the brief limits doc-only rounds to tsc.
