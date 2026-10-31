@@ -1416,3 +1416,8 @@
 - 2026-10-31 16:44 Left the Try again label hardcoded English; changing the shared component is a separate task.
 - 2026-10-31 16:44 Deferred the gap-doc wording fixes to their own doc-only rounds, as the rules require.
 - 2026-10-31 16:44 Jev (run 81%) agrees with the run action; no override needed.
+- 2026-10-31 16:45 Corrected path to src/components/gym/TodayCard.tsx, as the last report found. The brief named a path that does not exist.
+- 2026-10-31 16:45 Failure is derived from today === null after loading, as log-session.tsx does. The hook is not changed, since the defaults say reuse and no new feature.
+- 2026-10-31 16:45 Row 114 stays DIFFERENT for now. The row still lists open items (Calories cell, tap target, rest and planned states). The one-line row update goes in the next doc-only round, because gap-doc fixes get their own round.
+- 2026-10-31 16:45 Did not ask Isa. The three questions in the last report are answered by the decisions above, which are within the defaults.
+- 2026-10-31 16:45 Chose the re-run over the gap doc round because the loop note flagged the last report as partial, and it must be fixed before moving on.

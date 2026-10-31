@@ -22,15 +22,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - TodayCard logged: calories from the logged session only, never whole-day figure. Solid green pill kept until Isa decides on a wash token.
 - Doc-only rounds: tsc only, no Jest.
 - Log sheet failed fetch: LoadFailedNotice with Try again (onRetry = refetch). Not a rest day. No new UI.
+- TodayCard component path is src/components/gym/TodayCard.tsx (not domain/). Failure = today === null after loading. Hook unchanged.
 
 ## Status
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard padding, title, sub-line, rest, logged state; Macros copy; Burned guard; EnergyBalanceCard six strings; i18n setup; Log as planned in notes; log sheet failed-fetch notice with Try again (R28, no failure-path test).
-DIFFERENT: TodayCard fetch failure renders nothing (row 114); Summary Macros detail (no chart); gym today's session card.
+R30 in progress: TodayCard failure notice with retry (row 114), re-run with corrected path. Row stays DIFFERENT until the gap doc round.
+DIFFERENT: TodayCard fetch failure renders nothing (row 114, pending R30); Summary Macros detail (no chart); gym today's session card.
 Header counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (recount after each row change).
 
 ## Next
-1. TodayCard fetch failure shows LoadFailedNotice with retry (row 114). In progress.
-2. Gap doc doc-only round: merge empty-status line 90 into the Saved foods row above; fix row 113 label; fix stale TodayCard.tsx:168 cite (~266); fix heatmap-only wording (~116, ~457).
+1. Check R30 report. If tsc and tests are green, record the TodayCard failure notice as built.
+2. Gap doc doc-only round: add one line to the today's session card row (failure shows LoadFailedNotice with Try again; row stays DIFFERENT); merge empty-status line 90 into the Saved foods row above; fix row 113 label; fix stale TodayCard cite (~266, now src/components/gym/TodayCard.tsx); fix heatmap-only wording (~116, ~457). tsc only.
 3. Add sheet icons from design SVGs.
 4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design.
 5. Wrap hardcoded strings one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today'.
@@ -68,12 +70,13 @@ Header counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (recount after each ro
 - Stale check: 'Only some of it' (gap ~191).
 - Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if a profile field is undefined.
 - Accepted limit: summary guard test cannot see spread props. Failure paths have no tests (type-check only).
+- Failed today fetch in log-session.tsx:89 looks like a rest day (fix in its own round).
 
 ## Gotchas
 - Edit tool: use node escapes for NBSP and U+2019.
 - i18n lng fixed to 'en' (src/lib/i18n/index.ts:41).
 - Grep: LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
-- Check premises first: nutrition.tsx is src/app/dashboard/; Burned is on EnergyBalanceCard; 'It went as planned' pill is not the logged-day control; hook is src/lib/data/gymSchedule.ts.
+- Check premises first: nutrition.tsx is src/app/dashboard/; Burned is on EnergyBalanceCard; 'It went as planned' pill is not the logged-day control; hook is src/lib/data/gymSchedule.ts; TodayCard is src/components/gym/TodayCard.tsx.
 - Gym tests are in src/__tests__.
 - Every prompt names the design/ file and gap row and says 'work only on loop/design-match'.
 - DONE without design read or gap row edit is partial. CHECKED without tsc and Jest is partial. Say 'no matching tests' when none apply.
@@ -87,4 +90,5 @@ Header counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (recount after each ro
 - R23-R26: gap-doc prose fixes; checkpoint R24 green (tsc 0, 65 suites, 824 tests); R26 parked.
 - R27: failed-fetch notice on log sheet (row 76). Flagged partial: no failure-path test.
 - R28: Try again on that notice (onRetry = refetch). Flagged partial; device check parked under Blocked on Isa.
-- R29 (this round): TodayCard failure notice with retry (row 114).
+- R29: TodayCard failure notice attempted; report stopped on wrong path (src/components/domain/TodayCard.tsx). No files changed. Flagged for no tsc or tests.
+- R30: re-run of R29 with path src/components/gym/TodayCard.tsx, derive failure from today === null, row 114 stays DIFFERENT until gap doc round.

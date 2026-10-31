@@ -1,14 +1,14 @@
 // TodayCard — today's scheduled workout at a glance, in the design file's
 // session-card shape: an elevated white card headed by a state dot, the plan's
 // name, its exercise/duration line and a status pill, with the exercises as
-// chips and the Start action beneath. Self-contained via useToday(); renders
-// nothing when there's no schedule data.
+// chips and the Start action beneath. Self-contained via useToday(); a failed
+// read shows the load-failed notice with a retry.
 import type { JSX } from 'react';
 import { router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { Card, Skeleton } from '@/components/display';
+import { Card, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
@@ -178,9 +178,9 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
   );
 }
 
-export function TodayCard(): JSX.Element | null {
+export function TodayCard(): JSX.Element {
   const { t } = useTranslation();
-  const { today, loading } = useToday();
+  const { today, loading, refetch } = useToday();
 
   if (loading) {
     return (
@@ -193,8 +193,8 @@ export function TodayCard(): JSX.Element | null {
     );
   }
 
-  // No backend / not scheduled → render nothing (the gym tab shows other content).
-  if (!today) return null;
+  // useToday yields null only when the read failed; a real response is always an object.
+  if (!today) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
 
   if (today.already_checked_in) {
     return <LoggedCard title={today.template?.name ?? t('gymLog.freestyleTitle')} sessionId={today.session_id} />;
