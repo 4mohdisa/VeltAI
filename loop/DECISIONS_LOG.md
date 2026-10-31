@@ -1687,3 +1687,13 @@
 - 2026-10-31 20:17 Told Claude Code to stop if freeze.tsx is missing, rather than guess the path, as the notes asked.
 - 2026-10-31 20:17 Limited tests to files that import freeze.tsx, following the testing rule to keep usage low.
 - 2026-10-31 20:17 Cut the notes to under 600 words by merging repeated items and removing finished work. Kept every decision line.
+- 2026-10-31 20:19 Chose the StreakCounter string wrap because it is next in the notes order, touches one component and copy only, and carries no data or behaviour change. TodayCard and PlannedValuesForm need more design comparison first.
+- 2026-10-31 20:19 Kept the gym/freeze.tsx sheet as built. It is app-only and not in the design, but removing it is a parked decision, not one to ask about. Recorded under Decisions.
+- 2026-10-31 20:19 Singular-count wording (1 freezes, 1 días, 1 jours) parked under the freeze sheet, not fixed now. English wording stays as it is.
+- 2026-10-31 20:19 Freeze toast showing before the server replies is parked as a behaviour question, not a design change.
+- 2026-10-31 20:19 Stale label and offset params at src/app/gym/streak.tsx:73 parked as a code tidy-up outside this round.
+- 2026-10-31 20:19 Chose the StreakCounter wrap because it is next in the notes order and needs nothing from Isa.
+- 2026-10-31 20:19 Held the gym.tsx:155 freeze label until Isa confirms whether the freeze screen stays, since it is app-only and the label opens that screen.
+- 2026-10-31 20:19 Told Claude Code to stop and report BLOCKED if StreakCounter does not exist, rather than guess a replacement file.
+- 2026-10-31 20:19 Rewrote the prompt to name branch loop/design-match and forbid git, because the last prompt was rejected for omitting it.
+- 2026-10-31 20:19 Added the line-82 note as an append on the same line, so no citations move.
