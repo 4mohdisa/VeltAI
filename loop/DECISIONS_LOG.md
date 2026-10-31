@@ -2141,3 +2141,8 @@
 - 2026-10-31 23:02 Told Claude Code to take the design wording for the en string if it differs, since design wording beats app wording.
 - 2026-10-31 23:02 Limited tests to foodDetail-related files and tsc, per the testing rules. No full suite, since this is not a checkpoint round.
 - 2026-10-31 23:02 Kept one shared key for visible text and VoiceOver, matching the existing tileEditLabel pattern.
+- 2026-10-31 23:03 Chose the quick-add label as the smallest task that clears a row and needs nothing from Isa; it is the next item in the notes and the latest report recommends it.
+- 2026-10-31 23:03 Jev ranked the same run action at 99%, so no look-again was needed.
+- 2026-10-31 23:03 Kept the existing food.padCalories key rather than adding one, because it already matches the design and the decision that food.padCalories always says kcal.
+- 2026-10-31 23:03 Did not run the full suite, per the checkpoint rules; this is not a checkpoint round.
+- 2026-10-31 23:03 Updated only the quick-add gap row, with no count changes, per the doc-only and row rules.

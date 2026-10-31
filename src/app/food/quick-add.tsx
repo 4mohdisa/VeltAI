@@ -21,6 +21,7 @@
 import { useState } from 'react';
 import { KeyboardAvoidingView, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { NumberEntryBar } from '@/components/common/NumberEntryBar';
@@ -46,6 +47,7 @@ const PRESETS = [100, 250, 500, 750];
 const DISC_GLYPH = 20;
 
 export default function QuickAddScreen() {
+  const { t } = useTranslation();
   // Slot targeting from the food log's per-meal "+" (via the add menu).
   const { slot } = useLocalSearchParams<{ slot?: string }>();
   const initialSlot = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : slotForNow();
@@ -188,7 +190,7 @@ export default function QuickAddScreen() {
 
       {editing ? (
         <NumberEntryBar
-          label="Calories · kcal"
+          label={t('food.padCalories')}
           value={entry}
           mode="numeric"
           maxLength={5}
