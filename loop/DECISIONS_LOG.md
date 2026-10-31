@@ -1031,3 +1031,11 @@
 - 2026-10-31 13:40 Did not ask Isa even though Jev gives ask 76%. The blocker is the brief's own line limit on gym.tsx, not a question only Isa can answer. Permitted the two added lines (import and hook) in the next build round, since t() cannot be used without them.
 - 2026-10-31 13:40 Set the next build round to use the gym.loadFailed key, which is per screen under the existing key rule, and to add it to the hydration test list.
 - 2026-10-31 13:40 Parked the Macros kicker key decision (nutrition.macrosKicker) until the gym.tsx round is done. Earlier notes already say Macros kicker uses nutrition.title and is design-confirmed, so the handover's proposal is stale and was not used.
+- 2026-10-31 13:41 Chose the checkpoint over Jev's gym.tsx:106 pick (86%). The loop note marks this round as a checkpoint and says to run the full type check and full suite with no file changes. The last full run was R257, so the suite has not been run in 11 rounds. Running it before the gym.tsx edit adds a clean baseline, so any later failure can be traced to the gym change.
+- 2026-10-31 13:41 Kept the read-only scope. No edits, no new tests, no screenshot tooling, because checkpoint rounds are read-only per the notes.
+- 2026-10-31 13:41 gym.tsx:106 moves to R269, the next build round, with its import, hook, key and hydration-test entry in one prompt.
+- 2026-10-31 13:42 Rewrote the rejected prompt to name design/Lume App.html and the gym log row in DESIGN_GAP_ANALYSIS.md, as the loop note requires.
+- 2026-10-31 13:42 Kept gym.tsx:106 as the pick. Jev's 88% ranking agrees with the plan, so no override was needed.
+- 2026-10-31 13:42 Kept the English wording identical, as the hardcoded-string rule requires. es and fr wording is pending native review.
+- 2026-10-31 13:42 Left DESIGN_GAP_ANALYSIS.md unchanged this round because one load-failure string does not finish the gym log row.
+- 2026-10-31 13:42 Used the existing gym group for gym.loadFailed. Isa has not decided the group question, so this is recorded under Parked for later.

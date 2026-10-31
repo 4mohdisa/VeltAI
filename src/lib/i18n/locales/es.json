@@ -152,6 +152,9 @@
       "nicePill": "¡Bien hecho!"
     }
   },
+  "gym": {
+    "loadFailed": "No se pudieron cargar tus datos del gimnasio."
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak_one": "{{count}} día seguido",

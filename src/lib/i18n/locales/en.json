@@ -150,6 +150,9 @@
       "nicePill": "Nice one"
     }
   },
+  "gym": {
+    "loadFailed": "Couldn't load your gym data."
+  },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "dayStreak_one": "{{count}} day streak",

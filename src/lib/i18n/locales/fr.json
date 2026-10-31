@@ -150,6 +150,9 @@
       "nicePill": "Bien joué"
     }
   },
+  "gym": {
+    "loadFailed": "Impossible de charger vos données de sport."
+  },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
     "dayStreak_one": "{{count}} jour d’affilée",

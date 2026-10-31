@@ -7,6 +7,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useFocusEffect, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
@@ -27,6 +28,7 @@ import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gym
 import { todayISO } from '@/lib/data/mappers';
 
 export default function GymLogScreen() {
+  const { t } = useTranslation();
   const {
     data: { streak, loggedDays, frozenDates },
     error: gymError,
@@ -103,7 +105,7 @@ export default function GymLogScreen() {
 
         {/* The streak read failed: the card below still shows what the device
             had, so label it rather than let it read as current. */}
-        {gymError ? <LoadFailedNotice message="Couldn't load your gym data." onRetry={refetch} /> : null}
+        {gymError ? <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} /> : null}
 
         {/* Streak strip: flame + count on one line, the streak's own numbers under it. */}
         <Card
