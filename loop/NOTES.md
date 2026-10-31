@@ -18,9 +18,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Doc fixes wait until no build row is open. Grep before acting. Code tidying is never a task. A task flagged twice goes to Blocked on Isa.
 - Every prompt names design/Lume App.html, the gap row, and the branch rule.
 - R246: gym bottom padding done gym-only, not in shared TAB_BAR_CLEARANCE, because Summary and Food rows are unchecked. Jev ranked the shared change first; kept gym-only for this reason.
+- R247: Jev ranked a task not named in the loop note at the top; chose the row 112 top padding and header re-check instead, because it closes the partial flag from the R246 report. Recorded as an override.
 
 ## Status
-- R246: row 112 bottom padding task issued (gym.tsx only, literal 158). Previous report flagged for no tsc or test run; this round runs them.
+- R247: row 112 top padding (design 70) and header height (design 82) re-check, doc only. Gym header currently insets.top + 20 at gym.tsx:180.
+- R246: row 112 bottom padding BUILT at 158 in gym.tsx. Confirmed: tsc exit 0; tabNavigation, hydrationErrorScreens, oneTapGymLog 24/24. Not verified.
 - R245: row 112 page gap 12 to 14 in gym.tsx. BUILT, not verified.
 - R244: row 112 gap change prepared; see R245.
 - R243: row 112 title block BUILT (tracking, padding, gap 0). Not verified.
@@ -37,10 +39,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 83 DIFFERENT: route (sheet-in-place) parked; button height and type parked. Doc App paragraph near 532 stale.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: eyebrow, title block, card gap, Log button, MyScheduleCard, lumeFade BUILT. Bottom padding: R246 builds 158 in gym.tsx. Top padding still differs (design 70; code insets.top + space.md). Re-checked as app-only: Training list, LoadFailedNotice. GymPatternsCard typography Blocked. Pull-to-refresh app-only.
+- 112 PARTIAL: eyebrow, title block, card gap, Log button, MyScheduleCard, lumeFade, bottom padding 158 BUILT. Top padding and header height: R247 re-check pending. Re-checked as app-only: Training list, LoadFailedNotice. GymPatternsCard typography Blocked. Pull-to-refresh app-only.
 
 ## Next
-1. Confirm R246 result (tsc and touched tests). Then decide top padding: keep inset-tied, or literal 70 (note: 70 leaves 8pt under the status bar at a 62 inset).
+1. Read the R247 re-check result. If top padding differs from 70, decide: keep inset-tied, or literal 70 (note: 70 leaves 8pt under the status bar at a 62 inset). If header height differs from 82, build the smallest change to gym.tsx:180 or the FloatingHeader default, as the design says.
 2. Gym cluster, one file per round: GymSessionButton, GymCalendar, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts.
 3. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
 4. Shared TAB_BAR_CLEARANCE bottom value for Summary and Food: only after their rows are re-checked.
@@ -65,7 +67,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gym button: 56pt vs 52; label 17/24 vs 16/21; duplicated Button pill styles.
 - Gym code: GymSessionButton logged branch dead; two logged sources; two getToday requests; MyScheduleCard fetches twice, silent on failure, not refreshed on pull; two LoadFailedNotices can stack (TodayCard.tsx:197, gym.tsx); per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - Gym UI: card pressed 0.85 vs light1; 'N days planned' colour; pull-to-refresh and focus do not re-read TodayCard or Log button.
-- Shared TAB_BAR_CLEARANCE: gym-specific 158 used instead; Summary and Food bottom padding unchecked.
+- Shared TAB_BAR_CLEARANCE: gym-specific 158 used instead; Summary and Food still use TAB_BAR_CLEARANCE (100 at 34 inset) against design 158; Summary and Food bottom padding unchecked. Stale comments in TAB_BAR_CLEARANCE and _layout.tsx:26 say every tab uses it.
 - Easing bezier duplicated in gym.tsx and AddMenu.tsx.
 - Stale comments: gym.tsx header (lists old card order); gym.tsx:144; SegmentedField label; food.tsx:656-659.
 - Code: SLOT_KEYS duplicated; StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}; SettingsList.tsx:129 identical branches; duplicate 'training' key.
@@ -89,3 +91,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 - Jev R244: run 97%, last task clean 90%, risk 1.2. Agreed.
 - Jev R245: run 88%, last task clean 90%, risk 1.4 (confidence 0.36). Agreed with run; re-check chosen.
 - Jev R246: run 85%, last task clean 4%, risk 1.4 (confidence 0.11). Top task ranked 98% was the shared TAB_BAR_CLEARANCE change; overridden to gym-only (see Decisions).
+- Jev R247: run 62%, ask 36%, stop 2%, last task clean 89%, risk 1.6 (confidence 0.42). Run agreed. Top-ranked task overridden to the row 112 re-check (see Decisions). Flagged report handled by the re-check.

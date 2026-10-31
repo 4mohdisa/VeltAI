@@ -2476,3 +2476,8 @@
 - 2026-11-01 01:22 Chose the gym-only bottom padding (158 in gym.tsx) over adding 58 to TAB_BAR_CLEARANCE. Reason Jev cannot see: TAB_BAR_CLEARANCE is shared with Summary and Food, whose rows have not been re-checked, so changing it would alter two surfaces with no row covering them.
 - 2026-11-01 01:22 The design value is fixed (158 measured from the screen edge), so a literal 158 matches the design. Device check stays with Isa.
 - 2026-11-01 01:22 Top padding left as is this round; the difference stays recorded in row 112.
+- 2026-11-01 01:24 Chose the row 112 re-check. The last report was flagged as partly done, and the top padding and header height are the only remaining concrete row 112 differences that Claude Code can confirm without Isa. The report's NEXT recommends the same check.
+- 2026-11-01 01:24 Jev's top-ranked task is not named in the loop note, so I cannot see its reasoning. I kept the re-check because it closes the partial flag. Write this in the notes so the override is recorded.
+- 2026-11-01 01:24 Build only after the re-check, because the rules say to verify before building. Literal 70 vs inset-tied is decided after the re-check result, not now.
+- 2026-11-01 01:24 R246 is confirmed: tsc exit 0 and three gym suites 24/24, per the last report. Bottom padding 158 is BUILT, not verified.
+- 2026-11-01 01:24 Summary and Food still use TAB_BAR_CLEARANCE. Their rows are unchecked, so this stays parked and is not a task.
