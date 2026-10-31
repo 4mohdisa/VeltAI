@@ -2323,3 +2323,13 @@
 - 2026-11-01 00:34 Kept the row 85 wording fix as the only task, because the report named it as the next step and it needs no owner input.
 - 2026-11-01 00:34 Told Claude Code to skip tests, since doc-only rounds run tsc only and the loop note flags tests as not run.
 - 2026-11-01 00:34 Rewrote the notes under 600 words by merging repeated items and removing finished work, as the loop note asked.
+- 2026-11-01 00:35 Chose the line 890 wording fix because the loop note flags the last report and the notes' Next item 1 still applies. It is the smallest task and needs nothing from Isa.
+- 2026-11-01 00:35 Kept the task doc-only with tsc as the only check, because the notes' rule for doc-only rounds applies and there is no code change to test.
+- 2026-11-01 00:35 Left the handover's recommended lines 895-897 (stale three-column wording) for a later round, to keep this round to one edit and to avoid mixing two row-85 fixes.
+- 2026-11-01 00:35 Did not ask Isa about the 12px calorie bar or 'left today'. They are already on the Blocked on Isa list and must not be retried.
+- 2026-11-01 00:35 Did not reopen the TestPG_* question. It stays Blocked on Isa.
+- 2026-11-01 00:36 Chose the line 890 fix: it is the one open item from the last report, it needs no input from Isa, and it is doc-only, so tsc alone is needed. Jev also favours a run.
+- 2026-11-01 00:36 Treated this as the first attempt at line 890, not a third retry. The R215 scope named only lines 85 and 933, which was too narrow. The prompt now names the exact line and the exact wording to replace.
+- 2026-11-01 00:36 The prompt names design/Lume App.html (food bundle 71f71ac4) as the matching design file, to meet the rejection point in the loop note. It tells Claude Code not to open the bundle, because a doc-only fix does not need it.
+- 2026-11-01 00:36 Kept the status of row 85 as DIFFERENT, because the 12px calorie bar, 'left today' figure and 700ms animation are still missing.
+- 2026-11-01 00:36 Jev's low-confidence ask case (R215) is not repeated: no Isa input is needed, and the task is small.

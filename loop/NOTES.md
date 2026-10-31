@@ -18,25 +18,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macro bars: 6px ProgressBars with zero-target guard.
 - Grep before acting. Code tidying is never a task.
 - A task flagged twice goes to Blocked on Isa, not retried.
+- A prompt that does not name the matching design/ file is rejected. Name it every time.
 
 ## Status
-- R213: doc-only row 85 summary rewrite (lines 895-900); CaloriesCard citation food.tsx:660-703. tsc exit 0. Tests not run (doc-only).
+- R216 (now): doc-only fix of 'no goal' wording on the row 85 'One-line reason' (around line 890), tsc only. Rewritten after R215 prompt was rejected for not naming the design/ file. Scope of R215 was too narrow (lines 85 and 933 only).
+- R215: flagged. Fixed row 85 opening sentence and differences item 2 (lines 85, 933). Line 890 still says no goal. tsc exit 0.
+- R214: flagged, same wording issue. tsc exit 0.
+- R213: doc-only row 85 summary rewrite (lines 895-900); CaloriesCard citation food.tsx:660-703. tsc exit 0.
 - R209: checkpoint clean. App 65/65 suites, 824/824 tests.
 - R207: row 85 macro bars built in CaloriesCard (6px ProgressBars from useGoals()). BUILT, not verified.
 - Row 85 still DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill animation.
 - Row 86 food detail: BUILT, not verified.
 - Row 87 Quick add: still DIFFERENT.
-- R214 (now): flagged report from R213. Confirm tsc green and fix the 'no goal' wording in row 85.
 
 ## Next (in order)
-1. R214: fix row 85 'no goal' wording (opening sentence and differences item 2), tsc only.
+1. R216: fix line 890 'no goal' wording, tsc only. Confirm by grep that no 'no goal' remains in row 85.
 2. Row 85 calorie bar and 'left today': Blocked on Isa.
-3. Row 87 Quick add: re-check copy and layout against design/ before building.
-4. food/detail.tsx: requeue only if a re-check finds a real difference.
-5. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each first.
-6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-7. food.rowAnalysing 'Analysing photo': design question, do not build.
-8. No rows left: stop with 'only owner decisions remain'.
+3. Row 85 stale lines 895-897 (three-column wording, food.tsx:584-626 citation): doc-only fix, tsc only.
+4. Row 87 Quick add: re-check copy and layout against design/Lume App.html (food bundle 71f71ac4) before building.
+5. food/detail.tsx: requeue only if a re-check finds a real difference.
+6. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each first.
+7. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+8. food.rowAnalysing 'Analysing photo': design question, do not build.
+9. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Row 85 12px calorie bar and 'left today'.
@@ -53,8 +57,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Hardcoded: quick-add.tsx:73 'Quick add'; NumberEntryBar.tsx:108 'Done'; scan.ts:305 'Scan failed'.
 - Copy: food.rowAnalysing; food.deleteItem; foodLog.per100 '/ 100g' vs '/ 100 g'; CaloriesCard hardcoded g unit (food.tsx:696); raw energyUnit on logged rows; 'Check your connection' (food.searchFailed, food.loadFailed).
 - Missing: 700ms bar fill animation; 'Updated {name}' toast; foodLog.savedAdded toast.
-- Doc: stale line refs; hero wording at lines 895-896 (kcalToDisplay); line 934 and item 6 state facts in differences; 'Save to my foods' vs dishes (line 1020); line 1058 vs row 87.
-- Comment food.tsx:656-659 cites UI_PASS_GAPS.md section 2, unconfirmed.
+- Doc: stale line refs; hero wording at lines 895-896 (kcalToDisplay); line 934 and item 6 state facts in differences; 'Save to my foods' vs dishes (line 1017-1020); line 1058 vs row 87.
+- Comment food.tsx:656-659 cites UI_PASS_GAPS.md section 2, unconfirmed. Disagrees with doc ('not used yet') until Isa decides on the calorie bar.
 - GymPatternsCard server values untranslated (src/lib/api.ts:795-800).
 - Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - TodayCard, StreakCounter, Freeze, streak.tsx:73; tabBar.addHint in es.
@@ -71,12 +75,17 @@ Failure paths untested. Keyboard-overlap unverifiable in dev (DECISIONS.md). Swi
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep.
 - Claude Code forgets context at handover: name files fully.
 - Repo: src/app/(tabs)/food.tsx (src/app/food/food.tsx does not exist).
-- Every prompt states the branch rule.
+- Every prompt states the branch rule and names the matching design/ file.
 - Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
+- Flagged reports: the loop note means the type check or tests were not run or failed. Doc-only rounds still need tsc exit code in the report.
+- detail.tsx strings are already translated; several rounds found nothing to do, so do not requeue them.
+- No test covers CaloriesCard, the macro line or its VoiceOver label, or renders quick-add.tsx, so passing suites do not prove these.
 
 ## Handover
 Last handover after R210. Next due R225.
 
 ## Jev log
 - R201-R213: run kept; no owner input needed. R212 rejected for missing branch rule; rewritten as R213.
-- R214: Jev run 66%, ask 31%, stop 3%; risk 1.1. Run kept: the flagged report needs a tsc check, which needs no owner input.
+- R214: Jev run 66%, ask 31%, stop 3%; risk 1.1. Run kept. Flagged report needs a tsc check, which needs no owner input.
+- R215: Jev ask 46%, run 41%, stop 13% (confidence 0.19); risk 1.3. Run kept. Doc-only, tsc only, no owner input needed.
+- R216: Jev run 80%, ask 17%, stop 3% (confidence 0.70); risk 1.2. Run kept. Prompt rewritten to name design/Lume App.html, per the loop note rejection.

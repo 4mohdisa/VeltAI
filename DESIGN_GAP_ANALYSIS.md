@@ -887,7 +887,7 @@ colour, type, spacing, radius, shadow and motion). The drift is in application:
 ## Food — Day log (main view)
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The design's calories card is goal-relative (remaining kcal + progress bar + four macro bars) and the log has no search field; the app ships a "logged total" card with no goal, macro bars built and the calorie bar still missing, four columns including Fibre, plus a persistent search field that re-purposes the whole screen.
+**One-line reason:** The design's calories card is goal-relative (remaining kcal + progress bar + four macro bars) and the log has no search field; the app ships a "logged total" card with macro bars that read their targets from `useGoals()`, the calorie goal not used yet, the 12px calorie bar and 'left today' figure still missing, four columns including Fibre, plus a persistent search field that re-purposes the whole screen.
 
 I verified the core of this myself. Design: `hLeft: fmt(Math.abs(hLeftN))`,
 `hLeftWord: 'kcal left today' | 'kcal under goal' | 'kcal over goal'`,
