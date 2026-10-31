@@ -167,7 +167,7 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
         <Header
           tint={categoryAccent.positive}
           title={title}
-          sub={burned > 0 ? t('gym.loggedTodayBurned', { energy: formatEnergy(burned, energyUnit) }) : 'Logged today'}
+          sub={burned > 0 ? t('gym.loggedTodayBurned', { energy: formatEnergy(burned, energyUnit) }) : t('gym.loggedToday')}
           pill={t('gym.logged')}
           pillFill={categoryAccent.positive}
           chevron
@@ -207,7 +207,7 @@ export function TodayCard(): JSX.Element {
           tint={color.light2}
           title={t('gymLog.restDayTitle')}
           sub={t('gym.nothingScheduledSub')}
-          pill="Rest"
+          pill={t('gym.rest')}
           pillFill={color.light1}
         />
       </Card>
@@ -233,7 +233,7 @@ export function TodayCard(): JSX.Element {
           tint={categoryAccent.streak}
           title={today.template.name}
           sub={sub}
-          pill="Planned"
+          pill={t('gym.planned')}
           pillFill={surface.tile}
         />
 
@@ -242,11 +242,11 @@ export function TodayCard(): JSX.Element {
             {shown.map((n, i) => (
               <Chip key={i} label={n} />
             ))}
-            {more > 0 ? <Chip label={`+${more} more`} muted /> : null}
+            {more > 0 ? <Chip label={t('gym.loggedMore', { extra: more })} muted /> : null}
           </View>
         ) : null}
 
-        <Button title="Start workout" onPress={() => router.push('/gym/session' as Href)} />
+        <Button title={t('gym.startWorkout')} onPress={() => router.push('/gym/session' as Href)} />
       </View>
     </Card>
   );

@@ -191,6 +191,10 @@
     "loggedMinutes": "{{minutes}} min",
     "loggedSets": "Series",
     "loggedMore": "+{{extra}} más",
+    "loggedToday": "Registrado hoy",
+    "planned": "Planificado",
+    "rest": "Descanso",
+    "startWorkout": "Empezar entrenamiento",
     "freeze": {
       "title": "Congelar racha",
       "applied": "Congelación aplicada — hoy está protegido.",

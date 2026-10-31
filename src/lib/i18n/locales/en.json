@@ -189,6 +189,10 @@
     "loggedMinutes": "{{minutes}} min",
     "loggedSets": "Sets",
     "loggedMore": "+{{extra}} more",
+    "loggedToday": "Logged today",
+    "planned": "Planned",
+    "rest": "Rest",
+    "startWorkout": "Start workout",
     "freeze": {
       "title": "Streak freeze",
       "applied": "Freeze applied — today is protected.",

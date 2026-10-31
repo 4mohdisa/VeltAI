@@ -189,6 +189,10 @@
     "loggedMinutes": "{{minutes}} min",
     "loggedSets": "Séries",
     "loggedMore": "+{{extra}} de plus",
+    "loggedToday": "Enregistré aujourd’hui",
+    "planned": "Prévu",
+    "rest": "Repos",
+    "startWorkout": "Commencer la séance",
     "freeze": {
       "title": "Gel de série",
       "applied": "Gel appliqué — aujourd’hui est protégé.",

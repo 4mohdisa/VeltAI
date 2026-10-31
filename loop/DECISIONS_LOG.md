@@ -1720,3 +1720,8 @@
 - 2026-10-31 20:25 Named design/Lume App.html and no gap row in the prompt. A checkpoint serves no row, and the rule applies only to content rounds.
 - 2026-10-31 20:25 Rewrote the notes under 600 words, as the loop note asks. Merged repeated items, deleted finished work and the R9-R82 detail, and kept every Decisions line.
 - 2026-10-31 20:25 Moved 'Try again' and the session.tsx strings to Next, because they are unblocked work and not owner items.
+- 2026-10-31 20:26 Chose the TodayCard strings round: it is next in the notes, needs nothing from Isa, and is a small single-file change.
+- 2026-10-31 20:26 Agreed with Jev (run 98%): no reason to override.
+- 2026-10-31 20:26 Did not include the session.tsx 'Try again' item: it is a separate row in the notes. Only the TodayCard copy is in scope.
+- 2026-10-31 20:26 The TodayCard gap row number is not stated in the brief, so the prompt tells Claude Code to find it by search. Recheck the row number in the next report.
+- 2026-10-31 20:26 R89 checkpoint recorded as green (tsc 0, Jest 65 suites, 824 tests). Checkpoint rounds are read-only, so no edits were made.
