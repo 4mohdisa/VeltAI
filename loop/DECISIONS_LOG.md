@@ -2696,3 +2696,8 @@
 - 2026-11-01 07:34 Did not run jest -u or touch any snapshot, because the detailChrome snapshot update still needs Isa's approval.
 - 2026-11-01 07:34 Jev and my choice agree (run). No override needed.
 - 2026-11-01 07:34 Kept energy balance sign and the doc pass as the next two tasks, in that order, after the checkpoint result is known.
+- 2026-11-01 07:35 Loop note flagged R295: the red tests are the two detailChrome energy and macros snapshots. They are the known blocker waiting on one approved jest -u. It is a repeated unanswered blocker, so I did not ask again and did not update snapshots. Moving on.
+- 2026-11-01 07:35 Chose candidate 1 because it needs nothing from Isa, is one line, and clears a difference.
+- 2026-11-01 07:35 Did not choose the doc-only re-check, because it builds nothing and the row 107 citation fix is low value next to a real difference.
+- 2026-11-01 07:35 The sign change may further alter the energy detailChrome snapshot. Recorded in Blocked so the eventual approved update covers it.
+- 2026-11-01 07:35 Jev ran 71% and asked 26%; I kept run, which matches Jev's top choice.
