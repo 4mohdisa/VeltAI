@@ -163,22 +163,56 @@ or the sum of cardio segment minutes).
 
 ## What the app does
 
-`src/app/gym/log-session.tsx` is 261 lines and asks four subjective questions:
+`src/app/gym/log-session.tsx` is 261 lines. It reads the day's plan through
+`useToday` and opens a sheet titled **'How did it go?'**. The sheet has no form
+fields. On a day with a plan it shows:
 
-1. A static line: *"Everything here is optional — a one-tap log still counts."*
-2. **Duration** — a drag-thumb `SliderField`, 0–180 step 5, rendering 0 as "Not set"
+1. A subtitle built from the plan: `{name} · N exercises · about M min`, without the
+   name when the template has none. Minutes come from the plan: 3.2 min a set, or a
+   cardio exercise's planned minutes (`src/app/gym/log-session.tsx:48-49`).
+2. **'Different weights'** / 'Same exercises, change the sets, reps or load' — opens
+   `/gym/session` in `adjust` mode
+3. **'Only some of it'** / 'Tick the exercises you actually did' — opens
+   `/gym/session` in `ticklist` mode
+4. **'Something else'** / 'Add an exercise that wasn't in the plan' — a full-width
+   row that opens `/gym/session` in `picker` mode
+5. A primary **'It went as planned'** pill, captioned 'Logs {plan} exactly as
+   scheduled', or 'Logs this session exactly as scheduled' when the template has no
+   name
+
+On a day not yet logged, the pill calls `logGymSession` with the derived duration
+and the plan's exercises at completion rate 1 (`src/app/gym/log-session.tsx:117-120`).
+That posts the session, then each exercise to `/exercises`, then `/complete`, as one
+queued sequence (`src/lib/data/mutations.ts:186-197`), and raises the celebration
+card. On a day already logged, the pill shows a toast and opens `/gym/session` plain
+(`src/app/gym/log-session.tsx:110-113`).
+
+The sheet has three other states. Loading shows a skeleton. A failed read shows
+`LoadFailedNotice` with Try again (`src/app/gym/log-session.tsx:139-145`). A rest day,
+a day with no template, or a template with no exercises shows 'Rest day' with a 'Log
+an exercise' action that opens `/gym/session` plain
+(`src/app/gym/log-session.tsx:150-162`).
+
+The sheet collects no effort or energy. `GymSessionInput` has no field for either
+(`src/lib/api.ts:709-714`, and the comment at `src/lib/data/mutations.ts:181-182`
+says so outright).
+
+**As recorded on 2026-09-13**, before the chooser was built, the sheet was 80 lines
+and asked four subjective questions. The differences listed below were written
+against this state:
+
+1. A static line: *'Everything here is optional — a one-tap log still counts.'*
+2. **Duration** — a drag-thumb `SliderField`, 0–180 step 5, rendering 0 as 'Not set'
 3. **Perceived effort (1–10)** — a ± `Stepper`, default 7
 4. **Energy level (1–5)** — a ± `Stepper`, default 3
 5. **Notes** — a multiline `TextField`
-6. A black **"Log session"** pill
+6. A black **'Log session'** pill
 
-On save it calls `logGymSession({durationMin, effort, energy, notes})`, which posts
+On save it called `logGymSession({durationMin, effort, energy, notes})`, which posted
 `{date, duration_minutes, notes}` with **an empty follow-up step list** — so no
-`/exercises` rows and no `/complete` call are ever written from this path. `effort`
-and `energy` are collected by the UI and then dropped: `GymSessionInput` has no
-field for either (`src/lib/api.ts:709-714`, and the comment at
-`src/lib/data/mutations.ts:181-182` says so outright). **Two of its four controls
-change nothing on the server.**
+`/exercises` rows and no `/complete` call were written from this path. `effort` and
+`energy` were collected by the UI and then dropped. **Two of its four controls
+changed nothing on the server.**
 
 ## The differences, exhaustively
 

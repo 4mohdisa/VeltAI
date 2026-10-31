@@ -1462,3 +1462,8 @@
 - 2026-10-31 16:54 Applied the three stale-claim corrections without asking, because the rule allows doc factual corrections with accurate report text.
 - 2026-10-31 16:54 Did not ask Isa even though Jev leans ask at 66%. No question is unanswered and nothing needs a dashboard, device or key. The defaults cover every open item.
 - 2026-10-31 16:54 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept all never-delete decisions.
+- 2026-10-31 16:55 Flagged report: tsc ran and exited 0. Jest was not run because the round is doc-only, which the notes allow (doc-only rounds: tsc only). Treated as a false flag, so the fix is a tsc rerun inside this round's prompt.
+- 2026-10-31 16:55 Applied the factual correction to 'What the app does' (the four-questions claim is false) without asking Isa, per the doc-correction default.
+- 2026-10-31 16:55 Kept 'The differences, exhaustively' for the next round so this prompt stays to one section.
+- 2026-10-31 16:55 Did not run the handover's suggested line 90 merge. Notes say it waits for Isa's answer, and the handover does not override that.
+- 2026-10-31 16:55 Did not act on the line 300 wording fix in this round; it is queued after the two prose sections.

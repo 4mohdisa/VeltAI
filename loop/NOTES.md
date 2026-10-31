@@ -17,7 +17,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Header counts derived from the table, never earlier figures.
 - Defaults: one-tap gym log kept; Distance km kept; food chips skipped; Goals extras kept.
 - Checkpoint rounds read-only. Doc-only rounds: tsc only, no Jest.
-- A report with no tsc or no tests = partial; fix before next build round.
+- A report with no tsc or no tests = partial; fix before next build round. Exception: a doc-only round with tsc run and Jest not required is complete.
 - Doc factual corrections with accurate report text are applied without asking.
 - Prompts name the design/ file and gap row, even for doc rounds.
 - Claude Code must not open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
@@ -29,21 +29,24 @@ Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status line still emp
 Last checkpoint R34 green (tsc 0, 65 suites, 824 tests), predates failed-fetch code. No tests cover TodayCard or failure paths.
 R35 read-only check: log-session.tsx failure branch correct.
 R37: eight stale log-session.tsx cites fixed in gap doc.
+R38: line 166 count fixed (261 lines). Line 275-276 fixed (LoggedCard). Line 300 left: 'Add exercise' is correct for /gym/session.
 
 ## Next
-1. R38 (in progress): doc round. Fix gap line ~166 (80 lines to current count) unless deliberate; fix prose ~274-276 ('bare header' to LoggedCard); verify quoted label ~300 against en locale. Names design/Lume App.html. tsc only. Rerun tsc to clear the flagged report.
-2. Add sheet icons from design SVGs.
-3. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check before the rest-day return.
-4. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today'.
-5. Empty-list copy food.tsx ~445. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-6. summaryNoFabrication.test.ts header comment: fibre note stale.
-7. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-8. Checkpoint: full tsc and full app Jest, read-only.
-9. No rows remain: stop with 'only owner decisions remain'.
+1. R39 (in progress): doc round. Rewrite 'What the app does' (gap ~166-181) to describe the current chooser; remove the 'four subjective questions' claim. Names design/Lume App.html. tsc only.
+2. R40: rewrite 'The differences, exhaustively' (gap ~185-207) for current app state; same rules, tsc only.
+3. Line 300 wording: name /gym/session explicitly in the 'Add exercise' row so 'where' cannot read as the log sheet's empty state. Doc round, tsc only.
+4. Add sheet icons from design SVGs.
+5. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check before the rest-day return.
+6. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today'.
+7. Empty-list copy food.tsx ~445. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+8. summaryNoFabrication.test.ts header comment: fibre note stale.
+9. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
+10. Checkpoint: full tsc and full app Jest, read-only.
+11. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
 - Device checks: logged card and both failure states with network off. Double notice with gym tab (src/app/(tabs)/gym.tsx:107).
-- Row 90 merge into 'Food - My dishes / Saved' (do only if Isa answers).
+- Row 90 merge into 'Food - My dishes / Saved' (do only if Isa answers). Handover suggested doing it; notes keep it blocked.
 - Footnote '23 sessions 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review; 'My dishes'; Macros wording.
@@ -82,9 +85,11 @@ R37: eight stale log-session.tsx cites fixed in gap doc.
 - zsh breaks on echo ==.
 - Every prompt names the design/ file and gap row, says 'work only on loop/design-match', and says 'no matching tests' when none apply.
 - Line numbers shift; locate rows by content.
+- Handover text can be stale against notes; notes win.
 
 ## Round log
 - R9-R34: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard logged state, failed-fetch notices, gap-doc rounds, checkpoint R34 green.
 - R35: read-only check of log-session.tsx failure branch: pass.
 - R37: doc round, eight cites fixed, tsc 0.
-- R38: flagged report handled by doc round with tsc rerun. Row 90 not merged.
+- R38: line 166 count fixed, 275-276 fixed, tsc 0. Flagged as 'tests not run'; doc-only round, so treated as complete. Prose still stale (R39 target). Row 90 not merged.
+- R39: planned doc round on 'What the app does' (tsc only).
