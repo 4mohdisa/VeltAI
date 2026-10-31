@@ -158,8 +158,10 @@
     "loadFailed": "Impossible de charger vos données de sport.",
     "title": "Sport",
     "monthLoadFailed": "Impossible de charger les séances de ce mois",
-    "streakDetailLabel": "Détail de la série. {{current}} jours d’affilée",
-    "dayStreak": "jours d’affilée"
+    "streakDetailLabel_one": "Détail de la série. {{count}} jour d’affilée",
+    "streakDetailLabel_other": "Détail de la série. {{count}} jours d’affilée",
+    "dayStreak_one": "jour d’affilée",
+    "dayStreak_other": "jours d’affilée"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",

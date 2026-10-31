@@ -160,8 +160,10 @@
     "loadFailed": "No se pudieron cargar tus datos del gimnasio.",
     "title": "Gimnasio",
     "monthLoadFailed": "No se pudieron cargar las sesiones de este mes",
-    "streakDetailLabel": "Detalle de la racha. {{current}} días seguidos",
-    "dayStreak": "días seguidos"
+    "streakDetailLabel_one": "Detalle de la racha. {{count}} día seguido",
+    "streakDetailLabel_other": "Detalle de la racha. {{count}} días seguidos",
+    "dayStreak_one": "día seguido",
+    "dayStreak_other": "días seguidos"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",

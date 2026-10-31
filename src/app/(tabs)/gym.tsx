@@ -111,7 +111,7 @@ export default function GymLogScreen() {
         <Card
           variant="elevated"
           onPress={() => router.push('/gym/streak')}
-          accessibilityLabel={t('gym.streakDetailLabel', { current: streak.current })}
+          accessibilityLabel={t('gym.streakDetailLabel', { count: streak.current })}
         >
           <View style={{ gap: space.lg }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
@@ -120,7 +120,7 @@ export default function GymLogScreen() {
                 {streak.current}
               </Text>
               <Text variant="bodyMedium" color={color.label}>
-                {t('gym.dayStreak')}
+                {t('gym.dayStreak', { count: streak.current })}
               </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>

@@ -1073,3 +1073,8 @@
 - 2026-10-31 13:50 Kept English wording identical for the gym literals, per the rule for hardcoded strings not in the design. The strings are wrapped, not reworded.
 - 2026-10-31 13:50 Allowed a single-file snapshot update for the gym tab only, because wrapping in t() changes rendered raw keys. Other snapshots stay untouched.
 - 2026-10-31 13:50 Full Jest suite not run this round. Left for the checkpoint the loop script announces. Only tsc and gym tab tests run now.
+- 2026-10-31 13:52 Chose the plural fix first: it is a regression from the last build round, it is small, and the report says to do it before more strings copy the single-key pattern.
+- 2026-10-31 13:52 Kept the English text identical in both _one and _other forms, since the English count noun reads the same either way.
+- 2026-10-31 13:52 Left gym.tsx lines 54 and 127-131 for a later round to keep this task to one concern.
+- 2026-10-31 13:52 Did not run the full suite because this is not a checkpoint round; the full run is still due at the next checkpoint.
+- 2026-10-31 13:52 Jev agreed on run (83%). No override needed.
