@@ -2419,3 +2419,8 @@
 - 2026-11-01 01:04 Did not follow the R233 Jev ask signal, which was low confidence: the R233 report is clean and the next task is a build, not a question.
 - 2026-11-01 01:04 Parked the dead logged branch in GymSessionButton, the hardcoded 'Gym logged today' copy, and the 56pt height vs 52 and 17/24 vs 16/21 type differences: all already in Parked or Blocked, not row 112's card.
 - 2026-11-01 01:04 Row 83 es/fr wording is marked BUILT with the notes' default wording; native review stays in Blocked on Isa.
+- 2026-11-01 01:07 Three days on the Gym tab card is correct: the design's schedNext card shows today, tomorrow and the day after. Seven days belongs to the My schedule screen. Reason: design wins, and the Claude Code report found this from the design file.
+- 2026-11-01 01:07 Did not ask Isa about three versus seven days. The design answers it, so the Jev ask signal (77%) is overridden for this round. Reason: the question has a concrete answer in design/.
+- 2026-11-01 01:07 Type sizes and row gap (11) follow the design exactly, not the nearest token. Reason: the design is the source of truth, and the gap is in the surface's own file, not a shared component.
+- 2026-11-01 01:07 Pressed state and tertiary colour come from shared Card and CardHeaderRow, so they are not changed here. Reason: a shared component change would touch other surfaces.
+- 2026-11-01 01:07 Row 81 and row 83 doc fixes wait, because row 112 is still PARTIAL and the rule is no doc fix while a build row is open.

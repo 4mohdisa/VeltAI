@@ -4,7 +4,7 @@
 // opens the full week. Self-contained via useSchedule(); renders nothing until
 // the schedule has loaded, or if the read failed.
 import { useCallback } from 'react';
-import { View } from 'react-native';
+import { PixelRatio, View, type TextStyle } from 'react-native';
 import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +16,12 @@ import { categoryAccent, color, layout, radius, space, surface } from '@/lib/des
 /** Weekday gutter — every workout name starts on one edge. */
 const DAY_WIDTH = 64;
 const ROW_MIN_HEIGHT = 48;
+const ROW_GAP = 11;
+
+// The design's row type has no exact token. Read at render, and the line height
+// scales with the text size as textStyle() does, so large sizes don't clip.
+const dayLabelStyle = (): TextStyle => ({ fontSize: 12.5, fontWeight: '600', lineHeight: 17 * PixelRatio.getFontScale() });
+const workoutNameStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '500', lineHeight: 20 * PixelRatio.getFontScale() });
 
 export function MyScheduleCard() {
   const { t } = useTranslation();
@@ -64,16 +70,15 @@ export function MyScheduleCard() {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              gap: space.md,
+              gap: ROW_GAP,
               minHeight: ROW_MIN_HEIGHT,
               borderTopWidth: offset === 0 ? 0 : layout.hairline,
               borderTopColor: surface.divider,
             }}
           >
             <Text
-              variant="label"
               color={offset === 0 ? color.label : color.secondaryLabel}
-              style={{ width: DAY_WIDTH }}
+              style={[dayLabelStyle(), { width: DAY_WIDTH }]}
               numberOfLines={1}
             >
               {label}
@@ -87,9 +92,8 @@ export function MyScheduleCard() {
               }}
             />
             <Text
-              variant="callout"
               color={template ? color.label : color.secondaryLabel}
-              style={{ flex: 1 }}
+              style={[workoutNameStyle(), { flex: 1 }]}
               numberOfLines={1}
             >
               {name}
