@@ -1735,3 +1735,8 @@
 - 2026-10-31 20:30 Did not ask Isa about the wording although Jev ranked ask first; the question is covered by the default, and no owner action is needed.
 - 2026-10-31 20:30 Start workout stays English; design has no copy for it; recorded.
 - 2026-10-31 20:30 Rewrote notes under 600 words: merged repeats, deleted finished work, kept all decisions.
+- 2026-10-31 20:31 Chose the TodayCard sub-line wording because Decisions already fix it to the design wording 'N exercises planned' (R92). The report calls it open for Isa, but no Telegram reply overrides the recorded decision; if Isa replies otherwise, his reply wins.
+- 2026-10-31 20:31 Marked the sub-line as NOT TESTED and ran tsc only, because no test references TodayCard and the test rules say 'No related tests found' is not a pass.
+- 2026-10-31 20:31 Left the gap row 114 status unchanged this round, since the change is wording only and the card's other differences are still open.
+- 2026-10-31 20:31 Deleted only the locale keys with zero remaining references, to avoid breaking other surfaces.
+- 2026-10-31 20:31 Kept the Try again fix, the freeze item and the saved-food items for later rounds, one task at a time.

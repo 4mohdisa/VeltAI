@@ -195,8 +195,6 @@
     "planned": "Planificado",
     "rest": "Descanso",
     "startWorkout": "Empezar entrenamiento",
-    "plannedExercises_one": "{{count}} ejercicio planificado · unos {{minutes}} min",
-    "plannedExercises_other": "{{count}} ejercicios planificados · unos {{minutes}} min",
     "plannedExercisesNoDuration_one": "{{count}} ejercicio planificado",
     "plannedExercisesNoDuration_other": "{{count}} ejercicios planificados",
     "freeze": {

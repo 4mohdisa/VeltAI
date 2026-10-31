@@ -25,16 +25,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Nutrition gap row: DESIGN_GAP_ANALYSIS.md line 103. Accepted R82. Verdict stays DIFFERENT until macro history chart exists.
 - Every prompt names matching design/ file and gap row.
 - Loop note flags 'tests not run': next prompt runs tsc once and tests referencing the changed file.
-- TodayCard sub-line follows design wording 'N exercises planned' (minutes dropped; muscle-group prefix parked). R92.
+- TodayCard sub-line follows design wording 'N exercises planned' (minutes dropped; muscle-group prefix parked). R92. Settled by this decision; Isa's reply overrides if it differs.
 
 ## Status
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre; citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard planned sub-line via t() (R91; es/fr unreviewed).
+BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre; citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard planned sub-line via t() (R91; es/fr unreviewed; NOT TESTED, no test reaches it).
 Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). Next checkpoint not due.
 Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, StreakCounter, profile render, TodayCard (no test references it), R91 locale keys.
 
 ## Next (in order)
-1. R92: verify R91 (read-only). Then TodayCard sub-line to 'N exercises planned': delete line 224 duration, plannedExercises_* keys, and the conditional; resolve NoDuration keys.
+1. R92 (in progress): TodayCard sub-line to 'N exercises planned'. Delete the duration line (about line 224), the conditional and the plannedExercises_* keys that only it used; resolve NoDuration keys. Then verify R92 (read-only) on the next round.
 2. 'Try again' in LoadFailedNotice.tsx:47 (shared, own round).
 3. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze'. Only after Isa confirms freeze screen stays.
 4. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx ('Breakdown').
@@ -94,4 +94,4 @@ R88: profile strings via t(); tsc 0; 21 tests pass.
 R89: checkpoint green (tsc 0, 65 suites, 824 tests).
 R90: TodayCard strings via t(); tsc 0; no tests run (flagged).
 R91: planned sub-line plural keys; tsc 0; no test references TodayCard (flagged, not a pass).
-R92: verification of R91 (read-only), then wording change next.
+R92: read-only verification of R91 done. Only hydrationErrorScreens.test.ts (10 tests) touches locales, none on TodayCard; R91 stays NOT TESTED. Wording decided per Decisions; change dispatched as R92 prompt (tsc only).

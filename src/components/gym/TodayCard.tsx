@@ -221,10 +221,7 @@ export function TodayCard(): JSX.Element {
   }
   const shown = names.slice(0, 3);
   const more = names.length - shown.length;
-  const duration = today.template.estimated_duration_minutes;
-  const count = today.exercises.length;
-  const sub =
-    duration != null ? t('gym.plannedExercises', { count, minutes: duration }) : t('gym.plannedExercisesNoDuration', { count });
+  const sub = t('gym.plannedExercisesNoDuration', { count: today.exercises.length });
 
   return (
     <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
