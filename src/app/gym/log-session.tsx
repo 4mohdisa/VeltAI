@@ -7,16 +7,15 @@
 //
 // The three tiles are distinct intents that all land on /gym/session, which is
 // where this app already edits per-set numbers, ticks off what was done and
-// picks an extra exercise. Nothing planned → the design's rest-day fallback.
+// picks an extra exercise. Nothing planned → straight to the library, as the design does.
 import { useEffect, useMemo, useState } from 'react';
 import { Modal, View } from 'react-native';
-import { router, type Href } from 'expo-router';
+import { Redirect, router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/forms/Button';
 import { CelebrationCard } from '@/components/gym/CelebrationCard';
 import { SheetContent } from '@/components/navigation/SheetContent';
-import { EmptyState } from '@/components/display/EmptyState';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { Icon } from '@/components/primitives/Icon';
@@ -44,9 +43,9 @@ const CHEVRON = 14;
 /** The design never asks how long a session took — it costs a set at 3.2 min. */
 const SET_MINUTES = 3.2;
 
-/** A cardio exercise carries its own minutes; everything else is sets × 3.2. */
+/** A cardio exercise carries its own minutes; everything else is sets × 3.2, rounded per exercise as the design does. */
 const minutesOf = (te: TemplateExercise) =>
-  te.planned_duration_minutes ?? (te.planned_sets ?? 0) * SET_MINUTES;
+  te.planned_duration_minutes ?? Math.round((te.planned_sets ?? 0) * SET_MINUTES);
 
 /** The design's session volume in kg: sets × reps × load. Cardio plans none. */
 const volumeOf = (te: TemplateExercise) =>
@@ -100,7 +99,7 @@ export default function LogSessionScreen() {
 
   // Every tile is a different way the session went, and /gym/session opens in
   // the matching view: per-set numbers, the per-exercise ticks, or the picker.
-  // The rest-day fallback has no plan to answer for, so it opens the screen plain.
+  // An already-logged day has no tile to answer for, so it opens the screen plain.
   const openSession = (mode?: Choice['mode']) =>
     router.replace({ pathname: '/gym/session', ...(mode ? { params: { mode } } : {}) } as Href);
 
@@ -144,26 +143,16 @@ export default function LogSessionScreen() {
     );
   }
 
-  // Nothing scheduled: the design drops the chooser entirely and offers the
+  // Nothing scheduled: the design drops the chooser entirely and opens the
   // library instead — there is no plan for any of the four outcomes to describe.
   // A template with no exercises lands here too: there is nothing to commit.
   if (today.is_rest_day || !today.template || planned.length === 0) {
-    return (
-      <SheetContent variant="leading" title={t('gymLog.title')} onClose={close}>
-        <EmptyState
-          icon="barbell-outline"
-          title={t('gymLog.restDayTitle')}
-          message={t('gymLog.restDayMessage')}
-          actionLabel={t('gymLog.logAnExercise')}
-          onAction={() => openSession()}
-        />
-      </SheetContent>
-    );
+    return <Redirect href={{ pathname: '/gym/session', params: { mode: 'picker' } } as Href} />;
   }
 
   const choices: Choice[] = [
     { icon: 'pencil', title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub'), mode: 'adjust' },
-    { icon: 'list', title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub'), mode: 'ticklist' },
+    { icon: 'checklist', title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub'), mode: 'ticklist' },
     { icon: 'add', title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), mode: 'picker', wide: true },
   ];
   // The design names the plan in the subtitle and falls back to a generic
@@ -178,7 +167,7 @@ export default function LogSessionScreen() {
         subtitle={planName ? `${planName} · ${summary}` : summary}
         onClose={close}
       >
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.md }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
           {choices.map((c) => (
             <Pressable
               key={c.icon}
@@ -189,7 +178,9 @@ export default function LogSessionScreen() {
               // one glyph, then the title and its caption pinned to the bottom.
               // Pressed darkens the tile rather than fading it.
               style={({ pressed }) => ({
-                width: c.wide ? '100%' : '48%',
+                // Two equal columns with the gap between them: any basis under half grows to fill.
+                flexBasis: c.wide ? '100%' : '40%',
+                flexGrow: 1,
                 minHeight: c.wide ? WIDE_TILE_HEIGHT : TILE_HEIGHT,
                 backgroundColor: pressed ? surface.tilePressed : surface.tile,
                 borderRadius: radius.lg,
@@ -227,8 +218,10 @@ export default function LogSessionScreen() {
         </View>
 
         {/* The design's footer: a divider, the primary pill, and a caption naming
-            what it commits. The design saves with a pill at the end of the sheet. */}
-        <View style={{ height: layout.hairline, backgroundColor: surface.divider }} />
+            what it commits. The design saves with a pill at the end of the sheet.
+            The divider runs edge to edge, with 12pt above and below it: the margins
+            undo the sheet body's 20pt sides and take its 20pt block gap down to 12. */}
+        <View style={{ height: layout.hairline, backgroundColor: surface.divider, marginHorizontal: -space.xl, marginVertical: -space.sm }} />
         <View style={{ gap: space.sm }}>
           <Button title={t('gymLog.asPlanned')} onPress={save} />
           <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>

@@ -16,9 +16,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Food eyebrow uses Pressable defaults for hit slop; haptics off.
 - No BUILT claims for Macros kicker or Breakdown dots: they live in shared DetailChart.tsx.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour color.primary.
+- Energy detail screen is src/app/energy.tsx (not dashboard/energy.tsx).
+- A repeated unanswered blocker is parked and not asked again until Isa raises it.
 
 ## Status
-- R279: Energy card gap 12 to 16 (row 103, energy.tsx only). Sent.
+- R281: Gym 'How did it go?' chooser task issued (Gym bundle 7dc211f6). Chosen over week.tsx gap because that would add a second red snapshot. Energy gap 16 in src/app/energy.tsx stays with its red snapshot, awaiting approval. Previous report was rejected for not naming the design/ file; this prompt names design/Lume App.html.
+- R280: CHECKPOINT. Full tsc and full app jest, no file changes. Expected red: energy balance snapshot and macros snapshot in src/__tests__/render/detailChrome.render.test.tsx.
+- R279: Energy card gap 12 to 16 in src/app/energy.tsx:52 (contentStyle gap space.lg). Row 103 NOT updated. Snapshot 'energy balance' RED (undefined to gap 16). Waiting on approval.
 - R278: Energy balance net sign (difference 12) BUILT, code re-checked. EnergyBalanceCard.tsx:155. Gap doc :406. tsc 0; three-file tests 65/65.
 - R277: Energy balance hero stat (difference 14) BUILT, code re-checked. tsc 0.
 - R276: Food title block (row 85) re-checked, already matches. No code change.
@@ -27,28 +31,30 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R270-273: Summary 1-30 re-checked. Differences in gap doc.
 - Handover done at R275. Next due R290.
 - Last full checkpoint R258: tsc 0, 65/65 suites, 824/824.
-- Snapshot RED: detailChrome macros snapshot from the Macros card gap (dashboard/nutrition.tsx). Needs one Isa-approved jest -u on that file.
+- Snapshot RED: detailChrome macros snapshot from the Macros card gap (dashboard/nutrition.tsx). Plus energy balance snapshot from R279. Both need one Isa-approved jest -u on that file.
 
 ## Open rows
 - 83 DIFFERENT: sheet-in-place parked; button height and type parked.
 - 85 DIFFERENT: title block BUILT. Calorie bar, 'left today', four-column wrap open (Blocked).
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
-- 103 DIFFERENT: card gap 16 built in dashboard/nutrition.tsx. Energy gap in progress (R279). week.tsx and training.tsx still gap 12. Kicker and Breakdown dots open (DetailChart.tsx, Blocked).
+- 103 DIFFERENT: card gap 16 built in dashboard/nutrition.tsx and src/app/energy.tsx (snapshot pending). week.tsx and training.tsx still gap 12. Kicker and Breakdown dots open (DetailChart.tsx, Blocked).
 - 104 PARTIAL: Steps card missing (Blocked). Summary difference 17 needs SegmentedField change.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked); Training list and LoadFailedNotice app-only (accepted).
+- Gym 'How did it go?' chooser: in progress R281 (row found by grep in DESIGN_GAP_ANALYSIS.md).
 
 ## Next
-1. Confirm R279 result: row 103 Energy gap.
-2. Row 103: dashboard/week.tsx gap 12 to 16 (one file per round).
-3. Row 103: dashboard/training.tsx gap 12 to 16.
-4. Gym cluster, one file per round, starting with the plan-aware 'How did it go?' chooser.
+1. R281 result: record the chooser differences, the file changed, tsc and test counts.
+2. Gym cluster, one file per round, starting with the plan-aware 'How did it go?' chooser (if R281 is not done).
+3. Row 103: dashboard/week.tsx gap 12 to 16 (one file per round). Expect its snapshot to go red; add to the approval request.
+4. Row 103: dashboard/training.tsx gap 12 to 16.
 5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
 6. If Isa approves DetailChart.tsx: row 103 kicker and dots, then one snapshot approval.
 7. Doc fixes inside a re-check round, or once no build row is open.
 8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- 103: approve DetailChart.tsx edit and the detailChrome macros snapshot update (asked R267 and in handover, no answer).
+- Snapshot: one approved 'npx jest --ci=false src/__tests__/render/detailChrome.render.test.tsx -u' covers the macros and energy balance snapshots (R267, R279 and R281 asked; no answer).
+- 103: approve DetailChart.tsx edit (asked R267, no answer).
 - 85: calorie bar; 'left today'; four-column wrap.
 - 87: 17/24 vs 17/22; bottom spacing; figure and meal defaults; 180ms; chip truncation.
 - 112: GymPatternsCard padding 20 or 16.
@@ -88,6 +94,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Comment: ProfileAvatarButton.tsx:8 (insets.top + space.xs called the design's 64).
 - Two 'flagged report' requests never said what was flagged; ignore unless repeated with detail.
 - Profile route is src/app/profile (src/app/(tabs)/profile does not exist).
+- Energy file citation: row 103 energy gap is in src/app/energy.tsx, not dashboard/energy.tsx (R279 report).
 
 ## Accepted limits
 Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym, Summary and Food suites read source text only; layout largely untested.
@@ -97,8 +104,12 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep. Capture exit codes.
 - Claude Code forgets at handover: name files fully.
 - Line numbers shift; grep before citing. Doc row numbers are file lines.
+- Do not run jest -u without Isa approval; checkpoint rounds report failures only.
+- Prompts must name the matching design/ file (R280 rejection).
 
 ## Jev
+- R281: ask 79%, run 16%, stop 5%. Kept run. Reason: the snapshot question was already asked twice without an answer, so asking again would repeat a parked blocker. Chose the gym chooser, which does not add snapshot reds.
+- R280: ask 77%, run 19%. Kept run (checkpoint required by loop note; ask would repeat a blocker already asked twice).
 - R279: run 91%. Ranked Energy card gap first. Took it.
 - R278: run 99%. Took Energy net sign.
 - R277: run 98%. Took Energy hero stat.

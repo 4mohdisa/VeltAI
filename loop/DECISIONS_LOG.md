@@ -2623,3 +2623,12 @@
 - 2026-11-01 02:29 Told Claude Code not to update snapshots: a snapshot change needs Isa's approval, and a red snapshot stops the round.
 - 2026-11-01 02:29 Ignored the recommended streak skeleton fix from the last report: it is hardcoded English that the notes already park, not a design row.
 - 2026-11-01 02:29 Did not start the Steps card (row 104) or the DetailChart.tsx edit: both need Isa.
+- 2026-11-01 07:12 Chose the checkpoint over week.tsx because the loop note marks this round as a required checkpoint with a single task: full tsc and full app suite, no file changes.
+- 2026-11-01 07:12 Kept run over Jev's ask 77%: the only blocker is the snapshot approval already asked in R267 and the handover, with no answer. Asking again would repeat a blocker, so I have no new question for Isa.
+- 2026-11-01 07:12 Jev's 96% for week.tsx is set aside for this round only. Week.tsx would turn its snapshots red before the checkpoint shows the current baseline, so it moves to next round.
+- 2026-11-01 07:12 Recorded the energy card file correction: the Energy detail screen is src/app/energy.tsx, not dashboard/energy.tsx. The row 103 energy gap is built in code and waits for snapshot approval.
+- 2026-11-01 07:12 Ran a task instead of asking. The snapshot approval was asked at R267 and R279 with no answer, so it is a repeated blocker and I am not retrying it this round.
+- 2026-11-01 07:12 Chose the gym chooser over week.tsx gap 12 to 16, because week.tsx would add a second red snapshot while the approval is still open.
+- 2026-11-01 07:12 Left the energy.tsx gap 16 change in place with its red snapshot. It matches the design and Isa can approve the update in one run.
+- 2026-11-01 07:12 Named design/Lume App.html and bundle 7dc211f6 explicitly, to fix the rejected prompt from the loop note.
+- 2026-11-01 07:12 Chose a grep to find the chooser and the row, because the exact file name and row number for the chooser are not in the notes.
