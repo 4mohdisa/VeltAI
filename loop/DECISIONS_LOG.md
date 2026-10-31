@@ -1664,3 +1664,7 @@
 - 2026-10-31 17:45 Kept the prompt to one file and one function. The test run covers only the three suites that name saved.tsx, per the testing rule that changed files get their own tests.
 - 2026-10-31 17:45 Did not edit DESIGN_GAP_ANALYSIS.md this round. The saved-food fibre row gap is a doc task for a later doc-only round, so this round stays one surface.
 - 2026-10-31 17:45 Did not ask Isa anything. The fibre rule is an app data rule, not a visible design question, so the defaults cover it.
+- 2026-10-31 17:46 Closed the R79 flag: toEditable fibre rule (saved.tsx:38) now matches the add rule (> 0). No test covers saved.tsx toEditable and the checked suites do not exercise it. Stated the reason and did not add a test, to keep test load low. Isa checks on screen.
+- 2026-10-31 17:46 Did not act on the report's NEXT (make editSavedFood sync to the server). It is a backend change, so it stays under Parked.
+- 2026-10-31 17:46 Chose the stale doc citations first: a doc-only fix, one file, tsc only, clears false statements that would mislead the next round.
+- 2026-10-31 17:46 Gap row for saved-food fibre moved to item 2, since it is also doc-only and comes after the citation fix.

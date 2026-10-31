@@ -91,7 +91,7 @@ this pass matched the design on every checked value.
 | Food — Add sheet | 🔨 BUILT (not verified) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. Also open: SF Symbols vs inline SVGs, separate scan routes. BUILT (not verified): sheet bottom set to 34pt by marginBottom -space.xl on the tile grid in src/app/food/add.tsx, which cancels SheetContent paddingBottom space.xl (20pt) and leaves the 34pt safe-area inset. Device check on a 34pt-inset iPhone still open. Slot title uses addMenu slot keys. |
 | Food — Scan flows | ❌ DIFFERENT | Design is one scanner with a Meal/Label/Barcode switch; the app is three separate routes with a multi-angle flow the design lacks. |
 | Food — "Not in a meal yet" inbox | ❌ DIFFERENT | Design files unassigned items into meals; the app's card confirms an estimated weight with a slider. |
-| Food — number-entry convention | ❌ DIFFERENT | The slim edit bar, `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`), docks on `src/app/food/detail.tsx:693` and `src/app/food/quick-add.tsx:190`. `src/app/(tabs)/food.tsx` and `src/app/food/add.tsx` do not use it, and `src/app/food/new-recipe.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/custom-food.tsx` still set a keyboard type on boxed fields; a slider and ± steppers appear where the design has neither. |
+| Food — number-entry convention | ❌ DIFFERENT | The slim edit bar, `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`), docks on `src/app/food/detail.tsx:695` and `src/app/food/quick-add.tsx:190`. `src/app/(tabs)/food.tsx` and `src/app/food/add.tsx` do not use it, and `src/app/food/new-recipe.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/custom-food.tsx` still set a keyboard type on boxed fields; a slider and ± steppers appear where the design has neither. |
 | Profile — Settings root | ❌ DIFFERENT | Design is a pure list with trailing values; the app adds avatar + two streak cards, drops every value, reorders a group. |
 | Profile — Account | ❌ DIFFERENT | Design card is name + email + three stats plus a Sign-in-method row; the app shows avatar + name only. |
 | Profile — Subscription | ❌ DIFFERENT | Design is a gradient price hero + usage meters + billing rows; the app is one status card and two buttons. |
@@ -959,7 +959,7 @@ calendar) with both arrows at the right, then the seven chips at
 ## Food — Food detail sheet
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The design is a tap-a-number → slim keyboard-bar sheet with a 96px photo, serving chips and a 2×2 macro grid; the app has no photo, and a sheet that opens with locked values shows a read-only macro list until its "Edit values manually" toggle; editing mode is a macro grid of tappable tiles (`src/app/food/detail.tsx:600-641`), and tapping a value docks `NumberEntryBar` (`src/app/food/detail.tsx:693`).
+**One-line reason:** The design is a tap-a-number → slim keyboard-bar sheet with a 96px photo, serving chips and a 2×2 macro grid; the app has no photo, and a sheet that opens with locked values shows a read-only macro list until its "Edit values manually" toggle; editing mode is a macro grid of tappable tiles (`src/app/food/detail.tsx:602-643`), and tapping a value docks `NumberEntryBar` (`src/app/food/detail.tsx:695`).
 
 ### Design write-up
 
@@ -992,25 +992,25 @@ not the food. Body: an optional grey card with name + sub-line (search/barcode
 only); `SegmentedField "Serving size"`; a **centred** `statLarge` kcal readout plus
 *"for 250 g"*; a `Name` `TextField`; then either a read-only macro list (dot +
 label + value) with a pencil **"Edit values manually"** toggle, or, in editing mode,
-a two-column grid of tappable macro tiles (`src/app/food/detail.tsx:600-641`);
+a two-column grid of tappable macro tiles (`src/app/food/detail.tsx:602-643`);
 a `Meal` segmented control **only when a slot is known**; the CTA; *"Save to my
 foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 
 ### Differences
 
-1. **Slim keyboard edit bar in editing mode only** — `src/app/food/detail.tsx:693` docks `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`); on a sheet that opens with locked values, it is reachable only after "Edit values manually" (`src/app/food/detail.tsx:386`, `:585`).
-2. Numbers are typed through `NumberEntryBar` (`src/app/food/detail.tsx:693`), captioned from `PADS` (`src/app/food/detail.tsx:56`).
+1. **Slim keyboard edit bar in editing mode only** — `src/app/food/detail.tsx:695` docks `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`); on a sheet that opens with locked values, it is reachable only after "Edit values manually" (`src/app/food/detail.tsx:388`, `:587`).
+2. Numbers are typed through `NumberEntryBar` (`src/app/food/detail.tsx:695`), captioned from `PADS` (`src/app/food/detail.tsx:56`).
 3. **"Edit values manually" is an app-invented mode**; the design has no read-only/editable distinction.
-4. **Values are tap-to-edit in editing mode only:** the grams chip, the kcal readout and the macro tiles (`src/app/food/detail.tsx:498-517`, `:538`, `:600-641`). A sheet that opens with locked values shows them read-only until "Edit values manually" (`src/app/food/detail.tsx:386`, `:585`).
-5. No blinking caret affordance; the grams chip appears in editing mode only, and its pencil glyph hides while it is being edited (`src/app/food/detail.tsx:498-517`).
+4. **Values are tap-to-edit in editing mode only:** the grams chip, the kcal readout and the macro tiles (`src/app/food/detail.tsx:500-519`, `:540`, `:602-643`). A sheet that opens with locked values shows them read-only until "Edit values manually" (`src/app/food/detail.tsx:388`, `:587`).
+5. No blinking caret affordance; the grams chip appears in editing mode only, and its pencil glyph hides while it is being edited (`src/app/food/detail.tsx:500-519`).
 6. **No 96×96 photo tile.**
 7. The sheet title is the mode, not the food — so a logged row shows its name only inside an editable field.
 8. **A `Name` field exists that the design does not have**; the design offers no rename here.
 9. No brand/density sub-line for logged rows (*"Logged today"*).
 10. **No AI provenance note.**
-11. Macro layout: a vertical list until *"Edit values manually"* is tapped, then two columns of tappable tiles (`src/app/food/detail.tsx:564-570`, `:600-608`), vs the design's 2×2 tappable grid.
-12. The Fibre tile has its own decimal pad, and picking a serving rescales fibre rather than editing it (`src/app/food/detail.tsx:62`, `:424`, `:437`, `:607-608`). **The tile is conditional**: it shows only when the food's source has a fibre figure, and the design's grid always includes Fibre.
-13. Macro precision: BUILT (not verified): picked servings keep 1 decimal place for protein, carbs and fat, as the design shows (`per100.p * scale`, shown through `r1`). `applyGrams` scales them unrounded (`src/app/food/detail.tsx:421-423`), and `num` with `MACRO_PRECISION` shows and saves them to 1 decimal place (`src/app/food/detail.tsx:66`, `:402`). Fibre also keeps 1 decimal place, typed or picked, as the design shows through `r1`: BUILT (not verified) (`src/app/food/detail.tsx:411`, `:424`, `:437`, `:570`, `:608`).
+11. Macro layout: a vertical list until *"Edit values manually"* is tapped, then two columns of tappable tiles (`src/app/food/detail.tsx:566-572`, `:602-610`), vs the design's 2×2 tappable grid.
+12. The Fibre tile has its own decimal pad, and picking a serving rescales fibre rather than editing it (`src/app/food/detail.tsx:62`, `:426`, `:439`, `:609-610`). **The tile is conditional**: it shows only when the food's source has a fibre figure, and the design's grid always includes Fibre.
+13. Macro precision: BUILT (not verified): picked servings keep 1 decimal place for protein, carbs and fat, as the design shows (`per100.p * scale`, shown through `r1`). `applyGrams` scales them unrounded (`src/app/food/detail.tsx:423-425`), and `num` with `MACRO_PRECISION` shows and saves them to 1 decimal place (`src/app/food/detail.tsx:66`, `:404`). Fibre also keeps 1 decimal place, typed or picked, as the design shows through `r1`: BUILT (not verified) (`src/app/food/detail.tsx:413`, `:426`, `:439`, `:572`, `:610`).
 14. Energy readout centred vs left-aligned; an extra *"for 250 g"* line the design does not have.
 15. Serving presets differ — fixed `[50,100,150,200]` or `[½×,1×,1½×,2×]` vs the food's own catalog servings.
 16. The serving control **does not de-select** on a manual override.
@@ -1208,15 +1208,15 @@ deliberate design-system deviations.
 ## Food — number entry (cross-cutting)
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The design enters every number through the slim bar and uses ± / presets only as shortcuts; the app uses the slim bar on `src/app/food/detail.tsx:693` and `src/app/food/quick-add.tsx:190`, boxed fields on `src/app/food/custom-food.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/new-recipe.tsx`, and, in four places, a **slider** or a **± stepper**.
+**One-line reason:** The design enters every number through the slim bar and uses ± / presets only as shortcuts; the app uses the slim bar on `src/app/food/detail.tsx:695` and `src/app/food/quick-add.tsx:190`, boxed fields on `src/app/food/custom-food.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/new-recipe.tsx`, and, in four places, a **slider** or a **± stepper**.
 
-Where numbers are entered in the app today: the detail sheet and quick add, both through `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`, rendered at `src/app/food/detail.tsx:693` and, captioned "Calories · kcal", at `src/app/food/quick-add.tsx:190`),
+Where numbers are entered in the app today: the detail sheet and quick add, both through `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`, rendered at `src/app/food/detail.tsx:695` and, captioned "Calories · kcal", at `src/app/food/quick-add.tsx:190`),
 custom food, label scan fields, **label scan servings
 (`Stepper`)**, **scan review weight (`SliderField` + ½×/1×/2× chips)**, **new
 recipe servings (`Stepper`)**, **recipes log sheet servings (`Stepper`)**.
 
 A search of `src` for `Done` finds the "Done" pill at `src/components/common/NumberEntryBar.tsx:94-110`; a search for `InputAccessoryView` returns
-nothing. The bar autofocuses its input (`src/components/common/NumberEntryBar.tsx:75`), strips leading zeros and caps length (`src/components/common/NumberEntryBar.tsx:33-38`), at 6 digits by default and 5 on quick add (`src/app/food/quick-add.tsx:194`). The detail sheet's macro pads take a decimal point (`src/app/food/detail.tsx:59-62`). BUILT: typed and picked-serving protein, carbs and fat keep 1 decimal place on display and on save, as in the design, see Food detail difference 13 (`src/app/food/detail.tsx:66`, `:402`, `:408-410`, `:565-567`, `:602-604`). Fibre also keeps 1 decimal place, typed or picked, on display and on save, as in the design (`src/app/food/detail.tsx:411`, `:424`, `:437`, `:570`, `:608`). Separately,
+nothing. The bar autofocuses its input (`src/components/common/NumberEntryBar.tsx:75`), strips leading zeros and caps length (`src/components/common/NumberEntryBar.tsx:33-38`), at 6 digits by default and 5 on quick add (`src/app/food/quick-add.tsx:194`). The detail sheet's macro pads take a decimal point (`src/app/food/detail.tsx:59-62`). BUILT: typed and picked-serving protein, carbs and fat keep 1 decimal place on display and on save, as in the design, see Food detail difference 13 (`src/app/food/detail.tsx:66`, `:404`, `:410-412`, `:567-569`, `:604-606`). Fibre also keeps 1 decimal place, typed or picked, on display and on save, as in the design (`src/app/food/detail.tsx:413`, `:426`, `:439`, `:572`, `:610`). Separately,
 `applyGrams` silently changes nothing else when a row has no per-100 basis (a
 kcal-only quick add).
 

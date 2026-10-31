@@ -23,28 +23,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macro totals stay whole (hMacroCols, gMacroDefs); one-decimal rounding is only on Food detail.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds (plannedRows rest_seconds, session.tsx:200); food detail macros and fibre at 1 decimal (MACRO_PRECISION detail.tsx:66, num :402); saved-food fibre read-back (mappers.ts, saved.tsx); citations; macro totals; quick add rounding (type-checked only); saved-food one-tap add logs fibre when > 0 (saved.tsx add action, R78).
-IN PROGRESS (R79, assigned this round): saved.tsx toEditable (~38) fibre check changes from != null to > 0 so the sheet matches the add rule. Closes the R78 flagged partial work.
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds (plannedRows rest_seconds, session.tsx:200); food detail macros and fibre at 1 decimal (MACRO_PRECISION detail.tsx:66, num :402); saved-food fibre read-back (mappers.ts, saved.tsx); citations; macro totals; quick add rounding (type-checked only); saved-food one-tap add logs fibre when > 0 (saved.tsx add action, R78); saved.tsx toEditable fibre check is > 0, matching add (R79, closed; no test covers it, Isa checks on screen).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal macros, quickAdd rounding, fibre write or fibre read-back.
+Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal macros, quickAdd rounding, fibre write or fibre read-back, or saved.tsx toEditable.
 
 ## Next
-1. R79 (assigned): align toEditable fibre rule in food/saved.tsx (~38) with add (> 0). One file. Suites: foodDetail, hydrationErrorScreens, sheetVariant.
-2. Doc-only: fix stale detail.tsx citations in DESIGN_GAP_ANALYSIS.md (:402, :411, :424, :437, :570, :608) by content. Line 1219 'Fibre is still rounded as it is typed' is false. Lines 1011 and 1012 are stale ('2-up inputs', 'Fibre is not editable'). Use tsc only.
-3. Add a gap row or note for saved-food fibre (none exists; closest is Food detail difference 13). Doc-only.
-4. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
-5. Raw item values: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~144. Needs a design decision first.
-6. Shared macro rounding helper for inline Math.round(x*10)/10 (detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25). Park if it needs more than one file.
-7. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
-8. Logged-day 'Add something extra': follow design copy.
-9. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' (~1495) is stale.
-10. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-11. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-12. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-13. add.tsx slotKey (~67). Remove unused keys if confirmed.
-14. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park. After items 1-13.
-15. Checkpoint: full tsc and app Jest, read-only.
-16. No rows left: stop with 'only owner decisions remain'.
+1. R80 (assigned, doc-only): fix stale detail.tsx citations in DESIGN_GAP_ANALYSIS.md (:402, :411, :424, :437, :570, :608) by content. Line 1219 'Fibre is still rounded as it is typed' is false. Lines 1011 and 1012 are stale ('2-up inputs', 'Fibre is not editable'). tsc only.
+2. Doc-only: add a gap row or note for saved-food fibre (none exists; closest is Food detail difference 13).
+3. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
+4. Raw item values: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135-144. Needs a design decision first.
+5. Shared macro rounding helper for inline Math.round(x*10)/10 (detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25). Park if it needs more than one file.
+6. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
+7. Logged-day 'Add something extra': follow design copy.
+8. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' (~1495) is stale.
+9. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+10. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+11. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+12. add.tsx slotKey (~67). Remove unused keys if confirmed.
+13. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park. After items 1-12.
+14. Checkpoint: full tsc and app Jest, read-only.
+15. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing or change toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -63,7 +61,7 @@ Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal m
 
 ## Parked
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) has no serving data. Backend or data change.
-- editSavedFood (src/lib/data/mutations.ts:157) is local only. Server sync needs a backend change.
+- editSavedFood (src/lib/data/mutations.ts:157) is local only. Server sync needs a backend change. Not started.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route, PlannedValuesForm submit.
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
 - TodayCard: header dot, min-height, gaps, pill/chip type, 17/24 vs 16/21 grid, grid shift after fetch, stale burn, earliest-session rule, near-midnight mismatch, per-session calories, GetToday is_rest_day, '0 exercises planned'.
@@ -74,7 +72,7 @@ Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal m
 - Untraced: other goals.calories screens may show the 1,500 floor; Math.max NaN if a profile field is undefined.
 
 ## Accepted limits
-Summary guard test cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses fibre > 0, so a true 0 g food shows no Fibre tile. Saved-food edits are local only until the parked backend change. No test covers saved-food fibre write or read-back, or decimal macros.
+Summary guard test cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses fibre > 0, so a true 0 g food shows no Fibre tile. Saved-food edits are local only until the parked backend change. No test covers saved-food fibre write or read-back, saved.tsx toEditable, or decimal macros.
 
 ## Round log
-R9-R77: most surfaces built. Checkpoints R34, R48, R61, R77 green. R78: saved.tsx one-tap add logs fibre > 0 (BUILT, no test, flagged partial). R79: toEditable alignment assigned (loop note: prior prompt rejected for missing branch rule; rewritten). Next checkpoint R91.
+R9-R77: most surfaces built. Checkpoints R34, R48, R61, R77 green. R78: saved.tsx one-tap add logs fibre > 0 (BUILT, no test, flagged partial). R79: toEditable aligned to > 0 (BUILT). Flag closed: no test covers saved.tsx toEditable; reason stated, not tested. Report's NEXT (editSavedFood server sync) is a backend change, parked. R80: doc-only citation and stale-line fix assigned. Next checkpoint R91.
