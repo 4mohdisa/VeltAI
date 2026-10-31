@@ -1958,3 +1958,8 @@
 - 2026-10-31 22:16 Chose '{{unit}} en total' and '{{unit}} au total': no agreement with kcal or kJ, no colon (so no French spacing issue), and they read correctly after the number on screen.
 - 2026-10-31 22:16 Ran tsc and the locale-touching test, as the loop note required. Reported 'not covered' rather than a pass if no test is found.
 - 2026-10-31 22:16 Rewrote the notes under 600 words, as the loop note required. Merged repeated items and removed finished work. Kept all Decisions.
+- 2026-10-31 22:17 Chose the R138 verification first: the loop flagged the last report as partly done, because the locale test does not check energyLogged. Clearing that before new work matches the loop note.
+- 2026-10-31 22:17 Jev asked for a question at 60% with confidence 0.40, which is low. Per the brief, I prefer the smaller task and do not ask Isa. Read-only verification needs nothing from him.
+- 2026-10-31 22:17 Tab label 'Food' stays next. It is a hardcoded English string the design does not keep, so it follows the design. I decided it does not need Isa's go-ahead; it is the next round after this one.
+- 2026-10-31 22:17 The prompt allows one locale-key edit only if the substitution check shows a wrong value. No other edits are allowed, so the step stays small.
+- 2026-10-31 22:17 Row 85 stays DIFFERENT and is not marked BUILT: the row covers the whole calories screen.

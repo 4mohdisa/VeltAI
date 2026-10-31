@@ -20,7 +20,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - energyLogged es and fr (R138): '{{unit}} en total', '{{unit}} au total'. No agreement, no colon, reads after the number.
 
 ## Status
-R138: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
+R139: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102, R117, R131 never reported. The checkpoint is still owed.
 
 ## BUILT, not verified (Isa checks; NOT COVERED by tests)
@@ -32,12 +32,12 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102,
 - GymPatternsCard copy via seven gym.* keys. es and fr unreviewed.
 - food.tsx: ErrorState messages; 'Food' title (food.title); 'Calories' title (gymLog.celebration.calories, shared).
 - CaloriesCard macro labels via nutrition.protein, carbs, fat.
-- food.tsx unit label via nutrition.energyLogged (R138 wording).
+- food.tsx unit label via nutrition.energyLogged (R138 wording). R139 verification in progress.
 
 ## Next
-1. R138 (in progress): energyLogged values; run the locale test.
-2. Owed checkpoint: full tsc and app suite, read-only.
-3. Tab label 'Food' (LumeTabBar.tsx:38, (tabs)/_layout.tsx:32) to t(). Needs Isa's go-ahead.
+1. R139 (in progress): verify energyLogged usage at food.tsx and the es/fr substitution. Run the locale-related tests; NOT COVERED if none check it.
+2. Tab label 'Food' (LumeTabBar.tsx:38, (tabs)/_layout.tsx:32) to t(). Decided without Isa: follows design.
+3. Owed checkpoint: full tsc and app suite, read-only.
 4. Dedupe SLOT_KEYS (food.tsx:84). Resolve food.savedTitle vs addMenu.myDishes.
 5. food.tsx: 'Check your connection' invents a cause; "today's" shows on other dates.
 6. CaloriesCard: Fibre column missing; dot vs bar (row 85). Add or park.
@@ -88,7 +88,7 @@ Grep first. Line numbers drift.
 - Stale citations: gap doc line 437 (gym.tsx:94-158), line 1505 (lines 72-75).
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week, training empty states, GymPatternsCard, or the food log empty state. No test loads locale files, except the hydration test.
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week, training empty states, GymPatternsCard, or the food log empty state. No test loads locale files, except the hydration test. energyLogged is not checked by any test.
 
 ## Gotchas
 - Briefs repeat finished work and quote stale lines. Check first.
@@ -102,5 +102,6 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - R131, R134, R135: checkpoint attempts. R134 rejected (no design file named). R135 report was not the checkpoint.
 - R133: CaloriesCard macro labels.
 - R136: energyUnit label. Flagged for gender agreement.
-- R137: unit-neutral wording. Report blocked on word order (number then label reads wrongly).
-- R138: word order decided by the agent: '{{unit}} en total' / '{{unit}} au total'.
+- R137: unit-neutral wording. Report blocked on word order.
+- R138: word order decided by the agent: '{{unit}} en total' / '{{unit}} au total'. Loop flagged it as partly done: the locale test does not cover energyLogged.
+- R139: verification round for R138 (grep, substitution check, tsc, changed-file tests). Chose over tab label because of the loop flag.
