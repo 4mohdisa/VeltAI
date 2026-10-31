@@ -1201,3 +1201,6 @@
 - 2026-10-31 14:57 Chose the row 113 status fix over Jev's MuscleChart pick. The loop note says the last report was flagged as only partly done, and the unfinished step is Next item 2 from R303 (row 113 to DIFFERENT). Jev cannot see that flag clearing comes before build work.
 - 2026-10-31 14:57 Row 113 set to DIFFERENT, not PARTIAL. The design shows all five TodayCard states with a tap target, stats grid or Rest day card that the app lacks, and the earlier brief said DIFFERENT. This closes the 'confirm which' question for Isa.
 - 2026-10-31 14:57 The comma at gap file lines 399-400 is left for the MuscleChart round, which touches the same area and is already queued.
+- 2026-10-31 14:59 Chose the read-only check over MuscleChart (Jev 81%). Reason: the R305 report was flagged for tests not run, and notes rule says a flagged report is cleared by a read-only round before build work. MuscleChart follows in R307.
+- 2026-10-31 14:59 Read-only round does not change any file, so it cannot add a second unfinished step.
+- 2026-10-31 14:59 Kept MuscleChart as the next build task after the clearing round, as in the notes.
