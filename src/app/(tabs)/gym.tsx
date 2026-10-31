@@ -141,11 +141,11 @@ export default function GymLogScreen() {
         {/* Today's scheduled workout (renders null when nothing is scheduled). */}
         <TodayCard />
 
+        <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
+
         {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
         <MuscleChart />
         <GymPatternsCard />
-
-        <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
 
         <SettingsList
           title={t('gym.training')}

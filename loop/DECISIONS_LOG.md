@@ -2382,3 +2382,8 @@
 - 2026-11-01 00:50 Did not ask Isa: the automatic check is mechanical and the R225 report already showed a tsc exit code, so a question would cost Isa time for no gain.
 - 2026-11-01 00:50 Kept the 20 vs 16 padding question under Blocked on Isa, as the notes already list it. Not decided by the loop.
 - 2026-11-01 00:50 Ran Jev's run option (46%) over ask (45%) for the same reason as R225: the flag needs an explicit tsc run, which is a single command with no open question.
+- 2026-11-01 00:52 Chose the Log button order fix over another doc-only tsc round: R224, R225 and R226 were all flagged for the same type check issue, so a fourth doc round would repeat the flag. This build round runs tsc once and asks for the exact exit code and output lines in the report.
+- 2026-11-01 00:52 Skipped GymPatternsCard typography (1.1 spacing, -0.6 tracking) and padding: the padding question is Blocked on Isa, and the card's internals are not part of the Log button move.
+- 2026-11-01 00:52 Did not add My schedule, the Training list, LoadFailedNotice or the entrance animation: each is a separate row difference and would break the one-task rule.
+- 2026-11-01 00:52 Parked the doc-only summary table fix and the gym.tsx:144 comment: doc fixes wait until no build row is open, and comments are not tasks.
+- 2026-11-01 00:52 Treated the R226 report as having run tsc (exit 0 shown); the flag is answered by requiring the exact output lines this round, not by a repeat doc round.
