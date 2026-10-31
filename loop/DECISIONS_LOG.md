@@ -1244,3 +1244,8 @@
 - 2026-10-31 15:08 Kept the 'Rest' pill in the no-plan state, because the design shows it there (R313 report).
 - 2026-10-31 15:08 Parked the R313 NEXT items (Set schedule link, tap target and chevron, chip index key, null return with no schedule, pill and chip type) until the read-only check confirms the current state.
 - 2026-10-31 15:08 Recorded that the en, es and fr key counts should be 168, 170 and 168 after R313 (one key added to each), to be recounted before any removal.
+- 2026-10-31 15:09 R314 is read-only and ran tsc, so it clears the R313 flag under the rule for read-only rounds. The unfinished rest-day sub-line is the real open step, so it goes first.
+- 2026-10-31 15:09 Kept the fix to one branch in TodayCard.tsx, per the R314 finding and step 2 of the notes.
+- 2026-10-31 15:09 Branch order and session.tsx:537 go to NEXT, not this round, to keep the prompt to one task.
+- 2026-10-31 15:09 Key counts follow R314's recount (en 168, es 170, fr 168). The handover's 167 predates R313 and is stale.
+- 2026-10-31 15:09 Notes rewritten under 600 words as the loop note asked. Repeated items merged and finished work removed. Decisions kept verbatim in substance.

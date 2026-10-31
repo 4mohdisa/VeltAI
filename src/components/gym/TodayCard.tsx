@@ -109,7 +109,13 @@ export function TodayCard(): JSX.Element | null {
   if (today.is_rest_day) {
     return (
       <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-        <Header tint={color.light2} title="Rest day" sub="Nothing scheduled today" pill="Rest" pillFill={color.light1} />
+        <Header
+          tint={color.light2}
+          title={t('gymLog.restDayTitle')}
+          sub={t('gym.nothingScheduledSub')}
+          pill="Rest"
+          pillFill={color.light1}
+        />
       </Card>
     );
   }
