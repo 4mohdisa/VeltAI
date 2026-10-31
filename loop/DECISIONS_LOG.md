@@ -1740,3 +1740,8 @@
 - 2026-10-31 20:31 Left the gap row 114 status unchanged this round, since the change is wording only and the card's other differences are still open.
 - 2026-10-31 20:31 Deleted only the locale keys with zero remaining references, to avoid breaking other surfaces.
 - 2026-10-31 20:31 Kept the Try again fix, the freeze item and the saved-food items for later rounds, one task at a time.
+- 2026-10-31 20:32 Chose R93 (TodayCard comment and tsc) because the loop note flagged tests not run for R92 and this is the smallest task that answers it honestly. No test references TodayCard, so the result is recorded as NOT TESTED, not a pass.
+- 2026-10-31 20:32 Did not rename gym.plannedExercisesNoDuration to gym.plannedExercises. It is a cosmetic key name, not a product question. Keeping the name avoids touching es and fr entries. Parked.
+- 2026-10-31 20:32 Jev asked for a question (57%). Not asking: the open item is a key name and a test gap, both decided by defaults, so nothing needs Isa. Jev is advisory and its confidence is low (0.35).
+- 2026-10-31 20:32 Stale citation at DESIGN_GAP_ANALYSIS.md:297 deferred to a doc-only round so this round touches one file.
+- 2026-10-31 20:32 Recorded R92 as BUILT, NOT TESTED for TodayCard sub-line, per the Decisions rule that 'No related tests found' is not a pass.

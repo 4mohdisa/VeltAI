@@ -26,33 +26,36 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Every prompt names matching design/ file and gap row.
 - Loop note flags 'tests not run': next prompt runs tsc once and tests referencing the changed file.
 - TodayCard sub-line follows design wording 'N exercises planned' (minutes dropped; muscle-group prefix parked). R92. Settled by this decision; Isa's reply overrides if it differs.
+- Locale key gym.plannedExercisesNoDuration kept as is (R93). Rename to gym.plannedExercises is cosmetic and parked; no es/fr edits.
+- R92 TodayCard sub-line is BUILT, NOT TESTED. No test references TodayCard.
 
 ## Status
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre; citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard planned sub-line via t() (R91; es/fr unreviewed; NOT TESTED, no test reaches it).
+BUILT, not verified: food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre; saved-food fibre; citations; macro totals; quick add rounding; nutrition, freeze, StreakCounter, profile and TodayCard strings via t(); TodayCard sub-line 'N exercises planned' via t() (R92; es/fr unreviewed; NOT TESTED, no test reaches it).
 Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). Next checkpoint not due.
-Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, StreakCounter, profile render, TodayCard (no test references it), R91 locale keys.
+Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, StreakCounter, profile render, TodayCard (no test references it), R92 locale keys.
 
 ## Next (in order)
-1. R92 (in progress): TodayCard sub-line to 'N exercises planned'. Delete the duration line (about line 224), the conditional and the plannedExercises_* keys that only it used; resolve NoDuration keys. Then verify R92 (read-only) on the next round.
-2. 'Try again' in LoadFailedNotice.tsx:47 (shared, own round).
-3. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze'. Only after Isa confirms freeze screen stays.
-4. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx ('Breakdown').
-5. One file per round: GymPatternsCard, saved, MuscleChart, session (Try again, untranslated strings), gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-6. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-7. PlannedValuesForm.tsx:200 'Add exercise' vs design (not compared).
-8. add.tsx slotKey (~67). Remove unused keys if confirmed.
-9. Raw item values: (tabs)/food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
-10. Shared macro rounding helper for inline Math.round(x*10)/10. Park if >1 file.
-11. MACRO_PRECISION comment omits fibre (doc only).
-12. Logged-day 'Add something extra': follow design copy.
-13. Gap lines 1014 onward unchecked; line 90 merge; line 1495 stale.
-14. /gym/session saves top weight on all sets. Fix or park.
-15. summaryDetails.test.ts:65 source-checks 'Breakdown'; replace with render check, own round.
-16. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-17. StreakCounter.tsx: stale header comment; colour tokens color.black, gray400, gray500 to color.label, secondaryLabel.
-18. Gap line 82: remove stray <br> (doc-only).
-19. No rows left: stop with 'only owner decisions remain'.
+1. R93 (in progress): TodayCard.tsx line 3 comment to exercise-count sub-line only; tsc once; search for TodayCard tests (none expected, reported as NOT TESTED).
+2. Doc-only: DESIGN_GAP_ANALYSIS.md:297 citation TodayCard.tsx:249 to 246 (tsc only).
+3. 'Try again' in LoadFailedNotice.tsx:47 (shared, own round).
+4. (tabs)/gym.tsx:153-155 training list and 'Apply a streak freeze'. Only after Isa confirms freeze screen stays.
+5. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx ('Breakdown').
+6. One file per round: GymPatternsCard, saved, MuscleChart, session (Try again, untranslated strings), gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+8. PlannedValuesForm.tsx:200 'Add exercise' vs design (not compared).
+9. add.tsx slotKey (~67). Remove unused keys if confirmed.
+10. Raw item values: (tabs)/food.tsx:852, :895; food/saved.tsx:144. Park if no design decision.
+11. Shared macro rounding helper for inline Math.round(x*10)/10. Park if >1 file.
+12. MACRO_PRECISION comment omits fibre (doc only).
+13. Logged-day 'Add something extra': follow design copy.
+14. Gap lines 1014 onward unchecked; line 90 merge; line 1495 stale.
+15. /gym/session saves top weight on all sets. Fix or park.
+16. summaryDetails.test.ts:65 source-checks 'Breakdown'; replace with render check, own round.
+17. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+18. StreakCounter.tsx: stale header comment; colour tokens color.black, gray400, gray500 to color.label, secondaryLabel.
+19. Gap line 82: remove stray <br> (doc-only).
+20. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or change toast? /gym/session writes second row (mutations.ts:173-178).
@@ -67,7 +70,7 @@ Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, Strea
 - Users without body stats see 1,500 kcal; design uses 2,100.
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume fix, show or accept. Heatmap wording. Calories cell needs backend field.
-- Freeze screen: does gym/freeze.tsx stay? Gates Next item 3.
+- Freeze screen: does gym/freeze.tsx stay? Gates Next item 4.
 - StreakCounter wrap has no row. Gap line 82 freeze sentence kept for now.
 
 ## Parked
@@ -75,6 +78,7 @@ Untested: decimal macros, quickAdd, fibre read-back, saved.tsx toEditable, Strea
 - editSavedFood (mutations.ts:157) local only; server sync needs backend.
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros as 0, custom exercise route, PlannedValuesForm submit.
 - TodayCard muscle-group prefix (needs template data); header dot, min-height, gaps, pill type, grid, stale burn, earliest-session rule, near-midnight mismatch, per-session kcal, '0 exercises planned'.
+- Rename gym.plannedExercisesNoDuration to gym.plannedExercises (cosmetic, touches es/fr keys).
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
 - Freeze sheet: singular counts; toast before server reply; refusal unhandled; old colour tokens; stale params streak.tsx:73.
 - Logged card tap target needs day route. Macros history chart. App-only gauge and meals list. Percent-of-target title follows today, design follows picked day.
@@ -94,4 +98,5 @@ R88: profile strings via t(); tsc 0; 21 tests pass.
 R89: checkpoint green (tsc 0, 65 suites, 824 tests).
 R90: TodayCard strings via t(); tsc 0; no tests run (flagged).
 R91: planned sub-line plural keys; tsc 0; no test references TodayCard (flagged, not a pass).
-R92: read-only verification of R91 done. Only hydrationErrorScreens.test.ts (10 tests) touches locales, none on TodayCard; R91 stays NOT TESTED. Wording decided per Decisions; change dispatched as R92 prompt (tsc only).
+R92: TodayCard sub-line changed to 'N exercises planned' using gym.plannedExercisesNoDuration_one/_other; plannedExercises_* keys deleted; tsc 0; Jest not run; NOT TESTED.
+R93: (in progress) TodayCard.tsx line 3 comment; tsc; TodayCard test search for R92 gap.

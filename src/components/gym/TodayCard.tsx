@@ -1,6 +1,6 @@
 // TodayCard — today's scheduled workout at a glance, in the design file's
 // session-card shape: an elevated white card headed by a state dot, the plan's
-// name, its exercise/duration line and a status pill, with the exercises as
+// name, its exercise-count line and a status pill, with the exercises as
 // chips and the Start action beneath. Self-contained via useToday(); a failed
 // read shows the load-failed notice with a retry.
 import type { JSX } from 'react';
