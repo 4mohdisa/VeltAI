@@ -1218,3 +1218,8 @@
 - 2026-10-31 15:01 Kept the gap-file documentation round separate from any component change, per the notes rule.
 - 2026-10-31 15:01 Did not run tsc or tests, because the round is doc-only. The last green checks (tsc 0, jest gym 37/37) still stand for the component change.
 - 2026-10-31 15:01 Left the line 458, 464 and 466 wording for the next doc round, to keep this round to one edit block.
+- 2026-10-31 15:03 Chose the read-only round over Jev's pick (gap wording at 458/464/466, 88%) because the notes rule says a flagged report is cleared by a read-only round or the unfinished step before build work. The flag came from the type check not being run after R308, so one tsc run plus a doc check clears it. Jev cannot see this ordering rule.
+- 2026-10-31 15:03 Ran tsc once here, not the full suite, to keep usage low. Jest is not needed for a doc-only change.
+- 2026-10-31 15:03 Gap wording moves to R310 as its own round, per the rule that gap-file documentation is never bundled with a component change.
+- 2026-10-31 15:03 Recorded the R308 comma and line-400 wording change as accepted: the report explains that the sentence needed it.
+- 2026-10-31 15:03 Kept Isa's blocked items unchanged. None were answered in this handover.

@@ -25,17 +25,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 - BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() calls; gym.loadingSessions; saved.tsx title; TodayCard padding 16 on five uses.
-- MuscleChart (2 uses): padding 16 BUILT (not verified). R307 done: padded={false} with style padding space.lg at MuscleChart.tsx ~114 and ~141.
+- MuscleChart (2 uses): padding 16 BUILT (not verified). R307 done: padded={false} with style padding space.lg at MuscleChart.tsx ~114 and ~141. R308 gap lines 399-401 corrected.
 - Row 113 TodayCard: DIFFERENT (header, chips, states).
-- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37.
+- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37. R308 doc-only, no tests run.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- None. R307 clean.
+- R308 flagged: type check and tests not run. R309 is a read-only round to clear it (tsc once, doc and MuscleChart checks).
 
 ## Next
-1. R308 (current): gap file lines 399-401 only. Add missing comma at end of 399. Line 401: record MuscleChart BUILT (not verified) at padding 16.
-2. R309: gap file wording only. Line 458 'PARTIAL MATCH' to 'DIFFERENT'. Line 464 'four branches' to five with loading. Line 466 wording.
+1. R309 (current): read-only. tsc once, check gap lines 399-401, check MuscleChart padded={false}. No edits.
+2. R310: gap file wording only. Line 458 'PARTIAL MATCH' to 'DIFFERENT'. Line 464 'four branches' to five with loading. Line 466 wording for loading and nothing scheduled.
 3. Trace add.tsx slotKey near :67. If unused addMenu keys (voice, describeOutLoud es; snapMeal, scanPackage, oneTapReadd all locales) are safe, remove from en, es, fr together.
 4. Move row 89 note into the reason cell.
 5. Hardcoded strings to wrap: gym.tsx :56, :102, :114, :123, :151-156, 'My schedule', 'My workouts'; profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15; TodayCard :110, :174; GymPatternsCard :85; saved.tsx :61-144.
@@ -83,7 +83,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Prompts must name the design/ file every time.
-- Prompts must ask for ONE component or ONE doc change. R307 was rejected for asking two (R307 was then redone as one component).
+- Prompts must ask for ONE component or ONE doc change. R307 was rejected for asking two.
 - Key counts R305: en 167, es 169, fr 167. Recount before any removal.
 - Weak checks: hydration test accepts invented reasons; no plural test; no locale parity test.
-- Jev overrules R300-R306 were all flag or unfinished-step ordering. Keep that rule.
+- Jev overrules R300-R306 and R309 were all flag or unfinished-step ordering. Keep that rule.
+- R308 loop note: flagged for missing type check and tests. Jev ranked gap wording first (88%); kept the read-only round for the flag per the rule above.
