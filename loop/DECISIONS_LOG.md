@@ -1195,3 +1195,6 @@
 - 2026-10-31 14:24 Did not wait for Isa on the TodayCard padding question, as stated in the notes. Overruled the Jev ask at 66%, because the flagged report is cleared and the decision has a repo precedent.
 - 2026-10-31 14:24 Limited R302 to one file and one row, with no test run beyond tsc, because no test renders TodayCard.
 - 2026-10-31 14:24 Left the streak footnote, row 89, the Training list, and the device and native reviews in Blocked on Isa, as the notes say.
+- 2026-10-31 14:25 Chose candidate 1 over Jev's 97% pick (MuscleChart). The loop note flagged the last report because tests were not run. Notes rule: a flagged report is cleared by a read-only round before build work. This is the reason Jev cannot see.
+- 2026-10-31 14:25 Row 113 status (PARTIAL vs DIFFERENT) deferred to the next round. This round is read-only, so no edits here. Decision: set it to DIFFERENT, because all five TodayCard states still differ from the design.
+- 2026-10-31 14:25 Did not ask Isa about row 113 wording; the default is DIFFERENT when every state differs.
