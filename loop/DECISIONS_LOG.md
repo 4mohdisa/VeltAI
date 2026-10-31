@@ -2107,3 +2107,7 @@
 - 2026-10-31 22:54 Dropped the draft name from the toast because the design toast has no name.
 - 2026-10-31 22:54 Drafted es and fr wording and marked them for native review; no owner question needed.
 - 2026-10-31 22:54 Jev had run 52% and ask 48% at low confidence. I kept run: nothing here needs Isa's dashboards or devices, and the wording question is answered by the design file. Prefer the smaller task, which this is.
+- 2026-10-31 22:55 Picked the PADS captions: smallest unbuilt piece of the detail sheet, needs nothing from Isa, and stays in one file.
+- 2026-10-31 22:55 Left the doc reconciliation for a later doc-only round because the last report said the file list ruled out doc edits this round.
+- 2026-10-31 22:55 Did not treat the handover's SwipeableRow.tsx 'Delete'/'Cancel' item as open; notes record it as already translated (R163) and the prompt does not touch it.
+- 2026-10-31 22:55 Kept Jev's run call: no owner input needed and the task is small.

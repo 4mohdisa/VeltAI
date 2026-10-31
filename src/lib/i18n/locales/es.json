@@ -165,7 +165,13 @@
     "deleteToast": "Se eliminó {{name}}",
     "savedRemoveAction": "Quitar de guardados",
     "saveToDishes": "Guardar en mis platos",
-    "savedToDishes": "Guardado en mis platos"
+    "savedToDishes": "Guardado en mis platos",
+    "padGrams": "Tamaño de la porción · gramos",
+    "padCalories": "Calorías · kcal",
+    "padProtein": "Proteína · gramos",
+    "padCarbs": "Carbohidratos · gramos",
+    "padFat": "Grasa · gramos",
+    "padFibre": "Fibra · gramos"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

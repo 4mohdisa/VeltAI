@@ -163,7 +163,13 @@
     "deleteToast": "Supprimé : {{name}}",
     "savedRemoveAction": "Retirer des aliments enregistrés",
     "saveToDishes": "Enregistrer dans mes plats",
-    "savedToDishes": "Enregistré dans mes plats"
+    "savedToDishes": "Enregistré dans mes plats",
+    "padGrams": "Taille de la portion · grammes",
+    "padCalories": "Calories · kcal",
+    "padProtein": "Protéines · grammes",
+    "padCarbs": "Glucides · grammes",
+    "padFat": "Lipides · grammes",
+    "padFibre": "Fibres · grammes"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

@@ -54,13 +54,13 @@ const SEARCH_SERVINGS = [50, 100, 150, 200];
  *  are whole numbers, the macros take a decimal point. Every one caps at six
  *  digits, which is NumberEntryBar's default, so none passes `maxLength`. */
 type PadKey = 'grams' | 'calories' | 'protein' | 'carbs' | 'fat' | 'fibre';
-const PADS: Record<PadKey, { label: string; mode: NumberEntryMode }> = {
-  grams: { label: 'Serving size · grams', mode: 'numeric' },
-  calories: { label: 'Calories · kcal', mode: 'numeric' },
-  protein: { label: 'Protein · grams', mode: 'decimal' },
-  carbs: { label: 'Carbs · grams', mode: 'decimal' },
-  fat: { label: 'Fat · grams', mode: 'decimal' },
-  fibre: { label: 'Fibre · grams', mode: 'decimal' },
+const PADS: Record<PadKey, { labelKey: string; mode: NumberEntryMode }> = {
+  grams: { labelKey: 'food.padGrams', mode: 'numeric' },
+  calories: { labelKey: 'food.padCalories', mode: 'numeric' },
+  protein: { labelKey: 'food.padProtein', mode: 'decimal' },
+  carbs: { labelKey: 'food.padCarbs', mode: 'decimal' },
+  fat: { labelKey: 'food.padFat', mode: 'decimal' },
+  fibre: { labelKey: 'food.padFibre', mode: 'decimal' },
 };
 
 /** The design keeps protein, carbs and fat to 1 decimal place: ×10, round, ÷10. */
@@ -696,7 +696,7 @@ function DetailForm({
 
       {editing ? (
         <NumberEntryBar
-          label={PADS[editing].label}
+          label={t(PADS[editing].labelKey)}
           value={entry}
           mode={PADS[editing].mode}
           onChange={(text, value) => {
