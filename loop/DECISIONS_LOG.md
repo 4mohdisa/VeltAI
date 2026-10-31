@@ -1715,3 +1715,8 @@
 - 2026-10-31 20:23 Freeze sentence on line 82 is kept for now, per the R87 decision. It is a placement problem, so it is recorded under Blocked on Isa. Isa can rule on it.
 - 2026-10-31 20:23 StreakCounter wrap is not given its own gap line. The profile row reason cell carries the sentence, as the previous report recommended, and this is checked against the profile row subject.
 - 2026-10-31 20:23 The stray <br> on line 82 and the StreakCounter header comment are left for later rounds, to keep this round to one task.
+- 2026-10-31 20:25 Chose the checkpoint because the loop note requires a read-only tsc and full app Jest this round. It takes priority over the next content task.
+- 2026-10-31 20:25 Left gym.tsx:155 gated. The freeze screen question is still unanswered by Isa, so it is not picked.
+- 2026-10-31 20:25 Named design/Lume App.html and no gap row in the prompt. A checkpoint serves no row, and the rule applies only to content rounds.
+- 2026-10-31 20:25 Rewrote the notes under 600 words, as the loop note asks. Merged repeated items, deleted finished work and the R9-R82 detail, and kept every Decisions line.
+- 2026-10-31 20:25 Moved 'Try again' and the session.tsx strings to Next, because they are unblocked work and not owner items.
