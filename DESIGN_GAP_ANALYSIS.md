@@ -473,22 +473,24 @@ rule (year appended only outside the current year).
 grid** (Duration / Calories / Volume / Sets) and a wrapped row of exercise chips.
 
 **App** (`TodayCard.tsx`): four rendered states (loading, logged, rest day, planned) plus null on load failure.
-The logged, rest-day and planned states have a header row, and the planned state adds chips and a **"Start workout"** button. Every state's card,
+The logged, rest-day and planned states have a header row. The logged state adds a chevron and, when the logged session has exercises, a 3-up grid (Duration / Volume / Sets) and exercise chips from that session (BUILT, not verified). The planned state adds chips and a **"Start workout"** button. Every state's card,
 including loading, uses padding 16 (`padded={false}`, `space.lg`); the loading state differs from the design.
 
-**Differences:** the card is **not tappable** and has **no chevron**; **the entire
-4-up stats grid is missing**; "Start workout" is
+**Differences:** the card is **not tappable** in any state; the rest-day and planned
+states have **no chevron**, and the logged state's chevron sits on a card that cannot
+be tapped; the logged grid is **3-up against the design's 4-up**, with the Calories cell
+missing because session rows carry no per-session calories, which needs a backend
+change; the planned state has **no stats grid**; "Start workout" is
 app-only; the card returns null only when the schedule fetch fails
 (`src/lib/data/gymSchedule.ts:38-40`), and shows no error message; dot 12 vs 11; header min-height 36 vs 34;
 gaps 12 vs 10 and 4 vs 1; pill `500 11/14` vs `600 11/15` and `4px 8px` vs `3px 9px`;
-**the "Logged" pill loses its green wash** (`color-mix(positive 22%, white)` → flat
-`light1`); chip type `500 11/14` vs `500 12/16`, padding 12 vs 10, gap 8 vs 6;
-the logged sub-line
-drops the calories figure; the planned sub-line
+**the "Logged" pill is solid green, not the design's wash** (`color-mix(positive 22%, white)` →
+`categoryAccent.positive`); grid values `600 17/24` display vs `600 16/21` rounded;
+chip type `500 11/14` vs `500 12/16`, padding 12 vs 10, gap 8 vs 6;
+the logged sub-line's kcal is the day's total exercise burn, not the session's, and is
+left out when none is recorded; the planned sub-line
 drops the muscle-group phrase and adds a duration; and the design's `ready` state
 (a day with a draft) has no counterpart.
-
-Logged-state stats grid and chips, BUILT (not verified): when the logged session returned by `listSessions` has exercises, the card shows Duration, Volume and Sets from that session, then the first three exercise names and a "+N more" chip. There is no Calories cell because session rows carry no per-session calories, so this is 3-up against the design's 4-up.
 
 ## Gym — the "Log this session" CTA — ❌ DIFFERENT
 

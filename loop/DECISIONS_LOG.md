@@ -1386,3 +1386,7 @@
 - 2026-10-31 15:51 Grid calories must come from the logged session only, not the whole-day calories_out_exercise figure, so the grid does not repeat the sub-line's mismatch.
 - 2026-10-31 15:51 Gap row kept DIFFERENT: the grid and chips are built but the card is not yet verified, and the pill, chevron and tap target still differ.
 - 2026-10-31 15:51 Jev followed (run 52%, ask 46%): a bounded build with a data check first is a smaller task than asking Isa.
+- 2026-10-31 15:54 Chose the gap-doc prose fix: it is small, reversible, clears the partial flag from R22 and needs no new test. Jev was 54% ask and 40% run with low confidence, so I picked the smaller task. Ask was not used because the blockers are already in Blocked on Isa.
+- 2026-10-31 15:54 Did not add tests for the new TodayCard grid and chips. The rules forbid new test suites, so the report says the grid is unverified.
+- 2026-10-31 15:54 Volume overstatement (session.tsx saves top-set reps and weight for all sets) is parked, not fixed. Changing save logic changes stored data, and the decision belongs to Isa. Added to Blocked on Isa.
+- 2026-10-31 15:54 Rewrote the notes to under 600 words as the loop note asked. Merged repeated items and removed finished work. Kept every never-delete decision.
