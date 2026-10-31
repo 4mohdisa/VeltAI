@@ -851,7 +851,7 @@ function FoodItemRow({
           ? t('food.rowAnalysing')
           : failed
             ? t('food.rowAnalysisFailed', { name: item.name })
-            : `${item.name}, ${item.quantityG} g, ${t('nutrition.protein')} ${Math.round(item.protein)}, ${t('nutrition.carbs')} ${Math.round(item.carbs)}, ${t('nutrition.fat')} ${Math.round(item.fat)}, ${formatEnergy(item.calories, energyUnit)}`
+            : `${item.name}, ${item.quantityG} ${t('food.gramsUnit')}, ${t('nutrition.protein')} ${Math.round(item.protein)}, ${t('nutrition.carbs')} ${Math.round(item.carbs)}, ${t('nutrition.fat')} ${Math.round(item.fat)}, ${formatEnergy(item.calories, energyUnit)}`
       }
       accessibilityHint={analyzing || failed ? undefined : t('food.rowHint')}
       style={{

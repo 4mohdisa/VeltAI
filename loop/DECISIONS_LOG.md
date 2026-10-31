@@ -2267,3 +2267,8 @@
 - 2026-11-01 00:21 Kept the task inside row 85 and reused the existing key, so no new keys are needed.
 - 2026-11-01 00:21 Did not fix the raw energyUnit or the g unit; they stay in NEXT for a later round.
 - 2026-11-01 00:21 Jev ran at 59% for run and 38% for ask; running agrees with it, so no re-look.
+- 2026-11-01 00:22 Picked the smallest row 85 task (VoiceOver ' g' to food.gramsUnit). It clears the report's own NEXT item, needs nothing from Isa, and the key already exists in en, es and fr.
+- 2026-11-01 00:22 Did not pick CaloriesCard Fibre column (candidate 2). It is a larger layout build and needs a fresh design check first; it goes next after this task.
+- 2026-11-01 00:22 Did not pick energyUnit at food.tsx:912 (candidate 3). The Parked note says kJ handling is unchecked, so this may be a deliberate setting. Needs a design-versus-app decision first.
+- 2026-11-01 00:22 Kept the rule that the prompt forbids the other hardcoded unit at food.tsx:690, since it is a separate visible-line item and is parked as not translatable.
+- 2026-11-01 00:22 Jev 77% run agrees with the pick, so no look-again was needed.
