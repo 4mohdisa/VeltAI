@@ -20,30 +20,35 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Prompts name the design/ file and gap row, even for doc rounds. Say 'no matching tests' when none apply.
 - Claude Code must not open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Citations: an insertion at line N moves only citations at or after N. Check each by content, never a blanket shift.
+- Gap doc 'Reachable UI today?' for log-sheet effort/energy is No (sheet has no such field), R52. Isa may override.
+- Handover NEXT lines are stale when they conflict with the latest report; notes win.
 - Jev is advisory.
 
 ## Status
 - BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard; Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; session.tsx label 'Add an exercise', picked and planned rest seconds.
+- Gap doc citations to session.tsx moved and checked by content (R51, report confirmed).
 - Counts (last recorded): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - Last checkpoint R48 green: tsc 0, 65 suites, 824 tests.
 
 ## Next
-1. R51 (doc-only, in progress): recheck session.tsx citations by content, fix stale 'no edit bar' and 'effort and energy' lines, update difference 11 to cover planned rows.
-2. Still open in gap doc: row 7 check; 'What the app does' old-form block (restore date only if accurate); line 90 empty-status merge into 'Food - My dishes / Saved'; 'Gym - session logging' status cell (items are partial); line 334.
-3. Logged-day sheet from + menu: decide 'Add something extra' from design; session.tsx empty state is 'Add an exercise'.
-4. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-5. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-6. PlannedValuesForm.tsx:200 'Add exercise': compare to design, then decide.
-7. summaryNoFabrication.test.ts header: fibre note stale.
-8. Trace add.tsx slotKey (~67). Remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-9. Volume: /gym/session saves top-set weight for all sets. Fix only if no owner input needed, else park.
-10. Checkpoint: full tsc and app Jest, read-only, only if code landed since R48.
-11. No rows remain: stop with 'only owner decisions remain'.
+1. R52 (doc-only, in progress): reword edit-bar claims at gap lines about 94, 962 and 1001 after grepping NumberEntryBar. Reword ExercisePicker line about 330 ('Something else' opens /gym/session with picker showing). Set line 334 'Reachable UI today?' to No. Recheck session.tsx citations by content. Then tsc only.
+2. Still open in gap doc: row 7 check; 'What the app does' old-form block (restore date only if accurate); line 90 empty-status merge into 'Food - My dishes / Saved'; 'Gym - session logging' status cell (items are partial).
+3. plannedRows omits te.rest_seconds (session.tsx about :193-199): fix only if it is a clean code change with no owner input; verify before editing.
+4. Logged-day sheet from + menu: 'Add something extra' is in the design, but the session.tsx empty state is 'Add an exercise'. Decide and record.
+5. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+6. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+7. PlannedValuesForm.tsx:200 'Add exercise': compare to design, then decide.
+8. summaryNoFabrication.test.ts header: fibre note stale.
+9. Trace add.tsx slotKey (~67). Remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
+10. Volume: /gym/session saves top-set weight for all sets. Fix only if no owner input needed, else park.
+11. Checkpoint: full tsc and app Jest, read-only, only if code landed since R48.
+12. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
-- Already-logged days: real editing (src/lib/data/mutations.ts:173-178) or change 'open it to edit' copy.
+- Already-logged days: real editing (src/lib/data/mutations.ts:173-178) or change 'open it to edit' copy. /gym/session writes a second session row.
 - Device checks: logged card and failure states offline. Possible double notice with gym tab (src/app/(tabs)/gym.tsx:107).
 - Gap row 90 merge; whether log-sheet row stays BUILT.
+- Line 334 verdict: Yes or No in 'Reachable UI today?' (notes default No, see decisions).
 - Footnote '23 sessions 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review; 'My dishes'; Macros wording.
@@ -83,5 +88,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Round log
 - R9-R50: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard, failed-fetch notices, checkpoints R34 and R48 green, session label, rest seconds, gap fixes.
-- R49-R50: citation shifts were applied wrongly; R51 rechecks them by content.
-- R51: in progress.
+- R49-R50: citation shifts were applied wrongly; R51 rechecked them by content.
+- R51: doc corrections mostly done (15 citations, difference 11, line 328). Loop note flagged partly done.
+- R52: previous prompt rejected (did not restrict to loop/design-match). Rewritten prompt issued: doc-only, edit-bar claims at 94/962/1001, ExercisePicker line about 330, line 334 set to No, session.tsx citation recheck, tsc only. Handover NEXT '+1 above line 165' treated as stale.
+- R53: next, after R52 report.

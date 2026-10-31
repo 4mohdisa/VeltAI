@@ -1526,3 +1526,13 @@
 - 2026-10-31 17:12 Named the working branch and the forbidden git commands, because the last prompt was rejected for omitting the branch rule.
 - 2026-10-31 17:12 Kept the report format at the end, as the brief requires.
 - 2026-10-31 17:12 Compressed notes to under 600 words, merged repeated blockers, and removed finished rounds (R9 to R48 detail) as the loop note asked.
+- 2026-10-31 17:14 Chose to finish the flagged R51 doc work first, because the loop note says the last report was only partly done and a doc contradiction (line 334) is still open.
+- 2026-10-31 17:14 Set line 334 'Reachable UI today?' from Yes to No. It is a factual correction: the log sheet has no effort or energy field. Isa can still revert it.
+- 2026-10-31 17:14 Used the claim that NumberEntryBar exists and is docked by session.tsx. The edit-bar claims must be checked by grep before rewording, not assumed.
+- 2026-10-31 17:14 Followed the notes rule to check citations by content, not by blanket shift. Ignored the handover's '+1 above line 165' instruction, because the notes say handover text can be stale and the latest report already rechecked the citations.
+- 2026-10-31 17:14 Flagged the conflict over te.rest_seconds for planned rows (report says :200 covers them; handover says plannedRows omits them). The round verifies by reading code and records only the result.
+- 2026-10-31 17:15 Chose R52 finish: it is a doc-only factual fix that unblocks the gap doc, and the rejected prompt needs redoing anyway.
+- 2026-10-31 17:15 Set line 334 'Reachable UI today?' to No, as the notes already planned. The sheet has no effort or energy field, so the UI cannot reach that data. Isa's ruling can still override this.
+- 2026-10-31 17:15 The handover NEXT ('add 1 to session.tsx citations above line 165') is stale. The latest Claude Code report already moved the citations and checked them by content, so the prompt asks for a recheck, not a +1 shift.
+- 2026-10-31 17:15 Edit-bar claims are reworded from grep results, not from memory, because the last two reports disagreed on whether the Food screens use NumberEntryBar.
+- 2026-10-31 17:15 Doc corrections that are factual are applied without asking, per the default rule. Jev's ask signal was low confidence (0.26), so I kept the smaller task.

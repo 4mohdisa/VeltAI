@@ -91,7 +91,7 @@ this pass matched the design on every checked value.
 | Food — Add sheet | 🔨 BUILT (not verified) | Rebuilt to the design’s five tiles in its order — Search foods, Scan food, Barcode, My dishes, then Quick add as the full-width 88pt row — with the design’s copy, 46/19 discs and the meal-aware title "Add to lunch"; Scan Label and My Meals are no longer offered here (their routes are untouched), and Search foods lands on the food tab, which is where search lives. Main remaining difference: the Search foods tile lands on the food tab, where the design opens its dedicated search sheet with the search pill. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. Also open: SF Symbols vs inline SVGs, separate scan routes. BUILT (not verified): sheet bottom set to 34pt by marginBottom -space.xl on the tile grid in src/app/food/add.tsx, which cancels SheetContent paddingBottom space.xl (20pt) and leaves the 34pt safe-area inset. Device check on a 34pt-inset iPhone still open. Slot title uses addMenu slot keys. |
 | Food — Scan flows | ❌ DIFFERENT | Design is one scanner with a Meal/Label/Barcode switch; the app is three separate routes with a multi-angle flow the design lacks. |
 | Food — "Not in a meal yet" inbox | ❌ DIFFERENT | Design files unassigned items into meals; the app's card confirms an estimated weight with a slider. |
-| Food — number-entry convention | ❌ DIFFERENT | The slim edit bar does not exist anywhere; a slider and ± steppers appear where the design has neither. |
+| Food — number-entry convention | ❌ DIFFERENT | The slim edit bar, `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`), docks on `src/app/food/detail.tsx:690` and `src/app/food/quick-add.tsx:190`. `src/app/(tabs)/food.tsx` and `src/app/food/add.tsx` do not use it, and `src/app/food/new-recipe.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/custom-food.tsx` still set a keyboard type on boxed fields; a slider and ± steppers appear where the design has neither. |
 | Profile — Settings root | ❌ DIFFERENT | Design is a pure list with trailing values; the app adds avatar + two streak cards, drops every value, reorders a group. |
 | Profile — Account | ❌ DIFFERENT | Design card is name + email + three stats plus a Sign-in-method row; the app shows avatar + name only. |
 | Profile — Subscription | ❌ DIFFERENT | Design is a gradient price hero + usage meters + billing rows; the app is one status card and two buttons. |
@@ -327,11 +327,11 @@ the Gym tab until the day is logged (`GymSessionButton` is not pressable after t
 | 1. Log as planned (one tap, verbatim) | **Yes** — sessions + exercises + complete; `GET /today` supplies the plan | **BUILT** (not verified) — label, placement and one-tap commit match, and `inputFor` now carries a cardio exercise's planned minutes in `notes` (`src/app/gym/log-session.tsx:58-66`) |
 | 2. Log adjusted | **Yes** — same routes, `gym_exercises` columns | **Partial** — only inside `/gym/session`, opened by the conditional Start button or the log sheet's "Different weights" tile (`adjust` mode); tapping a value docks `NumberEntryBar` (`src/app/gym/session.tsx:567`) |
 | 3. Log partial | **Yes** — `completion_rate`, `gym_adherence` | **Partial** — `/gym/session` checkboxes produce a rate; no tick-list sheet; the log sheet's "Only some of it" tile opens the screen in `ticklist` mode |
-| 4. Log off-plan | **Yes** — exercise library | **Partial** — `ExercisePicker` only once already inside `/gym/session` |
+| 4. Log off-plan | **Yes** — exercise library | **Partial** — the log sheet's "Something else" tile opens `/gym/session` with `ExercisePicker` already showing (`src/app/gym/log-session.tsx:167`, `:185`, `src/app/gym/session.tsx:179`) |
 | 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — a response with no template shows the rest-day card, which has no Start button; `/gym/session` is still reachable from the log sheet's empty state (`src/app/gym/log-session.tsx:158`), a separate screen whose "Log an exercise" action opens `/gym/session` plain. The "Add an exercise" action is on `/gym/session` itself (`src/app/gym/session.tsx:541-542`): it opens the picker, and the session saves with no template |
 | 5b. Custom exercise ("Add 'X' as a custom exercise") | **No** — every write path uses `exercise_id` into `exercise_library`; no create-exercise route | **No** |
 | 6. Per-segment cardio (`Leg 1: 10 min @ 7 km/h`, "Add segment") | **Partial** — schemas capture ONE flat parameter set per exercise, not a list of segments (`parameters` is jsonb, so a list is storable but not validated) | **No** |
-| 7. Session-level effort / energy (**app-only, not in the design**) | **No** — `rpe` is per-exercise; no session column, no API field | **Yes** — the log sheet has no effort or energy field and no input fields: it offers three tiles (`src/app/gym/log-session.tsx:164-168`), the "It went as planned" pill (`src/app/gym/log-session.tsx:233`) and, with no plan, a "Log an exercise" action (`src/app/gym/log-session.tsx:157-158`) |
+| 7. Session-level effort / energy (**app-only, not in the design**) | **No** — `rpe` is per-exercise; no session column, no API field | **No** — the log sheet has no effort or energy field and no input fields: it offers three tiles (`src/app/gym/log-session.tsx:164-168`), the "It went as planned" pill (`src/app/gym/log-session.tsx:233`) and, with no plan, a "Log an exercise" action (`src/app/gym/log-session.tsx:157-158`) |
 | 8. Strava / WHOOP / Apple Health import (**not in the design**) | **Yes** — dedupe columns and a session insert path | **Yes** for Strava/WHOOP |
 
 **The short version:** the backend already supports essentially every logging
@@ -959,7 +959,7 @@ calendar) with both arrows at the right, then the seven chips at
 ## Food — Food detail sheet
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The design is a tap-a-number → slim keyboard-bar sheet with a 96px photo, serving chips and a 2×2 macro grid; the app is a labelled form behind an "Edit values manually" toggle, with no photo and no edit bar.
+**One-line reason:** The design is a tap-a-number → slim keyboard-bar sheet with a 96px photo, serving chips and a 2×2 macro grid; the app is a labelled form behind an "Edit values manually" toggle, with no photo; in its editing mode, tapping a value docks `NumberEntryBar` (`src/app/food/detail.tsx:690`).
 
 ### Design write-up
 
@@ -998,7 +998,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 
 ### Differences
 
-1. **No slim keyboard edit bar** — the design's entire number-entry model is absent from the codebase.
+1. **Slim keyboard edit bar in editing mode only** — `src/app/food/detail.tsx:690` docks `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`); on a sheet that opens with locked values, it is reachable only after "Edit values manually" (`src/app/food/detail.tsx:383`, `:582`).
 2. Numbers are entered in **boxed form fields** with `FieldShell` labels (footnote 13/18 w400, `#171717`) instead of the uppercase `600`, `letter-spacing 1.1px` secondary caption.
 3. **"Edit values manually" is an app-invented mode**; the design has no read-only/editable distinction.
 4. **Values are not tap-to-edit** anywhere.
