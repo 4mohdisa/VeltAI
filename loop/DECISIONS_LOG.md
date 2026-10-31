@@ -1949,3 +1949,8 @@
 - 2026-10-31 22:13 Allowed a new key only when no existing key matches, and wrote it to en, es and fr in the same edit, as the 'new keys go to en, es, fr together' rule requires.
 - 2026-10-31 22:13 es and fr values for the new key are provisional and go to Isa's review list, like the other unreviewed strings.
 - 2026-10-31 22:13 Kept row 85 DIFFERENT, because the row covers the whole Calories card and the fibre and bar gaps remain.
+- 2026-10-31 22:15 Chose the agreement fix first because the loop flagged the last report as partly done, and the es and fr strings are wrong for kcal, which is feminine. Clearing it is smaller and safer than a checkpoint or the tab label.
+- 2026-10-31 22:15 Used a unit-neutral form ('Registrado: {{unit}}', 'Enregistré : {{unit}}') instead of asking Isa, because wording is a default I can decide. en stays '{{unit}} logged'.
+- 2026-10-31 22:15 Deferred the tab label: it touches files that were off limits, and the design wording is unconfirmed.
+- 2026-10-31 22:15 Deferred the owed checkpoint: it is read-only and has been skipped since R89, so it goes after this fix when the next round is clean.
+- 2026-10-31 22:15 Jev asks (73%) with confidence 0.60. I kept run because the task is a two-line locale edit with a clear fix and no open question for Isa; risk is 1.8, but the change is reversible and touches no logic.

@@ -18,10 +18,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Backend-dependent items stay Parked.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras.
 - week.tsx has no gap row; its copy is recorded here only. Food log empty state has no gap row; row 85 stays DIFFERENT.
+- Unit-neutral wording for nutrition.energyLogged in es and fr (R137): 'Registrado: {{unit}}', 'Enregistré : {{unit}}'. Agreement with kcal (feminine) and kJ (masculine) is avoided by not using a participle that agrees with the unit.
 
 ## Status
 R89 count: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102, R117, R131 never reported. R134 checkpoint rejected (no design file named). R135 checkpoint rewritten, but its report was the macro-label round, so the checkpoint is still owed.
+Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102, R117, R131 never reported. R134 rejected (no design file named). R135 report was the macro-label round, so the checkpoint is still owed.
 
 ## BUILT, not verified (Isa checks)
 - LoadFailedNotice: message required; Try again via common.tryAgain.
@@ -32,12 +33,13 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102,
 - GymPatternsCard copy via seven gym.* keys. es and fr unreviewed.
 - food.tsx: ErrorState messages (food.empty.searchFailed, loadFailed); 'Food' title (food.title); 'Calories' title (gymLog.celebration.calories, shared).
 - CaloriesCard macro labels via nutrition.protein, carbs, fat (R133).
+- food.tsx:677 '{{unit}} logged' via nutrition.energyLogged (R136). es and fr wording changed in R137 to unit-neutral form.
 All NOT COVERED by tests.
 
 ## Next
-1. Checkpoint: full tsc and app suite, read-only. Still owed.
-2. (R136, in progress) food.tsx: '{energyUnit} logged' to t(), row 85.
-3. Tab label 'Food' (LumeTabBar.tsx:38, (tabs)/_layout.tsx:32) to t(), if design wording allows.
+1. (R137, in progress) energyLogged es and fr to unit-neutral wording; row 85 reason line.
+2. Checkpoint: full tsc and app suite, read-only. Still owed.
+3. Tab label 'Food' (LumeTabBar.tsx:38, (tabs)/_layout.tsx:32) to t(), if design wording allows and Isa approves touching those files.
 4. Dedupe SLOT_KEYS (food.tsx:84). Resolve food.savedTitle vs addMenu.myDishes.
 5. food.tsx: 'Check your connection' invents a cause; 'today's' shows on other dates.
 6. CaloriesCard: Fibre column missing; dot vs bar (row 85). Add or park.
@@ -50,7 +52,9 @@ All NOT COVERED by tests.
 13. nutrition.tsx '80%' vs '80 %'; raw meal.slot near lines 164, 180.
 14. Freeze strings at count 1 read wrongly.
 15. week.tsx remaining copy, then training.tsx and energy.tsx.
-16. No rows left: stop with 'only owner decisions remain'.
+16. Energy unit shown untranslated on meal header (food.tsx:787) and food rows (food.tsx:906): low risk, symbol only.
+17. VoiceOver labels 'protein', 'carbs', 'fat' in English (food.tsx:853). Gram suffix 'g' hardcoded (food.tsx:690).
+18. No rows left: stop with 'only owner decisions remain'.
 Grep first. Line numbers drift.
 
 ## Blocked on Isa (do not retry)
@@ -59,7 +63,7 @@ Grep first. Line numbers drift.
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts near lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks'.
-- Native review: fr 'Detail'/'Repartition', 'gel'/'congelation', 'Ingesta y gasto', 'Apport et depense', eatenAgainstBurned fr, gym.oftenSkip es and fr.
+- Native review: fr 'Detail'/'Repartition', 'gel'/'congelation', 'Ingesta y gasto', 'Apport et depense', eatenAgainstBurned fr, gym.oftenSkip es and fr, energyLogged es and fr (R137 wording).
 - food.title: Comida and Repas read as 'meal'. Separate food.caloriesTitle.
 - Week row: record in an existing row or add one?
 - energy.tsx: deficit caption, steps row, burn target sub.
@@ -71,7 +75,6 @@ Grep first. Line numbers drift.
 - Labels: plannedExercisesNoDuration; freeze screen; StreakCounter wrap row; 'Start workout', 'Training', 'Session history'.
 - Gym calories vs Training energy; training caption; minutesCeiling 'min' vs 'm'; GymPatternsCard padding 20 vs 16.
 - Food log empty day: four meal cards or 'No meals yet'? Gap row?
-- Native review of new CaloriesCard wording: es and fr for macro labels and the energyUnit logged line (R136).
 
 ## Parked
 - English-only date helpers: formatRelativeDate (formatting.ts:44); weekdayShort, dayMonth (energyRange.ts:60, :67); formatDuration (formatting.ts:25).
@@ -101,10 +104,12 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
 - i18next plurals need both _one and _other; fr treats 0 as one.
 - Rejected prompts happen when the design file is not named. Name design/Lume App.html and the screen id in every prompt.
+- Gender agreement: kcal is feminine in es and fr, kJ is masculine. Avoid participles that agree with the unit.
 
 ## Round log
 - R131: checkpoint chosen over Jev. Prompt rejected.
 - R133: CaloriesCard macro labels done.
 - R134: checkpoint chosen. Prompt rejected (no design file named).
 - R135: checkpoint rewritten, design file stated as none. Report received was the macro-label round.
-- R136: energyUnit label chosen over the owed checkpoint (Jev 88% run). Previous prompt rejected for not naming the design file. Rewritten to name design/Lume App.html screen 71f71ac4 and row 85.
+- R136: energyUnit label done (nutrition.energyLogged). Report flagged as partly done: es and fr agreement wrong for kcal. Tab label deferred.
+- R137: energyLogged es and fr changed to unit-neutral wording (chosen over Jev's ask at 73%, run at 23%, confidence 0.60; risk 1.8). Owed checkpoint follows.
