@@ -1,46 +1,48 @@
-HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs requirement is in AGENTS.md.
+HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs requirement is in AGENTS.md.
 
-BUILT THIS SESSION (not verified)
-- src/app/gym/log-session.tsx: inputFor saves cardio planned minutes in notes. Gap: Log as planned, line 296, BUILT.
-- src/components/domain/EnergyBalanceCard.tsx: six design strings use t(); keys under dashboard.energyBalance in en, es, fr.
-- src/app/dashboard/nutrition.tsx: design sub-line, section title and footer. Gap: Summary — Macros detail, line 103, stays DIFFERENT (chart missing).
-- src/__tests__/render/setup.ts: imports @/lib/i18n. Macros snapshot re-recorded twice.
-- src/__tests__/summaryNoFabrication.test.ts: Burned guard can fail again.
-- DESIGN_GAP_ANALYSIS.md: /gym/session reachability corrected; line 71 DIFFERENT count is 24.
+BUILT (not verified)
+- src/components/gym/TodayCard.tsx, logged state: green pill, "Logged today · N kcal burned" sub-line, chevron, 3-up grid (Duration, Volume, Sets), exercise chips. Failed fetch shows LoadFailedNotice with Try again.
+- src/app/gym/log-session.tsx: failed fetch shows LoadFailedNotice with Try again, not a rest day.
+- Locales en, es, fr: gym.logged, loggedTodayBurned, loggedDuration, loggedMinutes, loggedSets, loggedMore.
+
+GAP ROWS
+- Status changes: none. Header is 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT; matches the table (43 rows, one empty).
+- "Gym — today's session card" stays DIFFERENT, with logged work recorded in its text.
+- "Gym — session logging (log sheet)" (already BUILT) records the failed-fetch fix.
+- Heatmap row and prose now say two routes into day detail.
 
 IN PROGRESS: nothing mid-edit.
 
-LAST CHECKS: tsc exit 0. detailChrome.render 4 of 4. Last full render folder run predates the re-records. Full suite not run this session.
+LAST CHECKS: tsc exit 0 this round. Last full suite, 65 suites and 824 tests passed, predates the failed-fetch code. No test covers TodayCard or either failure path.
 
 DECISIONS
-- Footer uses formatEnergy, so the goal shows the user's unit.
-- nutrition.remainingToday kept despite its name: brief said reuse, no renames.
-- Unset goal: no code change; empty profile derives the 1,500 kcal floor (deriveTargets.ts:73), never 0.
-- App-only Macros items and the history chart are parked.
-- Line 103 row was created by me; no Macros row existed.
+- Calories cell omitted: session rows carry no per-session calories.
+- Sub-line kcal is the day's calories_out_exercise; hidden when none is recorded.
+- Pill is solid categoryAccent.positive: no wash token exists.
+- Failure is derived from today === null: useToday swallows errors, and a real response is always an object.
+- planned.length === 0 kept in the rest-day check, so an empty template cannot commit.
+- Missing duration or volume shows "—", never 0.
 
 WAITING ON ISA
-- Line 296: are minutes as note text enough for BUILT? Device run with planned cardio. Likely no structured duration or calories.
-- Line 300 Freestyle: keep **No**?
+- Device check of logged card and both failure states.
 - Native es and fr review.
-- Line 90: row with empty status.
-- Should users with no body stats see "your 1,500 kcal calorie goal"?
+- Wash pill token.
+- Whole-day kcal under a session card: acceptable?
+- Earlier items still open: is note-text cardio enough for BUILT (Log as planned row), keep Freestyle "No", and the "1,500 kcal" goal for users without body stats.
 
-NEXT: correct line 71 counts to match the table (14 PARTIAL, 4 BUILT).
+NEXT: merge the empty-status line (line 90) into "Food — My dishes / Saved"; no row is titled "Saved foods". Then the read-only check of the log-session.tsx failure branch (about line 139).
 
 GOTCHAS
-- Briefs have named wrong targets. Burned is on EnergyBalanceCard, not Macros. nutrition.tsx is under src/app/dashboard, not (tabs). The "It went as planned" pill is not the logged-day control. Check premises first.
-- Gym tests are in src/__tests__, not src/components/gym.
-- Design assets: 185bb533 Summary, 7dc211f6 gym, 71f71ac4 food. Decode in memory with node -e from the __bundler/manifest script.
-- Line numbers shift; locate rows by content.
+- Briefs have named wrong paths and rows; check first. Row 113 is "My schedule", and its label is correct.
+- Design assets decode in memory with node -e from the __bundler/manifest script; gym is 7dc211f6.
+- zsh breaks on echo ==.
 
 NOT FIXED
-- Eight EnergyBalanceCard literals remain English; its gap line overstates this.
-- nutrition.tsx hardcodes "Percent of target", "Breakdown", "No meals logged yet today.", "% of target", "of … g".
-- Footer no longer explains the missing chart.
-- Line 76 omits cardio handling. Line 281 heading conflicts with reachable rows. Line 1471 audit row is stale.
-- Logged-day pill still shows from the + menu; design hides the sheet.
-- Failed today fetch looks like a rest day (log-session.tsx:89).
-- "No edit bar" (line 297) may be stale; picker wording (line 299) incomplete.
-- summaryNoFabrication header comment is stale on fibre.
-- i18next prints a console.info banner in render tests.
+- log-session.tsx cites just below gap line 266 (:173, :146, :111, :103-104) are stale.
+- Try again is hardcoded English with a small tap target.
+- Possible double notice with src/app/(tabs)/gym.tsx:107.
+- Calories needs gym_sessions.calories_burned on the backend read.
+- Volume overstates: src/app/gym/session.tsx saves all sets at top weight.
+- Logged-day sheet still shows from the + menu.
+- Tap target needs a day-detail route; the chevron sits on a non-tappable card.
+- "Logged today" fallback and planned "+N more" are hardcoded English.
