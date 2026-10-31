@@ -2673,3 +2673,7 @@
 - 2026-11-01 07:28 Jev asked (84%) for this round. Kept run. Reason Jev cannot see: the 22 is a design value (bundle line 465), not a product choice, and the report's own recommendation is the restore. The Blocked-on-Isa question about the restore is answered by the design rule: design wins.
 - 2026-11-01 07:28 The DESIGN_GAP_ANALYSIS.md:107 line stays false until the next re-check round, because doc edits happen only in re-check rounds.
 - 2026-11-01 07:28 Footnote spacing (gap 8, side padding 4 via the footer prop) is kept as reported, since it matches the design.
+- 2026-11-01 07:29 Treated the Privacy restore to 22 as cleared: the report shows tsc exit 0 and legalParity 10/10, so the flagged check is done.
+- 2026-11-01 07:29 Chose row 108 gap over the doc re-check: it is one value in one file, and the report recommends it. The re-check of row 107 doc line and rows 114-118 follows next round.
+- 2026-11-01 07:29 Kept Jev's run call (99%): the build needs no Isa answer.
+- 2026-11-01 07:29 Step 4 updates only the row status line, as the brief requires after a surface is finished. It does not rewrite the doc.

@@ -9,7 +9,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - Literals only where no token covers the value.
 - Snapshot updates need Isa approval. Never pass -u or edit .snap files.
 - DetailChart.tsx and SegmentedField.tsx need Isa approval.
-- Code tidying is never a task. Doc fixes only in re-check rounds.
+- Code tidying is never a task. Doc fixes only in re-check rounds (status-line updates after a finished build are allowed).
 - A row says BUILT only when no differences remain in its own files; otherwise PARTIAL.
 - No BUILT claim for kicker or dots (shared DetailChart.tsx).
 - Food eyebrow uses Pressable defaults; haptics off.
@@ -17,20 +17,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - A repeated unanswered blocker is parked, not asked again until Isa raises it.
 - Every prompt states the loop/design-match branch rule.
 - Privacy footnotes go onto SettingsList footer prop (decided R288, done R289, privacy.tsx only).
-- Design value wins over an app-only literal: Privacy screen gap is 22 (restore decided R290).
+- Design value wins over an app-only literal. Privacy screen gap is 22 (restored R290, flagged check cleared R291).
 
 ## Status
-- R290: last report flagged as partly done. Cause: removing the literal 22 fixed footnote gap (now 8, correct) but dropped the screen gap to 12 (design 22). Prompt issued to restore contentStyle gap 22 at privacy.tsx:60; footer prop untouched. Row 107 stays PARTIAL. DESIGN_GAP_ANALYSIS.md:107 still says 'Screen gap set to 22' and is false until next re-check round.
-- R289: flagged check cleared (R288: tsc 0, 4 suites 49/49, no snapshots). Row 107 footnote spacing moved to footer prop. Row 107 stays PARTIAL (headers, AI group, export still differ).
+- R291: Privacy gap 22 restore (R290) cleared: tsc 0, legalParity 10/10, no snapshots. Row 107 stays PARTIAL (headers, AI group, export via share sheet). Chose row 108 Support gap 20 (support.tsx:29) over the doc re-check; Jev ranked it first too. Jev log below.
+- R290: last report flagged as partly done (gap dropped to 12). Restore to 22 issued and done in R290.
+- R289: flagged check cleared (R288: tsc 0, 4 suites 49/49, no snapshots). Row 107 footnote spacing moved to footer prop.
 - R288: flagged check on row 107 issued. Jev's row 108 pick overridden for this reason.
 - R287: prompt for row 107 Privacy gap 22 issued. Footnotes widened to 22 (design 8); fixed later.
-- R286: flagged check still not run; handled in R288.
 - R285: rows 107, 108, 109, 111, 113 re-checked (PARTIAL, doc only). Lines 110 and 112 checked earlier.
 - Summary 1-30 re-checked. Built: food title block and eyebrow (row 85, still DIFFERENT); Summary 14, 25, 26, 27; header height 82 EXACT.
 - Macros card gap 16 done in dashboard/nutrition.tsx (row 103, still DIFFERENT).
-- Card gap 12 still in dashboard/week.tsx and training.tsx. energy.tsx: conflicting reports, re-check first.
+- Card gap 12 still in dashboard/week.tsx, training.tsx and energy.tsx.
 - Snapshot RED: detailChrome macros and energy, from the card gap. Waiting on approval.
-- Last full checkpoint R258: tsc 0, 65/65 suites, 824/824. Next checkpoint R290 (loop script decides when; full suite only then).
+- Last full checkpoint R258: tsc 0, 65/65 suites, 824/824. Next checkpoint R290 was due and was not run as a full suite; loop script decides when; full suite only then.
 
 ## Open rows
 - 76 PARTIAL: rest-day and Something else close do not return to Gym tab; second sheet missing; logged day reopens chooser; time and minutes; celebration calories dash; cardio minutes in notes; checklist icon.
@@ -39,8 +39,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - 87 DIFFERENT: 180ms Meal chip transition Blocked.
 - 103 DIFFERENT: week.tsx and training.tsx gap 12. Kicker and dots Blocked.
 - 104 PARTIAL: Steps card Blocked.
-- 107 PARTIAL: Privacy screen gap 22 restore (R290 issued); footnotes done; headers, AI group, export via share sheet.
-- 108 PARTIAL: Support gap 20; eyebrow copy; feedback opens Mail.
+- 107 PARTIAL: Privacy screen gap 22 done (R290); footnotes done; headers, AI group, export via share sheet. Row doc line needs re-check.
+- 108 PARTIAL: Support gap 20 (issued R291); eyebrow copy; feedback opens Mail.
 - 109 PARTIAL: About gap 26; wordmark tracking 0 vs -0.6; header app-only.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding Blocked.
@@ -48,15 +48,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - 114-118: not yet re-checked.
 
 ## Next
-1. Row 107 Privacy screen gap restore to 22 at privacy.tsx:60 (R290, issued).
-2. Re-check row 107 doc line (DESIGN_GAP_ANALYSIS.md:107) in the next re-check round.
-3. Row 108 Support gap 20 (support.tsx:29).
-4. Re-check rows 114-118 (doc only).
-5. Row 109 About gap 26, with its header decision.
-6. Row 103 week and training gap 12 to 16, after snapshot approval.
-7. If Isa approves DetailChart.tsx: row 103 kicker and dots.
-8. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
-9. No rows left: stop with 'only owner decisions remain'.
+1. Row 108 Support gap 20 (support.tsx:29), issued R291.
+2. Re-check row 107 doc line (DESIGN_GAP_ANALYSIS.md:107) and rows 114-118 in the next re-check round (doc only). Row 107 citations shifted: privacy.tsx:60 now, not :62.
+3. Row 109 About gap 26, with its header decision.
+4. Row 103 week and training gap 12 to 16, after snapshot approval.
+5. If Isa approves DetailChart.tsx: row 103 kicker and dots.
+6. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
+7. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome.render.test.tsx. Parked; not asked again until Isa raises it.
@@ -107,4 +105,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - R287: run 85%, ask 14%. Kept run. Reason: gap build needs no Isa answer.
 - R288: run 68%, ask 31%. Jev ranked row 108 first (81%). Kept the flagged check first: the flag must be cleared before moving on, which Jev cannot see.
 - R289: run 79%, ask 20%. Jev ranked row 108 first. Kept row 107 footnote step: decided in R288, one file, flagged check now cleared.
-- R290: ask 84%, run 14%. Kept run. Reason: the 22 is a design value (bundle line 465), the restore is the report's own recommendation, and the flag must be cleared first. No product decision left for Isa.
+- R290: ask 84%, run 14%. Kept run. Reason: the 22 is a design value (bundle line 465), the restore is the report's own recommendation, and the flag must be cleared first.
+- R291: run 99%, ask 1%, stop 0%. Kept run, same as Jev. Chose row 108 gap, which Jev also ranks first in practice.
