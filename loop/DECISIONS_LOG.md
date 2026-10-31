@@ -2526,3 +2526,7 @@
 - 2026-11-01 01:41 Did not ask Isa again about the Food Meal history link. The question is already in Blocked on Isa, and removing a feature is parked, not built, under the default rules.
 - 2026-11-01 01:41 Jev asked for ask at 51% against run at 46%, with risk 1.7. I kept run because every open question is already with Isa, and this task needs no answer from him. Jev's risk is noted, and the round is read-only apart from a minimal type fix.
 - 2026-11-01 01:41 The checkpoint allows only a type fix if tsc is red, and tests are reported, not fixed, so the round cannot widen into new work.
+- 2026-11-01 01:42 Flagged partly-done report: answered by a doc-only re-check that must list concrete DONE lines, so the next report cannot be empty.
+- 2026-11-01 01:42 Did not ask Isa: all open questions are already with him and the checkpoint needs no answer.
+- 2026-11-01 01:42 Chose the re-check over the row 85 build: it is doc only and reversible, and the top padding decision is still pending from Isa.
+- 2026-11-01 01:42 Notes rewritten under 600 words: finished work deleted, repeated items merged.
