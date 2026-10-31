@@ -1317,3 +1317,17 @@
 - 2026-10-31 15:31 Ran the whole render folder rather than one file, because setup.ts is shared and the change can affect every render test.
 - 2026-10-31 15:31 Weakened guard in summaryNoFabrication.test.ts:38 is logged for next round, not fixed here, to keep this round to one task.
 - 2026-10-31 15:31 Jev's 81% run confidence matches my choice. The 39% clean-finish figure is why the prompt asks for a narrow change and a clear report.
+- 2026-10-31 15:33 Chose the snapshot re-record: it blocks the render folder and the loop note says to fix flagged failures first. Round 10 showed the diff is key names versus real text, so the default is to approve, and the prompt stops if any other diff appears.
+- 2026-10-31 15:33 Kept the step count at five and the file list narrow so Claude Code runs only the render folder and tsc once.
+- 2026-10-31 15:33 Kept the summaryNoFabrication guard and SLOT_KEYS dedupe as next candidates, not this round.
+- 2026-10-31 15:33 Trimmed the notes to under 600 words as the loop note requires, merging repeated items and removing finished round detail.
+- 2026-10-31 15:33 Chose the snapshot re-record because the Isa default already approves it (R11, notes Decisions) and it clears the blocking test failure with the smallest change.
+- 2026-10-31 15:33 Rewrote the prompt to name design/Lume App.html and the Macros row in DESIGN_GAP_ANALYSIS.md, to fix the rejected-prompt point.
+- 2026-10-31 15:33 Added a stop condition: if the 21-line diff contains anything other than key text versus real text, do not update.
+- 2026-10-31 15:33 Kept Jev's 'run' call (93%). No conflict with my choice.
+- 2026-10-31 15:33 Summary detail snapshot re-record is test-only, so no design row changes to BUILT.
+- 2026-10-31 15:33 Re-record approved by default under the R11 gate, since the notes already record that default. Gate: read the full diff first, re-record only if every change is key-to-text. Reason: Isa wants few questions, and this is the one remaining blocker on a passing suite.
+- 2026-10-31 15:33 Kept this round to the single snapshot. Setup.ts, the test file and the gap doc are untouched. Reason: one task per prompt, and R11 was rejected for scope.
+- 2026-10-31 15:33 Restated the branch-only rule at the top of the prompt. Reason: the loop note rejected the last prompt for omitting it.
+- 2026-10-31 15:33 Deferred the summaryNoFabrication guard fix to its own round. Reason: it is a separate surface and must not be mixed into a snapshot task.
+- 2026-10-31 15:33 Ran tsc once and skipped the full Jest suite. Reason: the testing rules keep Claude Code usage low, and this is not a checkpoint round.

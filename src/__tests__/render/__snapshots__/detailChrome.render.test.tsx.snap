@@ -2773,7 +2773,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                   ]
                 }
               >
-                nutrition.title
+                Nutrition
               </Text>
             </View>
             <Text
@@ -2792,7 +2792,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 ]
               }
             >
-              nutrition.macrosTitle
+              Macros
             </Text>
           </View>
           <View
@@ -2873,7 +2873,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    kcal nutrition.fromFood
+                    kcal from food
                   </Text>
                 </View>
                 <Text
@@ -2891,7 +2891,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  nutrition.remainingToday
+                  260 kcal remaining today
                 </Text>
               </View>
               <View
@@ -2921,7 +2921,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  nutrition.caloriesToday
+                  Calories today
                 </Text>
                 <Text
                   style={
@@ -2942,7 +2942,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </Text>
               </View>
               <View
-                accessibilityLabel="nutrition.caloriesTodayLabel"
+                accessibilityLabel="Calories today. 1,840 kcal of 2,100 kcal, 260 kcal left."
                 accessible={true}
                 style={
                   {
@@ -3171,7 +3171,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </Text>
               </View>
               <View
-                accessibilityLabel="nutrition.protein 80 percent of target, nutrition.carbs 88 percent of target, nutrition.fat 89 percent of target, nutrition.fibre 0 percent of target"
+                accessibilityLabel="Protein 80 percent of target, Carbs 88 percent of target, Fat 89 percent of target, Fibre 0 percent of target"
                 accessible={true}
                 style={
                   {
@@ -3375,7 +3375,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    nutrition.protein
+                    Protein
                   </Text>
                 </View>
                 <View
@@ -3405,7 +3405,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    nutrition.carbs
+                    Carbs
                   </Text>
                 </View>
                 <View
@@ -3435,7 +3435,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    nutrition.fat
+                    Fat
                   </Text>
                 </View>
                 <View
@@ -3465,7 +3465,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    nutrition.fibre
+                    Fibre
                   </Text>
                 </View>
               </View>
@@ -3484,7 +3484,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                   ]
                 }
               >
-                nutrition.protein 80% · nutrition.carbs 88% · nutrition.fat 89% · nutrition.fibre 0%
+                Protein 80% · Carbs 88% · Fat 89% · Fibre 0%
               </Text>
             </View>
           </View>
@@ -3536,7 +3536,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 Breakdown
               </Text>
               <View
-                accessibilityLabel="nutrition.protein, 80% of target, 120 of 150 g"
+                accessibilityLabel="Protein, 80% of target, 120 of 150 g"
                 accessible={true}
                 style={
                   {
@@ -3587,7 +3587,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      nutrition.protein
+                      Protein
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -3677,7 +3677,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="nutrition.carbs, 88% of target, 210 of 240 g"
+                accessibilityLabel="Carbs, 88% of target, 210 of 240 g"
                 accessible={true}
                 style={
                   {
@@ -3728,7 +3728,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      nutrition.carbs
+                      Carbs
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -3818,7 +3818,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="nutrition.fat, 89% of target, 62 of 70 g"
+                accessibilityLabel="Fat, 89% of target, 62 of 70 g"
                 accessible={true}
                 style={
                   {
@@ -3869,7 +3869,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      nutrition.fat
+                      Fat
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -3959,7 +3959,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="nutrition.fibre, 0% of target, 0 of 30 g"
+                accessibilityLabel="Fibre, 0% of target, 0 of 30 g"
                 accessible={true}
                 style={
                   {
@@ -4010,7 +4010,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      nutrition.fibre
+                      Fibre
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -4186,7 +4186,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  nutrition.mealsToday
+                  Meals today
                 </Text>
               </View>
             </View>
