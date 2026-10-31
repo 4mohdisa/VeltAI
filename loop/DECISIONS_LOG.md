@@ -1809,3 +1809,8 @@
 - 2026-10-31 20:48 Did not edit DESIGN_GAP_ANALYSIS.md for Training Breakdown, because which row holds it is still blocked on Isa.
 - 2026-10-31 20:48 Kept the Training check at source-text level, matching the existing week check; render proof is not claimed.
 - 2026-10-31 20:48 Left fr Breakdown as 'Détail' per Isa's instruction; the Répartition question stays in Blocked on Isa.
+- 2026-10-31 20:49 Chose energy.tsx:205 because the loop flagged R106 as partly done; energy is the one route still using a hardcoded Breakdown label, so fixing it closes the gap.
+- 2026-10-31 20:49 Split the energy test widening into its own round, because R101 was rejected for touching multiple files in one prompt.
+- 2026-10-31 20:49 Kept the test run to the one changed-area test file, since the full suite is reserved for checkpoints.
+- 2026-10-31 20:49 Did not edit the gap doc, because no row is changed by this label swap alone.
+- 2026-10-31 20:49 Parked the macros test weakness for later, since it is a test-only issue and not on the critical path.

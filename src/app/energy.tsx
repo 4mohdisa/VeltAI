@@ -13,6 +13,7 @@
 // with the other three detail routes: src/components/display/DetailChart.tsx.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -68,6 +69,7 @@ export default function EnergyScreen(): JSX.Element {
 }
 
 function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }): JSX.Element {
+  const { t } = useTranslation();
   const net = netOf(latest);
   const latestBurn = burnOf(latest);
 
@@ -202,7 +204,7 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
-            Breakdown
+            {t('dashboard.breakdown')}
           </Text>
           {rows.map((r) => (
             <BreakdownRow
