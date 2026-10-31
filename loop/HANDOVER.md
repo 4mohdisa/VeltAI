@@ -1,40 +1,44 @@
-HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs rule is in AGENTS.md.
+HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Bundle id fit.lume.app.
 
 BUILT THIS SESSION (not verified; es and fr are unreviewed drafts)
-- src/app/(tabs)/food.tsx: CaloriesCard macro names and energy label; logged-row VoiceOver label and hint; swipe-delete title and message, now date-neutral.
-- src/components/navigation/LumeTabBar.tsx: all tab labels; add-button VoiceOver strings.
-- src/components/navigation/AddMenu.tsx: close label; two menu labels.
-- src/app/(tabs)/_layout.tsx: all three titles.
-- src/lib/i18n/locales/{en,es,fr}.json: nutrition.energyLogged; tabBar.*; addMenu.logGymSession, logFood; food.rowAnalysing, rowAnalysisFailed, rowHint, removeTitle, removeMessage.
+- src/components/display/SwipeableRow.tsx: Cancel, Delete and action label translated.
+- src/app/food/saved.tsx: all own strings.
+- src/app/food/new-recipe.tsx: swipe title only.
+- src/app/gym/new-template.tsx: swipe title and trash dialog.
+- src/app/(tabs)/food.tsx: visible pending label, using food.rowAnalysing.
+- src/app/food/detail.tsx: Delete item, delete dialog and toast, saved-mode removal, save-to-dishes button and toast, PADS captions.
+- src/lib/i18n/locales/{en,es,fr}.json: matching keys.
 
 GAP ROWS
-No status or header count changed, and no row became BUILT. Reason lines added: 85 (Food day log), 118 (tab shell), 1503 ('+' menu), item 28 at line 955.
+No status or header count changed. Row 86 was already BUILT (not verified); reason text added. Notes added: item 28 continuation (line 957), new-template description (about line 780).
 
 IN PROGRESS: nothing.
 
 LAST CHECKS
-tsc exit 0. foodDates 26 passed, after the final edit. tabbar.render 13 passed, last run before the food.tsx rounds. Six food source-text tests 111 passed, before the swipe-delete edit. No full suite.
-NOT COVERED: Food tab rendering, VoiceOver output, swipe dialog, energyLogged, _layout titles, es and fr rendering.
+tsc exit 0. foodDetail, foodDetailLogged.render and sheetVariant: 44 passed, after the final edit. Last full suite: 824 passed, at the mid-session checkpoint, before the detail.tsx and Analysing rounds.
 
 DECISIONS
-- Tab labels reuse food.title, dashboard.summaryTitle, gym.title: tabs.summary and tabs.gym did not exist and no new keys were allowed. They share wording with those screens.
-- energyLogged is es "en total", fr "au total": no agreement with kcal or kJ, reads after the number.
-- tabBar.closeMenu kept separate from closeAddMenu: different controls, and a test finds "Close menu".
-- "Analysing photo" is design wording; not every pending path was traced.
+- Toast "Removed {{name}}" and "dishes" wording follow the design.
+- Delete dialog kept; design has none. App rule confirms destructive actions.
+- "Delete item" kept per brief; design says "Remove from log".
+- food.rowAnalysing is en "Analysing", also used by VoiceOver; es and fr carry a brief-specified ellipsis.
+- PADS holds labelKey because it is module scope.
 
 WAITING ON ISA
-Native review of es and fr, including fr Sport; device and VoiceOver checks, including long es and fr add-menu labels wrapping in the 232pt panel; decision on a tabs.* namespace.
+Native review; device and VoiceOver checks; long fr and es labels; rowAnalysing wording and ellipsis; "Delete item" vs "Remove from log"; extra es keys addMenu.voice and describeOutLoud; row 86 BUILT vs section verdict DIFFERENT (about line 964).
 
 NOT FIXED (recommended next: first item)
-- SwipeableRow.tsx:32,39 'Delete' and 'Cancel' defaults; dialog is half translated. common.cancel exists.
-- Other swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
-- food.tsx: visible "Analyzing…" (about 875), spelling differs from VoiceOver; P, C, F letters; g suffixes; raw energyUnit; "Check your connection" invents a cause.
-- tabBar.addHint es reads badly; addMenu.voice and describeOutLoud exist only in es.json.
-- Missing Fibre column; key={c.name} is translated; duplicate goals.* and nutrition.* macros.
-- Earlier list: date formatters, "of N days" plurals, GymPatternsCard values, SLOT_KEYS, savedTitle.
+- detail.tsx macro labels (about 567-610): reuse nutrition.protein, carbs, fat, fibre.
+- detail.tsx: Edit item, Rename food, other titles, Serving size caption and VoiceOver.
+- quick-add.tsx:191 hardcoded Calories · kcal.
+- scan.ts:305 "Scan failed" visible at food.tsx:887 and in VoiceOver; scanSeam.test.ts asserts it, so translate at display. scan.ts:118 placeholder does not reach failed rows.
+- new-template.tsx: Remove ${name}, Remove exercise action label, others. new-recipe.tsx: most strings.
+- Gap doc stale: line 957 (new-template swipe title), item 18 line 1020.
+- SwipeableRow.tsx:2 says red; code uses color.primary.
+- formatting.ts kcal and g; P letter; RecipesList.tsx and detailSubject.ts "my foods"; handover earlier list: P, C, F letters, date formatters, plurals.
 
 GOTCHAS
-- Briefs quote stale lines and wrong premises; check first.
-- Decode design from __bundler/manifest with node; screens 71f71ac4, 185bb533, 7dc211f6.
-- zsh breaks on unquoted globs and (tabs) paths; use LC_ALL=C /usr/bin/grep. A piped grep's exit code can mislead.
-- Test i18n is fixed to English. Some tests find controls by English label, so English changes can break them.
+- Briefs quote stale paths and finished work; check first. SwipeableRow is under components/display.
+- zsh breaks unquoted globs and (tabs) paths; quote --include. Use LC_ALL=C /usr/bin/grep.
+- Decode design from __bundler/manifest with node; screens 71f71ac4, 185bb533, 7dc211f6. Scripts in /tmp/lume-decode may be gone.
+- Test i18n is English. foodDetail.test.ts searches source text, so literals moved to keys can break it.
