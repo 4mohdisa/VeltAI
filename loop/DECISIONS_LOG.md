@@ -1702,3 +1702,11 @@
 - 2026-10-31 20:20 Did not allow the header comment fix or the colour token changes this round. They are separate problems and go under NEXT.
 - 2026-10-31 20:20 Marked StreakCounter as BUILT (not verified) in the notes, pending this round's check.
 - 2026-10-31 20:20 Moved the StreakCounter entry from in-progress to the flagged-check item.
+- 2026-10-31 20:21 Removed the StreakCounter sentence from gap line 82 without waiting for Isa, because it describes another component on the freeze row. The freeze.tsx sentence stays. The StreakCounter wrap is recorded as an accepted limit.
+- 2026-10-31 20:21 Closed the flagged R85 check as a doc-only round rather than re-running Jest, because no test names StreakCounter and a 'no related tests' result is not a pass.
+- 2026-10-31 20:21 Chose the doc fix first: it is the smallest task and clears the flag. Profile strings come next.
+- 2026-10-31 20:22 Removed the StreakCounter sentence from gap line 82 without asking Isa. Reason: the row is the Gym streak strip, and that sentence describes StreakCounter on Profile and the streak detail screen, so it does not belong in this row. Gap-row placement was checked against the row's subject, as the rules say.
+- 2026-10-31 20:22 Kept the freeze.tsx sentence on line 82. Reason: the freeze sheet is kept as built and is the subject of Next item 5, so it stays until Isa confirms.
+- 2026-10-31 20:22 Did not ask Isa about line 82. Reason: the default for gap-row placement covers it.
+- 2026-10-31 20:22 Chose the doc-only removal first because Next item 1 is still open and it is the smallest task. Jev ranks the same action as run. Its suggested order was not a stronger preference than mine.
+- 2026-10-31 20:22 Rewrote the rejected prompt to name design/Lume App.html and the Gym streak strip section, as the loop note required.
