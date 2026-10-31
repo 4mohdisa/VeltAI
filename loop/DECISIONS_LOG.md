@@ -2424,3 +2424,7 @@
 - 2026-11-01 01:07 Type sizes and row gap (11) follow the design exactly, not the nearest token. Reason: the design is the source of truth, and the gap is in the surface's own file, not a shared component.
 - 2026-11-01 01:07 Pressed state and tertiary colour come from shared Card and CardHeaderRow, so they are not changed here. Reason: a shared component change would touch other surfaces.
 - 2026-11-01 01:07 Row 81 and row 83 doc fixes wait, because row 112 is still PARTIAL and the rule is no doc fix while a build row is open.
+- 2026-11-01 01:08 Chose the checkpoint because the loop note requires a read-only full run this round. Jev's stop 20% and ask 23% are below run 57%, and the checkpoint has no build risk.
+- 2026-11-01 01:08 Kept Jev's advisory risk of 1.1 in mind: this round changes no files, so no new risk is added.
+- 2026-11-01 01:08 Kept 'change no files' in the prompt so the checkpoint cannot drift into a build.
+- 2026-11-01 01:08 Rewrote the notes under 600 words as the loop note asked: merged repeated items, removed finished work, kept every decision line.
