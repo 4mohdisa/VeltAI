@@ -56,7 +56,15 @@ export default function SavedFoodsScreen() {
   const add = (f: SavedFood) => {
     logMeal(
       targetSlot ?? slotForNow(),
-      { name: f.name, quantityG: f.servingG, calories: f.calories, protein: f.protein, carbs: f.carbs, fat: f.fat },
+      {
+        name: f.name,
+        quantityG: f.servingG,
+        calories: f.calories,
+        protein: f.protein,
+        carbs: f.carbs,
+        fat: f.fat,
+        ...(f.fibre != null && f.fibre > 0 ? { fibre: f.fibre } : {}),
+      },
       'manual',
     );
     showToast({ message: `Added ${f.name}.`, tone: 'success' });

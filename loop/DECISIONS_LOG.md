@@ -1650,3 +1650,8 @@
 - 2026-10-31 17:43 The last full suite (R61, 65 suites, 824 tests) predates R63 to R76, and the R75 and R76 fibre and precision changes have no test. The full run is the only way to see whether those changes broke anything.
 - 2026-10-31 17:43 The latest report was flagged as partly done (saved-food sync and add action still open). Running the checkpoint first confirms the current state before any server-sync work starts.
 - 2026-10-31 17:43 Did not mention Jev in the prompt. Did not expand scope beyond the two commands.
+- 2026-10-31 17:44 Picked the saved.tsx add action over the editSavedFood sync: making it sync needs an API change, and the brief says park backend work. editSavedFood is parked.
+- 2026-10-31 17:44 Picked the add action over the doc citation fix: it is a one-file code change that closes a real gap, and the doc fix can wait for a doc-only round.
+- 2026-10-31 17:44 Followed Jev's run call (89%). Its 42% clean-finish estimate is low, so the prompt stays to one file and five steps.
+- 2026-10-31 17:44 This round rewrites the notes to under 600 words, as the loop note asks. Finished work was removed and repeated items merged.
+- 2026-10-31 17:44 Checkpoint R77 is recorded as green (tsc 0, 65 suites, 824 tests). No further checkpoint is due until R91.
