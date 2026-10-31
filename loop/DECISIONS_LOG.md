@@ -1054,3 +1054,8 @@
 - 2026-10-31 13:45 Kept the gap row unchanged because the design has no load-failure state, as recorded in R271.
 - 2026-10-31 13:45 Required a stop-and-BLOCKED if the literal is not a load-failure message, so no unrelated string is converted.
 - 2026-10-31 13:45 Used the existing food.loadFailed value's style for es and fr, since no native review is pending for this new key.
+- 2026-10-31 13:47 Read-only round first, because the loop note flagged R271 as partly done and the report itself says the literal check now scans nothing. Flagged reports are cleared by a read-only round before a new build task (decision).
+- 2026-10-31 13:47 Read the flag as the literal-check coverage gap plus the unedited gap row, not as a failed build.
+- 2026-10-31 13:47 Chose the read-only check over the streakLoadError key addition, because it confirms the coverage question before any more keys are added.
+- 2026-10-31 13:47 Rewrote the notes file to under 600 words: merged repeated items, deleted finished work, kept every Decision and Parked item in one line each.
+- 2026-10-31 13:47 Kept the Jev signal out of the prompt, as required.
