@@ -2171,3 +2171,7 @@
 - 2026-10-31 23:48 Macro tile labels: notes say BUILT in R180, the handover says NOT FIXED. Conflict left for a later grep before acting, so it is not in this prompt.
 - 2026-10-31 23:48 Jev ranked run at 99%, which matches my pick. No override needed.
 - 2026-10-31 23:48 Kept 'g' unit, 'Edit item' and 'Rename food' out of this round to keep one string per task.
+- 2026-10-31 23:49 Chose the flagged task first, because the loop note says a partly finished task must be finished before the next one.
+- 2026-10-31 23:49 Kept the verification to grep and the two locale files, to avoid rework and spend.
+- 2026-10-31 23:49 Left the sub-label in place: the design has no such line, and the gap row records it as open.
+- 2026-10-31 23:49 Kept 'Edit item' and 'Rename food' as the next task, since they are the header of the same sheet.
