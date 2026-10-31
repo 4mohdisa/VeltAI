@@ -16,6 +16,7 @@ import type { EdgeInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import type { BottomTabBarProps } from 'expo-router/build/react-navigation/bottom-tabs';
 import Animated, { Easing, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 
 import { AddMenu } from './AddMenu';
 import { GlassSurface } from './GlassButtons';
@@ -33,9 +34,9 @@ const PLUS_SIZE = 62;
 /** The routes this bar draws, in order. `Tabs` auto-injects every file under
  *  (tabs)/ as a route, so the bar renders an explicit allow-list and ignores
  *  anything else rather than growing a cell whenever a file is added. */
-const TABS: { name: string; label: string; icon: string }[] = [
+const TABS: { name: string; label?: string; labelKey?: string; icon: string }[] = [
   { name: 'index', label: 'Summary', icon: 'chart.bar.fill' },
-  { name: 'food', label: 'Food', icon: 'fork.knife' },
+  { name: 'food', labelKey: 'food.title', icon: 'fork.knife' },
   { name: 'gym', label: 'Gym', icon: 'dumbbell.fill' },
 ];
 
@@ -53,6 +54,7 @@ export function TAB_BAR_CLEARANCE(insets: EdgeInsets): number {
 }
 
 export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTabBarProps) {
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const [menuOpen, setMenuOpen] = useState(false);
   const bottom = tabBarBottomOffset(insets);
@@ -97,6 +99,7 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
             if (!route) return null;
             const isFocused = focusedRouteName === tab.name;
             const options = descriptors[route.key]?.options;
+            const label = tab.labelKey ? t(tab.labelKey) : tab.label;
 
             const onPress = () => {
               // The contract: emit, respect preventDefault, only then navigate.
@@ -116,7 +119,7 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
                 minTapTarget={false}
                 accessibilityRole="tab"
                 accessibilityState={{ selected: isFocused }}
-                accessibilityLabel={options?.tabBarAccessibilityLabel ?? tab.label}
+                accessibilityLabel={options?.tabBarAccessibilityLabel ?? label}
                 style={{
                   flex: 1,
                   minHeight: layout.buttonHeight,
@@ -134,7 +137,7 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
                   color={isFocused ? color.label : color.secondaryLabel}
                 />
                 <Text variant="caption" color={isFocused ? color.label : color.secondaryLabel}>
-                  {tab.label}
+                  {label}
                 </Text>
               </Pressable>
             );

@@ -13,11 +13,13 @@
 // a screen that must not be a tab has to live outside this folder — which is
 // exactly where it now is.
 import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { LumeTabBar } from '@/components/navigation/LumeTabBar';
 import { surface } from '@/lib/design/tokens';
 
 export default function TabsLayout() {
+  const { t } = useTranslation();
   return (
     <Tabs
       // The bar floats above the scene, so the scene fills the whole screen and
@@ -29,7 +31,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen name="index" options={{ title: 'Summary' }} />
-      <Tabs.Screen name="food" options={{ title: 'Food' }} />
+      <Tabs.Screen name="food" options={{ title: t('food.title') }} />
       <Tabs.Screen name="gym" options={{ title: 'Gym' }} />
     </Tabs>
   );

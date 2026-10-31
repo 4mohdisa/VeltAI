@@ -20,7 +20,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - energyLogged es and fr (R138): '{{unit}} en total', '{{unit}} au total'. No agreement, no colon, reads after the number.
 
 ## Status
-R139: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
+R140: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102, R117, R131 never reported. The checkpoint is still owed.
 
 ## BUILT, not verified (Isa checks; NOT COVERED by tests)
@@ -32,31 +32,30 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Checkpoints R102,
 - GymPatternsCard copy via seven gym.* keys. es and fr unreviewed.
 - food.tsx: ErrorState messages; 'Food' title (food.title); 'Calories' title (gymLog.celebration.calories, shared).
 - CaloriesCard macro labels via nutrition.protein, carbs, fat.
-- food.tsx unit label via nutrition.energyLogged (R138 wording). R139 verification in progress.
+- food.tsx unit label via nutrition.energyLogged (R138 wording). R139 result: one call site, one key per locale, substitution checked by hand. Not rendered. NOT COVERED: no test reads energyLogged.
 
 ## Next
-1. R139 (in progress): verify energyLogged usage at food.tsx and the es/fr substitution. Run the locale-related tests; NOT COVERED if none check it.
-2. Tab label 'Food' (LumeTabBar.tsx:38, (tabs)/_layout.tsx:32) to t(). Decided without Isa: follows design.
-3. Owed checkpoint: full tsc and app suite, read-only.
-4. Dedupe SLOT_KEYS (food.tsx:84). Resolve food.savedTitle vs addMenu.myDishes.
-5. food.tsx: 'Check your connection' invents a cause; "today's" shows on other dates.
-6. CaloriesCard: Fibre column missing; dot vs bar (row 85). Add or park.
-7. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-8. PlannedValuesForm.tsx:200 'Add exercise'. add.tsx slotKey (~67): remove unused keys if confirmed.
-9. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session saves top weight on all sets: fix or park.
-10. nutrition.tsx '80%' vs '80 %'; raw meal.slot near lines 164, 180. Freeze strings at count 1.
-11. week.tsx remaining copy, then training.tsx and energy.tsx.
-12. Energy unit untranslated at food.tsx:787 and :906. VoiceOver 'protein', 'carbs', 'fat' (food.tsx:853). 'g' suffix (food.tsx:690).
-13. No rows left: stop with 'only owner decisions remain'.
+1. (in progress, R140) Tab label 'Food' to t(). Key tabs.food: en 'Food', es 'Comida', fr 'Repas'. Files: LumeTabBar.tsx, (tabs)/_layout.tsx, three locale files. Design: design/Lume App.html, tab bar. No gap row exists for the tab label.
+2. Owed checkpoint: full tsc and app suite, read-only.
+3. Dedupe SLOT_KEYS (food.tsx:84). Resolve food.savedTitle vs addMenu.myDishes.
+4. food.tsx: 'Check your connection' invents a cause; "today's" shows on other dates.
+5. CaloriesCard: Fibre column missing; dot vs bar (row 85). Add or park.
+6. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. PlannedValuesForm.tsx:200 'Add exercise'. add.tsx slotKey (~67): remove unused keys if confirmed.
+8. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session saves top weight on all sets: fix or park.
+9. nutrition.tsx '80%' vs '80 %'; raw meal.slot near lines 164, 180. Freeze strings at count 1.
+10. week.tsx remaining copy, then training.tsx and energy.tsx.
+11. Energy unit untranslated at food.tsx:787 and :906. VoiceOver 'protein', 'carbs', 'fat' (food.tsx:853). 'g' suffix (food.tsx:690).
+12. No rows left: stop with 'only owner decisions remain'.
 Grep first. Line numbers drift.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
-- Device checks: gym Training labels, logged card, offline failure, double notice (gym.tsx:107), TodayCard sub-line, LoadFailedNotice, StreakCounter caption, es/fr fit, minutesCeiling, eatenAgainstBurned, inAndOut, energy unit card.
+- Device checks: gym Training labels, logged card, offline failure, double notice (gym.tsx:107), TodayCard sub-line, LoadFailedNotice, StreakCounter caption, es/fr fit, minutesCeiling, eatenAgainstBurned, inAndOut, energy unit card, energyLogged in es and fr with kcal and kJ.
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts near lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks'.
-- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr.
+- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tabs.food es 'Comida', fr 'Repas'.
 - food.title: Comida and Repas read as 'meal'. Separate food.caloriesTitle?
 - Week row: record in an existing row or add one?
 - energy.tsx: deficit caption, steps row, burn target sub.
@@ -68,6 +67,7 @@ Grep first. Line numbers drift.
 - Labels: plannedExercisesNoDuration; freeze screen; StreakCounter wrap row; 'Start workout', 'Training', 'Session history'.
 - Gym calories vs Training energy; training caption; minutesCeiling 'min' vs 'm'; GymPatternsCard padding 20 vs 16.
 - Food log empty day: four meal cards or 'No meals yet'? Gap row?
+- Gap row for the tab bar label: none exists. Add one or accept as a reason line?
 
 ## Parked
 - English-only date helpers: formatRelativeDate, weekdayShort, dayMonth, formatDuration.
@@ -104,4 +104,5 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - R136: energyUnit label. Flagged for gender agreement.
 - R137: unit-neutral wording. Report blocked on word order.
 - R138: word order decided by the agent: '{{unit}} en total' / '{{unit}} au total'. Loop flagged it as partly done: the locale test does not cover energyLogged.
-- R139: verification round for R138 (grep, substitution check, tsc, changed-file tests). Chose over tab label because of the loop flag.
+- R139: verification of R138. tsc 0, six food source-text tests passed (83 tests in the six-file run). No file changed. energyLogged stays BUILT and NOT COVERED. Loop flag handled by recording the gap here; no new test suite written.
+- R140: tab label 'Food' to t(), in progress.
