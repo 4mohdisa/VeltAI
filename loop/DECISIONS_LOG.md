@@ -2050,3 +2050,8 @@
 - 2026-10-31 22:40 Told Claude Code to reuse food.removeTitle only when the English matches, otherwise add food.removeRecipeTitle, so the English stays unchanged and the es and fr drafts are not forced to match.
 - 2026-10-31 22:40 Kept the swipe colour unchanged, as the notes require until Isa decides on design red.
 - 2026-10-31 22:40 Added food/detail.tsx 'Delete item' to the spotted list only, since it sits outside this task.
+- 2026-10-31 22:42 Chose the verification round first because the loop flagged R158 for tsc and tests not run; the brief says to deal with a flag before moving on.
+- 2026-10-31 22:42 Asked for tsc once and a grep for matching test files, because the earlier report found none and the rules limit test runs to changed files.
+- 2026-10-31 22:42 Kept the swipe colour as color.primary, per the existing decision not to change colour in a string round.
+- 2026-10-31 22:42 Rewrote the notes file under 600 words, merging repeated items and removing finished work, as the loop note asked. Decisions were kept verbatim in substance.
+- 2026-10-31 22:42 Did not reopen the gym/new-template.tsx task until the flag is cleared.
