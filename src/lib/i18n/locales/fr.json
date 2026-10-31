@@ -350,5 +350,10 @@
     "title": "Plan du jour",
     "emptyTitle": "Pas encore de plan",
     "emptyMessage": "Une fois que Lume aura appris votre routine, votre journée sera planifiée ici."
+  },
+  "tabBar": {
+    "closeAddMenu": "Fermer le menu d’ajout",
+    "add": "Ajouter",
+    "addHint": "Enregistrer une séance de sport ou un repas"
   }
 }

@@ -352,5 +352,10 @@
     "title": "Plan de hoy",
     "emptyTitle": "Aún no hay plan",
     "emptyMessage": "Cuando Lume haya aprendido tu rutina, tu día se planificará aquí."
+  },
+  "tabBar": {
+    "closeAddMenu": "Cerrar menú de añadir",
+    "add": "Añadir",
+    "addHint": "Registra una sesión de gym o un registro de comida"
   }
 }

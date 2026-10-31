@@ -350,5 +350,10 @@
     "title": "Today's plan",
     "emptyTitle": "No plan yet",
     "emptyMessage": "Once Lume has learned your routine, your day will be planned here."
+  },
+  "tabBar": {
+    "closeAddMenu": "Close add menu",
+    "add": "Add",
+    "addHint": "Log a gym session or log food"
   }
 }

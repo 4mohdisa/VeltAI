@@ -151,9 +151,9 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
           }}
           minTapTarget={false}
           haptic={false}
-          accessibilityLabel={menuOpen ? 'Close add menu' : 'Add'}
+          accessibilityLabel={menuOpen ? t('tabBar.closeAddMenu') : t('tabBar.add')}
           accessibilityState={{ expanded: menuOpen }}
-          accessibilityHint="Log a gym session or log food"
+          accessibilityHint={t('tabBar.addHint')}
           style={{
             width: PLUS_SIZE,
             height: PLUS_SIZE,

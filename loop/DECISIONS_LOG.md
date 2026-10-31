@@ -1977,3 +1977,8 @@
 - 2026-10-31 22:20 Reused existing tabs.summary and tabs.gym keys, so no locale file changes and no new keys.
 - 2026-10-31 22:20 Did not run the checkpoint: it is read-only and the loop script announces it.
 - 2026-10-31 22:20 Cut the notes under 600 words per loop note. Decisions kept in full, finished work deleted.
+- 2026-10-31 22:21 Chose the add-button VoiceOver strings: smallest task, one component, and the handover lists it as the next fix. Reason: VoiceOver users in es and fr hear English on every tab.
+- 2026-10-31 22:21 Added a dedicated tabBar namespace with new keys rather than reusing existing keys, because the add-button strings have no existing matching key. Locale edits were allowed for new keys under the decisions section.
+- 2026-10-31 22:21 es and fr wording for the new keys is unreviewed and is flagged for native review.
+- 2026-10-31 22:21 Did not change DESIGN_GAP_ANALYSIS.md because no row covers VoiceOver strings.
+- 2026-10-31 22:21 Layout titles and CaloriesCard macro names left for later rounds. They are listed as candidates 2 and 3, and the handover conflicts on whether CaloriesCard is still open, so it needs a grep before any task.
