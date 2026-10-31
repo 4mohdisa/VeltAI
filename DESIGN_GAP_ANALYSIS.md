@@ -1010,7 +1010,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 10. **No AI provenance note.**
 11. Macro layout: a vertical list or 2-up inputs vs a 2×2 tappable grid.
 12. **Fibre is not editable** and appears only in the locked list.
-13. Macro precision: BUILT (not verified): picked servings keep 1 decimal place for protein, carbs and fat, as the design shows (`per100.p * scale`, shown through `r1`). `applyGrams` scales them unrounded (`src/app/food/detail.tsx:421-423`), and `num` with `MACRO_PRECISION` shows and saves them to 1 decimal place (`src/app/food/detail.tsx:66`, `:402`).
+13. Macro precision: BUILT (not verified): picked servings keep 1 decimal place for protein, carbs and fat, as the design shows (`per100.p * scale`, shown through `r1`). `applyGrams` scales them unrounded (`src/app/food/detail.tsx:421-423`), and `num` with `MACRO_PRECISION` shows and saves them to 1 decimal place (`src/app/food/detail.tsx:66`, `:402`). Fibre also keeps 1 decimal place, typed or picked, as the design shows through `r1`: BUILT (not verified) (`src/app/food/detail.tsx:411`, `:424`, `:437`, `:570`, `:608`).
 14. Energy readout centred vs left-aligned; an extra *"for 250 g"* line the design does not have.
 15. Serving presets differ — fixed `[50,100,150,200]` or `[½×,1×,1½×,2×]` vs the food's own catalog servings.
 16. The serving control **does not de-select** on a manual override.

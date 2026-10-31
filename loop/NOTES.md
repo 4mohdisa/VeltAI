@@ -20,30 +20,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Prompts name the design/ file and gap row; say 'no matching tests' when none apply; state the branch rule.
 - Claude Code never opens or edits loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Handover NEXT lines may be stale; latest report and notes win. Jev is advisory.
-- Picked-serving macros: design shows unrounded scale with r1 display (R62 check). Protein, carbs and fat keep 1 decimal place; kcal stays whole. Fibre still open.
+- Picked-serving macros: design shows unrounded scale with r1 display (R62 check). Protein, carbs and fat keep 1 decimal place; kcal stays whole. Fibre: R64 brings it to 1 decimal place, gated on design r1 and backend type check.
 
 ## Status
-- BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57); session.tsx citations confirmed correct (R58, R59); macro totals checked, no change needed (R60).
-- IN PROGRESS R63: applyGrams picked-serving protein, carbs and fat unrounded with 1-decimal display (difference 13).
+- BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57); session.tsx citations confirmed correct (R58, R59); macro totals checked, no change needed (R60); picked-serving protein, carbs and fat unrounded with 1-decimal display (R63, difference 13).
+- IN PROGRESS R64: fibre precision on food detail (difference 13).
 - Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - Checkpoint R61 green (tsc 0, 65 suites, 824 tests).
 
 ## Next
-1. IN PROGRESS R63: applyGrams picked-serving precision in src/app/food/detail.tsx (~415-430). Update difference 13 and the line ~1219 summary in the gap doc. Run tsc, plus sheetVariant.test.ts, foodDetail.test.ts and render/foodDetailLogged.render.test.tsx.
-2. Fibre precision on food detail: detail.tsx ~424 and ~437 round fibre. Design shows r1. Change to 1 decimal to match, and update the gap doc.
-3. Search seed (src/app/food/detail.tsx ~164-166) and food tab seeds ((tabs)/food.tsx ~380-382), after step 2 is settled.
-4. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
-5. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
-6. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-7. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-8. PlannedValuesForm.tsx:200 'Add exercise': compare to design.
-9. Fix stale fibre note in summaryNoFabrication.test.ts header.
-10. Trace add.tsx slotKey (~67). Remove unused keys if confirmed unused.
-11. Volume: /gym/session saves top weight on all sets. Fix only without owner input, else park.
-12. Recheck gap lines 1006 onward (not checked since R52) and stale lines 328 and 334.
-13. Individual food rows print raw values: (tabs)/food.tsx ~895 and ~852, and src/app/food/saved.tsx:135. Check other write paths first.
-14. Checkpoint: full tsc and app Jest, read-only.
-15. No rows left: stop with 'only owner decisions remain'.
+1. IN PROGRESS R64: fibre precision in src/app/food/detail.tsx (picked serving ~424, typed ~437, save path draft() ~408-410, display ~570 and ~608). Premise checks: design r1, backend fibre not an integer. Update difference 13 in the gap doc.
+2. Search seed (src/app/food/detail.tsx ~164-166) and food tab seeds ((tabs)/food.tsx ~380-382), after step 1 is settled. Seeds show whole numbers and gain decimals after a pick.
+3. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
+4. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
+5. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+6. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+7. PlannedValuesForm.tsx:200 'Add exercise': compare to design.
+8. Fix stale fibre note in summaryNoFabrication.test.ts header (after R64).
+9. Trace add.tsx slotKey (~67). Remove unused keys if confirmed unused.
+10. Volume: /gym/session saves top weight on all sets. Fix only without owner input, else park.
+11. Recheck gap lines 1006 onward (not checked since R52), including differences 11 and 12 which look out of date, and stale lines 328 and 334.
+12. Individual food rows print raw values: (tabs)/food.tsx ~895 and ~852, and src/app/food/saved.tsx:135. Check other write paths first.
+13. Checkpoint: full tsc and app Jest, read-only.
+14. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing, or change the 'open it to edit' toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -87,8 +86,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R59: doc-only tsc re-run, TSC EXIT 0, flag cleared. Citations confirmed again.
 - R60: unrounded macro totals checked. No edits. Totals are whole numbers in the design, so no change.
 - R61: checkpoint, read-only, tsc 0, 65 suites, 824 tests passed. Done.
-- R62: design checked. Design shows 1-decimal picked-serving macros from unrounded scale. Drops the open 'picked servings keep decimals?' question. Report: no code change, gap doc line 1013 updated.
-- R63: applyGrams picked-serving precision (in progress).
+- R62: design checked. Design shows 1-decimal picked-serving macros from unrounded scale. Report: no code change, gap doc line 1013 updated.
+- R63: applyGrams picked-serving protein, carbs and fat unrounded with 1-decimal display. draft() still rounds to 1 decimal on save. Done (BUILT, not verified). Gap doc difference 13 and line 1219 updated. TSC 0; 3 suites, 44 tests passed.
+- R64: fibre precision on food detail (in progress).
 
 ## Handover R60
 - Session continuity: the next Claude Code session is fresh. Name files fully in every prompt.
+- Handover summary (session before R60) superseded by the R63 report; latest report and notes win.

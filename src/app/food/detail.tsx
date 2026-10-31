@@ -408,7 +408,7 @@ function DetailForm({
     protein: num(protein, MACRO_PRECISION),
     carbs: num(carbs, MACRO_PRECISION),
     fat: num(fat, MACRO_PRECISION),
-    ...(fibre != null ? { fibre } : {}),
+    ...(fibre != null ? { fibre: num(String(fibre), MACRO_PRECISION) } : {}),
   });
 
   // Changing the serving rescales from the product/catalog basis — so it also
@@ -421,7 +421,7 @@ function DetailForm({
     setProtein(String(per100.protein * factor));
     setCarbs(String(per100.carbs * factor));
     setFat(String(per100.fat * factor));
-    if (per100.fibre != null) setFibre(Math.round(per100.fibre * factor));
+    if (per100.fibre != null) setFibre(per100.fibre * factor);
   };
 
   // The pad writes straight into the field it was opened on. Grams goes through
@@ -433,8 +433,8 @@ function DetailForm({
     protein: (v) => setProtein(String(v)),
     carbs: (v) => setCarbs(String(v)),
     fat: (v) => setFat(String(v)),
-    // The one number held as a number, and only ever a whole one.
-    fibre: (v) => setFibre(Math.round(v)),
+    // The one number held as a number; display and save round it to 1 decimal place.
+    fibre: (v) => setFibre(v),
   };
 
   // Tapping the open field closes the pad, any other field switches it, and the
@@ -567,7 +567,7 @@ function DetailForm({
                   { label: 'Fat', value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
                   // Fibre only when this food's source carried one — the row is
                   // absent rather than showing a 0 nobody measured.
-                  ...(fibre != null ? [{ label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }] : []),
+                  ...(fibre != null ? [{ label: 'Fibre', value: num(String(fibre), MACRO_PRECISION), tint: categoryAccent.fibre }] : []),
                 ].map(({ label, value, tint }) => (
                   <View key={label} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
                     <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
@@ -605,7 +605,7 @@ function DetailForm({
               // Fibre only when this food's source carried one — the tile is
               // absent rather than showing a 0 nobody measured.
               ...(fibre != null
-                ? [{ key: 'fibre' as const, label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }]
+                ? [{ key: 'fibre' as const, label: 'Fibre', value: num(String(fibre), MACRO_PRECISION), tint: categoryAccent.fibre }]
                 : []),
             ].map(({ key, label, value, tint }) => (
               <Pressable

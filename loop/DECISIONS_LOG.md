@@ -1588,3 +1588,8 @@
 - 2026-10-31 17:29 Chose candidate 1 over fibre (candidate 2): it is the open R62 step and matches the 'macros stored unrounded' decision. Fibre is queued as NEXT.
 - 2026-10-31 17:29 Left the search seed and food tab seeds for later: they are separate surfaces and the brief says one task per round.
 - 2026-10-31 17:29 Did not ask Isa: the change is in the design-match scope and needs no owner input. Jev's 'ask' 33% is noted, but nothing here needs Isa.
+- 2026-10-31 17:30 R63 accepted as done: the latest report shows applyGrams and difference 13 updated, so it is no longer in progress.
+- 2026-10-31 17:30 Chose fibre precision (candidate 1). It is the open item named in the latest NEXT, it is small, and it closes the last rounded macro on the Food detail sheet. Candidate 2 needs the copy located first, and candidate 3 is a wider change.
+- 2026-10-31 17:30 Gated fibre on a premise check: the design must show r1, and the backend must not store fibre as an integer. If either fails, the prompt stops with BLOCKED and no storage change is made.
+- 2026-10-31 17:30 Included the draft() save path in the fibre change, so saved fibre matches the protein behaviour the report described (1 decimal place). Stored values are not fully unrounded for any macro, and that is accepted as the design's 1 decimal place.
+- 2026-10-31 17:30 Ignored the handover NEXT line about citations at line 165, because the latest report and notes supersede it.
