@@ -1027,3 +1027,7 @@
 - 2026-10-31 13:39 Named no gap row, because the string is not in DESIGN_GAP_ANALYSIS.md. The prompt says so explicitly.
 - 2026-10-31 13:39 Added the branch rule that the rejected prompt was missing, and kept the prompt under the five-step limit.
 - 2026-10-31 13:39 Rewrote the notes under 600 words: merged repeated items, removed finished work, and kept the decisions, which are never deleted.
+- 2026-10-31 13:40 Chose the read-only clearance round first because the loop note says a flagged report must be cleared by a read-only round before any build task.
+- 2026-10-31 13:40 Did not ask Isa even though Jev gives ask 76%. The blocker is the brief's own line limit on gym.tsx, not a question only Isa can answer. Permitted the two added lines (import and hook) in the next build round, since t() cannot be used without them.
+- 2026-10-31 13:40 Set the next build round to use the gym.loadFailed key, which is per screen under the existing key rule, and to add it to the hydration test list.
+- 2026-10-31 13:40 Parked the Macros kicker key decision (nutrition.macrosKicker) until the gym.tsx round is done. Earlier notes already say Macros kicker uses nutrition.title and is design-confirmed, so the handover's proposal is stale and was not used.
