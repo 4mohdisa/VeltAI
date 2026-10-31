@@ -1214,3 +1214,7 @@
 - 2026-10-31 15:00 Told Claude Code to confirm the design value of 16 before editing, because the handover value was not re-read this round. If the design differs, it stops and reports.
 - 2026-10-31 15:00 Used space.lg, the token TodayCard and gym.tsx:130 already use, so no hardcoded value is added.
 - 2026-10-31 15:00 Chose gym test run as the only test, since no test renders MuscleChart. Full Jest stays at the checkpoint.
+- 2026-10-31 15:01 Chose candidate 1 because the MuscleChart padding change is finished and the gap file still says DIFFERENT. Keeping the record accurate is the next step in the notes.
+- 2026-10-31 15:01 Kept the gap-file documentation round separate from any component change, per the notes rule.
+- 2026-10-31 15:01 Did not run tsc or tests, because the round is doc-only. The last green checks (tsc 0, jest gym 37/37) still stand for the component change.
+- 2026-10-31 15:01 Left the line 458, 464 and 466 wording for the next doc round, to keep this round to one edit block.

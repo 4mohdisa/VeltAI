@@ -396,9 +396,9 @@ card → calendar card → `TodayCard` → `MuscleChart` → **`GymPatternsCard`
 `GymSessionButton` → **`SettingsList "Training"`** (My schedule / My workouts /
 Apply a streak freeze / Session history).
 
-**Differences:** card padding matches on the streak strip (`12px 16px`, `gym.tsx:115`)
-the calendar card (16, `gym.tsx:130`) and `TodayCard` (16, `space.lg`); `MuscleChart` keeps
-the `Card` default, DIFFERENT: 20 vs the design's 16; inter-card gap 12 vs 14; **the log CTA moves
+**Differences:** card padding matches on the streak strip (`12px 16px`, `gym.tsx:115`),
+the calendar card (16, `gym.tsx:130`) and `TodayCard` (16, `space.lg`); `MuscleChart` is
+BUILT (not verified): both `Card` uses in `src/components/gym/MuscleChart.tsx` now use padding 16 via `padded={false}` and `style={{ padding: space.lg }}`, matching `src/app/(tabs)/gym.tsx:130`; inter-card gap 12 vs 14; **the log CTA moves
 from directly under the session card to below two other cards**; `GymPatternsCard`
 ("Your gym habits") is app-only; the four-row `Training` settings list is app-only
 (the design reaches schedule via its own card and has no freeze or history screen

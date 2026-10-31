@@ -25,17 +25,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 - BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() calls; gym.loadingSessions; saved.tsx title; TodayCard padding 16 on five uses.
+- MuscleChart (2 uses): padding 16 BUILT (not verified). R307 done: padded={false} with style padding space.lg at MuscleChart.tsx ~114 and ~141.
 - Row 113 TodayCard: DIFFERENT (header, chips, states).
-- MuscleChart (2 uses): design 16, code 20. Padding change in progress R307.
-- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37.
+- Tests: R297 checkpoint green (65 suites, 824 tests). R306 tsc 0, jest gym 37/37. R307 tsc 0, jest gym 37/37.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- None. R306 clean. R307 prompt rejected by loop for asking two tasks; rewritten as one component.
+- None. R307 clean.
 
 ## Next
-1. R307 (current): MuscleChart two Card uses to padding 16 (MuscleChart.tsx ~114, ~141), after confirming design value 16 and token space.lg. Gap lines 399-401.
-2. R308: gap file wording only. Comma at gap lines 399-400. Line 458 'PARTIAL MATCH' to 'DIFFERENT'. Line 464 'four branches' to five with loading. Line 466 wording.
+1. R308 (current): gap file lines 399-401 only. Add missing comma at end of 399. Line 401: record MuscleChart BUILT (not verified) at padding 16.
+2. R309: gap file wording only. Line 458 'PARTIAL MATCH' to 'DIFFERENT'. Line 464 'four branches' to five with loading. Line 466 wording.
 3. Trace add.tsx slotKey near :67. If unused addMenu keys (voice, describeOutLoud es; snapMeal, scanPackage, oneTapReadd all locales) are safe, remove from en, es, fr together.
 4. Move row 89 note into the reason cell.
 5. Hardcoded strings to wrap: gym.tsx :56, :102, :114, :123, :151-156, 'My schedule', 'My workouts'; profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15; TodayCard :110, :174; GymPatternsCard :85; saved.tsx :61-144.
@@ -51,7 +51,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 89: photo gallery or text list. Do not ask again.
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
 - Search foods tile routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
-- Device runs: all BUILT surfaces, load-failure messages, Macros, gym tab title, plurals, streak strip, VoiceOver label, loading line, 'My dishes', TodayCard padding.
+- Device runs: all BUILT surfaces, load-failure messages, Macros, gym tab title, plurals, streak strip, VoiceOver label, loading line, 'My dishes', TodayCard padding, MuscleChart padding.
 - Native es/fr review: gender, NBSP, apostrophe, load-failure strings, caloriesTodayLabel, 'Sport', 'Detail de la serie', 'du repas', 'de la comida', 'de sport', streak plurals, gym.loadingSessions, food.savedTitle.
 - Group names: food.loadFailed vs foodLog; gym.loadFailed beside gymLog; profile.loadFailed same text as gym.loadFailed (by request).
 - Override es emptyMessage. Remove es voice and describeOutLoud.
@@ -83,7 +83,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Loop notes
 - Prompts must name the design/ file every time.
-- Prompts must ask for ONE component or ONE doc change. R307 was rejected for asking two.
+- Prompts must ask for ONE component or ONE doc change. R307 was rejected for asking two (R307 was then redone as one component).
 - Key counts R305: en 167, es 169, fr 167. Recount before any removal.
 - Weak checks: hydration test accepts invented reasons; no plural test; no locale parity test.
 - Jev overrules R300-R306 were all flag or unfinished-step ordering. Keep that rule.
