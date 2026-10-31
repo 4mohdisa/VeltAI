@@ -2491,3 +2491,7 @@
 - 2026-11-01 01:26 Kept the top padding inset-tied, as already recorded. Not reopened.
 - 2026-11-01 01:26 Parked the Summary and Food re-checks for the next round. They need a row lookup first and do not clear the flag.
 - 2026-11-01 01:26 Jev run 76% agreed. Ask and stop are not justified, since the only open question is a device check that Isa owns.
+- 2026-11-01 01:27 Dealt with the R249 flag first, as the loop note requires. R249 made no code change and no doc edit, and its full suite baseline (824/824) predates six row 112 changes, so a checkpoint run is the honest way to close it.
+- 2026-11-01 01:27 Chose the checkpoint over the Summary re-check because the flag must be cleared before moving on, and the checkpoint also tests the R240-R248 changes.
+- 2026-11-01 01:27 Kept the task verification-only. A fix is allowed only if a check fails, so the round does not turn into a build.
+- 2026-11-01 01:27 Jev ranked run highest at 84%, but its last-task-clean estimate is 36%. That matches the flag, so the check-first choice follows Jev's risk signal rather than overriding it.

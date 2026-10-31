@@ -18,10 +18,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R246: gym bottom padding done gym-only (158), not in shared TAB_BAR_CLEARANCE.
 - R247: row 112 top padding and header height re-checked. Header height differs (code 82 only at 62 inset). Top padding kept inset-tied.
 - R248: gym header height set to the fixed 82 default (FloatingHeader constant, no height prop). Matches design at 62 inset; differs at other insets, which is now design-correct.
+- R250: checkpoint run chosen to clear the R249 flag (full suite and tsc, header check). Verification only.
 
 ## Status
-- R249: verification round for R248 (tsc, gym-related suites, row 112 header line). Flagged in R248 report; prompt sent.
-- R248: row 112 header height prop removed at gym.tsx:180 (default 82). BUILT, not verified. Flagged: full suite not run, no test covers the change.
+- R250: checkpoint round (tsc, full suite, row 112 header and top padding check). Clears R249 flag. No build.
+- R249: verification round for R248. No code or doc change. Flagged as partly done (full suite not run; baseline stale). Handled by R250.
+- R248: row 112 header height prop removed at gym.tsx:180 (default 82). BUILT, not verified.
 - R247: doc-only re-check, flagged (no tsc or tests run). Handled by R248.
 - R246: row 112 bottom padding BUILT (158). tsc 0; tabNavigation, hydrationErrorScreens, oneTapGymLog 24/24.
 - R245: row 112 page gap 14. BUILT.
@@ -36,10 +38,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 83 DIFFERENT: route (sheet-in-place) parked; button height and type parked.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: header height BUILT (R248), verification pending (R249). Top padding inset-tied (decision). GymPatternsCard typography Blocked. Pull-to-refresh app-only.
+- 112 PARTIAL: header height BUILT (R248), verification pending (R250). Top padding inset-tied (decision). GymPatternsCard typography Blocked. Pull-to-refresh app-only.
 
 ## Next
-1. R249: verify R248 (tsc, gym-related suites, row 112 header line). No code change unless a check fails.
+1. R250: checkpoint (tsc, full suite, row 112 header and top padding vs bundle 7dc211f6). Verification only. Fix only if a check fails.
 2. Re-check Summary bottom padding (design 158, code 100 at 34 inset) and header height against bundle 185bb533. Gap doc only. Grep for the row first.
 3. Re-check Food bottom padding and header height (food.tsx:646) against its design. Gap doc only.
 4. Gym cluster, one file per round: GymSessionButton, GymCalendar, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts.
@@ -91,3 +93,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 - Jev R247: run 62%, last task clean 89%. Run agreed; re-check chosen.
 - Jev R248: run 87%, ask 12%, stop 1%, last task clean 6%, risk 1.4 (confidence 0.25). Run agreed; header fix chosen.
 - Jev R249: run 76%, ask 19%, stop 5%, last task clean 86%, risk 1.5 (confidence 0.24). Run agreed; verification round chosen to clear the flag.
+- Jev R250: run 84%, ask 13%, stop 3%, last task clean 36%, risk 1.3 (confidence 0.32). Run agreed; checkpoint chosen. The low clean-finish estimate matches the R249 flag, so the next task is a verification.
