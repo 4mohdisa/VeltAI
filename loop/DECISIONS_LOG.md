@@ -2691,3 +2691,8 @@
 - 2026-11-01 07:33 Kept the About header (eyebrow and title) as it is. Isa has not decided it, so it stays parked and is not asked again this round.
 - 2026-11-01 07:33 Kept wordmark letter spacing at 0. It is a separate difference and the 0 vs -0.6 choice needs a literal decision, so it stays open for a later round.
 - 2026-11-01 07:33 Did not run the full suite. This is not a checkpoint round.
+- 2026-11-01 07:34 Chose the checkpoint because the loop note marks this round as one: the flagged R294 report (row 108 covered only by tsc) needs the full suite, not another partial check.
+- 2026-11-01 07:34 Kept the checkpoint to a read-only run, since the loop note says change no files, and a failing suite should be reported, not fixed on the spot.
+- 2026-11-01 07:34 Did not run jest -u or touch any snapshot, because the detailChrome snapshot update still needs Isa's approval.
+- 2026-11-01 07:34 Jev and my choice agree (run). No override needed.
+- 2026-11-01 07:34 Kept energy balance sign and the doc pass as the next two tasks, in that order, after the checkpoint result is known.

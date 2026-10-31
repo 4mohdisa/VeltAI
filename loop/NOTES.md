@@ -16,6 +16,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows; Isa ma
 - Every build prompt names the matching design/ file and bundle.
 
 ## Status
+- R295: checkpoint round. Full tsc and full app jest run, no file changes. Clears the R294 flag on row 108 with a full run.
 - R294: last report flagged as partly done (row 108 check covered by tsc only). Chose row 109 About wordmark: remove app-only paddingVertical 20 and set tagline gap 6 in about.tsx. Flag handled by tsc plus related jest; no test covers support.tsx.
 - R293: row 109 About screen gap 26 in src/app/profile/about.tsx (contentStyle gap 26). tsc 0, related jest 3 suites 39/39.
 - R292: Support gap 20 done (support.tsx:30), tsc 0. No jest run: no test covers support.tsx.
@@ -39,11 +40,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows; Isa ma
 - 114-118: not yet re-checked.
 
 ## Next
-1. R294: row 109 About wordmark spacing (padding 20 removed, tagline gap 6), tsc plus related jest.
-2. Re-check rows 114-118 and fix row 107 doc citations (privacy.tsx:60) in one re-check round.
-3. Row 108 remaining items (feedback copy and Mail, toast, label and button styling, SettingsList geometry), one at a time.
-4. Row 103 week and training gap 12 to 16, after snapshot approval.
-5. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
+1. R295 checkpoint result: if any failure, fix only what the failure needs, in the smallest change, and report it. If clean, go on to step 2.
+2. Row 103 is blocked on the snapshot. Next unblocked build: energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
+3. Re-check rows 114-118 and fix row 107 doc citations (privacy.tsx:60) in one re-check round.
+4. Row 108 remaining items (feedback copy and Mail, toast, label and button styling, SettingsList geometry), one at a time.
+5. Row 103 week and training gap 12 to 16, after snapshot approval.
 6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
@@ -94,3 +95,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - R292: run 66%, ask 33%. Kept row 108 flagged check.
 - R293: Jev run 55%, ask 43%, risk 1.4. Kept run: the header decision is parked rather than asked.
 - R294: Jev run 93%, ask 7%, risk 1.2. Kept run, same as Jev.
+- R295: Jev run 79%, ask 19%, stop 2%, risk 1.1. Kept run, same as Jev. Checkpoint requested by loop note.
