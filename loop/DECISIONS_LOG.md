@@ -1635,3 +1635,8 @@
 - 2026-10-31 17:40 Doc-only round: tsc only, per checkpoint and doc-only rules; no test runs.
 - 2026-10-31 17:40 Kept the rule that line numbers are never trusted; citations are checked by content.
 - 2026-10-31 17:40 Raw item values left for a later round because they need a display decision first.
+- 2026-10-31 17:40 Chose the saved-food fibre check: it may be silent data loss, touches one file, and is the smallest task.
+- 2026-10-31 17:40 Deferred raw item values display: it needs a design decision and spans two files.
+- 2026-10-31 17:40 Deferred seed rounding: it spans two files and needs a grep first.
+- 2026-10-31 17:40 Did not ask Isa about the volume bug in /gym/session: it is a data fix that may touch the backend, so it stays queued until the one-file fixes are done.
+- 2026-10-31 17:40 Jev ask 56% vs run 43% is not a strong disagreement, so no reconsideration.

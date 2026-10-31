@@ -260,6 +260,7 @@ export default function FoodDetailScreen() {
             protein: draft.protein,
             carbs: draft.carbs,
             fat: draft.fat,
+            ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
           });
           close();
         }}
@@ -313,6 +314,7 @@ export default function FoodDetailScreen() {
                 protein: draft.protein,
                 carbs: draft.carbs,
                 fat: draft.fat,
+                ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
               });
               showToast({ message: `Saved ${draft.name} to your foods.`, tone: 'success' });
             }

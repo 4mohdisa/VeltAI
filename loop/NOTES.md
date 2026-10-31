@@ -24,26 +24,25 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macro totals stay whole (design rounds them: hMacroCols, gMacroDefs). Round 1 decimal is only on Food detail.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx:200); food detail macros and fibre at 1 decimal (detail.tsx MACRO_PRECISION :66, num :402); citations; macro totals; quick add rounds to 1 decimal (type-checked only).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx:200); food detail macros and fibre at 1 decimal (detail.tsx MACRO_PRECISION :66, num :402); citations; macro totals; quick add rounds to 1 decimal (type-checked only); gap lines 1011, 1012, 1219 checked by content (R74).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R74. No test covers decimal macros or quickAdd rounding.
+Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R75. No test covers decimal macros or quickAdd rounding.
 
 ## Next
-1. R74 (in progress): doc-only check of fibre lines in DESIGN_GAP_ANALYSIS.md ('2-up inputs', 'Fibre is not editable', 'Fibre is still rounded as it is typed') against src/app/food/detail.tsx, by content. Closes the R73 partial flag.
-2. Raw item values display: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135. Decide, then build.
+1. R75 (in progress): saved-food fibre. Check editSavedFood and saveFood in src/app/food/detail.tsx for draft.fibre; add it only if dropped. One file.
+2. Raw item values display: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135. Needs a design decision first, then build.
 3. Shared macro rounding helper: inline Math.round(x * 10) / 10 in detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25. Park if it needs more than one file.
 4. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
-5. Saved-food fibre: check whether editSavedFood and saveFood in detail.tsx drop draft.fibre.
-6. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
-7. Logged-day 'Add something extra': follow design copy.
-8. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' line (~1495) stale.
-9. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-10. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-11. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-12. add.tsx slotKey (~67). Remove unused keys if confirmed.
-13. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park.
-14. Checkpoint: full tsc and app Jest, read-only.
-15. No rows left: stop with 'only owner decisions remain'.
+5. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
+6. Logged-day 'Add something extra': follow design copy.
+7. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' line (~1495) stale.
+8. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+9. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+10. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+11. add.tsx slotKey (~67). Remove unused keys if confirmed.
+12. Volume: /gym/session saves top weight on all sets. Fix without owner input, else park. Hold until items 1-11 are done.
+13. Checkpoint: full tsc and app Jest, read-only.
+14. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing or change toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -79,4 +78,5 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R74.
 - R67-R71: seed fix reported unverified; quickAdd rounding type-checked only; R71 flagged.
 - R72: quick add serving parked (no serving data).
 - R73: doc-only fix of stale fibre lines. Report flagged as partly done: line 1012 wording left open.
-- R74: doc-only check by content of fibre lines; closes the R73 flag by finishing or stating why.
+- R74: doc-only check by content of fibre lines. Done: line 1012 reworded, 1011 and 1219 already matched code. TSC EXIT 0. Flag closed.
+- R75: planned, saved-food fibre check in detail.tsx (Next item 1). Handover received; summary read; Next item 1 of old handover (doc lines) already closed in R74.
