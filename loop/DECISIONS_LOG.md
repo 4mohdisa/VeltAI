@@ -1551,3 +1551,8 @@
 - 2026-10-31 17:18 Did not change status cells, header counts, or difference numbers, because the latest report says Isa decides those.
 - 2026-10-31 17:18 Deferred line 1496 and lines 1006 onward to NEXT, since the report says line 1496 may be an intended record and the rest was not rechecked.
 - 2026-10-31 17:18 Chose not to ask Isa anything this round. The task needs no owner input and the Blocked list is unchanged.
+- 2026-10-31 17:20 Chose the macro decimal fix: the latest report and design both show 1 decimal place, and design is the source of truth. The existing 'display rounds' decision stands; only the precision changes.
+- 2026-10-31 17:20 If the API rejects decimals, the round stops at BLOCKED and changes nothing, so no backend change is made.
+- 2026-10-31 17:20 Logged-day copy: design wins by default. 'Add something extra' is queued as the next candidate after the macro fix.
+- 2026-10-31 17:20 plannedRows rest_seconds is queued as a candidate. It is not built this round because the macro fix is the smaller, already-scoped task.
+- 2026-10-31 17:20 Prompt names the design asset, the gap lines, and the branch rule explicitly, per the R54 and R55 lessons.

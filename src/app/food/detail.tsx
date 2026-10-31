@@ -62,6 +62,9 @@ const PADS: Record<PadKey, { label: string; mode: NumberEntryMode }> = {
   fibre: { label: 'Fibre · grams', mode: 'decimal' },
 };
 
+/** The design keeps protein, carbs and fat to 1 decimal place: ×10, round, ÷10. */
+const MACRO_PRECISION = 10;
+
 /** The design's grams chip: a 34pt pill with a 15/20 rounded figure and a 13pt
  *  pencil. No type or spacing token covers either figure. */
 const CHIP_HEIGHT = 34;
@@ -396,15 +399,15 @@ function DetailForm({
   const [editing, setEditing] = useState<PadKey | null>(null);
   const [entry, setEntry] = useState('');
 
-  const num = (v: string) => Math.max(0, Math.round(Number(v) || 0));
+  const num = (v: string, precision = 1) => Math.max(0, Math.round((Number(v) || 0) * precision) / precision);
 
   const draft = (): FoodValues => ({
     name: name.trim() || seed.name,
     quantityG: num(grams),
     calories: num(calories),
-    protein: num(protein),
-    carbs: num(carbs),
-    fat: num(fat),
+    protein: num(protein, MACRO_PRECISION),
+    carbs: num(carbs, MACRO_PRECISION),
+    fat: num(fat, MACRO_PRECISION),
     ...(fibre != null ? { fibre } : {}),
   });
 
@@ -559,9 +562,9 @@ function DetailForm({
             {macros ? (
               <View style={{ gap: space.md }}>
                 {[
-                  { label: 'Protein', value: num(protein), tint: categoryAccent.protein },
-                  { label: 'Carbs', value: num(carbs), tint: categoryAccent.carbs },
-                  { label: 'Fat', value: num(fat), tint: categoryAccent.fat },
+                  { label: 'Protein', value: num(protein, MACRO_PRECISION), tint: categoryAccent.protein },
+                  { label: 'Carbs', value: num(carbs, MACRO_PRECISION), tint: categoryAccent.carbs },
+                  { label: 'Fat', value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
                   // Fibre only when this food's source carried one — the row is
                   // absent rather than showing a 0 nobody measured.
                   ...(fibre != null ? [{ label: 'Fibre', value: Math.round(fibre), tint: categoryAccent.fibre }] : []),
@@ -596,9 +599,9 @@ function DetailForm({
              are edited on the chip and the readout above. */
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.sm }}>
             {[
-              { key: 'protein' as const, label: 'Protein', value: num(protein), tint: categoryAccent.protein },
-              { key: 'carbs' as const, label: 'Carbs', value: num(carbs), tint: categoryAccent.carbs },
-              { key: 'fat' as const, label: 'Fat', value: num(fat), tint: categoryAccent.fat },
+              { key: 'protein' as const, label: 'Protein', value: num(protein, MACRO_PRECISION), tint: categoryAccent.protein },
+              { key: 'carbs' as const, label: 'Carbs', value: num(carbs, MACRO_PRECISION), tint: categoryAccent.carbs },
+              { key: 'fat' as const, label: 'Fat', value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
               // Fibre only when this food's source carried one — the tile is
               // absent rather than showing a 0 nobody measured.
               ...(fibre != null
