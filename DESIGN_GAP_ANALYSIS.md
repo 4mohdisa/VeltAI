@@ -110,7 +110,7 @@ this pass matched the design on every checked value.
 | Food — FAB add menu | ⚠️ PARTIAL | Same two rows and copy; solid panel, darker scrim, different radius and row metrics. |
 | Gym — main tab chrome & card order | ⚠️ PARTIAL | Same title block and card vocabulary, but the log CTA moves below two other cards, two app-only cards are added, and padding is 20 vs 16 throughout. |
 | Gym — "My schedule" screen | ⚠️ PARTIAL | The week card is close; the design's whole "My workouts" section is missing from it, the sub-line is truncated, and the picker sheet differs in five ways. |
-| Gym — today's session card | ❌ DIFFERENT | TodayCard cards use padding 16 (space.lg) via padded={false} (not verified); all five states still differ: rest day, logged and planned lack the tap target and chevron, logged and planned lack the 4-up stats grid, nothing scheduled is app-only, loading has no design state, and it renders nothing when there is no schedule data. |
+| Gym — today's session card | ❌ DIFFERENT | TodayCard cards use padding 16 (space.lg) via padded={false} (not verified); all four states still differ: rest day, logged and planned lack the tap target and chevron, logged and planned lack the 4-up stats grid, and loading has no design state. The card renders null only when the schedule fetch fails (`src/lib/data/gymSchedule.ts:38-40`), with no error message. |
 | Gym — exercise progress | ⚠️ PARTIAL | Same chart idea, but no Muscles worked or Form guide cards, the bars encode weight rather than the design's metric, and the bottom stat pair is missing. |
 | Gym — month heatmap | ⚠️ PARTIAL | Geometry, ramp and legend match value for value; the cells are not tappable, so the design's only route into the day detail is gone. |
 | Gym — cross-cutting token drift | ⚠️ PARTIAL | The token system is faithfully mirrored; its application rounds the design's untokenised pixels and substitutes lighter type faces throughout. |
@@ -287,7 +287,7 @@ scheduled for today and the day is not yet checked in.
 | 2. Log adjusted | **Yes** — same routes, `gym_exercises` columns | **Partial** — only inside `/gym/session`, behind the conditional Start button; no "Different weights" affordance, no edit bar |
 | 3. Log partial | **Yes** — `completion_rate`, `gym_adherence` | **Partial** — `/gym/session` checkboxes produce a rate; no tick-list sheet, no path from the log sheet |
 | 4. Log off-plan | **Yes** — exercise library | **Partial** — `ExercisePicker` only once already inside `/gym/session` |
-| 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — with no template, TodayCard renders null or "Nothing scheduled", so `/gym/session` is unreachable; only the questionnaire remains |
+| 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — a response with no template shows the rest-day card, so `/gym/session` is unreachable; only the questionnaire remains |
 | 5b. Custom exercise ("Add 'X' as a custom exercise") | **No** — every write path uses `exercise_id` into `exercise_library`; no create-exercise route | **No** |
 | 6. Per-segment cardio (`Leg 1: 10 min @ 7 km/h`, "Add segment") | **Partial** — schemas capture ONE flat parameter set per exercise, not a list of segments (`parameters` is jsonb, so a list is storable but not validated) | **No** |
 | 7. Session-level effort / energy (**app-only, not in the design**) | **No** — `rpe` is per-exercise; no session column, no API field | **Yes** — and the values are discarded before the request |
@@ -461,18 +461,18 @@ rule (year appended only outside the current year).
 (11px status dot, title, sub, a state pill, a 14px chevron) over a **4-up stats
 grid** (Duration / Calories / Volume / Sets) and a wrapped row of exercise chips.
 
-**App** (`TodayCard.tsx`): five mutually exclusive branches, including loading, a header row, chips in
-the `template` branch only, and a **"Start workout"** button. Every state's card,
-including loading, uses padding 16 (`padded={false}`, `space.lg`); the loading and nothing-scheduled states differ from the design.
+**App** (`TodayCard.tsx`): four rendered states (loading, logged, rest day, planned) plus null on load failure.
+The logged, rest-day and planned states have a header row, and the planned state adds chips and a **"Start workout"** button. Every state's card,
+including loading, uses padding 16 (`padded={false}`, `space.lg`); the loading state differs from the design.
 
 **Differences:** the card is **not tappable** and has **no chevron**; **the entire
-4-up stats grid is missing**; "Start workout" and a `Set schedule →` link are
+4-up stats grid is missing**; "Start workout" is
 app-only; **`TodayCard` returns `null` when there is no schedule data**, where the
 design always renders a Rest-day card; dot 12 vs 11; header min-height 36 vs 34;
 gaps 12 vs 10 and 4 vs 1; pill `500 11/14` vs `600 11/15` and `4px 8px` vs `3px 9px`;
 **the "Logged" pill loses its green wash** (`color-mix(positive 22%, white)` → flat
 `light1`); chip type `500 11/14` vs `500 12/16`, padding 12 vs 10, gap 8 vs 6;
-rest-day copy is split across two branches and matches neither; the logged sub-line
+the logged sub-line
 drops the calories figure; "Session" vs "Freestyle session"; the planned sub-line
 drops the muscle-group phrase and adds a duration; and the design's `ready` state
 (a day with a draft) has no counterpart.
@@ -546,8 +546,7 @@ assigned, `light2` otherwise), the template name or *"Rest day"*, and a trailing
 *"N exercises"* / *"Nothing planned"*.
 
 **App:** **no such card exists.** The nearest thing is one row labelled
-"My schedule" inside the app-only `Training` settings list, plus a `Set schedule →`
-link that appears only in one `TodayCard` branch.
+"My schedule" inside the app-only `Training` settings list.
 
 **Differences:** the card, the "N days planned" count, all three day rows, the dots,
 the names and the per-day exercise counts are all absent.

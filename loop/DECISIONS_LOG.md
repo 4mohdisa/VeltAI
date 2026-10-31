@@ -1262,3 +1262,8 @@
 - 2026-10-31 15:13 Rest-day condition becomes is_rest_day || !template. Every response the server produces behaves as before, and a no-template response now shows the rest-day state instead of nothing.
 - 2026-10-31 15:13 Locale keys left in place this round. Key removal is a separate counted step.
 - 2026-10-31 15:13 Row 113 stays DIFFERENT. Doc update waits for a separate doc round.
+- 2026-10-31 15:16 Chose the gap doc round (Jev's pick). The last report was flagged for an unclear type check, so step 1 re-runs tsc before any edit. The round is doc-only, so it cannot introduce new code risk.
+- 2026-10-31 15:16 Accepted the plan-branch wrapper removal in TodayCard, which was needed to clear TS2366. Its content and behaviour are unchanged.
+- 2026-10-31 15:16 Kept the Training list as an open Isa item. It is the only link to /gym/schedule, so removing it would orphan that screen.
+- 2026-10-31 15:16 Rewrote the notes under 600 words, merging repeated items and deleting finished work.
+- 2026-10-31 15:16 Wording fixes for gap lines 399-400 (missing comma) and the row 89 note are queued as their own doc round.
