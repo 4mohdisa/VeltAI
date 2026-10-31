@@ -30,7 +30,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
-import { color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { color, layout, opacity, radius, space, surface } from '@/lib/design/tokens';
 import { formatCalories, formatNumber } from '@/lib/formatting';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
@@ -51,6 +51,8 @@ const STEP = 50;
 const PRESETS = [100, 250, 500, 750];
 /** The design's glyph size inside the discs — no token covers it. */
 const DISC_GLYPH = 20;
+/** The design's pressed dim on the hero figure — no token covers it. */
+const HERO_PRESSED_OPACITY = 0.6;
 
 export default function QuickAddScreen() {
   const { t } = useTranslation();
@@ -65,10 +67,7 @@ export default function QuickAddScreen() {
   const [mealType, setMealType] = useState<MealSlot>(initialSlot);
   const [submitting, setSubmitting] = useState(false);
 
-  const invalid = kcal <= 0;
-
   const add = async () => {
-    if (invalid) return;
     setSubmitting(true);
     const name = 'Quick add';
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
@@ -113,6 +112,7 @@ export default function QuickAddScreen() {
         height: layout.buttonHeight,
         borderRadius: radius.full,
         backgroundColor: pressed ? surface.tilePressed : surface.tile,
+        opacity: opacity.full,
         alignItems: 'center',
         justifyContent: 'center',
       })}
@@ -133,7 +133,12 @@ export default function QuickAddScreen() {
             }}
             minTapTarget={false}
             accessibilityLabel={t('food.tileEditLabel', { label: t('gymLog.celebration.calories') })}
-            style={{ flex: 1, alignItems: 'center', borderRadius: radius.md }}
+            style={({ pressed }) => ({
+              flex: 1,
+              alignItems: 'center',
+              borderRadius: radius.md,
+              opacity: pressed ? HERO_PRESSED_OPACITY : opacity.full,
+            })}
           >
             {/* The design's hero figure: tight tracking, greyed while it waits
                 for the first keystroke. */}
@@ -159,6 +164,7 @@ export default function QuickAddScreen() {
                   minHeight: layout.tapTarget,
                   borderRadius: radius.pill,
                   backgroundColor: pressed ? surface.tilePressed : surface.tile,
+                  opacity: opacity.full,
                   alignItems: 'center',
                   justifyContent: 'center',
                 })}
@@ -190,7 +196,6 @@ export default function QuickAddScreen() {
           <Button
             title={t('food.quickAddAction', { calories: formatCalories(kcal) })}
             onPress={() => void add()}
-            disabled={invalid}
             loading={submitting}
             style={{ paddingVertical: space.md }}
           />

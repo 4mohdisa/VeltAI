@@ -2336,3 +2336,8 @@
 - 2026-11-01 00:37 Loop flagged R216 again, though its report shows tsc exit 0. Row 85 doc-wording rounds R213-R216 have now been flagged more than twice, so per the two-flag rule they go to Blocked on Isa and are not retried.
 - 2026-11-01 00:37 Chose the row 87 re-check next: doc-only, tsc only, needs no owner input, and it is the next item in the Next list.
 - 2026-11-01 00:37 Row 87 re-check also checks the 'Check your connection' and hardcoded 'Quick add' items against the design, without fixing them, since they are already in Parked or the difference list.
+- 2026-11-01 00:39 Chose a build over the doc fix, because the row 87 build can be done without Isa and the type check gives a clean exit code to answer the flagged report.
+- 2026-11-01 00:39 Left the 17/24 confirm label, disc glyphs, figure default, meal default, caret, sheet padding and keyboard view out of this round, because they need Isa's decision or a device check.
+- 2026-11-01 00:39 Followed the design on the zero-kcal confirm pill, per the default: design wins over app behaviour.
+- 2026-11-01 00:39 Kept the doc row 87 edit to the status line only, so the flagged round stays small. The doc section fix is the next round.
+- 2026-11-01 00:39 Did not run tests, because quick-add.tsx has no render test and the loop rules limit test runs to tsc on doc-only or small rounds.
