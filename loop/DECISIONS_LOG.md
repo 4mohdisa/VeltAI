@@ -1471,3 +1471,8 @@
 - 2026-10-31 16:57 Handover NEXT says to merge the empty-status line (gap line 90). Notes keep row 90 blocked on Isa, so it stays blocked and is not retried.
 - 2026-10-31 16:57 Chose R40 over the 'Add exercise' wording and the add sheet icons because it is the next item in the notes order and is a doc-only round that needs nothing from Isa.
 - 2026-10-31 16:57 Log-session failure branch read-only check (handover NEXT) is already recorded as passed in R35, so it is not repeated now.
+- 2026-10-31 16:59 Loop flagged R40 for no clear tsc result. Re-running tsc in a doc-only round with the exit code stated explicitly, to clear the flag before building again.
+- 2026-10-31 16:59 Chose the line-300 wording task because it is the next item in the notes, is doc-only, and needs nothing from Isa.
+- 2026-10-31 16:59 Row 90 merge stays Blocked on Isa. The handover suggested doing it, but the notes say do not retry unless Isa answers, and the notes win.
+- 2026-10-31 16:59 Spotted issues (rest seconds not saved, session_id sub-line, stale 'As recorded on 2026-09-13' text, SheetContent.tsx:156 comment) stay in the queue. Each is a separate round, so none is bundled into this one.
+- 2026-10-31 16:59 Prompt tells Claude Code to state the tsc exit code in CHECKED, so the next flag check can read it directly.
