@@ -2486,3 +2486,8 @@
 - 2026-11-01 01:25 Limited the change to gym.tsx and did not change FloatingHeader's default or other header callers. Reason: those callers are other surfaces and have not been checked.
 - 2026-11-01 01:25 Treated the flagged R247 report as handled by this round. The flag came from a doc-only round with no type check or tests, so this round runs tsc and the three named suites.
 - 2026-11-01 01:25 Ran only the three named Jest suites plus tsc, as the testing rules allow. Reason: the loop does not run the full suite outside checkpoint rounds.
+- 2026-11-01 01:26 Chose a verification round first, because the loop note flags R248 as partly checked (full suite not run, no test covers the header change). Clears the flag before any new work.
+- 2026-11-01 01:26 Restricted the test run to gym.tsx-related suites plus the three known suites, not the full suite, per the testing rules. This is not a checkpoint round.
+- 2026-11-01 01:26 Kept the top padding inset-tied, as already recorded. Not reopened.
+- 2026-11-01 01:26 Parked the Summary and Food re-checks for the next round. They need a row lookup first and do not clear the flag.
+- 2026-11-01 01:26 Jev run 76% agreed. Ask and stop are not justified, since the only open question is a device check that Isa owns.
