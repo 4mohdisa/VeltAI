@@ -2574,3 +2574,6 @@
 - 2026-11-01 02:12 Food title block (row 85) is not picked: the notes say it was built in R260, so the handover recommendation is stale and notes outrank handover.
 - 2026-11-01 02:12 Row 104 Steps card stays open for a later decision. It may need a step data source, and HealthKit work is off-limits.
 - 2026-11-01 02:12 Re-check runs in batches of 5 rows, so Summary differences 6 to 25, 29 and 30 come in later rounds.
+- 2026-11-01 02:14 Kept 6-10 over Jev's 6-11: the brief caps re-check rounds at 5 rows, so 6-11 breaks the cap. Concrete reason Jev cannot see.
+- 2026-11-01 02:14 Added a one-time type check (tsc only, no jest) to answer the flagged report, which ran no checks. Jest is skipped because no code changes in a doc-only round.
+- 2026-11-01 02:14 Did not pick the Food title block (row 85) because the re-check is still unfinished and Summary is the next step in the notes.
