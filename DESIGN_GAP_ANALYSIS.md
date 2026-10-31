@@ -1002,7 +1002,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 
 1. **Slim keyboard edit bar in editing mode only** — `src/app/food/detail.tsx:695` docks `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`); on a sheet that opens with locked values, it is reachable only after "Edit values manually" (`src/app/food/detail.tsx:388`, `:587`).
 2. Numbers are typed through `NumberEntryBar` (`src/app/food/detail.tsx:695`), captioned from `PADS` (`src/app/food/detail.tsx:56`).
-3. **"Edit values manually" is an app-invented mode**; the design has no read-only/editable distinction.
+3. **"Edit values manually" is an app-invented mode**; the design has no read-only/editable distinction. 'Edit values manually' translated for visible text and VoiceOver, BUILT, not verified.
 4. **Values are tap-to-edit in editing mode only:** the grams chip, the kcal readout and the macro tiles (`src/app/food/detail.tsx:500-519`, `:540`, `:602-643`). A sheet that opens with locked values shows them read-only until "Edit values manually" (`src/app/food/detail.tsx:388`, `:587`).
 5. No blinking caret affordance; the grams chip appears in editing mode only, and its pencil glyph hides while it is being edited (`src/app/food/detail.tsx:500-519`).
 6. **No 96×96 photo tile.**

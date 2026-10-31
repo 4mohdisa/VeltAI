@@ -138,7 +138,7 @@ describe('V6: a logged row is read, not typed', () => {
 
   test('its numbers stay values until "Edit values manually"', () => {
     expect(sheet).toContain('lockValues={!review}');
-    expect(sheet).toContain('Edit values manually');
+    expect(sheet).toContain("t('food.editValuesManually')");
   });
 
   // Fibre is wired end to end now (item 6), but only where a source provided

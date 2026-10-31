@@ -2132,3 +2132,12 @@
 - 2026-10-31 23:00 Chose candidate 1: the loop note flagged the last report as partly done, and the visible caption and SegmentedField label are the open part of the same task. Finishing it clears the flag before moving on.
 - 2026-10-31 23:00 Kept gymLog.celebration.calories for the VoiceOver calories label rather than adding a food-owned key. Reason: the brief said reuse existing keys and add none. Isa is asked to decide later (in BLOCKED on the report), so this is not a question this round.
 - 2026-10-31 23:00 Did not touch the 'g' unit, Edit item, Rename food or the Name field, because they are separate items on the next-steps list and the brief allows one task per round.
+- 2026-10-31 23:01 Kept the checkpoint over Jev's preferred 'Edit values manually' task. The loop note requires a checkpoint this round, and the 'Edit values manually' task is the next round's work, so it is not dropped.
+- 2026-10-31 23:01 Checkpoint is read-only and runs tsc and the app suite once, per the testing rules. No new tests or tooling.
+- 2026-10-31 23:01 Serving size line 488 comment noted for NEXT only, not changed, because checkpoint rounds change no files.
+- 2026-10-31 23:01 No question to Isa: nothing in this round needs him.
+- 2026-10-31 23:02 Chose Edit values manually as the next task: it is the next item in the notes, it is small, and it needs nothing from Isa.
+- 2026-10-31 23:02 Named design/Lume App.html (screen 71f71ac4) and the food/detail.tsx gap row in the prompt, to fix the rejection.
+- 2026-10-31 23:02 Told Claude Code to take the design wording for the en string if it differs, since design wording beats app wording.
+- 2026-10-31 23:02 Limited tests to foodDetail-related files and tsc, per the testing rules. No full suite, since this is not a checkpoint round.
+- 2026-10-31 23:02 Kept one shared key for visible text and VoiceOver, matching the existing tileEditLabel pattern.

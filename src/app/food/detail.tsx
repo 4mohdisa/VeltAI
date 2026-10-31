@@ -589,12 +589,12 @@ function DetailForm({
             <Pressable
               onPress={() => setManual(true)}
               accessibilityRole="button"
-              accessibilityLabel="Edit values manually"
+              accessibilityLabel={t('food.editValuesManually')}
               style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, alignSelf: 'flex-start' }}
             >
               <Icon name="pencil" size={15} color={color.secondaryLabel} />
               <Text variant="callout" color={color.secondaryLabel}>
-                Edit values manually
+                {t('food.editValuesManually')}
               </Text>
             </Pressable>
           </>

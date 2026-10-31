@@ -173,7 +173,8 @@
     "padFat": "Grasa · gramos",
     "padFibre": "Fibra · gramos",
     "tileEditLabel": "{{label}}, toca para escribir",
-    "servingSize": "Tamaño de la porción"
+    "servingSize": "Tamaño de la porción",
+    "editValuesManually": "Editar valores manualmente"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",
