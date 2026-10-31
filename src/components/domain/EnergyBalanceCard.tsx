@@ -152,7 +152,7 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
         {net != null ? (
           <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 7 }}>
             <Text variant="statLarge" color={color.label} style={{ letterSpacing: -1 }}>
-              {net < 0 ? `−${show(-net)}` : show(net)}
+              {net < 0 ? `−${show(-net)}` : `+${show(net)}`}
             </Text>
             <Text variant="callout" color={color.secondaryLabel}>
               {energyUnit} {t(net < 0 ? 'dashboard.energyBalance.deficit' : 'dashboard.energyBalance.surplus')}

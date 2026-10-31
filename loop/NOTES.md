@@ -11,6 +11,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gym Log follows showLogCta. Gym tab shows today. Swipe colour color.primary.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice.
 - TAB_BAR_CLEARANCE left untouched.
+- Literals only where no token covers the value (7, -1, 1.1, -0.6, 52).
 - Snapshot updates need Isa approval. Never pass -u or edit .snap files.
 - Shared components DetailChart.tsx and SegmentedField.tsx need Isa approval.
 - Code tidying is never a task. Doc fixes wait until no build row is open, except corrections inside a re-check round.
@@ -19,29 +20,32 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Checkpoints: tsc plus jest --ci, no -u.
 - A flagged report is answered by a tsc re-run in the next doc-only round, with exit code recorded. If repeated, answer with a code round running tsc and changed-file tests.
 - Unanswered questions are not repeated.
+- Food eyebrow uses Pressable defaults for hit slop; haptics off, matching neighbouring links.
+- No BUILT claims for Macros kicker or Breakdown dots: they live in shared DetailChart.tsx.
 
 ## Status
-- R277: Energy balance hero stat (difference 14, EnergyBalanceCard.tsx:153-154, letter spacing 0 to -1, baseline gap 8 to 7). Sent. Chosen by Jev ranking and handover Next item 2. Gap-doc row to be confirmed in the report.
-- R276: Food title block, row 85. Re-checked: already matches bundle 71f71ac4 (eyebrow 1.1, title -0.6, right 52, gap/bottom 0, sides 4). Row 85 title line marked BUILT, code re-checked. No code change. tsc 0; six-file tests 111/111.
-- R275: Summary eyebrow spacing (row 25) built, index.tsx:96 letterSpacing 1 to 1.1. tsc 0; five-file tests 83/83.
-- R274: Summary title block and streak row built (index.tsx:92, :100, :121). tsc 0; five-file tests 83/83.
+- R278: Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155). Sent. Chosen by Jev ranking (run 99%) and handover Next item 1. Gap-doc row to be confirmed in the report.
+- R277: Energy balance hero stat (difference 14) BUILT, code re-checked. EnergyBalanceCard.tsx:153-154: baseline gap 8 to 7, letter spacing 0 to -1. tsc 0; three-file tests 65/65.
+- R276: Food title block, row 85. Re-checked: already matches bundle 71f71ac4. Row 85 title line marked BUILT, code re-checked. No code change.
+- R275: Summary eyebrow spacing (row 25) built, index.tsx letterSpacing 1 to 1.1. tsc 0; five-file tests 83/83.
+- R274: Summary title block and streak row built. tsc 0; five-file tests 83/83.
 - R273: Summary 26-30 re-checked. 28-30 need Isa.
 - R270-272: Summary 1-25 re-checked; differences in the gap doc.
+- Handover done at R275 (summary in loop/HANDOVER.md). Next due R290.
 - Last full checkpoint R258: tsc 0, 65/65 suites, 824/824. R265 checkpoint never reported.
-- R240-264: gym cluster, Summary and Food values built; row 85 title block built R260.
-- Handover done at R275. Next due R290.
+- Current snapshot state: detailChrome macros snapshot is RED from the Macros card gap change (dashboard/nutrition.tsx). Needs one Isa-approved jest -u on that file.
 
 ## Open rows
 - 83 DIFFERENT: sheet-in-place parked; button height and type parked.
-- 85 DIFFERENT: title block BUILT (re-checked R276). Calorie bar, 'left today', four-column wrap open (Blocked). Stale citations in row 85 (:633, :542 now about :655, :564) are a doc fix, waiting.
+- 85 DIFFERENT: title block BUILT. Calorie bar, 'left today', four-column wrap open (Blocked). Stale citations in row 85 (food.tsx:633 and :542, now about :655 and :564) are a doc fix, waiting.
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
-- 103 DIFFERENT: card gap built. DetailChart.tsx open (Blocked). Energy.tsx, dashboard/week.tsx, dashboard/training.tsx still gap 12.
-- 104 PARTIAL: Steps card missing; four non-design items; Today only. Summary difference 14 in progress (R277). Summary 25 open.
+- 103 DIFFERENT: card gap 16 built in dashboard/nutrition.tsx. Kicker and Breakdown dots open (shared DetailChart.tsx, Blocked). energy.tsx, dashboard/week.tsx, dashboard/training.tsx still gap 12.
+- 104 PARTIAL: Steps card missing; four non-design items; Today only. Summary difference 12 in progress (R278). Difference 17 needs SegmentedField change.
 - 112 PARTIAL: top padding; GymPatternsCard padding; Training list and LoadFailedNotice app-only.
 
 ## Next
-1. Energy balance hero stat, difference 14 (R277, in progress). Confirm gap-doc row and result in report.
-2. Energy, week and training card gap 12 to 16, row 103 (values only).
+1. Energy balance net sign, difference 12 (R278, in progress). Confirm gap-doc row and result in report.
+2. Energy, week and training card gap 12 to 16, row 103 (values only; energy.tsx, dashboard/week.tsx, dashboard/training.tsx).
 3. Row 104 Steps card: build or park (needs Isa).
 4. Gym cluster, one file per round.
 5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
@@ -50,12 +54,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- 103: approve DetailChart.tsx edit and detailChrome snapshot update (asked R267, no answer).
+- 103: approve DetailChart.tsx edit (kicker, Breakdown dots, stat line) and detailChrome macros snapshot update (red from card gap; asked R267 and again in handover, no answer).
 - 85: calorie bar; 'left today'; four-column wrap.
 - 87: 17/24 vs 17/22; bottom spacing; figure and meal defaults; 180ms; chip truncation.
 - 112: GymPatternsCard padding 20 or 16.
-- 104: Steps card build or park (needs step data; HealthKit off-limits).
-- Summary 17: SegmentedField label and track padding and height. Needs approval; shared component.
+- 104: Steps card build or park (needs step data source; HealthKit off-limits).
+- Summary 17: SegmentedField label and track padding and height. Needs approval; shared component. Check inset callers first.
 - Summary 21: weekly workout target and calories per session. Exist or not?
 - Summary 28: glass and blur, design vs native.
 - Summary 29: profile initials vs person glyph; top insets.top + 4 vs 64.
@@ -63,21 +67,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Top padding Gym, Summary, Food: inset-based (recommended) or literal 70. Recommended inset-based; literal 70 leaves 8 under the status bar at a 62 inset.
 - Gym Log hidden on rest days: acceptable?
 - Burn target, differences 10-11: add data or accept app-only?
-- Energy week axis (15): data-driven (recommended) or fixed.
-- Header strip on floating screens: Screen.tsx:163 fixed 84 or inset-based.
+- Energy week axis (15): data-driven (recommended; fixed axes clip real values) or fixed.
+- Header strip on floating screens: Screen.tsx:163 is inset-based, not 82 or 84. Fixed 84 or inset-based?
 - Meal history link: keep or remove. Recommended keep; only entry to /food/history found.
 - Training list: keep or remove. Recommended keep.
 - LoadFailedNotice: accept as deviation. Recommended accept.
 - Device checks (owner only): fade, shadows, pull-to-refresh, title spacing, eyebrow centring, French button label, schedule weekday labels, bottom padding, header strip, Food block gap.
-- Native review es/fr strings and long labels.
+- Native review es/fr strings and long labels, including food.pickDayLabel (es and fr unreviewed).
 - TestPG_* (18 skipped): run against Postgres?
 
 ## Parked (one line each)
-- i18n: hardcoded English strings in Summary index.tsx:146/149/179, GymStatusCard.tsx:30, scan.ts:305, EnergyBalanceCard, WeekEnergyCard, WorkoutsWeekCard, summaryCards.ts, MacroBars.tsx, WeekStrip.tsx:43, ProfileAvatarButton.tsx:30; formatNumber en-AU.
-- Summary streak skeleton and load-failed notice (index.tsx:108, :114) use 4 above; not in design; sit 2 higher than the loaded streak row.
+- i18n: hardcoded English in Summary index.tsx (about :146, :149, :179), GymStatusCard.tsx:30, scan.ts:305, EnergyBalanceCard.tsx (:131, :135, :148, :164-165, :184, :191), WeekEnergyCard, WorkoutsWeekCard, summaryCards.ts, MacroBars.tsx, WeekStrip.tsx:43, ProfileAvatarButton.tsx:30, calendar.tsx; formatNumber en-AU.
+- Summary streak skeleton and load-failed notice (index.tsx:108, :114) use hardcoded English; not in design; sit 2 higher than the loaded streak row.
 - WeekEnergyCard zero case: net shows '+' only above 0; design shows '+0'.
 - Week stat: baseline gap 8 vs 6 and letter spacing 0 vs -0.6 (WeekEnergyCard.tsx:106-107).
-- Workouts stat: same two values as the Energy hero stat (WorkoutsWeekCard.tsx:40-41, difference 21); fix with the Energy stat round or separately.
+- Workouts stat: baseline gap 8 vs 7 and letter spacing 0 vs -1 (WorkoutsWeekCard.tsx:40-41; same values as the Energy hero stat, difference 21).
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Copy: foodLog.per100; CaloriesCard g; food.rowAnalysing; food.deleteItem; streak copy.
 - Missing: 'Updated {name}' toast; savedAdded toast; + menu toast; toast fade.
@@ -87,22 +91,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height.
-- Doc: stale gap-doc lines near 236, 310, 438, 448, 534, 588, 1520; stale recap lines 430-431 (still say title and spacing 'still different'); rows 85 and 104 say BUILT for 158; row 112 says EXACT; row 104 says BUILT for bottom padding and card gap while the Summary list says EXACT; row 85 stale citations :633 and :542.
+- Doc: stale gap-doc lines near 236, 310, 438, 448, 534, 588, 1520; stale recap lines 430-431 (still say title and spacing 'still different'); rows 85 and 104 say BUILT for 158; row 112 says EXACT; row 104 says BUILT for bottom padding and card gap while the Summary list says EXACT; row 85 stale citations.
 - Comment: ProfileAvatarButton.tsx:8 calls insets.top + space.xs the design's 64; fix in a doc or comment pass.
 - Comment: LumeTabBar.tsx:4 and _layout.tsx:26 wrong; fix in a doc or comment pass.
+- Two 'flagged report' requests in earlier rounds never said what was flagged; ignore unless repeated with detail.
+- Profile route is src/app/profile (src/app/(tabs)/profile does not exist).
 
 ## Accepted limits
-Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym, Summary and Food suites read source text only.
+Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym, Summary and Food suites read source text only; layout is largely untested.
 
 ## Gotchas
-- Decode design with node from __bundler/manifest into /tmp only. Bundles: Gym 7dc211f6, Summary 185bb533, Food 71f71ac4.
+- Decode design with node from __bundler/manifest into /tmp only. Bundles: Gym 7dc211f6, Summary 185bb533, Food 71f71ac4, Profile b09a5e65.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep. Capture exit codes. In zsh, `echo ====` errors.
 - Claude Code forgets at handover: name files fully.
 - Do not open loop/NOTES.md or loop/DECISIONS_LOG.md (not ours).
-- Line numbers shift; grep before citing.
+- Line numbers shift; grep before citing. Doc row numbers are file lines.
+- Most suites read source text, so layout is largely untested.
 
 ## Jev
-- R277: pending. Ranking: Energy hero stat first (run 98%).
+- R278: pending. Ranked Energy net sign first (run 99%).
+- R277: run 98%. Ranked Energy hero stat first. Took it.
 - R276: ask 1%. Ranked food title block first. Took it; row was already built.
 - R275: run 99%. Ranked Summary eyebrow first at 96%. Took it.
 - R274: run 94%. Ranked Summary 26-27 first. Took it.

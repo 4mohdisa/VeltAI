@@ -2614,3 +2614,7 @@
 - 2026-11-01 02:26 Limited the edit to two values and the one doc line, so the Workouts and Week stats (parked) stay untouched.
 - 2026-11-01 02:26 Required tsc plus changed-file tests only, with no -u, to keep usage low and respect snapshot rules.
 - 2026-11-01 02:26 Row 85 title block marked built on the re-check. Its stale citations are a doc fix and wait until no build row is open.
+- 2026-11-01 02:28 Chose the net sign task (candidate 1) because it is one line, needs no Isa decision, and was the recommended next task in the last report and handover. Jev ranks run at 99%, so no look-again was needed.
+- 2026-11-01 02:28 Kept the Workouts and Week stat differences parked. They are separate files and separate rows, and the rule is one surface per task.
+- 2026-11-01 02:28 Told Claude Code not to run -u on any snapshot. The detailChrome macros snapshot is already red and needs Isa's approval, so a snapshot failure here is reported, not fixed.
+- 2026-11-01 02:28 Listed the hardcoded English and stale doc lines under NEXT and Parked, not as tasks, per the stay-on-the-rows rule.
