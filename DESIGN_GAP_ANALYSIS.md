@@ -1016,7 +1016,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 14. Energy readout centred vs left-aligned; an extra *"for 250 g"* line the design does not have.
 15. Serving presets differ — fixed `[50,100,150,200]` or `[½×,1×,1½×,2×]` vs the food's own catalog servings.
 16. The serving control **does not de-select** on a manual override.
-17. **The meal switch is conditional**; in the design it is always present (that is how a new food's meal is chosen).
+17. **The meal switch is conditional**; in the design it is always present (that is how a new food's meal is chosen). The meal chip caption is translated: BUILT, not verified.
 18. *"Save to my dishes"* → *"Save to my foods"*, and a full secondary `Button` (52pt) vs a 44pt tile pill.
 19. Remove: a filled destructive button with a **blocking confirm** vs a plain red text button that fires immediately.
 20. **No "File under {meal}" CTA**; the app's nearest mode renames only.

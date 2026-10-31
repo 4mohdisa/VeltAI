@@ -657,7 +657,7 @@ function DetailForm({
             above the secondary "save" and the destructive remove. */}
         {slot ? (
           <SegmentedField
-            label="Meal"
+            label={t('food.quickAddMeal')}
             value={slot}
             onChange={(v) => setSlot(v)}
             options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`, { defaultValue: t('foodLog.addMeal') }), value: s }))}

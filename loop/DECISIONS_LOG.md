@@ -2159,3 +2159,7 @@
 - 2026-10-31 23:46 Treated food/detail.tsx macro tile labels as done, because the report confirms they already use nutrition.* keys.
 - 2026-10-31 23:46 Kept the rest of detail.tsx strings for a later round to keep this task to one change.
 - 2026-10-31 23:46 No question to Isa: this task needs nothing from him.
+- 2026-10-31 23:47 Chose the meal caption first: it is the last English text on the meal chip control from Next item 1, and the loop flag says finish a partly done task before the next one. Reason: it is one line and needs nothing from Isa.
+- 2026-10-31 23:47 Reuse food.quickAddMeal for the caption, as Claude Code suggested. Reason: it is the only English text left on the control and the key already exists for the same word.
+- 2026-10-31 23:47 Kept the doc change to one line in the food detail row, with no count change. Reason: rule that the gap doc is updated to BUILT, not verified, and that counts stay as they are.
+- 2026-10-31 23:47 Did not change the 'Snacks' es/fr label or the 'Petit-déjeuner' fit. Reason: these need native review and a device check, so they stay in Blocked on Isa.
