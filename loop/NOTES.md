@@ -13,7 +13,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Citations: insertion at line N moves only citations at or after N.
 - Checkpoint rounds read-only. Doc-only rounds: tsc only.
 - Claude Code never opens loop/NOTES.md or loop/DECISIONS_LOG.md. Prompts name the branch and forbid git.
-- Every prompt names the matching design/ file and gap row (or says none exists). One task, one file per prompt.
+- Every prompt names the matching design/ file and gap row (or says none exists). One task per prompt.
 - Tests: tsc once plus changed-file tests. 'No related tests found' is not a pass. No test covering a file means NOT COVERED.
 - Backend-dependent items stay Parked.
 - LoadFailedNotice: message required, no default. minTapTarget={false} kept (row 114).
@@ -23,6 +23,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Rendered Gym Training labels are a device check for Isa, not a loop test gap.
 - training.tsx has no hardcoded copy left. Helper English goes to Parked.
 - energy.tsx: design wording kept where the app has the data; app wording kept where the design states things the app cannot compute (deficit count, steps row, burn target sub). Recorded for Isa.
+- R125: shared date and duration helpers are not translated in this loop. They stay Parked.
 
 ## Status
 Last counted R89: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last green checkpoint R89 (tsc 0, 65 suites, 824 tests). R102 and R117 checkpoint results never reported.
@@ -30,24 +31,23 @@ BUILT, not verified:
 - LoadFailedNotice (R114, NOT COVERED).
 - StreakCounter colours and caption (R118-R119, NOT COVERED).
 - gym.tsx Training list title, row labels, Try again (R112). Device check pending.
-- week.tsx copy via t() (R116, R120). No gap row. Sweep incomplete.
+- week.tsx copy via t() (R116, R120, R125 sweep in progress). No gap row. Sweep incomplete.
 - training.tsx copy via t() (R121-R122). No gap row.
-- energy.tsx copy via t() (R123). No gap row. Breakdown key fix in progress (R124).
+- energy.tsx copy via t() (R123). Breakdown row keys now stable ids (R124, closed). No gap row.
 
 ## Next
-1. energy.tsx: stable Breakdown row keys; confirm no literal text left. Close the file.
-2. week.tsx: sweep remaining hardcoded copy.
-3. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-4. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+1. week.tsx: finish the hardcoded copy sweep (R125, in progress).
+2. Doc only: record Try again at gap line 76; fix stale citations at line 437 (gym.tsx:94-158) and line 1505 ('lines 72-75'); check row 112 'padding 20 vs 16' first.
+3. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+4. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
 6. add.tsx slotKey (~67): remove unused keys if confirmed.
 7. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
-8. Doc only: gap line 76 record Try again; line 437 cites gym.tsx:94-158 (stale); line 1505 cites 'lines 72-75' (stale); row 112 'padding 20 vs 16' check first.
-9. /gym/session saves top weight on all sets: fix or park.
-10. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-11. Freeze strings at count 1 read wrongly.
-12. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117 results.
-13. No rows left: stop with 'only owner decisions remain'.
+8. /gym/session saves top weight on all sets: fix or park.
+9. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+10. Freeze strings at count 1 read wrongly.
+11. Checkpoint: full tsc and full app suite, read-only. Include R102 and R117 results.
+12. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
@@ -98,4 +98,5 @@ R90-R114: strings via t(); LoadFailedNotice message required; row 114 deviation 
 R101, R113 rejected. R102 and R117 checkpoints issued, never reported.
 R103-R112: Breakdown via t() across screens; gym.tsx Training labels via t().
 R116-R122: week.tsx and training.tsx copy to t(); StreakCounter colours and caption.
-R123: energy.tsx copy to t(). Flagged as partly done (loop note). R124: closing it.
+R123: energy.tsx copy to t(). R124: Breakdown row keys made stable ids, closed.
+R125: week.tsx hardcoded copy sweep (en, es, fr keys together). Handover NEXT item on shared helpers rejected: they are Parked.

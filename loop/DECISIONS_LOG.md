@@ -1892,3 +1892,8 @@
 - 2026-10-31 21:14 Kept energy.tsx's app wording where the design states data the app cannot compute, as recorded in the notes, and left it for Isa to decide.
 - 2026-10-31 21:14 Shared date and duration helpers (formatRelativeDate, weekdayShort, dayMonth, formatDuration) are multi-file, so they go to Parked, not this round.
 - 2026-10-31 21:14 Notes rewritten under 600 words: finished work merged, duplicates collapsed, decisions kept verbatim.
+- 2026-10-31 21:15 Chose the week.tsx sweep because it is the first open item in Next and it is the last hardcoded surface left in the detail-screen group. The doc-only fixes clear no rows.
+- 2026-10-31 21:15 Rejected the handover NEXT suggestion to translate formatRelativeDate, weekdayShort, dayMonth and formatDuration. They are already in Parked and are shared helpers outside the design rows, so translating them would be new work.
+- 2026-10-31 21:15 Allowed the locale files to change in the same task because new keys must go to en, es and fr together. This is the only extra file.
+- 2026-10-31 21:15 Did not add a gap row for week.tsx. Isa has not answered whether one should exist, and line 364 has no reason cell to write into.
+- 2026-10-31 21:15 Marked energy.tsx Breakdown keys (R124) as closed, because the report confirmed no literal text is left and the file type-checks.
