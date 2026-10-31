@@ -2246,3 +2246,11 @@
 - 2026-11-01 00:14 Kept the stale doc bullet out of this task because a doc edit is a separate single task and the report asked to keep it in NEXT.
 - 2026-11-01 00:14 Parked the 'Quick add' stored name, NumberEntryBar 'Done', and the Save to my foods wording check from the R196 report as code and copy items outside row 86 and 87 scope.
 - 2026-11-01 00:14 Jev ranked the same candidates and is 89% confident in run, so I kept run.
+- 2026-11-01 00:16 Treated the R196 flag as cleared: R197 ran tsc and the four related test files, all green. Claude Code cannot clear loop flags, so the flag is cleared by this note.
+- 2026-11-01 00:16 Treated the R197 'partly done' flag as addressed: R197 was a check-only round, and the report correctly made no code change.
+- 2026-11-01 00:16 Chose the doc bullet first (smallest, doc-only, already next in notes) so the gap doc matches row 87 before any detail.tsx work.
+- 2026-11-01 00:16 Rewrote notes under 600 words: merged repeated Parked and Blocked items, deleted finished work, kept all Decisions.
+- 2026-11-01 00:16 Chose the 'Edit food' and 'Save changes' task as the next step in the Next list, since it reuses an existing key and needs nothing from Isa.
+- 2026-11-01 00:16 Rewrote the prompt to name design/Lume App.html (food screen 71f71ac4) and row 86, because the loop note said the last prompt was rejected for not naming the design file.
+- 2026-11-01 00:16 Added a no-change exit for strings the design does not show, following the verify-first rule.
+- 2026-11-01 00:16 Kept the Jev 'ask' signal at low confidence (0.34) and did not ask Isa, because nothing in this task needs his dashboards or devices.
