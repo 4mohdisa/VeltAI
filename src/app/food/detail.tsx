@@ -13,6 +13,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
@@ -75,6 +76,7 @@ const CHIP_GLYPH = 13;
 type FoodValues = Omit<DetailItem, 'id'>;
 
 export default function FoodDetailScreen() {
+  const { t } = useTranslation();
   // Read the subject ONCE. The sheet is about the thing it was opened on, so a
   // later store write (the next open, or a clear on the way out) must not swap
   // the content out from under a half-finished edit.
@@ -323,7 +325,7 @@ export default function FoodDetailScreen() {
         review
           ? undefined
           : {
-              label: 'Delete item',
+              label: t('food.deleteItem'),
               confirm: `Delete ${item.name}?`,
               run: () => {
                 deleteFoodItem(item.id);

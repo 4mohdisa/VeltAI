@@ -2087,3 +2087,8 @@
 - 2026-10-31 22:48 Told Claude Code to take the wording from the design bundle rather than guess 'Analysing', since the design file is the source of truth.
 - 2026-10-31 22:48 Set es and fr values to 'Analizando…' and 'Analyse…' so the key is complete in all three locales, as the locale rule requires.
 - 2026-10-31 22:48 Limited tests to tsc plus files that reference food.tsx or the key, per the testing rules.
+- 2026-10-31 22:49 Chose food/detail.tsx 'Delete item' as the smallest task that needs nothing from Isa and clears a known untranslated string.
+- 2026-10-31 22:49 SwipeableRow defaults: the handover says 'Delete' and 'Cancel' are untranslated, but the notes record R163 as confirmed translated with no edit. Treated the handover as stale; grep before acting in a later round.
+- 2026-10-31 22:49 Pending-row ellipsis: kept the current state (en without, es and fr with) and flagged it for native review, because the brief specified the es and fr wording. Revisit if Isa asks for a change.
+- 2026-10-31 22:49 Shared food.rowAnalysing key now also drives VoiceOver. Accepted for v1; a second key would be needed to split them, which is not worth a new key right now.
+- 2026-10-31 22:49 Did not trace the scan.ts:118 failed-scan name in this round; it is recorded in NEXT for a read-only check so the build stays one task.

@@ -157,7 +157,8 @@
     "savedEmptySearchMessage": "Essayez un autre nom.",
     "savedEditLabel": "Modifier {{name}}",
     "savedAddLabel": "Ajouter {{name}}",
-    "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}} g"
+    "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}} g",
+    "deleteItem": "Supprimer l’élément"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",
