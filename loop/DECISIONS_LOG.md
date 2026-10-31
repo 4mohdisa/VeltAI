@@ -2509,3 +2509,6 @@
 - 2026-11-01 01:32 The automatic flag said the last report's type check and tests were not run. Handled it by running tsc and tabNavigation.test.ts in this round, after the code change that needs them.
 - 2026-11-01 01:32 Row 104 stays PARTIAL, not BUILT, because the Steps card and the non-design items are still open.
 - 2026-11-01 01:32 Parked the Summary hardcoded English (index.tsx:147, :150, :180) and the stale reference near line 1518 instead of tasking them.
+- 2026-11-01 01:34 Chose the row 104 record fix because the loop flagged R253 as partly done; it is the smallest task and clears the flag before any new row.
+- 2026-11-01 01:34 Kept the task doc-only with no tsc or tests, because the change is text in DESIGN_GAP_ANALYSIS.md.
+- 2026-11-01 01:34 Rewrote the notes under 600 words as the loop note asked. Merged repeats and removed finished detail; decisions kept in shorter form.

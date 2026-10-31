@@ -372,14 +372,16 @@ Energy balance card, the Steps card, the Macros card and the readout.
 ### App write-up
 
 `src/app/(tabs)/index.tsx`. `SafeAreaView` on `surface.backgroundAlt`; scroll
-`paddingTop: insets.top + 12` (≈71), `paddingHorizontal: 16`, **`gap: space.md` (12)**,
-`paddingBottom: TAB_BAR_CLEARANCE` (≈100). Pull-to-refresh. `FloatingHeader
-height = insets.top + space.xl` (≈79) with an SVG gradient 0.86→0.20 and a
-`BlurView intensity 30` over the top 56%. `ProfileAvatarButton` at
+`paddingHorizontal: 16`. BUILT, not verified: bottom padding fixed 158, header
+`FloatingHeader` default 82, card gap 14. Top padding is still
+`insets.top + space.md`, pending Isa. Pull-to-refresh. `FloatingHeader` has an SVG
+gradient 0.86→0.20 and a `BlurView intensity 30` over the top 56%. `ProfileAvatarButton` at
 `top: insets.top + 4` (≈63), right 16, showing **initials** when a name exists.
 
 Order rendered: `PendingSyncBanner` → `EnergyBalanceCard` → `WeekEnergyCard` →
 `WorkoutsWeekCard` → Macros card → `GymStatusCard` → `MorningBriefCard` → plan card.
+The Steps card is missing, four non-design items are shown (`PendingSyncBanner`,
+`GymStatusCard`, `MorningBriefCard`, plan card), and scope is Today only.
 
 `EnergyBalanceCard`: Hardcoded strings wrapped in t() (BUILT, not verified).
 
@@ -415,7 +417,7 @@ design value for value.
 23. **Fibre can read "Not tracked · target n g"** where the design always shows a number and a bar.
 24. **Streak line is a control** (pushes `/gym/streak`) where the design is static text; copy is *"14 day streak"* (space) vs *"14-day streak"* (hyphen); the flame **pulses** and greys at 0.
 25. Eyebrow `letter-spacing` 1 vs 1.1; the date string is locale-dependent (adds a comma in en-GB/en-AU, reorders in en-US) where the design's is fixed.
-26. Title (`src/app/(tabs)/index.tsx:101`): letter spacing 0 vs -0.6 and right padding 0 vs 52 (the design reserves 52 so the title cannot collide with the avatar).
+26. Title (`src/app/(tabs)/index.tsx:100`): letter spacing 0 vs -0.6 and right padding 0 vs 52 (the design reserves 52 so the title cannot collide with the avatar).
 27. Spacing: BUILT, not verified: card gap 14 and bottom padding 158 set in `src/app/(tabs)/index.tsx`. Still different: title block (`:92`): gap 4 vs 2, bottom padding 4 vs 6, side padding 0 vs 4; streak row (`:121`): gap 4 vs 6, top padding 4 vs 6.
 28. Header strip: BUILT, not verified: height is a fixed 82 because `src/app/(tabs)/index.tsx` now uses the `FloatingHeader` default. Still different: the blur is an approximation, because RN cannot mask a backdrop filter (`src/components/navigation/FloatingHeader.tsx:10`), and the Reduce Transparency branch (`FloatingHeader.tsx:42`) has no design counterpart.
 29. Profile button top 63 vs 64 and shows **initials**, which the design never does.
