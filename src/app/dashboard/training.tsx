@@ -56,12 +56,13 @@ function sessionSummary(sessions: GymSession[]): string {
 }
 
 export default function TrainingDetailScreen(): JSX.Element {
+  const { t } = useTranslation();
   const { sessions, dates, loading } = useGymRange(RANGE_DAYS);
   const energy = useEnergyRange();
 
   return (
     <Screen variant="floating" showBack>
-      <KickerTitle kicker="Training" title="Workouts" tint={categoryAccent.positive} />
+      <KickerTitle kicker={t('dashboard.training')} title={t('dashboard.workouts')} tint={categoryAccent.positive} />
       {loading ? (
         <>
           <Skeleton height={HERO_H} rounded={radius.xl} />
@@ -70,8 +71,8 @@ export default function TrainingDetailScreen(): JSX.Element {
       ) : sessions.length === 0 ? (
         <EmptyState
           icon="barbell"
-          title="No sessions yet"
-          message="Log a gym session and it will show up here."
+          title={t('dashboard.trainingNoSessionsTitle')}
+          message={t('dashboard.trainingNoSessionsMessage')}
         />
       ) : (
         <Body sessions={sessions} dates={dates} energyDays={energy.days} energyLoading={energy.loading} />
@@ -133,24 +134,24 @@ function Body({
         <View style={{ gap: space.lg }}>
           <StatLine
             value={String(weekSessions)}
-            unit={weekSessions === 1 ? 'session this week' : 'sessions this week'}
-            sub={weekTotal > 0 ? `${formatDuration(weekTotal)} trained` : undefined}
+            unit={t('dashboard.sessionsThisWeek', { count: weekSessions })}
+            sub={weekTotal > 0 ? t('dashboard.durationTrained', { value: formatDuration(weekTotal) }) : undefined}
           />
           <View style={{ gap: space.sm }}>
-            <ChartHeader title="Minutes trained" note={`Last ${dates.length} days`} />
+            <ChartHeader title={t('dashboard.minutesTrained')} note={t('dashboard.lastDays', { count: dates.length })} />
             {trained.length === 0 ? (
               <EmptyState
                 icon="chart.bar.xaxis"
-                title="No durations yet"
-                message="Log a session with a duration to see how long you train."
+                title={t('dashboard.trainingNoDurationsTitle')}
+                message={t('dashboard.trainingNoDurationsMessage')}
               />
             ) : (
               <>
                 <Plot
                   cols={heroCols}
                   height={HERO_H}
-                  ceiling={`${formatNumber(heroScale)}m`}
-                  summary={`Minutes trained on each of the last ${dates.length} days, longest ${formatNumber(heroScale)} minutes.`}
+                  ceiling={t('dashboard.minutesCeiling', { value: formatNumber(heroScale) })}
+                  summary={t('dashboard.trainingMinutesSummary', { count: dates.length, value: formatNumber(heroScale) })}
                 />
                 <Axis labels={heroLabels(dates)} />
               </>
@@ -158,7 +159,7 @@ function Body({
           </View>
           {avgSession != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
-              {`${trained.length} of the last ${dates.length} days had a timed session, ${formatDuration(avgSession)} long on average.`}
+              {t('dashboard.trainingTimedAverage', { count: trained.length, total: dates.length, value: formatDuration(avgSession) })}
             </Text>
           ) : null}
         </View>
@@ -167,14 +168,14 @@ function Body({
       {/* Secondary — what the server attributed to training, day by day. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <ChartHeader title="Training energy" note="This week" />
+          <ChartHeader title={t('dashboard.trainingEnergy')} note={t('dashboard.thisWeek')} />
           {energyLoading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : energyWeek.length === 0 ? (
             <EmptyState
               icon="flame"
-              title="No energy data"
-              message="Lume could not work out what your training burned this week."
+              title={t('dashboard.trainingNoEnergyTitle')}
+              message={t('dashboard.trainingNoEnergyMessage')}
             />
           ) : (
             <>
@@ -182,11 +183,11 @@ function Body({
                 cols={secCols}
                 height={SEC_H}
                 ceiling={formatNumber(secScale)}
-                summary={`Training energy for each of the last ${energyWeek.length} days, up to ${formatNumber(secScale)} kcal.`}
+                summary={t('dashboard.trainingEnergySummary', { count: energyWeek.length, value: formatNumber(secScale) })}
               />
               <Axis labels={energyWeek.map((d) => weekdayShort(d.date).charAt(0))} />
               <Text variant="footnote" color={color.secondaryLabel}>
-                {`${formatNumber(gymKcal)} kcal attributed to training this week.`}
+                {t('dashboard.trainingKcalAttributed', { value: formatNumber(gymKcal) })}
               </Text>
             </>
           )}
@@ -208,9 +209,9 @@ function Body({
                 key={d}
                 tint={onDay.length > 0 ? categoryAccent.positive : color.light3}
                 label={formatRelativeDate(new Date(`${d}T00:00:00`))}
-                sub={onDay.length === 0 ? 'Rest day' : summary.length > 0 ? summary : 'Session logged'}
+                sub={onDay.length === 0 ? t('dashboard.restDay') : summary.length > 0 ? summary : t('dashboard.sessionLogged')}
                 value={m == null ? '—' : m === 0 ? '0' : formatNumber(m)}
-                unit={m == null ? undefined : 'min'}
+                unit={m == null ? undefined : t('dashboard.min')}
                 fraction={m == null ? 0 : m / rowMax}
               />
             );
@@ -219,8 +220,7 @@ function Body({
       </Card>
 
       <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
-        Sessions and durations come from what you logged. A session without a recorded duration is left blank rather
-        than counted as zero minutes.
+        {t('dashboard.trainingNote')}
       </Text>
     </>
   );

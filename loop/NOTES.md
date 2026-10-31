@@ -27,11 +27,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (as of R89; later changes in round log).
 Last green checkpoint: R89 (tsc 0, 65 suites, 824 tests). R102 and R117 checkpoint results never reported.
-BUILT, not verified: LoadFailedNotice (R114, NOT COVERED); week.tsx four strings (R116); StreakCounter colours and caption (R118-R119, NOT COVERED).
+BUILT, not verified:
+- LoadFailedNotice (R114, NOT COVERED).
+- week.tsx: all hardcoded copy now t() (R116 four strings, R120 the rest). es and fr unreviewed.
+- StreakCounter colours and caption (R118-R119, NOT COVERED).
+- Gym Training list title and four row labels, plus Try again (R112 era, gym.tsx). es and fr unreviewed. Device check pending.
 
 ## Next
-1. week.tsx: remaining hardcoded copy (labels, units, empty states, sentences, accessibility labels near lines 146 and 177), with es and fr keys. Current task.
-2. training.tsx and energy.tsx: remaining hardcoded copy, per row or English-only.
+1. training.tsx: remaining hardcoded copy to t(), reusing dashboard.lastDays and dashboard.kcal where text matches. Current task (R121).
+2. energy.tsx: remaining hardcoded copy, per row or English-only.
 3. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 4. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
 5. PlannedValuesForm.tsx:200 'Add exercise' vs design.
@@ -46,11 +50,12 @@ BUILT, not verified: LoadFailedNotice (R114, NOT COVERED); week.tsx four strings
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
-- Device checks: Gym Training labels (en, es, fr), logged card, offline failure, double notice (gym.tsx:107), TodayCard sub-line, LoadFailedNotice on screen, StreakCounter caption on profile and streak screens.
+- Device checks: Gym Training labels (en, es, fr), logged card, offline failure, double notice (gym.tsx:107), TodayCard sub-line, LoadFailedNotice on screen, StreakCounter caption on profile and streak screens, es and fr text fit in rows and segmented control.
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review of new keys (gym.*, week.tsx, Gels, Congelaciones, AI insights, My dishes, Macros wording); 'Ingesta y gasto' and 'Apport et dépense' fit in the segmented control.
+- Native es/fr review of new keys (gym.*, week.tsx, training.tsx when done, Gels, Congelaciones, AI insights, My dishes, Macros wording). Specific review points: week.tsx weekNoNetMessage ('configuración inicial' and 'configuration' for onboarding); weekNetAveragedOver reads awkwardly in both languages.
+- 'Ingesta y gasto' and 'Apport et dépense' fit in the segmented control.
 - fr: 'gel' vs 'congélation' (recommend 'Appliquer un gel de série'); Breakdown 'Détail' vs 'Répartition' (recommend 'Répartition').
 - Which row records week.tsx, or whether a Week row should exist.
 - Group names; training list; profile row; streak wording; GetToday flag.
@@ -70,15 +75,18 @@ BUILT, not verified: LoadFailedNotice (R114, NOT COVERED); week.tsx four strings
 - Freeze: singular counts; toast before server reply; refusal unhandled; stale params streak.tsx:73.
 - Logged card tap target needs a day route. Macros history chart. Percent-of-target title.
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen.
-- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; duplicate nutrition.breakdown and dashboard.breakdown (merge once fr settled).
+- Week copy: dayMonth, weekdayShort and formatRelativeDate may output English dates ('Wed 2 Sep', 'Today') regardless of app language. Verify before changing.
+- Week copy: single-letter day axis (week.tsx ~179) depends on weekdayShort being translated.
+- Week copy: 'of N days' sentences (weekNetAveragedOver, weekNetSummary, weekNetAverage) read '1 of 1 days' at total 1, in all three languages.
+- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one; duplicate nutrition.breakdown and dashboard.breakdown (merge once fr settled); dashboard.kcal may duplicate another namespace's unit.
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice or the Gym Training labels. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week empty states or the Gym Training labels. No repo test loads the locale files. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
 
 ## Gotchas
 - Briefs repeat finished work, quote stale lines and name paths that don't exist. Check first.
-- Correct paths: src/app/energy.tsx; src/app/dashboard/training.tsx; locales in src/lib/i18n/locales/.
+- Correct paths: src/app/energy.tsx; src/app/dashboard/training.tsx; src/app/dashboard/week.tsx; locales in src/lib/i18n/locales/. Not src/locales, not src/app/training.tsx.
 - test.each assertions are shared across routes.
 - Design copy is encoded: decode the __bundler/manifest script with node. Lume screens: 7dc211f6, 185bb533, 71f71ac4, b09a5e65.
 - zsh: quote (tabs) paths and globs. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
@@ -90,7 +98,8 @@ R101, R113: rejected. R102: checkpoint issued, never reported.
 R103-R112: Breakdown via t() on week, training, energy, macros; gym.tsx Training labels via t(); row 112 reason cell recorded.
 R114: LoadFailedNotice header fixed, default removed.
 R115: check-only. tsc 0. Hydration tests 16 passed. LoadFailedNotice NOT COVERED.
-R116: week.tsx four strings to t(); new es/fr keys flagged for review. Remaining copy listed.
+R116: week.tsx four strings to t(); new es/fr keys flagged for review.
 R117: read-only checkpoint issued. Result not reported.
 R118-R119: StreakCounter colour tokens, caption colour and comment changed. tsc 0. No tests (NOT COVERED).
-R120: week.tsx remaining copy (this round).
+R120: week.tsx remaining copy to t(). Kicker reuses nutrition.title. New dashboard keys in en, es, fr (net, kcal, kcalEatenPerDay, kcalNetPerDay, caloriesEaten, surplusVsDeficit, weekNoDaysTitle, weekNoDaysMessage, weekNoNetTitle, weekNoNetMessage, weekNetAveragedOver, weekTarget, weekNetSummary, weekNetAverage, weekRowBurned, weekRowNoBurn; lastDays, weekEatenSummary, weekEatenAverage with _one and _other). 'Last 1 day' fixed in en. tsc 0; summaryDetails and detailChrome 51 passed, 4 of 4 snapshots. es and fr rendering NOT COVERED.
+R121: training.tsx remaining copy to t() (this round).

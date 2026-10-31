@@ -1874,3 +1874,8 @@
 - 2026-10-31 21:02 Did not edit a gap row for week.tsx, because Isa has not chosen which row should record it. Reason-cell changes are not needed for string-only work.
 - 2026-10-31 21:02 Kept the StreakCounter caption on the design colour (label), per the default rule. Isa can override on device.
 - 2026-10-31 21:02 Parked StreakCounter extras (unused active and caption props, accessible prop on the View, duplicate gym.dayStreak and dashboard.dayStreak keys, stat-hero vs statLarge, caption case). They are cleanup or design decisions, not part of the current task.
+- 2026-10-31 21:05 Chose training.tsx: it is next in the queue, finishes the dashboard copy pass, and is a single file. Energy and food.tsx are next after it.
+- 2026-10-31 21:05 Told Claude Code to reuse dashboard.lastDays and dashboard.kcal where the text matches, to avoid duplicate keys.
+- 2026-10-31 21:05 Asked for es and fr wording with each new key listed in DONE, so Isa can review it in one place. Native review stays a Blocked item.
+- 2026-10-31 21:05 Kept the Week row question blocked. Isa has not answered it, and it does not stop this task.
+- 2026-10-31 21:05 Parked the date-format check and the 'of N days' plural bug as spotted items, not fixes. They touch week-specific wording that is still unreviewed.
