@@ -1668,3 +1668,7 @@
 - 2026-10-31 17:46 Did not act on the report's NEXT (make editSavedFood sync to the server). It is a backend change, so it stays under Parked.
 - 2026-10-31 17:46 Chose the stale doc citations first: a doc-only fix, one file, tsc only, clears false statements that would mislead the next round.
 - 2026-10-31 17:46 Gap row for saved-food fibre moved to item 2, since it is also doc-only and comes after the citation fix.
+- 2026-10-31 17:48 Chose the seed rounding check: it is a code fix, needs nothing from Isa, and it is smallest. The saved-food fibre gap row is doc-only and stays for a later doc round.
+- 2026-10-31 17:48 Prompt tells Claude Code to grep first and make no edit if the seeds are already fixed, because the handover and the last report disagree on this.
+- 2026-10-31 17:48 No question to Isa: the open Isa items do not block this task, and Jev's ask signal is outweighed by the defaults covering it.
+- 2026-10-31 17:48 Doc citation fixes from R80 accepted. Steps 2 to 4 of R80 treated as done or not needed, per the report.

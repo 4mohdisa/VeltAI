@@ -23,14 +23,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Macro totals stay whole (hMacroCols, gMacroDefs); one-decimal rounding is only on Food detail.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds (plannedRows rest_seconds, session.tsx:200); food detail macros and fibre at 1 decimal (MACRO_PRECISION detail.tsx:66, num :402); saved-food fibre read-back (mappers.ts, saved.tsx); citations; macro totals; quick add rounding (type-checked only); saved-food one-tap add logs fibre when > 0 (saved.tsx add action, R78); saved.tsx toEditable fibre check is > 0, matching add (R79, closed; no test covers it, Isa checks on screen).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds (plannedRows rest_seconds, session.tsx:200); food detail macros and fibre at 1 decimal (MACRO_PRECISION detail.tsx:66, num :402); saved-food fibre read-back (mappers.ts, saved.tsx); citations; macro totals; quick add rounding (type-checked only); saved-food one-tap add logs fibre when > 0 (saved.tsx add action, R78); saved.tsx toEditable fibre check is > 0, matching add (R79, closed; no test covers it, Isa checks on screen). R80 doc citations fixed (detail.tsx line numbers in DESIGN_GAP_ANALYSIS.md).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal macros, quickAdd rounding, fibre write or fibre read-back, or saved.tsx toEditable.
 
 ## Next
-1. R80 (assigned, doc-only): fix stale detail.tsx citations in DESIGN_GAP_ANALYSIS.md (:402, :411, :424, :437, :570, :608) by content. Line 1219 'Fibre is still rounded as it is typed' is false. Lines 1011 and 1012 are stale ('2-up inputs', 'Fibre is not editable'). tsc only.
+1. DONE (R80): stale detail.tsx citations and stale lines 1011, 1012, 1219 corrected. No further edit needed per report.
 2. Doc-only: add a gap row or note for saved-food fibre (none exists; closest is Food detail difference 13).
-3. Seed rounding: detail.tsx ~164-168 and ~224; (tabs)/food.tsx ~380-382. Grep first; edit only if still unfixed.
+3. R81 (assigned): seed rounding in detail.tsx (~164-168, ~224). Grep first; edit only if still unfixed. Then (tabs)/food.tsx ~380-382, same rule, separate round.
 4. Raw item values: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135-144. Needs a design decision first.
 5. Shared macro rounding helper for inline Math.round(x*10)/10 (detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25). Park if it needs more than one file.
 6. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
@@ -75,4 +75,4 @@ Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal m
 Summary guard test cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses fibre > 0, so a true 0 g food shows no Fibre tile. Saved-food edits are local only until the parked backend change. No test covers saved-food fibre write or read-back, saved.tsx toEditable, or decimal macros.
 
 ## Round log
-R9-R77: most surfaces built. Checkpoints R34, R48, R61, R77 green. R78: saved.tsx one-tap add logs fibre > 0 (BUILT, no test, flagged partial). R79: toEditable aligned to > 0 (BUILT). Flag closed: no test covers saved.tsx toEditable; reason stated, not tested. Report's NEXT (editSavedFood server sync) is a backend change, parked. R80: doc-only citation and stale-line fix assigned. Next checkpoint R91.
+R9-R77: most surfaces built. Checkpoints R34, R48, R61, R77 green. R78: saved.tsx one-tap add logs fibre > 0 (BUILT, no test, flagged partial). R79: toEditable aligned to > 0 (BUILT). Flag closed: no test covers saved.tsx toEditable; reason stated, not tested. Report's NEXT (editSavedFood server sync) is a backend change, parked. R80: doc-only citation and stale-line fix done; tsc exit 0. R81: seed rounding check in detail.tsx assigned (code, grep first). Next checkpoint R91.
