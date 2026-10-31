@@ -68,7 +68,7 @@ app departs from most often, and it is the core of the gym log-session problem.
 
 ## Summary table — worst first
 
-**23 surfaces ❌ DIFFERENT, 15 ⚠️ PARTIAL, 3 🔨 BUILT (not verified), 0 ✅ EXACT.** No surface compared in
+**24 surfaces ❌ DIFFERENT, 15 ⚠️ PARTIAL, 3 🔨 BUILT (not verified), 0 ✅ EXACT.** No surface compared in
 this pass matched the design on every checked value.
 
 | Screen / surface | Verdict | One-line reason |
@@ -100,7 +100,7 @@ this pass matched the design on every checked value.
 | Profile — AI insights | ❌ DIFFERENT | Design is three static insight cards + a push toggle; the app is a consent-gated hub with "Ask Lume" and dismissible feed. |
 | Profile — Delete account | ❌ DIFFERENT | Design is one confirm screen with a Cancel button; the app is a three-step flow ending in a typed "DELETE". |
 | Profile — Connected apps | ❌ DIFFERENT | Design has three providers incl. Apple Health with icon chips and inline pills; the app has two with emoji and full-width buttons. |
-| Summary — Macros detail | ❌ DIFFERENT | Title, "kcal from food" and the Protein, Carbs, Fat, Fibre rows match, but the app adds a "remaining today" line, a "Calories today" gauge and "Meals today", and lacks the design's macro history chart. |
+| Summary — Macros detail | ❌ DIFFERENT | Sub-line: design "Today · against daily targets"; app "remaining today".<br>Section title: design "Today against targets"; app "Against targets".<br>Footer: design "Targets scale with your 2,100 kcal calorie goal."; app "Targets scale with your calorie goal. Lume tracks today only, so there is no macro history to chart yet."<br>The design's macro history chart is missing from the app.<br>App-only: "remaining today", "Calories today" gauge, "Meals today" list.<br>Decision: copy follows design next round; app-only removals and the history chart are parked. |
 | **Summary (Home) tab** | ⚠️ PARTIAL | Cards that exist match closely in chrome and tokens, but the Steps card is missing, three non-design cards are added, and the day-scoping interaction does not exist. |
 | Food — Calendar sheet | ⚠️ PARTIAL | Same structure and copy; cell sizing, today's marker and arrow treatment differ. |
 | Profile — Preferences | ⚠️ PARTIAL | Same five controls and labels; selected-segment treatment inverted and the mixed-units rule differs. |

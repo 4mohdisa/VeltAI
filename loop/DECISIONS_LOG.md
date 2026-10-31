@@ -1336,3 +1336,7 @@
 - 2026-10-31 15:35 Treated the two new numbers in the snapshot (260 kcal remaining, 1,840 of 2,100) as passing because they match en.json text and the arithmetic. The design check in step 2 will confirm the layout intent.
 - 2026-10-31 15:35 Left summaryNoFabrication guard fix for the next round, since it is a test change and should not share a round with a doc edit.
 - 2026-10-31 15:35 Jev signals were advisory only. Its run confidence was 80%, which agrees with my choice, so no re-think was needed.
+- 2026-10-31 15:37 Kept run over Jev's ask: the Macros copy question is covered by the default (follow design), so no Isa question is needed.
+- 2026-10-31 15:37 Chose the doc fix first: the last report left the header count stale (23 vs 24) and the Macros row unedited; a doc-only round with one tsc run clears the flag cleanly.
+- 2026-10-31 15:37 Macros copy will follow the design (sub-line, title, footer). App-only removals and the macro history chart go to Parked, since removal and new data are excluded from this loop.
+- 2026-10-31 15:37 Notes rewritten under 600 words per loop note; finished work merged into single lines.
