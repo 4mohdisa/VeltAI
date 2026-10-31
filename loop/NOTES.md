@@ -21,25 +21,27 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Handover NEXT lines may be stale; latest report and notes win. Jev is advisory.
 
 ## Status
-- BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57).
+- BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57); session.tsx citations confirmed correct, no +1 shift needed (R58).
 - Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - Last checkpoint R48 green (tsc 0, 65 suites, 824 tests). Checkpoint due.
+- R58 report was flagged by the loop (type check or tests not run). R59 re-runs tsc as a doc-only round to clear the flag.
 
 ## Next
-1. Gap doc: add 1 to session.tsx citations above line 165, verified by content. Leave log-session.tsx cites alone.
-2. Check unrounded macro totals (hooks.ts ~116-118) and the screens that show them, for long decimals.
-3. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
-4. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
-5. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-6. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-7. PlannedValuesForm.tsx:200 'Add exercise': compare to design.
-8. Fix stale fibre note in summaryNoFabrication.test.ts header.
-9. Trace add.tsx slotKey (~67). Remove unused keys if confirmed unused.
-10. Volume: /gym/session saves top weight on all sets. Fix only without owner input, else park.
-11. Recheck gap lines 1006 onward (not checked since R52) and stale lines 328 and 334.
-12. Macro precision in applyGrams (detail.tsx ~421-423), search seed (~164-166), food tab seeds ((tabs)/food.tsx ~380-382); (tabs)/food.tsx ~895 unformatted. Check design for picked-serving behaviour first.
-13. Checkpoint: full tsc and app Jest, read-only.
-14. No rows left: stop with 'only owner decisions remain'.
+1. (Done R58, no edit needed) session.tsx citations already correct.
+2. Re-run tsc, doc-only (R59), to clear the flag.
+3. Check unrounded macro totals (hooks.ts ~116-118) and the screens that show them, for long decimals.
+4. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
+5. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
+6. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+7. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+8. PlannedValuesForm.tsx:200 'Add exercise': compare to design.
+9. Fix stale fibre note in summaryNoFabrication.test.ts header.
+10. Trace add.tsx slotKey (~67). Remove unused keys if confirmed unused.
+11. Volume: /gym/session saves top weight on all sets. Fix only without owner input, else park.
+12. Recheck gap lines 1006 onward (not checked since R52) and stale lines 328 and 334.
+13. Macro precision in applyGrams (detail.tsx ~421-423), search seed (~164-166), food tab seeds ((tabs)/food.tsx ~380-382); (tabs)/food.tsx ~895 unformatted. Check design for picked-serving behaviour first.
+14. Checkpoint: full tsc and app Jest, read-only.
+15. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing, or change the 'open it to edit' toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -80,4 +82,5 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R9-R50: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard, failure notices, checkpoints R34 and R48 green, session label, rest seconds, gap fixes.
 - R51-R56: citation and doc fixes; macros to 1 decimal (R56).
 - R57: detail.tsx citations fixed in gap doc. Done.
-- R58: notes rewrite; doc-only session.tsx citation check.
+- R58: session.tsx citation check, no edits needed; report flagged for missing tsc or tests.
+- R59: doc-only tsc re-run and citation confirmation (in progress).

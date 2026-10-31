@@ -1566,3 +1566,7 @@
 - 2026-10-31 17:23 Compressed notes to under 600 words by merging repeated items and dropping finished round detail, keeping every decision and open Isa item.
 - 2026-10-31 17:23 Rewrote the R57 status as done per the latest report, which says the detail.tsx citations are now correct.
 - 2026-10-31 17:23 Did not run tests: this is a doc-only round, and a checkpoint is still due later in the queue.
+- 2026-10-31 17:24 Chose the doc-only re-check first because the loop note flagged the last report as type check or tests not run, and the brief says to deal with a flag before moving on.
+- 2026-10-31 17:24 Did not apply the handover NEXT line (add 1 to session.tsx citations above line 165). The latest report shows all 19 citations already correct and a +1 shift would break them. Latest report and notes win over the handover.
+- 2026-10-31 17:24 Marked step 1 of the old Next list as done with no edit, since the citation check is complete.
+- 2026-10-31 17:24 Kept the tsc-only rule for doc-only rounds, so no Jest run this round. Jev run 86% agrees with running.
