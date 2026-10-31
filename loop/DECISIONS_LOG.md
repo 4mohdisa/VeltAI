@@ -1398,3 +1398,7 @@
 - 2026-10-31 15:56 Told Claude Code to leave the header counts alone and report any mismatch under NEXT, so the count fix stays a separate round.
 - 2026-10-31 15:56 Set the row status to DIFFERENT, matching the Parked and Status lines in these notes, rather than BUILT, since the Calories cell, tap target and wash pill are still open.
 - 2026-10-31 15:56 Marked R24 checkpoint as done: tsc exit 0 and app Jest 65 suites, 824 tests passing.
+- 2026-10-31 15:57 Chose the read-only verification round first, because the loop flagged R25 as partial (tsc ran before the final edit). Rule: fix a flagged report before moving on.
+- 2026-10-31 15:57 Asked for no edits, so the round cannot create new drift in the gap doc.
+- 2026-10-31 15:57 Did not repeat the 'correct line 71 counts' item from the handover: R25 reports the counts already match (24/14/4). R26 re-checks them instead of editing.
+- 2026-10-31 15:57 No Jest this round: doc-only, so tsc only, per the testing rules.

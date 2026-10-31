@@ -26,12 +26,12 @@ BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, s
 No test covers the TodayCard grid or chips.
 DIFFERENT: row 113 TodayCard fetch failure; Summary Macros detail (no chart, line 103); gym today's session card.
 Header counts (line 71): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Table has 43 rows; line 90 is empty-status.
-R23 gap-doc prose done, tsc exit 0, no tests run (doc only). Flagged by loop as partial; cleared by R24 checkpoint.
+R23 gap-doc prose done. R25 stale summary row fixed to match prose; status stays DIFFERENT. R25 tsc ran before its final one-phrase edit, so it is flagged partial.
 Last full run R24 (checkpoint): tsc exit 0; app Jest 65 suites, 824 tests, 4 snapshots, all passing.
 
 ## Next
-1. R25 (this round): gap-doc fix of the stale 'Gym - today's session card' summary row to match the R23 prose. tsc once, no Jest.
-2. Gap doc: check header counts (line 71) against the table after R25. Own round, tsc once.
+1. R26 (this round): read-only verification of R25. Run tsc once after the final edit; re-check the today's session card row against design/Lume App.html and its prose; re-count header counts against the table. No edits.
+2. If R26 is green and the counts match, clear the R25 flag and return to build work.
 3. Logged card open items: wash pill token (Isa); chevron on non-tappable card; tap target (needs day-detail route); 4-up grid needs per-session calories (backend, recommended next backend item).
 4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html.
 5. Gap doc: merge line 90 empty-status row into the Saved foods row above.
@@ -91,4 +91,5 @@ Last full run R24 (checkpoint): tsc exit 0; app Jest 65 suites, 824 tests, 4 sna
 - R22: 3-up logged grid and chips built, no tests cover them; flagged partial.
 - R23: gap-doc prose for today's session card. tsc exit 0, no tests (doc only). Flagged by loop.
 - R24: read-only checkpoint. tsc exit 0; app Jest 65 suites, 824 tests passing. Clears R23 flag for types and tests.
-- R25: gap-doc fix of stale today's session card summary row (requested). tsc once, no Jest.
+- R25: gap-doc fix of stale today's session card summary row. Doc only. tsc run before final one-phrase edit; flagged by loop as partial.
+- R26: read-only verification of R25 (tsc once after final edit, row and count re-check). No edits.
