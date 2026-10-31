@@ -1081,3 +1081,13 @@
 - 2026-10-31 13:53 Read-only round first: the loop note flagged R275 as partly done, and the rules say flagged reports are cleared by a read-only round before new build work.
 - 2026-10-31 13:53 Kept 'wrap remaining gym.tsx literals' as the next build task, to run only after this check confirms the list.
 - 2026-10-31 13:53 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept every decision line.
+- 2026-10-31 13:55 Chose the read-only round first because the loop flagged R276 and the notes say flagged reports are cleared by a read-only round before build work. R276 ran tsc, which passed, and deliberately skipped Jest, so this round runs tsc again and confirms the state.
+- 2026-10-31 13:55 Streak strip: follow the design layout (one row, footnote '{{streakSub}}') and drop Longest, Total and Freezes. Keep the tap to /gym/streak, because removing it would remove a feature. Record the tap as an accepted deviation in the gap file when the row is built.
+- 2026-10-31 13:55 Session count period for the footnote: keep the period the app already calculates. The design sample does not define one, so no question to Isa.
+- 2026-10-31 13:55 Training, Apply a streak freeze and Session history have no design match. Keep them as app-only rows and wrap them in t() later with English unchanged. Isa may still decide on Training under the Parked list.
+- 2026-10-31 13:55 Date line at gym.tsx:74 uses the device locale. Park it: it only matters once es or fr show, and src/lib/i18n/index.ts:41 keeps lng on en.
+- 2026-10-31 13:55 Chose the streak strip rebuild: it clears gap rows at 393 and 420, needs nothing from Isa, and is small. Already decided in notes (R277) and confirmed by the R278 read-only report.
+- 2026-10-31 13:55 R278 read-only round treated as clearing the R276 flag: tsc passed and the nine literal lines are now known. No edits were made, so no build work was lost.
+- 2026-10-31 13:55 Footnote uses the existing gym.streakSub key as-is, with no new keys, because the design footnote shows freezes and the decision drops Freezes from the strip. Counting period is parked, not decided.
+- 2026-10-31 13:55 Kept the tap to /gym/streak as an accepted deviation, per the existing Isa decision on streak strip routing.
+- 2026-10-31 13:55 Prompt names design/Lume App.html and the gap rows explicitly, to fix the rejected prompt.

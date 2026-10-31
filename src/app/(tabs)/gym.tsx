@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
-import { Stat } from '@/components/display/Stat';
 import { StreakFlame } from '@/components/display/StreakFlame';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Text } from '@/components/primitives/Text';
@@ -107,33 +106,22 @@ export default function GymLogScreen() {
             had, so label it rather than let it read as current. */}
         {gymError ? <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} /> : null}
 
-        {/* Streak strip: flame + count on one line, the streak's own numbers under it. */}
+        {/* Streak strip: flame + count on one line; the streak's own numbers live on /gym/streak. */}
         <Card
           variant="elevated"
+          padded={false}
           onPress={() => router.push('/gym/streak')}
           accessibilityLabel={t('gym.streakDetailLabel', { count: streak.current })}
+          style={{ paddingVertical: space.md, paddingHorizontal: space.lg }}
         >
-          <View style={{ gap: space.lg }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-              <StreakFlame size={space.xl} active={streak.current > 0} />
-              <Text variant="statSmall" color={color.label}>
-                {streak.current}
-              </Text>
-              <Text variant="bodyMedium" color={color.label}>
-                {t('gym.dayStreak', { count: streak.current })}
-              </Text>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Stat value={streak.longest} label="Longest" size="small" align="center" valueColor={color.label} />
-              <Stat value={streak.totalGymDays} label="Total" size="small" align="center" valueColor={color.label} />
-              <Stat
-                value={streak.freezesAvailable}
-                label="Freezes"
-                size="small"
-                align="center"
-                valueColor={color.label}
-              />
-            </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
+            <StreakFlame size={space.xl} active={streak.current > 0} />
+            <Text variant="statSmall" color={color.label}>
+              {streak.current}
+            </Text>
+            <Text variant="bodyMedium" color={color.label}>
+              {t('gym.dayStreak', { count: streak.current })}
+            </Text>
           </View>
         </Card>
 
