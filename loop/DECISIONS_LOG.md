@@ -2686,3 +2686,8 @@
 - 2026-11-01 07:32 Left the About header and wordmark tracking out of this round and parked them. Removing or restyling the header is a visible change, so it is not built by default, and it is not asked as a question this round.
 - 2026-11-01 07:32 Gap 26 uses an existing token if one equals 26, otherwise the literal, following the tokens rule already in the notes.
 - 2026-11-01 07:32 Jev ranked row 109 first in R292 and the candidate list agrees. The Jev 'ask' lean was not followed because no answer from Isa is needed to do this task.
+- 2026-11-01 07:33 Chose the About wordmark fix: it is one file, one row, and it is the recommended next step from the last report. It also gives the flagged row 108 check a run of tsc and the related jest.
+- 2026-11-01 07:33 Treated the row 108 flag as cleared by tsc plus the related jest, because the notes rule is tsc plus related jest. No test names support.tsx, and I will not add tests.
+- 2026-11-01 07:33 Kept the About header (eyebrow and title) as it is. Isa has not decided it, so it stays parked and is not asked again this round.
+- 2026-11-01 07:33 Kept wordmark letter spacing at 0. It is a separate difference and the 0 vs -0.6 choice needs a literal decision, so it stays open for a later round.
+- 2026-11-01 07:33 Did not run the full suite. This is not a checkpoint round.

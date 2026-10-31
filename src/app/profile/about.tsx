@@ -6,13 +6,13 @@ import { View } from 'react-native';
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { color } from '@/lib/design/tokens';
 import { APP_VERSION, BUILD_NUMBER } from '@/lib/appVersion';
 
 export default function AboutScreen() {
   return (
     <Screen variant="floating" eyebrow="The app" title="About" showBack contentStyle={{ gap: 26 }}>
-      <View style={{ alignItems: 'center', gap: space.xs, paddingVertical: space.xl }}>
+      <View style={{ alignItems: 'center', gap: 6 }}>
         <Text variant="title1" color={color.label}>
           Lume
         </Text>

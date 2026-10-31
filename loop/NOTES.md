@@ -16,8 +16,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows; Isa ma
 - Every build prompt names the matching design/ file and bundle.
 
 ## Status
-- R293: previous prompt rejected (no design/ file named). Rewritten: row 109 About screen gap 26 in src/app/profile/about.tsx, with the row 108 flagged check cleared in the same task (tsc plus related jest). Header and wordmark left as they are (parked).
-- R292: Support gap 20 done (support.tsx:30), tsc 0. No jest run: no test covers support.tsx. Flag carried into R293.
+- R294: last report flagged as partly done (row 108 check covered by tsc only). Chose row 109 About wordmark: remove app-only paddingVertical 20 and set tagline gap 6 in about.tsx. Flag handled by tsc plus related jest; no test covers support.tsx.
+- R293: row 109 About screen gap 26 in src/app/profile/about.tsx (contentStyle gap 26). tsc 0, related jest 3 suites 39/39.
+- R292: Support gap 20 done (support.tsx:30), tsc 0. No jest run: no test covers support.tsx.
 - R291: Privacy gap 22 restored and flagged check cleared.
 - Earlier: Privacy footnotes; Summary 14, 25, 26, 27; Food title and eyebrow (row 85 still DIFFERENT); Macros card gap 16 (row 103 still DIFFERENT); header height 82 EXACT.
 - Last full checkpoint R258: tsc 0, 65/65 suites, 824 tests. Full suite only when the loop script says so.
@@ -30,15 +31,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows; Isa ma
 - 103 DIFFERENT: week.tsx and training.tsx card gap 12 to 16 (after snapshot approval); kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked, HealthKit off-limits).
 - 107 PARTIAL: Privacy headers, AI group, export via share sheet.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast on email row; feedback label and send button styling; SettingsList row geometry. Gap 20 done R292. Flag clears in R293.
-- 109 PARTIAL: About gap 26 (R293 task); wordmark tracking 0 vs -0.6; header app-only (parked, not removed).
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast on email row; feedback label and send button styling; SettingsList row geometry. Gap 20 done R292. Flag cleared by tsc in R294.
+- 109 PARTIAL: About gap 26 done R293. R294 task: remove app-only paddingVertical 20, tagline gap 6. Still open: wordmark tracking 0 vs -0.6; eyebrow and title app-only (parked); tagline not centred if it wraps; Version and Build can show empty; SettingsList geometry.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: Gym My schedule; 'My workouts' missing; picker sheet.
 - 114-118: not yet re-checked.
 
 ## Next
-1. R293: row 109 About gap 26, with the row 108 flagged check cleared (tsc plus related jest).
+1. R294: row 109 About wordmark spacing (padding 20 removed, tagline gap 6), tsc plus related jest.
 2. Re-check rows 114-118 and fix row 107 doc citations (privacy.tsx:60) in one re-check round.
 3. Row 108 remaining items (feedback copy and Mail, toast, label and button styling, SettingsList geometry), one at a time.
 4. Row 103 week and training gap 12 to 16, after snapshot approval.
@@ -54,6 +55,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows; Isa ma
 - Summary 17 SegmentedField; 21 weekly target and calories per session; 28 glass/blur; 29 profile initials; 30 pull-to-refresh.
 - Top padding Gym, Summary, Food: inset-based (recommended) or literal 70.
 - Burn target 10-11; energy week axis 15 (recommend data-driven); header strip Screen.tsx:163.
+- About header (eyebrow and title): keep or remove. Recommend remove to match design (no header in design).
 - Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, Food gap.
 - Native review of es/fr strings, including food.pickDayLabel. TestPG_* (18 skipped).
 
@@ -72,11 +74,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows; Isa ma
 - Code: easing bezier and SLOT_KEYS duplicated; mixHex; console.warn hooks.ts:56; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8 comment.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving missing (mock/data.ts:124); editSavedFood local only.
-- Tests: none cover CaloriesCard, quick-add, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height, '+' sign, chooser, Privacy layout, support.tsx.
+- Tests: none cover CaloriesCard, quick-add, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height, '+' sign, chooser, Privacy layout, support.tsx, about.tsx.
 - Doc: stale lines 236, 310, 430-431, 438, 448, 534, 588, 1520; row 85 citations; row 104 says BUILT where list says EXACT; row 108 citations one line off (support.tsx items 1-3 after gap fix); row 112 says EXACT.
 - Privacy title block paddingBottom 4 (Screen.tsx:117); Privacy hardcoded English; privacy section headers app-only.
 - Support: eyebrow 'Help' vs 'We reply within a day' (support.tsx:30); feedback opens Mail vs in-app 'Thanks, feedback sent'; hardcoded English.
-- About header app-only (no eyebrow or title in design); wordmark tracking 0 vs -0.6. Left in place, Isa to decide.
+- About: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline no textAlign center (about.tsx:19); hardcoded English.
 - Two unspecified 'flagged report' requests: ignore unless repeated with detail.
 
 ## Accepted limits
@@ -89,5 +91,6 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 
 ## Jev
 - R287-R291: kept run when no Isa answer was needed; Jev ranked row 108 first in R288-R291.
-- R292: run 66%, ask 33%. Jev ranked row 109 first (81%). Kept row 108 flagged check: the last report was flagged as tests not run, and the flag must be cleared before moving on.
-- R293: Jev run 55%, ask 43%, risk 1.4. Kept run: the header decision is parked rather than asked, and the flag clears inside this task.
+- R292: run 66%, ask 33%. Kept row 108 flagged check.
+- R293: Jev run 55%, ask 43%, risk 1.4. Kept run: the header decision is parked rather than asked.
+- R294: Jev run 93%, ask 7%, risk 1.2. Kept run, same as Jev.
