@@ -1223,3 +1223,6 @@
 - 2026-10-31 15:03 Gap wording moves to R310 as its own round, per the rule that gap-file documentation is never bundled with a component change.
 - 2026-10-31 15:03 Recorded the R308 comma and line-400 wording change as accepted: the report explains that the sentence needed it.
 - 2026-10-31 15:03 Kept Isa's blocked items unchanged. None were answered in this handover.
+- 2026-10-31 15:03 Chose a read-only round with tsc and jest gym to clear the flag. The R309 report ran tsc only and did not run Jest, so the automatic flag is still open. Doc edits are not bundled with a flag clear, per the rule in these notes.
+- 2026-10-31 15:03 Kept the gap-file wording round as the next build-side doc task (R311), since it is doc-only and was the Jev top-ranked candidate.
+- 2026-10-31 15:03 Left the Jev suggestion of gap wording first unchanged; it is a second opinion and the flag-clear ordering rule still applies.
