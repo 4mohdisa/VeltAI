@@ -1,39 +1,40 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs rule is in AGENTS.md.
 
-BUILT THIS SESSION (not verified; es and fr unreviewed)
-- Copy moved to t(): src/app/dashboard/week.tsx, training.tsx, src/app/energy.tsx (also stable Breakdown row ids), src/components/gym/GymPatternsCard.tsx, src/app/(tabs)/food.tsx (two ErrorState messages, Food title, Calories title).
-- src/components/domain/StreakCounter.tsx: label, secondary and tertiaryLabel tokens; caption now color.label; comment fixed.
-- src/app/(tabs)/gym.tsx: comment typo only.
-- Locales: src/lib/i18n/locales/{en,es,fr}.json.
+BUILT THIS SESSION (not verified; es and fr are unreviewed drafts)
+- src/app/(tabs)/food.tsx: CaloriesCard macro names and energy label; logged-row VoiceOver label and hint; swipe-delete title and message, now date-neutral.
+- src/components/navigation/LumeTabBar.tsx: all tab labels; add-button VoiceOver strings.
+- src/components/navigation/AddMenu.tsx: close label; two menu labels.
+- src/app/(tabs)/_layout.tsx: all three titles.
+- src/lib/i18n/locales/{en,es,fr}.json: nutrition.energyLogged; tabBar.*; addMenu.logGymSession, logFood; food.rowAnalysing, rowAnalysisFailed, rowHint, removeTitle, removeMessage.
 
 GAP ROWS
-No status or header count changed. Reason lines added or corrected: 76 (Try again lives in LoadFailedNotice.tsx), 85 (Food titles), 112 (padding claim corrected: only GymPatternsCard keeps 20). Lines 436 and 1505 citations were correct; left alone. No rows exist for week, training or energy.
+No status or header count changed, and no row became BUILT. Reason lines added: 85 (Food day log), 118 (tab shell), 1503 ('+' menu), item 28 at line 955.
 
 IN PROGRESS: nothing.
 
 LAST CHECKS
-tsc exit 0. Six food source-text tests: 111 passed. summaryDetails and detailChrome: 51 passed, 4 snapshots, last run before the gym and food rounds. No full suite. NOT COVERED: LoadFailedNotice, StreakCounter, GymPatternsCard, Food tab, empty states, es and fr rendering, _one forms.
+tsc exit 0. foodDates 26 passed, after the final edit. tabbar.render 13 passed, last run before the food.tsx rounds. Six food source-text tests 111 passed, before the swipe-delete edit. No full suite.
+NOT COVERED: Food tab rendering, VoiceOver output, swipe dialog, energyLogged, _layout titles, es and fr rendering.
 
 DECISIONS
-- Kept app English where design copy claims data the app lacks (steps, burn target, weekly target).
-- Calories card reuses gymLog.celebration.calories, as briefed; shared wording risk flagged.
-- food.title is Comida and Repas; alternatives flagged.
-- Didn't set row 85 to BUILT: it covers the whole screen.
-- Corrected brief errors rather than writing false citations.
+- Tab labels reuse food.title, dashboard.summaryTitle, gym.title: tabs.summary and tabs.gym did not exist and no new keys were allowed. They share wording with those screens.
+- energyLogged is es "en total", fr "au total": no agreement with kcal or kJ, reads after the number.
+- tabBar.closeMenu kept separate from closeAddMenu: different controls, and a test finds "Close menu".
+- "Analysing photo" is design wording; not every pending path was traced.
 
 WAITING ON ISA
-es and fr review; device check (minutesCeiling, eatenAgainstBurned, inAndOut); fr Détail or Répartition; congélation or gel; GymPatternsCard padding 20 or 16; gap rows for detail screens; design wording differences; empty day: four meal cards or "No meals yet"; separate food.caloriesTitle.
+Native review of es and fr, including fr Sport; device and VoiceOver checks, including long es and fr add-menu labels wrapping in the 232pt panel; decision on a tabs.* namespace.
 
 NOT FIXED (recommended next: first item)
-- CaloriesCard macro names, food.tsx:665-667.
-- Tab label 'Food': LumeTabBar.tsx:38, (tabs)/_layout.tsx:32.
-- Parked: formatRelativeDate, weekdayShort, dayMonth, formatDuration; "of N days" plurals.
-- GymPatternsCard: server day and muscle values untranslated; "85%" format.
-- "Check your connection" invents a cause; "today's" shows on other dates.
-- SLOT_KEYS, food.savedTitle, raw item values; unused StreakCounter props; possible missing accessible prop; duplicate keys across namespaces; freeze strings and toast; TodayCard plan.sub; editSavedFood local only; /gym/session second row.
+- SwipeableRow.tsx:32,39 'Delete' and 'Cancel' defaults; dialog is half translated. common.cancel exists.
+- Other swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
+- food.tsx: visible "Analyzing…" (about 875), spelling differs from VoiceOver; P, C, F letters; g suffixes; raw energyUnit; "Check your connection" invents a cause.
+- tabBar.addHint es reads badly; addMenu.voice and describeOutLoud exist only in es.json.
+- Missing Fibre column; key={c.name} is translated; duplicate goals.* and nutrition.* macros.
+- Earlier list: date formatters, "of N days" plurals, GymPatternsCard values, SLOT_KEYS, savedTitle.
 
 GOTCHAS
 - Briefs quote stale lines and wrong premises; check first.
-- Design copy: decode from __bundler/manifest with node. Food is 71f71ac4; energy, week and training details are 185bb533.
-- zsh breaks on unquoted globs and "$s[" inside double quotes; quote (tabs) paths. grep exit 1 means no match; use LC_ALL=C /usr/bin/grep.
-- i18next plurals need both _one and _other; fr treats 0 as one.
+- Decode design from __bundler/manifest with node; screens 71f71ac4, 185bb533, 7dc211f6.
+- zsh breaks on unquoted globs and (tabs) paths; use LC_ALL=C /usr/bin/grep. A piped grep's exit code can mislead.
+- Test i18n is fixed to English. Some tests find controls by English label, so English changes can break them.
