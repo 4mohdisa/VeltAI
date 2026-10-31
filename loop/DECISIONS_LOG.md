@@ -1133,3 +1133,7 @@
 - 2026-10-31 14:07 Used the design wording 'My dishes' for en, with Spanish and French wording written for native review, as already decided in the notes.
 - 2026-10-31 14:07 Named the key food.savedTitle, beside food.loadFailed and food.savedLoadFailed.
 - 2026-10-31 14:07 Record the change on row 89 as a note only and do not change the row status, because the photo gallery layout is not built.
+- 2026-10-31 14:09 Chose a read-only check first: the loop note flags R288 as partly done, and the notes rule says flagged reports are cleared by a read-only round before build work.
+- 2026-10-31 14:09 Kept the run over ask: the check needs nothing from Isa and the base is green at R287, so the question on row 89 can wait.
+- 2026-10-31 14:09 Parked the row 89 table fix and the stale saved.tsx comments until the check shows exactly what is wrong.
+- 2026-10-31 14:09 Left the on-screen wording mismatch ('Search saved', 'No saved foods yet') for later: the row 89 decision may remove these strings.
