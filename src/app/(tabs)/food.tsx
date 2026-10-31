@@ -517,8 +517,8 @@ export default function FoodLogScreen() {
           return (
             <SwipeableRow
               onDelete={() => removeRow(row.id)}
-              confirmTitle={`Remove ${row.name}?`}
-              confirmMessage="This removes it from today's log."
+              confirmTitle={t('food.removeTitle', { name: row.name })}
+              confirmMessage={t('food.removeMessage')}
             >
               <FoodItemRow
                 item={row}

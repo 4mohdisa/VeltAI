@@ -141,7 +141,9 @@
     "savedTitle": "Mes plats",
     "rowAnalysing": "Analyse de la photo",
     "rowAnalysisFailed": "{{name}} : analyse impossible",
-    "rowHint": "Touchez deux fois pour modifier, balayez vers la gauche pour supprimer"
+    "rowHint": "Touchez deux fois pour modifier, balayez vers la gauche pour supprimer",
+    "removeTitle": "Supprimer {{name}} ?",
+    "removeMessage": "Cela le supprime du journal de ce jour."
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

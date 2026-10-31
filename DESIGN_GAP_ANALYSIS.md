@@ -952,7 +952,7 @@ calendar) with both arrows at the right, then the seven chips at
 25. Empty-meal row: a separate card piece vs an inline row; *"Add to Breakfast"* vs *"Add to breakfast"*; a 20px `add-circle-outline` vs a bare 15px `+`; height 56 vs 44.
 26. Units are `energyUnit` (kcal **or kJ**) throughout; the design is kcal-only.
 27. Elements with no design counterpart: `AnomalyBanner`, `LoadFailedNotice`, `ScanFeedbackPrompt`, `ScanReviewCard`, `ScanFailedCard`, the "Meal history" footer, the "Add custom food" footer, the day empty state, both error states.
-28. Swipe-to-delete with confirm, and long-press-to-delete a whole meal — no design counterpart.
+28. Swipe-to-delete with confirm, and long-press-to-delete a whole meal — no design counterpart. The swipe confirmation is now date-neutral and translated (BUILT, not verified).
 29. Pending-row copy and treatment differ (grey skeletons vs AI-tinted spinner and copy); a "failed" row state exists only in the app; the `"Confirm meal"` pill is absent.
 30. Header strip ≈79 vs 82; bottom padding ≈100 vs 158; block gap 12 vs 14.
 

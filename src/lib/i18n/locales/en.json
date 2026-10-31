@@ -141,7 +141,9 @@
     "savedTitle": "My dishes",
     "rowAnalysing": "Analysing photo",
     "rowAnalysisFailed": "{{name}} — couldn't be analysed",
-    "rowHint": "Double tap to edit, swipe left to delete"
+    "rowHint": "Double tap to edit, swipe left to delete",
+    "removeTitle": "Remove {{name}}?",
+    "removeMessage": "This removes it from this day's log."
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

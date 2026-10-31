@@ -143,7 +143,9 @@
     "savedTitle": "Mis platos",
     "rowAnalysing": "Analizando foto",
     "rowAnalysisFailed": "{{name}}: no se pudo analizar",
-    "rowHint": "Toca dos veces para editar, desliza a la izquierda para eliminar"
+    "rowHint": "Toca dos veces para editar, desliza a la izquierda para eliminar",
+    "removeTitle": "¿Eliminar {{name}}?",
+    "removeMessage": "Esto lo elimina del registro de este día."
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

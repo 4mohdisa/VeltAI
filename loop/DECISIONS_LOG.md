@@ -2021,3 +2021,8 @@
 - 2026-10-31 22:31 Spanish and French for the new keys are drafts to be flagged for native review. Isa already has es and fr review on his list.
 - 2026-10-31 22:31 Visible P/C/F letters, the swipe-delete prompt and the g and energyUnit displays stay out of this round. Each is a separate visible-copy change and is listed under NEXT.
 - 2026-10-31 22:31 Row 85 stays DIFFERENT. Only its reason line may change. Jev's low-confidence risk score is noted, so the task is kept to one row's strings.
+- 2026-10-31 22:33 Chose the delete prompt: it is a real visible bug (wrong on non-today dates), one file, and needs no design decision beyond neutral wording.
+- 2026-10-31 22:33 Did not pick the tab label: the notes say R149 finished it but the handover lists it as not fixed. Sent to a verification step later.
+- 2026-10-31 22:33 Did not pick CaloriesCard: row 85 covers the whole screen and cannot be marked BUILT in one round.
+- 2026-10-31 22:33 Wording 'this day's log' chosen as date-neutral because no design copy covers this prompt.
+- 2026-10-31 22:33 Asked Claude Code to reuse existing removal keys first to avoid duplicate keys.
