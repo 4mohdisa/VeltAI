@@ -1,12 +1,13 @@
-// Pure formatting helpers. All display strings flow through here so units and
+// Formatting helpers. All display strings flow through here so units and
 // locale stay consistent (Australian context: A$, metric-first).
+import i18n from '@/lib/i18n';
 
 export function formatNumber(value: number): string {
   return Math.round(value).toLocaleString('en-AU');
 }
 
 export function formatCalories(kcal: number): string {
-  return `${formatNumber(kcal)} kcal`;
+  return `${formatNumber(kcal)} ${i18n.t('dashboard.kcal')}`;
 }
 
 export function formatGrams(grams: number): string {

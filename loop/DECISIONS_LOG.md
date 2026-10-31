@@ -2200,3 +2200,12 @@
 - 2026-10-31 23:55 Kept addMenu.addToSlot and the current 'Add to {slot}' wording. Grammar fix stays with Isa under Blocked on Isa.
 - 2026-10-31 23:55 Told Claude Code to reuse existing keys where wording matches, to avoid new keys and duplicates.
 - 2026-10-31 23:55 Told Claude Code to update only one foodDetail.test.ts assertion if a moved literal breaks it, since the brief allows that test to change.
+- 2026-10-31 23:58 Checkpoint round per loop note: run full tsc and app suite, change no files.
+- 2026-10-31 23:58 Jev's run signal (88%) agrees with the loop note, so no second look was needed.
+- 2026-10-31 23:58 Notes rewritten to under 600 words. Finished work deleted, repeated items merged. Decisions kept in substance, none removed.
+- 2026-10-31 23:58 Blocked on Isa items merged into groups. Nothing retried or dropped.
+- 2026-10-31 23:58 Chose formatCalories because it is the last English left on food detail and it is one shared utility, so it is the smallest task that clears a visible row.
+- 2026-10-31 23:58 Named design/Lume App.html and the food detail row 23 in the prompt, because the loop note rejected the last prompt for missing the design file.
+- 2026-10-31 23:58 Told Claude Code to reuse dashboard.kcal and add no keys, so the en, es and fr rule holds.
+- 2026-10-31 23:58 Kept formatGrams 'g' out of scope to keep the round to one task.
+- 2026-10-31 23:58 Doc-only quick-add row fixes deferred to a later round, since the active code task is first.

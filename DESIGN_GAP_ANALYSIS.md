@@ -1022,7 +1022,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 20. **No "File under {meal}" CTA**; the app's nearest mode renames only.
 21. No "still calculating" holding row after adding a photo/dish item.
 22. Toast copy differs throughout; after adding, the app **navigates** (`router.replace`) where the design closes in place.
-23. Barcode "not found" and "No longer in your log" screens have no design counterpart. BUILT, not verified: the Food, Nothing to show, barcode lookup, No longer in your log, Product not found, Scan again, Confirm product, Name, g unit, kcal and per-100 g strings and the Added toast now go through t().
+23. Barcode "not found" and "No longer in your log" screens have no design counterpart. BUILT, not verified: the Food, Nothing to show, barcode lookup, No longer in your log, Product not found, Scan again, Confirm product, Name, g unit, kcal and per-100 g strings and the Added toast now go through t(). BUILT, not verified: formatCalories now uses dashboard.kcal.
 24. The design's search subject carries full macros; the app's is energy-only.
 
 **Built:** difference 24 is closed — the search branch of `src/app/food/detail.tsx` now shows the macro row from the result's per-100 g macros, and the kcal-only copy and comments were removed.
