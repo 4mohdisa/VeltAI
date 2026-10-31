@@ -2045,3 +2045,8 @@
 - 2026-10-31 22:38 Include the item 28 gap-doc line edit in this round, since it covers the same surface and the report flagged it as out of date.
 - 2026-10-31 22:38 Kept the swipe action colour as color.primary, per the decision not to change colour in a string round.
 - 2026-10-31 22:38 Jev's view (run, 94%) matches this choice; no loop note was raised.
+- 2026-10-31 22:40 Chose the new-recipe swipe title because it is the first item in the agreed Next order and needs no input from Isa.
+- 2026-10-31 22:40 Left the new-template title for the next round to keep one surface per round.
+- 2026-10-31 22:40 Told Claude Code to reuse food.removeTitle only when the English matches, otherwise add food.removeRecipeTitle, so the English stays unchanged and the es and fr drafts are not forced to match.
+- 2026-10-31 22:40 Kept the swipe colour unchanged, as the notes require until Isa decides on design red.
+- 2026-10-31 22:40 Added food/detail.tsx 'Delete item' to the spotted list only, since it sits outside this task.

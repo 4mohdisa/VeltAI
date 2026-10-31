@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
@@ -47,6 +48,7 @@ function ingredientFrom(food: FoodResult, grams: number): RecipeIngredient {
 type Stage = { kind: 'search' } | { kind: 'qty'; food: FoodResult; grams: string; editIndex?: number };
 
 export default function NewRecipeScreen() {
+  const { t } = useTranslation();
   // Feature entered — one mount event per major surface, so "which features
   // does anyone actually open?" is answerable without a per-screen scheme.
   useEffect(() => track('feature_used', { name: 'recipes' }), []);
@@ -141,7 +143,11 @@ export default function NewRecipeScreen() {
         ) : (
           <Card padded={false} variant="elevated">
             {ingredients.map((it, i) => (
-              <SwipeableRow key={`${it.food_name}-${i}`} onDelete={() => removeRow(i)} confirmTitle={`Remove ${it.food_name}?`}>
+              <SwipeableRow
+                key={`${it.food_name}-${i}`}
+                onDelete={() => removeRow(i)}
+                confirmTitle={t('food.removeTitle', { name: it.food_name })}
+              >
                 <Pressable
                   haptic={false}
                   minTapTarget={false}
