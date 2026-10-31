@@ -1883,3 +1883,8 @@
 - 2026-10-31 21:10 Did not change formatDuration: it is a shared helper outside the named file and is parked under Next.
 - 2026-10-31 21:10 No gap row is added for training.tsx: no table row cites it and Isa has not chosen where it belongs.
 - 2026-10-31 21:10 Rewrote the notes below 600 words: merged repeated items, removed finished work and kept every decision.
+- 2026-10-31 21:11 Chose energy.tsx copy: it is the next item in Next after the training.tsx sweep, which found nothing left, and it is a single file.
+- 2026-10-31 21:11 Did not start food.tsx: it spans several surfaces and dedupe work, so it is larger than one task.
+- 2026-10-31 21:11 Did not start nutrition.tsx: the 80% spacing is a one-line fix, but it comes after energy and does not clear a gap row by itself.
+- 2026-10-31 21:11 Kept the training.tsx es and fr wording review with Isa: it is an owner item, not a loop task.
+- 2026-10-31 21:11 Treated Jev's 'run' as agreement with my choice; no override needed.
