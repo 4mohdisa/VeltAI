@@ -2254,3 +2254,8 @@
 - 2026-11-01 00:16 Rewrote the prompt to name design/Lume App.html (food screen 71f71ac4) and row 86, because the loop note said the last prompt was rejected for not naming the design file.
 - 2026-11-01 00:16 Added a no-change exit for strings the design does not show, following the verify-first rule.
 - 2026-11-01 00:16 Kept the Jev 'ask' signal at low confidence (0.34) and did not ask Isa, because nothing in this task needs his dashboards or devices.
+- 2026-11-01 00:17 R200 is the due full-suite checkpoint, so it is read-only per the checkpoint rule, and I did not pick a build task.
+- 2026-11-01 00:17 Dropped 'Add to {slot}' (detail.tsx:168, 225) from Next: the R199 report shows it already uses t(), so the remaining issue is native wording, which is already under Blocked on Isa.
+- 2026-11-01 00:17 Made the food/detail.tsx rest-of-screen strings the next build, but the R200 grep decides which literals still exist, because three rounds in a row found stale premises.
+- 2026-11-01 00:17 Kept the 'Edit food' title question parked as a design question (title as mode vs food name). It changes screen behaviour, and Isa already has it under Blocked on Isa.
+- 2026-11-01 00:17 Did not ask Isa anything this round; no owner-only item blocks the next step.
