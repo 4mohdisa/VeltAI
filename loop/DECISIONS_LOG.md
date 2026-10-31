@@ -2305,3 +2305,17 @@
 - 2026-11-01 00:30 Kept row 85 status as DIFFERENT, since the calorie bar, 'left today' and fill animation are still missing.
 - 2026-11-01 00:30 Left the lines 895-897 stale wording out of this task and listed it under NEXT, because it is a separate row area.
 - 2026-11-01 00:30 Did not run the full test suite, since this round changes only a markdown file and the brief limits doc-only rounds to tsc.
+- 2026-11-01 00:32 Chose the verification round first because the loop note flags the last report as having no confirmed type check; this is doc-only and cheap.
+- 2026-11-01 00:32 Did not re-ask Isa about the calorie bar and 'left today' figure; it is already in Blocked on Isa and the loop note says not to retry.
+- 2026-11-01 00:32 Did not start the lines 895-897 doc fix as its own round; folded in as a conditional step only if the doc contradicts code, keeping one task per round.
+- 2026-11-01 00:32 Kept the row 85 wording check narrow: macro bars BUILT, calorie bar and fill animation still missing, as the handover states.
+- 2026-11-01 00:32 Moved the handover due round forward to R225 because a handover happened after R210.
+- 2026-11-01 00:33 Rewrote the rejected prompt to name design/Lume App.html (food bundle 71f71ac4) and row 85 in DESIGN_GAP_ANALYSIS.md, as the loop note asked.
+- 2026-11-01 00:33 Chose the lines 895-897 doc fix because it is the stale wording the last report named as NEXT. It is a row 85 re-check, not a tidy-up, and it needs no owner input.
+- 2026-11-01 00:33 Kept the row 85 calorie bar and 'left today' blocked on Isa. Not requeued because he has not answered.
+- 2026-11-01 00:33 Recorded R211 as cleared: its report shows tsc exit 0 and no test run, which is what a doc-only round needs.
+- 2026-11-01 00:33 Asked for the CaloriesCard line range to be grepped, not assumed, because the old 584-626 citation is known to be stale.
+- 2026-11-01 00:33 Rewrote the rejected prompt, not resent it: it now says to work only on loop/design-match, with a branch check that stops the round if the branch is wrong.
+- 2026-11-01 00:33 Kept the doc-only fix as the task because it needs no owner input and clears a flagged citation.
+- 2026-11-01 00:33 Chose the row 85 wording fix over the line 930 fix, because lines 895-897 hold the stale citation the loop flagged, and the line 930 fix can wait one round.
+- 2026-11-01 00:33 Limited tsc to one run and no tests, following the doc-only rule.

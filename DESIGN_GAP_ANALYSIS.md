@@ -892,9 +892,12 @@ colour, type, spacing, radius, shadow and motion). The drift is in application:
 I verified the core of this myself. Design: `hLeft: fmt(Math.abs(hLeftN))`,
 `hLeftWord: 'kcal left today' | 'kcal under goal' | 'kcal over goal'`,
 `hEatenLine: fmt(hEaten) + ' eaten · goal ' + fmt(goal) + ' kcal'`, macro targets
-`T = { p:150, c:230, f:70, fb:30 }`. App (`food.tsx:584-626`): hero is
-`formatNumber(kcalToDisplay(total))` + `${energyUnit} logged`, three columns
-(Protein/Carbs/Fat) as dot + name + value, no goal, no bar, no fibre.
+`T = { p:150, c:230, f:70, fb:30 }`. App (`food.tsx:660-703`): hero is
+`formatNumber(kcalToDisplay(total))` + `${energyUnit} logged`, four columns
+(Protein/Carbs/Fat/Fibre); macro bars are 6px `ProgressBar`s filled from
+`useGoals()` (BUILT, not verified on device). Each logged row shows a macro line
+from `food.rowMacros`, with macros rounded. Still different: the 12px calorie bar
+and the "left today" figure are missing.
 
 ### Design write-up
 
