@@ -164,7 +164,9 @@
     "streakDetailLabel_other": "Streak detail. {{count}} day streak",
     "dayStreak_one": "day streak",
     "dayStreak_other": "day streak",
-    "nothingScheduledSub": "Nothing scheduled — add anything you did"
+    "nothingScheduledSub": "Nothing scheduled — add anything you did",
+    "logged": "Logged",
+    "loggedTodayBurned": "Logged today · {{energy}} burned"
   },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",

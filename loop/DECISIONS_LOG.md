@@ -1366,3 +1366,13 @@
 - 2026-10-31 15:45 Named design/Lume App.html in the prompt to fix the rejection reason, and asked for a read-only check to meet the rule that DONE needs the design file opened.
 - 2026-10-31 15:45 Kept the empty-status row 90 and the 1,500 kcal goal question in Blocked on Isa; the count fix does not depend on them.
 - 2026-10-31 15:45 Notes rewritten to under 600 words per the loop note; finished work removed and repeated items merged.
+- 2026-10-31 15:46 Chose the checkpoint run because the loop note makes it the required next task and the last report was flagged for unrun checks.
+- 2026-10-31 15:46 Kept the checkpoint read-only, per the notes rule that checkpoint rounds are read-only, so no gap-doc fix happens in this round.
+- 2026-10-31 15:46 Named the app test script via package.json rather than a literal command, because the exact script name is not recorded in the notes.
+- 2026-10-31 15:46 Forbade snapshot updates in this round so any failing snapshot is reported, not silently re-recorded.
+- 2026-10-31 15:46 Treated the Blocked item 'Confirm loop writes loop/NOTES.md and loop/DECISIONS_LOG.md' as answered by the R18 report, which showed both files being written by the loop process. Moved it to Decisions as a fact.
+- 2026-10-31 15:47 Chose TodayCard logged state (candidate 1), matching Jev's top pick. Reason: it clears a row directly and needs nothing from Isa.
+- 2026-10-31 15:47 Scoped the TodayCard task to pill, Logged label, kcal sub-line and chevron. Tap target and chip are listed under NEXT to keep it to one surface with a small diff.
+- 2026-10-31 15:47 Rewrote the prompt to name design/Lume App.html, the gap row, the exact branch rule and the file-locating step. This fixes the rejection.
+- 2026-10-31 15:47 Checkpoint (full tsc and Jest) stays owed but is not run this round. The loop script has not scheduled it yet, and the brief says it runs only on a checkpoint round. It is kept in Next so it is not lost.
+- 2026-10-31 15:47 Snapshot failures are reported, not re-recorded, to follow the rule that snapshots are re-recorded only after a full diff read.

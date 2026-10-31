@@ -10,16 +10,20 @@ import { View } from 'react-native';
 
 import { Card, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
+import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
+import { useEnergyBalance } from '@/lib/data/energy';
 import { useToday } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
+import { useUnitPreferences } from '@/lib/settings/store';
+import { formatEnergy } from '@/lib/units';
 
 /** The state dot the design puts at the head of the session card. */
 function Dot({ tint }: { tint: string }): JSX.Element {
   return <View style={{ width: space.md, height: space.md, borderRadius: radius.full, backgroundColor: tint }} />;
 }
 
-/** Status pill — "Logged" / "Planned" / "Rest". Monochrome, like the design. */
+/** Status pill — "Logged" (green) / "Planned" / "Rest" (monochrome). */
 function StatePill({ label, fill }: { label: string; fill: string }): JSX.Element {
   return (
     <View
@@ -62,12 +66,14 @@ function Header({
   sub,
   pill,
   pillFill,
+  chevron,
 }: {
   tint: string;
   title: string;
   sub?: string;
   pill: string;
   pillFill: string;
+  chevron?: boolean;
 }): JSX.Element {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md, minHeight: space['3xl'] }}>
@@ -83,7 +89,31 @@ function Header({
         ) : null}
       </View>
       <StatePill label={pill} fill={pillFill} />
+      {chevron ? <Icon name="chevron-forward" size={14} color={color.tertiaryLabel} /> : null}
     </View>
+  );
+}
+
+/** Logged state. Owns the balance fetch so the other states never make it. The
+ *  burn is the day's total; with none recorded the sub-line stays kcal-free
+ *  rather than claiming 0 kcal burned. */
+function LoggedCard({ title }: { title: string }): JSX.Element {
+  const { t } = useTranslation();
+  const { balance } = useEnergyBalance();
+  const energyUnit = useUnitPreferences().energy;
+  const burned = balance?.calories_out_exercise ?? 0;
+
+  return (
+    <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
+      <Header
+        tint={categoryAccent.positive}
+        title={title}
+        sub={burned > 0 ? t('gym.loggedTodayBurned', { energy: formatEnergy(burned, energyUnit) }) : 'Logged today'}
+        pill={t('gym.logged')}
+        pillFill={categoryAccent.positive}
+        chevron
+      />
+    </Card>
   );
 }
 
@@ -106,17 +136,7 @@ export function TodayCard(): JSX.Element | null {
   if (!today) return null;
 
   if (today.already_checked_in) {
-    return (
-      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-        <Header
-          tint={categoryAccent.positive}
-          title={today.template?.name ?? t('gymLog.freestyleTitle')}
-          sub="Logged today"
-          pill="Logged"
-          pillFill={color.light1}
-        />
-      </Card>
-    );
+    return <LoggedCard title={today.template?.name ?? t('gymLog.freestyleTitle')} />;
   }
 
   if (today.is_rest_day || !today.template) {

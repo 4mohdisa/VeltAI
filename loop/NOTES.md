@@ -16,28 +16,33 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Header counts derived from the table, never from earlier figures.
 - Defaults: keep one-tap gym log; keep Distance km; skip food chips; keep Goals extras.
 - Checkpoint rounds read-only. Gap-doc fixes get their own round with tsc. Snapshots re-recorded only after a full diff read.
+- The loop script writes loop/NOTES.md and loop/DECISIONS_LOG.md. Claude Code must not open or edit them.
+- Jev is advisory. Where Jev is strongly sure of another action or task, follow it unless a concrete reason is written here.
 
 ## Status
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy, TodayCard padding/title/sub-line/rest, Macros copy, Burned guard (EnergyBalanceCard), EnergyBalanceCard six strings, i18n setup, Log as planned minutes in notes (row 296).
 DIFFERENT: row 113 TodayCard fetch failure; Summary Macros detail (no chart, line 103).
+Header counts (line 71): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Table has 43 rows; line 90 is empty-status.
 Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 
 ## Next
-1. R18: correct header counts on DESIGN_GAP_ANALYSIS.md line 71 from the table. Doc only, tsc once.
-2. TodayCard logged state: kcal sub-line, green pill, t() 'Logged', chip key, tap target, chevron.
-3. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html.
-4. Gap doc wording, one round each, tsc once: lines ~76, ~280, ~296-298, rows 89 and 113, EnergyBalanceCard line, /gym/session reachability, audit row ~1471.
-5. summaryNoFabrication.test.ts header comment (says fibre not built). Update when the burn string is wrapped.
-6. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd keys.
-7. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. Then EnergyBalanceCard literals once Isa confirms.
-8. Failed today fetch shows as rest day (log-session.tsx:89): fix or park.
-9. Add sheet icons from design SVGs. Empty-list copy food.tsx ~445.
-10. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes. Compare Energy, Week, Training detail views with design.
-11. Full tsc and Jest at next checkpoint.
-12. No rows remain: stop with 'only owner decisions remain'.
+1. R20 (this round): TodayCard logged state: green pill, t() 'Logged', kcal sub-line, chevron. Gap row located by content. Named design/Lume App.html.
+2. Checkpoint still owed: full tsc and full app Jest, read-only. Run when the loop script schedules it.
+3. TodayCard logged state, remaining items: tap target and chip. Do after step 1 is green.
+4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html.
+5. Gap doc round, tsc once, only if Isa has not objected: merge line 90 empty-status row into the Saved foods row above.
+6. Gap doc wording, one round each, tsc once: lines ~76 (cardio handling missing), ~281 (heading conflicts with reachable rows), ~296-298, rows 89 and 113, EnergyBalanceCard line (overstates; eight literals remain English), audit row ~1460 and ~1471 (stale wording).
+7. summaryNoFabrication.test.ts header comment (says fibre not built). Update when the burn string is wrapped.
+8. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd keys.
+9. Wrap hardcoded strings, one file per round: nutrition.tsx ('Percent of target', 'Breakdown', 'No meals logged yet today.', '% of target', 'of ... g'), gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. Then EnergyBalanceCard literals once Isa confirms.
+10. Failed today fetch shows as rest day (log-session.tsx:89): fix or park.
+11. Add sheet icons from design SVGs. Empty-list copy food.tsx ~445.
+12. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes. Compare Energy, Week, Training detail views with design.
+13. Full tsc and Jest at next checkpoint.
+14. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again)
-- Row 90 empty-status row.
+- Row 90 empty-status row. Proposed fix: merge into Saved foods row above (see Next 5).
 - Footnote '23 sessions · 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Device runs; native es/fr review; 'My dishes'; Macros wording.
@@ -47,7 +52,6 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 - Log as planned (line 296): minutes as note text enough for BUILT?
 - Energy literals stay English? Remaining-calories line removed: acceptable?
 - Should users with no body stats see 'your 1,500 kcal calorie goal'? Design uses a 2,100 fallback.
-- Confirm loop writes loop/NOTES.md and loop/DECISIONS_LOG.md.
 
 ## Parked
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros as 0.
@@ -69,6 +73,7 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 - i18n lng fixed to 'en' (src/lib/i18n/index.ts:41).
 - Grep: LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
 - Reports can be stale. Locate gap lines by content. Check premises: nutrition.tsx is src/app/dashboard/; Burned is on EnergyBalanceCard; the 'It went as planned' pill is not the logged-day control.
+- Gym tests are in src/__tests__, not src/components/gym.
 - Every prompt names the design/ file and gap row and says 'work only on loop/design-match'.
 - DONE without the design file read or gap row edited is partial. CHECKED without tsc and Jest is partial.
 - Design assets: 185bb533 Summary, 7dc211f6 gym, 71f71ac4 food. Decode in memory only.
@@ -76,4 +81,6 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 ## Round log
 - R9-R17: EnergyBalanceCard, i18n, Macros row, header counts flagged, Macros copy, Burned guard, unset-goal check (no code change).
 - R11, R12 rejected (no design file; no branch rule). Handover at R17.
-- R18: prompt rejected (no design/ file named). Reissued with design/Lume App.html named.
+- R18: prompt rejected (no design/ file named). Reissued. Built: header counts corrected (24 DIFFERENT, 14 PARTIAL, 4 BUILT). tsc exit 0. Jest not run.
+- R19: checkpoint requested, read-only. Prompt rejected before it ran (no design/ file named). Checkpoint still owed.
+- R20: Jev ranked TodayCard logged state first (84%). Followed it. Prompt rewritten to name design/Lume App.html, gap row, branch rule and file-locating step. Checkpoint deferred to a scheduled round.

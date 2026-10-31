@@ -164,7 +164,9 @@
     "streakDetailLabel_other": "Détail de la série. {{count}} jours d’affilée",
     "dayStreak_one": "jour d’affilée",
     "dayStreak_other": "jours d’affilée",
-    "nothingScheduledSub": "Rien de prévu — ajoutez ce que vous avez fait"
+    "nothingScheduledSub": "Rien de prévu — ajoutez ce que vous avez fait",
+    "logged": "Enregistré",
+    "loggedTodayBurned": "Enregistré aujourd’hui · {{energy}} brûlées"
   },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",

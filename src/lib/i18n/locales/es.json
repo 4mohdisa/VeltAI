@@ -166,7 +166,9 @@
     "streakDetailLabel_other": "Detalle de la racha. {{count}} días seguidos",
     "dayStreak_one": "día seguido",
     "dayStreak_other": "días seguidos",
-    "nothingScheduledSub": "Nada programado — añade lo que hiciste"
+    "nothingScheduledSub": "Nada programado — añade lo que hiciste",
+    "logged": "Registrado",
+    "loggedTodayBurned": "Registrado hoy · {{energy}} quemadas"
   },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
