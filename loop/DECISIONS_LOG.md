@@ -2448,3 +2448,8 @@
 - 2026-11-01 01:13 Keep the Toast fade and other lumeFade uses parked. They are outside row 112.
 - 2026-11-01 01:13 Doc fixes (row 81, My schedule section, row 83 App paragraph, gym App paragraph) wait until no build row is open, per rule 5. Only the lumeFade line changes now.
 - 2026-11-01 01:13 Pick row 112 lumeFade over the candidates because it is the open re-checked difference, is one file, and needs nothing from Isa. Jev ranks run highest; it fits.
+- 2026-11-01 01:15 Chose the row 112 eyebrow re-check: it is the next open item in row 112, needs nothing from Isa, and is doc-only, so it is the smallest safe task.
+- 2026-11-01 01:15 Notes rewritten to under 600 words as the loop note asked. Merged repeated Parked and Blocked items, and removed finished rounds.
+- 2026-11-01 01:15 Kept lumeFade reduce-motion skip as an accepted deviation: it is an accessibility guard, app-only, and the design does not cover it. Isa can override.
+- 2026-11-01 01:15 Ran the doc fix list only after row 112 has no open build item, per the existing rule.
+- 2026-11-01 01:15 Jev and my pick agree (run). No override needed.
