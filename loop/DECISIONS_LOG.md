@@ -2495,3 +2495,7 @@
 - 2026-11-01 01:27 Chose the checkpoint over the Summary re-check because the flag must be cleared before moving on, and the checkpoint also tests the R240-R248 changes.
 - 2026-11-01 01:27 Kept the task verification-only. A fix is allowed only if a check fails, so the round does not turn into a build.
 - 2026-11-01 01:27 Jev ranked run highest at 84%, but its last-task-clean estimate is 36%. That matches the flag, so the check-first choice follows Jev's risk signal rather than overriding it.
+- 2026-11-01 01:28 Chose the checkpoint, as the loop note requires; it clears the unclear Jest exit code from the R250 report.
+- 2026-11-01 01:28 Deferred the Summary and Food re-checks until the checkpoint passes; the Jev 'ask' share is too high to start a new row check on a blank exit code.
+- 2026-11-01 01:28 Rewrote the notes under 600 words: merged repeated items, removed finished work, kept every decision and Blocked item.
+- 2026-11-01 01:28 Added an explicit exit-code capture to the checkpoint so the result cannot come back blank again.
