@@ -2006,3 +2006,13 @@
 - 2026-10-31 22:28 Chose not to request the owed full suite this round: the loop has not flagged a checkpoint, and the owed checkpoint stays on the list for the next flagged round.
 - 2026-10-31 22:28 Parked the extra es.json keys addMenu.voice and addMenu.describeOutLoud as leftovers to remove later, not in this round.
 - 2026-10-31 22:28 Treated R147 as done: the AddMenu labels were built and tsc and render tests passed.
+- 2026-10-31 22:30 Chose the Food tab title over food.tsx:853 because the loop note flagged R148 as partly done. One task per round, so the flagged task closes first. Jev's 853 pick stays at Next 2.
+- 2026-10-31 22:30 Kept the tabbar render test as the only test run. The layout is not imported by any test, so the title change is recorded as NOT COVERED.
+- 2026-10-31 22:30 Left the gap row at PARTIAL and changed only its reason line, per the counting rule that rows stay DIFFERENT or PARTIAL while differences remain.
+- 2026-10-31 22:30 Did not touch locale files. food.title already exists in all three locales.
+- 2026-10-31 22:30 Rewrote the notes to under 600 words, merging repeated items and deleting finished work, as the loop note asked.
+- 2026-10-31 22:30 Rewrote the rejected prompt to one file and one label set; the earlier version bundled several surfaces.
+- 2026-10-31 22:30 Chose the logged-row VoiceOver labels over CaloriesCard macro names: smaller, uses existing nutrition.* keys, and the last report recommended it.
+- 2026-10-31 22:30 Kept the gap row status unchanged and added a reason line only, because the Food row covers the whole screen and cannot be set to BUILT from one label fix.
+- 2026-10-31 22:30 Left the CaloriesCard macro names and Fibre column for the next round, since they are visible UI changes and need a separate prompt.
+- 2026-10-31 22:30 Did not add any new keys: nutrition.protein, carbs and fat already exist per the last report.

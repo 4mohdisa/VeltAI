@@ -525,6 +525,7 @@ export default function FoodLogScreen() {
                 first={index === 0}
                 last={index === section.data.length - 1}
                 energyUnit={energyUnit}
+                t={t}
                 onPress={() => openRow(row, section.slot)}
               />
             </SwipeableRow>
@@ -824,12 +825,14 @@ function FoodItemRow({
   first,
   last,
   energyUnit,
+  t,
   onPress,
 }: {
   item: FoodRow;
   first: boolean;
   last: boolean;
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
+  t: TFunction;
   onPress: () => void;
 }) {
   // HIG §7.2: at large text the trailing calories stack under the name/macros
@@ -850,7 +853,7 @@ function FoodItemRow({
           ? 'Analyzing scanned food…'
           : failed
             ? `${item.name} — couldn't be analysed`
-            : `${item.name}, ${item.quantityG} g, protein ${item.protein}, carbs ${item.carbs}, fat ${item.fat}, ${formatEnergy(item.calories, energyUnit)}`
+            : `${item.name}, ${item.quantityG} g, ${t('nutrition.protein')} ${item.protein}, ${t('nutrition.carbs')} ${item.carbs}, ${t('nutrition.fat')} ${item.fat}, ${formatEnergy(item.calories, energyUnit)}`
       }
       accessibilityHint={analyzing || failed ? undefined : 'Double tap to edit, swipe left to delete'}
       style={{
