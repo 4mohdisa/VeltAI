@@ -18,17 +18,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Claude Code never opens loop/NOTES.md or loop/DECISIONS_LOG.md. Prompts name the branch and forbid git.
 - Tests: tsc once plus changed-file tests. 'No related tests found' is not a pass. No covering test means NOT COVERED.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras.
+- Prompts must name the design/ file and screen id. Rejected prompts are rewritten before running.
 
 ## Status
 Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never reported: R102, R117, R131. Run when announced.
+Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never reported: R102, R117, R131, R146.
+R146 checkpoint: announced read-only, but no result has been received. Treat as owed. Request the full suite at the next checkpoint round.
 
 ## Round log
 - R138: energyLogged wording decided. R139: verified by source-text tests.
 - R140, R142: tab labels via existing keys. R141: rejected (two screens in one prompt).
 - R143: add-button strings to tabBar.*. Partly done.
-- R144: rejected. Close label key mismatch; English 'Close menu' is what tabbar.render.test.tsx:161 finds. Tsc and tests were not run.
-- R145: option A. New key tabBar.closeMenu. tabBar.closeAddMenu unchanged.
+- R144: rejected. Close label key mismatch. Tsc and tests were not run.
+- R145: option A. New key tabBar.closeMenu. Done: AddMenu.tsx:72 uses it; tabbar render 13/13; tsc 0. tabBar.closeAddMenu unchanged.
+- R146: announced checkpoint. No result received. Owed.
+- R147: prompt rejected (did not name design/Lume App.html). Rewritten as the AddMenu labels task, naming the design file and gap row.
 
 ## BUILT, not verified
 - LoadFailedNotice, StreakCounter tokens (NOT COVERED).
@@ -38,27 +42,28 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never repor
 - CaloriesCard macro labels via nutrition.protein, carbs, fat.
 - LumeTabBar.tsx tab labels via t() (render test English only).
 - Add-button VoiceOver via tabBar.add, tabBar.addHint (NOT COVERED).
-- AddMenu close label: R145 pending.
+- AddMenu close label via tabBar.closeMenu (R145). es and fr unreviewed.
+- AddMenu 'Log gym session' and 'Log food' via t() (R147, pending result).
 
 ## Next
-1. R145 result. Then AddMenu 'Log gym session' and 'Log food' via t(), en, es, fr.
-2. (tabs)/_layout.tsx Summary and Gym titles via dashboard.summaryTitle and gym.title.
-3. Owed checkpoint (read-only), when announced.
-4. Dedupe SLOT_KEYS (food.tsx). Resolve food.savedTitle vs addMenu.myDishes.
-5. food.tsx: 'Check your connection' invents a cause; 'today's' shows on other dates.
-6. CaloriesCard: macro names at food.tsx:665-667; missing Fibre column; dot vs bar (row 85).
-7. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-8. PlannedValuesForm 'Add exercise'. add.tsx slotKey: remove unused keys if confirmed.
-9. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session top weight on all sets: fix or park.
-10. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
-11. week.tsx remaining copy, then training.tsx and energy.tsx.
-12. food.tsx: energy unit; VoiceOver 'protein', 'carbs', 'fat'; 'g' suffix at :690; VoiceOver label at :853; raw energyUnit at :787 and :906.
+1. Record R147 result in Round log and BUILT list. Then (tabs)/_layout.tsx Summary and Gym titles via dashboard.summaryTitle and gym.title.
+2. Dedupe SLOT_KEYS (food.tsx). Resolve food.savedTitle vs addMenu.myDishes.
+3. food.tsx: 'Check your connection' invents a cause; 'today's' shows on other dates.
+4. CaloriesCard: macro names at food.tsx:665-667; missing Fibre column; dot vs bar (row 85).
+5. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+6. PlannedValuesForm 'Add exercise'. add.tsx slotKey: remove unused keys if confirmed.
+7. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session top weight on all sets: fix or park.
+8. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
+9. week.tsx remaining copy, then training.tsx and energy.tsx.
+10. food.tsx: energy unit; VoiceOver 'protein', 'carbs', 'fat'; 'g' suffix at :690; VoiceOver label at :853; raw energyUnit at :787 and :906.
+11. Tab bar 'Food' label: LumeTabBar.tsx:38, (tabs)/_layout.tsx:32.
+12. Add hint wording: tabBar.addHint es reads badly ('un registro de comida'). Native review needed; record in Blocked.
 13. No rows left: stop with 'only owner decisions remain'.
 Grep first. Line numbers drift.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es and fr (Gimnasio longer than Gym); gym Training labels; logged card; offline failure; double notice; TodayCard sub-line; LoadFailedNotice; StreakCounter caption; es/fr fit; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; energyLogged es and fr.
-- Native review: fr 'Détail', 'Répartition', 'gel', 'congélation', 'Apport et dépense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es/fr (Resumen, Comida, Gimnasio; Résumé, Repas, Sport); tabBar.* es/fr incl. addHint wording and command vs infinitive; tabBar.closeMenu es/fr.
+- Device checks: tab bar es and fr (Gimnasio longer than Gym); gym Training labels; logged card; offline failure; double notice; TodayCard sub-line; LoadFailedNotice; StreakCounter caption; es/fr fit; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; energyLogged es and fr; VoiceOver on add menu in es and fr.
+- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es/fr (Resumen, Comida, Gimnasio; Resume, Repas, Sport); tabBar.* es/fr incl. addHint wording and command vs infinitive; tabBar.closeMenu es/fr ('Cerrar menu', 'Fermer le menu'); AddMenu menu labels es/fr.
 - Shared keys: food.title used for tab and Food title. Split if wording should differ. Comida and Repas read as 'meal': separate food.caloriesTitle?
 - Already-logged days: edit or toast? (mutations.ts:173-178).
 - Gap rows: detail screens; tab bar label; week row; empty food day (four meal cards or 'No meals yet').

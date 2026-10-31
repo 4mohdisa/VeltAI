@@ -82,6 +82,8 @@
   },
   "addMenu": {
     "title": "Añadir comida",
+    "logGymSession": "Registrar sesión de gimnasio",
+    "logFood": "Registrar comida",
     "scanFood": "Escanear comida",
     "snapMeal": "Haz una foto",
     "mealPhotoOrLabel": "Foto de la comida o etiqueta",

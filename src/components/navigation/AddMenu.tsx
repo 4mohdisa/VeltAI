@@ -91,9 +91,9 @@ export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }:
           panelStyle,
         ]}
       >
-        <MenuRow label="Log gym session" icon="barbell" tint={categoryAccent.positive} onPress={onLogGym} />
+        <MenuRow label={t('addMenu.logGymSession')} icon="barbell" tint={categoryAccent.positive} onPress={onLogGym} />
         <View style={{ height: layout.hairline, backgroundColor: surface.divider, marginLeft: space.lg }} />
-        <MenuRow label="Log food" icon="restaurant" tint={categoryAccent.calories} onPress={onLogFood} />
+        <MenuRow label={t('addMenu.logFood')} icon="restaurant" tint={categoryAccent.calories} onPress={onLogFood} />
       </Animated.View>
     </View>
   );

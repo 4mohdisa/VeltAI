@@ -82,6 +82,8 @@
   },
   "addMenu": {
     "title": "Ajouter un repas",
+    "logGymSession": "Enregistrer une séance de sport",
+    "logFood": "Enregistrer un repas",
     "scanFood": "Scanner un aliment",
     "snapMeal": "Photographiez votre repas",
     "mealPhotoOrLabel": "Photo du repas ou étiquette",

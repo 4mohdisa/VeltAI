@@ -82,6 +82,8 @@
   },
   "addMenu": {
     "title": "Add meal",
+    "logGymSession": "Log gym session",
+    "logFood": "Log food",
     "scanFood": "Scan food",
     "snapMeal": "Snap your meal",
     "mealPhotoOrLabel": "Meal photo or label",

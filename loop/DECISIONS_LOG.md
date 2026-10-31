@@ -1991,3 +1991,13 @@
 - 2026-10-31 22:24 Kept run over Jev's ask. The choice falls inside the standing defaults and needs no dashboard action from Isa. The R144 flag is closed this round by requiring tsc and the changed-file tests.
 - 2026-10-31 22:24 Spanish and French wording for tabBar.closeMenu is unreviewed; listed under native review in Blocked.
 - 2026-10-31 22:24 Rewrote the notes under 600 words, as the loop note asked, merging repeats and removing finished work.
+- 2026-10-31 22:26 Chose the checkpoint over Jev's AddMenu pick. The loop note marks this round as a checkpoint, so this round must run the full tsc and suite. The AddMenu task moves to R147, which keeps Jev's pick one round later, not dropped.
+- 2026-10-31 22:26 Checkpoint is read-only. No file changes, so the prompt forbids edits, including gap-doc and locale changes, to keep the round clean.
+- 2026-10-31 22:26 R145 is closed: tabBar.closeMenu landed, tsc 0, tabbar render test 13/13. Its es and fr wording stays under Blocked on Isa.
+- 2026-10-31 22:26 Checkpoint owed rounds R102, R117 and R131 are now covered by this announced run. Result to be recorded in Status next round.
+- 2026-10-31 22:26 Jev's 93% on AddMenu is noted. The loop note sets the checkpoint as this round's required task, so that is the reason it was not chosen here.
+- 2026-10-31 22:26 Chose the add menu labels: smallest task, clears a visible English-only item, needs nothing from Isa, and is named in the previous round's NEXT.
+- 2026-10-31 22:26 Rewrote the rejected prompt to name design/Lume App.html and the screen id, as the loop note requires.
+- 2026-10-31 22:26 Required a grep for existing addMenu keys before adding new ones, so no duplicate keys are created.
+- 2026-10-31 22:26 Kept the row DIFFERENT and asked only for a reason-line update, because other differences on the row remain.
+- 2026-10-31 22:26 Recorded that the R146 checkpoint result never arrived. The full suite is owed and will be requested at the next checkpoint, not in this doc-and-component round.
