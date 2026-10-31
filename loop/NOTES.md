@@ -20,18 +20,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Jev is advisory.
 - A report flagged for no tsc or no tests is partial. Fix before the next build round.
 - TodayCard logged: calories come from the logged session only, never the whole-day figure. Solid green pill kept until Isa decides on a wash token.
+- Doc-only rounds: tsc only, no Jest.
 
 ## Status
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard padding, title, sub-line, rest, logged state (green pill, Logged label, kcal sub-line, chevron, 3-up grid Duration/Volume/Sets and exercise chips from logged session); Macros copy; Burned guard; EnergyBalanceCard six strings; i18n setup; Log as planned minutes in notes.
 No test covers the TodayCard grid or chips.
-DIFFERENT: row 113 TodayCard fetch failure; Summary Macros detail (no chart, line 103); gym today's session card.
+DIFFERENT: row 113 TodayCard fetch failure (R27 attempts fix, see Round log); Summary Macros detail (no chart, line 103); gym today's session card.
 Header counts (line 71): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Table has 43 rows; line 90 is empty-status.
-R23 gap-doc prose done. R25 stale summary row fixed to match prose; status stays DIFFERENT. R25 tsc ran before its final one-phrase edit, so it is flagged partial.
-Last full run R24 (checkpoint): tsc exit 0; app Jest 65 suites, 824 tests, 4 snapshots, all passing.
+R25 flag cleared by R26 (tsc exit 0 on final doc text).
 
 ## Next
-1. R26 (this round): read-only verification of R25. Run tsc once after the final edit; re-check the today's session card row against design/Lume App.html and its prose; re-count header counts against the table. No edits.
-2. If R26 is green and the counts match, clear the R25 flag and return to build work.
+1. R27 (this round): fix failed today fetch so it no longer shows as a rest day (log-session.tsx ~89). Row 113. tsc once; Jest only for log-session tests.
+2. Add sheet icons from design SVGs (food add sheet).
 3. Logged card open items: wash pill token (Isa); chevron on non-tappable card; tap target (needs day-detail route); 4-up grid needs per-session calories (backend, recommended next backend item).
 4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html.
 5. Gap doc: merge line 90 empty-status row into the Saved foods row above.
@@ -39,13 +39,14 @@ Last full run R24 (checkpoint): tsc exit 0; app Jest 65 suites, 824 tests, 4 sna
 7. summaryNoFabrication.test.ts header comment (says fibre not built).
 8. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd keys.
 9. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', planned sub-line, '+N more', 'Logged today' fallback. EnergyBalanceCard once Isa confirms.
-10. Failed today fetch shows as rest day (log-session.tsx:89): fix or park.
-11. Add sheet icons from design SVGs. Empty-list copy food.tsx ~445.
+10. Failed today fetch: see R27. Log sheet fetch failure also to check.
+11. Empty-list copy food.tsx ~445.
 12. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes. Compare Energy, Week, Training views with design.
 13. Full tsc and Jest at checkpoint.
 14. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again)
+- R26 read-only verification of R25 and the today's session card row. Flagged twice for tsc or tests not run. Parked, not retried. Findings kept: row, prose and header counts agree with design asset 7dc211f6.
 - Row 90 empty-status row (see Next 5). Footnote '23 sessions · 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Device runs; native es/fr review; 'My dishes'; Macros wording.
@@ -90,6 +91,7 @@ Last full run R24 (checkpoint): tsc exit 0; app Jest 65 suites, 824 tests, 4 sna
 - R20-R21: TodayCard logged state built; mismatches found; stays BUILT.
 - R22: 3-up logged grid and chips built, no tests cover them; flagged partial.
 - R23: gap-doc prose for today's session card. tsc exit 0, no tests (doc only). Flagged by loop.
-- R24: read-only checkpoint. tsc exit 0; app Jest 65 suites, 824 tests passing. Clears R23 flag for types and tests.
-- R25: gap-doc fix of stale today's session card summary row. Doc only. tsc run before final one-phrase edit; flagged by loop as partial.
-- R26: read-only verification of R25 (tsc once after final edit, row and count re-check). No edits.
+- R24: read-only checkpoint. tsc exit 0; app Jest 65 suites, 824 tests passing.
+- R25: gap-doc fix of stale today's session card summary row. Doc only. Flagged partial, then cleared.
+- R26: read-only verification of R25. tsc exit 0, counts match (24/14/4/0). Flagged twice for tests not run; parked under Blocked on Isa.
+- R27: fix failed today fetch showing as rest day (log-session.tsx, row 113). Loop flag: same blocker twice on R26, so R27 moves to a build task that needs nothing from Isa.

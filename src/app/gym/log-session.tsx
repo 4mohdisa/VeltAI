@@ -17,6 +17,7 @@ import { Button } from '@/components/forms/Button';
 import { CelebrationCard } from '@/components/gym/CelebrationCard';
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { EmptyState } from '@/components/display/EmptyState';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -133,9 +134,20 @@ export default function LogSessionScreen() {
     );
   }
 
+  // useToday yields null only when the read failed; a real response is always an
+  // object. An unknown day must not read as a rest day.
+  if (!today) {
+    return (
+      <SheetContent variant="leading" title={t('gymLog.title')} onClose={close}>
+        <LoadFailedNotice message={t('gym.loadFailed')} />
+      </SheetContent>
+    );
+  }
+
   // Nothing scheduled: the design drops the chooser entirely and offers the
   // library instead — there is no plan for any of the four outcomes to describe.
-  if (planned.length === 0) {
+  // A template with no exercises lands here too: there is nothing to commit.
+  if (today.is_rest_day || !today.template || planned.length === 0) {
     return (
       <SheetContent variant="leading" title={t('gymLog.title')} onClose={close}>
         <EmptyState

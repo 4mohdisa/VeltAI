@@ -1402,3 +1402,7 @@
 - 2026-10-31 15:57 Asked for no edits, so the round cannot create new drift in the gap doc.
 - 2026-10-31 15:57 Did not repeat the 'correct line 71 counts' item from the handover: R25 reports the counts already match (24/14/4). R26 re-checks them instead of editing.
 - 2026-10-31 15:57 No Jest this round: doc-only, so tsc only, per the testing rules.
+- 2026-10-31 15:58 Parked the R26 read-only verification under Blocked on Isa. The loop flagged the same blocker twice, so it is not retried. Its findings are kept in the notes.
+- 2026-10-31 15:58 Chose the failed-fetch fix over the icon and comment tasks. It clears row 113, touches one file, needs no input from Isa, and the Jev run action (61%) agrees.
+- 2026-10-31 15:58 Used the existing gym.loadFailed key and added no keys, so the blocked group-name question does not apply.
+- 2026-10-31 15:58 Doc-only and code round rules are followed: tsc once, Jest only for files that reference log-session.
