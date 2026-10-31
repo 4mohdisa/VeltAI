@@ -2443,3 +2443,8 @@
 - 2026-11-01 01:12 Park the possible double notice (TodayCard.tsx:197 and gym.tsx both render gym.loadFailed) and the silent MyScheduleCard failure. Both are code problems outside the design rows.
 - 2026-11-01 01:12 Keep the doc fixes for rows 81, 83 and the My schedule section until no build row is open, as the rules say. The report's NEXT item is therefore not picked yet.
 - 2026-11-01 01:12 The loop note flagged the last report for the type check or tests. The R238 report did run tsc (exit 0). This round runs tsc again so the check is recorded in this round.
+- 2026-11-01 01:13 Build the lumeFade entrance as mount-only, because that is what the design shows. Replay on focus is not in the design, so it is not built. Recorded in notes as a default; Isa can override.
+- 2026-11-01 01:13 Handle the loop flag by running tsc once in this round and reporting the exit code, so the last task is checked.
+- 2026-11-01 01:13 Keep the Toast fade and other lumeFade uses parked. They are outside row 112.
+- 2026-11-01 01:13 Doc fixes (row 81, My schedule section, row 83 App paragraph, gym App paragraph) wait until no build row is open, per rule 5. Only the lumeFade line changes now.
+- 2026-11-01 01:13 Pick row 112 lumeFade over the candidates because it is the open re-checked difference, is one file, and needs nothing from Isa. Jev ranks run highest; it fits.

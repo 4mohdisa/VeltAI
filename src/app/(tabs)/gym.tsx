@@ -5,6 +5,7 @@
 // training list. Same data, same routes; only the surfaces changed.
 import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
+import Animated, { Easing, FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -20,15 +21,24 @@ import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { TodayCard, MuscleChart, MyScheduleCard, GymPatternsCard } from '@/components/gym';
-import { color, space, surface } from '@/lib/design/tokens';
+import { color, motion, space, surface } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useGym } from '@/lib/data';
 import { addMonths } from '@/lib/data/foodDays';
 import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
 import { todayISO } from '@/lib/data/mappers';
 
+// The design's lumeFade on the page. Reanimated needs the curve as a function, so
+// this is motion.easing.enter's bezier. Runs on mount only: the tab stays mounted,
+// so it plays once per launch.
+const PAGE_ENTRANCE = FadeInDown.duration(motion.duration.fast)
+  .easing(Easing.bezier(0, 0, 0.2, 1))
+  .withInitialValues({ opacity: 0, transform: [{ translateY: space.sm }] });
+
 export default function GymLogScreen() {
   const { t } = useTranslation();
+  const reduceMotion = useReduceMotion();
   const {
     data: { streak, loggedDays, frozenDates },
     error: gymError,
@@ -88,80 +98,81 @@ export default function GymLogScreen() {
           paddingTop: insets.top + space.md,
           paddingHorizontal: space.lg,
           paddingBottom: TAB_BAR_CLEARANCE(insets),
-          gap: space.md,
         }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
-        {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
-            passes under the blur rather than sitting in a bar. */}
-        <View style={{ gap: space.xs, paddingBottom: space.xs }}>
-          <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-            {dateLine}
-          </Text>
-          <Text variant="title1" color={color.label} accessibilityRole="header">
-            {t('gym.title')}
-          </Text>
-        </View>
-
-        {/* The streak read failed: the card below still shows what the device
-            had, so label it rather than let it read as current. */}
-        {gymError ? <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} /> : null}
-
-        {/* Streak strip: flame + count on one line; the streak's own numbers live on /gym/streak. */}
-        <Card
-          variant="elevated"
-          padded={false}
-          onPress={() => router.push('/gym/streak')}
-          accessibilityLabel={t('gym.streakDetailLabel', { count: streak.current })}
-          style={{ paddingVertical: space.md, paddingHorizontal: space.lg }}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-            <StreakFlame size={space.xl} active={streak.current > 0} />
-            <Text variant="statSmall" color={color.label}>
-              {streak.current}
+        <Animated.View entering={reduceMotion ? undefined : PAGE_ENTRANCE} style={{ gap: space.md }}>
+          {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
+              passes under the blur rather than sitting in a bar. */}
+          <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+            <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+              {dateLine}
             </Text>
-            <Text variant="bodyMedium" color={color.label}>
-              {t('gym.dayStreak', { count: streak.current })}
+            <Text variant="title1" color={color.label} accessibilityRole="header">
+              {t('gym.title')}
             </Text>
           </View>
-        </Card>
 
-        {/* The design's month calendar (V7), built from the sessions the server
-            returned for this month plus today's, if it was just logged here. */}
-        <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-          <GymCalendar
-            title={monthTitle(month, today)}
-            cells={view.cells}
-            summary={summary}
-            onPrev={() => setMonthOffset((m) => m - 1)}
-            onNext={() => setMonthOffset((m) => Math.min(0, m + 1))}
-            canNext={monthOffset < 0}
+          {/* The streak read failed: the card below still shows what the device
+              had, so label it rather than let it read as current. */}
+          {gymError ? <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} /> : null}
+
+          {/* Streak strip: flame + count on one line; the streak's own numbers live on /gym/streak. */}
+          <Card
+            variant="elevated"
+            padded={false}
+            onPress={() => router.push('/gym/streak')}
+            accessibilityLabel={t('gym.streakDetailLabel', { count: streak.current })}
+            style={{ paddingVertical: space.md, paddingHorizontal: space.lg }}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
+              <StreakFlame size={space.xl} active={streak.current > 0} />
+              <Text variant="statSmall" color={color.label}>
+                {streak.current}
+              </Text>
+              <Text variant="bodyMedium" color={color.label}>
+                {t('gym.dayStreak', { count: streak.current })}
+              </Text>
+            </View>
+          </Card>
+
+          {/* The design's month calendar (V7), built from the sessions the server
+              returned for this month plus today's, if it was just logged here. */}
+          <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
+            <GymCalendar
+              title={monthTitle(month, today)}
+              cells={view.cells}
+              summary={summary}
+              onPrev={() => setMonthOffset((m) => m - 1)}
+              onNext={() => setMonthOffset((m) => Math.min(0, m + 1))}
+              canNext={monthOffset < 0}
+            />
+          </Card>
+
+          {/* Today's scheduled workout (renders null when nothing is scheduled). */}
+          <TodayCard />
+
+          {/* The design's showLogCta. This tab only ever shows today, so its "not past" always holds. */}
+          {!streak.gymLoggedToday && todayWorkout && todayWorkout.exercises.length > 0 ? (
+            <GymSessionButton logged={false} onPress={() => router.push('/gym/log-session')} />
+          ) : null}
+
+          {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
+          <MuscleChart />
+          <MyScheduleCard />
+          <GymPatternsCard />
+
+          <SettingsList
+            title={t('gym.training')}
+            rows={[
+              { icon: 'calendar', label: t('gym.mySchedule'), onPress: () => router.push('/gym/schedule' as Href) },
+              { icon: 'barbell', label: t('gym.myWorkouts'), onPress: () => router.push('/gym/templates' as Href) },
+              { icon: 'snow', label: t('gym.applyStreakFreeze'), onPress: () => router.push('/gym/freeze') },
+              { icon: 'time', label: t('gym.sessionHistory'), onPress: () => router.push('/gym/history') },
+            ]}
           />
-        </Card>
-
-        {/* Today's scheduled workout (renders null when nothing is scheduled). */}
-        <TodayCard />
-
-        {/* The design's showLogCta. This tab only ever shows today, so its "not past" always holds. */}
-        {!streak.gymLoggedToday && todayWorkout && todayWorkout.exercises.length > 0 ? (
-          <GymSessionButton logged={false} onPress={() => router.push('/gym/log-session')} />
-        ) : null}
-
-        {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
-        <MuscleChart />
-        <MyScheduleCard />
-        <GymPatternsCard />
-
-        <SettingsList
-          title={t('gym.training')}
-          rows={[
-            { icon: 'calendar', label: t('gym.mySchedule'), onPress: () => router.push('/gym/schedule' as Href) },
-            { icon: 'barbell', label: t('gym.myWorkouts'), onPress: () => router.push('/gym/templates' as Href) },
-            { icon: 'snow', label: t('gym.applyStreakFreeze'), onPress: () => router.push('/gym/freeze') },
-            { icon: 'time', label: t('gym.sessionHistory'), onPress: () => router.push('/gym/history') },
-          ]}
-        />
+        </Animated.View>
       </ScrollView>
 
       <FloatingHeader height={insets.top + space.xl} />
