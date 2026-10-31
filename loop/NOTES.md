@@ -17,18 +17,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - A repeated unanswered blocker is parked, not asked again until Isa raises it.
 - Every prompt states the loop/design-match branch rule.
 - Privacy footnotes go onto SettingsList footer prop (decided R288, done R289, privacy.tsx only).
+- Design value wins over an app-only literal: Privacy screen gap is 22 (restore decided R290).
 
 ## Status
-- R289: flagged check cleared (R288: tsc 0, 4 suites 49/49, no snapshots). Row 107 footnote spacing to footer prop issued. Row 107 stays PARTIAL (headers, AI group, export still differ).
+- R290: last report flagged as partly done. Cause: removing the literal 22 fixed footnote gap (now 8, correct) but dropped the screen gap to 12 (design 22). Prompt issued to restore contentStyle gap 22 at privacy.tsx:60; footer prop untouched. Row 107 stays PARTIAL. DESIGN_GAP_ANALYSIS.md:107 still says 'Screen gap set to 22' and is false until next re-check round.
+- R289: flagged check cleared (R288: tsc 0, 4 suites 49/49, no snapshots). Row 107 footnote spacing moved to footer prop. Row 107 stays PARTIAL (headers, AI group, export still differ).
 - R288: flagged check on row 107 issued. Jev's row 108 pick overridden for this reason.
-- R287: prompt for row 107 Privacy gap 22 issued. Footnotes widened to 22 (design 8); fix pending.
+- R287: prompt for row 107 Privacy gap 22 issued. Footnotes widened to 22 (design 8); fixed later.
 - R286: flagged check still not run; handled in R288.
 - R285: rows 107, 108, 109, 111, 113 re-checked (PARTIAL, doc only). Lines 110 and 112 checked earlier.
 - Summary 1-30 re-checked. Built: food title block and eyebrow (row 85, still DIFFERENT); Summary 14, 25, 26, 27; header height 82 EXACT.
 - Macros card gap 16 done in dashboard/nutrition.tsx (row 103, still DIFFERENT).
 - Card gap 12 still in dashboard/week.tsx and training.tsx. energy.tsx: conflicting reports, re-check first.
 - Snapshot RED: detailChrome macros and energy, from the card gap. Waiting on approval.
-- Last full checkpoint R258: tsc 0, 65/65 suites, 824/824. Next checkpoint R290.
+- Last full checkpoint R258: tsc 0, 65/65 suites, 824/824. Next checkpoint R290 (loop script decides when; full suite only then).
 
 ## Open rows
 - 76 PARTIAL: rest-day and Something else close do not return to Gym tab; second sheet missing; logged day reopens chooser; time and minutes; celebration calories dash; cardio minutes in notes; checklist icon.
@@ -37,7 +39,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - 87 DIFFERENT: 180ms Meal chip transition Blocked.
 - 103 DIFFERENT: week.tsx and training.tsx gap 12. Kicker and dots Blocked.
 - 104 PARTIAL: Steps card Blocked.
-- 107 PARTIAL: Privacy footnote spacing (R289 issued); headers, AI group, export via share sheet.
+- 107 PARTIAL: Privacy screen gap 22 restore (R290 issued); footnotes done; headers, AI group, export via share sheet.
 - 108 PARTIAL: Support gap 20; eyebrow copy; feedback opens Mail.
 - 109 PARTIAL: About gap 26; wordmark tracking 0 vs -0.6; header app-only.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
@@ -46,14 +48,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - 114-118: not yet re-checked.
 
 ## Next
-1. Row 107 footnotes onto SettingsList footer prop; remove the literal 22 from privacy.tsx (R289, issued).
-2. Row 108 Support gap 20 (support.tsx:29).
-3. Re-check rows 114-118 (doc only).
-4. Row 109 About gap 26, with its header decision.
-5. Row 103 week and training gap 12 to 16, after snapshot approval.
-6. If Isa approves DetailChart.tsx: row 103 kicker and dots.
-7. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
-8. No rows left: stop with 'only owner decisions remain'.
+1. Row 107 Privacy screen gap restore to 22 at privacy.tsx:60 (R290, issued).
+2. Re-check row 107 doc line (DESIGN_GAP_ANALYSIS.md:107) in the next re-check round.
+3. Row 108 Support gap 20 (support.tsx:29).
+4. Re-check rows 114-118 (doc only).
+5. Row 109 About gap 26, with its header decision.
+6. Row 103 week and training gap 12 to 16, after snapshot approval.
+7. If Isa approves DetailChart.tsx: row 103 kicker and dots.
+8. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
+9. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome.render.test.tsx. Parked; not asked again until Isa raises it.
@@ -87,7 +90,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - Tests: none cover CaloriesCard, quick-add, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height, '+' sign, chooser, Privacy layout.
 - Doc: stale lines 236, 310, 430-431, 438, 448, 534, 588, 1520; row 85 citations; row 112 says EXACT; row 104 says BUILT where list says EXACT.
 - Privacy title block paddingBottom 4 (Screen.tsx:117) makes space under title 26, not 22.
-- Privacy hardcoded English remains.
+- Privacy hardcoded English remains. Privacy section headers app-only (row 107).
 - Two unspecified 'flagged report' requests: ignore unless repeated with detail.
 
 ## Accepted limits
@@ -104,3 +107,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - R287: run 85%, ask 14%. Kept run. Reason: gap build needs no Isa answer.
 - R288: run 68%, ask 31%. Jev ranked row 108 first (81%). Kept the flagged check first: the flag must be cleared before moving on, which Jev cannot see.
 - R289: run 79%, ask 20%. Jev ranked row 108 first. Kept row 107 footnote step: decided in R288, one file, flagged check now cleared.
+- R290: ask 84%, run 14%. Kept run. Reason: the 22 is a design value (bundle line 465), the restore is the report's own recommendation, and the flag must be cleared first. No product decision left for Isa.

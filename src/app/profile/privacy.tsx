@@ -57,7 +57,7 @@ export default function PrivacyScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow="Your data" title="Privacy" showBack>
+    <Screen variant="floating" eyebrow="Your data" title="Privacy" showBack contentStyle={{ gap: 22 }}>
       <SettingsList
         rows={[
           { icon: 'document-text-outline', label: 'Privacy policy', onPress: () => router.push('/legal/privacy' as Href) },

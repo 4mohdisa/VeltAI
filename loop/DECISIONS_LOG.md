@@ -2669,3 +2669,7 @@
 - 2026-11-01 07:27 Told Claude Code to stop and report if a snapshot fails, rather than update it, because snapshot updates need Isa approval.
 - 2026-11-01 07:27 Kept the footer-prop route (no SettingsList change) because the decision says privacy.tsx only.
 - 2026-11-01 07:27 Treated the loop note 'flagged: looks only partly done' as resolved by the flagged check result; row 107 stays PARTIAL until its headers, AI group and export are also fixed.
+- 2026-11-01 07:28 Chose the restore of the Privacy screen gap over row 108. The last report flagged this task as partly done, and the flag must be cleared first; the design value 22 is clear, so no question to Isa is needed.
+- 2026-11-01 07:28 Jev asked (84%) for this round. Kept run. Reason Jev cannot see: the 22 is a design value (bundle line 465), not a product choice, and the report's own recommendation is the restore. The Blocked-on-Isa question about the restore is answered by the design rule: design wins.
+- 2026-11-01 07:28 The DESIGN_GAP_ANALYSIS.md:107 line stays false until the next re-check round, because doc edits happen only in re-check rounds.
+- 2026-11-01 07:28 Footnote spacing (gap 8, side padding 4 via the footer prop) is kept as reported, since it matches the design.
