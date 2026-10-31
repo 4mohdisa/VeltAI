@@ -21,15 +21,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Handover NEXT lines may be stale; latest report and notes win. Jev is advisory.
 
 ## Status
-- BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57); session.tsx citations confirmed correct, no +1 shift needed (R58).
+- BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57); session.tsx citations confirmed correct, no +1 shift needed (R58, R59).
 - Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - Last checkpoint R48 green (tsc 0, 65 suites, 824 tests). Checkpoint due.
-- R58 report was flagged by the loop (type check or tests not run). R59 re-runs tsc as a doc-only round to clear the flag.
+- R58 flag cleared by R59 (TSC EXIT 0).
 
 ## Next
-1. (Done R58, no edit needed) session.tsx citations already correct.
-2. Re-run tsc, doc-only (R59), to clear the flag.
-3. Check unrounded macro totals (hooks.ts ~116-118) and the screens that show them, for long decimals.
+1. (Done R58, R59) session.tsx citations correct, no edit needed.
+2. (Done R59) tsc re-run, EXIT 0, flag cleared.
+3. IN PROGRESS R60: check unrounded macro totals (hooks.ts ~116-118) and the screens that show them, for long decimals.
 4. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
 5. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
 6. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
@@ -83,4 +83,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R51-R56: citation and doc fixes; macros to 1 decimal (R56).
 - R57: detail.tsx citations fixed in gap doc. Done.
 - R58: session.tsx citation check, no edits needed; report flagged for missing tsc or tests.
-- R59: doc-only tsc re-run and citation confirmation (in progress).
+- R59: doc-only tsc re-run, TSC EXIT 0, flag cleared. Citations confirmed again.
+- R60: unrounded macro totals check (in progress). Handover NEXT line about +1 citation shift dropped as stale.
+
+## Handover R60
+- Session continuity: the next Claude Code session is fresh. Name files fully in every prompt.

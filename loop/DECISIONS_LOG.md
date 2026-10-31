@@ -1570,3 +1570,8 @@
 - 2026-10-31 17:24 Did not apply the handover NEXT line (add 1 to session.tsx citations above line 165). The latest report shows all 19 citations already correct and a +1 shift would break them. Latest report and notes win over the handover.
 - 2026-10-31 17:24 Marked step 1 of the old Next list as done with no edit, since the citation check is complete.
 - 2026-10-31 17:24 Kept the tsc-only rule for doc-only rounds, so no Jest run this round. Jev run 86% agrees with running.
+- 2026-10-31 17:25 Chose candidate 1 because it is step 3 of the agreed Next list, touches the fewest files, and needs nothing from Isa.
+- 2026-10-31 17:25 Jev's 'run' (87%) agrees with this choice.
+- 2026-10-31 17:25 Treated the R59 tsc result (EXIT 0) as clearing the flag, so no further re-run is needed.
+- 2026-10-31 17:25 Dropped the stale handover NEXT line (add 1 to session.tsx citations above line 165). R58 and R59 both confirmed the citations are correct, and the notes say handover NEXT lines may be stale.
+- 2026-10-31 17:25 Kept applyGrams, search seed and Food tab seeds out of this task, since they are a separate surface (candidate 2).
