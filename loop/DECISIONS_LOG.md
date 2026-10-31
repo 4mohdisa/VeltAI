@@ -1123,3 +1123,8 @@
 - 2026-10-31 14:05 Prompt names design/Lume App.html and the saved foods row, with the branch, to fix the rejection reason.
 - 2026-10-31 14:05 Did not edit the gap file this round: the saved foods row stays until all its literals are wrapped and Isa has reviewed.
 - 2026-10-31 14:05 Streak footnote stays blocked: Isa has not confirmed the three decisions, so it is not a candidate to build now.
+- 2026-10-31 14:06 Chose the read-only check first because the loop note flagged R286 (type check and tests not run). Notes rule: flagged reports are cleared by a read-only round before build work.
+- 2026-10-31 14:06 Jev ranked the saved.tsx:76 title change first at 80%. Kept my pick for this round only because the flag must be cleared first and the R286 report left a stale line reference (saved.tsx:83) that needs confirming. The title change follows next round, as candidate 2.
+- 2026-10-31 14:06 Stale reference food/saved.tsx:83 removed from the queue. It is a closing tag, not a literal.
+- 2026-10-31 14:06 Saved-foods literal work is now sequenced: title (:76) first, since the design wording My dishes is confirmed. Other saved.tsx strings follow.
+- 2026-10-31 14:06 Did not ask Isa about the title change. Design file wins by default; the copy change is recorded here and in the gap row when built.
