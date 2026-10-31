@@ -1937,3 +1937,15 @@
 - 2026-10-31 22:10 Checkpoint stays second in Next. It is overdue, but it is read-only and should run after this partial is closed.
 - 2026-10-31 22:10 Tab bar label deferred: it touches navigation files and was out of scope last round.
 - 2026-10-31 22:10 Followed Jev (run 85%).
+- 2026-10-31 22:12 Chose the checkpoint over the energyUnit fix. It is overdue (R102, R117, R131 did not report) and was last green at R89. It is read-only, so it is low risk.
+- 2026-10-31 22:12 Rewrote the notes under 600 words, as the loop note asked. Merged repeated blocked and device-check items and removed finished work.
+- 2026-10-31 22:12 Moved the Waiting on Isa summary into Blocked on Isa to remove duplication.
+- 2026-10-31 22:12 Kept the Food tab label task as candidate 3 for the next round. The navigation rule still needs checking first.
+- 2026-10-31 22:12 Chose the checkpoint over the energyUnit task: it is overdue since R134, and a green baseline should come before more edits.
+- 2026-10-31 22:12 Named the design file as none: a read-only run has no screen, and the rule allows 'none exists'.
+- 2026-10-31 22:12 Kept Jev's run call: agreed on the action, and the prompt stays strict.
+- 2026-10-31 22:13 Chose the energyUnit label over the owed checkpoint: the handover lists it as the recommended next item, and it is a single-line, single-file change that needs nothing from Isa.
+- 2026-10-31 22:13 Named design/Lume App.html screen 71f71ac4 and row 85, because the rejection said the prompt did not name the design file.
+- 2026-10-31 22:13 Allowed a new key only when no existing key matches, and wrote it to en, es and fr in the same edit, as the 'new keys go to en, es, fr together' rule requires.
+- 2026-10-31 22:13 es and fr values for the new key are provisional and go to Isa's review list, like the other unreviewed strings.
+- 2026-10-31 22:13 Kept row 85 DIFFERENT, because the row covers the whole Calories card and the fibre and bar gaps remain.

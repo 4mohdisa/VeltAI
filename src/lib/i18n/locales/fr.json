@@ -334,6 +334,7 @@
     "carbs": "Glucides",
     "fat": "Lipides",
     "fibre": "Fibres",
+    "energyLogged": "{{unit}} enregistré",
     "mealsToday": "Repas du jour",
     "percentOfTarget": "Pourcentage de l’objectif",
     "macroPercentLabel": "{{macro}} : {{percent}} pour cent de l’objectif",

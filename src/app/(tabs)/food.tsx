@@ -674,7 +674,7 @@ function CaloriesCard({
           {formatNumber(kcalToDisplay(total, energyUnit))}
         </Text>
         <Text variant="callout" color={color.secondaryLabel}>
-          {`${energyUnit} logged`}
+          {t('nutrition.energyLogged', { unit: energyUnit })}
         </Text>
       </View>
       <View style={{ flexDirection: 'row', gap: space.md }}>

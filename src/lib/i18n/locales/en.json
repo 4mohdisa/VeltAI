@@ -334,6 +334,7 @@
     "carbs": "Carbs",
     "fat": "Fat",
     "fibre": "Fibre",
+    "energyLogged": "{{unit}} logged",
     "mealsToday": "Meals today",
     "percentOfTarget": "Percent of target",
     "macroPercentLabel": "{{macro}} {{percent}} percent of target",
