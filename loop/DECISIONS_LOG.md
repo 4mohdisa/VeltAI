@@ -1165,3 +1165,6 @@
 - 2026-10-31 14:16 Kept es addMenu.voice and describeOutLoud: removal still needs Isa's approval (blocked item, decided earlier).
 - 2026-10-31 14:16 Did not re-ask the streak footnote or row 89 questions: no new information, per notes.
 - 2026-10-31 14:16 Recorded that handover and R294 key counts disagree, so the next removal round must recount with a script rather than trust totals.
+- 2026-10-31 14:17 Chose the read-only check over the Jev-preferred doc fix (lines 399-400). Reason: the loop note says R295 was flagged because no type check or tests ran, and my notes rule says a flagged report is cleared by a read-only round before any further work. The doc fix is queued next, so the flag is cleared before the next edit.
+- 2026-10-31 14:17 Kept the fix at lines 399-400 as the next task, since Claude Code already named it in NEXT.
+- 2026-10-31 14:17 Did not ask Isa anything this round. The footnote, row 89 and Training list questions stay under Blocked on Isa.
