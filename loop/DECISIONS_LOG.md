@@ -1044,3 +1044,13 @@
 - 2026-10-31 13:43 Kept English wording identical to the current hardcoded string, per the hardcoded-string rule.
 - 2026-10-31 13:43 Marked the gap row BUILT with one line, not verified, per the testing rules.
 - 2026-10-31 13:43 Chose a read-only checkpoint or stop only when a row cannot be found. Otherwise the build proceeds, because the last flagged report (R266) was cleared at R267.
+- 2026-10-31 13:45 Chose saved.tsx first: it is the last load-failure literal the string-literal check sees, and it is a one-screen change that needs nothing from Isa.
+- 2026-10-31 13:45 Used a per-screen key food.savedLoadFailed, not a new group, to keep the food group pattern and the per-screen rule in notes.
+- 2026-10-31 13:45 Did not mark the Profile row BUILT: the design has no load-failure state and the row covers the whole Settings root.
+- 2026-10-31 13:45 Kept the Profile key separate from gym.loadFailed with identical wording, as Isa asked.
+- 2026-10-31 13:45 Kept the hydration test literal check in place until the last literal is gone.
+- 2026-10-31 13:45 Chose the saved.tsx load-failure task: it was the previous report's NEXT, it is the smallest, and it needs nothing from Isa.
+- 2026-10-31 13:45 Rewrote the rejected prompt to name the loop/design-match branch and forbid branch changes, pushes and git commands.
+- 2026-10-31 13:45 Kept the gap row unchanged because the design has no load-failure state, as recorded in R271.
+- 2026-10-31 13:45 Required a stop-and-BLOCKED if the literal is not a load-failure message, so no unrelated string is converted.
+- 2026-10-31 13:45 Used the existing food.loadFailed value's style for es and fr, since no native review is pending for this new key.

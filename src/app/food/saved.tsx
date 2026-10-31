@@ -6,6 +6,7 @@
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
@@ -37,6 +38,7 @@ const toEditable = (f: SavedFood): DetailItem => ({
 });
 
 export default function SavedFoodsScreen() {
+  const { t } = useTranslation();
   // Slot targeting from the food log's per-meal "+" (via the add menu).
   const { slot } = useLocalSearchParams<{ slot?: string }>();
   const targetSlot: MealSlot | null = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : null;
@@ -80,7 +82,7 @@ export default function SavedFoodsScreen() {
         accessibilityLabel="Search saved foods"
       />
 
-      {loadError ? <LoadFailedNotice message="Couldn't load your saved foods." onRetry={refetch} /> : null}
+      {loadError ? <LoadFailedNotice message={t('food.savedLoadFailed')} onRetry={refetch} /> : null}
 
       {loading ? (
         <SkeletonList rows={4} />

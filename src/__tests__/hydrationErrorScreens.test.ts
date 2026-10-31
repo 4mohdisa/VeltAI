@@ -64,7 +64,7 @@ test('no screen invents a reason for the failure', () => {
   // Messages already moved to t() are invisible to the scan above, so read their copy.
   const copy = (locale: string, path: string) =>
     path.split('.').reduce((node, key) => node[key], JSON.parse(src(`lib/i18n/locales/${locale}.json`)));
-  for (const key of ['nutrition.macrosLoadFailed', 'nutrition.loadFailed', 'food.loadFailed', 'gym.loadFailed', 'profile.loadFailed']) {
+  for (const key of ['nutrition.macrosLoadFailed', 'nutrition.loadFailed', 'food.loadFailed', 'food.savedLoadFailed', 'gym.loadFailed', 'profile.loadFailed']) {
     expect(copy('en', key)).toMatch(/^Couldn't load/);
     expect(copy('en', key)).not.toMatch(/server|network|offline|500|timeout/i);
     expect(copy('es', key)).toMatch(/\S/);
