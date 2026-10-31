@@ -1253,3 +1253,7 @@
 - 2026-10-31 15:10 Reorder already_checked_in above is_rest_day: the report confirmed GetToday sets both flags, and the design shows Logged whenever a session exists. Step 1 re-checks the server before editing.
 - 2026-10-31 15:10 Fallback title uses the design copy 'Freestyle session'. Reuses an existing key if one is present, otherwise adds gymLog.freestyleTitle to en, es and fr together. Native es/fr review stays on the Blocked list.
 - 2026-10-31 15:10 Whether the final TodayCard branch is reachable is not a build task. It goes to Next as a read-only trace before any gap-file wording changes.
+- 2026-10-31 15:12 Chose the read-only trace (step 1) because the last report is DONE, so the flag is cleared and the unfinished step is complete. The trace is smallest and unblocks gap wording and the 'Set schedule' question.
+- 2026-10-31 15:12 No edits this round, so no tests or type check. Full Jest waits for the checkpoint.
+- 2026-10-31 15:12 Rewrote the notes under 600 words as the loop note asked. Merged repeated items, deleted finished work, kept all decisions and owner items.
+- 2026-10-31 15:12 Recorded that the logged-state gaps (sub-line, green pill, hardcoded 'Logged') come from the last report and are queued after the trace.
