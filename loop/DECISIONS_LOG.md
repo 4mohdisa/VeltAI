@@ -2504,3 +2504,8 @@
 - 2026-11-01 01:29 Checkpoint R251 is complete (tsc 0, 65/65 suites, 824/824 tests), so it is no longer the next task.
 - 2026-11-01 01:29 Gym top padding stays inset-tied, as before, pending Isa.
 - 2026-11-01 01:29 Stale doc lines and the TAB_BAR_CLEARANCE comment wait until no build row is open.
+- 2026-11-01 01:32 Adopted Jev's pick (Summary page values build) over my planned Food re-check. Reason: Summary rows 103 and 104 were re-checked in R252, so a build is now allowed. It is the smallest task and clears the Summary page values.
+- 2026-11-01 01:32 Scoped the build to bottom 158, header default 82 and card gap 14. Top padding stays inset-based because it is pending Isa.
+- 2026-11-01 01:32 The automatic flag said the last report's type check and tests were not run. Handled it by running tsc and tabNavigation.test.ts in this round, after the code change that needs them.
+- 2026-11-01 01:32 Row 104 stays PARTIAL, not BUILT, because the Steps card and the non-design items are still open.
+- 2026-11-01 01:32 Parked the Summary hardcoded English (index.tsx:147, :150, :180) and the stale reference near line 1518 instead of tasking them.

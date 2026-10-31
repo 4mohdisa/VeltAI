@@ -25,7 +25,6 @@ import { MorningBriefCard } from '@/components/ai';
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
-import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { Skeleton } from '@/components/display';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
@@ -83,8 +82,8 @@ export default function DashboardScreen() {
         contentContainerStyle={{
           paddingTop: insets.top + space.md,
           paddingHorizontal: space.lg,
-          gap: space.md,
-          paddingBottom: TAB_BAR_CLEARANCE(insets),
+          gap: 14,
+          paddingBottom: 158,
         }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
@@ -220,7 +219,7 @@ export default function DashboardScreen() {
 
       {/* Blurred strip the title scrolls under. Absolute sibling, above the
           scroll, pointer-events none. */}
-      <FloatingHeader height={insets.top + space.xl} />
+      <FloatingHeader />
 
       {/* The way into Profile — the same control Food and Gym float (V2). */}
       <ProfileAvatarButton />
