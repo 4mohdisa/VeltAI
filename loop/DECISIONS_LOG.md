@@ -2387,3 +2387,7 @@
 - 2026-11-01 00:52 Did not add My schedule, the Training list, LoadFailedNotice or the entrance animation: each is a separate row difference and would break the one-task rule.
 - 2026-11-01 00:52 Parked the doc-only summary table fix and the gym.tsx:144 comment: doc fixes wait until no build row is open, and comments are not tasks.
 - 2026-11-01 00:52 Treated the R226 report as having run tsc (exit 0 shown); the flag is answered by requiring the exact output lines this round, not by a repeat doc round.
+- 2026-11-01 00:54 Chose the doc fix first: the R227 flag is about the written Gym section still contradicting row 112, and the showLogCta gap is unlisted. Recording it in the doc is the smallest safe step.
+- 2026-11-01 00:54 Did not build showLogCta yet: it changes when the one-tap gym log shows, which needs a re-check first.
+- 2026-11-01 00:54 Flag is on a different step from the tsc repeats, so the rule against repeated doc-only rounds does not apply.
+- 2026-11-01 00:54 Rewrote the notes under 600 words, merging repeated items and removing finished work. Kept every decision entry.
