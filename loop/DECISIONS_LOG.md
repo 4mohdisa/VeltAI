@@ -2151,3 +2151,7 @@
 - 2026-10-31 23:43 Told Claude Code to reuse an existing key whenever the English text matches exactly, to avoid duplicate keys.
 - 2026-10-31 23:43 Kept the doc line-number drift out of this prompt, because the brief says one surface per round. It is listed under NEXT.
 - 2026-10-31 23:43 Used design wording for the strings and kept current English for any toast the design does not word.
+- 2026-10-31 23:45 Chose the detail.tsx macro labels: quick-add is reported done (R179), and the handover lists this as the first unfixed item. It is one file, so it stays inside the one-task rule.
+- 2026-10-31 23:45 Told Claude Code to report and skip if the labels are already translated, because the Built list and the handover disagree about the macro labels.
+- 2026-10-31 23:45 Left the quick-add gap row and doc line references for a later doc-only round, to keep this round to one surface.
+- 2026-10-31 23:45 Recorded R179 as BUILT (not verified). Native review and device checks stay in Blocked on Isa.
