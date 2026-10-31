@@ -1442,3 +1442,8 @@
 - 2026-10-31 16:50 Rewrote the notes file to under 600 words per the loop note: merged repeated items, removed finished round detail, kept every decision.
 - 2026-10-31 16:50 Kept Try again hardcoded English and the stale log-session.tsx cites in Next, so they are not lost.
 - 2026-10-31 16:50 Read-only round: no tsc or Jest run, since nothing is edited.
+- 2026-10-31 16:52 Kept the planned.length === 0 clause in the sheet's rest-day check (src/app/gym/log-session.tsx:150). Reason: already decided in the handover, and without it an empty template would log an empty session at completion rate 1. The brief's wording was the mistake, not the code, so the gap row is corrected instead of the code.
+- 2026-10-31 16:52 Did not merge gap line 90 (empty status into 'Food — My dishes / Saved'). Reason: the Blocked on Isa list says to do it only if Isa answers, and he has not answered. The handover's NEXT item is overridden by that rule.
+- 2026-10-31 16:52 Chose the stale-citation doc round first. Reason: the rule says a partial row with an un-updated gap-doc line gets a doc round before any new build, and this row is flagged for exactly that.
+- 2026-10-31 16:52 Did not open the TodayCard already_checked_in ordering question again. Reason: the R35 report confirmed the card order is right (failure, then already_checked_in, then rest day), and the sheet has no such check by design.
+- 2026-10-31 16:52 Logged-rest-day sheet issue (log-session.tsx:150-158 shows rest-day state for a logged rest day) and empty-template sub-line mismatch on the card are parked, not built. Reason: they need a decision on the logged-day behaviour, and a logged-day sheet is already on the Next list as a design question.
