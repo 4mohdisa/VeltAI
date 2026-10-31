@@ -1426,3 +1426,7 @@
 - 2026-10-31 16:46 Row status unchanged, so header counts stay at 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - 2026-10-31 16:46 Treated the log-session.tsx:89 rest-day item as unverified rather than closed, because only the report says it was fixed. Added a read-only check to Next.
 - 2026-10-31 16:46 Calories decision: the 'calories from the logged session only' rule is not implemented. The sub-line still shows the whole-day figure, and a session figure needs gym_sessions.calories_burned from the backend. Kept the day total and left it under Blocked on Isa and Parked.
+- 2026-10-31 16:47 Chose the doc cleanup first: the last report was flagged, and the gap-doc rule says doc fixes go in a doc round with tsc before any new build.
+- 2026-10-31 16:47 Kept row 113 and line 90 out of this round to keep it to one task; line 90 merge is listed as next.
+- 2026-10-31 16:47 Tests recorded as no matching tests because the round is doc-only, per the Jest rule for doc rounds.
+- 2026-10-31 16:47 Notes rewritten to under 600 words as the loop note required; repeated items merged, finished work removed, decisions kept.
