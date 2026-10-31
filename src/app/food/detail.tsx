@@ -50,6 +50,13 @@ import type { MealSlot } from '@/lib/mock/data';
 // gets the standard four.
 const SEARCH_SERVINGS = [50, 100, 150, 200];
 
+const SLOT_KEYS: Record<MealSlot, string> = {
+  Breakfast: 'breakfast',
+  Lunch: 'lunch',
+  Dinner: 'dinner',
+  Snacks: 'snack',
+};
+
 /** The design's six pads, with its own captions and keyboards: grams and energy
  *  are whole numbers, the macros take a decimal point. Every one caps at six
  *  digits, which is NumberEntryBar's default, so none passes `maxLength`. */
@@ -653,7 +660,7 @@ function DetailForm({
             label="Meal"
             value={slot}
             onChange={(v) => setSlot(v)}
-            options={SLOTS.map((s) => ({ label: s, value: s }))}
+            options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`, { defaultValue: t('foodLog.addMeal') }), value: s }))}
             variant="inset"
           />
         ) : null}

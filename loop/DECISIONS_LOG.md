@@ -2155,3 +2155,7 @@
 - 2026-10-31 23:45 Told Claude Code to report and skip if the labels are already translated, because the Built list and the handover disagree about the macro labels.
 - 2026-10-31 23:45 Left the quick-add gap row and doc line references for a later doc-only round, to keep this round to one surface.
 - 2026-10-31 23:45 Recorded R179 as BUILT (not verified). Native review and device checks stay in Blocked on Isa.
+- 2026-10-31 23:46 Chose the meal chip labels: smallest task, needs no new keys, and it is the first open item in the report.
+- 2026-10-31 23:46 Treated food/detail.tsx macro tile labels as done, because the report confirms they already use nutrition.* keys.
+- 2026-10-31 23:46 Kept the rest of detail.tsx strings for a later round to keep this task to one change.
+- 2026-10-31 23:46 No question to Isa: this task needs nothing from him.
