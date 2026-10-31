@@ -1393,3 +1393,8 @@
 - 2026-10-31 15:55 Chose the read-only checkpoint first because the loop flagged R23 for no full tsc or Jest run, and the notes say a flagged report is partial until fixed before the next build round.
 - 2026-10-31 15:55 The checkpoint is read-only because the notes say checkpoint rounds are read-only and the stale summary row fix needs its own round with tsc.
 - 2026-10-31 15:55 Did not ask Isa anything: the checkpoint and gap-doc fixes need no owner input.
+- 2026-10-31 15:56 Chose the gap-doc fix: it clears the R23 partial flag, it is the smallest task, and it needs nothing from Isa. Jev rates the last task as clean only 19% likely, so a small doc-only round is the safer pick.
+- 2026-10-31 15:56 Used tsc once and no Jest, because the change is doc-only. This follows the rule that a doc-only round runs tsc and does not run the suite.
+- 2026-10-31 15:56 Told Claude Code to leave the header counts alone and report any mismatch under NEXT, so the count fix stays a separate round.
+- 2026-10-31 15:56 Set the row status to DIFFERENT, matching the Parked and Status lines in these notes, rather than BUILT, since the Calories cell, tap target and wash pill are still open.
+- 2026-10-31 15:56 Marked R24 checkpoint as done: tsc exit 0 and app Jest 65 suites, 824 tests passing.

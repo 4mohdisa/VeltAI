@@ -26,12 +26,12 @@ BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, s
 No test covers the TodayCard grid or chips.
 DIFFERENT: row 113 TodayCard fetch failure; Summary Macros detail (no chart, line 103); gym today's session card.
 Header counts (line 71): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Table has 43 rows; line 90 is empty-status.
-R23 gap-doc prose done, tsc exit 0, no tests run (doc only). Flagged by loop as partial.
-Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
+R23 gap-doc prose done, tsc exit 0, no tests run (doc only). Flagged by loop as partial; cleared by R24 checkpoint.
+Last full run R24 (checkpoint): tsc exit 0; app Jest 65 suites, 824 tests, 4 snapshots, all passing.
 
 ## Next
-1. R24 (this round): read-only checkpoint. Full tsc and full app Jest, no edits. Clears the R23 flag.
-2. Gap doc: fix the stale 'Gym - today's session card' summary row so it matches the R23 prose (it still says logged lacks the 4-up grid and chips remain open). Own round, tsc once.
+1. R25 (this round): gap-doc fix of the stale 'Gym - today's session card' summary row to match the R23 prose. tsc once, no Jest.
+2. Gap doc: check header counts (line 71) against the table after R25. Own round, tsc once.
 3. Logged card open items: wash pill token (Isa); chevron on non-tappable card; tap target (needs day-detail route); 4-up grid needs per-session calories (backend, recommended next backend item).
 4. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design/Lume App.html.
 5. Gap doc: merge line 90 empty-status row into the Saved foods row above.
@@ -80,7 +80,7 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 - Check premises: nutrition.tsx is src/app/dashboard/; Burned is on EnergyBalanceCard; 'It went as planned' pill is not the logged-day control; day-detail tap target has no route.
 - Gym tests are in src/__tests__.
 - Every prompt names the design/ file and gap row and says 'work only on loop/design-match'.
-- DONE without design read or gap row edit is partial. CHECKED without tsc and Jest is partial. No matching tests must be said.
+- DONE without design read or gap row edit is partial. CHECKED without tsc and Jest is partial. No matching tests must be said. Doc-only rounds: tsc only, no Jest, and say so.
 - Design assets: 185bb533 Summary, 7dc211f6 gym, 71f71ac4 food. Decode in memory only.
 - Line numbers shift; locate rows by content.
 
@@ -89,5 +89,6 @@ Last full run R312 green (65 suites, 824 tests). Full Jest owed at checkpoint.
 - R18-R19: header counts corrected; checkpoint rejected once, still owed.
 - R20-R21: TodayCard logged state built; mismatches found; stays BUILT.
 - R22: 3-up logged grid and chips built, no tests cover them; flagged partial.
-- R23: gap-doc prose for today's session card. tsc exit 0, no tests (doc only). Flagged by loop; R24 checkpoint clears it.
-- R24: read-only checkpoint requested (tsc and full app Jest). No edits.
+- R23: gap-doc prose for today's session card. tsc exit 0, no tests (doc only). Flagged by loop.
+- R24: read-only checkpoint. tsc exit 0; app Jest 65 suites, 824 tests passing. Clears R23 flag for types and tests.
+- R25: gap-doc fix of stale today's session card summary row (requested). tsc once, no Jest.
