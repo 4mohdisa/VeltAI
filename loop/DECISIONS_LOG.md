@@ -1457,3 +1457,8 @@
 - 2026-10-31 16:53 Locate cites by quoted text, not line number, because the doc may have shifted.
 - 2026-10-31 16:53 tsc only, no Jest: doc-only round with no matching tests.
 - 2026-10-31 16:53 Did not fix the gap line 166 '80 lines' statement this round. It is listed under NEXT, as its historical intent is unclear.
+- 2026-10-31 16:54 Chose the doc round first because the loop flagged the last report for tsc or tests not run. This round reruns tsc and records the exit code, and it is doc-only so Jest is not needed.
+- 2026-10-31 16:54 Did not merge the row 90 status line. The Blocked list says do it only if Isa answers, and the handover NEXT conflicts with that. The notes rule wins.
+- 2026-10-31 16:54 Applied the three stale-claim corrections without asking, because the rule allows doc factual corrections with accurate report text.
+- 2026-10-31 16:54 Did not ask Isa even though Jev leans ask at 66%. No question is unanswered and nothing needs a dashboard, device or key. The defaults cover every open item.
+- 2026-10-31 16:54 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept all never-delete decisions.

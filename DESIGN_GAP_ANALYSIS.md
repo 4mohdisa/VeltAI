@@ -163,7 +163,7 @@ or the sum of cardio segment minutes).
 
 ## What the app does
 
-`src/app/gym/log-session.tsx` is 80 lines and asks four subjective questions:
+`src/app/gym/log-session.tsx` is 261 lines and asks four subjective questions:
 
 1. A static line: *"Everything here is optional — a one-tap log still counts."*
 2. **Duration** — a drag-thumb `SliderField`, 0–180 step 5, rendering 0 as "Not set"
@@ -272,7 +272,7 @@ The three log sheet paths all route through `openSession` (`src/app/gym/log-sess
 
 The Start workout path is the conditional one. `TodayCard` shows `LoadFailedNotice` with Try again when the
 fetch failed (null). Its branches then run in this order: `already_checked_in`
-first (a bare header), then `is_rest_day` or no template (the rest day card, also a
+first (renders `LoggedCard`), then `is_rest_day` or no template (the rest day card, a
 bare header), then planned, the only state that renders the "Start workout" button.
 So that button needs a template scheduled for today and a day not yet checked in.
 The log sheet paths do not: the sheet opens from the `+` menu on any day, and from
