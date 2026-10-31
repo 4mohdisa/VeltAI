@@ -1856,3 +1856,11 @@
 - 2026-10-31 20:58 Chose week.tsx copy first: it is the smallest task, needs nothing from Isa, and is the next item on the agreed list. The Week-row question does not block copy changes.
 - 2026-10-31 20:58 Reuse existing locale keys where the English text already exists; new es/fr wording is written by Claude Code and flagged for native review rather than asked of Isa.
 - 2026-10-31 20:58 No gap-doc edit this round, because no table row exists for week.tsx and the owner has not decided which row should record it.
+- 2026-10-31 21:00 Chose the checkpoint over fixing week.tsx because the loop note says this round is a checkpoint, and checkpoint rounds are read-only under the notes rules.
+- 2026-10-31 21:00 Kept the week.tsx leftovers as NEXT, so the flagged 'partly done' report is handled by a verified baseline first, then the remaining copy is done in the next round.
+- 2026-10-31 21:00 Scoped the checkpoint to the app suite and tsc only, as the notes and brief specify. The backend suite is not run.
+- 2026-10-31 21:00 Rejected prompt rewritten: now names design/Lume App.html and the streak counter section to match.
+- 2026-10-31 21:00 Chose the StreakCounter task: one file, no backend, no Isa input, smallest of the three candidates.
+- 2026-10-31 21:00 No gap row is edited this round, because the streak wrap row is blocked on Isa and no other row exists for this file.
+- 2026-10-31 21:00 R117 checkpoint result has not been reported. Treated as still pending, not failed. The loop will tell me if it needs re-issuing.
+- 2026-10-31 21:00 The week.tsx leftovers stay queued next, after the StreakCounter round.
