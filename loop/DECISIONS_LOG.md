@@ -1312,3 +1312,8 @@
 - 2026-10-31 15:29 Did not pick the Logged-day sheet change (Jev's risk reading was high). It alters the log sheet behaviour, so it needs a small, separate round after this one.
 - 2026-10-31 15:29 Did not pick the (tabs)/gym.tsx Training list or profile wrapping. Both touch items Isa has not yet decided.
 - 2026-10-31 15:29 Doc-only rounds must also run tsc once, so they are not flagged again. Recorded in Next.
+- 2026-10-31 15:31 Chose the setup fix first because the last report was flagged for a failing test, and the loop note says to deal with that before moving on.
+- 2026-10-31 15:31 Kept the fix to setup.ts only. Changing the card or the test expectations to suit the test is out of bounds.
+- 2026-10-31 15:31 Ran the whole render folder rather than one file, because setup.ts is shared and the change can affect every render test.
+- 2026-10-31 15:31 Weakened guard in summaryNoFabrication.test.ts:38 is logged for next round, not fixed here, to keep this round to one task.
+- 2026-10-31 15:31 Jev's 81% run confidence matches my choice. The 39% clean-finish figure is why the prompt asks for a narrow change and a clear report.

@@ -1,3 +1,5 @@
+import '@/lib/i18n';
+
 // Render-test setup. These tests mount real React Native components through
 // react-test-renderer (jest-expo preset), so they exercise the actual JSX
 // branches — unlike the node-env suite, which can only read source text.
