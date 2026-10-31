@@ -2556,3 +2556,13 @@
 - 2026-11-01 01:52 Did not pick the header strip on Screen.tsx:163: header top padding is pending Isa and the handover flags it as a note only.
 - 2026-11-01 01:52 Added the branch rule to the prompt because the loop note said the last prompt was rejected for missing it.
 - 2026-11-01 01:52 Kept the run action over Jev's 81% run / 17% ask: no Isa input is needed for this row.
+- 2026-11-01 01:54 Chose the checkpoint run because the loop note demands it and it needs no Isa input.
+- 2026-11-01 01:54 Used jest --ci and forbade -u, so the checkpoint cannot silently rewrite the macros snapshot that is outside the allowed files.
+- 2026-11-01 01:54 Snapshot update for detailChrome macros is not a task yet; it goes to Blocked on Isa, because the last report says that file is outside the allowed scope.
+- 2026-11-01 01:54 Other Summary detail views (energy, week, training) need the same gap-16 fix, but that belongs to row 103 follow-up after the checkpoint result is known, so they stay parked for now.
+- 2026-11-01 01:54 Did not ask Isa this round: the checkpoint is self-contained, and the only Isa item (snapshot approval) is recorded for the next round.
+- 2026-11-01 01:54 Named the matching design file (design/Lume App.html, bundle 185bb533) in the prompt, because the last prompt was rejected for missing it.
+- 2026-11-01 01:54 Chose row 103 kicker and Breakdown dots: the next step in the notes, one file, needs no Isa input.
+- 2026-11-01 01:54 Kept the detailChrome render test out of the run: its macros snapshot is red and waits on Isa, so running it would only repeat a known failure.
+- 2026-11-01 01:54 Rewrote the notes to about 500 words, as the loop note asked: merged repeated items and deleted finished work.
+- 2026-11-01 01:54 Did not run a checkpoint: R265 result was not reported, so it stays open for the next checkpoint round.
