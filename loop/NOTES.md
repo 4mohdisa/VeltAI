@@ -23,29 +23,32 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Every prompt names the design/ file, the gap row and loop/design-match.
 - Saved foods sheet title 'My dishes' (food.savedTitle). Row 89 stays DIFFERENT until the photo gallery is built.
 - addMenu.savedFoods: zero uses. Removed in R293.
+- Card: padded={false} with style padding is the existing pattern (gym.tsx:130). Shared Card.tsx stays untouched.
 
 ## Status
 - Built (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() at food.tsx:449, gym.tsx:108, profile/index.tsx:103, food/saved.tsx:85, (tabs)/index.tsx:155; gym.loadingSessions; saved.tsx title at :76.
-- R299 read-only: tsc exit 0; npx jest gym 6 suites, 37 tests; hydrationErrorScreens 10 of 10.
+- R299 read-only: tsc exit 0; jest gym 6 suites, 37 tests; hydrationErrorScreens 10 of 10.
 - R297 checkpoint green: tsc exit 0; full jest 65 suites, 824 tests, 4 snapshots.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
-- Gap file: streak strip and calendar card (gym.tsx:115, :130) match design. TodayCard and MuscleChart use Card default 20, design 16: DIFFERENT.
+- Gap file: streak strip and calendar card (gym.tsx:115, :130) match design. TodayCard (5 Card uses) and MuscleChart take Card default 20; design 16: DIFFERENT.
+- R300: stopped, Card has no padding prop claim. Card does have padded boolean; default is space.xl. Report flagged (tsc and tests not run).
 
 ## Flags
-- None. R298 flag cleared by green read-only R299.
+- R300 flagged (type check and tests not run). Cleared by R301 read-only round.
 
 ## Next
-1. R300 (current): TodayCard padding to space.lg, per design/Lume App.html gym cards. Stop and report if Card has no padding prop.
-2. MuscleChart padding to space.lg, same method. Note any Card state with no design counterpart.
-3. Trace add.tsx:30-70 slotKey and add.tsx:67. If the five unused addMenu keys are safe, remove from en, es, fr together. Keep es voice and describeOutLoud.
-4. Move row 89 note (gap file, line ~90) into row 89 reason cell.
-5. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'. Fix gym.tsx:3-4 comment typo 'month month'.
-6. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15.
-7. Read and wrap: gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
-8. Add sheet icons to design SVGs. Empty-list copy at src/app/(tabs)/food.tsx ~:445-447.
-9. saved.tsx literals :61, :72, :78, :82, :92, :95-96, :106-108, :127, :144; stale comments :1, :5.
-10. Full Jest at next checkpoint.
-11. If no rows remain: stop with 'only owner decisions remain'.
+1. R301 (current): read-only. tsc, jest gym, confirm Card and gym.tsx:130 pattern. No edits.
+2. R302: TodayCard five Card uses to padded={false} style space.lg per design/Lume App.html gym session card. Update gap prose near DESIGN_GAP_ANALYSIS.md:400 and App paragraph near :464. Other state differences to NEXT.
+3. MuscleChart padding to space.lg, same method. Note any Card state with no design counterpart.
+4. Trace add.tsx:30-70 slotKey and add.tsx:67. If the five unused addMenu keys are safe, remove from en, es, fr together. Keep es voice and describeOutLoud.
+5. Move row 89 note (gap file, line ~90) into row 89 reason cell.
+6. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'. Fix gym.tsx:3-4 comment typo 'month month'.
+7. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15. TodayCard 'Rest day' :110, 'Nothing scheduled' :174.
+8. Read and wrap: gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
+9. Add sheet icons to design SVGs. Empty-list copy at src/app/(tabs)/food.tsx ~:445-447.
+10. saved.tsx literals :61, :72, :78, :82, :92, :95-96, :106-108, :127, :144; stale comments :1, :5.
+11. Full Jest at next checkpoint.
+12. If no rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa
 - Streak footnote '23 sessions · 2 freezes': (a) gym.streakSessions and gym.streakFreezes in en, es, fr; (b) streak.totalGymDays as session count (recommended); (c) separate plural keys. Do not ask again without new information.
@@ -79,13 +82,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Render tests have no i18n instance. hydrationErrorScreens reads source and locale text only.
 - Grep with LC_ALL=C /usr/bin/grep. Quote every zsh path, including (tabs).
 - lng is fixed to 'en' (src/lib/i18n/index.ts:41); es and fr never show.
-- No test renders saved foods or the gym streak card. npx jest saved finds no tests.
+- No test renders saved foods or the gym streak card. npx jest saved finds no tests. No TodayCard test file exists.
 - Handover summaries can be stale. Check the files.
 - Gap file lines below 90 move with each insert; streak citations near 394 and 421.
 
 ## Loop notes
 - Rejected prompts lacked the design/ file. Name it every time.
 - Weak checks: hydration test accepts invented reasons; no plural test; no test renders the gym streak card or saved foods; no locale parity test.
-- Key counts (verified by R299 script, after addMenu.savedFoods removal in R293): en 167, es 169, fr 167. Earlier 168/168/170 figures are stale. Recount with a script before any removal.
+- Key counts (last script, after addMenu.savedFoods removal): en 167, es 169, fr 167. Recount with a script before any removal.
 - Keys: fr U+00A0 4, U+2019 22; en and es 0.
+- Jev 90% ask on R300 overruled: flagged report had to be cleared first, and the padding question has an existing repo pattern, so it is not a question for Isa.
 - Notes kept under 600 words; trim Parked first if over.

@@ -1186,3 +1186,7 @@
 - 2026-10-31 14:22 R298 flag is cleared by the green read-only R299 round, so build work can resume.
 - 2026-10-31 14:22 Told Claude Code to stop rather than change the shared Card component if it has no padding prop, to avoid touching shared code.
 - 2026-10-31 14:22 Removed the stale gym.streakSub and saved.tsx:83 references from the queue, as the handover asked.
+- 2026-10-31 14:23 Chose run over Jev's ask: the loop note says a flagged report must be cleared by a read-only round before build work, and that is what this round does.
+- 2026-10-31 14:23 Did not ask Isa about padded={false}: Card already takes padded, and gym.tsx:130 already uses padded={false} with a style padding. That is an existing repo pattern, so no new prop and no product question. Next round applies it to TodayCard and leaves the shared Card untouched.
+- 2026-10-31 14:23 The 20 vs 16 claim lives in the Today section prose (about line 400) and the App paragraph (about line 464). Next round updates both to match the change, not a separate row.
+- 2026-10-31 14:23 Card state check against design plan-state bindings is folded into the TodayCard round. Differences beyond padding go to NEXT, not fixed.
