@@ -2001,3 +2001,8 @@
 - 2026-10-31 22:26 Required a grep for existing addMenu keys before adding new ones, so no duplicate keys are created.
 - 2026-10-31 22:26 Kept the row DIFFERENT and asked only for a reason-line update, because other differences on the row remain.
 - 2026-10-31 22:26 Recorded that the R146 checkpoint result never arrived. The full suite is owed and will be requested at the next checkpoint, not in this doc-and-component round.
+- 2026-10-31 22:28 Chose the layout titles: they clear a tab-label row, reuse existing keys, need nothing from Isa and are the smallest change.
+- 2026-10-31 22:28 Did not pick the food.tsx VoiceOver label or CaloriesCard: both touch a larger screen and the CaloriesCard task needs a design decision on Fibre first.
+- 2026-10-31 22:28 Chose not to request the owed full suite this round: the loop has not flagged a checkpoint, and the owed checkpoint stays on the list for the next flagged round.
+- 2026-10-31 22:28 Parked the extra es.json keys addMenu.voice and addMenu.describeOutLoud as leftovers to remove later, not in this round.
+- 2026-10-31 22:28 Treated R147 as done: the AddMenu labels were built and tsc and render tests passed.

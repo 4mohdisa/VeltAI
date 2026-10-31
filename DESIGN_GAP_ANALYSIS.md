@@ -115,7 +115,7 @@ this pass matched the design on every checked value.
 | Gym — exercise progress | ⚠️ PARTIAL | Same chart idea, but no Muscles worked or Form guide cards, the bars encode weight rather than the design's metric, and the bottom stat pair is missing. |
 | Gym — month heatmap | ⚠️ PARTIAL | Geometry, ramp and legend match value for value; the cells are not tappable, and neither is the session card, so the design's two routes into the day detail are gone. |
 | Gym — cross-cutting token drift | ⚠️ PARTIAL | The token system is faithfully mirrored; its application rounds the design's untokenised pixels and substitutes lighter type faces throughout. |
-| Tab shell / tab bar | ⚠️ PARTIAL | Same three tabs + separate black "+", same 22pt offset and 62pt button; padding, active fill, label weight and shadows differ. |
+| Tab shell / tab bar | ⚠️ PARTIAL | Same three tabs + separate black "+", same 22pt offset and 62pt button; padding, active fill, label weight and shadows differ.<br>Summary and Gym screen titles in `(tabs)/_layout.tsx` now use t() (BUILT, not verified). |
 
 Verdict key: ✅ every checked element and value agrees · ⚠️ same structure, specific
 differences listed · ❌ meaningfully different layout, missing elements, or a

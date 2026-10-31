@@ -23,7 +23,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never reported: R102, R117, R131, R146.
-R146 checkpoint: announced read-only, but no result has been received. Treat as owed. Request the full suite at the next checkpoint round.
+R146 checkpoint: announced read-only, but no result has been received. Treat as owed. Request the full suite at the next checkpoint round the loop flags.
 
 ## Round log
 - R138: energyLogged wording decided. R139: verified by source-text tests.
@@ -32,7 +32,8 @@ R146 checkpoint: announced read-only, but no result has been received. Treat as 
 - R144: rejected. Close label key mismatch. Tsc and tests were not run.
 - R145: option A. New key tabBar.closeMenu. Done: AddMenu.tsx:72 uses it; tabbar render 13/13; tsc 0. tabBar.closeAddMenu unchanged.
 - R146: announced checkpoint. No result received. Owed.
-- R147: prompt rejected (did not name design/Lume App.html). Rewritten as the AddMenu labels task, naming the design file and gap row.
+- R147: prompt rejected (did not name design/Lume App.html). Rewritten as the AddMenu labels task. Result: DONE. addMenu.logGymSession and addMenu.logFood added to en, es, fr. AddMenu.tsx:94,96 use t(). Gap row ~1503 reason line added. tsc 0; tabbar render 13/13 (English only).
+- R148: chosen task is (tabs)/_layout.tsx Summary and Gym titles via dashboard.summaryTitle and gym.title.
 
 ## BUILT, not verified
 - LoadFailedNotice, StreakCounter tokens (NOT COVERED).
@@ -43,27 +44,28 @@ R146 checkpoint: announced read-only, but no result has been received. Treat as 
 - LumeTabBar.tsx tab labels via t() (render test English only).
 - Add-button VoiceOver via tabBar.add, tabBar.addHint (NOT COVERED).
 - AddMenu close label via tabBar.closeMenu (R145). es and fr unreviewed.
-- AddMenu 'Log gym session' and 'Log food' via t() (R147, pending result).
+- AddMenu 'Log gym session' and 'Log food' via addMenu.logGymSession and addMenu.logFood (R147). es and fr unreviewed; wrap width not seen on device.
 
 ## Next
-1. Record R147 result in Round log and BUILT list. Then (tabs)/_layout.tsx Summary and Gym titles via dashboard.summaryTitle and gym.title.
-2. Dedupe SLOT_KEYS (food.tsx). Resolve food.savedTitle vs addMenu.myDishes.
-3. food.tsx: 'Check your connection' invents a cause; 'today's' shows on other dates.
-4. CaloriesCard: macro names at food.tsx:665-667; missing Fibre column; dot vs bar (row 85).
-5. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-6. PlannedValuesForm 'Add exercise'. add.tsx slotKey: remove unused keys if confirmed.
-7. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session top weight on all sets: fix or park.
-8. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
-9. week.tsx remaining copy, then training.tsx and energy.tsx.
-10. food.tsx: energy unit; VoiceOver 'protein', 'carbs', 'fat'; 'g' suffix at :690; VoiceOver label at :853; raw energyUnit at :787 and :906.
-11. Tab bar 'Food' label: LumeTabBar.tsx:38, (tabs)/_layout.tsx:32.
-12. Add hint wording: tabBar.addHint es reads badly ('un registro de comida'). Native review needed; record in Blocked.
-13. No rows left: stop with 'only owner decisions remain'.
+1. (R148) (tabs)/_layout.tsx Summary and Gym titles via dashboard.summaryTitle and gym.title.
+2. food.tsx:853 VoiceOver label on logged rows: 'protein', 'carbs', 'fat' via nutrition.* keys.
+3. Dedupe SLOT_KEYS (food.tsx). Resolve food.savedTitle vs addMenu.myDishes.
+4. food.tsx: 'Check your connection' invents a cause; 'today's' shows on other dates.
+5. CaloriesCard: macro names at food.tsx:665-667; missing Fibre column; dot vs bar (row 85).
+6. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. PlannedValuesForm 'Add exercise'. add.tsx slotKey: remove unused keys if confirmed.
+8. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session top weight on all sets: fix or park.
+9. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
+10. week.tsx remaining copy, then training.tsx and energy.tsx.
+11. food.tsx: energy unit; 'g' suffix at :690; raw energyUnit at :787 and :906.
+12. Tab bar 'Food' label: LumeTabBar.tsx:38, (tabs)/_layout.tsx:32.
+13. Add hint wording: tabBar.addHint es reads badly ('sesión de gym', 'un registro de comida'). Native review needed; record in Blocked.
+14. No rows left: stop with 'only owner decisions remain'.
 Grep first. Line numbers drift.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es and fr (Gimnasio longer than Gym); gym Training labels; logged card; offline failure; double notice; TodayCard sub-line; LoadFailedNotice; StreakCounter caption; es/fr fit; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; energyLogged es and fr; VoiceOver on add menu in es and fr.
-- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es/fr (Resumen, Comida, Gimnasio; Resume, Repas, Sport); tabBar.* es/fr incl. addHint wording and command vs infinitive; tabBar.closeMenu es/fr ('Cerrar menu', 'Fermer le menu'); AddMenu menu labels es/fr.
+- Device checks: tab bar es and fr (Gimnasio longer than Gym); gym Training labels; logged card; offline failure; double notice; TodayCard sub-line; LoadFailedNotice; StreakCounter caption; es/fr fit; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; energyLogged es and fr; VoiceOver on add menu in es and fr; AddMenu labels wrap at 232pt in fr and es.
+- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es/fr (Resumen, Comida, Gimnasio; Resume, Repas, Sport); tabBar.* es/fr incl. addHint wording and command vs infinitive; tabBar.closeMenu es/fr ('Cerrar menu', 'Fermer le menu'); AddMenu menu labels es/fr incl. addMenu.logGymSession and addMenu.logFood.
 - Shared keys: food.title used for tab and Food title. Split if wording should differ. Comida and Repas read as 'meal': separate food.caloriesTitle?
 - Already-logged days: edit or toast? (mutations.ts:173-178).
 - Gap rows: detail screens; tab bar label; week row; empty food day (four meal cards or 'No meals yet').
@@ -84,6 +86,7 @@ Grep first. Line numbers drift.
 - Freeze: singular counts; toast before server reply; refusal unhandled; stale params streak.tsx:73.
 - Logged card tap target needs a day route. Macros history chart. Percent-of-target title.
 - fr 'Ajouter a {{slot}}'; plan.addTitle es/fr; '14-day' hyphen. Duplicate keys across dashboard, gym, gymLog, preferences, goals, nutrition.
+- Leftover es.json keys addMenu.voice and addMenu.describeOutLoud (no en or fr equivalent, no code reference). Remove in a later cleanup round.
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; unused keys; StreakCounter.tsx old tokens; SLOT_KEYS duplication.
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
 - Stale citations: gap doc lines 437 and 1505.
@@ -93,7 +96,7 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 
 ## Gotchas
 - Briefs repeat finished work and quote stale lines. Check first.
-- Design copy is encoded: decode __bundler/manifest with node. Food is 71f71ac4; energy, week, training are 185bb533.
+- Design copy is encoded: decode __bundler/manifest with node. Food is 71f71ac4; energy, week, training are 185bb533. 'Log gym session' is also on 7dc211f6.
 - Name design/Lume App.html and the screen id in every prompt.
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
 - i18next plurals need both _one and _other; fr treats 0 as one.

@@ -30,9 +30,9 @@ export default function TabsLayout() {
         sceneStyle: { backgroundColor: surface.backgroundAlt },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Summary' }} />
+      <Tabs.Screen name="index" options={{ title: t('dashboard.summaryTitle') }} />
       <Tabs.Screen name="food" options={{ title: t('food.title') }} />
-      <Tabs.Screen name="gym" options={{ title: 'Gym' }} />
+      <Tabs.Screen name="gym" options={{ title: t('gym.title') }} />
     </Tabs>
   );
 }
