@@ -2701,3 +2701,8 @@
 - 2026-11-01 07:35 Did not choose the doc-only re-check, because it builds nothing and the row 107 citation fix is low value next to a real difference.
 - 2026-11-01 07:35 The sign change may further alter the energy detailChrome snapshot. Recorded in Blocked so the eventual approved update covers it.
 - 2026-11-01 07:35 Jev ran 71% and asked 26%; I kept run, which matches Jev's top choice.
+- 2026-11-01 07:36 Chose the row 107 and 114-117 re-check: row 107 text is stale after the R296 fixes, and 114-117 have never been re-checked. Doc only, so no Isa input is needed.
+- 2026-11-01 07:36 Kept the row 107 correction inside the re-check round, not as a separate task, because it is doc-only and the re-check cap is 5 rows.
+- 2026-11-01 07:36 Left row 118 for the next round to stay within the 5-row cap.
+- 2026-11-01 07:36 Did not repeat the detailChrome snapshot approval. It stays parked until Isa answers.
+- 2026-11-01 07:36 Kept the 42 data row count. The handover asked for Isa to confirm it, but it does not block work.
