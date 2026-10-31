@@ -2284,3 +2284,8 @@
 - 2026-11-01 00:25 Did not accept the report's BLOCKED claim that the calorie goal bar needs Isa's decision. The goal can be read via useGoals (src/lib/data/hooks.ts:366), so no owner input is needed. That build waits until the doc fix is done.
 - 2026-11-01 00:25 Jev said ask 63%, run 34%. Kept run: the open item is a doc correction that needs no owner input, and it clears the flagged report. Risk 1.6 noted; the next task is small and doc-only.
 - 2026-11-01 00:25 Left the row 85 <br> list format and the Fibre opening sentence as they are. They are not part of the flagged problem.
+- 2026-11-01 00:27 Picked the row 85 macro bars over Jev's top pick (doc fix at 895-897). Reason Jev cannot see: that doc fix was flagged twice in a row (R205, R206) and the loop note says to park a twice-blocked task and not retry it, so it is now under Blocked on Isa.
+- 2026-11-01 00:27 Followed design for 6px macro bars (R206 default), since no explicit exclusion exists in DECISIONS.md or Telegram. Conflict with the R205 report stays open in notes.
+- 2026-11-01 00:27 Scoped the round to macro bars only. The 12px calorie bar and 'left today' need a goal read and stay as the next task.
+- 2026-11-01 00:27 Rewrote notes to under 600 words, merged repeated items and deleted finished work. Decisions kept verbatim in substance.
+- 2026-11-01 00:27 Parked the stale claim that food detail Save changes is still open (handover says built at line 301). Next round must grep before acting.

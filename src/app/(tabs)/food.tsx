@@ -31,6 +31,7 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
+import { ProgressBar } from '@/components/display/ProgressBar';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
 import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanReviewCard';
@@ -46,6 +47,7 @@ import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import {
   useFoodLog,
   useFoodSearch,
+  useGoals,
   editFoodItem,
   deleteFoodItem,
   saveScannedItem,
@@ -652,10 +654,9 @@ export default function FoodLogScreen() {
 // ---------------------------------------------------------------------------
 
 // The design's calories card: an elevated white card with the day's energy as
-// the hero number and the macro totals beneath it. There is deliberately no
-// "left today" figure and no progress bar — the calorie goal and the macro
-// targets are not read on this screen, and a bar without a target would be an
-// invented measurement (UI_PASS_GAPS.md §2).
+// the hero number and the macro totals beneath it, each over a bar that fills
+// against the user's own target. There is deliberately no "left today" figure
+// and no calorie progress bar (UI_PASS_GAPS.md §2).
 function CaloriesCard({
   total,
   macros,
@@ -666,11 +667,12 @@ function CaloriesCard({
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
 }) {
   const { t } = useTranslation();
+  const goals = useGoals();
   const columns = [
-    { name: t('nutrition.protein'), tint: categoryAccent.protein, value: macros.protein },
-    { name: t('nutrition.carbs'), tint: categoryAccent.carbs, value: macros.carbs },
-    { name: t('nutrition.fat'), tint: categoryAccent.fat, value: macros.fat },
-    { name: t('nutrition.fibre'), tint: categoryAccent.fibre, value: macros.fibre },
+    { name: t('nutrition.protein'), tint: categoryAccent.protein, value: macros.protein, target: goals.protein },
+    { name: t('nutrition.carbs'), tint: categoryAccent.carbs, value: macros.carbs, target: goals.carbs },
+    { name: t('nutrition.fat'), tint: categoryAccent.fat, value: macros.fat, target: goals.fat },
+    { name: t('nutrition.fibre'), tint: categoryAccent.fibre, value: macros.fibre, target: goals.fibre },
   ];
   return (
     <Card variant="elevated" style={{ gap: space.lg }}>
@@ -685,13 +687,11 @@ function CaloriesCard({
       </View>
       <View style={{ flexDirection: 'row', gap: space.md }}>
         {columns.map((c) => (
-          <View key={c.name} style={{ flex: 1, minWidth: 0, gap: space.xs }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-              <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: c.tint }} />
-              <Text variant="caption" color={color.secondaryLabel}>
-                {c.name}
-              </Text>
-            </View>
+          <View key={c.name} style={{ flex: 1, minWidth: 0, gap: 6 }}>
+            <ProgressBar value={c.target > 0 ? c.value / c.target : 0} tint={c.tint} track={color.light2} height={6} />
+            <Text variant="caption" color={color.secondaryLabel}>
+              {c.name}
+            </Text>
             <Text variant="statSmall" color={color.label}>
               {`${Math.round(c.value)}g`}
             </Text>
