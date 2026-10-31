@@ -25,26 +25,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Last checkpoint R89 green (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue later. R108 render check: detailChrome.render.test.tsx 4 tests, 4 snapshots, English Breakdown on Energy, Week, Training, Macros. R109: summaryDetails 47 tests pass, tsc 0.
+R110 gym.tsx Training labels: BUILT, not verified. R112 issued to run tsc and related tests (loop flag).
 
 ## Next
-1. Doc only: row 112 reason cell records the Gym Training labels (issued R111).
-2. Doc only: record Week and Training Breakdown once Isa picks a row.
-3. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
-4. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
-5. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-6. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-7. PlannedValuesForm.tsx:200 'Add exercise' vs design.
-8. add.tsx slotKey (~67): remove unused keys if confirmed.
-9. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
-10. Doc only: gap line 82 stray br; line 76 record Try again; MACRO_PRECISION comment; lines 90, 1014, 1495; line 1505 cites lines 72-75, now table rows. Line 437 cites gym.tsx:94-158, stale.
-11. /gym/session saves top weight on all sets: fix or park.
-12. week.tsx English copy ('This week', 'In & out', 'Daily net', footer): per row or English-only.
-13. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
-14. Freeze strings at count 1 read wrongly.
-15. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
-16. energy.tsx remaining English copy ('Energy balance', 'In and out', 'Intake', 'Total burned'): per row or English-only.
-17. Re-issue read-only checkpoint (full tsc and full app suite).
-18. No rows left: stop with 'only owner decisions remain'.
+1. R112 (issued): verify R110 Gym Training labels. tsc once, changed-file tests only, check locale keys in en, es, fr.
+2. LoadFailedNotice.tsx lines 4-5: remove old default-copy wording from header comment.
+3. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
+4. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+5. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+6. PlannedValuesForm.tsx:200 'Add exercise' vs design.
+7. add.tsx slotKey (~67): remove unused keys if confirmed.
+8. Raw item values food.tsx:852, :895 and food/saved.tsx:144: park if no design decision.
+9. Doc only: gap line 82 stray br; line 76 record Try again; MACRO_PRECISION comment; lines 90, 1014, 1495; line 1505 cites lines 72-75, now table rows. Line 437 cites gym.tsx:94-158, stale.
+10. /gym/session saves top weight on all sets: fix or park.
+11. week.tsx English copy ('This week', 'In & out', 'Daily net', footer): per row or English-only.
+12. nutrition.tsx:120 '80%' vs '80 %'; :164 and :180 raw meal.slot.
+13. Freeze strings at count 1 read wrongly.
+14. training.tsx remaining English copy ('Workouts', 'Minutes trained', 'Training energy'): per row or English-only.
+15. energy.tsx remaining English copy ('Energy balance', 'In and out', 'Intake', 'Total burned'): per row or English-only.
+16. Re-issue read-only checkpoint (full tsc and full app suite).
+17. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? mutations.ts:173-178.
@@ -79,7 +79,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Untraced: other goals.calories screens; Math.max NaN if a profile field is undefined.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. No test covers the Gym tab Training labels. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Saved-food edits local only. No test renders profile, StreakCounter, TodayCard or freeze. No repo test loads the locale files. No test covers the Gym tab Training labels (R112 checks this). Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Breakdown checks read source text only.
 
 ## Gotchas
 - Briefs repeat finished work, quote stale lines and name strings that don't exist. Check first.
@@ -95,5 +95,6 @@ R99-R100: streak freeze string via t(); flag cleared.
 R101: rejected (three files).
 R102: checkpoint issued, never reported.
 R103-R109: Breakdown via t() on week, training, energy, macros; strict test check built and passing.
-R110: gym.tsx lines 151-156 labels to t(). BUILT, not verified. Flagged as partly done: gap line missing, no tests run.
-R111: issued. Row 112 reason cell records the Gym Training labels (doc only, tsc only). Closes the R110 flag.
+R110: gym.tsx lines 151-156 labels to t(). BUILT, not verified. Flagged as partly done: no tests run.
+R111: row 112 reason cell records the Gym Training labels (doc only, tsc only).
+R112: issued. Loop flag on R111 report (tests not run for R110 change). Verify R110 with tsc and changed-file tests; fix missing locale keys only if found.

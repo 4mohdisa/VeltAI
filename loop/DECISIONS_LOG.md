@@ -1833,3 +1833,8 @@
 - 2026-10-31 20:53 Ran tsc only, not tests, because this is a doc-only round and the gym.tsx edit has no test that covers these labels (grep in R110 found none).
 - 2026-10-31 20:53 Rejected the LoadFailedNotice header comment and StreakCounter as this round's task, since they do not clear the flagged item; they are next in order.
 - 2026-10-31 20:53 Logged the stale gym.tsx:94-158 citation at line 437 under NEXT rather than fixing it, to keep the round to one change.
+- 2026-10-31 20:54 Chose verification first because the loop note flagged the last report (type check or tests not run for the R110 gym.tsx change). Rule: deal with the flag before moving on.
+- 2026-10-31 20:54 Used changed-file tests only, and 'no related tests found' is recorded as not a pass, per the testing rules in these notes.
+- 2026-10-31 20:54 No new test suites. If no test covers the Gym tab, the gap stays recorded as untested in Accepted limits.
+- 2026-10-31 20:54 Restricted the fix in step 4 to missing locale keys only, so the task stays one file group.
+- 2026-10-31 20:54 Next round moves to the LoadFailedNotice header comment (old Next item 3), now that the flag is handled.
