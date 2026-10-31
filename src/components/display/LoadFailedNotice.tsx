@@ -1,8 +1,8 @@
 // One honest line for "this read failed".
 //
 // useHydration reports a real error now, but the fetch layer has no user-facing
-// reason to offer — so nothing here invents one. The copy states only what is
-// true (we could not load the latest) and offers the only useful action. Screens
+// reason to offer — so nothing here invents one. The message prop is required
+// and supplied by the caller. design/Lume App.html has no counterpart. Screens
 // place it ABOVE whatever the device already had, so local data stays visible and
 // is labelled rather than presented as current.
 import { View, type ViewStyle } from 'react-native';

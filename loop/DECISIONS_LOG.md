@@ -1838,3 +1838,12 @@
 - 2026-10-31 20:54 No new test suites. If no test covers the Gym tab, the gap stays recorded as untested in Accepted limits.
 - 2026-10-31 20:54 Restricted the fix in step 4 to missing locale keys only, so the task stays one file group.
 - 2026-10-31 20:54 Next round moves to the LoadFailedNotice header comment (old Next item 3), now that the flag is handled.
+- 2026-10-31 20:55 R112 is accepted as done for what it was asked to check: tsc exit 0, changed-file tests pass, four gym.* keys present in en, es and fr. The loop flag said the task was partly done because no test renders the Gym Training labels. Adding a render test is out of scope under the testing rules, so the rendered check stays on Isa's device-check list. The R110 labels stay BUILT, not verified.
+- 2026-10-31 20:55 The handover listed a default message 'Couldn't load the latest.' as still present, but R98 made the message required with no default. Step 1 of the prompt checks the code before anything is changed, so the handover is not taken as fact.
+- 2026-10-31 20:55 Chose the LoadFailedNotice comment as the next task because it is one file, needs nothing from Isa, and clears a stale item from the handover.
+- 2026-10-31 20:55 Did not add a render test for LoadFailedNotice, the gym labels or the freeze screen. Testing rules say no new suites, and Isa checks the UI himself.
+- 2026-10-31 20:55 Gap doc not edited this round. Its row 114 already records the minTapTarget deviation, so a doc-only change would only be a comment fix.
+- 2026-10-31 20:56 Reissued R113 as R114 because the loop rejected it for not naming the design/ file. Same single task, rewritten with design/Lume App.html and row 114 named.
+- 2026-10-31 20:56 Did not act on the handover's 'Couldn't load the latest.' default. The latest report says the default was removed, so step 2 of the prompt checks the code first and blocks if a default still exists (R98 rule).
+- 2026-10-31 20:56 Kept to one file and comment-only, with tsc once and changed-file tests only, to follow the one-task and testing rules.
+- 2026-10-31 20:56 Did not ask Isa anything. Nothing here needs his dashboards or devices.
