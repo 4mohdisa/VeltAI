@@ -1345,3 +1345,11 @@
 - 2026-10-31 15:39 Footer follows the design wording and drops the 'no macro history' sentence, per the R14 copy decision. The missing chart stays recorded on the gap row, so nothing else changes.
 - 2026-10-31 15:39 Footer 2,100 is interpolated from the user's calorie goal already on screen, not hardcoded, because the design shows a live value.
 - 2026-10-31 15:39 The 'Today' in the sub-line is kept as the literal word, because the app only tracks today.
+- 2026-10-31 15:41 Chose the guard fix over TodayCard logged state: it is the smallest task, needs nothing from Isa, and a test that cannot fail could let a made-up burn target through, which matters for an honest app.
+- 2026-10-31 15:41 Kept the task to one test file, so no design row is claimed as built by it; the row is updated only if the doc mentions the guard.
+- 2026-10-31 15:41 Left header counts (line 71) and empty row (line 90) alone because Isa has not confirmed them yet.
+- 2026-10-31 15:41 Jev and my own pick agree on run; no re-check needed.
+- 2026-10-31 15:41 Chose the guard fix: it is the open R16 task, smallest, needs no Isa input, and Jev (91% run) agrees.
+- 2026-10-31 15:41 Named design/Lume App.html (Summary Macros detail) and the Macros gap row, to meet the rejection rule.
+- 2026-10-31 15:41 Kept the check read-only with no temporary fixture, to keep Claude Code usage low.
+- 2026-10-31 15:41 Rewrote the notes to under 600 words: merged repeats, removed finished work, kept all decisions and blockers.
