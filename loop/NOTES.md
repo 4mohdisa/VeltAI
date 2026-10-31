@@ -15,24 +15,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Rows with no fibre figure add 0; column always shows. Macro bars: 6px ProgressBars, zero-target guard.
 - Design wins on zero-kcal confirm state (row 87 item e).
 - SegmentedField.tsx is shared. Compact branch only in quick-add. R221: no chip padding, no label shrink, 44pt min height kept.
+- Gym Log button follows the design showLogCta condition (R229). Design wins by default.
 - Checkpoint rounds read-only. Doc-only rounds run tsc only and report exit code and output lines.
 - Grep before acting. Code tidying is never a task. A task flagged twice goes to Blocked on Isa.
-- Every prompt names design/Lume App.html (bundle id), the gap row, and the branch rule.
 - Repeated flags on the same tsc step are not fixed by another doc-only round. Build rounds show tsc exit code and output lines.
+- Every prompt names design/Lume App.html (bundle id), the gap row, and the branch rule.
 
 ## Status
-- R228 (now): doc-only. Align row 112 Gym section (stale card order) and add showLogCta visibility difference to row 112. Fixes R227 flag.
+- R229 (now): build. Row 112 Log button visibility in gym.tsx per design showLogCta (bundle 7dc211f6, lines 98-102, condition line 1603). tsc exit and output lines required.
+- R228: doc-only. Row 112 Gym section order aligned; showLogCta difference added. Flagged again (same tsc step). Not re-run as doc-only; moved to build.
 - R227: Log button moved under session card in gym.tsx. BUILT, not verified. tsc 0; 3 suites 24/24.
 - R222 checkpoint clean: app 65/65 suites, 824/824.
 - R218-R223: row 87 items c, d, e and chip padding and label shrink BUILT, not verified.
 - R207: row 85 macro bars and row 86 food detail BUILT, not verified.
 - Row 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - Row 87 DIFFERENT: 180ms Meal chip transition missing; one-line labels may truncate (device check).
-- Row 112 DIFFERENT: My schedule card; four-row Training list; LoadFailedNotice and pull-to-refresh; card gap 14 vs 12; eyebrow tracking 1.1 vs 1; title tracking -0.6; eyebrow min height 26pt; title side padding 4pt; title right padding 52pt; title gap 0 vs 4; lumeFade entrance; showLogCta visibility (R228).
+- Row 112 DIFFERENT: My schedule card; four-row Training list; LoadFailedNotice and pull-to-refresh; card gap 14 vs 12; eyebrow tracking 1.1 vs 1; title tracking -0.6; eyebrow min height 26pt; title side padding 4pt; title right padding 52pt; title gap 0 vs 4; lumeFade entrance; showLogCta visibility (R229 in progress).
 
 ## Next (in order)
-1. R228: row 112 doc fix (above).
-2. Row 112: showLogCta visibility in gym.tsx (build, tsc exit code and output lines).
+1. R229: row 112 showLogCta visibility in gym.tsx (build, tsc exit code and output lines).
+2. Row 83 and row 112 doc update: Log button wording (row 83 still lists 'position'; line 532 says 'below two other cards'). One doc round, tsc shown.
 3. Row 112: My schedule card, Training list, LoadFailedNotice, pull-to-refresh, lumeFade. One per round, re-checked against design first.
 4. Row 112 GymPatternsCard typography once the padding question is answered.
 5. Row 85 calorie bar and 'left today': Blocked on Isa.
@@ -57,8 +59,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Missing: 700ms bar fill; 'Updated {name}' toast; foodLog.savedAdded toast; 180ms Meal chip transition.
 - Data: quick-add serving data missing (src/lib/mock/data.ts:124); editSavedFood local only.
 - Layout: quick-add KeyboardAvoidingView in fitToContents sheet, check on device.
-- Doc: summary table Quick add '(line 86)' wrong column; lines 895-897 stale three-column wording (food.tsx:584-626); lines 930, 934 state facts; line 1017 'Save to my foods' (app: 'Save to my dishes'); line 1058 contradicts row 87; line 1504 'line 86' label; row 87 repeated BUILT formats and paddingVertical note; row 112 Gym section (R228).
-- Comments: food.tsx:656-659 and CaloriesCard cite UI_PASS_GAPS.md section 2 (unconfirmed); SegmentedField.tsx label comment; gym.tsx:144 card order reversed.
+- Doc: summary table Quick add '(line 86)' wrong column; lines 895-897 stale three-column wording (food.tsx:584-626); lines 930, 934 state facts; line 1017 'Save to my foods' (app: 'Save to my dishes'); line 1058 contradicts row 87; line 1504 'line 86' label; row 87 repeated BUILT formats and paddingVertical note; row 112 Gym section (R228); row 83 Log button wording (R229 next).
+- Comments: food.tsx:656-659 and CaloriesCard cite UI_PASS_GAPS.md section 2 (unconfirmed); SegmentedField.tsx label comment; gym.tsx:144 card order reversed; gym.tsx comment above MuscleChart names the two cards in reverse order.
 - Gym: per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - Code: TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}; SLOT_KEYS duplicated in food.tsx, add.tsx, quick-add.tsx, detail.tsx.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
@@ -83,3 +85,4 @@ Last after R210. Next due R235 (script-managed). loop/HANDOVER.md current as of 
 - R201-R222: run kept or ask/stop with concrete reasons.
 - R223-R227: run kept with concrete reasons (flag handling, checkpoint, one-line builds).
 - R228: run 71%, ask 27%. Agreed.
+- R229: run 66%, ask 32%. Kept run: the showLogCta question is decided by the design default, so no question for Isa is needed.

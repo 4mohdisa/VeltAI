@@ -24,6 +24,7 @@ import { color, space, surface } from '@/lib/design/tokens';
 import { useGym } from '@/lib/data';
 import { addMonths } from '@/lib/data/foodDays';
 import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gymRange';
+import { useToday } from '@/lib/data/gymSchedule';
 import { todayISO } from '@/lib/data/mappers';
 
 export default function GymLogScreen() {
@@ -33,6 +34,7 @@ export default function GymLogScreen() {
     error: gymError,
     refetch,
   } = useGym();
+  const { today: todayWorkout } = useToday();
   const insets = useSafeAreaInsets();
   // Native pull-to-refresh: re-run the gym hydration; spinner clears on a short
   // trailing delay since refetch is fire-and-forget by design.
@@ -141,7 +143,10 @@ export default function GymLogScreen() {
         {/* Today's scheduled workout (renders null when nothing is scheduled). */}
         <TodayCard />
 
-        <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
+        {/* The design's showLogCta. This tab only ever shows today, so its "not past" always holds. */}
+        {!streak.gymLoggedToday && todayWorkout && todayWorkout.exercises.length > 0 ? (
+          <GymSessionButton logged={false} onPress={() => router.push('/gym/log-session')} />
+        ) : null}
 
         {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
         <MuscleChart />

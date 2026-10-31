@@ -2391,3 +2391,7 @@
 - 2026-11-01 00:54 Did not build showLogCta yet: it changes when the one-tap gym log shows, which needs a re-check first.
 - 2026-11-01 00:54 Flag is on a different step from the tsc repeats, so the rule against repeated doc-only rounds does not apply.
 - 2026-11-01 00:54 Rewrote the notes under 600 words, merging repeated items and removing finished work. Kept every decision entry.
+- 2026-11-01 00:55 The R228 report was flagged again on the same tsc step. Its doc-only round changed no code, and tsc exit 0 with no output is shown in the report, so I do not run another doc-only round for it. Next round is a build that runs tsc and shows its output lines, which clears the flag.
+- 2026-11-01 00:55 Log button visibility: design wins by default, so the button follows the showLogCta condition. The 'whether the Log button should follow showLogCta' question is decided and removed from Blocked on Isa. Reason: the design defaults cover it, and the decision rules say not to ask.
+- 2026-11-01 00:55 Row 83 and row 112 overlap on the Log button. Row 112 is the row I build; the row 83 wording update is queued as a doc fix after this build, not a separate task now.
+- 2026-11-01 00:55 Row 85 calorie bar and 'left today' stay blocked on Isa; not retried.
