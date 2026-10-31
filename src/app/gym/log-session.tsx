@@ -84,7 +84,7 @@ export default function LogSessionScreen() {
   const {
     data: { streak },
   } = useGym();
-  const { today, loading } = useToday();
+  const { today, loading, refetch } = useToday();
   const [celebrating, setCelebrating] = useState(false);
 
   const planned = useMemo(() => today?.exercises ?? [], [today]);
@@ -139,7 +139,7 @@ export default function LogSessionScreen() {
   if (!today) {
     return (
       <SheetContent variant="leading" title={t('gymLog.title')} onClose={close}>
-        <LoadFailedNotice message={t('gym.loadFailed')} />
+        <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />
       </SheetContent>
     );
   }

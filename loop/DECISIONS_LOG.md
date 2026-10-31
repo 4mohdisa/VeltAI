@@ -1406,3 +1406,8 @@
 - 2026-10-31 15:58 Chose the failed-fetch fix over the icon and comment tasks. It clears row 113, touches one file, needs no input from Isa, and the Jev run action (61%) agrees.
 - 2026-10-31 15:58 Used the existing gym.loadFailed key and added no keys, so the blocked group-name question does not apply.
 - 2026-10-31 15:58 Doc-only and code round rules are followed: tsc once, Jest only for files that reference log-session.
+- 2026-10-31 16:00 Chose the retry action over waiting for Isa: a failed fetch with no way forward is a dead end, LoadFailedNotice already supports onRetry, and it adds no new UI. Jev leaned to ask; I kept run because this is covered by the defaults and is a small change.
+- 2026-10-31 16:00 The R27 flag ('partly done') is addressed by this round: the row 76 edit now matches the code, and the retry closes the dead end the report raised.
+- 2026-10-31 16:00 Row 113 stays 'My schedule'. No TodayCard fetch failure row exists, so no row is edited; that is a gap-doc task for a later doc round.
+- 2026-10-31 16:00 The log sheet's failure path has no test. Recorded as type-check only, not a test gap to fill, because the brief bans new test suites.
+- 2026-10-31 16:00 'Try again' label stays hardcoded English under the rule for strings not in the design; recorded in Parked.
