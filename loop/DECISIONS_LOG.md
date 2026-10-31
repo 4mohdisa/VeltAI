@@ -1285,3 +1285,8 @@
 - 2026-10-31 15:22 Freestyle verdict moved to Next 2 and will be decided from evidence in a later doc round, not asked.
 - 2026-10-31 15:22 Flag cleared by running tsc and gym Jest in this round, since the last report was flagged for Jest not run.
 - 2026-10-31 15:22 Rewrote notes to under 600 words: merged repeats, deleted finished round logs, kept all Decisions lines.
+- 2026-10-31 15:24 Chose the read-only verification round first because the loop note flags the last report and says to deal with it before moving on. The previous Jest path matched no files, so the gym tests ran nothing.
+- 2026-10-31 15:24 Kept row 295 (Log as planned) as DIFFERENT, not BUILT. The design's logNow keeps cardio minutes and the app's inputFor drops them, so the 'exactly as scheduled' caption is not true yet. This is a code fix, not an Isa decision, so it stays on the build list.
+- 2026-10-31 15:24 Did not ask Isa whether the cardio loss is acceptable. The design is the source of truth and the caption promises an exact copy, so the fix goes ahead without a question.
+- 2026-10-31 15:24 Gap row 113 (TodayCard) stays DIFFERENT, as the notes say.
+- 2026-10-31 15:24 Stayed with the cardio inputFor fix as the next build task, using notes like session.tsx:144-149 with no new fields. Parked the logged-day pill and the gym log sheet row 76 changes until the cardio fix is done.
