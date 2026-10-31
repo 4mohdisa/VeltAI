@@ -197,9 +197,8 @@ The sheet collects no effort or energy. `GymSessionInput` has no field for eithe
 (`src/lib/api.ts:709-714`, and the comment at `src/lib/data/mutations.ts:181-182`
 says so outright).
 
-**As recorded on 2026-09-13**, before the chooser was built, the sheet was 80 lines
-and asked four subjective questions. The differences listed below were written
-against this state:
+Before the chooser was built, the sheet was 80 lines and asked four subjective
+questions:
 
 1. A static line: *'Everything here is optional — a one-tap log still counts.'*
 2. **Duration** — a drag-thumb `SliderField`, 0–180 step 5, rendering 0 as 'Not set'
@@ -317,7 +316,7 @@ the Gym tab until the day is logged (`GymSessionButton` is not pressable after t
 - **Partial completion** — `POST /api/gym/sessions/{id}/complete` with `completion_rate`, table `gym_adherence` (`checked_in`, `completion_rate`, `customized`). This is exactly the backing for "Only some of it"; both `/gym/session` and the "It went as planned" pill call it, and the pill, on a day not yet logged, goes through `logGymSession` (`src/lib/data/mutations.ts:193`), which posts to `/complete`.
 - **Templates** — full CRUD plus `template_exercises` with planned sets/reps/weight/duration/rest/sort order. Editing exercises on an existing template is explicitly out of scope in the app (`src/app/gym/new-template.tsx:4-6`).
 - **Weekly schedule** — `GET /api/gym/schedule`, `PUT /schedule/{day}`, table `workout_schedule`.
-- **Today / check-in** — `GET /api/gym/today` returns the template, exercises, `already_checked_in` and `session_id`. Nothing in the app surfaces `session_id`, so nothing can edit an existing session.
+- **Today / check-in** — `GET /api/gym/today` returns the template, exercises, `already_checked_in` and `session_id`. No UI surfaces `session_id`. `TodayCard` passes it to `LoggedCard` (`src/components/gym/TodayCard.tsx:200`), which uses it only to find the session row whose stats and chips it shows (`src/components/gym/TodayCard.tsx:162`), and no screen calls `api.gym.updateSession` (`src/lib/api.ts:1127`), so nothing can edit an existing session.
 - **Parameterised cardio** — six schemas (`treadmill`, `cycling`, `rowing`, `stepping`, `intensity`, `jumpRope`) with `duration_minutes`, `speed_kmh`, `incline_percent`, plus `POST /api/gym/calories/preview` and `GET /api/gym/last-logged/{exercise_id}`.
 - **Progress & patterns** — `GET /api/gym/progress/{exercise_name}`, `GET /api/gym/patterns`.
 

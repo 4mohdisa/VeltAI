@@ -1481,3 +1481,8 @@
 - 2026-10-31 17:00 Kept the row 90 merge blocked: Isa has not answered, and the handover's suggestion is stale against the notes.
 - 2026-10-31 17:00 Parked the custom-exercise route (customLabel): the gap doc already records that the app has no route for it, and adding one is a feature.
 - 2026-10-31 17:00 Compressed the notes to under 600 words by merging repeated items and deleting finished rounds, as the loop note asked.
+- 2026-10-31 17:01 Loop flagged the last report because tsc was not clearly shown. The report did print TSC EXIT 0, but I chose a doc-only round that re-runs tsc with the exit code printed, so the check is explicit this time.
+- 2026-10-31 17:01 Chose the doc fix over the code candidates because it is the open item the last report named, it is doc-only, and it clears a stale claim before any code work.
+- 2026-10-31 17:01 Treated Next item 1 (gap row 'Difference 16' and /gym/session wording) as done per the R42 report.
+- 2026-10-31 17:01 The replacement wording for the session_id claim is left to the grep result, not guessed, per the 'check premises first' rule.
+- 2026-10-31 17:01 Doc correction applied without asking, per the default for accurate doc fixes.
