@@ -1168,3 +1168,6 @@
 - 2026-10-31 14:17 Chose the read-only check over the Jev-preferred doc fix (lines 399-400). Reason: the loop note says R295 was flagged because no type check or tests ran, and my notes rule says a flagged report is cleared by a read-only round before any further work. The doc fix is queued next, so the flag is cleared before the next edit.
 - 2026-10-31 14:17 Kept the fix at lines 399-400 as the next task, since Claude Code already named it in NEXT.
 - 2026-10-31 14:17 Did not ask Isa anything this round. The footnote, row 89 and Training list questions stay under Blocked on Isa.
+- 2026-10-31 14:18 Chose the checkpoint over the padding fix (Jev 88%): the loop note makes this round read-only and the notes require a full Jest run at the next checkpoint. A file edit would break the round rule. The padding fix is next.
+- 2026-10-31 14:18 Cleared the R295 flag: the R296 report shows tsc exit 0, 11 of 11 suites and 114 of 114 tests passing, and all three locale files parsing.
+- 2026-10-31 14:18 Kept the full suite in one checkpoint round rather than splitting it, so the result covers the loadingSessions and savedTitle changes that the last full run (R283) did not.
