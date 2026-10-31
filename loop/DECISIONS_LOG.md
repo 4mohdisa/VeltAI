@@ -1357,3 +1357,12 @@
 - 2026-10-31 15:43 Burned guard lives in EnergyBalanceCard, not the Summary Macros detail. Macros gap row left unchanged, as the report asked.
 - 2026-10-31 15:43 Header-comment fix in summaryNoFabrication.test.ts parked as a NEXT item, not fixed now, to keep one task per round.
 - 2026-10-31 15:43 Logged-day sheet and TodayCard logged state kept for later rounds, one task per round.
+- 2026-10-31 15:45 Chose the header count fix: it is the smallest task, needs no Isa input, and the handover marks it as NEXT. Counts are to be derived from the table, not from the handover figures.
+- 2026-10-31 15:45 Left row 90 (empty status) for Isa, as the notes already require. Only the count line is in scope.
+- 2026-10-31 15:45 Added Isa's open question about the 1,500 kcal footer to Blocked on Isa, from the R17 report. No code change for it.
+- 2026-10-31 15:45 Logged-day sheet and TodayCard logged state stay queued; both touch app behaviour and come after the doc fix.
+- 2026-10-31 15:45 Chose header count fix first: smallest task, needs nothing from Isa, clears a known doc error.
+- 2026-10-31 15:45 Counts re-derived from the table because earlier figures conflict (handover 24 DIFFERENT vs report 14 PARTIAL and 4 BUILT).
+- 2026-10-31 15:45 Named design/Lume App.html in the prompt to fix the rejection reason, and asked for a read-only check to meet the rule that DONE needs the design file opened.
+- 2026-10-31 15:45 Kept the empty-status row 90 and the 1,500 kcal goal question in Blocked on Isa; the count fix does not depend on them.
+- 2026-10-31 15:45 Notes rewritten to under 600 words per the loop note; finished work removed and repeated items merged.

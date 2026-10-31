@@ -68,7 +68,7 @@ app departs from most often, and it is the core of the gym log-session problem.
 
 ## Summary table — worst first
 
-**24 surfaces ❌ DIFFERENT, 15 ⚠️ PARTIAL, 3 🔨 BUILT (not verified), 0 ✅ EXACT.** No surface compared in
+**24 surfaces ❌ DIFFERENT, 14 ⚠️ PARTIAL, 4 🔨 BUILT (not verified), 0 ✅ EXACT.** No surface compared in
 this pass matched the design on every checked value.
 
 | Screen / surface | Verdict | One-line reason |
