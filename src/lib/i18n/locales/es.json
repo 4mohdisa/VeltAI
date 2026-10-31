@@ -22,7 +22,25 @@
     "about": "Acerca de"
   },
   "profile": {
-    "loadFailed": "No se pudieron cargar tus datos del gimnasio."
+    "loadFailed": "No se pudieron cargar tus datos del gimnasio.",
+    "billingNotConfigured": "Facturación no configurada (dev).",
+    "purchasesUnavailable": "Las compras no están disponibles temporalmente. Inténtalo de nuevo más tarde.",
+    "subscriptionRestored": "Suscripción restaurada.",
+    "noPurchasesToRestore": "No hay compras que restaurar.",
+    "storeUnreachable": "No se pudo conectar con la tienda — inténtalo de nuevo más tarde.",
+    "signOutTitle": "¿Cerrar sesión?",
+    "signOutMessage": "Tus datos siguen en tu cuenta — vuelve a iniciar sesión cuando quieras.",
+    "signOut": "Cerrar sesión",
+    "streak": "Racha",
+    "longest": "Más larga",
+    "totalDays": "Días totales",
+    "freezes": "Congelaciones",
+    "restorePurchases": "Restaurar compras",
+    "aiInsights": "Análisis con IA",
+    "connectedApps": "Apps conectadas",
+    "termsOfService": "Términos del servicio",
+    "privacyPolicy": "Política de privacidad",
+    "deleteAccount": "Eliminar mi cuenta"
   },
   "preferences": {
     "title": "Preferencias",

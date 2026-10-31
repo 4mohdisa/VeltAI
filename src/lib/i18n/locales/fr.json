@@ -22,7 +22,25 @@
     "about": "À propos"
   },
   "profile": {
-    "loadFailed": "Impossible de charger vos données de sport."
+    "loadFailed": "Impossible de charger vos données de sport.",
+    "billingNotConfigured": "Facturation non configurée (dev).",
+    "purchasesUnavailable": "Les achats sont temporairement indisponibles. Veuillez réessayer plus tard.",
+    "subscriptionRestored": "Abonnement restauré.",
+    "noPurchasesToRestore": "Aucun achat à restaurer.",
+    "storeUnreachable": "Impossible de joindre la boutique — réessayez plus tard.",
+    "signOutTitle": "Se déconnecter ?",
+    "signOutMessage": "Vos données restent dans votre compte — reconnectez-vous à tout moment.",
+    "signOut": "Se déconnecter",
+    "streak": "Série",
+    "longest": "La plus longue",
+    "totalDays": "Jours au total",
+    "freezes": "Gels",
+    "restorePurchases": "Restaurer les achats",
+    "aiInsights": "Analyses IA",
+    "connectedApps": "Applications connectées",
+    "termsOfService": "Conditions d’utilisation",
+    "privacyPolicy": "Politique de confidentialité",
+    "deleteAccount": "Supprimer mon compte"
   },
   "preferences": {
     "title": "Préférences",

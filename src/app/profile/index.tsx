@@ -14,6 +14,7 @@
 import { Alert, View, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { router, type Href } from 'expo-router';
 
 import { Avatar } from '@/components/display/Avatar';
@@ -40,13 +41,13 @@ import { useUserProfile, useGym } from '@/lib/data';
 // to restore" for the same account.
 let restoring = false;
 
-async function restore(): Promise<void> {
+async function restore(t: TFunction): Promise<void> {
   if (restoring) return;
   if (!isBillingEnabled()) {
     showToast({
       message: isDevBuild()
-        ? 'Billing not configured (dev).'
-        : 'Purchases are temporarily unavailable. Please try again later.',
+        ? t('profile.billingNotConfigured')
+        : t('profile.purchasesUnavailable'),
       tone: 'info',
     });
     return;
@@ -55,11 +56,11 @@ async function restore(): Promise<void> {
   try {
     const info = await restorePurchases();
     showToast({
-      message: hasProEntitlement(info) ? 'Subscription restored.' : 'No purchases to restore.',
+      message: hasProEntitlement(info) ? t('profile.subscriptionRestored') : t('profile.noPurchasesToRestore'),
       tone: hasProEntitlement(info) ? 'success' : 'info',
     });
   } catch {
-    showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+    showToast({ message: t('profile.storeUnreachable'), tone: 'error' });
   } finally {
     restoring = false;
   }
@@ -79,9 +80,9 @@ export default function ProfileScreen() {
   // SIGN_OUT → machine purges every store + offline queue, ends the Clerk
   // session (signOutSeam), RevenueCat identity resets via the bridge.
   const confirmSignOut = () => {
-    Alert.alert('Sign out?', 'Your data stays in your account — sign back in anytime.', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Sign out', style: 'destructive', onPress: () => dispatch({ type: 'SIGN_OUT' }) },
+    Alert.alert(t('profile.signOutTitle'), t('profile.signOutMessage'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      { text: t('profile.signOut'), style: 'destructive', onPress: () => dispatch({ type: 'SIGN_OUT' }) },
     ]);
   };
 
@@ -123,7 +124,7 @@ export default function ProfileScreen() {
         {/* Streak centrepiece */}
         <Card variant="elevated">
           <View style={{ gap: space.lg }}>
-            <CardHeaderRow title="Streak" icon="flame" tint={categoryAccent.streak} />
+            <CardHeaderRow title={t('profile.streak')} icon="flame" tint={categoryAccent.streak} />
             <StreakCounter days={streak.current} />
           </View>
         </Card>
@@ -131,9 +132,9 @@ export default function ProfileScreen() {
         {/* Streak stats */}
         <Card variant="elevated">
           <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Stat value={streak.longest} label="Longest" size="medium" align="center" />
-            <Stat value={streak.totalGymDays} label="Total days" size="medium" align="center" />
-            <Stat value={streak.freezesAvailable} label="Freezes" size="medium" align="center" />
+            <Stat value={streak.longest} label={t('profile.longest')} size="medium" align="center" />
+            <Stat value={streak.totalGymDays} label={t('profile.totalDays')} size="medium" align="center" />
+            <Stat value={streak.freezesAvailable} label={t('profile.freezes')} size="medium" align="center" />
           </View>
         </Card>
 
@@ -142,10 +143,10 @@ export default function ProfileScreen() {
           rows={[
             { icon: 'person-outline', label: t('settings.account'), onPress: () => router.push('/profile/account') },
             { icon: 'card-outline', tint: accent.purple, label: t('settings.subscription'), onPress: () => router.push('/profile/subscription') },
-            { icon: 'refresh-outline', label: 'Restore Purchases', onPress: () => void restore() },
+            { icon: 'refresh-outline', label: t('profile.restorePurchases'), onPress: () => void restore(t) },
             { icon: 'flag-outline', tint: categoryAccent.calories, label: t('settings.goals'), onPress: () => router.push('/profile/goals') },
             { icon: 'options-outline', tint: categoryAccent.positive, label: t('settings.scanAccuracy'), onPress: () => router.push('/profile/scan-calibration' as Href) },
-            { icon: 'sparkles-outline', tint: categoryAccent.ai, label: 'AI insights', onPress: () => router.push('/insights' as Href) },
+            { icon: 'sparkles-outline', tint: categoryAccent.ai, label: t('profile.aiInsights'), onPress: () => router.push('/insights' as Href) },
           ]}
         />
         <SettingsList
@@ -157,25 +158,25 @@ export default function ProfileScreen() {
             // notification system that does not exist in the build — dead UI
             // masquerading as a feature (App Store 2.1). Restore the row when
             // something actually sends notifications.
-            { icon: 'link-outline', tint: accent.turquoise, label: 'Connected apps', onPress: () => router.push('/profile/integrations' as Href) },
+            { icon: 'link-outline', tint: accent.turquoise, label: t('profile.connectedApps'), onPress: () => router.push('/profile/integrations' as Href) },
           ]}
         />
         <SettingsList
           title={t('settings.groupAbout')}
           rows={[
             { icon: 'shield-checkmark-outline', label: t('settings.privacy'), onPress: () => router.push('/profile/privacy') },
-            { icon: 'document-text-outline', label: 'Terms of Service', onPress: () => router.push('/legal/terms' as Href) },
-            { icon: 'lock-closed-outline', label: 'Privacy Policy', onPress: () => router.push('/legal/privacy' as Href) },
+            { icon: 'document-text-outline', label: t('profile.termsOfService'), onPress: () => router.push('/legal/terms' as Href) },
+            { icon: 'lock-closed-outline', label: t('profile.privacyPolicy'), onPress: () => router.push('/legal/privacy' as Href) },
             { icon: 'help-circle-outline', label: t('settings.support'), onPress: () => router.push('/profile/support') },
             { icon: 'information-circle-outline', label: t('settings.about'), onPress: () => router.push('/profile/about') },
           ]}
         />
         <SettingsList
           rows={[
-            { icon: 'log-out-outline', label: 'Sign out', onPress: confirmSignOut },
+            { icon: 'log-out-outline', label: t('profile.signOut'), onPress: confirmSignOut },
             {
               icon: 'trash-outline',
-              label: 'Delete my account',
+              label: t('profile.deleteAccount'),
               destructive: true,
               onPress: () => router.push('/profile/delete-account'),
             },

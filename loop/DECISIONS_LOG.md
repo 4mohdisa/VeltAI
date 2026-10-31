@@ -1710,3 +1710,8 @@
 - 2026-10-31 20:22 Did not ask Isa about line 82. Reason: the default for gap-row placement covers it.
 - 2026-10-31 20:22 Chose the doc-only removal first because Next item 1 is still open and it is the smallest task. Jev ranks the same action as run. Its suggested order was not a stronger preference than mine.
 - 2026-10-31 20:22 Rewrote the rejected prompt to name design/Lume App.html and the Gym streak strip section, as the loop note required.
+- 2026-10-31 20:23 Picked profile/index.tsx: it is the next item in the notes, the previous report recommended it, and it is the live screen using StreakCounter. It also gives the flagged round a real tsc and test run.
+- 2026-10-31 20:23 The loop flag said the last report had tsc or tests not run. R87 was a doc-only round, where the rule is tsc only, so its checks were correct. This round runs tsc and the named profile tests to close the flag.
+- 2026-10-31 20:23 Freeze sentence on line 82 is kept for now, per the R87 decision. It is a placement problem, so it is recorded under Blocked on Isa. Isa can rule on it.
+- 2026-10-31 20:23 StreakCounter wrap is not given its own gap line. The profile row reason cell carries the sentence, as the previous report recommended, and this is checked against the profile row subject.
+- 2026-10-31 20:23 The stray <br> on line 82 and the StreakCounter header comment are left for later rounds, to keep this round to one task.

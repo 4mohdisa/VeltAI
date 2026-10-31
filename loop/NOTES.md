@@ -33,8 +33,8 @@ Last checkpoint R77 green. Next checkpoint R91.
 Untested: decimal macros, quickAdd, fibre write and read-back, saved.tsx toEditable, StreakCounter render.
 
 ## Next (in order)
-1. R87 (in progress): doc-only. Remove the StreakCounter sentence from gap line 82; keep the freeze.tsx sentence. tsc only, print 'TSC EXIT <n>'.
-2. String wrap, one file per round: profile/index.tsx, GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+1. DONE R87: StreakCounter sentence removed from gap line 82. Freeze sentence still on line 82 (see Blocked).
+2. R88 (in progress): wrap strings in src/app/profile/index.tsx, with tsc and the profile test file(s) by exact path. Then add the profile row reason sentence. Then continue one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 3. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx.
 4. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
 5. (tabs)/gym.tsx:155 'Apply a streak freeze'. Only after Isa confirms the freeze screen stays.
@@ -53,7 +53,8 @@ Untested: decimal macros, quickAdd, fibre write and read-back, saved.tsx toEdita
 18. nutrition.tsx:164 and :180 raw meal.slot, own round.
 19. StreakCounter.tsx header comment says Gym tab; fix, own round.
 20. StreakCounter colour tokens to color.label and secondaryLabel, own round.
-21. No rows left: stop with 'only owner decisions remain'.
+21. Remove stray <br> at end of gap line 82 (doc-only, safe).
+22. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or change toast? /gym/session writes a second row (mutations.ts:173-178).
@@ -69,6 +70,8 @@ Untested: decimal macros, quickAdd, fibre write and read-back, saved.tsx toEdita
 - TodayCard: wash pill token; whole-day kcal; chevron before tappable.
 - Volume fix, show or accept. Heatmap wording. Calories cell needs backend field.
 - Freeze screen: does gym/freeze.tsx stay? Gates Next item 5.
+- NEW (R87 report): freeze sentence on gap line 82. src/app/gym/freeze.tsx is not part of the streak strip row, so the sentence may belong elsewhere or be removed. Kept for now.
+- NEW (R87 report): StreakCounter wrap has no row of its own. R88 records it in the profile row. Isa may want a different row.
 
 ## Parked
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) has no serving data.
@@ -93,4 +96,5 @@ R83: freeze.tsx strings t(); gap line 82 annotated. tsc 0.
 R84: rejected (no branch rule). Rewritten. StreakCounter caption t(); sentence put on line 82 in error.
 R85: flagged. tsc 0; jest --findRelatedTests found no suite. No edits. Line 82 reported.
 R86: prompt rejected (no design/ file named). Report: no files changed; Isa asked about line 82.
-R87: doc-only removal of the StreakCounter sentence from gap line 82, decided without Isa (gap-row placement rule). Freeze sentence kept. tsc only.
+R87: doc-only removal of the StreakCounter sentence from gap line 82, decided without Isa (gap-row placement rule). Freeze sentence kept. tsc 0 (TSC EXIT 0). Report flagged for Jest not run; R87 was doc-only, so that was correct under the rule.
+R88: loop flag on R87 handled by running tsc and named profile tests this round. Task: profile/index.tsx strings through t(). Profile row gets a reason sentence. Decided without Isa: profile row over a separate StreakCounter row; freeze sentence kept pending Isa.

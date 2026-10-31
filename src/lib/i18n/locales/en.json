@@ -22,9 +22,27 @@
     "about": "About"
   },
   "profile": {
-    "loadFailed": "Couldn't load your gym data."
+    "loadFailed": "Couldn't load your gym data.",
+    "billingNotConfigured": "Billing not configured (dev).",
+    "purchasesUnavailable": "Purchases are temporarily unavailable. Please try again later.",
+    "subscriptionRestored": "Subscription restored.",
+    "noPurchasesToRestore": "No purchases to restore.",
+    "storeUnreachable": "Couldn't reach the store — try again later.",
+    "signOutTitle": "Sign out?",
+    "signOutMessage": "Your data stays in your account — sign back in anytime.",
+    "signOut": "Sign out",
+    "streak": "Streak",
+    "longest": "Longest",
+    "totalDays": "Total days",
+    "freezes": "Freezes",
+    "restorePurchases": "Restore Purchases",
+    "aiInsights": "AI insights",
+    "connectedApps": "Connected apps",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "deleteAccount": "Delete my account"
   },
-  "preferences": {
+"preferences": {
     "title": "Preferences",
     "measurementSystem": "Measurement system",
     "metric": "Metric",
