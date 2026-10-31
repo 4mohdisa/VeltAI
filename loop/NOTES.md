@@ -19,6 +19,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Prompts name the design/ file and screen id. Rejected prompts are rewritten before running.
 - A task that changes one of a set of sibling labels finishes the whole set in the same round (R148 lesson).
 - One surface or one shared component per prompt. Multi-surface prompts are rejected (R150).
+- Components that need translated strings call useTranslation() themselves. Do not pass t down as a prop (R151).
 
 ## Status
 Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
@@ -28,7 +29,8 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never repor
 - R145: tabBar.closeMenu added. R147: addMenu.logGymSession and addMenu.logFood added.
 - R148: Summary and Gym titles via t(). Food title left literal; flagged as partial.
 - R149: Food tab title via food.title (LumeTabBar.tsx, _layout.tsx).
-- R150: Prompt rejected for covering more than one screen. Rewritten as one task: food.tsx logged-row VoiceOver labels via nutrition.* keys.
+- R150: Prompt rejected for covering more than one screen. Rewritten as one task: food.tsx logged-row VoiceOver labels via nutrition.* keys. Done, but flagged as partly done: three English strings remained on the row.
+- R151: Flagged as partly done by the automatic check. Remaining row strings ('Analyzing scanned food…', couldn't-be-analysed, the double-tap hint) go to t() this round. The t prop plumbing is replaced by useTranslation() inside FoodItemRow.
 
 ## BUILT, not verified
 - LoadFailedNotice and StreakCounter tokens (NOT COVERED).
@@ -36,6 +38,7 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never repor
 - GymPatternsCard copy, seven gym.* keys (NOT COVERED; es and fr unreviewed).
 - Freeze label (gap line 82).
 - food.tsx: ErrorState messages, Food title, Calories title (gymLog.celebration.calories, shared), unit label via nutrition.energyLogged (NOT COVERED).
+- food.tsx logged-row macro names (protein, carbs, fat) via nutrition.* (R150; NOT COVERED).
 - CaloriesCard macro labels via nutrition.protein, carbs, fat.
 - LumeTabBar tab labels via t() (render test English only, 13/13).
 - Add button VoiceOver via tabBar.add and tabBar.addHint (NOT COVERED).
@@ -43,22 +46,22 @@ Last green full checkpoint: R89 (tsc 0, 65 suites, 824 tests). Owed, never repor
 - Summary and Gym titles via dashboard.summaryTitle and gym.title (NOT COVERED; no test imports the layout).
 
 ## Next
-1. (IN PROGRESS, R150) food.tsx logged-row VoiceOver labels 'protein', 'carbs', 'fat' via nutrition.* keys (line ~853).
-2. CaloriesCard: macro names at food.tsx:665-667; missing Fibre column; dot vs bar (row 85).
+1. (IN PROGRESS, R151) food.tsx FoodItemRow: finish VoiceOver strings ('Analyzing scanned food…', couldn't-be-analysed, double-tap hint) via t(). Replace the t prop with useTranslation() inside the row.
+2. CaloriesCard: macro names at food.tsx:665-667 already use t(); missing Fibre column; dot vs bar (row 85).
 3. Dedupe SLOT_KEYS (food.tsx). Resolve food.savedTitle vs addMenu.myDishes.
-4. food.tsx: 'Check your connection' invents a cause; "today's" shows on other dates.
-5. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-6. PlannedValuesForm 'Add exercise'. add.tsx slotKey: remove unused keys if confirmed.
-7. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session top weight on all sets: fix or park.
-8. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
-9. week.tsx remaining copy, then training.tsx and energy.tsx.
-10. food.tsx: energy unit; 'g' suffix at :690; raw energyUnit at :787 and :906.
+4. food.tsx: 'Check your connection' invents a cause; swipe-delete prompt ('Remove X?' and "today's") shows English and wrong on other dates (food.tsx:520-521).
+5. food.tsx visible P, C, F letters on the row (about :899) untranslated. The g suffix at :690 and :856. Raw energyUnit at the meal header and food rows.
+6. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. PlannedValuesForm 'Add exercise'. add.tsx slotKey: remove unused keys if confirmed.
+8. Raw item values (food.tsx, food/saved.tsx:144): park if no design decision. /gym/session top weight on all sets: fix or park.
+9. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
+10. week.tsx remaining copy, then training.tsx and energy.tsx.
 11. No rows left: stop with 'only owner decisions remain'.
 Grep first. Line numbers drift.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es and fr width; gym Training labels; logged card; offline failure; double notice; TodayCard sub-line; LoadFailedNotice; StreakCounter caption; es/fr fit; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; energyLogged es/fr; VoiceOver on add menu es/fr; AddMenu labels wrap at 232pt in fr and es.
-- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es/fr (Resumen, Comida, Gimnasio; Resume, Repas, Sport); tabBar.* es/fr incl. addHint ('sesion de gym', 'un registro de comida') and command vs infinitive; tabBar.closeMenu es/fr; AddMenu labels es/fr.
+- Device checks: tab bar es and fr width; gym Training labels; logged card; offline failure; double notice; TodayCard sub-line; LoadFailedNotice; StreakCounter caption; es/fr fit; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; energyLogged es/fr; VoiceOver on add menu es/fr; AddMenu labels wrap at 232pt in fr and es; VoiceOver on logged food row (R150 label capitals, R151 strings).
+- Native review: fr 'Detail', 'Repartition', 'gel', 'congelation', 'Apport et depense'; es 'Ingesta y gasto'; eatenAgainstBurned fr; gym.oftenSkip es/fr; energyLogged es/fr; tab labels es/fr (Resumen, Comida, Gimnasio; Resume, Repas, Sport); tabBar.* es/fr incl. addHint ('sesion de gym', 'un registro de comida') and command vs infinitive; tabBar.closeMenu es/fr; AddMenu labels es/fr; new food row VoiceOver keys es/fr (R151).
 - Shared keys: food.title serves tab and Food title; Comida and Repas read as 'meal'. Separate food.caloriesTitle?
 - Already-logged days: edit or toast? (mutations.ts:173-178).
 - Gap rows: detail screens; tab bar label; week row; empty food day (four meal cards or 'No meals yet').
@@ -85,7 +88,7 @@ Grep first. Line numbers drift.
 - Stale citations: gap doc lines 437 and 1505.
 
 ## Accepted limits
-Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week, training empty states, GymPatternsCard, or the food log empty state. Only the hydration test loads locale files.
+Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). No test renders profile, StreakCounter, TodayCard, freeze, LoadFailedNotice, week, training empty states, GymPatternsCard, or the food log empty state. Only the hydration test loads locale files. The food row VoiceOver output is not covered by any test.
 
 ## Gotchas
 - Briefs repeat finished work and quote stale lines. Check first.
@@ -94,3 +97,4 @@ Failure paths untested. Null-as-failure assumes getToday never returns null for 
 - zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
 - i18next plurals need both _one and _other; fr treats 0 as one.
 - kcal is feminine, kJ masculine in es and fr: avoid agreeing participles.
+- Claude Code reports may flag partial work. Read the NEXT list before assuming a row is done.

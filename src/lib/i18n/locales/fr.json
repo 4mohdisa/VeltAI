@@ -138,7 +138,10 @@
     },
     "loadFailed": "Impossible de charger le journal alimentaire d'aujourd'hui.",
     "savedLoadFailed": "Impossible de charger vos aliments enregistrés.",
-    "savedTitle": "Mes plats"
+    "savedTitle": "Mes plats",
+    "rowAnalysing": "Analyse de la photo",
+    "rowAnalysisFailed": "{{name}} : analyse impossible",
+    "rowHint": "Touchez deux fois pour modifier, balayez vers la gauche pour supprimer"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

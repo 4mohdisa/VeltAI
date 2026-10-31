@@ -138,7 +138,10 @@
     },
     "loadFailed": "Couldn't load today's food log.",
     "savedLoadFailed": "Couldn't load your saved foods.",
-    "savedTitle": "My dishes"
+    "savedTitle": "My dishes",
+    "rowAnalysing": "Analysing photo",
+    "rowAnalysisFailed": "{{name}} — couldn't be analysed",
+    "rowHint": "Double tap to edit, swipe left to delete"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

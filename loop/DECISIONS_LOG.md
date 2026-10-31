@@ -2016,3 +2016,8 @@
 - 2026-10-31 22:30 Kept the gap row status unchanged and added a reason line only, because the Food row covers the whole screen and cannot be set to BUILT from one label fix.
 - 2026-10-31 22:30 Left the CaloriesCard macro names and Fibre column for the next round, since they are visible UI changes and need a separate prompt.
 - 2026-10-31 22:30 Did not add any new keys: nutrition.protein, carbs and fat already exist per the last report.
+- 2026-10-31 22:31 Chose the flagged row task first: the loop note says the last task was only partly done, and the report's own NEXT names these three strings as the remaining mix of translated and English text on that row.
+- 2026-10-31 22:31 Replace the t prop plumbing with a useTranslation() call inside FoodItemRow. Every other component in food.tsx calls the hook itself, and the plumbing adds three lines for no gain.
+- 2026-10-31 22:31 Spanish and French for the new keys are drafts to be flagged for native review. Isa already has es and fr review on his list.
+- 2026-10-31 22:31 Visible P/C/F letters, the swipe-delete prompt and the g and energyUnit displays stay out of this round. Each is a separate visible-copy change and is listed under NEXT.
+- 2026-10-31 22:31 Row 85 stays DIFFERENT. Only its reason line may change. Jev's low-confidence risk score is noted, so the task is kept to one row's strings.

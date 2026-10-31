@@ -140,7 +140,10 @@
     },
     "loadFailed": "No se pudo cargar el registro de comidas de hoy.",
     "savedLoadFailed": "No se pudieron cargar tus comidas guardadas.",
-    "savedTitle": "Mis platos"
+    "savedTitle": "Mis platos",
+    "rowAnalysing": "Analizando foto",
+    "rowAnalysisFailed": "{{name}}: no se pudo analizar",
+    "rowHint": "Toca dos veces para editar, desliza a la izquierda para eliminar"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",
