@@ -1226,3 +1226,8 @@
 - 2026-10-31 15:03 Chose a read-only round with tsc and jest gym to clear the flag. The R309 report ran tsc only and did not run Jest, so the automatic flag is still open. Doc edits are not bundled with a flag clear, per the rule in these notes.
 - 2026-10-31 15:03 Kept the gap-file wording round as the next build-side doc task (R311), since it is doc-only and was the Jev top-ranked candidate.
 - 2026-10-31 15:03 Left the Jev suggestion of gap wording first unchanged; it is a second opinion and the flag-clear ordering rule still applies.
+- 2026-10-31 15:04 Chose the gap wording round first: it is doc-only, needs nothing from Isa, and the flag on R308 has been cleared by R310 (tsc 0, jest gym 37/37).
+- 2026-10-31 15:04 Included one tsc run in R311 so a doc-only round is not flagged for missing checks again.
+- 2026-10-31 15:04 Kept the three wording edits as one doc change on one row (113), so the one-task rule holds.
+- 2026-10-31 15:04 Left TodayCard code problems to NEXT, per the rule against bundling a doc round with a component change.
+- 2026-10-31 15:04 Locate lines by text because gap line numbers move with inserts.

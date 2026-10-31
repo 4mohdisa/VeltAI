@@ -455,15 +455,15 @@ rule (year appended only outside the current year).
    the design has no state for.
 6. Chevron stroke weight 2.8 is not reproduced (SF Symbol default).
 
-## Gym — today's session card — ⚠️ PARTIAL MATCH
+## Gym — today's session card — ⚠️ DIFFERENT
 
 **Design:** the whole card is one tap target opening the day detail; a header row
 (11px status dot, title, sub, a state pill, a 14px chevron) over a **4-up stats
 grid** (Duration / Calories / Volume / Sets) and a wrapped row of exercise chips.
 
-**App** (`TodayCard.tsx`): four mutually exclusive branches, a header row, chips in
+**App** (`TodayCard.tsx`): five mutually exclusive branches, including loading, a header row, chips in
 the `template` branch only, and a **"Start workout"** button. Every state's card,
-including loading, uses padding 16 (`padded={false}`, `space.lg`), matching the design.
+including loading, uses padding 16 (`padded={false}`, `space.lg`); the loading and nothing-scheduled states differ from the design.
 
 **Differences:** the card is **not tappable** and has **no chevron**; **the entire
 4-up stats grid is missing**; "Start workout" and a `Set schedule →` link are
