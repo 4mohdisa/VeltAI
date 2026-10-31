@@ -2404,3 +2404,8 @@
 - 2026-11-01 00:58 Chose the card-only scope: one surface per round, and it is the next item in the Next list.
 - 2026-11-01 00:58 Parked the row 83 route change (sheet pushed vs opened in place) because it touches navigation structure, which is off limits.
 - 2026-11-01 00:58 Row 83 copy and icon stay as build candidates for later rounds, since the design wording wins.
+- 2026-11-01 01:01 Row 83 before the My schedule card: it is the smallest task, needs nothing from Isa, and Jev ranks it top. The card needs a data check and new en, es and fr keys first.
+- 2026-11-01 01:01 Flagged report: the last check was tsc green, but no tests ran. This round runs the type check and only the test file that references the changed component.
+- 2026-11-01 01:01 My schedule card: built, not asked. It is a design-match row with no data model or backend change, so it needs no approval. It waits until after row 83.
+- 2026-11-01 01:01 Training list 'My schedule' row stays for now. It is out of scope, and the duplicate is settled at doc fix time.
+- 2026-11-01 01:01 Card text 12.5/17 and 15/20: use the nearest existing text token if one matches, otherwise the exact design values. No question to Isa.

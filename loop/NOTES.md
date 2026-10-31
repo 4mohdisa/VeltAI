@@ -16,7 +16,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Every prompt names design/Lume App.html (bundle id), the gap row, and the branch rule.
 
 ## Status
-- R231 (now): row 112 My schedule card, re-check then build.
+- R232 (now): row 83 copy and icon. Smallest task, needs nothing from Isa, Jev's top pick.
+- R231: row 112 My schedule card. Claude Code found the card missing and stopped with no change. Flagged for no tests run; tsc was green. Decision: card is a design-match row, not a data or backend change, so it is built, not asked. It waits behind row 83 because it needs a data check and new en, es, fr keys.
 - R230: row 83 and CTA section doc updated.
 - R227, R229: Log button under session card; visibility per showLogCta. BUILT.
 - R218-R223: row 87 items c, d, e; chip padding and label shrink. BUILT.
@@ -24,19 +25,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R222 checkpoint: app 65/65 suites, 824/824.
 
 Open rows:
-- 83 DIFFERENT: copy ('Log gym session' vs 'Log this session'); leading barbell vs trailing 15px chevron-up at 0.7; route pushes sheet vs opens in place.
+- 83 DIFFERENT: copy ('Log gym session' vs 'Log this session'); leading barbell vs trailing 15px chevron-up at 0.7. Route (sheet pushed vs opens in place) and position stale, parked.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: My schedule card; four-row Training list; LoadFailedNotice; pull-to-refresh; card gap 14 vs 12; eyebrow tracking and min height; title tracking, padding and gap; lumeFade entrance.
+- 112 PARTIAL: My schedule card MISSING (new component under src/components/gym/; check per-day exercise counts first); four-row Training list; LoadFailedNotice; pull-to-refresh; card gap 14 vs 12; eyebrow tracking and min height; title tracking, padding and gap; lumeFade entrance.
 
 ## Next
-1. R231: row 112 My schedule card.
-2. Row 112: Training list, LoadFailedNotice, pull-to-refresh, lumeFade, header typography. One per round, re-checked first.
-3. Row 83: copy, then icon. One per round.
+1. R232: row 83 copy and icon.
+2. R233: row 112 My schedule card, one round. Use useSchedule() and useTemplates() from src/lib/data/gymSchedule.ts. Confirm per-day exercise counts first. Keep the Training list's My schedule row for now.
+3. Row 112: Training list, LoadFailedNotice, pull-to-refresh, lumeFade, header typography. One per round, re-checked first.
 4. Row 112 GymPatternsCard typography once padding is answered.
 5. Gym cluster, one file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-7. Gap doc lines 310 and 236 contradict row 83. Fix when no build row is open.
+7. Gap doc lines 310 and 236 contradict row 83. Fix when no build row is open. Settle row 81 versus row 112 card duplicate at the same time.
 8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
@@ -61,6 +62,8 @@ Open rows:
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, or gym.tsx render.
 - Doc: summary table Quick add '(line 86)' wrong column; stale lines 895-897, 930, 934, 1017, 1058, 1504; row 87 repeated BUILT entries; line 103 unchecked.
+- Doc: row 81 duplicates the row 112 My schedule card (and section near line 586). Pick one at doc fix time.
+- Doc: row 83 'App' paragraph near line 532 is stale (position, conditions, pill). Fix at doc fix time.
 
 ## Accepted limits
 Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). SwipeableRow and saved.tsx untested. Tests English only.
@@ -75,4 +78,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 
 ## Handover and Jev
 - Last handover before R230; next due R235 (script-managed). HANDOVER.md current as of R224.
-- Jev: R230 run 78%, kept. R231 run 84%, kept: build rows still open, so row 112 comes before the doc fix Jev's report suggested.
+- Jev: R230 run 78%, kept. R231 run 84%, kept: build rows still open, so row 112 came before the doc fix.
+- R232: Jev ranked row 83 first at 92%, and the loop note flagged the R231 report. Chose row 83 too, so the pick matches Jev. Jev's ask/run split was not followed: no question is needed, since row 83 is covered by the design and needs no Isa input.

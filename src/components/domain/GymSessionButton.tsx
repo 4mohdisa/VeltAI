@@ -1,10 +1,12 @@
-// GymSessionButton — the primary "Log gym session" CTA, or a logged-confirmation
+// GymSessionButton — the primary "Log this session" CTA, or a logged-confirmation
 // pill once today's session exists. The single most important action in Lume.
 import { View } from 'react-native';
 
-import { Button } from '@/components/forms/Button';
+import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, opacity, radius, space, surface } from '@/lib/design/tokens';
+import { haptics } from '@/lib/haptics';
 
 export type GymSessionButtonProps = {
   logged: boolean;
@@ -39,5 +41,31 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
     );
   }
 
-  return <Button title="Log gym session" icon="barbell" onPress={onPress} accessibilityLabel="Log gym session" />;
+  // Button only takes a leading icon; the design's chevron trails the label.
+  return (
+    <Pressable
+      haptic={false}
+      onPress={() => {
+        haptics.impactMedium();
+        onPress();
+      }}
+      accessibilityLabel="Log this session"
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: space.sm,
+        backgroundColor: color.primary,
+        borderRadius: radius.pill,
+        paddingVertical: space.lg,
+        paddingHorizontal: space['2xl'],
+        minHeight: layout.buttonHeight,
+      }}
+    >
+      <Text variant="bodyBold" color={color.onPrimary}>
+        Log this session
+      </Text>
+      <Icon name="chevron-up" size={15} color={color.onPrimary} weight="semibold" style={{ opacity: opacity.medium }} />
+    </Pressable>
+  );
 }
