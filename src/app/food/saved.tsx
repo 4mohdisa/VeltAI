@@ -112,9 +112,9 @@ export default function SavedFoodsScreen() {
             <SwipeableRow
               key={f.id}
               onDelete={() => unsave(f.id)}
-              confirmTitle={`Remove ${f.name}?`}
-              confirmMessage="This un-saves it."
-              deleteLabel="Unsave"
+              confirmTitle={t('food.unsaveTitle', { name: f.name })}
+              confirmMessage={t('food.unsaveMessage')}
+              deleteLabel={t('food.unsave')}
             >
               <View
                 style={{

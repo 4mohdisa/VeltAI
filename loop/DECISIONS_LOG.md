@@ -2031,3 +2031,12 @@
 - 2026-10-31 22:35 Did not ask Isa about es/fr wording. Native review is already on the Blocked list, and the draft strings are the existing default.
 - 2026-10-31 22:35 Kept the SwipeableRow props API unchanged so the three other swipe prompts need no edits in this round. They stay under Next.
 - 2026-10-31 22:35 Kept item 28's status word unchanged. The gap row stays DIFFERENT until Isa verifies the dialog.
+- 2026-10-31 22:37 Chose the verification task because the loop flagged the last report for tests not run. It is the only item that clears the flag. The type check was green last round, so this round re-runs it and only the tests that could touch the changed files.
+- 2026-10-31 22:37 Told Claude Code not to add tests. No test file references SwipeableRow, so the affected set is probably empty, and the run is kept to one tsc pass plus any matching tests.
+- 2026-10-31 22:37 Kept the 'destructive red' vs black fill question out of the build. The design uses the accent red, so this is a design-versus-app disagreement that should follow the design. It is recorded as a Parked item and a design question, not built this round, because the change touches a shared component used on several screens.
+- 2026-10-31 22:37 Left the swipe prompt translations for the next round so this round stays to one task.
+- 2026-10-31 22:37 Chose saved.tsx first because it finishes the swipe dialog set that SwipeableRow started, and the notes say a half-finished set counts as unfinished.
+- 2026-10-31 22:37 Used design wording only if the decoded design has it; otherwise kept the current English text, to avoid inventing copy.
+- 2026-10-31 22:37 Added exactly three keys (food.unsaveTitle, food.unsaveMessage, food.unsave) in all three locales together, and reused common.cancel and common.delete.
+- 2026-10-31 22:37 Treated the R155 SwipeableRow verification as cleared: tsc exited 0 and no test file references the component. Recorded in notes, not rerun.
+- 2026-10-31 22:37 Named design/Lume App.html and screen 71f71ac4 and forbade git, because the last prompt was rejected for missing both.

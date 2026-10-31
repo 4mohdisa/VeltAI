@@ -144,7 +144,10 @@
     "rowAnalysisFailed": "{{name}} : analyse impossible",
     "rowHint": "Touchez deux fois pour modifier, balayez vers la gauche pour supprimer",
     "removeTitle": "Supprimer {{name}} ?",
-    "removeMessage": "Cela le supprime du journal de ce jour."
+    "removeMessage": "Cela le supprime du journal de ce jour.",
+    "unsaveTitle": "Retirer {{name}} ?",
+    "unsaveMessage": "Cela le retire de vos aliments enregistrés.",
+    "unsave": "Retirer"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

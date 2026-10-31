@@ -144,7 +144,10 @@
     "rowAnalysisFailed": "{{name}} — couldn't be analysed",
     "rowHint": "Double tap to edit, swipe left to delete",
     "removeTitle": "Remove {{name}}?",
-    "removeMessage": "This removes it from this day's log."
+    "removeMessage": "This removes it from this day's log.",
+    "unsaveTitle": "Remove {{name}}?",
+    "unsaveMessage": "This un-saves it.",
+    "unsave": "Unsave"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",
