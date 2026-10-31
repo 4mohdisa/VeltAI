@@ -2026,3 +2026,8 @@
 - 2026-10-31 22:33 Did not pick CaloriesCard: row 85 covers the whole screen and cannot be marked BUILT in one round.
 - 2026-10-31 22:33 Wording 'this day's log' chosen as date-neutral because no design copy covers this prompt.
 - 2026-10-31 22:33 Asked Claude Code to reuse existing removal keys first to avoid duplicate keys.
+- 2026-10-31 22:35 Loop note flagged the last report as partly done. The swipe dialog title and message were translated but its buttons were not. Picked the SwipeableRow defaults to finish that dialog before moving on.
+- 2026-10-31 22:35 Used a shared common delete key rather than borrowing a food key, as the last report recommended. Reuse it if it already exists.
+- 2026-10-31 22:35 Did not ask Isa about es/fr wording. Native review is already on the Blocked list, and the draft strings are the existing default.
+- 2026-10-31 22:35 Kept the SwipeableRow props API unchanged so the three other swipe prompts need no edits in this round. They stay under Next.
+- 2026-10-31 22:35 Kept item 28's status word unchanged. The gap row stays DIFFERENT until Isa verifies the dialog.

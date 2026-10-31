@@ -16,20 +16,26 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Sibling labels: change the whole set in one round.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras.
 - Brief claims are checked by grep before acting. Reports can conflict.
+- A partly finished string set counts as unfinished. Finish a dialog or label set before starting another surface.
 
 ## Status
 Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint R89 (tsc 0, 65 suites, 824 tests). Owed full suite: R102, R117, R131, R146; request at next flagged checkpoint.
 
 ## Built, not verified (es and fr unreviewed, mostly NOT COVERED)
-- Tab labels, Summary and Gym titles, Food title, Calories card macro labels, add menu labels, LoadFailedNotice and StreakCounter tokens, GymPatternsCard copy, week, training, energy copy, freeze label, food row VoiceOver (food.row* keys, R151).
+- Tab labels (LumeTabBar.tsx, (tabs)/_layout.tsx titles; tabs reuse food.title, dashboard.summaryTitle, gym.title).
+- Summary and Gym titles, Food title, Calories card macro labels and energy label, add menu labels, add-button VoiceOver strings, close menu label.
+- Food row VoiceOver label and hint (food.row* keys, R151). food.rowAnalysing and rowAnalysisFailed keys added.
+- Swipe-delete title and message, now date-neutral and translated (food.removeTitle, food.removeMessage; food.tsx ~520-521).
+- LoadFailedNotice and StreakCounter tokens, GymPatternsCard copy, week, training, energy copy, freeze label.
+- nutrition.energyLogged (es 'en total', fr 'au total').
 
 ## Next
-1. Swipe-delete prompt in food.tsx (~520-521): date-neutral and translated. (Running now.)
-2. Verify tab label 'Food' (LumeTabBar.tsx:38, (tabs)/_layout.tsx:32). Reports conflict on whether R149 finished it.
-3. CaloriesCard: missing Fibre column; dot vs bar (row 85, whole-screen, do not mark BUILT).
-4. 'Check your connection' invents a cause (food.tsx).
-5. Visible P, C, F letters on food row (~899); g suffixes (~690, ~856, VoiceOver ~854); raw energyUnit.
-6. Visible 'Analyzing…' on food row (~875) to t(), spelling 'Analysing'.
+1. SwipeableRow.tsx: translate the 'Cancel' and 'Delete' defaults (about lines 32, 39). Uses common.cancel and a shared common.delete key. Covers the confirm buttons and the red swipe action on every screen using it. (Running now; finishes the half-translated dialog flagged in the last check.)
+2. Other swipe prompts still hardcoded English: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
+3. Visible 'Analyzing…' on food row (food.tsx ~875) to t(), spelling 'Analysing'.
+4. CaloriesCard: missing Fibre column; dot vs bar (row 85, whole-screen, do not mark BUILT).
+5. 'Check your connection' invents a cause (food.tsx).
+6. Visible P, C, F letters on food row (~899); g suffixes (~690, ~856, VoiceOver ~854); raw energyUnit.
 7. One file per round: GymPatternsCard server values, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 8. PlannedValuesForm 'Add exercise'. add.tsx slotKey unused keys.
 9. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
@@ -38,9 +44,9 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 12. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es/fr width; gym Training labels; logged, analysing and failed food rows (VoiceOver); offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu labels wrap at 232pt (fr, es).
-- Native review: es/fr draft strings incl. food.row*, tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned; fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'.
-- Design questions: food.title shared by tab and screen (Comida, Repas); separate caloriesTitle? Empty day: four meal cards or 'No meals yet'? GymPatternsCard padding 20 or 16? Already-logged days: edit or toast (mutations.ts:173-178)? Design wording: energy deficit caption, steps, burn target, weekly target, GetToday flag, group names, training list, profile row, streak wording, footnote '23 sessions 2 freezes'. Rows 90, 330, 334, 89, 23, 17. Search routing; quick add serving order; add sheet 0pt gap; 'Snacks'; TodayCard wash pill, whole-day kcal, chevron; remaining-kcal line. No body stats: app 1,500 kcal, design 2,100.
+- Device checks: tab bar es/fr width; gym Training labels; logged, analysing and failed food rows (VoiceOver); offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu labels wrap at 232pt (fr, es); swipe-delete dialog on device.
+- Native review: es/fr draft strings incl. food.row*, food.removeTitle, food.removeMessage (the 'it' agreement assumes a masculine food name), tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned; fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
+- Design questions: food.title shared by tab and screen (Comida, Repas); separate caloriesTitle? Empty day: four meal cards or 'No meals yet'? GymPatternsCard padding 20 or 16? Already-logged days: edit or toast (mutations.ts:173-178)? Design wording: energy deficit caption, steps, burn target, weekly target, GetToday flag, group names, training list, profile row, streak wording, footnote '23 sessions 2 freezes'. Rows 90, 330, 334, 89, 23, 17. Search routing; quick add serving order; add sheet 0pt gap; 'Snacks'; TodayCard wash pill, whole-day kcal, chevron; remaining-kcal line. No body stats: app 1,500 kcal, design 2,100. Decision on a tabs.* namespace.
 
 ## Parked
 - English-only helpers: formatRelativeDate, weekdayShort, dayMonth, formatDuration. Plurals: '1 of 1 days', 'longest 1 minutes', 'of N days'.
@@ -52,18 +58,24 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - StreakCounter: unused active and caption props; accessible prop; gym.dayStreak vs dashboard.dayStreak.
 - Freeze: singular counts; toast before server reply; refusal unhandled; streak.tsx:73.
 - Logged card tap target needs a day route. Macros history chart. Percent-of-target title.
-- fr 'Ajouter a {{slot}}' accent; plan.addTitle es/fr; '14-day' hyphen; duplicate keys across namespaces.
-- Leftover es.json addMenu.voice and addMenu.describeOutLoud: remove in cleanup.
+- fr 'Ajouter a {{slot}}' accent; plan.addTitle es/fr; '14-day' hyphen; duplicate keys across namespaces; duplicate macro keys in goals.* and nutrition.*.
+- Spanish: tabBar.addHint reads badly; addMenu.voice and addMenu.describeOutLoud exist only in es.json (remove in cleanup).
+- Food row: key={c.name} uses a translated string (fix when the Fibre column is built).
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN on undefined profile field.
 - Raw item values: food.tsx, food/saved.tsx:144.
 - Stale citations: gap doc lines 437 and 1505 (verify before editing).
 
 ## Accepted limits
-Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Fibre uses > 0.
+Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISIONS.md). Fibre uses > 0. No full suite run since R146; not owed until the next checkpoint.
 
 ## Gotchas
 - Briefs repeat finished work and quote stale lines. Grep first. Line numbers drift.
-- Design copy is encoded: decode __bundler/manifest with node. Food 71f71ac4; energy, week, training 185bb533.
-- zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match.
+- Design copy is encoded: decode __bundler/manifest with node. Food 71f71ac4; energy, week, training 185bb533; 7dc211f6.
+- zsh: quote (tabs) paths. Use LC_ALL=C /usr/bin/grep; exit 1 means no match. A piped grep's exit code can mislead.
 - i18next plurals need _one and _other; fr treats 0 as one.
 - kcal is feminine, kJ masculine: avoid agreeing participles.
+- Test i18n is fixed to English. Some tests find controls by English label, so English changes can break them.
+- Claude Code forgets context at handover. Name files fully in every prompt.
+
+## Last round (R154 approx.)
+Handover done. Swipe-delete title and message translated; buttons still English. Flagged as partly done. Next round finishes SwipeableRow defaults.
