@@ -1176,3 +1176,8 @@
 - 2026-10-31 14:19 Skipped the unused addMenu key removal: add.tsx:67 must be traced first, and that is a later round.
 - 2026-10-31 14:19 Skipped the footnote and row 89 items: both are blocked on Isa with no new information.
 - 2026-10-31 14:19 Ran no tests: the round changes only the markdown gap file, so the checkpoint result (tsc 0, jest 65/824) still holds.
+- 2026-10-31 14:21 Kept the read-only verification round first, not the TodayCard/MuscleChart padding that Jev ranked first at 92%. Reason: the notes rule says a flagged report is cleared by a read-only round before build work, and the padding change touches the same gym files, so it needs a clean baseline first.
+- 2026-10-31 14:21 Scoped the checks to the changed files (tsc once, gym and hydration tests) instead of the full suite, per the testing rules. The full suite stays for the next checkpoint.
+- 2026-10-31 14:21 Used a key count as the one read-only check, to confirm the locale parity baseline before any key removal.
+- 2026-10-31 14:21 Streak footnote stays blocked. Row 82 wording and the gap section will be reconciled after Isa answers, not before.
+- 2026-10-31 14:21 Plan for the round after: the padding change for TodayCard and MuscleChart, with the design file and gap row named and the type check run once.
