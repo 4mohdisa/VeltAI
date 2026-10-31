@@ -1331,3 +1331,8 @@
 - 2026-10-31 15:33 Restated the branch-only rule at the top of the prompt. Reason: the loop note rejected the last prompt for omitting it.
 - 2026-10-31 15:33 Deferred the summaryNoFabrication guard fix to its own round. Reason: it is a separate surface and must not be mixed into a snapshot task.
 - 2026-10-31 15:33 Ran tsc once and skipped the full Jest suite. Reason: the testing rules keep Claude Code usage low, and this is not a checkpoint round.
+- 2026-10-31 15:35 Chose the Macros row close-out first because the loop note flagged R12 as partly done. The report never opened design/Lume App.html and left the Macros gap row unedited, so finishing it clears the flag before moving on.
+- 2026-10-31 15:35 Kept the round doc-only with one tsc run. Gap-doc edits get their own round under the notes rule, and no Jest run is needed.
+- 2026-10-31 15:35 Treated the two new numbers in the snapshot (260 kcal remaining, 1,840 of 2,100) as passing because they match en.json text and the arithmetic. The design check in step 2 will confirm the layout intent.
+- 2026-10-31 15:35 Left summaryNoFabrication guard fix for the next round, since it is a test change and should not share a round with a doc edit.
+- 2026-10-31 15:35 Jev signals were advisory only. Its run confidence was 80%, which agrees with my choice, so no re-think was needed.

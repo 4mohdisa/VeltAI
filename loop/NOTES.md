@@ -23,14 +23,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R11: snapshot re-record approved by default, since the R10 diff is key text versus real text. Re-record only after the full diff is read and confirmed as key-to-text changes only.
 
 ## Status
-BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, one-row streak strip, Goals, plan.whyThisPlan, lastLoggedLabel, Macros kicker, load-failure t() calls, gym.loadingSessions, saved.tsx title, TodayCard padding/title/sub-line/rest and branch order, MuscleChart padding, row 295, /gym/session wording, EnergyBalanceCard wrapped (R9), i18n import in render setup (R10).
+BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, one-row streak strip, Goals, plan.whyThisPlan, lastLoggedLabel, Macros kicker, load-failure t() calls, gym.loadingSessions, saved.tsx title, TodayCard padding/title/sub-line/rest and branch order, MuscleChart padding, row 295, /gym/session wording, EnergyBalanceCard wrapped (R9), i18n import in render setup (R10), macros snapshot re-recorded (R12, key-to-text diff only).
 - Row 113 TodayCard: DIFFERENT. Null on schedule fetch failure with no error copy (gymSchedule.ts:38-40).
 - Keys: en 169, es 171, fr 169, plus six dashboard.energyBalance in each.
 - Last full run R312 green (65 suites, 824 tests). tsc exit 0 after R10. Round 8 checkpoint result unknown: full tsc and Jest owed.
-- Render suite: 61 of 62 after R10. The macros snapshot is the one failure, and it stores key names.
+- Render suite: 61 of 62 after R10. R12 re-recorded the macros snapshot; the render folder has not been rerun since.
 
 ## Next
-1. IN PROGRESS (R12): re-record detailChrome macros snapshot under the key-to-text diff gate. Prompt names branch rule, design/Lume App.html and the Macros row. Check the report: DONE should list only the snapshot file. If the gate failed, park it under Blocked and move on.
+1. IN PROGRESS (R13): close the Macros row. Read design/Lume App.html macros section against the re-recorded snapshot. Edit only the Macros row in DESIGN_GAP_ANALYSIS.md. tsc once, no Jest. The R12 report never opened the design file or edited the row, which is why R12 was flagged.
 2. summaryNoFabrication.test.ts:38 checks label="Burned" then target=, which no longer exists, so it cannot fail. Restore a check that can fail.
 3. Review render tests that match key names by luck (energyBalanceCard 'deficit').
 4. Logged-day sheet: design hides log sheet once logged; app shows it from + menu. Decide from design/, own round.
@@ -48,7 +48,7 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Footnote '23 sessions · 2 freezes'. Row 89 photo gallery or text list. Row 23 one-tap log. Row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Device runs: all BUILT surfaces, load-failure messages, plurals, streak strip, 'My dishes', TodayCard states, row 295 with planned cardio.
-- Freestyle row 299: whether 'No' stays. Native es/fr review of all new strings.
+- Freestyle row 299: whether 'No' stays. Native es/fr review of all new strings, including the six dashboard.energyBalance keys.
 - Group names: food.loadFailed vs foodLog; gym.loadFailed; profile.loadFailed.
 - Override es emptyMessage. Remove es voice and describeOutLoud.
 - Training list keep or remove (gym.tsx:153 only link to /gym/schedule).
@@ -57,6 +57,7 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Confirm loop script writes loop/NOTES.md and loop/DECISIONS_LOG.md.
 - Energy balance: eight literals stay English? Confirm or translate.
 - PARKED, DO NOT RETRY: gap doc line 284 wording. Retry only in a tsc round after Isa confirms.
+- Macros snapshot: two lines now show numbers (260 kcal remaining; 1,840 of 2,100). Isa to confirm the wording is right on device.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -66,11 +67,12 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Server: GetToday clears is_rest_day when a template exists.
 - fr: 'Ajouter a {{slot}}'; plan.addTitle 'Add to' in es and fr.
 - Global SegmentedField inset; single scanner; chip padding; '14-day streak' hyphen.
-- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56.
+- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; i18next console.info noise in render test output.
 - Recipe fibre saved as 0; detail num() rounds. Long-press meal delete not discoverable.
 - Unused: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - 'Only some of it' (gap ~191): check if stale.
 - Energy literals kept English: 'Energy balance detail' (EnergyBalanceCard 131, 148); error and empty lines at 135, 164, 165, 184, 191.
+- Gap file EnergyBalanceCard line says strings are wrapped; eight literals remain English. Fix wording in its own round.
 
 ## Gotchas
 - Edit tool writes plain space for NBSP and plain apostrophe for U+2019. Use node escapes.
@@ -81,9 +83,11 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Loop note rule: a prompt must name the matching design/ file and the gap row. Check this before sending.
 - Every Claude Code prompt must state 'work only on loop/design-match' near the top. R11 was rejected without it.
 - Snapshot re-record: read the full diff to a file first, never a cut-off part.
+- A report that reads DONE without the design file opened or the gap row edited is partly done. Check the prompt's steps against DONE before accepting it.
 
 ## Round log
 - R9: EnergyBalanceCard wrapped. Render test failed (no i18n). Flagged.
 - R10: i18n import added to setup.ts. tsc 0. Render 61 of 62; macros snapshot stores key names. Flagged.
-- R11: prompt rejected for not naming design/ file. Rewritten: names design/Lume App.html and the Macros row, adds diff-read gate. Report: 21-line diff, read only the first 70 lines, judged key-to-text. Snapshot not yet re-recorded. Flagged: summaryNoFabrication guard can no longer fail.
-- R12: prompt rejected for missing branch rule (loop note). Rewritten: branch rule at top, full-diff gate, single snapshot, tsc once, no full suite. Sent as the re-record round.
+- R11: prompt rejected for not naming design/ file. Rewritten. Report: 21-line diff, read only the first 70 lines, judged key-to-text. Snapshot not re-recorded. Flagged: summaryNoFabrication guard can no longer fail.
+- R12: prompt rejected for missing branch rule. Rewritten with branch rule, full-diff gate, single snapshot, tsc once. Report: snapshot re-recorded after full 314-line diff read; 21 lines changed, all key-to-text; tsc 0; no Jest rerun. Flagged as partly done: design/Lume App.html not opened and Macros gap row not edited.
+- R13: close the Macros row (doc only). Prompt sent. Chosen over the summaryNoFabrication guard fix and the logged-day sheet decision.
