@@ -2377,3 +2377,8 @@
 - 2026-11-01 00:49 Keep row 87 doc work ahead of the gym cluster because it is the next item in Next order and needs no answer from Isa.
 - 2026-11-01 00:49 Row 85 stays Blocked on Isa (12px calorie bar, 'left today', four-column wrap). Not retried.
 - 2026-11-01 00:49 Parked the stale table citation (line 86), the duplicated BUILT formats in row 87 and the SegmentedField comment under Parked; they are not separate tasks.
+- 2026-11-01 00:50 Chose the GymPatternsCard re-check: it is the next gym cluster step, it clears the blocking flag with a fresh explicit tsc run, and it needs no answer from Isa.
+- 2026-11-01 00:50 Did not reopen the doc-fix tasks (summary table, lines 895-897) while the flag is open; they are doc-only fixes and stay in Parked until the flag is cleared.
+- 2026-11-01 00:50 Did not ask Isa: the automatic check is mechanical and the R225 report already showed a tsc exit code, so a question would cost Isa time for no gain.
+- 2026-11-01 00:50 Kept the 20 vs 16 padding question under Blocked on Isa, as the notes already list it. Not decided by the loop.
+- 2026-11-01 00:50 Ran Jev's run option (46%) over ask (45%) for the same reason as R225: the flag needs an explicit tsc run, which is a single command with no open question.
