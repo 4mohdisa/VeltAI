@@ -1697,3 +1697,8 @@
 - 2026-10-31 20:19 Told Claude Code to stop and report BLOCKED if StreakCounter does not exist, rather than guess a replacement file.
 - 2026-10-31 20:19 Rewrote the prompt to name branch loop/design-match and forbid git, because the last prompt was rejected for omitting it.
 - 2026-10-31 20:19 Added the line-82 note as an append on the same line, so no citations move.
+- 2026-10-31 20:20 Chose the flagged-check fix first because the loop note requires it before moving on. The report named no changed-file test, so I asked for jest --findRelatedTests on StreakCounter.tsx, which is the changed-file test run the testing rules call for.
+- 2026-10-31 20:20 Did not ask Isa about the gap line 82 placement. The reason cell there is the freeze-sheet row, and StreakCounter is not part of the freeze sheet. Claude Code is told to quote the text and report only, and Isa can decide with the evidence in hand.
+- 2026-10-31 20:20 Did not allow the header comment fix or the colour token changes this round. They are separate problems and go under NEXT.
+- 2026-10-31 20:20 Marked StreakCounter as BUILT (not verified) in the notes, pending this round's check.
+- 2026-10-31 20:20 Moved the StreakCounter entry from in-progress to the flagged-check item.

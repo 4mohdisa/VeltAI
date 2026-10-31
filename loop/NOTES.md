@@ -25,15 +25,16 @@ Match design/Lume App.html through DESIGN_GAP_ANALYSIS.md rows. Branch loop/desi
 - Nutrition gap row: DESIGN_GAP_ANALYSIS.md line 103. Accepted R82. Verdict stays DIFFERENT until the macro history chart exists.
 - Gym freeze sheet (src/app/gym/freeze.tsx) kept as built. App-only, not in the design. Removing it is a parked decision, not a build task.
 - Every Claude Code prompt must name branch loop/design-match and forbid git commands. (Added R84 after a rejected prompt.)
+- Gap-row placement must be checked against the row's subject before a reason sentence is added. (Added R85 after StreakCounter's sentence landed on the freeze row, line 82.)
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre at 1 dp; saved-food fibre; citations; macro totals; quick add rounding; nutrition.tsx strings via t() (R82, es/fr unreviewed); gym/freeze.tsx strings via t() (R83, es/fr unreviewed).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds; food detail macros and fibre at 1 dp; saved-food fibre; citations; macro totals; quick add rounding; nutrition.tsx strings via t() (R82, es/fr unreviewed); gym/freeze.tsx strings via t() (R83, es/fr unreviewed); StreakCounter caption via t() (R84, pending R85 check; gap line 82 placement unconfirmed).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last checkpoint R77 green. Next checkpoint R91.
 No test covers decimal macros, quickAdd, fibre write or read-back, or saved.tsx toEditable.
 
 ## Next (in order)
-1. R84 (in progress): StreakCounter string wrap. Locate the file first; if missing, BLOCKED.
+1. R85 (in progress): close the flagged StreakCounter check. Run tsc and jest --findRelatedTests on StreakCounter.tsx. Report the text at gap line 82 for review.
 2. String wrap, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 3. Separate rounds: dashboard/week.tsx, dashboard/training.tsx, energy.tsx (reuse nutrition keys).
 4. TodayCard strings: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
@@ -51,7 +52,9 @@ No test covers decimal macros, quickAdd, fibre write or read-back, or saved.tsx 
 16. summaryDetails.test.ts:65 checks source for 'Breakdown'. Replace with a render check in its own round.
 17. nutrition.tsx:120 '80%' vs '80 %' locale rule, own round.
 18. nutrition.tsx:164 and :180 show meal.slot raw. Check translation, own round.
-19. No rows left: stop with 'only owner decisions remain'.
+19. StreakCounter.tsx header comment line 2 says Gym tab; it is used on Profile and the streak screen. Fix in its own round.
+20. StreakCounter.tsx colour tokens (color.black, gray400, gray500) vs color.label and color.secondaryLabel. Own round.
+21. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or change toast? /gym/session writes a second row (mutations.ts:173-178).
@@ -68,6 +71,7 @@ No test covers decimal macros, quickAdd, fibre write or read-back, or saved.tsx 
 - Volume fix, show or accept. Heatmap wording. Calories cell needs backend field.
 - Try again hardcoded English, small tap target.
 - Freeze sheet (gym/freeze.tsx): app-only, no design row. Kept as built. Isa to confirm that naming the file on gap line 82 is acceptable, and whether the freeze screen stays (this gates Next item 5).
+- StreakCounter wrap sentence at gap line 82: the freeze row, not StreakCounter. Isa to confirm which row the sentence belongs on, or whether it should be removed.
 
 ## Parked
 - Quick add serving: FoodResult (src/lib/mock/data.ts:124) has no serving data.
@@ -84,9 +88,10 @@ No test covers decimal macros, quickAdd, fibre write or read-back, or saved.tsx 
 - Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if a profile field is undefined.
 
 ## Accepted limits
-Summary guard cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0, so a true 0 g food shows no tile. Saved-food edits local only. No tests for saved-food fibre, toEditable or decimal macros. Nutrition es/fr unreviewed. Freeze sheet strings es/fr unreviewed and untested by render.
+Summary guard cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses > 0, so a true 0 g food shows no tile. Saved-food edits local only. No tests for saved-food fibre, toEditable or decimal macros. Nutrition es/fr unreviewed. Freeze sheet strings es/fr unreviewed and untested by render. StreakCounter es/fr unreviewed; no test names the component.
 
 ## Round log
 R9-R82: most surfaces built. Checkpoints R34, R48, R61, R77 green. R82: nutrition strings wrapped in t(); tsc 0; 3 suites, 61 tests.
 R83: gym/freeze.tsx four literals wrapped in t(), keys added to en/es/fr, gap line 82 annotated. BUILT. tsc 0; 2 suites, 11 tests (source-read tests only; no render test).
-R84: prompt rejected for omitting the loop/design-match branch rule. Rewritten with branch and git rules. StreakCounter wrap assigned.
+R84: prompt rejected for omitting the loop/design-match branch rule. Rewritten with branch and git rules. StreakCounter caption wrapped in t() with gym.dayStreak; tsc 0; no related tests found. Sentence added to gap line 82, which is the freeze row, not StreakCounter.
+R85: loop note flagged R84 (checks not run or failed). Re-running tsc and jest --findRelatedTests on StreakCounter.tsx. No gap-doc edit this round; line 82 text reported for Isa.
