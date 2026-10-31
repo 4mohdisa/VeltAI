@@ -1128,3 +1128,8 @@
 - 2026-10-31 14:06 Stale reference food/saved.tsx:83 removed from the queue. It is a closing tag, not a literal.
 - 2026-10-31 14:06 Saved-foods literal work is now sequenced: title (:76) first, since the design wording My dishes is confirmed. Other saved.tsx strings follow.
 - 2026-10-31 14:06 Did not ask Isa about the title change. Design file wins by default; the copy change is recorded here and in the gap row when built.
+- 2026-10-31 14:07 Chose the saved.tsx title change over the gym.tsx literals: it is the queued Next step 2, it needs nothing from Isa, and the base is green after the R287 read-only check.
+- 2026-10-31 14:07 Kept run over Jev's ask (66%): the task is fully specified, the design already settles the wording, and the 'decide row 89 first' concern only affects the photo gallery rebuild, not a title string.
+- 2026-10-31 14:07 Used the design wording 'My dishes' for en, with Spanish and French wording written for native review, as already decided in the notes.
+- 2026-10-31 14:07 Named the key food.savedTitle, beside food.loadFailed and food.savedLoadFailed.
+- 2026-10-31 14:07 Record the change on row 89 as a note only and do not change the row status, because the photo gallery layout is not built.

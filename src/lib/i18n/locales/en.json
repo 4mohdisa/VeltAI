@@ -112,7 +112,8 @@
   },
   "food": {
     "loadFailed": "Couldn't load today's food log.",
-    "savedLoadFailed": "Couldn't load your saved foods."
+    "savedLoadFailed": "Couldn't load your saved foods.",
+    "savedTitle": "My dishes"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

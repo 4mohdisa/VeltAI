@@ -114,7 +114,8 @@
   },
   "food": {
     "loadFailed": "No se pudo cargar el registro de comidas de hoy.",
-    "savedLoadFailed": "No se pudieron cargar tus comidas guardadas."
+    "savedLoadFailed": "No se pudieron cargar tus comidas guardadas.",
+    "savedTitle": "Mis platos"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",
