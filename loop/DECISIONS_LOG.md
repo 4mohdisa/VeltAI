@@ -2664,3 +2664,8 @@
 - 2026-11-01 07:26 Footnote spacing: I am deciding without asking Isa. The footnotes should move onto SettingsList's existing footer prop, which gives the design's gap 8 and side padding 4 with no shared-component change. Done in a later round in privacy.tsx only; the literal 22 stays until then.
 - 2026-11-01 07:26 No doc edits this round, since doc fixes are only allowed in re-check rounds.
 - 2026-11-01 07:26 Snapshot changes stay blocked; no jest -u.
+- 2026-11-01 07:27 Chose the planned row 107 footnote fix over Jev's row 108 pick: the R288 decision already set this step, it is one file, and the flagged check is now cleared (tsc 0, 4 suites 49/49 pass).
+- 2026-11-01 07:27 Told Claude Code not to edit the gap doc this round, because doc fixes happen only in re-check rounds.
+- 2026-11-01 07:27 Told Claude Code to stop and report if a snapshot fails, rather than update it, because snapshot updates need Isa approval.
+- 2026-11-01 07:27 Kept the footer-prop route (no SettingsList change) because the decision says privacy.tsx only.
+- 2026-11-01 07:27 Treated the loop note 'flagged: looks only partly done' as resolved by the flagged check result; row 107 stays PARTIAL until its headers, AI group and export are also fixed.

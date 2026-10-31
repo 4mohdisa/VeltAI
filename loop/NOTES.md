@@ -16,12 +16,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour color.primary.
 - A repeated unanswered blocker is parked, not asked again until Isa raises it.
 - Every prompt states the loop/design-match branch rule.
-- Privacy footnotes go onto SettingsList footer prop (decided R288, done in a later round, privacy.tsx only).
+- Privacy footnotes go onto SettingsList footer prop (decided R288, done R289, privacy.tsx only).
 
 ## Status
-- R288: flagged check on row 107 (tsc and tests not run) issued as the next task. Jev's row 108 pick overridden for this reason.
+- R289: flagged check cleared (R288: tsc 0, 4 suites 49/49, no snapshots). Row 107 footnote spacing to footer prop issued. Row 107 stays PARTIAL (headers, AI group, export still differ).
+- R288: flagged check on row 107 issued. Jev's row 108 pick overridden for this reason.
 - R287: prompt for row 107 Privacy gap 22 issued. Footnotes widened to 22 (design 8); fix pending.
-- R286: flagged check (tsc and jest) still not run. Now handled in R288.
+- R286: flagged check still not run; handled in R288.
 - R285: rows 107, 108, 109, 111, 113 re-checked (PARTIAL, doc only). Lines 110 and 112 checked earlier.
 - Summary 1-30 re-checked. Built: food title block and eyebrow (row 85, still DIFFERENT); Summary 14, 25, 26, 27; header height 82 EXACT.
 - Macros card gap 16 done in dashboard/nutrition.tsx (row 103, still DIFFERENT).
@@ -36,7 +37,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - 87 DIFFERENT: 180ms Meal chip transition Blocked.
 - 103 DIFFERENT: week.tsx and training.tsx gap 12. Kicker and dots Blocked.
 - 104 PARTIAL: Steps card Blocked.
-- 107 PARTIAL: Privacy gap 22 (flagged check R288; footnote spacing to footer prop next); headers, AI group, export via share sheet.
+- 107 PARTIAL: Privacy footnote spacing (R289 issued); headers, AI group, export via share sheet.
 - 108 PARTIAL: Support gap 20; eyebrow copy; feedback opens Mail.
 - 109 PARTIAL: About gap 26; wordmark tracking 0 vs -0.6; header app-only.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
@@ -45,15 +46,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - 114-118: not yet re-checked.
 
 ## Next
-1. Row 107 flagged check: tsc and related jest (R288).
-2. Row 107 footnotes onto SettingsList footer prop; remove the literal 22 from privacy.tsx:62 (privacy.tsx only).
-3. Row 108 Support gap 20.
-4. Re-check rows 114-118 (doc only).
-5. Row 109 About gap 26, with its header decision.
-6. Row 103 week and training gap 12 to 16, after snapshot approval.
-7. If Isa approves DetailChart.tsx: row 103 kicker and dots.
-8. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
-9. No rows left: stop with 'only owner decisions remain'.
+1. Row 107 footnotes onto SettingsList footer prop; remove the literal 22 from privacy.tsx (R289, issued).
+2. Row 108 Support gap 20 (support.tsx:29).
+3. Re-check rows 114-118 (doc only).
+4. Row 109 About gap 26, with its header decision.
+5. Row 103 week and training gap 12 to 16, after snapshot approval.
+6. If Isa approves DetailChart.tsx: row 103 kicker and dots.
+7. Energy balance net sign, difference 12 (EnergyBalanceCard.tsx:155).
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome.render.test.tsx. Parked; not asked again until Isa raises it.
@@ -84,7 +84,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows (42 data rows, counte
 - Code: easing bezier and SLOT_KEYS duplicated; mixHex; console.warn hooks.ts:56; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8 comment.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving missing (mock/data.ts:124); editSavedFood local only.
-- Tests: none cover CaloriesCard, quick-add, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height, '+' sign, chooser.
+- Tests: none cover CaloriesCard, quick-add, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height, '+' sign, chooser, Privacy layout.
 - Doc: stale lines 236, 310, 430-431, 438, 448, 534, 588, 1520; row 85 citations; row 112 says EXACT; row 104 says BUILT where list says EXACT.
 - Privacy title block paddingBottom 4 (Screen.tsx:117) makes space under title 26, not 22.
 - Privacy hardcoded English remains.
@@ -103,3 +103,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 ## Jev
 - R287: run 85%, ask 14%. Kept run. Reason: gap build needs no Isa answer.
 - R288: run 68%, ask 31%. Jev ranked row 108 first (81%). Kept the flagged check first: the flag must be cleared before moving on, which Jev cannot see.
+- R289: run 79%, ask 20%. Jev ranked row 108 first. Kept row 107 footnote step: decided in R288, one file, flagged check now cleared.

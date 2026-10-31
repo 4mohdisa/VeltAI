@@ -8,8 +8,6 @@ import { router, type Href } from 'expo-router';
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
 import { showToast } from '@/components/display/toastStore';
-import { Text } from '@/components/primitives/Text';
-import { color } from '@/lib/design/tokens';
 import { api } from '@/lib/api';
 import { hasAiConsent, revokeAiConsent } from '@/lib/ai/consent';
 import { useSettingsStore } from '@/lib/settings/store';
@@ -59,7 +57,7 @@ export default function PrivacyScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow="Your data" title="Privacy" showBack contentStyle={{ gap: 22 }}>
+    <Screen variant="floating" eyebrow="Your data" title="Privacy" showBack>
       <SettingsList
         rows={[
           { icon: 'document-text-outline', label: 'Privacy policy', onPress: () => router.push('/legal/privacy' as Href) },
@@ -68,6 +66,7 @@ export default function PrivacyScreen() {
       />
       <SettingsList
         title="Analytics"
+        footer="First-party only, on our own servers — which features are used, never what you log. Never sold. Off means fully off."
         rows={[
           {
             icon: 'pulse-outline',
@@ -78,13 +77,10 @@ export default function PrivacyScreen() {
           },
         ]}
       />
-      <Text variant="footnote" color={color.secondaryLabel}>
-        First-party only, on our own servers — which features are used, never what you log. Never
-        sold. Off means fully off.
-      </Text>
       {aiConsent === true ? (
         <SettingsList
           title="AI processing"
+          footer="Withdraws your consent for Google Gemini (meal photos) and Anthropic (insight wording). Scanning and AI features stop working until you accept the disclosure again."
           rows={[
             {
               icon: 'sparkles-outline',
@@ -94,14 +90,9 @@ export default function PrivacyScreen() {
           ]}
         />
       ) : null}
-      {aiConsent === true ? (
-        <Text variant="footnote" color={color.secondaryLabel}>
-          Withdraws your consent for Google Gemini (meal photos) and Anthropic (insight wording).
-          Scanning and AI features stop working until you accept the disclosure again.
-        </Text>
-      ) : null}
       <SettingsList
         title="Your data"
+        footer="Your health data stays private. We never sell it, and we run no advertising or tracking SDKs inside the app."
         rows={[
           {
             icon: 'download-outline',
@@ -110,10 +101,6 @@ export default function PrivacyScreen() {
           },
         ]}
       />
-      <Text variant="footnote" color={color.secondaryLabel}>
-        Your health data stays private. We never sell it, and we run no advertising or tracking SDKs
-        inside the app.
-      </Text>
     </Screen>
   );
 }
