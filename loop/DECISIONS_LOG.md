@@ -1575,3 +1575,7 @@
 - 2026-10-31 17:25 Treated the R59 tsc result (EXIT 0) as clearing the flag, so no further re-run is needed.
 - 2026-10-31 17:25 Dropped the stale handover NEXT line (add 1 to session.tsx citations above line 165). R58 and R59 both confirmed the citations are correct, and the notes say handover NEXT lines may be stale.
 - 2026-10-31 17:25 Kept applyGrams, search seed and Food tab seeds out of this task, since they are a separate surface (candidate 2).
+- 2026-10-31 17:27 Chose the checkpoint because the loop note requires a read-only tsc and app Jest run this round; the other two candidates would edit files.
+- 2026-10-31 17:27 R60 result accepted: totals stay whole numbers. The design's Food day card and Summary detail rows use whole numbers; only Food detail macros use 1 decimal (r1 in hDetMacros). Switching totals would move away from the design.
+- 2026-10-31 17:27 Dropped the R60 in-progress item from the Next list; it is closed with no edit.
+- 2026-10-31 17:27 Jev's 'run' call matches my choice; no look-again needed.
