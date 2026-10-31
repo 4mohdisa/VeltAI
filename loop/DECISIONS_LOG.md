@@ -2372,3 +2372,8 @@
 - 2026-11-01 00:49 Chose the tsc re-run first because the loop flagged the last report for missing a type check after its final edit; this is mechanical and needs no question to Isa.
 - 2026-11-01 00:49 Kept run over Jev's 63% ask: the task is a single concrete command with a clear pass or fail result, so asking Isa would add no information.
 - 2026-11-01 00:49 Kept the row 87 Still-open alignment as NEXT, not this round, so this round stays a single task.
+- 2026-11-01 00:49 Run the row 87 doc alignment again, not a bare tsc run: the loop flagged R224 for a missing tsc run, and this round ends with an explicit tsc exit code in the report, which closes that flag.
+- 2026-11-01 00:49 Treat the flag on the last report as addressed by an explicit tsc exit code in CHECKED, since the last report said tsc was run but the loop still flagged it.
+- 2026-11-01 00:49 Keep row 87 doc work ahead of the gym cluster because it is the next item in Next order and needs no answer from Isa.
+- 2026-11-01 00:49 Row 85 stays Blocked on Isa (12px calorie bar, 'left today', four-column wrap). Not retried.
+- 2026-11-01 00:49 Parked the stale table citation (line 86), the duplicated BUILT formats in row 87 and the SegmentedField comment under Parked; they are not separate tasks.

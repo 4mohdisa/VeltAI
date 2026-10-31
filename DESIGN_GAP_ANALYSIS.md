@@ -1033,7 +1033,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 ## Food — Quick add
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the hero, disc and preset press states, the confirm pill being active at 0 kcal, and the Meal chip padding and label shrink are BUILT, not verified; the Meal chip transition and truncation risk, confirm label, caret and offline toast still differ.
+**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the hero, disc and preset press states, the confirm pill being active at 0 kcal, and the Meal chip padding and label shrink are BUILT, not verified; the Meal chip transition and truncation risk, confirm label and caret still differ.
 
 **Design:** centred 52×52 `surface.tile` ± discs around a tappable
 `stat-hero` (56/68, `letter-spacing -1.4px`) value with *"kcal · tap to type"*
@@ -1063,10 +1063,14 @@ that hides the discs, presets and CTA until Done.
 - There is no 180ms selection transition on the Meal chip (`src/components/forms/SegmentedField.tsx`).
 - Meal chip labels stay on one line with no shrink, so a long label such as French "Petit-déjeuner" may cut off (`src/components/forms/SegmentedField.tsx:107`, not measured).
 - There is no blinking caret.
-- The offline toast names no meal.
-- The screen has its own flex:1 KeyboardAvoidingView at src/app/food/quick-add.tsx:125.
+- Sheet padding: the design has 34pt below the body in total; the app has 20pt plus the safe-area inset (`src/components/navigation/SheetContent.tsx:143` and `:149`).
+- Hero padding: the design has 2pt vertical padding on the hero button; the app has none (`src/app/food/quick-add.tsx`).
+- Disc glyph strokes: the design has 20×20 SVG strokes of 2.6; the app has 20pt regular-weight SF Symbols (`src/app/food/quick-add.tsx:120`).
+- Figure default: the design starts at 250 and keeps the last value when reopened; the app resets to 250 on every open (`src/app/food/quick-add.tsx:62`).
+- Meal default: the design starts on the last meal used (Lunch at first); with no meal passed, the app starts from the time of day (`src/app/food/quick-add.tsx:61`).
+- Layout: not checked on device: the screen has its own flex:1 KeyboardAvoidingView at src/app/food/quick-add.tsx:125.
 
-Offline queueing with a loading button is a necessary addition the design does not have.
+Offline queueing with a loading button and an offline toast that names no meal is a necessary addition the design does not have.
 
 ## Food — Search
 

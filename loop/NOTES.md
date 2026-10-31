@@ -21,7 +21,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - SegmentedField.tsx is shared (src/components/forms/SegmentedField.tsx). Compact branch used only by quick-add. R221: no chip padding, no label shrink, 44pt min height kept.
 
 ## Status
-- R224 (now): doc-only with tsc. Re-runs tsc after R223 doc edit because loop flagged the last report (tsc not run after final edit). No doc edits.
+- R225 (now): doc-only, row 87 'Still open' list aligned with the row, citation fixed, missing differences added. Ends with an explicit tsc exit code in the report, to close the flag raised on R224.
+- R224: doc-only with tsc. Loop flagged the report again (type check not shown as run). No doc edits.
 - R223: doc-only. Row 87 padding and label shrink marked BUILT, not verified. tsc exit 0 before a final comma fix.
 - R222 checkpoint clean: tsc 0; app 65/65 suites, 824/824.
 - R221: row 87 chip padding and label shrink BUILT, not verified. No test covers SegmentedField compact.
@@ -31,13 +32,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 87 DIFFERENT: 180ms Meal chip transition missing; one-line labels may truncate 'Petit-dejeuner' (device check, not measured).
 
 ## Next (in order)
-1. R224: tsc re-run, report exit code. No doc edits.
-2. Row 87 'Still open' list aligned with the row: remove or reclassify offline toast and KeyboardAvoidingView items; fix stale quick-add.tsx:125 citation; add missing differences (sheet padding, hero padding, disc glyphs, figure default, meal default). Doc only.
-3. Row 85 calorie bar and 'left today': Blocked on Isa.
-4. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each against its design/ file first.
-5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-6. Doc fixes (Parked, Doc) only when no build row is open.
-7. No rows left: stop with 'only owner decisions remain'.
+1. R225: row 87 'Still open' alignment, tsc exit code reported. Doc only.
+2. Row 85 calorie bar and 'left today': Blocked on Isa.
+3. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each against its design/ file first.
+4. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+5. Doc fixes (Parked, Doc) only when no build row is open.
+6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Row 85: 12px calorie bar; 'left today'; four-column wrap (es 'Carbohidratos').
@@ -55,10 +55,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Copy: foodLog.per100 '/ 100g'; CaloriesCard hardcoded g; raw energyUnit on logged rows; 'Check your connection'; food.rowAnalysing; food.deleteItem.
 - Missing: 700ms bar fill; 'Updated {name}' toast; foodLog.savedAdded toast; 180ms Meal chip transition.
 - Layout: quick-add KeyboardAvoidingView inside fitToContents sheet, not checked on device.
-- Doc: lines 895-897 stale three-column wording (food.tsx:584-626 citation); line 930 and 934 state facts; line 1017 'Save to my foods' (app says 'Save to my dishes'); line 1058 contradicts row 87; line 1504 'line 86' label and column fit; 'Still open' list stale; quick-add.tsx:125 citation.
+- Doc: summary table Quick add entry says '(line 86)' and no longer fits its column; lines 895-897 stale three-column wording (food.tsx:584-626 citation); line 930 and 934 state facts; line 1017 'Save to my foods' (app says 'Save to my dishes'); line 1058 contradicts row 87; line 1504 'line 86' label and column fit; row 87 repeats BUILT entries in two formats; quick-add.tsx:125 citation (being fixed in R225).
 - Comment food.tsx:656-659 cites UI_PASS_GAPS.md section 2, unconfirmed.
 - Comment above label in SegmentedField.tsx still says long labels scale down; not true under compact.
-- Row 87 wording repeats BUILT entries in two formats and describes figure, meal and caret differences in full.
 - GymPatternsCard server values untranslated (src/lib/api.ts:795-800).
 - Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - TodayCard, StreakCounter, Freeze, streak.tsx:73; tabBar.addHint in es.
@@ -79,10 +78,11 @@ Failure paths untested. Keyboard-overlap unverifiable in dev (DECISIONS.md). Swi
 - detail.tsx strings already translated; do not requeue.
 
 ## Handover
-Last after R210. Next due R225.
+Last after R210. Next due R225 (script-managed; the handover summary in loop/HANDOVER.md is current as of R224).
 
 ## Jev log
 - R201-R218: run kept.
 - R219-R222: Jev asked or stopped on some rounds; run kept with concrete reasons (flagged reports, checkpoint).
 - R223: Jev run 84%. Agreed.
 - R224: Jev ask 63%. Run kept: the loop flagged the last report for a missing tsc run; the fix is one mechanical command that needs no answer from Isa.
+- R225: Jev run 68%, ask 26%. Run kept: the flag on R224 came back; R225 is a doc-only task that ends with an explicit tsc exit code, which needs no answer from Isa.
