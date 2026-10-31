@@ -2354,3 +2354,13 @@
 - 2026-11-01 00:44 The compact prop is unused until the next round. Accepted for this step only, and it is named in NEXT so it is not forgotten.
 - 2026-11-01 00:44 Doc row 87 is not edited this round. The doc update waits until the prop is passed and the code is checked.
 - 2026-11-01 00:44 Jev's risk reading (1.4, confidence 0.28) is low confidence, so the task was kept to the smallest change: one optional prop, default unchanged.
+- 2026-11-01 00:46 Kept the checkpoint over Jev's ranking of the row 87 doc fix (86%). Reason Jev cannot see: the loop note mandates a checkpoint, and the last report was flagged for running no tests and for changing SegmentedField behaviour (compact) that no test covers. Verify before the doc fix.
+- 2026-11-01 00:46 Removed the R222 step (quick-add passes compact={true} at quick-add.tsx:190 already). Replaced by a doc-only round R223 for row 87 padding and shrink.
+- 2026-11-01 00:46 Row 87 padding and label shrink are recorded as BUILT, not verified (SegmentedField compact). The 180ms transition stays missing. The French Petit-dejeuner truncation check goes to Blocked on Isa (device check).
+- 2026-11-01 00:46 The row 87 doc fix needs citations refreshed: DESIGN_GAP_ANALYSIS.md lines 1036, 1061 and 1502, plus SegmentedField.tsx line references.
+- 2026-11-01 00:46 Treated the earlier R221 'compact' premise as wrong (the prop already existed). Did not rebuild it. Changed the behaviour in place with the smallest diff, as the brief requires.
+- 2026-11-01 00:46 Kept run, not ask: the loop note requires a read-only checkpoint after the flagged R221 report, and no owner input is needed for it.
+- 2026-11-01 00:46 Rewrote the R222 prompt to name design/Lume App.html (bundle 71f71ac4) and row 87, because the loop note rejected the previous prompt for omitting the design file.
+- 2026-11-01 00:46 Kept the checkpoint read-only, with no file edits, as the loop note requires for checkpoint rounds.
+- 2026-11-01 00:46 Added a read-only design comparison of the compact SegmentedField against the Meal control. It adds no code change and gives the next build a concrete list.
+- 2026-11-01 00:46 Kept the doc-only row 87 fix as R223, as already planned. It stays out of this round to keep the checkpoint read-only.
