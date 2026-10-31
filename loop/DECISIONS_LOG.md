@@ -1490,3 +1490,8 @@
 - 2026-10-31 17:03 Flagged R43 report: the tsc line was printed as 'TSC EXIT 0' but the loop still reads it as not clearly shown. This prompt makes the report print the literal line 'TSC EXIT <number>' from a command that echoes it.
 - 2026-10-31 17:03 Recorded the R43 spotted item 'undated old form' as a doc follow-up in Next, to be handled only as a factual correction later.
 - 2026-10-31 17:03 Kept the row status cell for 'Gym — session logging (log sheet)' in Blocked on Isa, as before. This round does not touch the gap doc.
+- 2026-10-31 17:04 Chose the copy fix: it is smallest, needs nothing from Isa, and clears a named copy mismatch. Jev ranked it second, but its risk is low and it is a plain string.
+- 2026-10-31 17:04 Row 90 merge stays out of this round: the notes list it under Blocked on Isa, and the handover NEXT contradicts that. The Blocked list wins.
+- 2026-10-31 17:04 Already-logged days blocker came back twice (loop note). Kept under Blocked on Isa, not retried, no question asked again.
+- 2026-10-31 17:04 Rest seconds premise check moved behind the copy fix, so the next round has a clear single target.
+- 2026-10-31 17:04 Notes Next list renumbered. Item 1 (stale comment) and the read-only log-session failure check (R35, already passed) are removed from Next.

@@ -536,7 +536,7 @@ export default function GymSessionScreen(): JSX.Element {
             icon="barbell"
             title={today?.is_rest_day ? 'Rest day' : 'Nothing scheduled'}
             message="Add an exercise to log a freestyle session."
-            actionLabel="Add exercise"
+            actionLabel="Add an exercise"
             onAction={() => setPickerVisible(true)}
           />
         ) : (
