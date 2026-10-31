@@ -2660,3 +2660,7 @@
 - 2026-11-01 07:24 Did not pick the energy net sign: notes say built at EnergyBalanceCard.tsx:155, the handover lists it as recommended. Conflict parked for a later re-check.
 - 2026-11-01 07:24 energy.tsx card gap: notes conflict (16 OK vs 12). Marked for re-check before any edit.
 - 2026-11-01 07:24 Rewrote notes under 600 words, merging repeated items and removing finished work.
+- 2026-11-01 07:26 Picked the flagged check over Jev's row 108 ranking: the last report was flagged for tsc and tests not run, and the brief says to deal with a flag before moving on. Jev cannot see this flag.
+- 2026-11-01 07:26 Footnote spacing: I am deciding without asking Isa. The footnotes should move onto SettingsList's existing footer prop, which gives the design's gap 8 and side padding 4 with no shared-component change. Done in a later round in privacy.tsx only; the literal 22 stays until then.
+- 2026-11-01 07:26 No doc edits this round, since doc fixes are only allowed in re-check rounds.
+- 2026-11-01 07:26 Snapshot changes stay blocked; no jest -u.
