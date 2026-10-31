@@ -206,7 +206,13 @@
     "carbs": "Glucides",
     "fat": "Lipides",
     "fibre": "Fibres",
-    "mealsToday": "Repas du jour"
+    "mealsToday": "Repas du jour",
+    "percentOfTarget": "Pourcentage de l’objectif",
+    "macroPercentLabel": "{{macro}} : {{percent}} pour cent de l’objectif",
+    "breakdown": "Répartition",
+    "percentOfTargetShort": "{{percent}} % de l’objectif",
+    "ofTargetGrams": "sur {{target}} g",
+    "noMealsToday": "Aucun repas enregistré aujourd’hui."
   },
   "plan": {
     "suggested": "Suggéré :",

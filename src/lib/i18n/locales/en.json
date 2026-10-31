@@ -206,7 +206,13 @@
     "carbs": "Carbs",
     "fat": "Fat",
     "fibre": "Fibre",
-    "mealsToday": "Meals today"
+    "mealsToday": "Meals today",
+    "percentOfTarget": "Percent of target",
+    "macroPercentLabel": "{{macro}} {{percent}} percent of target",
+    "breakdown": "Breakdown",
+    "percentOfTargetShort": "{{percent}}% of target",
+    "ofTargetGrams": "of {{target}} g",
+    "noMealsToday": "No meals logged yet today."
   },
   "plan": {
     "suggested": "Suggested:",

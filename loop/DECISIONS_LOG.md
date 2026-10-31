@@ -1672,3 +1672,8 @@
 - 2026-10-31 17:48 Prompt tells Claude Code to grep first and make no edit if the seeds are already fixed, because the handover and the last report disagree on this.
 - 2026-10-31 17:48 No question to Isa: the open Isa items do not block this task, and Jev's ask signal is outweighed by the defaults covering it.
 - 2026-10-31 17:48 Doc citation fixes from R80 accepted. Steps 2 to 4 of R80 treated as done or not needed, per the report.
+- 2026-10-31 20:14 Chose run over ask: Jev's 58% for ask is not strong, and the open questions are already in Blocked on Isa, so no new question is needed this round.
+- 2026-10-31 20:14 Chose the nutrition string wrap: it is the next item in Next 9, needs nothing from Isa, and is one file.
+- 2026-10-31 20:14 R81 closed with no edit: the latest report shows the seeds in detail.tsx already store unrounded macros, so the fix is already in place.
+- 2026-10-31 20:14 Did not start editSavedFood server sync, even though the handover NEXT line names it: it is a backend change and is Parked by decision. The notes win over the stale handover line.
+- 2026-10-31 20:14 Did not start the raw item values task: it needs a design decision and no design answer is recorded. Left in Next 4 for a later round.

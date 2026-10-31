@@ -104,7 +104,7 @@ export default function NutritionDetailScreen(): JSX.Element {
       {/* Secondary — each macro against its own target. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <ChartHeader title={t('nutrition.todayAgainstTargets')} note="Percent of target" />
+          <ChartHeader title={t('nutrition.todayAgainstTargets')} note={t('nutrition.percentOfTarget')} />
           {loading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (
@@ -113,7 +113,7 @@ export default function NutritionDetailScreen(): JSX.Element {
                 cols={cols}
                 height={SEC_H}
                 ceiling={`${ceiling}%`}
-                summary={rows.map((r) => `${r.label} ${r.pct} percent of target`).join(', ')}
+                summary={rows.map((r) => t('nutrition.macroPercentLabel', { macro: r.label, percent: r.pct })).join(', ')}
               />
               <Axis labels={rows.map((r) => r.label)} />
               <Text variant="footnote" color={color.secondaryLabel}>
@@ -128,16 +128,16 @@ export default function NutritionDetailScreen(): JSX.Element {
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
-            Breakdown
+            {t('nutrition.breakdown')}
           </Text>
           {rows.map((r) => (
             <BreakdownRow
               key={r.key}
               tint={r.tint}
               label={r.label}
-              sub={`${r.pct}% of target`}
+              sub={t('nutrition.percentOfTargetShort', { percent: r.pct })}
               value={formatNumber(r.data.consumed)}
-              unit={`of ${formatNumber(r.data.target)} g`}
+              unit={t('nutrition.ofTargetGrams', { target: formatNumber(r.data.target) })}
               fraction={r.data.target > 0 ? r.data.consumed / r.data.target : 0}
             />
           ))}
@@ -152,7 +152,7 @@ export default function NutritionDetailScreen(): JSX.Element {
         {meals.length === 0 ? (
           <View style={{ paddingHorizontal: space.xl, paddingBottom: space.xl }}>
             <Text variant="callout" color={color.secondaryLabel}>
-              No meals logged yet today.
+              {t('nutrition.noMealsToday')}
             </Text>
           </View>
         ) : null}

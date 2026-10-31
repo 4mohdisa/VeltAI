@@ -21,22 +21,23 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Tests: tsc once and tests for changed files each round; full suite at checkpoints. A report that skips tests for changed files is flagged.
 - Flagged partial work is closed only by finishing it or stating why it cannot be finished.
 - Macro totals stay whole (hMacroCols, gMacroDefs); one-decimal rounding is only on Food detail.
+- Backend-dependent items (editSavedFood server sync) stay Parked, even if a handover NEXT line names them.
 
 ## Status
-BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds (plannedRows rest_seconds, session.tsx:200); food detail macros and fibre at 1 decimal (MACRO_PRECISION detail.tsx:66, num :402); saved-food fibre read-back (mappers.ts, saved.tsx); citations; macro totals; quick add rounding (type-checked only); saved-food one-tap add logs fibre when > 0 (saved.tsx add action, R78); saved.tsx toEditable fibre check is > 0, matching add (R79, closed; no test covers it, Isa checks on screen). R80 doc citations fixed (detail.tsx line numbers in DESIGN_GAP_ANALYSIS.md).
+BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session rest seconds (plannedRows rest_seconds, session.tsx:200); food detail macros and fibre at 1 decimal (MACRO_PRECISION detail.tsx:66, num :402); saved-food fibre read-back (mappers.ts, saved.tsx); citations; macro totals; quick add rounding (type-checked only); saved-food one-tap add logs fibre when > 0 (saved.tsx add action, R78); saved.tsx toEditable fibre check is > 0, matching add (R79, closed; no test covers it, Isa checks on screen). R80 doc citations fixed. R81 seed rounding: checked, no edit needed (detail.tsx seeds already unrounded).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal macros, quickAdd rounding, fibre write or fibre read-back, or saved.tsx toEditable.
 
 ## Next
-1. DONE (R80): stale detail.tsx citations and stale lines 1011, 1012, 1219 corrected. No further edit needed per report.
+1. DONE (R80): stale detail.tsx citations corrected.
 2. Doc-only: add a gap row or note for saved-food fibre (none exists; closest is Food detail difference 13).
-3. R81 (assigned): seed rounding in detail.tsx (~164-168, ~224). Grep first; edit only if still unfixed. Then (tabs)/food.tsx ~380-382, same rule, separate round.
+3. DONE (R81): seed rounding checked in detail.tsx, no edit needed. (tabs)/food.tsx ~380-382 still to check, same rule, separate round.
 4. Raw item values: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135-144. Needs a design decision first.
 5. Shared macro rounding helper for inline Math.round(x*10)/10 (detail.tsx, quickAdd, label-scan.tsx:40, onboarding/measurements.tsx:25). Park if it needs more than one file.
 6. MACRO_PRECISION comment in detail.tsx omits fibre (doc only).
 7. Logged-day 'Add something extra': follow design copy.
 8. Gap lines 1006 onward unchecked. Line 90 merge. 'no keyboard bar' (~1495) is stale.
-9. Wrap hardcoded strings, one file per round: nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+9. IN PROGRESS (R82): wrap hardcoded strings, one file per round: nutrition.tsx, then gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
 10. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
 11. PlannedValuesForm.tsx:200 'Add exercise' vs design.
 12. add.tsx slotKey (~67). Remove unused keys if confirmed.
@@ -70,9 +71,10 @@ Last checkpoint R77 green: tsc 0, 65 suites, 824 tests. No test covers decimal m
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; i18next console.info banner.
 - Recipe fibre saved as 0; num() rounds grams and kcal; long-press meal delete hidden. Unused keys: dashboard.welcome, gymBedtime, lastLoggedDaysAgo_one.
 - Untraced: other goals.calories screens may show the 1,500 floor; Math.max NaN if a profile field is undefined.
+- Shared macro rounding helper (Next 5): touches several files, parked until it can be done in one file.
 
 ## Accepted limits
 Summary guard test cannot see spread props. Failure paths untested. Null-as-failure assumes getToday never returns null for a real response. Fibre uses fibre > 0, so a true 0 g food shows no Fibre tile. Saved-food edits are local only until the parked backend change. No test covers saved-food fibre write or read-back, saved.tsx toEditable, or decimal macros.
 
 ## Round log
-R9-R77: most surfaces built. Checkpoints R34, R48, R61, R77 green. R78: saved.tsx one-tap add logs fibre > 0 (BUILT, no test, flagged partial). R79: toEditable aligned to > 0 (BUILT). Flag closed: no test covers saved.tsx toEditable; reason stated, not tested. Report's NEXT (editSavedFood server sync) is a backend change, parked. R80: doc-only citation and stale-line fix done; tsc exit 0. R81: seed rounding check in detail.tsx assigned (code, grep first). Next checkpoint R91.
+R9-R77: most surfaces built. Checkpoints R34, R48, R61, R77 green. R78: saved.tsx one-tap add logs fibre > 0 (BUILT, no test, flagged partial). R79: toEditable aligned to > 0 (BUILT). Flag closed: no test covers saved.tsx toEditable; reason stated, not tested. R80: doc-only citation and stale-line fix done; tsc exit 0. R81: seed rounding checked in detail.tsx; no edit needed; tsc and 5 suites (60 tests) passed per report. R82: assigned nutrition screen string wrap (one file, en/es/fr keys). Handover NEXT (editSavedFood sync) not taken: backend, parked. Next checkpoint R91.
