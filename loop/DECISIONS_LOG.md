@@ -1017,3 +1017,13 @@
 - 2026-10-31 13:37 Kept the old string-literal check in hydrationErrorScreens.test.ts, as the R264 report did, because four literal screens still need it.
 - 2026-10-31 13:37 Did not ask Isa about the hardcoded food.tsx wording; the English value is in the file and is kept identical.
 - 2026-10-31 13:37 Used the Jev run signal (run 92%) without change; no reason to override.
+- 2026-10-31 13:39 Chose gym.tsx:106 over the Macros/Today row: it is a locale-only change, needs nothing from Isa, and is the smallest task. Jev also ranked run highest.
+- 2026-10-31 13:39 Kept the English wording identical to profile/index.tsx:103, as the brief asks for hardcoded strings not in design.
+- 2026-10-31 13:39 Used the existing key pattern: a gym group if it exists, otherwise a one-key group like food. Isa can still rename it.
+- 2026-10-31 13:39 Did not touch profile/index.tsx:103 in this round. It is a separate surface and gets its own round.
+- 2026-10-31 13:39 Read R265 as clean: food.loadFailed built, tsc 0, hydration test 10/10. No flag, so no read-only round needed.
+- 2026-10-31 13:39 Chose candidate 1: it needs nothing from Isa, is the smallest change, and Jev ranks it highest (96% run).
+- 2026-10-31 13:39 Named the new key gym.loadFailed, as the notes specify. A gym group is added only if one does not already exist.
+- 2026-10-31 13:39 Named no gap row, because the string is not in DESIGN_GAP_ANALYSIS.md. The prompt says so explicitly.
+- 2026-10-31 13:39 Added the branch rule that the rejected prompt was missing, and kept the prompt under the five-step limit.
+- 2026-10-31 13:39 Rewrote the notes under 600 words: merged repeated items, removed finished work, and kept the decisions, which are never deleted.
