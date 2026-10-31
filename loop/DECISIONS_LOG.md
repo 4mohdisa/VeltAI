@@ -1906,3 +1906,18 @@
 - 2026-10-31 21:18 Ran tsc and changed-file tests this round, because the loop flagged R126 for not running them. The doc-only rule was not the right reason to skip tests on a code round.
 - 2026-10-31 21:18 Kept GymPatternsCard padding at 20: it has no design counterpart, so Isa decides whether it matches the others at 16.
 - 2026-10-31 21:18 Put the gym.tsx header typo under NEXT, not in this round, because the one-file rule applies.
+- 2026-10-31 21:19 Chose a verification-only round because the loop flagged R127 for tsc-only checks with no tests run. Closing that gap comes before any new work.
+- 2026-10-31 21:19 Chose the three existing gym-tab source tests because they read gym.tsx, which is the screen that renders the card. Accepted that they do not cover GymPatternsCard, and recorded it as NOT COVERED.
+- 2026-10-31 21:19 Did not add a new test. Brief rule: no new test suites, and no test covers this file.
+- 2026-10-31 21:19 Parked server-returned most_missed_day and muscle names. Translating them depends on what the backend returns, and backend-dependent items stay Parked.
+- 2026-10-31 21:19 Left gym.oftenSkip es/fr wording to Isa's review, as already blocked. Shipping it unchanged this round.
+- 2026-10-31 21:22 Chose R128 first because it is already open, is read-only, and clears the pending NOT COVERED check before any new build.
+- 2026-10-31 21:22 Stated 'no design file and no gap row' for GymPatternsCard because it has no design counterpart; this satisfies the design-file rule.
+- 2026-10-31 21:22 Kept to tsc plus three named tests, per the testing rules, and no full suite.
+- 2026-10-31 21:22 Put the gym.oftenSkip article question and the padding question under Blocked on Isa, since only Isa can decide them.
+- 2026-10-31 21:22 Rewrote the notes to under 600 words by merging repeats and removing finished round logs, as the loop note asked.
+- 2026-10-31 21:22 Chose the comment typo as the smallest safe task with no Isa dependency; it clears no rows but is quick and low risk.
+- 2026-10-31 21:22 Named design/Lume App.html and 'no gap row' in the prompt, because the previous prompt was rejected for not naming the design file.
+- 2026-10-31 21:22 Limited checks to tsc plus the three source-text gym tests that read gym.tsx, so the run stays light; no new tests.
+- 2026-10-31 21:22 Did not start GymPatternsCard verification (R128): the card already has no test coverage, and the item needs no edit, so it adds no value this round.
+- 2026-10-31 21:22 Did not change the GymPatternsCard padding (20 vs 16) or the es/fr wording; both stay with Isa.

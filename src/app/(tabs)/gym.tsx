@@ -1,6 +1,6 @@
 // D1 · Gym log (default)
 // Design-file pass: a grey page with a floating blurred header — date eyebrow +
-// large "Gym" title inside the scroll, then the streak strip, the month
+// large "Gym" title inside the scroll, then the streak strip, the
 // month calendar, today's session, muscle focus, gym habits, the log CTA and the
 // training list. Same data, same routes; only the surfaces changed.
 import { useCallback, useMemo, useState } from 'react';
