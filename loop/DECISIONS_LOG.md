@@ -1137,3 +1137,7 @@
 - 2026-10-31 14:09 Kept the run over ask: the check needs nothing from Isa and the base is green at R287, so the question on row 89 can wait.
 - 2026-10-31 14:09 Parked the row 89 table fix and the stale saved.tsx comments until the check shows exactly what is wrong.
 - 2026-10-31 14:09 Left the on-screen wording mismatch ('Search saved', 'No saved foods yet') for later: the row 89 decision may remove these strings.
+- 2026-10-31 14:11 Jev put 86% on ask. Kept run, because the row 89 question is already in Blocked on Isa from R288 and R289, and asking it again repeats an unanswered blocker. The comment fix does not depend on the row 89 decision and is not a product choice.
+- 2026-10-31 14:11 Chose the saved.tsx comment fix as the smallest task that needs nothing from Isa. It is the first item in the R289 report's fault list and it touches one file.
+- 2026-10-31 14:11 Left row 89 status and the gap-file note untouched this round. Moving the note into row 89's reason cell is a later gap-file task, to keep this round to one file.
+- 2026-10-31 14:11 Left the on-screen 'saved' strings alone. They wait on the row 89 decision, as the notes already say.

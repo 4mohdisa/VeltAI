@@ -29,18 +29,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Snapshots show raw keys. Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- R288 flagged as partly done. Row 89 note added as a table row with empty cells (may break the table). saved.tsx lines 1 and 5 have stale 'Saved foods' comments. On-screen text still says 'Search saved', 'No saved foods yet', 'Removed from saved.', 'Unsave'.
+- R288 flagged as partly done. Row 89 note added as a table row with empty cells (checked R289: table intact, 3 cells per row). saved.tsx lines 1 and 5 have stale 'Saved foods' comments; R290 fixes these. On-screen text still says 'Search saved', 'No saved foods yet', 'Removed from saved.', 'Unsave'.
+- Row 89 note has empty first two cells, so it reads only under row 89. Move it into row 89's reason cell in a later gap-file round.
 
 ## Next
-1. R289 (current): read-only check of R288 (tsc, hydrationErrorScreens, row 89 table, saved.tsx:76, key values). No edits.
-2. Fix row 89 note format and saved.tsx comments only if the check finds a fault. One file per round.
+1. R290 (current): fix saved.tsx comments at lines 1 and 5 to 'My dishes'. Comments only. tsc only.
+2. Move the row 89 note into row 89's reason cell (gap file, one round).
 3. Isa decides row 89: text list or photo gallery. Until then, no more saved.tsx strings.
 4. Re-grep gym.tsx literals: :56, :102, :114, :123, 'My schedule', 'My workouts'.
 5. profile/index.tsx :62, :82-83; (tabs)/index.tsx :150 and :115 (add dashboard.streakLoadError to test key list).
 6. EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15.
 7. Read and wrap: gymRange.ts, TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
 8. Add sheet icons to design SVGs. food.tsx ~:445-447 empty-list copy.
-9. Gap file: row 82, heading ~:414, ranges ~:393 and ~:420 (now two lines out).
+9. Gap file: row 82, heading ~:414, ranges ~:394 and ~:421 (now one line out after the row 89 note).
 10. Full Jest at next checkpoint.
 11. Remove es voice and describeOutLoud only after Isa approves and search confirms no use.
 12. If no rows remain: stop with 'only owner decisions remain'.
@@ -53,9 +54,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Group names: food.loadFailed vs foodLog; gym.loadFailed beside gymLog; profile.loadFailed same text as gym.loadFailed (by request).
 - Override es emptyMessage; remove es voice and describeOutLoud.
 - Training list: app-only row or removed.
-- Streak footnote: (a) add gym.streakSessions and gym.streakFreezes in en, es, fr; (b) streak.totalGymDays as session count; (c) separate plural keys.
+- Streak footnote: (a) add gym.streakSessions and gym.streakFreezes in en, es, fr; (b) streak.totalGymDays as session count; (c) separate plural keys. Design sample '23 sessions · 2 freezes', footnote style, secondary label, margin-left:auto.
 - Record Macros and Profile changes in gap file? (Profile row 94 DIFFERENT.)
-- Row 89: photo gallery with 'New dish' tile, or keep text list?
+- Row 89: photo gallery with 'New dish' tile, or keep text list? Asked R288; still open. Do not ask again without new information.
 - food.savedTitle and addMenu.myDishes share text in all three locales. Update both if wording changes. addMenu.savedFoods looks unused.
 
 ## Parked (not v1)
@@ -77,13 +78,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Edit tool writes plain space for NBSP and plain apostrophe for U+2019. Use node escapes; check code points.
 - Decode the design with node -e; use String.fromCharCode(39), not \u0027.
 - Render tests have no i18n instance. hydrationErrorScreens reads source and locale text only.
-- Plurals use count. Grep: LC_ALL=C /usr/bin/grep. Quote zsh paths.
+- Plurals use count. Grep: LC_ALL=C /usr/bin/grep. Quote zsh paths. Unquoted (tabs) paths break zsh.
 - Handover summaries can be stale. Check the files.
 - lng fixed to 'en' (src/lib/i18n/index.ts:41); es and fr never show.
-- fr apostrophes mixed. saved.tsx has no dedicated render test.
+- fr apostrophes mixed. saved.tsx has no dedicated render test. npx jest saved finds no tests.
+- Gap file lines below 90 moved down one; streak citations are now near 394 and 421, with old gym.tsx ranges.
+- gym.streakSub does not exist. saved.tsx:83 is only the TextField closing />. Do not reference either.
 
 ## Loop notes
 - R284, R286, R287 flags cleared by read-only checks. R287: tsc 0; fallback suites 5 suites, 133 tests passing.
+- R289: read-only check of R288 passed. tsc 0; hydrationErrorScreens 10 of 10; 'My dishes' matches en, es and fr.
 - Rejected prompts lacked the design/ file. Name it every time.
 - Weak checks: hydration test accepts invented reasons; literal check misses template strings and single quotes; no plural test.
 - R288: Jev asked (66%) on row 89. Kept run: the title is a copy change the design settles.
+- R290: handover happened. Jev asked 86% (confidence 0.79), run 11%. Kept run for the saved.tsx comment fix. Row 89 is already in Blocked on Isa, so asking again would repeat an unanswered question. The comment fix needs no Isa input. Jev's 16% clean-finish estimate is noted; the last report was a clean read-only pass, not a flag.
+- Handover summaries are the only memory of earlier detail. Name files fully in every prompt.

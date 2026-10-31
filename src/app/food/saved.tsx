@@ -1,8 +1,8 @@
-// C13 · Saved foods
+// C13 · My dishes
 // Searchable list of saved / frequent / recent items (mock). Each row has a
 // one-tap + Add that logs straight to today — no scan, AI or edit step. Tapping
 // the row opens the shared item edit sheet, where "Delete item" un-saves it.
-// Reached from the add-menu's "Saved foods" card.
+// Reached from the add-menu's "My dishes" card.
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
