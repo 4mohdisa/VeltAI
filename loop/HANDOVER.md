@@ -1,41 +1,39 @@
 HANDOVER: LumeAI, branch loop/design-match. No git commands, pushes, merges or branch switches; the loop script commits. Do not open loop/NOTES.md or loop/DECISIONS_LOG.md. Say BUILT, never verified; Isa verifies. Source of truth: design/Lume App.html. Expo docs rule is in AGENTS.md.
 
 BUILT THIS SESSION (not verified; es and fr unreviewed)
-- src/components/display/LoadFailedNotice.tsx: message prop required, default and its key removed, header comment corrected.
-- src/app/(tabs)/gym.tsx: Training list title and four row labels via t() (gym.training, mySchedule, myWorkouts, applyStreakFreeze, sessionHistory).
-- src/app/dashboard/week.tsx, src/app/dashboard/training.tsx, src/app/energy.tsx: Breakdown label via t('dashboard.breakdown').
-- src/__tests__/summaryDetails.test.ts: all four detail routes strictly checked (macros expects t('nutrition.breakdown')). Source text only.
+- Copy moved to t(): src/app/dashboard/week.tsx, training.tsx, src/app/energy.tsx (also stable Breakdown row ids), src/components/gym/GymPatternsCard.tsx, src/app/(tabs)/food.tsx (two ErrorState messages, Food title, Calories title).
+- src/components/domain/StreakCounter.tsx: label, secondary and tertiaryLabel tokens; caption now color.label; comment fixed.
+- src/app/(tabs)/gym.tsx: comment typo only.
 - Locales: src/lib/i18n/locales/{en,es,fr}.json.
 
 GAP ROWS
-No status cell or header count changed. Reason-cell lines added: 82 (freeze label; this also removed its stray <br>) and 112 (Training list labels).
+No status or header count changed. Reason lines added or corrected: 76 (Try again lives in LoadFailedNotice.tsx), 85 (Food titles), 112 (padding claim corrected: only GymPatternsCard keeps 20). Lines 436 and 1505 citations were correct; left alone. No rows exist for week, training or energy.
 
 IN PROGRESS: nothing.
 
 LAST CHECKS
-tsc exit 0 after the final edit. Partial runs only: summaryDetails 47 passed; detailChrome render 4 tests, 4 snapshots passed (English Breakdown on all four screens); tabNavigation, oneTapGymLog, hydrationErrorScreens 24 passed, but none touches the gym labels. No full suite this session. No test renders the Training list or Try again label.
+tsc exit 0. Six food source-text tests: 111 passed. summaryDetails and detailChrome: 51 passed, 4 snapshots, last run before the gym and food rounds. No full suite. NOT COVERED: LoadFailedNotice, StreakCounter, GymPatternsCard, Food tab, empty states, es and fr rendering, _one forms.
 
 DECISIONS
-- Removed the default message: all 9 call sites pass their own, so it was unreachable.
-- Gap lines go only where a real table row exists; line 364 has no reason cell, so nothing was written for week.tsx.
-- Used fr and es wording exactly as briefed, flagging conflicts rather than changing them.
+- Kept app English where design copy claims data the app lacks (steps, burn target, weekly target).
+- Calories card reuses gymLog.celebration.calories, as briefed; shared wording risk flagged.
+- food.title is Comida and Repas; alternatives flagged.
+- Didn't set row 85 to BUILT: it covers the whole screen.
+- Corrected brief errors rather than writing false citations.
 
 WAITING ON ISA
-- fr: Détail versus Répartition for Breakdown (recommend Répartition); congélation versus gel (recommend "Appliquer un gel de série").
-- Which row records week.tsx, or whether a Week row should exist.
-- Review es and fr, including new Training labels; device check.
-- Earlier open questions: rename plannedExercisesNoDuration; keep the freeze screen; which row records the StreakCounter wrap; Start workout wording.
+es and fr review; device check (minutesCeiling, eatenAgainstBurned, inAndOut); fr Détail or Répartition; congélation or gel; GymPatternsCard padding 20 or 16; gap rows for detail screens; design wording differences; empty day: four meal cards or "No meals yet"; separate food.caloriesTitle.
 
 NOT FIXED (recommended next: first item)
-- Remaining hardcoded copy in week.tsx, then training.tsx and energy.tsx.
-- Row 112 "padding is 20 vs 16 throughout" may be stale.
-- Stale citations: gap doc line 437 (gym.tsx:94-158), line 1505 (lines 72-75).
-- dashboard.breakdown and nutrition.breakdown duplicate one label.
-- Line 76 doesn't record the Try again change.
-- StreakCounter.tsx stale comment and old tokens; freeze strings at count 1; freeze toast before server reply; TodayCard plan.sub prefix; editSavedFood local only; raw item values; /gym/session second row.
+- CaloriesCard macro names, food.tsx:665-667.
+- Tab label 'Food': LumeTabBar.tsx:38, (tabs)/_layout.tsx:32.
+- Parked: formatRelativeDate, weekdayShort, dayMonth, formatDuration; "of N days" plurals.
+- GymPatternsCard: server day and muscle values untranslated; "85%" format.
+- "Check your connection" invents a cause; "today's" shows on other dates.
+- SLOT_KEYS, food.savedTitle, raw item values; unused StreakCounter props; possible missing accessible prop; duplicate keys across namespaces; freeze strings and toast; TodayCard plan.sub; editSavedFood local only; /gym/session second row.
 
 GOTCHAS
-- Briefs repeat finished work, quote stale lines and wrong paths (src/locales, src/app/training.tsx, dashboard/energy.tsx); check first.
-- test.each assertions are shared across routes.
-- Design copy is encoded: decode from the __bundler/manifest script with node. Lume screens: 7dc211f6, 185bb533, 71f71ac4, b09a5e65.
-- zsh breaks on unquoted globs; quote --include patterns and (tabs) paths. grep exit 1 means no match; use LC_ALL=C /usr/bin/grep.
+- Briefs quote stale lines and wrong premises; check first.
+- Design copy: decode from __bundler/manifest with node. Food is 71f71ac4; energy, week and training details are 185bb533.
+- zsh breaks on unquoted globs and "$s[" inside double quotes; quote (tabs) paths. grep exit 1 means no match; use LC_ALL=C /usr/bin/grep.
+- i18next plurals need both _one and _other; fr treats 0 as one.
