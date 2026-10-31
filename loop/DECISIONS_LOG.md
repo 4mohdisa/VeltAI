@@ -2102,3 +2102,8 @@
 - 2026-10-31 22:52 Did not pick 'Save to my foods' or the saved toast: that is a second string group on the same screen and would make the task two tasks.
 - 2026-10-31 22:52 Told Claude Code to reuse food.unsaveTitle and food.savedRemoved only when their en wording matches exactly, since the notes say unsaveTitle and removeTitle are split in es and fr.
 - 2026-10-31 22:52 Kept the design gap row at 86 with a reason line only, no status change, per the gap-doc rules.
+- 2026-10-31 22:54 Picked the save button and toast: small, one file, no owner input needed, and the next item in the notes.
+- 2026-10-31 22:54 Used design wording 'Save to my dishes' / 'Saved to my dishes' over the app's 'foods' wording, per the design-over-app rule. Recorded so Isa can override.
+- 2026-10-31 22:54 Dropped the draft name from the toast because the design toast has no name.
+- 2026-10-31 22:54 Drafted es and fr wording and marked them for native review; no owner question needed.
+- 2026-10-31 22:54 Jev had run 52% and ask 48% at low confidence. I kept run: nothing here needs Isa's dashboards or devices, and the wording question is answered by the design file. Prefer the smaller task, which this is.

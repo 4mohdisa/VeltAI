@@ -163,7 +163,9 @@
     "deleteItem": "Eliminar elemento",
     "deleteConfirm": "¿Eliminar {{name}}?",
     "deleteToast": "Se eliminó {{name}}",
-    "savedRemoveAction": "Quitar de guardados"
+    "savedRemoveAction": "Quitar de guardados",
+    "saveToDishes": "Guardar en mis platos",
+    "savedToDishes": "Guardado en mis platos"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

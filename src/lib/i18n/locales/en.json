@@ -161,7 +161,9 @@
     "deleteItem": "Delete item",
     "deleteConfirm": "Delete {{name}}?",
     "deleteToast": "Removed {{name}}",
-    "savedRemoveAction": "Remove from saved"
+    "savedRemoveAction": "Remove from saved",
+    "saveToDishes": "Save to my dishes",
+    "savedToDishes": "Saved to my dishes"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

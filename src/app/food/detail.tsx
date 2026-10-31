@@ -318,7 +318,7 @@ export default function FoodDetailScreen() {
                 fat: draft.fat,
                 ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
               });
-              showToast({ message: `Saved ${draft.name} to your foods.`, tone: 'success' });
+              showToast({ message: t('food.savedToDishes'), tone: 'success' });
             }
       }
       remove={
@@ -662,7 +662,7 @@ function DetailForm({
 
         {onSaveToFoods ? (
           <Button
-            title="Save to my foods"
+            title={t('food.saveToDishes')}
             variant="secondary"
             icon="bookmark-outline"
             onPress={() => onSaveToFoods(draft())}

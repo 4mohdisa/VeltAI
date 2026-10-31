@@ -99,7 +99,7 @@ describe('the sheet still carries the capabilities it absorbed', () => {
   });
 
   test('"save to my foods" survives for a logged row', () => {
-    expect(sheet).toContain('Save to my foods');
+    expect(sheet).toContain('food.saveToDishes');
     expect(sheet).toContain('saveFood(');
   });
 
