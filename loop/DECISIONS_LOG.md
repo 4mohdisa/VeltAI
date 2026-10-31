@@ -2542,3 +2542,8 @@
 - 2026-11-01 01:47 Kept run over Jev's ask (83%). Reason: Isa's default is to follow the design. The calendar route already exists and WeekStrip uses it, so the eyebrow only opens an existing screen with no new route or navigation change. Jev cannot see that the route already exists.
 - 2026-11-01 01:47 Superseded the handover's 'RECOMMENDED NEXT: title block' with the eyebrow task, because the title block values were already built in R260.
 - 2026-11-01 01:47 Limited checks to tsc plus the six food.tsx suites, per the testing rules. Full suite is reserved for the next checkpoint.
+- 2026-11-01 01:49 Rejected the last report's NEXT (row 85 calorie bar and 'left today'): both are listed under Blocked on Isa for row 85, so they cannot run.
+- 2026-11-01 01:49 Did not take the four-column wrap for row 85: also Blocked on Isa.
+- 2026-11-01 01:49 Handover says row 85 title block is open, but the notes say R260 built the title block values. Trusting the notes, which are later. The title block gets a re-check in a later doc round.
+- 2026-11-01 01:49 Chose the header re-check: it is item 2 of Next, is doc only, and clears a dependency for the top padding decision.
+- 2026-11-01 01:49 Eyebrow tap, calendar sheet English copy, WeekStrip 'Pick a day' and tap during search go to Parked. Not separate tasks.
