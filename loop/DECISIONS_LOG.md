@@ -2618,3 +2618,8 @@
 - 2026-11-01 02:28 Kept the Workouts and Week stat differences parked. They are separate files and separate rows, and the rule is one surface per task.
 - 2026-11-01 02:28 Told Claude Code not to run -u on any snapshot. The detailChrome macros snapshot is already red and needs Isa's approval, so a snapshot failure here is reported, not fixed.
 - 2026-11-01 02:28 Listed the hardcoded English and stale doc lines under NEXT and Parked, not as tasks, per the stay-on-the-rows rule.
+- 2026-11-01 02:29 Chose the Energy card gap as the next task: it is a row 103 build, needs nothing from Isa, and is one file. Matches Jev's run ranking.
+- 2026-11-01 02:29 Limited the task to energy.tsx. week.tsx and training.tsx stay as separate later tasks to keep one surface per round.
+- 2026-11-01 02:29 Told Claude Code not to update snapshots: a snapshot change needs Isa's approval, and a red snapshot stops the round.
+- 2026-11-01 02:29 Ignored the recommended streak skeleton fix from the last report: it is hardcoded English that the notes already park, not a design row.
+- 2026-11-01 02:29 Did not start the Steps card (row 104) or the DetailChart.tsx edit: both need Isa.

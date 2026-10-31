@@ -49,7 +49,7 @@ export default function EnergyScreen(): JSX.Element {
   const latest = days.length > 0 ? days[days.length - 1] : null;
 
   return (
-    <Screen variant="floating" showBack>
+    <Screen variant="floating" showBack contentStyle={{ gap: space.lg }}>
       <KickerTitle kicker={t('dashboard.energy')} title={t('dashboard.energyBalance.title')} tint={categoryAccent.calories} />
       {loading ? (
         <>
