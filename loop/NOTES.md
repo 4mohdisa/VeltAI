@@ -17,10 +17,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Row 112 accepted deviations (pending Isa): Training list, LoadFailedNotice, lumeFade mount-only and skipped under Reduce Motion, literal -0.6 tracking, 52pt right padding, page gap 14, eyebrow minHeight 26 on wrapper.
 - Doc fixes wait until no build row is open. Grep before acting. Code tidying is never a task. A task flagged twice goes to Blocked on Isa.
 - Every prompt names design/Lume App.html, the gap row, and the branch rule.
+- R252: followed the Summary re-check over Jev's first pick of the same task (Jev confidence 0.02, gap doc only, low risk).
 
 ## Status
-- R251: checkpoint. Full tsc and app suite, no file changes. Clears R250 unclear exit code.
-- R250: checkpoint reported green: tsc 0, 65/65 suites, 824/824 tests. Header matches; top padding differs (pending Isa).
+- R252: Summary bottom padding (design 158) and header height re-check, gap doc only. Dispatched.
+- R251: checkpoint. Full tsc and app suite, no file changes. tsc 0, 65/65 suites, 824/824 tests.
+- R250: checkpoint reported green. Header matches; top padding differs (pending Isa).
 - R246-248: gym header default 82; gym bottom padding 158. BUILT.
 - R240-245: lumeFade, eyebrow, title block, page gap 14. BUILT.
 - R207-235: rows 83, 85, 86, 87 parts; Log button, My schedule card, es/fr copy. BUILT.
@@ -32,15 +34,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 112 PARTIAL: top padding inset-tied (pending Isa). GymPatternsCard typography blocked. Pull-to-refresh app-only.
 
 ## Next
-1. R251 checkpoint (this round).
-2. Re-check Summary bottom padding (design 158, code 100 at 34 inset) and header height vs bundle 185bb533. Gap doc only.
-3. Re-check Food bottom padding and header height (food.tsx:646) vs its design. Gap doc only.
-4. Re-check header callers profile/index.tsx:186 and Screen.tsx:163 vs designs. Gap doc only.
-5. Gym cluster, one file per round: GymSessionButton, GymCalendar, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts.
-6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-7. Shared TAB_BAR_CLEARANCE bottom value for Summary and Food, only after their rows are re-checked.
-8. Doc fix once no build row is open: lines 236, 310; row 81 duplicates 112 (keep 112); row 83 App paragraph near 532; gym App paragraph near 436, Differences near 446; My schedule near 586; record accepted deviations; lumeFade 'no page entrance animation' is wrong.
-9. No rows left: stop with 'only owner decisions remain'.
+1. R252: Summary bottom padding and header height re-check (gap doc only). Dispatched.
+2. Re-check Food bottom padding and header height (food.tsx:646) vs its design. Gap doc only.
+3. Re-check header callers profile/index.tsx:186 and Screen.tsx:163 vs designs. Gap doc only.
+4. Gym cluster, one file per round: GymSessionButton, GymCalendar, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts.
+5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+6. Shared TAB_BAR_CLEARANCE bottom value for Summary and Food, only after their rows are re-checked.
+7. Doc fix once no build row is open: lines 236, 310; row 81 duplicates 112 (keep 112); row 83 App paragraph near 532; gym App paragraph near 436, Differences near 446; My schedule near 586; record accepted deviations; lumeFade 'no page entrance animation' is wrong.
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - 85: 12px calorie bar; 'left today'; four-column wrap.
@@ -84,3 +85,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 - Handover in loop/HANDOVER.md, received after R244. Script-managed every 15 rounds.
 - Jev R248-250: run agreed; header fix, then verification rounds.
 - Jev R251: run 50%, ask 33%, stop 17%, last task clean 74%, risk 1.2. Run agreed; checkpoint chosen.
+- Jev R252: ranked Summary re-check first at 82%; my pick matched it. Next action stop 35%, ask 34%, run 31% (confidence 0.02). Last task clean 54%. Risk 1.4 (confidence 0.25). Run kept: gap-doc-only task, no build risk.

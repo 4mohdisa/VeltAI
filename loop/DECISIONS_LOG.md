@@ -2499,3 +2499,8 @@
 - 2026-11-01 01:28 Deferred the Summary and Food re-checks until the checkpoint passes; the Jev 'ask' share is too high to start a new row check on a blank exit code.
 - 2026-11-01 01:28 Rewrote the notes under 600 words: merged repeated items, removed finished work, kept every decision and Blocked item.
 - 2026-11-01 01:28 Added an explicit exit-code capture to the checkpoint so the result cannot come back blank again.
+- 2026-11-01 01:29 Kept the Summary re-check over Jev's first pick of the same task: Jev's stop and ask probabilities are low-confidence (0.02) and the task is gap-doc only, so the risk is low.
+- 2026-11-01 01:29 Chose a re-check over a build: the Summary rows have not been re-checked since the header and padding changes, so building before checking could change code that already matches.
+- 2026-11-01 01:29 Checkpoint R251 is complete (tsc 0, 65/65 suites, 824/824 tests), so it is no longer the next task.
+- 2026-11-01 01:29 Gym top padding stays inset-tied, as before, pending Isa.
+- 2026-11-01 01:29 Stale doc lines and the TAB_BAR_CLEARANCE comment wait until no build row is open.

@@ -100,8 +100,8 @@ this pass matched the design on every checked value.
 | Profile — AI insights | ❌ DIFFERENT | Design is three static insight cards + a push toggle; the app is a consent-gated hub with "Ask Lume" and dismissible feed. |
 | Profile — Delete account | ❌ DIFFERENT | Design is one confirm screen with a Cancel button; the app is a three-step flow ending in a typed "DELETE". |
 | Profile — Connected apps | ❌ DIFFERENT | Design has three providers incl. Apple Health with icon chips and inline pills; the app has two with emoji and full-width buttons. |
-| Summary — Macros detail | ❌ DIFFERENT | The sub-line, section title and footer now match the design copy (built, not verified).<br>The screen's hardcoded English strings now go through `t()` with en, es and fr keys (BUILT, not verified).<br>The design's macro history chart is still missing from the app.<br>App-only items remain: "Calories today" gauge, "Meals today" list.<br>Unset calorie goal: the footer does not show 0; an empty profile derives the 1,500 kcal floor (`src/lib/onboarding/deriveTargets.ts:73`), so no code changed. |
-| **Summary (Home) tab** | ⚠️ PARTIAL | Cards that exist match closely in chrome and tokens, but the Steps card is missing, three non-design cards are added, and the day-scoping interaction does not exist. |
+| Summary — Macros detail | ❌ DIFFERENT | The sub-line, section title and footer now match the design copy (built, not verified).<br>The screen's hardcoded English strings now go through `t()` with en, es and fr keys (BUILT, not verified).<br>Differences (code re-checked against Summary bundle 185bb533, not verified on device):<br>Hero: the design's 176pt 7-day stacked chart, "Where the calories came from" with "This week" and a caption, is missing; `src/app/dashboard/nutrition.tsx:89` and `:98` show "Calories today" with a ring instead.<br>App-only: "Meals today" list (`nutrition.tsx:148`), `LoadFailedNotice` (`nutrition.tsx:79`) and `HealthDisclaimer` (`nutrition.tsx:195`).<br>Page: card gap 12 vs 16 (`src/components/navigation/Screen.tsx:96`); top padding `insets.top` + 56 vs a fixed 110, so 115 at a 59 inset (`Screen.tsx:91`); header strip `insets.top` + 20 vs a fixed 82, so 79 at a 59 inset (`Screen.tsx:163`).<br>Kicker block (`src/components/display/DetailChart.tsx:158-165`): dot 8 vs 10, kicker tracking 1 vs 1.1, title tracking 0 vs -0.6, side padding 0 vs 2, bottom padding 4 vs 0.<br>Stat line (`DetailChart.tsx:175-176`): gap 4 vs 3, baseline gap 8 vs 7. Breakdown dot 8 vs 9 (`DetailChart.tsx:216`).<br>Not compared in this pass: bottom padding, back button, secondary chart bars.<br>Unset calorie goal: the footer does not show 0; an empty profile derives the 1,500 kcal floor (`src/lib/onboarding/deriveTargets.ts:73`), so no code changed. |
+| **Summary (Home) tab** | ⚠️ PARTIAL | Code re-checked against Summary bundle 185bb533, not verified on device. Card surface matches the design: elevated fill, radius xl, shadow sm, padding 20 (`src/components/display/Card.tsx:35`, `:47`).<br>Differences: Steps card not built (`src/app/(tabs)/index.tsx:135-139`); non-design items `PendingSyncBanner` (`index.tsx:133`), `GymStatusCard` (`index.tsx:175`), `MorningBriefCard` (`index.tsx:185`) and the plan card (`index.tsx:191`); scope is fixed to Today (`src/components/domain/EnergyBalanceCard.tsx:114`, `index.tsx:150`), where the design's week and step bars rescope the cards.<br>Page: bottom padding is `TAB_BAR_CLEARANCE(insets)`, 100 at a 34 inset and 86 at a 0 inset, vs a fixed 158 (`index.tsx:87`, `src/components/navigation/LumeTabBar.tsx:52`); header strip is `insets.top` + 20, 67 at a 47 inset, 79 at a 59 inset and 82 at a 62 inset, vs a fixed 82 (`index.tsx:223`); top padding is `insets.top` + 12, 59, 71 and 74 at the same insets, vs a fixed 70 (`index.tsx:84`); card gap 12 vs 14 (`index.tsx:86`). |
 | Food — Calendar sheet | ⚠️ PARTIAL | Same structure and copy; cell sizing, today's marker and arrow treatment differ. |
 | Profile — Preferences | ⚠️ PARTIAL | Same five controls and labels; selected-segment treatment inverted and the mixed-units rule differs. |
 | Profile — Privacy | ⚠️ PARTIAL | All design rows and both footnotes present verbatim; the app adds group headers and an AI-processing group. |
@@ -415,11 +415,19 @@ design value for value.
 23. **Fibre can read "Not tracked · target n g"** where the design always shows a number and a bar.
 24. **Streak line is a control** (pushes `/gym/streak`) where the design is static text; copy is *"14 day streak"* (space) vs *"14-day streak"* (hyphen); the flame **pulses** and greys at 0.
 25. Eyebrow `letter-spacing` 1 vs 1.1; the date string is locale-dependent (adds a comma in en-GB/en-AU, reorders in en-US) where the design's is fixed.
-26. Title has **no `letter-spacing: -0.6px` and no `padding-right: 52px`** (the design reserves 52px so the title cannot collide with the avatar).
-27. Inter-card **gap 12 vs 14**; bottom padding ≈100 vs 158; title-block gaps 4 vs 2/6.
-28. Header strip ≈79 vs 82, and the blur is an approximation (RN cannot mask a backdrop filter); a Reduce-Transparency branch has no design counterpart.
+26. Title (`src/app/(tabs)/index.tsx:101`): letter spacing 0 vs -0.6 and right padding 0 vs 52 (the design reserves 52 so the title cannot collide with the avatar).
+27. Spacing (`src/app/(tabs)/index.tsx`): card gap 12 vs 14 (`:86`). Bottom padding `TAB_BAR_CLEARANCE(insets)`, 100 at a 34 inset and 86 at a 0 inset, vs a fixed 158 (`:87`). Title block (`:93`): gap 4 vs 2, bottom padding 4 vs 6, side padding 0 vs 4. Streak row (`:122`): gap 4 vs 6, top padding 4 vs 6.
+28. Header strip (`src/app/(tabs)/index.tsx:223`): `insets.top` + 20, which is 67 at a 47 inset, 79 at a 59 inset and 82 at a 62 inset, vs a fixed 82. The blur is an approximation, because RN cannot mask a backdrop filter (`src/components/navigation/FloatingHeader.tsx:10`), and the Reduce Transparency branch (`FloatingHeader.tsx:42`) has no design counterpart.
 29. Profile button top 63 vs 64 and shows **initials**, which the design never does.
 30. Pull-to-refresh has no design counterpart.
+
+### Re-checked against Summary bundle 185bb533 (code re-checked, not verified on device)
+
+- Summary — Macros detail (summary table): differences listed in the row.
+- Summary (Home) tab (summary table): differences listed in the row.
+- Difference 26, title: still different.
+- Difference 27, spacing: still different.
+- Difference 28, header strip: still different.
 
 ---
 
