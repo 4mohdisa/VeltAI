@@ -21,6 +21,9 @@
     "support": "Support",
     "about": "About"
   },
+  "profile": {
+    "loadFailed": "Couldn't load your gym data."
+  },
   "preferences": {
     "title": "Preferences",
     "measurementSystem": "Measurement system",

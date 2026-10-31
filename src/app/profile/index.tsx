@@ -100,7 +100,7 @@ export default function ProfileScreen() {
       >
         {/* The streak read failed, so the card below is showing whatever the
             device already had. Label it rather than let it pass as current. */}
-        {gymError ? <LoadFailedNotice message="Couldn't load your gym data." onRetry={refetchGym} /> : null}
+        {gymError ? <LoadFailedNotice message={t('profile.loadFailed')} onRetry={refetchGym} /> : null}
 
         {/* Title block — the name only appears here; the avatar below carries no
             second copy of it. Before hydration there is no name, and a

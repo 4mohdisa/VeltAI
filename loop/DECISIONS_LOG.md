@@ -1039,3 +1039,8 @@
 - 2026-10-31 13:42 Kept the English wording identical, as the hardcoded-string rule requires. es and fr wording is pending native review.
 - 2026-10-31 13:42 Left DESIGN_GAP_ANALYSIS.md unchanged this round because one load-failure string does not finish the gym log row.
 - 2026-10-31 13:42 Used the existing gym group for gym.loadFailed. Isa has not decided the group question, so this is recorded under Parked for later.
+- 2026-10-31 13:43 Picked the profile load-failure over the other two: it is a visible UI surface with a gap row, and it is small. The streak test-list edit is test-only and does not clear a row.
+- 2026-10-31 13:43 Used own key profile.loadFailed, not gym.loadFailed, because Isa has not agreed to reuse the gym wording. Notes said to use its own key until he does.
+- 2026-10-31 13:43 Kept English wording identical to the current hardcoded string, per the hardcoded-string rule.
+- 2026-10-31 13:43 Marked the gap row BUILT with one line, not verified, per the testing rules.
+- 2026-10-31 13:43 Chose a read-only checkpoint or stop only when a row cannot be found. Otherwise the build proceeds, because the last flagged report (R266) was cleared at R267.

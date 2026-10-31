@@ -21,6 +21,9 @@
     "support": "Soporte",
     "about": "Acerca de"
   },
+  "profile": {
+    "loadFailed": "No se pudieron cargar tus datos del gimnasio."
+  },
   "preferences": {
     "title": "Preferencias",
     "measurementSystem": "Sistema de medida",

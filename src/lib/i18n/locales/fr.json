@@ -21,6 +21,9 @@
     "support": "Assistance",
     "about": "À propos"
   },
+  "profile": {
+    "loadFailed": "Impossible de charger vos données de sport."
+  },
   "preferences": {
     "title": "Préférences",
     "measurementSystem": "Système de mesure",
