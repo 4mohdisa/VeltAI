@@ -226,7 +226,11 @@
       "burned": "Brûlées",
       "percentOfGoal": "{{percent}} % de l'objectif"
     },
-    "breakdown": "Détail"
+    "breakdown": "Détail",
+    "thisWeek": "Cette semaine",
+    "inAndOut": "Apport et dépense",
+    "dailyNet": "Net quotidien",
+    "weekAveragesNote": "Les moyennes couvrent les jours que Lume a pu calculer. Un jour sans net est exclu plutôt que compté comme zéro."
   },
   "nutrition": {
     "title": "Nutrition",

@@ -1852,3 +1852,7 @@
 - 2026-10-31 20:57 Condensed NOTES to under 600 words as the loop note requested. Merged repeated items, deleted finished work, kept every Decisions line.
 - 2026-10-31 20:57 Recorded the handover conflict on the default message as resolved: the default was removed in R114 because all nine call sites pass their own message.
 - 2026-10-31 20:57 Kept row 112 padding check as an open item under Next, because the handover flags it as possibly stale.
+- 2026-10-31 20:58 R115 check-only result accepted: LoadFailedNotice recorded as NOT COVERED with no new render test, because the brief forbids new test suites and Isa verifies the UI. Row 114 stays BUILT, not verified.
+- 2026-10-31 20:58 Chose week.tsx copy first: it is the smallest task, needs nothing from Isa, and is the next item on the agreed list. The Week-row question does not block copy changes.
+- 2026-10-31 20:58 Reuse existing locale keys where the English text already exists; new es/fr wording is written by Claude Code and flagged for native review rather than asked of Isa.
+- 2026-10-31 20:58 No gap-doc edit this round, because no table row exists for week.tsx and the owner has not decided which row should record it.

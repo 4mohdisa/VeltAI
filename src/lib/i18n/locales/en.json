@@ -226,7 +226,11 @@
       "burned": "Burned",
       "percentOfGoal": "{{percent}}% of goal"
     },
-    "breakdown": "Breakdown"
+    "breakdown": "Breakdown",
+    "thisWeek": "This week",
+    "inAndOut": "In & out",
+    "dailyNet": "Daily net",
+    "weekAveragesNote": "Averages cover the days Lume could compute. A day without a net is left out rather than counted as zero."
   },
   "nutrition": {
     "title": "Nutrition",

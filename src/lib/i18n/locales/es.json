@@ -228,7 +228,11 @@
       "burned": "Quemadas",
       "percentOfGoal": "{{percent}} % del objetivo"
     },
-    "breakdown": "Desglose"
+    "breakdown": "Desglose",
+    "thisWeek": "Esta semana",
+    "inAndOut": "Ingesta y gasto",
+    "dailyNet": "Neto diario",
+    "weekAveragesNote": "Las medias cubren los días que Lume pudo calcular. Un día sin neto se excluye en lugar de contarse como cero."
   },
   "nutrition": {
     "title": "Nutrición",

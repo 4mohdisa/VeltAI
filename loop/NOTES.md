@@ -22,14 +22,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - fr Breakdown is 'Détail' as Isa specified, pending his choice.
 - summaryDetails.test.ts Breakdown check is strict for all four detail routes. It reads source text only.
 - R112 accepted for its scope. Rendered Gym Training labels are a device check for Isa, not a loop test gap.
+- R115: LoadFailedNotice has no render test. Accepted as NOT COVERED. No new test suites (brief rule). Isa verifies on device.
 
 ## Status
 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT (counts from R89; later changes recorded in the round log, not recounted). Last green checkpoint R89 (tsc 0, 65 suites, 824 tests). R102 checkpoint never reported; re-issue at the end.
-R114 LoadFailedNotice: BUILT, not verified. No test imports it, so it is NOT COVERED. R115 re-checks tsc and the hydration tests.
+R114 LoadFailedNotice: BUILT, not verified. NOT COVERED (R115: no test imports or renders it).
 
 ## Next
-1. R115: tsc once, hydration tests once, confirm the message prop. Report NOT COVERED if no test imports LoadFailedNotice.
-2. week.tsx: hardcoded copy ('This week', 'In & out', 'Daily net', footer) to t(), with es and fr keys.
+1. week.tsx: hardcoded copy ('This week', 'In & out', 'Daily net', footer) to t(), with es and fr keys. IN PROGRESS (R116).
+2. training.tsx and energy.tsx: remaining hardcoded copy, per row or English-only (see item 13).
 3. StreakCounter.tsx: stale line 2 comment; colour tokens to color.label and secondaryLabel.
 4. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 5. food.tsx ~445 empty copy; dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
@@ -46,11 +47,11 @@ R114 LoadFailedNotice: BUILT, not verified. No test imports it, so it is NOT COV
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: edit or toast? (mutations.ts:173-178)
-- Device checks: Gym Training labels (en, es, fr), logged card, offline failure, double notice (gym.tsx:107), TodayCard sub-line.
+- Device checks: Gym Training labels (en, es, fr), logged card, offline failure, double notice (gym.tsx:107), TodayCard sub-line, LoadFailedNotice on screen (R115 NOT COVERED).
 - Rows 90, 330, 334, 89, 23, 17; log-sheet BUILT?; footnote '23 sessions 2 freezes'.
 - Food detail differences 1, 2, 4; verdicts at lines 961, 1210.
 - Search routing; global + title; quick add serving order; add sheet 0pt gap; 'Snacks' label.
-- Native es/fr review: Gels, Congelaciones, AI insights, My dishes, Macros wording, new gym.* keys.
+- Native es/fr review: Gels, Congelaciones, AI insights, My dishes, Macros wording, new gym.* keys, week.tsx new keys (R116).
 - fr: 'gel' vs 'congélation' (recommend 'Appliquer un gel de série'); Breakdown 'Détail' vs 'Répartition' (recommend 'Répartition').
 - Which row records week.tsx, or whether a Week row should exist.
 - Group names; training list; profile row; streak wording; GetToday flag.
@@ -92,3 +93,5 @@ R110: gym.tsx Training labels via t(). BUILT, not verified.
 R111-R112: row 112 reason cell recorded; tsc, changed-file tests and locale keys checked.
 R113: rejected (design file not named).
 R114: LoadFailedNotice header fixed, default removed. Handover flagged for failed or missing checks; R115 re-checks.
+R115: check-only. tsc 0. Hydration tests 16 passed, 2 suites. LoadFailedNotice: message required, no default; NOT COVERED (no test imports or renders it). Recommendation for a render test declined under the no-new-tests rule.
+R116: week.tsx copy to t(), new es/fr keys flagged for review. Issued.

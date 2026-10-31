@@ -47,11 +47,12 @@ const signed = (n: number) => `${n < 0 ? '-' : '+'}${formatNumber(Math.abs(n))}`
 type Mode = 'balance' | 'net';
 
 export default function WeekDetailScreen(): JSX.Element {
+  const { t } = useTranslation();
   const { days, loading } = useEnergyRange();
 
   return (
     <Screen variant="floating" showBack>
-      <KickerTitle kicker="Nutrition" title="This week" tint={accent.blue} />
+      <KickerTitle kicker="Nutrition" title={t('dashboard.thisWeek')} tint={accent.blue} />
       {loading ? (
         <>
           <Skeleton height={HERO_H} rounded={radius.xl} />
@@ -114,7 +115,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
           <SegmentedField
             variant="inset"
             options={[
-              { label: 'In & out', value: 'balance' },
+              { label: t('dashboard.inAndOut'), value: 'balance' },
               { label: 'Net', value: 'net' },
             ]}
             value={mode}
@@ -160,7 +161,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
       {/* Secondary — surplus against deficit, day by day. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <ChartHeader title="Daily net" note="Surplus vs deficit" />
+          <ChartHeader title={t('dashboard.dailyNet')} note="Surplus vs deficit" />
           {weekNets.length === 0 ? (
             <EmptyState
               icon="chart.bar.xaxis"
@@ -215,7 +216,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
       </Card>
 
       <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
-        Averages cover the days Lume could compute. A day without a net is left out rather than counted as zero.
+        {t('dashboard.weekAveragesNote')}
       </Text>
     </>
   );
