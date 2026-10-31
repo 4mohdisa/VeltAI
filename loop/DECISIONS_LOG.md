@@ -2577,3 +2577,7 @@
 - 2026-11-01 02:14 Kept 6-10 over Jev's 6-11: the brief caps re-check rounds at 5 rows, so 6-11 breaks the cap. Concrete reason Jev cannot see.
 - 2026-11-01 02:14 Added a one-time type check (tsc only, no jest) to answer the flagged report, which ran no checks. Jest is skipped because no code changes in a doc-only round.
 - 2026-11-01 02:14 Did not pick the Food title block (row 85) because the re-check is still unfinished and Summary is the next step in the notes.
+- 2026-11-01 02:16 Chose the Summary 11-15 re-check. The loop note flagged R269, so this round also runs tsc once to clear the flag. Doc-only, no Isa input needed, cannot break the build.
+- 2026-11-01 02:16 Did not pick the Food title block (row 85). Its open items overlap with blocked calorie bar and 'left today' questions, and the latest report has no build ready for it.
+- 2026-11-01 02:16 Kept the Summary re-check batch at 5 rows, per the brief's cap on re-check rounds.
+- 2026-11-01 02:16 Treated the flag as a missing check, because the R269 report ran tsc but the loop note says no check was run. The prompt asks for tsc again so the result is on record.
