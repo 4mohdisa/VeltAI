@@ -2124,3 +2124,8 @@
 - 2026-10-31 22:58 Told Claude Code to reuse an existing tap-to-type key if one exists, otherwise add food.tileEditLabel to en, es and fr together, following the rule that new keys go to all three locales.
 - 2026-10-31 22:58 Kept layout difference of gap item 11 open, since the row is not fully built.
 - 2026-10-31 22:58 Did not add the old '80%' or other nutrition items this round, since the labels were already the highest-value gap in this file.
+- 2026-10-31 22:59 Chose candidate 1: smallest remaining item that finishes the VoiceOver work started in R173, needs nothing from Isa, and reuses an existing key. Jev also ranks run at 99%.
+- 2026-10-31 22:59 Reuse food.tileEditLabel for the two siblings, per the R173 report's suggestion.
+- 2026-10-31 22:59 If no 'Serving size' key exists, add food.servingSize in en, es and fr together, because the new-keys rule requires all three.
+- 2026-10-31 22:59 Visible Serving size caption stays for a later round to keep this task to one step; the sibling VoiceOver label now matches the tiles.
+- 2026-10-31 22:59 Gap doc touched only with a BUILT sentence, no count change, per the R172 pattern.

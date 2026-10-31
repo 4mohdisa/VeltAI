@@ -502,7 +502,7 @@ function DetailForm({
                 <Pressable
                   onPress={startEdit('grams')}
                   minTapTarget={false}
-                  accessibilityLabel="Serving size, tap to type"
+                  accessibilityLabel={t('food.tileEditLabel', { label: t('food.servingSize') })}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -542,7 +542,7 @@ function DetailForm({
             <Pressable
               onPress={startEdit('calories')}
               minTapTarget={false}
-              accessibilityLabel="Calories, tap to type"
+              accessibilityLabel={t('food.tileEditLabel', { label: t('gymLog.celebration.calories') })}
               style={{
                 paddingHorizontal: space.sm,
                 paddingVertical: space.xs,

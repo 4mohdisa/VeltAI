@@ -170,7 +170,8 @@
     "padCarbs": "Carbs · grams",
     "padFat": "Fat · grams",
     "padFibre": "Fibre · grams",
-    "tileEditLabel": "{{label}}, tap to type"
+    "tileEditLabel": "{{label}}, tap to type",
+    "servingSize": "Serving size"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

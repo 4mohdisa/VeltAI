@@ -170,7 +170,8 @@
     "padCarbs": "Glucides · grammes",
     "padFat": "Lipides · grammes",
     "padFibre": "Fibres · grammes",
-    "tileEditLabel": "{{label}}, touchez pour saisir"
+    "tileEditLabel": "{{label}}, touchez pour saisir",
+    "servingSize": "Taille de la portion"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

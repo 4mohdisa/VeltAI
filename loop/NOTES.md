@@ -19,6 +19,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - PADS holds labelKey (module scope, no t()). Translate at render with the component's hook.
 - Every prompt must name the loop/design-match branch and forbid git commands (R172 rejected for omitting this).
 - Macro tile names reuse nutrition.protein, carbs, fat, fibre (R172). No food.tile keys.
+- food.tileEditLabel is the shared 'label, tap to type' VoiceOver pattern (R173).
 
 ## Status
 R162 checkpoint green: tsc 0, 65 suites, 824 tests. Gap counts at R142: 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Gap doc item 18 still says 'Save to my foods' (stale).
@@ -32,11 +33,12 @@ R162 checkpoint green: tsc 0, 65 suites, 824 tests. Gap counts at R142: 24 DIFFE
 - food/detail.tsx: delete item, delete confirm and toast, saved-mode removal strings, Save to my dishes and toast (R170).
 - food/detail.tsx PADS captions via food.padGrams, padCalories, padProtein, padCarbs, padFat, padFibre (R171).
 - food/detail.tsx macro tile labels (both layouts) reuse nutrition.protein, carbs, fat, fibre (R172). Gap item 11 gets a BUILT sentence; layout difference stays open.
+- food/detail.tsx editable tile VoiceOver label via food.tileEditLabel (R173).
 - Tab labels reuse food.title, dashboard.summaryTitle, gym.title (tabs.summary and tabs.gym do not exist).
 
 ## Next (in order)
-1. food/detail.tsx VoiceOver tile label `${label}, tap to type` (about line 620): translate via food.tileEditLabel or an existing key (R173 prompt issued).
-2. food/detail.tsx: 'Edit item', 'Rename food', other titles, 'Serving size' caption and its VoiceOver label (about 500-528), the 'g' unit in tile values, 'Edit values manually', the Name field, 'for {n} g'.
+1. food/detail.tsx sibling VoiceOver labels 'Serving size, tap to type' (about line 505) and 'Calories, tap to type' (about line 545) via food.tileEditLabel (R174 prompt issued).
+2. food/detail.tsx: 'Edit item', 'Rename food', other titles, 'Serving size' caption, the 'g' unit in tile values, 'Edit values manually', the Name field, 'for {n} g'.
 3. Doc-only: DESIGN_GAP_ANALYSIS.md item 18 (about line 1020), line 957, and the row 86 versus section verdict (about 964). Reconcile wording, no count changes.
 4. Read-only: scan.ts:305 'Scan failed' feeds food.tsx:887 and VoiceOver. Plan display-time translation; keep stored value (scanSeam.test.ts asserts it).
 5. food.tsx: visible 'Analyzing' (about 875) versus VoiceOver spelling; P, C, F letters (about 899); g suffixes; raw energyUnit; 'Check your connection' invents a cause.
@@ -52,7 +54,7 @@ R162 checkpoint green: tsc 0, 65 suites, 824 tests. Gap counts at R142: 24 DIFFE
 15. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width; long es/fr text in food/saved.tsx and food/detail.tsx tiles (e.g. 'Carbohidratos'); pending row; saved-mode removal and toast; Save to my dishes button and toast; PADS captions fit in the number-entry bar (es 'Tamaño de la porción · gramos', fr 'Taille de la portion · grammes').
+- Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width; long es/fr text in food/saved.tsx and food/detail.tsx tiles (e.g. 'Carbohidratos'); pending row; saved-mode removal and toast; Save to my dishes button and toast; PADS captions fit in the number-entry bar (es 'Tamaño de la porción · gramos', fr 'Taille de la portion · grammes'); tile VoiceOver label.
 - Native review: all es/fr drafts (fr Sport, fr 'Detail', 'Repartition', 'gel', 'congelation', es 'Ingesta y gasto', ellipsis on pending wording, 'Guardado' and 'Enregistré' gender with dish names).
 - Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for logged days (mutations.ts:173-178); swipe colour; tabs.* namespace; body stats (1,500 vs 2,100); 'Analysing' versus 'Analysing photo'; 'Delete item' versus 'Remove from log'; delete after confirm in app, immediately in design.
 - Extra es keys addMenu.voice and addMenu.describeOutLoud: remove, or add to en and fr?
@@ -79,8 +81,8 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Claude Code forgets context at handover. Name files fully.
 
 ## Last round
-R172 built: food/detail.tsx macro tile labels reuse nutrition.protein, carbs, fat, fibre in both layouts. tsc 0; 44 passed across foodDetail, foodDetailLogged.render, sheetVariant. Gap item 11 BUILT sentence added, header counts unchanged. Not verified.
-R173: prompt issued for the tile VoiceOver label (candidate 1). Jev: run 96%. Candidates: tile VoiceOver label; Edit item and Rename food titles; quick-add.tsx:191.
+R173 built: food/detail.tsx editable tile VoiceOver label uses food.tileEditLabel (new key, en/es/fr; es and fr drafts). tsc 0; 44 passed across foodDetail, foodDetailLogged.render, sheetVariant. Not verified.
+R174: prompt issued for sibling VoiceOver labels (candidate 1). Jev: run 99%. Candidates: sibling VoiceOver labels; Edit item and Rename food titles; quick-add.tsx:191.
 
 ## Handover pending
 None. Last handover completed; Claude Code restarted from loop/HANDOVER.md summary.
