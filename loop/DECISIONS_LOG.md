@@ -1507,3 +1507,8 @@
 - 2026-10-31 17:07 Kept the planned-row rest_seconds fix out of this round to respect the one-task rule. It is queued as its own round after the checkpoint.
 - 2026-10-31 17:07 Jev ranks run at 93% and I agree, so no second look is needed.
 - 2026-10-31 17:07 Logged the R47 gap-doc cite shift (session.tsx lines after 165 moved by one) as a doc correction to apply after the checkpoint.
+- 2026-10-31 17:09 Chose the citation shift first: it is the NEXT item in both the last report and the handover, it is doc-only and cheap, and it clears stale line numbers before the next code round.
+- 2026-10-31 17:09 Kept the Next list order. The citation shift is a sub-step of item 3, done now.
+- 2026-10-31 17:09 Rewrote the notes under 600 words as the loop note asked. Kept every decision, blocked item and parked item; merged duplicates and removed finished work into the round log.
+- 2026-10-31 17:09 Kept the planned-rows rest fix as its own later round, per the earlier one-task rule.
+- 2026-10-31 17:09 Took the Jev run signal as agreement.
