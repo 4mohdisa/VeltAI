@@ -1421,3 +1421,8 @@
 - 2026-10-31 16:45 Row 114 stays DIFFERENT for now. The row still lists open items (Calories cell, tap target, rest and planned states). The one-line row update goes in the next doc-only round, because gap-doc fixes get their own round.
 - 2026-10-31 16:45 Did not ask Isa. The three questions in the last report are answered by the decisions above, which are within the defaults.
 - 2026-10-31 16:45 Chose the re-run over the gap doc round because the loop note flagged the last report as partial, and it must be fixed before moving on.
+- 2026-10-31 16:46 Chose the gap-doc fix for the today's session card row first, because the loop flagged R30 as partial and the notes rule is that gap-doc fixes come before the next build round.
+- 2026-10-31 16:46 Kept the row DIFFERENT: the design has no failure state, and the sub-line and Calories cell still differ.
+- 2026-10-31 16:46 Row status unchanged, so header counts stay at 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
+- 2026-10-31 16:46 Treated the log-session.tsx:89 rest-day item as unverified rather than closed, because only the report says it was fixed. Added a read-only check to Next.
+- 2026-10-31 16:46 Calories decision: the 'calories from the logged session only' rule is not implemented. The sub-line still shows the whole-day figure, and a session figure needs gym_sessions.calories_burned from the backend. Kept the day total and left it under Blocked on Isa and Parked.
