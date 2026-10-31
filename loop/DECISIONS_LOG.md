@@ -1828,3 +1828,8 @@
 - 2026-10-31 20:52 Kept the rule that rows stay DIFFERENT while other differences remain, so no status cell is changed in this round.
 - 2026-10-31 20:52 Asked Claude Code to reuse existing keys where the English value matches, to avoid duplicate keys.
 - 2026-10-31 20:52 Doc-only follow-ups (stray br, line 76, citation at 1505) stay queued and are not mixed into this code task.
+- 2026-10-31 20:53 Chose the row 112 doc append because the loop flagged R110 as partly done (gap line missing); this closes the flagged item before moving on.
+- 2026-10-31 20:53 Appended inside the reason cell with no line added, so no citations shift and no status changes, because other differences remain on row 112.
+- 2026-10-31 20:53 Ran tsc only, not tests, because this is a doc-only round and the gym.tsx edit has no test that covers these labels (grep in R110 found none).
+- 2026-10-31 20:53 Rejected the LoadFailedNotice header comment and StreakCounter as this round's task, since they do not clear the flagged item; they are next in order.
+- 2026-10-31 20:53 Logged the stale gym.tsx:94-158 citation at line 437 under NEXT rather than fixing it, to keep the round to one change.
