@@ -2060,3 +2060,7 @@
 - 2026-10-31 22:42 Picked gym/new-template.tsx because it is step 2 of the notes' Next list and is the smallest remaining swipe title. It also clears the last swipe-prompt item from the handover.
 - 2026-10-31 22:42 Told Claude Code to reuse food.removeTitle if the English matches, otherwise add a key in all three locales together. This follows the existing new-recipe pattern.
 - 2026-10-31 22:42 Told Claude Code to keep existing English if the design has no wording for this dialog. Avoids inventing copy.
+- 2026-10-31 22:44 Chose the trash-button dialog: the notes say a partly finished dialog set counts as unfinished, and it reuses three existing keys, so it is the smallest step.
+- 2026-10-31 22:44 Treated the flagged report as 'tests not run': the type check was run and no test file references new-template, so the prompt asks Claude Code to record that explicitly in CHECKED.
+- 2026-10-31 22:44 Left DESIGN_GAP_ANALYSIS.md line ~957 stale citation for later, as it is a doc cleanup and not part of this dialog.
+- 2026-10-31 22:44 No status word or header count changes; the row stays PARTIAL until Isa verifies.

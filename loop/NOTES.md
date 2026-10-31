@@ -29,13 +29,14 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - Food row VoiceOver label and hint (food.row*); swipe titles and messages in food.tsx, food/saved.tsx (incl. unsave), food/new-recipe.tsx (reuses food.removeTitle).
 - food/saved.tsx strings (R157).
 - new-recipe.tsx swipe title (R158; tsc passed R159, no matching tests).
+- gym/new-template.tsx swipe title, gym.removeExerciseTitle (R160; tsc 0, no matching tests).
 - SwipeableRow: Cancel uses common.cancel; confirm and swipe use common.delete unless deleteLabel is passed.
 - LoadFailedNotice and StreakCounter tokens; GymPatternsCard copy; week, training, energy copy; freeze label.
 - nutrition.energyLogged (es 'en total', fr 'au total').
 
 ## Next
 1. DONE R159: new-recipe.tsx flag cleared (tsc 0, no matching tests exist). Logged as cleared, not verified.
-2. (In progress R160) Swipe-delete title in src/app/gym/new-template.tsx (reuse food.removeTitle if English matches, else add key in en, es, fr).
+2. DONE R160: gym/new-template.tsx swipe title. IN PROGRESS R161: trash-button dialog in new-template.tsx (~173-176) to gym.removeExerciseTitle, common.cancel, common.delete. The R160 report was flagged for tests not run; R161 records tsc and the no-matching-tests result in CHECKED.
 3. Visible 'Analyzing…' on food row (food.tsx ~875) to t(), spelling 'Analysing'.
 4. CaloriesCard: missing Fibre column; dot vs bar (row 85, do not mark BUILT).
 5. 'Check your connection' invents a cause (food.tsx).
@@ -50,14 +51,14 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 
 ## Blocked on Isa (do not retry)
 - Device checks: tab bar es/fr width; gym Training labels; food rows (logged, analysing, failed) VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; minutesCeiling; eatenAgainstBurned; inAndOut; energy unit card; add menu wrap at 232pt (fr, es); swipe dialogs on device (food log, saved, recipe, gym template); SwipeableRow 'Eliminar' and 'Supprimer' fit 88pt; food/saved.tsx longer es and fr text.
-- Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned, common.delete); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
+- Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, tabBar.*, addMenu, closeMenu, gym.oftenSkip, energyLogged, eatenAgainstBurned, common.delete, gym.removeExerciseTitle); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport.
 - Design questions: food.title shared by tab and screen; separate caloriesTitle; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); design wording for energy deficit, steps, burn target, weekly target, group names, training list, profile row, streak, footnote; rows 90, 330, 334, 89, 23, 17; search routing; quick add serving order; add sheet 0pt gap; 'Snacks'; TodayCard wash pill, whole-day kcal, chevron; remaining-kcal line; body stats (app 1,500 kcal vs design 2,100); tabs.* namespace; swipe colour (accent red or black).
 
 ## Parked
 - Helpers English-only: formatRelativeDate, weekdayShort, dayMonth, formatDuration; formatCalories and formatGrams ignore energyUnit. Plurals: '1 of 1 days', 'longest 1 minutes', 'of N days'.
 - Quick add serving data missing from FoodResult (src/lib/mock/data.ts:124); editSavedFood is local only (needs backend).
 - GymPatternsCard server values untranslated (src/lib/api.ts:795-800); '85%' format.
-- Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; estimated duration; custom exercise route; /gym/session top weight.
+- Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; estimated duration; custom exercise route; /gym/session top weight; new-template VoiceOver 'Remove {{name}}' stays English.
 - TodayCard: muscle prefix, header dot, min-height, gaps, pill type, grid, stale burn, per-session kcal, plan.sub prefix.
 - Row 17 rest-day exits, streak flame pulses, artwork.
 - StreakCounter: unused active and caption props; accessible prop; gym.dayStreak vs dashboard.dayStreak.
@@ -69,7 +70,7 @@ Gap counts (R142): 24 DIFFERENT, 14 PARTIAL, 4 BUILT. Last green full checkpoint
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN on undefined profile field.
 - Raw item values: food.tsx, food/saved.tsx:144.
 - food.unsaveTitle and food.removeTitle share English but differ in es and fr.
-- Stale gap doc citations (lines 437, 1505); line 955 wrongly says swipe confirmation is translated everywhere.
+- Stale gap doc citations (lines 437, 957, 1505); line 955 wrongly says swipe confirmation is translated everywhere.
 - SwipeableRow.tsx:2 'red' comment.
 
 ## Accepted limits
@@ -85,4 +86,4 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Claude Code forgets context at handover. Name files fully in every prompt.
 
 ## Last round
-R159: flag on R158 cleared. tsc 0, no matching tests. R160 (this round): gym/new-template.tsx swipe title. Next after that: food.tsx 'Analyzing' (notes step 3).
+R160: gym/new-template.tsx swipe title BUILT (tsc 0, no matching tests). Flagged for tests not run; cleared by R161 run and CHECKED entry. R161 (this round): trash-button dialog in new-template.tsx. Next after that: food.tsx 'Analyzing' (notes step 3).

@@ -171,9 +171,9 @@ export default function NewTemplateScreen() {
               {items.map((it, i) => {
                 const removeAt = () => setItems((prev) => prev.filter((_, idx) => idx !== i));
                 const confirmDelete = () =>
-                  Alert.alert('Remove exercise?', undefined, [
-                    { text: 'Cancel', style: 'cancel' },
-                    { text: 'Delete', style: 'destructive', onPress: removeAt },
+                  Alert.alert(t('gym.removeExerciseTitle'), undefined, [
+                    { text: t('common.cancel'), style: 'cancel' },
+                    { text: t('common.delete'), style: 'destructive', onPress: removeAt },
                   ]);
                 const inner = (
                   <View
