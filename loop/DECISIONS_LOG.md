@@ -2209,3 +2209,8 @@
 - 2026-10-31 23:58 Told Claude Code to reuse dashboard.kcal and add no keys, so the en, es and fr rule holds.
 - 2026-10-31 23:58 Kept formatGrams 'g' out of scope to keep the round to one task.
 - 2026-10-31 23:58 Doc-only quick-add row fixes deferred to a later round, since the active code task is first.
+- 2026-10-31 23:59 Chose candidate 1 because the loop note flagged R191 as not fully run (only helpers.test.ts ran). The loop note must be dealt with before moving on, per the brief.
+- 2026-10-31 23:59 Kept the task to verification only with no code change unless a test fails in formatting.ts. Jev agrees on run (71%) and rates the last task as likely clean (76%).
+- 2026-10-31 23:59 Parked the energy unit (kJ) request from the R191 NEXT line. It is a new behaviour change for formatCalories and its callers, not a copy fix, so it goes under Parked.
+- 2026-10-31 23:59 Did not run the full suite. The brief limits full runs to checkpoint rounds, and this round only needs the files that touch formatCalories.
+- 2026-10-31 23:59 Kept the R191 doc sentence in DESIGN_GAP_ANALYSIS.md as added. Stale line references (line 87, 957, item 18) stay on the Next list for a doc-only round.
