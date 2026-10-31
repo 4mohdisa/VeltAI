@@ -1033,7 +1033,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 ## Food — Quick add
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the Meal chip padding and transition, confirm label, caret, offline toast and copy still differ.
+**One-line reason:** The app is rebuilt to the design's hero number, ±50 discs, `+100/+250/+500/+750` presets and keyboard bar; the hero, disc and preset press states and the confirm pill being active at 0 kcal are BUILT, not verified; the Meal chip padding, label shrink and transition, confirm label, caret and offline toast still differ.
 
 **Design:** centred 52×52 `surface.tile` ± discs around a tappable
 `stat-hero` (56/68, `letter-spacing -1.4px`) value with *"kcal · tap to type"*
@@ -1051,14 +1051,16 @@ that hides the discs, presets and CTA until Done.
 - BUILT, not verified: sheet detent `fitToContents` at `src/app/_layout.tsx:160`.
 - BUILT, not verified: confirm pill 52pt high via `paddingVertical: space.md`.
 - BUILT, not verified: toast *"{kcal} added to {meal}"*.
+- BUILT, not verified: the hero figure dims to 60% when pressed.
+- BUILT, not verified: the discs and preset pills only change background when pressed.
+- BUILT, not verified: the confirm pill stays active at 0 kcal.
 
 **Still open:**
 
 - The confirm label is 17/24 against the design's 17/22 (waiting on Isa).
-- The Meal chip keeps 8pt horizontal padding where the design has none.
-- There is no selection transition on the Meal chip.
+- The Meal chip keeps 8pt horizontal padding and shrinks long labels to 80%, where the design has neither (`src/components/forms/SegmentedField.tsx:88` and `:105-106`).
+- There is no 180ms selection transition on the Meal chip (`src/components/forms/SegmentedField.tsx`).
 - There is no blinking caret.
-- The copy is hardcoded English.
 - The offline toast names no meal.
 - The screen has its own flex:1 KeyboardAvoidingView at src/app/food/quick-add.tsx:125.
 
@@ -1497,7 +1499,7 @@ drift 13 / ❌ Doesn't match 3". Against this pass:
 |---|---|---|---|
 | **Log session sheet** (line 100) | ⚠️ minor drift, "Controls are native: Duration slider, effort and energy steppers. Header mirrored." | ❌ | The design has no slider, no steppers and no effort/energy at all; all four of its logging outcomes are missing; two app controls are never persisted. The reported issue (a mirrored header) is the least of it. |
 | **Add sheet** (line 84) | ⚠️ "Tile language matches… the composition differs" | BUILT (not verified) | The tile set and title differed from the design when this was checked. Since then the design's five tiles, Quick add as the full-width row and the title "Add to {meal}" are BUILT. Tile grid: two equal columns (flexGrow 1, flexBasis 40%, TILE_BASIS in src/app/food/add.tsx), 12pt gap from space.md. BUILT, not verified. Owner to check at 320pt and 430pt. |
-| **Quick add** (line 86) | ⚠️ | ❌ | No hero number, no ± discs, no preset pills, no keyboard bar; plus a `Label` field the design lacks. |
+| **Quick add** (line 86) | ⚠️ | ❌ | The hero number, ± discs, preset pills and keyboard bar are BUILT and the `Label` field is gone. BUILT, not verified: the hero dims to 60% when pressed, the discs and preset pills only change background when pressed, and the confirm pill stays active at 0 kcal. Still different: the Meal chip's 8pt padding, 80% label shrink and missing 180ms transition (`src/components/forms/SegmentedField.tsx`), plus the other differences in row 87. |
 | **Saved foods** (line 87) | ⚠️ | ❌ | The design is a photo gallery with a "New dish" tile; the app is a text list. Reducing this to "photos have no source" understates it. |
 | **My schedule** (line 97) | ✅ "Day names clipped until fix 3. The week starts on Sunday where the design starts on Monday." | ⚠️ | A ✅ cannot stand next to a listed defect. Beyond the week order it names, the design's entire "My workouts" section belongs on this screen and is absent, the row sub-line drops the muscle-group phrase, and the picker sheet differs in five ways (order, copy, sublabel, check treatment, an extra create row). |
 | **New workout** (line 99) | ✅ "Floating chrome, fields, pill." | ❌ | The three things it checked are the three things the design does **not** have: the design's editor has no name field, no duration field and no save pill. What it does have — per-set rows, warm-up marking, Rest/Tempo/RPE tiles, notes, supersets and the keypad bar — is entirely absent, and saved templates cannot have their exercises edited at all. |

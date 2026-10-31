@@ -2341,3 +2341,7 @@
 - 2026-11-01 00:39 Followed the design on the zero-kcal confirm pill, per the default: design wins over app behaviour.
 - 2026-11-01 00:39 Kept the doc row 87 edit to the status line only, so the flagged round stays small. The doc section fix is the next round.
 - 2026-11-01 00:39 Did not run tests, because quick-add.tsx has no render test and the loop rules limit test runs to tsc on doc-only or small rounds.
+- 2026-11-01 00:41 Chose the row 87 doc fix, the same as Jev. It is the cleanup the flagged R218 report needs, with a clean tsc exit code.
+- 2026-11-01 00:41 Deferred the Meal chip build (candidate 2) to the next round. It edits shared SegmentedField.tsx, so the file must be named explicitly in that prompt.
+- 2026-11-01 00:41 Named design/Lume App.html and the branch rule in the prompt, per the rejection rule.
+- 2026-11-01 00:41 Rewrote the notes under 600 words as the loop note asked. Finished work is removed and repeats are merged.
