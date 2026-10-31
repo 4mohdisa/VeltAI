@@ -1437,3 +1437,8 @@
 - 2026-10-31 16:49 Kept row 90 empty-status merge parked: the handover NEXT says to merge it, but the Blocked on Isa list says do it only if Isa answers, and no answer has arrived.
 - 2026-10-31 16:49 Kept the log-session.tsx failure-branch check as a read-only round: the handover says the failed-fetch fix is built, but the check that it does not treat the user as a rest day was never recorded as closed.
 - 2026-10-31 16:49 Logged the R33 handover in the round log so the next session starts from the summary, not from memory.
+- 2026-10-31 16:50 Chose the read-only check: it is the smallest task, needs nothing from Isa, and closes an open item on evidence. Jev also leans to run.
+- 2026-10-31 16:50 Did not merge the row 90 empty-status line: it is parked under Blocked on Isa, and that item says do not retry unless Isa answers.
+- 2026-10-31 16:50 Rewrote the notes file to under 600 words per the loop note: merged repeated items, removed finished round detail, kept every decision.
+- 2026-10-31 16:50 Kept Try again hardcoded English and the stale log-session.tsx cites in Next, so they are not lost.
+- 2026-10-31 16:50 Read-only round: no tsc or Jest run, since nothing is edited.
