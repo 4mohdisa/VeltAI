@@ -1210,14 +1210,13 @@ deliberate design-system deviations.
 **Verdict:** ❌ DIFFERENT
 **One-line reason:** The design enters every number through the slim bar and uses ± / presets only as shortcuts; the app uses the slim bar on `src/app/food/detail.tsx:690` and `src/app/food/quick-add.tsx:190`, boxed fields on `src/app/food/custom-food.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/new-recipe.tsx`, and, in four places, a **slider** or a **± stepper**.
 
-Where numbers are entered in the app today: detail sheet fields (`decimal-pad`),
-quick add (`number-pad`), custom food, label scan fields, **label scan servings
+Where numbers are entered in the app today: the detail sheet and quick add, both through `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`, rendered at `src/app/food/detail.tsx:690` and, captioned "Calories · kcal", at `src/app/food/quick-add.tsx:190`),
+custom food, label scan fields, **label scan servings
 (`Stepper`)**, **scan review weight (`SliderField` + ½×/1×/2× chips)**, **new
 recipe servings (`Stepper`)**, **recipes log sheet servings (`Stepper`)**.
 
 A search of `src` for `Done` finds the "Done" pill at `src/components/common/NumberEntryBar.tsx:94-110`; a search for `InputAccessoryView` returns
-nothing. Additional consequences: no `autoFocus`; a decimal keypad whose values are
-then rounded to integers; no length cap or leading-zero stripping; and
+nothing. The bar autofocuses its input (`src/components/common/NumberEntryBar.tsx:75`), strips leading zeros and caps length (`src/components/common/NumberEntryBar.tsx:33-38`), at 6 digits by default and 5 on quick add (`src/app/food/quick-add.tsx:194`). The detail sheet's macro pads take a decimal point (`src/app/food/detail.tsx:59-62`), but `num` rounds protein, carbs and fat to whole numbers on display and on save (`src/app/food/detail.tsx:399`, `:405-407`, `:599-601`), and fibre is rounded as it is typed (`src/app/food/detail.tsx:434`). Separately,
 `applyGrams` silently changes nothing else when a row has no per-100 basis (a
 kcal-only quick add).
 

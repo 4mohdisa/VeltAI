@@ -1541,3 +1541,13 @@
 - 2026-10-31 17:16 Included line 962 in the same round because it is the same Food detail text and the report marks it as contradicting editing mode.
 - 2026-10-31 17:16 The handover NEXT ('add 1 above line 165', session.tsx citations) is stale when it conflicts with the latest report and notes, so it is not in this prompt.
 - 2026-10-31 17:16 Rest-seconds code fix (candidate 2) and string work (candidate 3) are deferred. Both need a clean-code check first and fall after the doc contradictions.
+- 2026-10-31 17:18 Chose the doc fix first: the loop flagged the last report and the latest report's NEXT names these lines as contradicting the corrected text.
+- 2026-10-31 17:18 Deferred the plannedRows rest_seconds code fix: it is not a doc round, and the notes allow it only if clean, so it comes after this round is confirmed.
+- 2026-10-31 17:18 Left line 1496 unchanged: it may be a record of the old state, so it is reported under NEXT for review.
+- 2026-10-31 17:18 Kept the Blocked on Isa list as is: none of it is answerable from the repo.
+- 2026-10-31 17:18 Shortened the notes file to under 600 words, as the loop note asked. Repeated items are merged and finished work is removed. Decisions are kept verbatim in substance.
+- 2026-10-31 17:18 Rewrote the rejected prompt to state the loop/design-match branch rule, no git, and no edits to loop/ files. This was the only rejection point.
+- 2026-10-31 17:18 Kept R55 (doc-only, Food number-entry lines 1213-1220) as the next task. The latest Claude Code report says these lines are now stale, and it outranks the handover NEXT line about the session.tsx citation, per the notes rule that notes and latest report win.
+- 2026-10-31 17:18 Did not change status cells, header counts, or difference numbers, because the latest report says Isa decides those.
+- 2026-10-31 17:18 Deferred line 1496 and lines 1006 onward to NEXT, since the report says line 1496 may be an intended record and the rest was not rechecked.
+- 2026-10-31 17:18 Chose not to ask Isa anything this round. The task needs no owner input and the Blocked list is unchanged.
