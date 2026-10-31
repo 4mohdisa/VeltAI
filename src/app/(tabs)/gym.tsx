@@ -177,7 +177,7 @@ export default function GymLogScreen() {
         </Animated.View>
       </ScrollView>
 
-      <FloatingHeader height={insets.top + space.xl} />
+      <FloatingHeader />
 
       {/* The way into Profile, as on Summary (V2). */}
       <ProfileAvatarButton />

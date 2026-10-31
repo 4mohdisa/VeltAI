@@ -2481,3 +2481,8 @@
 - 2026-11-01 01:24 Build only after the re-check, because the rules say to verify before building. Literal 70 vs inset-tied is decided after the re-check result, not now.
 - 2026-11-01 01:24 R246 is confirmed: tsc exit 0 and three gym suites 24/24, per the last report. Bottom padding 158 is BUILT, not verified.
 - 2026-11-01 01:24 Summary and Food still use TAB_BAR_CLEARANCE. Their rows are unchecked, so this stays parked and is not a task.
+- 2026-11-01 01:25 Chose the header height fix because the flagged R247 report recommended it and it closes the open 82 difference. Reason: the design value is fixed at 82, while the code value only matches at a 62 inset.
+- 2026-11-01 01:25 Kept the Gym top padding tied to the inset (insets.top + space.md). Reason: a literal 70 leaves only 8pt under the status bar at a 62 inset. Isa can override this during device checks.
+- 2026-11-01 01:25 Limited the change to gym.tsx and did not change FloatingHeader's default or other header callers. Reason: those callers are other surfaces and have not been checked.
+- 2026-11-01 01:25 Treated the flagged R247 report as handled by this round. The flag came from a doc-only round with no type check or tests, so this round runs tsc and the three named suites.
+- 2026-11-01 01:25 Ran only the three named Jest suites plus tsc, as the testing rules allow. Reason: the loop does not run the full suite outside checkpoint rounds.
