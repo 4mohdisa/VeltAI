@@ -1411,3 +1411,8 @@
 - 2026-10-31 16:00 Row 113 stays 'My schedule'. No TodayCard fetch failure row exists, so no row is edited; that is a gap-doc task for a later doc round.
 - 2026-10-31 16:00 The log sheet's failure path has no test. Recorded as type-check only, not a test gap to fill, because the brief bans new test suites.
 - 2026-10-31 16:00 'Try again' label stays hardcoded English under the rule for strings not in the design; recorded in Parked.
+- 2026-10-31 16:44 Parked the R28 Try again task under Blocked on Isa (device check with network off), per the loop note; not retried.
+- 2026-10-31 16:44 Chose the TodayCard failure notice: it reuses the existing LoadFailedNotice and useToday refetch, needs no backend, and does not depend on the device check.
+- 2026-10-31 16:44 Left the Try again label hardcoded English; changing the shared component is a separate task.
+- 2026-10-31 16:44 Deferred the gap-doc wording fixes to their own doc-only rounds, as the rules require.
+- 2026-10-31 16:44 Jev (run 81%) agrees with the run action; no override needed.
