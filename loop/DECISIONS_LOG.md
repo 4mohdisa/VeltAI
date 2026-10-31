@@ -2175,3 +2175,8 @@
 - 2026-10-31 23:49 Kept the verification to grep and the two locale files, to avoid rework and spend.
 - 2026-10-31 23:49 Left the sub-label in place: the design has no such line, and the gap row records it as open.
 - 2026-10-31 23:49 Kept 'Edit item' and 'Rename food' as the next task, since they are the header of the same sheet.
+- 2026-10-31 23:50 Chose candidate 1: the R184 loop flag is cleared because Claude Code confirmed the R183 calories sub-label was already finished with no change needed, so no partly finished task remains.
+- 2026-10-31 23:50 Ignored the handover's 'macro labels first' recommendation: notes record macro tile labels as BUILT at R180, so that handover item is stale.
+- 2026-10-31 23:50 Kept the smallest single-surface task with the most rows cleared per task, as the Order of work prefers.
+- 2026-10-31 23:50 Left the gap-row number unnamed in the prompt and told Claude Code to find it by searching for 'Edit item', because the exact row for these titles is not recorded in the notes.
+- 2026-10-31 23:50 Did not ask Isa anything: the defaults cover this and no owner item is involved.

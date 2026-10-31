@@ -297,7 +297,7 @@ export default function FoodDetailScreen() {
   return (
     <DetailForm
       key={`${subject.mode}:${item.id}`}
-      title={review ? 'Rename food' : 'Edit item'}
+      title={review ? t('food.renameFoodTitle') : t('food.editItemTitle')}
       ctaLabel={review ? 'Save name' : 'Save changes'}
       seed={item}
       servings={basis ? presetsFor(item.quantityG) : undefined}

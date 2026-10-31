@@ -180,7 +180,9 @@
     "quickAddDecrease": "Decrease by {{step}}",
     "quickAddIncrease": "Increase by {{step}}",
     "quickAddMeal": "Meal",
-    "caloriesForGrams": "for {{grams}} g"
+    "caloriesForGrams": "for {{grams}} g",
+    "editItemTitle": "Edit item",
+    "renameFoodTitle": "Rename food"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

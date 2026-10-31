@@ -182,7 +182,9 @@
     "quickAddDecrease": "Reducir en {{step}}",
     "quickAddIncrease": "Aumentar en {{step}}",
     "quickAddMeal": "Comida",
-    "caloriesForGrams": "para {{grams}} g"
+    "caloriesForGrams": "para {{grams}} g",
+    "editItemTitle": "Editar elemento",
+    "renameFoodTitle": "Renombrar alimento"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

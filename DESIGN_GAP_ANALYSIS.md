@@ -1006,7 +1006,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 4. **Values are tap-to-edit in editing mode only:** the grams chip, the kcal readout and the macro tiles (`src/app/food/detail.tsx:500-519`, `:540`, `:602-643`). A sheet that opens with locked values shows them read-only until "Edit values manually" (`src/app/food/detail.tsx:388`, `:587`).
 5. No blinking caret affordance; the grams chip appears in editing mode only, and its pencil glyph hides while it is being edited (`src/app/food/detail.tsx:500-519`).
 6. **No 96×96 photo tile.**
-7. The sheet title is the mode, not the food — so a logged row shows its name only inside an editable field.
+7. The sheet title is the mode, not the food — so a logged row shows its name only inside an editable field. The "Edit item" and "Rename food" titles are translated: BUILT, not verified.
 8. **A `Name` field exists that the design does not have**; the design offers no rename here.
 9. No brand/density sub-line for logged rows (*"Logged today"*).
 10. **No AI provenance note.**

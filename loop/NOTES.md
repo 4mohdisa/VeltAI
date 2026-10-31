@@ -23,7 +23,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Meal chip caption reuses food.quickAddMeal (only English text left on the control).
 
 ## Status
-R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 quick-add.tsx copy BUILT. R180 macro tile labels confirmed BUILT. R181 meal chip labels BUILT. R181 'Meal' caption BUILT. R182 loop flag on the caption cleared. R183 'for {n} g' under calories built (food.caloriesForGrams, detail.tsx:566). R184: loop flag on R183 being partly done; re-check and finish requested (en/es/fr keys, gap item 14 sentence, no literal left).
+R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 quick-add.tsx copy BUILT. R180 macro tile labels confirmed BUILT. R181 meal chip labels BUILT. R181 'Meal' caption BUILT. R182 loop flag on the caption cleared. R183 'for {n} g' under calories built (food.caloriesForGrams, detail.tsx:566). R184 loop flag on R183 checked: already complete, no change needed; tsc 0, foodDetail 31 passed. Gap item 14 stays open as a difference (design has no such line).
 
 ## Built, not verified (es and fr are unreviewed drafts)
 - Tabs, tab bar, add menu, CaloriesCard labels, food row VoiceOver.
@@ -34,7 +34,7 @@ R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint d
 - quick-add.tsx: all copy through t(), including offline and failed toasts (food.quickAddOffline, food.quickAddFailed).
 
 ## Next (in order)
-1. food/detail.tsx: 'Edit item' and 'Rename food' titles at about line 300 (header of the same sheet).
+1. food/detail.tsx: 'Edit item' and 'Rename food' titles at about line 300 (header of the same sheet). IN PROGRESS, round 185.
 2. food/detail.tsx: other titles (Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, Edit food), 'g' unit in tile values, Name field. Remove stale comment near line 488. Grep macro tile labels first.
 3. Doc-only: DESIGN_GAP_ANALYSIS.md quick-add row (about line 87) and references (about 94, 957, 1020, 1060, 1213-1221). Fix quick-add.tsx:116 to :125. Reconcile wording, no count change.
 4. Read-only: scan.ts:305 'Scan failed' shows at food.tsx:887 and in VoiceOver. Translate at display; keep stored value (scanSeam.test.ts asserts it).
@@ -82,7 +82,7 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Briefs quote stale paths and finished work; check first.
 
 ## Last round
-R183: 'for {n} g' under calories built, tsc 0, foodDetail tests 35 passed. R184: loop flag says R183 looks partly done; re-check and finish before the Edit item titles.
+R184: R183 calories sub-label confirmed complete (no change), tsc 0, foodDetail 31 passed. Loop flag cleared. R185 starts on item 1 (Edit item and Rename food titles).
 
 ## Handover pending
 None.
