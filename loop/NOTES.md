@@ -23,15 +23,16 @@ Match design/Lume App.html through DESIGN_GAP_ANALYSIS.md rows. Branch loop/desi
 - loop/NOTES.md and loop/DECISIONS_LOG.md are loop-script files. Claude Code must not open or edit them.
 - Jev is advisory.
 - A report flagged for no tsc or no tests is partial; fix before next build round.
+- Doc factual corrections (route wording, stale cites) with accurate text from a report are applied without asking. (R33)
 
 ## Status
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard padding, title, sub-line, rest, logged state, failed-fetch notice; Macros copy; Burned guard; EnergyBalanceCard six strings; i18n setup; Log as planned; log sheet failed-fetch notice.
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 
 ## Next
-1. Doc round (R32): stale TodayCard cite near line 266; heatmap-only wording near lines 116 and 457. tsc only.
-2. Doc round: merge empty-status line 90 into the Saved foods row above.
-3. Read-only check: log-session.tsx:89 treats a failed today fetch as rest day? Treat as open until checked. Fix or close in its own round.
+1. Doc round (R33, this round): apply the route wording to the heatmap rows near lines 116 and 457. tsc only.
+2. Read-only check: does the failed today fetch in log-session.tsx (failure branch, now about line 139; locate by content) still treat the user as a rest day? Treat as open until checked. Fix or close in its own round.
+3. Row 90 empty-status merge: parked on Blocked on Isa. Do it only if Isa answers.
 4. Add sheet icons from design SVGs.
 5. Logged-day sheet: design hides it once logged; app shows it from + menu. Decide from design.
 6. Wrap hardcoded strings one file per round: nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today'.
@@ -54,6 +55,7 @@ Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - Users with no body stats see 'your 1,500 kcal calorie goal'? Design uses 2,100 fallback.
 - TodayCard logged: solid vs wash pill; whole-day kcal vs session; chevron before tappable; device check with logged session and no burn.
 - Volume: session.tsx saves top-set reps and weight for every set. Fix, show only when consistent, or accept?
+- Heatmap route wording (lines 116, 457): suggested wording applied in R33 without asking; Isa may override.
 
 ## Parked
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros as 0.
@@ -82,4 +84,5 @@ Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - R23-R26: gap-doc prose; checkpoint R24 green (tsc 0, 65 suites, 824 tests); R26 parked.
 - R27-R30: failed-fetch notices on log sheet and TodayCard (LoadFailedNotice, Try again = refetch). No failure-path tests.
 - R31: gap-doc round for today's session card row. tsc 0.
-- R32: doc round for stale cite and heatmap wording (this round; last report flagged, now re-checked with tsc).
+- R32: doc round for stale TodayCard cite (line 266 now 249). Heatmap wording flagged; report not applied.
+- R33: doc round applying route wording to heatmap rows (lines 116 and 457) using the report's suggested text. tsc only.

@@ -113,7 +113,7 @@ this pass matched the design on every checked value.
 | Gym — "My schedule" screen | ⚠️ PARTIAL | The week card is close; the design's whole "My workouts" section is missing from it, the sub-line is truncated, and the picker sheet differs in five ways. |
 | Gym — today's session card | ❌ DIFFERENT | TodayCard cards use padding 16 (space.lg) via padded={false} (not verified); all four states still differ: rest day and planned lack the tap target and chevron, planned lacks the stats grid, and loading has no design state. Logged state BUILT (not verified): green pill via `t('gym.logged')`, sub-line `Logged today · N kcal burned` from the day's `calories_out_exercise` via `formatEnergy`, the trailing chevron, and a 3-up grid (Duration, Volume, Sets) and exercise chips from the logged session. Still open on the logged state: the Calories cell, pending per-session calories on the backend; the chevron on a non-tappable card; the tap target, which needs a day-detail route; and the design's wash on the pill, whose token awaits Isa. Failed today fetch shows LoadFailedNotice with Try again (gym.loadFailed, onRetry = refetch); the design has no failure state. |
 | Gym — exercise progress | ⚠️ PARTIAL | Same chart idea, but no Muscles worked or Form guide cards, the bars encode weight rather than the design's metric, and the bottom stat pair is missing. |
-| Gym — month heatmap | ⚠️ PARTIAL | Geometry, ramp and legend match value for value; the cells are not tappable, so the design's only route into the day detail is gone. |
+| Gym — month heatmap | ⚠️ PARTIAL | Geometry, ramp and legend match value for value; the cells are not tappable, and neither is the session card, so the design's two routes into the day detail are gone. |
 | Gym — cross-cutting token drift | ⚠️ PARTIAL | The token system is faithfully mirrored; its application rounds the design's untokenised pixels and substitutes lighter type faces throughout. |
 | Tab shell / tab bar | ⚠️ PARTIAL | Same three tabs + separate black "+", same 22pt offset and 62pt button; padding, active fill, label weight and shadows differ. |
 
@@ -454,7 +454,7 @@ rule (year appended only outside the current year).
 
 1. **Cells are not interactive.** In the design every non-future cell is a button
    whose `onPick` opens the day/session detail. In the app `Day` is a bare `View`.
-   **This is the design's only route into the day-detail view, and it is gone.**
+   **This is one of the design's two routes into the day-detail view, with the session card, and both are gone.**
 2. **The 2px ring means something different** — design: the *selected* day (which
    moves as you tap); app: always today, because no selection exists.
 3. **A frozen-day fill (`light3`) is app-only** — the design's ramp has no freeze level.

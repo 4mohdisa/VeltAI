@@ -1430,3 +1430,6 @@
 - 2026-10-31 16:47 Kept row 113 and line 90 out of this round to keep it to one task; line 90 merge is listed as next.
 - 2026-10-31 16:47 Tests recorded as no matching tests because the round is doc-only, per the Jest rule for doc rounds.
 - 2026-10-31 16:47 Notes rewritten to under 600 words as the loop note required; repeated items merged, finished work removed, decisions kept.
+- 2026-10-31 16:48 Applied the report's suggested wording for lines 116 and 457 without asking Isa. It corrects a factual route claim, the change is doc-only, and it matches the app as it stands. This overrides Jev's ask score (advisory); the reason is the factual correction, which Jev cannot see.
+- 2026-10-31 16:48 Removed the line 90 merge from the Next list because that row is on Blocked on Isa. The merge runs only if Isa answers.
+- 2026-10-31 16:48 Chose the doc round over the read-only log-session check: it clears the flagged report and is the smallest task.
