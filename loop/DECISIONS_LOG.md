@@ -1536,3 +1536,8 @@
 - 2026-10-31 17:15 The handover NEXT ('add 1 to session.tsx citations above line 165') is stale. The latest Claude Code report already moved the citations and checked them by content, so the prompt asks for a recheck, not a +1 shift.
 - 2026-10-31 17:15 Edit-bar claims are reworded from grep results, not from memory, because the last two reports disagreed on whether the Food screens use NumberEntryBar.
 - 2026-10-31 17:15 Doc corrections that are factual are applied without asking, per the default rule. Jev's ask signal was low confidence (0.26), so I kept the smaller task.
+- 2026-10-31 17:16 Previous report was flagged, so this round is a single doc-only task that runs tsc and prints 'TSC EXIT <n>' and states 'no matching tests', which satisfies the doc-only rule.
+- 2026-10-31 17:16 Chose the doc correction because the latest report says these lines now contradict code facts. It is the smallest task, needs no Isa input and clears the contradictions before any code work.
+- 2026-10-31 17:16 Included line 962 in the same round because it is the same Food detail text and the report marks it as contradicting editing mode.
+- 2026-10-31 17:16 The handover NEXT ('add 1 above line 165', session.tsx citations) is stale when it conflicts with the latest report and notes, so it is not in this prompt.
+- 2026-10-31 17:16 Rest-seconds code fix (candidate 2) and string work (candidate 3) are deferred. Both need a clean-code check first and fall after the doc contradictions.

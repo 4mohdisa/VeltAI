@@ -959,7 +959,7 @@ calendar) with both arrows at the right, then the seven chips at
 ## Food — Food detail sheet
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The design is a tap-a-number → slim keyboard-bar sheet with a 96px photo, serving chips and a 2×2 macro grid; the app is a labelled form behind an "Edit values manually" toggle, with no photo; in its editing mode, tapping a value docks `NumberEntryBar` (`src/app/food/detail.tsx:690`).
+**One-line reason:** The design is a tap-a-number → slim keyboard-bar sheet with a 96px photo, serving chips and a 2×2 macro grid; the app has no photo, and a sheet that opens with locked values shows a read-only macro list until its "Edit values manually" toggle; editing mode is a macro grid of tappable tiles (`src/app/food/detail.tsx:597-638`), and tapping a value docks `NumberEntryBar` (`src/app/food/detail.tsx:690`).
 
 ### Design write-up
 
@@ -991,18 +991,18 @@ title is the **mode** ("Edit item", "Rename food", "Edit food", "Confirm product
 not the food. Body: an optional grey card with name + sub-line (search/barcode
 only); `SegmentedField "Serving size"`; a **centred** `statLarge` kcal readout plus
 *"for 250 g"*; a `Name` `TextField`; then either a read-only macro list (dot +
-label + value) with a pencil **"Edit values manually"** toggle, or 2-up boxed
-`TextField`s (`Serving (g)`, `Calories`, `Protein (g)`, `Carbs (g)`, `Fat (g)`);
+label + value) with a pencil **"Edit values manually"** toggle, or, in editing mode,
+a two-column grid of tappable macro tiles (`src/app/food/detail.tsx:597-638`);
 a `Meal` segmented control **only when a slot is known**; the CTA; *"Save to my
 foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 
 ### Differences
 
 1. **Slim keyboard edit bar in editing mode only** — `src/app/food/detail.tsx:690` docks `NumberEntryBar` (`src/components/common/NumberEntryBar.tsx`); on a sheet that opens with locked values, it is reachable only after "Edit values manually" (`src/app/food/detail.tsx:383`, `:582`).
-2. Numbers are entered in **boxed form fields** with `FieldShell` labels (footnote 13/18 w400, `#171717`) instead of the uppercase `600`, `letter-spacing 1.1px` secondary caption.
+2. Numbers are typed through `NumberEntryBar` (`src/app/food/detail.tsx:690`), captioned from `PADS` (`src/app/food/detail.tsx:56`).
 3. **"Edit values manually" is an app-invented mode**; the design has no read-only/editable distinction.
-4. **Values are not tap-to-edit** anywhere.
-5. No blinking caret affordance; no pencil glyph on a grams chip; **no grams chip at all**.
+4. **Values are tap-to-edit in editing mode only:** the grams chip, the kcal readout and the macro tiles (`src/app/food/detail.tsx:495-514`, `:535`, `:597-638`). A sheet that opens with locked values shows them read-only until "Edit values manually" (`src/app/food/detail.tsx:383`, `:582`).
+5. No blinking caret affordance; the grams chip appears in editing mode only, and its pencil glyph hides while it is being edited (`src/app/food/detail.tsx:495-514`).
 6. **No 96×96 photo tile.**
 7. The sheet title is the mode, not the food — so a logged row shows its name only inside an editable field.
 8. **A `Name` field exists that the design does not have**; the design offers no rename here.
@@ -1208,14 +1208,14 @@ deliberate design-system deviations.
 ## Food — number entry (cross-cutting)
 
 **Verdict:** ❌ DIFFERENT
-**One-line reason:** The design enters every number through the slim bar and uses ± / presets only as shortcuts; the app uses boxed fields everywhere and, in five places, a **slider** or a **± stepper**.
+**One-line reason:** The design enters every number through the slim bar and uses ± / presets only as shortcuts; the app uses the slim bar on `src/app/food/detail.tsx:690` and `src/app/food/quick-add.tsx:190`, boxed fields on `src/app/food/custom-food.tsx`, `src/app/food/label-scan.tsx` and `src/app/food/new-recipe.tsx`, and, in four places, a **slider** or a **± stepper**.
 
 Where numbers are entered in the app today: detail sheet fields (`decimal-pad`),
 quick add (`number-pad`), custom food, label scan fields, **label scan servings
 (`Stepper`)**, **scan review weight (`SliderField` + ½×/1×/2× chips)**, **new
 recipe servings (`Stepper`)**, **recipes log sheet servings (`Stepper`)**.
 
-A search for an input accessory bar or a "Done" pill anywhere in `src` returns
+A search of `src` for `Done` finds the "Done" pill at `src/components/common/NumberEntryBar.tsx:94-110`; a search for `InputAccessoryView` returns
 nothing. Additional consequences: no `autoFocus`; a decimal keypad whose values are
 then rounded to integers; no length cap or leading-zero stripping; and
 `applyGrams` silently changes nothing else when a row has no per-100 basis (a

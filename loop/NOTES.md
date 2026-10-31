@@ -27,11 +27,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 - BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard; Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; session.tsx label 'Add an exercise', picked and planned rest seconds.
 - Gap doc citations to session.tsx moved and checked by content (R51, report confirmed).
+- R52 doc corrections done: line 94, 962 (partly), 1001, 330 wording, 334 set to No. Session.tsx citations rechecked, none changed.
 - Counts (last recorded): 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
 - Last checkpoint R48 green: tsc 0, 65 suites, 824 tests.
+- R52 report was flagged by the loop (type check or tests not run, task partly done). R53 re-runs tsc and states no matching tests.
 
 ## Next
-1. R52 (doc-only, in progress): reword edit-bar claims at gap lines about 94, 962 and 1001 after grepping NumberEntryBar. Reword ExercisePicker line about 330 ('Something else' opens /gym/session with picker showing). Set line 334 'Reachable UI today?' to No. Recheck session.tsx citations by content. Then tsc only.
+1. R53 (doc-only, in progress): correct gap doc lines 995, 1002, 1004, 1005, 1211, 1218 against src/app/food/detail.tsx (tap-to-edit, grams chip at :495-514, boxed fields, 'Done' pill search result). Reword line 962 'a labelled form' to match the macro grid at detail.tsx:597-638. Change no status cells or counts. Then tsc only, print 'TSC EXIT <n>'.
 2. Still open in gap doc: row 7 check; 'What the app does' old-form block (restore date only if accurate); line 90 empty-status merge into 'Food - My dishes / Saved'; 'Gym - session logging' status cell (items are partial).
 3. plannedRows omits te.rest_seconds (session.tsx about :193-199): fix only if it is a clean code change with no owner input; verify before editing.
 4. Logged-day sheet from + menu: 'Add something extra' is in the design, but the session.tsx empty state is 'Add an exercise'. Decide and record.
@@ -48,7 +50,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Already-logged days: real editing (src/lib/data/mutations.ts:173-178) or change 'open it to edit' copy. /gym/session writes a second session row.
 - Device checks: logged card and failure states offline. Possible double notice with gym tab (src/app/(tabs)/gym.tsx:107).
 - Gap row 90 merge; whether log-sheet row stays BUILT.
-- Line 334 verdict: Yes or No in 'Reachable UI today?' (notes default No, see decisions).
+- Line 330 Partial vs BUILT (difference 9 at line 228 records same branch as BUILT).
+- Line 334 verdict: set to No in R52, Isa may override.
 - Footnote '23 sessions 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review; 'My dishes'; Macros wording.
@@ -80,15 +83,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Gotchas
 - Edit tool: node escapes for NBSP and U+2019.
 - i18n lng fixed to 'en' (src/lib/i18n/index.ts:41).
-- Grep: LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
+- Grep: LC_ALL=C /usr/bin/grep. Quote (tabs) paths. grep -c returning 0 exits 1.
 - Check premises first: nutrition.tsx is src/app/dashboard/; hook is src/lib/data/gymSchedule.ts; gym tests in src/__tests__.
 - Design assets decode with node -e from __bundler/manifest: Summary 185bb533, gym 7dc211f6, food 71f71ac4.
-- zsh breaks on unquoted globs and echo ==. grep -c returning 0 exits 1.
+- zsh breaks on unquoted globs and echo ==.
 - Handover text can be stale; notes win.
 
 ## Round log
 - R9-R50: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard, failed-fetch notices, checkpoints R34 and R48 green, session label, rest seconds, gap fixes.
 - R49-R50: citation shifts were applied wrongly; R51 rechecked them by content.
 - R51: doc corrections mostly done (15 citations, difference 11, line 328). Loop note flagged partly done.
-- R52: previous prompt rejected (did not restrict to loop/design-match). Rewritten prompt issued: doc-only, edit-bar claims at 94/962/1001, ExercisePicker line about 330, line 334 set to No, session.tsx citation recheck, tsc only. Handover NEXT '+1 above line 165' treated as stale.
-- R53: next, after R52 report.
+- R52: doc-only edit-bar claims corrected at 94, 962, 1001; ExercisePicker line 330 reworded; line 334 set to No; session.tsx citations rechecked; tsc 0. Loop note flagged the report (tsc or tests not run). Latest report lists contradicting Food detail lines 995-1218 as NEXT.
+- R53: in progress. Doc-only correction of 995, 1002, 1004, 1005, 1211, 1218 and 962 against detail.tsx; tsc only.
+- R54: next, after R53 report.
