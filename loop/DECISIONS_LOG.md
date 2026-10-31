@@ -1091,3 +1091,7 @@
 - 2026-10-31 13:55 Footnote uses the existing gym.streakSub key as-is, with no new keys, because the design footnote shows freezes and the decision drops Freezes from the strip. Counting period is parked, not decided.
 - 2026-10-31 13:55 Kept the tap to /gym/streak as an accepted deviation, per the existing Isa decision on streak strip routing.
 - 2026-10-31 13:55 Prompt names design/Lume App.html and the gap rows explicitly, to fix the rejected prompt.
+- 2026-10-31 13:58 Chose the read-only clearing round over Jev's 'Loading sessions' literal (97%). Reason: the notes rule says a flagged report is cleared by a read-only round before new build work, and the strip is only partly done. Jev cannot see that rule.
+- 2026-10-31 13:58 Did not ask Isa about the footnote. Reason: the footnote copy is a code-level choice, not an owner-only item. Default: use separate _one and _other plural keys for sessions and freezes in en, es and fr, joined by ' · ', with the session count from streak.totalGymDays and the freeze count from streak.freezesAvailable. Records this so the next build round can follow it. Isa's replies override this.
+- 2026-10-31 13:58 Chose not to edit the DESIGN_GAP_ANALYSIS.md rows at :393 and :420 yet. Reason: the strip is not complete until the footnote is built.
+- 2026-10-31 13:58 Treated the flame pulse, grey flame at 0, flame artwork and 12 vs 11 row gap as Parked, not built. Reason: they are visual differences outside the one-row strip task and no token covers 11.
