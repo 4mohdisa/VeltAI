@@ -17,7 +17,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Every prompt names design/Lume App.html, the gap row, and the branch rule.
 
 ## Status
-- R236: checkpoint, full type check and app suite, read-only.
+- R237: row 112 Training list re-check (doc only).
+- R236: checkpoint green. tsc exit 0, app suite 65/65 suites, 824/824 tests, snapshots 4/4. Read-only.
 - R235: row 112 My schedule card typography (day 600 12.5/17, name 500 15/20) and gap 11. BUILT.
 - R231-R234: row 112 My schedule card; row 83 copy, icon, es/fr. BUILT.
 - R227-R230: Log button under session card, per showLogCta. BUILT.
@@ -29,10 +30,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 83 DIFFERENT: route (sheet-in-place) stale, parked. Button height and type parked.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: four-row Training list; LoadFailedNotice; pull-to-refresh; lumeFade; eyebrow tracking and min height; title tracking, padding, gap; GymPatternsCard typography (padding Blocked).
+- 112 PARTIAL: four-row Training list (re-check in R237); LoadFailedNotice; pull-to-refresh; lumeFade; eyebrow tracking and min height; title tracking, padding, gap; GymPatternsCard typography (padding Blocked).
 
 ## Next
-1. R236 checkpoint result. If green, row 112 Training list: re-check first, then build.
+1. R237 Training list re-check result. If it differs, build the real differences in one file per round.
 2. Row 112: LoadFailedNotice, pull-to-refresh, lumeFade, header typography. One per round, re-check first.
 3. Gym cluster, one file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 4. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
@@ -59,7 +60,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gym UI: Training list 'My schedule' row duplicates card destination (keep); card pressed 0.85 vs light1; 'N days planned' colour tertiary vs secondary.
 - Pull-to-refresh and focus do not re-read TodayCard or Log button.
 - Stale comments: gym.tsx header and above MuscleChart; gym.tsx:144; SegmentedField label; food.tsx:656-659 cites UI_PASS_GAPS.md.
-- Code: SLOT_KEYS duplicated (food, add, quick-add, detail); TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; Math.max NaN; key={c.name}; Text primitive comment vs named styles.
+- Code: SLOT_KEYS duplicated (food, add, quick-add, detail); TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56 (also seen in npm test output); recipe fibre saved as 0; Math.max NaN; key={c.name}; Text primitive comment vs named styles.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, gym.tsx render, MyScheduleCard render.
@@ -77,5 +78,6 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 - Line numbers shift; grep before citing. Say BUILT, never verified.
 
 ## Handover and Jev
-- Handover summary in loop/HANDOVER.md; received this round. Script-managed every 15 rounds.
-- Jev: R233 ask 67% not followed (copy covered by decisions). R234 run 90%, agreed. R235 ask 77% not followed (three-vs-seven answered by bundle 7dc211f6). R236 checkpoint: Jev run 57%, ask 23%, stop 20% (confidence 0.35); run kept, checkpoint is read-only. Risk 1.1 noted.
+- Handover summary in loop/HANDOVER.md; received R236. Script-managed every 15 rounds.
+- Jev: R233 ask 67% not followed (copy covered by decisions). R234 run 90%, agreed. R235 ask 77% not followed (three-vs-seven answered by bundle 7dc211f6). R236 checkpoint: Jev run 57%, ask 23%, stop 20%; run kept, checkpoint read-only. R237: Jev run 85%, agreed.
+- Risk 1.6 (last handover report) and 1.1 (R236) noted. Keep tasks small.

@@ -2428,3 +2428,8 @@
 - 2026-11-01 01:08 Kept Jev's advisory risk of 1.1 in mind: this round changes no files, so no new risk is added.
 - 2026-11-01 01:08 Kept 'change no files' in the prompt so the checkpoint cannot drift into a build.
 - 2026-11-01 01:08 Rewrote the notes under 600 words as the loop note asked: merged repeated items, removed finished work, kept every decision line.
+- 2026-11-01 01:09 R236 checkpoint was green (tsc exit 0, 65/65 suites, 824/824), so the loop proceeds to the row 112 Training list re-check as the notes say.
+- 2026-11-01 01:09 Chose re-check over build because the rule is to compare code with design/ before building any row, and the Training list is unverified.
+- 2026-11-01 01:09 Deferred the row 83 doc fix from the handover recommendation because the notes rule says doc fixes wait until no build row is open. Row 112 is still open.
+- 2026-11-01 01:09 Jev said run 85%, which agrees with this choice. No conflict to re-check.
+- 2026-11-01 01:09 Kept Blocked on Isa items out of this round. No new question for Isa.
