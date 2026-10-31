@@ -1,6 +1,7 @@
 // GymSessionButton — the primary "Log this session" CTA, or a logged-confirmation
 // pill once today's session exists. The single most important action in Lume.
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -14,6 +15,8 @@ export type GymSessionButtonProps = {
 };
 
 export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
+  const { t } = useTranslation();
+
   if (logged) {
     return (
       <View
@@ -49,7 +52,7 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
         haptics.impactMedium();
         onPress();
       }}
-      accessibilityLabel="Log this session"
+      accessibilityLabel={t('gym.logThisSession')}
       style={{
         flexDirection: 'row',
         alignItems: 'center',
@@ -63,7 +66,7 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
       }}
     >
       <Text variant="bodyBold" color={color.onPrimary}>
-        Log this session
+        {t('gym.logThisSession')}
       </Text>
       <Icon name="chevron-up" size={15} color={color.onPrimary} weight="semibold" style={{ opacity: opacity.medium }} />
     </Pressable>

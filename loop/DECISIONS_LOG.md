@@ -2409,3 +2409,8 @@
 - 2026-11-01 01:01 My schedule card: built, not asked. It is a design-match row with no data model or backend change, so it needs no approval. It waits until after row 83.
 - 2026-11-01 01:01 Training list 'My schedule' row stays for now. It is out of scope, and the duplicate is settled at doc fix time.
 - 2026-11-01 01:01 Card text 12.5/17 and 15/20: use the nearest existing text token if one matches, otherwise the exact design values. No question to Isa.
+- 2026-11-01 01:03 Approved the new key gym.logThisSession myself. The decision 'New keys go to en, es, fr together' already covers it, and a locale key is not a product question, so it does not need Isa.
+- 2026-11-01 01:03 Did not follow Jev's ask. Its confidence was 0.20, and the question it implies is already answered by the decisions. The only open item is copy wording, which I decided: 'Log this session', 'Registrar esta sesión', 'Enregistrer cette séance'.
+- 2026-11-01 01:03 Kept addMenu.logGymSession unchanged so the + menu still matches the design's 'Log gym session'.
+- 2026-11-01 01:03 Left the button height, label weight and logged branch out of this task. Those are outside copy and icon, so they go to Parked.
+- 2026-11-01 01:03 Counted the R232 report as flagged-partial, and this round finishes its step 3 instead of moving on.

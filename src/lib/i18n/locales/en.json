@@ -245,6 +245,7 @@
     "title": "Gym",
     "loadingSessions": "Loading sessions…",
     "monthLoadFailed": "Couldn't load this month's sessions",
+    "logThisSession": "Log this session",
     "streakDetailLabel_one": "Streak detail. {{count}} day streak",
     "streakDetailLabel_other": "Streak detail. {{count}} day streak",
     "dayStreak_one": "day streak",

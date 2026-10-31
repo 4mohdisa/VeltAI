@@ -247,6 +247,7 @@
     "title": "Gimnasio",
     "loadingSessions": "Cargando sesiones…",
     "monthLoadFailed": "No se pudieron cargar las sesiones de este mes",
+    "logThisSession": "Registrar esta sesión",
     "streakDetailLabel_one": "Detalle de la racha. {{count}} día seguido",
     "streakDetailLabel_other": "Detalle de la racha. {{count}} días seguidos",
     "dayStreak_one": "día seguido",

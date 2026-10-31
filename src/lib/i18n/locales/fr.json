@@ -245,6 +245,7 @@
     "title": "Sport",
     "loadingSessions": "Chargement des séances…",
     "monthLoadFailed": "Impossible de charger les séances de ce mois",
+    "logThisSession": "Enregistrer cette séance",
     "streakDetailLabel_one": "Détail de la série. {{count}} jour d’affilée",
     "streakDetailLabel_other": "Détail de la série. {{count}} jours d’affilée",
     "dayStreak_one": "jour d’affilée",
