@@ -1621,3 +1621,8 @@
 - 2026-10-31 17:37 Limited the round to re-check and fix-only-if-red, so no new behaviour is added while a flag is open.
 - 2026-10-31 17:37 Parked the shared rounding helper and raw value display as NEXT. Each touches more than one file, which breaks the one-file rule for this round.
 - 2026-10-31 17:37 Treated the report's line-count and comment changes in food.tsx as accepted for this round; the re-check will confirm they compile and pass.
+- 2026-10-31 17:38 Chose the quick add serving fix because the R71 report flagged the R70 change as unverified and named this as the design mismatch to close next; it is one file and clears the flag.
+- 2026-10-31 17:38 Made the step conditional on FoodResult carrying serving data, so no backend or data model change is forced; if it does not, the task parks instead of being built.
+- 2026-10-31 17:38 Kept the existing 1-decimal rounding on macros and whole calories, because the notes record that draft() rounds on save and Food day card totals stay whole.
+- 2026-10-31 17:38 Told Claude Code to say 'no matching tests' rather than write a test, per the testing rules; the flag stays open until Isa verifies the UI.
+- 2026-10-31 17:38 Kept the raw item values, shared rounding helper and stale doc lines out of this round to respect one task per prompt.
