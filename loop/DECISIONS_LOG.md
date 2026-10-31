@@ -2146,3 +2146,8 @@
 - 2026-10-31 23:03 Kept the existing food.padCalories key rather than adding one, because it already matches the design and the decision that food.padCalories always says kcal.
 - 2026-10-31 23:03 Did not run the full suite, per the checkpoint rules; this is not a checkpoint round.
 - 2026-10-31 23:03 Updated only the quick-add gap row, with no count changes, per the doc-only and row rules.
+- 2026-10-31 23:43 Chose to finish quick-add.tsx before moving on, because the loop note flagged the last report as partly done and the same screen still has English copy. This is the smallest fix that closes the flag.
+- 2026-10-31 23:43 Chose not to set the quick add gap row to BUILT, because it is still DIFFERENT with open items. That keeps the header counts correct.
+- 2026-10-31 23:43 Told Claude Code to reuse an existing key whenever the English text matches exactly, to avoid duplicate keys.
+- 2026-10-31 23:43 Kept the doc line-number drift out of this prompt, because the brief says one surface per round. It is listed under NEXT.
+- 2026-10-31 23:43 Used design wording for the strings and kept current English for any toast the design does not word.

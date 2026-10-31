@@ -39,6 +39,12 @@ import { runOrQueue } from '@/lib/offline/queue';
 import type { MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+const SLOT_KEYS: Record<MealSlot, string> = {
+  Breakfast: 'breakfast',
+  Lunch: 'lunch',
+  Dinner: 'dinner',
+  Snacks: 'snack',
+};
 /** The design's figure: 250 kcal to start, ±50 on the discs, four add-on presets. */
 const DEFAULT_KCAL = 250;
 const STEP = 50;
@@ -66,12 +72,15 @@ export default function QuickAddScreen() {
     setSubmitting(true);
     const name = 'Quick add';
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
-    let toast = `${formatCalories(kcal)} added to ${mealType.toLowerCase()}`;
+    let toast = t('foodLog.addedToMeal', {
+      energy: formatCalories(kcal),
+      slot: t(`addMenu.${SLOT_KEYS[mealType]}`).toLowerCase(),
+    });
     try {
       await api.foodLogs.quickAdd({ calories: kcal, meal_type: mealType, date: selectedFoodDate() });
     } catch (e) {
       if (!isTransient(e)) {
-        showToast({ message: "Couldn't add that — try again.", tone: 'error' });
+        showToast({ message: t('food.quickAddFailed'), tone: 'error' });
         setSubmitting(false);
         return;
       }
@@ -84,7 +93,7 @@ export default function QuickAddScreen() {
         calories: kcal,
         source: 'quick_add',
       });
-      toast = `Added ${formatCalories(kcal)} — will sync when you're back online.`;
+      toast = t('food.quickAddOffline', { calories: formatCalories(kcal) });
     }
     // Reflect locally so the food log updates immediately.
     useFoodStore.getState().logMeal(mealType, item, 'manual');
@@ -114,16 +123,16 @@ export default function QuickAddScreen() {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-      <SheetContent variant="leading" title="Quick add" onClose={() => router.canGoBack() && router.back()}>
+      <SheetContent variant="leading" title={t('addMenu.quickAdd')} onClose={() => router.canGoBack() && router.back()}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: space.xl }}>
-          {editing ? null : disc('remove', `Decrease by ${STEP}`, () => setKcal((n) => Math.max(0, n - STEP)))}
+          {editing ? null : disc('remove', t('food.quickAddDecrease', { step: STEP }), () => setKcal((n) => Math.max(0, n - STEP)))}
           <Pressable
             onPress={() => {
               setEntry('');
               setEditing((open) => !open);
             }}
             minTapTarget={false}
-            accessibilityLabel="Calories, tap to type"
+            accessibilityLabel={t('food.tileEditLabel', { label: t('gymLog.celebration.calories') })}
             style={{ flex: 1, alignItems: 'center', borderRadius: radius.md }}
           >
             {/* The design's hero figure: tight tracking, greyed while it waits
@@ -132,10 +141,10 @@ export default function QuickAddScreen() {
               {formatNumber(kcal)}
             </Text>
             <Text variant="footnote" color={color.secondaryLabel}>
-              {editing ? 'kcal' : 'kcal · tap to type'}
+              {editing ? t('dashboard.kcal') : t('food.quickAddKcalHint')}
             </Text>
           </Pressable>
-          {editing ? null : disc('add', `Increase by ${STEP}`, () => setKcal((n) => n + STEP))}
+          {editing ? null : disc('add', t('food.quickAddIncrease', { step: STEP }), () => setKcal((n) => n + STEP))}
         </View>
 
         {editing ? null : (
@@ -165,12 +174,12 @@ export default function QuickAddScreen() {
 
         <View style={{ gap: space.sm }}>
           <Text variant="label" color={color.secondaryLabel} style={{ letterSpacing: 1.1, textTransform: 'uppercase' }}>
-            Meal
+            {t('food.quickAddMeal')}
           </Text>
           <SegmentedField<MealSlot>
             value={mealType}
             onChange={setMealType}
-            options={SLOTS.map((s) => ({ label: s, value: s }))}
+            options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`), value: s }))}
             variant="inset"
             compact
           />
@@ -179,7 +188,7 @@ export default function QuickAddScreen() {
         {editing ? null : (
           // Less padding lets the Button's 52pt minHeight set the pill's height, as in the design.
           <Button
-            title={`Add ${formatCalories(kcal)}`}
+            title={t('food.quickAddAction', { calories: formatCalories(kcal) })}
             onPress={() => void add()}
             disabled={invalid}
             loading={submitting}

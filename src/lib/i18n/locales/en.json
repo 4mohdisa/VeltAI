@@ -172,7 +172,14 @@
     "padFibre": "Fibre · grams",
     "tileEditLabel": "{{label}}, tap to type",
     "servingSize": "Serving size",
-    "editValuesManually": "Edit values manually"
+    "editValuesManually": "Edit values manually",
+    "quickAddKcalHint": "kcal · tap to type",
+    "quickAddAction": "Add {{calories}}",
+    "quickAddOffline": "Added {{calories}} — will sync when you're back online.",
+    "quickAddFailed": "Couldn't add that — try again.",
+    "quickAddDecrease": "Decrease by {{step}}",
+    "quickAddIncrease": "Increase by {{step}}",
+    "quickAddMeal": "Meal"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",
