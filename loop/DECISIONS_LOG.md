@@ -2369,3 +2369,6 @@
 - 2026-11-01 00:47 Row 85 calorie bar and 'left today' stay Blocked on Isa, not retried.
 - 2026-11-01 00:47 The prompt says to grep rather than trust line numbers, because the gap doc line references are stale.
 - 2026-11-01 00:47 Notes condensed below 600 words, per the loop note. Finished work and repeated items were merged.
+- 2026-11-01 00:49 Chose the tsc re-run first because the loop flagged the last report for missing a type check after its final edit; this is mechanical and needs no question to Isa.
+- 2026-11-01 00:49 Kept run over Jev's 63% ask: the task is a single concrete command with a clear pass or fail result, so asking Isa would add no information.
+- 2026-11-01 00:49 Kept the row 87 Still-open alignment as NEXT, not this round, so this round stays a single task.
