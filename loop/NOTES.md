@@ -16,40 +16,45 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Code tidying is never a task. Doc fixes wait until no build row is open.
 - Every prompt: work only on loop/design-match; never switch, create, push or merge.
 - Checkpoints: tsc plus jest --ci, no -u.
+- Shared component edits (DetailChart.tsx) need Isa approval because they change other screens and snapshots.
+- Unanswered questions are not repeated (R268).
 
 ## Status
-- R266: row 103 kicker and Breakdown dots (nutrition.tsx).
-- R264: row 103 card gap 16 built (nutrition.tsx:76). Macros snapshot now red, blocked on Isa.
+- R268: Isa did not answer the R267 question on DetailChart.tsx and the detailChrome snapshot. Not asked again. Jev said ask 93%. Chose run: the Summary re-check needs no Isa input, is doc-only, and cannot break the build. Row 85 title is not picked because it was built R260 (handover stale).
+- R267: asked Isa to approve DetailChart.tsx edit and detailChrome snapshot update (row 103). No answer.
+- R266: no code changed. Row 103 differences all live in src/components/display/DetailChart.tsx. Row 103 marked NOT BUILT, code re-checked.
 - R265 checkpoint result not reported. Run at next checkpoint.
 - R258 checkpoint: tsc 0, 65/65 suites, 824/824 (before the snapshot change).
+- R264: row 103 card gap 16 built (nutrition.tsx:76). Macros snapshot now red, blocked on Isa.
 - R240-257: gym cluster, Summary and Food values built. R260: row 85 title block built.
 
 ## Open rows
 - 83 DIFFERENT: sheet-in-place parked; button height and type parked.
 - 85 DIFFERENT: eyebrow and title built. Open: calorie bar, 'left today', four-column wrap, top padding.
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
-- 103 DIFFERENT: card gap 16 built. Open: kicker, Breakdown dots, 176pt chart, top padding. Energy.tsx, dashboard/week.tsx, dashboard/training.tsx still gap 12.
+- 103 DIFFERENT: card gap 16 built. Open in DetailChart.tsx (needs Isa): kicker dot 8 vs 10 (:160); kicker letter spacing 1 vs 1.1 (:161); title letter spacing 0 vs -0.6 (:165); kicker block side padding 0 vs 2 and bottom 4 vs 0 (:158); Breakdown dot 8 vs 9 (:216); Breakdown row gap 8 vs 9 and baseline alignment (:215); stat line gap 4 vs 3, baseline gap 8 vs 7. Open outside file: 176pt chart; Energy.tsx, dashboard/week.tsx, dashboard/training.tsx still gap 12.
 - 104 PARTIAL: Steps card missing; four non-design items; Today only; differences 25-27 open.
 - 112 PARTIAL: top padding; GymPatternsCard typography blocked; Training list and LoadFailedNotice app-only.
 
 ## Next
-1. R266: row 103 kicker and Breakdown dots.
-2. Row 103: 176pt chart; other detail views gap 16, each with its own snapshot approval.
-3. Row 104: Steps card and scope, build or park.
-4. Summary differences 1-25, 29, 30 re-check (doc only).
-5. Gym cluster, one file per round.
-6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+1. Summary differences 1-5 re-check (doc only), R268.
+2. Summary differences 6-10, then 11-15, 16-20, 21-25, 29-30, one batch per round (doc only).
+3. Row 104: decide Steps card build or park (may need a step data source; HealthKit is off-limits).
+4. Gym cluster, one file per round.
+5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+6. If Isa answers DetailChart.tsx: make the row 103 value changes, then approve one snapshot update for all four detail views.
 7. Doc fixes once no build row is open.
 8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- 103: approve snapshot update for detailChrome macros only (npx jest src/__tests__/render/detailChrome.render.test.tsx -u).
+- 103: approve DetailChart.tsx edit (shared, changes Energy, Week, Training on screen). Asked R267, no answer; not asked again.
+- 103: approve snapshot update for detailChrome, all four views (npx jest src/__tests__/render/detailChrome.render.test.tsx -u). Asked R267, no answer.
 - 85: calorie bar; 'left today'; four-column wrap; Meal history link (recommend keep).
 - 87: 17/24 vs 17/22; bottom spacing; figure and meal defaults; 180ms; chip truncation.
 - 112: GymPatternsCard padding 20 vs 16; Training list (keep); LoadFailedNotice (accept).
 - Top padding Gym, Summary, Food: inset-based (recommended) or literal 70.
 - Gym Log hidden on rest days and with no schedule: acceptable?
-- Device checks: eyebrow, calendar return, title spacing, shadows, pull-to-refresh, tab bar es/fr, food row, offline, add menu at 232pt, swipe dialogs, long es/fr text, schedule weekday, bottom 158 notched, header 82, Food gaps.
+- Device checks: eyebrow, calendar return, title spacing, shadows, pull-to-refresh, tab bar es/fr, food row, offline, add menu at 232pt, swipe dialogs, long es/fr text, schedule weekday, bottom 158 notched, header 82, Food gaps, Macros baseline alignment, Breakdown label type.
 - Native review es/fr strings and long labels (see gap doc).
 - Header strip on floating screens: Screen.tsx:163 fixed 84 or inset-based.
 - TestPG_* (18 skipped): run against Postgres?
@@ -67,6 +72,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height.
 - Doc: stale gap-doc lines near 236, 310, 438, 448, 534, 588, 1520; row 87 repeated BUILT; row 112 says EXACT; rows 85 and 104 say BUILT for 158.
+- Doc: handover food title recommendation was stale (row 85 title built R260).
 
 ## Accepted limits
 Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym, Summary, Food suites read source text only.
@@ -80,5 +86,7 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym
 - Every prompt must say: work only on loop/design-match; never switch, create, push or merge.
 
 ## Handover and Jev
-- Handover every 15 rounds into loop/HANDOVER.md. Last before R260.
-- Jev R266: run 52%, ask 45%. Kept run: the task needs no Isa input and the next row is clear.
+- Handover every 15 rounds into loop/HANDOVER.md. Last before R260. Next due around R275.
+- Jev R268: ask 93%, run 4%, stop 3%. Looked again. Kept run for the reason in R268 above.
+- Jev R267: ask 94%, run 3%, stop 3%. Acted on it: the only row-103 build needs Isa's approval.
+- Jev R266: run 52%, ask 45%.

@@ -2566,3 +2566,11 @@
 - 2026-11-01 01:54 Kept the detailChrome render test out of the run: its macros snapshot is red and waits on Isa, so running it would only repeat a known failure.
 - 2026-11-01 01:54 Rewrote the notes to about 500 words, as the loop note asked: merged repeated items and deleted finished work.
 - 2026-11-01 01:54 Did not run a checkpoint: R265 result was not reported, so it stays open for the next checkpoint round.
+- 2026-11-01 01:56 Asked Isa instead of running. The only build left for row 103 needs a shared component edit and a snapshot approval, both owner decisions. Jev also gave ask 94%.
+- 2026-11-01 01:56 Ignored the handover's RECOMMENDED NEXT (Food title block, row 85). Notes outrank handover, and the row 85 title block was built in R260.
+- 2026-11-01 01:56 Kept the R266 report's finding: the kicker and Breakdown gaps are in DetailChart.tsx, not nutrition.tsx. Not patching nutrition.tsx with copied components, which breaks the shared-component rule.
+- 2026-11-01 02:12 Did not ask Isa again: he did not answer the DetailChart.tsx and detailChrome snapshot question, and the loop note says not to repeat it. Recorded under Blocked on Isa.
+- 2026-11-01 02:12 Chose the Summary re-check over the Jev ask signal: it needs no answer from Isa, it changes only the gap doc, and it cannot break the build. Remaining work that does not need Isa is doc-only, so asking would only repeat the blocked question.
+- 2026-11-01 02:12 Food title block (row 85) is not picked: the notes say it was built in R260, so the handover recommendation is stale and notes outrank handover.
+- 2026-11-01 02:12 Row 104 Steps card stays open for a later decision. It may need a step data source, and HealthKit work is off-limits.
+- 2026-11-01 02:12 Re-check runs in batches of 5 rows, so Summary differences 6 to 25, 29 and 30 come in later rounds.
