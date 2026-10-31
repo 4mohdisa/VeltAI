@@ -2120,3 +2120,7 @@
 - 2026-10-31 22:57 Kept quick-add and Edit item/Rename food for later rounds: one surface per round, and these are separate surfaces.
 - 2026-10-31 22:57 Limited the test run to the three files already used for detail.tsx, because the full suite is for checkpoint rounds only.
 - 2026-10-31 22:57 Did not mention Jev in the prompt, per the brief.
+- 2026-10-31 22:58 Chose candidate 1 (tile VoiceOver label): it was the recommended NEXT from R172, it is one file, and it needs no decision from Isa. Jev also ranks run at 96%.
+- 2026-10-31 22:58 Told Claude Code to reuse an existing tap-to-type key if one exists, otherwise add food.tileEditLabel to en, es and fr together, following the rule that new keys go to all three locales.
+- 2026-10-31 22:58 Kept layout difference of gap item 11 open, since the row is not fully built.
+- 2026-10-31 22:58 Did not add the old '80%' or other nutrition items this round, since the labels were already the highest-value gap in this file.

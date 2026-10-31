@@ -617,7 +617,7 @@ function DetailForm({
                 key={key}
                 onPress={startEdit(key)}
                 minTapTarget={false}
-                accessibilityLabel={`${label}, tap to type`}
+                accessibilityLabel={t('food.tileEditLabel', { label })}
                 // Two columns, leaving the design's gap between them.
                 style={{
                   width: '48%',

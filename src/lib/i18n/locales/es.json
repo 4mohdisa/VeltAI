@@ -171,7 +171,8 @@
     "padProtein": "Proteína · gramos",
     "padCarbs": "Carbohidratos · gramos",
     "padFat": "Grasa · gramos",
-    "padFibre": "Fibra · gramos"
+    "padFibre": "Fibra · gramos",
+    "tileEditLabel": "{{label}}, toca para escribir"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",
