@@ -1204,3 +1204,13 @@
 - 2026-10-31 14:59 Chose the read-only check over MuscleChart (Jev 81%). Reason: the R305 report was flagged for tests not run, and notes rule says a flagged report is cleared by a read-only round before build work. MuscleChart follows in R307.
 - 2026-10-31 14:59 Read-only round does not change any file, so it cannot add a second unfinished step.
 - 2026-10-31 14:59 Kept MuscleChart as the next build task after the clearing round, as in the notes.
+- 2026-10-31 15:00 Chose MuscleChart padding: smallest task, needs nothing from Isa, and the last report was clean (tsc and jest gym run), so no flag is open.
+- 2026-10-31 15:00 Jev 97% run agreed; no overrule needed.
+- 2026-10-31 15:00 Folded the gap comma fix at lines 399-400 into this round because the handover asked for it in the same file region.
+- 2026-10-31 15:00 Step 1 re-reads the design and the token value before editing, since the last report's 20 vs 16 figure came from the handover and was not re-checked.
+- 2026-10-31 15:00 Rewrote the notes under 600 words: merged repeated items, deleted finished work, kept every decision line.
+- 2026-10-31 15:00 Picked MuscleChart padding as the single task because it is item 1 in Next, clears a visual gap row, and needs nothing from Isa.
+- 2026-10-31 15:00 Split the rejected R307 prompt. The gap file fixes (comma, line 458 heading, line 464, line 466) are documentation, so they go in their own later round, not with a component change.
+- 2026-10-31 15:00 Told Claude Code to confirm the design value of 16 before editing, because the handover value was not re-read this round. If the design differs, it stops and reports.
+- 2026-10-31 15:00 Used space.lg, the token TodayCard and gym.tsx:130 already use, so no hardcoded value is added.
+- 2026-10-31 15:00 Chose gym test run as the only test, since no test renders MuscleChart. Full Jest stays at the checkpoint.
