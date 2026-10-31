@@ -26,18 +26,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 - Built (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() at food.tsx:449, gym.tsx:108, profile/index.tsx:103, food/saved.tsx:85, (tabs)/index.tsx:155; gym.loadingSessions; saved.tsx title at :76.
+- R299 read-only: tsc exit 0; npx jest gym 6 suites, 37 tests; hydrationErrorScreens 10 of 10.
 - R297 checkpoint green: tsc exit 0; full jest 65 suites, 824 tests, 4 snapshots.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 - Gap file: streak strip and calendar card (gym.tsx:115, :130) match design. TodayCard and MuscleChart use Card default 20, design 16: DIFFERENT.
 
 ## Flags
-- R298 flagged: doc-only round, no tsc or tests run. Clearing in R299 (read-only).
+- None. R298 flag cleared by green read-only R299.
 
 ## Next
-1. R299 (current): read-only tsc, gym and hydration tests, key count. No edits.
-2. Set TodayCard and MuscleChart padding to space.lg, matching design/Lume App.html gym cards, gap row 82 area. Check each Card use before changing; run tsc once.
+1. R300 (current): TodayCard padding to space.lg, per design/Lume App.html gym cards. Stop and report if Card has no padding prop.
+2. MuscleChart padding to space.lg, same method. Note any Card state with no design counterpart.
 3. Trace add.tsx:30-70 slotKey and add.tsx:67. If the five unused addMenu keys are safe, remove from en, es, fr together. Keep es voice and describeOutLoud.
-4. Move row 89 note (gap file ~line 90) into row 89 reason cell.
+4. Move row 89 note (gap file, line ~90) into row 89 reason cell.
 5. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'. Fix gym.tsx:3-4 comment typo 'month month'.
 6. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15.
 7. Read and wrap: gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
@@ -80,10 +81,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - lng is fixed to 'en' (src/lib/i18n/index.ts:41); es and fr never show.
 - No test renders saved foods or the gym streak card. npx jest saved finds no tests.
 - Handover summaries can be stale. Check the files.
-- Gap file lines below 90 move with each insert; streak citations near 394 and 416.
+- Gap file lines below 90 move with each insert; streak citations near 394 and 421.
 
 ## Loop notes
 - Rejected prompts lacked the design/ file. Name it every time.
 - Weak checks: hydration test accepts invented reasons; no plural test; no test renders the gym streak card or saved foods; no locale parity test.
-- Key counts: recount with a script before any removal. Current: en 168, fr 168, es 170.
+- Key counts (verified by R299 script, after addMenu.savedFoods removal in R293): en 167, es 169, fr 167. Earlier 168/168/170 figures are stale. Recount with a script before any removal.
+- Keys: fr U+00A0 4, U+2019 22; en and es 0.
 - Notes kept under 600 words; trim Parked first if over.

@@ -1181,3 +1181,8 @@
 - 2026-10-31 14:21 Used a key count as the one read-only check, to confirm the locale parity baseline before any key removal.
 - 2026-10-31 14:21 Streak footnote stays blocked. Row 82 wording and the gap section will be reconciled after Isa answers, not before.
 - 2026-10-31 14:21 Plan for the round after: the padding change for TodayCard and MuscleChart, with the design file and gap row named and the type check run once.
+- 2026-10-31 14:22 Chose TodayCard alone to keep the prompt to one surface; MuscleChart follows next round.
+- 2026-10-31 14:22 Key counts: the R299 report's 167/169/167 is correct after the R293 addMenu.savedFoods removal. Notes and handover figures of 168/170 are stale. Updated the notes to the current counts.
+- 2026-10-31 14:22 R298 flag is cleared by the green read-only R299 round, so build work can resume.
+- 2026-10-31 14:22 Told Claude Code to stop rather than change the shared Card component if it has no padding prop, to avoid touching shared code.
+- 2026-10-31 14:22 Removed the stale gym.streakSub and saved.tsx:83 references from the queue, as the handover asked.
