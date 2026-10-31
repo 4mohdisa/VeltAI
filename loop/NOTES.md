@@ -26,21 +26,23 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard (padding, title, sub-line, rest, logged state, failed-fetch notice); Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice.
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status empty.
 Last checkpoint R34 green (tsc 0, 65 suites, 824 tests), predates failed-fetch code. No tests cover TodayCard or failure paths.
-Doc rounds R37-R42 done. 'Difference 16' and /gym/session wording fixed in R42.
+Doc rounds R37-R43 done. R43 corrected 'What the app does' (old form intro) and the 'Today / check-in' session_id claim.
 
 ## Next (in order)
-1. Doc correction (R43, in progress): 'What the app does' drop 'As recorded on 2026-09-13' and 'written against this state'; 'Today / check-in' line: correct the session_id claim from grep evidence. Doc-only round, tsc exit printed.
-2. Stale comment src/components/navigation/SheetContent.tsx:156 ('log-session Notes'). Code round, targeted test.
-3. Rest seconds: picker collects them, /gym/session never saves them (src/app/gym/session.tsx:159-166). Check premise; park, or fix if it is a plain save.
-4. Copy: session.tsx:539 says 'Add exercise'; design addLabel says 'Add an exercise'. Fix if it is a plain string.
+1. Code round R44 (in progress): stale comment src/components/navigation/SheetContent.tsx:156 ('log-session Notes'). Targeted test only if one imports the file.
+2. Rest seconds: picker collects them, /gym/session never saves them (src/app/gym/session.tsx:159-166). Check premise; park, or fix if it is a plain save.
+3. Copy: session.tsx:539 says 'Add exercise'; design addLabel says 'Add an exercise'. Fix if it is a plain string.
+4. Doc follow-up: 'What the app does' old-form block no longer gives a recording date after R43. Restore only if the date is accurate and factual.
 5. Add sheet icons from design SVGs.
 6. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check.
 7. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-8. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
-9. summaryNoFabrication.test.ts header: fibre note stale.
-10. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-11. Checkpoint: full tsc and full app Jest, read-only.
-12. No rows remain: stop with 'only owner decisions remain'.
+8. Gap line 90 (empty status): merge into 'Food - My dishes / Saved' (no row is titled 'Saved foods').
+9. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
+10. summaryNoFabrication.test.ts header: fibre note stale.
+11. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
+12. Read-only check of log-session.tsx failure branch (~:139).
+13. Checkpoint: full tsc and full app Jest, read-only.
+14. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
 - Device checks: logged card and both failure states offline. Double notice with gym tab (src/app/(tabs)/gym.tsx:107).
@@ -86,10 +88,12 @@ Doc rounds R37-R42 done. 'Difference 16' and /gym/session wording fixed in R42.
 - Every prompt names the design/ file and gap row, says 'work only on loop/design-match', and says 'no matching tests' when none apply.
 - Locate rows by content; line numbers shift.
 - Handover text can be stale against notes; notes win.
+- tsc line: print it as 'TSC EXIT <n>' via echo, and copy that literal line into CHECKED.
 
 ## Round log
 - R9-R34: EnergyBalanceCard, i18n, Macros, counts, Burned guard, TodayCard logged state, failed-fetch notices, checkpoint R34 green.
 - R35: read-only check of log-session.tsx failure branch: pass.
 - R37-R41: doc rounds, tsc 0 each.
 - R41 flagged by loop (tsc not clearly shown). R42 re-ran tsc with exit code printed and fixed 'Difference 16' wording; report flagged again for the same tsc display issue.
-- R43: doc correction (What the app does, session_id claim), tsc exit printed explicitly. Loop flagged R42 report; handled here.
+- R43: doc correction (What the app does, session_id claim), tsc exit 0. Loop flagged the report for tsc display again.
+- R44: loop note said the R43 report was flagged for tsc not run or not clearly shown. Jev ranked the stale-comment task first at 81%; chosen as Next item 1, which is consistent with notes order. Prompt requires the literal 'TSC EXIT <n>' line.

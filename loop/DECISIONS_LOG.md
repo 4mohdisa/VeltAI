@@ -1486,3 +1486,7 @@
 - 2026-10-31 17:01 Treated Next item 1 (gap row 'Difference 16' and /gym/session wording) as done per the R42 report.
 - 2026-10-31 17:01 The replacement wording for the session_id claim is left to the grep result, not guessed, per the 'check premises first' rule.
 - 2026-10-31 17:01 Doc correction applied without asking, per the default for accurate doc fixes.
+- 2026-10-31 17:03 Jev ranked the same task first at 81%. Agreed and kept it, because it is item 2 in the notes order after the item 1 doc correction completed in R43.
+- 2026-10-31 17:03 Flagged R43 report: the tsc line was printed as 'TSC EXIT 0' but the loop still reads it as not clearly shown. This prompt makes the report print the literal line 'TSC EXIT <number>' from a command that echoes it.
+- 2026-10-31 17:03 Recorded the R43 spotted item 'undated old form' as a doc follow-up in Next, to be handled only as a factual correction later.
+- 2026-10-31 17:03 Kept the row status cell for 'Gym — session logging (log sheet)' in Blocked on Isa, as before. This round does not touch the gap doc.

@@ -153,10 +153,7 @@ export function SheetContent({
         <StandardHeader title={title} onClose={onClose} onDone={onDone} doneLabel={doneLabel} doneDisabled={doneDisabled} />
       )}
 
-      {/* Keyboard avoidance: fields low in the sheet (e.g. log-session Notes)
-          must not hide behind the keyboard. The 'leading' variant's save pill is
-          the last child of the scroll, so it scrolls into reach above the
-          keyboard with the rest of the content. */}
+      {/* Keyboard avoidance: fields low in the sheet, and a save pill at the end of the scroll, stay reachable. */}
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         {scroll ? (
           <ScrollView
