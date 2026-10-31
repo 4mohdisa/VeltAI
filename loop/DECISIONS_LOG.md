@@ -2218,3 +2218,11 @@
 - 2026-11-01 00:02 Kept the prompt to 5 steps and named three test files, since helpers.test.ts alone missed screen-level callers.
 - 2026-11-01 00:02 Compressed the notes to under 600 words per the loop note: merged repeats, removed finished work, kept all open items and decisions.
 - 2026-11-01 00:02 Kept the stale detail.tsx:259-260 and Add to {slot} items in the open list for a check-first pass, because the handover and R189 disagree on whether they are built.
+- 2026-11-01 00:03 Chose the doc-only quick-add and stale-reference fix first because the notes order puts it at step 2 and it is the smallest task with no Isa dependency. Doc-only rounds run tsc only.
+- 2026-11-01 00:03 Treated R192 as verified: the latest report shows tsc exit 0 and helpers.test.ts 52 passed, foodDetail.test.ts 31 passed, foodDetailLogged.render 4 passed. formatCalories stays BUILT until Isa checks the device.
+- 2026-11-01 00:03 Kept the item 18 and line 957 citation fix as 'correct only if grep confirms, otherwise list under NEXT' so the round does not guess.
+- 2026-11-01 00:04 Chose formatGrams 'g' because the latest Claude Code report, notes item 2, and Jev's run signal all point to it, and it is a small shared helper.
+- 2026-11-01 00:04 Chose the space before the unit ('100 g') because design wording beats app wording (decision: design is source of truth).
+- 2026-11-01 00:04 Rejected detail.tsx Edit food title because the handover lists it as NOT FIXED, but the notes record Save changes as built at line 301, so the state is unclear and needs a grep first.
+- 2026-11-01 00:04 Prompt names the loop/design-match branch explicitly and forbids git, fixing the rejected-prompt loop note.
+- 2026-11-01 00:04 Recorded R193 doc-only quick-add row as unconfirmed, because the notes say in progress and the handover says nothing in progress.

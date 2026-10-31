@@ -21,37 +21,37 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Meal chip caption reuses food.quickAddMeal.
 - food.saveName, food.saveChanges, food.editFoodTitle, addMenu.addToSlot added for Rename, Edit item, Edit food, Add to {slot}.
 - formatCalories uses dashboard.kcal (no new key).
+- Prompts must name the loop/design-match branch and forbid all git commands (R193 prompt was rejected for omitting this).
 
 ## Status
-R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 to R189 copy and labels BUILT. R190 read-only checkpoint, result not recorded. R191 formatCalories BUILT and flagged: only helpers.test.ts ran (52 passed). R192 verifies R191. Full suite not run since R162; run at next checkpoint.
+R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 to R189 copy and labels BUILT. R190 read-only checkpoint, result not recorded. R191 formatCalories BUILT. R192 verified: tsc 0; helpers.test.ts 52 passed; foodDetail.test.ts 31 passed; foodDetailLogged.render.test.tsx 4 passed. Isa still needs a device check on formatCalories, including search and barcode sub-lines. Full suite not run since R162; run at next checkpoint. R193 doc-only quick-add row and stale refs: status unconfirmed (handover says nothing in progress). Re-check DESIGN_GAP_ANALYSIS.md line 87 before the next doc round. R193 prompt rejected for missing branch rule; rewritten as R194.
 
 ## Built, not verified (es and fr are unreviewed drafts)
 - Tabs, tab bar, add menu, CaloriesCard labels, food row VoiceOver, LoadFailedNotice, StreakCounter, GymPatternsCard, week, training, energy copy, freeze label, nutrition.energyLogged, food.tsx pending pill.
 - Swipe titles and messages: food.tsx, food/saved.tsx, food/new-recipe.tsx, gym/new-template.tsx.
-- food/detail.tsx: meal chips and caption, delete dialog, saved-mode removal, PADS captions, macro tiles, VoiceOver labels, titles (R189).
+- food/detail.tsx: meal chips and caption, delete dialog, saved-mode removal, PADS captions, macro tiles, VoiceOver labels, titles (R189), Save changes (line 301).
 - quick-add.tsx: all copy through t().
 - formatting.ts: formatCalories via dashboard.kcal (R191).
-- DESIGN_GAP_ANALYSIS.md: BUILT sentence on food detail item 23 (R191).
+- DESIGN_GAP_ANALYSIS.md: BUILT sentence on food detail item 23 (R191); food detail items 3, 7, 11, 14, 17; quick add row (line 87, unconfirmed).
 
 ## Next (in order)
-1. R192: verify formatCalories (in progress).
-2. Doc-only: DESIGN_GAP_ANALYSIS.md quick-add row (about line 87) and stale refs (about 94, 957, 1020, 1060, 1213-1221). quick-add.tsx:116 is now about :125.
-3. formatGrams 'g' and formatMacro 'g' in formatting.ts.
-4. Read-only: scan.ts:305 'Scan failed' shown at food.tsx:887. Translate at display; keep stored value (scanSeam.test.ts asserts it).
-5. food.tsx: 'Analyzing' visible vs VoiceOver spelling; P, C, F letters (about 899); g suffixes; raw energyUnit; 'Check your connection' invents a cause.
-6. gym/new-template.tsx: `Remove ${name}`, 'Remove exercise' (about 180), other English. Swipe prompts at food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
-7. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
-8. CaloriesCard: missing Fibre column; dot vs bar (row 85, not BUILT).
-9. PlannedValuesForm 'Add exercise'; add.tsx unused slotKey keys; dedupe SLOT_KEYS (food.tsx, add.tsx, quick-add.tsx, detail.tsx); food.savedTitle vs addMenu.myDishes; foodLog.addToMeal and addMenu.addToSlot duplicate text. Check first: detail.tsx:259-260 (Edit food title, Save changes) and :168, :225 (Add to {slot}); then Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, g unit, Name field.
-10. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
-11. week.tsx, training.tsx, energy.tsx remaining copy.
-12. food/new-recipe.tsx rest of screen.
-13. No rows left: stop with 'only owner decisions remain'.
+1. R194 (in progress): formatGrams and formatMacro 'g' unit in formatting.ts, via translated units.grams (or existing key), with a space before the unit.
+2. Doc-only: confirm DESIGN_GAP_ANALYSIS.md line 87 quick-add row; fix stale refs (about 94, 957, 1020, 1060, 1213-1221). quick-add.tsx:116 is now about :125.
+3. Read-only: scan.ts:305 'Scan failed' shown at food.tsx:887. Translate at display; keep stored value (scanSeam.test.ts asserts it).
+4. food.tsx: 'Analyzing' visible vs VoiceOver spelling; P, C, F letters (about 899); raw energyUnit; 'Check your connection' invents a cause.
+5. gym/new-template.tsx: `Remove ${name}`, 'Remove exercise' (about 180), other English. Swipe prompts at food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
+6. One file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
+7. CaloriesCard: missing Fibre column; dot vs bar (row 85, not BUILT).
+8. PlannedValuesForm 'Add exercise'; add.tsx unused slotKey keys; dedupe SLOT_KEYS (food.tsx, add.tsx, quick-add.tsx, detail.tsx); food.savedTitle vs addMenu.myDishes; foodLog.addToMeal and addMenu.addToSlot duplicate text. Check first: detail.tsx:168, :225 (Add to {slot}); then Food, Nothing to show, Looking up product, No longer in your log, Product not found, Scan again, Confirm product, g unit, Name field. Edit food title and Save changes at detail.tsx:259-260 reported as not fixed in handover; grep first, notes say built.
+9. nutrition.tsx '80%' vs '80 %'; raw meal.slot; freeze strings at count 1.
+10. week.tsx, training.tsx, energy.tsx remaining copy.
+11. food/new-recipe.tsx rest of screen.
+12. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- Device and VoiceOver checks: tab bar es/fr width; Training labels; food row; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width; long es/fr text in saved and detail tiles; pending row; saved-mode removal; Save to my dishes; PADS captions; tile, serving and calories VoiceOver; Edit values manually; quick-add fit in es/fr; meal chips fit; 'for {n} g' fit and keep; Edit item and Rename titles; Save buttons fit; Add to {slot} grammar; detail empty-state titles; loading title; 'N’est plus dans votre journal' fit.
+- Device and VoiceOver checks: tab bar es/fr width; Training labels; food row; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width; long es/fr text in saved and detail tiles; pending row; saved-mode removal; Save to my dishes; PADS captions; tile, serving and calories VoiceOver; Edit values manually; quick-add fit in es/fr; meal chips fit; 'for {n} g' fit and keep; Edit item and Rename titles; Save buttons fit; Add to {slot} grammar; detail empty-state titles; loading title; 'N’est plus dans votre journal' fit; formatCalories on device (search and barcode sub-lines).
 - Native review: all es and fr drafts; 'Guardado'; 'Enregistre' gender with dish names; 'Tamano de la porcion', 'Taille de la portion'; quick-add toasts; 'Snacks' left English.
-- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for logged days (mutations.ts:173-178); swipe colour; tabs.* namespace; body stats (1,500 vs 2,100); 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm in app, immediately in design; Rename food header; keep or drop 'for {n} g'; title as mode or food name; gymLog calories key; extra es keys addMenu.voice and addMenu.describeOutLoud; gap item 11 macro layout; row 86 BUILT vs section verdict DIFFERENT (about line 964); foodLog.addedToMeal masculine vs feminine quick-add toasts; foodLog.per100 '/ 100g' vs design '/ 100 g'.
+- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for logged days (mutations.ts:173-178); swipe colour; tabs.* namespace; body stats (1,500 vs 2,100); 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm in app, immediately in design; Rename food header; keep or drop 'for {n} g'; title as mode or food name; gymLog calories key; extra es keys addMenu.voice and addMenu.describeOutLoud; gap item 11 macro layout; row 86 BUILT vs section verdict DIFFERENT (about line 964); foodLog.addedToMeal masculine vs feminine quick-add toasts; foodLog.per100 '/ 100g' vs design '/ 100 g' (R194 may resolve the unit part).
 
 ## Parked
 - English-only helpers: formatRelativeDate, weekdayShort, dayMonth, formatDuration; hardcoded Today, Yesterday, weekday and month names; min, day/days in formatDuration and formatStreak. formatGrams ignores energyUnit. Plurals: '1 of 1 days', 'longest 1 minutes', 'of N days'.
@@ -60,7 +60,7 @@ R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint d
 - GymPatternsCard server values untranslated (src/lib/api.ts:795-800).
 - Gym: row order; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - TodayCard, StreakCounter, Freeze, streak.tsx:73; tabBar.addHint reads badly in es.
-- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN; key={c.name} translated; food.unsaveTitle and removeTitle split; duplicate goals.* and nutrition.* macros; gym done/missed label at src/app/food/history.tsx:133 hardcoded; src/lib/i18n/index.ts:2-3 header stale.
+- Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN; key={c.name} translated; food.unsaveTitle and removeTitle split; duplicate goals.* and nutrition.* macros; gym done/missed label at src/app/food/history.tsx:133 hardcoded; src/lib/i18n/index.ts:2-3 header stale; i18next showSupportNotice console.info noise in tests.
 - Stale citations: gap doc 437, 955, 957, 1505; SwipeableRow.tsx:2 'red' comment; 'P' abbreviation; 'my foods' in RecipesList.tsx and detailSubject.ts.
 - Energy unit: food.padCalories always says kcal, as the design does; kJ behaviour unchecked.
 
@@ -77,7 +77,7 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - formatting.ts imports @/lib/i18n. Any test that loads it pulls in i18n.
 
 ## Last round
-R191: formatCalories uses dashboard.kcal; tsc 0; helpers.test.ts 52 passed. Flagged as not fully run. R190: read-only checkpoint, result not recorded. R189: remaining detail.tsx titles and labels BUILT.
+R193: rejected before running (no branch rule). R192: formatCalories verified by test run (tsc 0; helpers 52, foodDetail 31, foodDetailLogged.render 4 passed). Device check still open. R191: formatCalories uses dashboard.kcal. R190: read-only checkpoint, result not recorded. R189: remaining detail.tsx titles and labels BUILT.
 
 ## Handover pending
 None. Last handover before R187 (summary in loop/HANDOVER.md).
