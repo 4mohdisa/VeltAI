@@ -21,7 +21,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Unanswered questions are not repeated.
 
 ## Status
-- R276: Food title block, row 85, sent (food.tsx:435-447, :439). Chosen by Jev ranking and handover Next item 2.
+- R277: Energy balance hero stat (difference 14, EnergyBalanceCard.tsx:153-154, letter spacing 0 to -1, baseline gap 8 to 7). Sent. Chosen by Jev ranking and handover Next item 2. Gap-doc row to be confirmed in the report.
+- R276: Food title block, row 85. Re-checked: already matches bundle 71f71ac4 (eyebrow 1.1, title -0.6, right 52, gap/bottom 0, sides 4). Row 85 title line marked BUILT, code re-checked. No code change. tsc 0; six-file tests 111/111.
 - R275: Summary eyebrow spacing (row 25) built, index.tsx:96 letterSpacing 1 to 1.1. tsc 0; five-file tests 83/83.
 - R274: Summary title block and streak row built (index.tsx:92, :100, :121). tsc 0; five-file tests 83/83.
 - R273: Summary 26-30 re-checked. 28-30 need Isa.
@@ -32,22 +33,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Open rows
 - 83 DIFFERENT: sheet-in-place parked; button height and type parked.
-- 85 DIFFERENT: food title block in progress (R276); calorie bar, 'left today', four-column wrap open (Blocked).
+- 85 DIFFERENT: title block BUILT (re-checked R276). Calorie bar, 'left today', four-column wrap open (Blocked). Stale citations in row 85 (:633, :542 now about :655, :564) are a doc fix, waiting.
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: card gap built. DetailChart.tsx open (Blocked). Energy.tsx, dashboard/week.tsx, dashboard/training.tsx still gap 12.
-- 104 PARTIAL: Steps card missing; four non-design items; Today only. Summary 25 open.
+- 104 PARTIAL: Steps card missing; four non-design items; Today only. Summary difference 14 in progress (R277). Summary 25 open.
 - 112 PARTIAL: top padding; GymPatternsCard padding; Training list and LoadFailedNotice app-only.
 
 ## Next
-1. Food title block, row 85 (R276, in progress). Verify result in report.
-2. Energy balance hero stat, difference 14 (EnergyBalanceCard.tsx:153-154, letter spacing 0 to -1, baseline gap 8 to 7). Confirm which row it belongs to in the gap doc first; value-only.
-3. Energy, week and training card gap 12 to 16, row 103 (values only).
-4. Row 104 Steps card: build or park (needs Isa).
-5. Gym cluster, one file per round.
-6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-7. If Isa approves DetailChart.tsx: row 103 values, then one snapshot approval.
-8. Doc fixes inside a re-check round, or once no build row is open.
-9. No rows left: stop with 'only owner decisions remain'.
+1. Energy balance hero stat, difference 14 (R277, in progress). Confirm gap-doc row and result in report.
+2. Energy, week and training card gap 12 to 16, row 103 (values only).
+3. Row 104 Steps card: build or park (needs Isa).
+4. Gym cluster, one file per round.
+5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+6. If Isa approves DetailChart.tsx: row 103 values, then one snapshot approval.
+7. Doc fixes inside a re-check round, or once no build row is open.
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - 103: approve DetailChart.tsx edit and detailChrome snapshot update (asked R267, no answer).
@@ -87,7 +87,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Data: quick-add serving data missing (mock/data.ts:124); editSavedFood local only.
 - Tests: none cover CaloriesCard, quick-add render, SegmentedField compact, gym card order, gym.tsx, MyScheduleCard, header height.
-- Doc: stale gap-doc lines near 236, 310, 438, 448, 534, 588, 1520; stale recap lines 430-431 (still say title and spacing 'still different'); rows 85 and 104 say BUILT for 158; row 112 says EXACT; row 104 says BUILT for bottom padding and card gap while the Summary list says EXACT.
+- Doc: stale gap-doc lines near 236, 310, 438, 448, 534, 588, 1520; stale recap lines 430-431 (still say title and spacing 'still different'); rows 85 and 104 say BUILT for 158; row 112 says EXACT; row 104 says BUILT for bottom padding and card gap while the Summary list says EXACT; row 85 stale citations :633 and :542.
 - Comment: ProfileAvatarButton.tsx:8 calls insets.top + space.xs the design's 64; fix in a doc or comment pass.
 - Comment: LumeTabBar.tsx:4 and _layout.tsx:26 wrong; fix in a doc or comment pass.
 
@@ -102,7 +102,8 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym
 - Line numbers shift; grep before citing.
 
 ## Jev
-- R276: pending. Ranking: food title block first (ask 1%).
+- R277: pending. Ranking: Energy hero stat first (run 98%).
+- R276: ask 1%. Ranked food title block first. Took it; row was already built.
 - R275: run 99%. Ranked Summary eyebrow first at 96%. Took it.
 - R274: run 94%. Ranked Summary 26-27 first. Took it.
 - R273 and earlier: run ranked first in most rounds. R267: ask 94%, acted on it.

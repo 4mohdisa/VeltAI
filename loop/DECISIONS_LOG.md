@@ -2609,3 +2609,8 @@
 - 2026-11-01 02:25 Kept the re-check step inside the build prompt, so Claude Code compares the code with bundle 71f71ac4 before changing anything.
 - 2026-11-01 02:25 Limited tests to food-referencing test files, per the testing rules. No full suite this round; next checkpoint remains R290.
 - 2026-11-01 02:25 Workouts stat (difference 21, WorkoutsWeekCard.tsx:40-41) parked as a duplicate of the Energy stat fix; not a new row task.
+- 2026-11-01 02:26 Chose the Energy hero stat: it is value-only, needs no Isa decision, and clears a difference the last report recommended.
+- 2026-11-01 02:26 Told Claude Code to confirm the gap-doc row first, because the notes say the row is unconfirmed.
+- 2026-11-01 02:26 Limited the edit to two values and the one doc line, so the Workouts and Week stats (parked) stay untouched.
+- 2026-11-01 02:26 Required tsc plus changed-file tests only, with no -u, to keep usage low and respect snapshot rules.
+- 2026-11-01 02:26 Row 85 title block marked built on the re-check. Its stale citations are a doc fix and wait until no build row is open.
