@@ -2438,3 +2438,8 @@
 - 2026-11-01 01:11 Row 112 Training list is an accepted deviation, not a removal. Reason: /gym/templates and /gym/history are reachable only from that list, so removing it would need a new route in and a home for session history. Recorded here; the gap doc gets the wording in the doc-fix phase.
 - 2026-11-01 01:11 Doc fixes (row 81, My schedule section, gym App paragraph near 436/446) wait until no build row is open, per the rules.
 - 2026-11-01 01:11 Ignored the report's SettingsList.tsx:129 identical-branch note and the duplicate training locale key: both are code tidying, so parked.
+- 2026-11-01 01:12 Keep LoadFailedNotice as an accepted deviation. It is an app-only failure state, not a design disagreement, and without it a failed read would show old data as current. Recorded in row 112. Isa can still override.
+- 2026-11-01 01:12 Re-check lumeFade first, not pull-to-refresh. Pull-to-refresh is already recorded as app-only in row 112, so re-checking it would add nothing.
+- 2026-11-01 01:12 Park the possible double notice (TodayCard.tsx:197 and gym.tsx both render gym.loadFailed) and the silent MyScheduleCard failure. Both are code problems outside the design rows.
+- 2026-11-01 01:12 Keep the doc fixes for rows 81, 83 and the My schedule section until no build row is open, as the rules say. The report's NEXT item is therefore not picked yet.
+- 2026-11-01 01:12 The loop note flagged the last report for the type check or tests. The R238 report did run tsc (exit 0). This round runs tsc again so the check is recorded in this round.

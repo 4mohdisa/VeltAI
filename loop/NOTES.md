@@ -16,9 +16,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Doc fixes wait until no build row is open. Grep before acting. Code tidying is never a task. A task flagged twice goes to Blocked on Isa.
 - Every prompt names design/Lume App.html, the gap row, and the branch rule.
 - Row 112 Training list (four rows: My schedule, My workouts, Apply a streak freeze, Session history) is an accepted deviation. It is the only route into /gym/templates and /gym/history, so removal would need a new route and a home for history. Keep it.
+- Row 112 LoadFailedNotice is an accepted deviation (R239). It is app-only with no design counterpart. Without it a failed read would show old data as current. Keep it unless Isa overrides.
 
 ## Status
-- R238: row 112 LoadFailedNotice re-check (doc only). Type check run once because last report was flagged.
+- R239: picked row 112 lumeFade re-check (doc only). Type check run once.
+- R238: row 112 LoadFailedNotice re-check (doc only). App-only, no design counterpart. Recorded as accepted deviation (R239).
 - R237: row 112 Training list re-check. Whole list is app-only, no design counterpart. Accepted deviation. Doc edited.
 - R236: checkpoint green. tsc exit 0, app suite 65/65 suites, 824/824 tests, snapshots 4/4. Read-only.
 - R235: row 112 My schedule card typography (day 600 12.5/17, name 500 15/20) and gap 11. BUILT.
@@ -32,14 +34,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 83 DIFFERENT: route (sheet-in-place) stale, parked. Button height and type parked.
 - 85 DIFFERENT: no 12px calorie bar, no 'left today', no 700ms fill.
 - 87 DIFFERENT: 180ms Meal chip transition missing.
-- 112 PARTIAL: LoadFailedNotice (re-check in R238); pull-to-refresh; lumeFade; eyebrow tracking and min height; title tracking, padding, gap; GymPatternsCard typography (padding Blocked). Training list re-checked R237, accepted deviation.
+- 112 PARTIAL: lumeFade (re-check in R239); pull-to-refresh is app-only; eyebrow tracking and min height; title tracking, padding, gap; GymPatternsCard typography (padding Blocked). LoadFailedNotice and Training list are accepted deviations. Training list re-checked R237; LoadFailedNotice re-checked R238.
 
 ## Next
-1. R238 LoadFailedNotice re-check result. If it differs, build the real differences in one file per round.
-2. Row 112: pull-to-refresh, lumeFade, header typography. One per round, re-check first.
+1. R239 lumeFade re-check result. If it differs, build the real differences in one file per round.
+2. Row 112: eyebrow tracking and min height, then title tracking, padding, gap. One per round, re-check first.
 3. Gym cluster, one file per round: saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar.
 4. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-5. Doc fix once no build row is open: gap doc lines 310 and 236 (contradict row 83); row 81 duplicates row 112 card (keep 112); row 83 App paragraph near 532; gym App paragraph near 436 and Differences near 446 (omit MyScheduleCard, stale gym.tsx line refs); My schedule section near 586; record Training list accepted deviation.
+5. Doc fix once no build row is open: gap doc lines 310 and 236 (contradict row 83); row 81 duplicates row 112 card (keep 112); row 83 App paragraph near 532; gym App paragraph near 436 and Differences near 446 (omit MyScheduleCard, stale gym.tsx line refs, LoadFailedNotice now accepted); My schedule section near 586; record Training list and LoadFailedNotice accepted deviations.
 6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
@@ -61,6 +63,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Gym code: GymSessionButton logged branch dead, hardcoded 'Logged today' copy; two logged sources (streak.gymLoggedToday, today.already_checked_in); two getToday requests; MyScheduleCard fetches twice on first load; per-set remove; cardio ParameterForm; template editor; kg/lb; custom exercise route.
 - Gym UI: Training list 'My schedule' row duplicates card destination (keep); card pressed 0.85 vs light1; 'N days planned' colour tertiary vs secondary.
 - Pull-to-refresh and focus do not re-read TodayCard or Log button.
+- Gym error: TodayCard.tsx:197 and gym.tsx both render gym.loadFailed, so a double notice is possible if both reads fail.
+- Gym error: MyScheduleCard shows nothing when its read fails (silent disappearance).
 - Stale comments: gym.tsx header and above MuscleChart; gym.tsx:144; SegmentedField label; food.tsx:656-659 cites UI_PASS_GAPS.md.
 - Code: SLOT_KEYS duplicated (food, add, quick-add, detail); TodayCard, StreakCounter, Freeze, streak.tsx:73; mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56 (also seen in npm test output); recipe fibre saved as 0; Math.max NaN; key={c.name}; Text primitive comment vs named styles.
 - Code tidying: SettingsList.tsx:129 identical branches ('button' : 'button'); duplicate 'training' key in en, es, fr locale files (lines near 273 and 337; check namespace).
@@ -82,5 +86,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Swi
 
 ## Handover and Jev
 - Handover summary in loop/HANDOVER.md; received R236. Script-managed every 15 rounds.
-- Jev: R233 ask 67% not followed (copy covered by decisions). R234 run 90%, agreed. R235 ask 77% not followed (three-vs-seven answered by bundle 7dc211f6). R236 checkpoint: run kept. R237 run 85%, agreed. R238 run 94% on LoadFailedNotice re-check, agreed; the loop note flagged R237 (type check not run), so tsc is run this round.
-- Risk 1.2 (R238 Jev), 1.6 (last handover report), 1.1 (R236). Keep tasks small.
+- Jev: R236 checkpoint: run kept. R237 run 85%, agreed. R238 run 94% on LoadFailedNotice re-check, agreed. R239 run 60% on lumeFade re-check (Jev ask 34%); loop note flagged R238 (type check or tests not run), so tsc is run this round.
+- Risk 1.2 (R239 Jev), 1.6 (last handover report), 1.1 (R236). Keep tasks small.
