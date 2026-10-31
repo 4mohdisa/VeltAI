@@ -2547,3 +2547,12 @@
 - 2026-11-01 01:49 Handover says row 85 title block is open, but the notes say R260 built the title block values. Trusting the notes, which are later. The title block gets a re-check in a later doc round.
 - 2026-11-01 01:49 Chose the header re-check: it is item 2 of Next, is doc only, and clears a dependency for the top padding decision.
 - 2026-11-01 01:49 Eyebrow tap, calendar sheet English copy, WeekStrip 'Pick a day' and tap during search go to Parked. Not separate tasks.
+- 2026-11-01 01:52 Ran the row 85 re-check with tsc once, because the loop note flagged the last report for no type check; the flag closes when tsc runs and no code changed.
+- 2026-11-01 01:52 Kept run over Jev's ask (44%): no new question is needed, and Isa's blocked items are already on file.
+- 2026-11-01 01:52 Followed the notes over the handover's recommended row 85 tracking fixes, because R260 built the title block. Re-check first, then build only real differences.
+- 2026-11-01 01:52 Rewrote the notes under 600 words as the loop note asked, merging repeats and deleting finished work. Decisions kept in full in substance.
+- 2026-11-01 01:52 Chose row 103 card gap first: small, needs nothing from Isa, clears one concrete difference. Matches Notes Next item 3.
+- 2026-11-01 01:52 Did not repeat the row 85 title block build: notes say R260 built it and notes outrank the handover.
+- 2026-11-01 01:52 Did not pick the header strip on Screen.tsx:163: header top padding is pending Isa and the handover flags it as a note only.
+- 2026-11-01 01:52 Added the branch rule to the prompt because the loop note said the last prompt was rejected for missing it.
+- 2026-11-01 01:52 Kept the run action over Jev's 81% run / 17% ask: no Isa input is needed for this row.

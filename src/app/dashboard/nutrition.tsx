@@ -73,7 +73,7 @@ export default function NutritionDetailScreen(): JSX.Element {
   }));
 
   return (
-    <Screen variant="floating" showBack>
+    <Screen variant="floating" showBack contentStyle={{ gap: space.lg }}>
       <KickerTitle kicker={t('nutrition.title')} title={t('nutrition.macrosTitle')} tint={categoryAccent.protein} />
 
       {loadError ? <LoadFailedNotice message={t('nutrition.loadFailed')} onRetry={refetch} /> : null}
