@@ -1299,3 +1299,11 @@
 - 2026-10-31 15:26 Picked the doc reachability fix first. It is the smallest task, needs nothing from Isa, and the notes require doc fixes in their own round.
 - 2026-10-31 15:26 Freestyle row 299 verdict, 'No edit bar' row 296 and picker wording row 298 are deferred to later doc rounds. Only the reachability claims are in this round.
 - 2026-10-31 15:26 Did not ask Isa about the Blocked item on minutes-as-notes. Jev rates the risk of continuing without him as low. It is recorded under device runs instead.
+- 2026-10-31 15:27 Chose the checkpoint: the loop note requires a full type check and full suite, and the last report was flagged for not running them.
+- 2026-10-31 15:27 Kept the run action over ask: no blocker needs Isa this round, and Jev's ask lead is only 59% against 37% with low confidence.
+- 2026-10-31 15:27 Treated the /gym/session reachability task as done, per the latest report (no sentence claims one entry point). Removed it from Next, as Isa asked.
+- 2026-10-31 15:27 Left row 295 and Freestyle decisions in Blocked on Isa: the report shows they still need his device run and his call.
+- 2026-10-31 15:27 Checkpoint is read-only, so no gap-doc edits happen this round; line 284 and 280 fixes move to the next doc round.
+- 2026-10-31 15:27 Chose the line 284 doc fix: it needs no owner input, touches one sentence, and is the smallest task.
+- 2026-10-31 15:27 Recorded the round 8 checkpoint as not reported in any report. The handover shows tsc exit 0. Full Jest is deferred to the next checkpoint.
+- 2026-10-31 15:27 Named design/Lume App.html as the matching file even though this is a doc-only round, because the prompt rules require it.

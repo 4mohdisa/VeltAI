@@ -281,7 +281,7 @@ the Gym tab until the day is logged (`GymSessionButton` is not pressable after t
 
 - **Exercise library** — `GET /api/gym/exercises`, table `exercise_library`, 125 seeded exercises across 12 canonical muscle groups. Reachable only *inside* `/gym/session` and `/gym/new-template`.
 - **Per-exercise logging** — `POST /api/gym/sessions/{id}/exercises`, `PATCH/DELETE /api/gym/exercises/{id}`; `gym_exercises` carries `sets, reps, weight, weight_unit, rest_seconds, notes, parameters, rpe`.
-- **Partial completion** — `POST /api/gym/sessions/{id}/complete` with `completion_rate`, table `gym_adherence` (`checked_in`, `completion_rate`, `customized`). This is exactly the backing for "Only some of it"; only `/gym/session` ever calls it.
+- **Partial completion** — `POST /api/gym/sessions/{id}/complete` with `completion_rate`, table `gym_adherence` (`checked_in`, `completion_rate`, `customized`). This is exactly the backing for "Only some of it"; both `/gym/session` and the "It went as planned" pill call it, and the pill, on a day not yet logged, goes through `logGymSession` (`src/lib/data/mutations.ts:193`), which posts to `/complete`.
 - **Templates** — full CRUD plus `template_exercises` with planned sets/reps/weight/duration/rest/sort order. Editing exercises on an existing template is explicitly out of scope in the app (`src/app/gym/new-template.tsx:4-6`).
 - **Weekly schedule** — `GET /api/gym/schedule`, `PUT /schedule/{day}`, table `workout_schedule`.
 - **Today / check-in** — `GET /api/gym/today` returns the template, exercises, `already_checked_in` and `session_id`. Nothing in the app surfaces `session_id`, so nothing can edit an existing session.
