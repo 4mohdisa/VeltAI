@@ -567,12 +567,12 @@ function DetailForm({
             {macros ? (
               <View style={{ gap: space.md }}>
                 {[
-                  { label: 'Protein', value: num(protein, MACRO_PRECISION), tint: categoryAccent.protein },
-                  { label: 'Carbs', value: num(carbs, MACRO_PRECISION), tint: categoryAccent.carbs },
-                  { label: 'Fat', value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
+                  { label: t('nutrition.protein'), value: num(protein, MACRO_PRECISION), tint: categoryAccent.protein },
+                  { label: t('nutrition.carbs'), value: num(carbs, MACRO_PRECISION), tint: categoryAccent.carbs },
+                  { label: t('nutrition.fat'), value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
                   // Fibre only when this food's source carried one — the row is
                   // absent rather than showing a 0 nobody measured.
-                  ...(fibre != null ? [{ label: 'Fibre', value: num(String(fibre), MACRO_PRECISION), tint: categoryAccent.fibre }] : []),
+                  ...(fibre != null ? [{ label: t('nutrition.fibre'), value: num(String(fibre), MACRO_PRECISION), tint: categoryAccent.fibre }] : []),
                 ].map(({ label, value, tint }) => (
                   <View key={label} style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
                     <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
@@ -604,13 +604,13 @@ function DetailForm({
              are edited on the chip and the readout above. */
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: space.sm }}>
             {[
-              { key: 'protein' as const, label: 'Protein', value: num(protein, MACRO_PRECISION), tint: categoryAccent.protein },
-              { key: 'carbs' as const, label: 'Carbs', value: num(carbs, MACRO_PRECISION), tint: categoryAccent.carbs },
-              { key: 'fat' as const, label: 'Fat', value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
+              { key: 'protein' as const, label: t('nutrition.protein'), value: num(protein, MACRO_PRECISION), tint: categoryAccent.protein },
+              { key: 'carbs' as const, label: t('nutrition.carbs'), value: num(carbs, MACRO_PRECISION), tint: categoryAccent.carbs },
+              { key: 'fat' as const, label: t('nutrition.fat'), value: num(fat, MACRO_PRECISION), tint: categoryAccent.fat },
               // Fibre only when this food's source carried one — the tile is
               // absent rather than showing a 0 nobody measured.
               ...(fibre != null
-                ? [{ key: 'fibre' as const, label: 'Fibre', value: num(String(fibre), MACRO_PRECISION), tint: categoryAccent.fibre }]
+                ? [{ key: 'fibre' as const, label: t('nutrition.fibre'), value: num(String(fibre), MACRO_PRECISION), tint: categoryAccent.fibre }]
                 : []),
             ].map(({ key, label, value, tint }) => (
               <Pressable

@@ -2111,3 +2111,12 @@
 - 2026-10-31 22:55 Left the doc reconciliation for a later doc-only round because the last report said the file list ruled out doc edits this round.
 - 2026-10-31 22:55 Did not treat the handover's SwipeableRow.tsx 'Delete'/'Cancel' item as open; notes record it as already translated (R163) and the prompt does not touch it.
 - 2026-10-31 22:55 Kept Jev's run call: no owner input needed and the task is small.
+- 2026-10-31 22:57 Chose the macro tile labels: it is the handover's recommended next item, it reuses existing nutrition.* keys so no new strings are needed, and it is the smallest of the three (clears a visible English gap).
+- 2026-10-31 22:57 The brief gives no gap row number for the macro tiles, so the prompt tells Claude Code to find the row by grep instead of guessing a number.
+- 2026-10-31 22:57 Jev ran 93% and agrees with run, so no second look was needed.
+- 2026-10-31 22:57 The foodDetail.test.ts source-text risk named in the handover is covered in the prompt, so the test fix stays within one assertion.
+- 2026-10-31 22:57 Rewrote the rejected R172 prompt: added the explicit loop/design-match branch rule and the no-git rule, and kept the other rules unchanged.
+- 2026-10-31 22:57 Picked macro tile labels (candidate 1): it was already in progress, reuses existing nutrition.* keys where the wording matches, and needs no new keys in the likely case.
+- 2026-10-31 22:57 Kept quick-add and Edit item/Rename food for later rounds: one surface per round, and these are separate surfaces.
+- 2026-10-31 22:57 Limited the test run to the three files already used for detail.tsx, because the full suite is for checkpoint rounds only.
+- 2026-10-31 22:57 Did not mention Jev in the prompt, per the brief.
