@@ -2319,3 +2319,7 @@
 - 2026-11-01 00:33 Kept the doc-only fix as the task because it needs no owner input and clears a flagged citation.
 - 2026-11-01 00:33 Chose the row 85 wording fix over the line 930 fix, because lines 895-897 hold the stale citation the loop flagged, and the line 930 fix can wait one round.
 - 2026-11-01 00:33 Limited tsc to one run and no tests, following the doc-only rule.
+- 2026-11-01 00:34 Chose candidate 1: the loop flagged R213's report because tsc was not confirmed in the report, and this round clears that with a fresh tsc run.
+- 2026-11-01 00:34 Kept the row 85 wording fix as the only task, because the report named it as the next step and it needs no owner input.
+- 2026-11-01 00:34 Told Claude Code to skip tests, since doc-only rounds run tsc only and the loop note flags tests as not run.
+- 2026-11-01 00:34 Rewrote the notes under 600 words by merging repeated items and removing finished work, as the loop note asked.
