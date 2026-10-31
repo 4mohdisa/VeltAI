@@ -1593,3 +1593,7 @@
 - 2026-10-31 17:30 Gated fibre on a premise check: the design must show r1, and the backend must not store fibre as an integer. If either fails, the prompt stops with BLOCKED and no storage change is made.
 - 2026-10-31 17:30 Included the draft() save path in the fibre change, so saved fibre matches the protein behaviour the report described (1 decimal place). Stored values are not fully unrounded for any macro, and that is accepted as the design's 1 decimal place.
 - 2026-10-31 17:30 Ignored the handover NEXT line about citations at line 165, because the latest report and notes supersede it.
+- 2026-10-31 17:32 Chose the doc-only fix first: it is the smallest task, needs nothing from Isa, and the last report and handover both name it as NEXT, so it clears the false statements before further code changes.
+- 2026-10-31 17:32 Kept it doc-only with tsc only, per the testing rules for doc-only rounds, and required the line count to stay the same so no citations move.
+- 2026-10-31 17:32 Chose not to build the seeds task yet: it touches code and is two files, so it breaks the one-surface rule for this round.
+- 2026-10-31 17:32 Recorded that the Jev 'run' signal agrees with my choice, so no second look was needed.
