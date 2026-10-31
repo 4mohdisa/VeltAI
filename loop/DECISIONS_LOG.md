@@ -2472,3 +2472,7 @@
 - 2026-11-01 01:20 Skipped tsc and tests for this round. Reason: no code changes, so nothing to type check.
 - 2026-11-01 01:20 Notes rewritten under 600 words. Merged repeated items and deleted finished work. Reason: the loop note asked for it.
 - 2026-11-01 01:20 Training list and LoadFailedNotice kept as accepted deviations, per the recommended default. Reason: Isa has not overridden them, and the path grep showed no other entry point.
+- 2026-11-01 01:22 Flagged report handled first: this round runs tsc and the touched tests, so the earlier unrun check is closed.
+- 2026-11-01 01:22 Chose the gym-only bottom padding (158 in gym.tsx) over adding 58 to TAB_BAR_CLEARANCE. Reason Jev cannot see: TAB_BAR_CLEARANCE is shared with Summary and Food, whose rows have not been re-checked, so changing it would alter two surfaces with no row covering them.
+- 2026-11-01 01:22 The design value is fixed (158 measured from the screen edge), so a literal 158 matches the design. Device check stays with Isa.
+- 2026-11-01 01:22 Top padding left as is this round; the difference stays recorded in row 112.

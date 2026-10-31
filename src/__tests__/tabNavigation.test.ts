@@ -85,14 +85,13 @@ describe('Profile is off the tab bar', () => {
 describe('every tab screen clears the floating bar', () => {
   // NativeTabs inset scroll content automatically. A floating bar does not, so
   // each scrolling tab screen has to pad itself or its last row is unreachable.
-  test.each(['src/app/(tabs)/index.tsx', 'src/app/(tabs)/food.tsx', 'src/app/(tabs)/gym.tsx'])(
-    '%s pads its scroll by TAB_BAR_CLEARANCE',
-    (file) => {
-      const screen = src(file);
-      expect(screen).toContain('TAB_BAR_CLEARANCE');
-      expect(screen).toMatch(/paddingBottom: TAB_BAR_CLEARANCE\(insets\)/);
-    },
-  );
+  test.each([
+    ['src/app/(tabs)/index.tsx', /paddingBottom: TAB_BAR_CLEARANCE\(insets\)/],
+    ['src/app/(tabs)/food.tsx', /paddingBottom: TAB_BAR_CLEARANCE\(insets\)/],
+    ['src/app/(tabs)/gym.tsx', /paddingBottom: 158/],
+  ])('%s pads its scroll past the bar', (file, padding) => {
+    expect(src(file)).toMatch(padding);
+  });
 
   test('the clearance covers the whole control, not just its offset', () => {
     const bar = src(TAB_BAR);
