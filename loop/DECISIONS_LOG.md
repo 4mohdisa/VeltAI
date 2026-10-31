@@ -2646,3 +2646,7 @@
 - 2026-11-01 07:18 Kept run over Jev's ask (68%): the ask is a blocker Isa has not answered in three rounds, so asking again is not useful.
 - 2026-11-01 07:18 Did not pick the LumeTabBar.tsx logged-day fix: it is Blocked on Isa for permission, and a repeated unanswered blocker is not asked again.
 - 2026-11-01 07:18 Rewrote the notes to under 600 words: merged repeated items, deleted finished work, kept Decisions unchanged.
+- 2026-11-01 07:20 Kept run over Jev's ask (88%). Reason: the snapshot approval has already been asked in R267, R279, R281 and R284, so under the repeated-blocker rule it is parked and not asked again. The re-check needs no answer.
+- 2026-11-01 07:20 R284 flag: tsc exited 0 and the detailChrome test ran. The only failures are the known energy and macros snapshots, which are already in Blocked on Isa. Treated as addressed, not as a missing check.
+- 2026-11-01 07:20 Chose the doc-only re-check because it is the only unblocked row work left that changes no code and no snapshots.
+- 2026-11-01 07:20 Row 103 gap edits (week.tsx:54, training.tsx:64) stay parked. Making them now would turn two more snapshots red without an approval in place.

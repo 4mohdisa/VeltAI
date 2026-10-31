@@ -104,13 +104,13 @@ this pass matched the design on every checked value.
 | **Summary (Home) tab** | ⚠️ PARTIAL | Code re-checked against Summary bundle 185bb533, not verified on device. Card surface matches the design: elevated fill, radius xl, shadow sm, padding 20 (`src/components/display/Card.tsx:35`, `:47`).<br>Differences: Steps card not built (`src/app/(tabs)/index.tsx:134-138`); non-design items `PendingSyncBanner` (`index.tsx:132`), `GymStatusCard` (`index.tsx:174`), `MorningBriefCard` (`index.tsx:184`) and the plan card (`index.tsx:190`); scope is fixed to Today (`src/components/domain/EnergyBalanceCard.tsx:114`, `index.tsx:149`), where the design's week and step bars rescope the cards.<br>Page: top padding is `insets.top` + 12, which gives 59 at a 47 inset, 71 at a 59 inset and 74 at a 62 inset, vs a fixed 70 (`index.tsx:83`).<br>BUILT, not verified: bottom padding 158 and card gap 14 set in `index.tsx`, as in the design.<br>Header height 82: EXACT (code re-checked, not verified on device); `index.tsx:222` uses the `FloatingHeader` default. The strip blur is still an approximation and the Reduce Transparency branch is app-only (`src/components/navigation/FloatingHeader.tsx:10`, `:42`). |
 | Food — Calendar sheet | ⚠️ PARTIAL | Same structure and copy; cell sizing, today's marker and arrow treatment differ. |
 | Profile — Preferences | ⚠️ PARTIAL | Same five controls and labels; selected-segment treatment inverted and the mixed-units rule differs. |
-| Profile — Privacy | ⚠️ PARTIAL | All design rows and both footnotes present verbatim; the app adds group headers and an AI-processing group. |
-| Profile — Support | ⚠️ PARTIAL | Identical rows, address and labels; eyebrow copy and send behaviour differ. |
-| Profile — About | ⚠️ PARTIAL | Identical wordmark, tagline and meta rows; the app adds a header the design omits. |
+| Profile — Privacy | ⚠️ PARTIAL (code re-checked, not verified on device) | Code re-checked against Profile bundle b09a5e65. All four rows, the eyebrow and both footnotes match the design copy.<br>1. Section headers "Analytics", "AI processing", "Your data" are app-only (`src/app/profile/privacy.tsx:70`, `:87`, `:104`).<br>2. The AI-processing row and its footnote are app-only (`privacy.tsx:85-102`); the code comment ties them to consent withdrawal (`:28-29`).<br>3. Screen gap 12 (`src/components/navigation/Screen.tsx:96`) vs 22 (bundle :465); footnote gap 12 vs 8 and no 4 side padding (`privacy.tsx:81`, `:113`, bundle :499, :510).<br>4. Export: JSON through the share sheet (`privacy.tsx:48-53`) vs the toast "Export queued — we will email" (bundle :840).<br>5. Policy and terms open in-app documents (`privacy.tsx:65-66`) vs the toast "Opening lume.app/…" (bundle :838-839).<br>6. Busy label "Preparing your export…" is app-only (`privacy.tsx:108`).<br>7. Switch: native `Switch` vs a custom 51×31 control; track colours match (`SettingsList.tsx:103`, bundle :495).<br>Row geometry, shared `src/components/display/SettingsList.tsx`: one grouped card at radius 28 with shadow and dividers (`:174`, `:50-55`) vs separate white rows at radius 14, no shadow, gap 4 (bundle :472-473); min height 52 vs 48 (`:65`); side padding 16 vs 12 (`:64`); gap 12 vs 11 (`:62`); chip radius 10 vs 8 (`:73`); glyph 17 vs 15 (`:79`); label 17/24 vs 16/21 (`:92`); value 15/21 vs 14/19 (`:96`).<br>Top padding, title block and back button are in the "Profile — shared chrome" row. |
+| Profile — Support | ⚠️ PARTIAL (code re-checked, not verified on device) | Code re-checked against Profile bundle b09a5e65. Both rows, address, placeholder, title and button label match the design copy; the version format matches when a build number exists (`src/lib/appVersion.ts:19`).<br>1. Eyebrow "Help" (`src/app/profile/support.tsx:29`) vs "We reply within a day" (bundle :522).<br>2. Send: opens the Mail composer, with no success toast (`support.tsx:21-26`) vs in-app "Thanks — feedback sent" (bundle :846).<br>3. Email row: opens `mailto:` directly, with no toast (`support.tsx:32`) vs the toast "Draft opened to lumofit@gmail.com" (bundle :842).<br>4. Feedback field: 1 border, radius 16, side padding 20, type 17/24 (`src/components/forms/TextField.tsx:52-55`, `:64`) vs no border, radius 14, padding 12/14, type 16/22, 4 rows (bundle :546).<br>5. Feedback label: gap 4, `gray700`, no left padding (`src/components/forms/FieldShell.tsx:26-28`) vs gap 7, `secondaryLabel`, left padding 4 (bundle :544-545).<br>6. Send button: label 17/24 (`src/components/forms/Button.tsx:101`) vs 16/21; `Button.tsx:31` has no `gray-400` disabled fill (bundle :549, :845).<br>7. Screen gap 12 (`src/components/navigation/Screen.tsx:96`) vs 20 (bundle :519).<br>Row geometry, shared `src/components/display/SettingsList.tsx`: one grouped card at radius 28 with shadow and dividers (`:174`, `:50-55`) vs separate white rows at radius 14, no shadow, gap 4 (bundle :526-527); min height 52 vs 48 (`:65`); side padding 16 vs 12 (`:64`); gap 12 vs 11 (`:62`); chip radius 10 vs 8 (`:73`); glyph 17 vs 15 (`:79`); label 17/24 vs 16/21 (`:92`); value 15/21 vs 14/19 (`:96`).<br>Top padding, title block and back button are in the "Profile — shared chrome" row. |
+| Profile — About | ⚠️ PARTIAL (code re-checked, not verified on device) | Code re-checked against Profile bundle b09a5e65. Wordmark text, size and weight, tagline copy and type, and the three row labels match; Credits value matches.<br>1. Eyebrow "The app" and title "About" are app-only (`src/app/profile/about.tsx:14`); the design has no header here (bundle :559-560).<br>2. Wordmark tracking 0 vs -0.6 (`about.tsx:16`, bundle :561).<br>3. Wordmark to tagline gap 4 vs 6 (`about.tsx:15`, bundle :560); the 20 vertical padding is app-only (`about.tsx:15`).<br>4. Tagline has no `textAlign: center`, so a wrapped line would not centre (`about.tsx:19`, bundle :562).<br>5. Screen gap 12 (`src/components/navigation/Screen.tsx:96`) vs 26 (bundle :559).<br>6. Version and Build read from `Constants` and can be empty, which hides the value (`about.tsx:26-27`, `src/lib/appVersion.ts:13`, `:16`); the design shows literals (bundle :848-850).<br>Row geometry, shared `src/components/display/SettingsList.tsx`: one grouped card at radius 28 with shadow and dividers (`:174`, `:50-55`) vs separate white rows at radius 14, no shadow, gap 4 (bundle :564-566); min height 52 vs 48 (`:65`); side padding 16 vs 12 (`:64`); gap 12 vs 11 (`:62`); chip radius 10 vs 8 (`:73`); glyph 17 vs 15 (`:79`); label 17/24 vs 16/21 (`:92`); value 15/21 vs 14/19 (`:96`).<br>Top padding, title block and back button are in the "Profile — shared chrome" row. |
 | Profile — shared chrome | ⚠️ PARTIAL | Code re-checked against Profile bundle b09a5e65, not verified on device. The convention is implemented. Differences: header strip `insets.top` + 20 vs a fixed 84, so 67 at a 47 inset, 79 at a 59 inset and 82 at a 62 inset (`src/components/navigation/Screen.tsx:163`, `src/app/profile/index.tsx:186`); gradient 86 to 20 vs 88 to 18 and mask 56 vs 58 (`FloatingHeader.tsx:29`, `:71`, `:72`); top padding `insets.top` + 56, so 103, 115 and 118, vs a fixed 96, 110 on About and 120 on Delete account (`Screen.tsx:91`, `profile/index.tsx:95`); back button 44 vs 38, at `insets.top` + 4 and left 16 vs top 50 and left 14. |
-| Food — FAB add menu | ⚠️ PARTIAL | Same two rows and copy; solid panel, darker scrim, different radius and row metrics. |
+| Food — FAB add menu | ⚠️ PARTIAL (code re-checked, not verified on device) | Code re-checked against Food bundle 71f71ac4. Row copy and order, width 232, right 16, row gap 12, scale from 0.94 and bottom-right origin match. The bottom 96 matches only at a 34 inset: it is inset-based (`src/components/navigation/LumeTabBar.tsx:47`, `:176`).<br>1. Scrim 0.45 vs 0.10 (`src/components/navigation/AddMenu.tsx:71`, bundle :166), recorded as deliberate (`AddMenu.tsx:10-12`).<br>2. Panel solid white vs 0.94 white with blur (`AddMenu.tsx:85`, bundle :167), recorded as deliberate (`AddMenu.tsx:5-8`).<br>3. Radius 20 vs 18 (`AddMenu.tsx:84`); shadow `shadow.lg` vs `0 18px 42px` 0.20 plus a 0.5 ring (`AddMenu.tsx:90`, bundle :167).<br>4. Row height 52 vs 54 (`AddMenu.tsx:123`); side padding 16 vs 18 (`:122`, bundle :168).<br>5. Label 17/24 vs 16/20 (`AddMenu.tsx:127`, bundle :169); glyph 20 vs 19 (`:131`, bundle :170); the food glyph is a fork and knife vs a steaming bowl (`:96`, bundle :175).<br>6. Divider 1 `surface.divider`, inset 16 vs 0.5 at 0.10 black, inset 18 (`AddMenu.tsx:95`, bundle :172).<br>7. Pressed fill `surface.tilePressed` vs 0.05 black (`AddMenu.tsx:124`, bundle :168).<br>8. Entrance: translate 8 vs 6 (`AddMenu.tsx:61`, bundle :15), and the file's own comment says 6 (`:3`); the scrim fades at `medium` vs `fast` (`:50`, `:55`, bundle :166).<br>9. Gym row: pushes `/gym/log-session` over the current tab, on a logged day too (`LumeTabBar.tsx:179`) vs switching to the Gym tab with a log intent (bundle :886). Food row opens the add sheet, as in the design (`LumeTabBar.tsx:183`, bundle :887). |
 | Gym — main tab chrome & card order | ⚠️ PARTIAL | Code re-checked against gym bundle 7dc211f6, not verified on device. Padding is 16 on the page sides, streak strip (12/16), calendar, TodayCard and MuscleChart, as in the design.<br>Page top padding DIFFERENT (code re-checked against gym bundle 7dc211f6, not verified on device). The design's 70 is fixed and measured from the screen edge, so it already includes the status bar; the bundle has no safe-area value. Code is `insets.top` + 12, which gives 59 at a 47 inset (11 less), 71 at a 59 inset (1 more) and 74 at a 62 inset (4 more).<br>Floating header height 82: EXACT (code re-checked, not verified on device); `gym.tsx:180` uses the `FloatingHeader` default. The strip blur is still an approximation and the Reduce Transparency branch is app-only (`src/components/navigation/FloatingHeader.tsx:10`, `:42`).<br>Page bottom padding 158 (`gym.tsx:99`): EXACT (code re-checked, not verified on device).<br>Differences: `GymPatternsCard` has no design section, because none of its copy is in any design bundle, so the whole card is app-only; its inner gap is 16 where the design's other gym cards use 12; its header has a 17pt tinted glyph where the design's Muscle focus and My schedule headers have none; pull-to-refresh is app-only; card gap BUILT, not verified: page gap changed from 12 to 14 in `gym.tsx`, as in the design; eyebrow BUILT, not verified: letter spacing 1.1 and minHeight 26 set in `gym.tsx`; title block BUILT, not verified: title tracking -0.6, side padding 4 and title right padding 52 set, and the inner gap of 4 and bottom padding of 4 removed, as in the design; `lumeFade`: BUILT (mount-only fade, not verified).<br>BUILT, not verified: the Log button renders only when nothing is logged today and today's session has exercises, as in the design's `showLogCta`, and the logged confirmation pill no longer shows on the tab.<br>My schedule card BUILT, not verified: new `MyScheduleCard` under `MuscleChart` with the planned-day count and rows for today, tomorrow and the day after, each with its exercise count from `useSchedule()`.<br>Blocked on Isa: whether `GymPatternsCard` keeps 20 padding or moves to 16.<br>Log button sits directly under the session card, before `MuscleChart` and `GymPatternsCard`, BUILT, not verified.<br>`LoadFailedNotice`, code re-checked against gym bundle 7dc211f6, not verified on device: app-only, because the bundle has no failed-load, offline or retry state. So its layout, copy, colours, spacing and type have no design values to match.<br>Training list, code re-checked against gym bundle 7dc211f6, not verified on device: the whole section is app-only, because the design's main tab ends on the My schedule card and no design bundle has a Training section. So the title and its four rows (My schedule, My workouts, Apply a streak freeze, Session history), with their icons, order, separators, chevrons and spacing, have no design values to match. The My schedule row opens the same screen as the card; the design shows "My workouts" only as a section on its My schedule screen, and has no streak freeze or session history row.<br>BUILT: all five Training list labels use t() with en, es and fr values (`gym.training`, `gym.mySchedule`, `gym.myWorkouts`, `gym.applyStreakFreeze`, `gym.sessionHistory`). Status unchanged. |
-| Gym — "My schedule" screen | ⚠️ PARTIAL | The week card is close; the design's whole "My workouts" section is missing from it, the sub-line is truncated, and the picker sheet differs in five ways. |
+| Gym — "My schedule" screen | ⚠️ PARTIAL (code re-checked, not verified on device) | Code re-checked against Gym bundle 7dc211f6. Title type, day gutter 42, row gap 12, chevron size and colour, dot colours and "Rest day" / "No workout assigned" copy match.<br>1. "My workouts" section is missing: the screen is the week card only (`src/app/gym/schedule.tsx:87-141`, bundle :536-538); templates are on `/gym/templates`.<br>2. Eyebrow "Gym" is app-only (`src/app/gym/schedule.tsx:69`, bundle :522).<br>3. Screen gap 12 (`src/components/navigation/Screen.tsx:96`) vs 20 (bundle :521).<br>4. Card: no padding vs 8/16, so dividers run the full card width vs inset 16 (`src/app/gym/schedule.tsx:87`, `:103-104`, bundle :523).<br>5. Row min height 52 vs 58; the 12 vertical padding is app-only (`src/app/gym/schedule.tsx:101-102`, bundle :525).<br>6. Day label 13/16 vs 15/20 (`src/app/gym/schedule.tsx:111`, bundle :526); dot 8 vs 9 (`:116-117`, bundle :527).<br>7. Name 400 15/21 vs 500 15/20 (`src/app/gym/schedule.tsx:124`, bundle :529); text gap 4 vs 1 (`:122`, bundle :528).<br>8. Sub-line colour tertiary vs secondary, and the muscle-group phrase is dropped (`src/app/gym/schedule.tsx:130-133`, bundle :530, :1842).<br>9. Order and day names: API order and `day_name.slice(0, 3)` (`src/app/gym/schedule.tsx:88`, `:112`) vs fixed Mon to Sun with a table (bundle :1835, :1838).<br>10. Zero templates: `EmptyState` replaces the week (`src/app/gym/schedule.tsx:76-83`) vs seven rows always (bundle :524).<br>11. App-only states: loading skeletons (`src/app/gym/schedule.tsx:70-75`) and the save-failed rollback toast (`:49-59`).<br>12. Pressed state: no opacity 0.6 on rows or `tilePressed` on sheet rows is set here (`src/app/gym/schedule.tsx:91-97`, `:185-198`, bundle :525, :656).<br>13. Picker title "{day} — Choose Workout" vs "Workout for {day}" (`src/app/gym/schedule.tsx:147`, bundle :1865).<br>14. Picker "Rest day" is first with no sub-line vs last with "Nothing scheduled" (`src/app/gym/schedule.tsx:151-155`, bundle :1872).<br>15. Picker "Create new template →" is app-only (`src/app/gym/schedule.tsx:165`).<br>16. Picker selection: 22 black disc with a white tick, no row fill (`src/app/gym/schedule.tsx:210-223`) vs a bare 17 tick on a `surface.tile` row (bundle :662, :1869).<br>17. Picker rows: 17/24, dividers, no radius, list capped at 340 (`src/app/gym/schedule.tsx:150`, `:196-197`, `:201`) vs 500 15/20, min height 56, radius 16, no dividers, content-sized (bundle :656, :658).<br>18. Picker chrome, shared `src/components/navigation/BottomSheet.tsx`: grabber width 40 vs 38 (`:152`); side padding 16 vs 20 (`:141`); bottom inset + 16 vs 34 (`:143`), bundle :652-653.<br>Not compared: picker shadow and entrance, back button and top strip. Top padding: `insets.top` + 56 vs 110 (`Screen.tsx:91`). |
 | Gym — today's session card | ❌ DIFFERENT | TodayCard cards use padding 16 (space.lg) via padded={false} (not verified); all four states still differ: rest day and planned lack the tap target and chevron, planned lacks the stats grid, and loading has no design state. Logged state BUILT (not verified): green pill via `t('gym.logged')`, sub-line `Logged today · N kcal burned` from the day's `calories_out_exercise` via `formatEnergy`, the trailing chevron, and a 3-up grid (Duration, Volume, Sets) and exercise chips from the logged session. Still open on the logged state: the Calories cell, pending per-session calories on the backend; the chevron on a non-tappable card; the tap target, which needs a day-detail route; and the design's wash on the pill, whose token awaits Isa. Failed today fetch shows LoadFailedNotice with Try again (gym.loadFailed, onRetry = refetch); the design has no failure state.<br>LoadFailedNotice's Try again label goes through `t('common.tryAgain')` (BUILT, not verified). Accepted deviation: the design has no load-failure notice, so the Try again button keeps minTapTarget={false} in src/components/display/LoadFailedNotice.tsx. |
 | Gym — exercise progress | ⚠️ PARTIAL | Same chart idea, but no Muscles worked or Form guide cards, the bars encode weight rather than the design's metric, and the bottom stat pair is missing. |
 | Gym — month heatmap | ⚠️ PARTIAL | Geometry, ramp and legend match value for value; the cells are not tappable, and neither is the session card, so the design's two routes into the day detail are gone. |
@@ -701,51 +701,7 @@ Tapping a day opens `sheetPick`: a content-sized sheet (`radius.xl` top corners,
 route** (`/gym/templates`), reached from the main tab's `Training` settings list.
 The file names the design constant it kept: `const DAY_WIDTH = 42` at :24.
 
-**Differences:**
-
-1. **The entire "My workouts" section is missing from this screen** — no uppercase
-   label, no template cards, no sub-line, no "Every Mon, Thu" line, and no route
-   from here into a template.
-2. **An eyebrow "Gym" is added** (:69) above a title the design leaves bare.
-3. **The per-row muscle-group phrase is dropped** — the app's sub is
-   `N exercises` with nothing after it (:131-133).
-4. Sub colour `tertiaryLabel` (`#8a8a8a`) vs the design's `secondaryLabel`
-   (`#6b6b6b`) (:130).
-5. Day label `label` (**600 13/16**) vs `600 15/20` (:111); name `callout`
-   (**400 15/21**) vs `500 15/20` (:124).
-6. Dot 8 vs 9 (:116); row min-height 52 vs 58 (:101); text-column gap 4 vs 1
-   (:122); card vertical padding 0 vs 8, so the card has no breathing room at top
-   and bottom (:87).
-7. Day names come from `day.day_name.slice(0, 3)` (:112) rather than a fixed
-   `WD3` table, and rows render in whatever order the API returns rather than the
-   design's pinned Mon→Sun (:88). A localised or differently-cased `day_name`
-   would break the 42px gutter silently.
-8. **Picker sheet differs in five ways**: title *"Sunday — Choose Workout"* vs
-   *"Workout for Sunday"* (:147); **"Rest day" is first** (:151) rather than last
-   and carries **no sublabel** where the design says *"Nothing scheduled"*;
-   selection is a **22px black filled disc with a white check** (:210-222) rather
-   than a bare glyph; **the selected row gets no `surface.tile` background**; and
-   an extra **"Create new template →"** row is appended (:165).
-9. **`Create new template →` has no design counterpart at all** — the design has
-   no create-template flow anywhere, on any screen.
-10. Sheet rows: `bodyMedium` (17/24) vs `500 15/20`, hairline dividers and no
-    radius vs 56pt `radius.md` rows with no divider, and the list is capped at
-    `maxHeight: 340` where the design's sheet is content-sized (:150, :190-201).
-11. **With zero templates the app replaces the whole week card with an
-    `EmptyState`** (:76-83), so the user cannot see or tap their week at all. The
-    design always renders the seven rows, every one reading *"Rest day"* /
-    *"No workout assigned"*.
-12. Loading skeletons at height 64 (:70-75), optimistic writes with a rollback and
-    the toast *"Could not save schedule — check your connection"* (:38-61) are
-    app-only; the design mutates `S.sched` synchronously with no async states.
-13. Pressed states (`opacity:0.6` on week rows, `surface.tile-pressed` on sheet
-    rows) are not reproduced — the app sets `haptic={false}` and relies on
-    `Pressable` defaults.
-
-*Not verified:* `BottomSheet`'s own chrome (grabber, radius, scrim, shadow, title
-type, entrance) was not read, so parity against the design's `38×5` `light3`
-grabber, `radius.xl` top corners and `lumeSheet` animation is **unknown**, not
-confirmed-different.
+**Differences:** code re-checked; the list is in the summary table row.
 
 ## Gym — workout / template detail — ❌ DIFFERENT
 
@@ -1220,13 +1176,7 @@ fitting content.
 Same two rows, same copy (*"Log gym session"* / *"Log food"*), same 232pt width and
 96pt bottom anchor, same 62pt `+` rotating 45°.
 
-**Differences:** scrim `rgba(0,0,0,0.45)` vs `0.10`; panel solid white vs
-translucent `0.94` + blur; radius 20 vs 18; shadow; row height 52 vs 54; padding
-16 vs 18; label 17/24 vs `500 16/20`; icon 20 vs 19; divider 1px `#e5e5ea` inset 16
-vs `0.5px rgba(0,0,0,0.10)` inset 18; the gym row **pushes a route** where the
-design switches tab with a `'log'` intent (which is what opens the chooser).
-Both the solid panel and the darker scrim are documented in `AddMenu.tsx` as
-deliberate design-system deviations.
+**Differences:** code re-checked; the list is in the summary table row.
 
 ## Food — number entry (cross-cutting)
 
@@ -1435,33 +1385,19 @@ keeps "Metric" lit.
 
 All four design rows and **both footnote paragraphs match verbatim**.
 
-**Differences:** the app adds section headers ("Analytics", "AI processing", "Your
-data") where the design has none; **the AI-processing group and its footnote are
-app-only**; grouped 28px cards vs individual 14px row cards; the design's
-policy/terms rows imply external URLs while the app pushes in-app documents;
-**export is emailed in the design and share-sheeted in the app**; busy labels;
-row type 17/24 vs 16/21; the switch geometry is the platform's; screen gap 12 vs 22.
+**Differences:** code re-checked; the list is in the summary table row.
 
 ## Profile — Support — ⚠️ PARTIAL MATCH
 
 Identical rows, address (`lumofit@gmail.com`), placeholder and button label.
 
-**Differences:** eyebrow *"Help"* vs *"We reply within a day"*; the design implies
-an in-app submission (*"Thanks — feedback sent"*) while the app opens the system
-Mail composer and deliberately shows no success toast; no toast on the email row;
-grouped card vs two row cards; row geometry and type; a bordered `TextField` vs a
-borderless textarea; disabled-button fill; version read from `Constants` vs a
-literal.
+**Differences:** code re-checked; the list is in the summary table row.
 
 ## Profile — About — ⚠️ PARTIAL MATCH
 
 Identical wordmark, tagline and three meta rows.
 
-**Differences:** the app **adds an eyebrow + title** that the design deliberately
-omits (About and Delete are the design's only header-less screens); wordmark
-letter-spacing; block gap; tagline centring relies on the parent; grouped card vs
-three row cards; row geometry and type; version/build read from `Constants` (which
-can render empty and drop the value); icon renderings; screen gap 12 vs 26.
+**Differences:** code re-checked; the list is in the summary table row.
 
 ## Profile — shared chrome — ⚠️ PARTIAL MATCH
 

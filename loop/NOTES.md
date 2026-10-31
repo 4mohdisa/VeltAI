@@ -18,7 +18,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Every prompt states the loop/design-match branch rule.
 
 ## Status
-- R284: R283 report was flagged (type check and tests not run). Verification round: tsc and detailChrome test, no edits, no -u.
+- R285: R284 flag checked. tsc 0 and detailChrome ran; only the known energy and macros snapshots fail. Snapshot approval not asked again (parked, repeated blocker). Task: doc-only re-check rows 31-35.
+- R284: verification round, tsc and detailChrome test, no edits, no -u.
 - R283: rows 76 and 103 re-checked (doc only). 76 PARTIAL, 8 differences. 103 stays DIFFERENT.
 - Card gap: nutrition.tsx 16 OK; energy.tsx 16 OK; week.tsx 12 and training.tsx 12 still differ.
 - Summary 1-30 re-checked. Built: food title block, streak row, eyebrow, energy hero stat, energy net sign (EnergyBalanceCard.tsx:155), Summary 14, 25 (letter spacing), 26, 27. Header height 82 EXACT.
@@ -33,18 +34,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 103 DIFFERENT: week.tsx and training.tsx gap 12. Kicker and dots Blocked (DetailChart.tsx).
 - 104 PARTIAL: Steps card Blocked. Summary 17 needs SegmentedField.
 - 112 PARTIAL: top padding; GymPatternsCard padding Blocked. Training list and LoadFailedNotice accepted.
+- 31-35: re-check pending (R285).
 
 ## Next
-1. R284: verification (this round).
-2. Row 103: dashboard/week.tsx card gap 12 to 16. Expect snapshot red; add to approval.
-3. Row 103: dashboard/training.tsx card gap 12 to 16.
-4. Row 76 logged-day toast: Blocked on LumeTabBar.tsx permission.
-5. Copy: nutrition, week, training, energy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-6. If Isa approves DetailChart.tsx: row 103 kicker and dots, then one snapshot approval.
-7. No rows left: stop with 'only owner decisions remain'.
+1. R285: doc-only re-check rows 31-35 (this round).
+2. Row 103: dashboard/week.tsx and training.tsx card gap 12 to 16. Only after the snapshot approval is given, then one snapshot update covering all four detail views.
+3. Row 76 logged-day toast: Blocked on LumeTabBar.tsx permission.
+4. Copy: nutrition, week, training, energy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+5. If Isa approves DetailChart.tsx: row 103 kicker and dots, then one snapshot approval.
+6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
-- One approved jest -u on detailChrome.render.test.tsx (asked R267, R279, R281).
+- One approved jest -u on detailChrome.render.test.tsx (asked R267, R279, R281, R284; parked, not asked again until Isa raises it).
 - DetailChart.tsx edit (asked R267).
 - LumeTabBar.tsx:179 + menu on a logged day (needs permission).
 - Shared SheetContent, Button, sheet height.
@@ -87,6 +88,7 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym
 - Never run jest -u unasked.
 
 ## Jev
+- R285: ask 88%, run 9%. Kept run. Reason: snapshot blocker asked four times, so parked by rule; re-check needs no answer.
 - R284: ask 68%, run 30%. Kept run. Reason: flagged check needs no Isa answer; ask blocker asked three times.
 - R283: ask 57%, run 38%. Kept run. Reason: re-check needs no answer.
 - R282 and R281: ask 71% and 79%. Kept run.
