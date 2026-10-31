@@ -2642,3 +2642,7 @@
 - 2026-11-01 07:16 Did not re-ask Isa about the detailChrome snapshot approval or DetailChart.tsx. Both were asked three or more times without an answer, so they stay parked under Blocked on Isa.
 - 2026-11-01 07:16 Jev asked 57%, but its reason is the repeated unanswered blocker. A doc-only re-check needs no Isa answer, so I kept run.
 - 2026-11-01 07:16 Row 103 Energy line: R279 set energy.tsx to gap 16, but the handover still lists it at 12. The re-check reads the file directly to settle this.
+- 2026-11-01 07:18 Chose the verification run first, because the loop note says to deal with the flagged report before moving on, and it needs no Isa answer.
+- 2026-11-01 07:18 Kept run over Jev's ask (68%): the ask is a blocker Isa has not answered in three rounds, so asking again is not useful.
+- 2026-11-01 07:18 Did not pick the LumeTabBar.tsx logged-day fix: it is Blocked on Isa for permission, and a repeated unanswered blocker is not asked again.
+- 2026-11-01 07:18 Rewrote the notes to under 600 words: merged repeated items, deleted finished work, kept Decisions unchanged.
