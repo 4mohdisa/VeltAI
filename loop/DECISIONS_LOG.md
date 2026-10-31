@@ -1495,3 +1495,5 @@
 - 2026-10-31 17:04 Already-logged days blocker came back twice (loop note). Kept under Blocked on Isa, not retried, no question asked again.
 - 2026-10-31 17:04 Rest seconds premise check moved behind the copy fix, so the next round has a clear single target.
 - 2026-10-31 17:04 Notes Next list renumbered. Item 1 (stale comment) and the read-only log-session failure check (R35, already passed) are removed from Next.
+- 2026-10-31 17:05 R45 flagged as partly done: the code change is in, but DESIGN_GAP_ANALYSIS.md lines that quote 'Add exercise' are stale. Chose the doc-only correction first, since it is a factual correction with accurate report text and needs no Isa decision.
+- 2026-10-31 17:05 Left the PlannedValuesForm.tsx:200 'Add exercise' submit control out of this round. It is a separate control and has not been compared with the design.

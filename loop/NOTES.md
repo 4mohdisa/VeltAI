@@ -24,17 +24,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - A loop note saying the same blocker came back twice means park it under Blocked on Isa and do not retry.
 
 ## Status
-BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard (padding, title, sub-line, rest, logged state, failed-fetch notice); Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; stale comment in SheetContent.tsx replaced (R44).
+BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard (padding, title, sub-line, rest, logged state, failed-fetch notice); Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice; stale comment in SheetContent.tsx replaced (R44); empty-state action label in gym/session.tsx changed to 'Add an exercise' (R45, code only).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status empty.
 Last checkpoint R34 green (tsc 0, 65 suites, 824 tests), predates failed-fetch code. No tests cover TodayCard or failure paths.
 Doc rounds R37-R43 done. R43 corrected 'What the app does' (old form intro) and the 'Today / check-in' session_id claim.
 
 ## Next (in order)
-1. Copy round R45 (in progress): src/app/gym/session.tsx ~:539 'Add exercise' to 'Add an exercise' if plain string; if i18n key, report BLOCKED with key name, no locale edits.
+1. Doc round R46 (in progress): DESIGN_GAP_ANALYSIS.md lines that still quote 'Add exercise' for the session.tsx empty-state control (about lines 229 and 331 before this round). Change to 'Add an exercise'. Leave the PlannedValuesForm.tsx:200 submit control quote alone. Tsc only.
 2. Rest seconds: picker collects them, /gym/session never saves them (src/app/gym/session.tsx:159-166). Check premise; park, or fix if it is a plain save.
 3. Doc follow-up: 'What the app does' old-form block no longer gives a recording date after R43. Restore only if the date is accurate and factual.
 4. Add sheet icons from design SVGs.
-5. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check.
+5. Logged-day sheet from + menu: decide from design. log-session.tsx ~:150-158 has no logged-day check. Also: the design addLabel on a logged day is 'Add something extra'; session.tsx empty state always says 'Add an exercise'.
 6. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
 7. Gap-analysis status cell for 'Gym — session logging (log sheet)' still says BUILT while its text records a partial item. Blocked on Isa (see below).
 8. food.tsx ~445 empty-list copy. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
@@ -63,7 +63,7 @@ Doc rounds R37-R43 done. R43 corrected 'What the app does' (old form intro) and 
 - Gap row status cell for 'Gym — session logging (log sheet)' still says BUILT while its text records a partial item. Keep status or change?
 
 ## Parked
-- Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route (customLabel).
+- Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route (customLabel), PlannedValuesForm.tsx:200 'Add exercise' submit control not compared with design.
 - Row 17: rest-day exits, pop-in, ring vs flame. Streak: flame pulses, artwork.
 - TodayCard: header dot, min-height, gaps, pill and chip type, grid 17/24 vs 16/21, Chip 11/14, grid shift after fetch, stale burn, earliest-session rule, date mismatch near midnight, per-session calories (backend), small 'Try again' target, GetToday clears is_rest_day only with template, '0 exercises planned' sub-line.
 - Logged card tap target needs a day-detail route.
@@ -95,4 +95,4 @@ Doc rounds R37-R43 done. R43 corrected 'What the app does' (old form intro) and 
 - R37-R41: doc rounds, tsc 0 each.
 - R41-R43: loop flagged reports for tsc display; R42 and R43 re-ran tsc with exit code printed.
 - R44: stale comment in SheetContent.tsx replaced. TSC EXIT 0. sheetContent.render.test.tsx passed (1 suite, 3 tests). Loop note: same blocker (already-logged days) came back twice; parked under Blocked on Isa.
-- R45: in progress, copy fix at session.tsx ~:539.
+- R45: copy fix at session.tsx ~:539, 'Add exercise' to 'Add an exercise'. TSC EXIT 0. Jest: no matching tests. Loop note flagged the report as partly done: gap doc lines still quote the old label. Doc correction queued as R46 (Next item 1).
