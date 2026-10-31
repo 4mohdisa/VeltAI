@@ -1171,3 +1171,8 @@
 - 2026-10-31 14:18 Chose the checkpoint over the padding fix (Jev 88%): the loop note makes this round read-only and the notes require a full Jest run at the next checkpoint. A file edit would break the round rule. The padding fix is next.
 - 2026-10-31 14:18 Cleared the R295 flag: the R296 report shows tsc exit 0, 11 of 11 suites and 114 of 114 tests passing, and all three locale files parsing.
 - 2026-10-31 14:18 Kept the full suite in one checkpoint round rather than splitting it, so the result covers the loadingSessions and savedTitle changes that the last full run (R283) did not.
+- 2026-10-31 14:19 Chose the padding claim fix: it is the smallest task, needs nothing from Isa, and the last report named it as next.
+- 2026-10-31 14:19 Read-only for code this round: the design value may differ from the code, so the fix is documentation only and any code change goes to NEXT.
+- 2026-10-31 14:19 Skipped the unused addMenu key removal: add.tsx:67 must be traced first, and that is a later round.
+- 2026-10-31 14:19 Skipped the footnote and row 89 items: both are blocked on Isa with no new information.
+- 2026-10-31 14:19 Ran no tests: the round changes only the markdown gap file, so the checkpoint result (tsc 0, jest 65/824) still holds.

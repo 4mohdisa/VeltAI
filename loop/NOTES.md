@@ -21,31 +21,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Checkpoint rounds are read-only. Flagged reports are cleared by a read-only round before build work.
 - Defaults: one-tap gym log on Summary card; Distance km; no food search chips; Goals extras kept.
 - Every prompt names the design/ file, the gap row and loop/design-match.
-- Saved foods sheet title is 'My dishes' (design wins). food.savedTitle: en 'My dishes', es 'Mis platos', fr 'Mes plats'. Row 89 stays DIFFERENT until the photo gallery is built.
+- Saved foods sheet title 'My dishes' (food.savedTitle: en 'My dishes', es 'Mis platos', fr 'Mes plats'). Row 89 stays DIFFERENT until the photo gallery is built.
 - addMenu.savedFoods: zero uses. Removed in R293.
 
 ## Status
 - Built (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() at food.tsx:449, gym.tsx:108, profile/index.tsx:103, food/saved.tsx:85, (tabs)/index.tsx:155; gym.loadingSessions; saved.tsx title at :76.
-- R296 green: tsc exit 0; jest food gym hydrationErrorScreens 11/11 suites, 114/114 tests; all three locales parse.
-- Last full suite R283 green (65 suites, 824 tests). Full suite run in R297 checkpoint.
+- R297 checkpoint green: tsc exit 0; full jest 65 suites, 824 tests, 4 snapshots.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Flags
-- None. R295 flag cleared by R296 (green).
+- None.
 
 ## Next
-1. R297 (current, read-only checkpoint): full tsc and full Jest.
-2. Fix stale padding claim at gap file lines 399-400 (says '20 all round'; code is 12px 16px). Check the calendar card at gym.tsx:130 (space.lg, 16) in the same edit.
-3. Trace add.tsx:30-70 slotKey. If it only yields breakfast, lunch, dinner, snack, remove addMenu.snapMeal, scanPackage, oneTapReadd from en, es, fr together. Keep es voice and describeOutLoud (blocked). Trace add.tsx:67 before removal.
-4. Move row 89 note (gap file ~line 90) into row 89 reason cell.
-5. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'. Fix gym.tsx:3-4 comment typo 'month month'.
-6. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15. Gym Training list gym.tsx:151-156 untranslated (app-only, see Blocked).
-7. Read and wrap: gymRange.ts, TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
-8. Add sheet icons to design SVGs. Empty-list copy at src/app/(tabs)/food.tsx ~:445-447.
-9. saved.tsx literals :61, :72, :78, :82, :92, :95-96, :106-108, :127, :144; stale comments :1, :5. (Line 83 is the TextField closing />, not a literal.)
-10. Streak footnote: blocked (see below). Row 82 and gap section line 415 must agree on it.
-11. Full Jest at next checkpoint.
-12. If no rows remain: stop with 'only owner decisions remain'.
+1. R298 (current): fix stale padding claim at gap file lines 399-400 and record the calendar card at gym.tsx:130. Doc only.
+2. Trace add.tsx:30-70 slotKey and add.tsx:67. If the five unused addMenu keys are safe to remove, remove them from en, es, fr together. Keep es voice and describeOutLoud.
+3. Move row 89 note (gap file ~line 90) into row 89 reason cell.
+4. Re-grep gym.tsx literals :56, :102, :114, :123, 'My schedule', 'My workouts'. Fix gym.tsx:3-4 comment typo 'month month'.
+5. Hardcoded: profile/index.tsx :62, :82-83; (tabs)/index.tsx :115, :150 (add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx :131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx :48; StreakCounter.tsx :15.
+6. Read and wrap: gymRange.ts, TodayCard, MuscleChart, GymPatternsCard, GymSessionButton, GymCalendar.
+7. Add sheet icons to design SVGs. Empty-list copy at src/app/(tabs)/food.tsx ~:445-447.
+8. saved.tsx literals :61, :72, :78, :82, :92, :95-96, :106-108, :127, :144; stale comments :1, :5.
+9. Streak footnote: blocked. Row 82 and gap section ~line 427 must agree.
+10. Full Jest at next checkpoint.
+11. If no rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa
 - Row 23 one-tap log: route or deviation. Row 17 Calories: formula or deviation.
@@ -86,6 +84,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Loop notes
 - Rejected prompts lacked the design/ file. Name it every time.
 - Weak checks: hydration test accepts invented reasons; no plural test; no test renders the gym streak card or saved foods; no locale parity test.
-- R294 key counts disagreed (report en 167, handover en 168). Recount with a script before any removal. Current handover: en 168, fr 168, es 170.
-- Jev ranked the streak padding fix first at 88%. Chose the checkpoint (R297): the loop note makes it read-only, and the notes require the full suite at the next checkpoint. The padding fix is next.
+- Key counts: recount with a script before any removal. Current: en 168, fr 168, es 170.
+- R297 checkpoint green. Padding fix chosen first (Jev ranked it first too).
 - Notes kept under 600 words; trim Parked first if over.

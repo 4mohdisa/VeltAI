@@ -396,8 +396,9 @@ card → calendar card → `TodayCard` → `MuscleChart` → **`GymPatternsCard`
 `GymSessionButton` → **`SettingsList "Training"`** (My schedule / My workouts /
 Apply a streak freeze / Session history).
 
-**Differences:** card padding 20 vs 16 everywhere (`Card` default), and the streak
-strip is 20 all round vs `12px 16px`; inter-card gap 12 vs 14; **the log CTA moves
+**Differences:** card padding matches on the streak strip (`12px 16px`, `gym.tsx:115`)
+and the calendar card (16, `gym.tsx:130`); `TodayCard` and `MuscleChart` keep the `Card`
+default, DIFFERENT: 20 vs the design's 16; inter-card gap 12 vs 14; **the log CTA moves
 from directly under the session card to below two other cards**; `GymPatternsCard`
 ("Your gym habits") is app-only; the four-row `Training` settings list is app-only
 (the design reaches schedule via its own card and has no freeze or history screen
