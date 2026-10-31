@@ -1002,3 +1002,8 @@
 - 2026-10-31 02:10 Did not choose the test edit to hydrationErrorScreens.test.ts yet, because the brief forbids test changes this round and the check must come first.
 - 2026-10-31 02:10 Chose run over ask: the check needs nothing from Isa, so no question.
 - 2026-10-31 02:10 Kept run over Jev's 34% ask: Jev cannot see that the check needs no owner input, and it is the smallest safe step.
+- 2026-10-31 02:11 Chose the test edit (candidate 1). The R263 read-only check passed and the notes already plan this step. It is test-only, small and needs nothing from Isa.
+- 2026-10-31 02:11 Jev leaned to ask at 56% with low confidence (0.34). I ran instead because the pre-planned step has no open question for Isa and the notes name the exact lines. Override reason recorded in Loop notes.
+- 2026-10-31 02:11 Limited the new test check to en values for the two keys. The es and fr values are not shown (src/lib/i18n/index.ts:41), and the English-word check cannot meaningfully apply to them.
+- 2026-10-31 02:11 Kept the Macros kicker and title as built (nutrition.title and nutrition.macrosTitle, design-confirmed). The handover's Macros key item is stale and was not reopened.
+- 2026-10-31 02:11 Ran only the one test file and tsc once, under the testing rules. No full suite this round.

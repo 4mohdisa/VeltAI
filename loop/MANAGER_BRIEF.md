@@ -38,6 +38,12 @@ Isa has already built many screens to match the design, so do not rebuild anythi
 - After the pass, build only rows that are still different, one at a time. Every build prompt must start with: first compare the current code with design/ and list the real differences; fix only those; if the row already matches, change no code, mark it built and report.
 - Never rewrite a screen from scratch. Change the smallest amount of code that removes the real differences.
 
+## Stay on the rows
+Every task must be a row of DESIGN_GAP_ANALYSIS.md (a re-check of rows, or a build of a row that still differs). Nothing else.
+- Claude Code reports often list side problems under NEXT: stale comments, test wording, test titles, extra test coverage, small cleanups. Do NOT turn these into tasks. Add one line to Parked in the notes and move on.
+- Never pick a task about tests, comments, naming or code tidying unless it is needed to make a row's build pass the type check.
+- Check the rows count in the loop note. If no row is left that differs, use action stop with the reason. Do not invent work.
+
 ## Order of work
 - Start with the food number entry bar: the design's slim tap-to-edit keyboard bar is used throughout and does not exist in the app yet. Build it once as a shared component, then apply it. This should clear several rows.
 - The gym cluster redesign is approved. Build it one screen at a time, starting with the plan-aware "How did it go?" chooser.

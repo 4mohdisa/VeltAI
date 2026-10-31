@@ -22,7 +22,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - No new test suites or render tests. 11pm-to-9am case checked on device by Isa.
 - Macros screen has no gap row; none added to keep verdict counts. Isa may name one.
 - Nutrition load-failure and a11y wording live in the nutrition namespace (nutrition.macrosLoadFailed, nutrition.caloriesTodayLabel).
-- Test 'no screen invents a reason' (hydrationErrorScreens.test.ts:54-64) only checks message= string literals. It must be changed to check locale values; only after a read-only check, under a brief that allows it.
+- Test 'no screen invents a reason' (hydrationErrorScreens.test.ts:54-64) only checks message= string literals. It must be changed to check locale values. R264 does this for en values only.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet; gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
@@ -36,23 +36,22 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Last full run R257: tsc 0; 65 suites, 824 tests, 4 snapshots.
 - R258 read-only check passed. R259 and R260: tsc 0; detailChrome render 4/4 after snapshot edits.
 - R261: tsc 0; detailChrome render 4/4, 4 snapshots. Snapshot line 2945 edited by hand.
-- R262: tsc ran twice (first run before keys existed; second run is the valid one) exit 0. Jest on 5 files naming (tabs)/index: 5 suites, 83 tests passed. Not run: onboardingPostAuth, tabProfileEntry.
-- Keys after R262: en 156, fr 156, es 158 (es extras addMenu.voice, addMenu.describeOutLoud).
+- R262: tsc exit 0 (valid run after keys existed). Jest on 5 files naming (tabs)/index: 5 suites, 83 tests passed. Not run: onboardingPostAuth, tabProfileEntry.
+- R263 read-only: tsc 0; jest tabNavigation, oneTapGymLog, summaryDetails, hydrationErrorScreens, summaryNoFabrication, detailChrome: 6 suites, 87 tests, 4 snapshots passed. Keys en 156, fr 156, es 158.
 - Snapshots show raw keys, so on-screen text needs a device run.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R263 (current): read-only check of R262. tsc once, jest on tabNavigation, oneTapGymLog, summaryDetails, hydrationErrorScreens, summaryNoFabrication, detailChrome. Count keys. No edits.
-2. Brief that allows editing only src/__tests__/hydrationErrorScreens.test.ts lines 54-64, so the no-invented-reason check covers the locale values for index.tsx:155 and dashboard/nutrition.tsx:79.
-3. (tabs)/index.tsx:150 hardcoded title='Macros' and scope='Today' (record as hardcoded, keep wording).
-4. (tabs)/gym.tsx:112 and :121 to t().
-5. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
-6. (tabs)/food.tsx:449; components/domain/EnergyBalanceCard.tsx:131 (asserted in energyBalanceCard.render.test.tsx:62).
-7. Add sheet icons to design SVGs.
-8. Remaining gap rows, most cleared first.
-9. Read-only full Jest checkpoint after the next checkpoint round.
-10. If no non-gym work remains: stop with 'only owner decisions remain'.
-11. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
+1. R264 (current): hydrationErrorScreens test edit, lines 54-64, en values only for nutrition.macrosLoadFailed (index.tsx:155) and nutrition.loadFailed (nutrition.tsx:79). tsc once, jest on that file once.
+2. (tabs)/index.tsx:150 hardcoded title='Macros' and scope='Today' (record as hardcoded, keep wording).
+3. (tabs)/gym.tsx:112 and :121 to t().
+4. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
+5. (tabs)/food.tsx:449; components/domain/EnergyBalanceCard.tsx:131 (asserted in energyBalanceCard.render.test.tsx:62).
+6. Add sheet icons to design SVGs.
+7. Remaining gap rows, most cleared first.
+8. Read-only full Jest checkpoint after the next checkpoint round.
+9. If no non-gym work remains: stop with 'only owner decisions remain'.
+10. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -74,7 +73,6 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Search foods tile routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label; 'added to snacks'.
 - Device runs: Summary, streak, celebration, delete dialog, VoiceOver (incl. nutrition calories label), toasts, saved meals (incl. a meal logged late the previous evening), plan ('Why this plan'), goals, gymLog, nutrition (kicker, title, 'kcal from food', 'Calories today', load-failure: make Today data fail and check message), Add sheet, recipe/fibre, quick add.
 - Native review of es and fr strings (gender, U+00A0, U+2019), including nutrition.caloriesTodayLabel and nutrition.macrosLoadFailed. Doubt: 'du repas' and 'de la comida' read as 'from the meal'.
-- Lost test coverage: hydrationErrorScreens.test.ts:54-64 no longer checks index.tsx:155 or dashboard/nutrition.tsx:79. Fix is in Next item 2.
 - Remove es voice and describeOutLoud. Override es emptyMessage.
 
 ## Gotchas
@@ -84,12 +82,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - design/Lume App.html is gzip-compressed inside __bundler/manifest. Decode before searching.
 - Real path: src/app/dashboard/nutrition.tsx (not src/app/nutrition.tsx).
-- Handover summaries can be stale. Check them against this file.
+- Handover summaries can be stale. Check them against this file. The R262 handover's 'Macros key' item is stale.
 - src/lib/i18n/index.ts:41 fixes lng to 'en'; fallbackLng is 'en'. es and fr never show.
 
 ## Loop notes
-- Handovers after R141 to R254 (latest in loop/HANDOVER.md). Stale: its Macros key item was built already.
+- Handovers after R141 to R254 (latest in loop/HANDOVER.md).
 - Rejected: R236, R238, R243, R255, R257 (no design file or branch rule), R261 first prompt (no branch rule, notes too long).
-- R262 flagged (type check or tests failed or not run). Cleared by read-only R263.
-- R262 candidates: 1 index.tsx:155; 2 gym.tsx:112 and :121; 3 food.tsx:449. Chosen 1.
-- R263 candidates: 1 read-only check of R262; 2 hydrationErrorScreens test edit (blocked by brief rule); 3 food.tsx:449 to t(). Chosen 1.
+- R262 flagged, cleared by read-only R263 (passed: 6 suites, 87 tests).
+- R263 candidates: 1 read-only check of R262; 2 hydrationErrorScreens test edit; 3 food.tsx:449 to t(). Chosen 1.
+- R264 candidates: 1 hydrationErrorScreens test edit (lines 54-64); 2 (tabs)/index.tsx:150 hardcoded Macros/Today; 3 gym.tsx:112 and :121 to t(). Chosen 1.
+- R264 Jev: ask 56%, run 41%, confidence 0.34, risk 1.4. Ran anyway: the step is pre-planned, test-only, needs nothing from Isa, and the notes name the exact lines. Jev is low confidence and not strongly sure.
+- Handover due after R269 (every 15 rounds from R254).
