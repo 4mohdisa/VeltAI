@@ -2650,3 +2650,13 @@
 - 2026-11-01 07:20 R284 flag: tsc exited 0 and the detailChrome test ran. The only failures are the known energy and macros snapshots, which are already in Blocked on Isa. Treated as addressed, not as a missing check.
 - 2026-11-01 07:20 Chose the doc-only re-check because it is the only unblocked row work left that changes no code and no snapshots.
 - 2026-11-01 07:20 Row 103 gap edits (week.tsx:54, training.tsx:64) stay parked. Making them now would turn two more snapshots red without an approval in place.
+- 2026-11-01 07:24 Chose verification first because the loop note flagged the last report for missing type check and tests; this clears the flag before any new work.
+- 2026-11-01 07:24 Ran tsc once and jest only on related tests, not the full suite, to keep usage low.
+- 2026-11-01 07:24 Treated the known detailChrome macros and energy snapshot failures as known, not new, so they are reported without asking for a snapshot update again.
+- 2026-11-01 07:24 Row count: the table holds 42 data rows, not 41. Counted top-down from the table as the last report did, and kept lines 107-113 as checked. Did not ask Isa, since the count is a bookkeeping matter the defaults cover; Isa can correct it at any time.
+- 2026-11-01 07:24 Did not ask about DetailChart.tsx, LumeTabBar.tsx or the snapshot again, since they are already parked as repeated blockers.
+- 2026-11-01 07:24 Chose Privacy gap 22: one value in one file, no Isa answer needed, and it is the smallest row task.
+- 2026-11-01 07:24 Row 107 stays PARTIAL because section headers, AI group and export still differ.
+- 2026-11-01 07:24 Did not pick the energy net sign: notes say built at EnergyBalanceCard.tsx:155, the handover lists it as recommended. Conflict parked for a later re-check.
+- 2026-11-01 07:24 energy.tsx card gap: notes conflict (16 OK vs 12). Marked for re-check before any edit.
+- 2026-11-01 07:24 Rewrote notes under 600 words, merging repeated items and removing finished work.
