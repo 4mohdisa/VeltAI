@@ -662,9 +662,9 @@ function CaloriesCard({
 }) {
   const { t } = useTranslation();
   const columns = [
-    { name: 'Protein', tint: categoryAccent.protein, value: macros.protein },
-    { name: 'Carbs', tint: categoryAccent.carbs, value: macros.carbs },
-    { name: 'Fat', tint: categoryAccent.fat, value: macros.fat },
+    { name: t('nutrition.protein'), tint: categoryAccent.protein, value: macros.protein },
+    { name: t('nutrition.carbs'), tint: categoryAccent.carbs, value: macros.carbs },
+    { name: t('nutrition.fat'), tint: categoryAccent.fat, value: macros.fat },
   ];
   return (
     <Card variant="elevated" style={{ gap: space.lg }}>

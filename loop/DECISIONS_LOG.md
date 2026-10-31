@@ -1933,3 +1933,7 @@
 - 2026-10-31 22:08 Row 85 gets a reason line only and stays DIFFERENT, because the rest of the screen still differs.
 - 2026-10-31 22:08 The R131 checkpoint is still owed. Its prompt was rejected before it ran, so no result is recorded and none is invented.
 - 2026-10-31 22:08 Notes rewritten under 600 words: repeated items merged, finished work deleted.
+- 2026-10-31 22:10 Chose the macro labels: the loop note flagged the last report as partly done, and these are the remaining English labels on the card just translated.
+- 2026-10-31 22:10 Checkpoint stays second in Next. It is overdue, but it is read-only and should run after this partial is closed.
+- 2026-10-31 22:10 Tab bar label deferred: it touches navigation files and was out of scope last round.
+- 2026-10-31 22:10 Followed Jev (run 85%).
