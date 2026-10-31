@@ -69,7 +69,6 @@
     "barcode": "Barcode",
     "scanPackage": "Scan a package",
     "exactDatabaseMatch": "Exact database match",
-    "savedFoods": "Saved foods",
     "oneTapReadd": "One-tap re-add",
     "savedGallery": "Your saved gallery",
     "addToSlot": "Add to {{slot}}",

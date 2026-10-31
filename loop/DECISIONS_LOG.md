@@ -1151,3 +1151,7 @@
 - 2026-10-31 14:12 Rewrote notes under 600 words, merging repeats and removing finished work. Kept all Decisions lines.
 - 2026-10-31 14:12 Did not remove addMenu.savedFoods yet. The grep must confirm zero uses first.
 - 2026-10-31 14:12 Streak footnote and row 89 stay in Blocked on Isa with no new question, because nothing new has arrived.
+- 2026-10-31 14:14 Followed Jev (97%) on the removal: R292 confirmed zero uses of addMenu.savedFoods, dead keys break the no-dead-code rule, and this is a build round so the read-only restriction does not apply.
+- 2026-10-31 14:14 Loop flag was 'type check or tests not run' on R292. This round explicitly requires tsc and three Jest suites, so the flag is answered.
+- 2026-10-31 14:14 Row 89 left DIFFERENT; the removal does not touch the saved-foods screen or its gallery question.
+- 2026-10-31 14:14 No design file or gap row change; this is dead-key cleanup only.
