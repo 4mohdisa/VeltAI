@@ -24,14 +24,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 - R162 checkpoint green. Last full suite run R200 (824 app tests, 65 suites, 0 fail; backend 614 pass, 18 skip; tsc 0).
 - Rows 86 and 87 BUILT, not verified.
-- R199: 'Edit food' and 'Save changes' already translated; no code change.
-- R200: checkpoint green. Read-only grep of food/detail.tsx found none of the listed literals hardcoded. Step 2 closed.
-- R201 (this round): picked food.tsx macro letters P, C, F (row found by grep). Jev preferred scan.ts:305; kept pick because scan.ts is not a gap row.
+- R200: checkpoint green. Step 2 closed.
+- R201: food tab macro line rounded and moved to food.rowMacros (row 85, BUILT not verified). Row 85 stays DIFFERENT for goal-relative calories card and macro bars.
+- R202 (this round): flagged as partly done. Picked the row 85 VoiceOver macro label at food.tsx:854 to match the rounded visible line.
 
 ## Next (in order)
-1. R201: food/food.tsx macro letters P, C, F (about 899). Build only if real differences remain.
-2. food/food.tsx: 'Analysing' vs VoiceOver spelling (blocked on design question, do not build); raw energyUnit; 'Check your connection' invents a cause.
-3. Read-only: scan.ts:305 'Scan failed' shown at food.tsx:887. Translate at display; keep stored value. Not a gap row; only pick if a row needs it.
+1. R202: row 85 VoiceOver macro label at src/app/(tabs)/food.tsx:854 (rounding only). Build only if real differences remain.
+2. food/food.tsx: 'Analysing' vs VoiceOver spelling (blocked on design question, do not build); raw energyUnit at about (tabs)/food.tsx:912; 'Check your connection' invents a cause.
+3. Read-only: scan.ts:305 'Scan failed' shown at (tabs)/food.tsx:887. Translate at display; keep stored value. Not a gap row; only pick if a row needs it.
 4. gym/new-template.tsx: 'Remove ${name}', 'Remove exercise' (about 180), other English. Swipe prompts at food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 5. Gym cluster, one file per round: GymPatternsCard, saved, MuscleChart, session, gym, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. Re-check each row first.
 6. CaloriesCard: missing Fibre column; dot vs bar (row 85).
@@ -42,7 +42,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Blocked on Isa (do not retry)
 - Device and VoiceOver: tab bar es/fr width; Training labels; food row; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt width; long es/fr text; pending row; saved-mode removal; PADS captions; quick-add, meal chips, 'for {n} g', Save buttons fit; formatCalories on device; long labels (Petit-dejeuner, Carbohidratos, Tamano de la porcion, Enregistrer les modifications).
-- Native review: all es and fr drafts; 'Guardado'; 'Enregistre' gender; 'Taille de la portion'; quick-add toasts; 'Snacks' left English; addMenu.addToSlot drafts (e.g. 'Anadir a almuerzo'); 'Anadir' wording.
+- Native review: all es and fr drafts; 'Guardado'; 'Enregistre' gender; 'Taille de la portion'; quick-add toasts; 'Snacks' left English; addMenu.addToSlot drafts (e.g. 'Anadir a almuerzo'); 'Anadir' wording; macro letters fr G for carbs (row 85).
 - Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for logged days; swipe colour; tabs.* namespace; body stats 1,500 vs 2,100; 'Analysing' vs 'Analysing photo'; 'Delete item' vs 'Remove from log'; delete after confirm; keep or drop 'for {n} g'; title as mode or food name (food detail difference 7, incl. 'Edit food' title); gymLog calories key; extra es keys addMenu.voice and addMenu.describeOutLoud; gap item 11 macro layout; row 86 BUILT vs DIFFERENT verdict; foodLog.addedToMeal gender in toasts; foodLog.per100 '/ 100g' vs '/ 100 g'; Day log macro spacing.
 
 ## Parked (merged)
@@ -59,6 +59,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Code: mixHex; untyped CONFLICT_KEYWORDS; router.setParams; console.warn hooks.ts:56; recipe fibre saved as 0; num() rounding; Math.max NaN; key={c.name}; food.unsaveTitle and removeTitle split; duplicate goals.* and nutrition.* macros; history.tsx:133 hardcoded; i18n/index.ts:2-3 stale header; showSupportNotice noise.
 - Stale citations: SwipeableRow.tsx:2; 'P' abbreviation; 'my foods' in RecipesList.tsx and detailSubject.ts; gap doc quick-add line refs about 11 lines out and detail.tsx refs at least 7 out.
 - Energy unit: food.padCalories always kcal; kJ unchecked.
+- Macro bar unit: (tabs)/food.tsx:690 builds a hardcoded g unit; matches design spacing, but not translatable.
 - Backend TestPG_* tests skipped (12 in food, gym schedule and scan packages, plus 6 more unnamed). Isa to decide whether to run them against Postgres.
 
 ## Accepted limits
@@ -74,11 +75,12 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Briefs repeat finished work and stale line numbers; check first. Grep before writing a prompt.
 
 ## Last round
-R200: checkpoint green (tsc 0, app 824/65, backend 614 pass, 18 skip); no food/detail.tsx literals hardcoded.
-R201: prompt for food.tsx macro letters P, C, F. Jev's scan.ts pick declined (not a gap row).
+R201: food tab macro line rounded, food.rowMacros added to en, es, fr. Loop flagged the report as partly done (VoiceOver label still unrounded).
+R202: prompt for row 85 VoiceOver macro label at food.tsx:854.
 
 ## Handover
 Last handover before R187 (summary in loop/HANDOVER.md). Next due R210 (15-round cycle). Full-suite checkpoint last run R200.
 
 ## Jev log
 R201: Jev 60% run, 83% favoured scan.ts:305. Kept food.tsx pick: scan.ts is outside the gap rows and the brief forbids non-row tasks.
+R202: Jev 59% run, 38% ask, 3% stop. Running agrees with the pick. Last task 80% clean; risk 1.6 of 2 (confidence 0.32). Kept the smaller task, as the brief asks when confidence is low.

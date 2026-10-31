@@ -2263,3 +2263,7 @@
 - 2026-11-01 00:19 Closed Next step 2 (food/detail.tsx rest of screen). The R200 grep shows none of the listed literals is hardcoded, so no code change is needed there.
 - 2026-11-01 00:19 Did not pick the gym or swipe tasks, because the food.tsx rows come first in the order of work and are the smallest.
 - 2026-11-01 00:19 Left food.deleteItem, foodLog.per100 and the Updated toast as design questions or Parked items, since they need Isa's decision or were already recorded.
+- 2026-11-01 00:21 Chose the VoiceOver label fix: the loop flagged the last report as partly done, and the label now disagrees with the rounded visible line.
+- 2026-11-01 00:21 Kept the task inside row 85 and reused the existing key, so no new keys are needed.
+- 2026-11-01 00:21 Did not fix the raw energyUnit or the g unit; they stay in NEXT for a later round.
+- 2026-11-01 00:21 Jev ran at 59% for run and 38% for ask; running agrees with it, so no re-look.
