@@ -21,6 +21,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Unanswered questions are not repeated.
 
 ## Status
+- R273: Flagged R272 (tests not run; tsc exit 0 recorded in R272). Answering with doc-only round: Summary 26-30 re-check with tsc re-run and exit code recorded.
 - R272: Flagged R271 (tests not run; tsc exit 0 recorded in R271). Answered by doc-only round, Summary 21-25 re-check with tsc re-run and exit code recorded.
 - R271: Summary 16-20 re-checked. Row 16 corrected (gBars 65px, min 4 vs app min 5, WeekEnergyCard.tsx:34). Differences 17-20 listed.
 - R270: Summary 11-15 re-checked. Burn target and fixed axis need Isa.
@@ -35,19 +36,18 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 85 DIFFERENT: eyebrow and title built. Open: calorie bar, 'left today', four-column wrap, title tracking and padding (food.tsx:441-447 region; grep first).
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: card gap built. Open in DetailChart.tsx (Blocked): kicker dot, tracking, title tracking, padding, Breakdown dot and gap, stat gap. Also 176pt chart; Energy.tsx, dashboard/week.tsx, dashboard/training.tsx still gap 12.
-- 104 PARTIAL: Steps card missing; four non-design items; Today only. Differences 1-20 re-checked. 21-30 open.
+- 104 PARTIAL: Steps card missing; four non-design items; Today only. Differences 1-25 re-checked. 26-30 open.
 - 112 PARTIAL: top padding; GymPatternsCard padding; Training list and LoadFailedNotice app-only.
 
 ## Next
-1. Summary differences 21-25 re-check, doc only, tsc re-run with exit code (R272).
-2. Summary 26-30, one batch per round, doc only.
-3. Food title block (row 85): eyebrow tracking, title tracking, right padding, block gaps. Needs Isa-free decision only where the design is clear.
-4. Row 104: Steps card build or park.
-5. Gym cluster, one file per round.
-6. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
-7. If Isa approves DetailChart.tsx: row 103 value changes, then one snapshot approval for four detail views.
-8. Doc fixes once no build row is open.
-9. No rows left: stop with 'only owner decisions remain'.
+1. Summary differences 26-30 re-check, doc only, tsc re-run with exit code (R273).
+2. Food title block (row 85): eyebrow tracking, title tracking, right padding, block gaps. Needs Isa-free decision only where the design is clear.
+3. Row 104: Steps card build or park.
+4. Gym cluster, one file per round.
+5. Nutrition, week, training, energy copy; food/new-recipe.tsx; PlannedValuesForm 'Add exercise'.
+6. If Isa approves DetailChart.tsx: row 103 value changes, then one snapshot approval for four detail views.
+7. Doc fixes once no build row is open.
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - 103: approve DetailChart.tsx edit; approve detailChrome snapshot update. Asked R267, no answer.
@@ -56,6 +56,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - 112: GymPatternsCard padding 20 or 16.
 - 104: Steps card build or park (needs step data; HealthKit off-limits).
 - Summary 17: SegmentedField label 500 17/24 vs 600 15/20, track padding 4 vs 3, segment height 48 vs 44. Fix needs a new SegmentedField option or a change to inset; SegmentedField is shared, so approval needed. Check callers first.
+- Summary 21: weekly workout target and calories per session. Row cannot match design until Isa decides whether these exist.
 - Top padding Gym, Summary, Food: inset-based (recommended) or literal 70.
 - Gym Log hidden on rest days and with no schedule: acceptable?
 - Burn target for Summary (differences 10, 11): add to data or accept app-only?
@@ -66,9 +67,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - TestPG_* (18 skipped): run against Postgres?
 
 ## Parked (one line each)
-- i18n: hardcoded English month, weekday, Today, Yesterday, Quick add, Done, Close; GymStatusCard.tsx:30; scan.ts:305; Summary index.tsx:146/149/179; EnergyBalanceCard.tsx:131-191; WeekEnergyCard.tsx:64, 100-101, 111; WorkoutsWeekCard.tsx:28; MacroBars.tsx:53; formatNumber en-AU; WeekStrip.tsx:43.
+- i18n: hardcoded English month, weekday, Today, Yesterday, Quick add, Done, Close; GymStatusCard.tsx:30; scan.ts:305; Summary index.tsx:146/149/179; EnergyBalanceCard.tsx:131-191; WeekEnergyCard.tsx:64, 100-101, 111; WorkoutsWeekCard.tsx:28, 34, 37, 45; summaryCards.ts:68, 70-72; MacroBars.tsx:46, 53; formatNumber en-AU; WeekStrip.tsx:43.
 - WeekEnergyCard zero case: net uses '+' only above 0 (:108, :138); design sgn gives '+0'.
 - Week stat (Summary): baseline gap 8 vs 6 (WeekEnergyCard.tsx:106) and letter spacing 0 vs -0.6 (:107). No row in 1-30 covers them yet; add a doc line in a re-check round.
+- Workouts stat (Summary, row 21): letter spacing 0 vs -1 (WorkoutsWeekCard.tsx:41), baseline gap 8 vs 7 (:40). Covered by the row 21 re-check text.
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Copy: foodLog.per100; CaloriesCard g; food.rowAnalysing; food.deleteItem; streak copy (Summary 24).
 - Missing: 'Updated {name}' toast; savedAdded toast; + menu toast; toast fade.
@@ -92,5 +94,6 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Gym
 
 ## Handover and Jev
 - Handover every 15 rounds. Last R260. Next due around R275.
+- Jev R273: run 89%, ask 10%, stop 1%. Ranked run first. Chose run.
 - Jev R272: run 90%, ask 9%, stop 1%. Ranked run first. Chose run.
 - Jev R271: run 93%, ask 6%. R270: run 90%. R269: run 91%. R268: ask 93%, kept run (reason in R268). R267: ask 94%, acted on it.

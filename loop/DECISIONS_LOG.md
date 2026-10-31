@@ -2590,3 +2590,8 @@
 - 2026-11-01 02:19 Did not start the Gym cluster: it is a build, and the flagged report needs a doc-only answer first.
 - 2026-11-01 02:19 Added the SegmentedField option change for row 17 to Blocked on Isa: SegmentedField is shared, so the edit needs approval, like DetailChart.tsx.
 - 2026-11-01 02:19 Added the week stat baseline and letter spacing gap and the stale Food citations to Parked, as the report asked, without adding doc rows this round.
+- 2026-11-01 02:20 Answered the flagged report with a doc-only round, as the notes rule requires: tsc re-run with exit code recorded, no tests run.
+- 2026-11-01 02:20 Chose the Summary 26-30 re-check over the Food title block because the flag is about the last report, and finishing the Summary section keeps the re-check order intact. The Food title block needs the same tsc answer later.
+- 2026-11-01 02:20 Told Claude Code to grep for line numbers, because rows 26 and 27 cite stale lines (reported in R272).
+- 2026-11-01 02:20 Parked the hardcoded English citations from R272 (WorkoutsWeekCard, summaryCards, MacroBars) under the existing i18n Parked line instead of making them tasks.
+- 2026-11-01 02:20 Jev ranked run first and chose run at 89%, so no second look was needed.
