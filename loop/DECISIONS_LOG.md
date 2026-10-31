@@ -1198,3 +1198,6 @@
 - 2026-10-31 14:25 Chose candidate 1 over Jev's 97% pick (MuscleChart). The loop note flagged the last report because tests were not run. Notes rule: a flagged report is cleared by a read-only round before build work. This is the reason Jev cannot see.
 - 2026-10-31 14:25 Row 113 status (PARTIAL vs DIFFERENT) deferred to the next round. This round is read-only, so no edits here. Decision: set it to DIFFERENT, because all five TodayCard states still differ from the design.
 - 2026-10-31 14:25 Did not ask Isa about row 113 wording; the default is DIFFERENT when every state differs.
+- 2026-10-31 14:57 Chose the row 113 status fix over Jev's MuscleChart pick. The loop note says the last report was flagged as only partly done, and the unfinished step is Next item 2 from R303 (row 113 to DIFFERENT). Jev cannot see that flag clearing comes before build work.
+- 2026-10-31 14:57 Row 113 set to DIFFERENT, not PARTIAL. The design shows all five TodayCard states with a tap target, stats grid or Rest day card that the app lacks, and the earlier brief said DIFFERENT. This closes the 'confirm which' question for Isa.
+- 2026-10-31 14:57 The comma at gap file lines 399-400 is left for the MuscleChart round, which touches the same area and is already queued.
