@@ -374,13 +374,13 @@ export default function FoodLogScreen() {
         name: food.name,
         quantityG: SEARCH_DEFAULT_G,
         calories: Math.round(food.kcalPer100),
-        // Same per-100 g basis as the energy figure, so they match the 100 g
-        // quantity. A catalog result may carry macros; a missing one logs as 0
+        // Same per-100 g basis as the energy figure, to the 1 decimal place the
+        // sheet saves. A catalog result may carry macros; a missing one logs as 0
         // (the local dev catalog carries calories only).
-        protein: Math.round(food.protein ?? 0),
-        carbs: Math.round(food.carbs ?? 0),
-        fat: Math.round(food.fat ?? 0),
-        ...(food.fibre != null ? { fibre: Math.round(food.fibre) } : {}),
+        protein: Math.round((food.protein ?? 0) * 10) / 10,
+        carbs: Math.round((food.carbs ?? 0) * 10) / 10,
+        fat: Math.round((food.fat ?? 0) * 10) / 10,
+        ...(food.fibre != null ? { fibre: Math.round(food.fibre * 10) / 10 } : {}),
       },
       'manual',
     );

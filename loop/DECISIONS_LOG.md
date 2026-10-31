@@ -1612,3 +1612,8 @@
 - 2026-10-31 17:35 Doc line fixes deferred until the code matches the doc, so the doc is not corrected twice.
 - 2026-10-31 17:35 Kept the prompt to one file and the existing tests, since foodDetail and foodDetailLogged cover this screen. No new tests, per testing rules.
 - 2026-10-31 17:35 Did not change the MACRO_PRECISION comment, to avoid an extra edit. Listed under NEXT.
+- 2026-10-31 17:36 Chose the food tab seeds because three reports list them as open and none claims them done. Smallest, one file, needs nothing from Isa.
+- 2026-10-31 17:36 Deferred the detail.tsx seed check. The latest report says it is fixed, the handover says it is open. A read-only grep in a later round will settle it without a risky edit.
+- 2026-10-31 17:36 Allowed the matching difference 13 line in DESIGN_GAP_ANALYSIS.md to be updated, because the rules require the gap row to be updated when a surface is finished.
+- 2026-10-31 17:36 Kept calories and whole-number display totals unchanged, as recorded in the macro decisions.
+- 2026-10-31 17:36 Used a type check only, since no existing test covers decimal macros and the brief says not to write new tests.

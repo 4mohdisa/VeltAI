@@ -24,11 +24,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session label and rest seconds (session.tsx :200); food detail macros and fibre 1 decimal typed or picked (R56, R63, R64); citations fixed (R57-R59); macro totals checked, whole (R60); fibre doc lines fixed (R65).
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R69. No test covers decimal macros.
+Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R70. No test covers decimal macros.
 
 ## Next
-1. IN PROGRESS (R69): finish seed rounding in src/app/food/detail.tsx. The R67 report claimed done, but the loop flagged it as partly done and the handover still lists detail.tsx:164-168 and :224. Locate by content (Math.round, toFixed, seed code for search and barcode foods). Do not touch applyGrams, draft(), num or MACRO_PRECISION.
-2. Seeds round macros, food tab: src/app/(tabs)/food.tsx ~380-382, to 1 decimal. Locate by content.
+1. IN PROGRESS (R70): src/app/(tabs)/food.tsx seed macros (protein, carbs, fat, fibre) to 1 decimal, located by content around ~380-382. Calories and whole-number display stay as they are.
+2. Verify detail.tsx seed rounding by read-only grep (search and barcode seeds, around :164-168 and :224). Latest report says fixed, handover says open. Do not edit unless the grep proves it is unfixed.
 3. Raw item values: (tabs)/food.tsx ~852 and ~895; food/saved.tsx ~135.
 4. Saved-food fibre: check whether editSavedFood and saveFood in detail.tsx drop draft.fibre on save.
 5. Doc lines 1011 ('2-up inputs'), 1012 ('Fibre is not editable') and 1219 ('Fibre is still rounded as it is typed') are stale. Fix after the code is settled.
@@ -68,6 +68,7 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R69.
 - Untraced: other goals.calories screens may show 1,500 floor; Math.max NaN if a profile field is undefined.
 - Accepted limits: summary guard test cannot see spread props; failure paths untested; null-as-failure assumes getToday never returns null for a real response.
 - 'What the app does' old-form block lacks a recorded date.
+- MACRO_PRECISION comment at detail.tsx:65 omits fibre (doc-only, low priority).
 
 ## Gotchas
 - Edit tool: node escapes for NBSP and U+2019. i18n lng fixed to 'en' (src/lib/i18n/index.ts:41).
@@ -83,6 +84,7 @@ Last checkpoint R61 green (tsc 0, 65 suites, 824 tests). It predates R63 to R69.
 - R62-R64: picked-serving precision; fibre 1 decimal.
 - R65: stale fibre doc lines fixed.
 - R66: rejected for asking more than one screen. Not built.
-- R67: seed fix in detail.tsx. Reported done, but loop flagged as partly done (search and barcode seeds may still round; detail.tsx:164-168 and :224 unverified).
+- R67: seed fix in detail.tsx. Reported done, but loop flagged as partly done.
 - R68: loop flagged R67 as partly done. Handover lists seeds still open.
-- R69: finish detail.tsx seed rounding, one file. Then food.tsx seeds (R70).
+- R69: reported detail.tsx seeds already fixed (no edits, tsc 0, foodDetail suites 35 tests pass). Not independently confirmed; re-check by grep in R71.
+- R70: food tab seed macros to 1 decimal (src/app/(tabs)/food.tsx). Prompt issued.
