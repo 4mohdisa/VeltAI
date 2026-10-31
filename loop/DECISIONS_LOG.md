@@ -1797,3 +1797,8 @@
 - 2026-10-31 20:44 Kept the gap row status as DIFFERENT because other differences remain on the Week surface, per the rule that rows stay DIFFERENT until all differences are gone.
 - 2026-10-31 20:44 Told Claude Code to leave summaryDetails.test.ts alone and report a source-check failure under BLOCKED, so the test is not silently rewritten.
 - 2026-10-31 20:44 Rewrote the prompt to name design/Lume App.html and the gap row explicitly, to fix the loop rejection.
+- 2026-10-31 20:45 Chose the flagged partial first: the loop note says to deal with it before moving on. The week.tsx Breakdown label is built, but the test still checks the raw word, so it is not closed.
+- 2026-10-31 20:45 Test change limited to the assertion at summaryDetails.test.ts:65, a one-file edit. Notes had planned a render check in its own round; a key-presence check is smaller and proves the label is wired through t().
+- 2026-10-31 20:45 Gap line for Week Breakdown: the only hit is inventory item near line 364, with no table row. Recorded the BUILT line as a doc-only round next, not this one, to keep one file per prompt. Default: add it inside the inventory item.
+- 2026-10-31 20:45 French wording: keep dashboard.breakdown as 'Détail' as Isa specified. Do not switch to 'Répartition'. Mismatch with nutrition.breakdown is accepted and recorded. Native review still open.
+- 2026-10-31 20:45 Corrected path for the third Breakdown screen: src/app/energy.tsx:205, not src/app/dashboard/energy.tsx.

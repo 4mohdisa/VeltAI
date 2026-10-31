@@ -59,10 +59,10 @@ describe('all four Summary detail routes exist', () => {
   });
 
   // The layout is the point: one kicker + one Breakdown card on every view.
-  test.each(Object.entries(ROUTES))('%s renders the shared kicker and Breakdown', (_key, path) => {
+  test.each(Object.entries(ROUTES))('%s renders the shared kicker and Breakdown', (key, path) => {
     const src = read(path);
     expect(src).toContain('<KickerTitle');
-    expect(src).toContain('Breakdown');
+    expect(src).toContain(key === 'week' ? "t('dashboard.breakdown')" : 'Breakdown');
   });
 
   // Pushed routes cover the floating tab bar; padding for it would leave a gap.
