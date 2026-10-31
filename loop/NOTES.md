@@ -23,24 +23,24 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 
 ## Status
 BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, detent, pill, Meal control, recents macros, recipe fibre, slot heading, labels, delete dialog; gym chooser, duration, CelebrationCard, streak keys, plurals, one-row streak strip (row 82); Goals restyle; plan.whyThisPlan; lastLoggedLabel; Macros kicker and title; load-failure t() calls; gym.loadingSessions; saved.tsx title; TodayCard padding, no-plan title and sub-line, is_rest_day strings via t(), branch reorder, freestyle fallback, unreachable branch removed; MuscleChart padding 16.
-- Row 113 TodayCard: DIFFERENT. Returns null only on fetch failure (src/lib/data/gymSchedule.ts:38-40). Logged, rest and plan states still differ.
+- Row 113 TodayCard: DIFFERENT. Renders null only on schedule fetch failure (src/lib/data/gymSchedule.ts:38-40), no error copy. Logged, rest and planned states still differ.
 - Server: GetToday sets is_rest_day and already_checked_in together. No backend fix needed (Isa to confirm).
 - Key counts: en 167, es 169, fr 167. Recount before any removal.
 - Tests: last full run R312 green (65 suites, 824 tests). Since then tsc and jest gym green. No test renders TodayCard, saved foods or the streak card.
 
 ## Flags
-- Last report flagged for an unclear type check. Step 1 of the current round re-runs tsc. If it is red, stop build work.
+- None. The earlier type-check flag was cleared: tsc exited 0 before the last gap-doc edits. Re-run tsc once in this round.
 
 ## Next
-1. (current) Gap doc round: row 113 and lines 290, 458, 464, 466, 468-475, 550 (doc-only).
-2. Gap doc round: row 89 note into reason cell; row 113 app-only wording; gap lines 399-400 missing comma.
+1. (current) Gap doc round 2: line 458 status to DIFFERENT; line 470 null means fetch failure; line 476 delete 'Session' vs 'Freestyle session'; lines 264-267 citation to TodayCard.tsx:168 and branch order; lines 399-400 comma (doc-only).
+2. Gap doc round: row 89 note into reason cell; row 113 app-only wording check.
 3. TodayCard logged state: sub-line 'Logged today · N kcal burned'; green wash pill; hardcoded 'Logged' and 'Logged today' into t().
 4. Trace add.tsx slotKey (~67). If unused, remove voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd from en, es, fr together.
 5. Wrap hardcoded strings, one file per round: gym.tsx (56, 102, 114, 123, 151-156, 'My schedule', 'My workouts'); profile/index.tsx (62, 82-83); (tabs)/index.tsx (115, 150; add dashboard.streakLoadError to test key list); EnergyBalanceCard.tsx 131 (update energyBalanceCard.render.test.tsx:62); gym/freeze.tsx 48; StreakCounter.tsx 15; TodayCard 110, 174; GymPatternsCard 85; saved.tsx 61-144; MuscleChart 132, 135, 149, 159.
 6. gym.tsx lines 3-4 'month month' typo; gym.tsx 117 gap 12 to 11.
 7. Read and wrap gymRange.ts, GymPatternsCard, GymSessionButton, GymCalendar.
 8. session.tsx:537 hardcoded 'Nothing scheduled': compare with design.
-9. TodayCard: chip index key (~162), header, pill, chip values, tap target, chevron.
+9. TodayCard: chip index key (~168), header, pill, chip values, tap target, chevron.
 10. Add sheet icons to design SVGs. Empty-list copy at food.tsx ~445-447.
 11. Duplicates: SLOT_KEYS in (tabs)/food.tsx:84 and food/add.tsx:34; food.savedTitle vs addMenu.myDishes.
 12. Full Jest at next checkpoint.
@@ -81,11 +81,12 @@ BUILT (not verified): food NumberEntryBar, Add sheet, toast, MEAL caption, deten
 - Render tests have no i18n instance; lng fixed to 'en' (src/lib/i18n/index.ts:41).
 - Grep with LC_ALL=C /usr/bin/grep. Quote (tabs) paths.
 - npx jest i18n finds no tests and exits 1.
-- Handover summaries and reports can be stale. Check the file.
+- Handover summaries and reports can be stale. Check the file. The handover NEXT of MuscleChart padding was stale (already BUILT).
 - Gap line numbers move with inserts. Locate by content.
 - Design gym markup: asset 7dc211f6; add menu: 71f71ac4.
 
 ## Loop notes
 - One component or one doc change per prompt.
 - Jev: flag and unfinished-step ordering rule stands.
-- Round after flag: Jev's pick (gap doc round, 91%) accepted. Reason: the flag must be cleared first, and this round is doc-only with one tsc run.
+- Round after the TodayCard doc edit: gap doc round 2 chosen (Jev 87% run, accepted). Reason: the gap file still has false claims that contradict row 113; it is doc-only with one tsc run and clears the state before build work.
+- Gap doc round 1 completed with an unclear report: lines 458, 470, 476 and 264-267 still contain false claims. Handled in gap doc round 2.

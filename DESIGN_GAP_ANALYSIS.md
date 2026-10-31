@@ -261,10 +261,11 @@ camera analogue to Food's scanning. Templates and the weekly schedule are
 | Profile → Connected apps → Strava / WHOOP sync | Yes | Yes, server-side import |
 
 I verified the conditional myself: `/gym/session` has **exactly one** entry point
-in the entire app (`src/components/gym/TodayCard.tsx:162`), and `TodayCard`
-returns `null` when there is no `today`, renders a bare header on a rest day and
-when `already_checked_in`, and only renders the "Start workout" button inside
-`if (today.template)`. So the app's richest logging screen — the one that does
+in the entire app (`src/components/gym/TodayCard.tsx:168`), and `TodayCard`
+returns `null` when the fetch failed (null). Its branches then run in this order:
+`already_checked_in` first (a bare header), then `is_rest_day` or no template (the
+rest day card, also a bare header), then planned, the only state that renders the
+"Start workout" button. So the app's richest logging screen — the one that does
 roughly what design flows 2–4 describe — is unreachable unless a template is
 scheduled for today and the day is not yet checked in.
 
@@ -455,7 +456,7 @@ rule (year appended only outside the current year).
    the design has no state for.
 6. Chevron stroke weight 2.8 is not reproduced (SF Symbol default).
 
-## Gym — today's session card — ⚠️ DIFFERENT
+## Gym — today's session card — ❌ DIFFERENT
 
 **Design:** the whole card is one tap target opening the day detail; a header row
 (11px status dot, title, sub, a state pill, a 14px chevron) over a **4-up stats
@@ -467,13 +468,13 @@ including loading, uses padding 16 (`padded={false}`, `space.lg`); the loading s
 
 **Differences:** the card is **not tappable** and has **no chevron**; **the entire
 4-up stats grid is missing**; "Start workout" is
-app-only; **`TodayCard` returns `null` when there is no schedule data**, where the
-design always renders a Rest-day card; dot 12 vs 11; header min-height 36 vs 34;
+app-only; the card returns null only when the schedule fetch fails
+(`src/lib/data/gymSchedule.ts:38-40`), and shows no error message; dot 12 vs 11; header min-height 36 vs 34;
 gaps 12 vs 10 and 4 vs 1; pill `500 11/14` vs `600 11/15` and `4px 8px` vs `3px 9px`;
 **the "Logged" pill loses its green wash** (`color-mix(positive 22%, white)` → flat
 `light1`); chip type `500 11/14` vs `500 12/16`, padding 12 vs 10, gap 8 vs 6;
 the logged sub-line
-drops the calories figure; "Session" vs "Freestyle session"; the planned sub-line
+drops the calories figure; the planned sub-line
 drops the muscle-group phrase and adds a duration; and the design's `ready` state
 (a day with a draft) has no counterpart.
 

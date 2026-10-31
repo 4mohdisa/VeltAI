@@ -1267,3 +1267,8 @@
 - 2026-10-31 15:16 Kept the Training list as an open Isa item. It is the only link to /gym/schedule, so removing it would orphan that screen.
 - 2026-10-31 15:16 Rewrote the notes under 600 words, merging repeated items and deleting finished work.
 - 2026-10-31 15:16 Wording fixes for gap lines 399-400 (missing comma) and the row 89 note are queued as their own doc round.
+- 2026-10-31 15:17 Chose the gap doc correction round first. The last report says the gap file still contains false claims that contradict row 113, and notes say doc fixes get their own round. It is doc-only, so it clears the flag safely and needs one tsc run.
+- 2026-10-31 15:17 Treated the handover NEXT (MuscleChart padding) as stale. The Status section already lists MuscleChart padding 16 as BUILT, and the handover itself says the summary can be stale.
+- 2026-10-31 15:17 Kept the TodayCard logged-state build for the round after, since it needs a source edit and the gap file should be correct first.
+- 2026-10-31 15:17 Left row 89 reason-cell move and row 113 app-only wording to a later doc round. The row 113 wording is already corrected in the last report, so this round covers only the remaining false claims.
+- 2026-10-31 15:17 Accepted Jev's run pick (87%) for the same reasons. Its risk reading of 1.4 is about continuing without Isa, and this round asks Isa nothing and changes no code.
