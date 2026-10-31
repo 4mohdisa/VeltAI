@@ -160,7 +160,8 @@
     "savedRowDetail": "{{grams}} g · {{energy}} · P {{protein}} g",
     "deleteItem": "Supprimer l’élément",
     "deleteConfirm": "Supprimer {{name}} ?",
-    "deleteToast": "Supprimé : {{name}}"
+    "deleteToast": "Supprimé : {{name}}",
+    "savedRemoveAction": "Retirer des aliments enregistrés"
   },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",

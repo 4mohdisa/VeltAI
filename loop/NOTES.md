@@ -28,11 +28,12 @@ R162 checkpoint green: tsc 0, 65 suites, 824 tests. Last full suite R162. Gap co
 - LoadFailedNotice and StreakCounter tokens; GymPatternsCard, week, training, energy copy; freeze label; nutrition.energyLogged (es 'en total', fr 'au total').
 - R166: food.tsx pending pill uses t('food.rowAnalysing') with design wording 'Analysing' (en). es 'Analizando…', fr 'Analyse…'. Row 85 reason line added. Also affects VoiceOver.
 - R167: food/detail.tsx 'Delete item' now t('food.deleteItem') (en 'Delete item', es 'Eliminar elemento', fr 'Supprimer l’élément'). Row 86 reason line added.
+- R168: food/detail.tsx delete confirm and toast now t('food.deleteConfirm', { name }) and t('food.deleteToast', { name }); dialog buttons use common.cancel and common.delete; DetailForm got useTranslation(). Keys added to en, es, fr. Row 86 reason line added. Shared dialog means the saved-mode dialog gets translated buttons under an English title.
 - tabs.summary and tabs.gym do not exist; tab labels reuse food.title, dashboard.summaryTitle, gym.title. tabBar.closeMenu kept separate from closeAddMenu (a test finds 'Close menu').
 
 ## Next
-1. R168 (picked): food/detail.tsx delete confirm title 'Delete ${item.name}?', message, Cancel and confirm buttons (about lines 679-686), and 'Item deleted.' toast, all translated. Reuse common.cancel and common.delete if the wording matches.
-2. food/detail.tsx saved-mode strings ('Remove from saved', 'Saved ${name} to your foods.' toast), PADS captions (57-62), macro labels (about 567-610), 'Edit item'.
+1. R169 (picked): food/detail.tsx saved-mode strings: 'Remove from saved' button, `Remove ${item.name}?` title, 'Removed from saved.' toast. Reuse food.unsaveTitle, food.savedRemoved, common.cancel, common.delete only where en wording matches.
+2. food/detail.tsx 'Save to my foods' and 'Saved ${draft.name} to your foods.' toast, PADS captions (57-62), macro labels (about 567-610), 'Edit item'.
 3. Doc-only round: DESIGN_GAP_ANALYSIS.md row 86 says BUILT but the section verdict near line 964 says DIFFERENT. Reconcile wording without changing counts unless evidence shows otherwise.
 4. Read-only follow-up: scan.ts:305 hardcoded 'Scan failed' feeds food.tsx:887 and VoiceOver. Plan a display-time translation, keep the stored value (scanSeam.test.ts asserts it).
 5. food.tsx: visible 'Analyzing…' (about 875) spelling differs from VoiceOver; P, C, F letters (about 899); g suffixes; raw energyUnit; 'Check your connection' invents a cause.
@@ -50,8 +51,8 @@ R162 checkpoint green: tsc 0, 65 suites, 824 tests. Last full suite R162. Gap co
 
 ## Blocked on Isa (do not retry)
 - Device checks: tab bar es/fr width; gym Training labels; food row VoiceOver; offline failure; LoadFailedNotice; StreakCounter caption; add menu wrap at 232pt; swipe dialogs and 88pt action width (Eliminar, Supprimer); long es/fr text in food/saved.tsx; pending row on screen and VoiceOver.
-- Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, food.deleteItem, tabBar.*, addMenu, energyLogged, common.delete, gym.removeExerciseTitle); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport; ellipsis on es/fr pending wording.
-- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); swipe colour; tabs.* namespace (decide whether to add tabs.* keys); body stats (app 1,500 vs design 2,100); shared VoiceOver wording 'Analysing' vs 'Analysing photo' (needs second key if kept); food.deleteItem wording 'Delete item' vs design 'Remove from log'.
+- Native review: es/fr drafts (food.row*, food.remove*, food.unsave*, food.saved*, food.deleteItem, food.deleteConfirm, food.deleteToast, tabBar.*, addMenu, energyLogged, common.delete, gym.removeExerciseTitle); fr 'Detail', 'Repartition', 'gel', 'congelation'; es 'Ingesta y gasto'; fr Sport; ellipsis on es/fr pending wording; fr 'Supprimé :' with feminine dish names.
+- Design questions: food.title shared by tab and screen; empty day layout; GymPatternsCard padding 20 or 16; edit or toast for already-logged days (mutations.ts:173-178); swipe colour; tabs.* namespace (decide whether to add tabs.* keys); body stats (app 1,500 vs design 2,100); shared VoiceOver wording 'Analysing' vs 'Analysing photo' (needs second key if kept); delete wording mixed ('Delete item', 'Delete {{name}}?', 'Removed {{name}}') vs design 'Remove' and 'Remove from log'; delete removes after confirm in app, immediately in design.
 
 ## Parked
 - Helpers English-only: formatRelativeDate, weekdayShort, dayMonth, formatDuration. formatCalories and formatGrams ignore energyUnit. Plurals: '1 of 1 days', 'longest 1 minutes', 'of N days'.
@@ -77,8 +78,8 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Briefs quote stale paths and finished items. Check the file first.
 
 ## Last round
-R167: food/detail.tsx 'Delete item' built, tsc 0, 5 test files 60 passed. Not verified on screen or in es/fr. Report flagged the rest of the delete flow as untranslated.
-R168: picked food/detail.tsx delete confirm wording (candidate 1). SwipeableRow defaults not picked: notes say already translated. Jev: run 77% / ask 22%, confidence 0.66, so run the smallest same-surface task.
+R168: food/detail.tsx delete confirm and toast built, tsc 0, 5 test files 60 passed. Not verified on screen or in es/fr. Report flagged the saved-mode dialog title as still English.
+R169: picked food/detail.tsx saved-mode removal strings (candidate 1). Jev: run 94%, confidence 0.91, agreed.
 
 ## Handover pending
 None.

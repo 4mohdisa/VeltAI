@@ -2097,3 +2097,8 @@
 - 2026-10-31 22:51 Kept 'Delete item' wording (already built) and left the design's 'Remove from log' question for Isa under Blocked.
 - 2026-10-31 22:51 Gap doc row 86 says BUILT but the section verdict near line 964 says DIFFERENT. Left as is; flagged in notes for a later doc-only round.
 - 2026-10-31 22:51 Bundle id not stated in the brief, so the prompt tells Claude Code to read it from app.json rather than inventing a value.
+- 2026-10-31 22:52 Picked the saved-mode removal strings as the smallest same-surface task. The previous report named them as NEXT, and they finish the half-translated dialog in food/detail.tsx.
+- 2026-10-31 22:52 Did not pick SwipeableRow defaults: notes and the handover say common.cancel and common.delete already exist and the SwipeableRow default labels were confirmed translated in R163. A grep is still required in the next round to confirm.
+- 2026-10-31 22:52 Did not pick 'Save to my foods' or the saved toast: that is a second string group on the same screen and would make the task two tasks.
+- 2026-10-31 22:52 Told Claude Code to reuse food.unsaveTitle and food.savedRemoved only when their en wording matches exactly, since the notes say unsaveTitle and removeTitle are split in es and fr.
+- 2026-10-31 22:52 Kept the design gap row at 86 with a reason line only, no status change, per the gap-doc rules.

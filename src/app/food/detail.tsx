@@ -267,12 +267,12 @@ export default function FoodDetailScreen() {
           close();
         }}
         remove={{
-          label: 'Remove from saved',
-          confirm: `Remove ${item.name}?`,
+          label: t('food.savedRemoveAction'),
+          confirm: t('food.unsaveTitle', { name: item.name }),
           run: () => {
             unsaveFood(item.id);
             clearDetail();
-            showToast({ message: 'Removed from saved.', tone: 'info' });
+            showToast({ message: t('food.savedRemoved'), tone: 'info' });
             if (router.canGoBack()) router.back();
           },
         }}
