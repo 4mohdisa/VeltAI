@@ -2163,3 +2163,6 @@
 - 2026-10-31 23:47 Reuse food.quickAddMeal for the caption, as Claude Code suggested. Reason: it is the only English text left on the control and the key already exists for the same word.
 - 2026-10-31 23:47 Kept the doc change to one line in the food detail row, with no count change. Reason: rule that the gap doc is updated to BUILT, not verified, and that counts stay as they are.
 - 2026-10-31 23:47 Did not change the 'Snacks' es/fr label or the 'Petit-déjeuner' fit. Reason: these need native review and a device check, so they stay in Blocked on Isa.
+- 2026-10-31 23:48 Loop flag says the last report looks partly done. The flagged task is the meal caption, so I finish and re-check it before any new work, as the notes require.
+- 2026-10-31 23:48 Kept 'for {n} g' and the rest of detail.tsx for the next round, to keep this prompt to one task.
+- 2026-10-31 23:48 Only add a locale key if no existing key fits, so the three locale files stay in step.
