@@ -1579,3 +1579,8 @@
 - 2026-10-31 17:27 R60 result accepted: totals stay whole numbers. The design's Food day card and Summary detail rows use whole numbers; only Food detail macros use 1 decimal (r1 in hDetMacros). Switching totals would move away from the design.
 - 2026-10-31 17:27 Dropped the R60 in-progress item from the Next list; it is closed with no edit.
 - 2026-10-31 17:27 Jev's 'run' call matches my choice; no look-again needed.
+- 2026-10-31 17:27 R61 checkpoint is green (tsc 0, 65 suites, 824 tests), so no checkpoint this round.
+- 2026-10-31 17:27 Chose applyGrams first because it is the agreed next step and clears difference rows 1001-1004 without backend work.
+- 2026-10-31 17:27 The Blocked item on food detail decimals is treated as a design check: the design decides whether picked servings show decimals, and the prompt records the result in the gap doc rather than asking Isa again.
+- 2026-10-31 17:27 Per-100 display at 1 decimal (R56) is left unchanged, since it is already built.
+- 2026-10-31 17:27 Seeds and copy tasks are deferred until this is settled, as the Next list orders them.

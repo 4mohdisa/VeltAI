@@ -1010,7 +1010,7 @@ foods"*; and a destructive **"Delete item"** behind an `Alert` confirm.
 10. **No AI provenance note.**
 11. Macro layout: a vertical list or 2-up inputs vs a 2×2 tappable grid.
 12. **Fibre is not editable** and appears only in the locked list.
-13. Macro precision: design keeps 1 dp; the app rounds to integers while still showing a decimal keypad.
+13. Macro precision: the design keeps 1 dp on typed macros and on a picked serving (`per100.p * scale`, shown through `r1`). The app's typed macros keep 1 dp (BUILT, not verified), but `applyGrams` stores a picked serving's macros as whole numbers (`src/app/food/detail.tsx:421-423`), which remains an open deviation.
 14. Energy readout centred vs left-aligned; an extra *"for 250 g"* line the design does not have.
 15. Serving presets differ — fixed `[50,100,150,200]` or `[½×,1×,1½×,2×]` vs the food's own catalog servings.
 16. The serving control **does not de-select** on a manual override.
@@ -1216,7 +1216,7 @@ custom food, label scan fields, **label scan servings
 recipe servings (`Stepper`)**, **recipes log sheet servings (`Stepper`)**.
 
 A search of `src` for `Done` finds the "Done" pill at `src/components/common/NumberEntryBar.tsx:94-110`; a search for `InputAccessoryView` returns
-nothing. The bar autofocuses its input (`src/components/common/NumberEntryBar.tsx:75`), strips leading zeros and caps length (`src/components/common/NumberEntryBar.tsx:33-38`), at 6 digits by default and 5 on quick add (`src/app/food/quick-add.tsx:194`). The detail sheet's macro pads take a decimal point (`src/app/food/detail.tsx:59-62`). BUILT: protein, carbs and fat keep 1 decimal place on display and on save, as in the design (`src/app/food/detail.tsx:66`, `:402`, `:408-410`, `:565-567`, `:602-604`). Fibre is still rounded as it is typed (`src/app/food/detail.tsx:437`). Separately,
+nothing. The bar autofocuses its input (`src/components/common/NumberEntryBar.tsx:75`), strips leading zeros and caps length (`src/components/common/NumberEntryBar.tsx:33-38`), at 6 digits by default and 5 on quick add (`src/app/food/quick-add.tsx:194`). The detail sheet's macro pads take a decimal point (`src/app/food/detail.tsx:59-62`). BUILT: typed protein, carbs and fat keep 1 decimal place on display and on save, as in the design; a picked serving does not, see Food detail difference 13 (`src/app/food/detail.tsx:66`, `:402`, `:408-410`, `:565-567`, `:602-604`). Fibre is still rounded as it is typed (`src/app/food/detail.tsx:437`). Separately,
 `applyGrams` silently changes nothing else when a row has no per-100 basis (a
 kcal-only quick add).
 

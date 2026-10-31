@@ -24,24 +24,23 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 ## Status
 - BUILT (not verified): food entry bar and sheets; gym chooser, duration, CelebrationCard, streak strip, Goals; TodayCard; Macros; Burned guard; EnergyBalanceCard; i18n setup; Log as planned; log-sheet failure notice; session.tsx label and picked-exercise rest seconds; food detail macros to 1 decimal (R56); detail.tsx citations fixed (R57); session.tsx citations confirmed correct (R58, R59); macro totals checked, no change needed (R60).
 - Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT.
-- Last checkpoint R48 green (tsc 0, 65 suites, 824 tests). Checkpoint due now (R61).
+- Checkpoint R61 green (tsc 0, 65 suites, 824 tests).
 
 ## Next
-1. IN PROGRESS R61: checkpoint, read-only. Full tsc and app Jest. Report counts and any failures.
-2. applyGrams macro precision in src/app/food/detail.tsx (~421-423). Check design per100 scaling and r1 display first. Keep picked-serving decimals only if the design shows them.
-3. Search seed (src/app/food/detail.tsx ~164-166) and food tab seeds ((tabs)/food.tsx ~380-382), after step 2 is settled.
-4. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
-5. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
-6. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
-7. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
-8. PlannedValuesForm.tsx:200 'Add exercise': compare to design.
-9. Fix stale fibre note in summaryNoFabrication.test.ts header.
-10. Trace add.tsx slotKey (~67). Remove unused keys if confirmed unused.
-11. Volume: /gym/session saves top weight on all sets. Fix only without owner input, else park.
-12. Recheck gap lines 1006 onward (not checked since R52) and stale lines 328 and 334.
-13. Individual food rows print raw values: (tabs)/food.tsx ~895 and ~852, and src/app/food/saved.tsx:135. Check other write paths first.
-14. Checkpoint: full tsc and app Jest, read-only.
-15. No rows left: stop with 'only owner decisions remain'.
+1. IN PROGRESS R62: applyGrams picked-serving macro precision in src/app/food/detail.tsx (~415-430). Check design/Lume App.html food detail first. Keep picked-serving decimals only if the design shows them. Update the gap doc line.
+2. Search seed (src/app/food/detail.tsx ~164-166) and food tab seeds ((tabs)/food.tsx ~380-382), after step 1 is settled.
+3. Logged-day sheet: follow design 'Add something extra'. Locate the copy first.
+4. plannedRows omits te.rest_seconds (session.tsx ~193-199). Fix only if clean.
+5. Wrap hardcoded strings, one file per round, after checking the path: src/app/dashboard/nutrition.tsx, gym/freeze, StreakCounter, GymPatternsCard, saved, MuscleChart, session, gym, profile/index, (tabs)/index, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today', 'Try again'.
+6. food.tsx ~445 empty copy. Dedupe SLOT_KEYS. Resolve food.savedTitle vs addMenu.myDishes.
+7. PlannedValuesForm.tsx:200 'Add exercise': compare to design.
+8. Fix stale fibre note in summaryNoFabrication.test.ts header.
+9. Trace add.tsx slotKey (~67). Remove unused keys if confirmed unused.
+10. Volume: /gym/session saves top weight on all sets. Fix only without owner input, else park.
+11. Recheck gap lines 1006 onward (not checked since R52) and stale lines 328 and 334.
+12. Individual food rows print raw values: (tabs)/food.tsx ~895 and ~852, and src/app/food/saved.tsx:135. Check other write paths first.
+13. Checkpoint: full tsc and app Jest, read-only.
+14. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - Already-logged days: real editing, or change the 'open it to edit' toast. /gym/session writes a second row (src/lib/data/mutations.ts:173-178).
@@ -57,7 +56,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - TodayCard: wash pill token; whole-day kcal under session card; chevron before tappable.
 - Volume: fix, show when consistent, or accept? Heatmap route wording; calories cell needs backend field.
 - Try again hardcoded English with small tap target.
-- Food detail decimals accepted? Do picked servings keep decimals?
+- Food detail decimals accepted? Do picked servings keep decimals? (R62 checks the design first; if the design settles it, record the result and drop this item.)
 
 ## Parked
 - Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration, cardio planned minutes, missing macros shown as 0, custom exercise route, PlannedValuesForm submit.
@@ -85,7 +84,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - R58: session.tsx citation check, no edits needed; report flagged for missing tsc or tests.
 - R59: doc-only tsc re-run, TSC EXIT 0, flag cleared. Citations confirmed again.
 - R60: unrounded macro totals checked. No edits. Totals are whole numbers in the design, so no change. Handover +1 citation shift dropped as stale.
-- R61: checkpoint, read-only, tsc and app Jest (in progress).
+- R61: checkpoint, read-only, tsc 0, 65 suites, 824 tests passed. Done.
+- R62: applyGrams picked-serving precision (in progress).
 
 ## Handover R60
 - Session continuity: the next Claude Code session is fresh. Name files fully in every prompt.
