@@ -107,6 +107,9 @@
       "gluten_free": "May not match your gluten free preference"
     }
   },
+  "food": {
+    "loadFailed": "Couldn't load today's food log."
+  },
   "savedMeals": {
     "logged": "Logged {{name}}.",
     "logFailed": "Couldn't log {{name}}. Try again.",

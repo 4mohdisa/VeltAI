@@ -109,6 +109,9 @@
       "gluten_free": "Puede que no coincida con tu preferencia sin gluten"
     }
   },
+  "food": {
+    "loadFailed": "No se pudo cargar el registro de comidas de hoy."
+  },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",
     "logFailed": "No se pudo registrar {{name}}. Inténtalo de nuevo.",

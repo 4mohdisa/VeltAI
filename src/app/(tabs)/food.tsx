@@ -446,7 +446,7 @@ export default function FoodLogScreen() {
                 writes). They stay on screen, labelled — the empty-list ErrorState
                 below covers the case where there is nothing to show at all. */}
             {loadError && itemCount > 0 ? (
-              <LoadFailedNotice message="Couldn't load today's food log." onRetry={refetch} />
+              <LoadFailedNotice message={t('food.loadFailed')} onRetry={refetch} />
             ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library
                 view rather than a view of one day. */}

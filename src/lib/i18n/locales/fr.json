@@ -107,6 +107,9 @@
       "gluten_free": "Peut ne pas correspondre à votre préférence sans gluten"
     }
   },
+  "food": {
+    "loadFailed": "Impossible de charger le journal alimentaire d'aujourd'hui."
+  },
   "savedMeals": {
     "logged": "Enregistré : {{name}}.",
     "logFailed": "Impossible d’enregistrer {{name}}. Réessayez.",

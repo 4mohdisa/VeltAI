@@ -22,37 +22,40 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - No new test suites or render tests. 11pm-to-9am case checked on device by Isa.
 - Macros screen has no gap row; none added to keep verdict counts. Isa may name one.
 - Nutrition load-failure and a11y wording live in the nutrition namespace (nutrition.macrosLoadFailed, nutrition.caloriesTodayLabel).
-- Test 'no screen invents a reason' (hydrationErrorScreens.test.ts:54-64) only checks message= string literals. It must be changed to check locale values. en values get the ^Couldn't load and banned-word check. es and fr values only need to be non-empty.
+- hydrationErrorScreens test: 'no screen invents a reason' now also checks locale values (en: ^Couldn't load and banned-word check; es and fr: non-empty). The old string-literal check stays, because four literal screens still need it.
 - Handover item 'Macros key' is stale. nutrition.macrosLoadFailed and the Macros kicker are built.
 
 ## Built (not verified)
 - NumberEntryBar; food Add sheet; gym chooser; goals restyle; CelebrationCard (row 17 steps 1-2); gym duration; quick add toast; MEAL caption; detent; 52pt pill; compact Meal control; recents macros; recipe fibre sum; food.tsx slot heading; labels; toast; deleteMealHint; delete dialog.
 - lastLoggedLabel (SavedMealsList.tsx); plan.whyThisPlan (plan.tsx:120).
 - Streak and summary keys in en, es, fr; settings.scanAccuracy in es; (tabs)/index.tsx lines 102, 109, 115, 121.
-- nutrition.tsx: Macros kicker/title swap (:77), loadFailed (:79), fromFood (:86), caloriesToday (:89), caloriesTodayLabel a11y label (:95, R261).
-- R262: (tabs)/index.tsx:155 now t('nutrition.macrosLoadFailed'). Key added to en.json:165, es.json:167, fr.json:165 (after nutrition.loadFailed). fr values have two U+2019; no U+00A0 added.
+- nutrition.tsx (src/app/dashboard/nutrition.tsx): Macros kicker/title swap (:77), loadFailed (:79), fromFood (:86), caloriesToday (:89), caloriesTodayLabel a11y label (:95, R261).
+- R262: (tabs)/index.tsx:155 uses t('nutrition.macrosLoadFailed'). Key in en.json:165, es.json:167, fr.json:165.
+- R264: hydrationErrorScreens.test.ts checks nutrition.macrosLoadFailed and nutrition.loadFailed locale values (test at line 54, ends line 73). Old literal check kept.
 - Gap analysis: 23 DIFFERENT, 15 PARTIAL, 3 BUILT (76, 86, 90), 0 EXACT.
 
 ## Verification
 - Last full run R257: tsc 0; 65 suites, 824 tests, 4 snapshots.
 - R258 read-only check passed. R259 and R260: tsc 0; detailChrome render 4/4 after snapshot edits.
 - R261: tsc 0; detailChrome render 4/4, 4 snapshots. Snapshot line 2945 edited by hand.
-- R262: tsc exit 0 (valid run after keys existed). Jest on 5 files naming (tabs)/index: 5 suites, 83 tests passed. Not run: onboardingPostAuth, tabProfileEntry.
+- R262: tsc exit 0. Jest on 5 files naming (tabs)/index: 5 suites, 83 tests passed.
 - R263 read-only: tsc 0; jest tabNavigation, oneTapGymLog, summaryDetails, hydrationErrorScreens, summaryNoFabrication, detailChrome: 6 suites, 87 tests, 4 snapshots passed. Keys en 156, fr 156, es 158.
+- R264: tsc exit 0; npx jest --ci src/__tests__/hydrationErrorScreens.test.ts: 1 suite, 10 tests passed. No snapshots in that file. Did not confirm the new check fails on a bad value.
 - Snapshots show raw keys, so on-screen text needs a device run.
 - Keyboard-overlap check cannot be verified in dev (DECISIONS.md).
 
 ## Next
-1. R264 (current, rewrite): hydrationErrorScreens test edit, lines 54-64. en values get ^Couldn't load and banned-word check, es and fr only non-empty, for nutrition.macrosLoadFailed (index.tsx:155) and nutrition.loadFailed (nutrition.tsx:79). Matching design file design/Lume App.html named in prompt. tsc once, jest on that file once.
+1. R265 (current): translate food.tsx:449 hardcoded load-failure to food.loadFailed in en, es, fr. Add the key to the locale check in hydrationErrorScreens.test.ts. tsc once, jest on that file once.
 2. (tabs)/index.tsx:150 hardcoded title='Macros' and scope='Today' (record as hardcoded, keep wording).
-3. (tabs)/gym.tsx:112 and :121 to t().
-4. gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
-5. (tabs)/food.tsx:449; components/domain/EnergyBalanceCard.tsx:131 (asserted in energyBalanceCard.render.test.tsx:62).
+3. (tabs)/gym.tsx:112 and :121 to t(). Also gym.tsx:106 load-failure (same wording as profile/index.tsx:103).
+4. food/saved.tsx:83 and profile/index.tsx:103 load-failure to t(); gym/freeze.tsx:48; StreakCounter.tsx:15, one per round.
+5. components/domain/EnergyBalanceCard.tsx:131 (asserted in src/__tests__/render/energyBalanceCard.render.test.tsx:62).
 6. Add sheet icons to design SVGs.
 7. Remaining gap rows, most cleared first.
-8. Read-only full Jest checkpoint after the next checkpoint round.
-9. If no non-gym work remains: stop with 'only owner decisions remain'.
-10. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
+8. Add dashboard.streakLoadError to the locale check (used at (tabs)/index.tsx:115).
+9. Read-only full Jest checkpoint after the next checkpoint round.
+10. If no non-gym work remains: stop with 'only owner decisions remain'.
+11. Remove es voice and describeOutLoud only after Isa approves and a search confirms no use.
 
 ## Parked (not v1)
 - Missing macros as 0. Gym: row order, per-set remove, cardio ParameterForm, template editor, kg/lb, estimated duration.
@@ -83,15 +86,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - --findRelatedTests on a file with no tests exits 1. Not a failure by itself.
 - design/Lume App.html is gzip-compressed inside __bundler/manifest. Decode before searching.
 - Real path: src/app/dashboard/nutrition.tsx (not src/app/nutrition.tsx).
-- Handover summaries can be stale. Check them against this file. The R262 handover's 'Macros key' item is stale.
+- Handover summaries can be stale. Check them against this file.
 - src/lib/i18n/index.ts:41 fixes lng to 'en'; fallbackLng is 'en'. es and fr never show.
 
 ## Loop notes
-- Handovers after R141 to R254 (latest in loop/HANDOVER.md).
+- Handovers after R141 to R254 (latest in loop/HANDOVER.md). Handover due after R269.
 - Rejected: R236, R238, R243, R255, R257 (no design file or branch rule), R261 first prompt (no branch rule, notes too long), R264 first prompt (no matching design/ file named). R264 rewritten with design/Lume App.html.
 - R262 flagged, cleared by read-only R263 (passed: 6 suites, 87 tests).
-- R263 candidates: 1 read-only check of R262; 2 hydrationErrorScreens test edit; 3 food.tsx:449 to t(). Chosen 1.
-- R264 candidates: 1 hydrationErrorScreens test edit (lines 54-64); 2 (tabs)/index.tsx:150 hardcoded Macros/Today; 3 gym.tsx:112 and :121 to t(). Chosen 1.
-- R264 Jev (first pass): ask 56%, run 41%, confidence 0.34, risk 1.4. Ran anyway: the step is pre-planned, test-only, needs nothing from Isa, and the notes name the exact lines.
-- R264 Jev (rewrite pass): run 91%, ask 8%, stop 1%, confidence 0.86, risk 1.1. Chosen action remains run.
-- Handover due after R269 (every 15 rounds from R254).
+- R264 done: hydrationErrorScreens locale check passed (10/10, tsc 0). Jev first pass ask 56%, rewrite pass run 91%; ran.
+- R265 candidates: 1 food.tsx:449 translate and locale check; 2 (tabs)/index.tsx:150 hardcoded Macros/Today; 3 gym.tsx:112 and :121 to t(). Chosen 1. Jev run 92%.

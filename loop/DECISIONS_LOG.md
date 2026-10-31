@@ -1012,3 +1012,8 @@
 - 2026-10-31 13:36 Checked the en-only rule against the Claude report: ^Couldn't load and the English banned-word list apply to en only. es and fr only need a non-empty string, since English words do not apply to them.
 - 2026-10-31 13:36 Treated the handover's 'Macros key' item as stale. nutrition.macrosLoadFailed and the Macros kicker are already built per the notes.
 - 2026-10-31 13:36 No new keys, no locale edits, no snapshot edits this round.
+- 2026-10-31 13:37 Chose candidate 1 because the last report recommended it, it needs nothing from Isa, and it is one surface plus one test list line.
+- 2026-10-31 13:37 Treated the Macros key decision as stale: nutrition.macrosLoadFailed and the Macros kicker are already built (notes Built section). Removed it from Blocked on Isa.
+- 2026-10-31 13:37 Kept the old string-literal check in hydrationErrorScreens.test.ts, as the R264 report did, because four literal screens still need it.
+- 2026-10-31 13:37 Did not ask Isa about the hardcoded food.tsx wording; the English value is in the file and is kept identical.
+- 2026-10-31 13:37 Used the Jev run signal (run 92%) without change; no reason to override.
