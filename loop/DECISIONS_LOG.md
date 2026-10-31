@@ -2400,3 +2400,7 @@
 - 2026-11-01 00:57 Doc-only round, but tsc exit code and output lines are required in the report, because the earlier R228 flag was about an unshown tsc step.
 - 2026-11-01 00:57 Left row 112 untouched in this round, so the overlap is settled in row 83 only, with a pointer to row 112.
 - 2026-11-01 00:57 Parked the two-logged-sources issue, the dead GymSessionButton branch, the double getToday request, the + menu toast and the stale comments. They are code tidying or outside the row, not tasks.
+- 2026-11-01 00:58 Chose row 112 My schedule card over the row 83 doc fix: build rows are still open, and doc fixes wait until none are (Decisions rule).
+- 2026-11-01 00:58 Chose the card-only scope: one surface per round, and it is the next item in the Next list.
+- 2026-11-01 00:58 Parked the row 83 route change (sheet pushed vs opened in place) because it touches navigation structure, which is off limits.
+- 2026-11-01 00:58 Row 83 copy and icon stay as build candidates for later rounds, since the design wording wins.
