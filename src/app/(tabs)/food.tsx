@@ -536,8 +536,11 @@ export default function FoodLogScreen() {
             </SwipeableRow>
           );
         }}
-        renderSectionFooter={({ section }) =>
-          section.kind === 'meal' && section.data.length === 0 ? (
+        renderSectionFooter={({ section }) => {
+          // The design has no gap after its last block. Only a failed load leaves
+          // the last meal last: otherwise a list footer link follows it.
+          const blockGap = section.kind === 'meal' && loadError && section === listSections[listSections.length - 1] ? 0 : 14;
+          return section.kind === 'meal' && section.data.length === 0 ? (
             <Pressable
               haptic={false}
               minTapTarget={false}
@@ -550,7 +553,7 @@ export default function FoodLogScreen() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: space.sm,
-                marginBottom: 14,
+                marginBottom: blockGap,
               }}
             >
               <Icon name="add-circle-outline" size={20} color={color.tertiaryLabel} />
@@ -559,9 +562,9 @@ export default function FoodLogScreen() {
               </Text>
             </Pressable>
           ) : (
-            <View style={{ height: 14 }} />
-          )
-        }
+            <View style={{ height: blockGap }} />
+          );
+        }}
         ListEmptyComponent={
           // "No matches" is a claim about the food database — only make it when
           // a COMPLETED search returned zero. While the debounce + round-trip

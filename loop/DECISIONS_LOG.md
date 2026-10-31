@@ -2519,3 +2519,6 @@
 - 2026-11-01 01:37 R255 was flagged for no tests run. R256 runs tsc once and the tabNavigation test, because the test asserts TAB_BAR_CLEARANCE on Food and must change for the build to pass.
 - 2026-11-01 01:37 Top padding on Food stays insets.top + space.md, since it is pending Isa. Only bottom 158, header 82 and gap 14 are built.
 - 2026-11-01 01:37 Kept TAB_BAR_CLEARANCE in place even though Food will no longer use it. Removing it is tidying, so it is parked, not built.
+- 2026-11-01 01:39 R257: picked the Food footer gap over the queued Gym re-check, because the flagged report was a partly finished row 85 task. Completing it first. Reason: smallest task, needs nothing from Isa, clears the flag.
+- 2026-11-01 01:39 R257: full suite not run this round. The loop has not announced a checkpoint, and the flag is cleared by the type check plus tabNavigation.
+- 2026-11-01 01:39 R257: Jev run 82% agreed with my pick. No change.
