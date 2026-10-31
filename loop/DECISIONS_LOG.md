@@ -1257,3 +1257,8 @@
 - 2026-10-31 15:12 No edits this round, so no tests or type check. Full Jest waits for the checkpoint.
 - 2026-10-31 15:12 Rewrote the notes under 600 words as the loop note asked. Merged repeated items, deleted finished work, kept all decisions and owner items.
 - 2026-10-31 15:12 Recorded that the logged-state gaps (sub-line, green pill, hardcoded 'Logged') come from the last report and are queued after the trace.
+- 2026-10-31 15:13 Chose the dead-branch deletion because the step 1 trace showed the final branch cannot render from any backend response. Clearing dead code is the smallest change and needs nothing from Isa.
+- 2026-10-31 15:13 Did not ask Isa about the 'Set schedule' link. The step 1 trace showed the branch is unreachable, so the link never shows and the earlier ask condition is not met.
+- 2026-10-31 15:13 Rest-day condition becomes is_rest_day || !template. Every response the server produces behaves as before, and a no-template response now shows the rest-day state instead of nothing.
+- 2026-10-31 15:13 Locale keys left in place this round. Key removal is a separate counted step.
+- 2026-10-31 15:13 Row 113 stays DIFFERENT. Doc update waits for a separate doc round.

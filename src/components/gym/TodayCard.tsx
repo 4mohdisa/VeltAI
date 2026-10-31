@@ -10,7 +10,6 @@ import { View } from 'react-native';
 
 import { Card, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
-import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useToday } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
@@ -120,7 +119,7 @@ export function TodayCard(): JSX.Element | null {
     );
   }
 
-  if (today.is_rest_day) {
+  if (today.is_rest_day || !today.template) {
     return (
       <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
         <Header
@@ -134,68 +133,39 @@ export function TodayCard(): JSX.Element | null {
     );
   }
 
-  if (today.template) {
-    const names: string[] = [];
-    for (const ex of today.exercises) {
-      const n = ex.exercise?.name;
-      if (n) names.push(n);
-    }
-    const shown = names.slice(0, 3);
-    const more = names.length - shown.length;
-    const duration = today.template.estimated_duration_minutes;
-    const count = today.exercises.length;
-    const sub =
-      `${count} exercise${count === 1 ? '' : 's'} planned` + (duration != null ? ` · about ${duration} min` : '');
-
-    return (
-      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-        <View style={{ gap: space.lg }}>
-          <Header
-            tint={categoryAccent.streak}
-            title={today.template.name}
-            sub={sub}
-            pill="Planned"
-            pillFill={surface.tile}
-          />
-
-          {shown.length > 0 ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
-              {shown.map((n, i) => (
-                <Chip key={i} label={n} />
-              ))}
-              {more > 0 ? <Chip label={`+${more} more`} muted /> : null}
-            </View>
-          ) : null}
-
-          <Button title="Start workout" onPress={() => router.push('/gym/session' as Href)} />
-        </View>
-      </Card>
-    );
+  const names: string[] = [];
+  for (const ex of today.exercises) {
+    const n = ex.exercise?.name;
+    if (n) names.push(n);
   }
+  const shown = names.slice(0, 3);
+  const more = names.length - shown.length;
+  const duration = today.template.estimated_duration_minutes;
+  const count = today.exercises.length;
+  const sub =
+    `${count} exercise${count === 1 ? '' : 's'} planned` + (duration != null ? ` · about ${duration} min` : '');
 
-  // Today exists but has no template and isn't a rest day → nothing scheduled.
   return (
     <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-      <View style={{ gap: space.md }}>
+      <View style={{ gap: space.lg }}>
         <Header
-          tint={color.light2}
-          title={t('gymLog.restDayTitle')}
-          sub={t('gym.nothingScheduledSub')}
-          pill="Rest"
-          pillFill={color.light1}
+          tint={categoryAccent.streak}
+          title={today.template.name}
+          sub={sub}
+          pill="Planned"
+          pillFill={surface.tile}
         />
-        <Pressable
-          onPress={() => router.push('/gym/schedule' as Href)}
-          haptic={false}
-          minTapTarget={false}
-          hitSlop={10}
-          accessibilityLabel="Set schedule"
-          style={{ alignSelf: 'flex-start' }}
-        >
-          <Text variant="label" color={color.primary}>
-            Set schedule →
-          </Text>
-        </Pressable>
+
+        {shown.length > 0 ? (
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
+            {shown.map((n, i) => (
+              <Chip key={i} label={n} />
+            ))}
+            {more > 0 ? <Chip label={`+${more} more`} muted /> : null}
+          </View>
+        ) : null}
+
+        <Button title="Start workout" onPress={() => router.push('/gym/session' as Href)} />
       </View>
     </Card>
   );
