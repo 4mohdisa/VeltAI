@@ -2530,3 +2530,7 @@
 - 2026-11-01 01:42 Did not ask Isa: all open questions are already with him and the checkpoint needs no answer.
 - 2026-11-01 01:42 Chose the re-check over the row 85 build: it is doc only and reversible, and the top padding decision is still pending from Isa.
 - 2026-11-01 01:42 Notes rewritten under 600 words: finished work deleted, repeated items merged.
+- 2026-11-01 01:44 Picked row 85 title block build. Jev ranked it first at 94%, and it is already step 4 of the plan, so the order and the signal agree. The two re-checks follow after it.
+- 2026-11-01 01:44 The R259 flag ('type check or tests not run') is closed. R259 was doc-only, changed no code, and the rules say doc-only rounds run no tests.
+- 2026-11-01 01:44 The -0.6 title tracking and 52pt right padding follow the design for Food. The accepted-deviation list for those values covers row 112 (Gym) only, not Food.
+- 2026-11-01 01:44 Top padding, the Meal history link, the calorie bar, 'left today' and the four-column wrap stay out of this task because they are blocked on Isa.

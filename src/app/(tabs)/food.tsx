@@ -432,19 +432,26 @@ export default function FoodLogScreen() {
             {/* Eyebrow + large title inside the scroll — the design's header. The
                 eyebrow names the day being shown, which is no longer always today
                 (architecture item 3). */}
-            <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+            <View style={{ paddingHorizontal: space.xs }}>
+              <View style={{ minHeight: 40, justifyContent: 'center' }}>
+                <Text
+                  variant="label"
+                  color={color.secondaryLabel}
+                  style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}
+                >
+                  {fromIso(selectedDate).toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                  })}
+                </Text>
+              </View>
               <Text
-                variant="label"
-                color={color.secondaryLabel}
-                style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+                variant="title1"
+                color={color.label}
+                accessibilityRole="header"
+                style={{ paddingRight: 52, letterSpacing: -0.6 }}
               >
-                {fromIso(selectedDate).toLocaleDateString(undefined, {
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
-                })}
-              </Text>
-              <Text variant="title1" color={color.label} accessibilityRole="header">
                 {t('food.title')}
               </Text>
             </View>
