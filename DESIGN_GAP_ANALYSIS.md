@@ -255,7 +255,7 @@ camera analogue to Food's scanning. Templates and the weekly schedule are
 
 | Path | Reachable? | Writes a session? |
 |---|---|---|
-| Gym tab → "Log gym session" → `/gym/log-session` | Yes | Yes — when today has a plan and is not yet logged, the "It went as planned" pill (`src/app/gym/log-session.tsx:221`) commits the plan's exercises (`src/app/gym/log-session.tsx:116-119`) |
+| Gym tab → "Log gym session" → `/gym/log-session` | Yes | Yes — when today has a plan and is not yet logged, the "It went as planned" pill (`src/app/gym/log-session.tsx:233`) commits the plan's exercises (`src/app/gym/log-session.tsx:117-120`) |
 | `+` menu → "Log gym session" → `/gym/log-session` | Yes | Same |
 | Summary → gym card button → `logGymSession()` inline | Yes | Yes — **zero fields**, no UI |
 | Gym tab → TodayCard → "Start workout" → `/gym/session` | **Conditional** | Yes — full exercise logging |
@@ -264,11 +264,11 @@ camera analogue to Food's scanning. Templates and the weekly schedule are
 `/gym/session` has these entry points:
 
 - `src/components/gym/TodayCard.tsx:249` — "Start workout", opens the screen plain.
-- `src/app/gym/log-session.tsx:173` — the three chooser tiles, shown when today has planned exercises; each opens the screen in its mode (`adjust`, `ticklist`, `picker`).
-- `src/app/gym/log-session.tsx:146` — the empty state's action, shown when today has no planned exercises; opens the screen plain.
-- `src/app/gym/log-session.tsx:111` — the "It went as planned" pill when the gym is already logged today; opens the screen plain.
+- `src/app/gym/log-session.tsx:185` — the three chooser tiles, shown when today has planned exercises; each opens the screen in its mode (`adjust`, `ticklist`, `picker`).
+- `src/app/gym/log-session.tsx:158` — the empty state's action, shown when today has no planned exercises; opens the screen plain.
+- `src/app/gym/log-session.tsx:112` — the "It went as planned" pill when the gym is already logged today; opens the screen plain.
 
-The three log sheet paths all route through `openSession` (`src/app/gym/log-session.tsx:103-104`).
+The three log sheet paths all route through `openSession` (`src/app/gym/log-session.tsx:104-105`).
 
 The Start workout path is the conditional one. `TodayCard` shows `LoadFailedNotice` with Try again when the
 fetch failed (null). Its branches then run in this order: `already_checked_in`
@@ -293,11 +293,11 @@ the Gym tab until the day is logged (`GymSessionButton` is not pressable after t
 
 | Logging method the design implies | Backend support? | Reachable UI today? |
 |---|---|---|
-| 1. Log as planned (one tap, verbatim) | **Yes** — sessions + exercises + complete; `GET /today` supplies the plan | **BUILT** (not verified) — label, placement and one-tap commit match, and `inputFor` now carries a cardio exercise's planned minutes in `notes` (`src/app/gym/log-session.tsx:57-65`) |
+| 1. Log as planned (one tap, verbatim) | **Yes** — sessions + exercises + complete; `GET /today` supplies the plan | **BUILT** (not verified) — label, placement and one-tap commit match, and `inputFor` now carries a cardio exercise's planned minutes in `notes` (`src/app/gym/log-session.tsx:58-66`) |
 | 2. Log adjusted | **Yes** — same routes, `gym_exercises` columns | **Partial** — only inside `/gym/session`, opened by the conditional Start button or the log sheet's "Different weights" tile (`adjust` mode); no edit bar |
 | 3. Log partial | **Yes** — `completion_rate`, `gym_adherence` | **Partial** — `/gym/session` checkboxes produce a rate; no tick-list sheet; the log sheet's "Only some of it" tile opens the screen in `ticklist` mode |
 | 4. Log off-plan | **Yes** — exercise library | **Partial** — `ExercisePicker` only once already inside `/gym/session` |
-| 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — a response with no template shows the rest-day card, which has no Start button; `/gym/session` is still reachable from the log sheet's empty state (`src/app/gym/log-session.tsx:146`), where "Add exercise" opens the picker and the session saves with no template |
+| 5. Freestyle / no plan | **Yes** — a session needs no template | **No** — a response with no template shows the rest-day card, which has no Start button; `/gym/session` is still reachable from the log sheet's empty state (`src/app/gym/log-session.tsx:158`), where "Add exercise" opens the picker and the session saves with no template |
 | 5b. Custom exercise ("Add 'X' as a custom exercise") | **No** — every write path uses `exercise_id` into `exercise_library`; no create-exercise route | **No** |
 | 6. Per-segment cardio (`Leg 1: 10 min @ 7 km/h`, "Add segment") | **Partial** — schemas capture ONE flat parameter set per exercise, not a list of segments (`parameters` is jsonb, so a list is storable but not validated) | **No** |
 | 7. Session-level effort / energy (**app-only, not in the design**) | **No** — `rpe` is per-exercise; no session column, no API field | **Yes** — and the values are discarded before the request |

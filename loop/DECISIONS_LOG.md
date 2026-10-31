@@ -1447,3 +1447,13 @@
 - 2026-10-31 16:52 Chose the stale-citation doc round first. Reason: the rule says a partial row with an un-updated gap-doc line gets a doc round before any new build, and this row is flagged for exactly that.
 - 2026-10-31 16:52 Did not open the TodayCard already_checked_in ordering question again. Reason: the R35 report confirmed the card order is right (failure, then already_checked_in, then rest day), and the sheet has no such check by design.
 - 2026-10-31 16:52 Logged-rest-day sheet issue (log-session.tsx:150-158 shows rest-day state for a logged rest day) and empty-template sub-line mismatch on the card are parked, not built. Reason: they need a decision on the logged-day behaviour, and a logged-day sheet is already on the Next list as a design question.
+- 2026-10-31 16:52 Chose the doc fix first: it is the smallest task, needs nothing from Isa, and the prior report gave accurate replacement lines for each stale cite.
+- 2026-10-31 16:52 Applied the eight corrections listed in the last Claude Code report. They are factual line-number fixes, so the 'doc factual corrections applied without asking' rule covers them.
+- 2026-10-31 16:52 Left the gap line 166 note ('80 lines', now 261) out of this round. It may be a deliberate historical note, so it goes to NEXT for a later decision.
+- 2026-10-31 16:52 Kept the R36 row open in notes until the eight edits and tsc are confirmed.
+- 2026-10-31 16:52 Did not run Jest: doc-only round, tsc only.
+- 2026-10-31 16:53 Kept the R36 doc round as the next task. The loop rejected the prompt only because it did not name the design/ file, so the rewrite adds design/Lume App.html and the gap rows, and keeps the same eight cites.
+- 2026-10-31 16:53 Rescoped the round to the eight cites in Claude Code's report, because they sit outside the one row the earlier brief named. Doc factual corrections with accurate report text are applied without asking.
+- 2026-10-31 16:53 Locate cites by quoted text, not line number, because the doc may have shifted.
+- 2026-10-31 16:53 tsc only, no Jest: doc-only round with no matching tests.
+- 2026-10-31 16:53 Did not fix the gap line 166 '80 lines' statement this round. It is listed under NEXT, as its historical intent is unclear.

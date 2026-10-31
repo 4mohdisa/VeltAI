@@ -13,7 +13,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Streak strip links to /gym/streak (accepted). Training, freeze, session history: app-only, English.
 - Saved foods title 'My dishes'. Card: padded={false} plus style padding; Card.tsx untouched.
 - TodayCard: already_checked_in before is_rest_day. Rest day = is_rest_day || !template. Logged calories from logged session only. Solid green pill kept until wash token decided. Failure = today === null after loading; hook unchanged.
-- Log sheet rest-day check keeps planned.length === 0 (src/app/gym/log-session.tsx:150). Prevents an empty template committing an empty session.
+- Log sheet rest-day check keeps planned.length === 0 (src/app/gym/log-session.tsx ~:150). Prevents an empty template committing an empty session.
 - Log sheet failure: LoadFailedNotice, Try again = refetch. Not a rest day.
 - Header counts derived from the table, never earlier figures.
 - Defaults: one-tap gym log kept; Distance km kept; food chips skipped; Goals extras kept.
@@ -23,27 +23,29 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Jev is advisory.
 - Report flagged for no tsc or no tests = partial; fix before next build round.
 - Doc factual corrections with accurate report text are applied without asking.
+- Prompts must name the matching design/ file and the gap row, even for doc rounds (loop rejection, R36).
 
 ## Status
 BUILT (not verified): food entry bar, Add sheet, toast, detent, pill, recents, slot heading, delete dialog; gym chooser, duration, CelebrationCard, streak strip, Goals, plan copy; TodayCard padding, title, sub-line, rest, logged state, failed-fetch notice; Macros copy; Burned guard; EnergyBalanceCard strings; i18n setup; Log as planned; log sheet failed-fetch notice.
 Counts: 24 DIFFERENT, 14 PARTIAL, 4 BUILT, 0 EXACT. Row 90 status line still empty.
 Last checkpoint R34: tsc 0, 65 suites, 824 tests pass. Predates failed-fetch code; no test covers TodayCard or failure paths.
-R35 read-only check: log-session.tsx failure branch correct (:139-144, before rest-day check). Brief's condition wording was wrong for this sheet; sheet also has planned.length === 0. Code unchanged.
+R35 read-only check: log-session.tsx failure branch correct (~:139-144, before rest-day check). Brief's condition wording was wrong for this sheet; sheet also has planned.length === 0. Code unchanged.
 
 ## Next
-1. DOC ROUND (R36): fix stale log-session.tsx cites in gap row 'Gym — session logging (log sheet)' (was :173, :146, :111, :103-104). Current anchors: failure branch ~:139, rest-day ~:150, save guard ~:110, empty-planned completion ~:117-120. tsc only.
+1. DOC ROUND (R37, in progress, rewritten after R36 rejection): apply the eight stale log-session.tsx cite corrections in DESIGN_GAP_ANALYSIS.md, located by quoted text: 'It went as planned' :221 to :233; commits-plan :116-119 to :117-120; three chooser tiles :173 to :185; empty state action :146 to :158 (prose and row ~300); already-logged route :111 to :112; openSession :103-104 to :104-105; inputFor :57-65 to :58-66. Names design/Lume App.html. tsc only.
 2. Add sheet icons from design SVGs.
-3. Logged-day sheet from + menu: design hides it once logged. Decide from design. Note: log-session.tsx:150-158 shows rest-day state for a logged rest day; no logged-day check runs before that return.
+3. Logged-day sheet from + menu: design hides it once logged. Decide from design. Note: log-session.tsx ~:150-158 shows rest-day state for a logged rest day; no logged-day check runs before that return.
 4. Wrap hardcoded strings, one file per round: src/app/dashboard/nutrition.tsx, gym/freeze.tsx, StreakCounter, GymPatternsCard, saved.tsx, MuscleChart, session.tsx, gym.tsx, profile/index.tsx, (tabs)/index.tsx, gymRange.ts, GymSessionButton, GymCalendar. TodayCard: 'Planned', 'Rest', 'Start workout', '+N more', 'Logged today'.
 5. Empty-list copy food.tsx ~445. Dedupe SLOT_KEYS; resolve food.savedTitle vs addMenu.myDishes.
 6. summaryNoFabrication.test.ts header comment: fibre note stale.
 7. Trace add.tsx slotKey (~67); remove unused keys voice, describeOutLoud, snapMeal, scanPackage, oneTapReadd if unused.
-8. Checkpoint: full tsc and full app Jest after build rounds, read-only.
-9. No rows remain: stop with 'only owner decisions remain'.
+8. Doc round: gap line 166 says log-session.tsx is 80 lines, now 261. Decide whether it is a deliberate historical note; fix if not.
+9. Checkpoint: full tsc and full app Jest after build rounds, read-only.
+10. No rows remain: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not ask again, do not retry)
 - Device checks: logged card and both failure states with network off. Double notice with gym tab (src/app/(tabs)/gym.tsx:107) acceptable?
-- Row 90 empty-status merge into 'Food — My dishes / Saved' (do only if Isa answers; not done, handover NEXT overridden by this rule); footnote '23 sessions 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
+- Row 90 empty-status merge into 'Food — My dishes / Saved' (do only if Isa answers; not done); footnote '23 sessions 2 freezes'; row 89 photo vs text; row 23 one-tap log; row 17 Calories formula.
 - Search routing; global + title; quick add 17/22 vs 17/24; add sheet 0pt gap; 'Snacks' label.
 - Native es/fr review; 'My dishes'; Macros wording.
 - Freestyle row ~300 'No'; es emptyMessage; es voice and describeOutLoud removal.
@@ -90,4 +92,5 @@ R35 read-only check: log-session.tsx failure branch correct (:139-144, before re
 - R34: checkpoint green (tsc 0, 65 suites, 824 tests). Clears R33 flag.
 - Handover after R33: loop/HANDOVER.md.
 - R35: read-only check of log-session.tsx failure branch. Pass on failure path; wording FAIL on the rest-day clause, resolved by keeping the clause (decision above).
-- R36: doc round, stale log-session.tsx cites (in progress).
+- R36: doc round for eight stale log-session.tsx cites. Rejected by loop note: prompt did not name the design/ file. No edit made.
+- R37: same doc round, prompt rewritten to name design/Lume App.html and the gap rows. Dispatched as run; awaiting report.
