@@ -1561,3 +1561,8 @@
 - 2026-10-31 17:22 Left the logged-day copy and plannedRows items queued, because each one is a code change that should follow a clean doc state.
 - 2026-10-31 17:22 Asked the agent to verify each citation by content rather than trusting the report's example line numbers, because the report itself lists lines that may have shifted differently.
 - 2026-10-31 17:22 Kept the status cells and counts unchanged, as the R56 report stated they should be.
+- 2026-10-31 17:23 Chose the citation check: it is the queued doc-only item, clears no code risk, and needs nothing from Isa.
+- 2026-10-31 17:23 Kept the macro-totals check as the next code-adjacent item because R57 NEXT flagged it as the likeliest side effect of the 1-decimal change.
+- 2026-10-31 17:23 Compressed notes to under 600 words by merging repeated items and dropping finished round detail, keeping every decision and open Isa item.
+- 2026-10-31 17:23 Rewrote the R57 status as done per the latest report, which says the detail.tsx citations are now correct.
+- 2026-10-31 17:23 Did not run tests: this is a doc-only round, and a checkpoint is still due later in the queue.
