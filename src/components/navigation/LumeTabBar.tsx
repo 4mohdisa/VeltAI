@@ -34,10 +34,10 @@ const PLUS_SIZE = 62;
 /** The routes this bar draws, in order. `Tabs` auto-injects every file under
  *  (tabs)/ as a route, so the bar renders an explicit allow-list and ignores
  *  anything else rather than growing a cell whenever a file is added. */
-const TABS: { name: string; label?: string; labelKey?: string; icon: string }[] = [
-  { name: 'index', label: 'Summary', icon: 'chart.bar.fill' },
+const TABS: { name: string; labelKey: string; icon: string }[] = [
+  { name: 'index', labelKey: 'dashboard.summaryTitle', icon: 'chart.bar.fill' },
   { name: 'food', labelKey: 'food.title', icon: 'fork.knife' },
-  { name: 'gym', label: 'Gym', icon: 'dumbbell.fill' },
+  { name: 'gym', labelKey: 'gym.title', icon: 'dumbbell.fill' },
 ];
 
 /** Distance from the screen bottom to the bar's own bottom edge. The design sits
@@ -99,7 +99,7 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
             if (!route) return null;
             const isFocused = focusedRouteName === tab.name;
             const options = descriptors[route.key]?.options;
-            const label = tab.labelKey ? t(tab.labelKey) : tab.label;
+            const label = t(tab.labelKey);
 
             const onPress = () => {
               // The contract: emit, respect preventDefault, only then navigate.

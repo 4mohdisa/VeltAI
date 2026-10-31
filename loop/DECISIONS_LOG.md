@@ -1967,3 +1967,13 @@
 - 2026-10-31 22:18 Went ahead with the tab label without asking Isa. The default is to follow the design, and the notes record it as decided. Jev is near even on ask and run, so the smaller task is the safer choice.
 - 2026-10-31 22:18 Chose es 'Comida' and fr 'Repas' for the tab key, matching the food.title values already in use. Both are flagged for native review.
 - 2026-10-31 22:18 No gap row names the tab label, so the prompt says not to edit DESIGN_GAP_ANALYSIS.md. The gap row for the tab bar is noted as missing.
+- 2026-10-31 22:20 Chose the Summary and Gym tab labels next: the Food tab is already translated, so the bar is now mixed-language in Spanish, and this task removes that and clears the optional label field from the last round.
+- 2026-10-31 22:20 Did not run the checkpoint: the loop script has not announced a checkpoint round this time. The full suite is still owed and will run when the script says so.
+- 2026-10-31 22:20 Treated the handover item 'CaloriesCard macro names food.tsx:665-667' as stale: R133 already moved the macro labels to nutrition.protein, carbs and fat. Recorded in notes to grep before acting.
+- 2026-10-31 22:20 Used a fr 'Gym' rather than inventing a French word, because the English term is common in French fitness apps; flagged for native review.
+- 2026-10-31 22:20 Did not add a gap row for the tab bar: none exists and the design-to-app match for the tab label is already recorded as a reason line in the notes.
+- 2026-10-31 22:20 Chose the tab labels task: smallest, needs nothing from Isa, and removes the mixed-language tab bar in es and fr.
+- 2026-10-31 22:20 Kept the change to LumeTabBar.tsx only so the prompt has one file. Summary and Gym screen titles in (tabs)/_layout.tsx go to NEXT.
+- 2026-10-31 22:20 Reused existing tabs.summary and tabs.gym keys, so no locale file changes and no new keys.
+- 2026-10-31 22:20 Did not run the checkpoint: it is read-only and the loop script announces it.
+- 2026-10-31 22:20 Cut the notes under 600 words per loop note. Decisions kept in full, finished work deleted.
