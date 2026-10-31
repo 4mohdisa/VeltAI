@@ -2214,3 +2214,7 @@
 - 2026-10-31 23:59 Parked the energy unit (kJ) request from the R191 NEXT line. It is a new behaviour change for formatCalories and its callers, not a copy fix, so it goes under Parked.
 - 2026-10-31 23:59 Did not run the full suite. The brief limits full runs to checkpoint rounds, and this round only needs the files that touch formatCalories.
 - 2026-10-31 23:59 Kept the R191 doc sentence in DESIGN_GAP_ANALYSIS.md as added. Stale line references (line 87, 957, item 18) stay on the Next list for a doc-only round.
+- 2026-11-01 00:02 Chose verification first because the notes list R192 as the next step and R191 was flagged as only partly run.
+- 2026-11-01 00:02 Kept the prompt to 5 steps and named three test files, since helpers.test.ts alone missed screen-level callers.
+- 2026-11-01 00:02 Compressed the notes to under 600 words per the loop note: merged repeats, removed finished work, kept all open items and decisions.
+- 2026-11-01 00:02 Kept the stale detail.tsx:259-260 and Add to {slot} items in the open list for a check-first pass, because the handover and R189 disagree on whether they are built.
