@@ -1774,3 +1774,12 @@
 - 2026-10-31 20:40 Left the LoadFailedNotice.tsx header comment for a later round, because one task per round is the rule. It is listed under NEXT.
 - 2026-10-31 20:40 Kept the status cell and header counts of row 82 unchanged, since the surface still has differences. The reason-cell line records the string change only.
 - 2026-10-31 20:40 Ignored the stale 'Lume' gotcha about 'Apply a streak freeze' possibly being absent from the design. The string exists in the app, so the label is still moved to a key.
+- 2026-10-31 20:41 Chose the flagged R99 check first because the loop note says the last report was flagged and tests were not run; the handover says deal with it before moving on.
+- 2026-10-31 20:41 Kept the fr wording 'congélation' unchanged, because Isa has not decided between it and 'gel'; logged under Blocked.
+- 2026-10-31 20:41 Limited the check to tests that load the locale files, since gym.tsx has no test and 'no related tests found' is not a pass.
+- 2026-10-31 20:41 Left DESIGN_GAP_ANALYSIS.md untouched this round; the R99 row edit stays as the previous report left it.
+- 2026-10-31 20:42 Chose R100 because the R99 report was flagged and must be cleared before any new build. It is the smallest task and needs nothing from Isa.
+- 2026-10-31 20:42 Named design/Lume App.html and gap row 82 in the prompt, because the loop note rejected the previous prompt for omitting the design file.
+- 2026-10-31 20:42 Ruled that a run matching no test files is not a pass, per the testing rule in the notes.
+- 2026-10-31 20:42 Limited edits to a missing key in a single locale file, so no new wording is invented for es or fr.
+- 2026-10-31 20:42 Left the fr 'congélation' versus 'gel' question under BLOCKED for Isa, since it is a wording decision only he can make.
