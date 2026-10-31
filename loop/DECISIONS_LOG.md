@@ -2226,3 +2226,8 @@
 - 2026-11-01 00:04 Rejected detail.tsx Edit food title because the handover lists it as NOT FIXED, but the notes record Save changes as built at line 301, so the state is unclear and needs a grep first.
 - 2026-11-01 00:04 Prompt names the loop/design-match branch explicitly and forbids git, fixing the rejected-prompt loop note.
 - 2026-11-01 00:04 Recorded R193 doc-only quick-add row as unconfirmed, because the notes say in progress and the handover says nothing in progress.
+- 2026-11-01 00:10 Chose R194 because the notes say it was in progress and the handover says nothing is in progress, so its state is unknown. Finishing it first follows the rule to close a partial task before the next one.
+- 2026-11-01 00:10 Step 1 checks whether the change already exists, so the prompt is safe if R194 partly ran before.
+- 2026-11-01 00:10 Named the branch and forbade all git commands in the prompt, because R193 was rejected for omitting this.
+- 2026-11-01 00:10 Allowed a new 'g' unit key in en, es and fr together, per the new-keys rule.
+- 2026-11-01 00:10 Limited test runs to two files and tsc, per the testing rules.
