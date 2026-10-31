@@ -23,7 +23,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md rows. Branch loop/design-m
 - Meal chip caption reuses food.quickAddMeal (only English text left on the control).
 
 ## Status
-R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 quick-add.tsx copy BUILT. R180 macro tile labels confirmed BUILT. R181 meal chip labels BUILT. R181 'Meal' caption BUILT (food.quickAddMeal, tsc 0, foodDetail and foodDetailLogged.render green). R182 loop flag on the caption task: re-check in progress.
+R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint done. R179 quick-add.tsx copy BUILT. R180 macro tile labels confirmed BUILT. R181 meal chip labels BUILT. R181 'Meal' caption BUILT. R182 loop flag on the caption cleared: re-check confirmed food.quickAddMeal at detail.tsx:660, no changes needed. R183: 'for {n} g' under calories, food.caloriesForGrams.
 
 ## Built, not verified (es and fr are unreviewed drafts)
 - Tabs, tab bar, add menu, CaloriesCard labels, food row VoiceOver.
@@ -34,8 +34,8 @@ R162 checkpoint green (tsc 0, 65 suites, 824 tests). R176 read-only checkpoint d
 - quick-add.tsx: all copy through t(), including offline and failed toasts (food.quickAddOffline, food.quickAddFailed).
 
 ## Next (in order)
-1. food/detail.tsx: finish meal-chip caption check (any remaining English meal-chip text). In progress R182.
-2. food/detail.tsx: 'for {n} g' under calories (about line 566), 'Edit item', 'Rename food', other titles, 'g' unit in tile values, Name field. Remove stale comment near line 488.
+1. food/detail.tsx: 'for {n} g' under calories (food.caloriesForGrams). In progress R183.
+2. food/detail.tsx: 'Edit item', 'Rename food', other titles, 'g' unit in tile values, Name field. Remove stale comment near line 488. Grep macro tile labels first (notes say BUILT R180, handover says not fixed).
 3. Doc-only: DESIGN_GAP_ANALYSIS.md quick-add row (about line 87) and references (about 94, 957, 1020, 1060, 1213-1221). Fix quick-add.tsx:116 to :125. Reconcile wording, no count change.
 4. Read-only: scan.ts:305 'Scan failed' shows at food.tsx:887 and in VoiceOver. Translate at display; keep stored value (scanSeam.test.ts asserts it).
 5. food.tsx: visible 'Analyzing' vs VoiceOver spelling; P, C, F letters (about 899); g suffixes; raw energyUnit; 'Check your connection' invents a cause.
@@ -82,7 +82,7 @@ Failure paths untested. Keyboard-overlap check cannot be verified in dev (DECISI
 - Briefs quote stale paths and finished work; check first.
 
 ## Last round
-R181: meal chip labels and 'Meal' caption BUILT. R182: loop flag on the caption, re-check and finish before the next task.
+R182: loop flag on the meal caption cleared (already BUILT, no changes). R183: 'for {n} g' under calories.
 
 ## Handover pending
 None.

@@ -179,7 +179,8 @@
     "quickAddFailed": "Couldn't add that — try again.",
     "quickAddDecrease": "Decrease by {{step}}",
     "quickAddIncrease": "Increase by {{step}}",
-    "quickAddMeal": "Meal"
+    "quickAddMeal": "Meal",
+    "caloriesForGrams": "for {{grams}} g"
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

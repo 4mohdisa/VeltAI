@@ -181,7 +181,8 @@
     "quickAddFailed": "No se pudo añadir — inténtalo de nuevo.",
     "quickAddDecrease": "Reducir en {{step}}",
     "quickAddIncrease": "Aumentar en {{step}}",
-    "quickAddMeal": "Comida"
+    "quickAddMeal": "Comida",
+    "caloriesForGrams": "para {{grams}} g"
   },
   "savedMeals": {
     "logged": "Registrado: {{name}}.",

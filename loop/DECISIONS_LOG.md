@@ -2166,3 +2166,8 @@
 - 2026-10-31 23:48 Loop flag says the last report looks partly done. The flagged task is the meal caption, so I finish and re-check it before any new work, as the notes require.
 - 2026-10-31 23:48 Kept 'for {n} g' and the rest of detail.tsx for the next round, to keep this prompt to one task.
 - 2026-10-31 23:48 Only add a locale key if no existing key fits, so the three locale files stay in step.
+- 2026-10-31 23:48 Loop flag on the meal caption cleared: the report confirmed food.quickAddMeal is already in use at detail.tsx:660 and tsc is green, so no re-work was needed.
+- 2026-10-31 23:48 Chose 'for {n} g' because it is the first open item in Next (item 2) and the latest report's NEXT. It is one string, so it is the smallest task.
+- 2026-10-31 23:48 Macro tile labels: notes say BUILT in R180, the handover says NOT FIXED. Conflict left for a later grep before acting, so it is not in this prompt.
+- 2026-10-31 23:48 Jev ranked run at 99%, which matches my pick. No override needed.
+- 2026-10-31 23:48 Kept 'g' unit, 'Edit item' and 'Rename food' out of this round to keep one string per task.

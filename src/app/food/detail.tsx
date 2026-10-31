@@ -563,7 +563,7 @@ function DetailForm({
             kcalRow(color.label)
           )}
           <Text variant="footnote" color={color.secondaryLabel}>
-            for {num(grams)} g
+            {t('food.caloriesForGrams', { grams: num(grams) })}
           </Text>
         </View>
 
