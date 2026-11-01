@@ -2737,3 +2737,7 @@
 - 2026-11-01 20:24 Kept the re-check doc-only, because a re-check round builds nothing and the Jev ranking agrees.
 - 2026-11-01 20:24 Named design/Lume App.html and bundle b09a5e65 in the prompt, because the last prompt was rejected for not naming it.
 - 2026-11-01 20:24 Prompt allows no code or jest run, since this is a doc-only round; tsc still runs once, per the type-check rule.
+- 2026-11-01 20:26 Chose the flag verification first, because the standing rule says a flagged report is verified in the next round before any other task. This overrides Jev's 87% ranking for row 108.
+- 2026-11-01 20:26 The flag is the report's note that jest was not run. That is expected for a doc-only round, so the verification needs only tsc and a git check, not jest.
+- 2026-11-01 20:26 Row 108 doc fix (items 4 and 7) moves to R306, the next round, unchanged from Jev's pick.
+- 2026-11-01 20:26 Shared SettingsList geometry: did not ask Isa. Default rule is to follow the design. Will handle it per row (107, 108, 109) when each row is built, not as a separate shared change.

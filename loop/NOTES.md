@@ -23,7 +23,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - R297-R301: re-checks of rows 107, 108 (items 1-3), 111, 113, 114-118.
 - R302: row 109 About re-checked, PARTIAL (4 items). Flagged (tests not run).
 - R303: read-only verification of R302. Cleared: no source changed, tsc 0, no test needed.
-- R304 (this round): row 108 re-check, doc only (glyph, vertical padding, value wrap). Prompt rejected once for not naming the design/ file; rewritten.
+- R304: row 108 re-check, doc only (glyph, vertical padding, value wrap). Report flagged (jest not run; doc-only, so not needed). Chooser note: item 4 incomplete (missing field padding 16 vs 12, min height ~114 vs 4 rows); item 7 out of place in numbered list.
+- R305 (this round): read-only verification of R304. No edits. tsc and git check only.
 - Checkpoint R295: tsc 0; jest 64/65 suites, 822/824 tests. Only failures: two detailChrome snapshots awaiting approval.
 
 ## Open rows
@@ -33,8 +34,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: Energy gap 12 to 16 after snapshot approval; week and training still 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked, HealthKit off-limits).
-- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyph (SettingsList.tsx:79) and chevron (:113) geometry.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; SettingsList geometry. Glyph, vertical padding and value wrap being re-checked in R304.
+- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyph (SettingsList.tsx:79) and chevron (:113) geometry; footnote text and citations need doc fix.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; SettingsList geometry; item 4 needs field padding 16 vs 12 and min height ~114 vs 4 rows (TextField.tsx:62-63); item 7 needs moving to the fixed list.
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph 17 vs 15 (SettingsList.tsx:79); vertical padding 12 vs 0 (:63); value wrap (:96). About header decision pending.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
@@ -46,12 +47,14 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4 and 5 (selected state, pill shadow) need a device check.
 
 ## Next
-1. R304 (this round): row 108 re-check, doc only: glyph, vertical padding, value wrap.
-2. Row 108 remaining items, one at a time.
-3. Row 109 and 107 doc fixes if re-check finds stale citations (doc only).
-4. Row 103 energy gap, after snapshot approval.
-5. Row 118 items 4 and 5 device check, if Isa approves.
-6. No rows left: stop with 'only owner decisions remain'.
+1. R305 (this round): read-only verification of R304 (tsc, git show, row 108 check).
+2. R306: row 108 doc fix, item 4 (field padding 16 vs 12, min height) and item 7 (move to fixed list). Doc only.
+3. Row 107 doc fix: stale footnote text and shifted citations (doc only).
+4. Row 108 remaining items, one at a time.
+5. Row 109 doc fixes if re-check finds stale citations (doc only).
+6. Row 103 energy gap, after snapshot approval.
+7. Row 118 items 4 and 5 device check, if Isa approves.
+8. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome.render.test.tsx (energy and macros).
@@ -68,9 +71,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Native review of es/fr strings, incl. food.pickDayLabel. TestPG_* (18 skipped).
 
 ## Parked (grouped)
-- i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile (incl. privacy.tsx, about.tsx), EnergyBalanceCard.
+- i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile (incl. privacy.tsx, about.tsx, support.tsx), EnergyBalanceCard.
 - Stats: WeekEnergyCard zero case '+0'; baselines in WeekEnergyCard and WorkoutsWeekCard.
 - Layout: TAB_BAR_CLEARANCE orphaned; wrong comments LumeTabBar.tsx:4, _layout.tsx:26; SettingsList.tsx:7-10 says design-matched, but bundle uses separate rows at radius 14; Screen.tsx:22 unused re-export; Screen.tsx:117 paddingBottom 4.
+- Shared SettingsList geometry (glyph, padding, value wrap, chevron) affects rows 107-109 and every other settings row. Handle per row when built, following design; no separate shared change.
 - Code: easing bezier and SLOT_KEYS duplicated; mixHex; console.warn hooks.ts:56; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8 comment; exercise-progress.tsx hardcodes kg.
 - Copy: foodLog.per100; CaloriesCard g; food.rowAnalysing; food.deleteItem; streak copy; unused keys gymLog.restDayMessage, gymLog.logAnExercise.
 - Missing toasts: 'Updated {name}', savedAdded, + menu, toast fade.
@@ -101,3 +105,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - R299-R302: advisory only. Kept run each time; R302 agreed with Jev.
 - R303: Jev ranked row 108 first (97%). Kept flag verification because the standing rule puts flagged-report checks first.
 - R304: Jev ranks run 76%. Row 108 re-check chosen, matching its ranking.
+- R305: Jev ranks row 108 doc fix first (87%). Kept flag verification (R304 flagged). Row 108 doc fix moves to R306, so Jev's pick is still served next round.
