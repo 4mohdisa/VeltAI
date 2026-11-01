@@ -2935,3 +2935,7 @@
 - 2026-11-02 00:16 Chose item 12 over item 3: it is a local, smallest change in schedule.tsx. Item 3 touches shared Screen.tsx, which affects other screens, so it waits for a local fix or Isa's OK.
 - 2026-11-02 00:16 Parked the stale day_name.slice(0,3) in My workouts, the stale comment above the day label, and the stale row 113 citations, as cleanup, not tasks.
 - 2026-11-02 00:16 Rewrote the notes under 600 words, merging repeated items and removing finished work.
+- 2026-11-02 00:18 Flagged last report (R351): the type check was green and the only non-zero exit was jest findRelatedTests 'No tests found'. Per notes this is not a failure, so this prompt uses --passWithNoTests so the check exits 0 and the flag is not repeated.
+- 2026-11-02 00:18 Chose row 113 item 2 next because it is a one-prop change, needs nothing from Isa, and the notes list it as Next 2 after item 12.
+- 2026-11-02 00:18 Item 10 and item 3 stay open: item 3 is blocked on Screen.tsx:96, and item 10 is not yet scoped enough for one task without Isa input.
+- 2026-11-02 00:18 Parked the My workouts pressed fill (Card has no pressed fill) and the default-opacity check on other screens as separate items, to keep this round to one task.

@@ -11,15 +11,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Design decides product behaviour when it answers the question.
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food chips; keep Goals extras; keep Meal history link; keep Training list until replacement exists; accept LoadFailedNotice; rest day goes to session picker; swipe colour is primary; R338 picker close fix approved.
 - Owner-only gaps (dependency, asset, backend) are parked, not asked about.
-- Build rounds: tsc plus jest --ci on importing suites. If no suite imports the file, report it and run tsc and findRelatedTests only. Not a failure.
+- Build rounds: tsc plus jest --ci on importing suites. If no suite imports the file, report it and run tsc and findRelatedTests only, with --passWithNoTests so it exits 0. Not a failure.
 - Checkpoint rounds: full tsc and jest --ci, no file changes.
 - Every build prompt names the design/ file and the row.
 - Every prompt restates: work only on loop/design-match; no push, merge, switch or commit.
 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Repeat verify on 108 and 109 adds nothing.
-- Built in code, not on device: 113 (picker R347, rows R348, day order and names R350), 76 item 1, 115 exercise progress (PARTIAL).
+- Built in code, not on device: 113 (picker R347, rows R348, day order and names R350, item 12 pressed opacity 0.6 in R351), 76 item 1, 115 exercise progress (PARTIAL).
 - Last full run: tsc 0; jest --ci 64/65 suites, 822/824 tests. Only failures: energy and macros in detailChrome.render.test.tsx (snapshot approval waiting on Isa).
+- R351 report was flagged (jest findRelatedTests exit 1 'No tests found'). tsc was green and no suite imports the file. Handled in R352 with --passWithNoTests.
 
 ## Open rows
 - 76 PARTIAL: items 2, 3 (second sheet), 5-7. Item 4 parked.
@@ -29,7 +30,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 109 PARTIAL: wordmark tracking, tagline centring, Version/Build can be empty, glyph, padding, geometry.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
-- 113 PARTIAL: item 12 (pressed opacity) in progress next; item 2 'Gym' eyebrow app-only; item 3 screen gap 12 vs 20 (Screen.tsx, Blocked); item 10 zero-templates state replaces the week; spacing above section (Blocked).
+- 113 PARTIAL: item 2 'Gym' eyebrow app-only (in progress R352); item 3 screen gap 12 vs 20 (Screen.tsx, Blocked); item 10 zero-templates state replaces the week; spacing above section (Blocked). Item 12 built in code.
 - 114 DIFFERENT: session card, 14 items; tap target, planned grid; logged pill wash, Calories cell (Blocked).
 - 115 PARTIAL: owner gaps only (3D figure, guide images, kcal in title, cardio fields backend, Fastest stat, sessions beyond 8, bars not tappable, kg hardcoded, date format, muscle names).
 - 116 PARTIAL: heatmap, 7 items.
@@ -38,8 +39,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 85, 87, 103, 104, 112, 114: Blocked (below).
 
 ## Next
-1. Row 113 item 12: week row pressed opacity 0.6 (schedule.tsx).
-2. Row 113 item 2 (remove app-only eyebrow), then item 10 if no Isa input needed.
+1. Row 113 item 2: remove app-only eyebrow prop 'Gym' (schedule.tsx) (R352).
+2. Row 113 item 10 if no Isa input needed.
 3. Row 76 items 3, 5, 6, 7, one per round.
 4. Rows 116, 117, 118 items not needing device.
 5. Checkpoint (full tsc and jest --ci, no file changes) before the next handover.
@@ -54,11 +55,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - SettingsList row geometry: fix or accept. Settles 107-109. Recommended next for Isa.
 - Screen.tsx:96 gap 12 vs 20 (affects 113 item 3 and spacing above My workouts).
 - Summary: 17, 21, 28, 29, 30. Top padding Gym, Summary, Food. Burn target 10-11; energy week axis 15; header strip Screen.tsx:163. About header: keep or remove. Logged pill wash token.
-- Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close paths, exercise progress layout, picker pressed and selected fills, week card spacing and row heights.
+- Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close paths, exercise progress layout, picker pressed and selected fills, week card spacing and row heights, week row pressed look (0.6).
 - Native review of es/fr strings. TestPG_* (18 skipped).
 
 ## Parked (grouped)
-- Gym schedule: no refetch on focus; duplicate Training link; muscle and day names not translated; muscle phrase English-only (api.ts:754); week sub-line fallback if exercise missing; picker title and 'Nothing scheduled' hardcoded English; My workouts uses day_name.slice(0,3), could use WEEK_DAY_LABELS; stale comment above week day label; stale row 113 citations (doc fix in re-check round); sheetRowNameStyle rename to workoutNameStyle.
+- Gym schedule: no refetch on focus; duplicate Training link; muscle and day names not translated; muscle phrase English-only (api.ts:754); week sub-line fallback if exercise missing; picker title and 'Nothing scheduled' hardcoded English; My workouts uses day_name.slice(0,3), could use WEEK_DAY_LABELS; stale comment above week day label (still says clipping to 'Tues…'); stale row 113 citations for items 4-9 and 13 (doc fix in re-check round); sheetRowNameStyle is misleading now week rows use it, rename to workoutNameStyle.
+- Gym My workouts cards: press to default 0.85 with no light1 fill (bundle :539); Card has no pressed fill prop.
+- Other screens relying on Pressable default 0.85 may need 0.6 like the week row; not checked.
 - Gym logged day: no day view; no press route. Stale Start workout (gymSchedule.ts:32-61; gym.tsx:70-73); stale logged flag after midnight (hooks.ts:159).
 - + menu pushes sheet before check (LumeTabBar.tsx:179).
 - Exercise library multi-select (design :1271-1289).
@@ -74,11 +77,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
-- Tests: no suite covers Privacy, Support, About, CaloriesCard, quick-add, gym.tsx, MyScheduleCard, chooser, log-session, schedule.tsx, exercise-progress, library close. Most suites read source text.
+- Tests: no suite covers Privacy, Support, About, CaloriesCard, quick-add, gym.tsx, MyScheduleCard, chooser, log-session, schedule.tsx, exercise-progress, library close. Most suites read source text. No suite covers Privacy, Support or About layout (tabNavigation, phase14Regression, hydrationErrorScreens do not check it).
 - Tab bar: Reduce Transparency pill fill; GlassSurface may clip shadow. Device needed.
 
 ## Jev
-R337-R350 kept as decided. R350 run 99% matched. R351: run 63% vs ask 36%, kept run (task needs nothing from Isa). Flagged R350 report (no tests run) handled: tsc green and no suite imports the file.
+R337-R350 kept as decided. R350 run 99% matched. R351: run 63% vs ask 36%, kept run (task needs nothing from Isa). R352: run 98%, kept run.
 
 ## Gotchas
-Briefs often carry false premises; check first and report them. Use jest --ci. Don't echo === in zsh. Use LC_ALL=C /usr/bin/grep; quote paths with spaces. Doc row numbers are file lines. Bundle line numbers are decoded-bundle lines. Repeat verify rounds on 108 and 109 add nothing. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. A report saying no suite imports a file is not a failure: run tsc and findRelatedTests, then report.
+Briefs often carry false premises; check first and report them. Use jest --ci. Don't echo === in zsh. Use LC_ALL=C /usr/bin/grep; quote paths with spaces. Doc row numbers are file lines. Bundle line numbers are decoded-bundle lines. Repeat verify rounds on 108 and 109 add nothing. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. A report saying no suite imports a file is not a failure: run tsc and findRelatedTests with --passWithNoTests, then report. Colour hex definitions are at design/Lume App.html:382. Used bundle :566, not design/Lume App.html:566; that file has 384 lines.

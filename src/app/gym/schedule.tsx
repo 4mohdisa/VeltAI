@@ -78,7 +78,7 @@ export default function ScheduleScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow="Gym" title="My schedule" showBack>
+    <Screen variant="floating" title="My schedule" showBack>
       {loading ? (
         <View style={{ gap: space.md }}>
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
