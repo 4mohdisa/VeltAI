@@ -23,10 +23,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Row 116: items 1-6, 8 blocked. Month button pressed opacity built; chevron stroke open.
 - Row 117: items 2, 3 built; 4 exact. Item 1: 3 of 13 exact, 3 different, 7 no counterpart (blocked). Items 5-7, 9-10 open; 8 blocked.
 - Row 118: PARTIAL. LumeTabBar.tsx edited R360 (blocked). Items 1-3, 6-11 built. 4, 5 need device; 12, 13 kept.
-- R379 flagged: no tests run. R380 ran tsc (exit 0) and findRelatedTests on log-session.tsx (exit 1, no mapped tests). gymDurationHonesty by path passed 4 of 4.
-- R381: check-only, tsc exit 0, tests by path passed. No file edits. Flag cleared.
-- R382 (this round): full checkpoint. Full tsc and full jest --ci, no file changes. Result pending.
-- Last full jest --ci: 822 of 824 pass. Failing: detailChrome.render.test.tsx (energy balance, macros), gap 16. Untouched.
+- R380-R382: tsc and tests run. R382 full checkpoint: tsc exit 0; jest --ci 822 of 824 pass. Only failures: detailChrome.render.test.tsx (energy balance, macros), gap 16. Untouched, blocked on Isa.
+- R383: loop flag on R382 report cleared. Report had tsc and jest run; the failures are the known blocked detailChrome cases. Building row 76 item 2 this round.
 - Nothing checked on a device.
 
 ## Open rows
@@ -34,14 +32,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
 
 ## Next
-1. (R382) Checkpoint: full tsc and full jest --ci, no file changes. Report failures. Only detailChrome is expected.
-2. Doc update: row 76 item 5 marked built in DESIGN_GAP_ANALYSIS.md. Doc fixes only in re-check rounds.
-3. Row 76 item 2 (plus glyph, add path), then items 6-7.
-4. Row 117 items 5-7 (non-blocked).
-5. Doc re-check round (allowed): row 76 detail at DESIGN_GAP_ANALYSIS.md:164 (old sheet described), row 76 stale lines (:47-48, :153-157, :162, :170-230, :242, :64, :256-270, :128-144), and the 'Log this session' CTA section at :534.
-6. No non-blocked task left: stop, 'only owner decisions remain'.
-7. If Isa answers detailChrome: tsc and jest --ci on that file, then full checkpoint.
-8. If Isa answers R360: tsc; jest --ci tabNavigation.test.ts by path; findRelatedTests --passWithNoTests LumeTabBar.tsx. No file changes.
+1. (R383) Row 76 item 2 (plus glyph, add path) in src/app/gym/log-session.tsx. tsc plus findRelatedTests and gymDurationHonesty by path.
+2. Row 76 items 6-7.
+3. Row 117 items 5-7 (non-blocked).
+4. Doc re-check round (allowed): mark row 76 item 5 built; row 76 detail at DESIGN_GAP_ANALYSIS.md:164 (old sheet described); row 76 stale lines (:47-48, :153-157, :162, :170-230, :242, :64, :256-270, :128-144); 'Log this session' CTA section at :534.
+5. No non-blocked task left: stop, 'only owner decisions remain'.
+6. If Isa answers detailChrome: tsc and jest --ci on that file, then full checkpoint.
+7. If Isa answers R360: tsc; jest --ci tabNavigation.test.ts by path; findRelatedTests --passWithNoTests LumeTabBar.tsx. No file changes.
 
 ## Blocked on Isa (do not re-ask)
 - detailChrome: keep gap 16 on energy balance and macros, or remove.
@@ -70,10 +67,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - i18n: hardcoded English across Summary, energy, week, workouts, scan, schedule, Profile, session.tsx:539-555, templates, toasts, streak, second sheet.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results. Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
-- Doc: stale citations after rows 113, 115, 117; rows 85, 104, 112; row 76 detail and stale lines (see Next 5).
+- Doc: stale citations after rows 113, 115, 117; rows 85, 104, 112; row 76 detail and stale lines (see Next 4).
 
 ## Jev
-R337-R381 decisions kept. R381: run 98%, kept run. R382: run 96% (confidence 0.94), kept run; risk 1.6 noted, handled by a checkpoint with no edits. Last-task-clean 34% noted; the checkpoint will confirm it.
+R337-R382 decisions kept. R382: run 96%, kept run; risk 1.6 noted. R383: run 94% (confidence 0.91), kept run. Last-task-clean 49% noted for R382; the R382 checkpoint confirmed tsc green and only known jest failures.
 
 ## Gotchas
 Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run them by path found with find. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. A report saying tsc or tests were not run gets flagged. Checks run before later edits need a fresh run after the final edit. Handover at R387 needs full file names. Every prompt must name its matching design/ file, or it is rejected.

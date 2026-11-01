@@ -36,6 +36,7 @@ import type { GymExerciseInput, TemplateExercise } from '@/lib/api';
  *  and the 2pt label-to-caption gap is tighter than the spacing scale. */
 const TILE_DISC = 46;
 const TILE_GLYPH = 21;
+const PLUS_STROKE = 2.4;
 const TILE_HEIGHT = 148;
 const WIDE_TILE_HEIGHT = 88;
 const TEXT_GAP = 2;
@@ -175,7 +176,7 @@ export default function LogSessionScreen() {
   const choices: Choice[] = [
     { icon: <Icon name="pencil" size={TILE_GLYPH} color={color.label} />, title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub'), mode: 'adjust' },
     { icon: <SomeOfItGlyph />, title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub'), mode: 'ticklist' },
-    { icon: <Icon name="add" size={TILE_GLYPH} color={color.label} />, title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), mode: 'picker', wide: true },
+    { icon: <SomethingElseGlyph />, title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), mode: 'picker', wide: true },
   ];
   // The design names the plan in the subtitle and falls back to a generic
   // phrase in the footer caption when the day's template has no name.
@@ -406,6 +407,15 @@ function SomeOfItGlyph() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </Svg>
+  );
+}
+
+/** The design's "Something else" plus, drawn so its stroke matches; an SF Symbol's can't be set to 2.4. */
+function SomethingElseGlyph() {
+  return (
+    <Svg width={TILE_GLYPH} height={TILE_GLYPH} viewBox="0 0 24 24" fill="none">
+      <Path d="M12 5v14M5 12h14" stroke={color.label} strokeWidth={PLUS_STROKE} strokeLinecap="round" />
     </Svg>
   );
 }
