@@ -3116,3 +3116,8 @@
 - 2026-11-02 01:54 Kept the doc row 117 item 6 unchanged because doc edits are only allowed in re-check rounds. Recorded as Parked for a later re-check round.
 - 2026-11-02 01:54 Ignored the handover's 'update row 76 item 5 in the doc' recommendation for this round, since the doc is off limits in build rounds and the notes already rank streak.tsx first.
 - 2026-11-02 01:54 Followed Jev's 99% run for this action; no reason to override.
+- 2026-11-02 01:55 Chose the row 117 item 6 doc update: the code is already fixed, the edit is doc-only, and Jev ranks it first.
+- 2026-11-02 01:55 Treated detailChrome and the row 76 add path as parked: both came back as blockers and the loop note says not to retry them.
+- 2026-11-02 01:55 Did not run the full suite or any tests: this is a doc-only round and checkpoints are not due.
+- 2026-11-02 01:55 Kept row 76 item 5 and row 114 re-check as next tasks, one per round, to respect one-task-per-prompt.
+- 2026-11-02 01:55 Rewrote the notes under 600 words and merged repeated blocker lines, as the loop note asked.
