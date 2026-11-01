@@ -3178,3 +3178,6 @@
 - 2026-11-02 05:51 Deferred the doc fix at lines 674 and 855 to the next re-check round, so this round stays a single task.
 - 2026-11-02 05:51 Verification only: no edits, to keep the working tree clean and avoid a new unverified change.
 - 2026-11-02 05:51 Jev (run 57%, ask 32%) agrees with run. Logged in the notes.
+- 2026-11-02 05:52 Chose the doc re-check over asking: Jev leans ask at 72%, but the open blockers are already asked and not re-asked, and this doc-only round needs no owner input and changes no code.
+- 2026-11-02 05:52 Included the row 82 citation check from the last Claude Code NEXT, because it is a row of the gap doc and is also doc-only.
+- 2026-11-02 05:52 Kept the round doc-only with no tsc or jest, since the last verification round (R401) was clean and no source changed.
