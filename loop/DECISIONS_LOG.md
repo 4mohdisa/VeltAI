@@ -3147,3 +3147,6 @@
 - 2026-11-02 04:27 Doc fix at DESIGN_GAP_ANALYSIS.md :674 and :855 not run: R390 says 674-677 and 857-860 were already fixed, the handover says they still claim deprecated aliases. Conflict parked for Isa to confirm, as in R392.
 - 2026-11-02 04:27 Did not re-ask any blocked question: they are answered by Isa or stay parked, per the Blocked list.
 - 2026-11-02 04:27 Jev stop 92% agrees with the manager reading. No override.
+- 2026-11-02 05:04 Stopped instead of running the 107/109 re-check. Both rows are PARTIAL with no recorded blocker, but previous rounds concluded that only owner decisions remain. A re-check is cheap, so it is the first task if Isa restarts the loop. Jev 93% stop, and the brief says not to invent work.
+- 2026-11-02 05:04 Did not run the doc fix at :674 and :855. The handover and R390 disagree, and R390 is the more recent record. Parked for Isa to confirm.
+- 2026-11-02 05:04 Did not re-ask any blocked question. Notes say do not re-ask.
