@@ -1,38 +1,39 @@
-HANDOVER: branch loop/design-match. Don't switch, push, merge or commit; the loop script commits. Don't open or edit loop/NOTES.md or loop/DECISIONS_LOG.md (always modified). Nothing has been checked on a device. Last round's eyebrow edit may still be uncommitted.
+HANDOVER: branch loop/design-match. Don't switch, push, merge or commit; the loop script commits. Don't open or edit loop/NOTES.md or loop/DECISIONS_LOG.md (always modified). Nothing has been checked on a device. The last edit may still be uncommitted.
 
-BUILT (in code only; no row is fully built)
-- Row 76, gym/log-session.tsx: item 8 glyph; item 4 logged-day toast and redirect to Gym tab; item 1 done. Item 2 stays not built (plus glyph, add path).
-- gym/session.tsx: closing the library with nothing added goes to the Gym tab.
-- Row 113, gym/schedule.tsx: items 1, 2, 4-9, 12, 13 built. Open: 3, 10, 11.
-- Row 115, gym/exercise-progress.tsx: built except gaps; verdict stays PARTIAL.
+BUILT (in code only; no row is fully built, all stay PARTIAL)
+- Row 113, schedule.tsx: items 3, 10 built. Title-to-card stays 24 vs 20 (Screen.tsx:117). Item 11 open.
+- Row 116, GymCalendar.tsx: month button pressed opacity only. Items 1-6, chevron stroke, 8 (nav buttons lay out at 44) open.
+- Row 117: items 2, 3 built (TodayCard.tsx); 4 EXACT. Item 1: 3 of 13 extra cards EXACT, 3 DIFFERENT, 7 no counterpart. Items 5-10 open.
+- Row 118, LumeTabBar.tsx: items 1-3, 6-11 built. Items 4, 5 need a device; 12, 13 kept.
+- Row 76, log-session.tsx: item 3 built (SomeOfItSheet). Item 5 fixed in code, but the doc still lists it open.
 
-IN PROGRESS: nothing. Recommended next: row 113 item 3 (gap 12 vs 20), passing contentStyle gap space.xl from schedule.tsx, without touching Screen.tsx.
+IN PROGRESS: nothing. Recommended next: update row 76 item 5 in the doc.
 
 KEY FILES
-src/app/gym/schedule.tsx, log-session.tsx, session.tsx, exercise-progress.tsx; src/components/navigation/BottomSheet.tsx, Screen.tsx; src/components/primitives/Pressable.tsx; src/lib/design/tokens.ts.
-Design: design/Lume App.html. Gym bundle 7dc211f6, Profile b09a5e65. Decode the __bundler/manifest script in memory.
+src/app/gym/log-session.tsx, schedule.tsx, session.tsx; src/components/gym/TodayCard.tsx; src/components/domain/GymCalendar.tsx; src/components/navigation/LumeTabBar.tsx, SheetContent.tsx, Screen.tsx; src/lib/design/tokens.ts.
+Design: design/Lume App.html, Gym bundle 7dc211f6. Decode __bundler/manifest in memory.
 
 DECISIONS
-- Rest-day redirect to picker is Isa's accepted deviation.
-- My workouts sits on the schedule screen, as in the design, not the Gym tab.
-- Muscle phrase derives from muscle_group_primary; English only; dropped if the API omits the join (unconfirmed).
-- Picker list capped at 70% of window so rows stay reachable.
-- Row 115 item 7 needs no code: CSS transition doesn't run on first render.
-- Removed from progress screen: PB card, trend badge, tooltip, text history. Empty state kept.
+- Duration and celebration use plan minutes of ticked exercises, not the template estimate; completion rate is the ticked share (my choice, not in the design).
+- No kcal tag on second-sheet rows: no per-exercise burn exists.
+- Second-sheet copy is English only; i18n is parked.
+- Tab bar offset stays raised for insets above 34.
+- Active cell keeps emitting tabPress (scroll-to-top contract).
+- Frozen fill and loading strings recommended to keep, awaiting Isa.
 
 WAITING ON ISA
-- BottomSheet chrome (shared with onboarding).
-- Logged-day actions: logged card has no press handler, so the toast's "open it" leads nowhere.
-- Second session row (mutations.ts:173-178, deliberate per its comment).
-- Row 115: 3D body, guide images, cardio minutes/speed/kcal (API lacks them).
-- SettingsList geometry; detailChrome snapshot; earlier DetailChart.tsx and LumeTabBar.tsx approvals.
+- detailChrome snapshot: 2 failures (energy balance, macros) from contentStyle gap 16. Don't touch. Last full run: 822 passed, 2 failed.
+- Confirm the earlier LumeTabBar approval covers my edits.
+- Removing Screen.tsx:117's 4; row 116 items 1-6, 8; row 117 item 1 cards.
+- Sheet resize under fitToContents when the second sheet swaps in.
 
 SPOTTED, NOT FIXED
-- schedule.tsx fetches on mount only, so edits elsewhere look stale. TodayCard too: Start workout can show after logging.
-- + menu pushes the sheet before checking logged state; possible flash.
-- Pressable default pressed opacity is 0.85; My workouts cards use it, with no light1 fill.
-- Stale: My workouts day_name.slice, "Tues…" comment, sheetRowNameStyle name. Many doc citations for these files have moved.
-- Hardcoded English; kg handling parked.
+- session.tsx:364 still saves the template estimate; templates.tsx shows "about N min", which can now differ.
+- ticklist mode in session.tsx is unreached from the sheet.
+- Failed schedule fetch shows an empty week card; failed templates fetch looks like zero templates, so the picker offers only Rest day, which could overwrite a workout.
+- TAB_BAR_CLEARANCE has no non-test callers; the bar is 14 higher with no inset, so last rows may hide.
+- Row 76 and 113 citations are stale. Row 114 not re-read since the TodayCard edits.
+- Logged pill wash (row 117 item 8) is flat; mixHex could fix it.
 
 GOTCHAS
-Briefs often carry false premises (wrong bundle, wrong screen); check first and report. No suite imports these screens; findRelatedTests finds none (exit 1 without --passWithNoTests). Use jest --ci, never -u. Don't echo === in zsh. Row numbers are file lines. Don't mark BUILT if differences remain.
+Briefs may carry false premises; check first and report. Use jest --ci, never -u. findRelatedTests misses source-reading suites: sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation; run them when touching those files. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. Don't mark BUILT if differences remain.
