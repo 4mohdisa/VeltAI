@@ -2719,3 +2719,7 @@
 - 2026-11-01 20:19 Kept run over Jev's ask (64%): row 107 is doc-only, needs no Isa input, and is low risk. Every other open item is already blocked on Isa.
 - 2026-11-01 20:19 Rewrote the prompt to name loop/design-match and forbid git and file edits outside the gap doc, per the loop note.
 - 2026-11-01 20:19 Trimmed the notes under 600 words: merged repeated parked items and deleted finished work.
+- 2026-11-01 20:21 Chose the verification round first because the loop flagged R300 (jest not run, type check reported only). Rule: deal with a flagged report before moving on.
+- 2026-11-01 20:21 Jest not required for R300: it changed only DESIGN_GAP_ANALYSIS.md. The verification round confirms tsc exit 0 and the diff, and states that no suite applies.
+- 2026-11-01 20:21 Row 109 and row 108 re-checks deferred until the flag is cleared. Both share SettingsList geometry, so their glyph and chevron differences are queued as next re-checks.
+- 2026-11-01 20:21 Rejected a fix to privacy.tsx hardcoded English: parked under i18n, not a row task.

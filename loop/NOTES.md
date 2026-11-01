@@ -13,11 +13,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour is color.primary.
 - An unanswered blocker is parked, not asked again.
 - Type check runs on every round that changes files, including doc-only rounds.
+- A flagged report (type check or tests not run or failed) is verified in the next round before any other task.
 
 ## Status
 - R296: Summary difference 12 (net sign) BUILT.
 - R297-R298: re-checks done for rows 111, 113, 114-118. Row 108 items 1-3 citations fixed.
-- R299: row 118 re-checked PARTIAL (13 differences). Row 108 items 1-3 confirmed. Row 107 still needs its footnote fix.
+- R299: row 118 re-checked PARTIAL (13 differences). Row 108 items 1-3 confirmed.
+- R300: row 107 footnote check done (matches bundle :499, :510). Added glyph and chevron geometry differences. Stays PARTIAL. Flagged: jest not run, tsc reported only.
 - Checkpoint R295: tsc 0; jest 64/65 suites, 822/824 tests. Only failures: two detailChrome snapshots awaiting approval.
 
 ## Open rows
@@ -27,9 +29,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training still 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked, HealthKit off-limits).
-- 107 PARTIAL: privacy headers, AI group, export via share sheet; footnote fix due R300.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; SettingsList geometry.
-- 109 PARTIAL: wordmark tracking 0 vs -0.6; eyebrow and title app-only (parked); tagline centring; Version/Build can be empty; SettingsList geometry.
+- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyphs (SettingsList.tsx:79) and chevron (:113) geometry; footnote fix done R300.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; SettingsList geometry. Glyph and chevron not yet re-checked.
+- 109 PARTIAL: wordmark tracking 0 vs -0.6; eyebrow and title app-only (parked); tagline centring; Version/Build can be empty; SettingsList geometry. Glyph and chevron not yet re-checked.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
@@ -40,11 +42,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4 and 5 (selected state, pill shadow) need a device check.
 
 ## Next
-1. Row 107 doc fix (R300).
-2. Row 108 remaining items, one at a time.
-3. Row 103 energy gap after snapshot approval.
-4. Row 118 items 4 and 5 device check, if Isa approves.
-5. No rows left: stop with 'only owner decisions remain'.
+1. R301: verify R300 (tsc exit code, diff limited to row 107, geometry lines present). Clears the flag.
+2. Re-check row 109 About in the doc only: glyph and chevron geometry, tracking at about.tsx:16, tagline centring at :19.
+3. Re-check row 108 Support for glyph and chevron geometry (doc only).
+4. Row 108 remaining items, one at a time.
+5. Row 103 energy gap after snapshot approval.
+6. Row 118 items 4 and 5 device check, if Isa approves.
+7. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome.render.test.tsx (energy and macros).
@@ -61,9 +65,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Native review of es/fr strings incl. food.pickDayLabel. TestPG_* (18 skipped).
 
 ## Parked (grouped)
-- i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile screens, EnergyBalanceCard.
+- i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile screens (incl. privacy.tsx), EnergyBalanceCard.
 - Stats: WeekEnergyCard zero case '+0'; baselines in WeekEnergyCard and WorkoutsWeekCard.
-- Layout: TAB_BAR_CLEARANCE orphaned; wrong comments LumeTabBar.tsx:4, _layout.tsx:26; Screen.tsx:22 unused re-export; Screen.tsx:117 paddingBottom 4.
+- Layout: TAB_BAR_CLEARANCE orphaned; wrong comments LumeTabBar.tsx:4, _layout.tsx:26; SettingsList.tsx:7-10 header says grouped card is design-matched, but bundle uses separate rows at radius 14; Screen.tsx:22 unused re-export; Screen.tsx:117 paddingBottom 4.
 - Code: easing bezier and SLOT_KEYS duplicated; mixHex; console.warn hooks.ts:56; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8 comment; exercise-progress.tsx hardcodes kg.
 - Copy: foodLog.per100; CaloriesCard g; food.rowAnalysing; food.deleteItem; streak copy; unused keys gymLog.restDayMessage, gymLog.logAnExercise.
 - Missing toasts: 'Updated {name}', savedAdded, + menu, toast fade.
@@ -92,3 +96,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 
 ## Jev
 - R299: ask 64%, run 31% (confidence 0.46). Kept run. Reason: row 107 is doc-only and needs no Isa input; all other open items are already blocked on Isa. Risk 1.4/2. Type check runs this round.
+- R300 (flagged): run 75%, ask 20%, stop 5% (confidence 0.62). Risk 1.0/2. Chose run for R301 verification. Agrees with Jev.
