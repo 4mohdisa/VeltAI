@@ -2778,3 +2778,6 @@
 - 2026-11-01 20:35 Did not ask: the item needs no owner action.
 - 2026-11-01 20:35 Rewrote notes under 600 words per loop note: merged repeated items, removed finished rounds, and kept every open row and blocker.
 - 2026-11-01 20:35 Kept the SettingsList geometry default and the Blocked list unchanged.
+- 2026-11-01 20:37 Chose the read-only verification of R313 over the row 108 doc fix that Jev ranked first. Reason: the notes rule says a flagged report is verified before any other task, and R313 departed from the brief in its AI-group wording and footnote cites. Jev cannot see that rule.
+- 2026-11-01 20:37 Verification is read-only: no doc edit this round. Any correction to row 107 goes to NEXT, so the verifier and the editor stay separate.
+- 2026-11-01 20:37 Kept the three jest suites from the report's own run, plus tsc, since the report touched only the doc and the matching suites were already named.
