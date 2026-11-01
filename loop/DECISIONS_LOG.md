@@ -3256,3 +3256,5 @@
 - 2026-11-02 08:43 Stopped (R419): all remaining rows depend on Isa or owner answers, and no reply has arrived since R418. Jev stop 77% agrees.
 - 2026-11-02 08:43 Did not pick row 108 bottom padding as a re-check: its difference depends on the owner's Screen.tsx padding call, so re-checking it now would change nothing.
 - 2026-11-02 08:43 Did not pick the DESIGN_GAP_ANALYSIS.md count fixes (lines 674, 864, 868) or stale comments: these are doc and comment tidying, not row tasks.
+- 2026-11-02 09:20 R420: stop confirmed. No Isa reply since R418, so no blocked row can move. Building anything now would break the owner-decision rule.
+- 2026-11-02 09:20 Kept the Status line and the blocked list as they are; only the status date and the round log were updated.

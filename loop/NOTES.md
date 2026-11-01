@@ -4,7 +4,7 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-Loop STOPPED at R419 (stop confirmed again after R418). Row 111 is BUILT (not verified) with three owner decisions open (see Blocked on Isa). All other rows are built or blocked on Isa or owner. No Isa reply received since R418. Restart only after Isa answers the blocked list.
+Loop STOPPED at R420 (stop confirmed again after R419). Row 111 is BUILT (not verified) with three owner decisions open (see Blocked on Isa). All other rows are built or blocked on Isa or owner. No Isa reply received since R418. Restart only after Isa answers the blocked list.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
@@ -80,6 +80,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - R417: restart for row 111 only. Built AddMenu and LumeTabBar glyph sizing; tsc 0; tabbar render and tabNavigation tests 24 of 24; ESLint clean on changed files. Three differences left for Isa.
 - R418: stop. Row 111 BUILT with owner items open. Jev ask 70%, stop 28%; stopped because the open question is one owner bundle. Decisions recorded.
 - R419: stop. No Isa reply since R418; all remaining rows blocked. Jev stop 77%. Nothing built, nothing changed.
+- R420: stop. Still no Isa reply; all remaining rows blocked. Jev stop 94%. Nothing built, nothing changed.
 
 ## Summary for Isa (for the owner)
 To unblock the loop, decide: row 111 scrim (0.45 or design 0.10), row 111 panel (glass or solid white), row 111 Gym row (push route or switch tab with log intent), row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list.
