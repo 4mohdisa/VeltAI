@@ -2723,3 +2723,10 @@
 - 2026-11-01 20:21 Jest not required for R300: it changed only DESIGN_GAP_ANALYSIS.md. The verification round confirms tsc exit 0 and the diff, and states that no suite applies.
 - 2026-11-01 20:21 Row 109 and row 108 re-checks deferred until the flag is cleared. Both share SettingsList geometry, so their glyph and chevron differences are queued as next re-checks.
 - 2026-11-01 20:21 Rejected a fix to privacy.tsx hardcoded English: parked under i18n, not a row task.
+- 2026-11-01 20:21 Chose the flag verification first because the loop note says a flagged report must be verified before any other task. Jev agrees (run 84%).
+- 2026-11-01 20:21 Jest is not run in the verification round: no src or backend file changed, and no test reads the gap doc. Stated in the prompt so the flag can be cleared.
+- 2026-11-01 20:21 The verification is read-only, so a failed check goes to BLOCKED and is not fixed in the same round.
+- 2026-11-01 20:22 Chose row 109 re-check: the R300 flag was cleared by R301, the task is doc-only and needs no input from Isa, and it is next in the notes order.
+- 2026-11-01 20:22 Rewrote the prompt to name branch loop/design-match and forbid switch, push, merge and commit, to fix the rejected prompt.
+- 2026-11-01 20:22 Kept Blocked items untouched; none of them is needed for a doc-only re-check.
+- 2026-11-01 20:22 Type check runs once because the round edits a doc file; jest is skipped because no source changes.

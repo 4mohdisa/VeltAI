@@ -14,12 +14,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - An unanswered blocker is parked, not asked again.
 - Type check runs on every round that changes files, including doc-only rounds.
 - A flagged report (type check or tests not run or failed) is verified in the next round before any other task.
+- Loop commits make git diff empty; verify against the commit that holds the change (git show), not the working tree.
+- Every prompt names branch loop/design-match and forbids switch, push, merge and commit.
 
 ## Status
 - R296: Summary difference 12 (net sign) BUILT.
 - R297-R298: re-checks done for rows 111, 113, 114-118. Row 108 items 1-3 citations fixed.
 - R299: row 118 re-checked PARTIAL (13 differences). Row 108 items 1-3 confirmed.
-- R300: row 107 footnote check done (matches bundle :499, :510). Added glyph and chevron geometry differences. Stays PARTIAL. Flagged: jest not run, tsc reported only.
+- R300: row 107 footnote check done (matches bundle :499, :510). Added glyph and chevron geometry differences. Stays PARTIAL.
+- R301: flag verification (read-only) of R300. Type check exit 0, commit 6eb66aa scope confirmed (doc and loop files only), row 107 text confirmed. Flag CLEARED.
+- R302 (this round): doc-only re-check of row 109 About (glyph and chevron geometry, tracking at about.tsx:16, tagline centring at :19, Version/Build empty value). Type check runs. Jest not applicable.
 - Checkpoint R295: tsc 0; jest 64/65 suites, 822/824 tests. Only failures: two detailChrome snapshots awaiting approval.
 
 ## Open rows
@@ -29,9 +33,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training still 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked, HealthKit off-limits).
-- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyphs (SettingsList.tsx:79) and chevron (:113) geometry; footnote fix done R300.
+- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyphs (SettingsList.tsx:79) and chevron (:113) geometry; footnote fixed R300.
 - 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; SettingsList geometry. Glyph and chevron not yet re-checked.
-- 109 PARTIAL: wordmark tracking 0 vs -0.6; eyebrow and title app-only (parked); tagline centring; Version/Build can be empty; SettingsList geometry. Glyph and chevron not yet re-checked.
+- 109 PARTIAL: wordmark tracking 0 vs -0.6; eyebrow and title app-only (parked); tagline centring; Version/Build can be empty; SettingsList geometry. Being re-checked in R302.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
@@ -42,13 +46,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4 and 5 (selected state, pill shadow) need a device check.
 
 ## Next
-1. R301: verify R300 (tsc exit code, diff limited to row 107, geometry lines present). Clears the flag.
-2. Re-check row 109 About in the doc only: glyph and chevron geometry, tracking at about.tsx:16, tagline centring at :19.
-3. Re-check row 108 Support for glyph and chevron geometry (doc only).
-4. Row 108 remaining items, one at a time.
-5. Row 103 energy gap after snapshot approval.
-6. Row 118 items 4 and 5 device check, if Isa approves.
-7. No rows left: stop with 'only owner decisions remain'.
+1. R302 (this round): doc-only re-check of row 109 About. Replace its difference list with the real one.
+2. Re-check row 108 Support for glyph and chevron geometry (doc only).
+3. Row 108 remaining items, one at a time.
+4. Row 103 energy gap after snapshot approval.
+5. Row 118 items 4 and 5 device check, if Isa approves.
+6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome.render.test.tsx (energy and macros).
@@ -93,7 +96,10 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - Briefs cite stale paths (src/theme/tokens.ts, dashboard/energy.tsx do not exist). Check first. Tokens are in src/lib/design/tokens.ts.
 - Use LC_ALL=C /usr/bin/grep; quote paths with tabs. Profile screens live in src/app/profile.
 - Doc row numbers are file lines. Row lists live in the summary table.
+- After a loop commit, git diff is empty; use git show <hash> to check a change, or git show HEAD:<file> for the current state.
 
 ## Jev
 - R299: ask 64%, run 31% (confidence 0.46). Kept run. Reason: row 107 is doc-only and needs no Isa input; all other open items are already blocked on Isa. Risk 1.4/2. Type check runs this round.
 - R300 (flagged): run 75%, ask 20%, stop 5% (confidence 0.62). Risk 1.0/2. Chose run for R301 verification. Agrees with Jev.
+- R301 (flagged handover): run 84%, ask 8%, stop 8% (confidence 0.76). Risk 1.0/2. Chose run for flag verification. Agrees with Jev.
+- R302: run 89%, ask 6%, stop 5% (confidence 0.83). Risk 0.8/2. Chose run for the row 109 re-check. Agrees with Jev.
