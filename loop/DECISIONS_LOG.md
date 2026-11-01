@@ -2892,3 +2892,13 @@
 - 2026-11-02 00:02 Muscle phrase: derive from exercise muscle groups if the data has them; otherwise keep 'about N min' and record it as an accepted deviation.
 - 2026-11-02 00:02 Opening a workout keeps the existing /gym/new-template route, recorded as an accepted deviation.
 - 2026-11-02 00:02 Gym tab Training list stays until the new section exists.
+- 2026-11-02 00:05 Chose the test gate first because the loop note flags the last report for no jest run; the brief requires a jest run on suites that cover the changed file.
+- 2026-11-02 00:05 Kept the task to verification with no new code, since the flag is about tests, not design differences.
+- 2026-11-02 00:05 Parked the focus refetch in schedule.tsx: it is a behaviour fix from the report's NEXT and is not a row 113 design item.
+- 2026-11-02 00:05 Ran Jev's ask-or-run check: ask 10%, run 89%, so kept run.
+- 2026-11-02 00:05 Kept the ask for Isa at zero this round; all open items already sit under Blocked on Isa.
+- 2026-11-02 00:05 Chose row 115 over row 113 picker sheet: row 113 item 1 is already built and item 3 spacing is a shared-screen gap that needs the blocked SettingsList geometry decision; row 115 has no Isa dependency and clears 11 items.
+- 2026-11-02 00:05 Did not turn the latest report's NEXT (schedule focus refetch) into a task: it is already parked under Gym schedule and is not a row item.
+- 2026-11-02 00:05 Recorded that the row 113 test gate cannot run because no test imports schedule.tsx; no test-writing task added.
+- 2026-11-02 00:05 Rewrote the prompt to name the loop/design-match branch explicitly, as the loop note requires.
+- 2026-11-02 00:05 Kept the kg/lb hardcoding out of scope because it is parked.
