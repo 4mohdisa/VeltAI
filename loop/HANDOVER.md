@@ -1,33 +1,45 @@
-HANDOVER: branch loop/design-match. Don't switch, push, merge or commit; the loop script commits. Don't open or edit loop/NOTES.md or loop/DECISIONS_LOG.md (always modified). Nothing has been checked on a device. The last doc edit may still be uncommitted.
+HANDOVER: branch loop/design-match. Never switch branch, push, merge or commit. Never open loop/NOTES.md or loop/DECISIONS_LOG.md. Commits appear between rounds ("loop round N"), not from this session.
 
-BUILT (code only; no row is fully built, all stay PARTIAL or DIFFERENT)
-- Row 76, log-session.tsx: items 3, 5, 8 built. Item 2 plus glyph built (SomethingElseGlyph, PLUS_STROKE); add path open. All cited lines were corrected last doc round.
-- Row 114, TodayCard.tsx: stays DIFFERENT, 10-item list re-checked; its detail section now matches.
-- Row 117: items 2, 3 built; 4 EXACT; 6 fixed (history.tsx:41, :55; streak.tsx:55). Items 5, 7 open outside TodayCard. Items 1, 8 blocked on Isa.
+BUILT SO FAR
+This session was almost all doc re-checks. No row became newly built. Only code change: src/components/display/Badge.tsx, color.gray700 to color.label at :19 and :38 (same #171717). It may still be uncommitted.
 
-IN PROGRESS: nothing. Recommended next: doc fix at DESIGN_GAP_ANALYSIS.md:855 and :674, which still say deprecated aliases are in use.
+Rows re-checked in DESIGN_GAP_ANALYSIS.md, statuses unchanged:
+- 107, 108 untouched, 109, 110: PARTIAL
+- 111: PARTIAL
+- 82: BUILT (not verified)
+- 84: DIFFERENT
 
-KEY FILES
-src/app/gym/log-session.tsx, session.tsx, history.tsx, streak.tsx; src/components/gym/TodayCard.tsx, ExercisePicker.tsx; src/lib/design/tokens.ts.
-Design: design/Lume App.html, Gym bundle 7dc211f6. Decode __bundler/manifest in memory.
+Also corrected: "The differences, exhaustively" items 1-12, 14, 16, 17, 19, 20, 22, 23; "Profile — shared chrome" section; streak strip section (lines 483-492); token drift items 5 and 6.
+
+IN PROGRESS
+Row 84 alias cleanup. Next: src/components/navigation/NavBar.tsx:29 (gray200, same value as light2/surface.divider).
+
+FILES
+- design/Lume App.html: source of truth. Decode __bundler/manifest in a mktemp script, never into the repo. Modules: Gym 7dc211f6, Profile b09a5e65, Food 71f71ac4.
+- src/lib/design/tokens.ts: aliases defined at :50-56.
+- src/app/gym/log-session.tsx, session.tsx, streak.tsx, history.tsx; src/app/(tabs)/gym.tsx; src/components/navigation/Screen.tsx, LumeTabBar.tsx, AddMenu.tsx, FloatingHeader.tsx.
 
 DECISIONS
-- Duration and celebration use ticked exercises' plan minutes.
-- history.tsx:55 uses color.label, not gray800: tokens.ts asks for intent names. Same value.
-- Add path not faked: logging on pick marks the day done, and adding to the template changes future weeks.
+- Screen.tsx bottom padding is blocked on the owner; do not change it.
+- Gap 16 (detailChrome energy balance and macros snapshots) is blocked on Isa. Never use -u or edit .snap files.
+- Streak strip's "23 sessions · 2 freezes" footnote waits on Isa.
+- Strip tap to /gym/streak is an accepted deviation; flame differences are parked.
+- Badge style differences were left alone because the brief banned style changes.
 
-WAITING ON ISA
-- Add path (row 76 item 2): needs a day-draft store, TodayCard.tsx, gym.tsx and ExercisePicker.tsx (shared with session.tsx).
-- detailChrome snapshot: 2 failures (energy balance, macros). Don't touch. Last full run: 822 passed, 2 failed.
-- LumeTabBar approval; Screen.tsx:117's 4; row 116 items 1-6, 8; row 117 item 1 cards; Logged pill wash token; sheet resize when the second sheet swaps in.
-
-SPOTTED, NOT FIXED
-- DESIGN_GAP_ANALYSIS.md "The differences, exhaustively": differences 8, 10, 19 contradict "What the app does"; citations stale.
-- Row 111 and difference 23 cite old LumeTabBar lines; the gym handler is :243-246.
-- session.tsx:364 saves the template estimate; templates.tsx shows "about N min" from it.
-- minutesOf (log-session.tsx:62) picks by whether a duration is set; the design picks by cardio.
-- Tile chevron is an SF Symbol vs a 2.4-stroke path (log-session.tsx:250, bundle :412).
-- gymDurationHonesty.test.ts:54 has a stale name; no test covers log-session.tsx:124 or :275.
+LAST RESULTS
+Last round: tsc exit 0; tabNavigation and sheetVariant 20 of 20 passed. Last full suite (before the Badge edit): 822 passed, 2 failed (both known). Nothing verified on a device.
 
 GOTCHAS
-Briefs may carry false premises: row 117 items 5-7 weren't in TodayCard, and the CTA handler is in src/app/(tabs)/gym.tsx:160. Check first and report. Use jest --ci, never -u. findRelatedTests finds no tests for gym screens, and exits 1 without --passWithNoTests. Source-reading suites are in src/__tests__: sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation. Grep won't find a suite by its own name; use find. Use mktemp for decode scripts. In zsh, quote "===". Don't mark BUILT if differences remain.
+- zsh does not split $paths; use ${=paths} or separate arguments, or jest reports "No tests found".
+- A pipe hides grep's exit code; run grep without one when reporting it. Avoid unquoted == in echo.
+- Briefs can carry wrong citations (gym.tsx:243-246 does not exist; that range is in LumeTabBar.tsx). Verify first and report.
+
+NOT FIXED
+- DESIGN_GAP_ANALYSIS.md:674 and item 6 (lines 864, 868) still list Badge and "41 lines in 24 files"; now 39 lines in 23 files.
+- Row 108 lacks the bottom padding difference.
+- streak.tsx:89 labels distinct days (hooks.ts:156) as "Sessions".
+- Logged card chevron has no action (TodayCard.tsx:115, :194).
+- session.tsx has no logged-day guard.
+- "What did you do?" sheet is English only (log-session.tsx:311-392).
+- FloatingHeader.tsx:8-9, :24-26 comments disagree with the bundle.
+- Design's AI insights screen has no file in src/app/profile/.
