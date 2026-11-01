@@ -19,13 +19,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - PARTIAL: 76, 107, 109, 110, 111, 113, 115, 116, 117, 118.
 - DIFFERENT: 82 (streak strip), 84 (deprecated aliases in NavBar.tsx:29, Badge.tsx:19, :38), 114 (item 8 only).
 - Blocked: 83, 85, 87, 103, 104, 108, 112.
-- Last checkpoint R382: tsc 0; jest --ci 822 of 824, failures in detailChrome only (blocked).
-- R401-R405: tsc 0; source-reading suites green (sheetVariant 9/9, tabNavigation 11/11, oneTapGymLog 3/3, gymDurationHonesty 4/4). Differences 8, 10, 19 re-checked in R405.
-- R405 re-check doc round: no doc edits needed for the alias lines (674, 859-868). Line 855 is about letter spacing, not aliases.
+- Last checkpoint R408: full tsc exit 0; full jest --ci 822 passed, 2 failed (both detailChrome energy balance and macros snapshots, gap 16, blocked). No files changed.
+- R405: source-reading suites green (sheetVariant 9/9, tabNavigation 11/11, oneTapGymLog 3/3, gymDurationHonesty 4/4). Differences 8, 10, 19 re-checked.
+- R405: no doc edits needed for the alias lines (674, 859-868). Line 855 is about letter spacing, not aliases.
 - Alias count: 50 grep lines = 41 uses in 24 files, 7 definitions (tokens.ts:50-56), 1 test, 1 comment. src/app/gym has no alias uses.
 - R406: doc-only citation refresh for differences 1-7, 16, 17, 20 done.
-- R407: flag on R406 handled. tsc and source-reading suites re-run. Doc-only citation refresh for differences 9, 11, 12, 14, 22, 23 and row 111 done in the R407 report, but 9, 11, 12, 14, 22, 23 were not all re-checked; 23 is known stale (index.tsx:178 now, not :179).
-- R408 (checkpoint, this round): full tsc and full jest --ci, no file changes. Result pending in next round.
+- R407: doc-only citation refresh for differences 9, 11, 12, 14, 22, 23 and row 111 done in report, but 9, 11, 12, 14, 22, 23 were not all re-checked. 23 known stale (index.tsx:178 now, not :179).
+- R408 flagged (known detailChrome failures only, no new failures). R409 (this round): flagged-report handling. tsc and source-reading suites, plus doc-only citation refresh for differences 9, 11, 12, 14, 22, 23 and row 111. Result pending in next round.
 - Nothing checked on a device.
 
 ## Blocked on Isa (do not re-ask, do not retry)
@@ -59,10 +59,10 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - AI insights screen has no file in src/app/profile/.
 
 ## Jev
-R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix, blockers already recorded. R406: run 89%, ask 7%, stop 4%; chose run: doc-only citation refresh. R407: run 95%, ask 3%, stop 2%; chose run: flagged-report re-check then doc-only citation refresh. R408: run 95%, ask 3%, stop 2%; chose run: checkpoint. Risk of continuing without Isa 1.4/2 (confidence 0.25).
+R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix. R406: run 89%; chose run: doc-only citation refresh. R407: run 95%; chose run: flagged-report re-check then doc-only refresh. R408: run 95%; chose run: checkpoint. R409: run 92%, ask 5%, stop 3%; chose run: flagged-report doc re-check. Risk of continuing without Isa 1.5/2 (confidence 0.31).
 
 ## Gotchas
-- Briefs carry false premises: check first (row 117 items 5-7 are not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160).
+- Briefs carry false premises: check first (row 117 items 5-7 are not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:243-246, not :160).
 - Tab bar: src/components/navigation/LumeTabBar.tsx; gym handler :243-246.
 - Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Doc rows are file lines; bundle lines are decoded. Use mktemp for decode scripts. Quote '===' in zsh.
@@ -73,10 +73,11 @@ R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix, blocker
 - Prompts must name the matching design/ file explicitly (design/Lume App.html). A prompt without it was rejected in R407.
 - Latest build state: row 76 items 3, 5, 8 built plus item 2 glyph; add path open. Row 114 stays DIFFERENT. Row 117 items 2, 3, 4 (EXACT), 6 built; 5, 7 open outside TodayCard; 1, 8 blocked.
 
-## Latest handover (R408)
-Branch loop/design-match. Don't switch, push, merge or commit. R408 is a checkpoint: full tsc and full jest --ci, no file changes. Next round: doc-only citation refresh for differences 9, 11, 12, 14, 22, 23 (23 cites index.tsx:179, now :178). Then row 84 alias fix as a candidate.
+## Latest handover (R409)
+Branch loop/design-match. Don't switch, push, merge or commit. R408 checkpoint result: tsc 0; jest --ci 822 passed, 2 failed (known detailChrome gap 16 only). R409 is a doc-only re-check round that runs tsc and the four source-reading suites, then refreshes citations for differences 9, 11, 12, 14, 22, 23 and row 111. The earlier handover suggestion to fix :855 and :674 for aliases is superseded: R405 found no doc edit needed there. Next: row 84 alias fix as a candidate.
 
 ## Round log
 - R406: chose run, doc-only citation refresh for differences 1-7, 16, 17, 20. Done.
-- R407: chose run, flagged-report re-check (tsc, four source suites) and doc-only citation refresh for differences 9, 11, 12, 14, 22, 23 and row 111. Candidates: citation refresh; row 84 aliases; row 82 (blocked). Prompt rejected in loop note for not naming the design file; rewritten in R408.
-- R408: chose run, checkpoint (full tsc and full jest --ci, no file changes). Candidates: checkpoint; citation refresh for 9, 11, 12, 14, 22, 23; row 84 aliases.
+- R407: chose run, flagged-report re-check and doc-only citation refresh for differences 9, 11, 12, 14, 22, 23 and row 111. Prompt rejected for not naming the design file; rewritten in R408.
+- R408: chose run, checkpoint (full tsc and full jest --ci, no file changes). Result: tsc 0; jest 822 passed, 2 failed (known gap 16). Flagged by automatic check.
+- R409: chose run, flagged-report doc re-check (tsc, four source-reading suites, citation refresh for differences 9, 11, 12, 14, 22, 23 and row 111). Candidates: doc re-check; row 84 aliases; row 82 (blocked).

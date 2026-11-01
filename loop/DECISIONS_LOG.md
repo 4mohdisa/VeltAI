@@ -3208,3 +3208,7 @@
 - 2026-11-02 06:02 Checkpoint prompt changes no files and names only the known detailChrome failures as expected, so any other failure stops the loop for review.
 - 2026-11-02 06:02 Did not follow the handover's suggested doc fix at DESIGN_GAP_ANALYSIS.md:855 and :674. The R405 re-check found no alias edit needed there, and line 855 is about letter spacing. Recorded here so it is not repeated.
 - 2026-11-02 06:02 Deferred the citation refresh for differences 9, 11, 12, 14, 22, 23 to the next doc-only round, since this round builds nothing and changes nothing.
+- 2026-11-02 06:03 Chose the flagged-report re-check first, because the loop note requires dealing with the flagged report before moving on. The report's only failures are the known gap 16 detailChrome snapshots, so the handling is a doc-only round with tsc and source-reading suites, as in R407.
+- 2026-11-02 06:03 Did not follow the handover's suggestion to fix DESIGN_GAP_ANALYSIS.md:855 and :674 for aliases. Notes from R405 record that no doc edit is needed there (line 855 is about letter spacing), so the handover item is treated as superseded.
+- 2026-11-02 06:03 Kept the citation refresh scope to the six differences and row 111 that were still pending, and added the known stale items (index.tsx:178, gym.tsx:243-246) by name so they are not missed.
+- 2026-11-02 06:03 Row 84 alias work stays a candidate for after this doc round, not a build now.
