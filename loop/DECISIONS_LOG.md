@@ -3248,3 +3248,8 @@
 - 2026-11-02 08:02 Scoped the prompt to the files row 111 cites, so no new surface is opened.
 - 2026-11-02 08:02 Screen.tsx bottom padding stays blocked on the owner, so the prompt forbids changing it.
 - 2026-11-02 08:02 Jev stop (79%) is noted. I am running anyway because row 111 has no recorded blocker, and a verify-first prompt can end in no code change.
+- 2026-11-02 08:06 R418: Row 111 marked BUILT (not verified) per the latest report. Not re-run.
+- 2026-11-02 08:06 R418: Scrim 0.45 vs design 0.10 not changed. The code comment cites a DECISIONS.md entry that does not exist, so the deliberate-deviation rule is not met. Still an owner call because it must match BottomSheet, which is itself blocked. Left for Isa rather than built by default.
+- 2026-11-02 08:06 R418: Glass panel vs solid white not changed. Owner call, because matching the design breaks the nav-layer glass rule.
+- 2026-11-02 08:06 R418: Gym row route (pushes /gym/log-session, design switches tab) not changed. It needs a gym.tsx and navigation change, which is out of scope, and tabbar.render.test.tsx expects the current route. Parked.
+- 2026-11-02 08:06 R418: Stopped instead of asking, although Jev leaned ask. The three items are one owner bundle and already covered by the blocked list. One reply from Isa unblocks them.

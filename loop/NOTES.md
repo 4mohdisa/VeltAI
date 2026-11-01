@@ -4,7 +4,7 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-Loop STOPPED at R416, restarted R417 for row 111 only (verify first, then build if still different). All other remaining rows are blocked on Isa or owner. If row 111 matches or is blocked, stop again.
+Loop STOPPED at R418. Row 111 is BUILT (not verified) with three owner decisions open (see Blocked on Isa). All other rows are built or blocked on Isa or owner. Restart only after Isa answers the blocked list.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
@@ -17,17 +17,19 @@ Loop STOPPED at R416, restarted R417 for row 111 only (verify first, then build 
 - Accepted: gym duration and completion use ticked exercises; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset stays raised above inset 34; active cell keeps emitting tabPress.
 - Data model changes (per-day draft store) parked, not asked.
 - NavBar.tsx:29 gray200 alias cleanup dropped as tidying (R416, reconfirmed R417).
+- Row 111 (R417): AddMenu panel radius 18, shadow 0 18 42 at 0.20, 0.5 ring; rows 54 high, padding 18, label 500 16/20, pressed 0.05 black; divider 0.5 at 0.10 inset 18; pop offset 6; scrim fades at fast. Glyphs Gym and Food drawn via optional size in LumeTabBar.tsx (no SF Symbols). Named constants used, no tokens cover these values.
 
 ## Built (not verified)
 - Row 82 (streak strip, footnote blocked).
+- Row 111 (AddMenu, R417). Three differences left for owner, see Blocked on Isa. Clipping moved to inner view for shadow; not confirmed on device.
 - Rows 84, 114, 117, 118 partial, see blocked list.
 - Badge.tsx gray700 to label at :19 and :38 (same value).
 
 ## Re-checked (do not repeat)
-- Rows 107, 108, 109, 110, 111, 82, 84 (R405-R413). Statuses: 107 and 108 untouched, 109 and 110 PARTIAL, 111 PARTIAL, 82 BUILT, 84 DIFFERENT.
-- Row 111 build attempt scheduled R417 (verify-first build, not a re-check).
+- Rows 107, 108, 109, 110, 111, 82, 84 (R405-R413). Statuses at the time: 107 and 108 untouched, 109 and 110 PARTIAL, 111 PARTIAL (now built R417), 82 BUILT, 84 DIFFERENT.
 
 ## Blocked on Isa (do not re-ask)
+- Row 111 (R417): (a) scrim 0.45 vs design 0.10 in AddMenu.tsx; the DECISIONS.md entry the code cites does not exist. (b) Panel solid white vs design 0.94 white with blur; matching breaks the nav-layer glass rule. (c) Gym row pushes /gym/log-session vs design tab switch with log intent; needs gym.tsx and touches navigation; tabbar.render.test.tsx expects the current route.
 - Row 84 NavBar: bordered full-width bar vs floating chrome; centred bodyBold title vs floating eyebrow; GlassBackButton with label vs floating circle (44px Gym, 38px Profile).
 - Row 82: footnote '23 sessions 2 freezes'.
 - Gap 16: detailChrome energy balance and macros snapshots. Do not touch.
@@ -40,7 +42,7 @@ Loop STOPPED at R416, restarted R417 for row 111 only (verify first, then build 
 - Shared components: BottomSheet, SheetContent, Button, sheet height; toast duration and position; second session row; logged-day actions; SettingsList geometry; About header; DetailChart; Summary values and padding; sheet resize on second-sheet swap; failed schedule and templates states; My workouts heading at zero templates.
 
 ## Owner device checks (parked)
-Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, header strip, logged-day sheet and toast, library close, picker fills, tab bar, second sheet resize. Row 115: 3D body, guide images, cardio minutes, speed, kcal; native es/fr review; TestPG_* (18 skipped).
+Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, header strip, logged-day sheet and toast, library close, picker fills, tab bar, second sheet resize, menu clipping of shadow (R417). Row 115: 3D body, guide images, cardio minutes, speed, kcal; native es/fr review; TestPG_* (18 skipped).
 
 ## Parked (one line each)
 - Gym: session.tsx:364 saves template estimate; ticklist mode (session.tsx:40, :123) looks dead; library multi-select; per-set remove; cardio ParameterForm; template editor; minutesOf (log-session.tsx:62) picks by plan; second sheet keys, caption, pill sizes, footer scroll.
@@ -51,10 +53,10 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Row 117: logged stats 3 vs 4 cells; logged pill wash flat.
 - Logged card chevron with no action (TodayCard.tsx:115, :194); no logged-day guard in session.tsx.
 - Failed templates fetch; picker offers only Rest day and could overwrite a workout.
-- Doc: DESIGN_GAP_ANALYSIS.md:674, :864, :868 still say Badge and 41 lines in 24 files; now 39 lines in 23 files.
+- Doc: DESIGN_GAP_ANALYSIS.md:674, :864, :868 still say Badge and 41 lines in 24 files; now 39 lines in 23 files. Lines 837-839 and 1494 still describe the old menu values (R417 report).
 - Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; Screen.tsx:22; schedule.tsx 'Tues'.
 - Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
-- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 38 alias lines remain in 22 files (tokens.ts:50-56), NavBar.tsx:29 gray200 included.
+- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13 logs React act() warning in tab bar tests; 38 alias lines remain in 22 files (tokens.ts:50-56), NavBar.tsx:29 gray200 included; AddMenu.tsx dead exit path (if (!visible) return null) unmounts before any exit animation.
 - i18n: hardcoded English on most screens (session.tsx:539-555); 'What did you do?' sheet English only (log-session.tsx:311-392).
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results; quick-add serving (mock/data.ts:124); editSavedFood local only.
@@ -73,7 +75,8 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - R414: STOP. Remaining rows blocked on Isa or owner.
 - R415: handover read, STOP confirmed. Dropped NavBar alias cleanup (tidying). Jev stop 89%.
 - R416: handover read, STOP confirmed again. Jev stop 87%. Nothing built, nothing changed.
-- R417: restart for row 111 only (verify first). Jev stop 79% noted; running because row 111 has no recorded blocker. Handover 'IN PROGRESS' NavBar alias cleanup dropped (tidying).
+- R417: restart for row 111 only. Built AddMenu and LumeTabBar glyph sizing; tsc 0; tabbar render and tabNavigation tests 24 of 24; ESLint clean on changed files. Three differences left for Isa.
+- R418: stop. Row 111 BUILT with owner items open. Jev ask 70%, stop 28%; stopped because the open question is one owner bundle. Decisions recorded.
 
 ## Summary for Isa (for the owner)
-To unblock the loop, decide: row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list. Row 111 was attempted in R417 (verify-first build).
+To unblock the loop, decide: row 111 scrim (0.45 or design 0.10), row 111 panel (glass or solid white), row 111 Gym row (push route or switch tab with log intent), row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list.
