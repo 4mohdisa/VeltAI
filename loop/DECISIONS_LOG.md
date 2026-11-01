@@ -2902,3 +2902,8 @@
 - 2026-11-02 00:05 Recorded that the row 113 test gate cannot run because no test imports schedule.tsx; no test-writing task added.
 - 2026-11-02 00:05 Rewrote the prompt to name the loop/design-match branch explicitly, as the loop note requires.
 - 2026-11-02 00:05 Kept the kg/lb hardcoding out of scope because it is parked.
+- 2026-11-02 00:09 R344 is a verification round for the flagged R343 report, because the loop note says the type check or tests were not run; no test imports exercise-progress.tsx, so the verification records that instead of inventing tests.
+- 2026-11-02 00:09 Row 115 stays PARTIAL with the gaps listed. The 3D body figure, guide images and cardio minutes/speed/kcal each need a dependency, an asset or a backend change, so they are parked as accepted-deviation candidates, not asked about.
+- 2026-11-02 00:09 Lost feature (sessions older than the last 8 no longer listed on exercise progress) and non-tappable bars are accepted as-is for now and parked for Isa to review on device; the design has no text list, and the chart keeps one combined accessibility label.
+- 2026-11-02 00:09 Extra library fetch on exercise progress (for muscles and exercise type) is kept because the muscle chips depend on it; no further change.
+- 2026-11-02 00:09 Row 113 picker sheet is next after verification, since it has no Isa dependency. Row 76 item 3 is the fallback.
