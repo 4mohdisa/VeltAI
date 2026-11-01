@@ -3050,3 +3050,11 @@
 - 2026-11-02 01:36 Kept candidate 2 for the next round after this check, as the rules put row 76 items 2, 6 and 7 next.
 - 2026-11-02 01:36 No file changes this round because the last edit was doc-only and the check only needs the type check and related tests.
 - 2026-11-02 01:36 Jev rates a clean finish of the last task at 4%, so I did not trust the report without running checks. Running them now.
+- 2026-11-02 01:37 Chose the verification run: the last report was flagged for tests not run, and findRelatedTests ran zero suites. Jev agrees (run 89%).
+- 2026-11-02 01:37 Named the three source-reading suites by pattern, since their exact paths are not in the notes.
+- 2026-11-02 01:37 Kept the no-edit rule for this round so the flag clears without a build.
+- 2026-11-02 01:38 Chose verification (candidate 1) over row 76 item 2 because the last related-test run found no tests and the source-reading suites have not run since the row 76 edits. Verification changes no files, so the risk is low.
+- 2026-11-02 01:38 Rewrote the prompt to name the loop/design-match branch and to forbid switching, pushing, merging and committing, because the last prompt was rejected for missing the branch rule.
+- 2026-11-02 01:38 Row 76 item 5: the latest report says the doc wording already matches the code, but the handover still lists it as open. Asked for a one-line check this round instead of an edit, so the doc is changed only if a concrete mismatch is found.
+- 2026-11-02 01:38 Jev gives 53% for a clean finish. Kept the task to one verification round with no edits to reduce risk.
+- 2026-11-02 01:38 Did not add Parked items from the report: the minutesOf type-check difference and the cardio source difference are already covered by the row 76 build items, and the zero-minute case is already in Parked.
