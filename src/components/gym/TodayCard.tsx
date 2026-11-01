@@ -6,7 +6,7 @@
 import type { JSX } from 'react';
 import { router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { PixelRatio, View, type TextStyle } from 'react-native';
 
 import { Card, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
@@ -16,7 +16,7 @@ import type { GymSession } from '@/lib/api';
 import { useEnergyBalance } from '@/lib/data/energy';
 import { useGymRange } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
-import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { displayToKg, formatEnergy, formatWeight } from '@/lib/units';
 
@@ -30,6 +30,16 @@ const PILL_PADDING_HORIZONTAL = 9;
 const CHIP_PADDING_HORIZONTAL = 10;
 const CHIP_ROW_GAP = 6;
 const STAT_CELL_GAP = 1;
+
+// The design's small type has no exact token. Read at render, and the line height
+// scales with the text size as textStyle() does, so large sizes don't clip.
+const pillTextStyle = (): TextStyle => ({ fontWeight: '600', lineHeight: 15 * PixelRatio.getFontScale() });
+const chipTextStyle = (): TextStyle => ({ fontSize: 12, lineHeight: 16 * PixelRatio.getFontScale() });
+const statValueStyle = (): TextStyle => ({
+  fontFamily: ROUNDED_FACE_BY_WEIGHT['600'],
+  fontSize: 16,
+  lineHeight: 21 * PixelRatio.getFontScale(),
+});
 
 /** The state dot the design puts at the head of the session card. */
 function Dot({ tint }: { tint: string }): JSX.Element {
@@ -47,7 +57,7 @@ function StatePill({ label, fill }: { label: string; fill: string }): JSX.Elemen
         backgroundColor: fill,
       }}
     >
-      <Text variant="caption" color={color.label}>
+      <Text variant="caption" color={color.label} style={pillTextStyle()}>
         {label}
       </Text>
     </View>
@@ -66,7 +76,7 @@ function Chip({ label, muted }: { label: string; muted?: boolean }): JSX.Element
         backgroundColor: surface.tile,
       }}
     >
-      <Text variant="caption" color={muted ? color.secondaryLabel : color.label} numberOfLines={1}>
+      <Text variant="caption" color={muted ? color.secondaryLabel : color.label} style={chipTextStyle()} numberOfLines={1}>
         {label}
       </Text>
     </View>
@@ -111,7 +121,7 @@ function Header({
 function StatCell({ value, label }: { value: string; label: string }): JSX.Element {
   return (
     <View style={{ flex: 1, minWidth: 0, gap: STAT_CELL_GAP }}>
-      <Text variant="bodyBold" color={color.label} numberOfLines={1} adjustsFontSizeToFit>
+      <Text variant="statSmall" color={color.label} style={statValueStyle()} numberOfLines={1} adjustsFontSizeToFit>
         {value}
       </Text>
       <Text variant="caption" color={color.secondaryLabel} numberOfLines={1}>

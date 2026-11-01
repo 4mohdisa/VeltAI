@@ -2997,3 +2997,8 @@
 - 2026-11-02 01:06 Named constants instead of tokens, because no token holds 11, 10, 34, 1, 3, 9 or 6. Forcing new tokens would change the shared token file, which is out of scope.
 - 2026-11-02 01:06 Stat value (bodyBold 17/24 vs design 600 16/21) is not part of item 2, so it is parked for row 117 item 3, not built now.
 - 2026-11-02 01:06 Jev said ask 95% and run was not its pick; the question is already on Blocked and was not re-asked, so ask would add nothing new. Run chosen. Risk is low because the change is one file with no Blocked dependency.
+- 2026-11-02 01:07 Chose row 117 item 3 because it is the only open, unblocked row item that is a single-file build on a card already edited this round. Clears the flagged caption question from R364.
+- 2026-11-02 01:07 Treated the item 3 label as covering pill, chips and stat value together, because the notes and the last report describe different text styles under the same item. The prompt asks the builder to report which ones the row names, so the row text decides the scope.
+- 2026-11-02 01:07 Rejected the handover's recommendation to build row 113 item 3 (gap 12 vs 20). It is on the Blocked list (asked R357, no answer). Workarounds for blocked items are not taken.
+- 2026-11-02 01:07 Did not re-ask any blocked question. Row 118 LumeTabBar.tsx edit stays awaiting Isa's decision and is not touched.
+- 2026-11-02 01:07 Parked the row 114 today's-session-card overlap and the stale row 117 item 8 line citation in the Parked list. They are doc and citation issues, not build tasks, and item 8 is not the current task.

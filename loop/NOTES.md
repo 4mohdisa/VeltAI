@@ -22,7 +22,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Row 76: built 1, 4, 8. Open: 2, 3, 5-7.
 - Row 115: built except owner gaps.
 - Row 116: exhausted for loop work. Item 7 needs a device.
-- Row 117: item 1 blocked. Item 2 re-checked (R363): schedule.tsx is EXACT. TodayCard.tsx has nine real differences (dot 12 to 11, header gap 12 to 10, header min height 36 to 34, title gap 4 to 1, pill vertical 4 to 3, pill side 8 to 9, chip side 12 to 10, chip row gap 8 to 6, stat cell gap 0 to 1). Build pending (R364). Item 3 open: TodayCard stat value is bodyBold 17/24, design is 600 16/21 rounded. Item 4 open.
+- Row 117: item 1 blocked. Item 2 built in code R364 (nine TodayCard values as named constants: dot 11, header gap 10, header min height 34, title gap 1, pill padding 3/9, chip padding 10, chip row gap 6, stat cell gap 1). Not verified on device. Item 3 open: TodayCard pill and chip caption type (500 11/14 vs 600 11/15 pill; 500 12/16 chips) and stat value (bodyBold 17/24 vs 600 16/21 rounded). R365 build pending. Item 4 open.
 - Row 118: PARTIAL. R360 edited LumeTabBar.tsx (items 1-3, 6-11, marked BUILT in code) although the file is on the Blocked list. tsc green. tabNavigation.test.ts not yet run. Items 4-5 need a device. Edit still awaiting Isa's keep or revert decision.
 - Last round's eyebrow edit may still be uncommitted.
 
@@ -31,7 +31,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 107, 109, 111, 115, 116, 117, 118: PARTIAL (details in gap doc).
 
 ## Next
-1. R364: row 117 item 2 build, TodayCard.tsx only (nine values as named constants). Runs tsc and findRelatedTests TodayCard.tsx --passWithNoTests. This also clears the flagged R363 report.
+1. R365: row 117 item 3, TodayCard.tsx text styles (pill, chips, stat value). Runs tsc and findRelatedTests TodayCard.tsx --passWithNoTests. Compare with design/ first; fix only real differences.
 2. Row 76 item 3 (second sheet), after confirming design lines.
 3. Checkpoint before next handover: full tsc and jest --ci, no file changes.
 4. Row 118 check (tsc; jest --ci tabNavigation.test.ts; findRelatedTests LumeTabBar.tsx --passWithNoTests). No file changes. Only after Isa answers the LumeTabBar.tsx question.
@@ -40,7 +40,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 ## Blocked on Isa (do not retry or re-ask)
 - Row 116: items 1-2 open cells to day view (recommended build; item 2 follows 1); 3 keep frozen fill (recommended); 4 logged day level 2 or 3 (recommended match design); 5 keep '1 session' (recommended); 6 keep loading and failed strings (recommended); 8 nav button size (recommended fix).
 - Row 117 item 1: templates.tsx:50 to 16 (radius 28 vs 20); session.tsx:407 and muscles.tsx:73 need layout changes; keep 20 on the seven no-counterpart cards?
-- Row 113 item 3: remove 4px at Screen.tsx:117, or accept on schedule.tsx. Asked R357, no answer.
+- Row 113 item 3: remove 4px at Screen.tsx:117, or accept on schedule.tsx. Asked R357, no answer. Do not re-ask.
 - Row 118: keep or revert the R360 LumeTabBar.tsx edit. Asked R361, no answer. Do not re-ask. Do not edit LumeTabBar.tsx further.
 - Approve jest -u for detailChrome (energy and macros).
 - Shared BottomSheet chrome (shared with onboarding). Shared SheetContent, Button, sheet height. Toast duration and position (toastStore.ts:42, :45).
@@ -58,7 +58,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 
 ## Parked (one line each)
 - Gym: schedule and TodayCard don't refetch on focus; duplicate Training link; muscle and day names not translated; picker title hardcoded; My workouts uses day_name.slice; stale comments; sheetRowNameStyle rename; My workouts press 0.85 without fill; stale Start workout (gymSchedule.ts:32-61, gym.tsx:70-73); stale logged flag after midnight (hooks.ts:159); + menu flash (LumeTabBar.tsx:179); library multi-select; exercise progress rowing match, English copy, lb as kg; CardHeaderRow scope colour (bundle 193, 327); MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; pull-to-refresh misses TodayCard; Summary card logs with no UI (index.tsx:179); streak skeleton (index.tsx:108, 114); row 114 chevron needs day-detail route.
-- Row 117 item 3: TodayCard stat value bodyBold 17/24 vs design 600 16/21 rounded (TodayCard.tsx:103, bundle :86). Not in item 2.
+- Row 114 today's session card covers the same TodayCard and may repeat old values or line numbers. Re-check it when row 114 is unblocked.
+- Row 117 item 8 cites TodayCard.tsx:172, which has moved after the item 2 edit. Fix citation in a doc-only re-check round.
 - Gym calendar: gymCalendar.render.test.tsx checks NAV_SIZE 32 while buttons lay out at 44.
 - Layout: TAB_BAR_CLEARANCE has no callers, so last rows may be partly hidden on devices with no inset (bar raised 14 in R360). Wrong comments: LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10, Screen.tsx:22, gym.tsx:155.
 - Tab bar: no test pins row 118 design values. Shadow radius convention (CSS blur as shadowRadius) may render softer on iOS across all shadow tokens.
@@ -71,7 +72,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Doc: stale citations across the gap doc after row 113 and 115 edits; rows 85, 104, 112. Row 113 and row 117 item 4 schedule.tsx line numbers out of date (e.g. item 3 cites :81, now :80).
 
 ## Jev
-R337-R359 kept as decided. R360: Jev ranked row 118 first (80%); chose it. R361: Jev ask 78%, run 16%; chose ask. Isa did not answer, so the question is now on Blocked. R362: Jev ask 98%, run 1%. Overrode: row 117 item 2 doc-only re-check. R363: Jev run 95%, stop 3%, ask 2%. Ran with the TodayCard build, which runs the tests the flag asked for.
+R337-R359 kept as decided. R360: Jev ranked row 118 first (80%); chose it. R361: Jev ask 78%, run 16%; chose ask. Isa did not answer, so the question is now on Blocked. R362: Jev ask 98%, run 1%. Overrode: row 117 item 2 doc-only re-check. R363: Jev run 95%, stop 3%, ask 2%. Ran with the TodayCard build. R364: built row 117 item 2. R365: Jev run 87%, ask 7%, stop 6%. Chose run (row 117 item 3). Handover suggestion (row 113 item 3) rejected: blocked.
 
 ## Gotchas
-Briefs often carry false premises (wrong bundle, screen or line numbers); check first and report. Use jest --ci, never -u. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc row numbers are file lines; bundle line numbers are decoded-bundle lines. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests needs --passWithNoTests. Nothing has been checked on a device. tabNavigation.test.ts reads source as text, so it needs its own jest run. Don't echo === in zsh. Last round's eyebrow edit may still be uncommitted.
+Briefs often carry false premises (wrong bundle, screen or line numbers); check first and report. Use jest --ci, never -u. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc row numbers are file lines; bundle line numbers are decoded-bundle lines. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests needs --passWithNoTests. Nothing has been checked on a device. tabNavigation.test.ts reads source as text, so it needs its own jest run. Don't echo === in zsh. Last round's eyebrow edit may still be uncommitted. No suite imports gym schedule, log-session, session or exercise-progress screens; findRelatedTests finds none for them.
