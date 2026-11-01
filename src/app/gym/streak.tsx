@@ -52,7 +52,7 @@ export default function StreakDetailScreen() {
                   justifyContent: 'space-between',
                   padding: space.lg,
                   borderTopWidth: i === 0 ? 0 : 1,
-                  borderTopColor: color.gray100,
+                  borderTopColor: color.light1,
                 }}
               >
                 <Text variant="body" color={color.black}>

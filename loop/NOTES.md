@@ -20,19 +20,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Row 114: items 9-12 fixed in code; chevron, Sets count, useGymRange wait, pressed fill, stat shrink open; item 8 blocked.
 - Row 115: built except owner gaps.
 - Row 116: pressed opacity built; items 1-6, 8 blocked; chevron stroke open.
-- Row 117: items 2, 3 built; 4 exact. Item 1: 3 of 13 exact, 3 different, 7 no counterpart (blocked). Items 5 and 7: TodayCard.tsx already matches; differences are in Screen.tsx:122, new-template.tsx:158 (item 5), BottomSheet.tsx:145, GlassButtons.tsx:229 (item 7), shared, blocked. Item 6: deprecated grey aliases at history.tsx:41, :55 and streak.tsx:55; R387 builds history.tsx only, streak.tsx:55 next. 8 blocked; 9-10 open.
+- Row 117: items 2, 3 built; 4 exact. Item 1: 3 of 13 exact, 3 different, 7 no counterpart (blocked). Items 5 and 7: TodayCard.tsx already matches; differences are in Screen.tsx:122, new-template.tsx:158 (item 5), BottomSheet.tsx:145, GlassButtons.tsx:229 (item 7), shared, blocked. Item 6: deprecated grey aliases. history.tsx lines 41 and 55 DONE in R387 (gray100 to light1, gray700 to label); doc still lists them, update in next re-check round. streak.tsx:55 is the current task (gray100 to light1). 8 blocked; 9-10 open.
 - Row 118: PARTIAL. LumeTabBar.tsx edited R360 (blocked). Items 1-3, 6-11 built; 4, 5 need device; 12, 13 kept.
 - Re-checked: 76, 107-109, 111, 113-118.
 - R382 checkpoint: tsc 0; jest --ci 822 of 824. Only failures: detailChrome.render.test.tsx (blocked).
 - R384, R385, R386 reports flagged (tsc or tests not run or no tests found). R386 doc-only edits to row 117 items 5-7 landed; tsc exit 0.
+- R387: history.tsx grey aliases replaced; tsc exit 0; findRelatedTests found no tests.
 - Nothing checked on a device.
 
 ## Open rows
 PARTIAL: 76, 107, 109, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
 
 ## Next
-1. Row 117 item 6, history.tsx only (R387). Then tsc and findRelatedTests on history.tsx.
-2. Row 117 item 6, streak.tsx:55 only, separate round.
+1. Row 117 item 6, streak.tsx:55 only (current round). Then tsc and findRelatedTests on streak.tsx.
+2. Doc re-check round: update row 117 item 6 (history.tsx done, streak.tsx done), and check DESIGN_GAP_ANALYSIS.md:841 against row 117. Doc only.
 3. Row 114 re-check of TodayCard.tsx (may repeat old values). Doc only.
 4. Row 76 items 6-7 (log-session.tsx), only if not part of the add path.
 5. If Isa answers detailChrome: tsc, jest --ci on that file, then full checkpoint.
@@ -71,10 +72,10 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - i18n: hardcoded English across Summary, energy, week, workouts, scan, schedule, Profile, session.tsx:539-555, templates, toasts, streak, second sheet.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results. Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
-- Doc: stale citations rows 85, 104, 112.
+- Doc: stale citations rows 85, 104, 112. Row 117 item 6 doc entry lists history.tsx:41, :55 (already fixed in code); update in next doc re-check.
 
 ## Jev
-R337-R387 decisions kept. R387: Jev ranked row 117 item 6 first (91% run). Last-task-clean 47%; keep builds small and with explicit check requirements. Rows 117 items 5-7 are shared-file blocked; do not retry them as TodayCard tasks.
+R337-R388 decisions kept. R388: Jev ranked row 117 item 6 streak.tsx first (99% run). Last-task-clean 90% in handover, 47% earlier; keep builds small and with explicit check requirements. Rows 117 items 5-7 are shared-file blocked; do not retry them as TodayCard tasks.
 
 ## Gotchas
 Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run by path. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. Checks run before later edits need a fresh run. Reports that skip tsc or tests get flagged; always run tsc once and report exit codes. A 'No tests found' result is not a test pass; state it plainly.

@@ -3112,3 +3112,7 @@
 - 2026-11-02 01:53 Kept the doc edit out of this build round, because the notes say doc fixes happen only in re-check rounds. The row status is tracked in notes instead.
 - 2026-11-02 01:53 Candidate 3 (row 76 items 6-7) ranks lower because it sits in log-session.tsx and may overlap the unapproved add path.
 - 2026-11-02 01:53 Jev's 91% run confidence agrees with this pick. Its 47% clean-finish estimate is why the task is kept small and the checks are explicit.
+- 2026-11-02 01:54 Chose streak.tsx:55 because it is the next unbuilt step in row 117 item 6, is not on the blocked list, and the same alias fix was just done in history.tsx (R387).
+- 2026-11-02 01:54 Kept the doc row 117 item 6 unchanged because doc edits are only allowed in re-check rounds. Recorded as Parked for a later re-check round.
+- 2026-11-02 01:54 Ignored the handover's 'update row 76 item 5 in the doc' recommendation for this round, since the doc is off limits in build rounds and the notes already rank streak.tsx first.
+- 2026-11-02 01:54 Followed Jev's 99% run for this action; no reason to override.
