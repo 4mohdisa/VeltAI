@@ -3226,3 +3226,8 @@
 - 2026-11-02 06:08 Row 84 NavBar step is one component (NavBar.tsx) plus one doc line in row 84. The doc line is in the same row as the build, so it is allowed under the one-component rule.
 - 2026-11-02 06:08 Alias replacement only if tokens.ts shows identical values. This avoids a visual change, which the brief forbids.
 - 2026-11-02 06:08 Badge padding and type differences stay parked. No decision records which pill it should match, and style changes are banned in this task.
+- 2026-11-02 06:10 Chose the doc re-check for the flagged R412 report. The report's tsc and tabNavigation results were green, and the flag concerns the unrun full suite. The notes decision is that flagged reports are handled by a doc re-check round that runs tsc and the source-reading suites.
+- 2026-11-02 06:10 Did not build the NavBar structural differences. Removing the bordered bar, moving the title and replacing GlassBackButton change navigation structure, which the brief bans. Parked as blocked on Isa, not asked again this round.
+- 2026-11-02 06:10 Row 84 stays DIFFERENT. Its alias replacement is done, but the remaining differences are structural.
+- 2026-11-02 06:10 Row 108 bottom padding and row 82 footnote are left for later. Row 82 stays blocked on Isa.
+- 2026-11-02 06:10 Jev ranked run at 51% and stop at 40%. Run is kept because the next step is doc-only and needs nothing from Isa. Stop is the expected outcome after this round if no row is left buildable.
