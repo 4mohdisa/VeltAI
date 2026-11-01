@@ -1,36 +1,36 @@
-HANDOVER: branch loop/design-match. Don't switch, push or merge; the loop script commits, so git diff is often empty, use git show --stat HEAD. Don't open loop/NOTES.md or loop/DECISIONS_LOG.md (always modified; not ours). Nothing has been checked on a device.
+HANDOVER: branch loop/design-match. Don't switch, push, merge or commit. The loop script commits, so check with git show --stat HEAD and git status. Don't open or edit loop/NOTES.md or loop/DECISIONS_LOG.md (always modified; not ours). Nothing has been checked on a device.
 
 BUILT
-No code changed this session; all work was doc-only in DESIGN_GAP_ANALYSIS.md. No whole table row is built.
-- Re-checked rows, status unchanged: 107, 108, 109 (Profile Privacy, Support, About), 115, 116, 117, 118: PARTIAL. 114: DIFFERENT.
-- Row 107 was verified correct in the last round; no correction needed.
-- Earlier code work, still only partial: Summary difference 12; rows 76, 103, 107, 108, 109.
+No code changed this session; all edits were doc-only, in DESIGN_GAP_ANALYSIS.md. No table row is fully built. Rows 108 (Support) and 109 (About) stay PARTIAL.
+- Row 108: item 7 moved out of the numbered list (now 1-6 plus an unnumbered "Exact" line). Item 4 maps each value to its citation and adds growth and start heights. Geometry line has per-value bundle citations.
+- Row 109: all citations correct; added bundle :566 to four geometry values.
 
-IN PROGRESS: nothing.
-Last run: tsc 0; three suites by path, 39/39. Full jest not run this session (earlier 64/65 suites, 822/824; failures were energy and macros detailChrome snapshots).
+IN PROGRESS: nothing. The last row 108 item 4 edit may be uncommitted until the loop commits it.
+Last full run: tsc 0; jest --ci 64/65 suites, 822/824 tests. Only failures: energy and macros in src/__tests__/render/detailChrome.render.test.tsx.
 
 KEY FILES
-src/app/profile/privacy.tsx, support.tsx, about.tsx; src/components/display/SettingsList.tsx; src/components/forms/TextField.tsx (forms, not form); src/components/gym/TodayCard.tsx; src/components/domain/GymCalendar.tsx; src/app/gym/exercise-progress.tsx; src/components/navigation/LumeTabBar.tsx, GlassButtons.tsx.
-design/Lume App.html bundles: Profile b09a5e65, Gym 7dc211f6, Summary 185bb533, Food 71f71ac4. Decode with node to /tmp, delete after.
+src/app/profile/support.tsx, about.tsx; src/components/forms/TextField.tsx; src/components/display/SettingsList.tsx; src/lib/design/tokens.ts; src/lib/appVersion.ts.
+design/Lume App.html: Profile bundle b09a5e65. Read the __bundler/manifest script, gunzip the base64 data, decode to /tmp or in memory. "bundle :N" means decoded-bundle lines.
 
 DECISIONS
-- Row lists live in the summary table; detail sections point to them.
-- Row 107 says the design has no AI group, not the brief's "shows it unconditionally": no AI group or consent text exists in the Privacy section.
-- Kept :499, :510 for footnote type and padding; gap 8 cites :489, :502.
-- Row 109 cites About's glyph at bundle :568; :475 and :478 are Privacy lines. About has no chevrons (EXACT).
-- Row 114 stays DIFFERENT: tap target and planned grid missing.
+- Placeholder and text colours match under different token names (#8A8A8A, #171717), so they aren't differences.
+- Item 4 app field grows and design field doesn't; the brief had this reversed. Code-read only.
+- 114 is rounded from the app's 52 × 2.2 = 114.4; 114.4 isn't in the design. Design's about 112 is calculated.
+- tokens.ts:146 is type 17/24, not growth; growth cites TextField.tsx:62.
+- Item 4 citations follow their values, so they aren't in numeric order.
+- Used bundle :566, not design/Lume App.html:566; that file has 384 lines.
+- Colour hex definitions are at design/Lume App.html:382.
 
 WAITING ON ISA
-- SettingsList row geometry: fix or accept. Settles rows 107-109, but affects every screen using it. Recommended next.
-- jest -u on detailChrome; never run -u unasked.
-- DetailChart.tsx and LumeTabBar.tsx approvals; About header; Logged pill wash token; row count; top padding and others from earlier.
+- SettingsList row geometry: fix or accept. Settles rows 107-109; affects every screen using it. Recommended next.
+- detailChrome snapshot approval; never run jest -u unasked.
+- Earlier: DetailChart.tsx and LumeTabBar.tsx approvals; About header; Logged pill wash token; row count; top padding.
 
 SPOTTED, NOT FIXED
-- Row 108: item 7 is EXACT inside the differences list; item 4 omits field growth (start height nearly equal: 114 vs about 112).
-- Tab bar: Reduce Transparency pill fill equals active cell #F2F2F7; GlassSurface overflow hidden may clip the pill shadow. Needs a device.
-- No test references the Privacy, Support or About screens, or names SettingsList.
+- No test covers Privacy, Support or About layout. The three suites referencing app/profile/ (tabNavigation, phase14Regression, hydrationErrorScreens) don't check it.
 - Detail sections at doc lines 484, 509, 631, 828 (parked) and 1421 disagree with rows.
-- exercise-progress.tsx hardcodes kg. gym.tsx:155 comment is false. Hardcoded English across Profile screens.
+- Tab bar: Reduce Transparency pill fill; GlassSurface may clip the pill shadow. Needs a device.
+- exercise-progress.tsx hardcodes kg; gym.tsx:155 comment is false; hardcoded English across Profile screens.
 
 GOTCHAS
-Briefs can cite stale paths, values or false claims; check first. Grep app/profile/, not src/app/profile/, for tests. Use LC_ALL=C /usr/bin/grep; quote (tabs) paths. Doc row numbers are file lines. Repeat verify rounds on row 107 add nothing.
+Briefs often carry false premises; check first and report them. Use jest --ci to avoid writing snapshots. Don't echo === in zsh. Use LC_ALL=C /usr/bin/grep; quote paths with spaces. Doc row numbers are file lines. Repeat verify rounds on rows 108 and 109 add nothing.
