@@ -2921,3 +2921,8 @@
 - 2026-11-02 00:11 Named the files through the row 113 entry, not by guessing paths, because the exact file names are not in the notes.
 - 2026-11-02 00:11 Kept action run over ask (Jev 81% run). The task needs nothing from Isa.
 - 2026-11-02 00:11 Told Claude Code not to touch loop/ files, since Isa said they are not ours to edit.
+- 2026-11-02 00:13 Chose the week card (row 113 items 4-8). Jev ranks it at 98%, and the last report named it as the next step. It stays inside one file and needs nothing from Isa.
+- 2026-11-02 00:13 Handled the loop flag by requiring the tsc exit code and an explicit jest result or 'no suite imports this file' in CHECKED. No suite imports schedule.tsx, so no new tests are needed.
+- 2026-11-02 00:13 Left the shared BottomSheet.tsx differences alone (grabber, side padding, bottom inset, title alignment and colour, shadow). Onboarding, new-recipe, RecipesList and ExercisePicker use it, and onboarding is off limits. Moved to Blocked on Isa.
+- 2026-11-02 00:13 Kept the picker's hardcoded English title and 'Nothing scheduled' under the existing i18n parked line, not a new task.
+- 2026-11-02 00:13 Kept the picker's 70% window-height list cap as an accepted deviation, recorded in row 113, because the design has no scroll limit and rows would otherwise be unreachable.

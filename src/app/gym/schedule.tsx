@@ -25,11 +25,15 @@ import type { ScheduleDay, WorkoutTemplate } from '@/lib/types';
 const DAY_WIDTH = 42;
 /** The design's gap between a workout's three lines, tighter than the spacing scale. */
 const WORKOUT_TEXT_GAP = 3;
+const WEEK_ROW_MIN_HEIGHT = 58;
+const WEEK_ROW_DOT = 9;
+const WEEK_ROW_TEXT_GAP = 1;
 const SHEET_ROW_MIN_HEIGHT = 56;
 const SHEET_ROW_TEXT_GAP = 1;
 const SHEET_TICK = 17;
 const SHEET_LIST_MAX_HEIGHT = 0.7;
 
+const dayLabelStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '600', lineHeight: 20 * PixelRatio.getFontScale() });
 const sheetRowNameStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '500', lineHeight: 20 * PixelRatio.getFontScale() });
 
 export default function ScheduleScreen() {
@@ -89,9 +93,10 @@ export default function ScheduleScreen() {
       ) : (
         /* The design keeps the whole week in ONE elevated card, rows split by a
            hairline: day label, a trained dot, the workout, then a chevron. */
-        <Card variant="elevated" padded={false}>
+        <Card variant="elevated" padded={false} style={{ paddingVertical: space.sm, paddingHorizontal: space.lg }}>
           {schedule.map((day, i) => {
             const row = rowFor(day);
+            const muscles = row.template ? musclePhrase(row.template) : '';
             return (
               <Pressable
                 key={day.day_of_week}
@@ -103,9 +108,7 @@ export default function ScheduleScreen() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: space.md,
-                  minHeight: layout.buttonHeight,
-                  paddingVertical: space.md,
-                  paddingHorizontal: space.lg,
+                  minHeight: WEEK_ROW_MIN_HEIGHT,
                   borderTopWidth: i === 0 ? 0 : layout.hairline,
                   borderTopColor: surface.divider,
                 }}
@@ -113,28 +116,28 @@ export default function ScheduleScreen() {
                 {/* The design's three-letter day ("Mon"); the full name clipped
                     to "Tues…" in this column. VoiceOver still reads it in full
                     from the row's accessibilityLabel. */}
-                <Text variant="label" color={color.label} style={{ width: DAY_WIDTH }} numberOfLines={1}>
+                <Text color={color.label} style={[dayLabelStyle(), { width: DAY_WIDTH }]} numberOfLines={1}>
                   {day.day_name.slice(0, 3)}
                 </Text>
                 <View
                   style={{
-                    width: space.sm,
-                    height: space.sm,
+                    width: WEEK_ROW_DOT,
+                    height: WEEK_ROW_DOT,
                     borderRadius: radius.full,
                     backgroundColor: row.template ? categoryAccent.streak : color.light2,
                   }}
                 />
-                <View style={{ flex: 1, gap: space.xs }}>
+                <View style={{ flex: 1, gap: WEEK_ROW_TEXT_GAP }}>
                   <Text
-                    variant="callout"
                     color={row.template ? color.label : color.secondaryLabel}
+                    style={sheetRowNameStyle()}
                     numberOfLines={1}
                   >
                     {row.template ? row.template.name : 'Rest day'}
                   </Text>
-                  <Text variant="footnote" color={color.tertiaryLabel} numberOfLines={1}>
+                  <Text variant="footnote" color={color.secondaryLabel} numberOfLines={1}>
                     {row.template
-                      ? `${row.template.exercises.length} exercise${row.template.exercises.length === 1 ? '' : 's'}`
+                      ? `${row.template.exercises.length} exercise${row.template.exercises.length === 1 ? '' : 's'}${muscles ? ` · ${muscles}` : ''}`
                       : 'No workout assigned'}
                   </Text>
                 </View>

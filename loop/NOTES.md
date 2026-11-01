@@ -19,19 +19,19 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Re-checked: 107-109, 111, 113-118. Repeat verify on 108 and 109 adds nothing.
 - Built in code, not on device: 113 item 1 (R341), 76 item 1 (R338), 115 exercise progress (R343, PARTIAL).
 - R344: 115 verified with tsc only. No suite imports exercise-progress.
-- R345: checkpoint outcome not confirmed. Last report ran tsc only (exit 0). Full jest --ci at last handover: 64/65 suites, 822/824 tests; only failures are energy and macros in src/__tests__/render/detailChrome.render.test.tsx (snapshot approval waiting on Isa).
-- R346: row 113 picker sheet build started; the rejected prompt (missing branch restriction) did not run. Still open.
+- R345: checkpoint outcome not confirmed. Full jest --ci at last handover: 64/65 suites, 822/824 tests. Only failures are energy and macros in src/__tests__/render/detailChrome.render.test.tsx (snapshot approval waiting on Isa).
+- R347: row 113 picker entry built in src/app/gym/schedule.tsx (title, Rest day last with sub-line, Create row removed, selected and pressed fills, 56 min height, 16 radius, 70% height cap as a recorded deviation). tsc exit 0. No suite imports the screen, so no tests ran. Shared BottomSheet.tsx differs in four ways and was left alone (see Blocked).
 - Handover: doc-only edits to rows 108 and 109 (committed by the loop). Nothing checked on device.
 
 ## Open rows
 - 76 PARTIAL: items 2 (glyph, add path), 3 (second sheet), 5-7 (time, celebration dash, cardio minutes). Item 4 parked.
 - 83 DIFFERENT: sheet-in-place; button height and type (parked).
 - 107 PARTIAL: privacy headers, export share sheet, export failure toast; glyph, chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback has no toast; label and button styling; geometry (Blocked). Items 1-6 plus unnumbered Exact line; item 4 citations done.
-- 109 PARTIAL: wordmark tracking; tagline centring; Version/Build can be empty; glyph; padding; geometry. Citations corrected.
+- 108 PARTIAL: eyebrow copy; feedback has no toast; label and button styling; geometry (Blocked). Items 1-6 plus unnumbered Exact line.
+- 109 PARTIAL: wordmark tracking; tagline centring; Version/Build can be empty; glyph; padding; geometry.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
-- 113 PARTIAL: picker sheet (R347 rebuild in progress); spacing above section (Blocked); empty state (item 10).
+- 113 PARTIAL: picker entry BUILT not verified (shared sheet differences Blocked); week card items 4-8 (R348); items 9-11 open; spacing above section (Blocked); empty state (item 10).
 - 114 DIFFERENT: session card, 14 items; tap target, planned grid; logged pill wash, Calories cell (Blocked).
 - 115 PARTIAL: owner gaps only: 3D figure, guide images, kcal in title, cardio minutes/speed/kcal (backend), Fastest stat, sessions beyond 8 not listed, bars not tappable, kg hardcoded, '12 Mar' date format, library muscle names.
 - 116 PARTIAL: heatmap, 7 items.
@@ -40,7 +40,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 85, 87, 103, 104, 112, 114: Blocked (below).
 
 ## Next
-1. R347: row 113 picker sheet (rebuild with full branch restriction).
+1. R348: row 113 items 4-8, the My schedule week card in src/app/gym/schedule.tsx.
 2. Row 76 items 3, 5, 6, 7, one per round.
 3. Rows 116, 117, 118 items not needing device.
 4. Checkpoint (full tsc and jest --ci, no file changes) before the next handover.
@@ -49,15 +49,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 ## Blocked on Isa (do not retry)
 - Approve jest -u for detailChrome (energy and macros).
 - DetailChart.tsx Kicker, Breakdown dots. LumeTabBar.tsx + menu chooser on logged days.
+- Shared src/components/navigation/BottomSheet.tsx: grabber 38 vs 40, side padding 20 vs 16, bottom inset 34 vs 16, title left vs centred, title colour (label vs black), shadow 0 -14px 40px vs shadow.lg. Changing it also changes onboarding/targets.tsx, food/new-recipe.tsx, RecipesList.tsx, ExercisePicker.tsx.
 - Shared SheetContent, Button, sheet height. Toast duration and position (toastStore.ts:42, :45).
 - Second row on logged day (mutations.ts:173-178).
 - SettingsList row geometry: fix or accept. Settles 107-109. Recommended next for Isa.
 - Summary: 17, 21, 28, 29, 30. Top padding Gym, Summary, Food. Burn target 10-11; energy week axis 15; header strip Screen.tsx:163. About header: keep or remove. Logged pill wash token.
-- Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close paths, exercise progress layout.
+- Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close paths, exercise progress layout, picker pressed and selected fills.
 - Native review of es/fr strings. TestPG_* (18 skipped).
 
 ## Parked (grouped)
-- Gym schedule: no refetch on focus; duplicate Training link; muscle and day names not translated; muscle phrase English-only (api.ts:754).
+- Gym schedule: no refetch on focus (stale templates and schedule until remount); duplicate Training link; muscle and day names not translated; muscle phrase English-only (api.ts:754); picker title and 'Nothing scheduled' hardcoded English; row 113 stale citations after line shifts (doc fix in a re-check round).
 - Gym logged day: no day view; no press route. Stale Start workout (gymSchedule.ts:32-61; gym.tsx:70-73); stale logged flag after midnight (hooks.ts:159).
 - + menu pushes sheet before check (LumeTabBar.tsx:179).
 - Exercise library multi-select (design :1271-1289).
@@ -78,7 +79,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Settings screen duplicates: none new.
 
 ## Jev
-R337-R344 kept as decided. R345: ask 48% vs run 47%, kept run. R346: run 53% vs ask 41%, kept run (task needs nothing from Isa). R347: run 81% vs ask 17%, kept run (same row 113 task, restated prompt).
+R337-R344 kept as decided. R345: ask 48% vs run 47%, kept run. R346: run 53% vs ask 41%, kept run (task needs nothing from Isa). R347: run 81% vs ask 17%, kept run (row 113 picker). R348: run 90% vs ask 10%, Jev ranked the week card first at 98%; matches my pick.
 
 ## Gotchas
 Briefs often carry false premises; check first and report them. Use jest --ci. Don't echo === in zsh. Use LC_ALL=C /usr/bin/grep; quote paths with spaces. Doc row numbers are file lines. Bundle line numbers are decoded-bundle lines. Repeat verify rounds on 108 and 109 add nothing. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
