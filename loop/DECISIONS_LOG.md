@@ -2751,3 +2751,8 @@
 - 2026-11-01 20:28 Kept the read-only format and forbade edits, so this round cannot add to the doc backlog while the flag is open.
 - 2026-11-01 20:28 Row 108 doc fix (items 4 and 7) moves to R308, as the next task after this verification.
 - 2026-11-01 20:28 Jev's 54% run vs 35% ask is treated as a close call. Run stays, since no owner-only item is needed for a read-only check.
+- 2026-11-01 20:29 Took the row 108 doc fix over the flag verification. The flagged report already ran tsc with exit 0 and skipped jest correctly because no source changed, so a third read-only check would add nothing. The prompt's CHECKED section states the tsc result and why jest was not run, which deals with the flag.
+- 2026-11-01 20:29 Kept the rule that doc-only rounds do not run jest. No source or test changed, so this is consistent with the testing rules.
+- 2026-11-01 20:29 Kept item 4 as a difference (padding 16 vs 12). Only its citations and wording are corrected, because the row is still not built.
+- 2026-11-01 20:29 Item 7 moves to EXACT (code re-checked, not verified on device), per the notes.
+- 2026-11-01 20:29 Did not ask Isa about the flag. It is handled by the tsc-only check in this round.
