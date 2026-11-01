@@ -3097,3 +3097,13 @@
 - 2026-11-02 01:49 Added a single tsc run to this doc round so the 'not run' flag is answered without starting a build or a jest run.
 - 2026-11-02 01:49 Kept row 76 add path blocked on Isa; it needs a draft store, which is a data model change and is parked.
 - 2026-11-02 01:49 Used the latest report's NEXT list as the source for the doc fixes, since they are the known stale lines.
+- 2026-11-02 01:51 Parked the row 76 doc correction under Blocked on Isa because the same blocker came back twice in a row, per the loop note. Not retried.
+- 2026-11-02 01:51 Chose row 117 items 5-7 as the next build. It does not depend on the parked task, and it is the non-blocked item listed first in Next.
+- 2026-11-02 01:51 Build prompt requires one tsc run and findRelatedTests on changed files, with exit codes reported, to clear the flag that tsc or tests were not run.
+- 2026-11-02 01:51 Kept all blocked values untouched (Screen.tsx:117, detailChrome, logged pill wash, templates radius, frozen fill and loading strings) pending Isa's answers.
+- 2026-11-02 01:51 Jev's 89% run agrees with my choice. Its 59% clean-completion estimate is why the task is limited to three items and one surface.
+- 2026-11-02 01:52 Kept row 117 items 5-7 as the pick, matching Jev's top choice. The rejected prompt was the problem, not the task: it covered more than one component. The rewrite limits the edit to TodayCard.tsx only.
+- 2026-11-02 01:52 Items 1 and 8 of row 117 stay excluded because Isa has not answered them.
+- 2026-11-02 01:52 Added a rule to leave Screen.tsx:117 untouched, because the 4px question is blocked on Isa.
+- 2026-11-02 01:52 Test check limited to findRelatedTests on TodayCard.tsx, to keep Claude Code usage low. The checkpoint full run comes later.
+- 2026-11-02 01:52 Did not start row 114 re-check or row 76 items 6-7 this round, to keep one task per round.
