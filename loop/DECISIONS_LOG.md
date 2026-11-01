@@ -3137,3 +3137,6 @@
 - 2026-11-02 02:36 Chose stop over ask: every open blocker was already asked and is recorded under Blocked on Isa. Asking again would break the do-not-re-ask rule. Jev also leans stop (58%).
 - 2026-11-02 02:36 Did not run a doc-fix round for DESIGN_GAP_ANALYSIS.md:674 and :855. The handover says they still claim deprecated aliases, but R390 notes say 674-677 and 857-860 were fixed. The two records conflict, so the check is listed under Next for Isa rather than guessed at.
 - 2026-11-02 02:36 Did not build the row 76 add path or the detailChrome fix. Both are repeated blockers that need Isa's decision first.
+- 2026-11-02 03:13 Stop, not ask: every open question was already asked and is recorded under Blocked on Isa. Asking again would break the no-re-ask rule.
+- 2026-11-02 03:13 Doc check not run as a task: it does not build a row, and R390 already records the 674-677 and 857-860 fixes. The conflict with the handover is parked for Isa to confirm at the checkpoint.
+- 2026-11-02 03:13 Jev stop at 88% agrees with the manager decision, so no second look was needed.
