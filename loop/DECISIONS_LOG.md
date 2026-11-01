@@ -2948,3 +2948,13 @@
 - 2026-11-02 00:20 Loop note flagged the last report as partly done; resolved by recording item 3's remaining difference in Status and Blocked, so it is not re-queued.
 - 2026-11-02 00:20 Notes rewritten under 600 words; finished work deleted and repeated items merged.
 - 2026-11-02 00:20 Chose run (Jev 60% ask) because the design answers the question and the task needs nothing from Isa.
+- 2026-11-02 00:21 Chose the checkpoint because the loop note requires it and it is the only task it allows.
+- 2026-11-02 00:21 Kept the known detailChrome energy and macros failures as Blocked on Isa, not as a stop trigger, because they predate this round and Isa has not replied.
+- 2026-11-02 00:21 Did not start row 113 item 3 this round because the checkpoint task comes first; it is recommended next.
+- 2026-11-02 00:21 Parked the failed-fetch fallback (useSchedule and useTemplates returning [] looks like an empty state) as a Blocked-on-Isa decision, because it needs a full day-name table and a product call on the failure state.
+- 2026-11-02 00:21 Parked the My workouts heading hidden at zero templates under Blocked on Isa, because the design shows it but there is no zero-templates state to match.
+- 2026-11-02 00:22 Rewrote the rejected prompt to name design/Lume App.html and the Gym bundle 7dc211f6 lines 524-540, because the loop note said the design file was missing.
+- 2026-11-02 00:22 Kept row 113 item 3 as the task: it is the smallest open item, needs nothing from Isa, and the prior report recommended it.
+- 2026-11-02 00:22 Limited the fix to passing an existing gap token from schedule.tsx, so the blocked shared Screen.tsx is not touched.
+- 2026-11-02 00:22 Asked for the design value to be confirmed first, because the notes give two different numbers for this gap.
+- 2026-11-02 00:22 Jev ran 74% for run. Kept run, since the rejection was a prompt fault and not a blocker needing Isa.
