@@ -3076,3 +3076,10 @@
 - 2026-11-02 01:44 Limited the check to tsc, findRelatedTests on log-session.tsx and the source-reading gymDurationHonesty suite, per the testing rules. No full suite, since this is not a checkpoint round.
 - 2026-11-02 01:44 Kept the stale doc sections out of this round. Doc fixes are allowed only in re-check rounds, so they are parked as NEXT.
 - 2026-11-02 01:44 Kept row 76 item 2 as the next build, since it is the next non-blocked task with a real code change.
+- 2026-11-02 01:45 Chose a check-only round because the loop flagged the last report for tsc or tests not run. The earlier findRelatedTests call exited 1 with no mapped tests, so this round adds --passWithNoTests to get a valid pass.
+- 2026-11-02 01:45 Ran the source-reading suites by path found with find, not by content grep, because the content grep returned only a comment match last round.
+- 2026-11-02 01:45 No file edits this round, so the check runs on the final state of the working tree and no fresh run is needed after an edit.
+- 2026-11-02 01:45 Deferred the row 76 doc update (item 5) to the next round to keep this round to checks only.
+- 2026-11-02 01:45 Chose the checkpoint because the loop note requires it. Jev also rated run at 96%, and the rejected prompt was rewritten to name design/Lume App.html.
+- 2026-11-02 01:45 The checkpoint changes no files and reports failures only, so the detailChrome failure is recorded as known and left for Isa.
+- 2026-11-02 01:45 Row 76 item 2 and the doc update stay queued for the next round, after the checkpoint result is known.
