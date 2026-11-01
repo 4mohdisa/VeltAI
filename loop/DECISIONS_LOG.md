@@ -2865,3 +2865,12 @@
 - 2026-11-01 21:17 Chose the verify round over a build, because the toast promise and the logged-card route are unconfirmed and building on them would add more unverified code.
 - 2026-11-01 21:17 Parked the second-row write in /gym/session (mutations.ts:173-178). It changes data behaviour and the report says it is deliberate, so it falls under 'data model or backend change: park'.
 - 2026-11-01 21:17 Parked the stale logged flag after midnight (hooks.ts:159). It is a data refresh issue, not a design row, so it is out of this loop's scope.
+- 2026-11-01 21:19 Chose the read-only tsc round over a build: the loop flagged R336 as not type-checked, and a green tsc is needed before any build round.
+- 2026-11-01 21:19 Did not build the logged-card route yet: it needs a day view the app may not have, which is more than one small surface. Park until tsc is green and the surface is scoped.
+- 2026-11-01 21:19 Did not ask Isa again on the logged-day question: the design answers it (toast copy 'open it to edit or add something extra' matches bundle :1656 and the day view at :850-873). Build it in a later round as one surface.
+- 2026-11-01 21:19 Parked the stale Start workout (mount-only fetch) and the app-wide toast position/duration mismatch: both are outside a single row build right now.
+- 2026-11-01 21:19 Kept the second-row decision (mutations.ts:173-178) in Blocked on Isa, unchanged.
+- 2026-11-01 21:20 Row 76 item 4 parked: the design's day view (bundle :850-873) does not exist in the app, so the logged card cannot open it. Building a new surface is out of this loop's scope. Reason: design answers the question, but the surface is missing.
+- 2026-11-01 21:20 Items 1-2 chosen next: they need nothing from Isa and touch one file.
+- 2026-11-01 21:20 Rest-day redirect kept as the accepted deviation recorded in notes.
+- 2026-11-01 21:20 Read-only tsc flag from R336 treated as cleared: the handover records tsc 0 on the last full run, and this round adds no new code path.
