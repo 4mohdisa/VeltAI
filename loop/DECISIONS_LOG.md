@@ -3010,3 +3010,13 @@
 - 2026-11-02 01:09 Chose row 117 item 4 over the handover's suggested row 113 item 3, because row 113 item 3 is on the Blocked on Isa list (Screen.tsx:117) and must not be built.
 - 2026-11-02 01:09 Made this round doc-only (re-check plus citation fix) because the Next list says so and the last report says item 4 may already be fixed.
 - 2026-11-02 01:09 Did not run tsc or jest, because no code changes are made this round.
+- 2026-11-02 01:10 Chose the verification round first because the loop flag says the last report was not type-checked or tested, and NOTES says the next build round clears it.
+- 2026-11-02 01:10 Did not pick row 117 item 8 (Logged pill wash) because it is on the Blocked on Isa list under the Summary items.
+- 2026-11-02 01:10 Did not pick row 113 item 3 (gap 12 vs 20) because the Blocked list (remove 4px at Screen.tsx:117, or accept) wins over the handover recommendation.
+- 2026-11-02 01:10 Included TodayCard.tsx in the related-test run because row 117 item 3 changed it in R365.
+- 2026-11-02 01:10 Left out the full jest run because the checkpoint rule runs it before the next handover, not every round.
+- 2026-11-02 01:11 Chose the checkpoint over Jev's top pick (row 76 item 3, 88%) because the loop note requires this round to be a checkpoint, and the latest report and handover both flag uncommitted edits from the last round (eyebrow edit, log-session and session changes) that have not been checked by a full type check and suite run.
+- 2026-11-02 01:11 Ran the full tsc and jest --ci with no file changes, because the rejected prompt needed a single, clearly scoped task, and a checkpoint is the only task that covers all changed gym files at once.
+- 2026-11-02 01:11 Named design/Lume App.html and its gym and Profile bundle IDs, to fix the rejection point.
+- 2026-11-02 01:11 Did not pick row 113 item 3 from the handover, because the Blocked list says it waits on Isa and the Blocked list wins.
+- 2026-11-02 01:11 Dropped the handover's stale row 117 item 8 and row 113 item 3 suggestions from this round; both stay blocked on Isa.

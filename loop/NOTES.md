@@ -11,29 +11,32 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food chips; keep Goals extras, Meal history link, Training list until replacement, LoadFailedNotice; rest day to picker (accepted deviation); My workouts on schedule screen; swipe colour primary; R338 picker close fix approved.
 - Owner-only gaps are parked, not asked. Blocked questions are not re-asked. Blocked files are not edited. No workarounds for blocked items.
 - A flagged report is cleared by running tsc and tests in the next build round.
-- Rejected prompts are rewritten with every listed point fixed, including the branch rule (R366).
+- Rejected prompts are rewritten with every listed point fixed, including the branch rule (R366) and the design file name (R368).
 
 ## Status
-- Re-checked: 107-109, 111, 113-118.
+- Re-checked: 107-109, 111, 113-118. Row 117 item 4 re-checked in R366 and now EXACT (code re-checked, not verified on device).
 - 113: open 3, 10, 11 (blocked). 76: open 2, 3, 5-7. 115: built except owner gaps. 116: exhausted for loop work; item 7 needs a device.
-- 117: items 2 and 3 built in code (R364, R365; item 3 pill, chips and stat value restyled in TodayCard.tsx, not verified). Item 1 blocked. Item 4 under re-check this round. Item 8 citation stale (TodayCard.tsx:172 moved).
+- 117: items 2, 3 and 4 built or exact in code (R364, R365, R366). Item 1 blocked. Item 8 (Logged pill wash) is on the Blocked list; citation now TodayCard.tsx:193.
 - 118: PARTIAL. LumeTabBar.tsx edited in R360 (blocked file), awaiting Isa. Items 4-5 need a device.
-- Loop flag on R365 (partly done) is handled by Next 1.
+- R365 flag (partly done) and R366 flag (tsc and tests not run) handled by Next 1 in R367.
+- R367 verification round reported its last work; its result is not confirmed in this note. R368 is a full checkpoint to confirm it.
+- Uncommitted edits may remain from the last round (eyebrow edit, gym log-session, session, schedule, exercise-progress). R368 checks them with full tsc and jest --ci.
 
 ## Open rows
 - PARTIAL: 76, 107, 109, 111, 115, 116, 117, 118.
 - Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
 
 ## Next
-1. Row 117 items 4 and 8: doc-only re-check of schedule.tsx entries and TodayCard.tsx citation (R366, in progress).
-2. Row 76 item 3 (second sheet), after confirming design lines.
-3. Checkpoint before next handover: full tsc and jest --ci, no file changes.
+1. R368: checkpoint. Full tsc and full jest --ci, no file changes. Report every failure with file and test name.
+2. If R368 is red, next round fixes only the failing files named in R368, then reruns tsc and findRelatedTests for those files.
+3. Row 76 item 3 (second sheet), after confirming design lines in design/Lume App.html (gym bundle 7dc211f6).
 4. Row 118 check after Isa answers: tsc; jest --ci tabNavigation.test.ts; findRelatedTests LumeTabBar.tsx --passWithNoTests. No file changes.
 5. If no non-blocked task remains, stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not re-ask)
 - 116: items 1-2 open cells to day view (build); 3 keep frozen fill; 4 logged day level 2 or 3; 5 keep '1 session'; 6 keep strings; 8 nav button size fix.
 - 117 item 1: templates.tsx:50 radius 28 vs 20; session.tsx:407, muscles.tsx:73 layout; keep 20 on seven cards?
+- 117 item 8: logged pill wash (Summary list).
 - 113 item 3: remove 4px at Screen.tsx:117, or accept.
 - 118: keep or revert R360 LumeTabBar.tsx edit.
 - jest -u for detailChrome.
@@ -47,8 +50,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 
 ## Parked (one line each, grouped)
 - Gym: no refetch on focus (Start workout can show after logging); duplicate Training link; untranslated muscle and day names; hardcoded picker title; day_name.slice; My workouts press 0.85 with no fill; LumeTabBar.tsx:179 + flash; library multi-select; exercise progress rowing, English copy, lb as kg; CardHeaderRow colour; MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; pull-to-refresh misses TodayCard; index.tsx:179, 108, 114; row 114 chevron needs day route; + menu pushes sheet before checking logged state (possible flash).
-- Row 114: TodayCard may repeat old values. Row 117: logged stats show 3 cells vs 4 (no calories data).
-- Stale comments and citations: gymSchedule.ts:32-61, gym.tsx:70-73, hooks.ts:159; LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10, Screen.tsx:22, gym.tsx:155; schedule.tsx 'Tues' comment; sheetRowNameStyle name.
+- Row 114: TodayCard may repeat old values. Row 117: logged stats show 3 cells vs 4 (no calories data). Row 113 schedule.tsx citations out of date.
+- Stale comments and citations: gymSchedule.ts:32-61, gym.tsx:70-73, hooks.ts:159; LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10, Screen.tsx:22, gym.tsx:155; schedule.tsx 'Tues' comment; sheetRowNameStyle name (also styles the week row name).
 - Tests: gymCalendar NAV_SIZE 32 vs 44; most suites read source text; uncovered: Privacy, Support, About, CaloriesCard, quick-add, gym.tsx, MyScheduleCard, chooser, log-session, schedule, exercise-progress, library close.
 - Layout: TAB_BAR_CLEARANCE unused. Shadow radius may render softer on iOS.
 - Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8; AddMenu.tsx:3; reduceMotion.ts:13.
@@ -58,7 +61,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Doc: stale citations after rows 113, 115, 117; rows 85, 104, 112.
 
 ## Jev
-Decisions R337-R366 kept as made. R365 ran row 117 item 3 (Jev run 87%). R366 run 86%, chose row 117 item 4 re-check.
+Decisions R337-R367 kept as made. R365 ran row 117 item 3 (Jev run 87%). R366 run 86%, chose row 117 item 4 re-check. R367 run chosen as verification round (flag clearance) over row 76 item 3; Jev run 96%.
+R368: Jev ranked row 76 item 3 first at 88%. Kept the checkpoint instead, because the loop note requires a checkpoint this round and the R367 flag and uncommitted gym edits are unconfirmed. Row 76 item 3 moves to Next 3.
 
 ## Gotchas
-Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. Nothing has been checked on a device. The last eyebrow edit may be uncommitted. No suite imports gym schedule, log-session, session or exercise-progress. Handover recommendation for 113 item 3 conflicts with the Blocked list; the Blocked list wins.
+Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. Nothing has been checked on a device. No suite imports gym schedule, log-session, session or exercise-progress, so findRelatedTests needs --passWithNoTests. Handover recommendation for 113 item 3 conflicts with the Blocked list; the Blocked list wins.
