@@ -2706,3 +2706,8 @@
 - 2026-11-01 07:36 Left row 118 for the next round to stay within the 5-row cap.
 - 2026-11-01 07:36 Did not repeat the detailChrome snapshot approval. It stays parked until Isa answers.
 - 2026-11-01 07:36 Kept the 42 data row count. The handover asked for Isa to confirm it, but it does not block work.
+- 2026-11-01 20:16 Chose the doc re-check of row 118 with the row 108 citation fix in one doc-only round. Both are doc-only, and row 118 is the only row left in the re-check queue.
+- 2026-11-01 20:16 Asked for one tsc run this round. The loop flagged the last report for no type check, so this clears the flag without running jest or the full suite.
+- 2026-11-01 20:16 Parked the stale detail sections at doc lines 484, 509, 631, 828 and the false -0.6 claim at 840-841 under Doc. They are doc tidying, not a row build.
+- 2026-11-01 20:16 Parked exercise-progress.tsx kg hardcoding, the gym.tsx:155 comment and the row 114 chevron route under Parked. They are outside the 42 rows' build scope for this round.
+- 2026-11-01 20:16 Kept row 103 blocked until the Energy snapshot is approved, as the notes say.
