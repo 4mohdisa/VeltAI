@@ -3221,3 +3221,8 @@
 - 2026-11-02 06:06 Jev said stop 39%, ask 33%, run 28%, confidence 0.09. Kept run: the task is one file, has no visual change, and is the only unblocked DIFFERENT row. Jev confidence is too low to override this.
 - 2026-11-02 06:06 Row 84 stays DIFFERENT until NavBar.tsx:29 is also fixed. Only a one-line note is added to the row now.
 - 2026-11-02 06:06 Doc fix at DESIGN_GAP_ANALYSIS.md:855 and :674 is parked for a doc re-check round, not done now, to keep this round to one task.
+- 2026-11-02 06:08 Loop note flagged R411 as partly done. The open part is NavBar.tsx:29, a single-file alias replacement, so it is the task to finish first.
+- 2026-11-02 06:08 The repeated blocker is the gap 16 detailChrome snapshot failure. It is already under Blocked on Isa and is not retried. The chosen task does not depend on it.
+- 2026-11-02 06:08 Row 84 NavBar step is one component (NavBar.tsx) plus one doc line in row 84. The doc line is in the same row as the build, so it is allowed under the one-component rule.
+- 2026-11-02 06:08 Alias replacement only if tokens.ts shows identical values. This avoids a visual change, which the brief forbids.
+- 2026-11-02 06:08 Badge padding and type differences stay parked. No decision records which pill it should match, and style changes are banned in this task.

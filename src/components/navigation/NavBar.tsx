@@ -26,7 +26,7 @@ export function NavBar({ title, showBack = true, onBack, backLabel, right, borde
         minHeight: layout.buttonHeight,
         justifyContent: 'center',
         borderBottomWidth: borderless ? 0 : 1,
-        borderBottomColor: color.gray200,
+        borderBottomColor: color.light2,
       }}
     >
       {/* Title is centred independently of the side slots. */}
