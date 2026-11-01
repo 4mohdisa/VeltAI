@@ -2786,3 +2786,7 @@
 - 2026-11-01 20:38 Ignored Jev's ask at 57%: its confidence is 0.35 and risk confidence is 0.07, so the signal is weak and the notes default covers the situation.
 - 2026-11-01 20:38 Kept item 4 out of this round: the notes order is items 1-3 first, then items 4 and 7, so item 4 waits for a later round.
 - 2026-11-01 20:38 Kept row 107 closed: the verify round found no correction, and repeat checks on 107 add nothing.
+- 2026-11-01 20:40 Kept run over Jev's ask (82%). The SettingsList row geometry question is already covered by the default in the notes (per row, Isa may override), so asking would break the ask-rarely rule.
+- 2026-11-01 20:40 Chose the row 108 item 4 growth doc fix (candidate 1). It is the next step in Next item 2, needs nothing from Isa, and is doc-only, so it is low risk.
+- 2026-11-01 20:40 Item 7 is out of the numbered list (R315). Items 1-3 citations were checked and are correct, so no citation change.
+- 2026-11-01 20:40 Jev's risk score (1.4) is advisory. This round changes only one doc line and runs tsc and three suites.
