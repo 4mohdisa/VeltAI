@@ -2790,3 +2790,7 @@
 - 2026-11-01 20:40 Chose the row 108 item 4 growth doc fix (candidate 1). It is the next step in Next item 2, needs nothing from Isa, and is doc-only, so it is low risk.
 - 2026-11-01 20:40 Item 7 is out of the numbered list (R315). Items 1-3 citations were checked and are correct, so no citation change.
 - 2026-11-01 20:40 Jev's risk score (1.4) is advisory. This round changes only one doc line and runs tsc and three suites.
+- 2026-11-01 20:41 Chose the row 108 item 4 citation fix: it is doc-only, in a re-check round, and the last report left those three gaps open.
+- 2026-11-01 20:41 Did not ask about SettingsList geometry: the default (per row) already settles it, and the rule is to ask rarely.
+- 2026-11-01 20:41 Jev asked at 70% with confidence 0.55; kept run because the question is settled by default and the scope is one doc row plus tsc and three suites.
+- 2026-11-01 20:41 Rewrote the notes to under 600 words as the loop note requested, merging repeated items and deleting finished work.
