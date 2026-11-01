@@ -2839,3 +2839,7 @@
 - 2026-11-01 20:53 Did not ask Isa about SettingsList geometry: the R323 default (per row, check every caller first) already answers it.
 - 2026-11-01 20:53 Rewrote the notes under 600 words as the loop note asked; merged repeats and removed finished work.
 - 2026-11-01 20:53 Recorded the R328 report's row 108 issues in Next and Status so they are not lost.
+- 2026-11-01 20:53 Chose the row 108 doc fix: it is doc only, needs nothing from Isa, and is the recorded Next 2 after the flag check was verified read-only in R329.
+- 2026-11-01 20:53 Kept the verification step inside the prompt, because the handover says item 4 omits field growth while the R328 notes say it cites it. The prompt tells Claude Code to check first.
+- 2026-11-01 20:53 Jev signals this round (run 44%, ask 40%) do not strongly disagree with run, so the run stands. Ask would only add a question about a task that needs nothing from Isa.
+- 2026-11-01 20:53 Did not restart the SettingsList geometry decision: it is waiting on Isa and is not a task until he answers.

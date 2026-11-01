@@ -19,9 +19,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Row 107 closed.
 - Row 108: item 7 EXACT, removed (R325). Item 4 cites tokens.ts:146 and growth; geometry cites added (R328).
-- Row 108 still open: item 4 has a mid-item Profile citation duplicating the opening "bundle :546"; 114 is not stated as rounded from 114.4.
-- Last tsc 0 (R328). Last full jest R324: 64/65 suites, 822/824. Only failures are the detailChrome snapshots (energy, macros), awaiting Isa approval.
-- R329: Jev ranked the row 108 fix first. Kept the flag verification: the flag comes first, and the doc fix is Next 2.
+- R329: flag verification done read-only. tsc 0, no file changes, report confirmed the R328 commit touched only DESIGN_GAP_ANALYSIS.md.
+- Row 108 still open: item 4 has a mid-item Profile citation duplicating the opening "bundle :546"; 114 is not stated as rounded from 114.4. R330 task: doc fix (in progress).
+- Last tsc 0 (R329). Last full jest R324: 64/65 suites, 822/824. Only failures are the detailChrome snapshots (energy, macros), awaiting Isa approval.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes; checklist icon.
@@ -43,12 +43,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. Verify the R328 flag read-only: tsc only, no file changes (R329).
-2. Row 108 doc fix: remove duplicate Profile citation in item 4; state 114 is rounded from 114.4 (doc only).
-3. Row 103 energy gap, after snapshot approval.
-4. Row 118 items 4-5 device check, if Isa approves.
-5. SettingsList geometry: per-row default; check every caller before any change.
-6. No rows left: stop with 'only owner decisions remain'.
+1. Row 108 doc fix: check item 4 for field growth; remove duplicate Profile citation in item 4; state 114 is rounded from 114.4 (doc only). (R330, in progress)
+2. Row 103 energy gap, after snapshot approval.
+3. Row 118 items 4-5 device check, if Isa approves.
+4. SettingsList geometry: per-row default; check every caller before any change.
+5. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
@@ -61,6 +60,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Top padding Gym, Summary, Food: inset-based (recommended) or literal 70.
 - Burn target 10-11; energy week axis 15; header strip Screen.tsx:163.
 - About header: remove (recommended) or keep an accessible heading.
+- SettingsList row geometry: fix or accept (settles 107-109; affects every caller).
 - Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, Food gap.
 - Native review of es/fr strings, incl. food.pickDayLabel. TestPG_* (18 skipped).
 
@@ -96,4 +96,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 ## Jev
 R315-R321: asked 70-82%; ran kept each time, reasons recorded above.
 R322-R327: ask or run mixed; kept runs recorded with reasons.
-R329: ask 61%, stop 33%, run 6% (confidence 0.42, risk 1.0). Jev ranked the row 108 fix first (98%). Kept the flag verification: a flagged report is checked before any edit, and the fix is Next 2.
+R329: ask 61%, stop 33%, run 6% (confidence 0.42, risk 1.0). Kept the flag verification, which was then done read-only.
+R330 (handover signals): run 44%, ask 40%, stop 16% (confidence 0.16, risk 1.2). Kept run: the doc fix needs nothing from Isa.
