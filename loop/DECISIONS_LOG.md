@@ -3212,3 +3212,12 @@
 - 2026-11-02 06:03 Did not follow the handover's suggestion to fix DESIGN_GAP_ANALYSIS.md:855 and :674 for aliases. Notes from R405 record that no doc edit is needed there (line 855 is about letter spacing), so the handover item is treated as superseded.
 - 2026-11-02 06:03 Kept the citation refresh scope to the six differences and row 111 that were still pending, and added the known stale items (index.tsx:178, gym.tsx:243-246) by name so they are not missed.
 - 2026-11-02 06:03 Row 84 alias work stays a candidate for after this doc round, not a build now.
+- 2026-11-02 06:06 Jev put 80% on ask. I kept run for row 84 only. Concrete reason Jev cannot see: row 84 is the only unblocked DIFFERENT row left, it is limited to two files, it changes no visuals, and it does not touch tokens.ts or the other 20-plus alias files. Ask is not needed because nothing in it is a product or owner decision; the defaults cover it.
+- 2026-11-02 06:06 Chose the row 84 build over a doc re-check because the last doc round (R409) already refreshed citations for differences 9, 11, 12, 14, 22, 23 and row 111, so another doc round would be empty work.
+- 2026-11-02 06:06 Kept the 41-alias cleanup across 24 files parked. Row 84 only names NavBar and Badge, so the wider sweep is out of scope.
+- 2026-11-02 06:06 Did not re-ask gap 16 (detailChrome snapshot). It is blocked and must not be re-asked.
+- 2026-11-02 06:06 Jev's risk reading of 1.6 is noted. Scope is held to two files and a token name swap, with no test or snapshot edits, which is the reason for running rather than asking.
+- 2026-11-02 06:06 R410 prompt was rejected for touching two components (NavBar.tsx and Badge.tsx). Rewritten as one component: Badge.tsx only. NavBar.tsx moves to a later round.
+- 2026-11-02 06:06 Jev said stop 39%, ask 33%, run 28%, confidence 0.09. Kept run: the task is one file, has no visual change, and is the only unblocked DIFFERENT row. Jev confidence is too low to override this.
+- 2026-11-02 06:06 Row 84 stays DIFFERENT until NavBar.tsx:29 is also fixed. Only a one-line note is added to the row now.
+- 2026-11-02 06:06 Doc fix at DESIGN_GAP_ANALYSIS.md:855 and :674 is parked for a doc re-check round, not done now, to keep this round to one task.

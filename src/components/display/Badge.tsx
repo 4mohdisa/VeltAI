@@ -16,7 +16,7 @@ export type BadgeProps = {
   testID?: string;
 };
 
-export function Badge({ label, icon, iconColor = color.gray700, style, testID }: BadgeProps) {
+export function Badge({ label, icon, iconColor = color.label, style, testID }: BadgeProps) {
   return (
     <View
       testID={testID}
@@ -35,7 +35,7 @@ export function Badge({ label, icon, iconColor = color.gray700, style, testID }:
       ]}
     >
       {icon ? <Icon name={icon} size={13} color={iconColor} /> : null}
-      <Text variant="label" color={color.gray700}>
+      <Text variant="label" color={color.label}>
         {label}
       </Text>
     </View>
