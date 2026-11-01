@@ -2878,3 +2878,12 @@
 - 2026-11-01 21:22 Kept the log-session.tsx rest-day redirect as an accepted deviation (unchanged).
 - 2026-11-01 21:22 Item 2 stays not built while the SF Symbol plus glyph differs from the design path; glyph left to NEXT so the task stays one change.
 - 2026-11-01 21:22 Stale citations and hardcoded English left for later (doc fixes only in re-check rounds; i18n parked).
+- 2026-11-02 00:00 Chose the checkpoint run because the loop note requires it and the last report was flagged for an unrun type check or test pass.
+- 2026-11-02 00:00 Kept the run action over Jev's ask lean (54% ask, 43% run). A checkpoint needs no answer from Isa, and the task changes no files, so the risk is low.
+- 2026-11-02 00:00 Wrote the prompt to forbid any file change, so a failing run cannot leave a half-made fix behind.
+- 2026-11-02 00:00 Known detailChrome failures are listed as pre-existing and awaiting approval, so the run is not blocked by them.
+- 2026-11-02 00:01 Rewrote the rejected prompt to name design/Lume App.html and bundle 7dc211f6 explicitly, as the loop note requires.
+- 2026-11-02 00:01 Chose row 113 My workouts over row 115 because it is a single missing section and needs no Isa answer. Row 115 has 11 items.
+- 2026-11-02 00:01 Left row 76 item 2 (plus glyph and add path) alone: onPick stays as Isa asked, and the glyph is a shared-icon question.
+- 2026-11-02 00:01 R339 checkpoint is recorded as done (tsc 0; jest --ci 822/824 with only the known detailChrome failures). Continuing without re-running the full suite.
+- 2026-11-02 00:01 Left SettingsList row geometry, detailChrome approval, and logged-day actions in Blocked on Isa. Not asking again this round.
