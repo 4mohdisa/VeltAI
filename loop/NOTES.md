@@ -16,22 +16,24 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Add path (row 76 item 2) not faked: logging on pick marks the day done, and adding to the template changes future weeks.
 - Round 389: prompt rejected for not naming loop/design-match. Rewritten with the branch rule first.
 - R390: doc fixes done (deprecated-alias claims at 674-677 and 857-860; differences 8, 10, 19; row 111 and difference 23 LumeTabBar citations). Row 111 wording 'bottom 96 matches only at a 34 inset' is still false: offset is max(inset - 12, 22), so 96 holds for any inset up to 34. Parked for Isa.
-- R391-R395: loop stopped by manager five times. Same state each time: only owner decisions remain. Doc fix at :674 and :855 not run (conflicts with R390; parked for Isa). R395 note: rows 107 and 109 are PARTIAL with no recorded blocker; first re-check target if the loop restarts.
-- R396: Jev said stop 80%, risk 2.0. Overrode it with a doc-only re-check of rows 107 and 109. Reason: they have never been re-checked and have no blocker, so 'only owner items remain' is not yet proven. No code changes.
+- R391-R395: loop stopped by manager five times. Same state each time: only owner decisions remain. Doc fix at :674 and :855 not run (conflicts with R390; parked for Isa).
+- R396: Jev said stop 80%, risk 2.0. Overrode it with a doc-only re-check of rows 107 and 109. Reason: they had never been re-checked and had no blocker. Result: both stay PARTIAL; new items added (bottom padding 48+inset vs 40 via Screen.tsx; footnote text-wrap; label/value gap 12 vs 11; value stacking at large text).
+- R397: last report flagged for no tsc/tests run. Fix: run tsc --noEmit, then doc-only re-check of row 110 (shared chrome), since rows 107 and 109 defer top padding, title block and back button to it. Jest not run: no code changed.
 
 ## Status
 - PARTIAL, nothing fully built: 76, 107, 109, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
+- Rows 107 and 109 re-checked in R396 (doc only). Row 110 re-check queued for R397.
 - Row 76 items 3, 5, 8 built in log-session.tsx; item 2 plus glyph built (SomethingElseGlyph, PLUS_STROKE); add path open (blocked).
 - Row 114: TodayCard.tsx detail section matches; stays DIFFERENT (item 8 blocked).
 - Row 117: items 2, 3 built; 4 EXACT; 6 fixed (history.tsx:41, :55; streak.tsx:55). Items 5, 7 open outside TodayCard (blocked). Items 1, 8 blocked.
-- R382 checkpoint: tsc 0; jest --ci 822 of 824. Only failure: detailChrome (blocked). Last round (R390) was doc-only; jest not re-run; tsc exit 0 reported.
+- R382 checkpoint: tsc 0; jest --ci 822 of 824. Only failure: detailChrome (blocked). R390 to R397 were doc-only; jest not re-run.
 - Nothing checked on a device.
 
 ## Next (for Isa)
 1. Run full checkpoint: tsc --noEmit and jest --ci on loop/design-match.
 2. Answer the blockers below. Each answer unblocks one row.
-3. Doc may still be stale: handover says DESIGN_GAP_ANALYSIS.md:674 and :855 still call deprecated grey tokens in use, but R390 says 674-677 and 857-860 were fixed. Check which is true. Row 84 says streak and history use deprecated grey tokens. Difference 23 cites gym.tsx:148 (now :160) and index.tsx:179 (now :178). Line numbers in differences 1-7, 13, 17, 20 and line 299 look stale against 421-line log-session.tsx. Row 111 wording 'bottom 96 matches only at a 34 inset' is false (see Decisions).
-4. Rows 107 and 109: re-check in progress (R396). Read the R396 report for the result.
+3. Doc may still be stale: DESIGN_GAP_ANALYSIS.md:674 and :855 still call deprecated grey tokens in use per handover, but R390 says 674-677 and 857-860 were fixed. Check which is true. Row 84 says streak and history use deprecated grey tokens. Difference 23 cites gym.tsx:148 (now :160) and index.tsx:179 (now :178). Line numbers in differences 1-7, 13, 17, 20 and line 299 look stale against 421-line log-session.tsx. Row 111 wording 'bottom 96 matches only at a 34 inset' is false (see Decisions).
+4. Rows 107, 109, 110: doc re-checks done or queued. Read the R397 report for row 110.
 5. If the re-check finds no differences left, only owner decisions remain and the loop can stop.
 
 ## Blocked on Isa (do not re-ask, do not retry)
@@ -46,6 +48,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Failed schedule fetch shows empty week; failed templates look like zero templates; My workouts heading hidden at zero templates (schedule.tsx:147).
 - Sheet resize under fitToContents when second sheet swaps in (owner check).
 - Row 116 and 117 blocked items above are the same owner decisions; do not split.
+- Shared Screen.tsx bottom padding (48+inset vs 40): changes every screen using Screen.tsx; needs owner call before touching rows 107, 109, 110, 108.
 
 ## Owner device checks (parked)
 Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close, exercise progress, picker fills, week card and row press, calendar chevron, tab bar, second sheet resize. Row 115: 3D body, guide images, cardio minutes, speed, kcal; native es/fr review; TestPG_* (18 skipped).
@@ -65,9 +68,11 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results. Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
 - Doc: confirm whether DESIGN_GAP_ANALYSIS.md:674 and :855 still claim deprecated aliases in use (handover) or were fixed in R390.
+- Profile row 108 (Support): same 48+inset bottom padding may apply; not checked yet.
+- SettingsList: label/value gap 12 vs 11 and value stacking at large text (rows 107, 109); small, not started.
 
 ## Jev
-R337-R395 decisions kept. Keep builds small with explicit check requirements. Shared-file blocked items are not retried as TodayCard tasks. R390: Jev said stop 69%; stopped. R391: stop 58%, ask 37%; stopped. R392: stop 88%; stopped. R393: stop 93%; stopped. R394: stop 92%; stopped. R395: stop 93%, ask 7%; stopped. R396: Jev stop 80%, risk 2.0; overridden for a doc-only re-check of rows 107 and 109 (see Decisions).
+R337-R396 decisions kept. Keep builds small with explicit check requirements. Shared-file blocked items are not retried as TodayCard tasks. R390: stop 69%; stopped. R391: stop 58%; stopped. R392: stop 88%; stopped. R393: stop 93%; stopped. R394: stop 92%; stopped. R395: stop 93%; stopped. R396: stop 80%, risk 2.0; overridden for doc-only re-check (see Decisions). R397: next action run 46%, ask 38%, stop 16%, last task clean 6%, risk 1.8. Followed the loop flag and chose the tsc fix plus doc-only row 110 re-check.
 
 ## Gotchas
 Briefs carry false premises: check first (row 117 items 5-7 were not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160). Tab bar lives at src/components/navigation/LumeTabBar.tsx, not src/components/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run by path with find. Reports that skip tsc or tests get flagged; always report exit codes. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging.

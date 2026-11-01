@@ -3154,3 +3154,6 @@
 - 2026-11-02 05:42 Chose the doc-only re-check over a build. Rows 107 and 109 have no known fix yet, so a build would be guesswork.
 - 2026-11-02 05:42 Did not retry the R390 doc fix at :674 and :855. It conflicts with R390 and stays parked for Isa.
 - 2026-11-02 05:42 Skipped tsc and jest for this round, since the only change is to the doc.
+- 2026-11-02 05:44 Chose the flagged-report fix combined with the row 110 re-check, because the loop note requires dealing with the flag before moving on and the last report recommended row 110 as next. Both are one doc-only task with a tsc exit code.
+- 2026-11-02 05:44 Did not run Jest, since no code changed and no test maps to a doc edit. This is stated in the prompt so the report is explicit rather than silently skipped.
+- 2026-11-02 05:44 Row 108 is parked as a follow-up, not picked now. Row 110 comes first because rows 107 and 109 defer to it, so a single re-check clears the shared-chrome question for all three.
