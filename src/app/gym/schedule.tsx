@@ -4,6 +4,7 @@
 // row updates optimistically so the choice sticks even if the API call fails.
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { showToast } from '@/components/display/toastStore';
 import { Card } from '@/components/display/Card';
@@ -18,10 +19,12 @@ import { api } from '@/lib/api';
 import { useSchedule, useTemplates } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { navigate } from '@/lib/nav';
-import type { ScheduleDay } from '@/lib/types';
+import type { ScheduleDay, WorkoutTemplate } from '@/lib/types';
 
 /** Weekday gutter — every workout name starts on one edge (design §3.6). */
 const DAY_WIDTH = 42;
+/** The design's gap between a workout's three lines, tighter than the spacing scale. */
+const WORKOUT_TEXT_GAP = 3;
 
 export default function ScheduleScreen() {
   const { schedule, loading: sLoading, refetch } = useSchedule();
@@ -141,6 +144,8 @@ export default function ScheduleScreen() {
         </Card>
       )}
 
+      {!loading && templates.length > 0 ? <MyWorkouts templates={templates} days={schedule.map(rowFor)} /> : null}
+
       <BottomSheet
         visible={activeDay !== null}
         onClose={() => setActiveDay(null)}
@@ -167,6 +172,63 @@ export default function ScheduleScreen() {
         ) : null}
       </BottomSheet>
     </Screen>
+  );
+}
+
+/** The exercises' primary muscles in plan order, as the design words them: "Chest · shoulders". */
+function musclePhrase(template: WorkoutTemplate): string {
+  const muscles = new Set(template.exercises.flatMap((te) => te.exercise?.muscle_group_primary ?? []));
+  const phrase = [...muscles].join(' · ').replace(/_/g, ' ');
+  return phrase.charAt(0).toUpperCase() + phrase.slice(1);
+}
+
+function MyWorkouts({ templates, days }: { templates: WorkoutTemplate[]; days: ScheduleDay[] }) {
+  const { t } = useTranslation();
+  return (
+    <View style={{ gap: space.md }}>
+      <Text
+        variant="label"
+        color={color.secondaryLabel}
+        style={{ paddingHorizontal: space.xs, letterSpacing: 1.1, textTransform: 'uppercase' }}
+      >
+        {t('gym.myWorkouts')}
+      </Text>
+      {templates.map((template) => {
+        const count = t('gym.exerciseCount', { count: template.exercises.length });
+        const muscles = musclePhrase(template);
+        const sub = muscles ? `${count} · ${muscles}` : count;
+        // Monday first, as the design lists them.
+        const scheduled = days
+          .filter((day) => day.template_id === template.id)
+          .sort((a, b) => (a.day_of_week + 6) % 7 - (b.day_of_week + 6) % 7)
+          .map((day) => day.day_name.slice(0, 3));
+        const when = scheduled.length > 0 ? t('gym.everyDays', { days: scheduled.join(', ') }) : t('gym.notScheduled');
+        return (
+          <Card
+            key={template.id}
+            variant="elevated"
+            padded={false}
+            onPress={() => navigate(`/gym/new-template?id=${template.id}`)}
+            accessibilityLabel={`${template.name}, ${sub}, ${when}`}
+            style={{ borderRadius: radius.lg, padding: space.lg, flexDirection: 'row', alignItems: 'center', gap: space.md }}
+          >
+            <View style={{ flex: 1, gap: WORKOUT_TEXT_GAP }}>
+              <Text variant="bodyMedium" color={color.label}>
+                {template.name}
+              </Text>
+              <Text variant="footnote" color={color.secondaryLabel}>
+                {sub}
+              </Text>
+              <Text variant="caption" color={color.tertiaryLabel}>
+                {when}
+              </Text>
+            </View>
+            {/* Decorative — the card carries the label and the action. */}
+            <Icon name="chevron-forward" size={14} color={color.gray400} />
+          </Card>
+        );
+      })}
+    </View>
   );
 }
 

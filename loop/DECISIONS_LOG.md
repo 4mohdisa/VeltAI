@@ -2887,3 +2887,8 @@
 - 2026-11-02 00:01 Left row 76 item 2 (plus glyph and add path) alone: onPick stays as Isa asked, and the glyph is a shared-icon question.
 - 2026-11-02 00:01 R339 checkpoint is recorded as done (tsc 0; jest --ci 822/824 with only the known detailChrome failures). Continuing without re-running the full suite.
 - 2026-11-02 00:01 Left SettingsList row geometry, detailChrome approval, and logged-day actions in Blocked on Isa. Not asking again this round.
+- 2026-11-02 00:02 Build My workouts on schedule.tsx, not the Gym tab: the design places it under the week card (navSched :536-548) and row 113 names that screen. R340 was right about placement but wrong to stop on it.
+- 2026-11-02 00:02 Overrode Jev's ask (62%): the file is already in row 113's scope and the locale keys are copy from the design, so Isa's answer is not needed.
+- 2026-11-02 00:02 Muscle phrase: derive from exercise muscle groups if the data has them; otherwise keep 'about N min' and record it as an accepted deviation.
+- 2026-11-02 00:02 Opening a workout keeps the existing /gym/new-template route, recorded as an accepted deviation.
+- 2026-11-02 00:02 Gym tab Training list stays until the new section exists.

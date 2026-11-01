@@ -282,6 +282,8 @@
     "daysPlanned_one": "{{count}} día planificado",
     "daysPlanned_other": "{{count}} días planificados",
     "myWorkouts": "Mis entrenamientos",
+    "everyDays": "Cada {{days}}",
+    "notScheduled": "Sin programar",
     "sessionHistory": "Historial de sesiones",
     "keepLoggingPatterns": "Sigue registrando para ver tus patrones",
     "yourGymHabits": "Tus hábitos de gimnasio",

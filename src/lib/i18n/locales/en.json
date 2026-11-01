@@ -280,6 +280,8 @@
     "daysPlanned_one": "{{count}} day planned",
     "daysPlanned_other": "{{count}} days planned",
     "myWorkouts": "My workouts",
+    "everyDays": "Every {{days}}",
+    "notScheduled": "Not scheduled",
     "sessionHistory": "Session history",
     "keepLoggingPatterns": "Keep logging to see patterns",
     "yourGymHabits": "Your gym habits",
