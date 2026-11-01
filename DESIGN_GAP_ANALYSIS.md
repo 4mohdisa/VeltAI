@@ -508,7 +508,7 @@ rule (year appended only outside the current year).
 
 ## Gym — today's session card — ❌ DIFFERENT
 
-**Design:** the whole card is one tap target opening the day detail; a header row
+**Design:** the whole card is one tap target opening the session; a header row
 (11px status dot, title, sub, a state pill, a 14px chevron) over a **4-up stats
 grid** (Duration / Calories / Volume / Sets) and a wrapped row of exercise chips.
 
@@ -516,21 +516,20 @@ grid** (Duration / Calories / Volume / Sets) and a wrapped row of exercise chips
 The logged, rest-day and planned states have a header row. The logged state adds a chevron and, when the logged session has exercises, a 3-up grid (Duration / Volume / Sets) and exercise chips from that session (BUILT, not verified). The planned state adds chips and a **"Start workout"** button. Every state's card,
 including loading, uses padding 16 (`padded={false}`, `space.lg`); the loading state differs from the design.
 
-**Differences:** the card is **not tappable** in any state; the rest-day and planned
-states have **no chevron**, and the logged state's chevron sits on a card that cannot
-be tapped; the logged grid is **3-up against the design's 4-up**, with the Calories cell
-missing because session rows carry no per-session calories, which needs a backend
-change; the planned state has **no stats grid**; "Start workout" is
-app-only; the card shows `LoadFailedNotice` with Try again when the schedule fetch fails
-(`src/lib/data/gymSchedule.ts:38-40`), a state the design does not have; dot 12 vs 11; header min-height 36 vs 34;
-gaps 12 vs 10 and 4 vs 1; pill `500 11/14` vs `600 11/15` and `4px 8px` vs `3px 9px`;
-**the "Logged" pill is solid green, not the design's wash** (`color-mix(positive 22%, white)` →
-`categoryAccent.positive`); grid values `600 17/24` display vs `600 16/21` rounded;
-chip type `500 11/14` vs `500 12/16`, padding 12 vs 10, gap 8 vs 6;
-the logged sub-line's kcal is the day's total exercise burn, not the session's, and is
-left out when none is recorded; the planned sub-line
-drops the muscle-group phrase and adds a duration; and the design's `ready` state
-(a day with a draft) has no counterpart.
+**Matches:** card surface, radius, shadow, padding 16 and gap 16 (`src/components/gym/TodayCard.tsx:186-187`, bundle :72); dot 11 and its colours, header gap 10 and min height 34, title gap 1, title and sub-line type (`:24-27`, `:102-111`, bundle :73-77, :1569); pill padding 3/9, type 600 11/15, labels and the Planned and Rest fills (`:28-29`, `:36`, bundle :79, :1575-1578); stat value rounded 600 16/21, value-to-label gap 1, grid gap 8 and labels (`:32`, `:38-42`, `:153`, bundle :83-87); chip min height 28, padding 10, type 500 12/16, row gap 6, and the first three chips plus "+N more" (`:30-31`, `:37`, `:72`, bundle :91-93, :1580-1581); rest-day copy (`:229-230`, bundle :1570, :1573); chevron size and colour (`:115`, bundle :80).
+
+**Differences:**
+
+1. The card is not tappable in any state, with no `onPress` (`TodayCard.tsx:186`, `:226`, `:248`) vs one tap target opening the session, with a `light-1` pressed fill (bundle :72, :1582).
+2. Chevron on the logged state only, on a card that cannot be tapped (`TodayCard.tsx:115`, `:194`) vs every state (bundle :80); glyph is an SF Symbol vs a 2.4-stroke path (bundle :80).
+3. Logged grid is 3-up with no Calories cell, because session rows carry no calories, which needs a backend change (`TodayCard.tsx:153-163`) vs 4-up (bundle :83, :1584-1589). A missing duration or volume reads as a dash, which is app-only (`:155`, `:159`). Sets counts every exercise's sets (`:143`) vs strength only (bundle :1188). The grid and chips appear only once `useGymRange(1)` finds the session (`:182-183`, `:196`) vs whenever the day has exercises (bundle :1579).
+4. Planned state has no stats grid (`TodayCard.tsx:247-270`) vs the grid whenever a session has exercises (bundle :82-90, :1579).
+5. "Start workout" inside the card is app-only (`TodayCard.tsx:267`) vs no button in the card (bundle :72-97).
+6. Planned sub-line drops the muscle-group phrase (`TodayCard.tsx:245`, bundle :1573), and the design's "ready" wording for a drafted day has no counterpart.
+7. Logged sub-line kcal is the day's total exercise burn and is left out when none is recorded (`TodayCard.tsx:181`, `:191`) vs the session's kcal, always shown (bundle :1571-1572).
+8. Logged pill is solid green (`TodayCard.tsx:193`) vs a 22% wash into white (bundle :1576-1577); the token awaits Isa.
+9. The card always shows today (`TodayCard.tsx:204`) vs following the selected day (bundle :1571-1572).
+10. App-only: loading skeletons (`TodayCard.tsx:206-215`) and `LoadFailedNotice` with Try again (`:218`), an accepted deviation; the notice's button keeps `minTapTarget={false}` (`src/components/display/LoadFailedNotice.tsx:47`); a long stat value shrinks to fit (`:124`) vs staying on one line at full size (bundle :86).
 
 ## Gym — the "Log this session" CTA — ❌ DIFFERENT
 

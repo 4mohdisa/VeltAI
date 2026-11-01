@@ -15,9 +15,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Every prompt names the loop/design-match branch and forbids switching, pushing, merging or committing (rule added after a rejected prompt).
 
 ## Status
-- Re-checked: 107-109, 111, 113-118. Row 76 re-checked. Item 5 verified in code at R376 (log-session.tsx:123, 137, 274). Doc still lists item 5 open; R377 updates it.
+- Re-checked: 107-109, 111, 113-118. Row 76 re-checked. Row 114 re-checked at R377 against TodayCard.tsx; still DIFFERENT, 10-item list. Row 76 item 5 text updated to built in code at R377 (log-session.tsx:123, 137, 274).
+- R377 report was flagged (type check not run after the doc edits). R378 is a doc-only re-check that aligns the row 114 detail section (DESIGN_GAP_ANALYSIS.md:509) with row 114, then runs tsc once after the final edit.
 - Row 76: items 1, 3, 4, 5, 8 built in code (not on device). Item 2 partly built (plus glyph; add path open). Items 6-7 open. PARTIAL.
 - Row 113: 11 open. Items 3, 10 built, awaiting Isa. Title-to-card 24 vs 20 at Screen.tsx:117 stays.
+- Row 114: 10 open items. Items 9-12 (dot, header, title gap, pill, stat value, chip values) fixed in code and moved to the Matches line. Chevron, Sets count, useGymRange wait, pressed fill and stat shrink are open. Item 8 (logged pill wash token) blocked.
 - Row 115: built except owner gaps.
 - Row 116: items 1-6, 8 blocked. Month button pressed opacity built; chevron stroke open.
 - Row 117: items 2, 3 built; 4 exact. Item 1: 3 of 13 exact, 3 different, 7 no counterpart (blocked). Items 5-7, 9-10 open; 8 blocked.
@@ -31,7 +33,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
 
 ## Next
-1. (R377) Re-check, doc only: row 76 item 5 text updated to built in code (log-session.tsx:123, 137, 274); row 114 re-checked against TodayCard.tsx. Run tsc once. No jest, no code files.
+1. (R378) Re-check, doc only: DESIGN_GAP_ANALYSIS.md detail section at line 509 aligned with row 114. Run tsc once after the final edit. No jest, no code files.
 2. Row 76 item 2 (plus glyph, add path), then items 6-7.
 3. Row 117 items 5-7 (non-blocked).
 4. No non-blocked task left: stop, 'only owner decisions remain'.
@@ -42,6 +44,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - detailChrome: keep gap 16 on energy balance and macros, or remove.
 - 116: items 1-2 open cells to day view; 3 keep frozen fill; 4 logged day level 2 or 3; 5 keep '1 session'; 6 keep strings; 8 nav button size.
 - 117: item 1 templates.tsx:50 radius 28 vs 20, session.tsx:407 and muscles.tsx:73 layout, keep 20 on seven cards; item 8 logged pill wash.
+- 114: item 8 logged pill wash token (TodayCard.tsx:193). Same question as 117 item 8.
 - 113 item 3: remove 4px at Screen.tsx:117, or accept.
 - 118: keep or revert R360 LumeTabBar.tsx edit; does earlier approval cover it.
 - Shared BottomSheet, SheetContent, Button, sheet height (shared with onboarding). Toast duration and position (toastStore.ts:42, :45).
@@ -59,14 +62,15 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Gym: cardio source reads one planned duration; design sums per-segment minutes.
 - Gym: 0-minute plans save no duration; celebration gets formatDuration(0); design shows 0 min.
 - Gym: ticklist mode in session.tsx (:40, :123) unreached; remove only in a dedicated task.
-- Gym: no refetch on focus; duplicate Training link; untranslated muscle and day names; hardcoded picker title; day_name.slice; My workouts press 0.85 no fill; LumeTabBar.tsx:179; library multi-select; exercise progress rowing, English copy, lb shown as kg; CardHeaderRow colour; MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; pull-to-refresh misses TodayCard; index.tsx:179, 108, 114; row 114 chevron needs day route; + menu pushes sheet before logged check.
+- Gym: no refetch on focus; duplicate Training link; untranslated muscle and day names; hardcoded picker title; day_name.slice; My workouts press 0.85 no fill; LumeTabBar.tsx:179; library multi-select; exercise progress rowing, English copy, lb shown as kg; CardHeaderRow colour; MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; pull-to-refresh misses TodayCard; index.tsx:179, 108, 114; row 114 chevron needs day route; + menu pushes sheet before logged check; GymSessionButton 'Start workout' opens session directly, design 'Log this session' opens log sheet (bundle :98-102).
 - Gym second sheet: en/es/fr keys in i18n task; caption not footnote; pill 17/24 not 16/21; footer scrolls; bottom padding.
-- Row 114: TodayCard may repeat old values. Row 117: logged stats show 3 cells vs 4.
+- Row 114: TodayCard may repeat old values (detail section now aligned at R378).
+- Row 117: logged stats show 3 cells vs 4.
 - Failed templates fetch looks like zero templates; picker offers only Rest day, could overwrite a workout.
 - Stale comments: gymSchedule.ts:32-61, gym.tsx:70-73, hooks.ts:159; LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10, Screen.tsx:22, gym.tsx:155; schedule.tsx 'Tues'; sheetRowNameStyle name.
-- Tests: gymCalendar NAV_SIZE 32 vs 44; most suites read source text; gymDurationHonesty.test.ts:54 title says sheet 'starts at Not set' (stale); no test covers the sum at log-session.tsx:123 or the celebration at :274; uncovered: Privacy, Support, About, CaloriesCard, quick-add, gym.tsx, MyScheduleCard, chooser, log-session, schedule, exercise-progress, library close.
+- Tests: gymCalendar NAV_SIZE 32 vs 44; most suites read source text; gymDurationHonesty.test.ts:54 title says sheet 'starts at Not set' (stale, no such state); no test covers the sum at log-session.tsx:123 or the celebration at :274; uncovered: Privacy, Support, About, CaloriesCard, quick-add, gym.tsx, MyScheduleCard, chooser, log-session, schedule, exercise-progress, library close.
 - Layout: TAB_BAR_CLEARANCE has no non-test callers; bar 14 higher with no inset, so last rows may hide. Shadow radius may soften on iOS.
-- Logged pill wash (117 item 8) is flat; mixHex could fix it.
+- Logged pill wash (117 item 8, 114 item 8) is flat; mixHex could fix it.
 - Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8; AddMenu.tsx:3; reduceMotion.ts:13.
 - i18n: hardcoded English across Summary, energy, week, workouts, scan, schedule, Profile, session.tsx:539-555, templates, toasts, streak, second sheet.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
@@ -74,7 +78,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Doc: stale citations after rows 113, 115, 117; rows 76, 85, 104, 112.
 
 ## Jev
-R337-R375 decisions kept. R374: run 73%, kept run. R375: run 89%; chose verification run for the flagged report. R376: run 90%; chose verification run (candidate 1). R377: run 75% (confidence 0.62); the flagged report is handled by a doc-only re-check, so run is kept.
+R337-R375 decisions kept. R374: run 73%, kept run. R375: run 89%; chose verification run for the flagged report. R376: run 90%; chose verification run (candidate 1). R377: run 75% (confidence 0.62); kept run. R378: run 69% (confidence 0.53); kept run, doc-only fix to clear the flag.
 
 ## Gotchas
-Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run them by path. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. Don't echo === in zsh. A report saying tsc or tests were not run gets flagged. Handover at R372 happened: name files fully. Handover at R387 will need the same care. A flagged 'partly done' report means the doc or the next step was left open: finish it before moving on.
+Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run them by path. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. Don't echo === in zsh. A report saying tsc or tests were not run gets flagged. A flagged report whose checks ran before later edits needs a fresh run after the final edit. Handover at R372 happened: name files fully. Handover at R387 will need the same care. A flagged 'partly done' report means the doc or the next step was left open: finish it before moving on.

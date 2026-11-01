@@ -3063,3 +3063,8 @@
 - 2026-11-02 01:39 Row 76 item 5 is recorded as built in code, not on device, which matches the 'Isa verifies' rule.
 - 2026-11-02 01:39 Row 114 is re-checked against TodayCard.tsx because it has not been re-read since the TodayCard edits.
 - 2026-11-02 01:39 Kept Jev's run as the action, since its confidence matches my own choice to run.
+- 2026-11-02 01:41 Chose the doc-only fix first because the last report was flagged for an unclear type-check status. The fix also removes the contradiction between row 114 and its detail section that Claude Code reported.
+- 2026-11-02 01:41 Asked for tsc to run after the final edit, because the flagged report ran tsc before its doc edits.
+- 2026-11-02 01:41 Kept jest out of this round: doc-only work cannot change test results, and the rules limit jest to build rounds and checkpoints.
+- 2026-11-02 01:41 Kept row 114 blocked for item 8 (logged pill wash token) and did not re-ask it, as the blocked list says.
+- 2026-11-02 01:41 Jev suggested run (69%); kept run, since the next step is clear and needs nothing from Isa.
