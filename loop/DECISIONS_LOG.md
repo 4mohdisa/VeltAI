@@ -2972,3 +2972,7 @@
 - 2026-11-02 00:41 Accepted the row 116 item 8 addition as a record of a real gap found during the work. Did not edit the gap doc beyond the status line. Doc fixes are for re-check rounds only.
 - 2026-11-02 00:41 Chose run over ask (Jev ask 41%). Row 117 needs nothing from Isa, and the loop only allows ask when every remaining task needs Isa.
 - 2026-11-02 00:41 Chose row 117 over row 118 because the row 117 token fix is a single item with no device dependency and needs no Isa decision.
+- 2026-11-02 00:42 Loop note flagged the last report as partly done. The report itself lists uncompared default-padded Card uses under item 1, so the next round finishes that comparison as a doc-only re-check before moving on.
+- 2026-11-02 00:42 The handover suggestion to fix row 113 item 3 with a contentStyle gap in schedule.tsx is not taken. Notes say this item is blocked on Isa and a schedule.tsx-only workaround is not allowed.
+- 2026-11-02 00:42 Row 117 item 2 stays queued after item 1. Its schedule.tsx values are likely stale from row 113, so they get re-checked first.
+- 2026-11-02 00:42 Kept the rest of the blocked and parked lists unchanged. No new questions to Isa this round, because the open blockers were already asked and no answers came in.
