@@ -3107,3 +3107,8 @@
 - 2026-11-02 01:52 Added a rule to leave Screen.tsx:117 untouched, because the 4px question is blocked on Isa.
 - 2026-11-02 01:52 Test check limited to findRelatedTests on TodayCard.tsx, to keep Claude Code usage low. The checkpoint full run comes later.
 - 2026-11-02 01:52 Did not start row 114 re-check or row 76 items 6-7 this round, to keep one task per round.
+- 2026-11-02 01:53 Flagged last report: it ran tsc and findRelatedTests, but jest found no tests, so the rerun must state the exit codes plainly and not treat No tests found as a pass.
+- 2026-11-02 01:53 Chose history.tsx alone for item 6 because the one-surface rule forbids editing history.tsx and streak.tsx in the same round. streak.tsx:55 is next.
+- 2026-11-02 01:53 Kept the doc edit out of this build round, because the notes say doc fixes happen only in re-check rounds. The row status is tracked in notes instead.
+- 2026-11-02 01:53 Candidate 3 (row 76 items 6-7) ranks lower because it sits in log-session.tsx and may overlap the unapproved add path.
+- 2026-11-02 01:53 Jev's 91% run confidence agrees with this pick. Its 47% clean-finish estimate is why the task is kept small and the checks are explicit.

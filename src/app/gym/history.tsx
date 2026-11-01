@@ -38,7 +38,7 @@ export default function GymHistoryScreen() {
               gap: space.xs,
               padding: space.lg,
               borderTopWidth: i === 0 ? 0 : 1,
-              borderTopColor: color.gray100,
+              borderTopColor: color.light1,
             }}
           >
             <Text variant="bodyBold" color={color.black}>
@@ -52,7 +52,7 @@ export default function GymHistoryScreen() {
               </Text>
             </View>
             {session.notes ? (
-              <Text variant="footnote" color={color.gray700}>
+              <Text variant="footnote" color={color.label}>
                 {session.notes}
               </Text>
             ) : null}
