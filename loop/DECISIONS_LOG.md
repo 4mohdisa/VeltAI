@@ -2821,3 +2821,8 @@
 - 2026-11-01 20:48 Chose candidate 1 over Jev's preferred Row 108 item 4 because the loop note marks this round as a checkpoint and asks for the full type check and full app suite. The previous report was flagged for tsc and tests not being run, and the brief says to deal with a flagged report before moving on. Row 108 item 4 stays next, after the checkpoint result is known.
 - 2026-11-01 20:48 Kept the run action over Jev's ask 74% because the task needs no Isa input. The SettingsList question is covered by the recorded default (R323), and this round only verifies.
 - 2026-11-01 20:48 Forbade snapshot updates in the checkpoint prompt, because jest -u needs Isa approval and two detailChrome snapshots are already waiting for it.
+- 2026-11-01 20:49 Chose row 108 item 4: doc-only, needs nothing from Isa, clears a stated item. Matches Jev's top pick.
+- 2026-11-01 20:49 Treated the loop-note flag on the R324 report as resolved: the report's CHECKED line shows tsc exit 0 and a full jest run (64/65 suites, 822/824). The only failures are the two known detailChrome snapshots awaiting approval. Nothing new is broken, so no re-run this round.
+- 2026-11-01 20:49 Did not run jest -u or touch snapshots: Isa has not approved them.
+- 2026-11-01 20:49 Skipped tsc and jest this round: the prompt is doc-only with no code changes.
+- 2026-11-01 20:49 Kept SettingsList geometry as the next candidate, not this round, because it touches every caller and needs a per-caller check first.

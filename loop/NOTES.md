@@ -21,8 +21,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Row 108: item 4 growth fixed; item 7 EXACT, removed.
 - Row 109 citations checked (R321, R322): none wrong. Missing bundle cites for min height 48, padding 0, side 12, gap 11 now added at bundle :566 (R323 doc only). Each value is a real difference from SettingsList.tsx:62-65.
 - R323 verified the R322 report read-only: tsc 0, no code touched.
-- Last tsc 0. Last full jest R309: 64/65 suites, 822/824; failures are two detailChrome snapshots awaiting approval.
-- R324: checkpoint round requested by loop note after flagged R323 report (tsc and tests not run). Result pending.
+- R324 checkpoint done: tsc 0; full jest 64/65 suites, 822/824. Only failures are the two known detailChrome snapshots (energy and macros), awaiting Isa approval. Nothing new broken.
+- Last tsc 0. Last full jest R324: 64/65 suites, 822/824.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes; checklist icon.
@@ -32,7 +32,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, export share sheet, export failure toast; glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font 17 vs 16 and citation mapping.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font 17 vs 16 and citation mapping (in progress, R325).
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap; geometry (rows 109 values cited, decision pending).
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
@@ -44,12 +44,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. Checkpoint (R324): full tsc and full app suite, no file changes. Read the result before any other work. If new failures appear, deal with them first.
-2. Row 108 item 4: map each citation to its value; cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only.
-3. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
-4. Row 103 energy gap, after snapshot approval.
-5. Row 118 items 4-5 device check, if Isa approves.
-6. No rows left: stop with 'only owner decisions remain'.
+1. Row 108 item 4: map each citation to its value; cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only (R325, in progress).
+2. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
+3. Row 103 energy gap, after snapshot approval.
+4. Row 118 items 4-5 device check, if Isa approves.
+5. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
@@ -98,4 +97,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 R315-R321: asked 70-82%, ran kept each time with reasons recorded above.
 R322: ask 66%, run 26%, stop 8%, risk 1.3. Run kept: advisory, not strongly sure; read-only verification of flagged report first.
 R323: ask 73%, stop 21%, run 6%, risk 1.4 (confidence 0.08). Run kept: the SettingsList question is already answered by the default; the next task is doc-only and needs no Isa input.
-R324: ranked Row 108 item 4 first (92%). Kept checkpoint run instead: the loop note marks this round as a checkpoint for a flagged report with tsc and tests not run, and the brief requires the full check first. Row 108 item 4 is next after the result. Jev ask 74% and stop 15% noted; not acted on, nothing is blocked on Isa for this round.
+R324: ranked Row 108 item 4 first (92%). Kept checkpoint run instead: the loop note marks this round as a checkpoint for a flagged report with tsc and tests not run, and the brief requires the full check first. Jev ask 74% and stop 15% noted; not acted on, nothing blocked on Isa.
+R325: run 88%, ask 10%, stop 2% (confidence 0.82). Run kept: matches the planned task (row 108 item 4, doc only). Risk 0.8 noted; no Isa input needed.
