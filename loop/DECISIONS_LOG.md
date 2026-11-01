@@ -2798,3 +2798,8 @@
 - 2026-11-01 20:43 Chose the doc-only row 108 item 4 fix first because the last report flagged a false colour note there, and fixing a doc claim is smaller and safer than a shared-component build.
 - 2026-11-01 20:43 Parked: the late Next item 'row 108 item 4 citations (R317)' is done, so it is removed from Next.
 - 2026-11-01 20:43 Parked: the claim 'item 4 omits field growth' from the spotted list is already fixed (R316), so it is removed from the open list.
+- 2026-11-01 20:44 Chose the verification round first, because the loop note flagged the last report and the brief says a flagged report is verified before any other task.
+- 2026-11-01 20:44 Verification is read-only: tsc once, and no jest, because the last commit touched only DESIGN_GAP_ANALYSIS.md.
+- 2026-11-01 20:44 Did not ask Isa about SettingsList row geometry, although Jev asked 77%. It is already a default (per row) in the notes, so asking repeats a settled question. Jev's advice recorded below.
+- 2026-11-01 20:44 Left the item 4 citation mapping and the design :382 citation as NEXT, not fixed, because doc fixes belong in re-check rounds and this round is read-only.
+- 2026-11-01 20:44 Did not run jest, because no code or tests changed in R318.

@@ -20,10 +20,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Re-checked: 107, 108, 109, 111, 113, 114-118.
 - Row 107 closed (verified R314).
 - Row 108 item 4 growth fixed (R316): app grows with content, no max height; design fixed at 4 rows, resize none. Read from code, not device.
-- Row 108 item 4 citations: font 17 vs 16 is the only real difference. Placeholder (gray400 #8A8A8A vs tertiary-label #8a8a8a) and text (gray800 #171717 vs label #171717) colours match under different token names (R317). R318 removes the false colour note and fixes citation order (doc only).
+- Row 108 item 4 colours: placeholder and text match under different token names (R317). R318 removed the false colour sentence and put citations in numeric order (doc only). Item 4 still does not map citations to values, and does not cite design/Lume App.html:382 for the #8a8a8a and #171717 values.
+- R318 was flagged (tsc and tests not run). R319 is a read-only verification: tsc, and a check of the last commit and row 108 parse.
 - Row 108 item 7 is EXACT, moved out of the list.
 - Summary difference 12: BUILT.
-- Last tsc 0; tabNavigation, phase14Regression, hydrationErrorScreens 3/3 suites, 39/39 tests (R316). Last full jest R309: 64/65 suites, 822/824; failures are two detailChrome snapshots awaiting approval.
+- Last tsc 0 (R316); tabNavigation, phase14Regression, hydrationErrorScreens 3/3 suites, 39/39 tests (R316). Last full jest R309: 64/65 suites, 822/824; failures are two detailChrome snapshots awaiting approval.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes in notes; checklist icon.
@@ -33,7 +34,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 103 DIFFERENT: Energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, AI group, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font size 17 vs 16 (citations done).
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font size 17 vs 16 (colours matched, citations ordered).
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
@@ -45,12 +46,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4-5 need device check.
 
 ## Next
-1. R318: row 108 item 4 doc cleanup (false colour note, citation order). Doc only.
-2. Row 109 citation check if stale. Doc only.
-3. SettingsList row geometry (107-109): per row by default; Isa may override. Shared component, so check every caller before any change.
-4. Row 103 energy gap, after snapshot approval.
-5. Row 118 items 4-5 device check, if Isa approves.
-6. No rows left: stop with 'only owner decisions remain'.
+1. R319: read-only verification of R318 (tsc, last commit file list, row 108 parse). No edits.
+2. Row 108 item 4: map each citation to its value, and cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only, in a re-check round.
+3. Row 109 citation check if stale. Doc only.
+4. SettingsList row geometry (107-109): per row by default; Isa may override. Shared component, so check every caller before any change.
+5. Row 103 energy gap, after snapshot approval.
+6. Row 118 items 4-5 device check, if Isa approves.
+7. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
@@ -99,4 +101,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 ## Jev
 R315: Jev asked 82%, ran 14%. Run kept; SettingsList is settled by default.
 R316: Jev asked 70% (confidence 0.55), ran 12%. Run kept for the same reason. Risk 1.4 noted; scope is one doc row plus tsc and three suites.
-R318: Jev asked 80% (confidence 0.70), ran 10%, risk 1.3. Run kept: SettingsList geometry is already a default (per row), so asking again repeats a settled question; this round is doc only and reversible, and the report flagged a false claim in row 108 item 4 that needs fixing.
+R318: Jev asked 80% (confidence 0.70), ran 10%, risk 1.3. Run kept: SettingsList geometry is already a default (per row), so asking again repeats a settled question; this round was doc only and reversible, and the report flagged a false claim in row 108 item 4 that needed fixing.
+R319: Jev asked 77% (confidence 0.66), stop 12%, run 11%, risk 1.4, last task clean 18%. Run kept: the loop note flagged R318, and a read-only verification is the required next step. The ask is not taken because SettingsList geometry is a settled default; Jev's risk score is noted.
