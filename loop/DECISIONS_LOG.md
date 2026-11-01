@@ -3068,3 +3068,7 @@
 - 2026-11-02 01:41 Kept jest out of this round: doc-only work cannot change test results, and the rules limit jest to build rounds and checkpoints.
 - 2026-11-02 01:41 Kept row 114 blocked for item 8 (logged pill wash token) and did not re-ask it, as the blocked list says.
 - 2026-11-02 01:41 Jev suggested run (69%); kept run, since the next step is clear and needs nothing from Isa.
+- 2026-11-02 01:42 Chose the doc-only row 76 re-check: it clears the flagged report with a fresh tsc run after the final edit, and it is the smallest task.
+- 2026-11-02 01:42 Kept run over stop: non-blocked rows remain (76 items 2, 6-7; 117 items 5-7), and Jev's stop (20%) rests on the flag, which this round clears.
+- 2026-11-02 01:42 Compressed the notes below 600 words as the loop note asked, merging repeated Parked and Blocked items. No status was lost; finished work was deleted.
+- 2026-11-02 01:42 Left the detailChrome, R360 and 116/117 blocked questions unasked, per the do-not-re-ask rule.
