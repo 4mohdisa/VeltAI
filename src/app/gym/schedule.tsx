@@ -17,7 +17,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api } from '@/lib/api';
 import { useSchedule, useTemplates } from '@/lib/data/gymSchedule';
-import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, opacity, radius, space, surface } from '@/lib/design/tokens';
 import { navigate } from '@/lib/nav';
 import type { ScheduleDay, WorkoutTemplate } from '@/lib/types';
 
@@ -30,6 +30,7 @@ const WORKOUT_TEXT_GAP = 3;
 const WEEK_ROW_MIN_HEIGHT = 58;
 const WEEK_ROW_DOT = 9;
 const WEEK_ROW_TEXT_GAP = 1;
+const WEEK_ROW_PRESSED_OPACITY = 0.6;
 const SHEET_ROW_MIN_HEIGHT = 56;
 const SHEET_ROW_TEXT_GAP = 1;
 const SHEET_TICK = 17;
@@ -106,14 +107,15 @@ export default function ScheduleScreen() {
                 haptic={false}
                 minTapTarget={false}
                 accessibilityLabel={`${day.day_name}, ${row.template ? row.template.name : 'rest day'}`}
-                style={{
+                style={({ pressed }) => ({
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: space.md,
                   minHeight: WEEK_ROW_MIN_HEIGHT,
                   borderTopWidth: i === 0 ? 0 : layout.hairline,
                   borderTopColor: surface.divider,
-                }}
+                  opacity: pressed ? WEEK_ROW_PRESSED_OPACITY : opacity.full,
+                })}
               >
                 {/* The design's three-letter day ("Mon"); the full name clipped
                     to "Tues…" in this column. VoiceOver still reads it in full

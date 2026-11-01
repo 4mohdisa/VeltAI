@@ -2931,3 +2931,7 @@
 - 2026-11-02 00:15 Use the design's Monday-to-Sunday order and day-name table (bundle :1835, :1838). The day-name translation gap is already in Parked, so this build does not widen it.
 - 2026-11-02 00:15 Did not rename sheetRowNameStyle in this round. Renaming touches the picker sheet, which is out of scope. Recorded in Parked as a later cleanup.
 - 2026-11-02 00:15 Items 2, 3, 10 and 12 of row 113 stay open and are not added to this task.
+- 2026-11-02 00:16 Flagged report (type check/tests not run): tsc was green and no suite imports schedule.tsx, so per the gotcha this is not a failure. Next prompt runs tsc and findRelatedTests, and reports no-tests as expected.
+- 2026-11-02 00:16 Chose item 12 over item 3: it is a local, smallest change in schedule.tsx. Item 3 touches shared Screen.tsx, which affects other screens, so it waits for a local fix or Isa's OK.
+- 2026-11-02 00:16 Parked the stale day_name.slice(0,3) in My workouts, the stale comment above the day label, and the stale row 113 citations, as cleanup, not tasks.
+- 2026-11-02 00:16 Rewrote the notes under 600 words, merging repeated items and removing finished work.
