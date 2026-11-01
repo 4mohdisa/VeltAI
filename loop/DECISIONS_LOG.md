@@ -2818,3 +2818,6 @@
 - 2026-11-01 20:47 Chose the doc-only row 109 citation task first: it is the open item from R323, it needs no code, and it clears the citation gap for rows 107-109 before any SettingsList change.
 - 2026-11-01 20:47 Moved the SettingsList waiting item from Blocked on Isa to the default decision, so the loop does not stop waiting for an answer already covered by defaults.
 - 2026-11-01 20:47 Marked R323 verification of the R322 report as done: tsc exit 0, no code touched, so no jest run was needed.
+- 2026-11-01 20:48 Chose candidate 1 over Jev's preferred Row 108 item 4 because the loop note marks this round as a checkpoint and asks for the full type check and full app suite. The previous report was flagged for tsc and tests not being run, and the brief says to deal with a flagged report before moving on. Row 108 item 4 stays next, after the checkpoint result is known.
+- 2026-11-01 20:48 Kept the run action over Jev's ask 74% because the task needs no Isa input. The SettingsList question is covered by the recorded default (R323), and this round only verifies.
+- 2026-11-01 20:48 Forbade snapshot updates in the checkpoint prompt, because jest -u needs Isa approval and two detailChrome snapshots are already waiting for it.
