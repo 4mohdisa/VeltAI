@@ -10,7 +10,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Code tidying is never a task. Doc fixes only in re-check rounds.
 - A row is BUILT only when no differences remain; otherwise PARTIAL or DIFFERENT.
 - Rest day redirects to session picker (accepted deviation).
-- Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour is color.primary; SettingsList geometry per row.
+- Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour is color.primary; SettingsList geometry per row (decided R323, no Isa answer needed; check every caller before any change).
 - A flagged report is verified first, read-only: tsc, plus jest only if code or tests were touched.
 - Every prompt names branch loop/design-match and the design/ file. Forbids switch, push, merge, commit, and editing loop/ files.
 - Row 107: design has no AI group or consent text. Repeat verify rounds on 107 add nothing.
@@ -19,7 +19,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Row 107 closed.
 - Row 108: item 4 growth fixed; item 7 EXACT, removed.
-- Row 109 citations checked (R321, R322): none wrong. Missing bundle cites for min height 48, padding 0, side 12, gap 11 (all bundle :566).
+- Row 109 citations checked (R321, R322): none wrong. Missing bundle cites for min height 48, padding 0, side 12, gap 11 (all bundle :566). R323 verified the R322 report read-only: tsc 0, no code touched.
 - Last tsc 0. Last full jest R309: 64/65 suites, 822/824; failures are two detailChrome snapshots awaiting approval.
 
 ## Open rows
@@ -31,7 +31,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, export share sheet, export failure toast; glyph and chevron geometry; footnote cites.
 - 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font 17 vs 16 and citation mapping.
-- 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap.
+- 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap; geometry citations (in progress).
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
@@ -42,13 +42,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. R323: verify flagged R322 report, read-only (tsc, git show --stat HEAD).
-2. Row 109: add bundle cites for min height 48, padding 0, side 12, gap 11 (bundle :566). Doc only.
-3. Row 108 item 4: map each citation to its value; cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only.
-4. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
-5. Row 103 energy gap, after snapshot approval.
-6. Row 118 items 4-5 device check, if Isa approves.
-7. No rows left: stop with 'only owner decisions remain'.
+1. Row 109: add bundle cites for min height 48, padding 0, side 12, gap 11 (bundle :566). Doc only. (In progress.)
+2. Row 108 item 4: map each citation to its value; cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only.
+3. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
+4. Row 103 energy gap, after snapshot approval.
+5. Row 118 items 4-5 device check, if Isa approves.
+6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
@@ -78,7 +77,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Data: quick-add serving missing (mock/data.ts:124); editSavedFood local only.
 - Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout; no test names SettingsList or the Privacy, Support or About screens.
-- Doc: stale lines 192, 229, 236, 310, 430-431, 438, 448, 484, 509, 532, 534, 588, 631, 828, 840-841, 1520; section 855 overlaps FAB row; section 1421 disagrees with row 118; row 85 citations; row 104 BUILT vs EXACT; row 112 EXACT; line 1441 unchecked.
+- Doc: stale lines 192, 229, 236, 310, 430-431, 438, 448, 484, 509, 532, 534, 588, 631, 828, 840-841, 1520; section 855 overlaps FAB row; section 1421 disagrees with row 118; row 85 citations; row 104 BUILT vs EXACT; row 112 EXACT; line 1441 unchecked; row 108 item 7 EXACT inside differences list.
 - Tab bar: Reduce Transparency pill fill equals active cell #F2F2F7; GlassSurface overflow may clip pill shadow. Needs device.
 - Old /tmp/lume-* folders: not ours to clean.
 
@@ -96,3 +95,4 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 ## Jev
 R315-R321: asked 70-82%, ran kept each time with reasons recorded above.
 R322: ask 66%, run 26%, stop 8%, risk 1.3. Run kept: advisory, not strongly sure; read-only verification of flagged report first.
+R323: ask 73%, stop 21%, run 6%, risk 1.4 (confidence 0.08). Run kept: the SettingsList question is already answered by the default; the next task is doc-only and needs no Isa input.

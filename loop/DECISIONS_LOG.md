@@ -2814,3 +2814,7 @@
 - 2026-11-01 20:47 Did not ask Isa about SettingsList row geometry. The notes record 'per row' as the default, so it is settled unless Isa overrides it.
 - 2026-11-01 20:47 Kept run over Jev's ask (66%, advisory, not strongly sure). Nothing in the brief needs Isa for this round.
 - 2026-11-01 20:47 Shortened the notes file to under 600 words, as the loop note requires. Merged repeated items and dropped finished work. No decision was removed.
+- 2026-11-01 20:47 Chose run over Jev's ask 73%: the SettingsList geometry decision already has a default recorded in Decisions (per row), so Isa's answer is not needed to proceed.
+- 2026-11-01 20:47 Chose the doc-only row 109 citation task first: it is the open item from R323, it needs no code, and it clears the citation gap for rows 107-109 before any SettingsList change.
+- 2026-11-01 20:47 Moved the SettingsList waiting item from Blocked on Isa to the default decision, so the loop does not stop waiting for an answer already covered by defaults.
+- 2026-11-01 20:47 Marked R323 verification of the R322 report as done: tsc exit 0, no code touched, so no jest run was needed.
