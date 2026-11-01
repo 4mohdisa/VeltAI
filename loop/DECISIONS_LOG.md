@@ -3192,3 +3192,6 @@
 - 2026-11-02 05:57 Chose the doc re-check: it needs no owner input, the blockers are already recorded, and the defaults cover it. Jev leaned ask at 78%, but every open question was already asked and must not be re-asked.
 - 2026-11-02 05:57 Limited the prompt to differences 8, 10 and 19, as flagged in the last handover, so the round stays one task.
 - 2026-11-02 05:57 Kept tsc only, because this round is doc-only and the handover asks for a green type check after the edit.
+- 2026-11-02 05:59 Chose the doc re-check because the loop note flagged the last report (tsc and tests not run). The flag-handling rule sends this to a doc re-check round that runs tsc and the source-reading suites.
+- 2026-11-02 05:59 Included the stale alias lines (674, 855) as the recommended doc fix from the handover, since they are doc-only and cost nothing extra.
+- 2026-11-02 05:59 Did not pick row 84 or row 82 this round: row 84 is a code change and the flag must be cleared first; row 82 is blocked on the session-count question.

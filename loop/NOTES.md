@@ -21,7 +21,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Blocked: 83, 85, 87, 103, 104, 108, 112.
 - Last checkpoint R382: tsc 0; jest --ci 822 of 824, failures in detailChrome only (blocked).
 - R401-R404: tsc 0; sheetVariant 9/9, tabNavigation 11/11, oneTapGymLog 3/3, gymDurationHonesty 4/4.
-- Doc differences 8, 10, 19 contradict 'What the app does': re-check queued R405.
+- R405: differences 8, 10, 19 re-checked and rewritten (citations and wording). Still partial. Round reported tsc 0; Jest not run, so the loop flagged it.
+- Pending: re-check round (this round) runs tsc and the four source-reading suites, and fixes stale alias lines DESIGN_GAP_ANALYSIS.md:674 and :855.
 - Nothing checked on a device.
 
 ## Blocked on Isa (do not re-ask, do not retry)
@@ -46,15 +47,17 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Row 117: logged stats 3 vs 4 cells; logged pill wash flat.
 - Failed templates fetch; picker offers only Rest day and could overwrite a workout.
 - Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; Screen.tsx:22; schedule.tsx 'Tues'.
+- Stale citations: differences 1-7, 17, 20 cite old log-session.tsx lines; difference 16 cites session.tsx:566-575 (now :574-583); row 111 and difference 23 cite old LumeTabBar lines (gym handler is :243-246).
 - Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
 - Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 41 deprecated alias uses in 24 files (tokens.ts:46-48).
-- i18n: hardcoded English on most screens (see session.tsx:539-555).
+- i18n: hardcoded English on most screens (see session.tsx:539-555); sheet strings English only (log-session.tsx:311-392).
+- Logged card chevron with no action (TodayCard.tsx:115, :194); no logged-day guard in src/app/gym/session.tsx.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results; quick-add serving (mock/data.ts:124); editSavedFood local only.
 - AI insights screen has no file in src/app/profile/.
 
 ## Jev
-R402-R404 leaned ask; chose run for doc-only re-checks that need no owner input. R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix of differences 8, 10, 19, blockers already recorded.
+R402-R404 leaned ask; chose run for doc-only re-checks that need no owner input. R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix, blockers already recorded. Latest: run 73%, ask 25%, stop 2%; last task clean 58%. Chose run: flagged report needs the doc re-check round first.
 
 ## Gotchas
 - Briefs carry false premises: check first (row 117 items 5-7 are not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160).
@@ -62,5 +65,10 @@ R402-R404 leaned ask; chose run for doc-only re-checks that need no owner input.
 - Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Doc rows are file lines; bundle lines are decoded. Use mktemp for decode scripts. Quote '===' in zsh.
 - findRelatedTests misses source-reading suites and finds none for gym screens; it exits 1 without --passWithNoTests. 'No tests found' is not a pass.
+- Source-reading suites: sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation (in src/__tests__). Grep will not find a suite by its own name; use find.
 - Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Always report exit codes.
 - Prompts name loop/design-match and forbid switching, pushing and merging.
+- Latest build state: row 76 items 3, 5, 8 built plus item 2 glyph; add path open. Row 114 stays DIFFERENT. Row 117 items 2, 3, 4 (EXACT), 6 built; 5, 7 open outside TodayCard; 1, 8 blocked.
+
+## Latest handover (R405)
+Branch loop/design-match. Don't switch, push, merge or commit. Recommended next: doc fix at DESIGN_GAP_ANALYSIS.md:674 and :855 (deprecated alias claims). Differences 8, 10, 19 were re-checked in R405.
