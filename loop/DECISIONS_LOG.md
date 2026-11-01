@@ -3200,3 +3200,11 @@
 - 2026-11-02 06:00 Row 82 stays blocked: the footnote needs Isa's session-count decision (blocked list).
 - 2026-11-02 06:00 Alias doc lines 674 and 859-868 were already correct per the R405 report, so no edit there this round.
 - 2026-11-02 06:00 Jev said run 89%, so the run choice matches its view; no reconsideration needed.
+- 2026-11-02 06:02 Handled the flagged last report with a doc re-check round that runs tsc and the four source-reading suites, as the notes default says. Jest was not run last round, so the flag is cleared by running them now.
+- 2026-11-02 06:02 Picked the citation refresh over row 84 because it is doc-only, needs nothing from Isa, and the handover flagged the stale lines. Row 84 stays next after this round.
+- 2026-11-02 06:02 Did not act on the handover's 'fix lines 855 and 674' note: R405 already checked those lines and found they match the alias grep. Only stale citations are changed in this round.
+- 2026-11-02 06:02 Kept the rule that doc fixes happen only in re-check rounds, with a strict edit scope to DESIGN_GAP_ANALYSIS.md.
+- 2026-11-02 06:02 Chose the checkpoint because the loop note says a checkpoint is due and the last prompt was rejected for not naming design/Lume App.html. The rewritten prompt names it.
+- 2026-11-02 06:02 Checkpoint prompt changes no files and names only the known detailChrome failures as expected, so any other failure stops the loop for review.
+- 2026-11-02 06:02 Did not follow the handover's suggested doc fix at DESIGN_GAP_ANALYSIS.md:855 and :674. The R405 re-check found no alias edit needed there, and line 855 is about letter spacing. Recorded here so it is not repeated.
+- 2026-11-02 06:02 Deferred the citation refresh for differences 9, 11, 12, 14, 22, 23 to the next doc-only round, since this round builds nothing and changes nothing.
