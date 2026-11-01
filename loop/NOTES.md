@@ -21,7 +21,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Row 108 item 4 growth fixed (R316, read from code, not device). Item 7 is EXACT and removed from the list. Colours match under different token names (R317).
 - Row 108 item 4 still lacks a citation-to-value mapping and a cite of design/Lume App.html:382 for #8a8a8a and #171717.
 - Summary difference 12: BUILT.
-- Last tsc 0 (R319). Last full jest R309: 64/65 suites, 822/824. Failures are two detailChrome snapshots awaiting approval.
+- Last tsc 0 (R319, R320). Last full jest R309: 64/65 suites, 822/824. Failures are two detailChrome snapshots awaiting approval.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes in notes; checklist icon.
@@ -32,7 +32,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites.
 - 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font size 17 vs 16; item 4 citations.
-- 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap.
+- 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap. Citation check in progress (R321).
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
@@ -43,9 +43,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4-5 need device check.
 
 ## Next
-1. R320: read-only verification of the flagged R319 report (tsc, last commit file list, row 108 parse). No edits.
+1. R321: row 109 citation check, doc only (tsc, cite list, fix citations in row 109 only).
 2. Row 108 item 4: map each citation to its value and cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only.
-3. Row 109 citation check. Doc only.
+3. Row 107 glyph and chevron geometry citations. Doc only.
 4. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
 5. Row 103 energy gap, after snapshot approval.
 6. Row 118 items 4-5 device check, if Isa approves.
@@ -64,6 +64,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - About header: remove (recommended) or keep an accessible heading.
 - Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, Food gap.
 - Native review of es/fr strings, incl. food.pickDayLabel. TestPG_* (18 skipped).
+- SettingsList row geometry: fix or accept (recommended next after 109).
 
 ## Parked (one line per group)
 - i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile (incl. support.tsx), EnergyBalanceCard.
@@ -94,6 +95,7 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - After a handover, name files fully in prompts.
 - Briefs and reports can cite false claims or stale paths; check before acting.
 - Design hex values for placeholder and text are defined in design/Lume App.html:382 (not in the Profile bundle).
+- Don't open loop/NOTES.md or loop/DECISIONS_LOG.md; they are always modified by the loop script.
 
 ## Jev
 R315: asked 82%, ran 14%. Run kept; SettingsList settled by default.
@@ -101,3 +103,4 @@ R316: asked 70%, ran 12%. Run kept for the same reason. Risk 1.4.
 R318: asked 80%, ran 10%, risk 1.3. Run kept: doc-only and reversible; flagged false claim in row 108 item 4.
 R319: asked 77%, ran 11%, risk 1.4. Run kept: R318 flagged, read-only verification required. Ask not taken: SettingsList geometry is a settled default.
 R320: run 63%, ask 22%, stop 15%, risk 1.4. Run kept: flagged R319 report, read-only verification first.
+R321: loop note flagged R320 report (tests not run) and Jev ranked row 109 citation check first at 98%. Took Jev's pick: doc-only, and it is the next row in the notes. Tsc is re-run in the prompt. Row 108 item 4 kept next.

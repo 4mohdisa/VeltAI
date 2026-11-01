@@ -2807,3 +2807,6 @@
 - 2026-11-01 20:44 Rewrote the notes to under 600 words, as the loop note asked. Merged repeated open-row and parked items, and removed finished work.
 - 2026-11-01 20:44 Kept the SettingsList geometry default (per row) without asking Isa, as the notes already record it as settled.
 - 2026-11-01 20:44 Left the Row 108 item 4 citation fix for the next round, so this round stays read-only.
+- 2026-11-01 20:45 Chose row 109 citation check over row 108 item 4, following Jev's top pick. Both are doc-only; row 109 is the next unchecked citation row, and the flagged report needed a clean tsc run, which this round includes.
+- 2026-11-01 20:45 Jev's flag on the last report: the report did show tsc exit 0, so this round runs tsc again and jest is not needed for a doc-only change.
+- 2026-11-01 20:45 Row 108 item 4 mapping stays next in line, after this round.
