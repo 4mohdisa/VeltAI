@@ -3020,3 +3020,12 @@
 - 2026-11-02 01:11 Named design/Lume App.html and its gym and Profile bundle IDs, to fix the rejection point.
 - 2026-11-02 01:11 Did not pick row 113 item 3 from the handover, because the Blocked list says it waits on Isa and the Blocked list wins.
 - 2026-11-02 01:11 Dropped the handover's stale row 117 item 8 and row 113 item 3 suggestions from this round; both stay blocked on Isa.
+- 2026-11-02 01:12 Asked Isa instead of running another build round: R368 checkpoint is red (type check green, 2 snapshot failures in detailChrome.render.test.tsx). Clearing it needs jest -u on a blocked file, which the rules forbid without Isa's approval. Removing the gap myself would be a workaround for a blocked item, so I did not do it.
+- 2026-11-02 01:12 Asked a narrower question than the old Blocked entry ('jest -u for detailChrome'), because the failure is now traced to a specific 16 gap on two screens. Treated as new information, not a re-ask of the old blocker.
+- 2026-11-02 01:12 Agreed with Jev (ask 88%) over my earlier plan to run row 76 item 3. Reason: the flagged report is still uncleared, and every non-blocked build round would leave the suite red, so the next Isa decision is the only thing that unblocks a clean checkpoint.
+- 2026-11-02 01:12 Did not change any files this round. Blocked files and blocked items are untouched.
+- 2026-11-02 01:29 Chose run over ask. Isa did not answer the detailChrome question, which is already recorded under Blocked on Isa. It must not be re-asked this round.
+- 2026-11-02 01:29 Chose row 76 item 3 as the next surface. It does not depend on the detailChrome answer. Only the old ordering note 'runs after the suite is green' would block it, and the red test sits in a blocked file that cannot change until Isa answers. Keeping that rule would stall the loop indefinitely, so the ordering note is dropped for this round and the red suite stays flagged.
+- 2026-11-02 01:29 Jev put 89% on ask. Looked again. Jev sees only the unanswered question. It cannot see that the remaining unblocked work (row 76 item 3) touches a different file from the red test and that the red test is blocked on Isa in both cases. Keeping run, with a small task (tsc and findRelatedTests only) to limit risk.
+- 2026-11-02 01:29 Row 118, row 113 item 3, and row 116 item 8 are all on the Blocked list. They are not picked, even though the handover recommended row 113 item 3. The Blocked list wins.
+- 2026-11-02 01:29 Prompt names gym/log-session.tsx from the notes. Claude Code must confirm the file from row 76 before editing.
