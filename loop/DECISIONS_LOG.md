@@ -2943,3 +2943,8 @@
 - 2026-11-02 00:19 Left the Screen.tsx:96 default gap blocked: only a local override is used, so the shared-component block still applies to other screens.
 - 2026-11-02 00:19 Wrote the prompt to compare with design/ first, since the brief warns that earlier rows may already match.
 - 2026-11-02 00:19 Jev (run 76%) agrees with run. Kept run.
+- 2026-11-02 00:20 Item 10 follows the design (seven day rows always) because the design answers the question; the app EmptyState is not marked deliberate in DECISIONS.md or tests.
+- 2026-11-02 00:20 Row 113 item 3 stays partial: gap now 20, but title-to-card is 24 because of Screen.tsx:117, which is in Blocked on Isa. Not building it.
+- 2026-11-02 00:20 Loop note flagged the last report as partly done; resolved by recording item 3's remaining difference in Status and Blocked, so it is not re-queued.
+- 2026-11-02 00:20 Notes rewritten under 600 words; finished work deleted and repeated items merged.
+- 2026-11-02 00:20 Chose run (Jev 60% ask) because the design answers the question and the task needs nothing from Isa.

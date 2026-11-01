@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 
 import { showToast } from '@/components/display/toastStore';
 import { Card } from '@/components/display/Card';
-import { EmptyState } from '@/components/display/EmptyState';
 import { Skeleton } from '@/components/display';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Screen } from '@/components/navigation/Screen';
@@ -85,14 +84,6 @@ export default function ScheduleScreen() {
             <Skeleton key={i} width="100%" height={64} rounded={radius.md} />
           ))}
         </View>
-      ) : templates.length === 0 ? (
-        <EmptyState
-          icon="calendar-outline"
-          title="Create your first workout to build a schedule"
-          message="Once you have a workout template you can assign it to any day."
-          actionLabel="Create Template"
-          onAction={() => navigate('/gym/new-template')}
-        />
       ) : (
         /* The design keeps the whole week in ONE elevated card, rows split by a
            hairline: day label, a trained dot, the workout, then a chevron. */
