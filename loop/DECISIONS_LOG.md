@@ -3174,3 +3174,7 @@
 - 2026-11-02 05:50 Picked the doc fix at lines 678-679 over the older handover item at 674/855, because the latest report verified 855 and 674 as correct and only 678-679 as wrong.
 - 2026-11-02 05:50 Kept this round to a doc-only edit with no tsc or jest run, since no code changes. Report says the run list is empty.
 - 2026-11-02 05:50 Followed the Jev 'run' lean. The round needs nothing from Isa and the blockers are already on file.
+- 2026-11-02 05:51 Chose the verification round because the loop note flagged R400 for no type check or test run. A check clears the flag and changes nothing else.
+- 2026-11-02 05:51 Deferred the doc fix at lines 674 and 855 to the next re-check round, so this round stays a single task.
+- 2026-11-02 05:51 Verification only: no edits, to keep the working tree clean and avoid a new unverified change.
+- 2026-11-02 05:51 Jev (run 57%, ask 32%) agrees with run. Logged in the notes.
