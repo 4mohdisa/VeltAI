@@ -1,45 +1,36 @@
-HANDOVER: branch loop/design-match. Don't switch, push or merge; the loop script commits. Don't open loop/NOTES.md or loop/DECISIONS_LOG.md (both show modified; not ours). Say BUILT, never verified; nothing has been checked on a device.
+HANDOVER: branch loop/design-match. Don't switch, push or merge; the loop script commits, so git diff is often empty, use git show --stat HEAD. Don't open loop/NOTES.md or loop/DECISIONS_LOG.md (always modified; not ours). Nothing has been checked on a device.
 
-BUILT (no whole table row is built)
-- Summary difference 12 (doc line 406): net sign. BUILT.
-- Line 76, Gym chooser: PARTIAL, eight differences listed.
-- Line 103, card gap: PARTIAL. nutrition.tsx:76 and energy.tsx:52 are 16; week.tsx:54 and training.tsx:64 still 12. Row status stays DIFFERENT.
-- Line 107 Privacy: gap 22, footnotes on SettingsList footer. PARTIAL.
-- Line 108 Support: gap 20 (space.xl). PARTIAL.
-- Line 109 About: gap 26, wordmark gap 6, app-only padding removed. PARTIAL.
-- Lines 111, 113 re-checked: PARTIAL, doc only.
+BUILT
+No code changed this session; all work was doc-only in DESIGN_GAP_ANALYSIS.md. No whole table row is built.
+- Re-checked rows, status unchanged: 107, 108, 109 (Profile Privacy, Support, About), 115, 116, 117, 118: PARTIAL. 114: DIFFERENT.
+- Row 107 was verified correct in the last round; no correction needed.
+- Earlier code work, still only partial: Summary difference 12; rows 76, 103, 107, 108, 109.
 
 IN PROGRESS: nothing.
-Last full run: tsc 0; jest 64/65 suites, 822/824 tests. Later rounds changed no code.
+Last run: tsc 0; three suites by path, 39/39. Full jest not run this session (earlier 64/65 suites, 822/824; failures were energy and macros detailChrome snapshots).
 
 KEY FILES
-src/app/gym/log-session.tsx; src/app/profile/privacy.tsx, support.tsx, about.tsx; src/app/energy.tsx; src/app/dashboard/*; src/components/display/SettingsList.tsx; src/components/navigation/Screen.tsx, AddMenu.tsx, LumeTabBar.tsx; src/lib/design/tokens.ts.
-design/Lume App.html bundles: Summary 185bb533, Food 71f71ac4, Gym 7dc211f6, Profile b09a5e65. Decode to /tmp only, delete after.
+src/app/profile/privacy.tsx, support.tsx, about.tsx; src/components/display/SettingsList.tsx; src/components/forms/TextField.tsx (forms, not form); src/components/gym/TodayCard.tsx; src/components/domain/GymCalendar.tsx; src/app/gym/exercise-progress.tsx; src/components/navigation/LumeTabBar.tsx, GlassButtons.tsx.
+design/Lume App.html bundles: Profile b09a5e65, Gym 7dc211f6, Summary 185bb533, Food 71f71ac4. Decode with node to /tmp, delete after.
 
 DECISIONS
-- Literals only where no token covers the value (22, 26, 6).
-- Rest day redirects to /gym/session picker; closing it does not return to the Gym tab, unlike the design.
 - Row lists live in the summary table; detail sections point to them.
-- Rows keep their open items even if a brief says fewer remain.
+- Row 107 says the design has no AI group, not the brief's "shows it unconditionally": no AI group or consent text exists in the Privacy section.
+- Kept :499, :510 for footnote type and padding; gap 8 cites :489, :502.
+- Row 109 cites About's glyph at bundle :568; :475 and :478 are Privacy lines. About has no chevrons (EXACT).
+- Row 114 stays DIFFERENT: tap target and planned grid missing.
 
 WAITING ON ISA
-- One jest -u on detailChrome for the red energy and macros snapshots (only failures; diff was the intended gap). Never run -u unasked.
-- DetailChart.tsx approval (Kicker, Breakdown dots).
-- LumeTabBar.tsx approval: + menu opens the chooser on logged days; finishing can write a second session row.
-- About header: recommended removing, keeping an accessible heading.
-- Row count: table has 42 rows, not 41, no numbers. Top padding, week chart axis, burn and weekly targets, steps source, Profile initials remain from earlier.
-
-RECOMMENDED NEXT: doc-only fix of line 107 (footnote text false, citations shifted) and line 108 items 1-3 (one line off).
+- SettingsList row geometry: fix or accept. Settles rows 107-109, but affects every screen using it. Recommended next.
+- jest -u on detailChrome; never run -u unasked.
+- DetailChart.tsx and LumeTabBar.tsx approvals; About header; Logged pill wash token; row count; top padding and others from earlier.
 
 SPOTTED, NOT FIXED
-- Row 103's Energy snapshot stays red until approval; week and training pass only because they still differ.
-- No test covers privacy, support, about or log-session layout.
-- About: tracking 0 vs -0.6 (about.tsx:16), tagline centring (:19).
-- Screen.tsx:117 paddingBottom 4 (parked).
-- Unused keys gymLog.restDayMessage, logAnExercise.
-- Doc lines 192, 229 stale; section at 855 overlaps FAB row.
-- Hardcoded English across the Profile screens, schedule.tsx, EnergyBalanceCard.
-- Old /tmp/lume-* folders from earlier sessions remain.
+- Row 108: item 7 is EXACT inside the differences list; item 4 omits field growth (start height nearly equal: 114 vs about 112).
+- Tab bar: Reduce Transparency pill fill equals active cell #F2F2F7; GlassSurface overflow hidden may clip the pill shadow. Needs a device.
+- No test references the Privacy, Support or About screens, or names SettingsList.
+- Detail sections at doc lines 484, 509, 631, 828 (parked) and 1421 disagree with rows.
+- exercise-progress.tsx hardcodes kg. gym.tsx:155 comment is false. Hardcoded English across Profile screens.
 
 GOTCHAS
-Briefs can cite stale paths or values: src/theme/tokens.ts and dashboard/energy.tsx don't exist; check first. Use LC_ALL=C /usr/bin/grep; quote (tabs) paths. Doc row numbers are file lines. Most suites read source text.
+Briefs can cite stale paths, values or false claims; check first. Grep app/profile/, not src/app/profile/, for tests. Use LC_ALL=C /usr/bin/grep; quote (tabs) paths. Doc row numbers are file lines. Repeat verify rounds on row 107 add nothing.
