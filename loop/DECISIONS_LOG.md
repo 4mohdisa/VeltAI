@@ -2967,3 +2967,8 @@
 - 2026-11-02 00:39 Chose row 116 heatmap because it needs no answer from Isa and no device. It is a PARTIAL row with a bounded scope.
 - 2026-11-02 00:39 Jev asked (74%) but the loop note says to ask only if every remaining task needs Isa. Row 116 does not, so the run is kept.
 - 2026-11-02 00:39 Row 116 build limited to items that do not need a device, per the open-rows list.
+- 2026-11-02 00:41 Dealt with the flagged report: row 116 is now exhausted without Isa. Items 1, 2 and 8 need Isa, item 4 is a behaviour change, item 7 needs a device, and items 3, 5 and 6 are deliberate app behaviour. Row 116 is recorded as blocked on Isa, not re-asked this round.
+- 2026-11-02 00:41 Did not follow the handover's recommendation to build row 113 item 3, because it is still blocked on Isa's Screen.tsx answer (asked R357, no reply).
+- 2026-11-02 00:41 Accepted the row 116 item 8 addition as a record of a real gap found during the work. Did not edit the gap doc beyond the status line. Doc fixes are for re-check rounds only.
+- 2026-11-02 00:41 Chose run over ask (Jev ask 41%). Row 117 needs nothing from Isa, and the loop only allows ask when every remaining task needs Isa.
+- 2026-11-02 00:41 Chose row 117 over row 118 because the row 117 token fix is a single item with no device dependency and needs no Isa decision.
