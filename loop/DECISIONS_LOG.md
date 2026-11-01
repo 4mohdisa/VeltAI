@@ -3140,3 +3140,6 @@
 - 2026-11-02 03:13 Stop, not ask: every open question was already asked and is recorded under Blocked on Isa. Asking again would break the no-re-ask rule.
 - 2026-11-02 03:13 Doc check not run as a task: it does not build a row, and R390 already records the 674-677 and 857-860 fixes. The conflict with the handover is parked for Isa to confirm at the checkpoint.
 - 2026-11-02 03:13 Jev stop at 88% agrees with the manager decision, so no second look was needed.
+- 2026-11-02 03:50 Stop: all remaining rows are blocked on Isa or parked as owner-only, and nothing new arrived. Matches R391 and R392 and Jev's 93% stop.
+- 2026-11-02 03:50 Did not pick the handover's doc fix at :674 and :855 as a task: it is not a row, and it conflicts with R390, so it stays parked for Isa.
+- 2026-11-02 03:50 No new candidates: every open row waits on an owner decision in Blocked on Isa.
