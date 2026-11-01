@@ -2835,3 +2835,7 @@
 - 2026-11-01 20:51 Item 7 status conflicts between the notes (removed at R325) and the handover (still listed). Step 2 checks the file itself and fixes what it finds.
 - 2026-11-01 20:51 Kept the run over Jev's ask: the SettingsList question is already answered by the default (per-row geometry, check callers), so only the Isa-facing items are left and none is needed this round.
 - 2026-11-01 20:51 Row 107 and 109 left alone; they wait on the SettingsList decision as before.
+- 2026-11-01 20:53 Kept the read-only verification over Jev's row 108 pick: the loop note says a flagged report is verified before anything else, and a doc edit now would sit on top of an open flag. The row 108 fix is queued as Next 2.
+- 2026-11-01 20:53 Did not ask Isa about SettingsList geometry: the R323 default (per row, check every caller first) already answers it.
+- 2026-11-01 20:53 Rewrote the notes under 600 words as the loop note asked; merged repeats and removed finished work.
+- 2026-11-01 20:53 Recorded the R328 report's row 108 issues in Next and Status so they are not lost.

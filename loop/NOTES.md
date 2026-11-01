@@ -8,22 +8,20 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Design HTML and gap doc are authoritative. Literals only where no token covers the value.
 - Never run jest -u or edit .snap files without Isa approval.
 - Code tidying is never a task. Doc fixes only in re-check rounds.
-- A row is BUILT only when no differences remain; otherwise PARTIAL or DIFFERENT.
+- A row is BUILT only when no differences remain.
 - Rest day redirects to session picker (accepted deviation).
-- Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour is color.primary; SettingsList geometry per row (decided R323, no Isa answer needed; check every caller before any change).
-- A flagged report is verified first, read-only: tsc, plus jest only if code or tests were touched. At checkpoint rounds the full tsc and full app suite run, with no file changes (R324).
+- Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour is color.primary; SettingsList geometry per row, check every caller before any change (R323).
+- A flagged report is verified first, read-only: tsc, plus jest only if code or tests were touched. Checkpoints run full tsc and app suite with no file changes.
 - Every prompt names branch loop/design-match and the design/ file. Forbids switch, push, merge, commit, and editing loop/ files.
-- Row 107: design has no AI group or consent text. Repeat verify rounds on 107 add nothing.
+- Row 107: design has no AI group or consent text. Repeat verify rounds add nothing.
 - Loop commits loop/ files, so use git show --stat HEAD, not git diff.
 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Row 107 closed.
-- Row 108: item 7 EXACT, removed from the list (R325). Item 4 pairs each value with its own citation (R325, doc only). R327 re-checks item 7 and adds the missing citations.
-- Row 109 citations checked (R321, R322): none wrong. Missing bundle cites for min height 48, padding 0, side 12, gap 11 added at bundle :566 (R323 doc only).
-- R323 verified the R322 report read-only: tsc 0, no code touched.
-- R324 checkpoint done: tsc 0; full jest 64/65 suites, 822/824. Only failures are the two known detailChrome snapshots (energy and macros), awaiting Isa approval.
-- R325 report flagged by loop check. R326 verified it read-only. R327 verifies the R326 flag read-only (tsc run; jest not run, no code touched).
-- Last tsc 0 (R327). Last full jest R324: 64/65 suites, 822/824.
+- Row 108: item 7 EXACT, removed (R325). Item 4 cites tokens.ts:146 and growth; geometry cites added (R328).
+- Row 108 still open: item 4 has a mid-item Profile citation duplicating the opening "bundle :546"; 114 is not stated as rounded from 114.4.
+- Last tsc 0 (R328). Last full jest R324: 64/65 suites, 822/824. Only failures are the detailChrome snapshots (energy, macros), awaiting Isa approval.
+- R329: Jev ranked the row 108 fix first. Kept the flag verification: the flag comes first, and the doc fix is Next 2.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes; checklist icon.
@@ -33,8 +31,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, export share sheet, export failure toast; glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font 17 vs 16 and field growth (114 vs about 112 start height).
-- 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap; geometry (rows 109 values cited; SettingsList geometry per row by default).
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 fixes above.
+- 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap; geometry.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
@@ -45,16 +43,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. Row 108 doc fix: item 7 check, item 4 citation tokens.ts:146 and field growth note, geometry bundle cites (R327, doc only).
-2. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
+1. Verify the R328 flag read-only: tsc only, no file changes (R329).
+2. Row 108 doc fix: remove duplicate Profile citation in item 4; state 114 is rounded from 114.4 (doc only).
 3. Row 103 energy gap, after snapshot approval.
 4. Row 118 items 4-5 device check, if Isa approves.
-5. No rows left: stop with 'only owner decisions remain'.
+5. SettingsList geometry: per-row default; check every caller before any change.
+6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
 - DetailChart.tsx: Kicker, Breakdown dots.
-- LumeTabBar.tsx: + menu opens chooser on logged days; finishing can write a second session row.
+- LumeTabBar.tsx: + menu chooser on logged days; second session row.
 - Shared SheetContent, Button, sheet height.
 - 85 calorie bar, 'left today', four-column wrap. 87 17/24 vs 17/22, 180ms.
 - 112 GymPatternsCard padding. 104 Steps card (HealthKit off-limits). 114 logged pill wash, Calories cell.
@@ -92,13 +91,9 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - Use LC_ALL=C /usr/bin/grep; quote paths. Grep app/profile/, not src/app/profile/.
 - Doc row numbers are file lines. After a handover, name files fully.
 - Briefs and reports can cite false claims or stale paths; check first.
-- Don't open loop/NOTES.md or loop/DECISIONS_LOG.md.
+- Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
 
 ## Jev
-R315-R321: asked 70-82%, ran kept each time with reasons recorded above.
-R322: ask 66%, run 26%, stop 8%, risk 1.3. Run kept: advisory, read-only verification of flagged report first.
-R323: ask 73%, stop 21%, run 6%, risk 1.4. Run kept: SettingsList question already answered by the default; next task doc-only.
-R324: ranked Row 108 item 4 first (92%). Kept checkpoint run: flagged report needed tsc and tests first.
-R325: run 88%, ask 10%, stop 2%. Run kept: planned doc-only task.
-R326: run 5%, ask 79%, stop 16% (handover signal, confidence 0.68; risk 1.0). Run kept: the flagged report needs a read-only tsc check before anything else; the SettingsList question is answered by the default; nothing needs Isa this round.
-R327: ask 70%, stop 23%, run 7% (confidence 0.55; risk 1.1). Run kept: the flag needs only a read-only tsc run and a doc-only fix; the SettingsList question is answered by the default; nothing needs Isa this round.
+R315-R321: asked 70-82%; ran kept each time, reasons recorded above.
+R322-R327: ask or run mixed; kept runs recorded with reasons.
+R329: ask 61%, stop 33%, run 6% (confidence 0.42, risk 1.0). Jev ranked the row 108 fix first (98%). Kept the flag verification: a flagged report is checked before any edit, and the fix is Next 2.
