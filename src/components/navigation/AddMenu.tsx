@@ -10,19 +10,32 @@
 // Scrim: the design uses a 10% black wash. This uses `color.overlay`, the app's
 // one scrim token, so the menu dims exactly like every BottomSheet does. Darker
 // than the prototype, and the deviation is recorded in DECISIONS.md.
-import { useEffect } from 'react';
-import { Pressable as RNPressable, StyleSheet, View } from 'react-native';
+import { useEffect, type ReactNode } from 'react';
+import { PixelRatio, Pressable as RNPressable, StyleSheet, View, type TextStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 
-import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { categoryAccent, color, layout, motion, radius, shadow, space, surface, zIndex } from '@/lib/design/tokens';
+import { color, motion, shadow, space, zIndex } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 /** Panel width — the design's 232pt; no token covers a popover width. */
 const PANEL_WIDTH = 232;
+
+/** The design's own values for the panel and its rows. No token covers them. */
+const PANEL_RADIUS = 18;
+const PANEL_SHADOW = { ...shadow.lg, shadowOpacity: 0.2, shadowRadius: 42, shadowOffset: { width: 0, height: 18 } };
+const PANEL_RING_WIDTH = 0.5;
+const PANEL_RING = 'rgba(0, 0, 0, 0.06)';
+const POP_OFFSET_Y = 6;
+const ROW_MIN_HEIGHT = 54;
+const ROW_SIDE_PADDING = 18;
+const ROW_PRESSED_FILL = 'rgba(0, 0, 0, 0.05)';
+const DIVIDER_HEIGHT = 0.5;
+const DIVIDER_COLOR = 'rgba(0, 0, 0, 0.1)';
+
+const rowLabelStyle = (): TextStyle => ({ fontSize: 16, fontWeight: '500', lineHeight: 20 * PixelRatio.getFontScale() });
 
 export type AddMenuProps = {
   visible: boolean;
@@ -31,12 +44,15 @@ export type AddMenuProps = {
   anchorBottom: number;
   onLogGym: () => void;
   onLogFood: () => void;
+  gymGlyph: ReactNode;
+  foodGlyph: ReactNode;
 };
 
-export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }: AddMenuProps) {
+export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood, gymGlyph, foodGlyph }: AddMenuProps) {
   const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const progress = useSharedValue(0);
+  const scrimProgress = useSharedValue(0);
 
   useEffect(() => {
     if (reduceMotion) {
@@ -44,21 +60,21 @@ export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }:
       // transition at all is harsher than a cross-fade, and opacity is not
       // motion. No scale, no translation.
       progress.value = withTiming(visible ? 1 : 0, { duration: motion.duration.snap });
+      scrimProgress.value = withTiming(visible ? 1 : 0, { duration: motion.duration.snap });
       return;
     }
-    progress.value = withTiming(visible ? 1 : 0, {
-      duration: visible ? motion.duration.medium : motion.duration.snap,
-      easing: visible ? Easing.bezier(0, 0, 0.2, 1) : Easing.bezier(0.4, 0, 1, 1),
-    });
-  }, [visible, reduceMotion, progress]);
+    const easing = visible ? Easing.bezier(0, 0, 0.2, 1) : Easing.bezier(0.4, 0, 1, 1);
+    progress.value = withTiming(visible ? 1 : 0, { duration: visible ? motion.duration.medium : motion.duration.snap, easing });
+    scrimProgress.value = withTiming(visible ? 1 : 0, { duration: visible ? motion.duration.fast : motion.duration.snap, easing });
+  }, [visible, reduceMotion, progress, scrimProgress]);
 
-  const scrimStyle = useAnimatedStyle(() => ({ opacity: progress.value }));
+  const scrimStyle = useAnimatedStyle(() => ({ opacity: scrimProgress.value }));
   const panelStyle = useAnimatedStyle(() => {
     if (reduceMotion) return { opacity: progress.value };
     return {
       opacity: progress.value,
       transform: [
-        { translateY: (1 - progress.value) * space.sm },
+        { translateY: (1 - progress.value) * POP_OFFSET_Y },
         { scale: 0.94 + progress.value * 0.06 },
       ],
     };
@@ -81,19 +97,21 @@ export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }:
             right: space.lg,
             bottom: anchorBottom + space.md,
             width: PANEL_WIDTH,
-            borderRadius: radius.lg,
+            borderRadius: PANEL_RADIUS,
             backgroundColor: color.white,
-            overflow: 'hidden',
             // The design pops it from the button it belongs to, bottom-right.
             transformOrigin: 'bottom right',
           },
-          shadow.lg,
+          PANEL_SHADOW,
           panelStyle,
         ]}
       >
-        <MenuRow label={t('addMenu.logGymSession')} icon="barbell" tint={categoryAccent.positive} onPress={onLogGym} />
-        <View style={{ height: layout.hairline, backgroundColor: surface.divider, marginLeft: space.lg }} />
-        <MenuRow label={t('addMenu.logFood')} icon="restaurant" tint={categoryAccent.calories} onPress={onLogFood} />
+        {/* Clipped in here: on iOS `overflow: hidden` would also clip the panel's shadow. */}
+        <View style={{ borderRadius: PANEL_RADIUS, borderWidth: PANEL_RING_WIDTH, borderColor: PANEL_RING, overflow: 'hidden' }}>
+          <MenuRow label={t('addMenu.logGymSession')} glyph={gymGlyph} onPress={onLogGym} />
+          <View style={{ height: DIVIDER_HEIGHT, backgroundColor: DIVIDER_COLOR, marginLeft: ROW_SIDE_PADDING }} />
+          <MenuRow label={t('addMenu.logFood')} glyph={foodGlyph} onPress={onLogFood} />
+        </View>
       </Animated.View>
     </View>
   );
@@ -101,13 +119,11 @@ export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood }:
 
 function MenuRow({
   label,
-  icon,
-  tint,
+  glyph,
   onPress,
 }: {
   label: string;
-  icon: string;
-  tint: string;
+  glyph: ReactNode;
   onPress: () => void;
 }) {
   return (
@@ -119,16 +135,17 @@ function MenuRow({
         flexDirection: 'row',
         alignItems: 'center',
         gap: space.md,
-        paddingHorizontal: space.lg,
-        minHeight: layout.buttonHeight,
-        backgroundColor: pressed ? surface.tilePressed : 'transparent',
+        paddingHorizontal: ROW_SIDE_PADDING,
+        minHeight: ROW_MIN_HEIGHT,
+        backgroundColor: pressed ? ROW_PRESSED_FILL : 'transparent',
+        opacity: 1,
       })}
     >
-      <Text variant="bodyMedium" color={color.label} style={{ flex: 1 }}>
+      <Text color={color.label} style={[rowLabelStyle(), { flex: 1 }]}>
         {label}
       </Text>
       {/* The glyph is the only tinted thing — it names which log this is. */}
-      <Icon name={icon} size={20} color={tint} />
+      {glyph}
     </Pressable>
   );
 }

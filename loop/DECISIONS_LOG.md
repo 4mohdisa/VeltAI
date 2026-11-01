@@ -3243,3 +3243,8 @@
 - 2026-11-02 07:25 Dropped the NavBar.tsx:29 gray200 alias cleanup from the handover: it is code tidying, not a row build.
 - 2026-11-02 07:25 Recorded row 111 as PARTIAL with no recorded blocker, so the next session re-checks it first once Isa replies.
 - 2026-11-02 07:25 Did not change Screen.tsx padding, gap 16 or any row marked blocked, per existing decisions.
+- 2026-11-02 08:02 Chose row 111 as the single task: it is the only PARTIAL row with no recorded blocker, and the notes name it as the restart step.
+- 2026-11-02 08:02 Rejected the handover's 'IN PROGRESS' NavBar.tsx:29 alias cleanup: the newer notes (R415) dropped it as tidying, not a row task.
+- 2026-11-02 08:02 Scoped the prompt to the files row 111 cites, so no new surface is opened.
+- 2026-11-02 08:02 Screen.tsx bottom padding stays blocked on the owner, so the prompt forbids changing it.
+- 2026-11-02 08:02 Jev stop (79%) is noted. I am running anyway because row 111 has no recorded blocker, and a verify-first prompt can end in no code change.

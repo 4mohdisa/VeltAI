@@ -4,7 +4,7 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-Loop STOPPED at R416. All remaining rows blocked on Isa or owner. No task is left that is not a blocked row. Row 111 is PARTIAL with no recorded blocker: re-check it first when the loop restarts.
+Loop STOPPED at R416, restarted R417 for row 111 only (verify first, then build if still different). All other remaining rows are blocked on Isa or owner. If row 111 matches or is blocked, stop again.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
@@ -16,7 +16,7 @@ Loop STOPPED at R416. All remaining rows blocked on Isa or owner. No task is lef
 - Badge style differences stay parked (style changes banned).
 - Accepted: gym duration and completion use ticked exercises; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset stays raised above inset 34; active cell keeps emitting tabPress.
 - Data model changes (per-day draft store) parked, not asked.
-- NavBar.tsx:29 gray200 alias cleanup dropped as tidying (R416).
+- NavBar.tsx:29 gray200 alias cleanup dropped as tidying (R416, reconfirmed R417).
 
 ## Built (not verified)
 - Row 82 (streak strip, footnote blocked).
@@ -25,6 +25,7 @@ Loop STOPPED at R416. All remaining rows blocked on Isa or owner. No task is lef
 
 ## Re-checked (do not repeat)
 - Rows 107, 108, 109, 110, 111, 82, 84 (R405-R413). Statuses: 107 and 108 untouched, 109 and 110 PARTIAL, 111 PARTIAL, 82 BUILT, 84 DIFFERENT.
+- Row 111 build attempt scheduled R417 (verify-first build, not a re-check).
 
 ## Blocked on Isa (do not re-ask)
 - Row 84 NavBar: bordered full-width bar vs floating chrome; centred bodyBold title vs floating eyebrow; GlassBackButton with label vs floating circle (44px Gym, 38px Profile).
@@ -72,6 +73,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - R414: STOP. Remaining rows blocked on Isa or owner.
 - R415: handover read, STOP confirmed. Dropped NavBar alias cleanup (tidying). Jev stop 89%.
 - R416: handover read, STOP confirmed again. Jev stop 87%. Nothing built, nothing changed.
+- R417: restart for row 111 only (verify first). Jev stop 79% noted; running because row 111 has no recorded blocker. Handover 'IN PROGRESS' NavBar alias cleanup dropped (tidying).
 
 ## Summary for Isa (for the owner)
-To unblock the loop, decide: row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list. Row 111 needs a re-check when the loop restarts.
+To unblock the loop, decide: row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list. Row 111 was attempted in R417 (verify-first build).

@@ -23,7 +23,7 @@ import { AddMenu } from './AddMenu';
 import { GlassSurface } from './GlassButtons';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, layout, motion, radius, shadow, space, zIndex } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, motion, radius, shadow, space, zIndex } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 
@@ -40,6 +40,7 @@ const CELL_CONTENT_GAP = 2;
 const CELL_PRESSED_OPACITY = 0.55;
 const ACTIVE_CELL_FILL = 'rgba(0, 0, 0, 0.055)';
 const GLYPH_SIZE = 21;
+const MENU_GLYPH_SIZE = 19;
 const PLUS_GLYPH_SIZE = 27;
 const PLUS_GLYPH_STROKE = 2.6;
 const PLUS_PRESSED_OPACITY = 0.86;
@@ -48,7 +49,7 @@ const PLUS_RING_WIDTH = 0.5;
 const PLUS_RING = 'rgba(255, 255, 255, 0.14)';
 const PLUS_SHADOW = { ...shadow.md, shadowOpacity: 0.26, shadowRadius: 28, shadowOffset: { width: 0, height: 12 } };
 
-type GlyphProps = { tint: string };
+type GlyphProps = { tint: string; size?: number };
 
 function SummaryGlyph({ tint }: GlyphProps) {
   return (
@@ -62,9 +63,9 @@ function SummaryGlyph({ tint }: GlyphProps) {
   );
 }
 
-function FoodGlyph({ tint }: GlyphProps) {
+function FoodGlyph({ tint, size = GLYPH_SIZE }: GlyphProps) {
   return (
-    <Svg width={GLYPH_SIZE} height={GLYPH_SIZE} viewBox="0 0 24 24">
+    <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path fill={tint} d="M3 12.5a9 9 0 0018 0z" />
       <Path
         d="M8.5 8.5c0-1.4 1-1.6 1-3M12.5 8.5c0-1.4 1-1.6 1-3M16.5 8.5c0-1.4 1-1.6 1-3"
@@ -77,9 +78,9 @@ function FoodGlyph({ tint }: GlyphProps) {
   );
 }
 
-function GymGlyph({ tint }: GlyphProps) {
+function GymGlyph({ tint, size = GLYPH_SIZE }: GlyphProps) {
   return (
-    <Svg width={GLYPH_SIZE} height={GLYPH_SIZE} viewBox="0 0 24 24">
+    <Svg width={size} height={size} viewBox="0 0 24 24">
       <G fill={tint}>
         <Rect x={3} y={7} width={3.4} height={10} rx={1.7} />
         <Rect x={17.6} y={7} width={3.4} height={10} rx={1.7} />
@@ -248,6 +249,8 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
           setMenuOpen(false);
           router.push('/food/add');
         }}
+        gymGlyph={<GymGlyph tint={categoryAccent.positive} size={MENU_GLYPH_SIZE} />}
+        foodGlyph={<FoodGlyph tint={categoryAccent.calories} size={MENU_GLYPH_SIZE} />}
       />
     </>
   );
