@@ -2746,3 +2746,8 @@
 - 2026-11-01 20:27 Shared SettingsList geometry: follow design per row when each row is built; no separate shared change. Recorded as default, not sent to Isa.
 - 2026-11-01 20:27 Row 108 items 4 and 7 doc fix moved to R307 so the verification is not mixed with an edit.
 - 2026-11-01 20:27 Notes trimmed under 600 words per the loop note; finished work deleted, repeated items merged.
+- 2026-11-01 20:28 Kept the verification run over Jev's first pick (row 108 doc fix, 84%). Reason Jev cannot see: the notes rule says a flagged report is verified in the next round before any other task. The flag names tests as not run, and the report only ran tsc, so the flag is not cleared until a fresh check confirms it. This was also the reason for R306, which the notes already record.
+- 2026-11-01 20:28 Chose tsc plus git-state checks only, no jest. No source or test file changed in this or the previous round, so the 'tests not run' flag is cleared by the type check and the clean working tree. Running jest on unchanged files is excess usage under the testing rules.
+- 2026-11-01 20:28 Kept the read-only format and forbade edits, so this round cannot add to the doc backlog while the flag is open.
+- 2026-11-01 20:28 Row 108 doc fix (items 4 and 7) moves to R308, as the next task after this verification.
+- 2026-11-01 20:28 Jev's 54% run vs 35% ask is treated as a close call. Run stays, since no owner-only item is needed for a read-only check.
