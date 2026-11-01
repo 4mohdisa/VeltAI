@@ -2853,3 +2853,10 @@
 - 2026-11-01 21:12 Chose row 76 checklist icon over Jev's ask. Reason: it is a single icon item in an approved gym surface, needs nothing from Isa, and is the smallest open item that does not depend on SettingsList. The unanswered question only blocks rows 107-109, not this one.
 - 2026-11-01 21:12 Took only the checklist icon item of row 76, not the whole row. Rest-day and second-sheet items touch behaviour and the accepted rest-day deviation, so they need a separate decision later.
 - 2026-11-01 21:12 Chose a read-only compare step first, so the round changes no code if the icon already matches.
+- 2026-11-01 21:14 Picked row 76 item 4 over items 1-2: it is the report's NEXT and the highest-risk item left on the surface, and it needs nothing from Isa.
+- 2026-11-01 21:14 Rewrote the notes under 600 words as the loop note asked. Merged repeated items and removed finished work. No open row was changed.
+- 2026-11-01 21:14 Parked the off-by-one citations in log-session.tsx and the stale doc lines as a doc-only item, not a task, because they are not row builds.
+- 2026-11-01 21:14 R335 rewrites the rejected R334 prompt to one surface (log-session.tsx only). The loop note says it asked for more than one screen, and the /gym/session second-row write is a separate screen, so it is removed from this task.
+- 2026-11-01 21:14 The /gym/session double-write is parked as its own task after row 76 item 4, not dropped, because it is a real data problem.
+- 2026-11-01 21:14 Item 4 is still the highest-risk open item on row 76 and needs nothing from Isa, so it stays the pick. Jev agrees (run 99%).
+- 2026-11-01 21:14 Each prompt names one file and one design bundle, so no task spans two screens again.

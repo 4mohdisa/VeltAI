@@ -86,6 +86,16 @@ export default function LogSessionScreen() {
   } = useGym();
   const { today, loading, refetch } = useToday();
   const [celebrating, setCelebrating] = useState(false);
+  const [savedHere, setSavedHere] = useState(false);
+
+  // The design never shows this sheet on a logged day: the toast, then today on
+  // the Gym tab. A session saved from this sheet is the celebration's, not this.
+  const alreadyLogged = streak.gymLoggedToday && !savedHere;
+  useEffect(() => {
+    if (!alreadyLogged) return;
+    showToast({ message: t('gymLog.alreadyLogged'), tone: 'info' });
+    router.replace('/(tabs)/gym');
+  }, [alreadyLogged, t]);
 
   const planned = useMemo(() => today?.exercises ?? [], [today]);
   const planName = today?.template?.name;
@@ -100,18 +110,11 @@ export default function LogSessionScreen() {
 
   // Every tile is a different way the session went, and /gym/session opens in
   // the matching view: per-set numbers, the per-exercise ticks, or the picker.
-  // An already-logged day has no tile to answer for, so it opens the screen plain.
-  const openSession = (mode?: Choice['mode']) =>
-    router.replace({ pathname: '/gym/session', ...(mode ? { params: { mode } } : {}) } as Href);
+  const openSession = (mode: Choice['mode']) =>
+    router.replace({ pathname: '/gym/session', params: { mode } } as Href);
 
   const save = () => {
-    // A logged day is never re-logged: the design drops you into the day to
-    // edit it or add an extra, which is what /gym/session does here.
-    if (streak.gymLoggedToday) {
-      showToast({ message: t('gymLog.alreadyLogged'), tone: 'info' });
-      openSession();
-      return;
-    }
+    setSavedHere(true);
     // A plan with nothing to derive from has no duration; 0 would be logged as real.
     const derivedMinutes = today?.template?.estimated_duration_minutes ?? planMinutes;
     logGymSession(
@@ -125,6 +128,8 @@ export default function LogSessionScreen() {
     setCelebrating(false);
     close();
   };
+
+  if (alreadyLogged) return null;
 
   if (loading) {
     return (
