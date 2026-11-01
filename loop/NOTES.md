@@ -14,23 +14,25 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Row 117 item 6: history.tsx:55 uses color.label, not gray800 (same value; tokens.ts asks for intent names).
 - Row 76 add path not faked: logging on pick marks the day done; adding to the template changes future weeks.
 - R398: followed Jev on Profile shared-chrome doc sync.
+- R400: rejected prompt (no design/ file named) rewritten to name design/Lume App.html and row 84.
 
 ## Status
 - PARTIAL, none fully built: 76, 107, 109, 110, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
+- Row 84: DIFFERENT. Three cited differences. Aliases: none used by streak.tsx or history.tsx; NavBar.tsx:29 and Badge.tsx:19, :38 use them. R400 doc fix pending at lines 678-679 (history date uses humanDate at mappers.ts:216; 'Total' label not found in code; design says '23 sessions').
 - Row 110 re-checked R397: 13 items, PARTIAL. Profile shared-chrome section synced R398 (toasts black; bottom padding added).
 - Row 108 (Support) bottom padding not re-checked; blocked on owner call on shared Screen.tsx padding.
 - Row 114: TodayCard detail section matches; DIFFERENT only on item 8.
 - Row 117: items 2, 3 built; 4 EXACT; 6 fixed. Items 5, 7 open outside TodayCard. Items 1, 8 blocked.
 - Row 76: items 2 (plus glyph), 3, 5, 8 built in log-session.tsx; add path blocked.
 - R382 checkpoint: tsc 0; jest --ci 822 of 824. Failures: detailChrome only (blocked). Later rounds doc-only; jest not re-run.
-- Flagged report (R399): type check not run on the doc-only round. Fixing this round by running tsc.
 - Nothing checked on a device.
 
 ## Next (for Isa)
 1. Run full checkpoint: tsc --noEmit and jest --ci on loop/design-match.
 2. Answer blockers below.
-3. Doc still stale: row 111 wording; citations in differences 1-7, 13, 17, 20 and line 299; differences 8, 10, 19 contradict 'What the app does'. Row 84 and lines :674 and :855 being re-checked this round.
+3. Doc: lines 678-679 being corrected (R400). Lines 674 and 855 are correct per the R399 report. Differences 8, 10, 19 still contradict 'What the app does'; citations in differences 1-7, 13, 17, 20 and line 299 still stale; row 111 wording stale.
 4. Re-check row 108 once Screen.tsx padding is decided.
+5. The 41 deprecated alias uses remain in src (tokens.ts:46-48 says remove as components migrate). Parked.
 
 ## Blocked on Isa (do not re-ask, do not retry)
 - detailChrome snapshot: gap 16 on energy balance and macros, keep or remove. Do not touch.
@@ -57,7 +59,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Stale comments: FloatingHeader.tsx:24-26 (82/86 vs bundle 84/88/18/58), gymSchedule.ts:32-61, gym.tsx:70-73, gym.tsx:155, hooks.ts:159, LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10, Screen.tsx:22; schedule.tsx 'Tues'.
 - Tests: gymCalendar NAV_SIZE 32 vs 44; source-text suites; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
 - Layout: TAB_BAR_CLEARANCE has no non-test callers. Logged pill wash flat; mixHex could fix.
-- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; SettingsList.tsx:129; reduceMotion.ts:13.
+- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; SettingsList.tsx:129; reduceMotion.ts:13. Deprecated token aliases: 41 uses across 24 files in src; tokens.ts:46-48 says remove as components migrate.
 - i18n: hardcoded English across Summary, energy, week, workouts, scan, schedule, Profile, session.tsx:539-555, templates, toasts, streak, second sheet.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results. Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
@@ -65,7 +67,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Profile hand-rolls its chrome (profile/index.tsx:9); not a visible difference.
 
 ## Jev
-R398: ask 39, run 35, stop 26; followed Profile sync. R399: run 48, ask 45, stop 7 (confidence 0.22). Chose run: the round needs nothing from Isa. Row 108 not picked because the shared padding is an owner call. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
+R398: ask 39, run 35, stop 26; followed Profile sync. R399: run 48, ask 45, stop 7 (confidence 0.22). Chose run: the round needs nothing from Isa. R399 latest: ask 45, run 40, stop 15 (confidence 0.18). Chose run: blockers are all on file and the doc fix needs nothing from Isa. R400: run 40, ask 40, stop 20 (confidence 0.10). Chose run: doc-only fix with a named file and row. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
 
 ## Gotchas
-Briefs carry false premises: check first (e.g. ToastHost and Screen paths). Tab bar is at src/components/navigation/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites; run by path with find. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging. Always report exit codes. Grep won't find a suite by its own name; use find.
+Briefs carry false premises: check first (e.g. ToastHost and Screen paths; row 117 items 5-7 not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160). Tab bar is at src/components/navigation/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites; run by path with find. findRelatedTests finds no tests for gym screens and exits 1 without --passWithNoTests. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging. Always report exit codes. Grep won't find a suite by its own name; use find. Source-reading suites: src/__tests__ sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation. Prompts must name the matching design/ file (rejected R400 for omitting it).

@@ -675,8 +675,8 @@ both use default `filled` cards (`light1`, `radius.lg` 20) instead of
 `gray500` and `black` are main palette tokens (`src/lib/design/tokens.ts:24`, `:33`),
 the old aliases at `history.tsx:41` and `streak.tsx:55` are now `light1`, and
 `history.tsx:55` uses `color.label` on purpose, because `tokens.ts` asks for intent
-names. The history list also renders `session.date` as a raw ISO string, and the streak screen
-labels a stat "Sessions" where the main tab calls the same number "Total".
+names. The history list renders `session.date` as "Today", "Yesterday" or a weekday, day and month (`history.tsx:45`, `src/lib/data/mappers.ts:197-216`).
+The streak screen labels a stat "Sessions" (`streak.tsx:89`). The main-tab strip shows only the streak count (`src/app/(tabs)/gym.tsx:131-139`), and the design's strip reads "23 sessions · 2 freezes" (Gym bundle 7dc211f6 :39, :1501).
 
 ## Gym — "My schedule" screen — ⚠️ PARTIAL MATCH
 

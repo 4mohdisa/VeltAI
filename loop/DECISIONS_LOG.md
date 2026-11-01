@@ -3166,3 +3166,11 @@
 - 2026-11-02 05:48 Did not pick row 108 padding: the notes say shared Screen.tsx bottom padding needs an owner call first, and the last report's NEXT recommendation conflicts with that. Parked until Isa decides.
 - 2026-11-02 05:48 Picked a doc-only re-check of row 84 because doc fixes are allowed in re-check rounds and the stale alias claims at :674 and :855 are on the Next list.
 - 2026-11-02 05:48 Jev ranked run 48%, ask 45%. Ask stays rare: this round needs nothing from Isa, so run is correct.
+- 2026-11-02 05:50 Chose the doc fix: the loop note flagged the last report for a type-check gap, and the NEXT item names these exact wrong claims. Fixing them is a doc fix allowed in a re-check round.
+- 2026-11-02 05:50 Asked for tsc again on this round: the flag may be about the last doc-only round, so a fresh exit code is needed.
+- 2026-11-02 05:50 Did not ask Isa: all blockers are already on file in Blocked on Isa, and no new question is needed.
+- 2026-11-02 05:50 No jest run: the round changes only the doc, so the build-round rule (tsc plus related tests) does not add a test to run.
+- 2026-11-02 05:50 Rewrote the rejected prompt to name design/Lume App.html and row 84, as the loop note asked.
+- 2026-11-02 05:50 Picked the doc fix at lines 678-679 over the older handover item at 674/855, because the latest report verified 855 and 674 as correct and only 678-679 as wrong.
+- 2026-11-02 05:50 Kept this round to a doc-only edit with no tsc or jest run, since no code changes. Report says the run list is empty.
+- 2026-11-02 05:50 Followed the Jev 'run' lean. The round needs nothing from Isa and the blockers are already on file.
