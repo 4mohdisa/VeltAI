@@ -3088,3 +3088,8 @@
 - 2026-11-02 01:46 Did not mark item 5 built in the doc this round: notes say doc fixes happen only in re-check rounds. Deferred to a re-check round.
 - 2026-11-02 01:46 Did not schedule a full checkpoint: the last one ran in R382 and this round changes one file. Fresh tsc and findRelatedTests are required after the final edit.
 - 2026-11-02 01:46 Jev run at 94% agrees with run. Risk 1.6 noted; the change is one file with a small scope, so I kept run.
+- 2026-11-02 01:48 Treated the flagged report as partly done: the glyph is built, the add path stays open. Fixed it by recording the true state in the doc, not by building the add path.
+- 2026-11-02 01:48 Did not ask Isa about the add path. It needs a new per-day draft store, which counts as a data model change, so it is parked, not asked.
+- 2026-11-02 01:48 Chose the doc re-check because the notes allow doc edits only in re-check rounds, and the glyph and item 5 status are both out of date in the doc.
+- 2026-11-02 01:48 Doc-only round, so no tsc or jest run. Build rounds resume afterwards.
+- 2026-11-02 01:48 Parked the chevron tile glyph (log-session.tsx:250, bundle :412) and the possible second add route (bundle :1310) for a later check.
