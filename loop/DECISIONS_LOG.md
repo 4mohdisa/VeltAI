@@ -2781,3 +2781,8 @@
 - 2026-11-01 20:37 Chose the read-only verification of R313 over the row 108 doc fix that Jev ranked first. Reason: the notes rule says a flagged report is verified before any other task, and R313 departed from the brief in its AI-group wording and footnote cites. Jev cannot see that rule.
 - 2026-11-01 20:37 Verification is read-only: no doc edit this round. Any correction to row 107 goes to NEXT, so the verifier and the editor stay separate.
 - 2026-11-01 20:37 Kept the three jest suites from the report's own run, plus tsc, since the report touched only the doc and the matching suites were already named.
+- 2026-11-01 20:38 Chose row 108 doc fix over the SettingsList geometry decision because the notes default is per-row geometry, which already covers the question, so no ask is needed.
+- 2026-11-01 20:38 Did not ask Isa about SettingsList: the handover recommended it, but the decisions default covers it and the question is not owner-only.
+- 2026-11-01 20:38 Ignored Jev's ask at 57%: its confidence is 0.35 and risk confidence is 0.07, so the signal is weak and the notes default covers the situation.
+- 2026-11-01 20:38 Kept item 4 out of this round: the notes order is items 1-3 first, then items 4 and 7, so item 4 waits for a later round.
+- 2026-11-01 20:38 Kept row 107 closed: the verify round found no correction, and repeat checks on 107 add nothing.

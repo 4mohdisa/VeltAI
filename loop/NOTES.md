@@ -20,8 +20,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Re-checked: rows 107, 108, 109, 111, 113, 114-118 (R297-R304).
 - R309 checkpoint: tsc 0; jest 64/65 suites, 822/824 tests. Only failures: two detailChrome snapshots awaiting approval.
 - R311 claims confirmed in R312: export toast is app-only (privacy.tsx:53); gap of 8 at bundle :489 and :502; AI group needs consent (privacy.tsx:80, title :82). R312 cleared the flag: tsc 0; 3 profile suites, 39 tests passed.
-- R313 (flagged as partly done): row 107 edited (export failure toast as item 7, footnote cites :489 and :502 plus SettingsList.tsx:185, AI group note in item 2). Deviation from brief: wording 'the design has no AI group in any state' instead of 'shows it unconditionally'. Kept cites :499 and :510 for type 13/18 and side padding 4. Verification queued as R314.
+- R313 row 107 edit verified in R314 (no correction needed). Kept cites :499 and :510 for footnote type and side padding; gap 8 cites :489 and :502. Row 107 is closed: repeat verify rounds add nothing.
 - Summary difference 12 (doc line 406): BUILT.
+- R315 (this round): doc-only re-check of row 108 items 1-3 citations and item 7 placement.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes in notes; checklist icon.
@@ -30,8 +31,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: Energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
-- 107 PARTIAL: privacy headers, AI group, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 padding 16 vs 12 (TextField.tsx:63, bundle :546) and growth; item 7 EXACT inside numbered list.
+- 107 PARTIAL: privacy headers, AI group, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites. Verified in R314; no further verify rounds needed.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 padding 16 vs 12 (TextField.tsx:63, bundle :546) and growth; item 7 EXACT inside numbered list (R315 moves it out).
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
@@ -43,10 +44,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4-5 need device check.
 
 ## Next
-1. R314 (this round): read-only verification of the R313 row 107 edit against design/Lume App.html and src/app/profile/privacy.tsx. Apply any correction only in the following round.
-2. Row 107 correction, if R314 finds one. Doc only.
-3. Row 108 items 1-3 doc fix (one line off), then items 4 and 7.
-4. Row 109 doc fixes if citations are stale. Doc only.
+1. R315 (this round): row 108 items 1-3 citation fix, item 7 moved out of the list. Doc only.
+2. Row 108 items 4 and 7 build or doc fix in the following round.
+3. Row 109 doc fixes if citations are stale. Doc only.
+4. SettingsList row geometry (107-109): per row by default; Isa may override.
 5. Row 103 energy gap, after snapshot approval.
 6. Row 118 items 4-5 device check, if Isa approves.
 7. No rows left: stop with 'only owner decisions remain'.
@@ -79,8 +80,9 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Data: quick-add serving missing (mock/data.ts:124); editSavedFood local only.
-- Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout.
-- Doc: stale lines 192, 229, 236, 310, 430-431, 438, 448, 484, 509, 532, 534, 588, 631, 828, 840-841, 1520; section 855 overlaps FAB row; section 1421 disagrees with row 118; row 85 citations; row 104 BUILT vs EXACT; row 112 EXACT; line 1441 cites logGymSession(), unchecked; row 108 item 7 inside list; row 107 cites (R313 edit under verification R314).
+- Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout. No test references SettingsList.
+- Doc: stale lines 192, 229, 236, 310, 430-431, 438, 448, 484, 509, 532, 534, 588, 631, 828, 840-841, 1520; section 855 overlaps FAB row; section 1421 disagrees with row 118; row 85 citations; row 104 BUILT vs EXACT; row 112 EXACT; line 1441 cites logGymSession(), unchecked; row 109 cites (About glyph at bundle :568; :475 and :478 are Privacy lines).
+- Tab bar: Reduce Transparency pill fill equals active cell #F2F2F7; GlassSurface overflow hidden may clip pill shadow. Needs device.
 - Old /tmp/lume-* folders: not ours to clean.
 
 ## Accepted limits
@@ -92,6 +94,7 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - Use LC_ALL=C /usr/bin/grep; quote paths with tabs. Profile screens live in src/app/profile, and the grep pattern must be app/profile/ (src/app/profile/ misses two of three suites).
 - Doc row numbers are file lines.
 - After a handover, name files fully in prompts.
+- Briefs and reports can cite false claims; check before acting.
 
 ## Jev
-R305-R313: Jev ranked doc fixes first (81-89%) and sometimes asked (16-63%). Runs kept for flag verification and read-only work. R313: flagged as partly done; Jev put row 108 doc fix first at 87%. Kept R314 verification because a flagged report is verified first (notes rule). Jev cannot see that rule.
+R305-R314: Jev ranked doc fixes first (81-89%) and sometimes asked (16-63%). Runs kept for flag verification and read-only work. Handover signal (ask 57%, confidence 0.35) not followed: defaults cover the SettingsList question. Jev cannot see the notes rule that a flagged report is verified first.
