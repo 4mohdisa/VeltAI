@@ -2981,3 +2981,14 @@
 - 2026-11-02 00:44 Row 118 items 4 and 5, the Reduce Transparency pill fill and the GlassSurface shadow are excluded because they need a device.
 - 2026-11-02 00:44 Row 113 open items taken from the handover (3, 10, 11). Notes said 4-10 were built, which conflicts. Item 10 is treated as open until checked.
 - 2026-11-02 00:44 Row 117 item 1 remaining cards are blocked on Isa (templates.tsx:50, session.tsx:407, muscles.tsx:73, and the seven no-counterpart cards). Not asked again this round because the row 118 task does not need Isa.
+- 2026-11-02 00:48 Chose a verification round over a new build because the loop note flagged the last report: tabNavigation.test.ts was not run, and the type check plus the one jest run were not enough to call the change clean.
+- 2026-11-02 00:48 Did not revert LumeTabBar.tsx myself. Git state is not visible to me, the loop commits every round, and I do not have the old values. Reverting needs Isa's answer.
+- 2026-11-02 00:48 Recorded that LumeTabBar.tsx was on the Blocked on Isa list and the row 118 edit went ahead anyway. Row 118 is held until Isa approves. Next round I will ask one question on keep or revert, since this is new information and nobody else can answer it.
+- 2026-11-02 00:48 Did not build any other row. Every remaining non-blocked row needs a device or Isa's answer.
+- 2026-11-02 00:48 Chose ask over run: the R360 edit changed a Blocked file without approval, and Isa needs to decide before more verification or commits. Jev gave ask 78%.
+- 2026-11-02 00:48 Verification run moves to after his answer, because the rejected prompt needs a rewrite with the design file and branch named.
+- 2026-11-02 00:48 Notes cut from over 600 words to under 600 by merging repeated blocked items and dropping finished work.
+- 2026-11-02 01:04 R361 question (keep or revert the R360 LumeTabBar.tsx edit) went unanswered after the loop note. Moved to Blocked on Isa. Not re-asked, per the loop note.
+- 2026-11-02 01:04 Overrode Jev (ask 98%). Concrete reason: row 117 item 2 is a doc-only re-check that edits only DESIGN_GAP_ANALYSIS.md. It touches no Blocked file and does not depend on the R361 answer. Risk of this round is low because no code changes. Asking again would repeat a blocker Isa has not answered, and the loop note allows ask only when every remaining task needs Isa, which is not the case.
+- 2026-11-02 01:04 Row 118 stays blocked for any file edit until Isa answers. Its check (tsc, tabNavigation.test.ts, findRelatedTests) is deferred, because the notes sequence it after his answer.
+- 2026-11-02 01:04 Chose the row 117 item 2 re-check over row 76 item 3 because it is the next item in the notes sequence and needs no design line confirmation beyond what the re-check itself reads.
