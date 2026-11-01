@@ -19,7 +19,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 ## Status
 - Re-checked: 107, 108, 109, 111, 113, 114-118.
 - Row 107 closed (verified R314).
-- Row 108 item 4 growth fixed (R316): app grows with content, no max height; design fixed at 4 rows, resize none. The brief's direction was reversed by the measured values. Read from code, not device.
+- Row 108 item 4 growth fixed (R316): app grows with content, no max height; design fixed at 4 rows, resize none. Read from code, not device.
+- Row 108 item 4 citations: font 17 vs 16 is the only real difference. Placeholder (gray400 #8A8A8A vs tertiary-label #8a8a8a) and text (gray800 #171717 vs label #171717) colours match under different token names (R317). R318 removes the false colour note and fixes citation order (doc only).
 - Row 108 item 7 is EXACT, moved out of the list.
 - Summary difference 12: BUILT.
 - Last tsc 0; tabNavigation, phase14Regression, hydrationErrorScreens 3/3 suites, 39/39 tests (R316). Last full jest R309: 64/65 suites, 822/824; failures are two detailChrome snapshots awaiting approval.
@@ -32,21 +33,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 103 DIFFERENT: Energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, AI group, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 citations (R317); item 4 growth (done).
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font size 17 vs 16 (citations done).
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
-- 114 DIFFERENT: session card, 14 items (Logged pill wash and Calories cell blocked).
+- 114 DIFFERENT: session card, 14 items (Logged pill wash and Calories cell blocked). Tap target and planned grid missing.
 - 115 PARTIAL: exercise progress, 11 items.
 - 116 PARTIAL: heatmap, 7 items.
 - 117 PARTIAL: token drift, 10 items.
 - 118 PARTIAL: tab bar, 13 items. Items 4-5 need device check.
 
 ## Next
-1. R317: row 108 item 4 citations (font 17, placeholder and text colour). Doc only.
+1. R318: row 108 item 4 doc cleanup (false colour note, citation order). Doc only.
 2. Row 109 citation check if stale. Doc only.
-3. SettingsList row geometry (107-109): per row by default; Isa may override.
+3. SettingsList row geometry (107-109): per row by default; Isa may override. Shared component, so check every caller before any change.
 4. Row 103 energy gap, after snapshot approval.
 5. Row 118 items 4-5 device check, if Isa approves.
 6. No rows left: stop with 'only owner decisions remain'.
@@ -93,7 +94,9 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - Doc row numbers are file lines.
 - After a handover, name files fully in prompts.
 - Briefs and reports can cite false claims or stale paths; check before acting.
+- Design hex values for placeholder and text are defined in design/Lume App.html:382 (not in the Profile bundle).
 
 ## Jev
 R315: Jev asked 82%, ran 14%. Run kept; SettingsList is settled by default.
 R316: Jev asked 70% (confidence 0.55), ran 12%. Run kept for the same reason. Risk 1.4 noted; scope is one doc row plus tsc and three suites.
+R318: Jev asked 80% (confidence 0.70), ran 10%, risk 1.3. Run kept: SettingsList geometry is already a default (per row), so asking again repeats a settled question; this round is doc only and reversible, and the report flagged a false claim in row 108 item 4 that needs fixing.

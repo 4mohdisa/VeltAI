@@ -2794,3 +2794,7 @@
 - 2026-11-01 20:41 Did not ask about SettingsList geometry: the default (per row) already settles it, and the rule is to ask rarely.
 - 2026-11-01 20:41 Jev asked at 70% with confidence 0.55; kept run because the question is settled by default and the scope is one doc row plus tsc and three suites.
 - 2026-11-01 20:41 Rewrote the notes to under 600 words as the loop note requested, merging repeated items and deleting finished work.
+- 2026-11-01 20:43 Jev asked 80% and ran 10%. Kept run: the SettingsList geometry question is already settled by default (per row, Isa may override), so asking again would repeat a question. This round is doc-only and reversible, so the risk is low. Reason written here because Jev cannot see the default in the notes.
+- 2026-11-01 20:43 Chose the doc-only row 108 item 4 fix first because the last report flagged a false colour note there, and fixing a doc claim is smaller and safer than a shared-component build.
+- 2026-11-01 20:43 Parked: the late Next item 'row 108 item 4 citations (R317)' is done, so it is removed from Next.
+- 2026-11-01 20:43 Parked: the claim 'item 4 omits field growth' from the spotted list is already fixed (R316), so it is removed from the open list.
