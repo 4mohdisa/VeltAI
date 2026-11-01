@@ -19,6 +19,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - R391: loop stopped by manager. Every remaining row waits on an owner decision already asked. No build chosen.
 - R392: loop stopped by manager again. Nothing new from Isa. Handover's doc-fix suggestion conflicts with R390 and is parked for Isa to confirm. Jev stop 88%.
 - R393: loop stopped by manager a third time. Still only owner decisions remain. Jev stop 93%.
+- R394: loop stopped by manager a fourth time. Same state. Jev stop 92%. Doc fix at :674 and :855 not run (conflicts with R390; parked for Isa).
 
 ## Status
 - PARTIAL, nothing fully built: 76, 107, 109, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
@@ -67,7 +68,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Doc: confirm whether DESIGN_GAP_ANALYSIS.md:674 and :855 still claim deprecated aliases in use (handover) or were fixed in R390.
 
 ## Jev
-R337-R393 decisions kept. Keep builds small with explicit check requirements. Shared-file blocked items are not retried as TodayCard tasks. R390: Jev said stop 69%; stopped. R391: Jev said stop 58%, ask 37%; stopped. R392: Jev said stop 88%, ask 11%; stopped. R393: Jev said stop 93%, ask 7%; stopped.
+R337-R394 decisions kept. Keep builds small with explicit check requirements. Shared-file blocked items are not retried as TodayCard tasks. R390: Jev said stop 69%; stopped. R391: Jev said stop 58%, ask 37%; stopped. R392: Jev said stop 88%, ask 11%; stopped. R393: Jev said stop 93%, ask 7%; stopped. R394: Jev said stop 92%, ask 8%; stopped.
 
 ## Gotchas
 Briefs carry false premises: check first (row 117 items 5-7 were not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160). Tab bar lives at src/components/navigation/LumeTabBar.tsx, not src/components/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run by path with find. Reports that skip tsc or tests get flagged; always report exit codes. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging.

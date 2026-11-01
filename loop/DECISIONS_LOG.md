@@ -3143,3 +3143,7 @@
 - 2026-11-02 03:50 Stop: all remaining rows are blocked on Isa or parked as owner-only, and nothing new arrived. Matches R391 and R392 and Jev's 93% stop.
 - 2026-11-02 03:50 Did not pick the handover's doc fix at :674 and :855 as a task: it is not a row, and it conflicts with R390, so it stays parked for Isa.
 - 2026-11-02 03:50 No new candidates: every open row waits on an owner decision in Blocked on Isa.
+- 2026-11-02 04:27 Stop, not run: every remaining row waits on an owner decision already asked, so no candidate meets the rule of needing nothing from Isa.
+- 2026-11-02 04:27 Doc fix at DESIGN_GAP_ANALYSIS.md :674 and :855 not run: R390 says 674-677 and 857-860 were already fixed, the handover says they still claim deprecated aliases. Conflict parked for Isa to confirm, as in R392.
+- 2026-11-02 04:27 Did not re-ask any blocked question: they are answered by Isa or stay parked, per the Blocked list.
+- 2026-11-02 04:27 Jev stop 92% agrees with the manager reading. No override.
