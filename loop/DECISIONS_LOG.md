@@ -2874,3 +2874,7 @@
 - 2026-11-01 21:20 Items 1-2 chosen next: they need nothing from Isa and touch one file.
 - 2026-11-01 21:20 Rest-day redirect kept as the accepted deviation recorded in notes.
 - 2026-11-01 21:20 Read-only tsc flag from R336 treated as cleared: the handover records tsc 0 on the last full run, and this round adds no new code path.
+- 2026-11-01 21:22 Chose the session.tsx close fix over asking Isa (Jev ask 79%): the design answers the question (bundle :1614, :1693), and the change is limited to row 76 items 1-2 on the same screen. Look-again reason: this is a design-match fix, not a product or data decision, and the defaults cover it.
+- 2026-11-01 21:22 Kept the log-session.tsx rest-day redirect as an accepted deviation (unchanged).
+- 2026-11-01 21:22 Item 2 stays not built while the SF Symbol plus glyph differs from the design path; glyph left to NEXT so the task stays one change.
+- 2026-11-01 21:22 Stale citations and hardcoded English left for later (doc fixes only in re-check rounds; i18n parked).

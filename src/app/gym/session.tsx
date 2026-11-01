@@ -560,7 +560,15 @@ export default function GymSessionScreen(): JSX.Element {
           </View>
         )}
 
-        <ExercisePicker visible={pickerVisible} onClose={() => setPickerVisible(false)} onPick={onPickExtra} />
+        <ExercisePicker
+          visible={pickerVisible}
+          onClose={() => {
+            setPickerVisible(false);
+            // Opened to add something, and nothing was: the design clears the sheet and leaves you on the Gym day.
+            if (extras.length === 0 && (mode === 'picker' || !hasExercises)) router.replace('/(tabs)/gym');
+          }}
+          onPick={onPickExtra}
+        />
       </Screen>
 
       {pad ? (

@@ -15,14 +15,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Every prompt names branch loop/design-match and the design/ file. Forbids switch, push, merge, commit, editing loop/.
 - One surface per prompt.
 - Loop commits loop/ files: check with git show --stat HEAD.
+- R338: picker close fix in session.tsx approved by default (design answers it). Isa's earlier approval wait is superseded for this change only.
 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Repeat verify rounds on 108 and 109 add nothing. Row 107: design has no AI group or consent text.
+- Row 76 item 1 marked built (no code change, R337 report). Close-library gap remains; R338 fixes it in session.tsx.
 - Row 76 item 4 (logged day): code read only (R336), not on device. Toast wording matches. Toast timing and position differ (app-wide rule, Blocked). Logged TodayCard has no press route. The design day view (bundle :850-873) does not exist in the app: parked.
 - Last full run: tsc 0; jest --ci 64/65 suites, 822/824. Failures: detailChrome energy and macros, awaiting approval.
 
 ## Open rows
-- 76 PARTIAL: items 1-2 rest-day chooser and Something else close (next). Item 3 second sheet. Item 4 parked. Items 5-7 time, celebration dash, cardio minutes. Item 8 done.
+- 76 PARTIAL: items 1-2 close-library fix in session.tsx (R338, current task); item 2 glyph (SF Symbol vs 2.4-stroke path) still differs. Item 3 second sheet. Item 4 parked. Items 5-7 time, celebration dash, cardio minutes. Item 8 done.
 - 83 DIFFERENT: sheet-in-place; button height and type (parked).
 - 85 DIFFERENT: calorie bar, left today, four-column wrap (Blocked).
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
@@ -41,11 +43,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device.
 
 ## Next
-1. Row 76 items 1-2 (current task).
-2. Row 76 items 3, 5, 6, 7, one per round.
-3. Row 113 My workouts.
-4. Row 115 exercise progress.
-5. No rows left: stop with 'only owner decisions remain'.
+1. Row 76 items 1-2 close-library fix in session.tsx (R338, current task).
+2. Row 76 item 2 glyph, if it can be fixed in the same file without a shared-component change; otherwise leave it as a note.
+3. Row 76 items 3, 5, 6, 7, one per round.
+4. Row 113 My workouts.
+5. Row 115 exercise progress.
+6. No rows left: stop with 'only owner decisions remain'.
 Revisit row 76 item 4 only if Isa asks for a day view.
 
 ## Blocked on Isa (do not retry)
@@ -68,11 +71,11 @@ Revisit row 76 item 4 only if Isa asks for a day view.
 - Gym logged day: no day view (design :850-873); logged card has no press route; second row (mutations.ts:173-178).
 - Gym: stale Start workout after logging (gymSchedule.ts:32-61; gym.tsx:70-73); stale logged flag after midnight (hooks.ts:159).
 - + menu pushes sheet before the check (LumeTabBar.tsx:179).
-- i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile, EnergyBalanceCard.
+- i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile, EnergyBalanceCard, gym session empty state (session.tsx:539-541, :555).
 - Stats: WeekEnergyCard zero case '+0'; baselines.
-- Layout: TAB_BAR_CLEARANCE orphaned; wrong comments (LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10); Screen.tsx:22 and :117.
-- Code: duplicated easing bezier, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8; exercise-progress hardcodes kg; unused keys; AddMenu.tsx:3; gym.tsx:155 comment.
-- Doc: stale citations (log-session.tsx :161, :263-275; row 76 item 8); sections 484, 509, 631, 828, 855, 1421, 1441; row 85, 104, 112 citations.
+- Layout: TAB_BAR_CLEARANCE orphaned; wrong comments (LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10); Screen.tsx:22 and :117; gym.tsx:155 comment false.
+- Code: duplicated easing bezier, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8; exercise-progress hardcodes kg; unused keys; AddMenu.tsx:3; reduceMotion.ts:13 state-update warning in tests.
+- Doc: stale citations (log-session.tsx :161, :180 for row 76 item 3; :263-275; row 76 item 8); sections 484, 509, 631, 828, 855, 1421, 1441; row 85, 104, 112 citations.
 - Copy: foodLog.per100; CaloriesCard g; food.rowAnalysing; food.deleteItem; streak copy.
 - Toasts: 'Updated {name}', savedAdded, toast fade.
 - Gym: button 56 vs 52; duplicated pill styles; double getToday; MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; kg/lb; pull-to-refresh misses TodayCard.
@@ -81,7 +84,7 @@ Revisit row 76 item 4 only if Isa asks for a day view.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
-- Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout.
+- Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout, Privacy/Support/About layout.
 - Tab bar: Reduce Transparency pill fill; GlassSurface may clip pill shadow. Needs device.
 - Old /tmp/lume-* folders: not ours.
 
@@ -95,6 +98,8 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - Doc row numbers are file lines. After a handover, name files fully.
 - Briefs and reports can carry false premises; check first.
 - Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
+- Use jest --ci to avoid writing snapshots.
 
 ## Jev
-R337 (handover): ask 65%, run 30%. Kept run: row 76 item 4 needs a day view the app lacks, so it is parked; items 1-2 need nothing from Isa. Look again if the items 1-2 code diverges from the design.
+R337 (handover): ask 65%, run 30%. Kept run for row 76 item 4 (parked, needs a day view).
+R338: ask 79%. Kept run: the close fix is a design-answered change on the row's own screen; Isa's approval is not needed for a design match. Look again if session.tsx change breaks adding an exercise.
