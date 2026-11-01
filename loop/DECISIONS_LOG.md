@@ -3072,3 +3072,7 @@
 - 2026-11-02 01:42 Kept run over stop: non-blocked rows remain (76 items 2, 6-7; 117 items 5-7), and Jev's stop (20%) rests on the flag, which this round clears.
 - 2026-11-02 01:42 Compressed the notes below 600 words as the loop note asked, merging repeated Parked and Blocked items. No status was lost; finished work was deleted.
 - 2026-11-02 01:42 Left the detailChrome, R360 and 116/117 blocked questions unasked, per the do-not-re-ask rule.
+- 2026-11-02 01:44 Chose the fresh check round first because the loop note flagged the last report as not run or failed, and the brief says to deal with the flag before moving on. Tests were not run last round, and the notes require a fresh check after the final edit.
+- 2026-11-02 01:44 Limited the check to tsc, findRelatedTests on log-session.tsx and the source-reading gymDurationHonesty suite, per the testing rules. No full suite, since this is not a checkpoint round.
+- 2026-11-02 01:44 Kept the stale doc sections out of this round. Doc fixes are allowed only in re-check rounds, so they are parked as NEXT.
+- 2026-11-02 01:44 Kept row 76 item 2 as the next build, since it is the next non-blocked task with a real code change.
