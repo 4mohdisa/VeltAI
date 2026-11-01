@@ -3093,3 +3093,7 @@
 - 2026-11-02 01:48 Chose the doc re-check because the notes allow doc edits only in re-check rounds, and the glyph and item 5 status are both out of date in the doc.
 - 2026-11-02 01:48 Doc-only round, so no tsc or jest run. Build rounds resume afterwards.
 - 2026-11-02 01:48 Parked the chevron tile glyph (log-session.tsx:250, bundle :412) and the possible second add route (bundle :1310) for a later check.
+- 2026-11-02 01:49 Chose the doc-only row 76 re-check: it clears the contradiction the last report flagged and carries the least risk, given the 9% clean-finish signal.
+- 2026-11-02 01:49 Added a single tsc run to this doc round so the 'not run' flag is answered without starting a build or a jest run.
+- 2026-11-02 01:49 Kept row 76 add path blocked on Isa; it needs a draft store, which is a data model change and is parked.
+- 2026-11-02 01:49 Used the latest report's NEXT list as the source for the doc fixes, since they are the known stale lines.

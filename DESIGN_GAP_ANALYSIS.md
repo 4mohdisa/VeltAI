@@ -73,7 +73,7 @@ this pass matched the design on every checked value.
 
 | Screen / surface | Verdict | One-line reason |
 |---|---|---|
-| **Gym — session logging (log sheet)** | ⚠️ PARTIAL (code, not verified on device) | Code re-checked against Gym bundle 7dc211f6 (bundle line numbers below), not verified on device.<br>Matches: title, plan subtitle text, tile copy, tile sizes and colours, 12 column gap, edge-to-edge divider with 12 above and below, pill and caption copy, minutes rounded per exercise (`src/app/gym/log-session.tsx:47-48`, `:153-157`, `:170-230`).<br>Differences in `log-session.tsx`:<br>1. Rest day: built: neither the app nor the design has a rest-day chooser, so there is no copy, order or size to change (`src/app/gym/log-session.tsx:171-173`, bundle :1609, :1803), and the redirect to the picker is an accepted deviation; the close gap is fixed in code, not verified on device: closing the library with nothing added now goes to the Gym tab (`src/app/gym/session.tsx:563-571`, bundle :1693).<br>2. "Something else": PARTIAL. Plus glyph: BUILT in code, not verified on device: `SomethingElseGlyph` with `PLUS_STROKE` (`src/app/gym/log-session.tsx:39`, `:415-421`) matches the design's 21pt path `M12 5v14M5 12h14`, 2.4 stroke, round caps, label colour (bundle :406). Add path: open: (a) library opens by replacing the sheet with `/gym/session` (`log-session.tsx:133`) vs the add sheet opening in place (bundle :1614); (b) after a pick it lands on the check-in (`session.tsx:329-343`) vs a toast '{name} added' or 'N exercises added', sheet closes, stays on the Gym day (bundle :1288-1289); (c) adding writes a row to the check-in screen with no per-day draft vs adding to the day's list without logging (bundle :1195-1197); (d) one exercise then a values form (`ExercisePicker.tsx:96`) vs several at once with default values then an add button (bundle :509, :1270, :1826).<br>3. "Only some of it": BUILT in code, not verified on device: the tile now opens the design's second sheet, "What did you do?", where every exercise starts ticked and the ticked ones are logged, with their own minutes and volume (`src/app/gym/log-session.tsx:121-123`, `:186-196`, `:292-396`, bundle :422-453, :1615-1640); deviations: English only, and no per-exercise kcal tag, because the app has no per-exercise burn (bundle :445, :1621).<br>4. Day already logged: verified by code read, not on device. Built: the chooser doesn't render on a logged day; it shows the toast and goes to the Gym tab (`src/app/gym/log-session.tsx:105-112`, `:148`). Toast wording matches (`src/lib/i18n/locales/en.json:233`, bundle :1656). Still different: the app checks after the sheet opens and whenever the flag changes, vs only on the + menu tap, before any sheet (bundle :1609, :1656); toast 2800 ms at the top (`src/components/display/toastStore.ts:42`, `:45`) vs 2200 ms at the bottom (bundle :172, :1171). The logged card has no press handler or navigation, only a chevron (`src/components/gym/TodayCard.tsx:186-198`), vs "Add something extra" (bundle :850-855, :1660) and a locked strip with Edit (bundle :864-870, :1662, :1664), so the toast's "open it" has no destination. Start workout is hidden once the API's `already_checked_in` is true (`TodayCard.tsx:220`, `:267`), but that read only runs on mount (`src/lib/data/gymSchedule.ts:32-50`, `:59-61`), so a mounted Gym tab can still show it after logging, and that path can write a second row (`src/lib/data/mutations.ts:173-178`).<br>5. Time: built in code (`log-session.tsx:124`, `:138`, `:275`; sum of ticked exercises' plan minutes, accepted decision), not verified on device.<br>6. Celebration calories: App: a dash (`src/app/gym/log-session.tsx:242`). Design: a number (bundle :1646).<br>7. Cardio on "It went as planned": App: minutes go into notes (`src/app/gym/log-session.tsx:64`). Design: keeps the plan's segments (bundle :1180-1181).<br>8. "Only some of it" glyph: done in code, not verified on device: the SF Symbol is replaced by the design's three lines, tick and cross, drawn at 21 in `color.label` with stroke 2 and round caps (`src/app/gym/log-session.tsx:156`, `:258-270`, bundle :397).<br>App-only, kept: loading skeleton (`src/app/gym/log-session.tsx:128-134`) and load-failed notice with Try again (`src/app/gym/log-session.tsx:138-144`).<br>Differences outside `log-session.tsx`: subtitle footnote vs caption, with no 2 gap (`src/components/navigation/SheetContent.tsx:68`); sheet bottom padding 20 plus safe area vs 34 (`SheetContent.tsx:143`); the footer scrolls with the body vs pinned (bundle :385, :415); pill label 17/24 vs 16/21 (`src/components/forms/Button.tsx:101`); `fitToContents` vs max height 92% (`src/app/_layout.tsx:155`); the celebration has no "logged" line (`src/components/gym/CelebrationCard.tsx`, bundle :929, :1643). `/gym/session` items are in the differences list below. |
+| **Gym — session logging (log sheet)** | ⚠️ PARTIAL (code, not verified on device) | Code re-checked against Gym bundle 7dc211f6 (bundle line numbers below), not verified on device.<br>Matches: title, plan subtitle text, tile copy, tile sizes and colours, 12 column gap, edge-to-edge divider with 12 above and below, pill and caption copy, minutes rounded per exercise (`src/app/gym/log-session.tsx:61-62`, `:176-183`, `:199-266`).<br>Differences in `log-session.tsx`:<br>1. Rest day: built: neither the app nor the design has a rest-day chooser, so there is no copy, order or size to change (`src/app/gym/log-session.tsx:172-174`, bundle :1609, :1803), and the redirect to the picker is an accepted deviation; the close gap is fixed in code, not verified on device: closing the library with nothing added now goes to the Gym tab (`src/app/gym/session.tsx:563-571`, bundle :1693).<br>2. "Something else": PARTIAL. Plus glyph: BUILT in code, not verified on device: `SomethingElseGlyph` with `PLUS_STROKE` (`src/app/gym/log-session.tsx:39`, `:415-421`) matches the design's 21pt path `M12 5v14M5 12h14`, 2.4 stroke, round caps, label colour (bundle :406). Add path: open: (a) library opens by replacing the sheet with `/gym/session` (`log-session.tsx:133`) vs the add sheet opening in place (bundle :1614); (b) after a pick it lands on the check-in (`session.tsx:329-343`) vs a toast '{name} added' or 'N exercises added', sheet closes, stays on the Gym day (bundle :1288-1289); (c) adding writes a row to the check-in screen with no per-day draft vs adding to the day's list without logging (bundle :1195-1197); (d) one exercise then a values form (`ExercisePicker.tsx:96`) vs several at once with default values then an add button (bundle :509, :1270, :1826).<br>3. "Only some of it": BUILT in code, not verified on device: the tile now opens the design's second sheet, "What did you do?", where every exercise starts ticked and the ticked ones are logged, with their own minutes and volume (`src/app/gym/log-session.tsx:122-124`, `:187-197`, `:293-397`, bundle :422-453, :1615-1640); deviations: English only, and no per-exercise kcal tag, because the app has no per-exercise burn (bundle :445, :1621).<br>4. Day already logged: verified by code read, not on device. Built: the chooser doesn't render on a logged day; it shows the toast and goes to the Gym tab (`src/app/gym/log-session.tsx:106-113`, `:149`). Toast wording matches (`src/lib/i18n/locales/en.json:233`, bundle :1656). Still different: the app checks after the sheet opens and whenever the flag changes, vs only on the + menu tap, before any sheet (bundle :1609, :1656); toast 2800 ms at the top (`src/components/display/toastStore.ts:42`, `:45`) vs 2200 ms at the bottom (bundle :172, :1171). The logged card has no press handler or navigation, only a chevron (`src/components/gym/TodayCard.tsx:186-198`), vs "Add something extra" (bundle :850-855, :1660) and a locked strip with Edit (bundle :864-870, :1662, :1664), so the toast's "open it" has no destination. Start workout is hidden once the API's `already_checked_in` is true (`TodayCard.tsx:220`, `:267`), but that read only runs on mount (`src/lib/data/gymSchedule.ts:32-50`, `:59-61`), so a mounted Gym tab can still show it after logging, and that path can write a second row (`src/lib/data/mutations.ts:173-178`).<br>5. Time: built in code (`log-session.tsx:124`, `:138`, `:275`; sum of ticked exercises' plan minutes, accepted decision), not verified on device.<br>6. Celebration calories: App: a dash (`src/app/gym/log-session.tsx:278`). Design: a number (bundle :1646).<br>7. Cardio on "It went as planned": App: minutes go into notes (`src/app/gym/log-session.tsx:78`). Design: keeps the plan's segments (bundle :1180-1181).<br>8. "Only some of it" glyph: done in code, not verified on device: the SF Symbol is replaced by the design's three lines, tick and cross, drawn at 21 in `color.label` with stroke 2 and round caps (`src/app/gym/log-session.tsx:178`, `:400-412`, bundle :397).<br>App-only, kept: loading skeleton (`src/app/gym/log-session.tsx:151-157`) and load-failed notice with Try again (`src/app/gym/log-session.tsx:161-167`).<br>Differences outside `log-session.tsx`: subtitle footnote vs caption, with no 2 gap (`src/components/navigation/SheetContent.tsx:68`); sheet bottom padding 20 plus safe area vs 34 (`SheetContent.tsx:143`); the footer scrolls with the body vs pinned (bundle :385, :415); pill label 17/24 vs 16/21 (`src/components/forms/Button.tsx:101`); `fitToContents` vs max height 92% (`src/app/_layout.tsx:155`); the celebration has no "logged" line (`src/components/gym/CelebrationCard.tsx`, bundle :929, :1643). `/gym/session` items are in the differences list below. |
 | **Gym — multiple logging methods** | ❌ DIFFERENT | The design implies five logging flows; the app exposes one reachable questionnaire plus a conditional session screen, while the backend already supports nearly all five. |
 | **Gym — workout / template detail** | ❌ DIFFERENT | Design is a live accordion editor with per-set rows, warm-up marking, rest/tempo/RPE tiles, notes, supersets and a keypad bar; the app is a name + duration form whose exercises become read-only once saved. Only the number-entry bar difference is closed (not verified): the four planned-value pads in `PlannedValuesForm` — `Planned sets`, `Target reps`, `Target weight · kg`, `Rest · seconds` — now type through the shared `NumberEntryBar`. |
 | Gym — Muscle focus / 3D body | ❌ DIFFERENT | The design embeds an interactive 3D body three times with tap-to-select, a popover and volume chips; the app has no 3D body and renders a static bar list the design does not have on that card. |
@@ -163,35 +163,45 @@ or the sum of cardio segment minutes).
 
 ## What the app does
 
-`src/app/gym/log-session.tsx` is 261 lines. It reads the day's plan through
+`src/app/gym/log-session.tsx` is 421 lines. It reads the day's plan through
 `useToday` and opens a sheet titled **'How did it go?'**. The sheet has no form
 fields. On a day with a plan it shows:
 
 1. A subtitle built from the plan: `{name} · N exercises · about M min`, without the
    name when the template has none. Minutes come from the plan: 3.2 min a set, or a
-   cardio exercise's planned minutes (`src/app/gym/log-session.tsx:48-49`).
+   cardio exercise's planned minutes (`src/app/gym/log-session.tsx:61-62`).
 2. **'Different weights'** / 'Same exercises, change the sets, reps or load' — opens
    `/gym/session` in `adjust` mode
-3. **'Only some of it'** / 'Tick the exercises you actually did' — opens
-   `/gym/session` in `ticklist` mode
+3. **'Only some of it'** / 'Tick the exercises you actually did' — opens a second
+   sheet in place, described below
 4. **'Something else'** / 'Add an exercise that wasn't in the plan' — a full-width
-   row that opens `/gym/session` in `picker` mode
+   row that opens `/gym/session` in `picker` mode. The design's add sheet is not yet
+   built (row 76 item 2, add path)
 5. A primary **'It went as planned'** pill, captioned 'Logs {plan} exactly as
    scheduled', or 'Logs this session exactly as scheduled' when the template has no
    name
 
-On a day not yet logged, the pill calls `logGymSession` with the derived duration
-and the plan's exercises at completion rate 1 (`src/app/gym/log-session.tsx:117-120`).
-That posts the session, then each exercise to `/exercises`, then `/complete`, as one
-queued sequence (`src/lib/data/mutations.ts:186-197`), and raises the celebration
-card. On a day already logged, the pill shows a toast and opens `/gym/session` plain
-(`src/app/gym/log-session.tsx:110-113`).
+The second sheet is titled **'What did you do?'**, with the subtitle 'Untick anything
+you skipped' (`src/app/gym/log-session.tsx:293-397`). Every exercise starts ticked, and
+each row toggles. The pill reads 'Log N exercises', or 'Nothing ticked' and disabled
+when none are left, over a caption saying what will be left out. Closing it returns to
+the chooser and ticks everything again (`src/app/gym/log-session.tsx:192-195`).
 
-The sheet has three other states. Loading shows a skeleton. A failed read shows
-`LoadFailedNotice` with Try again (`src/app/gym/log-session.tsx:139-145`). A rest day,
-a day with no template, or a template with no exercises shows 'Rest day' with a 'Log
-an exercise' action that opens `/gym/session` plain
-(`src/app/gym/log-session.tsx:150-162`).
+Both pills call `logGymSession` with the duration derived from the logged exercises,
+those exercises, and the ticked share of the plan as the completion rate
+(`src/app/gym/log-session.tsx:135-142`). That posts the session, then each exercise to
+`/exercises`, then `/complete`, as one queued sequence
+(`src/lib/data/mutations.ts:186-197`), and raises the celebration card.
+
+On a day already logged, the chooser does not render: the sheet shows a toast and goes
+to the Gym tab (`src/app/gym/log-session.tsx:106-113`, `:149`).
+
+The sheet has three other states. Loading shows a skeleton
+(`src/app/gym/log-session.tsx:151-157`). A failed read shows `LoadFailedNotice` with Try
+again (`src/app/gym/log-session.tsx:161-167`). A rest day, a day with no template, or a
+template with no exercises redirects to `/gym/session` in `picker` mode
+(`src/app/gym/log-session.tsx:172-174`), and closing the library with nothing added goes
+to the Gym tab (`src/app/gym/session.tsx:565-569`).
 
 The sheet collects no effort or energy. `GymSessionInput` has no field for either
 (`src/lib/api.ts:709-714`, and the comment at `src/lib/data/mutations.ts:181-182`
@@ -540,13 +550,17 @@ reading **"Log this session"** with a trailing 15px chevron-**up** at 0.7 opacit
 
 **App (BUILT, not verified):** renders directly under `TodayCard`, only when
 `streak.gymLoggedToday` is false and today's workout has exercises; otherwise
-nothing renders. Copy **"Log gym session"**; a leading `barbell` icon instead of a
-trailing chevron; pushes the `/gym/log-session` route, presented as a sheet, instead
-of opening a sheet in place.
+nothing renders (`src/app/(tabs)/gym.tsx:159-161`). Copy **"Log this session"** with a
+trailing 15px chevron-up at 0.7 opacity (`src/components/domain/GymSessionButton.tsx`);
+pushes the `/gym/log-session` route, presented as a sheet, instead of opening a sheet
+in place.
 
 Also: the design's `+` menu refuses to re-open the sheet when today is already
 logged, toasting *"Today is already logged — open it to edit or add something
-extra"*. The app always pushes the sheet.
+extra"*. The app's `+` menu still pushes the route on a logged day
+(`src/components/navigation/LumeTabBar.tsx:243-246`); the route then shows that toast
+and goes to the Gym tab without rendering the chooser
+(`src/app/gym/log-session.tsx:106-113`, `:149`).
 
 ## Gym — Muscle focus and the 3D body — ❌ DIFFERENT
 
