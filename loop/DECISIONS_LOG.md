@@ -2730,3 +2730,10 @@
 - 2026-11-01 20:22 Rewrote the prompt to name branch loop/design-match and forbid switch, push, merge and commit, to fix the rejected prompt.
 - 2026-11-01 20:22 Kept Blocked items untouched; none of them is needed for a doc-only re-check.
 - 2026-11-01 20:22 Type check runs once because the round edits a doc file; jest is skipped because no source changes.
+- 2026-11-01 20:24 Chose the flag verification over Jev's row 108 pick (97%). Reason: the standing rule says a flagged report is verified in the next round before any other task. Row 108 is next round.
+- 2026-11-01 20:24 Verification is read-only and runs tsc once. Jest is not run because no source file changed, so the flag is covered by the type check and the commit-scope check.
+- 2026-11-01 20:24 Rewrote the notes to under 600 words, merging repeated items and deleting finished work, as the loop note asked.
+- 2026-11-01 20:24 Chose the row 108 doc re-check: it is the standing next step and clears the flagged-report check first, as R303 confirmed.
+- 2026-11-01 20:24 Kept the re-check doc-only, because a re-check round builds nothing and the Jev ranking agrees.
+- 2026-11-01 20:24 Named design/Lume App.html and bundle b09a5e65 in the prompt, because the last prompt was rejected for not naming it.
+- 2026-11-01 20:24 Prompt allows no code or jest run, since this is a doc-only round; tsc still runs once, per the type-check rule.
