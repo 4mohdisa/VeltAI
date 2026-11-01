@@ -2826,3 +2826,7 @@
 - 2026-11-01 20:49 Did not run jest -u or touch snapshots: Isa has not approved them.
 - 2026-11-01 20:49 Skipped tsc and jest this round: the prompt is doc-only with no code changes.
 - 2026-11-01 20:49 Kept SettingsList geometry as the next candidate, not this round, because it touches every caller and needs a per-caller check first.
+- 2026-11-01 20:50 Chose the read-only verification of the flagged R325 report, because the loop note and the flagged-report default require it before any other work. Reason: the report was doc-only, so tsc is the only check needed.
+- 2026-11-01 20:50 Did not ask Isa even though Jev ranks ask at 79%. Reason: the SettingsList geometry question is already answered by the default (R323), and nothing in this round needs Isa.
+- 2026-11-01 20:50 Did not run jest. Reason: the R325 report touched only DESIGN_GAP_ANALYSIS.md; the prompt tells Claude Code to run jest only if a code or test file changed.
+- 2026-11-01 20:50 Left the item 4 font question (17 vs 16) out of this round. Reason: the report says 17 is confirmed at TextField.tsx:56 and bundle :546; the verify step only re-checks the citations.
