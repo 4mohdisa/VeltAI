@@ -1,9 +1,9 @@
 // My Schedule — the 7-day weekly plan. Each row shows the assigned workout (or
-// "Rest day"); tapping opens a sheet to pick a rest day, one of the user's
-// templates, or jump to create a new one. Schedule writes are best-effort: the
-// row updates optimistically so the choice sticks even if the API call fails.
+// "Rest day"); tapping opens a sheet to pick one of the user's templates or a
+// rest day. Schedule writes are best-effort: the row updates optimistically so
+// the choice sticks even if the API call fails.
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { PixelRatio, ScrollView, useWindowDimensions, View, type TextStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { showToast } from '@/components/display/toastStore';
@@ -25,6 +25,12 @@ import type { ScheduleDay, WorkoutTemplate } from '@/lib/types';
 const DAY_WIDTH = 42;
 /** The design's gap between a workout's three lines, tighter than the spacing scale. */
 const WORKOUT_TEXT_GAP = 3;
+const SHEET_ROW_MIN_HEIGHT = 56;
+const SHEET_ROW_TEXT_GAP = 1;
+const SHEET_TICK = 17;
+const SHEET_LIST_MAX_HEIGHT = 0.7;
+
+const sheetRowNameStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '500', lineHeight: 20 * PixelRatio.getFontScale() });
 
 export default function ScheduleScreen() {
   const { schedule, loading: sLoading, refetch } = useSchedule();
@@ -33,6 +39,7 @@ export default function ScheduleScreen() {
   // fetched rows so a choice shows immediately, even offline.
   const [overrides, setOverrides] = useState<Record<number, ScheduleDay>>({});
   const [activeDay, setActiveDay] = useState<ScheduleDay | null>(null);
+  const { height: windowHeight } = useWindowDimensions();
 
   const loading = sLoading || tLoading;
 
@@ -61,11 +68,6 @@ export default function ScheduleScreen() {
       showToast({ message: 'Could not save schedule — check your connection', tone: 'error' });
     }
     refetch();
-  };
-
-  const openCreate = () => {
-    setActiveDay(null);
-    navigate('/gym/new-template');
   };
 
   return (
@@ -149,15 +151,13 @@ export default function ScheduleScreen() {
       <BottomSheet
         visible={activeDay !== null}
         onClose={() => setActiveDay(null)}
-        title={activeDay ? `${activeDay.day_name} — Choose Workout` : undefined}
+        title={activeDay ? `Workout for ${activeDay.day_name}` : undefined}
       >
         {activeDay ? (
-          <ScrollView style={{ maxHeight: 340 }}>
-            <SheetRow
-              label="Rest day"
-              selected={rowFor(activeDay).template_id === null}
-              onPress={() => choose(activeDay, null)}
-            />
+          <ScrollView
+            style={{ maxHeight: windowHeight * SHEET_LIST_MAX_HEIGHT }}
+            contentContainerStyle={{ gap: space.sm }}
+          >
             {templates.map((t) => (
               <SheetRow
                 key={t.id}
@@ -167,7 +167,12 @@ export default function ScheduleScreen() {
                 onPress={() => choose(activeDay, t.id)}
               />
             ))}
-            <SheetRow label="Create new template →" onPress={openCreate} />
+            <SheetRow
+              label="Rest day"
+              sublabel="Nothing scheduled"
+              selected={rowFor(activeDay).template_id === null}
+              onPress={() => choose(activeDay, null)}
+            />
           </ScrollView>
         ) : null}
       </BottomSheet>
@@ -239,8 +244,8 @@ function SheetRow({
   onPress,
 }: {
   label: string;
-  sublabel?: string;
-  selected?: boolean;
+  sublabel: string;
+  selected: boolean;
   onPress: () => void;
 }) {
   return (
@@ -248,41 +253,26 @@ function SheetRow({
       onPress={onPress}
       haptic={false}
       accessibilityLabel={label}
-      accessibilityState={{ selected: !!selected }}
-      style={{
+      accessibilityState={{ selected }}
+      style={({ pressed }) => ({
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         gap: space.md,
-        paddingVertical: space.md,
-        borderTopWidth: 1,
-        borderTopColor: surface.divider,
-      }}
+        minHeight: SHEET_ROW_MIN_HEIGHT,
+        paddingHorizontal: space.lg,
+        borderRadius: radius.md,
+        backgroundColor: pressed ? surface.tilePressed : selected ? surface.tile : 'transparent',
+      })}
     >
-      <View style={{ flex: 1, gap: space.xs }}>
-        <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
+      <View style={{ flex: 1, gap: SHEET_ROW_TEXT_GAP }}>
+        <Text color={color.label} style={sheetRowNameStyle()}>
           {label}
         </Text>
-        {sublabel ? (
-          <Text variant="footnote" color={color.secondaryLabel}>
-            {sublabel}
-          </Text>
-        ) : null}
+        <Text variant="footnote" color={color.secondaryLabel}>
+          {sublabel}
+        </Text>
       </View>
-      {selected ? (
-        <View
-          style={{
-            width: 22,
-            height: 22,
-            borderRadius: radius.full,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: color.black,
-          }}
-        >
-          <Icon name="checkmark" size={14} color={color.white} />
-        </View>
-      ) : null}
+      {selected ? <Icon name="checkmark" size={SHEET_TICK} color={color.label} /> : null}
     </Pressable>
   );
 }

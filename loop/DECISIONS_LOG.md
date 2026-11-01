@@ -2907,3 +2907,17 @@
 - 2026-11-02 00:09 Lost feature (sessions older than the last 8 no longer listed on exercise progress) and non-tappable bars are accepted as-is for now and parked for Isa to review on device; the design has no text list, and the chart keeps one combined accessibility label.
 - 2026-11-02 00:09 Extra library fetch on exercise progress (for muscles and exercise type) is kept because the muscle chips depend on it; no further change.
 - 2026-11-02 00:09 Row 113 picker sheet is next after verification, since it has no Isa dependency. Row 76 item 3 is the fallback.
+- 2026-11-02 00:10 Chose the checkpoint because the loop note flagged R344 for tests not run; a checkpoint is the only allowed full-suite run and needs no file changes.
+- 2026-11-02 00:10 Kept run over Jev's near-tie ask (48% vs 47%): the task is verification only, with no Isa dependency.
+- 2026-11-02 00:10 Kept the known detailChrome failures as expected; approving the snapshot needs Isa, so it is not retried.
+- 2026-11-02 00:10 Trimmed the notes to under 600 words as the loop note asked; merged repeated items and removed finished work.
+- 2026-11-02 00:10 Chose row 113 picker sheet: it is in the agreed order, needs nothing from Isa, and is smaller than row 76.
+- 2026-11-02 00:10 Named design/Lume App.html and the row 113 citations in the prompt, to fix the rejection.
+- 2026-11-02 00:10 Excluded the spacing item (Blocked) and item 10 (empty state) to keep the task to one surface.
+- 2026-11-02 00:10 Ran jest only on suites importing the changed files, per the build round rule; the full checkpoint is not due yet.
+- 2026-11-02 00:10 Jev said run 53%, ask 41%: kept run, since the task needs nothing from Isa.
+- 2026-11-02 00:11 Rewrote the rejected prompt to add the branch restriction (loop/design-match only, no push, merge, switch or commit) as the first line, and kept every other rule.
+- 2026-11-02 00:11 Kept row 113 picker sheet as the task because R346 started it and the loop note says it is still open. Finishing it first avoids a half-done surface.
+- 2026-11-02 00:11 Named the files through the row 113 entry, not by guessing paths, because the exact file names are not in the notes.
+- 2026-11-02 00:11 Kept action run over ask (Jev 81% run). The task needs nothing from Isa.
+- 2026-11-02 00:11 Told Claude Code not to touch loop/ files, since Isa said they are not ours to edit.
