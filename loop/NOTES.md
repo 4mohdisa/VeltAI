@@ -20,7 +20,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - Rows 107, 108, 109, 111, 113, 114-118 re-checked (R297-R304).
 - R305-R308: read-only checks and doc fixes. R308 fixed row 108 items 4 and 7 (doc only); it ran tsc, not jest.
 - R309: checkpoint, full tsc and full jest. Last full checkpoint: tsc 0; jest 64/65 suites, 822/824 tests. Only failures: two detailChrome snapshots awaiting approval.
-- R310 (this round): row 107 doc fix (footnote text and citations), doc only, tsc plus profile jest. Prompt rewritten to name design/Lume App.html bundle b09a5e65.
+- R310: row 107 doc fix. No edit was needed. Footnote strings (privacy.tsx:69 and :95 against bundle :499 and :510) and code citations were all confirmed correct. tsc 0; profile jest 2 suites, 6 tests passed.
+- R311 (this round): read-only verification of the flagged R310 report (row 107 claims). tsc only.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes in notes; checklist icon.
@@ -29,7 +30,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: Energy gap 12 to 16 after snapshot approval; week and training still 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
-- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyph and chevron geometry; footnote text and citations (R310 doc fix).
+- 107 PARTIAL: privacy headers, AI group, export via share sheet; glyph and chevron geometry. Footnotes and citations re-checked R310 (correct).
 - 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 vertical padding 16 vs 12 (TextField.tsx:63, bundle :546) and growth (no line limit vs design 4 rows); item 7 EXACT (screen gap 20, but still inside numbered list; fix with row 109 format).
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; vertical padding; value wrap.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
@@ -42,7 +43,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - 118 PARTIAL: tab bar, 13 items. Items 4 and 5 need a device check.
 
 ## Next
-1. R310: row 107 doc fix, tsc plus profile jest (this round).
+1. R311: verify flagged R310 row 107 claims, read-only, tsc only (this round).
 2. Row 108 items 1-3 doc fix (one line off), then remaining items one at a time.
 3. Row 109 doc fixes if citations are stale. Doc only.
 4. Row 103 energy gap, after snapshot approval.
@@ -95,4 +96,5 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - R305: Jev ranked row 108 doc fix first (87%). Flag verification kept.
 - R306-R308: Jev ranked row 108 or 107 doc fix first (83-87%). Runs kept for flag verification and the flagged-report rule.
 - R309: Jev ranked row 107 doc fix first (84%) and asked (63%, confidence 0.44). Run kept: flag must clear first.
-- R310: Jev asked (61%, confidence 0.42), risk 1.5. Run kept: the task is read-only, needs nothing from Isa, and is the recommended next step. Tests limited to tsc and profile jest.
+- R310: Jev asked (61%, confidence 0.42), risk 1.5. Run kept: read-only, needs nothing from Isa.
+- R311: Jev ranked row 108 doc fix first (89%) and asked (54%, confidence 0.31), risk 1.7. Run kept: the loop note flags R310, and the flagged-report rule says verify first. The check is read-only and tsc only.

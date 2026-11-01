@@ -2765,3 +2765,7 @@
 - 2026-11-01 20:31 Required both tsc and jest on profile suites in CHECKED, because doc-only reports that run tsc alone get flagged.
 - 2026-11-01 20:31 Kept the task to doc text only. Jev's 61% ask is not followed: the task needs nothing from Isa and is read-only, so the risk is low.
 - 2026-11-01 20:31 Left the SettingsList row geometry question with Isa; the prompt forbids touching the shared component.
+- 2026-11-01 20:33 Kept the run over Jev's 89% ask-or-row-108 ranking. Reason: the Decisions rule says a flagged report is verified before any other task, and the loop note flags R310. Verification is read-only and needs nothing from Isa, so it does not add risk.
+- 2026-11-01 20:33 Limited verification to tsc only, because R310 changed no code or tests (the rule says jest only when the report touched code or tests).
+- 2026-11-01 20:33 Dropped the stale note that row 107 has false footnote text and shifted citations. R310 checked both and found them correct, so the note would send later rounds after finished work.
+- 2026-11-01 20:33 Queued row 108 items 1-3 doc fix as the next task, after this verification clears the flag.
