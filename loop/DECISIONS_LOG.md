@@ -2769,3 +2769,7 @@
 - 2026-11-01 20:33 Limited verification to tsc only, because R310 changed no code or tests (the rule says jest only when the report touched code or tests).
 - 2026-11-01 20:33 Dropped the stale note that row 107 has false footnote text and shifted citations. R310 checked both and found them correct, so the note would send later rounds after finished work.
 - 2026-11-01 20:33 Queued row 108 items 1-3 doc fix as the next task, after this verification clears the flag.
+- 2026-11-01 20:34 Chose the flag clearance first: the loop note flags R311, and R311 ran tsc only. The flagged-report rule says verify before any other task.
+- 2026-11-01 20:34 Added jest on the profile and SettingsList suites: the Doc-only rounds rule requires the matching jest suites, and R311 skipped them. R311 touched no code, so tsc alone was not enough for the flag.
+- 2026-11-01 20:34 Kept the round read-only with no edits. The row 107 doc fix waits until the flag clears.
+- 2026-11-01 20:34 Recorded that Jev asked (81% run, 16% ask). Run kept because the check needs nothing from Isa and clears the flag.
