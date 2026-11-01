@@ -2926,3 +2926,8 @@
 - 2026-11-02 00:13 Left the shared BottomSheet.tsx differences alone (grabber, side padding, bottom inset, title alignment and colour, shadow). Onboarding, new-recipe, RecipesList and ExercisePicker use it, and onboarding is off limits. Moved to Blocked on Isa.
 - 2026-11-02 00:13 Kept the picker's hardcoded English title and 'Nothing scheduled' under the existing i18n parked line, not a new task.
 - 2026-11-02 00:13 Kept the picker's 70% window-height list cap as an accepted deviation, recorded in row 113, because the design has no scroll limit and rows would otherwise be unreachable.
+- 2026-11-02 00:15 R350 flag: the last report was flagged because tests were not run. tsc was green (exit 0). No suite imports schedule.tsx, so no tests exist to run. This round the prompt requires one tsc run and a findRelatedTests check, and makes the report say so. Not treated as a failure.
+- 2026-11-02 00:15 Kept item 9 as the pick. Jev ranks the same task first at 93%, so this is not a disagreement to reopen.
+- 2026-11-02 00:15 Use the design's Monday-to-Sunday order and day-name table (bundle :1835, :1838). The day-name translation gap is already in Parked, so this build does not widen it.
+- 2026-11-02 00:15 Did not rename sheetRowNameStyle in this round. Renaming touches the picker sheet, which is out of scope. Recorded in Parked as a later cleanup.
+- 2026-11-02 00:15 Items 2, 3, 10 and 12 of row 113 stay open and are not added to this task.

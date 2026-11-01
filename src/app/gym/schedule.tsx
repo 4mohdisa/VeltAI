@@ -23,6 +23,8 @@ import type { ScheduleDay, WorkoutTemplate } from '@/lib/types';
 
 /** Weekday gutter — every workout name starts on one edge (design §3.6). */
 const DAY_WIDTH = 42;
+/** The design's day labels, indexed by day_of_week (0 = Sunday). */
+const WEEK_DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 /** The design's gap between a workout's three lines, tighter than the spacing scale. */
 const WORKOUT_TEXT_GAP = 3;
 const WEEK_ROW_MIN_HEIGHT = 58;
@@ -94,7 +96,7 @@ export default function ScheduleScreen() {
         /* The design keeps the whole week in ONE elevated card, rows split by a
            hairline: day label, a trained dot, the workout, then a chevron. */
         <Card variant="elevated" padded={false} style={{ paddingVertical: space.sm, paddingHorizontal: space.lg }}>
-          {schedule.map((day, i) => {
+          {[...schedule].sort((a, b) => (a.day_of_week + 6) % 7 - (b.day_of_week + 6) % 7).map((day, i) => {
             const row = rowFor(day);
             const muscles = row.template ? musclePhrase(row.template) : '';
             return (
@@ -117,7 +119,7 @@ export default function ScheduleScreen() {
                     to "Tues…" in this column. VoiceOver still reads it in full
                     from the row's accessibilityLabel. */}
                 <Text color={color.label} style={[dayLabelStyle(), { width: DAY_WIDTH }]} numberOfLines={1}>
-                  {day.day_name.slice(0, 3)}
+                  {WEEK_DAY_LABELS[day.day_of_week]}
                 </Text>
                 <View
                   style={{
