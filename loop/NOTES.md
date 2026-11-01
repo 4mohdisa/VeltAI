@@ -19,20 +19,21 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Row 107 closed.
 - Row 108: item 7 EXACT, removed (R325). Geometry cites added (R328).
-- R330: item 4 doc fix made (uncommitted at handover). Removed the mid-item Profile bundle citation. Added that 114 is rounded from the app's 52 x 2.2 = 114.4 (tokens.ts:318). Growth stays cited to TextField.tsx:62. tokens.ts:146 stays as type 17/24, not growth.
-- R331 (this round): read-only verification of the R330 edit, flagged by the loop check because tsc and tests were not run. Doc-only, so tsc only, no jest.
-- Row 108 closes after R331 passes. It still needs Isa's SettingsList decision for its geometry.
-- Last tsc 0 (R329). Last full jest R324: 64/65 suites, 822/824. Only failures are the detailChrome snapshots (energy, macros), awaiting Isa approval.
+- R330: item 4 doc fix made. Removed the mid-item Profile bundle citation. Added that 114 is rounded from the app's 52 x 2.2 = 114.4 (tokens.ts:318). Growth stays cited to TextField.tsx:62. tokens.ts:146 stays as type 17/24, not growth.
+- R331: verified the R330 edit read-only. tsc exit 0. Item 4 closed.
+- Row 108 still needs Isa's SettingsList decision for its geometry (asked R332, no answer by R333).
+- Last tsc 0 (R331). Last full jest R324: 64/65 suites, 822/824. Only failures are the detailChrome snapshots (energy, macros), awaiting Isa approval.
+- R333: picked row 76 checklist icon (single item, no dependency on Isa).
 
 ## Open rows
-- 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes; checklist icon.
+- 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes. Checklist icon: in progress (R333).
 - 83 DIFFERENT: sheet-in-place; button height and type (parked).
 - 85 DIFFERENT: calorie bar, 'left today', four-column wrap (Blocked).
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
 - 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, export share sheet, export failure toast; glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 doc fix done R330, verify R331.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry (SettingsList decision). Item 4 closed.
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap; geometry.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
@@ -44,11 +45,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. R331: verify the R330 row 108 doc edit, read-only (tsc only). Then close the item 4 fix.
-2. Ask Isa for the SettingsList geometry decision (fix or accept). It settles rows 107-109.
-3. Row 103 energy gap, after snapshot approval.
-4. Row 118 items 4-5 device check, if Isa approves.
-5. SettingsList geometry build: per-row default; check every caller before any change.
+1. Row 76 checklist icon (R333, in progress). Then the other row 76 items, one per round, rest-day item needs a decision first.
+2. Row 113 'My workouts' missing.
+3. Row 115 exercise progress, 11 items.
+4. Waiting on Isa: SettingsList row geometry, fix or accept. It settles rows 107-109. Do not ask again.
+5. Row 118 items 4-5 device check, if Isa approves.
 6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
@@ -62,7 +63,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Top padding Gym, Summary, Food: inset-based (recommended) or literal 70.
 - Burn target 10-11; energy week axis 15; header strip Screen.tsx:163.
 - About header: remove (recommended) or keep an accessible heading.
-- SettingsList row geometry: fix or accept (settles 107-109; affects every caller).
+- SettingsList row geometry: fix or accept (settles 107-109; affects every caller). Asked R332, unanswered at R333. Do not ask again; accept the per-row default if no answer comes.
 - Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, Food gap.
 - Native review of es/fr strings, incl. food.pickDayLabel. TestPG_* (18 skipped).
 
@@ -101,4 +102,6 @@ R315-R321: asked 70-82%; ran kept each time, reasons recorded above.
 R322-R327: ask or run mixed; kept runs recorded with reasons.
 R329: ask 61%, stop 33%, run 6%. Kept the flag verification, which was then done read-only.
 R330 (handover signals): run 44%, ask 40%, stop 16%. Kept run: the doc fix needs nothing from Isa.
-R331: ask 69%, stop 23%, run 8% (confidence 0.53, risk 1.4). Kept run: the flagged report must be verified first, and that needs nothing from Isa.
+R331: ask 69%, stop 23%, run 8%. Kept run: the flagged report had to be verified first.
+R332: ask 91%, stop 7%, run 2% (confidence 0.86). Kept ask: SettingsList geometry affects every caller and is Isa's call.
+R333: ask 91%, run 5%, stop 4%. Overrode to run row 76 checklist icon. Reason: the loop note says the SettingsList question went unanswered, and this icon item depends on nothing from Isa. Jev's ask would only have repeated the blocked question.

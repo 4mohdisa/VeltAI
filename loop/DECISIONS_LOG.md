@@ -2846,3 +2846,10 @@
 - 2026-11-01 20:55 Kept run over Jev's ask at 69%: the flagged report must be verified first, and that needs nothing from Isa.
 - 2026-11-01 20:55 Verification is read-only with one tsc run. Jest is skipped because no code or tests were touched, per the flag rule.
 - 2026-11-01 20:55 Deferred the SettingsList question. It is already waiting on Isa in Blocked, so asking again now would only repeat the blocker.
+- 2026-11-01 20:56 Flagged report R331 resolved: tsc exited 0, which is the check the verify round required. Jest was not required because only DESIGN_GAP_ANALYSIS.md was touched.
+- 2026-11-01 20:56 Row 108 item 4 doc fix is verified and closed. The row stays PARTIAL on the SettingsList geometry, which is an owner decision.
+- 2026-11-01 20:56 Asked Isa about SettingsList geometry instead of building it, because the notes say a fix touches every caller and Isa has not answered. Jev's 91% ask agrees.
+- 2026-11-01 21:12 Isa did not answer the SettingsList geometry question (asked R332). Recorded under Blocked on Isa and will not ask it again, per the loop note.
+- 2026-11-01 21:12 Chose row 76 checklist icon over Jev's ask. Reason: it is a single icon item in an approved gym surface, needs nothing from Isa, and is the smallest open item that does not depend on SettingsList. The unanswered question only blocks rows 107-109, not this one.
+- 2026-11-01 21:12 Took only the checklist icon item of row 76, not the whole row. Rest-day and second-sheet items touch behaviour and the accepted rest-day deviation, so they need a separate decision later.
+- 2026-11-01 21:12 Chose a read-only compare step first, so the round changes no code if the icon already matches.

@@ -8,8 +8,9 @@
 // The three tiles are distinct intents that all land on /gym/session, which is
 // where this app already edits per-set numbers, ticks off what was done and
 // picks an extra exercise. Nothing planned → straight to the library, as the design does.
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Modal, View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 import { Redirect, router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
@@ -65,7 +66,7 @@ const inputFor = (te: TemplateExercise): GymExerciseInput => ({
 });
 
 type Choice = {
-  icon: string;
+  icon: ReactNode;
   title: string;
   description: string;
   /** Which view /gym/session opens in — this tile's answer, as a route param. */
@@ -151,9 +152,9 @@ export default function LogSessionScreen() {
   }
 
   const choices: Choice[] = [
-    { icon: 'pencil', title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub'), mode: 'adjust' },
-    { icon: 'checklist', title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub'), mode: 'ticklist' },
-    { icon: 'add', title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), mode: 'picker', wide: true },
+    { icon: <Icon name="pencil" size={TILE_GLYPH} color={color.label} />, title: t('gymLog.differentWeights'), description: t('gymLog.differentWeightsSub'), mode: 'adjust' },
+    { icon: <SomeOfItGlyph />, title: t('gymLog.onlySome'), description: t('gymLog.onlySomeSub'), mode: 'ticklist' },
+    { icon: <Icon name="add" size={TILE_GLYPH} color={color.label} />, title: t('gymLog.somethingElse'), description: t('gymLog.somethingElseSub'), mode: 'picker', wide: true },
   ];
   // The design names the plan in the subtitle and falls back to a generic
   // phrase in the footer caption when the day's template has no name.
@@ -170,7 +171,7 @@ export default function LogSessionScreen() {
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
           {choices.map((c) => (
             <Pressable
-              key={c.icon}
+              key={c.mode}
               onPress={() => openSession(c.mode)}
               accessibilityLabel={`${c.title}. ${c.description}`}
               minTapTarget={false}
@@ -202,7 +203,7 @@ export default function LogSessionScreen() {
                   flexShrink: 0,
                 }}
               >
-                <Icon name={c.icon} size={TILE_GLYPH} color={color.label} />
+                {c.icon}
               </View>
               <View style={[{ gap: TEXT_GAP }, c.wide ? { flex: 1 } : { marginTop: 'auto' }]}>
                 <Text variant="bodyMedium" color={color.label}>
@@ -250,5 +251,20 @@ export default function LogSessionScreen() {
         </View>
       </Modal>
     </>
+  );
+}
+
+/** The design's "Only some of it" glyph: three lines, a tick and a cross. No SF Symbol has both marks. */
+function SomeOfItGlyph() {
+  return (
+    <Svg width={TILE_GLYPH} height={TILE_GLYPH} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M4 7h5M4 12h5M4 17h5M13.4 6.4l2.4 2.4 4.4-4.4M14 15.6l5.6 5.6M19.6 15.6L14 21.2"
+        stroke={color.label}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
   );
 }
