@@ -2810,3 +2810,7 @@
 - 2026-11-01 20:45 Chose row 109 citation check over row 108 item 4, following Jev's top pick. Both are doc-only; row 109 is the next unchecked citation row, and the flagged report needed a clean tsc run, which this round includes.
 - 2026-11-01 20:45 Jev's flag on the last report: the report did show tsc exit 0, so this round runs tsc again and jest is not needed for a doc-only change.
 - 2026-11-01 20:45 Row 108 item 4 mapping stays next in line, after this round.
+- 2026-11-01 20:47 Chose the flagged-report verification first, because the loop note says the last report was flagged and the brief requires it to be dealt with before moving on. Read-only, so it is reversible.
+- 2026-11-01 20:47 Did not ask Isa about SettingsList row geometry. The notes record 'per row' as the default, so it is settled unless Isa overrides it.
+- 2026-11-01 20:47 Kept run over Jev's ask (66%, advisory, not strongly sure). Nothing in the brief needs Isa for this round.
+- 2026-11-01 20:47 Shortened the notes file to under 600 words, as the loop note requires. Merged repeated items and dropped finished work. No decision was removed.
