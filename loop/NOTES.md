@@ -18,9 +18,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Row 107 closed.
-- Row 108: item 7 EXACT, removed (R325). Item 4 cites tokens.ts:146 and growth; geometry cites added (R328).
-- R329: flag verification done read-only. tsc 0, no file changes, report confirmed the R328 commit touched only DESIGN_GAP_ANALYSIS.md.
-- Row 108 still open: item 4 has a mid-item Profile citation duplicating the opening "bundle :546"; 114 is not stated as rounded from 114.4. R330 task: doc fix (in progress).
+- Row 108: item 7 EXACT, removed (R325). Geometry cites added (R328).
+- R330: item 4 doc fix made (uncommitted at handover). Removed the mid-item Profile bundle citation. Added that 114 is rounded from the app's 52 x 2.2 = 114.4 (tokens.ts:318). Growth stays cited to TextField.tsx:62. tokens.ts:146 stays as type 17/24, not growth.
+- R331 (this round): read-only verification of the R330 edit, flagged by the loop check because tsc and tests were not run. Doc-only, so tsc only, no jest.
+- Row 108 closes after R331 passes. It still needs Isa's SettingsList decision for its geometry.
 - Last tsc 0 (R329). Last full jest R324: 64/65 suites, 822/824. Only failures are the detailChrome snapshots (energy, macros), awaiting Isa approval.
 
 ## Open rows
@@ -31,7 +32,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
 - 107 PARTIAL: privacy headers, export share sheet, export failure toast; glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 fixes above.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 doc fix done R330, verify R331.
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap; geometry.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
@@ -43,11 +44,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. Row 108 doc fix: check item 4 for field growth; remove duplicate Profile citation in item 4; state 114 is rounded from 114.4 (doc only). (R330, in progress)
-2. Row 103 energy gap, after snapshot approval.
-3. Row 118 items 4-5 device check, if Isa approves.
-4. SettingsList geometry: per-row default; check every caller before any change.
-5. No rows left: stop with 'only owner decisions remain'.
+1. R331: verify the R330 row 108 doc edit, read-only (tsc only). Then close the item 4 fix.
+2. Ask Isa for the SettingsList geometry decision (fix or accept). It settles rows 107-109.
+3. Row 103 energy gap, after snapshot approval.
+4. Row 118 items 4-5 device check, if Isa approves.
+5. SettingsList geometry build: per-row default; check every caller before any change.
+6. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
@@ -77,7 +79,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results.
 - Data: quick-add serving missing (mock/data.ts:124); editSavedFood local only.
-- Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout; no test names SettingsList or the Privacy, Support or About screens.
+- Tests: no suite covers CaloriesCard, quick-add, gym card order, gym.tsx, MyScheduleCard, chooser, privacy, support, about, log-session layout; no test names SettingsList or the Privacy, Support or About screens. The three suites referencing app/profile/ (tabNavigation, phase14Regression, hydrationErrorScreens) do not check layout.
 - Doc: stale lines 192, 229, 236, 310, 430-431, 438, 448, 484, 509, 532, 534, 588, 631, 828, 840-841, 1520; section 855 overlaps FAB row; section 1421 disagrees with row 118; row 85 citations; row 104 BUILT vs EXACT; row 112 EXACT; line 1441 unchecked.
 - Tab bar: Reduce Transparency pill fill equals active cell #F2F2F7; GlassSurface overflow may clip pill shadow. Needs device.
 - Old /tmp/lume-* folders: not ours to clean.
@@ -86,15 +88,17 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Most suites read source text.
 
 ## Gotchas
-- Decode design with node into /tmp only; delete after. Bundles: Gym 7dc211f6, Summary 185bb533, Food 71f71ac4, Profile b09a5e65.
+- Decode design with node into /tmp only; delete after. Bundles: Gym 7dc211f6, Summary 185bb533, Food 71f71ac4, Profile b09a5e65. 'bundle :N' means decoded-bundle lines. Colour hex definitions are at design/Lume App.html:382.
 - Tokens: src/lib/design/tokens.ts. TextField: src/components/forms/TextField.tsx.
 - Use LC_ALL=C /usr/bin/grep; quote paths. Grep app/profile/, not src/app/profile/.
 - Doc row numbers are file lines. After a handover, name files fully.
 - Briefs and reports can cite false claims or stale paths; check first.
 - Do not open loop/NOTES.md or loop/DECISIONS_LOG.md.
+- Use jest --ci to avoid writing snapshots.
 
 ## Jev
 R315-R321: asked 70-82%; ran kept each time, reasons recorded above.
 R322-R327: ask or run mixed; kept runs recorded with reasons.
-R329: ask 61%, stop 33%, run 6% (confidence 0.42, risk 1.0). Kept the flag verification, which was then done read-only.
-R330 (handover signals): run 44%, ask 40%, stop 16% (confidence 0.16, risk 1.2). Kept run: the doc fix needs nothing from Isa.
+R329: ask 61%, stop 33%, run 6%. Kept the flag verification, which was then done read-only.
+R330 (handover signals): run 44%, ask 40%, stop 16%. Kept run: the doc fix needs nothing from Isa.
+R331: ask 69%, stop 23%, run 8% (confidence 0.53, risk 1.4). Kept run: the flagged report must be verified first, and that needs nothing from Isa.
