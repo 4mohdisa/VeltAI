@@ -1422,17 +1422,18 @@ Identical wordmark, tagline and three meta rows.
 The convention (grey page, blurred top gradient, floating circular back button,
 title inside the scroll) **is** implemented.
 
-**Differences (code re-checked against Profile bundle b09a5e65, not verified on
-device):** header height a fixed 84 vs `insets.top` + 20, so 67, 79 and 82 at insets
-of 47, 59 and 62; gradient stops
-88%→18% vs 0.86→0.20; mask 58% vs 56%; blur 18px+saturate vs `intensity 30`;
-**back button 44pt vs 38pt** and positioned ≈63/16 vs 50/14 (the app's size is a
-deliberate HIG tap-target choice); different glass recipe; toast radius 20 vs pill,
-tone-coloured vs always `#1c1c1e`, bottom offset, and top-placement for info
-toasts; **`Screen` hardcodes a 12pt inter-block gap for every sub-screen** where
-the design varies 18/20/22/26; top padding `insets.top` + 56, so 103, 115 and 118 at those insets, vs a fixed
-96/110/120; and
-`profile/index.tsx` hand-rolls its chrome instead of using `Screen`.
+**Differences, app vs design (code re-checked against Profile bundle b09a5e65, not
+verified on device; the full list is in the summary table row):**
+
+- **Header:** height `insets.top` + 20 vs a fixed 84, so 67, 79 and 82 at insets of 47, 59 and 62 (`src/components/navigation/Screen.tsx:163`, `src/app/profile/index.tsx:186`, bundle :579). Gradient 86 to 20 vs 88 to 18, mask 56 vs 58, `intensity` 30 vs blur 18 with saturate 1.4 (`src/components/navigation/FloatingHeader.tsx:29`, `:68-81`, bundle :579).
+- **Top padding:** `insets.top` + 56, so 103, 115 and 118, vs a fixed 96, 110 on About and 120 on Delete account (`Screen.tsx:91`, `index.tsx:95`, bundle :28, :559, :143).
+- **Bottom padding:** 48 + `insets.bottom` vs 40 on Goals, Scan accuracy, Preferences, Connected apps, Privacy, Support and About (`Screen.tsx:76`, `:106`, bundle :230, :297, :392, :432, :465, :519, :559); 48 + `insets.bottom` vs 48 on Settings (`index.tsx:98`, bundle :28); 48 vs 32 on Account, Delete account and Subscription (`Screen.tsx:76`, bundle :87, :143, :165).
+- **Screen gap:** 12 (`Screen.tsx:96`, `index.tsx:97`) vs 26 on Settings, 20 on Account, Subscription, Goals, Scan accuracy and Connected apps, 18 on Preferences and 14 on Delete account (bundle :28, :87, :165, :230, :297, :432, :392, :143). Delete account side padding is 16 vs 24 (`Screen.tsx:92`, bundle :143).
+- **Title block:** gap 4 vs 2, bottom padding 4 vs 0, side padding 0 vs 4, eyebrow tracking 1 vs 1.1, title tracking 0 vs -0.6 (`Screen.tsx:117`, `:122`, `:127`, `index.tsx:109`, `:111`, `:115`, bundle :30-32, :467).
+- **Back button:** 44 vs 38, a deliberate HIG tap target (`src/components/navigation/GlassButtons.tsx:20`, bundle :581), at `insets.top` + 4 and left 16 vs top 50 and left 14 (`Screen.tsx:165`, `index.tsx:189`, bundle :581), with a different glass recipe (`GlassButtons.tsx:44`, `:51`, bundle :581).
+- **Toast:** always black, with the tone shown only by the icon, vs always `gray-1` #1c1c1e (`src/components/display/ToastHost.tsx:19-22`, `:75`, bundle :586). Radius 20 vs pill (`ToastHost.tsx:76`, bundle :586). At the top unless it has an action vs always at the bottom, with bottom offset `insets.bottom` + 16 vs 52 (`src/components/display/toastStore.ts:42`, `ToastHost.tsx:56-57`, bundle :586). 2800 ms vs 2200 ms (`toastStore.ts:45`, bundle :627).
+
+`profile/index.tsx` hand-rolls this chrome instead of using `Screen` (`index.tsx:9`).
 
 ---
 

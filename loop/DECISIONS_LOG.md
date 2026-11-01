@@ -3157,3 +3157,8 @@
 - 2026-11-02 05:44 Chose the flagged-report fix combined with the row 110 re-check, because the loop note requires dealing with the flag before moving on and the last report recommended row 110 as next. Both are one doc-only task with a tsc exit code.
 - 2026-11-02 05:44 Did not run Jest, since no code changed and no test maps to a doc edit. This is stated in the prompt so the report is explicit rather than silently skipped.
 - 2026-11-02 05:44 Row 108 is parked as a follow-up, not picked now. Row 110 comes first because rows 107 and 109 defer to it, so a single re-check clears the shared-chrome question for all three.
+- 2026-11-02 05:47 Followed Jev (91%) and picked candidate 1. It is a doc-only fix that the R397 report recommended, and it removes a contradiction (toast colour, missing bottom padding) inside the gap analysis itself.
+- 2026-11-02 05:47 Kept the loop flag handling: R397 tsc exit 0 was reported; this round re-runs tsc once with exit code, and jest is skipped because no code changes.
+- 2026-11-02 05:47 Chose row 108 re-check second, not first, because its bottom padding depends on the owner call on the shared Screen.tsx padding.
+- 2026-11-02 05:47 Rewrote the notes file to under 600 words, merging repeated blocked and parked items. No task content was dropped.
+- 2026-11-02 05:47 Row 111 'bottom 96 matches only at a 34 inset' is false (offset is max(inset-12, 22)). Kept as an owner-parked doc fix, not a task now.
