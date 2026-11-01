@@ -2756,3 +2756,12 @@
 - 2026-11-01 20:29 Kept item 4 as a difference (padding 16 vs 12). Only its citations and wording are corrected, because the row is still not built.
 - 2026-11-01 20:29 Item 7 moves to EXACT (code re-checked, not verified on device), per the notes.
 - 2026-11-01 20:29 Did not ask Isa about the flag. It is handled by the tsc-only check in this round.
+- 2026-11-01 20:31 Chose the checkpoint over Jev's row 107 doc fix (84%) because the loop note flagged R308 and the flag rule requires verification before any other task. Reason: R308 ran only tsc and skipped jest, so its CHECKED section does not cover the full suite. A doc fix now would move on with that gap open.
+- 2026-11-01 20:31 Ran the checkpoint as read-only with no -u, so the two detailChrome snapshots stay awaiting Isa's approval.
+- 2026-11-01 20:31 Jev asked (63%); kept run because the flag rule is a standing order and the task is read-only with low risk.
+- 2026-11-01 20:31 Rewrote the notes under 600 words: merged repeated blockers and parked items, removed finished rounds.
+- 2026-11-01 20:31 Rewrote the rejected prompt to name design/Lume App.html and bundle b09a5e65 as the matching file, and the row 107 line in DESIGN_GAP_ANALYSIS.md.
+- 2026-11-01 20:31 Chose row 107 doc fix over row 108 items 1-3: the last report already recommended it, and it is the smallest read-only task with no Isa dependency.
+- 2026-11-01 20:31 Required both tsc and jest on profile suites in CHECKED, because doc-only reports that run tsc alone get flagged.
+- 2026-11-01 20:31 Kept the task to doc text only. Jev's 61% ask is not followed: the task needs nothing from Isa and is read-only, so the risk is low.
+- 2026-11-01 20:31 Left the SettingsList row geometry question with Isa; the prompt forbids touching the shared component.
