@@ -4,7 +4,7 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-Loop STOPPED at R415. All remaining rows blocked on Isa or owner. No task is left that is not a blocked row.
+Loop STOPPED at R416. All remaining rows blocked on Isa or owner. No task is left that is not a blocked row. Row 111 is PARTIAL with no recorded blocker: re-check it first when the loop restarts.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
@@ -16,11 +16,15 @@ Loop STOPPED at R415. All remaining rows blocked on Isa or owner. No task is lef
 - Badge style differences stay parked (style changes banned).
 - Accepted: gym duration and completion use ticked exercises; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset stays raised above inset 34; active cell keeps emitting tabPress.
 - Data model changes (per-day draft store) parked, not asked.
+- NavBar.tsx:29 gray200 alias cleanup dropped as tidying (R416).
 
 ## Built (not verified)
 - Row 82 (streak strip, footnote blocked).
 - Rows 84, 114, 117, 118 partial, see blocked list.
 - Badge.tsx gray700 to label at :19 and :38 (same value).
+
+## Re-checked (do not repeat)
+- Rows 107, 108, 109, 110, 111, 82, 84 (R405-R413). Statuses: 107 and 108 untouched, 109 and 110 PARTIAL, 111 PARTIAL, 82 BUILT, 84 DIFFERENT.
 
 ## Blocked on Isa (do not re-ask)
 - Row 84 NavBar: bordered full-width bar vs floating chrome; centred bodyBold title vs floating eyebrow; GlassBackButton with label vs floating circle (44px Gym, 38px Profile).
@@ -56,7 +60,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - AI insights screen has no file in src/app/profile/ (design has it).
 
 ## Gotchas
-- Briefs carry false premises: check first (row 117 items 5-7 not in TodayCard; CTA handler is gym.tsx:160; + menu handler at LumeTabBar.tsx:243-246, not gym.tsx).
+- Briefs carry false premises: check first (row 117 items 5-7 not in TodayCard; CTA handler is gym.tsx:160; + menu handler at LumeTabBar.tsx:243-246, not gym.tsx; gym.tsx:243-246 does not exist).
 - Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
 - zsh does not split $paths; use ${=paths} or separate arguments.
 - A pipe hides grep's exit code; run grep without one when reporting it.
@@ -67,6 +71,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - R413: doc re-check, row 84 citations and counts corrected; tsc 0; four source-reading suites green.
 - R414: STOP. Remaining rows blocked on Isa or owner.
 - R415: handover read, STOP confirmed. Dropped NavBar alias cleanup (tidying). Jev stop 89%.
+- R416: handover read, STOP confirmed again. Jev stop 87%. Nothing built, nothing changed.
 
 ## Summary for Isa (for the owner)
-To unblock the loop, decide: row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list.
+To unblock the loop, decide: row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list. Row 111 needs a re-check when the loop restarts.

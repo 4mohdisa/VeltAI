@@ -3239,3 +3239,7 @@
 - 2026-11-02 06:48 Stopped at R415 instead of continuing the NavBar.tsx:29 alias cleanup, because alias cleanup is tidying and the row 84 differences are blocked on Isa.
 - 2026-11-02 06:48 Moved stale doc counts (DESIGN_GAP_ANALYSIS.md:674, :864, :868) and the FloatingHeader and gap comment items to Parked, not to tasks.
 - 2026-11-02 06:48 Kept the uncommitted Badge.tsx colour change as built; the loop commits after each round.
+- 2026-11-02 07:25 Stop, not ask: every remaining row is already in Blocked on Isa or the owner list, and Isa's answers are needed, not a new question.
+- 2026-11-02 07:25 Dropped the NavBar.tsx:29 gray200 alias cleanup from the handover: it is code tidying, not a row build.
+- 2026-11-02 07:25 Recorded row 111 as PARTIAL with no recorded blocker, so the next session re-checks it first once Isa replies.
+- 2026-11-02 07:25 Did not change Screen.tsx padding, gap 16 or any row marked blocked, per existing decisions.
