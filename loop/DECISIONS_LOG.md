@@ -2939,3 +2939,7 @@
 - 2026-11-02 00:18 Chose row 113 item 2 next because it is a one-prop change, needs nothing from Isa, and the notes list it as Next 2 after item 12.
 - 2026-11-02 00:18 Item 10 and item 3 stay open: item 3 is blocked on Screen.tsx:96, and item 10 is not yet scoped enough for one task without Isa input.
 - 2026-11-02 00:18 Parked the My workouts pressed fill (Card has no pressed fill) and the default-opacity check on other screens as separate items, to keep this round to one task.
+- 2026-11-02 00:19 Chose row 113 item 3 because the handover and last report both name it as next, it needs nothing from Isa, and it can be done in schedule.tsx without touching the shared Screen.tsx that is blocked on Isa.
+- 2026-11-02 00:19 Left the Screen.tsx:96 default gap blocked: only a local override is used, so the shared-component block still applies to other screens.
+- 2026-11-02 00:19 Wrote the prompt to compare with design/ first, since the brief warns that earlier rows may already match.
+- 2026-11-02 00:19 Jev (run 76%) agrees with run. Kept run.

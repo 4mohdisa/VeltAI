@@ -78,7 +78,7 @@ export default function ScheduleScreen() {
   };
 
   return (
-    <Screen variant="floating" title="My schedule" showBack>
+    <Screen variant="floating" title="My schedule" showBack contentStyle={{ gap: space.xl }}>
       {loading ? (
         <View style={{ gap: space.md }}>
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
