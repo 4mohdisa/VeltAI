@@ -3058,3 +3058,8 @@
 - 2026-11-02 01:38 Row 76 item 5: the latest report says the doc wording already matches the code, but the handover still lists it as open. Asked for a one-line check this round instead of an edit, so the doc is changed only if a concrete mismatch is found.
 - 2026-11-02 01:38 Jev gives 53% for a clean finish. Kept the task to one verification round with no edits to reduce risk.
 - 2026-11-02 01:38 Did not add Parked items from the report: the minutesOf type-check difference and the cardio source difference are already covered by the row 76 build items, and the zero-minute case is already in Parked.
+- 2026-11-02 01:39 Chose the doc-only re-check of row 76 item 5 and row 114 first, because the loop note flagged the last report as only partly done. The handover also says the doc still lists item 5 as open.
+- 2026-11-02 01:39 Kept tsc in the round (no jest) so the report is not flagged for skipping checks, even though no code changes.
+- 2026-11-02 01:39 Row 76 item 5 is recorded as built in code, not on device, which matches the 'Isa verifies' rule.
+- 2026-11-02 01:39 Row 114 is re-checked against TodayCard.tsx because it has not been re-read since the TodayCard edits.
+- 2026-11-02 01:39 Kept Jev's run as the action, since its confidence matches my own choice to run.
