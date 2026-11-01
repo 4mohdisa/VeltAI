@@ -5,77 +5,62 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
-- Design HTML and gap doc are authoritative. Compare code with design before every build.
+- Design HTML and gap doc are authoritative. Compare code with design before building.
 - jest --ci only. Never -u or edit .snap. Code tidying is never a task. Doc fixes only in re-check rounds.
 - Build rounds: tsc plus findRelatedTests. Checkpoints: full tsc and jest --ci.
 - Owner-only gaps parked, not asked. Blocked questions not re-asked.
-- Accepted: gym duration uses plan minutes of ticked exercises; completion is ticked share; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset stays raised above inset 34; active cell keeps emitting tabPress.
+- Accepted: gym duration and completion use ticked exercises; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset stays raised above inset 34; active cell keeps emitting tabPress.
 - Data model changes (per-day draft store) parked, not asked.
-- Row 117 item 6: history.tsx:55 uses color.label, not gray800 (same value; tokens.ts asks for intent names).
+- Row 117 item 6: history.tsx:55 uses color.label, same value as gray800.
 - Row 76 add path not faked: logging on pick marks the day done; adding to the template changes future weeks.
-- R398: followed Jev on Profile shared-chrome doc sync.
-- R400: rejected prompt (no design/ file named) rewritten to name design/Lume App.html and row 84.
-- R400 doc fix done: lines 678-679 corrected (history dates use mappers.ts:197-216 formatting; no 'Total' label in gym.tsx or components/domain; the strip reads '23 sessions · 2 freezes').
-- R403: flagged report (tsc not run) handled by running tsc inside a doc re-check, not by an unrelated task.
-- R404: flagged report (jest not run, tsc run) handled the same way: doc re-check of row 82 lines 488-492, with tsc and four source-reading suites run.
+- Flagged reports are handled by a doc re-check round that runs tsc and the source-reading suites.
 
 ## Status
-- PARTIAL, none fully built: 76, 107, 109, 110, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
-- Row 84: DIFFERENT. Aliases: none used by streak.tsx or history.tsx; NavBar.tsx:29 and Badge.tsx:19, :38 use them.
-- Row 110 re-checked R397: 13 items, PARTIAL. Profile shared-chrome section synced R398.
-- Row 108 (Support) bottom padding not re-checked; blocked on owner call on shared Screen.tsx padding.
-- Row 114: TodayCard detail section matches; DIFFERENT only on item 8.
-- Row 117: items 2, 3 built; 4 EXACT; 6 fixed. Items 5, 7 open outside TodayCard. Items 1, 8 blocked.
-- Row 76: items 2 (plus glyph), 3, 5, 8 built in log-session.tsx; add path blocked.
-- Row 82: R402 rewrote strip text and citations. R403 corrected lines 483-486 (gym.tsx:124-140). R404 re-checks lines 488-492 (tap, gap, flame citations).
-- R382 checkpoint: tsc 0; jest --ci 822 of 824. Failures: detailChrome only (blocked).
-- R401: verification round clean. tsc exit 0; sheetVariant 9/9, gymDurationHonesty 4/4, oneTapGymLog 3/3, tabNavigation 11/11. No edits.
-- R402: doc-only. Line 674 now says NavBar and Badge use aliases; lines 855-858 corrected; lines 859-868 list the alias definitions and 41 uses. tsc and jest not run (doc-only).
-- R403: doc-only. Lines 483-486 corrected; tsc exit 0.
+- PARTIAL: 76, 107, 109, 110, 111, 113, 115, 116, 117, 118.
+- DIFFERENT: 82 (streak strip), 84 (deprecated aliases in NavBar.tsx:29, Badge.tsx:19, :38), 114 (item 8 only).
+- Blocked: 83, 85, 87, 103, 104, 108, 112.
+- Last checkpoint R382: tsc 0; jest --ci 822 of 824, failures in detailChrome only (blocked).
+- R401-R404: tsc 0; sheetVariant 9/9, tabNavigation 11/11, oneTapGymLog 3/3, gymDurationHonesty 4/4.
+- Doc differences 8, 10, 19 contradict 'What the app does': re-check queued R405.
 - Nothing checked on a device.
 
-## Next (for Isa)
-1. Run full checkpoint: tsc --noEmit and jest --ci on loop/design-match.
-2. Answer blockers below.
-3. Doc: differences 8, 10, 19 still contradict 'What the app does'; citations in differences 1-7, 13, 17, 20 and line 299 still stale; row 111 wording stale (LumeTabBar gym handler now :243-246).
-4. Re-check row 108 once Screen.tsx padding is decided.
-5. The 41 deprecated alias uses remain in src (tokens.ts:46-48 says remove as components migrate). Parked.
-
 ## Blocked on Isa (do not re-ask, do not retry)
-- detailChrome snapshot: gap 16 on energy balance and macros, keep or remove. Do not touch.
-- Row 76 add path: approve draft store, TodayCard.tsx, gym.tsx, ExercisePicker.tsx change.
+- detailChrome snapshot: gap 16 on energy balance and macros. Do not touch.
+- Row 76 add path: approve draft store, TodayCard.tsx, gym.tsx, ExercisePicker.tsx.
 - Row 116: items 1-2 open cells to day view; 3 keep frozen fill; 4 logged day level; 5 keep '1 session'; 6 keep strings; 8 nav button size.
-- Row 117: item 1 radius 20 on seven cards (templates.tsx:50, session.tsx:407, muscles.tsx:73); item 5 tracking (Screen.tsx:122, new-template.tsx:158); item 7 shadows (BottomSheet.tsx:145, GlassButtons.tsx:229); item 8 logged pill wash.
-- Row 114 item 8 and Row 117 item 8: logged pill wash (TodayCard.tsx:193).
+- Row 117: item 1 radius 20 on seven cards; item 5 tracking; item 7 shadows; item 8 logged pill wash (also row 114 item 8).
 - Row 113 item 3: remove 4px at Screen.tsx:117, or accept.
 - Row 118: keep or revert R360 LumeTabBar.tsx edit.
-- Shared BottomSheet, SheetContent, Button, sheet height. Toast duration and position (toastStore.ts:42, :45). Second session row (mutations.ts:173-178). Logged-day actions. Screen.tsx:96. SettingsList geometry. Screen.tsx:163. About header. DetailChart Kicker and Breakdown dots. Summary 17, 21, 28-30; top padding; burn target 10-11; energy axis 15.
-- Failed schedule fetch shows empty week; failed templates look like zero templates; My workouts heading hidden at zero templates (schedule.tsx:147).
-- Sheet resize under fitToContents when second sheet swaps in.
-- Shared Screen.tsx bottom padding (48+inset vs 40): needs owner call before rows 107, 108, 109, 110.
+- Row 82: footnote '23 sessions · 2 freezes'; settle session count first.
+- Shared components: BottomSheet, SheetContent, Button, sheet height; toast duration and position; second session row; logged-day actions; SettingsList geometry; About header; DetailChart; Summary values and padding; sheet resize on second-sheet swap.
+- Failed schedule and templates states; My workouts heading at zero templates.
+- Shared Screen.tsx bottom padding (48+inset vs 40): owner call before rows 107-110.
 
 ## Owner device checks (parked)
-Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close, exercise progress, picker fills, week card and row press, calendar chevron, tab bar, second sheet resize. Row 115: 3D body, guide images, cardio minutes, speed, kcal; native es/fr review; TestPG_* (18 skipped).
+Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, header strip, logged-day sheet and toast, library close, picker fills, tab bar, second sheet resize. Row 115: 3D body, guide images, cardio minutes, speed, kcal; native es/fr review; TestPG_* (18 skipped).
 
 ## Parked (one line each)
-- Gym: session.tsx:364 saves template estimate. Ticklist mode (session.tsx:40, :123) looks dead. Library multi-select; per-set remove; cardio ParameterForm; template editor; GymSessionButton opens session, design opens log sheet. minutesOf (log-session.tsx:62) picks by planned duration, design by cardio.
-- Gym streak: streak.tsx:89 labels totalGymDays 'Sessions' but hooks.ts:156 counts distinct days; building the footnote from it could undercount.
-- Row 76: chevron SF Symbol vs 2.4-stroke path (log-session.tsx:250); possible second add route bundle :1310; session.tsx:565-569 close handler.
-- Gym second sheet: en/es/fr keys; caption not footnote; pill 17/24 not 16/21; footer scrolls.
-- Row 117: logged stats 3 cells vs 4.
-- Failed templates fetch; picker offers only Rest day, could overwrite a workout.
-- Stale comments: FloatingHeader.tsx:8-9, :24-26 (86/20/56/82 vs bundle 88/18/58/84), gymSchedule.ts:32-61, gym.tsx:70-73, gym.tsx:155, hooks.ts:159, LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10, Screen.tsx:22; schedule.tsx 'Tues'.
-- Tests: gymCalendar NAV_SIZE 32 vs 44; source-text suites; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
-- Layout: TAB_BAR_CLEARANCE has no non-test callers. Logged pill wash flat; mixHex could fix.
-- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; SettingsList.tsx:129; reduceMotion.ts:13. Deprecated token aliases: 41 uses across 24 files in src.
-- i18n: hardcoded English across Summary, energy, week, workouts, scan, schedule, Profile, session.tsx:539-555, templates, toasts, streak, second sheet.
+- Gym: session.tsx:364 saves template estimate; ticklist mode (session.tsx:40, :123) looks dead; library multi-select; per-set remove; cardio ParameterForm; template editor; minutesOf (log-session.tsx:62) picks by plan, not cardio; second sheet keys, caption, pill sizes, footer scroll.
+- Streak: streak.tsx:89 'Sessions' vs hooks.ts:156 distinct days; flame pulse, grey at zero, SF Symbol artwork.
+- Row 76: chevron SF Symbol (log-session.tsx:250); possible second add route bundle :1310; session.tsx:565-569.
+- Row 117: logged stats 3 vs 4 cells; logged pill wash flat.
+- Failed templates fetch; picker offers only Rest day and could overwrite a workout.
+- Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; Screen.tsx:22; schedule.tsx 'Tues'.
+- Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
+- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 41 deprecated alias uses in 24 files (tokens.ts:46-48).
+- i18n: hardcoded English on most screens (see session.tsx:539-555).
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
-- Food: eyebrow tappable during search; day picker changes date behind results. Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
-- AI insights screen (design bundle :353-354) has no file in src/app/profile/; not compared.
-- Profile hand-rolls its chrome (profile/index.tsx:9); not a visible difference.
+- Food: eyebrow tappable during search; day picker changes date behind results; quick-add serving (mock/data.ts:124); editSavedFood local only.
+- AI insights screen has no file in src/app/profile/.
 
 ## Jev
-R398: ask 39, run 35, stop 26; followed Profile sync. R399: run 48, ask 45, stop 7; chose run. R400: run 40, ask 40, stop 20; chose run. R401: run 57, ask 32, stop 11 (confidence 0.35); chose run. R402: ask 72, run 18, stop 10 (confidence 0.58); chose run: doc-only re-check needs no owner input. R403: ask 65, run 22, stop 13 (confidence 0.48), risk 1.5 (confidence 0.20); chose run: the flag is cleared by tsc in this round, blockers are already recorded, and the defaults cover the task. R404: ask 51, run 38, stop 11 (confidence 0.26), risk 1.4 (confidence 0.31); chose run: flag cleared by tsc and four source suites in this round; blockers recorded. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
+R402-R404 leaned ask; chose run for doc-only re-checks that need no owner input. R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix of differences 8, 10, 19, blockers already recorded.
 
 ## Gotchas
-Briefs carry false premises: check first (row 117 items 5-7 not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160). Tab bar is at src/components/navigation/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites; run by path with find. findRelatedTests finds no tests for gym screens and exits 1 without --passWithNoTests. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging. Always report exit codes. Grep won't find a suite by its own name; use find. Source-reading suites: src/__tests__ sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation. Prompts must name the matching design/ file. Every prompt must end with the report format.
+- Briefs carry false premises: check first (row 117 items 5-7 are not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160).
+- Tab bar: src/components/navigation/LumeTabBar.tsx; gym handler :243-246.
+- Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
+- Doc rows are file lines; bundle lines are decoded. Use mktemp for decode scripts. Quote '===' in zsh.
+- findRelatedTests misses source-reading suites and finds none for gym screens; it exits 1 without --passWithNoTests. 'No tests found' is not a pass.
+- Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Always report exit codes.
+- Prompts name loop/design-match and forbid switching, pushing and merging.

@@ -3189,3 +3189,6 @@
 - 2026-11-02 05:56 Limited the task to lines 488-492 of the gap doc, because those differences have no citations and the last report named them.
 - 2026-11-02 05:56 Left the alias doc fix (674, 855) for a later doc round: it is not needed to clear the flag and would be a second task.
 - 2026-11-02 05:56 Jev asked 51% vs run 38%; kept run. The flag is cleared by tsc and suite runs in this same round, and blockers are already recorded in Blocked on Isa.
+- 2026-11-02 05:57 Chose the doc re-check: it needs no owner input, the blockers are already recorded, and the defaults cover it. Jev leaned ask at 78%, but every open question was already asked and must not be re-asked.
+- 2026-11-02 05:57 Limited the prompt to differences 8, 10 and 19, as flagged in the last handover, so the round stays one task.
+- 2026-11-02 05:57 Kept tsc only, because this round is doc-only and the handover asks for a green type check after the edit.
