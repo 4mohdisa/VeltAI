@@ -2958,3 +2958,12 @@
 - 2026-11-02 00:22 Limited the fix to passing an existing gap token from schedule.tsx, so the blocked shared Screen.tsx is not touched.
 - 2026-11-02 00:22 Asked for the design value to be confirmed first, because the notes give two different numbers for this gap.
 - 2026-11-02 00:22 Jev ran 74% for run. Kept run, since the rejection was a prompt fault and not a blocker needing Isa.
+- 2026-11-02 00:23 Asked Isa instead of running item 3. Claude Code confirmed the fix needs a shared Screen.tsx change, which the notes block without Isa.
+- 2026-11-02 00:23 Kept Claude Code's report on item 3 (24 vs 20) over the older 12 vs 20 note, because the 12 vs 20 gap was already fixed.
+- 2026-11-02 00:23 Rewrote the notes under 600 words, merging repeated items and removing finished work, as the loop note requires.
+- 2026-11-02 00:23 Did not mark row 113 built, because item 3 and item 11 remain.
+- 2026-11-02 00:39 Isa did not answer the row 113 item 3 question (asked R357). Recorded under Blocked on Isa and not asked again, per the loop note.
+- 2026-11-02 00:39 Did not use the handover's schedule.tsx-only workaround for row 113 item 3. It could pre-empt Isa's pending choice on Screen.tsx:117, so it stays parked.
+- 2026-11-02 00:39 Chose row 116 heatmap because it needs no answer from Isa and no device. It is a PARTIAL row with a bounded scope.
+- 2026-11-02 00:39 Jev asked (74%) but the loop note says to ask only if every remaining task needs Isa. Row 116 does not, so the run is kept.
+- 2026-11-02 00:39 Row 116 build limited to items that do not need a device, per the open-rows list.

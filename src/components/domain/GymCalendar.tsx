@@ -33,6 +33,7 @@ const CHEVRON = 14;
 const DAY_FONT = 10;
 const DAY_LINE = 12;
 const DISABLED_OPACITY = 0.3;
+const NAV_PRESSED_OPACITY = 0.5;
 
 const WEEKDAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -134,7 +135,13 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
           haptic={false}
           accessibilityRole="button"
           accessibilityLabel="Previous month"
-          style={{ width: NAV_SIZE, height: NAV_SIZE, alignItems: 'center', justifyContent: 'center' }}
+          style={({ pressed }) => ({
+            width: NAV_SIZE,
+            height: NAV_SIZE,
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: pressed ? NAV_PRESSED_OPACITY : 1,
+          })}
         >
           <Icon name="chevron-back" size={CHEVRON} color={color.secondaryLabel} />
         </Pressable>
@@ -145,13 +152,13 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
           accessibilityRole="button"
           accessibilityLabel="Next month"
           accessibilityState={{ disabled: !canNext }}
-          style={{
+          style={({ pressed }) => ({
             width: NAV_SIZE,
             height: NAV_SIZE,
             alignItems: 'center',
             justifyContent: 'center',
-            opacity: canNext ? 1 : DISABLED_OPACITY,
-          }}
+            opacity: pressed ? NAV_PRESSED_OPACITY : canNext ? 1 : DISABLED_OPACITY,
+          })}
         >
           <Icon name="chevron-forward" size={CHEVRON} color={color.secondaryLabel} />
         </Pressable>
