@@ -2741,3 +2741,8 @@
 - 2026-11-01 20:26 The flag is the report's note that jest was not run. That is expected for a doc-only round, so the verification needs only tsc and a git check, not jest.
 - 2026-11-01 20:26 Row 108 doc fix (items 4 and 7) moves to R306, the next round, unchanged from Jev's pick.
 - 2026-11-01 20:26 Shared SettingsList geometry: did not ask Isa. Default rule is to follow the design. Will handle it per row (107, 108, 109) when each row is built, not as a separate shared change.
+- 2026-11-01 20:27 Kept the run action: the standing rule verifies a flagged report before any other task, and the flag was for tsc or tests not run.
+- 2026-11-01 20:27 Jev asked 65% for ask (confidence 0.48). Did not ask Isa: the SettingsList question is covered by the default (follow design per row), so no question is needed.
+- 2026-11-01 20:27 Shared SettingsList geometry: follow design per row when each row is built; no separate shared change. Recorded as default, not sent to Isa.
+- 2026-11-01 20:27 Row 108 items 4 and 7 doc fix moved to R307 so the verification is not mixed with an edit.
+- 2026-11-01 20:27 Notes trimmed under 600 words per the loop note; finished work deleted, repeated items merged.
