@@ -2773,3 +2773,8 @@
 - 2026-11-01 20:34 Added jest on the profile and SettingsList suites: the Doc-only rounds rule requires the matching jest suites, and R311 skipped them. R311 touched no code, so tsc alone was not enough for the flag.
 - 2026-11-01 20:34 Kept the round read-only with no edits. The row 107 doc fix waits until the flag clears.
 - 2026-11-01 20:34 Recorded that Jev asked (81% run, 16% ask). Run kept because the check needs nothing from Isa and clears the flag.
+- 2026-11-01 20:35 Chose row 107 doc fix: it is the open recommendation from R312 and needs nothing from Isa.
+- 2026-11-01 20:35 Kept run: Jev 89% run; the round is read-only and doc-only.
+- 2026-11-01 20:35 Did not ask: the item needs no owner action.
+- 2026-11-01 20:35 Rewrote notes under 600 words per loop note: merged repeated items, removed finished rounds, and kept every open row and blocker.
+- 2026-11-01 20:35 Kept the SettingsList geometry default and the Blocked list unchanged.
