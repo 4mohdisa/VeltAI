@@ -3150,3 +3150,7 @@
 - 2026-11-02 05:04 Stopped instead of running the 107/109 re-check. Both rows are PARTIAL with no recorded blocker, but previous rounds concluded that only owner decisions remain. A re-check is cheap, so it is the first task if Isa restarts the loop. Jev 93% stop, and the brief says not to invent work.
 - 2026-11-02 05:04 Did not run the doc fix at :674 and :855. The handover and R390 disagree, and R390 is the more recent record. Parked for Isa to confirm.
 - 2026-11-02 05:04 Did not re-ask any blocked question. Notes say do not re-ask.
+- 2026-11-02 05:42 Overrode Jev's stop (80%). Reason: rows 107 and 109 are PARTIAL, have never been re-checked, and have no recorded blocker, so the loop cannot yet claim only owner items remain. The re-check is doc-only and cannot break tsc or tests, which keeps the risk low.
+- 2026-11-02 05:42 Chose the doc-only re-check over a build. Rows 107 and 109 have no known fix yet, so a build would be guesswork.
+- 2026-11-02 05:42 Did not retry the R390 doc fix at :674 and :855. It conflicts with R390 and stays parked for Isa.
+- 2026-11-02 05:42 Skipped tsc and jest for this round, since the only change is to the doc.

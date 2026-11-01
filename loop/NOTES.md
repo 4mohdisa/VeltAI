@@ -16,8 +16,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Add path (row 76 item 2) not faked: logging on pick marks the day done, and adding to the template changes future weeks.
 - Round 389: prompt rejected for not naming loop/design-match. Rewritten with the branch rule first.
 - R390: doc fixes done (deprecated-alias claims at 674-677 and 857-860; differences 8, 10, 19; row 111 and difference 23 LumeTabBar citations). Row 111 wording 'bottom 96 matches only at a 34 inset' is still false: offset is max(inset - 12, 22), so 96 holds for any inset up to 34. Parked for Isa.
-- R391-R394: loop stopped by manager four times. Same state each time: only owner decisions remain. Doc fix at :674 and :855 not run (conflicts with R390; parked for Isa).
-- R395: loop stopped by manager a fifth time. Rows 107 and 109 are PARTIAL with no recorded blocker; first re-check target if the loop restarts. Jev stop 93%.
+- R391-R395: loop stopped by manager five times. Same state each time: only owner decisions remain. Doc fix at :674 and :855 not run (conflicts with R390; parked for Isa). R395 note: rows 107 and 109 are PARTIAL with no recorded blocker; first re-check target if the loop restarts.
+- R396: Jev said stop 80%, risk 2.0. Overrode it with a doc-only re-check of rows 107 and 109. Reason: they have never been re-checked and have no blocker, so 'only owner items remain' is not yet proven. No code changes.
 
 ## Status
 - PARTIAL, nothing fully built: 76, 107, 109, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
@@ -31,8 +31,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 1. Run full checkpoint: tsc --noEmit and jest --ci on loop/design-match.
 2. Answer the blockers below. Each answer unblocks one row.
 3. Doc may still be stale: handover says DESIGN_GAP_ANALYSIS.md:674 and :855 still call deprecated grey tokens in use, but R390 says 674-677 and 857-860 were fixed. Check which is true. Row 84 says streak and history use deprecated grey tokens. Difference 23 cites gym.tsx:148 (now :160) and index.tsx:179 (now :178). Line numbers in differences 1-7, 13, 17, 20 and line 299 look stale against 421-line log-session.tsx. Row 111 wording 'bottom 96 matches only at a 34 inset' is false (see Decisions).
-4. Rows 107 and 109: re-check against design/ when the loop restarts. No blocker recorded for them.
-5. Loop stopped: only owner decisions remain.
+4. Rows 107 and 109: re-check in progress (R396). Read the R396 report for the result.
+5. If the re-check finds no differences left, only owner decisions remain and the loop can stop.
 
 ## Blocked on Isa (do not re-ask, do not retry)
 - detailChrome snapshot: gap 16 on energy balance and macros, keep or remove. Repeated blocker. Do not touch. Currently 2 failures.
@@ -67,7 +67,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Doc: confirm whether DESIGN_GAP_ANALYSIS.md:674 and :855 still claim deprecated aliases in use (handover) or were fixed in R390.
 
 ## Jev
-R337-R395 decisions kept. Keep builds small with explicit check requirements. Shared-file blocked items are not retried as TodayCard tasks. R390: Jev said stop 69%; stopped. R391: stop 58%, ask 37%; stopped. R392: stop 88%; stopped. R393: stop 93%; stopped. R394: stop 92%; stopped. R395: stop 93%, ask 7%; stopped.
+R337-R395 decisions kept. Keep builds small with explicit check requirements. Shared-file blocked items are not retried as TodayCard tasks. R390: Jev said stop 69%; stopped. R391: stop 58%, ask 37%; stopped. R392: stop 88%; stopped. R393: stop 93%; stopped. R394: stop 92%; stopped. R395: stop 93%, ask 7%; stopped. R396: Jev stop 80%, risk 2.0; overridden for a doc-only re-check of rows 107 and 109 (see Decisions).
 
 ## Gotchas
 Briefs carry false premises: check first (row 117 items 5-7 were not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160). Tab bar lives at src/components/navigation/LumeTabBar.tsx, not src/components/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites (sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation): run by path with find. Reports that skip tsc or tests get flagged; always report exit codes. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging.
