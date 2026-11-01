@@ -120,10 +120,7 @@ export default function LogSessionScreen() {
   // What gets logged: the whole plan, or what's still ticked on the second sheet.
   const ticked = someOpen ? planned.filter((te) => !skipped.includes(te.id)) : planned;
   // A plan with nothing to derive from has no duration; 0 would be logged as real.
-  const derivedMinutes =
-    ticked.length < planned.length
-      ? ticked.reduce((a, te) => a + minutesOf(te), 0)
-      : today?.template?.estimated_duration_minutes ?? planMinutes;
+  const derivedMinutes = Math.round(ticked.reduce((a, te) => a + minutesOf(te), 0));
 
   const close = () => {
     if (router.canGoBack()) router.back();

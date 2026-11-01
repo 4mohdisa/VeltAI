@@ -3034,3 +3034,6 @@
 - 2026-11-02 01:32 Did not add locale strings: the report's NEXT item is i18n, which is parked under the hardcoded English list.
 - 2026-11-02 01:32 Did not act on the report's ticklist dead-code note: it is a side problem, so it goes to Parked.
 - 2026-11-02 01:32 Did not edit DESIGN_GAP_ANALYSIS.md this round: doc fixes are reserved for re-check rounds. Row 76 stays PARTIAL.
+- 2026-11-02 01:33 Chose row 76 item 5 over item 2: the latest report names it as the next task, it is in an unblocked file, and it is small.
+- 2026-11-02 01:33 Kept the notes rule that doc edits happen only in re-check rounds, so no DESIGN_GAP_ANALYSIS.md edit in this build round.
+- 2026-11-02 01:33 Rewrote the notes to under 600 words as the loop note asked. Merged repeated items and removed finished work. No rule was dropped.
