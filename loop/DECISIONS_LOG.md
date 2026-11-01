@@ -3045,3 +3045,8 @@
 - 2026-11-02 01:35 Kept the prompt on loop/design-match only, with no switch, commit, push, or merge, to fix the rejected prompt.
 - 2026-11-02 01:35 Rewrote the notes under 600 words by merging repeated parked items and deleting finished work; no decision was dropped.
 - 2026-11-02 01:35 Kept the detailChrome and blocked lists unchanged, since Isa has not answered and they must not be re-asked.
+- 2026-11-02 01:36 Chose the verification round first: the loop flagged the last report because tsc and tests were not run, and the brief says to deal with a flag before moving on.
+- 2026-11-02 01:36 Kept the run action over ask (Jev 14%): no new blocker has appeared, and the non-blocked rows remain.
+- 2026-11-02 01:36 Kept candidate 2 for the next round after this check, as the rules put row 76 items 2, 6 and 7 next.
+- 2026-11-02 01:36 No file changes this round because the last edit was doc-only and the check only needs the type check and related tests.
+- 2026-11-02 01:36 Jev rates a clean finish of the last task at 4%, so I did not trust the report without running checks. Running them now.

@@ -16,7 +16,8 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 
 ## Status
 - Re-checked: 107-109, 111, 113-118.
-- Row 76: items 1, 3, 4, 8 built in code (not on device). Item 2 partly built (plus glyph, add path open). Item 5 fixed in code at log-session.tsx:123; doc still lists it open. Items 6-7 open.
+- Row 76: item 5 doc line updated to the code-re-checked wording (citing log-session.tsx:123, derivedMinutes). Items 1, 3, 4, 8 built in code (not on device). Item 2 partly built (plus glyph, add path open). Items 6-7 open. Row stays PARTIAL.
+- Row 76 item 5 code fixed; tsc and related tests NOT yet run after the doc edit. Verification round queued (see Next 1).
 - Row 113: open 11. Items 3 and 10 built, awaiting Isa. Title-to-card 24 vs 20 at Screen.tsx:117 stays.
 - Row 115: built except owner gaps.
 - Row 116: items 1-6 and 8 blocked. Month button pressed opacity built; chevron stroke open.
@@ -30,12 +31,13 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
 
 ## Next
-1. R373 doc re-check: row 76 item 5 to BUILT (code re-checked, not verified on device), citing log-session.tsx:123. Doc only.
+1. Verification round: tsc --noEmit, then jest --ci --findRelatedTests src/app/gym/log-session.tsx --passWithNoTests. No file changes. Confirms the row 76 item 5 code and doc edit.
 2. Then row 76 item 2 (plus glyph, add path), if still different. Then items 6-7.
 3. Then row 117 items 5-7 (non-blocked).
-4. If no non-blocked task remains, stop: 'only owner decisions remain'.
-5. If Isa answers detailChrome: approved path in the next build round, then tsc and jest --ci on that file only, then a full checkpoint.
-6. If Isa answers R360 (LumeTabBar.tsx): tsc; jest --ci tabNavigation.test.ts; findRelatedTests LumeTabBar.tsx --passWithNoTests. No file changes.
+4. Row 114 re-check against TodayCard.tsx (doc only), after the row 76 items.
+5. If no non-blocked task remains, stop: 'only owner decisions remain'.
+6. If Isa answers detailChrome: approved path in the next build round, then tsc and jest --ci on that file only, then a full checkpoint.
+7. If Isa answers R360 (LumeTabBar.tsx): tsc; jest --ci tabNavigation.test.ts; findRelatedTests LumeTabBar.tsx --passWithNoTests. No file changes.
 
 ## Blocked on Isa (do not re-ask)
 - detailChrome snapshot: keep gap 16 on energy balance and macros, or remove it.
@@ -50,9 +52,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Failed schedule fetch shows empty week; failed templates look like no templates; My workouts heading hidden at zero templates (schedule.tsx:147).
 - Owner device checks: fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, bottom padding, header strip, logged-day sheet and toast, library close, exercise progress, picker fills, week card and row press, calendar chevron, tab bar, second sheet resize under fitToContents (_layout.tsx:155).
 - Row 115 owner gaps: 3D body, guide images, cardio minutes, speed, kcal. Native es/fr review. TestPG_* (18 skipped).
+- Sheet resize under fitToContents when the second sheet swaps in (same as device check above).
 
 ## Parked (one line each)
 - Gym: session.tsx:364 saves the template estimate, so the same plan can record different durations by path. templates.tsx 'about N min' can differ from the logged time.
+- Gym: minutesOf (log-session.tsx:61) does not check exercise type. Strength with planned_duration_minutes uses it; cardio without it uses sets x 3.2. Design decides by type (bundle :1161). Check whether saved templates can hold either case.
+- Gym: zero-minute plans show 0 min in design; app saves no duration but celebration gets formatDuration(0).
 - Gym: ticklist mode in session.tsx (:40, :123) unreached from the sheet, may be dead. Remove only in a dedicated task.
 - Gym: no refetch on focus; duplicate Training link; untranslated muscle and day names; hardcoded picker title; day_name.slice; My workouts press 0.85 with no fill; LumeTabBar.tsx:179; library multi-select; exercise progress rowing, English copy, lb shown as kg; CardHeaderRow colour; MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; pull-to-refresh misses TodayCard; index.tsx:179, 108, 114; row 114 chevron needs day route; + menu pushes sheet before logged-state check.
 - Gym second sheet: add en/es/fr keys in an i18n task. Gaps: caption not footnote, pill 17/24 not 16/21, footer scrolls, bottom padding.
@@ -70,6 +75,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 
 ## Jev
 R337-R373 decisions kept. R373: run 70%; kept run, since non-blocked rows remain.
+R374: run 73%, ask 14%, stop 13%. Last task clean 4%, risk 1.4. Kept run for a verification round to clear the loop flag.
 
 ## Gotchas
-Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. No suite imports gym schedule, log-session, session or exercise-progress, so findRelatedTests needs --passWithNoTests. sheetVariant, gymDurationHonesty, oneTapGymLog and tabNavigation read source text: run them when touching those files. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. Don't echo === in zsh. Handover at R372: Claude Code knows only the summary, so name files fully.
+Briefs carry false premises: check first. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. No suite imports gym schedule, log-session, session or exercise-progress, so findRelatedTests needs --passWithNoTests. sheetVariant, gymDurationHonesty, oneTapGymLog and tabNavigation read source text: run them when touching those files. sheetVariant needs variant first on SheetContent and the exact asPlanned Button line. Don't echo === in zsh. A report that says tsc or tests were not run gets flagged: run them before moving on. Handover at R372: Claude Code knows only the summary, so name files fully.
