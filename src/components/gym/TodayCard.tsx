@@ -20,9 +20,20 @@ import { categoryAccent, color, radius, space, surface } from '@/lib/design/toke
 import { useUnitPreferences } from '@/lib/settings/store';
 import { displayToKg, formatEnergy, formatWeight } from '@/lib/units';
 
+/** The design's own values for this card. No token covers them. */
+const DOT_SIZE = 11;
+const HEADER_GAP = 10;
+const HEADER_MIN_HEIGHT = 34;
+const TITLE_GAP = 1;
+const PILL_PADDING_VERTICAL = 3;
+const PILL_PADDING_HORIZONTAL = 9;
+const CHIP_PADDING_HORIZONTAL = 10;
+const CHIP_ROW_GAP = 6;
+const STAT_CELL_GAP = 1;
+
 /** The state dot the design puts at the head of the session card. */
 function Dot({ tint }: { tint: string }): JSX.Element {
-  return <View style={{ width: space.md, height: space.md, borderRadius: radius.full, backgroundColor: tint }} />;
+  return <View style={{ width: DOT_SIZE, height: DOT_SIZE, borderRadius: radius.full, backgroundColor: tint }} />;
 }
 
 /** Status pill — "Logged" (green) / "Planned" / "Rest" (monochrome). */
@@ -30,8 +41,8 @@ function StatePill({ label, fill }: { label: string; fill: string }): JSX.Elemen
   return (
     <View
       style={{
-        paddingVertical: space.xs,
-        paddingHorizontal: space.sm,
+        paddingVertical: PILL_PADDING_VERTICAL,
+        paddingHorizontal: PILL_PADDING_HORIZONTAL,
         borderRadius: radius.pill,
         backgroundColor: fill,
       }}
@@ -50,7 +61,7 @@ function Chip({ label, muted }: { label: string; muted?: boolean }): JSX.Element
       style={{
         minHeight: space['2xl'],
         justifyContent: 'center',
-        paddingHorizontal: space.md,
+        paddingHorizontal: CHIP_PADDING_HORIZONTAL,
         borderRadius: radius.pill,
         backgroundColor: surface.tile,
       }}
@@ -78,9 +89,9 @@ function Header({
   chevron?: boolean;
 }): JSX.Element {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md, minHeight: space['3xl'] }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: HEADER_GAP, minHeight: HEADER_MIN_HEIGHT }}>
       <Dot tint={tint} />
-      <View style={{ flex: 1, gap: space.xs }}>
+      <View style={{ flex: 1, gap: TITLE_GAP }}>
         <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
           {title}
         </Text>
@@ -99,7 +110,7 @@ function Header({
 /** One cell of the logged stats grid; a long value shrinks rather than wraps. */
 function StatCell({ value, label }: { value: string; label: string }): JSX.Element {
   return (
-    <View style={{ flex: 1, minWidth: 0 }}>
+    <View style={{ flex: 1, minWidth: 0, gap: STAT_CELL_GAP }}>
       <Text variant="bodyBold" color={color.label} numberOfLines={1} adjustsFontSizeToFit>
         {value}
       </Text>
@@ -140,7 +151,7 @@ function LoggedSessionDetail({ session }: { session: GymSession }): JSX.Element 
         />
         <StatCell value={String(sets)} label={t('gym.loggedSets')} />
       </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CHIP_ROW_GAP }}>
         {shown.map((e) => (
           <Chip key={e.id} label={e.name} />
         ))}
@@ -235,7 +246,7 @@ export function TodayCard(): JSX.Element {
         />
 
         {shown.length > 0 ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CHIP_ROW_GAP }}>
             {shown.map((n, i) => (
               <Chip key={i} label={n} />
             ))}
