@@ -2711,3 +2711,11 @@
 - 2026-11-01 20:16 Parked the stale detail sections at doc lines 484, 509, 631, 828 and the false -0.6 claim at 840-841 under Doc. They are doc tidying, not a row build.
 - 2026-11-01 20:16 Parked exercise-progress.tsx kg hardcoding, the gym.tsx:155 comment and the row 114 chevron route under Parked. They are outside the 42 rows' build scope for this round.
 - 2026-11-01 20:16 Kept row 103 blocked until the Energy snapshot is approved, as the notes say.
+- 2026-11-01 20:19 Chose the row 107 doc re-check: it is the smallest safe step, needs nothing from Isa, and it clears the flagged report by running the type check again and saying so.
+- 2026-11-01 20:19 Jev asked 83%. I kept run because the open items that need Isa (LumeTabBar, DetailChart, the snapshot, the device check) are already parked and not repeatable without Isa. The only task left that Claude Code can finish without him is this doc fix, and its own risk is low. Concrete reason: no new question would change the answer, so asking again would repeat a blocker.
+- 2026-11-01 20:19 Treated the loop flag as covered by this round: tsc was green last round, and this round reruns tsc and states that jest is not run because the change is doc-only.
+- 2026-11-01 20:19 Did not turn the tab shell section at doc line 1421 mismatch into a task. Parked it under Doc.
+- 2026-11-01 20:19 Did not ask Isa about the device check in this round. The report's NEXT asks for approval, but the check can wait until the doc work is clean.
+- 2026-11-01 20:19 Kept run over Jev's ask (64%): row 107 is doc-only, needs no Isa input, and is low risk. Every other open item is already blocked on Isa.
+- 2026-11-01 20:19 Rewrote the prompt to name loop/design-match and forbid git and file edits outside the gap doc, per the loop note.
+- 2026-11-01 20:19 Trimmed the notes under 600 words: merged repeated parked items and deleted finished work.
