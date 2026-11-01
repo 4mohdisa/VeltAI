@@ -11,45 +11,42 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - A row is BUILT only when no differences remain; otherwise PARTIAL or DIFFERENT.
 - Rest day redirects to session picker (accepted deviation).
 - Defaults: one-tap gym log on Summary; keep Distance km; skip food search chips; keep Goals extras; keep Meal history link; keep Training list; accept LoadFailedNotice; gym log follows showLogCta; Gym tab shows today; swipe colour is color.primary; SettingsList geometry per row.
-- A flagged report is verified before any other task. Verification is read-only: tsc, plus jest when code or tests were touched.
-- Every prompt names branch loop/design-match and the design/ file; forbids switch, push, merge, commit and editing loop/ files.
-- Row lists live in the summary table.
-- Row 107 says the design has no AI group (no AI group or consent text in the Privacy section). Repeat verify rounds on 107 add nothing.
+- A flagged report is verified first, read-only: tsc, plus jest only if code or tests were touched.
+- Every prompt names branch loop/design-match and the design/ file. It forbids switch, push, merge, commit and editing loop/ files.
+- Row 107: the design has no AI group or consent text. Repeat verify rounds on 107 add nothing.
+- The loop script commits loop/ files, so git diff may be empty. Use git show --stat HEAD.
 
 ## Status
-- Re-checked: 107, 108, 109, 111, 113, 114-118.
-- Row 107 closed (verified R314).
-- Row 108 item 4 growth fixed (R316): app grows with content, no max height; design fixed at 4 rows, resize none. Read from code, not device.
-- Row 108 item 4 colours: placeholder and text match under different token names (R317). R318 removed the false colour sentence and put citations in numeric order (doc only). Item 4 still does not map citations to values, and does not cite design/Lume App.html:382 for the #8a8a8a and #171717 values.
-- R318 was flagged (tsc and tests not run). R319 is a read-only verification: tsc, and a check of the last commit and row 108 parse.
-- Row 108 item 7 is EXACT, moved out of the list.
+- Re-checked: 107, 108, 109, 111, 113-118. Row 107 closed (R314).
+- Row 108 item 4 growth fixed (R316, read from code, not device). Item 7 is EXACT and removed from the list. Colours match under different token names (R317).
+- Row 108 item 4 still lacks a citation-to-value mapping and a cite of design/Lume App.html:382 for #8a8a8a and #171717.
 - Summary difference 12: BUILT.
-- Last tsc 0 (R316); tabNavigation, phase14Regression, hydrationErrorScreens 3/3 suites, 39/39 tests (R316). Last full jest R309: 64/65 suites, 822/824; failures are two detailChrome snapshots awaiting approval.
+- Last tsc 0 (R319). Last full jest R309: 64/65 suites, 822/824. Failures are two detailChrome snapshots awaiting approval.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes in notes; checklist icon.
 - 83 DIFFERENT: sheet-in-place; button height and type (parked).
 - 85 DIFFERENT: calorie bar, 'left today', four-column wrap (Blocked).
 - 87 DIFFERENT: 180ms Meal chip transition (Blocked).
-- 103 DIFFERENT: Energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
+- 103 DIFFERENT: energy gap 12 to 16 after snapshot approval; week and training 12; kicker and dots (Blocked).
 - 104 PARTIAL: Steps card (Blocked).
-- 107 PARTIAL: privacy headers, AI group, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites.
-- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font size 17 vs 16 (colours matched, citations ordered).
+- 107 PARTIAL: privacy headers, export via share sheet, export failure toast (app-only); glyph and chevron geometry; footnote cites.
+- 108 PARTIAL: eyebrow copy; feedback opens Mail; no toast; label and button styling; geometry; item 4 font size 17 vs 16; item 4 citations.
 - 109 PARTIAL: wordmark tracking 0 vs -0.6 (about.tsx:16); tagline centring (:19); Version/Build can be empty (appVersion.ts:13, :16); glyph; padding; value wrap.
 - 111 PARTIAL: Food FAB add menu; scrim, panel, radius, shadow, row sizes; gym row pushes route on logged day.
 - 112 PARTIAL: top padding; GymPatternsCard padding (Blocked).
 - 113 PARTIAL: My schedule; 'My workouts' missing; picker sheet.
-- 114 DIFFERENT: session card, 14 items (Logged pill wash and Calories cell blocked). Tap target and planned grid missing.
+- 114 DIFFERENT: session card, 14 items. Logged pill wash and Calories cell blocked. Tap target and planned grid missing.
 - 115 PARTIAL: exercise progress, 11 items.
 - 116 PARTIAL: heatmap, 7 items.
 - 117 PARTIAL: token drift, 10 items.
 - 118 PARTIAL: tab bar, 13 items. Items 4-5 need device check.
 
 ## Next
-1. R319: read-only verification of R318 (tsc, last commit file list, row 108 parse). No edits.
-2. Row 108 item 4: map each citation to its value, and cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only, in a re-check round.
-3. Row 109 citation check if stale. Doc only.
-4. SettingsList row geometry (107-109): per row by default; Isa may override. Shared component, so check every caller before any change.
+1. R320: read-only verification of the flagged R319 report (tsc, last commit file list, row 108 parse). No edits.
+2. Row 108 item 4: map each citation to its value and cite design/Lume App.html:382 for #8a8a8a and #171717. Doc only.
+3. Row 109 citation check. Doc only.
+4. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
 5. Row 103 energy gap, after snapshot approval.
 6. Row 118 items 4-5 device check, if Isa approves.
 7. No rows left: stop with 'only owner decisions remain'.
@@ -72,7 +69,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md (42 rows). Branch loop/des
 - i18n: hardcoded English on Summary, energy, week, workouts, scan, schedule, Profile (incl. support.tsx), EnergyBalanceCard.
 - Stats: WeekEnergyCard zero case '+0'; baselines in WeekEnergyCard and WorkoutsWeekCard.
 - Layout: TAB_BAR_CLEARANCE orphaned; wrong comments LumeTabBar.tsx:4, _layout.tsx:26, SettingsList.tsx:7-10; Screen.tsx:22 unused re-export; Screen.tsx:117 paddingBottom 4.
-- Code: easing bezier and SLOT_KEYS duplicated; mixHex; console.warn hooks.ts:56; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8; exercise-progress hardcodes kg; unused keys gymLog.restDayMessage, gymLog.logAnExercise; AddMenu.tsx:3 says 6, code 8; gym.tsx:155 comment is false.
+- Code: duplicated easing bezier and SLOT_KEYS; mixHex; console.warn hooks.ts:56; recipe fibre saved as 0; key={c.name}; SettingsList.tsx:129; ProfileAvatarButton.tsx:8; exercise-progress hardcodes kg; unused keys gymLog.restDayMessage, gymLog.logAnExercise; AddMenu.tsx:3 says 6, code 8; gym.tsx:155 comment is false.
 - Copy: foodLog.per100; CaloriesCard g; food.rowAnalysing; food.deleteItem; streak copy.
 - Toasts: 'Updated {name}', savedAdded, + menu, toast fade.
 - Gym: button 56 vs 52; duplicated pill styles; double getToday; MyScheduleCard double fetch; per-set remove; cardio ParameterForm; template editor; kg/lb; pull-to-refresh misses TodayCard; chooser subtitle gap, bottom padding, pinned footer, second sheet, duration change, checklist icon.
@@ -99,7 +96,8 @@ Failure paths untested. Keyboard overlap unverifiable in dev (DECISIONS.md). Mos
 - Design hex values for placeholder and text are defined in design/Lume App.html:382 (not in the Profile bundle).
 
 ## Jev
-R315: Jev asked 82%, ran 14%. Run kept; SettingsList is settled by default.
-R316: Jev asked 70% (confidence 0.55), ran 12%. Run kept for the same reason. Risk 1.4 noted; scope is one doc row plus tsc and three suites.
-R318: Jev asked 80% (confidence 0.70), ran 10%, risk 1.3. Run kept: SettingsList geometry is already a default (per row), so asking again repeats a settled question; this round was doc only and reversible, and the report flagged a false claim in row 108 item 4 that needed fixing.
-R319: Jev asked 77% (confidence 0.66), stop 12%, run 11%, risk 1.4, last task clean 18%. Run kept: the loop note flagged R318, and a read-only verification is the required next step. The ask is not taken because SettingsList geometry is a settled default; Jev's risk score is noted.
+R315: asked 82%, ran 14%. Run kept; SettingsList settled by default.
+R316: asked 70%, ran 12%. Run kept for the same reason. Risk 1.4.
+R318: asked 80%, ran 10%, risk 1.3. Run kept: doc-only and reversible; flagged false claim in row 108 item 4.
+R319: asked 77%, ran 11%, risk 1.4. Run kept: R318 flagged, read-only verification required. Ask not taken: SettingsList geometry is a settled default.
+R320: run 63%, ask 22%, stop 15%, risk 1.4. Run kept: flagged R319 report, read-only verification first.

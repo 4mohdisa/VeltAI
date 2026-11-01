@@ -2803,3 +2803,7 @@
 - 2026-11-01 20:44 Did not ask Isa about SettingsList row geometry, although Jev asked 77%. It is already a default (per row) in the notes, so asking repeats a settled question. Jev's advice recorded below.
 - 2026-11-01 20:44 Left the item 4 citation mapping and the design :382 citation as NEXT, not fixed, because doc fixes belong in re-check rounds and this round is read-only.
 - 2026-11-01 20:44 Did not run jest, because no code or tests changed in R318.
+- 2026-11-01 20:44 Verify the flagged report first, as the brief requires. tsc alone is enough because no code or tests were touched, so jest is skipped.
+- 2026-11-01 20:44 Rewrote the notes to under 600 words, as the loop note asked. Merged repeated open-row and parked items, and removed finished work.
+- 2026-11-01 20:44 Kept the SettingsList geometry default (per row) without asking Isa, as the notes already record it as settled.
+- 2026-11-01 20:44 Left the Row 108 item 4 citation fix for the next round, so this round stays read-only.
