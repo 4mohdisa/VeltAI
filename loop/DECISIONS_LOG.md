@@ -3195,3 +3195,8 @@
 - 2026-11-02 05:59 Chose the doc re-check because the loop note flagged the last report (tsc and tests not run). The flag-handling rule sends this to a doc re-check round that runs tsc and the source-reading suites.
 - 2026-11-02 05:59 Included the stale alias lines (674, 855) as the recommended doc fix from the handover, since they are doc-only and cost nothing extra.
 - 2026-11-02 05:59 Did not pick row 84 or row 82 this round: row 84 is a code change and the flag must be cleared first; row 82 is blocked on the session-count question.
+- 2026-11-02 06:00 Chose the citation refresh: it is the doc-only fix the last two rounds named, it is a re-check round, and it needs no owner input.
+- 2026-11-02 06:00 Did not build row 84: its fix is alias cleanup across the code (the notes park the 41 alias uses as tidying), so it is not a clear row build; revisit after the doc round.
+- 2026-11-02 06:00 Row 82 stays blocked: the footnote needs Isa's session-count decision (blocked list).
+- 2026-11-02 06:00 Alias doc lines 674 and 859-868 were already correct per the R405 report, so no edit there this round.
+- 2026-11-02 06:00 Jev said run 89%, so the run choice matches its view; no reconsideration needed.

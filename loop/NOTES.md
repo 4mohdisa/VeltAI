@@ -20,9 +20,10 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - DIFFERENT: 82 (streak strip), 84 (deprecated aliases in NavBar.tsx:29, Badge.tsx:19, :38), 114 (item 8 only).
 - Blocked: 83, 85, 87, 103, 104, 108, 112.
 - Last checkpoint R382: tsc 0; jest --ci 822 of 824, failures in detailChrome only (blocked).
-- R401-R404: tsc 0; sheetVariant 9/9, tabNavigation 11/11, oneTapGymLog 3/3, gymDurationHonesty 4/4.
-- R405: differences 8, 10, 19 re-checked and rewritten (citations and wording). Still partial. Round reported tsc 0; Jest not run, so the loop flagged it.
-- Pending: re-check round (this round) runs tsc and the four source-reading suites, and fixes stale alias lines DESIGN_GAP_ANALYSIS.md:674 and :855.
+- R401-R405: tsc 0; source-reading suites green (sheetVariant 9/9, tabNavigation 11/11, oneTapGymLog 3/3, gymDurationHonesty 4/4). Differences 8, 10, 19 re-checked in R405.
+- R405 re-check doc round: no doc edits needed. Lines 674 and 859-868 match the alias grep. Line 855 is about letter spacing, not aliases.
+- Alias count: 50 grep lines = 41 uses in 24 files, 7 definitions (tokens.ts:50-56), 1 test, 1 comment. src/app/gym has no alias uses.
+- R406 (this round): doc-only citation refresh for differences 1-7, 16, 17, 20 (stale lines).
 - Nothing checked on a device.
 
 ## Blocked on Isa (do not re-ask, do not retry)
@@ -47,9 +48,9 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Row 117: logged stats 3 vs 4 cells; logged pill wash flat.
 - Failed templates fetch; picker offers only Rest day and could overwrite a workout.
 - Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; Screen.tsx:22; schedule.tsx 'Tues'.
-- Stale citations: differences 1-7, 17, 20 cite old log-session.tsx lines; difference 16 cites session.tsx:566-575 (now :574-583); row 111 and difference 23 cite old LumeTabBar lines (gym handler is :243-246).
+- Stale citations: differences 1-7, 17, 20 cite old log-session.tsx lines; difference 16 cites session.tsx:566-575 (now :574-583); row 111 and difference 23 cite old LumeTabBar lines (gym handler is :243-246). Being refreshed in R406.
 - Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
-- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 41 deprecated alias uses in 24 files (tokens.ts:46-48).
+- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 41 deprecated alias uses in 24 files (tokens.ts:46-48). Row 84 alias fix to be weighed as a row build after the doc round.
 - i18n: hardcoded English on most screens (see session.tsx:539-555); sheet strings English only (log-session.tsx:311-392).
 - Logged card chevron with no action (TodayCard.tsx:115, :194); no logged-day guard in src/app/gym/session.tsx.
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
@@ -57,18 +58,21 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - AI insights screen has no file in src/app/profile/.
 
 ## Jev
-R402-R404 leaned ask; chose run for doc-only re-checks that need no owner input. R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix, blockers already recorded. Latest: run 73%, ask 25%, stop 2%; last task clean 58%. Chose run: flagged report needs the doc re-check round first.
+R405: ask 78, stop 17, run 5 (confidence 0.67); chose run: doc-only fix, blockers already recorded. R406: run 89%, ask 7%, stop 4% (confidence 0.83); chose run: doc-only citation refresh. Last task clean 59%. Risk of continuing without Isa 1.1/2 (confidence 0.22).
 
 ## Gotchas
 - Briefs carry false premises: check first (row 117 items 5-7 are not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160).
 - Tab bar: src/components/navigation/LumeTabBar.tsx; gym handler :243-246.
 - Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md.
 - Doc rows are file lines; bundle lines are decoded. Use mktemp for decode scripts. Quote '===' in zsh.
-- findRelatedTests misses source-reading suites and finds none for gym screens; it exits 1 without --passWithNoTests. 'No tests found' is not a pass.
+- findRelatedTests misses source-reading suites and finds none for gym screens; it exits 1 without --passWithNoTests. 'No tests found' is not a pass. Quote paths with spaces. Pass each test path as a separate argument.
 - Source-reading suites: sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation (in src/__tests__). Grep will not find a suite by its own name; use find.
-- Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Always report exit codes.
+- Use LC_ALL=C /usr/bin/grep. Always report exit codes.
 - Prompts name loop/design-match and forbid switching, pushing and merging.
 - Latest build state: row 76 items 3, 5, 8 built plus item 2 glyph; add path open. Row 114 stays DIFFERENT. Row 117 items 2, 3, 4 (EXACT), 6 built; 5, 7 open outside TodayCard; 1, 8 blocked.
 
 ## Latest handover (R405)
-Branch loop/design-match. Don't switch, push, merge or commit. Recommended next: doc fix at DESIGN_GAP_ANALYSIS.md:674 and :855 (deprecated alias claims). Differences 8, 10, 19 were re-checked in R405.
+Branch loop/design-match. Don't switch, push, merge or commit. Recommended next: refresh stale citations (R406). Row 84 alias fix is the next candidate after that.
+
+## Round log
+- R406: chose run, doc-only citation refresh for differences 1-7, 16, 17, 20. Candidates: citation refresh; row 84 aliases; row 82 (blocked).
