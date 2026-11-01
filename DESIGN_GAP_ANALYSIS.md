@@ -485,11 +485,11 @@ footnote *"23 sessions · 2 freezes"*. Padding `12px 16px`, gap 11.
 and "day streak" (`bodyMedium`, `500 17/24`). Padding `12px 16px`. `src/app/gym/streak.tsx:88-90` shows Longest, Sessions
 and Freezes as separate stats, and no code produces the text "23 sessions · 2 freezes".
 
-**Differences:** tappable vs display-only, kept as an accepted deviation; **the
-right-aligned summary footnote is not built**, waiting on Isa; gap 12 vs 11. Parked:
-**the flame pulses infinitely** (`scale 1 → 1.14`) where the design's is static; the
-app greys the flame at streak 0 (no design counterpart); different flame artwork
-(SF Symbol vs a bespoke evenodd path).
+**Differences:** tappable vs display-only, kept as an accepted deviation (`src/app/(tabs)/gym.tsx:127`, Gym bundle 7dc211f6 :35); **the
+right-aligned summary footnote is not built**, waiting on Isa (bundle :39, :1501); gap 12 vs 11 (`gym.tsx:131`, bundle :35). Parked:
+**the flame pulses infinitely** (`scale 1 → 1.14`) unless Reduce Motion is on, where the design's is static (`src/components/display/StreakFlame.tsx:29-37`, bundle :36); the
+app greys the flame at streak 0, with no design counterpart (`gym.tsx:132`, `StreakFlame.tsx:44`); different flame artwork
+(SF Symbol vs a bespoke evenodd path) (`StreakFlame.tsx:44`, `src/components/primitives/Icon.tsx:70`, bundle :36).
 
 ## Gym — month heatmap — ⚠️ PARTIAL MATCH
 

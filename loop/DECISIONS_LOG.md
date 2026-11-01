@@ -3185,3 +3185,7 @@
 - 2026-11-02 05:55 R403: chose the doc re-check of streak strip lines 483-486 because it is the stated NEXT, it cites stale lines, and Jev ranked it first too. I agree with Jev here.
 - 2026-11-02 05:55 R403: did not follow Jev's ask (65%). The blockers are already recorded in Blocked on Isa, nothing new needs Isa, and the defaults cover this doc-only task.
 - 2026-11-02 05:55 R403: jest not run, because the round changes no code. tsc is the check that matters for a doc edit.
+- 2026-11-02 05:56 Chose the row 82 doc re-check to clear the flagged report: it runs tsc and the four source-reading suites, and needs no owner input (same approach as R403).
+- 2026-11-02 05:56 Limited the task to lines 488-492 of the gap doc, because those differences have no citations and the last report named them.
+- 2026-11-02 05:56 Left the alias doc fix (674, 855) for a later doc round: it is not needed to clear the flag and would be a second task.
+- 2026-11-02 05:56 Jev asked 51% vs run 38%; kept run. The flag is cleared by tsc and suite runs in this same round, and blockers are already recorded in Blocked on Isa.
