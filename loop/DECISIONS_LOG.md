@@ -3002,3 +3002,11 @@
 - 2026-11-02 01:07 Rejected the handover's recommendation to build row 113 item 3 (gap 12 vs 20). It is on the Blocked list (asked R357, no answer). Workarounds for blocked items are not taken.
 - 2026-11-02 01:07 Did not re-ask any blocked question. Row 118 LumeTabBar.tsx edit stays awaiting Isa's decision and is not touched.
 - 2026-11-02 01:07 Parked the row 114 today's-session-card overlap and the stale row 117 item 8 line citation in the Parked list. They are doc and citation issues, not build tasks, and item 8 is not the current task.
+- 2026-11-02 01:09 Chose the doc-only re-check of row 117 first. The loop flag says the last report looks partly done, and items 3, 4 and 8 are the open parts of that row, so this clears the flag without a code change.
+- 2026-11-02 01:09 Did not run tsc or tests this round. The prompt says it is doc-only, so no build check is needed. The flag rule applies to build rounds only.
+- 2026-11-02 01:09 Item 1 of row 117 stays out of scope because it is blocked on Isa.
+- 2026-11-02 01:09 Rewrote the notes to under 600 words. Parked and blocked items are grouped into one line each. Decisions are kept in full.
+- 2026-11-02 01:09 Rewrote the rejected prompt to state the loop/design-match branch rule explicitly, with no switching, pushing, merging or committing.
+- 2026-11-02 01:09 Chose row 117 item 4 over the handover's suggested row 113 item 3, because row 113 item 3 is on the Blocked on Isa list (Screen.tsx:117) and must not be built.
+- 2026-11-02 01:09 Made this round doc-only (re-check plus citation fix) because the Next list says so and the last report says item 4 may already be fixed.
+- 2026-11-02 01:09 Did not run tsc or jest, because no code changes are made this round.
