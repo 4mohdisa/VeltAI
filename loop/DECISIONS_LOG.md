@@ -2976,3 +2976,8 @@
 - 2026-11-02 00:42 The handover suggestion to fix row 113 item 3 with a contentStyle gap in schedule.tsx is not taken. Notes say this item is blocked on Isa and a schedule.tsx-only workaround is not allowed.
 - 2026-11-02 00:42 Row 117 item 2 stays queued after item 1. Its schedule.tsx values are likely stale from row 113, so they get re-checked first.
 - 2026-11-02 00:42 Kept the rest of the blocked and parked lists unchanged. No new questions to Isa this round, because the open blockers were already asked and no answers came in.
+- 2026-11-02 00:44 Loop note flagged R359 (row 117 item 1). Resolved: that round was doc-only, tsc exited 0, and Jest is not required outside checkpoints. Row 117 item 1 stays PARTIAL.
+- 2026-11-02 00:44 Chose row 118 over the planned row 117 item 2 re-check. Reason: the tab bar build changes UI and needs nothing from Isa, while a re-check only edits the doc. Jev also ranks row 118 first at 80%.
+- 2026-11-02 00:44 Row 118 items 4 and 5, the Reduce Transparency pill fill and the GlassSurface shadow are excluded because they need a device.
+- 2026-11-02 00:44 Row 113 open items taken from the handover (3, 10, 11). Notes said 4-10 were built, which conflicts. Item 10 is treated as open until checked.
+- 2026-11-02 00:44 Row 117 item 1 remaining cards are blocked on Isa (templates.tsx:50, session.tsx:407, muscles.tsx:73, and the seven no-counterpart cards). Not asked again this round because the row 118 task does not need Isa.
