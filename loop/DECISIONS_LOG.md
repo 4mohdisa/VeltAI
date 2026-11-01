@@ -3231,3 +3231,8 @@
 - 2026-11-02 06:10 Row 84 stays DIFFERENT. Its alias replacement is done, but the remaining differences are structural.
 - 2026-11-02 06:10 Row 108 bottom padding and row 82 footnote are left for later. Row 82 stays blocked on Isa.
 - 2026-11-02 06:10 Jev ranked run at 51% and stop at 40%. Run is kept because the next step is doc-only and needs nothing from Isa. Stop is the expected outcome after this round if no row is left buildable.
+- 2026-11-02 06:11 Stop instead of run: no row is buildable without Isa's decision. Risk 1.9/2 from Jev supports this.
+- 2026-11-02 06:11 Streak 'Sessions' label (streak.tsx:89) kept in Parked: it is not a row task, and the brief bans non-row work.
+- 2026-11-02 06:11 Row 108 bottom padding difference kept in Parked: the shared padding call is with the owner, and doc fixes are only allowed in re-check rounds.
+- 2026-11-02 06:11 Last report's NEXT suggestion rejected as a task: it is a side problem, not a design row.
+- 2026-11-02 06:11 Counts taken from the last report (38 lines in 22 files) over the stale handover figure (39 in 23), because the report recounted after the NavBar edit.
