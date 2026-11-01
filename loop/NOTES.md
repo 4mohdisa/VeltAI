@@ -16,6 +16,7 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - R398: followed Jev on Profile shared-chrome doc sync.
 - R400: rejected prompt (no design/ file named) rewritten to name design/Lume App.html and row 84.
 - R400 doc fix done: lines 678-679 corrected (history dates use mappers.ts:197-216 formatting; no 'Total' label in gym.tsx or components/domain; the strip reads '23 sessions · 2 freezes').
+- R403: flagged report (tsc not run) handled by running tsc inside a doc re-check, not by an unrelated task.
 
 ## Status
 - PARTIAL, none fully built: 76, 107, 109, 110, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
@@ -25,15 +26,16 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Row 114: TodayCard detail section matches; DIFFERENT only on item 8.
 - Row 117: items 2, 3 built; 4 EXACT; 6 fixed. Items 5, 7 open outside TodayCard. Items 1, 8 blocked.
 - Row 76: items 2 (plus glyph), 3, 5, 8 built in log-session.tsx; add path blocked.
+- Row 82: R402 rewrote strip text and citations. R403 re-checks lines 483-486 (stale gym.tsx:109-126 citation).
 - R382 checkpoint: tsc 0; jest --ci 822 of 824. Failures: detailChrome only (blocked).
 - R401: verification round clean. tsc exit 0; sheetVariant 9/9, gymDurationHonesty 4/4, oneTapGymLog 3/3, tabNavigation 11/11. No edits.
-- R402: queued doc re-check of row 82 (streak strip citations) and lines 674, 855 (alias claims). Doc-only.
+- R402: doc-only. Line 674 now says NavBar and Badge use aliases; lines 855-858 corrected (letter spacing, tab applies 1.1 and -0.6); lines 859-868 list the alias definitions and 41 uses. tsc and jest not run (doc-only).
 - Nothing checked on a device.
 
 ## Next (for Isa)
 1. Run full checkpoint: tsc --noEmit and jest --ci on loop/design-match.
 2. Answer blockers below.
-3. Doc: lines 674 and 855 still describe deprecated aliases as in use (R402 re-checking). Differences 8, 10, 19 still contradict 'What the app does'; citations in differences 1-7, 13, 17, 20 and line 299 still stale; row 111 wording stale (LumeTabBar gym handler now :243-246).
+3. Doc: differences 8, 10, 19 still contradict 'What the app does'; citations in differences 1-7, 13, 17, 20 and line 299 still stale; row 111 wording stale (LumeTabBar gym handler now :243-246).
 4. Re-check row 108 once Screen.tsx padding is decided.
 5. The 41 deprecated alias uses remain in src (tokens.ts:46-48 says remove as components migrate). Parked.
 
@@ -55,7 +57,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 
 ## Parked (one line each)
 - Gym: session.tsx:364 saves template estimate. Ticklist mode (session.tsx:40, :123) looks dead. Library multi-select; per-set remove; cardio ParameterForm; template editor; GymSessionButton opens session, design opens log sheet. minutesOf (log-session.tsx:62) picks by planned duration, design by cardio.
-- Gym streak: streak.tsx:89 labels totalGymDays 'Sessions' but hooks.ts:156 counts distinct days.
+- Gym streak: streak.tsx:89 labels totalGymDays 'Sessions' but hooks.ts:156 counts distinct days; building the footnote from it could undercount.
 - Row 76: chevron SF Symbol vs 2.4-stroke path (log-session.tsx:250); possible second add route bundle :1310; session.tsx:565-569 close handler.
 - Gym second sheet: en/es/fr keys; caption not footnote; pill 17/24 not 16/21; footer scrolls.
 - Row 117: logged stats 3 cells vs 4.
@@ -71,7 +73,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Profile hand-rolls its chrome (profile/index.tsx:9); not a visible difference.
 
 ## Jev
-R398: ask 39, run 35, stop 26; followed Profile sync. R399: run 48, ask 45, stop 7; chose run. R400: run 40, ask 40, stop 20; chose run. R401: run 57, ask 32, stop 11 (confidence 0.35); chose run. R402: ask 72, run 18, stop 10 (confidence 0.58); chose run: a doc-only re-check needs no owner input and changes no code. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
+R398: ask 39, run 35, stop 26; followed Profile sync. R399: run 48, ask 45, stop 7; chose run. R400: run 40, ask 40, stop 20; chose run. R401: run 57, ask 32, stop 11 (confidence 0.35); chose run. R402: ask 72, run 18, stop 10 (confidence 0.58); chose run: doc-only re-check needs no owner input. R403: ask 65, run 22, stop 13 (confidence 0.48), risk 1.5 (confidence 0.20); chose run: the flag is cleared by tsc in this round, blockers are already recorded, and the defaults cover the task. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
 
 ## Gotchas
 Briefs carry false premises: check first (row 117 items 5-7 not in TodayCard; CTA handler is src/app/(tabs)/gym.tsx:160). Tab bar is at src/components/navigation/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites; run by path with find. findRelatedTests finds no tests for gym screens and exits 1 without --passWithNoTests. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging. Always report exit codes. Grep won't find a suite by its own name; use find. Source-reading suites: src/__tests__ sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation. Prompts must name the matching design/ file. Every prompt must end with the report format.

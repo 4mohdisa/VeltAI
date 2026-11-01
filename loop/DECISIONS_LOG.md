@@ -3181,3 +3181,7 @@
 - 2026-11-02 05:52 Chose the doc re-check over asking: Jev leans ask at 72%, but the open blockers are already asked and not re-asked, and this doc-only round needs no owner input and changes no code.
 - 2026-11-02 05:52 Included the row 82 citation check from the last Claude Code NEXT, because it is a row of the gap doc and is also doc-only.
 - 2026-11-02 05:52 Kept the round doc-only with no tsc or jest, since the last verification round (R401) was clean and no source changed.
+- 2026-11-02 05:55 R403: the automatic flag said tsc was not run. This round runs npx tsc --noEmit once inside the task, which clears the flag without an unrelated task.
+- 2026-11-02 05:55 R403: chose the doc re-check of streak strip lines 483-486 because it is the stated NEXT, it cites stale lines, and Jev ranked it first too. I agree with Jev here.
+- 2026-11-02 05:55 R403: did not follow Jev's ask (65%). The blockers are already recorded in Blocked on Isa, nothing new needs Isa, and the defaults cover this doc-only task.
+- 2026-11-02 05:55 R403: jest not run, because the round changes no code. tsc is the check that matters for a doc edit.

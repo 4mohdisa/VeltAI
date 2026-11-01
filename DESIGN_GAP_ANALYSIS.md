@@ -480,10 +480,10 @@ avatar. The design's date follows the *selected* day; the app always shows today
 count at `700 20/26` rounded, "day streak" at `500 17/24`, and a right-aligned
 footnote *"23 sessions · 2 freezes"*. Padding `12px 16px`, gap 11.
 
-**App** (`gym.tsx:109-126`): one row inside a **tappable** `Card` pushing
+**App** (`gym.tsx:124-140`): one row inside a **tappable** `Card` pushing
 `/gym/streak` — a 20pt `StreakFlame`, the count (`statSmall`, `700 20/26` rounded)
-and "day streak" (`bodyMedium`, `500 17/24`). Padding `12px 16px`. Longest, Total
-and Freezes are gone from this card.
+and "day streak" (`bodyMedium`, `500 17/24`). Padding `12px 16px`. `src/app/gym/streak.tsx:88-90` shows Longest, Sessions
+and Freezes as separate stats, and no code produces the text "23 sessions · 2 freezes".
 
 **Differences:** tappable vs display-only, kept as an accepted deviation; **the
 right-aligned summary footnote is not built**, waiting on Isa; gap 12 vs 11. Parked:
