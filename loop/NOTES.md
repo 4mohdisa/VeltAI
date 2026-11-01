@@ -4,7 +4,7 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-Loop STOPPED at R414. All remaining rows blocked on Isa or owner.
+Loop STOPPED at R415. All remaining rows blocked on Isa or owner. No task is left that is not a blocked row.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
@@ -20,6 +20,7 @@ Loop STOPPED at R414. All remaining rows blocked on Isa or owner.
 ## Built (not verified)
 - Row 82 (streak strip, footnote blocked).
 - Rows 84, 114, 117, 118 partial, see blocked list.
+- Badge.tsx gray700 to label at :19 and :38 (same value).
 
 ## Blocked on Isa (do not re-ask)
 - Row 84 NavBar: bordered full-width bar vs floating chrome; centred bodyBold title vs floating eyebrow; GlassBackButton with label vs floating circle (44px Gym, 38px Profile).
@@ -45,9 +46,10 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Row 117: logged stats 3 vs 4 cells; logged pill wash flat.
 - Logged card chevron with no action (TodayCard.tsx:115, :194); no logged-day guard in session.tsx.
 - Failed templates fetch; picker offers only Rest day and could overwrite a workout.
+- Doc: DESIGN_GAP_ANALYSIS.md:674, :864, :868 still say Badge and 41 lines in 24 files; now 39 lines in 23 files.
 - Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; Screen.tsx:22; schedule.tsx 'Tues'.
 - Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
-- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 38 alias lines remain in 22 files (tokens.ts:50-56).
+- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved 0; reduceMotion.ts:13; 38 alias lines remain in 22 files (tokens.ts:50-56), NavBar.tsx:29 gray200 included.
 - i18n: hardcoded English on most screens (session.tsx:539-555); 'What did you do?' sheet English only (log-session.tsx:311-392).
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results; quick-add serving (mock/data.ts:124); editSavedFood local only.
@@ -64,3 +66,7 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - R405-R412: doc fixes, Badge.tsx and NavBar.tsx alias builds, checkpoint R408 (tsc 0; jest 822 passed, 2 known gap-16 failures).
 - R413: doc re-check, row 84 citations and counts corrected; tsc 0; four source-reading suites green.
 - R414: STOP. Remaining rows blocked on Isa or owner.
+- R415: handover read, STOP confirmed. Dropped NavBar alias cleanup (tidying). Jev stop 89%.
+
+## Summary for Isa (for the owner)
+To unblock the loop, decide: row 84 NavBar style (bordered bar vs floating chrome), row 82 footnote, gap 16, Screen.tsx bottom padding, row 76 add path, and rows 113, 116, 117, 118 items listed above. Then restart the loop from the blocked list.

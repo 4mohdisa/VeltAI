@@ -3236,3 +3236,6 @@
 - 2026-11-02 06:11 Row 108 bottom padding difference kept in Parked: the shared padding call is with the owner, and doc fixes are only allowed in re-check rounds.
 - 2026-11-02 06:11 Last report's NEXT suggestion rejected as a task: it is a side problem, not a design row.
 - 2026-11-02 06:11 Counts taken from the last report (38 lines in 22 files) over the stale handover figure (39 in 23), because the report recounted after the NavBar edit.
+- 2026-11-02 06:48 Stopped at R415 instead of continuing the NavBar.tsx:29 alias cleanup, because alias cleanup is tidying and the row 84 differences are blocked on Isa.
+- 2026-11-02 06:48 Moved stale doc counts (DESIGN_GAP_ANALYSIS.md:674, :864, :868) and the FloatingHeader and gap comment items to Parked, not to tasks.
+- 2026-11-02 06:48 Kept the uncommitted Badge.tsx colour change as built; the loop commits after each round.
