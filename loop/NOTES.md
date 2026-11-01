@@ -13,22 +13,23 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say 
 - Data model changes (per-day draft store) parked, not asked.
 - Row 117 item 6: history.tsx:55 uses color.label, not gray800 (same value; tokens.ts asks for intent names).
 - Row 76 add path not faked: logging on pick marks the day done; adding to the template changes future weeks.
-- R398: followed Jev on Profile shared-chrome doc sync (see decisions in report).
+- R398: followed Jev on Profile shared-chrome doc sync.
 
 ## Status
 - PARTIAL, none fully built: 76, 107, 109, 110, 111, 113, 115, 116, 117, 118. Blocked: 83, 85, 87, 103, 104, 108, 112, 114.
-- Row 110 re-checked R397: 13 items, PARTIAL. Section at DESIGN_GAP_ANALYSIS.md:1420 out of sync; R398 task.
-- Row 108 (Support) bottom padding not re-checked.
+- Row 110 re-checked R397: 13 items, PARTIAL. Profile shared-chrome section synced R398 (toasts black; bottom padding added).
+- Row 108 (Support) bottom padding not re-checked; blocked on owner call on shared Screen.tsx padding.
 - Row 114: TodayCard detail section matches; DIFFERENT only on item 8.
 - Row 117: items 2, 3 built; 4 EXACT; 6 fixed. Items 5, 7 open outside TodayCard. Items 1, 8 blocked.
 - Row 76: items 2 (plus glyph), 3, 5, 8 built in log-session.tsx; add path blocked.
 - R382 checkpoint: tsc 0; jest --ci 822 of 824. Failures: detailChrome only (blocked). Later rounds doc-only; jest not re-run.
+- Flagged report (R399): type check not run on the doc-only round. Fixing this round by running tsc.
 - Nothing checked on a device.
 
 ## Next (for Isa)
 1. Run full checkpoint: tsc --noEmit and jest --ci on loop/design-match.
 2. Answer blockers below.
-3. Doc still stale: row 111 wording; citations in differences 1-7, 13, 17, 20 and line 299; row 84 deprecated-token claim; check whether :674 and :855 still say aliases are in use (R390 says fixed).
+3. Doc still stale: row 111 wording; citations in differences 1-7, 13, 17, 20 and line 299; differences 8, 10, 19 contradict 'What the app does'. Row 84 and lines :674 and :855 being re-checked this round.
 4. Re-check row 108 once Screen.tsx padding is decided.
 
 ## Blocked on Isa (do not re-ask, do not retry)
@@ -61,9 +62,10 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results. Data: quick-add serving (mock/data.ts:124); editSavedFood local only.
 - AI insights screen (design bundle :353-354) has no file in src/app/profile/; not compared.
+- Profile hand-rolls its chrome (profile/index.tsx:9); not a visible difference.
 
 ## Jev
-R398: ask 39, run 35, stop 26; ranked Profile sync first at 91%. Followed. R396 stop override kept. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
+R398: ask 39, run 35, stop 26; followed Profile sync. R399: run 48, ask 45, stop 7 (confidence 0.22). Chose run: the round needs nothing from Isa. Row 108 not picked because the shared padding is an owner call. Keep builds small with explicit checks. Shared-file blocked items not retried as TodayCard tasks.
 
 ## Gotchas
-Briefs carry false premises: check first. Tab bar is at src/components/navigation/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites; run by path with find. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging. Always report exit codes.
+Briefs carry false premises: check first (e.g. ToastHost and Screen paths). Tab bar is at src/components/navigation/LumeTabBar.tsx. Use LC_ALL=C /usr/bin/grep. Quote paths with spaces. Doc rows are file lines; bundle lines are decoded. Never open or edit loop/NOTES.md or loop/DECISIONS_LOG.md. Don't mark BUILT if differences remain. findRelatedTests misses source-reading suites; run by path with find. 'No tests found' is not a test pass. Use mktemp for decode scripts. In zsh, quote "===". Prompts must name loop/design-match and forbid switching, pushing, merging. Always report exit codes. Grep won't find a suite by its own name; use find.

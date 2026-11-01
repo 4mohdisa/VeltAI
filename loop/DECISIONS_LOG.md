@@ -3162,3 +3162,7 @@
 - 2026-11-02 05:47 Chose row 108 re-check second, not first, because its bottom padding depends on the owner call on the shared Screen.tsx padding.
 - 2026-11-02 05:47 Rewrote the notes file to under 600 words, merging repeated blocked and parked items. No task content was dropped.
 - 2026-11-02 05:47 Row 111 'bottom 96 matches only at a 34 inset' is false (offset is max(inset-12, 22)). Kept as an owner-parked doc fix, not a task now.
+- 2026-11-02 05:48 Chose the flagged-report fix first: run tsc and clear the not-run flag before any new build.
+- 2026-11-02 05:48 Did not pick row 108 padding: the notes say shared Screen.tsx bottom padding needs an owner call first, and the last report's NEXT recommendation conflicts with that. Parked until Isa decides.
+- 2026-11-02 05:48 Picked a doc-only re-check of row 84 because doc fixes are allowed in re-check rounds and the stale alias claims at :674 and :855 are on the Next list.
+- 2026-11-02 05:48 Jev ranked run 48%, ask 45%. Ask stays rare: this round needs nothing from Isa, so run is correct.
