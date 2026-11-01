@@ -18,12 +18,12 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 
 ## Status
 - Re-checked: 107-109, 111, 113-118. Row 107 closed.
-- Row 108: item 7 EXACT, removed from the list. Item 4 now pairs each value with its own citation (R325, doc only). Under flagged-report verification (R326).
+- Row 108: item 7 EXACT, removed from the list (R325). Item 4 pairs each value with its own citation (R325, doc only). R327 re-checks item 7 and adds the missing citations.
 - Row 109 citations checked (R321, R322): none wrong. Missing bundle cites for min height 48, padding 0, side 12, gap 11 added at bundle :566 (R323 doc only).
 - R323 verified the R322 report read-only: tsc 0, no code touched.
 - R324 checkpoint done: tsc 0; full jest 64/65 suites, 822/824. Only failures are the two known detailChrome snapshots (energy and macros), awaiting Isa approval.
-- R325 report flagged by loop check (tsc and tests not run; doc-only change). R326 verifies it read-only.
-- Last tsc 0 (R324). Last full jest R324: 64/65 suites, 822/824.
+- R325 report flagged by loop check. R326 verified it read-only. R327 verifies the R326 flag read-only (tsc run; jest not run, no code touched).
+- Last tsc 0 (R327). Last full jest R324: 64/65 suites, 822/824.
 
 ## Open rows
 - 76 PARTIAL: rest day and Something else do not return to Gym; second sheet missing; logged day reopens chooser; time/minutes; celebration calories dash; cardio minutes; checklist icon.
@@ -45,12 +45,11 @@ Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md. Branch loop/design-match 
 - 118 PARTIAL: tab bar, 13 items; items 4-5 need device check.
 
 ## Next
-1. Verify the R325 flagged report read-only: tsc, and row 108 item 4 citations (R326).
-2. Row 108: remove item 7 from the differences list (doc only).
-3. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
-4. Row 103 energy gap, after snapshot approval.
-5. Row 118 items 4-5 device check, if Isa approves.
-6. No rows left: stop with 'only owner decisions remain'.
+1. Row 108 doc fix: item 7 check, item 4 citation tokens.ts:146 and field growth note, geometry bundle cites (R327, doc only).
+2. SettingsList row geometry (107-109): per row by default. Check every caller before any change.
+3. Row 103 energy gap, after snapshot approval.
+4. Row 118 items 4-5 device check, if Isa approves.
+5. No rows left: stop with 'only owner decisions remain'.
 
 ## Blocked on Isa (do not retry)
 - One approved jest -u on detailChrome (energy and macros).
@@ -102,3 +101,4 @@ R323: ask 73%, stop 21%, run 6%, risk 1.4. Run kept: SettingsList question alrea
 R324: ranked Row 108 item 4 first (92%). Kept checkpoint run: flagged report needed tsc and tests first.
 R325: run 88%, ask 10%, stop 2%. Run kept: planned doc-only task.
 R326: run 5%, ask 79%, stop 16% (handover signal, confidence 0.68; risk 1.0). Run kept: the flagged report needs a read-only tsc check before anything else; the SettingsList question is answered by the default; nothing needs Isa this round.
+R327: ask 70%, stop 23%, run 7% (confidence 0.55; risk 1.1). Run kept: the flag needs only a read-only tsc run and a doc-only fix; the SettingsList question is answered by the default; nothing needs Isa this round.

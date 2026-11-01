@@ -2830,3 +2830,8 @@
 - 2026-11-01 20:50 Did not ask Isa even though Jev ranks ask at 79%. Reason: the SettingsList geometry question is already answered by the default (R323), and nothing in this round needs Isa.
 - 2026-11-01 20:50 Did not run jest. Reason: the R325 report touched only DESIGN_GAP_ANALYSIS.md; the prompt tells Claude Code to run jest only if a code or test file changed.
 - 2026-11-01 20:50 Left the item 4 font question (17 vs 16) out of this round. Reason: the report says 17 is confirmed at TextField.tsx:56 and bundle :546; the verify step only re-checks the citations.
+- 2026-11-01 20:51 Chose the doc-only row 108 task: it clears the flagged report with a read-only tsc run and needs no Isa input.
+- 2026-11-01 20:51 Jest not re-run: the last report touched no code or test file, so the flag is cleared by the tsc run and the read-only check.
+- 2026-11-01 20:51 Item 7 status conflicts between the notes (removed at R325) and the handover (still listed). Step 2 checks the file itself and fixes what it finds.
+- 2026-11-01 20:51 Kept the run over Jev's ask: the SettingsList question is already answered by the default (per-row geometry, check callers), so only the Isa-facing items are left and none is needed this round.
+- 2026-11-01 20:51 Row 107 and 109 left alone; they wait on the SettingsList decision as before.
