@@ -2860,3 +2860,8 @@
 - 2026-11-01 21:14 The /gym/session double-write is parked as its own task after row 76 item 4, not dropped, because it is a real data problem.
 - 2026-11-01 21:14 Item 4 is still the highest-risk open item on row 76 and needs nothing from Isa, so it stays the pick. Jev agrees (run 99%).
 - 2026-11-01 21:14 Each prompt names one file and one design bundle, so no task spans two screens again.
+- 2026-11-01 21:17 Kept run over ask. Jev's ask reason is the question of how a logged day opens. The design already answers it: the day view has 'Add something extra' and an unlock, and bundle :1656 shows the toast and return to today. So no question is needed for Isa.
+- 2026-11-01 21:17 The flagged report is handled first, as the loop note requires, with a read-only verify round. No source change, so there is no new risk.
+- 2026-11-01 21:17 Chose the verify round over a build, because the toast promise and the logged-card route are unconfirmed and building on them would add more unverified code.
+- 2026-11-01 21:17 Parked the second-row write in /gym/session (mutations.ts:173-178). It changes data behaviour and the report says it is deliberate, so it falls under 'data model or backend change: park'.
+- 2026-11-01 21:17 Parked the stale logged flag after midnight (hooks.ts:159). It is a data refresh issue, not a design row, so it is out of this loop's scope.
