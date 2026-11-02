@@ -7,9 +7,8 @@
 // codebase and never sits over scrolling content (GlassButtons.tsx, HIG §11).
 // A popover that floats above the food log is content-layer.
 //
-// Scrim: the design uses a 10% black wash. This uses `color.overlay`, the app's
-// one scrim token, so the menu dims exactly like every BottomSheet does. Darker
-// than the prototype, and the deviation is recorded in DECISIONS.md.
+// Scrim: the design's 10% black wash, lighter than the `color.overlay` that
+// BottomSheet dims with.
 import { useEffect, type ReactNode } from 'react';
 import { PixelRatio, Pressable as RNPressable, StyleSheet, View, type TextStyle } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -23,7 +22,8 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 /** Panel width — the design's 232pt; no token covers a popover width. */
 const PANEL_WIDTH = 232;
 
-/** The design's own values for the panel and its rows. No token covers them. */
+/** The design's own values for the scrim, the panel and its rows. No token covers them. */
+const SCRIM_COLOR = 'rgba(0, 0, 0, 0.1)';
 const PANEL_RADIUS = 18;
 const PANEL_SHADOW = { ...shadow.lg, shadowOpacity: 0.2, shadowRadius: 42, shadowOffset: { width: 0, height: 18 } };
 const PANEL_RING_WIDTH = 0.5;
@@ -84,7 +84,7 @@ export function AddMenu({ visible, onClose, anchorBottom, onLogGym, onLogFood, g
 
   return (
     <View style={[StyleSheet.absoluteFill, { zIndex: zIndex.modal }]}>
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: color.overlay }, scrimStyle]}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: SCRIM_COLOR }, scrimStyle]}>
         {/* Tapping the scrim dismisses. Labelled so VoiceOver can leave the menu. */}
         <RNPressable style={{ flex: 1 }} onPress={onClose} accessibilityRole="button" accessibilityLabel={t('tabBar.closeMenu')} />
       </Animated.View>

@@ -3264,3 +3264,8 @@
 - 2026-11-02 10:33 Kept row 111 as BUILT with owner items open; no re-check or rebuild, since rows 107-111 and 82 were already re-checked and must not be repeated.
 - 2026-11-02 10:33 Did not act on the NavBar.tsx:29 gray200 alias or other tidying items; they stay parked per the stay-on-rows rule.
 - 2026-11-02 10:33 Left the Screen.tsx bottom padding and the row 76 add path untouched; both need the owner's call.
+- 2026-11-02 11:10 Chose row 111 scrim first: Isa replied 0.10 (design), it is one value in one file, and it clears the row's last code difference.
+- 2026-11-02 11:10 Kept the panel solid white and the Gym row push, as Isa asked, and recorded both as accepted deviations.
+- 2026-11-02 11:10 Other blocked items (rows 82, 84, gap 16, Screen.tsx padding, 113, 116, 117, 118) now follow the design per Isa's Telegram reply; queued in order below, one per round.
+- 2026-11-02 11:10 Row 76 add path needs a per-day draft store (data model change), so it stays parked, not built.
+- 2026-11-02 11:10 Device checks stay parked for Isa, per his reply.
