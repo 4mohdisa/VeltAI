@@ -3260,3 +3260,7 @@
 - 2026-11-02 09:20 Kept the Status line and the blocked list as they are; only the status date and the round log were updated.
 - 2026-11-02 09:56 Stopped at R421 because no Isa reply has arrived since R418 and all remaining rows are blocked on owner decisions. Jev stop 95%, which agrees.
 - 2026-11-02 09:56 Nothing built and nothing changed this round, so the blocked list is not re-asked.
+- 2026-11-02 10:33 Stopped again (R422) rather than building: all remaining differing rows need an owner decision, and the brief forbids inventing work.
+- 2026-11-02 10:33 Kept row 111 as BUILT with owner items open; no re-check or rebuild, since rows 107-111 and 82 were already re-checked and must not be repeated.
+- 2026-11-02 10:33 Did not act on the NavBar.tsx:29 gray200 alias or other tidying items; they stay parked per the stay-on-rows rule.
+- 2026-11-02 10:33 Left the Screen.tsx bottom padding and the row 76 add path untouched; both need the owner's call.
