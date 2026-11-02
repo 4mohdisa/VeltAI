@@ -829,16 +829,16 @@ Matching: position and 22pt offset, the 3-column glass pill, 52pt cells, the
 separate **62pt** black FAB, the 45° plus rotation over 260 ms, the 232pt menu
 panel at a 96pt anchor, both row labels, and a faithful `lumePop` reproduction.
 
-**Differences:** active-cell fill `surface.tile` (opaque `#F2F2F7`) vs
-`rgba(0,0,0,0.055)`; active label weight 500 vs 600; the active cell is still a
-button in the app; pill padding 4 vs 5; cell gap 4 vs 2; container gap 12 vs 10;
-`shadow.md` substituted for the design's much heavier custom shadows on the pill,
-the FAB and the menu; plus glyph 28 vs 27; tab icons 20 vs 21 (and the food icon is
+**Differences:** active-cell fill `rgba(0,0,0,0.055)` vs
+`rgba(0,0,0,0.055)`; active label weight 600 vs 600; the active cell is still a
+button in the app; pill padding 5 vs 5; cell gap 2 vs 2; container gap 10 vs 10;
+`shadow.md` substituted for the design's much heavier custom shadow on the pill;
+plus glyph 27 vs 27; tab icons 21 vs 21 (and the food icon is
 a drawn bowl vs the design's bowl); menu radius 18 vs 18; **menu panel solid white
 vs `rgba(255,255,255,0.94)` + blur**, and **scrim `0.10` vs `0.10`** (the panel
-documented in `AddMenu.tsx` as deliberate); menu row padding 18 vs 18; divider 1px
-`#e5e5ea` inset 16 vs `0.5px rgba(0,0,0,0.10)` inset 18; **the already-logged
-branch is missing**; and "Log food" pushes `/food/add` where the design switches tab.
+documented in `AddMenu.tsx` as deliberate); menu row padding 18 vs 18; divider 0.5px
+`rgba(0,0,0,0.10)` inset 18 vs `0.5px rgba(0,0,0,0.10)` inset 18; **the already-logged
+branch is in `log-session.tsx:108-113`, not the menu**; and "Log food" pushes `/food/add` where the design switches tab.
 
 ## Gym — cross-cutting token drift — ⚠️ PARTIAL MATCH
 
@@ -864,7 +864,7 @@ colour, type, spacing, radius, shadow and motion). The drift is in application:
    38 lines in 22 files still use them:
    - Screens: `src/app/dashboard/plan.tsx:58, 66, 86, 119, 122`, `src/app/food/barcode-scan.tsx:170`, `src/app/food/history.tsx:140`, `src/app/food/label-scan.tsx:241, 247, 326`, `src/app/food/photo-capture.tsx:138, 184`, `src/app/onboarding/cuisine.tsx:61`, `src/app/onboarding/body-type.tsx:40, 58`.
    - Forms: `src/components/forms/MultiSelectField.tsx:63`, `FieldShell.tsx:28`, `TextField.tsx:31, 51`, `SliderField.tsx:110, 120, 135`, `Button.tsx:32, 34`, `Stepper.tsx:50`.
-   - Navigation: `src/components/navigation/BottomSheet.tsx:152`, `GlassButtons.tsx:24`, `Screen.tsx:147`.
+   - Navigation: `src/components/navigation/BottomSheet.tsx:152`, `GlassButtons.tsx:24`, `Screen.tsx:155`.
    - Display and other: `src/components/display/ProgressBar.tsx:18`, `Avatar.tsx:44, 46, 52`, `LoadingSkeleton.tsx:47, 75, 96`, `src/components/domain/MacroBars.tsx:102`, `src/components/onboarding/OnbScaffold.tsx:71`, `OptionCard.tsx:68`.
 7. `shadow.md` substituted for three heavier custom shadows.
 8. Gradient bar fills flattened to solids; `color-mix` tints dropped in two of three
