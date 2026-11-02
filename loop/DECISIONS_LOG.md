@@ -3318,3 +3318,8 @@
 - 2026-11-02 11:58 Overruled Jev's stop (37%) and ask (10%) for this round. Risk is confined to a doc file, the gate is not touched, and the task does not need Isa.
 - 2026-11-02 11:58 Did not run tsc or tests this round, since no code changes. This follows the testing rules for doc-only work.
 - 2026-11-02 11:58 Dropped row 84 NavBar alias cleanup from the candidate list. It was parked as tidying and must not be a task.
+- 2026-11-02 11:59 Chose the read-only tsc run because the loop note says the last report was flagged for no type check; this must be cleared before moving on. Cost is one command, no code risk.
+- 2026-11-02 11:59 Overruled Jev stop (48%) and ask (13%): the task is read-only and reversible, and stopping would leave the flag open. Jev confidence is only 0.22.
+- 2026-11-02 11:59 No code build: the test gate is still red (detailChrome snapshots), so queue items 2 and 3 stay blocked.
+- 2026-11-02 11:59 Row 84 status conflict: the handover says DIFFERENT, notes say PARTIAL. Not resolved this round; recorded for a later re-check against code and design/.
+- 2026-11-02 11:59 Accepted R433 doc round as complete (9 lines, doc only). Its 'X vs X' cleanup suggestion is parked, not tasked.
