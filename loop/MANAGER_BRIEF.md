@@ -108,6 +108,10 @@ Isa wants as few questions as possible. Decide for yourself and record each deci
 - Design versus app disagreement: follow the design. Keep an app feature only when DECISIONS.md or a test marks it deliberate, and record it as an accepted deviation in the gap analysis.
 - Anything that needs a data model change, a backend change, or removing a feature: do not build it and do not ask. Park it under Parked in the notes with one line and move to the next row.
 - Two failed attempts at the same task: park it, do not ask.
+- Snapshot tests that fail because of a change that matches the design: regenerate only those snapshots (run the jest update for the affected test files only), check the diff shows only the intended change, then continue. Do not ask Isa. If the failure is not explained by the design change, revert the change instead.
+- Design versus app disagreement that looks deliberate (scrim, panel style, navigation behaviour): follow the design, except keep existing navigation structure. Record it in decisions. Do not park it under Blocked on Isa.
+- An unanswered question never blocks the loop. After one unanswered round, use the default above and carry on.
+- Use action stop only when every row is built or parked as owner device checks. A test gate that is red is never a reason to stop: fix it or regenerate it, as above.
 - Defaults for the open items: keep the one-tap gym log on the Summary card, keep Distance km for cardio, skip the food search filter chips, keep the Goals extras (Fibre, Reset to AI, kcal/kJ).
 
 ## Picking the next task
