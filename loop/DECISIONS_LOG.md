@@ -3328,3 +3328,6 @@
 - 2026-11-02 12:00 Kept the gate rule: no code build while the test gate is red, including row 118, to avoid stacking changes on top of the unresolved snapshot failures.
 - 2026-11-02 12:00 Treated the R434 tsc run as clearing the R433 flag; tsc exit 0 with no errors.
 - 2026-11-02 12:00 Resume point recorded: if Isa answers, the next round starts with the gate decision, then row 118 (LumeTabBar.tsx:154 and GlassSurface overflow clipping).
+- 2026-11-02 12:37 R436: stop, following Jev (81%). Gate is the only blocker and has been asked twice.
+- 2026-11-02 12:37 R436: rewrote the notes under 600 words per the loop note. Merged repeated items, dropped finished work, kept every open item and all decisions.
+- 2026-11-02 12:37 R436: no task run. Doc-only changes are not safe to queue while the gate is red, so none were added.
