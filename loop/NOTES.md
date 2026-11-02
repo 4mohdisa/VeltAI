@@ -4,7 +4,9 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-R434. Test gate RED: detailChrome.render.test.tsx, 4 snapshots (this week, training, energy, macros) fail after the Screen.tsx padding change (R427). Approval asked R428 and R431, unanswered. Loop note says do not ask again. No code build while red. R433 doc round finished (9 lines in DESIGN_GAP_ANALYSIS.md). R434 is a read-only tsc run to clear the flag on that report. The loop flagged the last report for no type check.
+R435. LOOP STOPPED, awaiting Isa. Test gate RED: detailChrome.render.test.tsx, 4 snapshots (this week, training, energy, macros) fail after the Screen.tsx padding change (R427). Approval asked R428 and R431, unanswered. Loop note says do not ask again. tsc is GREEN (R434, exit 0, 0 errors), so the R433 flag is cleared. Remaining rows are all gated on a green gate, so no build is safe.
+
+Resume: when Isa answers the gate question (approve snapshot regeneration, or revert Screen.tsx padding), treat the answer as final, go green, then continue the queue from item 2.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
@@ -18,6 +20,7 @@ R434. Test gate RED: detailChrome.render.test.tsx, 4 snapshots (this week, train
 - R432: gate question not re-asked (loop note). Prompt rejected for missing branch rule.
 - R433: doc round reissued with branch rule. Jev stop (37%) and ask (10%) overruled: doc only, reversible.
 - R434: read-only tsc run to clear the flag. Jev stop (48%) overruled: read-only, reversible, gate untouched.
+- R435: stop. Jev stop (58%) followed. Gate is the only blocker and was asked twice.
 - Data model changes parked, not asked. Badge style differences parked (style changes banned).
 - Accepted deviations: duration and completion use ticked exercises; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset above inset 34; active cell emits tabPress; strip tap goes to /gym/streak; row 111 glyphs via optional size in LumeTabBar.tsx; scrim uses local SCRIM_COLOR in AddMenu.tsx; row 76 logging on pick marks the day done; gap 16 needs sign-off.
 
@@ -26,12 +29,12 @@ R434. Test gate RED: detailChrome.render.test.tsx, 4 snapshots (this week, train
 - Streak footnote wording, flame and VoiceOver items: owner device checks.
 
 ## Built (not verified)
-- Row 111 (AddMenu, scrim 0.10). Row 82 (strip; footnote gated on load). Screen.tsx floating padding 40 / 32 above footer (R427; rows 107, 109, 110 bottom padding items only). Badge.tsx color.gray700 to color.label at :19 and :38 (same value; may be uncommitted; tsc last green after this edit per R433 handover).
+- Row 111 (AddMenu, scrim 0.10). Row 82 (strip; footnote gated on load). Screen.tsx floating padding 40 / 32 above footer (R427; rows 107, 109, 110 bottom padding items only). Badge.tsx color.gray700 to color.label at :19 and :38 (same value; tsc green after this edit).
 - Partial: 84, 108 (no bottom padding difference listed), 113, 114, 116, 117, 118.
 - Row 84: handover says DIFFERENT, notes say PARTIAL. Unresolved; re-check against code and design when next in the queue.
 
 ## Queue (one per round, in order)
-1. R434: read-only tsc run to clear the flag on the R433 report. No edits.
+1. Gate decision from Isa (blocked; no action until answered).
 2. Row 118 pill shadow, LumeTabBar.tsx:154 and GlassSurface overflow clipping. Build only when the gate is green.
 3. Row 84 NavBar floating chrome. NavBar.tsx:29 gray200 alias cleanup (same value as light2/surface.divider) is part of this row. Do not reinstate the dropped alias tidy. Build only when the gate is green.
 4. Gap 16 snapshots: blocked on Isa.
@@ -58,10 +61,11 @@ R434. Test gate RED: detailChrome.render.test.tsx, 4 snapshots (this week, train
 - Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; schedule.tsx 'Tues'.
 - Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 stale title; no test covers log-session.tsx:124 or :275.
 - Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved as 0; AddMenu.tsx dead exit path; 7 alias lines in tokens.ts:50-56 used on code lines in many files (verify count before editing doc).
-- Doc: after the X-vs-X cleanup, remove the resolved entries from the section Differences list and re-judge the heading at line 826 (still PARTIAL MATCH).
+- Doc: after the X-vs-X cleanup, remove the resolved entries from the section Differences list and re-judge the heading at line 826 (still PARTIAL MATCH). Doc lines 674, 864, 868 still list Badge and '41 lines in 24 files'; now 39 lines in 23 files.
 - i18n: hardcoded English on most screens (session.tsx:539-555); 'What did you do?' sheet English only (log-session.tsx:311-392).
 - Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
 - Food: eyebrow tappable during search; day picker changes date behind results; quick-add serving (mock/data.ts:124); editSavedFood is local only.
+- FloatingHeader.tsx:8-9, :24-26 comments disagree with the bundle.
 
 ## Owner device checks (Isa)
 Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, header strip, logged-day sheet and toast, library close, picker fills, tab bar, second sheet resize, menu shadow clipping, row 111 scrim, streak footnote at 320pt and large text, floating bottom padding and home-indicator clearance. Row 115: 3D body, guide images, cardio, native es/fr review, TestPG_* (18 skipped). Isa decides: footnote hiding during refresh; whether 'sessions' counts distinct days.
@@ -86,4 +90,5 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - R431: asked for gate decision; unanswered.
 - R432: prompt rejected (no branch rule). Not run.
 - R433: doc round with branch rule; 9 lines corrected; no tsc or tests run (flagged).
-- R434: read-only tsc run to clear the R433 flag (this round).
+- R434: read-only tsc run; exit 0, flag cleared.
+- R435: loop stopped pending Isa's gate decision.

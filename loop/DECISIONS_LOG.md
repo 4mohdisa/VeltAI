@@ -3323,3 +3323,8 @@
 - 2026-11-02 11:59 No code build: the test gate is still red (detailChrome snapshots), so queue items 2 and 3 stay blocked.
 - 2026-11-02 11:59 Row 84 status conflict: the handover says DIFFERENT, notes say PARTIAL. Not resolved this round; recorded for a later re-check against code and design/.
 - 2026-11-02 11:59 Accepted R433 doc round as complete (9 lines, doc only). Its 'X vs X' cleanup suggestion is parked, not tasked.
+- 2026-11-02 12:00 Stop instead of ask: the gate question was already asked twice (R428, R431) and the loop note forbids re-asking.
+- 2026-11-02 12:00 Overruled Jev's stop-versus-run split only in the sense that stopping matches Jev's 58% stop; no doc-only round was added, because the re-check pass is complete and repeating it would be busywork.
+- 2026-11-02 12:00 Kept the gate rule: no code build while the test gate is red, including row 118, to avoid stacking changes on top of the unresolved snapshot failures.
+- 2026-11-02 12:00 Treated the R434 tsc run as clearing the R433 flag; tsc exit 0 with no errors.
+- 2026-11-02 12:00 Resume point recorded: if Isa answers, the next round starts with the gate decision, then row 118 (LumeTabBar.tsx:154 and GlassSurface overflow clipping).
