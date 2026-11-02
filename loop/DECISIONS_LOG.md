@@ -3331,3 +3331,7 @@
 - 2026-11-02 12:37 R436: stop, following Jev (81%). Gate is the only blocker and has been asked twice.
 - 2026-11-02 12:37 R436: rewrote the notes under 600 words per the loop note. Merged repeated items, dropped finished work, kept every open item and all decisions.
 - 2026-11-02 12:37 R436: no task run. Doc-only changes are not safe to queue while the gate is red, so none were added.
+- 2026-11-02 13:14 Stopped instead of asking again: the gate question was asked twice (R428, R431) and went unanswered, and the brief says not to retry a blocker that has come back twice.
+- 2026-11-02 13:14 Did not follow Jev's 57% stop / 43% ask split as a reason to ask: no new question would add information beyond the two already sent.
+- 2026-11-02 13:14 Did not start a doc-fix round (lines 674, 864, 868): the notes say no work while the gate is red, and the doc fix would still be pending after Isa answers.
+- 2026-11-02 13:14 Kept Screen.tsx padding and all .snap files unchanged: the padding is blocked on the owner and snapshots are never regenerated with -u.

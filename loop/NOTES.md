@@ -4,7 +4,7 @@
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-R436. STOPPED, awaiting Isa. Test gate RED: detailChrome snapshots (this week, training, energy, macros) fail since the R427 Screen.tsx padding change. Asked R428 and R431, unanswered. Do not re-ask. tsc GREEN (R434).
+R437. STOPPED, awaiting Isa. Test gate RED: detailChrome snapshots (this week, training, energy, macros) fail since the R427 Screen.tsx padding change. Asked R428 and R431, unanswered. Do not re-ask. tsc GREEN (R434).
 Resume: when Isa answers (approve snapshot regeneration or revert Screen.tsx padding), treat it as final, go green, continue the queue from item 2.
 
 ## Decisions (never delete)
@@ -71,4 +71,4 @@ Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule l
 - Every prompt: branch rule and report format.
 
 ## Round log
-R405-422 doc fixes and re-checks. R423 Isa decisions. R424-426 row 82. R427 padding, snapshots fail. R428, R431 gate asked. R429-430, R433 doc rounds. R432 prompt rejected. R434 tsc green. R435-436 stop.
+R405-422 doc fixes and re-checks. R423 Isa decisions. R424-426 row 82. R427 padding, snapshots fail. R428, R431 gate asked. R429-430, R433 doc rounds. R432 prompt rejected. R434 tsc green. R435-436 stop. R437 stop again: no Isa reply, blocker not re-asked.
