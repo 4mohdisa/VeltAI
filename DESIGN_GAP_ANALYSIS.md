@@ -834,9 +834,9 @@ panel at a 96pt anchor, both row labels, and a faithful `lumePop` reproduction.
 button in the app; pill padding 4 vs 5; cell gap 4 vs 2; container gap 12 vs 10;
 `shadow.md` substituted for the design's much heavier custom shadows on the pill,
 the FAB and the menu; plus glyph 28 vs 27; tab icons 20 vs 21 (and the food icon is
-`fork.knife` vs the design's bowl); menu radius 20 vs 18; **menu panel solid white
-vs `rgba(255,255,255,0.94)` + blur**, and **scrim `0.45` vs `0.10`** (both
-documented in `AddMenu.tsx` as deliberate); menu row padding 16 vs 18; divider 1px
+a drawn bowl vs the design's bowl); menu radius 18 vs 18; **menu panel solid white
+vs `rgba(255,255,255,0.94)` + blur**, and **scrim `0.10` vs `0.10`** (the panel
+documented in `AddMenu.tsx` as deliberate); menu row padding 18 vs 18; divider 1px
 `#e5e5ea` inset 16 vs `0.5px rgba(0,0,0,0.10)` inset 18; **the already-logged
 branch is missing**; and "Log food" pushes `/food/add` where the design switches tab.
 
@@ -1491,7 +1491,7 @@ drift 13 / ❌ Doesn't match 3". Against this pass:
 | **Muscle focus (full view)** (line 96) | ⚠️ "no Front/Back toggle and no set counts (V10); the 3D stage is item 7" | ❌ | Accurate as far as it goes, but grading it ⚠️ understates a screen whose central element — an interactive 3D body appearing three times in the design — does not exist, along with the selection popover, the volume chips and the per-muscle exercise lists. |
 | **Month calendar sheet** (line 83) | ⚠️ "Grid, today disc, dots… all match" | ⚠️ (agree on grade) | But "today disc" is wrong — the app draws a **ring**, not the design's `light-2` filled disc. |
 | **My Meals** (line 88), **New Recipe** (line 89) | ✅ | n/a | These screens have **no design counterpart at all**, so "✅ matches" cannot be true of them; they can only be "not in the design". |
-| **"+" menu** (line 64) | ✅ | ⚠️ | Solid white panel vs translucent, `0.45` scrim vs `0.10`, radius 20 vs 18, row 52 vs 54, label 17/24 vs 16/20, icon 20 vs 19 — all documented in `AddMenu.tsx` as deliberate, but not "matches".<br>Close label now uses `tabBar.closeMenu` (BUILT, not verified).<br>The two menu labels now use t(): `addMenu.logGymSession`, `addMenu.logFood` (BUILT, not verified). |
+| **"+" menu** (line 64) | ✅ | ⚠️ | Solid white panel vs translucent, `0.10` scrim vs `0.10`, radius 18 vs 18, row 54 vs 54, label 16/20 vs 16/20, icon 19 vs 19 — the panel documented in `AddMenu.tsx` as deliberate, but not "matches".<br>Close label now uses `tabBar.closeMenu` (BUILT, not verified).<br>The two menu labels now use t(): `addMenu.logGymSession`, `addMenu.logFood` (BUILT, not verified). |
 | **Avatar → Profile** (line 65) | ✅ | ⚠️ | Its own note admits the app shows initials where the design shows a person glyph — which is a difference, not a match. |
 | **Summary detail views** (lines 72-75) | ✅ ×4 | **not assessed** | This pass did not compare them; I am not endorsing those verdicts either. |
 

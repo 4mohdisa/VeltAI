@@ -3299,3 +3299,8 @@
 - 2026-11-02 11:35 Chose the re-check of rows 113, 116, 117, 118: doc-only, touches no code or snapshots, and none of the four was re-checked before.
 - 2026-11-02 11:35 Rejected candidate 2 (stale doc lines) as the main task: it clears no row. It stays queued for a later re-check round.
 - 2026-11-02 11:35 Rejected candidate 3 (row 84 NavBar): it is a code change while the test gate is red and is a tidy item the notes already dropped.
+- 2026-11-02 11:40 Kept the doc fix over the row 118 pill shadow Jev ranked first (97%). Reason Jev cannot see: the test gate is red (detailChrome 4 snapshots), and the rule bans code builds while it is red. LumeTabBar.tsx is a code build, so it waits for a green gate or Isa's approval.
+- 2026-11-02 11:40 Jev ask 64%: not re-asking the snapshot approval. It was asked in R428 and is parked under Blocked on Isa. Re-asking now would be a repeat of the same blocker.
+- 2026-11-02 11:40 The R429 report was flagged for tests not run. R429 changed no code, so no test run was required. Recorded as acknowledged, not a failure.
+- 2026-11-02 11:40 Notes rewritten under 600 words: finished work deleted, repeated items merged into one line each.
+- 2026-11-02 11:40 Row 84 alias cleanup stays dropped as tidying, per the earlier decision.
