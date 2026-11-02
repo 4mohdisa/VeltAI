@@ -3269,3 +3269,8 @@
 - 2026-11-02 11:10 Other blocked items (rows 82, 84, gap 16, Screen.tsx padding, 113, 116, 117, 118) now follow the design per Isa's Telegram reply; queued in order below, one per round.
 - 2026-11-02 11:10 Row 76 add path needs a per-day draft store (data model change), so it stays parked, not built.
 - 2026-11-02 11:10 Device checks stay parked for Isa, per his reply.
+- 2026-11-02 11:12 Chose row 82 footnote because the queue puts it second and it clears a built row with no data model change.
+- 2026-11-02 11:12 The handover said the footnote waits on Isa, but Isa's R423 decision says blocked items follow the design unless parked, so the footnote follows the design.
+- 2026-11-02 11:12 Stale doc lines (1494, gym add-menu section) are not rows to build. Parked as a doc fix and handled in a re-check round later.
+- 2026-11-02 11:12 The act() warning and the missing already-logged toast on the Gym row are not in a row to build. Parked.
+- 2026-11-02 11:12 Scrim 0.10 stays as a local SCRIM_COLOR in AddMenu.tsx, with the shared color.overlay token untouched, as the last report did.

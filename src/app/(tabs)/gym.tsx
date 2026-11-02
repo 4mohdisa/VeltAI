@@ -120,7 +120,7 @@ export default function GymLogScreen() {
               had, so label it rather than let it read as current. */}
           {gymError ? <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} /> : null}
 
-          {/* Streak strip: flame + count on one line; the streak's own numbers live on /gym/streak. */}
+          {/* Streak strip: flame, count and the right-aligned sessions and freezes footnote on one line. */}
           <Card
             variant="elevated"
             padded={false}
@@ -135,6 +135,9 @@ export default function GymLogScreen() {
               </Text>
               <Text variant="bodyMedium" color={color.label}>
                 {t('gym.dayStreak', { count: streak.current })}
+              </Text>
+              <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
+                {`${streak.totalGymDays} ${streak.totalGymDays === 1 ? 'session' : 'sessions'} · ${streak.freezesAvailable} ${streak.freezesAvailable === 1 ? 'freeze' : 'freezes'}`}
               </Text>
             </View>
           </Card>
