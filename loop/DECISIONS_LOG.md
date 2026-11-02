@@ -3274,3 +3274,13 @@
 - 2026-11-02 11:12 Stale doc lines (1494, gym add-menu section) are not rows to build. Parked as a doc fix and handled in a re-check round later.
 - 2026-11-02 11:12 The act() warning and the missing already-logged toast on the Gym row are not in a row to build. Parked.
 - 2026-11-02 11:12 Scrim 0.10 stays as a local SCRIM_COLOR in AddMenu.tsx, with the shared color.overlay token untouched, as the last report did.
+- 2026-11-02 11:14 Chose candidate 1 to answer the LOOP NOTE flag. The last report's own NEXT names this, and it fixes false data on a visible surface. Lowest risk and smallest change.
+- 2026-11-02 11:14 Hiding the footnote until load is a deliberate deviation from the design. Reason: 'honest' is the product line and showing 0 sessions before data arrives is false. Isa had not decided this, so I decided it under the default rule and recorded it on row 82.
+- 2026-11-02 11:14 Step 1 is a gate: if useGym exposes no loaded flag, the task is blocked rather than adding a store field, because store and data model changes are parked.
+- 2026-11-02 11:14 Parked, not built: footnote VoiceOver label (gym.tsx:128), locale keys for the footnote copy (hardcoded English is parked as i18n), singular wording, strip gap 12 vs design 11.
+- 2026-11-02 11:14 Isa's R423 decision stands: blocked items follow the design. The handover's 'Screen.tsx padding is blocked on owner' line is superseded, so queue item 2 stays as Screen.tsx bottom padding to design.
+- 2026-11-02 11:15 Rewrote the R425 prompt and reissued it as R426, because the loop note says the last prompt was rejected for not naming the loop/design-match branch.
+- 2026-11-02 11:15 Gate the footnote only, not the whole strip, so the streak strip stays visible and tappable while data loads.
+- 2026-11-02 11:15 No store or hook change allowed, because data model and store changes are out of scope. If no loaded flag exists, the task is blocked and parked rather than faked.
+- 2026-11-02 11:15 Chose this task over the doc fix because the zero-count flash is a live misreport on the user's screen, while the doc fix is only documentation.
+- 2026-11-02 11:15 Left locale keys, VoiceOver and the gap 12 vs 11 for later rounds, one task at a time.

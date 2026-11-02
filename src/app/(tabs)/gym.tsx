@@ -40,6 +40,7 @@ export default function GymLogScreen() {
   const reduceMotion = useReduceMotion();
   const {
     data: { streak, loggedDays, frozenDates },
+    isLoading: gymLoading,
     error: gymError,
     refetch,
   } = useGym();
@@ -136,9 +137,11 @@ export default function GymLogScreen() {
               <Text variant="bodyMedium" color={color.label}>
                 {t('gym.dayStreak', { count: streak.current })}
               </Text>
-              <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
-                {`${streak.totalGymDays} ${streak.totalGymDays === 1 ? 'session' : 'sessions'} · ${streak.freezesAvailable} ${streak.freezesAvailable === 1 ? 'freeze' : 'freezes'}`}
-              </Text>
+              {!gymLoading && !gymError ? (
+                <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
+                  {`${streak.totalGymDays} ${streak.totalGymDays === 1 ? 'session' : 'sessions'} · ${streak.freezesAvailable} ${streak.freezesAvailable === 1 ? 'freeze' : 'freezes'}`}
+                </Text>
+              ) : null}
             </View>
           </Card>
 
