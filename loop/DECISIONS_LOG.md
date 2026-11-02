@@ -3289,3 +3289,13 @@
 - 2026-11-02 11:16 Accepted the R426 footnote gate on !gymLoading && !gymError as the row 82 deviation. Pull-to-refresh hiding the footnote, and hiding it after a failed refresh, are recorded as accepted. Isa may overrule.
 - 2026-11-02 11:16 Jev asked for a question (57%). I did not ask because the open items are design-match decisions the defaults cover, and the next task needs nothing from Isa.
 - 2026-11-02 11:16 Gap 16 stays blocked on Isa because it needs his sign-off on snapshot changes, which I cannot make without him.
+- 2026-11-02 11:18 R428: Last report was flagged (tests not green). Did not use -u or edit .snap. Asked Isa to approve the detailChrome snapshot regeneration, because the padding change is per design (Isa R423: blocked items follow the design) and only he can approve the snapshot change.
+- 2026-11-02 11:18 R428: Kept the Screen.tsx padding change in the working tree (per design). Revert only if Isa says no.
+- 2026-11-02 11:18 R428: Parked gym/session and gym/new-template padding (48 to 32) and the 96 vs 40 question for gym/session. Needs a design check, not a blind change.
+- 2026-11-02 11:18 R428: Parked the Settings padding (profile/index.tsx:98) and the footer area differences (16/16/16 + inset vs 12/16/30 on Account) under Screen.tsx follow-ups.
+- 2026-11-02 11:18 R428: Rows 107, 109 and 110 stay PARTIAL. Row 108 gets no padding line (no footer case in the design).
+- 2026-11-02 11:35 Isa did not answer the R428 snapshot question in time. Recorded as Blocked on Isa. Not asking again.
+- 2026-11-02 11:35 Test gate is still red (detailChrome 4/4 snapshots). No code build this round, because notes say no further build until resolved.
+- 2026-11-02 11:35 Chose the re-check of rows 113, 116, 117, 118: doc-only, touches no code or snapshots, and none of the four was re-checked before.
+- 2026-11-02 11:35 Rejected candidate 2 (stale doc lines) as the main task: it clears no row. It stays queued for a later re-check round.
+- 2026-11-02 11:35 Rejected candidate 3 (row 84 NavBar): it is a code change while the test gate is red and is a tidy item the notes already dropped.
