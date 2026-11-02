@@ -24,6 +24,10 @@ import { GlassBackButton } from './GlassButtons';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, space, surface } from '@/lib/design/tokens';
 
+/** The design's fixed bottom padding on floating screens, inset included. No token covers them. */
+const FLOATING_BOTTOM = 40;
+const FLOATING_BOTTOM_ABOVE_FOOTER = 32;
+
 export type ScreenVariant = 'plain' | 'floating';
 
 export type ScreenProps = {
@@ -73,7 +77,11 @@ export function Screen({
   const hasHeader = showBack || title !== undefined || headerRight !== undefined;
   // HIG §1.1: keep the home indicator clear. With no footer the last scroll row
   // gets the bottom inset; with a footer the CTA sits above the home indicator.
-  const scrollBottom = space['4xl'] + (footer ? 0 : insets.bottom);
+  const scrollBottom = floating
+    ? footer
+      ? FLOATING_BOTTOM_ABOVE_FOOTER
+      : FLOATING_BOTTOM
+    : space['4xl'] + (footer ? 0 : insets.bottom);
 
   // The floating variant owns its own padding: the scroll starts under the
   // status bar so content passes beneath the blur, and the gutters are narrower

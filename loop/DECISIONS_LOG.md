@@ -3284,3 +3284,8 @@
 - 2026-11-02 11:15 No store or hook change allowed, because data model and store changes are out of scope. If no loaded flag exists, the task is blocked and parked rather than faked.
 - 2026-11-02 11:15 Chose this task over the doc fix because the zero-count flash is a live misreport on the user's screen, while the doc fix is only documentation.
 - 2026-11-02 11:15 Left locale keys, VoiceOver and the gap 12 vs 11 for later rounds, one task at a time.
+- 2026-11-02 11:16 Chose Screen.tsx padding as queue item 2. Isa's R423 decision says blocked items follow the design, which overrides the old 'owner blocked' note.
+- 2026-11-02 11:16 Did not pick the locale keys or VoiceOver label for row 82. They are side problems from the R426 report, not design differences, so they are parked.
+- 2026-11-02 11:16 Accepted the R426 footnote gate on !gymLoading && !gymError as the row 82 deviation. Pull-to-refresh hiding the footnote, and hiding it after a failed refresh, are recorded as accepted. Isa may overrule.
+- 2026-11-02 11:16 Jev asked for a question (57%). I did not ask because the open items are design-match decisions the defaults cover, and the next task needs nothing from Isa.
+- 2026-11-02 11:16 Gap 16 stays blocked on Isa because it needs his sign-off on snapshot changes, which I cannot make without him.
