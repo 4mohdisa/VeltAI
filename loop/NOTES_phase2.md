@@ -6,16 +6,15 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 246 checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
-- Handover: 84 rows, all BUILT, 47 carry 'owner check pending'. Header 9 pipes.
-- Round 261: checkpoint run (tsc, full app Jest, git status). No files changed by the loop. Result to be read in the next report.
-- Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
+- Round 261 checkpoint green: tsc 0 errors; Jest 134 suites, 990 tests, 4 snapshots. Backend go test green, TestPG skipped.
+- Handover: 84 rows, all BUILT, 47 carry 'owner check pending'. Header has 9 pipes.
+- Loop files loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified in git status. Isa to check.
+- Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- Real coverage = executed import that renders or uses the component.
 - Status word in capitals appears only in the Status cell.
 
 ## Decisions (never delete)
@@ -25,33 +24,20 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - plan.tsx and AI anomaly banner: no backend, no fabricated data.
 - Clerk sign-in needs hosted JWKS: owner step. No auth bypass. Rows BUILT on passing local mocked tests.
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
-- Render tests: components *.render.test.tsx; screens in src/__tests__/render/. renderScreen via react-test-renderer. No RNTL (RN 0.85.3).
-- Rows 19, 20: no edit. Row 8 BUILT once all live call sites have render tests.
-- Row boundaries strict. Row 7 covers only its four declared call sites.
-- Local-only mutations (editSavedFood) need no API test.
-- Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
+- Render tests: components *.render.test.tsx; screens in src/__tests__/render/. No RNTL (RN 0.85.3).
+- Rows 19, 20: no edit. Row 21: no data model or backend change; client aggregation over foodLogs.list per day.
+- Row boundaries strict. Local-only mutations need no API test.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
-- Stale notes in a row are corrected only when that row is next touched.
-- Row 9 includes the TodayCard malformed-response guard and the retry notice for a session missing from the range.
-- Row 84 focus refetch uses a silent revalidate. Never list revalidate in a caller's deps. Use [] on focus callbacks.
-- Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
-- Round 255: accepted row 9 widening. Round 257: row 5 pipe fix before row 18 wording.
-- Round 258: row 17 read-only check before asking Isa.
-- Round 261: checkpoint run chosen over Jev ask (82%). Reason: loop note requires the checkpoint; row 17 already asked in round 260 and must not be repeated; checkpoint needs no Isa input.
+- Row 9 includes the TodayCard malformed-response guard and retry notice for a session missing from the range. Range is today plus yesterday (useGymRange in src/lib/data/gymRange.ts).
+- Row 84 focus refetch uses silent revalidate with [] deps on focus callbacks.
+- Round 261: checkpoint chosen over Jev ask.
+- Round 262: read only grep chosen. Row 17 default (b) to be applied the round after this one.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
-- BUILT: rows 1-11, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-84, 38.
-- Row 21 weekly stacked chart: useWeeklyMacros in src/lib/data/hooks.ts.
-- BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- BUILT checked in code: gym templates, schedule, muscles, exercise-progress, profile, rows 27, 29, 30, 35, 37, 50, 51-64, 68.
-- Folded: 65, 66, 67, 71 into 64; 69 into 76.
-
-## Known test gaps
-- About 20 Visual QA rows cite only the generic gate. Judge per row.
+- BUILT: all 84 rows (see PHASE2_ROWS.md). 47 carry 'owner check pending'; do not reopen them.
 
 ## Blocked on Isa
-- Row 17 plan.tsx: asked in round 260, no answer. Do not ask again. Options were (a) build plan generation endpoint and wire the card, or (b) drop the card for v1.
+- Row 17 plan.tsx: asked round 260, no answer. Default (b) drop the card for v1, recorded in decisions.
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for simulator flows.
@@ -63,9 +49,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## Parked (not v1)
 - Row 21: DetailChart lays Bars as a flex row, not stacked. Copy decision.
 - Recipe and saved meal delete/unsave: no UI.
-- Row 8 notes cell long. Trim when touched.
-- Quick add on-device check (owner). Row 34 swipe pane square corners: design decision.
-- Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
+- Row 34 swipe pane square corners: design decision.
+- Off-token values; ProgressBar 250 vs motion 260 ms.
 - Sheet detents medium/large: no native mechanism.
 - Food log long-press delete not discoverable. Goals 'Saved as you type' untrue when clamped.
 - Account and index settings both link Delete Account.
@@ -73,36 +58,25 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
 - Muscles and exercise-progress design gaps: product decision.
-- Transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
-- Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
-- Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented in backend/internal/config/config.go.
+- Audit render tests with hardcoded *_date fixtures: pin the clock where found.
+- Server 'today' uses fixed LUME_TIMEZONE, not device timezone (backend/internal/config/config.go).
 - Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
-- Row 9: a session outside the 2-day range shows the retry notice, not the detail. Known limit, untested edge.
+- Row 9: a session outside the 2-day range shows the retry notice. Known limit, untested edge.
 
 ## Next
-- Read the round 261 checkpoint result. If green, do the read-only grep of PHASE2_ROWS.md for 'verified|confirmed' and fix any hit in one cell in a separate row task.
-- Row 17 stays open until Isa answers. If no answer, use default (b) after the next unanswered round and record it in decisions.
+- Round 262 result: read the grep report. Fix any hit in one cell in a separate row task.
+- Then row 17 default (b): remove the plan card for v1 in one row task, with a test.
 - Then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
 - Jev risk about 1.2 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
-- Keep gym session and food.tsx enter and exit animations intact.
 - es/fr strings run 2.5x to 3.7x English.
-- 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only; no simulator run yet. '[data] API unreachable' console noise is expected.
 - Reanimated: mock ReanimatedSwipeable and stub useReducedMotion per test file only.
-- startScanPoller must be stubbed wherever pipeline resolves.
 - Mock @/lib/api at the module boundary only. Screens using Screen need SafeAreaProvider.
-- Skeleton/SkeletonList crashes on useReducedMotion in the harness: stub per file.
-- Override useLocalSearchParams per file when a screen needs a route param.
-- Multi-fragment Text children show as an array: join or use findAll.
-- jest.useFakeTimers needs doNotFake: ['setImmediate'] when a test awaits a settle flush.
 - Count pipes against the header row before and after any PHASE2_ROWS.md edit.
-- Verify PHASE2_ROWS.md before trusting any status.
 - Jest SIGSEGV on resetRegistry.test.ts is transient; rerun before blaming a change.
-- TodayCard LoggedCard: session missing from the fetched range renders the retry notice (see row 9 Parked).

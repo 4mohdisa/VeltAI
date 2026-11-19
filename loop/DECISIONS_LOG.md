@@ -7912,3 +7912,7 @@
 - 2026-11-20 01:50 Recorded the unanswered row 17 question under Blocked on Isa, with the round it was asked, and set a rule not to ask it again.
 - 2026-11-20 01:50 Used a read only git status in the checkpoint so any stray modified file is reported, not fixed.
 - 2026-11-20 01:50 Kept action ask out of this round because remaining work (grep for verified or confirmed wording, then stop report) does not need Isa.
+- 2026-11-20 01:51 Chose the read only grep over row 17 action: the grep is the open follow up from round 261 and needs no Isa input.
+- 2026-11-20 01:51 Row 17: round 260 question got no answer and round 261 passed unanswered. Default (b), drop the plan card for v1, applies next round as a separate single row task. Not repeating the question.
+- 2026-11-20 01:51 Did not ask Isa anything this round: no new major question, and the sign-in root cause is already in Blocked on Isa.
+- 2026-11-20 01:51 Jev advised ask (43%) at low confidence (0.14). Kept run: the notes require the grep before any stop report, and it is a small task.
