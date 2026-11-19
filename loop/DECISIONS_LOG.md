@@ -7601,3 +7601,8 @@
 - 2026-11-19 22:47 Row 18 phrase 'local check open' is not in the file. Do not invent an edit. Keep the existing 'Owner check pending' wording. Status stays BUILT.
 - 2026-11-19 22:47 Row 8 notes cleanup stays parked: wording only, not a build task.
 - 2026-11-19 22:47 Checkpoint round 188 still runs full tsc and full Jest --ci.
+- 2026-11-19 22:48 Round 188 is the scheduled checkpoint from the loop note: full tsc and full Jest --ci with no file changes, per the state note.
+- 2026-11-19 22:48 Chose the checkpoint over row 8 work because the loop note fixes this round as a checkpoint and the last report had no full gate run.
+- 2026-11-19 22:48 Transient Jest SIGSEGV on resetRegistry.test.ts is allowed one single-suite re-run, reported, not edited.
+- 2026-11-19 22:48 Jev ask signal (12%) is advisory and no question is needed: no row is blocked by it.
+- 2026-11-19 22:48 Next checkpoint set to round 203 (15-round cadence).

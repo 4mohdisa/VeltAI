@@ -5,9 +5,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci. Next full checkpoint: round 188.
-- Round 187: gate run for row 18 render tests (energy.render.test.tsx, detailChrome.render.test.tsx). Last report had no tsc or Jest run.
-- Row 18 BUILT, simulator check pending (owner step). Phrase 'local check open' not present in file; no edit made.
+- Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci.
+- Round 187: row 18 gate run GREEN (tsc 0 errors; energy and detailChrome render tests 2 suites, 7 tests, 4 snapshots).
+- Round 188: checkpoint running (full tsc and full Jest --ci, no edits). Result pending in next report.
+- Next checkpoint: round 203.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
@@ -28,14 +29,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Sign-in flows are owner steps; rows BUILT on passing local mocked tests.
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Render tests: components get *.render.test.tsx; screens in src/__tests__/render/. Use renderScreen (react-test-renderer). No RNTL: incompatible with RN 0.85.3.
-- Rows 19, 20, 21: no edit. Row 8: BUILT once all live call sites have render tests (round 185).
+- Rows 19, 20, 21: no edit. Row 8: BUILT once all live call sites have render tests.
 - Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
 - Minor questions are decided by the manager. Checkpoints override Jev ranking.
 - Jev ask signals are advisory. Keep run when the question is minor and blocks no row.
 - Gate flags (tests not run) are fixed by running the gate, not by stopping.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 8, 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 5, 8 (see open items), 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner).
@@ -51,11 +52,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 41 es/fr overflow needs device run.
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status across many rounds, untouched by loop work. Isa to check.
-- Row 8 not covered: api.recipes.log and recipe/saved-meal delete paths (no UI).
+- Row 8 not covered: api.recipes.log (log a saved recipe) and recipe/saved-meal delete paths (no UI).
 
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI exists (api.recipes.delete, api.savedMeals.delete are dead). Product gap, not a test gap.
-- Row 8 notes cell carries older contradictory fragments (e.g. 'savedMeals.log still uncovered' next to a later 'render test added'). Wording cleanup only.
+- Row 8 notes cell carries older contradictory fragments ('savedMeals.log still uncovered' next to 'savedMeals.log render test added'). Wording cleanup only.
 - No real render test yet: barcode-scan, label-scan, photo-capture.
 - Quick-add: on-device check of the food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
@@ -75,13 +76,13 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 187: gate run for row 18 (tsc plus Jest on energy and detailChrome render tests).
-- Checkpoint round 188: full tsc and full Jest --ci.
-- Then: pick the next PARTIAL or DIFFERENT row; if none, prepare the stop report with owner items.
+- Round 188: checkpoint result (tsc plus full Jest --ci). If green, pick the next PARTIAL row (row 8 recipe log path first) and run its gate.
+- Round 203: next checkpoint.
+- If no PARTIAL or DIFFERENT row remains, prepare the stop report with owner items.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.1 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -92,4 +93,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard and SwipeableRow in the render harness: stub only the broken piece inside the test file.
-- Recipe log and saved-meal delete paths: no UI, so no render test is expected.
+- Recipe log and saved-meal delete paths: no UI for delete, so no render test expected for delete.
