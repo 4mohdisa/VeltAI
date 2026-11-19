@@ -6890,3 +6890,8 @@
 - 2026-11-19 16:52 The automatic flag said the type check or tests were not run last round. The new prompt requires tsc and the targeted Jest files, so the gate is run this round.
 - 2026-11-19 16:52 Simulator part marked owner check pending if sign in blocks the streak screen. Sign in is an owner step per the blocked list.
 - 2026-11-19 16:52 Row 54 is a separate Visual QA row and is not touched this round.
+- 2026-11-19 17:01 Jev said ask (70%). Overridden: this is not a major question. Both rows are closed by a render test that already exists and passes in the last report, so no answer from Isa is needed.
+- 2026-11-19 17:01 Jev's run option reads the same as the loop note on task 1 (82%). Chose it. Reason Jev cannot see: the test file already exists and was run green, so this is a status update plus at most one assertion.
+- 2026-11-19 17:01 Row 35 and 54 set to BUILT with 'owner check pending' for the simulator screenshot, per the wording rule. No device claim.
+- 2026-11-19 17:01 GymPatternsCard null/array guard (crash when /api/gym/patterns returns []) is a real bug but not a row. Parked for a later row, not fixed now to keep this task to one row pair.
+- 2026-11-19 17:01 Row 54 scope: if its description needs the flame or count asserted, add one assertion to the same test file only.

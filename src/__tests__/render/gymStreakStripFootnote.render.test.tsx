@@ -9,6 +9,7 @@ import type { ReactTestRenderer } from 'react-test-renderer';
 
 import { useGymStore } from '@/lib/data/gymStore';
 import GymLogScreen from '@/app/(tabs)/gym';
+import { categoryAccent } from '@/lib/design/tokens';
 import { act, findAll, renderScreen } from './helpers';
 
 // Skeleton animates through reanimated's useReducedMotion, not provided by
@@ -94,4 +95,10 @@ test('at 320pt, the streak strip footnote keeps its full sentence and can wrap i
   // flexShrink lets the row give it space back from the fixed-width siblings
   // instead of pushing it past the card's right edge at the narrowest width.
   expect(footnote.props.style).toMatchObject({ flexShrink: 1 });
+
+  // PHASE2_ROWS.md row 54 ("streak strip and flame"): the flame itself is an
+  // Svg Path, not text, so it needs its own structural check — the footnote
+  // assertions above never touch it.
+  const flame = findAll(tree, (p) => p.fill === categoryAccent.streak && typeof p.d === 'string')[0];
+  expect(flame).toBeDefined();
 });
