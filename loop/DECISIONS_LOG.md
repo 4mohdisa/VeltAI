@@ -7214,3 +7214,7 @@
 - 2026-11-19 19:49 Row 83 is appended to PHASE2_ROWS.md if absent, since the notes say the table ends at row 82.
 - 2026-11-19 19:49 Jev ranked ask at 28% with low confidence. No major question meets the ask rule, so the loop continues without asking Isa.
 - 2026-11-19 19:49 Token-consolidation gap (icon size, stroke weight, letter spacing, small gaps) stays Parked for one design pass with Isa, not per-row guesses.
+- 2026-11-19 19:51 Chose the test gate over Jev's top pick (next DIFFERENT row) because the automatic check flagged row 83 as skipped Jest, and the notes' test gate rule requires full tsc and Jest after any round that skips Jest. Jev cannot see this rule-based requirement.
+- 2026-11-19 19:51 Kept row 83 as no code change: MACRO_BAR_W, MACRO_BAR_RADIUS_TOP, MACRO_BAR_RADIUS_BOTTOM and NET_BAR_W have no identical same-category token, so no swap.
+- 2026-11-19 19:51 Next DIFFERENT row is picked next round, after the gate is green.
+- 2026-11-19 19:51 Bar-width and small-radius gaps join the consolidated token pass already in Blocked on Isa. No per-row guess.

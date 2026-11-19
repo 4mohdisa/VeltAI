@@ -1,11 +1,11 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress is counted from PHASE2_ROWS.md (ends at row 82; check the tail before appending). Prompts use row TITLE plus row number.
+Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress is counted from PHASE2_ROWS.md (ends at row 83; check the tail before appending). Prompts use row TITLE plus row number.
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline (latest checkpoint): app tsc 0 errors; Jest 83 suites / 874 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 83 suites / 874 tests / 4 snapshots (last full run before row 83). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session. LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: one row, one file or component per prompt.
 
@@ -40,14 +40,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 34: tokens correct, no code change. Swipe pane corner clipping parked.
 - Row 48: clamp logic matches design; MACRO_CEILING has no token; no code change.
 - Row 50: no code change, BUILT (chooser caption gap has no same-category token).
+- Row 83: no code change; bar width and small radius literals have no same-category token.
 
 ## Done
-- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-34, 36-50, 69-74, 77-82.
+- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-34, 36-50, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Token swaps done: GlassButtons, history dividers, Screen footer, EnergyBalanceCard, SettingsList chip, ProgressBar, MacroBars, MuscleChart.
-- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 41, 46, 47, 48, 49, 50, 51-53, 57-59, 61, 62.
+- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 41, 46-53, 57-59, 61, 62, 83.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93.
 
 ## Blocked on Isa
@@ -57,12 +58,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup: pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl unresponsive in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
-- Consolidated token pass (icon sizes, stroke weight, blur intensity, letter-spacing, 9pt space, small gaps, Screen.tsx offsets): one design pass with Isa.
+- Consolidated token pass (icon sizes, stroke weight, blur intensity, letter-spacing, 9pt space, small gaps, bar width, small radius 2pt/5pt, Screen.tsx offsets): one design pass with Isa.
 - Row 41 es/fr overflow on gym.title, common.save, common.reset: needs a real device run.
 
 ## Parked (not v1)
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx, food.tsx). Design decision.
-- Off-token values: Screen.tsx 40, 32, -6, 48, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes in history screens; MacroBars icon 11; BlurView intensity 40/50; RING_STROKE 10; SettingsList icon 17, chevron 14; MuscleChart NAME_WIDTH 84, VALUE_WIDTH 74; Badge icon 13; food/add.tsx and gym/log-session.tsx TEXT_GAP 1 and 2.
+- Off-token values: Screen.tsx 40, 32, -6, 48, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes in history screens; MacroBars icon 11; BlurView intensity 40/50; RING_STROKE 10; SettingsList icon 17, chevron 14; MuscleChart NAME_WIDTH 84, VALUE_WIDTH 74; Badge icon 13; food/add.tsx and gym/log-session.tsx TEXT_GAP 1 and 2; dashboard/nutrition.tsx MACRO_BAR_W 30, radius 5/2; dashboard/week.tsx NET_BAR_W 22.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
 - Disabled opacity drift: GymCalendar 0.3, food/calendar 0.35, opacity.disabled 0.4.
 - Sheet detents medium/large: no native mechanism in BottomSheet.tsx. Structural gap.
@@ -83,8 +84,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Row 83 (dashboard nutrition and week bar constants) this round.
-- Then remaining non-BUILT rows in PHASE2_ROWS.md, one per round, lowest number first.
+- This round: test gate for row 83 (full tsc and full app Jest). Required because row 83 skipped Jest.
+- Then the first non-BUILT DIFFERENT row after 83 in PHASE2_ROWS.md, one per round, lowest number first.
 - Then render smoke tests for FloatingHeader Reduce Transparency, Screen.tsx, ToastHost, BottomSheet.
 - Then backend refinement rows.
 
@@ -93,7 +94,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Jev risk about 1.1 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList or ScrollView refreshControl breaks JSON.stringify: use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- tokens.ts has no letter-spacing, icon-size, stroke-width or 9pt space tokens.
+- tokens.ts has no letter-spacing, icon-size, stroke-width, bar-width or 9pt space tokens.
 - Keep gym session and food.tsx entering and exit animations intact.
 - es/fr strings are 2.5x to 3.7x English in settings.groupApp, gym.title, common.save, common.reset; LumeTabBar and Button have no numberOfLines or ellipsizeMode.
 - 'owner check pending' rows are BUILT for loop purposes; do not reopen them.
