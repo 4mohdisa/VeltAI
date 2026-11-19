@@ -6952,3 +6952,7 @@
 - 2026-11-19 17:19 Round 43: usage limit hit again, no changes made. Stopped and waiting for reset, as the standing rule requires. The restore is not dropped.
 - 2026-11-19 17:19 Action stop here means pause for the usage reset, not that the build is finished. Resume from Next once the limit resets.
 - 2026-11-19 17:19 Jev stop 68% accepted for this round because the blocker is an external usage limit, not a task result.
+- 2026-11-19 17:55 Chose the camera modal restore: it is the pending Next item from round 43, one file, and it reverses an unintended motion change.
+- 2026-11-19 17:55 Jev rated run 47% vs stop 38% at low confidence (0.20), so kept run and chose the smallest task.
+- 2026-11-19 17:55 Did not ask Isa: the restore needs no dashboard or device, and the rate limit reset at 5:40pm Adelaide.
+- 2026-11-19 17:55 Prompt keeps the single file scope and the no-snapshot-regeneration rule to limit risk (Jev risk 1.3).
