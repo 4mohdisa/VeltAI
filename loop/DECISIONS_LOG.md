@@ -7291,3 +7291,7 @@
 - 2026-11-19 20:37 Chose the row 1 check over the toast and sheet mapping because a mapping pass changes many rows at once, and Jev ranks small tasks higher.
 - 2026-11-19 20:37 Kept row 1 as PARTIAL: sign-in cannot run live until Clerk JWKS and test credentials exist. Only the notes cell is updated.
 - 2026-11-19 20:37 Jev risk is about 1.0 of 2, so the task is one row, one docs file, and a full Jest gate.
+- 2026-11-19 20:39 Loop flag says round 112 is only partly done. Chose to close the gap Claude Code named (no render test exercises signup.tsx) with one test-only file, rather than another docs-only pass.
+- 2026-11-19 20:39 Row 1 status stays PARTIAL because live sign-in needs hosted Clerk JWKS and E2E credentials, both owner steps.
+- 2026-11-19 20:39 Test placed in src/__tests__ because signup.tsx is under src/app, not src/components, so the *.render.test.tsx naming rule for components does not apply directly.
+- 2026-11-19 20:39 Jev ranks running at 78 percent and risk is 1.0; kept the task to one file and one row, with a fallback to delete the test file if it fails twice.

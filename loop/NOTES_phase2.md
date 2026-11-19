@@ -35,10 +35,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Unanswered question: after one round, use the default and do not ask again.
 - Render smoke tests stay folded into their visual rows.
 - Stale note corrections: edit only after grep finds a real importing test; name the exact file. Status never changes in a docs pass.
-- Round 108: row 40 premise was wrong (row 40 is title blocks, not AddMenu). No edit.
-- Round 109: row 55 grep found only a comment hit, not an import. No edit.
-- Round 110: row 53 grep found only string hits. No edit.
-- Round 111: row 83 grep found a real import (detailChrome.render.test.tsx). Notes corrected. Gate green.
+- Round 108-111: stale-note checks for rows 40, 55, 53, 83 done; only row 83 needed a correction.
+- Round 112: row 1 notes updated; signup.tsx had no render test. Render test added in round 113 (src/__tests__/signup.render.test.tsx) if it passes.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
@@ -62,7 +60,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
-- Stale 'no Jest' phrasing: rows 40 and 55 still to check, one per round (53 checked round 110, 83 round 111).
+- Stale 'no Jest' phrasing: rows 40 and 55 still to check, one per round.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius, row height, PANEL_RING_WIDTH 0.5, ROW_MIN_HEIGHT 54, label 16/20; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE, PROVIDER_GLYPH_STROKE, PROVIDER_CHIP_TINT. Row 53 PROVIDER_ROW_GAP, PROVIDER_NAME_SIZE/LINE_HEIGHT, PROVIDER_CHIP_SIZE, PROVIDER_CHIP_TINT, PROVIDER_GLYPH_SIZE/STROKE (no token category).
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -82,9 +80,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 112: row 1 Sign in, test-import check and notes cell only (PARTIAL stays). Docs-only, tsc and full Jest.
-- Then rows 2, 5-8, 18: same check, record PARTIAL or BUILT checked in code on passing local mocked tests.
-- Then rows 40 and 55 stale-note checks, one per round.
+- Round 113: row 1 signup render test (src/__tests__/signup.render.test.tsx), test only, tsc and full Jest.
+- Then row 2 stale-note check (PARTIAL stays, or BUILT checked in code if all parts pass locally).
+- Then rows 5-8, 18: same check.
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
