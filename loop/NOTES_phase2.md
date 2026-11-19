@@ -5,8 +5,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 223 done: row 10 Gym history render test (gymHistory.render.test.tsx). Tsc 0 errors, jest 2/2.
-- Round 224 (current): row 11 templates render test (gymTemplates.render.test.tsx), after grep.
+- Round 224 done: row 11 templates render test (gymTemplates.render.test.tsx). Tsc 0 errors, jest 2/2.
+- Round 225 (current): row 11 new-template render test (newTemplate.render.test.tsx), after grep.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -41,7 +41,7 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps (close one per round)
-- Row 11: templates (round 224), new-template, schedule, exercise-progress, freeze have no render test. muscles.tsx is covered. One screen per round.
+- Row 11: new-template (round 225), schedule, exercise-progress, freeze have no render test. templates done (round 224); muscles.tsx covered. One screen per round.
 - Row 20 Legal, row 31 and row 38/53: already covered; notes stale. Fix notes only when touched.
 - Row 7 notes contain a leftover 'status stays PARTIAL' sentence. Covered; fix when touched.
 - Roughly 20 Visual QA rows cite only the generic gate. Judge per row, not by grep.
@@ -79,15 +79,16 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
 - Audit untouched render tests with hardcoded *_date fixtures compared to the real clock. Pin the clock where found.
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
+- Upstream brief generator runs from stale status (rows 1, 6). Verify PHASE2_ROWS.md first.
 
 ## Next
-- Round 224: row 11 templates render test (gymTemplates.render.test.tsx).
-- Then row 11: new-template, schedule, exercise-progress, freeze, one per round.
+- Round 225: row 11 new-template render test (newTemplate.render.test.tsx).
+- Then row 11: schedule, exercise-progress, freeze, one per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

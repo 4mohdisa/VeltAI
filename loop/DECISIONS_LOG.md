@@ -7764,3 +7764,6 @@
 - 2026-11-20 00:27 Prompt tells Claude Code to grep first and stop if a test already exists, because the brief from round 223 said earlier stale claims were wrong.
 - 2026-11-20 00:27 Row 83 stale note parked, not fixed: it is a side finding and the notes say to fix it only when row 83 is next touched.
 - 2026-11-20 00:27 Jev risk 0.9 of 2 read as advisory: kept the task to one screen and one file.
+- 2026-11-20 00:30 Picked new-template over schedule and exercise-progress: it is the create/edit pair of the templates list just covered, and it is the smallest single-screen gap.
+- 2026-11-20 00:30 Prompt has the step to grep for an existing mount first, because stale tracking has been wrong before.
+- 2026-11-20 00:30 Row status left at BUILT; only a notes line is added, since the gap is test coverage, not wiring.
