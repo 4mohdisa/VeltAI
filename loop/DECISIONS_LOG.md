@@ -7148,3 +7148,8 @@
 - 2026-11-19 19:16 Off-token values are not added as tokens (notes decision: no new tokens this pass), they go to NEXT as parked.
 - 2026-11-19 19:16 Handover reported PHASE2_ROWS.md ends at row 82; the prompt only touches row 34, so no append is needed.
 - 2026-11-19 19:16 Jev risk 1.0 noted: kept the task to one row and one file group. No question to Isa this round.
+- 2026-11-19 19:20 Row 34 SwipeableRow: no code change, BUILT. Stays as recorded.
+- 2026-11-19 19:20 Swipe action pane corner clipping in SwipeableRow.tsx: parked as a design item, not asked. It is structural, not a token swap, so it waits for the consolidated design pass with Isa.
+- 2026-11-19 19:20 Chose row 36 over the LumeTabBar render test: the Visual QA rows are the next open DIFFERENT rows in the agreed order (35-50, skipping BUILT).
+- 2026-11-19 19:20 Row 36 names no file in my brief: the prompt tells Claude Code to use the two most relevant shared history files and state them, per the notes rule.
+- 2026-11-19 19:20 Jev signalled run 53% and ask 41%, with a 1.0 of 2 risk. Kept run because the task is one row, one round, and needs nothing from Isa.

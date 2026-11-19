@@ -9,7 +9,7 @@ import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, space } from '@/lib/design/tokens';
 import { formatDuration } from '@/lib/formatting';
 import { useGym } from '@/lib/data';
 
@@ -37,7 +37,7 @@ export default function GymHistoryScreen() {
             style={{
               gap: space.xs,
               padding: space.lg,
-              borderTopWidth: i === 0 ? 0 : 1,
+              borderTopWidth: i === 0 ? 0 : layout.hairline,
               borderTopColor: color.light1,
             }}
           >

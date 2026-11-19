@@ -17,7 +17,7 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { formatCalories } from '@/lib/formatting';
 import { api } from '@/lib/api';
@@ -136,7 +136,7 @@ export default function MealHistoryScreen() {
                 alignItems: 'center',
                 gap: space.md,
                 padding: space.lg,
-                borderTopWidth: i === 0 ? 0 : 1,
+                borderTopWidth: i === 0 ? 0 : layout.hairline,
                 borderTopColor: color.gray100,
               }}
             >
