@@ -6824,3 +6824,7 @@
 - 2026-11-19 15:46 Did not ask Isa about plan.tsx (Jev suggested ask). The Decisions list already says plan.tsx has no backend and keeps its design with no fabricated data, so the question is answered. Row 17 can proceed on that basis.
 - 2026-11-19 15:46 Row 16 accepted as BUILT on the code comparison and the render test. Its report wording is corrected by the gate task, not by changing the code.
 - 2026-11-19 15:46 loop/ uncommitted diffs are reported only, per the loop-managed file rule.
+- 2026-11-19 15:47 Chose row 17 over the motion audit: it is the next item in Next, small, and needs no Isa input. Jev run 92% agrees; kept the task to one row because last task clean odds were 38%.
+- 2026-11-19 15:47 Wording gate passed in round 13 with no edits; row 17 reports must use 'checked in code' or 'owner check pending'.
+- 2026-11-19 15:47 plan.tsx stays as designed with no fabricated data (existing decision, restated).
+- 2026-11-19 15:47 Simulator flows for sign-in dependent screens remain owner steps; row 17 is checked in code only.
