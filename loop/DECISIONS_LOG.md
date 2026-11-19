@@ -7189,3 +7189,8 @@
 - 2026-11-19 19:38 Row 45 counted BUILT (checked in code): MuscleChart BAR_HEIGHT 8 to space.sm, same value; tsc 0 and full Jest 83/874/4 green.
 - 2026-11-19 19:38 Chose row 46 over the two render smoke tests: notes say finish remaining non-BUILT rows first, one per round. Jev rated run 87%.
 - 2026-11-19 19:38 Parked the dashboard nutrition.tsx and week.tsx bar literals as a follow-up row, not this round, because they are route files outside the shared components.
+- 2026-11-19 19:40 Chose row 47: it is the next non-BUILT row in order and Claude Code recommended it.
+- 2026-11-19 19:40 Did not add the dashboard bar literal audit as a row yet: row 47 may cover it; revisit after row 47 result.
+- 2026-11-19 19:40 Kept Jest and tsc in the prompt because a no-code round still needs the test gate.
+- 2026-11-19 19:40 Rewrote notes to under 600 words: merged repeated Parked and Blocked items, removed finished round detail.
+- 2026-11-19 19:40 Used latest baseline (83 suites / 874 tests) from the last run over the handover figure (81 / 869).
