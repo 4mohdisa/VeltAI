@@ -7466,3 +7466,7 @@
 - 2026-11-19 21:47 Added a grep-first step because prior prompts duplicated existing coverage; the step skips creation if the branch is already tested.
 - 2026-11-19 21:47 Kept the AnomalyBanner/AnomalyCard render test as a candidate, not the pick, since round 152 notes say a render test was added and it needs a grep check first.
 - 2026-11-19 21:47 Ran tsc and full Jest because this round is a test change, per the wording rule.
+- 2026-11-19 21:49 Chose the flagged partial task first, since the loop note requires dealing with it before moving on.
+- 2026-11-19 21:49 Kept row 1 PARTIAL: live Clerk sign-in is an owner check and cannot be closed by Jest.
+- 2026-11-19 21:49 Deferred the stale handover numbers (913 tests, 104 suites) to the numbers pass; current baseline is 920 tests, 107 suites.
+- 2026-11-19 21:49 Recorded the SafeAreaProvider deviation from round 155 as accepted: the real pattern (no wrap) passes under jest-expo.

@@ -5,7 +5,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Baseline round 155: tsc 0 errors; Jest 106 suites / 919 tests / 4 snapshots (all passing).
+- Baseline round 156: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots (all passing, last full run round 155).
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file; never assume coverage is missing.
@@ -40,7 +40,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check of anomaly/insights rendering.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open only as owner check: live Clerk sign-in and profile persistence. Status stays PARTIAL until that owner check.
-- PARTIAL: row 1 (signup render test; OTP sub-stages and email verify-to-routing render tests added; live sign-in owner step). Round 155: DevSignup no-key fallback render test in progress.
+- PARTIAL: row 1 (signup, OTP sub-stages, email verify-to-routing, DevSignup no-key fallback render tests). Live sign-in owner step remains. Round 156 re-checks the round 155 deliverable (flagged partial).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Checkpoints green rounds 16 to 150.
 
@@ -71,12 +71,12 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Muscles and exercise-progress design gaps: product decision.
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
-- Row 22 notes quote old counts; refresh in a numbers pass.
-- Claude Code 'add a render test' prompts have repeatedly duplicated existing coverage (goal, cuisine, ai-query, signup OTP): grep first.
+- Row 22 notes quote old counts; refresh in a numbers pass (handover figures also stale: 913 tests, 104 suites).
+- Claude Code 'add a render test' prompts have repeatedly duplicated existing coverage: grep first.
 
 ## Next
-- Round 155: row 1 DevSignup no-key fallback render test (grep first; skip if already covered).
-- Then row 19 AnomalyBanner/AnomalyCard: grep for an importing render test; add only if missing.
+- Round 156: row 1 completion check on signupDevFallback.render.test.tsx and its notes cell (flagged partial report).
+- Then row 19 AnomalyBanner/AnomalyCard: confirm an executed render test imports and renders them; add only if missing.
 - Then unblocked PARTIAL rows and backend refinement rows.
 
 ## Known issues
@@ -90,5 +90,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Unresolved: SwipeableRow square corners (row 34).
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.
-- Row 19 AnomalyBanner/AnomalyCard: render test added round 152; confirm it imports and renders, not a code-reading note.
 - git status shows loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified: loop-managed, leave alone.
