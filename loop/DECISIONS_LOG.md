@@ -7028,3 +7028,6 @@
 - 2026-11-19 18:21 Kept the one row, one file per round rule. The hero header file is found by grep, not named, because the handover does not name it.
 - 2026-11-19 18:21 Did not run the full backend suite. Next checkpoint is due per notes, so it stays on the list.
 - 2026-11-19 18:21 Jev advised run at 96%. Agreed, no override.
+- 2026-11-19 18:22 Row 58 closed as no code change: ChartHeader is the single hero header component and HERO_TITLE has no identical token. Kept Jev's run pick.
+- 2026-11-19 18:22 Chose row 59 as the next sequential Visual QA row. Smallest task, needs nothing from Isa, matches the pattern set by row 58.
+- 2026-11-19 18:22 Kept the letter-spacing and stroke-weight gaps as Parked for one design pass with Isa, not per-row fixes.

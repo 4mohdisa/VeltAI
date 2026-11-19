@@ -33,12 +33,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
-- Round 54, 56, 57: Jev overridden or advisory where a concrete reason was written.
+- Round 54, 56, 57, 58: Jev overridden or advisory where a concrete reason was written. Round 58 closed no change (ChartHeader, HERO_TITLE has no identical token).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56, 58.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - Row 57 unit gap and tracking: no code change. No tracking or letter-spacing token exists in tokens.ts.
 - Checkpoints: rounds 16, 23, 39, 56 gates green.
@@ -51,10 +51,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
+- Design pass needed: no stroke-weight or letter-spacing token category in tokens.ts. Raise once with Isa, not row by row.
 
 ## Parked (not v1)
 - AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) close to radius and buttonHeight 52 but not equal. Design re-check needed.
 - DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 sit off-token (space.xs 4, space.sm 8, no tracking token). Design re-check needed.
+- DetailChart KickerTitle off-token values (letterSpacing 1.1, -0.6, 10x10 dot). Row 59 checks these.
 - Stroke-weight token missing in tokens.ts (affects tick and icon rows).
 - ToastHost and BottomSheet have no render test. Side findings.
 - Food log: long press to delete is not discoverable. Design call.
@@ -74,9 +76,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 58: Row 58 Visual QA four hero headers (code vs tokens, grep for the hero header file).
-- Then rows 59-63 Visual QA, one per round.
-- Then: final wording sweep. Then backend refinement rows.
+- Round 59: Row 59 Visual QA kicker block (DetailChart.tsx KickerTitle, code vs tokens).
+- Then rows 60-63 Visual QA, one per round.
+- Then: final wording sweep. Then fold stale motion rows. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
@@ -85,4 +87,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- Round 57 flagged again: no stroke-weight or tracking token category in tokens.ts. Design pass with Isa before more tight or stroke rows.
+- Round 57 and 58 flagged again: no stroke-weight or tracking token category in tokens.ts. Design pass with Isa before more tight or stroke rows.
