@@ -22,22 +22,23 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Isa verifies on a device himself.
 - Row 22 baseline chosen first; later rows depend on green gates.
 - TestPG tests run only after DSN confirmed as 127.0.0.1:55432.
-- plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data. Not blocking.
+- plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data.
 - Clerk sign in needs hosted Clerk (JWKS). Parked as owner step, no workaround, no auth bypass.
 - Order of work: row 3 Food log before row 9 Gym log.
 - Simulator flows that need sign in are owner steps. Rows are BUILT on passing local mocked Jest and Go tests.
 - Prompts must state the branch rule (stay on loop/phase2, no switch, push or merge).
-- Round 8: gate re-run done, green. Row 22 BUILT.
-- Round 10: Jev ranked row 12 first (82%). Accepted. Row 12 has a known fabricated-data gap, and it is the smallest of the top candidates.
+- Round 10: Jev ranked row 12 first. Accepted.
+- Round 11: Jev ranked run 93% for row 13 Goals. Chose row 13 over Subscription (same known gap pattern).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
 - Row 73 Local setup: done. Sign in step parked.
-- Row 22 baseline: BUILT (gate re-run green in round 8).
-- Row 3 Food log: BUILT (round 4). Simulator owner check pending.
-- Row 9 Gym log: BUILT (round 5). Simulator owner check pending.
-- Row 10 Gym history: BUILT (round 6). Simulator owner check pending.
-- Row 11 Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap (round 9). Simulator owner check pending.
+- Row 22 baseline: BUILT.
+- Row 3 Food log: BUILT. Simulator owner check pending.
+- Row 9 Gym log: BUILT. Simulator owner check pending.
+- Row 10 Gym history: BUILT. Simulator owner check pending.
+- Row 11 Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap. Simulator owner check pending.
+- Row 12 Gym streak: BUILT (round 10). Fabricated upcoming-days removed. Render test added. Simulator owner check pending.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -51,12 +52,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer for simulator sign in: owner step.
 - Wording: soft synonyms in rows 1, 3, 7 Simulator-flow cells. Apply the wording rule in a later pass.
-- Watch: one transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Not reproducible. Recheck if it recurs under load.
-- Muscles and exercise-progress screens have in-code notes on design gaps (no 3D body stage, no per-muscle exercise lists, 'Last 30 days' vs design 'Last 7 days'). Product decision for Isa.
+- Watch: one transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Recheck if it recurs.
+- Muscles and exercise-progress screens: design gaps (no 3D body stage, no per-muscle exercise lists, 'Last 30 days' vs design 'Last 7 days'). Product decision for Isa.
+- Streak stats 'Freezes' is derived as freeze_used ? 0 : 1, so it never exceeds 1. Matches current backend semantics. Revisit only if design wants more freezes.
 
 ## Next
-- Row 12 Gym streak: remove hardcoded mockUpcomingDays or wire to real data (round 10, in progress).
-- Then Goals row (wire client to /api/goals) and Subscription row (wire client to /api/subscription).
+- Row 13 Goals: wire client to /api/goals, replace local derivation in useEffectiveGoals() with server data (round 11, in progress).
+- Then Row 14 Subscription: wire client to /api/subscription.
 - Then remaining core flows, motion pass, backend refinement rows.
 
 ## Known issues
@@ -65,4 +67,3 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when row 16 is worked.
 - Gym history and Summary re-hydrate from server on view. May be intended. Confirm in code, do not change without a failing case.
 - Long-press meal delete in food.tsx flagged twice (see Parked).
-- Round 9 report flagged by automatic check (type check or tests not run). Round 10 prompt re-runs tsc first.

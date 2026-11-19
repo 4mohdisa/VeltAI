@@ -6792,3 +6792,7 @@
 - 2026-11-19 15:08 Kept row 12 smallest path: no new backend capability unless a route already exists. Fabricated suggestions are removed, consistent with the plan.tsx rule (keep design, show no fabricated data).
 - 2026-11-19 15:08 Added a tsc re-run at the start of the prompt to clear the automatic flag on the last report. The previous report did run tsc (0 errors), so the flag most likely refers to Jest not being run for the row.
 - 2026-11-19 15:08 Jev risk is 0.9 with confidence 0.28, so the task is kept to one row and a single test file. No full suite run this round.
+- 2026-11-19 15:15 Chose row 13 Goals over Subscription: Jev ranked run at 93%, and Goals has a known real gap (endpoint exists, client never calls it), the same pattern as row 12.
+- 2026-11-19 15:15 Recorded row 12 as BUILT. Its removal of fabricated upcoming-days data is closed.
+- 2026-11-19 15:15 Streak freezes can never exceed 1 under current backend semantics. Not a bug, so parked, not changed.
+- 2026-11-19 15:15 Jev's risk score (1.0 of 2) noted. Kept the task to one row with a small blast radius.

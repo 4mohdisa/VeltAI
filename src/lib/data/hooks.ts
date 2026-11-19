@@ -7,14 +7,14 @@
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { api, type Onboarding } from '@/lib/api';
-import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
+import { api, ApiError, type Onboarding } from '@/lib/api';
+import { goalsFromApi, isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
 import { hasPendingCreate } from './mutations';
 import { fibreTotal } from './summaryCards';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type LoggedDay, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
-import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
+import { useEffectiveGoals, useSettingsStore, type MacroGoals } from '@/lib/settings/store';
 import { isDevBuild } from '@/lib/env';
 import {
   foodCatalog,
@@ -357,7 +357,20 @@ export function useGym(): Async<GymData> {
 
 // --- Goals + profile --------------------------------------------------------
 
+/** Fetch the signed-in user's goals row and store it for useEffectiveGoals().
+ *  A 404 ("no goals set" — no onboarding completed yet) is expected, not a
+ *  failure: it just leaves serverGoals null, same as any other row this app
+ *  hasn't created yet. */
+export async function hydrateGoals(): Promise<void> {
+  const g = await api.goals.get().catch((e: unknown) => {
+    if (e instanceof ApiError && e.status === 404) return null;
+    throw e;
+  });
+  useSettingsStore.getState().setServerGoals(g ? goalsFromApi(g) : null);
+}
+
 export function useGoals(): MacroGoals {
+  useHydration(hydrateGoals);
   return useEffectiveGoals();
 }
 

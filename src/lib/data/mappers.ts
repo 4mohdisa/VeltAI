@@ -4,6 +4,7 @@ import type {
   FoodLog,
   FoodLogInput,
   FoodSearchResult,
+  Goals,
   GymSession as ApiGymSession,
   GymStreak,
   SavedFood as ApiSavedFood,
@@ -14,6 +15,7 @@ import type { StoredFoodItem, StoredMeal } from './foodStore';
 import type { Streak } from './gymStore';
 import type { EntryMethod, GymSession, MealSlot, SavedFood } from '@/lib/mock/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
+import type { MacroGoals } from '@/lib/settings/store';
 
 export const todayISO = (): string => {
   const d = new Date();
@@ -159,6 +161,27 @@ export function logPatchFromItem(patch: {
     carbs: patch.carbs,
     fat: patch.fat,
     fibre: patch.fibre,
+  };
+}
+
+// --- Goals ----------------------------------------------------------------------
+
+/** Maps a server goals row onto the app's MacroGoals shape. Null when any of
+ *  the four core targets is unset — a partial row isn't enough to stand in for
+ *  the derived recommendation; filling the gap with 0 would show a fabricated
+ *  target for whatever field is missing. Fibre alone defaults to 0, same as a
+ *  logged item's fibre (mealsFromLogs): the column can't tell "0" from "never
+ *  recorded" either way. */
+export function goalsFromApi(g: Goals): MacroGoals | null {
+  if (g.calorie_target == null || g.protein_target == null || g.carb_target == null || g.fat_target == null) {
+    return null;
+  }
+  return {
+    calories: g.calorie_target,
+    protein: g.protein_target,
+    carbs: g.carb_target,
+    fat: g.fat_target,
+    fibre: g.fibre_target ?? 0,
   };
 }
 
