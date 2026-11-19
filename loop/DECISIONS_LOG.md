@@ -7270,3 +7270,6 @@
 - 2026-11-19 20:31 Chose row 36: smallest docs-only task, grep from last handover already points to no importing test, so the expected result is no edit. Matches Jev's run signal and the risk of 0.9.
 - 2026-11-19 20:31 Kept status columns unchanged: BUILT rows stay BUILT in a docs-only pass.
 - 2026-11-19 20:31 Row 52 stale-note fix from round 105 recorded as done (tsc 0, Jest 87/881/4 green).
+- 2026-11-19 20:32 Chose row 38 as the next stale-note check, as listed in Next; it is the smallest task and needs nothing from Isa.
+- 2026-11-19 20:32 Agrees with Jev (run 0.92 confidence). No override.
+- 2026-11-19 20:32 Stale-note rule: edit a note only after a real test is found by grep; otherwise change nothing.
