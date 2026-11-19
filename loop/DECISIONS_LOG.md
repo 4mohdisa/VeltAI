@@ -7541,3 +7541,8 @@
 - 2026-11-19 22:19 Jest run with --ci so no snapshot is written or regenerated during the checkpoint.
 - 2026-11-19 22:19 Row 5 stays PARTIAL. The submit path render tests were already added last round, so the flagged partial task is closed in code; the open item is the owner-scoped food log check.
 - 2026-11-19 22:19 Row 5 recommendation to move off it was accepted for now; row 5 returns only for the API level owner-scoped check.
+- 2026-11-19 22:20 Round 173 checkpoint green (tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots), so proceed with the planned next task.
+- 2026-11-19 22:20 Chose row 18 over row 5 submit path: Jev ranks run at 95% and the Next list in notes already names row 18 first; it is a smaller, file-scoped task with no backend dependency.
+- 2026-11-19 22:20 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified across many rounds. They are loop-managed; the loop script owns them. Parked for Isa to check, not a row.
+- 2026-11-19 22:20 Prompt tells Claude Code to grep before creating a test file, given the repeated duplicate and wrong-premise problems in earlier rounds.
+- 2026-11-19 22:20 Prompt forbids the RNTL import because of the documented RN 0.85.3 incompatibility.
