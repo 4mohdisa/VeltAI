@@ -7413,3 +7413,7 @@
 - 2026-11-19 21:28 Agreed with Jev and the loop check: done.tsx is the named remaining gap of row 2, so it is the next task.
 - 2026-11-19 21:28 Row 2 stays PARTIAL because live Clerk sign-in and post-sign-in profile persistence are still owner checks.
 - 2026-11-19 21:28 Route assertions in the done.tsx test must match the file, verified in step 1, because the earlier report showed route checks can mislead.
+- 2026-11-19 21:29 Loop note forces a checkpoint round, so chose the checkpoint task over any feature row.
+- 2026-11-19 21:29 Jev advised run at 90%; followed it because the task is small and the loop note requires it.
+- 2026-11-19 21:29 Ran Jest with --ci so a checkpoint cannot silently write snapshots.
+- 2026-11-19 21:29 Row 2 step coverage is complete after round 143; its only remaining item is the owner check of live Clerk sign-in, so it stays PARTIAL and is not a build task.

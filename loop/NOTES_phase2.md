@@ -5,7 +5,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Baseline: tsc 0 errors; Jest 99 suites / 907 tests / 4 snapshots (round 142). Backend 632 pass incl. 18 TestPG on local DB.
+- Baseline: tsc 0 errors; Jest 100 suites / 909 tests / 4 snapshots (round 143). Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt.
 
@@ -38,9 +38,9 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
-- PARTIAL: row 1 (signup render test; live sign-in owner step). Row 2: covered signup, paywall, paywall post, signup read back, index, measurements, goal, activity, body-type, dietary, cuisine, targets, preview. Remaining: done.
+- PARTIAL: row 1 (signup render test; live sign-in owner step). Row 2: all 8 onboarding steps, index, signup, paywall, post, read back, measurements have render tests. Only remaining item: owner check of live Clerk sign-in and post-sign-in profile persistence.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green rounds 16 to 142.
+- Checkpoints green rounds 16 to 143.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -73,7 +73,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 22 notes quote old counts; refresh in a numbers pass.
 
 ## Next
-- Round 143: row 2 done.tsx render test, file src/__tests__/render/onboardingDone.render.test.tsx. Row 2 stays PARTIAL until owner check of live sign-in.
+- Round 144: checkpoint, full tsc and full Jest, no file changes.
+- Then legal/terms.tsx render test (row 19 area), then insights.tsx (row 22 area).
 - Then backend refinement rows and unblocked PARTIAL rows. Pick the candidate that clears most rows.
 - Handover 4: run only if the loop asks.
 
