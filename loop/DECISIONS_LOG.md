@@ -7441,3 +7441,8 @@
 - 2026-11-19 21:36 goal.tsx is in the handover remaining list but missing from the notes remaining list; left for a later round and recorded here, not treated as done.
 - 2026-11-19 21:36 Default for row cells: notes-only edit, status column untouched, per the docs-pass rule.
 - 2026-11-19 21:36 Notes condensed to fit the 600 word limit; no decision or parked item was dropped.
+- 2026-11-19 21:37 Chose goal.tsx: it is the next step in the agreed order and clears one of the 8 remaining Row 2 gaps; one row, one file.
+- 2026-11-19 21:37 Deferred ai-query send path: Row 19 is already BUILT with the initial-state render test, so the send path is a follow-up, not a gap for the Row 2 PARTIAL work.
+- 2026-11-19 21:37 Deferred AnomalyBanner and AnomalyCard render tests to Parked: their row notes are code-read only, but it is not on the critical path for v1 completion this round.
+- 2026-11-19 21:37 Recorded that the Claude Code report's suggestion (send path) and the row 19 weaker-coverage note are parked, not built.
+- 2026-11-19 21:37 Kept the row 2 status PARTIAL; status changes only after all 8 steps have real coverage.
