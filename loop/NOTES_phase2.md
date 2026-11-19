@@ -5,8 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this.
-- Round 171 gate cleared: tsc 0 errors; 7 render suites, 18 tests passed.
-- Checkpoint round 158: Jest 107 suites / 920 tests / 4 snapshots, passing.
+- Checkpoint round 173 (full tsc + full Jest, no file changes) is the current round. Result pending.
+- Last green baseline: round 171 tsc 0 errors; Jest 107-108 suites, 920-921 tests, 4 snapshots, all green.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -31,6 +31,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Grep before any 'add render test' prompt; duplicates happened twice.
 - Task premises can be wrong. Rows 38, 53 are integrations.tsx (Connected apps). Row 55 is AddMenu. 'nutrition/week' is not a row; do not act on it.
 - Minor questions are decided by the manager, not asked.
+- Checkpoint rounds override Jev's ranking: a full tsc and full Jest round is required by the loop script (round 173).
 - Jev followed on pick when row 5 needed an API check a render test cannot close.
 
 ## Done
@@ -39,7 +40,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (signup, OTP, dev fallback render tests added; live Clerk sign-in owner step remains).
 - PARTIAL: row 2 onboarding (all steps have render tests; live Clerk sign-in and profile persistence owner).
-- PARTIAL: row 5 quick-add (render, offline fallback, error toast, loading, canGoBack, double-submit guard tests added; submit path tests in progress; owner-scoped food log check is API level).
+- PARTIAL: row 5 quick-add (render, offline fallback, error toast with message text, loading, canGoBack, double-submit guard tests added; submit path covered where reachable; owner-scoped food log check is API level).
 - PARTIAL: row 8 saved foods (foodSaved render test added).
 - PARTIAL: row 18 Energy screen.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
@@ -75,13 +76,13 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status: loop-managed, unrelated.
 
 ## Next
-- Round 172: row 5 submit path render tests (quickAdd.render.test.tsx; offline fallback, error toast).
-- Then: row 18 Energy screen render coverage.
+- Round 173: checkpoint. Full tsc and full app Jest with --ci, no file changes. Report pass/fail counts and any failing test names.
+- If green: row 18 Energy screen render coverage.
 - Then: row 5 owner-scoped food log check (API level, needs local backend test).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.1 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.3 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

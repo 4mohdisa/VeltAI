@@ -7536,3 +7536,8 @@
 - 2026-11-19 22:17 'nutrition/week' row number is not a real open row. Rows 16, 17, 19, 46-48, 58 and 83 are BUILT. Skipped, no row created. Jev and the report agree.
 - 2026-11-19 22:17 Chose the row 5 submit path. It is render-testable, one file, and small. Jev ranked the same order; the API-level row 5 check is deferred because a render test cannot close it.
 - 2026-11-19 22:17 Kept row 5 at PARTIAL. Owner-scoped API check still open.
+- 2026-11-19 22:19 Chose the checkpoint task over Jev's row 18 pick because the loop script requires this round to be a full tsc and full app Jest checkpoint with no file changes.
+- 2026-11-19 22:19 Row 18 stays next: it is the next concrete render coverage gap once the checkpoint result is known.
+- 2026-11-19 22:19 Jest run with --ci so no snapshot is written or regenerated during the checkpoint.
+- 2026-11-19 22:19 Row 5 stays PARTIAL. The submit path render tests were already added last round, so the flagged partial task is closed in code; the open item is the owner-scoped food log check.
+- 2026-11-19 22:19 Row 5 recommendation to move off it was accepted for now; row 5 returns only for the API level owner-scoped check.
