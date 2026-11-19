@@ -7677,3 +7677,10 @@
 - 2026-11-19 23:33 Chose row 1 validation over SSO toasts: smallest pure client gap, no Clerk mock, matches the prior report's NEXT.
 - 2026-11-19 23:33 Notes condensed to fit the 600-word limit; no decision or owner item was dropped.
 - 2026-11-19 23:33 Row 1 stays PARTIAL until SSO cancel and error toasts are covered.
+- 2026-11-19 23:34 Loop flag says last task partly done: row 1 is still PARTIAL, so the next task closes its remaining local gap (SSO cancel and error toasts) before anything else.
+- 2026-11-19 23:34 Chose row 1 SSO over row 6 because it is the next listed item and clears the PARTIAL on row 1 with one file.
+- 2026-11-19 23:34 Jev ranks run at 97%; no reason to override. Checkpoint not due (last green at round 204, next checkpoint not yet reached).
+- 2026-11-19 23:35 Re-issued the round 206 prompt after the loop rejected it. The prompt now names loop/phase2, bans git commands and bans edits under loop/.
+- 2026-11-19 23:35 Chose row 1 SSO cancel and error toast: smallest remaining local gap on a PARTIAL row, and it needs no source change. Jev also ranks run first.
+- 2026-11-19 23:35 Kept the loop note's wording rule: 'render test added', no 'verified'.
+- 2026-11-19 23:35 Trimmed the notes to the current state. Finished work is merged into Done, and the repeated row 8 housekeeping is dropped from Known issues.

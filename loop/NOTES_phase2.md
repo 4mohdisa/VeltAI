@@ -5,7 +5,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 205 next. Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci).
+- Round 206 next (re-issued after rejection: prompt must name loop/phase2 and ban git). Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Prompts name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
@@ -33,11 +33,11 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Jev signals advisory.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-5, 7, 8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: email and code validation messages, SSO cancel and error toasts; clerkMessage mapping covered). Row 2 onboarding (live sign-in and profile persistence owner).
-- PARTIAL: row 6 (barcode has render coverage; label and photo do not).
+- PARTIAL: row 1 (live Clerk sign-in owner step; local: email and code validation render test done in signupValidation.render.test.tsx; SSO cancel and SSO error toast still open). Row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 6 (barcode has render coverage in barcodeScan.render.test.tsx; label and photo do not).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -52,7 +52,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI. Product gap.
-- Row 8 notes cell carries older contradictory fragments. Trim when next touched.
+- Row 8 notes cell is long and has older contradictory fragments. Trim when next touched.
 - Quick add: on-device check of food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
@@ -70,9 +70,8 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 205: row 1 email and code client validation messages (render test, file signupValidation.render.test.tsx).
-- Then row 1 SSO cancel ('Sign-in was cancelled.') and SSO error toasts via clerkMessage.
-- Then row 6 label and photo render tests.
+- Round 206: row 1 SSO cancel ('Sign-in was cancelled.') and SSO error toast via clerkMessage (render test, file src/__tests__/render/ssoSignin.render.test.tsx).
+- Then row 6 label and photo render tests (api.scan.label, api.scan.pipeline, pipelineMulti, confirm, feedback).
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 
 ## Known issues
