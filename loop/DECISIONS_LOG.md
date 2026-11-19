@@ -7001,3 +7001,7 @@
 - 2026-11-19 18:15 Kept row 55 (Jev 96%): it matches the notes order (rows 54 to 63, one per round), row 54 is already BUILT, and row 55 is the next open Visual QA row.
 - 2026-11-19 18:15 Row 55 prompt uses the target file named in PHASE2_ROWS.md, not a guessed path, and stops with BLOCKED if none is named.
 - 2026-11-19 18:15 Pixel comparison is not claimed: design/ has no per-screen markup, so visual QA stays a token and code comparison (owner check pending for pixels).
+- 2026-11-19 18:15 Jev advised ask (92%). Overrode: the only missing input is a file path that can be found with one grep, and it is not something only Isa can supply. Asking would spend one of three daily questions on a non-owner task.
+- 2026-11-19 18:15 Allowed one grep in src/ for row 55 only, to find the add menu file. This narrows the earlier no-search rule for this row. Recorded so later rows follow the same rule only after backfill.
+- 2026-11-19 18:15 Tests not run last round was flagged. This round runs tsc and reports it. Jest is not needed because no code changes.
+- 2026-11-19 18:15 Process gap: Visual QA rows 23-63 have no file named. Next round backfills file names for these rows before more checks, so the BLOCKED outcome does not repeat.

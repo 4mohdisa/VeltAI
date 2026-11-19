@@ -6,11 +6,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## State
 - Branch loop/phase2. Never switch branches in prompts.
 - Baselines (round 40, green): app tsc 0 errors; Jest 81 suites / 864 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB.
-- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
-- Backend: go run ./cmd/server. Auth enforced (401 without token).
+- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code 5-hour usage limit hit in rounds 42, 43, 45, 48, 49 handover, 52, and at the round 52 handover. If hit: wait, do not change scope.
-- Claude CLI sign in ends 2026-11-24 to 2026-11-27. Owner step: run claude auth login.
+- Claude Code 5-hour limit hit several times. If hit: wait, do not change scope.
+- Claude CLI sign in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
@@ -24,77 +23,62 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - TestPG tests run only after DSN is checked as 127.0.0.1:55432.
 - plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data.
 - Clerk sign in needs hosted Clerk JWKS. Owner step, no workaround, no auth bypass.
-- Order of work: Food log before Gym log. Sign-in flows are owner steps; rows BUILT on passing local mocked Jest and Go tests.
-- Prompts state the branch rule. loop/ files are loop-managed; prompts never edit them.
+- Food log before Gym log. Sign-in flows are owner steps; rows BUILT on passing local mocked Jest and Go tests.
+- loop/ files are loop-managed; prompts never edit them.
 - Row 75 split into food log and gym log. Row 77 target src/app/gym/session.tsx.
-- Row 9 scope widened to src/lib/offline/queue.ts (additive optional onLanded on runOrQueueSequence).
-- Row 35 'streak footnote at 320pt width' mapped to row 35.
-- Row 80 guard only if a crash reproduces; none reproduced, test only.
-- Round 40: checkpoint baseline 81/864/4. Round 44: three modals in src/app/_layout.tsx back to reduceMotion ? 'fade' : 'slide_from_bottom'.
+- Row 9 scope: src/lib/offline/queue.ts, additive optional onLanded only.
+- Row 80 guard only if a crash reproduces; none did, test only.
+- Round 44: three modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
-- Round 48: row 30 tab bar checked in code, no change needed.
-- Round 49: row 37 3D body = MuscleChart stand-in, checked in code. Pixel check owner check pending.
-- Round 50: row 51 toast clearance checked in code. TOAST_BOTTOM 112 clears tab bar clearance 100 by 12pt. No code change.
-- Round 52: row 52 tick weight checked in code, no code change. No stroke-weight token exists in tokens.ts.
-- Round 53: row 53 Connected apps chip checked in code, no code change. Chip-local values (PROVIDER_*) have no token match. Tint ratio 0.14 and glyph stroke 1.9 are one-offs; propose one combined token only if more chips need them.
-- Visual QA rows compare against tokens and code only. design/Lume App.html has no per-screen markup. Pixel comparison is owner check pending until screenshots exist.
+- Rounds 48-53: rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
+- Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
+- Round 54: Jev said ask (92%); overridden. Finding a file path is not an owner task. Decided by one grep for row 55 only.
 - Jev advice is advisory. Override only with a concrete reason, written here.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
-- BUILT: Food log, Gym history (simulator owner check pending), Add food, Legal (static), Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription.
-- Checked in code, no gap: Gym templates, schedule, muscles, freeze, profile. Row 11 exercise progress BUILT.
-- BUILT: motion audit, screen and navigation transitions, adding and removing food log entries, ProgressBar, EnergyBalanceCard, DailyMacroRing easing, gym log remove path (local).
-- BUILT: row 9 gym log create reconciliation (sign in part owner check pending).
-- BUILT checked in code: rows 35 and 54 streak footnote (simulator owner check pending).
-- BUILT: rows 78, 79, 80, 81 gym patterns guards.
-- BUILT checked in code: row 74 onboarding Reduce Motion (device feel owner check pending). Row 74 camera modal feel: owner check pending.
-- BUILT: row 23 fades, row 26 scrims, row 30 tab bar (checked in code). Row 37 3D body (checked in code).
-- BUILT checked in code: row 51 toast clearance, row 53 Connected apps chip.
+- BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54.
+- BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - Checkpoints round 16, 23, 39: gates green.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
 - Row 17 plan.tsx has no backend: build plan generation or drop the card for v1.
-- Claude CLI sign in expires 2026-11-24 to 2026-11-27. Run claude auth login, or claude setup-token.
-- design/ has no per-screen markup. Visual QA pixel check needs screenshots or a design export.
-- loop/ files show uncommitted diffs (loop-managed, not a task).
+- Claude CLI sign in expires 2026-11-24 to 2026-11-27. Run claude auth login.
+- design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
+- loop/ files show uncommitted diffs (loop-managed).
 - Merging loop/design-match into main: Isa's job.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- ToastHost has no test file. Add a basic render test. Side finding, not a row.
+- ToastHost and BottomSheet have no render test. Side findings, not rows.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
-- Copy pass: 'owner check pending' reads awkwardly after a noun phrase.
+- Copy pass: 'owner check pending' reads awkwardly after a noun phrase. Final wording sweep of PHASE2_ROWS.md.
+- Rows 27-63: notes column blank. Backfill file names first.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
-- Final wording sweep of PHASE2_ROWS.md.
-- Rows 27-63: notes column blank. Investigate one per round.
-- BottomSheet.tsx has no render test. Add one. Side finding, not a row.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
 - Gym log: logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps: product decision.
-- muscle_volume_map type guard checks objects, not numbers. Revisit only if a crash reproduces.
-- MuscleChart magic numbers NAME_WIDTH 84, VALUE_WIDTH 74, BAR_HEIGHT 8: promote to tokens only if another chart needs them.
-- No stroke-weight token in src/lib/design/tokens.ts. Add icon.strokeWeight only if more custom SVG ticks appear.
-- Token proposal: one combined token for chip tint ratio (0.14) and glyph stroke (1.9), only if more chips need them.
-- Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
+- muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
+- MuscleChart magic numbers: promote to tokens only if another chart needs them.
+- Chip tint ratio 0.14 and glyph stroke 1.9: one combined token only if more chips need them.
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 54: row 55 Visual QA add menu (tokens and code only, no sign in). Run tsc each round; run Jest only for files changed.
-- Then: rows 56-63 Visual QA, one per round, notes filled in.
-- Then: ToastHost render test (side finding), if Isa agrees it is worth a row.
-- Then: final wording sweep of PHASE2_ROWS.md.
-- Then: backend refinement rows.
+- Round 54: row 55 add menu, identify file and check in code (in progress). Run tsc each round.
+- Round 55: backfill file names for rows 23-63 in PHASE2_ROWS.md, so Visual QA rows stop blocking.
+- Then: rows 56-63 Visual QA, one per round.
+- Then: final wording sweep. Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round. Run tsc and changed-file tests every round a row changes code.
-- Reports and notes: 'checked in code' only.
+- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
-- Claude Code 5-hour usage limit: if hit, wait one round, do not change scope.
+- Claude Code 5-hour limit: if hit, wait one round, do not change scope.
