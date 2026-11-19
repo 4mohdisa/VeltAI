@@ -9,7 +9,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code usage limit hit rounds 42, 43, 45, 48, and in the round 49 handover (5-hour limit). If hit: wait, do not change scope.
+- Claude Code 5-hour usage limit hit in rounds 42, 43, 45, 48, and the round 49 handover. If hit: wait, do not change scope.
 - Claude CLI sign in ends 2026-11-24 to 2026-11-27. Owner step: run claude auth login.
 
 ## Wording rule
@@ -33,6 +33,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests). Row 23 BUILT, checked in code.
 - Round 48: row 30 tab bar checked in code, no change needed.
 - Round 49: row 37 3D body = MuscleChart stand-in, checked in code, no real difference. Pixel check owner check pending.
+- Round 50: row 51 toast clearance checked in code. TOAST_BOTTOM 112 clears tab bar clearance (100) by 12pt. No code change.
+- Round 51: flag 'type check or tests not run' on round 50. tsc was run (0 errors). No test imports ToastHost. Re-run of tsc and grep is the gate for this round.
 - Visual QA rows compare against tokens and code only. design/Lume App.html has no per-screen markup. Pixel comparison is owner check pending until screenshots exist.
 - Jev advice is advisory. Override only with a concrete reason, written here.
 
@@ -46,6 +48,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT: rows 78, 79, 80, 81 gym patterns guards.
 - BUILT checked in code: row 74 onboarding Reduce Motion (device feel owner check pending). Row 74 camera modal feel: owner check pending.
 - BUILT: row 23 fades, row 26 scrims, row 30 tab bar (checked in code). Row 37 3D body (checked in code).
+- BUILT checked in code: row 51 toast clearance.
 - Checkpoints round 16, 23, 39: gates green.
 
 ## Blocked on Isa
@@ -59,6 +62,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
+- ToastHost has no test file. Add a basic render test. Side finding, not a row.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
@@ -77,8 +81,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 50: row 51 Visual QA toast clearance. One component.
-- Then: rows 27-63 Visual QA that need no sign in, one per round, notes filled in.
+- Round 51: re-run tsc and the ToastHost grep to close the gate flag on row 51.
+- Then: row 52 Visual QA tick weight (no sign in needed), one per round, notes filled in.
+- Then: rows 53-63 Visual QA, same pattern.
 - Then: final wording sweep of PHASE2_ROWS.md.
 - Then: backend refinement rows.
 

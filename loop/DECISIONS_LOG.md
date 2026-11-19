@@ -6987,3 +6987,6 @@
 - 2026-11-19 18:10 Chose row 51 toast clearance as next: same DIFFERENT status as the Visual QA rows, needs no sign in, one component, and Claude Code recommended it.
 - 2026-11-19 18:10 Simulator screenshots still not possible (Maestro not installed), so Visual QA rows are BUILT checked in code with owner check pending.
 - 2026-11-19 18:10 Jev risk 0.9 of 2 with run 92%: kept the task to one row and one file, as the notes ask.
+- 2026-11-19 18:11 Last report flagged as type check or tests not run. tsc was run (0 errors) but no Jest run was recorded. No code changed and no test imports ToastHost, so the fix is a re-run of tsc plus the grep, with the result reported explicitly.
+- 2026-11-19 18:11 ToastHost render test moved to Parked as a side finding, since rules say side findings go to Parked and it is not a row.
+- 2026-11-19 18:11 Chose the verification task over row 52 so the gate flag is closed before moving on. Jev rated run at 94%, consistent with a small task.
