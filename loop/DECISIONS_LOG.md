@@ -6941,3 +6941,6 @@
 - 2026-11-19 17:18 Did not ask Isa about the claude auth login warning. It is an owner step with a deadline of 2026-11-24, so it is recorded under Blocked on Isa for him to act on.
 - 2026-11-19 17:18 Jev risk 1.2 and 10% clean-finish estimate for the last task: kept the task to one file and one row, as Jev advised.
 - 2026-11-19 17:18 Handover label for row 9 is stale. Done list already says BUILT, so the notes keep BUILT and the handover text is ignored.
+- 2026-11-19 17:18 Round 42 result: Claude Code hit its 5-hour usage limit with no changes made. Re-issued the row 74 restore unchanged. Limit is temporary, so no question to Isa.
+- 2026-11-19 17:18 Claude CLI sign-in expiry (2026-11-24 to 2026-11-27) stays as an owner step in Blocked on Isa. Not a loop task.
+- 2026-11-19 17:18 Stale 'row 9 PARTIAL' label in the handover is ignored. Done list says BUILT, which is correct.

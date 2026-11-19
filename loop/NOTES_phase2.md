@@ -37,7 +37,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rounds 37-39: Jev asks overridden with written reasons (minor, reversible, existing tests pass, read-only checkpoint).
 - Round 40: checkpoint baseline set to 81/864/4.
 - Round 40 retry: row 74 camera modals switched to screenAnimation(). Motion change flagged as unintended.
-- Round 41: camera modals to be restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Reason: original motion, reversible. Round 41 result not recorded (rate limit), re-issued as round 42.
+- Round 41: camera modals to be restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Reason: original motion, reversible. Round 41 result not recorded (rate limit).
+- Round 42: Claude Code hit 5-hour usage limit, no changes made. Re-issued unchanged.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -85,7 +86,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 42: row 74 restore camera modal slide_from_bottom in src/app/_layout.tsx (re-issued). Run tsc and the screenTransitions test.
+- Round 42 (re-issued): row 74 restore camera modal slide_from_bottom in src/app/_layout.tsx. Run tsc and the screenTransitions test.
 - Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows that need no sign in, backend refinement rows.
 
 ## Known issues
@@ -93,4 +94,3 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Jev risk 1.2 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.
-- Handover label for row 9 (PARTIAL) is stale; Done list says BUILT.
