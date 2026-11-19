@@ -36,15 +36,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Render smoke tests stay folded into their visual rows.
 - Stale note corrections: edit only after grep finds a real importing test; name the exact file. Status never changes in a docs pass.
 - Round 108: row 40 premise was wrong (row 40 is title blocks, not AddMenu). No edit.
-- Round 109: row 55 grep found only a comment hit in src/__tests__/render/foodLogRowMotion.render.test.tsx, not an import. No edit. Jev ask 63% overridden earlier: the open item is a notes-only mismatch that grep resolves.
+- Round 109: row 55 grep found only a comment hit, not an import. No edit.
+- Round 110: row 53 grep found only string hits for the screen path (API client tests, not the screen). No edit.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 51-64, 68.
+- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Tests added: ToastHost.render.test.tsx (row 51), BottomSheet.render.test.tsx (row 27), FloatingHeader.reduceTransparency.render.test.tsx (row 32), Screen.render.test.tsx (row 62).
-- Stale-note corrections done: rows 61, 17, 52, 36, 38.
+- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104.
 
 ## Blocked on Isa
@@ -60,9 +61,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
-- Stale 'no Jest' phrasing: rows 53, 55 (checked round 109, no edit), 83 left to check, one per round.
+- Stale 'no Jest' phrasing: rows 38, 40, 55, 83 still to check, one per round (53 checked round 110).
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
-- Off-token values: Screen.tsx offsets; AddMenu radius, row height and PANEL_RING_WIDTH 0.5 and ROW_MIN_HEIGHT 54 and label 16/20; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE, PROVIDER_GLYPH_STROKE, PROVIDER_CHIP_TINT (no token category).
+- Off-token values: Screen.tsx offsets; AddMenu radius, row height, PANEL_RING_WIDTH 0.5, ROW_MIN_HEIGHT 54, label 16/20; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE, PROVIDER_GLYPH_STROKE, PROVIDER_CHIP_TINT. Row 53 PROVIDER_ROW_GAP, PROVIDER_NAME_SIZE/LINE_HEIGHT, PROVIDER_CHIP_SIZE, PROVIDER_CHIP_TINT, PROVIDER_GLYPH_SIZE/STROKE (no token category).
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
 - Disabled opacity drift: GymCalendar 0.3, food/calendar 0.35, opacity.disabled 0.4.
 - Sheet detents medium/large: no native mechanism in BottomSheet.tsx. Structural gap.
@@ -80,9 +81,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 110 (in progress): row 53 stale-note check (grep for real import; edit only if found). Docs-only, tsc and full Jest.
-- Then row 83 stale-note check.
-- Then rows 1, 2, 5-8, 18: record BUILT checked in code on passing local mocked tests (sign-in is an owner step).
+- Round 111: row 83 stale-note check (grep for real import; edit only if found). Docs-only, tsc and full Jest.
+- Then rows 1, 2, 5-8, 18: record PARTIAL or BUILT checked in code on passing local mocked tests (sign-in stays an owner step).
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 

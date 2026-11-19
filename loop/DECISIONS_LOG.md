@@ -7283,3 +7283,6 @@
 - 2026-11-19 20:35 Followed Jev (run 92%) and the Next list in notes: row 53 stale-note check comes before rows 83 and the sign-in rows.
 - 2026-11-19 20:35 Kept the row 53 edit conditional on a real importing test found by grep, per the stale-note rule. No guessing.
 - 2026-11-19 20:35 Docs-only round: tsc and full Jest still run, per the wording rule.
+- 2026-11-19 20:36 Chose row 83 check over the sign-in rows: it is the next item in the agreed order and is the smallest docs-only task. Jev ranked run at 90%, which agrees.
+- 2026-11-19 20:36 Row 53 check closed with no edit: grep found only a string hit for the screen path, so the existing note stands.
+- 2026-11-19 20:36 Sign-in rows stay PARTIAL until a mocked-test pass is recorded; sign-in itself remains an owner step.
