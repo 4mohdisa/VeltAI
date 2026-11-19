@@ -7328,3 +7328,6 @@
 - 2026-11-19 20:55 Chose row 19 stale-note check: it is the next unchecked row in the stale-note sequence, docs-only, one file, matches Jev's preference for small tasks.
 - 2026-11-19 20:55 Toast and sheet owning-row decision deferred one round: it is a notes-only decision and does not clear any row.
 - 2026-11-19 20:55 Recorded row 18 notes correction (src/app/energy.tsx via src/__tests__/render/detailChrome.render.test.tsx) as done in Done list, per latest report.
+- 2026-11-19 20:56 Chose row 20 stale-note check: smallest docs-only task, named as next by the latest report, Jev ranks run highest.
+- 2026-11-19 20:56 Toast and sheet owning-row decision deferred one round: it spans six rows and is a decision, not a single-row task.
+- 2026-11-19 20:56 Row 19 check of round 123 recorded as done with no edit, per the report's grep evidence.
