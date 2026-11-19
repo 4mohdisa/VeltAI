@@ -31,11 +31,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope set by manager.
 - Stale motion rows 65-72: fold or delete is Isa's decision. Loop does not fold them on its own.
 - Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence (manager decision, round 26). Additive and backward compatible.
+- Round 28: loop flagged round 26 as partly done. Re-check queue change and finish row 9 wiring in one row task (manager decision).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
 - Food log, Gym history: BUILT (Gym history simulator owner check pending).
-- Gym log: PARTIAL. Remaining gap is create-id reconciliation.
 - Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap.
 - Gym streak, Goals, Paywall/Subscription: BUILT.
 - Profile: checked in code, no gap.
@@ -45,6 +45,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Adding and removing list items, food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Gym log entries remove path (row 77, src/app/gym/session.tsx): BUILT, local only.
+- Round 26: runOrQueueSequence onLanded added in src/lib/offline/queue.ts with test src/__tests__/queueSequenceOnLanded.test.ts. Row 9 still PARTIAL.
 - Round 16 and round 23 checkpoints: gates green.
 
 ## Blocked on Isa
@@ -69,11 +70,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 26: row 9, extend runOrQueueSequence in src/lib/offline/queue.ts with optional onLanded (test: src/__tests__/queueSequenceOnLanded.test.ts).
-- Round 27: row 9, wire logGymSession through registerGymSessionCreate in src/lib/data/mutations.ts.
+- Round 28: row 9, finish logGymSession create reconciliation via registerGymSessionCreate in src/lib/data/mutations.ts (test: src/__tests__/gymSessionCreateReconcile.test.ts).
 - Then: Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - Rows 65-72 duplicate rows 64 and 74-77. Fold per Isa decision.
-- Jev risk 1.3 of 2: keep tasks small. Jev asked for ask (92%); manager kept run on scope grounds (see decisions).
+- Jev risk 0.9 of 2 (round 28): keep tasks small.

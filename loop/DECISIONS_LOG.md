@@ -6878,3 +6878,7 @@
 - 2026-11-19 16:45 Widened scope for row 9 to src/lib/offline/queue.ts only, for the optional onLanded change. Reason: the previous report left row 9 PARTIAL on a scope limit, and the default rule says decide and record.
 - 2026-11-19 16:45 Kept the task to one file plus one new test file, per the one component per prompt rule, and deferred the mutations.ts wiring to the next round.
 - 2026-11-19 16:45 Rows 65-72 stay as they are until Isa decides to fold or drop them. Not touched this round.
+- 2026-11-19 16:47 Loop flag said the last report was partly done. Row 9 is still PARTIAL and only the queue change landed, so the next prompt re-checks the queue change and finishes the row 9 wiring in the same single row task.
+- 2026-11-19 16:47 Jev asked for ask at 92%, but the risk is a scoped code task, not a production or money question. Kept run. Reason: nothing here needs Isa, and a question would only delay a row that is already scoped.
+- 2026-11-19 16:47 Kept rows 65-72 out of scope. Folding them is Isa's decision.
+- 2026-11-19 16:47 Simulator flow for row 9 recorded as an owner step, because sign in needs hosted Clerk JWKS.

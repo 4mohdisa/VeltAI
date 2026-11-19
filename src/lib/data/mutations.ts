@@ -35,6 +35,11 @@ const swapSavedId = (localId: string, serverId: string) =>
     savedFoods: s.savedFoods.map((f) => (f.id === localId ? { ...f, id: serverId } : f)),
   }));
 
+const swapGymSessionId = (localId: string, serverId: string) =>
+  useGymStore.setState((s) => ({
+    sessions: s.sessions.map((x) => (x.id === localId ? { ...x, id: serverId } : x)),
+  }));
+
 // In-flight creates, keyed by local id. Edits/deletes racing the create's server
 // round-trip await the promise and target the resolved server id instead of being
 // dropped; hydration (hooks.ts) uses the map to keep unsynced rows across a fetch.
@@ -42,6 +47,7 @@ const swapSavedId = (localId: string, serverId: string) =>
 // ponytail: entries are kept for the whole session (stale-closure ops still resolve); memory is trivial.
 const pendingMealCreates = new Map<string, Promise<string | null>>();
 const pendingSavedCreates = new Map<string, Promise<string | null>>();
+const pendingGymSessionCreates = new Map<string, Promise<string | null>>();
 
 const trackCreate = (pending: Map<string, Promise<string | null>>, localId: string, create: Promise<string | null>) =>
   pending.set(
@@ -71,6 +77,20 @@ export const registerMealCreate = (localId: string, create: Promise<{ id: string
 /** True while (or after) a create for this local id is being synced — hydration
  *  keeps these rows since the server list can't include them yet. */
 export const hasPendingCreate = (id: string): boolean => pendingMealCreates.has(id) || pendingSavedCreates.has(id);
+
+/** Same shape as registerMealCreate, for the gym session create → exercises →
+ *  complete sequence: swaps the server id onto the local session row once the
+ *  sequence lands, whether that's the immediate return or a queued replay. */
+export const registerGymSessionCreate = (localId: string, create: Promise<{ id: string } | null>) =>
+  trackCreate(
+    pendingGymSessionCreates,
+    localId,
+    create.then((row) => {
+      if (!row) return null;
+      swapGymSessionId(localId, row.id);
+      return row.id;
+    }),
+  );
 
 /** Run `op` against the row's server id: directly for server ids, after the
  *  in-flight create resolves for local ids. Skipped (with a warn) when the
@@ -177,14 +197,17 @@ export const logGymSession = (
   // exercises someone just performed is worse than a second session row.
   if (!workout && gym().streak.gymLoggedToday) return;
   gym().logGymSession(session);
+  const localId = gym().sessions.find((s) => s.date === 'Today')?.id ?? '';
   track('workout_logged');
   // GymSessionInput has no effort/energy field (backend session row is
   // date/name/notes/duration only) — both stay device-local on the store session.
   // The whole create → exercises → complete sequence goes through the offline
   // queue as ONE unit with one idempotency key: offline it is replayed in order
-  // on reconnect, and a replay can never produce a second session.
-  sync(
-    runOrQueueSequence(
+  // on reconnect, and a replay can never produce a second session; onLanded swaps
+  // the server id onto the optimistic row when a queued create finally lands.
+  registerGymSessionCreate(
+    localId,
+    runOrQueueSequence<{ id: string }>(
       '/api/gym/sessions',
       { date: todayISO(), name: workout?.name, duration_minutes: session?.durationMin, notes: session?.notes },
       workout
@@ -193,6 +216,7 @@ export const logGymSession = (
             { path: '/api/gym/sessions/{id}/complete', body: { completion_rate: workout.completionRate } },
           ]
         : [],
+      (row) => swapGymSessionId(localId, row.id),
     ),
   );
 };
