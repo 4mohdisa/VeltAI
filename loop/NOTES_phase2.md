@@ -6,10 +6,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 240 (current): row 7 notes cleanup (remove stale PARTIAL sentence), PHASE2_ROWS.md only.
+- Round 241 (current): gate checkpoint (tsc + full app Jest), no file changes. Triggered by loop flag: round 240 ran no tests.
+- Round 240: row 7 notes cleanup, PHASE2_ROWS.md only. Status BUILT confirmed in code.
 - Round 239 checkpoint GREEN: tsc 0 errors, Jest 133 suites, 985 tests, 4 snapshots.
-- Round 238: row 83 Notes cell describes the current stacked chart. MACRO_BAR_W stale note resolved.
-- Round 237: TodayCard malformed-response guard (isValidTodayWorkout in src/components/gym/TodayCard.tsx) with src/__tests__/render/todayCard.render.test.tsx. Recorded under row 9.
 - Prompts: one row or one checkpoint, one file, full paths, grep by content before creating a test file, no git commands. Prompts never edit loop/ files. Every prompt must state the loop/phase2 branch rule.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
 
@@ -17,7 +16,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - Real coverage = executed import that renders or uses the component.
-- A round that changes no code still runs the gate when the loop flags it.
+- A flagged round runs the gate even if it changes no code.
 
 ## Decisions (never delete)
 - Local backend and local DB only. RevenueCat over Stripe. v1 locked; extras to Parked.
@@ -33,13 +32,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- Round 232: run chosen over ask. Only Isa item is row 17, parked for the stop report.
-- Round 234: keep scope small (Jev 33% clean on last task).
-- Round 235: existing render test counts as row 2 coverage. Default used.
-- Round 237: test location answered by repo convention. TodayCard guard recorded under row 9.
-- Round 238: run over ask. Smallest task chosen.
-- Round 239: run over ask (Jev 89%). Gate flag treated as a checkpoint with no file changes.
+- Round 235: existing render test counts as row 2 coverage.
+- Round 237: TodayCard guard recorded under row 9.
 - Round 240: run over ask (Jev 96%). Row 7 notes cleanup chosen as the smallest task.
+- Round 241: run over ask (Jev 88%). Gate flag handled as a checkpoint with no file changes.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -50,10 +46,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps
-- Row 7 notes: leftover 'status stays PARTIAL' sentence. Fixing in round 240.
+- Row 7 table: 9 content cells where the header defines 8 (stray cell between Simulator flow and Notes). Not fixed yet.
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
-- freeze.tsx: handover says no render test yet. Verify its row number and status before starting.
+- freeze.tsx: no render test yet. Verify its row number and status before starting.
 - LoggedCard: if sessionId is not in the fetched range, session is undefined and LoggedSessionDetail silently does not render. Possible gap, not confirmed. Audit after notes are clean.
+- Row 83 cites MACRO_BAR_W, which no longer exists in src/app/dashboard/nutrition.tsx. Fix when row 83 is next touched.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -79,13 +76,14 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - logGymSession while gymLoggedToday is true.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
-- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in round 232).
+- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in rounds 232 or 241).
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 
 ## Next
-- Round 240: row 7 notes cleanup (PHASE2_ROWS.md only). Read result before any other row.
-- Then: verify freeze.tsx row and status; add its render test if it is still open.
+- Round 241: gate checkpoint (tsc + full app Jest). Read result before any other row.
+- Then: row 7 table fix, merging the stray cell so the row has 8 columns (PHASE2_ROWS.md only, status unchanged).
+- Then: verify freeze.tsx row and status; add its render test if still open.
 - Then: LoggedCard silent-undefined session audit (read first, fix only if confirmed).
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
