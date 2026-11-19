@@ -7186,3 +7186,6 @@
 - 2026-11-19 19:36 Row 44 accepted as BUILT (checked in code): ProgressBar default height 8 to space.sm and MacroBars bar height 12 to space.md, both identical token values; tsc 0 errors, 2 suites and 15 tests passing.
 - 2026-11-19 19:36 ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260 not swapped: not identical, parked for a design decision.
 - 2026-11-19 19:36 MacroBars icon size 11 has no token category: parked with the icon-size gap.
+- 2026-11-19 19:38 Row 45 counted BUILT (checked in code): MuscleChart BAR_HEIGHT 8 to space.sm, same value; tsc 0 and full Jest 83/874/4 green.
+- 2026-11-19 19:38 Chose row 46 over the two render smoke tests: notes say finish remaining non-BUILT rows first, one per round. Jev rated run 87%.
+- 2026-11-19 19:38 Parked the dashboard nutrition.tsx and week.tsx bar literals as a follow-up row, not this round, because they are route files outside the shared components.
