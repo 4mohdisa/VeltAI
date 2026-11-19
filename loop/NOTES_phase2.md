@@ -1,21 +1,18 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to local backend, make backend changes the UI needs, test flows on simulator. Progress counted from PHASE2_ROWS.md (84 single-line rows). Prompts use row TITLE plus number.
+Wire every screen to local backend, test flows on simulator. Progress counted from PHASE2_ROWS.md (84 rows). Prompts use row TITLE plus number.
 
 ## State
-- Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 204: CHECKPOINT. Full app tsc and full Jest --ci, no file changes. Round 203 never ran as a checkpoint; folded in.
-- Last checkpoint GREEN: round 188 (tsc 0 errors; Jest 116 suites, 941 tests, --ci). Backend 632 pass incl. 18 TestPG on local DB.
-- Round 202 added src/__tests__/render/signupClerkMessage.render.test.tsx (4 tests, row 1 clerkMessage mapping, indirect via signup.tsx).
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
+- Round 205 next. Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
-- Every prompt must name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
-- Task premises can be wrong: check row content and code before acting.
-- Handover claims can conflict with the latest report: follow the latest report and check code.
+- Prompts name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
+- Task premises can be wrong: check row content and code first. Follow the latest report over handover claims.
 
 ## Wording rule
-- Cells and reports: BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
+- Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - Real coverage = executed import that renders or uses the component.
 
@@ -27,21 +24,20 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Clerk sign-in needs hosted JWKS: owner step. No auth bypass.
 - Sign-in flows are owner steps; rows BUILT on passing local mocked tests.
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
-- Render tests: components get *.render.test.tsx; screens in src/__tests__/render/. Use renderScreen (react-test-renderer). No RNTL: incompatible with RN 0.85.3.
+- Render tests: components *.render.test.tsx; screens in src/__tests__/render/. renderScreen (react-test-renderer). No RNTL (incompatible with RN 0.85.3).
 - Rows 19, 20, 21: no edit. Row 8 BUILT once all live call sites have render tests.
 - Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
 - Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6.
 - Local-only mutations (editSavedFood) need no API test.
 - Minor questions decided by manager. Checkpoints override Jev ranking.
-- Jev signals advisory. Keep run when question is minor and blocks no row.
+- Jev signals advisory.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- Rows 7 and 8 BUILT: every live call site has a render test.
-- Row 6 barcode part has render coverage. Label and photo parts have none. Row 6 stays PARTIAL.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: validation messages, SSO cancel/error toasts; clerkMessage mapping now covered). Row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: email and code validation messages, SSO cancel and error toasts; clerkMessage mapping covered). Row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 6 (barcode has render coverage; label and photo do not).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -55,7 +51,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; untouched by loop work. Isa to check.
 
 ## Parked (not v1)
-- Recipe and saved meal delete/unsave: no UI. Product gap, not test gap.
+- Recipe and saved meal delete/unsave: no UI. Product gap.
 - Row 8 notes cell carries older contradictory fragments. Trim when next touched.
 - Quick add: on-device check of food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
@@ -74,8 +70,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 204: checkpoint (full tsc and Jest --ci, no file changes). Report any failures before new work.
-- Round 205: row 1 email and code client-side validation messages (pure client logic, no Clerk mock).
+- Round 205: row 1 email and code client validation messages (render test, file signupValidation.render.test.tsx).
 - Then row 1 SSO cancel ('Sign-in was cancelled.') and SSO error toasts via clerkMessage.
 - Then row 6 label and photo render tests.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
@@ -93,4 +88,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
-- Handover claims can conflict with newer reports: check code and the latest report, not the handover.
+- Handover claims can conflict with newer reports: check code and the latest report.

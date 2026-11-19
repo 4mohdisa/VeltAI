@@ -7673,3 +7673,7 @@
 - 2026-11-19 23:32 Handover summary says row 6 label and photo is next, but the latest Claude Code report names row 1 SSO toasts as NEXT. Followed the latest report, as the handover may be stale. Row 6 stays queued after row 1.
 - 2026-11-19 23:32 Checkpoint prompt changes no files and tells Claude Code not to fix failures, so a red gate is reported and handled in the next round.
 - 2026-11-19 23:32 Round 203 was planned as a checkpoint but never ran as one. It is folded into this round (now round 204).
+- 2026-11-19 23:33 Checkpoint round 204 was green (tsc 0 errors, Jest 121 suites, 962 tests), so no fix needed before new work.
+- 2026-11-19 23:33 Chose row 1 validation over SSO toasts: smallest pure client gap, no Clerk mock, matches the prior report's NEXT.
+- 2026-11-19 23:33 Notes condensed to fit the 600-word limit; no decision or owner item was dropped.
+- 2026-11-19 23:33 Row 1 stays PARTIAL until SSO cancel and error toasts are covered.
