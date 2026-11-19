@@ -7181,3 +7181,8 @@
 - 2026-11-19 19:34 Used the 'nearest shared file' rule for the Visual QA row since the row has no named file; the prompt states this so the report records the file used.
 - 2026-11-19 19:34 Prompt gives the branch check, tsc and Jest gate, and the report format, per the rules for Phase 2 prompts.
 - 2026-11-19 19:34 Stale handover (it names row 34 as next) was ignored in favour of the notes and the latest report, which both say row 44.
+- 2026-11-19 19:36 Chose row 45: it is the next unbuilt row in the queue, needs no Isa input and is small.
+- 2026-11-19 19:36 Full Jest run required this round because the last round skipped it (test gate rule).
+- 2026-11-19 19:36 Row 44 accepted as BUILT (checked in code): ProgressBar default height 8 to space.sm and MacroBars bar height 12 to space.md, both identical token values; tsc 0 errors, 2 suites and 15 tests passing.
+- 2026-11-19 19:36 ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260 not swapped: not identical, parked for a design decision.
+- 2026-11-19 19:36 MacroBars icon size 11 has no token category: parked with the icon-size gap.

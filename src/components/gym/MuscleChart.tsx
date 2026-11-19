@@ -37,7 +37,7 @@ export const MUSCLE_GROUPS = [
 /** Name column width — the design aligns every bar on one left edge. */
 const NAME_WIDTH = 84;
 const VALUE_WIDTH = 74;
-const BAR_HEIGHT = 8;
+const BAR_HEIGHT = space.sm;
 
 /** 'full_body' → 'Full body'. */
 export function muscleLabel(muscle: string): string {
