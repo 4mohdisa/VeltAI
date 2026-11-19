@@ -33,7 +33,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
-- Food log, Gym log, Gym history: BUILT. Simulator owner check pending.
+- Food log, Gym log (reopened to PARTIAL, round 25), Gym history: Gym history BUILT. Simulator owner check pending.
 - Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap.
 - Gym streak, Goals, Paywall/Subscription: BUILT.
 - Profile: checked in code, no gap.
@@ -42,6 +42,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Motion audit, screen and navigation transitions: BUILT.
 - Adding and removing list items, food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
+- Gym log entries remove path (row 77, src/app/gym/session.tsx): BUILT, local only.
 - Round 16 baseline checkpoint: gates green.
 - Round 23 checkpoint: gates green, no file changes.
 
@@ -67,12 +68,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 24 (running): row 77 gym log entries remove path (src/app/gym/session.tsx).
-- Then: gym log create id reconciliation (logGymSession, like logMeal registerMealCreate), part of Gym log rework.
-- Then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Round 25 (running): row 9 Gym log, logGymSession create id reconciliation (registerMealCreate pattern).
+- Then: Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate).
 - Rows 65-72 duplicate rows 64 and 74-76. Fold per Isa decision.
-- Jev risk 1.3 of 2: keep tasks small.
+- Jev risk 1.0 of 2: keep tasks small.

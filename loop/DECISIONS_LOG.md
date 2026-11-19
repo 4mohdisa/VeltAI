@@ -6870,3 +6870,7 @@
 - 2026-11-19 16:36 Did not take Jev's ask (57%): the only open question is already answered in Decisions; a small task is safer at risk 1.3.
 - 2026-11-19 16:36 Rows 65-72 left untouched: fold or delete is Isa's decision per Decisions.
 - 2026-11-19 16:36 Round 23 checkpoint recorded as green: tsc 0 errors, Jest 73 suites / 847 tests / 4 snapshots.
+- 2026-11-19 16:41 Chose the logGymSession id reconciliation gap over new work because the last report and Known issues both list it, and it reopens row 9 to PARTIAL until it is done (Gym log is not BUILT while a part is missing).
+- 2026-11-19 16:41 Kept rows 65 to 72 untouched, since the notes say Isa decides whether to fold them.
+- 2026-11-19 16:41 Simulator flows stay owner check pending because sign in needs hosted Clerk JWKS.
+- 2026-11-19 16:41 Jev risk is 1.0 of 2, so the task is one component, five steps, with a single test file.
