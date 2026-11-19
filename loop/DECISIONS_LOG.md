@@ -7924,3 +7924,6 @@
 - 2026-11-20 01:54 Sign-in verifier is an owner step and cannot be a loop row. Parked.
 - 2026-11-20 01:54 Uncached go test -count=1 is a loop script change, not a Claude Code row. Parked for Isa to decide.
 - 2026-11-20 01:54 Row 17 edit limited to plan.tsx, hooks.ts (only if unused), one render test, and the row 17 Notes cell. Status stays BUILT.
+- 2026-11-20 01:58 Round 265: stop, because the stop condition is met (all rows BUILT, owner items counted as BUILT). Jev also ranks stop highest (82%).
+- 2026-11-20 01:58 Row 17 target confirmed as src/app/dashboard/plan.tsx, since src/app/(tabs)/plan.tsx does not exist. Recorded for the stop report, no code change.
+- 2026-11-20 01:58 planReasonForBuild and mockPlanReason are now dead code after row 17. Parked, not removed, because the row 17 task did not authorise removing them.
