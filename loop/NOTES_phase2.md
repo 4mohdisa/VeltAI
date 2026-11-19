@@ -6,7 +6,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Handover at round 165: render tests added for signup OTP, signup dev fallback, anomaly banner/card, ai-query send path, add menu, saved foods, quick-add initial render. Last full run: tsc 0; Jest 107-108 suites, 920-921 tests, green.
+- Round 166: quick-add submit path render test added (offline fallback and error toast). tsc 0; quickAdd 4/4 pass.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -38,7 +38,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (signup, OTP, dev fallback render tests added; live Clerk sign-in owner step remains).
 - PARTIAL: row 2 onboarding (all steps have render tests; live Clerk sign-in and profile persistence owner).
-- PARTIAL: row 5 quick-add (initial render tests; submit path in progress, round 166).
+- PARTIAL: row 5 quick-add (initial render, offline fallback and error toast tests added; loading and deep-link branches in progress, round 167).
 - PARTIAL: row 8 saved foods (foodSaved render test added).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
@@ -72,7 +72,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: fix render coverage separately.
 
 ## Next
-- Round 166: quick-add submit path render test (row 5, extend quickAdd.render.test.tsx).
+- Round 167: quick-add loading state and deep-link branch render tests (row 5, extend quickAdd.render.test.tsx).
 - Then: integrations and nutrition/week render coverage (rows 38, 53, 83).
 - Then: SwipeableRow warning, only if it blocks a test.
 

@@ -7512,3 +7512,7 @@
 - 2026-11-19 22:02 Told Claude Code to stop rather than edit the screen if the code does not match, so no behaviour changes slip in.
 - 2026-11-19 22:02 Left loop/ git status noise alone, as the notes say loop-managed files are never edited by prompts.
 - 2026-11-19 22:02 Left the Clerk JWKS, Maestro and token pass items as owner steps; no action this round.
+- 2026-11-19 22:05 Chose row 5 remaining branches: smallest change, same test file, closest PARTIAL row to BUILT, low Jev risk (1.0).
+- 2026-11-19 22:05 Kept SwipeableRow worklet warning parked: not blocking any test.
+- 2026-11-19 22:05 loop/ modified files left alone as loop-managed, per Decisions.
+- 2026-11-19 22:05 Round 166 quick-add submit path counted as covered by the latest report; remaining gap is loading and deep-link branches only.
