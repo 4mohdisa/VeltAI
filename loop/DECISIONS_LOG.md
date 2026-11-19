@@ -7684,3 +7684,6 @@
 - 2026-11-19 23:35 Chose row 1 SSO cancel and error toast: smallest remaining local gap on a PARTIAL row, and it needs no source change. Jev also ranks run first.
 - 2026-11-19 23:35 Kept the loop note's wording rule: 'render test added', no 'verified'.
 - 2026-11-19 23:35 Trimmed the notes to the current state. Finished work is merged into Done, and the repeated row 8 housekeeping is dropped from Known issues.
+- 2026-11-19 23:36 Jev ranked row 6 label first. Kept row 1 close-out first: the local gaps are closed per the latest report, and PARTIAL is only bookkeeping that keeps row 1 blocking stop. Owner-step rows are BUILT on passing local mocked tests (decision in this file), so this is one small round and not a scope change.
+- 2026-11-19 23:36 Row 1 prompt does not allow source or test edits; it only verifies the two test files and updates the row.
+- 2026-11-19 23:36 signupValidation.render.test.tsx path is not in the report, so the prompt has Claude Code find it with grep rather than guessing.
