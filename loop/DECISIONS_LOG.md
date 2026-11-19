@@ -7311,3 +7311,7 @@
 - 2026-11-19 20:48 Jev ranking (run 90%, confidence 0.85) agrees with the choice. Kept a small task: one row, one notes cell, grep first.
 - 2026-11-19 20:48 Row 5 check requires a real importing test found by grep before any edit. Status cells stay unchanged in this docs pass.
 - 2026-11-19 20:48 Each docs-only round still runs tsc and full Jest, per the wording rule.
+- 2026-11-19 20:50 Round 118 result accepted: row 5 has no real importing test, so no stale note to correct; the two grep hits are string matches only.
+- 2026-11-19 20:50 Chose row 6 stale-note check next, following the sequential sweep in NOTES Next, as Jev ranks it highest and it is the smallest task.
+- 2026-11-19 20:50 Kept the toast and sheet owning-row decision for after the sweep, since it is also docs-only and can be decided in one round later.
+- 2026-11-19 20:50 Trimmed repeated Parked and Known issues lines to keep the notes near the length limit; no decision was deleted.
