@@ -8,8 +8,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Baselines: app 65 suites / 824 tests / 4 snapshots (green), backend 632 pass plus 18 TestPG_* against local DB (green).
 - Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg running. No hosted Supabase, Clerk or RevenueCat in repo; only .env.example templates.
 - Local DB: lume_gate_test and lume databases, auth stubs, all 16 migrations applied. Seed in backend/scripts/seed_local.sql (idempotent, local only).
-- Backend running locally via go run ./cmd/server. /health 200. Auth enforced (401 without token).
+- Backend runs locally via go run ./cmd/server. /health 200. Auth enforced (401 without token).
 - Docker compose plugin not installed. Use plain docker run.
+
+## Wording rule
+- Rows say BUILT or 'checked in code'. Never 'verified', 'verify' or 'confirmed'. Isa verifies.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -30,7 +33,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 22 baseline: BUILT.
 - Row 73 Local setup: done. Sign in step parked.
 - Row 3 Food log: BUILT (round 4). Simulator owner check pending.
-- Row 9 Gym log: BUILT (round 5). Routes and JSON fields match. Added export to hydrateGym, one hydration test. Simulator owner check pending.
+- Row 9 Gym log: BUILT (round 5). Simulator owner check pending.
+- Row 10 Gym history: BUILT (round 6). Route and JSON fields checked in code. Simulator owner check pending.
+- Round 7: row 10 wording fixed (removed 'verified'). Auto check flagged it.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -45,7 +50,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local Clerk-compatible verifier or test issuer for simulator sign in: owner step.
 
 ## Next
-- Round 6: row 10 Gym history (verify route and client wiring, add one test if a gap). Prompt sent.
+- Row 11 Gym templates, schedule, muscles, exercise progress, freeze: route and field comparison.
 - Then Goals row (wire client to /api/goals) and Subscription row (wire client to /api/subscription).
 - Then remaining core flows, motion pass, backend refinement rows.
 
@@ -53,4 +58,5 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Goals and Subscription screens have backend endpoints the client never calls.
 - Authenticated flows cannot be exercised end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when row 16 is worked.
-- Gym history and Summary re-hydrate from server on view, so this may be intended. Confirm, do not change without a failing case.
+- Gym history and Summary re-hydrate from server on view. May be intended. Confirm in code, do not change without a failing case.
+- Long-press meal delete in food.tsx flagged twice (see Parked).

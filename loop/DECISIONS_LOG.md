@@ -6778,3 +6778,7 @@
 - 2026-11-19 14:59 Kept the logGymSession id-reconciliation concern out of this row. It is listed in Known issues to review when row 16 is worked, since it touches the shared mutation queue.
 - 2026-11-19 14:59 Simulator flow for row 10 is recorded as owner check pending because sign in cannot run locally. Rows stay BUILT on passing local tests, as decided in Phase 2 round 4.
 - 2026-11-19 14:59 Jev risk reading (0.6) is noted. Staying on a small verification-first task keeps the risk low, so no pause for Isa.
+- 2026-11-19 15:01 Fixed the flagged 'verified' wording on row 10 before moving on, as the loop note requires. Done as its own round because it is a single row edit and the loop allows one task per round.
+- 2026-11-19 15:01 Row 10 stays BUILT. The code and route match and the local Jest test passes. Simulator flow remains owner check pending.
+- 2026-11-19 15:01 Added a standing rule: rows say built or checked in code, never verified. Isa does the verifying. Applied to every future prompt.
+- 2026-11-19 15:01 Text only change, so no tests are run this round. Reason: a full test run adds no safety for a wording edit.
