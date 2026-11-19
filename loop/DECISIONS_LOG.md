@@ -7669,3 +7669,7 @@
 - 2026-11-19 23:29 Last report had tsc and jest not run. This prompt makes tsc the first gate and requires a green run before the round closes, to clear the loop flag.
 - 2026-11-19 23:29 Row 1 stays PARTIAL. Only the clerkMessage gap closes this round; SSO and validation remain next.
 - 2026-11-19 23:29 Round 203 checkpoint still runs as scheduled after this task.
+- 2026-11-19 23:32 Checkpoint flag from the automatic check overrides Jev's ranking. Jev put 80% on row 1 validation messages. Kept the checkpoint because the last report was flagged as partly done and no full suite has run since round 188. Reason recorded in notes.
+- 2026-11-19 23:32 Handover summary says row 6 label and photo is next, but the latest Claude Code report names row 1 SSO toasts as NEXT. Followed the latest report, as the handover may be stale. Row 6 stays queued after row 1.
+- 2026-11-19 23:32 Checkpoint prompt changes no files and tells Claude Code not to fix failures, so a red gate is reported and handled in the next round.
+- 2026-11-19 23:32 Round 203 was planned as a checkpoint but never ran as one. It is folded into this round (now round 204).

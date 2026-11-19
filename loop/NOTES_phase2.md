@@ -5,15 +5,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 201: clerkMessage direct test blocked (closure, not exported). Round 202 decision: test indirectly via signup screen, no source edit.
-- Round 202 loop flag: last report had tsc and jest not run. Round 202 re-run: tsc first, then the single new test file.
-- Round 203: next checkpoint (full tsc and Jest --ci).
-- Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci.
-- Backend 632 pass incl. 18 TestPG on local DB.
+- Round 204: CHECKPOINT. Full app tsc and full Jest --ci, no file changes. Round 203 never ran as a checkpoint; folded in.
+- Last checkpoint GREEN: round 188 (tsc 0 errors; Jest 116 suites, 941 tests, --ci). Backend 632 pass incl. 18 TestPG on local DB.
+- Round 202 added src/__tests__/render/signupClerkMessage.render.test.tsx (4 tests, row 1 clerkMessage mapping, indirect via signup.tsx).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Every prompt must name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
 - Task premises can be wrong: check row content and code before acting.
+- Handover claims can conflict with the latest report: follow the latest report and check code.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -39,10 +38,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
 - Rows 7 and 8 BUILT: every live call site has a render test.
-- Row 6 BUILT once label and photo paths have render tests (barcode done). Reconcile at next touch.
+- Row 6 barcode part has render coverage. Label and photo parts have none. Row 6 stays PARTIAL.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: clerkMessage mapping (in progress), validation messages, SSO cancel/error). Row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: validation messages, SSO cancel/error toasts; clerkMessage mapping now covered). Row 2 onboarding (live sign-in and profile persistence owner).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -73,12 +72,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
-- Row 6 label and photo scan paths: render tests needed (next after row 1).
 
 ## Next
-- Round 202: row 1 clerkMessage mapping, indirect render test (signupClerkMessage.render.test.tsx).
-- Round 203: checkpoint, full tsc and Jest --ci.
-- Then row 1 SSO cancel and error toasts; then validation messages.
+- Round 204: checkpoint (full tsc and Jest --ci, no file changes). Report any failures before new work.
+- Round 205: row 1 email and code client-side validation messages (pure client logic, no Clerk mock).
+- Then row 1 SSO cancel ('Sign-in was cancelled.') and SSO error toasts via clerkMessage.
 - Then row 6 label and photo render tests.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 
