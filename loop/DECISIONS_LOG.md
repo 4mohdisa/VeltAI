@@ -7280,3 +7280,6 @@
 - 2026-11-19 20:34 The AddMenu check moves to row 55, the row that actually names AddMenu.tsx. Chosen as the smallest next task that closes a real open note.
 - 2026-11-19 20:34 Jev ranked ask at 63%. Not asking Isa: the open question is a notes-only mismatch that a grep resolves, so it is not a major question and needs no Isa answer. Ask budget kept for real blockers. Risk 1.2 handled by keeping this round docs-only.
 - 2026-11-19 20:34 Stale-note corrections still need a real grep hit before any edit, and status columns stay unchanged in docs passes.
+- 2026-11-19 20:35 Followed Jev (run 92%) and the Next list in notes: row 53 stale-note check comes before rows 83 and the sign-in rows.
+- 2026-11-19 20:35 Kept the row 53 edit conditional on a real importing test found by grep, per the stale-note rule. No guessing.
+- 2026-11-19 20:35 Docs-only round: tsc and full Jest still run, per the wording rule.
