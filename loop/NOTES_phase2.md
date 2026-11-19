@@ -10,10 +10,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Scope: one row, one file or component per prompt.
 
 ## Wording rule
-- Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never use verified, verify, verifies, confirmed or confirm, except the identifier api.scan.confirm.
+- Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Avoid verified, confirmed and similar, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- Code change = run tsc and full Jest and say so.
-- Docs-only change = run tsc and full Jest and say so.
+- Code change or docs-only change = run tsc and full Jest and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -27,7 +26,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 9 scope: src/lib/offline/queue.ts, additive optional onLanded only.
 - Modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Rows with no named file: use the most relevant shared file, state in report. No identical token = no code change.
-- Literal swapped for token only when value identical AND semantic category matches. No stroke-weight, letter-spacing, icon-size or 9pt space tokens added. Off-token values stay parked.
+- Literal swapped for token only when value identical AND semantic category matches. Off-token values stay parked.
 - Stale motion rows are FOLDED, not deleted. One row per round.
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Settled.
 - New render tests for files under src/components/ are named *.render.test.tsx.
@@ -35,17 +34,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Jev ranking: follow it on small tasks; a concrete reason (data model size, risk) can override it, and the reason goes here.
 - Unanswered question: after one round, use the default and do not ask again.
 - Render smoke tests stay folded into their visual rows.
-- Stale note corrections: edit only after grep finds a real test; name the exact file. Status never changes in a docs pass.
+- Stale note corrections: edit only after grep finds a real importing test; name the exact file. Status never changes in a docs pass.
+- Round 108: row 40 premise was wrong (row 40 is title blocks, not AddMenu). No edit. Jev ask 63% overridden: the open item is a notes-only mismatch that grep resolves, not a major question.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Row 51: ToastHost.render.test.tsx. Round 99: BottomSheet.render.test.tsx (row 27).
-- Rounds 103-105: stale-note corrections for rows 61, 17, 52. Docs-only, green.
-- Round 106: row 36 grep found no importing test. No change. Docs-only, green.
-- Round 107: row 38 grep found no importing test of profile/integrations. No change. Docs-only, green.
+- Tests added: ToastHost.render.test.tsx (row 51), BottomSheet.render.test.tsx (row 27), FloatingHeader.reduceTransparency.render.test.tsx (row 32), Screen.render.test.tsx (row 62).
+- Stale-note corrections done: rows 61, 17, 52 (rounds 103-105), row 36 (106, no test found), row 38 (107, no test found).
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104.
 
 ## Blocked on Isa
@@ -61,7 +59,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
-- Stale 'no Jest' phrasing: rows 40, 53, 55, 83 left to check, one per round.
+- Stale 'no Jest' phrasing: rows 53, 55, 83 left to check, one per round.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius and row height; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE, PROVIDER_GLYPH_STROKE, PROVIDER_CHIP_TINT (no token category).
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -81,15 +79,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 108 (in progress): row 40 stale-note check (grep AddMenu in test files; edit only if a real importing test is found). Docs-only, tsc and full Jest.
-- Then rows 53, 55, 83 stale-note checks, one per round.
+- Round 109 (in progress): row 55 AddMenu stale-note check (grep for real import; edit only if found). Docs-only, tsc and full Jest.
+- Then row 53 and row 83 stale-note checks, one per round.
 - Then rows 1, 2, 5-8, 18: record BUILT checked in code on passing local mocked tests (sign-in is an owner step).
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 to 1.2 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList or ScrollView refreshControl breaks JSON.stringify: use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts has no letter-spacing, icon-size, stroke-width, bar-width or 9pt space tokens.

@@ -7276,3 +7276,7 @@
 - 2026-11-19 20:33 Followed Jev (run 95%) and picked the smallest docs-only task: row 40 stale-note check, one row, one file.
 - 2026-11-19 20:33 Kept the rule that a stale note is corrected only after a real import is found by grep; no guessing.
 - 2026-11-19 20:33 Did not ask Isa: the sign-in and Clerk items stay as owner steps already recorded; no new question needed this round.
+- 2026-11-19 20:34 Row 40 premise was wrong: row 40 covers title blocks (DetailChart KickerTitle, Screen.tsx), not AddMenu. Its closing line is already accurate, so no edit. Removed row 40 from the Parked stale-phrasing list.
+- 2026-11-19 20:34 The AddMenu check moves to row 55, the row that actually names AddMenu.tsx. Chosen as the smallest next task that closes a real open note.
+- 2026-11-19 20:34 Jev ranked ask at 63%. Not asking Isa: the open question is a notes-only mismatch that a grep resolves, so it is not a major question and needs no Isa answer. Ask budget kept for real blockers. Risk 1.2 handled by keeping this round docs-only.
+- 2026-11-19 20:34 Stale-note corrections still need a real grep hit before any edit, and status columns stay unchanged in docs passes.
