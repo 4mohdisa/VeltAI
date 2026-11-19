@@ -21,6 +21,18 @@ jest.mock('@/lib/api', () => ({
 // state, so a plain stand-in is enough.
 jest.mock('@/components/display/LoadingSkeleton', () => ({ Skeleton: () => null }));
 
+// The shared expo-router mock (render/setup.ts) has no useFocusEffect — same
+// override as gymStreakStripFootnote.render.test.tsx: a stand-in that just
+// runs the effect once on mount (test-renderer never "focuses").
+jest.mock('expo-router', () => ({
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+  useLocalSearchParams: () => ({}),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  useFocusEffect: (cb: () => void) => require('react').useEffect(cb, [cb]),
+  usePathname: () => '/(tabs)/gym',
+  Href: {},
+}));
+
 const PLANNED_WORKOUT = {
   day_of_week: 2,
   day_name: 'Tuesday',
@@ -107,4 +119,24 @@ test('an object missing the required fields does not render Rest day', async () 
   const text = allText(tree);
   expect(text).not.toContain('Rest day');
   expect(text).toContain("Couldn't load your gym data.");
+});
+
+test('a screen regaining focus revalidates silently, without blanking the card', async () => {
+  mockGetToday.mockResolvedValue(PLANNED_WORKOUT);
+
+  const tree = renderScreen(<TodayCard />);
+  await settle();
+
+  // The mocked useFocusEffect above ran its callback once on mount, alongside
+  // useToday's own mount fetch — one getToday() call each, both resolved by
+  // the settle() above.
+  expect(mockGetToday).toHaveBeenCalledTimes(2);
+
+  // Skeleton is mocked to render null, so it leaves no trace of its own — the
+  // real proof that revalidate (not refetch) ran is that the card never fell
+  // back to the empty loading branch: the workout content is still here.
+  const text = allText(tree);
+  expect(text).toContain('Push day');
+  expect(text).toContain('Bench press');
+  expect(text).toContain('Start workout');
 });

@@ -4,7 +4,8 @@
 // chips and the Start action beneath. Self-contained via useToday(); a failed
 // read shows the load-failed notice with a retry.
 import type { JSX } from 'react';
-import { router, type Href } from 'expo-router';
+import { useCallback } from 'react';
+import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { PixelRatio, View, type TextStyle } from 'react-native';
 
@@ -215,7 +216,20 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
 
 export function TodayCard(): JSX.Element {
   const { t } = useTranslation();
-  const { today, loading, refetch } = useToday();
+  const { today, loading, refetch, revalidate } = useToday();
+
+  // A screen regaining focus (e.g. back from logging a session) re-reads
+  // silently — revalidate never flips `loading`, so this never blanks the
+  // card to the skeleton below. revalidate is excluded from deps: useToday()
+  // hands back a new function identity every render (its own fetcher closure
+  // isn't memoized), so depending on it here would re-fire on every re-render
+  // this effect itself causes, not just on focus.
+  useFocusEffect(
+    useCallback(() => {
+      revalidate();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   if (loading) {
     return (

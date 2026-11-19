@@ -7869,3 +7869,8 @@
 - 2026-11-20 01:08 Jev said ask at 83%. Kept run: the blocker is a concrete code-level blocker that Jev cannot see from the signals alone. The question to Isa would be about a loading flicker, which is minor, not a major blocker. Recorded here as the reason.
 - 2026-11-20 01:08 Split row 84 into two rounds (hook first, then TodayCard) to keep to one file per round, as the notes rule requires.
 - 2026-11-20 01:08 Round 248 loop flag: its report ran no tsc or Jest. This round runs tsc and the single test file first, and again after the change.
+- 2026-11-20 01:12 Chose step B, the same task Jev ranked first. Reason: step A added revalidate but nothing calls it yet, so the row stays PARTIAL until a consumer exists. Step B is the first consumer.
+- 2026-11-20 01:12 Kept row 84 at PARTIAL after step A because the revalidate has no caller. This corrects the loop flag: step A is complete as a unit, but the row is not.
+- 2026-11-20 01:12 Step B is limited to TodayCard.tsx and its existing render test file, to keep the change one file and one row.
+- 2026-11-20 01:12 Gym tab (step C), the sessions.find gotcha and row 83 text stay queued, so this round does one thing.
+- 2026-11-20 01:12 If TodayCard does not use useToday, the prompt parks the row instead of rewriting the data layer.
