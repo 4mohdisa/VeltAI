@@ -25,7 +25,7 @@ import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
-import { accent, categoryAccent, color, space } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { burnOf, netOf } from '@/lib/data/energyRange';
 import { ringFraction } from '@/lib/data/summaryCards';
@@ -38,8 +38,8 @@ export const RING_BOX = 104;
 export const RING_OUTER_R = 44;
 export const RING_INNER_R = 29;
 export const RING_STROKE = 10;
-const DOT = 8;
-const KEY_INDENT = 16;
+const DOT = space.sm;
+const KEY_INDENT = space.lg;
 
 // Both the ring and the net number ease to a changed value (a refresh, a newly
 // logged meal) over this long, rather than snapping.
@@ -103,7 +103,7 @@ function KeyRow({
   return (
     <View style={{ gap: 1 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-        <View style={{ width: DOT, height: DOT, borderRadius: DOT / 2, backgroundColor: tint }} />
+        <View style={{ width: DOT, height: DOT, borderRadius: radius.full, backgroundColor: tint }} />
         <Text variant="footnote" color={color.secondaryLabel} style={{ flex: 1 }}>
           {label}
         </Text>
