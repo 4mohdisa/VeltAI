@@ -7306,3 +7306,8 @@
 - 2026-11-19 20:48 Chose the checkpoint over Jev's row 5 pick because the loop note makes this round a scheduled checkpoint; the full tsc and Jest run is required before more docs passes.
 - 2026-11-19 20:48 Row 5 stale-note check goes to the next round, unchanged in scope.
 - 2026-11-19 20:48 Checkpoint prompt forbids fixes and edits, so a red result is reported, not patched in this round.
+- 2026-11-19 20:48 Round 117 checkpoint treated as green: tsc 0 errors, Jest 88 suites / 885 tests / 4 snapshots, no crash or SIGSEGV.
+- 2026-11-19 20:48 Chose row 5 stale-note check as the next task, as set in the prior Next plan. It is docs only and clears the notes queue for rows 5, 6, 7, 8 and 18.
+- 2026-11-19 20:48 Jev ranking (run 90%, confidence 0.85) agrees with the choice. Kept a small task: one row, one notes cell, grep first.
+- 2026-11-19 20:48 Row 5 check requires a real importing test found by grep before any edit. Status cells stay unchanged in this docs pass.
+- 2026-11-19 20:48 Each docs-only round still runs tsc and full Jest, per the wording rule.
