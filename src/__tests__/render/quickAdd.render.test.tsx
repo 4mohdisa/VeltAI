@@ -78,7 +78,9 @@ test('pressing Add while the API call fails transiently queues the write and doe
 
   expect(mockRunOrQueue).toHaveBeenCalledTimes(1);
   expect(mockShowToast).toHaveBeenCalledTimes(1);
-  expect(mockShowToast).toHaveBeenCalledWith(expect.objectContaining({ tone: 'success' }));
+  expect(mockShowToast).toHaveBeenCalledWith(
+    expect.objectContaining({ message: "Added 250 kcal — will sync when you're back online.", tone: 'success' }),
+  );
 });
 
 test('pressing Add while the API call fails permanently shows the error toast and does not enqueue', async () => {
@@ -88,7 +90,9 @@ test('pressing Add while the API call fails permanently shows the error toast an
   await pressAdd();
 
   expect(mockShowToast).toHaveBeenCalledTimes(1);
-  expect(mockShowToast).toHaveBeenCalledWith(expect.objectContaining({ tone: 'error' }));
+  expect(mockShowToast).toHaveBeenCalledWith(
+    expect.objectContaining({ message: "Couldn't add that — try again.", tone: 'error' }),
+  );
   expect(mockRunOrQueue).not.toHaveBeenCalled();
 });
 

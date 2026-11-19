@@ -7532,3 +7532,7 @@
 - 2026-11-19 22:16 Row 53 is Connected apps chip (integrations.tsx), not nutrition/week. Premise wrong, so no nutrition test work this round. The grep for the real nutrition/week row is read only and deferred to NEXT.
 - 2026-11-19 22:16 Ran the Jest files by exact path with a find fallback, so no duplicate test files are created.
 - 2026-11-19 22:16 Jev asked for ask (48%) but the question is minor and answerable by a grep, so run was chosen. Risk is kept low by running one small read/check task with no new code.
+- 2026-11-19 22:17 Round 171 gate result accepted: tsc 0 errors, 7 render suites and 18 tests passed. Gate cleared.
+- 2026-11-19 22:17 'nutrition/week' row number is not a real open row. Rows 16, 17, 19, 46-48, 58 and 83 are BUILT. Skipped, no row created. Jev and the report agree.
+- 2026-11-19 22:17 Chose the row 5 submit path. It is render-testable, one file, and small. Jev ranked the same order; the API-level row 5 check is deferred because a render test cannot close it.
+- 2026-11-19 22:17 Kept row 5 at PARTIAL. Owner-scoped API check still open.

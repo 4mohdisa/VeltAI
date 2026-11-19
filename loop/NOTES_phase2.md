@@ -5,8 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this.
-- Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, passing.
-- Round 171: last round ran nothing (flagged by automatic check). Gate re-run: tsc + Jest on session render tests.
+- Round 171 gate cleared: tsc 0 errors; 7 render suites, 18 tests passed.
+- Checkpoint round 158: Jest 107 suites / 920 tests / 4 snapshots, passing.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -29,7 +29,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Render tests: components get *.render.test.tsx; screens in src/__tests__/render/. Use renderScreen (react-test-renderer). No RNTL v14: incompatible with RN 0.85.3.
 - Rows 19, 20, 21: no edit. Row 8 closed; reopen only on a real importing test.
 - Grep before any 'add render test' prompt; duplicates happened twice.
-- Task premises can be wrong. Rows 38, 53 are integrations.tsx (Connected apps). Row 55 is AddMenu. Row 83 not yet checked for nutrition/week. Check the row before acting.
+- Task premises can be wrong. Rows 38, 53 are integrations.tsx (Connected apps). Row 55 is AddMenu. 'nutrition/week' is not a row; do not act on it.
 - Minor questions are decided by the manager, not asked.
 - Jev followed on pick when row 5 needed an API check a render test cannot close.
 
@@ -39,8 +39,9 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (signup, OTP, dev fallback render tests added; live Clerk sign-in owner step remains).
 - PARTIAL: row 2 onboarding (all steps have render tests; live Clerk sign-in and profile persistence owner).
-- PARTIAL: row 5 quick-add (render, offline fallback, error toast, loading, canGoBack, double-submit guard tests added; submit path for offline queue and error toast in add() untested; owner-scoped food log check is API level).
+- PARTIAL: row 5 quick-add (render, offline fallback, error toast, loading, canGoBack, double-submit guard tests added; submit path tests in progress; owner-scoped food log check is API level).
 - PARTIAL: row 8 saved foods (foodSaved render test added).
+- PARTIAL: row 18 Energy screen.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -62,7 +63,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Food log long-press delete not discoverable. Goals 'Saved as you type' untrue when clamped.
 - Account and index settings both link to Delete Account.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
-- Pre-existing gesture-handler worklet warning in SwipeableRow.
+- Pre-existing gesture-handler worklet warning in SwipeableRow (seen in foodSaved render test).
 - logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa.
 - Local Clerk-compatible verifier: owner step.
@@ -71,16 +72,16 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
-- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status for 14+ rounds: loop-managed, unrelated.
+- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status: loop-managed, unrelated.
 
 ## Next
-- Round 171: clear gate (tsc + Jest on session render tests). Then read nutrition/week row number via grep.
-- Then: row 5 submit path render test (grep quick-add.tsx first; offline fallback, error toast in add()).
+- Round 172: row 5 submit path render tests (quickAdd.render.test.tsx; offline fallback, error toast).
+- Then: row 18 Energy screen render coverage.
 - Then: row 5 owner-scoped food log check (API level, needs local backend test).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.1 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -88,4 +89,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - es/fr strings run 2.5x to 3.7x English.
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.
-- gesture-handler worklet warning from SwipeableRow appears in foodSaved render test: pre-existing, not a failure.
+- Gesture-handler worklet warning from SwipeableRow: pre-existing, not a failure.
