@@ -7267,3 +7267,6 @@
 - 2026-11-19 20:30 Kept the one-row-per-round rule for the stale 'no Jest' phrasing pass, since the loop has a checkpoint at round 105 and a docs-only round still runs tsc and full Jest.
 - 2026-11-19 20:30 Treated the 'Row 104' label in the previous report as the round 104 grep pass, since PHASE2_ROWS.md ends at row 83. No new row is needed.
 - 2026-11-19 20:30 Did not ask Isa anything: all open items are either planned in the notes or are design decisions parked for later.
+- 2026-11-19 20:31 Chose row 36: smallest docs-only task, grep from last handover already points to no importing test, so the expected result is no edit. Matches Jev's run signal and the risk of 0.9.
+- 2026-11-19 20:31 Kept status columns unchanged: BUILT rows stay BUILT in a docs-only pass.
+- 2026-11-19 20:31 Row 52 stale-note fix from round 105 recorded as done (tsc 0, Jest 87/881/4 green).
