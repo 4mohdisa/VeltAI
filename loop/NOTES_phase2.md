@@ -4,10 +4,10 @@
 Wire every screen to local backend, make backend changes the UI needs, test flows on simulator. Progress counted from PHASE2_ROWS.md (ends row 83). Prompts use row TITLE plus number.
 
 ## State
-- Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 168: row 5 double-submit guard and render test added (PARTIAL).
-- Round 169: row 38 integrations render test (running). Rows 53, 83 next.
+- Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this.
+- Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, passing.
+- Round 169: row 38 integrations render test added (BUILT, checked in code).
+- Round 170: row 53 nutrition/week render test (running).
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -16,7 +16,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- Code or test change = run tsc and the relevant Jest; full Jest on checkpoints.
+- Code or test change = run tsc and relevant Jest; full Jest on checkpoints.
 - Real coverage = executed import that renders or uses the component.
 
 ## Decisions (never delete)
@@ -32,15 +32,15 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Grep before any 'add render test' prompt; duplicates happened twice.
 - Task premises can be wrong (rows 38/53/83 are not AddMenu; row 55 is). Check the row before acting.
 - Minor questions are decided by the manager, not asked.
-- Round 169: followed Jev on the next pick (integrations over row 5) because row 5 needs an API check a render test cannot close.
+- Jev followed on pick when row 5 needed an API check a render test cannot close.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38 (render test pending round 169), 50, 51-64, 68.
+- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (signup, OTP, dev fallback render tests added; live Clerk sign-in owner step remains).
 - PARTIAL: row 2 onboarding (all steps have render tests; live Clerk sign-in and profile persistence owner).
-- PARTIAL: row 5 quick-add (initial render, offline fallback, error toast, loading, canGoBack, double-submit guard tests added; submit path for offline queue and error toast in add() still untested; owner-scoped food log check is API level).
+- PARTIAL: row 5 quick-add (render, offline fallback, error toast, loading, canGoBack, double-submit guard tests added; submit path for offline queue and error toast in add() untested; owner-scoped food log check is API level).
 - PARTIAL: row 8 saved foods (foodSaved render test added).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
@@ -55,7 +55,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe, integrations screens (integrations in progress).
+- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe.
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift.
@@ -63,7 +63,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Food log long-press delete not discoverable. Goals 'Saved as you type' untrue when clamped.
 - Account and index settings both link to Delete Account.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
-- Pre-existing gesture-handler worklet warning in SwipeableRow (food, saved, new-recipe, new-template).
+- Pre-existing gesture-handler worklet warning in SwipeableRow.
 - logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa.
 - Local Clerk-compatible verifier: owner step.
@@ -71,26 +71,22 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
-- Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: row 38 in progress, 53 and 83 next.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 169: row 38 integrations render test (running).
-- Then: row 53 nutrition/week render coverage.
+- Round 170: row 53 nutrition/week render test (running). Stop if row 53 names no screen.
 - Then: row 83 nutrition/week render coverage, if still untested.
 - Then: row 5 submit path render test (offline fallback, error toast in add()).
-- Then: row 5 owner-scoped food log check (API level, needs a local backend test).
-- Then: SwipeableRow warning, only if it blocks a test.
+- Then: row 5 owner-scoped food log check (API level, needs local backend test).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
 - Jev risk about 1.0 of 2: keep tasks small, one row and one file.
-- SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use the key-filtering serializer.
+- SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.
 - es/fr strings run 2.5x to 3.7x English.
-- Unresolved: SwipeableRow square corners (row 34).
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.
-- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified: loop-managed, leave alone.
+- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified: loop-managed, leave alone.

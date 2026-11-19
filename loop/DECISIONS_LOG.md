@@ -7524,3 +7524,7 @@
 - 2026-11-19 22:12 Took row 38 only this round, one row per prompt. Rows 53 and 83 (nutrition/week) go next.
 - 2026-11-19 22:12 Row 5 status stays PARTIAL. The submit-path render test is queued as a candidate.
 - 2026-11-19 22:12 Grep before creating the test file, after repeated duplicate-file incidents.
+- 2026-11-19 22:16 Chose row 53 over row 5 submit path: smallest task, needs no API check, and matches the Next list. Row 5 needs an API-level check first.
+- 2026-11-19 22:16 Prompt tells Claude Code to stop if row 53 does not name a screen, because earlier rounds had wrong row premises.
+- 2026-11-19 22:16 Prompt says to grep before creating a test file, because duplicate render tests happened twice before.
+- 2026-11-19 22:16 Kept Jev's risk advice: one row, one file, short steps.
