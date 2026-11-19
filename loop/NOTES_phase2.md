@@ -29,6 +29,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Visual QA compares against tokens and code only; design/Lume App.html has no per-screen markup.
 - Visual QA rows with no named file use the two most relevant shared files (state in report). If no identical token exists, end with no code change. Do not guess values.
 - No stroke-weight, letter-spacing, icon-size or 9pt space tokens added. Off-token values stay parked.
+- Literal swapped for token only when value identical AND semantic category matches. Numeric coincidence across categories is not swapped.
 - Stale motion rows are FOLDED, not deleted. One row per round.
 - Test gate: tsc and full Jest after any round that skips Jest.
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Settled (row 76).
@@ -40,12 +41,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 48: clamp logic matches design; MACRO_CEILING has no token; no code change.
 
 ## Done
-- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-34, 36, 37, 39, 41-48, 69-74, 77-82.
+- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-34, 36-49, 69-74, 77-82.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68.
+- Token swaps done: GlassButtons, history dividers, Screen footer, EnergyBalanceCard, SettingsList chip, ProgressBar, MacroBars, MuscleChart.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 41, 46, 47, 48, 51-53, 57-59, 61, 62.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, and 93.
+- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 41, 46, 47, 48, 49, 51-53, 57-59, 61, 62.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set.
@@ -59,13 +61,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx, food.tsx). Design decision.
-- Off-token values: Screen.tsx 40, 32, -6, 48, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes in history screens; MacroBars icon 11; BlurView intensity 40/50; RING_STROKE 10; SettingsList icon 17, chevron 14; MuscleChart NAME_WIDTH 84, VALUE_WIDTH 74.
+- Off-token values: Screen.tsx 40, 32, -6, 48, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes in history screens; MacroBars icon 11; BlurView intensity 40/50; RING_STROKE 10; SettingsList icon 17, chevron 14; MuscleChart NAME_WIDTH 84, VALUE_WIDTH 74; Badge icon 13.
 - dashboard/nutrition.tsx and dashboard/week.tsx: literal bar constants (MACRO_BAR_W 30, MACRO_BAR_RADIUS_TOP 5, MACRO_BAR_RADIUS_BOTTOM 2; NET_BAR_W) not checked against tokens. Dedicated row needed.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
 - Disabled opacity drift: GymCalendar 0.3, food/calendar 0.35, opacity.disabled 0.4.
 - Sheet detents medium/large: no native mechanism in BottomSheet.tsx. Structural gap.
 - Chip tint 0.14, glyph stroke 1.9 (row 38 literals).
-- Render smoke tests missing: Screen.tsx, ToastHost, BottomSheet. LumeTabBar and FloatingHeader Reduce Transparency branches untested.
+- Render smoke tests missing: Screen.tsx, ToastHost, BottomSheet. LumeTabBar and FloatingHeader Reduce Transparency branches: LumeTabBar a11y test added; FloatingHeader still untested.
 - Food log: long press to delete not discoverable. Design call.
 - Goals: 'Saved as you type' untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
@@ -81,10 +83,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Row 49 (DIFFERENT) this round. Then remaining non-BUILT rows, one per round.
-- Then a dedicated row for the nutrition.tsx and week.tsx bar constants (Parked).
-- Then render smoke test for the LumeTabBar Reduce Transparency branch.
-- Then render smoke tests for Screen.tsx, ToastHost, BottomSheet.
+- Row 50 (DIFFERENT) this round. Then remaining non-BUILT rows, one per round.
+- Then dedicated row for nutrition.tsx and week.tsx bar constants (Parked).
+- Then render smoke tests for FloatingHeader Reduce Transparency, Screen.tsx, ToastHost, BottomSheet.
 - Then backend refinement rows.
 
 ## Known issues
@@ -96,3 +97,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Keep gym session and food.tsx entering and exit animations intact.
 - es/fr strings are 2.5x to 3.7x English in settings.groupApp, gym.title, common.save, common.reset; LumeTabBar and Button have no numberOfLines or ellipsizeMode.
 - 'owner check pending' rows are BUILT for loop purposes; do not reopen them.
+- Handover 2 done (round ~95). Claude Code restarted with the handover summary only: name full file paths in every prompt.

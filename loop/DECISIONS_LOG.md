@@ -7205,3 +7205,7 @@
 - 2026-11-19 19:44 Parked the nutrition/week bar constants as a dedicated row for a later round, since row 49 may not cover them.
 - 2026-11-19 19:44 Kept the no-code-change test gate: tsc plus full Jest if row 49 needs no code change.
 - 2026-11-19 19:44 Recorded row 48 as done with no code change, per the last report.
+- 2026-11-19 19:46 Chose row 50 over the parked nutrition/week constants row, because the notes say remaining non-BUILT rows go first, one per round. Jev also ranks run at 91%.
+- 2026-11-19 19:46 Prompt names the row by number and tells Claude Code to read the file path from the row, because row 50's file is not in my notes. Claude Code must name it in its report.
+- 2026-11-19 19:46 Handover just happened, so the prompt gives full paths and restates the wording and token rules.
+- 2026-11-19 19:46 Row 49 recorded as BUILT checked in code (no code change, tsc 0 errors, full Jest 874 green).
