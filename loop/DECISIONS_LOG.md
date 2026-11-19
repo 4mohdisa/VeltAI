@@ -7589,3 +7589,7 @@
 - 2026-11-19 22:44 Removed recipe and saved meal delete and unsave from row 8 scope. Only saved foods delete exists in the UI, and it is already covered. Parked as a product gap.
 - 2026-11-19 22:44 Row 8 stays PARTIAL until api.recipes.log has coverage or is confirmed to have no UI call site. The status change is decided by the manager after the report, not by the prompt.
 - 2026-11-19 22:44 Stale row 8 notes wording left for a later cleanup round (already in Parked).
+- 2026-11-19 22:45 Chose row 8 status decision because the latest report shows api.recipes.log already has render coverage, which was the last open live call site for row 8.
+- 2026-11-19 22:45 Recipe and saved meal delete or unsave stays out of row 8 scope, as already decided in loop notes (no UI call site exists).
+- 2026-11-19 22:45 Stale notes fragment in row 8 is removed in the same row edit, since it is the same cell and the same single row.
+- 2026-11-19 22:45 Jev signals advised stop at 48%, but rows remain unbuilt and the stop rule needs every row built, so the loop continues. Jev's question signal blocks no row, so no question is asked to Isa.
