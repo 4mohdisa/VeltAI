@@ -6862,3 +6862,6 @@
 - 2026-11-19 16:31 Auto flag handled: the progress rings row was marked BUILT while DailyMacroRing was still snapping. Reopened it as PARTIAL and the next prompt returns it to BUILT only after the ring is done.
 - 2026-11-19 16:31 Previous report called row 77 blocked on the target file. Not a blocker: the manager already widened row 77 to src/app/gym/session.tsx. Row 77 stays next after this round.
 - 2026-11-19 16:31 Chose the smallest open gap (one component, one test file) because Jev confidence is 0.40 and risk is 1.1.
+- 2026-11-19 16:35 Kept the checkpoint task over Jev's pick (fold rows 65-72). The loop script requires a full checkpoint this round, and folding stale motion rows is listed in Parked as an Isa decision, so the loop should not do it on its own.
+- 2026-11-19 16:35 Jev asked for ask (70%). Not asked: the question is not major, no row is blocked by it, and it can be settled by the checkpoint result.
+- 2026-11-19 16:35 Noted a wording slip in the last report ('confirmed by the math' in prose). It is not a row cell, so no action; reminder added to notes.

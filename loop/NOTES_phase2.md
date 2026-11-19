@@ -6,13 +6,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## State
 - Branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
 - Baselines (round 16 checkpoint, green): app tsc 0 errors; Jest 69 suites / 833 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
+- Round 23 is a checkpoint. Result goes in Done after the report.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token). Plain docker run, no compose plugin.
 - Prompt scope rule: ONE component per prompt.
 
 ## Wording rule
 - Row cells say BUILT, 'checked in code' or 'owner check pending'. Never verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
-- Reports use the same wording.
+- Reports use the same wording. Last report used 'confirmed' in prose: reminder, check every report before sending.
 - A row is BUILT only when every part of it is done. Partial work = PARTIAL.
 
 ## Decisions (never delete)
@@ -29,7 +30,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - loop/ files are loop-managed. Prompts never edit them.
 - Row 75 split into food log and gym log.
-- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope widened by manager. Not blocked on file choice.
+- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope widened by manager.
+- Stale motion rows 65-72: fold or delete is Isa's decision. Loop does not fold them on its own (round 23, over Jev's pick).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
@@ -41,7 +43,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Dashboard / Summary and sub-pages: BUILT.
 - Motion audit, screen and navigation transitions: BUILT.
 - Adding and removing list items, food log entries: BUILT.
-- ProgressBar eases to new values (round 21): done.
+- ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Round 16 baseline checkpoint: gates green.
 
 ## Blocked on Isa
@@ -66,7 +68,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 22 (running): 'Daily macro ring eases to new values' (DailyMacroRing.tsx). Progress rings row is PARTIAL until this lands, then BUILT.
+- Round 23 (running): checkpoint. Full tsc and full app Jest, no file changes.
 - Then: row 77 gym session remove path (src/app/gym/session.tsx).
 - Then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
@@ -74,4 +76,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Authenticated flows cannot run end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). Review in the Gym log rework.
 - Rows 65-72 duplicate rows 64 and 74-76. Fold per Isa decision.
-- Jev risk 1.1 of 2 (confidence 0.76): keep tasks small.
+- Jev risk 1.2 of 2 (confidence 0.66): keep tasks small. Jev ranked fold rows 65-72 first at 93%; not taken (see Decisions).
