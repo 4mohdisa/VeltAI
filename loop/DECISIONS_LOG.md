@@ -7319,3 +7319,6 @@
 - 2026-11-19 20:51 Continue the sequential stale-note sweep with row 7 (Jev ranks the same small docs task first; notes say follow Jev on small tasks).
 - 2026-11-19 20:51 Prompt tells Claude Code to read row 7 from PHASE2_ROWS.md rather than guess its title, and to pick the most relevant screen file if the row names none.
 - 2026-11-19 20:51 Docs-only round still runs tsc and full Jest, per the wording rule.
+- 2026-11-19 20:52 Chose row 8 check: matches the Next list in the notes and Jev's run signal (93%); small, notes only, no Isa input needed.
+- 2026-11-19 20:52 Row 7 result from round 120 accepted: a real import exists (foodDetailLogged.render.test.tsx), so the notes cell was filled and status unchanged.
+- 2026-11-19 20:52 Kept the scan-screen and food/add render test gap in Parked, not in a new task, to keep the round small.
