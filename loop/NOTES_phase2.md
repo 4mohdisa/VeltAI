@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt says so.
-- Baselines (round 60 gate, green): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Baselines (gate green round 63): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit: if hit, wait, do not change scope.
@@ -35,15 +35,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Rounds 57-63: no code change (no identical token, or no Jest importer of Screen.tsx).
 - Design pass question NOT asked of Isa. No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for design re-check.
+- Stale motion rows 65-72: FOLD, not delete. Each folded row gets status BUILT and a note pointing to its parent. One row per round.
 - Test gate before row work: tsc and full Jest run after any round that skips Jest.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57, 59, 61, 62.
-- Checkpoints: rounds 16, 23, 39, 56, 60 gates green.
+- Checkpoints: rounds 16, 23, 39, 56, 60, 63 gates green.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -52,7 +53,6 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
-- Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete, after the test gate is green.
 
 ## Parked (not v1)
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage, shared navigation chrome).
@@ -78,13 +78,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 64: row 63 gate (tsc and full Jest, no code change), then update row 63 in PHASE2_ROWS.md.
-- Then fold stale motion rows 65-72 (decided: fold, not delete, with a note in each folded row). Then final wording sweep. Then render smoke test. Then backend refinement rows.
+- Round 65: fold row 65 into row 64 (table only), gate tsc and full Jest.
+- Then fold rows 66-72 one per round, each pointing to its parent (64 or 74-77).
+- Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.1 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
+- Spotted 'Screen.tsx' bottom padding literals still uncommented (see Parked). Needs one design pass with Isa, not repeated notes.

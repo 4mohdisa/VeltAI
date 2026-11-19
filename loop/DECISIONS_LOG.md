@@ -7056,3 +7056,7 @@
 - 2026-11-19 18:30 Jev preferred folding motion rows 65-72. Kept the gate task: folding deletes rows from the progress count, so it should come after the gate is green and only with a clear reason, not as a first move.
 - 2026-11-19 18:30 Design pass question: not asking Isa. Decided no stroke-weight, letter-spacing or 9pt space tokens get added. Visual QA rows close as checked in code, and off-token values stay parked for a design re-check.
 - 2026-11-19 18:30 Row 63 closes with no code change, same as rows 57, 59, 61, 62.
+- 2026-11-19 18:31 Chose row 65 fold over the render smoke test: the gate is green and the fold is the smallest row-count-clearing task with no code risk.
+- 2026-11-19 18:31 Folding one stale motion row per round, not all eight at once, to keep the one row per prompt rule and Jev risk low.
+- 2026-11-19 18:31 Folded rows get status BUILT with a note pointing at the parent row, per the earlier decision to fold, not delete.
+- 2026-11-19 18:31 Ignored the Jev ask-leaning signal: nothing here needs Isa, and the fold is reversible table text.
