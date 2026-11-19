@@ -7153,3 +7153,8 @@
 - 2026-11-19 19:20 Chose row 36 over the LumeTabBar render test: the Visual QA rows are the next open DIFFERENT rows in the agreed order (35-50, skipping BUILT).
 - 2026-11-19 19:20 Row 36 names no file in my brief: the prompt tells Claude Code to use the two most relevant shared history files and state them, per the notes rule.
 - 2026-11-19 19:20 Jev signalled run 53% and ask 41%, with a 1.0 of 2 risk. Kept run because the task is one row, one round, and needs nothing from Isa.
+- 2026-11-19 19:23 Row 36 closed as BUILT per latest report (layout.hairline swap in both history screens, tsc 0, full Jest 83/874 green).
+- 2026-11-19 19:23 Chose row 38 over the render smoke tests: notes say Visual QA rows 37-50 come first, and row 37 is already BUILT.
+- 2026-11-19 19:23 Row 38 names no file in the brief, so the prompt says to use the row's file or the two most relevant shared files, stated in the report.
+- 2026-11-19 19:23 Simulator skipped: maestro not installed and simctl does not respond in sandbox (owner step). Not needed for a token-only change.
+- 2026-11-19 19:23 Icon-size and blur token gap is still a single consolidated design item for Isa, not a per-row fix.
