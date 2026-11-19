@@ -6828,3 +6828,7 @@
 - 2026-11-19 15:47 Wording gate passed in round 13 with no edits; row 17 reports must use 'checked in code' or 'owner check pending'.
 - 2026-11-19 15:47 plan.tsx stays as designed with no fabricated data (existing decision, restated).
 - 2026-11-19 15:47 Simulator flows for sign-in dependent screens remain owner steps; row 17 is checked in code only.
+- 2026-11-19 15:49 Automatic check flagged the row 17 report (tsc or tests not run). Recorded under Blocked on Isa in notes, not retried, row 17 status left BUILT.
+- 2026-11-19 15:49 Picked the read only Motion audit over Jev's ask (78%). No question is needed that only Isa can answer; the flag is a recorded blocker, not a product gap.
+- 2026-11-19 15:49 Motion audit needs no tests since no code changes, so tsc is the only check and the report says so explicitly.
+- 2026-11-19 15:49 Dead mapper cleanup and Phase 1 visual QA deferred: cleanup is Parked, simulator QA of authenticated screens needs sign in (owner step).
