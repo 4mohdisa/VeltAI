@@ -6966,3 +6966,8 @@
 - 2026-11-19 17:58 Dead code is a cleanup, not a row, so the prompt says not to add a row. It is recorded in Done and Next.
 - 2026-11-19 17:58 Jev risk is 0.9 on a 0 to 2 scale. The task is one file and one function set, so I did not ask Isa. Asking would cost him attention for no gain.
 - 2026-11-19 17:58 Claude Code usage limit: the next round waits for the 5:40pm reset if it is still hit. Scope is unchanged.
+- 2026-11-19 18:00 Round 47: dead code cleanup dropped. subscriptionFromApi is used by src/__tests__/mappers.test.ts, so the premise was wrong. Cleanup is not a row, so no row is lost.
+- 2026-11-19 18:00 Round 47: Jev ask (84%) overridden. The open point (dead code label) is minor, reversible and not a major question. Limit of questions not reached, but none needed.
+- 2026-11-19 18:00 Round 47: Jev run pick (93%) taken for the visual QA candidate. Matches the loop note. Scope kept to one row and one file.
+- 2026-11-19 18:00 Round 47: the failed gate from the last report is not a reason to stop. This round runs the type check and the changed file's tests as part of the task.
+- 2026-11-19 18:00 Round 47: simulator screenshots for visual QA are owner steps, since simctl hangs in this sandbox. Rows get 'owner check pending'.
