@@ -7829,3 +7829,7 @@
 - 2026-11-20 00:52 Round 239: the loop flagged round 238 for an unrun gate. Its change was markdown only, so the gate was treated as a checkpoint with no file changes.
 - 2026-11-20 00:52 Round 239: row 83 stale MACRO_BAR_W note is resolved. The round 238 report confirmed the constant is gone and the Notes cell now describes the current chart.
 - 2026-11-20 00:52 Round 239: the gate comes before the row 7 note fix, because the loop asks that the flag be dealt with before moving on. Jev risk 0.9, so the task stays small.
+- 2026-11-20 00:53 Round 240: run over ask. Jev 96% for run; the gate was green in round 239 (133 suites, 985 tests, tsc 0 errors).
+- 2026-11-20 00:53 Chose the row 7 notes cleanup as the smallest task. It was the next item in the notes and touches only PHASE2_ROWS.md, so no Jest run is needed.
+- 2026-11-20 00:53 Deferred the freeze.tsx render test: the handover names it as the next row 11 leftover, but the row number and its status are not verified yet. Check it after the row 7 fix.
+- 2026-11-20 00:53 Deferred the LoggedCard audit to the round after row 7, as the notes order says.
