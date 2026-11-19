@@ -7273,3 +7273,6 @@
 - 2026-11-19 20:32 Chose row 38 as the next stale-note check, as listed in Next; it is the smallest task and needs nothing from Isa.
 - 2026-11-19 20:32 Agrees with Jev (run 0.92 confidence). No override.
 - 2026-11-19 20:32 Stale-note rule: edit a note only after a real test is found by grep; otherwise change nothing.
+- 2026-11-19 20:33 Followed Jev (run 95%) and picked the smallest docs-only task: row 40 stale-note check, one row, one file.
+- 2026-11-19 20:33 Kept the rule that a stale note is corrected only after a real import is found by grep; no guessing.
+- 2026-11-19 20:33 Did not ask Isa: the sign-in and Clerk items stay as owner steps already recorded; no new question needed this round.
