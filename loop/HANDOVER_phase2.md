@@ -1,16 +1,17 @@
 Handover — Phase 2, loop/phase2 branch
 
-This session did stale-note cleanup across PHASE2_ROWS.md rows 1, 2, 3, 4, 5, 6, 7, plus one new test. All edits were notes-cell-only except row 1; status columns untouched throughout (PARTIAL/BUILT stays as-is).
+This session did a mix of stale-note checks (rows 8, 18-24) across PHASE2_ROWS.md and closed real coverage gaps on row 2 (Onboarding). All edits were docs-only (notes cells, never status) except three new test files. Checkpoint confirmed clean throughout: tsc 0 errors, Jest ended at 92 suites / 893 tests / 4 snapshots, no SIGSEGV.
 
-Row 1 (Sign in): added src/__tests__/signup.render.test.tsx, a real render test of src/app/onboarding/signup.tsx — mocks @clerk/clerk-expo and forces @/lib/auth/clerkEnv's isClerkEnabled() true so the real ClerkSignup branch renders (not the dev-mode stub). 4 tests: legal-link text present, Terms/Privacy press → correct router.push, primary CTA renders. expo-router is already globally mocked in src/__tests__/render/setup.ts; expo-web-browser is auto-mocked by jest-expo, so neither needed a local mock. Row 1's note now cites this file; status stays PARTIAL (live sign-in is still an owner step — E2E_EMAIL/E2E_PASSWORD unset, hosted Clerk JWKS can't run locally).
+Rows 18 and 23 notes corrected to cite real render tests (`detailChrome.render.test.tsx` for `energy.tsx`; `FloatingHeader.reduceTransparency.render.test.tsx` as the direct test for `FloatingHeader.tsx`, on top of the existing indirect one). Rows 8, 19, 20, 21, 22, 24 checked and left unchanged — no real importing test exists for their surfaces (saved foods, insights/AI query, legal terms/privacy, the parked 7-day chart row, and the two non-UI/hardware rows).
 
-Row 2 (Onboarding): note now also credits signup.render.test.tsx for signup.tsx coverage; paywall.tsx still has no real-import test.
-Row 3 (Food log tab): note now credits src/__tests__/render/foodLogRowMotion.render.test.tsx as the real render test of src/app/(tabs)/food.tsx (productionReadiness.test.ts only covers store/hydration logic, not the screen).
-Row 7 (Food detail): note was empty ("—"); filled in with src/app/food/detail.tsx rendered by src/__tests__/render/foodDetailLogged.render.test.tsx.
-Rows 4, 5, 6: checked, no change — no real importing test exists for src/app/food/add.tsx, quick-add.tsx, barcode-scan.tsx, label-scan.tsx, or photo-capture.tsx (only route-string/source-text checks in sheetVariant.test.ts, apiSurface.test.ts, foodDetail.test.ts, phase14Regression.test.ts, fibrePipeline.test.ts, debugCapture.test.ts).
+Row 2 (Onboarding) is still PARTIAL, by design — not every part is covered yet. New real render tests added this session:
+- `src/__tests__/render/paywall.render.test.tsx` — renders `src/app/onboarding/paywall.tsx` (RevenueCat mocked).
+- `src/__tests__/render/paywallOnboardingPost.render.test.tsx` — presses the CTA and asserts `api.onboarding.post` fires once with the store's payload.
+- `src/__tests__/render/signupReadBack.render.test.tsx` — drives a mocked Clerk SSO success and asserts `api.onboarding.get` fires once in `continueAfterAuth`.
+- `src/__tests__/render/onboardingIndex.render.test.tsx` — renders `src/app/onboarding/index.tsx` (Welcome screen), checks headline text and that "Get Started" routes to `/onboarding/goal`.
 
-Rule learned and applied this session: a hit only counts as "real test coverage" if it's an actual `import ... from` statement rendering/using the component — readFileSync/path-string/comment mentions don't count. Several rows' old notes conflated the two; corrected only when a genuine import was found.
+Row 2's notes cell now lists exactly what's covered and what isn't: `signup.tsx`, `paywall.tsx`, `measurements.tsx`, `index.tsx` have render tests; the post/get call sites are exercised, not just rendered. Remaining gap, in progress: 8 onboarding steps still have zero render-test coverage — `goal.tsx`, `activity.tsx`, `body-type.tsx`, `dietary.tsx`, `cuisine.tsx`, `targets.tsx`, `preview.tsx`, `done.tsx`. Next recommended: `goal.tsx`, one step per round, same pattern as `measurements.render.test.tsx` (seed `useOnboardingStore` directly, `buttonWithTitle`/`allText` from `./helpers`).
 
-In progress: nothing mid-task. Checkpoint confirmed clean: tsc 0 errors, Jest 88 suites/885 tests/4 snapshots, no SIGSEGV.
+Decision/pattern worth keeping: a hit only counts as "real test coverage" if it's a genuine `import ... from` that renders the component — `readFileSync`, path strings, ROUTES objects, and route-string checks (seen repeatedly in `phase14Regression.test.ts`, `summaryDetails.test.ts`, `legalParity.test.ts`, `authBilling.test.ts`) don't count, even when they look like coverage at a glance.
 
-Gotchas spotted, not fixed: no render test mounts food/add.tsx, quick-add.tsx, barcode-scan.tsx, label-scan.tsx, or photo-capture.tsx directly (same gap repeated across rows 4–6); paywall.tsx likewise has no component-render test. Next recommended: row 8 stale-note check, same grep-for-real-import method.
+Gotchas not fixed: `legal/terms.tsx`, `legal/privacy.tsx`, `insights.tsx`, `ai-query.tsx`, `AnomalyBanner.tsx`/`AnomalyCard.tsx`, and food rows 4-6/8 screens all still lack real render tests — same recurring gap, different rows.
