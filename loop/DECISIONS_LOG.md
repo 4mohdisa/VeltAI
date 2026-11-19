@@ -7315,3 +7315,7 @@
 - 2026-11-19 20:50 Chose row 6 stale-note check next, following the sequential sweep in NOTES Next, as Jev ranks it highest and it is the smallest task.
 - 2026-11-19 20:50 Kept the toast and sheet owning-row decision for after the sweep, since it is also docs-only and can be decided in one round later.
 - 2026-11-19 20:50 Trimmed repeated Parked and Known issues lines to keep the notes near the length limit; no decision was deleted.
+- 2026-11-19 20:51 Row 6 check (round 119) found no real importing test for barcode-scan, label-scan or photo-capture; no change. Row 6 names no single file, so the three screens were inferred.
+- 2026-11-19 20:51 Continue the sequential stale-note sweep with row 7 (Jev ranks the same small docs task first; notes say follow Jev on small tasks).
+- 2026-11-19 20:51 Prompt tells Claude Code to read row 7 from PHASE2_ROWS.md rather than guess its title, and to pick the most relevant screen file if the row names none.
+- 2026-11-19 20:51 Docs-only round still runs tsc and full Jest, per the wording rule.

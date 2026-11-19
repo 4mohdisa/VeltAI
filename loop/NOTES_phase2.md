@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 117 checkpoint green). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 119 green). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -36,6 +36,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Render smoke tests stay folded into their visual rows.
 - Stale-note corrections: edit only after grep finds a real importing test with an import statement; name the exact file. Status never changes in a docs pass.
 - Row 3 and row 4 stale-note checks done (rounds 115, 116). Status BUILT unchanged.
+- Row 6 stale-note check done (round 119): no real importing test; no change. Row 6 names no single file; the three scan screens were inferred.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
@@ -43,8 +44,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Tests added: ToastHost.render.test.tsx (row 51), BottomSheet.render.test.tsx (row 27), FloatingHeader.reduceTransparency.render.test.tsx (row 32), Screen.render.test.tsx (row 62), signup.render.test.tsx (row 1).
-- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26, 83, 2, 3. Row 5 checked round 118: no real importing test, no change.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104, 111, 117.
+- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26, 83, 2, 3. Row 5 checked round 118: no real importing test, no change. Row 6 checked round 119: no change.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104, 111, 117, 119.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -62,7 +63,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - paywall.tsx has no render test; only source-text checks.
 - Toast and sheet owning-row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
 - Stale 'no Jest' phrasing: rows 40, 55 to check. Rows 38, 53, 83 name profile/integrations.tsx and AddMenu.tsx with no test found; verify.
-- Row 4 side finding: food/add.tsx has no direct render test. Row 5 side finding: food/quick-add.tsx has no direct render test.
+- Row 4 side finding: food/add.tsx has no direct render test. Row 5 side finding: food/quick-add.tsx has no direct render test. Row 6 side finding: barcode-scan.tsx, label-scan.tsx, photo-capture.tsx have no direct render test.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius, row height, PANEL_RING_WIDTH 0.5, ROW_MIN_HEIGHT 54, label 16/20; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE/STROKE, PROVIDER_CHIP_TINT. Row 53 PROVIDER_ROW_GAP, PROVIDER_NAME_SIZE/LINE_HEIGHT, PROVIDER_CHIP_SIZE, PROVIDER_CHIP_TINT, PROVIDER_GLYPH_SIZE/STROKE.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -78,18 +79,18 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps: product decision.
 - Local test env file or script for LUME_TEST_DATABASE_URL.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in round 117).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in rounds 117, 119).
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 119: row 6 stale-note check (notes cell only), grep first.
-- Then rows 7, 8, 18: same check.
+- Round 120: row 7 stale-note check (notes cell only), grep first.
+- Then rows 8, 18: same check.
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList or ScrollView refreshControl breaks JSON.stringify: use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts has no letter-spacing, icon-size, stroke-width, bar-width or 9pt space tokens.
