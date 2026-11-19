@@ -7303,3 +7303,6 @@
 - 2026-11-19 20:46 Picked row 4 over the notes' listed rows 5-8 and 18 because the sequential sweep reached row 4 and it is unlisted, so skipping it would leave a gap; rows 5-8 and 18 follow next.
 - 2026-11-19 20:46 Kept the task docs-only and one row, matching Jev's small-task ranking (84% run, risk 0.9 of 2).
 - 2026-11-19 20:46 Stale-note rule kept: edit only after a real importing test is found by grep, status never changes in a docs pass.
+- 2026-11-19 20:48 Chose the checkpoint over Jev's row 5 pick because the loop note makes this round a scheduled checkpoint; the full tsc and Jest run is required before more docs passes.
+- 2026-11-19 20:48 Row 5 stale-note check goes to the next round, unchanged in scope.
+- 2026-11-19 20:48 Checkpoint prompt forbids fixes and edits, so a red result is reported, not patched in this round.

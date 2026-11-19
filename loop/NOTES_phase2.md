@@ -31,20 +31,22 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Settled.
 - New render tests for files under src/components/ are named *.render.test.tsx.
 - isLiquidGlassAvailable() is false outside a real iOS build; test GlassView by mocking expo-glass-effect.
-- Jev ranking: follow it on small tasks; a concrete reason (data model size, risk) can override it, and the reason goes here.
+- Jev ranking: follow it on small tasks; a concrete reason (data model size, risk, scheduled checkpoint) can override it, and the reason goes here.
 - Unanswered question: after one round, use the default and do not ask again.
 - Render smoke tests stay folded into their visual rows.
 - Stale-note corrections: edit only after grep finds a real importing test with an import statement; name the exact file. Status never changes in a docs pass.
 - Row 3 stale-note check done (round 115): screen is rendered by src/__tests__/render/foodLogRowMotion.render.test.tsx. Status BUILT unchanged.
+- Row 4 stale-note check done (round 116): grep found no real import of src/app/food/add.tsx; notes cell unchanged. Status BUILT unchanged.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Tests added: ToastHost.render.test.tsx (row 51), BottomSheet.render.test.tsx (row 27), FloatingHeader.reduceTransparency.render.test.tsx (row 32), Screen.render.test.tsx (row 62), signup.render.test.tsx (row 1).
 - Stale-note corrections done: rows 61, 17, 52, 36, 38, 26, 83, 2, 3.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104, 111.
+- Round 117: checkpoint (tsc + full Jest, no file changes) requested. Result pending.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -62,6 +64,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - paywall.tsx has no render test; only source-text checks. Test gap.
 - Toast and sheet owning-row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
 - Stale 'no Jest' phrasing: rows 40, 55 still to check. Rows 38, 53, 83 name profile/integrations.tsx and AddMenu.tsx with no test found; verify.
+- Row 4 side finding: food/add.tsx has no direct render test (only tab bar push check). Needs its own request.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius, row height, PANEL_RING_WIDTH 0.5, ROW_MIN_HEIGHT 54, label 16/20; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE/STROKE, PROVIDER_CHIP_TINT. Row 53 PROVIDER_ROW_GAP, PROVIDER_NAME_SIZE/LINE_HEIGHT, PROVIDER_CHIP_SIZE, PROVIDER_CHIP_TINT, PROVIDER_GLYPH_SIZE/STROKE.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -81,8 +84,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 116: row 4 stale-note check (notes cell only), tsc and full Jest.
-- Then rows 5-8, 18: same check.
+- Round 117: checkpoint (tsc, full Jest, no file changes).
+- Round 118: row 5 stale-note check (notes cell only), grep first.
+- Then rows 6-8, 18: same check.
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
