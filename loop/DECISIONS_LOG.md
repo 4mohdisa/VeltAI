@@ -7585,3 +7585,7 @@
 - 2026-11-19 22:42 Chose row 8 delete coverage over row 18 Energy local check because the Energy check needs a simulator run that is not set up yet.
 - 2026-11-19 22:42 Stale row 8 notes wording is a side finding: moved to Parked and to NEXT, not edited, since the task scope is append-only.
 - 2026-11-19 22:42 Prompt bans git and loop/ edits, per the standing rules for this branch.
+- 2026-11-19 22:44 Jev ranked ask at 88%. Kept run. The open question (is recipe and saved meal delete UI planned?) is a product scope gap. It blocks no other row, and asking Isa cannot change this round's work, since the code has no delete or unsave UI for recipes or meals. Parked it instead, per the default of deciding and recording.
+- 2026-11-19 22:44 Removed recipe and saved meal delete and unsave from row 8 scope. Only saved foods delete exists in the UI, and it is already covered. Parked as a product gap.
+- 2026-11-19 22:44 Row 8 stays PARTIAL until api.recipes.log has coverage or is confirmed to have no UI call site. The status change is decided by the manager after the report, not by the prompt.
+- 2026-11-19 22:44 Stale row 8 notes wording left for a later cleanup round (already in Parked).
