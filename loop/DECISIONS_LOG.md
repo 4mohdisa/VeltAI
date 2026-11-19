@@ -7286,3 +7286,8 @@
 - 2026-11-19 20:36 Chose row 83 check over the sign-in rows: it is the next item in the agreed order and is the smallest docs-only task. Jev ranked run at 90%, which agrees.
 - 2026-11-19 20:36 Row 53 check closed with no edit: grep found only a string hit for the screen path, so the existing note stands.
 - 2026-11-19 20:36 Sign-in rows stay PARTIAL until a mocked-test pass is recorded; sign-in itself remains an owner step.
+- 2026-11-19 20:37 Round 111 (row 83 stale-note check) is closed: the report shows a real grep and a green gate, so the next step moves on.
+- 2026-11-19 20:37 Chose the row 1 check over row 40 because the notes say row 40's premise was wrong, so that check is more likely to yield nothing.
+- 2026-11-19 20:37 Chose the row 1 check over the toast and sheet mapping because a mapping pass changes many rows at once, and Jev ranks small tasks higher.
+- 2026-11-19 20:37 Kept row 1 as PARTIAL: sign-in cannot run live until Clerk JWKS and test credentials exist. Only the notes cell is updated.
+- 2026-11-19 20:37 Jev risk is about 1.0 of 2, so the task is one row, one docs file, and a full Jest gate.

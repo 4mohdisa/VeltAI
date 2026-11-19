@@ -37,7 +37,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale note corrections: edit only after grep finds a real importing test; name the exact file. Status never changes in a docs pass.
 - Round 108: row 40 premise was wrong (row 40 is title blocks, not AddMenu). No edit.
 - Round 109: row 55 grep found only a comment hit, not an import. No edit.
-- Round 110: row 53 grep found only string hits for the screen path (API client tests, not the screen). No edit.
+- Round 110: row 53 grep found only string hits. No edit.
+- Round 111: row 83 grep found a real import (detailChrome.render.test.tsx). Notes corrected. Gate green.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
@@ -45,8 +46,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Tests added: ToastHost.render.test.tsx (row 51), BottomSheet.render.test.tsx (row 27), FloatingHeader.reduceTransparency.render.test.tsx (row 32), Screen.render.test.tsx (row 62).
-- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104.
+- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26, 83.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104, 111.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -61,7 +62,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
-- Stale 'no Jest' phrasing: rows 38, 40, 55, 83 still to check, one per round (53 checked round 110).
+- Stale 'no Jest' phrasing: rows 40 and 55 still to check, one per round (53 checked round 110, 83 round 111).
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius, row height, PANEL_RING_WIDTH 0.5, ROW_MIN_HEIGHT 54, label 16/20; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22. Row 38 PROVIDER_GLYPH_SIZE, PROVIDER_GLYPH_STROKE, PROVIDER_CHIP_TINT. Row 53 PROVIDER_ROW_GAP, PROVIDER_NAME_SIZE/LINE_HEIGHT, PROVIDER_CHIP_SIZE, PROVIDER_CHIP_TINT, PROVIDER_GLYPH_SIZE/STROKE (no token category).
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -81,14 +82,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 111: row 83 stale-note check (grep for real import; edit only if found). Docs-only, tsc and full Jest.
-- Then rows 1, 2, 5-8, 18: record PARTIAL or BUILT checked in code on passing local mocked tests (sign-in stays an owner step).
+- Round 112: row 1 Sign in, test-import check and notes cell only (PARTIAL stays). Docs-only, tsc and full Jest.
+- Then rows 2, 5-8, 18: same check, record PARTIAL or BUILT checked in code on passing local mocked tests.
+- Then rows 40 and 55 stale-note checks, one per round.
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 to 1.2 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList or ScrollView refreshControl breaks JSON.stringify: use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts has no letter-spacing, icon-size, stroke-width, bar-width or 9pt space tokens.
