@@ -6,8 +6,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 252 done: row 83 already clean, no change made.
-- Round 253 (current): row 9 LoggedCard sessions.find gotcha in TodayCard.tsx.
+- Round 253 done: row 9 LoggedCard shows a retry notice when the session is missing from the fetched range (no stats). Create-response source does not exist; range lookup is the only source.
+- Round 254 (current): gymSchedule.ts revalidate deps to [] (one file).
 - Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
@@ -31,11 +31,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- TodayCard guard recorded under row 9. Row 9 includes the TodayCard malformed-response guard and its render test.
+- Row 9 includes the TodayCard malformed-response guard and the retry notice for a session missing from the range.
 - Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard and the gym tab never blank.
 - Row 84 revalidate useCallback deps: do not list revalidate in any caller's deps. Use [] on focus callbacks.
 - Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
-- Round 253: LoggedCard fix uses the create response when present; range lookup is fallback only.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -59,6 +58,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified in git status: Isa to check.
 
 ## Parked (not v1)
+- Row 9: day-boundary case. TodayCard useGymRange(1) may miss a session created near midnight. Option: widen to useGymRange(2) with its own test.
 - Row 21: DetailChart lays Bars as a flex row, not stacked. Copy decision.
 - Recipe and saved meal delete/unsave: no UI.
 - Row 8 notes cell long. Trim when touched.
@@ -70,17 +70,16 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
-- gymSchedule.ts: revalidate useCallback deps [fetcher, fallback] make it unstable every render (refetch uses []). Tighten to [] in a later round.
-- Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
 - Transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
+- Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 
 ## Next
-- Round 253: row 9 LoggedCard sessions.find fix (TodayCard.tsx, one test added).
-- Then: gymSchedule.ts revalidate deps to [] (one file).
+- Round 254: gymSchedule.ts revalidate deps to [] (one file, Next list).
+- Then: row 9 day-boundary widening (Parked), only if chosen by the picker.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues

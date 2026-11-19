@@ -7887,3 +7887,6 @@
 - 2026-11-20 01:20 Prompt limited to TodayCard.tsx and its render test, with a read-first step, per the one-file-per-round rule.
 - 2026-11-20 01:20 Row 17 question deferred to the stop report, per the notes; no ask this round.
 - 2026-11-20 01:20 Jev risk 1.1 of 2 with confidence 0.61: kept the task small (one component, one test file).
+- 2026-11-20 01:25 Chose gymSchedule.ts deps fix over the row 9 day-boundary widening: it is a known footgun already in the Next list, one file, and small. The widening is parked because it is a narrower claim that needs its own round.
+- 2026-11-20 01:25 Accepted the row 9 shipped fix (retry notice when the session is not in the fetched range) as BUILT. The create-response source the Round 253 decision wanted does not exist in this codebase, so the range lookup stays the only source.
+- 2026-11-20 01:25 Told Claude Code to locate the hook file by search rather than trust the path in notes, because the path is unverified.

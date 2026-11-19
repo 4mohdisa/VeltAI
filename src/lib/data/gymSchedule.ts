@@ -4,7 +4,7 @@
 // empty/loading states with or without a backend. Mutations (createTemplate,
 // setScheduleDay, completeSession, …) are called directly via `api.gym.*` from
 // the screens, wrapped in try/catch there.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { api } from '@/lib/api';
 import type {
@@ -29,6 +29,14 @@ function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknow
   const [data, setData] = useState<T>(fallback);
   const [loading, setLoading] = useState(true);
   const [nonce, setNonce] = useState(0);
+
+  // revalidate (below) reads through these instead of closing over fetcher/
+  // fallback directly, so its own identity can stay empty-deps and stable —
+  // see its comment.
+  const fetcherRef = useRef(fetcher);
+  fetcherRef.current = fetcher;
+  const fallbackRef = useRef(fallback);
+  fallbackRef.current = fallback;
 
   useEffect(() => {
     let active = true;
@@ -57,12 +65,17 @@ function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknow
 
   // Same read as refetch, without the loading flash — for a background
   // revalidate (e.g. a screen regaining focus) where blanking the card to a
-  // skeleton would be a visible regression, not a refresh.
+  // skeleton would be a visible regression, not a refresh. Reads fetcher/
+  // fallback through the refs above rather than closing over them, so this
+  // callback's own identity stays stable — a caller listing it in a
+  // useFocusEffect/useCallback deps array won't have that effect re-fire on
+  // every re-render revalidate's own resolution causes.
   const revalidate = useCallback(() => {
-    fetcher()
+    fetcherRef
+      .current()
       .then((d) => setData(d))
-      .catch(() => setData(fallback));
-  }, [fetcher, fallback]);
+      .catch(() => setData(fallbackRef.current));
+  }, []);
 
   return { data, loading, refetch, revalidate };
 }
