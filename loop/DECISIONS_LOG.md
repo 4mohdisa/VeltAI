@@ -6835,3 +6835,8 @@
 - 2026-11-19 15:59 Jev asked for ask at 82%. Overridden: the flag is a missing test run that Claude Code can run itself. Asking Isa adds no information, and the loop note says to deal with the flag before moving on.
 - 2026-11-19 15:59 Chose the baseline checkpoint as the next run: it is the smallest task, needs nothing from Isa, and clears the flag.
 - 2026-11-19 15:59 Row 22 is the only row touched. Reduce Motion fix and the stale motion rows stay parked for later rounds.
+- 2026-11-19 16:01 Loop note says the same blocker came back twice, so the row 17 plan.tsx product decision is recorded under Blocked on Isa and not retried.
+- 2026-11-19 16:01 Jev ask at 71% overridden: the blocker is a product decision Isa already holds in the notes, and asking again adds nothing. Picked a surface that does not depend on it.
+- 2026-11-19 16:01 Chose motion row 74 over backend and visual QA rows: it is the smallest unbuilt row, needs no Isa input, and was flagged DIFFERENT in the last audit.
+- 2026-11-19 16:01 Kept onboarding/_layout.tsx out of scope. Its Reduce Motion fix is a parked item, not a row.
+- 2026-11-19 16:01 Round 16 gates are green, so the test-not-run flag is cleared and removed from the notes.

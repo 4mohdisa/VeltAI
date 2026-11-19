@@ -20,7 +20,7 @@ import { CLERK_PUBLISHABLE_KEY, clerkTokenCache, isClerkEnabled } from '@/lib/au
 import { configurationErrors } from '@/lib/config/requiredEnv';
 import { configurePurchases } from '@/lib/billing/purchases';
 import { ToastHost } from '@/components/display/ToastHost';
-import { color, sheet } from '@/lib/design/tokens';
+import { color, motion, sheet } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { flush as flushOfflineQueue, loadQueue } from '@/lib/offline/queue';
 import { flushAnalytics, initAnalytics, track } from '@/lib/analytics';
@@ -66,6 +66,14 @@ function AuthGate({ children }: { children: ReactNode }) {
       <ClerkLoaded>{children}</ClerkLoaded>
     </ClerkProvider>
   );
+}
+
+/** The root stack's push transition: a short slide (simple_push, so its
+ *  duration is customizable — the 'default' preset's is not), or a fade under
+ *  Reduce Motion (HIG §7.3). Exported so both branches are testable without
+ *  mounting the navigator. */
+export function screenAnimation(reduceMotion: boolean): { animation: 'fade' | 'simple_push'; animationDuration: number } {
+  return { animation: reduceMotion ? 'fade' : 'simple_push', animationDuration: motion.duration.snap };
 }
 
 // Native detented sheet: white, grabber visible, 28px corners (UI & Design System).
@@ -134,7 +142,7 @@ export default function RootLayout() {
             screenOptions={{
               headerShown: false,
               contentStyle: { backgroundColor: color.white },
-              animation: reduceMotion ? 'fade' : 'default',
+              ...screenAnimation(reduceMotion),
             }}
           >
             <Stack.Screen name="index" />
