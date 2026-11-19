@@ -7112,3 +7112,7 @@
 - 2026-11-19 18:54 Blank notes cells are filled only from existing row text. Invented facts are not allowed, so unclear rows go to NEXT.
 - 2026-11-19 18:54 LUME_TEST_DATABASE_URL setup (.env.test or script) parked, not a row. It is a repo tooling item, so it waits for a later round.
 - 2026-11-19 18:54 Sign-in flows stay owner steps. No workaround, no auth bypass.
+- 2026-11-19 18:59 Round 84 copy pass accepted: tsc 0 errors, Jest 81 suites / 869 tests / 4 snapshots green, no code changed.
+- 2026-11-19 18:59 Chose row 27 (Visual QA check in code) over the Screen.tsx render smoke test, because only rows are tasks and the smoke test is a Parked item, not a row.
+- 2026-11-19 18:59 Row 27 prompt names the row by number and column 2 title, since the row titles are not restated in the notes. Claude Code reads the exact title from the file.
+- 2026-11-19 18:59 Gate is full tsc and full Jest because this round is expected to be text or no-code, per the testing rules.

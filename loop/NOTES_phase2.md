@@ -5,11 +5,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt names this rule and the branch check.
-- Baselines (round 83): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baselines (round 84): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step.
-- PHASE2_ROWS.md runs past row 82. Check the true end before appending.
+- PHASE2_ROWS.md runs to row 82. Check the true end before appending.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except identifier api.scan.confirm.
@@ -45,6 +45,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Folded: 65, 66, 67 into 64; 69 duplicate of 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 30, 37, 51, 52, 53, 57, 59, 61, 62.
+- Round 84: copy pass on PHASE2_ROWS.md notes (text only). Row 53 status fixed to BUILT, row 75 status word leak fixed.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83.
 
 ## Blocked on Isa
@@ -59,7 +60,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. One design re-check with Isa.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage). ToastHost and BottomSheet have no render test.
-- Gym session: entering and exit animations now in parity (row 82). Keep both for future list rows.
+- Gym session: entering animation missing; exit animation added in row 68/77. Food log has both. Add entering animation later.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
@@ -72,17 +73,18 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling, not a row).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-83).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-84).
 
 ## Next
-- Round 84 (running): copy pass on PHASE2_ROWS.md notes column (doc only; gate tsc + full Jest).
+- Round 85 (running): Visual QA check in code, row 27.
+- Then rows 28-50 (Visual QA, notes blank or dash, DIFFERENT). One row per round.
 - Then render smoke test for Screen.tsx. Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa.
-- Gotcha: PHASE2_ROWS.md runs past row 82. Check the end before appending.
+- Gotcha: PHASE2_ROWS.md runs to row 82. Check the end before appending.
