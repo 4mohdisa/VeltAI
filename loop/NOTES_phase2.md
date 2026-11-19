@@ -5,12 +5,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches in prompts. Every prompt must say so.
-- Baselines (round 39 checkpoint, green): app tsc 0 errors; Jest 81 suites / 864 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB.
-- Round 56 is a checkpoint: full app tsc and full Jest, no file changes.
+- Baselines (round 56 checkpoint, green): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code 5-hour limit hit several times (last: resets 5:40pm Adelaide). If hit: wait, do not change scope.
-- Claude CLI sign in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
+- Claude Code 5-hour limit hit several times. If hit: wait, do not change scope.
+- Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
@@ -23,7 +22,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Phase 1 design final, do not restyle screens. Isa verifies on a device himself.
 - TestPG tests run only after DSN is checked as 127.0.0.1:55432.
 - plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data.
-- Clerk sign in needs hosted Clerk JWKS. Owner step, no workaround, no auth bypass.
+- Clerk sign-in needs hosted Clerk JWKS. Owner step, no workaround, no auth bypass.
 - Food log before Gym log. Sign-in flows are owner steps; rows BUILT on passing local mocked Jest and Go tests.
 - loop/ files are loop-managed; prompts never edit them.
 - Row 75 split into food log and gym log. Row 77 target src/app/gym/session.tsx.
@@ -31,33 +30,32 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 80 guard only if a crash reproduces; none did, test only.
 - Round 44: three modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
-- Rounds 48-53: rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
+- Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Round 54: Jev said ask (92%); overridden. Finding a file path is not an owner task.
-- Round 56: Jev said Row 56 (88%); overridden for the scheduled checkpoint. Reason: last full green gate was round 39, so rounds 40-55 have had no full run; a checkpoint catches regressions before more Visual QA.
-- Round 56 prompt rejected once: missing loop/phase2 branch rule. Fixed in the rewrite.
+- Round 56: Jev said Row 56 (88%); overridden for the scheduled checkpoint. Reason: no full run since round 39.
+- Round 57: Jev said run (72%); agrees with plan. Row 56 StatLine gap proceeds.
 - Jev advice is advisory. Override only with a concrete reason, written here.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54, 55 (AddMenu.tsx, round 55: tsc 0 errors, no file changed).
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54, 55.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
-- Checkpoints: rounds 16, 23, 39 gates green. Round 56 pending.
+- Checkpoints: rounds 16, 23, 39, 56 gates green.
 
 ## Blocked on Isa
-- Sign in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
+- Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
 - Row 17 plan.tsx has no backend: build plan generation or drop the card for v1.
-- Claude CLI sign in expires 2026-11-24 to 2026-11-27. Run claude auth login.
+- Claude CLI sign-in expires 2026-11-24 to 2026-11-27. Run claude auth login.
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
-- loop/ files show uncommitted diffs (loop-managed).
-- Merging loop/design-match into main: Isa's job.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
+- Merging loop/design-match into main: Isa's job.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) are close to radius.md/lg and layout.buttonHeight 52 but not equal. Design re-check needed: token or deliberate?
-- ToastHost and BottomSheet have no render test. Side findings, not rows.
+- AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) close to radius and buttonHeight 52 but not equal. Design re-check needed.
+- ToastHost and BottomSheet have no render test. Side findings.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
@@ -72,16 +70,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Chip tint ratio 0.14 and glyph stroke 1.9: one combined token only if more chips need them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in round 56).
 
 ## Next
-- Round 56: checkpoint (full app tsc and Jest, no changes). Report failures.
-- Round 57: Row 56 Visual QA: StatLine gap, if checkpoint is green.
+- Round 57: Row 56 Visual QA: StatLine gap (in progress).
 - Then rows 57-63 Visual QA, one per round.
 - Then: final wording sweep. Then backend refinement rows.
+- Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
-- Authenticated flows cannot run end to end until sign in is solved.
+- Authenticated flows cannot run end to end until sign-in is solved.
 - Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
