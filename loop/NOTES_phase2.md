@@ -5,10 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci.
-- Round 187: row 18 gate run GREEN (tsc 0 errors; energy and detailChrome render tests 2 suites, 7 tests, 4 snapshots).
-- Round 188: checkpoint running (full tsc and full Jest --ci, no edits). Result pending in next report.
-- Next checkpoint: round 203.
+- Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, 4 snapshots, --ci.
+- Round 203: next checkpoint.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
@@ -36,10 +34,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Gate flags (tests not run) are fixed by running the gate, not by stopping.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 5, 8 (see open items), 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 5, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 8 (recipe log path open); row 18 status to re-check against its cell.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -52,11 +50,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 41 es/fr overflow needs device run.
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status across many rounds, untouched by loop work. Isa to check.
-- Row 8 not covered: api.recipes.log (log a saved recipe) and recipe/saved-meal delete paths (no UI).
+- Row 8 not covered: api.recipes.log (in progress, round 189) and recipe/saved-meal delete paths (no UI).
 
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI exists (api.recipes.delete, api.savedMeals.delete are dead). Product gap, not a test gap.
-- Row 8 notes cell carries older contradictory fragments ('savedMeals.log still uncovered' next to 'savedMeals.log render test added'). Wording cleanup only.
+- Row 8 notes cell carries older contradictory fragments. Wording cleanup only.
 - No real render test yet: barcode-scan, label-scan, photo-capture.
 - Quick-add: on-device check of the food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
@@ -71,18 +69,19 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local Clerk-compatible verifier: owner step.
 - Muscles and exercise-progress design gaps: product decision.
 - Local test env file for LUME_TEST_DATABASE_URL.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not seen in round 188).
 - Row 22 notes quote old counts: numbers pass.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 188: checkpoint result (tsc plus full Jest --ci). If green, pick the next PARTIAL row (row 8 recipe log path first) and run its gate.
+- Round 189: row 8 recipe log render test (recipeLog.render.test.tsx). Then run its gate.
+- Then row 18 status check, then row 6 scan render tests.
 - Round 203: next checkpoint.
 - If no PARTIAL or DIFFERENT row remains, prepare the stop report with owner items.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.1 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.2 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

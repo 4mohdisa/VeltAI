@@ -7606,3 +7606,8 @@
 - 2026-11-19 22:48 Transient Jest SIGSEGV on resetRegistry.test.ts is allowed one single-suite re-run, reported, not edited.
 - 2026-11-19 22:48 Jev ask signal (12%) is advisory and no question is needed: no row is blocked by it.
 - 2026-11-19 22:48 Next checkpoint set to round 203 (15-round cadence).
+- 2026-11-19 22:49 Round 188 checkpoint green (tsc 0 errors; Jest 116 suites, 941 tests, 4 snapshots, --ci). Recorded in notes.
+- 2026-11-19 22:49 Chose row 8 recipe log over the handover's row 6 suggestion: notes Next names row 8 recipe log first, and it is the only remaining uncovered call site in row 8. Row 6 render tests are Parked for fixture reasons.
+- 2026-11-19 22:49 Row 18 status conflicts: Done lists BUILT (owner check pending), handover says PARTIAL. Left unchanged. Will verify the row cell when row 18 is picked up.
+- 2026-11-19 22:49 Row 5 moved to BUILT per the handover (quick add render test plus existing Go ownership tests). On-device check stays owner check pending.
+- 2026-11-19 22:49 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md still show as modified in git status. Not touched by prompts. Stays on the Isa list.
