@@ -7143,3 +7143,8 @@
 - 2026-11-19 19:13 Row 69 was already folded into row 76 per the Done list, so it is not picked again. The handover still lists it as open; this is a conflict to resolve later, not a blocker.
 - 2026-11-19 19:13 LumeTabBar Reduce Transparency render test deferred to a later round to keep one row per round.
 - 2026-11-19 19:13 Simulator and VoiceOver are not run. Row is marked checked in code, with owner check pending for device VoiceOver.
+- 2026-11-19 19:16 Chose row 34 because the Next list in notes puts it first (rows 34-50 one per round) and it is a single small visual row.
+- 2026-11-19 19:16 Named files were not given in the handover for row 34, so the prompt tells Claude Code to read the row and fall back to SwipeableRow.tsx and food.tsx, with a file search, instead of guessing paths.
+- 2026-11-19 19:16 Off-token values are not added as tokens (notes decision: no new tokens this pass), they go to NEXT as parked.
+- 2026-11-19 19:16 Handover reported PHASE2_ROWS.md ends at row 82; the prompt only touches row 34, so no append is needed.
+- 2026-11-19 19:16 Jev risk 1.0 noted: kept the task to one row and one file group. No question to Isa this round.
