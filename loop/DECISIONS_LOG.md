@@ -7380,3 +7380,10 @@
 - 2026-11-19 21:14 Chose index.tsx over goal.tsx or paywall.tsx: it is the first step in the flow and the smallest unknown, so it lowers risk for the rest.
 - 2026-11-19 21:14 Row 2 stays PARTIAL; status cell not changed in a notes pass.
 - 2026-11-19 21:14 Expected test counts stated as baseline plus new tests, so a drift shows up in the report.
+- 2026-11-19 21:17 Round 136 picks goal.tsx, the named gap in the last report and the loop flag. Smallest step, one file, matches Jev's follow on small tasks.
+- 2026-11-19 21:17 Prompt names the full paths because a handover just happened.
+- 2026-11-19 21:17 Status of row 2 stays PARTIAL until all 8 steps have real render tests.
+- 2026-11-19 21:17 Round 136 prompt rewritten after loop rejection: added explicit loop/phase2 branch rule, no git branch or history commands, and no loop/ edits.
+- 2026-11-19 21:17 Chose goal.tsx as the next single-file onboarding step, as set in the previous round's NEXT, because it is the smallest unblocked gap on row 2.
+- 2026-11-19 21:17 Kept row 2 at PARTIAL because 7 onboarding steps still lack render tests.
+- 2026-11-19 21:17 Full Jest run required because this round adds a code file and edits a docs cell.

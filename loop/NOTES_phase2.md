@@ -5,15 +5,16 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Baseline: tsc 0 errors; Jest 91 suites / 891 tests / 4 snapshots (round 134). Backend 632 pass incl. 18 TestPG on local DB.
+- Baseline: tsc 0 errors; Jest 92 suites / 893 tests / 4 snapshots (round 135). Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file or component per prompt. Full file paths in every prompt.
+- Every prompt must state the loop/phase2 branch rule explicitly (round 136 prompt was rejected for lacking it).
 
 ## Wording rule
 - Cells: BUILT, 'checked in code', 'owner check pending'. Avoid verified/confirmed except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - Code or docs change = run tsc and full Jest.
-- Real coverage = an actual import statement that renders or uses the component. readFileSync, path strings and comments do not count.
+- Real coverage = an actual import statement that renders or uses the component. readFileSync, path strings, ROUTES objects, route string checks and comments do not count.
 
 ## Decisions (never delete)
 - Local backend and local DB only. RevenueCat over Stripe. v1 locked; extras to Parked.
@@ -38,11 +39,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
-- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (signup and paywall post render tests; signup get read-back done in signupReadBack.render.test.tsx; 8 steps untested).
+- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (render tests: signup, paywall, paywall post, signup read back, onboarding index, measurements; goal in progress round 136).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green rounds 16 to 134.
+- Checkpoints green rounds 16 to 135.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -56,7 +57,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Parked (not v1)
 - Row 1: render tests for signup email/OTP sub-stages and DevSignup no-key fallback.
-- No real render test: insights, ai-query, legal terms and privacy, food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard. Onboarding steps without render test: goal, activity, body-type, dietary, cuisine, targets, preview, done (index in progress).
+- No real render test: insights, ai-query, legal terms and privacy, food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard.
 - Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane square corners while row rounds (SwipeableRow, row 34): design decision.
 - Off-token values (Screen offsets, AddMenu, DetailChart, KickerTitle, LumeTabBar, BlurView, RING_STROKE, MuscleChart, TEXT_GAP, nutrition, week NET_BAR_W, provider constants): design pass.
@@ -75,10 +76,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Anomaly banner: no render test for null on zero anomalies.
 - Row 22 notes quote old counts; refresh in a numbers pass.
 - Owning-row check for other shared components.
+- legal/terms.tsx, legal/privacy.tsx, insights.tsx, ai-query.tsx gaps: same recurring render-test gap, tracked per row.
 
 ## Next
-- Round 135: row 2 onboarding index.tsx render test, file src/__tests__/render/onboardingIndex.render.test.tsx. Row 2 stays PARTIAL.
-- Then row 2 render tests for goal, activity, body-type, dietary, cuisine, targets, preview, done: one file each.
+- Round 136 (in progress): row 2 goal.tsx render test, file src/__tests__/render/onboardingGoal.render.test.tsx. Row 2 stays PARTIAL.
+- Then one file each: activity, body-type, dietary, cuisine, targets, preview, done (7 left).
 - Then backend refinement rows and unblocked PARTIAL rows. Pick the candidate that clears most rows.
 - Handover 4 due round 141.
 
