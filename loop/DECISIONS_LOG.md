@@ -7839,3 +7839,7 @@
 - 2026-11-20 00:56 Round 242: run over ask (Jev 99%). Row 7 table fix chosen as the smallest open task after the clean round 241 gate.
 - 2026-11-20 00:56 Round 242: stray row 7 cell merged into Notes, the least risky cell for a file reference, status unchanged.
 - 2026-11-20 00:56 Round 242: no tests for a doc-only change; the gate was already green in round 241.
+- 2026-11-20 00:57 Round 243: the automatic check flagged round 242 (tests not run). A flagged round runs the gate even with no code change, so this round is a gate checkpoint with no file changes (Jev run 87%).
+- 2026-11-20 00:57 Gate covers tsc, full Jest and full go test, because the flag did not say which failed. Row 7 pipe check included to confirm round 242's edit.
+- 2026-11-20 00:57 If the gate is red, failures are reported, not fixed, in this round, so the fix stays one row-sized task next round.
+- 2026-11-20 00:57 Notes trimmed to under 600 words. Stale items merged or removed, decisions kept.
