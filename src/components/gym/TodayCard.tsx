@@ -194,7 +194,7 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
   const { balance } = useEnergyBalance();
   const energyUnit = useUnitPreferences().energy;
   const burned = balance?.calories_out_exercise ?? 0;
-  const { sessions, refetch } = useGymRange(1);
+  const { sessions, refetch } = useGymRange(2);
   const session = sessions.find((s) => s.id === sessionId);
 
   return (

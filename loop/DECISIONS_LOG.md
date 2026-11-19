@@ -7890,3 +7890,6 @@
 - 2026-11-20 01:25 Chose gymSchedule.ts deps fix over the row 9 day-boundary widening: it is a known footgun already in the Next list, one file, and small. The widening is parked because it is a narrower claim that needs its own round.
 - 2026-11-20 01:25 Accepted the row 9 shipped fix (retry notice when the session is not in the fetched range) as BUILT. The create-response source the Round 253 decision wanted does not exist in this codebase, so the range lookup stays the only source.
 - 2026-11-20 01:25 Told Claude Code to locate the hook file by search rather than trust the path in notes, because the path is unverified.
+- 2026-11-20 01:27 Chose row 9 widening over asking Isa: Jev confidence is low (0.28), so prefer the smallest task. It is one file plus one test, and the default is already named in Parked.
+- 2026-11-20 01:27 Deferred the row 17 question: the notes do not confirm every row is BUILT or EXACT. Verify the file after this round before asking.
+- 2026-11-20 01:27 Row 9 status left unchanged: only a one-line note is added, since the day-boundary case was a Parked gap and not a status change.

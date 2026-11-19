@@ -180,3 +180,31 @@ test('a checked-in session missing from the fetched range shows a retry notice, 
   expect(text).toContain("Couldn't load your gym data.");
   expect(text).not.toContain('Bench press'); // no stats/chips to show — there's no data
 });
+
+// TodayCard now asks useGymRange for two days (today and yesterday) instead
+// of one, so a session dated the day before — e.g. logged right at a
+// midnight boundary — is still in the fetched window and resolves by id.
+test('a logged session dated the day before is still found and shown', async () => {
+  mockGetToday.mockResolvedValue({ ...PLANNED_WORKOUT, already_checked_in: true, session_id: 'g1' });
+  mockListSessions.mockResolvedValue([
+    {
+      id: 'g1',
+      user_id: 'u1',
+      date: '2026-11-19', // yesterday, relative to this fixture's "today"
+      name: 'Push day',
+      notes: null,
+      duration_minutes: 40,
+      created_at: '2026-11-19T20:00:00Z',
+      exercises: [
+        { id: 'ge1', session_id: 'g1', name: 'Bench press', sets: 3, reps: 8, weight: 60, weight_unit: 'kg', rest_seconds: 90, notes: null },
+      ],
+    },
+  ]);
+
+  const tree = renderScreen(<TodayCard />);
+  await settle();
+
+  const text = allText(tree);
+  expect(text).toContain('Bench press');
+  expect(text).not.toContain("Couldn't load your gym data.");
+});

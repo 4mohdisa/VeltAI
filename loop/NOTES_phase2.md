@@ -6,9 +6,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 253 done: row 9 LoggedCard shows a retry notice when the session is missing from the fetched range (no stats). Create-response source does not exist; range lookup is the only source.
-- Round 254 (current): gymSchedule.ts revalidate deps to [] (one file).
-- Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
+- Round 254 done: gymSchedule.ts revalidate uses refs, deps []. tsc 0; gymSchedule and two render tests pass.
+- Round 255 (current): row 9 day-boundary widening, TodayCard useGymRange(1) to (2), one test in todayCard.render.test.tsx.
+- Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -33,7 +33,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Stale notes in a row are corrected only when that row is next touched.
 - Row 9 includes the TodayCard malformed-response guard and the retry notice for a session missing from the range.
 - Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard and the gym tab never blank.
-- Row 84 revalidate useCallback deps: do not list revalidate in any caller's deps. Use [] on focus callbacks.
+- Row 84 revalidate deps: never list revalidate in a caller's deps. Use [] on focus callbacks.
 - Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
 
 ## Done
@@ -58,7 +58,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified in git status: Isa to check.
 
 ## Parked (not v1)
-- Row 9: day-boundary case. TodayCard useGymRange(1) may miss a session created near midnight. Option: widen to useGymRange(2) with its own test.
+- Row 9: day-boundary case (round 255 widens to useGymRange(2); verify it landed).
 - Row 21: DetailChart lays Bars as a flex row, not stacked. Copy decision.
 - Recipe and saved meal delete/unsave: no UI.
 - Row 8 notes cell long. Trim when touched.
@@ -74,12 +74,13 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
-- Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
+- Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented in backend/internal/config/config.go.
+- Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 
 ## Next
-- Round 254: gymSchedule.ts revalidate deps to [] (one file, Next list).
-- Then: row 9 day-boundary widening (Parked), only if chosen by the picker.
+- Round 255: row 9 widening (one file plus test, see above).
+- Then: verify PHASE2_ROWS.md statuses and count non-BUILT rows.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
@@ -99,4 +100,5 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Multi-fragment Text children show as an array: join or use findAll.
 - jest.useFakeTimers needs doNotFake: ['setImmediate'] when a test awaits a settle flush.
 - Count pipes against the header row before and after any PHASE2_ROWS.md edit.
-- Stale briefs have pointed at old row status six+ times: verify PHASE2_ROWS.md before trusting any status.
+- Verify PHASE2_ROWS.md before trusting any status.
+- Jest SIGSEGV on resetRegistry.test.ts is transient; rerun before blaming a change.
