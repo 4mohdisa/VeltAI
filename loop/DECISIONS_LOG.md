@@ -7165,3 +7165,7 @@
 - 2026-11-19 19:27 Chose row 40 over the render smoke tests because the notes order rows 40-50 before the smoke tests and Claude Code recommended it.
 - 2026-11-19 19:27 Row 40 has no named file in notes, so it uses KickerTitle and Screen.tsx as the two most relevant shared files, as the visual QA rule allows.
 - 2026-11-19 19:27 Recorded row 39 as BUILT (checked in code) from the last report: DOT and KEY_INDENT swapped to space tokens, radius.full, 4 suites green.
+- 2026-11-19 19:29 Chose row 41 status check over stop: Jev says stop 54%, but the notes still list open rows and Claude's report says 41-82 are BUILT, so the file must be checked before deciding that work is finished.
+- 2026-11-19 19:29 Did not ask Isa: the question is not major and the loop can decide from the file.
+- 2026-11-19 19:29 Kept the task to one row with a read first step, because the previous report's claim about rows 41-82 conflicts with the notes.
+- 2026-11-19 19:29 Trimmed the notes to fit the 600 word limit. Decisions are kept in full. Finished detail is merged into counts.

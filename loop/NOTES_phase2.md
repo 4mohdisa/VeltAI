@@ -5,11 +5,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt names this rule and the branch check.
-- Baselines (round 90 checkpoint, holding): app tsc 0 errors; Jest 81-83 suites / 869-874 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baselines (round 90 checkpoint, holding): app tsc 0 errors; Jest 83 suites / 874 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step.
 - PHASE2_ROWS.md ends at row 82. Check the tail before appending.
+- Conflict to resolve: last report says rows 41-82 are all BUILT; notes said rows 41-50 still open. Round 98 checks the file.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except identifier api.scan.confirm.
@@ -37,25 +37,18 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Test gate: tsc and full Jest after any round that skips Jest.
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Row 76 settled this. Do not re-litigate.
 - Skeleton pulse 700ms is correct by design. Not a gap.
-- Every prompt must name the loop/phase2 branch rule explicitly.
 - Checkpoint rounds run only when the loop note asks for one: tsc and full Jest, no file changes.
 - New render tests for files under src/components/ must be named *.render.test.tsx (jest-expo render project).
 - isLiquidGlassAvailable() is false outside a real iOS build; test the GlassView branch by mocking expo-glass-effect.
 - Row 34 SwipeableRow: tokens correct, no code change. Swipe pane corner clipping parked as design item.
 
 ## Done
-- Task 1, local setup, row 22 baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31-34, 36, 37, 39, 69-74, 77-82.
+- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31-34, 36, 37, 39, 69-74, 77-82.
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68.
-- Folded: 65, 66, 67 into 64; 71 into 64; 69 into 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
-- No code change: rows 27, 28, 30, 33, 34, 37, 38, 51-53, 57-59, 61, 62.
-- Row 31: GlassButtons.tsx solidGlass borderWidth literal swapped for layout.borderWidth.
-- Row 32: GlassButtons.reduceTransparency.render.test.tsx added.
-- Row 33: LumeTabBar.a11y.render.test.tsx added.
-- Row 36: layout.hairline swap in gym/history.tsx and food/history.tsx.
-- Row 39: EnergyBalanceCard.tsx DOT and KEY_INDENT swapped to space.sm and space.lg, radius.full. 4 suites green.
-- Row 82 gym session: entering animation in src/app/gym/session.tsx with gymSessionRemoveExtra.render.test.tsx.
+- Folded: 65, 66, 67 into 64; 71 into 64; 69 into 76.
+- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 51-53, 57-59, 61, 62.
+- Code changes: row 31 GlassButtons.tsx borderWidth to layout.borderWidth; row 32 GlassButtons.reduceTransparency.render.test.tsx; row 33 LumeTabBar.a11y.render.test.tsx; row 36 layout.hairline in gym/history.tsx and food/history.tsx; row 39 EnergyBalanceCard.tsx to space.sm, space.lg, radius.full; row 82 entering animation in src/app/gym/session.tsx with gymSessionRemoveExtra.render.test.tsx.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90.
 
 ## Blocked on Isa
@@ -68,11 +61,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Consolidated token pass (icon sizes, stroke weight, blur intensity, letter-spacing, 9pt space): one design pass with Isa.
 
 ## Parked (not v1)
-- Swipe action pane has no corner radius while the wrapped row rounds first/last corners (SwipeableRow.tsx, food.tsx groupSurface). Needs design decision with Isa.
-- Off-token values: Screen.tsx 40, 40, 32, -6, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes 18/26, 14/20 in history screens; BlurView intensity 40/50; GlassButtons has no icon or blur token category; RING_STROKE 10 is a stroke width, not radius.sm.
+- Swipe pane has no corner radius while the wrapped row rounds first/last corners (SwipeableRow.tsx, food.tsx). Design decision.
+- Off-token values: Screen.tsx 40, 40, 32, -6, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes 18/26, 14/20 in history screens; BlurView intensity 40/50; RING_STROKE 10 is a stroke width.
 - Disabled opacity drift: GymCalendar 0.3, food/calendar 0.35, opacity.disabled 0.4.
 - Sheet detents medium/large: no native mechanism in BottomSheet.tsx. Structural gap.
-- Stroke-weight token missing. Chip tint 0.14, glyph stroke 1.9 (Row 38 provider literals).
+- Chip tint 0.14, glyph stroke 1.9 (Row 38 provider literals).
 - Render smoke tests missing: Screen.tsx, ToastHost, BottomSheet. LumeTabBar and FloatingHeader Reduce Transparency branches untested with flag on.
 - Food log: long press to delete not discoverable. Design call.
 - Goals: 'Saved as you type' untrue when a value is clamped silently.
@@ -86,19 +79,18 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not recurred rounds 65-95).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not recurred rounds 65-98).
 
 ## Next
-- Round 97: Row 40 Visual QA: title blocks (in progress), using KickerTitle and Screen.tsx as the named shared files.
-- Then rows 41-50 (Visual QA), one per round, skipping BUILT rows.
+- Round 98: Row 41 status check. Read rows 40-50 and the tail. Audit row 41 only if it is open.
+- Then any remaining non-BUILT rows, one per round.
 - Then render smoke test for LumeTabBar Reduce Transparency branch.
 - Then render smoke test for Screen.tsx, then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.2 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - Gotcha: tokens.ts has no letter-spacing, icon-size, stroke-width or 9pt space tokens; one design pass with Isa.
-- Gotcha: PHASE2_ROWS.md ends at row 82. Check the tail before appending.
-- Gotcha: gym session has entering and exit animation; food.tsx has both.
+- Gotcha: gym session and food.tsx have entering and exit animations; keep them intact.
