@@ -7493,3 +7493,8 @@
 - 2026-11-19 21:56 Overrode Jev's 'ask' signal: no owner-only dependency and no money, data or production risk; the question is cosmetic.
 - 2026-11-19 21:56 Rows 38, 53, 83 stay untouched: they cover integrations.tsx and nutrition/week, not AddMenu, so writing the new test there would plant a false claim.
 - 2026-11-19 21:56 Status cells are not changed in this docs pass (decision: status never changes in a docs pass).
+- 2026-11-19 21:57 Chose food saved render test as the next PARTIAL row with a real gap, as the Next section recommended; smallest task, one file, Jev ranks it highest.
+- 2026-11-19 21:57 Prompt tells Claude Code to find the row number itself by searching PHASE2_ROWS.md, because the number is not in the notes and I will not guess it.
+- 2026-11-19 21:57 Prompt requires a grep for existing coverage first, per the rule that near-duplicate render tests have happened before.
+- 2026-11-19 21:57 Sign-in owner steps unchanged; no new question to Isa, since the blockers are already on the Blocked list.
+- 2026-11-19 21:57 Round 162 row 55 notes cell accepted as done; no further docs-only round needed.

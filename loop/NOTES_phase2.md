@@ -6,10 +6,9 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 159: row 19 ai-query send path covered by aiQuery.render.test.tsx.
-- Round 160: row 19 AnomalyBanner and AnomalyCard covered by anomaly.render.test.tsx. Row 19 closed.
-- Round 161: addMenu.render.test.tsx added (real AddMenu import, renderScreen, 1/1 pass). Full Jest 108 suites / 921 tests / 4 snapshots green.
-- Round 162: row 55 notes cell to name addMenu.render.test.tsx (docs only).
+- Round 161: addMenu.render.test.tsx added. Full Jest 108 suites / 921 tests / 4 snapshots green.
+- Round 162: row 55 notes cell names addMenu.render.test.tsx (docs only). Done.
+- Round 163: food saved render test (foodSaved.render.test.tsx), if no existing coverage found.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -39,11 +38,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Jev: follow on small tasks; a concrete reason can override, recorded here.
 - Branch rule is mandatory in every prompt.
 - Checkpoint rounds run full tsc and full Jest, read only.
-- Minor questions are decided by the manager, not asked (round 162).
+- Minor questions are decided by the manager, not asked.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, Insights/AI query, Anomaly banner and card (row 19), rows 3, 4, 17, 23, 26-34, 36-51, 69-74, 77-83.
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
+- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68, 55.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open: live Clerk sign-in and profile persistence (owner). Stays PARTIAL.
 - PARTIAL: row 1 (signup, OTP, email verify, DevSignup render test). Live sign-in owner step remains.
@@ -60,7 +59,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- No real render test yet: food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, integrations screens.
+- No real render test yet: quick-add, barcode-scan, label-scan, photo-capture, new-recipe, integrations screens (food/saved in progress round 163).
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift.
@@ -80,8 +79,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - 'Add a render test' prompts have duplicated existing coverage: grep first.
 
 ## Next
-- Round 162: row 55 notes cell names addMenu.render.test.tsx (docs only).
-- Then: food/saved or quick-add render test after grep, or another unblocked PARTIAL row with a real gap.
+- Round 163: food saved render test (foodSaved.render.test.tsx) after grep. If already covered, move to quick-add.
+- Then: quick-add render test after grep, or another unblocked PARTIAL row with a real gap.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
