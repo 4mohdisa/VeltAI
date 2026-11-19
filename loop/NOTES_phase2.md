@@ -6,9 +6,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 249 done: row 84 step A, revalidate added to useApi and useToday in src/lib/data/gymSchedule.ts, with src/__tests__/gymSchedule.revalidate.test.ts. Row 84 PARTIAL. Nothing calls revalidate yet.
-- Round 250 (current): row 84 step B, TodayCard.tsx focus revalidate with render test in todayCard.render.test.tsx.
-- Round 248 was blocked: useToday refetch sets loading true, which blanks TodayCard to a skeleton on focus. Resolved by a silent revalidate (see Decisions).
+- Round 250 done: row 84 step B, TodayCard.tsx focus revalidate + render test. Row 84 PARTIAL.
+- Round 251 (current): row 84 step C, gym tab screen focus revalidate. Then BUILT if tests pass.
 - Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
@@ -32,10 +31,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- TodayCard guard recorded under row 9.
-- Row 9 includes the TodayCard malformed-response guard and its render test.
-- Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard never blanks. Loop decided this.
+- TodayCard guard recorded under row 9. Row 9 includes the TodayCard malformed-response guard and its render test.
+- Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard and the gym tab never blank.
 - Row 84 stays PARTIAL until a consumer calls revalidate. Step A alone is not BUILT.
+- Row 84 revalidate useCallback deps: do not list revalidate in any caller's deps. Use [] on focus callbacks.
+- Round 251: Jev ranked step C first at 98%. Kept step C: it is the only remaining part of row 84, and PARTIAL after step B is by design.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -48,7 +48,6 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## Known test gaps
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 - Row 83 cites MACRO_BAR_W, which no longer exists. Fix when row 83 is next touched.
-- Row 84 open: TodayCard (round 250), gym.tsx Gym tab focus (round 251).
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -73,6 +72,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
 - LoggedCard: sessions.find() via useGymRange(1) returns undefined if the new session is outside the range; LoggedSessionDetail renders nothing silently. Not reachable today. Investigate after row 84.
+- gymSchedule.ts: revalidate useCallback deps [fetcher, fallback] make it unstable every render (refetch uses []). Tighten to [] in a later round.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
 - Transient Jest SIGSEGV on resetRegistry.test.ts.
@@ -81,9 +81,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
 
 ## Next
-- Round 250: row 84 step B, TodayCard.tsx focus revalidate (+ render test). Row 84 stays PARTIAL.
-- Round 251: row 84 step C, gym.tsx focus revalidate. Then BUILT if tests pass.
+- Round 251: row 84 step C, gym tab screen focus revalidate (+ render test). Then BUILT.
 - Then: fix row 83 stale MACRO_BAR_W text when that row is touched.
+- Then: gymSchedule.ts revalidate deps to [] (one file).
 - Then: LoggedCard sessions.find gotcha, one file per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 

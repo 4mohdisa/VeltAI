@@ -7874,3 +7874,7 @@
 - 2026-11-20 01:12 Step B is limited to TodayCard.tsx and its existing render test file, to keep the change one file and one row.
 - 2026-11-20 01:12 Gym tab (step C), the sessions.find gotcha and row 83 text stay queued, so this round does one thing.
 - 2026-11-20 01:12 If TodayCard does not use useToday, the prompt parks the row instead of rewriting the data layer.
+- 2026-11-20 01:17 Round 251: Jev ranked step C first at 98%. I kept step C as my pick. Reason: the step B report is complete, and row 84 staying PARTIAL after step B is by design (Decisions: PARTIAL until a consumer calls revalidate). Step C is the only remaining part of row 84, so the 'partly done' flag is not a missed task.
+- 2026-11-20 01:17 Row 84 step C uses a silent revalidate with an empty deps array, matching TodayCard, so the gym tab never blanks to a skeleton.
+- 2026-11-20 01:17 Parked the gymSchedule.ts revalidate deps footgun (fetcher is a new closure each render). Out of scope this round; to be tightened to [] in a later round.
+- 2026-11-20 01:17 Step C stays one row, one screen file, and at most one test file, per the one-file rule.

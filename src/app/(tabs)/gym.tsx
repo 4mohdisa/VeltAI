@@ -51,7 +51,7 @@ export default function GymLogScreen() {
     error: gymError,
     refetch,
   } = useGym();
-  const { today: todayWorkout } = useToday();
+  const { today: todayWorkout, revalidate } = useToday();
   const insets = useSafeAreaInsets();
   // Native pull-to-refresh: re-run the gym hydration; spinner clears on a short
   // trailing delay since refetch is fire-and-forget by design.
@@ -79,6 +79,18 @@ export default function GymLogScreen() {
     useCallback(() => {
       refetchMonth();
     }, [refetchMonth]),
+  );
+  // Same silent re-read as TodayCard.tsx's own useToday() instance (step B) —
+  // this screen keeps a separate copy for the CTA visibility check below, so
+  // it needs its own focus revalidate. revalidate is excluded from deps:
+  // useToday() hands back a new function identity every render, so depending
+  // on it here would re-fire on every re-render this effect itself causes,
+  // not just on focus.
+  useFocusEffect(
+    useCallback(() => {
+      revalidate();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
   );
   const onRefresh = useCallback(() => {
     setRefreshing(true);

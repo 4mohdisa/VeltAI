@@ -150,3 +150,24 @@ test('at 320pt, the streak strip footnote keeps its full sentence and can wrap i
   const flame = findAll(tree, (p) => p.fill === categoryAccent.streak && typeof p.d === 'string')[0];
   expect(flame).toBeDefined();
 });
+
+// Row 84 step C: gym.tsx keeps its own useToday() instance (for the
+// GymSessionButton CTA check) alongside TodayCard's — it needs the same
+// focus revalidate TodayCard.tsx already has (step B), or its copy of
+// `today` goes stale even once TodayCard's own is fresh.
+test('the gym tab revalidates its own useToday() copy once on focus, alongside the mount fetch', async () => {
+  renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS_320}>
+      <GymLogScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+  await settle();
+
+  const fetchMock = (globalThis as unknown as { fetch: jest.Mock }).fetch;
+  const todayCalls = fetchMock.mock.calls.filter(([url]: [string]) => url.includes('/api/gym/today'));
+  // One from useToday()'s own mount read, one from the useFocusEffect-driven
+  // revalidate above — gym.tsx renders <TodayCard /> too, which has the exact
+  // same pair, so four in total.
+  expect(todayCalls.length).toBe(4);
+});
