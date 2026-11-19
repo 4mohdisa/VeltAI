@@ -7732,3 +7732,5 @@
 - 2026-11-19 23:56 Row 21 stale 'Backend change needed' cell corrected in the same round, since step 2 confirms no backend change.
 - 2026-11-19 23:56 Render test: extend an existing dashboard nutrition test if one exists, else create one in src/__tests__/render/ after grep.
 - 2026-11-19 23:56 Row 8 notes trim stays parked; it is not a row task and does not clear status.
+- 2026-11-20 00:08 Kept the checkpoint over Jev's top pick (snapshot regeneration). The snapshot may not be failing at all, since the Phase report only suspected it. Regenerating now would edit a file in a round that must change nothing. Re-rank after this run's results.
+- 2026-11-20 00:08 Logged the row 21 side-by-side bar issue and the stale Secondary card copy under Parked, not as a build task, because they are side findings and not a row.
