@@ -7615,3 +7615,7 @@
 - 2026-11-19 22:50 Row 8 BUILT decision deferred to the report: it depends on whether the row's own cell lists any uncovered live call site.
 - 2026-11-19 22:50 Kept run over ask: the gap is one test in one existing file and blocks no row.
 - 2026-11-19 22:50 Recipe and saved-meal delete paths stay out of scope: no UI exists, so no render test is expected.
+- 2026-11-19 22:52 Chose row 8 savedMeals.log failure path: it is the one live call site still without a failure test, and the last report recommended it. Smallest task, one file, no Isa input needed.
+- 2026-11-19 22:52 Row 8 status is contradictory (last report says BUILT, handover says PARTIAL). Kept it PARTIAL in notes until the savedMeals failure test passes and the row is re-checked against its live call sites.
+- 2026-11-19 22:52 Prompt bans changing the screen if no error toast exists on failure; a missing feedback path is reported, not fixed, to respect the locked design and behaviour.
+- 2026-11-19 22:52 Checkpoint at round 203 unchanged. Jev ranking agrees with run (95%), so no reconsideration.

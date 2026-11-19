@@ -10,7 +10,8 @@ import MealsScreen from '@/app/food/meals';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate } from '@/lib/data/foodStore';
 import type { SavedMeal } from '@/lib/api';
-import { act, buttonWithTitle, renderScreen } from './helpers';
+import { useToastStore } from '@/components/display/toastStore';
+import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 const mockList = jest.fn();
 const mockLog = jest.fn();
@@ -78,6 +79,7 @@ const settle = async () => {
 beforeEach(() => {
   mockList.mockClear();
   mockLog.mockClear();
+  useToastStore.getState().dismiss();
 });
 
 test('pressing Log now on a saved meal calls api.savedMeals.log with the meal id, current slot and selected date', async () => {
@@ -97,4 +99,27 @@ test('pressing Log now on a saved meal calls api.savedMeals.log with the meal id
   });
 
   expect(mockLog).toHaveBeenCalledWith('m1', slotForNow(), selectedFoodDate());
+});
+
+test('a failed api.savedMeals.log call shows the error toast and leaves the saved meal list rendered', async () => {
+  mockList.mockResolvedValue([FIXTURE_MEAL]);
+  mockLog.mockRejectedValueOnce(new Error('network'));
+
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <MealsScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+
+  await act(async () => {
+    (buttonWithTitle(tree, 'Log now')!.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+
+  expect(useToastStore.getState().current).toMatchObject({
+    message: "Couldn't log Breakfast bowl. Try again.",
+    tone: 'error',
+  });
+  expect(allText(tree)).toContain('Breakfast bowl');
 });
