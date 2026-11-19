@@ -6,7 +6,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 166: quick-add submit path render test added (offline fallback and error toast). tsc 0; quickAdd 4/4 pass.
+- Round 166: quick-add render tests added. Round 167: loading and canGoBack tests added (row 5 still PARTIAL).
+- Round 168: row 5 double-submit guard in screen plus render test (task running).
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -38,7 +39,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (signup, OTP, dev fallback render tests added; live Clerk sign-in owner step remains).
 - PARTIAL: row 2 onboarding (all steps have render tests; live Clerk sign-in and profile persistence owner).
-- PARTIAL: row 5 quick-add (initial render, offline fallback and error toast tests added; loading and deep-link branches in progress, round 167).
+- PARTIAL: row 5 quick-add (initial render, offline fallback, error toast, loading, canGoBack tests added; double-submit guard in progress; deep-link branch untested).
 - PARTIAL: row 8 saved foods (foodSaved render test added).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
@@ -70,9 +71,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
 - Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: fix render coverage separately.
+- Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 167: quick-add loading state and deep-link branch render tests (row 5, extend quickAdd.render.test.tsx).
+- Round 168: row 5 double-submit guard and render test (running).
+- Then: row 5 deep-link branch render test, if still untested.
 - Then: integrations and nutrition/week render coverage (rows 38, 53, 83).
 - Then: SwipeableRow warning, only if it blocks a test.
 
@@ -83,7 +86,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.
-- es/fr strings run 2.5x to 3.7x English; LumeTabBar and Button lack numberOfLines.
+- es/fr strings run 2.5x to 3.7x English.
 - Unresolved: SwipeableRow square corners (row 34).
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.

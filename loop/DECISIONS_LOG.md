@@ -7516,3 +7516,7 @@
 - 2026-11-19 22:05 Kept SwipeableRow worklet warning parked: not blocking any test.
 - 2026-11-19 22:05 loop/ modified files left alone as loop-managed, per Decisions.
 - 2026-11-19 22:05 Round 166 quick-add submit path counted as covered by the latest report; remaining gap is loading and deep-link branches only.
+- 2026-11-19 22:10 Chose row 5 to close the loop flag: the last report left the submit path partly covered, and the double-submit gap is the one blocking the row.
+- 2026-11-19 22:10 Guard placed in the screen, not the Button: the report traced the only protection to native disabled props, which render tests cannot exercise.
+- 2026-11-19 22:10 Status stays PARTIAL unless the deep-link branch is also tested; no status change on an open gap.
+- 2026-11-19 22:10 Kept to one row and one test file; Jev risk is 1.0, so the task is small.

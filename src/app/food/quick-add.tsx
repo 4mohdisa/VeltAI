@@ -68,6 +68,7 @@ export default function QuickAddScreen() {
   const [submitting, setSubmitting] = useState(false);
 
   const add = async () => {
+    if (submitting) return;
     setSubmitting(true);
     const name = 'Quick add';
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };

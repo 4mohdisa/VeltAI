@@ -104,6 +104,21 @@ test('while the add request is in flight, the submit control shows its loading s
   expect(button.props.loading).toBe(true);
 });
 
+test('pressing Add twice while the first request is still pending calls the API exactly once', async () => {
+  // Never resolves within this test's lifetime, so the first add() is still
+  // in flight (submitting stays true) when the second press fires.
+  mockQuickAdd.mockImplementationOnce(() => new Promise(() => {}));
+
+  const tree = await pressAdd();
+  const button = buttonWithTitle(tree, 'Add 250 kcal')!;
+  await act(async () => {
+    (button.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+
+  expect(mockQuickAdd).toHaveBeenCalledTimes(1);
+});
+
 test('when router.canGoBack() is false, a successful add keeps the sheet open and does not navigate back', async () => {
   mockCanGoBack.mockReturnValue(false);
   mockQuickAdd.mockResolvedValueOnce({});
