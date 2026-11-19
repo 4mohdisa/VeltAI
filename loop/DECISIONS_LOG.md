@@ -7098,3 +7098,7 @@
 - 2026-11-19 18:47 Row 72 instructed to check later rows for an existing close before any edit, following the row 68 and 77 lesson.
 - 2026-11-19 18:47 LumeTabBar plus-button press values (0.86 and 0.96) accepted as a design-declared per-component value, parked with the off-token list; not a row now.
 - 2026-11-19 18:47 Jev risk about 1.0 of 2 with 0.80 confidence: kept the task to one row and one file, no simulator work.
+- 2026-11-19 18:49 Chose the session.tsx entering-animation parity row: it is the only open gap in the handover, it is small, and it clears a visible motion row without new scope.
+- 2026-11-19 18:49 Kept the LumeTabBar press-value mismatch parked: it is an off-token value and needs the design pass with Isa, not a per-row swap.
+- 2026-11-19 18:49 Told the prompt to append the row at the true end of PHASE2_ROWS.md if it is missing, because the file runs past row 81.
+- 2026-11-19 18:49 Jev and my pick agree on run. Risk is high, so the task is one row and one file plus its test.

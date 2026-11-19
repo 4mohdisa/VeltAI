@@ -6,7 +6,7 @@
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
-import Animated, { FadeOut, FadeOutUp } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
 import { router, useLocalSearchParams, useNavigation, type Href } from 'expo-router';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
@@ -175,9 +175,13 @@ export default function GymSessionScreen(): JSX.Element {
   const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
   const mode = isSessionMode(modeParam) ? modeParam : undefined;
 
-  // Same exit treatment as the food log row (src/app/(tabs)/food.tsx):
-  // FadeOutUp, dropping to a plain FadeOut under Reduce Motion (HIG §7.3).
+  // Same entering/exiting treatment as the food log row (src/app/(tabs)/food.tsx):
+  // FadeInDown/FadeOutUp, dropping to a plain FadeIn/FadeOut under Reduce Motion
+  // (HIG §7.3). Entering only applies to an extra picked via "Something else" —
+  // planned rows are already on screen when this mounts, not something the user
+  // just added, so they keep their current no-animation first paint.
   const reduceMotion = useReduceMotion();
+  const rowEntering = reduceMotion ? FadeIn.duration(motion.duration.snap) : FadeInDown.duration(motion.duration.snap);
   const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
 
   const [states, setStates] = useState<Record<string, RowState>>({});
@@ -425,7 +429,7 @@ export default function GymSessionScreen(): JSX.Element {
   const renderRow = (row: Row) => {
     const st = stateOf(row);
     return (
-      <Animated.View key={row.key} exiting={rowExiting}>
+      <Animated.View key={row.key} entering={row.isExtra ? rowEntering : undefined} exiting={rowExiting}>
         <Card variant="elevated">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Pressable

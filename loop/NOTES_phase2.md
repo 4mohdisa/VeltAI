@@ -5,11 +5,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this rule and the branch check.
-- Baselines (gate green round 73): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Baselines (gate green round 74): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
-- PHASE2_ROWS.md runs to row 81. Check the true end before appending.
+- PHASE2_ROWS.md runs past row 81. Check the true end before appending.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
@@ -36,13 +36,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows: FOLD, not delete. Folded row gets status BUILT and a note pointing to its parent. One row per round.
 - Test gate: tsc and full Jest after any round that skips Jest.
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Row 76 settled this. Do not re-litigate in motion rows.
-- Skeleton pulse 700ms is correct by design (continuous pulse, motion token). Not a gap.
-- Rejected prompt (round 70 note): every prompt must name the loop/phase2 branch rule explicitly.
+- Skeleton pulse 700ms is correct by design. Not a gap.
+- Every prompt must name the loop/phase2 branch rule explicitly.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion, row 77 gym removeExtra exit animation.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64), 66 (folded into 64), 67 (folded into 64), 68, 69 (duplicate of 76), 70 (folded into 64), 71 (folded into 64).
+- BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion, row 77 gym removeExtra exit animation, row 72 toasts.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-64, 66-71 (65, 66, 67, 70, 71 folded into 64), 68, 69 (duplicate of 76).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 30, 37, 51, 52, 53, 57, 59, 61, 62.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73.
@@ -56,11 +56,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
-- Session.tsx picker: gym extras have no entering animation (food.tsx has rowEntering). Parity row, after rows 70-72.
-- Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage).
 - Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. One design re-check with Isa.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
-- ToastHost and BottomSheet have no render test.
+- Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage). ToastHost and BottomSheet have no render test.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
@@ -74,12 +72,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65, 69, 70, 71, 72, 73).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-74).
 
 ## Next
-- Round 74 (running): row 72 'Motion: toasts'. Check later rows for a close first (fold if closed). Otherwise gap check on ToastHost and its toast item. Fix only in that file, or fold.
-- Then session.tsx entering-animation parity row (gym extras).
-- Then final wording sweep. Then render smoke test. Then backend refinement rows.
+- Round 75 (running): 'Motion: gym session extra entering animation' (parity with food.tsx rowEntering). Append the row at the true end of PHASE2_ROWS.md if missing.
+- Then final wording sweep of PHASE2_ROWS.md notes column. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
@@ -88,6 +85,5 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- Gotcha: the gym session row has an exit animation but no matching entering animation (food.tsx has both).
 - Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa, not per-row notes.
-- Gotcha: PHASE2_ROWS.md runs to row 81, not 72. Check the end before appending.
+- Gotcha: PHASE2_ROWS.md runs past row 81. Check the end before appending.

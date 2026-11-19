@@ -5,12 +5,19 @@
 // search UI is that component's concern, not this screen's), removes it, and
 // checks: the row disappears, and — since nothing on this screen is sent to
 // the server before "Finish workout" — no DELETE request is ever made for it.
+//
+// Also checks the matching entering animation (motion parity gap): an extra
+// row used to appear with no entering animation, unlike the food log row.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
+import { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
 
 import GymSessionScreen from '@/app/gym/session';
 import type { ExerciseLibraryItem } from '@/lib/api';
 import type { PlannedValues } from '@/components/gym/PlannedValuesForm';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { act, allText, findAll, renderScreen } from './helpers';
+
+jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
 
 jest.mock('@/components/display/LoadingSkeleton', () => ({
   Skeleton: () => null,
@@ -75,6 +82,7 @@ beforeEach(() => {
     return json([]);
   });
   (globalThis as unknown as { fetch: unknown }).fetch = fetchMock;
+  (useReduceMotion as jest.Mock).mockReturnValue(false);
 });
 
 test('removing a just-added extra exercise drops it from the list, with no DELETE request', async () => {
@@ -101,4 +109,44 @@ test('removing a just-added extra exercise drops it from the list, with no DELET
   expect(allText(tree)).not.toContain('Lateral Raise');
   const deleteCalls = fetchMock.mock.calls.filter(([, init]) => (init as RequestInit | undefined)?.method === 'DELETE');
   expect(deleteCalls).toHaveLength(0);
+});
+
+test('a newly added extra row enters through Reanimated, with the slide', async () => {
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <GymSessionScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+
+  const picker = findAll(tree, (p) => typeof p.onPick === 'function')[0];
+  act(() => {
+    (picker.props.onPick as (ex: ExerciseLibraryItem, planned: PlannedValues) => void)(EXTRA, PLANNED);
+  });
+
+  const row = findAll(tree, (p) => p.entering !== undefined)[0];
+  expect(row).toBeDefined();
+  expect(row.props.entering).toBe(FadeInDown);
+  expect(row.props.exiting).toBe(FadeOutUp);
+});
+
+test('Reduce Motion branch: a newly added extra row gets a plain fade, no slide', async () => {
+  (useReduceMotion as jest.Mock).mockReturnValue(true);
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <GymSessionScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+
+  const picker = findAll(tree, (p) => typeof p.onPick === 'function')[0];
+  act(() => {
+    (picker.props.onPick as (ex: ExerciseLibraryItem, planned: PlannedValues) => void)(EXTRA, PLANNED);
+  });
+
+  const row = findAll(tree, (p) => p.entering !== undefined)[0];
+  expect(row.props.entering).toBe(FadeIn);
+  expect(row.props.exiting).toBe(FadeOut);
+  expect(row.props.entering).not.toBe(FadeInDown);
+  expect(row.props.exiting).not.toBe(FadeOutUp);
 });
