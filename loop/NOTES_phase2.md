@@ -6,12 +6,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 243 (current): gate checkpoint after a loop flag on round 242. No file changes.
-- Round 242: row 7 table cell fix. Pipe count now matches header. Gate not run, hence the flag.
-- Round 241: gate checkpoint GREEN (tsc 0 errors, Jest 133 suites, 985 tests, 4 snapshots).
-- Prompts: one row or one checkpoint, one file, full paths, grep by content before creating a test file, no git commands. Prompts never edit loop/ files. Every prompt states the loop/phase2 branch rule.
+- Round 244 (current): row 9 LoggedCard session audit. Read first, fix only if confirmed.
+- Round 243: gate checkpoint GREEN (tsc 0 errors; Jest 133 suites, 985 tests, 4 snapshots; go test all ok, 18 TestPG skipped).
+- Round 242: row 7 table cell fixed, pipe count matches header.
+- Prompts: one row or one checkpoint, one file, full paths, grep by content before creating a test file, no git commands. Prompts never edit loop/ files.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
-- A loop flag on a report means the gate must run next round, even with no code change.
+- A loop flag on a report means the gate runs next round.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -32,8 +32,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- Round 235: existing render test counts as row 2 coverage.
-- Round 237: TodayCard guard recorded under row 9.
+- Existing render test counts as row 2 coverage. TodayCard guard recorded under row 9.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -45,9 +44,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 
 ## Known test gaps
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
-- freeze.tsx: render test exists (src/__tests__/render/freeze.render.test.tsx, 2/2 at last check). Re-confirm in the gate.
-- LoggedCard: if sessionId is not in the fetched range, session is undefined and LoggedSessionDetail silently does not render. Possible gap, not confirmed. Audit after the gate.
-- Row 83 cites MACRO_BAR_W, which no longer exists in src/app/dashboard/nutrition.tsx. Fix when row 83 is next touched.
+- freeze.tsx: render test exists (src/__tests__/render/freeze.render.test.tsx). Re-run in isolation next.
+- LoggedCard: if sessionId is not in the fetched range, session is undefined and LoggedSessionDetail silently does not render. Under audit in round 244.
+- Row 83 cites MACRO_BAR_W, which no longer exists. Fix when row 83 is next touched.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -60,7 +59,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified in git status: Isa to check.
 
 ## Parked (not v1)
-- Row 21: DetailChart lays Bars as a flex row, not stacked. Card header, note and footnote describe today's macros: copy decision.
+- Row 21: DetailChart lays Bars as a flex row, not stacked. Copy decision.
 - Recipe and saved meal delete/unsave: no UI.
 - Row 8 notes cell long. Trim when touched.
 - Quick add on-device check (owner). Row 34 swipe pane square corners: design decision.
@@ -73,18 +72,19 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - logGymSession while gymLoggedToday is true.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
-- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in rounds 232, 241, 242).
+- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in rounds 232, 241, 242, 243).
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 
 ## Next
-- Round 243: gate checkpoint. Read the result before any other row. Fix any red gate as one task next round.
-- Then: LoggedCard silent-undefined session audit (read first, fix only if confirmed).
+- Round 244: row 9 LoggedCard audit (read first, fix only if confirmed).
+- Then: re-run freeze.render.test.tsx in isolation (expect 2/2).
+- Then: fix row 83 stale MACRO_BAR_W text when that row is touched.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 to 1.2 of 2: keep tasks small, one row, one file.
+- Jev risk about 1.0 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.

@@ -7843,3 +7843,7 @@
 - 2026-11-20 00:57 Gate covers tsc, full Jest and full go test, because the flag did not say which failed. Row 7 pipe check included to confirm round 242's edit.
 - 2026-11-20 00:57 If the gate is red, failures are reported, not fixed, in this round, so the fix stays one row-sized task next round.
 - 2026-11-20 00:57 Notes trimmed to under 600 words. Stale items merged or removed, decisions kept.
+- 2026-11-20 00:58 Round 243 gate treated as green: tsc 0 errors, Jest 133/985/4 snapshots, go test all ok with 18 TestPG skipped. The report opened with 'running in background' text, but its result lines are complete, so I took them as final.
+- 2026-11-20 00:58 Chose the LoggedCard audit over the freeze re-check: it is the open wiring gap flagged in the handover, and it can clear with a read first. The freeze re-check is small and moves to NEXT.
+- 2026-11-20 00:58 Kept the audit under row 9 because no dedicated TodayCard row exists, as recorded in round 237.
+- 2026-11-20 00:58 Kept the prompt to one file plus its test, with a read-first step, because the handover left Claude Code with only a summary.
