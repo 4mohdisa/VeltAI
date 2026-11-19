@@ -7568,3 +7568,8 @@
 - 2026-11-19 22:32 Chose the create path over quick-add because it closes a named gap in row 8 and is a single test file. Quick-add stays next.
 - 2026-11-19 22:32 Told Claude Code to grep for the create caller first, because earlier rounds had wrong task premises.
 - 2026-11-19 22:32 Banned source edits in this round so the change is test-only and the design is untouched.
+- 2026-11-19 22:34 Loop check flagged round 180 as partly done. Row 8 is still PARTIAL with two uncovered create paths, so the next task closes one of them before moving on.
+- 2026-11-19 22:34 Chose api.recipes.create over savedMeals.log: it is the other create path in row 8 and the previous report named it as the next gap. Smallest change, one file.
+- 2026-11-19 22:34 Kept row 8 at PARTIAL: BUILT needs both create paths covered, and savedMeals.log is still open.
+- 2026-11-19 22:34 Did not ask Isa about loop/DECISIONS_LOG.md and loop/NOTES_phase2.md showing as modified: already in Blocked on Isa, and the question is not major.
+- 2026-11-19 22:34 Prompt bans git commands and edits to loop/ files because earlier rounds broke on both.
