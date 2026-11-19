@@ -6976,3 +6976,7 @@
 - 2026-11-19 18:05 The automatic wording flag is handled by a rule: reports and row notes use 'checked in code' only. The row 26 prompt repeats this rule. A full wording sweep of PHASE2_ROWS.md is parked as a final step, not a separate row.
 - 2026-11-19 18:05 Only one row per round. Row 23 cell wording is not edited in this round, to keep the one-row rule.
 - 2026-11-19 18:05 Simulator screenshots for visual QA rows stay owner steps because Maestro is not installed and simctl hangs in the sandbox.
+- 2026-11-19 18:07 Row 26 accepted as BUILT, checked in code, no code change: scrim uses color.overlay which matches the design token; design has no separate scrim fade timing to compare against.
+- 2026-11-19 18:07 Chose row 30 (tab bar) as the next in order: no sign in needed, one component, smallest step. Matches the notes' stated next row.
+- 2026-11-19 18:07 BottomSheet.tsx has no render test. Logged in Parked, not made a row, because it adds tests outside the Visual QA scope. Revisit after the Visual QA rows.
+- 2026-11-19 18:07 Usage limit noted in the handover (5-hour limit). If the next round hits it, wait and do not change scope.
