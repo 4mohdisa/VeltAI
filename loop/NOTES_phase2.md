@@ -5,13 +5,13 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 208 running: row 6 label scan render test (api.scan.label). Row 6 stays PARTIAL.
-- Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci). Round 207 closed row 1 to BUILT (owner step remains).
-- Previous prompt rejected: it did not name loop/phase2 or ban git. Every prompt must name the branch and ban git commands.
+- Round 209: row 6 audit against code and render tests. Latest report says labelScan and photoScan render tests exist, so row 6 may already be BUILT. Verify before any change.
+- Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci).
+- Every prompt names loop/phase2 and bans git commands.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - loop/ files are never edited by prompts.
-- Task premises can be wrong: check row content and code first. Follow the latest report over handover claims.
+- Latest report beats handover claims. Check code first.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -28,9 +28,9 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Render tests: components *.render.test.tsx; screens in src/__tests__/render/. renderScreen (react-test-renderer). No RNTL (incompatible with RN 0.85.3).
 - Rows 19, 20, 21: no edit. Row 8 BUILT once all live call sites have render tests.
-- Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
 - Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6.
 - Local-only mutations (editSavedFood) need no API test.
+- 'nutrition/week' is not a row.
 - Minor questions decided by manager. Checkpoints override Jev ranking.
 
 ## Done
@@ -38,7 +38,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - BUILT (owner check pending): gym history; rows 1, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - PARTIAL: row 2 onboarding (live sign-in and profile persistence owner; local gaps to check).
-- PARTIAL: row 6 (barcode has render coverage; label and photo do not).
+- Row 6: status disputed (see Next).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -53,7 +53,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI. Product gap.
-- Row 8 notes cell is long and has older contradictory fragments. Trim when next touched.
+- Row 8 notes cell is long with older contradictory fragments. Trim when next touched.
 - Quick add: on-device check of food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
@@ -71,8 +71,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 208: row 6 label scan render test (api.scan.label). Row 6 stays PARTIAL.
-- Then row 6 photo pipeline render tests (api.scan.pipeline, pipelineMulti, confirm, feedback).
+- Round 209: row 6 audit. Call sites: api.foodSearch.barcode via lookupBarcodeAsync, api.scan.label, api.scan.pipeline, pipelineMulti, confirm, feedback. BUILT if each has an executed render test; else PARTIAL with the gap named.
 - Then row 2 onboarding: local gap check.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 

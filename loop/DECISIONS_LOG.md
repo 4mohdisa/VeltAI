@@ -7697,3 +7697,7 @@
 - 2026-11-19 23:38 Kept row 6 PARTIAL until the photo pipeline is covered too.
 - 2026-11-19 23:38 Prompt tells Claude Code to stop if no screen calls api.scan.label, so it does not invent a file path.
 - 2026-11-19 23:38 Ban on status words in the notes cell follows the wording rule, so the status column stays the only place they appear.
+- 2026-11-19 23:39 Row 6 premise conflict: the latest report shows labelScan and photoScan render tests exist, so the handover claim of no label or photo coverage is stale. Chose a code audit of row 6 before any new test, since the report's test files are what decides BUILT.
+- 2026-11-19 23:39 Did not ask Isa about row 6 status. It is a minor status question that the code can answer.
+- 2026-11-19 23:39 Latest report overrides handover per the notes rule.
+- 2026-11-19 23:39 Notes trimmed to under 600 words to keep the reply from being cut off. No rule or decision was dropped; Parked entries were shortened.
