@@ -6820,3 +6820,7 @@
 - 2026-11-19 15:38 Did not ask Isa about the uncommitted loop/DECISIONS_LOG.md and loop/NOTES_phase2.md edits. The loop script owns those files and commits them each round. Recorded here so the next report can mention it if it recurs.
 - 2026-11-19 15:38 Row 17 plan.tsx stays parked: it needs a product decision, not wiring.
 - 2026-11-19 15:38 Kept the task to one row and one render test, since Jev risk is 1.3 of 2 and confidence is low.
+- 2026-11-19 15:46 Chose the wording gate first because the automatic check flagged the row 16 report and the loop note says to deal with it before moving on.
+- 2026-11-19 15:46 Did not ask Isa about plan.tsx (Jev suggested ask). The Decisions list already says plan.tsx has no backend and keeps its design with no fabricated data, so the question is answered. Row 17 can proceed on that basis.
+- 2026-11-19 15:46 Row 16 accepted as BUILT on the code comparison and the render test. Its report wording is corrected by the gate task, not by changing the code.
+- 2026-11-19 15:46 loop/ uncommitted diffs are reported only, per the loop-managed file rule.

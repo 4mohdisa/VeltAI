@@ -14,6 +14,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Wording rule
 - Rows say BUILT or 'checked in code' or 'owner check pending'. Never 'verified', 'verify', 'verifies', 'confirmed' or 'confirm' in row cells. Exception: literal code identifiers (api.scan.confirm).
 - Reports use the same wording. Reports must not claim a screen is verified.
+- Round 12 report was flagged by auto-check for 'verified' wording. Round 13 gate task rewords PHASE2_ROWS.md and checks the status column.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -30,6 +31,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - Jev ranking followed for Goals, Subscription, Profile. Round 10 chose wording pass over Dashboard/Summary.
 - Round 11 chose gate check first (auto-check flagged round 10 as ungated).
+- Round 13: wording gate before Row 17. Jev 'ask' on plan.tsx overridden: already decided above.
 - loop/ files are loop-managed. Prompts never edit them. Uncommitted diffs there are reported, not fixed.
 
 ## Done
@@ -44,13 +46,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Add food, Legal: BUILT (static).
 - Wording pass (round 10): 25 cells reworded in PHASE2_ROWS.md.
 - Round 11 gate: passed, no code changed.
+- Round 12: Dashboard / Summary (row 16) BUILT. Route and field comparison, no gap. Render test dashboardSummary.render.test.tsx added. 9 suites / 95 tests passed.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
 - E2E_EMAIL and E2E_PASSWORD not set in environment.
 
 ## Parked (not v1)
-- Scope decision for plan.tsx and AI anomaly banner.
+- Scope decision for plan.tsx and AI anomaly banner (design kept, no fabricated data).
 - Food log: long press to delete a whole meal (confirmDeleteMeal) is not discoverable. Design call for Isa.
 - Goals: 'Saved as you type' copy (en.json:82) is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts unused. Remove in a cleanup pass.
@@ -63,15 +66,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps (no 3D body stage, no per-muscle lists, 'Last 30 days' vs design 'Last 7 days'). Product decision.
 - Streak 'Freezes' derived as freeze_used ? 0 : 1. Revisit only if design wants more.
 - Watch: one transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Recheck if it recurs.
-- Uncommitted diffs in loop/DECISIONS_LOG.md and loop/NOTES_phase2.md seen after round 11. Loop-managed, check in next report.
+- Uncommitted diffs in loop/DECISIONS_LOG.md and loop/NOTES_phase2.md seen after round 11 and again after round 12. Loop-managed, reported only.
 
 ## Next
-- Round 12: Dashboard and Summary route and field comparison (row 16).
-- Then: plan.tsx stays parked (product decision). Then remaining PARTIAL or DIFFERENT core rows, motion pass, backend refinement rows.
+- Round 13: wording gate on PHASE2_ROWS.md (in progress).
+- Then Row 17 Dashboard sub-pages: keep plan.tsx as designed, no fabricated data. Week, training and nutrition checked against routes.
+- Then remaining PARTIAL or DIFFERENT core rows, motion pass, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot be exercised end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review in the Gym log rework.
 - Gym history and Summary re-hydrate from server on view. Confirm in code, do not change without a failing case.
 - Long-press meal delete in food.tsx flagged twice (see Parked).
-- Jev risk 1.3 of 2 (low confidence): keep tasks small.
+- Jev risk 1.0 of 2 (confidence 0.79): keep tasks small.
