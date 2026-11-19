@@ -5,7 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Baseline round 147: tsc 0 errors; Jest about 92 to 101 suites / 893 to 910 tests / 4 snapshots (last full run was 101 / 910 / 4). Backend 632 pass incl. 18 TestPG on local DB.
+- Baseline round 148: tsc 0 errors; Jest 102 suites / 911 tests / 4 snapshots (all passing).
+- Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Verify file paths before tests assert them.
 
@@ -33,15 +34,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Jev: follow on small tasks; a concrete reason can override, recorded here.
 - Partial-task loop check: close the named gap next, do not redo finished work.
 - Loop rejects a prompt that omits the branch rule. Branch rule is mandatory in every prompt.
-- Round 147: last report's 'verified' wording rejected; row 2 notes cell fixed to 'checked in code'. Status unchanged.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms (render test), Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy (render tests), Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
-- PARTIAL: row 1 (signup render test; live sign-in owner step). Row 2: index, signup, paywall, post, read back, measurements have render tests. goal.tsx has a render test (onboardingGoal.render.test.tsx), checked in code. Remaining: activity, body-type, dietary, cuisine, targets, preview, done. Owner check of live Clerk sign-in and profile persistence.
+- PARTIAL: row 1 (signup render test; live sign-in owner step). Row 2: index, signup, paywall, post, read back, measurements, goal have render tests. Remaining: activity, body-type, dietary, cuisine, targets, preview, done. Owner check of live Clerk sign-in and profile persistence.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green rounds 16 to 146.
+- Checkpoints green rounds 16 to 147.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -55,7 +55,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Parked (not v1)
 - Row 1: render tests for signup OTP sub-stages and DevSignup no-key fallback.
-- No real render test yet: insights, ai-query, food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard.
+- No real render test yet: ai-query, food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard.
 - Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
@@ -74,13 +74,13 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 22 notes quote old counts; refresh in a numbers pass.
 
 ## Next
-- Round 147: legal privacy render test (src/__tests__/render/legalPrivacy.render.test.tsx, src/app/legal/privacy.tsx) plus row 2 notes wording fix.
-- Then insights.tsx render test (row 22 area).
-- Then remaining Row 2 steps one per round (activity, body-type, dietary, cuisine, targets, preview, done), then backend refinement rows and unblocked PARTIAL rows.
+- Round 148: insights.tsx real render test (src/__tests__/render/insights.render.test.tsx), row 22 area, path confirmed first.
+- Then remaining Row 2 steps one per round: activity, body-type, dietary, cuisine, targets, preview, done.
+- Then ai-query.tsx render test, then backend refinement rows and unblocked PARTIAL rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.6 of 2 and low clean-completion odds: keep tasks small, one row and one file.
+- Jev risk about 1.1 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use the key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

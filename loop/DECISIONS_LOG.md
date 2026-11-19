@@ -7433,3 +7433,7 @@
 - 2026-11-19 21:33 Loop flag on the last report: its claim that goal.tsx was 'verified' is rejected. Cells and reports use 'checked in code'. The wording fix is folded into this round as one edit to the row 2 notes cell only, with no status change.
 - 2026-11-19 21:33 Reason I did not pick insights: the privacy test is a copy of an existing passing pattern, so it is the smallest and most likely clean task. Jev's risk reading (1.6 of 2) favours small tasks.
 - 2026-11-19 21:33 Row 2 notes cell is the only docs edit. Status never changes in a docs pass, per the rule.
+- 2026-11-19 21:34 Chose insights.tsx render test: the Next list in the notes and the last report both name it, and it is one file with no owner input.
+- 2026-11-19 21:34 Required the prompt to confirm the screen path first and stop if it differs, because the notes say to verify paths before tests assert them.
+- 2026-11-19 21:34 Kept the row 2 onboarding steps for later rounds, one per round, to keep each task small given the Jev risk score.
+- 2026-11-19 21:34 Did not ask Isa anything: no owner step is involved.
