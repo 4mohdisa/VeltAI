@@ -5,7 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 198 done. Round 199 now. Round 203: next checkpoint.
+- Round 199 done (row 1 reconciled, stays PARTIAL). Round 200 now: row 1 sign-in mode render test.
+- Round 203: next checkpoint.
 - Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
@@ -39,7 +40,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 6 BUILT (round 198): barcode, label, photo render tests all pass.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; reconciliation in round 199). Row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: sign-in mode, validation messages, clerkMessage mapping, SSO cancel/error). Row 2 onboarding (live sign-in and profile persistence owner).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -72,8 +73,9 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 199: row 1 status reconciliation (read-only check of owner-only remainder).
-- Then row 2 reconciliation the same way.
+- Round 200: row 1 sign-in mode render test (src/__tests__/render/signupSignInMode.render.test.tsx).
+- Round 201: row 1 validation messages and clerkMessage mapping (one file).
+- Round 202: row 1 SSO cancel and error toasts, or row 6 reconciliation (handover says PARTIAL, notes say BUILT).
 - Round 203: next checkpoint.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 

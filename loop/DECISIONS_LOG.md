@@ -7658,3 +7658,7 @@
 - 2026-11-19 23:24 Row 17 (plan.tsx) left as blocked on Isa: it is a product choice (build plan generation or drop the card for v1). No fabricated data. Will ask once if it still blocks the stop report.
 - 2026-11-19 23:24 Handover claim that row 6 stays PARTIAL is superseded by the newer round 198 report. Checked the report, not the handover.
 - 2026-11-19 23:24 Jev stop signal (41%) not followed: rows 1, 2 and 17 are still PARTIAL or blocked, so stop is not yet allowed. Jev ask signal (38%) is advisory and the question is not yet major.
+- 2026-11-19 23:26 Round 199 reconciliation flagged as partly done: row 1 stays PARTIAL, so round 200 closes the sign-in mode gap first, as the latest report recommends.
+- 2026-11-19 23:26 Row 1 remaining local gaps (validation messages, clerkMessage mapping, SSO cancel and error) stay in NEXT for later rounds, one per round.
+- 2026-11-19 23:26 Handover says row 6 is PARTIAL with no label or photo tests; notes say row 6 BUILT in round 198. Kept notes state (more recent, latest report). Verify in a later reconciliation, not this round.
+- 2026-11-19 23:26 Kept the Jev run signal: the task is minor, one row, one file, and blocks no other row.
