@@ -7782,3 +7782,6 @@
 - 2026-11-20 00:39 Round 229: chose row 83 note fix over a render test. Reason Jev cannot see: the MACRO_BAR_W citation has been flagged for six or more rounds and points future briefs at a constant that no longer exists. Notes confirm no coverage gap I can name without reading the row list, so a render-test pick now would be a guess.
 - 2026-11-20 00:39 Row 83 is touched this round, so its stale note is corrected now per the rule that stale notes are fixed when the row is next touched.
 - 2026-11-20 00:39 Documentation-only round: no tests run, no code changed, status cells untouched.
+- 2026-11-20 00:41 Chose the row 83 Wiring state fix over the other candidates. The loop check flagged the last report as partly done, and the same stale constant is still in row 83. The row is already being touched, so the stale-notes rule applies. Docs only, easy to reverse.
+- 2026-11-20 00:41 Did not ask Isa about the Wiring state cell. It is a docs fix in a row already under work. Jev's ask signal is advisory and no question is needed.
+- 2026-11-20 00:41 Trimmed the notes to under 600 words. Parked items merged by theme. Nothing decided by Isa was removed.
