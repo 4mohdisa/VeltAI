@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt says so.
-- Baselines (gate green round 63): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Baselines (gate green round 65): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit: if hit, wait, do not change scope.
@@ -35,13 +35,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Rounds 57-63: no code change (no identical token, or no Jest importer of Screen.tsx).
 - Design pass question NOT asked of Isa. No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for design re-check.
-- Stale motion rows 65-72: FOLD, not delete. Each folded row gets status BUILT and a note pointing to its parent. One row per round.
+- Stale motion rows: FOLD, not delete. Each folded row gets status BUILT and a note pointing to its parent. One row per round.
 - Test gate before row work: tsc and full Jest run after any round that skips Jest.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57, 59, 61, 62.
 - Checkpoints: rounds 16, 23, 39, 56, 60, 63 gates green.
@@ -55,12 +55,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
-- Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage, shared navigation chrome).
-- Screen.tsx padding literals 40 (DETAIL_PAD_BOTTOM), 40 (non-floating footer) and 32 (floating footer) match no space token and have no comment. Add a comment or design re-check.
-- AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) near radius and buttonHeight 52. Design re-check.
-- DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 off-token. KickerTitle letterSpacing 1.1, -0.6, 10x10 dot. Design re-check.
+- Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage).
+- Off-token padding and gap values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6. Design re-check with Isa, one pass.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
-- DETAIL_BACK_TOP -6 in Screen.tsx matches no space or layout token. Design re-check.
 - ToastHost and BottomSheet have no render test.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
@@ -75,11 +72,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur round 65).
 
 ## Next
-- Round 65: fold row 65 into row 64 (table only), gate tsc and full Jest.
-- Then fold rows 66-72 one per round, each pointing to its parent (64 or 74-77).
+- Round 66: read-only check of rows 66-72 against two gaps: onboarding stack slide_from_right with no Reduce Motion, and no LayoutAnimation on food/gym list add/remove. Add DIFFERENT rows for any gap no row names. Gate tsc and full Jest.
+- Then fold rows 66-72 one per round, each pointing to its parent (64 or 74-77), only after the gap check.
 - Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
@@ -89,4 +86,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- Spotted 'Screen.tsx' bottom padding literals still uncommented (see Parked). Needs one design pass with Isa, not repeated notes.
+- Off-token values in Parked need one design pass with Isa, not repeated notes.

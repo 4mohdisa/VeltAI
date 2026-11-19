@@ -7060,3 +7060,6 @@
 - 2026-11-19 18:31 Folding one stale motion row per round, not all eight at once, to keep the one row per prompt rule and Jev risk low.
 - 2026-11-19 18:31 Folded rows get status BUILT with a note pointing at the parent row, per the earlier decision to fold, not delete.
 - 2026-11-19 18:31 Ignored the Jev ask-leaning signal: nothing here needs Isa, and the fold is reversible table text.
+- 2026-11-19 18:32 Chose the check before folding: the last report found row 64's audit gaps may be hidden by the fold, and folding without checking would mark them BUILT wrongly.
+- 2026-11-19 18:32 Gap rows are added as DIFFERENT, not built, so they get their own wiring rounds later.
+- 2026-11-19 18:32 Folding rows 66-72 waits until this check is recorded, one per round as before.
