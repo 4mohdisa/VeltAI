@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Work on branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
-- Baselines: app 65 suites / 824 tests / 4 snapshots, backend 632 pass plus 18 TestPG_* against local DB. Round 8 flag: type check and tests were not run after the last report. Re-run gate is the current task (row 22).
+- Baselines (green as of round 8 gate re-run): app tsc 0 errors, Jest 65 suites / 826 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg running. No hosted Supabase, Clerk or RevenueCat in repo; only .env.example templates.
 - Local DB: lume_gate_test and lume databases, auth stubs, all 16 migrations applied. Seed in backend/scripts/seed_local.sql (idempotent, local only).
 - Backend runs locally via go run ./cmd/server. /health 200. Auth enforced (401 without token).
@@ -27,16 +27,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Order of work: row 3 Food log before row 9 Gym log.
 - Simulator flows that need sign in are owner steps. Rows are BUILT on passing local mocked Jest and Go tests.
 - Prompts must state the branch rule (stay on loop/phase2, no switch, push or merge).
-- Round 8: gate re-run chosen over Jev's row 11 pick because of the unrun-gate flag. Row 11 is next.
+- Round 8: gate re-run done, green. Row 22 BUILT.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
-- Row 22 baseline: BUILT (gate re-run pending in round 8).
 - Row 73 Local setup: done. Sign in step parked.
+- Row 22 baseline: BUILT (gate re-run green in round 8).
 - Row 3 Food log: BUILT (round 4). Simulator owner check pending.
 - Row 9 Gym log: BUILT (round 5). Simulator owner check pending.
-- Row 10 Gym history: BUILT (round 6). Route and JSON fields checked in code. Simulator owner check pending.
-- Round 7: row 10 and row 73 wording fixed. Whole-file scan clean.
+- Row 10 Gym history: BUILT (round 6). Simulator owner check pending.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -49,10 +48,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Docker compose plugin install (owner step, optional).
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer for simulator sign in: owner step.
-- Wording: soft synonyms ('confirm', 'verifies') in rows 1, 3, 7 Simulator-flow cells. Apply the wording rule in a later pass.
+- Wording: soft synonyms in rows 1, 3, 7 Simulator-flow cells. Apply the wording rule in a later pass.
+- Watch: one transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Not reproducible. Recheck if it recurs under load.
 
 ## Next
-- Row 11 Gym templates, schedule, muscles, exercise progress, freeze: route and field comparison.
+- Row 11 Gym templates, schedule, muscles, exercise progress, freeze (round 9, in progress).
 - Then Goals row (wire client to /api/goals) and Subscription row (wire client to /api/subscription).
 - Then remaining core flows, motion pass, backend refinement rows.
 
@@ -62,4 +62,3 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when row 16 is worked.
 - Gym history and Summary re-hydrate from server on view. May be intended. Confirm in code, do not change without a failing case.
 - Long-press meal delete in food.tsx flagged twice (see Parked).
-- Last round's type check and tests were not run (flagged by the loop). Being cleared by the round 8 gate re-run.

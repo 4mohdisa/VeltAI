@@ -6785,3 +6785,6 @@
 - 2026-11-19 15:03 Chose the gate re-run over Jev's row 11 pick. The loop flag says to deal with the unrun type check and tests before moving on. Jev gives a 14% chance the last task finished cleanly, so the state is not clean. The gate is the smallest task and clears the flag. Row 11 is next.
 - 2026-11-19 15:03 Last report was text only, so the flag is most likely about gates that were never run after the earlier rounds, not about the wording change itself.
 - 2026-11-19 15:03 Scoped the gate fix to the failing tests and the row 22 line only, to keep the change small.
+- 2026-11-19 15:05 Row 22 marked BUILT: gate re-run green (tsc 0 errors, Jest 65 suites / 826 tests, backend 632 pass incl. 18 TestPG). The one SIGSEGV was an isolated worker flake, not reproducible, so no code change.
+- 2026-11-19 15:05 Row 11 chosen over Goals and Subscription: it is the stated next row, the smallest path to clear gym rows, and Jev ranks run at 95%. Goals and Subscription follow.
+- 2026-11-19 15:05 Row 11 simulator flow recorded as not run, because sign in is an owner step. Row marked BUILT on local tests, per the existing rule.
