@@ -7429,3 +7429,7 @@
 - 2026-11-19 21:32 Chose goal.tsx over privacy render test: it closes a remaining Row 2 gap and the notes Next list puts it first.
 - 2026-11-19 21:32 Kept the task to one file and one row, as Jev advised for low clean-completion odds.
 - 2026-11-19 21:32 Restated the branch rule in the prompt, as required after the round 145 rejection.
+- 2026-11-19 21:33 Kept Jev's pick (legal privacy render test, 93%). Same as my own Next list, so no conflict.
+- 2026-11-19 21:33 Loop flag on the last report: its claim that goal.tsx was 'verified' is rejected. Cells and reports use 'checked in code'. The wording fix is folded into this round as one edit to the row 2 notes cell only, with no status change.
+- 2026-11-19 21:33 Reason I did not pick insights: the privacy test is a copy of an existing passing pattern, so it is the smallest and most likely clean task. Jev's risk reading (1.6 of 2) favours small tasks.
+- 2026-11-19 21:33 Row 2 notes cell is the only docs edit. Status never changes in a docs pass, per the rule.
