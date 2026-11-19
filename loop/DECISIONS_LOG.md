@@ -7619,3 +7619,8 @@
 - 2026-11-19 22:52 Row 8 status is contradictory (last report says BUILT, handover says PARTIAL). Kept it PARTIAL in notes until the savedMeals failure test passes and the row is re-checked against its live call sites.
 - 2026-11-19 22:52 Prompt bans changing the screen if no error toast exists on failure; a missing feedback path is reported, not fixed, to respect the locked design and behaviour.
 - 2026-11-19 22:52 Checkpoint at round 203 unchanged. Jev ranking agrees with run (95%), so no reconsideration.
+- 2026-11-19 22:53 Chose row 8 re-check first, as the notes plan says, because the handover claims api.recipes.log is uncovered while round 190 notes say recipeLog.render.test.tsx exists. Code decides, not the handover.
+- 2026-11-19 22:53 Row 6 scan render tests deferred one round: smaller and lower risk to clear row 8 status first.
+- 2026-11-19 22:53 Report wording: 'render test added' and 'checked in code' only, per wording rule.
+- 2026-11-19 22:53 Stale fragments in row 8 notes cell left in place: wording cleanup stays Parked, not this task.
+- 2026-11-19 22:53 Ignored the handover path claim about /Users/isa; repo root from the last report is used.

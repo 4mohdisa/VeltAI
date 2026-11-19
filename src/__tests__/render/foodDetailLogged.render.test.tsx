@@ -3,6 +3,7 @@
 // NumberEntryBar under that field's own caption; a preset re-derives them
 // from the row's own per-gram values; the meal switch saves through the V1
 // bottom pill; and fibre appears only when the row actually stored one.
+import { Alert } from 'react-native';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import FoodDetailScreen from '@/app/food/detail';
@@ -12,7 +13,21 @@ import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers'
 
 const item = { id: 'it_rice', name: 'Rice', quantityG: 200, calories: 400, protein: 8, carbs: 88, fat: 2 };
 
+// This sheet's "Save to my dishes" (logged mode) and "Remove from saved"
+// (saved mode) actions go through saveFood/unsaveFood (@/lib/data), the same
+// wrappers foodSaved.render.test.tsx and customFoodSave.render.test.tsx spy
+// on — mocked here the same way, everything else in the module stays real.
+const mockSaveFood = jest.fn();
+const mockUnsaveFood = jest.fn();
+jest.mock('@/lib/data', () => ({
+  ...jest.requireActual('@/lib/data'),
+  saveFood: (...args: unknown[]) => mockSaveFood(...args),
+  unsaveFood: (...args: unknown[]) => mockUnsaveFood(...args),
+}));
+
 beforeEach(() => {
+  mockSaveFood.mockClear();
+  mockUnsaveFood.mockClear();
   const s = useFoodStore.getState();
   s.setDayMeals(s.selectedDate, [
     { id: 'm1', slot: 'Lunch', time: '12:30', method: 'manual', calories: 400, protein: 8, carbs: 88, fat: 2, items: [item] },
@@ -105,4 +120,37 @@ test('switching the meal and pressing the pill moves the row', () => {
   const meals = useFoodStore.getState().meals;
   expect(meals.map((m) => m.slot)).toEqual(['Dinner']);
   expect(meals[0].items[0]).toMatchObject({ id: 'it_rice', quantityG: 200, calories: 400 });
+});
+
+test('pressing "Save to my dishes" on a logged item calls saveFood with its current values', () => {
+  const tree = renderSheet();
+
+  act(() => buttonWithTitle(tree, 'Save to my dishes')!.props.onPress());
+
+  expect(mockSaveFood).toHaveBeenCalledWith({
+    name: 'Rice',
+    servingG: 200,
+    calories: 400,
+    protein: 8,
+    carbs: 88,
+    fat: 2,
+  });
+});
+
+test('removing a saved food from its own detail sheet calls unsaveFood with the item id', () => {
+  const savedItem = { id: 'sf_oats', name: 'Oats', quantityG: 250, calories: 320, protein: 28, carbs: 40, fat: 8 };
+  openFoodDetail({ mode: 'saved', item: savedItem });
+
+  // The destructive action confirms via Alert before calling remove.run (global
+  // destructive rule) — same simulated confirm as foodSaved.render.test.tsx.
+  const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation((_title, _message, buttons) => {
+    buttons?.find((b) => b.style === 'destructive')?.onPress?.();
+  });
+
+  const tree = renderSheet();
+  act(() => buttonWithTitle(tree, 'Remove from saved')!.props.onPress());
+
+  expect(mockUnsaveFood).toHaveBeenCalledWith('sf_oats');
+
+  alertSpy.mockRestore();
 });
