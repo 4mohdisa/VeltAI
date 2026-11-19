@@ -36,6 +36,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 34: rejected prompt rewritten to one component (MuscleChart.tsx). One export keyword on isGymPatternsShape allowed to reuse the guard.
 - Round 35: row 80 guard conditional on a reproduced crash. None reproduced, so no source edit (test only).
 - Round 36: useGymPatterns central guard deferred. Call-site guards kept (three screens, same pattern).
+- Round 36: gym patterns sweep closed. exercise-progress.tsx reads no gym patterns.
+- Round 37: Jev ask (46%) overridden. Question is minor and reversible. Onboarding Reduce Motion fix chosen as smallest task (Jev confidence 0.19).
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -52,11 +54,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
 - Row 9 Gym log create reconciliation: BUILT (queue.ts onLanded additive). Simulator sign in part owner check pending.
 - Rows 35 and 54 (streak footnote): BUILT, checked in code; simulator owner check pending.
-- Row 78 Gym patterns card shape guard: BUILT.
-- Row 79 MuscleChart shape guard: BUILT (test passes, no crash reproduced).
-- Row 80 Gym muscles screen: BUILT (render test with null, [] and valid object; no source change).
+- Rows 78, 79, 80 gym patterns shape guards: BUILT.
+- Row 11 exercise progress: BUILT, no gym patterns read.
 - Round 16, 23 checkpoints: gates green.
-- Round 29: no change, task had no matching row.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
@@ -68,14 +68,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- Gym patterns card and screens: a partially malformed object (for example {}) passes isGymPatternsShape and renders as no data. Safe only because call sites use optional chaining. Small follow-up, own row.
+- Gym patterns partial object guard: {} passes isGymPatternsShape and renders as no data. Safe only via optional chaining at call sites. Own row later.
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
 - Account and index settings both link to Delete Account.
 - Copy pass: 'owner check pending' reads awkwardly after a noun phrase.
 - Rows 35 and 54 cover the same card and test file. Merge rows? Isa decision.
-- onboarding/_layout.tsx ignores Reduce Motion. One-line fix.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
 - Gym log: logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa's job.
@@ -84,11 +83,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 36: exercise progress screen check (one screen; test only if it reads gym patterns).
-- Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Round 37: onboarding layout Reduce Motion (motion row, one file, one render test).
+- Then: remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), parked partial-object guard as its own row, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 1.0 of 2: keep tasks small, one row per round. Run the gate every round a row changes code.
+- Jev risk 0.9 of 2: keep tasks small, one row per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.

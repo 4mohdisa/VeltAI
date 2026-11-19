@@ -26,8 +26,10 @@ test('the Stack actually wires screenAnimation(reduceMotion) into its screenOpti
   expect(src).toContain('...screenAnimation(reduceMotion)');
 });
 
-test('onboarding/_layout.tsx (parked, out of scope) still has no Reduce Motion branch of its own', () => {
+// PHASE2_ROWS.md row 74 follow-up: onboarding/_layout.tsx now has its own
+// Reduce Motion branch too (see onboardingLayoutReduceMotion.render.test.tsx
+// for the mounted-component proof of both branches).
+test('onboarding/_layout.tsx drops the slide under Reduce Motion, keeps it otherwise', () => {
   const onboarding = readFileSync(join(__dirname, '..', 'app/onboarding/_layout.tsx'), 'utf8');
-  expect(onboarding).toContain("animation: 'slide_from_right'");
-  expect(onboarding).not.toMatch(/reduceMotion/);
+  expect(onboarding).toMatch(/reduceMotion\s*\?\s*'none'\s*:\s*'slide_from_right'/);
 });

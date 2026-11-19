@@ -6913,3 +6913,8 @@
 - 2026-11-19 17:10 Jev said ask (75%). Not asked: no major blocker. Sign in and Maestro are already owner steps in Blocked on Isa, and the next task needs neither. Decided without asking.
 - 2026-11-19 17:10 Central guard in useGymPatterns deferred. Call-site guards stay because they match the existing pattern in three screens. Revisit only if a fourth call site appears.
 - 2026-11-19 17:10 Partial object guard ({} passing isGymPatternsShape) stays Parked as its own row. It is not in this round because the current call sites already use optional chaining.
+- 2026-11-19 17:12 Chose run over ask: the Reduce Motion question is minor and reversible, so it is not a question for Isa. Jev's 46% ask is overridden for that reason.
+- 2026-11-19 17:12 Chose candidate 1 over 2 and 3: it is a one-file, one-test change that clears a motion item. Low Jev confidence (0.19) favours the smaller task. Candidate 3 touches several call sites and was deferred in round 36.
+- 2026-11-19 17:12 Row number not given in notes: prompt tells Claude Code to find it by title and to fall back to the screen transitions Motion row, not to add a row.
+- 2026-11-19 17:12 Test file placed under src/__tests__/render/ to match the existing render-test pattern.
+- 2026-11-19 17:12 Exercise progress check (round 36) closed: no gym patterns read, no change needed.
