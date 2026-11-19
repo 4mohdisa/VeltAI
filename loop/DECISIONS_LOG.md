@@ -7450,3 +7450,7 @@
 - 2026-11-19 21:39 Row 2 remaining list in notes was stale: handover confirms all 8 onboarding steps have render tests, so only the owner checks remain for row 2.
 - 2026-11-19 21:39 Prompt tells the worker to grep first, because the last two rounds were no-ops caused by assuming coverage was missing.
 - 2026-11-19 21:39 Jev agrees on run (83%) and a small task; no reason to override.
+- 2026-11-19 21:41 Chose the AnomalyBanner and AnomalyCard render test: it is the only remaining row 19 gap, is small, and needs no Isa input.
+- 2026-11-19 21:41 Kept the grep-first step because two earlier prompts duplicated existing coverage.
+- 2026-11-19 21:41 Left the uncommitted loop/ file changes alone; they are loop-managed and out of scope.
+- 2026-11-19 21:41 Kept the row 1 OTP test and the row 22 numbers pass in Next, not in this round, to keep the task to one file.

@@ -5,10 +5,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Baseline round 151: tsc 0 errors; Jest 104 suites / 913 tests / 4 snapshots (all passing).
+- Baseline round 152: tsc 0 errors; Jest 104 suites / 914 tests / 4 snapshots (all passing).
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file; never assume coverage is missing.
+- loop/ files show uncommitted changes (loop-managed). Prompts never edit them.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code', 'owner check pending'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -35,7 +36,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Loop rejects a prompt that omits the branch rule. Branch rule is mandatory in every prompt.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy (render tests), Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights (render test), Insights/AI query initial state (render test), rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy (render tests), Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights (render test), Insights/AI query initial state and send path (render tests), rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open only as owner check: live Clerk sign-in and profile persistence. Status stays PARTIAL until that owner check.
@@ -55,8 +56,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Parked (not v1)
 - Row 1: render tests for signup OTP sub-stages and DevSignup no-key fallback.
-- Row 19 AnomalyBanner and AnomalyCard: no executed render test; notes are code-read only.
-- No real render test yet: food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard, integrations screens checked by grep.
+- Row 19 AnomalyBanner and AnomalyCard: render test in progress (round 152).
+- No real render test yet: food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, integrations screens checked by grep.
 - Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
@@ -73,11 +74,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
-- Claude Code 'add a render test' prompts have twice duplicated existing coverage (goal, cuisine): grep first.
+- Claude Code 'add a render test' prompts have three times duplicated existing coverage (goal, cuisine, ai-query): grep first.
 
 ## Next
-- Round 151: row 19 ai-query send path render test in src/__tests__/render/aiQuery.render.test.tsx (grep first).
-- Then row 19 AnomalyBanner direct render test.
+- Round 152: row 19 AnomalyBanner and AnomalyCard render test in src/__tests__/render/anomaly.render.test.tsx (grep first).
 - Then row 1 signup OTP sub-stages render test.
 - Then unblocked PARTIAL rows and backend refinement rows.
 
