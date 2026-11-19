@@ -33,17 +33,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
-- Rounds 58, 60: no change (no identical token).
-- Round 60 gate ran before row 60 because round 59 had no Jest run.
-- Round 61 (row 61): no code change. Back control is GlassBackButton in GlassButtons.tsx, positioned by Screen.tsx. Not Jest-covered. Flagged by loop: tests not run.
-- Round 62: Jev top pick (95%) agreed; run tsc plus Jest for any file importing Screen.tsx; if none, say so.
+- Rounds 58, 60, 61, 62: no code change (no identical token, or no Jest importer of Screen.tsx).
+- Round 62: no Jest file imports Screen.tsx; tsc only.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
-- No code change: rows 57, 59, 61.
+- No code change: rows 57, 59, 61, 62.
 - Checkpoints: rounds 16, 23, 39, 56, 60 gates green.
 
 ## Blocked on Isa
@@ -53,11 +51,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
-- Design pass: no stroke-weight, letter-spacing or 9pt space token in tokens.ts. Rows 56, 58, 59, 60 share this gap. Ask Isa once, after rows 62-63.
+- Design pass: no stroke-weight, letter-spacing or 9pt space token in tokens.ts. Rows 56, 58, 59, 60 share this gap. Ask Isa once, after row 63.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage, shared navigation chrome).
+- Screen.tsx padding literals 40 (DETAIL_PAD_BOTTOM), 40 (non-floating footer) and 32 (floating footer) match no space token and have no comment. Add a comment or design re-check.
 - AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) near radius and buttonHeight 52. Design re-check.
 - DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 off-token. KickerTitle letterSpacing 1.1, -0.6, 10x10 dot. Design re-check.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
@@ -79,8 +78,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 62: row 62 Visual QA fill and bottom padding (running now), with tsc and Jest for Screen.tsx.
-- Then row 63 Visual QA, one per round.
+- Round 63: row 63 Visual QA detail contentStyle gap 16 (running now), tsc, Jest only if a file imports Screen.tsx.
 - Then ask Isa once about the design pass. Then final wording sweep. Then fold stale motion rows. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
