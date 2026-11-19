@@ -5,7 +5,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Baseline round 153: tsc 0 errors; Jest 105 suites / 916 tests / 4 snapshots (all passing).
+- Baseline round 154: tsc 0 errors; Jest 106 suites / 918 tests / 4 snapshots (all passing).
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file; never assume coverage is missing.
@@ -36,11 +36,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Loop rejects a prompt that omits the branch rule. Branch rule is mandatory in every prompt.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy (render tests), Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights (render test), Insights/AI query initial state and send path (render tests), AnomalyBanner and AnomalyCard (render test added, round 152), rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy (render tests), Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights (render test), Insights/AI query initial state and send path (render tests), AnomalyBanner and AnomalyCard (render test, round 152), rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check of anomaly/insights rendering.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open only as owner check: live Clerk sign-in and profile persistence. Status stays PARTIAL until that owner check.
-- PARTIAL: row 1 (signup render test; OTP sub-stages in progress round 153; live sign-in owner step).
+- PARTIAL: row 1 (signup render test; OTP sub-stages render test added round 153; email Verify-to-routing in progress round 154; live sign-in owner step).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Checkpoints green rounds 16 to 150.
 
@@ -55,7 +55,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- Row 1: render test for DevSignup no-key fallback.
+- Row 1: render test for DevSignup no-key fallback (next after round 154).
 - No real render test yet: food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, integrations screens checked by grep.
 - Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane square corners while row rounds (row 34): design decision.
@@ -73,10 +73,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
-- Claude Code 'add a render test' prompts have repeatedly duplicated existing coverage (goal, cuisine, ai-query): grep first.
+- Claude Code 'add a render test' prompts have repeatedly duplicated existing coverage (goal, cuisine, ai-query, signup OTP): grep first.
 
 ## Next
-- Round 153: row 1 signup OTP sub-stages render test (grep existing signup render test first; extend it or create src/__tests__/render/signupOtp.render.test.tsx).
+- Round 154: row 1 email OTP Verify-to-routing render test (extend src/__tests__/render/signupOtp.render.test.tsx after grep; skip if already covered).
 - Then row 1 DevSignup no-key fallback render test.
 - Then unblocked PARTIAL rows and backend refinement rows.
 
@@ -91,3 +91,5 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Unresolved: SwipeableRow square corners (row 34).
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.
+- Row 19 AnomalyBanner/AnomalyCard: render test added round 152; confirm it imports and renders, not a code-reading note.
+- git status shows loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified: loop-managed, leave alone.

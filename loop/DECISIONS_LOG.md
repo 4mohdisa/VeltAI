@@ -7458,3 +7458,7 @@
 - 2026-11-19 21:42 Row 19 AnomalyBanner and AnomalyCard render test is done (round 152), so it is removed from Parked and Next.
 - 2026-11-19 21:42 Chose row 1 OTP test: smallest unbuilt piece, no owner input needed, Jev follow on small tasks.
 - 2026-11-19 21:42 Left loop/ git status alone per the standing rule that prompts never edit loop files.
+- 2026-11-19 21:45 Chose the OTP verify-to-routing test over the DevSignup fallback: it closes the real email-branch gap the last report flagged, and it is one file on row 1.
+- 2026-11-19 21:45 Told Claude Code to grep first, since the last two rounds repeated existing coverage.
+- 2026-11-19 21:45 loop/ files and DECISIONS_LOG.md / NOTES_phase2.md git status noise left alone: loop-managed, and prompts never edit them.
+- 2026-11-19 21:45 No simulator work this round: Maestro not installed and Clerk sign-in needs an owner step.
