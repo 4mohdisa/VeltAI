@@ -6804,3 +6804,7 @@
 - 2026-11-19 15:29 Recorded the row-number drift: the prior task named row 14 but the work was row 15 Paywall/Subscription. Marked row 15 BUILT on the passing render test. Future prompts use row titles.
 - 2026-11-19 15:29 Jev ranked run 91% for this step, which agrees with the choice. No reason to look again.
 - 2026-11-19 15:29 Kept the Simulator flow as an owner check, since sign in is still blocked.
+- 2026-11-19 15:32 Chose the checkpoint over Jev's Dashboard/Summary pick (80%). The loop script marks this round as a checkpoint, and the loop note requires the full type check and full suite before moving on. Jev cannot see that requirement.
+- 2026-11-19 15:32 Kept the wording fix out of this round because the checkpoint allows no file changes. It becomes the next task so the 'verified' claim is cleared first.
+- 2026-11-19 15:32 Told Claude Code not to update snapshots, so a snapshot drift shows up as a report item and is not silently regenerated.
+- 2026-11-19 15:32 A Jest worker SIGSEGV gets one rerun of that file only. This follows the watch item in the notes and does not count as a failure unless it fails again.
