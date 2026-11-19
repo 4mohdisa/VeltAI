@@ -9,6 +9,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
 - Prompt scope rule: ONE task per prompt, ONE row and ONE file or component. Multi-file prompts get rejected by the loop.
+- Handover at round 42/43: Claude Code knows only the handover summary. Name files fully.
 
 ## Wording rule
 - Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use verification words (verified, verify, verifies, confirmed, confirm) except the identifier api.scan.confirm.
@@ -37,8 +38,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rounds 37-39: Jev asks overridden with written reasons (minor, reversible, existing tests pass, read-only checkpoint).
 - Round 40: checkpoint baseline set to 81/864/4.
 - Round 40 retry: row 74 camera modals switched to screenAnimation(). Motion change flagged as unintended.
-- Round 41: camera modals to be restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Reason: original motion, reversible. Round 41 result not recorded (rate limit).
-- Round 42: Claude Code hit 5-hour usage limit, no changes made. Re-issued unchanged.
+- Round 41: camera modals to be restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Round 41 result not recorded (rate limit).
+- Round 42: Claude Code hit 5-hour usage limit, no changes made. Re-issued.
+- Round 43: same restore re-issued with full file names after handover. Jev 66% run accepted (one file, reversible). If limit hits again, stop and wait for reset.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -49,7 +51,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Profile: checked in code, no gap.
 - Add food, Legal: BUILT (static).
 - Dashboard / Summary and sub-pages: BUILT.
-- Motion audit, screen and navigation transitions: BUILT (row 74 camera modal value pending restore, round 42).
+- Motion audit, screen and navigation transitions: BUILT except row 74 camera modal value (pending restore, round 43).
 - Adding and removing food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
@@ -64,7 +66,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
 - E2E_EMAIL and E2E_PASSWORD not set.
 - Row 17 plan.tsx has no backend. Product decision: build plan generation or drop the card for v1.
-- Claude CLI sign in expires between 2026-11-24 and 2026-11-27. Run claude auth login before then, or set up a token for unattended runs.
+- Claude CLI sign in expires between 2026-11-24 and 2026-11-27. Run claude auth login before then, or set up a token (claude setup-token) for unattended runs.
 - loop/ files show uncommitted diffs. Loop-managed, not a task.
 - Merging loop/design-match into main: Isa's job.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
@@ -86,11 +88,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 42 (re-issued): row 74 restore camera modal slide_from_bottom in src/app/_layout.tsx. Run tsc and the screenTransitions test.
+- Round 43: row 74 restore camera modal slide_from_bottom in src/app/_layout.tsx (fade under Reduce Motion). Run tsc and the screenTransitions test.
 - Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows that need no sign in, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 1.2 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
+- Jev risk 1.3 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
+- Claude Code usage limit hit at round 42. Resets 5:40pm Adelaide.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.

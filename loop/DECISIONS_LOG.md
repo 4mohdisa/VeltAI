@@ -6944,3 +6944,8 @@
 - 2026-11-19 17:18 Round 42 result: Claude Code hit its 5-hour usage limit with no changes made. Re-issued the row 74 restore unchanged. Limit is temporary, so no question to Isa.
 - 2026-11-19 17:18 Claude CLI sign-in expiry (2026-11-24 to 2026-11-27) stays as an owner step in Blocked on Isa. Not a loop task.
 - 2026-11-19 17:18 Stale 'row 9 PARTIAL' label in the handover is ignored. Done list says BUILT, which is correct.
+- 2026-11-19 17:19 Latest Claude Code report is a 5-hour usage limit message, not a task result. Treated round 42 as not run and re-issued it.
+- 2026-11-19 17:19 Handover just happened, so the prompt names the file fully (src/app/_layout.tsx) and states the Reduce Motion rule explicitly.
+- 2026-11-19 17:19 Jev says run 66% and last task clean 3%. Kept run because the task is one file, reversible, and the limit reset (5:40pm Adelaide) is before the next round. Jev's low clean-finish score is noted; if the limit hits again, next round stops and waits.
+- 2026-11-19 17:19 No Isa question this round. The Claude sign-in expiry is already an owner item in the notes, so it is not asked again.
+- 2026-11-19 17:19 Round 43 prompt uses 'checked in code' wording, not verification words.
