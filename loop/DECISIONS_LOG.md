@@ -7807,3 +7807,13 @@
 - 2026-11-20 00:46 Chose row 2 layout test over TodayCard guard: it is a test-only change with no behaviour risk and Jev rates the last task at 33% clean, so scope stays small.
 - 2026-11-20 00:46 Row 83 stale MACRO_BAR_W note is a doc cell, deferred to the round after next to keep one task per round.
 - 2026-11-20 00:46 Did not ask Isa about the duplicate freeze file: the existing file already covers both states, so no decision was needed.
+- 2026-11-20 00:46 Row 2 gap closed: src/__tests__/render/onboardingLayoutReduceMotion.render.test.tsx already renders the real onboarding _layout. No duplicate file, round 235 ends with no change.
+- 2026-11-20 00:46 Notes were wrong that row 2 had no test. Corrected in Known test gaps.
+- 2026-11-20 00:46 Chose the TodayCard guard over the row 83 note fix because it is a real silent failure in the UI. The note fix is trivial and stays next.
+- 2026-11-20 00:46 Shape guard uses the existing failure state, or null if none exists. No new UI, which keeps the design final.
+- 2026-11-20 00:46 No question to Isa this round. The row 2 question is answered by default (existing test is sufficient).
+- 2026-11-20 00:47 Round 236 prompt was rejected by the loop for missing the loop/phase2 branch rule. Rewrote it with a branch check (read .git/HEAD only), no git commands, and no edits under loop/.
+- 2026-11-20 00:47 Replaced hardcoded file paths with a find step and a stop-on-ambiguity rule, since the exact TodayCard paths are not in the notes.
+- 2026-11-20 00:47 Latest Claude report asked whether the existing onboarding layout Reduce Motion test covers row 2. Default applied: it does (round 235 decision). No reply needed, no question asked.
+- 2026-11-20 00:47 Kept scope to one row and one file pair (Jev risk 1.2, confidence 0.24). Row 83 and row 7 note fixes follow next.
+- 2026-11-20 00:47 Action run chosen over ask: no question blocks the row, and row 17 stays parked for the stop report.
