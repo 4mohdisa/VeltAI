@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt must say so explicitly.
-- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 128). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 89 suites / 888 tests / 4 snapshots, green (round 129). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -37,15 +37,17 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Toast and sheet owners: row 51 owns ToastHost, row 27 owns BottomSheet. Rows 3, 5, 7, 9 point to row 51 for toast.
 - Every prompt must name the loop/phase2 branch rule explicitly.
 - Stale-note series stopped after row 24 (round 128). Do not pick docs-only greps as tasks.
+- Paywall screen lives at src/app/onboarding/paywall.tsx (not src/app/paywall.tsx).
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
-- Stale-note pass: rows 1 to 7 (round 126), row 23 (round 127), row 24 (round 128, no edit: notes name no file).
-- PARTIAL: row 1 (signup.render.test.tsx added; live sign-in is owner step).
+- Stale-note pass: rows 1 to 7 (round 126), row 23 (round 127), row 24 (round 128, no edit).
+- Round 129: src/__tests__/render/paywall.render.test.tsx added (real render of onboarding/paywall.tsx, billing mocked). Row 2 note updated, status PARTIAL unchanged.
+- PARTIAL: row 1 (signup.render.test.tsx added; live sign-in is owner step). Row 2 (paywall and signup render tests exist; status review pending).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green: rounds 16 to 128.
+- Checkpoints green: rounds 16 to 128. Round 130 checkpoint: see report.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -82,8 +84,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Owning-row check for other shared components (no row yet).
 
 ## Next
-- Round 129: row 2 paywall.tsx real render test (src/__tests__/render/paywall.render.test.tsx). Assigned.
-- After round 129: backend refinement rows and remaining PARTIAL rows that are not blocked. Pick the candidate that clears most rows.
+- Round 130: checkpoint (full tsc and full Jest, no file changes). Assigned.
+- Round 131: row 2 status review (signup and paywall have real render tests; check PARTIAL vs BUILT). Then backend refinement rows and remaining unblocked PARTIAL rows. Pick the candidate that clears most rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.

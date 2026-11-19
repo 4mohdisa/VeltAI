@@ -7357,3 +7357,6 @@
 - 2026-11-19 21:03 Test-only change, so the prompt requires tsc and full Jest per the wording rule.
 - 2026-11-19 21:03 Kept row status unchanged; only the notes cell gets a line, per the docs rule.
 - 2026-11-19 21:03 Left the backend refinement rows for the following round so this round stays to one row and one file.
+- 2026-11-19 21:06 Chose the mandated checkpoint (loop note says this round is a checkpoint with no file changes).
+- 2026-11-19 21:06 Jev ranks checkpoint-style small task highest; agreed.
+- 2026-11-19 21:06 Row 2 status review deferred to next round so this checkpoint stays read-only.
