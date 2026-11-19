@@ -7417,3 +7417,12 @@
 - 2026-11-19 21:29 Jev advised run at 90%; followed it because the task is small and the loop note requires it.
 - 2026-11-19 21:29 Ran Jest with --ci so a checkpoint cannot silently write snapshots.
 - 2026-11-19 21:29 Row 2 step coverage is complete after round 143; its only remaining item is the owner check of live Clerk sign-in, so it stays PARTIAL and is not a build task.
+- 2026-11-19 21:30 Chose legal terms render test: the last report's NEXT and the notes' Next list both name it, and it is a small single-file task.
+- 2026-11-19 21:30 Onboarding steps: notes Done says all 8 steps have render tests, but the handover says 8 remain. Notes are newer, so kept as done. The prompt for goal.tsx will verify this before any work.
+- 2026-11-19 21:30 Treated the new test file as a code change, so full tsc and full Jest run this round, per the wording rule.
+- 2026-11-19 21:30 Kept the row status unchanged, since status never changes in a docs or test-only pass.
+- 2026-11-19 21:31 Rewrote the rejected prompt: it now restates the loop/phase2-only branch rule, forbids git commands that change branches, and lists exact files, must-not-touch items, the report format and clean code rules.
+- 2026-11-19 21:31 Chose the legal terms render test: it is the smallest test-only task and it was the Next item in the notes. Jev and the notes agree.
+- 2026-11-19 21:31 Kept the row-2 goal.tsx step and insights.tsx as the next two candidates, in the order already in the notes.
+- 2026-11-19 21:31 Did not edit PHASE2_ROWS.md this round: a test-only change with no status change. The report names the row the test supports.
+- 2026-11-19 21:31 Required a file path check before writing the test, per the rule that routes are verified against the file first.
