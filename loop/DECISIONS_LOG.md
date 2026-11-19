@@ -6746,3 +6746,8 @@
 - 2026-11-19 09:34 Did not run the full checkpoint: the loop script has not marked a checkpoint round, and the notes say Isa runs it before commit.
 - 2026-11-19 09:34 Treated the 'none yet, first round' report as the same input fault as R994 to R1205; no new work derived from the stale handover.
 - 2026-11-19 09:34 Jev stop 93% agreed. No override logged.
+- 2026-11-19 14:32 Chose the row list task first: the safety check is read only and stops the loop itself if any setting points at production, so asking Isa first adds no protection.
+- 2026-11-19 14:32 Jev suggested ask at 24%; I am running instead because the only read only step is safe and it stops by itself on any production hit.
+- 2026-11-19 14:32 Combined the safety check into Task 1 as its first step so the row list is created in one round, as the brief's first task requires.
+- 2026-11-19 14:32 Status rule set to DIFFERENT or PARTIAL for anything unproven, since no tests run in Task 1.
+- 2026-11-19 14:32 Baseline row goes right after the row list, before any wiring, per the order of work.
