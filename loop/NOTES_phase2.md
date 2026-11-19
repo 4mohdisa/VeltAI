@@ -41,12 +41,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Done
 - Task 1, local setup, row 22 baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31, 72, 74, 77, 78-82.
+- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31, 32, 72, 74, 77, 78-82.
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68-71.
 - Folded: 65, 66, 67 into 64; 69 duplicate of 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 27, 28, 30, 37, 51-53, 57-59, 61, 62.
 - Row 31: swapped solidGlass borderWidth literal for layout.borderWidth in GlassButtons.tsx.
+- Row 32: GlassButtons.reduceTransparency.render.test.tsx added (2 cases), no component change.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90.
 
 ## Blocked on Isa
@@ -56,6 +57,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
+- Decide: row 69 fold conflict (handover says open, Done says folded into 76). Confirm once, then close.
 
 ## Parked (not v1)
 - Off-token values (one design pass with Isa): Screen.tsx 40, 40, 32, -6, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes 18/26; BlurView intensity 40/50.
@@ -76,18 +78,19 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not recurred rounds 65-91).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not recurred rounds 65-92).
 
 ## Next
-- Round 91: Row 32 render test for GlassButtons Reduce Transparency fallback (new test file only).
-- Then Row 69 check: before folding, confirm whether a later row closed it. Do not assume stale.
-- Then rows 33-50 (Visual QA), one per round, skipping BUILT rows.
+- Round 92: Row 33 Visual QA VoiceOver (LumeTabBar labels, roles, selected state; new a11y test file).
+- Then rows 34-50 (Visual QA), one per round, skipping BUILT rows.
+- Then render smoke test for LumeTabBar Reduce Transparency branch.
 - Then render smoke test for Screen.tsx, then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa.
 - Gotcha: PHASE2_ROWS.md runs to row 81. Check the end before appending.
+- Gotcha: gym session has exit animation but no entering animation (food.tsx has both).
