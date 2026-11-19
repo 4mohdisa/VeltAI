@@ -7209,3 +7209,8 @@
 - 2026-11-19 19:46 Prompt names the row by number and tells Claude Code to read the file path from the row, because row 50's file is not in my notes. Claude Code must name it in its report.
 - 2026-11-19 19:46 Handover just happened, so the prompt gives full paths and restates the wording and token rules.
 - 2026-11-19 19:46 Row 49 recorded as BUILT checked in code (no code change, tsc 0 errors, full Jest 874 green).
+- 2026-11-19 19:49 Row 50 accepted as BUILT (no code change, tsc and full Jest run, checked in code). Its 'chooser caption' gap has no same-category token.
+- 2026-11-19 19:49 Chose the nutrition and week bar constants as next: it is the explicit Next item in the notes and was flagged for a dedicated row since row 45.
+- 2026-11-19 19:49 Row 83 is appended to PHASE2_ROWS.md if absent, since the notes say the table ends at row 82.
+- 2026-11-19 19:49 Jev ranked ask at 28% with low confidence. No major question meets the ask rule, so the loop continues without asking Isa.
+- 2026-11-19 19:49 Token-consolidation gap (icon size, stroke weight, letter spacing, small gaps) stays Parked for one design pass with Isa, not per-row guesses.
