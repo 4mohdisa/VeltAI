@@ -6971,3 +6971,8 @@
 - 2026-11-19 18:00 Round 47: Jev run pick (93%) taken for the visual QA candidate. Matches the loop note. Scope kept to one row and one file.
 - 2026-11-19 18:00 Round 47: the failed gate from the last report is not a reason to stop. This round runs the type check and the changed file's tests as part of the task.
 - 2026-11-19 18:00 Round 47: simulator screenshots for visual QA are owner steps, since simctl hangs in this sandbox. Rows get 'owner check pending'.
+- 2026-11-19 18:05 Row 26 chosen, same as Jev's top pick and the report's recommendation. No override needed.
+- 2026-11-19 18:05 Row 23 treated as BUILT, checked in code: no code change needed, FloatingHeader matches the design fade spec, detailChrome test passes. Simulator screenshot is an owner check pending.
+- 2026-11-19 18:05 The automatic wording flag is handled by a rule: reports and row notes use 'checked in code' only. The row 26 prompt repeats this rule. A full wording sweep of PHASE2_ROWS.md is parked as a final step, not a separate row.
+- 2026-11-19 18:05 Only one row per round. Row 23 cell wording is not edited in this round, to keep the one-row rule.
+- 2026-11-19 18:05 Simulator screenshots for visual QA rows stay owner steps because Maestro is not installed and simctl hangs in the sandbox.
