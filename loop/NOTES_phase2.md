@@ -5,9 +5,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Baseline: tsc 0 errors; Jest 89 suites / 888 tests / 4 snapshots (round 130 checkpoint). Backend 632 pass incl. 18 TestPG on local DB.
+- Baseline: tsc 0 errors; Jest 90 suites / 890 tests / 4 snapshots (round 132). Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- One row, one file or component per prompt.
+- One row, one file or component per prompt. Full file paths in every prompt.
+- Round 133 prompt was rejected (no loop/phase2 branch rule). Round 134 prompt restates the branch rule and the report format.
 
 ## Wording rule
 - Cells: BUILT, 'checked in code', 'owner check pending'. Avoid verified/confirmed except api.scan.confirm.
@@ -34,14 +35,15 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Toast owner row 51; sheet owner row 27.
 - Paywall lives at src/app/onboarding/paywall.tsx.
 - Jev: follow on small tasks; a concrete reason can override, recorded here.
+- Loop check flag on partial tasks: close the named remaining gap next, do not redo finished work.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
-- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (signup and paywall render tests exist; post call gap in progress round 132).
+- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (signup and paywall post render tests exist; signup get read-back in progress round 134; 8 steps untested).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green rounds 16 to 130.
+- Checkpoints green rounds 16 to 132.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -76,8 +78,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Owning-row check for other shared components.
 
 ## Next
-- Round 132: row 2 paywall post call render test, file src/__tests__/render/paywallOnboardingPost.render.test.tsx. Row 2 stays PARTIAL.
-- Then row 2 signup get read-back in continueAfterAuth.
+- Round 134: row 2 signup api.onboarding.get read-back, file src/__tests__/render/signupReadBack.render.test.tsx. Row 2 stays PARTIAL.
+- Then row 2 render tests for the 8 untested onboarding steps, one file each.
 - Then backend refinement rows and unblocked PARTIAL rows. Pick the candidate that clears most rows.
 - Handover 4 due round 141.
 
@@ -91,4 +93,3 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - es/fr strings run 2.5x to 3.7x English; LumeTabBar and Button lack numberOfLines.
 - Unresolved: SwipeableRow square corners (row 34).
 - 'owner check pending' rows are BUILT; do not reopen.
-- Name full file paths in every prompt.

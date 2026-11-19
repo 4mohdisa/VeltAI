@@ -7369,3 +7369,10 @@
 - 2026-11-19 21:09 Chose the post call over the get read-back because it is the write path that persists onboarding data.
 - 2026-11-19 21:09 Row 2 stays PARTIAL: the get read-back and 8 untested onboarding steps remain open.
 - 2026-11-19 21:09 Condensed the notes file to stay under the 600 word limit. No decision or blocker removed.
+- 2026-11-19 21:12 The loop check said the last task was partly done. The remaining gap is the row 2 signup read-back, so this round closes that gap and keeps row 2 PARTIAL. Paywall work is not redone.
+- 2026-11-19 21:12 Chose the read-back over the 8 onboarding steps because it is one file and one API call, and Jev rates the risk high, so a small task is safer.
+- 2026-11-19 21:12 If the Clerk callback cannot be triggered in a render test, the step stops as BLOCKED and the loop does not edit signup.tsx.
+- 2026-11-19 21:13 Rewrote the rejected round 133 prompt: added the loop/phase2 branch rule with a git branch check and explicit no push, merge or switch, plus the required report format and file lists.
+- 2026-11-19 21:13 Kept the row 2 read-back as the next task: it is the smallest remaining gap and it clears a PARTIAL row without touching screens.
+- 2026-11-19 21:13 Chose not to ask Isa: the gap is a mocked test, needs no dashboard or credentials, and the Jev risk is high, so the task stays small.
+- 2026-11-19 21:13 Kept row 2 status PARTIAL; only the notes cell changes this round.
