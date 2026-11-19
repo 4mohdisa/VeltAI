@@ -7352,3 +7352,8 @@
 - 2026-11-19 21:03 Handover said next was row 8, but notes record row 8 as closed in round 121 and reopen only on a real importing test. Kept row 8 closed and followed the notes.
 - 2026-11-19 21:03 Rows 4 to 6 have BUILT or partial status without a real render test. Kept them as parked render-test gaps; no status change in a docs pass.
 - 2026-11-19 21:03 Prompt names the loop/phase2 branch rule explicitly, per the round 127 rejected-prompt decision.
+- 2026-11-19 21:03 Stopped the stale-note series after row 24 as planned in the notes; docs-only checks no longer pick the next task.
+- 2026-11-19 21:03 Chose row 2 paywall render test: small, one file, needs no sign-in or Isa input, and closes a named gap in an open row. Follows Jev's ranking (run, small task).
+- 2026-11-19 21:03 Test-only change, so the prompt requires tsc and full Jest per the wording rule.
+- 2026-11-19 21:03 Kept row status unchanged; only the notes cell gets a line, per the docs rule.
+- 2026-11-19 21:03 Left the backend refinement rows for the following round so this round stays to one row and one file.
