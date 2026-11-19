@@ -7481,3 +7481,7 @@
 - 2026-11-19 21:52 Told Claude Code to grep and check existing coverage first, because earlier rounds were handed near-duplicate work.
 - 2026-11-19 21:52 Left AnomalyBanner and AnomalyCard out of this round. Notes record a real render test (anomaly.render.test.tsx), but the handover calls that coverage a code-reading note. Recorded as a NEXT check, not a task, to avoid a duplicate test.
 - 2026-11-19 21:52 Kept the checkpoint green (tsc 0, Jest 107 suites / 920 tests / 4 snapshots) as the new baseline. Jev's 85% run signal agrees with a small task.
+- 2026-11-19 21:53 Chose the anomaly coverage check as round 160: it is the last open item in Next and the handover calls it a gap, and it is one row and one file, which fits Jev's small-task advice.
+- 2026-11-19 21:53 Told Claude Code to make no code change if coverage already exists, so a duplicate test is not added.
+- 2026-11-19 21:53 Recorded the ai-query send path as closed: the latest report shows aiQuery.render.test.tsx already covers it and passes 2/2.
+- 2026-11-19 21:53 Kept row 19 status as BUILT and asked only for a notes cell edit, per the wording rule.
