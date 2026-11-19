@@ -1,3 +1,13 @@
-You've hit your 5-hour limit · resets 5:40pm (Australia/Adelaide)
+Handover — Phase 2, loop/phase2 branch
 
-Warning: this sign-in ends between 2026-11-24 and 2026-11-27 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+Rows built this session: 23 (Fades), 26 (scrims), 30 (tab bar), 37 (3D body), 51 (toast clearance), 52 (tick weight), 53 (Connected apps chip), 55 (add menu), 56 (StatLine gap), plus earlier 74–81 (motion/gym-patterns work) from prior rounds. Row 56 was the last completed. Checkpoint round 56 confirmed the whole app is clean: tsc 0 errors, Jest 81 suites/867 tests/4 snapshots all passing.
+
+In progress: none — row 56 just closed. Next up per the last report: row 57 "Visual QA: unit gap and tracking," same territory as row 56 (StatLine's tight-mode tracking constant).
+
+Pattern established for all "Visual QA: ___" rows (23–63): `design/Lume App.html` has NO per-screen markup — it's only the CSS token export generated from `src/lib/design/tokens.ts`, wrapped in a shell that `dc-import`s real screens by id (not present in this export). So every one of these rows reduces to a code-vs-tokens comparison, never a real pixel/design comparison. Report that honestly as "owner check pending" — never claim a simulator/device check (Maestro isn't installed in this sandbox).
+
+Key files touched/checked: `src/app/_layout.tsx` (screenAnimation, camera modal animations — restored to slide_from_bottom/fade), `src/components/navigation/{FloatingHeader,BottomSheet,LumeTabBar,AddMenu}.tsx`, `src/components/gym/{GymPatternsCard,MuscleChart}.tsx` (isGymPatternsShape guard tightened), `src/app/gym/log-session.tsx`, `src/app/profile/integrations.tsx`, `src/components/display/{ToastHost,DetailChart}.tsx`.
+
+Decisions/why: most "Visual QA" rows end in "no code change" — the components already use design tokens correctly, and the remaining raw magic numbers (panel widths, stroke weights, tight-mode gaps) have no identical token to swap in, so changing them would be guessing, not fixing. Several files carry comments explicitly crediting these numbers to the design bundle (e.g. AddMenu.tsx, LumeTabBar.tsx, ToastHost.tsx, integrations.tsx) — treat those as deliberate, not bugs.
+
+Gotchas spotted, not fixed: `src/lib/design/tokens.ts` has no stroke-weight token at all (affects any future "tick"/icon-stroke row). Several near-token values (`PANEL_RADIUS=18` vs radius 16/20, `ROW_MIN_HEIGHT=54` vs buttonHeight=52, `TIGHT_STAT_GAP=3`/`TIGHT_STAT_UNIT_GAP=7` vs space 4/8) sit just off an existing token with no comment explaining why — worth a design re-check with Isa, not a code fix. `ToastHost.tsx` and `BottomSheet.tsx` have zero test coverage.
