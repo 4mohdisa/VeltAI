@@ -7241,3 +7241,7 @@
 - 2026-11-19 20:15 Chose Screen.tsx render smoke test as the smallest unblocked task, matching the stated default order (Screen, then ToastHost, then BottomSheet).
 - 2026-11-19 20:15 Row 21 is parked for v1 by default until Isa answers; no migration written this round.
 - 2026-11-19 20:15 Test file name follows the *.render.test.tsx rule for files under src/components/.
+- 2026-11-19 20:17 Chose ToastHost render smoke test: Jev 98% run, small single file, Notes Next order says ToastHost after Screen.
+- 2026-11-19 20:17 Render smoke tests stay folded into their existing visual rows, no new dedicated row, because each one is one file and the row list is already locked at 83; the Claude report's suggestion was recorded, not adopted.
+- 2026-11-19 20:17 Row for ToastHost identified by title in the prompt, not by number, because the number was not in the latest report.
+- 2026-11-19 20:17 Source changes to ToastHost are excluded; if testability needs one, it goes to NEXT.
