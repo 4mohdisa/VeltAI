@@ -7169,3 +7169,7 @@
 - 2026-11-19 19:29 Did not ask Isa: the question is not major and the loop can decide from the file.
 - 2026-11-19 19:29 Kept the task to one row with a read first step, because the previous report's claim about rows 41-82 conflicts with the notes.
 - 2026-11-19 19:29 Trimmed the notes to fit the 600 word limit. Decisions are kept in full. Finished detail is merged into counts.
+- 2026-11-19 19:31 Row 41 accepted as BUILT by the latest report, but the es/fr overflow risk is not resolved by the code. Recorded as checked in code, owner check pending for real es/fr overflow. No layout change, because it changes the look and a device run is needed to prove it.
+- 2026-11-19 19:31 Chose row 42 over the LumeTabBar smoke test: notes say to finish remaining non-BUILT rows before the test backlog, and row 42 is the next open row in order.
+- 2026-11-19 19:31 Rows 42 to 50 still need a status read, so this round starts there. Nothing is assumed closed.
+- 2026-11-19 19:31 Row 42 names no file in my notes, so the prompt tells Claude Code to use the two most relevant shared files and state them, as the existing rule says.
