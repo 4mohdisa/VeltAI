@@ -15,6 +15,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
+- A report that says tests were not run gets flagged. If no code changed, run tsc and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -35,6 +36,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 49: row 37 3D body = MuscleChart stand-in, checked in code. Pixel check owner check pending.
 - Round 50: row 51 toast clearance checked in code. TOAST_BOTTOM 112 clears tab bar clearance 100 by 12pt. No code change.
 - Round 52: row 52 tick weight checked in code, no code change. No stroke-weight token exists in tokens.ts.
+- Round 53: row 53 Connected apps chip checked in code, no code change. Chip-local values (PROVIDER_*) have no token match. Tint ratio 0.14 and glyph stroke 1.9 are one-offs; propose one combined token only if more chips need them.
 - Visual QA rows compare against tokens and code only. design/Lume App.html has no per-screen markup. Pixel comparison is owner check pending until screenshots exist.
 - Jev advice is advisory. Override only with a concrete reason, written here.
 
@@ -48,7 +50,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT: rows 78, 79, 80, 81 gym patterns guards.
 - BUILT checked in code: row 74 onboarding Reduce Motion (device feel owner check pending). Row 74 camera modal feel: owner check pending.
 - BUILT: row 23 fades, row 26 scrims, row 30 tab bar (checked in code). Row 37 3D body (checked in code).
-- BUILT checked in code: row 51 toast clearance.
+- BUILT checked in code: row 51 toast clearance, row 53 Connected apps chip.
 - Checkpoints round 16, 23, 39: gates green.
 
 ## Blocked on Isa
@@ -79,11 +81,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map type guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers NAME_WIDTH 84, VALUE_WIDTH 74, BAR_HEIGHT 8: promote to tokens only if another chart needs them.
 - No stroke-weight token in src/lib/design/tokens.ts. Add icon.strokeWeight only if more custom SVG ticks appear.
+- Token proposal: one combined token for chip tint ratio (0.14) and glyph stroke (1.9), only if more chips need them.
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 53: row 53 Visual QA Connected apps chip (tokens and code only, no sign in). Prompt run in this round.
-- Then: rows 54-63 Visual QA, one per round, notes filled in.
+- Round 54: row 55 Visual QA add menu (tokens and code only, no sign in). Run tsc each round; run Jest only for files changed.
+- Then: rows 56-63 Visual QA, one per round, notes filled in.
 - Then: ToastHost render test (side finding), if Isa agrees it is worth a row.
 - Then: final wording sweep of PHASE2_ROWS.md.
 - Then: backend refinement rows.
