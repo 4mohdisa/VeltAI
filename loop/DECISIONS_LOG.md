@@ -7705,3 +7705,7 @@
 - 2026-11-19 23:41 Latest report overrides the handover: label and photo render tests exist (labelScan, photoScan), so only the fallback branch is missing.
 - 2026-11-19 23:41 Kept the test inside photoScan.render.test.tsx and mocked only api client functions, so the fallback logic runs for real.
 - 2026-11-19 23:41 Row 8 notes trim stays parked: out of scope for this round, and it has been deferred repeatedly.
+- 2026-11-19 23:44 Chose row 2 over Jev's audit (87%). Reason Jev cannot see: the audit spans several rows, which breaks the one-row-per-task rule. Row 2 is the only PARTIAL row left, and the stop report needs it closed. Audit moved to Next, one row per round, starting with row 6.
+- 2026-11-19 23:44 Row 6 is BUILT per the latest report. The handover claim that it is PARTIAL is stale and ignored.
+- 2026-11-19 23:44 Row 2 prompt is test-only: add or extend render tests, no screen edits, no change to onboarding behaviour.
+- 2026-11-19 23:44 Row 2 stays PARTIAL unless every local call site is covered. Sign-in and profile persistence stay owner items.
