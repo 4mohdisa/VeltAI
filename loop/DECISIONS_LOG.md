@@ -7227,3 +7227,8 @@
 - 2026-11-19 19:54 Row 21 stays next after this. It is a backend and data model task, so I decide it myself (local migration, local tests, hosted apply parked for Isa). No question to Isa.
 - 2026-11-19 19:54 Jev's ask ranking (68%) was not followed: no Isa-only step is needed for this round, and an unanswered question never blocks the loop.
 - 2026-11-19 19:54 Test-only round, so no full Jest run needed; tsc and the two named tests are the gate.
+- 2026-11-19 19:57 Chose the reconciliation task: the handover (row 50 DIFFERENT) and the notes (row 50 BUILT) disagree, and the status file is what the loop counts. Small, no code, low risk. Jev confidence is low (0.34), so a small task is preferred.
+- 2026-11-19 19:57 Did not ask Isa: the row 50 conflict is resolvable from code and notes; the question is not major.
+- 2026-11-19 19:57 Row 21 kept as next after reconciliation. It needs a local migration, which is a larger change and should wait for a clean status baseline.
+- 2026-11-19 19:57 FloatingHeader mismatch recorded in row 32 notes, not treated as a new row. The backlog title is ambiguous; the decision on the intended header can wait until the reconciliation shows which row needs it.
+- 2026-11-19 19:57 Jev's ask ranking (56%) not followed: a question to Isa would cost his attention on a task the loop can settle itself.
