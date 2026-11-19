@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt names this rule and the branch check.
-- Baselines (round 86): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baselines (round 87): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step.
@@ -40,8 +40,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Done
 - Task 1 (PHASE2_ROWS.md), local setup, row 22 baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 27, 28, 72, 74, 77, 78-82, 23, 26.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-64, 68, 69, 70, 71.
+- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 26-28, 72, 74, 77, 78-82, 23.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68, 69, 70, 71.
 - Folded: 65, 66, 67 into 64; 69 duplicate of 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 27, 28, 30, 37, 51, 52, 53, 57, 59, 61, 62.
@@ -56,7 +56,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
-- Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. One design re-check with Isa.
+- Off-token values: Screen.tsx 40, 40, 32, -6 (DETAIL_BACK_TOP), title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. One consolidated design pass with Isa.
 - Disabled opacity drift: GymCalendar DISABLED_OPACITY 0.3, food/calendar MONTH_ARROW_DISABLED_OPACITY 0.35, opacity.disabled 0.4. One design pass to reconcile.
 - Sheet detents (sheet.detents medium/large) have no native mechanism in BottomSheet.tsx. Structural gap, not a token swap.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
@@ -74,11 +74,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling, not a row).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-86).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-87).
 
 ## Next
-- Round 87 (running): Visual QA check in code, row 29 (scroll).
-- Then rows 30-50 (Visual QA). One row per round. Skip rows already marked BUILT in PHASE2_ROWS.md.
+- Round 88 (running): Visual QA: Liquid Glass, row 31.
+- Then rows 32-50 (Visual QA). One row per round. Skip rows already marked BUILT in PHASE2_ROWS.md.
 - Row 69 (progress rings, bars, number changes): before folding, check whether a later row closed it. Do not assume stale.
 - Rows 70-72: same check before folding.
 - Then render smoke test for Screen.tsx. Then backend refinement rows.

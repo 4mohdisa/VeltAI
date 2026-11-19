@@ -7124,3 +7124,8 @@
 - 2026-11-19 19:03 Kept row 69 for later: the handover asks for a check whether a later row already closed it before folding, which needs its own round.
 - 2026-11-19 19:03 Added the disabled-opacity reconciliation (0.3, 0.35, 0.4) to Parked as a single design pass item, not a per-row fix.
 - 2026-11-19 19:03 Used the Jest count of 869 from the latest report; the handover quoted 867, which is treated as a stale figure.
+- 2026-11-19 19:05 Chose row 31 as the next Visual QA row, per the handover order and the report's NEXT line, one row per round.
+- 2026-11-19 19:05 Row 31 names no file in my notes, so the prompt says to use the row's named file or fall back to GlassButtons.tsx and Screen.tsx and report it.
+- 2026-11-19 19:05 Kept the Visual QA rule: no guessed values, no new tokens, no tokens.ts edits, off-token values go to NEXT, not fixed.
+- 2026-11-19 19:05 Row 69 deferred: it needs a 'closed by a later row' check first, and the handover already flags it, so it waits for its own round.
+- 2026-11-19 19:05 Jev risk 1.1 of 2: kept the task to one row and one surface, with no extra scope.
