@@ -6,7 +6,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 159: row 19 ai-query send path confirmed covered by aiQuery.render.test.tsx (2/2 pass). No code change.
+- Round 159: row 19 ai-query send path covered by aiQuery.render.test.tsx. No code change.
+- Round 160: row 19 AnomalyBanner and AnomalyCard covered by anomaly.render.test.tsx (2/2 pass). Row 19 closed.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -38,7 +39,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Checkpoint rounds run full tsc and full Jest, read only.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, Insights/AI query (send path covered), rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, Insights/AI query, Anomaly banner and card (row 19), rows 3, 4, 17, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open: live Clerk sign-in and profile persistence (owner). Stays PARTIAL.
@@ -57,7 +58,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Parked (not v1)
 - No real render test yet: food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, integrations screens checked by grep.
-- Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
+- Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx: round 161 greps and adds AddMenu render test if missing.
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift.
@@ -76,8 +77,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - 'Add a render test' prompts have duplicated existing coverage: grep first.
 
 ## Next
-- Round 160: row 19 AnomalyBanner and AnomalyCard executed render coverage in anomaly.render.test.tsx (grep first; add only if missing).
-- Then: pick an unblocked PARTIAL row with a real gap, or a Parked render test after grep.
+- Round 161: AddMenu render coverage for rows 38, 53, 83 (grep first; add only if missing).
+- Then: food/saved or quick-add render test after grep, or another unblocked PARTIAL row with a real gap.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.

@@ -7485,3 +7485,7 @@
 - 2026-11-19 21:53 Told Claude Code to make no code change if coverage already exists, so a duplicate test is not added.
 - 2026-11-19 21:53 Recorded the ai-query send path as closed: the latest report shows aiQuery.render.test.tsx already covers it and passes 2/2.
 - 2026-11-19 21:53 Kept row 19 status as BUILT and asked only for a notes cell edit, per the wording rule.
+- 2026-11-19 21:54 Chose AddMenu render coverage: it is the smallest Parked render gap and it clears notes on rows 38, 53 and 83 together.
+- 2026-11-19 21:54 Round 160 anomaly coverage confirmed done by the latest report (anomaly.render.test.tsx, 2/2 pass). Row 19 is treated as closed; no further anomaly work.
+- 2026-11-19 21:54 Prompt tells Claude Code to grep first because prior rounds were handed duplicate test work.
+- 2026-11-19 21:54 Status cells stay untouched. Only notes cells change, per the wording rule.
