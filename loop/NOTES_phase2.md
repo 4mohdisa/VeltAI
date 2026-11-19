@@ -5,8 +5,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 224 done: row 11 templates render test (gymTemplates.render.test.tsx). Tsc 0 errors, jest 2/2.
-- Round 225 (current): row 11 new-template render test (newTemplate.render.test.tsx), after grep.
+- Round 225 done: row 11 new-template render test (newTemplate.render.test.tsx). Tsc 0 errors, jest 2/2.
+- Round 226 (current): row 11 schedule render test (schedule.render.test.tsx), after grep.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -35,14 +35,13 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Round 221: a stale-looking gap claim is checked by grep before work. Stale notes in a row are corrected only when that row is next touched.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food (logic and menu render), Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
 - BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps (close one per round)
-- Row 11: new-template (round 225), schedule, exercise-progress, freeze have no render test. templates done (round 224); muscles.tsx covered. One screen per round.
-- Row 20 Legal, row 31 and row 38/53: already covered; notes stale. Fix notes only when touched.
+- Row 11: schedule (round 226), exercise-progress, freeze have no render test. Templates and new-template done. One screen per round.
 - Row 7 notes contain a leftover 'status stays PARTIAL' sentence. Covered; fix when touched.
 - Roughly 20 Visual QA rows cite only the generic gate. Judge per row, not by grep.
 
@@ -77,13 +76,13 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
-- Audit untouched render tests with hardcoded *_date fixtures compared to the real clock. Pin the clock where found.
+- Audit untouched render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 - Upstream brief generator runs from stale status (rows 1, 6). Verify PHASE2_ROWS.md first.
 
 ## Next
-- Round 225: row 11 new-template render test (newTemplate.render.test.tsx).
-- Then row 11: schedule, exercise-progress, freeze, one per round.
+- Round 226: row 11 schedule render test (schedule.render.test.tsx).
+- Then row 11: exercise-progress, freeze, one per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues

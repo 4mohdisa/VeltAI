@@ -7767,3 +7767,7 @@
 - 2026-11-20 00:30 Picked new-template over schedule and exercise-progress: it is the create/edit pair of the templates list just covered, and it is the smallest single-screen gap.
 - 2026-11-20 00:30 Prompt has the step to grep for an existing mount first, because stale tracking has been wrong before.
 - 2026-11-20 00:30 Row status left at BUILT; only a notes line is added, since the gap is test coverage, not wiring.
+- 2026-11-20 00:32 Chose schedule.tsx: the latest report recommends it, it is the next row 11 screen with no render test, and it needs no sign-in or device. Jev agrees (run 99%).
+- 2026-11-20 00:32 Kept the grep-before-create rule so no duplicate test file is written.
+- 2026-11-20 00:32 Left the row 83 MACRO_BAR_W stale note in Parked. It is not in this row's scope.
+- 2026-11-20 00:32 Kept the notes under 600 words by condensing Done and Known issues. No decision was removed.
