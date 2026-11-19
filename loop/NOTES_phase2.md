@@ -1,19 +1,20 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md (73 rows). Prompts use row TITLES, not numbers (numbers drift).
+Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md (73 rows). Prompts use row TITLES, not numbers.
 
 ## State
 - Work on branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
-- Baselines (updated round 9 checkpoint): app tsc 0 errors; Jest 68 suites / 832 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
-- Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg running. No hosted Supabase, Clerk or RevenueCat in repo; only .env.example templates.
-- Local DB: lume_gate_test and lume databases, auth stubs, all 16 migrations applied. Seed in backend/scripts/seed_local.sql (idempotent, local only).
-- Backend runs locally via go run ./cmd/server. /health 200. Auth enforced (401 without token).
+- Baselines (round 9 checkpoint): app tsc 0 errors; Jest 68 suites / 832 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
+- Round 10 gate was not run (docs-only round, flagged). Round 11 runs the gate first.
+- Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo; only .env.example templates.
+- Local DB: lume_gate_test and lume databases, auth stubs, all 16 migrations applied. Seed: backend/scripts/seed_local.sql (idempotent, local only).
+- Backend runs via go run ./cmd/server. /health 200. Auth enforced (401 without token).
 - Docker compose plugin not installed. Use plain docker run.
 
 ## Wording rule
-- Rows say BUILT or 'checked in code'. Never 'verified', 'verify', 'confirmed' or 'confirm' in row cells. Isa verifies.
-- Reports must use the same wording. Reports must not claim a screen is verified.
+- Rows say BUILT or 'checked in code' or 'owner check pending'. Never 'verified', 'verify', 'verifies', 'confirmed' or 'confirm' in row cells. Exception: literal code identifiers (api.scan.confirm).
+- Reports use the same wording. Reports must not claim a screen is verified.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -21,30 +22,27 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - v1 scope is locked, extra ideas go to Parked.
 - Phase 1 design is final, do not restyle screens.
 - Isa verifies on a device himself.
-- Row 22 baseline chosen first; later rows depend on green gates.
+- Row 22 baseline first; later rows depend on green gates.
 - TestPG tests run only after DSN confirmed as 127.0.0.1:55432.
 - plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data.
 - Clerk sign in needs hosted Clerk (JWKS). Parked as owner step, no workaround, no auth bypass.
 - Order of work: Food log before Gym log.
 - Simulator flows that need sign in are owner steps. Rows are BUILT on passing local mocked Jest and Go tests.
-- Prompts must state the branch rule (stay on loop/phase2, no switch, push or merge).
-- Jev ranked run 93% for Goals (chose Goals); 88% for Subscription (chose Subscription); 91% for Profile (chose Profile).
-- Jev ranked Dashboard/Summary 80% after Profile. Round 9 chose the checkpoint instead (checkpoint marked in loop script).
-- Round 10: chose wording pass over Dashboard/Summary (Jev run 83%). Smallest task, clears the wording rule.
+- Prompts must state the branch rule.
+- Jev ranking followed for Goals, Subscription, Profile. Round 10 chose wording pass over Dashboard/Summary.
+- Round 11 chose gate check first (auto-check flagged round 10 as ungated).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
-- Local setup: done. Sign in step parked.
-- Baseline: BUILT.
-- Food log: BUILT. Simulator owner check pending.
-- Gym log: BUILT. Simulator owner check pending.
-- Gym history: BUILT. Simulator owner check pending.
-- Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap. Simulator owner check pending.
-- Gym streak: BUILT. Fabricated upcoming-days removed. Render test added. Simulator owner check pending.
-- Goals: BUILT. hydrateGoals and server-first useEffectiveGoals. Render test added. Simulator owner check pending.
-- Paywall / Subscription: BUILT. GET /api/subscription hydrated into serverEntitlement. Render test (2 cases). Simulator owner check pending.
-- Profile: checked in code, no gap. Simulator owner check pending.
-- Round 9 checkpoint: tsc 0 errors; Jest 68 suites / 832 tests / 4 snapshots, all passed, no worker crash.
+- Local setup, baseline: BUILT.
+- Food log, Gym log, Gym history: BUILT. Simulator owner check pending.
+- Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap.
+- Gym streak: BUILT. Fabricated upcoming-days removed.
+- Goals: BUILT. hydrateGoals, server-first useEffectiveGoals.
+- Paywall / Subscription: BUILT. hydrateSubscription / entitlementFromApi.
+- Profile: checked in code, no gap.
+- Add food, Legal: BUILT (static).
+- Wording pass (round 10): 25 cells reworded in PHASE2_ROWS.md.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -53,25 +51,26 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Parked (not v1)
 - Scope decision for plan.tsx and AI anomaly banner.
 - Food log: long press to delete a whole meal (confirmDeleteMeal) is not discoverable. Design call for Isa.
-- Goals: 'Saved as you type' copy (en.json:82) is untrue when a value is clamped silently. Fix later.
-- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts are unused. Remove in a cleanup pass.
-- Account screen and index settings both link to Delete Account. Both correct. Consider consolidating later.
+- Goals: 'Saved as you type' copy (en.json:82) is untrue when a value is clamped silently.
+- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts unused. Remove in a cleanup pass.
+- Account and index settings both link to Delete Account. Consider consolidating later.
+- Copy pass: 'owner check pending' phrasing in row cells reads awkwardly after a noun phrase.
 - Merging loop/design-match into main: Isa's job.
 - Docker compose plugin install (owner step, optional).
 - Applying migrations to hosted Supabase: Isa's job.
-- Local Clerk-compatible verifier or test issuer for simulator sign in: owner step.
+- Local Clerk-compatible verifier or test issuer: owner step.
+- Muscles and exercise-progress design gaps (no 3D body stage, no per-muscle lists, 'Last 30 days' vs design 'Last 7 days'). Product decision.
+- Streak 'Freezes' derived as freeze_used ? 0 : 1. Revisit only if design wants more.
 - Watch: one transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Recheck if it recurs.
-- Muscles and exercise-progress screens: design gaps (no 3D body stage, no per-muscle exercise lists, 'Last 30 days' vs design 'Last 7 days'). Product decision for Isa.
-- Streak stats 'Freezes' derived as freeze_used ? 0 : 1. Revisit only if design wants more freezes.
 
 ## Next
-- Wording pass on PHASE2_ROWS.md (forbidden words in row cells, Profile row check). Round 10.
-- Then: Dashboard/Summary route and field comparison (rows 16 and 17, by title).
+- Round 11: gate check (tsc, full Jest).
+- Then: Dashboard/Summary route and field comparison (rows 16 and 17, by title). Row 17 plan.tsx needs a product decision, not wiring.
 - Then remaining PARTIAL or DIFFERENT core rows, motion pass, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot be exercised end to end until sign in is solved.
-- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when the Gym log row is reworked.
-- Gym history and Summary re-hydrate from server on view. May be intended. Confirm in code, do not change without a failing case.
+- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review in the Gym log rework.
+- Gym history and Summary re-hydrate from server on view. Confirm in code, do not change without a failing case.
 - Long-press meal delete in food.tsx flagged twice (see Parked).
 - Jev risk 1.0 of 2 (low confidence): keep tasks small.

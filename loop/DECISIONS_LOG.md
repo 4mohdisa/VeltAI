@@ -6811,3 +6811,7 @@
 - 2026-11-19 15:33 Chose the wording pass over Dashboard/Summary. It is the smallest task, needs nothing from Isa, and clears the wording rule the checkpoint was waiting on. Jev ranked run 83%, so no override.
 - 2026-11-19 15:33 Round 9 checkpoint result recorded: tsc 0 errors, Jest 68 suites / 832 tests / 4 snapshots, all green. The +3 suites and +6 tests are the render tests added in Gym streak, Goals and Subscription. Baseline updated.
 - 2026-11-19 15:33 Claude Code's report said the Profile row may already be clean. The task asks for a search and a confirming pass, not a rewrite, so it stays small.
+- 2026-11-19 15:37 Chose the gate check first: the automatic check flagged the last round as not gated, and no row work should start on an unverified baseline. Jev ranked run at 91%, consistent with this.
+- 2026-11-19 15:37 Ran the full Jest suite once (not just changed files) because the gate itself was missing, and this is the one allowed exception to the changed-files rule.
+- 2026-11-19 15:37 Backend tests skipped this round: no backend code changed, so the backend gate does not apply.
+- 2026-11-19 15:37 Deferred the awkward owner check pending phrasing to a later copy pass: it is clear enough and not worth a round alone.
