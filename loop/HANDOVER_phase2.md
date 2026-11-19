@@ -1,15 +1,22 @@
 Handover — Phase 2, loop/phase2 branch
 
-Rows now BUILT: row 1 (Sign in/sign up) and row 2 (Onboarding) — every local gap each row ever named has an executed render test, confirmed by reading the test file, not grepping; both rows carry "owner check pending" for live Clerk sign-in. Row 6 (Barcode/label/photo scan) is BUILT — barcode, label, and photo (pipeline/pipelineMulti/confirm×2/feedback/analyze) all have executed render tests, including the previously-missed `fallbackSyncScan` branch.
+Row 21 (7-day stacked macro chart) is BUILT: useWeeklyMacros (src/lib/data/hooks.ts) fetches 7 days via api.foodLogs.list per day and aggregates client-side (no backend/migration needed); dashboard/nutrition.tsx's secondary chart now shows one stacked column per day, oldest→newest, day-letter axis. Tests: src/__tests__/data/weeklyMacros.test.ts, src/__tests__/render/dashboardNutrition.render.test.tsx. detailChrome.render.test.tsx's "macros" snapshot had to be updated (and its mock extended with useWeeklyMacros) since it broke from this change — fixed.
 
-This session's work was audit-only: no files changed. A new task arrived claiming row 6's label part was still uncovered and row 6 was PARTIAL — both false. `src/__tests__/render/labelScan.render.test.tsx` and `src/__tests__/render/photoScan.render.test.tsx` already exist and pass (confirmed again: tsc 0 errors, 4/4 and earlier 6/6 Jest). I did not touch `PHASE2_ROWS.md` rather than write the false "photo still uncovered" line the stale brief asked for.
+Row 35 fixed: gymStreakStripFootnote.render.test.tsx was crashing — its own /api/gym/today mock fell back to an empty array instead of a TodayWorkout object, masked for months by an unpinned clock making gymLoggedToday short-circuit past the bad line. Fixed in the test file only (real fixture + pinned clock).
 
-Files that matter for row 1: `src/app/onboarding/signup.tsx` (sendCode/verifyCode/clerkMessage/sso), and its render tests — `signup.render.test.tsx`, `signupOtp`, `signupSignInMode`, `signupClerkMessage`, `signupValidation`, `ssoSignin`, `signupReadBack` (all under `src/__tests__/render/`). Row 2: `src/app/onboarding/paywall.tsx` (`api.onboarding.post`) and `signup.tsx` (`api.onboarding.get`), tested by `paywallOnboardingPost.render.test.tsx` and `signupReadBack.render.test.tsx`. Row 6: `src/app/food/{barcode-scan,label-scan,photo-capture}.tsx` + `src/app/(tabs)/food.tsx` + `src/lib/data/scan.ts`, tested by `barcodeScan`, `labelScan`, `photoScan` render tests.
+Row 4 (Add food menu) BUILT: added src/__tests__/render/foodAddMenu.render.test.tsx for src/app/food/add.tsx (pure static chooser, no API).
 
-Decisions worth keeping:
-- Clerk/RevenueCat/network are always mocked at the module boundary (`@/lib/api`, `@clerk/clerk-expo`); toast assertions go through `useToastStore.getState().current`, not `allText`, since ToastHost isn't in the per-screen tree.
-- `jest.requireActual('@/lib/api').api?.scan` needs the `?.` — chaining two properties off a *fresh* `requireActual` call without it throws during the module's own circular self-import (api.ts → debug → store.ts → api.ts); one level of chaining is always safe, two is not.
-- `startScanPoller` must be stubbed (no-op) in any test that lets `pipeline`/`pipelineMulti` resolve, or real 60s timers keep Jest alive past the run.
-- When a task's brief assumes stale PHASE2_ROWS.md state, don't blindly follow it — verify against the file first and flag the mismatch instead of writing false notes.
+Row 10 (Gym history) BUILT: added src/__tests__/render/gymHistory.render.test.tsx for src/app/gym/history.tsx.
 
-Open gotcha, not fixed: whatever upstream process generates these task briefs is running from stale tracking state at least twice now (rows 1 and 6). Worth checking before trusting any new row's "current status" claim without re-verifying PHASE2_ROWS.md directly.
+Row 11 (Gym templates/schedule/muscles/exercise-progress/freeze) — muscles.tsx already had coverage; this session added render tests for the other four sub-screens one at a time: gymTemplates.render.test.tsx, newTemplate.render.test.tsx, schedule.render.test.tsx, exerciseProgress.render.test.tsx. freeze.tsx is the only one still untested — that's the natural next task.
+
+Decisions/patterns established, reuse these:
+- Mock @/lib/api at the module boundary only (never @/lib/data), let real hooks/mappers run.
+- Screens using <Screen> need SafeAreaProvider wrapping in the test.
+- Skeleton/SkeletonList from @/components/display/LoadingSkeleton crashes on useReducedMotion in this harness — stub it per-file, never globally.
+- When a screen needs a route param, override expo-router's useLocalSearchParams in that one test file (shared render/setup.ts default is always {}).
+- Multi-fragment Text children (JSX built from several expressions) show up as a children array in react-test-renderer, not one string — join them or query via findAll, not a plain allText substring match.
+- jest.useFakeTimers() must exclude setImmediate (doNotFake: ['setImmediate']) whenever a test also awaits a settle()-style promise flush, or hydration never resolves.
+- ExercisePicker/other picker components get mounted (invisible) regardless of modal visibility, so their own data hooks (e.g. useExercises→getExercises) still need mocking even if the test never opens them.
+
+Known stale, unfixed: row 83 in PHASE2_ROWS.md still cites a constant `MACRO_BAR_W` in src/app/dashboard/nutrition.tsx that no longer exists (removed by row 21's rewiring). Not fixed, flagged every round since it was found.
