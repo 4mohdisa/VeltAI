@@ -7102,3 +7102,8 @@
 - 2026-11-19 18:49 Kept the LumeTabBar press-value mismatch parked: it is an off-token value and needs the design pass with Isa, not a per-row swap.
 - 2026-11-19 18:49 Told the prompt to append the row at the true end of PHASE2_ROWS.md if it is missing, because the file runs past row 81.
 - 2026-11-19 18:49 Jev and my pick agree on run. Risk is high, so the task is one row and one file plus its test.
+- 2026-11-19 18:52 Chose the overdue full backend run: the notes say it is due at the next checkpoint and the last full run was round 39. It protects the 632-test baseline and the 18 TestPG tests.
+- 2026-11-19 18:52 Folded the round 82 result in as BUILT: the gym session extra entering animation has a matching exit, a render test, and a green full Jest run.
+- 2026-11-19 18:52 Did not fold row 69 again: notes already record it as a duplicate of row 76, which is BUILT.
+- 2026-11-19 18:52 Left the wording sweep and render smoke test queued as the next candidates, not as parallel tasks, to keep one row per round.
+- 2026-11-19 18:52 Kept the TestPG run gated on a DSN check against 127.0.0.1:55432 before any test runs.
