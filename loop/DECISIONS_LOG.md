@@ -7825,3 +7825,7 @@
 - 2026-11-20 00:51 Round 238 uses run, not ask. Jev said ask 56%, but the open question (which row TodayCard belongs to) is answered by the row 9 note. Not a major question.
 - 2026-11-20 00:51 Round 238 picks the smallest task (markdown note fix) because Jev risk is 1.2 of 2. Keeps scope small.
 - 2026-11-20 00:51 LoggedCard silent-undefined audit deferred to Parked-to-next. It is a possible wiring gap, not confirmed, so it waits until the stale notes are cleared.
+- 2026-11-20 00:52 Round 239: run over ask. Jev says run 89%; the question is not major.
+- 2026-11-20 00:52 Round 239: the loop flagged round 238 for an unrun gate. Its change was markdown only, so the gate was treated as a checkpoint with no file changes.
+- 2026-11-20 00:52 Round 239: row 83 stale MACRO_BAR_W note is resolved. The round 238 report confirmed the constant is gone and the Notes cell now describes the current chart.
+- 2026-11-20 00:52 Round 239: the gate comes before the row 7 note fix, because the loop asks that the flag be dealt with before moving on. Jev risk 0.9, so the task stays small.
