@@ -6,9 +6,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 241 (current): gate checkpoint (tsc + full app Jest), no file changes. Triggered by loop flag: round 240 ran no tests.
-- Round 240: row 7 notes cleanup, PHASE2_ROWS.md only. Status BUILT confirmed in code.
-- Round 239 checkpoint GREEN: tsc 0 errors, Jest 133 suites, 985 tests, 4 snapshots.
+- Round 242 (current): row 7 table cell fix, PHASE2_ROWS.md only.
+- Round 241: gate checkpoint GREEN (tsc 0 errors, Jest 133 suites, 985 tests, 4 snapshots). No file changes.
+- Round 240: row 7 notes cleanup, PHASE2_ROWS.md only.
 - Prompts: one row or one checkpoint, one file, full paths, grep by content before creating a test file, no git commands. Prompts never edit loop/ files. Every prompt must state the loop/phase2 branch rule.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
 
@@ -36,6 +36,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Round 237: TodayCard guard recorded under row 9.
 - Round 240: run over ask (Jev 96%). Row 7 notes cleanup chosen as the smallest task.
 - Round 241: run over ask (Jev 88%). Gate flag handled as a checkpoint with no file changes.
+- Round 242: run over ask (Jev 99%). Row 7 table fix chosen.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -46,7 +47,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps
-- Row 7 table: 9 content cells where the header defines 8 (stray cell between Simulator flow and Notes). Not fixed yet.
+- Row 7 table: 9 content cells where the header defines 8. Fix in progress (round 242): stray cell merged into Notes.
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 - freeze.tsx: no render test yet. Verify its row number and status before starting.
 - LoggedCard: if sessionId is not in the fetched range, session is undefined and LoggedSessionDetail silently does not render. Possible gap, not confirmed. Audit after notes are clean.
@@ -76,13 +77,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - logGymSession while gymLoggedToday is true.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
-- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in rounds 232 or 241).
+- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in rounds 232, 241).
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 
 ## Next
-- Round 241: gate checkpoint (tsc + full app Jest). Read result before any other row.
-- Then: row 7 table fix, merging the stray cell so the row has 8 columns (PHASE2_ROWS.md only, status unchanged).
+- Round 242: row 7 cell fix. Read the result before any other row.
 - Then: verify freeze.tsx row and status; add its render test if still open.
 - Then: LoggedCard silent-undefined session audit (read first, fix only if confirmed).
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.

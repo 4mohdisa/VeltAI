@@ -7836,3 +7836,6 @@
 - 2026-11-20 00:55 Round 241: run over ask (Jev 88%). The loop flagged the last report because no type check or tests were run, so this round is a gate checkpoint with no file changes.
 - 2026-11-20 00:55 Row 7 column misalignment (9 cells vs 8 headers) queued as a separate row 7 task; it changes table structure, so it is not mixed into the gate round.
 - 2026-11-20 00:55 Last round's docs-only change was accepted as correct; its status claim is not re-checked here.
+- 2026-11-20 00:56 Round 242: run over ask (Jev 99%). Row 7 table fix chosen as the smallest open task after the clean round 241 gate.
+- 2026-11-20 00:56 Round 242: stray row 7 cell merged into Notes, the least risky cell for a file reference, status unchanged.
+- 2026-11-20 00:56 Round 242: no tests for a doc-only change; the gate was already green in round 241.
