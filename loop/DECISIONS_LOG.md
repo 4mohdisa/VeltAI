@@ -7648,3 +7648,8 @@
 - 2026-11-19 23:05 Kept the photo path out of this round: one row, one slice, per the one-task rule.
 - 2026-11-19 23:05 Row 8 notes cell cleanup stays Parked: wording only, not a build task, and it has been out of scope for many rounds.
 - 2026-11-19 23:05 Jev says run at 1.00 confidence and the risk is low for a single-file test: kept run.
+- 2026-11-19 23:10 Chose row 6 photo path: the automatic flag showed row 6 is partly done and the label task left the photo part as the only gap.
+- 2026-11-19 23:10 Kept row 6 PARTIAL until barcode, label and photo all have passing render tests; the prompt says so.
+- 2026-11-19 23:10 Did not ask Isa: the photo path is a test-only gap with no owner dependency.
+- 2026-11-19 23:10 Row 8 notes cleanup stays parked: wording only, trimmed when next touched.
+- 2026-11-19 23:10 Jev said run 100%; no conflict with the candidate ranking, so kept the pick.
