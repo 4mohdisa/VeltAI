@@ -7194,3 +7194,6 @@
 - 2026-11-19 19:40 Kept Jest and tsc in the prompt because a no-code round still needs the test gate.
 - 2026-11-19 19:40 Rewrote notes to under 600 words: merged repeated Parked and Blocked items, removed finished round detail.
 - 2026-11-19 19:40 Used latest baseline (83 suites / 874 tests) from the last run over the handover figure (81 / 869).
+- 2026-11-19 19:41 Kept the checkpoint over Jev's row 48 pick. The loop note for this round explicitly asks for a checkpoint, and checkpoints are the only way the full suites get rerun after the last rounds. Row 48 runs next round.
+- 2026-11-19 19:41 Recorded the row 47 finding (nutrition.tsx and week.tsx bar constants not yet checked against tokens) in Parked for a dedicated row, not as a new task now.
+- 2026-11-19 19:41 Kept the Jest count at 83 suites / 874 tests / 4 snapshots from the last report as the baseline to compare against.
