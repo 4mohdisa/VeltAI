@@ -7847,3 +7847,13 @@
 - 2026-11-20 00:58 Chose the LoggedCard audit over the freeze re-check: it is the open wiring gap flagged in the handover, and it can clear with a read first. The freeze re-check is small and moves to NEXT.
 - 2026-11-20 00:58 Kept the audit under row 9 because no dedicated TodayCard row exists, as recorded in round 237.
 - 2026-11-20 00:58 Kept the prompt to one file plus its test, with a read-first step, because the handover left Claude Code with only a summary.
+- 2026-11-20 01:04 Chose the freeze isolation re-run first: it is the smallest open item and was already queued in Next.
+- 2026-11-20 01:04 Row 9 LoggedCard audit closed with no fix: the race has no live trigger path under current wiring, per the report.
+- 2026-11-20 01:04 Refetch gap after logging (useToday not refetched on Gym tab) is a real bug but spans TodayCard.tsx and gym.tsx, so it becomes its own row to add later, not part of this task.
+- 2026-11-20 01:04 Row 83 stale MACRO_BAR_W text stays queued until row 83 is touched, per the notes rule.
+- 2026-11-20 01:04 Ask-once about row 17 deferred to the stop report, not asked now.
+- 2026-11-20 01:04 Rewrote the rejected prompt to state the loop/phase2 branch rule and the no-push, no-merge, no-switch rule up front.
+- 2026-11-20 01:04 Chose the checkpoint because the loop note requires a full type check and full app suite this round with no file changes.
+- 2026-11-20 01:04 Dropped the round 245 freeze isolation re-run from Next: the full Jest checkpoint covers freeze.render.test.tsx.
+- 2026-11-20 01:04 Kept the gym tab refetch row as the next build task after the checkpoint passes.
+- 2026-11-20 01:04 Condensed the notes to under 600 words by merging repeated Known issues and Parked lines. No content removed from the open items.
