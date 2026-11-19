@@ -40,12 +40,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Checkpoint rounds run only when the loop note asks for one: tsc and full Jest, no file changes.
 
 ## Done
-- Task 1 (PHASE2_ROWS.md), local setup, row 22 baseline: BUILT.
+- Task 1, local setup, row 22 baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31, 72, 74, 77, 78-82.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68, 69, 70, 71.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68-71.
 - Folded: 65, 66, 67 into 64; 69 duplicate of 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
-- No code change: rows 27, 28, 30, 37, 51, 52, 53, 57-59, 61, 62.
+- No code change: rows 27, 28, 30, 37, 51-53, 57-59, 61, 62.
 - Row 31: swapped solidGlass borderWidth literal for layout.borderWidth in GlassButtons.tsx.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90.
 
@@ -58,15 +58,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
-- Off-token values: Screen.tsx 40, 40, 32, -6 (DETAIL_BACK_TOP), title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. Icon sizes 18/26 and BlurView intensity 40/50 have no token category. One consolidated design pass with Isa.
-- Disabled opacity drift: GymCalendar DISABLED_OPACITY 0.3, food/calendar MONTH_ARROW_DISABLED_OPACITY 0.35, opacity.disabled 0.4. One design pass to reconcile.
-- Sheet detents (sheet.detents medium/large) have no native mechanism in BottomSheet.tsx. Structural gap.
-- Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
-- Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage). ToastHost and BottomSheet have no render test.
-- LumeTabBar.tsx and FloatingHeader.tsx Reduce Transparency branches: correct-looking but no test mounts them with the flag on.
-- Gym session: entering animation missing; exit animation added in rows 68/77. Food log has both. Add entering animation later.
-- Food log: long press to delete is not discoverable. Design call.
-- Goals: 'Saved as you type' is untrue when a value is clamped silently.
+- Off-token values (one design pass with Isa): Screen.tsx 40, 40, 32, -6, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes 18/26; BlurView intensity 40/50.
+- Disabled opacity drift: GymCalendar 0.3, food/calendar 0.35, opacity.disabled 0.4.
+- Sheet detents medium/large: no native mechanism in BottomSheet.tsx. Structural gap.
+- Stroke-weight token missing. Chip tint 0.14, glyph stroke 1.9: one token only if more chips need them.
+- Render smoke tests missing: Screen.tsx, ToastHost, BottomSheet. LumeTabBar and FloatingHeader Reduce Transparency branches untested with flag on.
+- Gym session: entering animation missing (exit added rows 68/77). Add later.
+- Food log: long press to delete not discoverable. Design call.
+- Goals: 'Saved as you type' untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
@@ -76,22 +75,19 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling, not a row).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-90).
+- Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not recurred rounds 65-91).
 
 ## Next
-- Round 90: checkpoint (tsc and full Jest, no file changes). Flagged by automatic check.
-- Then Row 32 (still PARTIAL): render test for GlassButtons.tsx Reduce Transparency fallback. Close to BUILT only after the test passes.
-- Then rows 33-50 (Visual QA). One row per round. Skip rows already marked BUILT in PHASE2_ROWS.md.
-- Row 69 (progress rings, bars, number changes): before folding, check whether a later row closed it. Do not assume stale.
-- Then render smoke test for Screen.tsx. Then backend refinement rows.
+- Round 91: Row 32 render test for GlassButtons Reduce Transparency fallback (new test file only).
+- Then Row 69 check: before folding, confirm whether a later row closed it. Do not assume stale.
+- Then rows 33-50 (Visual QA), one per round, skipping BUILT rows.
+- Then render smoke test for Screen.tsx, then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
-- Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa.
 - Gotcha: PHASE2_ROWS.md runs to row 81. Check the end before appending.
-- Jev ranked Row 32 first at 96% in round 90. Kept the checkpoint because the loop note required it. Revisit Row 32 next round.

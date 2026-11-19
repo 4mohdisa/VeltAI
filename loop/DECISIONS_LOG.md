@@ -7136,3 +7136,6 @@
 - 2026-11-19 19:09 Chose the checkpoint over Jev's Row 32 pick because the loop note flagged the last report as partly done and requires a checkpoint round before moving on. The loop instruction is a reason Jev cannot see.
 - 2026-11-19 19:09 Kept Row 32 at PARTIAL, not BUILT, because no passing test mounts GlassButtons with Reduce Transparency on.
 - 2026-11-19 19:09 Baseline corrected to 81 suites, 869 tests, 4 snapshots, per the latest Claude Code report. The handover's 867 was a stale figure.
+- 2026-11-19 19:10 Chose Row 32 over Row 69: the last report and the Jev ranking both point to Row 32, and it is the smallest single-file task.
+- 2026-11-19 19:10 Kept the new test in its own file so no existing test is edited.
+- 2026-11-19 19:10 Row 69 check stays for a later round so this round stays to one row.
