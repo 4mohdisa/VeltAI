@@ -5,7 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 199 done (row 1 reconciled, stays PARTIAL). Round 200 now: row 1 sign-in mode render test.
+- Round 200 done: row 1 sign-in mode render test (signupSignInMode.render.test.tsx, 3/3 pass).
+- Round 201 now: row 1 clerkMessage mapping render test (clerkMessage.render.test.tsx). Jev and last report agree.
 - Round 203: next checkpoint.
 - Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci.
 - Backend 632 pass incl. 18 TestPG on local DB.
@@ -37,10 +38,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- Row 6 BUILT (round 198): barcode, label, photo render tests all pass.
+- Row 6 BUILT (round 198): barcode, label, photo render tests all pass. Handover said PARTIAL; reconcile at next touch.
+- Rows 7 and 8 BUILT (handover): all live call sites have render tests.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: sign-in mode, validation messages, clerkMessage mapping, SSO cancel/error). Row 2 onboarding (live sign-in and profile persistence owner).
+- PARTIAL: row 1 (live Clerk sign-in owner step; local gaps: validation messages, clerkMessage mapping, SSO cancel/error). Row 2 onboarding (live sign-in and profile persistence owner).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -71,11 +73,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
+- Row 6 label and photo scan paths: render tests needed (next after row 1).
 
 ## Next
-- Round 200: row 1 sign-in mode render test (src/__tests__/render/signupSignInMode.render.test.tsx).
-- Round 201: row 1 validation messages and clerkMessage mapping (one file).
-- Round 202: row 1 SSO cancel and error toasts, or row 6 reconciliation (handover says PARTIAL, notes say BUILT).
+- Round 201: row 1 clerkMessage mapping (clerkMessage.render.test.tsx).
+- Round 202: row 1 validation messages, or SSO cancel and error toasts (one file).
 - Round 203: next checkpoint.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 
@@ -91,5 +93,5 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Headless Jest only for render tests; no simulator run yet.
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
-- Reanimated useReducedMotion crashes Skeleton, SkeletonCard and SwipeableRow in render harness: stub only the broken piece inside the test file.
+- Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
 - Handover claims can conflict with newer reports: check code and the latest report, not the handover.

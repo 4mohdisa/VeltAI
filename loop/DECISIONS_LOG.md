@@ -7662,3 +7662,6 @@
 - 2026-11-19 23:26 Row 1 remaining local gaps (validation messages, clerkMessage mapping, SSO cancel and error) stay in NEXT for later rounds, one per round.
 - 2026-11-19 23:26 Handover says row 6 is PARTIAL with no label or photo tests; notes say row 6 BUILT in round 198. Kept notes state (more recent, latest report). Verify in a later reconciliation, not this round.
 - 2026-11-19 23:26 Kept the Jev run signal: the task is minor, one row, one file, and blocks no other row.
+- 2026-11-19 23:29 Switched to Jev's pick (clerkMessage mapping). Reason: the last report's own NEXT names it, it is shared by sign-up and sign-in, and it has zero coverage. The sign-in mode test is complete; the row stays PARTIAL because of the remaining gaps, which is the designed status, not a failure.
+- 2026-11-19 23:29 Did not edit the row 1 status. It stays PARTIAL until live Clerk sign-in is an owner check and all local gaps close.
+- 2026-11-19 23:29 Prompt tells the worker to stop and report BLOCKED rather than edit source if clerkMessage is not exported, so the round stays test-only.
