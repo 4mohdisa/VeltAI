@@ -33,13 +33,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
-- Round 58: no change (ChartHeader, HERO_TITLE has no identical token).
+- Round 58 and round 60: no change (no identical token; ChartHeader HERO_TITLE, BreakdownRow dot 9 and label 500/20 match no token).
 - Round 60 gate ran before row 60 because round 59 had no Jest run.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56, 58.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56, 58, 60.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57 and 59 (no tracking or letter-spacing token in tokens.ts).
 - Checkpoints: rounds 16, 23, 39, 56, 60 gates green.
@@ -51,7 +51,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
-- Design pass: no stroke-weight or letter-spacing token category in tokens.ts. Ask Isa once, after rows 61-63.
+- Design pass: no stroke-weight or letter-spacing or 9pt space token in tokens.ts. Rows 56, 58, 59, 60 share this gap. Ask Isa once, after rows 61-63.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
@@ -75,8 +75,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 61: row 60 Visual QA Breakdown baseline and dot alignment.
-- Then rows 61-63 Visual QA, one per round.
+- Round 61: row 61 Visual QA item 11 back button position (running now).
+- Then row 62 and row 63 Visual QA, one per round.
 - Then ask Isa once about the design pass. Then final wording sweep. Then fold stale motion rows. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 

@@ -7039,3 +7039,6 @@
 - 2026-11-19 18:24 Design pass question stays queued for after rows 61-63. Row 60 does not depend on the answer, and it would be a single question with no blocker today.
 - 2026-11-19 18:24 Jev suggested run at 70%. Agreed. Task is one row, one component, small.
 - 2026-11-19 18:24 Notes trimmed to under 600 words. Finished detail merged into Done.
+- 2026-11-19 18:25 Chose row 61 because it is next in the numbered Visual QA sequence, needs no Isa input, and is one file. Jev ranks run at 89%, consistent with this.
+- 2026-11-19 18:25 Kept the prompt as a code-versus-tokens check with no change unless an identical token exists, per the standing Visual QA rule.
+- 2026-11-19 18:25 Did not ask Isa about the design pass yet. The notes say to ask once after rows 61-63 are done.
