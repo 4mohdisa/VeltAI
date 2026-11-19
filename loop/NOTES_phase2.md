@@ -5,10 +5,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
-- Baselines (round 23 checkpoint, green): app tsc 0 errors; Jest 73 suites / 847 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
+- Baselines (round 39 checkpoint, green): app tsc 0 errors; Jest 81 suites / 864 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
-- Prompt scope rule: ONE task per prompt, one row and one file or component. Round 38 prompt was rejected for asking for two things. Keep it to one.
+- Prompt scope rule: ONE task per prompt, ONE row and ONE file or component. Multi-file prompts get rejected by the loop.
 
 ## Wording rule
 - Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use verification words (verified, verify, verifies, confirmed, confirm) except the identifier api.scan.confirm.
@@ -32,11 +32,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72: fold or delete is Isa's decision.
 - Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence.
 - Row 35 'streak footnote at 320pt width' mapped to row 35.
-- Round 34: prompt rewritten to one component (MuscleChart.tsx).
 - Round 35: row 80 guard conditional on a reproduced crash. None reproduced, so test only.
 - Round 36: useGymPatterns central guard deferred. Call-site guards kept.
-- Round 37 and 38: Jev asks overridden with written reasons (minor, reversible, existing tests pass).
-- Round 39: Jev ask (30%) overridden. Read-only checkpoint, no ask needed.
+- Rounds 37-39: Jev asks overridden with written reasons (minor, reversible, existing tests pass, read-only checkpoint).
+- Round 40: checkpoint baseline set to 81/864/4.
+- Round 40 prompt rejected (multi-file). Rewritten to one file, src/app/_layout.tsx, plus one named test run.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -49,14 +49,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Dashboard / Summary and sub-pages: BUILT.
 - Motion audit, screen and navigation transitions: BUILT.
 - Adding and removing food log entries: BUILT.
-- ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
+- ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
 - Row 9 Gym log create reconciliation: BUILT (queue.ts onLanded additive). Simulator sign in part owner check pending.
 - Rows 35 and 54 (streak footnote): BUILT, checked in code; simulator owner check pending.
 - Rows 78, 79, 80 gym patterns shape guards: BUILT.
 - Row 11 exercise progress: BUILT, no gym patterns read.
 - Row 74 onboarding layout Reduce Motion: BUILT, checked in code; device feel owner check pending.
-- Round 16, 23 checkpoints: gates green.
+- Round 16, 23, 39 checkpoints: gates green.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
@@ -83,13 +83,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 39: checkpoint, full app tsc and Jest run, no file changes.
-- Then: camera modal transitions use shared screen animation helper (src/app/_layout.tsx has the reduceMotion ternary repeated for food/photo-capture, food/barcode-scan, food/label-scan; new row, screenTransitions test).
+- Round 40 (retry, one file): row 74 camera modal transitions use screenAnimation() in src/app/_layout.tsx; run only the screenTransitions test.
 - Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 0.9 of 2: keep tasks small, one row per round. Run the gate every round a row changes code.
+- Jev risk 1.0 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.
 - Handover label for row 9 (PARTIAL) is stale; Done list says BUILT.

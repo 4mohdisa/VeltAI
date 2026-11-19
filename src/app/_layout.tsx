@@ -153,9 +153,9 @@ export default function RootLayout() {
                 cover completely (no torn-sheet / content bleeding through the
                 top). NOTE: expo-camera is NOT in the current dev binary, so these
                 cannot render until a native rebuild — visual QA is deferred. */}
-            <Stack.Screen name="food/photo-capture" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
-            <Stack.Screen name="food/barcode-scan" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
-            <Stack.Screen name="food/label-scan" options={{ presentation: 'fullScreenModal', animation: reduceMotion ? 'fade' : 'slide_from_bottom' }} />
+            <Stack.Screen name="food/photo-capture" options={{ presentation: 'fullScreenModal', ...screenAnimation(reduceMotion) }} />
+            <Stack.Screen name="food/barcode-scan" options={{ presentation: 'fullScreenModal', ...screenAnimation(reduceMotion) }} />
+            <Stack.Screen name="food/label-scan" options={{ presentation: 'fullScreenModal', ...screenAnimation(reduceMotion) }} />
             {/* Native detented sheets */}
             {/* Log session sizes to its content: at the default [0.6, 1] detents the
                 design's save pill (V1) sat below the fold. 'fitToContents' is the

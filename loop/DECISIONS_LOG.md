@@ -6925,3 +6925,12 @@
 - 2026-11-19 17:15 Did not ask Isa: Jev ask (30%) overridden. Nothing needs Isa for a read-only check, and the rejected prompt was a scope error, not a blocker.
 - 2026-11-19 17:15 Kept the camera modal row as the next candidate, since the last report flagged the duplicated reduceMotion ternary in src/app/_layout.tsx.
 - 2026-11-19 17:15 Row 9 stays BUILT per the Done list; the handover's PARTIAL label is stale and was not changed this round.
+- 2026-11-19 17:16 Round 40 picks the camera modal transitions task: smallest change, one file, clears a known duplication, needs nothing from Isa. Jev 84% run agrees.
+- 2026-11-19 17:16 Checkpoint baseline updated to 81 suites / 864 tests / 4 snapshots / tsc 0, as Claude Code recommended. Growth from new render and shape guard tests is expected, not a diff.
+- 2026-11-19 17:16 Row number for the camera transitions row is left to Claude Code (next free number) because the row list was not in this brief. Isa can renumber later.
+- 2026-11-19 17:16 Jev risk 0.9 accepted: one row, one file plus its test, gate run on the changed files only.
+- 2026-11-19 17:16 Round 40 prompt was rejected for asking for more than one screen or component. Rewrote it to edit one file only (src/app/_layout.tsx) and run one named test file.
+- 2026-11-19 17:16 Test run limited to the screenTransitions test file, not the full suite, to keep the gate small (Jev risk 1.0, prefer small tasks).
+- 2026-11-19 17:16 Row 74 used as the row number because the notes map screen and navigation transitions to it. The prompt names the row title too, so a mismatch is easy to spot.
+- 2026-11-19 17:16 Tracker line in PHASE2_ROWS.md is kept as the standard per-row update, not a second code component.
+- 2026-11-19 17:16 Jev run signal (86%) agrees with the choice. No override.
