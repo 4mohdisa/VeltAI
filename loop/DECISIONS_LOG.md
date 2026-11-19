@@ -7334,3 +7334,6 @@
 - 2026-11-19 20:57 Chose row 21 stale-note check: it is the next item in the last report's NEXT and is docs-only, one row, one notes cell. Matches Jev's ranking of a small run.
 - 2026-11-19 20:57 Kept the status column untouched, per the docs-pass rule.
 - 2026-11-19 20:57 Did not ask Isa anything: no new blocker, and row 21's chart stays parked for v1.
+- 2026-11-19 20:58 Chose row 22 stale-note check: it follows Claude Code's NEXT recommendation, is a notes-only change, and is the smallest task (Jev run 88%, risk 0.9, so keep it small).
+- 2026-11-19 20:58 Deferred the toast and sheet owning-row mapping by one round. It is docs only and does not block any row.
+- 2026-11-19 20:58 Row 22 content is not in the notes, so the prompt tells Claude Code to read the row first and make no edit if no real importing test exists. No new file is named beyond PHASE2_ROWS.md.
