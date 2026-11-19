@@ -7107,3 +7107,8 @@
 - 2026-11-19 18:52 Did not fold row 69 again: notes already record it as a duplicate of row 76, which is BUILT.
 - 2026-11-19 18:52 Left the wording sweep and render smoke test queued as the next candidates, not as parallel tasks, to keep one row per round.
 - 2026-11-19 18:52 Kept the TestPG run gated on a DSN check against 127.0.0.1:55432 before any test runs.
+- 2026-11-19 18:54 Chose the wording sweep first: the notes plan lists it as next, it is one doc file, and it clears the notes backlog for rows 27 to 63 before more rows are added. Jev ask score noted, but no owner question is needed.
+- 2026-11-19 18:54 Kept the sweep doc-only, so the gate is tsc plus full Jest, not a targeted run. Keeps the report honest about no code change.
+- 2026-11-19 18:54 Blank notes cells are filled only from existing row text. Invented facts are not allowed, so unclear rows go to NEXT.
+- 2026-11-19 18:54 LUME_TEST_DATABASE_URL setup (.env.test or script) parked, not a row. It is a repo tooling item, so it waits for a later round.
+- 2026-11-19 18:54 Sign-in flows stay owner steps. No workaround, no auth bypass.

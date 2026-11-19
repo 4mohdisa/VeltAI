@@ -4,15 +4,15 @@
 Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md. Prompts use row TITLES plus row number.
 
 ## State
-- Branch loop/phase2. Never switch branches. Every prompt states this rule and the branch check.
-- Baselines (round 82): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
-- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
+- Branch loop/phase2. Never switch branches. Every prompt names this rule and the branch check.
+- Baselines (round 83): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
+- Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step.
 - PHASE2_ROWS.md runs past row 82. Check the true end before appending.
 
 ## Wording rule
-- Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
+- Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - A report that skips a test run gets flagged. If no code changed, run tsc and full Jest and say so.
 
@@ -34,17 +34,18 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for one design pass.
 - Stale motion rows: FOLD, not delete. Folded row gets status BUILT and a note pointing to its parent. One row per round.
 - Test gate: tsc and full Jest after any round that skips Jest.
-- Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Row 76 settled this. Do not re-litigate in motion rows.
+- Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Row 76 settled this. Do not re-litigate.
 - Skeleton pulse 700ms is correct by design. Not a gap.
 - Every prompt must name the loop/phase2 branch rule explicitly.
 
 ## Done
-- Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion, row 77 gym removeExtra exit animation, row 72 toasts, row 82 gym session extra entering animation.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-64, 66-71 (65, 66, 67, 70, 71 folded into 64), 68, 69 (duplicate of 76).
-- BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
+- Task 1 (PHASE2_ROWS.md), local setup, row 22 baseline: BUILT.
+- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 72, 74, 77, 78-82, 23, 26.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-64, 68, 69, 70, 71.
+- Folded: 65, 66, 67 into 64; 69 duplicate of 76.
+- BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 30, 37, 51, 52, 53, 57, 59, 61, 62.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -58,12 +59,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. One design re-check with Isa.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage). ToastHost and BottomSheet have no render test.
-- Gym session: no matching entering animation was in place before row 82; now closed. Keep both enter and exit in parity for future list rows.
+- Gym session: entering and exit animations now in parity (row 82). Keep both for future list rows.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
-- Copy pass: 'owner check pending' reads awkwardly after a noun phrase. Final wording sweep of PHASE2_ROWS.md.
-- Rows 27-63: notes column blank. Backfill in progress.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
 - Gym log: logGymSession while gymLoggedToday is true. Revisit if double-log matters.
@@ -72,11 +71,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-82).
+- Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling, not a row).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-83).
 
 ## Next
-- Round 83 (running): checkpoint, baseline row 'Baseline: full backend tests' (backend go test ./... with TestPG on 127.0.0.1:55432, plus app tsc and full Jest).
-- Then final wording sweep of PHASE2_ROWS.md notes column. Then render smoke test for Screen.tsx. Then backend refinement rows.
+- Round 84 (running): copy pass on PHASE2_ROWS.md notes column (doc only; gate tsc + full Jest).
+- Then render smoke test for Screen.tsx. Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
@@ -84,5 +84,5 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa, not per-row notes.
+- Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa.
 - Gotcha: PHASE2_ROWS.md runs past row 82. Check the end before appending.
