@@ -7376,3 +7376,7 @@
 - 2026-11-19 21:13 Kept the row 2 read-back as the next task: it is the smallest remaining gap and it clears a PARTIAL row without touching screens.
 - 2026-11-19 21:13 Chose not to ask Isa: the gap is a mocked test, needs no dashboard or credentials, and the Jev risk is high, so the task stays small.
 - 2026-11-19 21:13 Kept row 2 status PARTIAL; only the notes cell changes this round.
+- 2026-11-19 21:14 Loop check flag on the last report: the read-back test is in place, so the partial part is the row 2 remaining gap (8 untested steps). Chose the smallest step, index.tsx, per the rule to close the named gap without redoing finished work.
+- 2026-11-19 21:14 Chose index.tsx over goal.tsx or paywall.tsx: it is the first step in the flow and the smallest unknown, so it lowers risk for the rest.
+- 2026-11-19 21:14 Row 2 stays PARTIAL; status cell not changed in a notes pass.
+- 2026-11-19 21:14 Expected test counts stated as baseline plus new tests, so a drift shows up in the report.
