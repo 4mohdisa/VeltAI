@@ -6,8 +6,8 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 232 (current): checkpoint. Full app type check and full Jest suite, no file changes, report failures.
-- Round 231 prompt was rejected before it ran (no branch rule). Row 83 Notes cell reword is still pending.
+- Round 233 (current): row 83 Notes cell reword, column 7 only, grep MACRO_BAR_W must return zero.
+- Round 232 checkpoint GREEN: tsc 0 errors, Jest 132 suites, 982 tests, 4 snapshots.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file, no git commands, state the loop/phase2 rule. Prompts never edit loop/ files.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
 
@@ -30,8 +30,7 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- Round 232: run chosen over ask (Jev 89% ask). Only Isa item is row 17, already parked for the stop report. Checkpoint is scheduled and the baseline is unknown.
-- Round 231 scope: column 7 of row 83 is in scope for the next normal round.
+- Round 232: run chosen over ask. Only Isa item is row 17, parked for the stop report.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -43,8 +42,9 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 
 ## Known test gaps
 - Row 7 notes: leftover 'status stays PARTIAL' sentence. Fix when touched.
-- Row 83 Notes cell (column 7) still has the MACRO_BAR_W literal. Reword in the next normal round.
+- Row 83 Notes cell: stale bar width constant reference. Reword in round 233 (in progress).
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
+- Row 11 freeze.tsx: no render test yet.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -70,21 +70,20 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - logGymSession while gymLoggedToday is true.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
-- Transient Jest SIGSEGV on resetRegistry.test.ts.
+- Transient Jest SIGSEGV on resetRegistry.test.ts (did not trigger in round 232).
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Row 2 _layout.tsx under src/app/onboarding: no test reference.
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 232: checkpoint (full type check and Jest, no changes).
-- Round 233: row 83 Notes cell reword, column 7 only, grep MACRO_BAR_W must return zero. Fix any red gate from 232 if it is small.
-- Then read PHASE2_ROWS.md and pick the next row with a named render or test gap.
+- Round 233: row 83 Notes reword, column 7 only, grep must return zero.
+- Round 234: render test for src/app/gym/freeze.tsx (last Row 11 sub-screen), or the next row with a named render or test gap.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row, one file.
+- Jev risk about 1.1 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.

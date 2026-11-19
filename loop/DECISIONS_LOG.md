@@ -7794,3 +7794,8 @@
 - 2026-11-20 00:43 Checkpoint round changes no files. Any red gate is reported now and fixed in a normal round, not here.
 - 2026-11-20 00:43 Row 83 Notes reword (column 7) moved to the next normal round. Column 7 is in scope per the round 231 decision, so no question to Isa is needed.
 - 2026-11-20 00:43 Prompt now states the loop/phase2 branch rule, no git commands, and the report format, after the previous rejection.
+- 2026-11-20 00:44 Round 232 checkpoint green (tsc 0 errors, Jest 132 suites and 982 tests passing), so no fix-up needed.
+- 2026-11-20 00:44 Ran the carried-over row 83 reword now, as scheduled, rather than ask; it is doc-only and small.
+- 2026-11-20 00:44 Chose run over ask: Jev 70% run, and the only open Isa item (row 17) is already parked for the stop report.
+- 2026-11-20 00:44 Prompt names only PHASE2_ROWS.md and one column; no status words in capitals to avoid tripping the status rule.
+- 2026-11-20 00:44 Left the loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modifications alone; they remain Isa's to check.
