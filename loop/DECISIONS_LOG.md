@@ -6815,3 +6815,8 @@
 - 2026-11-19 15:37 Ran the full Jest suite once (not just changed files) because the gate itself was missing, and this is the one allowed exception to the changed-files rule.
 - 2026-11-19 15:37 Backend tests skipped this round: no backend code changed, so the backend gate does not apply.
 - 2026-11-19 15:37 Deferred the awkward owner check pending phrasing to a later copy pass: it is clear enough and not worth a round alone.
+- 2026-11-19 15:38 Chose the Dashboard and Summary comparison as the next row, as the notes and handover say. It clears a core row and needs nothing from Isa.
+- 2026-11-19 15:38 Round 11 gate passed (tsc 0, Jest 68/832/4), so no gate run is needed first this round.
+- 2026-11-19 15:38 Did not ask Isa about the uncommitted loop/DECISIONS_LOG.md and loop/NOTES_phase2.md edits. The loop script owns those files and commits them each round. Recorded here so the next report can mention it if it recurs.
+- 2026-11-19 15:38 Row 17 plan.tsx stays parked: it needs a product decision, not wiring.
+- 2026-11-19 15:38 Kept the task to one row and one render test, since Jev risk is 1.3 of 2 and confidence is low.

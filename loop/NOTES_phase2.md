@@ -5,8 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Work on branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
-- Baselines (round 9 checkpoint): app tsc 0 errors; Jest 68 suites / 832 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
-- Round 10 gate was not run (docs-only round, flagged). Round 11 runs the gate first.
+- Baselines (round 11 gate): app tsc 0 errors; Jest 68 suites / 832 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo; only .env.example templates.
 - Local DB: lume_gate_test and lume databases, auth stubs, all 16 migrations applied. Seed: backend/scripts/seed_local.sql (idempotent, local only).
 - Backend runs via go run ./cmd/server. /health 200. Auth enforced (401 without token).
@@ -31,6 +30,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - Jev ranking followed for Goals, Subscription, Profile. Round 10 chose wording pass over Dashboard/Summary.
 - Round 11 chose gate check first (auto-check flagged round 10 as ungated).
+- loop/ files are loop-managed. Prompts never edit them. Uncommitted diffs there are reported, not fixed.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
@@ -43,6 +43,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Profile: checked in code, no gap.
 - Add food, Legal: BUILT (static).
 - Wording pass (round 10): 25 cells reworded in PHASE2_ROWS.md.
+- Round 11 gate: passed, no code changed.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -62,15 +63,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps (no 3D body stage, no per-muscle lists, 'Last 30 days' vs design 'Last 7 days'). Product decision.
 - Streak 'Freezes' derived as freeze_used ? 0 : 1. Revisit only if design wants more.
 - Watch: one transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Recheck if it recurs.
+- Uncommitted diffs in loop/DECISIONS_LOG.md and loop/NOTES_phase2.md seen after round 11. Loop-managed, check in next report.
 
 ## Next
-- Round 11: gate check (tsc, full Jest).
-- Then: Dashboard/Summary route and field comparison (rows 16 and 17, by title). Row 17 plan.tsx needs a product decision, not wiring.
-- Then remaining PARTIAL or DIFFERENT core rows, motion pass, backend refinement rows.
+- Round 12: Dashboard and Summary route and field comparison (row 16).
+- Then: plan.tsx stays parked (product decision). Then remaining PARTIAL or DIFFERENT core rows, motion pass, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot be exercised end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review in the Gym log rework.
 - Gym history and Summary re-hydrate from server on view. Confirm in code, do not change without a failing case.
 - Long-press meal delete in food.tsx flagged twice (see Parked).
-- Jev risk 1.0 of 2 (low confidence): keep tasks small.
+- Jev risk 1.3 of 2 (low confidence): keep tasks small.
