@@ -7298,3 +7298,5 @@
 - 2026-11-19 20:44 Followed Jev's ranking: row 2 stale-note check first. Reason: it is docs only, needs no owner input, and the previous round's report flagged the row 1 work as partly done, so the smaller task is safer.
 - 2026-11-19 20:44 Row 1 stays PARTIAL. The signup render test covers the Clerk buttons stage and legal links named in the ask. The email/OTP sub-stages and the DevSignup fallback are not covered and are parked as row 1 remainder. Live sign-in stays an owner step.
 - 2026-11-19 20:44 The partly done flag is accepted as a coverage gap, not a failed task. The row 1 notes cell already names signup.render.test.tsx, so no further edit is needed there.
+- 2026-11-19 20:45 Round 115: chose row 3 stale-note check. It is the smallest task, needs nothing from Isa, and continues the sequence set in round 114 (Jev ranked the row 2 check first; the row 2 check is now done).
+- 2026-11-19 20:45 Round 115: status cells are never changed in a docs pass, so the prompt forbids it.
