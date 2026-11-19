@@ -6895,3 +6895,7 @@
 - 2026-11-19 17:01 Row 35 and 54 set to BUILT with 'owner check pending' for the simulator screenshot, per the wording rule. No device claim.
 - 2026-11-19 17:01 GymPatternsCard null/array guard (crash when /api/gym/patterns returns []) is a real bug but not a row. Parked for a later row, not fixed now to keep this task to one row pair.
 - 2026-11-19 17:01 Row 54 scope: if its description needs the flame or count asserted, add one assertion to the same test file only.
+- 2026-11-19 17:03 Chose the GymPatternsCard shape guard: smallest concrete gap in the app, no backend or Isa input needed, and notes already flag it for a later row.
+- 2026-11-19 17:03 Jev said ask (48%) with low confidence. Overridden: the question is minor and reversible, and a small task is the safer choice Jev itself recommends at low confidence.
+- 2026-11-19 17:03 Rows 35 and 54 merge suggestion from the last report is not a task. Recorded as a Parked item for Isa.
+- 2026-11-19 17:03 Stale motion rows 65-72 left for Isa, as already decided.

@@ -31,8 +31,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 77 target file is src/app/gym/session.tsx. Scope set by manager.
 - Stale motion rows 65-72: fold or delete is Isa's decision.
 - Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence.
-- Row 35 'streak footnote at 320pt width' mapped to row 35 (Visual QA: streak). Jev said ask; overridden as a minor naming issue.
-- Round 31: Jev said ask (70%) on closing rows 35 and 54. Overridden: not a major question, and the existing render test already passes. Rows set BUILT with owner check pending.
+- Row 35 'streak footnote at 320pt width' mapped to row 35 (Visual QA: streak). Overridden Jev ask as a minor naming issue.
+- Round 31: Jev said ask (70%) on closing rows 35 and 54. Overridden: not a major question, existing render test passes. Rows set BUILT with owner check pending.
+- Round 32: Jev said ask (48%, low confidence). Overridden: minor, reversible, small task chosen.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -48,7 +49,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
 - Row 9 Gym log create reconciliation: BUILT. Simulator sign in part owner check pending.
-- Round 30: streak footnote checked in code via gymStreakStripFootnote.render.test.tsx (320pt frame, no numberOfLines cap).
+- Rows 35 and 54 (streak footnote): BUILT, checked in code via gymStreakStripFootnote.render.test.tsx; simulator owner check pending.
 - Round 16, 23 checkpoints: gates green.
 - Round 29: no change, task had no matching row.
 
@@ -59,15 +60,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - loop/ files show uncommitted diffs. Loop-managed, not a task.
 - Merging loop/design-match into main: Isa's job.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
+- Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- GymPatternsCard (src/components/gym/GymPatternsCard.tsx:108) crashes if /api/gym/patterns returns [] instead of null or an object. Add a shape guard in a later row.
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
 - Account and index settings both link to Delete Account.
 - Copy pass: 'owner check pending' reads awkwardly after a noun phrase.
-- Stale motion rows 65-72. Fold or delete (Isa decision).
+- Rows 35 and 54 cover the same card and test file. Merge rows? Isa decision.
 - onboarding/_layout.tsx ignores Reduce Motion. One-line fix.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
 - Gym log: logGymSession while gymLoggedToday is true. Revisit if double-log matters.
@@ -77,10 +78,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 31: close rows 35 and 54 (checked in code).
+- Round 32: GymPatternsCard response shape guard (new row if none exists).
 - Then: remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Rows 65-72 duplicate rows 64 and 74-77. Fold per Isa decision.
-- Jev risk 1.1 of 2 (round 31): keep tasks small, one row per round. Run the gate every round a row changes code.
+- Jev risk 1.0 of 2 (round 32): keep tasks small, one row per round. Run the gate every round a row changes code.
+- Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.

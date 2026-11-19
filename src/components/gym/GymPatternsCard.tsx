@@ -9,10 +9,17 @@ import { useTranslation } from 'react-i18next';
 
 import { Card, CardHeaderRow, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
+import type { GymPatterns } from '@/lib/api';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, radius, space, surface } from '@/lib/design/tokens';
 
 const cap = (s: string) => (s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
+// The hook's declared type promises GymPatterns | null, but it just passes
+// through whatever the API resolved — an unexpected 200 body (an array, or
+// any other non-object) reaches here as-is. Treat anything that isn't a
+// plain object the same as "no data yet" rather than crash on a missing field.
+const isGymPatternsShape = (p: unknown): p is GymPatterns => typeof p === 'object' && p !== null && !Array.isArray(p);
 
 function Chip({ label }: { label: string }): JSX.Element {
   return (
@@ -51,7 +58,8 @@ function ChipRow({ title, muscles }: { title: string; muscles: string[] }): JSX.
 
 export function GymPatternsCard(): JSX.Element {
   const { t } = useTranslation();
-  const { patterns, loading } = useGymPatterns();
+  const { patterns: rawPatterns, loading } = useGymPatterns();
+  const patterns = isGymPatternsShape(rawPatterns) ? rawPatterns : null;
 
   if (loading) {
     return (
