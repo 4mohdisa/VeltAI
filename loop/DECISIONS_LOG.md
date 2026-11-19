@@ -6909,3 +6909,7 @@
 - 2026-11-19 17:09 Row 80 guard is conditional: only edit the screen if the test shows a crash. The MuscleChart crash claim did not reproduce, so the same may hold here. Avoids an unneeded code change.
 - 2026-11-19 17:09 Partially malformed patterns object ({}) stays parked. It is a real crash risk in GymPatternsCard, but it is a separate component and must be its own row.
 - 2026-11-19 17:09 Jev next action (run, confidence 0.91) agrees with the choice. Jev risk 1.0 handled by keeping the task to one screen and one test file.
+- 2026-11-19 17:10 Round 36: chose the exercise progress screen check. It is the smallest remaining gym patterns row, and it may need no code change. Jev risk is 1.0, so keep the task small.
+- 2026-11-19 17:10 Jev said ask (75%). Not asked: no major blocker. Sign in and Maestro are already owner steps in Blocked on Isa, and the next task needs neither. Decided without asking.
+- 2026-11-19 17:10 Central guard in useGymPatterns deferred. Call-site guards stay because they match the existing pattern in three screens. Revisit only if a fourth call site appears.
+- 2026-11-19 17:10 Partial object guard ({} passing isGymPatternsShape) stays Parked as its own row. It is not in this round because the current call sites already use optional chaining.

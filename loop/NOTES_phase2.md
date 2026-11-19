@@ -34,7 +34,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 35 'streak footnote at 320pt width' mapped to row 35.
 - Rounds 31, 32, 33: Jev asks overridden with written reasons (minor, reversible, existing tests pass).
 - Round 34: rejected prompt rewritten to one component (MuscleChart.tsx). One export keyword on isGymPatternsShape allowed to reuse the guard.
-- Round 35: row 80 (muscles screen) guard is conditional on a reproduced crash. MuscleChart crash did not reproduce, so no edit without a failing test.
+- Round 35: row 80 guard conditional on a reproduced crash. None reproduced, so no source edit (test only).
+- Round 36: useGymPatterns central guard deferred. Call-site guards kept (three screens, same pattern).
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -49,10 +50,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Adding and removing list items, food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
-- Row 9 Gym log create reconciliation: BUILT. Simulator sign in part owner check pending.
+- Row 9 Gym log create reconciliation: BUILT (queue.ts onLanded additive). Simulator sign in part owner check pending.
 - Rows 35 and 54 (streak footnote): BUILT, checked in code; simulator owner check pending.
-- Row 78 Gym patterns card shape guard: BUILT (tests pass, no simulator run).
-- Row 79 MuscleChart shape guard: BUILT (test passes; guard was not needed to stop a crash, recorded in row).
+- Row 78 Gym patterns card shape guard: BUILT.
+- Row 79 MuscleChart shape guard: BUILT (test passes, no crash reproduced).
+- Row 80 Gym muscles screen: BUILT (render test with null, [] and valid object; no source change).
 - Round 16, 23 checkpoints: gates green.
 - Round 29: no change, task had no matching row.
 
@@ -66,7 +68,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- Gym patterns card: partially malformed object (for example {}) still crashes at .length. Small follow-up, own row.
+- Gym patterns card and screens: a partially malformed object (for example {}) passes isGymPatternsShape and renders as no data. Safe only because call sites use optional chaining. Small follow-up, own row.
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
@@ -82,8 +84,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 35: row 80 src/app/gym/muscles.tsx shape guard (one screen, guard only if a crash reproduces).
-- Then: exercise-progress screen guard if it calls useGymPatterns or similar, parked partial-object guard as its own row, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Round 36: exercise progress screen check (one screen; test only if it reads gym patterns).
+- Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
