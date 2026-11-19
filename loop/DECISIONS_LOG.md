@@ -7665,3 +7665,7 @@
 - 2026-11-19 23:29 Switched to Jev's pick (clerkMessage mapping). Reason: the last report's own NEXT names it, it is shared by sign-up and sign-in, and it has zero coverage. The sign-in mode test is complete; the row stays PARTIAL because of the remaining gaps, which is the designed status, not a failure.
 - 2026-11-19 23:29 Did not edit the row 1 status. It stays PARTIAL until live Clerk sign-in is an owner check and all local gaps close.
 - 2026-11-19 23:29 Prompt tells the worker to stop and report BLOCKED rather than edit source if clerkMessage is not exported, so the round stays test-only.
+- 2026-11-19 23:29 Previous round stopped on clerkMessage being a local closure. Chose the indirect render test route (no source export) over asking Isa, since it is a minor test-approach question that blocks no row.
+- 2026-11-19 23:29 Last report had tsc and jest not run. This prompt makes tsc the first gate and requires a green run before the round closes, to clear the loop flag.
+- 2026-11-19 23:29 Row 1 stays PARTIAL. Only the clerkMessage gap closes this round; SSO and validation remain next.
+- 2026-11-19 23:29 Round 203 checkpoint still runs as scheduled after this task.
