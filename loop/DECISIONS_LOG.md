@@ -7129,3 +7129,7 @@
 - 2026-11-19 19:05 Kept the Visual QA rule: no guessed values, no new tokens, no tokens.ts edits, off-token values go to NEXT, not fixed.
 - 2026-11-19 19:05 Row 69 deferred: it needs a 'closed by a later row' check first, and the handover already flags it, so it waits for its own round.
 - 2026-11-19 19:05 Jev risk 1.1 of 2: kept the task to one row and one surface, with no extra scope.
+- 2026-11-19 19:07 Chose row 32 because the notes order rows 32-50 next and the last report recommended it.
+- 2026-11-19 19:07 Row 32 names no file in my notes, so the prompt uses the fallback files from the last report.
+- 2026-11-19 19:07 Kept the no-guess rule: a gap with no identical token ends in no code change, as in rows 57-63.
+- 2026-11-19 19:07 Kept Jev's advisory risk in mind: one row, one round, small scope.
