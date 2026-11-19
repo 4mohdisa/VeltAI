@@ -9,7 +9,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code 5-hour usage limit hit in rounds 42, 43, 45, 48, and the round 49 handover. If hit: wait, do not change scope.
+- Claude Code 5-hour usage limit hit in rounds 42, 43, 45, 48, 49 handover, and round 52. If hit: wait, do not change scope.
 - Claude CLI sign in ends 2026-11-24 to 2026-11-27. Owner step: run claude auth login.
 
 ## Wording rule
@@ -32,9 +32,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 40: checkpoint baseline 81/864/4. Round 44: three modals in src/app/_layout.tsx back to reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests). Row 23 BUILT, checked in code.
 - Round 48: row 30 tab bar checked in code, no change needed.
-- Round 49: row 37 3D body = MuscleChart stand-in, checked in code, no real difference. Pixel check owner check pending.
-- Round 50: row 51 toast clearance checked in code. TOAST_BOTTOM 112 clears tab bar clearance (100) by 12pt. No code change.
-- Round 51: flag 'type check or tests not run' on round 50. tsc was run (0 errors). No test imports ToastHost. Re-run of tsc and grep is the gate for this round.
+- Round 49: row 37 3D body = MuscleChart stand-in, checked in code. Pixel check owner check pending.
+- Round 50: row 51 toast clearance checked in code. TOAST_BOTTOM 112 clears tab bar clearance 100 by 12pt. No code change.
+- Round 51: gate closed. tsc 0 errors, no ToastHost test exists, row 51 changed no code so no Jest run needed. Next type checks re-run tsc anyway.
 - Visual QA rows compare against tokens and code only. design/Lume App.html has no per-screen markup. Pixel comparison is owner check pending until screenshots exist.
 - Jev advice is advisory. Override only with a concrete reason, written here.
 
@@ -81,15 +81,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 51: re-run tsc and the ToastHost grep to close the gate flag on row 51.
-- Then: row 52 Visual QA tick weight (no sign in needed), one per round, notes filled in.
-- Then: rows 53-63 Visual QA, same pattern.
+- Round 52: row 52 Visual QA tick weight (tokens and code only, no sign in). Prompt run in this round.
+- Then: rows 53-63 Visual QA, one per round, notes filled in.
+- Then: ToastHost render test (side finding), if Isa agrees it is worth a row.
 - Then: final wording sweep of PHASE2_ROWS.md.
 - Then: backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round. Run tsc and changed-file tests every round a row changes code.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round. Run tsc and changed-file tests every round a row changes code.
 - Reports and notes: 'checked in code' only.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
