@@ -6760,3 +6760,8 @@
 - 2026-11-19 14:47 If Clerk sign in needs hosted Clerk, park it as an owner step and do not build a workaround. Reason: hosted auth is out of bounds.
 - 2026-11-19 14:47 Seed data goes in backend/scripts/seed_local.sql, applied to the local database only. Reason: idempotent, reviewable, no hosted writes.
 - 2026-11-19 14:47 Docker compose is not installed. Use the running local container on 55432. Reason: report note 1.
+- 2026-11-19 14:51 Chose row 3 Food log over row 9 Gym log because the order of work puts food logging first and the rule says to prefer the smallest task that clears rows.
+- 2026-11-19 14:51 Simulator flow for row 3 parked as owner step, because the backend verifies tokens against hosted Clerk and sign in cannot run locally. Row is marked BUILT only if local mocked tests pass, otherwise PARTIAL.
+- 2026-11-19 14:51 Verification uses mocked Jest tests and Go tests on the changed package only, not an auth bypass. No backend auth bypass is allowed.
+- 2026-11-19 14:51 Previous round appended row 73 Local setup to PHASE2_ROWS.md; kept it as a done row and it counts toward the 73 total.
+- 2026-11-19 14:51 Backend reported running on localhost:8080 and the lume-test-pg container left running for reuse; no teardown needed now.

@@ -215,6 +215,41 @@ test('a 5xx hydration leaves local data intact and only rejects (hooks swallow i
   expect(useFoodStore.getState().meals).toBe(before); // untouched, nothing wiped
 }, 15_000);
 
+// A successful hydration is the Food log tab's whole data path (PHASE2_ROWS.md
+// row 3): GET /api/food/logs rows land in the store exactly where the screen
+// reads them, keyed by meal slot, with the real macros intact.
+test('a successful hydration maps real food_logs rows into the day the screen reads', async () => {
+  const day = '2026-03-02';
+  setFetch(
+    jest.fn(async () =>
+      jsonOk([
+        {
+          id: '11111111-1111-4111-8111-111111111101',
+          user_id: 'u1',
+          date: day,
+          meal_type: 'Breakfast',
+          food_name: 'Oatmeal with banana',
+          brand: null,
+          barcode: null,
+          quantity: 250,
+          unit: 'g',
+          calories: 320,
+          protein: 10,
+          carbs: 58,
+          fat: 6,
+          fibre: 4,
+          source: 'manual',
+          created_at: `${day}T07:00:00Z`,
+        },
+      ]),
+    ),
+  );
+  await hydrateFoodLog(day);
+  const breakfast = useFoodStore.getState().byDate[day]?.find((m) => m.slot === 'Breakfast');
+  expect(breakfast?.items.map((it) => it.name)).toEqual(['Oatmeal with banana']);
+  expect(breakfast?.calories).toBe(320);
+});
+
 // --- 4/5. Deployment config --------------------------------------------------
 
 test('EXPO_PUBLIC_API_URL is the only switch needed, and https works', async () => {

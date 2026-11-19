@@ -1,16 +1,15 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md (72 rows).
+Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md (73 rows, row 73 Local setup added in round 3).
 
 ## State
-- Phase 1 finished. Work on branch loop/phase2 (from loop/design-match).
-- Baselines: app 65 suites / 824 tests / 4 snapshots (green), backend 632 pass plus 18 TestPG_* run against local DB (green).
-- Safety check PASSED (round 1): API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, disposable container left running. No hosted Supabase, Clerk or RevenueCat found. Only .env.example templates in repo.
-- Local DB has throwaway lume_gate_test database, auth stubs and all 16 migrations applied.
-- Docker compose plugin not installed. Use plain docker run or docker-compose.
-- Row count: 72 (20 core/other, 2 Phase 1 leftovers, 41 visual QA, 9 motion).
-- Row 22 (baseline) BUILT.
+- Work on branch loop/phase2 (from loop/design-match).
+- Baselines: app 65 suites / 824 tests / 4 snapshots (green), backend 632 pass plus 18 TestPG_* against local DB (green).
+- Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg running. No hosted Supabase, Clerk or RevenueCat in repo; only .env.example templates.
+- Local DB: lume_gate_test and lume database, auth stubs, all 16 migrations applied. Seed in backend/scripts/seed_local.sql (idempotent, local only).
+- Backend running locally via go run ./cmd/server. /health 200. Auth enforced (401 without token).
+- Docker compose plugin not installed. Use plain docker run.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -18,35 +17,35 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - v1 scope is locked, extra ideas go to Parked.
 - Phase 1 design is final, do not restyle screens.
 - Isa verifies on a device himself.
-- Round 1: Task 1 run instead of asking, since the check is read only and stops itself on any production hit.
-- Round 2: row 22 (baseline) chosen over Goals and Subscription. Later rows depend on green gates.
-- Round 2: Screen.tsx prettier diff checked against HEAD, clean.
-- Round 2: TestPG tests run only after DSN confirmed as 127.0.0.1:55432.
-- Round 2: plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data, decide when row is reached. Not blocking.
-- Round 3: local setup chosen over Goals and Subscription. Every simulator flow depends on it.
-- Round 3: Clerk sign in needing hosted Clerk is parked as owner step, no workaround.
-- Round 3: seed data in backend/scripts/seed_local.sql, local DB only.
+- Row 22 baseline chosen first; later rows depend on green gates.
+- TestPG tests run only after DSN confirmed as 127.0.0.1:55432.
+- plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data. Not blocking.
+- Clerk sign in needs hosted Clerk (JWKS). Parked as owner step, no workaround, no auth bypass.
+- Round 4: row 3 Food log chosen over row 9 Gym log (order of work). Simulator flow parked as owner step; row BUILT only on passing local mocked tests.
+- Verification of authenticated rows uses mocked Jest tests and package Go tests, not a live simulator sign in.
 
 ## Done
-- Task 1: PHASE2_ROWS.md created (72 rows).
+- Task 1: PHASE2_ROWS.md created.
 - Row 22 baseline: BUILT.
+- Row 73 Local setup: done (seed, backend running, migrations applied). Sign in step parked.
 
 ## Blocked on Isa
-- Nothing yet. Sign in may need owner step if Clerk is hosted-only.
+- Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer). Simulator flows depending on sign in are owner steps.
+- E2E_EMAIL and E2E_PASSWORD not set in environment.
 
 ## Parked (not v1)
-- Scope decision for plan.tsx and AI anomaly banner (no backend capability).
+- Scope decision for plan.tsx and AI anomaly banner.
 - Merging loop/design-match into main: Isa's job.
 - Docker compose plugin install (owner step, optional).
 - Applying migrations to hosted Supabase: Isa's job.
+- Local Clerk-compatible verifier or test issuer for simulator sign in: owner step.
 
 ## Next
-- Local setup row (round 3, in progress).
-- Then Goals row: wire client to /api/goals.
-- Then Subscription row: wire client to /api/subscription.
-- Then core flows: sign in, onboarding, food logging, gym logging, goals and profile, rest.
-- Then motion pass, then backend refinement rows.
+- Row 3 Food log (round 4): wire client to food API, mocked tests.
+- Then row 9 Gym log.
+- Then Goals row (wire client to /api/goals) and Subscription row (wire to /api/subscription).
+- Then remaining core flows, motion pass, backend refinement rows.
 
 ## Known issues
-- Goals and Subscription screens have working backend endpoints that the client never calls.
-- Sign in test user needs E2E_EMAIL and E2E_PASSWORD from env. Park dependent flows if missing.
+- Goals and Subscription screens have backend endpoints the client never calls.
+- Authenticated flows cannot be exercised end to end until sign in is solved.
