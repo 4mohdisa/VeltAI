@@ -6751,3 +6751,8 @@
 - 2026-11-19 14:32 Combined the safety check into Task 1 as its first step so the row list is created in one round, as the brief's first task requires.
 - 2026-11-19 14:32 Status rule set to DIFFERENT or PARTIAL for anything unproven, since no tests run in Task 1.
 - 2026-11-19 14:32 Baseline row goes right after the row list, before any wiring, per the order of work.
+- 2026-11-19 14:42 Chose row 22 (baseline) over the Goals and Subscription wiring: it is the stated first task, needs nothing from Isa, and every later row depends on green gates. Jev gave a low clean-completion score, so I kept it to one row with a clear stop on any production pointing.
+- 2026-11-19 14:42 Folded the Screen.tsx prettier-diff check into the baseline round, because a stray reformat would pollute every later commit.
+- 2026-11-19 14:42 Kept the TestPG step inside row 22 but gated it on the DSN resolving to 127.0.0.1:55432 and printing host and port only.
+- 2026-11-19 14:42 plan.tsx and the AI anomaly banner have no backend capability. Recorded as a scope question for later rows, not asked now. Default when reached: keep the design, show no fabricated data, and mark the row BUILT only if the empty state is wired honestly. Does not block other rows.
+- 2026-11-19 14:42 Did not ask Isa anything this round. No question meets the bar for asking yet.
