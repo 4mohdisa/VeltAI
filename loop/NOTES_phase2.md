@@ -5,8 +5,8 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 211: row 2 onboarding local gap check (test-only). Chosen over Jev's audit pick: audit spans several rows, breaking one-row rule; row 2 is the only PARTIAL left.
-- Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci).
+- Round 212: row 6 label scan render test (test-only). Chosen over Jev's stop pick: row 6 still PARTIAL.
+- Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci). Next checkpoint due soon.
 - Every prompt names loop/phase2 and bans git commands.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
@@ -34,10 +34,10 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Minor questions decided by manager. Checkpoints override Jev ranking.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- BUILT (owner check pending): gym history; rows 1, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 6, 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 2 onboarding (live sign-in and profile persistence owner; local gaps being checked in round 211).
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 2, 3-5, 7-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- BUILT (owner check pending): gym history; rows 1, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check; row 2 live Clerk sign-in and profile persistence.
+- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
+- PARTIAL: row 6 (barcode has render test; label in round 212; photo still uncovered).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -68,15 +68,17 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
+- Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only, audit separately if ever needed.
 
 ## Next
-- Round 211: row 2 onboarding local call-site check (test-only).
-- Then secondary call-site audit of BUILT rows, one row per round, starting with row 6 (label and photo call sites), then 7 and 8.
-- If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
+- Round 212: row 6 label scan render test (test-only).
+- Then row 6 photo scan pipeline render test (api.scan.pipeline, pipelineMulti, confirm, feedback).
+- Then secondary call-site audit of BUILT rows 7 and 8.
+- If no PARTIAL or DIFFERENT row remains except owner items, ask once about row 17 plan.tsx if still open, then prepare the stop report with owner items.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.1 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

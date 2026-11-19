@@ -7709,3 +7709,7 @@
 - 2026-11-19 23:44 Row 6 is BUILT per the latest report. The handover claim that it is PARTIAL is stale and ignored.
 - 2026-11-19 23:44 Row 2 prompt is test-only: add or extend render tests, no screen edits, no change to onboarding behaviour.
 - 2026-11-19 23:44 Row 2 stays PARTIAL unless every local call site is covered. Sign-in and profile persistence stay owner items.
+- 2026-11-19 23:46 Row 2 closed as BUILT (owner check pending) on report evidence: both declared call sites have executed render tests.
+- 2026-11-19 23:46 Jev stop ranking (71%) overridden: row 6 is still PARTIAL, so the stop checkpoint is not met.
+- 2026-11-19 23:46 Row 6 split: label first, photo in a later round, to keep one row, one file per round.
+- 2026-11-19 23:46 Did not ask about row 17 plan.tsx again this round; it is BUILT per notes. Revisit only at stop time if still open.
