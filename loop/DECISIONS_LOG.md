@@ -7232,3 +7232,12 @@
 - 2026-11-19 19:57 Row 21 kept as next after reconciliation. It needs a local migration, which is a larger change and should wait for a clean status baseline.
 - 2026-11-19 19:57 FloatingHeader mismatch recorded in row 32 notes, not treated as a new row. The backlog title is ambiguous; the decision on the intended header can wait until the reconciliation shows which row needs it.
 - 2026-11-19 19:57 Jev's ask ranking (56%) not followed: a question to Isa would cost his attention on a task the loop can settle itself.
+- 2026-11-19 19:59 Reconciliation of rows 27-64 accepted as done: all BUILT, no status changed, row 50 stays BUILT (checked in code).
+- 2026-11-19 19:59 Row 32 notes now say FloatingHeader is decorative, so the Reduce Transparency wording stands.
+- 2026-11-19 19:59 Asked about row 21 instead of running it because Jev asks at 94% and the change touches the data model. Default if unanswered: the smoke tests run next round.
+- 2026-11-19 19:59 Notes trimmed to fit the 600 word limit. Finished items were folded into Done.
+- 2026-11-19 20:15 Isa did not answer the row 21 question; recorded under Blocked on Isa and not asked again, per loop note.
+- 2026-11-19 20:15 Jev advised ask (63%). Not followed: the loop note says ask only when every remaining task needs Isa, and render smoke tests need nothing from Isa.
+- 2026-11-19 20:15 Chose Screen.tsx render smoke test as the smallest unblocked task, matching the stated default order (Screen, then ToastHost, then BottomSheet).
+- 2026-11-19 20:15 Row 21 is parked for v1 by default until Isa answers; no migration written this round.
+- 2026-11-19 20:15 Test file name follows the *.render.test.tsx rule for files under src/components/.
