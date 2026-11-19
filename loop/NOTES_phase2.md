@@ -5,12 +5,12 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 218 done: detailChrome macros sub-test fixed in the test file only (7-day empty-week fixture, useWeeklyMacros stub). Macros snapshot regenerated. tsc 0.
-- Round 219 (current): fix gymStreakStripFootnote render test. Read gym.tsx:174 and the test first. Smallest guard if gym.tsx has a real shape bug; otherwise fix the fixture with a fixed clock.
-- Last green checkpoint: round 213 (tsc 0; Jest 123 suites, 967 tests). Live counts only.
+- Round 219 done: gymStreakStripFootnote render test fixed in the test file only (TodayWorkout-shaped fixture, clock pinned to 2026-11-20). tsc 0.
+- Round 220 (current): full checkpoint (tsc, full app Jest, backend go test). No file changes.
+- Last green checkpoint: round 213 (Jest 123 suites, 967 tests). Live counts only.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
-- Latest report beats handover claims. Verify PHASE2_ROWS.md before trusting any row status. Stale briefs have wrongly reported rows 1 and 6.
+- Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -30,7 +30,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Row boundaries strict. Row 7 covers only its four declared call sites.
 - Local-only mutations (editSavedFood) need no API test.
 - 'nutrition/week' is not a row.
-- Row 21: no data model change, no backend change. Client aggregation over foodLogs.list per day. Macros variant out of scope. Hosted migration stays Isa's.
+- Row 21: no data model or backend change. Client aggregation over foodLogs.list per day. Macros variant out of scope.
+- Hosted migration stays Isa's.
 - Checkpoint rounds change no files.
 
 ## Done
@@ -38,6 +39,7 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - BUILT (owner check pending): gym history; rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
+- Unbuilt rows: read PHASE2_ROWS.md directly. This list is not complete.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -47,10 +49,10 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Merging loop/design-match into main: Isa's job.
 - Token pass (icon sizes, stroke weight, letter-spacing, 9pt space, bar width, small radius): one design pass with Isa.
 - Applying migrations to hosted Supabase: Isa.
-- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; untouched by loop work. Isa to check.
+- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; loop bookkeeping. Isa to check.
 
 ## Parked (not v1)
-- Row 21: DetailChart lays multiple Bars as a flex row, so macros show side by side, not stacked. Needs a separate row if wanted.
+- Row 21: DetailChart lays Bars as a flex row, so macros show side by side, not stacked. Needs a separate row if wanted.
 - Row 21 secondary card header, note and footnote describe today's macros. Copy decision.
 - Recipe and saved meal delete/unsave: no UI. Product gap.
 - Row 8 notes cell long with older fragments. Trim when next touched.
@@ -69,10 +71,12 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
+- Audit untouched render tests with hardcoded *_date fixtures compared to the real clock. Pin the clock where found.
+- TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 219: gymStreakStripFootnote fix (in progress).
-- Round 220: one full checkpoint (tsc and full Jest). No file changes.
+- Round 220: full checkpoint (in progress). No file changes.
+- Round 221: read PHASE2_ROWS.md, list unbuilt rows, pick the smallest single row.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
@@ -89,5 +93,5 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
 - startScanPoller must be stubbed in any test letting pipeline or pipelineMulti resolve.
-- jest.requireActual('@/lib/api').api?.scan needs the ?. (circular import).
+- jest.requireActual('@/lib/api').api?.scan needs the ?. (circular import). Two-level chaining throws.
 - Stale briefs have pointed at old row status at least six times: verify PHASE2_ROWS.md before trusting any status.

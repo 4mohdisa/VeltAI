@@ -7743,3 +7743,8 @@
 - 2026-11-20 00:13 Prefer a test fixture fix over a gym.tsx change unless gym.tsx shows a real shape bug.
 - 2026-11-20 00:13 Row 6 handover says BUILT (barcode, label and photo render tests exist). The stale brief claiming PARTIAL was ignored; no row edit made.
 - 2026-11-20 00:13 Full checkpoint deferred to round 220 so this round stays one row, one file.
+- 2026-11-20 00:17 Round 220 is a checkpoint per notes: run full gates, change no files.
+- 2026-11-20 00:17 Chose the checkpoint over ask (Jev 79% run); no question needed this round.
+- 2026-11-20 00:17 Date-fixture audit from the round 219 report parked, not run: side finding, not a row.
+- 2026-11-20 00:17 TodayCard silent Rest day on malformed truthy response parked: product and shape decision, not a row fix.
+- 2026-11-20 00:17 Row 17 plan.tsx question held for the stop report, not asked now: it does not block the next round.
