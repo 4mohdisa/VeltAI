@@ -7624,3 +7624,8 @@
 - 2026-11-19 22:53 Report wording: 'render test added' and 'checked in code' only, per wording rule.
 - 2026-11-19 22:53 Stale fragments in row 8 notes cell left in place: wording cleanup stays Parked, not this task.
 - 2026-11-19 22:53 Ignored the handover path claim about /Users/isa; repo root from the last report is used.
+- 2026-11-19 22:57 Chose row 18 status check first: smallest task, already queued in Next, closes a PARTIAL row before row 6.
+- 2026-11-19 22:57 Row 8 treated as BUILT: round 192 report shows all 9 live call sites covered. Recipe log failure path (round 190) and savedMeals log (round 191) also covered. Delete paths have no UI, parked.
+- 2026-11-19 22:57 Row 5 treated as BUILT, owner check pending (on-device food log check), per round 189 handover.
+- 2026-11-19 22:57 Row 38 treated as BUILT per handover: integrations.render.test.tsx covers connected and failed list.
+- 2026-11-19 22:57 Ignored the repeated 'Not yet covered in row 8' line in the handover: it conflicts with rounds 190 to 192 and the code check.
