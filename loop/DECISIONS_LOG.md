@@ -7581,3 +7581,7 @@
 - 2026-11-19 22:40 Row 5 moved to BUILT per handover (quick-add render tests plus existing owner-scoped Go tests). Only the on-device check is pending, which is owner check pending.
 - 2026-11-19 22:40 Prompt tells Claude Code to stop if a test already covers recipes.log, so a false premise does not cause duplicate work.
 - 2026-11-19 22:40 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md git diff stays flagged for Isa; no loop files are edited by prompts.
+- 2026-11-19 22:42 Automatic check flagged the round 183 report as partly done: row 8 stays PARTIAL and this round targets its remaining delete and unsave paths, so nothing is claimed beyond the tests.
+- 2026-11-19 22:42 Chose row 8 delete coverage over row 18 Energy local check because the Energy check needs a simulator run that is not set up yet.
+- 2026-11-19 22:42 Stale row 8 notes wording is a side finding: moved to Parked and to NEXT, not edited, since the task scope is append-only.
+- 2026-11-19 22:42 Prompt bans git and loop/ edits, per the standing rules for this branch.
