@@ -7042,3 +7042,8 @@
 - 2026-11-19 18:25 Chose row 61 because it is next in the numbered Visual QA sequence, needs no Isa input, and is one file. Jev ranks run at 89%, consistent with this.
 - 2026-11-19 18:25 Kept the prompt as a code-versus-tokens check with no change unless an identical token exists, per the standing Visual QA rule.
 - 2026-11-19 18:25 Did not ask Isa about the design pass yet. The notes say to ask once after rows 61-63 are done.
+- 2026-11-19 18:27 Kept row 62 (Jev's top pick, 95%) to clear the flagged last report: the prompt forces tsc plus the grep-based Jest run for Screen.tsx, so the test gap is addressed in this round.
+- 2026-11-19 18:27 Did not pick the render smoke test first: it adds a new test file, which is a new task outside one-row-one-file scope and would not close row 62.
+- 2026-11-19 18:27 Row 62 wording: status and notes limited to BUILT, 'checked in code' or 'owner check pending', per the wording rule.
+- 2026-11-19 18:27 Last report flagged for tests not run: Screen.tsx and GlassButtons.tsx have no Jest coverage. Logged in Parked as the render smoke test; to be taken after the Visual QA rows.
+- 2026-11-19 18:27 Visual QA rows stay code-vs-token only. No pixel check claimed; simulator and device checks are owner check pending.
