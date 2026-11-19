@@ -7507,3 +7507,8 @@
 - 2026-11-19 22:01 Kept the prompt to one row and one file, with an extend-not-create rule, to keep the Jev risk low.
 - 2026-11-19 22:01 Quick-add submit path and AnomalyBanner/AnomalyCard stay in Next, one per round.
 - 2026-11-19 22:01 Row number is left for Claude Code to find by grep, because the notes do not give it reliably.
+- 2026-11-19 22:02 Chose row 5 submit path: the handover and notes both name it as the next gap, it is small, and it needs no input from Isa.
+- 2026-11-19 22:02 Kept the test in the existing quickAdd.render.test.tsx rather than a new file, per the one file per prompt rule.
+- 2026-11-19 22:02 Told Claude Code to stop rather than edit the screen if the code does not match, so no behaviour changes slip in.
+- 2026-11-19 22:02 Left loop/ git status noise alone, as the notes say loop-managed files are never edited by prompts.
+- 2026-11-19 22:02 Left the Clerk JWKS, Maestro and token pass items as owner steps; no action this round.
