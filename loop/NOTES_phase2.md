@@ -6,9 +6,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 246 (current): checkpoint. Full tsc and full app Jest, no file changes. Round 245 prompt was rejected for missing branch rule; rewritten.
+- Round 247 (current): add Gym tab refetch-after-log row to PHASE2_ROWS.md as DIFFERENT (doc only, no code).
+- Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
 - Round 244: row 9 LoggedCard audit, no fix. Race not reachable under current wiring.
-- Round 243: gate green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots; go test ok, 18 TestPG skipped).
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -27,11 +27,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Render tests: components *.render.test.tsx; screens in src/__tests__/render/. renderScreen via react-test-renderer. No RNTL (RN 0.85.3).
 - Rows 19, 20: no edit. Row 8 BUILT once all live call sites have render tests.
 - Row boundaries strict. Row 7 covers only its four declared call sites.
-- Local-only mutations (editSavedFood) need no API test. 'nutrition/week' is not a row.
+- Local-only mutations (editSavedFood) need no API test.
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- Existing render test counts as row 2 coverage. TodayCard guard recorded under row 9.
+- TodayCard guard recorded under row 9.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -40,12 +40,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, exercise-progress, profile, rows 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- freeze.tsx render test exists (src/__tests__/render/freeze.render.test.tsx); covered by the full Jest checkpoint.
+- freeze.tsx render test exists; covered by the full Jest checkpoint.
 
 ## Known test gaps
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 - Row 83 cites MACRO_BAR_W, which no longer exists. Fix when row 83 is next touched.
-- Gym tab refetch gap: after logging a session, nothing refetches useToday() in TodayCard or gym.tsx (GymSessionButton CTA). Card stays stale until restart. Needs its own new row touching both files.
+- Gym tab refetch gap: after logging a session, nothing refetches useToday() in TodayCard or the Gym tab. Card stays stale until restart. Row being added in round 247; fix next (TodayCard.tsx and Gym tab screen).
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -69,7 +69,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
-- LoggedCard: session not in fetched range renders no detail, silently. Not reachable today.
+- LoggedCard: sessions.find() via useGymRange(1) returns undefined if the new session is outside the range; LoggedSessionDetail renders nothing silently. Not reachable today.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
 - Transient Jest SIGSEGV on resetRegistry.test.ts (not seen in rounds 232-244).
@@ -78,8 +78,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
 
 ## Next
-- Round 246: checkpoint (tsc and full Jest). Report failures only.
-- Then: add the Gym tab refetch-after-log row to PHASE2_ROWS.md and build it (TodayCard.tsx and gym.tsx).
+- Round 247: add Gym tab refetch-after-log row to PHASE2_ROWS.md (DIFFERENT), audit only.
+- Round 248+: fix the refetch gap (TodayCard.tsx, then Gym tab screen, one file per round).
 - Then: fix row 83 stale MACRO_BAR_W text when that row is touched.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 

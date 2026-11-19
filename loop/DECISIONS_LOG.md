@@ -7857,3 +7857,7 @@
 - 2026-11-20 01:04 Dropped the round 245 freeze isolation re-run from Next: the full Jest checkpoint covers freeze.render.test.tsx.
 - 2026-11-20 01:04 Kept the gym tab refetch row as the next build task after the checkpoint passes.
 - 2026-11-20 01:04 Condensed the notes to under 600 words by merging repeated Known issues and Parked lines. No content removed from the open items.
+- 2026-11-20 01:05 Round 246 checkpoint was green (tsc 0 errors, Jest 133 suites / 985 tests), so no gate fix is needed this round.
+- 2026-11-20 01:05 Chose the Gym tab refetch row first, as the notes' Next list says. Split into an audit-and-row round, then a code fix round, to keep one file per prompt and respect the Jev risk signal.
+- 2026-11-20 01:05 Doc-only round first: the fix touches TodayCard.tsx and the Gym tab screen, which is more than one file, so it waits for its own round.
+- 2026-11-20 01:05 Row 83 MACRO_BAR_W text stays parked until row 83 is next touched, per the existing rule.
