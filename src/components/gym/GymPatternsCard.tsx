@@ -16,10 +16,25 @@ import { categoryAccent, color, radius, space, surface } from '@/lib/design/toke
 const cap = (s: string) => (s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 // The hook's declared type promises GymPatterns | null, but it just passes
-// through whatever the API resolved — an unexpected 200 body (an array, or
-// any other non-object) reaches here as-is. Treat anything that isn't a
-// plain object the same as "no data yet" rather than crash on a missing field.
-export const isGymPatternsShape = (p: unknown): p is GymPatterns => typeof p === 'object' && p !== null && !Array.isArray(p);
+// through whatever the API resolved — an unexpected 200 body (an array, a
+// plain {}, or an object missing a field) reaches here as-is. Check every
+// required field's type so a partial object renders as "no data yet" rather
+// than crashing (or silently rendering) on a missing field.
+export const isGymPatternsShape = (p: unknown): p is GymPatterns => {
+  if (typeof p !== 'object' || p === null || Array.isArray(p)) return false;
+  const o = p as Record<string, unknown>;
+  const isStringArray = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string');
+  return (
+    isStringArray(o.most_trained_muscles) &&
+    isStringArray(o.least_trained_muscles) &&
+    typeof o.avg_sessions_per_week === 'number' &&
+    typeof o.adherence_rate === 'number' &&
+    typeof o.customization_rate === 'number' &&
+    (o.most_missed_day === null || typeof o.most_missed_day === 'string') &&
+    (o.muscle_volume_map === null || (typeof o.muscle_volume_map === 'object' && !Array.isArray(o.muscle_volume_map))) &&
+    (o.last_rebuilt === null || typeof o.last_rebuilt === 'string')
+  );
+};
 
 function Chip({ label }: { label: string }): JSX.Element {
   return (

@@ -6956,3 +6956,8 @@
 - 2026-11-19 17:55 Jev rated run 47% vs stop 38% at low confidence (0.20), so kept run and chose the smallest task.
 - 2026-11-19 17:55 Did not ask Isa: the restore needs no dashboard or device, and the rate limit reset at 5:40pm Adelaide.
 - 2026-11-19 17:55 Prompt keeps the single file scope and the no-snapshot-regeneration rule to limit risk (Jev risk 1.3).
+- 2026-11-19 17:56 Round 44 camera modal restore accepted: tsc 0 errors, screenTransitions 4/4 pass. Row 74 stays BUILT with device feel as owner check pending.
+- 2026-11-19 17:56 Chose the gym patterns partial object guard: it was the next item in the agreed order and is a single file change with a clear test.
+- 2026-11-19 17:56 Jev suggested asking Isa (58%) with risk 1.0. Overridden: the open items are not major and do not block any row. The change is small, reversible and covered by tests.
+- 2026-11-19 17:56 Claude CLI sign-in expiry (2026-11-24 to 2026-11-27) is not a question this round. It is recorded under Blocked on Isa as an owner step, and it may stop unattended runs once it expires.
+- 2026-11-19 17:56 Candidate 2 (dead code in mappers.ts) and candidate 3 (visual QA) go to Next, not this round.

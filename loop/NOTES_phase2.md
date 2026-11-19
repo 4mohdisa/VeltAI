@@ -39,8 +39,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rounds 37-39: Jev asks overridden with written reasons (minor, reversible, existing tests pass, read-only checkpoint).
 - Round 40: checkpoint baseline set to 81/864/4.
 - Round 40: row 74 camera modals switched to screenAnimation(). Motion change flagged as unintended.
-- Rounds 41-43: restore of camera modals to slide_from_bottom (fade under Reduce Motion) kept failing on usage limit. Not applied.
-- Round 44: restore re-issued as a single file task (src/app/_layout.tsx). Chosen over other candidates as the smallest pending fix.
+- Round 44: camera modal restore done. Three modals in src/app/_layout.tsx back to reduceMotion ? 'fade' : 'slide_from_bottom'. Tests green.
+- Round 45: Jev suggested ask (58%, risk 1.0). Overridden: no major open question, change small and reversible.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -51,7 +51,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Profile: checked in code, no gap.
 - Add food, Legal: BUILT (static).
 - Dashboard / Summary and sub-pages: BUILT.
-- Motion audit, screen and navigation transitions: BUILT except row 74 camera modal value (restore in progress, round 44).
+- Motion audit, screen and navigation transitions: BUILT. Row 74 camera modal restored (round 44).
 - Adding and removing food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
@@ -60,20 +60,20 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rows 78, 79, 80 gym patterns shape guards: BUILT.
 - Row 11 exercise progress: BUILT, no gym patterns read.
 - Row 74 onboarding layout Reduce Motion: BUILT, checked in code; device feel owner check pending.
+- Row 74 camera modal feel (slide up vs horizontal push): owner check pending.
 - Round 16, 23, 39 checkpoints: gates green.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
 - E2E_EMAIL and E2E_PASSWORD not set.
 - Row 17 plan.tsx has no backend. Product decision: build plan generation or drop the card for v1.
-- Claude CLI sign in expires between 2026-11-24 and 2026-11-27. Run claude auth login before then, or set up a token (claude setup-token) for unattended runs.
+- Claude CLI sign in expires between 2026-11-24 and 2026-11-27. Run claude auth login before then, or set up a token (claude setup-token) for unattended runs. May stop unattended runs when it expires.
 - loop/ files show uncommitted diffs. Loop-managed, not a task.
 - Merging loop/design-match into main: Isa's job.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- Gym patterns partial object guard: {} passes isGymPatternsShape and renders as no data. Own row later.
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
@@ -88,12 +88,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 44: row 74 camera modal restore (src/app/_layout.tsx only). Check result.
-- If it is green: parked partial-object guard as its own row, then remaining Phase 1 visual QA rows that need no sign in, then backend refinement rows.
+- Round 45: gym patterns partial object guard (isGymPatternsShape, its file and test file). Check result.
+- Then: remove dead code in src/lib/data/mappers.ts (subscriptionFromApi, AppSubscription), if no imports remain.
+- Then: remaining Phase 1 visual QA rows that need no sign in, then backend refinement rows.
 - If the usage limit hits again: wait, do not change scope.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 1.3 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
+- Jev risk 1.0 to 1.3 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.

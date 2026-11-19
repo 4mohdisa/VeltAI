@@ -5,7 +5,7 @@
 // `patterns.most_trained_muscles.slice(...)` with no `most_trained_muscles`
 // to slice. Anything that isn't a plain object now falls back to the card's
 // existing "not enough data yet" empty state instead of throwing.
-import { GymPatternsCard } from '@/components/gym/GymPatternsCard';
+import { GymPatternsCard, isGymPatternsShape } from '@/components/gym/GymPatternsCard';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
 import { allText, renderScreen } from './helpers';
 
@@ -48,4 +48,17 @@ test('a real GymPatterns object still renders the full card', () => {
   expect(text).toContain('Chest');
   expect(text).toContain('Calves');
   expect(text).toContain('You often skip Friday');
+});
+
+test('isGymPatternsShape rejects {}', () => {
+  expect(isGymPatternsShape({})).toBe(false);
+});
+
+test('isGymPatternsShape rejects an object missing a required field', () => {
+  const { adherence_rate, ...missingField } = PATTERNS;
+  expect(isGymPatternsShape(missingField)).toBe(false);
+});
+
+test('isGymPatternsShape accepts a complete valid object', () => {
+  expect(isGymPatternsShape(PATTERNS)).toBe(true);
 });
