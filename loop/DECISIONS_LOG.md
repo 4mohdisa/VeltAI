@@ -7597,3 +7597,7 @@
 - 2026-11-19 22:46 Jev ranked ask slightly above run at low confidence. The question would be minor and blocks no row, so run is kept as the advisory signal allows.
 - 2026-11-19 22:46 Row 8 notes cleanup was not chosen this round: it is wording only and does not change status, so it goes to Parked for a later pass.
 - 2026-11-19 22:46 Checkpoint round 188 (full tsc and full Jest --ci) stays scheduled and is not moved.
+- 2026-11-19 22:47 Last report flagged for no tsc or Jest run: run the gate on the row 18 test files now. Jev said ask (84%), but the question is minor, blocks no row, and needs no Isa input. Kept run. Jev cannot see that the new render test files were never executed.
+- 2026-11-19 22:47 Row 18 phrase 'local check open' is not in the file. Do not invent an edit. Keep the existing 'Owner check pending' wording. Status stays BUILT.
+- 2026-11-19 22:47 Row 8 notes cleanup stays parked: wording only, not a build task.
+- 2026-11-19 22:47 Checkpoint round 188 still runs full tsc and full Jest --ci.

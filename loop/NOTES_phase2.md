@@ -6,8 +6,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
 - Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci. Next full checkpoint: round 188.
-- Round 185 done: row 8 BUILT (all live call sites have render tests).
-- Round 186: row 18 BUILT, simulator check pending (owner step).
+- Round 187: gate run for row 18 render tests (energy.render.test.tsx, detailChrome.render.test.tsx). Last report had no tsc or Jest run.
+- Row 18 BUILT, simulator check pending (owner step). Phrase 'local check open' not present in file; no edit made.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
@@ -32,6 +32,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
 - Minor questions are decided by the manager. Checkpoints override Jev ranking.
 - Jev ask signals are advisory. Keep run when the question is minor and blocks no row.
+- Gate flags (tests not run) are fixed by running the gate, not by stopping.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 8, 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
@@ -50,10 +51,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 41 es/fr overflow needs device run.
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status across many rounds, untouched by loop work. Isa to check.
+- Row 8 not covered: api.recipes.log and recipe/saved-meal delete paths (no UI).
 
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI exists (api.recipes.delete, api.savedMeals.delete are dead). Product gap, not a test gap.
-- Row 8 notes cell still carries older fragments; wording cleanup only.
+- Row 8 notes cell carries older contradictory fragments (e.g. 'savedMeals.log still uncovered' next to a later 'render test added'). Wording cleanup only.
 - No real render test yet: barcode-scan, label-scan, photo-capture.
 - Quick-add: on-device check of the food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
@@ -73,7 +75,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 186: row 18 status to BUILT (done this round).
+- Round 187: gate run for row 18 (tsc plus Jest on energy and detailChrome render tests).
 - Checkpoint round 188: full tsc and full Jest --ci.
 - Then: pick the next PARTIAL or DIFFERENT row; if none, prepare the stop report with owner items.
 
