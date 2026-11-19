@@ -7738,3 +7738,8 @@
 - 2026-11-20 00:10 Deferred gymStreakStripFootnote crash to next round. It may be a real gym.tsx shape bug, so it needs its own single-file task with a read of the schedule hook first.
 - 2026-11-20 00:10 Allowed a new macros snapshot to be written in this file only, with a diff check, because the assertion never ran and the snapshot count dropped from 4 to 3.
 - 2026-11-20 00:10 Jev 97% run agrees. Risk 1.0 is handled by keeping the task to one file.
+- 2026-11-20 00:13 Round 218 detailChrome macros fix accepted: test file only, one snapshot regenerated, tsc 0.
+- 2026-11-20 00:13 Gym streak red test is the next task; it is the only open Jest failure after round 218.
+- 2026-11-20 00:13 Prefer a test fixture fix over a gym.tsx change unless gym.tsx shows a real shape bug.
+- 2026-11-20 00:13 Row 6 handover says BUILT (barcode, label and photo render tests exist). The stale brief claiming PARTIAL was ignored; no row edit made.
+- 2026-11-20 00:13 Full checkpoint deferred to round 220 so this round stays one row, one file.

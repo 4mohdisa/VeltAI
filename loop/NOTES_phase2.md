@@ -1,16 +1,16 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to local backend, test flows on simulator. Progress counted from PHASE2_ROWS.md (84 rows). Prompts use row TITLE plus number.
+Wire every screen to the local backend and test flows on the simulator. Progress is counted from PHASE2_ROWS.md (84 rows). Prompts use row TITLE plus number.
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 218: fix red gate. detailChrome.render.test.tsx macros sub-test: stub useWeeklyMacros (or Skeleton) in that file only. Then regenerate only the macros snapshot if new, check the diff.
-- Round 217 checkpoint: tsc 0 errors. Jest 2 failed suites: (a) detailChrome macros (Skeleton/useReducedMotion crash, row 21 side effect), (b) gymStreakStripFootnote: gym.tsx:174 todayWorkout.exercises undefined, date dependent.
-- Last green checkpoint: round 213 (tsc 0; Jest 123 suites, 967 tests, 4 snapshots). Live counts; old numbers are stale.
+- Round 218 done: detailChrome macros sub-test fixed in the test file only (7-day empty-week fixture, useWeeklyMacros stub). Macros snapshot regenerated. tsc 0.
+- Round 219 (current): fix gymStreakStripFootnote render test. Read gym.tsx:174 and the test first. Smallest guard if gym.tsx has a real shape bug; otherwise fix the fixture with a fixed clock.
+- Last green checkpoint: round 213 (tsc 0; Jest 123 suites, 967 tests). Live counts only.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
-- Latest report beats handover claims. Verify PHASE2_ROWS.md before trusting a row status.
+- Latest report beats handover claims. Verify PHASE2_ROWS.md before trusting any row status. Stale briefs have wrongly reported rows 1 and 6.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -35,13 +35,13 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-8, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- BUILT (owner check pending): gym history; rows 1, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check; row 2 live Clerk sign-in and profile persistence.
+- BUILT (owner check pending): gym history; rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
-- Row 17 plan.tsx: build plan generation or drop card for v1. Ask once in the stop report.
+- Row 17 plan.tsx: build plan generation or drop the card for v1. Ask once in the stop report.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for screenshots and simulator flows.
 - Merging loop/design-match into main: Isa's job.
@@ -50,10 +50,10 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; untouched by loop work. Isa to check.
 
 ## Parked (not v1)
-- Row 21 follow-up: DetailChart Plot lays multiple Bars as a flex row, so the 4 macros show side by side, not stacked. Needs DetailChart change (separate row if wanted).
-- Row 21 Secondary card header, note and footnote still describe today's macros. Copy decision.
+- Row 21: DetailChart lays multiple Bars as a flex row, so macros show side by side, not stacked. Needs a separate row if wanted.
+- Row 21 secondary card header, note and footnote describe today's macros. Copy decision.
 - Recipe and saved meal delete/unsave: no UI. Product gap.
-- Row 8 notes cell long with older contradictory fragments. Trim when next touched.
+- Row 8 notes cell long with older fragments. Trim when next touched.
 - Quick add: on-device check of food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
@@ -71,14 +71,13 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
 
 ## Next
-- Round 218: fix detailChrome macros sub-test (one file). Then recheck tsc and that file.
-- Round 219: gymStreakStripFootnote crash. Read the todayWorkout source first. If gym.tsx gets a real shape bug, fix the smallest guard and add a test. If the test is at fault, fix the test fixture with a fixed system time.
-- Then one full checkpoint (tsc and full Jest).
+- Round 219: gymStreakStripFootnote fix (in progress).
+- Round 220: one full checkpoint (tsc and full Jest). No file changes.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
+- Jev risk about 0.9 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -91,4 +90,4 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
 - startScanPoller must be stubbed in any test letting pipeline or pipelineMulti resolve.
 - jest.requireActual('@/lib/api').api?.scan needs the ?. (circular import).
-- Stale briefs have pointed at old row status at least four times: verify PHASE2_ROWS.md before trusting any status.
+- Stale briefs have pointed at old row status at least six times: verify PHASE2_ROWS.md before trusting any status.

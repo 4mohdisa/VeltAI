@@ -57,11 +57,58 @@ const STREAK = {
   last_freeze_date: null,
 };
 
+// A planned (not yet logged) workout for "today" — gym.tsx:174 reads this
+// object's own `exercises` array directly. The fallback branch below used to
+// answer /api/gym/today with `json([])`, an empty ARRAY standing in for a
+// TodayWorkout object; `[] && [].exercises.length` threw, a crash this file's
+// fixed clock below used to mask by keeping gymLoggedToday (and so the whole
+// `!gymLoggedToday && …` expression) false every real day it happened to run on.
+const TODAY_WORKOUT = {
+  day_of_week: 5,
+  day_name: 'Friday',
+  is_rest_day: false,
+  template: {
+    id: 'tmpl1',
+    user_id: 'u1',
+    name: 'Push day',
+    estimated_duration_minutes: 45,
+    created_at: '2026-11-01T00:00:00Z',
+    updated_at: '2026-11-01T00:00:00Z',
+    exercises: [],
+  },
+  exercises: [
+    {
+      id: 'te1',
+      template_id: 'tmpl1',
+      exercise_id: 'ex1',
+      planned_sets: 3,
+      planned_reps: 10,
+      planned_weight: 40,
+      planned_weight_unit: 'kg',
+      planned_duration_minutes: null,
+      rest_seconds: 60,
+      sort_order: 0,
+      created_at: '2026-11-01T00:00:00Z',
+    },
+  ],
+  already_checked_in: false,
+  session_id: null,
+};
+
 const settle = async () => {
   await act(async () => {
     await new Promise((r) => setImmediate(r));
   });
 };
+
+// mappers.ts's gymLoggedToday compares STREAK.last_gym_date against the REAL
+// clock (todayISO()) — unpinned, this test's outcome silently depended on
+// which real day it ran. Fixed to the day after last_gym_date, so
+// gymLoggedToday is deterministically false and the GymSessionButton branch
+// at gym.tsx:174 is actually exercised rather than short-circuited away.
+// `setImmediate` stays real: settle() below needs it to flush the mocked
+// fetch's promise chain, which a faked one would never auto-advance.
+jest.useFakeTimers({ doNotFake: ['setImmediate'] }).setSystemTime(new Date(2026, 10, 20, 9, 0, 0));
 
 beforeEach(() => {
   useGymStore.getState().reset();
@@ -69,6 +116,7 @@ beforeEach(() => {
     if (url.includes('/api/gym/streak')) return json(STREAK);
     if (url.includes('/api/gym/sessions')) return json([]);
     if (url.includes('/api/gym/patterns')) return json(null); // GymPatternsCard's "no data" shape
+    if (url.includes('/api/gym/today')) return json(TODAY_WORKOUT);
     return json([]);
   });
 });
