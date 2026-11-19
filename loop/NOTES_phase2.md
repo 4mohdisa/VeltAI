@@ -8,7 +8,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Baselines (round 23 checkpoint, green): app tsc 0 errors; Jest 73 suites / 847 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
-- Prompt scope rule: ONE row or one component per prompt.
+- Prompt scope rule: ONE row AND one component per prompt. A prompt naming a screen plus a component gets rejected.
 
 ## Wording rule
 - Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
@@ -31,9 +31,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 77 target file is src/app/gym/session.tsx. Scope set by manager.
 - Stale motion rows 65-72: fold or delete is Isa's decision.
 - Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence.
-- Row 35 'streak footnote at 320pt width' mapped to row 35 (Visual QA: streak). Overridden Jev ask as a minor naming issue.
-- Round 31: Jev said ask (70%) on closing rows 35 and 54. Overridden: not a major question, existing render test passes. Rows set BUILT with owner check pending.
-- Round 32: Jev said ask (48%, low confidence). Overridden: minor, reversible, small task chosen.
+- Row 35 'streak footnote at 320pt width' mapped to row 35 (Visual QA: streak).
+- Rounds 31, 32, 33: Jev asks overridden with written reasons (minor, reversible, existing tests pass).
+- Round 34: rejected prompt rewritten to one component (MuscleChart.tsx). Muscles screen is its own next row. One export keyword on isGymPatternsShape allowed to reuse the guard.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -49,7 +49,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
 - Row 9 Gym log create reconciliation: BUILT. Simulator sign in part owner check pending.
-- Rows 35 and 54 (streak footnote): BUILT, checked in code via gymStreakStripFootnote.render.test.tsx; simulator owner check pending.
+- Rows 35 and 54 (streak footnote): BUILT, checked in code; simulator owner check pending.
+- Row 78 Gym patterns card shape guard: BUILT (tests pass, no simulator run).
 - Round 16, 23 checkpoints: gates green.
 - Round 29: no change, task had no matching row.
 
@@ -63,6 +64,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
+- Gym patterns card: partially malformed object (for example {}) still crashes at .length. Small follow-up.
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
@@ -78,10 +80,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 32: GymPatternsCard response shape guard (new row if none exists).
-- Then: remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Round 34: row 79 MuscleChart shape guard (one component, reuse isGymPatternsShape).
+- Then: row 80 src/app/gym/muscles.tsx shape guard (one screen, own round), partially malformed patterns object guard, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 1.0 of 2 (round 32): keep tasks small, one row per round. Run the gate every round a row changes code.
+- Jev risk 1.0 of 2: keep tasks small, one row per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
+- Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.

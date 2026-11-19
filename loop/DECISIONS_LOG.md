@@ -6899,3 +6899,9 @@
 - 2026-11-19 17:03 Jev said ask (48%) with low confidence. Overridden: the question is minor and reversible, and a small task is the safer choice Jev itself recommends at low confidence.
 - 2026-11-19 17:03 Rows 35 and 54 merge suggestion from the last report is not a task. Recorded as a Parked item for Isa.
 - 2026-11-19 17:03 Stale motion rows 65-72 left for Isa, as already decided.
+- 2026-11-19 17:06 Chose the muscle chart shape guard because the last report flagged the same unguarded pattern in two more callers, and the fix reuses the helper from row 78 with the smallest diff.
+- 2026-11-19 17:06 Parked the partially malformed object case (for example {}) for a later round. It is a separate, smaller change inside one card, and one row per round keeps the risk score low.
+- 2026-11-19 17:06 Jev ranked run at 66%. Agreed, no override needed.
+- 2026-11-19 17:06 Round 34: the loop rejected the round 33 prompt for covering more than one component. Rewrote it to cover only MuscleChart.tsx; the muscles screen goes to its own row next.
+- 2026-11-19 17:06 Round 34: allowed one export keyword on the existing isGymPatternsShape in GymPatternsCard.tsx so the guard is reused, not duplicated. Reason: shared logic, no body change.
+- 2026-11-19 17:06 Round 34: partially malformed objects stay Parked, as before, to keep the prompt to one task.

@@ -19,7 +19,7 @@ const cap = (s: string) => (s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1
 // through whatever the API resolved — an unexpected 200 body (an array, or
 // any other non-object) reaches here as-is. Treat anything that isn't a
 // plain object the same as "no data yet" rather than crash on a missing field.
-const isGymPatternsShape = (p: unknown): p is GymPatterns => typeof p === 'object' && p !== null && !Array.isArray(p);
+export const isGymPatternsShape = (p: unknown): p is GymPatterns => typeof p === 'object' && p !== null && !Array.isArray(p);
 
 function Chip({ label }: { label: string }): JSX.Element {
   return (
