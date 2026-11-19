@@ -7900,3 +7900,5 @@
 - 2026-11-20 01:31 Chose the row 5 pipe fix first: a 10-pipe row breaks table parsing, so it comes before the wording fix on row 18.
 - 2026-11-20 01:31 Row 18 wording deferred to the next round: one row per task.
 - 2026-11-20 01:31 Row 17 question not asked yet: the report did not read row 17, so verify its cell first (round 256 rule).
+- 2026-11-20 01:32 Round 258: chose row 18 Notes wording as the next smallest task, as set in the previous plan. Reason: one cell, one file, and it clears the one-status-word rule. Jev also ranks run at 92%.
+- 2026-11-20 01:32 Round 258: the prompt states the loop/phase2 branch rule and forbids edits under loop/, per the prompt rules in the notes.

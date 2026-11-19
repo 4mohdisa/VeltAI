@@ -6,11 +6,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 255: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added. tsc 0, todayCard.render.test 6/6.
 - Round 246 checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
-- Round 256 read-only check: 84 rows, all BUILT (DIFFERENT 0, PARTIAL 0, EXACT 0). Row 9 present.
-  Found: row 5 has 10 pipes (stray cell). Row 18 Notes contains the word BUILT outside the Status cell.
-- Round 257 (current): fix row 5 pipes only.
+- Round 255: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added.
+- Round 256 read-only check: 84 rows, all BUILT. Row 9 present.
+- Round 257: row 5 pipe fix done. Header 9 pipes, all 84 rows now 9 pipes.
+- Round 258 (current): row 18 Notes wording, one cell only. Remove the capitalised status word from the sentence.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -18,6 +18,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - Real coverage = executed import that renders or uses the component.
+- Status word in capitals appears only in the Status cell.
 
 ## Decisions (never delete)
 - Local backend and local DB only. RevenueCat over Stripe. v1 locked; extras to Parked.
@@ -80,10 +81,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Row 9: TodayCard LoggedCard silent if a session falls outside a 2-day range (unlikely, untested).
-- Row 18 Notes: remove the capitalised status word from the sentence (next round).
 
 ## Next
-- Round 257: row 5 pipe fix (10 to 9 pipes).
 - Round 258: row 18 Notes wording, one cell only.
 - Then: read the row 17 cell, decide the question using the real count.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
