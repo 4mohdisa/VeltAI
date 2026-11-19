@@ -7250,3 +7250,5 @@
 - 2026-11-19 20:22 BottomSheet test folds into the existing sheet row, per the rule that render smoke tests stay folded into visual rows.
 - 2026-11-19 20:24 Chose row 26 stale-note fix: smallest task, one row, one line, flagged by last report. Jev ranked ask first at low confidence (0.38); not asking because the sign-in question was already answered by the default (owner step, mocked tests), so it is not a major question.
 - 2026-11-19 20:24 Rows 1, 2, 5-8, 18 and the toast/sheet mapping deferred to later rounds, one row per round, to keep risk low (Jev risk 0.9 of 2).
+- 2026-11-19 20:25 Round 101: Jev said ask (46% ask, 40% run, confidence 0.19). The question is not major, so no question was sent. Chose the smallest run task: row 51 docs fix, which the last report flagged as stale. Same pattern as round 100.
+- 2026-11-19 20:25 Row 51 fix limited to the notes cell and status left unchanged, because the ToastHost test already exists and the status is decided separately.

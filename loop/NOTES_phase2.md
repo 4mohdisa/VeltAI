@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline: app tsc 0 errors; Jest 84 suites / 875 tests / 4 snapshots (green). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots (green). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -33,18 +33,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - New render tests for files under src/components/ are named *.render.test.tsx.
 - isLiquidGlassAvailable() is false outside a real iOS build; test GlassView by mocking expo-glass-effect.
 - Jev ranking: follow it on small tasks; a concrete reason (data model size, risk) can override it, and the reason goes here.
-- Round 100: Jev said ask (0.38 confidence). Not asked: sign-in question already defaulted, so not major. Chose the smallest run task.
+- Round 100 and 101: Jev said ask at low confidence. Not major, so ran the smallest task.
 - Unanswered question: after one round, use the default and do not ask again.
 - Render smoke tests stay folded into their visual rows; no dedicated row added.
-- Round 99: followed Jev (BottomSheet) over the ToastHost row-5 mapping. Row 5 stays PARTIAL.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 19, 23, 26-34, 36-50, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Row 32: FloatingHeader render test added; FloatingHeader is decorative.
-- Row 62: Screen.render.test.tsx added, checked in code.
+- Row 26 notes fixed (round 100): BottomSheet.render.test.tsx, checked in code.
 - Round 98: ToastHost.render.test.tsx added. Mapped to row 5 by content; row 5 stays PARTIAL.
 - Round 99: BottomSheet.render.test.tsx added, checked in code (row 27).
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93.
@@ -62,7 +60,6 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51 touch sheets or toasts. Pick one owning row per component.
-- Row 26 notes say no test renders BottomSheet: stale, fixing in round 100.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius and row height; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -82,8 +79,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 100: row 26 stale BottomSheet note fix (docs only).
-- Then rows 1, 2, 5-8, 18: decide if mocked coverage allows BUILT checked in code.
+- Round 101: row 51 stale ToastHost note fix (docs only).
+- Then rows 1, 2, 5-8, 18: decide BUILT checked in code on passing local mocked tests (sign-in is an owner step per decisions).
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
