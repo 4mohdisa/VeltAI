@@ -6808,3 +6808,6 @@
 - 2026-11-19 15:32 Kept the wording fix out of this round because the checkpoint allows no file changes. It becomes the next task so the 'verified' claim is cleared first.
 - 2026-11-19 15:32 Told Claude Code not to update snapshots, so a snapshot drift shows up as a report item and is not silently regenerated.
 - 2026-11-19 15:32 A Jest worker SIGSEGV gets one rerun of that file only. This follows the watch item in the notes and does not count as a failure unless it fails again.
+- 2026-11-19 15:33 Chose the wording pass over Dashboard/Summary. It is the smallest task, needs nothing from Isa, and clears the wording rule the checkpoint was waiting on. Jev ranked run 83%, so no override.
+- 2026-11-19 15:33 Round 9 checkpoint result recorded: tsc 0 errors, Jest 68 suites / 832 tests / 4 snapshots, all green. The +3 suites and +6 tests are the render tests added in Gym streak, Goals and Subscription. Baseline updated.
+- 2026-11-19 15:33 Claude Code's report said the Profile row may already be clean. The task asks for a search and a confirming pass, not a rewrite, so it stays small.
