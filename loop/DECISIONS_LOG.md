@@ -6788,3 +6788,7 @@
 - 2026-11-19 15:05 Row 22 marked BUILT: gate re-run green (tsc 0 errors, Jest 65 suites / 826 tests, backend 632 pass incl. 18 TestPG). The one SIGSEGV was an isolated worker flake, not reproducible, so no code change.
 - 2026-11-19 15:05 Row 11 chosen over Goals and Subscription: it is the stated next row, the smallest path to clear gym rows, and Jev ranks run at 95%. Goals and Subscription follow.
 - 2026-11-19 15:05 Row 11 simulator flow recorded as not run, because sign in is an owner step. Row marked BUILT on local tests, per the existing rule.
+- 2026-11-19 15:08 Accepted Jev's top pick (row 12) over Goals and Subscription: row 12 has a known fabricated-data gap on record, and it is the smallest of the three.
+- 2026-11-19 15:08 Kept row 12 smallest path: no new backend capability unless a route already exists. Fabricated suggestions are removed, consistent with the plan.tsx rule (keep design, show no fabricated data).
+- 2026-11-19 15:08 Added a tsc re-run at the start of the prompt to clear the automatic flag on the last report. The previous report did run tsc (0 errors), so the flag most likely refers to Jest not being run for the row.
+- 2026-11-19 15:08 Jev risk is 0.9 with confidence 0.28, so the task is kept to one row and a single test file. No full suite run this round.

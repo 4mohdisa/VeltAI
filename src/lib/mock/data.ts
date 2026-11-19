@@ -238,17 +238,6 @@ export const mockGymSessions: GymSession[] = [
   { id: 'g5', date: 'Thu 11 Jun', durationMin: 40, effort: 6 },
 ];
 
-export type UpcomingDay = { label: string; action: 'log' | 'freeze' | 'scheduled' };
-export const mockUpcomingDays: UpcomingDay[] = [
-  { label: 'Today', action: 'log' },
-  { label: 'Tomorrow', action: 'scheduled' },
-  { label: 'Wed 18 Jun', action: 'scheduled' },
-  { label: 'Thu 19 Jun', action: 'freeze' },
-  { label: 'Fri 20 Jun', action: 'scheduled' },
-  { label: 'Sat 21 Jun', action: 'scheduled' },
-  { label: 'Sun 22 Jun', action: 'log' },
-];
-
 // ---------------------------------------------------------------------------
 // Subscription / trial
 // ---------------------------------------------------------------------------

@@ -1,87 +1,26 @@
 // D4 · Streak detail
-// Streak counter up top, the next 7 days with their action (log / freeze /
-// scheduled), then longest streak, total sessions and freezes available.
+// Streak counter up top, then longest streak, total sessions and freezes
+// available. The design's "next 7 days" list needs per-day log/freeze/scheduled
+// suggestions no backend route provides (PHASE2_ROWS.md row 12) — rather than
+// inventing them, this screen shows only what the server actually knows.
 import { View } from 'react-native';
-import { router } from 'expo-router';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
-import { Badge } from '@/components/display/Badge';
 import { Stat } from '@/components/display/Stat';
-import { Icon } from '@/components/primitives/Icon';
-import { Pressable } from '@/components/primitives/Pressable';
-import { Text } from '@/components/primitives/Text';
 import { StreakCounter } from '@/components/domain/StreakCounter';
-import { color, space } from '@/lib/design/tokens';
 import { useGym } from '@/lib/data';
-import type { UpcomingDay } from '@/lib/mock/data';
-
-const actionMeta: Record<UpcomingDay['action'], { label: string; icon: string }> = {
-  log: { label: 'Log session', icon: 'barbell' },
-  freeze: { label: 'Freeze', icon: 'snow' },
-  scheduled: { label: 'Scheduled', icon: 'calendar' },
-};
+import { space } from '@/lib/design/tokens';
 
 export default function StreakDetailScreen() {
   const {
-    data: { streak, upcoming },
+    data: { streak },
   } = useGym();
   return (
     <Screen variant="floating" title="Streak" showBack contentStyle={{ gap: space.xl }}>
       <Card variant="elevated">
         <StreakCounter days={streak.current} />
       </Card>
-
-      <View>
-        <Text
-          variant="footnote"
-          color={color.gray500}
-          style={{ marginBottom: space.sm, marginLeft: space.xs, textTransform: 'uppercase', letterSpacing: 1.1 }}
-        >
-          Next 7 days
-        </Text>
-        <Card variant="elevated" padded={false}>
-          {upcoming.map((day, i) => {
-            const meta = actionMeta[day.action];
-            const pressable = day.action === 'freeze';
-            const row = (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: space.lg,
-                  borderTopWidth: i === 0 ? 0 : 1,
-                  borderTopColor: color.light1,
-                }}
-              >
-                <Text variant="body" color={color.black}>
-                  {day.label}
-                </Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-                  <Badge label={meta.label} icon={meta.icon} />
-                  {pressable ? <Icon name="chevron-forward" size={16} color={color.tertiaryLabel} /> : null}
-                </View>
-              </View>
-            );
-            return pressable ? (
-              <Pressable
-                key={day.label}
-                haptic={false}
-                minTapTarget={false}
-                onPress={() =>
-                  router.push({ pathname: '/gym/freeze', params: { label: day.label, offset: String(i) } })
-                }
-                accessibilityLabel={`Apply freeze for ${day.label}`}
-              >
-                {row}
-              </Pressable>
-            ) : (
-              <View key={day.label}>{row}</View>
-            );
-          })}
-        </Card>
-      </View>
 
       <Card variant="elevated">
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>

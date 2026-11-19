@@ -20,10 +20,9 @@ import {
   foodCatalog,
   mockPlan,
   mockPlanReason,
-  mockUpcomingDays, type FoodResult,
+  type FoodResult,
   type GymSession,
   type MacroKey,
-  type UpcomingDay,
 } from '@/lib/mock/data';
 
 export type Async<T> = { data: T; isLoading: boolean; error: Error | null; refetch: () => void };
@@ -345,7 +344,6 @@ export type GymData = {
   loggedDays: LoggedDay[];
   frozenDates: string[];
   sessions: GymSession[];
-  upcoming: UpcomingDay[];
 };
 
 export function useGym(): Async<GymData> {
@@ -354,11 +352,7 @@ export function useGym(): Async<GymData> {
   const frozenDates = useGymStore((s) => s.frozenDates);
   const sessions = useGymStore((s) => s.sessions);
   const { isLoading, error, refetch } = useHydration(hydrateGym);
-  // mockUpcomingDays is a fixed list with literal past dates ('Wed 18 Jun') and
-  // invented freeze/scheduled actions, and gym/streak.tsx makes those rows
-  // actionable — applying a freeze to an invented day. Dev only.
-  const upcoming = isDevBuild() ? mockUpcomingDays : [];
-  return { data: { streak, loggedDays, frozenDates, sessions, upcoming }, isLoading, error, refetch };
+  return { data: { streak, loggedDays, frozenDates, sessions }, isLoading, error, refetch };
 }
 
 // --- Goals + profile --------------------------------------------------------
