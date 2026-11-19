@@ -7402,3 +7402,7 @@
 - 2026-11-19 21:24 Loop flag on row 2 (partial): kept cuisine.tsx as the pick. It is the gap the last report named, so it closes the partial task rather than redoing finished work.
 - 2026-11-19 21:24 Jev ranked the same task first at 98%, so no override. Row 2 stays PARTIAL until the last four steps have tests.
 - 2026-11-19 21:24 Round 140 prompt: cuisine.tsx only. Its pattern (timer or Continue) is read from the file first, so the prompt does not guess.
+- 2026-11-19 21:25 Chose targets.tsx as the next Row 2 gap, as the prior report and the Next list both named it. Smallest task that clears one remaining row 2 item.
+- 2026-11-19 21:25 Loop flag on the cuisine task: the prompt addresses it by re-checking the cuisine assertion and the row 2 notes cell before starting targets. Finished work is not redone; only the named gap is checked.
+- 2026-11-19 21:25 Route for targets is read from the file, not assumed, because the cuisine task showed the assumed route was wrong.
+- 2026-11-19 21:25 Row 2 stays PARTIAL until preview.tsx and done.tsx are covered. Status is not changed in a docs pass.
