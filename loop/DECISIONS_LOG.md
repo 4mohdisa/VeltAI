@@ -6882,3 +6882,7 @@
 - 2026-11-19 16:47 Jev asked for ask at 92%, but the risk is a scoped code task, not a production or money question. Kept run. Reason: nothing here needs Isa, and a question would only delay a row that is already scoped.
 - 2026-11-19 16:47 Kept rows 65-72 out of scope. Folding them is Isa's decision.
 - 2026-11-19 16:47 Simulator flow for row 9 recorded as an owner step, because sign in needs hosted Clerk JWKS.
+- 2026-11-19 16:51 Row 9 (Gym log) accepted as BUILT per round 28 report. Simulator sign-in part stays an owner step, already on Blocked list.
+- 2026-11-19 16:51 Jev advised ask (64%). Not asking: no major blocker, sign-in is already an owner item, and a question now would repeat it. Recorded as a deliberate override.
+- 2026-11-19 16:51 Chose the streak footnote row: smallest Phase 1 visual QA row, needs nothing from Isa, and the simulator step falls back to a render test if sign in blocks it.
+- 2026-11-19 16:51 Double-log edge case from round 28 report (logGymSession while gymLoggedToday is true) parked, not fixed. It is outside row 9's scope and the backend dedup index covers the duplicate POST. Revisit only if the double-log path matters.

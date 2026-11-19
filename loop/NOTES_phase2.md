@@ -30,8 +30,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 75 split into food log and gym log.
 - Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope set by manager.
 - Stale motion rows 65-72: fold or delete is Isa's decision. Loop does not fold them on its own.
-- Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence (manager decision, round 26). Additive and backward compatible.
-- Round 28: loop flagged round 26 as partly done. Re-check queue change and finish row 9 wiring in one row task (manager decision).
+- Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence. Additive and backward compatible.
+- Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
@@ -44,9 +44,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Motion audit, screen and navigation transitions: BUILT.
 - Adding and removing list items, food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
-- Gym log entries remove path (row 77, src/app/gym/session.tsx): BUILT, local only.
-- Round 26: runOrQueueSequence onLanded added in src/lib/offline/queue.ts with test src/__tests__/queueSequenceOnLanded.test.ts. Row 9 still PARTIAL.
-- Round 16 and round 23 checkpoints: gates green.
+- Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
+- Row 9 Gym log create reconciliation (registerGymSessionCreate, onLanded in queue.ts): BUILT. Simulator sign in part owner check pending. Test: gymSessionCreateReconcile.test.ts.
+- Round 16, 23 checkpoints: gates green.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
@@ -64,16 +64,17 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 overlap later motion rows. Fold or delete (Isa decision).
 - onboarding/_layout.tsx ignores Reduce Motion. One-line fix.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
+- Gym log: logGymSession while gymLoggedToday is true. Gym store guard no-ops the session update, so localId may point at an existing session. Backend dedup index covers the duplicate POST. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps. Product decision.
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 28: row 9, finish logGymSession create reconciliation via registerGymSessionCreate in src/lib/data/mutations.ts (test: src/__tests__/gymSessionCreateReconcile.test.ts).
-- Then: Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Visual QA: streak footnote at 320pt width (round 29).
+- Then: remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - Rows 65-72 duplicate rows 64 and 74-77. Fold per Isa decision.
-- Jev risk 0.9 of 2 (round 28): keep tasks small.
+- Jev risk 1.0 of 2 (round 29): keep tasks small, one row per round.
