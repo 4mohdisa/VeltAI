@@ -7462,3 +7462,7 @@
 - 2026-11-19 21:45 Told Claude Code to grep first, since the last two rounds repeated existing coverage.
 - 2026-11-19 21:45 loop/ files and DECISIONS_LOG.md / NOTES_phase2.md git status noise left alone: loop-managed, and prompts never edit them.
 - 2026-11-19 21:45 No simulator work this round: Maestro not installed and Clerk sign-in needs an owner step.
+- 2026-11-19 21:47 Chose the DevSignup no-key fallback test as the Next item from round 154; it is small, single file, and unblocked.
+- 2026-11-19 21:47 Added a grep-first step because prior prompts duplicated existing coverage; the step skips creation if the branch is already tested.
+- 2026-11-19 21:47 Kept the AnomalyBanner/AnomalyCard render test as a candidate, not the pick, since round 152 notes say a render test was added and it needs a grep check first.
+- 2026-11-19 21:47 Ran tsc and full Jest because this round is a test change, per the wording rule.

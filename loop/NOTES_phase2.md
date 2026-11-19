@@ -5,7 +5,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Baseline round 154: tsc 0 errors; Jest 106 suites / 918 tests / 4 snapshots (all passing).
+- Baseline round 155: tsc 0 errors; Jest 106 suites / 919 tests / 4 snapshots (all passing).
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file; never assume coverage is missing.
@@ -40,7 +40,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check of anomaly/insights rendering.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open only as owner check: live Clerk sign-in and profile persistence. Status stays PARTIAL until that owner check.
-- PARTIAL: row 1 (signup render test; OTP sub-stages render test added round 153; email Verify-to-routing in progress round 154; live sign-in owner step).
+- PARTIAL: row 1 (signup render test; OTP sub-stages and email verify-to-routing render tests added; live sign-in owner step). Round 155: DevSignup no-key fallback render test in progress.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Checkpoints green rounds 16 to 150.
 
@@ -55,7 +55,6 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- Row 1: render test for DevSignup no-key fallback (next after round 154).
 - No real render test yet: food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, integrations screens checked by grep.
 - Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane square corners while row rounds (row 34): design decision.
@@ -76,8 +75,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Claude Code 'add a render test' prompts have repeatedly duplicated existing coverage (goal, cuisine, ai-query, signup OTP): grep first.
 
 ## Next
-- Round 154: row 1 email OTP Verify-to-routing render test (extend src/__tests__/render/signupOtp.render.test.tsx after grep; skip if already covered).
-- Then row 1 DevSignup no-key fallback render test.
+- Round 155: row 1 DevSignup no-key fallback render test (grep first; skip if already covered).
+- Then row 19 AnomalyBanner/AnomalyCard: grep for an importing render test; add only if missing.
 - Then unblocked PARTIAL rows and backend refinement rows.
 
 ## Known issues
