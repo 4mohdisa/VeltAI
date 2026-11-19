@@ -36,7 +36,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 36: useGymPatterns central guard deferred. Call-site guards kept.
 - Rounds 37-39: Jev asks overridden with written reasons (minor, reversible, existing tests pass, read-only checkpoint).
 - Round 40: checkpoint baseline set to 81/864/4.
-- Round 40 prompt rejected (multi-file). Rewritten to one file, src/app/_layout.tsx, plus one named test run.
+- Round 40 prompt rejected (multi-file). Rewritten to one file.
+- Round 40 retry: row 74 camera modals switched to screenAnimation(). Motion change flagged as unintended.
+- Round 41: camera modals restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Reason: original motion, reversible.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -81,14 +83,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps. Product decision.
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
+- screenTransitions test may assert old camera modal value; update if round 41 fails it.
 
 ## Next
-- Round 40 (retry, one file): row 74 camera modal transitions use screenAnimation() in src/app/_layout.tsx; run only the screenTransitions test.
+- Round 41: row 74 restore camera modal slide_from_bottom in src/app/_layout.tsx; run tsc and screenTransitions.
 - Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 1.0 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
+- Jev risk 1.4 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.
 - Handover label for row 9 (PARTIAL) is stale; Done list says BUILT.

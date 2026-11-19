@@ -6934,3 +6934,6 @@
 - 2026-11-19 17:16 Row 74 used as the row number because the notes map screen and navigation transitions to it. The prompt names the row title too, so a mismatch is easy to spot.
 - 2026-11-19 17:16 Tracker line in PHASE2_ROWS.md is kept as the standard per-row update, not a second code component.
 - 2026-11-19 17:16 Jev run signal (86%) agrees with the choice. No override.
+- 2026-11-19 17:17 Chose candidate 1 because the last report flagged the swap from slide_from_bottom to simple_push on full-screen camera modals as a probable wrong motion. Reverting to the original motion is reversible, touches one file and needs no answer from Isa.
+- 2026-11-19 17:17 Jev ranked ask first at 71%. Overridden: a question about motion intent can be settled by restoring the prior behaviour, so asking adds nothing. Reason written here, per the Jev override rule.
+- 2026-11-19 17:17 Row 74 stays BUILT. The camera modal motion is now the original one, not a new design choice, so no owner question is needed before the fix.
