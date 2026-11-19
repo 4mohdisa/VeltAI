@@ -42,12 +42,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64).
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64), 66 (folded into 64, round 68).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57, 59, 61, 62.
 - Round 66: gap check. Onboarding Reduce Motion exists (row 74). Food list animation exists (food.tsx).
-- Round 67: gym removeExtra exit animation added in session.tsx (FadeOutUp, FadeOut under Reduce Motion, motion.duration.snap). Row 77 BUILT checked in code. Row 68 BUILT (food in food.tsx, gym in row 77). tsc 0 errors; render test passed.
-- Checkpoints: rounds 16, 23, 39, 56, 60, 63 gates green.
+- Round 67: gym removeExtra exit animation added in session.tsx. Row 77 BUILT checked in code. Row 68 BUILT. tsc 0 errors; render test passed.
+- Round 68: row 66 folded into row 64 (bottom sheets and modals checked in code via BottomSheet.tsx and AddMenu.tsx). Gate after round 68 reported green: tsc 0, Jest 81/867/4.
+- Checkpoints: rounds 16, 23, 39, 56, 60, 63, 67 gates green.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -79,8 +80,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur round 65).
 
 ## Next
-- Round 68: fold row 66 into parent row 64 (after gap check). Gate tsc and full Jest after.
-- Then fold rows 67 and 69-72 one per round, each pointing to its parent (64, 74-77), only after the gap check.
+- Round 69 (this round): checkpoint. Full tsc and full Jest, no file changes. Report failures only.
+- Round 70: fold row 67 (button press feedback) into row 64, after gap check. Gate tsc and full Jest after.
+- Rows 69-72 are NOT folded blindly. Row 69 (progress rings) maps to a 'rough' audit line in row 64, so it needs a real check first. Fold 70-72 one per round only after each gap check.
 - Then session.tsx entering-animation parity row.
 - Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).

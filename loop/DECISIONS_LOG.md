@@ -7070,3 +7070,7 @@
 - 2026-11-19 18:36 Chose Jev's pick (fold row 66 into row 64): it is the next step in the plan already recorded in notes (fold rows 66-72 one per round after the gap check, which was done in round 66), it is documentation only, and it clears a stale row with no code risk.
 - 2026-11-19 18:36 Kept the session.tsx entering-animation gap out of this round: it is new feature-parity work, not a stale row, so it goes to Parked for a later row.
 - 2026-11-19 18:36 Test gate: this round changes no code, so the prompt requires tsc and full Jest to be run and reported.
+- 2026-11-19 18:37 Chose the checkpoint task because the loop note requires it this round; it is read-only and clears the gate before more folding.
+- 2026-11-19 18:37 Kept row 67 folding for the next round, since the last report already covers it under row 64 audit but the gate must be green first.
+- 2026-11-19 18:37 Flagged row 69 (progress rings) as a possible real gap, because row 64 marks progress rings as rough, so it must not be folded without a check.
+- 2026-11-19 18:37 Did not ask Isa anything; no hosted, paid or credential step is involved.
