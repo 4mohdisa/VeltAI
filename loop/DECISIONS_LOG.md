@@ -7771,3 +7771,7 @@
 - 2026-11-20 00:32 Kept the grep-before-create rule so no duplicate test file is written.
 - 2026-11-20 00:32 Left the row 83 MACRO_BAR_W stale note in Parked. It is not in this row's scope.
 - 2026-11-20 00:32 Kept the notes under 600 words by condensing Done and Known issues. No decision was removed.
+- 2026-11-20 00:35 Chose exercise-progress over freeze: the prior report and the notes both list it next, and it is the smallest remaining gap in row 11.
+- 2026-11-20 00:35 Prompt tells Claude Code to grep first and stop if a test already exists, because stale briefs have reported wrong row status before.
+- 2026-11-20 00:35 Kept one row, one new file, max 5 steps, per the Jev risk of about 0.9 on continuing without Isa.
+- 2026-11-20 00:35 Row 83 note fix stays in Parked until row 83 is next touched, per the existing rule.

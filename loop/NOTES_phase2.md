@@ -5,8 +5,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 225 done: row 11 new-template render test (newTemplate.render.test.tsx). Tsc 0 errors, jest 2/2.
-- Round 226 (current): row 11 schedule render test (schedule.render.test.tsx), after grep.
+- Round 226 done: row 11 schedule render test (schedule.render.test.tsx). Tsc 0 errors, jest 2/2.
+- Round 227 (current): row 11 exercise-progress render test (exerciseProgress.render.test.tsx), after grep.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -41,7 +41,7 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps (close one per round)
-- Row 11: schedule (round 226), exercise-progress, freeze have no render test. Templates and new-template done. One screen per round.
+- Row 11: exercise-progress (round 227), freeze have no render test. Templates, new-template, schedule done. One screen per round.
 - Row 7 notes contain a leftover 'status stays PARTIAL' sentence. Covered; fix when touched.
 - Roughly 20 Visual QA rows cite only the generic gate. Judge per row, not by grep.
 
@@ -81,13 +81,13 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Upstream brief generator runs from stale status (rows 1, 6). Verify PHASE2_ROWS.md first.
 
 ## Next
-- Round 226: row 11 schedule render test (schedule.render.test.tsx).
-- Then row 11: exercise-progress, freeze, one per round.
+- Round 227: row 11 exercise-progress render test (exerciseProgress.render.test.tsx).
+- Then row 11: freeze render test.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
+- Jev risk about 0.9 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
