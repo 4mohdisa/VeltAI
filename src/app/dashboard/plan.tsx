@@ -1,19 +1,18 @@
 // B2 · Today's plan detail
 // Full vertical timeline from wake to bedtime. Meal slots show the target
 // calories and three cuisine-matched suggestions; the gym slot is marked. Tap a
-// meal → Add Meal pre-filled with that slot. Generation reason shown (transparency).
+// meal → Add Meal pre-filled with that slot. No AI rationale card for v1 (row 17, decision b).
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
-import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
 import { Badge } from '@/components/display/Badge';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
+import { color, radius, space } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
 import { usePlan } from '@/lib/data';
@@ -28,7 +27,7 @@ const iconFor: Record<PlanEntry['kind'], string> = {
 
 export default function PlanDetailScreen() {
   const { t } = useTranslation();
-  const { plan, reason } = usePlan();
+  const { plan } = usePlan();
   const energyUnit = useUnitPreferences().energy;
   return (
     <Screen title={t('plan.title')} showBack>
@@ -107,25 +106,6 @@ export default function PlanDetailScreen() {
           );
         })}
       </View>
-
-      {/* Only shown when there is a real rationale. It used to render a fixed
-          paragraph asserting the user's gym attendance and sleep hours — a
-          metric Lume never collects — under an AI badge. */}
-      {reason ? (
-        <Card style={{ backgroundColor: color.gray50 }}>
-          <View style={{ flexDirection: 'row', gap: space.sm }}>
-            <Icon name="sparkles" size={18} color={categoryAccent.ai} />
-            <View style={{ flex: 1, gap: space.xs }}>
-              <Text variant="footnote" color={color.gray700} style={{ fontWeight: '600' }}>
-                {t('plan.whyThisPlan')}
-              </Text>
-              <Text variant="footnote" color={color.gray700}>
-                {reason}
-              </Text>
-            </View>
-          </View>
-        </Card>
-      ) : null}
     </Screen>
   );
 }

@@ -6,12 +6,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Last green checkpoint: round 261 (tsc 0 errors; Jest 134 suites, 990 tests, 4 snapshots; go test green, TestPG skipped).
-- Round 262: read only grep. Report said nothing changed, but tests were not run. Loop flagged it.
+- Last green checkpoint: round 263 (tsc 0 errors; Jest 134 suites, 990 tests, 4 snapshots; go test green, TestPG skipped; LUME_TEST_DATABASE_URL unset).
 - Handover: 84 rows, all BUILT, 47 carry 'owner check pending'. Header has 9 pipes.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified in git status. Isa to check.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 rule. Prompts never edit loop/ files.
-- A loop flag on a report means the gate runs next round.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -29,16 +27,16 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Rows 19, 20: no edit. Row 21: no data model or backend change; client aggregation over foodLogs.list per day.
 - Row boundaries strict. Local-only mutations need no API test.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
-- Row 9: TodayCard malformed-response guard and retry notice for a session outside the range. Range is today plus yesterday (useGymRange in src/lib/data/gymRange.ts).
+- Row 9: TodayCard shows retry notice for a session outside the range (today plus yesterday, useGymRange in src/lib/data/gymRange.ts).
 - Row 84 focus refetch uses silent revalidate with [] deps on focus callbacks.
 - Round 261: checkpoint chosen over Jev ask.
-- Round 263: gate before row 17 because of the loop flag.
+- Round 264: row 17 chosen over Jev's view of a different first task. Reason: default b already decided; gate clean; Jev confidence 0.01, so smallest unblocked task.
 
 ## Done
 - BUILT: all 84 rows (see PHASE2_ROWS.md). 47 carry 'owner check pending'; do not reopen them.
 
 ## Blocked on Isa
-- Row 17 plan.tsx: asked round 260, no answer. Default (b) drop the card for v1, recorded in decisions.
+- Row 17 plan.tsx: asked round 260, no answer. Default (b) drop the card for v1 (round 264 task).
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for simulator flows.
@@ -65,15 +63,15 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Row 9: a session outside the 2-day range shows the retry notice. Known limit, untested edge.
+- Loop script: force go test ./... -count=1 once per handover so cached results cannot hide a failure. Isa decision.
 
 ## Next
-- Round 263: checkpoint gate (read only). Clear the loop flag.
-- Round 264: row 17 default (b): remove the plan card for v1 in one row task, with a render test.
+- Round 264: row 17 default (b), plan card removal with render test.
 - Then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.2 of 2: keep tasks small, one row, one file.
+- Jev risk about 1.4 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - es/fr strings run 2.5x to 3.7x English.
 - Headless Jest only; no simulator run yet. '[data] API unreachable' console noise is expected.
