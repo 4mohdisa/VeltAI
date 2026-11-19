@@ -7477,3 +7477,7 @@
 - 2026-11-19 21:51 Chose the checkpoint run because the loop note for this round mandates it; it is read only and carries low risk.
 - 2026-11-19 21:51 Jev suggested ask at 51% with confidence 0.26. Overridden: low confidence, and asking adds no information because the checkpoint needs no Isa input.
 - 2026-11-19 21:51 Next candidate is the ai-query send path render test, but only after grep confirms no existing executed import covers it.
+- 2026-11-19 21:52 Chose the ai-query send path as the next task, as the prior handover and notes both recommend. It is one row, one file, and needs nothing from Isa.
+- 2026-11-19 21:52 Told Claude Code to grep and check existing coverage first, because earlier rounds were handed near-duplicate work.
+- 2026-11-19 21:52 Left AnomalyBanner and AnomalyCard out of this round. Notes record a real render test (anomaly.render.test.tsx), but the handover calls that coverage a code-reading note. Recorded as a NEXT check, not a task, to avoid a duplicate test.
+- 2026-11-19 21:52 Kept the checkpoint green (tsc 0, Jest 107 suites / 920 tests / 4 snapshots) as the new baseline. Jev's 85% run signal agrees with a small task.
