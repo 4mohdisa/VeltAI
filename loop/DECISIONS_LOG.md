@@ -7779,3 +7779,6 @@
 - 2026-11-20 00:37 Row 83 stale note stays parked: it is a text fix, not a gate, and the handover says fix it only when row 83 is touched.
 - 2026-11-20 00:37 TodayCard shape guard stays parked: it is a product or robustness decision with no current failing row.
 - 2026-11-20 00:37 Kept the prompt to one row and one new file, with a grep first, because the last handover asked for full file names.
+- 2026-11-20 00:39 Round 229: chose row 83 note fix over a render test. Reason Jev cannot see: the MACRO_BAR_W citation has been flagged for six or more rounds and points future briefs at a constant that no longer exists. Notes confirm no coverage gap I can name without reading the row list, so a render-test pick now would be a guess.
+- 2026-11-20 00:39 Row 83 is touched this round, so its stale note is corrected now per the rule that stale notes are fixed when the row is next touched.
+- 2026-11-20 00:39 Documentation-only round: no tests run, no code changed, status cells untouched.
