@@ -7078,3 +7078,11 @@
 - 2026-11-19 18:38 Kept rows 69 to 72 out of this round. Row 69 maps to a rough audit line and needs its own check later.
 - 2026-11-19 18:38 Condensed the notes file to stay under 600 words. Decisions and blocked items are kept verbatim in substance; finished detail was merged into one line per item.
 - 2026-11-19 18:38 Kept Jev advisory only. Its risk score of 1.0 supports a one-row, one-file round.
+- 2026-11-19 18:40 Chose row 69 gap check first: it is the next open motion row and the Done list already marks ProgressBar, DailyMacroRing and EnergyBalanceCard as BUILT, so it may fold cheaply like rows 65 to 67. Checking code before any edit.
+- 2026-11-19 18:40 If a real gap exists, park it as PARTIAL and name the fix under NEXT rather than fixing it in a gap-check round, to keep one row and one file per round.
+- 2026-11-19 18:40 No code change expected, so tsc and full Jest run per the test gate rule.
+- 2026-11-19 18:41 Rewrote the rejected prompt: explicit loop/phase2 branch check, no branch switching, no push or merge, one row, one check, report format at the end.
+- 2026-11-19 18:41 Chose row 69 over row 70 and parity work: it is the next row in order and a check-only round that costs no code risk.
+- 2026-11-19 18:41 Row 69 is a check, not a build: ProgressBar, DailyMacroRing and EnergyBalanceCard were already listed as BUILT in Done, so the round tests that claim before folding.
+- 2026-11-19 18:41 Source paths are found by search, not guessed, because the file locations are not recorded in notes.
+- 2026-11-19 18:41 Full tsc and Jest run because the round changes no code and the gate rule requires it.
