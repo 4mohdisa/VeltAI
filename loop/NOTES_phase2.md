@@ -23,13 +23,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Clerk sign in needs hosted Clerk (JWKS). Parked as owner step, no workaround, no auth bypass.
 - Order of work: row 3 Food log before row 9 Gym log.
 - Simulator flows that need sign in are owner steps. Rows are BUILT on passing local mocked Jest and Go tests.
-- Prompts must state the branch rule (stay on loop/phase2, no switch, push or merge). Round 5 prompt was rejected for lacking it.
+- Prompts must state the branch rule (stay on loop/phase2, no switch, push or merge).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
 - Row 22 baseline: BUILT.
 - Row 73 Local setup: done. Sign in step parked.
 - Row 3 Food log: BUILT (round 4). Simulator owner check pending.
+- Row 9 Gym log: BUILT (round 5). Routes and JSON fields match. Added export to hydrateGym, one hydration test. Simulator owner check pending.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -44,10 +45,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local Clerk-compatible verifier or test issuer for simulator sign in: owner step.
 
 ## Next
-- Round 5: row 9 Gym log (verify routes, client wiring, one mapping test). Prompt sent.
+- Round 6: row 10 Gym history (verify route and client wiring, add one test if a gap). Prompt sent.
 - Then Goals row (wire client to /api/goals) and Subscription row (wire client to /api/subscription).
 - Then remaining core flows, motion pass, backend refinement rows.
 
 ## Known issues
 - Goals and Subscription screens have backend endpoints the client never calls.
 - Authenticated flows cannot be exercised end to end until sign in is solved.
+- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when row 16 is worked.
+- Gym history and Summary re-hydrate from server on view, so this may be intended. Confirm, do not change without a failing case.

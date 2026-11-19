@@ -6774,3 +6774,7 @@
 - 2026-11-19 14:56 Simulator flow for row 9 kept as owner check pending: sign in needs hosted Clerk, so it cannot run locally.
 - 2026-11-19 14:56 Gym log file paths left for Claude Code to discover and list, because the exact screen filenames are not in the notes. Claude Code must report them in DONE.
 - 2026-11-19 14:56 Delete-whole-meal long press gesture stays parked as a design call, not a wiring task.
+- 2026-11-19 14:59 Chose row 10 over Goals and Subscription: Claude Code reported it as the smallest sign-in-independent check, and it finishes the gym family before the larger wiring gaps.
+- 2026-11-19 14:59 Kept the logGymSession id-reconciliation concern out of this row. It is listed in Known issues to review when row 16 is worked, since it touches the shared mutation queue.
+- 2026-11-19 14:59 Simulator flow for row 10 is recorded as owner check pending because sign in cannot run locally. Rows stay BUILT on passing local tests, as decided in Phase 2 round 4.
+- 2026-11-19 14:59 Jev risk reading (0.6) is noted. Staying on a small verification-first task keeps the risk low, so no pause for Isa.
