@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt says so.
-- Baselines (gate green round 66): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Baselines (gate green round 67): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit: if hit, wait, do not change scope.
@@ -45,7 +45,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57, 59, 61, 62.
-- Round 66: gap check. Onboarding Reduce Motion exists (row 74). Food list animation exists (food.tsx). Gym removeExtra in session.tsx had NO exit animation: row 77 reopened to PARTIAL.
+- Round 66: gap check. Onboarding Reduce Motion exists (row 74). Food list animation exists (food.tsx).
+- Round 67: gym removeExtra exit animation added in session.tsx (FadeOutUp, FadeOut under Reduce Motion, motion.duration.snap). Row 77 BUILT checked in code. Row 68 BUILT (food in food.tsx, gym in row 77). tsc 0 errors; render test passed.
 - Checkpoints: rounds 16, 23, 39, 56, 60, 63 gates green.
 
 ## Blocked on Isa
@@ -57,6 +58,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
+- Session.tsx picker: added gym extras have no entering animation (food.tsx has rowEntering). Parity row, new, not started.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage).
 - Off-token padding and gap values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6. Design re-check with Isa, one pass.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
@@ -77,8 +79,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur round 65).
 
 ## Next
-- Round 67: gym session exit animation (row 77 and row 68 gym side), session.tsx only. Gate tsc and full Jest after.
-- Then fold rows 66-72 one per round, each pointing to its parent (64, 74-77), only after the gap check.
+- Round 68: fold row 66 into parent row 64 (after gap check). Gate tsc and full Jest after.
+- Then fold rows 67 and 69-72 one per round, each pointing to its parent (64, 74-77), only after the gap check.
+- Then session.tsx entering-animation parity row.
 - Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 

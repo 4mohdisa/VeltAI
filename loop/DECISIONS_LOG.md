@@ -7067,3 +7067,6 @@
 - 2026-11-19 18:34 Row 68 folds into row 77 only after the gym exit animation is in, not before. The onboarding Reduce Motion gap is already covered by row 74 (code branch exists), so no new row is needed for it.
 - 2026-11-19 18:34 Rows 66-72 fold one per round after this, as planned, each pointing to its parent.
 - 2026-11-19 18:34 The table runs to row 81, so future append tasks must check the true end of PHASE2_ROWS.md first.
+- 2026-11-19 18:36 Chose Jev's pick (fold row 66 into row 64): it is the next step in the plan already recorded in notes (fold rows 66-72 one per round after the gap check, which was done in round 66), it is documentation only, and it clears a stale row with no code risk.
+- 2026-11-19 18:36 Kept the session.tsx entering-animation gap out of this round: it is new feature-parity work, not a stale row, so it goes to Parked for a later row.
+- 2026-11-19 18:36 Test gate: this round changes no code, so the prompt requires tsc and full Jest to be run and reported.
