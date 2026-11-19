@@ -6,7 +6,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci.
-- Round 203: next checkpoint.
+- Round 194 now. Round 203: next checkpoint.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
@@ -32,14 +32,17 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Minor questions are decided by the manager. Checkpoints override Jev ranking.
 - Jev ask signals are advisory. Keep run when the question is minor and blocks no row.
 - Gate flags (tests not run) are fixed by running the gate, not by stopping.
+- Jev re-rank: keep Jev's pick only when the source re-check is small and the row status is unrecorded (round 194: row 7).
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 8, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- Row 8 BUILT (round 192): all 9 live api.savedFoods, api.recipes, api.savedMeals call sites have render tests. Delete paths have no UI.
-- Row 5 BUILT, owner check pending (on-device food log check).
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 5, 8, 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- Row 5 BUILT (owner check pending: on-device food log check).
+- Row 8 BUILT: all live api.savedFoods, api.recipes, api.savedMeals call sites have render tests. Delete paths have no UI.
+- Row 18 BUILT: energy render tests (real data, empty, failed fetch); status re-checked round 193.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 18 (energy render tests added incl. failed fetch; status check in round 193); row 6 (scan render tests not yet written).
+- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
+- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 6 (scan render tests not yet written: barcode, label, photo).
+- Row 7 Food detail: status not recorded in Done; re-check in progress (round 194).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -56,7 +59,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI exists. Product gap, not a test gap.
 - Row 8 notes cell carries older contradictory fragments. Wording cleanup only.
-- No real render test yet: barcode-scan, label-scan, photo-capture.
+- Row 8 api.recipes.log and recipe/saved meal delete paths: no test yet if UI exists (grep first).
+- No real render test yet: barcode-scan, label-scan, photo-capture (row 6).
 - Quick add: on-device check of the food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
@@ -74,7 +78,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 193: row 18 status check (energy.render.test.tsx vs screen code).
+- Round 194: row 7 Food detail source re-check (Jev pick, kept). Test file: src/__tests__/render/foodDetailLogged.render.test.tsx.
 - Then row 6 scan render tests: barcode, label, photo.
 - Round 203: next checkpoint.
 - If no PARTIAL or DIFFERENT row remains, prepare the stop report with owner items.

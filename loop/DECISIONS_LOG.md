@@ -7629,3 +7629,8 @@
 - 2026-11-19 22:57 Row 5 treated as BUILT, owner check pending (on-device food log check), per round 189 handover.
 - 2026-11-19 22:57 Row 38 treated as BUILT per handover: integrations.render.test.tsx covers connected and failed list.
 - 2026-11-19 22:57 Ignored the repeated 'Not yet covered in row 8' line in the handover: it conflicts with rounds 190 to 192 and the code check.
+- 2026-11-19 22:58 Kept Jev's pick (row 7 re-check) over row 6 for this round: row 7 has no status recorded in the Done list, the last report flagged possible unchecked paths, and the task is small (one row, one test file). Row 6 is next, after this round.
+- 2026-11-19 22:58 Row 18 re-check confirmed in code by the last report; row 18 stays BUILT with no further action.
+- 2026-11-19 22:58 Row 8 notes cell cleanup stays out of scope; it is wording only and goes to Parked.
+- 2026-11-19 22:58 Round 203 checkpoint is still ahead; no checkpoint run this round.
+- 2026-11-19 22:58 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md git status issue remains for Isa; not a loop task.

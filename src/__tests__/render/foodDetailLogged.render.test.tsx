@@ -154,3 +154,21 @@ test('removing a saved food from its own detail sheet calls unsaveFood with the 
 
   alertSpy.mockRestore();
 });
+
+test('pressing "Delete item" on a logged entry removes it from the food store', () => {
+  // Same destructive-confirm pattern as the "Remove from saved" test above and
+  // foodSaved.render.test.tsx — deleteFoodItem is a real local store write (no
+  // server id pending in this fixture, so no network call fires), so this
+  // checks the store directly rather than mocking the function.
+  const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation((_title, _message, buttons) => {
+    buttons?.find((b) => b.style === 'destructive')?.onPress?.();
+  });
+
+  const tree = renderSheet();
+  act(() => buttonWithTitle(tree, 'Delete item')!.props.onPress());
+
+  const meals = useFoodStore.getState().meals;
+  expect(meals.flatMap((m) => m.items).find((it) => it.id === 'it_rice')).toBeUndefined();
+
+  alertSpy.mockRestore();
+});
