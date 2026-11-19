@@ -94,7 +94,7 @@ export default function ProfileScreen() {
           // large title and clips the eyebrow.
           paddingTop: insets.top + layout.tapTarget + space.md,
           paddingHorizontal: space.lg,
-          gap: space.md,
+          gap: 26,
           paddingBottom: space['4xl'] + insets.bottom,
         }}
         showsVerticalScrollIndicator={false}
@@ -106,13 +106,13 @@ export default function ProfileScreen() {
         {/* Title block — the name only appears here; the avatar below carries no
             second copy of it. Before hydration there is no name, and a
             placeholder would be a fabricated one, so the eyebrow is omitted. */}
-        <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+        <View style={{ gap: 2, paddingHorizontal: space.xs }}>
           {profile.name ? (
-            <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+            <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}>
               {profile.name}
             </Text>
           ) : null}
-          <Text variant="title1" color={color.label} accessibilityRole="header">
+          <Text variant="title1" color={color.label} accessibilityRole="header" style={{ letterSpacing: -0.6 }}>
             {t('settings.title')}
           </Text>
         </View>

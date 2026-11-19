@@ -42,6 +42,9 @@ import type { EnergyBalance } from '@/lib/types';
 import type { GymSession } from '@/lib/api';
 
 const RANGE_DAYS = 14;
+/** The design's chart right gutter and scale value label box, on both charts. */
+const CHART_GUTTER_W = 44;
+const SCALE_LABEL_W = 40;
 
 // ---------------------------------------------------------------------------
 // Training bindings
@@ -61,7 +64,7 @@ export default function TrainingDetailScreen(): JSX.Element {
   const energy = useEnergyRange();
 
   return (
-    <Screen variant="floating" showBack>
+    <Screen variant="floating" detail showBack contentStyle={{ gap: space.lg }}>
       <KickerTitle kicker={t('dashboard.training')} title={t('dashboard.workouts')} tint={categoryAccent.positive} />
       {loading ? (
         <>
@@ -136,9 +139,10 @@ function Body({
             value={String(weekSessions)}
             unit={t('dashboard.sessionsThisWeek', { count: weekSessions })}
             sub={weekTotal > 0 ? t('dashboard.durationTrained', { value: formatDuration(weekTotal) }) : undefined}
+            tight
           />
           <View style={{ gap: space.sm }}>
-            <ChartHeader title={t('dashboard.minutesTrained')} note={t('dashboard.lastDays', { count: dates.length })} />
+            <ChartHeader title={t('dashboard.minutesTrained')} note={t('dashboard.lastDays', { count: dates.length })} hero />
             {trained.length === 0 ? (
               <EmptyState
                 icon="chart.bar.xaxis"
@@ -151,9 +155,11 @@ function Body({
                   cols={heroCols}
                   height={HERO_H}
                   ceiling={t('dashboard.minutesCeiling', { value: formatNumber(heroScale) })}
+                  gutterWidth={CHART_GUTTER_W}
+                  scaleLabelWidth={SCALE_LABEL_W}
                   summary={t('dashboard.trainingMinutesSummary', { count: dates.length, value: formatNumber(heroScale) })}
                 />
-                <Axis labels={heroLabels(dates)} />
+                <Axis labels={heroLabels(dates)} gutterWidth={CHART_GUTTER_W} />
               </>
             )}
           </View>
@@ -183,9 +189,11 @@ function Body({
                 cols={secCols}
                 height={SEC_H}
                 ceiling={formatNumber(secScale)}
+                gutterWidth={CHART_GUTTER_W}
+                scaleLabelWidth={SCALE_LABEL_W}
                 summary={t('dashboard.trainingEnergySummary', { count: energyWeek.length, value: formatNumber(secScale) })}
               />
-              <Axis labels={energyWeek.map((d) => weekdayShort(d.date).charAt(0))} />
+              <Axis labels={energyWeek.map((d) => weekdayShort(d.date).charAt(0))} gutterWidth={CHART_GUTTER_W} />
               <Text variant="footnote" color={color.secondaryLabel}>
                 {t('dashboard.trainingKcalAttributed', { value: formatNumber(gymKcal) })}
               </Text>

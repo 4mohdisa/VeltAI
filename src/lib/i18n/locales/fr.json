@@ -244,6 +244,7 @@
   "gym": {
     "loadFailed": "Impossible de charger vos données de sport.",
     "title": "Sport",
+    "muscleFocusWindow": "30 derniers jours · {{volume}}",
     "loadingSessions": "Chargement des séances…",
     "monthLoadFailed": "Impossible de charger les séances de ce mois",
     "logThisSession": "Enregistrer cette séance",
@@ -329,6 +330,7 @@
     "weekEatenSummary_other": "Calories consommées chacun des {{count}} derniers jours, échelle jusqu’à {{value}} kcal.",
     "weekEatenAverage_one": "Sur le {{count}} dernier jour, vous avez consommé {{value}} kcal par jour en moyenne.",
     "weekEatenAverage_other": "Sur les {{count}} derniers jours, vous avez consommé {{value}} kcal par jour en moyenne.",
+    "weekAverageLine": "Moyenne de {{value}} kcal",
     "weekTarget": "Objectif : {{value}} kcal.",
     "surplusVsDeficit": "Surplus ou déficit",
     "weekNoNetTitle": "Pas encore de net",

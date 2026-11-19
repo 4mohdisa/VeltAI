@@ -164,8 +164,8 @@ export default function RootLayout() {
                 enough for the fields + keyboard, expandable to full. */}
             <Stack.Screen name="food/detail" options={{ ...sheetOptions, sheetAllowedDetents: [0.75, 1] }} />
             <Stack.Screen name="food/saved" options={{ ...sheetOptions, sheetAllowedDetents: [0.7, 1] }} />
-            {/* Month day-picker for the food log — tall enough for a 6-row grid. */}
-            <Stack.Screen name="food/calendar" options={{ ...sheetOptions, sheetAllowedDetents: [0.75] }} />
+            {/* Month day-picker for the food log — sized to its grid, as the design does. */}
+            <Stack.Screen name="food/calendar" options={{ ...sheetOptions, sheetAllowedDetents: 'fitToContents' }} />
         </Stack>
             <ToastHost />
             {/* Debug capture overlay. Renders nothing unless

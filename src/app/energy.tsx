@@ -41,6 +41,19 @@ import type { EnergyBalance } from '@/lib/types';
 // Energy bindings
 // ---------------------------------------------------------------------------
 
+/** The design's hero bar share of its column, its column gap and the fade of the days before today. */
+const HERO_BAR_RATIO = 0.52;
+const HERO_GAP = 3;
+const HERO_DIM_OPACITY = 0.8;
+/** The design's hero scale: from just under the lowest day's value to just over the highest. */
+const HERO_FLOOR_RATIO = 0.88;
+const HERO_CEILING_RATIO = 1.05;
+/** The design's average line weight. */
+const HERO_AVG_LINE = 2;
+/** The design's chart gutter and scale label width (Summary bundle :250-256, :281, :298-303, :313). No token is 44 or 40. */
+const CHART_GUTTER_W = 44;
+const SCALE_LABEL_W = 40;
+
 const signed = (n: number) => `${n < 0 ? '-' : '+'}${formatNumber(Math.abs(n))}`;
 
 export default function EnergyScreen(): JSX.Element {
@@ -49,7 +62,7 @@ export default function EnergyScreen(): JSX.Element {
   const latest = days.length > 0 ? days[days.length - 1] : null;
 
   return (
-    <Screen variant="floating" showBack contentStyle={{ gap: space.lg }}>
+    <Screen variant="floating" detail showBack contentStyle={{ gap: space.lg }}>
       <KickerTitle kicker={t('dashboard.energy')} title={t('dashboard.energyBalance.title')} tint={categoryAccent.calories} />
       {loading ? (
         <>
@@ -74,19 +87,30 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
   const net = netOf(latest);
   const latestBurn = burnOf(latest);
 
-  // Hero: one floating bar per day, spanning what was eaten to what was burned.
-  const heroScale = Math.max(1, ...days.map((d) => Math.max(d.calories_in, burnOf(d) ?? 0)));
-  const heroCols: Col[] = days.map((d) => {
+  // Hero: one floating bar per day, spanning what was eaten to what was burned,
+  // on a scale fitted to the drawn days only (a gap day draws nothing).
+  const burns = days.map(burnOf).filter((b): b is number => b != null);
+  const drawn = days.flatMap((d) => {
     const burn = burnOf(d);
-    if (burn == null) return { key: d.date, bars: [] }; // uncomputable day → gap
+    return burn == null ? [] : [d.calories_in, burn];
+  });
+  const heroFloor = drawn.length > 0 ? Math.min(...drawn) * HERO_FLOOR_RATIO : 0;
+  const heroScale = Math.max(1, ...drawn) * HERO_CEILING_RATIO;
+  const heroY = (v: number) => ((v - heroFloor) / Math.max(1, heroScale - heroFloor)) * HERO_H;
+  const avgBurn = mean(burns);
+  const heroCols: Col[] = days.map((d, i) => {
+    const dim = i !== days.length - 1;
+    const burn = burnOf(d);
+    if (burn == null) return { key: d.date, dim, bars: [] }; // uncomputable day → gap
     const lo = Math.min(d.calories_in, burn);
     const hi = Math.max(d.calories_in, burn);
     return {
       key: d.date,
+      dim,
       bars: [
         {
-          h: Math.max(layout.hairline, ((hi - lo) / heroScale) * HERO_H),
-          bottom: (lo / heroScale) * HERO_H,
+          h: Math.max(layout.hairline, heroY(hi) - heroY(lo)),
+          bottom: heroY(lo),
           tint: d.calories_in > burn ? categoryAccent.calories : accent.blue,
         },
       ],
@@ -145,16 +169,18 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
               value={signed(net)}
               unit={net < 0 ? t('dashboard.kcalDeficit') : t('dashboard.kcalSurplus')}
               sub={t('dashboard.energyNetSub', { day: dayLabel })}
+              tight
             />
           ) : (
             <StatLine
               value={formatNumber(latest.calories_in)}
               unit={t('dashboard.kcalEaten')}
               sub={t('dashboard.energyAddBodyStats')}
+              tight
             />
           )}
           <View style={{ gap: space.sm }}>
-            <ChartHeader title={t('dashboard.eatenAgainstBurned')} note={t('dashboard.lastDays', { count: days.length })} />
+            <ChartHeader title={t('dashboard.eatenAgainstBurned')} note={t('dashboard.lastDays', { count: days.length })} hero />
             {spanned < 2 ? (
               <EmptyState
                 icon="chart.bar.xaxis"
@@ -163,13 +189,44 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
               />
             ) : (
               <>
-                <Plot
-                  cols={heroCols}
-                  height={HERO_H}
-                  ceiling={formatNumber(heroScale)}
-                  summary={t('dashboard.energyHeroSummary', { value: spanned, total: days.length, scale: formatNumber(heroScale) })}
-                />
-                <Axis labels={heroLabels(days.map((d) => d.date))} />
+                <View>
+                  <Plot
+                    cols={heroCols}
+                    height={HERO_H}
+                    ceiling={formatNumber(heroScale)}
+                    barWidthRatio={HERO_BAR_RATIO}
+                    gap={HERO_GAP}
+                    dimOpacity={HERO_DIM_OPACITY}
+                    gutterWidth={CHART_GUTTER_W}
+                    scaleLabelWidth={SCALE_LABEL_W}
+                    summary={t('dashboard.energyHeroSummary', { value: spanned, total: days.length, scale: formatNumber(heroScale) })}
+                  />
+                  {avgBurn != null ? (
+                    <>
+                      {/* Stops where Plot's columns stop: its gutter is CHART_GUTTER_W. */}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          right: CHART_GUTTER_W,
+                          top: HERO_H - heroY(avgBurn),
+                          borderTopWidth: HERO_AVG_LINE,
+                          borderTopColor: categoryAccent.calories,
+                          borderRadius: HERO_AVG_LINE,
+                        }}
+                      />
+                      <Text
+                        variant="label"
+                        color={categoryAccent.calories}
+                        numberOfLines={1}
+                        style={{ position: 'absolute', left: 0, bottom: heroY(avgBurn), paddingBottom: HERO_AVG_LINE }}
+                      >
+                        {`${formatNumber(avgBurn)} ${t('dashboard.kcal')} ${t('dashboard.energyBalance.burned').toLowerCase()}`}
+                      </Text>
+                    </>
+                  ) : null}
+                </View>
+                <Axis labels={heroLabels(days.map((d) => d.date))} gutterWidth={CHART_GUTTER_W} />
               </>
             )}
           </View>
@@ -191,9 +248,11 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
             cols={secCols}
             height={SEC_H}
             ceiling={formatNumber(secScale)}
+            gutterWidth={CHART_GUTTER_W}
+            scaleLabelWidth={SCALE_LABEL_W}
             summary={t('dashboard.energyWeekSummary', { count: week.length, value: formatNumber(secScale) })}
           />
-          <Axis labels={week.map((d) => weekdayShort(d.date).charAt(0))} />
+          <Axis labels={week.map((d) => weekdayShort(d.date).charAt(0))} gutterWidth={CHART_GUTTER_W} />
           {weekAvgIn != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
               {t('dashboard.energyAverageEaten', { value: formatNumber(weekAvgIn) })}

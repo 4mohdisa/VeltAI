@@ -4,7 +4,7 @@
 //   destructive same as secondary — intent carried by copy + confirmation, not red
 //   tertiary    text-only, black label
 // Haptic + min target come from the Pressable primitive.
-import { ActivityIndicator, View, type StyleProp, type ViewStyle } from 'react-native';
+import { ActivityIndicator, PixelRatio, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -13,6 +13,11 @@ import { accent, color, layout, radius, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'destructive';
+/** 'pill' sets the label at the design's sheet-pill 16/21 ("It went as planned"); no type token covers it. */
+export type ButtonLabelSize = 'default' | 'pill';
+
+const PILL_LABEL_SIZE = 16;
+const PILL_LABEL_LINE_HEIGHT = 21;
 
 export type ButtonProps = {
   title: string;
@@ -22,6 +27,7 @@ export type ButtonProps = {
   loading?: boolean;
   fullWidth?: boolean;
   icon?: string;
+  labelSize?: ButtonLabelSize;
   testID?: string;
   accessibilityLabel?: string;
   style?: StyleProp<ViewStyle>;
@@ -52,6 +58,7 @@ export function Button({
   loading = false,
   fullWidth = true,
   icon,
+  labelSize = 'default',
   testID,
   accessibilityLabel,
   style,
@@ -98,7 +105,15 @@ export function Button({
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
           {/* Weight matches the bodyBold label so icon + text read as one unit. */}
           {icon ? <Icon name={icon} size={18} color={labelColor} weight="semibold" /> : null}
-          <Text variant="bodyBold" color={labelColor}>
+          <Text
+            variant="bodyBold"
+            color={labelColor}
+            style={
+              labelSize === 'pill'
+                ? { fontSize: PILL_LABEL_SIZE, lineHeight: PILL_LABEL_LINE_HEIGHT * PixelRatio.getFontScale() }
+                : undefined
+            }
+          >
             {title}
           </Text>
         </View>

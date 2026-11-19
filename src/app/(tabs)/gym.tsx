@@ -7,12 +7,12 @@ import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import Animated, { Easing, FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Path } from 'react-native-svg';
 import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
-import { StreakFlame } from '@/components/display/StreakFlame';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Text } from '@/components/primitives/Text';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
@@ -20,7 +20,7 @@ import { GymCalendar } from '@/components/domain/GymCalendar';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { TodayCard, MuscleChart, MyScheduleCard, GymPatternsCard } from '@/components/gym';
-import { color, motion, space, surface } from '@/lib/design/tokens';
+import { categoryAccent, color, motion, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useGym } from '@/lib/data';
 import { addMonths } from '@/lib/data/foodDays';
@@ -34,6 +34,13 @@ import { todayISO } from '@/lib/data/mappers';
 const PAGE_ENTRANCE = FadeInDown.duration(motion.duration.fast)
   .easing(Easing.bezier(0, 0, 0.2, 1))
   .withInitialValues({ opacity: 0, transform: [{ translateY: space.sm }] });
+
+/** The design's gap between the streak strip's flame, count, label and footnote. No spacing token is 11. */
+const STREAK_STRIP_GAP = 11;
+
+/** The design's static streak flame (bundle :36): an outer flame with the inner flame cut out. */
+const STREAK_FLAME_PATH =
+  'M12 2.8C15.4 6 18 9 18 12.2A6.2 6.2 0 015.8 12.2C5.8 9 8.6 6 12 2.8zM12 9.4c-1.5 1.4-2.6 2.7-2.6 4.1a2.6 2.6 0 005.2 0c0-1.4-1.1-2.7-2.6-4.1z';
 
 export default function GymLogScreen() {
   const { t } = useTranslation();
@@ -129,8 +136,10 @@ export default function GymLogScreen() {
             accessibilityLabel={t('gym.streakDetailLabel', { count: streak.current })}
             style={{ paddingVertical: space.md, paddingHorizontal: space.lg }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-              <StreakFlame size={space.xl} active={streak.current > 0} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: STREAK_STRIP_GAP }}>
+              <Svg width={space.xl} height={space.xl} viewBox="0 0 24 24">
+                <Path fillRule="evenodd" fill={categoryAccent.streak} d={STREAK_FLAME_PATH} />
+              </Svg>
               <Text variant="statSmall" color={color.label}>
                 {streak.current}
               </Text>

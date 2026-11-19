@@ -3,16 +3,19 @@ from pathlib import Path
 import anthropic
 
 REPO = Path(os.environ["LUME_REPO"])
-BRANCH = os.environ.get("LOOP_BRANCH", "loop/design-match")
+PHASE = os.environ.get("LOOP_PHASE", "")  # empty is the design phase, phase2 is backend wiring and simulator testing
+SUFFIX = f"_{PHASE}" if PHASE else ""
+BRANCH = os.environ.get("LOOP_BRANCH") or (f"loop/{PHASE}" if PHASE else "loop/design-match")
 LOOP_DIR = Path(__file__).resolve().parent
-BRIEF = (LOOP_DIR / "MANAGER_BRIEF.md").read_text()
-NOTES_PATH = LOOP_DIR / "NOTES.md"
-HANDOVER_PATH = LOOP_DIR / "HANDOVER.md"
+BRIEF = (LOOP_DIR / f"MANAGER_BRIEF{SUFFIX}.md").read_text()
+NOTES_PATH = LOOP_DIR / f"NOTES{SUFFIX}.md"
+HANDOVER_PATH = LOOP_DIR / f"HANDOVER{SUFFIX}.md"
+ROWS_FILE = os.environ.get("ROWS_FILE") or ("PHASE2_ROWS.md" if PHASE else "DESIGN_GAP_ANALYSIS.md")
 LOG_PATH = LOOP_DIR / "loop.log"
 LOCK_PATH = LOOP_DIR / "loop.lock"
 PAUSE_PATH = LOOP_DIR / "PAUSE"  # create this file to hold the loop, delete it to resume
 STOP_PATH = LOOP_DIR / "STOP"  # makes the restart wrapper exit as well
-STOP_ASK_HOUR = int(os.environ.get("STOP_ASK_HOUR", "21"))  # local hour for the daily "should I stop?" message
+STOP_ASK_HOUR = int(os.environ.get("STOP_ASK_HOUR", "-1"))  # local hour for the daily "should I stop?" message
 USAGE_PATH = LOOP_DIR / "usage.json"  # manager tokens used today, survives restarts
 DAILY_TOKEN_CAP = int(os.environ.get("DAILY_TOKEN_CAP", "2500000"))  # manager tokens per day, send /more on Telegram to add 1,000,000
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
@@ -23,7 +26,7 @@ HANDOVER_EVERY = int(os.environ.get("HANDOVER_EVERY", "15"))  # Claude Code prom
 PUSH_EVERY = int(os.environ.get("PUSH_EVERY", "5"))  # rounds between pushes of the loop branch
 CHECKPOINT_EVERY = int(os.environ.get("CHECKPOINT_EVERY", "15"))  # rounds between full test suite runs
 ASK_TIMEOUT = int(os.environ.get("ASK_TIMEOUT_MIN", "15")) * 60  # wait this long for an answer, then move on
-SUMMARY_HOURS = [int(h) for h in os.environ.get("SUMMARY_HOURS", "7,18").split(",")]  # local hours for the summary message
+SUMMARY_HOURS = [int(h) for h in os.environ.get("SUMMARY_HOURS", "7").split(",")]  # local hours for the summary message
 CLAUDE_TIMEOUT = 60 * 60  # 1 hour per Claude Code run
 INIT_PROMPT = (
     "Analyze this repository and create CLAUDE.md in the repo root, the same as the /init command does. "
@@ -90,6 +93,28 @@ def tg_send(text):
     except Exception as e:
         log(f"Telegram send failed: {e}")
 
+QUIET = os.environ.get("QUIET", "1") != "0"  # QUIET=0 brings back a message for every event
+ASK_LIMIT = int(os.environ.get("ASK_LIMIT", "3"))  # most questions sent to Isa per day
+EVENTS = []  # problems the loop handled by itself, counted in the daily report
+URGENT_SENT = {}
+LAST_STOP = {"text": ""}
+
+def notify(text, urgent=False, key=None, cooldown=6 * 3600):
+    # Quiet mode: only urgent things reach Telegram, each at most once per cooldown. The rest goes to the log and the daily report.
+    if not QUIET:
+        tg_send(text)
+        return
+    if not urgent:
+        EVENTS.append(text[:160])
+        log("(not sent to Telegram) " + text[:300].replace("\n", " "))
+        return
+    k = key or text[:40]
+    if time.time() - URGENT_SENT.get(k, 0) < cooldown:
+        log("(urgent, already sent recently) " + text[:200].replace("\n", " "))
+        return
+    URGENT_SENT[k] = time.time()
+    tg_send(text)
+
 def tg_confirm(offset):
     # Tell Telegram these updates have been read, so they are not delivered a second time
     try:
@@ -147,7 +172,7 @@ def tg_collect_messages():
 def rows_counts():
     # Counts the table rows in DESIGN_GAP_ANALYSIS.md. A row is built once it says BUILT or EXACT.
     try:
-        lines = (REPO / "DESIGN_GAP_ANALYSIS.md").read_text().splitlines()
+        lines = (REPO / ROWS_FILE).read_text().splitlines()
     except Exception:
         return None
     rows = [l for l in lines if l.startswith("|") and re.search(r"DIFFERENT|PARTIAL|BUILT|EXACT", l)]
@@ -175,6 +200,11 @@ def add_usage(tokens):
     d["tokens"] += tokens
     USAGE_PATH.write_text(json.dumps(d))
 
+def add_round():
+    d = load_usage()
+    d["rounds"] = d.get("rounds", 0) + 1
+    USAGE_PATH.write_text(json.dumps(d))
+
 def over_cap():
     d = load_usage()
     return d["tokens"] >= DAILY_TOKEN_CAP + d["bonus"]
@@ -200,8 +230,10 @@ def handle_command(text):
         d = load_usage()
         paused = "Paused. " if PAUSE_PATH.exists() else ""
         tg_send(f"{rows_progress()}. {paused}Manager tokens today: {d['tokens']:,} of {DAILY_TOKEN_CAP + d['bonus']:,}.")
+    elif cmd == "/report":
+        tg_send(build_report())
     else:
-        tg_send("Commands: /status, /pause, /resume, /stop, /more (adds 1,000,000 tokens to today's cap).")
+        tg_send("Commands: /status (quick check), /report (full report now), /pause, /resume, /stop, /more (adds 1,000,000 tokens to today's cap).")
 
 def maybe_ask_stop(stats):
     # Once a day at STOP_ASK_HOUR: tell Isa the loop keeps running unless he replies /stop
@@ -265,7 +297,7 @@ def setup_branch():
 def startup_check():
     # Catch a broken setup now, with a Telegram message, instead of failing silently overnight
     problems = []
-    if not (REPO / "design").is_dir():
+    if not PHASE and not (REPO / "design").is_dir():
         problems.append("The design folder is missing. Export the design from Claude Design into design/ in the repo and commit it.")
     try:
         r = subprocess.run(["claude", "--version"], capture_output=True, text=True, timeout=60, env=CLAUDE_ENV)
@@ -294,7 +326,7 @@ def push_branch():
     r = git("push", "-u", "origin", BRANCH)
     if r.returncode != 0:
         log(f"Push failed: {r.stderr.strip()}")
-        tg_send(f"Push of {BRANCH} failed, the loop continues locally: {r.stderr.strip()[:300]}")
+        notify(f"Push of {BRANCH} failed, the loop continues locally: {r.stderr.strip()[:300]}")
         return False
     return True
 
@@ -325,7 +357,7 @@ class Session:
                 seconds = limit_wait_seconds(text)
                 log(f"Usage limit hit, sleeping {seconds // 60} minutes")
                 if attempt == 0:
-                    tg_send(f"Claude Code usage limit reached. Pausing about {seconds // 60} minutes, then retrying the same task.")
+                    notify(f"Claude Code usage limit reached. Pausing about {seconds // 60} minutes, then retrying the same task.")
                 time.sleep(seconds)
                 continue
             self.started = True
@@ -337,7 +369,7 @@ def handover(session):
     # Ask the old session for a summary, save it, then return a fresh session seeded with it
     ask = (
         "Write a handover summary for a fresh session that continues this work. Include: what is built so far "
-        "and which DESIGN_GAP_ANALYSIS.md rows are now built; the surface or component in progress, if any; "
+        f"and which {ROWS_FILE} rows are now built; the surface or component in progress, if any; "
         "file paths that matter; decisions made and why; gotchas or problems spotted but not fixed. "
         "Plain text, under 400 words. Do not change any files."
     )
@@ -395,23 +427,39 @@ def notes_section(name):
 PENDING_DECISIONS = []  # decisions the manager made without asking, reported in the next summary
 USAGE = {"in": 0, "out": 0}  # manager tokens used, so the cost is visible
 
+def build_report():
+    d = load_usage()
+    commits = len([l for l in git("log", "--since=midnight", "--oneline").stdout.splitlines() if l.strip()])
+    decided = "\n".join(PENDING_DECISIONS[-8:]) or "(none)"
+    state = "PAUSED. " if PAUSE_PATH.exists() else ""
+    said = f"\nLast stop note from the manager: {LAST_STOP['text']}\n" if LAST_STOP["text"] else ""
+    return (
+        f"{state}Lume daily report, {time.strftime('%a %d %b')}\n"
+        f"Progress: {rows_progress()}.\n"
+        f"Today: {d.get('rounds', 0)} rounds, {commits} commits, manager tokens {d['tokens']:,} of {DAILY_TOKEN_CAP + d['bonus']:,}.\n"
+        f"Problems it fixed by itself: {len(EVENTS)}.\n{said}\n"
+        f"Done recently:\n{notes_section('Done')[-700:]}\n\n"
+        f"Needs you (it carries on without you):\n{notes_section('Blocked on Isa')[:700]}\n\n"
+        f"Decided on its own:\n{decided}\n\n"
+        "It keeps running. /status for a quick check, /report for this message, /stop to end it."
+    )
+
 def maybe_send_summary(stats):
-    # One summary message at each of the SUMMARY_HOURS, using the Mac's local time
+    # One report a day, sent the first time the loop is awake after the SUMMARY_HOURS hour (Mac local time)
     now = time.localtime()
     key = (now.tm_yday, now.tm_hour)
-    if now.tm_hour not in SUMMARY_HOURS or stats["last_key"] == key:
+    if now.tm_hour < min(SUMMARY_HOURS) or stats["last_key"] == key:
         return
     stats["last_key"] = key
-    decided = "\n".join(PENDING_DECISIONS[-10:]) or "(none)"
-    PENDING_DECISIONS.clear()
-    tg_send(
-        f"Lume loop summary. Rounds since the last summary: {stats['rounds']}.\n\n"
-        f"Done so far:\n{notes_section('Done')[-1200:]}\n\n"
-        f"Waiting on you:\n{notes_section('Blocked on Isa')[:1200]}\n\n"
-        f"Decided without asking you:\n{decided}\n\n"
-        f"Progress: {rows_progress()}. Manager tokens today: {load_usage()['tokens']:,}."
-    )
+    d = load_usage()
+    if d.get("reported"):
+        return  # already sent today, even if the loop restarted
+    d["reported"] = True
+    USAGE_PATH.write_text(json.dumps(d))
+    tg_send(build_report())
     stats["rounds"] = 0
+    PENDING_DECISIONS.clear()
+    EVENTS.clear()
 
 def add_note(note, text):
     return f"{note} {text}" if note else text
@@ -439,10 +487,10 @@ def prompt_problems(prompt):
     steps = len(re.findall(r"^\s*\d+[.)]\s", prompt, re.M))
     if steps > 5:
         problems.append(f"It has {steps} numbered steps and the maximum is 5.")
-    if "design/" not in prompt:
+    if not PHASE and "design/" not in prompt:
         problems.append("It does not name the matching design/ file.")
-    if "loop/design-match" not in prompt:
-        problems.append("It does not say to work only on the loop/design-match branch.")
+    if BRANCH not in prompt:
+        problems.append(f"It does not say to work only on the {BRANCH} branch.")
     if "DONE" not in prompt or "NEXT" not in prompt:
         problems.append("It does not end with the DONE, CHECKED, BLOCKED, NEXT report.")
     answers = jev(prompt, JEV_PROMPT_QUESTIONS)
@@ -610,16 +658,16 @@ def main():
 def run_loop():
     ok, msg = setup_branch()
     if not ok:
-        tg_send(f"Lume loop not started: {msg}")
+        notify(f"Lume loop not started: {msg}", urgent=True, key="startup")
         return
     problems = startup_check()
     if problems:
-        tg_send("Lume loop not started. Setup problems:\n" + "\n".join(problems))
+        notify("Lume loop not started. Setup problems:\n" + "\n".join(problems), urgent=True, key="startup")
         return
-    tg_send(f"Lume loop started. {msg}")
+    notify(f"Lume loop started. {msg}")
     session = Session()
     if not (REPO / "CLAUDE.md").exists():
-        tg_send("No CLAUDE.md yet. Asking Claude Code to create one from the repo, so every session starts with the project rules.")
+        notify("No CLAUDE.md yet. Asking Claude Code to create one from the repo, so every session starts with the project rules.")
         session.run(INIT_PROMPT)
         session.prompts = 0  # this setup prompt does not count towards the next handover
         commit_round("init CLAUDE.md")
@@ -640,7 +688,8 @@ def run_loop():
             if PAUSE_PATH.exists() or over_cap():
                 if over_cap() and not capped_told:
                     capped_told = True
-                    tg_send("Daily manager token cap reached. Pausing until tomorrow. Send /more to add 1,000,000 tokens today.")
+                    notify("Daily manager token cap reached. Pausing until tomorrow. Send /more to add 1,000,000 tokens today.", urgent=True, key="cap", cooldown=20 * 3600)
+                maybe_send_summary(stats)
                 time.sleep(30)
                 held = (held + "\n\n" + tg_collect_messages()).strip()
                 continue
@@ -661,10 +710,10 @@ def run_loop():
         if plan is None:
             manager_fails += 1
             if manager_fails >= 4:
-                tg_send(f"Manager failed 4 rounds in a row, so the loop is stopping. Last error: {LAST_ERROR[:300]}")
+                notify(f"Manager failed 4 rounds in a row, so the loop is stopping. Last error: {LAST_ERROR[:300]}", urgent=True, key="manager_dead")
                 push_branch()
                 return
-            tg_send(f"Manager failed 3 times in a row. Last error: {LAST_ERROR[:300]}\nWaiting 15 minutes, then trying again ({manager_fails} of 4).")
+            notify(f"Manager failed 3 times in a row. Last error: {LAST_ERROR[:300]}\nWaiting 15 minutes, then trying again ({manager_fails} of 4).")
             time.sleep(900)
             continue
         manager_fails = 0
@@ -679,11 +728,12 @@ def run_loop():
         if action == "stop":
             commit_round(f"round {round_no} stop")
             push_branch()
-            tg_send(f"Loop stopped: {plan.get('reason', '')}")
+            LAST_STOP["text"] = str(plan.get("reason", ""))[:400]
+            notify(f"Loop stopped: {plan.get('reason', '')}", urgent=rows_all_built(), key="stopped", cooldown=24 * 3600)
             if rows_all_built():
                 STOP_PATH.touch()
             else:
-                tg_send("Rows are still unbuilt, so I will wait 30 minutes and ask the manager again. Send /stop to end it for good.")
+                log("Rows are still unbuilt, waiting 30 minutes before asking the manager again.")
                 for _ in range(60):
                     time.sleep(30)
                     tg_collect_messages()
@@ -696,10 +746,20 @@ def run_loop():
                 rewrites += 1
                 note = add_note(note, "Your last prompt was rejected before it ran: " + " ".join(problems) + " Rewrite it and fix every point.")
                 log(f"Prompt rejected: {problems}")
-                tg_send("Prompt rejected by the strictness check. Asking the manager to rewrite it.")
+                notify("Prompt rejected by the strictness check. Asking the manager to rewrite it.")
                 continue
             rewrites = 0
         if action == "ask":
+            asks = load_usage().get("asks", 0)
+            if asks >= ASK_LIMIT:
+                isa_reply = None
+                note = add_note(note, f"Isa has already been asked {ASK_LIMIT} questions today and reads only one report a day. Do not ask. Decide yourself with the defaults in the brief, record the decision in decisions, and park anything that truly needs him under Blocked on Isa.")
+                log("Question not sent: daily question limit reached.")
+                report = None
+                continue
+            d = load_usage()
+            d["asks"] = asks + 1
+            USAGE_PATH.write_text(json.dumps(d))
             tg_send(f"Question from the loop (I will wait {ASK_TIMEOUT // 60} minutes, then carry on with other work):\n\n{plan.get('question', '')}")
             isa_reply = tg_wait_reply(ASK_TIMEOUT)
             if isa_reply is None:
@@ -708,7 +768,7 @@ def run_loop():
                     "do not ask the same question again, and pick the next surface that does not depend on the answer. "
                     "Only use action ask again if every remaining task needs Isa."
                 ))
-                tg_send("No answer yet. Parking that task and moving on to other work. Reply any time and I will pass it on.")
+                notify("No answer yet. Parking that task and moving on to other work. Reply any time and I will pass it on.")
             report = None
             continue
         try:
@@ -717,29 +777,29 @@ def run_loop():
             report = "BLOCKED: Claude Code run timed out after 1 hour."
         commit_round(f"round {round_no}")
         log(f"Report: {report[-1500:]}")
-        tg_send(f"Round {round_no} done.\n\n{report[-1200:]}")
+        add_round()
         stats["rounds"] += 1
         flags = report_flags(report)
         if flags:
             note = add_note(note, "An automatic check flagged the last report: " + " ".join(flags) + " Deal with this before moving on.")
-            tg_send("Check flagged the last report: " + " ".join(flags))
+            notify("Check flagged the last report: " + " ".join(flags))
         stuck = check_stuck(report, stuck_state)
         if stuck:
             note = add_note(note, stuck)
-            tg_send("The same blocker came back twice. Parking that task and moving on.")
+            notify("The same blocker came back twice. Parking that task and moving on.")
         if round_no % PUSH_EVERY == 0:
             push_branch()
         if session.prompts >= HANDOVER_EVERY:
-            tg_send(f"{HANDOVER_EVERY} prompts in this session. Writing a handover summary and starting a fresh session.")
+            log(f"{HANDOVER_EVERY} prompts in this session. Writing a handover summary and starting a fresh session.")
             try:
                 session = handover(session)
                 note = add_note(note, "A handover just happened. Claude Code now knows only the handover summary. Name files fully in the next prompt.")
-                tg_send("Fresh session started with the handover summary.")
+                log("Fresh session started with the handover summary.")
             except Exception as e:
-                tg_send(f"Handover failed, the loop is stopping. It will try again at the next auto-start: {e}")
+                notify(f"Handover failed, the loop is stopping. It will try again at the next auto-start: {e}", urgent=True, key="handover_failed")
                 return
     push_branch()
-    tg_send(f"Reached the {MAX_ROUNDS} round limit, pausing. It will continue at the next auto-start.")
+    notify(f"Reached the {MAX_ROUNDS} round limit, pausing. It will continue at the next auto-start.")
 
 if __name__ == "__main__":
     main()

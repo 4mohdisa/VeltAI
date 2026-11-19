@@ -200,6 +200,7 @@ export default function LogSessionScreen() {
           variant="leading"
           title={t('gymLog.title')}
           subtitle={planName ? `${planName} · ${summary}` : summary}
+          subtitleVariant="caption"
           onClose={close}
         >
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
@@ -258,7 +259,7 @@ export default function LogSessionScreen() {
               undo the sheet body's 20pt sides and take its 20pt block gap down to 12. */}
           <View style={{ height: layout.hairline, backgroundColor: surface.divider, marginHorizontal: -space.xl, marginVertical: -space.sm }} />
           <View style={{ gap: space.sm }}>
-            <Button title={t('gymLog.asPlanned')} onPress={save} />
+            <Button title={t('gymLog.asPlanned')} onPress={save} labelSize="pill" />
             <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
               {t('gymLog.asPlannedCaption', { plan: planName ?? t('gymLog.thisSession') })}
             </Text>
@@ -308,7 +309,13 @@ function SomeOfItSheet({
   const exercises = (n: number) => `${n} ${n === 1 ? 'exercise' : 'exercises'}`;
 
   return (
-    <SheetContent variant="leading" title="What did you do?" subtitle="Untick anything you skipped" onClose={onBack}>
+    <SheetContent
+      variant="leading"
+      title="What did you do?"
+      subtitle="Untick anything you skipped"
+      subtitleVariant="caption"
+      onClose={onBack}
+    >
       <View>
         {planned.map((te) => {
           const on = !skipped.includes(te.id);
@@ -382,6 +389,7 @@ function SomeOfItSheet({
           title={count === 0 ? 'Nothing ticked' : `Log ${exercises(count)}`}
           onPress={onLog}
           disabled={count === 0}
+          labelSize="pill"
           style={count === 0 ? { backgroundColor: color.light3, opacity: 1 } : undefined}
         />
         <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>

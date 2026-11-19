@@ -30,13 +30,18 @@ export const SHEET_CLOSE_SIZE = 40;
 export const SHEET_CLOSE_GLYPH = 15;
 /** Gap between the title block and the close control, as the design spaces it. */
 export const SHEET_HEADER_GAP = 10;
+/** The design's title-to-subtitle gap on a caption subtitle (GymScreen.dc.html). */
+const SHEET_SUBTITLE_GAP = 2;
 
 export type SheetVariant = 'standard' | 'leading';
+export type SheetSubtitleVariant = 'footnote' | 'caption';
 
 export type SheetContentProps = {
   title?: string;
   /** 'leading' only: a footnote line under the title ("Dots mark days with food logged"). */
   subtitle?: string;
+  /** 'leading' only: 'caption' sets the subtitle at 11/14, 2pt under the title, as the design's gym sheets do. */
+  subtitleVariant?: SheetSubtitleVariant;
   onClose?: () => void;
   /** 'standard' only: shows the trailing Done/tick button (save-and-dismiss). */
   onDone?: () => void;
@@ -47,7 +52,17 @@ export type SheetContentProps = {
   children: ReactNode;
 };
 
-function LeadingHeader({ title, subtitle, onClose }: { title?: string; subtitle?: string; onClose?: () => void }) {
+function LeadingHeader({
+  title,
+  subtitle,
+  subtitleVariant,
+  onClose,
+}: {
+  title?: string;
+  subtitle?: string;
+  subtitleVariant: SheetSubtitleVariant;
+  onClose?: () => void;
+}) {
   return (
     <View
       style={{
@@ -58,14 +73,14 @@ function LeadingHeader({ title, subtitle, onClose }: { title?: string; subtitle?
         paddingVertical: space.md,
       }}
     >
-      <View style={{ flex: 1, minWidth: 0 }}>
+      <View style={{ flex: 1, minWidth: 0, ...(subtitleVariant === 'caption' ? { gap: SHEET_SUBTITLE_GAP } : null) }}>
         {title ? (
           <Text variant="title3" color={color.label} numberOfLines={1} accessibilityRole="header">
             {title}
           </Text>
         ) : null}
         {subtitle ? (
-          <Text variant="footnote" color={color.secondaryLabel}>
+          <Text variant={subtitleVariant} color={color.secondaryLabel}>
             {subtitle}
           </Text>
         ) : null}
@@ -128,6 +143,7 @@ function StandardHeader({
 export function SheetContent({
   title,
   subtitle,
+  subtitleVariant = 'footnote',
   onClose,
   onDone,
   doneLabel,
@@ -148,7 +164,7 @@ export function SheetContent({
     // rotor/swipe can't wander to the dimmed content behind it.
     <SafeAreaView style={{ flex: 1, backgroundColor: color.white }} edges={['bottom']} accessibilityViewIsModal>
       {leading ? (
-        <LeadingHeader title={title} subtitle={subtitle} onClose={onClose} />
+        <LeadingHeader title={title} subtitle={subtitle} subtitleVariant={subtitleVariant} onClose={onClose} />
       ) : (
         <StandardHeader title={title} onClose={onClose} onDone={onDone} doneLabel={doneLabel} doneDisabled={doneDisabled} />
       )}

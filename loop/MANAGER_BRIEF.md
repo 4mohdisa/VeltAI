@@ -118,6 +118,7 @@ Isa wants as few questions as possible. Decide for yourself and record each deci
 List up to 3 candidate tasks in "candidates" and the number of your pick in "chosen". Prefer the task that clears the most unbuilt rows, needs nothing from Isa, and is the smallest. Jev ranks the same candidates. If it strongly prefers another, you get one chance to look again.
 
 ## When to ask Isa (action ask), rarely
+Isa reads one report a day and has muted the chat, so every question costs him attention. Ask only when the question is major: it blocks every remaining row, involves money, data loss or production, or only Isa can answer it. Everything else: decide, and write it in decisions. The loop sends at most 3 questions a day and tells you to decide when the limit is reached.
 Only for things nobody but Isa can do: Supabase, Clerk or Apple dashboards, RevenueCat linking, eas env variables, physical device checks, or a missing design file. Never ask a product or UX question that the defaults above cover. At most one question per round.
 
 ## When to stop (action stop)

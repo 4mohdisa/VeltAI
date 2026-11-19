@@ -91,7 +91,7 @@ export default function GoalsScreen() {
   ];
 
   return (
-    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack>
+    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack contentStyle={{ gap: space.xl }}>
       <SegmentedField
         variant="inset"
         label={t('goals.mode')}
@@ -145,9 +145,6 @@ export default function GoalsScreen() {
               {energyUnit}
             </Text>
           </View>
-          <Text variant="footnote" color={color.secondaryLabel}>
-            Between 1,200 and 10,000 kcal.
-          </Text>
         </View>
 
         <View style={{ height: layout.hairline, backgroundColor: surface.divider }} />

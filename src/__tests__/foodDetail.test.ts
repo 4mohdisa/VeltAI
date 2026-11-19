@@ -122,8 +122,8 @@ describe('the sheet still carries the capabilities it absorbed', () => {
   });
 
   test('logging still names the entry method it came from', () => {
-    expect(sheet).toContain("logMeal(slotForNow(), draft, 'manual')");
-    expect(sheet).toContain("logMeal(slotForNow(), draft, 'barcode')");
+    expect(sheet).toContain("logMeal(slot ?? slotForNow(), draft, 'manual')");
+    expect(sheet).toContain("logMeal(slot ?? slotForNow(), draft, 'barcode')");
   });
 });
 

@@ -165,7 +165,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`search:${subject.name}`}
         title={subject.name}
-        ctaLabel={t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slotForNow()]}`).toLowerCase() })}
+        meal={slotForNow()}
         seed={{
           name: subject.name,
           quantityG: 100,
@@ -189,9 +189,9 @@ export default function FoodDetailScreen() {
         }}
         macros
         onClose={close}
-        onDone={(draft) => {
+        onDone={(draft, slot) => {
           // 'search' isn't an EntryMethod — 'manual' matches the saved-foods path.
-          logMeal(slotForNow(), draft, 'manual');
+          logMeal(slot ?? slotForNow(), draft, 'manual');
           logAndLeave(draft.name);
         }}
       />
@@ -222,7 +222,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`barcode:${subject.code}`}
         title={t('food.confirmProduct')}
-        ctaLabel={t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slotForNow()]}`).toLowerCase() })}
+        meal={slotForNow()}
         seed={{
           name: p.name,
           quantityG: first,
@@ -243,8 +243,8 @@ export default function FoodDetailScreen() {
         }}
         macros
         onClose={close}
-        onDone={(draft) => {
-          logMeal(slotForNow(), draft, 'barcode');
+        onDone={(draft, slot) => {
+          logMeal(slot ?? slotForNow(), draft, 'barcode');
           logAndLeave(draft.name);
         }}
       />
@@ -369,8 +369,9 @@ type DetailFormProps = {
   meal?: MealSlot;
   onDone: (draft: FoodValues, meal?: MealSlot) => void;
   /** The primary pill's words. The design names what the pill does — "Save
-   *  changes" for something already logged, "Add to lunch" for a new food. */
-  ctaLabel: string;
+   *  changes" for something already logged. Omitted for a new food, whose pill
+   *  follows the meal control: "Add to lunch". */
+  ctaLabel?: string;
   onSaveToFoods?: (draft: FoodValues) => void;
   remove?: { label: string; confirm: string; run: () => void };
   onClose: () => void;
@@ -389,7 +390,7 @@ function DetailForm({
   lockValues = false,
   meal,
   onDone,
-  ctaLabel,
+  ctaLabel: fixedCtaLabel,
   onSaveToFoods,
   remove,
   onClose,
@@ -397,6 +398,8 @@ function DetailForm({
   const { t } = useTranslation();
   const [manual, setManual] = useState(!lockValues);
   const [slot, setSlot] = useState(meal);
+  const ctaLabel =
+    fixedCtaLabel ?? t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slot ?? slotForNow()]}`).toLowerCase() });
   const [name, setName] = useState(seed.name);
   const [grams, setGrams] = useState(String(seed.quantityG));
   const [calories, setCalories] = useState(String(seed.calories));
@@ -656,13 +659,18 @@ function DetailForm({
         {/* The design's primary action: a full-width black pill after the fields,
             above the secondary "save" and the destructive remove. */}
         {slot ? (
-          <SegmentedField
-            label={t('food.quickAddMeal')}
-            value={slot}
-            onChange={(v) => setSlot(v)}
-            options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`, { defaultValue: t('foodLog.addMeal') }), value: s }))}
-            variant="inset"
-          />
+          <View style={{ gap: space.sm }}>
+            <Text variant="label" color={color.secondaryLabel} style={{ letterSpacing: 1.1, textTransform: 'uppercase' }}>
+              {t('food.quickAddMeal')}
+            </Text>
+            <SegmentedField
+              value={slot}
+              onChange={(v) => setSlot(v)}
+              options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`, { defaultValue: t('foodLog.addMeal') }), value: s }))}
+              variant="inset"
+              compact
+            />
+          </View>
         ) : null}
 
         <Button title={ctaLabel} onPress={() => onDone(draft(), slot)} />

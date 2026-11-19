@@ -1,74 +1,97 @@
-# Lume Loop Notes
+# Lume Loop Notes (R1206)
 
 ## Goal
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-R437. STOPPED, awaiting Isa. Test gate RED: detailChrome snapshots (this week, training, energy, macros) fail since the R427 Screen.tsx padding change. Asked R428 and R431, unanswered. Do not re-ask. tsc GREEN (R434).
-Resume: when Isa answers (approve snapshot regeneration or revert Screen.tsx padding), treat it as final, go green, continue the queue from item 2.
+STOPPED since R1017; confirmed R1018 to R1206. All 41 rows built, EXACT, or parked. Do not restart build work unless Isa asks. Nothing checked on a device.
+
+## Built (device check pending)
+- Rows 76, 82, 102 and 111 (EXACT), as recorded in the gap doc.
+- Row 103: items 2 to 9, 11 and 12 built or EXACT. Item 1 and the Macros variant of item 2 parked (7-day data, needs a data model change).
+
+## Checks
+- Full checkpoint R818 (tsc 0, 65 suites, 824 tests, 4 snapshots) predates item 9.
+- Since then: tsc 0; related suites green (61 tests, 4 snapshots), R943.
+- Full checkpoint not run after item 9. Isa to run before commit.
 
 ## Decisions (never delete)
 - RevenueCat, not Stripe. Onboarding stabilised. v1 scope locked. Trial 7 days, $49.99/yr, $8.99/mo, no card up front.
 - Design HTML and gap doc are authoritative. Compare code with design first.
-- jest --ci only. Never -u or edit .snap.
-- No code build while the gate is red. Data model and backend changes: park, do not ask.
-- Isa R423: row 111 scrim 0.10; panel solid white; gym row pushes /gym/log-session.
-- R425-426: streak footnote hidden until gym data loads, during gymError and during refresh (row 82 deviation; Isa may overrule).
-- Defaults: one-tap gym log on Summary card; Distance km for cardio; no food search chips; Goals extras kept.
-- Accepted deviations: duration and completion use ticked exercises; no kcal tag on second-sheet rows; second-sheet copy English only; tab bar offset above inset 34; active cell emits tabPress; strip tap goes to /gym/streak; row 111 glyphs via optional size in LumeTabBar.tsx; local SCRIM_COLOR in AddMenu.tsx; row 76 pick marks day done; gap 16 needs sign-off.
+- Change a shared default only when every caller is a detail sheet; otherwise add an opt-in option.
+- Values with no token become named constants. Keep style objects flat so headers without hero render identically.
+- Snapshots: jest --ci first; regenerate only the affected file after a diff check; never hand-edit .snap.
+- Jev is advisory; overrides are logged with reasons.
+- Defaults: one-tap gym log on Summary; Distance km for cardio; no food search chips; Goals extras kept; Gym opt-out follows design.
+- Notes win over stale handovers.
 
-## Blocked on Isa
-- Gate (above). Gap 16 energy and macros share the same sign-off. If answered, resume builds 118, 84, 113, 116, 117.
-- Owner checks: streak footnote wording; whether 'sessions' counts distinct days; flame; VoiceOver.
+## Accepted deviations
+Ticked exercises for duration and completion; no kcal tag on second-sheet rows; English second-sheet copy; tab bar offset above inset 34; strip taps go to /gym/streak; local SCRIM_COLOR in AddMenu.tsx; row 76 pick marks day done; 'Exercises' tracking; row 86 item 8 and Fibre tile hidden without source; Muscle focus 'Last 30 days' and unit-less volume; New workout keeps title; chooser with no plan redirects to library; streak footnote hidden while loading.
 
-## Built (not verified)
-- Row 111. Row 82. Screen.tsx floating padding 40/32 (R427; rows 107, 109, 110). Badge.tsx gray700 to color.label at :19 and :38 (same value).
-- Partial: 84, 108, 113, 114, 116, 117, 118. Row 84: handover said DIFFERENT, notes said PARTIAL. Re-check when reached.
+## Parked (one line per area)
+- Row 103 item 1 and Macros variant: 7-day data.
+- Food: food.tsx:682-683; detail.tsx:315, :683; day chip 66 vs 52/60; NumberEntryBar.tsx:108; multi-angle scan; anomaly banner.
+- Scan: three routes; camera black; guides; shutter 72; no gallery, My dishes or Quick add; busy states; radius 28.
+- Copy: 'por dia' vs 'al dia'; es/fr unreviewed; gym.tsx plurals hard-coded; es.json Fibre labels duplicated.
+- Styles: button label colour; no danger token; literals 16/22 at delete-account.tsx:116; hero title and BreakdownRow label numberOfLines 1; KickerTitle literals 10, 2, 1.1, -0.6; HERO_TITLE has no type token; button icon 18pt for 16pt label; statLarge line height 100 at size 40.
+- Glass: back button fill three-way without system Liquid Glass; icon colour black vs #171717.
+- Layout: headerRight top 64 on summary; Screen floating gap 12.
+- Goals: silent clamping; 'Saved as you type' untrue (en.json:82, goals.tsx:198).
+- Calendar: calendar.tsx:101, :110, :128; six-row scroll; Jump to today.
+- Gym: MuscleChart.tsx:1; muscles.tsx:75; history.tsx:44-46; session.tsx:116-123; dead chevrons; lb plan vs kg; cardio sets x 3.2; Summary streak pulses.
+- Charts: Energy scale 7-93%; gutter 48; literal fontSize 12; space.xs bar minimum; fractional bar heights; easing copied in two files; GrowBar animated height overrides base.
+- Cleanup: CHART_GUTTER_W and SCALE_LABEL_W copied in four screens; stale 'lifted VERBATIM' header; mixHex in GymCalendar.tsx; duplicate SLOT_KEYS; row 103 item 10 stale refs.
+- Subscription: no busy state; manage failure swallowed (:104).
+- Tests: sheetVariant.test.ts brittle; no render tests for log-session, connected apps, Gym; 'API unreachable' warnings; no snapshot for This week's net view.
+- Doc: stale headings and line refs (rows 102, 103, 110).
+- Backend: session calories; logged pill colour awaits token.
+- /tmp/lume-* leftovers: need Isa approval.
+- Outside the 41 rows: secondary card headers (bundle :291); Steps per day sheet (bundle :655).
 
-## Queue
-1. Gate decision from Isa.
-2. Row 118: LumeTabBar.tsx:154 pill shadow; GlassSurface overflow clipping.
-3. Row 84: NavBar floating chrome; NavBar.tsx:29 gray200 alias cleanup. Do not reinstate the dropped alias tidy.
-4. Gap 16 snapshots (Isa).
-5. Rows 113, 116, 117, one at a time.
-Builds only when the gate is green.
+## Open for Isa (defaults apply)
+StatLine tight; footer top and bottom; row 110 padding; logged pill token; session calories; button label colour; danger token; Sunday copy; This week footnote and segmented control; workout title and summary line; daily net line height; sheet close 40 vs 44; energy caption wording; energy label 13pt vs 12; toast tick or tone icon; tick weight; toast bottom 112; streak footnote while loading; gym flame at 0 grey; WHOOP glyph on 14% chip; macro at 100% height; grow-in start delay.
 
-## Re-checked (do not repeat)
-- Rows 107-111, 82, 84 (R405-413). Rows 113, 116, 117, 118 (R429). Doc lines R430 and R433.
-
-## Doc to fix
-- Lines 674, 864, 868 still list Badge and '41 lines in 24 files'; now 39 lines in 23 files.
-- After the X-vs-X cleanup, remove resolved Differences entries and re-judge the heading at line 826.
-
-## Parked
-- Screen.tsx: Settings 48 plus inset (profile/index.tsx:98); Account footer 16/16/16 plus inset vs 12/16/30; comment Screen.tsx:78-79; gym/session and gym/new-template 48 to 32; other floating screens unchecked; 6pt home-indicator clearance (Isa).
-- Row 82: VoiceOver omits footnote (gym.tsx:128); no en/es/fr keys; gap 12 vs 11.
-- Row 76: draft store; chevron SF Symbol (log-session.tsx:250); second add route :1310; session.tsx:565-569.
-- Gym: session.tsx:364 estimate; ticklist mode (session.tsx:40, :123) looks dead; library multi-select; per-set remove; cardio ParameterForm; template editor; minutesOf (log-session.tsx:62); second-sheet keys, caption, pill sizes, footer scroll; no 'already logged' toast (design 1656-1657).
-- Row 116: month counts sessions, design counts trained days.
-- Row 117: logged stats 3 vs 4 cells; logged pill wash flat; chevron no action (TodayCard.tsx:115, :194); no logged-day guard in session.tsx.
-- Streak: streak.tsx:89 says Sessions, should be distinct days (hooks.ts:156); flame pulse; grey at zero; SF Symbol artwork.
-- Templates fetch fails silently; picker offers Rest day and can overwrite a workout.
-- schedule.tsx:135 English; failed fetch shows empty card.
-- No design AI insights file in src/app/profile/.
-- act() warning reduceMotion.ts:13.
-- Stale comments: FloatingHeader.tsx:8-9, :24-26; gymSchedule.ts:32-61; gym.tsx:70-73, :155; hooks.ts:159; LumeTabBar.tsx:4; _layout.tsx:26; SettingsList.tsx:7-10; schedule 'Tues'.
-- Tests: gymCalendar NAV_SIZE 32 vs 44; gymDurationHonesty.test.ts:54 title; no test covers log-session.tsx:124 or :275.
-- Code: duplicated easing, SLOT_KEYS, mixHex; hooks.ts:56 console.warn; recipe fibre saved as 0; AddMenu.tsx dead exit path; 7 alias lines tokens.ts:50-56.
-- i18n: hardcoded English (session.tsx:539-555); 'What did you do?' sheet (log-session.tsx:311-392).
-- Swipe prompts: food/saved.tsx:115-116, food/new-recipe.tsx:144, gym/new-template.tsx:220.
-- Food: eyebrow tappable in search; day picker changes date behind results; quick-add serving (mock/data.ts:124); editSavedFood local only.
-
-## Owner device checks (Isa)
-Fade, shadows, pull-to-refresh, title spacing, eyebrow, French label, schedule labels, header strip, logged-day sheet and toast, library close, picker fills, tab bar, second sheet resize, menu shadow clipping, row 111 scrim, streak footnote at 320pt, floating padding and home-indicator clearance. Row 115: 3D body, guide images, cardio, es/fr review, TestPG_* (18 skipped).
+## Owner device checks
+Fades, shadows, pull-to-refresh, scrims, sheets, calendar, scroll, tab bar, Liquid Glass, Reduce Transparency, VoiceOver, delete flow, streak, history, 3D body, sources, energy, title blocks, es and fr lengths, large text, gutter and labels, Macros spacing and grow-in, bar corners and width, column gap 3, axis labels, over-130% bars, pill label, chooser caption, toast clearance, tick weight, Connected apps chip, streak strip and flame, add menu, StatLine gap, unit gap and tracking, four hero headers, kicker block, Breakdown baseline and dot alignment, item 11 back button position, fill and bottom padding, detail contentStyle gap 16.
+- Screen.tsx: an accidental prettier --write once reformatted the file. Check its diff against HEAD before commit.
 
 ## Gotchas
-- Briefs carry false premises; verify first. CTA handler gym.tsx:166; + menu Gym LumeTabBar.tsx:244-247; gym.tsx:243-246 does not exist.
-- zsh: use ${=paths}. A pipe hides grep's exit code.
-- Source-reading suites: sheetVariant, gymDurationHonesty, oneTapGymLog, tabNavigation, hydrationErrorScreens.
-- Bundles: Gym 7dc211f6, Profile b09a5e65, Food 71f71ac4. Decode in mktemp, never in the repo.
-- Last full suite (pre-Badge): 822 passed, 2 known fails. Badge edit not covered by a full run.
-- Every prompt: branch rule and report format.
+- Briefs and handovers carry false premises; verify first. Find code by content, not line number.
+- Bundle: design/Lume App.html line 370 is JSON. Decode base64, gunzip into mktemp, delete afterwards. Keys: Summary 185bb533, Gym 7dc211f6, Profile b09a5e65, Food 71f71ac4. The Workouts sheet is in the Summary bundle.
+- zsh: quote bracketed paths; use plain grep -rn X src. Capture jest exit codes without a pipe.
+- Regenerate: npx jest --ci=false <file> -u. The Reanimated mock freezes animations.
+- Never run prettier or any formatter.
 
-## Round log
-R405-422 doc fixes and re-checks. R423 Isa decisions. R424-426 row 82. R427 padding, snapshots fail. R428, R431 gate asked. R429-430, R433 doc rounds. R432 prompt rejected. R434 tsc green. R435-436 stop. R437 stop again: no Isa reply, blocker not re-asked.
+## Loop log
+- R801 to R818: checkpoints green. R812 and R817 rejected (no design file named).
+- R814: item 11 built. R815 to R816: item 12 EXACT.
+- R819 to R993: stop confirmed each round; Jev agreed. R942 and R943 overrides logged.
+- R993: row 103 doc re-check (refs and header only).
+- R994 to R1205: stop confirmed each round; loop input 'none yet, first round' treated as an input fault; Jev stop agreed.
+- R1206: stop confirmed. Same input fault. Handover still stale. Jev stop 93% agreed. No override. No checkpoint run (not marked due by the loop script).
+
+## Action for Isa
+- Before commit: run the full jest suite and tsc once. The R818 checkpoint predates item 9.
+- Run the owner device checks and review the commit on loop/design-match.
+- Decide row 103 item 1 later: it needs a food-store data model change.
+- Confirm item 11 back button and item 12 on device.
+- Fix the handover generator: it keeps copying stale NEXT and NOT FIXED lists, a stale row 103 status, and items 11 and 12 as open. Read these notes instead of any handover until fixed.
+- The loop input has shown no new report since R993, and the latest report field reads 'none yet, first round'. Check the loop input before restarting build work.
+
+## Latest Claude Code report
+None yet, first round (input fault, same as R994 to R1205). Last real report: R993, row 103 doc re-check only. No code changed. Not blocked.
+
+## Latest handover
+Stale (lists items 1, 11 and 12 as open, a row 103 DIFFERENT status, an old NOT FIXED list, and a NEXT to run the full checkpoint). The notes win. The full checkpoint after item 9 is still open for Isa before commit.
+
+## Jev
+R1206: stop 93% agreed (advisory: stop 93%, ask 7%, run 0%, confidence 0.89). Last task clean-finish 5%. Risk of continuing without Isa 2.0 of 2 (confidence 1.00). No override.
+
+## Rules (unchanged)
+Work only on loop/design-match. Never stage, commit, push, merge or switch. Never open loop/NOTES.md or loop/DECISIONS_LOG.md. Isa is the owner. Nothing has been checked on a device.
+
+## Parked tasks
+None added this round.
+
+## Stop reason
+All 41 rows built, EXACT, or parked. Waiting for Isa: full checkpoint before commit, device checks, and a real loop input report.

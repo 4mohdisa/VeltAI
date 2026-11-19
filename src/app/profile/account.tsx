@@ -48,7 +48,7 @@ export default function AccountScreen() {
       variant="floating"
       eyebrow="Your details"
       title="Account"
-      showBack
+      showBack contentStyle={{ gap: space.xl }}
       footer={<Button title="Save" onPress={save} disabled={!dirty || saving} loading={saving} />}
     >
       {/* Identity card — the design's elevated header. It shows only what the
@@ -66,19 +66,20 @@ export default function AccountScreen() {
       </Card>
 
       <TextField label="Display name" value={name} onChangeText={setName} autoCapitalize="words" />
+      <View style={{ gap: space.xs }}>
+        <SettingsList rows={[{ icon: 'mail-outline', label: 'Email', value: profile.email, kind: 'plain' }]} />
 
-      <SettingsList rows={[{ icon: 'mail-outline', label: 'Email', value: profile.email, kind: 'plain' }]} />
-
-      <SettingsList
-        rows={[
-          {
-            icon: 'trash-outline',
-            label: 'Delete Account',
-            destructive: true,
-            onPress: () => router.push('/profile/delete-account'),
-          },
-        ]}
-      />
+        <SettingsList
+          rows={[
+            {
+              icon: 'trash-outline',
+              label: 'Delete Account',
+              destructive: true,
+              onPress: () => router.push('/profile/delete-account'),
+            },
+          ]}
+        />
+      </View>
     </Screen>
   );
 }

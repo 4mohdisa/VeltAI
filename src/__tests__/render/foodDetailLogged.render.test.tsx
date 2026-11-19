@@ -97,7 +97,7 @@ test('presets come from the row: picking double doubles every value', () => {
 
 test('switching the meal and pressing the pill moves the row', () => {
   const tree = renderScreen(<FoodDetailScreen />);
-  const meal = field(tree, 'Meal');
+  const meal = findAll(tree, (p) => p.value === 'Lunch' && typeof p.onChange === 'function')[0];
   expect(meal.props.value).toBe('Lunch');
 
   act(() => meal.props.onChange('Dinner'));
