@@ -7593,3 +7593,7 @@
 - 2026-11-19 22:45 Recipe and saved meal delete or unsave stays out of row 8 scope, as already decided in loop notes (no UI call site exists).
 - 2026-11-19 22:45 Stale notes fragment in row 8 is removed in the same row edit, since it is the same cell and the same single row.
 - 2026-11-19 22:45 Jev signals advised stop at 48%, but rows remain unbuilt and the stop rule needs every row built, so the loop continues. Jev's question signal blocks no row, so no question is asked to Isa.
+- 2026-11-19 22:46 Row 18 set to BUILT with 'simulator check pending' because its local render tests pass and the only open part is the simulator run, which needs Maestro (owner step). BUILT is defined as wired and local tests passing.
+- 2026-11-19 22:46 Jev ranked ask slightly above run at low confidence. The question would be minor and blocks no row, so run is kept as the advisory signal allows.
+- 2026-11-19 22:46 Row 8 notes cleanup was not chosen this round: it is wording only and does not change status, so it goes to Parked for a later pass.
+- 2026-11-19 22:46 Checkpoint round 188 (full tsc and full Jest --ci) stays scheduled and is not moved.
