@@ -7173,3 +7173,7 @@
 - 2026-11-19 19:31 Chose row 42 over the LumeTabBar smoke test: notes say to finish remaining non-BUILT rows before the test backlog, and row 42 is the next open row in order.
 - 2026-11-19 19:31 Rows 42 to 50 still need a status read, so this round starts there. Nothing is assumed closed.
 - 2026-11-19 19:31 Row 42 names no file in my notes, so the prompt tells Claude Code to use the two most relevant shared files and state them, as the existing rule says.
+- 2026-11-19 19:33 Chose row 43: last report and Next list both point to it; smallest unbuilt row, needs nothing from Isa.
+- 2026-11-19 19:33 Row 43 title not in my context, so the prompt has Claude Code read the title from PHASE2_ROWS.md first rather than guessing it.
+- 2026-11-19 19:33 Row 43 names no file, so the two-shared-files default applies and is stated in the report.
+- 2026-11-19 19:33 Jev 81% run agrees with the pick; no override.

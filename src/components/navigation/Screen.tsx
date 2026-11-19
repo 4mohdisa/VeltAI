@@ -154,7 +154,7 @@ export function Screen({
               paddingBottom: space.lg + insets.bottom,
               // The floating look has no rules anywhere; spacing separates the
               // footer instead of a hairline.
-              borderTopWidth: floating ? 0 : 1,
+              borderTopWidth: floating ? 0 : layout.hairline,
               borderTopColor: color.gray200,
             }}
           >
