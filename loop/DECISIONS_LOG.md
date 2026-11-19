@@ -6782,3 +6782,6 @@
 - 2026-11-19 15:01 Row 10 stays BUILT. The code and route match and the local Jest test passes. Simulator flow remains owner check pending.
 - 2026-11-19 15:01 Added a standing rule: rows say built or checked in code, never verified. Isa does the verifying. Applied to every future prompt.
 - 2026-11-19 15:01 Text only change, so no tests are run this round. Reason: a full test run adds no safety for a wording edit.
+- 2026-11-19 15:03 Chose the gate re-run over Jev's row 11 pick. The loop flag says to deal with the unrun type check and tests before moving on. Jev gives a 14% chance the last task finished cleanly, so the state is not clean. The gate is the smallest task and clears the flag. Row 11 is next.
+- 2026-11-19 15:03 Last report was text only, so the flag is most likely about gates that were never run after the earlier rounds, not about the wording change itself.
+- 2026-11-19 15:03 Scoped the gate fix to the failing tests and the row 22 line only, to keep the change small.
