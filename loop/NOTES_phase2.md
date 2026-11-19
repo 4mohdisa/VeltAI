@@ -6,13 +6,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## State
 - Branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
 - Baselines (round 16 checkpoint, green): app tsc 0 errors; Jest 69 suites / 833 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
-- Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
-- Backend: go run ./cmd/server. Auth enforced (401 without token). No docker compose plugin; use plain docker run.
+- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
+- Backend: go run ./cmd/server. Auth enforced (401 without token). Plain docker run, no compose plugin.
 - Prompt scope rule: ONE component per prompt.
 
 ## Wording rule
 - Row cells say BUILT, 'checked in code' or 'owner check pending'. Never verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
-- Reports use the same wording. Never claim a screen is verified.
+- Reports use the same wording.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -28,30 +28,26 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - loop/ files are loop-managed. Prompts never edit them.
 - Row 75 split into food log and gym log.
-- Round 19: 'Adding and removing list items, food log entries' BUILT.
-- Round 20: Row 77 (gym log entries) target file is src/app/gym/session.tsx (add via ExercisePicker, no remove yet). Scope widened by manager. Redo after progress rings.
-- Round 20: Jev order followed for progress rings. Row 77 file premise was unresolved, and the ring task needs nothing from Isa.
+- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope widened by manager.
 
 ## Done
-- Task 1: PHASE2_ROWS.md created.
-- Local setup, baseline: BUILT.
+- Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
 - Food log, Gym log, Gym history: BUILT. Simulator owner check pending.
 - Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap.
 - Gym streak, Goals, Paywall/Subscription: BUILT.
 - Profile: checked in code, no gap.
 - Add food, Legal: BUILT (static).
 - Dashboard / Summary and sub-pages: BUILT.
-- Motion audit: BUILT.
-- Screen and navigation transitions: BUILT.
+- Motion audit, screen and navigation transitions: BUILT.
 - Adding and removing list items, food log entries: BUILT.
+- Progress rings (Summary EnergyBalanceCard) and number changes: BUILT. Eases to new value.
 - Round 16 baseline checkpoint: gates green.
-- Round 19 report: row 77 blocked, no edits, type check not run (flagged by loop).
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Owner step.
 - E2E_EMAIL and E2E_PASSWORD not set.
-- Row 17 plan.tsx has no backend (repeated blocker). Product decision: build plan generation or drop the card for v1.
-- Repeated blocker: loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show uncommitted diffs. Loop-managed, not a task.
+- Row 17 plan.tsx has no backend. Product decision: build plan generation or drop the card for v1.
+- loop/ files show uncommitted diffs. Loop-managed, not a task.
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
@@ -69,11 +65,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 20 (running): 'Progress rings, bars and number changes'.
-- Then row 77 redone against src/app/gym/session.tsx (remove path for added exercises is a gap; log as its own row if needed).
+- Round 21 (running): 'Progress bars ease to new values' (ProgressBar.tsx only).
+- Then: 'Daily macro ring eases to new values' (DailyMacroRing.tsx).
+- Then: row 77 gym session remove path (src/app/gym/session.tsx).
 - Then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). Review in the Gym log rework.
-- Jev risk 1.5 of 2 (confidence 0.28): keep tasks small.
+- Jev risk 1.4 of 2 (confidence 0.40): keep tasks small.

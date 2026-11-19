@@ -6856,3 +6856,6 @@
 - 2026-11-19 16:21 Did not ask Isa (Jev ask 95%). The row 77 file question is a scope choice I can make, not a major blocker. Decided: row 77 targets src/app/gym/session.tsx (has add via ExercisePicker, no remove), to be redone after the ring task.
 - 2026-11-19 16:21 Previous report made no edits and skipped the type check. This round's prompt makes the type check step 1 and requires it to be recorded.
 - 2026-11-19 16:21 Ring row uses 'find the one component' with a stop rule instead of naming a file I have not read, to avoid a guessed path.
+- 2026-11-19 16:28 Round 21: accepted Jev's pick (progress bar and macro ring easing). No concrete reason to override: it is the remaining gap of the open progress rings row and is small.
+- 2026-11-19 16:28 Scoped to ProgressBar.tsx only, because the notes rule is one component per prompt. DailyMacroRing.tsx goes next round.
+- 2026-11-19 16:28 Reused the EnergyBalanceCard pattern and the existing useReduceMotion hook instead of adding a new animation approach.
