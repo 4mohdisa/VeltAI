@@ -7094,3 +7094,7 @@
 - 2026-11-19 18:45 Accepted the Skeleton 700ms pulse as correct by design (a continuous pulse, uses a motion token), not a gap. Standing note so later rounds do not re-flag it.
 - 2026-11-19 18:45 Kept the task to one row and one component because Jev reports risk about 0.9 of 2.
 - 2026-11-19 18:45 Each row ends with a 'closed by a later row' check before any fix, as the handover asks.
+- 2026-11-19 18:47 Chose row 72 as the next single row, as the notes already planned; it is small, one file, and needs nothing from Isa.
+- 2026-11-19 18:47 Row 72 instructed to check later rows for an existing close before any edit, following the row 68 and 77 lesson.
+- 2026-11-19 18:47 LumeTabBar plus-button press values (0.86 and 0.96) accepted as a design-declared per-component value, parked with the off-token list; not a row now.
+- 2026-11-19 18:47 Jev risk about 1.0 of 2 with 0.80 confidence: kept the task to one row and one file, no simulator work.
