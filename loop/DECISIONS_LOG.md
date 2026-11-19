@@ -7387,3 +7387,7 @@
 - 2026-11-19 21:17 Chose goal.tsx as the next single-file onboarding step, as set in the previous round's NEXT, because it is the smallest unblocked gap on row 2.
 - 2026-11-19 21:17 Kept row 2 at PARTIAL because 7 onboarding steps still lack render tests.
 - 2026-11-19 21:17 Full Jest run required because this round adds a code file and edits a docs cell.
+- 2026-11-19 21:20 Loop check flagged the goal.tsx round as partly done. Row 2 is PARTIAL by design, with 7 steps left, so I chose the next named gap (activity.tsx) and did not redo goal.tsx. Reason: notes rule for partial tasks.
+- 2026-11-19 21:20 Chose activity.tsx over body-type.tsx and legal/terms.tsx: it is the next onboarding step in the flow, so it is the smallest and closes the named gap.
+- 2026-11-19 21:20 Kept row 2 at PARTIAL and did not change any status cell. Reason: 6 onboarding steps still lack render tests.
+- 2026-11-19 21:20 Asked for tsc and full Jest because this round changes code. Reason: wording rule.
