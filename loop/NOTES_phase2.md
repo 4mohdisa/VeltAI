@@ -4,11 +4,12 @@
 Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md. Prompts use row TITLES plus row number.
 
 ## State
-- Branch loop/phase2. Never switch branches in prompts.
-- Baselines (round 40, green): app tsc 0 errors; Jest 81 suites / 864 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB.
+- Branch loop/phase2. Never switch branches in prompts. Every prompt must say so.
+- Baselines (round 39 checkpoint, green): app tsc 0 errors; Jest 81 suites / 864 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB.
+- Round 56 is a checkpoint: full app tsc and full Jest, no file changes.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code 5-hour limit hit several times. If hit: wait, do not change scope.
+- Claude Code 5-hour limit hit several times (last: resets 5:40pm Adelaide). If hit: wait, do not change scope.
 - Claude CLI sign in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
 
 ## Wording rule
@@ -32,15 +33,17 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
 - Rounds 48-53: rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
-- Round 54: Jev said ask (92%); overridden. Finding a file path is not an owner task. Decided by one grep for row 55 only.
+- Round 54: Jev said ask (92%); overridden. Finding a file path is not an owner task.
+- Round 56: Jev said Row 56 (88%); overridden for the scheduled checkpoint. Reason: last full green gate was round 39, so rounds 40-55 have had no full run; a checkpoint catches regressions before more Visual QA.
+- Round 56 prompt rejected once: missing loop/phase2 branch rule. Fixed in the rewrite.
 - Jev advice is advisory. Override only with a concrete reason, written here.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54, 55 (AddMenu.tsx, round 55: tsc 0 errors, no file changed).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
-- Checkpoints round 16, 23, 39: gates green.
+- Checkpoints: rounds 16, 23, 39 gates green. Round 56 pending.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -53,12 +56,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
+- AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) are close to radius.md/lg and layout.buttonHeight 52 but not equal. Design re-check needed: token or deliberate?
 - ToastHost and BottomSheet have no render test. Side findings, not rows.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
 - Copy pass: 'owner check pending' reads awkwardly after a noun phrase. Final wording sweep of PHASE2_ROWS.md.
-- Rows 27-63: notes column blank. Backfill file names first.
+- Rows 27-63: notes column blank. Backfill in progress.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
 - Gym log: logGymSession while gymLoggedToday is true. Revisit if double-log matters.
@@ -71,9 +75,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 54: row 55 add menu, identify file and check in code (in progress). Run tsc each round.
-- Round 55: backfill file names for rows 23-63 in PHASE2_ROWS.md, so Visual QA rows stop blocking.
-- Then: rows 56-63 Visual QA, one per round.
+- Round 56: checkpoint (full app tsc and Jest, no changes). Report failures.
+- Round 57: Row 56 Visual QA: StatLine gap, if checkpoint is green.
+- Then rows 57-63 Visual QA, one per round.
 - Then: final wording sweep. Then backend refinement rows.
 
 ## Known issues

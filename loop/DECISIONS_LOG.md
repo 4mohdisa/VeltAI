@@ -7005,3 +7005,13 @@
 - 2026-11-19 18:15 Allowed one grep in src/ for row 55 only, to find the add menu file. This narrows the earlier no-search rule for this row. Recorded so later rows follow the same rule only after backfill.
 - 2026-11-19 18:15 Tests not run last round was flagged. This round runs tsc and reports it. Jest is not needed because no code changes.
 - 2026-11-19 18:15 Process gap: Visual QA rows 23-63 have no file named. Next round backfills file names for these rows before more checks, so the BLOCKED outcome does not repeat.
+- 2026-11-19 18:17 Chose backfill (candidate 1) because the notes plan says it comes before Visual QA rows 56-63, and it unblocks those rows. It is doc only and needs nothing from Isa.
+- 2026-11-19 18:17 Accepted row 55 as BUILT, checked in code. The report shows one file, AddMenu.tsx, and tsc is 0 errors. No code changed, so no Jest run was needed.
+- 2026-11-19 18:17 Moved the AddMenu near-token question (PANEL_RADIUS 18 vs radius 16/20, ROW_MIN_HEIGHT 54 vs buttonHeight 52) to Parked. It is a design question, not a row, and code alone cannot settle it.
+- 2026-11-19 18:17 Claude Code hit its 5-hour limit, which resets 5:40pm Adelaide time. Per the notes, wait one round and do not change scope. The Claude CLI sign in ends 2026-11-24 to 2026-11-27, which is an owner step and is already in Blocked on Isa.
+- 2026-11-19 18:17 Did not follow Jev's 72% run versus 26% ask as a reason to ask Isa. Finding file paths is not an owner task, so it stays a run.
+- 2026-11-19 18:18 Kept the checkpoint over Jev's Row 56 pick (88%). Concrete reason: this round is a scheduled checkpoint from the loop, and the last full green gate was round 39, so rounds 40 to 55 have not been checked by a full run. Recorded in notes.
+- 2026-11-19 18:18 Rewrote the rejected prompt: added the loop/phase2 branch rule, a branch check that stops rather than switches, and no-edit and no-commit limits.
+- 2026-11-19 18:18 Made the prompt a read-only run with no file changes, as the loop note asked.
+- 2026-11-19 18:18 Added a one-off rerun for resetRegistry.test.ts if it crashes, since it is on the watch list. This is part of the same gate, not extra work.
+- 2026-11-19 18:18 Jev said run 83%. No question to Isa: the 5-hour limit is a wait, not a question.
