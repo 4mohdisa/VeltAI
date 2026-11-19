@@ -7528,3 +7528,7 @@
 - 2026-11-19 22:16 Prompt tells Claude Code to stop if row 53 does not name a screen, because earlier rounds had wrong row premises.
 - 2026-11-19 22:16 Prompt says to grep before creating a test file, because duplicate render tests happened twice before.
 - 2026-11-19 22:16 Kept Jev's risk advice: one row, one file, short steps.
+- 2026-11-19 22:16 Automatic check flagged last round with nothing run, so the gate goes first, as the loop note requires.
+- 2026-11-19 22:16 Row 53 is Connected apps chip (integrations.tsx), not nutrition/week. Premise wrong, so no nutrition test work this round. The grep for the real nutrition/week row is read only and deferred to NEXT.
+- 2026-11-19 22:16 Ran the Jest files by exact path with a find fallback, so no duplicate test files are created.
+- 2026-11-19 22:16 Jev asked for ask (48%) but the question is minor and answerable by a grep, so run was chosen. Risk is kept low by running one small read/check task with no new code.

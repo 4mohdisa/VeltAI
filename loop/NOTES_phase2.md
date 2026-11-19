@@ -6,8 +6,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, passing.
-- Round 169: row 38 integrations render test added (BUILT, checked in code).
-- Round 170: row 53 nutrition/week render test (running).
+- Round 171: last round ran nothing (flagged by automatic check). Gate re-run: tsc + Jest on session render tests.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -30,7 +29,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Render tests: components get *.render.test.tsx; screens in src/__tests__/render/. Use renderScreen (react-test-renderer). No RNTL v14: incompatible with RN 0.85.3.
 - Rows 19, 20, 21: no edit. Row 8 closed; reopen only on a real importing test.
 - Grep before any 'add render test' prompt; duplicates happened twice.
-- Task premises can be wrong (rows 38/53/83 are not AddMenu; row 55 is). Check the row before acting.
+- Task premises can be wrong. Rows 38, 53 are integrations.tsx (Connected apps). Row 55 is AddMenu. Row 83 not yet checked for nutrition/week. Check the row before acting.
 - Minor questions are decided by the manager, not asked.
 - Jev followed on pick when row 5 needed an API check a render test cannot close.
 
@@ -72,11 +71,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
+- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status for 14+ rounds: loop-managed, unrelated.
 
 ## Next
-- Round 170: row 53 nutrition/week render test (running). Stop if row 53 names no screen.
-- Then: row 83 nutrition/week render coverage, if still untested.
-- Then: row 5 submit path render test (offline fallback, error toast in add()).
+- Round 171: clear gate (tsc + Jest on session render tests). Then read nutrition/week row number via grep.
+- Then: row 5 submit path render test (grep quick-add.tsx first; offline fallback, error toast in add()).
 - Then: row 5 owner-scoped food log check (API level, needs local backend test).
 
 ## Known issues
@@ -89,4 +88,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - es/fr strings run 2.5x to 3.7x English.
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.
-- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified: loop-managed, leave alone.
+- gesture-handler worklet warning from SwipeableRow appears in foodSaved render test: pre-existing, not a failure.
