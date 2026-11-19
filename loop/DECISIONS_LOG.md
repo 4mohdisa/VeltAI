@@ -7713,3 +7713,7 @@
 - 2026-11-19 23:46 Jev stop ranking (71%) overridden: row 6 is still PARTIAL, so the stop checkpoint is not met.
 - 2026-11-19 23:46 Row 6 split: label first, photo in a later round, to keep one row, one file per round.
 - 2026-11-19 23:46 Did not ask about row 17 plan.tsx again this round; it is BUILT per notes. Revisit only at stop time if still open.
+- 2026-11-19 23:47 Row 6 treated as BUILT, not PARTIAL: the latest report and handover both checked the code and found labelScan and photoScan render tests executed and passing. The notes' PARTIAL entry was stale.
+- 2026-11-19 23:47 Chose the checkpoint over the Jev ask pick: a checkpoint is due (last green was round 204) and the handover just happened, so a full verified state is needed before more work.
+- 2026-11-19 23:47 No question to Isa this round: nothing new blocks progress, and row 17 is only asked about once no PARTIAL or DIFFERENT row remains.
+- 2026-11-19 23:47 Prompt is read-only on PHASE2_ROWS.md so the row 6 status is confirmed from the file before anyone edits it.
