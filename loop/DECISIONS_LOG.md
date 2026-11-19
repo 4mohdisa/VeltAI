@@ -7031,3 +7031,7 @@
 - 2026-11-19 18:22 Row 58 closed as no code change: ChartHeader is the single hero header component and HERO_TITLE has no identical token. Kept Jev's run pick.
 - 2026-11-19 18:22 Chose row 59 as the next sequential Visual QA row. Smallest task, needs nothing from Isa, matches the pattern set by row 58.
 - 2026-11-19 18:22 Kept the letter-spacing and stroke-weight gaps as Parked for one design pass with Isa, not per-row fixes.
+- 2026-11-19 18:24 Chose the gate over Jev's row 60 (92%). Reason: the loop check flagged round 59 for tests not run, and the notes say to deal with that before moving on. Row 60 is the same no-change QA pattern and gains nothing until the gate is green. Advisory override, written here.
+- 2026-11-19 18:24 Round 59 closed as no code change. Kicker letter-spacing and the 10x10 dot have no matching token in tokens.ts.
+- 2026-11-19 18:24 Design pass question stays parked for one round. Ask Isa once, with the four blocked QA rows listed, when the gate is green.
+- 2026-11-19 18:24 Round 60 will be row 60 (Breakdown baseline and dot alignment) if the gate is green.

@@ -6,6 +6,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## State
 - Branch loop/phase2. Never switch branches in prompts. Every prompt must say so.
 - Baselines (round 56 checkpoint, green): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Round 59: tsc 0 errors, Jest not run. Flagged by loop check.
+- Round 60: gate round (full tsc and full Jest) before any row.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit: if hit, wait, do not change scope.
@@ -14,7 +16,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- A report that says tests were not run gets flagged. If no code changed, run tsc and say so.
+- A report that says tests were not run gets flagged. If no code changed, run tsc and run Jest, and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -28,12 +30,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 75 split into food log and gym log. Row 77 target src/app/gym/session.tsx.
 - Row 9 scope: src/lib/offline/queue.ts, additive optional onLanded only.
 - Row 80 guard only if a crash reproduces; none did, test only.
-- Round 44: three modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
-- Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
+- Three modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
+- mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
-- Round 54, 56, 57, 58: Jev overridden or advisory where a concrete reason was written. Round 58 closed no change (ChartHeader, HERO_TITLE has no identical token).
+- Rounds 54, 56, 57, 58, 60: Jev overridden or advisory where a concrete reason was written. Round 58 closed no change (ChartHeader, HERO_TITLE has no identical token).
+- Round 60: gate before row 60. Reason: round 59 flagged for missing Jest run; row 60 is the same no-change QA pattern.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
@@ -41,6 +44,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56, 58.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - Row 57 unit gap and tracking: no code change. No tracking or letter-spacing token exists in tokens.ts.
+- Row 59 kicker block: no code change. No letter-spacing token; 10x10 dot has no matching space token.
 - Checkpoints: rounds 16, 23, 39, 56 gates green.
 
 ## Blocked on Isa
@@ -51,14 +55,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
-- Design pass needed: no stroke-weight or letter-spacing token category in tokens.ts. Raise once with Isa, not row by row.
+- Design pass needed: no stroke-weight or letter-spacing token category in tokens.ts. Rows 56-60 blocked by it. Ask Isa once when the gate is green.
 
 ## Parked (not v1)
-- AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) close to radius and buttonHeight 52 but not equal. Design re-check needed.
-- DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 sit off-token (space.xs 4, space.sm 8, no tracking token). Design re-check needed.
-- DetailChart KickerTitle off-token values (letterSpacing 1.1, -0.6, 10x10 dot). Row 59 checks these.
-- Stroke-weight token missing in tokens.ts (affects tick and icon rows).
-- ToastHost and BottomSheet have no render test. Side findings.
+- AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) near radius and buttonHeight 52. Design re-check.
+- DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 off-token. Design re-check.
+- DetailChart KickerTitle off-token values (letterSpacing 1.1, -0.6, 10x10 dot).
+- Stroke-weight token missing in tokens.ts (tick and icon rows).
+- ToastHost and BottomSheet have no render test.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Account and index settings both link to Delete Account.
@@ -76,15 +80,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 59: Row 59 Visual QA kicker block (DetailChart.tsx KickerTitle, code vs tokens).
-- Then rows 60-63 Visual QA, one per round.
-- Then: final wording sweep. Then fold stale motion rows. Then backend refinement rows.
+- Round 60: gate (full tsc and full Jest). Only after green, row 60 Visual QA Breakdown baseline and dot alignment.
+- Then rows 61-63 Visual QA, one per round.
+- Then: ask Isa once about the design pass. Then final wording sweep. Then fold stale motion rows. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.1 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- Round 57 and 58 flagged again: no stroke-weight or tracking token category in tokens.ts. Design pass with Isa before more tight or stroke rows.
