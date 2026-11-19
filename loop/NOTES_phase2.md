@@ -45,7 +45,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Done
 - Task 1, local setup, row 22 baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31-34, 36, 37, 69-74, 77-82.
+- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-28, 31-34, 36, 37, 39, 69-74, 77-82.
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68.
 - Folded: 65, 66, 67 into 64; 71 into 64; 69 into 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
@@ -54,6 +54,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 32: GlassButtons.reduceTransparency.render.test.tsx added.
 - Row 33: LumeTabBar.a11y.render.test.tsx added.
 - Row 36: layout.hairline swap in gym/history.tsx and food/history.tsx.
+- Row 39: EnergyBalanceCard.tsx DOT and KEY_INDENT swapped to space.sm and space.lg, radius.full. 4 suites green.
 - Row 82 gym session: entering animation in src/app/gym/session.tsx with gymSessionRemoveExtra.render.test.tsx.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90.
 
@@ -68,7 +69,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Swipe action pane has no corner radius while the wrapped row rounds first/last corners (SwipeableRow.tsx, food.tsx groupSurface). Needs design decision with Isa.
-- Off-token values: Screen.tsx 40, 40, 32, -6, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes 18/26, 14/20 in history screens; BlurView intensity 40/50; GlassButtons has no icon or blur token category.
+- Off-token values: Screen.tsx 40, 40, 32, -6, title gap 2; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar press 0.86/0.96 vs opacity.pressed 0.85; icon sizes 18/26, 14/20 in history screens; BlurView intensity 40/50; GlassButtons has no icon or blur token category; RING_STROKE 10 is a stroke width, not radius.sm.
 - Disabled opacity drift: GymCalendar 0.3, food/calendar 0.35, opacity.disabled 0.4.
 - Sheet detents medium/large: no native mechanism in BottomSheet.tsx. Structural gap.
 - Stroke-weight token missing. Chip tint 0.14, glyph stroke 1.9 (Row 38 provider literals).
@@ -88,8 +89,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not recurred rounds 65-95).
 
 ## Next
-- Round 96: Row 39 Visual QA: energy (in progress).
-- Then rows 40-50 (Visual QA), one per round, skipping BUILT rows.
+- Round 97: Row 40 Visual QA: title blocks (in progress), using KickerTitle and Screen.tsx as the named shared files.
+- Then rows 41-50 (Visual QA), one per round, skipping BUILT rows.
 - Then render smoke test for LumeTabBar Reduce Transparency branch.
 - Then render smoke test for Screen.tsx, then backend refinement rows.
 

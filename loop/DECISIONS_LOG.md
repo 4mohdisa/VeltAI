@@ -7162,3 +7162,6 @@
 - 2026-11-19 19:25 Row 39 names no file, so defaulted to the energy component plus tokens.ts and stated it in the prompt, following the standing visual QA rule.
 - 2026-11-19 19:25 Did not add the icon-size and stroke-width token gap to this round. Parked for one consolidated design pass with Isa, as the last report suggests.
 - 2026-11-19 19:25 Jev risk is about 1.0 of 2, so kept the task to one row and one file.
+- 2026-11-19 19:27 Chose row 40 over the render smoke tests because the notes order rows 40-50 before the smoke tests and Claude Code recommended it.
+- 2026-11-19 19:27 Row 40 has no named file in notes, so it uses KickerTitle and Screen.tsx as the two most relevant shared files, as the visual QA rule allows.
+- 2026-11-19 19:27 Recorded row 39 as BUILT (checked in code) from the last report: DOT and KEY_INDENT swapped to space tokens, radius.full, 4 suites green.
