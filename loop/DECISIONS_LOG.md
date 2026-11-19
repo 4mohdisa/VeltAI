@@ -6852,3 +6852,7 @@
 - 2026-11-19 16:17 Treated the repeated blocker (loop-managed files loop/DECISIONS_LOG.md and loop/NOTES_phase2.md with uncommitted diffs) as a loop issue: recorded under Blocked on Isa, not retried, not a task. Row 77 does not depend on it.
 - 2026-11-19 16:17 Parked the gesture-handler worklet console warning from SwipeableRow.tsx (pre-existing, out of scope).
 - 2026-11-19 16:17 Gym log id-reconciliation gap kept as a Known issue and routed to NEXT, not fixed in this row.
+- 2026-11-19 16:21 Followed Jev's ranking and picked Progress rings over row 77. Reason Jev cannot see: row 77's file premise is unresolved, and the ring task needs nothing from Isa.
+- 2026-11-19 16:21 Did not ask Isa (Jev ask 95%). The row 77 file question is a scope choice I can make, not a major blocker. Decided: row 77 targets src/app/gym/session.tsx (has add via ExercisePicker, no remove), to be redone after the ring task.
+- 2026-11-19 16:21 Previous report made no edits and skipped the type check. This round's prompt makes the type check step 1 and requires it to be recorded.
+- 2026-11-19 16:21 Ring row uses 'find the one component' with a stop rule instead of naming a file I have not read, to avoid a guessed path.

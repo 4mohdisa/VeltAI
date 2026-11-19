@@ -27,8 +27,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Simulator flows needing sign in are owner steps. Rows BUILT on passing local mocked Jest and Go tests.
 - Prompts must state the branch rule.
 - loop/ files are loop-managed. Prompts never edit them.
-- Round 18: row 75 split into food log and gym log.
-- Round 19: 'Adding and removing list items, food log entries' BUILT (row motion via Animated.View, Reduce Motion aware).
+- Row 75 split into food log and gym log.
+- Round 19: 'Adding and removing list items, food log entries' BUILT.
+- Round 20: Row 77 (gym log entries) target file is src/app/gym/session.tsx (add via ExercisePicker, no remove yet). Scope widened by manager. Redo after progress rings.
+- Round 20: Jev order followed for progress rings. Row 77 file premise was unresolved, and the ring task needs nothing from Isa.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
@@ -43,12 +45,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Screen and navigation transitions: BUILT.
 - Adding and removing list items, food log entries: BUILT.
 - Round 16 baseline checkpoint: gates green.
+- Round 19 report: row 77 blocked, no edits, type check not run (flagged by loop).
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Owner step.
 - E2E_EMAIL and E2E_PASSWORD not set.
 - Row 17 plan.tsx has no backend (repeated blocker). Product decision: build plan generation or drop the card for v1.
-- Repeated blocker (reported twice): loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show uncommitted diffs. Loop-managed, not retried, not a task.
+- Repeated blocker: loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show uncommitted diffs. Loop-managed, not a task.
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
@@ -59,17 +62,18 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Copy pass: 'owner check pending' reads awkwardly after a noun phrase.
 - Stale motion rows 65-72 overlap later motion rows. Fold or delete (Isa decision).
 - onboarding/_layout.tsx ignores Reduce Motion. One-line fix.
-- Pre-existing react-native-gesture-handler warning (worklets vs non-worklets callbacks) in SwipeableRow.tsx.
+- Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps. Product decision.
-- Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts. Recheck if it recurs.
+- Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 19 (running): 'Adding and removing list items, gym log entries' (row 77).
-- Then 'Progress rings, bars and number changes', then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Round 20 (running): 'Progress rings, bars and number changes'.
+- Then row 77 redone against src/app/gym/session.tsx (remove path for added exercises is a gap; log as its own row if needed).
+- Then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave an optimistic row. Review in the Gym log rework.
-- Jev risk 1.1 of 2 (confidence 0.66): keep tasks small.
+- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). Review in the Gym log rework.
+- Jev risk 1.5 of 2 (confidence 0.28): keep tasks small.

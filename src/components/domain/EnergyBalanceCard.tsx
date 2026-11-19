@@ -15,7 +15,8 @@
 //     one-line reason instead
 //   - nothing logged and nothing burned yet → an empty-state line, not blanks
 import type { JSX } from 'react';
-import { View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { router, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, space } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { burnOf, netOf } from '@/lib/data/energyRange';
 import { ringFraction } from '@/lib/data/summaryCards';
 import { formatNumber } from '@/lib/formatting';
@@ -39,25 +41,48 @@ export const RING_STROKE = 10;
 const DOT = 8;
 const KEY_INDENT = 16;
 
-function Ring({ r, fraction, tint }: { r: number; fraction: number; tint: string }) {
+// Both the ring and the net number ease to a changed value (a refresh, a newly
+// logged meal) over this long, rather than snapping.
+const VALUE_ANIMATION_MS = 250;
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
+function Ring({ r, fraction, tint, reduceMotion }: { r: number; fraction: number; tint: string; reduceMotion: boolean }) {
   const c = RING_BOX / 2;
   const circumference = 2 * Math.PI * r;
+  const progress = useRef(new Animated.Value(fraction)).current;
+
+  useEffect(() => {
+    if (reduceMotion) {
+      progress.setValue(fraction);
+      return;
+    }
+    const anim = Animated.timing(progress, { toValue: fraction, duration: VALUE_ANIMATION_MS, useNativeDriver: false });
+    anim.start();
+    // Stop a still-running animation rather than let it keep ticking (and
+    // calling setValue) past a prop change or an unmount.
+    return () => anim.stop();
+  }, [fraction, reduceMotion, progress]);
+
+  // Dash = gap = the full circumference, so the whole pattern period never
+  // exceeds one trip around the ring; shifting its offset is what reveals (or
+  // hides, at fraction 0) an arc of exactly `fraction` starting at the top.
+  const strokeDashoffset = progress.interpolate({ inputRange: [0, 1], outputRange: [circumference, 0] });
+
   return (
     <>
       <Circle cx={c} cy={c} r={r} stroke={color.light2} strokeWidth={RING_STROKE} fill="none" />
-      {fraction > 0 ? (
-        <Circle
-          cx={c}
-          cy={c}
-          r={r}
-          stroke={tint}
-          strokeWidth={RING_STROKE}
-          strokeLinecap="round"
-          strokeDasharray={`${circumference * fraction} ${circumference}`}
-          fill="none"
-          transform={`rotate(-90 ${c} ${c})`}
-        />
-      ) : null}
+      <AnimatedCircle
+        cx={c}
+        cy={c}
+        r={r}
+        stroke={tint}
+        strokeWidth={RING_STROKE}
+        strokeLinecap="round"
+        strokeDasharray={`${circumference} ${circumference}`}
+        strokeDashoffset={strokeDashoffset}
+        fill="none"
+        transform={`rotate(-90 ${c} ${c})`}
+      />
     </>
   );
 }
@@ -109,10 +134,40 @@ export type EnergyBalanceCardProps = {
 
 export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBalanceCardProps): JSX.Element {
   const { t } = useTranslation();
+  const reduceMotion = useReduceMotion();
   const show = (kcal: number) => formatNumber(kcalToDisplay(kcal, energyUnit));
   const header = (
     <CardHeaderRow title={t('dashboard.energyBalance.title')} icon="flame" tint={categoryAccent.calories} scope={t('foodLog.today')} chevron />
   );
+
+  // Computed ahead of the loading/error returns below so these hooks run
+  // unconditionally, in the same order, on every render (rules of hooks) —
+  // `day` (and so `net`) is only ever defined once this card has something to
+  // show, but the hooks themselves can't be skipped.
+  const net = day ? netOf(day) : null;
+  const netAnim = useRef(new Animated.Value(net ?? 0)).current;
+  const [displayNet, setDisplayNet] = useState(net ?? 0);
+  // This card's own loading/error branches return before a day exists, so the
+  // FIRST day to ever land here has no previous value to ease from — only a
+  // later change (a refresh, a newly logged meal) does.
+  const hasShownNet = useRef(net != null);
+
+  useEffect(() => {
+    if (net == null) return;
+    if (reduceMotion || !hasShownNet.current) {
+      netAnim.setValue(net);
+      setDisplayNet(net);
+      hasShownNet.current = true;
+      return;
+    }
+    const id = netAnim.addListener(({ value }) => setDisplayNet(value));
+    const anim = Animated.timing(netAnim, { toValue: net, duration: VALUE_ANIMATION_MS, useNativeDriver: false });
+    anim.start();
+    return () => {
+      anim.stop();
+      netAnim.removeListener(id);
+    };
+  }, [net, reduceMotion, netAnim]);
 
   if (loading) {
     return (
@@ -140,7 +195,6 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
   }
 
   const burned = burnOf(day);
-  const net = netOf(day);
   const goal = day.target;
   const nothingYet = day.calories_in === 0 && (burned == null || burned === 0);
 
@@ -152,10 +206,10 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
         {net != null ? (
           <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 7 }}>
             <Text variant="statLarge" color={color.label} style={{ letterSpacing: -1 }}>
-              {net < 0 ? `−${show(-net)}` : `+${show(net)}`}
+              {displayNet < 0 ? `−${show(-displayNet)}` : `+${show(displayNet)}`}
             </Text>
             <Text variant="callout" color={color.secondaryLabel}>
-              {energyUnit} {t(net < 0 ? 'dashboard.energyBalance.deficit' : 'dashboard.energyBalance.surplus')}
+              {energyUnit} {t(displayNet < 0 ? 'dashboard.energyBalance.deficit' : 'dashboard.energyBalance.surplus')}
             </Text>
           </View>
         ) : (
@@ -168,9 +222,9 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
 
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xl }}>
           <Svg width={RING_BOX} height={RING_BOX}>
-            <Ring r={RING_OUTER_R} fraction={ringFraction(day.calories_in, goal)} tint={categoryAccent.calories} />
+            <Ring r={RING_OUTER_R} fraction={ringFraction(day.calories_in, goal)} tint={categoryAccent.calories} reduceMotion={reduceMotion} />
             {/* No burn target exists, so the inner ring is only ever its track. */}
-            <Ring r={RING_INNER_R} fraction={0} tint={accent.blue} />
+            <Ring r={RING_INNER_R} fraction={0} tint={accent.blue} reduceMotion={reduceMotion} />
           </Svg>
           <View style={{ flex: 1, minWidth: 0, gap: space.md }}>
             <KeyRow
