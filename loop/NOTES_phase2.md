@@ -5,9 +5,9 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 217: checkpoint. Full tsc and full app Jest, no file changes, report failures.
-- Round 216: row 21 BUILT (nutrition.tsx wired to useWeeklyMacros, render test added).
-- Last checkpoint GREEN: round 213 (tsc 0 errors; Jest 123 suites, 967 tests, 4 snapshots). Live counts; old numbers are stale.
+- Round 218: fix red gate. detailChrome.render.test.tsx macros sub-test: stub useWeeklyMacros (or Skeleton) in that file only. Then regenerate only the macros snapshot if new, check the diff.
+- Round 217 checkpoint: tsc 0 errors. Jest 2 failed suites: (a) detailChrome macros (Skeleton/useReducedMotion crash, row 21 side effect), (b) gymStreakStripFootnote: gym.tsx:174 todayWorkout.exercises undefined, date dependent.
+- Last green checkpoint: round 213 (tsc 0; Jest 123 suites, 967 tests, 4 snapshots). Live counts; old numbers are stale.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Latest report beats handover claims. Verify PHASE2_ROWS.md before trusting a row status.
@@ -31,7 +31,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Local-only mutations (editSavedFood) need no API test.
 - 'nutrition/week' is not a row.
 - Row 21: no data model change, no backend change. Client aggregation over foodLogs.list per day. Macros variant out of scope. Hosted migration stays Isa's.
-- Checkpoint rounds change no files (round 217 kept over Jev's snapshot pick, to see real failures first).
+- Checkpoint rounds change no files.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-8, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
@@ -50,10 +50,10 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; untouched by loop work. Isa to check.
 
 ## Parked (not v1)
-- Row 21 follow-up: DetailChart Plot lays multiple Bars as a flex row, so the 4 macros show as side-by-side bars, not one stacked column. Needs DetailChart change (separate row if wanted).
-- Row 21 Secondary card header, note and footnote still describe today's macros, not the 7-day chart. Copy decision.
+- Row 21 follow-up: DetailChart Plot lays multiple Bars as a flex row, so the 4 macros show side by side, not stacked. Needs DetailChart change (separate row if wanted).
+- Row 21 Secondary card header, note and footnote still describe today's macros. Copy decision.
 - Recipe and saved meal delete/unsave: no UI. Product gap.
-- Row 8 notes cell is long with older contradictory fragments. Trim when next touched.
+- Row 8 notes cell long with older contradictory fragments. Trim when next touched.
 - Quick add: on-device check of food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
@@ -71,12 +71,12 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
 
 ## Next
-- Round 217: checkpoint (full tsc and full Jest, no changes). Read the failures, then re-rank.
-- If detailChrome macros snapshot fails: regenerate only that snapshot in a later round, then check the diff.
+- Round 218: fix detailChrome macros sub-test (one file). Then recheck tsc and that file.
+- Round 219: gymStreakStripFootnote crash. Read the todayWorkout source first. If gym.tsx gets a real shape bug, fix the smallest guard and add a test. If the test is at fault, fix the test fixture with a fixed system time.
+- Then one full checkpoint (tsc and full Jest).
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
-- detailChrome.render.test.tsx macros snapshot may be stale after useWeeklyMacros change (not yet run).
 - Authenticated flows cannot run end to end until sign-in is solved.
 - Jev risk about 1.0 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.

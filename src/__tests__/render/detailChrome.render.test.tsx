@@ -60,6 +60,15 @@ const mockSessions: GymSession[] = [
   { id: 's3', user_id: 'u1', date: mockDates[9], name: 'Legs', notes: null, duration_minutes: null, created_at: `${mockDates[9]}T09:00:00Z` },
 ];
 
+// Seven days ending on the fixture's own pinned "today" (8 Sep 2026, set
+// below) — an empty week, so useWeeklyMacros is loaded but has nothing to
+// report, same as a day with no logs anywhere else in this file.
+const mockWeekDates = Array.from({ length: 7 }, (_, i) => {
+  const d = new Date(2026, 8, 2 + i);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+});
+const mockWeekMacros = mockWeekDates.map((date) => ({ date, protein: 0, carbs: 0, fat: 0, fibre: 0 }));
+
 // --- mocks -------------------------------------------------------------------
 // Only the HOOKS are mocked. Every pure helper the screens use for their
 // numbers (netOf, burnOf, mean, dayMonth, minutesByDate…) stays real, so the
@@ -93,6 +102,9 @@ jest.mock('@/lib/data', () => ({
     error: null,
     refetch: jest.fn(),
   }),
+  // Loaded, not the Secondary card's Skeleton branch — row 21's 7-day chart
+  // reads this, not useFoodLog, so it needs its own fixed value here too.
+  useWeeklyMacros: () => ({ data: mockWeekMacros, isLoading: false, error: null, refetch: jest.fn() }),
 }));
 
 // formatRelativeDate says "Today"/"Yesterday" against the real clock, which

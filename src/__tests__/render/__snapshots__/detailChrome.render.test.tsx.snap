@@ -3296,7 +3296,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 }
               >
                 <View
-                  accessibilityLabel="Protein 80 percent of target, Carbs 88 percent of target, Fat 89 percent of target, Fibre 0 percent of target"
+                  accessibilityLabel="Daily protein, carbs, fat and fibre, 2 Sep to 8 Sep."
                   accessible={true}
                   style={
                     {
@@ -3354,47 +3354,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    130%
-                  </Text>
-                  <View
-                    style={
-                      {
-                        "borderTopColor": "#E5E5EA",
-                        "borderTopWidth": 1,
-                        "left": 0,
-                        "position": "absolute",
-                        "right": 44,
-                        "top": 60,
-                      }
-                    }
-                  />
-                  <Text
-                    style={
-                      [
-                        {
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "lineHeight": 28,
-                        },
-                        {
-                          "color": "#8A8A8A",
-                        },
-                        {
-                          "position": "absolute",
-                          "right": 0,
-                          "textAlign": "right",
-                          "top": 60,
-                          "transform": [
-                            {
-                              "translateY": "-50%",
-                            },
-                          ],
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    65%
+                    1g
                   </Text>
                   <Text
                     style={
@@ -3443,7 +3403,6 @@ exports[`the four Summary detail views render identically across the chrome extr
                           "flexDirection": "row",
                           "gap": 3,
                           "height": "100%",
-                          "justifyContent": "center",
                           "minWidth": 0,
                           "opacity": 1,
                         }
@@ -3458,9 +3417,9 @@ exports[`the four Summary detail views render identically across the chrome extr
                               "borderBottomRightRadius": 2,
                               "borderTopLeftRadius": 5,
                               "borderTopRightRadius": 5,
-                              "height": 73.84615384615385,
+                              "flex": 1,
+                              "height": 0,
                               "marginBottom": 0,
-                              "width": 30,
                             },
                             {
                               "height": 0,
@@ -3468,21 +3427,6 @@ exports[`the four Summary detail views render identically across the chrome extr
                           ]
                         }
                       />
-                    </View>
-                    <View
-                      style={
-                        {
-                          "alignItems": "flex-end",
-                          "flex": 1,
-                          "flexDirection": "row",
-                          "gap": 3,
-                          "height": "100%",
-                          "justifyContent": "center",
-                          "minWidth": 0,
-                          "opacity": 1,
-                        }
-                      }
-                    >
                       <View
                         style={
                           [
@@ -3492,9 +3436,9 @@ exports[`the four Summary detail views render identically across the chrome extr
                               "borderBottomRightRadius": 2,
                               "borderTopLeftRadius": 5,
                               "borderTopRightRadius": 5,
-                              "height": 81.23076923076924,
+                              "flex": 1,
+                              "height": 0,
                               "marginBottom": 0,
-                              "width": 30,
                             },
                             {
                               "height": 0,
@@ -3502,21 +3446,6 @@ exports[`the four Summary detail views render identically across the chrome extr
                           ]
                         }
                       />
-                    </View>
-                    <View
-                      style={
-                        {
-                          "alignItems": "flex-end",
-                          "flex": 1,
-                          "flexDirection": "row",
-                          "gap": 3,
-                          "height": "100%",
-                          "justifyContent": "center",
-                          "minWidth": 0,
-                          "opacity": 1,
-                        }
-                      }
-                    >
                       <View
                         style={
                           [
@@ -3526,9 +3455,28 @@ exports[`the four Summary detail views render identically across the chrome extr
                               "borderBottomRightRadius": 2,
                               "borderTopLeftRadius": 5,
                               "borderTopRightRadius": 5,
-                              "height": 82.15384615384616,
+                              "flex": 1,
+                              "height": 0,
                               "marginBottom": 0,
-                              "width": 30,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#81CFFA",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
                             },
                             {
                               "height": 0,
@@ -3545,7 +3493,6 @@ exports[`the four Summary detail views render identically across the chrome extr
                           "flexDirection": "row",
                           "gap": 3,
                           "height": "100%",
-                          "justifyContent": "center",
                           "minWidth": 0,
                           "opacity": 1,
                         }
@@ -3555,14 +3502,521 @@ exports[`the four Summary detail views render identically across the chrome extr
                         style={
                           [
                             {
+                              "backgroundColor": "#EB4B62",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#F1A33B",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#3A82F7",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
                               "backgroundColor": "#81CFFA",
                               "borderBottomLeftRadius": 2,
                               "borderBottomRightRadius": 2,
                               "borderTopLeftRadius": 5,
                               "borderTopRightRadius": 5,
-                              "height": 4,
+                              "flex": 1,
+                              "height": 0,
                               "marginBottom": 0,
-                              "width": 30,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 1,
+                          "flexDirection": "row",
+                          "gap": 3,
+                          "height": "100%",
+                          "minWidth": 0,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#EB4B62",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#F1A33B",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#3A82F7",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#81CFFA",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 1,
+                          "flexDirection": "row",
+                          "gap": 3,
+                          "height": "100%",
+                          "minWidth": 0,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#EB4B62",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#F1A33B",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#3A82F7",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#81CFFA",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 1,
+                          "flexDirection": "row",
+                          "gap": 3,
+                          "height": "100%",
+                          "minWidth": 0,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#EB4B62",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#F1A33B",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#3A82F7",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#81CFFA",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 1,
+                          "flexDirection": "row",
+                          "gap": 3,
+                          "height": "100%",
+                          "minWidth": 0,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#EB4B62",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#F1A33B",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#3A82F7",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#81CFFA",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                    </View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "flex-end",
+                          "flex": 1,
+                          "flexDirection": "row",
+                          "gap": 3,
+                          "height": "100%",
+                          "minWidth": 0,
+                          "opacity": 1,
+                        }
+                      }
+                    >
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#EB4B62",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#F1A33B",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#3A82F7",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
+                            },
+                            {
+                              "height": 0,
+                            },
+                          ]
+                        }
+                      />
+                      <View
+                        style={
+                          [
+                            {
+                              "backgroundColor": "#81CFFA",
+                              "borderBottomLeftRadius": 2,
+                              "borderBottomRightRadius": 2,
+                              "borderTopLeftRadius": 5,
+                              "borderTopRightRadius": 5,
+                              "flex": 1,
+                              "height": 0,
+                              "marginBottom": 0,
                             },
                             {
                               "height": 0,
@@ -3611,7 +4065,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Protein
+                      W
                     </Text>
                   </View>
                   <View
@@ -3643,7 +4097,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Carbs
+                      T
                     </Text>
                   </View>
                   <View
@@ -3675,7 +4129,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Fat
+                      F
                     </Text>
                   </View>
                   <View
@@ -3707,7 +4161,103 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Fibre
+                      S
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#6B6B6B",
+                          },
+                          {
+                            "lineHeight": 15,
+                            "textAlign": "center",
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                    >
+                      S
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#6B6B6B",
+                          },
+                          {
+                            "lineHeight": 15,
+                            "textAlign": "center",
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                    >
+                      M
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <Text
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      style={
+                        [
+                          {
+                            "fontSize": 11,
+                            "fontWeight": "500",
+                            "lineHeight": 28,
+                          },
+                          {
+                            "color": "#6B6B6B",
+                          },
+                          {
+                            "lineHeight": 15,
+                            "textAlign": "center",
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                    >
+                      T
                     </Text>
                   </View>
                 </View>

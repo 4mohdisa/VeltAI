@@ -7734,3 +7734,7 @@
 - 2026-11-19 23:56 Row 8 notes trim stays parked; it is not a row task and does not clear status.
 - 2026-11-20 00:08 Kept the checkpoint over Jev's top pick (snapshot regeneration). The snapshot may not be failing at all, since the Phase report only suspected it. Regenerating now would edit a file in a round that must change nothing. Re-rank after this run's results.
 - 2026-11-20 00:08 Logged the row 21 side-by-side bar issue and the stale Secondary card copy under Parked, not as a build task, because they are side findings and not a row.
+- 2026-11-20 00:10 Loop note flagged a red gate. Fixed the known cause first: detailChrome macros sub-test, one file only, same stub pattern as dashboardNutrition.render.test.tsx.
+- 2026-11-20 00:10 Deferred gymStreakStripFootnote crash to next round. It may be a real gym.tsx shape bug, so it needs its own single-file task with a read of the schedule hook first.
+- 2026-11-20 00:10 Allowed a new macros snapshot to be written in this file only, with a diff check, because the assertion never ran and the snapshot count dropped from 4 to 3.
+- 2026-11-20 00:10 Jev 97% run agrees. Risk 1.0 is handled by keeping the task to one file.
