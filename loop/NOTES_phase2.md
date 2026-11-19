@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md. Prompts use row TITLES, not numbers.
+Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md. Prompts use row TITLES plus row number.
 
 ## State
 - Branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
@@ -28,9 +28,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - loop/ files are loop-managed. Prompts never edit them.
 - Row 75 split into food log and gym log.
-- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope set by manager.
-- Stale motion rows 65-72: fold or delete is Isa's decision. Loop does not fold them on its own.
-- Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence. Additive and backward compatible.
+- Row 77 target file is src/app/gym/session.tsx. Scope set by manager.
+- Stale motion rows 65-72: fold or delete is Isa's decision.
+- Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence.
+- Round 30: row name 'streak footnote at 320pt width' does not exist. Mapped to row 35 (Visual QA: streak), the Phase 1 device item. Jev said ask; overridden as a minor naming issue.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -45,8 +46,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Adding and removing list items, food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
-- Row 9 Gym log create reconciliation (registerGymSessionCreate, onLanded in queue.ts): BUILT. Simulator sign in part owner check pending. Test: gymSessionCreateReconcile.test.ts.
+- Row 9 Gym log create reconciliation: BUILT. Simulator sign in part owner check pending.
 - Round 16, 23 checkpoints: gates green.
+- Round 29: no change, task had no matching row. Type check and tests not run.
 
 ## Blocked on Isa
 - Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
@@ -58,23 +60,23 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Parked (not v1)
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
-- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts. Remove in cleanup pass.
+- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
 - Account and index settings both link to Delete Account.
 - Copy pass: 'owner check pending' reads awkwardly after a noun phrase.
-- Stale motion rows 65-72 overlap later motion rows. Fold or delete (Isa decision).
+- Stale motion rows 65-72. Fold or delete (Isa decision).
 - onboarding/_layout.tsx ignores Reduce Motion. One-line fix.
 - Pre-existing react-native-gesture-handler warning in SwipeableRow.tsx.
-- Gym log: logGymSession while gymLoggedToday is true. Gym store guard no-ops the session update, so localId may point at an existing session. Backend dedup index covers the duplicate POST. Revisit if double-log matters.
+- Gym log: logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps. Product decision.
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Visual QA: streak footnote at 320pt width (round 29).
-- Then: remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
+- Visual QA: streak (row 35), 320pt footnote check (round 30).
+- Then: row 54 streak strip and flame, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - Rows 65-72 duplicate rows 64 and 74-77. Fold per Isa decision.
-- Jev risk 1.0 of 2 (round 29): keep tasks small, one row per round.
+- Jev risk 1.3 of 2 (round 30): keep tasks small, one row per round. Run the gate every round a row changes code.

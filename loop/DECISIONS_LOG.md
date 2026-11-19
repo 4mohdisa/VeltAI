@@ -6886,3 +6886,7 @@
 - 2026-11-19 16:51 Jev advised ask (64%). Not asking: no major blocker, sign-in is already an owner item, and a question now would repeat it. Recorded as a deliberate override.
 - 2026-11-19 16:51 Chose the streak footnote row: smallest Phase 1 visual QA row, needs nothing from Isa, and the simulator step falls back to a render test if sign in blocks it.
 - 2026-11-19 16:51 Double-log edge case from round 28 report (logGymSession while gymLoggedToday is true) parked, not fixed. It is outside row 9's scope and the backend dedup index covers the duplicate POST. Revisit only if the double-log path matters.
+- 2026-11-19 16:52 Jev said ask (90%). Overrode: the question is minor and the loop rules say decide. The row mismatch is my own naming error, and row 35 is the closest match to the Phase 1 device item, so I mapped it there.
+- 2026-11-19 16:52 The automatic flag said the type check or tests were not run last round. The new prompt requires tsc and the targeted Jest files, so the gate is run this round.
+- 2026-11-19 16:52 Simulator part marked owner check pending if sign in blocks the streak screen. Sign in is an owner step per the blocked list.
+- 2026-11-19 16:52 Row 54 is a separate Visual QA row and is not touched this round.
