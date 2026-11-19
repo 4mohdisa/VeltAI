@@ -6865,3 +6865,8 @@
 - 2026-11-19 16:35 Kept the checkpoint task over Jev's pick (fold rows 65-72). The loop script requires a full checkpoint this round, and folding stale motion rows is listed in Parked as an Isa decision, so the loop should not do it on its own.
 - 2026-11-19 16:35 Jev asked for ask (70%). Not asked: the question is not major, no row is blocked by it, and it can be settled by the checkpoint result.
 - 2026-11-19 16:35 Noted a wording slip in the last report ('confirmed by the math' in prose). It is not a row cell, so no action; reminder added to notes.
+- 2026-11-19 16:36 Ran row 77 although the last report said it was blocked: the manager already set its target file in Decisions, so no Isa answer is needed.
+- 2026-11-19 16:36 Did not ask Isa about the loop/ uncommitted diffs: loop-managed, not a task; noted in Blocked on Isa.
+- 2026-11-19 16:36 Did not take Jev's ask (57%): the only open question is already answered in Decisions; a small task is safer at risk 1.3.
+- 2026-11-19 16:36 Rows 65-72 left untouched: fold or delete is Isa's decision per Decisions.
+- 2026-11-19 16:36 Round 23 checkpoint recorded as green: tsc 0 errors, Jest 73 suites / 847 tests / 4 snapshots.

@@ -5,16 +5,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
-- Baselines (round 16 checkpoint, green): app tsc 0 errors; Jest 69 suites / 833 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
-- Round 23 is a checkpoint. Result goes in Done after the report.
+- Baselines (round 23 checkpoint, green): app tsc 0 errors; Jest 73 suites / 847 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
-- Backend: go run ./cmd/server. Auth enforced (401 without token). Plain docker run, no compose plugin.
+- Backend: go run ./cmd/server. Auth enforced (401 without token).
 - Prompt scope rule: ONE component per prompt.
 
 ## Wording rule
-- Row cells say BUILT, 'checked in code' or 'owner check pending'. Never verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
-- Reports use the same wording. Last report used 'confirmed' in prose: reminder, check every report before sending.
-- A row is BUILT only when every part of it is done. Partial work = PARTIAL.
+- Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
+- A row is BUILT only when every part is done. Partial work = PARTIAL.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -22,7 +20,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - v1 scope locked, extra ideas go to Parked.
 - Phase 1 design final, do not restyle screens.
 - Isa verifies on a device himself.
-- TestPG tests run only after DSN confirmed as 127.0.0.1:55432.
+- TestPG tests run only after DSN is checked as 127.0.0.1:55432.
 - plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data.
 - Clerk sign in needs hosted Clerk JWKS. Owner step, no workaround, no auth bypass.
 - Order of work: Food log before Gym log.
@@ -30,8 +28,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - loop/ files are loop-managed. Prompts never edit them.
 - Row 75 split into food log and gym log.
-- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope widened by manager.
-- Stale motion rows 65-72: fold or delete is Isa's decision. Loop does not fold them on its own (round 23, over Jev's pick).
+- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope set by manager.
+- Stale motion rows 65-72: fold or delete is Isa's decision. Loop does not fold them on its own.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
@@ -45,9 +43,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Adding and removing list items, food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Round 16 baseline checkpoint: gates green.
+- Round 23 checkpoint: gates green, no file changes.
 
 ## Blocked on Isa
-- Sign in: backend verifies tokens against hosted Clerk JWKS. Owner step.
+- Sign in: backend checks tokens against hosted Clerk JWKS. Owner step.
 - E2E_EMAIL and E2E_PASSWORD not set.
 - Row 17 plan.tsx has no backend. Product decision: build plan generation or drop the card for v1.
 - loop/ files show uncommitted diffs. Loop-managed, not a task.
@@ -68,12 +67,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 23 (running): checkpoint. Full tsc and full app Jest, no file changes.
-- Then: row 77 gym session remove path (src/app/gym/session.tsx).
+- Round 24 (running): row 77 gym log entries remove path (src/app/gym/session.tsx).
+- Then: gym log create id reconciliation (logGymSession, like logMeal registerMealCreate), part of Gym log rework.
 - Then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). Review in the Gym log rework.
+- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate).
 - Rows 65-72 duplicate rows 64 and 74-76. Fold per Isa decision.
-- Jev risk 1.2 of 2 (confidence 0.66): keep tasks small. Jev ranked fold rows 65-72 first at 93%; not taken (see Decisions).
+- Jev risk 1.3 of 2: keep tasks small.

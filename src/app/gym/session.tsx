@@ -342,6 +342,20 @@ export default function GymSessionScreen(): JSX.Element {
     setPickerVisible(false);
   };
 
+  // Un-add an extra exercise picked in error. Local-only, by design: nothing on
+  // this screen is sent to the server until Finish workout — an extra has no
+  // GymExercise id yet for DELETE /api/gym/exercises/{id} to address, so there
+  // is nothing to call. Planned (template) rows aren't removable here; they
+  // come from the day's schedule, not something the user added.
+  const removeExtra = (row: Row) => {
+    setExtras((e) => e.filter((r) => r.key !== row.key));
+    setStates((prev) => {
+      const { [row.key]: _removed, ...rest } = prev;
+      return rest;
+    });
+    if (pad?.rowKey === row.key) setPad(null);
+  };
+
   const finishWorkout = useCallback(
     async (successMessage: string) => {
       if (leavingRef.current) return;
@@ -446,6 +460,20 @@ export default function GymSessionScreen(): JSX.Element {
             fullWidth={false}
             onPress={() => onLogPress(row)}
           />
+
+          {/* Undo an extra picked in error — not offered on a planned (template)
+              row, which isn't something the user added. */}
+          {row.isExtra ? (
+            <Pressable
+              onPress={() => removeExtra(row)}
+              haptic={false}
+              minTapTarget={false}
+              hitSlop={10}
+              accessibilityLabel={`Remove ${row.name}`}
+            >
+              <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
+            </Pressable>
+          ) : null}
         </View>
 
         {st.expanded ? (
