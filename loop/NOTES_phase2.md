@@ -8,9 +8,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Baselines (round 56 checkpoint, green): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code 5-hour limit hit several times. If hit: wait, do not change scope.
+- Claude Code 5-hour limit: if hit, wait, do not change scope.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
-- Handover at round 56. Claude Code knows only the summary: name files fully.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
@@ -34,13 +33,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
-- Round 54 and 56: Jev overridden where a concrete reason was written. Jev advice is advisory.
+- Round 54, 56, 57: Jev overridden or advisory where a concrete reason was written.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54, 55, 56.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
+- Row 57 unit gap and tracking: no code change. No tracking or letter-spacing token exists in tokens.ts.
 - Checkpoints: rounds 16, 23, 39, 56 gates green.
 
 ## Blocked on Isa
@@ -54,7 +54,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) close to radius and buttonHeight 52 but not equal. Design re-check needed.
-- DetailChart TIGHT_STAT_GAP 3 and TIGHT_STAT_UNIT_GAP 7 sit just under space.xs 4 and space.sm 8, no comment. Design re-check needed.
+- DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 sit off-token (space.xs 4, space.sm 8, no tracking token). Design re-check needed.
 - Stroke-weight token missing in tokens.ts (affects tick and icon rows).
 - ToastHost and BottomSheet have no render test. Side findings.
 - Food log: long press to delete is not discoverable. Design call.
@@ -71,11 +71,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Chip tint ratio 0.14 and glyph stroke 1.9: one combined token only if more chips need them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in round 56).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 57: Row 57 Visual QA: unit gap and tracking (in progress, DetailChart.tsx TIGHT_STAT_TRACKING).
-- Then rows 58-63 Visual QA, one per round.
+- Round 58: Row 58 Visual QA four hero headers (code vs tokens, grep for the hero header file).
+- Then rows 59-63 Visual QA, one per round.
 - Then: final wording sweep. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
@@ -85,3 +85,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
+- Round 57 flagged again: no stroke-weight or tracking token category in tokens.ts. Design pass with Isa before more tight or stroke rows.

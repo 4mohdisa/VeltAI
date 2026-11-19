@@ -7024,3 +7024,7 @@
 - 2026-11-19 18:20 Named all files in full because the handover cleared Claude Code's context.
 - 2026-11-19 18:20 Tracking swap only if an exact token exists; no guessing, consistent with the 'no change when no token matches' rule used in earlier Visual QA rows.
 - 2026-11-19 18:20 TIGHT_STAT_GAP and TIGHT_STAT_UNIT_GAP (3 and 7) parked for a design re-check, not fixed.
+- 2026-11-19 18:21 Chose row 58 as the next Visual QA row, following the row order in the notes and the Round 57 report.
+- 2026-11-19 18:21 Kept the one row, one file per round rule. The hero header file is found by grep, not named, because the handover does not name it.
+- 2026-11-19 18:21 Did not run the full backend suite. Next checkpoint is due per notes, so it stays on the list.
+- 2026-11-19 18:21 Jev advised run at 96%. Agreed, no override.
