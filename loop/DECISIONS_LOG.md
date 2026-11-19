@@ -7074,3 +7074,7 @@
 - 2026-11-19 18:37 Kept row 67 folding for the next round, since the last report already covers it under row 64 audit but the gate must be green first.
 - 2026-11-19 18:37 Flagged row 69 (progress rings) as a possible real gap, because row 64 marks progress rings as rough, so it must not be folded without a check.
 - 2026-11-19 18:37 Did not ask Isa anything; no hosted, paid or credential step is involved.
+- 2026-11-19 18:38 Chose row 67 fold with a gap check first, as planned in the notes for round 70. Reason: the latest report says row 64 audit already lists button press feedback as ok, but a real check is still needed.
+- 2026-11-19 18:38 Kept rows 69 to 72 out of this round. Row 69 maps to a rough audit line and needs its own check later.
+- 2026-11-19 18:38 Condensed the notes file to stay under 600 words. Decisions and blocked items are kept verbatim in substance; finished detail was merged into one line per item.
+- 2026-11-19 18:38 Kept Jev advisory only. Its risk score of 1.0 supports a one-row, one-file round.

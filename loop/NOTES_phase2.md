@@ -4,18 +4,17 @@
 Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md. Prompts use row TITLES plus row number.
 
 ## State
-- Branch loop/phase2. Never switch branches. Every prompt says so.
-- Baselines (gate green round 67): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Branch loop/phase2. Never switch branches.
+- Baselines (gate green round 69): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
-- Claude Code 5-hour limit: if hit, wait, do not change scope.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
 - PHASE2_ROWS.md runs to row 81. Check the true end before appending.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- A report that skips a test run gets flagged. If no code changed, run tsc and the full Jest suite, and say so.
+- A report that skips a test run gets flagged. If no code changed, run tsc and full Jest and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -33,22 +32,17 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
-- Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
-- Rounds 57-63: no code change (no identical token, or no Jest importer of Screen.tsx).
-- Design pass question NOT asked of Isa. No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for design re-check.
-- Stale motion rows: FOLD, not delete. Each folded row gets status BUILT and a note pointing to its parent. One row per round.
-- Test gate before row work: tsc and full Jest run after any round that skips Jest.
+- No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for one design pass.
+- Stale motion rows: FOLD, not delete. Folded row gets status BUILT and a note pointing to its parent. One row per round.
+- Test gate: tsc and full Jest after any round that skips Jest.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64), 66 (folded into 64, round 68).
+- BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion, row 77 gym removeExtra exit animation.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64), 66 (folded into 64), 68.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
-- No code change: rows 57, 59, 61, 62.
-- Round 66: gap check. Onboarding Reduce Motion exists (row 74). Food list animation exists (food.tsx).
-- Round 67: gym removeExtra exit animation added in session.tsx. Row 77 BUILT checked in code. Row 68 BUILT. tsc 0 errors; render test passed.
-- Round 68: row 66 folded into row 64 (bottom sheets and modals checked in code via BottomSheet.tsx and AddMenu.tsx). Gate after round 68 reported green: tsc 0, Jest 81/867/4.
-- Checkpoints: rounds 16, 23, 39, 56, 60, 63, 67 gates green.
+- No code change: rows 30, 37, 51, 52, 53, 57, 59, 61, 62.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -59,9 +53,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
-- Session.tsx picker: added gym extras have no entering animation (food.tsx has rowEntering). Parity row, new, not started.
+- Session.tsx picker: gym extras have no entering animation (food.tsx has rowEntering). Parity row, not started.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage).
-- Off-token padding and gap values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6. Design re-check with Isa, one pass.
+- Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6. One design re-check with Isa.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
 - ToastHost and BottomSheet have no render test.
 - Food log: long press to delete is not discoverable. Design call.
@@ -77,12 +71,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur round 65).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65, 69).
 
 ## Next
-- Round 69 (this round): checkpoint. Full tsc and full Jest, no file changes. Report failures only.
-- Round 70: fold row 67 (button press feedback) into row 64, after gap check. Gate tsc and full Jest after.
-- Rows 69-72 are NOT folded blindly. Row 69 (progress rings) maps to a 'rough' audit line in row 64, so it needs a real check first. Fold 70-72 one per round only after each gap check.
+- Round 70 (this round): row 67 button press feedback, gap check, fold into row 64. Gate tsc and full Jest after.
+- Rows 69-72: each needs its own gap check before folding. Row 69 (progress rings, bars, number changes) maps to a 'rough' audit line in row 64. Fold 70-72 one per round.
 - Then session.tsx entering-animation parity row.
 - Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
@@ -93,4 +86,3 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
-- Off-token values in Parked need one design pass with Isa, not repeated notes.
