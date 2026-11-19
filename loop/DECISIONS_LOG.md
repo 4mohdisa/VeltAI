@@ -7245,3 +7245,6 @@
 - 2026-11-19 20:17 Render smoke tests stay folded into their existing visual rows, no new dedicated row, because each one is one file and the row list is already locked at 83; the Claude report's suggestion was recorded, not adopted.
 - 2026-11-19 20:17 Row for ToastHost identified by title in the prompt, not by number, because the number was not in the latest report.
 - 2026-11-19 20:17 Source changes to ToastHost are excluded; if testability needs one, it goes to NEXT.
+- 2026-11-19 20:22 Followed Jev's ranking (94%) and picked BottomSheet. Reason: the last round's ToastHost test was mapped to row 5 by content match only, the report itself called the mapping ambiguous, and row 5 stays PARTIAL, so I did not build on that mapping. Jev's ranking is consistent with the smallest safe task.
+- 2026-11-19 20:22 ToastHost test stays in place and is not reverted. Row mapping review is parked for the next round, not a separate task now (one row per round).
+- 2026-11-19 20:22 BottomSheet test folds into the existing sheet row, per the rule that render smoke tests stay folded into visual rows.
