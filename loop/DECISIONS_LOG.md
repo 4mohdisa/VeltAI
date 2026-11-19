@@ -7498,3 +7498,7 @@
 - 2026-11-19 21:57 Prompt requires a grep for existing coverage first, per the rule that near-duplicate render tests have happened before.
 - 2026-11-19 21:57 Sign-in owner steps unchanged; no new question to Isa, since the blockers are already on the Blocked list.
 - 2026-11-19 21:57 Round 162 row 55 notes cell accepted as done; no further docs-only round needed.
+- 2026-11-19 21:59 Chose quick-add over ai-query send path, following Jev's ranking (94%) and the notes Next item; it is the smallest unbuilt render gap and needs no Isa input.
+- 2026-11-19 21:59 Prompt requires a grep before creating any file, because earlier rounds handed near-duplicate work.
+- 2026-11-19 21:59 Gesture-handler worklet warning stays in Parked; no investigation this round, to keep the task to one row and one file.
+- 2026-11-19 21:59 Quick-add exact file path left to Claude Code to confirm with find, since the path was not given in notes.

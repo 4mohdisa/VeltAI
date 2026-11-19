@@ -6,9 +6,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 161: addMenu.render.test.tsx added. Full Jest 108 suites / 921 tests / 4 snapshots green.
-- Round 162: row 55 notes cell names addMenu.render.test.tsx (docs only). Done.
-- Round 163: food saved render test (foodSaved.render.test.tsx), if no existing coverage found.
+- Round 163: foodSaved.render.test.tsx added (2 tests, checked in code). Row 8 notes updated.
+- Round 164: quick-add render test (after grep). Jev ranked it first at 94%; chosen.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -59,7 +58,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- No real render test yet: quick-add, barcode-scan, label-scan, photo-capture, new-recipe, integrations screens (food/saved in progress round 163).
+- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe, integrations screens. Quick-add in progress round 164.
+- AI query send path (ai-query.tsx onSend) and AnomalyBanner.tsx / AnomalyCard.tsx have no executed render test. Next after quick-add.
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift.
@@ -67,7 +67,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Food log long-press delete not discoverable. Goals 'Saved as you type' untrue when clamped.
 - Account and index settings both link to Delete Account.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
-- Pre-existing gesture-handler warning in SwipeableRow.
+- Pre-existing gesture-handler worklet warning in SwipeableRow (shared by food, saved, new-recipe, new-template); may appear in every render test mounting it.
 - logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa.
 - Local Clerk-compatible verifier: owner step.
@@ -79,8 +79,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - 'Add a render test' prompts have duplicated existing coverage: grep first.
 
 ## Next
-- Round 163: food saved render test (foodSaved.render.test.tsx) after grep. If already covered, move to quick-add.
-- Then: quick-add render test after grep, or another unblocked PARTIAL row with a real gap.
+- Round 164: quick-add render test (grep first; if covered, report and move on).
+- Then: ai-query.tsx send path render test, then AnomalyBanner/AnomalyCard direct render tests.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
