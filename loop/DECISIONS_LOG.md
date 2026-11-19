@@ -7322,3 +7322,6 @@
 - 2026-11-19 20:52 Chose row 8 check: matches the Next list in the notes and Jev's run signal (93%); small, notes only, no Isa input needed.
 - 2026-11-19 20:52 Row 7 result from round 120 accepted: a real import exists (foodDetailLogged.render.test.tsx), so the notes cell was filled and status unchanged.
 - 2026-11-19 20:52 Kept the scan-screen and food/add render test gap in Parked, not in a new task, to keep the round small.
+- 2026-11-19 20:53 Chose row 18 stale-note check next, as listed in the notes Next section, because it is the smallest task and needs nothing from Isa (Jev ranks run highest).
+- 2026-11-19 20:53 Row 8 check had no real importing test, so no edit was made; saved.tsx was used as the most relevant surface by default, recorded here.
+- 2026-11-19 20:53 Row 18 surface file not named in the brief, so Claude Code must pick the most relevant file from the row and report the choice, per the shared-file rule.
