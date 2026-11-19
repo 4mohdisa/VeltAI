@@ -5,8 +5,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 226 done: row 11 schedule render test (schedule.render.test.tsx). Tsc 0 errors, jest 2/2.
-- Round 227 (current): row 11 exercise-progress render test (exerciseProgress.render.test.tsx), after grep.
+- Round 227 done: row 11 exercise-progress render test (exerciseProgress.render.test.tsx). Tsc 0 errors, jest 2/2.
+- Round 228 (current): row 11 freeze render test (freeze.render.test.tsx), after grep.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -37,11 +37,11 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
 - BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
+- BUILT checked in code: gym templates, schedule, muscles, exercise-progress, freeze (pending round 228), profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps (close one per round)
-- Row 11: exercise-progress (round 227), freeze have no render test. Templates, new-template, schedule done. One screen per round.
+- Row 11: freeze has no render test (round 228). Templates, new-template, schedule, exercise-progress, muscles done. One screen per round.
 - Row 7 notes contain a leftover 'status stays PARTIAL' sentence. Covered; fix when touched.
 - Roughly 20 Visual QA rows cite only the generic gate. Judge per row, not by grep.
 
@@ -81,8 +81,7 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Upstream brief generator runs from stale status (rows 1, 6). Verify PHASE2_ROWS.md first.
 
 ## Next
-- Round 227: row 11 exercise-progress render test (exerciseProgress.render.test.tsx).
-- Then row 11: freeze render test.
+- Round 228: row 11 freeze render test (freeze.render.test.tsx).
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
@@ -100,4 +99,6 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
 - startScanPoller must be stubbed in any test letting pipeline or pipelineMulti resolve.
 - jest.requireActual('@/lib/api').api?.scan needs the ?. (circular import). Two-level chaining throws.
+- Multi-fragment Text children show as an array in react-test-renderer: join or use findAll.
+- jest.useFakeTimers needs doNotFake: ['setImmediate'] when a test awaits a settle flush.
 - Stale briefs have pointed at old row status at least six times: verify PHASE2_ROWS.md before trusting any status.

@@ -7775,3 +7775,7 @@
 - 2026-11-20 00:35 Prompt tells Claude Code to grep first and stop if a test already exists, because stale briefs have reported wrong row status before.
 - 2026-11-20 00:35 Kept one row, one new file, max 5 steps, per the Jev risk of about 0.9 on continuing without Isa.
 - 2026-11-20 00:35 Row 83 note fix stays in Parked until row 83 is next touched, per the existing rule.
+- 2026-11-20 00:37 Chose row 11 freeze render test: it closes the last known row-11 test gap, is one file, and needs nothing from Isa.
+- 2026-11-20 00:37 Row 83 stale note stays parked: it is a text fix, not a gate, and the handover says fix it only when row 83 is touched.
+- 2026-11-20 00:37 TodayCard shape guard stays parked: it is a product or robustness decision with no current failing row.
+- 2026-11-20 00:37 Kept the prompt to one row and one new file, with a grep first, because the last handover asked for full file names.
