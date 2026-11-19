@@ -6937,3 +6937,7 @@
 - 2026-11-19 17:17 Chose candidate 1 because the last report flagged the swap from slide_from_bottom to simple_push on full-screen camera modals as a probable wrong motion. Reverting to the original motion is reversible, touches one file and needs no answer from Isa.
 - 2026-11-19 17:17 Jev ranked ask first at 71%. Overridden: a question about motion intent can be settled by restoring the prior behaviour, so asking adds nothing. Reason written here, per the Jev override rule.
 - 2026-11-19 17:17 Row 74 stays BUILT. The camera modal motion is now the original one, not a new design choice, so no owner question is needed before the fix.
+- 2026-11-19 17:18 The latest Claude Code report was a 5-hour rate limit message, so round 41 has no recorded result. Re-issued the same single-file task, with a read-first check so it makes no change if already done. Reason: smallest step, reversible, and it closes the open item in Next.
+- 2026-11-19 17:18 Did not ask Isa about the claude auth login warning. It is an owner step with a deadline of 2026-11-24, so it is recorded under Blocked on Isa for him to act on.
+- 2026-11-19 17:18 Jev risk 1.2 and 10% clean-finish estimate for the last task: kept the task to one file and one row, as Jev advised.
+- 2026-11-19 17:18 Handover label for row 9 is stale. Done list already says BUILT, so the notes keep BUILT and the handover text is ignored.
