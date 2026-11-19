@@ -7687,3 +7687,13 @@
 - 2026-11-19 23:36 Jev ranked row 6 label first. Kept row 1 close-out first: the local gaps are closed per the latest report, and PARTIAL is only bookkeeping that keeps row 1 blocking stop. Owner-step rows are BUILT on passing local mocked tests (decision in this file), so this is one small round and not a scope change.
 - 2026-11-19 23:36 Row 1 prompt does not allow source or test edits; it only verifies the two test files and updates the row.
 - 2026-11-19 23:36 signupValidation.render.test.tsx path is not in the report, so the prompt has Claude Code find it with grep rather than guessing.
+- 2026-11-19 23:38 Round 207 row 1 close-out accepted: status BUILT, owner check pending for live Clerk sign-in. Row 1 no longer blocks work.
+- 2026-11-19 23:38 Chose row 6 label scan first: one screen, one API call, smallest next step. Photo pipeline stays after it.
+- 2026-11-19 23:38 Kept row 6 at PARTIAL until both label and photo are covered, per the wording rule.
+- 2026-11-19 23:38 Followed Jev's ranking of row 6 as the next task, since it matches the checkpoint order in notes.
+- 2026-11-19 23:38 Asked the prompt to find the label screen by grep, because its exact path is not in the notes.
+- 2026-11-19 23:38 Rewrote the rejected prompt to name loop/phase2 explicitly, check the branch via .git/HEAD, and ban branch changes, commits and all git commands.
+- 2026-11-19 23:38 Chose the label scan test: it is the smallest remaining PARTIAL gap in row 6 and follows the barcode pattern already in place.
+- 2026-11-19 23:38 Kept row 6 PARTIAL until the photo pipeline is covered too.
+- 2026-11-19 23:38 Prompt tells Claude Code to stop if no screen calls api.scan.label, so it does not invent a file path.
+- 2026-11-19 23:38 Ban on status words in the notes cell follows the wording rule, so the status column stays the only place they appear.

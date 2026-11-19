@@ -5,10 +5,12 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 207 next. Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci). Round 206 added ssoSignin.render.test.tsx (2 tests, passing).
+- Round 208 running: row 6 label scan render test (api.scan.label). Row 6 stays PARTIAL.
+- Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci). Round 207 closed row 1 to BUILT (owner step remains).
+- Previous prompt rejected: it did not name loop/phase2 or ban git. Every prompt must name the branch and ban git commands.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
-- Prompts name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
+- loop/ files are never edited by prompts.
 - Task premises can be wrong: check row content and code first. Follow the latest report over handover claims.
 
 ## Wording rule
@@ -30,15 +32,13 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6.
 - Local-only mutations (editSavedFood) need no API test.
 - Minor questions decided by manager. Checkpoints override Jev ranking.
-- Jev signals advisory. Round 207: Jev ranked row 6 first; kept row 1 close-out first (status is bookkeeping only, row 1 blocks stop).
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-5, 7, 8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
+- BUILT (owner check pending): gym history; rows 1, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- Row 1 sign in: local tests cover email/code validation, SSO cancel, SSO error (round 206). Status close-out in round 207.
-- PARTIAL: row 2 onboarding (live sign-in and profile persistence owner; check local gaps).
-- PARTIAL: row 6 (barcode has render coverage in barcodeScan.render.test.tsx; label and photo do not).
+- PARTIAL: row 2 onboarding (live sign-in and profile persistence owner; local gaps to check).
+- PARTIAL: row 6 (barcode has render coverage; label and photo do not).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -71,8 +71,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 207: row 1 status close-out (PARTIAL to BUILT, owner check pending).
-- Then row 6 label scan render test (api.scan.label).
+- Round 208: row 6 label scan render test (api.scan.label). Row 6 stays PARTIAL.
 - Then row 6 photo pipeline render tests (api.scan.pipeline, pipelineMulti, confirm, feedback).
 - Then row 2 onboarding: local gap check.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
