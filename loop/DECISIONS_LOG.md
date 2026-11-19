@@ -7785,3 +7785,12 @@
 - 2026-11-20 00:41 Chose the row 83 Wiring state fix over the other candidates. The loop check flagged the last report as partly done, and the same stale constant is still in row 83. The row is already being touched, so the stale-notes rule applies. Docs only, easy to reverse.
 - 2026-11-20 00:41 Did not ask Isa about the Wiring state cell. It is a docs fix in a row already under work. Jev's ask signal is advisory and no question is needed.
 - 2026-11-20 00:41 Trimmed the notes to under 600 words. Parked items merged by theme. Nothing decided by Isa was removed.
+- 2026-11-20 00:42 Jev said ask at 84%. Kept run because the blocker is a prompt scope conflict, not a Isa-only question: the previous round forbade editing column 7, so the literal could not be removed. This round explicitly scopes column 7 of row 83 only. A question to Isa about wording of one docs cell is not major and would cost his attention for nothing.
+- 2026-11-20 00:42 Not the same failed task: the two earlier attempts failed on scope, not on execution. This is a single cell with the wording given, so it is a fresh bounded task, not a third try at the same one.
+- 2026-11-20 00:42 Chose the docs fix over the TodayCard guard because it is the smallest closure of a flagged stale row and has a grep check. The TodayCard guard is a code change and is parked until a row names it.
+- 2026-11-20 00:42 Row 7 'status stays PARTIAL' note and row 8 long note stay parked until those rows are next touched, per the stale-notes rule.
+- 2026-11-20 00:42 Row 17 plan.tsx question is held for the stop report, not asked now, because rows are still open.
+- 2026-11-20 00:43 Run over ask (Jev 89% ask). The only Isa item that could block is row 17, already parked for the stop report, so asking now adds nothing. The checkpoint is scheduled, and the full baseline is unknown after many new suites. Jev cannot see that the last report's blocker was a scope conflict, not an Isa question.
+- 2026-11-20 00:43 Checkpoint round changes no files. Any red gate is reported now and fixed in a normal round, not here.
+- 2026-11-20 00:43 Row 83 Notes reword (column 7) moved to the next normal round. Column 7 is in scope per the round 231 decision, so no question to Isa is needed.
+- 2026-11-20 00:43 Prompt now states the loop/phase2 branch rule, no git commands, and the report format, after the previous rejection.

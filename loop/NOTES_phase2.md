@@ -6,9 +6,9 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 229: row 83 Notes cell fixed (MACRO_BAR_W removed). Wiring state cell still cites it.
-- Round 230 (current): row 83 Wiring state MACRO_BAR_W fix (docs only).
-- Prompts: one row, one file, full paths, grep before creating a test file, no git commands. Prompts never edit loop/ files.
+- Round 232 (current): checkpoint. Full app type check and full Jest suite, no file changes, report failures.
+- Round 231 prompt was rejected before it ran (no branch rule). Row 83 Notes cell reword is still pending.
+- Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file, no git commands, state the loop/phase2 rule. Prompts never edit loop/ files.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
 
 ## Wording rule
@@ -30,18 +30,20 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
-- Round 229: row 83 note fix over render test (Jev ranked render test first). Jev cannot see: MACRO_BAR_W cited six+ rounds, no named coverage gap.
-- Round 230: row 83 Wiring state fix chosen. Same row, same stale-notes rule, docs only.
+- Round 232: run chosen over ask (Jev 89% ask). Only Isa item is row 17, already parked for the stop report. Checkpoint is scheduled and the baseline is unknown.
+- Round 231 scope: column 7 of row 83 is in scope for the next normal round.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- Row 21 weekly stacked chart: useWeeklyMacros in src/lib/data/hooks.ts. Tests: weeklyMacros.test.ts, dashboardNutrition.render.test.tsx.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
+- BUILT: rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- Row 21 weekly stacked chart: useWeeklyMacros in src/lib/data/hooks.ts.
 - BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, exercise-progress, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps
 - Row 7 notes: leftover 'status stays PARTIAL' sentence. Fix when touched.
+- Row 83 Notes cell (column 7) still has the MACRO_BAR_W literal. Reword in the next normal round.
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 
 ## Blocked on Isa
@@ -55,11 +57,10 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified in git status: Isa to check.
 
 ## Parked (not v1)
-- Row 21: DetailChart lays Bars as a flex row, not stacked. Needs its own row if wanted. Card header, note and footnote describe today's macros: copy decision.
+- Row 21: DetailChart lays Bars as a flex row, not stacked. Card header, note and footnote describe today's macros: copy decision.
 - Recipe and saved meal delete/unsave: no UI.
 - Row 8 notes cell long. Trim when touched.
-- Quick add on-device check (owner).
-- Row 34 swipe pane square corners: design decision.
+- Quick add on-device check (owner). Row 34 swipe pane square corners: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
 - Sheet detents medium/large: no native mechanism.
 - Food log long-press delete not discoverable. Goals 'Saved as you type' untrue when clamped.
@@ -76,7 +77,8 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 230: row 83 Wiring state MACRO_BAR_W fix.
+- Round 232: checkpoint (full type check and Jest, no changes).
+- Round 233: row 83 Notes cell reword, column 7 only, grep MACRO_BAR_W must return zero. Fix any red gate from 232 if it is small.
 - Then read PHASE2_ROWS.md and pick the next row with a named render or test gap.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
