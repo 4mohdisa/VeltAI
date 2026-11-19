@@ -7916,3 +7916,6 @@
 - 2026-11-20 01:51 Row 17: round 260 question got no answer and round 261 passed unanswered. Default (b), drop the plan card for v1, applies next round as a separate single row task. Not repeating the question.
 - 2026-11-20 01:51 Did not ask Isa anything this round: no new major question, and the sign-in root cause is already in Blocked on Isa.
 - 2026-11-20 01:51 Jev advised ask (43%) at low confidence (0.14). Kept run: the notes require the grep before any stop report, and it is a small task.
+- 2026-11-20 01:52 Round 263: run the checkpoint gate first, because the loop flag says the last report had tests not run. Row 17 moves to the round after, so the gate result is known before editing.
+- 2026-11-20 01:52 Round 263: kept the Jev stop/ask signal as advisory. Stop is not yet justified: row 17 default (b) is still an open local change, and the gate is still unrun.
+- 2026-11-20 01:52 Round 263: the checkpoint prompt changes no files, so no loop/ file is touched. Notes NOT edited to alter loop/ status.

@@ -6,9 +6,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 261 checkpoint green: tsc 0 errors; Jest 134 suites, 990 tests, 4 snapshots. Backend go test green, TestPG skipped.
+- Last green checkpoint: round 261 (tsc 0 errors; Jest 134 suites, 990 tests, 4 snapshots; go test green, TestPG skipped).
+- Round 262: read only grep. Report said nothing changed, but tests were not run. Loop flagged it.
 - Handover: 84 rows, all BUILT, 47 carry 'owner check pending'. Header has 9 pipes.
-- Loop files loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified in git status. Isa to check.
+- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified in git status. Isa to check.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -28,10 +29,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Rows 19, 20: no edit. Row 21: no data model or backend change; client aggregation over foodLogs.list per day.
 - Row boundaries strict. Local-only mutations need no API test.
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
-- Row 9 includes the TodayCard malformed-response guard and retry notice for a session missing from the range. Range is today plus yesterday (useGymRange in src/lib/data/gymRange.ts).
+- Row 9: TodayCard malformed-response guard and retry notice for a session outside the range. Range is today plus yesterday (useGymRange in src/lib/data/gymRange.ts).
 - Row 84 focus refetch uses silent revalidate with [] deps on focus callbacks.
 - Round 261: checkpoint chosen over Jev ask.
-- Round 262: read only grep chosen. Row 17 default (b) to be applied the round after this one.
+- Round 263: gate before row 17 because of the loop flag.
 
 ## Done
 - BUILT: all 84 rows (see PHASE2_ROWS.md). 47 carry 'owner check pending'; do not reopen them.
@@ -66,8 +67,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 9: a session outside the 2-day range shows the retry notice. Known limit, untested edge.
 
 ## Next
-- Round 262 result: read the grep report. Fix any hit in one cell in a separate row task.
-- Then row 17 default (b): remove the plan card for v1 in one row task, with a test.
+- Round 263: checkpoint gate (read only). Clear the loop flag.
+- Round 264: row 17 default (b): remove the plan card for v1 in one row task, with a render test.
 - Then the stop report.
 
 ## Known issues
