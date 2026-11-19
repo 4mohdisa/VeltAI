@@ -6,6 +6,7 @@
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
+import Animated, { FadeOut, FadeOutUp } from 'react-native-reanimated';
 import { router, useLocalSearchParams, useNavigation, type Href } from 'expo-router';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
@@ -19,7 +20,8 @@ import { Text } from '@/components/primitives/Text';
 import type { ExerciseLibraryItem, GymExerciseInput, LoggedParameters, ParameterSchema } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { useToday } from '@/lib/data/gymSchedule';
-import { color, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
+import { color, motion, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { logGymSession } from '@/lib/data';
 
@@ -172,6 +174,11 @@ export default function GymSessionScreen(): JSX.Element {
   const navigation = useNavigation();
   const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
   const mode = isSessionMode(modeParam) ? modeParam : undefined;
+
+  // Same exit treatment as the food log row (src/app/(tabs)/food.tsx):
+  // FadeOutUp, dropping to a plain FadeOut under Reduce Motion (HIG §7.3).
+  const reduceMotion = useReduceMotion();
+  const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
 
   const [states, setStates] = useState<Record<string, RowState>>({});
   const [extras, setExtras] = useState<Row[]>([]);
@@ -418,7 +425,8 @@ export default function GymSessionScreen(): JSX.Element {
   const renderRow = (row: Row) => {
     const st = stateOf(row);
     return (
-      <Card key={row.key} variant="elevated">
+      <Animated.View key={row.key} exiting={rowExiting}>
+        <Card variant="elevated">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Pressable
             onPress={() => toggleCheck(row)}
@@ -533,7 +541,8 @@ export default function GymSessionScreen(): JSX.Element {
             )}
           </View>
         ) : null}
-      </Card>
+        </Card>
+      </Animated.View>
     );
   };
 

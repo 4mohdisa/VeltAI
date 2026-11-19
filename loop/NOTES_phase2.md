@@ -5,11 +5,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt says so.
-- Baselines (gate green round 65): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Baselines (gate green round 66): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit: if hit, wait, do not change scope.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
+- PHASE2_ROWS.md runs to row 81. Check the true end before appending.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
@@ -44,6 +45,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57, 59, 61, 62.
+- Round 66: gap check. Onboarding Reduce Motion exists (row 74). Food list animation exists (food.tsx). Gym removeExtra in session.tsx had NO exit animation: row 77 reopened to PARTIAL.
 - Checkpoints: rounds 16, 23, 39, 56, 60, 63 gates green.
 
 ## Blocked on Isa
@@ -75,8 +77,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur round 65).
 
 ## Next
-- Round 66: read-only check of rows 66-72 against two gaps: onboarding stack slide_from_right with no Reduce Motion, and no LayoutAnimation on food/gym list add/remove. Add DIFFERENT rows for any gap no row names. Gate tsc and full Jest.
-- Then fold rows 66-72 one per round, each pointing to its parent (64 or 74-77), only after the gap check.
+- Round 67: gym session exit animation (row 77 and row 68 gym side), session.tsx only. Gate tsc and full Jest after.
+- Then fold rows 66-72 one per round, each pointing to its parent (64, 74-77), only after the gap check.
 - Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 

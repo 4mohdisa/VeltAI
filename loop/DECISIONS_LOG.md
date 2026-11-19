@@ -7063,3 +7063,7 @@
 - 2026-11-19 18:32 Chose the check before folding: the last report found row 64's audit gaps may be hidden by the fold, and folding without checking would mark them BUILT wrongly.
 - 2026-11-19 18:32 Gap rows are added as DIFFERENT, not built, so they get their own wiring rounds later.
 - 2026-11-19 18:32 Folding rows 66-72 waits until this check is recorded, one per round as before.
+- 2026-11-19 18:34 Round 66 gap check found the gym side of the list add/remove gap is still open (session.tsx removeExtra has no exit animation). Row 77 was BUILT too early. Reopened it to PARTIAL and chose the fix as the next task.
+- 2026-11-19 18:34 Row 68 folds into row 77 only after the gym exit animation is in, not before. The onboarding Reduce Motion gap is already covered by row 74 (code branch exists), so no new row is needed for it.
+- 2026-11-19 18:34 Rows 66-72 fold one per round after this, as planned, each pointing to its parent.
+- 2026-11-19 18:34 The table runs to row 81, so future append tasks must check the true end of PHASE2_ROWS.md first.
