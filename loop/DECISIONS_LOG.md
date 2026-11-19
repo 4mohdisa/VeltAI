@@ -7426,3 +7426,6 @@
 - 2026-11-19 21:31 Kept the row-2 goal.tsx step and insights.tsx as the next two candidates, in the order already in the notes.
 - 2026-11-19 21:31 Did not edit PHASE2_ROWS.md this round: a test-only change with no status change. The report names the row the test supports.
 - 2026-11-19 21:31 Required a file path check before writing the test, per the rule that routes are verified against the file first.
+- 2026-11-19 21:32 Chose goal.tsx over privacy render test: it closes a remaining Row 2 gap and the notes Next list puts it first.
+- 2026-11-19 21:32 Kept the task to one file and one row, as Jev advised for low clean-completion odds.
+- 2026-11-19 21:32 Restated the branch rule in the prompt, as required after the round 145 rejection.
