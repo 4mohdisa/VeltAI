@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline: app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots, green (round 102 checkpoint). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots, green (round 104). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -13,7 +13,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never use verified, verify, verifies, confirmed or confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - Code change = run tsc and full Jest and say so.
-- Docs-only change = run tsc and full Jest and say so (added round 104: loop check flagged tsc-only reports).
+- Docs-only change = run tsc and full Jest and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -34,16 +34,17 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - isLiquidGlassAvailable() is false outside a real iOS build; test GlassView by mocking expo-glass-effect.
 - Jev ranking: follow it on small tasks; a concrete reason (data model size, risk) can override it, and the reason goes here.
 - Unanswered question: after one round, use the default and do not ask again.
-- Render smoke tests stay folded into their visual rows; no dedicated row added.
+- Render smoke tests stay folded into their visual rows.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 19, 23, 26-34, 36-50, 51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Row 51: ToastHost.render.test.tsx. Round 99: BottomSheet.render.test.tsx (row 27).
-- Round 103: row 61 notes corrected (Screen.render.test.tsx and GlassButtons.reduceTransparency.render.test.tsx exist). Docs-only, tsc only, flagged.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102.
+- Round 103: row 61 notes corrected. Docs-only, tsc only, flagged.
+- Round 104: row 17 notes corrected (week, training, nutrition imported by summaryDetails.test.ts and detailChrome.render.test.tsx). Docs-only, tsc and full Jest green.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -58,7 +59,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
-- Stale 'no Jest test' phrasing on other rows: round 104 grep pass, one row per round (rows 17, 36, 38, 52, 53, 55, 83 to check).
+- Stale 'no Jest' phrasing: rows 36, 38, 40, 52, 53, 55, 83 left to check, one per round.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius and row height; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -78,15 +79,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 104 (in progress): grep PHASE2_ROWS.md for 'no Jest' phrasing; fix one stale row if a test import proves it; run tsc and full Jest.
-- Then rows 17, 36, 38, 52, 53, 55, 83 stale-note checks, one per round.
+- Round 105 (in progress): row 52 stale-note fix (log-session.tsx test imports). Docs-only, tsc and full Jest.
+- Then rows 36, 38, 40, 53, 55, 83 stale-note checks, one per round.
 - Then rows 1, 2, 5-8, 18: record BUILT checked in code on passing local mocked tests (sign-in is an owner step).
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList or ScrollView refreshControl breaks JSON.stringify: use the key-filtering serializer pattern.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts has no letter-spacing, icon-size, stroke-width, bar-width or 9pt space tokens.

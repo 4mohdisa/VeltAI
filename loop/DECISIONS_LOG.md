@@ -7263,3 +7263,7 @@
 - 2026-11-19 20:28 Limited the edit to one row per round, as the notes already require, and only where a test import proves the stale phrase.
 - 2026-11-19 20:28 Did not ask Isa: this is a docs-only cleanup with no money, data or production impact.
 - 2026-11-19 20:28 Jev risk 0.9 accepted: task is small, one file, no src changes.
+- 2026-11-19 20:30 Chose row 52 over row 36: the latest report confirms src/app/gym/log-session.tsx has four importing tests, so the fix is certain. Row 36's named files were not listed in the report, so checking it first risks a wrong edit.
+- 2026-11-19 20:30 Kept the one-row-per-round rule for the stale 'no Jest' phrasing pass, since the loop has a checkpoint at round 105 and a docs-only round still runs tsc and full Jest.
+- 2026-11-19 20:30 Treated the 'Row 104' label in the previous report as the round 104 grep pass, since PHASE2_ROWS.md ends at row 83. No new row is needed.
+- 2026-11-19 20:30 Did not ask Isa anything: all open items are either planned in the notes or are design decisions parked for later.
