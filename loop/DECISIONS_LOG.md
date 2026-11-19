@@ -7878,3 +7878,7 @@
 - 2026-11-20 01:17 Row 84 step C uses a silent revalidate with an empty deps array, matching TodayCard, so the gym tab never blanks to a skeleton.
 - 2026-11-20 01:17 Parked the gymSchedule.ts revalidate deps footgun (fetcher is a new closure each render). Out of scope this round; to be tightened to [] in a later round.
 - 2026-11-20 01:17 Step C stays one row, one screen file, and at most one test file, per the one-file rule.
+- 2026-11-20 01:19 Chose the row 83 doc fix: smallest step, one file, clears a known stale row noted in Known test gaps.
+- 2026-11-20 01:19 Deferred the LoggedCard investigation: it needs a read first and belongs under row 9 scope.
+- 2026-11-20 01:19 gymSchedule.ts deps tightening is a side finding, kept in Parked per the brief rule that only rows are tasks.
+- 2026-11-20 01:19 Row 84 is reported BUILT by the last report; the prompt makes the round verify that before editing.
