@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt names this rule and the branch check.
-- Baselines (round 84): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baselines (round 85): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step.
@@ -40,12 +40,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Done
 - Task 1 (PHASE2_ROWS.md), local setup, row 22 baseline: BUILT.
-- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 72, 74, 77, 78-82, 23, 26.
+- BUILT: Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 72, 74, 77, 78-82, 23, 26, 27.
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-64, 68, 69, 70, 71.
 - Folded: 65, 66, 67 into 64; 69 duplicate of 76.
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
-- No code change: rows 30, 37, 51, 52, 53, 57, 59, 61, 62.
-- Round 84: copy pass on PHASE2_ROWS.md notes (text only). Row 53 status fixed to BUILT, row 75 status word leak fixed.
+- No code change: rows 27, 30, 37, 51, 52, 53, 57, 59, 61, 62.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83.
 
 ## Blocked on Isa
@@ -58,6 +57,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6; LumeTabBar plus-button press 0.86 and 0.96 vs opacity.pressed 0.85. One design re-check with Isa.
+- Sheet detents (sheet.detents medium/large) have no native mechanism in BottomSheet.tsx. Structural gap, not a token swap.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage). ToastHost and BottomSheet have no render test.
 - Gym session: entering animation missing; exit animation added in row 68/77. Food log has both. Add entering animation later.
@@ -73,11 +73,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling, not a row).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-84).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-85).
 
 ## Next
-- Round 85 (running): Visual QA check in code, row 27.
-- Then rows 28-50 (Visual QA, notes blank or dash, DIFFERENT). One row per round.
+- Round 86 (running): Visual QA check in code, row 28 (calendar).
+- Then rows 29-50 (Visual QA, notes blank or dash, DIFFERENT). One row per round.
 - Then render smoke test for Screen.tsx. Then backend refinement rows.
 
 ## Known issues

@@ -7116,3 +7116,7 @@
 - 2026-11-19 18:59 Chose row 27 (Visual QA check in code) over the Screen.tsx render smoke test, because only rows are tasks and the smoke test is a Parked item, not a row.
 - 2026-11-19 18:59 Row 27 prompt names the row by number and column 2 title, since the row titles are not restated in the notes. Claude Code reads the exact title from the file.
 - 2026-11-19 18:59 Gate is full tsc and full Jest because this round is expected to be text or no-code, per the testing rules.
+- 2026-11-19 19:01 Chose row 28 as the next DIFFERENT row in the agreed sequence (rows 28-50), matching the prior round's NEXT line and Jev's ranking of small, one-row tasks.
+- 2026-11-19 19:01 Kept the gym session entering animation and the Screen.tsx render test parked: neither is a row yet and both would breach one-row-per-round.
+- 2026-11-19 19:01 Recorded that round 85 closed row 27 with no code change, and that the baseline is 81 suites, 869 tests, 4 snapshots, all green.
+- 2026-11-19 19:01 Used the 'no code change, run full tsc and Jest' rule for any round that changes no code.
