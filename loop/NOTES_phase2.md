@@ -8,9 +8,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Round 246 checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
 - Round 255: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added.
-- Round 256 read-only check: 84 rows, all BUILT. Row 9 present.
-- Round 257: row 5 pipe fix done. Header 9 pipes, all 84 rows now 9 pipes.
-- Round 258 (current): row 18 Notes wording, one cell only. Remove the capitalised status word from the sentence.
+- Round 256 read-only check: 84 rows, all BUILT.
+- Round 257: row 5 pipe fix. All 84 rows now 9 pipes.
+- Round 258: row 18 Notes wording, one cell only. Done. Status word removed from sentence.
+- Round 259 (current): read-only check of row 17 cell, status counts, and plan code. No edits.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -39,6 +40,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
 - Round 255: accepted row 9 widening. Round 256: verify before asking about row 17.
 - Round 257: row 5 pipe fix before row 18 wording (table parsing first).
+- Round 258: row 17 read-only check before asking Isa.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -53,7 +55,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
-- Row 17 plan.tsx: build plan generation or drop the card for v1. Ask once in the stop report, after verifying the row 17 cell.
+- Row 17 plan.tsx: build plan generation or drop the card for v1. Ask once in the stop report, after the round 259 read-only check of the row 17 cell.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for simulator flows.
 - Merge loop/design-match into main: Isa.
@@ -80,11 +82,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented in backend/internal/config/config.go.
 - Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
-- Row 9: TodayCard LoggedCard silent if a session falls outside a 2-day range (unlikely, untested).
+- Row 9: a session outside the 2-day range shows the retry notice, not the detail. Known limit, untested edge.
 
 ## Next
-- Round 258: row 18 Notes wording, one cell only.
-- Then: read the row 17 cell, decide the question using the real count.
+- Round 259: read-only check of row 17 cell, status counts, and plan code (no edits).
+- Then: decide the row 17 question using the real count. Ask Isa once.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
