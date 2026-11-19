@@ -7577,3 +7577,7 @@
 - 2026-11-19 22:37 Row 8 status stays PARTIAL until delete/unsave and savedMeals.log are both covered.
 - 2026-11-19 22:37 Grep before creating any test file, because earlier rounds showed task premises can be wrong.
 - 2026-11-19 22:37 The DECISIONS_LOG and NOTES_phase2 git status diff is not a loop task. It is parked for Isa to check.
+- 2026-11-19 22:40 Chose row 8 recipes.log: it is the only remaining API surface in row 8 with no render coverage, and the task is one file. Jev ran at 90% for run, so no reason to override.
+- 2026-11-19 22:40 Row 5 moved to BUILT per handover (quick-add render tests plus existing owner-scoped Go tests). Only the on-device check is pending, which is owner check pending.
+- 2026-11-19 22:40 Prompt tells Claude Code to stop if a test already covers recipes.log, so a false premise does not cause duplicate work.
+- 2026-11-19 22:40 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md git diff stays flagged for Isa; no loop files are edited by prompts.

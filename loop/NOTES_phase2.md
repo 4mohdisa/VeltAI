@@ -5,10 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci.
-- Round 181: row 8 recipeCreate render test added (api.recipes.create). Row 8 still PARTIAL.
-- Round 182: row 8 savedMeals.log render test (flagged partly done, so continue row 8).
-- Next full checkpoint: round 188.
+- Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci. Next full checkpoint: round 188.
+- Round 183: handover done. Row 5 moved to BUILT (quick-add render tests; owner-scoped Go tests exist). Row 8 still PARTIAL.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
@@ -34,10 +32,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Minor questions are decided by the manager. Checkpoints override Jev ranking.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 5, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 5 quick-add (render only, submit path open); row 8 saved foods (delete/unsave open; saveFood custom-food render test added; api.recipes.create render test added; savedMeals.log open); row 18 Energy screen.
+- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 8 saved foods (render tests: list, empty, re-log, SwipeableRow delete, saveFood custom, recipes.create, savedMeals.log; open: recipes.log, recipe and meal delete/unsave); row 18 Energy screen (render tests added; local check open).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -49,11 +47,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Token pass (icon sizes, stroke weight, letter-spacing, 9pt space, bar width, small radius): one design pass with Isa.
 - Row 41 es/fr overflow needs device run.
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
-- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status across 14+ rounds, untouched by loop work. Isa to check.
+- loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status across many rounds, untouched by loop work. Isa to check.
 
 ## Parked (not v1)
 - No real render test yet: barcode-scan, label-scan, photo-capture.
-- Quick-add submit path (offline fallback, error toast, double-submit): render test not yet added beyond initial render.
+- Quick-add: on-device check of the food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
 - Sheet detents medium/large: no native mechanism in BottomSheet.
@@ -71,9 +69,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 182: row 8 savedMeals.log render test (savedMealsLog.render.test.tsx).
-- Then: row 8 delete/unsave render coverage.
-- Then: row 5 quick-add submit path render test (offline fallback, error toast).
+- Round 183: row 8 api.recipes.log render test (recipeLog.render.test.tsx).
+- Then: row 8 recipe and saved meal delete/unsave render coverage.
 - Then: row 18 Energy local check.
 - Checkpoint round 188.
 
@@ -90,4 +87,5 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - gesture-handler worklet console warning from SwipeableRow: pre-existing, not a test failure.
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
+- Reanimated useReducedMotion crashes Skeleton, SkeletonCard and SwipeableRow in the render harness: stub only the broken piece inside the test file.
 - Automatic check flagged round 181 as partly done: row 8 stays PARTIAL until all its parts are covered.
