@@ -6,9 +6,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 255 done: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added. tsc 0, todayCard.render.test 6/6. useGymRange lives in src/lib/data/gymRange.ts.
-- Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
-- Round 256 (current): read-only verification of PHASE2_ROWS.md (pipes, status words, non-BUILT count, row 9 note).
+- Round 255: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added. tsc 0, todayCard.render.test 6/6.
+- Round 246 checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
+- Round 256 read-only check: 84 rows, all BUILT (DIFFERENT 0, PARTIAL 0, EXACT 0). Row 9 present.
+  Found: row 5 has 10 pipes (stray cell). Row 18 Notes contains the word BUILT outside the Status cell.
+- Round 257 (current): fix row 5 pipes only.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -32,9 +34,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
 - Row 9 includes the TodayCard malformed-response guard and the retry notice for a session missing from the range.
-- Row 84 focus refetch uses a silent revalidate (no loading flag). Revalidate deps: never list revalidate in a caller's deps. Use [] on focus callbacks.
+- Row 84 focus refetch uses a silent revalidate. Never list revalidate in a caller's deps. Use [] on focus callbacks.
 - Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
 - Round 255: accepted row 9 widening. Round 256: verify before asking about row 17.
+- Round 257: row 5 pipe fix before row 18 wording (table parsing first).
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -49,7 +52,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
-- Row 17 plan.tsx: build plan generation or drop the card for v1. Ask once in the stop report.
+- Row 17 plan.tsx: build plan generation or drop the card for v1. Ask once in the stop report, after verifying the row 17 cell.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for simulator flows.
 - Merge loop/design-match into main: Isa.
@@ -76,11 +79,13 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented in backend/internal/config/config.go.
 - Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
-- Row 9: TodayCard LoggedCard still silent if a session falls outside a 2-day range (unlikely, untested).
+- Row 9: TodayCard LoggedCard silent if a session falls outside a 2-day range (unlikely, untested).
+- Row 18 Notes: remove the capitalised status word from the sentence (next round).
 
 ## Next
-- Round 256: read-only verification of PHASE2_ROWS.md (pipes, status words, count of DIFFERENT and PARTIAL rows).
-- Then: decide on the row 17 question using the real count.
+- Round 257: row 5 pipe fix (10 to 9 pipes).
+- Round 258: row 18 Notes wording, one cell only.
+- Then: read the row 17 cell, decide the question using the real count.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
@@ -102,3 +107,4 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Count pipes against the header row before and after any PHASE2_ROWS.md edit.
 - Verify PHASE2_ROWS.md before trusting any status.
 - Jest SIGSEGV on resetRegistry.test.ts is transient; rerun before blaming a change.
+- TodayCard LoggedCard: session missing from the fetched range renders no extra detail, no error (see row 9 Parked).

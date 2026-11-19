@@ -7897,3 +7897,6 @@
 - 2026-11-20 01:29 Chose the read-only verification first, because the notes say to verify statuses before trusting them and to count non-BUILT rows before any stop or question.
 - 2026-11-20 01:29 Deferred the row 17 question until the non-BUILT count is known, so the question is asked once with real numbers.
 - 2026-11-20 01:29 Jev confidence is low (0.09), so picked the smallest task with no file changes.
+- 2026-11-20 01:31 Chose the row 5 pipe fix first: a 10-pipe row breaks table parsing, so it comes before the wording fix on row 18.
+- 2026-11-20 01:31 Row 18 wording deferred to the next round: one row per task.
+- 2026-11-20 01:31 Row 17 question not asked yet: the report did not read row 17, so verify its cell first (round 256 rule).
