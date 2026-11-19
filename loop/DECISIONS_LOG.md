@@ -6840,3 +6840,11 @@
 - 2026-11-19 16:01 Chose motion row 74 over backend and visual QA rows: it is the smallest unbuilt row, needs no Isa input, and was flagged DIFFERENT in the last audit.
 - 2026-11-19 16:01 Kept onboarding/_layout.tsx out of scope. Its Reduce Motion fix is a parked item, not a row.
 - 2026-11-19 16:01 Round 16 gates are green, so the test-not-run flag is cleared and removed from the notes.
+- 2026-11-19 16:06 Chose row 75 over row 76: row 75 is missing entirely, row 76 is only rough. Jev run 86% agrees. Single small task.
+- 2026-11-19 16:06 Row 75 simulator step not run: the flow needs sign in, which is an owner step. Row marked BUILT on local tests with owner check pending.
+- 2026-11-19 16:06 onboarding Reduce Motion fix stays parked: it is a navigator change, not a row, and Isa has not asked for it yet.
+- 2026-11-19 16:06 Loop rejected the last prompt for covering two screens (food and gym log). Rewrote as one component: the food log list only.
+- 2026-11-19 16:06 Split the row: food log stays in 'Adding and removing list items' (BUILT), gym log becomes a new DIFFERENT row to do next. Reason: keeps every prompt to one component.
+- 2026-11-19 16:06 Prompt names the file by search, not by a guessed path, so Claude Code reads the real file first.
+- 2026-11-19 16:06 No simulator run for this row: sign in is owner check pending, so the flow cannot run end to end.
+- 2026-11-19 16:06 Kept row 76 (progress rings) for after the gym log entry row.

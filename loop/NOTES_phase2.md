@@ -7,8 +7,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
 - Baselines (round 16 checkpoint, green): app tsc 0 errors; Jest 69 suites / 833 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Safety check PASSED: API base http://localhost:8080. Local DB 127.0.0.1:55432, Postgres 16, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
-- Backend: go run ./cmd/server. Auth enforced (401 without token).
-- No docker compose plugin. Use plain docker run.
+- Backend: go run ./cmd/server. Auth enforced (401 without token). No docker compose plugin; use plain docker run.
+- Prompt scope rule: ONE component per prompt. Round 18 prompt was rejected by the loop for covering two screens.
 
 ## Wording rule
 - Row cells say BUILT, 'checked in code' or 'owner check pending'. Never verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
@@ -28,8 +28,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - Jev ranking followed for Goals, Subscription, Profile. Round 14 Row 17 over motion audit.
 - Round 15: motion audit chosen over Jev's ask 78%.
-- Round 16: Jev ask 82% overridden. Asking Isa added nothing; Claude Code ran the gates itself.
-- Round 17: Jev ask 71% overridden. Repeated blocker is a product decision Isa already holds. Moved to a non-dependent surface.
+- Round 16: Jev ask 82% overridden. Claude Code ran the gates itself.
+- Round 17: Jev ask 71% overridden. Repeated blocker is a product decision Isa holds.
+- Round 18: row 75 chosen over row 76. Split row 75: food log now, gym log as new row.
 - loop/ files are loop-managed. Prompts never edit them.
 
 ## Done
@@ -41,37 +42,39 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Profile: checked in code, no gap.
 - Add food, Legal: BUILT (static).
 - Dashboard / Summary and sub-pages: BUILT.
-- Motion audit (row 64): BUILT. Gap rows 74-76 DIFFERENT.
+- Motion audit: BUILT.
+- Screen and navigation transitions: BUILT (Reduce Motion aware root Stack; onboarding navigator untouched).
 - Round 16 baseline checkpoint: gates green.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Owner step.
 - E2E_EMAIL and E2E_PASSWORD not set.
-- Row 17 plan.tsx has no backend (flagged rounds 14 and 17, repeated blocker). Not retried. Product decision: build plan generation or drop the card for v1.
+- Row 17 plan.tsx has no backend (repeated blocker). Product decision: build plan generation or drop the card for v1.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show uncommitted diffs. Loop-managed, reported only.
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
-- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts. Remove in a cleanup pass.
+- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts. Remove in cleanup pass.
 - Account and index settings both link to Delete Account.
 - Copy pass: 'owner check pending' reads awkwardly after a noun phrase.
-- Stale motion rows 65-72 overlap rows 74-76. Fold or delete (Isa decision).
+- Stale motion rows 65-72 overlap later motion rows. Fold or delete (Isa decision).
 - onboarding/_layout.tsx ignores Reduce Motion. One-line fix: animation: reduceMotion ? 'fade' : 'slide_from_right'.
 - Docker compose plugin install (owner step, optional).
 - Applying migrations to hosted Supabase: Isa's job.
 - Local Clerk-compatible verifier or test issuer: owner step.
-- Muscles and exercise-progress design gaps (no 3D body stage, no per-muscle lists, 'Last 30 days' vs design 'Last 7 days'). Product decision.
+- Muscles and exercise-progress design gaps. Product decision.
 - Streak 'Freezes' derived as freeze_used ? 0 : 1. Revisit only if design wants more.
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts (round 8). Recheck if it recurs.
 
 ## Next
-- Round 17: motion row 74 (screen and navigation transitions, Reduce Motion aware).
-- Then motion rows 75-76, Phase 1 visual QA rows (sign in dependent ones are owner steps), backend refinement rows.
+- Round 19: row 'Adding and removing list items, food log entries' (in progress, prompt sent round 18 was rejected, rewritten).
+- Then 'Adding and removing list items, gym log entries' (DIFFERENT).
+- Then 'Progress rings, bars and number changes', then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave an optimistic row. Review in the Gym log rework.
 - Gym history and Summary re-hydrate from server on view. Confirm in code, do not change without a failing case.
-- Jev risk 1.0 of 2 (confidence 0.82): keep tasks small.
+- Jev risk 1.1 of 2 (confidence 0.76): keep tasks small.
