@@ -6,9 +6,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 254 done: gymSchedule.ts revalidate uses refs, deps []. tsc 0; gymSchedule and two render tests pass.
-- Round 255 (current): row 9 day-boundary widening, TodayCard useGymRange(1) to (2), one test in todayCard.render.test.tsx.
+- Round 255 done: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added. tsc 0, todayCard.render.test 6/6. useGymRange lives in src/lib/data/gymRange.ts.
 - Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
+- Round 256 (current): read-only verification of PHASE2_ROWS.md (pipes, status words, non-BUILT count, row 9 note).
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -32,9 +32,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
 - Row 9 includes the TodayCard malformed-response guard and the retry notice for a session missing from the range.
-- Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard and the gym tab never blank.
-- Row 84 revalidate deps: never list revalidate in a caller's deps. Use [] on focus callbacks.
+- Row 84 focus refetch uses a silent revalidate (no loading flag). Revalidate deps: never list revalidate in a caller's deps. Use [] on focus callbacks.
 - Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
+- Round 255: accepted row 9 widening. Round 256: verify before asking about row 17.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -58,7 +58,6 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modified in git status: Isa to check.
 
 ## Parked (not v1)
-- Row 9: day-boundary case (round 255 widens to useGymRange(2); verify it landed).
 - Row 21: DetailChart lays Bars as a flex row, not stacked. Copy decision.
 - Recipe and saved meal delete/unsave: no UI.
 - Row 8 notes cell long. Trim when touched.
@@ -77,10 +76,11 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented in backend/internal/config/config.go.
 - Two useFocusEffect calls in gym.tsx (refetchMonth, revalidate): possible consolidation.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
+- Row 9: TodayCard LoggedCard still silent if a session falls outside a 2-day range (unlikely, untested).
 
 ## Next
-- Round 255: row 9 widening (one file plus test, see above).
-- Then: verify PHASE2_ROWS.md statuses and count non-BUILT rows.
+- Round 256: read-only verification of PHASE2_ROWS.md (pipes, status words, count of DIFFERENT and PARTIAL rows).
+- Then: decide on the row 17 question using the real count.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues

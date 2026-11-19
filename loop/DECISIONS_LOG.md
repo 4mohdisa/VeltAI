@@ -7893,3 +7893,7 @@
 - 2026-11-20 01:27 Chose row 9 widening over asking Isa: Jev confidence is low (0.28), so prefer the smallest task. It is one file plus one test, and the default is already named in Parked.
 - 2026-11-20 01:27 Deferred the row 17 question: the notes do not confirm every row is BUILT or EXACT. Verify the file after this round before asking.
 - 2026-11-20 01:27 Row 9 status left unchanged: only a one-line note is added, since the day-boundary case was a Parked gap and not a status change.
+- 2026-11-20 01:29 Accepted round 255 (row 9 widened to useGymRange(2), one test added). Its premise note is corrected: useGymRange lives in src/lib/data/gymRange.ts, not hooks.ts.
+- 2026-11-20 01:29 Chose the read-only verification first, because the notes say to verify statuses before trusting them and to count non-BUILT rows before any stop or question.
+- 2026-11-20 01:29 Deferred the row 17 question until the non-BUILT count is known, so the question is asked once with real numbers.
+- 2026-11-20 01:29 Jev confidence is low (0.09), so picked the smallest task with no file changes.
