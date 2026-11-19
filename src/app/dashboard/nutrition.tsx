@@ -2,11 +2,11 @@
 // same layout: a coloured kicker over a large title, a hero card (the headline
 // stat + a chart), a secondary card and a Breakdown list.
 //
-// This one has no 14-day hero and no 7-day secondary, and that is deliberate:
-// the food store holds TODAY only (hydrateFoodLog; DECISIONS.md architecture
-// item 3 is not done), so there is no macro history to plot. Rather than draw a
-// week of invented columns, the hero shows today's calorie ring and the
-// secondary shows each macro against its own target — both of which are real.
+// This one has no 14-day hero: the hero shows today's calorie ring. The
+// secondary is a real 7-day history (PHASE2_ROWS.md row 21) — useWeeklyMacros
+// fetches each of the last 7 days' own food_logs rows and sums them client-side
+// (the backend's /api/food/logs endpoint takes one exact date, not a range), so
+// every day's stack is real data, not an invented column.
 // Fibre is real where the source provided it (Open Food Facts / USDA / a typed
 // label); items from a source without a fibre figure add nothing to the total.
 //
@@ -39,9 +39,10 @@ import { Text } from '@/components/primitives/Text';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatNumber, formatRelativeDate } from '@/lib/formatting';
+import { dayMonth, weekdayShort } from '@/lib/data/energyRange';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy, kcalToDisplay } from '@/lib/units';
-import { useDailyMacros, useFoodLog } from '@/lib/data';
+import { useDailyMacros, useFoodLog, useWeeklyMacros } from '@/lib/data';
 
 // ---------------------------------------------------------------------------
 // Macro bindings
@@ -52,10 +53,6 @@ const pctOf = (consumed: number, target: number) => (target > 0 ? Math.round((co
 /** The design's chart right gutter and scale value label box. */
 const CHART_GUTTER_W = 44;
 const SCALE_LABEL_W = 40;
-/** The design's fixed scale, in percent of target (Summary bundle :694). A macro over it is drawn at the top. */
-const MACRO_CEILING = 130;
-/** The design's macro bar width (Summary bundle :690). */
-const MACRO_BAR_W = 30;
 /** The design's macro bar corners, column gap and axis label line height (Summary bundle :307, :313-315). */
 const MACRO_BAR_RADIUS_TOP = 5;
 const MACRO_BAR_RADIUS_BOTTOM = 2;
@@ -67,6 +64,7 @@ export default function NutritionDetailScreen(): JSX.Element {
   const energyUnit = useUnitPreferences().energy;
   const macros = useDailyMacros();
   const { data: meals, isLoading: loading, error: loadError, refetch } = useFoodLog();
+  const week = useWeeklyMacros();
   const cal = macros.calories;
   const remaining = formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit);
 
@@ -77,10 +75,27 @@ export default function NutritionDetailScreen(): JSX.Element {
     { key: 'fibre', label: t('nutrition.fibre'), tint: categoryAccent.fibre, data: macros.fibre },
   ].map((r) => ({ ...r, pct: pctOf(r.data.consumed, r.data.target) }));
 
-  const cols: Col[] = rows.map((r) => ({
-    key: r.key,
-    bars: [{ h: Math.max(space.xs, (Math.min(r.pct, MACRO_CEILING) / MACRO_CEILING) * SEC_H), tint: r.tint, w: MACRO_BAR_W }],
-  }));
+  // The last 7 days, stacked by macro (protein/carbs/fat/fibre), each day's
+  // own bar scaled against the week's own largest day — same scaling pattern
+  // as dashboard/week.tsx's heroScale/secScale, so no day is ever clipped.
+  const weekScale = Math.max(1, ...week.data.map((d) => d.protein + d.carbs + d.fat + d.fibre)) * 1.1;
+  const weekCols: Col[] = week.data.map((d) => {
+    let stacked = 0;
+    const bars = (
+      [
+        { v: d.protein, tint: categoryAccent.protein },
+        { v: d.carbs, tint: categoryAccent.carbs },
+        { v: d.fat, tint: categoryAccent.fat },
+        { v: d.fibre, tint: categoryAccent.fibre },
+      ] as const
+    ).map(({ v, tint }) => {
+      const h = (v / weekScale) * SEC_H;
+      const bar = { h, bottom: stacked, tint };
+      stacked += h;
+      return bar;
+    });
+    return { key: d.date, bars };
+  });
 
   return (
     <Screen variant="floating" detail showBack contentStyle={{ gap: space.lg }}>
@@ -114,20 +129,19 @@ export default function NutritionDetailScreen(): JSX.Element {
         </View>
       </Card>
 
-      {/* Secondary — each macro against its own target. */}
+      {/* Secondary — the last 7 days, each day's macros stacked. */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <ChartHeader title={t('nutrition.todayAgainstTargets')} note={t('nutrition.percentOfTarget')} />
-          {loading ? (
+          {loading || week.isLoading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (
             <>
               <View style={{ gap: space.sm }}>
                 <Plot
-                  cols={cols}
+                  cols={weekCols}
                   height={SEC_H}
-                  ceiling={`${MACRO_CEILING}%`}
-                  mid={`${MACRO_CEILING / 2}%`}
+                  ceiling={`${formatNumber(weekScale)}g`}
                   floor="0"
                   gridInset
                   gutterWidth={CHART_GUTTER_W}
@@ -135,10 +149,13 @@ export default function NutritionDetailScreen(): JSX.Element {
                   barRadius={{ top: MACRO_BAR_RADIUS_TOP, bottom: MACRO_BAR_RADIUS_BOTTOM }}
                   gap={MACRO_BAR_GAP}
                   growIn
-                  summary={rows.map((r) => t('nutrition.macroPercentLabel', { macro: r.label, percent: r.pct })).join(', ')}
+                  summary={t('nutrition.weekMacrosSummary', {
+                    from: dayMonth(week.data[0].date),
+                    to: dayMonth(week.data[week.data.length - 1].date),
+                  })}
                 />
                 <Axis
-                  labels={rows.map((r) => r.label)}
+                  labels={week.data.map((d) => weekdayShort(d.date).charAt(0))}
                   gutterWidth={CHART_GUTTER_W}
                   gap={MACRO_BAR_GAP}
                   labelColor={color.secondaryLabel}

@@ -7727,3 +7727,8 @@
 - 2026-11-19 23:51 Did not add a backend range endpoint. The audit said it is not required for correctness, and it would add a backend row.
 - 2026-11-19 23:51 Macros variant of Row 103 stays out of scope. Only item 1 (7-day stacked chart) is being built.
 - 2026-11-19 23:51 Row 21 status stays DIFFERENT until the chart is wired and tested. Its 'Backend change needed' cell is stale and gets corrected when step 2 lands.
+- 2026-11-19 23:56 Chose row 21 step 2: it is the next declared step, needs nothing from Isa, and clears a row. Jev ranked run at 99%, agreeing.
+- 2026-11-19 23:56 Row 21 status set to BUILT only if the render test executes, otherwise PARTIAL, per the wording rule.
+- 2026-11-19 23:56 Row 21 stale 'Backend change needed' cell corrected in the same round, since step 2 confirms no backend change.
+- 2026-11-19 23:56 Render test: extend an existing dashboard nutrition test if one exists, else create one in src/__tests__/render/ after grep.
+- 2026-11-19 23:56 Row 8 notes trim stays parked; it is not a row task and does not clear status.
