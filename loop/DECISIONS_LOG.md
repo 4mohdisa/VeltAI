@@ -6756,3 +6756,7 @@
 - 2026-11-19 14:42 Kept the TestPG step inside row 22 but gated it on the DSN resolving to 127.0.0.1:55432 and printing host and port only.
 - 2026-11-19 14:42 plan.tsx and the AI anomaly banner have no backend capability. Recorded as a scope question for later rows, not asked now. Default when reached: keep the design, show no fabricated data, and mark the row BUILT only if the empty state is wired honestly. Does not block other rows.
 - 2026-11-19 14:42 Did not ask Isa anything this round. No question meets the bar for asking yet.
+- 2026-11-19 14:47 Chose local setup over Goals and Subscription: every later simulator flow depends on the app running against the local backend with seeded data. Jev agrees (run 97%).
+- 2026-11-19 14:47 If Clerk sign in needs hosted Clerk, park it as an owner step and do not build a workaround. Reason: hosted auth is out of bounds.
+- 2026-11-19 14:47 Seed data goes in backend/scripts/seed_local.sql, applied to the local database only. Reason: idempotent, reviewable, no hosted writes.
+- 2026-11-19 14:47 Docker compose is not installed. Use the running local container on 55432. Reason: report note 1.
