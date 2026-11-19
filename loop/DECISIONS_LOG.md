@@ -7052,3 +7052,7 @@
 - 2026-11-19 18:28 Screen.tsx padding literals 40, 40 and 32 with no comment go to Parked and NEXT, not fixed, because no token matches and the rule is no guessing.
 - 2026-11-19 18:28 Handover claim that row 57 is next is stale. The latest report and Next list show row 63, so row 63 is used.
 - 2026-11-19 18:28 Design pass question to Isa is still held until after rows 62-63, which is now complete for 62 and in progress for 63.
+- 2026-11-19 18:30 Test flag: last round ran tsc but skipped Jest, so this round runs tsc and the full Jest suite before any further row work. Reason: the flag must clear first.
+- 2026-11-19 18:30 Jev preferred folding motion rows 65-72. Kept the gate task: folding deletes rows from the progress count, so it should come after the gate is green and only with a clear reason, not as a first move.
+- 2026-11-19 18:30 Design pass question: not asking Isa. Decided no stroke-weight, letter-spacing or 9pt space tokens get added. Visual QA rows close as checked in code, and off-token values stay parked for a design re-check.
+- 2026-11-19 18:30 Row 63 closes with no code change, same as rows 57, 59, 61, 62.

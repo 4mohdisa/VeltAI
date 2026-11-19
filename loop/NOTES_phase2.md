@@ -14,7 +14,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- A report that says tests were not run gets flagged. If no code changed, run tsc and the relevant Jest, and say so.
+- A report that skips a test run gets flagged. If no code changed, run tsc and the full Jest suite, and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -33,13 +33,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
-- Rounds 58, 60, 61, 62: no code change (no identical token, or no Jest importer of Screen.tsx).
-- Round 62: no Jest file imports Screen.tsx; tsc only.
+- Rounds 57-63: no code change (no identical token, or no Jest importer of Screen.tsx).
+- Design pass question NOT asked of Isa. No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for design re-check.
+- Test gate before row work: tsc and full Jest run after any round that skips Jest.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 57, 59, 61, 62.
 - Checkpoints: rounds 16, 23, 39, 56, 60 gates green.
@@ -51,8 +52,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
-- Design pass: no stroke-weight, letter-spacing or 9pt space token in tokens.ts. Rows 56, 58, 59, 60 share this gap. Ask Isa once, after row 63.
-- Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
+- Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete, after the test gate is green.
 
 ## Parked (not v1)
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage, shared navigation chrome).
@@ -78,13 +78,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 63: row 63 Visual QA detail contentStyle gap 16 (running now), tsc, Jest only if a file imports Screen.tsx.
-- Then ask Isa once about the design pass. Then final wording sweep. Then fold stale motion rows. Then render smoke test. Then backend refinement rows.
+- Round 64: row 63 gate (tsc and full Jest, no code change), then update row 63 in PHASE2_ROWS.md.
+- Then fold stale motion rows 65-72 (decided: fold, not delete, with a note in each folded row). Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.1 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
