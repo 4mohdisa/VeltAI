@@ -7218,3 +7218,7 @@
 - 2026-11-19 19:51 Kept row 83 as no code change: MACRO_BAR_W, MACRO_BAR_RADIUS_TOP, MACRO_BAR_RADIUS_BOTTOM and NET_BAR_W have no identical same-category token, so no swap.
 - 2026-11-19 19:51 Next DIFFERENT row is picked next round, after the gate is green.
 - 2026-11-19 19:51 Bar-width and small-radius gaps join the consolidated token pass already in Blocked on Isa. No per-row guess.
+- 2026-11-19 19:52 Row 19: no anomaly endpoints added in v1; banner must show nothing rather than fabricated data (matches existing design-keeps, no-fake-data decision). Reason: no backend, owner scope call not needed for this.
+- 2026-11-19 19:52 Row 83 test gate: report says tsc 0 errors and Jest 83/874/4 green, so gate closed.
+- 2026-11-19 19:52 No row exists after 83, so the 'row after 83' instruction is replaced by lowest-numbered non-BUILT DIFFERENT row: row 19.
+- 2026-11-19 19:52 Did not ask Isa about the anomaly endpoints. Reason: the existing decision already covers it, so the question is not needed.
