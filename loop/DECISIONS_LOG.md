@@ -6961,3 +6961,8 @@
 - 2026-11-19 17:56 Jev suggested asking Isa (58%) with risk 1.0. Overridden: the open items are not major and do not block any row. The change is small, reversible and covered by tests.
 - 2026-11-19 17:56 Claude CLI sign-in expiry (2026-11-24 to 2026-11-27) is not a question this round. It is recorded under Blocked on Isa as an owner step, and it may stop unattended runs once it expires.
 - 2026-11-19 17:56 Candidate 2 (dead code in mappers.ts) and candidate 3 (visual QA) go to Next, not this round.
+- 2026-11-19 17:58 Chose the mappers.ts dead code removal from Next: small, one file, the Jev run signal is 89%, and it lowers the risk score.
+- 2026-11-19 17:58 Rejected the row 80 guard tightening Claude Code suggested. Round 35 decided row 80 is test only because no crash reproduced. Changing it now would go against that decision.
+- 2026-11-19 17:58 Dead code is a cleanup, not a row, so the prompt says not to add a row. It is recorded in Done and Next.
+- 2026-11-19 17:58 Jev risk is 0.9 on a 0 to 2 scale. The task is one file and one function set, so I did not ask Isa. Asking would cost him attention for no gain.
+- 2026-11-19 17:58 Claude Code usage limit: the next round waits for the 5:40pm reset if it is still hit. Scope is unchanged.
