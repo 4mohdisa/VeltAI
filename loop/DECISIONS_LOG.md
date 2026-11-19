@@ -7295,3 +7295,6 @@
 - 2026-11-19 20:39 Row 1 status stays PARTIAL because live sign-in needs hosted Clerk JWKS and E2E credentials, both owner steps.
 - 2026-11-19 20:39 Test placed in src/__tests__ because signup.tsx is under src/app, not src/components, so the *.render.test.tsx naming rule for components does not apply directly.
 - 2026-11-19 20:39 Jev ranks running at 78 percent and risk is 1.0; kept the task to one file and one row, with a fallback to delete the test file if it fails twice.
+- 2026-11-19 20:44 Followed Jev's ranking: row 2 stale-note check first. Reason: it is docs only, needs no owner input, and the previous round's report flagged the row 1 work as partly done, so the smaller task is safer.
+- 2026-11-19 20:44 Row 1 stays PARTIAL. The signup render test covers the Clerk buttons stage and legal links named in the ask. The email/OTP sub-stages and the DevSignup fallback are not covered and are parked as row 1 remainder. Live sign-in stays an owner step.
+- 2026-11-19 20:44 The partly done flag is accepted as a coverage gap, not a failed task. The row 1 notes cell already names signup.render.test.tsx, so no further edit is needed there.
