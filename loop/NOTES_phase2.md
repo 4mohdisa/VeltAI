@@ -6,8 +6,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 163: foodSaved.render.test.tsx added (2 tests, checked in code). Row 8 notes updated.
-- Round 164: quick-add render test (after grep). Jev ranked it first at 94%; chosen.
+- Round 164: quick-add render test added (2 tests, checked in code). Row 5 notes updated. Submit path (add(), offline fallback, error toast) still uncovered.
+- Round 165: AI query send path, grep first, extend aiQuery.render.test.tsx if needed.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -38,9 +38,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Branch rule is mandatory in every prompt.
 - Checkpoint rounds run full tsc and full Jest, read only.
 - Minor questions are decided by the manager, not asked.
+- Grep before any 'add render test' prompt; duplicates happened twice.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, Insights/AI query, Anomaly banner and card (row 19), rows 3, 4, 17, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 17, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68, 55.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open: live Clerk sign-in and profile persistence (owner). Stays PARTIAL.
@@ -58,8 +59,9 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe, integrations screens. Quick-add in progress round 164.
-- AI query send path (ai-query.tsx onSend) and AnomalyBanner.tsx / AnomalyCard.tsx have no executed render test. Next after quick-add.
+- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe, integrations screens.
+- AnomalyBanner.tsx and AnomalyCard.tsx: only code-reading coverage, no executed render test. Next after AI query.
+- Quick-add submit path (add(): offline queue fallback, permanent-failure toast): needs a mocked quickAdd press test.
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift.
@@ -67,7 +69,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Food log long-press delete not discoverable. Goals 'Saved as you type' untrue when clamped.
 - Account and index settings both link to Delete Account.
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
-- Pre-existing gesture-handler worklet warning in SwipeableRow (shared by food, saved, new-recipe, new-template); may appear in every render test mounting it.
+- Pre-existing gesture-handler worklet warning in SwipeableRow (food, saved, new-recipe, new-template).
 - logGymSession while gymLoggedToday is true. Revisit if double-log matters.
 - Applying migrations to hosted Supabase: Isa.
 - Local Clerk-compatible verifier: owner step.
@@ -75,12 +77,12 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
-- Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: fix their render coverage separately.
-- 'Add a render test' prompts have duplicated existing coverage: grep first.
+- Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: fix render coverage separately.
 
 ## Next
-- Round 164: quick-add render test (grep first; if covered, report and move on).
-- Then: ai-query.tsx send path render test, then AnomalyBanner/AnomalyCard direct render tests.
+- Round 165: AI query send path (grep first; extend aiQuery.render.test.tsx only if the send path is not executed).
+- Then: AnomalyBanner.tsx direct render test, then AnomalyCard.tsx.
+- Then: quick-add submit path render test.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.

@@ -7502,3 +7502,8 @@
 - 2026-11-19 21:59 Prompt requires a grep before creating any file, because earlier rounds handed near-duplicate work.
 - 2026-11-19 21:59 Gesture-handler worklet warning stays in Parked; no investigation this round, to keep the task to one row and one file.
 - 2026-11-19 21:59 Quick-add exact file path left to Claude Code to confirm with find, since the path was not given in notes.
+- 2026-11-19 22:01 Chose the AI query send path because it is the next item in Next and Jev ranked it first at 96% run.
+- 2026-11-19 22:01 Told Claude Code to grep and reuse the existing aiQuery.render.test.tsx: the handover says it exists, while Parked says the send path is uncovered. Grep settles it, and no duplicate file is created.
+- 2026-11-19 22:01 Kept the prompt to one row and one file, with an extend-not-create rule, to keep the Jev risk low.
+- 2026-11-19 22:01 Quick-add submit path and AnomalyBanner/AnomalyCard stay in Next, one per round.
+- 2026-11-19 22:01 Row number is left for Claude Code to find by grep, because the notes do not give it reliably.
