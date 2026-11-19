@@ -1,12 +1,12 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to the local backend and test flows on the simulator. Progress is counted from PHASE2_ROWS.md (84 rows). Prompts use row TITLE plus number.
+Wire every screen to the local backend and test flows on the simulator. Progress is counted from PHASE2_ROWS.md (83 rows at round 221 count; verify from the file). Prompts use row TITLE plus number.
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 220 done: full checkpoint green (tsc 0, Jest 125 suites / 969 tests, backend go test 30 ok, 14 no test files). No file changes.
-- Round 221 (current): read-only audit of PHASE2_ROWS.md. No file changes.
+- Round 221 done: read-only audit. Status counts: BUILT 83, DIFFERENT 0, PARTIAL 0, EXACT 0. No file changes.
+- Round 222 (current): row 4 Add food (menu) render test. One file.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -32,13 +32,21 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Row 21: no data model or backend change. Client aggregation over foodLogs.list per day. Macros variant out of scope.
 - Hosted migration stays Isa's.
 - Checkpoint rounds change no files.
+- Round 221: a stale-looking gap claim is checked by grep before work. Stale notes in a row are corrected only when that row is next touched.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-8, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- BUILT: Task 1, local setup, baseline, Food log, Add food (logic), Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-3, 5-9, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
 - BUILT (owner check pending): gym history; rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Unbuilt rows: read PHASE2_ROWS.md directly. This list is not complete.
+
+## Known test gaps (from round 221 audit, to close one per round)
+- Row 4 Add food (menu): no render test. Round 222.
+- Row 10 Gym history: no render test of the screen. Next after row 4.
+- Row 11: templates, new-template, schedule, exercise-progress, freeze have no render test. muscles.tsx is covered.
+- Row 20 Legal and row 31 and row 38/53: already covered by existing tests; their notes are stale. Fix notes only when touched.
+- Row 7 notes contain a leftover 'status stays PARTIAL' sentence. Covered; fix note when touched.
+- Roughly 20 Visual QA rows cite only the generic gate. Judge per row, not by grep.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -53,6 +61,7 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 ## Parked (not v1)
 - Row 21: DetailChart lays Bars as a flex row, so macros show side by side, not stacked. Needs a separate row if wanted.
 - Row 21 secondary card header, note and footnote describe today's macros. Copy decision.
+- Row 83 notes cite MACRO_BAR_W in src/app/dashboard/nutrition.tsx; the constant is gone. Fix note when row 83 is next touched.
 - Recipe and saved meal delete/unsave: no UI. Product gap.
 - Row 8 notes cell long with older fragments. Trim when next touched.
 - Quick add: on-device check of food log entry (owner).
@@ -74,8 +83,9 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 221: read-only audit of PHASE2_ROWS.md (in progress). Pick the smallest confirmed gap row.
-- Round 222: that row, one file per prompt, with its render test.
+- Round 222: row 4 render test (foodAddMenu.render.test.tsx).
+- Round 223: row 10 Gym history render test, after grep.
+- Then row 11, one of its four screens per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues

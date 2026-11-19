@@ -7751,3 +7751,8 @@
 - 2026-11-20 00:18 Chose a read-only audit for round 221 because the notes say PHASE2_ROWS.md must be verified before trusting any status, and the last two briefs used stale row status.
 - 2026-11-20 00:18 Kept the TodayCard shape guard and the date fixture pin in Parked: both are side findings, not rows.
 - 2026-11-20 00:18 Did not run the full suites: round 220 was a green checkpoint and no file changed since.
+- 2026-11-20 00:22 Chose row 4: smallest confirmed gap, static menu, no API, no sign-in, no device. Follows Jev's run signal and the round 221 audit.
+- 2026-11-20 00:22 Row 10 and row 11 gaps queued for rounds 223 and onward, one row per round.
+- 2026-11-20 00:22 Row 83 stale note (MACRO_BAR_W) parked as a note fix, not done now, to keep row boundaries strict.
+- 2026-11-20 00:22 Row count recorded as 83 from the round 221 audit. The older '84 rows' figure is removed. Verify the count from the file before each checkpoint.
+- 2026-11-20 00:22 Status of row 4 stays BUILT. Only a test line is added to its notes.
