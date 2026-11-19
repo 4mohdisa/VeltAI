@@ -7197,3 +7197,6 @@
 - 2026-11-19 19:41 Kept the checkpoint over Jev's row 48 pick. The loop note for this round explicitly asks for a checkpoint, and checkpoints are the only way the full suites get rerun after the last rounds. Row 48 runs next round.
 - 2026-11-19 19:41 Recorded the row 47 finding (nutrition.tsx and week.tsx bar constants not yet checked against tokens) in Parked for a dedicated row, not as a new task now.
 - 2026-11-19 19:41 Kept the Jest count at 83 suites / 874 tests / 4 snapshots from the last report as the baseline to compare against.
+- 2026-11-19 19:42 Treated the latest checkpoint (tsc 0 errors, Jest 83/874/4 green, no file changes) as this round's checkpoint, so no repeat run now.
+- 2026-11-19 19:42 Chose row 48 because the loop note's Next list puts it first and it clears one open row with one file.
+- 2026-11-19 19:42 Did not name row 48's file in the prompt because its text is not in my copy of the table; the prompt makes Claude Code name it and stop if the row needs more than one file.
