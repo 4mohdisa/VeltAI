@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this rule and the branch check.
-- Baselines (gate green round 70): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
+- Baselines (gate green round 71): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
@@ -35,15 +35,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - No stroke-weight, letter-spacing or 9pt space tokens added. Off-token values stay parked for one design pass.
 - Stale motion rows: FOLD, not delete. Folded row gets status BUILT and a note pointing to its parent. One row per round.
 - Test gate: tsc and full Jest after any round that skips Jest.
+- Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Row 76 settled this. Do not re-litigate in motion rows.
 - Rejected prompt (round 70 note): every prompt must name the loop/phase2 branch rule explicitly.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion, row 77 gym removeExtra exit animation.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64), 66 (folded into 64), 67 (folded into 64), 68.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51-56, 58, 60, 63, 64, 65 (folded into 64), 66 (folded into 64), 67 (folded into 64), 68, 69 (duplicate of 76, no gap).
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 30, 37, 51, 52, 53, 57, 59, 61, 62.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -54,7 +55,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 
 ## Parked (not v1)
-- Session.tsx picker: gym extras have no entering animation (food.tsx has rowEntering). Parity row, not started.
+- Session.tsx picker: gym extras have no entering animation (food.tsx has rowEntering). Parity row, after rows 70-72.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage).
 - Off-token values: Screen.tsx 40, 40, 32 and DETAIL_BACK_TOP -6; AddMenu PANEL_RADIUS 18, ROW_MIN_HEIGHT 54; DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1; KickerTitle letterSpacing 1.1, -0.6. One design re-check with Isa.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
@@ -72,11 +73,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65, 69, 70).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65, 69, 70, 71).
 
 ## Next
-- Round 71 (running): row 69 gap check on ProgressBar, DailyMacroRing, EnergyBalanceCard. Check only, no code change. If all pass, fold into row 64. If not, PARTIAL and name the fix.
-- Rows 70-72: each needs its own gap check before folding. One per round.
+- Round 72 (running): row 70 'Motion: loading states' gap check on Skeleton, TypingIndicator and loading spinners. Check only, no code change. PASS folds into row 64. Any GAP means PARTIAL with the named fix.
+- Then row 71, then row 72. One per round, each with a 'closed by a later row' check.
 - Then session.tsx entering-animation parity row.
 - Then final wording sweep. Then render smoke test. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
@@ -88,5 +89,5 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - Gotcha: the gym session row has an exit animation but no matching entering animation (food.tsx has both).
-- Gotcha: rows 69-72 need the 'already closed by a later row' check before folding.
 - Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa, not per-row notes.
+- Gotcha: PHASE2_ROWS.md runs to row 81, not 72. Check the end before appending.

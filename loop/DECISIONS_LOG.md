@@ -7086,3 +7086,7 @@
 - 2026-11-19 18:41 Row 69 is a check, not a build: ProgressBar, DailyMacroRing and EnergyBalanceCard were already listed as BUILT in Done, so the round tests that claim before folding.
 - 2026-11-19 18:41 Source paths are found by search, not guessed, because the file locations are not recorded in notes.
 - 2026-11-19 18:41 Full tsc and Jest run because the round changes no code and the gate rule requires it.
+- 2026-11-19 18:43 Picked row 70 over the session.tsx parity row because the notes list rows 70-72 as gap checks to clear first, one per round, and it is check-only with no code risk.
+- 2026-11-19 18:43 Standing note: 'on the native thread' cannot apply to width% or strokeDashoffset animations under classic Animated (useNativeDriver must be false). Row 76 already made this call; future rounds should not re-litigate it. Recorded in Known issues.
+- 2026-11-19 18:43 Row 69 is closed as a duplicate of row 76 (ProgressBar, DailyMacroRing, EnergyBalanceCard already eased at 250 ms, Reduce Motion aware). Recorded in Done.
+- 2026-11-19 18:43 Gym session entering animation is left as a Parked parity row, after rows 70-72, per the existing order.
