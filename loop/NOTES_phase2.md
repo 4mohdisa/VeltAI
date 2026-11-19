@@ -10,6 +10,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
 - Prompt scope rule: ONE task per prompt, ONE row and ONE file or component. Multi-file prompts get rejected by the loop.
 - Handover at round 42/43: Claude Code knows only the handover summary. Name files fully.
+- Claude Code usage limit hit at rounds 42 and 43. Resets 5:40pm Adelaide.
 
 ## Wording rule
 - Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use verification words (verified, verify, verifies, confirmed, confirm) except the identifier api.scan.confirm.
@@ -38,9 +39,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Rounds 37-39: Jev asks overridden with written reasons (minor, reversible, existing tests pass, read-only checkpoint).
 - Round 40: checkpoint baseline set to 81/864/4.
 - Round 40 retry: row 74 camera modals switched to screenAnimation(). Motion change flagged as unintended.
-- Round 41: camera modals to be restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Round 41 result not recorded (rate limit).
-- Round 42: Claude Code hit 5-hour usage limit, no changes made. Re-issued.
-- Round 43: same restore re-issued with full file names after handover. Jev 66% run accepted (one file, reversible). If limit hits again, stop and wait for reset.
+- Round 41: camera modals to be restored to slide_from_bottom (fade under Reduce Motion), one file, src/app/_layout.tsx. Not recorded (rate limit).
+- Round 42: 5-hour usage limit, no changes. Re-issued.
+- Round 43: same restore re-issued with full file names. Hit usage limit again, no changes. Stopped to wait for reset.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -51,7 +52,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Profile: checked in code, no gap.
 - Add food, Legal: BUILT (static).
 - Dashboard / Summary and sub-pages: BUILT.
-- Motion audit, screen and navigation transitions: BUILT except row 74 camera modal value (pending restore, round 43).
+- Motion audit, screen and navigation transitions: BUILT except row 74 camera modal value (pending restore).
 - Adding and removing food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
@@ -88,12 +89,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 43: row 74 restore camera modal slide_from_bottom in src/app/_layout.tsx (fade under Reduce Motion). Run tsc and the screenTransitions test.
+- After the usage reset (5:40pm Adelaide): re-issue row 74 restore, camera modals back to slide_from_bottom (fade under Reduce Motion) in src/app/_layout.tsx only. Run tsc and the screenTransitions test.
 - Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows that need no sign in, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
-- Jev risk 1.3 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
-- Claude Code usage limit hit at round 42. Resets 5:40pm Adelaide.
+- Jev risk 1.2 of 2: keep tasks small, one row and one file per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.

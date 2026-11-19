@@ -6949,3 +6949,6 @@
 - 2026-11-19 17:19 Jev says run 66% and last task clean 3%. Kept run because the task is one file, reversible, and the limit reset (5:40pm Adelaide) is before the next round. Jev's low clean-finish score is noted; if the limit hits again, next round stops and waits.
 - 2026-11-19 17:19 No Isa question this round. The Claude sign-in expiry is already an owner item in the notes, so it is not asked again.
 - 2026-11-19 17:19 Round 43 prompt uses 'checked in code' wording, not verification words.
+- 2026-11-19 17:19 Round 43: usage limit hit again, no changes made. Stopped and waiting for reset, as the standing rule requires. The restore is not dropped.
+- 2026-11-19 17:19 Action stop here means pause for the usage reset, not that the build is finished. Resume from Next once the limit resets.
+- 2026-11-19 17:19 Jev stop 68% accepted for this round because the blocker is an external usage limit, not a task result.
