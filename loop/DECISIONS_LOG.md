@@ -7639,3 +7639,7 @@
 - 2026-11-19 23:01 Row 7 stays PARTIAL unless every in-scope call has an executed render test. No status change without that proof.
 - 2026-11-19 23:01 Kept Jev's run pick. The source check is small and one row, one file.
 - 2026-11-19 23:01 Notes cleaned: merged repeated Parked items and removed finished Next items. Round 203 checkpoint still stands.
+- 2026-11-19 23:02 Chose row 6 barcode first: it is the smallest remaining PARTIAL row with a clear gap listed in Parked, and it keeps one row and one file per prompt.
+- 2026-11-19 23:02 Kept Jev's run signal (96%). Round 195 is not a checkpoint, so no override was needed.
+- 2026-11-19 23:02 Row 6 stays PARTIAL until label and photo tests exist; the prompt does not mark it BUILT.
+- 2026-11-19 23:02 Grep-before-create rule applied: step 1 checks for an existing barcode render test first.
