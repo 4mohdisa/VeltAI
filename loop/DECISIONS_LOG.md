@@ -6765,3 +6765,12 @@
 - 2026-11-19 14:51 Verification uses mocked Jest tests and Go tests on the changed package only, not an auth bypass. No backend auth bypass is allowed.
 - 2026-11-19 14:51 Previous round appended row 73 Local setup to PHASE2_ROWS.md; kept it as a done row and it counts toward the 73 total.
 - 2026-11-19 14:51 Backend reported running on localhost:8080 and the lume-test-pg container left running for reuse; no teardown needed now.
+- 2026-11-19 14:55 Chose row 9 Gym log as the next task, as the previous report recommended; it is independent of sign in and the smallest step after row 3.
+- 2026-11-19 14:55 Goals and Subscription rows kept for the following rounds; they are larger wiring gaps, and Gym clears a row with the same pattern.
+- 2026-11-19 14:55 Food delete-whole-meal long press (food.tsx confirmDeleteMeal) is a discoverability and design question, not wiring. Parked, not fixed.
+- 2026-11-19 14:55 Row 3 accepted as BUILT on local mocked tests; its simulator flow stays an owner step, consistent with the earlier decision.
+- 2026-11-19 14:56 Chose row 9 Gym log over Goals and Subscription: it is the next step in the agreed order (food, then gym), needs nothing from Isa, and is the smallest change.
+- 2026-11-19 14:56 Prompt now states the branch rule explicitly (stay on loop/phase2, no switch, push or merge) after the rejected prompt.
+- 2026-11-19 14:56 Simulator flow for row 9 kept as owner check pending: sign in needs hosted Clerk, so it cannot run locally.
+- 2026-11-19 14:56 Gym log file paths left for Claude Code to discover and list, because the exact screen filenames are not in the notes. Claude Code must report them in DONE.
+- 2026-11-19 14:56 Delete-whole-meal long press gesture stays parked as a design call, not a wiring task.

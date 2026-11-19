@@ -148,7 +148,7 @@ async function hydrateSavedFoods(): Promise<void> {
     savedFoods: [...s.savedFoods.filter(keepAcrossHydration), ...rows.map(savedFoodFromApi)],
   }));
 }
-async function hydrateGym(): Promise<void> {
+export async function hydrateGym(): Promise<void> {
   // Sessions and streak hydrate together. The Gym month calendar reads its own
   // month of sessions (useGymMonth), so nothing calendar-shaped is stored here.
   const [sessions, streak] = await Promise.all([api.gym.listSessions(), api.gym.streak()]);
