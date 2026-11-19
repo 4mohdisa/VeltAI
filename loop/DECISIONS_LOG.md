@@ -7325,3 +7325,6 @@
 - 2026-11-19 20:53 Chose row 18 stale-note check next, as listed in the notes Next section, because it is the smallest task and needs nothing from Isa (Jev ranks run highest).
 - 2026-11-19 20:53 Row 8 check had no real importing test, so no edit was made; saved.tsx was used as the most relevant surface by default, recorded here.
 - 2026-11-19 20:53 Row 18 surface file not named in the brief, so Claude Code must pick the most relevant file from the row and report the choice, per the shared-file rule.
+- 2026-11-19 20:55 Chose row 19 stale-note check: it is the next unchecked row in the stale-note sequence, docs-only, one file, matches Jev's preference for small tasks.
+- 2026-11-19 20:55 Toast and sheet owning-row decision deferred one round: it is a notes-only decision and does not clear any row.
+- 2026-11-19 20:55 Recorded row 18 notes correction (src/app/energy.tsx via src/__tests__/render/detailChrome.render.test.tsx) as done in Done list, per latest report.
