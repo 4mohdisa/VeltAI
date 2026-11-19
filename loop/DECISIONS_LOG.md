@@ -7722,3 +7722,8 @@
 - 2026-11-19 23:49 Stop is not yet allowed: row 21 is DIFFERENT, so the every-row-BUILT rule is not met.
 - 2026-11-19 23:49 Jev said stop 62%. Chose run because the brief requires every row to be BUILT or EXACT and the data model path is allowed locally. Reason Jev cannot see: the brief's default answers this without Isa.
 - 2026-11-19 23:49 Checkpoint counts differ (123 suites, 967 tests, green). Treated as the live count, not a regression. Stale counts in notes corrected.
+- 2026-11-19 23:51 Chose the hook step first, not the chart wiring, to keep each task to one file of change, given the low Jev confidence in clean completion.
+- 2026-11-19 23:51 Accepted the audit finding that no data model change or migration is needed: FoodLog already has every macro field and DetailChart Bar.bottom already stacks. Client side aggregation over 7 existing calls is the smallest change.
+- 2026-11-19 23:51 Did not add a backend range endpoint. The audit said it is not required for correctness, and it would add a backend row.
+- 2026-11-19 23:51 Macros variant of Row 103 stays out of scope. Only item 1 (7-day stacked chart) is being built.
+- 2026-11-19 23:51 Row 21 status stays DIFFERENT until the chart is wired and tested. Its 'Backend change needed' cell is stale and gets corrected when step 2 lands.

@@ -5,7 +5,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 214: row 21 read-only audit chosen (7-day stacked chart). Jev stop 62% overruled: brief default allows a local data model change.
+- Round 215: row 21 step 1 (useWeeklyMacros hook + unit test). Step 2 (wire dashboard/nutrition.tsx) next.
 - Last checkpoint GREEN: round 213 (tsc 0 errors; Jest 123 suites, 967 tests, 4 snapshots). Live counts; old 121/962 is stale.
 - Row 6 BUILT (barcode, label, photo, analyze, fallbackSyncScan render tests executed).
 - Every prompt names loop/phase2 and bans git commands.
@@ -28,12 +28,12 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Sign-in flows are owner steps; rows BUILT on passing local mocked tests.
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Render tests: components *.render.test.tsx; screens in src/__tests__/render/. renderScreen (react-test-renderer). No RNTL (incompatible with RN 0.85.3).
-- Rows 19, 20, 21: no edit. Row 8 BUILT once all live call sites have render tests.
+- Rows 19, 20: no edit. Row 8 BUILT once all live call sites have render tests.
 - Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6. Row 7 covers only its four declared call sites.
 - Local-only mutations (editSavedFood) need no API test.
 - 'nutrition/week' is not a row.
 - Minor questions decided by manager. Checkpoints override Jev ranking.
-- Row 21 (7-day chart): was parked for v1; reopened round 214 as a read-only audit under the brief's local data model default. Hosted migration stays Isa's.
+- Row 21 (7-day chart): read-only audit (round 214) found no data model change needed. Client aggregation over existing foodLogs.list per day. Macros variant out of scope. No backend change. Hosted migration stays Isa's.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
@@ -69,15 +69,16 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 - Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
+- Row 21 'Backend change needed' cell is stale (says data model change); correct after step 2.
 
 ## Next
-- Round 214: row 21 read-only audit (report: component, store shape, smallest change).
-- Round 215: if the audit says local-only, one small step (store or component) with a render test.
+- Round 215: row 21 step 1, useWeeklyMacros hook with unit test in src/lib/data/hooks.ts.
+- Round 216: row 21 step 2, wire src/app/dashboard/nutrition.tsx to stacked 4-macro bars per day, with render test.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.8 of 2 after handover: keep tasks small, one row and one file.
+- Jev risk about 1.3 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -90,4 +91,4 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
 - startScanPoller must be stubbed in any test letting pipeline or pipelineMulti resolve.
 - jest.requireActual('@/lib/api').api?.scan needs the ?. (circular import).
-- Stale briefs have pointed at old row status twice: verify PHASE2_ROWS.md before trusting any status.
+- Stale briefs have pointed at old row status at least twice: verify PHASE2_ROWS.md before trusting any status.

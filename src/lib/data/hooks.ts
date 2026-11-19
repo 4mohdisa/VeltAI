@@ -17,6 +17,7 @@ import {
   sessionsFromApi,
   streakFromApi,
 } from './mappers';
+import { addDays, isoDate } from './foodDays';
 import { hasPendingCreate } from './mutations';
 import { fibreTotal } from './summaryCards';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
@@ -341,6 +342,72 @@ export function useFibreConsumed(): number | null {
     const { consumed, known } = fibreTotal(meals);
     return known ? consumed : null;
   }, [meals]);
+}
+
+/** One local calendar day's macro totals, for the 7-day stacked chart
+ *  (PHASE2_ROWS.md row 21 — data step only, chart wiring is the next step). */
+export type WeeklyMacroDay = { date: string; protein: number; carbs: number; fat: number; fibre: number };
+
+const WEEK_LENGTH = 7;
+
+/** The last 7 local calendar days, oldest first, ending on today. */
+function lastSevenDays(): string[] {
+  const today = isoDate(new Date());
+  return Array.from({ length: WEEK_LENGTH }, (_, i) => addDays(today, i - (WEEK_LENGTH - 1)));
+}
+
+function zeroWeek(): WeeklyMacroDay[] {
+  return lastSevenDays().map((date) => ({ date, protein: 0, carbs: 0, fat: 0, fibre: 0 }));
+}
+
+/** One list() call per day (the endpoint takes a single exact date, same
+ *  constraint noted on hydrateFoodLog above), summed into that day's totals. A
+ *  day with no rows sums to zero rather than being omitted. Exported so it can
+ *  be tested directly, the same way hydrateFoodLog/hydrateGym are. */
+export async function fetchWeeklyMacros(): Promise<WeeklyMacroDay[]> {
+  const dates = lastSevenDays();
+  const rowsByDay = await Promise.all(dates.map((date) => api.foodLogs.list({ date })));
+  return dates.map((date, i) => ({
+    date,
+    ...rowsByDay[i].reduce(
+      (a, r) => ({ protein: a.protein + r.protein, carbs: a.carbs + r.carbs, fat: a.fat + r.fat, fibre: a.fibre + r.fibre }),
+      { protein: 0, carbs: 0, fat: 0, fibre: 0 },
+    ),
+  }));
+}
+
+/** The last 7 days' macro totals, oldest first. A failed fetch leaves whatever
+ *  this already had (zeros on first load), same degrade-without-fabricating
+ *  contract as useHydration's other callers. */
+export function useWeeklyMacros(): Async<WeeklyMacroDay[]> {
+  const [data, setData] = useState<WeeklyMacroDay[]>(zeroWeek);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [nonce, setNonce] = useState(0);
+  const refetch = useCallback(() => setNonce((n) => n + 1), []);
+
+  useEffect(() => {
+    let alive = true;
+    setIsLoading(true);
+    fetchWeeklyMacros()
+      .then((days) => {
+        if (!alive) return;
+        setData(days);
+        setError(null);
+      })
+      .catch((e: unknown) => {
+        if (!alive) return;
+        setError(e instanceof Error ? e : new Error('hydration failed'));
+      })
+      .finally(() => {
+        if (alive) setIsLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [nonce]);
+
+  return { data, isLoading, error, refetch };
 }
 
 // --- Gym --------------------------------------------------------------------
