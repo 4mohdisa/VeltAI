@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt names this rule and the branch check.
-- Baselines (round 88): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baselines (round 90 checkpoint): app tsc 0 errors; Jest 81 suites / 869 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). LUME_TEST_DATABASE_URL is not set in a fresh shell.
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step.
@@ -37,6 +37,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Row 76 settled this. Do not re-litigate.
 - Skeleton pulse 700ms is correct by design. Not a gap.
 - Every prompt must name the loop/phase2 branch rule explicitly.
+- Checkpoint rounds run only when the loop note asks for one: tsc and full Jest, no file changes.
 
 ## Done
 - Task 1 (PHASE2_ROWS.md), local setup, row 22 baseline: BUILT.
@@ -46,7 +47,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT (owner check pending): Gym history, rows 35 and 54 streak footnote.
 - No code change: rows 27, 28, 30, 37, 51, 52, 53, 57-59, 61, 62.
 - Row 31: swapped solidGlass borderWidth literal for layout.borderWidth in GlassButtons.tsx.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -62,6 +63,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Sheet detents (sheet.detents medium/large) have no native mechanism in BottomSheet.tsx. Structural gap.
 - Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
 - Render smoke test for Screen.tsx and GlassButtons.tsx (zero Jest coverage). ToastHost and BottomSheet have no render test.
+- LumeTabBar.tsx and FloatingHeader.tsx Reduce Transparency branches: correct-looking but no test mounts them with the flag on.
 - Gym session: entering animation missing; exit animation added in rows 68/77. Food log has both. Add entering animation later.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
@@ -75,14 +77,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
 - Local test env file or script for LUME_TEST_DATABASE_URL (repo tooling, not a row).
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-88).
-- Gym session needs an entering animation to match food log.
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur rounds 65-90).
 
 ## Next
-- Round 89 (running): Visual QA: Reduce Transparency, row 32.
+- Round 90: checkpoint (tsc and full Jest, no file changes). Flagged by automatic check.
+- Then Row 32 (still PARTIAL): render test for GlassButtons.tsx Reduce Transparency fallback. Close to BUILT only after the test passes.
 - Then rows 33-50 (Visual QA). One row per round. Skip rows already marked BUILT in PHASE2_ROWS.md.
 - Row 69 (progress rings, bars, number changes): before folding, check whether a later row closed it. Do not assume stale.
-- Rows 70-72: same check before folding.
 - Then render smoke test for Screen.tsx. Then backend refinement rows.
 
 ## Known issues
@@ -93,3 +94,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - Gotcha: tokens.ts has no letter-spacing or 9pt space tokens; one design pass with Isa.
 - Gotcha: PHASE2_ROWS.md runs to row 81. Check the end before appending.
+- Jev ranked Row 32 first at 96% in round 90. Kept the checkpoint because the loop note required it. Revisit Row 32 next round.

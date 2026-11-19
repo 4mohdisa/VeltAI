@@ -7133,3 +7133,6 @@
 - 2026-11-19 19:07 Row 32 names no file in my notes, so the prompt uses the fallback files from the last report.
 - 2026-11-19 19:07 Kept the no-guess rule: a gap with no identical token ends in no code change, as in rows 57-63.
 - 2026-11-19 19:07 Kept Jev's advisory risk in mind: one row, one round, small scope.
+- 2026-11-19 19:09 Chose the checkpoint over Jev's Row 32 pick because the loop note flagged the last report as partly done and requires a checkpoint round before moving on. The loop instruction is a reason Jev cannot see.
+- 2026-11-19 19:09 Kept Row 32 at PARTIAL, not BUILT, because no passing test mounts GlassButtons with Reduce Transparency on.
+- 2026-11-19 19:09 Baseline corrected to 81 suites, 869 tests, 4 snapshots, per the latest Claude Code report. The handover's 867 was a stale figure.
