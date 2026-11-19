@@ -7489,3 +7489,7 @@
 - 2026-11-19 21:54 Round 160 anomaly coverage confirmed done by the latest report (anomaly.render.test.tsx, 2/2 pass). Row 19 is treated as closed; no further anomaly work.
 - 2026-11-19 21:54 Prompt tells Claude Code to grep first because prior rounds were handed duplicate test work.
 - 2026-11-19 21:54 Status cells stay untouched. Only notes cells change, per the wording rule.
+- 2026-11-19 21:56 Row 55 notes update made without asking Isa: the question is minor bookkeeping, not a major blocker, so the default applies (decide and record).
+- 2026-11-19 21:56 Overrode Jev's 'ask' signal: no owner-only dependency and no money, data or production risk; the question is cosmetic.
+- 2026-11-19 21:56 Rows 38, 53, 83 stay untouched: they cover integrations.tsx and nutrition/week, not AddMenu, so writing the new test there would plant a false claim.
+- 2026-11-19 21:56 Status cells are not changed in this docs pass (decision: status never changes in a docs pass).
