@@ -7559,3 +7559,8 @@
 - 2026-11-19 22:26 Chose row 8 over row 18 because it is PARTIAL, already in progress, and the smallest next step.
 - 2026-11-19 22:26 Did not ask Isa: no major question is open and the checkpoint is not due. Jev's ask ranking was not followed.
 - 2026-11-19 22:26 Row 5 is recorded as BUILT (per the notes state). The handover's PARTIAL is treated as stale.
+- 2026-11-19 22:28 Loop flagged last report as partly done; row 8 is PARTIAL, so continue row 8 with the smallest open part (delete/unsave).
+- 2026-11-19 22:28 Chose delete/unsave over quick-add submit: it is the other explicit action in row 8's surface and needs no new file.
+- 2026-11-19 22:28 Kept row 8 status PARTIAL until create paths are covered too.
+- 2026-11-19 22:28 Banned git commands and loop/ edits in the prompt after the round 177 rejection for missing branch rule.
+- 2026-11-19 22:28 Prompt names exact file and grep steps to avoid creating a duplicate test file.

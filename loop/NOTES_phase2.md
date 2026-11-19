@@ -7,13 +7,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Branch loop/phase2 only. Never switch, push or merge.
 - Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci.
 - Row 5 BUILT (device check pending). Backend ownership checked in code (TestListLogsOwnOnly, TestCreateLogUsesAuthUser pass).
-- Round 177 prompt was rejected for not naming loop/phase2. Rewritten with branch rule: row 8 render part.
+- Round 178: row 8 delete/unsave render test (prompt sent).
 - Next full checkpoint: round 188.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Every prompt must name loop/phase2 and ban git commands. Rejected prompts cost a round.
 - loop/ files show modified in git status (loop-managed). Prompts never edit them.
+- Loop check flagged round 177 as partly done. Row 8 stays PARTIAL until all parts are covered.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -37,7 +38,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 5, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check; row 5 on-device check.
-- PARTIAL: row 1 (live Clerk sign-in owner step), row 2 onboarding (live sign-in and profile persistence owner), row 8 saved foods (render part open), row 18 Energy screen.
+- PARTIAL: row 1 (live Clerk sign-in owner step), row 2 onboarding (live sign-in and profile persistence owner), row 8 saved foods (delete/unsave in progress; create paths open), row 18 Energy screen.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -54,6 +55,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## Parked (not v1)
 - No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe.
 - Quick-add submit path (offline fallback, error toast, double-submit): render test not yet added beyond initial render.
+- Row 8 create paths: saveFood, api.recipes.create, savedMeals.log have no render coverage.
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
 - Sheet detents medium/large: no native mechanism in BottomSheet.
@@ -71,7 +73,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 177: row 8 saved foods remaining render part (prompt rewritten, branch rule added).
+- Round 178: row 8 delete/unsave render test (foodSaved.render.test.tsx).
+- Then: row 5 quick-add submit path render test, or row 8 create paths.
 - Then: row 18 Energy local check.
 - Checkpoint round 188.
 
@@ -85,5 +88,5 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - es/fr strings run 2.5x to 3.7x English.
 - 'owner check pending' rows are BUILT; do not reopen.
 - Headless Jest only for render tests; no simulator run yet.
-- Console noise '[data] API unreachable' in passing tests is expected.
+- Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - gesture-handler worklet console warning from SwipeableRow: pre-existing, not a test failure.
