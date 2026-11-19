@@ -5,8 +5,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 222 done: row 4 Add food (menu) render test added (foodAddMenu.render.test.tsx). Tsc 0 errors, jest 1/1.
-- Round 223 (current): row 10 Gym history render test (gymHistory.render.test.tsx), after grep.
+- Round 223 done: row 10 Gym history render test (gymHistory.render.test.tsx). Tsc 0 errors, jest 2/2.
+- Round 224 (current): row 11 templates render test (gymTemplates.render.test.tsx), after grep.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -35,14 +35,13 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - Round 221: a stale-looking gap claim is checked by grep before work. Stale notes in a row are corrected only when that row is next touched.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food (logic and menu render), Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-9, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- BUILT (owner check pending): gym history; rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
+- BUILT: Task 1, local setup, baseline, Food log, Add food (logic and menu render), Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps (close one per round)
-- Row 10 Gym history: no render test of the screen. Round 223.
-- Row 11: templates, new-template, schedule, exercise-progress, freeze have no render test. muscles.tsx is covered.
+- Row 11: templates (round 224), new-template, schedule, exercise-progress, freeze have no render test. muscles.tsx is covered. One screen per round.
 - Row 20 Legal, row 31 and row 38/53: already covered; notes stale. Fix notes only when touched.
 - Row 7 notes contain a leftover 'status stays PARTIAL' sentence. Covered; fix when touched.
 - Roughly 20 Visual QA rows cite only the generic gate. Judge per row, not by grep.
@@ -82,13 +81,13 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 223: row 10 Gym history render test (gymHistory.render.test.tsx).
-- Then row 11, one of its four screens per round.
+- Round 224: row 11 templates render test (gymTemplates.render.test.tsx).
+- Then row 11: new-template, schedule, exercise-progress, freeze, one per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
+- Jev risk about 0.9 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

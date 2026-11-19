@@ -7760,3 +7760,7 @@
 - 2026-11-20 00:24 Row 4 is closed: the latest report shows foodAddMenu.render.test.tsx added and passing, so it moves from Next to Done.
 - 2026-11-20 00:24 Prompt tells Claude Code to verify row 10 status and grep for an existing test first, because the stale-brief warning in the notes applies.
 - 2026-11-20 00:24 Stale row 83 MACRO_BAR_W note left for a later round, since it is a note fix and not a gap in a row's coverage.
+- 2026-11-20 00:27 Chose row 11 templates over the others: it is the first of four open row 11 render gaps, it is one screen and one file, and it clears a known gap.
+- 2026-11-20 00:27 Prompt tells Claude Code to grep first and stop if a test already exists, because the brief from round 223 said earlier stale claims were wrong.
+- 2026-11-20 00:27 Row 83 stale note parked, not fixed: it is a side finding and the notes say to fix it only when row 83 is next touched.
+- 2026-11-20 00:27 Jev risk 0.9 of 2 read as advisory: kept the task to one screen and one file.
