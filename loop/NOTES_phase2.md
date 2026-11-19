@@ -5,14 +5,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline (round 102 checkpoint): app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots, green. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots, green (round 102 checkpoint). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never use verified, verify, verifies, confirmed or confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- No code change = run tsc and full Jest and say so. Docs-only change = run tsc only and say so.
+- Code change = run tsc and full Jest and say so.
+- Docs-only change = run tsc and full Jest and say so (added round 104: loop check flagged tsc-only reports).
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -26,8 +27,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 9 scope: src/lib/offline/queue.ts, additive optional onLanded only.
 - Modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Rows with no named file: use the most relevant shared file, state in report. No identical token = no code change.
-- Literal swapped for token only when value identical AND semantic category matches.
-- No stroke-weight, letter-spacing, icon-size or 9pt space tokens added. Off-token values stay parked.
+- Literal swapped for token only when value identical AND semantic category matches. No stroke-weight, letter-spacing, icon-size or 9pt space tokens added. Off-token values stay parked.
 - Stale motion rows are FOLDED, not deleted. One row per round.
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Settled.
 - New render tests for files under src/components/ are named *.render.test.tsx.
@@ -41,8 +41,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Row 51: ToastHost.render.test.tsx at src/components/display/.
-- Round 99: BottomSheet.render.test.tsx added, checked in code (row 27).
+- Row 51: ToastHost.render.test.tsx. Round 99: BottomSheet.render.test.tsx (row 27).
+- Round 103: row 61 notes corrected (Screen.render.test.tsx and GlassButtons.reduceTransparency.render.test.tsx exist). Docs-only, tsc only, flagged.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102.
 
 ## Blocked on Isa
@@ -53,12 +53,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Merging loop/design-match into main: Isa's job.
 - Consolidated token pass (icon sizes, stroke weight, letter-spacing, 9pt space, bar width, small radius): one design pass with Isa.
 - Row 41 es/fr overflow on gym.title, common.save, common.reset: needs a real device run.
-- Row 21 7-day chart: food store data model. Parked for v1 by default. Do not ask again.
+- Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 - Backlog: which header 'FloatingHeader' was meant to be (row 32 wording).
 
 ## Parked (not v1)
-- Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51 touch sheets or toasts. Pick one owning row per component.
-- Stale 'no Jest test imports X' phrase may remain on other rows citing Screen.tsx, GlassButtons.tsx, BottomSheet.tsx or ToastHost.tsx (rows 26, 51, 61 fixed or in progress). Grep pass pending.
+- Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
+- Stale 'no Jest test' phrasing on other rows: round 104 grep pass, one row per round (rows 17, 36, 38, 52, 53, 55, 83 to check).
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius and row height; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -78,9 +78,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 103: row 61 docs fix (Screen.render.test.tsx now renders Screen.tsx).
-- Round 104: grep PHASE2_ROWS.md for 'no Jest test imports'; fix stale rows one per round.
-- Then rows 1, 2, 5-8, 18: record BUILT checked in code on passing local mocked tests (sign-in is an owner step per decisions).
+- Round 104 (in progress): grep PHASE2_ROWS.md for 'no Jest' phrasing; fix one stale row if a test import proves it; run tsc and full Jest.
+- Then rows 17, 36, 38, 52, 53, 55, 83 stale-note checks, one per round.
+- Then rows 1, 2, 5-8, 18: record BUILT checked in code on passing local mocked tests (sign-in is an owner step).
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 

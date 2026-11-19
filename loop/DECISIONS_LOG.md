@@ -7258,3 +7258,8 @@
 - 2026-11-19 20:27 Chose the row 61 docs fix first: smallest task, Jev ranks it top, and the latest report already flagged it.
 - 2026-11-19 20:27 Deferred the grep pass to the next round so this round stays to one row and one file, given Jev risk 0.9.
 - 2026-11-19 20:27 Prompt tells Claude Code to list other stale rows as NEXT and not fix them, to keep one row per round.
+- 2026-11-19 20:28 Picked row 104 grep (Jev 85%); it was already the planned next step in the notes and is a single docs edit.
+- 2026-11-19 20:28 Flagged last round: it was docs-only and ran tsc only, which the wording rule allows, but the loop check wants tests too. This round runs tsc and the full Jest suite and reports counts, so the check passes without a code change.
+- 2026-11-19 20:28 Limited the edit to one row per round, as the notes already require, and only where a test import proves the stale phrase.
+- 2026-11-19 20:28 Did not ask Isa: this is a docs-only cleanup with no money, data or production impact.
+- 2026-11-19 20:28 Jev risk 0.9 accepted: task is small, one file, no src changes.
