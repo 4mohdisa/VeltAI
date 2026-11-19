@@ -6,15 +6,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
 - Round 173 checkpoint GREEN: tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots, --ci.
-- Row 5 BUILT (device check pending). Backend ownership checked in code (TestListLogsOwnOnly, TestCreateLogUsesAuthUser pass).
-- Round 178: row 8 delete/unsave render test (prompt sent).
+- Round 179: loop check flagged round 178 as partly done. Row 8 stays PARTIAL. Round 179 prompt: row 8 create path render test.
 - Next full checkpoint: round 188.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Every prompt must name loop/phase2 and ban git commands. Rejected prompts cost a round.
 - loop/ files show modified in git status (loop-managed). Prompts never edit them.
-- Loop check flagged round 177 as partly done. Row 8 stays PARTIAL until all parts are covered.
+- Task premises can be wrong: check row content and code before acting.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -31,14 +30,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Render tests: components get *.render.test.tsx; screens in src/__tests__/render/. Use renderScreen (react-test-renderer). No RNTL: incompatible with RN 0.85.3.
 - Rows 19, 20, 21: no edit. Row 8: reopen only on a real importing test.
-- Task premises can be wrong. Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
+- Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
 - Minor questions are decided by the manager. Checkpoints override Jev ranking.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 5, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
-- BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check; row 5 on-device check.
-- PARTIAL: row 1 (live Clerk sign-in owner step), row 2 onboarding (live sign-in and profile persistence owner), row 8 saved foods (delete/unsave in progress; create paths open), row 18 Energy screen.
+- BUILT (owner check pending): gym history; rows 5, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
+- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 5 quick-add (render only, submit path open); row 8 saved foods (delete/unsave render test added; create path in progress); row 18 Energy screen.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -55,7 +54,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## Parked (not v1)
 - No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe.
 - Quick-add submit path (offline fallback, error toast, double-submit): render test not yet added beyond initial render.
-- Row 8 create paths: saveFood, api.recipes.create, savedMeals.log have no render coverage.
+- Row 8 api.recipes.create and savedMeals.log: no render coverage.
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
 - Sheet detents medium/large: no native mechanism in BottomSheet.
@@ -73,14 +72,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 178: row 8 delete/unsave render test (foodSaved.render.test.tsx).
-- Then: row 5 quick-add submit path render test, or row 8 create paths.
+- Round 179: row 8 saved-food create path render test.
+- Then: row 5 quick-add submit path render test (offline fallback, error toast).
 - Then: row 18 Energy local check.
 - Checkpoint round 188.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.2 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.3 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -90,3 +89,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Headless Jest only for render tests; no simulator run yet.
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - gesture-handler worklet console warning from SwipeableRow: pre-existing, not a test failure.
+- Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.

@@ -7564,3 +7564,7 @@
 - 2026-11-19 22:28 Kept row 8 status PARTIAL until create paths are covered too.
 - 2026-11-19 22:28 Banned git commands and loop/ edits in the prompt after the round 177 rejection for missing branch rule.
 - 2026-11-19 22:28 Prompt names exact file and grep steps to avoid creating a duplicate test file.
+- 2026-11-19 22:32 Flagged partial task: kept row 8 as the target, since it is the only row the loop check named and it stays PARTIAL until all parts are covered.
+- 2026-11-19 22:32 Chose the create path over quick-add because it closes a named gap in row 8 and is a single test file. Quick-add stays next.
+- 2026-11-19 22:32 Told Claude Code to grep for the create caller first, because earlier rounds had wrong task premises.
+- 2026-11-19 22:32 Banned source edits in this round so the change is test-only and the design is untouched.
