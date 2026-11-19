@@ -4,7 +4,11 @@
 //   api.scan.pipeline      — src/lib/data/scan.ts:144  (via startPhotoScan)
 //   api.scan.pipelineMulti — src/lib/data/scan.ts:206  (via startMultiPhotoScan)
 //   api.scan.confirm       — src/lib/data/scan.ts:468  (via saveScannedItem)
+//                             and src/lib/data/scan.ts:337 (via fallbackSyncScan)
 //   api.scan.feedback      — src/lib/data/scan.ts:531  (via submitScanFeedback)
+//   api.scan.analyze       — src/lib/data/scan.ts:318  (via fallbackSyncScan,
+//                             reached when pipeline rejects with a non-
+//                             upgrade-required error)
 // Unlike barcode/label, this flow spans TWO real screens: src/app/food/
 // photo-capture.tsx only ever calls pipeline/pipelineMulti (fire-and-forget —
 // it navigates to the food tab immediately after) via startPhotoScan /
@@ -38,6 +42,7 @@ const mockPipeline = jest.fn();
 const mockPipelineMulti = jest.fn();
 const mockConfirm = jest.fn();
 const mockFeedback = jest.fn();
+const mockAnalyze = jest.fn();
 jest.mock('@/lib/api', () => ({
   ...jest.requireActual('@/lib/api'),
   api: {
@@ -48,6 +53,7 @@ jest.mock('@/lib/api', () => ({
       pipelineMulti: (...args: unknown[]) => mockPipelineMulti(...args),
       confirm: (...args: unknown[]) => mockConfirm(...args),
       feedback: (...args: unknown[]) => mockFeedback(...args),
+      analyze: (...args: unknown[]) => mockAnalyze(...args),
     },
   },
 }));
@@ -120,6 +126,7 @@ beforeEach(() => {
   mockPipelineMulti.mockReset();
   mockConfirm.mockReset();
   mockFeedback.mockReset();
+  mockAnalyze.mockReset();
   mockTakePicture.mockReset();
   useFoodStore.getState().reset();
   (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() => json([]));
@@ -197,6 +204,50 @@ test('a pipeline rejection from an exhausted scan quota shows the real paywall t
 
   expect(mockPipeline).toHaveBeenCalledWith('b64-top', 'image/jpeg');
   expect(useToastStore.getState().current).toMatchObject({ message: 'Scan limit reached', tone: 'info' });
+});
+
+test('a non-upgrade pipeline rejection falls back to the sync scan, calling api.scan.analyze then api.scan.confirm', async () => {
+  mockTakePicture.mockResolvedValue({ base64: 'b64-top' });
+  mockPipeline.mockRejectedValue(new Error('503'));
+  mockAnalyze.mockResolvedValue({
+    food_name: 'Grilled Chicken',
+    brand: '',
+    quantity: 150,
+    unit: 'g',
+    calories: 250,
+    protein: 40,
+    carbs: 5,
+    fat: 8,
+    fibre: 0,
+    confidence: 0.8,
+    scan_session_id: 'sess-sync',
+  });
+  mockConfirm.mockResolvedValue({ id: 'server-sync' });
+
+  const tree = renderCapture();
+  press(tree, 'Capture photo');
+  await settle();
+  pressTitle(tree, 'Use this photo');
+  await act(async () => {
+    await scanChainsSettled();
+  });
+
+  expect(mockAnalyze).toHaveBeenCalledTimes(1);
+  expect(mockAnalyze).toHaveBeenCalledWith('b64-top', 'image/jpeg');
+  expect(mockConfirm).toHaveBeenCalledTimes(1);
+  expect(mockConfirm).toHaveBeenCalledWith(
+    expect.objectContaining({
+      food_name: 'Grilled Chicken',
+      quantity: 150,
+      unit: 'g',
+      calories: 250,
+      protein: 40,
+      carbs: 5,
+      fat: 8,
+      fibre: 0,
+      scan_session_id: 'sess-sync',
+    }),
+  );
 });
 
 test('pressing "Save all items" on a ready scanned item calls api.scan.confirm with the reviewed item', async () => {

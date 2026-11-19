@@ -7701,3 +7701,7 @@
 - 2026-11-19 23:39 Did not ask Isa about row 6 status. It is a minor status question that the code can answer.
 - 2026-11-19 23:39 Latest report overrides handover per the notes rule.
 - 2026-11-19 23:39 Notes trimmed to under 600 words to keep the reply from being cut off. No rule or decision was dropped; Parked entries were shortened.
+- 2026-11-19 23:41 Chose row 6 fallbackSyncScan gap as the next task: it is the single named gap left in row 6 and needs nothing from Isa.
+- 2026-11-19 23:41 Latest report overrides the handover: label and photo render tests exist (labelScan, photoScan), so only the fallback branch is missing.
+- 2026-11-19 23:41 Kept the test inside photoScan.render.test.tsx and mocked only api client functions, so the fallback logic runs for real.
+- 2026-11-19 23:41 Row 8 notes trim stays parked: out of scope for this round, and it has been deferred repeatedly.

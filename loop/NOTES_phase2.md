@@ -5,7 +5,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 209: row 6 audit against code and render tests. Latest report says labelScan and photoScan render tests exist, so row 6 may already be BUILT. Verify before any change.
+- Round 210: row 6 fallbackSyncScan render test (scan.ts:337 analyze and confirm). Then decide row 6 BUILT or PARTIAL.
 - Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests, --ci).
 - Every prompt names loop/phase2 and bans git commands.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
@@ -28,7 +28,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
 - Render tests: components *.render.test.tsx; screens in src/__tests__/render/. renderScreen (react-test-renderer). No RNTL (incompatible with RN 0.85.3).
 - Rows 19, 20, 21: no edit. Row 8 BUILT once all live call sites have render tests.
-- Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6.
+- Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6. Row 7 covers only its four declared call sites.
 - Local-only mutations (editSavedFood) need no API test.
 - 'nutrition/week' is not a row.
 - Minor questions decided by manager. Checkpoints override Jev ranking.
@@ -38,7 +38,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - BUILT (owner check pending): gym history; rows 1, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
 - PARTIAL: row 2 onboarding (live sign-in and profile persistence owner; local gaps to check).
-- Row 6: status disputed (see Next).
+- Row 6: barcode, label and photo render tests exist. Gap: fallbackSyncScan branch (scan.ts:337 analyze and confirm). Round 210 closes it.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -71,7 +71,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 209: row 6 audit. Call sites: api.foodSearch.barcode via lookupBarcodeAsync, api.scan.label, api.scan.pipeline, pipelineMulti, confirm, feedback. BUILT if each has an executed render test; else PARTIAL with the gap named.
+- Round 210: row 6 fallbackSyncScan render test in photoScan.render.test.tsx. If all row 6 call sites are covered, set row 6 BUILT.
 - Then row 2 onboarding: local gap check.
 - If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 
