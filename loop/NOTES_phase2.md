@@ -7,11 +7,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Round 246 checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots). Backend go test green, TestPG skipped.
-- Round 255: row 9 widened to useGymRange(2) in TodayCard LoggedCard, one test added.
-- Round 256 read-only check: 84 rows, all BUILT.
-- Round 257: row 5 pipe fix. All 84 rows now 9 pipes.
-- Round 258: row 18 Notes wording, one cell only. Done. Status word removed from sentence.
-- Round 259 (current): read-only check of row 17 cell, status counts, and plan code. No edits.
+- Handover: 84 rows, all BUILT, 47 carry 'owner check pending'. Header 9 pipes.
+- Round 261: checkpoint run (tsc, full app Jest, git status). No files changed by the loop. Result to be read in the next report.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -38,9 +35,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 9 includes the TodayCard malformed-response guard and the retry notice for a session missing from the range.
 - Row 84 focus refetch uses a silent revalidate. Never list revalidate in a caller's deps. Use [] on focus callbacks.
 - Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
-- Round 255: accepted row 9 widening. Round 256: verify before asking about row 17.
-- Round 257: row 5 pipe fix before row 18 wording (table parsing first).
+- Round 255: accepted row 9 widening. Round 257: row 5 pipe fix before row 18 wording.
 - Round 258: row 17 read-only check before asking Isa.
+- Round 261: checkpoint run chosen over Jev ask (82%). Reason: loop note requires the checkpoint; row 17 already asked in round 260 and must not be repeated; checkpoint needs no Isa input.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -54,8 +51,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 
 ## Blocked on Isa
+- Row 17 plan.tsx: asked in round 260, no answer. Do not ask again. Options were (a) build plan generation endpoint and wire the card, or (b) drop the card for v1.
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
-- Row 17 plan.tsx: build plan generation or drop the card for v1. Ask once in the stop report, after the round 259 read-only check of the row 17 cell.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for simulator flows.
 - Merge loop/design-match into main: Isa.
@@ -85,13 +82,13 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Row 9: a session outside the 2-day range shows the retry notice, not the detail. Known limit, untested edge.
 
 ## Next
-- Round 259: read-only check of row 17 cell, status counts, and plan code (no edits).
-- Then: decide the row 17 question using the real count. Ask Isa once.
-- When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
+- Read the round 261 checkpoint result. If green, do the read-only grep of PHASE2_ROWS.md for 'verified|confirmed' and fix any hit in one cell in a separate row task.
+- Row 17 stays open until Isa answers. If no answer, use default (b) after the next unanswered round and record it in decisions.
+- Then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row, one file.
+- Jev risk about 1.2 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.
@@ -108,4 +105,4 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Count pipes against the header row before and after any PHASE2_ROWS.md edit.
 - Verify PHASE2_ROWS.md before trusting any status.
 - Jest SIGSEGV on resetRegistry.test.ts is transient; rerun before blaming a change.
-- TodayCard LoggedCard: session missing from the fetched range renders no extra detail, no error (see row 9 Parked).
+- TodayCard LoggedCard: session missing from the fetched range renders the retry notice (see row 9 Parked).

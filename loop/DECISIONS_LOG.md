@@ -7905,3 +7905,10 @@
 - 2026-11-20 01:32 Chose the read-only row 17 check over asking now, because the notes say to verify the row 17 cell and real count before asking.
 - 2026-11-20 01:32 Kept the check to reads only, so the round cannot change PHASE2_ROWS.md or any code.
 - 2026-11-20 01:32 Did not ask Isa in this round: at most one question per round, and it should carry the verified count.
+- 2026-11-20 01:34 Round 260: asked Isa once about row 17 as the notes planned, since all 84 rows are BUILT or owner-pending and this is the only open scope question.
+- 2026-11-20 01:34 The loop flag on the last report: the row 17 cell uses 'checked in code' and contains no 'verified' or 'confirmed'. The report's wording is corrected in the notes, not in the row. A grep for 'verified|confirmed' in PHASE2_ROWS.md runs at the stop report.
+- 2026-11-20 01:34 Jev risk 1.0 and ask 81%: followed the notes' plan to ask once, not run a new task.
+- 2026-11-20 01:50 Chose the checkpoint run over Jev's 82% ask. Concrete reason Jev cannot see: the loop note requires this checkpoint, and the only open question (row 17) was already asked in round 260 and must not be repeated. The checkpoint is read only, needs no input from Isa, and the notes record a green gate at round 246 that must be re-confirmed.
+- 2026-11-20 01:50 Recorded the unanswered row 17 question under Blocked on Isa, with the round it was asked, and set a rule not to ask it again.
+- 2026-11-20 01:50 Used a read only git status in the checkpoint so any stray modified file is reported, not fixed.
+- 2026-11-20 01:50 Kept action ask out of this round because remaining work (grep for verified or confirmed wording, then stop report) does not need Isa.
