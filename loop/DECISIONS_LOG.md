@@ -7090,3 +7090,7 @@
 - 2026-11-19 18:43 Standing note: 'on the native thread' cannot apply to width% or strokeDashoffset animations under classic Animated (useNativeDriver must be false). Row 76 already made this call; future rounds should not re-litigate it. Recorded in Known issues.
 - 2026-11-19 18:43 Row 69 is closed as a duplicate of row 76 (ProgressBar, DailyMacroRing, EnergyBalanceCard already eased at 250 ms, Reduce Motion aware). Recorded in Done.
 - 2026-11-19 18:43 Gym session entering animation is left as a Parked parity row, after rows 70-72, per the existing order.
+- 2026-11-19 18:45 Chose row 71 over the handover's row 69: row 69 is already BUILT as a duplicate of row 76, and the latest notes set the order as 71 then 72.
+- 2026-11-19 18:45 Accepted the Skeleton 700ms pulse as correct by design (a continuous pulse, uses a motion token), not a gap. Standing note so later rounds do not re-flag it.
+- 2026-11-19 18:45 Kept the task to one row and one component because Jev reports risk about 0.9 of 2.
+- 2026-11-19 18:45 Each row ends with a 'closed by a later row' check before any fix, as the handover asks.
