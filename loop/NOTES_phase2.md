@@ -5,14 +5,14 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 213: checkpoint (full tsc + full Jest --ci, read-only status check of PHASE2_ROWS.md). Chosen over Jev ask pick.
-- Last checkpoint GREEN: round 204 (tsc 0 errors; Jest 121 suites, 962 tests). Round 213 checkpoint pending result.
-- Row 6 is BUILT (latest report and handover checked code: labelScan, photoScan, barcodeScan render tests all executed and passing). Stale PHASE2 PARTIAL note removed.
+- Round 214: row 21 read-only audit chosen (7-day stacked chart). Jev stop 62% overruled: brief default allows a local data model change.
+- Last checkpoint GREEN: round 213 (tsc 0 errors; Jest 123 suites, 967 tests, 4 snapshots). Live counts; old 121/962 is stale.
+- Row 6 BUILT (barcode, label, photo, analyze, fallbackSyncScan render tests executed).
 - Every prompt names loop/phase2 and bans git commands.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - loop/ files are never edited by prompts.
-- Latest report beats handover claims. Check code first. Brief may be stale: verify PHASE2_ROWS.md before trusting a row status.
+- Latest report beats handover claims. Check code first. Verify PHASE2_ROWS.md before trusting a row status.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -33,6 +33,7 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Local-only mutations (editSavedFood) need no API test.
 - 'nutrition/week' is not a row.
 - Minor questions decided by manager. Checkpoints override Jev ranking.
+- Row 21 (7-day chart): was parked for v1; reopened round 214 as a read-only audit under the brief's local data model default. Hosted migration stays Isa's.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 1-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
@@ -42,12 +43,12 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
-- Row 17 plan.tsx: build plan generation or drop card for v1. Ask once when no PARTIAL or DIFFERENT row remains.
+- Row 17 plan.tsx: build plan generation or drop card for v1. Ask once in the stop report.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for screenshots and simulator flows.
 - Merging loop/design-match into main: Isa's job.
 - Token pass (icon sizes, stroke weight, letter-spacing, 9pt space, bar width, small radius): one design pass with Isa.
-- Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
+- Applying migrations to hosted Supabase: Isa.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; untouched by loop work. Isa to check.
 
 ## Parked (not v1)
@@ -62,18 +63,17 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
-- Applying migrations to hosted Supabase: Isa.
 - Local Clerk-compatible verifier: owner step.
 - Muscles and exercise-progress design gaps: product decision.
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
-- Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only, audit separately if ever needed.
+- Row 2 _layout.tsx under src/app/onboarding has no test reference; navigation only.
 
 ## Next
-- Round 213: checkpoint (tsc, full Jest --ci, read-only PHASE2_ROWS.md status check).
-- Then secondary call-site audit of BUILT rows 7 and 8.
-- If no PARTIAL or DIFFERENT row remains except owner items, ask once about row 17 plan.tsx, then prepare the stop report with owner items.
+- Round 214: row 21 read-only audit (report: component, store shape, smallest change).
+- Round 215: if the audit says local-only, one small step (store or component) with a render test.
+- When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
@@ -90,4 +90,4 @@ Wire every screen to local backend, test flows on simulator. Progress counted fr
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard, SkeletonList and SwipeableRow in render harness: stub only the broken piece inside the test file.
 - startScanPoller must be stubbed in any test letting pipeline or pipelineMulti resolve.
 - jest.requireActual('@/lib/api').api?.scan needs the ?. (circular import).
-- Handover claims can conflict with newer reports: check code and the latest report.
+- Stale briefs have pointed at old row status twice: verify PHASE2_ROWS.md before trusting any status.

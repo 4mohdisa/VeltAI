@@ -7717,3 +7717,8 @@
 - 2026-11-19 23:47 Chose the checkpoint over the Jev ask pick: a checkpoint is due (last green was round 204) and the handover just happened, so a full verified state is needed before more work.
 - 2026-11-19 23:47 No question to Isa this round: nothing new blocks progress, and row 17 is only asked about once no PARTIAL or DIFFERENT row remains.
 - 2026-11-19 23:47 Prompt is read-only on PHASE2_ROWS.md so the row 6 status is confirmed from the file before anyone edits it.
+- 2026-11-19 23:49 Row 21 moved from parked to a read-only audit. The brief's default allows a local-only data model change with a migration, and the row is in PHASE2_ROWS.md, so it must be wired or proven impossible. Audit first to keep the task small (Jev risk high).
+- 2026-11-19 23:49 Row 17 is counted BUILT, per the Done list and the latest report. The plan.tsx question stays for the stop report, not a separate ask now.
+- 2026-11-19 23:49 Stop is not yet allowed: row 21 is DIFFERENT, so the every-row-BUILT rule is not met.
+- 2026-11-19 23:49 Jev said stop 62%. Chose run because the brief requires every row to be BUILT or EXACT and the data model path is allowed locally. Reason Jev cannot see: the brief's default answers this without Isa.
+- 2026-11-19 23:49 Checkpoint counts differ (123 suites, 967 tests, green). Treated as the live count, not a regression. Stale counts in notes corrected.
