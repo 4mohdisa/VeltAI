@@ -7340,3 +7340,11 @@
 - 2026-11-19 20:59 Chose the planned docs task over the Claude suggestion of row 23, because row 23 is already BUILT and the notes list the toast/sheet mapping as next.
 - 2026-11-19 20:59 Owners fixed as row 51 (ToastHost) and row 27 (BottomSheet) based on existing render tests; Claude must confirm a real import before editing.
 - 2026-11-19 20:59 Condensed notes to stay under 600 words, with no change to any decision or status.
+- 2026-11-19 21:01 Chose row 23 because the NOTES Next list names it. Jev ranks the smallest docs task first and the risk is high, so keep it to one docs row.
+- 2026-11-19 21:01 Handover suggested row 8 next, but NOTES records row 8 as closed in round 121 with no edit. NOTES wins; row 8 is not reopened unless a real importing test is found.
+- 2026-11-19 21:01 Round 126 owning-row mapping accepted: ToastHost and BottomSheet render tests are colocated under src/components/, not src/__tests__/. Real imports confirmed, so the mapping stands.
+- 2026-11-19 21:01 Rows 4 to 6 keep their notes as they are: no real importing test exists for their screens, as the handover found.
+- 2026-11-19 21:01 Rewrote the rejected prompt: added the loop/phase2 branch check, forbade switching, pushing and merging, and kept one row, five steps and the report format.
+- 2026-11-19 21:01 Chose row 23 over the handover's suggested row 8 check, because the notes say row 8 is closed (round 121) and reopen only on a real importing test.
+- 2026-11-19 21:01 Chose the small docs-only task because Jev ranks it first (run 91%, risk 0.9) and the notes say keep tasks small.
+- 2026-11-19 21:01 Kept the rule that status cells never change in a docs pass.

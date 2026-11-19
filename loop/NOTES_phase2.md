@@ -4,8 +4,8 @@
 Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress is counted from PHASE2_ROWS.md (ends at row 83). Prompts use row TITLE plus row number.
 
 ## State
-- Branch loop/phase2. Never switch branches.
-- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 125). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Branch loop/phase2 only. Never switch, push or merge. Every prompt must say so.
+- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 126). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -28,21 +28,22 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Literal swapped for token only when value identical AND semantic category matches.
 - Stale motion rows are FOLDED, not deleted. One row per round.
 - Native thread: width%, strokeDashoffset and similar layout props cannot use useNativeDriver under classic Animated. Settled.
-- New render tests for files under src/components/ are named *.render.test.tsx.
+- New render tests for files under src/components/ are named *.render.test.tsx. Owning render tests may sit beside their component.
 - isLiquidGlassAvailable() is false outside a real iOS build; mock expo-glass-effect.
 - Jev ranking: follow it on small tasks; a concrete reason can override it, and the reason goes here.
 - Unanswered question: after one round, use the default and do not ask again.
 - Stale-note corrections: edit only after grep finds a real importing test (an import statement). Status never changes in a docs pass. A readFileSync or path string does not count.
-- Row 8 surface: src/app/food/saved.tsx; no real importing test; no edit (round 121).
-- Row 19: no edit (round 123). Row 20: no edit (round 124). Row 21 (7-day chart): no edit (round 125).
-- Toast and sheet owning rows: row 51 owns ToastHost, row 27 owns BottomSheet (round 126).
+- Row 8 closed (round 121); reopen only if a real importing test appears. Rows 19, 20, 21: no edit (rounds 123 to 125).
+- Toast and sheet owners: row 51 owns ToastHost, row 27 owns BottomSheet (round 126). Rows 3, 5, 7, 9 point to row 51 for toast.
+- Rejected prompt (round 127): every prompt must name the loop/phase2 branch rule explicitly.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- PARTIAL: row 1 (signup.render.test.tsx added; live sign-in is owner step).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green: rounds 16 to 125 (last: 125).
+- Checkpoints green: rounds 16 to 126.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -76,11 +77,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Anomaly banner: no render test for null on zero anomalies.
 - Row 22 notes cell quotes old counts (81/869); refresh in a numbers pass.
+- Owning-row check for other shared components (no row yet).
 
 ## Next
-- Round 126: toast and sheet owning-row mapping (docs only).
-- Then row 23 stale-note check, grep first, real import required.
-- Then backend refinement rows and the remaining PARTIAL rows that are not blocked.
+- Round 127: row 23 stale-note check (docs only, grep for real import). Assigned.
+- Then backend refinement rows and remaining PARTIAL rows that are not blocked.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
