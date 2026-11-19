@@ -7756,3 +7756,7 @@
 - 2026-11-20 00:22 Row 83 stale note (MACRO_BAR_W) parked as a note fix, not done now, to keep row boundaries strict.
 - 2026-11-20 00:22 Row count recorded as 83 from the round 221 audit. The older '84 rows' figure is removed. Verify the count from the file before each checkpoint.
 - 2026-11-20 00:22 Status of row 4 stays BUILT. Only a test line is added to its notes.
+- 2026-11-20 00:24 Chose row 10 as round 223 per the notes plan: it clears a named render-test gap, needs no hosted service or device, and is one file.
+- 2026-11-20 00:24 Row 4 is closed: the latest report shows foodAddMenu.render.test.tsx added and passing, so it moves from Next to Done.
+- 2026-11-20 00:24 Prompt tells Claude Code to verify row 10 status and grep for an existing test first, because the stale-brief warning in the notes applies.
+- 2026-11-20 00:24 Stale row 83 MACRO_BAR_W note left for a later round, since it is a note fix and not a gap in a row's coverage.
