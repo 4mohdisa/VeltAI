@@ -7200,3 +7200,8 @@
 - 2026-11-19 19:42 Treated the latest checkpoint (tsc 0 errors, Jest 83/874/4 green, no file changes) as this round's checkpoint, so no repeat run now.
 - 2026-11-19 19:42 Chose row 48 because the loop note's Next list puts it first and it clears one open row with one file.
 - 2026-11-19 19:42 Did not name row 48's file in the prompt because its text is not in my copy of the table; the prompt makes Claude Code name it and stop if the row needs more than one file.
+- 2026-11-19 19:44 Chose row 49 because the last report recommends it, it is DIFFERENT, and it is the next unbuilt row in order; Jev ranks run at 91%.
+- 2026-11-19 19:44 Did not name row 49's title in the prompt because the row text was not in the brief; the prompt makes Claude Code read the row first.
+- 2026-11-19 19:44 Parked the nutrition/week bar constants as a dedicated row for a later round, since row 49 may not cover them.
+- 2026-11-19 19:44 Kept the no-code-change test gate: tsc plus full Jest if row 49 needs no code change.
+- 2026-11-19 19:44 Recorded row 48 as done with no code change, per the last report.

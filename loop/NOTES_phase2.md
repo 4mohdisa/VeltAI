@@ -37,14 +37,15 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - New render tests for files under src/components/ must be named *.render.test.tsx.
 - isLiquidGlassAvailable() is false outside a real iOS build; test GlassView by mocking expo-glass-effect.
 - Row 34: tokens correct, no code change. Swipe pane corner clipping parked.
+- Row 48: clamp logic matches design; MACRO_CEILING has no token; no code change.
 
 ## Done
-- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-34, 36, 37, 39, 41-47, 69-74, 77-82.
+- BUILT: Task 1, local setup, row 22 baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 23, 26-34, 36, 37, 39, 41-48, 69-74, 77-82.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 29, 30, 35, 37, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 41, 46, 47, 51-53, 57-59, 61, 62.
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, and this round.
+- No code change: rows 27, 28, 30, 33, 34, 37, 38, 40, 41, 46, 47, 48, 51-53, 57-59, 61, 62.
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, and 93.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set.
@@ -80,8 +81,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Row 48 (DIFFERENT) this round. Then remaining non-BUILT rows, one per round.
-- Then the nutrition.tsx and week.tsx bar constants row (Parked).
+- Row 49 (DIFFERENT) this round. Then remaining non-BUILT rows, one per round.
+- Then a dedicated row for the nutrition.tsx and week.tsx bar constants (Parked).
 - Then render smoke test for the LumeTabBar Reduce Transparency branch.
 - Then render smoke tests for Screen.tsx, ToastHost, BottomSheet.
 - Then backend refinement rows.
