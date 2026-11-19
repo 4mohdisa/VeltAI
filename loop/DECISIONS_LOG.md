@@ -7611,3 +7611,7 @@
 - 2026-11-19 22:49 Row 18 status conflicts: Done lists BUILT (owner check pending), handover says PARTIAL. Left unchanged. Will verify the row cell when row 18 is picked up.
 - 2026-11-19 22:49 Row 5 moved to BUILT per the handover (quick add render test plus existing Go ownership tests). On-device check stays owner check pending.
 - 2026-11-19 22:49 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md still show as modified in git status. Not touched by prompts. Stays on the Isa list.
+- 2026-11-19 22:50 Closed the 'partly done' flag by adding the missing failure-path test to the existing recipeLog.render.test.tsx, not a new file, because grep showed the file already exists.
+- 2026-11-19 22:50 Row 8 BUILT decision deferred to the report: it depends on whether the row's own cell lists any uncovered live call site.
+- 2026-11-19 22:50 Kept run over ask: the gap is one test in one existing file and blocks no row.
+- 2026-11-19 22:50 Recipe and saved-meal delete paths stay out of scope: no UI exists, so no render test is expected.

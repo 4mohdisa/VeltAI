@@ -5,13 +5,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, 4 snapshots, --ci.
+- Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci. Count may grow with new render tests; recheck at 203.
 - Round 203: next checkpoint.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Every prompt must name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
 - Task premises can be wrong: check row content and code before acting.
+- Round 189 report flagged row 8 as partly done (failure path missing). Round 190 closes it.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -34,10 +35,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Gate flags (tests not run) are fixed by running the gate, not by stopping.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5), rows 3, 4, 5, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, quick-add (row 5, on-device check owner pending), rows 3, 4, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 8 (recipe log path open); row 18 status to re-check against its cell.
+- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 8 (recipe log success and failure path to close in round 190; saved foods, custom food, new recipe, My Meals log covered); row 18 (energy render test added; status to re-check).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -50,10 +51,9 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 41 es/fr overflow needs device run.
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status across many rounds, untouched by loop work. Isa to check.
-- Row 8 not covered: api.recipes.log (in progress, round 189) and recipe/saved-meal delete paths (no UI).
 
 ## Parked (not v1)
-- Recipe and saved meal delete/unsave: no UI exists (api.recipes.delete, api.savedMeals.delete are dead). Product gap, not a test gap.
+- Recipe and saved meal delete/unsave: no UI exists. Product gap, not a test gap.
 - Row 8 notes cell carries older contradictory fragments. Wording cleanup only.
 - No real render test yet: barcode-scan, label-scan, photo-capture.
 - Quick-add: on-device check of the food log entry (owner).
@@ -69,19 +69,18 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local Clerk-compatible verifier: owner step.
 - Muscles and exercise-progress design gaps: product decision.
 - Local test env file for LUME_TEST_DATABASE_URL.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (not seen in round 188).
-- Row 22 notes quote old counts: numbers pass.
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 189: row 8 recipe log render test (recipeLog.render.test.tsx). Then run its gate.
+- Round 190: row 8 recipe log failure path (existing recipeLog.render.test.tsx only).
 - Then row 18 status check, then row 6 scan render tests.
 - Round 203: next checkpoint.
 - If no PARTIAL or DIFFERENT row remains, prepare the stop report with owner items.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.2 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.3 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -92,4 +91,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard and SwipeableRow in the render harness: stub only the broken piece inside the test file.
-- Recipe log and saved-meal delete paths: no UI for delete, so no render test expected for delete.
+- Recipe and saved-meal delete paths: no UI, so no render test expected.

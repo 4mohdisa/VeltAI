@@ -11,7 +11,8 @@ import MealsScreen from '@/app/food/meals';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate } from '@/lib/data/foodStore';
 import type { Recipe } from '@/lib/api';
-import { act, findAll, renderScreen } from './helpers';
+import { useToastStore } from '@/components/display/toastStore';
+import { act, allText, findAll, renderScreen } from './helpers';
 
 const mockList = jest.fn();
 const mockLog = jest.fn();
@@ -77,6 +78,7 @@ const settle = async () => {
 beforeEach(() => {
   mockList.mockClear();
   mockLog.mockClear();
+  useToastStore.getState().dismiss();
 });
 
 test('switching to Recipes and pressing Log, then confirming, calls api.recipes.log with the recipe id, default servings, current slot and selected date', async () => {
@@ -107,4 +109,38 @@ test('switching to Recipes and pressing Log, then confirming, calls api.recipes.
   });
 
   expect(mockLog).toHaveBeenCalledWith('r1', 1, slotForNow(), selectedFoodDate());
+});
+
+test('a failed api.recipes.log call shows the error toast and leaves the recipe list rendered', async () => {
+  mockList.mockResolvedValue([FIXTURE_RECIPE]);
+  mockLog.mockRejectedValueOnce(new Error('network'));
+
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <MealsScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+
+  act(() => {
+    const recipesTab = findAll(tree, (p) => p.accessibilityLabel === 'Recipes' && p.accessibilityRole === 'button')[0];
+    (recipesTab.props.onPress as () => void)();
+  });
+  await settle();
+
+  act(() => {
+    (findAll(tree, (p) => p.title === 'Log')[0].props.onPress as () => void)();
+  });
+
+  await act(async () => {
+    const sheetLog = findAll(tree, (p) => p.title === 'Log');
+    (sheetLog[sheetLog.length - 1].props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+
+  expect(useToastStore.getState().current).toMatchObject({
+    message: "Couldn't log My Curry. Try again.",
+    tone: 'error',
+  });
+  expect(allText(tree)).toContain('My Curry');
 });
