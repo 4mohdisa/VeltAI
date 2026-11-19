@@ -7252,3 +7252,6 @@
 - 2026-11-19 20:24 Rows 1, 2, 5-8, 18 and the toast/sheet mapping deferred to later rounds, one row per round, to keep risk low (Jev risk 0.9 of 2).
 - 2026-11-19 20:25 Round 101: Jev said ask (46% ask, 40% run, confidence 0.19). The question is not major, so no question was sent. Chose the smallest run task: row 51 docs fix, which the last report flagged as stale. Same pattern as round 100.
 - 2026-11-19 20:25 Row 51 fix limited to the notes cell and status left unchanged, because the ToastHost test already exists and the status is decided separately.
+- 2026-11-19 20:26 Checkpoint round requested by the loop note, so the full type check and full app Jest run comes first, with no file changes.
+- 2026-11-19 20:26 Jev ranks the same checkpoint task as the smallest safe option; no override.
+- 2026-11-19 20:26 Row 61 stale note and rows 1, 2, 5-8, 18 wording are queued for the next rounds, one row per round.
