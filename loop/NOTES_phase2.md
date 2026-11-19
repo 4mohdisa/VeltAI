@@ -5,14 +5,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline (round 101): app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots, green. Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline (round 102 checkpoint): app tsc 0 errors; Jest 87 suites / 881 tests / 4 snapshots, green. Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never use verified, verify, verifies, confirmed or confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- No code change = run tsc and full Jest and say so.
+- No code change = run tsc and full Jest and say so. Docs-only change = run tsc only and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -41,9 +41,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Row 51: ToastHost.render.test.tsx at src/components/display/ (round 101 docs fix).
+- Row 51: ToastHost.render.test.tsx at src/components/display/.
 - Round 99: BottomSheet.render.test.tsx added, checked in code (row 27).
-- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101 (tsc 0, Jest 87/881/4).
+- Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -58,6 +58,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Toast and sheet row mapping: rows 3, 5, 7, 9, 27, 51 touch sheets or toasts. Pick one owning row per component.
+- Stale 'no Jest test imports X' phrase may remain on other rows citing Screen.tsx, GlassButtons.tsx, BottomSheet.tsx or ToastHost.tsx (rows 26, 51, 61 fixed or in progress). Grep pass pending.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius and row height; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; history icon sizes; BlurView intensity; RING_STROKE 10; MuscleChart widths; food/add.tsx and gym/log-session.tsx TEXT_GAP; dashboard/nutrition.tsx MACRO_BAR_W 30 and radius 5/2; dashboard/week.tsx NET_BAR_W 22.
 - ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260: design decision.
@@ -77,9 +78,9 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Anomaly banner: no render test for null on zero anomalies.
 
 ## Next
-- Round 102: checkpoint, full tsc and full app Jest, no file changes.
-- Then row 61 docs: 'Visual QA: item 11 back button position' still says no Jest test imports Screen.tsx. Screen.render.test.tsx now renders it. One-line docs fix.
-- Then rows 1, 2, 5-8, 18: decide BUILT checked in code on passing local mocked tests (sign-in is an owner step per decisions).
+- Round 103: row 61 docs fix (Screen.render.test.tsx now renders Screen.tsx).
+- Round 104: grep PHASE2_ROWS.md for 'no Jest test imports'; fix stale rows one per round.
+- Then rows 1, 2, 5-8, 18: record BUILT checked in code on passing local mocked tests (sign-in is an owner step per decisions).
 - Then toast and sheet owning-row decision.
 - Then backend refinement rows.
 

@@ -7255,3 +7255,6 @@
 - 2026-11-19 20:26 Checkpoint round requested by the loop note, so the full type check and full app Jest run comes first, with no file changes.
 - 2026-11-19 20:26 Jev ranks the same checkpoint task as the smallest safe option; no override.
 - 2026-11-19 20:26 Row 61 stale note and rows 1, 2, 5-8, 18 wording are queued for the next rounds, one row per round.
+- 2026-11-19 20:27 Chose the row 61 docs fix first: smallest task, Jev ranks it top, and the latest report already flagged it.
+- 2026-11-19 20:27 Deferred the grep pass to the next round so this round stays to one row and one file, given Jev risk 0.9.
+- 2026-11-19 20:27 Prompt tells Claude Code to list other stale rows as NEXT and not fix them, to keep one row per round.
