@@ -7406,3 +7406,7 @@
 - 2026-11-19 21:25 Loop flag on the cuisine task: the prompt addresses it by re-checking the cuisine assertion and the row 2 notes cell before starting targets. Finished work is not redone; only the named gap is checked.
 - 2026-11-19 21:25 Route for targets is read from the file, not assumed, because the cuisine task showed the assumed route was wrong.
 - 2026-11-19 21:25 Row 2 stays PARTIAL until preview.tsx and done.tsx are covered. Status is not changed in a docs pass.
+- 2026-11-19 21:27 Loop check flagged the targets round as partly done. Row 2 is still PARTIAL with two steps left, so the named gap (preview.tsx) comes next, per the partial-task rule.
+- 2026-11-19 21:27 Chose preview.tsx over done.tsx to keep the order goal, activity, body-type, dietary, cuisine, targets, preview, done. Jev agrees with a small task.
+- 2026-11-19 21:27 Handover 4 is not requested by the loop this round, so it waits until it is asked for.
+- 2026-11-19 21:27 Condensed the notes to stay under 600 words. No decision or blocker was removed.
