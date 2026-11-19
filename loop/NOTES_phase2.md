@@ -6,9 +6,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 247 (current): add Gym tab refetch-after-log row to PHASE2_ROWS.md as DIFFERENT (doc only, no code).
+- Round 248 (current): row 84 TodayCard refetch on focus (TodayCard.tsx + its render test). Row 84 to PARTIAL.
 - Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
-- Round 244: row 9 LoggedCard audit, no fix. Race not reachable under current wiring.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
 
@@ -41,11 +40,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - BUILT checked in code: gym templates, schedule, muscles, exercise-progress, profile, rows 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - freeze.tsx render test exists; covered by the full Jest checkpoint.
+- Row 84 added (round 247): Gym refetch after log, DIFFERENT. TodayCard side fixed in round 248.
 
 ## Known test gaps
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 - Row 83 cites MACRO_BAR_W, which no longer exists. Fix when row 83 is next touched.
-- Gym tab refetch gap: after logging a session, nothing refetches useToday() in TodayCard or the Gym tab. Card stays stale until restart. Row being added in round 247; fix next (TodayCard.tsx and Gym tab screen).
+- Row 84 open: gym.tsx (Gym tab) still needs a focus refetch of useToday.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -78,9 +78,10 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
 
 ## Next
-- Round 247: add Gym tab refetch-after-log row to PHASE2_ROWS.md (DIFFERENT), audit only.
-- Round 248+: fix the refetch gap (TodayCard.tsx, then Gym tab screen, one file per round).
+- Round 248: row 84 TodayCard focus refetch (TodayCard.tsx + todayCard.render.test.tsx). Row 84 to PARTIAL.
+- Round 249: row 84 Gym tab focus refetch (src/app/(tabs)/gym.tsx). Then BUILT if tests pass.
 - Then: fix row 83 stale MACRO_BAR_W text when that row is touched.
+- Then: LoggedCard sessions.find gotcha, one file per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues

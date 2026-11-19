@@ -7861,3 +7861,7 @@
 - 2026-11-20 01:05 Chose the Gym tab refetch row first, as the notes' Next list says. Split into an audit-and-row round, then a code fix round, to keep one file per prompt and respect the Jev risk signal.
 - 2026-11-20 01:05 Doc-only round first: the fix touches TodayCard.tsx and the Gym tab screen, which is more than one file, so it waits for its own round.
 - 2026-11-20 01:05 Row 83 MACRO_BAR_W text stays parked until row 83 is next touched, per the existing rule.
+- 2026-11-20 01:07 Chose TodayCard.tsx first: notes say one file per round, and TodayCard is the stale card the user sees. Gym tab follows next round.
+- 2026-11-20 01:07 Added a guard step: if useToday's refetch blanks the card, report BLOCKED instead of changing the hook, since gymSchedule.ts is outside the row.
+- 2026-11-20 01:07 Row 84 status moves to PARTIAL, not BUILT, because gym.tsx still has the gap.
+- 2026-11-20 01:07 Skipped the LoggedCard gotcha this round: it is not reachable on the refetch path and would break the one-row rule.
