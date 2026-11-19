@@ -7364,3 +7364,8 @@
 - 2026-11-19 21:07 Skipped the row 25 stale-note grep the last report suggested: the stale-note series stopped after row 24 per the decisions list.
 - 2026-11-19 21:07 Status change to BUILT allowed only if every row part is covered by a real import test; live sign-in stays an owner check, consistent with the rule that sign-in rows are BUILT on passing local mocked tests.
 - 2026-11-19 21:07 Report flagged signup.render.test.tsx sits in src/__tests__/ rather than src/__tests__/render/. Left in place; not moved this round.
+- 2026-11-19 21:09 Loop flagged the last report as partly done. Treated row 2 as PARTIAL and closed the named gap (paywall post call) with one test file, not a re-audit.
+- 2026-11-19 21:09 Jev gives 17% chance of clean completion, so picked the smallest task: one row, one new test file, no screen edits.
+- 2026-11-19 21:09 Chose the post call over the get read-back because it is the write path that persists onboarding data.
+- 2026-11-19 21:09 Row 2 stays PARTIAL: the get read-back and 8 untested onboarding steps remain open.
+- 2026-11-19 21:09 Condensed the notes file to stay under the 600 word limit. No decision or blocker removed.

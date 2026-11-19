@@ -1,18 +1,19 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to local backend, make backend changes the UI needs, test flows on the simulator. Progress counted from PHASE2_ROWS.md (ends row 83). Prompts use row TITLE plus number.
+Wire every screen to local backend, make backend changes the UI needs, test flows on simulator. Progress counted from PHASE2_ROWS.md (ends row 83). Prompts use row TITLE plus number.
 
 ## State
-- Branch loop/phase2 only. Never switch, push or merge. Every prompt says so.
-- Baseline: tsc 0 errors; Jest 89 suites / 888 tests / 4 snapshots (round 130 checkpoint green). Backend 632 pass incl. 18 TestPG on local DB.
-- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually.
+- Branch loop/phase2 only. Never switch, push or merge.
+- Baseline: tsc 0 errors; Jest 89 suites / 888 tests / 4 snapshots (round 130 checkpoint). Backend 632 pass incl. 18 TestPG on local DB.
+- Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file or component per prompt.
 
 ## Wording rule
-- Cells: BUILT, 'checked in code' or 'owner check pending'. Avoid verified/confirmed except api.scan.confirm.
+- Cells: BUILT, 'checked in code', 'owner check pending'. Avoid verified/confirmed except api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
 - Code or docs change = run tsc and full Jest.
+- Real coverage = an actual import statement that renders or uses the component. readFileSync, path strings and comments do not count.
 
 ## Decisions (never delete)
 - Local backend and local DB only. RevenueCat over Stripe. v1 locked; extras to Parked.
@@ -23,22 +24,20 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Food log before Gym log. Sign-in flows are owner steps; rows BUILT on passing local mocked tests.
 - loop/ files are loop-managed; prompts never edit them.
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
-- Rows with no named file: use most relevant shared file, state in report. Identical token = no code change. Literal swapped for token only when value identical AND category matches.
-- Stale motion rows FOLDED, one row per round.
+- Rows with no named file: use most relevant shared file, state in report. Identical token = no code change.
 - Native thread: layout props cannot use useNativeDriver under classic Animated. Settled.
 - Render tests: components under src/components/ get *.render.test.tsx; screens go in src/__tests__/render/.
 - isLiquidGlassAvailable() is false outside iOS build; mock expo-glass-effect.
-- Jev: follow on small tasks; a concrete reason can override, recorded here.
 - Unanswered question: use default after one round.
-- Stale-note edits only after grep finds a real import statement. Status never changes in a docs pass.
-- Row 8 closed; reopen only on a real importing test. Rows 19, 20, 21: no edit.
+- Stale-note edits only after grep finds a real import. Status never changes in a docs pass.
+- Rows 19, 20, 21: no edit. Row 8 closed; reopen only on a real importing test.
 - Toast owner row 51; sheet owner row 27.
-- Stale-note series stopped after row 24. No docs-only greps as tasks.
 - Paywall lives at src/app/onboarding/paywall.tsx.
+- Jev: follow on small tasks; a concrete reason can override, recorded here.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
-- PARTIAL: row 1 (src/__tests__/signup.render.test.tsx; live sign-in owner step). Row 2 (paywall and signup render tests exist; status review round 131).
+- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (signup and paywall render tests exist; post call gap in progress round 132).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
@@ -56,8 +55,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Parked (not v1)
 - Row 1: render tests for signup email/OTP sub-stages and DevSignup no-key fallback.
-- No real render test: insights, ai-query, legal terms and privacy, food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard. Rows 4-6 status check later.
-- Stale 'no Jest' phrasing rows 40, 55. Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
+- No real render test: insights, ai-query, legal terms and privacy, food/add, quick-add, barcode-scan, label-scan, photo-capture, food/saved, new-recipe, AnomalyBanner, AnomalyCard. 8 of 11 onboarding screens (index, goal, activity, body-type, dietary, cuisine, targets, preview, done) have no render test.
+- Rows 38, 53, 83 name integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane square corners while row rounds (SwipeableRow, row 34): design decision.
 - Off-token values (Screen offsets, AddMenu, DetailChart, KickerTitle, LumeTabBar, BlurView, RING_STROKE, MuscleChart, TEXT_GAP, nutrition, week NET_BAR_W, provider constants): design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift (0.3, 0.35, 0.4).
@@ -77,13 +76,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Owning-row check for other shared components.
 
 ## Next
-- Round 131: row 2 status review (Onboarding). Check each part of row 2 against signup and paywall render tests. BUILT only if all parts covered, else PARTIAL with gaps.
+- Round 132: row 2 paywall post call render test, file src/__tests__/render/paywallOnboardingPost.render.test.tsx. Row 2 stays PARTIAL.
+- Then row 2 signup get read-back in continueAfterAuth.
 - Then backend refinement rows and unblocked PARTIAL rows. Pick the candidate that clears most rows.
-- Row 25 stale-note check dropped: series stopped after row 24.
+- Handover 4 due round 141.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.0 of 2 and low clean-completion odds: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use the key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
@@ -91,4 +91,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - es/fr strings run 2.5x to 3.7x English; LumeTabBar and Button lack numberOfLines.
 - Unresolved: SwipeableRow square corners (row 34).
 - 'owner check pending' rows are BUILT; do not reopen.
-- Handover 3 done round 126. Next due round 141. Name full file paths in every prompt.
+- Name full file paths in every prompt.
