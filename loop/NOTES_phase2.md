@@ -5,13 +5,12 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
+- Round 198 done. Round 199 now. Round 203: next checkpoint.
 - Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci.
-- Round 198 now. Round 203: next checkpoint.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Every prompt must name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
-- Handover round 196: name files fully in every prompt.
 - Task premises can be wrong: check row content and code before acting.
 
 ## Wording rule
@@ -30,28 +29,26 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Render tests: components get *.render.test.tsx; screens in src/__tests__/render/. Use renderScreen (react-test-renderer). No RNTL: incompatible with RN 0.85.3.
 - Rows 19, 20, 21: no edit. Row 8 BUILT once all live call sites have render tests.
 - Rows 38, 53 are integrations.tsx. Row 55 is AddMenu. 'nutrition/week' is not a row.
-- Minor questions decided by manager. Checkpoints override Jev ranking.
-- Jev ask signals advisory. Keep run when question is minor and blocks no row.
-- Gate flags (tests not run) fixed by running the gate, not by stopping.
-- Jev re-rank: keep Jev pick only when source re-check is small and row status is unrecorded.
 - Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6.
 - Local-only mutations (editSavedFood) need no API test.
+- Minor questions decided by manager. Checkpoints override Jev ranking.
+- Jev signals advisory. Keep run when question is minor and blocks no row.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 5, 7, 8, 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3-8, 17-19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
+- Row 6 BUILT (round 198): barcode, label, photo render tests all pass.
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 6 (barcode and label render tests added; photo path pending).
+- PARTIAL: row 1 (live Clerk sign-in owner step; reconciliation in round 199). Row 2 onboarding (live sign-in and profile persistence owner).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
-- Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 6-8, 18 live checks.
-- Row 17 plan.tsx: build plan generation or drop card for v1.
+- Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 18 live checks.
+- Row 17 plan.tsx: build plan generation or drop card for v1. Ask once if it still blocks stop.
 - Claude CLI sign-in expires 2026-11-24 to 2026-11-27: run claude auth login.
 - Maestro not installed: owner step for screenshots and simulator flows.
 - Merging loop/design-match into main: Isa's job.
 - Token pass (icon sizes, stroke weight, letter-spacing, 9pt space, bar width, small radius): one design pass with Isa.
-- Row 41 es/fr overflow needs device run.
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show modified in git status; untouched by loop work. Isa to check.
 
@@ -75,9 +72,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 198: row 6 photo-capture render tests (photoScan.render.test.tsx, or extend an existing photo test file).
+- Round 199: row 1 status reconciliation (read-only check of owner-only remainder).
+- Then row 2 reconciliation the same way.
 - Round 203: next checkpoint.
-- If no PARTIAL or DIFFERENT row remains, prepare the stop report with owner items.
+- If no PARTIAL or DIFFERENT row remains except owner items, prepare the stop report with owner items.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
@@ -92,4 +90,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Console noise '[data] API unreachable' and '[data] background sync failed' in passing tests is expected.
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard and SwipeableRow in render harness: stub only the broken piece inside the test file.
-- Handover claims about row 8 coverage conflict with earlier notes: check code, not handover.
+- Handover claims can conflict with newer reports: check code and the latest report, not the handover.

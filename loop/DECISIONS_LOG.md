@@ -7653,3 +7653,8 @@
 - 2026-11-19 23:10 Did not ask Isa: the photo path is a test-only gap with no owner dependency.
 - 2026-11-19 23:10 Row 8 notes cleanup stays parked: wording only, trimmed when next touched.
 - 2026-11-19 23:10 Jev said run 100%; no conflict with the candidate ranking, so kept the pick.
+- 2026-11-19 23:24 Row 6 set to BUILT: photo path render tests in photoScan.render.test.tsx passed 5/5 (round 198 report). Barcode, label and photo all covered.
+- 2026-11-19 23:24 Chose row 1 reconciliation over row 2 and row 17: smallest task, needs no code change, and clears a PARTIAL status that may only be owner steps. Row 2 is next if row 1 closes.
+- 2026-11-19 23:24 Row 17 (plan.tsx) left as blocked on Isa: it is a product choice (build plan generation or drop the card for v1). No fabricated data. Will ask once if it still blocks the stop report.
+- 2026-11-19 23:24 Handover claim that row 6 stays PARTIAL is superseded by the newer round 198 report. Checked the report, not the handover.
+- 2026-11-19 23:24 Jev stop signal (41%) not followed: rows 1, 2 and 17 are still PARTIAL or blocked, so stop is not yet allowed. Jev ask signal (38%) is advisory and the question is not yet major.
