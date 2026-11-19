@@ -7634,3 +7634,8 @@
 - 2026-11-19 22:58 Row 8 notes cell cleanup stays out of scope; it is wording only and goes to Parked.
 - 2026-11-19 22:58 Round 203 checkpoint is still ahead; no checkpoint run this round.
 - 2026-11-19 22:58 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md git status issue remains for Isa; not a loop task.
+- 2026-11-19 23:01 Chose row 7 re-check over row 6 because the automatic check flagged the last report as partly done, and row 7 is the open item from it. Jev's run signal agrees.
+- 2026-11-19 23:01 Scoped row 7 to its own API surface (foodLogs.update/delete, savedFoods.create/delete). search/barcode logMeal and review rename are rows 3 and 6, so they stay out.
+- 2026-11-19 23:01 Row 7 stays PARTIAL unless every in-scope call has an executed render test. No status change without that proof.
+- 2026-11-19 23:01 Kept Jev's run pick. The source check is small and one row, one file.
+- 2026-11-19 23:01 Notes cleaned: merged repeated Parked items and removed finished Next items. Round 203 checkpoint still stands.
