@@ -6980,3 +6980,6 @@
 - 2026-11-19 18:07 Chose row 30 (tab bar) as the next in order: no sign in needed, one component, smallest step. Matches the notes' stated next row.
 - 2026-11-19 18:07 BottomSheet.tsx has no render test. Logged in Parked, not made a row, because it adds tests outside the Visual QA scope. Revisit after the Visual QA rows.
 - 2026-11-19 18:07 Usage limit noted in the handover (5-hour limit). If the next round hits it, wait and do not change scope.
+- 2026-11-19 18:08 Round 49: row 37 chosen, matching the Claude Code recommendation and the Next list. Smallest task, no sign in needed.
+- 2026-11-19 18:08 Visual QA rows compare against src/lib/design/tokens.ts and code only, because design/Lume App.html has no per-screen markup. Real pixel comparison stays owner check pending until screenshots exist.
+- 2026-11-19 18:08 Did not ask Isa about the missing design reference this round. It is recorded in Blocked and will be raised in the daily report, not as a question.
