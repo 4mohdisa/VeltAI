@@ -6848,3 +6848,7 @@
 - 2026-11-19 16:06 Prompt names the file by search, not by a guessed path, so Claude Code reads the real file first.
 - 2026-11-19 16:06 No simulator run for this row: sign in is owner check pending, so the flow cannot run end to end.
 - 2026-11-19 16:06 Kept row 76 (progress rings) for after the gym log entry row.
+- 2026-11-19 16:17 Chose row 77 over progress rings: same pattern as the just finished food row, smallest change, no dependency on Isa (Jev 96% run).
+- 2026-11-19 16:17 Treated the repeated blocker (loop-managed files loop/DECISIONS_LOG.md and loop/NOTES_phase2.md with uncommitted diffs) as a loop issue: recorded under Blocked on Isa, not retried, not a task. Row 77 does not depend on it.
+- 2026-11-19 16:17 Parked the gesture-handler worklet console warning from SwipeableRow.tsx (pre-existing, out of scope).
+- 2026-11-19 16:17 Gym log id-reconciliation gap kept as a Known issue and routed to NEXT, not fixed in this row.
