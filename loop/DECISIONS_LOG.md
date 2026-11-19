@@ -7437,3 +7437,7 @@
 - 2026-11-19 21:34 Required the prompt to confirm the screen path first and stop if it differs, because the notes say to verify paths before tests assert them.
 - 2026-11-19 21:34 Kept the row 2 onboarding steps for later rounds, one per round, to keep each task small given the Jev risk score.
 - 2026-11-19 21:34 Did not ask Isa anything: no owner step is involved.
+- 2026-11-19 21:36 Chose ai-query render test because the notes Next list puts it directly after insights, and it is a small single-file task.
+- 2026-11-19 21:36 goal.tsx is in the handover remaining list but missing from the notes remaining list; left for a later round and recorded here, not treated as done.
+- 2026-11-19 21:36 Default for row cells: notes-only edit, status column untouched, per the docs-pass rule.
+- 2026-11-19 21:36 Notes condensed to fit the 600 word limit; no decision or parked item was dropped.
