@@ -7474,3 +7474,6 @@
 - 2026-11-19 21:50 Accepted Claude Code's round 156 refusal of the RNTL switch for signupDevFallback.render.test.tsx: the helpers doc records RNTL v14 as incompatible with RN 0.85.3, and all 107 render files use renderScreen. Row 1 stays PARTIAL until the live Clerk owner check.
 - 2026-11-19 21:50 Kept Jev's advice: small task, one row, one file.
 - 2026-11-19 21:50 Left loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modifications alone as loop-managed.
+- 2026-11-19 21:51 Chose the checkpoint run because the loop note for this round mandates it; it is read only and carries low risk.
+- 2026-11-19 21:51 Jev suggested ask at 51% with confidence 0.26. Overridden: low confidence, and asking adds no information because the checkpoint needs no Isa input.
+- 2026-11-19 21:51 Next candidate is the ai-query send path render test, but only after grep confirms no existing executed import covers it.

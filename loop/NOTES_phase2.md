@@ -5,7 +5,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
-- Baseline round 157: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots (last full run round 156, all passing).
+- Baseline round 157: tsc 0 errors; Jest 104 suites / 913 tests / 4 snapshots (handover figures; last full run round 156, all passing).
+- Round 158: checkpoint (full tsc and full app Jest, read only). Result pending in the report.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -26,7 +27,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Food log before Gym log. Sign-in flows are owner steps; rows BUILT on passing local mocked tests.
 - loop/ files are loop-managed; prompts never edit them.
 - Modals: reduceMotion ? 'fade' : 'slide_from_bottom'.
-- Render tests: components get *.render.test.tsx; screens go in src/__tests__/render/. Use renderScreen (react-test-renderer). Do not switch to RNTL v14: incompatible with RN 0.85.3 (accepted round 156).
+- Render tests: components get *.render.test.tsx; screens go in src/__tests__/render/. Use renderScreen (react-test-renderer). Do not switch to RNTL v14: incompatible with RN 0.85.3.
 - isLiquidGlassAvailable() is false outside iOS build; mock expo-glass-effect.
 - Native thread: layout props cannot use useNativeDriver under classic Animated. Settled.
 - Rows 19, 20, 21: no edit. Row 8 closed; reopen only on a real importing test.
@@ -34,9 +35,10 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Stale-note edits only after grep finds a real import. Status never changes in a docs pass.
 - Jev: follow on small tasks; a concrete reason can override, recorded here.
 - Branch rule is mandatory in every prompt.
+- Checkpoint rounds (loop note) run full tsc and full Jest, read only.
 
 ## Done
-- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, Insights/AI query (initial state and send path), AnomalyBanner and AnomalyCard (render test, round 152), rows 3, 4, 17, 23, 26-34, 36-51, 69-74, 77-83.
+- BUILT: Task 1, local setup, baseline, Food log, Add food, Legal terms and privacy, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, Insights/AI query (initial state and send path), AnomalyBanner and AnomalyCard (render test, src/__tests__/render/anomaly.render.test.tsx), rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - Row 2 onboarding: all 8 steps plus index, signup, paywall, measurements have render tests. Open: live Clerk sign-in and profile persistence (owner). Stays PARTIAL.
@@ -74,7 +76,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - 'Add a render test' prompts have duplicated existing coverage: grep first.
 
 ## Next
-- Round 157: row 19 anomaly coverage check (grep anomaly.render.test.tsx; add only if no executed import exists).
+- Round 158: checkpoint run (full tsc and full Jest, no files changed). Report failures, if any.
+- Then: grep ai-query.tsx send path; add render test only if no executed import covers it.
 - Then unblocked PARTIAL rows and backend refinement rows.
 
 ## Known issues
