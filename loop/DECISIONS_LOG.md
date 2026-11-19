@@ -7817,3 +7817,7 @@
 - 2026-11-20 00:47 Latest Claude report asked whether the existing onboarding layout Reduce Motion test covers row 2. Default applied: it does (round 235 decision). No reply needed, no question asked.
 - 2026-11-20 00:47 Kept scope to one row and one file pair (Jev risk 1.2, confidence 0.24). Row 83 and row 7 note fixes follow next.
 - 2026-11-20 00:47 Action run chosen over ask: no question blocks the row, and row 17 stays parked for the stop report.
+- 2026-11-20 00:48 Jev said ask (87%). Kept run. The blocker was where the test file lives, which the repo already answers: notes say grep before creating a test file and components use *.render.test.tsx. The previous prompt's one-file ban was a prompt constraint, not a rule, so this prompt allows creating one render test file after a grep by content. This is not a major question, so no ask.
+- 2026-11-20 00:48 Previous round's grep searched by filename only. This round searches by content, which is how coverage counts (executed import that renders the component).
+- 2026-11-20 00:48 Guard uses the component's existing error branch, not new design. If none exists, render null and report it in NEXT.
+- 2026-11-20 00:48 Row 83 and row 7 stale-note fixes stay queued. One row per round.

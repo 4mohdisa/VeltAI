@@ -12,7 +12,7 @@ import { Card, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
-import type { GymSession } from '@/lib/api';
+import type { GymSession, TodayWorkout } from '@/lib/api';
 import { useEnergyBalance } from '@/lib/data/energy';
 import { useGymRange } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
@@ -40,6 +40,20 @@ const statValueStyle = (): TextStyle => ({
   fontSize: 16,
   lineHeight: 21 * PixelRatio.getFontScale(),
 });
+
+/** A real /api/gym/today response is always an object with these fields; a
+ *  truthy-but-malformed response (e.g. [] from a misrouted endpoint) must not
+ *  fall through to the Rest day branch below, which only checks `!template`. */
+function isValidTodayWorkout(value: unknown): value is TodayWorkout {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    !Array.isArray(value) &&
+    typeof (value as TodayWorkout).is_rest_day === 'boolean' &&
+    typeof (value as TodayWorkout).already_checked_in === 'boolean' &&
+    Array.isArray((value as TodayWorkout).exercises)
+  );
+}
 
 /** The state dot the design puts at the head of the session card. */
 function Dot({ tint }: { tint: string }): JSX.Element {
@@ -214,8 +228,9 @@ export function TodayCard(): JSX.Element {
     );
   }
 
-  // useToday yields null only when the read failed; a real response is always an object.
-  if (!today) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
+  // useToday yields null only when the read failed; a real response is always an
+  // object with these fields — a truthy but malformed one reuses the same notice.
+  if (!isValidTodayWorkout(today)) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
 
   if (today.already_checked_in) {
     return <LoggedCard title={today.template?.name ?? t('gymLog.freestyleTitle')} sessionId={today.session_id} />;

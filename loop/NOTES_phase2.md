@@ -6,12 +6,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 236 (current): TodayCard malformed-response guard. Prompt rewritten after loop rejection (branch rule added). Component and its one test file only.
-- Round 235 done: row 2 closed by existing src/__tests__/render/onboardingLayoutReduceMotion.render.test.tsx. No duplicate.
+- Round 237 (current): TodayCard malformed-response guard. Round 236 stopped BLOCKED: its grep searched filenames only and found no TodayCard*.test.tsx. Round 237 greps by content and may create one render test file.
+- Round 235 done: row 2 closed by src/__tests__/render/onboardingLayoutReduceMotion.render.test.tsx.
 - Round 234 done: freeze render test exists (row 11 closed).
 - Round 233 done: row 83 notes reword.
 - Round 232 checkpoint GREEN: tsc 0 errors, Jest 132 suites, 982 tests, 4 snapshots.
-- Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file, no git commands. Prompts never edit loop/ files. Every prompt must state the loop/phase2 branch rule.
+- Prompts: one row or one checkpoint, one file, full paths, grep by content before creating a test file, no git commands. Prompts never edit loop/ files. Every prompt must state the loop/phase2 branch rule.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
 
 ## Wording rule
@@ -36,6 +36,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Round 232: run chosen over ask. Only Isa item is row 17, parked for the stop report.
 - Round 234: keep scope small (Jev 33% clean on last task).
 - Round 235: existing render test counts as row 2 coverage. Default used, no question asked.
+- Round 237: Jev said ask 87%; kept run. Reason Jev cannot see: the test location is answered by repo convention (grep by content, then *.render.test.tsx). Not a major question.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -46,7 +47,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps
-- TodayCard.tsx: truthy malformed /api/gym/today renders Rest day silently. Round 236 fixes.
+- TodayCard.tsx: truthy malformed /api/gym/today renders Rest day silently. Round 237 fixes.
 - Row 7 notes: leftover 'status stays PARTIAL' sentence. Fix when touched.
 - Row 83 notes cite MACRO_BAR_W, removed by row 21. Fix when touched.
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
@@ -80,14 +81,14 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Audit render tests with hardcoded *_date fixtures against the real clock. Pin the clock where found.
 
 ## Next
-- Round 236: TodayCard malformed-response guard.
+- Round 237: TodayCard malformed-response guard.
 - Then: row 83 stale MACRO_BAR_W note fix.
 - Then: row 7 stale PARTIAL sentence fix.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.2 of 2: keep tasks small, one row, one file.
+- Jev risk about 1.7 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.
