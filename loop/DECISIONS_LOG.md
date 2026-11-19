@@ -7391,3 +7391,6 @@
 - 2026-11-19 21:20 Chose activity.tsx over body-type.tsx and legal/terms.tsx: it is the next onboarding step in the flow, so it is the smallest and closes the named gap.
 - 2026-11-19 21:20 Kept row 2 at PARTIAL and did not change any status cell. Reason: 6 onboarding steps still lack render tests.
 - 2026-11-19 21:20 Asked for tsc and full Jest because this round changes code. Reason: wording rule.
+- 2026-11-19 21:21 Loop check flag: the activity round added its test but row 2 is still PARTIAL, so the named remaining gap (body-type.tsx) is the next task. Closed the gap instead of redoing finished work.
+- 2026-11-19 21:21 Jev ranked body-type.tsx first at 91%. Agreed, so no override. Kept the same task.
+- 2026-11-19 21:21 Kept one file per round to keep clean completion odds up, given Jev's risk signal of 0.9.
