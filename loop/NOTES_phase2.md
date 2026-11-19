@@ -6,8 +6,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Branch loop/phase2 only. Never switch, push or merge. Every prompt restates this rule.
 - Checkpoint round 158: tsc 0 errors; Jest 107 suites / 920 tests / 4 snapshots, all passing. Baseline.
-- Round 166: quick-add render tests added. Round 167: loading and canGoBack tests added (row 5 still PARTIAL).
-- Round 168: row 5 double-submit guard in screen plus render test (task running).
+- Round 168: row 5 double-submit guard and render test added (PARTIAL).
+- Round 169: row 38 integrations render test (running). Rows 53, 83 next.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full file paths in every prompt. Grep before creating a test file.
@@ -32,14 +32,15 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Grep before any 'add render test' prompt; duplicates happened twice.
 - Task premises can be wrong (rows 38/53/83 are not AddMenu; row 55 is). Check the row before acting.
 - Minor questions are decided by the manager, not asked.
+- Round 169: followed Jev on the next pick (integrations over row 5) because row 5 needs an API check a render test cannot close.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 17, 19, 23, 26-34, 36-51, 55, 69-74, 77-83.
-- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
+- BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38 (render test pending round 169), 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - PARTIAL: row 1 (signup, OTP, dev fallback render tests added; live Clerk sign-in owner step remains).
 - PARTIAL: row 2 onboarding (all steps have render tests; live Clerk sign-in and profile persistence owner).
-- PARTIAL: row 5 quick-add (initial render, offline fallback, error toast, loading, canGoBack tests added; double-submit guard in progress; deep-link branch untested).
+- PARTIAL: row 5 quick-add (initial render, offline fallback, error toast, loading, canGoBack, double-submit guard tests added; submit path for offline queue and error toast in add() still untested; owner-scoped food log check is API level).
 - PARTIAL: row 8 saved foods (foodSaved render test added).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
@@ -54,7 +55,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Row 21 7-day chart: food store data model. Parked for v1. Do not ask again.
 
 ## Parked (not v1)
-- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe, integrations screens.
+- No real render test yet: barcode-scan, label-scan, photo-capture, new-recipe, integrations screens (integrations in progress).
 - Swipe pane square corners while row rounds (row 34): design decision.
 - Off-token values across screens and components: design pass.
 - ProgressBar 250 ms vs motion 260 ms; disabled opacity drift.
@@ -70,13 +71,15 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Local test env file for LUME_TEST_DATABASE_URL.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 - Row 22 notes quote old counts; refresh in a numbers pass.
-- Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: fix render coverage separately.
+- Rows 38, 53, 83 cover integrations.tsx and nutrition/week, not AddMenu: row 38 in progress, 53 and 83 next.
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 168: row 5 double-submit guard and render test (running).
-- Then: row 5 deep-link branch render test, if still untested.
-- Then: integrations and nutrition/week render coverage (rows 38, 53, 83).
+- Round 169: row 38 integrations render test (running).
+- Then: row 53 nutrition/week render coverage.
+- Then: row 83 nutrition/week render coverage, if still untested.
+- Then: row 5 submit path render test (offline fallback, error toast in add()).
+- Then: row 5 owner-scoped food log check (API level, needs a local backend test).
 - Then: SwipeableRow warning, only if it blocks a test.
 
 ## Known issues

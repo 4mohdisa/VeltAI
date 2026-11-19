@@ -7520,3 +7520,7 @@
 - 2026-11-19 22:10 Guard placed in the screen, not the Button: the report traced the only protection to native disabled props, which render tests cannot exercise.
 - 2026-11-19 22:10 Status stays PARTIAL unless the deep-link branch is also tested; no status change on an open gap.
 - 2026-11-19 22:10 Kept to one row and one test file; Jev risk is 1.0, so the task is small.
+- 2026-11-19 22:12 Switched to Jev's pick (integrations render coverage, rows 38/53/83) over row 5. Reason: row 5's deep-link branch is already tested, and its remaining item is an API-level owner-scoping check that a render test cannot close, so row 5 cannot reach BUILT this round. Clearing integrations coverage upgrades three rows from checked in code toward real coverage.
+- 2026-11-19 22:12 Took row 38 only this round, one row per prompt. Rows 53 and 83 (nutrition/week) go next.
+- 2026-11-19 22:12 Row 5 status stays PARTIAL. The submit-path render test is queued as a candidate.
+- 2026-11-19 22:12 Grep before creating the test file, after repeated duplicate-file incidents.
