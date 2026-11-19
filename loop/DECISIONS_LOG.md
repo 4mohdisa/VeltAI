@@ -7331,3 +7331,6 @@
 - 2026-11-19 20:56 Chose row 20 stale-note check: smallest docs-only task, named as next by the latest report, Jev ranks run highest.
 - 2026-11-19 20:56 Toast and sheet owning-row decision deferred one round: it spans six rows and is a decision, not a single-row task.
 - 2026-11-19 20:56 Row 19 check of round 123 recorded as done with no edit, per the report's grep evidence.
+- 2026-11-19 20:57 Chose row 21 stale-note check: it is the next item in the last report's NEXT and is docs-only, one row, one notes cell. Matches Jev's ranking of a small run.
+- 2026-11-19 20:57 Kept the status column untouched, per the docs-pass rule.
+- 2026-11-19 20:57 Did not ask Isa anything: no new blocker, and row 21's chart stays parked for v1.

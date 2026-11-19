@@ -5,7 +5,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## State
 - Branch loop/phase2. Never switch branches. Every prompt states this.
-- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 123). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 124). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -37,6 +37,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale-note corrections: edit only after grep finds a real importing test with an import statement; name the exact file. Status never changes in a docs pass. A readFileSync or path string does not count.
 - Row 8 surface: src/app/food/saved.tsx used as most relevant file. No real importing test found; no edit (round 121).
 - Row 19: no real importing test for insights, ai-query, AnomalyBanner, AnomalyCard; no edit (round 123).
+- Row 20 (legal terms/privacy): no real importing test for src/app/legal/terms.tsx or privacy.tsx; no edit (round 124).
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
@@ -44,7 +45,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - BUILT (owner check pending): gym history; rows 35 and 54 streak footnote; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 - Tests added: ToastHost.render.test.tsx (row 51), BottomSheet.render.test.tsx (row 27), FloatingHeader.reduceTransparency.render.test.tsx (row 32), Screen.render.test.tsx (row 62), signup.render.test.tsx (row 1), foodLogRowMotion.render.test.tsx (row 3), foodDetailLogged.render.test.tsx (row 7).
-- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26, 83, 2, 3, 7, 1, 18. Rows 4, 5, 6, 8, 19: checked, no real importing test, no change.
+- Stale-note corrections done: rows 61, 17, 52, 36, 38, 26, 83, 2, 3, 7, 1, 18. Rows 4, 5, 6, 8, 19, 20: checked, no real importing test, no change.
 - Checkpoints green: rounds 16, 23, 39, 56, 60, 63, 67, 69, 71, 73, 83, 87, 90, 93, 101, 102, 104, 111, 117, 119, 120, 121, 122.
 
 ## Blocked on Isa
@@ -61,6 +62,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Parked (not v1)
 - Row 1 remainder: render tests for signup email/OTP sub-stages and DevSignup no-key fallback.
 - paywall.tsx has no component render test; only source-text checks.
+- Legal terms.tsx and privacy.tsx: no real render test (same gap as rows 4-6, 8, 19).
 - Toast and sheet owning-row mapping: rows 3, 5, 7, 9, 27, 51. Pick one owning row per component.
 - Stale 'no Jest' phrasing: rows 40, 55 to check. Rows 38, 53, 83 name profile/integrations.tsx and AddMenu.tsx with no test found; verify.
 - No direct render test: food/add.tsx (row 4), food/quick-add.tsx (row 5), barcode-scan.tsx, label-scan.tsx, photo-capture.tsx (row 6), food/saved.tsx and food/new-recipe.tsx (row 8), insights.tsx, ai-query.tsx, AnomalyBanner.tsx, AnomalyCard.tsx (row 19).
@@ -79,12 +81,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Local Clerk-compatible verifier or test issuer: owner step.
 - Muscles and exercise-progress design gaps: product decision.
 - Local test env file or script for LUME_TEST_DATABASE_URL.
-- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in rounds 117 to 123).
+- Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in rounds 117 to 124).
 - Anomaly banner: no render test for null on zero anomalies.
 - summaryDetails.test.ts checks source text only; real coverage is detailChrome.render.test.tsx. Weak proof, no fix needed.
 
 ## Next
-- Round 124: row 20 stale-note check, grep first, real import required, notes cell only.
+- Round 125: row 21 stale-note check, grep first, real import required, notes cell only.
 - Then toast and sheet owning-row decision (docs only).
 - Then row 8 surface check if still unresolved, then backend refinement rows.
 
