@@ -7399,3 +7399,6 @@
 - 2026-11-19 21:22 Did not change row 2 status: it stays PARTIAL until all 8 steps have real render tests.
 - 2026-11-19 21:22 Prompt tells Claude to take the headline and route from the source file, not guess, to avoid a test that passes for the wrong reason.
 - 2026-11-19 21:22 Expected count after this round is 96 suites, since code changed and the full Jest suite is required.
+- 2026-11-19 21:24 Loop flag on row 2 (partial): kept cuisine.tsx as the pick. It is the gap the last report named, so it closes the partial task rather than redoing finished work.
+- 2026-11-19 21:24 Jev ranked the same task first at 98%, so no override. Row 2 stays PARTIAL until the last four steps have tests.
+- 2026-11-19 21:24 Round 140 prompt: cuisine.tsx only. Its pattern (timer or Continue) is read from the file first, so the prompt does not guess.
