@@ -7821,3 +7821,7 @@
 - 2026-11-20 00:48 Previous round's grep searched by filename only. This round searches by content, which is how coverage counts (executed import that renders the component).
 - 2026-11-20 00:48 Guard uses the component's existing error branch, not new design. If none exists, render null and report it in NEXT.
 - 2026-11-20 00:48 Row 83 and row 7 stale-note fixes stay queued. One row per round.
+- 2026-11-20 00:51 Round 237 TodayCard guard accepted under row 9 (Gym log). Row 9 already documents the gymSchedule getToday path, and no separate TodayCard row exists. Removed TodayCard from known test gaps.
+- 2026-11-20 00:51 Round 238 uses run, not ask. Jev said ask 56%, but the open question (which row TodayCard belongs to) is answered by the row 9 note. Not a major question.
+- 2026-11-20 00:51 Round 238 picks the smallest task (markdown note fix) because Jev risk is 1.2 of 2. Keeps scope small.
+- 2026-11-20 00:51 LoggedCard silent-undefined audit deferred to Parked-to-next. It is a possible wiring gap, not confirmed, so it waits until the stale notes are cleared.
