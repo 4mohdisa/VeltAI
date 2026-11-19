@@ -7454,3 +7454,7 @@
 - 2026-11-19 21:41 Kept the grep-first step because two earlier prompts duplicated existing coverage.
 - 2026-11-19 21:41 Left the uncommitted loop/ file changes alone; they are loop-managed and out of scope.
 - 2026-11-19 21:41 Kept the row 1 OTP test and the row 22 numbers pass in Next, not in this round, to keep the task to one file.
+- 2026-11-19 21:42 Skipped ai-query send-path render test suggested in the handover: already listed as Done in notes, grep before adding.
+- 2026-11-19 21:42 Row 19 AnomalyBanner and AnomalyCard render test is done (round 152), so it is removed from Parked and Next.
+- 2026-11-19 21:42 Chose row 1 OTP test: smallest unbuilt piece, no owner input needed, Jev follow on small tasks.
+- 2026-11-19 21:42 Left loop/ git status alone per the standing rule that prompts never edit loop files.
