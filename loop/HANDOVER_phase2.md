@@ -1,19 +1,20 @@
 Handover — Phase 2, loop/phase2 branch
 
-This session added render-test coverage only (test files + PHASE2_ROWS.md notes cells); no screen/component/backend source was changed.
+Rows now BUILT: row 8 (Saved foods/recipes/meals) and row 7 (Food detail) — every live API call site each row declares has an executed render test, re-checked by reading the actual screen source against the test files, not just source-text grepping. Row 18 (Energy screen) re-checked and confirmed still BUILT. Row 6 (Barcode/label/photo scan) stays PARTIAL: barcode part now has render coverage (barcodeScan.render.test.tsx), label and photo parts still have none.
 
-Row 5 (Quick add, PARTIAL): src/__tests__/render/quickAdd.render.test.tsx now covers offline-queue fallback, error toast, in-flight loading state, double-press guard, and router.canGoBack()-false. One real backend ownership check was also closed: added nothing new (found existing Go tests TestCreateLogUsesAuthUser + TestListLogsOwnOnly in backend/tests/food/food_test.go already proved the owner-scoped create/list behavior) — row 5 status moved to BUILT. Remaining: on-device manual check only ("owner check pending — it appearing in the food log"), not testable from here.
+This session's work (test files touched):
+- src/__tests__/render/recipeLog.render.test.tsx — success + failure path for api.recipes.log (RecipesList.tsx).
+- src/__tests__/render/savedMealsLog.render.test.tsx — added failure path for api.savedMeals.log (SavedMealsList.tsx).
+- src/__tests__/render/foodDetailLogged.render.test.tsx — added "Save to my dishes" (saveFood), "Remove from saved" (unsaveFood, saved mode), and "Delete item" (deleteFoodItem) tests. This file now covers all four of row 7's declared call sites (foodLogs.update/delete, savedFoods.create/delete).
+- src/__tests__/render/barcodeScan.render.test.tsx (new) — covers src/app/food/barcode-scan.tsx, mocking lookupBarcodeAsync (@/lib/data/scan.ts, wraps api.foodSearch.barcode) plus stubbing expo-camera's CameraView and @/components/display/LoadingSkeleton (reanimated useReducedMotion crash, same recurring gap).
 
-Row 8 (Saved foods/recipes/meals) — still PARTIAL, now the most complete row this session touched:
-- src/__tests__/render/foodSaved.render.test.tsx: list render, empty state, one-tap re-log, SwipeableRow delete (needed a local jest.mock of react-native-gesture-handler/ReanimatedSwipeable — its real ref.close() throws _WORKLET is not defined in this test env).
-- src/__tests__/render/customFoodSave.render.test.tsx (new): custom-food form → saveFood create path.
-- src/__tests__/render/recipeCreate.render.test.tsx (new): new-recipe multi-step ingredient picker → api.recipes.create, asserting the screen's own macro-scaling math.
-- src/__tests__/render/savedMealsLog.render.test.tsx (new): My Meals screen "Log now" → api.savedMeals.log, asserting args built from the real slotForNow()/selectedFoodDate() (not hardcoded, to avoid clock flakiness). Needed two env-only mocks inside the file: SkeletonCard: () => null (same useReducedMotion/reanimated gap as Skeleton elsewhere) and a local expo-router mock adding useFocusEffect (shared render/setup.ts mock doesn't define it; copied the stand-in from gymStreakStripFootnote.render.test.tsx).
+Decisions worth keeping:
+- Row boundaries are strict: search/barcode-mode logMeal and review-mode rename in food/detail.tsx belong to rows 3/6, not row 7 — left untested here, flagged for those rows instead of expanding row 7's scope.
+- "Local-only" mutations (editSavedFood — no backend update endpoint) never need an API test.
+- Reanimated's useReducedMotion keeps crashing Skeleton/SkeletonList/SkeletonCard/SwipeableRow refs in this render harness — always stub only the broken piece inside the test file, never the screen.
+- Dev-only "Simulate scan"/"Unknown code" buttons on barcode-scan.tsx are the right way to drive its onDetected handler in tests — no need to fake the native camera callback.
+- lookupBarcodeAsync's real contract never rejects (internal .catch falls back) — the "not found" test resolves null, not a rejection, to match.
 
-Row 18 (Energy screen, PARTIAL): added src/__tests__/render/energy.render.test.tsx — real-data render, no-data empty state, and failed-fetch (degrades to same empty state, confirming no crash/fabricated data). Complements, doesn't duplicate, the existing detailChrome.render.test.tsx (that one is a single-purpose chrome snapshot, not functional coverage).
+Not yet covered: row 6's label and photo scan paths (api.scan.label, api.scan.pipeline/pipelineMulti/confirm/feedback) — no render test exists yet; next natural task.
 
-Row 38 (Visual QA: sources, BUILT): added src/__tests__/render/integrations.render.test.tsx for src/app/profile/integrations.tsx (connected-list, failed-list-degrades-to-not-connected).
-
-Decisions/gotchas worth keeping: always grep for existing tests before creating a file (several tasks had false premises — e.g. row 53 actually names integrations.tsx, not nutrition/week). Reanimated's useReducedMotion crashes Skeleton/SkeletonCard/SwipeableRow refs in this render harness — stub only the broken piece, inside the test file, never the screen. "verified"/"confirmed" remain banned in notes cells.
-
-Not yet covered in row 8: api.recipes.log (log a saved recipe) and the delete paths for recipes/saved meals. loop/DECISIONS_LOG.md and loop/NOTES_phase2.md still show modified across many rounds untouched by any of this work — unresolved, flag for Isa.
+Unresolved housekeeping: row 8's notes cell is very long and still carries an older contradictory fragment ("savedMeals.log still uncovered" next to several later "render test added" lines) — flagged repeatedly across rounds, never cleaned up (out of scope each time). loop/DECISIONS_LOG.md and loop/NOTES_phase2.md remain untouched by any of this testing work.
