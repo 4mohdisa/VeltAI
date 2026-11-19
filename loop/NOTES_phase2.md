@@ -5,9 +5,8 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
-- Round 219 done: gymStreakStripFootnote render test fixed in the test file only (TodayWorkout-shaped fixture, clock pinned to 2026-11-20). tsc 0.
-- Round 220 (current): full checkpoint (tsc, full app Jest, backend go test). No file changes.
-- Last green checkpoint: round 213 (Jest 123 suites, 967 tests). Live counts only.
+- Round 220 done: full checkpoint green (tsc 0, Jest 125 suites / 969 tests, backend go test 30 ok, 14 no test files). No file changes.
+- Round 221 (current): read-only audit of PHASE2_ROWS.md. No file changes.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - Every prompt names loop/phase2 and bans git commands. One row, one file per prompt. Full paths. Grep before creating any test file. loop/ files never edited by prompts.
 - Verify PHASE2_ROWS.md before trusting any row status. Latest report beats handover claims. Stale briefs have wrongly reported rows 1, 6 and others.
@@ -75,13 +74,13 @@ Wire every screen to the local backend and test flows on the simulator. Progress
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 220: full checkpoint (in progress). No file changes.
-- Round 221: read PHASE2_ROWS.md, list unbuilt rows, pick the smallest single row.
+- Round 221: read-only audit of PHASE2_ROWS.md (in progress). Pick the smallest confirmed gap row.
+- Round 222: that row, one file per prompt, with its render test.
 - When every row is BUILT or EXACT except owner items: ask once about row 17 plan.tsx, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.

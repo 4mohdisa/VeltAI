@@ -7748,3 +7748,6 @@
 - 2026-11-20 00:17 Date-fixture audit from the round 219 report parked, not run: side finding, not a row.
 - 2026-11-20 00:17 TodayCard silent Rest day on malformed truthy response parked: product and shape decision, not a row fix.
 - 2026-11-20 00:17 Row 17 plan.tsx question held for the stop report, not asked now: it does not block the next round.
+- 2026-11-20 00:18 Chose a read-only audit for round 221 because the notes say PHASE2_ROWS.md must be verified before trusting any status, and the last two briefs used stale row status.
+- 2026-11-20 00:18 Kept the TodayCard shape guard and the date fixture pin in Parked: both are side findings, not rows.
+- 2026-11-20 00:18 Did not run the full suites: round 220 was a green checkpoint and no file changed since.
