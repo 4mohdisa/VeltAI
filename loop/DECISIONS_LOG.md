@@ -7360,3 +7360,7 @@
 - 2026-11-19 21:06 Chose the mandated checkpoint (loop note says this round is a checkpoint with no file changes).
 - 2026-11-19 21:06 Jev ranks checkpoint-style small task highest; agreed.
 - 2026-11-19 21:06 Row 2 status review deferred to next round so this checkpoint stays read-only.
+- 2026-11-19 21:07 Chose row 2 status review: it is the assigned round 131 task, small, one row, needs nothing from Isa, and Jev ranks run highest.
+- 2026-11-19 21:07 Skipped the row 25 stale-note grep the last report suggested: the stale-note series stopped after row 24 per the decisions list.
+- 2026-11-19 21:07 Status change to BUILT allowed only if every row part is covered by a real import test; live sign-in stays an owner check, consistent with the rule that sign-in rows are BUILT on passing local mocked tests.
+- 2026-11-19 21:07 Report flagged signup.render.test.tsx sits in src/__tests__/ rather than src/__tests__/render/. Left in place; not moved this round.
