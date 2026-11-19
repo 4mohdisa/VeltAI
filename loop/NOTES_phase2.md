@@ -4,8 +4,8 @@
 Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress is counted from PHASE2_ROWS.md (ends at row 83). Prompts use row TITLE plus row number.
 
 ## State
-- Branch loop/phase2 only. Never switch, push or merge. Every prompt must say so.
-- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 126). Backend 632 pass incl. 18 TestPG_* on local DB.
+- Branch loop/phase2 only. Never switch, push or merge. Every prompt must say so explicitly.
+- Baseline: app tsc 0 errors; Jest 88 suites / 885 tests / 4 snapshots, green (round 127). Backend 632 pass incl. 18 TestPG_* on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg, started manually each session.
 - Scope: one row, one file or component per prompt.
 
@@ -35,15 +35,16 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale-note corrections: edit only after grep finds a real importing test (an import statement). Status never changes in a docs pass. A readFileSync or path string does not count.
 - Row 8 closed (round 121); reopen only if a real importing test appears. Rows 19, 20, 21: no edit (rounds 123 to 125).
 - Toast and sheet owners: row 51 owns ToastHost, row 27 owns BottomSheet (round 126). Rows 3, 5, 7, 9 point to row 51 for toast.
-- Rejected prompt (round 127): every prompt must name the loop/phase2 branch rule explicitly.
+- Every prompt must name the loop/phase2 branch rule explicitly (round 127).
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
+- Stale-note pass: rows 1 to 7 (round 126), row 23 (round 127).
 - PARTIAL: row 1 (signup.render.test.tsx added; live sign-in is owner step).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green: rounds 16 to 126.
+- Checkpoints green: rounds 16 to 127.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD not set. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -57,7 +58,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - Row 1 remainder: render tests for signup email/OTP sub-stages and DevSignup no-key fallback.
-- No real render test: paywall.tsx, insights.tsx, ai-query.tsx, legal terms.tsx and privacy.tsx, food/add.tsx, quick-add.tsx, barcode-scan.tsx, label-scan.tsx, photo-capture.tsx, food/saved.tsx, new-recipe.tsx, AnomalyBanner.tsx, AnomalyCard.tsx.
+- No real render test: paywall.tsx, insights.tsx, ai-query.tsx, legal terms.tsx and privacy.tsx, food/add.tsx, quick-add.tsx, barcode-scan.tsx, label-scan.tsx, photo-capture.tsx, food/saved.tsx, new-recipe.tsx, AnomalyBanner.tsx, AnomalyCard.tsx. Rows 4 to 6 status vs this gap needs a check in a later pass.
 - Stale 'no Jest' phrasing in rows 40, 55. Rows 38, 53, 83 name profile/integrations.tsx and AddMenu.tsx with no test found; verify.
 - Swipe pane has no corner radius while the row rounds corners (SwipeableRow.tsx). Design decision.
 - Off-token values: Screen.tsx offsets; AddMenu radius, row height, PANEL_RING_WIDTH 0.5, ROW_MIN_HEIGHT 54; DetailChart gaps; KickerTitle letterSpacing; LumeTabBar press scale vs opacity; BlurView intensity; RING_STROKE 10; MuscleChart widths; TEXT_GAP in food/add.tsx and gym/log-session.tsx; nutrition.tsx MACRO_BAR_W 30 and radius 5/2; week.tsx NET_BAR_W 22; rows 38 and 53 provider constants.
@@ -80,8 +81,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Owning-row check for other shared components (no row yet).
 
 ## Next
-- Round 127: row 23 stale-note check (docs only, grep for real import). Assigned.
-- Then backend refinement rows and remaining PARTIAL rows that are not blocked.
+- Round 128: row 24 stale-note check (docs only, grep for real import). Assigned.
+- After row 24: stop the stale-note series. Move to backend refinement rows and remaining PARTIAL rows that are not blocked.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
@@ -93,4 +94,4 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - es/fr strings run 2.5x to 3.7x English in some labels; LumeTabBar and Button have no numberOfLines or ellipsizeMode.
 - Unresolved: SwipeableRow delete pane square corners (row 34). Needs design decision.
 - 'owner check pending' rows are BUILT for loop purposes; do not reopen them.
-- Handover 3 done. Name full file paths in every prompt.
+- Handover 3 done (round 126). Next handover due at round 141. Name full file paths in every prompt.

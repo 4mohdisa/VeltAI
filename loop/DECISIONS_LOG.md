@@ -7348,3 +7348,7 @@
 - 2026-11-19 21:01 Chose row 23 over the handover's suggested row 8 check, because the notes say row 8 is closed (round 121) and reopen only on a real importing test.
 - 2026-11-19 21:01 Chose the small docs-only task because Jev ranks it first (run 91%, risk 0.9) and the notes say keep tasks small.
 - 2026-11-19 21:01 Kept the rule that status cells never change in a docs pass.
+- 2026-11-19 21:03 Chose row 24 stale-note check because the previous round assigned it and it is small (Jev ranks small tasks higher). Logged that this docs pass series is low value and should give way to backend or PARTIAL rows after row 24.
+- 2026-11-19 21:03 Handover said next was row 8, but notes record row 8 as closed in round 121 and reopen only on a real importing test. Kept row 8 closed and followed the notes.
+- 2026-11-19 21:03 Rows 4 to 6 have BUILT or partial status without a real render test. Kept them as parked render-test gaps; no status change in a docs pass.
+- 2026-11-19 21:03 Prompt names the loop/phase2 branch rule explicitly, per the round 127 rejected-prompt decision.
