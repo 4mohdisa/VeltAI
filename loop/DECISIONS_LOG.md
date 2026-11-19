@@ -7394,3 +7394,8 @@
 - 2026-11-19 21:21 Loop check flag: the activity round added its test but row 2 is still PARTIAL, so the named remaining gap (body-type.tsx) is the next task. Closed the gap instead of redoing finished work.
 - 2026-11-19 21:21 Jev ranked body-type.tsx first at 91%. Agreed, so no override. Kept the same task.
 - 2026-11-19 21:21 Kept one file per round to keep clean completion odds up, given Jev's risk signal of 0.9.
+- 2026-11-19 21:22 Loop check flagged the last report as partly done. The row 2 gap is named as 5 remaining steps, so the next prompt closes exactly one of them (dietary.tsx) and does not redo body-type.
+- 2026-11-19 21:22 Kept one file and one row per prompt, per the small-task rule from Jev and the Known issues list.
+- 2026-11-19 21:22 Did not change row 2 status: it stays PARTIAL until all 8 steps have real render tests.
+- 2026-11-19 21:22 Prompt tells Claude to take the headline and route from the source file, not guess, to avoid a test that passes for the wrong reason.
+- 2026-11-19 21:22 Expected count after this round is 96 suites, since code changed and the full Jest suite is required.

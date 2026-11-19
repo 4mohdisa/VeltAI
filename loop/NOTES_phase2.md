@@ -5,7 +5,7 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## State
 - Branch loop/phase2 only. Never switch, push or merge.
-- Baseline: tsc 0 errors; Jest 94 suites / 897 tests / 4 snapshots (round 137). Backend 632 pass incl. 18 TestPG on local DB.
+- Baseline: tsc 0 errors; Jest 95 suites / 899 tests / 4 snapshots (round 138). Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file or component per prompt. Full file paths in every prompt.
 - Every prompt must state the loop/phase2 branch rule explicitly.
@@ -39,11 +39,11 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 3, 4, 17, 19, 23, 26-34, 36-51, 69-74, 77-83.
-- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (render tests: signup, paywall, paywall post, signup read back, onboarding index, measurements, goal, activity; body-type in progress round 138).
+- PARTIAL: row 1 (signup.render.test.tsx; live sign-in owner step). Row 2 (render tests: signup, paywall, paywall post, signup read back, onboarding index, measurements, goal, activity, body-type; dietary in progress round 139).
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 38, 50, 51-64, 68.
 - BUILT (owner check pending): gym history; rows 35, 54; row 41 es/fr overflow.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- Checkpoints green rounds 16 to 137.
+- Checkpoints green rounds 16 to 138.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks rows 1, 2, 5-8, 18 (PARTIAL).
@@ -79,14 +79,14 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - legal/terms.tsx, legal/privacy.tsx, insights.tsx, ai-query.tsx gaps: same recurring render-test gap, tracked per row.
 
 ## Next
-- Round 138: row 2 body-type.tsx render test, file src/__tests__/render/onboardingBodyType.render.test.tsx. Row 2 stays PARTIAL.
-- Then one file each: dietary, cuisine, targets, preview, done (5 left).
+- Round 139: row 2 dietary.tsx render test, file src/__tests__/render/onboardingDietary.render.test.tsx. Row 2 stays PARTIAL.
+- Then one file each: cuisine, targets, preview, done (4 left).
 - Then backend refinement rows and unblocked PARTIAL rows. Pick the candidate that clears most rows.
 - Handover 4 due round 141.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2 and low clean-completion odds: keep tasks small, one row and one file.
+- Jev risk about 1.0 of 2 and low clean-completion odds: keep tasks small, one row and one file.
 - SectionList or ScrollView refreshControl breaks JSON.stringify in render tests: use the key-filtering serializer.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
