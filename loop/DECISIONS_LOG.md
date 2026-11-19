@@ -7222,3 +7222,8 @@
 - 2026-11-19 19:52 Row 83 test gate: report says tsc 0 errors and Jest 83/874/4 green, so gate closed.
 - 2026-11-19 19:52 No row exists after 83, so the 'row after 83' instruction is replaced by lowest-numbered non-BUILT DIFFERENT row: row 19.
 - 2026-11-19 19:52 Did not ask Isa about the anomaly endpoints. Reason: the existing decision already covers it, so the question is not needed.
+- 2026-11-19 19:54 Jev ranked the FloatingHeader render test first at 83%. I looked again and kept it, for the reason below.
+- 2026-11-19 19:54 Reason Jev cannot see: row 21 is a data model change (food store) that needs a migration written and applied locally, a backend change and several files. That is too big for a round that Jev already rates as risky (risk 1.0). The FloatingHeader test is one new file with no source change, and it closes a Parked render-coverage gap.
+- 2026-11-19 19:54 Row 21 stays next after this. It is a backend and data model task, so I decide it myself (local migration, local tests, hosted apply parked for Isa). No question to Isa.
+- 2026-11-19 19:54 Jev's ask ranking (68%) was not followed: no Isa-only step is needed for this round, and an unanswered question never blocks the loop.
+- 2026-11-19 19:54 Test-only round, so no full Jest run needed; tsc and the two named tests are the gate.
