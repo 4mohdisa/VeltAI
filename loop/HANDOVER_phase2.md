@@ -1,20 +1,15 @@
 Handover — Phase 2, loop/phase2 branch
 
-Rows now BUILT: row 8 (Saved foods/recipes/meals) and row 7 (Food detail) — every live API call site each row declares has an executed render test, re-checked by reading the actual screen source against the test files, not just source-text grepping. Row 18 (Energy screen) re-checked and confirmed still BUILT. Row 6 (Barcode/label/photo scan) stays PARTIAL: barcode part now has render coverage (barcodeScan.render.test.tsx), label and photo parts still have none.
+Rows now BUILT: row 1 (Sign in/sign up) and row 2 (Onboarding) — every local gap each row ever named has an executed render test, confirmed by reading the test file, not grepping; both rows carry "owner check pending" for live Clerk sign-in. Row 6 (Barcode/label/photo scan) is BUILT — barcode, label, and photo (pipeline/pipelineMulti/confirm×2/feedback/analyze) all have executed render tests, including the previously-missed `fallbackSyncScan` branch.
 
-This session's work (test files touched):
-- src/__tests__/render/recipeLog.render.test.tsx — success + failure path for api.recipes.log (RecipesList.tsx).
-- src/__tests__/render/savedMealsLog.render.test.tsx — added failure path for api.savedMeals.log (SavedMealsList.tsx).
-- src/__tests__/render/foodDetailLogged.render.test.tsx — added "Save to my dishes" (saveFood), "Remove from saved" (unsaveFood, saved mode), and "Delete item" (deleteFoodItem) tests. This file now covers all four of row 7's declared call sites (foodLogs.update/delete, savedFoods.create/delete).
-- src/__tests__/render/barcodeScan.render.test.tsx (new) — covers src/app/food/barcode-scan.tsx, mocking lookupBarcodeAsync (@/lib/data/scan.ts, wraps api.foodSearch.barcode) plus stubbing expo-camera's CameraView and @/components/display/LoadingSkeleton (reanimated useReducedMotion crash, same recurring gap).
+This session's work was audit-only: no files changed. A new task arrived claiming row 6's label part was still uncovered and row 6 was PARTIAL — both false. `src/__tests__/render/labelScan.render.test.tsx` and `src/__tests__/render/photoScan.render.test.tsx` already exist and pass (confirmed again: tsc 0 errors, 4/4 and earlier 6/6 Jest). I did not touch `PHASE2_ROWS.md` rather than write the false "photo still uncovered" line the stale brief asked for.
+
+Files that matter for row 1: `src/app/onboarding/signup.tsx` (sendCode/verifyCode/clerkMessage/sso), and its render tests — `signup.render.test.tsx`, `signupOtp`, `signupSignInMode`, `signupClerkMessage`, `signupValidation`, `ssoSignin`, `signupReadBack` (all under `src/__tests__/render/`). Row 2: `src/app/onboarding/paywall.tsx` (`api.onboarding.post`) and `signup.tsx` (`api.onboarding.get`), tested by `paywallOnboardingPost.render.test.tsx` and `signupReadBack.render.test.tsx`. Row 6: `src/app/food/{barcode-scan,label-scan,photo-capture}.tsx` + `src/app/(tabs)/food.tsx` + `src/lib/data/scan.ts`, tested by `barcodeScan`, `labelScan`, `photoScan` render tests.
 
 Decisions worth keeping:
-- Row boundaries are strict: search/barcode-mode logMeal and review-mode rename in food/detail.tsx belong to rows 3/6, not row 7 — left untested here, flagged for those rows instead of expanding row 7's scope.
-- "Local-only" mutations (editSavedFood — no backend update endpoint) never need an API test.
-- Reanimated's useReducedMotion keeps crashing Skeleton/SkeletonList/SkeletonCard/SwipeableRow refs in this render harness — always stub only the broken piece inside the test file, never the screen.
-- Dev-only "Simulate scan"/"Unknown code" buttons on barcode-scan.tsx are the right way to drive its onDetected handler in tests — no need to fake the native camera callback.
-- lookupBarcodeAsync's real contract never rejects (internal .catch falls back) — the "not found" test resolves null, not a rejection, to match.
+- Clerk/RevenueCat/network are always mocked at the module boundary (`@/lib/api`, `@clerk/clerk-expo`); toast assertions go through `useToastStore.getState().current`, not `allText`, since ToastHost isn't in the per-screen tree.
+- `jest.requireActual('@/lib/api').api?.scan` needs the `?.` — chaining two properties off a *fresh* `requireActual` call without it throws during the module's own circular self-import (api.ts → debug → store.ts → api.ts); one level of chaining is always safe, two is not.
+- `startScanPoller` must be stubbed (no-op) in any test that lets `pipeline`/`pipelineMulti` resolve, or real 60s timers keep Jest alive past the run.
+- When a task's brief assumes stale PHASE2_ROWS.md state, don't blindly follow it — verify against the file first and flag the mismatch instead of writing false notes.
 
-Not yet covered: row 6's label and photo scan paths (api.scan.label, api.scan.pipeline/pipelineMulti/confirm/feedback) — no render test exists yet; next natural task.
-
-Unresolved housekeeping: row 8's notes cell is very long and still carries an older contradictory fragment ("savedMeals.log still uncovered" next to several later "render test added" lines) — flagged repeatedly across rounds, never cleaned up (out of scope each time). loop/DECISIONS_LOG.md and loop/NOTES_phase2.md remain untouched by any of this testing work.
+Open gotcha, not fixed: whatever upstream process generates these task briefs is running from stale tracking state at least twice now (rows 1 and 6). Worth checking before trusting any new row's "current status" claim without re-verifying PHASE2_ROWS.md directly.
