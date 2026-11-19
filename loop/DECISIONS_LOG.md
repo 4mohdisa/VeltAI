@@ -6874,3 +6874,7 @@
 - 2026-11-19 16:41 Kept rows 65 to 72 untouched, since the notes say Isa decides whether to fold them.
 - 2026-11-19 16:41 Simulator flows stay owner check pending because sign in needs hosted Clerk JWKS.
 - 2026-11-19 16:41 Jev risk is 1.0 of 2, so the task is one component, five steps, with a single test file.
+- 2026-11-19 16:45 Kept run over ask (Jev 92% ask). Reason: the open question is scope on a repo-local file, not money, data loss, production or a dashboard step only Isa can do. The change is additive (optional parameter, same behaviour for existing callers), so it fits the default rule to decide and record. Jev cannot see that the change is backward compatible and that the blocked row is the only one affected.
+- 2026-11-19 16:45 Widened scope for row 9 to src/lib/offline/queue.ts only, for the optional onLanded change. Reason: the previous report left row 9 PARTIAL on a scope limit, and the default rule says decide and record.
+- 2026-11-19 16:45 Kept the task to one file plus one new test file, per the one component per prompt rule, and deferred the mutations.ts wiring to the next round.
+- 2026-11-19 16:45 Rows 65-72 stay as they are until Isa decides to fold or drop them. Not touched this round.

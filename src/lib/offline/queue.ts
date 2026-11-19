@@ -169,16 +169,23 @@ export async function runOrQueue<T>(path: string, body: unknown, onLanded?: (row
  * one shared idempotency key, so a half-run sequence resumes at the right step and
  * can never create a second session.
  */
-export async function runOrQueueSequence(path: string, body: unknown, steps: QueuedStep[]): Promise<void> {
+export async function runOrQueueSequence<T>(
+  path: string,
+  body: unknown,
+  steps: QueuedStep[],
+  onLanded?: (row: T) => void,
+): Promise<T | null> {
   const m: QueuedMutation = { id: genId(), idempotencyKey: genId(), path, body, createdAt: Date.now(), steps };
   try {
-    await runUnit(m);
+    return (await runUnit(m)) as T;
   } catch (e) {
     if (!isTransient(e)) throw e;
     await loadQueue();
     queue.push(m); // carries whatever progress runUnit made
+    if (onLanded) landedCallbacks.set(m.id, onLanded as (row: unknown) => void);
     await persist();
     notify();
+    return null;
   }
 }
 
