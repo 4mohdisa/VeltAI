@@ -13,6 +13,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Wording rule
 - Row cells say BUILT, 'checked in code' or 'owner check pending'. Never verified, verify, verifies, confirmed, confirm. Exception: code identifiers (api.scan.confirm).
 - Reports use the same wording.
+- A row is BUILT only when every part of it is done. Partial work = PARTIAL.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -28,7 +29,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Prompts must state the branch rule.
 - loop/ files are loop-managed. Prompts never edit them.
 - Row 75 split into food log and gym log.
-- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope widened by manager.
+- Row 77 (gym log entries) target file is src/app/gym/session.tsx. Scope widened by manager. Not blocked on file choice.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup, baseline: BUILT.
@@ -40,7 +41,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Dashboard / Summary and sub-pages: BUILT.
 - Motion audit, screen and navigation transitions: BUILT.
 - Adding and removing list items, food log entries: BUILT.
-- Progress rings (Summary EnergyBalanceCard) and number changes: BUILT. Eases to new value.
+- ProgressBar eases to new values (round 21): done.
 - Round 16 baseline checkpoint: gates green.
 
 ## Blocked on Isa
@@ -65,12 +66,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 21 (running): 'Progress bars ease to new values' (ProgressBar.tsx only).
-- Then: 'Daily macro ring eases to new values' (DailyMacroRing.tsx).
+- Round 22 (running): 'Daily macro ring eases to new values' (DailyMacroRing.tsx). Progress rings row is PARTIAL until this lands, then BUILT.
 - Then: row 77 gym session remove path (src/app/gym/session.tsx).
 - Then Phase 1 visual QA rows (sign in dependent ones are owner steps), then backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). Review in the Gym log rework.
-- Jev risk 1.4 of 2 (confidence 0.40): keep tasks small.
+- Rows 65-72 duplicate rows 64 and 74-76. Fold per Isa decision.
+- Jev risk 1.1 of 2 (confidence 0.76): keep tasks small.

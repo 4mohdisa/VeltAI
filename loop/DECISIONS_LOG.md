@@ -6859,3 +6859,6 @@
 - 2026-11-19 16:28 Round 21: accepted Jev's pick (progress bar and macro ring easing). No concrete reason to override: it is the remaining gap of the open progress rings row and is small.
 - 2026-11-19 16:28 Scoped to ProgressBar.tsx only, because the notes rule is one component per prompt. DailyMacroRing.tsx goes next round.
 - 2026-11-19 16:28 Reused the EnergyBalanceCard pattern and the existing useReduceMotion hook instead of adding a new animation approach.
+- 2026-11-19 16:31 Auto flag handled: the progress rings row was marked BUILT while DailyMacroRing was still snapping. Reopened it as PARTIAL and the next prompt returns it to BUILT only after the ring is done.
+- 2026-11-19 16:31 Previous report called row 77 blocked on the target file. Not a blocker: the manager already widened row 77 to src/app/gym/session.tsx. Row 77 stays next after this round.
+- 2026-11-19 16:31 Chose the smallest open gap (one component, one test file) because Jev confidence is 0.40 and risk is 1.1.

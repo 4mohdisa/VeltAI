@@ -3147,6 +3147,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                               "stroke",
                               "strokeWidth",
                               "strokeDasharray",
+                              "strokeDashoffset",
                               "strokeLinecap",
                             ]
                           }
@@ -3159,10 +3160,11 @@ exports[`the four Summary detail views render identically across the chrome extr
                           }
                           strokeDasharray={
                             [
-                              "423.90556872438276",
+                              "483.80526865282815",
                               "483.80526865282815",
                             ]
                           }
+                          strokeDashoffset={59.899699928445386}
                           strokeLinecap={1}
                           strokeWidth={14}
                         />
