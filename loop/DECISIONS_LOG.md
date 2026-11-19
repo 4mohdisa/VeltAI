@@ -7470,3 +7470,7 @@
 - 2026-11-19 21:49 Kept row 1 PARTIAL: live Clerk sign-in is an owner check and cannot be closed by Jest.
 - 2026-11-19 21:49 Deferred the stale handover numbers (913 tests, 104 suites) to the numbers pass; current baseline is 920 tests, 107 suites.
 - 2026-11-19 21:49 Recorded the SafeAreaProvider deviation from round 155 as accepted: the real pattern (no wrap) passes under jest-expo.
+- 2026-11-19 21:50 Chose row 19 check: the handover says the anomaly coverage is a code-reading note, but the round 152 and round 154 reports say an executed render test exists. Grep decides; no duplicate file.
+- 2026-11-19 21:50 Accepted Claude Code's round 156 refusal of the RNTL switch for signupDevFallback.render.test.tsx: the helpers doc records RNTL v14 as incompatible with RN 0.85.3, and all 107 render files use renderScreen. Row 1 stays PARTIAL until the live Clerk owner check.
+- 2026-11-19 21:50 Kept Jev's advice: small task, one row, one file.
+- 2026-11-19 21:50 Left loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modifications alone as loop-managed.
