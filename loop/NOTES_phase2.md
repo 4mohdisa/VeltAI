@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 2
 
 ## Goal
-Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md (73 rows).
+Wire every screen to the local backend, make backend changes the UI needs, test key flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md (73 rows). Prompts use row TITLES, not numbers (numbers drift).
 
 ## State
 - Work on branch loop/phase2 (from loop/design-match). Never switch branches in prompts.
@@ -24,24 +24,22 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - TestPG tests run only after DSN confirmed as 127.0.0.1:55432.
 - plan.tsx and AI anomaly banner have no backend. Keep design, show no fabricated data.
 - Clerk sign in needs hosted Clerk (JWKS). Parked as owner step, no workaround, no auth bypass.
-- Order of work: row 3 Food log before row 9 Gym log.
+- Order of work: Food log before Gym log.
 - Simulator flows that need sign in are owner steps. Rows are BUILT on passing local mocked Jest and Go tests.
 - Prompts must state the branch rule (stay on loop/phase2, no switch, push or merge).
-- Row numbers can drift between reports. Claude Code uses row titles from PHASE2_ROWS.md.
-- Round 10: Jev ranked row 12 first. Accepted.
-- Round 11: Jev ranked run 93% for row 13 Goals. Chose row 13 over Subscription.
-- Round 12: Jev ranked run 88% for Subscription. Chose row 14 Subscription.
+- Jev ranked run 93% for Goals (chose Goals); run 88% for Subscription (chose Subscription); run 91% for Profile (chose Profile).
 
 ## Done
 - Task 1: PHASE2_ROWS.md created.
-- Row 73 Local setup: done. Sign in step parked.
-- Row 22 baseline: BUILT.
-- Row 3 Food log: BUILT. Simulator owner check pending.
-- Row 9 Gym log: BUILT. Simulator owner check pending.
-- Row 10 Gym history: BUILT. Simulator owner check pending.
-- Row 11 Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap. Simulator owner check pending.
-- Row 12 Gym streak: BUILT. Fabricated upcoming-days removed. Simulator owner check pending.
-- Row 13 Goals: BUILT. hydrateGoals and server-first useEffectiveGoals. Render test added. Simulator owner check pending.
+- Local setup: done. Sign in step parked.
+- Baseline: BUILT.
+- Food log: BUILT. Simulator owner check pending.
+- Gym log: BUILT. Simulator owner check pending.
+- Gym history: BUILT. Simulator owner check pending.
+- Gym templates, schedule, muscles, exercise progress, freeze: checked in code, no gap. Simulator owner check pending.
+- Gym streak: BUILT. Fabricated upcoming-days removed. Simulator owner check pending.
+- Goals: BUILT. hydrateGoals and server-first useEffectiveGoals. Render test added. Simulator owner check pending.
+- Paywall / Subscription (the row previously mislabelled as row 14): BUILT. GET /api/subscription hydrated into serverEntitlement; server isActive overrides RevenueCat read when status is not none. Render test added (2 cases). Simulator owner check pending.
 
 ## Blocked on Isa
 - Sign in: backend verifies tokens against hosted Clerk JWKS. Needs owner step (local verifier or test issuer).
@@ -51,6 +49,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Scope decision for plan.tsx and AI anomaly banner.
 - Food log: long press to delete a whole meal (confirmDeleteMeal) is not discoverable. Design call for Isa.
 - Goals: 'Saved as you type' copy (en.json:82) is untrue when a value is clamped silently. Side finding, fix later.
+- Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts are unused by any screen (built for a richer plan design). Remove in a later cleanup pass.
 - Merging loop/design-match into main: Isa's job.
 - Docker compose plugin install (owner step, optional).
 - Applying migrations to hosted Supabase: Isa's job.
@@ -61,11 +60,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Streak stats 'Freezes' is derived as freeze_used ? 0 : 1. Revisit only if design wants more freezes.
 
 ## Next
-- Row 14 Subscription: hydrate GET /api/subscription into the entitlement store (round 12, in progress).
-- Then Profile and the remaining core flows, motion pass, backend refinement rows.
+- Profile (row title in PHASE2_ROWS.md): route and field comparison, close real gaps. In progress.
+- Then remaining core flows (check PHASE2_ROWS.md for PARTIAL or DIFFERENT rows), motion pass, backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot be exercised end to end until sign in is solved.
-- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when row 16 is worked.
+- logGymSession create has no id-reconciliation callback (logMeal has registerMealCreate). A queued session create landing after navigation may leave the optimistic row. Review when the Gym log row is reworked.
 - Gym history and Summary re-hydrate from server on view. May be intended. Confirm in code, do not change without a failing case.
 - Long-press meal delete in food.tsx flagged twice (see Parked).

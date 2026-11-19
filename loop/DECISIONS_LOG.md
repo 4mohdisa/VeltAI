@@ -6800,3 +6800,7 @@
 - 2026-11-19 15:22 Chose Subscription (row 14, per notes order) over Profile: same known gap pattern as Goals, and the backend endpoint exists. Jev ranked run 88%, so no second look was needed.
 - 2026-11-19 15:22 Row numbering conflict: the report called row 14 Profile and row 15 Paywall. The notes say row 14 is Subscription. Claude Code must use the title in PHASE2_ROWS.md, not the number, and report the row it used.
 - 2026-11-19 15:22 'Saved as you type' copy on goals is a side finding, not a row. Parked, not built.
+- 2026-11-19 15:29 Chose Profile over dead-code cleanup: it is an open wiring row and clears a PARTIAL row. The mapper cleanup stays parked; it is not a row.
+- 2026-11-19 15:29 Recorded the row-number drift: the prior task named row 14 but the work was row 15 Paywall/Subscription. Marked row 15 BUILT on the passing render test. Future prompts use row titles.
+- 2026-11-19 15:29 Jev ranked run 91% for this step, which agrees with the choice. No reason to look again.
+- 2026-11-19 15:29 Kept the Simulator flow as an owner check, since sign in is still blocked.
