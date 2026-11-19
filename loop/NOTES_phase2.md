@@ -6,7 +6,8 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 233 (current): row 83 Notes cell reword, column 7 only, grep MACRO_BAR_W must return zero.
+- Round 234 (current): render test for src/app/gym/freeze.tsx (Row 11 remainder). New file src/__tests__/render/gymFreeze.render.test.tsx.
+- Round 233 done: row 83 Notes reword; grep MACRO_BAR_W returns zero.
 - Round 232 checkpoint GREEN: tsc 0 errors, Jest 132 suites, 982 tests, 4 snapshots.
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file, no git commands, state the loop/phase2 rule. Prompts never edit loop/ files.
 - Verify PHASE2_ROWS.md before trusting any status. Latest report beats handover.
@@ -31,20 +32,20 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
 - Round 232: run chosen over ask. Only Isa item is row 17, parked for the stop report.
+- Round 234: freeze render test chosen (Jev 39% clean on last task, so keep scope small).
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
 - BUILT: rows 1-10, 17-19, 21, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
 - Row 21 weekly stacked chart: useWeeklyMacros in src/lib/data/hooks.ts.
 - BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
-- BUILT checked in code: gym templates, schedule, muscles, exercise-progress, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
+- BUILT checked in code: gym templates, schedule, muscles, exercise-progress, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68. Row 11 freeze render test pending (round 234).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Known test gaps
 - Row 7 notes: leftover 'status stays PARTIAL' sentence. Fix when touched.
-- Row 83 Notes cell: stale bar width constant reference. Reword in round 233 (in progress).
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
-- Row 11 freeze.tsx: no render test yet.
+- Row 11 freeze.tsx: no render test yet (round 234).
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -77,13 +78,13 @@ Wire every screen to the local backend and test flows. Progress is counted from 
 - TodayCard.tsx: a truthy malformed /api/gym/today response renders Rest day silently. Shape guard or product decision.
 
 ## Next
-- Round 233: row 83 Notes reword, column 7 only, grep must return zero.
-- Round 234: render test for src/app/gym/freeze.tsx (last Row 11 sub-screen), or the next row with a named render or test gap.
+- Round 234: render test for src/app/gym/freeze.tsx.
+- Then the next row with a named render or test gap (TodayCard guard, row 2 _layout test).
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 1.1 of 2: keep tasks small, one row, one file.
+- Jev risk about 1.0 of 2: keep tasks small, one row, one file.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
 - tokens.ts lacks letter-spacing, icon-size, stroke-width, bar-width and 9pt space tokens.
 - Keep gym session and food.tsx enter and exit animations intact.

@@ -7799,3 +7799,7 @@
 - 2026-11-20 00:44 Chose run over ask: Jev 70% run, and the only open Isa item (row 17) is already parked for the stop report.
 - 2026-11-20 00:44 Prompt names only PHASE2_ROWS.md and one column; no status words in capitals to avoid tripping the status rule.
 - 2026-11-20 00:44 Left the loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modifications alone; they remain Isa's to check.
+- 2026-11-20 00:45 Chose the freeze render test: it is the named next step, one row, one file, small. Jev rated the last task 39% clean, so keeping scope tight.
+- 2026-11-20 00:45 Treated the latest Claude Code report as authoritative: row 83 MACRO_BAR_W citation is fixed (grep returns zero). The handover's 'still stale' line is out of date and is removed from Known gaps.
+- 2026-11-20 00:45 Kept the TodayCard malformed-response issue in Parked, not in this round, to avoid scope creep.
+- 2026-11-20 00:45 Jev ask/stop signals are advisory; no question to Isa this round because row 17 is still reserved for the stop report.
