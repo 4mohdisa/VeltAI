@@ -7300,3 +7300,6 @@
 - 2026-11-19 20:44 The partly done flag is accepted as a coverage gap, not a failed task. The row 1 notes cell already names signup.render.test.tsx, so no further edit is needed there.
 - 2026-11-19 20:45 Round 115: chose row 3 stale-note check. It is the smallest task, needs nothing from Isa, and continues the sequence set in round 114 (Jev ranked the row 2 check first; the row 2 check is now done).
 - 2026-11-19 20:45 Round 115: status cells are never changed in a docs pass, so the prompt forbids it.
+- 2026-11-19 20:46 Picked row 4 over the notes' listed rows 5-8 and 18 because the sequential sweep reached row 4 and it is unlisted, so skipping it would leave a gap; rows 5-8 and 18 follow next.
+- 2026-11-19 20:46 Kept the task docs-only and one row, matching Jev's small-task ranking (84% run, risk 0.9 of 2).
+- 2026-11-19 20:46 Stale-note rule kept: edit only after a real importing test is found by grep, status never changes in a docs pass.
