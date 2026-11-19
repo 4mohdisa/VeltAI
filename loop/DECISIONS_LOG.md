@@ -7551,3 +7551,11 @@
 - 2026-11-19 22:23 Kept row 5 PARTIAL in the notes until the API check passes, then BUILT with 'owner check pending' under the wording rule.
 - 2026-11-19 22:23 Did not ask Isa anything: the check runs against the local DB and needs no credentials.
 - 2026-11-19 22:23 Trimmed the notes to fit the 600 word limit. Decisions kept verbatim in substance; Parked and Known issues condensed without dropping items.
+- 2026-11-19 22:25 Chose row 8 owner-scoped backend check: smallest unbuilt part that needs no sign-in, same pattern that closed row 5.
+- 2026-11-19 22:25 Jev suggested ask at low confidence (0.38). No question is major, so I ran the task rather than ask Isa.
+- 2026-11-19 22:25 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified: loop-managed, so prompts never touch them. Listed in Blocked for Isa to check, not a row.
+- 2026-11-19 22:25 Row 5 is now BUILT on the backend owner test. Its on-device check is an owner check pending item.
+- 2026-11-19 22:26 Rewrote the rejected prompt: it now names the loop/phase2 branch and bans all git commands that change branches or history.
+- 2026-11-19 22:26 Chose row 8 over row 18 because it is PARTIAL, already in progress, and the smallest next step.
+- 2026-11-19 22:26 Did not ask Isa: no major question is open and the checkpoint is not due. Jev's ask ranking was not followed.
+- 2026-11-19 22:26 Row 5 is recorded as BUILT (per the notes state). The handover's PARTIAL is treated as stale.
