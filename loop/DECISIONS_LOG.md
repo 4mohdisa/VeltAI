@@ -7446,3 +7446,7 @@
 - 2026-11-19 21:37 Deferred AnomalyBanner and AnomalyCard render tests to Parked: their row notes are code-read only, but it is not on the critical path for v1 completion this round.
 - 2026-11-19 21:37 Recorded that the Claude Code report's suggestion (send path) and the row 19 weaker-coverage note are parked, not built.
 - 2026-11-19 21:37 Kept the row 2 status PARTIAL; status changes only after all 8 steps have real coverage.
+- 2026-11-19 21:39 Chose the ai-query send path because the handover names it as the next gap and it is one file, one test.
+- 2026-11-19 21:39 Row 2 remaining list in notes was stale: handover confirms all 8 onboarding steps have render tests, so only the owner checks remain for row 2.
+- 2026-11-19 21:39 Prompt tells the worker to grep first, because the last two rounds were no-ops caused by assuming coverage was missing.
+- 2026-11-19 21:39 Jev agrees on run (83%) and a small task; no reason to override.
