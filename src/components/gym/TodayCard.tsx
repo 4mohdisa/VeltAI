@@ -194,7 +194,7 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
   const { balance } = useEnergyBalance();
   const energyUnit = useUnitPreferences().energy;
   const burned = balance?.calories_out_exercise ?? 0;
-  const { sessions } = useGymRange(1);
+  const { sessions, refetch } = useGymRange(1);
   const session = sessions.find((s) => s.id === sessionId);
 
   return (
@@ -208,7 +208,14 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
           pillFill={categoryAccent.positive}
           chevron
         />
-        {session ? <LoggedSessionDetail session={session} /> : null}
+        {session ? (
+          <LoggedSessionDetail session={session} />
+        ) : sessionId ? (
+          // already_checked_in named a session this range read didn't come back
+          // with (e.g. just logged, outside the fetched window) — say so rather
+          // than silently dropping the stats/chips below the header.
+          <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />
+        ) : null}
       </View>
     </Card>
   );

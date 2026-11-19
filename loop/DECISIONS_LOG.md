@@ -7882,3 +7882,8 @@
 - 2026-11-20 01:19 Deferred the LoggedCard investigation: it needs a read first and belongs under row 9 scope.
 - 2026-11-20 01:19 gymSchedule.ts deps tightening is a side finding, kept in Parked per the brief rule that only rows are tasks.
 - 2026-11-20 01:19 Row 84 is reported BUILT by the last report; the prompt makes the round verify that before editing.
+- 2026-11-20 01:20 Round 252 closed with no change: row 83 already clean (verified by grep, no MACRO_BAR_W in src or the row).
+- 2026-11-20 01:20 Chose LoggedCard fix over gymSchedule deps: it is an open wiring gap that can silently hide session detail; gymSchedule is a stability tweak with no visible failure.
+- 2026-11-20 01:20 Prompt limited to TodayCard.tsx and its render test, with a read-first step, per the one-file-per-round rule.
+- 2026-11-20 01:20 Row 17 question deferred to the stop report, per the notes; no ask this round.
+- 2026-11-20 01:20 Jev risk 1.1 of 2 with confidence 0.61: kept the task small (one component, one test file).

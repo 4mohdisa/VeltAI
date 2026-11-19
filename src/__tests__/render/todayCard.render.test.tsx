@@ -10,8 +10,20 @@ import { TodayCard } from '@/components/gym/TodayCard';
 import { act, allText, renderScreen } from './helpers';
 
 const mockGetToday = jest.fn();
+// LoggedCard's own reads (useGymRange's listSessions, useEnergyBalance's
+// getBalance) are only exercised once a test actually reaches the logged
+// state — the three guard tests below never did, so these were unused until
+// the already-checked-in test added at the bottom of this file.
+const mockListSessions = jest.fn();
+const mockGetBalance = jest.fn();
 jest.mock('@/lib/api', () => ({
-  api: { gym: { getToday: (...args: unknown[]) => mockGetToday(...args) } },
+  api: {
+    gym: {
+      getToday: (...args: unknown[]) => mockGetToday(...args),
+      listSessions: (...args: unknown[]) => mockListSessions(...args),
+    },
+    energy: { getBalance: (...args: unknown[]) => mockGetBalance(...args) },
+  },
 }));
 
 // Skeleton animates through reanimated's useReducedMotion, which this render
@@ -85,6 +97,8 @@ const settle = async () => {
 
 beforeEach(() => {
   mockGetToday.mockReset();
+  mockListSessions.mockReset().mockResolvedValue([]);
+  mockGetBalance.mockReset().mockResolvedValue(null);
 });
 
 test('renders the workout from a valid TodayWorkout response', async () => {
@@ -139,4 +153,30 @@ test('a screen regaining focus revalidates silently, without blanking the card',
   expect(text).toContain('Push day');
   expect(text).toContain('Bench press');
   expect(text).toContain('Start workout');
+});
+
+// The LoggedCard gotcha (PHASE2_ROWS.md row 9): useGymRange(1) fetches a
+// one-day window at render time, keyed off the device clock — not off the
+// logged session's own date — so a session logged just before a day
+// boundary (or simply not yet in that window) can come back without a
+// matching row. Before this test, `sessions.find` returning undefined fell
+// through to a bare `null`: the Logged header stayed, but the stats/chips
+// and any explanation both silently disappeared. There is no richer "create
+// response" available here to fall back on first — api.gym.createSession's
+// result is only ever used (mutations.ts) to swap an id onto the store's own
+// simplified history shape, which has no exercises/duration fields
+// LoggedSessionDetail could read — so the fix is the honest one: say the
+// read came back incomplete, with the existing retry notice, instead of
+// rendering nothing.
+test('a checked-in session missing from the fetched range shows a retry notice, not nothing', async () => {
+  mockGetToday.mockResolvedValue({ ...PLANNED_WORKOUT, already_checked_in: true, session_id: 'outside-range' });
+  mockListSessions.mockResolvedValue([]); // the range read landed, just without this session
+
+  const tree = renderScreen(<TodayCard />);
+  await settle();
+
+  const text = allText(tree);
+  expect(text).toContain('Logged'); // the header still renders
+  expect(text).toContain("Couldn't load your gym data.");
+  expect(text).not.toContain('Bench press'); // no stats/chips to show — there's no data
 });

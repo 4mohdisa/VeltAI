@@ -6,8 +6,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 251 done: row 84 step C, gym tab focus revalidate. Row 84 reported BUILT (verify in PHASE2_ROWS.md).
-- Round 252 (current): row 83 stale MACRO_BAR_W text fix, doc only.
+- Round 252 done: row 83 already clean, no change made.
+- Round 253 (current): row 9 LoggedCard sessions.find gotcha in TodayCard.tsx.
 - Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
 - A loop flag on a report means the gate runs next round.
@@ -34,7 +34,8 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - TodayCard guard recorded under row 9. Row 9 includes the TodayCard malformed-response guard and its render test.
 - Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard and the gym tab never blank.
 - Row 84 revalidate useCallback deps: do not list revalidate in any caller's deps. Use [] on focus callbacks.
-- Round 252: chose the row 83 doc fix over LoggedCard (needs a read first, row 9 scope).
+- Round 252: chose the row 83 doc fix over LoggedCard (row 9 scope).
+- Round 253: LoggedCard fix uses the create response when present; range lookup is fallback only.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -46,7 +47,6 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 
 ## Known test gaps
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
-- Row 83 cites MACRO_BAR_W, which no longer exists. Round 252 fixes it.
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -70,7 +70,6 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
-- LoggedCard: sessions.find() via useGymRange(1) returns undefined if the new session is outside the range; LoggedSessionDetail renders nothing silently. Not reachable today. Investigate under row 9 next.
 - gymSchedule.ts: revalidate useCallback deps [fetcher, fallback] make it unstable every render (refetch uses []). Tighten to [] in a later round.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
@@ -80,8 +79,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
 
 ## Next
-- Round 252: row 83 stale MACRO_BAR_W text fix (doc only).
-- Then: LoggedCard sessions.find gotcha under row 9 (read first, one file per round).
+- Round 253: row 9 LoggedCard sessions.find fix (TodayCard.tsx, one test added).
 - Then: gymSchedule.ts revalidate deps to [] (one file).
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
 
@@ -101,4 +99,5 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Override useLocalSearchParams per file when a screen needs a route param.
 - Multi-fragment Text children show as an array: join or use findAll.
 - jest.useFakeTimers needs doNotFake: ['setImmediate'] when a test awaits a settle flush.
+- Count pipes against the header row before and after any PHASE2_ROWS.md edit.
 - Stale briefs have pointed at old row status six+ times: verify PHASE2_ROWS.md before trusting any status.
