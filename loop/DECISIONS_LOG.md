@@ -6832,3 +6832,6 @@
 - 2026-11-19 15:49 Picked the read only Motion audit over Jev's ask (78%). No question is needed that only Isa can answer; the flag is a recorded blocker, not a product gap.
 - 2026-11-19 15:49 Motion audit needs no tests since no code changes, so tsc is the only check and the report says so explicitly.
 - 2026-11-19 15:49 Dead mapper cleanup and Phase 1 visual QA deferred: cleanup is Parked, simulator QA of authenticated screens needs sign in (owner step).
+- 2026-11-19 15:59 Jev asked for ask at 82%. Overridden: the flag is a missing test run that Claude Code can run itself. Asking Isa adds no information, and the loop note says to deal with the flag before moving on.
+- 2026-11-19 15:59 Chose the baseline checkpoint as the next run: it is the smallest task, needs nothing from Isa, and clears the flag.
+- 2026-11-19 15:59 Row 22 is the only row touched. Reduce Motion fix and the stale motion rows stay parked for later rounds.
