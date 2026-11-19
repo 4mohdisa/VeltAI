@@ -6,7 +6,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Animated, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { color, radius } from '@/lib/design/tokens';
+import { color, radius, space } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 
 export type ProgressBarProps = {
@@ -23,7 +23,7 @@ export function ProgressBar({
   value,
   tint = color.black,
   track = color.gray200,
-  height = 8,
+  height = space.sm,
   style,
 }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, value));

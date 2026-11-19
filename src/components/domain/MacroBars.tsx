@@ -77,7 +77,7 @@ export function MacroTargetRows({ rows }: { rows: MacroTargetRow[] }) {
 }
 
 /** The design's 12pt macro bar. */
-export const MACRO_BAR_H = 12;
+export const MACRO_BAR_H = space.md;
 
 export function MacroBars({ rows }: MacroBarsProps) {
   // HIG §2.2b: stack label above value at large text sizes instead of colliding.

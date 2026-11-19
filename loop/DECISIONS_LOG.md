@@ -7177,3 +7177,7 @@
 - 2026-11-19 19:33 Row 43 title not in my context, so the prompt has Claude Code read the title from PHASE2_ROWS.md first rather than guessing it.
 - 2026-11-19 19:33 Row 43 names no file, so the two-shared-files default applies and is stated in the report.
 - 2026-11-19 19:33 Jev 81% run agrees with the pick; no override.
+- 2026-11-19 19:34 Chose row 44 because the last report recommends it and it continues the Visual QA sequence after row 43 closed.
+- 2026-11-19 19:34 Used the 'nearest shared file' rule for the Visual QA row since the row has no named file; the prompt states this so the report records the file used.
+- 2026-11-19 19:34 Prompt gives the branch check, tsc and Jest gate, and the report format, per the rules for Phase 2 prompts.
+- 2026-11-19 19:34 Stale handover (it names row 34 as next) was ignored in favour of the notes and the latest report, which both say row 44.
