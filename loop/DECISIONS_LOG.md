@@ -7019,3 +7019,8 @@
 - 2026-11-19 18:19 Jev said run (72%) and agrees with the plan, so no override was needed.
 - 2026-11-19 18:19 Finding the StatLine file is treated as a grep step, not an owner task, per the notes rule.
 - 2026-11-19 18:19 Claude CLI sign-in expires 2026-11-24 to 2026-11-27. Kept as an owner step; not a blocker this round.
+- 2026-11-19 18:20 Chose row 57: smallest task in the same StatLine file as row 56, no Isa input needed.
+- 2026-11-19 18:20 Jev said run (72%), agreed; the risk score of 1.0 is handled by keeping one row and one file.
+- 2026-11-19 18:20 Named all files in full because the handover cleared Claude Code's context.
+- 2026-11-19 18:20 Tracking swap only if an exact token exists; no guessing, consistent with the 'no change when no token matches' rule used in earlier Visual QA rows.
+- 2026-11-19 18:20 TIGHT_STAT_GAP and TIGHT_STAT_UNIT_GAP (3 and 7) parked for a design re-check, not fixed.

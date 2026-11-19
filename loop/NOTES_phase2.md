@@ -10,6 +10,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit hit several times. If hit: wait, do not change scope.
 - Claude CLI sign-in ends 2026-11-24 to 2026-11-27. Owner step: claude auth login.
+- Handover at round 56. Claude Code knows only the summary: name files fully.
 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
@@ -32,15 +33,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Round 47: mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
 - Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
-- Round 54: Jev said ask (92%); overridden. Finding a file path is not an owner task.
-- Round 56: Jev said Row 56 (88%); overridden for the scheduled checkpoint. Reason: no full run since round 39.
-- Round 57: Jev said run (72%); agrees with plan. Row 56 StatLine gap proceeds.
-- Jev advice is advisory. Override only with a concrete reason, written here.
+- Visual QA rows end in no code change when no identical token exists. Do not guess values.
+- Round 54 and 56: Jev overridden where a concrete reason was written. Jev advice is advisory.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
-- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54, 55.
+- BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, row 11, rows 30, 35, 37, 51, 52, 53, 54, 55, 56.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
 - Checkpoints: rounds 16, 23, 39, 56 gates green.
 
@@ -55,6 +54,8 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 
 ## Parked (not v1)
 - AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) close to radius and buttonHeight 52 but not equal. Design re-check needed.
+- DetailChart TIGHT_STAT_GAP 3 and TIGHT_STAT_UNIT_GAP 7 sit just under space.xs 4 and space.sm 8, no comment. Design re-check needed.
+- Stroke-weight token missing in tokens.ts (affects tick and icon rows).
 - ToastHost and BottomSheet have no render test. Side findings.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
@@ -73,14 +74,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts (did not recur in round 56).
 
 ## Next
-- Round 57: Row 56 Visual QA: StatLine gap (in progress).
-- Then rows 57-63 Visual QA, one per round.
+- Round 57: Row 57 Visual QA: unit gap and tracking (in progress, DetailChart.tsx TIGHT_STAT_TRACKING).
+- Then rows 58-63 Visual QA, one per round.
 - Then: final wording sweep. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign-in is solved.
-- Jev risk about 0.9 of 2: keep tasks small, one row and one file per round.
+- Jev risk about 1.0 of 2: keep tasks small, one row and one file per round.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 onLanded in queue.ts: keep additive.
 - Claude Code 5-hour limit: if hit, wait one round, do not change scope.
