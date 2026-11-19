@@ -7573,3 +7573,7 @@
 - 2026-11-19 22:34 Kept row 8 at PARTIAL: BUILT needs both create paths covered, and savedMeals.log is still open.
 - 2026-11-19 22:34 Did not ask Isa about loop/DECISIONS_LOG.md and loop/NOTES_phase2.md showing as modified: already in Blocked on Isa, and the question is not major.
 - 2026-11-19 22:34 Prompt bans git commands and edits to loop/ files because earlier rounds broke on both.
+- 2026-11-19 22:37 Round 182 picks row 8 savedMeals.log because the automatic flag says the last report was only partly done, and row 8 is the open PARTIAL row with the smallest remaining gap.
+- 2026-11-19 22:37 Row 8 status stays PARTIAL until delete/unsave and savedMeals.log are both covered.
+- 2026-11-19 22:37 Grep before creating any test file, because earlier rounds showed task premises can be wrong.
+- 2026-11-19 22:37 The DECISIONS_LOG and NOTES_phase2 git status diff is not a loop task. It is parked for Isa to check.
