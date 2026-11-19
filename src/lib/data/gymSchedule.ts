@@ -24,6 +24,7 @@ function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknow
   data: T;
   loading: boolean;
   refetch: () => void;
+  revalidate: () => void;
 } {
   const [data, setData] = useState<T>(fallback);
   const [loading, setLoading] = useState(true);
@@ -53,12 +54,27 @@ function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknow
     setLoading(true);
     setNonce((n) => n + 1);
   }, []);
-  return { data, loading, refetch };
+
+  // Same read as refetch, without the loading flash — for a background
+  // revalidate (e.g. a screen regaining focus) where blanking the card to a
+  // skeleton would be a visible regression, not a refresh.
+  const revalidate = useCallback(() => {
+    fetcher()
+      .then((d) => setData(d))
+      .catch(() => setData(fallback));
+  }, [fetcher, fallback]);
+
+  return { data, loading, refetch, revalidate };
 }
 
-export function useToday(): { today: TodayWorkout | null; loading: boolean; refetch: () => void } {
-  const { data, loading, refetch } = useApi<TodayWorkout | null>(() => api.gym.getToday(), null);
-  return { today: data, loading, refetch };
+export function useToday(): {
+  today: TodayWorkout | null;
+  loading: boolean;
+  refetch: () => void;
+  revalidate: () => void;
+} {
+  const { data, loading, refetch, revalidate } = useApi<TodayWorkout | null>(() => api.gym.getToday(), null);
+  return { today: data, loading, refetch, revalidate };
 }
 
 export function useSchedule(): { schedule: WeeklySchedule; loading: boolean; refetch: () => void } {

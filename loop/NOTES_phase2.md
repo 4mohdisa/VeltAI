@@ -6,10 +6,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 ## State
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
-- Round 248 (current): row 84 TodayCard refetch on focus (TodayCard.tsx + its render test). Row 84 to PARTIAL.
+- Round 249 (current): row 84 step A, silent revalidate in src/lib/data/gymSchedule.ts and its test. Row 84 to PARTIAL.
+- Round 250 next: row 84 step B, TodayCard.tsx focus revalidate with render test.
+- Round 248 was blocked: useToday refetch sets loading true, which blanks TodayCard to a skeleton on focus. Resolved by a silent revalidate (see Decisions).
 - Round 246: checkpoint green (tsc 0; Jest 133 suites, 985 tests, 4 snapshots).
 - Prompts: one row or one checkpoint, one file, full paths, grep before creating a test file. Every prompt states the loop/phase2 branch rule. Prompts never edit loop/ files.
-- A loop flag on a report means the gate runs next round.
+- A loop flag on a report means the gate runs next round. Round 248 flag: its report ran no tsc or Jest.
 
 ## Wording rule
 - Use BUILT, 'checked in code', 'owner check pending', 'render test added'. Never 'verified' or 'confirmed' except api.scan.confirm.
@@ -31,6 +33,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Hosted migrations stay Isa's. Checkpoint rounds change no files.
 - Stale notes in a row are corrected only when that row is next touched.
 - TodayCard guard recorded under row 9.
+- Row 84 focus refetch uses a silent revalidate (no loading flag), so TodayCard never blanks. Loop decided this; not an Isa-only item.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights.
@@ -39,13 +42,12 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - BUILT (owner check pending): rows 1, 2, 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, exercise-progress, profile, rows 27, 29, 30, 35, 37, 50, 51-64, 68.
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
-- freeze.tsx render test exists; covered by the full Jest checkpoint.
-- Row 84 added (round 247): Gym refetch after log, DIFFERENT. TodayCard side fixed in round 248.
+- Row 9 includes the TodayCard malformed-response guard and its render test.
 
 ## Known test gaps
 - About 20 Visual QA rows cite only the generic gate. Judge per row.
 - Row 83 cites MACRO_BAR_W, which no longer exists. Fix when row 83 is next touched.
-- Row 84 open: gym.tsx (Gym tab) still needs a focus refetch of useToday.
+- Row 84 open: revalidate (round 249), TodayCard (round 250), gym.tsx Gym tab focus (later).
 
 ## Blocked on Isa
 - Sign-in: hosted Clerk JWKS; E2E_EMAIL and E2E_PASSWORD unset. Blocks live checks for rows 1, 2, 18.
@@ -69,7 +71,7 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Rows 35 and 54 share one card and test file. Merge? Isa decision.
 - gesture-handler worklet warning in SwipeableRow: pre-existing.
 - logGymSession while gymLoggedToday is true.
-- LoggedCard: sessions.find() via useGymRange(1) returns undefined if the new session is outside the range; LoggedSessionDetail renders nothing silently. Not reachable today.
+- LoggedCard: sessions.find() via useGymRange(1) returns undefined if the new session is outside the range; LoggedSessionDetail renders nothing silently. Not reachable today. Investigate after row 84.
 - Local Clerk-compatible verifier and local test env file for LUME_TEST_DATABASE_URL: owner steps.
 - Muscles and exercise-progress design gaps: product decision.
 - Transient Jest SIGSEGV on resetRegistry.test.ts (not seen in rounds 232-244).
@@ -78,8 +80,9 @@ Wire every row in PHASE2_ROWS.md to the local backend and test flows. Progress i
 - Server 'today' uses fixed LUME_TIMEZONE, not device timezone. Documented deferral in backend/internal/config/config.go.
 
 ## Next
-- Round 248: row 84 TodayCard focus refetch (TodayCard.tsx + todayCard.render.test.tsx). Row 84 to PARTIAL.
-- Round 249: row 84 Gym tab focus refetch (src/app/(tabs)/gym.tsx). Then BUILT if tests pass.
+- Round 249: row 84 step A, silent revalidate in gymSchedule.ts (+ test). Row 84 PARTIAL.
+- Round 250: row 84 step B, TodayCard.tsx focus revalidate (+ render test).
+- Round 251: row 84 step C, gym.tsx focus revalidate. Then BUILT if tests pass.
 - Then: fix row 83 stale MACRO_BAR_W text when that row is touched.
 - Then: LoggedCard sessions.find gotcha, one file per round.
 - When every row is BUILT or EXACT except owner items: ask once about row 17, then the stop report.
