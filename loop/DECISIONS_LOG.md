@@ -7120,3 +7120,7 @@
 - 2026-11-19 19:01 Kept the gym session entering animation and the Screen.tsx render test parked: neither is a row yet and both would breach one-row-per-round.
 - 2026-11-19 19:01 Recorded that round 85 closed row 27 with no code change, and that the baseline is 81 suites, 869 tests, 4 snapshots, all green.
 - 2026-11-19 19:01 Used the 'no code change, run full tsc and Jest' rule for any round that changes no code.
+- 2026-11-19 19:03 Chose row 29 because the notes and last report both name it as next in the Visual QA sequence (rows 29-50), and it is the smallest unbuilt row.
+- 2026-11-19 19:03 Kept row 69 for later: the handover asks for a check whether a later row already closed it before folding, which needs its own round.
+- 2026-11-19 19:03 Added the disabled-opacity reconciliation (0.3, 0.35, 0.4) to Parked as a single design pass item, not a per-row fix.
+- 2026-11-19 19:03 Used the Jest count of 869 from the latest report; the handover quoted 867, which is treated as a stale figure.
