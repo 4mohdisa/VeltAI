@@ -7643,3 +7643,8 @@
 - 2026-11-19 23:02 Kept Jev's run signal (96%). Round 195 is not a checkpoint, so no override was needed.
 - 2026-11-19 23:02 Row 6 stays PARTIAL until label and photo tests exist; the prompt does not mark it BUILT.
 - 2026-11-19 23:02 Grep-before-create rule applied: step 1 checks for an existing barcode render test first.
+- 2026-11-19 23:05 Chose label-scan render test: it is the next PARTIAL slice on row 6, named in the last NEXT, and clears the flagged partial task.
+- 2026-11-19 23:05 Named all files fully in the prompt because a handover just happened and the new session only has the summary.
+- 2026-11-19 23:05 Kept the photo path out of this round: one row, one slice, per the one-task rule.
+- 2026-11-19 23:05 Row 8 notes cell cleanup stays Parked: wording only, not a build task, and it has been out of scope for many rounds.
+- 2026-11-19 23:05 Jev says run at 1.00 confidence and the risk is low for a single-file test: kept run.

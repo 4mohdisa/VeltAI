@@ -6,11 +6,12 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 ## State
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Branch loop/phase2 only. Never switch, push or merge.
 - Round 188 checkpoint GREEN: tsc 0 errors; Jest 116 suites, 941 tests, --ci.
-- Round 196 now. Round 203: next checkpoint.
+- Round 197 now. Round 203: next checkpoint.
 - Backend 632 pass incl. 18 TestPG on local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg.
 - One row, one file per prompt. Full paths in every prompt. Grep before creating any test file.
 - Every prompt must name loop/phase2 and ban git commands. loop/ files are never edited by prompts.
+- Handover happened round 196: name files fully in every prompt.
 - Task premises can be wrong: check row content and code before acting.
 
 ## Wording rule
@@ -33,15 +34,16 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Jev ask signals are advisory. Keep run when the question is minor and blocks no row.
 - Gate flags (tests not run) are fixed by running the gate, not by stopping.
 - Jev re-rank: keep Jev's pick only when the source re-check is small and the row status is unrecorded.
+- Row boundaries strict: search/barcode logMeal and review rename in food/detail.tsx belong to rows 3/6.
 
 ## Done
 - BUILT: Task 1, local setup, baseline, Food log, Add food, Legal, Dashboard/Summary, Gym streak, Goals, Paywall/Subscription, gym log, motion audit and transitions, ProgressBar, EnergyBalanceCard, DailyMacroRing, Insights, rows 3, 4, 5, 7, 8, 17, 18, 19, 23, 26-34, 36-51, 55, 69-74, 77-83, 38.
-- Row 7 Food detail BUILT (round 195): all four in-scope API actions have executed render tests.
-- Row 8 BUILT: all live api.savedFoods, api.recipes, api.savedMeals call sites have render tests. Delete paths have no UI.
+- Row 7 Food detail BUILT: all four declared API actions have executed render tests.
+- Row 8 BUILT: all live api.savedFoods, api.recipes, api.savedMeals call sites have render tests.
 - Row 18 BUILT: energy render tests (real data, empty, failed fetch).
 - BUILT (owner check pending): gym history; rows 5, 18, 35, 54; row 41 es/fr overflow; row 19 live simulator check.
 - BUILT checked in code: gym templates, schedule, muscles, freeze, profile, rows 11, 27, 29, 30, 35, 37, 50, 51-64, 68.
-- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 6 (barcode render test in progress, round 196; label and photo render tests not yet written).
+- PARTIAL: row 1 (live Clerk sign-in owner step; signup OTP and dev fallback render tests added); row 2 onboarding (live sign-in and profile persistence owner); row 6 (barcode render test added round 196 in barcodeScan.render.test.tsx; label and photo still need render tests).
 - Folded: 65, 66, 67, 71 into 64; 69 into 76.
 
 ## Blocked on Isa
@@ -57,9 +59,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 
 ## Parked (not v1)
 - Recipe and saved meal delete/unsave: no UI exists. Product gap, not a test gap.
-- Row 8 notes cell carries older contradictory fragments. Wording cleanup only.
-- Row 8 api.recipes.log and savedMeals delete: check for render tests first (grep).
-- Row 6 label-scan and photo-capture render tests: pending after barcode.
+- Row 8 notes cell carries older contradictory fragments. Wording cleanup only; trim when next touched.
+- Row 6 photo-capture render tests: pending after label-scan.
 - Quick add: on-device check of the food log entry (owner).
 - Row 34 swipe pane square corners while row rounds: design decision.
 - Off-token values; ProgressBar 250 vs motion 260 ms; disabled opacity drift.
@@ -77,8 +78,8 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Button and LumeTabBar lack numberOfLines (es/fr overflow risk).
 
 ## Next
-- Round 196: row 6 barcode-scan render test (barcodeScan.render.test.tsx).
-- Then row 6 label-scan, then photo-capture render tests.
+- Round 197: row 6 label-scan render test (labelScan.render.test.tsx).
+- Then row 6 photo-capture render tests (api.scan.pipeline, pipelineMulti, confirm, feedback).
 - Round 203: next checkpoint.
 - If no PARTIAL or DIFFERENT row remains, prepare the stop report with owner items.
 
@@ -96,4 +97,4 @@ Wire every screen to local backend, make backend changes the UI needs, test flow
 - Reanimated ReanimatedSwipeable ref.close() throws _WORKLET in render tests: mock the module in the test file only.
 - Reanimated useReducedMotion crashes Skeleton, SkeletonCard and SwipeableRow in the render harness: stub only the broken piece inside the test file.
 - Handover claims about row 8 coverage conflict with earlier notes: check code, not handover.
-- Watch the row 8 notes cell length: it is too long; trim when next touched.
+- Button and LumeTabBar lack numberOfLines: es/fr overflow risk.
