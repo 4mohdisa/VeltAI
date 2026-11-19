@@ -7035,3 +7035,7 @@
 - 2026-11-19 18:24 Round 59 closed as no code change. Kicker letter-spacing and the 10x10 dot have no matching token in tokens.ts.
 - 2026-11-19 18:24 Design pass question stays parked for one round. Ask Isa once, with the four blocked QA rows listed, when the gate is green.
 - 2026-11-19 18:24 Round 60 will be row 60 (Breakdown baseline and dot alignment) if the gate is green.
+- 2026-11-19 18:24 Gate round 60 was green (tsc 0, Jest 81/867/4), so row 60 runs now as planned.
+- 2026-11-19 18:24 Design pass question stays queued for after rows 61-63. Row 60 does not depend on the answer, and it would be a single question with no blocker today.
+- 2026-11-19 18:24 Jev suggested run at 70%. Agreed. Task is one row, one component, small.
+- 2026-11-19 18:24 Notes trimmed to under 600 words. Finished detail merged into Done.

@@ -4,10 +4,8 @@
 Wire every screen to the local backend, make backend changes the UI needs, test flows on the iOS Simulator. Progress counted from PHASE2_ROWS.md. Prompts use row TITLES plus row number.
 
 ## State
-- Branch loop/phase2. Never switch branches in prompts. Every prompt must say so.
-- Baselines (round 56 checkpoint, green): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
-- Round 59: tsc 0 errors, Jest not run. Flagged by loop check.
-- Round 60: gate round (full tsc and full Jest) before any row.
+- Branch loop/phase2. Never switch branches. Every prompt says so.
+- Baselines (round 60 gate, green): app tsc 0 errors; Jest 81 suites / 867 tests / 4 snapshots. Backend 632 pass incl. 18 TestPG_* on local DB (last full backend run round 39).
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session).
 - Scope: ONE task, ONE row, ONE file or component per prompt.
 - Claude Code 5-hour limit: if hit, wait, do not change scope.
@@ -16,7 +14,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 ## Wording rule
 - Cells and reports: BUILT, 'checked in code' or 'owner check pending'. Never verified/verify/verifies/confirmed/confirm, except the identifier api.scan.confirm.
 - BUILT only when every part is done. Partial = PARTIAL.
-- A report that says tests were not run gets flagged. If no code changed, run tsc and run Jest, and say so.
+- A report that says tests were not run gets flagged. If no code changed, run tsc and the relevant Jest, and say so.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing runs against hosted production.
@@ -32,20 +30,19 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Row 80 guard only if a crash reproduces; none did, test only.
 - Three modals in src/app/_layout.tsx use reduceMotion ? 'fade' : 'slide_from_bottom'.
 - mappers.ts dead code cleanup DROPPED (subscriptionFromApi used by tests).
-- Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
 - Visual QA compares against tokens and code only. design/Lume App.html has no per-screen markup.
 - Visual QA rows end in no code change when no identical token exists. Do not guess values.
-- Rounds 54, 56, 57, 58, 60: Jev overridden or advisory where a concrete reason was written. Round 58 closed no change (ChartHeader, HERO_TITLE has no identical token).
-- Round 60: gate before row 60. Reason: round 59 flagged for missing Jest run; row 60 is the same no-change QA pattern.
+- Rows 30, 37, 51, 52, 53 checked in code, no change. Pixel checks are owner check pending. No stroke-weight token exists.
+- Round 58: no change (ChartHeader, HERO_TITLE has no identical token).
+- Round 60 gate ran before row 60 because round 59 had no Jest run.
 
 ## Done
 - Task 1: PHASE2_ROWS.md created. Local setup and baseline: BUILT.
 - BUILT: Food log, Add food, Legal, Dashboard/Summary and sub-pages, Gym streak, Goals, Paywall/Subscription, gym log create and remove, motion audit and transitions, food entry add/remove, ProgressBar, EnergyBalanceCard, DailyMacroRing, rows 78-81 gym guards, row 23 fades, row 26 scrims, row 74 Reduce Motion.
 - BUILT checked in code: Gym templates, schedule, muscles, freeze, profile, rows 11, 30, 35, 37, 51, 52, 53, 54, 55, 56, 58.
 - BUILT (simulator owner check pending): Gym history, rows 35 and 54 streak footnote.
-- Row 57 unit gap and tracking: no code change. No tracking or letter-spacing token exists in tokens.ts.
-- Row 59 kicker block: no code change. No letter-spacing token; 10x10 dot has no matching space token.
-- Checkpoints: rounds 16, 23, 39, 56 gates green.
+- No code change: rows 57 and 59 (no tracking or letter-spacing token in tokens.ts).
+- Checkpoints: rounds 16, 23, 39, 56, 60 gates green.
 
 ## Blocked on Isa
 - Sign-in: backend checks tokens against hosted Clerk JWKS. Owner step. E2E_EMAIL and E2E_PASSWORD not set.
@@ -54,14 +51,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - design/ has no per-screen markup. Pixel QA needs screenshots or a design export.
 - Simulator: maestro not installed, simctl hangs in sandbox. Owner step for screenshots.
 - Merging loop/design-match into main: Isa's job.
+- Design pass: no stroke-weight or letter-spacing token category in tokens.ts. Ask Isa once, after rows 61-63.
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
-- Design pass needed: no stroke-weight or letter-spacing token category in tokens.ts. Rows 56-60 blocked by it. Ask Isa once when the gate is green.
 
 ## Parked (not v1)
 - AddMenu one-off values (PANEL_RADIUS 18, ROW_MIN_HEIGHT 54) near radius and buttonHeight 52. Design re-check.
-- DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 off-token. Design re-check.
-- DetailChart KickerTitle off-token values (letterSpacing 1.1, -0.6, 10x10 dot).
-- Stroke-weight token missing in tokens.ts (tick and icon rows).
+- DetailChart TIGHT_STAT_GAP 3, TIGHT_STAT_UNIT_GAP 7, TIGHT_STAT_TRACKING -1 off-token. KickerTitle letterSpacing 1.1, -0.6, 10x10 dot. Design re-check.
+- Stroke-weight token missing (tick and icon rows). Chip tint 0.14 and glyph stroke 1.9: one token only if more chips need them.
 - ToastHost and BottomSheet have no render test.
 - Food log: long press to delete is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
@@ -76,13 +72,12 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Muscles and exercise-progress design gaps: product decision.
 - muscle_volume_map guard checks objects, not numbers. Revisit only if a crash reproduces.
 - MuscleChart magic numbers: promote to tokens only if another chart needs them.
-- Chip tint ratio 0.14 and glyph stroke 1.9: one combined token only if more chips need them.
 - Watch: transient Jest SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 60: gate (full tsc and full Jest). Only after green, row 60 Visual QA Breakdown baseline and dot alignment.
+- Round 61: row 60 Visual QA Breakdown baseline and dot alignment.
 - Then rows 61-63 Visual QA, one per round.
-- Then: ask Isa once about the design pass. Then final wording sweep. Then fold stale motion rows. Then backend refinement rows.
+- Then ask Isa once about the design pass. Then final wording sweep. Then fold stale motion rows. Then backend refinement rows.
 - Backend full run due at next checkpoint (round 39 was the last).
 
 ## Known issues
