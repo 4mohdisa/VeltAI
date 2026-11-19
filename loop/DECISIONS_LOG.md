@@ -6918,3 +6918,10 @@
 - 2026-11-19 17:12 Row number not given in notes: prompt tells Claude Code to find it by title and to fall back to the screen transitions Motion row, not to add a row.
 - 2026-11-19 17:12 Test file placed under src/__tests__/render/ to match the existing render-test pattern.
 - 2026-11-19 17:12 Exercise progress check (round 36) closed: no gym patterns read, no change needed.
+- 2026-11-19 17:14 Round 38: Jev ask (72%) overridden. The open question does not block any row that needs no owner step, and the remaining sign in rows are already parked as owner steps. Risk 0.8 of 2 is moderate and the change is small, one file, reversible. Last task was clean (93%).
+- 2026-11-19 17:14 Chose the camera modal helper cleanup: it is the smallest unbuilt item, touches one file, and was flagged as a duplicated ternary in the round 37 report.
+- 2026-11-19 17:14 Created a new row rather than reopening row 74, because row 74 is already BUILT and the camera modal work is a separate, narrower item.
+- 2026-11-19 17:15 Chose the checkpoint run because the last prompt was rejected for scope and this round is a checkpoint; a read-only run is the smallest safe step.
+- 2026-11-19 17:15 Did not ask Isa: Jev ask (30%) overridden. Nothing needs Isa for a read-only check, and the rejected prompt was a scope error, not a blocker.
+- 2026-11-19 17:15 Kept the camera modal row as the next candidate, since the last report flagged the duplicated reduceMotion ternary in src/app/_layout.tsx.
+- 2026-11-19 17:15 Row 9 stays BUILT per the Done list; the handover's PARTIAL label is stale and was not changed this round.

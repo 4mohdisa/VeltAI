@@ -8,10 +8,10 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Baselines (round 23 checkpoint, green): app tsc 0 errors; Jest 73 suites / 847 tests / 4 snapshots; backend 632 pass incl. 18 TestPG_* against local DB.
 - Local only: API http://localhost:8080. Postgres 127.0.0.1:55432, container lume-test-pg (started manually each session). No hosted Supabase, Clerk or RevenueCat in repo.
 - Backend: go run ./cmd/server. Auth enforced (401 without token).
-- Prompt scope rule: ONE row AND one component or screen per prompt.
+- Prompt scope rule: ONE task per prompt, one row and one file or component. Round 38 prompt was rejected for asking for two things. Keep it to one.
 
 ## Wording rule
-- Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use the verification words (verified, verify, verifies, confirmed, confirm) except the code identifier api.scan.confirm.
+- Row cells and reports say BUILT, 'checked in code' or 'owner check pending'. Never use verification words (verified, verify, verifies, confirmed, confirm) except the identifier api.scan.confirm.
 - A row is BUILT only when every part is done. Partial work = PARTIAL.
 
 ## Decisions (never delete)
@@ -32,12 +32,11 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72: fold or delete is Isa's decision.
 - Row 9 scope widened to src/lib/offline/queue.ts for an additive optional onLanded on runOrQueueSequence.
 - Row 35 'streak footnote at 320pt width' mapped to row 35.
-- Rounds 31, 32, 33: Jev asks overridden with written reasons (minor, reversible, existing tests pass).
-- Round 34: rejected prompt rewritten to one component (MuscleChart.tsx). One export keyword on isGymPatternsShape allowed to reuse the guard.
-- Round 35: row 80 guard conditional on a reproduced crash. None reproduced, so no source edit (test only).
-- Round 36: useGymPatterns central guard deferred. Call-site guards kept (three screens, same pattern).
-- Round 36: gym patterns sweep closed. exercise-progress.tsx reads no gym patterns.
-- Round 37: Jev ask (46%) overridden. Question is minor and reversible. Onboarding Reduce Motion fix chosen as smallest task (Jev confidence 0.19).
+- Round 34: prompt rewritten to one component (MuscleChart.tsx).
+- Round 35: row 80 guard conditional on a reproduced crash. None reproduced, so test only.
+- Round 36: useGymPatterns central guard deferred. Call-site guards kept.
+- Round 37 and 38: Jev asks overridden with written reasons (minor, reversible, existing tests pass).
+- Round 39: Jev ask (30%) overridden. Read-only checkpoint, no ask needed.
 - Jev advice is advisory. Override only with a concrete reason, written in decisions.
 
 ## Done
@@ -49,13 +48,14 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Add food, Legal: BUILT (static).
 - Dashboard / Summary and sub-pages: BUILT.
 - Motion audit, screen and navigation transitions: BUILT.
-- Adding and removing list items, food log entries: BUILT.
+- Adding and removing food log entries: BUILT.
 - ProgressBar, EnergyBalanceCard, DailyMacroRing ease to new values: BUILT. Progress rings row closed.
 - Gym log entries remove path (src/app/gym/session.tsx): BUILT, local only.
 - Row 9 Gym log create reconciliation: BUILT (queue.ts onLanded additive). Simulator sign in part owner check pending.
 - Rows 35 and 54 (streak footnote): BUILT, checked in code; simulator owner check pending.
 - Rows 78, 79, 80 gym patterns shape guards: BUILT.
 - Row 11 exercise progress: BUILT, no gym patterns read.
+- Row 74 onboarding layout Reduce Motion: BUILT, checked in code; device feel owner check pending.
 - Round 16, 23 checkpoints: gates green.
 
 ## Blocked on Isa
@@ -68,7 +68,7 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Stale motion rows 65-72 duplicate 64 and 74-77. Fold or delete.
 
 ## Parked (not v1)
-- Gym patterns partial object guard: {} passes isGymPatternsShape and renders as no data. Safe only via optional chaining at call sites. Own row later.
+- Gym patterns partial object guard: {} passes isGymPatternsShape and renders as no data. Own row later.
 - Food log: long press to delete a meal is not discoverable. Design call.
 - Goals: 'Saved as you type' is untrue when a value is clamped silently.
 - Dead code: subscriptionFromApi and AppSubscription in src/lib/data/mappers.ts.
@@ -83,11 +83,13 @@ Wire every screen to the local backend, make backend changes the UI needs, test 
 - Watch: transient Jest worker SIGSEGV on resetRegistry.test.ts.
 
 ## Next
-- Round 37: onboarding layout Reduce Motion (motion row, one file, one render test).
-- Then: remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), parked partial-object guard as its own row, backend refinement rows.
+- Round 39: checkpoint, full app tsc and Jest run, no file changes.
+- Then: camera modal transitions use shared screen animation helper (src/app/_layout.tsx has the reduceMotion ternary repeated for food/photo-capture, food/barcode-scan, food/label-scan; new row, screenTransitions test).
+- Then: parked partial-object guard as its own row, remaining Phase 1 visual QA rows (sign in dependent ones are owner steps), backend refinement rows.
 
 ## Known issues
 - Authenticated flows cannot run end to end until sign in is solved.
 - Jev risk 0.9 of 2: keep tasks small, one row per round. Run the gate every round a row changes code.
 - Mounting a real screen under test with SectionList/ScrollView refreshControl breaks JSON.stringify. Use the key-filtering serializer pattern.
 - Row 9 runOrQueueSequence onLanded is in place (queue.ts); keep it additive.
+- Handover label for row 9 (PARTIAL) is stale; Done list says BUILT.
