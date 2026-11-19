@@ -7546,3 +7546,8 @@
 - 2026-11-19 22:20 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified across many rounds. They are loop-managed; the loop script owns them. Parked for Isa to check, not a row.
 - 2026-11-19 22:20 Prompt tells Claude Code to grep before creating a test file, given the repeated duplicate and wrong-premise problems in earlier rounds.
 - 2026-11-19 22:20 Prompt forbids the RNTL import because of the documented RN 0.85.3 incompatibility.
+- 2026-11-19 22:23 Chose row 5 owner-scoped API check: it is the only open non-render item on row 5, it needs no Isa input, and it is small. Jev ranked run at 60%, consistent with this.
+- 2026-11-19 22:23 Resolved the conflict between the handover (quick-add submit path uncovered) and the round 174 report (already covered in quickAdd.render.test.tsx). Recorded in Decisions: submit path covered; only the API check remains.
+- 2026-11-19 22:23 Kept row 5 PARTIAL in the notes until the API check passes, then BUILT with 'owner check pending' under the wording rule.
+- 2026-11-19 22:23 Did not ask Isa anything: the check runs against the local DB and needs no credentials.
+- 2026-11-19 22:23 Trimmed the notes to fit the 600 word limit. Decisions kept verbatim in substance; Parked and Known issues condensed without dropping items.
