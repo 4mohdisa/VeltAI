@@ -15,7 +15,7 @@ import type { StoredFoodItem, StoredMeal } from './foodStore';
 import type { Streak } from './gymStore';
 import type { EntryMethod, GymSession, MealSlot, SavedFood } from '@/lib/mock/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
-import type { MacroGoals } from '@/lib/settings/store';
+import type { MacroGoals, ServerEntitlement } from '@/lib/settings/store';
 
 export const todayISO = (): string => {
   const d = new Date();
@@ -299,4 +299,14 @@ export function subscriptionFromApi(s: SubscriptionStatus, mock: AppSubscription
     trialEnd: expires,
     renewsOn: expires,
   };
+}
+
+/** The server's own view of entitlement — what the RevenueCat webhook has
+ *  recorded, corrected for refunds/chargebacks the on-device SDK cache may not
+ *  know about yet. Null for 'none' (no row recorded server-side, e.g. before
+ *  the webhook lands): the caller keeps whatever RevenueCat already reports
+ *  rather than treating "nothing recorded yet" as "definitely not active". */
+export function entitlementFromApi(s: SubscriptionStatus): ServerEntitlement {
+  if (s.status === 'none') return null;
+  return { isActive: s.is_active, status: s.status };
 }

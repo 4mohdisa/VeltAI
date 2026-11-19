@@ -24,6 +24,11 @@ export type GoalMode = 'ai' | 'custom';
 export type MacroSplitBy = 'grams' | 'percent';
 export type MacroGoals = { calories: number; protein: number; carbs: number; fat: number; fibre: number };
 
+/** The server's own view of entitlement (GET /api/subscription), mapped by
+ *  entitlementFromApi. Null when the server has no opinion yet — see
+ *  hydrateSubscription in @/lib/data/hooks. */
+export type ServerEntitlement = { isActive: boolean; status: string } | null;
+
 /** The "AI recommendation" — derived from the user's onboarding profile (Task 2),
  *  no longer a hardcoded mock target. Stays editable via the custom override. */
 export function aiGoals(): MacroGoals {
@@ -71,6 +76,10 @@ type SettingsState = {
    *  goalsFromApi; null before hydration lands or when no row exists yet.
    *  Read by useEffectiveGoals() ahead of the local derivation. */
   serverGoals: MacroGoals | null;
+  /** The signed-in user's entitlement from GET /api/subscription, mapped by
+   *  entitlementFromApi. Null before hydration lands or when the server has
+   *  no row yet — the Subscription screen then keeps RevenueCat's own view. */
+  serverEntitlement: ServerEntitlement;
   macroSplitBy: MacroSplitBy;
   notificationPrefs: NotificationPrefs;
   // First-party product analytics (OPT-IN as of 2026-08-09 — DECISIONS.md).
@@ -86,6 +95,7 @@ type SettingsState = {
   setGoalMode: (mode: GoalMode) => void;
   setCustomGoals: (patch: Partial<MacroGoals>) => void;
   setServerGoals: (goals: MacroGoals | null) => void;
+  setServerEntitlement: (entitlement: ServerEntitlement) => void;
   setMacroSplitBy: (by: MacroSplitBy) => void;
   setNotificationPrefs: (patch: Partial<NotificationPrefs>) => void;
   resetGoalsToAi: () => void;
@@ -100,6 +110,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   goalMode: 'ai',
   customGoals: aiGoals(), // seeds custom fields with the derived recommendation
   serverGoals: null,
+  serverEntitlement: null,
   macroSplitBy: 'grams',
   notificationPrefs: defaultNotificationPrefs(),
   analyticsEnabled: false,
@@ -123,6 +134,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       },
     })),
   setServerGoals: (serverGoals) => set({ serverGoals }),
+  setServerEntitlement: (serverEntitlement) => set({ serverEntitlement }),
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
   setNotificationPrefs: (patch) =>
     set((s) => ({ notificationPrefs: { ...s.notificationPrefs, ...patch } })),
@@ -146,6 +158,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       goalMode: 'ai',
       customGoals: aiGoals(),
       serverGoals: null,
+      serverEntitlement: null,
       macroSplitBy: 'grams',
       notificationPrefs: defaultNotificationPrefs(),
       analyticsEnabled: false,

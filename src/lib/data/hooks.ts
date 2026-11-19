@@ -7,14 +7,22 @@
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { api, ApiError, type Onboarding } from '@/lib/api';
-import { goalsFromApi, isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
+import { api, ApiError, type Onboarding, type SubscriptionStatus } from '@/lib/api';
+import {
+  entitlementFromApi,
+  goalsFromApi,
+  isServerId,
+  mealsFromLogs,
+  savedFoodFromApi,
+  sessionsFromApi,
+  streakFromApi,
+} from './mappers';
 import { hasPendingCreate } from './mutations';
 import { fibreTotal } from './summaryCards';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type LoggedDay, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
-import { useEffectiveGoals, useSettingsStore, type MacroGoals } from '@/lib/settings/store';
+import { useEffectiveGoals, useSettingsStore, type MacroGoals, type ServerEntitlement } from '@/lib/settings/store';
 import { isDevBuild } from '@/lib/env';
 import {
   foodCatalog,
@@ -372,6 +380,29 @@ export async function hydrateGoals(): Promise<void> {
 export function useGoals(): MacroGoals {
   useHydration(hydrateGoals);
   return useEffectiveGoals();
+}
+
+/** Fetch the server's own entitlement record and store it. On any failure
+ *  (network, 5xx) this leaves serverEntitlement exactly as it was — the
+ *  Subscription screen keeps showing RevenueCat's own view rather than
+ *  flipping to a fabricated "not subscribed" on a transient error. */
+export async function hydrateSubscription(): Promise<void> {
+  let s: SubscriptionStatus;
+  try {
+    s = await api.subscription.get();
+  } catch {
+    return;
+  }
+  useSettingsStore.getState().setServerEntitlement(entitlementFromApi(s));
+}
+
+/** The server's cross-check on entitlement (GET /api/subscription), for
+ *  screens that must not rely on the RevenueCat SDK alone — see
+ *  Subscription (PHASE2_ROWS.md row 15). Null while unhydrated or when the
+ *  server has no row yet; callers fall back to their own RevenueCat read. */
+export function useServerEntitlement(): ServerEntitlement {
+  useHydration(hydrateSubscription);
+  return useSettingsStore((s) => s.serverEntitlement);
 }
 
 /** Hydrate the signed-in user's identity from the server. Nothing did this

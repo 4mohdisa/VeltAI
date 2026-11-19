@@ -6796,3 +6796,7 @@
 - 2026-11-19 15:15 Recorded row 12 as BUILT. Its removal of fabricated upcoming-days data is closed.
 - 2026-11-19 15:15 Streak freezes can never exceed 1 under current backend semantics. Not a bug, so parked, not changed.
 - 2026-11-19 15:15 Jev's risk score (1.0 of 2) noted. Kept the task to one row with a small blast radius.
+- 2026-11-19 15:22 Row 13 Goals marked BUILT: the report shows the server-first hydrate and a passing render test, with simulator as an owner check.
+- 2026-11-19 15:22 Chose Subscription (row 14, per notes order) over Profile: same known gap pattern as Goals, and the backend endpoint exists. Jev ranked run 88%, so no second look was needed.
+- 2026-11-19 15:22 Row numbering conflict: the report called row 14 Profile and row 15 Paywall. The notes say row 14 is Subscription. Claude Code must use the title in PHASE2_ROWS.md, not the number, and report the row it used.
+- 2026-11-19 15:22 'Saved as you type' copy on goals is a side finding, not a row. Parked, not built.
