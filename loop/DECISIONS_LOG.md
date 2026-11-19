@@ -7803,3 +7803,7 @@
 - 2026-11-20 00:45 Treated the latest Claude Code report as authoritative: row 83 MACRO_BAR_W citation is fixed (grep returns zero). The handover's 'still stale' line is out of date and is removed from Known gaps.
 - 2026-11-20 00:45 Kept the TodayCard malformed-response issue in Parked, not in this round, to avoid scope creep.
 - 2026-11-20 00:45 Jev ask/stop signals are advisory; no question to Isa this round because row 17 is still reserved for the stop report.
+- 2026-11-20 00:46 Round 234 freeze task: a render test already existed as freeze.render.test.tsx, so no duplicate file was created. Row 11 closed.
+- 2026-11-20 00:46 Chose row 2 layout test over TodayCard guard: it is a test-only change with no behaviour risk and Jev rates the last task at 33% clean, so scope stays small.
+- 2026-11-20 00:46 Row 83 stale MACRO_BAR_W note is a doc cell, deferred to the round after next to keep one task per round.
+- 2026-11-20 00:46 Did not ask Isa about the duplicate freeze file: the existing file already covers both states, so no decision was needed.
