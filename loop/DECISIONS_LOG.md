@@ -7337,3 +7337,6 @@
 - 2026-11-19 20:58 Chose row 22 stale-note check: it follows Claude Code's NEXT recommendation, is a notes-only change, and is the smallest task (Jev run 88%, risk 0.9, so keep it small).
 - 2026-11-19 20:58 Deferred the toast and sheet owning-row mapping by one round. It is docs only and does not block any row.
 - 2026-11-19 20:58 Row 22 content is not in the notes, so the prompt tells Claude Code to read the row first and make no edit if no real importing test exists. No new file is named beyond PHASE2_ROWS.md.
+- 2026-11-19 20:59 Chose the planned docs task over the Claude suggestion of row 23, because row 23 is already BUILT and the notes list the toast/sheet mapping as next.
+- 2026-11-19 20:59 Owners fixed as row 51 (ToastHost) and row 27 (BottomSheet) based on existing render tests; Claude must confirm a real import before editing.
+- 2026-11-19 20:59 Condensed notes to stay under 600 words, with no change to any decision or status.
