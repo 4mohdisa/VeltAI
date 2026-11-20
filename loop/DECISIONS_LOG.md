@@ -6781,3 +6781,7 @@
 - 2026-11-21 05:21 Did not run the full checkpoint. The loop script has not marked a checkpoint due, and the notes assign the full run to Isa before commit.
 - 2026-11-21 05:21 Treated the handover's open items 1, 11 and 12 as stale. The notes record items 11 and 12 as built (device check pending) and item 1 as parked, so the notes win.
 - 2026-11-21 05:21 Treated the loop input 'none yet, first round' as the same input fault as R994 to R1213. No override of Jev, which agrees on stop.
+- 2026-11-21 05:58 R1215: stop confirmed. The loop input is the same 'none yet, first round' fault seen in R994 to R1214, so no new work is assessed.
+- 2026-11-21 05:58 Ignored the R1214 handover's NEXT list and its items 1, 11 and 12 status, because the notes record items 11 and 12 as built and item 1 as parked. The notes win over stale handovers.
+- 2026-11-21 05:58 No checkpoint run this round. The loop script has not marked a checkpoint due, and no new code changed since R993. The full suite after item 9 stays an action for Isa before commit.
+- 2026-11-21 05:58 Jev stop 91% (advisory) agreed with stop. No override.
