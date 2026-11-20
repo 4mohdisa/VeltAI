@@ -6772,3 +6772,8 @@
 - 2026-11-21 04:06 Treated the 'none yet, first round' report as the same input fault as R994 to R1211. Not a new blocker.
 - 2026-11-21 04:06 Ignored the stale handover's NEXT (run full checkpoint) and its open items 11 and 12. Notes win. The checkpoint is left to Isa, as the notes say, because the loop script does not mark it due.
 - 2026-11-21 04:06 Jev stop 90% agreed. No override.
+- 2026-11-21 04:43 Stopped at R1213: all rows built, EXACT, or parked. No new work, per the notes.
+- 2026-11-21 04:43 Treated the 'none yet, first round' report as the same input fault as R994 to R1212, not as new work.
+- 2026-11-21 04:43 Ignored the stale handover's NEXT list and its claim that items 11 and 12 are open. The notes win, per the rule in the notes.
+- 2026-11-21 04:43 No full checkpoint run: the loop script has not marked one due. Isa is asked to run the full jest and tsc before commit.
+- 2026-11-21 04:43 Jev stop 90% agreed. No override.
