@@ -6759,3 +6759,8 @@
 - 2026-11-21 02:14 Followed the notes over the handover: the handover still lists items 1, 11 and 12 as open and a stale NEXT, but the notes record items 11 and 12 as built or EXACT.
 - 2026-11-21 02:14 Did not override Jev (stop 92%): no concrete reason to continue without Isa's input.
 - 2026-11-21 02:14 No new Parked lines this round: the handover's NOT FIXED items are already in Parked or Open for Isa (grow-in delay, streak footnote while loading, toast tick weight, macro at 100% height, This week snapshot, Steps per day sheet, API unreachable warnings).
+- 2026-11-21 02:51 Stop again (R1210). All rows are built, EXACT, or parked, and Jev agrees at 94%. Making no new work to avoid inventing tasks.
+- 2026-11-21 02:51 No checkpoint prompt issued. The loop script has not marked a checkpoint as due, and the notes say Isa runs the full suite before commit.
+- 2026-11-21 02:51 Handover treated as stale, as in R1209. The notes win: items 11 and 12 are built or EXACT, and row 103 is not 'DIFFERENT' for items 11 and 12.
+- 2026-11-21 02:51 Left the 'Still open from earlier' handover items (grow-in delay, streak footnote while loading, toast tick weight, macro at 100% height) as Open for Isa with their defaults, not as build tasks, because the notes already record them that way.
+- 2026-11-21 02:51 Kept the row 103 item 1 park. It needs a data model change, so it is not a build task.
