@@ -6796,3 +6796,8 @@
 - 2026-11-21 07:53 Stop confirmed: no new report, every row is built, EXACT, or parked. Build work stays stopped as the notes require.
 - 2026-11-21 07:53 No checkpoint run this round: no new code change was reported, and the checkpoint is a pre-commit step for Isa.
 - 2026-11-21 07:53 Handover ignored where it conflicts with the notes (items 1, 11 and 12 shown as open). The notes win, because the R1217 notes record items 11 and 12 as built and item 1 as parked.
+- 2026-11-21 08:30 Stop confirmed for R1219: all rows built, EXACT, or parked, so no task is picked (Hard rules: never invent work).
+- 2026-11-21 08:30 Empty loop input treated as an input fault again, as in R994 to R1218. No new report exists to act on.
+- 2026-11-21 08:30 Jev stop at 91% agreed. No override, so no reason was needed to disagree.
+- 2026-11-21 08:30 The handover is stale (it lists items 1, 11 and 12 as open and a NEXT to run the checkpoint). The notes win over it, as already recorded.
+- 2026-11-21 08:30 Full checkpoint not run by the manager. It needs Claude Code, and the loop is stopped, so it is left for Isa before commit.
