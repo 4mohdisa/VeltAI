@@ -1,10 +1,10 @@
-# Lume Loop Notes (R1217)
+# Lume Loop Notes (R1218)
 
 ## Goal
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-STOPPED since R1017; confirmed R1018 to R1217. All 41 rows built, EXACT, or parked. Do not restart build work unless Isa asks. Nothing checked on a device.
+STOPPED since R1017; confirmed R1018 to R1218. All 41 rows built, EXACT, or parked. Do not restart build work unless Isa asks. Nothing checked on a device.
 
 ## Built (device check pending)
 - Rows 76, 82, 102 and 111 (EXACT), as recorded in the gap doc.
@@ -67,8 +67,8 @@ Fades, shadows, pull-to-refresh, scrims, sheets, calendar, scroll, tab bar, Liqu
 - R814: item 11 built. R815 to R816: item 12 EXACT.
 - R819 to R993: stop confirmed each round; Jev agreed. R942 and R943 overrides logged.
 - R993: row 103 doc re-check (refs and header only).
-- R994 to R1216: stop confirmed each round; empty loop input treated as an input fault; Jev stop agreed.
-- R1217: stop confirmed. Same input fault. Handover stale (lists items 1, 11 and 12 as open). Jev stop 89% agreed. No override. No checkpoint run.
+- R994 to R1217: stop confirmed each round; empty loop input treated as an input fault; Jev stop agreed.
+- R1218: stop confirmed. Same input fault (no new report). Handover stale (lists items 1, 11 and 12 as open). Notes followed. No checkpoint run.
 
 ## Action for Isa
 - Before commit: run the full jest suite and tsc once. The R818 checkpoint predates item 9.
@@ -79,13 +79,13 @@ Fades, shadows, pull-to-refresh, scrims, sheets, calendar, scroll, tab bar, Liqu
 - The loop input has shown no new report since R993. Check the loop input before restarting build work.
 
 ## Latest Claude Code report
-None yet, first round (input fault, same as R994 to R1216). Last real report: R993, row 103 doc re-check only. No code changed. Not blocked.
+None (R1218 input, same input fault as R994 to R1217). Last real report: R993, row 103 doc re-check only. No code changed. Not blocked.
 
 ## Latest handover
 Stale (lists items 1, 11 and 12 as open, a row 103 DIFFERENT status, an old NOT FIXED list, and a NEXT to run the full checkpoint). The notes win. The full checkpoint after item 9 is still open for Isa before commit.
 
 ## Jev
-R1217: stop 89% agreed (advisory: stop 89%, ask 11%, run 0%, confidence 0.83). Last task clean-finish 5%. Risk of continuing without Isa 2.0 of 2 (confidence 1.00). No override.
+R1217: stop 89% agreed. R1218: handover carried Jev stop 92% (confidence 0.88), risk of continuing without Isa high (2.0 of 2). No override.
 
 ## Rules (unchanged)
 Work only on loop/design-match. Never stage, commit, push, merge or switch. Never open loop/NOTES.md or loop/DECISIONS_LOG.md. Isa is the owner. Nothing has been checked on a device.
@@ -96,5 +96,5 @@ None added this round.
 ## Stop reason
 All 41 rows built, EXACT, or parked. Waiting for Isa: full checkpoint before commit, device checks, and a real loop input report.
 
-## Latest Claude Code report (R1217 input)
+## Latest Claude Code report (R1218 input)
 (none yet, first round)

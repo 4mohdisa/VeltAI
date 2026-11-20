@@ -6793,3 +6793,6 @@
 - 2026-11-21 07:16 No checkpoint run this round. The loop input has no new report, and the full suite is for Isa to run before commit.
 - 2026-11-21 07:16 Handover input is stale (lists items 1, 11 and 12 as open and an old NOT FIXED list). Notes win, per the standing rule.
 - 2026-11-21 07:16 Items 11 and 12 are treated as built per the notes (R814 to R816). Device checks remain open.
+- 2026-11-21 07:53 Stop confirmed: no new report, every row is built, EXACT, or parked. Build work stays stopped as the notes require.
+- 2026-11-21 07:53 No checkpoint run this round: no new code change was reported, and the checkpoint is a pre-commit step for Isa.
+- 2026-11-21 07:53 Handover ignored where it conflicts with the notes (items 1, 11 and 12 shown as open). The notes win, because the R1217 notes record items 11 and 12 as built and item 1 as parked.
