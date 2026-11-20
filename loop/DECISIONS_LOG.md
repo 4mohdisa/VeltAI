@@ -6750,3 +6750,7 @@
 - 2026-11-21 01:00 The loop input 'none yet, first round' is treated as the same input fault as R994 to R1206. No new task is invented from it.
 - 2026-11-21 01:00 The full checkpoint after item 9 is not run this round. The loop script has not marked a checkpoint due, and it is listed under Action for Isa before commit.
 - 2026-11-21 01:00 Jev stop 93% agreed. No override.
+- 2026-11-21 01:37 Stop confirmed for R1208: no row differs and no unparked build work is left.
+- 2026-11-21 01:37 Used the notes over the stale handover, as the notes require: the handover still lists items 1, 11 and 12 as open.
+- 2026-11-21 01:37 Did not request a full checkpoint: the loop script did not mark one due, and the brief allows checkpoints only on that signal. Isa runs it before commit.
+- 2026-11-21 01:37 Agreed with Jev's stop (93%). No override.
