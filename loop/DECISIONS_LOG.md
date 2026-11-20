@@ -6754,3 +6754,8 @@
 - 2026-11-21 01:37 Used the notes over the stale handover, as the notes require: the handover still lists items 1, 11 and 12 as open.
 - 2026-11-21 01:37 Did not request a full checkpoint: the loop script did not mark one due, and the brief allows checkpoints only on that signal. Isa runs it before commit.
 - 2026-11-21 01:37 Agreed with Jev's stop (93%). No override.
+- 2026-11-21 02:14 Stop confirmed for R1209: all rows built, EXACT, or parked; no row left that differs without an owner or data-model dependency.
+- 2026-11-21 02:14 Did not run the full checkpoint: the loop script did not mark one due, and the brief allows the full suite only on a checkpoint round. Isa runs it before commit (already in the notes).
+- 2026-11-21 02:14 Followed the notes over the handover: the handover still lists items 1, 11 and 12 as open and a stale NEXT, but the notes record items 11 and 12 as built or EXACT.
+- 2026-11-21 02:14 Did not override Jev (stop 92%): no concrete reason to continue without Isa's input.
+- 2026-11-21 02:14 No new Parked lines this round: the handover's NOT FIXED items are already in Parked or Open for Isa (grow-in delay, streak footnote while loading, toast tick weight, macro at 100% height, This week snapshot, Steps per day sheet, API unreachable warnings).
