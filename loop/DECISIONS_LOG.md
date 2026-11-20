@@ -6764,3 +6764,7 @@
 - 2026-11-21 02:51 Handover treated as stale, as in R1209. The notes win: items 11 and 12 are built or EXACT, and row 103 is not 'DIFFERENT' for items 11 and 12.
 - 2026-11-21 02:51 Left the 'Still open from earlier' handover items (grow-in delay, streak footnote while loading, toast tick weight, macro at 100% height) as Open for Isa with their defaults, not as build tasks, because the notes already record them that way.
 - 2026-11-21 02:51 Kept the row 103 item 1 park. It needs a data model change, so it is not a build task.
+- 2026-11-21 03:28 R1211: stop confirmed. Latest report field still reads 'none yet, first round', treated as the same input fault as R994 to R1210.
+- 2026-11-21 03:28 R1211: the handover is stale again (lists items 1, 11 and 12 as open). Notes win, as in earlier rounds.
+- 2026-11-21 03:28 R1211: no checkpoint run. The loop script has not marked a checkpoint due, and the full suite is Isa's pre-commit step per the notes.
+- 2026-11-21 03:28 R1211: Jev stop 92% agreed; no override.
