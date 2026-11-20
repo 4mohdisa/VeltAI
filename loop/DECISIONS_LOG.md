@@ -6805,3 +6805,6 @@
 - 2026-11-21 09:07 Stop confirmed. Jev stop 92% agreed; no override.
 - 2026-11-21 09:07 Notes followed over the stale handover, which still lists items 1, 11 and 12 as open. Items 11 and 12 are recorded as built in the notes.
 - 2026-11-21 09:07 Full jest checkpoint not run this round. It is left for Isa before commit, as the notes already say.
+- 2026-11-21 09:44 Stopped at R1221. Stop is agreed by the loop input (no new Claude Code report since R993), the notes, and Jev (stop 91%, confidence 0.86). No override.
+- 2026-11-21 09:44 Did not run a full checkpoint. The loop has not flagged this as a checkpoint round, and the brief only allows full-suite runs on a flagged checkpoint. The checkpoint after item 9 is listed for Isa before commit.
+- 2026-11-21 09:44 Did not use the latest handover. It is stale: it lists items 1, 11 and 12 as open and carries an old NOT FIXED list. The notes win, as recorded in the decisions.
