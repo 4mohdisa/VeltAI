@@ -6801,3 +6801,7 @@
 - 2026-11-21 08:30 Jev stop at 91% agreed. No override, so no reason was needed to disagree.
 - 2026-11-21 08:30 The handover is stale (it lists items 1, 11 and 12 as open and a NEXT to run the checkpoint). The notes win over it, as already recorded.
 - 2026-11-21 08:30 Full checkpoint not run by the manager. It needs Claude Code, and the loop is stopped, so it is left for Isa before commit.
+- 2026-11-21 09:07 R1220: empty loop input treated as the same input fault as R994 to R1219. No new task invented.
+- 2026-11-21 09:07 Stop confirmed. Jev stop 92% agreed; no override.
+- 2026-11-21 09:07 Notes followed over the stale handover, which still lists items 1, 11 and 12 as open. Items 11 and 12 are recorded as built in the notes.
+- 2026-11-21 09:07 Full jest checkpoint not run this round. It is left for Isa before commit, as the notes already say.
