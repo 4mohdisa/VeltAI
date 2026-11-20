@@ -6785,3 +6785,7 @@
 - 2026-11-21 05:58 Ignored the R1214 handover's NEXT list and its items 1, 11 and 12 status, because the notes record items 11 and 12 as built and item 1 as parked. The notes win over stale handovers.
 - 2026-11-21 05:58 No checkpoint run this round. The loop script has not marked a checkpoint due, and no new code changed since R993. The full suite after item 9 stays an action for Isa before commit.
 - 2026-11-21 05:58 Jev stop 91% (advisory) agreed with stop. No override.
+- 2026-11-21 06:36 Stop confirmed: no row left that differs, and no new report to act on. Reason: nothing new to build without inventing work.
+- 2026-11-21 06:36 Followed the notes over the stale handover (handover lists items 11 and 12 as open; notes record them as built, device check pending).
+- 2026-11-21 06:36 Did not run a checkpoint: the loop gives no new report, and the full suite runs only on a loop-scheduled checkpoint. Left for Isa before commit.
+- 2026-11-21 06:36 Did not override Jev: stop agreed at 92%, and no concrete reason exists to continue.
