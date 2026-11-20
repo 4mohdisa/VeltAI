@@ -6768,3 +6768,7 @@
 - 2026-11-21 03:28 R1211: the handover is stale again (lists items 1, 11 and 12 as open). Notes win, as in earlier rounds.
 - 2026-11-21 03:28 R1211: no checkpoint run. The loop script has not marked a checkpoint due, and the full suite is Isa's pre-commit step per the notes.
 - 2026-11-21 03:28 R1211: Jev stop 92% agreed; no override.
+- 2026-11-21 04:06 Stop confirmed for R1212. Build work stays stopped, because every row is built, EXACT, or parked and nothing new has been reported.
+- 2026-11-21 04:06 Treated the 'none yet, first round' report as the same input fault as R994 to R1211. Not a new blocker.
+- 2026-11-21 04:06 Ignored the stale handover's NEXT (run full checkpoint) and its open items 11 and 12. Notes win. The checkpoint is left to Isa, as the notes say, because the loop script does not mark it due.
+- 2026-11-21 04:06 Jev stop 90% agreed. No override.
