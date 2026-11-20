@@ -6746,3 +6746,7 @@
 - 2026-11-19 09:34 Did not run the full checkpoint: the loop script has not marked a checkpoint round, and the notes say Isa runs it before commit.
 - 2026-11-19 09:34 Treated the 'none yet, first round' report as the same input fault as R994 to R1205; no new work derived from the stale handover.
 - 2026-11-19 09:34 Jev stop 93% agreed. No override logged.
+- 2026-11-21 01:00 R1207: stop confirmed. The notes win over the stale handover, so items 11 and 12 are treated as built or EXACT, not open.
+- 2026-11-21 01:00 The loop input 'none yet, first round' is treated as the same input fault as R994 to R1206. No new task is invented from it.
+- 2026-11-21 01:00 The full checkpoint after item 9 is not run this round. The loop script has not marked a checkpoint due, and it is listed under Action for Isa before commit.
+- 2026-11-21 01:00 Jev stop 93% agreed. No override.
