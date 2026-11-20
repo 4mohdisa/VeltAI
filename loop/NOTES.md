@@ -1,14 +1,14 @@
-# Lume Loop Notes (R1221)
+# Lume Loop Notes (R1222)
 
 ## Goal
 Match design/Lume App.html via DESIGN_GAP_ANALYSIS.md on loop/design-match. Say BUILT, never verified.
 
 ## Status
-STOPPED since R1017; confirmed R1018 to R1221. All 41 rows built, EXACT, or parked. Do not restart build work unless Isa asks. Nothing checked on a device.
+STOPPED since R1017; confirmed R1018 to R1222. All 41 rows built, EXACT, or parked. Do not restart build work unless Isa asks. Nothing checked on a device.
 
 ## Built (device check pending)
 - Rows 76, 82, 102 and 111 (EXACT), as recorded in the gap doc.
-- Row 103: items 2 to 9, 11 and 12 built or EXACT. Item 1 and the Macros variant of item 2 parked (7-day data, needs a data model change).
+- Row 103: items 2 to 9, 11 and 12 built or EXACT. Item 1 and the Macros variant of item 2 parked (7-day data, needs a food-store data model change).
 
 ## Checks
 - Full checkpoint R818 (tsc 0, 65 suites, 824 tests, 4 snapshots) predates item 9.
@@ -66,9 +66,9 @@ Fades, shadows, pull-to-refresh, scrims, sheets, calendar, scroll, tab bar, Liqu
 - R801 to R818: checkpoints green. R812 and R817 rejected (no design file named).
 - R814: item 11 built. R815 to R816: item 12 EXACT.
 - R819 to R993: stop confirmed each round; Jev agreed. R942 and R943 overrides logged.
-- R993: row 103 doc re-check (refs and header only).
-- R994 to R1220: stop confirmed each round; empty loop input treated as an input fault; Jev stop agreed.
-- R1221: stop confirmed. Same input fault (no new report since R993). Latest handover stale and not used. No checkpoint run; the loop has not flagged a checkpoint round.
+- R993: row 103 doc re-check (refs and header only). Last real report.
+- R994 to R1221: stop confirmed each round; empty loop input treated as an input fault; Jev stop agreed.
+- R1222: stop confirmed. Same input fault (no new report since R993). Jev stop 92% agreed. No checkpoint flagged.
 
 ## Action for Isa
 - Before commit: run the full jest suite and tsc once. The R818 checkpoint predates item 9.
@@ -79,13 +79,13 @@ Fades, shadows, pull-to-refresh, scrims, sheets, calendar, scroll, tab bar, Liqu
 - The loop input has shown no new report since R993. Check the loop input before restarting build work.
 
 ## Latest Claude Code report
-None (R1221 input, same input fault as R994 to R1220). Last real report: R993, row 103 doc re-check only. No code changed. Not blocked.
+None (R1222 input, same input fault as R994 to R1221). Last real report: R993, row 103 doc re-check only. No code changed. Not blocked.
 
 ## Latest handover
-Stale (lists items 1, 11 and 12 as open, a row 103 DIFFERENT status, an old NOT FIXED list, and a NEXT to run the full checkpoint). The notes win. The full checkpoint after item 9 is still open for Isa before commit.
+Stale (lists items 1, 11 and 12 as open, a row 103 DIFFERENT status, an old NOT FIXED list, and a NEXT to run the full checkpoint). Not used. The notes win. The full checkpoint after item 9 is still open for Isa before commit.
 
 ## Jev
-R1220: stop agreed. R1221: stop 91% (confidence 0.86), risk of continuing without Isa high (2.0 of 2). No override.
+R1221: stop 91%. R1222: stop 92% (confidence 0.88), risk of continuing without Isa high (2.0 of 2). No override.
 
 ## Rules (unchanged)
 Work only on loop/design-match. Never stage, commit, push, merge or switch. Never open loop/NOTES.md or loop/DECISIONS_LOG.md. Isa is the owner. Nothing has been checked on a device.
@@ -95,12 +95,3 @@ None added this round.
 
 ## Stop reason
 All 41 rows built, EXACT, or parked. Waiting for Isa: full checkpoint before commit, device checks, and a real loop input report.
-
-## Latest Claude Code report (R1221 input)
-(none yet, first round)
-
-LATEST CLAUDE CODE REPORT:
-(none yet, first round)
-
-LATEST HANDOVER SUMMARY:
-(stale, not used; see Latest handover above)

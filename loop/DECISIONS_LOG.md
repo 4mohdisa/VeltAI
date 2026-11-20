@@ -6808,3 +6808,7 @@
 - 2026-11-21 09:44 Stopped at R1221. Stop is agreed by the loop input (no new Claude Code report since R993), the notes, and Jev (stop 91%, confidence 0.86). No override.
 - 2026-11-21 09:44 Did not run a full checkpoint. The loop has not flagged this as a checkpoint round, and the brief only allows full-suite runs on a flagged checkpoint. The checkpoint after item 9 is listed for Isa before commit.
 - 2026-11-21 09:44 Did not use the latest handover. It is stale: it lists items 1, 11 and 12 as open and carries an old NOT FIXED list. The notes win, as recorded in the decisions.
+- 2026-11-21 10:21 Stop at R1222. Every row is built, EXACT, or parked, so there is nothing left to build without inventing work.
+- 2026-11-21 10:21 Did not run the full suite. The loop has not flagged a checkpoint round, and the brief allows the full suite only on a checkpoint round. Isa runs it before commit.
+- 2026-11-21 10:21 Did not use the stale handover. The notes win over handovers, as the existing decision says.
+- 2026-11-21 10:21 Jev stop (92%) agrees with the stop, so no override was needed.
