@@ -6777,3 +6777,7 @@
 - 2026-11-21 04:43 Ignored the stale handover's NEXT list and its claim that items 11 and 12 are open. The notes win, per the rule in the notes.
 - 2026-11-21 04:43 No full checkpoint run: the loop script has not marked one due. Isa is asked to run the full jest and tsc before commit.
 - 2026-11-21 04:43 Jev stop 90% agreed. No override.
+- 2026-11-21 05:21 Stopped at R1214. Confirmed the stop because every row is built, EXACT, or parked, and no new Claude Code report arrived.
+- 2026-11-21 05:21 Did not run the full checkpoint. The loop script has not marked a checkpoint due, and the notes assign the full run to Isa before commit.
+- 2026-11-21 05:21 Treated the handover's open items 1, 11 and 12 as stale. The notes record items 11 and 12 as built (device check pending) and item 1 as parked, so the notes win.
+- 2026-11-21 05:21 Treated the loop input 'none yet, first round' as the same input fault as R994 to R1213. No override of Jev, which agrees on stop.
