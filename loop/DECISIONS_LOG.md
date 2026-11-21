@@ -6816,3 +6816,8 @@
 - 2026-11-21 10:58 Did not issue a checkpoint run. Reason: the loop script has not flagged a checkpoint round, and the brief allows full-suite runs only on flagged checkpoints. Isa runs the full jest and tsc before commit.
 - 2026-11-21 10:58 Jev stop 92% agreed, no override. Reason: no concrete reason Jev cannot see to continue; the only open build item needs a data model change, which is parked.
 - 2026-11-21 10:58 Empty loop input for R1223 treated as the same input fault as R994 to R1222, not as a new instruction.
+- 2026-11-21 11:35 R1224: stop confirmed. Latest input is the same empty input fault (no report since R993). Treated as no new work, not as a blocker.
+- 2026-11-21 11:35 Did not restart build work. The notes say all rows are built, EXACT, or parked, so there is no open row to pick.
+- 2026-11-21 11:35 Ignored the stale handover (it lists items 1, 11 and 12 as open and a NEXT of a full checkpoint). The notes win. Item 11 and item 12 are recorded as built (R814 and R815 to R816).
+- 2026-11-21 11:35 Did not run the full checkpoint myself. The loop script has not flagged a checkpoint round, and the brief limits full-suite runs to those rounds. Isa runs it before commit.
+- 2026-11-21 11:35 Jev stop agreement (89 to 92%) matches my choice, so no override is logged.
