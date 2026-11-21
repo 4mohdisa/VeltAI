@@ -6,6 +6,7 @@
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
 import { router, useLocalSearchParams, useNavigation, type Href } from 'expo-router';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
@@ -19,7 +20,8 @@ import { Text } from '@/components/primitives/Text';
 import type { ExerciseLibraryItem, GymExerciseInput, LoggedParameters, ParameterSchema } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { useToday } from '@/lib/data/gymSchedule';
-import { color, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
+import { color, motion, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { logGymSession } from '@/lib/data';
 
@@ -172,6 +174,15 @@ export default function GymSessionScreen(): JSX.Element {
   const navigation = useNavigation();
   const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
   const mode = isSessionMode(modeParam) ? modeParam : undefined;
+
+  // Same entering/exiting treatment as the food log row (src/app/(tabs)/food.tsx):
+  // FadeInDown/FadeOutUp, dropping to a plain FadeIn/FadeOut under Reduce Motion
+  // (HIG §7.3). Entering only applies to an extra picked via "Something else" —
+  // planned rows are already on screen when this mounts, not something the user
+  // just added, so they keep their current no-animation first paint.
+  const reduceMotion = useReduceMotion();
+  const rowEntering = reduceMotion ? FadeIn.duration(motion.duration.snap) : FadeInDown.duration(motion.duration.snap);
+  const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
 
   const [states, setStates] = useState<Record<string, RowState>>({});
   const [extras, setExtras] = useState<Row[]>([]);
@@ -342,6 +353,20 @@ export default function GymSessionScreen(): JSX.Element {
     setPickerVisible(false);
   };
 
+  // Un-add an extra exercise picked in error. Local-only, by design: nothing on
+  // this screen is sent to the server until Finish workout — an extra has no
+  // GymExercise id yet for DELETE /api/gym/exercises/{id} to address, so there
+  // is nothing to call. Planned (template) rows aren't removable here; they
+  // come from the day's schedule, not something the user added.
+  const removeExtra = (row: Row) => {
+    setExtras((e) => e.filter((r) => r.key !== row.key));
+    setStates((prev) => {
+      const { [row.key]: _removed, ...rest } = prev;
+      return rest;
+    });
+    if (pad?.rowKey === row.key) setPad(null);
+  };
+
   const finishWorkout = useCallback(
     async (successMessage: string) => {
       if (leavingRef.current) return;
@@ -404,7 +429,8 @@ export default function GymSessionScreen(): JSX.Element {
   const renderRow = (row: Row) => {
     const st = stateOf(row);
     return (
-      <Card key={row.key} variant="elevated">
+      <Animated.View key={row.key} entering={row.isExtra ? rowEntering : undefined} exiting={rowExiting}>
+        <Card variant="elevated">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Pressable
             onPress={() => toggleCheck(row)}
@@ -446,6 +472,20 @@ export default function GymSessionScreen(): JSX.Element {
             fullWidth={false}
             onPress={() => onLogPress(row)}
           />
+
+          {/* Undo an extra picked in error — not offered on a planned (template)
+              row, which isn't something the user added. */}
+          {row.isExtra ? (
+            <Pressable
+              onPress={() => removeExtra(row)}
+              haptic={false}
+              minTapTarget={false}
+              hitSlop={10}
+              accessibilityLabel={`Remove ${row.name}`}
+            >
+              <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
+            </Pressable>
+          ) : null}
         </View>
 
         {st.expanded ? (
@@ -505,7 +545,8 @@ export default function GymSessionScreen(): JSX.Element {
             )}
           </View>
         ) : null}
-      </Card>
+        </Card>
+      </Animated.View>
     );
   };
 

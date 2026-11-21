@@ -15,6 +15,7 @@ import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { useEntitlement } from '@/lib/billing/entitlement';
 import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
+import { useServerEntitlement } from '@/lib/data';
 import { isDevBuild } from '@/lib/env';
 import { useState } from 'react';
 
@@ -22,6 +23,11 @@ const MANAGE_URL = 'https://apps.apple.com/account/subscriptions';
 
 export default function SubscriptionScreen() {
   const { isEntitled, loading, refresh } = useEntitlement();
+  // The server's own record (kept current by the RevenueCat webhook) wins when
+  // it has one — a refund or chargeback the on-device SDK cache hasn't heard
+  // about yet still shows correctly. No server row yet → RevenueCat's own read.
+  const serverEntitlement = useServerEntitlement();
+  const effectiveEntitled = serverEntitlement ? serverEntitlement.isActive : isEntitled;
   const billing = isBillingEnabled();
 
   const [restoring, setRestoring] = useState(false);
@@ -97,7 +103,7 @@ export default function SubscriptionScreen() {
       showBack contentStyle={{ gap: space.xl }}
       footer={
         <View style={{ gap: space.sm }}>
-          {isEntitled ? (
+          {effectiveEntitled ? (
             <Button
               title="Manage subscription"
               variant="secondary"
@@ -112,7 +118,7 @@ export default function SubscriptionScreen() {
     >
       {/* Price, payment method, usage bars and billing history are in the design
           but not in the billing seam — see UI_PASS_GAPS.md. The card shows only
-          what RevenueCat actually reports. */}
+          what RevenueCat and the server's own record actually report. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space.md }}>
@@ -120,12 +126,12 @@ export default function SubscriptionScreen() {
               Lume Pro
             </Text>
             <Badge
-              label={loading ? 'Checking…' : isEntitled ? 'Active' : 'Not subscribed'}
-              icon={loading ? undefined : isEntitled ? 'checkmark-circle' : 'close-circle'}
+              label={loading ? 'Checking…' : effectiveEntitled ? 'Active' : 'Not subscribed'}
+              icon={loading ? undefined : effectiveEntitled ? 'checkmark-circle' : 'close-circle'}
             />
           </View>
           <Text variant="body" color={color.secondaryLabel}>
-            {isEntitled
+            {effectiveEntitled
               ? 'Your subscription is active. Billing, renewal and cancellation are managed through your Apple account.'
               : 'Plans, pricing and the free trial are shown on the plans screen before any purchase.'}
           </Text>

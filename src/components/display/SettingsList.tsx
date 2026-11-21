@@ -17,7 +17,7 @@ import { accent, color, layout, radius, shadow, space, surface } from '@/lib/des
 import { useLargeText } from '@/lib/design/dynamicType';
 
 /** Icon chip edge — the design's 28pt tinted square. */
-const CHIP = 28;
+const CHIP = space['2xl'];
 /** Separators start past the chip, so the text column reads as one list. */
 const DIVIDER_INSET = space.lg + CHIP + space.md;
 

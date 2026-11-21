@@ -4,6 +4,7 @@ import type {
   FoodLog,
   FoodLogInput,
   FoodSearchResult,
+  Goals,
   GymSession as ApiGymSession,
   GymStreak,
   SavedFood as ApiSavedFood,
@@ -14,6 +15,7 @@ import type { StoredFoodItem, StoredMeal } from './foodStore';
 import type { Streak } from './gymStore';
 import type { EntryMethod, GymSession, MealSlot, SavedFood } from '@/lib/mock/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
+import type { MacroGoals, ServerEntitlement } from '@/lib/settings/store';
 
 export const todayISO = (): string => {
   const d = new Date();
@@ -162,6 +164,27 @@ export function logPatchFromItem(patch: {
   };
 }
 
+// --- Goals ----------------------------------------------------------------------
+
+/** Maps a server goals row onto the app's MacroGoals shape. Null when any of
+ *  the four core targets is unset — a partial row isn't enough to stand in for
+ *  the derived recommendation; filling the gap with 0 would show a fabricated
+ *  target for whatever field is missing. Fibre alone defaults to 0, same as a
+ *  logged item's fibre (mealsFromLogs): the column can't tell "0" from "never
+ *  recorded" either way. */
+export function goalsFromApi(g: Goals): MacroGoals | null {
+  if (g.calorie_target == null || g.protein_target == null || g.carb_target == null || g.fat_target == null) {
+    return null;
+  }
+  return {
+    calories: g.calorie_target,
+    protein: g.protein_target,
+    carbs: g.carb_target,
+    fat: g.fat_target,
+    fibre: g.fibre_target ?? 0,
+  };
+}
+
 // --- Saved foods ----------------------------------------------------------------
 
 export const savedFoodFromApi = (r: ApiSavedFood): SavedFood => ({
@@ -276,4 +299,14 @@ export function subscriptionFromApi(s: SubscriptionStatus, mock: AppSubscription
     trialEnd: expires,
     renewsOn: expires,
   };
+}
+
+/** The server's own view of entitlement — what the RevenueCat webhook has
+ *  recorded, corrected for refunds/chargebacks the on-device SDK cache may not
+ *  know about yet. Null for 'none' (no row recorded server-side, e.g. before
+ *  the webhook lands): the caller keeps whatever RevenueCat already reports
+ *  rather than treating "nothing recorded yet" as "definitely not active". */
+export function entitlementFromApi(s: SubscriptionStatus): ServerEntitlement {
+  if (s.status === 'none') return null;
+  return { isActive: s.is_active, status: s.status };
 }

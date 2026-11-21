@@ -7,23 +7,31 @@
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { api, type Onboarding } from '@/lib/api';
-import { isServerId, mealsFromLogs, savedFoodFromApi, sessionsFromApi, streakFromApi } from './mappers';
+import { api, ApiError, type Onboarding, type SubscriptionStatus } from '@/lib/api';
+import {
+  entitlementFromApi,
+  goalsFromApi,
+  isServerId,
+  mealsFromLogs,
+  savedFoodFromApi,
+  sessionsFromApi,
+  streakFromApi,
+} from './mappers';
+import { addDays, isoDate } from './foodDays';
 import { hasPendingCreate } from './mutations';
 import { fibreTotal } from './summaryCards';
 import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } from './foodStore';
 import { useGymStore, type LoggedDay, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
-import { useEffectiveGoals, type MacroGoals } from '@/lib/settings/store';
+import { useEffectiveGoals, useSettingsStore, type MacroGoals, type ServerEntitlement } from '@/lib/settings/store';
 import { isDevBuild } from '@/lib/env';
 import {
   foodCatalog,
   mockPlan,
   mockPlanReason,
-  mockUpcomingDays, type FoodResult,
+  type FoodResult,
   type GymSession,
   type MacroKey,
-  type UpcomingDay,
 } from '@/lib/mock/data';
 
 export type Async<T> = { data: T; isLoading: boolean; error: Error | null; refetch: () => void };
@@ -148,7 +156,7 @@ async function hydrateSavedFoods(): Promise<void> {
     savedFoods: [...s.savedFoods.filter(keepAcrossHydration), ...rows.map(savedFoodFromApi)],
   }));
 }
-async function hydrateGym(): Promise<void> {
+export async function hydrateGym(): Promise<void> {
   // Sessions and streak hydrate together. The Gym month calendar reads its own
   // month of sessions (useGymMonth), so nothing calendar-shaped is stored here.
   const [sessions, streak] = await Promise.all([api.gym.listSessions(), api.gym.streak()]);
@@ -336,6 +344,72 @@ export function useFibreConsumed(): number | null {
   }, [meals]);
 }
 
+/** One local calendar day's macro totals, for the 7-day stacked chart
+ *  (PHASE2_ROWS.md row 21 — data step only, chart wiring is the next step). */
+export type WeeklyMacroDay = { date: string; protein: number; carbs: number; fat: number; fibre: number };
+
+const WEEK_LENGTH = 7;
+
+/** The last 7 local calendar days, oldest first, ending on today. */
+function lastSevenDays(): string[] {
+  const today = isoDate(new Date());
+  return Array.from({ length: WEEK_LENGTH }, (_, i) => addDays(today, i - (WEEK_LENGTH - 1)));
+}
+
+function zeroWeek(): WeeklyMacroDay[] {
+  return lastSevenDays().map((date) => ({ date, protein: 0, carbs: 0, fat: 0, fibre: 0 }));
+}
+
+/** One list() call per day (the endpoint takes a single exact date, same
+ *  constraint noted on hydrateFoodLog above), summed into that day's totals. A
+ *  day with no rows sums to zero rather than being omitted. Exported so it can
+ *  be tested directly, the same way hydrateFoodLog/hydrateGym are. */
+export async function fetchWeeklyMacros(): Promise<WeeklyMacroDay[]> {
+  const dates = lastSevenDays();
+  const rowsByDay = await Promise.all(dates.map((date) => api.foodLogs.list({ date })));
+  return dates.map((date, i) => ({
+    date,
+    ...rowsByDay[i].reduce(
+      (a, r) => ({ protein: a.protein + r.protein, carbs: a.carbs + r.carbs, fat: a.fat + r.fat, fibre: a.fibre + r.fibre }),
+      { protein: 0, carbs: 0, fat: 0, fibre: 0 },
+    ),
+  }));
+}
+
+/** The last 7 days' macro totals, oldest first. A failed fetch leaves whatever
+ *  this already had (zeros on first load), same degrade-without-fabricating
+ *  contract as useHydration's other callers. */
+export function useWeeklyMacros(): Async<WeeklyMacroDay[]> {
+  const [data, setData] = useState<WeeklyMacroDay[]>(zeroWeek);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [nonce, setNonce] = useState(0);
+  const refetch = useCallback(() => setNonce((n) => n + 1), []);
+
+  useEffect(() => {
+    let alive = true;
+    setIsLoading(true);
+    fetchWeeklyMacros()
+      .then((days) => {
+        if (!alive) return;
+        setData(days);
+        setError(null);
+      })
+      .catch((e: unknown) => {
+        if (!alive) return;
+        setError(e instanceof Error ? e : new Error('hydration failed'));
+      })
+      .finally(() => {
+        if (alive) setIsLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [nonce]);
+
+  return { data, isLoading, error, refetch };
+}
+
 // --- Gym --------------------------------------------------------------------
 
 export type GymData = {
@@ -345,7 +419,6 @@ export type GymData = {
   loggedDays: LoggedDay[];
   frozenDates: string[];
   sessions: GymSession[];
-  upcoming: UpcomingDay[];
 };
 
 export function useGym(): Async<GymData> {
@@ -354,17 +427,49 @@ export function useGym(): Async<GymData> {
   const frozenDates = useGymStore((s) => s.frozenDates);
   const sessions = useGymStore((s) => s.sessions);
   const { isLoading, error, refetch } = useHydration(hydrateGym);
-  // mockUpcomingDays is a fixed list with literal past dates ('Wed 18 Jun') and
-  // invented freeze/scheduled actions, and gym/streak.tsx makes those rows
-  // actionable — applying a freeze to an invented day. Dev only.
-  const upcoming = isDevBuild() ? mockUpcomingDays : [];
-  return { data: { streak, loggedDays, frozenDates, sessions, upcoming }, isLoading, error, refetch };
+  return { data: { streak, loggedDays, frozenDates, sessions }, isLoading, error, refetch };
 }
 
 // --- Goals + profile --------------------------------------------------------
 
+/** Fetch the signed-in user's goals row and store it for useEffectiveGoals().
+ *  A 404 ("no goals set" — no onboarding completed yet) is expected, not a
+ *  failure: it just leaves serverGoals null, same as any other row this app
+ *  hasn't created yet. */
+export async function hydrateGoals(): Promise<void> {
+  const g = await api.goals.get().catch((e: unknown) => {
+    if (e instanceof ApiError && e.status === 404) return null;
+    throw e;
+  });
+  useSettingsStore.getState().setServerGoals(g ? goalsFromApi(g) : null);
+}
+
 export function useGoals(): MacroGoals {
+  useHydration(hydrateGoals);
   return useEffectiveGoals();
+}
+
+/** Fetch the server's own entitlement record and store it. On any failure
+ *  (network, 5xx) this leaves serverEntitlement exactly as it was — the
+ *  Subscription screen keeps showing RevenueCat's own view rather than
+ *  flipping to a fabricated "not subscribed" on a transient error. */
+export async function hydrateSubscription(): Promise<void> {
+  let s: SubscriptionStatus;
+  try {
+    s = await api.subscription.get();
+  } catch {
+    return;
+  }
+  useSettingsStore.getState().setServerEntitlement(entitlementFromApi(s));
+}
+
+/** The server's cross-check on entitlement (GET /api/subscription), for
+ *  screens that must not rely on the RevenueCat SDK alone — see
+ *  Subscription (PHASE2_ROWS.md row 15). Null while unhydrated or when the
+ *  server has no row yet; callers fall back to their own RevenueCat read. */
+export function useServerEntitlement(): ServerEntitlement {
+  useHydration(hydrateSubscription);
+  return useSettingsStore((s) => s.serverEntitlement);
 }
 
 /** Hydrate the signed-in user's identity from the server. Nothing did this

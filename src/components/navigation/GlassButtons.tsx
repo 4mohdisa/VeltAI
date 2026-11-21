@@ -27,7 +27,7 @@ const BACK_RING = 'rgba(255, 255, 255, 0.75)';
 
 // Solid opaque fallback for Reduce Transparency (HIG §11): a flat monochrome
 // surface with a hairline edge so the control still reads as a button.
-const solidGlass: ViewStyle = { backgroundColor: surface.card, borderWidth: 1, borderColor: color.gray200 };
+const solidGlass: ViewStyle = { backgroundColor: surface.card, borderWidth: layout.borderWidth, borderColor: color.gray200 };
 
 function GlassCircle({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const reduceTransparency = useReduceTransparency();

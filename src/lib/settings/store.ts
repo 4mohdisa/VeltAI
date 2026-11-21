@@ -24,6 +24,11 @@ export type GoalMode = 'ai' | 'custom';
 export type MacroSplitBy = 'grams' | 'percent';
 export type MacroGoals = { calories: number; protein: number; carbs: number; fat: number; fibre: number };
 
+/** The server's own view of entitlement (GET /api/subscription), mapped by
+ *  entitlementFromApi. Null when the server has no opinion yet — see
+ *  hydrateSubscription in @/lib/data/hooks. */
+export type ServerEntitlement = { isActive: boolean; status: string } | null;
+
 /** The "AI recommendation" — derived from the user's onboarding profile (Task 2),
  *  no longer a hardcoded mock target. Stays editable via the custom override. */
 export function aiGoals(): MacroGoals {
@@ -67,6 +72,14 @@ type SettingsState = {
   languageOverride: string | null;
   goalMode: GoalMode;
   customGoals: MacroGoals;
+  /** The signed-in user's goals row from GET /api/goals, mapped by
+   *  goalsFromApi; null before hydration lands or when no row exists yet.
+   *  Read by useEffectiveGoals() ahead of the local derivation. */
+  serverGoals: MacroGoals | null;
+  /** The signed-in user's entitlement from GET /api/subscription, mapped by
+   *  entitlementFromApi. Null before hydration lands or when the server has
+   *  no row yet — the Subscription screen then keeps RevenueCat's own view. */
+  serverEntitlement: ServerEntitlement;
   macroSplitBy: MacroSplitBy;
   notificationPrefs: NotificationPrefs;
   // First-party product analytics (OPT-IN as of 2026-08-09 — DECISIONS.md).
@@ -81,6 +94,8 @@ type SettingsState = {
 
   setGoalMode: (mode: GoalMode) => void;
   setCustomGoals: (patch: Partial<MacroGoals>) => void;
+  setServerGoals: (goals: MacroGoals | null) => void;
+  setServerEntitlement: (entitlement: ServerEntitlement) => void;
   setMacroSplitBy: (by: MacroSplitBy) => void;
   setNotificationPrefs: (patch: Partial<NotificationPrefs>) => void;
   resetGoalsToAi: () => void;
@@ -94,6 +109,8 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   languageOverride: null,
   goalMode: 'ai',
   customGoals: aiGoals(), // seeds custom fields with the derived recommendation
+  serverGoals: null,
+  serverEntitlement: null,
   macroSplitBy: 'grams',
   notificationPrefs: defaultNotificationPrefs(),
   analyticsEnabled: false,
@@ -116,6 +133,8 @@ export const useSettingsStore = create<SettingsState>((set) => ({
         ...(patch.calories != null ? { calories: clampCalories(patch.calories) } : {}),
       },
     })),
+  setServerGoals: (serverGoals) => set({ serverGoals }),
+  setServerEntitlement: (serverEntitlement) => set({ serverEntitlement }),
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
   setNotificationPrefs: (patch) =>
     set((s) => ({ notificationPrefs: { ...s.notificationPrefs, ...patch } })),
@@ -138,6 +157,8 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       languageOverride: null,
       goalMode: 'ai',
       customGoals: aiGoals(),
+      serverGoals: null,
+      serverEntitlement: null,
       macroSplitBy: 'grams',
       notificationPrefs: defaultNotificationPrefs(),
       analyticsEnabled: false,
@@ -172,13 +193,19 @@ export function clampCalories(n: number, sex?: Sex): number {
 // --- Selectors --------------------------------------------------------------
 
 /** The macro/calorie targets the app should actually use right now. Reactive to
- *  both the goal mode/custom values AND the user profile (so the derived
- *  recommendation updates when onboarding writes the user's real numbers). */
+ *  the goal mode, the custom values, the server's own goals row, and the user
+ *  profile (so the derived recommendation updates when onboarding writes the
+ *  user's real numbers). In 'ai' mode the server's goals row wins once
+ *  hydrateGoals() has landed one — that row is what PUT /api/goals and
+ *  onboarding both write, so it is the one real source of truth; this local
+ *  derivation is only the fallback for no server row yet. */
 export function useEffectiveGoals(): MacroGoals {
   const mode = useSettingsStore((s) => s.goalMode);
   const customGoals = useSettingsStore((s) => s.customGoals);
+  const serverGoals = useSettingsStore((s) => s.serverGoals);
   const profile = useUserStore((s) => s.profile);
-  return mode === 'custom' ? customGoals : deriveGoals(profile);
+  if (mode === 'custom') return customGoals;
+  return serverGoals ?? deriveGoals(profile);
 }
 
 export function useUnitPreferences(): UnitPreferences {

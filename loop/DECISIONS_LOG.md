@@ -6746,6 +6746,1187 @@
 - 2026-11-19 09:34 Did not run the full checkpoint: the loop script has not marked a checkpoint round, and the notes say Isa runs it before commit.
 - 2026-11-19 09:34 Treated the 'none yet, first round' report as the same input fault as R994 to R1205; no new work derived from the stale handover.
 - 2026-11-19 09:34 Jev stop 93% agreed. No override logged.
+- 2026-11-19 14:32 Chose the row list task first: the safety check is read only and stops the loop itself if any setting points at production, so asking Isa first adds no protection.
+- 2026-11-19 14:32 Jev suggested ask at 24%; I am running instead because the only read only step is safe and it stops by itself on any production hit.
+- 2026-11-19 14:32 Combined the safety check into Task 1 as its first step so the row list is created in one round, as the brief's first task requires.
+- 2026-11-19 14:32 Status rule set to DIFFERENT or PARTIAL for anything unproven, since no tests run in Task 1.
+- 2026-11-19 14:32 Baseline row goes right after the row list, before any wiring, per the order of work.
+- 2026-11-19 14:42 Chose row 22 (baseline) over the Goals and Subscription wiring: it is the stated first task, needs nothing from Isa, and every later row depends on green gates. Jev gave a low clean-completion score, so I kept it to one row with a clear stop on any production pointing.
+- 2026-11-19 14:42 Folded the Screen.tsx prettier-diff check into the baseline round, because a stray reformat would pollute every later commit.
+- 2026-11-19 14:42 Kept the TestPG step inside row 22 but gated it on the DSN resolving to 127.0.0.1:55432 and printing host and port only.
+- 2026-11-19 14:42 plan.tsx and the AI anomaly banner have no backend capability. Recorded as a scope question for later rows, not asked now. Default when reached: keep the design, show no fabricated data, and mark the row BUILT only if the empty state is wired honestly. Does not block other rows.
+- 2026-11-19 14:42 Did not ask Isa anything this round. No question meets the bar for asking yet.
+- 2026-11-19 14:47 Chose local setup over Goals and Subscription: every later simulator flow depends on the app running against the local backend with seeded data. Jev agrees (run 97%).
+- 2026-11-19 14:47 If Clerk sign in needs hosted Clerk, park it as an owner step and do not build a workaround. Reason: hosted auth is out of bounds.
+- 2026-11-19 14:47 Seed data goes in backend/scripts/seed_local.sql, applied to the local database only. Reason: idempotent, reviewable, no hosted writes.
+- 2026-11-19 14:47 Docker compose is not installed. Use the running local container on 55432. Reason: report note 1.
+- 2026-11-19 14:51 Chose row 3 Food log over row 9 Gym log because the order of work puts food logging first and the rule says to prefer the smallest task that clears rows.
+- 2026-11-19 14:51 Simulator flow for row 3 parked as owner step, because the backend verifies tokens against hosted Clerk and sign in cannot run locally. Row is marked BUILT only if local mocked tests pass, otherwise PARTIAL.
+- 2026-11-19 14:51 Verification uses mocked Jest tests and Go tests on the changed package only, not an auth bypass. No backend auth bypass is allowed.
+- 2026-11-19 14:51 Previous round appended row 73 Local setup to PHASE2_ROWS.md; kept it as a done row and it counts toward the 73 total.
+- 2026-11-19 14:51 Backend reported running on localhost:8080 and the lume-test-pg container left running for reuse; no teardown needed now.
+- 2026-11-19 14:55 Chose row 9 Gym log as the next task, as the previous report recommended; it is independent of sign in and the smallest step after row 3.
+- 2026-11-19 14:55 Goals and Subscription rows kept for the following rounds; they are larger wiring gaps, and Gym clears a row with the same pattern.
+- 2026-11-19 14:55 Food delete-whole-meal long press (food.tsx confirmDeleteMeal) is a discoverability and design question, not wiring. Parked, not fixed.
+- 2026-11-19 14:55 Row 3 accepted as BUILT on local mocked tests; its simulator flow stays an owner step, consistent with the earlier decision.
+- 2026-11-19 14:56 Chose row 9 Gym log over Goals and Subscription: it is the next step in the agreed order (food, then gym), needs nothing from Isa, and is the smallest change.
+- 2026-11-19 14:56 Prompt now states the branch rule explicitly (stay on loop/phase2, no switch, push or merge) after the rejected prompt.
+- 2026-11-19 14:56 Simulator flow for row 9 kept as owner check pending: sign in needs hosted Clerk, so it cannot run locally.
+- 2026-11-19 14:56 Gym log file paths left for Claude Code to discover and list, because the exact screen filenames are not in the notes. Claude Code must report them in DONE.
+- 2026-11-19 14:56 Delete-whole-meal long press gesture stays parked as a design call, not a wiring task.
+- 2026-11-19 14:59 Chose row 10 over Goals and Subscription: Claude Code reported it as the smallest sign-in-independent check, and it finishes the gym family before the larger wiring gaps.
+- 2026-11-19 14:59 Kept the logGymSession id-reconciliation concern out of this row. It is listed in Known issues to review when row 16 is worked, since it touches the shared mutation queue.
+- 2026-11-19 14:59 Simulator flow for row 10 is recorded as owner check pending because sign in cannot run locally. Rows stay BUILT on passing local tests, as decided in Phase 2 round 4.
+- 2026-11-19 14:59 Jev risk reading (0.6) is noted. Staying on a small verification-first task keeps the risk low, so no pause for Isa.
+- 2026-11-19 15:01 Fixed the flagged 'verified' wording on row 10 before moving on, as the loop note requires. Done as its own round because it is a single row edit and the loop allows one task per round.
+- 2026-11-19 15:01 Row 10 stays BUILT. The code and route match and the local Jest test passes. Simulator flow remains owner check pending.
+- 2026-11-19 15:01 Added a standing rule: rows say built or checked in code, never verified. Isa does the verifying. Applied to every future prompt.
+- 2026-11-19 15:01 Text only change, so no tests are run this round. Reason: a full test run adds no safety for a wording edit.
+- 2026-11-19 15:03 Chose the gate re-run over Jev's row 11 pick. The loop flag says to deal with the unrun type check and tests before moving on. Jev gives a 14% chance the last task finished cleanly, so the state is not clean. The gate is the smallest task and clears the flag. Row 11 is next.
+- 2026-11-19 15:03 Last report was text only, so the flag is most likely about gates that were never run after the earlier rounds, not about the wording change itself.
+- 2026-11-19 15:03 Scoped the gate fix to the failing tests and the row 22 line only, to keep the change small.
+- 2026-11-19 15:05 Row 22 marked BUILT: gate re-run green (tsc 0 errors, Jest 65 suites / 826 tests, backend 632 pass incl. 18 TestPG). The one SIGSEGV was an isolated worker flake, not reproducible, so no code change.
+- 2026-11-19 15:05 Row 11 chosen over Goals and Subscription: it is the stated next row, the smallest path to clear gym rows, and Jev ranks run at 95%. Goals and Subscription follow.
+- 2026-11-19 15:05 Row 11 simulator flow recorded as not run, because sign in is an owner step. Row marked BUILT on local tests, per the existing rule.
+- 2026-11-19 15:08 Accepted Jev's top pick (row 12) over Goals and Subscription: row 12 has a known fabricated-data gap on record, and it is the smallest of the three.
+- 2026-11-19 15:08 Kept row 12 smallest path: no new backend capability unless a route already exists. Fabricated suggestions are removed, consistent with the plan.tsx rule (keep design, show no fabricated data).
+- 2026-11-19 15:08 Added a tsc re-run at the start of the prompt to clear the automatic flag on the last report. The previous report did run tsc (0 errors), so the flag most likely refers to Jest not being run for the row.
+- 2026-11-19 15:08 Jev risk is 0.9 with confidence 0.28, so the task is kept to one row and a single test file. No full suite run this round.
+- 2026-11-19 15:15 Chose row 13 Goals over Subscription: Jev ranked run at 93%, and Goals has a known real gap (endpoint exists, client never calls it), the same pattern as row 12.
+- 2026-11-19 15:15 Recorded row 12 as BUILT. Its removal of fabricated upcoming-days data is closed.
+- 2026-11-19 15:15 Streak freezes can never exceed 1 under current backend semantics. Not a bug, so parked, not changed.
+- 2026-11-19 15:15 Jev's risk score (1.0 of 2) noted. Kept the task to one row with a small blast radius.
+- 2026-11-19 15:22 Row 13 Goals marked BUILT: the report shows the server-first hydrate and a passing render test, with simulator as an owner check.
+- 2026-11-19 15:22 Chose Subscription (row 14, per notes order) over Profile: same known gap pattern as Goals, and the backend endpoint exists. Jev ranked run 88%, so no second look was needed.
+- 2026-11-19 15:22 Row numbering conflict: the report called row 14 Profile and row 15 Paywall. The notes say row 14 is Subscription. Claude Code must use the title in PHASE2_ROWS.md, not the number, and report the row it used.
+- 2026-11-19 15:22 'Saved as you type' copy on goals is a side finding, not a row. Parked, not built.
+- 2026-11-19 15:29 Chose Profile over dead-code cleanup: it is an open wiring row and clears a PARTIAL row. The mapper cleanup stays parked; it is not a row.
+- 2026-11-19 15:29 Recorded the row-number drift: the prior task named row 14 but the work was row 15 Paywall/Subscription. Marked row 15 BUILT on the passing render test. Future prompts use row titles.
+- 2026-11-19 15:29 Jev ranked run 91% for this step, which agrees with the choice. No reason to look again.
+- 2026-11-19 15:29 Kept the Simulator flow as an owner check, since sign in is still blocked.
+- 2026-11-19 15:32 Chose the checkpoint over Jev's Dashboard/Summary pick (80%). The loop script marks this round as a checkpoint, and the loop note requires the full type check and full suite before moving on. Jev cannot see that requirement.
+- 2026-11-19 15:32 Kept the wording fix out of this round because the checkpoint allows no file changes. It becomes the next task so the 'verified' claim is cleared first.
+- 2026-11-19 15:32 Told Claude Code not to update snapshots, so a snapshot drift shows up as a report item and is not silently regenerated.
+- 2026-11-19 15:32 A Jest worker SIGSEGV gets one rerun of that file only. This follows the watch item in the notes and does not count as a failure unless it fails again.
+- 2026-11-19 15:33 Chose the wording pass over Dashboard/Summary. It is the smallest task, needs nothing from Isa, and clears the wording rule the checkpoint was waiting on. Jev ranked run 83%, so no override.
+- 2026-11-19 15:33 Round 9 checkpoint result recorded: tsc 0 errors, Jest 68 suites / 832 tests / 4 snapshots, all green. The +3 suites and +6 tests are the render tests added in Gym streak, Goals and Subscription. Baseline updated.
+- 2026-11-19 15:33 Claude Code's report said the Profile row may already be clean. The task asks for a search and a confirming pass, not a rewrite, so it stays small.
+- 2026-11-19 15:37 Chose the gate check first: the automatic check flagged the last round as not gated, and no row work should start on an unverified baseline. Jev ranked run at 91%, consistent with this.
+- 2026-11-19 15:37 Ran the full Jest suite once (not just changed files) because the gate itself was missing, and this is the one allowed exception to the changed-files rule.
+- 2026-11-19 15:37 Backend tests skipped this round: no backend code changed, so the backend gate does not apply.
+- 2026-11-19 15:37 Deferred the awkward owner check pending phrasing to a later copy pass: it is clear enough and not worth a round alone.
+- 2026-11-19 15:38 Chose the Dashboard and Summary comparison as the next row, as the notes and handover say. It clears a core row and needs nothing from Isa.
+- 2026-11-19 15:38 Round 11 gate passed (tsc 0, Jest 68/832/4), so no gate run is needed first this round.
+- 2026-11-19 15:38 Did not ask Isa about the uncommitted loop/DECISIONS_LOG.md and loop/NOTES_phase2.md edits. The loop script owns those files and commits them each round. Recorded here so the next report can mention it if it recurs.
+- 2026-11-19 15:38 Row 17 plan.tsx stays parked: it needs a product decision, not wiring.
+- 2026-11-19 15:38 Kept the task to one row and one render test, since Jev risk is 1.3 of 2 and confidence is low.
+- 2026-11-19 15:46 Chose the wording gate first because the automatic check flagged the row 16 report and the loop note says to deal with it before moving on.
+- 2026-11-19 15:46 Did not ask Isa about plan.tsx (Jev suggested ask). The Decisions list already says plan.tsx has no backend and keeps its design with no fabricated data, so the question is answered. Row 17 can proceed on that basis.
+- 2026-11-19 15:46 Row 16 accepted as BUILT on the code comparison and the render test. Its report wording is corrected by the gate task, not by changing the code.
+- 2026-11-19 15:46 loop/ uncommitted diffs are reported only, per the loop-managed file rule.
+- 2026-11-19 15:47 Chose row 17 over the motion audit: it is the next item in Next, small, and needs no Isa input. Jev run 92% agrees; kept the task to one row because last task clean odds were 38%.
+- 2026-11-19 15:47 Wording gate passed in round 13 with no edits; row 17 reports must use 'checked in code' or 'owner check pending'.
+- 2026-11-19 15:47 plan.tsx stays as designed with no fabricated data (existing decision, restated).
+- 2026-11-19 15:47 Simulator flows for sign-in dependent screens remain owner steps; row 17 is checked in code only.
+- 2026-11-19 15:49 Automatic check flagged the row 17 report (tsc or tests not run). Recorded under Blocked on Isa in notes, not retried, row 17 status left BUILT.
+- 2026-11-19 15:49 Picked the read only Motion audit over Jev's ask (78%). No question is needed that only Isa can answer; the flag is a recorded blocker, not a product gap.
+- 2026-11-19 15:49 Motion audit needs no tests since no code changes, so tsc is the only check and the report says so explicitly.
+- 2026-11-19 15:49 Dead mapper cleanup and Phase 1 visual QA deferred: cleanup is Parked, simulator QA of authenticated screens needs sign in (owner step).
+- 2026-11-19 15:59 Jev asked for ask at 82%. Overridden: the flag is a missing test run that Claude Code can run itself. Asking Isa adds no information, and the loop note says to deal with the flag before moving on.
+- 2026-11-19 15:59 Chose the baseline checkpoint as the next run: it is the smallest task, needs nothing from Isa, and clears the flag.
+- 2026-11-19 15:59 Row 22 is the only row touched. Reduce Motion fix and the stale motion rows stay parked for later rounds.
+- 2026-11-19 16:01 Loop note says the same blocker came back twice, so the row 17 plan.tsx product decision is recorded under Blocked on Isa and not retried.
+- 2026-11-19 16:01 Jev ask at 71% overridden: the blocker is a product decision Isa already holds in the notes, and asking again adds nothing. Picked a surface that does not depend on it.
+- 2026-11-19 16:01 Chose motion row 74 over backend and visual QA rows: it is the smallest unbuilt row, needs no Isa input, and was flagged DIFFERENT in the last audit.
+- 2026-11-19 16:01 Kept onboarding/_layout.tsx out of scope. Its Reduce Motion fix is a parked item, not a row.
+- 2026-11-19 16:01 Round 16 gates are green, so the test-not-run flag is cleared and removed from the notes.
+- 2026-11-19 16:06 Chose row 75 over row 76: row 75 is missing entirely, row 76 is only rough. Jev run 86% agrees. Single small task.
+- 2026-11-19 16:06 Row 75 simulator step not run: the flow needs sign in, which is an owner step. Row marked BUILT on local tests with owner check pending.
+- 2026-11-19 16:06 onboarding Reduce Motion fix stays parked: it is a navigator change, not a row, and Isa has not asked for it yet.
+- 2026-11-19 16:06 Loop rejected the last prompt for covering two screens (food and gym log). Rewrote as one component: the food log list only.
+- 2026-11-19 16:06 Split the row: food log stays in 'Adding and removing list items' (BUILT), gym log becomes a new DIFFERENT row to do next. Reason: keeps every prompt to one component.
+- 2026-11-19 16:06 Prompt names the file by search, not by a guessed path, so Claude Code reads the real file first.
+- 2026-11-19 16:06 No simulator run for this row: sign in is owner check pending, so the flow cannot run end to end.
+- 2026-11-19 16:06 Kept row 76 (progress rings) for after the gym log entry row.
+- 2026-11-19 16:17 Chose row 77 over progress rings: same pattern as the just finished food row, smallest change, no dependency on Isa (Jev 96% run).
+- 2026-11-19 16:17 Treated the repeated blocker (loop-managed files loop/DECISIONS_LOG.md and loop/NOTES_phase2.md with uncommitted diffs) as a loop issue: recorded under Blocked on Isa, not retried, not a task. Row 77 does not depend on it.
+- 2026-11-19 16:17 Parked the gesture-handler worklet console warning from SwipeableRow.tsx (pre-existing, out of scope).
+- 2026-11-19 16:17 Gym log id-reconciliation gap kept as a Known issue and routed to NEXT, not fixed in this row.
+- 2026-11-19 16:21 Followed Jev's ranking and picked Progress rings over row 77. Reason Jev cannot see: row 77's file premise is unresolved, and the ring task needs nothing from Isa.
+- 2026-11-19 16:21 Did not ask Isa (Jev ask 95%). The row 77 file question is a scope choice I can make, not a major blocker. Decided: row 77 targets src/app/gym/session.tsx (has add via ExercisePicker, no remove), to be redone after the ring task.
+- 2026-11-19 16:21 Previous report made no edits and skipped the type check. This round's prompt makes the type check step 1 and requires it to be recorded.
+- 2026-11-19 16:21 Ring row uses 'find the one component' with a stop rule instead of naming a file I have not read, to avoid a guessed path.
+- 2026-11-19 16:28 Round 21: accepted Jev's pick (progress bar and macro ring easing). No concrete reason to override: it is the remaining gap of the open progress rings row and is small.
+- 2026-11-19 16:28 Scoped to ProgressBar.tsx only, because the notes rule is one component per prompt. DailyMacroRing.tsx goes next round.
+- 2026-11-19 16:28 Reused the EnergyBalanceCard pattern and the existing useReduceMotion hook instead of adding a new animation approach.
+- 2026-11-19 16:31 Auto flag handled: the progress rings row was marked BUILT while DailyMacroRing was still snapping. Reopened it as PARTIAL and the next prompt returns it to BUILT only after the ring is done.
+- 2026-11-19 16:31 Previous report called row 77 blocked on the target file. Not a blocker: the manager already widened row 77 to src/app/gym/session.tsx. Row 77 stays next after this round.
+- 2026-11-19 16:31 Chose the smallest open gap (one component, one test file) because Jev confidence is 0.40 and risk is 1.1.
+- 2026-11-19 16:35 Kept the checkpoint task over Jev's pick (fold rows 65-72). The loop script requires a full checkpoint this round, and folding stale motion rows is listed in Parked as an Isa decision, so the loop should not do it on its own.
+- 2026-11-19 16:35 Jev asked for ask (70%). Not asked: the question is not major, no row is blocked by it, and it can be settled by the checkpoint result.
+- 2026-11-19 16:35 Noted a wording slip in the last report ('confirmed by the math' in prose). It is not a row cell, so no action; reminder added to notes.
+- 2026-11-19 16:36 Ran row 77 although the last report said it was blocked: the manager already set its target file in Decisions, so no Isa answer is needed.
+- 2026-11-19 16:36 Did not ask Isa about the loop/ uncommitted diffs: loop-managed, not a task; noted in Blocked on Isa.
+- 2026-11-19 16:36 Did not take Jev's ask (57%): the only open question is already answered in Decisions; a small task is safer at risk 1.3.
+- 2026-11-19 16:36 Rows 65-72 left untouched: fold or delete is Isa's decision per Decisions.
+- 2026-11-19 16:36 Round 23 checkpoint recorded as green: tsc 0 errors, Jest 73 suites / 847 tests / 4 snapshots.
+- 2026-11-19 16:41 Chose the logGymSession id reconciliation gap over new work because the last report and Known issues both list it, and it reopens row 9 to PARTIAL until it is done (Gym log is not BUILT while a part is missing).
+- 2026-11-19 16:41 Kept rows 65 to 72 untouched, since the notes say Isa decides whether to fold them.
+- 2026-11-19 16:41 Simulator flows stay owner check pending because sign in needs hosted Clerk JWKS.
+- 2026-11-19 16:41 Jev risk is 1.0 of 2, so the task is one component, five steps, with a single test file.
+- 2026-11-19 16:45 Kept run over ask (Jev 92% ask). Reason: the open question is scope on a repo-local file, not money, data loss, production or a dashboard step only Isa can do. The change is additive (optional parameter, same behaviour for existing callers), so it fits the default rule to decide and record. Jev cannot see that the change is backward compatible and that the blocked row is the only one affected.
+- 2026-11-19 16:45 Widened scope for row 9 to src/lib/offline/queue.ts only, for the optional onLanded change. Reason: the previous report left row 9 PARTIAL on a scope limit, and the default rule says decide and record.
+- 2026-11-19 16:45 Kept the task to one file plus one new test file, per the one component per prompt rule, and deferred the mutations.ts wiring to the next round.
+- 2026-11-19 16:45 Rows 65-72 stay as they are until Isa decides to fold or drop them. Not touched this round.
+- 2026-11-19 16:47 Loop flag said the last report was partly done. Row 9 is still PARTIAL and only the queue change landed, so the next prompt re-checks the queue change and finishes the row 9 wiring in the same single row task.
+- 2026-11-19 16:47 Jev asked for ask at 92%, but the risk is a scoped code task, not a production or money question. Kept run. Reason: nothing here needs Isa, and a question would only delay a row that is already scoped.
+- 2026-11-19 16:47 Kept rows 65-72 out of scope. Folding them is Isa's decision.
+- 2026-11-19 16:47 Simulator flow for row 9 recorded as an owner step, because sign in needs hosted Clerk JWKS.
+- 2026-11-19 16:51 Row 9 (Gym log) accepted as BUILT per round 28 report. Simulator sign-in part stays an owner step, already on Blocked list.
+- 2026-11-19 16:51 Jev advised ask (64%). Not asking: no major blocker, sign-in is already an owner item, and a question now would repeat it. Recorded as a deliberate override.
+- 2026-11-19 16:51 Chose the streak footnote row: smallest Phase 1 visual QA row, needs nothing from Isa, and the simulator step falls back to a render test if sign in blocks it.
+- 2026-11-19 16:51 Double-log edge case from round 28 report (logGymSession while gymLoggedToday is true) parked, not fixed. It is outside row 9's scope and the backend dedup index covers the duplicate POST. Revisit only if the double-log path matters.
+- 2026-11-19 16:52 Jev said ask (90%). Overrode: the question is minor and the loop rules say decide. The row mismatch is my own naming error, and row 35 is the closest match to the Phase 1 device item, so I mapped it there.
+- 2026-11-19 16:52 The automatic flag said the type check or tests were not run last round. The new prompt requires tsc and the targeted Jest files, so the gate is run this round.
+- 2026-11-19 16:52 Simulator part marked owner check pending if sign in blocks the streak screen. Sign in is an owner step per the blocked list.
+- 2026-11-19 16:52 Row 54 is a separate Visual QA row and is not touched this round.
+- 2026-11-19 17:01 Jev said ask (70%). Overridden: this is not a major question. Both rows are closed by a render test that already exists and passes in the last report, so no answer from Isa is needed.
+- 2026-11-19 17:01 Jev's run option reads the same as the loop note on task 1 (82%). Chose it. Reason Jev cannot see: the test file already exists and was run green, so this is a status update plus at most one assertion.
+- 2026-11-19 17:01 Row 35 and 54 set to BUILT with 'owner check pending' for the simulator screenshot, per the wording rule. No device claim.
+- 2026-11-19 17:01 GymPatternsCard null/array guard (crash when /api/gym/patterns returns []) is a real bug but not a row. Parked for a later row, not fixed now to keep this task to one row pair.
+- 2026-11-19 17:01 Row 54 scope: if its description needs the flame or count asserted, add one assertion to the same test file only.
+- 2026-11-19 17:03 Chose the GymPatternsCard shape guard: smallest concrete gap in the app, no backend or Isa input needed, and notes already flag it for a later row.
+- 2026-11-19 17:03 Jev said ask (48%) with low confidence. Overridden: the question is minor and reversible, and a small task is the safer choice Jev itself recommends at low confidence.
+- 2026-11-19 17:03 Rows 35 and 54 merge suggestion from the last report is not a task. Recorded as a Parked item for Isa.
+- 2026-11-19 17:03 Stale motion rows 65-72 left for Isa, as already decided.
+- 2026-11-19 17:06 Chose the muscle chart shape guard because the last report flagged the same unguarded pattern in two more callers, and the fix reuses the helper from row 78 with the smallest diff.
+- 2026-11-19 17:06 Parked the partially malformed object case (for example {}) for a later round. It is a separate, smaller change inside one card, and one row per round keeps the risk score low.
+- 2026-11-19 17:06 Jev ranked run at 66%. Agreed, no override needed.
+- 2026-11-19 17:06 Round 34: the loop rejected the round 33 prompt for covering more than one component. Rewrote it to cover only MuscleChart.tsx; the muscles screen goes to its own row next.
+- 2026-11-19 17:06 Round 34: allowed one export keyword on the existing isGymPatternsShape in GymPatternsCard.tsx so the guard is reused, not duplicated. Reason: shared logic, no body change.
+- 2026-11-19 17:06 Round 34: partially malformed objects stay Parked, as before, to keep the prompt to one task.
+- 2026-11-19 17:09 Round 35: chose row 80 (muscles screen) as the next single-screen row, as set in the previous round's Next list. It is the smallest row that clears a real call site of useGymPatterns.
+- 2026-11-19 17:09 Row 80 guard is conditional: only edit the screen if the test shows a crash. The MuscleChart crash claim did not reproduce, so the same may hold here. Avoids an unneeded code change.
+- 2026-11-19 17:09 Partially malformed patterns object ({}) stays parked. It is a real crash risk in GymPatternsCard, but it is a separate component and must be its own row.
+- 2026-11-19 17:09 Jev next action (run, confidence 0.91) agrees with the choice. Jev risk 1.0 handled by keeping the task to one screen and one test file.
+- 2026-11-19 17:10 Round 36: chose the exercise progress screen check. It is the smallest remaining gym patterns row, and it may need no code change. Jev risk is 1.0, so keep the task small.
+- 2026-11-19 17:10 Jev said ask (75%). Not asked: no major blocker. Sign in and Maestro are already owner steps in Blocked on Isa, and the next task needs neither. Decided without asking.
+- 2026-11-19 17:10 Central guard in useGymPatterns deferred. Call-site guards stay because they match the existing pattern in three screens. Revisit only if a fourth call site appears.
+- 2026-11-19 17:10 Partial object guard ({} passing isGymPatternsShape) stays Parked as its own row. It is not in this round because the current call sites already use optional chaining.
+- 2026-11-19 17:12 Chose run over ask: the Reduce Motion question is minor and reversible, so it is not a question for Isa. Jev's 46% ask is overridden for that reason.
+- 2026-11-19 17:12 Chose candidate 1 over 2 and 3: it is a one-file, one-test change that clears a motion item. Low Jev confidence (0.19) favours the smaller task. Candidate 3 touches several call sites and was deferred in round 36.
+- 2026-11-19 17:12 Row number not given in notes: prompt tells Claude Code to find it by title and to fall back to the screen transitions Motion row, not to add a row.
+- 2026-11-19 17:12 Test file placed under src/__tests__/render/ to match the existing render-test pattern.
+- 2026-11-19 17:12 Exercise progress check (round 36) closed: no gym patterns read, no change needed.
+- 2026-11-19 17:14 Round 38: Jev ask (72%) overridden. The open question does not block any row that needs no owner step, and the remaining sign in rows are already parked as owner steps. Risk 0.8 of 2 is moderate and the change is small, one file, reversible. Last task was clean (93%).
+- 2026-11-19 17:14 Chose the camera modal helper cleanup: it is the smallest unbuilt item, touches one file, and was flagged as a duplicated ternary in the round 37 report.
+- 2026-11-19 17:14 Created a new row rather than reopening row 74, because row 74 is already BUILT and the camera modal work is a separate, narrower item.
+- 2026-11-19 17:15 Chose the checkpoint run because the last prompt was rejected for scope and this round is a checkpoint; a read-only run is the smallest safe step.
+- 2026-11-19 17:15 Did not ask Isa: Jev ask (30%) overridden. Nothing needs Isa for a read-only check, and the rejected prompt was a scope error, not a blocker.
+- 2026-11-19 17:15 Kept the camera modal row as the next candidate, since the last report flagged the duplicated reduceMotion ternary in src/app/_layout.tsx.
+- 2026-11-19 17:15 Row 9 stays BUILT per the Done list; the handover's PARTIAL label is stale and was not changed this round.
+- 2026-11-19 17:16 Round 40 picks the camera modal transitions task: smallest change, one file, clears a known duplication, needs nothing from Isa. Jev 84% run agrees.
+- 2026-11-19 17:16 Checkpoint baseline updated to 81 suites / 864 tests / 4 snapshots / tsc 0, as Claude Code recommended. Growth from new render and shape guard tests is expected, not a diff.
+- 2026-11-19 17:16 Row number for the camera transitions row is left to Claude Code (next free number) because the row list was not in this brief. Isa can renumber later.
+- 2026-11-19 17:16 Jev risk 0.9 accepted: one row, one file plus its test, gate run on the changed files only.
+- 2026-11-19 17:16 Round 40 prompt was rejected for asking for more than one screen or component. Rewrote it to edit one file only (src/app/_layout.tsx) and run one named test file.
+- 2026-11-19 17:16 Test run limited to the screenTransitions test file, not the full suite, to keep the gate small (Jev risk 1.0, prefer small tasks).
+- 2026-11-19 17:16 Row 74 used as the row number because the notes map screen and navigation transitions to it. The prompt names the row title too, so a mismatch is easy to spot.
+- 2026-11-19 17:16 Tracker line in PHASE2_ROWS.md is kept as the standard per-row update, not a second code component.
+- 2026-11-19 17:16 Jev run signal (86%) agrees with the choice. No override.
+- 2026-11-19 17:17 Chose candidate 1 because the last report flagged the swap from slide_from_bottom to simple_push on full-screen camera modals as a probable wrong motion. Reverting to the original motion is reversible, touches one file and needs no answer from Isa.
+- 2026-11-19 17:17 Jev ranked ask first at 71%. Overridden: a question about motion intent can be settled by restoring the prior behaviour, so asking adds nothing. Reason written here, per the Jev override rule.
+- 2026-11-19 17:17 Row 74 stays BUILT. The camera modal motion is now the original one, not a new design choice, so no owner question is needed before the fix.
+- 2026-11-19 17:18 The latest Claude Code report was a 5-hour rate limit message, so round 41 has no recorded result. Re-issued the same single-file task, with a read-first check so it makes no change if already done. Reason: smallest step, reversible, and it closes the open item in Next.
+- 2026-11-19 17:18 Did not ask Isa about the claude auth login warning. It is an owner step with a deadline of 2026-11-24, so it is recorded under Blocked on Isa for him to act on.
+- 2026-11-19 17:18 Jev risk 1.2 and 10% clean-finish estimate for the last task: kept the task to one file and one row, as Jev advised.
+- 2026-11-19 17:18 Handover label for row 9 is stale. Done list already says BUILT, so the notes keep BUILT and the handover text is ignored.
+- 2026-11-19 17:18 Round 42 result: Claude Code hit its 5-hour usage limit with no changes made. Re-issued the row 74 restore unchanged. Limit is temporary, so no question to Isa.
+- 2026-11-19 17:18 Claude CLI sign-in expiry (2026-11-24 to 2026-11-27) stays as an owner step in Blocked on Isa. Not a loop task.
+- 2026-11-19 17:18 Stale 'row 9 PARTIAL' label in the handover is ignored. Done list says BUILT, which is correct.
+- 2026-11-19 17:19 Latest Claude Code report is a 5-hour usage limit message, not a task result. Treated round 42 as not run and re-issued it.
+- 2026-11-19 17:19 Handover just happened, so the prompt names the file fully (src/app/_layout.tsx) and states the Reduce Motion rule explicitly.
+- 2026-11-19 17:19 Jev says run 66% and last task clean 3%. Kept run because the task is one file, reversible, and the limit reset (5:40pm Adelaide) is before the next round. Jev's low clean-finish score is noted; if the limit hits again, next round stops and waits.
+- 2026-11-19 17:19 No Isa question this round. The Claude sign-in expiry is already an owner item in the notes, so it is not asked again.
+- 2026-11-19 17:19 Round 43 prompt uses 'checked in code' wording, not verification words.
+- 2026-11-19 17:19 Round 43: usage limit hit again, no changes made. Stopped and waiting for reset, as the standing rule requires. The restore is not dropped.
+- 2026-11-19 17:19 Action stop here means pause for the usage reset, not that the build is finished. Resume from Next once the limit resets.
+- 2026-11-19 17:19 Jev stop 68% accepted for this round because the blocker is an external usage limit, not a task result.
+- 2026-11-19 17:55 Chose the camera modal restore: it is the pending Next item from round 43, one file, and it reverses an unintended motion change.
+- 2026-11-19 17:55 Jev rated run 47% vs stop 38% at low confidence (0.20), so kept run and chose the smallest task.
+- 2026-11-19 17:55 Did not ask Isa: the restore needs no dashboard or device, and the rate limit reset at 5:40pm Adelaide.
+- 2026-11-19 17:55 Prompt keeps the single file scope and the no-snapshot-regeneration rule to limit risk (Jev risk 1.3).
+- 2026-11-19 17:56 Round 44 camera modal restore accepted: tsc 0 errors, screenTransitions 4/4 pass. Row 74 stays BUILT with device feel as owner check pending.
+- 2026-11-19 17:56 Chose the gym patterns partial object guard: it was the next item in the agreed order and is a single file change with a clear test.
+- 2026-11-19 17:56 Jev suggested asking Isa (58%) with risk 1.0. Overridden: the open items are not major and do not block any row. The change is small, reversible and covered by tests.
+- 2026-11-19 17:56 Claude CLI sign-in expiry (2026-11-24 to 2026-11-27) is not a question this round. It is recorded under Blocked on Isa as an owner step, and it may stop unattended runs once it expires.
+- 2026-11-19 17:56 Candidate 2 (dead code in mappers.ts) and candidate 3 (visual QA) go to Next, not this round.
+- 2026-11-19 17:58 Chose the mappers.ts dead code removal from Next: small, one file, the Jev run signal is 89%, and it lowers the risk score.
+- 2026-11-19 17:58 Rejected the row 80 guard tightening Claude Code suggested. Round 35 decided row 80 is test only because no crash reproduced. Changing it now would go against that decision.
+- 2026-11-19 17:58 Dead code is a cleanup, not a row, so the prompt says not to add a row. It is recorded in Done and Next.
+- 2026-11-19 17:58 Jev risk is 0.9 on a 0 to 2 scale. The task is one file and one function set, so I did not ask Isa. Asking would cost him attention for no gain.
+- 2026-11-19 17:58 Claude Code usage limit: the next round waits for the 5:40pm reset if it is still hit. Scope is unchanged.
+- 2026-11-19 18:00 Round 47: dead code cleanup dropped. subscriptionFromApi is used by src/__tests__/mappers.test.ts, so the premise was wrong. Cleanup is not a row, so no row is lost.
+- 2026-11-19 18:00 Round 47: Jev ask (84%) overridden. The open point (dead code label) is minor, reversible and not a major question. Limit of questions not reached, but none needed.
+- 2026-11-19 18:00 Round 47: Jev run pick (93%) taken for the visual QA candidate. Matches the loop note. Scope kept to one row and one file.
+- 2026-11-19 18:00 Round 47: the failed gate from the last report is not a reason to stop. This round runs the type check and the changed file's tests as part of the task.
+- 2026-11-19 18:00 Round 47: simulator screenshots for visual QA are owner steps, since simctl hangs in this sandbox. Rows get 'owner check pending'.
+- 2026-11-19 18:05 Row 26 chosen, same as Jev's top pick and the report's recommendation. No override needed.
+- 2026-11-19 18:05 Row 23 treated as BUILT, checked in code: no code change needed, FloatingHeader matches the design fade spec, detailChrome test passes. Simulator screenshot is an owner check pending.
+- 2026-11-19 18:05 The automatic wording flag is handled by a rule: reports and row notes use 'checked in code' only. The row 26 prompt repeats this rule. A full wording sweep of PHASE2_ROWS.md is parked as a final step, not a separate row.
+- 2026-11-19 18:05 Only one row per round. Row 23 cell wording is not edited in this round, to keep the one-row rule.
+- 2026-11-19 18:05 Simulator screenshots for visual QA rows stay owner steps because Maestro is not installed and simctl hangs in the sandbox.
+- 2026-11-19 18:07 Row 26 accepted as BUILT, checked in code, no code change: scrim uses color.overlay which matches the design token; design has no separate scrim fade timing to compare against.
+- 2026-11-19 18:07 Chose row 30 (tab bar) as the next in order: no sign in needed, one component, smallest step. Matches the notes' stated next row.
+- 2026-11-19 18:07 BottomSheet.tsx has no render test. Logged in Parked, not made a row, because it adds tests outside the Visual QA scope. Revisit after the Visual QA rows.
+- 2026-11-19 18:07 Usage limit noted in the handover (5-hour limit). If the next round hits it, wait and do not change scope.
+- 2026-11-19 18:08 Round 49: row 37 chosen, matching the Claude Code recommendation and the Next list. Smallest task, no sign in needed.
+- 2026-11-19 18:08 Visual QA rows compare against src/lib/design/tokens.ts and code only, because design/Lume App.html has no per-screen markup. Real pixel comparison stays owner check pending until screenshots exist.
+- 2026-11-19 18:08 Did not ask Isa about the missing design reference this round. It is recorded in Blocked and will be raised in the daily report, not as a question.
+- 2026-11-19 18:10 Accepted Claude Code's round 49 result: row 37 3D body stand-in (MuscleChart) checked in code, no real difference found, pixel check left as owner check pending.
+- 2026-11-19 18:10 Chose row 51 toast clearance as next: same DIFFERENT status as the Visual QA rows, needs no sign in, one component, and Claude Code recommended it.
+- 2026-11-19 18:10 Simulator screenshots still not possible (Maestro not installed), so Visual QA rows are BUILT checked in code with owner check pending.
+- 2026-11-19 18:10 Jev risk 0.9 of 2 with run 92%: kept the task to one row and one file, as the notes ask.
+- 2026-11-19 18:11 Last report flagged as type check or tests not run. tsc was run (0 errors) but no Jest run was recorded. No code changed and no test imports ToastHost, so the fix is a re-run of tsc plus the grep, with the result reported explicitly.
+- 2026-11-19 18:11 ToastHost render test moved to Parked as a side finding, since rules say side findings go to Parked and it is not a row.
+- 2026-11-19 18:11 Chose the verification task over row 52 so the gate flag is closed before moving on. Jev rated run at 94%, consistent with a small task.
+- 2026-11-19 18:12 Round 51 gate closed: this report shows tsc 0 errors and grep for ToastHost found no tests. Row 51 changed no code, so no Jest run was needed. Next prompt re-runs tsc anyway.
+- 2026-11-19 18:12 Chose row 52 over the ToastHost test because it is a Visual QA row, needs no sign in, and is the next item in the agreed order.
+- 2026-11-19 18:12 Row 52 prompt uses a grep to find the single rendering file rather than a guessed path, to keep the one file rule without inventing names.
+- 2026-11-19 18:13 Chose row 53 because the last report recommended it, it needs no sign in, and it is one component, which keeps risk low (Jev risk 0.9).
+- 2026-11-19 18:13 Ignored the Claude Code 5-hour limit in the handover for scope. If the limit hits, the loop waits and the row stays the same.
+- 2026-11-19 18:13 Kept the pixel check as owner check pending because design/ has no per-screen markup.
+- 2026-11-19 18:13 Row 52 closed as checked in code with no change. Stroke weight has no token in tokens.ts, so it goes to Parked, not a new token in this round.
+- 2026-11-19 18:15 Picked row 55 over the flagged gate: row 53 changed no file, so the type check was the only gate and it ran with 0 errors. This round's prompt runs the type check again, which clears the flag.
+- 2026-11-19 18:15 Kept row 55 (Jev 96%): it matches the notes order (rows 54 to 63, one per round), row 54 is already BUILT, and row 55 is the next open Visual QA row.
+- 2026-11-19 18:15 Row 55 prompt uses the target file named in PHASE2_ROWS.md, not a guessed path, and stops with BLOCKED if none is named.
+- 2026-11-19 18:15 Pixel comparison is not claimed: design/ has no per-screen markup, so visual QA stays a token and code comparison (owner check pending for pixels).
+- 2026-11-19 18:15 Jev advised ask (92%). Overrode: the only missing input is a file path that can be found with one grep, and it is not something only Isa can supply. Asking would spend one of three daily questions on a non-owner task.
+- 2026-11-19 18:15 Allowed one grep in src/ for row 55 only, to find the add menu file. This narrows the earlier no-search rule for this row. Recorded so later rows follow the same rule only after backfill.
+- 2026-11-19 18:15 Tests not run last round was flagged. This round runs tsc and reports it. Jest is not needed because no code changes.
+- 2026-11-19 18:15 Process gap: Visual QA rows 23-63 have no file named. Next round backfills file names for these rows before more checks, so the BLOCKED outcome does not repeat.
+- 2026-11-19 18:17 Chose backfill (candidate 1) because the notes plan says it comes before Visual QA rows 56-63, and it unblocks those rows. It is doc only and needs nothing from Isa.
+- 2026-11-19 18:17 Accepted row 55 as BUILT, checked in code. The report shows one file, AddMenu.tsx, and tsc is 0 errors. No code changed, so no Jest run was needed.
+- 2026-11-19 18:17 Moved the AddMenu near-token question (PANEL_RADIUS 18 vs radius 16/20, ROW_MIN_HEIGHT 54 vs buttonHeight 52) to Parked. It is a design question, not a row, and code alone cannot settle it.
+- 2026-11-19 18:17 Claude Code hit its 5-hour limit, which resets 5:40pm Adelaide time. Per the notes, wait one round and do not change scope. The Claude CLI sign in ends 2026-11-24 to 2026-11-27, which is an owner step and is already in Blocked on Isa.
+- 2026-11-19 18:17 Did not follow Jev's 72% run versus 26% ask as a reason to ask Isa. Finding file paths is not an owner task, so it stays a run.
+- 2026-11-19 18:18 Kept the checkpoint over Jev's Row 56 pick (88%). Concrete reason: this round is a scheduled checkpoint from the loop, and the last full green gate was round 39, so rounds 40 to 55 have not been checked by a full run. Recorded in notes.
+- 2026-11-19 18:18 Rewrote the rejected prompt: added the loop/phase2 branch rule, a branch check that stops rather than switches, and no-edit and no-commit limits.
+- 2026-11-19 18:18 Made the prompt a read-only run with no file changes, as the loop note asked.
+- 2026-11-19 18:18 Added a one-off rerun for resetRegistry.test.ts if it crashes, since it is on the watch list. This is part of the same gate, not extra work.
+- 2026-11-19 18:18 Jev said run 83%. No question to Isa: the 5-hour limit is a wait, not a question.
+- 2026-11-19 18:19 Round 56 checkpoint is green (tsc 0 errors, Jest 81 suites, 867 tests, 4 snapshots), so Round 57 proceeds to Row 56 as planned.
+- 2026-11-19 18:19 Jev said run (72%) and agrees with the plan, so no override was needed.
+- 2026-11-19 18:19 Finding the StatLine file is treated as a grep step, not an owner task, per the notes rule.
+- 2026-11-19 18:19 Claude CLI sign-in expires 2026-11-24 to 2026-11-27. Kept as an owner step; not a blocker this round.
+- 2026-11-19 18:20 Chose row 57: smallest task in the same StatLine file as row 56, no Isa input needed.
+- 2026-11-19 18:20 Jev said run (72%), agreed; the risk score of 1.0 is handled by keeping one row and one file.
+- 2026-11-19 18:20 Named all files in full because the handover cleared Claude Code's context.
+- 2026-11-19 18:20 Tracking swap only if an exact token exists; no guessing, consistent with the 'no change when no token matches' rule used in earlier Visual QA rows.
+- 2026-11-19 18:20 TIGHT_STAT_GAP and TIGHT_STAT_UNIT_GAP (3 and 7) parked for a design re-check, not fixed.
+- 2026-11-19 18:21 Chose row 58 as the next Visual QA row, following the row order in the notes and the Round 57 report.
+- 2026-11-19 18:21 Kept the one row, one file per round rule. The hero header file is found by grep, not named, because the handover does not name it.
+- 2026-11-19 18:21 Did not run the full backend suite. Next checkpoint is due per notes, so it stays on the list.
+- 2026-11-19 18:21 Jev advised run at 96%. Agreed, no override.
+- 2026-11-19 18:22 Row 58 closed as no code change: ChartHeader is the single hero header component and HERO_TITLE has no identical token. Kept Jev's run pick.
+- 2026-11-19 18:22 Chose row 59 as the next sequential Visual QA row. Smallest task, needs nothing from Isa, matches the pattern set by row 58.
+- 2026-11-19 18:22 Kept the letter-spacing and stroke-weight gaps as Parked for one design pass with Isa, not per-row fixes.
+- 2026-11-19 18:24 Chose the gate over Jev's row 60 (92%). Reason: the loop check flagged round 59 for tests not run, and the notes say to deal with that before moving on. Row 60 is the same no-change QA pattern and gains nothing until the gate is green. Advisory override, written here.
+- 2026-11-19 18:24 Round 59 closed as no code change. Kicker letter-spacing and the 10x10 dot have no matching token in tokens.ts.
+- 2026-11-19 18:24 Design pass question stays parked for one round. Ask Isa once, with the four blocked QA rows listed, when the gate is green.
+- 2026-11-19 18:24 Round 60 will be row 60 (Breakdown baseline and dot alignment) if the gate is green.
+- 2026-11-19 18:24 Gate round 60 was green (tsc 0, Jest 81/867/4), so row 60 runs now as planned.
+- 2026-11-19 18:24 Design pass question stays queued for after rows 61-63. Row 60 does not depend on the answer, and it would be a single question with no blocker today.
+- 2026-11-19 18:24 Jev suggested run at 70%. Agreed. Task is one row, one component, small.
+- 2026-11-19 18:24 Notes trimmed to under 600 words. Finished detail merged into Done.
+- 2026-11-19 18:25 Chose row 61 because it is next in the numbered Visual QA sequence, needs no Isa input, and is one file. Jev ranks run at 89%, consistent with this.
+- 2026-11-19 18:25 Kept the prompt as a code-versus-tokens check with no change unless an identical token exists, per the standing Visual QA rule.
+- 2026-11-19 18:25 Did not ask Isa about the design pass yet. The notes say to ask once after rows 61-63 are done.
+- 2026-11-19 18:27 Kept row 62 (Jev's top pick, 95%) to clear the flagged last report: the prompt forces tsc plus the grep-based Jest run for Screen.tsx, so the test gap is addressed in this round.
+- 2026-11-19 18:27 Did not pick the render smoke test first: it adds a new test file, which is a new task outside one-row-one-file scope and would not close row 62.
+- 2026-11-19 18:27 Row 62 wording: status and notes limited to BUILT, 'checked in code' or 'owner check pending', per the wording rule.
+- 2026-11-19 18:27 Last report flagged for tests not run: Screen.tsx and GlassButtons.tsx have no Jest coverage. Logged in Parked as the render smoke test; to be taken after the Visual QA rows.
+- 2026-11-19 18:27 Visual QA rows stay code-vs-token only. No pixel check claimed; simulator and device checks are owner check pending.
+- 2026-11-19 18:28 Round 62 result accepted: row 62 no code change, tsc 0 errors, no Jest imports Screen.tsx so none run. Recorded as checked in code.
+- 2026-11-19 18:28 Row 63 is the next single row, one file (Screen.tsx), no code change unless an identical token exists. Matches Jev top pick and the Next list.
+- 2026-11-19 18:28 Screen.tsx padding literals 40, 40 and 32 with no comment go to Parked and NEXT, not fixed, because no token matches and the rule is no guessing.
+- 2026-11-19 18:28 Handover claim that row 57 is next is stale. The latest report and Next list show row 63, so row 63 is used.
+- 2026-11-19 18:28 Design pass question to Isa is still held until after rows 62-63, which is now complete for 62 and in progress for 63.
+- 2026-11-19 18:30 Test flag: last round ran tsc but skipped Jest, so this round runs tsc and the full Jest suite before any further row work. Reason: the flag must clear first.
+- 2026-11-19 18:30 Jev preferred folding motion rows 65-72. Kept the gate task: folding deletes rows from the progress count, so it should come after the gate is green and only with a clear reason, not as a first move.
+- 2026-11-19 18:30 Design pass question: not asking Isa. Decided no stroke-weight, letter-spacing or 9pt space tokens get added. Visual QA rows close as checked in code, and off-token values stay parked for a design re-check.
+- 2026-11-19 18:30 Row 63 closes with no code change, same as rows 57, 59, 61, 62.
+- 2026-11-19 18:31 Chose row 65 fold over the render smoke test: the gate is green and the fold is the smallest row-count-clearing task with no code risk.
+- 2026-11-19 18:31 Folding one stale motion row per round, not all eight at once, to keep the one row per prompt rule and Jev risk low.
+- 2026-11-19 18:31 Folded rows get status BUILT with a note pointing at the parent row, per the earlier decision to fold, not delete.
+- 2026-11-19 18:31 Ignored the Jev ask-leaning signal: nothing here needs Isa, and the fold is reversible table text.
+- 2026-11-19 18:32 Chose the check before folding: the last report found row 64's audit gaps may be hidden by the fold, and folding without checking would mark them BUILT wrongly.
+- 2026-11-19 18:32 Gap rows are added as DIFFERENT, not built, so they get their own wiring rounds later.
+- 2026-11-19 18:32 Folding rows 66-72 waits until this check is recorded, one per round as before.
+- 2026-11-19 18:34 Round 66 gap check found the gym side of the list add/remove gap is still open (session.tsx removeExtra has no exit animation). Row 77 was BUILT too early. Reopened it to PARTIAL and chose the fix as the next task.
+- 2026-11-19 18:34 Row 68 folds into row 77 only after the gym exit animation is in, not before. The onboarding Reduce Motion gap is already covered by row 74 (code branch exists), so no new row is needed for it.
+- 2026-11-19 18:34 Rows 66-72 fold one per round after this, as planned, each pointing to its parent.
+- 2026-11-19 18:34 The table runs to row 81, so future append tasks must check the true end of PHASE2_ROWS.md first.
+- 2026-11-19 18:36 Chose Jev's pick (fold row 66 into row 64): it is the next step in the plan already recorded in notes (fold rows 66-72 one per round after the gap check, which was done in round 66), it is documentation only, and it clears a stale row with no code risk.
+- 2026-11-19 18:36 Kept the session.tsx entering-animation gap out of this round: it is new feature-parity work, not a stale row, so it goes to Parked for a later row.
+- 2026-11-19 18:36 Test gate: this round changes no code, so the prompt requires tsc and full Jest to be run and reported.
+- 2026-11-19 18:37 Chose the checkpoint task because the loop note requires it this round; it is read-only and clears the gate before more folding.
+- 2026-11-19 18:37 Kept row 67 folding for the next round, since the last report already covers it under row 64 audit but the gate must be green first.
+- 2026-11-19 18:37 Flagged row 69 (progress rings) as a possible real gap, because row 64 marks progress rings as rough, so it must not be folded without a check.
+- 2026-11-19 18:37 Did not ask Isa anything; no hosted, paid or credential step is involved.
+- 2026-11-19 18:38 Chose row 67 fold with a gap check first, as planned in the notes for round 70. Reason: the latest report says row 64 audit already lists button press feedback as ok, but a real check is still needed.
+- 2026-11-19 18:38 Kept rows 69 to 72 out of this round. Row 69 maps to a rough audit line and needs its own check later.
+- 2026-11-19 18:38 Condensed the notes file to stay under 600 words. Decisions and blocked items are kept verbatim in substance; finished detail was merged into one line per item.
+- 2026-11-19 18:38 Kept Jev advisory only. Its risk score of 1.0 supports a one-row, one-file round.
+- 2026-11-19 18:40 Chose row 69 gap check first: it is the next open motion row and the Done list already marks ProgressBar, DailyMacroRing and EnergyBalanceCard as BUILT, so it may fold cheaply like rows 65 to 67. Checking code before any edit.
+- 2026-11-19 18:40 If a real gap exists, park it as PARTIAL and name the fix under NEXT rather than fixing it in a gap-check round, to keep one row and one file per round.
+- 2026-11-19 18:40 No code change expected, so tsc and full Jest run per the test gate rule.
+- 2026-11-19 18:41 Rewrote the rejected prompt: explicit loop/phase2 branch check, no branch switching, no push or merge, one row, one check, report format at the end.
+- 2026-11-19 18:41 Chose row 69 over row 70 and parity work: it is the next row in order and a check-only round that costs no code risk.
+- 2026-11-19 18:41 Row 69 is a check, not a build: ProgressBar, DailyMacroRing and EnergyBalanceCard were already listed as BUILT in Done, so the round tests that claim before folding.
+- 2026-11-19 18:41 Source paths are found by search, not guessed, because the file locations are not recorded in notes.
+- 2026-11-19 18:41 Full tsc and Jest run because the round changes no code and the gate rule requires it.
+- 2026-11-19 18:43 Picked row 70 over the session.tsx parity row because the notes list rows 70-72 as gap checks to clear first, one per round, and it is check-only with no code risk.
+- 2026-11-19 18:43 Standing note: 'on the native thread' cannot apply to width% or strokeDashoffset animations under classic Animated (useNativeDriver must be false). Row 76 already made this call; future rounds should not re-litigate it. Recorded in Known issues.
+- 2026-11-19 18:43 Row 69 is closed as a duplicate of row 76 (ProgressBar, DailyMacroRing, EnergyBalanceCard already eased at 250 ms, Reduce Motion aware). Recorded in Done.
+- 2026-11-19 18:43 Gym session entering animation is left as a Parked parity row, after rows 70-72, per the existing order.
+- 2026-11-19 18:45 Chose row 71 over the handover's row 69: row 69 is already BUILT as a duplicate of row 76, and the latest notes set the order as 71 then 72.
+- 2026-11-19 18:45 Accepted the Skeleton 700ms pulse as correct by design (a continuous pulse, uses a motion token), not a gap. Standing note so later rounds do not re-flag it.
+- 2026-11-19 18:45 Kept the task to one row and one component because Jev reports risk about 0.9 of 2.
+- 2026-11-19 18:45 Each row ends with a 'closed by a later row' check before any fix, as the handover asks.
+- 2026-11-19 18:47 Chose row 72 as the next single row, as the notes already planned; it is small, one file, and needs nothing from Isa.
+- 2026-11-19 18:47 Row 72 instructed to check later rows for an existing close before any edit, following the row 68 and 77 lesson.
+- 2026-11-19 18:47 LumeTabBar plus-button press values (0.86 and 0.96) accepted as a design-declared per-component value, parked with the off-token list; not a row now.
+- 2026-11-19 18:47 Jev risk about 1.0 of 2 with 0.80 confidence: kept the task to one row and one file, no simulator work.
+- 2026-11-19 18:49 Chose the session.tsx entering-animation parity row: it is the only open gap in the handover, it is small, and it clears a visible motion row without new scope.
+- 2026-11-19 18:49 Kept the LumeTabBar press-value mismatch parked: it is an off-token value and needs the design pass with Isa, not a per-row swap.
+- 2026-11-19 18:49 Told the prompt to append the row at the true end of PHASE2_ROWS.md if it is missing, because the file runs past row 81.
+- 2026-11-19 18:49 Jev and my pick agree on run. Risk is high, so the task is one row and one file plus its test.
+- 2026-11-19 18:52 Chose the overdue full backend run: the notes say it is due at the next checkpoint and the last full run was round 39. It protects the 632-test baseline and the 18 TestPG tests.
+- 2026-11-19 18:52 Folded the round 82 result in as BUILT: the gym session extra entering animation has a matching exit, a render test, and a green full Jest run.
+- 2026-11-19 18:52 Did not fold row 69 again: notes already record it as a duplicate of row 76, which is BUILT.
+- 2026-11-19 18:52 Left the wording sweep and render smoke test queued as the next candidates, not as parallel tasks, to keep one row per round.
+- 2026-11-19 18:52 Kept the TestPG run gated on a DSN check against 127.0.0.1:55432 before any test runs.
+- 2026-11-19 18:54 Chose the wording sweep first: the notes plan lists it as next, it is one doc file, and it clears the notes backlog for rows 27 to 63 before more rows are added. Jev ask score noted, but no owner question is needed.
+- 2026-11-19 18:54 Kept the sweep doc-only, so the gate is tsc plus full Jest, not a targeted run. Keeps the report honest about no code change.
+- 2026-11-19 18:54 Blank notes cells are filled only from existing row text. Invented facts are not allowed, so unclear rows go to NEXT.
+- 2026-11-19 18:54 LUME_TEST_DATABASE_URL setup (.env.test or script) parked, not a row. It is a repo tooling item, so it waits for a later round.
+- 2026-11-19 18:54 Sign-in flows stay owner steps. No workaround, no auth bypass.
+- 2026-11-19 18:59 Round 84 copy pass accepted: tsc 0 errors, Jest 81 suites / 869 tests / 4 snapshots green, no code changed.
+- 2026-11-19 18:59 Chose row 27 (Visual QA check in code) over the Screen.tsx render smoke test, because only rows are tasks and the smoke test is a Parked item, not a row.
+- 2026-11-19 18:59 Row 27 prompt names the row by number and column 2 title, since the row titles are not restated in the notes. Claude Code reads the exact title from the file.
+- 2026-11-19 18:59 Gate is full tsc and full Jest because this round is expected to be text or no-code, per the testing rules.
+- 2026-11-19 19:01 Chose row 28 as the next DIFFERENT row in the agreed sequence (rows 28-50), matching the prior round's NEXT line and Jev's ranking of small, one-row tasks.
+- 2026-11-19 19:01 Kept the gym session entering animation and the Screen.tsx render test parked: neither is a row yet and both would breach one-row-per-round.
+- 2026-11-19 19:01 Recorded that round 85 closed row 27 with no code change, and that the baseline is 81 suites, 869 tests, 4 snapshots, all green.
+- 2026-11-19 19:01 Used the 'no code change, run full tsc and Jest' rule for any round that changes no code.
+- 2026-11-19 19:03 Chose row 29 because the notes and last report both name it as next in the Visual QA sequence (rows 29-50), and it is the smallest unbuilt row.
+- 2026-11-19 19:03 Kept row 69 for later: the handover asks for a check whether a later row already closed it before folding, which needs its own round.
+- 2026-11-19 19:03 Added the disabled-opacity reconciliation (0.3, 0.35, 0.4) to Parked as a single design pass item, not a per-row fix.
+- 2026-11-19 19:03 Used the Jest count of 869 from the latest report; the handover quoted 867, which is treated as a stale figure.
+- 2026-11-19 19:05 Chose row 31 as the next Visual QA row, per the handover order and the report's NEXT line, one row per round.
+- 2026-11-19 19:05 Row 31 names no file in my notes, so the prompt says to use the row's named file or fall back to GlassButtons.tsx and Screen.tsx and report it.
+- 2026-11-19 19:05 Kept the Visual QA rule: no guessed values, no new tokens, no tokens.ts edits, off-token values go to NEXT, not fixed.
+- 2026-11-19 19:05 Row 69 deferred: it needs a 'closed by a later row' check first, and the handover already flags it, so it waits for its own round.
+- 2026-11-19 19:05 Jev risk 1.1 of 2: kept the task to one row and one surface, with no extra scope.
+- 2026-11-19 19:07 Chose row 32 because the notes order rows 32-50 next and the last report recommended it.
+- 2026-11-19 19:07 Row 32 names no file in my notes, so the prompt uses the fallback files from the last report.
+- 2026-11-19 19:07 Kept the no-guess rule: a gap with no identical token ends in no code change, as in rows 57-63.
+- 2026-11-19 19:07 Kept Jev's advisory risk in mind: one row, one round, small scope.
+- 2026-11-19 19:09 Chose the checkpoint over Jev's Row 32 pick because the loop note flagged the last report as partly done and requires a checkpoint round before moving on. The loop instruction is a reason Jev cannot see.
+- 2026-11-19 19:09 Kept Row 32 at PARTIAL, not BUILT, because no passing test mounts GlassButtons with Reduce Transparency on.
+- 2026-11-19 19:09 Baseline corrected to 81 suites, 869 tests, 4 snapshots, per the latest Claude Code report. The handover's 867 was a stale figure.
+- 2026-11-19 19:10 Chose Row 32 over Row 69: the last report and the Jev ranking both point to Row 32, and it is the smallest single-file task.
+- 2026-11-19 19:10 Kept the new test in its own file so no existing test is edited.
+- 2026-11-19 19:10 Row 69 check stays for a later round so this round stays to one row.
+- 2026-11-19 19:13 Chose row 33 because the notes Next list puts it first and it is a single component with a small test file. Jev risk is high, so the task stays small.
+- 2026-11-19 19:13 Row 69 was already folded into row 76 per the Done list, so it is not picked again. The handover still lists it as open; this is a conflict to resolve later, not a blocker.
+- 2026-11-19 19:13 LumeTabBar Reduce Transparency render test deferred to a later round to keep one row per round.
+- 2026-11-19 19:13 Simulator and VoiceOver are not run. Row is marked checked in code, with owner check pending for device VoiceOver.
+- 2026-11-19 19:16 Chose row 34 because the Next list in notes puts it first (rows 34-50 one per round) and it is a single small visual row.
+- 2026-11-19 19:16 Named files were not given in the handover for row 34, so the prompt tells Claude Code to read the row and fall back to SwipeableRow.tsx and food.tsx, with a file search, instead of guessing paths.
+- 2026-11-19 19:16 Off-token values are not added as tokens (notes decision: no new tokens this pass), they go to NEXT as parked.
+- 2026-11-19 19:16 Handover reported PHASE2_ROWS.md ends at row 82; the prompt only touches row 34, so no append is needed.
+- 2026-11-19 19:16 Jev risk 1.0 noted: kept the task to one row and one file group. No question to Isa this round.
+- 2026-11-19 19:20 Row 34 SwipeableRow: no code change, BUILT. Stays as recorded.
+- 2026-11-19 19:20 Swipe action pane corner clipping in SwipeableRow.tsx: parked as a design item, not asked. It is structural, not a token swap, so it waits for the consolidated design pass with Isa.
+- 2026-11-19 19:20 Chose row 36 over the LumeTabBar render test: the Visual QA rows are the next open DIFFERENT rows in the agreed order (35-50, skipping BUILT).
+- 2026-11-19 19:20 Row 36 names no file in my brief: the prompt tells Claude Code to use the two most relevant shared history files and state them, per the notes rule.
+- 2026-11-19 19:20 Jev signalled run 53% and ask 41%, with a 1.0 of 2 risk. Kept run because the task is one row, one round, and needs nothing from Isa.
+- 2026-11-19 19:23 Row 36 closed as BUILT per latest report (layout.hairline swap in both history screens, tsc 0, full Jest 83/874 green).
+- 2026-11-19 19:23 Chose row 38 over the render smoke tests: notes say Visual QA rows 37-50 come first, and row 37 is already BUILT.
+- 2026-11-19 19:23 Row 38 names no file in the brief, so the prompt says to use the row's file or the two most relevant shared files, stated in the report.
+- 2026-11-19 19:23 Simulator skipped: maestro not installed and simctl does not respond in sandbox (owner step). Not needed for a token-only change.
+- 2026-11-19 19:23 Icon-size and blur token gap is still a single consolidated design item for Isa, not a per-row fix.
+- 2026-11-19 19:25 Chose row 39 as the next open visual QA row, as the notes and the last report recommend.
+- 2026-11-19 19:25 Row 39 names no file, so defaulted to the energy component plus tokens.ts and stated it in the prompt, following the standing visual QA rule.
+- 2026-11-19 19:25 Did not add the icon-size and stroke-width token gap to this round. Parked for one consolidated design pass with Isa, as the last report suggests.
+- 2026-11-19 19:25 Jev risk is about 1.0 of 2, so kept the task to one row and one file.
+- 2026-11-19 19:27 Chose row 40 over the render smoke tests because the notes order rows 40-50 before the smoke tests and Claude Code recommended it.
+- 2026-11-19 19:27 Row 40 has no named file in notes, so it uses KickerTitle and Screen.tsx as the two most relevant shared files, as the visual QA rule allows.
+- 2026-11-19 19:27 Recorded row 39 as BUILT (checked in code) from the last report: DOT and KEY_INDENT swapped to space tokens, radius.full, 4 suites green.
+- 2026-11-19 19:29 Chose row 41 status check over stop: Jev says stop 54%, but the notes still list open rows and Claude's report says 41-82 are BUILT, so the file must be checked before deciding that work is finished.
+- 2026-11-19 19:29 Did not ask Isa: the question is not major and the loop can decide from the file.
+- 2026-11-19 19:29 Kept the task to one row with a read first step, because the previous report's claim about rows 41-82 conflicts with the notes.
+- 2026-11-19 19:29 Trimmed the notes to fit the 600 word limit. Decisions are kept in full. Finished detail is merged into counts.
+- 2026-11-19 19:31 Row 41 accepted as BUILT by the latest report, but the es/fr overflow risk is not resolved by the code. Recorded as checked in code, owner check pending for real es/fr overflow. No layout change, because it changes the look and a device run is needed to prove it.
+- 2026-11-19 19:31 Chose row 42 over the LumeTabBar smoke test: notes say to finish remaining non-BUILT rows before the test backlog, and row 42 is the next open row in order.
+- 2026-11-19 19:31 Rows 42 to 50 still need a status read, so this round starts there. Nothing is assumed closed.
+- 2026-11-19 19:31 Row 42 names no file in my notes, so the prompt tells Claude Code to use the two most relevant shared files and state them, as the existing rule says.
+- 2026-11-19 19:33 Chose row 43: last report and Next list both point to it; smallest unbuilt row, needs nothing from Isa.
+- 2026-11-19 19:33 Row 43 title not in my context, so the prompt has Claude Code read the title from PHASE2_ROWS.md first rather than guessing it.
+- 2026-11-19 19:33 Row 43 names no file, so the two-shared-files default applies and is stated in the report.
+- 2026-11-19 19:33 Jev 81% run agrees with the pick; no override.
+- 2026-11-19 19:34 Chose row 44 because the last report recommends it and it continues the Visual QA sequence after row 43 closed.
+- 2026-11-19 19:34 Used the 'nearest shared file' rule for the Visual QA row since the row has no named file; the prompt states this so the report records the file used.
+- 2026-11-19 19:34 Prompt gives the branch check, tsc and Jest gate, and the report format, per the rules for Phase 2 prompts.
+- 2026-11-19 19:34 Stale handover (it names row 34 as next) was ignored in favour of the notes and the latest report, which both say row 44.
+- 2026-11-19 19:36 Chose row 45: it is the next unbuilt row in the queue, needs no Isa input and is small.
+- 2026-11-19 19:36 Full Jest run required this round because the last round skipped it (test gate rule).
+- 2026-11-19 19:36 Row 44 accepted as BUILT (checked in code): ProgressBar default height 8 to space.sm and MacroBars bar height 12 to space.md, both identical token values; tsc 0 errors, 2 suites and 15 tests passing.
+- 2026-11-19 19:36 ProgressBar VALUE_ANIMATION_MS 250 vs motion.duration.fast 260 not swapped: not identical, parked for a design decision.
+- 2026-11-19 19:36 MacroBars icon size 11 has no token category: parked with the icon-size gap.
+- 2026-11-19 19:38 Row 45 counted BUILT (checked in code): MuscleChart BAR_HEIGHT 8 to space.sm, same value; tsc 0 and full Jest 83/874/4 green.
+- 2026-11-19 19:38 Chose row 46 over the two render smoke tests: notes say finish remaining non-BUILT rows first, one per round. Jev rated run 87%.
+- 2026-11-19 19:38 Parked the dashboard nutrition.tsx and week.tsx bar literals as a follow-up row, not this round, because they are route files outside the shared components.
+- 2026-11-19 19:40 Chose row 47: it is the next non-BUILT row in order and Claude Code recommended it.
+- 2026-11-19 19:40 Did not add the dashboard bar literal audit as a row yet: row 47 may cover it; revisit after row 47 result.
+- 2026-11-19 19:40 Kept Jest and tsc in the prompt because a no-code round still needs the test gate.
+- 2026-11-19 19:40 Rewrote notes to under 600 words: merged repeated Parked and Blocked items, removed finished round detail.
+- 2026-11-19 19:40 Used latest baseline (83 suites / 874 tests) from the last run over the handover figure (81 / 869).
+- 2026-11-19 19:41 Kept the checkpoint over Jev's row 48 pick. The loop note for this round explicitly asks for a checkpoint, and checkpoints are the only way the full suites get rerun after the last rounds. Row 48 runs next round.
+- 2026-11-19 19:41 Recorded the row 47 finding (nutrition.tsx and week.tsx bar constants not yet checked against tokens) in Parked for a dedicated row, not as a new task now.
+- 2026-11-19 19:41 Kept the Jest count at 83 suites / 874 tests / 4 snapshots from the last report as the baseline to compare against.
+- 2026-11-19 19:42 Treated the latest checkpoint (tsc 0 errors, Jest 83/874/4 green, no file changes) as this round's checkpoint, so no repeat run now.
+- 2026-11-19 19:42 Chose row 48 because the loop note's Next list puts it first and it clears one open row with one file.
+- 2026-11-19 19:42 Did not name row 48's file in the prompt because its text is not in my copy of the table; the prompt makes Claude Code name it and stop if the row needs more than one file.
+- 2026-11-19 19:44 Chose row 49 because the last report recommends it, it is DIFFERENT, and it is the next unbuilt row in order; Jev ranks run at 91%.
+- 2026-11-19 19:44 Did not name row 49's title in the prompt because the row text was not in the brief; the prompt makes Claude Code read the row first.
+- 2026-11-19 19:44 Parked the nutrition/week bar constants as a dedicated row for a later round, since row 49 may not cover them.
+- 2026-11-19 19:44 Kept the no-code-change test gate: tsc plus full Jest if row 49 needs no code change.
+- 2026-11-19 19:44 Recorded row 48 as done with no code change, per the last report.
+- 2026-11-19 19:46 Chose row 50 over the parked nutrition/week constants row, because the notes say remaining non-BUILT rows go first, one per round. Jev also ranks run at 91%.
+- 2026-11-19 19:46 Prompt names the row by number and tells Claude Code to read the file path from the row, because row 50's file is not in my notes. Claude Code must name it in its report.
+- 2026-11-19 19:46 Handover just happened, so the prompt gives full paths and restates the wording and token rules.
+- 2026-11-19 19:46 Row 49 recorded as BUILT checked in code (no code change, tsc 0 errors, full Jest 874 green).
+- 2026-11-19 19:49 Row 50 accepted as BUILT (no code change, tsc and full Jest run, checked in code). Its 'chooser caption' gap has no same-category token.
+- 2026-11-19 19:49 Chose the nutrition and week bar constants as next: it is the explicit Next item in the notes and was flagged for a dedicated row since row 45.
+- 2026-11-19 19:49 Row 83 is appended to PHASE2_ROWS.md if absent, since the notes say the table ends at row 82.
+- 2026-11-19 19:49 Jev ranked ask at 28% with low confidence. No major question meets the ask rule, so the loop continues without asking Isa.
+- 2026-11-19 19:49 Token-consolidation gap (icon size, stroke weight, letter spacing, small gaps) stays Parked for one design pass with Isa, not per-row guesses.
+- 2026-11-19 19:51 Chose the test gate over Jev's top pick (next DIFFERENT row) because the automatic check flagged row 83 as skipped Jest, and the notes' test gate rule requires full tsc and Jest after any round that skips Jest. Jev cannot see this rule-based requirement.
+- 2026-11-19 19:51 Kept row 83 as no code change: MACRO_BAR_W, MACRO_BAR_RADIUS_TOP, MACRO_BAR_RADIUS_BOTTOM and NET_BAR_W have no identical same-category token, so no swap.
+- 2026-11-19 19:51 Next DIFFERENT row is picked next round, after the gate is green.
+- 2026-11-19 19:51 Bar-width and small-radius gaps join the consolidated token pass already in Blocked on Isa. No per-row guess.
+- 2026-11-19 19:52 Row 19: no anomaly endpoints added in v1; banner must show nothing rather than fabricated data (matches existing design-keeps, no-fake-data decision). Reason: no backend, owner scope call not needed for this.
+- 2026-11-19 19:52 Row 83 test gate: report says tsc 0 errors and Jest 83/874/4 green, so gate closed.
+- 2026-11-19 19:52 No row exists after 83, so the 'row after 83' instruction is replaced by lowest-numbered non-BUILT DIFFERENT row: row 19.
+- 2026-11-19 19:52 Did not ask Isa about the anomaly endpoints. Reason: the existing decision already covers it, so the question is not needed.
+- 2026-11-19 19:54 Jev ranked the FloatingHeader render test first at 83%. I looked again and kept it, for the reason below.
+- 2026-11-19 19:54 Reason Jev cannot see: row 21 is a data model change (food store) that needs a migration written and applied locally, a backend change and several files. That is too big for a round that Jev already rates as risky (risk 1.0). The FloatingHeader test is one new file with no source change, and it closes a Parked render-coverage gap.
+- 2026-11-19 19:54 Row 21 stays next after this. It is a backend and data model task, so I decide it myself (local migration, local tests, hosted apply parked for Isa). No question to Isa.
+- 2026-11-19 19:54 Jev's ask ranking (68%) was not followed: no Isa-only step is needed for this round, and an unanswered question never blocks the loop.
+- 2026-11-19 19:54 Test-only round, so no full Jest run needed; tsc and the two named tests are the gate.
+- 2026-11-19 19:57 Chose the reconciliation task: the handover (row 50 DIFFERENT) and the notes (row 50 BUILT) disagree, and the status file is what the loop counts. Small, no code, low risk. Jev confidence is low (0.34), so a small task is preferred.
+- 2026-11-19 19:57 Did not ask Isa: the row 50 conflict is resolvable from code and notes; the question is not major.
+- 2026-11-19 19:57 Row 21 kept as next after reconciliation. It needs a local migration, which is a larger change and should wait for a clean status baseline.
+- 2026-11-19 19:57 FloatingHeader mismatch recorded in row 32 notes, not treated as a new row. The backlog title is ambiguous; the decision on the intended header can wait until the reconciliation shows which row needs it.
+- 2026-11-19 19:57 Jev's ask ranking (56%) not followed: a question to Isa would cost his attention on a task the loop can settle itself.
+- 2026-11-19 19:59 Reconciliation of rows 27-64 accepted as done: all BUILT, no status changed, row 50 stays BUILT (checked in code).
+- 2026-11-19 19:59 Row 32 notes now say FloatingHeader is decorative, so the Reduce Transparency wording stands.
+- 2026-11-19 19:59 Asked about row 21 instead of running it because Jev asks at 94% and the change touches the data model. Default if unanswered: the smoke tests run next round.
+- 2026-11-19 19:59 Notes trimmed to fit the 600 word limit. Finished items were folded into Done.
+- 2026-11-19 20:15 Isa did not answer the row 21 question; recorded under Blocked on Isa and not asked again, per loop note.
+- 2026-11-19 20:15 Jev advised ask (63%). Not followed: the loop note says ask only when every remaining task needs Isa, and render smoke tests need nothing from Isa.
+- 2026-11-19 20:15 Chose Screen.tsx render smoke test as the smallest unblocked task, matching the stated default order (Screen, then ToastHost, then BottomSheet).
+- 2026-11-19 20:15 Row 21 is parked for v1 by default until Isa answers; no migration written this round.
+- 2026-11-19 20:15 Test file name follows the *.render.test.tsx rule for files under src/components/.
+- 2026-11-19 20:17 Chose ToastHost render smoke test: Jev 98% run, small single file, Notes Next order says ToastHost after Screen.
+- 2026-11-19 20:17 Render smoke tests stay folded into their existing visual rows, no new dedicated row, because each one is one file and the row list is already locked at 83; the Claude report's suggestion was recorded, not adopted.
+- 2026-11-19 20:17 Row for ToastHost identified by title in the prompt, not by number, because the number was not in the latest report.
+- 2026-11-19 20:17 Source changes to ToastHost are excluded; if testability needs one, it goes to NEXT.
+- 2026-11-19 20:22 Followed Jev's ranking (94%) and picked BottomSheet. Reason: the last round's ToastHost test was mapped to row 5 by content match only, the report itself called the mapping ambiguous, and row 5 stays PARTIAL, so I did not build on that mapping. Jev's ranking is consistent with the smallest safe task.
+- 2026-11-19 20:22 ToastHost test stays in place and is not reverted. Row mapping review is parked for the next round, not a separate task now (one row per round).
+- 2026-11-19 20:22 BottomSheet test folds into the existing sheet row, per the rule that render smoke tests stay folded into visual rows.
+- 2026-11-19 20:24 Chose row 26 stale-note fix: smallest task, one row, one line, flagged by last report. Jev ranked ask first at low confidence (0.38); not asking because the sign-in question was already answered by the default (owner step, mocked tests), so it is not a major question.
+- 2026-11-19 20:24 Rows 1, 2, 5-8, 18 and the toast/sheet mapping deferred to later rounds, one row per round, to keep risk low (Jev risk 0.9 of 2).
+- 2026-11-19 20:25 Round 101: Jev said ask (46% ask, 40% run, confidence 0.19). The question is not major, so no question was sent. Chose the smallest run task: row 51 docs fix, which the last report flagged as stale. Same pattern as round 100.
+- 2026-11-19 20:25 Row 51 fix limited to the notes cell and status left unchanged, because the ToastHost test already exists and the status is decided separately.
+- 2026-11-19 20:26 Checkpoint round requested by the loop note, so the full type check and full app Jest run comes first, with no file changes.
+- 2026-11-19 20:26 Jev ranks the same checkpoint task as the smallest safe option; no override.
+- 2026-11-19 20:26 Row 61 stale note and rows 1, 2, 5-8, 18 wording are queued for the next rounds, one row per round.
+- 2026-11-19 20:27 Chose the row 61 docs fix first: smallest task, Jev ranks it top, and the latest report already flagged it.
+- 2026-11-19 20:27 Deferred the grep pass to the next round so this round stays to one row and one file, given Jev risk 0.9.
+- 2026-11-19 20:27 Prompt tells Claude Code to list other stale rows as NEXT and not fix them, to keep one row per round.
+- 2026-11-19 20:28 Picked row 104 grep (Jev 85%); it was already the planned next step in the notes and is a single docs edit.
+- 2026-11-19 20:28 Flagged last round: it was docs-only and ran tsc only, which the wording rule allows, but the loop check wants tests too. This round runs tsc and the full Jest suite and reports counts, so the check passes without a code change.
+- 2026-11-19 20:28 Limited the edit to one row per round, as the notes already require, and only where a test import proves the stale phrase.
+- 2026-11-19 20:28 Did not ask Isa: this is a docs-only cleanup with no money, data or production impact.
+- 2026-11-19 20:28 Jev risk 0.9 accepted: task is small, one file, no src changes.
+- 2026-11-19 20:30 Chose row 52 over row 36: the latest report confirms src/app/gym/log-session.tsx has four importing tests, so the fix is certain. Row 36's named files were not listed in the report, so checking it first risks a wrong edit.
+- 2026-11-19 20:30 Kept the one-row-per-round rule for the stale 'no Jest' phrasing pass, since the loop has a checkpoint at round 105 and a docs-only round still runs tsc and full Jest.
+- 2026-11-19 20:30 Treated the 'Row 104' label in the previous report as the round 104 grep pass, since PHASE2_ROWS.md ends at row 83. No new row is needed.
+- 2026-11-19 20:30 Did not ask Isa anything: all open items are either planned in the notes or are design decisions parked for later.
+- 2026-11-19 20:31 Chose row 36: smallest docs-only task, grep from last handover already points to no importing test, so the expected result is no edit. Matches Jev's run signal and the risk of 0.9.
+- 2026-11-19 20:31 Kept status columns unchanged: BUILT rows stay BUILT in a docs-only pass.
+- 2026-11-19 20:31 Row 52 stale-note fix from round 105 recorded as done (tsc 0, Jest 87/881/4 green).
+- 2026-11-19 20:32 Chose row 38 as the next stale-note check, as listed in Next; it is the smallest task and needs nothing from Isa.
+- 2026-11-19 20:32 Agrees with Jev (run 0.92 confidence). No override.
+- 2026-11-19 20:32 Stale-note rule: edit a note only after a real test is found by grep; otherwise change nothing.
+- 2026-11-19 20:33 Followed Jev (run 95%) and picked the smallest docs-only task: row 40 stale-note check, one row, one file.
+- 2026-11-19 20:33 Kept the rule that a stale note is corrected only after a real import is found by grep; no guessing.
+- 2026-11-19 20:33 Did not ask Isa: the sign-in and Clerk items stay as owner steps already recorded; no new question needed this round.
+- 2026-11-19 20:34 Row 40 premise was wrong: row 40 covers title blocks (DetailChart KickerTitle, Screen.tsx), not AddMenu. Its closing line is already accurate, so no edit. Removed row 40 from the Parked stale-phrasing list.
+- 2026-11-19 20:34 The AddMenu check moves to row 55, the row that actually names AddMenu.tsx. Chosen as the smallest next task that closes a real open note.
+- 2026-11-19 20:34 Jev ranked ask at 63%. Not asking Isa: the open question is a notes-only mismatch that a grep resolves, so it is not a major question and needs no Isa answer. Ask budget kept for real blockers. Risk 1.2 handled by keeping this round docs-only.
+- 2026-11-19 20:34 Stale-note corrections still need a real grep hit before any edit, and status columns stay unchanged in docs passes.
+- 2026-11-19 20:35 Followed Jev (run 92%) and the Next list in notes: row 53 stale-note check comes before rows 83 and the sign-in rows.
+- 2026-11-19 20:35 Kept the row 53 edit conditional on a real importing test found by grep, per the stale-note rule. No guessing.
+- 2026-11-19 20:35 Docs-only round: tsc and full Jest still run, per the wording rule.
+- 2026-11-19 20:36 Chose row 83 check over the sign-in rows: it is the next item in the agreed order and is the smallest docs-only task. Jev ranked run at 90%, which agrees.
+- 2026-11-19 20:36 Row 53 check closed with no edit: grep found only a string hit for the screen path, so the existing note stands.
+- 2026-11-19 20:36 Sign-in rows stay PARTIAL until a mocked-test pass is recorded; sign-in itself remains an owner step.
+- 2026-11-19 20:37 Round 111 (row 83 stale-note check) is closed: the report shows a real grep and a green gate, so the next step moves on.
+- 2026-11-19 20:37 Chose the row 1 check over row 40 because the notes say row 40's premise was wrong, so that check is more likely to yield nothing.
+- 2026-11-19 20:37 Chose the row 1 check over the toast and sheet mapping because a mapping pass changes many rows at once, and Jev ranks small tasks higher.
+- 2026-11-19 20:37 Kept row 1 as PARTIAL: sign-in cannot run live until Clerk JWKS and test credentials exist. Only the notes cell is updated.
+- 2026-11-19 20:37 Jev risk is about 1.0 of 2, so the task is one row, one docs file, and a full Jest gate.
+- 2026-11-19 20:39 Loop flag says round 112 is only partly done. Chose to close the gap Claude Code named (no render test exercises signup.tsx) with one test-only file, rather than another docs-only pass.
+- 2026-11-19 20:39 Row 1 status stays PARTIAL because live sign-in needs hosted Clerk JWKS and E2E credentials, both owner steps.
+- 2026-11-19 20:39 Test placed in src/__tests__ because signup.tsx is under src/app, not src/components, so the *.render.test.tsx naming rule for components does not apply directly.
+- 2026-11-19 20:39 Jev ranks running at 78 percent and risk is 1.0; kept the task to one file and one row, with a fallback to delete the test file if it fails twice.
+- 2026-11-19 20:44 Followed Jev's ranking: row 2 stale-note check first. Reason: it is docs only, needs no owner input, and the previous round's report flagged the row 1 work as partly done, so the smaller task is safer.
+- 2026-11-19 20:44 Row 1 stays PARTIAL. The signup render test covers the Clerk buttons stage and legal links named in the ask. The email/OTP sub-stages and the DevSignup fallback are not covered and are parked as row 1 remainder. Live sign-in stays an owner step.
+- 2026-11-19 20:44 The partly done flag is accepted as a coverage gap, not a failed task. The row 1 notes cell already names signup.render.test.tsx, so no further edit is needed there.
+- 2026-11-19 20:45 Round 115: chose row 3 stale-note check. It is the smallest task, needs nothing from Isa, and continues the sequence set in round 114 (Jev ranked the row 2 check first; the row 2 check is now done).
+- 2026-11-19 20:45 Round 115: status cells are never changed in a docs pass, so the prompt forbids it.
+- 2026-11-19 20:46 Picked row 4 over the notes' listed rows 5-8 and 18 because the sequential sweep reached row 4 and it is unlisted, so skipping it would leave a gap; rows 5-8 and 18 follow next.
+- 2026-11-19 20:46 Kept the task docs-only and one row, matching Jev's small-task ranking (84% run, risk 0.9 of 2).
+- 2026-11-19 20:46 Stale-note rule kept: edit only after a real importing test is found by grep, status never changes in a docs pass.
+- 2026-11-19 20:48 Chose the checkpoint over Jev's row 5 pick because the loop note makes this round a scheduled checkpoint; the full tsc and Jest run is required before more docs passes.
+- 2026-11-19 20:48 Row 5 stale-note check goes to the next round, unchanged in scope.
+- 2026-11-19 20:48 Checkpoint prompt forbids fixes and edits, so a red result is reported, not patched in this round.
+- 2026-11-19 20:48 Round 117 checkpoint treated as green: tsc 0 errors, Jest 88 suites / 885 tests / 4 snapshots, no crash or SIGSEGV.
+- 2026-11-19 20:48 Chose row 5 stale-note check as the next task, as set in the prior Next plan. It is docs only and clears the notes queue for rows 5, 6, 7, 8 and 18.
+- 2026-11-19 20:48 Jev ranking (run 90%, confidence 0.85) agrees with the choice. Kept a small task: one row, one notes cell, grep first.
+- 2026-11-19 20:48 Row 5 check requires a real importing test found by grep before any edit. Status cells stay unchanged in this docs pass.
+- 2026-11-19 20:48 Each docs-only round still runs tsc and full Jest, per the wording rule.
+- 2026-11-19 20:50 Round 118 result accepted: row 5 has no real importing test, so no stale note to correct; the two grep hits are string matches only.
+- 2026-11-19 20:50 Chose row 6 stale-note check next, following the sequential sweep in NOTES Next, as Jev ranks it highest and it is the smallest task.
+- 2026-11-19 20:50 Kept the toast and sheet owning-row decision for after the sweep, since it is also docs-only and can be decided in one round later.
+- 2026-11-19 20:50 Trimmed repeated Parked and Known issues lines to keep the notes near the length limit; no decision was deleted.
+- 2026-11-19 20:51 Row 6 check (round 119) found no real importing test for barcode-scan, label-scan or photo-capture; no change. Row 6 names no single file, so the three screens were inferred.
+- 2026-11-19 20:51 Continue the sequential stale-note sweep with row 7 (Jev ranks the same small docs task first; notes say follow Jev on small tasks).
+- 2026-11-19 20:51 Prompt tells Claude Code to read row 7 from PHASE2_ROWS.md rather than guess its title, and to pick the most relevant screen file if the row names none.
+- 2026-11-19 20:51 Docs-only round still runs tsc and full Jest, per the wording rule.
+- 2026-11-19 20:52 Chose row 8 check: matches the Next list in the notes and Jev's run signal (93%); small, notes only, no Isa input needed.
+- 2026-11-19 20:52 Row 7 result from round 120 accepted: a real import exists (foodDetailLogged.render.test.tsx), so the notes cell was filled and status unchanged.
+- 2026-11-19 20:52 Kept the scan-screen and food/add render test gap in Parked, not in a new task, to keep the round small.
+- 2026-11-19 20:53 Chose row 18 stale-note check next, as listed in the notes Next section, because it is the smallest task and needs nothing from Isa (Jev ranks run highest).
+- 2026-11-19 20:53 Row 8 check had no real importing test, so no edit was made; saved.tsx was used as the most relevant surface by default, recorded here.
+- 2026-11-19 20:53 Row 18 surface file not named in the brief, so Claude Code must pick the most relevant file from the row and report the choice, per the shared-file rule.
+- 2026-11-19 20:55 Chose row 19 stale-note check: it is the next unchecked row in the stale-note sequence, docs-only, one file, matches Jev's preference for small tasks.
+- 2026-11-19 20:55 Toast and sheet owning-row decision deferred one round: it is a notes-only decision and does not clear any row.
+- 2026-11-19 20:55 Recorded row 18 notes correction (src/app/energy.tsx via src/__tests__/render/detailChrome.render.test.tsx) as done in Done list, per latest report.
+- 2026-11-19 20:56 Chose row 20 stale-note check: smallest docs-only task, named as next by the latest report, Jev ranks run highest.
+- 2026-11-19 20:56 Toast and sheet owning-row decision deferred one round: it spans six rows and is a decision, not a single-row task.
+- 2026-11-19 20:56 Row 19 check of round 123 recorded as done with no edit, per the report's grep evidence.
+- 2026-11-19 20:57 Chose row 21 stale-note check: it is the next item in the last report's NEXT and is docs-only, one row, one notes cell. Matches Jev's ranking of a small run.
+- 2026-11-19 20:57 Kept the status column untouched, per the docs-pass rule.
+- 2026-11-19 20:57 Did not ask Isa anything: no new blocker, and row 21's chart stays parked for v1.
+- 2026-11-19 20:58 Chose row 22 stale-note check: it follows Claude Code's NEXT recommendation, is a notes-only change, and is the smallest task (Jev run 88%, risk 0.9, so keep it small).
+- 2026-11-19 20:58 Deferred the toast and sheet owning-row mapping by one round. It is docs only and does not block any row.
+- 2026-11-19 20:58 Row 22 content is not in the notes, so the prompt tells Claude Code to read the row first and make no edit if no real importing test exists. No new file is named beyond PHASE2_ROWS.md.
+- 2026-11-19 20:59 Chose the planned docs task over the Claude suggestion of row 23, because row 23 is already BUILT and the notes list the toast/sheet mapping as next.
+- 2026-11-19 20:59 Owners fixed as row 51 (ToastHost) and row 27 (BottomSheet) based on existing render tests; Claude must confirm a real import before editing.
+- 2026-11-19 20:59 Condensed notes to stay under 600 words, with no change to any decision or status.
+- 2026-11-19 21:01 Chose row 23 because the NOTES Next list names it. Jev ranks the smallest docs task first and the risk is high, so keep it to one docs row.
+- 2026-11-19 21:01 Handover suggested row 8 next, but NOTES records row 8 as closed in round 121 with no edit. NOTES wins; row 8 is not reopened unless a real importing test is found.
+- 2026-11-19 21:01 Round 126 owning-row mapping accepted: ToastHost and BottomSheet render tests are colocated under src/components/, not src/__tests__/. Real imports confirmed, so the mapping stands.
+- 2026-11-19 21:01 Rows 4 to 6 keep their notes as they are: no real importing test exists for their screens, as the handover found.
+- 2026-11-19 21:01 Rewrote the rejected prompt: added the loop/phase2 branch check, forbade switching, pushing and merging, and kept one row, five steps and the report format.
+- 2026-11-19 21:01 Chose row 23 over the handover's suggested row 8 check, because the notes say row 8 is closed (round 121) and reopen only on a real importing test.
+- 2026-11-19 21:01 Chose the small docs-only task because Jev ranks it first (run 91%, risk 0.9) and the notes say keep tasks small.
+- 2026-11-19 21:01 Kept the rule that status cells never change in a docs pass.
+- 2026-11-19 21:03 Chose row 24 stale-note check because the previous round assigned it and it is small (Jev ranks small tasks higher). Logged that this docs pass series is low value and should give way to backend or PARTIAL rows after row 24.
+- 2026-11-19 21:03 Handover said next was row 8, but notes record row 8 as closed in round 121 and reopen only on a real importing test. Kept row 8 closed and followed the notes.
+- 2026-11-19 21:03 Rows 4 to 6 have BUILT or partial status without a real render test. Kept them as parked render-test gaps; no status change in a docs pass.
+- 2026-11-19 21:03 Prompt names the loop/phase2 branch rule explicitly, per the round 127 rejected-prompt decision.
+- 2026-11-19 21:03 Stopped the stale-note series after row 24 as planned in the notes; docs-only checks no longer pick the next task.
+- 2026-11-19 21:03 Chose row 2 paywall render test: small, one file, needs no sign-in or Isa input, and closes a named gap in an open row. Follows Jev's ranking (run, small task).
+- 2026-11-19 21:03 Test-only change, so the prompt requires tsc and full Jest per the wording rule.
+- 2026-11-19 21:03 Kept row status unchanged; only the notes cell gets a line, per the docs rule.
+- 2026-11-19 21:03 Left the backend refinement rows for the following round so this round stays to one row and one file.
+- 2026-11-19 21:06 Chose the mandated checkpoint (loop note says this round is a checkpoint with no file changes).
+- 2026-11-19 21:06 Jev ranks checkpoint-style small task highest; agreed.
+- 2026-11-19 21:06 Row 2 status review deferred to next round so this checkpoint stays read-only.
+- 2026-11-19 21:07 Chose row 2 status review: it is the assigned round 131 task, small, one row, needs nothing from Isa, and Jev ranks run highest.
+- 2026-11-19 21:07 Skipped the row 25 stale-note grep the last report suggested: the stale-note series stopped after row 24 per the decisions list.
+- 2026-11-19 21:07 Status change to BUILT allowed only if every row part is covered by a real import test; live sign-in stays an owner check, consistent with the rule that sign-in rows are BUILT on passing local mocked tests.
+- 2026-11-19 21:07 Report flagged signup.render.test.tsx sits in src/__tests__/ rather than src/__tests__/render/. Left in place; not moved this round.
+- 2026-11-19 21:09 Loop flagged the last report as partly done. Treated row 2 as PARTIAL and closed the named gap (paywall post call) with one test file, not a re-audit.
+- 2026-11-19 21:09 Jev gives 17% chance of clean completion, so picked the smallest task: one row, one new test file, no screen edits.
+- 2026-11-19 21:09 Chose the post call over the get read-back because it is the write path that persists onboarding data.
+- 2026-11-19 21:09 Row 2 stays PARTIAL: the get read-back and 8 untested onboarding steps remain open.
+- 2026-11-19 21:09 Condensed the notes file to stay under the 600 word limit. No decision or blocker removed.
+- 2026-11-19 21:12 The loop check said the last task was partly done. The remaining gap is the row 2 signup read-back, so this round closes that gap and keeps row 2 PARTIAL. Paywall work is not redone.
+- 2026-11-19 21:12 Chose the read-back over the 8 onboarding steps because it is one file and one API call, and Jev rates the risk high, so a small task is safer.
+- 2026-11-19 21:12 If the Clerk callback cannot be triggered in a render test, the step stops as BLOCKED and the loop does not edit signup.tsx.
+- 2026-11-19 21:13 Rewrote the rejected round 133 prompt: added the loop/phase2 branch rule with a git branch check and explicit no push, merge or switch, plus the required report format and file lists.
+- 2026-11-19 21:13 Kept the row 2 read-back as the next task: it is the smallest remaining gap and it clears a PARTIAL row without touching screens.
+- 2026-11-19 21:13 Chose not to ask Isa: the gap is a mocked test, needs no dashboard or credentials, and the Jev risk is high, so the task stays small.
+- 2026-11-19 21:13 Kept row 2 status PARTIAL; only the notes cell changes this round.
+- 2026-11-19 21:14 Loop check flag on the last report: the read-back test is in place, so the partial part is the row 2 remaining gap (8 untested steps). Chose the smallest step, index.tsx, per the rule to close the named gap without redoing finished work.
+- 2026-11-19 21:14 Chose index.tsx over goal.tsx or paywall.tsx: it is the first step in the flow and the smallest unknown, so it lowers risk for the rest.
+- 2026-11-19 21:14 Row 2 stays PARTIAL; status cell not changed in a notes pass.
+- 2026-11-19 21:14 Expected test counts stated as baseline plus new tests, so a drift shows up in the report.
+- 2026-11-19 21:17 Round 136 picks goal.tsx, the named gap in the last report and the loop flag. Smallest step, one file, matches Jev's follow on small tasks.
+- 2026-11-19 21:17 Prompt names the full paths because a handover just happened.
+- 2026-11-19 21:17 Status of row 2 stays PARTIAL until all 8 steps have real render tests.
+- 2026-11-19 21:17 Round 136 prompt rewritten after loop rejection: added explicit loop/phase2 branch rule, no git branch or history commands, and no loop/ edits.
+- 2026-11-19 21:17 Chose goal.tsx as the next single-file onboarding step, as set in the previous round's NEXT, because it is the smallest unblocked gap on row 2.
+- 2026-11-19 21:17 Kept row 2 at PARTIAL because 7 onboarding steps still lack render tests.
+- 2026-11-19 21:17 Full Jest run required because this round adds a code file and edits a docs cell.
+- 2026-11-19 21:20 Loop check flagged the goal.tsx round as partly done. Row 2 is PARTIAL by design, with 7 steps left, so I chose the next named gap (activity.tsx) and did not redo goal.tsx. Reason: notes rule for partial tasks.
+- 2026-11-19 21:20 Chose activity.tsx over body-type.tsx and legal/terms.tsx: it is the next onboarding step in the flow, so it is the smallest and closes the named gap.
+- 2026-11-19 21:20 Kept row 2 at PARTIAL and did not change any status cell. Reason: 6 onboarding steps still lack render tests.
+- 2026-11-19 21:20 Asked for tsc and full Jest because this round changes code. Reason: wording rule.
+- 2026-11-19 21:21 Loop check flag: the activity round added its test but row 2 is still PARTIAL, so the named remaining gap (body-type.tsx) is the next task. Closed the gap instead of redoing finished work.
+- 2026-11-19 21:21 Jev ranked body-type.tsx first at 91%. Agreed, so no override. Kept the same task.
+- 2026-11-19 21:21 Kept one file per round to keep clean completion odds up, given Jev's risk signal of 0.9.
+- 2026-11-19 21:22 Loop check flagged the last report as partly done. The row 2 gap is named as 5 remaining steps, so the next prompt closes exactly one of them (dietary.tsx) and does not redo body-type.
+- 2026-11-19 21:22 Kept one file and one row per prompt, per the small-task rule from Jev and the Known issues list.
+- 2026-11-19 21:22 Did not change row 2 status: it stays PARTIAL until all 8 steps have real render tests.
+- 2026-11-19 21:22 Prompt tells Claude to take the headline and route from the source file, not guess, to avoid a test that passes for the wrong reason.
+- 2026-11-19 21:22 Expected count after this round is 96 suites, since code changed and the full Jest suite is required.
+- 2026-11-19 21:24 Loop flag on row 2 (partial): kept cuisine.tsx as the pick. It is the gap the last report named, so it closes the partial task rather than redoing finished work.
+- 2026-11-19 21:24 Jev ranked the same task first at 98%, so no override. Row 2 stays PARTIAL until the last four steps have tests.
+- 2026-11-19 21:24 Round 140 prompt: cuisine.tsx only. Its pattern (timer or Continue) is read from the file first, so the prompt does not guess.
+- 2026-11-19 21:25 Chose targets.tsx as the next Row 2 gap, as the prior report and the Next list both named it. Smallest task that clears one remaining row 2 item.
+- 2026-11-19 21:25 Loop flag on the cuisine task: the prompt addresses it by re-checking the cuisine assertion and the row 2 notes cell before starting targets. Finished work is not redone; only the named gap is checked.
+- 2026-11-19 21:25 Route for targets is read from the file, not assumed, because the cuisine task showed the assumed route was wrong.
+- 2026-11-19 21:25 Row 2 stays PARTIAL until preview.tsx and done.tsx are covered. Status is not changed in a docs pass.
+- 2026-11-19 21:27 Loop check flagged the targets round as partly done. Row 2 is still PARTIAL with two steps left, so the named gap (preview.tsx) comes next, per the partial-task rule.
+- 2026-11-19 21:27 Chose preview.tsx over done.tsx to keep the order goal, activity, body-type, dietary, cuisine, targets, preview, done. Jev agrees with a small task.
+- 2026-11-19 21:27 Handover 4 is not requested by the loop this round, so it waits until it is asked for.
+- 2026-11-19 21:27 Condensed the notes to stay under 600 words. No decision or blocker was removed.
+- 2026-11-19 21:28 Agreed with Jev and the loop check: done.tsx is the named remaining gap of row 2, so it is the next task.
+- 2026-11-19 21:28 Row 2 stays PARTIAL because live Clerk sign-in and post-sign-in profile persistence are still owner checks.
+- 2026-11-19 21:28 Route assertions in the done.tsx test must match the file, verified in step 1, because the earlier report showed route checks can mislead.
+- 2026-11-19 21:29 Loop note forces a checkpoint round, so chose the checkpoint task over any feature row.
+- 2026-11-19 21:29 Jev advised run at 90%; followed it because the task is small and the loop note requires it.
+- 2026-11-19 21:29 Ran Jest with --ci so a checkpoint cannot silently write snapshots.
+- 2026-11-19 21:29 Row 2 step coverage is complete after round 143; its only remaining item is the owner check of live Clerk sign-in, so it stays PARTIAL and is not a build task.
+- 2026-11-19 21:30 Chose legal terms render test: the last report's NEXT and the notes' Next list both name it, and it is a small single-file task.
+- 2026-11-19 21:30 Onboarding steps: notes Done says all 8 steps have render tests, but the handover says 8 remain. Notes are newer, so kept as done. The prompt for goal.tsx will verify this before any work.
+- 2026-11-19 21:30 Treated the new test file as a code change, so full tsc and full Jest run this round, per the wording rule.
+- 2026-11-19 21:30 Kept the row status unchanged, since status never changes in a docs or test-only pass.
+- 2026-11-19 21:31 Rewrote the rejected prompt: it now restates the loop/phase2-only branch rule, forbids git commands that change branches, and lists exact files, must-not-touch items, the report format and clean code rules.
+- 2026-11-19 21:31 Chose the legal terms render test: it is the smallest test-only task and it was the Next item in the notes. Jev and the notes agree.
+- 2026-11-19 21:31 Kept the row-2 goal.tsx step and insights.tsx as the next two candidates, in the order already in the notes.
+- 2026-11-19 21:31 Did not edit PHASE2_ROWS.md this round: a test-only change with no status change. The report names the row the test supports.
+- 2026-11-19 21:31 Required a file path check before writing the test, per the rule that routes are verified against the file first.
+- 2026-11-19 21:32 Chose goal.tsx over privacy render test: it closes a remaining Row 2 gap and the notes Next list puts it first.
+- 2026-11-19 21:32 Kept the task to one file and one row, as Jev advised for low clean-completion odds.
+- 2026-11-19 21:32 Restated the branch rule in the prompt, as required after the round 145 rejection.
+- 2026-11-19 21:33 Kept Jev's pick (legal privacy render test, 93%). Same as my own Next list, so no conflict.
+- 2026-11-19 21:33 Loop flag on the last report: its claim that goal.tsx was 'verified' is rejected. Cells and reports use 'checked in code'. The wording fix is folded into this round as one edit to the row 2 notes cell only, with no status change.
+- 2026-11-19 21:33 Reason I did not pick insights: the privacy test is a copy of an existing passing pattern, so it is the smallest and most likely clean task. Jev's risk reading (1.6 of 2) favours small tasks.
+- 2026-11-19 21:33 Row 2 notes cell is the only docs edit. Status never changes in a docs pass, per the rule.
+- 2026-11-19 21:34 Chose insights.tsx render test: the Next list in the notes and the last report both name it, and it is one file with no owner input.
+- 2026-11-19 21:34 Required the prompt to confirm the screen path first and stop if it differs, because the notes say to verify paths before tests assert them.
+- 2026-11-19 21:34 Kept the row 2 onboarding steps for later rounds, one per round, to keep each task small given the Jev risk score.
+- 2026-11-19 21:34 Did not ask Isa anything: no owner step is involved.
+- 2026-11-19 21:36 Chose ai-query render test because the notes Next list puts it directly after insights, and it is a small single-file task.
+- 2026-11-19 21:36 goal.tsx is in the handover remaining list but missing from the notes remaining list; left for a later round and recorded here, not treated as done.
+- 2026-11-19 21:36 Default for row cells: notes-only edit, status column untouched, per the docs-pass rule.
+- 2026-11-19 21:36 Notes condensed to fit the 600 word limit; no decision or parked item was dropped.
+- 2026-11-19 21:37 Chose goal.tsx: it is the next step in the agreed order and clears one of the 8 remaining Row 2 gaps; one row, one file.
+- 2026-11-19 21:37 Deferred ai-query send path: Row 19 is already BUILT with the initial-state render test, so the send path is a follow-up, not a gap for the Row 2 PARTIAL work.
+- 2026-11-19 21:37 Deferred AnomalyBanner and AnomalyCard render tests to Parked: their row notes are code-read only, but it is not on the critical path for v1 completion this round.
+- 2026-11-19 21:37 Recorded that the Claude Code report's suggestion (send path) and the row 19 weaker-coverage note are parked, not built.
+- 2026-11-19 21:37 Kept the row 2 status PARTIAL; status changes only after all 8 steps have real coverage.
+- 2026-11-19 21:39 Chose the ai-query send path because the handover names it as the next gap and it is one file, one test.
+- 2026-11-19 21:39 Row 2 remaining list in notes was stale: handover confirms all 8 onboarding steps have render tests, so only the owner checks remain for row 2.
+- 2026-11-19 21:39 Prompt tells the worker to grep first, because the last two rounds were no-ops caused by assuming coverage was missing.
+- 2026-11-19 21:39 Jev agrees on run (83%) and a small task; no reason to override.
+- 2026-11-19 21:41 Chose the AnomalyBanner and AnomalyCard render test: it is the only remaining row 19 gap, is small, and needs no Isa input.
+- 2026-11-19 21:41 Kept the grep-first step because two earlier prompts duplicated existing coverage.
+- 2026-11-19 21:41 Left the uncommitted loop/ file changes alone; they are loop-managed and out of scope.
+- 2026-11-19 21:41 Kept the row 1 OTP test and the row 22 numbers pass in Next, not in this round, to keep the task to one file.
+- 2026-11-19 21:42 Skipped ai-query send-path render test suggested in the handover: already listed as Done in notes, grep before adding.
+- 2026-11-19 21:42 Row 19 AnomalyBanner and AnomalyCard render test is done (round 152), so it is removed from Parked and Next.
+- 2026-11-19 21:42 Chose row 1 OTP test: smallest unbuilt piece, no owner input needed, Jev follow on small tasks.
+- 2026-11-19 21:42 Left loop/ git status alone per the standing rule that prompts never edit loop files.
+- 2026-11-19 21:45 Chose the OTP verify-to-routing test over the DevSignup fallback: it closes the real email-branch gap the last report flagged, and it is one file on row 1.
+- 2026-11-19 21:45 Told Claude Code to grep first, since the last two rounds repeated existing coverage.
+- 2026-11-19 21:45 loop/ files and DECISIONS_LOG.md / NOTES_phase2.md git status noise left alone: loop-managed, and prompts never edit them.
+- 2026-11-19 21:45 No simulator work this round: Maestro not installed and Clerk sign-in needs an owner step.
+- 2026-11-19 21:47 Chose the DevSignup no-key fallback test as the Next item from round 154; it is small, single file, and unblocked.
+- 2026-11-19 21:47 Added a grep-first step because prior prompts duplicated existing coverage; the step skips creation if the branch is already tested.
+- 2026-11-19 21:47 Kept the AnomalyBanner/AnomalyCard render test as a candidate, not the pick, since round 152 notes say a render test was added and it needs a grep check first.
+- 2026-11-19 21:47 Ran tsc and full Jest because this round is a test change, per the wording rule.
+- 2026-11-19 21:49 Chose the flagged partial task first, since the loop note requires dealing with it before moving on.
+- 2026-11-19 21:49 Kept row 1 PARTIAL: live Clerk sign-in is an owner check and cannot be closed by Jest.
+- 2026-11-19 21:49 Deferred the stale handover numbers (913 tests, 104 suites) to the numbers pass; current baseline is 920 tests, 107 suites.
+- 2026-11-19 21:49 Recorded the SafeAreaProvider deviation from round 155 as accepted: the real pattern (no wrap) passes under jest-expo.
+- 2026-11-19 21:50 Chose row 19 check: the handover says the anomaly coverage is a code-reading note, but the round 152 and round 154 reports say an executed render test exists. Grep decides; no duplicate file.
+- 2026-11-19 21:50 Accepted Claude Code's round 156 refusal of the RNTL switch for signupDevFallback.render.test.tsx: the helpers doc records RNTL v14 as incompatible with RN 0.85.3, and all 107 render files use renderScreen. Row 1 stays PARTIAL until the live Clerk owner check.
+- 2026-11-19 21:50 Kept Jev's advice: small task, one row, one file.
+- 2026-11-19 21:50 Left loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modifications alone as loop-managed.
+- 2026-11-19 21:51 Chose the checkpoint run because the loop note for this round mandates it; it is read only and carries low risk.
+- 2026-11-19 21:51 Jev suggested ask at 51% with confidence 0.26. Overridden: low confidence, and asking adds no information because the checkpoint needs no Isa input.
+- 2026-11-19 21:51 Next candidate is the ai-query send path render test, but only after grep confirms no existing executed import covers it.
+- 2026-11-19 21:52 Chose the ai-query send path as the next task, as the prior handover and notes both recommend. It is one row, one file, and needs nothing from Isa.
+- 2026-11-19 21:52 Told Claude Code to grep and check existing coverage first, because earlier rounds were handed near-duplicate work.
+- 2026-11-19 21:52 Left AnomalyBanner and AnomalyCard out of this round. Notes record a real render test (anomaly.render.test.tsx), but the handover calls that coverage a code-reading note. Recorded as a NEXT check, not a task, to avoid a duplicate test.
+- 2026-11-19 21:52 Kept the checkpoint green (tsc 0, Jest 107 suites / 920 tests / 4 snapshots) as the new baseline. Jev's 85% run signal agrees with a small task.
+- 2026-11-19 21:53 Chose the anomaly coverage check as round 160: it is the last open item in Next and the handover calls it a gap, and it is one row and one file, which fits Jev's small-task advice.
+- 2026-11-19 21:53 Told Claude Code to make no code change if coverage already exists, so a duplicate test is not added.
+- 2026-11-19 21:53 Recorded the ai-query send path as closed: the latest report shows aiQuery.render.test.tsx already covers it and passes 2/2.
+- 2026-11-19 21:53 Kept row 19 status as BUILT and asked only for a notes cell edit, per the wording rule.
+- 2026-11-19 21:54 Chose AddMenu render coverage: it is the smallest Parked render gap and it clears notes on rows 38, 53 and 83 together.
+- 2026-11-19 21:54 Round 160 anomaly coverage confirmed done by the latest report (anomaly.render.test.tsx, 2/2 pass). Row 19 is treated as closed; no further anomaly work.
+- 2026-11-19 21:54 Prompt tells Claude Code to grep first because prior rounds were handed duplicate test work.
+- 2026-11-19 21:54 Status cells stay untouched. Only notes cells change, per the wording rule.
+- 2026-11-19 21:56 Row 55 notes update made without asking Isa: the question is minor bookkeeping, not a major blocker, so the default applies (decide and record).
+- 2026-11-19 21:56 Overrode Jev's 'ask' signal: no owner-only dependency and no money, data or production risk; the question is cosmetic.
+- 2026-11-19 21:56 Rows 38, 53, 83 stay untouched: they cover integrations.tsx and nutrition/week, not AddMenu, so writing the new test there would plant a false claim.
+- 2026-11-19 21:56 Status cells are not changed in this docs pass (decision: status never changes in a docs pass).
+- 2026-11-19 21:57 Chose food saved render test as the next PARTIAL row with a real gap, as the Next section recommended; smallest task, one file, Jev ranks it highest.
+- 2026-11-19 21:57 Prompt tells Claude Code to find the row number itself by searching PHASE2_ROWS.md, because the number is not in the notes and I will not guess it.
+- 2026-11-19 21:57 Prompt requires a grep for existing coverage first, per the rule that near-duplicate render tests have happened before.
+- 2026-11-19 21:57 Sign-in owner steps unchanged; no new question to Isa, since the blockers are already on the Blocked list.
+- 2026-11-19 21:57 Round 162 row 55 notes cell accepted as done; no further docs-only round needed.
+- 2026-11-19 21:59 Chose quick-add over ai-query send path, following Jev's ranking (94%) and the notes Next item; it is the smallest unbuilt render gap and needs no Isa input.
+- 2026-11-19 21:59 Prompt requires a grep before creating any file, because earlier rounds handed near-duplicate work.
+- 2026-11-19 21:59 Gesture-handler worklet warning stays in Parked; no investigation this round, to keep the task to one row and one file.
+- 2026-11-19 21:59 Quick-add exact file path left to Claude Code to confirm with find, since the path was not given in notes.
+- 2026-11-19 22:01 Chose the AI query send path because it is the next item in Next and Jev ranked it first at 96% run.
+- 2026-11-19 22:01 Told Claude Code to grep and reuse the existing aiQuery.render.test.tsx: the handover says it exists, while Parked says the send path is uncovered. Grep settles it, and no duplicate file is created.
+- 2026-11-19 22:01 Kept the prompt to one row and one file, with an extend-not-create rule, to keep the Jev risk low.
+- 2026-11-19 22:01 Quick-add submit path and AnomalyBanner/AnomalyCard stay in Next, one per round.
+- 2026-11-19 22:01 Row number is left for Claude Code to find by grep, because the notes do not give it reliably.
+- 2026-11-19 22:02 Chose row 5 submit path: the handover and notes both name it as the next gap, it is small, and it needs no input from Isa.
+- 2026-11-19 22:02 Kept the test in the existing quickAdd.render.test.tsx rather than a new file, per the one file per prompt rule.
+- 2026-11-19 22:02 Told Claude Code to stop rather than edit the screen if the code does not match, so no behaviour changes slip in.
+- 2026-11-19 22:02 Left loop/ git status noise alone, as the notes say loop-managed files are never edited by prompts.
+- 2026-11-19 22:02 Left the Clerk JWKS, Maestro and token pass items as owner steps; no action this round.
+- 2026-11-19 22:05 Chose row 5 remaining branches: smallest change, same test file, closest PARTIAL row to BUILT, low Jev risk (1.0).
+- 2026-11-19 22:05 Kept SwipeableRow worklet warning parked: not blocking any test.
+- 2026-11-19 22:05 loop/ modified files left alone as loop-managed, per Decisions.
+- 2026-11-19 22:05 Round 166 quick-add submit path counted as covered by the latest report; remaining gap is loading and deep-link branches only.
+- 2026-11-19 22:10 Chose row 5 to close the loop flag: the last report left the submit path partly covered, and the double-submit gap is the one blocking the row.
+- 2026-11-19 22:10 Guard placed in the screen, not the Button: the report traced the only protection to native disabled props, which render tests cannot exercise.
+- 2026-11-19 22:10 Status stays PARTIAL unless the deep-link branch is also tested; no status change on an open gap.
+- 2026-11-19 22:10 Kept to one row and one test file; Jev risk is 1.0, so the task is small.
+- 2026-11-19 22:12 Switched to Jev's pick (integrations render coverage, rows 38/53/83) over row 5. Reason: row 5's deep-link branch is already tested, and its remaining item is an API-level owner-scoping check that a render test cannot close, so row 5 cannot reach BUILT this round. Clearing integrations coverage upgrades three rows from checked in code toward real coverage.
+- 2026-11-19 22:12 Took row 38 only this round, one row per prompt. Rows 53 and 83 (nutrition/week) go next.
+- 2026-11-19 22:12 Row 5 status stays PARTIAL. The submit-path render test is queued as a candidate.
+- 2026-11-19 22:12 Grep before creating the test file, after repeated duplicate-file incidents.
+- 2026-11-19 22:16 Chose row 53 over row 5 submit path: smallest task, needs no API check, and matches the Next list. Row 5 needs an API-level check first.
+- 2026-11-19 22:16 Prompt tells Claude Code to stop if row 53 does not name a screen, because earlier rounds had wrong row premises.
+- 2026-11-19 22:16 Prompt says to grep before creating a test file, because duplicate render tests happened twice before.
+- 2026-11-19 22:16 Kept Jev's risk advice: one row, one file, short steps.
+- 2026-11-19 22:16 Automatic check flagged last round with nothing run, so the gate goes first, as the loop note requires.
+- 2026-11-19 22:16 Row 53 is Connected apps chip (integrations.tsx), not nutrition/week. Premise wrong, so no nutrition test work this round. The grep for the real nutrition/week row is read only and deferred to NEXT.
+- 2026-11-19 22:16 Ran the Jest files by exact path with a find fallback, so no duplicate test files are created.
+- 2026-11-19 22:16 Jev asked for ask (48%) but the question is minor and answerable by a grep, so run was chosen. Risk is kept low by running one small read/check task with no new code.
+- 2026-11-19 22:17 Round 171 gate result accepted: tsc 0 errors, 7 render suites and 18 tests passed. Gate cleared.
+- 2026-11-19 22:17 'nutrition/week' row number is not a real open row. Rows 16, 17, 19, 46-48, 58 and 83 are BUILT. Skipped, no row created. Jev and the report agree.
+- 2026-11-19 22:17 Chose the row 5 submit path. It is render-testable, one file, and small. Jev ranked the same order; the API-level row 5 check is deferred because a render test cannot close it.
+- 2026-11-19 22:17 Kept row 5 at PARTIAL. Owner-scoped API check still open.
+- 2026-11-19 22:19 Chose the checkpoint task over Jev's row 18 pick because the loop script requires this round to be a full tsc and full app Jest checkpoint with no file changes.
+- 2026-11-19 22:19 Row 18 stays next: it is the next concrete render coverage gap once the checkpoint result is known.
+- 2026-11-19 22:19 Jest run with --ci so no snapshot is written or regenerated during the checkpoint.
+- 2026-11-19 22:19 Row 5 stays PARTIAL. The submit path render tests were already added last round, so the flagged partial task is closed in code; the open item is the owner-scoped food log check.
+- 2026-11-19 22:19 Row 5 recommendation to move off it was accepted for now; row 5 returns only for the API level owner-scoped check.
+- 2026-11-19 22:20 Round 173 checkpoint green (tsc 0 errors; Jest 111 suites, 932 tests, 4 snapshots), so proceed with the planned next task.
+- 2026-11-19 22:20 Chose row 18 over row 5 submit path: Jev ranks run at 95% and the Next list in notes already names row 18 first; it is a smaller, file-scoped task with no backend dependency.
+- 2026-11-19 22:20 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified across many rounds. They are loop-managed; the loop script owns them. Parked for Isa to check, not a row.
+- 2026-11-19 22:20 Prompt tells Claude Code to grep before creating a test file, given the repeated duplicate and wrong-premise problems in earlier rounds.
+- 2026-11-19 22:20 Prompt forbids the RNTL import because of the documented RN 0.85.3 incompatibility.
+- 2026-11-19 22:23 Chose row 5 owner-scoped API check: it is the only open non-render item on row 5, it needs no Isa input, and it is small. Jev ranked run at 60%, consistent with this.
+- 2026-11-19 22:23 Resolved the conflict between the handover (quick-add submit path uncovered) and the round 174 report (already covered in quickAdd.render.test.tsx). Recorded in Decisions: submit path covered; only the API check remains.
+- 2026-11-19 22:23 Kept row 5 PARTIAL in the notes until the API check passes, then BUILT with 'owner check pending' under the wording rule.
+- 2026-11-19 22:23 Did not ask Isa anything: the check runs against the local DB and needs no credentials.
+- 2026-11-19 22:23 Trimmed the notes to fit the 600 word limit. Decisions kept verbatim in substance; Parked and Known issues condensed without dropping items.
+- 2026-11-19 22:25 Chose row 8 owner-scoped backend check: smallest unbuilt part that needs no sign-in, same pattern that closed row 5.
+- 2026-11-19 22:25 Jev suggested ask at low confidence (0.38). No question is major, so I ran the task rather than ask Isa.
+- 2026-11-19 22:25 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md show as modified: loop-managed, so prompts never touch them. Listed in Blocked for Isa to check, not a row.
+- 2026-11-19 22:25 Row 5 is now BUILT on the backend owner test. Its on-device check is an owner check pending item.
+- 2026-11-19 22:26 Rewrote the rejected prompt: it now names the loop/phase2 branch and bans all git commands that change branches or history.
+- 2026-11-19 22:26 Chose row 8 over row 18 because it is PARTIAL, already in progress, and the smallest next step.
+- 2026-11-19 22:26 Did not ask Isa: no major question is open and the checkpoint is not due. Jev's ask ranking was not followed.
+- 2026-11-19 22:26 Row 5 is recorded as BUILT (per the notes state). The handover's PARTIAL is treated as stale.
+- 2026-11-19 22:28 Loop flagged last report as partly done; row 8 is PARTIAL, so continue row 8 with the smallest open part (delete/unsave).
+- 2026-11-19 22:28 Chose delete/unsave over quick-add submit: it is the other explicit action in row 8's surface and needs no new file.
+- 2026-11-19 22:28 Kept row 8 status PARTIAL until create paths are covered too.
+- 2026-11-19 22:28 Banned git commands and loop/ edits in the prompt after the round 177 rejection for missing branch rule.
+- 2026-11-19 22:28 Prompt names exact file and grep steps to avoid creating a duplicate test file.
+- 2026-11-19 22:32 Flagged partial task: kept row 8 as the target, since it is the only row the loop check named and it stays PARTIAL until all parts are covered.
+- 2026-11-19 22:32 Chose the create path over quick-add because it closes a named gap in row 8 and is a single test file. Quick-add stays next.
+- 2026-11-19 22:32 Told Claude Code to grep for the create caller first, because earlier rounds had wrong task premises.
+- 2026-11-19 22:32 Banned source edits in this round so the change is test-only and the design is untouched.
+- 2026-11-19 22:34 Loop check flagged round 180 as partly done. Row 8 is still PARTIAL with two uncovered create paths, so the next task closes one of them before moving on.
+- 2026-11-19 22:34 Chose api.recipes.create over savedMeals.log: it is the other create path in row 8 and the previous report named it as the next gap. Smallest change, one file.
+- 2026-11-19 22:34 Kept row 8 at PARTIAL: BUILT needs both create paths covered, and savedMeals.log is still open.
+- 2026-11-19 22:34 Did not ask Isa about loop/DECISIONS_LOG.md and loop/NOTES_phase2.md showing as modified: already in Blocked on Isa, and the question is not major.
+- 2026-11-19 22:34 Prompt bans git commands and edits to loop/ files because earlier rounds broke on both.
+- 2026-11-19 22:37 Round 182 picks row 8 savedMeals.log because the automatic flag says the last report was only partly done, and row 8 is the open PARTIAL row with the smallest remaining gap.
+- 2026-11-19 22:37 Row 8 status stays PARTIAL until delete/unsave and savedMeals.log are both covered.
+- 2026-11-19 22:37 Grep before creating any test file, because earlier rounds showed task premises can be wrong.
+- 2026-11-19 22:37 The DECISIONS_LOG and NOTES_phase2 git status diff is not a loop task. It is parked for Isa to check.
+- 2026-11-19 22:40 Chose row 8 recipes.log: it is the only remaining API surface in row 8 with no render coverage, and the task is one file. Jev ran at 90% for run, so no reason to override.
+- 2026-11-19 22:40 Row 5 moved to BUILT per handover (quick-add render tests plus existing owner-scoped Go tests). Only the on-device check is pending, which is owner check pending.
+- 2026-11-19 22:40 Prompt tells Claude Code to stop if a test already covers recipes.log, so a false premise does not cause duplicate work.
+- 2026-11-19 22:40 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md git diff stays flagged for Isa; no loop files are edited by prompts.
+- 2026-11-19 22:42 Automatic check flagged the round 183 report as partly done: row 8 stays PARTIAL and this round targets its remaining delete and unsave paths, so nothing is claimed beyond the tests.
+- 2026-11-19 22:42 Chose row 8 delete coverage over row 18 Energy local check because the Energy check needs a simulator run that is not set up yet.
+- 2026-11-19 22:42 Stale row 8 notes wording is a side finding: moved to Parked and to NEXT, not edited, since the task scope is append-only.
+- 2026-11-19 22:42 Prompt bans git and loop/ edits, per the standing rules for this branch.
+- 2026-11-19 22:44 Jev ranked ask at 88%. Kept run. The open question (is recipe and saved meal delete UI planned?) is a product scope gap. It blocks no other row, and asking Isa cannot change this round's work, since the code has no delete or unsave UI for recipes or meals. Parked it instead, per the default of deciding and recording.
+- 2026-11-19 22:44 Removed recipe and saved meal delete and unsave from row 8 scope. Only saved foods delete exists in the UI, and it is already covered. Parked as a product gap.
+- 2026-11-19 22:44 Row 8 stays PARTIAL until api.recipes.log has coverage or is confirmed to have no UI call site. The status change is decided by the manager after the report, not by the prompt.
+- 2026-11-19 22:44 Stale row 8 notes wording left for a later cleanup round (already in Parked).
+- 2026-11-19 22:45 Chose row 8 status decision because the latest report shows api.recipes.log already has render coverage, which was the last open live call site for row 8.
+- 2026-11-19 22:45 Recipe and saved meal delete or unsave stays out of row 8 scope, as already decided in loop notes (no UI call site exists).
+- 2026-11-19 22:45 Stale notes fragment in row 8 is removed in the same row edit, since it is the same cell and the same single row.
+- 2026-11-19 22:45 Jev signals advised stop at 48%, but rows remain unbuilt and the stop rule needs every row built, so the loop continues. Jev's question signal blocks no row, so no question is asked to Isa.
+- 2026-11-19 22:46 Row 18 set to BUILT with 'simulator check pending' because its local render tests pass and the only open part is the simulator run, which needs Maestro (owner step). BUILT is defined as wired and local tests passing.
+- 2026-11-19 22:46 Jev ranked ask slightly above run at low confidence. The question would be minor and blocks no row, so run is kept as the advisory signal allows.
+- 2026-11-19 22:46 Row 8 notes cleanup was not chosen this round: it is wording only and does not change status, so it goes to Parked for a later pass.
+- 2026-11-19 22:46 Checkpoint round 188 (full tsc and full Jest --ci) stays scheduled and is not moved.
+- 2026-11-19 22:47 Last report flagged for no tsc or Jest run: run the gate on the row 18 test files now. Jev said ask (84%), but the question is minor, blocks no row, and needs no Isa input. Kept run. Jev cannot see that the new render test files were never executed.
+- 2026-11-19 22:47 Row 18 phrase 'local check open' is not in the file. Do not invent an edit. Keep the existing 'Owner check pending' wording. Status stays BUILT.
+- 2026-11-19 22:47 Row 8 notes cleanup stays parked: wording only, not a build task.
+- 2026-11-19 22:47 Checkpoint round 188 still runs full tsc and full Jest --ci.
+- 2026-11-19 22:48 Round 188 is the scheduled checkpoint from the loop note: full tsc and full Jest --ci with no file changes, per the state note.
+- 2026-11-19 22:48 Chose the checkpoint over row 8 work because the loop note fixes this round as a checkpoint and the last report had no full gate run.
+- 2026-11-19 22:48 Transient Jest SIGSEGV on resetRegistry.test.ts is allowed one single-suite re-run, reported, not edited.
+- 2026-11-19 22:48 Jev ask signal (12%) is advisory and no question is needed: no row is blocked by it.
+- 2026-11-19 22:48 Next checkpoint set to round 203 (15-round cadence).
+- 2026-11-19 22:49 Round 188 checkpoint green (tsc 0 errors; Jest 116 suites, 941 tests, 4 snapshots, --ci). Recorded in notes.
+- 2026-11-19 22:49 Chose row 8 recipe log over the handover's row 6 suggestion: notes Next names row 8 recipe log first, and it is the only remaining uncovered call site in row 8. Row 6 render tests are Parked for fixture reasons.
+- 2026-11-19 22:49 Row 18 status conflicts: Done lists BUILT (owner check pending), handover says PARTIAL. Left unchanged. Will verify the row cell when row 18 is picked up.
+- 2026-11-19 22:49 Row 5 moved to BUILT per the handover (quick add render test plus existing Go ownership tests). On-device check stays owner check pending.
+- 2026-11-19 22:49 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md still show as modified in git status. Not touched by prompts. Stays on the Isa list.
+- 2026-11-19 22:50 Closed the 'partly done' flag by adding the missing failure-path test to the existing recipeLog.render.test.tsx, not a new file, because grep showed the file already exists.
+- 2026-11-19 22:50 Row 8 BUILT decision deferred to the report: it depends on whether the row's own cell lists any uncovered live call site.
+- 2026-11-19 22:50 Kept run over ask: the gap is one test in one existing file and blocks no row.
+- 2026-11-19 22:50 Recipe and saved-meal delete paths stay out of scope: no UI exists, so no render test is expected.
+- 2026-11-19 22:52 Chose row 8 savedMeals.log failure path: it is the one live call site still without a failure test, and the last report recommended it. Smallest task, one file, no Isa input needed.
+- 2026-11-19 22:52 Row 8 status is contradictory (last report says BUILT, handover says PARTIAL). Kept it PARTIAL in notes until the savedMeals failure test passes and the row is re-checked against its live call sites.
+- 2026-11-19 22:52 Prompt bans changing the screen if no error toast exists on failure; a missing feedback path is reported, not fixed, to respect the locked design and behaviour.
+- 2026-11-19 22:52 Checkpoint at round 203 unchanged. Jev ranking agrees with run (95%), so no reconsideration.
+- 2026-11-19 22:53 Chose row 8 re-check first, as the notes plan says, because the handover claims api.recipes.log is uncovered while round 190 notes say recipeLog.render.test.tsx exists. Code decides, not the handover.
+- 2026-11-19 22:53 Row 6 scan render tests deferred one round: smaller and lower risk to clear row 8 status first.
+- 2026-11-19 22:53 Report wording: 'render test added' and 'checked in code' only, per wording rule.
+- 2026-11-19 22:53 Stale fragments in row 8 notes cell left in place: wording cleanup stays Parked, not this task.
+- 2026-11-19 22:53 Ignored the handover path claim about /Users/isa; repo root from the last report is used.
+- 2026-11-19 22:57 Chose row 18 status check first: smallest task, already queued in Next, closes a PARTIAL row before row 6.
+- 2026-11-19 22:57 Row 8 treated as BUILT: round 192 report shows all 9 live call sites covered. Recipe log failure path (round 190) and savedMeals log (round 191) also covered. Delete paths have no UI, parked.
+- 2026-11-19 22:57 Row 5 treated as BUILT, owner check pending (on-device food log check), per round 189 handover.
+- 2026-11-19 22:57 Row 38 treated as BUILT per handover: integrations.render.test.tsx covers connected and failed list.
+- 2026-11-19 22:57 Ignored the repeated 'Not yet covered in row 8' line in the handover: it conflicts with rounds 190 to 192 and the code check.
+- 2026-11-19 22:58 Kept Jev's pick (row 7 re-check) over row 6 for this round: row 7 has no status recorded in the Done list, the last report flagged possible unchecked paths, and the task is small (one row, one test file). Row 6 is next, after this round.
+- 2026-11-19 22:58 Row 18 re-check confirmed in code by the last report; row 18 stays BUILT with no further action.
+- 2026-11-19 22:58 Row 8 notes cell cleanup stays out of scope; it is wording only and goes to Parked.
+- 2026-11-19 22:58 Round 203 checkpoint is still ahead; no checkpoint run this round.
+- 2026-11-19 22:58 loop/DECISIONS_LOG.md and loop/NOTES_phase2.md git status issue remains for Isa; not a loop task.
+- 2026-11-19 23:01 Chose row 7 re-check over row 6 because the automatic check flagged the last report as partly done, and row 7 is the open item from it. Jev's run signal agrees.
+- 2026-11-19 23:01 Scoped row 7 to its own API surface (foodLogs.update/delete, savedFoods.create/delete). search/barcode logMeal and review rename are rows 3 and 6, so they stay out.
+- 2026-11-19 23:01 Row 7 stays PARTIAL unless every in-scope call has an executed render test. No status change without that proof.
+- 2026-11-19 23:01 Kept Jev's run pick. The source check is small and one row, one file.
+- 2026-11-19 23:01 Notes cleaned: merged repeated Parked items and removed finished Next items. Round 203 checkpoint still stands.
+- 2026-11-19 23:02 Chose row 6 barcode first: it is the smallest remaining PARTIAL row with a clear gap listed in Parked, and it keeps one row and one file per prompt.
+- 2026-11-19 23:02 Kept Jev's run signal (96%). Round 195 is not a checkpoint, so no override was needed.
+- 2026-11-19 23:02 Row 6 stays PARTIAL until label and photo tests exist; the prompt does not mark it BUILT.
+- 2026-11-19 23:02 Grep-before-create rule applied: step 1 checks for an existing barcode render test first.
+- 2026-11-19 23:05 Chose label-scan render test: it is the next PARTIAL slice on row 6, named in the last NEXT, and clears the flagged partial task.
+- 2026-11-19 23:05 Named all files fully in the prompt because a handover just happened and the new session only has the summary.
+- 2026-11-19 23:05 Kept the photo path out of this round: one row, one slice, per the one-task rule.
+- 2026-11-19 23:05 Row 8 notes cell cleanup stays Parked: wording only, not a build task, and it has been out of scope for many rounds.
+- 2026-11-19 23:05 Jev says run at 1.00 confidence and the risk is low for a single-file test: kept run.
+- 2026-11-19 23:10 Chose row 6 photo path: the automatic flag showed row 6 is partly done and the label task left the photo part as the only gap.
+- 2026-11-19 23:10 Kept row 6 PARTIAL until barcode, label and photo all have passing render tests; the prompt says so.
+- 2026-11-19 23:10 Did not ask Isa: the photo path is a test-only gap with no owner dependency.
+- 2026-11-19 23:10 Row 8 notes cleanup stays parked: wording only, trimmed when next touched.
+- 2026-11-19 23:10 Jev said run 100%; no conflict with the candidate ranking, so kept the pick.
+- 2026-11-19 23:24 Row 6 set to BUILT: photo path render tests in photoScan.render.test.tsx passed 5/5 (round 198 report). Barcode, label and photo all covered.
+- 2026-11-19 23:24 Chose row 1 reconciliation over row 2 and row 17: smallest task, needs no code change, and clears a PARTIAL status that may only be owner steps. Row 2 is next if row 1 closes.
+- 2026-11-19 23:24 Row 17 (plan.tsx) left as blocked on Isa: it is a product choice (build plan generation or drop the card for v1). No fabricated data. Will ask once if it still blocks the stop report.
+- 2026-11-19 23:24 Handover claim that row 6 stays PARTIAL is superseded by the newer round 198 report. Checked the report, not the handover.
+- 2026-11-19 23:24 Jev stop signal (41%) not followed: rows 1, 2 and 17 are still PARTIAL or blocked, so stop is not yet allowed. Jev ask signal (38%) is advisory and the question is not yet major.
+- 2026-11-19 23:26 Round 199 reconciliation flagged as partly done: row 1 stays PARTIAL, so round 200 closes the sign-in mode gap first, as the latest report recommends.
+- 2026-11-19 23:26 Row 1 remaining local gaps (validation messages, clerkMessage mapping, SSO cancel and error) stay in NEXT for later rounds, one per round.
+- 2026-11-19 23:26 Handover says row 6 is PARTIAL with no label or photo tests; notes say row 6 BUILT in round 198. Kept notes state (more recent, latest report). Verify in a later reconciliation, not this round.
+- 2026-11-19 23:26 Kept the Jev run signal: the task is minor, one row, one file, and blocks no other row.
+- 2026-11-19 23:29 Switched to Jev's pick (clerkMessage mapping). Reason: the last report's own NEXT names it, it is shared by sign-up and sign-in, and it has zero coverage. The sign-in mode test is complete; the row stays PARTIAL because of the remaining gaps, which is the designed status, not a failure.
+- 2026-11-19 23:29 Did not edit the row 1 status. It stays PARTIAL until live Clerk sign-in is an owner check and all local gaps close.
+- 2026-11-19 23:29 Prompt tells the worker to stop and report BLOCKED rather than edit source if clerkMessage is not exported, so the round stays test-only.
+- 2026-11-19 23:29 Previous round stopped on clerkMessage being a local closure. Chose the indirect render test route (no source export) over asking Isa, since it is a minor test-approach question that blocks no row.
+- 2026-11-19 23:29 Last report had tsc and jest not run. This prompt makes tsc the first gate and requires a green run before the round closes, to clear the loop flag.
+- 2026-11-19 23:29 Row 1 stays PARTIAL. Only the clerkMessage gap closes this round; SSO and validation remain next.
+- 2026-11-19 23:29 Round 203 checkpoint still runs as scheduled after this task.
+- 2026-11-19 23:32 Checkpoint flag from the automatic check overrides Jev's ranking. Jev put 80% on row 1 validation messages. Kept the checkpoint because the last report was flagged as partly done and no full suite has run since round 188. Reason recorded in notes.
+- 2026-11-19 23:32 Handover summary says row 6 label and photo is next, but the latest Claude Code report names row 1 SSO toasts as NEXT. Followed the latest report, as the handover may be stale. Row 6 stays queued after row 1.
+- 2026-11-19 23:32 Checkpoint prompt changes no files and tells Claude Code not to fix failures, so a red gate is reported and handled in the next round.
+- 2026-11-19 23:32 Round 203 was planned as a checkpoint but never ran as one. It is folded into this round (now round 204).
+- 2026-11-19 23:33 Checkpoint round 204 was green (tsc 0 errors, Jest 121 suites, 962 tests), so no fix needed before new work.
+- 2026-11-19 23:33 Chose row 1 validation over SSO toasts: smallest pure client gap, no Clerk mock, matches the prior report's NEXT.
+- 2026-11-19 23:33 Notes condensed to fit the 600-word limit; no decision or owner item was dropped.
+- 2026-11-19 23:33 Row 1 stays PARTIAL until SSO cancel and error toasts are covered.
+- 2026-11-19 23:34 Loop flag says last task partly done: row 1 is still PARTIAL, so the next task closes its remaining local gap (SSO cancel and error toasts) before anything else.
+- 2026-11-19 23:34 Chose row 1 SSO over row 6 because it is the next listed item and clears the PARTIAL on row 1 with one file.
+- 2026-11-19 23:34 Jev ranks run at 97%; no reason to override. Checkpoint not due (last green at round 204, next checkpoint not yet reached).
+- 2026-11-19 23:35 Re-issued the round 206 prompt after the loop rejected it. The prompt now names loop/phase2, bans git commands and bans edits under loop/.
+- 2026-11-19 23:35 Chose row 1 SSO cancel and error toast: smallest remaining local gap on a PARTIAL row, and it needs no source change. Jev also ranks run first.
+- 2026-11-19 23:35 Kept the loop note's wording rule: 'render test added', no 'verified'.
+- 2026-11-19 23:35 Trimmed the notes to the current state. Finished work is merged into Done, and the repeated row 8 housekeeping is dropped from Known issues.
+- 2026-11-19 23:36 Jev ranked row 6 label first. Kept row 1 close-out first: the local gaps are closed per the latest report, and PARTIAL is only bookkeeping that keeps row 1 blocking stop. Owner-step rows are BUILT on passing local mocked tests (decision in this file), so this is one small round and not a scope change.
+- 2026-11-19 23:36 Row 1 prompt does not allow source or test edits; it only verifies the two test files and updates the row.
+- 2026-11-19 23:36 signupValidation.render.test.tsx path is not in the report, so the prompt has Claude Code find it with grep rather than guessing.
+- 2026-11-19 23:38 Round 207 row 1 close-out accepted: status BUILT, owner check pending for live Clerk sign-in. Row 1 no longer blocks work.
+- 2026-11-19 23:38 Chose row 6 label scan first: one screen, one API call, smallest next step. Photo pipeline stays after it.
+- 2026-11-19 23:38 Kept row 6 at PARTIAL until both label and photo are covered, per the wording rule.
+- 2026-11-19 23:38 Followed Jev's ranking of row 6 as the next task, since it matches the checkpoint order in notes.
+- 2026-11-19 23:38 Asked the prompt to find the label screen by grep, because its exact path is not in the notes.
+- 2026-11-19 23:38 Rewrote the rejected prompt to name loop/phase2 explicitly, check the branch via .git/HEAD, and ban branch changes, commits and all git commands.
+- 2026-11-19 23:38 Chose the label scan test: it is the smallest remaining PARTIAL gap in row 6 and follows the barcode pattern already in place.
+- 2026-11-19 23:38 Kept row 6 PARTIAL until the photo pipeline is covered too.
+- 2026-11-19 23:38 Prompt tells Claude Code to stop if no screen calls api.scan.label, so it does not invent a file path.
+- 2026-11-19 23:38 Ban on status words in the notes cell follows the wording rule, so the status column stays the only place they appear.
+- 2026-11-19 23:39 Row 6 premise conflict: the latest report shows labelScan and photoScan render tests exist, so the handover claim of no label or photo coverage is stale. Chose a code audit of row 6 before any new test, since the report's test files are what decides BUILT.
+- 2026-11-19 23:39 Did not ask Isa about row 6 status. It is a minor status question that the code can answer.
+- 2026-11-19 23:39 Latest report overrides handover per the notes rule.
+- 2026-11-19 23:39 Notes trimmed to under 600 words to keep the reply from being cut off. No rule or decision was dropped; Parked entries were shortened.
+- 2026-11-19 23:41 Chose row 6 fallbackSyncScan gap as the next task: it is the single named gap left in row 6 and needs nothing from Isa.
+- 2026-11-19 23:41 Latest report overrides the handover: label and photo render tests exist (labelScan, photoScan), so only the fallback branch is missing.
+- 2026-11-19 23:41 Kept the test inside photoScan.render.test.tsx and mocked only api client functions, so the fallback logic runs for real.
+- 2026-11-19 23:41 Row 8 notes trim stays parked: out of scope for this round, and it has been deferred repeatedly.
+- 2026-11-19 23:44 Chose row 2 over Jev's audit (87%). Reason Jev cannot see: the audit spans several rows, which breaks the one-row-per-task rule. Row 2 is the only PARTIAL row left, and the stop report needs it closed. Audit moved to Next, one row per round, starting with row 6.
+- 2026-11-19 23:44 Row 6 is BUILT per the latest report. The handover claim that it is PARTIAL is stale and ignored.
+- 2026-11-19 23:44 Row 2 prompt is test-only: add or extend render tests, no screen edits, no change to onboarding behaviour.
+- 2026-11-19 23:44 Row 2 stays PARTIAL unless every local call site is covered. Sign-in and profile persistence stay owner items.
+- 2026-11-19 23:46 Row 2 closed as BUILT (owner check pending) on report evidence: both declared call sites have executed render tests.
+- 2026-11-19 23:46 Jev stop ranking (71%) overridden: row 6 is still PARTIAL, so the stop checkpoint is not met.
+- 2026-11-19 23:46 Row 6 split: label first, photo in a later round, to keep one row, one file per round.
+- 2026-11-19 23:46 Did not ask about row 17 plan.tsx again this round; it is BUILT per notes. Revisit only at stop time if still open.
+- 2026-11-19 23:47 Row 6 treated as BUILT, not PARTIAL: the latest report and handover both checked the code and found labelScan and photoScan render tests executed and passing. The notes' PARTIAL entry was stale.
+- 2026-11-19 23:47 Chose the checkpoint over the Jev ask pick: a checkpoint is due (last green was round 204) and the handover just happened, so a full verified state is needed before more work.
+- 2026-11-19 23:47 No question to Isa this round: nothing new blocks progress, and row 17 is only asked about once no PARTIAL or DIFFERENT row remains.
+- 2026-11-19 23:47 Prompt is read-only on PHASE2_ROWS.md so the row 6 status is confirmed from the file before anyone edits it.
+- 2026-11-19 23:49 Row 21 moved from parked to a read-only audit. The brief's default allows a local-only data model change with a migration, and the row is in PHASE2_ROWS.md, so it must be wired or proven impossible. Audit first to keep the task small (Jev risk high).
+- 2026-11-19 23:49 Row 17 is counted BUILT, per the Done list and the latest report. The plan.tsx question stays for the stop report, not a separate ask now.
+- 2026-11-19 23:49 Stop is not yet allowed: row 21 is DIFFERENT, so the every-row-BUILT rule is not met.
+- 2026-11-19 23:49 Jev said stop 62%. Chose run because the brief requires every row to be BUILT or EXACT and the data model path is allowed locally. Reason Jev cannot see: the brief's default answers this without Isa.
+- 2026-11-19 23:49 Checkpoint counts differ (123 suites, 967 tests, green). Treated as the live count, not a regression. Stale counts in notes corrected.
+- 2026-11-19 23:51 Chose the hook step first, not the chart wiring, to keep each task to one file of change, given the low Jev confidence in clean completion.
+- 2026-11-19 23:51 Accepted the audit finding that no data model change or migration is needed: FoodLog already has every macro field and DetailChart Bar.bottom already stacks. Client side aggregation over 7 existing calls is the smallest change.
+- 2026-11-19 23:51 Did not add a backend range endpoint. The audit said it is not required for correctness, and it would add a backend row.
+- 2026-11-19 23:51 Macros variant of Row 103 stays out of scope. Only item 1 (7-day stacked chart) is being built.
+- 2026-11-19 23:51 Row 21 status stays DIFFERENT until the chart is wired and tested. Its 'Backend change needed' cell is stale and gets corrected when step 2 lands.
+- 2026-11-19 23:56 Chose row 21 step 2: it is the next declared step, needs nothing from Isa, and clears a row. Jev ranked run at 99%, agreeing.
+- 2026-11-19 23:56 Row 21 status set to BUILT only if the render test executes, otherwise PARTIAL, per the wording rule.
+- 2026-11-19 23:56 Row 21 stale 'Backend change needed' cell corrected in the same round, since step 2 confirms no backend change.
+- 2026-11-19 23:56 Render test: extend an existing dashboard nutrition test if one exists, else create one in src/__tests__/render/ after grep.
+- 2026-11-19 23:56 Row 8 notes trim stays parked; it is not a row task and does not clear status.
+- 2026-11-20 00:08 Kept the checkpoint over Jev's top pick (snapshot regeneration). The snapshot may not be failing at all, since the Phase report only suspected it. Regenerating now would edit a file in a round that must change nothing. Re-rank after this run's results.
+- 2026-11-20 00:08 Logged the row 21 side-by-side bar issue and the stale Secondary card copy under Parked, not as a build task, because they are side findings and not a row.
+- 2026-11-20 00:10 Loop note flagged a red gate. Fixed the known cause first: detailChrome macros sub-test, one file only, same stub pattern as dashboardNutrition.render.test.tsx.
+- 2026-11-20 00:10 Deferred gymStreakStripFootnote crash to next round. It may be a real gym.tsx shape bug, so it needs its own single-file task with a read of the schedule hook first.
+- 2026-11-20 00:10 Allowed a new macros snapshot to be written in this file only, with a diff check, because the assertion never ran and the snapshot count dropped from 4 to 3.
+- 2026-11-20 00:10 Jev 97% run agrees. Risk 1.0 is handled by keeping the task to one file.
+- 2026-11-20 00:13 Round 218 detailChrome macros fix accepted: test file only, one snapshot regenerated, tsc 0.
+- 2026-11-20 00:13 Gym streak red test is the next task; it is the only open Jest failure after round 218.
+- 2026-11-20 00:13 Prefer a test fixture fix over a gym.tsx change unless gym.tsx shows a real shape bug.
+- 2026-11-20 00:13 Row 6 handover says BUILT (barcode, label and photo render tests exist). The stale brief claiming PARTIAL was ignored; no row edit made.
+- 2026-11-20 00:13 Full checkpoint deferred to round 220 so this round stays one row, one file.
+- 2026-11-20 00:17 Round 220 is a checkpoint per notes: run full gates, change no files.
+- 2026-11-20 00:17 Chose the checkpoint over ask (Jev 79% run); no question needed this round.
+- 2026-11-20 00:17 Date-fixture audit from the round 219 report parked, not run: side finding, not a row.
+- 2026-11-20 00:17 TodayCard silent Rest day on malformed truthy response parked: product and shape decision, not a row fix.
+- 2026-11-20 00:17 Row 17 plan.tsx question held for the stop report, not asked now: it does not block the next round.
+- 2026-11-20 00:18 Chose a read-only audit for round 221 because the notes say PHASE2_ROWS.md must be verified before trusting any status, and the last two briefs used stale row status.
+- 2026-11-20 00:18 Kept the TodayCard shape guard and the date fixture pin in Parked: both are side findings, not rows.
+- 2026-11-20 00:18 Did not run the full suites: round 220 was a green checkpoint and no file changed since.
+- 2026-11-20 00:22 Chose row 4: smallest confirmed gap, static menu, no API, no sign-in, no device. Follows Jev's run signal and the round 221 audit.
+- 2026-11-20 00:22 Row 10 and row 11 gaps queued for rounds 223 and onward, one row per round.
+- 2026-11-20 00:22 Row 83 stale note (MACRO_BAR_W) parked as a note fix, not done now, to keep row boundaries strict.
+- 2026-11-20 00:22 Row count recorded as 83 from the round 221 audit. The older '84 rows' figure is removed. Verify the count from the file before each checkpoint.
+- 2026-11-20 00:22 Status of row 4 stays BUILT. Only a test line is added to its notes.
+- 2026-11-20 00:24 Chose row 10 as round 223 per the notes plan: it clears a named render-test gap, needs no hosted service or device, and is one file.
+- 2026-11-20 00:24 Row 4 is closed: the latest report shows foodAddMenu.render.test.tsx added and passing, so it moves from Next to Done.
+- 2026-11-20 00:24 Prompt tells Claude Code to verify row 10 status and grep for an existing test first, because the stale-brief warning in the notes applies.
+- 2026-11-20 00:24 Stale row 83 MACRO_BAR_W note left for a later round, since it is a note fix and not a gap in a row's coverage.
+- 2026-11-20 00:27 Chose row 11 templates over the others: it is the first of four open row 11 render gaps, it is one screen and one file, and it clears a known gap.
+- 2026-11-20 00:27 Prompt tells Claude Code to grep first and stop if a test already exists, because the brief from round 223 said earlier stale claims were wrong.
+- 2026-11-20 00:27 Row 83 stale note parked, not fixed: it is a side finding and the notes say to fix it only when row 83 is next touched.
+- 2026-11-20 00:27 Jev risk 0.9 of 2 read as advisory: kept the task to one screen and one file.
+- 2026-11-20 00:30 Picked new-template over schedule and exercise-progress: it is the create/edit pair of the templates list just covered, and it is the smallest single-screen gap.
+- 2026-11-20 00:30 Prompt has the step to grep for an existing mount first, because stale tracking has been wrong before.
+- 2026-11-20 00:30 Row status left at BUILT; only a notes line is added, since the gap is test coverage, not wiring.
+- 2026-11-20 00:32 Chose schedule.tsx: the latest report recommends it, it is the next row 11 screen with no render test, and it needs no sign-in or device. Jev agrees (run 99%).
+- 2026-11-20 00:32 Kept the grep-before-create rule so no duplicate test file is written.
+- 2026-11-20 00:32 Left the row 83 MACRO_BAR_W stale note in Parked. It is not in this row's scope.
+- 2026-11-20 00:32 Kept the notes under 600 words by condensing Done and Known issues. No decision was removed.
+- 2026-11-20 00:35 Chose exercise-progress over freeze: the prior report and the notes both list it next, and it is the smallest remaining gap in row 11.
+- 2026-11-20 00:35 Prompt tells Claude Code to grep first and stop if a test already exists, because stale briefs have reported wrong row status before.
+- 2026-11-20 00:35 Kept one row, one new file, max 5 steps, per the Jev risk of about 0.9 on continuing without Isa.
+- 2026-11-20 00:35 Row 83 note fix stays in Parked until row 83 is next touched, per the existing rule.
+- 2026-11-20 00:37 Chose row 11 freeze render test: it closes the last known row-11 test gap, is one file, and needs nothing from Isa.
+- 2026-11-20 00:37 Row 83 stale note stays parked: it is a text fix, not a gate, and the handover says fix it only when row 83 is touched.
+- 2026-11-20 00:37 TodayCard shape guard stays parked: it is a product or robustness decision with no current failing row.
+- 2026-11-20 00:37 Kept the prompt to one row and one new file, with a grep first, because the last handover asked for full file names.
+- 2026-11-20 00:39 Round 229: chose row 83 note fix over a render test. Reason Jev cannot see: the MACRO_BAR_W citation has been flagged for six or more rounds and points future briefs at a constant that no longer exists. Notes confirm no coverage gap I can name without reading the row list, so a render-test pick now would be a guess.
+- 2026-11-20 00:39 Row 83 is touched this round, so its stale note is corrected now per the rule that stale notes are fixed when the row is next touched.
+- 2026-11-20 00:39 Documentation-only round: no tests run, no code changed, status cells untouched.
+- 2026-11-20 00:41 Chose the row 83 Wiring state fix over the other candidates. The loop check flagged the last report as partly done, and the same stale constant is still in row 83. The row is already being touched, so the stale-notes rule applies. Docs only, easy to reverse.
+- 2026-11-20 00:41 Did not ask Isa about the Wiring state cell. It is a docs fix in a row already under work. Jev's ask signal is advisory and no question is needed.
+- 2026-11-20 00:41 Trimmed the notes to under 600 words. Parked items merged by theme. Nothing decided by Isa was removed.
+- 2026-11-20 00:42 Jev said ask at 84%. Kept run because the blocker is a prompt scope conflict, not a Isa-only question: the previous round forbade editing column 7, so the literal could not be removed. This round explicitly scopes column 7 of row 83 only. A question to Isa about wording of one docs cell is not major and would cost his attention for nothing.
+- 2026-11-20 00:42 Not the same failed task: the two earlier attempts failed on scope, not on execution. This is a single cell with the wording given, so it is a fresh bounded task, not a third try at the same one.
+- 2026-11-20 00:42 Chose the docs fix over the TodayCard guard because it is the smallest closure of a flagged stale row and has a grep check. The TodayCard guard is a code change and is parked until a row names it.
+- 2026-11-20 00:42 Row 7 'status stays PARTIAL' note and row 8 long note stay parked until those rows are next touched, per the stale-notes rule.
+- 2026-11-20 00:42 Row 17 plan.tsx question is held for the stop report, not asked now, because rows are still open.
+- 2026-11-20 00:43 Run over ask (Jev 89% ask). The only Isa item that could block is row 17, already parked for the stop report, so asking now adds nothing. The checkpoint is scheduled, and the full baseline is unknown after many new suites. Jev cannot see that the last report's blocker was a scope conflict, not an Isa question.
+- 2026-11-20 00:43 Checkpoint round changes no files. Any red gate is reported now and fixed in a normal round, not here.
+- 2026-11-20 00:43 Row 83 Notes reword (column 7) moved to the next normal round. Column 7 is in scope per the round 231 decision, so no question to Isa is needed.
+- 2026-11-20 00:43 Prompt now states the loop/phase2 branch rule, no git commands, and the report format, after the previous rejection.
+- 2026-11-20 00:44 Round 232 checkpoint green (tsc 0 errors, Jest 132 suites and 982 tests passing), so no fix-up needed.
+- 2026-11-20 00:44 Ran the carried-over row 83 reword now, as scheduled, rather than ask; it is doc-only and small.
+- 2026-11-20 00:44 Chose run over ask: Jev 70% run, and the only open Isa item (row 17) is already parked for the stop report.
+- 2026-11-20 00:44 Prompt names only PHASE2_ROWS.md and one column; no status words in capitals to avoid tripping the status rule.
+- 2026-11-20 00:44 Left the loop/DECISIONS_LOG.md and loop/NOTES_phase2.md modifications alone; they remain Isa's to check.
+- 2026-11-20 00:45 Chose the freeze render test: it is the named next step, one row, one file, small. Jev rated the last task 39% clean, so keeping scope tight.
+- 2026-11-20 00:45 Treated the latest Claude Code report as authoritative: row 83 MACRO_BAR_W citation is fixed (grep returns zero). The handover's 'still stale' line is out of date and is removed from Known gaps.
+- 2026-11-20 00:45 Kept the TodayCard malformed-response issue in Parked, not in this round, to avoid scope creep.
+- 2026-11-20 00:45 Jev ask/stop signals are advisory; no question to Isa this round because row 17 is still reserved for the stop report.
+- 2026-11-20 00:46 Round 234 freeze task: a render test already existed as freeze.render.test.tsx, so no duplicate file was created. Row 11 closed.
+- 2026-11-20 00:46 Chose row 2 layout test over TodayCard guard: it is a test-only change with no behaviour risk and Jev rates the last task at 33% clean, so scope stays small.
+- 2026-11-20 00:46 Row 83 stale MACRO_BAR_W note is a doc cell, deferred to the round after next to keep one task per round.
+- 2026-11-20 00:46 Did not ask Isa about the duplicate freeze file: the existing file already covers both states, so no decision was needed.
+- 2026-11-20 00:46 Row 2 gap closed: src/__tests__/render/onboardingLayoutReduceMotion.render.test.tsx already renders the real onboarding _layout. No duplicate file, round 235 ends with no change.
+- 2026-11-20 00:46 Notes were wrong that row 2 had no test. Corrected in Known test gaps.
+- 2026-11-20 00:46 Chose the TodayCard guard over the row 83 note fix because it is a real silent failure in the UI. The note fix is trivial and stays next.
+- 2026-11-20 00:46 Shape guard uses the existing failure state, or null if none exists. No new UI, which keeps the design final.
+- 2026-11-20 00:46 No question to Isa this round. The row 2 question is answered by default (existing test is sufficient).
+- 2026-11-20 00:47 Round 236 prompt was rejected by the loop for missing the loop/phase2 branch rule. Rewrote it with a branch check (read .git/HEAD only), no git commands, and no edits under loop/.
+- 2026-11-20 00:47 Replaced hardcoded file paths with a find step and a stop-on-ambiguity rule, since the exact TodayCard paths are not in the notes.
+- 2026-11-20 00:47 Latest Claude report asked whether the existing onboarding layout Reduce Motion test covers row 2. Default applied: it does (round 235 decision). No reply needed, no question asked.
+- 2026-11-20 00:47 Kept scope to one row and one file pair (Jev risk 1.2, confidence 0.24). Row 83 and row 7 note fixes follow next.
+- 2026-11-20 00:47 Action run chosen over ask: no question blocks the row, and row 17 stays parked for the stop report.
+- 2026-11-20 00:48 Jev said ask (87%). Kept run. The blocker was where the test file lives, which the repo already answers: notes say grep before creating a test file and components use *.render.test.tsx. The previous prompt's one-file ban was a prompt constraint, not a rule, so this prompt allows creating one render test file after a grep by content. This is not a major question, so no ask.
+- 2026-11-20 00:48 Previous round's grep searched by filename only. This round searches by content, which is how coverage counts (executed import that renders the component).
+- 2026-11-20 00:48 Guard uses the component's existing error branch, not new design. If none exists, render null and report it in NEXT.
+- 2026-11-20 00:48 Row 83 and row 7 stale-note fixes stay queued. One row per round.
+- 2026-11-20 00:51 Round 237 TodayCard guard accepted under row 9 (Gym log). Row 9 already documents the gymSchedule getToday path, and no separate TodayCard row exists. Removed TodayCard from known test gaps.
+- 2026-11-20 00:51 Round 238 uses run, not ask. Jev said ask 56%, but the open question (which row TodayCard belongs to) is answered by the row 9 note. Not a major question.
+- 2026-11-20 00:51 Round 238 picks the smallest task (markdown note fix) because Jev risk is 1.2 of 2. Keeps scope small.
+- 2026-11-20 00:51 LoggedCard silent-undefined audit deferred to Parked-to-next. It is a possible wiring gap, not confirmed, so it waits until the stale notes are cleared.
+- 2026-11-20 00:52 Round 239: run over ask. Jev says run 89%; the question is not major.
+- 2026-11-20 00:52 Round 239: the loop flagged round 238 for an unrun gate. Its change was markdown only, so the gate was treated as a checkpoint with no file changes.
+- 2026-11-20 00:52 Round 239: row 83 stale MACRO_BAR_W note is resolved. The round 238 report confirmed the constant is gone and the Notes cell now describes the current chart.
+- 2026-11-20 00:52 Round 239: the gate comes before the row 7 note fix, because the loop asks that the flag be dealt with before moving on. Jev risk 0.9, so the task stays small.
+- 2026-11-20 00:53 Round 240: run over ask. Jev 96% for run; the gate was green in round 239 (133 suites, 985 tests, tsc 0 errors).
+- 2026-11-20 00:53 Chose the row 7 notes cleanup as the smallest task. It was the next item in the notes and touches only PHASE2_ROWS.md, so no Jest run is needed.
+- 2026-11-20 00:53 Deferred the freeze.tsx render test: the handover names it as the next row 11 leftover, but the row number and its status are not verified yet. Check it after the row 7 fix.
+- 2026-11-20 00:53 Deferred the LoggedCard audit to the round after row 7, as the notes order says.
+- 2026-11-20 00:55 Round 241: run over ask (Jev 88%). The loop flagged the last report because no type check or tests were run, so this round is a gate checkpoint with no file changes.
+- 2026-11-20 00:55 Row 7 column misalignment (9 cells vs 8 headers) queued as a separate row 7 task; it changes table structure, so it is not mixed into the gate round.
+- 2026-11-20 00:55 Last round's docs-only change was accepted as correct; its status claim is not re-checked here.
+- 2026-11-20 00:56 Round 242: run over ask (Jev 99%). Row 7 table fix chosen as the smallest open task after the clean round 241 gate.
+- 2026-11-20 00:56 Round 242: stray row 7 cell merged into Notes, the least risky cell for a file reference, status unchanged.
+- 2026-11-20 00:56 Round 242: no tests for a doc-only change; the gate was already green in round 241.
+- 2026-11-20 00:57 Round 243: the automatic check flagged round 242 (tests not run). A flagged round runs the gate even with no code change, so this round is a gate checkpoint with no file changes (Jev run 87%).
+- 2026-11-20 00:57 Gate covers tsc, full Jest and full go test, because the flag did not say which failed. Row 7 pipe check included to confirm round 242's edit.
+- 2026-11-20 00:57 If the gate is red, failures are reported, not fixed, in this round, so the fix stays one row-sized task next round.
+- 2026-11-20 00:57 Notes trimmed to under 600 words. Stale items merged or removed, decisions kept.
+- 2026-11-20 00:58 Round 243 gate treated as green: tsc 0 errors, Jest 133/985/4 snapshots, go test all ok with 18 TestPG skipped. The report opened with 'running in background' text, but its result lines are complete, so I took them as final.
+- 2026-11-20 00:58 Chose the LoggedCard audit over the freeze re-check: it is the open wiring gap flagged in the handover, and it can clear with a read first. The freeze re-check is small and moves to NEXT.
+- 2026-11-20 00:58 Kept the audit under row 9 because no dedicated TodayCard row exists, as recorded in round 237.
+- 2026-11-20 00:58 Kept the prompt to one file plus its test, with a read-first step, because the handover left Claude Code with only a summary.
+- 2026-11-20 01:04 Chose the freeze isolation re-run first: it is the smallest open item and was already queued in Next.
+- 2026-11-20 01:04 Row 9 LoggedCard audit closed with no fix: the race has no live trigger path under current wiring, per the report.
+- 2026-11-20 01:04 Refetch gap after logging (useToday not refetched on Gym tab) is a real bug but spans TodayCard.tsx and gym.tsx, so it becomes its own row to add later, not part of this task.
+- 2026-11-20 01:04 Row 83 stale MACRO_BAR_W text stays queued until row 83 is touched, per the notes rule.
+- 2026-11-20 01:04 Ask-once about row 17 deferred to the stop report, not asked now.
+- 2026-11-20 01:04 Rewrote the rejected prompt to state the loop/phase2 branch rule and the no-push, no-merge, no-switch rule up front.
+- 2026-11-20 01:04 Chose the checkpoint because the loop note requires a full type check and full app suite this round with no file changes.
+- 2026-11-20 01:04 Dropped the round 245 freeze isolation re-run from Next: the full Jest checkpoint covers freeze.render.test.tsx.
+- 2026-11-20 01:04 Kept the gym tab refetch row as the next build task after the checkpoint passes.
+- 2026-11-20 01:04 Condensed the notes to under 600 words by merging repeated Known issues and Parked lines. No content removed from the open items.
+- 2026-11-20 01:05 Round 246 checkpoint was green (tsc 0 errors, Jest 133 suites / 985 tests), so no gate fix is needed this round.
+- 2026-11-20 01:05 Chose the Gym tab refetch row first, as the notes' Next list says. Split into an audit-and-row round, then a code fix round, to keep one file per prompt and respect the Jev risk signal.
+- 2026-11-20 01:05 Doc-only round first: the fix touches TodayCard.tsx and the Gym tab screen, which is more than one file, so it waits for its own round.
+- 2026-11-20 01:05 Row 83 MACRO_BAR_W text stays parked until row 83 is next touched, per the existing rule.
+- 2026-11-20 01:07 Chose TodayCard.tsx first: notes say one file per round, and TodayCard is the stale card the user sees. Gym tab follows next round.
+- 2026-11-20 01:07 Added a guard step: if useToday's refetch blanks the card, report BLOCKED instead of changing the hook, since gymSchedule.ts is outside the row.
+- 2026-11-20 01:07 Row 84 status moves to PARTIAL, not BUILT, because gym.tsx still has the gap.
+- 2026-11-20 01:07 Skipped the LoggedCard gotcha this round: it is not reachable on the refetch path and would break the one-row rule.
+- 2026-11-20 01:08 Round 248 was blocked because useToday refetch sets loading true and blanks TodayCard to a skeleton. Decided to add a silent revalidate instead of asking Isa, because it is a code choice inside the app with a clear fix and not an Isa-only item.
+- 2026-11-20 01:08 Jev said ask at 83%. Kept run: the blocker is a concrete code-level blocker that Jev cannot see from the signals alone. The question to Isa would be about a loading flicker, which is minor, not a major blocker. Recorded here as the reason.
+- 2026-11-20 01:08 Split row 84 into two rounds (hook first, then TodayCard) to keep to one file per round, as the notes rule requires.
+- 2026-11-20 01:08 Round 248 loop flag: its report ran no tsc or Jest. This round runs tsc and the single test file first, and again after the change.
+- 2026-11-20 01:12 Chose step B, the same task Jev ranked first. Reason: step A added revalidate but nothing calls it yet, so the row stays PARTIAL until a consumer exists. Step B is the first consumer.
+- 2026-11-20 01:12 Kept row 84 at PARTIAL after step A because the revalidate has no caller. This corrects the loop flag: step A is complete as a unit, but the row is not.
+- 2026-11-20 01:12 Step B is limited to TodayCard.tsx and its existing render test file, to keep the change one file and one row.
+- 2026-11-20 01:12 Gym tab (step C), the sessions.find gotcha and row 83 text stay queued, so this round does one thing.
+- 2026-11-20 01:12 If TodayCard does not use useToday, the prompt parks the row instead of rewriting the data layer.
+- 2026-11-20 01:17 Round 251: Jev ranked step C first at 98%. I kept step C as my pick. Reason: the step B report is complete, and row 84 staying PARTIAL after step B is by design (Decisions: PARTIAL until a consumer calls revalidate). Step C is the only remaining part of row 84, so the 'partly done' flag is not a missed task.
+- 2026-11-20 01:17 Row 84 step C uses a silent revalidate with an empty deps array, matching TodayCard, so the gym tab never blanks to a skeleton.
+- 2026-11-20 01:17 Parked the gymSchedule.ts revalidate deps footgun (fetcher is a new closure each render). Out of scope this round; to be tightened to [] in a later round.
+- 2026-11-20 01:17 Step C stays one row, one screen file, and at most one test file, per the one-file rule.
+- 2026-11-20 01:19 Chose the row 83 doc fix: smallest step, one file, clears a known stale row noted in Known test gaps.
+- 2026-11-20 01:19 Deferred the LoggedCard investigation: it needs a read first and belongs under row 9 scope.
+- 2026-11-20 01:19 gymSchedule.ts deps tightening is a side finding, kept in Parked per the brief rule that only rows are tasks.
+- 2026-11-20 01:19 Row 84 is reported BUILT by the last report; the prompt makes the round verify that before editing.
+- 2026-11-20 01:20 Round 252 closed with no change: row 83 already clean (verified by grep, no MACRO_BAR_W in src or the row).
+- 2026-11-20 01:20 Chose LoggedCard fix over gymSchedule deps: it is an open wiring gap that can silently hide session detail; gymSchedule is a stability tweak with no visible failure.
+- 2026-11-20 01:20 Prompt limited to TodayCard.tsx and its render test, with a read-first step, per the one-file-per-round rule.
+- 2026-11-20 01:20 Row 17 question deferred to the stop report, per the notes; no ask this round.
+- 2026-11-20 01:20 Jev risk 1.1 of 2 with confidence 0.61: kept the task small (one component, one test file).
+- 2026-11-20 01:25 Chose gymSchedule.ts deps fix over the row 9 day-boundary widening: it is a known footgun already in the Next list, one file, and small. The widening is parked because it is a narrower claim that needs its own round.
+- 2026-11-20 01:25 Accepted the row 9 shipped fix (retry notice when the session is not in the fetched range) as BUILT. The create-response source the Round 253 decision wanted does not exist in this codebase, so the range lookup stays the only source.
+- 2026-11-20 01:25 Told Claude Code to locate the hook file by search rather than trust the path in notes, because the path is unverified.
+- 2026-11-20 01:27 Chose row 9 widening over asking Isa: Jev confidence is low (0.28), so prefer the smallest task. It is one file plus one test, and the default is already named in Parked.
+- 2026-11-20 01:27 Deferred the row 17 question: the notes do not confirm every row is BUILT or EXACT. Verify the file after this round before asking.
+- 2026-11-20 01:27 Row 9 status left unchanged: only a one-line note is added, since the day-boundary case was a Parked gap and not a status change.
+- 2026-11-20 01:29 Accepted round 255 (row 9 widened to useGymRange(2), one test added). Its premise note is corrected: useGymRange lives in src/lib/data/gymRange.ts, not hooks.ts.
+- 2026-11-20 01:29 Chose the read-only verification first, because the notes say to verify statuses before trusting them and to count non-BUILT rows before any stop or question.
+- 2026-11-20 01:29 Deferred the row 17 question until the non-BUILT count is known, so the question is asked once with real numbers.
+- 2026-11-20 01:29 Jev confidence is low (0.09), so picked the smallest task with no file changes.
+- 2026-11-20 01:31 Chose the row 5 pipe fix first: a 10-pipe row breaks table parsing, so it comes before the wording fix on row 18.
+- 2026-11-20 01:31 Row 18 wording deferred to the next round: one row per task.
+- 2026-11-20 01:31 Row 17 question not asked yet: the report did not read row 17, so verify its cell first (round 256 rule).
+- 2026-11-20 01:32 Round 258: chose row 18 Notes wording as the next smallest task, as set in the previous plan. Reason: one cell, one file, and it clears the one-status-word rule. Jev also ranks run at 92%.
+- 2026-11-20 01:32 Round 258: the prompt states the loop/phase2 branch rule and forbids edits under loop/, per the prompt rules in the notes.
+- 2026-11-20 01:32 Chose the read-only row 17 check over asking now, because the notes say to verify the row 17 cell and real count before asking.
+- 2026-11-20 01:32 Kept the check to reads only, so the round cannot change PHASE2_ROWS.md or any code.
+- 2026-11-20 01:32 Did not ask Isa in this round: at most one question per round, and it should carry the verified count.
+- 2026-11-20 01:34 Round 260: asked Isa once about row 17 as the notes planned, since all 84 rows are BUILT or owner-pending and this is the only open scope question.
+- 2026-11-20 01:34 The loop flag on the last report: the row 17 cell uses 'checked in code' and contains no 'verified' or 'confirmed'. The report's wording is corrected in the notes, not in the row. A grep for 'verified|confirmed' in PHASE2_ROWS.md runs at the stop report.
+- 2026-11-20 01:34 Jev risk 1.0 and ask 81%: followed the notes' plan to ask once, not run a new task.
+- 2026-11-20 01:50 Chose the checkpoint run over Jev's 82% ask. Concrete reason Jev cannot see: the loop note requires this checkpoint, and the only open question (row 17) was already asked in round 260 and must not be repeated. The checkpoint is read only, needs no input from Isa, and the notes record a green gate at round 246 that must be re-confirmed.
+- 2026-11-20 01:50 Recorded the unanswered row 17 question under Blocked on Isa, with the round it was asked, and set a rule not to ask it again.
+- 2026-11-20 01:50 Used a read only git status in the checkpoint so any stray modified file is reported, not fixed.
+- 2026-11-20 01:50 Kept action ask out of this round because remaining work (grep for verified or confirmed wording, then stop report) does not need Isa.
+- 2026-11-20 01:51 Chose the read only grep over row 17 action: the grep is the open follow up from round 261 and needs no Isa input.
+- 2026-11-20 01:51 Row 17: round 260 question got no answer and round 261 passed unanswered. Default (b), drop the plan card for v1, applies next round as a separate single row task. Not repeating the question.
+- 2026-11-20 01:51 Did not ask Isa anything this round: no new major question, and the sign-in root cause is already in Blocked on Isa.
+- 2026-11-20 01:51 Jev advised ask (43%) at low confidence (0.14). Kept run: the notes require the grep before any stop report, and it is a small task.
+- 2026-11-20 01:52 Round 263: run the checkpoint gate first, because the loop flag says the last report had tests not run. Row 17 moves to the round after, so the gate result is known before editing.
+- 2026-11-20 01:52 Round 263: kept the Jev stop/ask signal as advisory. Stop is not yet justified: row 17 default (b) is still an open local change, and the gate is still unrun.
+- 2026-11-20 01:52 Round 263: the checkpoint prompt changes no files, so no loop/ file is touched. Notes NOT edited to alter loop/ status.
+- 2026-11-20 01:54 Round 263 gate is clean: tsc 0 errors, Jest 134 suites and 990 tests passing, go test green. The loop flag is cleared.
+- 2026-11-20 01:54 Round 264 runs row 17 (default b). Jev ranked it first at 91 percent. I agree: the default is already decided, the gate is clean, and Jev's own confidence is 0.01, so the smallest unblocked task wins.
+- 2026-11-20 01:54 Sign-in verifier is an owner step and cannot be a loop row. Parked.
+- 2026-11-20 01:54 Uncached go test -count=1 is a loop script change, not a Claude Code row. Parked for Isa to decide.
+- 2026-11-20 01:54 Row 17 edit limited to plan.tsx, hooks.ts (only if unused), one render test, and the row 17 Notes cell. Status stays BUILT.
+- 2026-11-20 01:58 Round 265: stop, because the stop condition is met (all rows BUILT, owner items counted as BUILT). Jev also ranks stop highest (82%).
+- 2026-11-20 01:58 Row 17 target confirmed as src/app/dashboard/plan.tsx, since src/app/(tabs)/plan.tsx does not exist. Recorded for the stop report, no code change.
+- 2026-11-20 01:58 planReasonForBuild and mockPlanReason are now dead code after row 17. Parked, not removed, because the row 17 task did not authorise removing them.
 - 2026-11-21 01:00 R1207: stop confirmed. The notes win over the stale handover, so items 11 and 12 are treated as built or EXACT, not open.
 - 2026-11-21 01:00 The loop input 'none yet, first round' is treated as the same input fault as R994 to R1206. No new task is invented from it.
 - 2026-11-21 01:00 The full checkpoint after item 9 is not run this round. The loop script has not marked a checkpoint due, and it is listed under Action for Isa before commit.

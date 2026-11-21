@@ -4,7 +4,8 @@
 // chips and the Start action beneath. Self-contained via useToday(); a failed
 // read shows the load-failed notice with a retry.
 import type { JSX } from 'react';
-import { router, type Href } from 'expo-router';
+import { useCallback } from 'react';
+import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { PixelRatio, View, type TextStyle } from 'react-native';
 
@@ -12,7 +13,7 @@ import { Card, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Button } from '@/components/forms';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
-import type { GymSession } from '@/lib/api';
+import type { GymSession, TodayWorkout } from '@/lib/api';
 import { useEnergyBalance } from '@/lib/data/energy';
 import { useGymRange } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
@@ -40,6 +41,20 @@ const statValueStyle = (): TextStyle => ({
   fontSize: 16,
   lineHeight: 21 * PixelRatio.getFontScale(),
 });
+
+/** A real /api/gym/today response is always an object with these fields; a
+ *  truthy-but-malformed response (e.g. [] from a misrouted endpoint) must not
+ *  fall through to the Rest day branch below, which only checks `!template`. */
+function isValidTodayWorkout(value: unknown): value is TodayWorkout {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    !Array.isArray(value) &&
+    typeof (value as TodayWorkout).is_rest_day === 'boolean' &&
+    typeof (value as TodayWorkout).already_checked_in === 'boolean' &&
+    Array.isArray((value as TodayWorkout).exercises)
+  );
+}
 
 /** The state dot the design puts at the head of the session card. */
 function Dot({ tint }: { tint: string }): JSX.Element {
@@ -179,7 +194,7 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
   const { balance } = useEnergyBalance();
   const energyUnit = useUnitPreferences().energy;
   const burned = balance?.calories_out_exercise ?? 0;
-  const { sessions } = useGymRange(1);
+  const { sessions, refetch } = useGymRange(2);
   const session = sessions.find((s) => s.id === sessionId);
 
   return (
@@ -193,7 +208,14 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
           pillFill={categoryAccent.positive}
           chevron
         />
-        {session ? <LoggedSessionDetail session={session} /> : null}
+        {session ? (
+          <LoggedSessionDetail session={session} />
+        ) : sessionId ? (
+          // already_checked_in named a session this range read didn't come back
+          // with (e.g. just logged, outside the fetched window) — say so rather
+          // than silently dropping the stats/chips below the header.
+          <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />
+        ) : null}
       </View>
     </Card>
   );
@@ -201,7 +223,20 @@ function LoggedCard({ title, sessionId }: { title: string; sessionId: string | n
 
 export function TodayCard(): JSX.Element {
   const { t } = useTranslation();
-  const { today, loading, refetch } = useToday();
+  const { today, loading, refetch, revalidate } = useToday();
+
+  // A screen regaining focus (e.g. back from logging a session) re-reads
+  // silently — revalidate never flips `loading`, so this never blanks the
+  // card to the skeleton below. revalidate is excluded from deps: useToday()
+  // hands back a new function identity every render (its own fetcher closure
+  // isn't memoized), so depending on it here would re-fire on every re-render
+  // this effect itself causes, not just on focus.
+  useFocusEffect(
+    useCallback(() => {
+      revalidate();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   if (loading) {
     return (
@@ -214,8 +249,9 @@ export function TodayCard(): JSX.Element {
     );
   }
 
-  // useToday yields null only when the read failed; a real response is always an object.
-  if (!today) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
+  // useToday yields null only when the read failed; a real response is always an
+  // object with these fields — a truthy but malformed one reuses the same notice.
+  if (!isValidTodayWorkout(today)) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
 
   if (today.already_checked_in) {
     return <LoggedCard title={today.template?.name ?? t('gymLog.freestyleTitle')} sessionId={today.session_id} />;

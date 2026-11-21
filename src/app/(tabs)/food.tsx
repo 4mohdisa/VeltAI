@@ -13,6 +13,7 @@
 // (architecture item 4).
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, RefreshControl, SectionList, View, type TextInput } from 'react-native';
+import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams, type Href } from 'expo-router';
 import type { TFunction } from 'i18next';
@@ -37,8 +38,9 @@ import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanRevi
 import { ScanFailedCard } from '@/components/food/scan/ScanFailedCard';
 import { ScanFeedbackPrompt } from '@/components/food/scan/ScanFeedbackPrompt';
 import { showToast } from '@/components/display/toastStore';
-import { accent, categoryAccent, color, layout, opacity, radius, shadow, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, motion, opacity, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { formatCalories, formatNumber } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
@@ -196,6 +198,14 @@ export default function FoodLogScreen() {
   const energyUnit = useUnitPreferences().energy;
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
+  // A logged row used to appear/disappear with the array splice alone — no
+  // enter when logMeal() adds one, no exit when deleteFoodItem() removes one.
+  // Same duration token the tab bar's "+" rotation and the root stack's push
+  // use (motion.duration.snap); Reduce Motion drops the vertical slide and
+  // keeps only the fade (HIG §7.3), same rule AddMenu follows.
+  const reduceMotion = useReduceMotion();
+  const rowEntering = reduceMotion ? FadeIn.duration(motion.duration.snap) : FadeInDown.duration(motion.duration.snap);
+  const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
   // The Add sheet's "Search foods" tile routes here with ?focus=search. The
   // design opens search on a focused input rather than one the user must tap.
   const { focus } = useLocalSearchParams<{ focus?: string }>();
@@ -543,19 +553,21 @@ export default function FoodLogScreen() {
           // the accessible non-gesture alternative.
           const row = item as FoodRow;
           return (
-            <SwipeableRow
-              onDelete={() => removeRow(row.id)}
-              confirmTitle={t('food.removeTitle', { name: row.name })}
-              confirmMessage={t('food.removeMessage')}
-            >
-              <FoodItemRow
-                item={row}
-                first={index === 0}
-                last={index === section.data.length - 1}
-                energyUnit={energyUnit}
-                onPress={() => openRow(row, section.slot)}
-              />
-            </SwipeableRow>
+            <Animated.View entering={rowEntering} exiting={rowExiting}>
+              <SwipeableRow
+                onDelete={() => removeRow(row.id)}
+                confirmTitle={t('food.removeTitle', { name: row.name })}
+                confirmMessage={t('food.removeMessage')}
+              >
+                <FoodItemRow
+                  item={row}
+                  first={index === 0}
+                  last={index === section.data.length - 1}
+                  energyUnit={energyUnit}
+                  onPress={() => openRow(row, section.slot)}
+                />
+              </SwipeableRow>
+            </Animated.View>
           );
         }}
         renderSectionFooter={({ section }) => {

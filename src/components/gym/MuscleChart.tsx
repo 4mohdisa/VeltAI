@@ -16,6 +16,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
+import { isGymPatternsShape } from './GymPatternsCard';
 
 /** Every group the map can carry, so an untrained muscle still shows as a gap.
  *  These are `exercise_library.muscle_group_primary` values — the keys the
@@ -36,7 +37,7 @@ export const MUSCLE_GROUPS = [
 /** Name column width — the design aligns every bar on one left edge. */
 const NAME_WIDTH = 84;
 const VALUE_WIDTH = 74;
-const BAR_HEIGHT = 8;
+const BAR_HEIGHT = space.sm;
 
 /** 'full_body' → 'Full body'. */
 export function muscleLabel(muscle: string): string {
@@ -107,7 +108,8 @@ export function MuscleVolumeRow({
 }
 
 export function MuscleChart(): JSX.Element {
-  const { patterns, loading } = useGymPatterns();
+  const { patterns: rawPatterns, loading } = useGymPatterns();
+  const patterns = isGymPatternsShape(rawPatterns) ? rawPatterns : null;
 
   if (loading) {
     return (

@@ -2,9 +2,11 @@
 // hung connections, 5xx, latency. fetch is mocked; secure-store is the in-memory
 // jest mock (moduleNameMapper). No network.
 import { ApiError, api, isTransient } from '@/lib/api';
-import { hydrateFoodLog } from '@/lib/data/hooks';
+import { hydrateFoodLog, hydrateGym } from '@/lib/data/hooks';
 import { logMeal } from '@/lib/data/mutations';
 import { useFoodStore } from '@/lib/data/foodStore';
+import { useGymStore } from '@/lib/data/gymStore';
+import { todayISO } from '@/lib/data/mappers';
 import { flush, pendingCount, runOrQueue, __resetForTests, __resetMemoryForTests } from '@/lib/offline/queue';
 
 (globalThis as { __DEV__?: boolean }).__DEV__ = false;
@@ -214,6 +216,74 @@ test('a 5xx hydration leaves local data intact and only rejects (hooks swallow i
   await expect(hydrateFoodLog()).rejects.toBeInstanceOf(ApiError);
   expect(useFoodStore.getState().meals).toBe(before); // untouched, nothing wiped
 }, 15_000);
+
+// A successful hydration is the Food log tab's whole data path (PHASE2_ROWS.md
+// row 3): GET /api/food/logs rows land in the store exactly where the screen
+// reads them, keyed by meal slot, with the real macros intact.
+test('a successful hydration maps real food_logs rows into the day the screen reads', async () => {
+  const day = '2026-03-02';
+  setFetch(
+    jest.fn(async () =>
+      jsonOk([
+        {
+          id: '11111111-1111-4111-8111-111111111101',
+          user_id: 'u1',
+          date: day,
+          meal_type: 'Breakfast',
+          food_name: 'Oatmeal with banana',
+          brand: null,
+          barcode: null,
+          quantity: 250,
+          unit: 'g',
+          calories: 320,
+          protein: 10,
+          carbs: 58,
+          fat: 6,
+          fibre: 4,
+          source: 'manual',
+          created_at: `${day}T07:00:00Z`,
+        },
+      ]),
+    ),
+  );
+  await hydrateFoodLog(day);
+  const breakfast = useFoodStore.getState().byDate[day]?.find((m) => m.slot === 'Breakfast');
+  expect(breakfast?.items.map((it) => it.name)).toEqual(['Oatmeal with banana']);
+  expect(breakfast?.calories).toBe(320);
+});
+
+// A successful gym hydration is what the Gym log screens (PHASE2_ROWS.md row 9)
+// read: log-session.tsx checks streak.gymLoggedToday before showing the chooser,
+// and the saved session later shows up wherever the store's sessions are read.
+test('a successful gym hydration maps real sessions and streak into the store the gym log screens read', async () => {
+  const today = todayISO();
+  const sessionRow = {
+    id: '22222222-2222-4222-8222-222222222299',
+    user_id: 'u1',
+    date: today,
+    name: 'Push day',
+    notes: null,
+    duration_minutes: 55,
+    created_at: `${today}T07:00:00Z`,
+  };
+  const streakRow = {
+    current_streak: 4,
+    longest_streak: 9,
+    last_gym_date: today,
+    freeze_used: false,
+    last_freeze_date: null,
+  };
+  setFetch(
+    jest.fn(async (url: string) => (url.includes('/api/gym/streak') ? jsonOk(streakRow) : jsonOk([sessionRow]))),
+  );
+  await hydrateGym();
+  const { streak, sessions } = useGymStore.getState();
+  expect(sessions.map((s) => s.id)).toContain(sessionRow.id);
+  expect(sessions.find((s) => s.id === sessionRow.id)?.durationMin).toBe(55);
+  expect(streak.current).toBe(4);
+  expect(streak.longest).toBe(9);
+  expect(streak.gymLoggedToday).toBe(true); // log-session.tsx's "already logged" gate
+});
 
 // --- 4/5. Deployment config --------------------------------------------------
 

@@ -414,6 +414,7 @@
     "mealsToday": "Comidas de hoy",
     "percentOfTarget": "Porcentaje del objetivo",
     "macroPercentLabel": "{{macro}}: {{percent}} por ciento del objetivo",
+    "weekMacrosSummary": "Proteína, carbohidratos, grasa y fibra diarios, del {{from}} al {{to}}.",
     "breakdown": "Desglose",
     "percentOfTargetShort": "{{percent}} % del objetivo",
     "ofTargetGrams": "de {{target}} g",

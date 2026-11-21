@@ -6,12 +6,14 @@
 // NOT show, so a plain stand-in is enough. (jest.mock is hoisted above the imports.)
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import type { EnergyBalance } from '@/lib/api';
-import { allText, renderScreen } from './helpers';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
+import { act, allText, renderScreen } from './helpers';
 
 jest.mock('@/components/display', () => ({
   ...jest.requireActual('@/components/display'),
   Skeleton: () => null,
 }));
+jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
 
 const day = (over: Partial<EnergyBalance> = {}): EnergyBalance => ({
   date: '2026-09-10',
@@ -66,4 +68,43 @@ test('loading shows no numbers at all', () => {
   const t = text({ day: null, loading: true });
   expect(t).not.toContain('deficit');
   expect(t).not.toContain('No burn target set');
+});
+
+test('a changed day eases the net and ring toward the new value, not an instant snap', () => {
+  (useReduceMotion as jest.Mock).mockReturnValue(false);
+  jest.useFakeTimers();
+  try {
+    const tree = renderScreen(<EnergyBalanceCard day={day()} loading={false} error={false} energyUnit="kcal" />);
+    expect(allText(tree)).toContain('−624');
+
+    act(() => {
+      tree.update(
+        <EnergyBalanceCard day={day({ net_balance: 200, status: 'surplus' })} loading={false} error={false} energyUnit="kcal" />,
+      );
+    });
+    // No time has passed yet: still the old number, not a jump to the new one.
+    expect(allText(tree)).toContain('−624');
+    expect(allText(tree)).not.toContain('+200');
+
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(allText(tree)).toContain('+200');
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+test('Reduce Motion skips the easing and sets the new value immediately', () => {
+  (useReduceMotion as jest.Mock).mockReturnValue(true);
+  const tree = renderScreen(<EnergyBalanceCard day={day()} loading={false} error={false} energyUnit="kcal" />);
+  expect(allText(tree)).toContain('−624');
+
+  act(() => {
+    tree.update(
+      <EnergyBalanceCard day={day({ net_balance: 200, status: 'surplus' })} loading={false} error={false} energyUnit="kcal" />,
+    );
+  });
+  // No fake-timer advance needed — Reduce Motion sets the value on the spot.
+  expect(allText(tree)).toContain('+200');
 });

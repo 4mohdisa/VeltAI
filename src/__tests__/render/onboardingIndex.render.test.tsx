@@ -1,0 +1,20 @@
+// Welcome screen (PHASE2_ROWS.md row 2, onboarding step 1) — EXECUTES the
+// real screen, not a source-text grep. No api or Clerk call lives here (pure
+// navigation chooser), so only expo-router's router (already mocked in
+// src/__tests__/render/setup.ts) stands in for the real navigator.
+import WelcomeScreen from '@/app/onboarding/index';
+import { allText, buttonWithTitle, renderScreen } from './helpers';
+
+test('shows the welcome headline', () => {
+  const tree = renderScreen(<WelcomeScreen />);
+  expect(allText(tree)).toContain('Track your food the way you actually eat');
+});
+
+test('pressing Get Started routes to /onboarding/goal', () => {
+  const tree = renderScreen(<WelcomeScreen />);
+  const { router } = require('expo-router') as { router: { push: jest.Mock } };
+  router.push.mockClear();
+
+  (buttonWithTitle(tree, 'Get Started')!.props.onPress as () => void)();
+  expect(router.push).toHaveBeenCalledWith('/onboarding/goal');
+});
