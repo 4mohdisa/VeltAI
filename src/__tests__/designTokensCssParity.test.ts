@@ -5,12 +5,16 @@
 //
 // tokens.ts is read as text rather than imported: it pulls in react-native,
 // which the `node` jest project can't load.
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = join(__dirname, '../..');
 const src = readFileSync(join(root, 'src/lib/design/tokens.ts'), 'utf8');
-const css = readFileSync(join(root, '.design-sync/tokens-pkg/tokens.css'), 'utf8');
+// ponytail: tokens.css lives only on machines synced with claude.ai/design (it is
+// git-excluded), so drift can only happen where it exists. Skip, visibly, elsewhere.
+const cssPath = join(root, '.design-sync/tokens-pkg/tokens.css');
+const hasCss = existsSync(cssPath);
+const css = hasCss ? readFileSync(cssPath, 'utf8') : '';
 
 const defined = new Set(Array.from(css.matchAll(/--lume-[a-z0-9-]+(?=\s*:)/g), (m) => m[0]));
 
@@ -38,7 +42,7 @@ const expectAll = (prefix: string, exportName: string, suffixes = ['']) => {
   expect(missing).toEqual([]);
 };
 
-describe('design tokens → tokens.css parity', () => {
+(hasCss ? describe : describe.skip)('design tokens → tokens.css parity', () => {
   it('exports every color, accent, category and surface token', () => {
     expectAll('color', 'color');
     expectAll('accent', 'accent');
