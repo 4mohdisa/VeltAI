@@ -13,15 +13,8 @@ import { Text } from '@/components/primitives/Text';
 import { useExerciseProgress, useExercises } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, layout, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 import { formatNumber } from '@/lib/formatting';
+import { dayMonth } from '@/lib/data/energyRange';
 import type { ExerciseLibraryItem } from '@/lib/types';
-
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-function shortDate(iso: string): string {
-  const d = new Date(`${iso}T00:00:00`);
-  if (Number.isNaN(d.getTime())) return iso;
-  return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
-}
 
 const HISTORY_SESSIONS = 8;
 const CHART_HEIGHT = 118;
@@ -205,9 +198,9 @@ export default function ExerciseProgressScreen(): JSX.Element {
     const bestReps = chartData.reduce((best, e) => ((e.reps ?? 0) > (best.reps ?? 0) ? e : best));
     const best = progress.personal_best;
     const bestStat = bodyweight
-      ? { value: `${bestReps.reps ?? 0} reps`, sub: `${bestReps.sets ?? 0} sets · ${shortDate(bestReps.date)}` }
+      ? { value: `${bestReps.reps ?? 0} reps`, sub: `${bestReps.sets ?? 0} sets · ${dayMonth(bestReps.date)}` }
       : best
-        ? { value: `${best.weight} kg`, sub: `${best.reps != null ? `${best.reps} reps · ` : ''}${shortDate(best.date)}` }
+        ? { value: `${best.weight} kg`, sub: `${best.reps != null ? `${best.reps} reps · ` : ''}${dayMonth(best.date)}` }
         : { value: '—', sub: '' };
 
     return (
@@ -219,7 +212,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
         <View>
           <View
             accessible
-            accessibilityLabel={chartData.map((e) => `${shortDate(e.date)}, ${formatNumber(valueOf(e))} ${unit}`).join('; ')}
+            accessibilityLabel={chartData.map((e) => `${dayMonth(e.date)}, ${formatNumber(valueOf(e))} ${unit}`).join('; ')}
             style={{ flexDirection: 'row', alignItems: 'flex-end', gap: BAR_GAP, height: CHART_HEIGHT }}
           >
             {chartData.map((e, i) => (
@@ -254,7 +247,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
                   style={[scaled(10, isLast ? '600' : '400', 14), { flex: 1, textAlign: 'center' }]}
                 >
                   {/* Every other bar is labelled, anchored to the newest. */}
-                  {(chartData.length - 1 - i) % 2 === 0 ? shortDate(e.date) : ''}
+                  {(chartData.length - 1 - i) % 2 === 0 ? dayMonth(e.date) : ''}
                 </Text>
               );
             })}
@@ -269,7 +262,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
             borderTopColor: surface.divider,
           }}
         >
-          <Stat value={`${formatNumber(valueOf(latest))} ${unit}`} label="Latest session" sub={shortDate(latest.date)} />
+          <Stat value={`${formatNumber(valueOf(latest))} ${unit}`} label="Latest session" sub={dayMonth(latest.date)} />
           <Stat value={bestStat.value} label="Best set" sub={bestStat.sub} />
         </View>
       </Card>

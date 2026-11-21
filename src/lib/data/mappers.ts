@@ -16,6 +16,7 @@ import type { Streak } from './gymStore';
 import type { EntryMethod, GymSession, MealSlot, SavedFood } from '@/lib/mock/data';
 import type { BarcodeProduct } from '@/lib/food/barcode';
 import type { MacroGoals, ServerEntitlement } from '@/lib/settings/store';
+import { formatRelativeDate } from '@/lib/formatting';
 
 export const todayISO = (): string => {
   const d = new Date();
@@ -214,29 +215,10 @@ export const savedInputFromApp = (f: Omit<SavedFood, 'id'>): SavedFoodInput => (
 
 // --- Gym ------------------------------------------------------------------------
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-function humanDate(isoDate: string): string {
-  const today = todayISO();
-  if (isoDate === today) return 'Today';
-  const d = new Date(`${isoDate}T00:00:00`);
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  if (
-    d.getFullYear() === yesterday.getFullYear() &&
-    d.getMonth() === yesterday.getMonth() &&
-    d.getDate() === yesterday.getDate()
-  ) {
-    return 'Yesterday';
-  }
-  return `${WEEKDAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
-}
-
 export const sessionsFromApi = (rows: ApiGymSession[]): GymSession[] =>
   rows.map((r) => ({
     id: r.id,
-    date: humanDate(r.date),
+    date: formatRelativeDate(new Date(`${r.date}T00:00:00`)),
     durationMin: r.duration_minutes ?? null,
     // Effort has no server column, so a hydrated row genuinely does not know it.
     // It used to read 0, which the history list rendered as "effort 0/10".

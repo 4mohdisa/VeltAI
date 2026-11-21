@@ -32,6 +32,7 @@ import { showToast } from '@/components/display/toastStore';
 import { categoryAccent, color, space, surface } from '@/lib/design/tokens';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy } from '@/lib/units';
+import { formatWeekdayDate } from '@/lib/formatting';
 import { useDashboard, useFibreConsumed, logGymSession } from '@/lib/data';
 import { useGymStore } from '@/lib/data/gymStore';
 import { useEnergyWeek } from '@/lib/data/energy';
@@ -95,7 +96,7 @@ export default function DashboardScreen() {
             color={color.secondaryLabel}
             style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}
           >
-            {new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
+            {formatWeekdayDate(new Date())}
           </Text>
           <Text variant="title1" color={color.label} accessibilityRole="header" style={{ paddingRight: 52, letterSpacing: -0.6 }}>
             {t('dashboard.summaryTitle')}

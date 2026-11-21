@@ -16,6 +16,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useFoodStore } from '@/lib/data/foodStore';
 import { addMonths, fromIso, isoDate, monthGrid, useLoggedDays } from '@/lib/data/foodDays';
+import { formatMonthYear, formatWeekdayDate } from '@/lib/formatting';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { categoryAccent, color, layout, motion, opacity, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 
@@ -35,7 +36,7 @@ export default function FoodCalendarScreen() {
   };
 
   const cells = monthGrid(month);
-  const monthLabel = fromIso(month).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  const monthLabel = formatMonthYear(fromIso(month));
   const nextDisabled = addMonths(month, 1) > today && fromIso(month).getMonth() === fromIso(today).getMonth();
 
   return (
@@ -78,11 +79,7 @@ export default function FoodCalendarScreen() {
                   minTapTarget={false}
                   accessibilityRole="button"
                   accessibilityState={{ selected: isSelected, disabled: future }}
-                  accessibilityLabel={`${fromIso(iso).toLocaleDateString(undefined, {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                  })}${logged ? ', has food logged' : ''}`}
+                  accessibilityLabel={`${formatWeekdayDate(fromIso(iso))}${logged ? ', has food logged' : ''}`}
                   style={{
                     width: '100%',
                     height: 46,

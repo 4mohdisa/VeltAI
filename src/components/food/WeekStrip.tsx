@@ -11,6 +11,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { addDays, fromIso, isoDate, weekOf } from '@/lib/data/foodDays';
+import { formatMonthYear, formatWeekdayDate } from '@/lib/formatting';
 import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 
 const LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -30,7 +31,7 @@ export type WeekStripProps = {
 export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: WeekStripProps) {
   const days = weekOf(selected);
   const today = isoDate(new Date());
-  const monthLabel = fromIso(selected).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  const monthLabel = formatMonthYear(fromIso(selected));
 
   return (
     <View style={{ gap: space.sm }}>
@@ -80,11 +81,7 @@ export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: We
               minTapTarget={false}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected, disabled: future }}
-              accessibilityLabel={`${fromIso(iso).toLocaleDateString(undefined, {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-              })}${logged ? ', has food logged' : ''}${isToday ? ', today' : ''}`}
+              accessibilityLabel={`${formatWeekdayDate(fromIso(iso))}${logged ? ', has food logged' : ''}${isToday ? ', today' : ''}`}
               style={{
                 flex: 1,
                 minHeight: layout.buttonHeight,

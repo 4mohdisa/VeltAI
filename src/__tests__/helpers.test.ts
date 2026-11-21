@@ -1,6 +1,4 @@
 // Unit tests for the pure helper modules. Hermetic: no network, no DB.
-// NOTE: src/lib/validation, src/lib/time and src/lib/errors are empty stubs
-// (`export {}`) — nothing to test there until they grow exports.
 import {
   formatNumber,
   formatCalories,
@@ -12,6 +10,8 @@ import {
   formatRelativeDate,
   formatLongDate,
   formatTime,
+  formatWeekdayDate,
+  formatMonthYear,
 } from '@/lib/formatting';
 import {
   METRIC_PREFERENCES,
@@ -101,6 +101,12 @@ describe('formatting', () => {
 
   test('formatLongDate', () => {
     expect(formatLongDate(new Date(2026, 5, 29))).toBe('Mon 29 Jun 2026');
+  });
+
+  test('formatWeekdayDate / formatMonthYear keep the device-locale options the screens used inline', () => {
+    const d = new Date(2026, 10, 21);
+    expect(formatWeekdayDate(d)).toBe(d.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }));
+    expect(formatMonthYear(d)).toBe(d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }));
   });
 
   test('formatTime zero-pads', () => {

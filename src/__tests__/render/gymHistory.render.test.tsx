@@ -29,8 +29,9 @@ jest.mock('@/lib/api', () => ({
 // Neither test below is about the loading state, so a plain stand-in is enough.
 jest.mock('@/components/display/LoadingSkeleton', () => ({ SkeletonList: () => null }));
 
-// humanDate() (mappers.ts) labels a row "Today" against the real clock, so a
-// fixture date only reads back predictably with the clock pinned. setImmediate
+// sessionsFromApi (mappers.ts) labels a row "Today" via formatRelativeDate(),
+// against the real clock, so a fixture date only reads back predictably with
+// the clock pinned. setImmediate
 // stays real: settle() below needs it to flush hydrateGym's promise chain,
 // which a faked one would never auto-advance.
 jest.useFakeTimers({ doNotFake: ['setImmediate'] }).setSystemTime(new Date(2026, 10, 20, 9, 0, 0));
@@ -73,7 +74,7 @@ test("renders each fixture session's date, duration and notes", async () => {
 
   const text = allText(tree);
   // Pinned "today" (2026-11-20) and exactly a week earlier (2026-11-13), a
-  // date not special-cased, both rendered by the real humanDate().
+  // date not special-cased, both rendered by the real formatRelativeDate().
   expect(text).toContain('Today');
   expect(text).toContain('Fri 13 Nov');
   expect(text).toContain('45 min');

@@ -27,6 +27,7 @@ import { addMonths } from '@/lib/data/foodDays';
 import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
 import { todayISO } from '@/lib/data/mappers';
+import { formatWeekdayDate } from '@/lib/formatting';
 
 // The design's lumeFade on the page. Reanimated needs the curve as a function, so
 // this is motion.easing.enter's bezier. Runs on mount only: the tab stays mounted,
@@ -101,11 +102,7 @@ export default function GymLogScreen() {
   // The date eyebrow — today, the day this screen is about. Real clock, no state.
   // Device locale, like food/history — the design's order is en-GB's, but the
   // user's own formatting wins over copying the prototype's string.
-  const dateLine = new Date().toLocaleDateString(undefined, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
+  const dateLine = formatWeekdayDate(new Date());
 
   return (
     // No SafeAreaView top edge: the scroll runs under the status bar so the

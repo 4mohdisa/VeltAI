@@ -42,7 +42,7 @@ import { accent, categoryAccent, color, layout, motion, opacity, radius, shadow,
 import { useLargeText } from '@/lib/design/dynamicType';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
-import { formatCalories, formatNumber } from '@/lib/formatting';
+import { formatCalories, formatNumber, formatWeekdayDate } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import {
@@ -409,11 +409,7 @@ export default function FoodLogScreen() {
     });
   };
 
-  const dayLabel = fromIso(selectedDate).toLocaleDateString(undefined, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
+  const dayLabel = formatWeekdayDate(fromIso(selectedDate));
 
   return (
     // No SafeAreaView top edge: the scroll runs under the status bar so the

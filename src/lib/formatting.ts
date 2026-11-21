@@ -55,6 +55,16 @@ export function formatLongDate(date: Date): string {
   return `${WEEKDAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+/** "Saturday 21 November" in the device locale — the full day label. */
+export function formatWeekdayDate(date: Date): string {
+  return date.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+/** "November 2026" in the device locale — a month heading. */
+export function formatMonthYear(date: Date): string {
+  return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+
 /** "18:00" from a Date */
 export function formatTime(date: Date): string {
   const hh = date.getHours().toString().padStart(2, '0');

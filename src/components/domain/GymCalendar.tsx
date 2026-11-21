@@ -18,6 +18,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { fromIso } from '@/lib/data/foodDays';
+import { formatWeekdayDate } from '@/lib/formatting';
 import type { MonthDay } from '@/lib/data/gymRange';
 import { categoryAccent, color, layout, ROUNDED_FACE_BY_WEIGHT, space } from '@/lib/design/tokens';
 
@@ -59,7 +60,7 @@ export const RAMP = [
 ] as const;
 
 function dayLabel(d: MonthDay): string {
-  const when = fromIso(d.date).toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+  const when = formatWeekdayDate(fromIso(d.date));
   const suffix = d.today ? ', today' : '';
   if (d.future) return `${when}, upcoming`;
   if (d.frozen) return `${when}, streak freeze${suffix}`;
