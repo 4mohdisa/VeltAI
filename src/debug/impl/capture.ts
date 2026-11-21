@@ -19,7 +19,6 @@ let activeTag: string | null = null;
 export const setActiveTag = (name: string | null): void => {
   activeTag = name;
 };
-export const getActiveTag = (): string | null => activeTag;
 
 // The current route, pushed in by the debug root so capture never has to reach
 // into a router hook from outside React.

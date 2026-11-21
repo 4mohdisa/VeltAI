@@ -46,6 +46,3 @@ export const APP_SCHEME: string = Constants.expoConfig?.scheme
 export const GIT_SHA: string | null =
   process.env.EXPO_PUBLIC_GIT_SHA ??
   (typeof Constants.expoConfig?.extra?.gitSha === 'string' ? Constants.expoConfig.extra.gitSha : null);
-
-/** True when the build was made with uncommitted changes — it matches no commit. */
-export const GIT_DIRTY: boolean = Constants.expoConfig?.extra?.gitDirty === true;

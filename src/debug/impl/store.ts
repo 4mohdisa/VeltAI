@@ -62,7 +62,6 @@ export function subscribeReports(fn: (r: DebugReport[]) => void): () => void {
   return () => listeners.delete(fn);
 }
 
-export const reportsDir = (): string => DIR;
 export const screenshotUri = (name: string): string => `${DIR}${name}`;
 
 /** Write a screenshot that a capture has already produced into the reports
@@ -195,9 +194,4 @@ export async function syncPending(): Promise<{ ok: number; failed: number; error
     if (await syncReport(r)) ok++;
   }
   return { ok, failed: pending.length - ok, error: lastSyncError };
-}
-
-/** Tests only. */
-export function __resetStoreCache(): void {
-  cache = null;
 }

@@ -185,10 +185,6 @@ export function useFoodLog(date?: string): Async<StoredMeal[]> {
   return { data, isLoading, error, refetch };
 }
 
-export function useMeal(mealId: string | undefined): StoredMeal | undefined {
-  return useFoodStore((s) => s.meals.find((m) => m.id === mealId));
-}
-
 export function useSavedFoods(): Async<ReturnType<typeof selectSaved>> {
   const data = useFoodStore(selectSaved);
   const { isLoading, error, refetch } = useHydration(hydrateSavedFoods);
