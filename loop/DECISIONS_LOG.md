@@ -6812,3 +6812,7 @@
 - 2026-11-21 10:21 Did not run the full suite. The loop has not flagged a checkpoint round, and the brief allows the full suite only on a checkpoint round. Isa runs it before commit.
 - 2026-11-21 10:21 Did not use the stale handover. The notes win over handovers, as the existing decision says.
 - 2026-11-21 10:21 Jev stop (92%) agrees with the stop, so no override was needed.
+- 2026-11-21 10:58 Stop confirmed for R1223. The notes win over the stale handover, which lists items 11 and 12 as open and a NEXT to run a checkpoint. Reason: notes record items 11 and 12 as built or EXACT, and the handover is documented as stale.
+- 2026-11-21 10:58 Did not issue a checkpoint run. Reason: the loop script has not flagged a checkpoint round, and the brief allows full-suite runs only on flagged checkpoints. Isa runs the full jest and tsc before commit.
+- 2026-11-21 10:58 Jev stop 92% agreed, no override. Reason: no concrete reason Jev cannot see to continue; the only open build item needs a data model change, which is parked.
+- 2026-11-21 10:58 Empty loop input for R1223 treated as the same input fault as R994 to R1222, not as a new instruction.
