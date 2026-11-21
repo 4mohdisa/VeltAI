@@ -29,7 +29,7 @@ import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement, 
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { onboardingPayload, useOnboardingStore, validateOnboardingPayload } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
-import { isDevBuild } from '@/lib/env';
+import { devWarn, isDevBuild } from '@/lib/env';
 
 export default function PaywallScreen() {
   const cuisines = useOnboardingStore((s) => s.cuisines);
@@ -79,7 +79,7 @@ export default function PaywallScreen() {
       await setHasCompletedOnboarding(true);
       navigate('/onboarding/done');
     } catch (e) {
-      if (__DEV__) console.warn('[onboarding] submit failed:', e instanceof Error ? e.message : e);
+      devWarn('[onboarding] submit failed:', e);
       // Surface the SERVER's own explanation when it gave one. A 400 says
       // exactly which field it rejected; replacing that with "check your
       // connection" sent the user to fix their wifi over a validation error

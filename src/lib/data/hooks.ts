@@ -24,7 +24,7 @@ import { countsInTotals, useFoodStore, type StoredFoodItem, type StoredMeal } fr
 import { useGymStore, type LoggedDay, type Streak } from './gymStore';
 import { useUserStore, type UserProfile } from './userStore';
 import { useEffectiveGoals, useSettingsStore, type MacroGoals, type ServerEntitlement } from '@/lib/settings/store';
-import { isDevBuild } from '@/lib/env';
+import { devWarn, isDevBuild } from '@/lib/env';
 import {
   foodCatalog,
   mockPlan,
@@ -61,7 +61,7 @@ function useHydration(hydrate: () => Promise<void>): { isLoading: boolean; error
           if (alive()) setError(null); // a later success clears an earlier failure
         })
         .catch((e: unknown) => {
-          if (__DEV__) console.warn('[data] API unreachable, keeping local data:', e instanceof Error ? e.message : e);
+          devWarn('[data] API unreachable, keeping local data:', e);
           // Never rendered — screens write their own copy. It exists so the
           // caller can tell "failed" from "fine", which is the whole point.
           if (alive()) setError(e instanceof Error ? e : new Error('hydration failed'));

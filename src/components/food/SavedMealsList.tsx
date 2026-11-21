@@ -22,6 +22,7 @@ import { formatCalories } from '@/lib/formatting';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate } from '@/lib/data/foodStore';
 import { api, type SavedMeal } from '@/lib/api';
+import { devWarn } from '@/lib/env';
 
 /** "Never logged" / "Last logged today|yesterday|N days ago" from an ISO date. */
 function lastLoggedLabel(iso: string | null, t: TFunction): string {
@@ -49,7 +50,7 @@ export function SavedMealsList() {
     try {
       setMeals(await api.savedMeals.list());
     } catch (e) {
-      if (__DEV__) console.warn('[meals] savedMeals.list failed:', e instanceof Error ? e.message : e);
+      devWarn('[meals] savedMeals.list failed:', e);
       setMeals([]);
     }
   }, []);
@@ -67,7 +68,7 @@ export function SavedMealsList() {
       showToast({ message: t('savedMeals.logged', { name: meal.name }), tone: 'success' });
       void load();
     } catch (e) {
-      if (__DEV__) console.warn('[meals] savedMeals.log failed:', e instanceof Error ? e.message : e);
+      devWarn('[meals] savedMeals.log failed:', e);
       showToast({ message: t('savedMeals.logFailed', { name: meal.name }), tone: 'error' });
     } finally {
       setLoggingId(null);

@@ -13,7 +13,7 @@ import { exampleBarcodeProduct, lookupBarcode, type BarcodeProduct } from '@/lib
 import type { MealSlot } from '@/lib/mock/data';
 import type { ScanFeedbackRating } from '@/lib/types';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
-import { isDevBuild } from '@/lib/env';
+import { devWarn, isDevBuild } from '@/lib/env';
 
 // Active status pollers keyed by the LOCAL review-row id, so save/discard can
 // cancel a still-running poll. Pollers also self-terminate on ready/failed/60s.
@@ -165,7 +165,7 @@ export function startPhotoScan(
         // and drop the placeholder row instead.
         if (isUpgradeRequired(e)) return scanBlockedByQuota(id, e);
         // Pipeline unavailable (503 no key / unreachable) → old sync endpoint.
-        if (__DEV__) console.warn('[scan] pipeline unavailable, falling back to sync scan:', e instanceof Error ? e.message : e);
+        devWarn('[scan] pipeline unavailable, falling back to sync scan:', e);
         fallbackSyncScan(id, slot, imageBase64, mimeType);
       }),
     );
@@ -223,7 +223,7 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
       if (isUpgradeRequired(e)) return scanBlockedByQuota(id, e);
       // Multi endpoint unavailable → degrade to the single-image path with the
       // primary (top) shot; never lose the capture.
-      if (__DEV__) console.warn('[scan] multi pipeline unavailable, falling back:', e instanceof Error ? e.message : e);
+      devWarn('[scan] multi pipeline unavailable, falling back:', e);
       const primary = images.find((im) => im.angle === 'top') ?? images[0];
       fallbackSyncScan(id, slot, primary.image_base64, primary.mime_type ?? 'image/jpeg');
     }),
@@ -350,7 +350,7 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
       );
     })
     .catch((e: unknown) => {
-      if (__DEV__) console.warn('[scan] pipeline + sync fallback both failed:', e instanceof Error ? e.message : e);
+      devWarn('[scan] pipeline + sync fallback both failed:', e);
       updateFoodLogStatus(localId, 'failed', null, 'pipeline_and_sync_failed');
     }),
   );
@@ -392,7 +392,7 @@ export function lookupBarcodeAsync(code: string): Promise<BarcodeProduct | null>
 // --- Scan review: save / discard / feedback ---------------------------------
 
 const warn = (label: string) => (e: unknown) => {
-  if (__DEV__) console.warn(`[scan] ${label}:`, e instanceof Error ? e.message : e);
+  devWarn(`[scan] ${label}:`, e);
 };
 
 /** Find a scanned row + the slot it lives in (its meal_type for confirm). */

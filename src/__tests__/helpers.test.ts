@@ -13,6 +13,7 @@ import {
   formatWeekdayDate,
   formatMonthYear,
 } from '@/lib/formatting';
+import { devWarn } from '@/lib/env';
 import {
   METRIC_PREFERENCES,
   IMPERIAL_PREFERENCES,
@@ -259,5 +260,29 @@ describe('food/barcode', () => {
 
   test('unknown barcode resolves null (even with fetch rejecting)', async () => {
     await expect(lookupBarcode('0000000000000')).resolves.toBeNull();
+  });
+});
+
+describe('devWarn', () => {
+  test('logs the label and the error message in dev, the raw value for non-Errors, nothing in release', () => {
+    const g = globalThis as { __DEV__?: boolean };
+    const had = '__DEV__' in g;
+    const prev = g.__DEV__;
+    const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      g.__DEV__ = true;
+      devWarn('[x] failed:', new Error('boom'));
+      devWarn('[x] failed:', 'raw');
+      g.__DEV__ = false;
+      devWarn('[x] failed:', new Error('quiet'));
+      expect(spy.mock.calls).toEqual([
+        ['[x] failed:', 'boom'],
+        ['[x] failed:', 'raw'],
+      ]);
+    } finally {
+      spy.mockRestore();
+      if (had) g.__DEV__ = prev;
+      else delete g.__DEV__;
+    }
   });
 });

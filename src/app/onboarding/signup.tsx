@@ -28,6 +28,7 @@ import { api } from '@/lib/api';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { resolvePostAuth } from '@/lib/onboarding/postAuth';
 import { getHasCompletedOnboarding, setHasCompletedOnboarding } from '@/lib/storage/secureStore';
+import { devWarn } from '@/lib/env';
 
 // Recommended by Clerk's Expo SSO docs: completes any pending auth session.
 WebBrowser.maybeCompleteAuthSession();
@@ -53,7 +54,7 @@ async function continueAfterAuth(): Promise<void> {
   try {
     serverCompleted = (await api.onboarding.get()).completed;
   } catch (e) {
-    if (__DEV__) console.warn('[onboarding] status check failed:', e instanceof Error ? e.message : e);
+    devWarn('[onboarding] status check failed:', e);
   }
 
   const locallyCompleted =

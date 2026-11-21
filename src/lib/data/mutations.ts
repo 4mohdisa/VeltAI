@@ -9,6 +9,7 @@ import { isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, toda
 import { useFoodStore, type NewFoodItem } from './foodStore';
 import { useGymStore } from './gymStore';
 import type { EntryMethod, MealSlot, SavedFood } from '@/lib/mock/data';
+import { devWarn } from '@/lib/env';
 
 const food = () => useFoodStore.getState();
 const gym = () => useGymStore.getState();
@@ -16,7 +17,7 @@ const gym = () => useGymStore.getState();
 /** Background sync: local state already updated; API failure is non-fatal. */
 const sync = (p: Promise<unknown>) =>
   p.catch((e: unknown) => {
-    if (__DEV__) console.warn('[data] background sync failed:', e instanceof Error ? e.message : e);
+    devWarn('[data] background sync failed:', e);
   });
 
 // After a successful create, swap the optimistic local id for the server row id
@@ -53,7 +54,7 @@ const trackCreate = (pending: Map<string, Promise<string | null>>, localId: stri
   pending.set(
     localId,
     create.catch((e: unknown) => {
-      if (__DEV__) console.warn('[data] background sync failed:', e instanceof Error ? e.message : e);
+      devWarn('[data] background sync failed:', e);
       return null;
     }),
   );

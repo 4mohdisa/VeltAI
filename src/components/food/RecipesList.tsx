@@ -20,6 +20,7 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate } from '@/lib/data/foodStore';
 import { api, type Recipe } from '@/lib/api';
+import { devWarn } from '@/lib/env';
 
 export function RecipesList({ onNew }: { onNew: () => void }) {
   const reduceMotion = useReduceMotion();
@@ -32,7 +33,7 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
     try {
       setRecipes(await api.recipes.list());
     } catch (e) {
-      if (__DEV__) console.warn('[meals] recipes.list failed:', e instanceof Error ? e.message : e);
+      devWarn('[meals] recipes.list failed:', e);
       setRecipes([]);
     }
   }, []);
@@ -57,7 +58,7 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
       setSheetFor(null);
       void load();
     } catch (e) {
-      if (__DEV__) console.warn('[meals] recipes.log failed:', e instanceof Error ? e.message : e);
+      devWarn('[meals] recipes.log failed:', e);
       showToast({ message: `Couldn't log ${sheetFor.name}. Try again.`, tone: 'error' });
     } finally {
       setLogging(false);

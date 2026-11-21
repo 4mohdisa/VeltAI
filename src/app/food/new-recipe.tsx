@@ -29,6 +29,7 @@ import { formatCalories, formatGrams, formatNumber } from '@/lib/formatting';
 import { useFoodSearch } from '@/lib/data';
 import { api, type RecipeIngredient } from '@/lib/api';
 import type { FoodResult } from '@/lib/mock/data';
+import { devWarn } from '@/lib/env';
 
 /** Scale a per-100g search hit to a fixed gram quantity: calories, plus fibre,
  *  protein, carbs and fat, each per 100 g by grams (see file header). */
@@ -116,7 +117,7 @@ export default function NewRecipeScreen() {
       if (router.canGoBack()) router.back();
       else replace('/food/meals');
     } catch (e) {
-      if (__DEV__) console.warn('[recipe] create failed:', e instanceof Error ? e.message : e);
+      devWarn('[recipe] create failed:', e);
       showToast({ message: "Couldn't save recipe. Try again.", tone: 'error' });
       setSaving(false);
     }
