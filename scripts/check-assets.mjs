@@ -14,7 +14,6 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { inflateSync } from 'node:zlib';
-import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -81,14 +80,6 @@ function pngPixels(buf) {
   }
   return { ...h, bpp, pixels: out };
 }
-
-const sha = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 16);
-
-// Known Expo starter-template assets. If a shipping icon matches one of these,
-// the app is about to go to review wearing Expo's logo.
-const EXPO_TEMPLATE_HASHES = new Set([
-  // populated below from the files themselves at first run; see report note
-]);
 
 // --- app.json --------------------------------------------------------------
 

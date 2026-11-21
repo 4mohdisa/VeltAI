@@ -209,7 +209,6 @@ function checkBuildPrereqs() {
   }
   const easPath = join(ROOT, 'eas.json');
   try {
-    // eslint-disable-next-line no-undef
     const eas = JSON.parse(execSync(`cat "${easPath}"`).toString());
     const tf = eas.build?.testflight;
     if (!tf) fail('eas.json testflight profile', 'missing');

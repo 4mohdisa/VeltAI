@@ -127,7 +127,6 @@ describe('app build identity', () => {
   test('the dynamic config preserves every static field from app.json', () => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const config = require('../../app.config.js')() as Record<string, unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const appJson = require('../../app.json') as { expo: Record<string, unknown> };
     for (const key of Object.keys(appJson.expo)) {
       if (key === 'extra') continue; // extended on purpose
