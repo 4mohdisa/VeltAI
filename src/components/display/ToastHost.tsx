@@ -1,10 +1,10 @@
-// ToastHost — renders the active toast from the store with a slide+fade. Mounted
-// once at the root. Top-center for info, bottom for action toasts.
+// ToastHost — renders the active toast from the store with a fade. Mounted once
+// at the root, at the bottom of the screen unless a caller asks for the top.
 import { useEffect } from 'react';
-import { AccessibilityInfo, View } from 'react-native';
+import { AccessibilityInfo, PixelRatio, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/primitives/Icon';
-import Animated, { Easing, FadeIn, FadeOut, SlideInDown, SlideInUp } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
@@ -13,14 +13,26 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { useToastStore, type ToastTone } from './toastStore';
 
-// Monochrome: every toast is a solid black surface with white text. The tone is
-// distinguished by the SF Symbol only, never by colour.
+// Monochrome: every toast is the design's near-black pill with white text. The
+// tone is distinguished by the SF Symbol only, never by colour. Confirmations
+// (info, success) use the design's bare tick; warn and error keep their tone
+// symbol so a failure never shows a tick.
 const toneStyle: Record<ToastTone, { bg: string; fg: string; icon: string }> = {
-  info: { bg: color.black, fg: color.white, icon: 'information-circle' },
-  success: { bg: color.black, fg: color.white, icon: 'checkmark-circle' },
-  warn: { bg: color.black, fg: color.white, icon: 'warning' },
-  error: { bg: color.black, fg: color.white, icon: 'alert-circle' },
+  info: { bg: color.gray1, fg: color.white, icon: 'checkmark' },
+  success: { bg: color.gray1, fg: color.white, icon: 'checkmark' },
+  warn: { bg: color.gray1, fg: color.white, icon: 'warning' },
+  error: { bg: color.gray1, fg: color.white, icon: 'alert-circle' },
 };
+
+/** The design's toast metrics (GymScreen.dc.html). No token covers any of them:
+ *  112pt off the screen bottom, clear of the floating tab bar; 13pt vertical
+ *  padding; a 9pt icon gap; a 16pt glyph; 500 14/18 text. */
+const TOAST_BOTTOM = 112;
+const TOAST_PADDING_V = 13;
+const TOAST_GAP = 9;
+const TOAST_ICON = 16;
+const TOAST_TEXT_SIZE = 14;
+const TOAST_TEXT_LINE_HEIGHT = 18;
 
 export function ToastHost() {
   const insets = useSafeAreaInsets();
@@ -54,27 +66,23 @@ export function ToastHost() {
         left: space.lg,
         right: space.lg,
         top: atTop ? insets.top + space.sm : undefined,
-        bottom: atTop ? undefined : insets.bottom + space.lg,
+        bottom: atTop ? undefined : TOAST_BOTTOM,
         zIndex: zIndex.toast,
       }}
     >
       <Animated.View
         accessibilityRole="alert"
         accessibilityLiveRegion="polite"
-        entering={
-          reduceMotion
-            ? FadeIn.duration(motion.duration.snap)
-            : (atTop ? SlideInUp : SlideInDown).duration(motion.duration.fast).easing(Easing.out(Easing.cubic))
-        }
+        entering={FadeIn.duration(reduceMotion ? motion.duration.snap : motion.duration.fast)}
         exiting={FadeOut.duration(motion.duration.snap)}
         style={[
           {
             flexDirection: 'row',
             alignItems: 'center',
-            gap: space.sm,
+            gap: TOAST_GAP,
             backgroundColor: t.bg,
-            borderRadius: radius.lg,
-            paddingVertical: space.md,
+            borderRadius: radius.pill,
+            paddingVertical: TOAST_PADDING_V,
             paddingHorizontal: space.lg,
           },
           shadow.md,
@@ -83,13 +91,17 @@ export function ToastHost() {
         {/* SF Symbol bounce on success/error confirms (skipped under Reduce Motion). */}
         <Icon
           name={t.icon}
-          size={18}
+          size={TOAST_ICON}
           color={t.fg}
           animationSpec={
             !reduceMotion && (current.tone === 'success' || current.tone === 'error') ? { effect: { type: 'bounce' } } : undefined
           }
         />
-        <Text variant="callout" color={t.fg} style={{ flex: 1 }}>
+        <Text
+          variant="bodyMedium"
+          color={t.fg}
+          style={{ flex: 1, fontSize: TOAST_TEXT_SIZE, lineHeight: TOAST_TEXT_LINE_HEIGHT * PixelRatio.getFontScale() }}
+        >
           {current.message}
         </Text>
         {current.actionLabel ? (

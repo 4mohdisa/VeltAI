@@ -5,8 +5,9 @@
 // The dots come from useLoggedDays, which derives them from the user's own rows;
 // a failed fetch draws none rather than guessing. Future days are inert — the
 // log records what was eaten.
-import { useState } from 'react';
-import { View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { PixelRatio, StyleSheet, View } from 'react-native';
+import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { router } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
@@ -15,7 +16,8 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useFoodStore } from '@/lib/data/foodStore';
 import { addMonths, fromIso, isoDate, monthGrid, useLoggedDays } from '@/lib/data/foodDays';
-import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
+import { categoryAccent, color, layout, motion, opacity, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 
 const WEEKDAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -38,8 +40,8 @@ export default function FoodCalendarScreen() {
 
   return (
     <SheetContent variant="leading" title="Pick a day" subtitle="Dots mark days with food logged" onClose={() => router.back()}>
-      <View style={{ gap: space.lg }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <View style={{ marginBottom: -space.xl /* Leaves the 34pt safe-area inset as the design's 34pt bottom. */ }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: space.sm }}>
           <MonthArrow direction="back" onPress={() => setMonth(addMonths(month, -1))} />
           <Text variant="bodyBold" color={color.label} accessibilityRole="header">
             {monthLabel}
@@ -47,7 +49,7 @@ export default function FoodCalendarScreen() {
           <MonthArrow direction="forward" disabled={nextDisabled} onPress={() => setMonth(addMonths(month, 1))} />
         </View>
 
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', height: 26, gap: 2 }}>
           {WEEKDAYS.map((d, i) => (
             <Text
               key={`${d}-${i}`}
@@ -59,16 +61,16 @@ export default function FoodCalendarScreen() {
             </Text>
           ))}
         </View>
-
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        {/* The design's 2 grid gap: 1 either side of each cell, with the row widened by 1 each side so the edges stay flush. */}
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 2, marginHorizontal: -1, marginTop: 2, marginBottom: space.lg }}>
           {cells.map((iso, i) => {
-            if (!iso) return <View key={`pad-${i}`} style={{ width: `${100 / 7}%`, height: layout.tapTarget }} />;
+            if (!iso) return <View key={`pad-${i}`} style={{ width: `${100 / 7}%`, height: 46 }} />;
             const isSelected = iso === selectedDate;
             const isToday = iso === today;
             const future = iso > today;
             const logged = loggedDays.has(iso);
             return (
-              <View key={iso} style={{ width: `${100 / 7}%`, alignItems: 'center' }}>
+              <View key={iso} style={{ width: `${100 / 7}%`, paddingHorizontal: 1 }}>
                 <Pressable
                   disabled={future}
                   onPress={() => pick(iso)}
@@ -82,19 +84,22 @@ export default function FoodCalendarScreen() {
                     month: 'long',
                   })}${logged ? ', has food logged' : ''}`}
                   style={{
-                    width: layout.tapTarget,
-                    height: layout.tapTarget,
+                    width: '100%',
+                    height: 46,
                     borderRadius: radius.full,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: space.xs,
-                    backgroundColor: isSelected ? color.primary : 'transparent',
-                    borderWidth: !isSelected && isToday ? layout.borderWidth : 0,
-                    borderColor: color.light3,
-                    opacity: future ? 0.35 : 1,
+                    gap: 2,
+                    // Pressable dims disabled; future days are marked by text colour alone.
+                    opacity: opacity.full,
                   }}
                 >
-                  <Text variant="callout" color={isSelected ? color.onPrimary : color.label}>
+                  <DayFill selected={isSelected} restFill={isToday ? color.light2 : 'transparent'} />
+                  <Text
+                    variant="statSmall"
+                    color={isSelected ? color.onPrimary : future ? color.tertiaryLabel : color.label}
+                    style={{ fontSize: 15, lineHeight: 19, fontFamily: ROUNDED_FACE_BY_WEIGHT['600'] }}
+                  >
                     {fromIso(iso).getDate()}
                   </Text>
                   <View
@@ -102,7 +107,7 @@ export default function FoodCalendarScreen() {
                       width: space.xs,
                       height: space.xs,
                       borderRadius: radius.full,
-                      backgroundColor: logged ? (isSelected ? color.onPrimary : categoryAccent.calories) : 'transparent',
+                      backgroundColor: logged ? (isSelected ? color.light3 : categoryAccent.calories) : 'transparent',
                     }}
                   />
                 </Pressable>
@@ -116,15 +121,15 @@ export default function FoodCalendarScreen() {
           haptic={false}
           minTapTarget={false}
           accessibilityLabel="Jump to today"
-          style={{
+          style={({ pressed }) => ({
             minHeight: layout.buttonHeight,
             borderRadius: radius.pill,
-            backgroundColor: surface.tile,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+            backgroundColor: pressed ? surface.tilePressed : surface.tile,
+            alignItems: 'center', justifyContent: 'center',
+            opacity: opacity.full, // The fill is the design's only press feedback.
+          })}
         >
-          <Text variant="bodyMedium" color={color.label}>
+          <Text variant="bodyBold" color={color.label} style={{ fontSize: 16, lineHeight: 21 * PixelRatio.getFontScale() }}>
             Jump to today
           </Text>
         </Pressable>
@@ -132,6 +137,29 @@ export default function FoodCalendarScreen() {
     </SheetContent>
   );
 }
+
+/** A day's background: eases to the selected fill over the design's snap, motion.easing.standard's bezier. */
+function DayFill({ selected, restFill }: { selected: boolean; restFill: string }) {
+  const reduceMotion = useReduceMotion();
+  const progress = useSharedValue(selected ? 1 : 0);
+
+  useEffect(() => {
+    const target = selected ? 1 : 0;
+    progress.value = reduceMotion
+      ? target
+      : withTiming(target, { duration: motion.duration.snap, easing: Easing.bezier(0.4, 0, 0.2, 1) });
+  }, [selected, reduceMotion, progress]);
+
+  const fillStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(progress.value, [0, 1], [restFill, color.primary]),
+  }));
+
+  return <Animated.View style={[StyleSheet.absoluteFill, { borderRadius: radius.full }, fillStyle]} />;
+}
+
+const MONTH_ARROW_SIZE = 40;
+const MONTH_ARROW_GLYPH = 15;
+const MONTH_ARROW_DISABLED_OPACITY = 0.35;
 
 function MonthArrow({
   direction,
@@ -147,19 +175,25 @@ function MonthArrow({
       onPress={onPress}
       disabled={disabled}
       haptic={false}
+      // A 44 tap target's minimum size would override the design's 40 tile; the slop keeps the 44 reach.
+      minTapTarget={false}
+      hitSlop={2}
       accessibilityLabel={direction === 'back' ? 'Previous month' : 'Next month'}
-      style={{
-        width: layout.tapTarget,
-        height: layout.tapTarget,
+      style={({ pressed }) => ({
+        width: MONTH_ARROW_SIZE,
+        height: MONTH_ARROW_SIZE,
         borderRadius: radius.full,
+        backgroundColor: pressed ? surface.tilePressed : surface.tile,
         alignItems: 'center',
         justifyContent: 'center',
-      }}
+        // The fill is the design's only press feedback, so Pressable's dimming is replaced here.
+        opacity: disabled ? MONTH_ARROW_DISABLED_OPACITY : opacity.full,
+      })}
     >
       <Icon
         name={direction === 'back' ? 'chevron-back' : 'chevron-forward'}
-        size={space.lg}
-        color={disabled ? color.tertiaryLabel : color.label}
+        size={MONTH_ARROW_GLYPH}
+        color={color.label}
       />
     </Pressable>
   );

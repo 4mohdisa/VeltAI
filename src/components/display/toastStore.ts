@@ -38,11 +38,11 @@ export const useToastStore = create<ToastState>((set) => ({
         id: Date.now(),
         message: input.message,
         tone: input.tone ?? 'info',
-        // Info toasts go top-center; action toasts go bottom (UI doc rule).
-        position: input.position ?? (input.actionLabel ? 'bottom' : 'top'),
+        // The design's toast: bottom of the screen, 2.2 s.
+        position: input.position ?? 'bottom',
         actionLabel: input.actionLabel,
         onAction: input.onAction,
-        duration: input.duration ?? 2800,
+        duration: input.duration ?? 2200,
       },
     }),
   dismiss: () => set({ current: null }),

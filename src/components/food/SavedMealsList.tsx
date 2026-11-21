@@ -6,6 +6,8 @@ import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
@@ -22,17 +24,23 @@ import { selectedFoodDate } from '@/lib/data/foodStore';
 import { api, type SavedMeal } from '@/lib/api';
 
 /** "Never logged" / "Last logged today|yesterday|N days ago" from an ISO date. */
-function lastLoggedLabel(iso: string | null): string {
-  if (!iso) return 'Never logged';
-  const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return 'Never logged';
-  const days = Math.floor((Date.now() - then) / 86_400_000);
-  if (days <= 0) return 'Last logged today';
-  if (days === 1) return 'Last logged yesterday';
-  return `Last logged ${days} days ago`;
+function lastLoggedLabel(iso: string | null, t: TFunction): string {
+  if (!iso) return t('savedMeals.neverLogged');
+  const then = new Date(iso);
+  if (Number.isNaN(then.getTime())) return t('savedMeals.neverLogged');
+  const now = new Date();
+  // Local calendar dates, compared as UTC so a daylight-saving change can't make a day 23 or 25 hours.
+  const days =
+    (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
+      Date.UTC(then.getFullYear(), then.getMonth(), then.getDate())) /
+    86_400_000;
+  if (days <= 0) return t('savedMeals.lastLoggedToday');
+  if (days === 1) return t('savedMeals.lastLoggedYesterday');
+  return t('savedMeals.lastLoggedDaysAgo', { count: days });
 }
 
 export function SavedMealsList() {
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const [meals, setMeals] = useState<SavedMeal[] | null>(null);
   const [loggingId, setLoggingId] = useState<string | null>(null);
@@ -56,11 +64,11 @@ export function SavedMealsList() {
     setLoggingId(meal.id);
     try {
       await api.savedMeals.log(meal.id, slotForNow(), selectedFoodDate());
-      showToast({ message: `Logged ${meal.name}.`, tone: 'success' });
+      showToast({ message: t('savedMeals.logged', { name: meal.name }), tone: 'success' });
       void load();
     } catch (e) {
       if (__DEV__) console.warn('[meals] savedMeals.log failed:', e instanceof Error ? e.message : e);
-      showToast({ message: `Couldn't log ${meal.name}. Try again.`, tone: 'error' });
+      showToast({ message: t('savedMeals.logFailed', { name: meal.name }), tone: 'error' });
     } finally {
       setLoggingId(null);
     }
@@ -79,8 +87,8 @@ export function SavedMealsList() {
     return (
       <EmptyState
         icon="bookmark"
-        title="No saved meals yet"
-        message="After logging the same meal 3 times, it appears here automatically. Or create one from a recipe."
+        title={t('savedMeals.emptyTitle')}
+        message={t('savedMeals.emptyMessage')}
       />
     );
   }
@@ -96,14 +104,14 @@ export function SavedMealsList() {
             <View style={{ gap: space.sm }}>
               <CardHeaderRow title={m.name} icon="bookmark" tint={accent.turquoise} />
               <Text variant="footnote" color={color.secondaryLabel}>
-                {formatCalories(m.total_calories)} · {m.items.length} {m.items.length === 1 ? 'item' : 'items'}
+                {formatCalories(m.total_calories)} · {t('savedMeals.itemCount', { count: m.items.length })}
               </Text>
               <Text variant="caption" color={color.secondaryLabel}>
-                {lastLoggedLabel(m.last_logged)}
+                {lastLoggedLabel(m.last_logged, t)}
               </Text>
               <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>
                 <Button
-                  title="Log now"
+                  title={t('savedMeals.logNow')}
                   variant="secondary"
                   fullWidth={false}
                   loading={loggingId === m.id}

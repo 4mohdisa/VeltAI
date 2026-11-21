@@ -94,7 +94,7 @@ export default function SubscriptionScreen() {
       variant="floating"
       eyebrow="Billing"
       title="Subscription"
-      showBack
+      showBack contentStyle={{ gap: space.xl }}
       footer={
         <View style={{ gap: space.sm }}>
           {isEntitled ? (

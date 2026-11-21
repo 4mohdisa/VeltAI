@@ -10,40 +10,110 @@
 // react-navigation contract: a custom tab bar MUST emit `tabPress` (respecting
 // preventDefault, which is how "scroll to top / pop to top" behaviours hook in)
 // and `tabLongPress`. Navigating without emitting silently breaks them.
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { View } from 'react-native';
 import type { EdgeInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import type { BottomTabBarProps } from 'expo-router/build/react-navigation/bottom-tabs';
 import Animated, { Easing, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated';
+import Svg, { G, Path, Rect } from 'react-native-svg';
+import { useTranslation } from 'react-i18next';
 
 import { AddMenu } from './AddMenu';
 import { GlassSurface } from './GlassButtons';
-import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { color, layout, motion, radius, shadow, space, surface, zIndex } from '@/lib/design/tokens';
+import { categoryAccent, color, layout, motion, radius, shadow, space, zIndex } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
+import { useReduceTransparency } from '@/lib/design/reduceTransparency';
 import { haptics } from '@/lib/haptics';
 
 /** The "+" button's diameter — the design's 62pt. No token covers it (the
  *  nearest, layout.buttonHeight, is the 52pt pill height). */
 const PLUS_SIZE = 62;
 
+/** The design's own values for the bar. No token covers them. */
+const BAR_BOTTOM = 22;
+const BAR_GAP = 10;
+const PILL_PADDING = 5;
+const CELL_GAP = 2;
+const CELL_CONTENT_GAP = 2;
+const CELL_PRESSED_OPACITY = 0.55;
+const ACTIVE_CELL_FILL = 'rgba(0, 0, 0, 0.055)';
+const GLYPH_SIZE = 21;
+const MENU_GLYPH_SIZE = 19;
+const PLUS_GLYPH_SIZE = 27;
+const PLUS_GLYPH_STROKE = 2.6;
+const PLUS_PRESSED_OPACITY = 0.86;
+const PLUS_PRESSED_SCALE = 0.96;
+const PLUS_RING_WIDTH = 0.5;
+const PLUS_RING = 'rgba(255, 255, 255, 0.14)';
+const PLUS_SHADOW = { ...shadow.md, shadowOpacity: 0.26, shadowRadius: 28, shadowOffset: { width: 0, height: 12 } };
+const PILL_SHADOW = { ...shadow.md, shadowOpacity: 0.14, shadowRadius: 32, shadowOffset: { width: 0, height: 12 } };
+const PILL_RING_WIDTH = 0.5;
+const PILL_RING = { position: 'absolute', borderRadius: radius.pill, borderWidth: PILL_RING_WIDTH } as const;
+const PILL_RING_OUTSIDE = 'rgba(0, 0, 0, 0.05)';
+const PILL_RING_INSIDE = 'rgba(255, 255, 255, 0.85)';
+const PILL_BLUR_FILL = 'rgba(255, 255, 255, 0.62)';
+const LIQUID = isLiquidGlassAvailable();
+
+type GlyphProps = { tint: string; size?: number };
+
+function SummaryGlyph({ tint }: GlyphProps) {
+  return (
+    <Svg width={GLYPH_SIZE} height={GLYPH_SIZE} viewBox="0 0 24 24">
+      <G fill={tint}>
+        <Rect x={3} y={11} width={4} height={10} rx={1.8} />
+        <Rect x={10} y={6} width={4} height={15} rx={1.8} />
+        <Rect x={17} y={3} width={4} height={18} rx={1.8} />
+      </G>
+    </Svg>
+  );
+}
+
+function FoodGlyph({ tint, size = GLYPH_SIZE }: GlyphProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Path fill={tint} d="M3 12.5a9 9 0 0018 0z" />
+      <Path
+        d="M8.5 8.5c0-1.4 1-1.6 1-3M12.5 8.5c0-1.4 1-1.6 1-3M16.5 8.5c0-1.4 1-1.6 1-3"
+        fill="none"
+        stroke={tint}
+        strokeWidth={1.7}
+        strokeLinecap="round"
+      />
+    </Svg>
+  );
+}
+
+function GymGlyph({ tint, size = GLYPH_SIZE }: GlyphProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <G fill={tint}>
+        <Rect x={3} y={7} width={3.4} height={10} rx={1.7} />
+        <Rect x={17.6} y={7} width={3.4} height={10} rx={1.7} />
+        <Rect x={0.5} y={9.2} width={2} height={5.6} rx={1} />
+        <Rect x={21.5} y={9.2} width={2} height={5.6} rx={1} />
+        <Rect x={6.4} y={10.6} width={11.2} height={2.8} rx={1.4} />
+      </G>
+    </Svg>
+  );
+}
+
 /** The routes this bar draws, in order. `Tabs` auto-injects every file under
  *  (tabs)/ as a route, so the bar renders an explicit allow-list and ignores
  *  anything else rather than growing a cell whenever a file is added. */
-const TABS: { name: string; label: string; icon: string }[] = [
-  { name: 'index', label: 'Summary', icon: 'chart.bar.fill' },
-  { name: 'food', label: 'Food', icon: 'fork.knife' },
-  { name: 'gym', label: 'Gym', icon: 'dumbbell.fill' },
+const TABS: { name: string; labelKey: string; Glyph: (props: GlyphProps) => JSX.Element }[] = [
+  { name: 'index', labelKey: 'dashboard.summaryTitle', Glyph: SummaryGlyph },
+  { name: 'food', labelKey: 'food.title', Glyph: FoodGlyph },
+  { name: 'gym', labelKey: 'gym.title', Glyph: GymGlyph },
 ];
 
-/** Distance from the screen bottom to the bar's own bottom edge. The design sits
- *  it 22pt up on a home-indicator phone; on a device without one the inset is 0,
- *  so it falls back to a plain margin instead of hugging the edge. */
+/** Distance from the screen bottom to the bar's own bottom edge: the design's
+ *  fixed 22pt, raised only if a device's inset would otherwise crowd the bar. */
 export function tabBarBottomOffset(insets: EdgeInsets): number {
-  return Math.max(insets.bottom - space.md, space.sm);
+  return Math.max(insets.bottom - space.md, BAR_BOTTOM);
 }
 
 /** What a scrolling tab screen must leave free at the bottom so its last row is
@@ -53,7 +123,9 @@ export function TAB_BAR_CLEARANCE(insets: EdgeInsets): number {
 }
 
 export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTabBarProps) {
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
+  const reduceTransparency = useReduceTransparency();
   const [menuOpen, setMenuOpen] = useState(false);
   const bottom = tabBarBottomOffset(insets);
 
@@ -79,67 +151,77 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
           zIndex: zIndex.fab,
           flexDirection: 'row',
           alignItems: 'center',
-          gap: space.md,
+          gap: BAR_GAP,
         }}
       >
-        <GlassSurface
-          style={{
-            flex: 1,
-            borderRadius: radius.pill,
-            padding: space.xs,
-            flexDirection: 'row',
-            gap: space.xs,
-            ...shadow.md,
-          }}
-        >
-          {TABS.map((tab) => {
-            const route = state.routes.find((r) => r.name === tab.name);
-            if (!route) return null;
-            const isFocused = focusedRouteName === tab.name;
-            const options = descriptors[route.key]?.options;
+        {/* Shadow wrapper: the glass clips its content (overflow hidden), so the drop shadow lives here. */}
+        <View style={{ flex: 1, borderRadius: radius.pill, ...PILL_SHADOW }}>
+          <GlassSurface
+            style={{
+              borderRadius: radius.pill,
+              padding: PILL_PADDING,
+              flexDirection: 'row',
+              gap: CELL_GAP,
+              // Blur fallback only: native glass and the solid Reduce Transparency pill keep their own surface.
+              ...(LIQUID || reduceTransparency ? null : { backgroundColor: PILL_BLUR_FILL }),
+            }}
+          >
+            {TABS.map((tab) => {
+              const route = state.routes.find((r) => r.name === tab.name);
+              if (!route) return null;
+              const isFocused = focusedRouteName === tab.name;
+              const options = descriptors[route.key]?.options;
+              const label = t(tab.labelKey);
 
-            const onPress = () => {
-              // The contract: emit, respect preventDefault, only then navigate.
-              const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-              if (!isFocused && !event.defaultPrevented) navigation.navigate(route.name, route.params);
-            };
-            const onLongPress = () => {
-              navigation.emit({ type: 'tabLongPress', target: route.key });
-            };
+              const onPress = () => {
+                // The contract: emit, respect preventDefault, only then navigate.
+                const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+                if (!isFocused && !event.defaultPrevented) navigation.navigate(route.name, route.params);
+              };
+              const onLongPress = () => {
+                navigation.emit({ type: 'tabLongPress', target: route.key });
+              };
 
-            return (
-              <Pressable
-                key={route.key}
-                onPress={onPress}
-                onLongPress={onLongPress}
-                haptic={false}
-                minTapTarget={false}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: isFocused }}
-                accessibilityLabel={options?.tabBarAccessibilityLabel ?? tab.label}
-                style={{
-                  flex: 1,
-                  minHeight: layout.buttonHeight,
-                  borderRadius: radius.pill,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: space.xs,
-                  // The selected cell is a quiet chip on the glass, not a fill.
-                  backgroundColor: isFocused ? surface.tile : 'transparent',
-                }}
-              >
-                <Icon
-                  name={tab.icon}
-                  size={space.xl}
-                  color={isFocused ? color.label : color.secondaryLabel}
-                />
-                <Text variant="caption" color={isFocused ? color.label : color.secondaryLabel}>
-                  {tab.label}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </GlassSurface>
+              return (
+                <Pressable
+                  key={route.key}
+                  onPress={onPress}
+                  onLongPress={onLongPress}
+                  haptic={false}
+                  minTapTarget={false}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: isFocused }}
+                  accessibilityLabel={options?.tabBarAccessibilityLabel ?? label}
+                  style={({ pressed }) => ({
+                    flex: 1,
+                    minHeight: layout.buttonHeight,
+                    borderRadius: radius.pill,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: CELL_CONTENT_GAP,
+                    // The selected cell is a quiet chip on the glass, not a fill.
+                    backgroundColor: isFocused ? ACTIVE_CELL_FILL : 'transparent',
+                    opacity: pressed && !isFocused ? CELL_PRESSED_OPACITY : 1,
+                  })}
+                >
+                  <tab.Glyph tint={isFocused ? color.label : color.secondaryLabel} />
+                  <Text
+                    variant="caption"
+                    color={isFocused ? color.label : color.secondaryLabel}
+                    style={isFocused ? { fontWeight: '600' } : undefined}
+                  >
+                    {label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </GlassSurface>
+          {/* The rings sit over the glass, not in it, because the glass clips: one past its edge, one just inside. */}
+          <View pointerEvents="none" style={{ ...PILL_RING, inset: -PILL_RING_WIDTH, borderColor: PILL_RING_OUTSIDE }} />
+          {reduceTransparency ? null : (
+            <View pointerEvents="none" style={{ ...PILL_RING, inset: 0, borderColor: PILL_RING_INSIDE }} />
+          )}
+        </View>
 
         <Pressable
           onPress={() => {
@@ -148,21 +230,27 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
           }}
           minTapTarget={false}
           haptic={false}
-          accessibilityLabel={menuOpen ? 'Close add menu' : 'Add'}
+          accessibilityLabel={menuOpen ? t('tabBar.closeAddMenu') : t('tabBar.add')}
           accessibilityState={{ expanded: menuOpen }}
-          accessibilityHint="Log a gym session or log food"
-          style={{
+          accessibilityHint={t('tabBar.addHint')}
+          style={({ pressed }) => ({
             width: PLUS_SIZE,
             height: PLUS_SIZE,
             borderRadius: radius.full,
             backgroundColor: color.primary,
+            borderWidth: PLUS_RING_WIDTH,
+            borderColor: PLUS_RING,
             alignItems: 'center',
             justifyContent: 'center',
-            ...shadow.md,
-          }}
+            opacity: pressed ? PLUS_PRESSED_OPACITY : 1,
+            transform: [{ scale: pressed ? PLUS_PRESSED_SCALE : 1 }],
+            ...PLUS_SHADOW,
+          })}
         >
           <Animated.View style={plusStyle}>
-            <Icon name="add" size={space['2xl']} color={color.onPrimary} />
+            <Svg width={PLUS_GLYPH_SIZE} height={PLUS_GLYPH_SIZE} viewBox="0 0 24 24" fill="none">
+              <Path d="M12 5v14M5 12h14" stroke={color.onPrimary} strokeWidth={PLUS_GLYPH_STROKE} strokeLinecap="round" />
+            </Svg>
           </Animated.View>
         </Pressable>
       </View>
@@ -179,6 +267,8 @@ export function LumeTabBar({ state, descriptors, navigation, insets }: BottomTab
           setMenuOpen(false);
           router.push('/food/add');
         }}
+        gymGlyph={<GymGlyph tint={categoryAccent.positive} size={MENU_GLYPH_SIZE} />}
+        foodGlyph={<FoodGlyph tint={categoryAccent.calories} size={MENU_GLYPH_SIZE} />}
       />
     </>
   );

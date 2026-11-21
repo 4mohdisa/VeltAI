@@ -5,6 +5,7 @@
 // muted prompt until there's enough logged data.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Card, CardHeaderRow, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
@@ -49,6 +50,7 @@ function ChipRow({ title, muscles }: { title: string; muscles: string[] }): JSX.
 }
 
 export function GymPatternsCard(): JSX.Element {
+  const { t } = useTranslation();
   const { patterns, loading } = useGymPatterns();
 
   if (loading) {
@@ -70,7 +72,7 @@ export function GymPatternsCard(): JSX.Element {
     return (
       <Card variant="elevated">
         <Text variant="footnote" color={color.secondaryLabel}>
-          Keep logging to see patterns
+          {t('gym.keepLoggingPatterns')}
         </Text>
       </Card>
     );
@@ -82,7 +84,7 @@ export function GymPatternsCard(): JSX.Element {
   return (
     <Card variant="elevated">
       <View style={{ gap: space.lg }}>
-        <CardHeaderRow title="Your gym habits" icon="stats-chart" tint={categoryAccent.positive} />
+        <CardHeaderRow title={t('gym.yourGymHabits')} icon="stats-chart" tint={categoryAccent.positive} />
 
         <View style={{ flexDirection: 'row', gap: space['2xl'] }}>
           <View style={{ gap: space.xs }}>
@@ -90,7 +92,7 @@ export function GymPatternsCard(): JSX.Element {
               {perWeek}
             </Text>
             <Text variant="caption" color={color.secondaryLabel}>
-              Sessions a week
+              {t('gym.sessionsAWeek')}
             </Text>
           </View>
           <View style={{ gap: space.xs }}>
@@ -98,17 +100,17 @@ export function GymPatternsCard(): JSX.Element {
               {`${adherence}%`}
             </Text>
             <Text variant="caption" color={color.secondaryLabel}>
-              Schedule adherence
+              {t('gym.scheduleAdherence')}
             </Text>
           </View>
         </View>
 
-        <ChipRow title="Most trained" muscles={patterns.most_trained_muscles.slice(0, 2)} />
-        <ChipRow title="Needs attention" muscles={patterns.least_trained_muscles.slice(0, 2)} />
+        <ChipRow title={t('gym.mostTrained')} muscles={patterns.most_trained_muscles.slice(0, 2)} />
+        <ChipRow title={t('gym.needsAttention')} muscles={patterns.least_trained_muscles.slice(0, 2)} />
 
         {patterns.most_missed_day ? (
           <Text variant="footnote" color={color.secondaryLabel}>
-            You often skip {patterns.most_missed_day}
+            {t('gym.oftenSkip', { day: patterns.most_missed_day })}
           </Text>
         ) : null}
       </View>

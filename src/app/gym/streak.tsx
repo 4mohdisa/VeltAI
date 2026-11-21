@@ -27,8 +27,8 @@ export default function StreakDetailScreen() {
     data: { streak, upcoming },
   } = useGym();
   return (
-    <Screen title="Streak" showBack>
-      <Card>
+    <Screen variant="floating" title="Streak" showBack contentStyle={{ gap: space.xl }}>
+      <Card variant="elevated">
         <StreakCounter days={streak.current} />
       </Card>
 
@@ -36,11 +36,11 @@ export default function StreakDetailScreen() {
         <Text
           variant="footnote"
           color={color.gray500}
-          style={{ marginBottom: space.sm, marginLeft: space.xs, textTransform: 'uppercase', letterSpacing: 1 }}
+          style={{ marginBottom: space.sm, marginLeft: space.xs, textTransform: 'uppercase', letterSpacing: 1.1 }}
         >
           Next 7 days
         </Text>
-        <Card padded={false}>
+        <Card variant="elevated" padded={false}>
           {upcoming.map((day, i) => {
             const meta = actionMeta[day.action];
             const pressable = day.action === 'freeze';
@@ -52,7 +52,7 @@ export default function StreakDetailScreen() {
                   justifyContent: 'space-between',
                   padding: space.lg,
                   borderTopWidth: i === 0 ? 0 : 1,
-                  borderTopColor: color.gray100,
+                  borderTopColor: color.light1,
                 }}
               >
                 <Text variant="body" color={color.black}>
@@ -83,7 +83,7 @@ export default function StreakDetailScreen() {
         </Card>
       </View>
 
-      <Card>
+      <Card variant="elevated">
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
           <Stat value={streak.longest} label="Longest" size="small" align="center" />
           <Stat value={streak.totalGymDays} label="Sessions" size="small" align="center" />

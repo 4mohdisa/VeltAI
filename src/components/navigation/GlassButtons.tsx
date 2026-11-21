@@ -19,6 +19,12 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 const LIQUID = isLiquidGlassAvailable();
 const SIZE = layout.tapTarget; // 44pt — HIG minimum touch target
 
+/** The design's own values for the back circle. No token covers them. */
+const BACK_ICON_SIZE = 18;
+const BACK_SHADOW = { ...shadow.md, shadowOpacity: 0.1, shadowRadius: 14, shadowOffset: { width: 0, height: 4 } };
+const BACK_RING_WIDTH = 0.5;
+const BACK_RING = 'rgba(255, 255, 255, 0.75)';
+
 // Solid opaque fallback for Reduce Transparency (HIG §11): a flat monochrome
 // surface with a hairline edge so the control still reads as a button.
 const solidGlass: ViewStyle = { backgroundColor: surface.card, borderWidth: 1, borderColor: color.gray200 };
@@ -107,6 +113,7 @@ function goBackOrHome() {
 }
 
 export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps & { label?: string }) {
+  const reduceTransparency = useReduceTransparency();
   const handlePress = () => {
     if (onPress) onPress();
     else goBackOrHome();
@@ -120,14 +127,30 @@ export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps 
       accessibilityLabel={label ? `Back to ${label}` : 'Go back'}
       testID={testID}
     >
-      <GlassCircle style={label ? { width: undefined, paddingHorizontal: space.md, flexDirection: 'row', gap: space.xs } : undefined}>
-        <Icon name="chevron-back" size={20} color={color.black} />
-        {label ? (
-          <Text variant="bodyMedium" color={color.black} numberOfLines={1}>
-            {label}
-          </Text>
-        ) : null}
-      </GlassCircle>
+      {/* Shadow wrapper: the glass clips its content (overflow hidden), so the drop shadow lives here. */}
+      <View style={{ borderRadius: radius.full, ...BACK_SHADOW }}>
+        <GlassCircle style={label ? { width: undefined, paddingHorizontal: space.md, flexDirection: 'row', gap: space.xs } : undefined}>
+          <Icon name="chevron-back" size={BACK_ICON_SIZE} color={color.black} />
+          {label ? (
+            <Text variant="bodyMedium" color={color.black} numberOfLines={1}>
+              {label}
+            </Text>
+          ) : null}
+        </GlassCircle>
+        {/* The ring sits over the glass, not in it, because the glass clips. */}
+        {reduceTransparency ? null : (
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: radius.full,
+              borderWidth: BACK_RING_WIDTH,
+              borderColor: BACK_RING,
+            }}
+          />
+        )}
+      </View>
     </Pressable>
   );
 }

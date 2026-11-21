@@ -11,10 +11,11 @@
 // scroll, a calories card at the top, and each meal's rows grouped as a WHITE
 // elevated card. A logged row and a search result open the same detail sheet
 // (architecture item 4).
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, RefreshControl, SectionList, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, RefreshControl, SectionList, View, type TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { router, type Href } from 'expo-router';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 import { AnomalyBanner } from '@/components/ai';
@@ -25,18 +26,18 @@ import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
-import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
+import { ProgressBar } from '@/components/display/ProgressBar';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
 import { ScanReviewCard, type ReviewItem } from '@/components/food/scan/ScanReviewCard';
 import { ScanFailedCard } from '@/components/food/scan/ScanFailedCard';
 import { ScanFeedbackPrompt } from '@/components/food/scan/ScanFeedbackPrompt';
 import { showToast } from '@/components/display/toastStore';
-import { accent, categoryAccent, color, layout, radius, shadow, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, opacity, radius, shadow, space, surface } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { haptics } from '@/lib/haptics';
 import { formatCalories, formatNumber } from '@/lib/formatting';
@@ -45,11 +46,14 @@ import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import {
   useFoodLog,
   useFoodSearch,
+  useGoals,
   editFoodItem,
   deleteFoodItem,
   saveScannedItem,
   discardScannedItem,
   submitScanFeedback,
+  logMeal,
+  slotForNow,
   type StoredMeal,
 } from '@/lib/data';
 import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
@@ -63,6 +67,10 @@ import type { FoodResult, MealSlot } from '@/lib/mock/data';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
+/** The search catalog is priced per 100 g, so a one-tap add logs exactly that —
+ *  the same default serving the detail sheet seeds a search result with. */
+const SEARCH_DEFAULT_G = 100;
+
 // Each meal slot gets its own glyph colour, as the design file does. Functional
 // use only: the dot is the section's category marker — nothing else on the card
 // is tinted (tokens.ts colour rule).
@@ -71,6 +79,14 @@ const SLOT_TINT: Record<MealSlot, string> = {
   Lunch: accent.green,
   Dinner: accent.blue,
   Snacks: accent.turquoise,
+};
+
+/** The addMenu key for each slot. Explicit because 'Snacks' is keyed `snack`. */
+const SLOT_KEYS: Record<MealSlot, string> = {
+  Breakfast: 'breakfast',
+  Lunch: 'lunch',
+  Dinner: 'dinner',
+  Snacks: 'snack',
 };
 
 // The white elevated group a meal's rows sit in: one card per meal, `radius.xl`
@@ -180,6 +196,10 @@ export default function FoodLogScreen() {
   const energyUnit = useUnitPreferences().energy;
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
+  // The Add sheet's "Search foods" tile routes here with ?focus=search. The
+  // design opens search on a focused input rather than one the user must tap.
+  const { focus } = useLocalSearchParams<{ focus?: string }>();
+  const searchRef = useRef<TextInput>(null);
 
   // Data seam — reactive meals + first-load slot. Edits go through the mutations.
   // The day on screen. useFoodLog() follows the store's selection, so switching
@@ -194,18 +214,23 @@ export default function FoodLogScreen() {
   const total = sections.reduce((sum, s) => sum + s.subtotal, 0);
   const itemCount = sections.reduce((n, s) => n + s.data.length, 0);
   // Day macro totals for the calories card — summed off the SAME rows the list
-  // renders, so nothing here is a second source of truth. (No fibre column: food
-  // items carry protein/carbs/fat only. No goal ring / "left today" number
-  // either — the calorie goal is not read on this screen.)
+  // renders, so nothing here is a second source of truth. (A row from a source
+  // without a fibre figure adds nothing to that total. No goal ring / "left today"
+  // number — the calorie goal is not read on this screen.)
   const macroTotals = useMemo(
     () =>
       sections.reduce(
         (a, s) =>
           s.data.reduce(
-            (b, i) => ({ protein: b.protein + i.protein, carbs: b.carbs + i.carbs, fat: b.fat + i.fat }),
+            (b, i) => ({
+              protein: b.protein + i.protein,
+              carbs: b.carbs + i.carbs,
+              fat: b.fat + i.fat,
+              fibre: b.fibre + (i.fibre ?? 0),
+            }),
             a,
           ),
-        { protein: 0, carbs: 0, fat: 0 },
+        { protein: 0, carbs: 0, fat: 0, fibre: 0 },
       ),
     [sections],
   );
@@ -256,6 +281,16 @@ export default function FoodLogScreen() {
   // Realtime seam (Task 7d) — wired for when Supabase lands; a no-op unsubscribe
   // today. Cleaning up on unmount keeps the call site honest.
   useEffect(() => subscribeToFoodLogStatus(null, () => {}), []);
+
+  useEffect(() => {
+    if (focus !== 'search') return;
+    searchRef.current?.focus();
+    // Drop the param once it has been honoured: without this it survives on the
+    // route entry, so any later render — or coming back to the tab — would pull
+    // the keyboard up again. Clearing re-runs this effect with no param, which
+    // returns early, and arriving again from the Add sheet still focuses.
+    router.setParams({ focus: undefined });
+  }, [focus]);
 
   // Plain handlers — the React Compiler memoizes them; manual useCallback here
   // trips the preserve-manual-memoization rule (setters aren't listed as deps).
@@ -322,9 +357,53 @@ export default function FoodLogScreen() {
   };
 
   const pick = (food: FoodResult) => {
-    openFoodDetail({ mode: 'search', name: food.name, kcalPer100: food.kcalPer100, fibrePer100: food.fibre });
+    openFoodDetail({
+      mode: 'search',
+      name: food.name,
+      kcalPer100: food.kcalPer100,
+      proteinPer100: food.protein,
+      carbsPer100: food.carbs,
+      fatPer100: food.fat,
+      fibrePer100: food.fibre,
+    });
     router.push('/food/detail');
   };
+
+  // The design's one-tap add: the row's trailing + logs the result straight to
+  // the current meal instead of routing through the detail sheet. Seeded exactly
+  // as detail.tsx seeds a search result, so both paths write the same row.
+  const addSlot = slotForNow();
+  const quickAdd = (food: FoodResult) => {
+    logMeal(
+      addSlot,
+      {
+        name: food.name,
+        quantityG: SEARCH_DEFAULT_G,
+        calories: Math.round(food.kcalPer100),
+        // Same per-100 g basis as the energy figure, to the 1 decimal place the
+        // sheet saves. A catalog result may carry macros; a missing one logs as 0
+        // (the local dev catalog carries calories only).
+        protein: Math.round((food.protein ?? 0) * 10) / 10,
+        carbs: Math.round((food.carbs ?? 0) * 10) / 10,
+        fat: Math.round((food.fat ?? 0) * 10) / 10,
+        ...(food.fibre != null ? { fibre: Math.round(food.fibre * 10) / 10 } : {}),
+      },
+      'manual',
+    );
+    showToast({
+      message: t('foodLog.addedToMeal', {
+        energy: formatEnergy(Math.round(food.kcalPer100), energyUnit),
+        slot: t(`addMenu.${SLOT_KEYS[addSlot]}`).toLowerCase(),
+      }),
+      tone: 'success',
+    });
+  };
+
+  const dayLabel = fromIso(selectedDate).toLocaleDateString(undefined, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
 
   return (
     // No SafeAreaView top edge: the scroll runs under the status bar so the
@@ -339,7 +418,7 @@ export default function FoodLogScreen() {
         contentContainerStyle={{
           paddingHorizontal: space.lg,
           paddingTop: insets.top + space.md,
-          paddingBottom: TAB_BAR_CLEARANCE(insets),
+          paddingBottom: 158,
           flexGrow: 1,
         }}
         refreshControl={
@@ -353,33 +432,49 @@ export default function FoodLogScreen() {
         // constant header on one always-mounted SectionList means the search field
         // never remounts (no focus loss) when results appear.
         ListHeaderComponent={
-          <View style={{ paddingBottom: space.md, gap: space.md }}>
+          <View style={{ paddingBottom: 14, gap: 14 }}>
             {/* Amber anomaly banner — self-contained, renders null when there are none. */}
             <AnomalyBanner onPress={() => router.push('/insights' as Href)} />
             {/* Eyebrow + large title inside the scroll — the design's header. The
                 eyebrow names the day being shown, which is no longer always today
                 (architecture item 3). */}
-            <View style={{ gap: space.xs, paddingBottom: space.xs }}>
-              <Text
-                variant="label"
-                color={color.secondaryLabel}
-                style={{ textTransform: 'uppercase', letterSpacing: 1 }}
-              >
-                {fromIso(selectedDate).toLocaleDateString(undefined, {
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
+            <View style={{ paddingHorizontal: space.xs }}>
+              <Pressable
+                haptic={false}
+                onPress={() => router.push('/food/calendar')}
+                accessibilityLabel={t('food.pickDayLabel', { date: dayLabel })}
+                style={({ pressed }) => ({
+                  alignSelf: 'flex-start',
+                  minHeight: 40,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 7,
+                  opacity: pressed ? 0.55 : opacity.full,
                 })}
-              </Text>
-              <Text variant="title1" color={color.label} accessibilityRole="header">
-                Food
+              >
+                <Text
+                  variant="label"
+                  color={color.secondaryLabel}
+                  style={{ flexShrink: 1, textTransform: 'uppercase', letterSpacing: 1.1 }}
+                >
+                  {dayLabel}
+                </Text>
+                <Icon name="chevron-down" size={10} color={color.secondaryLabel} weight="bold" />
+              </Pressable>
+              <Text
+                variant="title1"
+                color={color.label}
+                accessibilityRole="header"
+                style={{ paddingRight: 52, letterSpacing: -0.6 }}
+              >
+                {t('food.title')}
               </Text>
             </View>
             {/* The read failed but the device has rows (possibly queued offline
                 writes). They stay on screen, labelled — the empty-list ErrorState
                 below covers the case where there is nothing to show at all. */}
             {loadError && itemCount > 0 ? (
-              <LoadFailedNotice message="Couldn't load today's food log." onRetry={refetch} />
+              <LoadFailedNotice message={t('food.loadFailed')} onRetry={refetch} />
             ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library
                 view rather than a view of one day. */}
@@ -400,6 +495,7 @@ export default function FoodLogScreen() {
               onChangeText={setQuery}
               autoCorrect={false}
               accessibilityLabel={t('foodLog.searchPlaceholder')}
+              {...({ ref: searchRef } as object)}
             />
             {!searching && feedbackSession ? (
               <ScanFeedbackPrompt onRate={rateScan} onDismiss={() => setFeedbackSession(null)} />
@@ -424,7 +520,7 @@ export default function FoodLogScreen() {
               subtotal={section.subtotal}
               energyUnit={energyUnit}
               onAdd={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
-              onDeleteMeal={section.data.length > 0 ? () => confirmDeleteMeal(section.slot, section.data) : undefined}
+              onDeleteMeal={section.data.length > 0 ? () => confirmDeleteMeal(section.slot, section.data, t) : undefined}
             />
           ) : null
         }
@@ -438,6 +534,8 @@ export default function FoodLogScreen() {
                 last={index === section.data.length - 1}
                 conflict={dietaryConflict(food.name, dietaryReqs)}
                 onPick={() => pick(food)}
+                onAdd={() => quickAdd(food)}
+                slot={addSlot}
               />
             );
           }
@@ -447,8 +545,8 @@ export default function FoodLogScreen() {
           return (
             <SwipeableRow
               onDelete={() => removeRow(row.id)}
-              confirmTitle={`Remove ${row.name}?`}
-              confirmMessage="This removes it from today's log."
+              confirmTitle={t('food.removeTitle', { name: row.name })}
+              confirmMessage={t('food.removeMessage')}
             >
               <FoodItemRow
                 item={row}
@@ -460,13 +558,16 @@ export default function FoodLogScreen() {
             </SwipeableRow>
           );
         }}
-        renderSectionFooter={({ section }) =>
-          section.kind === 'meal' && section.data.length === 0 ? (
+        renderSectionFooter={({ section }) => {
+          // The design has no gap after its last block. Only a failed load leaves
+          // the last meal last: otherwise a list footer link follows it.
+          const blockGap = section.kind === 'meal' && loadError && section === listSections[listSections.length - 1] ? 0 : 14;
+          return section.kind === 'meal' && section.data.length === 0 ? (
             <Pressable
               haptic={false}
               minTapTarget={false}
               onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
-              accessibilityLabel={`Add to ${section.slot}`}
+              accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[section.slot]}`) })}
               style={{
                 ...groupSurface(false, true),
                 paddingHorizontal: space.lg,
@@ -474,18 +575,18 @@ export default function FoodLogScreen() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: space.sm,
-                marginBottom: space.md,
+                marginBottom: blockGap,
               }}
             >
               <Icon name="add-circle-outline" size={20} color={color.tertiaryLabel} />
               <Text variant="footnote" color={color.tertiaryLabel}>
-                {t('foodLog.addToMeal', { slot: section.slot })}
+                {t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[section.slot]}`) })}
               </Text>
             </Pressable>
           ) : (
-            <View style={{ height: space.md }} />
-          )
-        }
+            <View style={{ height: blockGap }} />
+          );
+        }}
         ListEmptyComponent={
           // "No matches" is a claim about the food database — only make it when
           // a COMPLETED search returned zero. While the debounce + round-trip
@@ -498,7 +599,7 @@ export default function FoodLogScreen() {
             </View>
           ) : searching && searchError ? (
             <ErrorState
-              message="Search couldn't reach the food database. Check your connection and try again."
+              message={t('food.empty.searchFailed')}
               onRetry={retrySearch}
             />
           ) : searching ? (
@@ -511,7 +612,7 @@ export default function FoodLogScreen() {
             />
           ) : loadError ? (
             <ErrorState
-              message="We couldn't load today's food log. Check your connection and try again."
+              message={t('food.empty.loadFailed')}
               onRetry={refetch}
             />
           ) : loading ? (
@@ -566,7 +667,7 @@ export default function FoodLogScreen() {
 
 
       {/* Blurred strip the content scrolls under — decorative, no touches. */}
-      <FloatingHeader height={insets.top + space.xl} />
+      <FloatingHeader />
 
       {/* The way into Profile, as on Summary (V2). */}
       <ProfileAvatarButton />
@@ -577,44 +678,44 @@ export default function FoodLogScreen() {
 // ---------------------------------------------------------------------------
 
 // The design's calories card: an elevated white card with the day's energy as
-// the hero number and the macro totals beneath it. There is deliberately no
-// "left today" figure and no progress bar — the calorie goal and the macro
-// targets are not read on this screen, and a bar without a target would be an
-// invented measurement (UI_PASS_GAPS.md §2).
+// the hero number and the macro totals beneath it, each over a bar that fills
+// against the user's own target. There is deliberately no "left today" figure
+// and no calorie progress bar (UI_PASS_GAPS.md §2).
 function CaloriesCard({
   total,
   macros,
   energyUnit,
 }: {
   total: number;
-  macros: { protein: number; carbs: number; fat: number };
+  macros: { protein: number; carbs: number; fat: number; fibre: number };
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
 }) {
+  const { t } = useTranslation();
+  const goals = useGoals();
   const columns = [
-    { name: 'Protein', tint: categoryAccent.protein, value: macros.protein },
-    { name: 'Carbs', tint: categoryAccent.carbs, value: macros.carbs },
-    { name: 'Fat', tint: categoryAccent.fat, value: macros.fat },
+    { name: t('nutrition.protein'), tint: categoryAccent.protein, value: macros.protein, target: goals.protein },
+    { name: t('nutrition.carbs'), tint: categoryAccent.carbs, value: macros.carbs, target: goals.carbs },
+    { name: t('nutrition.fat'), tint: categoryAccent.fat, value: macros.fat, target: goals.fat },
+    { name: t('nutrition.fibre'), tint: categoryAccent.fibre, value: macros.fibre, target: goals.fibre },
   ];
   return (
     <Card variant="elevated" style={{ gap: space.lg }}>
-      <CardHeaderRow title="Calories" icon="flame.fill" tint={categoryAccent.calories} />
+      <CardHeaderRow title={t('gymLog.celebration.calories')} icon="flame.fill" tint={categoryAccent.calories} />
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
         <Text variant="statLarge" color={color.label}>
           {formatNumber(kcalToDisplay(total, energyUnit))}
         </Text>
         <Text variant="callout" color={color.secondaryLabel}>
-          {`${energyUnit} logged`}
+          {t('nutrition.energyLogged', { unit: energyUnit })}
         </Text>
       </View>
       <View style={{ flexDirection: 'row', gap: space.md }}>
         {columns.map((c) => (
-          <View key={c.name} style={{ flex: 1, minWidth: 0, gap: space.xs }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-              <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: c.tint }} />
-              <Text variant="caption" color={color.secondaryLabel}>
-                {c.name}
-              </Text>
-            </View>
+          <View key={c.name} style={{ flex: 1, minWidth: 0, gap: 6 }}>
+            <ProgressBar value={c.target > 0 ? c.value / c.target : 0} tint={c.tint} track={color.light2} height={6} />
+            <Text variant="caption" color={color.secondaryLabel}>
+              {c.name}
+            </Text>
             <Text variant="statSmall" color={color.label}>
               {`${Math.round(c.value)}g`}
             </Text>
@@ -640,20 +741,20 @@ function CaloriesCard({
  *  it to VoiceOver, but a sighted user will not find it unaided. Flagged for a
  *  human — the right answer is probably swipe-to-delete on the header or an
  *  overflow, and that is a design call, not one to make at random. */
-function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[]): void {
+function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[], t: TFunction): void {
   haptics.warning();
   Alert.alert(
-    `Delete ${slot}?`,
-    `This removes ${rows.length} ${rows.length === 1 ? 'item' : 'items'} and recomputes the day's totals.`,
+    t('foodLog.deleteMealTitle', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }),
+    t('foodLog.deleteMealMessage', { count: rows.length }),
     [
-      { text: 'Cancel', style: 'cancel' },
+      { text: t('common.cancel'), style: 'cancel' },
       {
-        text: 'Delete',
+        text: t('foodLog.deleteMealConfirm'),
         style: 'destructive',
         onPress: () => {
           haptics.impactHeavy();
           rows.forEach((r) => deleteFoodItem(r.id));
-          showToast({ message: `${slot} deleted.`, tone: 'info' });
+          showToast({ message: t('foodLog.mealDeleted', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }), tone: 'info' });
         },
       },
     ],
@@ -673,6 +774,7 @@ function MealSectionHeader({
   onAdd: () => void;
   onDeleteMeal?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -696,11 +798,11 @@ function MealSectionHeader({
         onLongPress={onDeleteMeal}
         disabled={!onDeleteMeal}
         accessibilityRole="header"
-        accessibilityLabel={`${slot}, ${formatEnergy(subtotal, energyUnit)}`}
-        accessibilityHint={onDeleteMeal ? `Long press to delete everything logged to ${slot}` : undefined}
+        accessibilityLabel={`${t(`addMenu.${SLOT_KEYS[slot]}`)}, ${formatEnergy(subtotal, energyUnit)}`}
+        accessibilityHint={onDeleteMeal ? t('foodLog.deleteMealHint', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }) : undefined}
       >
         <Text variant="bodyMedium" color={color.label}>
-          {slot}
+          {t(`addMenu.${SLOT_KEYS[slot]}`)}
         </Text>
       </Pressable>
       <View
@@ -721,7 +823,7 @@ function MealSectionHeader({
         minTapTarget={false}
         onPress={onAdd}
         accessibilityRole="button"
-        accessibilityLabel={`Add to ${slot}`}
+        accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) })}
         style={{
           width: layout.tapTarget,
           height: layout.tapTarget,
@@ -760,6 +862,7 @@ function FoodItemRow({
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
   onPress: () => void;
 }) {
+  const { t } = useTranslation();
   // HIG §7.2: at large text the trailing calories stack under the name/macros
   // (no clipping, no truncation) instead of colliding on one line.
   const large = useLargeText();
@@ -775,12 +878,12 @@ function FoodItemRow({
       accessibilityRole="button"
       accessibilityLabel={
         analyzing
-          ? 'Analyzing scanned food…'
+          ? t('food.rowAnalysing')
           : failed
-            ? `${item.name} — couldn't be analysed`
-            : `${item.name}, ${item.quantityG} g, protein ${item.protein}, carbs ${item.carbs}, fat ${item.fat}, ${formatEnergy(item.calories, energyUnit)}`
+            ? t('food.rowAnalysisFailed', { name: item.name })
+            : `${item.name}, ${item.quantityG} ${t('food.gramsUnit')}, ${t('nutrition.protein')} ${Math.round(item.protein)}, ${t('nutrition.carbs')} ${Math.round(item.carbs)}, ${t('nutrition.fat')} ${Math.round(item.fat)}, ${formatEnergy(item.calories, energyUnit)}`
       }
-      accessibilityHint={analyzing || failed ? undefined : 'Double tap to edit, swipe left to delete'}
+      accessibilityHint={analyzing || failed ? undefined : t('food.rowHint')}
       style={{
         ...groupSurface(false, last),
         flexDirection: large ? 'column' : 'row',
@@ -799,7 +902,7 @@ function FoodItemRow({
         <>
           <View style={{ flex: large ? undefined : 1, gap: space.xs, paddingVertical: space.sm }}>
             <Text variant="footnote" color={color.secondaryLabel}>
-              Analyzing…
+              {t('food.rowAnalysing')}
             </Text>
             <Skeleton width="60%" height={14} />
           </View>
@@ -821,7 +924,12 @@ function FoodItemRow({
               {item.name}
             </Text>
             <Text variant="footnote" color={color.secondaryLabel} numberOfLines={large ? 0 : 1}>
-              {item.quantityG} g · P {item.protein} · C {item.carbs} · F {item.fat}
+              {t('food.rowMacros', {
+                grams: item.quantityG,
+                protein: Math.round(item.protein),
+                carbs: Math.round(item.carbs),
+                fat: Math.round(item.fat),
+              })}
             </Text>
           </View>
           {/* Trailing energy: the design's rounded stat number with a small unit
@@ -848,19 +956,23 @@ function SearchResultRow({
   last,
   conflict,
   onPick,
+  onAdd,
+  slot,
 }: {
   food: FoodResult;
   first: boolean;
   last: boolean;
   conflict: DietaryRequirement | null;
   onPick: () => void;
+  onAdd: () => void;
+  slot: MealSlot;
 }) {
   const { t } = useTranslation();
   // Subtle, non-blocking dietary warning (Task 5): the food name matches a
   // keyword that conflicts with a requirement the user selected in onboarding.
-  const conflictLabel = conflict ? conflict.replace(/_/g, ' ') : null;
-  const warnConflict = () =>
-    conflictLabel && showToast({ message: `May not match your ${conflictLabel} preference`, tone: 'warn' });
+  // Only the requirements in CONFLICT_KEYWORDS can reach here, and each has a key.
+  const conflictMessage = conflict ? t(`foodLog.conflict.${conflict}`) : null;
+  const warnConflict = () => conflictMessage && showToast({ message: conflictMessage, tone: 'warn' });
   return (
     <Pressable
       haptic={false}
@@ -868,8 +980,8 @@ function SearchResultRow({
       onPress={onPick}
       onLongPress={conflict ? warnConflict : undefined}
       accessibilityRole="button"
-      accessibilityLabel={`Add ${food.name}`}
-      accessibilityHint={conflictLabel ? `May not match your ${conflictLabel} preference` : undefined}
+      accessibilityLabel={t('foodLog.openFood', { name: food.name })}
+      accessibilityHint={conflictMessage ?? undefined}
       style={{
         ...groupSurface(first, last),
         flexDirection: 'row',
@@ -892,19 +1004,27 @@ function SearchResultRow({
           {t('foodLog.per100', { value: formatCalories(food.kcalPer100) })}
         </Text>
       </View>
-      {/* The design's black + disc, same mark as the meal-card add button. */}
-      <View
-        style={{
-          width: space['2xl'],
-          height: space['2xl'],
-          borderRadius: radius.full,
-          backgroundColor: color.primary,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+      {/* The design's black + disc, same mark as the meal-card add button — a
+          button of its own that logs the food, not part of the row's press. */}
+      <Pressable
+        onPress={onAdd}
+        accessibilityRole="button"
+        accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) })}
+        style={{ alignItems: 'center' }}
       >
-        <Icon name="add" size={16} color={color.onPrimary} />
-      </View>
+        <View
+          style={{
+            width: space['2xl'],
+            height: space['2xl'],
+            borderRadius: radius.full,
+            backgroundColor: color.primary,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="add" size={16} color={color.onPrimary} />
+        </View>
+      </Pressable>
     </Pressable>
   );
 }

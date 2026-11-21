@@ -173,6 +173,8 @@ export const savedFoodFromApi = (r: ApiSavedFood): SavedFood => ({
   protein: r.protein,
   carbs: r.carbs,
   fat: r.fat,
+  // A plain-number column, so only a positive value is known, as on a log row.
+  ...(r.fibre > 0 ? { fibre: r.fibre } : {}),
 });
 
 export const savedInputFromApp = (f: Omit<SavedFood, 'id'>): SavedFoodInput => ({

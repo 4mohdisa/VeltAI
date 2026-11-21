@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, View, type TextInput } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { showToast } from '@/components/display/toastStore';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
@@ -36,6 +37,7 @@ function summarize(ex: ExerciseLibraryItem, p: PlannedValues): string {
 }
 
 export default function NewTemplateScreen() {
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id?: string }>();
   const editing = typeof id === 'string' && id.length > 0;
 
@@ -119,8 +121,6 @@ export default function NewTemplateScreen() {
   return (
     <Screen
       variant="floating"
-      eyebrow="Workout"
-      title={editing ? 'Edit workout' : 'New workout'}
       showBack
       footer={
         <Button
@@ -131,6 +131,10 @@ export default function NewTemplateScreen() {
         />
       }
     >
+      {/* Own title, not Screen's: the design sets it flush, untracked, 4 above the first field. */}
+      <Text variant="title1" color={color.label} accessibilityRole="header" style={{ paddingBottom: space.xs }}>
+        {editing ? 'Edit workout' : 'New workout'}
+      </Text>
       <TextField
         label="Name"
         value={name}
@@ -153,7 +157,7 @@ export default function NewTemplateScreen() {
       />
 
       <View style={{ gap: space.md }}>
-        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}>
           Exercises
         </Text>
 
@@ -169,9 +173,9 @@ export default function NewTemplateScreen() {
               {items.map((it, i) => {
                 const removeAt = () => setItems((prev) => prev.filter((_, idx) => idx !== i));
                 const confirmDelete = () =>
-                  Alert.alert('Remove exercise?', undefined, [
-                    { text: 'Cancel', style: 'cancel' },
-                    { text: 'Delete', style: 'destructive', onPress: removeAt },
+                  Alert.alert(t('gym.removeExerciseTitle'), undefined, [
+                    { text: t('common.cancel'), style: 'cancel' },
+                    { text: t('common.delete'), style: 'destructive', onPress: removeAt },
                   ]);
                 const inner = (
                   <View
@@ -217,7 +221,11 @@ export default function NewTemplateScreen() {
                 return editing ? (
                   <View key={`${it.exercise.id}-${i}`}>{inner}</View>
                 ) : (
-                  <SwipeableRow key={`${it.exercise.id}-${i}`} confirmTitle="Remove exercise?" onDelete={removeAt}>
+                  <SwipeableRow
+                    key={`${it.exercise.id}-${i}`}
+                    confirmTitle={t('gym.removeExerciseTitle')}
+                    onDelete={removeAt}
+                  >
                     {inner}
                   </SwipeableRow>
                 );

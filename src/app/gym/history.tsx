@@ -20,7 +20,7 @@ export default function GymHistoryScreen() {
   } = useGym();
 
   return (
-    <Screen grouped title="Session history" showBack backLabel="Gym">
+    <Screen variant="floating" title="Session history" showBack backLabel="Gym" contentStyle={{ gap: space.xl }}>
       {loading ? (
         <SkeletonList rows={4} />
       ) : sessions.length === 0 ? (
@@ -30,7 +30,7 @@ export default function GymHistoryScreen() {
           message="Log a gym session to start building your history and streak."
         />
       ) : (
-        <Card padded={false}>
+        <Card variant="elevated" padded={false}>
           {sessions.map((session, i) => (
           <View
             key={session.id}
@@ -38,7 +38,7 @@ export default function GymHistoryScreen() {
               gap: space.xs,
               padding: space.lg,
               borderTopWidth: i === 0 ? 0 : 1,
-              borderTopColor: color.gray100,
+              borderTopColor: color.light1,
             }}
           >
             <Text variant="bodyBold" color={color.black}>
@@ -52,7 +52,7 @@ export default function GymHistoryScreen() {
               </Text>
             </View>
             {session.notes ? (
-              <Text variant="footnote" color={color.gray700}>
+              <Text variant="footnote" color={color.label}>
                 {session.notes}
               </Text>
             ) : null}

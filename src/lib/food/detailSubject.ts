@@ -32,7 +32,15 @@ export type DetailItem = {
  *              re-scales its own energy from the estimate, so editing macros
  *              here would fight it). */
 export type DetailSubject =
-  | { mode: 'search'; name: string; kcalPer100: number; fibrePer100?: number | null }
+  | {
+      mode: 'search';
+      name: string;
+      kcalPer100: number;
+      proteinPer100?: number | null;
+      carbsPer100?: number | null;
+      fatPer100?: number | null;
+      fibrePer100?: number | null;
+    }
   | { mode: 'barcode'; code: string }
   | { mode: 'saved'; item: DetailItem }
   | { mode: 'logged'; item: DetailItem; slot?: MealSlot }

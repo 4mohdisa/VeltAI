@@ -10,6 +10,7 @@ import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
 import { VERSION_LABEL } from '@/lib/appVersion';
+import { space } from '@/lib/design/tokens';
 
 const SUPPORT_EMAIL = 'lumofit@gmail.com';
 
@@ -26,7 +27,7 @@ export default function SupportScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow="Help" title="Support" showBack>
+    <Screen variant="floating" eyebrow="Help" title="Support" showBack contentStyle={{ gap: space.xl }}>
       <SettingsList
         rows={[
           { icon: 'mail-outline', label: 'Email support', value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },

@@ -55,7 +55,7 @@ function InsightsInner() {
   const isEmpty = !loading && insights.length === 0 && anomalies.length === 0;
 
   return (
-    <Screen variant="floating" eyebrow="Your patterns" title="Insights" showBack scroll>
+    <Screen variant="floating" eyebrow="Your patterns" title="Insights" showBack scroll contentStyle={{ gap: space.xl }}>
       <BrainProfileCard onAskLume={() => router.push('/ai-query' as Href)} />
 
       {/* Standalone Ask Lume entry — always visible above the feed. */}
@@ -96,7 +96,7 @@ function InsightsInner() {
           />
         )
       ) : (
-        <View style={{ gap: space.md }}>
+        <View style={{ gap: space.sm }}>
           {feed.map((entry, index) =>
             entry.kind === 'insight' ? (
               <InsightCard

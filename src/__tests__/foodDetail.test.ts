@@ -93,13 +93,13 @@ describe('the sheet still carries the capabilities it absorbed', () => {
   const sheet = src('app/food/detail.tsx');
 
   test('the barcode not-found recovery path survives (AUDIT_REPORT M1)', () => {
-    expect(sheet).toContain('Product not found');
-    expect(sheet).toContain('Scan again');
+    expect(sheet).toContain('food.productNotFound');
+    expect(sheet).toContain('food.scanAgain');
     expect(sheet).toContain("router.replace('/food/barcode-scan')");
   });
 
   test('"save to my foods" survives for a logged row', () => {
-    expect(sheet).toContain('Save to my foods');
+    expect(sheet).toContain('food.saveToDishes');
     expect(sheet).toContain('saveFood(');
   });
 
@@ -113,14 +113,17 @@ describe('the sheet still carries the capabilities it absorbed', () => {
     expect(sheet).toContain('servings={p.servingOptions}');
   });
 
-  test('the search catalog is treated as energy-only', () => {
-    expect(sheet).toContain('macros={false}');
-    expect(sheet).toContain('calories only');
+  test('the search branch shows macros from the subject', () => {
+    const search = sheet.slice(sheet.indexOf("subject.mode === 'search'"), sheet.indexOf("subject.mode === 'barcode'"));
+    expect(search).toMatch(/^\s+macros$/m);
+    expect(search).toContain('subject.proteinPer100');
+    expect(search).toContain('subject.carbsPer100');
+    expect(search).toContain('subject.fatPer100');
   });
 
   test('logging still names the entry method it came from', () => {
-    expect(sheet).toContain("logMeal(slotForNow(), draft, 'manual')");
-    expect(sheet).toContain("logMeal(slotForNow(), draft, 'barcode')");
+    expect(sheet).toContain("logMeal(slot ?? slotForNow(), draft, 'manual')");
+    expect(sheet).toContain("logMeal(slot ?? slotForNow(), draft, 'barcode')");
   });
 });
 
@@ -135,7 +138,7 @@ describe('V6: a logged row is read, not typed', () => {
 
   test('its numbers stay values until "Edit values manually"', () => {
     expect(sheet).toContain('lockValues={!review}');
-    expect(sheet).toContain('Edit values manually');
+    expect(sheet).toContain("t('food.editValuesManually')");
   });
 
   // Fibre is wired end to end now (item 6), but only where a source provided

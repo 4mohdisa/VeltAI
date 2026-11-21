@@ -61,4 +61,16 @@ test('no screen invents a reason for the failure', () => {
       expect(msg).not.toMatch(/server|network|offline|500|timeout/i);
     }
   }
+  const copy = (locale: string, path: string) =>
+    path.split('.').reduce((node, key) => node[key], JSON.parse(src(`lib/i18n/locales/${locale}.json`)));
+  const keys = CALLERS.flatMap((path) =>
+    [...code(src(path)).matchAll(/LoadFailedNotice[^>]*message=\{t\('([^']+)'\)\}/g)].map((m) => m[1]),
+  );
+  expect(keys).toContain('dashboard.streakLoadError');
+  for (const key of keys) {
+    expect(copy('en', key)).toMatch(/^Couldn't load/);
+    expect(copy('en', key)).not.toMatch(/server|network|offline|500|timeout/i);
+    expect(copy('es', key)).toMatch(/\S/);
+    expect(copy('fr', key)).toMatch(/\S/);
+  }
 });

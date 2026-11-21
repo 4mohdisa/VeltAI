@@ -3,19 +3,22 @@
 // DELETE, (4) final. On confirm → server deletes Clerk identity + all rows →
 // dispatch ACCOUNT_DELETED (machine purges every store/queue, ends the Clerk
 // session, RevenueCat identity resets via the bridge, routes to onboarding).
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
+import Svg, { Circle, Path } from 'react-native-svg';
 import { Icon } from '@/components/primitives/Icon';
-
 import { Screen } from '@/components/navigation/Screen';
 import { Button } from '@/components/forms/Button';
 import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, space } from '@/lib/design/tokens';
 import { useAppState } from '@/lib/auth/appState';
 import { api, ApiError } from '@/lib/api';
 import { showToast } from '@/components/display/toastStore';
+
+/** The design's side padding on this screen. No token covers it. */
+const SIDE_PADDING = 24;
 
 const DELETED_DATA = [
   'Your account and sign-in identity (email, name)',
@@ -32,13 +35,14 @@ export default function DeleteAccountScreen() {
   const [step, setStep] = useState(0);
   const [confirmText, setConfirmText] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const leavingRef = useRef(false); // true once Cancel leaves the flow (skip the guard)
 
   // Back (header tap, swipe, hardware) steps BACK through the flow instead of
   // popping the whole screen; the `deleting` guard lets the post-delete route
   // change through (same addListener pattern as gym/session.tsx).
   useEffect(() => {
     return navigation.addListener('beforeRemove', (e) => {
-      if (step === 0 || deleting) return;
+      if (step === 0 || deleting || leavingRef.current) return;
       e.preventDefault();
       setStep(step - 1);
     });
@@ -63,35 +67,53 @@ export default function DeleteAccountScreen() {
     }
   };
 
+  const cancel = () => {
+    leavingRef.current = true;
+    navigation.goBack();
+  };
+
   return (
     <Screen
       variant="floating"
       eyebrow="Account"
-      title="Delete Account"
+      title={step === 0 ? undefined : 'Delete Account'} // Screen drops the eyebrow with the title
       showBack
+      contentStyle={{ paddingHorizontal: SIDE_PADDING }}
       footer={
-        step === 0 ? (
-          <Button title="Continue" variant="destructive" onPress={() => setStep(1)} />
-        ) : step === 1 ? (
-          <Button title="I understand, continue" variant="destructive" onPress={() => setStep(2)} />
-        ) : (
+        <View style={{ gap: space.md / 2 }}>
+          {step === 0 ? (
+            <Button title="Continue" variant="destructive" onPress={() => setStep(1)} />
+          ) : step === 1 ? (
+            <Button title="I understand, continue" variant="destructive" onPress={() => setStep(2)} />
+          ) : (
+            <Button
+              title="Delete account"
+              variant="destructive"
+              loading={deleting}
+              disabled={deleting || confirmText.trim().toUpperCase() !== 'DELETE'}
+              onPress={finish}
+              // The border stays, in white, so the rendered height keeps 58.
+              style={{ backgroundColor: color.white, borderColor: color.white }}
+            />
+          )}
           <Button
-            title="Permanently delete account"
-            variant="destructive"
-            loading={deleting}
-            disabled={deleting || confirmText.trim().toUpperCase() !== 'DELETE'}
-            onPress={finish}
+            title="Cancel"
+            variant="tertiary"
+            disabled={deleting}
+            onPress={cancel}
+            // Renders 48: the 24 label line plus 12 above and below.
+            style={{ paddingVertical: space.md, minHeight: layout.tapTarget }}
           />
-        )
+        </View>
       }
     >
       {step === 0 ? (
-        <View style={{ gap: space.md, alignItems: 'center', paddingVertical: space.lg }}>
-          <Icon name="warning" size={44} color={color.primary} />
+        <View style={{ gap: 14, alignItems: 'center' }}>
+          <WarningGlyph />
           <Text variant="title2" color={color.label} style={{ textAlign: 'center' }}>
             Are you sure?
           </Text>
-          <Text variant="body" color={color.label} style={{ textAlign: 'center' }}>
+          <Text variant="body" color={color.label} style={{ textAlign: 'center', fontSize: 16, lineHeight: 22 }}>
             This permanently deletes your account and all of your data, immediately. It cannot be
             undone.
           </Text>
@@ -134,5 +156,16 @@ export default function DeleteAccountScreen() {
         </View>
       ) : null}
     </Screen>
+  );
+}
+
+/** The design's warning triangle: sharp corners and a white mark. The SF Symbol has neither. */
+function WarningGlyph() {
+  return (
+    <Svg width={42} height={42} viewBox="0 0 24 24">
+      <Path d="M12 3.4l9.4 16.2H2.6z" fill={color.primary} />
+      <Path d="M12 9.4v4.6" stroke={color.white} strokeWidth={1.9} strokeLinecap="round" />
+      <Circle cx={12} cy={16.9} r={1.05} fill={color.white} />
+    </Svg>
   );
 }

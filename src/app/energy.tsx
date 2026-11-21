@@ -13,6 +13,7 @@
 // with the other three detail routes: src/components/display/DetailChart.tsx.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -40,15 +41,29 @@ import type { EnergyBalance } from '@/lib/types';
 // Energy bindings
 // ---------------------------------------------------------------------------
 
+/** The design's hero bar share of its column, its column gap and the fade of the days before today. */
+const HERO_BAR_RATIO = 0.52;
+const HERO_GAP = 3;
+const HERO_DIM_OPACITY = 0.8;
+/** The design's hero scale: from just under the lowest day's value to just over the highest. */
+const HERO_FLOOR_RATIO = 0.88;
+const HERO_CEILING_RATIO = 1.05;
+/** The design's average line weight. */
+const HERO_AVG_LINE = 2;
+/** The design's chart gutter and scale label width (Summary bundle :250-256, :281, :298-303, :313). No token is 44 or 40. */
+const CHART_GUTTER_W = 44;
+const SCALE_LABEL_W = 40;
+
 const signed = (n: number) => `${n < 0 ? '-' : '+'}${formatNumber(Math.abs(n))}`;
 
 export default function EnergyScreen(): JSX.Element {
+  const { t } = useTranslation();
   const { days, loading } = useEnergyRange();
   const latest = days.length > 0 ? days[days.length - 1] : null;
 
   return (
-    <Screen variant="floating" showBack>
-      <KickerTitle kicker="Energy" title="Energy balance" tint={categoryAccent.calories} />
+    <Screen variant="floating" detail showBack contentStyle={{ gap: space.lg }}>
+      <KickerTitle kicker={t('dashboard.energy')} title={t('dashboard.energyBalance.title')} tint={categoryAccent.calories} />
       {loading ? (
         <>
           <Skeleton height={HERO_H} rounded={radius.xl} />
@@ -57,8 +72,8 @@ export default function EnergyScreen(): JSX.Element {
       ) : latest == null ? (
         <EmptyState
           icon="flame"
-          title="No data yet"
-          message="Log some food and workouts to see your daily energy balance."
+          title={t('dashboard.energyNoDataTitle')}
+          message={t('dashboard.energyNoDataMessage')}
         />
       ) : (
         <Body days={days} latest={latest} />
@@ -68,22 +83,34 @@ export default function EnergyScreen(): JSX.Element {
 }
 
 function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }): JSX.Element {
+  const { t } = useTranslation();
   const net = netOf(latest);
   const latestBurn = burnOf(latest);
 
-  // Hero: one floating bar per day, spanning what was eaten to what was burned.
-  const heroScale = Math.max(1, ...days.map((d) => Math.max(d.calories_in, burnOf(d) ?? 0)));
-  const heroCols: Col[] = days.map((d) => {
+  // Hero: one floating bar per day, spanning what was eaten to what was burned,
+  // on a scale fitted to the drawn days only (a gap day draws nothing).
+  const burns = days.map(burnOf).filter((b): b is number => b != null);
+  const drawn = days.flatMap((d) => {
     const burn = burnOf(d);
-    if (burn == null) return { key: d.date, bars: [] }; // uncomputable day → gap
+    return burn == null ? [] : [d.calories_in, burn];
+  });
+  const heroFloor = drawn.length > 0 ? Math.min(...drawn) * HERO_FLOOR_RATIO : 0;
+  const heroScale = Math.max(1, ...drawn) * HERO_CEILING_RATIO;
+  const heroY = (v: number) => ((v - heroFloor) / Math.max(1, heroScale - heroFloor)) * HERO_H;
+  const avgBurn = mean(burns);
+  const heroCols: Col[] = days.map((d, i) => {
+    const dim = i !== days.length - 1;
+    const burn = burnOf(d);
+    if (burn == null) return { key: d.date, dim, bars: [] }; // uncomputable day → gap
     const lo = Math.min(d.calories_in, burn);
     const hi = Math.max(d.calories_in, burn);
     return {
       key: d.date,
+      dim,
       bars: [
         {
-          h: Math.max(layout.hairline, ((hi - lo) / heroScale) * HERO_H),
-          bottom: (lo / heroScale) * HERO_H,
+          h: Math.max(layout.hairline, heroY(hi) - heroY(lo)),
+          bottom: heroY(lo),
           tint: d.calories_in > burn ? categoryAccent.calories : accent.blue,
         },
       ],
@@ -113,18 +140,19 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
 
   // Breakdown: the parts of the latest day the server actually reported.
   const rows = [
-    { tint: categoryAccent.calories, label: 'Intake', sub: 'Food you logged', value: latest.calories_in },
+    { id: 'intake', tint: categoryAccent.calories, label: t('dashboard.energyBalance.intake'), sub: t('dashboard.foodYouLogged'), value: latest.calories_in },
     ...(latest.calories_out_bmr != null
-      ? [{ tint: color.light3, label: 'Resting energy', sub: 'Baseline metabolism', value: latest.calories_out_bmr }]
+      ? [{ id: 'resting', tint: color.light3, label: t('dashboard.restingEnergy'), sub: t('dashboard.baselineMetabolism'), value: latest.calories_out_bmr }]
       : []),
     {
+      id: 'workout',
       tint: categoryAccent.positive,
-      label: 'Workout',
-      sub: latest.calories_out_exercise > 0 ? 'Logged gym sessions' : 'No session logged',
+      label: t('dashboard.workout'),
+      sub: latest.calories_out_exercise > 0 ? t('dashboard.loggedGymSessions') : t('dashboard.noSessionLogged'),
       value: latest.calories_out_exercise,
     },
     ...(latestBurn != null
-      ? [{ tint: accent.blue, label: 'Total burned', sub: 'Resting energy plus training', value: latestBurn }]
+      ? [{ id: 'totalBurned', tint: accent.blue, label: t('dashboard.totalBurned'), sub: t('dashboard.restingPlusTraining'), value: latestBurn }]
       : []),
   ];
   const rowMax = Math.max(1, ...rows.map((r) => r.value));
@@ -139,38 +167,71 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
           {net != null ? (
             <StatLine
               value={signed(net)}
-              unit={`kcal ${net < 0 ? 'deficit' : 'surplus'}`}
-              sub={`${dayLabel} · intake measured against total burn`}
+              unit={net < 0 ? t('dashboard.kcalDeficit') : t('dashboard.kcalSurplus')}
+              sub={t('dashboard.energyNetSub', { day: dayLabel })}
+              tight
             />
           ) : (
             <StatLine
               value={formatNumber(latest.calories_in)}
-              unit="kcal eaten"
-              sub="Add your body stats in onboarding to see your net balance."
+              unit={t('dashboard.kcalEaten')}
+              sub={t('dashboard.energyAddBodyStats')}
+              tight
             />
           )}
           <View style={{ gap: space.sm }}>
-            <ChartHeader title="Eaten against burned" note={`Last ${days.length} days`} />
+            <ChartHeader title={t('dashboard.eatenAgainstBurned')} note={t('dashboard.lastDays', { count: days.length })} hero />
             {spanned < 2 ? (
               <EmptyState
                 icon="chart.bar.xaxis"
-                title="Not enough days yet"
-                message="Two days with a computed burn are needed to draw a trend."
+                title={t('dashboard.energyNotEnoughDaysTitle')}
+                message={t('dashboard.energyNotEnoughDaysMessage')}
               />
             ) : (
               <>
-                <Plot
-                  cols={heroCols}
-                  height={HERO_H}
-                  ceiling={formatNumber(heroScale)}
-                  summary={`Eaten against burned, ${spanned} of the last ${days.length} days, scale up to ${formatNumber(heroScale)} kcal.`}
-                />
-                <Axis labels={heroLabels(days.map((d) => d.date))} />
+                <View>
+                  <Plot
+                    cols={heroCols}
+                    height={HERO_H}
+                    ceiling={formatNumber(heroScale)}
+                    barWidthRatio={HERO_BAR_RATIO}
+                    gap={HERO_GAP}
+                    dimOpacity={HERO_DIM_OPACITY}
+                    gutterWidth={CHART_GUTTER_W}
+                    scaleLabelWidth={SCALE_LABEL_W}
+                    summary={t('dashboard.energyHeroSummary', { value: spanned, total: days.length, scale: formatNumber(heroScale) })}
+                  />
+                  {avgBurn != null ? (
+                    <>
+                      {/* Stops where Plot's columns stop: its gutter is CHART_GUTTER_W. */}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          right: CHART_GUTTER_W,
+                          top: HERO_H - heroY(avgBurn),
+                          borderTopWidth: HERO_AVG_LINE,
+                          borderTopColor: categoryAccent.calories,
+                          borderRadius: HERO_AVG_LINE,
+                        }}
+                      />
+                      <Text
+                        variant="label"
+                        color={categoryAccent.calories}
+                        numberOfLines={1}
+                        style={{ position: 'absolute', left: 0, bottom: heroY(avgBurn), paddingBottom: HERO_AVG_LINE }}
+                      >
+                        {`${formatNumber(avgBurn)} ${t('dashboard.kcal')} ${t('dashboard.energyBalance.burned').toLowerCase()}`}
+                      </Text>
+                    </>
+                  ) : null}
+                </View>
+                <Axis labels={heroLabels(days.map((d) => d.date))} gutterWidth={CHART_GUTTER_W} />
               </>
             )}
           </View>
           <Text variant="footnote" color={color.secondaryLabel}>
-            {`Each bar spans the day between what you ate and what you burned. Blue days ended in a deficit, orange days in a surplus — ${deficits} of the ${nets.length} days with a computed net. Days Lume could not compute are left blank.`}
+            {t('dashboard.energyHeroCaption', { count: nets.length, deficits })}
           </Text>
         </View>
       </Card>
@@ -178,21 +239,23 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
       {/* Secondary — the same two series, this week, side by side. */}
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <ChartHeader title="In and out" note="This week" />
+          <ChartHeader title={t('dashboard.inAndOutTitle')} note={t('dashboard.thisWeek')} />
           <View style={{ flexDirection: 'row', gap: space.lg }}>
-            <Legend tint={categoryAccent.calories} label="Eaten" />
-            <Legend tint={accent.blue} label="Burned" />
+            <Legend tint={categoryAccent.calories} label={t('dashboard.eaten')} />
+            <Legend tint={accent.blue} label={t('dashboard.energyBalance.burned')} />
           </View>
           <Plot
             cols={secCols}
             height={SEC_H}
             ceiling={formatNumber(secScale)}
-            summary={`Eaten and burned for each of the last ${week.length} days, scale up to ${formatNumber(secScale)} kcal.`}
+            gutterWidth={CHART_GUTTER_W}
+            scaleLabelWidth={SCALE_LABEL_W}
+            summary={t('dashboard.energyWeekSummary', { count: week.length, value: formatNumber(secScale) })}
           />
-          <Axis labels={week.map((d) => weekdayShort(d.date).charAt(0))} />
+          <Axis labels={week.map((d) => weekdayShort(d.date).charAt(0))} gutterWidth={CHART_GUTTER_W} />
           {weekAvgIn != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
-              {`Averaging ${formatNumber(weekAvgIn)} kcal eaten a day this week.`}
+              {t('dashboard.energyAverageEaten', { value: formatNumber(weekAvgIn) })}
             </Text>
           ) : null}
         </View>
@@ -202,16 +265,16 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
-            Breakdown
+            {t('dashboard.breakdown')}
           </Text>
           {rows.map((r) => (
             <BreakdownRow
-              key={r.label}
+              key={r.id}
               tint={r.tint}
               label={r.label}
               sub={r.sub}
               value={formatNumber(r.value)}
-              unit="kcal"
+              unit={t('dashboard.kcal')}
               fraction={r.value / rowMax}
             />
           ))}
@@ -220,8 +283,8 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
 
       <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
         {latest.target != null
-          ? `Net is intake minus total burn. Target ${formatNumber(latest.target)} kcal.`
-          : 'Net is intake minus total burn.'}
+          ? `${t('dashboard.energyNetNote')} ${t('dashboard.weekTarget', { value: formatNumber(latest.target) })}`
+          : t('dashboard.energyNetNote')}
       </Text>
     </>
   );

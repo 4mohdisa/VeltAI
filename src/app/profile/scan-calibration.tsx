@@ -57,7 +57,7 @@ export default function ScanCalibrationScreen() {
   }, []);
 
   return (
-    <Screen variant="floating" eyebrow="Your scans" title="Scan accuracy" showBack>
+    <Screen variant="floating" eyebrow="Your scans" title="Scan accuracy" showBack contentStyle={{ gap: space.xl }}>
       {loading ? (
         <>
           <Skeleton height={140} rounded={radius.xl} />

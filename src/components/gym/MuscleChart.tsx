@@ -111,7 +111,7 @@ export function MuscleChart(): JSX.Element {
 
   if (loading) {
     return (
-      <Card variant="elevated">
+      <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
         <View style={{ gap: space.md }}>
           <Skeleton width="50%" height={18} />
           <Skeleton width="90%" height={12} />
@@ -138,7 +138,7 @@ export function MuscleChart(): JSX.Element {
   );
 
   return (
-    <Card variant="elevated">
+    <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
       <View style={{ gap: space.md }}>
         {/* Only the header is the control (the design's §2.6 header button), so
             VoiceOver still reads each muscle row on the card itself. */}

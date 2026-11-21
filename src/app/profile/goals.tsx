@@ -6,17 +6,18 @@
 // never a hard block. All values are stored canonical (kcal + grams); the energy
 // unit only affects how calories are shown/entered.
 import { useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
+import { Card } from '@/components/display/Card';
 import { Button } from '@/components/forms/Button';
 import { SegmentedField } from '@/components/forms/SegmentedField';
 import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
-import { color, space } from '@/lib/design/tokens';
+import { color, layout, space, surface, textStyle } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { useSettingsStore, useUnitPreferences } from '@/lib/settings/store';
 import { useGoals } from '@/lib/data';
@@ -25,6 +26,9 @@ import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 // Atwater factors (kcal per gram).
 const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 type MacroKey = keyof typeof KCAL_PER_G;
+
+/** The design's calorie figure is a borderless 126pt field; no token is a width. */
+const FIGURE_WIDTH = 126;
 
 export default function GoalsScreen() {
   const { t } = useTranslation();
@@ -87,7 +91,7 @@ export default function GoalsScreen() {
   ];
 
   return (
-    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack>
+    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack contentStyle={{ gap: space.xl }}>
       <SegmentedField
         variant="inset"
         label={t('goals.mode')}
@@ -104,53 +108,96 @@ export default function GoalsScreen() {
         </Text>
       ) : null}
 
-      <TextField
-        label={`${t('goals.dailyCalories')} (${energyUnit})`}
-        {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
-        helper="Between 1,200 and 10,000 kcal."
-        editable={isCustom}
-        disabled={!isCustom}
-        keyboardType="numeric"
-      />
-
-      <SegmentedField
-        variant="inset"
-        label={t('goals.splitBy')}
-        value={splitBy}
-        onChange={(v) => setSplitBy(v as 'grams' | 'percent')}
-        disabled={!isCustom}
-        options={[
-          { label: t('goals.grams'), value: 'grams' },
-          { label: t('goals.percent'), value: 'percent' },
-        ]}
-      />
-
-      <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-        {t('goals.macros')}
-      </Text>
-
-      {macroRows.map((m) => (
-        <View key={m.key} style={{ flexDirection: large ? 'column' : 'row', gap: space.md, alignItems: large ? 'stretch' : 'flex-end' }}>
-          <View style={{ flex: 1 }}>
-            <TextField
-              label={`${m.label} (g)`}
-              {...draft(`${m.key}-g`, String(goals[m.key]), (v) => onMacroGrams(m.key, v))}
-              editable={isCustom && splitBy === 'grams'}
-              disabled={!isCustom || splitBy !== 'grams'}
-              keyboardType="numeric"
-            />
+      {/* The design's targets card: ONE white card holding the calorie figure, a
+          hairline, the split control and the macro rows. */}
+      <Card variant="elevated" style={{ gap: space.lg }}>
+        {/* The design's calorie control: a borderless stat-large figure typed into
+            in place, with the energy unit as a suffix. Lume-set mode renders it
+            read-only in the secondary colour rather than as a disabled box. */}
+        <View style={{ gap: space.xs }}>
+          {/* The design pairs the section label with a right-aligned edit hint that
+              names why the figure is or isn't typeable. */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+            <Text variant="label" color={color.secondaryLabel} style={{ flex: 1, textTransform: 'uppercase', letterSpacing: 1 }}>
+              {t('goals.dailyCalories')}
+            </Text>
+            <Text variant="caption" color={color.tertiaryLabel}>
+              {isCustom ? t('goals.tapToEdit') : t('goals.setByLume')}
+            </Text>
           </View>
-          <View style={{ flex: 1 }}>
-            <TextField
-              label={`${m.label} (%)`}
-              {...draft(`${m.key}-pct`, percentOf(m.key), (v) => onMacroPercent(m.key, v))}
-              editable={isCustom && splitBy === 'percent'}
-              disabled={!isCustom || splitBy !== 'percent'}
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
+            <TextInput
+              {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
+              editable={isCustom}
               keyboardType="numeric"
+              accessibilityLabel={`${t('goals.dailyCalories')} (${energyUnit})`}
+              style={[
+                textStyle('statLarge'),
+                {
+                  width: FIGURE_WIDTH,
+                  padding: 0,
+                  letterSpacing: -1,
+                  color: isCustom ? color.label : color.secondaryLabel,
+                },
+              ]}
             />
+            <Text variant="callout" color={color.secondaryLabel}>
+              {energyUnit}
+            </Text>
           </View>
         </View>
-      ))}
+
+        <View style={{ height: layout.hairline, backgroundColor: surface.divider }} />
+
+        <SegmentedField
+          variant="inset"
+          label={t('goals.splitBy')}
+          value={splitBy}
+          onChange={(v) => setSplitBy(v as 'grams' | 'percent')}
+          disabled={!isCustom}
+          options={[
+            { label: t('goals.grams'), value: 'grams' },
+            { label: t('goals.percent'), value: 'percent' },
+          ]}
+        />
+
+        <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+          {t('goals.macros')}
+        </Text>
+
+        {/* The design groups the macro rows at the card's inner gap. */}
+        <View style={{ gap: space.md }}>
+          {macroRows.map((m) => (
+            <View key={m.key} style={{ flexDirection: large ? 'column' : 'row', gap: space.md, alignItems: large ? 'stretch' : 'flex-end' }}>
+              <View style={{ flex: 1 }}>
+                <TextField
+                  label={`${m.label} (g)`}
+                  {...draft(`${m.key}-g`, String(goals[m.key]), (v) => onMacroGrams(m.key, v))}
+                  editable={isCustom && splitBy === 'grams'}
+                  disabled={!isCustom || splitBy !== 'grams'}
+                  keyboardType="numeric"
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <TextField
+                  label={`${m.label} (%)`}
+                  {...draft(`${m.key}-pct`, percentOf(m.key), (v) => onMacroPercent(m.key, v))}
+                  editable={isCustom && splitBy === 'percent'}
+                  disabled={!isCustom || splitBy !== 'percent'}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+          ))}
+        </View>
+      </Card>
+
+      {/* The design puts the custom-mode help line below the card. */}
+      {isCustom ? (
+        <Text variant="footnote" color={color.secondaryLabel}>
+          {t('goals.savedAsYouType')}
+        </Text>
+      ) : null}
 
       <TextField
         label={t('goals.fibre')}

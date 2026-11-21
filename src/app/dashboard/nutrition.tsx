@@ -49,6 +49,19 @@ import { useDailyMacros, useFoodLog } from '@/lib/data';
 
 const pctOf = (consumed: number, target: number) => (target > 0 ? Math.round((consumed / target) * 100) : 0);
 
+/** The design's chart right gutter and scale value label box. */
+const CHART_GUTTER_W = 44;
+const SCALE_LABEL_W = 40;
+/** The design's fixed scale, in percent of target (Summary bundle :694). A macro over it is drawn at the top. */
+const MACRO_CEILING = 130;
+/** The design's macro bar width (Summary bundle :690). */
+const MACRO_BAR_W = 30;
+/** The design's macro bar corners, column gap and axis label line height (Summary bundle :307, :313-315). */
+const MACRO_BAR_RADIUS_TOP = 5;
+const MACRO_BAR_RADIUS_BOTTOM = 2;
+const MACRO_BAR_GAP = 3;
+const MACRO_AXIS_LINE_HEIGHT = 15;
+
 export default function NutritionDetailScreen(): JSX.Element {
   const { t } = useTranslation();
   const energyUnit = useUnitPreferences().energy;
@@ -64,58 +77,75 @@ export default function NutritionDetailScreen(): JSX.Element {
     { key: 'fibre', label: t('nutrition.fibre'), tint: categoryAccent.fibre, data: macros.fibre },
   ].map((r) => ({ ...r, pct: pctOf(r.data.consumed, r.data.target) }));
 
-  // Ceiling is 100% unless something is over target, so the target line is the
-  // top of the plot and going over is visibly over.
-  const ceiling = Math.max(100, ...rows.map((r) => r.pct));
   const cols: Col[] = rows.map((r) => ({
     key: r.key,
-    bars: [{ h: (r.pct / ceiling) * SEC_H, tint: r.tint }],
+    bars: [{ h: Math.max(space.xs, (Math.min(r.pct, MACRO_CEILING) / MACRO_CEILING) * SEC_H), tint: r.tint, w: MACRO_BAR_W }],
   }));
 
   return (
-    <Screen variant="floating" showBack>
-      <KickerTitle kicker="Macros" title={t('nutrition.title')} tint={categoryAccent.protein} />
+    <Screen variant="floating" detail showBack contentStyle={{ gap: space.lg }}>
+      <KickerTitle kicker={t('nutrition.title')} title={t('nutrition.macrosTitle')} tint={categoryAccent.protein} />
 
-      {loadError ? <LoadFailedNotice message="Couldn't load today's food." onRetry={refetch} /> : null}
+      {loadError ? <LoadFailedNotice message={t('nutrition.loadFailed')} onRetry={refetch} /> : null}
 
       {/* Hero — the day's calories against the goal. */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <StatLine
             value={formatNumber(kcalToDisplay(cal.consumed, energyUnit))}
-            unit={`${energyUnit} from food`}
-            sub={t('nutrition.remainingToday', { value: remaining })}
+            unit={`${energyUnit} ${t('nutrition.fromFood')}`}
+            sub={t('nutrition.remainingToday')}
+            tight
           />
-          <ChartHeader title="Calories today" note={formatRelativeDate(new Date())} />
-          {loading ? (
-            <Skeleton height={SEC_H} rounded={radius.xl} />
-          ) : (
-            <View
-              accessible
-              accessibilityLabel={`Calories today. ${formatEnergy(cal.consumed, energyUnit)} of ${formatEnergy(cal.target, energyUnit)}, ${remaining} left.`}
-              style={{ alignItems: 'center' }}
-            >
-              <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />
-            </View>
-          )}
+          <View style={{ gap: space.sm }}>
+            <ChartHeader title={t('nutrition.caloriesToday')} note={formatRelativeDate(new Date())} hero />
+            {loading ? (
+              <Skeleton height={SEC_H} rounded={radius.xl} />
+            ) : (
+              <View
+                accessible
+                accessibilityLabel={t('nutrition.caloriesTodayLabel', { consumed: formatEnergy(cal.consumed, energyUnit), target: formatEnergy(cal.target, energyUnit), remaining })}
+                style={{ alignItems: 'center' }}
+              >
+                <DailyMacroRing consumed={cal.consumed} target={cal.target} energyUnit={energyUnit} />
+              </View>
+            )}
+          </View>
         </View>
       </Card>
 
       {/* Secondary — each macro against its own target. */}
       <Card variant="elevated">
-        <View style={{ gap: space.md }}>
-          <ChartHeader title="Against targets" note="Percent of target" />
+        <View style={{ gap: space.lg }}>
+          <ChartHeader title={t('nutrition.todayAgainstTargets')} note={t('nutrition.percentOfTarget')} />
           {loading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (
             <>
-              <Plot
-                cols={cols}
-                height={SEC_H}
-                ceiling={`${ceiling}%`}
-                summary={rows.map((r) => `${r.label} ${r.pct} percent of target`).join(', ')}
-              />
-              <Axis labels={rows.map((r) => r.label)} />
+              <View style={{ gap: space.sm }}>
+                <Plot
+                  cols={cols}
+                  height={SEC_H}
+                  ceiling={`${MACRO_CEILING}%`}
+                  mid={`${MACRO_CEILING / 2}%`}
+                  floor="0"
+                  gridInset
+                  gutterWidth={CHART_GUTTER_W}
+                  scaleLabelWidth={SCALE_LABEL_W}
+                  barRadius={{ top: MACRO_BAR_RADIUS_TOP, bottom: MACRO_BAR_RADIUS_BOTTOM }}
+                  gap={MACRO_BAR_GAP}
+                  growIn
+                  summary={rows.map((r) => t('nutrition.macroPercentLabel', { macro: r.label, percent: r.pct })).join(', ')}
+                />
+                <Axis
+                  labels={rows.map((r) => r.label)}
+                  gutterWidth={CHART_GUTTER_W}
+                  gap={MACRO_BAR_GAP}
+                  labelColor={color.secondaryLabel}
+                  labelLineHeight={MACRO_AXIS_LINE_HEIGHT}
+                  labelFillsColumn
+                />
+              </View>
               <Text variant="footnote" color={color.secondaryLabel}>
                 {rows.map((r) => `${r.label} ${r.pct}%`).join(' · ')}
               </Text>
@@ -128,16 +158,16 @@ export default function NutritionDetailScreen(): JSX.Element {
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <Text variant="bodyMedium" color={color.label} accessibilityRole="header">
-            Breakdown
+            {t('nutrition.breakdown')}
           </Text>
           {rows.map((r) => (
             <BreakdownRow
               key={r.key}
               tint={r.tint}
               label={r.label}
-              sub={`${r.pct}% of target`}
+              sub={t('nutrition.percentOfTargetShort', { percent: r.pct })}
               value={formatNumber(r.data.consumed)}
-              unit={`of ${formatNumber(r.data.target)} g`}
+              unit={t('nutrition.ofTargetGrams', { target: formatNumber(r.data.target) })}
               fraction={r.data.target > 0 ? r.data.consumed / r.data.target : 0}
             />
           ))}
@@ -152,7 +182,7 @@ export default function NutritionDetailScreen(): JSX.Element {
         {meals.length === 0 ? (
           <View style={{ paddingHorizontal: space.xl, paddingBottom: space.xl }}>
             <Text variant="callout" color={color.secondaryLabel}>
-              No meals logged yet today.
+              {t('nutrition.noMealsToday')}
             </Text>
           </View>
         ) : null}
@@ -189,7 +219,7 @@ export default function NutritionDetailScreen(): JSX.Element {
       </Card>
 
       <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
-        Targets scale with your calorie goal. Lume tracks today only, so there is no macro history to chart yet.
+        {t('nutrition.targetsScale', { goal: formatEnergy(cal.target, energyUnit) })}
       </Text>
 
       <HealthDisclaimer />

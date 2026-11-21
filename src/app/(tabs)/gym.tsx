@@ -1,37 +1,57 @@
 // D1 · Gym log (default)
 // Design-file pass: a grey page with a floating blurred header — date eyebrow +
-// large "Gym" title inside the scroll, then the streak strip, the month
+// large "Gym" title inside the scroll, then the streak strip, the
 // month calendar, today's session, muscle focus, gym habits, the log CTA and the
 // training list. Same data, same routes; only the surfaces changed.
 import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
+import Animated, { Easing, FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Path } from 'react-native-svg';
 import { router, useFocusEffect, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
-import { Stat } from '@/components/display/Stat';
-import { StreakFlame } from '@/components/display/StreakFlame';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Text } from '@/components/primitives/Text';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
-import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
-import { TodayCard, MuscleChart, GymPatternsCard } from '@/components/gym';
-import { color, space, surface } from '@/lib/design/tokens';
+import { TodayCard, MuscleChart, MyScheduleCard, GymPatternsCard } from '@/components/gym';
+import { categoryAccent, color, motion, space, surface } from '@/lib/design/tokens';
+import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useGym } from '@/lib/data';
 import { addMonths } from '@/lib/data/foodDays';
 import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gymRange';
+import { useToday } from '@/lib/data/gymSchedule';
 import { todayISO } from '@/lib/data/mappers';
 
+// The design's lumeFade on the page. Reanimated needs the curve as a function, so
+// this is motion.easing.enter's bezier. Runs on mount only: the tab stays mounted,
+// so it plays once per launch.
+const PAGE_ENTRANCE = FadeInDown.duration(motion.duration.fast)
+  .easing(Easing.bezier(0, 0, 0.2, 1))
+  .withInitialValues({ opacity: 0, transform: [{ translateY: space.sm }] });
+
+/** The design's gap between the streak strip's flame, count, label and footnote. No spacing token is 11. */
+const STREAK_STRIP_GAP = 11;
+
+/** The design's static streak flame (bundle :36): an outer flame with the inner flame cut out. */
+const STREAK_FLAME_PATH =
+  'M12 2.8C15.4 6 18 9 18 12.2A6.2 6.2 0 015.8 12.2C5.8 9 8.6 6 12 2.8zM12 9.4c-1.5 1.4-2.6 2.7-2.6 4.1a2.6 2.6 0 005.2 0c0-1.4-1.1-2.7-2.6-4.1z';
+
 export default function GymLogScreen() {
+  const { t } = useTranslation();
+  const reduceMotion = useReduceMotion();
   const {
     data: { streak, loggedDays, frozenDates },
+    isLoading: gymLoading,
     error: gymError,
     refetch,
   } = useGym();
+  const { today: todayWorkout } = useToday();
   const insets = useSafeAreaInsets();
   // Native pull-to-refresh: re-run the gym hydration; spinner clears on a short
   // trailing delay since refetch is fire-and-forget by design.
@@ -49,9 +69,9 @@ export default function GymLogScreen() {
   // Never a number while the month is still loading or failed to load: that is
   // how a real streak ended up beside a false "0 sessions".
   const summary = monthLoading
-    ? 'Loading sessions…'
+    ? t('gym.loadingSessions')
     : monthError
-      ? "Couldn't load this month's sessions"
+      ? t('gym.monthLoadFailed')
       : monthSummary(view);
   // Back from logging a session: re-read the month so the server's row, with its
   // real duration, replaces the local echo.
@@ -84,91 +104,95 @@ export default function GymLogScreen() {
         contentContainerStyle={{
           paddingTop: insets.top + space.md,
           paddingHorizontal: space.lg,
-          paddingBottom: TAB_BAR_CLEARANCE(insets),
-          gap: space.md,
+          paddingBottom: 158,
         }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
-        {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
-            passes under the blur rather than sitting in a bar. */}
-        <View style={{ gap: space.xs, paddingBottom: space.xs }}>
-          <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-            {dateLine}
-          </Text>
-          <Text variant="title1" color={color.label} accessibilityRole="header">
-            Gym
-          </Text>
-        </View>
+        <Animated.View entering={reduceMotion ? undefined : PAGE_ENTRANCE} style={{ gap: 14 }}>
+          {/* Date eyebrow + large title (HIG §4.2) — inside the scroll, so it
+              passes under the blur rather than sitting in a bar. */}
+          <View style={{ paddingHorizontal: space.xs }}>
+            {/* On the wrapper: a Text's own minHeight would leave the line at the top, not centred as in the design. */}
+            <View style={{ minHeight: 26, justifyContent: 'center' }}>
+              <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}>
+                {dateLine}
+              </Text>
+            </View>
+            <Text variant="title1" color={color.label} accessibilityRole="header" style={{ letterSpacing: -0.6, paddingRight: 52 }}>
+              {t('gym.title')}
+            </Text>
+          </View>
 
-        {/* The streak read failed: the card below still shows what the device
-            had, so label it rather than let it read as current. */}
-        {gymError ? <LoadFailedNotice message="Couldn't load your gym data." onRetry={refetch} /> : null}
+          {/* The streak read failed: the card below still shows what the device
+              had, so label it rather than let it read as current. */}
+          {gymError ? <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} /> : null}
 
-        {/* Streak strip: flame + count on one line, the streak's own numbers under it. */}
-        <Card
-          variant="elevated"
-          onPress={() => router.push('/gym/streak')}
-          accessibilityLabel={`Streak detail. ${streak.current} day streak`}
-        >
-          <View style={{ gap: space.lg }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-              <StreakFlame size={space.xl} active={streak.current > 0} />
+          {/* Streak strip: flame, count and the right-aligned sessions and freezes footnote on one line. */}
+          <Card
+            variant="elevated"
+            padded={false}
+            onPress={() => router.push('/gym/streak')}
+            accessibilityLabel={t('gym.streakDetailLabel', { count: streak.current })}
+            style={{ paddingVertical: space.md, paddingHorizontal: space.lg }}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: STREAK_STRIP_GAP }}>
+              <Svg width={space.xl} height={space.xl} viewBox="0 0 24 24">
+                <Path fillRule="evenodd" fill={categoryAccent.streak} d={STREAK_FLAME_PATH} />
+              </Svg>
               <Text variant="statSmall" color={color.label}>
                 {streak.current}
               </Text>
               <Text variant="bodyMedium" color={color.label}>
-                day streak
+                {t('gym.dayStreak', { count: streak.current })}
               </Text>
+              {!gymLoading && !gymError ? (
+                <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
+                  {`${streak.totalGymDays} ${streak.totalGymDays === 1 ? 'session' : 'sessions'} · ${streak.freezesAvailable} ${streak.freezesAvailable === 1 ? 'freeze' : 'freezes'}`}
+                </Text>
+              ) : null}
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Stat value={streak.longest} label="Longest" size="small" align="center" valueColor={color.label} />
-              <Stat value={streak.totalGymDays} label="Total" size="small" align="center" valueColor={color.label} />
-              <Stat
-                value={streak.freezesAvailable}
-                label="Freezes"
-                size="small"
-                align="center"
-                valueColor={color.label}
-              />
-            </View>
-          </View>
-        </Card>
+          </Card>
 
-        {/* The design's month calendar (V7), built from the sessions the server
-            returned for this month plus today's, if it was just logged here. */}
-        <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
-          <GymCalendar
-            title={monthTitle(month, today)}
-            cells={view.cells}
-            summary={summary}
-            onPrev={() => setMonthOffset((m) => m - 1)}
-            onNext={() => setMonthOffset((m) => Math.min(0, m + 1))}
-            canNext={monthOffset < 0}
+          {/* The design's month calendar (V7), built from the sessions the server
+              returned for this month plus today's, if it was just logged here. */}
+          <Card variant="elevated" padded={false} style={{ padding: space.lg }}>
+            <GymCalendar
+              title={monthTitle(month, today)}
+              cells={view.cells}
+              summary={summary}
+              onPrev={() => setMonthOffset((m) => m - 1)}
+              onNext={() => setMonthOffset((m) => Math.min(0, m + 1))}
+              canNext={monthOffset < 0}
+            />
+          </Card>
+
+          {/* Today's scheduled workout (renders null when nothing is scheduled). */}
+          <TodayCard />
+
+          {/* The design's showLogCta. This tab only ever shows today, so its "not past" always holds. */}
+          {!streak.gymLoggedToday && todayWorkout && todayWorkout.exercises.length > 0 ? (
+            <GymSessionButton logged={false} onPress={() => router.push('/gym/log-session')} />
+          ) : null}
+
+          {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
+          <MuscleChart />
+          <MyScheduleCard />
+          <GymPatternsCard />
+
+          <SettingsList
+            title={t('gym.training')}
+            rows={[
+              { icon: 'calendar', label: t('gym.mySchedule'), onPress: () => router.push('/gym/schedule' as Href) },
+              { icon: 'barbell', label: t('gym.myWorkouts'), onPress: () => router.push('/gym/templates' as Href) },
+              { icon: 'snow', label: t('gym.applyStreakFreeze'), onPress: () => router.push('/gym/freeze') },
+              { icon: 'time', label: t('gym.sessionHistory'), onPress: () => router.push('/gym/history') },
+            ]}
           />
-        </Card>
-
-        {/* Today's scheduled workout (renders null when nothing is scheduled). */}
-        <TodayCard />
-
-        {/* Learned gym habits + muscle focus (both degrade to muted text with no data). */}
-        <MuscleChart />
-        <GymPatternsCard />
-
-        <GymSessionButton logged={streak.gymLoggedToday} onPress={() => router.push('/gym/log-session')} />
-
-        <SettingsList
-          title="Training"
-          rows={[
-            { icon: 'calendar', label: 'My schedule', onPress: () => router.push('/gym/schedule' as Href) },
-            { icon: 'barbell', label: 'My workouts', onPress: () => router.push('/gym/templates' as Href) },
-            { icon: 'snow', label: 'Apply a streak freeze', onPress: () => router.push('/gym/freeze') },
-            { icon: 'time', label: 'Session history', onPress: () => router.push('/gym/history') },
-          ]}
-        />
+        </Animated.View>
       </ScrollView>
 
-      <FloatingHeader height={insets.top + space.xl} />
+      <FloatingHeader />
 
       {/* The way into Profile, as on Summary (V2). */}
       <ProfileAvatarButton />

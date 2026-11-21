@@ -14,16 +14,29 @@
 //    30-day patterns window (backend rebuild: `gs.date >= current_date -
 //    interval '30 days'`), and it is labelled as that.
 import type { JSX } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { Card, CardHeaderRow, EmptyState, Skeleton } from '@/components/display';
 import { MUSCLE_GROUPS, MuscleVolumeRow, formatVolume, muscleLabel } from '@/components/gym/MuscleChart';
-import { Screen } from '@/components/navigation/Screen';
+import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
-import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
+import { categoryAccent, color, opacity, radius, space, surface } from '@/lib/design/tokens';
+
+/** The design's in-bar back circle and its chevron. No token covers them; the
+ *  Pressable still gives the full 44pt tap target. */
+const BACK_SIZE = 38;
+const BACK_ICON_SIZE = 15;
+/** The design's pressed fade for the back circle, deeper than the shared 0.85. */
+const BACK_PRESSED_OPACITY = 0.6;
 
 export default function MuscleFocusScreen(): JSX.Element {
+  const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const { patterns, loading } = useGymPatterns();
   const map = patterns?.muscle_volume_map ?? null;
 
@@ -90,9 +103,55 @@ export default function MuscleFocusScreen(): JSX.Element {
     );
   })();
 
+  // Not Screen: the design pins this title bar, with its own back circle, above
+  // the scroll, and Screen's floating chrome scrolls its title away.
   return (
-    <Screen variant="floating" showBack eyebrow="Last 30 days" title="Muscle focus">
-      {body}
-    </Screen>
+    <View style={{ flex: 1, backgroundColor: surface.backgroundAlt }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: space.md,
+          paddingTop: insets.top + space.xs,
+          paddingHorizontal: space.xl,
+          paddingBottom: space.md,
+          backgroundColor: surface.background,
+        }}
+      >
+        <Pressable
+          haptic={false}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
+          accessibilityLabel="Go back"
+          style={({ pressed }) => ({ opacity: pressed ? BACK_PRESSED_OPACITY : opacity.full })}
+        >
+          <View
+            style={{
+              width: BACK_SIZE,
+              height: BACK_SIZE,
+              borderRadius: radius.full,
+              backgroundColor: color.light1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Icon name="chevron-back" size={BACK_ICON_SIZE} color={color.black} />
+          </View>
+        </Pressable>
+        <View style={{ flex: 1, minWidth: 0, gap: 1 }}>
+          <Text variant="title3" color={color.label} accessibilityRole="header">
+            Muscle focus
+          </Text>
+          <Text variant="footnote" color={color.secondaryLabel}>
+            {t('gym.muscleFocusWindow', { volume: formatVolume(total) })}
+          </Text>
+        </View>
+      </View>
+      <ScrollView
+        contentContainerStyle={{ padding: space.lg, paddingBottom: 40 + insets.bottom }}
+        showsVerticalScrollIndicator={false}
+      >
+        {body}
+      </ScrollView>
+    </View>
   );
 }

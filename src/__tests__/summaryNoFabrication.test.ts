@@ -35,8 +35,12 @@ test('no weekly target: Workouts never says "of N sessions"', () => {
 
 test('no burn target: the Burned key has no target and says so', () => {
   const card = code(src('src/components/domain/EnergyBalanceCard.tsx'));
-  expect(card).not.toMatch(/label="Burned"[\s\S]{0,160}target=/);
-  expect(card).toContain('No burn target set');
+  // The goals data holds no burn target, so any target on this row is invented.
+  const burnedRow = card.split('<KeyRow').find((row) => row.includes("t('dashboard.energyBalance.burned')"))?.split('/>')[0];
+  expect(burnedRow).toBeDefined();
+  expect(burnedRow).not.toMatch(/\btarget=/);
+  expect(burnedRow).toContain('sub="No burn target set"');
+  expect(card).toMatch(/<Ring r=\{RING_INNER_R\} fraction=\{0\}/);
 });
 
 test('fibre is the real total, and still "Not tracked" when nothing knows it', () => {

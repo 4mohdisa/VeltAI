@@ -25,7 +25,6 @@ import { MorningBriefCard } from '@/components/ai';
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
-import { TAB_BAR_CLEARANCE } from '@/components/navigation/LumeTabBar';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { Skeleton } from '@/components/display';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
@@ -83,47 +82,47 @@ export default function DashboardScreen() {
         contentContainerStyle={{
           paddingTop: insets.top + space.md,
           paddingHorizontal: space.lg,
-          gap: space.md,
-          paddingBottom: TAB_BAR_CLEARANCE(insets),
+          gap: 14,
+          paddingBottom: 158,
         }}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={color.black} />}
       >
         {/* Title block — eyebrow (the real device date), large title, streak line. */}
-        <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+        <View style={{ gap: 2, paddingHorizontal: space.xs, paddingBottom: 6 }}>
           <Text
             variant="label"
             color={color.secondaryLabel}
-            style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+            style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}
           >
             {new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}
           </Text>
-          <Text variant="title1" color={color.label} accessibilityRole="header">
-            Summary
+          <Text variant="title1" color={color.label} accessibilityRole="header" style={{ paddingRight: 52, letterSpacing: -0.6 }}>
+            {t('dashboard.summaryTitle')}
           </Text>
           {/* The streak is the only progression mechanic; the flame is the one
               tinted thing in the header (energy family). */}
           {dashLoading ? (
             // The store still holds its seed (13 days in dev, 0 in release) until
             // the read lands. Showing that as the user's streak was the bug.
-            <View style={{ paddingTop: space.xs }} accessibilityLabel="Loading your streak">
+            <View style={{ paddingTop: space.xs }} accessibilityLabel={t('dashboard.streakLoading')}>
               <Skeleton width={96} height={16} />
             </View>
           ) : dashError ? (
             // The read FAILED, so the store's number is whatever was already
             // there — not this user's current streak. Say so instead of printing it.
-            <LoadFailedNotice message="Couldn't load your streak." onRetry={refetch} style={{ marginTop: space.xs }} />
+            <LoadFailedNotice message={t('dashboard.streakLoadError')} onRetry={refetch} style={{ marginTop: space.xs }} />
           ) : (
             <Pressable
               onPress={() => router.push('/gym/streak')}
               haptic={false}
               minTapTarget={false}
-              accessibilityLabel={`Current streak ${streak.current} days`}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, paddingTop: space.xs }}
+              accessibilityLabel={t('dashboard.dayStreak', { count: streak.current })}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingTop: 6 }}
             >
               <StreakFlame size={14} active={streak.current > 0} />
               <Text variant="footnote" color={color.secondaryLabel}>
-                {streak.current} {t('dashboard.dayStreak')}
+                {t('dashboard.dayStreak', { count: streak.current })}
               </Text>
             </Pressable>
           )}
@@ -152,7 +151,7 @@ export default function DashboardScreen() {
               // Same rule as the streak: the food store's seed is not today's food.
               <Skeleton width="100%" height={MACRO_ROWS_H} />
             ) : dashError ? (
-              <LoadFailedNotice message="Couldn't load today's macros." onRetry={refetch} />
+              <LoadFailedNotice message={t('nutrition.macrosLoadFailed')} onRetry={refetch} />
             ) : (
               <MacroTargetRows
                 rows={[
@@ -220,7 +219,7 @@ export default function DashboardScreen() {
 
       {/* Blurred strip the title scrolls under. Absolute sibling, above the
           scroll, pointer-events none. */}
-      <FloatingHeader height={insets.top + space.xl} />
+      <FloatingHeader />
 
       {/* The way into Profile — the same control Food and Gym float (V2). */}
       <ProfileAvatarButton />

@@ -3,6 +3,7 @@
 // tick-right applies. Freezes protect a day from breaking the streak.
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
@@ -13,6 +14,7 @@ import { color, space } from '@/lib/design/tokens';
 import { useGym, applyFreeze } from '@/lib/data';
 
 export default function FreezeScreen() {
+  const { t } = useTranslation();
   const {
     data: { streak },
   } = useGym();
@@ -29,11 +31,11 @@ export default function FreezeScreen() {
 
   return (
     <SheetContent
-      title="Streak freeze"
+      title={t('gym.freeze.title')}
       onClose={close}
       onDone={() => {
         applyFreeze(0);
-        showToast({ message: 'Freeze applied — today is protected.', tone: 'success' });
+        showToast({ message: t('gym.freeze.applied'), tone: 'success' });
         close();
       }}
       doneDisabled={streak.freezesAvailable === 0}
@@ -42,11 +44,10 @@ export default function FreezeScreen() {
         <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
           <Icon name="snow" size={44} color={color.gray500} />
           <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-            Use 1 of your {streak.freezesAvailable} freezes for today?
+            {t('gym.freeze.confirm', { available: streak.freezesAvailable })}
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            A freeze protects your {streak.current}-day streak on a planned rest day — it just
-            keeps the streak alive.
+            {t('gym.freeze.explainer', { days: streak.current })}
           </Text>
         </View>
       </Card>

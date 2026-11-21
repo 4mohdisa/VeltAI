@@ -26,6 +26,11 @@ import { color, layout, space, surface } from '@/lib/design/tokens';
 
 export type ScreenVariant = 'plain' | 'floating';
 
+/** Detail-sheet offsets from the design frame (62pt top inset). No token covers them. */
+const DETAIL_PAD_TOP = 48; // scroll top 110
+const DETAIL_BACK_TOP = -6; // back button top 56
+const DETAIL_PAD_BOTTOM = 40; // flat; clears the 34pt home indicator on its own
+
 export type ScreenProps = {
   title?: string;
   showBack?: boolean;
@@ -47,6 +52,8 @@ export type ScreenProps = {
   variant?: ScreenVariant;
   /** 'floating' only: the small uppercase line above the large title. */
   eyebrow?: string;
+  /** 'floating' only: the design's detail-sheet offsets for the scroll and back button. */
+  detail?: boolean;
 };
 
 export function Screen({
@@ -66,6 +73,7 @@ export function Screen({
   onRefresh,
   variant = 'plain',
   eyebrow,
+  detail = false,
 }: ScreenProps) {
   const insets = useSafeAreaInsets();
   const floating = variant === 'floating';
@@ -73,7 +81,8 @@ export function Screen({
   const hasHeader = showBack || title !== undefined || headerRight !== undefined;
   // HIG §1.1: keep the home indicator clear. With no footer the last scroll row
   // gets the bottom inset; with a footer the CTA sits above the home indicator.
-  const scrollBottom = space['4xl'] + (footer ? 0 : insets.bottom);
+  const floatingBottom = detail ? DETAIL_PAD_BOTTOM : 40 + insets.bottom;
+  const scrollBottom = floating ? (footer ? 32 : floatingBottom) : space['4xl'] + (footer ? 0 : insets.bottom);
 
   // The floating variant owns its own padding: the scroll starts under the
   // status bar so content passes beneath the blur, and the gutters are narrower
@@ -85,15 +94,17 @@ export function Screen({
   // insets.top + space.xs and is layout.tapTarget tall, so clearing it costs
   // that height plus a gap.
   const floatingControl = floating && (showBack || headerRight !== undefined);
+  const floatingTop = detail ? DETAIL_PAD_TOP : floatingControl ? layout.tapTarget + space.md : space.md;
   const padding = padded
     ? floating
       ? {
-          paddingTop: insets.top + (floatingControl ? layout.tapTarget + space.md : space.md),
+          paddingTop: insets.top + floatingTop,
           paddingHorizontal: space.lg,
         }
       : { padding: space.xl }
     : null;
   const gap = floating ? space.md : space['2xl'];
+  const backTop = insets.top + (detail ? DETAIL_BACK_TOP : space.xs);
 
   const body = (
     <>
@@ -114,17 +125,17 @@ export function Screen({
             }
           >
             {floating && title !== undefined ? (
-              <View style={{ gap: space.xs, paddingBottom: space.xs }}>
+              <View style={{ gap: 2, paddingHorizontal: space.xs }}>
                 {eyebrow ? (
                   <Text
                     variant="label"
                     color={color.secondaryLabel}
-                    style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+                    style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}
                   >
                     {eyebrow}
                   </Text>
                 ) : null}
-                <Text variant="title1" color={color.label} accessibilityRole="header">
+                <Text variant="title1" color={color.label} accessibilityRole="header" style={{ letterSpacing: -0.6 }}>
                   {title}
                 </Text>
               </View>
@@ -162,7 +173,7 @@ export function Screen({
         {body}
         <FloatingHeader height={insets.top + space.xl} />
         {showBack ? (
-          <View style={{ position: 'absolute', top: insets.top + space.xs, left: space.lg }}>
+          <View style={{ position: 'absolute', top: backTop, left: space.lg }}>
             <GlassBackButton label={backLabel} />
           </View>
         ) : null}

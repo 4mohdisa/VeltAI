@@ -8,6 +8,7 @@ import { Alert, View } from 'react-native';
 import ReanimatedSwipeable, {
   type SwipeableMethods,
 } from 'react-native-gesture-handler/ReanimatedSwipeable';
+import { useTranslation } from 'react-i18next';
 import type { ReactNode } from 'react';
 
 import { Icon } from '@/components/primitives/Icon';
@@ -27,18 +28,20 @@ export type SwipeableRowProps = {
 export function SwipeableRow({
   children,
   onDelete,
-  confirmTitle = 'Delete item?',
+  confirmTitle,
   confirmMessage,
-  deleteLabel = 'Delete',
+  deleteLabel,
 }: SwipeableRowProps) {
+  const { t } = useTranslation();
   const ref = useRef<SwipeableMethods>(null);
+  const actionLabel = deleteLabel ?? t('common.delete');
 
   const confirmDelete = () => {
     haptics.warning(); // destructive confirm appears (HIG §9), paired with the alert
-    Alert.alert(confirmTitle, confirmMessage, [
-      { text: 'Cancel', style: 'cancel', onPress: () => ref.current?.close() },
+    Alert.alert(confirmTitle ?? actionLabel, confirmMessage, [
+      { text: t('common.cancel'), style: 'cancel', onPress: () => ref.current?.close() },
       {
-        text: deleteLabel,
+        text: actionLabel,
         style: 'destructive',
         onPress: () => {
           haptics.impactHeavy(); // destructive swipe completes
@@ -52,7 +55,7 @@ export function SwipeableRow({
   const renderRightActions = () => (
     <Pressable
       onPress={confirmDelete}
-      accessibilityLabel={deleteLabel}
+      accessibilityLabel={actionLabel}
       minTapTarget={false}
       style={{
         // Monochrome destructive affordance — intent is carried by the trash
@@ -67,7 +70,7 @@ export function SwipeableRow({
     >
       <Icon name="trash" size={20} color={color.onPrimary} />
       <Text variant="caption" color={color.onPrimary}>
-        {deleteLabel}
+        {actionLabel}
       </Text>
     </Pressable>
   );
