@@ -8209,3 +8209,7 @@
 - 2026-11-22 16:52 Row 12 notes were overwritten by a write-only edit. Agents cannot run git, so the notes cell gets a one-line summary from the handover instead of the lost history.
 - 2026-11-22 16:52 Full checkpoint moves to the next round so this round stays one task and small.
 - 2026-11-22 16:52 Jev ranks run highest (77%) and the choice matches it. Jev's risk score is 1.1, so the task stays small and read-mostly.
+- 2026-11-22 16:53 Chose the full checkpoint over row 13 because the handover and the flagged report both say row 12 needs a full green run before Isa can approve BUILT.
+- 2026-11-22 16:53 Allowed edits only to the three named mock files, since the handover lists them as the known isError gaps and a checkpoint would otherwise fail on them.
+- 2026-11-22 16:53 Kept row 12 at PARTIAL: BUILT needs Isa's approval, and this round only adds the gate numbers.
+- 2026-11-22 16:53 Dropped the old 'Round 49' note of the mock fix as a separate item; it is covered by this checkpoint.
