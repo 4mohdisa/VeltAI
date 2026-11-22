@@ -9384,3 +9384,8 @@
 - 2026-11-23 02:14 Row 16 closes this round if its gates pass. The scanCalibration basedOn _one form stays parked; it is not needed to close the row.
 - 2026-11-23 02:14 Chose the smallest open row first. The last report ended PARTIAL with nothing failing, so the loop flag is answered by finishing it, not by asking.
 - 2026-11-23 02:14 Jev ranked ask highest, but nothing is blocked and every Isa item has a default, so the run goes ahead (existing rule).
+- 2026-11-23 02:15 Chose Row 15 over Row 17 because it is the smallest open row, needs nothing from Isa and was the next step in the notes.
+- 2026-11-23 02:15 Did not re-ask the Row 8 analytics questions: they are in the Blocked list with defaults in use (analytics opt-in, off by default in code), and the Jev ask signal is overridden because every Isa item has a default and no row is blocked.
+- 2026-11-23 02:15 Row 6 stays DIFFERENT and Row 5 part 2 stays PARTIAL: both need the sign-in path (E2E_EMAIL, E2E_PASSWORD), which Isa has not supplied, so they are parked for the owner.
+- 2026-11-23 02:15 Rows 13 and 14 keep their data-layer gaps (scan.ts, foodDays.ts, gymRange.ts, gymSchedule.ts) parked under the defaults already recorded. Their remaining copy items stay open.
+- 2026-11-23 02:15 Row 16 is treated as BUILT, per the latest Claude Code report and PHASE3_ROWS.md, not PARTIAL as the handover said.
