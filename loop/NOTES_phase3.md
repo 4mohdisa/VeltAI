@@ -5,16 +5,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
-- Last gates: tsc 0 errors. Jest 228 suites / 1322 tests (new baseline, Isa to confirm). Go 543 pass / 20 TestPG skipped.
+- Last gates: tsc 0 errors. Jest 229 suites / 1324 tests (Isa to confirm baseline). Go 543 pass / 20 TestPG skipped.
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12.
 - PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
+- Row 16: Integrations load-failed notice done. Scan-calibration strings in progress.
 
 ## Next
-- Row 16 gap on one screen (round in progress). Then Row 15 copy pass, Row 17 gaps. Row 11 last.
-- Rows 13 and 14 src/lib/data gaps stay parked until Isa approves.
+- Row 16: scan-calibration strings (round in progress), then support and preferences audit.
+- Then Row 15 copy pass, Row 17 gaps. Row 11 last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -35,13 +36,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - French: no-break space before ':', '?' and inside guillemets; curly apostrophes; es and fr plain space before %. Spanish tu, French vous.
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
-- Prompt rejected once for missing branch rule. Every prompt states loop/phase3 only, no git.
+- Keep as is: Integrations 'Nothing connected' eyebrow; Privacy 'Your data' English; Spanish 'Tus datos'.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns (muscle Retry). Parked.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
-- Keep as is: Integrations 'Nothing connected'; Privacy 'Your data' English; Spanish 'Tus datos'; feedback rows in backend/internal/auth/export.go.
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
 - feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests.
@@ -54,7 +54,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## Parked (not Phase 3)
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this. PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults and open items (fix wording later).
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; no calendar loading indicator; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
-- Row 16: repeat-visit skeleton flash for all-zero streak.
+- Row 16: repeat-visit skeleton flash for all-zero streak. Integrations: failed load plus 'Nothing connected' shown together.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
 - Preferences kept in memory (src/lib/settings/store.ts). Not persisted.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.

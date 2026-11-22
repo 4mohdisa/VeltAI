@@ -9364,3 +9364,7 @@
 - 2026-11-23 02:06 Kept src/lib/data off limits and the feature_used/shapeOnly issue parked, because both need Isa's permission to edit pinned tests.
 - 2026-11-23 02:06 Row 11 (final sweep) stays last, after Rows 5, 6, 13 to 17 are done or parked as owner items.
 - 2026-11-23 02:06 Asked Claude Code to name the Row 16 screen itself from the row text, since the row gaps were not listed in the notes.
+- 2026-11-23 02:09 Chose the scan-calibration screen because the last report left it unchecked and it is one screen, which keeps the prompt to one screen per round.
+- 2026-11-23 02:09 Kept the Privacy 'Your data' English title and the Integrations 'Nothing connected' eyebrow as they are. Both are in the blocked list with defaults, so Isa does not need to be asked again.
+- 2026-11-23 02:09 Did not ask Isa this round. The open questions all have defaults, no row is blocked, and Jev's ask score is low confidence (0.14).
+- 2026-11-23 02:09 Kept Row 8 analytics default as coded (opt-in, off) with the default-on brief wording recorded for Isa to confirm before Phase 4.
