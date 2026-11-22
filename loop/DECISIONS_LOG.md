@@ -9447,3 +9447,8 @@
 - 2026-11-23 02:30 Rewrote the rejected prompt: it now states the loop/phase3 branch rule, the no-git rule and the no-switch rule.
 - 2026-11-23 02:30 Set Row 6 to PARTIAL after step 1, because the audit file is written but no simulator numbers exist.
 - 2026-11-23 02:30 Corrected the stale Row 17 note: the 503 message is done in the screen, only not_enough_data waits on aiBrain.ts.
+- 2026-11-23 02:33 Loop flag on the last report: Row 6 PARTIAL is accurate. Dealt with it by finishing one real hotspot in a single screen instead of waiting for simulator numbers.
+- 2026-11-23 02:33 Chose gym history FlatList over Food list getItemLayout, because the Food rows vary in height and must be measured first.
+- 2026-11-23 02:33 Chose not to ask Isa: no major question is open, and the Isa items all have defaults.
+- 2026-11-23 02:33 Row 17 gap 5 treated as done, following NOTES, which is newer than the handover that still lists it as next.
+- 2026-11-23 02:33 The schedule_pg.go ORDER BY ASC LIMIT 30 bug is a correctness issue, not Row 6 performance. Parked.
