@@ -9061,3 +9061,13 @@
 - 2026-11-23 00:11 PRIVACY_DATA.md host item: answer already matches, as the handover says. Not resent.
 - 2026-11-23 00:11 Round 220 checkpoint: all app and Go gates pass; 20 TestPG tests skipped with no local DB. Flag cleared, the TestPG rerun moved to Next.
 - 2026-11-23 00:11 Kept the Settings row to one link. Support's mail box and the two Export rows stay for Row 15 and Row 10 follow-up.
+- 2026-11-23 00:13 Picked the PRIVACY_DATA.md feedback item: it is the smallest open Row 10 gap, needs no code, and the round 221 report flagged it as unfixed.
+- 2026-11-23 00:13 The loop flag said the last task looked partly done. The Settings row is built and tested; the open gap is the documentation, so this round closes it and leaves Row 10 PARTIAL until the device check.
+- 2026-11-23 00:13 Support mail box overlap is parked, not decided, because it is a design question and touches the Support screen copy.
+- 2026-11-23 00:13 Round 221 full Jest suite was not rerun. It goes into the next checkpoint round, which the loop script will announce.
+- 2026-11-23 00:13 Row 8 host item answered 'already matches' per the handover, so it is not resent.
+- 2026-11-23 00:13 Rewrote the rejected round 222 prompt to state the loop/phase3 branch rule first and to scope the round to one task with exact files.
+- 2026-11-23 00:13 Chose the PRIVACY_DATA.md feedback section: docs only, no code risk, and it closes a gap Phase 4 needs for privacy answers.
+- 2026-11-23 00:13 Trusted the round 221 notes (Settings row BUILT) over the older handover line that said the Settings row was not yet added.
+- 2026-11-23 00:13 Kept the PostHog host item unchanged: it already matches the code, as recorded since round 204.
+- 2026-11-23 00:13 Support mail box, Export rows and the hard-coded hint stay parked for later rows; no code change this round.
