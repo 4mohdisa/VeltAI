@@ -8703,3 +8703,7 @@
 - 2026-11-22 19:41 Render test file named .render.test.tsx so Jest runs it (existing rule).
 - 2026-11-22 19:41 Snapshots are not regenerated. A broken existing test is backed out and reported (existing rule).
 - 2026-11-22 19:41 Round 161 is not a checkpoint, so only changed files and the new test run. Full suite stays at round 172.
+- 2026-11-22 19:44 Loop flagged Round 161 as partly done; chose a verification round before new work, because the report only partly matches the brief.
+- 2026-11-22 19:44 Accepted the render test location src/__tests__/render/ over src/app/dashboard/, since Expo Router would bundle a test file under src/app as a screen.
+- 2026-11-22 19:44 Deferred the empty-week crash at nutrition.tsx:174 to the next round, because it needs a check of whether the hook can return no days before any guard is added.
+- 2026-11-22 19:44 Recorded that the spoken slot label was translated in Round 158 and made to share slotName in Round 161; the Round 162 check confirms it.

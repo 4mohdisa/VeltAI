@@ -8,7 +8,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Checkpoint round 158 PASSED: tsc 0 errors; Jest 183 suites, 1141 tests, 4 snapshots (npx jest --ci).
 - Next checkpoint: round 172. Other rounds: changed files only.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Round 160 prompt was rejected for omitting the branch rule. Every prompt now states it.
+- Prompts must state the branch rule every time.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -24,20 +24,21 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Snapshots: no regeneration without Isa's permission. Broken existing test or snapshot: back out and report.
 - MacroBars translation backed out (summaryNoFabrication.test.ts:54). Stays English.
 - Row 125 parked after two failed attempts.
-- Render tests must end .render.test.tsx or Jest skips them.
+- Render tests must end .render.test.tsx and live in src/__tests__/render/ (not src/app, Expo Router would bundle them).
 - Unknown keys fall back with t(key, { defaultValue }), as in food/detail.tsx:677.
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Round 155: InsightCard badge chosen over Goals states.
 - Round 158: checkpoint chosen over Jev's nutrition pick.
 - Round 160: visible fix chosen over Jev's shared-helper pick.
-- Round 161: spoken slot name at nutrition.tsx:227 plus es/fr render test. Chosen over shared helper: one screen per prompt.
+- Round 161: spoken slot name plus es/fr render test. Shared slotName now used for title and label.
+- Round 162: verify Round 161 first (loop flag). Empty-week crash deferred to a check round.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition (visible slot name done), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition (slot name shared, es/fr render test), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - One-word ringOf vs full-phrase key; comma join for label and unit. Default: keep.
@@ -54,9 +55,11 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Analytics default on vs store off: confirm before Phase 4.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Review insights and banner wording; es/fr weekday capitalisation: lowercase.
+- Slot name wording for snack ('Snacks' in es and fr) needs review.
 
 ## Next
-- Round 161: nutrition.tsx:227 spoken slot name plus nutrition.locale.render.test.tsx (es and fr).
+- Round 162: verify Round 161 (slot name, render test, tsc, row note).
+- Then: check whether useWeekMacros can return no days; guard nutrition.tsx:174 (week.data[0].date) if it can.
 - Then: shared slot-name helper (five copies: food.tsx, food/add.tsx, food/quick-add.tsx, food/detail.tsx, dashboard/nutrition.tsx).
 - Then: week.tsx flat bars when every day is 0 kcal (needs no-logged-value rule and snapshot permission).
 - Then: InsightCard more/less toggle, 120-character rule.
