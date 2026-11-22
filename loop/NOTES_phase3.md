@@ -21,16 +21,17 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Crash reporting Sentry. Analytics PostHog. Names and counts only, never food, health or body values.
 - Analytics on by default with anonymous ID, off switch in Settings (brief governs row 8). Store default is opt-in/off per DECISIONS.md 2026-08-09: conflict flagged for Isa to confirm before Phase 4.
 - Isa verifies on a device himself.
-- A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
-- A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
 - Row 3: keep the header plus on My workouts as the only way to add a second workout.
 - Goals and units stay in memory in Phase 3. Row 15 fixes the 'Saved as you type' copy. Backend persistence parked.
 - A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
-- Seed tooling: backend/tools/seed, localhost-only host guard (pgx host check), reset deletes only seed_ ids with @example.test email. Seed code is not in the server image.
-- Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD is missing, park as owner step (brief rule).
-- Loop note: unanswered question means use default and carry on. Do not re-ask the same question.
+- A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
+- A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
+- Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email. Seed code not in server image.
+- Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD is missing, park as owner step.
+- Unanswered question means use default and carry on. Do not re-ask the same question.
 - Agent must not run git commands (reminded in every prompt).
-- No formatter config in repo. Do not run Prettier on files (round 19 drift).
+- No formatter config in repo. Do not run Prettier on files.
+- Shared useApi test harness goes in src/__tests__/helpers/useApiHarness.ts (round 24). Row 11 moves the last copy.
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -39,18 +40,13 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Rounds 5 and 6: Row 3 BUILT with owner check pending.
 - Round 7: Row 4 audit in EMPTY_STATES_AUDIT.md. Rows 12 to 17 added (DIFFERENT).
 - Rounds 8 to 10: Row 4 re-verified, BUILT (audit only).
-- Round 11: Row 5 part 1 (seed and reset, 5 Go tests pass, seed ran on local DB).
-- Round 12: Row 5 re-verify clean.
-- Round 13: Row 5 BUILT with owner check pending (Maestro part parked).
+- Round 11 to 13: Row 5 part 1 BUILT with owner check pending (Maestro part parked).
 - Round 13: Row 12 partial. useHydration resets loading on Food day switch.
-- Round 17: Row 12 useApi exported from src/lib/data/gymSchedule.ts, returns isError.
-- Round 19: 3 refetch and revalidate isError tests (gymSchedule.revalidate.test.ts).
-- Round 20: re-verify clean, 6 of 6 pass. Row 12 PARTIAL.
-- Round 21: useToday returns isError (gymSchedule.useToday.test.ts, 2 tests). Flagged as partly done by loop check.
-- Round 22 (issued): re-verify round 21 with no code change. Jev preferred useTemplates (82%); kept re-verify per the flagged-report rule.
+- Rounds 17 to 22: useApi exported and returns isError; useToday returns isError; tests added and re-verified.
+- Round 23: prompt rejected (missing branch rule). Not run.
 
 ## Blocked on Isa
-- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD in the shell. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked in rounds 12 and 13, no answer. Parked. Not asking again.
+- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked rounds 12 and 13, no answer. Parked. Not asking again.
 - Row 12 simulator flow: depends on sign-in. Unit tests only until Isa answers.
 - Analytics default: store says off, brief says on. Default used (brief). Confirm before Phase 4.
 - Replace templates '+' with a list control? Unanswered. Keep the '+' (Row 3 decision).
@@ -58,24 +54,23 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 ## Parked (not Phase 3)
 - Goals and units backend persistence (lost on restart).
 - Jest install drift: node_modules/jest reads 30.0.5, pin is 29.7.0. Fix with npm ci (needs network).
-- @types/jest ^30.0.0 while Jest is pinned to 29.7. Revisit in Row 11.
+- @types/jest ^30.0.0 while Jest pinned to 29.7. Revisit in Row 11.
 - 18 backend DB tests never run (tests/food 4, tests/gym_schedule 7, tests/scan 7). Needs LUME_TEST_DATABASE_URL.
-- No test covers the header plus on My workouts. Add in Row 11 sweep.
 - es.json: addMenu.voice and addMenu.describeOutLoud missing in en and fr.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx:36-38).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx:96).
-- Row 15: fix copy only (decision: no goals persistence).
-- backend/scripts/seed_demo_account.go has no host guard. Fix or remove in cleanup.
+- backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Old local rows mix 'lunch' and 'Lunch'. Old data, not from the seed.
-- Lint error: useWeeklyMacros (src/lib/data/hooks.ts ~395) breaks react-hooks/set-state-in-effect. Not ours. Fix in Row 11 or park.
-- Lint error: gymSchedule.ts lines 41 and 43 write refs during render (react-hooks/refs). Pre-existing. Park for Row 11.
-- Food log copy: 'Tap + to add your first meal' shows on past days too. Fix under Row 13.
-- Duplicate useApi test harness in two gymSchedule test files. Shared helper in Row 11 if a third copy appears.
+- Lint: useWeeklyMacros (src/lib/data/hooks.ts ~395) set-state-in-effect. Row 11 or park.
+- Lint: gymSchedule.ts lines 41 and 43 write refs during render (react-hooks/refs). Row 11 or park.
+- Food log copy: 'Tap + to add your first meal' shows on past days too. Row 13.
+- gymSchedule.ts header says hooks degrade to empty/null. Update after all hooks report errors (Row 11).
+- Both gymSchedule test files use react-test-renderer, which prints a deprecation console error. Park.
+- The revalidate test file still has its own useApi harness copy. Row 11.
 - Row 12: useHydration other callers not yet verified. Covered by checkpoint, which passed.
 
 ## Next
-- Round 22 (issued): re-verify useToday isError, no code change.
-- Round 23: Row 12, pass isError through useTemplates (My workouts 'No workouts yet' false state).
+- Round 24 (issued): Row 12, pass isError through useTemplates, shared harness in helpers.
 - Row 12 remaining hooks, one per round: useSchedule, useExercises, useGymPatterns, useExerciseProgress.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).

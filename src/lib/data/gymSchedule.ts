@@ -110,9 +110,15 @@ export function useSchedule(): { schedule: WeeklySchedule; loading: boolean; ref
   return { schedule: data, loading, refetch };
 }
 
-export function useTemplates(): { templates: WorkoutTemplate[]; loading: boolean; refetch: () => void } {
-  const { data, loading, refetch } = useApi<WorkoutTemplate[]>(() => api.gym.getTemplates(), []);
-  return { templates: data, loading, refetch };
+export function useTemplates(): {
+  templates: WorkoutTemplate[];
+  loading: boolean;
+  isError: boolean;
+  refetch: () => void;
+  revalidate: () => void;
+} {
+  const { data, loading, isError, refetch, revalidate } = useApi<WorkoutTemplate[]>(() => api.gym.getTemplates(), []);
+  return { templates: data, loading, isError, refetch, revalidate };
 }
 
 export function useExercises(filters?: ExerciseFilters): {

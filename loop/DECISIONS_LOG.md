@@ -8095,3 +8095,13 @@
 - 2026-11-22 16:19 Row 12 stays PARTIAL. The flag said the work looked partly done; that is expected because the other hooks are still open, not a failure.
 - 2026-11-22 16:19 Re-verify prompt makes no code change and does not fix the known gymSchedule.ts lint errors at lines 41 and 43, which are parked for Row 11.
 - 2026-11-22 16:19 Prompt names the full file paths, per the handover rule.
+- 2026-11-22 16:20 Chose useTemplates for round 23: it fixes a false 'No workouts yet' state, it is one hook, and it is the next step in the notes.
+- 2026-11-22 16:20 Re-verify of round 21 was done in round 22 with no code change, as the flagged-report rule requires.
+- 2026-11-22 16:20 New tests go in a new file, not the existing ones. This makes a third copy of the useApi test harness; the notes say to move it to a shared helper in Row 11.
+- 2026-11-22 16:20 Row 14 (screen reads of isError) stays separate. Round 23 changes only the hook.
+- 2026-11-22 16:20 Header comment and lint errors stay parked for Row 11, per the earlier decisions.
+- 2026-11-22 16:20 Re-issued the rejected round 23 prompt as the same row (Row 12), per the rule that a prompt missing a required rule is a prompt issue, not a new task.
+- 2026-11-22 16:20 Added the branch rule, no git rule and the nvm line to the prompt, as the loop note asked.
+- 2026-11-22 16:20 Moved the useApi harness into src/__tests__/helpers/useApiHarness.ts instead of a fourth copy, because the loop rule says a third copy triggers the shared helper. Revalidate test left for Row 11 to limit scope.
+- 2026-11-22 16:20 Kept Row 12 PARTIAL until all gymSchedule hooks and useHydration callers report errors.
+- 2026-11-22 16:20 Used the Jev second opinion to run, since the task is small and needs nothing from Isa.
