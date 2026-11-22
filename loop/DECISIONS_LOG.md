@@ -9562,3 +9562,6 @@
 - 2026-11-23 03:21 Jest figures reconciled to 240 suites and 1,368 tests, per the checkpoint run. Go is 543 passed, 20 skipped (all TestPG_ without LUME_TEST_DATABASE_URL). The notes' old 'conflicting' line is replaced.
 - 2026-11-23 03:21 Did not re-ask the Row 6 question. Its default (limit hydrateGym) is blocked by the src/lib/data rule, so the default cannot be applied.
 - 2026-11-23 03:21 Did not fix the Parked backend sort bug (gym/schedule_pg.go:765-767) or the id::text index issue. They are not Row 5 or 6 scope, and both are listed in KNOWN_ISSUES.md.
+- 2026-11-23 03:58 Stopped at round 80 instead of asking a third time: the remaining rows need credentials and a src/lib/data permission that only Isa can grant, and Row 6 was already asked twice.
+- 2026-11-23 03:58 Kept Rows 5 and 6 PARTIAL and Row 11 DIFFERENT: their tests or simulator flows are not done, so BUILT would be a false claim.
+- 2026-11-23 03:58 Did not change Rows 13 and 14 status: the notes say BUILT and the handover says PARTIAL, so the PHASE3_ROWS.md status column is the tie-breaker when Isa returns.
