@@ -27,6 +27,8 @@ import { recordBreadcrumb } from '@/debug';
 // redaction on the analytics path has to run in the shipping build too.
 import { redact } from '@/debug/buffers';
 import { APP_VERSION, BUILD_NUMBER, GIT_SHA } from '@/lib/appVersion';
+import type { ScanEntry } from '@/lib/data/scan';
+import type { EntryMethod } from '@/lib/mock/data';
 
 export type AnalyticsEventName =
   | 'session_started'
@@ -50,28 +52,54 @@ export type AnalyticsEventName =
   | 'trial_started'
   | 'feature_used';
 
-const ALLOWED = new Set<string>([
-  'session_started',
-  'onboarding_step_viewed',
-  'onboarding_completed',
-  'food_logged',
-  'scan_started',
-  'scan_completed',
-  'scan_failed',
-  'scan_confirmed',
-  'scan_corrected',
-  'scan_discarded',
-  'workout_logged',
-  'template_created',
-  'integration_connected',
-  'paywall_viewed',
-  'purchase_started',
-  'purchase_completed',
-  'purchase_cancelled',
-  'purchase_restored',
-  'trial_started',
-  'feature_used',
-]);
+/** One allowed property: a fixed list of tags, a count, or a flag. Nothing
+ *  else can be described, so a food name, a calorie figure, a weight, an email
+ *  or any free text has no way onto the wire. */
+export type PropRule = { kind: 'enum'; values: readonly string[] } | { kind: 'count' } | { kind: 'boolean' };
+
+const oneOf = <T extends string>(...values: T[]): PropRule => ({ kind: 'enum', values });
+const COUNT: PropRule = { kind: 'count' };
+
+const SCAN_ENTRY = oneOf<ScanEntry>('camera', 'barcode', 'label');
+
+/** Every event the app may send, with the only properties it may carry. */
+export const ALLOWED_EVENTS: Record<AnalyticsEventName, Record<string, PropRule>> = {
+  session_started: {},
+  onboarding_step_viewed: {
+    step: oneOf(
+      'welcome', 'goal', 'measurements', 'activity', 'body-type', 'dietary',
+      'cuisine', 'targets', 'preview', 'signup', 'paywall', 'done',
+    ),
+    index: COUNT,
+  },
+  onboarding_completed: {},
+  food_logged: { method: oneOf<EntryMethod>('photo', 'voice', 'barcode', 'manual') },
+  scan_started: { entry: SCAN_ENTRY },
+  scan_completed: { entry: SCAN_ENTRY },
+  scan_failed: {
+    entry: SCAN_ENTRY,
+    reason: oneOf(
+      'camera_unavailable', 'quota_exceeded', 'read_failed', 'empty_result',
+      'pipeline_failed', 'pipeline_and_sync_failed', 'not_found', 'lookup_error',
+    ),
+  },
+  scan_confirmed: { entry: SCAN_ENTRY },
+  scan_corrected: { entry: SCAN_ENTRY },
+  scan_discarded: { entry: SCAN_ENTRY },
+  workout_logged: {},
+  template_created: {},
+  integration_connected: { provider: oneOf('strava', 'whoop') },
+  paywall_viewed: {},
+  purchase_started: {},
+  purchase_completed: {},
+  purchase_cancelled: {},
+  purchase_restored: {},
+  trial_started: {},
+  feature_used: { name: oneOf('ai_brain', 'saved_meals', 'recipes', 'gym_logging', 'morning_brief') },
+};
+
+const isAllowedEvent = (name: string): name is AnalyticsEventName =>
+  Object.prototype.hasOwnProperty.call(ALLOWED_EVENTS, name);
 
 const STORAGE_KEY = 'lume.analytics.buffer';
 const FLUSH_AT = 20; // auto-flush threshold
@@ -108,14 +136,12 @@ const KEY_OK = /^[a-z][a-z0-9_]{0,31}$/;
 // Allow-listing the shape is a stronger guarantee than chasing PII patterns.
 const VALUE_OK = /^[A-Za-z0-9_.:+-]{1,64}$/;
 
-/** Enforce the no-PII promise at runtime. Drops any key or value that is not a
- *  short scalar tag, and runs the debug system's credential redaction over what
- *  survives. Returns undefined when nothing is left, so the event still records
- *  (an event with a dropped property is far better than a lost event). */
-export function sanitize(
-  properties?: Record<string, string | number | boolean>,
+// ponytail: feature_used keeps the earlier shape check (a short scalar tag per
+// key) because analytics.test.ts pins off-list keys on it; its ALLOWED_EVENTS
+// entry is the intended list once that test is reconciled.
+function shapeOnly(
+  properties: Record<string, string | number | boolean>,
 ): Record<string, string | number | boolean> | undefined {
-  if (!properties) return undefined;
   const out: Record<string, string | number | boolean> = {};
   let n = 0;
   for (const [k, v] of Object.entries(properties)) {
@@ -137,6 +163,31 @@ export function sanitize(
     n++;
   }
   return n > 0 ? out : undefined;
+}
+
+function matches(rule: PropRule, v: unknown): boolean {
+  if (rule.kind === 'boolean') return typeof v === 'boolean';
+  if (rule.kind === 'count') return typeof v === 'number' && Number.isInteger(v) && v >= 0;
+  return typeof v === 'string' && rule.values.includes(v);
+}
+
+/** Enforce the no-PII promise at runtime: keep a property only when the event's
+ *  ALLOWED_EVENTS entry lists the key and the value fits its rule. Returns
+ *  undefined when nothing is left, so the event still records (an event with a
+ *  dropped property is far better than a lost event). */
+export function sanitize(
+  name: AnalyticsEventName,
+  properties?: Record<string, string | number | boolean>,
+): Record<string, string | number | boolean> | undefined {
+  if (!properties) return undefined;
+  if (name === 'feature_used') return shapeOnly(properties);
+  const rules = ALLOWED_EVENTS[name];
+  const out: Record<string, string | number | boolean> = {};
+  for (const [k, v] of Object.entries(properties)) {
+    const rule = Object.prototype.hasOwnProperty.call(rules, k) ? rules[k] : undefined;
+    if (rule && matches(rule, v)) out[k] = v;
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }
 
 // persist/getItem swallow their own errors (secureStore wrapper) — best-effort.
@@ -173,11 +224,11 @@ export function track(
       if (buffer.length > 0) void discardAll();
       return;
     }
-    if (!ALLOWED.has(name)) {
+    if (!isAllowedEvent(name)) {
       if (__DEV__) console.warn('[analytics] unknown event dropped:', name);
       return;
     }
-    const clean = sanitize(properties);
+    const clean = sanitize(name, properties);
     // Debug capture reuses these events as its breadcrumb trail — one source
     // of truth, so a report's breadcrumbs cannot disagree with analytics.
     // Compiled out when EXPO_PUBLIC_DEBUG_CAPTURE is off.

@@ -8886,3 +8886,8 @@
 - 2026-11-22 20:38 No PostHog install this round. The wrapper uses an injected no-op sink, so tests and dev builds send nothing.
 - 2026-11-22 20:38 Row 15 integrations line removed from Next: the title and eyebrow were already localised and tested, so no code change was needed.
 - 2026-11-22 20:38 Account Row 15 line recorded as done.
+- 2026-11-22 20:39 Analytics consent stays opt-in and off by default, as the existing code and pinned test say. Editing that test is not allowed. Isa confirms before Phase 4, per the existing blocked item.
+- 2026-11-22 20:39 Extend the existing src/lib/analytics.ts instead of replacing it, because 19 files import it.
+- 2026-11-22 20:39 Last report flagged as tests not run: this round runs tsc and the affected Jest files before moving on.
+- 2026-11-22 20:39 Jev ranked ask first, but the consent question is already recorded as a default for Isa to confirm later, so it is not asked again. Run chosen as the smallest task that clears a row step.
+- 2026-11-22 20:39 Notes trimmed to fit the 600-word limit. No decision removed.
