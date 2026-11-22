@@ -8821,3 +8821,7 @@
 - 2026-11-22 20:21 Isa did not answer the integrations eyebrow question, so Option A is used (Claude Code's recommendation). It needs no existing test edit and keeps the live count. Reason: rule that an unanswered question uses the default after one round.
 - 2026-11-22 20:21 Jev ranked ask at 71%, but the question is not major (it is copy, not data, money or production), so the loop does not ask. Reason: ask only for major questions.
 - 2026-11-22 20:21 The 'partly done' loop flag is handled by this round finishing the integrations eyebrow and writing its Row 15 note, not by starting a new task.
+- 2026-11-22 20:22 Followed Jev (92%): preferences title and eyebrow first, because it is a small, self-contained screen with one clear gap.
+- 2026-11-22 20:22 Integrations eyebrow counted as done. Its remaining English body copy is a bigger wording set, so it is parked for a later Row 15 round instead of being added to this one.
+- 2026-11-22 20:22 The Account row note is folded into step 5 because it is text in the same Row 15 entry, not a code change.
+- 2026-11-22 20:22 Jev's list of tasks was not overridden. No concrete reason to pick a different task was found.

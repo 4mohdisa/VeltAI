@@ -26,7 +26,8 @@
     "support": "Assistance",
     "about": "À propos",
     "aboutEyebrow": "L’app",
-    "accountEyebrow": "Vos informations"
+    "accountEyebrow": "Vos informations",
+    "preferencesEyebrow": "Unités"
   },
   "profile": {
     "loadFailed": "Impossible de charger vos données de sport.",

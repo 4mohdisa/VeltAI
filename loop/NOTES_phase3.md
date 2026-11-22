@@ -9,7 +9,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Next checkpoint: round 203 (full tsc and full npx jest --ci, no file changes).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
-- Handover after round 189. Fresh session: name files fully in prompts.
+- Fresh session after handover: name files fully in prompts.
+- The API client is src/lib/api.ts. There is no src/lib/data/api.ts.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -23,34 +24,31 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - French: no-break space before ':' and '?'. Curly apostrophes. es and fr plain space before %.
 - Snapshots: no regeneration without Isa's permission. Broken existing test: back out and report. Never edit an existing test to fit a change.
-- MacroBars translation backed out (summaryNoFabrication.test.ts:54). Stays English.
-- Row 125 parked after two failed attempts.
 - Render tests end .render.test.tsx, in src/__tests__/render/.
 - Unknown keys fall back with t(key, { defaultValue }).
+- New eyebrow keys sit next to their title key in settings.* or profile.*.
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Jest mock factories may only reference variables named mock*.
-- Route params in tests: override expo-router as exerciseProgress.render.test.tsx does.
 - mealSlotName: unknown slot returns raw key addMenu.undefined. Screens with outside input guard first.
 - detail.tsx unknown slot: slotLabel(ctaSlot), fallback foodLog.addMeal. Closed.
-- addMenu.snack stays 'Snacks' in es and fr until review.
+- Jev ranks followed when they are strong (round where preferences chosen at 92%).
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
-- No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
+- No empty-week guard in nutrition.tsx.
 - Goals spoken labels: default B, keep current labels.
 - Digit grouping: figures stay ungrouped (2140). Parked.
 - getAnomalies returns [] until /api/ai/anomalies exists.
-- Jev ranks not followed when no major question exists.
 - Account: eyebrow, title, Save localised. Remaining English in Parked.
-- Integrations eyebrow: Option A (new keys profile.connectionsSyncing, connectionsNone, connectionsCount). Default used, Isa did not answer.
+- Integrations eyebrow: Option A keys (profile.connectionsSyncing, connectionsNone, connectionsCount). Done.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName, About, Account, integrations title.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName, About, Account, integrations eyebrow.
 
 ## In progress
-- Row 15: integrations eyebrow (Option A keys), then its Row 15 note.
+- Row 15: preferences title and eyebrow ('Units'), then its Row 15 note (also Account note).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - InsightCard truncation: edit test to fire onTextLayout. Default kept.
@@ -67,13 +65,15 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Whether formatNumber should follow the active language.
 
 ## Next
-- Row 15: preferences (eyebrow 'Units'), privacy, scan-calibration, support.
+- Row 15: preferences title and eyebrow (in progress), then privacy, scan-calibration, support.
+- Row 15: integrations body copy (intro, blurbs, Sync now, Disconnect, Connect, toasts, relative times).
 - goals.tsx spoken calorie label and hard-coded g, % and comma join.
 - Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
 - Checkpoint at round 203.
 
 ## Parked (not Phase 3)
 - Account: Display name, Email, toasts 'Name updated.' and 'Saved on this device, could not reach the server.' still English.
+- Integrations body copy still English (see Next).
 - Goals loading, error and persistence: needs hooks.ts refetch.
 - getMorningBrief (api.ts:1232) swallows errors to null; pinned by aiFallback.test.ts:26.
 - AnomalyBanner: no Retry. Banner count title lacks _one use.
@@ -87,7 +87,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts 50, 52; hooks.ts ~395. Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
-- MacroBars unused; Math.round not formatNumber; nutrition ceiling label no space before g.
+- MacroBars unused and English (summaryNoFabrication.test.ts:54). Math.round not formatNumber; nutrition ceiling label no space before g.
 - Digit grouping by language: formatNumber en-AU, units.ts group en-US.
 - formatCalories (formatting.ts:9) always shows kcal, ignoring unit.
 - Row 11 dedupe: gymSession eyebrow vs foodLog.today; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
@@ -103,5 +103,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
 - addMenu.addToSlot with lowercased fallback label could read oddly.
 - BrainProfileCard numbers not formatted for language.
-- Profile screens hard-code English titles and eyebrows: preferences, privacy, scan-calibration, support.
+- Profile screens hard-code English: privacy, scan-calibration, support (preferences in progress).
 - delete-account.tsx and subscription.tsx: Phase 4, parked.
+- Unit change feedback: none yet (not a Phase 3 row).

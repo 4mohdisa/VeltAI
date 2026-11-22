@@ -29,7 +29,7 @@ export default function PreferencesScreen() {
   const system = systemOf(units);
 
   return (
-    <Screen variant="floating" eyebrow="Units" title={t('preferences.title')} showBack contentStyle={{ gap: 18 }}>
+    <Screen variant="floating" eyebrow={t('settings.preferencesEyebrow')} title={t('preferences.title')} showBack contentStyle={{ gap: 18 }}>
       <View style={{ gap: space.sm }}>
         <SegmentedField
           variant="inset"
