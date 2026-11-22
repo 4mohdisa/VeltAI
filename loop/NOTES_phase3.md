@@ -34,8 +34,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
 - Round 70: calendar.tsx translation chosen over checkpoint and stale headers.
 - Round 73: checkpoint run chosen per loop note. No code change.
-- Round 74: stale headers chosen as the smallest open Row 13 item. First line fixed in meals.tsx and saved.tsx.
-- Round 75: flagged partial report. Finish meals.tsx header lines first, saved.tsx line 1 next.
+- Round 74: stale headers chosen as smallest open Row 13 item.
+- Round 75: meals.tsx lines 2 to 5 verified, no change. Line 1 wrong (no Food tab link to /food/meals).
+- Round 76: meals.tsx line 1 reworded to real entry (new-recipe fallback). Default used, Isa did not answer. No Food tab link added (nav change, design final). Chosen over Jev top pick (saved.tsx line 1) because the loop note says to finish the flagged report first.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -46,22 +47,23 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 42-69: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history.
 - Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels. Row 13 PARTIAL.
 - Round 73: checkpoint clean.
-- Round 74: meals.tsx and saved.tsx first header line corrected. Flagged as partial.
+- Rounds 74-75: meals.tsx and saved.tsx header work, flagged partial.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
-- Calendar failed-read state needs Isa approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry. Work on other surfaces.
+- Calendar failed-read state needs Isa approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. Until approved, Spanish and French day labels read partly in English.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 es and fr wording for all new blocks, incl. 'entrenamiento hecho / sin entrenamiento', 'séance faite / pas de séance', calendar weekday letters LMXJVSD (es) and LMMJVSD (fr). Default used. Review needed.
+- Row 13 es and fr wording for all new blocks. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
+- Row 13: is /food/meals meant to get a Food tab link? Default: no link added.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 75: finish meals.tsx header lines (flagged).
-- Round 76: saved.tsx line 1 'C13 · My dishes' wording.
+- Round 76: meals.tsx line 1 reword (running).
+- Round 77: saved.tsx line 1 'C13 · My dishes' wording check (comment only).
 - Row 13 remaining: detail, barcode, Food tab PendingSyncBanner.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
@@ -97,7 +99,6 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Saved and calendar tests: shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
 - Past-day error copy has no test covering food.tsx.
-- Two 'New recipe' casings: see Blocked on Isa.
 - formatMonthYear and formatWeekdayDate: month and day names can stay English in es and fr.
 - Older items: no Retry on useInsights errors, analytics defaults to on, seed script has no host guard.
-- saved.tsx line 1 'C13 · My dishes' may not match the current name for the screen. Confirm in Round 76.
+- Food tab /food/meals reachable only via new-recipe fallback (see Blocked on Isa).

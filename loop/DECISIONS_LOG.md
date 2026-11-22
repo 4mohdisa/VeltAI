@@ -8311,3 +8311,7 @@
 - 2026-11-22 17:32 Round 75: the flag says round 74 is partial. Finishing the meals.tsx header is the smallest fix that closes it, so it comes before any new row work.
 - 2026-11-22 17:32 Round 75: saved.tsx line 1 goes to the next round, one file per prompt.
 - 2026-11-22 17:32 Round 75: header comments are not user text, so no translation keys are needed.
+- 2026-11-22 17:34 Round 76 pick is meals.tsx line 1 over the Jev top choice (saved.tsx line 1). Reason: the loop note says the flagged partial report must be dealt with before moving on, and round 75 set meals.tsx line 1 as the first item to finish. Jev cannot see that ordering. saved.tsx line 1 is next.
+- 2026-11-22 17:34 meals.tsx line 1 reworded to match the real entry point. Isa has not answered and the question must not be re-asked, so the default is used. Comment-only, no behaviour change.
+- 2026-11-22 17:34 No Food tab link to /food/meals is added. That is a navigation change and the Phase 1 design is final. Recorded as a parked issue for Isa to decide later.
+- 2026-11-22 17:34 WeekStrip keys and the useLoggedDays change stay blocked on Isa. Not retried this round.
