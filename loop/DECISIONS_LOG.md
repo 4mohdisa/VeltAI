@@ -8759,3 +8759,8 @@
 - 2026-11-22 19:58 Did not ask Isa about detail.tsx: the unknown-slot fallback (foodLog.addMeal) was already decided in round 173 notes, so the question is answered by default.
 - 2026-11-22 19:58 Jev suggested ask (68%). Kept run: no new question is needed, and the open question has a recorded default.
 - 2026-11-22 19:58 Test file name follows the existing .locale.render.test.tsx pattern in src/__tests__/render/.
+- 2026-11-22 19:59 Detail.tsx slot fallback is blocked twice on Isa. Recorded under Blocked, not retried. Next work avoids it.
+- 2026-11-22 19:59 Chose InsightCard toggle as the smallest single-component task, matching Jev's low-confidence advice to prefer a smaller task.
+- 2026-11-22 19:59 Quick-add render test counted as done (3 of 3 pass). Row 15 note added in notes, not requested again from Claude Code.
+- 2026-11-22 19:59 The InsightCard row note goes in PHASE3_ROWS.md as the normal per-row update.
+- 2026-11-22 19:59 Blocks on week.tsx snapshot and profile titles stay open until Isa answers or a later round.
