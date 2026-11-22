@@ -8249,3 +8249,7 @@
 - 2026-11-22 17:05 Two render tests only, one file, to keep the round to a single screen.
 - 2026-11-22 17:05 Row 13 stays PARTIAL until its remaining items close, per round 58 decision.
 - 2026-11-22 17:05 Round 58 checkpoint recorded clean (tsc 0, 150 suites, 1038 tests), so no full suite in round 59.
+- 2026-11-22 17:08 Chose the calendar screen over the Saved copy switch: the copy question is answered by default, so no code change is needed there. Matches Jev and the report NEXT.
+- 2026-11-22 17:08 Saved screen error copy: keep ErrorState default copy (generic), matching SavedMealsList and RecipesList. Recorded as the default; Isa may override later.
+- 2026-11-22 17:08 Calendar uses ErrorState default copy, so no new translation keys are needed and en/es/fr stay unchanged.
+- 2026-11-22 17:08 Stale '(mock)' header comment in saved.tsx parked to Row 11 final sweep, not fixed now (no new things rule).
