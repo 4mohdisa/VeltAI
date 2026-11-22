@@ -204,7 +204,7 @@ export default function FoodLogScreen() {
   // Same duration token the tab bar's "+" rotation and the root stack's push
   // use (motion.duration.snap); Reduce Motion drops the vertical slide and
   // keeps only the fade (HIG §7.3), same rule AddMenu follows.
-  const { isError: insightsError } = useInsights();
+  const { anomalies, isError: insightsError, dismiss: dismissInsight } = useInsights();
   const reduceMotion = useReduceMotion();
   const rowEntering = reduceMotion ? FadeIn.duration(motion.duration.snap) : FadeInDown.duration(motion.duration.snap);
   const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
@@ -441,13 +441,13 @@ export default function FoodLogScreen() {
         // never remounts (no focus loss) when results appear.
         ListHeaderComponent={
           <View style={{ paddingBottom: 14, gap: 14 }}>
-            {/* Amber anomaly banner — self-contained, renders null when there are none.
-                A failed insights read shows ErrorState in its place instead of nothing. */}
-            {insightsError ? (
-              <ErrorState testID="food-insights-error" />
-            ) : (
-              <AnomalyBanner onPress={() => router.push('/insights' as Href)} />
-            )}
+            {/* Amber anomaly banner — renders null when there are none, ErrorState when the insights read failed. */}
+            <AnomalyBanner
+              anomalies={anomalies}
+              isError={insightsError}
+              onPress={() => router.push('/insights' as Href)}
+              onDismiss={(id) => dismissInsight(id, 'anomaly')}
+            />
             {/* Eyebrow + large title inside the scroll — the design's header. The
                 eyebrow names the day being shown, which is no longer always today
                 (architecture item 3). */}

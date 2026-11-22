@@ -8188,3 +8188,7 @@
 - 2026-11-22 16:46 Food tab error state from round 42 is recorded under row 13 (Food log), per the earlier decision. Default used; Isa's confirmation not waited for.
 - 2026-11-22 16:46 Duplicate useInsights fix (AnomalyBanner props) is a separate row 13 round, because it changes src/components/ai, which is one component per round.
 - 2026-11-22 16:46 Last full run count (142 suites, 1013 tests) is treated as stale. The checkpoint records the real numbers.
+- 2026-11-22 16:46 Checkpoint round 43 passed (tsc 0; 147 suites, 1028 tests, 4 snapshots, 0 failed). Row 12 is BUILT by checkpoint, so it stays BUILT in PHASE3_ROWS.md. The handover that says PARTIAL is out of date. Recorded so Isa can object.
+- 2026-11-22 16:46 Row 13 is split. This round covers only the AnomalyBanner props change, one component per round. The copy and empty-state tests come in later rounds.
+- 2026-11-22 16:46 The anomaly.render mock is updated in this round because the component's props change. insights.render and detailChrome mocks are left for a later round (parked).
+- 2026-11-22 16:46 Jev ranked run at 60%. Running the smallest unblocked row task. No question to Isa: the row 12 status question was settled by the checkpoint result.

@@ -1,20 +1,27 @@
 // AnomalyBanner — a compact amber banner shown when the insights feed carries
 // anomalies. Slides down + fades in on appear, opens the anomalies view on tap,
 // and dismisses (session-local + best-effort server) all anomalies on close.
-// Self-contained: reads anomalies from useInsights. Reduce-motion aware.
+// The screen passes the useInsights result in; a failed read shows ErrorState
+// in the banner's place. Reduce-motion aware.
 import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { Animated, View } from 'react-native';
 
+import { ErrorState } from '@/components/display/ErrorState';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { useInsights } from '@/lib/data/aiBrain';
+import type { AIAnomaly } from '@/lib/api';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { accent, color, radius, space, surface } from '@/lib/design/tokens';
 
-export function AnomalyBanner(props: { onPress: () => void }): JSX.Element | null {
-  const { anomalies, dismiss } = useInsights();
+export function AnomalyBanner(props: {
+  anomalies: AIAnomaly[];
+  isError: boolean;
+  onPress: () => void;
+  onDismiss: (id: string) => void;
+}): JSX.Element | null {
+  const { anomalies, isError, onDismiss } = props;
   const reduceMotion = useReduceMotion();
   const [hidden, setHidden] = useState(false);
   const [anim] = useState(() => new Animated.Value(0));
@@ -31,6 +38,7 @@ export function AnomalyBanner(props: { onPress: () => void }): JSX.Element | nul
     Animated.spring(anim, { toValue: 1, useNativeDriver: true, friction: 8, tension: 60 }).start();
   }, [visible, reduceMotion, anim]);
 
+  if (isError) return <ErrorState testID="food-insights-error" />;
   if (!visible) return null;
 
   const text =
@@ -40,7 +48,7 @@ export function AnomalyBanner(props: { onPress: () => void }): JSX.Element | nul
 
   const closeAll = () => {
     setHidden(true);
-    anomalies.forEach((a) => dismiss(a.id, 'anomaly'));
+    anomalies.forEach((a) => onDismiss(a.id));
   };
 
   return (
