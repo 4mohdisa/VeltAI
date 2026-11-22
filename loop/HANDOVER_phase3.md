@@ -1,48 +1,47 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
 ROWS
-No new rows were finished this session. Row 7 (crash reporting) is BUILT, with owner steps pending. Row 8 (analytics) and Row 15 (empty states and copy) are PARTIAL. Last full gates: tsc 0 errors; Jest 202 suites, 1210 tests and 4 snapshots passing. Only docs and the PostHog host check changed after that run; the host check passed its 15 sink tests and tsc. Nothing was checked on a device.
+- Row 9 (Export my data) is BUILT. The owner check is pending: run the export on the seeded heavy user with a real sign-in.
+- Row 8 (analytics) is PARTIAL and Row 10 (help and feedback) is PARTIAL.
+- The Row 8 host item in PRIVACY_DATA.md has matched the code since round 204. The loop keeps resending it from an old copy; answer with "already matches".
 
-BUILT (Row 8)
-- PostHog sink in src/lib/analyticsSink.ts (posthog-react-native 4.87.1, exact version). It starts only when EXPO_PUBLIC_POSTHOG_KEY is set. The package is loaded inside init (a top-level import broke Jest).
-- PostHog options: start opted out, no person profiles, no session replay, no lifecycle events, no flag preload, no GeoIP.
-- Optional EXPO_PUBLIC_POSTHOG_HOST. A set value that is not an https URL keeps the sink off.
-- track() in src/lib/analytics.ts sends to the sink after the consent check and sanitize().
-- The listener on analyticsEnabled in analytics.ts opts PostHog in or out on every change. resetAnalytics() resets the PostHog ID on sign-out.
-- src/app/profile/privacy.tsx: the existing switch is localised (settings.analytics* keys in en, es and fr) and has a VoiceOver hint, via a new optional accessibilityHint on src/components/display/SettingsList.tsx.
-- PRIVACY_DATA.md lists every event, property and receiver, plus defaults and open items.
-- Tests in src/__tests__/: analyticsSink, analyticsAllowlist, analyticsReset, render/settingsAnalytics.
+BUILT
+- Row 9: GET /api/export already existed (backend/internal/auth/export.go). Added backend/internal/auth/export_test.go: 401, 429, and a real-database user A/B test (passed in round 211). Added an Export row to the main Settings list (src/app/profile/index.tsx) with test src/__tests__/render/settingsExport.render.test.tsx.
+- Row 10 backend: POST /api/feedback in backend/internal/feedback/ (validate.go, store.go, handler.go, feedback_test.go). Migration supabase/migrations/20261123000001_feedback.sql. Route registered in backend/cmd/server/main.go.
+- Row 10 screen: src/app/profile/feedback.tsx, api.feedback.post in src/lib/api.ts, feedback.* keys in en, es and fr. Test src/__tests__/render/feedback.render.test.tsx passes 7 of 7.
+- SettingsList now passes accessibilityHint through on link rows.
 
 IN PROGRESS
-Nothing is half-done.
+Row 10 Settings row: nothing opens /profile/feedback yet.
+
+LAST GATES
+Round 215: tsc 0 errors; Jest 203 suites and 1218 tests passing. Round 218 checked only tsc and the new tests.
 
 DECISIONS
-- No second analytics switch on the Settings list. Privacy already had one, and a duplicate would be confusing.
-- The sink opt-in hooks the store listener in analytics.ts rather than settings/store.ts, which was off-limits. The listener also catches the restore at launch.
-- PRIVACY_DATA.md follows the code: events also go to the Lume backend (POST /api/analytics/events), with or without a PostHog key.
+- Reuse before building. Export and debugreports already existed.
+- Test migrations only on throwaway databases (deploy/migrate.sh plus the auth setup from the backend/tests/food/days_pg_test.go header), then drop them. No local database is clearly Lume's.
+- Feedback uses the shared auth and limiter (write class, 120 a minute). No second limiter.
 
 WAITING ON ISA
-- The Privacy footer says "First-party only, on our own servers", which is false once a PostHog key is set.
-- Analytics on by default (Row 8) or opt-in (DECISIONS.md).
-- Whether PostHog should get the device maker, model name and OS fields.
-- The feature_used tests and the shapeOnly() cleanup.
-- The PostHog key, and the host if the project is in the EU.
+- Permission to add {"feedback", ownedRows("feedback")} to export.go. Without it, backend/tests/migrations TestExportCoversEveryUserTable fails. Round 217 was said to have added it; it did not.
+- Hosted feedback migration, which local database Lume uses, and the Row 9 owner check.
+- Privacy footer says "First-party only"; analytics on by default or opt-in; which device fields PostHog gets; feature_used strict list; PostHog key and EU host.
 
 GOTCHAS
-- Run source ~/.nvm/nvm.sh && nvm use 22 first. No git, Prettier or Maestro.
-- zsh rejects grep --include.
-- Locale files are in src/lib/i18n/locales/.
-- Python edits that assert exactly one match are safe for this repo's markdown tables.
+- Run source ~/.nvm/nvm.sh && nvm use 22. No git, Prettier or Maestro. zsh rejects grep --include.
+- Local Postgres 17 is normally stopped. Start it with pg_ctl -D /opt/homebrew/var/postgresql@17 and stop it afterwards.
+- Profile render tests must mock StreakCounter (reanimated).
+- The loop's prompts often rely on stale facts; check them against the files first.
 
 UNFIXED
-- In PRIVACY_DATA.md, the host item's first sentence still says any non-empty host is used.
-- A bad host turns PostHog off with no log line.
-- The URL check and anonymous ID storage have not been tested on a device.
-- Crash reporting has no opt-out.
-- trial_started is never sent.
-- The rest of Privacy is still English, as is body copy on Support, Scan accuracy and Integrations.
-- npm audit reports 48 vulnerabilities, 1 of them critical.
-- Older items from the previous handover: Spanish uses "Tus datos" twice, fr.json has straight apostrophes, and es.json has extra addMenu keys.
+- There are two Export rows: Privacy (hard-coded English) and the main Settings list. The Privacy one stays until the Row 15 copy pass.
+- Support has its own mail-based feedback box.
+- PRIVACY_DATA.md does not list feedback.
+- Export runs about 33 queries but counts as one read for rate limiting.
+- Export is shared as text, not a file.
+- A bad PostHog host turns PostHog off with no log line.
+- The feedback app_version is the version label with the build number ("1.4.0 (12)").
+- Destructive Settings rows have a hard-coded English hint.
 
 NEXT
-Fix the host sentence in PRIVACY_DATA.md, then get Isa's decisions.
+Get the export.go approval, then add the Settings row for /profile/feedback.
