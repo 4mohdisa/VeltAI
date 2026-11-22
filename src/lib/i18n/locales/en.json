@@ -691,6 +691,11 @@
       "showLess": "Show less",
       "more": "more",
       "less": "less"
+    },
+    "anomaly": {
+      "dismiss": "Dismiss",
+      "fallbackTitle": "Unusual activity",
+      "fallbackBody": "We spotted something unusual in your recent logs."
     }
   }
 }

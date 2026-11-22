@@ -5,6 +5,7 @@
 import { useRef, useState } from 'react';
 import type { JSX } from 'react';
 import { Animated, View, type LayoutChangeEvent } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
@@ -16,6 +17,7 @@ import type { AIAnomaly } from '@/lib/types';
 
 export function AnomalyCard(props: { anomaly: AIAnomaly; onDismiss: (id: string) => void }): JSX.Element {
   const { anomaly, onDismiss } = props;
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
 
   const [collapse] = useState(() => new Animated.Value(1));
@@ -39,8 +41,8 @@ export function AnomalyCard(props: { anomaly: AIAnomaly; onDismiss: (id: string)
     }).start(() => onDismiss(anomaly.id));
   };
 
-  const label = anomaly.title ?? 'Unusual activity';
-  const body = anomaly.body ?? 'We spotted something unusual in your recent logs.';
+  const label = anomaly.title ?? t('insights.anomaly.fallbackTitle');
+  const body = anomaly.body ?? t('insights.anomaly.fallbackBody');
 
   const wrapStyle = dismissing
     ? {
@@ -64,7 +66,7 @@ export function AnomalyCard(props: { anomaly: AIAnomaly; onDismiss: (id: string)
             <Text variant="bodyMedium" color={color.label} numberOfLines={1} style={{ flex: 1 }}>
               {label}
             </Text>
-            <Pressable onPress={handleDismiss} minTapTarget={false} hitSlop={10} accessibilityLabel="Dismiss">
+            <Pressable onPress={handleDismiss} minTapTarget={false} hitSlop={10} accessibilityLabel={t('insights.anomaly.dismiss')}>
               <Icon name="close" size={18} color={color.tertiaryLabel} />
             </Pressable>
           </View>

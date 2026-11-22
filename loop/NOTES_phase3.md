@@ -24,30 +24,28 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed; energy notice only when both week reads fail.
 - Summary card and GymStatusCard hidden during every first load. Accepted.
-- Plan card scope uses dashboard.planCardScope. Shipped.
 - Test edit forbidden and breaking: back out or stop. Never leave suite red.
 - MacroBars translation backed out (summaryNoFabrication.test.ts reads source). Stays English.
 - Round 125 row parked after two failed attempts.
 - Round 129: checkpoint kept over Jev's insights pick.
 - Round 130: insights literals chosen over MacroBars and goals states. Literals only.
-- Round 133: BrainProfileCard literals verified closed. Weekday default: es/fr lowercase.
-- Round 134: test-only addition for round 133 (4 cases pass, no fix needed).
-- Round 135 prompt rejected for missing branch rule. Rewritten as round 136.
+- Round 136: InsightCard literals done, insights.card group added. Built, not verified.
+- Round 137: AnomalyCard chosen over Jev's same-task pick? No: Jev and NEXT agree on AnomalyCard (89%). Step 1 checks the insights.card keys first, because the last report was flagged partly done.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, French foodLog.today, insights screen literals, BrainProfileCard literals and weekday names.
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, French foodLog.today, insights screen literals, BrainProfileCard literals and weekday names, InsightCard literals.
 
 ## In progress
-- Round 136: InsightCard.tsx literals (Row 15).
+- Round 137: AnomalyCard.tsx literals (Row 15), with anomalyCard.i18n.render test.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Review insights.* and insights.brainProfile.* strings, including weekday capitalisation (default: es/fr lowercase).
+- Review insights.*, insights.brainProfile.* and insights.card wording, including weekday capitalisation (default: es/fr lowercase).
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
-- Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
+- Permission to change line 54 of summaryNoFabrication.test.ts (MacroBars). Default: English.
 - Row 12 BUILT approval.
 - Spanish and French wording for new keys in rows 13, 14, 15, plan card, insights, BrainProfileCard, InsightCard. Shipped as written.
 - Keys ', today', 'Previous week', 'Next week'. WeekStrip labels stay.
@@ -64,9 +62,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Round 136: InsightCard.tsx literals (in progress).
-- Then AnomalyCard.tsx literals.
-- Then insights swallowed errors in src/lib/api.ts (~1253, 1270) and fixed 0.3 bar in BrainProfileCard.tsx (line ~79).
+- Round 137: AnomalyCard.tsx literals (in progress).
+- Then insights swallowed errors in src/lib/api.ts (~1253, 1270) and fixed 0.3 bar in BrainProfileCard.tsx (~79).
 - Row 15 goals load and error states.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Then Rows 16 and 17, one screen per round.
@@ -81,6 +78,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
 - useTemplates drops templates on refetch failure (src/lib/data).
 - Date helpers use device locale; weekday letters, formatRelativeDate, muscle names English; '{{value}} reps' no singular.
+- InsightCard type badge shows raw server type; needs the server's type list.
+- InsightCard more/less toggle uses body length over 120 chars; may misfire in longer languages.
+- BrainProfileCard numbers not formatted for language; energy always kcal.
 - Dev gym failed read keeps mock sessions; dev falls back to mock product DB.
 - Ask Lume drops server 503 message.
 - insights.tsx comment vs phase14Regression.test.ts on AI generation. Fix in Row 11.
@@ -97,3 +97,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - EMPTY_STATES_AUDIT.md Summary loading row still calls GymStatusCard broken.
 - Plan card in index.tsx has hard-coded AI scope.
 - Dashboard week.tsx and nutrition ceiling label as listed above.
+- Round numbers in PHASE3_ROWS.md may clash with loop numbers.
+- Freeze/analytics: none new.

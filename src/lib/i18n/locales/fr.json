@@ -691,6 +691,11 @@
       "showLess": "Afficher moins",
       "more": "plus",
       "less": "moins"
+    },
+    "anomaly": {
+      "dismiss": "Ignorer",
+      "fallbackTitle": "Activité inhabituelle",
+      "fallbackBody": "Nous avons repéré quelque chose d’inhabituel dans vos derniers enregistrements."
     }
   }
 }

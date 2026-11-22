@@ -8579,3 +8579,8 @@
 - 2026-11-22 19:04 Chose InsightCard literals over AnomalyCard and goals: smallest change, same row, unblocks the insights feed translation.
 - 2026-11-22 19:04 Spanish and French wording for insights.card.* shipped as written, per existing default (Isa reviews later).
 - 2026-11-22 19:04 Jev said run at 97%. Followed it, no reason to override.
+- 2026-11-22 19:06 Kept AnomalyCard over the Jev pick of the same task: it is the recommended NEXT, and Jev ranked it first at 89%. Jev's 'different task' flag did not change the pick.
+- 2026-11-22 19:06 Added step 1 to confirm the insights.card keys exist in all three locales, because the loop flagged the last report as partly done. The report shows tsc 0 and the tests passing.
+- 2026-11-22 19:06 Kept InsightCard out of scope: it is closed, and its wording is already in the Blocked list for Isa.
+- 2026-11-22 19:06 Kept the Row 15 status PARTIAL. Built is not verified, and the row still has goals and week work open.
+- 2026-11-22 19:06 Notes trimmed to fit the 600-word limit. Finished work is folded into Done.
