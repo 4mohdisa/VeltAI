@@ -128,7 +128,7 @@ These cause many of the screen rows below, so fixing them once fixes many screen
 | dashboard/nutrition | loading | kcal number and "No meals today" shown before the fetch settles (nutrition.tsx:110,199) | broken |
 | dashboard/plan | first use, no data | EmptyState plan.emptyTitle/emptyMessage; plan is static (src/app/dashboard/plan.tsx:34-39) | proper |
 | dashboard/training | first use, no data for day | EmptyState trainingNoSessions; "rest day" or "—" in breakdown (src/app/dashboard/training.tsx:74-79,146-151,220-221) | proper |
-| dashboard/training | error, offline | useGymRange error never read, shows "no sessions" (training.tsx:63,74,180) | broken |
+| dashboard/training | error, offline | Failed sessions read (useGymRange error) shows LoadFailedNotice gym.loadFailed with Retry (training.tsx:76); failed energy read shows LoadFailedNotice dashboard.energyLoadFailed with Retry in the energy card (training.tsx:195) | proper |
 | dashboard/training | loading | Skeletons (training.tsx:69-73,178-179) | proper |
 | dashboard/week | first use, no data for day | EmptyState weekNoDays; null net draws a gap and "—" (src/app/dashboard/week.tsx:73-78,120,296) | proper |
 | dashboard/week | error, offline | Both energy reads failing (useEnergyRange isError) shows LoadFailedNotice dashboard.energyLoadFailed with Retry (week.tsx:75) | proper |

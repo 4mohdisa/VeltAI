@@ -25,21 +25,22 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Failed reads: LoadFailedNotice message={t('gym.loadFailed')}, onRetry={refetch} only if refetch exists.
 - Empty or failed screens with no stored data: one clear action.
 - Locale blocks inserted as text. French: no-break space before ':' and '?'.
-- Food tab PendingSyncBanner counts all queued writes (default).
-- Exercise progress and muscles: failed read shows notice, no Retry (default).
+- Food tab PendingSyncBanner counts all queued writes.
+- Exercise progress and muscles: failed read shows notice, no Retry.
 - Session.tsx English reuse limited to gym.* and gymSession keys.
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - GlassButtons.tsx changed in round 98 (accepted as needed for freeze sheet Close).
 - Dashboard training: failed sessions read uses gym.loadFailed; failed energy read uses dashboard.energyLoadFailed.
 - Energy render test line 94 may be edited (pins old failed-read behaviour).
+- Goals persistence parked (round 108). Goals part of Row 15 closes on load and error states only.
 
 ## Done
 - Rows 1-4 BUILT. Rows 3 and 5 part 1 BUILT (owner check pending).
 - Row 12 exists, PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
 - Row 14 PARTIAL: all gym screens have failed-read notice and calm empty states; labels translated.
-- Row 15 PARTIAL: dashboard/training.tsx, dashboard/week.tsx, energy.tsx done (energy failed-read notice round 106).
+- Row 15 PARTIAL: dashboard/training.tsx, dashboard/week.tsx, energy.tsx done. Week and energy audit rows corrected round 107.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -53,14 +54,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 14: 'streak' as 'racha' (es), 'serie' (fr). Review.
 - Row 14: freeze sheet disables apply tick and shows log-session when no streak. Confirm.
 - Row 14: Cerrar, Fermer, Volver, Retour for close and back. Review.
-- Row 15: goals persistence decision needed before goals part can close.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 107 (running): detailChrome snapshots (energy, week, training); EMPTY_STATES_AUDIT week and energy error flag.
-- Row 15 remaining: Summary GymStatusCard shown from seed data while loading; nutrition dashboard (numbers before load, zero bars on failure, fibre as 0 g); insights literals and swallowed errors; goals load and error states; Summary card literals.
+- Round 108 (running): correct dashboard/training audit row (EMPTY_STATES_AUDIT.md ~line 131).
+- Row 15 remaining: nutrition dashboard (numbers before load, zero bars on failure, fibre as 0 g); Summary GymStatusCard shown from seed data while loading; insights literals and swallowed errors; goals load and error states; Summary card literals.
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check.
 - Has-a-streak shared helper (location decision). Freeze offline toast (decision).
@@ -97,9 +97,11 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - GlassButtons change in round 98 not named in brief; Isa approval pending.
+- Freeze sheet 'Close' copy and the freeze offline toast: see Unfixed in Row 14 handover.
 
 ## Loop notes
 - Rounds 94-100: muscles, templates, streak, freeze, sheet and button close labels done. Handover after round 100.
 - Round 101: checkpoint clean (166 suites, 1093 tests, tsc 0).
 - Rounds 102-106: training.tsx, week.tsx, gymMuscles.goBack, energy.tsx done.
-- Round 106 report flagged detailChrome snapshots not run. Round 107 prompt rewritten after rejection (missing loop/phase3 branch rule).
+- Round 107: detailChrome snapshots pass unchanged; week and energy audit rows corrected. Round 107 flagged training audit row as out of date, handled in round 108.
+- Loop flag after handover: last task looked partly done. Round 108 closes the training audit row.

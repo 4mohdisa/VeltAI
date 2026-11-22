@@ -8455,3 +8455,6 @@
 - 2026-11-22 18:25 Snapshot regeneration allowed only if the diff comes from the failed-read notice, per the Row 14 and 15 decisions.
 - 2026-11-22 18:25 Audit file edit limited to the week and energy rows, so no other row changes.
 - 2026-11-22 18:25 Full-suite checkpoint deferred to the next checkpoint round; this round runs only the changed files.
+- 2026-11-22 18:25 Chose the audit correction first: it closes the partly done item the loop flagged, is md only, and needs no code change.
+- 2026-11-22 18:25 Goals stay in memory for Phase 3 (existing decision). Goals persistence is parked, so the goals part of Row 15 closes on load and error states only. Reason: backend persistence is a data model change outside Phase 3 scope.
+- 2026-11-22 18:25 Nothing sent to Isa this round: the open Spanish and French wording questions and the Row 15 goals question are both answered by the defaults above.
