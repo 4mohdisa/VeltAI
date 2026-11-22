@@ -8433,3 +8433,8 @@
 - 2026-11-22 18:18 Sentry (Row 7) deferred until the empty state rows are finished, to keep the brief order.
 - 2026-11-22 18:18 Round 102 gymMuscles.goBack change accepted as built into the notes; no re-check needed.
 - 2026-11-22 18:18 Spanish and French wording stays as drafted; Isa review remains open, no re-ask.
+- 2026-11-22 18:20 Chose week.tsx first because the brief allows one screen per prompt and the training screen already set the pattern.
+- 2026-11-22 18:20 Reused dashboard.energyLoadFailed and gym.loadFailed so no new strings need Spanish or French review.
+- 2026-11-22 18:20 Kept Row 15 PARTIAL because the Summary card, nutrition dashboard, insights, goals and energy.tsx are still open.
+- 2026-11-22 18:20 Deferred the stale EMPTY_STATES_AUDIT.md wording to a later round so this prompt stays one screen.
+- 2026-11-22 18:20 Jev ranked run 95%. Its preference for the same task matches mine, so no second look was needed.

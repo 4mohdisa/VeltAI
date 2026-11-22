@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton } from '@/components/display';
 import {
   Axis,
@@ -60,7 +61,7 @@ type Mode = 'balance' | 'net';
 
 export default function WeekDetailScreen(): JSX.Element {
   const { t } = useTranslation();
-  const { days, loading } = useEnergyRange();
+  const { days, loading, isError, refetch } = useEnergyRange();
 
   return (
     <Screen variant="floating" detail showBack contentStyle={{ gap: space.lg }}>
@@ -70,6 +71,8 @@ export default function WeekDetailScreen(): JSX.Element {
           <Skeleton height={HERO_H} rounded={radius.xl} />
           <Skeleton height={SEC_H} rounded={radius.xl} />
         </>
+      ) : isError ? (
+        <LoadFailedNotice message={t('dashboard.energyLoadFailed')} onRetry={refetch} />
       ) : days.length === 0 ? (
         <EmptyState
           icon="chart.bar.xaxis"
