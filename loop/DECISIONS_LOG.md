@@ -8729,3 +8729,7 @@
 - 2026-11-22 19:50 The NEXT line about nutrition.tsx:227 is stale per the round 165 re-check (line 237 is already translated). The prompt tells Claude Code to verify the line before changing it instead of assuming.
 - 2026-11-22 19:50 Jev was 50/49 between ask and run with low confidence. Not a major question (no money, data, production or owner-only step), so run with the smallest task instead of asking.
 - 2026-11-22 19:50 Helper fallback for unknown slots (raw addMenu.undefined key) and the 'Snacks' wording stay as they are until Isa reviews them. Recorded under Blocked on Isa.
+- 2026-11-22 19:51 Chose quick-add.tsx swap as next round: the smallest remaining copy of the slot map, no snapshot change needed, and it follows the round 167 plan.
+- 2026-11-22 19:51 Treated the nutrition.tsx:227 item as resolved: the round 167 report shows line 227 is not a slot label and the swap is done.
+- 2026-11-22 19:51 Week.tsx zero-kcal state and addMenu.snack wording stay parked because they need Isa's permission or review.
+- 2026-11-22 19:51 Agree with Jev (run 93%): a one-file swap with a tsc check and targeted Jest is the lowest risk option.

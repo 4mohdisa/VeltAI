@@ -37,14 +37,9 @@ import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { api, isTransient } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
 import type { MealSlot } from '@/lib/mock/data';
+import { mealSlotName } from '@/lib/mealSlotName';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
-const SLOT_KEYS: Record<MealSlot, string> = {
-  Breakfast: 'breakfast',
-  Lunch: 'lunch',
-  Dinner: 'dinner',
-  Snacks: 'snack',
-};
 /** The design's figure: 250 kcal to start, ±50 on the discs, four add-on presets. */
 const DEFAULT_KCAL = 250;
 const STEP = 50;
@@ -74,7 +69,7 @@ export default function QuickAddScreen() {
     const item = { name, quantityG: 0, calories: kcal, protein: 0, carbs: 0, fat: 0 };
     let toast = t('foodLog.addedToMeal', {
       energy: formatCalories(kcal),
-      slot: t(`addMenu.${SLOT_KEYS[mealType]}`).toLowerCase(),
+      slot: mealSlotName(t, mealType).toLowerCase(),
     });
     try {
       await api.foodLogs.quickAdd({ calories: kcal, meal_type: mealType, date: selectedFoodDate() });
@@ -186,7 +181,7 @@ export default function QuickAddScreen() {
           <SegmentedField<MealSlot>
             value={mealType}
             onChange={setMealType}
-            options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`), value: s }))}
+            options={SLOTS.map((s) => ({ label: mealSlotName(t, s), value: s }))}
             variant="inset"
             compact
           />
