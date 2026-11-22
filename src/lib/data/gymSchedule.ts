@@ -105,9 +105,15 @@ export function useToday(): {
   return { today: data, loading, isError, refetch, revalidate };
 }
 
-export function useSchedule(): { schedule: WeeklySchedule; loading: boolean; refetch: () => void } {
-  const { data, loading, refetch } = useApi<WeeklySchedule>(() => api.gym.getSchedule(), []);
-  return { schedule: data, loading, refetch };
+export function useSchedule(): {
+  schedule: WeeklySchedule;
+  loading: boolean;
+  isError: boolean;
+  refetch: () => void;
+  revalidate: () => void;
+} {
+  const { data, loading, isError, refetch, revalidate } = useApi<WeeklySchedule>(() => api.gym.getSchedule(), []);
+  return { schedule: data, loading, isError, refetch, revalidate };
 }
 
 export function useTemplates(): {

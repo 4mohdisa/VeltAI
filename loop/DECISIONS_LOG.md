@@ -8105,3 +8105,7 @@
 - 2026-11-22 16:20 Moved the useApi harness into src/__tests__/helpers/useApiHarness.ts instead of a fourth copy, because the loop rule says a third copy triggers the shared helper. Revalidate test left for Row 11 to limit scope.
 - 2026-11-22 16:20 Kept Row 12 PARTIAL until all gymSchedule hooks and useHydration callers report errors.
 - 2026-11-22 16:20 Used the Jev second opinion to run, since the task is small and needs nothing from Isa.
+- 2026-11-22 16:22 Round 25 is useSchedule, the next hook in the Row 12 order (useSchedule, useExercises, useGymPatterns, useExerciseProgress). Smallest task, needs nothing from Isa, and it is the open item in the last report.
+- 2026-11-22 16:22 Full Jest checkpoint stays at round 30, so this round runs only the four gymSchedule test files.
+- 2026-11-22 16:22 Row 12 stays PARTIAL until all hooks report isError.
+- 2026-11-22 16:22 Known lint errors at gymSchedule.ts:41,43 stay for Row 11, as the brief allows, unless this round changes those lines.

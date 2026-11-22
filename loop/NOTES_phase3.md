@@ -23,6 +23,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Isa verifies on a device himself.
 - Row 3: keep the header plus on My workouts as the only way to add a second workout.
 - Goals and units stay in memory in Phase 3. Row 15 fixes the 'Saved as you type' copy. Backend persistence parked.
+- Fixes for hook errors go in the shared hook, not per screen.
 - A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
 - A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
 - A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
@@ -31,7 +32,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Unanswered question means use default and carry on. Do not re-ask the same question.
 - Agent must not run git commands (reminded in every prompt).
 - No formatter config in repo. Do not run Prettier on files.
-- Shared useApi test harness goes in src/__tests__/helpers/useApiHarness.ts (round 24). Row 11 moves the last copy.
+- Shared useApi test harness: src/__tests__/helpers/useApiHarness.ts (round 24). Row 11 moves the last copy.
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -42,8 +43,10 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Rounds 8 to 10: Row 4 re-verified, BUILT (audit only).
 - Round 11 to 13: Row 5 part 1 BUILT with owner check pending (Maestro part parked).
 - Round 13: Row 12 partial. useHydration resets loading on Food day switch.
-- Rounds 17 to 22: useApi exported and returns isError; useToday returns isError; tests added and re-verified.
+- Rounds 17 to 22: useApi exported and returns isError; useToday returns isError; tests added.
 - Round 23: prompt rejected (missing branch rule). Not run.
+- Round 24: useTemplates returns isError; harness moved to helpers; useTemplates test added. Verified: tsc 0, 3 suites and 10 tests pass.
+- Round 25 (issued): useSchedule returns isError, with a shared-harness test.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked rounds 12 and 13, no answer. Parked. Not asking again.
@@ -68,10 +71,12 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Both gymSchedule test files use react-test-renderer, which prints a deprecation console error. Park.
 - The revalidate test file still has its own useApi harness copy. Row 11.
 - Row 12: useHydration other callers not yet verified. Covered by checkpoint, which passed.
+- No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 
 ## Next
-- Round 24 (issued): Row 12, pass isError through useTemplates, shared harness in helpers.
-- Row 12 remaining hooks, one per round: useSchedule, useExercises, useGymPatterns, useExerciseProgress.
+- Round 25 (issued): Row 12, useSchedule returns isError.
+- Row 12 remaining hooks, one per round: useExercises, useGymPatterns, useExerciseProgress.
+- Round 30: full app Jest checkpoint and tsc.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.
