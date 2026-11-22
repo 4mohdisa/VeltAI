@@ -9185,3 +9185,7 @@
 - 2026-11-23 00:50 Row 11 final sweep waits: rows 12 to 15 still PARTIAL.
 - 2026-11-23 00:50 No new question to Isa: open questions are already in Blocked on Isa.
 - 2026-11-23 00:50 Jev ask signal (52%) not used: it asks Isa, and the Blocked list already covers those questions.
+- 2026-11-23 00:52 Chose the nutrition spoken kcal label because it is the last known kcal fix in Row 15 and the notes say it gets its own round.
+- 2026-11-23 00:52 Moved spokenEnergy into src/lib/units.ts instead of copying it, to avoid duplicated logic in two screens. The prompt stops if the helper has file-local dependencies.
+- 2026-11-23 00:52 Kept kJ abbreviated because Isa has not answered the kilojoules question.
+- 2026-11-23 00:52 Did not touch the Privacy title test, because Isa has not granted permission to edit it.

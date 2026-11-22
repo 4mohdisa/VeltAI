@@ -45,7 +45,7 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { haptics } from '@/lib/haptics';
 import { formatCalories, formatNumber, formatWeekdayDate } from '@/lib/formatting';
 import { useUnitPreferences } from '@/lib/settings/store';
-import { formatEnergy, kcalToDisplay } from '@/lib/units';
+import { formatEnergy, kcalToDisplay, spokenEnergy } from '@/lib/units';
 import {
   useFoodLog,
   useFoodSearch,
@@ -740,13 +740,6 @@ function CaloriesCard({
 }
 
 // ---------------------------------------------------------------------------
-
-/** An energy value for VoiceOver: kcal is spoken as the word (goals.caloriesSpoken,
- *  as on the goals screen); kJ keeps its abbreviation, since "calories" would
- *  misname a kJ figure. */
-function spokenEnergy(kcal: number, energyUnit: ReturnType<typeof useUnitPreferences>['energy'], t: TFunction): string {
-  return `${formatNumber(kcalToDisplay(kcal, energyUnit))} ${energyUnit === 'kcal' ? t('goals.caloriesSpoken') : energyUnit}`;
-}
 
 /** Clear a whole meal at once.
  *

@@ -7,6 +7,9 @@
 //
 // Every function here is pure (no React, no store access) so it's trivially
 // testable and reusable from any screen or the settings store.
+import type { TFunction } from 'i18next';
+
+import { formatNumber } from '@/lib/formatting';
 
 // ---------------------------------------------------------------------------
 // Dimensions + unit ids
@@ -162,6 +165,13 @@ export function displayToKcal(value: number, unit: EnergyUnit): number {
 }
 export function formatEnergy(kcal: number, unit: EnergyUnit): string {
   return `${group(kcalToDisplay(kcal, unit))} ${unit}`;
+}
+
+/** An energy value for VoiceOver: kcal is spoken as the word (goals.caloriesSpoken,
+ *  as on the goals screen); kJ keeps its abbreviation, since "calories" would
+ *  misname a kJ figure. */
+export function spokenEnergy(kcal: number, energyUnit: EnergyUnit, t: TFunction): string {
+  return `${formatNumber(kcalToDisplay(kcal, energyUnit))} ${energyUnit === 'kcal' ? t('goals.caloriesSpoken') : energyUnit}`;
 }
 
 // ---------------------------------------------------------------------------
