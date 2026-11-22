@@ -76,3 +76,10 @@ test('a completed search with no results says "No matches"', () => {
   expect(text).toContain(en.foodLog.noMatches.replace('{{query}}', 'zzzz'));
   expect(text).not.toContain(en.food.empty.searchFailed);
 });
+
+test('with no query and no recents the sheet shows the search hint, not an empty card', () => {
+  search.mockReturnValue(state({}));
+  const text = allText(openSearchWith(''));
+  expect(text).toContain(en.newRecipe.searchHint);
+  expect(text).not.toContain('No matches');
+});

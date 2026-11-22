@@ -357,7 +357,8 @@
     "quantity": "Cantidad",
     "gramsPlaceholder": "gramos",
     "quantityLabel": "Cantidad en gramos",
-    "addToRecipe": "Añadir a la receta"
+    "addToRecipe": "Añadir a la receta",
+    "searchHint": "Busca un alimento para añadirlo a esta receta."
   },
   "history": {
     "yesterday": "Ayer",

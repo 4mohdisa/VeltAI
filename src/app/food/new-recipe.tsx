@@ -226,6 +226,8 @@ export default function NewRecipeScreen() {
               <ErrorState message={t('food.empty.searchFailed')} onRetry={retrySearch} />
             ) : searching && results.length === 0 ? (
               <EmptyState icon="magnifyingglass" title={t('foodLog.noMatches', { query: query.trim() })} />
+            ) : !searching && recents.length === 0 ? (
+              <EmptyState icon="magnifyingglass" title={t('newRecipe.searchHint')} />
             ) : (
               <Card padded={false}>
                 {searchRows.map((r, i) => (

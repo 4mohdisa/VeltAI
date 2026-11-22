@@ -9238,3 +9238,6 @@
 - 2026-11-23 01:09 Jev ranks run highest and risk is high, so I picked the smallest run that needs no approval, with an explicit park option.
 - 2026-11-23 01:09 Row 11 stays last because it depends on Rows 6, 16 and 17 being settled.
 - 2026-11-23 01:09 Row 17 content is not in my notes, so the prompt makes Claude Code pick its first non-approval item and check the files first.
+- 2026-11-23 01:11 Chose the new-recipe first use state because it finishes the screen the last report touched, which answers the loop flag that Row 17 looks partly done.
+- 2026-11-23 01:11 Kept src/lib/data and hooks.ts off limits. The hooks.ts change was asked in earlier rounds and not answered, so the default applies and it is not re-asked.
+- 2026-11-23 01:11 Reuse of an existing locale key is preferred over a new key, to avoid translation drift.
