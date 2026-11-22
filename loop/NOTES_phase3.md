@@ -6,6 +6,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
 - Last gates: tsc 0 errors. Jest 228 suites / 1322 tests (Isa to confirm baseline). Go 543 pass / 20 TestPG skipped.
+- Current round: checkpoint run of tsc and full Jest, no file changes (flagged by the auto check).
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 16.
@@ -13,7 +14,8 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 15 copy pass (merge the two Export rows). Then Row 17 gaps. Row 11 last.
+- Checkpoint gates result, then Row 15 Goals empty and error states within what the screen already gets.
+- Row 17 gaps. Row 11 last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -26,6 +28,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
+- Export row stays in both Settings and Privacy, no code change. Removing either breaks an existing test.
 - Test files never go under src/app (Expo Router treats them as routes). Use src/__tests__/render/.
 - New strings go in new top-level locale groups, inserted before the unique 'pendingSync' anchor. Reuse a key only when English and meaning match.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
@@ -38,8 +41,9 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Every prompt states the loop/phase3 branch rule.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns. Parked.
+- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading and error (Row 15). Parked.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
+- Export duplicate: two exportData functions with different share subjects. Remove one row only if Isa decides and allows its test to change.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
@@ -54,13 +58,14 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form. supportMailSubject test sits in render/ but runs in node project.
+- Export: duplicate exportData in profile/index.tsx and profile/privacy.tsx; subjects differ.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 is a raw number, not a token. Repeat-visit skeleton flash.
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
-- Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json; share subject hard-coded.
+- Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
 - PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults and open items (fix wording later).
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.

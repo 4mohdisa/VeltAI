@@ -9389,3 +9389,8 @@
 - 2026-11-23 02:15 Row 6 stays DIFFERENT and Row 5 part 2 stays PARTIAL: both need the sign-in path (E2E_EMAIL, E2E_PASSWORD), which Isa has not supplied, so they are parked for the owner.
 - 2026-11-23 02:15 Rows 13 and 14 keep their data-layer gaps (scan.ts, foodDays.ts, gymRange.ts, gymSchedule.ts) parked under the defaults already recorded. Their remaining copy items stay open.
 - 2026-11-23 02:15 Row 16 is treated as BUILT, per the latest Claude Code report and PHASE3_ROWS.md, not PARTIAL as the handover said.
+- 2026-11-23 02:17 Chose run over Jev's ask at 80%. Reason: every open Isa item has a default, no row is blocked by this round, and the auto flag requires a real gate run before anything else. Jev cannot see the flag or the notes.
+- 2026-11-23 02:17 Export row stays in both Settings and Privacy, with no code change. Reason: removing either row breaks settingsExport.render or privacyExport.render, and existing tests are not edited without Isa. The duplicate exportData functions are parked.
+- 2026-11-23 02:17 The Row 15 copy pass is dropped as a merge. Export work is not Goals work, so Row 15 stays PARTIAL.
+- 2026-11-23 02:17 Row 15 Goals states use only data the screen already gets. src/lib/data stays off limits, so the useGoals gap (isLoading and error dropped) is parked under Blocked on Isa.
+- 2026-11-23 02:17 This round changes no files, so the loop check is answered by gate results only.
