@@ -1,55 +1,60 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
-ROWS
+ROW STATUS (unchanged this session)
 - BUILT: 1, 2, 3, 4, 7, 9, 10. Rows 9 and 10 still need owner checks.
 - PARTIAL: 5, 8, 12, 13, 14, 15.
 - DIFFERENT: 6, 11, 16, 17.
-- There is no separate copy-pass row. Copy work is logged in Row 15 ("Empty states: Goals and progress").
+- All this session's work went into Row 15 (copy pass), rounds 236 to 252, logged in its cell.
 
-BUILT THIS SESSION
-- Row 10: feedback added to exportSections in backend/internal/auth/export.go. Help and feedback row placed after Export in src/app/profile/index.tsx and opens /profile/feedback; keys profile.helpAndFeedback and profile.helpAndFeedbackHint; test settingsHelp.render.test.tsx. Feedback section added to PRIVACY_DATA.md.
-- Row 15 copy:
-  - SettingsList destructive hint now reads settings.destructiveHint (test settingsDestructiveHint).
-  - Support screen strings moved to support.* keys (test supportCopy).
-  - Privacy Export row reuses settings.export* keys (test privacyExport).
-  - Privacy footer uses settings.dataFooter (test privacyBody).
-  - Round 234: the Units eyebrow was already translated, so no code change.
-  - Round 235: both Spanish 'Tus datos' eyebrows already go through t(), so no code change.
-- Locale files live in src/lib/i18n/locales/ (en, es, fr).
+BUILT THIS SESSION (Row 15)
+- fr.json typography:
+  - curly apostrophes (round 237)
+  - no-break spaces before ':' and '?' (round 238)
+  - no-break spaces inside « » in foodLog.noMatches (round 239)
+- Goals calorie field: spoken label uses goals.caloriesSpoken when the unit is kcal; kJ stays "kJ". Test goalsSpokenCalories.render.
+- Scan accuracy (src/app/profile/scan-calibration.tsx): 14 settings.scanCalibration.* keys. Test scanAccuracyCopy.render.
+- Integrations (src/app/profile/integrations.tsx): 18 profile.integrations.* keys, English text unchanged, comments corrected. Test integrationsCopy.render.
+- spokenEnergy(kcal, unit, t) is exported from src/lib/units.ts. src/app/(tabs)/food.tsx uses it for the meal header and food row labels. Test foodSpokenKcal.render.
 
-LAST GATES
-- Round 233 full Jest run: 209 suites and 1236 tests passed, 4 snapshots passed. tsc 0 errors.
-- Rounds 234 and 235 changed no code; their targeted tests pass.
-- Go: everything passed in round 220. The 20 real-database TestPG_* tests were skipped, because no local database was set up.
+LAST GATES (round 252)
+- tsc: 0 errors.
+- Jest: 213 suites, 1252 tests, 4 snapshots, all passing.
+- Go (round 244): 637 passed, 0 failed, 20 TestPG_* skipped (no local database).
 
 IN PROGRESS
-Nothing.
+- src/app/dashboard/nutrition.tsx spoken kcal labels: the calories hero and the meal rows. The fix was backed out in round 249, because the detailChrome.render macros snapshot pins the "kcal" labels.
+- Once Isa approves:
+  - make the `remaining` const use spokenEnergy (the hero label is its only user)
+  - switch the other two calls
+  - regenerate that one snapshot
+  - add nutritionSpokenKcal.render.test.tsx
 
 DECISIONS
-- Check every prompt against the files first. Several prompts asked for work that was already done (the feedback row, the Units eyebrow). Report it and don't duplicate it.
-- Never edit existing tests. When an existing test blocks a change, back out the change and ask Isa.
-- Reuse existing keys when the text is identical or close, for example settings.exportError on Privacy.
-- Typed routes don't include /profile/feedback, so it needs the 'as Href' cast like the other rows in that file.
+- Check every prompt against the files first. Rounds 246 and 252 asked for apostrophe work that was already done.
+- Never edit existing tests or snapshots. If one breaks, back out the change and report.
+- Reuse keys only when the visible English stays identical. The compact "2h ago" kept its own keys.
+- French percent uses a plain space before %, as instructed.
+- Row notes must state what actually happened, even when the prompt dictates other wording.
 
 WAITING ON ISA
-- Permission to edit src/__tests__/render/privacyLocale.render.test.tsx line 56 (change the count to 0 for es and fr), so the Privacy "Your data" title can use t('settings.privacyEyebrow').
-- Spanish uses 'Tus datos' for both the Account and Privacy eyebrows; Isa to decide on the Account wording.
-- Wording to confirm: the Spanish and French Support copy, and the round 228 toast.
-- How long feedback is kept, the hosted feedback migration, which local database is Lume's, and the Row 9 and Row 10 owner checks.
+- Approval for the detailChrome macros snapshot update.
+- Whether kJ should be spoken as "kilojoules".
+- Spanish and French wording from rounds 242 and 243 (for example, French "plus de {{food}}" doesn't elide before vowels).
+- es.json-only keys addMenu.voice and addMenu.describeOutLoud.
+- Everything left from the previous handover.
 
 GOTCHAS
 - Run source ~/.nvm/nvm.sh && nvm use 22 first. No git, Prettier or Maestro.
-- zsh rejects grep --include.
-- PHASE3_ROWS.md is a table, so append notes inside the row's cell. A new line breaks the table.
-- Profile render tests must mock StreakCounter.
+- zsh does not split $var file lists. Use xargs or ${=var}.
+- Perl replacement strings interpolate ${...}, which caused a bug in round 242. Use node with s.replace(a, () => b).
+- Perl without -CSD double-encodes non-ASCII text. Check the bytes after an edit.
+- PHASE3_ROWS.md: append notes inside line 20 (the Row 15 cell). The file must stay at 22 lines.
 
 UNFIXED
-- The Privacy share-sheet subject is still hard-coded as 'Lume data export'.
-- There are two Export rows.
-- Support's mail feedback box overlaps the new feedback screen.
-- The feedback app version includes the build number.
-- The Row 10 notes from rounds 216 and 218 are out of date.
-- Not checked yet: straight apostrophes in fr.json, the goals spoken calorie label, Scan accuracy and Integrations body copy.
+- goals.saved is unused.
+- The scan-calibration.tsx:50 dev-only console.warn is still there.
+- The relative-time keys have no plural forms.
+- Privacy share-sheet subject, the two Export rows and the Support feedback overlap (carried over).
 
 NEXT
-Check fr.json for straight apostrophes against the file, then the goals spoken calorie label.
+Get Isa's approval on the snapshot, then finish the nutrition.tsx labels.
