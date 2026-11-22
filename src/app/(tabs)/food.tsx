@@ -741,6 +741,13 @@ function CaloriesCard({
 
 // ---------------------------------------------------------------------------
 
+/** An energy value for VoiceOver: kcal is spoken as the word (goals.caloriesSpoken,
+ *  as on the goals screen); kJ keeps its abbreviation, since "calories" would
+ *  misname a kJ figure. */
+function spokenEnergy(kcal: number, energyUnit: ReturnType<typeof useUnitPreferences>['energy'], t: TFunction): string {
+  return `${formatNumber(kcalToDisplay(kcal, energyUnit))} ${energyUnit === 'kcal' ? t('goals.caloriesSpoken') : energyUnit}`;
+}
+
 /** Clear a whole meal at once.
  *
  *  This capability came from `food/[meal].tsx`, which architecture item 4
@@ -811,7 +818,7 @@ function MealSectionHeader({
         onLongPress={onDeleteMeal}
         disabled={!onDeleteMeal}
         accessibilityRole="header"
-        accessibilityLabel={`${mealSlotName(t, slot)}, ${formatEnergy(subtotal, energyUnit)}`}
+        accessibilityLabel={`${mealSlotName(t, slot)}, ${spokenEnergy(subtotal, energyUnit, t)}`}
         accessibilityHint={onDeleteMeal ? t('foodLog.deleteMealHint', { slot: mealSlotName(t, slot) }) : undefined}
       >
         <Text variant="bodyMedium" color={color.label}>
@@ -894,7 +901,7 @@ function FoodItemRow({
           ? t('food.rowAnalysing')
           : failed
             ? t('food.rowAnalysisFailed', { name: item.name })
-            : `${item.name}, ${item.quantityG} ${t('food.gramsUnit')}, ${t('nutrition.protein')} ${Math.round(item.protein)}, ${t('nutrition.carbs')} ${Math.round(item.carbs)}, ${t('nutrition.fat')} ${Math.round(item.fat)}, ${formatEnergy(item.calories, energyUnit)}`
+            : `${item.name}, ${item.quantityG} ${t('food.gramsUnit')}, ${t('nutrition.protein')} ${Math.round(item.protein)}, ${t('nutrition.carbs')} ${Math.round(item.carbs)}, ${t('nutrition.fat')} ${Math.round(item.fat)}, ${spokenEnergy(item.calories, energyUnit, t)}`
       }
       accessibilityHint={analyzing || failed ? undefined : t('food.rowHint')}
       style={{

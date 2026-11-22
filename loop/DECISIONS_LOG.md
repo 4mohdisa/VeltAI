@@ -9181,3 +9181,7 @@
 - 2026-11-23 00:48 Chose the smallest open Row 15 item (comment-only, one file) to keep the loop moving with no new question to Isa.
 - 2026-11-23 00:48 Jev suggested asking Isa (58%). Not used: the Blocked list already holds every open question, and no new one needs Isa alone. Risk noted, so the task is kept to comments only.
 - 2026-11-23 00:48 Kept the kcal spoken label and Row 11 for later rounds, since each touches more than one screen or needs the full gate run.
+- 2026-11-23 00:50 Picked food.tsx kcal label: smallest open Row 15 item, one screen, no owner input needed.
+- 2026-11-23 00:50 Row 11 final sweep waits: rows 12 to 15 still PARTIAL.
+- 2026-11-23 00:50 No new question to Isa: open questions are already in Blocked on Isa.
+- 2026-11-23 00:50 Jev ask signal (52%) not used: it asks Isa, and the Blocked list already covers those questions.
