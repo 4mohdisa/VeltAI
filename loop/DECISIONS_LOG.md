@@ -8989,3 +8989,8 @@
 - 2026-11-22 21:08 Row 9 is split: backend route and cross-user test this round, Settings row and share sheet later. One task per prompt.
 - 2026-11-22 21:08 Export route is GET /api/export, reusing the analytics route's auth and rate limiter. No new auth code.
 - 2026-11-22 21:08 Row 10 waits: it needs a migration applied to the local database only, plus a rate limit, so it is larger than this step.
+- 2026-11-22 21:10 Chose Row 8 doc fix plus app type check: the loop flag says the app type check was not run in round 207, and this is the smallest task that clears it (Jev 46 run, low confidence, prefer smaller).
+- 2026-11-22 21:10 Kept the existing GET /api/export handler, not moved to the analytics package: moving it would register the route twice and panic at startup.
+- 2026-11-22 21:10 Row 9 A/B test may run on a disposable local Postgres (localhost, throwaway name, migrations applied locally). Local only, never hosted. Default used, no ask.
+- 2026-11-22 21:10 Analytics sink opt-in hooks the store listener in analytics.ts, since settings/store.ts is off limits. Already recorded, restated for the next session.
+- 2026-11-22 21:10 Asked nothing: Isa has the open questions in Blocked on Isa, and defaults are in use.
