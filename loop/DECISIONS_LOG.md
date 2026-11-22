@@ -8977,3 +8977,6 @@
 - 2026-11-22 21:04 Did not add a US cloud claim to the doc: the code does not show the default host, so the doc says only that the SDK default is used.
 - 2026-11-22 21:04 Doc-only round runs no tests: no code changed, and the last Jest and tsc gates (round 203) are still valid for the code.
 - 2026-11-22 21:04 Condensed the notes to stay under 600 words; no open item was dropped, only merged.
+- 2026-11-22 21:05 Kept the verification task first. The automatic check flagged round 204 as not verified, and Jev rates that task only 14% likely to have finished cleanly. Row 10 needs a new migration and route, so it should start on a verified base. Reason Jev cannot see: the flag itself.
+- 2026-11-22 21:05 Verification touches no test files and fixes only Row 8 files, so the change is cheap and reversible.
+- 2026-11-22 21:05 Round 204 notes kept as a single line in PHASE3_ROWS.md. No other row changed.

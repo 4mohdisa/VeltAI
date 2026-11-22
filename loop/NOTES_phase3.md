@@ -6,7 +6,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Last full checkpoint: round 199 (tsc 0, Jest 202 suites, 1210 tests, 4 snapshots).
-- Round 203: tsc 0; analyticsSink Jest 15/15. Code unchanged since 199 except sink host check.
+- Round 203: tsc 0; analyticsSink Jest 15/15.
+- Round 204: doc only (PRIVACY_DATA.md host line). Flagged as unverified by the loop check.
+- Round 205 (in progress): verify round 204 with tsc and the four analytics suites. Pick kept over Jev's Row 10 ranking, because the flag and Jev's 14% clean-finish signal say verify first.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. perl misses accented patterns; use Edit.
 - API client src/lib/api.ts. Locales src/lib/i18n/locales/.
@@ -25,8 +27,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Snapshots: no regeneration without Isa. Broken existing test: back out and report. Never edit an existing test.
 - Render tests end .render.test.tsx in src/__tests__/render/.
 - New eyebrow keys sit next to title key in settings.* or profile.*.
-- Integrations eyebrow stays live connection count.
-- Visible bracket labels stay. Only spoken labels change.
+- Integrations eyebrow stays live connection count. Visible bracket labels stay; only spoken labels change.
 - Jest mock factories reference only mock* variables.
 - Spanish uses tu, French uses vous.
 - Row 15 copy tail deferred until after Row 10.
@@ -43,9 +44,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
-
-## In progress
-- Round 204: PRIVACY_DATA.md host first sentence changed to https-only; no region claim.
 
 ## Next
 - Row 9: Export my data (backend route with cross-user test, then Settings row). Heavy-user check needs E2E creds.
@@ -77,5 +75,5 @@ getMorningBrief swallows errors (pinned); getProfile .catch hides errors; Anomal
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
 - Round 199 checkpoint closed the partly-done flag with evidence.
-- Round 203: host sentence fix needed a second pass; round 204 is doc-only, no tests run.
+- Round 204 flagged by loop check (not verified). Round 205 verifies it.
 - Every prompt starts with the branch rule.
