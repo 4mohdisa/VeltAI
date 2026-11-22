@@ -7,7 +7,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Round 129 checkpoint clean: tsc 0; Jest 173 suites, 1114 tests, 4 snapshots pass.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Row 15 round numbers may clash with loop numbers. Recorded, not fixed.
+- Round numbers in PHASE3_ROWS.md may clash with loop numbers. Recorded, not fixed.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -19,7 +19,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Empty or failed screen with no stored data: one clear action.
 - Identical text reuses existing keys. src/lib/data off limits.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
-- French: no-break space before ':' and '?'. Curly ’ in new strings.
+- French: no-break space before ':' and '?'. Curly apostrophe in new strings.
 - Snapshots: no regeneration without Isa's permission.
 - Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed; energy notice only when both week reads fail.
@@ -30,19 +30,22 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 125 row parked after two failed attempts.
 - Round 129: checkpoint kept over Jev's insights pick.
 - Round 130: insights literals chosen over MacroBars and goals states. Literals only.
-- Round 131 flagged by loop as partly done. Round 132 finishes BrainProfileCard most active day (weekday keys).
+- Round 131 flagged by loop as partly done. Round 132 reported BrainProfileCard most active day done (weekday keys, es and fr lowercase by default).
+- Round 133: verify BrainProfileCard fully closed (loop flag). Then InsightCard.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, French foodLog.today, insights screen literals, BrainProfileCard literals (round 131).
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, French foodLog.today, insights screen literals, BrainProfileCard weekday names (round 132).
 
 ## In progress
-- Round 132: BrainProfileCard most active day weekday names.
+- Round 133: verify BrainProfileCard literals closed.
 
 ## Blocked on Isa (defaults used, do not re-ask)
+- Review weekday wording: es/fr lowercase (default) vs capitalised on the card value.
+- Review insights.* and insights.brainProfile.* strings from rounds 130 to 132.
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
 - Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
 - Row 12 BUILT approval.
@@ -61,9 +64,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Round 132: BrainProfileCard most active day (in progress).
+- Round 133: verify BrainProfileCard closed (in progress).
 - Then InsightCard.tsx literals, then AnomalyCard.tsx literals, one per round.
-- Then insights swallowed errors in src/lib/api.ts (~1253, 1270) and the fixed 0.3 bar in BrainProfileCard.tsx:70.
+- Then insights swallowed errors in src/lib/api.ts (~1253, 1270) and fixed 0.3 bar in BrainProfileCard.tsx:70.
 - Row 15 goals load and error states.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Then Rows 16 and 17, one screen per round.
@@ -93,4 +96,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Gym card may show seed data after failed dashboard read.
 - EMPTY_STATES_AUDIT.md Summary loading row still calls GymStatusCard broken.
 - Plan card in index.tsx has hard-coded AI scope.
-- Round numbers in PHASE3_ROWS.md may clash with loop numbers.
+- French foodLog.today straight apostrophe (verify with round 133 check if touched).

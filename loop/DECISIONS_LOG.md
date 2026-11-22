@@ -8564,3 +8564,6 @@
 - 2026-11-22 19:00 Unknown weekday values pass through unchanged, so a server change cannot blank the value.
 - 2026-11-22 19:00 No snapshot is regenerated, per the standing rule. The new test checks text directly.
 - 2026-11-22 19:00 Notes trimmed to fit the 600-word limit. Parked items kept, grouped.
+- 2026-11-22 19:01 Chose verification first because the loop flagged the last report as partly done; cheapest way to close it without new scope.
+- 2026-11-22 19:01 Kept es and fr weekday names lowercase as shipped (default) until Isa reviews whether capitalised reads better on the card value.
+- 2026-11-22 19:01 Jev ranks run at 93%; no conflict with the choice. Risk score 1.0 noted, but the task is one file and needs no Isa input.
