@@ -8024,3 +8024,7 @@
 - 2026-11-22 15:34 Row 2 result accepted as BUILT: all three gates green on Node 22.23.5. The Jest install drift (30.0.5 copy at top level) is a side finding, parked, not fixed, because it does not affect the tests that run.
 - 2026-11-22 15:34 The 18 skipped backend database tests stay skipped for now. Park the question of a local Postgres for Row 5 to provide.
 - 2026-11-22 15:34 Parked the @types/jest ^30 versus Jest 29.7 mismatch. It is not in any row. Revisit in Row 11 with the package-lock engines check.
+- 2026-11-22 15:35 Kept the header plus button on My workouts as the only entry point to add a second workout. The brief allows keeping the existing entry point and parking the question in Blocked on Isa. Not asking Isa, because this is a design question he can review later, not a blocker.
+- 2026-11-22 15:35 Row 3 marked BUILT with owner check pending, since the removal question is parked for Isa.
+- 2026-11-22 15:35 Last report flagged for no checks run. This round re-runs the type check and the templates tests to close that gap.
+- 2026-11-22 15:35 Hard-coded English strings found in templates.tsx and gym.tsx are logged under Row 4 follow-ups, not fixed now, to keep this round to one row.
