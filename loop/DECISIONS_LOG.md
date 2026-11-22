@@ -8539,3 +8539,7 @@
 - 2026-11-22 18:49 Plan card scope: accepted the report's dashboard.planCardScope key (en AI, es IA, fr IA) and shipped the Spanish and French wording as written.
 - 2026-11-22 18:49 Round 117 MacroBars translation stays blocked; test line 54 is not changed without permission.
 - 2026-11-22 18:49 Jev suggested run at 55%; kept run because the task is one file and one test file.
+- 2026-11-22 18:51 Chose run over Jev's ask 93%: Isa has not answered the option A/B question for several rounds, and the standing rule is that after one unanswered round the default is used. Option A is the default the report recommends. Jev cannot see that the question has been pending for many rounds.
+- 2026-11-22 18:51 Chose option A (edit nutrition.tsx and its render test, add nutrition.weekMacrosEmpty in en, es, fr) because it fixes row 125 as the audit describes and touches only the named screen.
+- 2026-11-22 18:51 week.tsx flat intake bars are kept as a separate NEXT item, not row 125, because the 'no logged value' rule for days with 0 kcal eaten is not decided.
+- 2026-11-22 18:51 The loop flag (type check or tests not run) is handled by requiring tsc and the changed test file to run and pass this round.
