@@ -1,47 +1,56 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
 ROWS
-No row became BUILT. Row 15 (Goals and progress) is still PARTIAL. Its PHASE3_ROWS.md notes run through the AnomalyCard round, and every round says not checked on a device. My notes number rounds 118 to 120; later notes have no number. The 118 to 120 labels may clash with the loop's own numbering.
+No row became BUILT. Rows 14 and 15 are still PARTIAL. Every Row 15 note says not checked on a device.
 
-BUILT THIS SESSION (Row 15)
-- French foodLog.today now uses a curly apostrophe.
-- Summary plan card scope uses a new dashboard.planCardScope key (AI, IA, IA).
-- EMPTY_STATES_AUDIT.md: Summary loading row corrected; audit row 125 marked parked.
-- Insights translated: src/app/insights.tsx and src/components/ai/{BrainProfileCard,InsightCard,AnomalyCard}.tsx. New key groups insights, insights.brainProfile (includes weekdays), insights.card and insights.anomaly, all in src/lib/i18n/locales/{en,es,fr}.json.
-- New tests in src/__tests__/render/: summaryTab.i18n (extended), insights.i18n, brainProfileCard.i18n, insightCard.i18n, anomalyCard.i18n.
-- Last full suite: 173 suites, 1114 tests, 4 snapshots passing; tsc 0 errors. Tests added since then were run file by file.
+BUILT THIS SESSION (Row 15 unless noted)
+- AnomalyBanner: fallback title, dismiss label and a plural count title (insights.anomaly.bannerCount). Error state checked; it was already translated.
+- Goals screen (src/app/profile/goals.tsx):
+  - eyebrow and grams/percent field labels (goals.eyebrow, gramsField, percentField)
+  - French curly apostrophes
+  - reset toast now uses goals.resetDone
+  - VoiceOver labels use the "label, unit" comma join
+- InsightCard type badge: insights.card.type has keys for protein_gap, meal_timing, gym_correlation and food_habit (from backend/internal/ai/insights.go:27). Unknown types show as sent.
+- DailyMacroRing label uses nutrition.ringOf.
+- Row 14: new gymMuscles.fr.render test only.
+- Last full suite: 179 suites, 1134 tests, 4 snapshots passing; tsc 0 errors. Later tests were run file by file.
 
 IN PROGRESS
 Nothing half-done.
 
 DECISIONS
-- Server text (titles, bodies, insight type) is shown as sent. Weekdays are mapped by weekdayLabel; an unknown day is shown as sent.
-- French uses curly apostrophes (fr.json has 87 curly against 10 straight). es and fr put a plain space before %, matching percentOfTargetShort.
-- When a change breaks a test or snapshot the brief forbids editing, back the change out and report it. This happened twice: MacroBars (summaryNoFabrication.test.ts:54 expects the literal "Not tracked") and row 125 (the detailChrome macros snapshot uses an all-zero week).
+- Render tests must end .render.test.tsx or Jest skips them. Brief names without it were renamed.
+- Visible bracket labels such as "Protein (g)" stay, because the design is final. Only the spoken labels changed.
+- Unknown keys fall back with t(key, { defaultValue }), the pattern from food/detail.tsx:677.
+- A broken existing test or snapshot is never edited. The change is backed out and reported.
 
 BLOCKED (Isa)
-- Permission to change summaryNoFabrication.test.ts:54 (MacroBars translation).
-- Permission to regenerate the detailChrome macros snapshot alone (row 125). The nutrition.weekMacrosEmpty fix and its wording are ready to reapply.
-- Review of all new es and fr wording, including whether a standalone weekday should be capitalised.
-- The goals persistence decision.
+- hooks.ts change: useGoals drops isLoading, error and refetch, so Goals loading and error states cannot be built.
+- Goals persistence.
+- Wording to confirm:
+  - "Goals reset to defaults." (reset copies the AI values and stays in custom mode)
+  - whether to delete the unused goals.saved
+  - "Gym and food"
+  - the fibre spoken label "Fibre (optional)"
+- Whether the comma join and the one-word ringOf should become full-phrase keys.
+- es.json has two keys missing from en and fr: addMenu.voice, addMenu.describeOutLoud.
+- Permission to make gymMuscles.shape and sheetContent.render tests read en.json instead of hard-coded English.
+- Still open from last session: summaryNoFabrication.test.ts:54, the detailChrome snapshot, and the es/fr wording review.
 
 GOTCHAS
-- Before any command: source ~/.nvm/nvm.sh && nvm use 22. No git (read .git/HEAD for the branch), no Prettier, no Maestro.
-- Locales live in src/lib/i18n/locales, not src/i18n.
-- Pressable and its inner node both carry accessibilityLabel, so assert length > 0, not an exact count.
-- zsh does not split $VAR into words, so pass Jest paths literally.
-- Audit verdicts are proper, blank, broken, placeholder or hard-coded English; PARTIAL is not one of them.
+- Run source ~/.nvm/nvm.sh && nvm use 22 first.
+- No git, Prettier or Maestro; read .git/HEAD for the branch.
+- zsh rejects grep --include globs.
+- Locales live in src/lib/i18n/locales. Use npx jest --ci.
+- Some older Row 15 notes contain a lower-case "built".
 
 UNFIXED
-- AnomalyBanner.tsx copy may be English; not opened.
-- src/lib/api.ts hides errors around lines 1253 and 1270; BrainProfileCard has a fixed 0.3 progress bar.
-- InsightCard type badge is untranslated, and its more/less toggle appears when the body exceeds 120 characters.
+- nutrition.tsx:227 reads out the slot name untranslated.
+- week.tsx draws flat bars when every day has 0 kcal.
 - BrainProfileCard numbers are not formatted for the language and always use kcal.
-- The insights.tsx consent comment is false, as phase14Regression.test.ts documents.
-- week.tsx draws flat intake bars when every day has 0 kcal.
-- The nutrition chart ceiling label is "${n}g" with no space.
-- The gym card may show seed data after a failed dashboard read.
-- MacroBars is unused anywhere in the app and does not format numbers.
+- The InsightCard 120-character toggle rule is still in place.
+- Profile screens hard-code English titles and eyebrows: About, Privacy, Account, Connected apps, Delete Account, and Units on Preferences.
+- "g", "%" and the comma join are hard-coded in goals.tsx.
 
 NEXT
-Goals screen, src/app/profile/goals.tsx: loading and error states, plus its English text.
+Translate the meal slot name at src/app/dashboard/nutrition.tsx:227.
