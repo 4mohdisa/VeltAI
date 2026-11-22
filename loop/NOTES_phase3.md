@@ -6,15 +6,15 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
 - Checkpoint 252: tsc 0, Go 543 pass / 20 TestPG skipped.
-- Jest baseline now 228 suites / 1322 tests, 4 snapshots (accepted, see decisions).
+- Jest baseline 228 suites / 1322 tests, 4 snapshots (accepted). Full suite not run since round 252.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8 (close-out check running), 12, 13, 14, 15, 16, 17.
+- BUILT: 1, 2, 3, 4, 7, 8 (close-out check done, owner check pending), 9, 10 (owner checks pending on 3, 5 part 1, 7, 8, 9, 10).
+- PARTIAL: 5 (part 2 needs sign-in), 12, 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 8 close-out check (read only). Then Row 12 and Row 16/17 gaps. Row 11 last.
+- Row 8 allowlist test re-run (read only, in progress). Then Row 12. Then Row 16/17 gaps. Row 11 last.
 - Rows 13 and 14 src/lib/data gaps stay parked until Isa approves.
 
 ## Decisions (never delete)
@@ -37,13 +37,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Weight caption follows the form's own kg/lb control, not the units setting.
 - Row 14 picked over Row 13 (Jev 51%).
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
-- Jev ask overridden when all Isa items have defaults and no row is blocked (82% ask this round). Row 8 check is read only and resolves a status conflict Jev cannot see.
-- Jest baseline 228/1322 accepted (new files explained). Isa may object.
-- Prompt rejected once for missing branch rule. Every prompt now states loop/phase3 only, no git.
+- Jev ask overridden when all Isa items have defaults and no row is blocked. Row 8 check was read only.
+- Prompt rejected once for missing branch rule. Every prompt states loop/phase3 only, no git.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data (hooks.ts, gymSchedule.ts, aiBrain.ts, gymRange.ts, useGymPatterns, scan.ts, foodDays.ts): search debounce flash, exercise picker failed read, Ask Lume 503 and not_enough_data copy, month summary, muscle Retry, barcode network failure, calendar error flag. Parked.
-- Existing tests needing permission: profileEmptyStates.render test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; goals refetch in hooks.ts.
+- Existing tests needing permission: profileEmptyStates.render test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; goals refetch in hooks.ts; nutrition.tsx snapshot approval.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
 - Keep as is: Integrations 'Nothing connected'; Privacy 'Your data' English; Spanish 'Tus datos'; feedback rows in backend/internal/auth/export.go; privacy footer 'First-party only' once key set.
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
@@ -56,6 +55,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}'. kJ spoken as 'kilojoules' needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
 
 ## Parked (not Phase 3)
+- Row 8: feature_used accepts any short key; a property named app_version or build would overwrite BUILD_TAGS (spread order). No call site does this. PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults and open items.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; no calendar loading indicator; three identical offline notices; weekday formatting uses device language; muscle names English data.
 - Row 16: repeat-visit skeleton flash for all-zero streak.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.

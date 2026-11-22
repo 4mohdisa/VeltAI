@@ -9354,3 +9354,8 @@
 - 2026-11-23 02:04 Rewritten prompt now states the loop/phase3 branch rule first, forbids all git commands, and forbids branch switches and pushes.
 - 2026-11-23 02:04 Only the two row 8 test files are run, plus the type check, to keep the check small. The full suite waits for the next checkpoint.
 - 2026-11-23 02:04 Jest 228 suites / 1322 tests accepted as the new baseline, the three extra files explained in the report.
+- 2026-11-23 02:05 Chose the Row 8 re-run because the loop flagged the last report as partly done: the off-list test was marked PASS from a doc and not re-run.
+- 2026-11-23 02:05 Jev asked 52% but confidence is 0.28 and every Isa item already has a default. Ask override kept, as in the previous round.
+- 2026-11-23 02:05 Analytics stays opt-in and off by default in code, as the existing decision says. Row 8 text asks for on by default. Isa confirms before Phase 4.
+- 2026-11-23 02:05 AI disclosure Continue turning analytics on stays as is. Phase 4 file, not touched. Isa confirms.
+- 2026-11-23 02:05 feature_used shape check and the PRIVACY_DATA.md heading are parked, not fixed, because the feature_used cleanup needs Isa's permission to edit pinned tests.
