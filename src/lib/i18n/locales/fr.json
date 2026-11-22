@@ -369,6 +369,73 @@
     "oftenSkip": "Vous sautez souvent {{day}}",
     "removeExerciseTitle": "Retirer l'exercice ?"
   },
+  "gymExerciseProgress": {
+    "exerciseFallback": "Exercice",
+    "musclesWorked": "Muscles sollicités",
+    "primary": "Principal",
+    "secondary": "Secondaire",
+    "formGuide": "Guide d’exécution",
+    "emptyTitle": "Pas encore assez de données",
+    "emptyMessage": "Enregistrez cet exercice au moins 3 fois pour voir vos progrès",
+    "history": "Historique",
+    "lastSessions_one": "Dernière séance",
+    "lastSessions_other": "{{count}} dernières séances",
+    "totalRepsPerSession": "Répétitions totales par séance",
+    "volumePerSession": "Volume par séance",
+    "repsValue": "{{value}} rép.",
+    "kgValue": "{{value}} kg",
+    "setsOnDate": "{{sets}} séries · {{date}}",
+    "repsOnDate": "{{reps}} rép. · {{date}}",
+    "latestSession": "Dernière séance",
+    "bestSet": "Meilleure série",
+    "guide": {
+      "press": [
+        "Ancrez les pieds, prise un peu plus large que les épaules, gainez le tronc.",
+        "Descendez avec contrôle jusqu’à la poitrine, coudes à environ 45°.",
+        "Poussez et arrêtez-vous juste avant de verrouiller, épaules basses."
+      ],
+      "squat": [
+        "Barre haute sur le dos, pieds largeur d’épaules, pointes légèrement ouvertes.",
+        "Descendez entre les hanches sous la parallèle, genoux dans l’axe des pieds.",
+        "Poussez par le milieu du pied et remontez sans laisser tomber la poitrine."
+      ],
+      "hinge": [
+        "Hanches en arrière, poitrine sortie, barre près des tibias, dos neutre.",
+        "Reculez les hanches jusqu’à sentir les ischios se charger, la barre frôlant les jambes.",
+        "Serrez les fessiers pour vous redresser ; la barre reste verticale."
+      ],
+      "row": [
+        "Fixez un angle de buste stable et abaissez d’abord les omoplates.",
+        "Tirez vers le bas des côtes, coudes au-delà du corps, sans hausser les épaules.",
+        "Redescendez avec contrôle jusqu’à l’étirement complet avant la répétition suivante."
+      ],
+      "curl": [
+        "Coudes collés aux côtes, poignets neutres, épaules relâchées.",
+        "Montez jusqu’à dépasser la verticale de l’avant-bras sans balancer le buste.",
+        "Redescendez lentement en trois temps ; le négatif, c’est le travail."
+      ],
+      "raise": [
+        "Légère inclinaison vers l’avant, coudes souples, poids le long des cuisses.",
+        "Levez jusqu’à hauteur d’épaules en menant par les coudes, pas par les mains.",
+        "Marquez une pause en haut, puis redescendez sous tension."
+      ],
+      "push": [
+        "Placez-vous un pas en arrière de la machine, coudes serrés le long du corps.",
+        "Tendez complètement, avec une courte pause triceps contractés.",
+        "Remontez seulement jusqu’à ce que les avant-bras soient parallèles pour garder la tension."
+      ],
+      "cardio": [
+        "Échauffez-vous trois à cinq minutes à allure facile.",
+        "Tenez chaque intervalle à sa vitesse cible, souffle court mais capable de dire un mot.",
+        "Terminez par deux minutes de marche pour faire redescendre le cœur."
+      ],
+      "other": [
+        "Installez-vous pour que seul le muscle travaillé bouge.",
+        "Utilisez toute l’amplitude que vous contrôlez, sans rebond.",
+        "Égalez les chiffres de la dernière séance avant d’ajouter du poids."
+      ]
+    }
+  },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
     "dayStreak_one": "{{count}} jour d’affilée",

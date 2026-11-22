@@ -34,6 +34,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Food detail: Entry not found gets one Done button (common.done). Barcode not-found keeps Scan again.
 - Gym session and history: failed read shows LoadFailedNotice with Retry, matching log-session.tsx.
 - Identical text reuses existing keys. Data layer (src/lib/data) is off limits.
+- Templates: failed read uses useTemplates isError and refetch (not useGym). Accepted.
 - Unanswered question: use default and carry on. Do not re-ask.
 
 ## Done
@@ -45,6 +46,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved states, translations, food detail Done button.
 - Rounds 82-83: gym/session.tsx empty and failed states, gymSession block translated.
 - Round 84: gym/history.tsx failed read shows LoadFailedNotice, gymHistory block added.
+- Round 85: gym/templates.tsx failed read shows LoadFailedNotice, gymTemplates block added, 3 render tests.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -52,7 +54,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - lookupBarcodeAsync (src/lib/data/scan.ts): 'not found' vs 'server unreachable'. Default: keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. Until approved, WeekStrip labels stay.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 and 14: es and fr wording for all new blocks (gymSession, gymHistory, gymTemplates when added). Default used. Review needed.
+- Row 13 and 14: es and fr wording for all new blocks (gymSession, gymHistory, gymTemplates). Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13 PendingSyncBanner counts all queued writes. Default used. Confirm.
@@ -63,7 +65,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 
 ## Next
-- Row 14: gym/templates.tsx (round 85): failed read to LoadFailedNotice with Retry, strings translated (gymTemplates block).
+- Row 14: gym/exercise-progress.tsx (round 86): failed read vs no data, translate strings.
 - Row 14: session.tsx leftovers: 'Progress saved' toast, Save button, unsaved-changes alert text.
 - Rows 15 to 17: remaining empty state screens, one per round.
 - Row 6: non-sign-in backend measurements.
@@ -73,6 +75,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Goals and units backend persistence (lost on restart).
 - Jest drift: node_modules jest 30.0.5 vs pin 29.7.0. Fix with npm ci (needs network).
 - 18 backend DB tests never run. Needs LUME_TEST_DATABASE_URL.
+- useTemplates drops existing templates when a refetch fails. Needs src/lib/data change.
 - Date helpers (src/lib/formatting.ts): formatWeekdayDate, formatMonthYear use device locale; formatRelativeDate returns hardcoded English.
 - GymCalendar.tsx and WeekEnergyCard.tsx: hardcoded weekday letters.
 - Dev gym failed read keeps mock sessions from seedGym on screen; offline dev testing shows fake history.
@@ -112,3 +115,4 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Round 82: Jev said ask (74%). Kept run: question not major, default used.
 - Round 83: Jev said run (75%). Kept run: smallest clean task, one small screen.
 - Round 85: Jev said run (85%). Run: templates.tsx, same pattern as round 84.
+- Round 86: Jev said run (82%). Run: exercise-progress.tsx, same pattern as round 85.

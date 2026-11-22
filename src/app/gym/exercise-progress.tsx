@@ -3,11 +3,14 @@
 // card (a bar per session of volume or reps, and the latest and best stats). The
 // History card degrades to an empty state when there aren't enough logs, for
 // cardio (the progress read carries no minutes), or when the read returns null.
+// A failed progress read shows the LoadFailedNotice instead of the empty state.
 import type { JSX } from 'react';
 import { PixelRatio, View, type TextStyle } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Card, CardHeaderRow, EmptyState, Skeleton } from '@/components/display';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Screen } from '@/components/navigation/Screen';
 import { Text } from '@/components/primitives/Text';
 import { useExerciseProgress, useExercises } from '@/lib/data/gymSchedule';
@@ -43,30 +46,19 @@ const scaled = (fontSize: number, fontWeight: TextStyle['fontWeight'], lineHeigh
   lineHeight: lineHeight * PixelRatio.getFontScale(),
 });
 
-// The design's form guide, chosen from the exercise's name.
-const GUIDE = {
-  press: ['Set your feet, grip just outside shoulder width and brace your core.', 'Lower under control until the bar or handles reach chest level, elbows at about 45°.', 'Press back up and stop just short of locking out, keeping shoulders down.'],
-  squat: ['Bar high on the back, feet shoulder width, toes turned out slightly.', 'Sit down between your hips until thighs pass parallel, knees tracking over toes.', 'Drive through mid-foot and stand tall without letting the chest drop.'],
-  hinge: ['Hips back, chest proud, bar close to the shins with a neutral spine.', 'Push the hips back until you feel the hamstrings load, bar grazing the legs.', 'Squeeze the glutes to stand up — the bar path stays vertical.'],
-  row: ['Set a stable torso angle and pull the shoulder blades down first.', 'Row to the lower ribs, elbows past the body, no shrugging.', 'Lower under control for a full stretch before the next rep.'],
-  curl: ['Elbows pinned to the ribs, wrists neutral, shoulders relaxed.', 'Curl until the forearm passes vertical without swinging the torso.', 'Lower slowly for three counts — the negative is the work.'],
-  raise: ['Slight forward lean, elbows soft, weights beside the thighs.', 'Lift out to shoulder height leading with the elbows, not the hands.', 'Pause a beat at the top, then lower under tension.'],
-  push: ['Stand a step back from the stack, elbows tight to your sides.', 'Extend to full lockout, pausing briefly with the triceps contracted.', 'Return only until the forearms reach parallel to keep tension.'],
-  cardio: ['Warm up for three to five minutes at an easy pace.', 'Hold each interval at its target speed — breathing hard but able to speak a word.', 'Finish with two minutes of walking to bring the heart rate down.'],
-  other: ['Set up so the working muscle is the only thing moving.', 'Move through the full range you can control, no bouncing.', 'Match last session’s numbers before adding weight.'],
-};
-
-function guideFor(name: string): string[] {
+// The design's form guide, chosen from the exercise's name. Each kind is a
+// three-step list under gymExerciseProgress.guide in the locale files.
+function guideFor(name: string): string {
   const s = name.toLowerCase();
-  if (/squat|leg press/.test(s)) return GUIDE.squat;
-  if (/deadlift|romanian|hip thrust/.test(s)) return GUIDE.hinge;
-  if (/row|pulldown|pull-up|pullup/.test(s)) return GUIDE.row;
-  if (/curl/.test(s)) return GUIDE.curl;
-  if (/raise/.test(s)) return GUIDE.raise;
-  if (/pushdown|dip|extension/.test(s)) return GUIDE.push;
-  if (/press|fly/.test(s)) return GUIDE.press;
-  if (/treadmill|bike|rowing machine|elliptical/.test(s)) return GUIDE.cardio;
-  return GUIDE.other;
+  if (/squat|leg press/.test(s)) return 'squat';
+  if (/deadlift|romanian|hip thrust/.test(s)) return 'hinge';
+  if (/row|pulldown|pull-up|pullup/.test(s)) return 'row';
+  if (/curl/.test(s)) return 'curl';
+  if (/raise/.test(s)) return 'raise';
+  if (/pushdown|dip|extension/.test(s)) return 'push';
+  if (/press|fly/.test(s)) return 'press';
+  if (/treadmill|bike|rowing machine|elliptical/.test(s)) return 'cardio';
+  return 'other';
 }
 
 const muscleName = (muscle: string) => {
@@ -75,10 +67,11 @@ const muscleName = (muscle: string) => {
 };
 
 function MusclesCard({ exercise }: { exercise: ExerciseLibraryItem }): JSX.Element {
+  const { t } = useTranslation();
   const muscles = [...new Set([exercise.muscle_group_primary, ...exercise.muscle_groups_secondary])];
   return (
     <Card variant="elevated" padded={false} style={{ padding: space.lg, gap: space.md }}>
-      <CardHeaderRow title="Muscles worked" scope={muscles.map(muscleName).join(' · ')} />
+      <CardHeaderRow title={t('gymExerciseProgress.musclesWorked')} scope={muscles.map(muscleName).join(' · ')} />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: CHIP_ROW_GAP }}>
         {muscles.map((muscle, i) => (
           <View
@@ -97,7 +90,7 @@ function MusclesCard({ exercise }: { exercise: ExerciseLibraryItem }): JSX.Eleme
               {muscleName(muscle)}
             </Text>
             <Text variant="caption" color={color.secondaryLabel}>
-              {i === 0 ? 'Primary' : 'Secondary'}
+              {i === 0 ? t('gymExerciseProgress.primary') : t('gymExerciseProgress.secondary')}
             </Text>
           </View>
         ))}
@@ -107,11 +100,13 @@ function MusclesCard({ exercise }: { exercise: ExerciseLibraryItem }): JSX.Eleme
 }
 
 function GuideCard({ name }: { name: string }): JSX.Element {
+  const { t } = useTranslation();
+  const steps = t(`gymExerciseProgress.guide.${guideFor(name)}`, { returnObjects: true }) as string[];
   return (
     <Card variant="elevated" padded={false} style={{ padding: space.lg, gap: space.md }}>
-      <CardHeaderRow title="Form guide" />
+      <CardHeaderRow title={t('gymExerciseProgress.formGuide')} />
       <View style={{ gap: STEP_GAP }}>
-        {guideFor(name).map((step, i) => (
+        {steps.map((step, i) => (
           <View key={step} style={{ flexDirection: 'row', gap: STEP_GAP }}>
             <View
               style={{
@@ -159,8 +154,9 @@ function Stat({ value, label, sub }: { value: string; label: string; sub: string
 export default function ExerciseProgressScreen(): JSX.Element {
   const params = useLocalSearchParams<{ name?: string }>();
   const name = params.name ?? '';
-  const title = name || 'Exercise';
-  const { progress, loading } = useExerciseProgress(name);
+  const { t } = useTranslation();
+  const title = name || t('gymExerciseProgress.exerciseFallback');
+  const { progress, loading, isError } = useExerciseProgress(name);
   const { exercises, loading: libraryLoading } = useExercises({ q: name });
   const exercise = exercises.find((ex) => ex.name.toLowerCase() === name.toLowerCase());
 
@@ -169,11 +165,16 @@ export default function ExerciseProgressScreen(): JSX.Element {
       return <Skeleton width="100%" height={180} rounded={radius.xl} />;
     }
 
+    if (isError && !progress) {
+      // ponytail: no Retry, useExerciseProgress exposes no refetch (src/lib/data is off limits)
+      return <LoadFailedNotice message={t('gym.loadFailed')} />;
+    }
+
     const empty = (
       <EmptyState
         icon="stats-chart"
-        title="Not enough data yet"
-        message="Log this exercise 3+ times to see progress"
+        title={t('gymExerciseProgress.emptyTitle')}
+        message={t('gymExerciseProgress.emptyMessage')}
       />
     );
 
@@ -194,25 +195,38 @@ export default function ExerciseProgressScreen(): JSX.Element {
     if (maxValue === 0) return empty;
 
     const latest = chartData[chartData.length - 1];
-    const unit = bodyweight ? 'reps' : 'kg';
+    const amount = (value: string) =>
+      bodyweight ? t('gymExerciseProgress.repsValue', { value }) : t('gymExerciseProgress.kgValue', { value });
     const bestReps = chartData.reduce((best, e) => ((e.reps ?? 0) > (best.reps ?? 0) ? e : best));
     const best = progress.personal_best;
     const bestStat = bodyweight
-      ? { value: `${bestReps.reps ?? 0} reps`, sub: `${bestReps.sets ?? 0} sets · ${dayMonth(bestReps.date)}` }
+      ? {
+          value: t('gymExerciseProgress.repsValue', { value: bestReps.reps ?? 0 }),
+          sub: t('gymExerciseProgress.setsOnDate', { sets: bestReps.sets ?? 0, date: dayMonth(bestReps.date) }),
+        }
       : best
-        ? { value: `${best.weight} kg`, sub: `${best.reps != null ? `${best.reps} reps · ` : ''}${dayMonth(best.date)}` }
+        ? {
+            value: t('gymExerciseProgress.kgValue', { value: best.weight }),
+            sub:
+              best.reps != null
+                ? t('gymExerciseProgress.repsOnDate', { reps: best.reps, date: dayMonth(best.date) })
+                : dayMonth(best.date),
+          }
         : { value: '—', sub: '' };
 
     return (
       <Card variant="elevated" padded={false} style={{ padding: space.lg, gap: space.md }}>
-        <CardHeaderRow title="History" scope={`Last ${HISTORY_SESSIONS} sessions`} />
+        <CardHeaderRow
+          title={t('gymExerciseProgress.history')}
+          scope={t('gymExerciseProgress.lastSessions', { count: HISTORY_SESSIONS })}
+        />
         <Text variant="footnote" color={color.secondaryLabel} style={{ marginTop: METRIC_LINE_OFFSET }}>
-          {bodyweight ? 'Total reps per session' : 'Volume per session'}
+          {bodyweight ? t('gymExerciseProgress.totalRepsPerSession') : t('gymExerciseProgress.volumePerSession')}
         </Text>
         <View>
           <View
             accessible
-            accessibilityLabel={chartData.map((e) => `${dayMonth(e.date)}, ${formatNumber(valueOf(e))} ${unit}`).join('; ')}
+            accessibilityLabel={chartData.map((e) => `${dayMonth(e.date)}, ${amount(formatNumber(valueOf(e)))}`).join('; ')}
             style={{ flexDirection: 'row', alignItems: 'flex-end', gap: BAR_GAP, height: CHART_HEIGHT }}
           >
             {chartData.map((e, i) => (
@@ -262,8 +276,12 @@ export default function ExerciseProgressScreen(): JSX.Element {
             borderTopColor: surface.divider,
           }}
         >
-          <Stat value={`${formatNumber(valueOf(latest))} ${unit}`} label="Latest session" sub={dayMonth(latest.date)} />
-          <Stat value={bestStat.value} label="Best set" sub={bestStat.sub} />
+          <Stat
+            value={amount(formatNumber(valueOf(latest)))}
+            label={t('gymExerciseProgress.latestSession')}
+            sub={dayMonth(latest.date)}
+          />
+          <Stat value={bestStat.value} label={t('gymExerciseProgress.bestSet')} sub={bestStat.sub} />
         </View>
       </Card>
     );

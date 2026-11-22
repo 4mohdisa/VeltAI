@@ -8352,3 +8352,7 @@
 - 2026-11-22 17:47 Chose templates.tsx as the next Row 14 screen: same small LoadFailedNotice pattern as history, one screen, no data layer change.
 - 2026-11-22 17:47 Templates reuses the history pattern (default), no new decision needed.
 - 2026-11-22 17:47 Kept Jev's run signal (85%). Smallest clean task, not blocked by Isa.
+- 2026-11-22 17:49 Chose exercise-progress.tsx: it is the recommendation from the last report and is one small screen, following the templates.tsx pattern. Jev said run (82%).
+- 2026-11-22 17:49 Kept session.tsx leftovers for a later round because it touches an alert and a save button, which is a bigger change than one screen state.
+- 2026-11-22 17:49 Did not reopen the useTemplates-versus-useGym question: the templates work is accepted as done, and Isa's wording approval stays in Blocked.
+- 2026-11-22 17:49 Spotted but not fixed: useTemplates drops existing data when a refetch fails. That fix needs src/lib/data, which is off limits, so it stays in Parked.

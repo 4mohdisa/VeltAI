@@ -371,6 +371,73 @@
     "oftenSkip": "Sueles saltarte {{day}}",
     "removeExerciseTitle": "¿Quitar el ejercicio?"
   },
+  "gymExerciseProgress": {
+    "exerciseFallback": "Ejercicio",
+    "musclesWorked": "Músculos trabajados",
+    "primary": "Principal",
+    "secondary": "Secundario",
+    "formGuide": "Guía de técnica",
+    "emptyTitle": "Aún no hay suficientes datos",
+    "emptyMessage": "Registra este ejercicio 3 veces o más para ver tu progreso",
+    "history": "Historial",
+    "lastSessions_one": "Última sesión",
+    "lastSessions_other": "Últimas {{count}} sesiones",
+    "totalRepsPerSession": "Repeticiones totales por sesión",
+    "volumePerSession": "Volumen por sesión",
+    "repsValue": "{{value}} reps",
+    "kgValue": "{{value}} kg",
+    "setsOnDate": "{{sets}} series · {{date}}",
+    "repsOnDate": "{{reps}} reps · {{date}}",
+    "latestSession": "Última sesión",
+    "bestSet": "Mejor serie",
+    "guide": {
+      "press": [
+        "Asienta los pies, agarra un poco más abierto que los hombros y activa el core.",
+        "Baja con control hasta que la barra o las asas lleguen al pecho, codos a unos 45°.",
+        "Empuja de nuevo y para justo antes de bloquear, con los hombros abajo."
+      ],
+      "squat": [
+        "Barra alta en la espalda, pies al ancho de hombros, puntas algo hacia fuera.",
+        "Baja entre las caderas hasta pasar el paralelo, rodillas en la línea de los pies.",
+        "Empuja desde el medio del pie y sube recto sin dejar caer el pecho."
+      ],
+      "hinge": [
+        "Caderas atrás, pecho arriba, barra cerca de las espinillas y espalda neutra.",
+        "Lleva las caderas atrás hasta notar los isquios en tensión, la barra rozando las piernas.",
+        "Aprieta los glúteos para subir; la barra sube en vertical."
+      ],
+      "row": [
+        "Fija un ángulo de torso estable y baja primero las escápulas.",
+        "Rema hacia las costillas bajas, codos más allá del cuerpo, sin encoger los hombros.",
+        "Baja con control hasta estirar del todo antes de la siguiente repetición."
+      ],
+      "curl": [
+        "Codos pegados a las costillas, muñecas neutras, hombros relajados.",
+        "Sube hasta pasar el antebrazo de la vertical sin balancear el torso.",
+        "Baja despacio en tres tiempos; la fase negativa es el trabajo."
+      ],
+      "raise": [
+        "Inclínate un poco hacia delante, codos suaves, pesas junto a los muslos.",
+        "Eleva hasta la altura de los hombros guiando con los codos, no con las manos.",
+        "Pausa un instante arriba y baja con tensión."
+      ],
+      "push": [
+        "Colócate un paso detrás de la máquina, codos pegados al cuerpo.",
+        "Extiende del todo y pausa un momento con los tríceps contraídos.",
+        "Vuelve solo hasta que los antebrazos queden paralelos para mantener la tensión."
+      ],
+      "cardio": [
+        "Calienta de tres a cinco minutos a ritmo suave.",
+        "Mantén cada intervalo a su velocidad objetivo, respirando fuerte pero pudiendo decir una palabra.",
+        "Termina con dos minutos caminando para bajar el pulso."
+      ],
+      "other": [
+        "Colócate de forma que solo se mueva el músculo que trabaja.",
+        "Haz todo el recorrido que puedas controlar, sin rebotes.",
+        "Iguala las cifras de la última sesión antes de subir el peso."
+      ]
+    }
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak_one": "{{count}} día seguido",

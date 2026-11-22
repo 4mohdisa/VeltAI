@@ -369,6 +369,73 @@
     "oftenSkip": "You often skip {{day}}",
     "removeExerciseTitle": "Remove exercise?"
   },
+  "gymExerciseProgress": {
+    "exerciseFallback": "Exercise",
+    "musclesWorked": "Muscles worked",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "formGuide": "Form guide",
+    "emptyTitle": "Not enough data yet",
+    "emptyMessage": "Log this exercise 3+ times to see progress",
+    "history": "History",
+    "lastSessions_one": "Last {{count}} session",
+    "lastSessions_other": "Last {{count}} sessions",
+    "totalRepsPerSession": "Total reps per session",
+    "volumePerSession": "Volume per session",
+    "repsValue": "{{value}} reps",
+    "kgValue": "{{value}} kg",
+    "setsOnDate": "{{sets}} sets · {{date}}",
+    "repsOnDate": "{{reps}} reps · {{date}}",
+    "latestSession": "Latest session",
+    "bestSet": "Best set",
+    "guide": {
+      "press": [
+        "Set your feet, grip just outside shoulder width and brace your core.",
+        "Lower under control until the bar or handles reach chest level, elbows at about 45°.",
+        "Press back up and stop just short of locking out, keeping shoulders down."
+      ],
+      "squat": [
+        "Bar high on the back, feet shoulder width, toes turned out slightly.",
+        "Sit down between your hips until thighs pass parallel, knees tracking over toes.",
+        "Drive through mid-foot and stand tall without letting the chest drop."
+      ],
+      "hinge": [
+        "Hips back, chest proud, bar close to the shins with a neutral spine.",
+        "Push the hips back until you feel the hamstrings load, bar grazing the legs.",
+        "Squeeze the glutes to stand up — the bar path stays vertical."
+      ],
+      "row": [
+        "Set a stable torso angle and pull the shoulder blades down first.",
+        "Row to the lower ribs, elbows past the body, no shrugging.",
+        "Lower under control for a full stretch before the next rep."
+      ],
+      "curl": [
+        "Elbows pinned to the ribs, wrists neutral, shoulders relaxed.",
+        "Curl until the forearm passes vertical without swinging the torso.",
+        "Lower slowly for three counts — the negative is the work."
+      ],
+      "raise": [
+        "Slight forward lean, elbows soft, weights beside the thighs.",
+        "Lift out to shoulder height leading with the elbows, not the hands.",
+        "Pause a beat at the top, then lower under tension."
+      ],
+      "push": [
+        "Stand a step back from the stack, elbows tight to your sides.",
+        "Extend to full lockout, pausing briefly with the triceps contracted.",
+        "Return only until the forearms reach parallel to keep tension."
+      ],
+      "cardio": [
+        "Warm up for three to five minutes at an easy pace.",
+        "Hold each interval at its target speed — breathing hard but able to speak a word.",
+        "Finish with two minutes of walking to bring the heart rate down."
+      ],
+      "other": [
+        "Set up so the working muscle is the only thing moving.",
+        "Move through the full range you can control, no bouncing.",
+        "Match last session’s numbers before adding weight."
+      ]
+    }
+  },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "dayStreak_one": "{{count}} day streak",
