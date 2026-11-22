@@ -10,7 +10,7 @@ jest.mock('@/lib/ai/consent', () => ({
 }));
 
 jest.mock('@/lib/data/aiBrain', () => ({
-  useInsights: jest.fn(() => ({ insights: [], anomalies: [], loading: false, dismiss: jest.fn() })),
+  useInsights: jest.fn(() => ({ insights: [], anomalies: [], loading: false, isError: false, dismiss: jest.fn() })),
   useBrainProfile: jest.fn(() => ({ profile: null, loading: false, notEnoughData: true })),
 }));
 

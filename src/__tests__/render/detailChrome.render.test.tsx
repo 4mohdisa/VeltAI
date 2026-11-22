@@ -76,7 +76,7 @@ const mockWeekMacros = mockWeekDates.map((date) => ({ date, protein: 0, carbs: 0
 
 jest.mock('@/lib/data/energyRange', () => ({
   ...jest.requireActual('@/lib/data/energyRange'),
-  useEnergyRange: () => ({ days: mockEnergyDays, loading: false, refetch: jest.fn() }),
+  useEnergyRange: () => ({ days: mockEnergyDays, loading: false, isError: false, refetch: jest.fn() }),
 }));
 
 jest.mock('@/lib/data/gymRange', () => ({

@@ -8202,3 +8202,6 @@
 - 2026-11-22 16:50 Chose the docs-only cleanup first: it is the smallest task, it needs nothing from Isa, and it removes misleading comments before row 13 work starts.
 - 2026-11-22 16:50 Kept row 12 PARTIAL this round: the checkpoint passed, but the notes say Isa approves BUILT, so no status change without that.
 - 2026-11-22 16:50 Used a search to find the food tab file rather than guessing its path, so the prompt names no unverified file.
+- 2026-11-22 16:51 Row 12 set back to PARTIAL: the handover says it stays PARTIAL until a checkpoint passes and Isa approves BUILT. No approval is recorded, so the file status is reverted. Reason: the status rule is explicit and reversible.
+- 2026-11-22 16:51 Chose the smallest task that clears test hygiene before row 13. Reason: Jev rated run and ask close, and risk is low confidence, so the smaller task wins.
+- 2026-11-22 16:51 useInsights refetch and Retry stay parked, not built. Reason: the brief allows only the smallest change for a row, and retry is not in any row.
