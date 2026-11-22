@@ -8217,3 +8217,8 @@
 - 2026-11-22 16:54 Row 13 chosen because it does not depend on Isa approving row 12 and touches only the Food tab screen.
 - 2026-11-22 16:54 No question asked: row 12 approval was already asked and the default (status stays PARTIAL until Isa approves) is in force.
 - 2026-11-22 16:54 Row 13 prompt tells Claude Code to find the Food tab screen by searching for the existing copy, since the exact file path is not in the notes.
+- 2026-11-22 16:56 Re-verify row 13 first: the last report was flagged and row 13 changed code, so the notes rule requires its own round.
+- 2026-11-22 16:56 Kept row 13 at PARTIAL: most of its items are still open, and BUILT needs Isa's approval.
+- 2026-11-22 16:56 Ran only the Food tab test files, not the full checkpoint: a checkpoint is due on its own schedule, and the loop has not called one.
+- 2026-11-22 16:56 Left the past-day error copy and the offline banner for NEXT: they are new work outside the verification.
+- 2026-11-22 16:56 Kept the past-day wording 'Nothing was logged on this day.' as the default until Isa confirms it.

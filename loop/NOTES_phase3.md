@@ -38,7 +38,8 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Round 48: row 12 set back to PARTIAL per handover (BUILT needs Isa approval).
 - Round 48: useInsights refetch and Retry stay parked (not in any row).
 - Round 50: full checkpoint chosen over row 13. Edits allowed only to the three named mock files (isError: false).
-- Round 51: the same flagged blocker (row 12 approval) came back twice. Recorded under Blocked on Isa, not retried. Work moves to rows that do not depend on it.
+- Round 51: same flagged blocker (row 12 approval) came back twice. Recorded under Blocked on Isa, not retried.
+- Round 52: row 13 flagged as partly done. Re-verified as its own round (Food tab tests and tsc only). Row 13 stays PARTIAL.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -50,19 +51,22 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Round 44: AnomalyBanner props. Round 45: phase14Regression reads the food tab screen.
 - Round 46: full checkpoint passed. Round 47: docs cleanup.
 - Round 48: mock isError fixes in detailChrome and insights render tests.
-- Round 49: row 12 re-verified. Round 50: full checkpoint clean (tsc 0, Jest 147/1029, 0 skipped).
+- Round 49: row 12 re-verified. Round 50: full checkpoint clean.
+- Round 51: row 13 Food tab states: past-day empty message added, foodTab.emptyStates render tests (4) added. Status PARTIAL.
 
 ## Blocked on Isa
-- Row 12 BUILT approval. Code done, checkpoint clean round 50. Status stays PARTIAL until Isa approves. Flagged twice by auto check: do not retry, do not re-ask.
-- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed-user sign-in path. Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
+- Row 12 BUILT approval. Code done, checkpoint clean round 50. Stays PARTIAL until Isa approves. Do not retry, do not re-ask.
+- Row 13 PARTIAL vs BUILT and past-day wording 'Nothing was logged on this day.' Default used.
+- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed-user sign-in path. Blocks row 6 heavy-user checks and row 9 export check. Parked.
 - Analytics default on (brief) vs store off (DECISIONS.md 2026-08-09). Default used. Confirm before Phase 4.
 - Templates '+' replaced by a list control? Unanswered. Keep '+' (row 3).
 - useEnergyRange: confirm 'both weeks fail' rule. Default used.
 
 ## Next
-- Round 51: row 13 Food tab empty states (in progress).
+- Row 13 re-verification (round 52), then row 13 follow-ups: past-day error copy, PendingSyncBanner on Food tab.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
+- Full checkpoint on its scheduled round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7 and 8 (Sentry, PostHog), then rows 9 and 10, then Row 11 (final sweep).
 
@@ -86,3 +90,5 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - hydrationErrorState.render.test.tsx prints many 'API unreachable' warnings. Park.
 - Energy one-week-fails path untested; no test for refetch clearing isError. Park.
 - Anomalies stay empty when getInsights fails. Harmless today.
+- Food tab error copy says 'today's food log' on past days (food.empty.loadFailed, food.loadFailed). Row 13 follow-up.
+- Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 follow-up.
