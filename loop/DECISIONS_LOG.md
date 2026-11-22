@@ -9590,3 +9590,11 @@
 - 2026-11-23 04:56 Add the new keys inside the existing workoutsWeek group, not as a new group, because the group already exists.
 - 2026-11-23 04:56 Ignored the resent Row 17 gap 5 flag: that gap is closed.
 - 2026-11-23 04:56 Left Row 14 PARTIAL: the Gym month line, Retry buttons and workoutsLine in src/lib/data remain.
+- 2026-11-23 04:58 Round 86: the src/lib/data permission has gone unanswered since round 82, so the default stays: src/lib/data remains off limits. If it is still unanswered in round 87, park every item that needs it as an owner item and move to Row 11.
+- 2026-11-23 04:58 Row 13 chosen because it is the only remaining row item with no src/lib/data edit needed. Any string that turns out to sit in src/lib/data or a pinned test is reported under NEXT, not edited.
+- 2026-11-23 04:58 The automatic partly-done flag on the last report is closed: Row 14 is correctly PARTIAL, and its remaining items are all recorded as blocked, so no further Row 14 work is run this round.
+- 2026-11-23 04:58 Jev suggested ask. Not chosen: the question has been asked and unanswered for several rounds, and a no-data-edit task can still run now.
+- 2026-11-23 04:58 Round 87: the loop's rejected prompt was rewritten to name loop/phase3 only, forbid git, pushes and branch switches, and state the report format. Reason: the loop rejected it.
+- 2026-11-23 04:58 src/lib/data stays off limits this round. Reason: the permission was asked in rounds 82 and 85 and is still unanswered.
+- 2026-11-23 04:58 Row 13 stays PARTIAL. Reason: the barcode network error and calendar load error sit in src/lib/data.
+- 2026-11-23 04:58 Next round, if src/lib/data is still unanswered, park its dependent items as owner items. Reason: the round 87 plan in these notes.
