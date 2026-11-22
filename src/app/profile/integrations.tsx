@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { PixelRatio, View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import Svg, { Path } from 'react-native-svg';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -29,7 +30,7 @@ type OAuthProvider = {
   /** The design's drawn glyph (Profile bundle b09a5e65 :664-670), stroked in `stroke`. */
   glyph: string;
   stroke: string;
-  blurb: string;
+  blurbKey: 'profile.integrations.stravaBlurb' | 'profile.integrations.whoopBlurb';
   connect: () => Promise<{ url: string }>;
   sync: () => Promise<{ imported: number; skipped: number }>;
 };
@@ -40,7 +41,7 @@ const PROVIDERS: OAuthProvider[] = [
     name: 'Strava',
     glyph: 'M3.6 18.4l4.6-8.6 3.4 4.6 3.2-6.6 3 5.2 3-5.8',
     stroke: accent.orange,
-    blurb: 'Import your runs, rides and swims as gym sessions.',
+    blurbKey: 'profile.integrations.stravaBlurb',
     connect: api.integrations.connectStrava,
     sync: api.integrations.syncStrava,
   },
@@ -50,7 +51,7 @@ const PROVIDERS: OAuthProvider[] = [
     glyph:
       'M8.6 4.6h6.8a3.4 3.4 0 013.4 3.4v8a3.4 3.4 0 01-3.4 3.4H8.6A3.4 3.4 0 015.2 16V8a3.4 3.4 0 013.4-3.4ZM9.4 9.4l2.6 5.2 2.6-5.2',
     stroke: color.label,
-    blurb: 'Import WHOOP workouts with their calorie burn.',
+    blurbKey: 'profile.integrations.whoopBlurb',
     connect: api.integrations.connectWhoop,
     sync: api.integrations.syncWhoop,
   },
@@ -72,14 +73,14 @@ const PROVIDER_GLYPH_SIZE = 19;
 const PROVIDER_GLYPH_STROKE = 1.9;
 
 // ago renders a compact relative time; '' for a null timestamp.
-function ago(iso: string | null | undefined): string {
+function ago(iso: string | null | undefined, t: TFunction): string {
   if (!iso) return '';
   const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
+  if (mins < 1) return t('profile.integrations.justNow');
+  if (mins < 60) return t('profile.integrations.minutesAgo', { count: mins });
   const hrs = Math.round(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  return `${Math.round(hrs / 24)}d ago`;
+  if (hrs < 24) return t('profile.integrations.hoursAgo', { count: hrs });
+  return t('profile.integrations.daysAgo', { count: Math.round(hrs / 24) });
 }
 
 export default function IntegrationsScreen() {
@@ -141,9 +142,9 @@ export default function IntegrationsScreen() {
       await load();
     } catch (e) {
       if (e instanceof ApiError && e.status === 503) {
-        showToast({ message: `${p.name} isn't available yet — coming soon.`, tone: 'info' });
+        showToast({ message: t('profile.integrations.unavailable', { name: p.name }), tone: 'info' });
       } else {
-        showToast({ message: `Couldn't connect ${p.name}.`, tone: 'error' });
+        showToast({ message: t('profile.integrations.connectFailed', { name: p.name }), tone: 'error' });
       }
     } finally {
       setBusy(null);
@@ -154,10 +155,10 @@ export default function IntegrationsScreen() {
     setBusy(p.key);
     try {
       const res = await p.sync();
-      showToast({ message: `${p.name}: imported ${res.imported}, skipped ${res.skipped}.`, tone: 'success' });
+      showToast({ message: t('profile.integrations.syncDone', { name: p.name, imported: res.imported, skipped: res.skipped }), tone: 'success' });
       await load();
     } catch {
-      showToast({ message: `Couldn't sync ${p.name}.`, tone: 'error' });
+      showToast({ message: t('profile.integrations.syncFailed', { name: p.name }), tone: 'error' });
     } finally {
       setBusy(null);
     }
@@ -167,10 +168,10 @@ export default function IntegrationsScreen() {
     setBusy(p.key);
     try {
       await api.integrations.disconnect(p.key);
-      showToast({ message: `${p.name} disconnected.`, tone: 'info' });
+      showToast({ message: t('profile.integrations.disconnected', { name: p.name }), tone: 'info' });
       await load();
     } catch {
-      showToast({ message: `Couldn't disconnect ${p.name}.`, tone: 'error' });
+      showToast({ message: t('profile.integrations.disconnectFailed', { name: p.name }), tone: 'error' });
     } finally {
       setBusy(null);
     }
@@ -179,7 +180,7 @@ export default function IntegrationsScreen() {
   return (
     <Screen variant="floating" eyebrow={eyebrow} title={t('profile.connectedApps')} showBack contentStyle={{ gap: space.xl }}>
       <Text variant="footnote" color={color.secondaryLabel}>
-        Link a fitness app to import workouts automatically.
+        {t('profile.integrations.intro')}
       </Text>
       <View style={{ gap: space.sm }}>
         {loading ? (
@@ -229,8 +230,10 @@ export default function IntegrationsScreen() {
                         color={connected ? categoryAccent.positive : color.secondaryLabel}
                       >
                         {connected
-                          ? `Connected${conn?.last_sync_at ? ` · synced ${ago(conn.last_sync_at)}` : ''}`
-                          : p.blurb}
+                          ? conn?.last_sync_at
+                            ? t('profile.integrations.connectedSynced', { time: ago(conn.last_sync_at, t) })
+                            : t('profile.integrations.connected')
+                          : t(p.blurbKey)}
                       </Text>
                     </View>
                   </View>
@@ -238,14 +241,14 @@ export default function IntegrationsScreen() {
                   {connected ? (
                     <View style={{ flexDirection: 'row', gap: space.sm }}>
                       <View style={{ flex: 1 }}>
-                        <Button title="Sync now" variant="secondary" loading={working} onPress={() => onSync(p)} />
+                        <Button title={t('profile.integrations.syncNow')} variant="secondary" loading={working} onPress={() => onSync(p)} />
                       </View>
                       <View style={{ flex: 1 }}>
-                        <Button title="Disconnect" variant="tertiary" disabled={working} onPress={() => onDisconnect(p)} />
+                        <Button title={t('profile.integrations.disconnect')} variant="tertiary" disabled={working} onPress={() => onDisconnect(p)} />
                       </View>
                     </View>
                   ) : (
-                    <Button title={`Connect ${p.name}`} variant="primary" loading={working} onPress={() => onConnect(p)} />
+                    <Button title={t('profile.integrations.connect', { name: p.name })} variant="primary" loading={working} onPress={() => onConnect(p)} />
                   )}
                 </View>
               </Card>

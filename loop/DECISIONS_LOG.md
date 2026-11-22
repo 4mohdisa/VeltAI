@@ -9163,3 +9163,7 @@
 - 2026-11-23 00:40 Chose Scan accuracy over Integrations: the notes order it next and it is a single screen. Integrations follows.
 - 2026-11-23 00:40 Screen file for Scan accuracy is not named in the notes, so Claude Code locates it by search and reports the path. Only one screen file may be edited.
 - 2026-11-23 00:40 Jev ranked Run at 94% and a small task fits its low confidence on risk (0.9). Kept the chosen task and no question was needed.
+- 2026-11-23 00:43 Chose Integrations body copy because the last report named it as the next Row 15 item and it is the smallest step that clears remaining copy in Row 15.
+- 2026-11-23 00:43 Kept the locale parity and full suite check for the next checkpoint round, because it is a gate and not a row task, and the loop only runs full suites at checkpoints.
+- 2026-11-23 00:43 Kept food.tsx kcal label pattern parked, because it changes spoken labels across two screens and needs one row of its own.
+- 2026-11-23 00:43 Asked the prompt to reuse existing keys before adding new ones, to avoid duplicate translations (Gotchas rule).
