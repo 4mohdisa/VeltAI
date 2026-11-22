@@ -9145,3 +9145,5 @@
 - 2026-11-23 00:32 Chose the smallest candidate: Jev gives a 20% chance the last task finished cleanly and risk 1.0, so a one-file copy fix is the safer next step.
 - 2026-11-23 00:32 Kept the rule that tests are never edited and snapshots are never regenerated, so a blocking test is backed out and reported.
 - 2026-11-23 00:32 Compressed the notes to under 600 words. Decisions and Blocked on Isa are kept in full in substance; finished work was removed.
+- 2026-11-23 00:34 Chose the French no-break space fix over the planned goals label: the French rule is already a recorded decision, and the last report found 15 lines breaking it. Small, copy only, no Isa approval needed.
+- 2026-11-23 00:34 If an existing test pins a plain-space string, revert that one value and report it, because existing tests are never edited.
