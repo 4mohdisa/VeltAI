@@ -2,8 +2,8 @@
 // A Metric/Imperial quick-toggle sets all four dimensions at once; the per-
 // dimension segmented controls below let the user mix (e.g. metric but lb).
 // Everything reads/writes the settings store, which the rest of the app uses at
-// the display boundary. (Language is English-only at launch — the picker was
-// removed; the i18n scaffolding / t() wrapping stays for later.)
+// the display boundary. Every string on this screen goes through t() with en,
+// es and fr text.
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 

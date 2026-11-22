@@ -9,13 +9,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12.
-- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15, 16, 17.
+- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15, 17. 16 closing this round (Preferences copy checked, support mailSubject test, header comment).
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
-- Row 16: Integrations notice and Support strings done (support test added, no change needed).
 
 ## Next
-- Row 16: Preferences copy audit (src/app/profile/preferences.tsx), in progress.
-- Then Row 15 copy pass, Row 17 gaps. Row 11 last.
+- Row 16 close-out (this round). Then Row 15 copy pass (merge the two Export rows), Row 17 gaps. Row 11 last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -33,11 +31,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
 - src/lib/data off limits except api.ts insight catch blocks.
 - French: no-break space before ':', '?' and inside guillemets; curly apostrophes; es and fr plain space before %. Spanish tu, French vous.
-- Keep as is: Integrations 'Nothing connected' eyebrow; Privacy 'Your data' English; Spanish 'Tus datos'.
+- Keep as is: Integrations 'Nothing connected' eyebrow; Privacy 'Your data' English (test requires it); Spanish 'Tus datos'.
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
 - Preferences kept in memory, not persisted.
-- Prompt rejected once for missing loop/phase3 branch rule. Every prompt now states it.
+- Prompt rejected once for missing loop/phase3 branch rule. Every prompt states it.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns. Parked.
@@ -55,10 +53,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## Parked (not Phase 3)
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
-- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form. Privacy 'Your data' English (test requires it). support.mailSubject untested.
+- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form. support.mailSubject untested until this round. Preferences header comment said English-only (fixed this round).
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
+- Preferences: contentStyle gap 18 is a raw number, not a token. Repeat-visit skeleton flash.
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json; share subject hard-coded; two Export rows until Row 15 copy pass ends.

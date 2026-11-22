@@ -9380,3 +9380,7 @@
 - 2026-11-23 02:13 Chose Row 16 Preferences because it is the open Row 16 item and is the smallest unbuilt task.
 - 2026-11-23 02:13 Kept the Jev ask override: all Isa items have defaults and no row is blocked, so the run goes ahead.
 - 2026-11-23 02:13 Compressed the notes to under 600 words. Finished detail moved to one line each, and the open Isa items are kept verbatim.
+- 2026-11-23 02:14 Privacy 'Your data' title stays English. An existing test requires it and existing tests are not edited without Isa. Default used, no question asked.
+- 2026-11-23 02:14 Row 16 closes this round if its gates pass. The scanCalibration basedOn _one form stays parked; it is not needed to close the row.
+- 2026-11-23 02:14 Chose the smallest open row first. The last report ended PARTIAL with nothing failing, so the loop flag is answered by finishing it, not by asking.
+- 2026-11-23 02:14 Jev ranked ask highest, but nothing is blocked and every Isa item has a default, so the run goes ahead (existing rule).
