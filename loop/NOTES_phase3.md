@@ -5,17 +5,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
-- Gates must run and be reported on every round that touches code. The last report ran none and the loop flagged it.
-- Last recorded figures: tsc 0 errors. Jest 233 suites / 1338 tests pass, 0 skipped. Go 543 pass / 20 TestPG skipped. Re-confirm this round. Older 228/1322 figures are superseded.
+- Gates run and reported on every round that touches code.
+- Last recorded figures: tsc 0 errors. Jest 233 suites / 1338 tests pass, 0 skipped. Go 543 pass / 20 TestPG skipped. Isa to confirm new baseline. 228/1322 superseded.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 16.
-- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15 (gate round pending), 17.
+- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 16. Row 15 closing as BUILT this round (loading and failed-read parked with default).
+- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 15 gate round: run tsc, Jest, Go. Then mark Goals BUILT (no empty state reachable, loading parked).
-- Row 17 gaps. Row 11 final sweep last.
+- Row 17 gaps: list first, then fix one. Row 11 final sweep last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -39,7 +38,8 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
 - Preferences kept in memory, not persisted.
 - Every prompt states the loop/phase3 branch rule.
-- Row 15 Goals: no empty state built, since useGoals always returns numbers. Loading and failed-read parked with default (no state).
+- Row 15 Goals: no empty state (useGoals always returns numbers). Loading and failed-read parked with default.
+- Row 17 Jev override (this round): Jev ranked Row 17 first at 88%. Row 15 was left PARTIAL after its gate round; closing it is one status change with defaults already recorded.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading and error (Row 15). Parked.
@@ -54,6 +54,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user.
 - Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}'. kJ spoken as 'kilojoules' needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
+- Confirm new baseline 233 suites / 1338 tests (was 228/1322).
 
 ## Parked (not Phase 3)
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.

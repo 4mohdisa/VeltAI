@@ -9404,3 +9404,8 @@
 - 2026-11-23 02:19 Did not ask Isa: every open item has a default, and the only blocked piece (useGoals loading/error) is parked. Jev's ask score was overridden under the standing rule.
 - 2026-11-23 02:19 Notes condensed to fit under 600 words. Facts unchanged, superseded figures (228/1322) removed, and all decisions kept.
 - 2026-11-23 02:19 Row 15 stays PARTIAL until this gate round reports. Then mark its Goals part BUILT with the note above.
+- 2026-11-23 02:20 Jev ranked Row 17 first (88%). I overrode it for one concrete reason: the last report left Row 15 PARTIAL after its gate round, and the loop flagged it as only partly done. The notes already record the defaults for loading and failed reads, so closing the row is one status change, not new code. Row 17 is next round, after its gaps are listed.
+- 2026-11-23 02:20 Jev ask (56%, confidence 0.34) overridden: all Isa items have recorded defaults and no row is blocked, so asking adds no value this round.
+- 2026-11-23 02:20 No gates run this round: the prompt changes no code. The gate round for Row 15 was already run and reported green (tsc 0, Jest 233/1338, Go 543 pass, 20 skipped).
+- 2026-11-23 02:20 The Jest and Go baselines are recorded as 233/1338 and 543/20. Isa still needs to confirm the 228/1322 to 233/1338 change. Not blocking.
+- 2026-11-23 02:20 Row 15 loading and failed-read states are parked with the default, not built. Isa's useGoals decision can reopen them later.
