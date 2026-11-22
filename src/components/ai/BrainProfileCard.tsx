@@ -4,6 +4,8 @@
 // read defensively (no `any`).
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 
 import { Card, CardHeaderRow, ProgressBar, Skeleton } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
@@ -17,15 +19,14 @@ function capitalize(s: string): string {
 }
 
 // "today" / "N hours ago" / "N days ago"; "recently" if null/unparseable.
-function relativeTime(iso: string | null): string {
-  if (!iso) return 'recently';
-  const t = Date.parse(iso);
-  if (Number.isNaN(t)) return 'recently';
-  const hours = Math.floor((Date.now() - t) / 3_600_000);
-  if (hours < 1) return 'today';
-  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
-  const days = Math.floor(hours / 24);
-  return `${days} day${days === 1 ? '' : 's'} ago`;
+function relativeTime(iso: string | null, t: TFunction): string {
+  if (!iso) return t('insights.brainProfile.recently');
+  const at = Date.parse(iso);
+  if (Number.isNaN(at)) return t('insights.brainProfile.recently');
+  const hours = Math.floor((Date.now() - at) / 3_600_000);
+  if (hours < 1) return t('insights.brainProfile.today');
+  if (hours < 24) return t('insights.brainProfile.hoursAgo', { count: hours });
+  return t('insights.brainProfile.daysAgo', { count: Math.floor(hours / 24) });
 }
 
 function readMostActiveDay(gp: Record<string, unknown> | null): string | null {
@@ -44,6 +45,7 @@ function readScanPct(sp: Record<string, unknown> | null): number | null {
 }
 
 export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element {
+  const { t } = useTranslation();
   const { profile, loading, notEnoughData } = useBrainProfile();
 
   if (loading) {
@@ -62,9 +64,9 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
     return (
       <Card variant="elevated">
         <View style={{ gap: space.md }}>
-          <CardHeaderRow title="Lume is still learning" icon="sparkles" tint={categoryAccent.ai} />
+          <CardHeaderRow title={t('insights.brainProfile.learningTitle')} icon="sparkles" tint={categoryAccent.ai} />
           <Text variant="callout" color={color.secondaryLabel}>
-            Keep logging to unlock your profile
+            {t('insights.brainProfile.learningMessage')}
           </Text>
           <ProgressBar value={0.3} tint={categoryAccent.ai} track={color.light2} />
         </View>
@@ -74,20 +76,31 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
 
   const rows: { label: string; value: string }[] = [];
   if (profile.typical_daily_calories !== null) {
-    rows.push({ label: 'Typical daily intake', value: `~${Math.round(profile.typical_daily_calories)} kcal/day` });
+    rows.push({
+      label: t('insights.brainProfile.typicalIntake'),
+      value: t('insights.brainProfile.typicalIntakeValue', { value: Math.round(profile.typical_daily_calories) }),
+    });
   }
   if (profile.goal_adherence_score !== null) {
-    rows.push({ label: 'Goal adherence', value: `${Math.round(profile.goal_adherence_score)}% of days on target` });
+    rows.push({
+      label: t('insights.brainProfile.goalAdherence'),
+      value: t('insights.brainProfile.goalAdherenceValue', { value: Math.round(profile.goal_adherence_score) }),
+    });
   }
   const activeDay = readMostActiveDay(profile.gym_patterns);
-  if (activeDay) rows.push({ label: 'Most active day', value: activeDay });
+  if (activeDay) rows.push({ label: t('insights.brainProfile.mostActiveDay'), value: activeDay });
   const scanPct = readScanPct(profile.scan_accuracy_profile);
-  if (scanPct !== null) rows.push({ label: 'Scan accuracy', value: `Scans are ${Math.round(scanPct)}% accurate for you` });
+  if (scanPct !== null) {
+    rows.push({
+      label: t('insights.brainProfile.scanAccuracy'),
+      value: t('insights.brainProfile.scanAccuracyValue', { value: Math.round(scanPct) }),
+    });
+  }
 
   return (
     <Card variant="elevated">
       <View style={{ gap: space.lg }}>
-        <CardHeaderRow title="Your AI profile" icon="sparkles" tint={categoryAccent.ai} />
+        <CardHeaderRow title={t('insights.brainProfile.title')} icon="sparkles" tint={categoryAccent.ai} />
 
         <View style={{ gap: space.md }}>
           {rows.map((r) => (
@@ -103,7 +116,7 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
         </View>
 
         <Text variant="caption" color={color.secondaryLabel}>
-          Updated {relativeTime(profile.last_rebuilt)}
+          {t('insights.brainProfile.updated', { time: relativeTime(profile.last_rebuilt, t) })}
         </Text>
 
         {props.onAskLume ? (
@@ -112,10 +125,10 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
             minTapTarget={false}
             hitSlop={8}
             style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, alignSelf: 'flex-start' }}
-            accessibilityLabel="Ask Lume"
+            accessibilityLabel={t('insights.askLume')}
           >
             <Text variant="bodyMedium" color={color.primary}>
-              Ask Lume
+              {t('insights.askLume')}
             </Text>
             <Icon name="chevron-forward" size={16} color={color.primary} />
           </Pressable>

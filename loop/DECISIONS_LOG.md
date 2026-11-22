@@ -8554,3 +8554,8 @@
 - 2026-11-22 18:55 Skipped MacroBars: recurring blocked item (summaryNoFabrication.test.ts permission), do not retry.
 - 2026-11-22 18:55 Kept api.ts swallowed errors and BrainProfileCard fixed bar out of this round: one screen per round, and api.ts is a separate data path.
 - 2026-11-22 18:55 Last task was clean only 37% per Jev, so kept the scope to literals and one render test, with no layout or snapshot changes.
+- 2026-11-22 18:57 Loop flagged the last report as partly done. Finishing the insights screen's cards is the smallest fix. Chose BrainProfileCard first because it is the card the report named and it is on the screen by default.
+- 2026-11-22 18:57 One component per prompt, per the notes rule. InsightCard and AnomalyCard follow in later rounds.
+- 2026-11-22 18:57 Jev recommends run at 90%. Agreed; no reason to override.
+- 2026-11-22 18:57 The fixed 0.3 bar and api.ts errors stay out of this round. They are listed under NEXT.
+- 2026-11-22 18:57 New Spanish and French wording ships as written, consistent with the Row 13 to 15 default. Isa may review later.

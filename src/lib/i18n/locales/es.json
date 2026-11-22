@@ -658,6 +658,25 @@
     "learningTitle": "Lume está aprendiendo",
     "learningMessage": "Registra comidas y entrenamientos durante unos días y tus análisis personalizados aparecerán aquí.",
     "emptyTitle": "Aún no hay análisis",
-    "emptyMessage": "Sigue registrando tus comidas y entrenamientos. Los análisis aparecen tras unos días de datos."
+    "emptyMessage": "Sigue registrando tus comidas y entrenamientos. Los análisis aparecen tras unos días de datos.",
+    "brainProfile": {
+      "learningTitle": "Lume sigue aprendiendo",
+      "learningMessage": "Sigue registrando para desbloquear tu perfil",
+      "title": "Tu perfil de IA",
+      "typicalIntake": "Ingesta diaria habitual",
+      "typicalIntakeValue": "~{{value}} kcal/día",
+      "goalAdherence": "Cumplimiento del objetivo",
+      "goalAdherenceValue": "{{value}} % de los días en el objetivo",
+      "mostActiveDay": "Día más activo",
+      "scanAccuracy": "Precisión de los escaneos",
+      "scanAccuracyValue": "Tus escaneos tienen una precisión del {{value}} %",
+      "updated": "Actualizado {{time}}",
+      "recently": "recientemente",
+      "today": "hoy",
+      "hoursAgo_one": "hace {{count}} hora",
+      "hoursAgo_other": "hace {{count}} horas",
+      "daysAgo_one": "hace {{count}} día",
+      "daysAgo_other": "hace {{count}} días"
+    }
   }
 }

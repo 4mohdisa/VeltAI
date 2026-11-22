@@ -656,6 +656,25 @@
     "learningTitle": "Lume is learning",
     "learningMessage": "Log food and workouts for a few days and your personalised insights will appear here.",
     "emptyTitle": "No insights yet",
-    "emptyMessage": "Keep logging your food and workouts. Insights appear after a few days of data."
+    "emptyMessage": "Keep logging your food and workouts. Insights appear after a few days of data.",
+    "brainProfile": {
+      "learningTitle": "Lume is still learning",
+      "learningMessage": "Keep logging to unlock your profile",
+      "title": "Your AI profile",
+      "typicalIntake": "Typical daily intake",
+      "typicalIntakeValue": "~{{value}} kcal/day",
+      "goalAdherence": "Goal adherence",
+      "goalAdherenceValue": "{{value}}% of days on target",
+      "mostActiveDay": "Most active day",
+      "scanAccuracy": "Scan accuracy",
+      "scanAccuracyValue": "Scans are {{value}}% accurate for you",
+      "updated": "Updated {{time}}",
+      "recently": "recently",
+      "today": "today",
+      "hoursAgo_one": "{{count}} hour ago",
+      "hoursAgo_other": "{{count}} hours ago",
+      "daysAgo_one": "{{count}} day ago",
+      "daysAgo_other": "{{count}} days ago"
+    }
   }
 }

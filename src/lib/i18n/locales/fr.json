@@ -656,6 +656,25 @@
     "learningTitle": "Lume apprend",
     "learningMessage": "Enregistrez vos repas et vos entraînements pendant quelques jours et vos analyses personnalisées apparaîtront ici.",
     "emptyTitle": "Pas encore d’analyses",
-    "emptyMessage": "Continuez à enregistrer vos repas et vos entraînements. Les analyses apparaissent après quelques jours de données."
+    "emptyMessage": "Continuez à enregistrer vos repas et vos entraînements. Les analyses apparaissent après quelques jours de données.",
+    "brainProfile": {
+      "learningTitle": "Lume apprend encore",
+      "learningMessage": "Continuez à enregistrer pour débloquer votre profil",
+      "title": "Votre profil IA",
+      "typicalIntake": "Apport quotidien habituel",
+      "typicalIntakeValue": "~{{value}} kcal/jour",
+      "goalAdherence": "Respect de l’objectif",
+      "goalAdherenceValue": "{{value}} % des jours dans l’objectif",
+      "mostActiveDay": "Jour le plus actif",
+      "scanAccuracy": "Précision des scans",
+      "scanAccuracyValue": "Vos scans sont précis à {{value}} %",
+      "updated": "Mis à jour {{time}}",
+      "recently": "récemment",
+      "today": "aujourd’hui",
+      "hoursAgo_one": "il y a {{count}} heure",
+      "hoursAgo_other": "il y a {{count}} heures",
+      "daysAgo_one": "il y a {{count}} jour",
+      "daysAgo_other": "il y a {{count}} jours"
+    }
   }
 }
