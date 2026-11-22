@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen or component per prompt. Say built, never verified on a device.
+All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen or component per prompt. Say built, never verified on a device. Every prompt must state the loop/phase3-only rule.
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. zsh rejects grep --include.
@@ -10,7 +10,6 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Local Postgres 17 normally stopped: pg_ctl -D /opt/homebrew/var/postgresql@17; stop after.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
 - Handover summary (rounds 215 to 218) is stale. This file wins.
-- Prompt rejected once (round 234): it omitted the loop/phase3-only rule. Every prompt must state it.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -32,25 +31,26 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Support mail box kept as contact link.
 - Row 15 copy-pass notes stay on Row 15 until Isa names another row.
 - Checkpoint rounds change no files.
-- Round 234: Jev ranked Units eyebrow first at 95%. Kept it: it is the notes' explicit next step and no concrete reason overrides it.
+- Round 234: Units eyebrow confirmed already translated (key preferences eyebrow in en, es, fr). No code change. Row 15 stays PARTIAL.
+- Round 235: loop flagged last report as partly done. Answer: Units item closed as above; next item is Spanish Tus datos eyebrows.
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out.
 - Row 8 PARTIAL: allowlist, sink, host validation, consent sync, localised switch, PRIVACY_DATA.md. Anonymous ID and version tags need device check.
 - Row 9 BUILT (owner check pending: export on seeded heavy user). TestPG_ExportHasOnlyCallerRowsAndNoTokens skipped.
-- Row 10 PARTIAL: backend, migration file, screen, tests, Settings row done. Blocked by export.go permission and owner checks.
+- Row 10 PARTIAL: backend, migration file, screen, tests done. Settings row not yet wired. Blocked by export.go permission and owner checks.
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers on account, integrations, preferences, support, privacy, scan-calibration. Privacy Export row done. Privacy footer translated.
+- Row 15 PARTIAL: headers on account, integrations, preferences, support, privacy, scan-calibration. Privacy Export row done. Privacy footer translated. Units eyebrow done.
 
 ## Next
-- Row 15 tail: preferences 'Units' eyebrow (in progress, round 234). Then Spanish 'Tus datos' eyebrows and fr.json straight apostrophes, one per round.
+- Row 15 tail: Spanish 'Tus datos' eyebrows (round 235). Then fr.json straight apostrophes, one per round.
 - Row 15 later: Scan accuracy and Integrations body copy; goals spoken calorie label, hard-coded g, % and comma join.
 - Row 8: anonymous ID and version tags (device check, owner).
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
-- Row 10: check Settings row opens /profile/feedback; add PRIVACY_DATA.md feedback item after Row 15 tail.
+- Row 10: wire Settings row to /profile/feedback; add PRIVACY_DATA.md feedback item after Row 15 tail.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
 - Row 6 measurements parked until a sign-in path exists.
 

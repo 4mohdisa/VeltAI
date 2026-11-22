@@ -9132,3 +9132,8 @@
 - 2026-11-23 00:29 Treated the Row 10 Settings row as done, because the Done section and the round 226-232 notes say so. The handover's claim that nothing opens /profile/feedback is stale. Verification is parked as a candidate.
 - 2026-11-23 00:29 Used a reuse-first rule for the Units key so no duplicate string is added if a 'Units' key already exists.
 - 2026-11-23 00:29 Kept the Privacy section title as English because Isa has not approved the test edit. Default from Blocked on Isa.
+- 2026-11-23 00:30 Chose the Spanish eyebrow check: it is the next named item in the notes and it is a small single screen task. Jev ranked the Units item first, but that item is already confirmed done (round 234 report), so Jev's pick is no longer open work.
+- 2026-11-23 00:30 Units eyebrow recorded as done with no code change. The automatic flag (task looks partly done) is answered by the round 234 check: the key already exists in en, es and fr and preferences.tsx uses it.
+- 2026-11-23 00:30 PRIVACY_DATA.md host item answered 'already matches' (kept from earlier decision).
+- 2026-11-23 00:30 Row 10 Settings row check kept as a later candidate because the report flagged it as not yet done.
+- 2026-11-23 00:30 Privacy title stays English until Isa answers the render test permission question. Default used, not re-asked.
