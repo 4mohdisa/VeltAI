@@ -75,12 +75,17 @@ test('shows the server goals row, not the locally derived target', async () => {
 
   const text = allText(tree);
   expect(text).toContain('2222');
-  const calorieLabels = findAll(
+  // Every field that carries a unit: the calorie figure and the grams and percent macro fields.
+  const unitFields = [en.goals.dailyCalories, en.goals.protein, en.goals.carbs, en.goals.fat];
+  const unitLabels = findAll(
     tree,
-    (p) => typeof p.accessibilityLabel === 'string' && p.accessibilityLabel.startsWith(en.goals.dailyCalories),
+    (p) => typeof p.accessibilityLabel === 'string' && unitFields.some((f) => (p.accessibilityLabel as string).startsWith(f)),
   ).map((n) => n.props.accessibilityLabel as string);
-  expect(calorieLabels.length).toBeGreaterThan(0);
-  for (const label of calorieLabels) expect(label).not.toMatch(/[([]/);
+  for (const unit of ['g', '%']) {
+    for (const macro of [en.goals.protein, en.goals.carbs, en.goals.fat]) expect(unitLabels).toContain(`${macro}, ${unit}`);
+  }
+  expect(unitLabels.some((l) => l.startsWith(en.goals.dailyCalories))).toBe(true);
+  for (const label of unitLabels) expect(label).not.toMatch(/[([]/);
 });
 
 test('falls back to the local derivation, not a crash or a stale number, when the server has no goals row', async () => {

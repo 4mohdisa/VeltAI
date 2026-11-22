@@ -172,6 +172,7 @@ export default function GoalsScreen() {
               <View style={{ flex: 1 }}>
                 <TextField
                   label={t('goals.gramsField', { label: m.label })}
+                  accessibilityLabel={`${m.label}, g`}
                   {...draft(`${m.key}-g`, String(goals[m.key]), (v) => onMacroGrams(m.key, v))}
                   editable={isCustom && splitBy === 'grams'}
                   disabled={!isCustom || splitBy !== 'grams'}
@@ -181,6 +182,7 @@ export default function GoalsScreen() {
               <View style={{ flex: 1 }}>
                 <TextField
                   label={t('goals.percentField', { label: m.label })}
+                  accessibilityLabel={`${m.label}, %`}
                   {...draft(`${m.key}-pct`, percentOf(m.key), (v) => onMacroPercent(m.key, v))}
                   editable={isCustom && splitBy === 'percent'}
                   disabled={!isCustom || splitBy !== 'percent'}

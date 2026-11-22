@@ -8650,3 +8650,7 @@
 - 2026-11-22 19:26 Lowercase 'built' and 'not built' in older Row 15 notes are allowed by the brief (only capitalised status words are restricted). Left unchanged.
 - 2026-11-22 19:26 goals.resetDone wording and the unused goals.saved key stay as they are until Isa decides. Not part of this round.
 - 2026-11-22 19:26 Goals loading and error states stay parked until Isa allows a change in src/lib/data/hooks.ts.
+- 2026-11-22 19:28 Loop flagged round 151 as partly done; the calorie label fix only covered one label, so finish the sweep of goals.tsx before moving on (smallest safe step, closes the flag).
+- 2026-11-22 19:28 Chose the flagged completion over Jev's 86% run pick on the InsightCard badge, because the loop flag must be cleared first.
+- 2026-11-22 19:28 Comma join kept in code, matching food.tsx and dashboard/nutrition.tsx; locale move still waits for Isa.
+- 2026-11-22 19:28 Snapshots and locale files stay untouched, per the snapshot and key rules.
