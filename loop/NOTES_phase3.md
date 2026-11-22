@@ -5,10 +5,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 144 checkpoint clean: tsc 0; Jest 179 suites, 1134 tests, 4 snapshots pass (npx jest --ci).
+- Last full checkpoint (round 144): tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Later rounds ran only changed files.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Row numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop round numbers. Not fixed.
-- Round 146 prompt was rejected once (branch not named). Fixed: prompt now names loop/phase3 and reads .git/HEAD.
+- Round numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop numbers. Not fixed.
+- Round 146: French goals curly apostrophes done (4 keys in fr.json goals group).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -31,17 +31,18 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Rounds 129, 144: checkpoint kept over Jev picks.
 - Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
 - Round 145: Row 14 cleanup kept, matching Jev's top pick.
-- Round 146: French goals apostrophe fix chosen over Goals loading and error (blocked on Isa). Known files, smallest task.
+- Round 146: French goals fix chosen over Goals loading and error (blocked on Isa).
+- Round 147: Row 14 cleanup chosen over handover NEXT (Goals loading and error), which stays parked by default.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals three literals (eyebrow, grams and percent labels, round 145).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals three literals, French goals curly apostrophes (no Row 15 note yet).
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Hooks change so useGoals exposes loading, error, refetch. Default: Goals loading and error stay parked.
+- Goals loading and error, via useGoals exposing loading, error, refetch. Default: parked.
 - Review insights.* and banner wording; es/fr weekday capitalisation (default lowercase).
 - 'patterns' vs 'activity' in banner titles. Default keep.
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
@@ -62,34 +63,34 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - es.json has addMenu.voice and addMenu.describeOutLoud not in en.json. Isa: delete or add to en and fr.
 
 ## Next
-- Round 146: French goals apostrophes to curly (l'IA, l'inscription, c'est) in fr.json goals group.
-- Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json (paths to confirm).
+- Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json (round 147, in progress).
+- Row 15 note for the round 146 French goals change.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
 - InsightCard type badge untranslated; more/less toggle uses body length over 120.
-- BrainProfileCard: fixed 0.3 bar; numbers not formatted; energy always kcal. Insights swallowed errors in src/lib/api.ts (~1253, 1270).
+- BrainProfileCard: fixed 0.3 bar; numbers not formatted; energy always kcal. Insights swallow errors in src/lib/api.ts (~1253, 1270).
 - Goals reset button shows goals.saved toast; calorie label puts unit in brackets.
-- Then Rows 16 and 17, one screen per round.
-- Row 14 cleanup: key parity check; shared has-a-streak helper.
+- Row 14: key parity check; shared has-a-streak helper.
+- Then Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8, 9, 10, then Row 11.
 
 ## Parked (not Phase 3)
 - Row 125 all-zero week chart line (needs snapshot permission).
 - Goals and units persistence. Goals reset toast says goals.saved.
-- AnomalyBanner: no Retry; full error block where a small banner sits (design question). Copy may be English, not opened.
+- AnomalyBanner: no Retry; full error block where a small banner sits. Copy may be English, not opened.
 - Banner count title lacks _one use.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci (network).
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
 - useTemplates drops templates on refetch failure.
 - Date helpers use device locale; weekday letters, formatRelativeDate, muscle names English; '{{value}} reps' no singular.
-- Dev gym failed read keeps mock sessions; gym card may show seed data after failed dashboard read. Dev falls back to mock product DB.
+- Dev gym failed read keeps mock sessions; dev falls back to mock product DB.
 - Ask Lume drops server 503 message.
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts 50, 52; hooks.ts ~395. Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
-- MacroBars unused; Math.round not formatNumber; nutrition ceiling label has no space before g. Insight numbers use Math.round.
-- Row 11 dedupe: gymSession eyebrow vs foodLog.today; logged-day label; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
+- MacroBars unused; Math.round not formatNumber; nutrition ceiling label has no space before g.
+- Row 11 dedupe: gymSession eyebrow vs foodLog.today; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
 - react-test-renderer deprecation warnings.
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
 - Other profile screens hard-code English titles and eyebrows (About, Privacy, Account, Connected apps, Delete Account, Units on Preferences).

@@ -8628,3 +8628,7 @@
 - 2026-11-22 19:20 Chose it over Row 14 cleanup because its files are known exactly (fr.json goals group). Row 14 needs file paths that are not yet confirmed.
 - 2026-11-22 19:20 Rows 118 to 120 in the notes may clash with loop round numbers. Left as is, as the notes already record.
 - 2026-11-22 19:20 Test asserting old straight apostrophe text: revert that key and report, never edit the test (existing rule).
+- 2026-11-22 19:21 Chose Row 14 cleanup over the handover NEXT (Goals loading and error). The Blocked list says Goals loading and error stay parked by default, so the handover contradicts the notes; kept the notes.
+- 2026-11-22 19:21 Smallest known task with no Isa input, matching the notes NEXT list and Jev's top pick (run 96%).
+- 2026-11-22 19:21 Call-site file paths are not known yet, so step 1 greps for them instead of naming them.
+- 2026-11-22 19:21 Round 146 Goals translation still lacks a Row 15 note; left for the next Row 15 round so this prompt stays to one task.
