@@ -1,47 +1,47 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
-ROWS (PHASE3_ROWS.md)
-- No row became BUILT this session.
-- Row 14 (Gym): PARTIAL. Round 102 changed the muscles back label to common.goBack.
-- Row 15 (Goals and progress): changed from DIFFERENT to PARTIAL. Notes run to round 116. There are no entries for rounds 112 and 114.
-- Last full-suite checkpoint (round 114): 172 suites, 1111 tests and 4 snapshots, all passing. tsc 0 errors.
+ROWS
+No row became BUILT. Row 15 (Goals and progress) is still PARTIAL. Its PHASE3_ROWS.md notes run through the AnomalyCard round, and every round says not checked on a device. My notes number rounds 118 to 120; later notes have no number. The 118 to 120 labels may clash with the loop's own numbering.
 
-ROW 15 DONE
-- training, week and energy show a LoadFailedNotice with Retry when a read fails.
-- nutrition: while the first read runs with nothing stored, numbers show "—" and the meal list shows a skeleton. A failed week read shows a notice. Fibre with no logged figure shows "—".
-- Summary: GymStatusCard is hidden while useDashboard is loading. The card and the index.tsx toast and labels are translated.
-- EMPTY_STATES_AUDIT.md has been corrected for training, week, energy and nutrition.
+BUILT THIS SESSION (Row 15)
+- French foodLog.today now uses a curly apostrophe.
+- Summary plan card scope uses a new dashboard.planCardScope key (AI, IA, IA).
+- EMPTY_STATES_AUDIT.md: Summary loading row corrected; audit row 125 marked parked.
+- Insights translated: src/app/insights.tsx and src/components/ai/{BrainProfileCard,InsightCard,AnomalyCard}.tsx. New key groups insights, insights.brainProfile (includes weekdays), insights.card and insights.anomaly, all in src/lib/i18n/locales/{en,es,fr}.json.
+- New tests in src/__tests__/render/: summaryTab.i18n (extended), insights.i18n, brainProfileCard.i18n, insightCard.i18n, anomalyCard.i18n.
+- Last full suite: 173 suites, 1114 tests, 4 snapshots passing; tsc 0 errors. Tests added since then were run file by file.
 
 IN PROGRESS
 Nothing half-done.
 
-KEY FILES
-- Screens: src/app/dashboard/{training,week,nutrition}.tsx, src/app/energy.tsx (not under dashboard), src/app/(tabs)/index.tsx
-- Component: src/components/domain/GymStatusCard.tsx
-- Tests: src/__tests__/render/, files named dashboard{Training,Week,Nutrition}.emptyStates, energy.emptyStates, energy.render, summaryGymStatus.loading, gymStatusCard.i18n, summaryTab.i18n, detailChrome
-- New keys, all under dashboard: energyLoadFailed, weekMacrosLoadFailed, gymSessionTitle, gymSessionNotLogged, gymSessionDuration, gymLoggedToast, macrosCardLabel, planCardLabel
-
 DECISIONS
-- Use the hook values that already exist (useGymRange error, useEnergyRange isError, useWeeklyMacros error, useFibreConsumed). Never edit src/lib/data.
-- The energy notice shows only when both week windows fail. A partial result still shows the days that loaded.
-- On nutrition, "pending" means loading with no stored meals. Stored data shows at once.
-- The Summary card is hidden during every first load, the same as the streak line and Macros card.
-- When a brief forbids editing a test or snapshot that the change breaks, back out or stop. Do not leave the suite red.
+- Server text (titles, bodies, insight type) is shown as sent. Weekdays are mapped by weekdayLabel; an unknown day is shown as sent.
+- French uses curly apostrophes (fr.json has 87 curly against 10 straight). es and fr put a plain space before %, matching percentOfTargetShort.
+- When a change breaks a test or snapshot the brief forbids editing, back the change out and report it. This happened twice: MacroBars (summaryNoFabrication.test.ts:54 expects the literal "Not tracked") and row 125 (the detailChrome macros snapshot uses an all-zero week).
 
 BLOCKED (Isa)
-- Spanish and French wording for all the new keys above.
+- Permission to change summaryNoFabrication.test.ts:54 (MacroBars translation).
+- Permission to regenerate the detailChrome macros snapshot alone (row 125). The nutrition.weekMacrosEmpty fix and its wording are ready to reapply.
+- Review of all new es and fr wording, including whether a standalone weekday should be capitalised.
 - The goals persistence decision.
 
 GOTCHAS
-- Before any command, run: source ~/.nvm/nvm.sh && nvm use 22. No git (read .git/HEAD for the branch), no Prettier, no Maestro.
-- Mock Skeleton in render tests. The test environment lacks useReducedMotion.
-- The Summary ScrollView refreshControl is circular. Use findAll, not allText.
-- detailChrome stubs hooks with no error and does not mock useFibreConsumed.
+- Before any command: source ~/.nvm/nvm.sh && nvm use 22. No git (read .git/HEAD for the branch), no Prettier, no Maestro.
+- Locales live in src/lib/i18n/locales, not src/i18n.
+- Pressable and its inner node both carry accessibilityLabel, so assert length > 0, not an exact count.
+- zsh does not split $VAR into words, so pass Jest paths literally.
+- Audit verdicts are proper, blank, broken, placeholder or hard-coded English; PARTIAL is not one of them.
 
 UNFIXED
-- src/components/domain/MacroBars.tsx:53 hard-codes "Not tracked · target … g" and its accessibility labels in English. This is the recommended next task.
-- The French foodLog.today "Aujourd'hui" has a straight apostrophe.
-- The plan card in index.tsx has a hard-coded "AI" scope.
-- The EMPTY_STATES_AUDIT.md Summary loading row still calls GymStatusCard broken.
-- The nutrition screen follows the Food tab's selected date (audit row 126). The week chart draws flat bars on first use (row 125).
-- Row 15 still open: insights literals and swallowed errors, and goals load and error states.
+- AnomalyBanner.tsx copy may be English; not opened.
+- src/lib/api.ts hides errors around lines 1253 and 1270; BrainProfileCard has a fixed 0.3 progress bar.
+- InsightCard type badge is untranslated, and its more/less toggle appears when the body exceeds 120 characters.
+- BrainProfileCard numbers are not formatted for the language and always use kcal.
+- The insights.tsx consent comment is false, as phase14Regression.test.ts documents.
+- week.tsx draws flat intake bars when every day has 0 kcal.
+- The nutrition chart ceiling label is "${n}g" with no space.
+- The gym card may show seed data after a failed dashboard read.
+- MacroBars is unused anywhere in the app and does not format numbers.
+
+NEXT
+Goals screen, src/app/profile/goals.tsx: loading and error states, plus its English text.
