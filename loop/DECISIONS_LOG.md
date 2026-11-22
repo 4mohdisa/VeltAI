@@ -8458,3 +8458,13 @@
 - 2026-11-22 18:25 Chose the audit correction first: it closes the partly done item the loop flagged, is md only, and needs no code change.
 - 2026-11-22 18:25 Goals stay in memory for Phase 3 (existing decision). Goals persistence is parked, so the goals part of Row 15 closes on load and error states only. Reason: backend persistence is a data model change outside Phase 3 scope.
 - 2026-11-22 18:25 Nothing sent to Isa this round: the open Spanish and French wording questions and the Row 15 goals question are both answered by the defaults above.
+- 2026-11-22 18:26 Chose the nutrition dashboard because the last report named it as NEXT and it is one screen, the smallest task that clears a Row 15 gap.
+- 2026-11-22 18:26 Round 108 handled the loop flag: the dashboard/training audit row was corrected and its render test passes 3 of 3, so the flag is cleared and no rework is needed.
+- 2026-11-22 18:26 Failed nutrition read reuses LoadFailedNotice and the energy failed-read key if the wording fits, otherwise a new en/es/fr key. Reason: no new copy without a key in all three languages.
+- 2026-11-22 18:26 Fibre null shows an em dash, real 0 keeps 0 g. Reason: honest display, no invented zero.
+- 2026-11-22 18:26 Spanish and French wording of new keys is still flagged for Isa review, as with the other blocks. Default used, not re-asked.
+- 2026-11-22 18:27 Rewrote the rejected prompt: added the loop/phase3 branch rule with a stop if HEAD is wrong, and no git, push, merge or branch switch.
+- 2026-11-22 18:27 Kept one screen per round (nutrition.tsx) because the last checkpoint was clean and Jev risk is 1.1.
+- 2026-11-22 18:27 Chose nutrition over GymStatusCard and goals: it is the smallest unfinished Row 15 item and needs no Isa input.
+- 2026-11-22 18:27 Dash is the placeholder for unknown numbers, since no design shows a loading value for nutrition.
+- 2026-11-22 18:27 Spanish and French wording of any new nutrition key is marked for review, as with earlier blocks.

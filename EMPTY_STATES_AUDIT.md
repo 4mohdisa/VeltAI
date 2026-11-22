@@ -124,8 +124,8 @@ These cause many of the screen rows below, so fixing them once fixes many screen
 | Summary tab | loading | Skeletons (index.tsx:106-111,151-153), but GymStatusCard offers "Log gym session" from seed before the read (index.tsx:175, gymStore.ts:65) | broken |
 | dashboard/nutrition | first use | t('nutrition.noMealsToday'); week chart draws flat bars under a "1g" ceiling (src/app/dashboard/nutrition.tsx:81,144,199) | broken |
 | dashboard/nutrition | no data for day | Fibre "0 g" shown as measured; data follows the Food tab's selected date, not today (nutrition.tsx:75,186, hooks.ts:307) | broken |
-| dashboard/nutrition | error, offline | Food-log notice shown, but week.error ignored so seeded zero bars read as real (nutrition.tsx:104,136-156, hooks.ts:379) | broken |
-| dashboard/nutrition | loading | kcal number and "No meals today" shown before the fetch settles (nutrition.tsx:110,199) | broken |
+| dashboard/nutrition | error, offline | Food-log notice shown (nutrition.tsx:106); a failed week read shows LoadFailedNotice dashboard.weekMacrosLoadFailed with Retry instead of the zero-bar chart (nutrition.tsx:143) | proper |
+| dashboard/nutrition | loading | While the first read runs with nothing stored, the kcal number and Breakdown values show a dash and the meal list a skeleton, not "No meals today" (nutrition.tsx:112,191-192,205) | proper |
 | dashboard/plan | first use, no data | EmptyState plan.emptyTitle/emptyMessage; plan is static (src/app/dashboard/plan.tsx:34-39) | proper |
 | dashboard/training | first use, no data for day | EmptyState trainingNoSessions; "rest day" or "—" in breakdown (src/app/dashboard/training.tsx:74-79,146-151,220-221) | proper |
 | dashboard/training | error, offline | Failed sessions read (useGymRange error) shows LoadFailedNotice gym.loadFailed with Retry (training.tsx:76); failed energy read shows LoadFailedNotice dashboard.energyLoadFailed with Retry in the energy card (training.tsx:195) | proper |

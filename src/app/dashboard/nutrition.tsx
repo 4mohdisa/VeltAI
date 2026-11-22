@@ -65,6 +65,8 @@ export default function NutritionDetailScreen(): JSX.Element {
   const macros = useDailyMacros();
   const { data: meals, isLoading: loading, error: loadError, refetch } = useFoodLog();
   const week = useWeeklyMacros();
+  // The first read is still running with nothing stored: no number is known yet.
+  const pending = loading && meals.length === 0;
   const cal = macros.calories;
   const remaining = formatEnergy(Math.max(0, cal.target - cal.consumed), energyUnit);
 
@@ -107,7 +109,7 @@ export default function NutritionDetailScreen(): JSX.Element {
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <StatLine
-            value={formatNumber(kcalToDisplay(cal.consumed, energyUnit))}
+            value={pending ? '—' : formatNumber(kcalToDisplay(cal.consumed, energyUnit))}
             unit={`${energyUnit} ${t('nutrition.fromFood')}`}
             sub={t('nutrition.remainingToday')}
             tight
@@ -137,32 +139,36 @@ export default function NutritionDetailScreen(): JSX.Element {
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (
             <>
-              <View style={{ gap: space.sm }}>
-                <Plot
-                  cols={weekCols}
-                  height={SEC_H}
-                  ceiling={`${formatNumber(weekScale)}g`}
-                  floor="0"
-                  gridInset
-                  gutterWidth={CHART_GUTTER_W}
-                  scaleLabelWidth={SCALE_LABEL_W}
-                  barRadius={{ top: MACRO_BAR_RADIUS_TOP, bottom: MACRO_BAR_RADIUS_BOTTOM }}
-                  gap={MACRO_BAR_GAP}
-                  growIn
-                  summary={t('nutrition.weekMacrosSummary', {
-                    from: dayMonth(week.data[0].date),
-                    to: dayMonth(week.data[week.data.length - 1].date),
-                  })}
-                />
-                <Axis
-                  labels={week.data.map((d) => weekdayShort(d.date).charAt(0))}
-                  gutterWidth={CHART_GUTTER_W}
-                  gap={MACRO_BAR_GAP}
-                  labelColor={color.secondaryLabel}
-                  labelLineHeight={MACRO_AXIS_LINE_HEIGHT}
-                  labelFillsColumn
-                />
-              </View>
+              {week.error ? (
+                <LoadFailedNotice message={t('dashboard.weekMacrosLoadFailed')} onRetry={week.refetch} />
+              ) : (
+                <View style={{ gap: space.sm }}>
+                  <Plot
+                    cols={weekCols}
+                    height={SEC_H}
+                    ceiling={`${formatNumber(weekScale)}g`}
+                    floor="0"
+                    gridInset
+                    gutterWidth={CHART_GUTTER_W}
+                    scaleLabelWidth={SCALE_LABEL_W}
+                    barRadius={{ top: MACRO_BAR_RADIUS_TOP, bottom: MACRO_BAR_RADIUS_BOTTOM }}
+                    gap={MACRO_BAR_GAP}
+                    growIn
+                    summary={t('nutrition.weekMacrosSummary', {
+                      from: dayMonth(week.data[0].date),
+                      to: dayMonth(week.data[week.data.length - 1].date),
+                    })}
+                  />
+                  <Axis
+                    labels={week.data.map((d) => weekdayShort(d.date).charAt(0))}
+                    gutterWidth={CHART_GUTTER_W}
+                    gap={MACRO_BAR_GAP}
+                    labelColor={color.secondaryLabel}
+                    labelLineHeight={MACRO_AXIS_LINE_HEIGHT}
+                    labelFillsColumn
+                  />
+                </View>
+              )}
               <Text variant="footnote" color={color.secondaryLabel}>
                 {rows.map((r) => `${r.label} ${r.pct}%`).join(' · ')}
               </Text>
@@ -182,10 +188,10 @@ export default function NutritionDetailScreen(): JSX.Element {
               key={r.key}
               tint={r.tint}
               label={r.label}
-              sub={t('nutrition.percentOfTargetShort', { percent: r.pct })}
-              value={formatNumber(r.data.consumed)}
+              sub={pending ? undefined : t('nutrition.percentOfTargetShort', { percent: r.pct })}
+              value={pending ? '—' : formatNumber(r.data.consumed)}
               unit={t('nutrition.ofTargetGrams', { target: formatNumber(r.data.target) })}
-              fraction={r.data.target > 0 ? r.data.consumed / r.data.target : 0}
+              fraction={!pending && r.data.target > 0 ? r.data.consumed / r.data.target : 0}
             />
           ))}
         </View>
@@ -196,7 +202,11 @@ export default function NutritionDetailScreen(): JSX.Element {
         <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl, paddingBottom: space.md }}>
           <CardHeaderRow title={t('nutrition.mealsToday')} icon="fork.knife" tint={categoryAccent.positive} />
         </View>
-        {meals.length === 0 ? (
+        {pending ? (
+          <View style={{ paddingHorizontal: space.xl, paddingBottom: space.xl }}>
+            <Skeleton height={SEC_H} rounded={radius.xl} />
+          </View>
+        ) : meals.length === 0 ? (
           <View style={{ paddingHorizontal: space.xl, paddingBottom: space.xl }}>
             <Text variant="callout" color={color.secondaryLabel}>
               {t('nutrition.noMealsToday')}

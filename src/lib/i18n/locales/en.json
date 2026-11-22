@@ -556,6 +556,7 @@
     "trainingNoEnergyTitle": "No energy data",
     "trainingNoEnergyMessage": "Lume could not work out what your training burned this week.",
     "energyLoadFailed": "Couldn't load your energy data.",
+    "weekMacrosLoadFailed": "Couldn't load this week's macros.",
     "trainingEnergySummary_one": "Training energy for the last {{count}} day, up to {{value}} kcal.",
     "trainingEnergySummary_other": "Training energy for each of the last {{count}} days, up to {{value}} kcal.",
     "trainingKcalAttributed": "{{value}} kcal attributed to training this week.",

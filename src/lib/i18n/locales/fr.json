@@ -556,6 +556,7 @@
     "trainingNoEnergyTitle": "Aucune donnée d’énergie",
     "trainingNoEnergyMessage": "Lume n’a pas pu calculer ce que votre entraînement a brûlé cette semaine.",
     "energyLoadFailed": "Impossible de charger vos données d’énergie.",
+    "weekMacrosLoadFailed": "Impossible de charger les macros de cette semaine.",
     "trainingEnergySummary_one": "Énergie d’entraînement du {{count}} dernier jour, jusqu’à {{value}} kcal.",
     "trainingEnergySummary_other": "Énergie d’entraînement de chacun des {{count}} derniers jours, jusqu’à {{value}} kcal.",
     "trainingKcalAttributed": "{{value}} kcal attribuées à l’entraînement cette semaine.",
