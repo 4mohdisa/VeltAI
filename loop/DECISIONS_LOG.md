@@ -8967,3 +8967,8 @@
 - 2026-11-22 21:02 No Jest run for a doc-only change; tsc run instead to satisfy the 'not run' flag.
 - 2026-11-22 21:02 Kept Row 8 PARTIAL until Isa answers the open questions; the doc fix does not change the row status.
 - 2026-11-22 21:02 Did not ask Isa again this round: the open questions are already listed as defaults in Blocked on Isa, and the daily question limit matters.
+- 2026-11-22 21:03 Chose candidate 1: the loop flagged the last report for an unrecorded gate, and this is the smallest task that closes it while fixing the open host sentence.
+- 2026-11-22 21:03 Jev suggested ask (69%), but the Isa questions are already on the blocked list with defaults in use, and the loop rules say do not re-ask. This round needs no answer from Isa.
+- 2026-11-22 21:03 Privacy footer wording ('First-party only') stays on the Blocked list with its default. It becomes a real question for Isa when a PostHog key is first set, as an owner step.
+- 2026-11-22 21:03 Bad host logging stays unfixed for now. It is listed in Parked and will be decided in Row 11, as the notes already say.
+- 2026-11-22 21:03 Analytics default (on or opt-in) is unchanged: opt-in and off in code, pinned. Isa confirms before Phase 4.
