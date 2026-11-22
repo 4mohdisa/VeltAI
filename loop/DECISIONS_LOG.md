@@ -8733,3 +8733,8 @@
 - 2026-11-22 19:51 Treated the nutrition.tsx:227 item as resolved: the round 167 report shows line 227 is not a slot label and the swap is done.
 - 2026-11-22 19:51 Week.tsx zero-kcal state and addMenu.snack wording stay parked because they need Isa's permission or review.
 - 2026-11-22 19:51 Agree with Jev (run 93%): a one-file swap with a tsc check and targeted Jest is the lowest risk option.
+- 2026-11-22 19:52 Chose add.tsx swap as the next single-file step, following the one-file-per-round rule in the notes.
+- 2026-11-22 19:52 Added a verify-first condition: if add.tsx has no slot label, change nothing and report, because the last report said it may not need the helper.
+- 2026-11-22 19:52 Left food/detail.tsx for a later round, since its defaultValue fallback needs a decision first.
+- 2026-11-22 19:52 Checkpoint round 172 is still ahead, so this round runs only the changed-file tests.
+- 2026-11-22 19:52 Jev ranked goals.tsx as a close second; kept the slot-name thread because it is already in progress and the helper is shared.
