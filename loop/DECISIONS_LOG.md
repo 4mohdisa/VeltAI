@@ -8424,3 +8424,7 @@
 - 2026-11-22 18:16 Chose the checkpoint over Jev's gymMuscles.goBack pick (82%). The loop note forces a checkpoint after the handover and the automatic partial-task flag. A green full run confirms the handed-over state before more edits. Reason Jev cannot see: the handover is new and Claude Code only knows the summary.
 - 2026-11-22 18:16 The gymMuscles.goBack reuse becomes the next task (round 102), if this checkpoint is green.
 - 2026-11-22 18:16 Round 100 GlassButtons labels accepted as done. Isa's review of Spanish and French wording still pending; defaults kept.
+- 2026-11-22 18:17 Chose round 102 gymMuscles.goBack over the checkpoint-only path, as the loop has already run the round 101 checkpoint green (166 suites, 1093 tests, tsc 0). The change is small, touches one screen and needs no Isa input.
+- 2026-11-22 18:17 Kept Jev's ask/run split as advisory. Run chosen because no question is major and the default rules say decide and carry on.
+- 2026-11-22 18:17 Left Spanish and French wording and GlassButtons approval as default-used items. Not re-asked, per the unanswered-question rule.
+- 2026-11-22 18:17 Left the noisy '[data] API unreachable' Jest warnings unfixed. They come from the data layer, which is off limits, and are not failures.

@@ -5,10 +5,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Round 87 checkpoint clean: 160 suites, 1073 tests, 0 failed.
-- Round 101 checkpoint: pending (tsc and full app Jest, no changes).
+- Round 87 checkpoint: 160 suites, 1073 tests, 0 failed.
+- Round 101 checkpoint: clean. tsc 0; Jest 166 suites, 1093 tests, 0 failed.
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22.
-- Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Multi-file jest via xargs. Write output to file, then tail.
+- Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Write output to file, then tail.
 - Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
 
 ## Decisions (never delete)
@@ -32,7 +32,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
 - Round 98: Close label in SheetContent translated via common.close.
-- Round 99: BottomSheet backdrop Close via common.close. GlassButtons.tsx Close change accepted as needed. Cerrar and Fermer kept pending Isa review.
+- Round 99: BottomSheet backdrop Close via common.close. GlassButtons.tsx Close change accepted as needed.
 - Round 100: GlassButtons Go back, Back to, Done via common.goBack, common.backTo, common.done.
 
 ## Done
@@ -63,8 +63,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 101: checkpoint (full tsc and full app Jest, no changes).
-- Round 102 if green: gymMuscles.goBack reuses common.goBack (Jev pick, Row 14 cleanup).
+- Round 102: gymMuscles.goBack reuses common.goBack (in progress).
 - Then has-a-streak shared helper (needs location decision), freeze offline toast (needs decision, data-adjacent).
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
@@ -80,7 +79,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Exercise library failed read hides muscles card. Cardio not recognised on failed read.
 - Muscle names stay English. '{{value}} reps' has no singular.
 - gymMuscles.shape and sheetContent.render tests check English text, not en.json. Fix in Row 14 cleanup.
-- gymMuscles.goBack duplicates common.goBack. Fix in Row 14 cleanup (round 102).
 - Planned-weight unit ('kg'/'lb') from data not translated.
 - Freeze toast shows success when queued offline (gym/freeze.tsx).
 - Has-a-streak check duplicated in streak.tsx and freeze.tsx.
@@ -89,7 +87,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395. Row 11 or park.
 - react-test-renderer deprecation warning in gymSchedule tests. Session save test logs background sync warning.
-- Emptystates suite prints 'background sync failed' warning.
+- Jest log noise: '[data] API unreachable' warnings from src/lib/env.ts and hooks.ts:72. Not failures. Data layer off limits.
 - Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - fr straight apostrophe in exercise removal prompt. Row 11.
 - food.tsx header line over 80 chars. Row 11.
@@ -112,6 +110,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 96: streak done.
 - Round 97: freeze sheet empty state and failed read done.
 - Round 98: SheetContent close label done.
-- Round 99: BottomSheet backdrop close label done; the automatic partial-check flag is closed.
-- Round 100: GlassButtons go back, back to and done labels translated; 7 suites green. Handover happened after round 100.
-- Round 101: checkpoint chosen over Jev's gymMuscles.goBack pick (82%). Reason: loop-forced checkpoint after handover; a green full run confirms the handed-over state first.
+- Round 99: BottomSheet backdrop close label done.
+- Round 100: GlassButtons go back, back to and done labels translated. Handover after round 100.
+- Round 101: checkpoint clean (166 suites, 1093 tests, tsc 0). Jev preferred gymMuscles.goBack; that is now round 102.

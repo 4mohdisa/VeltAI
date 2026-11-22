@@ -475,7 +475,6 @@
   },
   "gymMuscles": {
     "title": "Focus musculaire",
-    "goBack": "Retour",
     "emptyTitle": "Pas encore de données musculaires",
     "emptyMessage": "Enregistrez une séance avec ses exercices et vous verrez ici les groupes travaillés.",
     "totalVolume": "Volume total",

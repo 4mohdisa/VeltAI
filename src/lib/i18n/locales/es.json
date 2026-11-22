@@ -477,7 +477,6 @@
   },
   "gymMuscles": {
     "title": "Enfoque muscular",
-    "goBack": "Volver",
     "emptyTitle": "Aún no hay datos musculares",
     "emptyMessage": "Registra una sesión con sus ejercicios y aquí aparecerán los grupos que entrenaste.",
     "totalVolume": "Volumen total",

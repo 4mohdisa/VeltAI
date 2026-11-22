@@ -475,7 +475,6 @@
   },
   "gymMuscles": {
     "title": "Muscle focus",
-    "goBack": "Go back",
     "emptyTitle": "No muscle data yet",
     "emptyMessage": "Log a session with its exercises and this fills in with the groups you trained.",
     "totalVolume": "Total volume",
