@@ -9215,3 +9215,13 @@
 - 2026-11-23 01:01 Did not ask Isa: the open questions are already logged under Blocked on Isa with defaults applied, and the notes say not to re-ask. Jev's ask signal is advisory and the question would repeat one he has already answered by default.
 - 2026-11-23 01:01 Did not stop: rows 6, 8, 11, 12 to 17 are not BUILT or EXACT, so the stop condition is not met.
 - 2026-11-23 01:01 Kept the prompt to one row and named the files from the row itself, because the notes do not list Row 16's file paths.
+- 2026-11-23 01:06 Round 257: Jev said ask 81%. Kept run. Reason Jev cannot see: the three open asks (integrations test, privacy title test, Row 16 simulator) were already put to Isa in rounds 252 to 256 and marked do not re-ask; the default is to back out and report, so asking again adds nothing.
+- 2026-11-23 01:06 Round 257: the Integrations failed-list and 'Your data' title stay blocked. Default applied: do not edit existing pinned tests; back out and report.
+- 2026-11-23 01:06 Round 257: chose the skeleton flash fix because it is a Row 16 gap inside a Row 16 file and needs no test edits.
+- 2026-11-23 01:06 Round 257: Row 16 stays PARTIAL until the simulator flow runs. Maestro is not installed, so this is parked as an owner step.
+- 2026-11-23 01:06 Round 257: Preferences persistence in store.ts is outside Row 16 files; parked, not started.
+- 2026-11-23 01:06 Chose the skeleton flash fix: smallest open Row 16 gap, one screen, no hooks.ts change needed.
+- 2026-11-23 01:06 Integrations 'Nothing connected' and Privacy 'Your data' title stay on the default (keep), since Isa was asked in earlier rounds and did not answer. Not re-asked.
+- 2026-11-23 01:06 Row 16 stays PARTIAL until the simulator flow runs (Maestro missing, owner step).
+- 2026-11-23 01:06 Jev said ask 51%. Kept run: every ask on this row was already put to Isa, and the default applies.
+- 2026-11-23 01:06 Rewrote the rejected prompt to state the loop/phase3 branch rule and the no-git rule at the top.
