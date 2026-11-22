@@ -8409,3 +8409,7 @@
 - 2026-11-22 18:09 Freeze offline success toast is not part of this row's three guards and touches data behaviour, so it goes to NEXT.
 - 2026-11-22 18:09 Freeze new strings reuse existing keys where the text is identical, and go into a new gymFreeze block, to keep the pattern used for streak and session.
 - 2026-11-22 18:09 Spanish and French wording stays subject to Isa's review, as already recorded in Blocked on Isa.
+- 2026-11-22 18:10 Chose the SheetContent Close label: smallest remaining Row 14 gap, shared component, no data-layer change, no Isa decision needed.
+- 2026-11-22 18:10 Freeze offline toast stays parked: it touches the data-adjacent offline path and needs a behaviour decision.
+- 2026-11-22 18:10 Shared has-a-streak helper stays parked: it needs a location decision and touches two screens.
+- 2026-11-22 18:10 Confirmed the round 97 freeze empty state and failed-read notice as built within Row 14, with Isa's review of the gymFreeze wording still pending.

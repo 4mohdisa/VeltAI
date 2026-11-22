@@ -8,6 +8,7 @@ import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { router } from 'expo-router';
 import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
 import { BlurView } from 'expo-blur';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -156,12 +157,13 @@ export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps 
 }
 
 export function GlassCloseButton({ onPress, testID }: GlassNavButtonProps) {
+  const { t } = useTranslation();
   const handlePress = () => {
     if (onPress) onPress();
     else goBackOrHome();
   };
   return (
-    <Pressable haptic={false} onPress={handlePress} accessibilityLabel="Close" testID={testID}>
+    <Pressable haptic={false} onPress={handlePress} accessibilityLabel={t('common.close')} testID={testID}>
       <GlassCircle>
         <Icon name="close" size={18} color={color.black} />
       </GlassCircle>

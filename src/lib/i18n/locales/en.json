@@ -5,7 +5,8 @@
     "delete": "Delete",
     "done": "Done",
     "reset": "Reset",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "close": "Close"
   },
   "settings": {
     "title": "Settings",

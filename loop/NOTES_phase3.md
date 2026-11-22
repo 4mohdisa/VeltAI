@@ -34,6 +34,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
 - Round 96: Jev said ask; declined, no new major question.
+- Round 98: Close label in SheetContent translated via common.close (reuse existing key if present).
 
 ## Done
 - Rounds 1-4: row list, Rows 1 and 2 BUILT.
@@ -41,7 +42,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 4 audit BUILT; rows 12-17 added.
 - Row 12 plumbing done; PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail Done.
-- Row 14 PARTIAL: session, history, muscles, templates, streak (round 96, loading guard accepted as default).
+- Row 14 PARTIAL: session, history, muscles, templates, streak (round 96), freeze sheet empty state and failed read (round 97).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -50,19 +51,19 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks (including gymStreak). Review needed.
+- Row 13 and 14: es and fr wording of all new blocks (including gymStreak and gymFreeze). Review needed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
-- Row 14: streak screen loading skeleton. Default: none. Needs permission to change gymStreak.render.test.tsx if wanted.
+- Row 14: freeze sheet disables apply tick and replaces sheet with log-session when no streak. Confirm.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 97: gym/freeze.tsx failed read, empty state, literals (Row 14).
-- Then freeze offline success toast (needs decision, data-adjacent).
+- Round 98: translate Close label in SheetContent (Row 14).
+- Then shared has-a-streak helper (needs location decision), freeze offline toast (needs decision, data-adjacent).
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
@@ -80,6 +81,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - fr straight apostrophe in exercise removal prompt. Row 11.
 - Dev gym failed read keeps mock sessions. Dev falls back to mock product DB.
 - Freeze toast shows success when queued offline (gym/freeze.tsx).
+- Has-a-streak check duplicated in streak.tsx and freeze.tsx. Shared helper needs a location.
 - Ask Lume drops server 503 message (ai-query.tsx).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395. Row 11 or park.
@@ -94,7 +96,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - gym 'Nothing scheduled' copy. Decide in Row 11.
 - gymSession.eyebrow and defaultTitle duplicate foodLog.today and dashboard.workout. Row 11.
 - WeekStrip and calendar.tsx duplicate logged-day label. Shared helper.
-- SheetContent.tsx 'Close' hardcoded English.
+- Session.tsx 'Progress saved' and 'Save' in its alert still English.
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - saved.tsx line 1 says 'C13 · My dishes'. meals.tsx line 2 is 82 characters.
@@ -105,4 +107,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 93 prompt rejected for missing branch rule. Every prompt opens with it.
 - Round 94: muscles screen done, no Retry (default).
 - Round 95: templates already done; no code change.
-- Round 96: streak done. Auto check flagged the report as partly done; the gap (no loading guard) was resolved as a default, see Decisions.
+- Round 96: streak done. Loading guard gap resolved as default, see Decisions.
+- Round 97: freeze sheet empty state and failed read done; 4 suites pass; tsc 0.

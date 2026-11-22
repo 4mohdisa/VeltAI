@@ -5,7 +5,8 @@
     "delete": "Supprimer",
     "done": "Terminé",
     "reset": "Réinitialiser",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "close": "Fermer"
   },
   "settings": {
     "title": "Réglages",

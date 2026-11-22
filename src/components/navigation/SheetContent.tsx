@@ -18,6 +18,7 @@
 import type { ReactNode } from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { GlassCloseButton, GlassSaveButton } from './GlassButtons';
 import { Icon } from '@/components/primitives/Icon';
@@ -63,6 +64,7 @@ function LeadingHeader({
   subtitleVariant: SheetSubtitleVariant;
   onClose?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -89,7 +91,7 @@ function LeadingHeader({
         onPress={onClose}
         haptic={false}
         accessibilityRole="button"
-        accessibilityLabel="Close"
+        accessibilityLabel={t('common.close')}
         style={({ pressed }) => ({
           width: SHEET_CLOSE_SIZE,
           height: SHEET_CLOSE_SIZE,

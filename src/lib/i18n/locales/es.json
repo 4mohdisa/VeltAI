@@ -5,7 +5,8 @@
     "delete": "Eliminar",
     "done": "Listo",
     "reset": "Restablecer",
-    "tryAgain": "Intentar de nuevo"
+    "tryAgain": "Intentar de nuevo",
+    "close": "Cerrar"
   },
   "settings": {
     "title": "Ajustes",
