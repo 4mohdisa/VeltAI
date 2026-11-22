@@ -9,6 +9,7 @@ import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
 import { router, useLocalSearchParams, useNavigation, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
 import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
@@ -73,13 +74,13 @@ const VALUE_LINE_HEIGHT = 20;
 /** The numbers this screen types into, with the design's pad captions, keyboards
  *  and in-box unit suffixes. The design caps every one of them at five digits. */
 type PadField = 'weight' | 'reps' | 'duration' | 'distance';
-const PADS: Record<PadField, { label: string; mode: NumberEntryMode; unit: string }> = {
-  weight: { label: 'Weight · kg', mode: 'decimal', unit: 'kg' },
-  reps: { label: 'Reps', mode: 'numeric', unit: 'reps' },
-  duration: { label: 'Minutes', mode: 'numeric', unit: 'min' },
+const PADS: Record<PadField, { labelKey: string; mode: NumberEntryMode; unitKey: string }> = {
+  weight: { labelKey: 'gymSession.padWeight', mode: 'decimal', unitKey: 'gymSession.unitKg' },
+  reps: { labelKey: 'gymSession.padReps', mode: 'numeric', unitKey: 'gymSession.unitReps' },
+  duration: { labelKey: 'gymSession.padMinutes', mode: 'numeric', unitKey: 'gymSession.unitMin' },
   // The design logs cardio as speed segments and has no distance pad; this app
   // stores a distance, so the caption names what it actually saves.
-  distance: { label: 'Distance · km', mode: 'decimal', unit: 'km' },
+  distance: { labelKey: 'gymSession.padDistance', mode: 'decimal', unitKey: 'gymSession.unitKm' },
 };
 const PAD_MAX_LENGTH = 5;
 
@@ -127,9 +128,11 @@ function initialStateFor(row: Row, mode: SessionMode | undefined): RowState {
   return EMPTY_STATE;
 }
 
-function summaryOf(row: Row): string {
+function summaryOf(row: Row, t: TFunction): string {
   const p = row.planned;
-  if (row.isCardio) return p.duration_minutes != null ? `${p.duration_minutes} min` : 'Cardio';
+  if (row.isCardio) {
+    return p.duration_minutes != null ? t('gym.loggedMinutes', { minutes: p.duration_minutes }) : t('gymSession.cardio');
+  }
   const base = `${p.sets ?? '?'} × ${p.reps ?? '?'}`;
   return p.weight != null ? `${base} @ ${p.weight}${p.weight_unit ?? 'kg'}` : base;
 }
@@ -202,7 +205,7 @@ export default function GymSessionScreen(): JSX.Element {
     () =>
       (today?.exercises ?? []).map((te) => ({
         key: te.id,
-        name: te.exercise?.name ?? 'Exercise',
+        name: te.exercise?.name ?? t('gymSession.exerciseFallback'),
         isCardio: te.exercise?.exercise_type === 'cardio',
         planned: {
           sets: te.planned_sets ?? undefined,
@@ -216,7 +219,7 @@ export default function GymSessionScreen(): JSX.Element {
         exerciseId: te.exercise?.id,
         schema: te.exercise?.parameter_schema ?? null,
       })),
-    [today],
+    [today, t],
   );
 
   const rows = useMemo(() => [...plannedRows, ...extras], [plannedRows, extras]);
@@ -334,7 +337,7 @@ export default function GymSessionScreen(): JSX.Element {
         {value || '—'}
       </Text>
       <Text variant="caption" color={color.tertiaryLabel}>
-        {PADS[target.field].unit}
+        {t(PADS[target.field].unitKey)}
       </Text>
     </Pressable>
   );
@@ -439,7 +442,7 @@ export default function GymSessionScreen(): JSX.Element {
             haptic={false}
             minTapTarget={false}
             hitSlop={10}
-            accessibilityLabel={`${row.name}, ${st.checked ? 'done' : 'not done'}`}
+            accessibilityLabel={t(st.checked ? 'gymSession.rowDone' : 'gymSession.rowNotDone', { name: row.name })}
             accessibilityState={{ checked: st.checked }}
             accessibilityRole="checkbox"
           >
@@ -456,20 +459,20 @@ export default function GymSessionScreen(): JSX.Element {
             }
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`${row.name}, view progress`}
+            accessibilityLabel={t('gymSession.viewProgress', { name: row.name })}
             style={{ flex: 1, gap: space.xs }}
           >
             <Text variant="bodyMedium" color={color.label} numberOfLines={1}>
               {row.name}
-              {row.isExtra ? '  (added)' : ''}
+              {row.isExtra ? `  ${t('gymSession.added')}` : ''}
             </Text>
             <Text variant="footnote" color={color.secondaryLabel}>
-              {summaryOf(row)}
+              {summaryOf(row, t)}
             </Text>
           </Pressable>
 
           <Button
-            title={st.expanded ? 'Hide' : 'Log'}
+            title={st.expanded ? t('gymSession.hide') : t('gymSession.log')}
             variant="secondary"
             fullWidth={false}
             onPress={() => onLogPress(row)}
@@ -526,7 +529,7 @@ export default function GymSessionScreen(): JSX.Element {
                   </View>
                 ))}
                 <Button
-                  title="Add set"
+                  title={t('gymSession.addSet')}
                   variant="tertiary"
                   fullWidth={false}
                   icon="add"
@@ -541,7 +544,7 @@ export default function GymSessionScreen(): JSX.Element {
                   max={10}
                   step={1}
                   onValueChange={(n) => setRpe(row, n)}
-                  formatValue={(n) => (n === 0 ? 'Not set' : `${n} / 10`)}
+                  formatValue={(n) => (n === 0 ? t('gymSession.notSet') : `${n} / 10`)}
                 />
               </>
             )}
@@ -619,7 +622,7 @@ export default function GymSessionScreen(): JSX.Element {
 
       {pad ? (
         <NumberEntryBar
-          label={PADS[pad.field].label}
+          label={t(PADS[pad.field].labelKey)}
           value={entry}
           mode={PADS[pad.field].mode}
           maxLength={PAD_MAX_LENGTH}

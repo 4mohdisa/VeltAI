@@ -44,8 +44,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved states, translations, food detail Done.
-- Rounds 82-86: gym session, history, templates, exercise-progress empty and failed states, locale blocks, render tests.
-- Round 87: checkpoint clean.
+- Rounds 82-87: gym session, history, templates, exercise-progress states, locale blocks, render tests. Round 87 checkpoint clean.
+- Round 88: unsaved alert and Progress saved toast in session.tsx translated (six gymSession keys).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval. Stays PARTIAL.
@@ -54,20 +54,21 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks. Review needed.
+- Row 13 and 14: es and fr wording of all new blocks, including Round 88 six keys. Review needed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
 - Row 14: gym session failed read shows only notice. Default unchanged.
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
+- Row 14 status: report read DIFFERENT, set to PARTIAL in round 89 (work in progress).
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 88: Row 14 session.tsx leftovers ('Progress saved', Save, unsaved alert). Prompt rewritten after rejection.
-- Round 89: Row 14 gym/muscles.tsx failed read and translations.
-- Rounds 90+: Rows 15 to 17, one screen per round.
+- Round 89: Row 14 session.tsx remaining literals (field labels, Cardio/Exercise, Hide/Log, Add set, Not set, done/not done, view progress, (added)).
+- Round 90: Row 14 gym/muscles.tsx failed read and translations.
+- Rounds 91+: Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
 
@@ -101,10 +102,12 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - saved.tsx line 1 says 'C13 · My dishes'.
+- meals.tsx line 2 is 82 characters.
 
 ## Loop notes
 - Round 80: Jev said ask (80%). Kept run: only open question owner-only and defaulted.
 - Round 82: Jev said ask (74%). Kept run: question not major.
 - Round 85 and 86: run, templates and exercise-progress.
 - Round 87: checkpoint clean.
-- Round 88: prompt rejected for missing the loop/phase3 branch rule. Rewritten with the same task, branch rules first. Jev 90% run.
+- Round 88: prompt rejected for missing the loop/phase3 branch rule. Rewritten with branch rules first. Jev 90% run. Report: alert and toast done, status left DIFFERENT.
+- Round 89: Jev 83% run. Branch rules first. Row 14 set to PARTIAL.

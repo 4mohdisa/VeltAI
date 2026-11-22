@@ -8371,3 +8371,8 @@
 - 2026-11-22 17:54 session.tsx leftovers before muscles.tsx: Jev 90% run, smallest clean task, and it was already the chosen task.
 - 2026-11-22 17:54 Spanish and French wording for the new keys uses defaults, flagged for review, per the standing decision.
 - 2026-11-22 17:54 Full suite not run this round; only changed files, since round 88 is not a checkpoint.
+- 2026-11-22 17:57 Chose session.tsx leftovers because the latest report named them as the next step and they finish the screen before muscles.tsx.
+- 2026-11-22 17:57 Row 14 status set to PARTIAL, since the report said it reads DIFFERENT but work is in progress. The status column is for the loop to keep accurate.
+- 2026-11-22 17:57 Spanish and French wording for new keys is provisional, to Isa for review, per the existing default.
+- 2026-11-22 17:57 Branch and git rules placed first in the prompt after the Round 88 rejection for missing them.
+- 2026-11-22 17:57 Jev said run at 83%; kept run because the task is one screen and needs nothing from Isa.

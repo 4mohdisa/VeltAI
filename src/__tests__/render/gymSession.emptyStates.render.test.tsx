@@ -69,6 +69,28 @@ async function renderSession(todayResponse: () => Promise<unknown>) {
 }
 
 type Tree = Awaited<ReturnType<typeof renderSession>>;
+
+const EXTRA: ExerciseLibraryItem = {
+  id: 'ex1',
+  name: 'Lateral Raise',
+  muscle_group_primary: 'shoulders',
+  muscle_groups_secondary: [],
+  category: 'isolation',
+  exercise_type: 'strength',
+  equipment: 'dumbbell',
+  difficulty: 'beginner',
+  description: '',
+  met_value: 3,
+};
+const PLANNED: PlannedValues = { sets: 3, reps: 12, weight: 10, weight_unit: 'kg' };
+
+/** Adds EXTRA through the exercise picker's own onPick callback. */
+const pickExtra = (tree: Tree) => {
+  const picker = findAll(tree, (p) => typeof p.onPick === 'function')[0];
+  act(() => {
+    (picker.props.onPick as (ex: ExerciseLibraryItem, values: PlannedValues) => void)(EXTRA, PLANNED);
+  });
+};
 const hasText = (tree: Tree, text: string) => findAll(tree, (p) => p.children === text).length > 0;
 const hasButton = (tree: Tree, title: string) => findAll(tree, (p) => p.title === title).length > 0;
 
@@ -114,24 +136,8 @@ test('leaving after adding an exercise asks to save, and Save shows the Progress
   const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
   const tree = await renderSession(() => json(today(false)));
 
-  const extra: ExerciseLibraryItem = {
-    id: 'ex1',
-    name: 'Lateral Raise',
-    muscle_group_primary: 'shoulders',
-    muscle_groups_secondary: [],
-    category: 'isolation',
-    exercise_type: 'strength',
-    equipment: 'dumbbell',
-    difficulty: 'beginner',
-    description: '',
-    met_value: 3,
-  };
-  const planned: PlannedValues = { sets: 3, reps: 12, weight: 10, weight_unit: 'kg' };
   // A picked extra starts ticked, so the session now has unsaved progress.
-  const picker = findAll(tree, (p) => typeof p.onPick === 'function')[0];
-  act(() => {
-    (picker.props.onPick as (ex: ExerciseLibraryItem, values: PlannedValues) => void)(extra, planned);
-  });
+  pickExtra(tree);
 
   const beforeRemove = mockAddListener.mock.calls.filter(([event]) => event === 'beforeRemove').at(-1)?.[1];
   expect(beforeRemove).toBeDefined();
@@ -150,4 +156,56 @@ test('leaving after adding an exercise asks to save, and Save shows the Progress
   });
   expect(useToastStore.getState().current?.message).toBe(en.gymSession.progressSaved);
   alertSpy.mockRestore();
+});
+
+test('row labels, the log controls and the number pad read from en.json', async () => {
+  const planned = (id: string, exercise: Partial<ExerciseLibraryItem> | undefined, sets: number | null) => ({
+    id,
+    template_id: 't1',
+    exercise_id: id,
+    planned_sets: sets,
+    planned_reps: sets ? 8 : null,
+    planned_weight: null,
+    planned_weight_unit: null,
+    planned_duration_minutes: null,
+    rest_seconds: null,
+    sort_order: 0,
+    created_at: '2026-11-20T00:00:00Z',
+    exercise,
+  });
+  const tree = await renderSession(() =>
+    json({
+      ...today(false),
+      exercises: [planned('te1', undefined, 3), planned('te2', { name: 'Treadmill', exercise_type: 'cardio' }, null)],
+    }),
+  );
+  const fallback = en.gymSession.exerciseFallback;
+  const withName = (text: string, name: string) => text.replace('{{name}}', name);
+  const hasLabel = (label: string) => findAll(tree, (p) => p.accessibilityLabel === label).length > 0;
+  const joined = (p: Record<string, unknown>) => (Array.isArray(p.children) ? p.children.join('') : p.children);
+
+  expect(findAll(tree, (p) => joined(p) === fallback).length).toBeGreaterThan(0);
+  expect(hasText(tree, en.gymSession.cardio)).toBe(true);
+  expect(hasLabel(withName(en.gymSession.rowNotDone, fallback))).toBe(true);
+  expect(hasLabel(withName(en.gymSession.viewProgress, fallback))).toBe(true);
+
+  const log = findAll(tree, (p) => p.title === en.gymSession.log && typeof p.onPress === 'function')[0];
+  act(() => {
+    (log.props.onPress as () => void)();
+  });
+  expect(hasButton(tree, en.gymSession.hide)).toBe(true);
+  expect(hasButton(tree, en.gymSession.addSet)).toBe(true);
+  expect(hasText(tree, en.gymSession.notSet)).toBe(true);
+  expect(hasText(tree, en.gymSession.unitReps)).toBe(true);
+  expect(hasText(tree, en.gymSession.unitKg)).toBe(true);
+
+  const repsBox = findAll(tree, (p) => p.accessibilityLabel === 'Set 1 reps' && typeof p.onPress === 'function')[0];
+  act(() => {
+    (repsBox.props.onPress as () => void)();
+  });
+  expect(findAll(tree, (p) => p.label === en.gymSession.padReps).length).toBeGreaterThan(0);
+
+  pickExtra(tree);
+  expect(findAll(tree, (p) => joined(p) === `${EXTRA.name}  ${en.gymSession.added}`).length).toBeGreaterThan(0);
+  expect(hasLabel(withName(en.gymSession.rowDone, EXTRA.name))).toBe(true);
 });
