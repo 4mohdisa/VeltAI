@@ -26,7 +26,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Goals and units stay in memory in Phase 3. Row 15 fixes the 'Saved as you type' copy. Backend persistence parked.
 - Fixes for hook errors go in the shared hook, not per screen.
 - A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
-- A flagged report on a PARTIAL row whose checks already passed: continue with the next hook; no separate re-verify round (round 28).
+- A flagged report on a PARTIAL row whose checks already passed: continue with the next hook; no separate re-verify round (rounds 28, 29).
 - A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
 - A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
 - Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email. Seed code not in server image.
@@ -49,7 +49,8 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 24: useTemplates returns isError; harness moved to helpers; test added.
 - Round 25: useSchedule returns isError with shared-harness test.
 - Round 26: re-verify of round 25 PASSED. tsc 0, 4 suites and 12 tests green.
-- Round 27: useExercises returns isError, 2 tests (shared readHook). tsc 0, 2 suites green. Lint: only known errors at gymSchedule.ts 41, 43.
+- Round 27: useExercises returns isError, 2 tests (shared readHook). tsc 0, 2 suites green.
+- Round 28: useGymPatterns returns isError, 2 tests. tsc 0, 2 suites green. Lint: only known errors at gymSchedule.ts 41, 43.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked rounds 12 and 13, no answer. Parked. Not asking again.
@@ -75,12 +76,11 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - gymSchedule.revalidate.test.ts still has its own useApi harness copy. Row 11.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 - useExercises has no test for refetch when filters change. Add later in Row 12.
-- useExerciseProgress: empty name resolves to null without an API call. Needs isError and a test (Row 12).
 
 ## Next
-- Round 28: Row 12, useGymPatterns returns isError with a shared-harness test.
-- Then Row 12 remaining hook: useExerciseProgress (with empty-name test).
+- Round 29: Row 12, useExerciseProgress returns isError with 3 shared-harness tests (empty name, failed, success).
 - Round 30: full app Jest checkpoint and tsc.
+- Row 12 close-out: confirm every gymSchedule hook reports isError.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

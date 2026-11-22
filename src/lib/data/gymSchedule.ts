@@ -147,11 +147,12 @@ export function useGymPatterns(): { patterns: GymPatterns | null; loading: boole
 export function useExerciseProgress(name: string, limit?: number): {
   progress: ExerciseProgress | null;
   loading: boolean;
+  isError: boolean;
 } {
-  const { data, loading } = useApi<ExerciseProgress | null>(
+  const { data, loading, isError } = useApi<ExerciseProgress | null>(
     () => (name ? api.gym.getExerciseProgress(name, limit) : Promise.resolve(null)),
     null,
     [name, limit],
   );
-  return { progress: data, loading };
+  return { progress: data, loading, isError };
 }

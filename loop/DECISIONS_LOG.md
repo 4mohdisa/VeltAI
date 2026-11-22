@@ -8122,3 +8122,7 @@
 - 2026-11-22 16:25 Kept Row 12 PARTIAL. The useExercises refetch-on-filter test stays on the list for a later round.
 - 2026-11-22 16:25 No question to Isa. The Maestro sign-in question and the templates + question stay as they are (unanswered, default used).
 - 2026-11-22 16:25 Full Jest checkpoint stays at round 30 as planned.
+- 2026-11-22 16:26 Continue with the next hook (useExerciseProgress) with no separate re-verify round, per the rule for flagged PARTIAL rows whose checks already passed (round 28). The flag is about row 12 being partial by design, not a failed check.
+- 2026-11-22 16:26 Chose the row 12 hook over Row 13 because it is the smallest step and finishes the last hook in row 12, which unblocks the row 14 screen work.
+- 2026-11-22 16:26 Empty name test included so the no-API-call path is covered and isError stays false there.
+- 2026-11-22 16:26 Full Jest checkpoint stays at round 30 as scheduled. Not run now.
