@@ -278,6 +278,11 @@
     "tickHint": "Tick each exercise as you complete it",
     "addExtra": "Add an extra exercise"
   },
+  "gymHistory": {
+    "emptyMessage": "Log a gym session to start building your history and streak.",
+    "durationNotRecorded": "Duration not recorded",
+    "effort": "effort {{value}}/10"
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

@@ -8345,3 +8345,7 @@
 - 2026-11-22 17:43 Chose the session.tsx translation leftover over history.tsx: a missing translation is a failed row, and it is one screen and a small change.
 - 2026-11-22 17:43 Kept the offline Add-an-exercise behaviour unchanged; it is already in Blocked on Isa, so the default stays.
 - 2026-11-22 17:43 Jev said run (75%); kept run. Only open items are owner-only or defaulted.
+- 2026-11-22 17:44 Chose gym/history.tsx: the open Row 14 item with a known wrong failed-read state, and one small screen fits one round.
+- 2026-11-22 17:44 Reuse LoadFailedNotice from log-session.tsx so the Retry pattern matches the rest of the gym screens.
+- 2026-11-22 17:44 Use default es and fr wording and flag it in DONE, as already agreed for all Row 13 and 14 blocks.
+- 2026-11-22 17:44 session.tsx leftovers wait for the next round, to keep one screen per prompt.

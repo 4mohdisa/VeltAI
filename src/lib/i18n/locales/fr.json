@@ -278,6 +278,11 @@
     "tickHint": "Cochez chaque exercice une fois terminé",
     "addExtra": "Ajouter un exercice supplémentaire"
   },
+  "gymHistory": {
+    "emptyMessage": "Enregistrez une séance de sport pour commencer votre historique et votre série.",
+    "durationNotRecorded": "Durée non enregistrée",
+    "effort": "effort {{value}}/10"
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",
