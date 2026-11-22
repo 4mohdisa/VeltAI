@@ -9518,3 +9518,8 @@
 - 2026-11-23 03:05 Chose the docs-only Row 8 cleanup: smallest task, no Isa input needed, clears a known status-word conflict. Jev run 81% agrees.
 - 2026-11-23 03:05 Gap 5 is treated as built: the latest report verified aiQueryEmptyAnswer.render with 8 of 8 tests passing. The handover saying gap 5 is next is stale, so it is re-verified after this round.
 - 2026-11-23 03:05 No tsc or Jest run this round: the prompt changes docs only. The last report's gates still stand (tsc 0 errors, Jest 233 suites and 1,338 tests).
+- 2026-11-23 03:06 Chose the Row 17 verify task first, because the automatic check flagged the last report as untested and the handover lists it as the next step.
+- 2026-11-23 03:06 Did not run the full Jest suite, since this is not a checkpoint round. Ran tsc once and only the aiQueryEmpty tests.
+- 2026-11-23 03:06 Row 6 stays waiting on Isa. Its recommended fix needs src/lib/data, which is off limits, and Isa has the options already. No re-ask.
+- 2026-11-23 03:06 Row 14 open items are not listed in the notes, so it is not picked before the check clears.
+- 2026-11-23 03:06 No question to Isa this round. Blocked on Isa list already covers it, and the Jev ask score is advisory only.
