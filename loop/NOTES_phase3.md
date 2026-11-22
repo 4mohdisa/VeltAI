@@ -9,6 +9,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Next checkpoint: round 203 (full tsc and full npx jest --ci, no file changes).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
+- Handover happened after round 189. Fresh session: name files fully in prompts.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -38,14 +39,17 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Digit grouping: figures stay ungrouped (2140). Parked.
 - getAnomalies keeps returning [] until /api/ai/anomalies exists.
 - Jev ranks not followed when no major question exists.
-- Round 187: checkpoint chosen over Jev's account.tsx pick. Round 188: account.tsx chosen (checkpoint green).
+- Account: eyebrow, title, Save localised. Remaining English moved to Parked (not blocking Row 15).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName helper, About title and eyebrow.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName helper, About title and eyebrow, Account eyebrow/title/Save (accountLocale.render 3 of 3).
+
+## In progress
+- Row 15: profile/integrations.tsx title and eyebrow (integrationsLocale.render).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - InsightCard truncation: edit test to fire onTextLayout needs OK. Default kept.
@@ -62,13 +66,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Whether formatNumber should follow the active language.
 
 ## Next
-- Round 188: localise profile/account.tsx (eyebrow, title via settings.account, Save).
-- Then integrations, preferences (eyebrow 'Units'), privacy, scan-calibration, support.
-- Add quick-add mealSlotName switch to Row 15 notes (no code change).
+- Row 15: integrations title and eyebrow, then preferences (eyebrow 'Units'), privacy, scan-calibration, support.
 - goals.tsx spoken calorie label and hard-coded g, % and comma join.
 - Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
+- Checkpoint at round 203.
 
 ## Parked (not Phase 3)
+- Account: Display name, Email, toasts 'Name updated.' and 'Saved on this device — could not reach the server.' still English.
 - Goals loading, error and persistence: needs hooks.ts refetch.
 - getMorningBrief (api.ts:1232) swallows all errors to null; pinned by aiFallback.test.ts:26.
 - AnomalyBanner: no Retry. Banner count title lacks _one use.
@@ -98,5 +102,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
 - addMenu.addToSlot with a lowercased fallback label could read oddly.
 - BrainProfileCard numbers not formatted for language, always kcal.
-- Other profile screens hard-code English titles and eyebrows (integrations, preferences, privacy, scan-calibration, support).
+- Other profile screens hard-code English titles and eyebrows (preferences, privacy, scan-calibration, support).
 - delete-account.tsx and subscription.tsx: Phase 4, parked.

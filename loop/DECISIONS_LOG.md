@@ -8813,3 +8813,8 @@
 - 2026-11-22 20:17 Closed the detail.tsx slot fallback: slotLabel(ctaSlot), fallback foodLog.addMeal. It no longer blocks the helper work.
 - 2026-11-22 20:17 Keep addMenu.snack as 'Snacks' in es and fr until review. Default, Isa did not answer.
 - 2026-11-22 20:17 Keep the InsightCard 120-character rule. Default, Isa did not answer.
+- 2026-11-22 20:19 Flagged partial task resolved by treating Account eyebrow, title and Save as BUILT for Row 15; remaining Account English (Display name, Email, two toasts) moved to Parked so the loop does not stall. Delete Account is Phase 4.
+- 2026-11-22 20:19 Chose integrations pass next: same pattern as Account and About, small, no Isa input needed.
+- 2026-11-22 20:19 Row 15 note for Account is written by this prompt, which corrects the missing bookkeeping from the last report.
+- 2026-11-22 20:19 Fresh session: prompt names every file to read, per handover rule.
+- 2026-11-22 20:19 Ranked candidate 1 over Jev's suggestion? Jev strongly favoured run; this matches it. No re-check needed.

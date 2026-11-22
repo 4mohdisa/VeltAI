@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { PixelRatio, View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import { useTranslation } from 'react-i18next';
 import Svg, { Path } from 'react-native-svg';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -82,6 +83,7 @@ function ago(iso: string | null | undefined): string {
 }
 
 export default function IntegrationsScreen() {
+  const { t } = useTranslation();
   const [conns, setConns] = useState<IntegrationConnection[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
@@ -175,7 +177,7 @@ export default function IntegrationsScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow={eyebrow} title="Connected apps" showBack contentStyle={{ gap: space.xl }}>
+    <Screen variant="floating" eyebrow={eyebrow} title={t('profile.connectedApps')} showBack contentStyle={{ gap: space.xl }}>
       <Text variant="footnote" color={color.secondaryLabel}>
         Link a fitness app to import workouts automatically.
       </Text>
