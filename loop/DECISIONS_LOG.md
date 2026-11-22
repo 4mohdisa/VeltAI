@@ -9018,3 +9018,7 @@
 - 2026-11-22 21:16 Chose the smallest task because Jev rates the risk of continuing without Isa as high. Asking Isa was not chosen because nothing in this row needs his hands.
 - 2026-11-22 21:16 Left the duplicate-row question out of Blocked on Isa. It is now a recorded default, not a question.
 - 2026-11-22 21:16 Next round: fix the PRIVACY_DATA.md host sentence (Row 8), then Row 10.
+- 2026-11-22 21:17 Chose the host sentence fix: it is the smallest open item, is doc only, and was flagged in the last two handovers as the next step.
+- 2026-11-22 21:17 Jev risk is 1.5 and it prefers small tasks, so no code change this round.
+- 2026-11-22 21:17 Full Jest checkpoint left for the loop script's scheduled checkpoint round, since no code changed since round 212.
+- 2026-11-22 21:17 Row 8 stays PARTIAL until the device check of anonymous ID and version tags.
