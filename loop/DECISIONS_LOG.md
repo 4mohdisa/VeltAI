@@ -8319,3 +8319,8 @@
 - 2026-11-22 17:34 Used the suggested wording from the report's NEXT section for meals.tsx line 1, since the report offered it and it removes the dangling 'to'.
 - 2026-11-22 17:34 Did not add a Food tab link to /food/meals, because it is a navigation change and the Phase 1 design is final. Still blocked on Isa, default unchanged.
 - 2026-11-22 17:34 Condensed the notes to fit the 600 word limit. Finished work was merged into Done, and decisions and blocked items were kept.
+- 2026-11-22 17:35 Chose the flagged-report fix first, because the loop asked to deal with the partial report before moving on. It is a comment-only, no-risk change.
+- 2026-11-22 17:35 Kept Row 13 PARTIAL. Row 12 stays PARTIAL until Isa approves BUILT.
+- 2026-11-22 17:35 Did not start the WeekStrip keys (', today', 'Previous week', 'Next week') or the useLoggedDays change, because both are Blocked on Isa.
+- 2026-11-22 17:35 Did not add a Food tab link to /food/meals. Default kept from the Blocked on Isa list.
+- 2026-11-22 17:35 Did not re-ask Isa any Blocked item. Unanswered questions use the default.

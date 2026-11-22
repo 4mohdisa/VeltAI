@@ -32,8 +32,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 12 set back to PARTIAL until Isa approves BUILT.
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
-- Round 75: meals.tsx lines 2 to 5 verified. Round 76: meals.tsx line 1 reworded to the new-recipe fallback. Default used.
-- Round 77: meals.tsx line 1 grammar fix, comment only (flagged report).
+- Round 75-77: meals.tsx header verified and reworded. Default used.
+- Round 78: meals.tsx header line 1 wrapped to match other header lines (finishes flagged round 77).
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -44,7 +44,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 42-69: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history.
 - Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels. Row 13 PARTIAL.
 - Round 73: checkpoint clean.
-- Rounds 74-76: meals.tsx and saved.tsx header work, one report flagged partial.
+- Rounds 74-78: meals.tsx and saved.tsx header work.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -53,15 +53,14 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
 - Row 13 es and fr wording for all new blocks. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
-- Row 13: is /food/meals meant to get a Food tab link? Default: no link added. /food/meals is reachable only via the new-recipe fallback.
+- Row 13: is /food/meals meant to get a Food tab link? Default: no link added.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 77: meals.tsx line 1 grammar fix (running).
-- Then: saved.tsx line 1 'C13 · My dishes' wording check (comment only).
-- Row 13 remaining: detail, barcode, Food tab PendingSyncBanner.
+- Round 78: meals.tsx header line 1 wrap (comment only, running).
+- Row 13 remaining: food detail screen states, barcode, Food tab PendingSyncBanner.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -98,4 +97,5 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Past-day error copy has no test covering food.tsx.
 - formatMonthYear and formatWeekdayDate: month and day names can stay English in es and fr.
 - Older items: no Retry on useInsights errors, analytics defaults to on, seed script has no host guard.
+- saved.tsx line 1 'C13 · My dishes' wording to confirm (comment only).
 - New Recipe vs New recipe casing: see Blocked on Isa.
