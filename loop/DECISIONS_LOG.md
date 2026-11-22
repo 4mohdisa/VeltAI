@@ -9142,3 +9142,6 @@
 - 2026-11-23 00:31 Did not ask Isa again about the Spanish Account eyebrow, the Privacy title test edit or the owner checks, because each is already recorded in Blocked on Isa with a default.
 - 2026-11-23 00:31 Allowed one rerun of Jest only if a worker SIGSEGV appears, since the brief says a rerun passes.
 - 2026-11-23 00:31 Next task after the checkpoint: fr.json straight apostrophes, read only.
+- 2026-11-23 00:32 Chose the smallest candidate: Jev gives a 20% chance the last task finished cleanly and risk 1.0, so a one-file copy fix is the safer next step.
+- 2026-11-23 00:32 Kept the rule that tests are never edited and snapshots are never regenerated, so a blocking test is backed out and reported.
+- 2026-11-23 00:32 Compressed the notes to under 600 words. Decisions and Blocked on Isa are kept in full in substance; finished work was removed.

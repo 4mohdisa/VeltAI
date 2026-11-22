@@ -89,11 +89,11 @@
     "measurementSystem": "Système de mesure",
     "metric": "Métrique",
     "imperial": "Impérial",
-    "systemHint": "Règle toutes les mesures d'un coup. Ajustez-les ci-dessous.",
+    "systemHint": "Règle toutes les mesures d’un coup. Ajustez-les ci-dessous.",
     "customHint": "Personnalisé — vos unités sont mixtes ci-dessous.",
     "bodyWeight": "Poids corporel",
     "height": "Taille",
-    "foodQuantities": "Quantités d'aliments",
+    "foodQuantities": "Quantités d’aliments",
     "volume": "Volume",
     "energy": "Énergie",
     "language": "Langue",
@@ -183,7 +183,7 @@
       "loadFailed": "Impossible de charger le journal alimentaire d’aujourd’hui. Vérifiez votre connexion et réessayez.",
       "loadFailedPast": "Impossible de charger le journal alimentaire de ce jour. Vérifiez votre connexion et réessayez."
     },
-    "loadFailed": "Impossible de charger le journal alimentaire d'aujourd'hui.",
+    "loadFailed": "Impossible de charger le journal alimentaire d’aujourd’hui.",
     "loadFailedPast": "Impossible de charger le journal alimentaire de ce jour.",
     "savedLoadFailed": "Impossible de charger vos aliments enregistrés.",
     "savedTitle": "Mes plats",
@@ -200,7 +200,7 @@
     "savedRemoved": "Retiré de vos aliments enregistrés.",
     "savedSearchPlaceholder": "Rechercher un aliment…",
     "savedSearchLabel": "Rechercher dans les aliments enregistrés",
-    "savedEmptyTitle": "Aucun aliment enregistré pour l'instant",
+    "savedEmptyTitle": "Aucun aliment enregistré pour l’instant",
     "savedEmptyMessage": "Enregistrez un aliment depuis un repas ou la fiche de modification pour le rajouter ici en un seul geste.",
     "savedEmptySearchMessage": "Essayez un autre nom.",
     "savedEditLabel": "Modifier {{name}}",
@@ -445,7 +445,7 @@
     "mostTrained": "Les plus entraînés",
     "needsAttention": "À travailler",
     "oftenSkip": "Vous sautez souvent {{day}}",
-    "removeExerciseTitle": "Retirer l'exercice ?"
+    "removeExerciseTitle": "Retirer l’exercice ?"
   },
   "gymExerciseProgress": {
     "exerciseFallback": "Exercice",
@@ -548,7 +548,7 @@
       "surplus": "surplus",
       "intake": "Apport",
       "burned": "Brûlées",
-      "percentOfGoal": "{{percent}} % de l'objectif"
+      "percentOfGoal": "{{percent}} % de l’objectif"
     },
     "breakdown": "Détail",
     "thisWeek": "Cette semaine",
