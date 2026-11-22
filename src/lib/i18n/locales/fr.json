@@ -283,6 +283,13 @@
     "durationNotRecorded": "Durée non enregistrée",
     "effort": "effort {{value}}/10"
   },
+  "gymTemplates": {
+    "newWorkoutLabel": "Nouvelle séance",
+    "newWorkoutAction": "Nouvelle séance",
+    "emptyTitle": "Pas encore de séances",
+    "emptyMessage": "Créez un modèle de séance pour construire votre programme de la semaine.",
+    "aboutMinutes": "environ {{minutes}} min"
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",

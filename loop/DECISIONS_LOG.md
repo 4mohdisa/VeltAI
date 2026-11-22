@@ -8349,3 +8349,6 @@
 - 2026-11-22 17:44 Reuse LoadFailedNotice from log-session.tsx so the Retry pattern matches the rest of the gym screens.
 - 2026-11-22 17:44 Use default es and fr wording and flag it in DONE, as already agreed for all Row 13 and 14 blocks.
 - 2026-11-22 17:44 session.tsx leftovers wait for the next round, to keep one screen per prompt.
+- 2026-11-22 17:47 Chose templates.tsx as the next Row 14 screen: same small LoadFailedNotice pattern as history, one screen, no data layer change.
+- 2026-11-22 17:47 Templates reuses the history pattern (default), no new decision needed.
+- 2026-11-22 17:47 Kept Jev's run signal (85%). Smallest clean task, not blocked by Isa.

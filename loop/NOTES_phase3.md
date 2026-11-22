@@ -10,6 +10,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Render tests are *.render.test.tsx.
 - Multi-file jest via xargs. zsh: use $? not PIPESTATUS. Write Jest output to file, then tail.
+- Failed reads: LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch}.
+- Dev builds seed mock gym data on store reset; set arrays to [] in tests.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
@@ -30,7 +32,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
 - Food tab shows PendingSyncBanner, counting all queued writes. Default used.
 - Food detail: Entry not found gets one Done button (common.done). Barcode not-found keeps Scan again.
-- Gym session: failed read shows LoadFailedNotice with Retry, matching log-session.tsx.
+- Gym session and history: failed read shows LoadFailedNotice with Retry, matching log-session.tsx.
+- Identical text reuses existing keys. Data layer (src/lib/data) is off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
 
 ## Done
@@ -39,9 +42,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
-- Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations, food detail Done button.
-- Round 82: gym/session.tsx empty state translated, failed read shows LoadFailedNotice.
-- Round 83: gym/session.tsx six strings translated (gymSession block), tests added.
+- Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved states, translations, food detail Done button.
+- Rounds 82-83: gym/session.tsx empty and failed states, gymSession block translated.
+- Round 84: gym/history.tsx failed read shows LoadFailedNotice, gymHistory block added.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -49,17 +52,18 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - lookupBarcodeAsync (src/lib/data/scan.ts): 'not found' vs 'server unreachable'. Default: keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. Until approved, WeekStrip labels stay.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 and 14: es and fr wording for all new blocks (incl. gymSession, six keys from round 83). Default used. Review needed.
+- Row 13 and 14: es and fr wording for all new blocks (gymSession, gymHistory, gymTemplates when added). Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13 PendingSyncBanner counts all queued writes. Default used. Confirm.
 - Row 14: gym session with failed read shows only notice, so freestyle start and Add an exercise unavailable offline. Default: unchanged. Isa to confirm.
+- Row 14: gym history 'streak' translated as 'racha' (es) and 'série' (fr). Default used. Review.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 
 ## Next
-- Row 14: gym/history.tsx (round 84): failed read to LoadFailedNotice with Retry, strings translated.
+- Row 14: gym/templates.tsx (round 85): failed read to LoadFailedNotice with Retry, strings translated (gymTemplates block).
 - Row 14: session.tsx leftovers: 'Progress saved' toast, Save button, unsaved-changes alert text.
 - Rows 15 to 17: remaining empty state screens, one per round.
 - Row 6: non-sign-in backend measurements.
@@ -71,6 +75,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - 18 backend DB tests never run. Needs LUME_TEST_DATABASE_URL.
 - Date helpers (src/lib/formatting.ts): formatWeekdayDate, formatMonthYear use device locale; formatRelativeDate returns hardcoded English.
 - GymCalendar.tsx and WeekEnergyCard.tsx: hardcoded weekday letters.
+- Dev gym failed read keeps mock sessions from seedGym on screen; offline dev testing shows fake history.
+- Effort and duration copy: 'Duration not recorded · effort N/10' untested with effort.
 - WeekStrip and calendar.tsx duplicate the logged-day label expression. Shared helper.
 - calendar.tsx strings not translated yet (Row 13 follow-up).
 - SheetContent.tsx:92 close label 'Close' hardcoded English.
@@ -84,8 +90,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule tests.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', meals.tsx '(Task 4)'.
-- food.tsx and meals.tsx header line 2 over 80 chars. Row 11.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', meals.tsx '(Task 4)', saved.tsx line 1 'C13 · My dishes'.
+- food.tsx and meals.tsx header line over 80 chars. Row 11.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry. allText crashes on full-screen trees: use findAll.
 - getMorningBrief and getProfile swallow failures as null.
@@ -99,8 +105,10 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Hidden-banner test checks only accessibilityRole=alert absence. Assert no banner at all (Row 11).
 - gym session 'Nothing scheduled' and gym.nothingScheduledSub close but not identical. Decide in Row 11.
 - gymSession.eyebrow and defaultTitle duplicate foodLog.today and dashboard.workout. Decide in Row 11.
+- Food tab hidden-banner and useLoggedDays gaps: see Blocked.
 
 ## Loop notes
 - Round 80: Jev said ask (80%). Kept run: only open question is owner-only and already defaulted.
 - Round 82: Jev said ask (74%). Kept run: question not major, default used.
 - Round 83: Jev said run (75%). Kept run: smallest clean task, one small screen.
+- Round 85: Jev said run (85%). Run: templates.tsx, same pattern as round 84.

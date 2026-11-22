@@ -283,6 +283,13 @@
     "durationNotRecorded": "Duration not recorded",
     "effort": "effort {{value}}/10"
   },
+  "gymTemplates": {
+    "newWorkoutLabel": "New workout",
+    "newWorkoutAction": "New Workout",
+    "emptyTitle": "No workouts yet",
+    "emptyMessage": "Create a workout template to build your weekly schedule.",
+    "aboutMinutes": "about {{minutes}} min"
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

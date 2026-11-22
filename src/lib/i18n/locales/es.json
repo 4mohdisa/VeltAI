@@ -285,6 +285,13 @@
     "durationNotRecorded": "Duración no registrada",
     "effort": "esfuerzo {{value}}/10"
   },
+  "gymTemplates": {
+    "newWorkoutLabel": "Nuevo entrenamiento",
+    "newWorkoutAction": "Nuevo entrenamiento",
+    "emptyTitle": "Aún no hay entrenamientos",
+    "emptyMessage": "Crea una plantilla de entrenamiento para armar tu horario semanal.",
+    "aboutMinutes": "unos {{minutes}} min"
+  },
   "gymLog": {
     "title": "¿Cómo ha ido?",
     "planSummary_one": "{{count}} ejercicio · unos {{minutes}} min",
