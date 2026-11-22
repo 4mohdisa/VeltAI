@@ -888,6 +888,10 @@
   "aiQueryAnswer": {
     "empty": "Lume had no answer for that. Try asking another way."
   },
+  "weekStrip": {
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",
     "waiting_other": "{{count}} changes waiting to sync"

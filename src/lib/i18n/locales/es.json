@@ -890,6 +890,10 @@
   "aiQueryAnswer": {
     "empty": "Lume no tuvo respuesta para eso. Prueba a preguntarlo de otra forma."
   },
+  "weekStrip": {
+    "previousWeek": "Semana anterior",
+    "nextWeek": "Semana siguiente"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} cambio pendiente de sincronizar",
     "waiting_other": "{{count}} cambios pendientes de sincronizar"

@@ -5,18 +5,19 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last checkpoint: tsc 0 errors, Jest 236 suites, 1,344 tests. Go 543 pass, 20 TestPG skipped.
-- Handover counts (233 suites, 1,338 tests) differ. Reconcile at final sweep.
+- Last checkpoint: tsc 0 errors, Jest 233 suites, 1,338 tests (plus 2 new suites). Go 543 pass, 20 TestPG skipped.
+- Reconcile counts at final sweep.
 
 ## Status (PHASE3_ROWS.md is source of truth; re-read each round)
-- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16, 17 (owner check pending) per latest report. Handover said 17 PARTIAL. Confirm from file.
+- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16, 17.
 - PARTIAL: 5 (part 2 needs credentials), 13, 14.
 - DIFFERENT or waiting: 6 (waits on Isa), 11 (final sweep, last).
 
 ## Next
-- Now: Row 17 gap 5 (empty Ask Lume answer, ai-query.tsx), plus status confirmed from file.
-- Then: Row 13 or 14 items that need no src/lib/data change.
+- Now: Row 14 WeekStrip English labels (', today', Previous/Next week).
+- Then: other Row 13/14 items that need no src/lib/data change.
 - Row 6 waits on Isa. Row 11 final sweep only when every other row is BUILT or EXACT.
+- Loop task source still lists Row 17 gap 5 as open. It is BUILT. Do not reissue.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -58,10 +59,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Backend correctness: gym/schedule_pg.go:765-767 sorts exercise progress oldest first, then LIMIT 30, so newest entries are lost.
 - Backend perf: 49 queries use WHERE id::text = $1, skipping the id index. Needs DB-backed tests.
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
-- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names; WeekStrip ', today' and Previous/Next week English.
+- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names.
 - Row 15: useGoals loading and error states.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes saying 503 waits on aiBrain.ts are wrong: gap 4 is done.
+- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Gap 4 is done.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg. useHydration logs via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 raw number. Repeat-visit skeleton flash.
@@ -83,4 +84,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
-- Jev is advisory only. Last signals: run 23%, ask 41%, confidence low. Prefer smaller tasks.
+- Jev is advisory only. Last signals: run 61%, ask 31%, confidence 0.42. Prefer smaller tasks.

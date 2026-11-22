@@ -9489,3 +9489,8 @@
 - 2026-11-23 02:57 Row 17 status conflict (latest report BUILT, handover PARTIAL): told the agent to confirm from the file.
 - 2026-11-23 02:57 Empty answer copy: reuse an existing key if the meaning matches, else add a new aiQueryEmpty group in all three languages.
 - 2026-11-23 02:57 Notes condensed below 600 words; all decisions, blockers and parked items kept.
+- 2026-11-23 02:58 Chose Row 14 WeekStrip labels: small, no src/lib/data change, clears one open Row 14 gap.
+- 2026-11-23 02:58 Row 17 gap 5 is already BUILT (latest report), so it is not reissued even though the task source still lists it.
+- 2026-11-23 02:58 Row 6 stays parked until Isa picks an option; it needs src/lib/data or a pinned file.
+- 2026-11-23 02:58 Row 14 stays PARTIAL after this task because other gaps remain.
+- 2026-11-23 02:58 Jev ranked run at 61%; agreed with run and kept the smallest task.

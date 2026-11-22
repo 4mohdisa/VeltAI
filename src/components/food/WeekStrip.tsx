@@ -82,7 +82,7 @@ export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: We
               minTapTarget={false}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected, disabled: future }}
-              accessibilityLabel={`${logged ? t('calendar.dayLogged', { date: formatWeekdayDate(fromIso(iso)) }) : formatWeekdayDate(fromIso(iso))}${isToday ? ', today' : ''}`}
+              accessibilityLabel={`${logged ? t('calendar.dayLogged', { date: formatWeekdayDate(fromIso(iso)) }) : formatWeekdayDate(fromIso(iso))}${isToday ? t('gymCalendar.todaySuffix') : ''}`}
               style={{
                 flex: 1,
                 minHeight: layout.buttonHeight,
@@ -134,12 +134,13 @@ function WeekArrow({
   onPress: () => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled}
       haptic={false}
-      accessibilityLabel={direction === 'back' ? 'Previous week' : 'Next week'}
+      accessibilityLabel={direction === 'back' ? t('weekStrip.previousWeek') : t('weekStrip.nextWeek')}
       style={{
         width: layout.tapTarget,
         height: layout.tapTarget,

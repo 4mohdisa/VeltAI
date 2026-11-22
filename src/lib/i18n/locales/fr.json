@@ -888,6 +888,10 @@
   "aiQueryAnswer": {
     "empty": "Lume n’a pas trouvé de réponse. Essayez de reformuler votre question."
   },
+  "weekStrip": {
+    "previousWeek": "Semaine précédente",
+    "nextWeek": "Semaine suivante"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"
