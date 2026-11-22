@@ -7,7 +7,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Checkpoint round 43: tsc 0; Jest 147 suites, 1028 tests, 0 failed. About 16 tests added since, not yet run in full.
+- Checkpoint round 46: tsc 0; Jest 147 suites, 1029 tests, 0 failed, 0 skipped, 4 of 4 snapshots.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade.
@@ -26,8 +26,8 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Goals and units stay in memory in Phase 3. Row 15 fixes 'Saved as you type' copy.
 - Fixes for hook errors go in the shared hook, not per screen.
 - useEnergyRange isError is true only when both week reads fail. Default used.
-- Food tab error state recorded under row 13. AnomalyBanner takes anomalies, isError, onDismiss props; food.tsx makes the only useInsights call.
-- phase14Regression line reads food.tsx for useInsights (loop decision, round 45).
+- Food tab error state recorded under row 13. AnomalyBanner takes anomalies, isError, onDismiss props; food tab screen makes the only useInsights call.
+- phase14Regression line reads the food tab screen for useInsights (loop decision, round 45).
 - Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
 - Unanswered question: use default and carry on. Do not re-ask.
@@ -41,11 +41,12 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Rounds 5-6: Row 3 BUILT, owner check pending.
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
-- Rounds 13-41: Row 12 plumbing done.
+- Rounds 13-41: Row 12 plumbing done (gymSchedule hooks return isError, useApi loading on refetch, useEnergyRange isError, getInsights rejects with ApiError, ErrorState and PendingSyncBanner copy in en, es, fr).
 - Round 42: Food tab ErrorState when useInsights fails.
 - Round 43: checkpoint passed.
 - Round 44: AnomalyBanner props; phase14 failure reported.
-- Round 45: phase14Regression test now reads food.tsx; 3 suites pass.
+- Round 45: phase14Regression test now reads the food tab screen; 3 suites pass.
+- Round 46: full checkpoint passed (tsc 0, Jest 147/1029).
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed-user sign-in path. Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -54,9 +55,9 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - useEnergyRange: confirm 'both weeks fail' rule. Default used.
 
 ## Next
-- Round 46: full checkpoint (tsc, full Jest). Must pass before row 13 moves to BUILT.
-- Row 13: 'Tap + to add your first meal' on past days; Food tab empty-state tests.
-- Row 14: Gym log and history empty states, one screen per round.
+- Round 47: docs cleanup (phase14 comment, ai/index.ts comment, row 13 stale note).
+- Row 13: Food tab empty-state tests; 'Tap + to add your first meal' on past days.
+- Row 14: Gym log and history empty states, one screen per round. No screen reads isError yet.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
 - Rows 7 and 8 (Sentry, PostHog), then rows 9 and 10, then Row 11 (final sweep).
@@ -73,8 +74,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Lint: gymSchedule.ts lines 50, 52 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule test files.
 - Stale header comments: gymSchedule.ts and aiBrain.ts. Row 11 for gymSchedule, park for aiBrain.
-- src/components/ai/index.ts comment says AnomalyBanner calls hooks internally. Row 11.
-- Stale row 13 note saying pin 'now fails'. Row 11.
+- Stale row 13 note saying pin 'now fails'. Done in round 47.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - Mocks lacking isError: useInsights in render/insights and render/anomaly tests; useEnergyRange in render/detailChrome.render.test.tsx:79. Park.
 - useInsights has no refetch, so no Retry on error states. Park.

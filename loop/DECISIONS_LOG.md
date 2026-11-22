@@ -8199,3 +8199,6 @@
 - 2026-11-22 16:49 Full checkpoint first: the banner move and about 16 new tests have not been run in the full suite, and Row 13 cannot move to BUILT without it.
 - 2026-11-22 16:49 Stale comments and mock gaps found in the report go to NEXT, not fixed now, to keep one task per round.
 - 2026-11-22 16:49 Row 12 status left as PARTIAL until the checkpoint passes and Isa approves BUILT (handover conflicts with the older note; the handover is the newer source).
+- 2026-11-22 16:50 Chose the docs-only cleanup first: it is the smallest task, it needs nothing from Isa, and it removes misleading comments before row 13 work starts.
+- 2026-11-22 16:50 Kept row 12 PARTIAL this round: the checkpoint passed, but the notes say Isa approves BUILT, so no status change without that.
+- 2026-11-22 16:50 Used a search to find the food tab file rather than guessing its path, so the prompt names no unverified file.

@@ -199,8 +199,8 @@ describe('claim 3 · third-party-AI consent', () => {
     ordered(src, 'if (!granted)', '<InsightsInner />', 'insights');
   });
 
-  // DISCREPANCY (documented, not asserted as desired): the Food tab mounts
-  // AnomalyBanner, which calls useInsights() → GET /api/ai/insights (+ the
+  // DISCREPANCY (documented, not asserted as desired): the Food tab makes the
+  // only useInsights() call (AnomalyBanner takes props) → GET /api/ai/insights (+ the
   // routeless /api/ai/anomalies) with NO consent gate. Those two are pure DB
   // reads server-side (ai.listInsights only calls Store.ListInsights; there is
   // no /api/ai/anomalies route at all), so no personal data reaches a third
