@@ -9368,3 +9368,7 @@
 - 2026-11-23 02:09 Kept the Privacy 'Your data' English title and the Integrations 'Nothing connected' eyebrow as they are. Both are in the blocked list with defaults, so Isa does not need to be asked again.
 - 2026-11-23 02:09 Did not ask Isa this round. The open questions all have defaults, no row is blocked, and Jev's ask score is low confidence (0.14).
 - 2026-11-23 02:09 Kept Row 8 analytics default as coded (opt-in, off) with the default-on brief wording recorded for Isa to confirm before Phase 4.
+- 2026-11-23 02:11 Chose Support screen for Row 16: it is the named remaining gap, small, and needs no Isa input.
+- 2026-11-23 02:11 Isa has not answered the Row 8 and Row 13/14 items after more than one round, so defaults stay (analytics opt-in off by default, AI disclosure keeps analytics setting unchanged, src/lib/data untouched).
+- 2026-11-23 02:11 Kept the Privacy 'Your data' English title because an existing test requires it.
+- 2026-11-23 02:11 Did not touch scanCalibration.basedOn plural or feature_used; both are parked.
