@@ -1,46 +1,48 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
 ROWS
-Row 7 (crash reporting) is BUILT, with owner steps pending. Row 8 (analytics) is PARTIAL after step 1. Row 15 (empty states and copy) is still PARTIAL. Nothing was checked on a device. Last full gates: tsc 0 errors; Jest 198 suites, 1190 tests and 4 snapshots passing. That run came before Row 8 step 1, which ran only its 4 suites (46 tests, all passing).
+No new rows were finished this session. Row 7 (crash reporting) is BUILT, with owner steps pending. Row 8 (analytics) and Row 15 (empty states and copy) are PARTIAL. Last full gates: tsc 0 errors; Jest 202 suites, 1210 tests and 4 snapshots passing. Only docs and the PostHog host check changed after that run; the host check passed its 15 sink tests and tsc. Nothing was checked on a device.
 
-BUILT
-Row 15: the headers on the profile screens are localised, each with a test in src/__tests__/render/.
-- account.tsx: settings.accountEyebrow, settings.account and common.save.
-- integrations.tsx: the title uses profile.connectedApps. The live eyebrow uses profile.connectionsSyncing, connectionsNone and connectionsCount.
-- preferences.tsx: settings.preferencesEyebrow.
-- support.tsx: settings.supportEyebrow.
-- privacy.tsx: settings.privacyEyebrow.
-- scan-calibration.tsx: settings.scanCalibrationEyebrow.
-
-Row 7: @sentry/react-native ~7.11.0 is installed. src/lib/crashReporting.ts sets up Sentry only when EXPO_PUBLIC_SENTRY_DSN is set. It strips breadcrumb data and messages, and the event user, extra, contexts and request. It is called at module level in src/app/_layout.tsx. Test: src/__tests__/crashReporting.test.ts.
-
-Row 8 step 1: src/lib/analytics.ts now has ALLOWED_EVENTS, a typed allowlist of properties for each event, enforced in sanitize(). Test: src/__tests__/analyticsAllowlist.test.ts.
+BUILT (Row 8)
+- PostHog sink in src/lib/analyticsSink.ts (posthog-react-native 4.87.1, exact version). It starts only when EXPO_PUBLIC_POSTHOG_KEY is set. The package is loaded inside init (a top-level import broke Jest).
+- PostHog options: start opted out, no person profiles, no session replay, no lifecycle events, no flag preload, no GeoIP.
+- Optional EXPO_PUBLIC_POSTHOG_HOST. A set value that is not an https URL keeps the sink off.
+- track() in src/lib/analytics.ts sends to the sink after the consent check and sanitize().
+- The listener on analyticsEnabled in analytics.ts opts PostHog in or out on every change. resetAnalytics() resets the PostHog ID on sign-out.
+- src/app/profile/privacy.tsx: the existing switch is localised (settings.analytics* keys in en, es and fr) and has a VoiceOver hint, via a new optional accessibilityHint on src/components/display/SettingsList.tsx.
+- PRIVACY_DATA.md lists every event, property and receiver, plus defaults and open items.
+- Tests in src/__tests__/: analyticsSink, analyticsAllowlist, analyticsReset, render/settingsAnalytics.
 
 IN PROGRESS
-Nothing is half-done. The integrations header and the Account note are done. The loop sent that task three more times; drop it from the task source.
+Nothing is half-done.
 
 DECISIONS
-- The integrations eyebrow stays the live connection count, because integrations.render.test.tsx pins its English. No settings.integrationsEyebrow key.
-- feature_used keeps the old shape check (shapeOnly(), with a ponytail: comment). Two existing tests in analytics.test.ts pin keys that no code sends: "free text and addresses never reach the wire" and "scalars survive and non-scalars do not". Isa must approve changing those tests; then move feature_used onto its strict list and delete shapeOnly(), the shape constants and the redact import.
-- Analytics stays opt-in and off (DECISIONS.md, pinned by a test), even though Row 8 says on by default. Isa to decide.
-- Tests that check English text is gone match the quoted string, because allText also turns props into text (for example the gradientUnits prop).
-- Locale files are in src/lib/i18n/locales/, not src/i18n.
+- No second analytics switch on the Settings list. Privacy already had one, and a duplicate would be confusing.
+- The sink opt-in hooks the store listener in analytics.ts rather than settings/store.ts, which was off-limits. The listener also catches the restore at launch.
+- PRIVACY_DATA.md follows the code: events also go to the Lume backend (POST /api/analytics/events), with or without a PostHog key.
+
+WAITING ON ISA
+- The Privacy footer says "First-party only, on our own servers", which is false once a PostHog key is set.
+- Analytics on by default (Row 8) or opt-in (DECISIONS.md).
+- Whether PostHog should get the device maker, model name and OS fields.
+- The feature_used tests and the shapeOnly() cleanup.
+- The PostHog key, and the host if the project is in the EU.
 
 GOTCHAS
 - Run source ~/.nvm/nvm.sh && nvm use 22 first. No git, Prettier or Maestro.
-- zsh rejects grep --include. perl misses accented patterns; use Edit for those.
-- i18n is fixed to lng 'en', so es and fr show only in tests.
+- zsh rejects grep --include.
+- Locale files are in src/lib/i18n/locales/.
+- Python edits that assert exactly one match are safe for this repo's markdown tables.
 
 UNFIXED
-- Row 7 owner steps: the DSN, the "@sentry/react-native" plugin in app.config.js, and SENTRY_AUTH_TOKEN for source maps.
+- In PRIVACY_DATA.md, the host item's first sentence still says any non-empty host is used.
+- A bad host turns PostHog off with no log line.
+- The URL check and anonymous ID storage have not been tested on a device.
 - Crash reporting has no opt-out.
-- PRIVACY_DATA.md is missing.
-- No PostHog sink yet.
 - trial_started is never sent.
-- English body copy remains on Support, Privacy, Scan accuracy and Integrations.
-- Spanish uses "Tus datos" for both the Account and the Privacy eyebrows.
-- fr.json has straight apostrophes in "d'un coup" and "d'aliments".
-- es.json has addMenu.voice and addMenu.describeOutLoud, which en and fr lack.
+- The rest of Privacy is still English, as is body copy on Support, Scan accuracy and Integrations.
+- npm audit reports 48 vulnerabilities, 1 of them critical.
+- Older items from the previous handover: Spanish uses "Tus datos" twice, fr.json has straight apostrophes, and es.json has extra addMenu keys.
 
 NEXT
-Get Isa's decision on the two feature_used tests, then do Row 8 step 2: the PostHog sink behind an environment variable.
+Fix the host sentence in PRIVACY_DATA.md, then get Isa's decisions.
