@@ -9515,3 +9515,6 @@
 - 2026-11-23 03:04 Gap 5 is closed in ai-query.tsx and its tests; the loop task source is stale, so the next prompt does not mention it.
 - 2026-11-23 03:04 Row 17 status conflict (report says BUILT, old notes say PARTIAL): left to PHASE3_ROWS.md as the source of truth; the prompt reports it rather than changing it.
 - 2026-11-23 03:04 Trimmed these notes to keep them under 600 words; no decision or owner item was dropped.
+- 2026-11-23 03:05 Chose the docs-only Row 8 cleanup: smallest task, no Isa input needed, clears a known status-word conflict. Jev run 81% agrees.
+- 2026-11-23 03:05 Gap 5 is treated as built: the latest report verified aiQueryEmptyAnswer.render with 8 of 8 tests passing. The handover saying gap 5 is next is stale, so it is re-verified after this round.
+- 2026-11-23 03:05 No tsc or Jest run this round: the prompt changes docs only. The last report's gates still stand (tsc 0 errors, Jest 233 suites and 1,338 tests).
