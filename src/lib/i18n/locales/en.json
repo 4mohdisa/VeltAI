@@ -25,7 +25,8 @@
     "privacy": "Privacy",
     "support": "Support",
     "about": "About",
-    "aboutEyebrow": "The app"
+    "aboutEyebrow": "The app",
+    "accountEyebrow": "Your details"
   },
   "profile": {
     "loadFailed": "Couldn't load your gym data.",

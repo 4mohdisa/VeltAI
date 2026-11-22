@@ -25,7 +25,8 @@
     "privacy": "Confidentialité",
     "support": "Assistance",
     "about": "À propos",
-    "aboutEyebrow": "L’app"
+    "aboutEyebrow": "L’app",
+    "accountEyebrow": "Vos informations"
   },
   "profile": {
     "loadFailed": "Impossible de charger vos données de sport.",

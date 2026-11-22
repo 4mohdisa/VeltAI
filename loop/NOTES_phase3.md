@@ -5,8 +5,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 187 is a CHECKPOINT: full tsc and full npx jest --ci, no file changes. Report failures only.
-- Last checkpoint: round 171 PASSED (tsc 0; Jest 186 suites, 1149 tests, 4 snapshots).
+- Round 187 checkpoint PASSED: tsc 0; Jest 191 suites, 1162 tests, 4 snapshots.
+- Next checkpoint: round 203 (full tsc and full npx jest --ci, no file changes).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
 
@@ -38,14 +38,14 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Digit grouping: figures stay ungrouped (2140). Parked.
 - getAnomalies keeps returning [] until /api/ai/anomalies exists.
 - Jev ranks not followed when no major question exists.
-- Round 187: checkpoint chosen over Jev's account.tsx pick (94%). Reason: loop note requires a checkpoint, and the last report was flagged partly done.
+- Round 187: checkpoint chosen over Jev's account.tsx pick. Round 188: account.tsx chosen (checkpoint green).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName helper, About title and eyebrow (settings.aboutEyebrow).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName helper, About title and eyebrow.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - InsightCard truncation: edit test to fire onTextLayout needs OK. Default kept.
@@ -58,13 +58,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Analytics default on vs store off: confirm before Phase 4.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Wording: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
-- About tagline 'Make going to the gym the easy choice.', row labels Version, Build, Credits, and 'Lume team': need es and fr wording.
-- whether formatNumber should follow the active language.
+- About tagline, row labels Version, Build, Credits, and 'Lume team': need es and fr wording.
+- Whether formatNumber should follow the active language.
 
 ## Next
-- Round 187 checkpoint result decides the next step. If green: profile/account.tsx eyebrow 'Your details' and title via settings.account.
-- Then the other profile screens (integrations, preferences, privacy, scan-calibration, support).
-- quick-add: add the mealSlotName switch to Row 15 notes; check formatCalories ignores the user's unit.
+- Round 188: localise profile/account.tsx (eyebrow, title via settings.account, Save).
+- Then integrations, preferences (eyebrow 'Units'), privacy, scan-calibration, support.
+- Add quick-add mealSlotName switch to Row 15 notes (no code change).
 - goals.tsx spoken calorie label and hard-coded g, % and comma join.
 - Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
 

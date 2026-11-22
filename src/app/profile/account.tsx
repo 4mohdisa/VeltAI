@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Avatar } from '@/components/display/Avatar';
@@ -22,6 +23,7 @@ import { useUserStore } from '@/lib/data/userStore';
 import { api } from '@/lib/api';
 
 export default function AccountScreen() {
+  const { t } = useTranslation();
   const profile = useUserProfile();
   const [name, setName] = useState(profile.name);
   const [saving, setSaving] = useState(false);
@@ -46,10 +48,10 @@ export default function AccountScreen() {
   return (
     <Screen
       variant="floating"
-      eyebrow="Your details"
-      title="Account"
+      eyebrow={t('settings.accountEyebrow')}
+      title={t('settings.account')}
       showBack contentStyle={{ gap: space.xl }}
-      footer={<Button title="Save" onPress={save} disabled={!dirty || saving} loading={saving} />}
+      footer={<Button title={t('common.save')} onPress={save} disabled={!dirty || saving} loading={saving} />}
     >
       {/* Identity card — the design's elevated header. It shows only what the
           app actually knows: the avatar and the name being edited. Member-since

@@ -8809,3 +8809,7 @@
 - 2026-11-22 20:16 Chose the checkpoint over Jev's account.tsx pick (94%). The loop note requires a checkpoint this round and the last report was flagged as partly done, so gates come first and the next screen starts from a known state.
 - 2026-11-22 20:16 About screen (round 186): title and eyebrow are localised. Tagline, row labels and 'Lume team' stay English until Isa gives wording for es and fr.
 - 2026-11-22 20:16 Checkpoint round makes no file changes, so the report must show zero edits.
+- 2026-11-22 20:17 Round 188 runs account.tsx: round 187 checkpoint is green, and it is the smallest open Row 15 item. Jev's run pick was kept.
+- 2026-11-22 20:17 Closed the detail.tsx slot fallback: slotLabel(ctaSlot), fallback foodLog.addMeal. It no longer blocks the helper work.
+- 2026-11-22 20:17 Keep addMenu.snack as 'Snacks' in es and fr until review. Default, Isa did not answer.
+- 2026-11-22 20:17 Keep the InsightCard 120-character rule. Default, Isa did not answer.
