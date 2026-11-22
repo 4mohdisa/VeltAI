@@ -8953,3 +8953,8 @@
 - 2026-11-22 20:58 No file changes this round, so the flag is closed by evidence, not by a code edit.
 - 2026-11-22 20:58 feature_used strict list and host validation stay parked until Isa answers; no question asked this round because the same questions are already in Blocked on Isa.
 - 2026-11-22 20:58 Jev ran 46% vs ask 44% with low confidence; chose the smallest safe task (a read-only checkpoint).
+- 2026-11-22 21:00 Picked host URL validation, matching Jev's first choice. It is small, needs no answer from Isa, and the notes say unanswered questions use the default.
+- 2026-11-22 21:00 Host rule: https only, with a hostname. An invalid host keeps the sink off. Unset or blank uses the default host.
+- 2026-11-22 21:00 Round 199 checkpoint closes the partly-done flag: tsc 0 errors, 202 suites, 1210 tests, 4 snapshots, all passing.
+- 2026-11-22 21:00 Latest report and handover are stale on Row 8 step 2. The notes say the PostHog sink already exists, so no sink work is queued.
+- 2026-11-22 21:00 Crash opt-out stays parked: it changes the Privacy screen and needs Isa's approval first.

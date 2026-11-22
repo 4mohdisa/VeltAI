@@ -105,3 +105,43 @@ test('with EXPO_PUBLIC_POSTHOG_HOST unset, no host option is passed', () => {
   initAnalyticsSink();
   expect(mockPostHog).toHaveBeenCalledWith('phc_test', expect.not.objectContaining({ host: expect.anything() }));
 });
+
+describe('EXPO_PUBLIC_POSTHOG_HOST validation', () => {
+  const initWithHost = (host: string | undefined) => {
+    process.env.EXPO_PUBLIC_POSTHOG_KEY = 'phc_test';
+    if (host === undefined) delete process.env.EXPO_PUBLIC_POSTHOG_HOST;
+    else process.env.EXPO_PUBLIC_POSTHOG_HOST = host;
+    try {
+      initAnalyticsSink();
+    } finally {
+      delete process.env.EXPO_PUBLIC_POSTHOG_HOST;
+    }
+  };
+  const noHost = expect.not.objectContaining({ host: expect.anything() });
+
+  test('unset uses the default host', () => {
+    initWithHost(undefined);
+    expect(mockPostHog).toHaveBeenCalledWith('phc_test', noHost);
+  });
+
+  test('blank uses the default host', () => {
+    initWithHost('   ');
+    expect(mockPostHog).toHaveBeenCalledWith('phc_test', noHost);
+  });
+
+  test('a valid https host is used', () => {
+    initWithHost('https://eu.example.test');
+    expect(mockPostHog).toHaveBeenCalledWith('phc_test', expect.objectContaining({ host: 'https://eu.example.test' }));
+  });
+
+  test.each([
+    ['an http host', 'http://eu.example.test'],
+    ['a non-URL string', 'not a url'],
+    ['a host with no hostname', 'https://'],
+  ])('%s keeps the sink off', (_label, host) => {
+    initWithHost(host);
+    sendToSink('session_started');
+    expect(mockPostHog).not.toHaveBeenCalled();
+    expect(mockCapture).not.toHaveBeenCalled();
+  });
+});

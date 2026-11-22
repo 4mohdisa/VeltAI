@@ -8,13 +8,25 @@ import type PostHog from 'posthog-react-native';
 
 let client: PostHog | null = null;
 
+function isHttpsUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && url.hostname !== '';
+  } catch {
+    return false;
+  }
+}
+
 export function initAnalyticsSink(): void {
   const key = process.env.EXPO_PUBLIC_POSTHOG_KEY?.trim();
   if (!key || client) return;
+  // Optional region override (an EU project); unset or blank keeps PostHog's
+  // default host. A set value that is not an https URL keeps the sink off
+  // rather than sending events somewhere unintended.
+  const host = process.env.EXPO_PUBLIC_POSTHOG_HOST?.trim();
+  if (host && !isHttpsUrl(host)) return;
   // Loaded only when a key exists, so a build without one never runs PostHog.
   const { default: PostHogClient } = require('posthog-react-native') as typeof import('posthog-react-native');
-  // Optional region override (an EU project); unset keeps PostHog's default host.
-  const host = process.env.EXPO_PUBLIC_POSTHOG_HOST?.trim();
   client = new PostHogClient(key, {
     ...(host ? { host } : {}),
     enableSessionReplay: false,
