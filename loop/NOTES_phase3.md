@@ -9,6 +9,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. API client: src/lib/api.ts.
 - Prompts must name loop/phase3 and check .git/HEAD first.
+- Last report flagged 'tests not run': privacyLocale suite unrun. Round 189 re-runs it.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -31,6 +32,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 8 feature_used keeps shapeOnly() shape check. Strict list needs Isa approval to edit two pinned tests in analytics.test.ts.
 - Locale files are in src/lib/i18n/locales/.
 - One screen per prompt.
+- Analytics switch lives in src/app/profile/privacy.tsx (existing). No second switch on main Settings.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -39,10 +41,11 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: BUILT headers on account, integrations, preferences, support, privacy, scan-calibration. Remaining: body copy (see Row 15 tail).
-- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a done: analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests. Step 2c done: setSinkOptIn wired from the flag listener in analytics.ts (opt-in and opt-out follow the flag), 2 tests. PostHog pinned 4.87.1.
+- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a done: analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests. Step 2c done: setSinkOptIn wired from flag listener. PostHog pinned 4.87.1.
+- Row 8 step 2b done: existing privacy.tsx analytics switch localised, hint added, SettingsList accessibilityHint, settingsAnalytics.render.test.tsx (2 tests).
 
 ## In progress
-- Row 8 step 2b: Settings analytics switch (round 188). Settings screen, en/es/fr keys, settingsAnalytics.render.test.tsx.
+- Round 189: verify step 2b gates (tsc, privacyLocale, analytics suites).
 
 ## Next
 - Row 8: PRIVACY_DATA.md (every event, property, receiving service, reason).
@@ -59,6 +62,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - feature_used strict list: needs approval to update analytics.test.ts (two tests).
 - Analytics on by default (Row 8 brief) vs opt-in and off (code, DECISIONS.md, pinned test). Isa to confirm before Phase 4.
 - PostHog key needed as EXPO_PUBLIC_POSTHOG_KEY (owner step).
+- Privacy footer 'First-party only, on our own servers' becomes false once PostHog is live. Keep until sink is live, then Isa approves new wording. Record in PRIVACY_DATA.md.
 - InsightCard 120-character rule pinned by insightCard.i18n.render. Default kept.
 - Goals spoken labels: Option B (keep as is).
 - Goals loading and error via useGoals, profile error path, refetch on useExerciseProgress and useGymPatterns: needs permission to change hooks.ts.
@@ -80,6 +84,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts, hooks.ts. Stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
+- Privacy screen English: policy and terms rows, AI processing, 'Your data', toasts.
 - MacroBars unused and English. formatCalories always kcal.
 - addMenu.voice, addMenu.describeOutLoud only in es. addMenu.snack.
 - react-test-renderer deprecation warnings.
@@ -92,8 +97,11 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Crash reporting exception messages may carry server text via ApiError.
 - npm audit: 48 vulnerabilities (1 critical) reported on install. Not investigated.
 - trial_started is in the event list but nothing sends it.
+- PostHog sign-out does not reset identity; accounts on one phone share an anonymous ID.
+- PostHog host not set; events go to US cloud.
 - delete-account.tsx and subscription.tsx: Phase 4.
 - Unit change feedback: none yet.
 
 ## Loop note
-- Handover happened at round 187. Name files fully in prompts.
+- Handover at round 187. Name files fully in prompts.
+- Integrations header task was sent repeatedly; it is DONE. Do not re-send it.

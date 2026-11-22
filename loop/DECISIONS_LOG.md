@@ -8909,3 +8909,7 @@
 - 2026-11-22 20:47 Kept analytics off by default: the existing code and pinned test say opt-in, and Isa confirms before Phase 4.
 - 2026-11-22 20:47 Named the Settings screen by the rows it links to, because the exact file path is not in the notes; Claude Code must locate it.
 - 2026-11-22 20:47 Chose a small new render test, not a snapshot, so no snapshot needs regenerating.
+- 2026-11-22 20:49 Ran the unrun privacyLocale suite first because the loop flagged the last report as not fully tested; the flag must clear before new work.
+- 2026-11-22 20:49 Did not ask Isa again: the feature_used, PostHog key and default-opt-in questions are already with him. Asking again would cost attention without new information.
+- 2026-11-22 20:49 Footer wording ('First-party only, on our own servers') stays as is until the PostHog sink is live. Changing it now would be a copy decision that needs Isa; it is recorded under Blocked.
+- 2026-11-22 20:49 Jev ranked ask highest. Declined: no new question adds anything, and the risk is already covered by the queued Isa items. Choosing the smallest verification task instead.
