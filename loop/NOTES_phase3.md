@@ -9,6 +9,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. API client: src/lib/api.ts.
 - Prompts must name loop/phase3 and check .git/HEAD first.
+- Task source is stale: Integrations header and Account note are DONE. Do not re-issue.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -23,44 +24,47 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Snapshots: no regeneration without Isa. Broken existing test: back out and report. Never edit an existing test.
 - Render tests end .render.test.tsx in src/__tests__/render/.
 - New eyebrow keys sit next to title key in settings.* or profile.*.
+- Integrations eyebrow stays the live connection count (integrations.render.test.tsx pins it). No settings.integrationsEyebrow.
 - Visible bracket labels stay. Only spoken labels change.
 - Jest mock factories reference only mock* variables.
 - Spanish uses tu, French uses vous.
 - Row 15 copy tail deferred until after Row 10.
-- Row 8 feature_used keeps looser shape check (strict list would break two pinned tests in analytics.test.ts). Not edited, not asked.
+- Row 8 feature_used keeps shapeOnly() shape check. Strict list needs Isa approval to edit two pinned tests in analytics.test.ts. Not edited, not asked again unless Isa raises it.
+- Locale files are in src/lib/i18n/locales/.
 - One screen per prompt.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
-- Row 7 BUILT (owner check pending: DSN, source maps).
+- Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Goals eyebrow, support, privacy, scan-calibration, Integrations title and eyebrow, Account. Account note being added this round.
-- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS in analytics.ts, 7 tests in analyticsAllowlist.test.ts). feature_used on shapeOnly().
+- Row 15 PARTIAL: BUILT headers on account, integrations (title and live eyebrow), preferences, support, privacy, scan-calibration. Remaining: body copy (see Row 15 tail).
+- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS in analytics.ts, tests in analyticsAllowlist.test.ts). Step 2a (sink) in progress.
 
 ## In progress
-- Row 15: localise profile/integrations.tsx title and eyebrow (settings.integrationsEyebrow). Add Account note to the row.
+- Row 8 step 2a: src/lib/analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, wired from analytics.ts, test analyticsSink.test.ts.
 
 ## Next
-- Row 8 step 2: PostHog sink behind env var, Settings switch, PRIVACY_DATA.md.
-- Row 8 follow up: when Isa approves, switch feature_used to strict list and delete shapeOnly().
+- Row 8 step 2b: Settings analytics switch, PRIVACY_DATA.md.
+- Row 8 follow up: when Isa approves, feature_used to strict list and delete shapeOnly().
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
 - Row 10: Help and feedback (screen, feedback table locally, rate limit).
-- Row 15 tail (after Row 10): Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; Privacy and Support body copy; Scan accuracy body; goals spoken calorie label, hard-coded g, % and comma join; integrations body copy.
+- Row 15 tail (after Row 10): Integrations body copy; Support, Privacy, Scan accuracy body copy; Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes ('d'un coup', 'd'aliments'); preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Row 6 measurements parked until sign in path exists.
 
 ## Blocked on Isa (defaults used, do not re-ask)
+- feature_used strict list: needs approval to update analytics.test.ts (two tests).
 - InsightCard 120-character rule pinned by insightCard.i18n.render. Default kept.
 - Goals spoken labels: Option B (keep as is).
 - Goals loading and error via useGoals, profile error path, refetch on useExerciseProgress and useGymPatterns: needs permission to change hooks.ts.
 - week.tsx snapshot regeneration: needs permission.
-- feature_used strict list: needs approval to update analytics.test.ts (two tests).
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Number grouping: formatNumber en-AU, units.ts en-US. brainProfileCard.i18n.render pins 2140.
 - Wording: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording, About tagline, Account Display name, Email and toasts.
+- Analytics on by default (Row 8 brief) vs opt-in and off (code, DECISIONS.md, pinned test). Isa to confirm before Phase 4.
 - Insight errors: aiFallback.test.ts pins empty fallbacks. No anomalies endpoint. useBrainProfile has no error state.
 
 ## Parked (not Phase 3)
@@ -86,6 +90,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Crash reporting: no opt-out from Privacy analytics toggle. Exception messages may carry server text via ApiError.
 - npm audit warnings from the Sentry install.
 - trial_started is in the event list but nothing sends it.
-- Problem noted: Row 8 says on by default; code says off. Recorded for Isa.
 - delete-account.tsx and subscription.tsx: Phase 4.
 - Unit change feedback: none yet.
+
+## Loop note
+- Handover happened this round. Name files fully in prompts.

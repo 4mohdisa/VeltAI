@@ -28,6 +28,7 @@
     "expo-symbols": "~56.0.6",
     "expo-web-browser": "~56.0.5",
     "i18next": "^25.10.10",
+    "posthog-react-native": "4.87.1",
     "react": "19.2.3",
     "react-i18next": "^16.6.6",
     "react-native": "0.85.3",

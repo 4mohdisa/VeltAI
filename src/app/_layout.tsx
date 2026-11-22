@@ -26,8 +26,10 @@ import { flush as flushOfflineQueue, loadQueue } from '@/lib/offline/queue';
 import { flushAnalytics, initAnalytics, track } from '@/lib/analytics';
 import '@/lib/i18n'; // initialise i18next before any screen renders
 import { initCrashReporting } from '@/lib/crashReporting';
+import { initAnalyticsSink } from '@/lib/analyticsSink';
 
 initCrashReporting();
+initAnalyticsSink();
 
 // AuthGate mounts ClerkProvider only when a publishable key exists. With no key
 // in a DEV build (Expo Go, keys not yet issued) the app runs in local dev auth

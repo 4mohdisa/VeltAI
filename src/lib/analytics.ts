@@ -26,6 +26,7 @@ import { recordBreadcrumb } from '@/debug';
 // barrel no-ops every recorder when EXPO_PUBLIC_DEBUG_CAPTURE is off, and the
 // redaction on the analytics path has to run in the shipping build too.
 import { redact } from '@/debug/buffers';
+import { sendToSink } from '@/lib/analyticsSink';
 import { APP_VERSION, BUILD_NUMBER, GIT_SHA } from '@/lib/appVersion';
 import type { ScanEntry } from '@/lib/data/scan';
 import type { EntryMethod } from '@/lib/mock/data';
@@ -233,6 +234,9 @@ export function track(
     // of truth, so a report's breadcrumbs cannot disagree with analytics.
     // Compiled out when EXPO_PUBLIC_DEBUG_CAPTURE is off.
     recordBreadcrumb(name, clean);
+    // Past the consent check above, so the sink only ever sees opted-in,
+    // sanitised events.
+    sendToSink(name, clean);
     buffer.push({
       name,
       properties: { ...BUILD_TAGS, ...clean },

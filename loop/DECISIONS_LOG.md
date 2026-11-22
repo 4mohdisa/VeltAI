@@ -8895,3 +8895,8 @@
 - 2026-11-22 20:42 Row 15 Account note is added with the next small task, since the handover already recorded it as missing.
 - 2026-11-22 20:42 Smallest unbuilt task chosen first (Jev ranks ask and run close, and this needs nothing from Isa). Row 8 step 2 and PRIVACY_DATA.md wait until the Row 15 work is finished.
 - 2026-11-22 20:42 Analytics default stays opt-in and off, per the existing code and pinned test. Isa confirms before Phase 4 (already in the notes).
+- 2026-11-22 20:44 Integrations header and Account note treated as BUILT; the task source is stale. Not re-run.
+- 2026-11-22 20:44 Did not ask Isa about the feature_used test edits: the sink does not need them, and the shape check stays as the default.
+- 2026-11-22 20:44 Ran Row 8 step 2a first because it needs no approval and no network. Risk is low: no key means no client and no send.
+- 2026-11-22 20:44 Analytics stays opt-in and off, per DECISIONS.md and the pinned test. Recorded for Isa to confirm before Phase 4.
+- 2026-11-22 20:44 Row 9 and Row 10 need the E2E creds or a new table, so they come after the sink.
