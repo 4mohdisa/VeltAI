@@ -2,6 +2,8 @@
 // Searchable list of saved / frequent / recent items (mock). Each row has a
 // one-tap + Add that logs straight to today — no scan, AI or edit step. Tapping
 // the row opens the shared item edit sheet, where "Delete item" un-saves it.
+// A failed load with nothing saved on the device shows ErrorState, not the empty
+// copy; a failed refresh over rows already shown keeps them under LoadFailedNotice.
 // Reached from the add-menu's "My dishes" card.
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
@@ -13,6 +15,7 @@ import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { TextField } from '@/components/forms/TextField';
@@ -45,6 +48,7 @@ export default function SavedFoodsScreen() {
   const targetSlot: MealSlot | null = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : null;
   const { data: foods, isLoading: loading, error: loadError, refetch } = useSavedFoods();
   const [query, setQuery] = useState('');
+  const loadFailedEmpty = loadError !== null && foods.length === 0;
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -91,10 +95,14 @@ export default function SavedFoodsScreen() {
         accessibilityLabel={t('food.savedSearchLabel')}
       />
 
-      {loadError ? <LoadFailedNotice message={t('food.savedLoadFailed')} onRetry={refetch} /> : null}
+      {loadError ? (
+        loadFailedEmpty ? null : <LoadFailedNotice message={t('food.savedLoadFailed')} onRetry={refetch} />
+      ) : null}
 
       {loading ? (
         <SkeletonList rows={4} />
+      ) : loadFailedEmpty ? (
+        <ErrorState onRetry={refetch} />
       ) : results.length === 0 ? (
         <EmptyState
           icon={query.trim() ? 'magnifyingglass' : 'bookmark'}

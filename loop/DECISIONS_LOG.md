@@ -8244,3 +8244,8 @@
 - 2026-11-22 17:04 Chose the checkpoint over Jev's 93% Saved screen task: the loop note makes this round a mandatory checkpoint, and the Food tab suites and full app suite have not been rerun since food.tsx, SavedMealsList and RecipesList changed.
 - 2026-11-22 17:04 Checkpoint runs no code changes, so a failure is reported rather than fixed, keeping the flagged gap closed before new work.
 - 2026-11-22 17:04 Saved screen task goes to next round, as Jev advised, since the checkpoint is clean-ups-first.
+- 2026-11-22 17:05 Chose the Saved screen over Jev's 99% run is not a conflict: same action (run), Jev and loop note both favour Row 13 Saved screen next.
+- 2026-11-22 17:05 Reuse the SavedMealsList error copy key from round 56 so no new strings are needed in three languages.
+- 2026-11-22 17:05 Two render tests only, one file, to keep the round to a single screen.
+- 2026-11-22 17:05 Row 13 stays PARTIAL until its remaining items close, per round 58 decision.
+- 2026-11-22 17:05 Round 58 checkpoint recorded clean (tsc 0, 150 suites, 1038 tests), so no full suite in round 59.
