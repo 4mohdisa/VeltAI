@@ -8305,3 +8305,6 @@
 - 2026-11-22 17:30 Chose the checkpoint: the loop note requires a full tsc and full Jest run this round, with no file changes.
 - 2026-11-22 17:30 Did not ask Isa again: the three open approvals (new keys, calendar wording, useLoggedDays change) are already in Blocked on Isa and must not be re-asked. Jev's ask score is advisory and the loop limits questions.
 - 2026-11-22 17:30 Kept the next task small and read only, so a failure can be read before any fix is chosen.
+- 2026-11-22 17:31 Checkpoint round 73 accepted as clean (tsc 0, 156 suites, 1056 tests); no re-run needed.
+- 2026-11-22 17:31 Chose the stale-header fix: smallest open Row 13 item, no behaviour change, no Isa input needed. Jev risk 0.9 favours a small task.
+- 2026-11-22 17:31 Comment-only change, so no simulator flow; unit render tests for both screens cover the check.

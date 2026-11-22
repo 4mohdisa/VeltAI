@@ -1,4 +1,4 @@
-// My Meals (Task 4) — full screen with a [My Meals][Recipes] segmented control.
+// My Meals — the Food tab's entry point to saved meals and recipes, under a [My Meals][Recipes] segmented control.
 // Search stays in the food tab's search bar (not duplicated here), so this screen
 // is just the two saved-item lists. Top-right [+] and the Recipes empty-state
 // action both push /food/new-recipe. Registered implicitly by expo-router (a
