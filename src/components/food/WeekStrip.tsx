@@ -6,6 +6,7 @@
 // a day with none simply has no dot. Future days are inert — the food log is a
 // record of what was eaten, so there is nothing to show or add there yet.
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -13,8 +14,6 @@ import { Text } from '@/components/primitives/Text';
 import { addDays, fromIso, isoDate, weekOf } from '@/lib/data/foodDays';
 import { formatMonthYear, formatWeekdayDate } from '@/lib/formatting';
 import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
-
-const LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 export type WeekStripProps = {
   /** ISO day currently shown. */
@@ -29,6 +28,8 @@ export type WeekStripProps = {
 };
 
 export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: WeekStripProps) {
+  const { t } = useTranslation();
+  const letters = t('calendar.weekdayLetters').split('');
   const days = weekOf(selected);
   const today = isoDate(new Date());
   const monthLabel = formatMonthYear(fromIso(selected));
@@ -41,7 +42,7 @@ export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: We
             onPress={onOpenCalendar}
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`${monthLabel}. Pick a day`}
+            accessibilityLabel={t('food.pickDayLabel', { date: monthLabel })}
             style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, flex: 1 }}
           >
             <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
@@ -81,7 +82,7 @@ export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: We
               minTapTarget={false}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected, disabled: future }}
-              accessibilityLabel={`${formatWeekdayDate(fromIso(iso))}${logged ? ', has food logged' : ''}${isToday ? ', today' : ''}`}
+              accessibilityLabel={`${logged ? t('calendar.dayLogged', { date: formatWeekdayDate(fromIso(iso)) }) : formatWeekdayDate(fromIso(iso))}${isToday ? ', today' : ''}`}
               style={{
                 flex: 1,
                 minHeight: layout.buttonHeight,
@@ -95,7 +96,7 @@ export function WeekStrip({ selected, onSelect, loggedDays, onOpenCalendar }: We
               }}
             >
               <Text variant="caption" color={isSelected ? color.onPrimary : color.secondaryLabel}>
-                {LETTERS[i]}
+                {letters[i]}
               </Text>
               <Text variant="bodyMedium" color={isSelected ? color.onPrimary : color.label}>
                 {fromIso(iso).getDate()}

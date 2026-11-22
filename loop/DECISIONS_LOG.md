@@ -8298,3 +8298,7 @@
 - 2026-11-22 17:27 Scope limited to calendar.tsx strings and calendar.* keys so the flagged task closes cleanly.
 - 2026-11-22 17:27 Date helper fixes (formatWeekdayDate, formatMonthYear, formatRelativeDate) parked, not fixed, because they are shared helpers outside this row's named file.
 - 2026-11-22 17:27 WeekStrip and other weekday-letter screens left for the next round, one screen per prompt.
+- 2026-11-22 17:28 Chose WeekStrip: it is the next item in Next and is a single component, so it is the smallest row task.
+- 2026-11-22 17:28 The loop flag on the round 71 report is answered: Claude Code re-checked calendar.tsx strings and unused keys and found nothing missing. No row code changed, so no second re-verify round was run.
+- 2026-11-22 17:28 Full checkpoint kept for after WeekStrip, since the checkpoint is due and one more change is cheap to include.
+- 2026-11-22 17:28 Calendar failed-read state stays blocked on Isa; not retried.
