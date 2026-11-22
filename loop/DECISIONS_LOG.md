@@ -8428,3 +8428,8 @@
 - 2026-11-22 18:17 Kept Jev's ask/run split as advisory. Run chosen because no question is major and the default rules say decide and carry on.
 - 2026-11-22 18:17 Left Spanish and French wording and GlassButtons approval as default-used items. Not re-asked, per the unanswered-question rule.
 - 2026-11-22 18:17 Left the noisy '[data] API unreachable' Jest warnings unfixed. They come from the data layer, which is off limits, and are not failures.
+- 2026-11-22 18:18 Chose Row 15 because the brief orders empty state follow-ups (Rows 15 to 17) before Row 6, and the notes plan one screen per round.
+- 2026-11-22 18:18 Row 14 cleanup (en.json reads in tests) parked under Next, since it is test hygiene and does not clear a row.
+- 2026-11-22 18:18 Sentry (Row 7) deferred until the empty state rows are finished, to keep the brief order.
+- 2026-11-22 18:18 Round 102 gymMuscles.goBack change accepted as built into the notes; no re-check needed.
+- 2026-11-22 18:18 Spanish and French wording stays as drafted; Isa review remains open, no re-ask.

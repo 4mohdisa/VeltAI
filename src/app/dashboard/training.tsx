@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton } from '@/components/display';
 import {
   Axis,
@@ -60,7 +61,7 @@ function sessionSummary(sessions: GymSession[]): string {
 
 export default function TrainingDetailScreen(): JSX.Element {
   const { t } = useTranslation();
-  const { sessions, dates, loading } = useGymRange(RANGE_DAYS);
+  const { sessions, dates, loading, error, refetch } = useGymRange(RANGE_DAYS);
   const energy = useEnergyRange();
 
   return (
@@ -71,6 +72,8 @@ export default function TrainingDetailScreen(): JSX.Element {
           <Skeleton height={HERO_H} rounded={radius.xl} />
           <Skeleton height={SEC_H} rounded={radius.xl} />
         </>
+      ) : error ? (
+        <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />
       ) : sessions.length === 0 ? (
         <EmptyState
           icon="barbell"
@@ -78,7 +81,14 @@ export default function TrainingDetailScreen(): JSX.Element {
           message={t('dashboard.trainingNoSessionsMessage')}
         />
       ) : (
-        <Body sessions={sessions} dates={dates} energyDays={energy.days} energyLoading={energy.loading} />
+        <Body
+          sessions={sessions}
+          dates={dates}
+          energyDays={energy.days}
+          energyLoading={energy.loading}
+          energyError={energy.isError}
+          onEnergyRetry={energy.refetch}
+        />
       )}
     </Screen>
   );
@@ -89,11 +99,15 @@ function Body({
   dates,
   energyDays,
   energyLoading,
+  energyError,
+  onEnergyRetry,
 }: {
   sessions: GymSession[];
   dates: string[];
   energyDays: EnergyBalance[];
   energyLoading: boolean;
+  energyError: boolean;
+  onEnergyRetry: () => void;
 }): JSX.Element {
   const { t } = useTranslation();
   const minutes = minutesByDate(sessions, dates);
@@ -177,6 +191,8 @@ function Body({
           <ChartHeader title={t('dashboard.trainingEnergy')} note={t('dashboard.thisWeek')} />
           {energyLoading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
+          ) : energyError ? (
+            <LoadFailedNotice message={t('dashboard.energyLoadFailed')} onRetry={onEnergyRetry} />
           ) : energyWeek.length === 0 ? (
             <EmptyState
               icon="flame"
