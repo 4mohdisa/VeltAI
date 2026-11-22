@@ -9414,3 +9414,8 @@
 - 2026-11-23 02:21 Step 3 forbids editing existing tests or snapshots, following the standing rule. A broken test is backed out and reported.
 - 2026-11-23 02:21 Gap listing only this round. Fixing one gap waits for the next round, per the Row 17 plan (list first, then fix one).
 - 2026-11-23 02:21 The 228/1322 vs 233/1338 baseline question stays open. This round's gate run supplies the real numbers for Isa to confirm.
+- 2026-11-23 02:23 Chose gap 3 over gap 4: it is screen-only, needs no src/lib/data change and is the smallest step, which closes the flagged partly-done item.
+- 2026-11-23 02:23 Used no onRetry for ExercisePicker because useExercises has no refetch; adding one would need gymSchedule.ts, which is off limits.
+- 2026-11-23 02:23 Corrected the Row 17 notes: the ExercisePicker failure is not blocked on gymSchedule.ts, because the hook already returns isError.
+- 2026-11-23 02:23 Rows 15 and 16 conflict (notes say BUILT, handover says PARTIAL). Asked for a read-only status check and did not change them until PHASE3_ROWS.md is confirmed.
+- 2026-11-23 02:23 Kept both baseline figures (233/1338 and 228/1322) as unconfirmed. Gating uses the latest run until Isa confirms.

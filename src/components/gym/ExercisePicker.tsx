@@ -8,7 +8,7 @@ import { FlatList, ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PlannedValuesForm, type PlannedValues } from './PlannedValuesForm';
-import { Badge, Skeleton } from '@/components/display';
+import { Badge, LoadFailedNotice, Skeleton } from '@/components/display';
 import { TextField } from '@/components/forms';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Icon } from '@/components/primitives/Icon';
@@ -66,7 +66,7 @@ export function ExercisePicker({
   onPick: (exercise: ExerciseLibraryItem, planned: PlannedValues) => void;
 }): JSX.Element {
   const { t } = useTranslation();
-  const { exercises, loading } = useExercises();
+  const { exercises, loading, isError } = useExercises();
   const [pill, setPill] = useState<Pill>('All');
   const [query, setQuery] = useState('');
   const [picked, setPicked] = useState<ExerciseLibraryItem | null>(null);
@@ -169,6 +169,8 @@ export function ExercisePicker({
                   <Skeleton width="60%" height={18} />
                   <Skeleton width="70%" height={18} />
                 </View>
+              ) : isError ? (
+                <LoadFailedNotice message={t('gym.loadFailed')} style={{ marginVertical: space.lg }} />
               ) : (
                 <Text variant="callout" color={color.secondaryLabel} style={{ paddingVertical: space.lg }}>
                   {t('exercisePicker.noResults')}
