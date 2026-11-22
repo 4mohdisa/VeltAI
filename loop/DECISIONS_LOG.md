@@ -8768,3 +8768,6 @@
 - 2026-11-22 20:01 InsightCard keeps the 120-character rule. Default applied after the open question; not re-asked this round.
 - 2026-11-22 20:01 Last report flagged for failed or missing tests: the next prompt first re-runs tsc and the insightCard test to confirm a clean tree.
 - 2026-11-22 20:01 The goals.tsx task changes spoken labels only, reusing existing gramsField, percentField and the shared join helper. No new behaviour, no hooks.ts change.
+- 2026-11-22 20:02 Goals spoken labels: Isa has not answered the option A or B question after a full round, so the default B applies (keep current labels). Reason: option A needs goals.render.test.tsx lines 84-85 edited, which the rules forbid. Goals stays out of this round.
+- 2026-11-22 20:02 Chose the quick-add check over the Jev suggestion to ask: the blocker was already recorded and asked, so a repeat question adds nothing. The task is one screen and small, and it starts with the tsc and insightCard check the loop note asked for.
+- 2026-11-22 20:02 Risk noted: Jev rated continuing without Isa at 1.6 of 2. The prompt keeps the change to one screen with back out steps for any failing test.

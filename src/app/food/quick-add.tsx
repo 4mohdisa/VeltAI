@@ -34,12 +34,12 @@ import { color, layout, opacity, radius, space, surface } from '@/lib/design/tok
 import { formatCalories, formatNumber } from '@/lib/formatting';
 import { slotForNow } from '@/lib/data';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
+import { SLOTS } from '@/lib/data/mappers';
 import { api, isTransient } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
 import type { MealSlot } from '@/lib/mock/data';
 import { mealSlotName } from '@/lib/mealSlotName';
 
-const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 /** The design's figure: 250 kcal to start, ±50 on the discs, four add-on presets. */
 const DEFAULT_KCAL = 250;
 const STEP = 50;
