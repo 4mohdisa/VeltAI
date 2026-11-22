@@ -8179,3 +8179,12 @@
 - 2026-11-22 16:43 Did not touch the three mocks lacking isError: they are harmless until a screen reads it, and the brief says one component per round.
 - 2026-11-22 16:43 Kept Row 14 PARTIAL until every screen in its notes is done.
 - 2026-11-22 16:43 Templates '+' stays as decided in Row 3. No question to Isa.
+- 2026-11-22 16:45 Food tab anomaly work is recorded under row 13 (Food log), not row 14 (Gym). Row 14 is the Gym row and the report confirmed it. Reason: the file and the brief match row 13.
+- 2026-11-22 16:45 Did not ask Isa which row to use. Reason: an unanswered question uses the default, and the default is row 13.
+- 2026-11-22 16:45 Chose the duplicate insights request fix first. Reason: our own change doubled the requests, so it is the smallest fix that closes a gap we created.
+- 2026-11-22 16:45 Row 13 stays in its current status. Reason: its remaining gaps (past-day text, tests) are not finished.
+- 2026-11-22 16:46 Rejected prompt re-issued as a one-task checkpoint (tsc and full app Jest, no file changes), because the loop note says the last prompt asked for more than one screen or component.
+- 2026-11-22 16:46 Row 12 stays PARTIAL until the checkpoint passes and Isa approves BUILT. The checkpoint must not change its status.
+- 2026-11-22 16:46 Food tab error state from round 42 is recorded under row 13 (Food log), per the earlier decision. Default used; Isa's confirmation not waited for.
+- 2026-11-22 16:46 Duplicate useInsights fix (AnomalyBanner props) is a separate row 13 round, because it changes src/components/ai, which is one component per round.
+- 2026-11-22 16:46 Last full run count (142 suites, 1013 tests) is treated as stale. The checkpoint records the real numbers.
