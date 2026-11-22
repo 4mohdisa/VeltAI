@@ -8142,3 +8142,7 @@
 - 2026-11-22 16:29 Jev says run at 94%, which matches my choice; no override.
 - 2026-11-22 16:29 Sub-task says verify first and change nothing if the code already propagates errors, so a no-op round is allowed.
 - 2026-11-22 16:29 Lint fixes and callers are excluded from this round to keep one component per round.
+- 2026-11-22 16:30 Chose the useInsights catch first: the round 32 change left an unhandled rejection, which is a regression and outranks new copy work.
+- 2026-11-22 16:30 Treated the flagged report as a partial row whose caller is now broken, so fixing the caller is the next round, not a separate re-verify round.
+- 2026-11-22 16:30 Limited the prompt to useInsights and its test: smallest change that closes the regression.
+- 2026-11-22 16:30 Kept the Food tab banner out of scope: reading isError there is a later row.

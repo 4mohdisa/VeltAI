@@ -28,6 +28,7 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - useEnergyRange isError is true only when both week reads fail (partial failure shows real days). Default used.
 - A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
 - A flagged report on a PARTIAL row whose checks passed: continue with the next hook; no separate re-verify round.
+- A flagged report that leaves a caller broken (unhandled rejection) is fixed in the next round, not re-verified.
 - A prompt missing a required rule: re-issue the same row, not a new task.
 - A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
 - Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email. Seed code not in server image.
@@ -43,7 +44,8 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Rounds 13 to 29: Row 12 PARTIAL. useHydration loading fix; isError on useApi, useToday, useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress.
 - Round 30: checkpoint clean.
 - Round 31: useEnergyRange returns isError (tsc, energy test, lint clean).
-- Round 32: re-issued row 12 insights prompt with loop/phase3 branch rule (previous prompt rejected).
+- Round 32: getInsights stops swallowing failures (api.ts). Now rejects with ApiError. Test updated. Caller left unhandled.
+- Round 33: fixing the unhandled rejection in useInsights (aiBrain.ts) with isError.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD, and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -64,6 +66,7 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Both gymSchedule test files use react-test-renderer (deprecated warning). Park.
 - gymSchedule.ts header comment no longer matches code. Fix in Row 11.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
+- getMorningBrief and getProfile swallow failures as null. Outside insights scope. Park.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 - No test for useExercises and useExerciseProgress refetch when inputs change. Row 12.
 - No test for refetch clearing isError, or one week failing and the other succeeding (useEnergyRange). Row 12.
@@ -71,8 +74,8 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
 
 ## Next
-- Row 12: insights API stops swallowing failures (src/lib/api.ts), running (re-issued round 32).
-- Then: passing isError through useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress checks (Row 12).
+- Row 12: useInsights catch and isError (round 33, running).
+- Then: isError checks for useExercises and useExerciseProgress refetch (Row 12).
 - Then: ErrorState and PendingSyncBanner copy (Row 12).
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).

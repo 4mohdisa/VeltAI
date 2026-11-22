@@ -48,11 +48,13 @@ export function useInsights(): {
   insights: AIInsight[];
   anomalies: AIAnomaly[];
   loading: boolean;
+  isError: boolean;
   dismiss: (id: string, type: DismissType) => void;
 } {
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [anomalies, setAnomalies] = useState<AIAnomaly[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -61,6 +63,12 @@ export function useInsights(): {
         if (!active) return;
         setInsights(ins);
         setAnomalies(ano);
+        setIsError(false);
+      })
+      .catch(() => {
+        if (!active) return;
+        setInsights([]);
+        setIsError(true);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -81,7 +89,7 @@ export function useInsights(): {
     }
   }, []);
 
-  return { insights, anomalies, loading, dismiss };
+  return { insights, anomalies, loading, isError, dismiss };
 }
 
 /** The learned brain profile, with an explicit not-enough-data flag. */
