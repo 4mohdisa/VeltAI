@@ -1,4 +1,4 @@
-// My Meals — reached from the new-recipe fallback replace('/food/meals') in src/app/food/new-recipe.tsx to saved meals and recipes, under a [My Meals][Recipes] segmented control.
+// My Meals: saved meals and recipes under a [My Meals][Recipes] segmented control. Reached only from the new-recipe fallback replace('/food/meals') in src/app/food/new-recipe.tsx.
 // Search stays in the food tab's search bar (not duplicated here), so this screen
 // is just the two saved-item lists. Top-right [+] and the Recipes empty-state
 // action both push /food/new-recipe. Registered implicitly by expo-router (a

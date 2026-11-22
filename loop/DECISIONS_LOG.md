@@ -8315,3 +8315,7 @@
 - 2026-11-22 17:34 meals.tsx line 1 reworded to match the real entry point. Isa has not answered and the question must not be re-asked, so the default is used. Comment-only, no behaviour change.
 - 2026-11-22 17:34 No Food tab link to /food/meals is added. That is a navigation change and the Phase 1 design is final. Recorded as a parked issue for Isa to decide later.
 - 2026-11-22 17:34 WeekStrip keys and the useLoggedDays change stay blocked on Isa. Not retried this round.
+- 2026-11-22 17:34 Chose the flagged report fix first, because the loop note says to deal with a partly done report before moving on. Comment-only, so low risk and small.
+- 2026-11-22 17:34 Used the suggested wording from the report's NEXT section for meals.tsx line 1, since the report offered it and it removes the dangling 'to'.
+- 2026-11-22 17:34 Did not add a Food tab link to /food/meals, because it is a navigation change and the Phase 1 design is final. Still blocked on Isa, default unchanged.
+- 2026-11-22 17:34 Condensed the notes to fit the 600 word limit. Finished work was merged into Done, and decisions and blocked items were kept.
