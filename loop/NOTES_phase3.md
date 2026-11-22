@@ -7,8 +7,8 @@ Every prompt must state the loop/phase3 branch rule.
 
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
-- Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details loop/BASELINE_phase3.md.
-- Round 30 checkpoint clean. Next full checkpoint: round 45.
+- Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
+- Round 30 checkpoint clean. Next full checkpoint: round 45, or when Row 12 is complete if that comes first.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Stray node_modules/jest 30.0.5 and @types/jest ^30 are parked.
@@ -26,15 +26,15 @@ Every prompt must state the loop/phase3 branch rule.
 - Goals and units stay in memory in Phase 3. Row 15 fixes 'Saved as you type' copy.
 - Fixes for hook errors go in the shared hook, not per screen.
 - useEnergyRange isError is true only when both week reads fail. Default used.
+- Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email. Seed code not in server image.
+- Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
+- Unanswered question: use default and carry on. Do not re-ask.
+- Shared useApi harness: src/__tests__/helpers/useApiHarness.ts (mountHook, readHook built on it).
 - A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
 - A flagged report on a PARTIAL row whose checks passed: continue with the next item; no separate re-verify round.
 - A flagged report that leaves a caller broken (unhandled rejection) is fixed in the next round, not re-verified.
 - A prompt missing a required rule: re-issue the same row, not a new task.
 - A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
-- Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email. Seed code not in server image.
-- Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
-- Unanswered question: use default and carry on. Do not re-ask.
-- Shared useApi harness: src/__tests__/helpers/useApiHarness.ts (mountHook, readHook built on it).
 
 ## Done
 - Rounds 1 to 4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -45,10 +45,11 @@ Every prompt must state the loop/phase3 branch rule.
 - Round 30: checkpoint clean.
 - Round 31: useEnergyRange returns isError. Clean.
 - Round 32: getInsights rejects instead of swallowing (api.ts).
-- Round 33: useInsights returns isError (aiBrain.ts). Checks passed.
-- Round 34: ErrorState default copy in t() (en, es, fr), render test. Clean.
-- Round 35: PendingSyncBanner copy in t() (en, es, fr) as plural key pendingSync.waiting, render test. Clean.
-- Round 36: useExercises and useExerciseProgress failure, recovery, and input-change tests (4 tests). mountHook added to the shared harness. 9 files using the harness pass. Full suite not run since round 30.
+- Round 33: useInsights returns isError (aiBrain.ts).
+- Round 34: ErrorState default copy in t() (en, es, fr), render test.
+- Round 35: PendingSyncBanner copy in t() (en, es, fr), key pendingSync.waiting, render test.
+- Round 36: useExercises and useExerciseProgress failure, recovery and input-change tests. mountHook added to the shared harness.
+- Round 37: useEnergyRange one-week-fails test (energy.render.test.tsx). Passes, no source change.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -68,9 +69,9 @@ Every prompt must state the loop/phase3 branch rule.
 - Lint: gymSchedule.ts lines 41, 43 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - Both gymSchedule test files use react-test-renderer (deprecated warning). Park.
 - gymSchedule.ts header comment no longer matches code. Fix in Row 11.
-- gymSchedule.revalidate.test.ts has its own useApi harness copy; mountHook can replace it. Row 11.
+- gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - aiBrain.ts header does not mention useInsights isError. Park.
-- useInsights mocks in render/insights.render.test.tsx:13 and render/anomaly.render.test.tsx:13 lack isError. Harmless until a screen reads it.
+- useInsights mocks in render/insights.render.test.tsx and render/anomaly.render.test.tsx lack isError. Harmless until a screen reads it.
 - detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
 - Anomalies stay empty when getInsights fails. Harmless: anomaly endpoint is empty today.
 - getMorningBrief and getProfile swallow failures as null. Park.
@@ -78,12 +79,12 @@ Every prompt must state the loop/phase3 branch rule.
 - src/lib/i18n/index.ts comment says French 'intentionally partial'; probably stale. Park.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
-- useApi: loading stays false when inputs change, so old data shows with no loading state (same kind as the useHydration fix). Candidate for next round.
+- Energy one-week-fails: failed earlier week path untested; no test that refetch after error clears isError. Row 12 follow-up.
+- Both-weeks-failed, useEnergyRange: confirm rule (see Blocked).
 
 ## Next
-- Round 37: Row 12 useEnergyRange one-week-fails test.
-- Then: useApi loading on input change (Row 12, shared hook, with a test).
-- Row 12 full checkpoint (tsc and full Jest) when Row 12 is complete or at round 45, whichever comes first.
+- Round 38: useApi loading on input change (Row 12, shared hook, with a test).
+- Then: full checkpoint (tsc and full Jest) when Row 12 is complete or at round 45, whichever comes first.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

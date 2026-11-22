@@ -8160,3 +8160,7 @@
 - 2026-11-22 16:37 Chose the one-week-fails test over a full checkpoint now: the scheduled checkpoint is round 45, and the 9 test files using the shared helper already passed.
 - 2026-11-22 16:37 Logged the useApi loading-on-input-change problem as the next candidate, not this round: it changes hook behaviour, so it needs its own round and its own test.
 - 2026-11-22 16:37 Left the useEnergyRange rule ('both weeks fail' means isError) as the default; Isa has not answered.
+- 2026-11-22 16:38 Chose the useApi loading fix over the full checkpoint: the checkpoint is planned for round 45 or when Row 12 is complete, and the fix is the next item in the agreed plan.
+- 2026-11-22 16:38 Kept Row 12 as PARTIAL: the useApi fix is one item and Row 12 still has open items.
+- 2026-11-22 16:38 Recorded the useEnergyRange one-week test as done: it passes and needed no source change.
+- 2026-11-22 16:38 Jev recommended run with high confidence, which matches the plan.

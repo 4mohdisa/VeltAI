@@ -7,6 +7,8 @@ import TestRenderer from 'react-test-renderer';
 
 import { useApi, useToday } from '@/lib/data/gymSchedule';
 
+import { mountHook } from './helpers/useApiHarness';
+
 // This file runs under the plain-node Jest project (no jest-expo preset), which
 // never sets this flag, so React's act() warns that updates aren't wrapped —
 // even though every one of them below is. Declaring it is the standard fix.
@@ -150,4 +152,25 @@ test('useApi reports isError after a failed revalidate', async () => {
 
   expect(api.current()).toMatchObject({ data: [], loading: false, isError: true });
   api.unmount();
+});
+
+test('useApi shows loading with the previous data while an input change re-fetches', async () => {
+  let resolveSquat: (rows: string[]) => void = () => undefined;
+  const fetcher = jest
+    .fn<Promise<string[]>, [string]>()
+    .mockResolvedValueOnce(['Bench press'])
+    .mockReturnValueOnce(new Promise((resolve) => (resolveSquat = resolve)));
+  const useRows = (query: string) => useApi(() => fetcher(query), [], [query]);
+
+  const hook = await mountHook(useRows, 'bench');
+  expect(hook.latest()).toMatchObject({ data: ['Bench press'], loading: false });
+
+  await hook.rerender('squat');
+  expect(fetcher).toHaveBeenLastCalledWith('squat');
+  expect(hook.latest()).toMatchObject({ data: ['Bench press'], loading: true, isError: false });
+
+  resolveSquat(['Back Squat']);
+  await settle();
+  expect(hook.latest()).toMatchObject({ data: ['Back Squat'], loading: false, isError: false });
+  hook.unmount();
 });

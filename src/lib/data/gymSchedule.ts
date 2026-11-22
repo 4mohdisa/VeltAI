@@ -34,6 +34,15 @@ export function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly
   const [isError, setIsError] = useState(false);
   const [nonce, setNonce] = useState(0);
 
+  // A change in `deps` re-runs the fetch below. Flag it as loading during render
+  // (React's adjust-state-on-prop-change pattern) so the previous data stays on
+  // screen labelled as loading, and the effect still never sets state synchronously.
+  const [fetchedDeps, setFetchedDeps] = useState(deps);
+  if (deps.length !== fetchedDeps.length || deps.some((d, i) => !Object.is(d, fetchedDeps[i]))) {
+    setFetchedDeps(deps);
+    setLoading(true);
+  }
+
   // revalidate (below) reads through these instead of closing over fetcher/
   // fallback directly, so its own identity can stay empty-deps and stable —
   // see its comment.
