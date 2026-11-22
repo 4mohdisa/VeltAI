@@ -8521,3 +8521,7 @@
 - 2026-11-22 18:45 Chose the French apostrophe fix over MacroBars because MacroBars still needs Isa's permission to edit summaryNoFabrication.test.ts line 54. Keeping the default: no edit.
 - 2026-11-22 18:45 Jev said ask 58%. Kept run because the open question is a test wording permission already asked and defaulted, not a blocker. Asking again would only repeat it.
 - 2026-11-22 18:45 Any test the change breaks must be edited only within the named test file, or backed out and reported, so the suite stays green.
+- 2026-11-22 18:46 Chose the audit doc correction: smallest task, no code risk, and Jev confidence is low (0.26), so prefer a small task.
+- 2026-11-22 18:46 Recorded the French foodLog.today curly apostrophe as done in round 118 per the report. Notes showed round 119 in progress, so the round number is treated as the same change.
+- 2026-11-22 18:46 MacroBars translation stays parked until Isa grants the summaryNoFabrication.test.ts change. Not re-asked.
+- 2026-11-22 18:46 Jev run (51%) kept over ask (43%). Ask is not needed because this task is a doc-only change with no permission question.

@@ -29,14 +29,15 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - When a brief forbids editing a test that a change breaks: back out or stop. Never leave the suite red.
 - Round 117: MacroBars translation backed out (summaryNoFabrication.test.ts reads source text). Stays English until Isa grants the test change.
 - Round 118 Jev: kept run over ask (81%). Reason: minor test wording change, not a blocker.
-- Round 119 Jev: kept run over ask (58%). Reason: the MacroBars permission was already asked and defaulted; moved to a different Row 15 task. Prompt rewritten to name the loop/phase3 branch rule after rejection.
+- Round 119 Jev: kept run over ask (58%). Reason: MacroBars permission already asked and defaulted.
+- Round 120 Jev: kept run over ask (51%). Reason: doc-only change, no permission question. Chosen: audit row fix (low Jev confidence, smallest task).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
 - Row 14 PARTIAL: all gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash, GymStatusCard, Summary tab strings and Spanish render test done.
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash, GymStatusCard, Summary tab strings and Spanish render test done. French foodLog.today curly apostrophe done (round 118).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -55,8 +56,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence for Row 15. Default: in memory.
 
 ## Next
-- Row 15 round 119: French foodLog.today typographic apostrophe (in progress).
-- Row 15 remaining: MacroBars translation (parked until permission); insights literals and swallowed errors; goals load and error states; week chart flat bars (125); nutrition date (126); EMPTY_STATES_AUDIT.md Summary loading row (stale); plan card 'AI' scope in index.tsx.
+- Row 15 round 120: correct stale Summary loading row in EMPTY_STATES_AUDIT.md (in progress).
+- Row 15 remaining: MacroBars translation (parked until permission); insights literals and swallowed errors; goals load and error states; week chart flat bars (125); nutrition date (126); plan card 'AI' scope in index.tsx.
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check. Shared has-a-streak helper.
 - Row 6: non-sign-in backend measurements.
@@ -79,4 +80,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - 'background sync failed' warnings in gym suites; react-test-renderer deprecation warning.
 - Freeze offline toast claims success even when the request fails. 'has a streak' check duplicated in streak.tsx and freeze.tsx.
 - Nutrition week chart flat bars on first use (row 125).
-- Row 15 round 118 French apostrophe was in progress; round 119 carries it forward.
+- Plan card in index.tsx has hard-coded 'AI' scope (Phase 3 Row 15 remaining, else park).

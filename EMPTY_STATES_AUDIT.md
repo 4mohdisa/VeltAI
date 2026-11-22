@@ -121,7 +121,7 @@ These cause many of the screen rows below, so fixing them once fixes many screen
 | Summary tab | no data for day | "No energy data for today yet."; fibre "Not tracked · target" literal (src/components/domain/EnergyBalanceCard.tsx:190, src/components/domain/MacroBars.tsx:53) | hard-coded English |
 | Summary tab | error | Streak and macros use translated LoadFailedNotice (src/app/(tabs)/index.tsx:115,155); energy, week and workouts cards literal (src/components/domain/WeekEnergyCard.tsx:77, src/components/domain/WorkoutsWeekCard.tsx:28) | hard-coded English |
 | Summary tab | offline | Only PendingSyncBanner (literal), then the error copy above | hard-coded English |
-| Summary tab | loading | Skeletons (index.tsx:106-111,151-153), but GymStatusCard offers "Log gym session" from seed before the read (index.tsx:175, gymStore.ts:65) | broken |
+| Summary tab | loading | Skeletons (index.tsx:106-110,157-159); GymStatusCard is hidden until the first useDashboard read settles, then shows "Log gym session" or "Logged today" (index.tsx:183) | proper |
 | dashboard/nutrition | first use | t('nutrition.noMealsToday'); week chart draws flat bars under a "1g" ceiling (src/app/dashboard/nutrition.tsx:81,144,199) | broken |
 | dashboard/nutrition | no data for day | Fibre no logged food carries shows a dash, not 0 g (useFibreConsumed, nutrition.tsx:83,198); data still follows the Food tab's selected date, not today (hooks.ts:307) | broken |
 | dashboard/nutrition | error, offline | Food-log notice shown (nutrition.tsx:106); a failed week read shows LoadFailedNotice dashboard.weekMacrosLoadFailed with Retry instead of the zero-bar chart (nutrition.tsx:143) | proper |
