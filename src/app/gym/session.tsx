@@ -556,14 +556,14 @@ export default function GymSessionScreen(): JSX.Element {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <Screen
         variant="floating"
-        eyebrow="Today"
-        title={today?.template?.name ?? 'Workout'}
+        eyebrow={t('gymSession.eyebrow')}
+        title={today?.template?.name ?? t('gymSession.defaultTitle')}
         showBack
         footer={
           hasExercises && !pad ? (
             <Button
-              title="Finish workout"
-              onPress={() => void finishWorkout('Workout saved')}
+              title={t('gymSession.finish')}
+              onPress={() => void finishWorkout(t('gymSession.saved'))}
               loading={saving}
               disabled={saving}
             />
@@ -590,14 +590,14 @@ export default function GymSessionScreen(): JSX.Element {
         ) : (
           <View style={{ gap: space.md }}>
             <Text variant="footnote" color={color.secondaryLabel}>
-              Tick each exercise as you complete it
+              {t('gymSession.tickHint')}
             </Text>
             {rows.map(renderRow)}
             {/* The design's secondary action is a filled grey pill, not an
                 outlined one — Button keeps its variants, the fill comes from the
                 call site so no other screen's buttons change. */}
             <Button
-              title="Add an extra exercise"
+              title={t('gymSession.addExtra')}
               variant="tertiary"
               icon="add"
               onPress={() => setPickerVisible(true)}

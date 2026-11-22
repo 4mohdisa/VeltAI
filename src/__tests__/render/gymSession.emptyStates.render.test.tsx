@@ -1,11 +1,14 @@
 // PHASE3_ROWS.md row 14, Gym log session screen (src/app/gym/session.tsx) states
 // with no exercises. Mounts the real screen with fetch stubbed and checks each
 // no-data state shows its own copy from en.json: nothing scheduled, a rest day,
-// and a failed read of today, which must not read as "Nothing scheduled".
+// and a failed read of today, which must not read as "Nothing scheduled". The
+// header copy is checked in English and again in Spanish.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import GymSessionScreen from '@/app/gym/session';
+import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
 import { act, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => true) }));
@@ -63,11 +66,28 @@ type Tree = Awaited<ReturnType<typeof renderSession>>;
 const hasText = (tree: Tree, text: string) => findAll(tree, (p) => p.children === text).length > 0;
 const hasButton = (tree: Tree, title: string) => findAll(tree, (p) => p.title === title).length > 0;
 
+afterEach(async () => {
+  await act(async () => {
+    await i18n.changeLanguage('en');
+  });
+});
+
 test('a day with nothing scheduled shows the empty state with one Add an exercise action', async () => {
   const tree = await renderSession(() => json(today(false)));
   expect(hasText(tree, en.gymSession.nothingScheduled)).toBe(true);
   expect(hasText(tree, en.gymSession.emptyMessage)).toBe(true);
   expect(hasButton(tree, en.gymSession.addExercise)).toBe(true);
+  expect(hasText(tree, en.gymSession.eyebrow)).toBe(true);
+  expect(hasText(tree, en.gymSession.defaultTitle)).toBe(true);
+});
+
+test('Spanish: the header and empty state switch to es.json', async () => {
+  await act(async () => {
+    await i18n.changeLanguage('es');
+  });
+  const tree = await renderSession(() => json(today(false)));
+  expect(hasText(tree, es.gymSession.defaultTitle)).toBe(true);
+  expect(hasText(tree, es.gymSession.nothingScheduled)).toBe(true);
 });
 
 test('a rest day reuses the gymLog rest-day title', async () => {

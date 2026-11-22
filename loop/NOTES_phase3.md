@@ -31,6 +31,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
 - Food tab shows PendingSyncBanner, counting all queued writes. Default used.
 - Food detail: Entry not found states get one Done button (common.done). Barcode not-found keeps Scan again.
+- Gym session: failed read shows LoadFailedNotice with Retry, matching log-session.tsx.
 - Unanswered question: use default and carry on. Do not re-ask.
 
 ## Done
@@ -41,25 +42,28 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-78: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations, meals.tsx and saved.tsx header work.
 - Rounds 79-80: Food tab PendingSyncBanner added and tested.
-- Round 81: food detail (src/app/food/detail.tsx) Entry-not-found Done button added and tested. Loading already fine. Load-failed not fixed (see Blocked).
+- Round 81: food detail Entry-not-found Done button added and tested.
+- Round 82: gym/session.tsx: empty state translated (gymSession block), failed read shows LoadFailedNotice with Retry, rest day uses gymLog.restDayTitle. Test added. Still partly hardcoded (see Next).
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
 - Calendar failed-read state needs approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry.
-- Barcode lookup: telling 'not found' from 'server unreachable' needs a change to lookupBarcodeAsync in src/lib/data/scan.ts (returns null for both). Blocks detail.tsx and barcode-scan ErrorState with Retry. Default: keep current copy. Do not retry until Isa answers.
+- Barcode lookup: telling 'not found' from 'server unreachable' needs a change to lookupBarcodeAsync in src/lib/data/scan.ts. Default: keep current copy. Do not retry until Isa answers.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. Until approved, WeekStrip labels stay as they are.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 es and fr wording for all new blocks. Default used. Review needed.
+- Row 13 and Row 14 es and fr wording for all new blocks. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13 PendingSyncBanner counts all queued writes, not only food. Default used. Confirm.
+- Row 14: with a failed read, gym session shows only the notice, so freestyle start is unavailable offline. Default: unchanged. Isa to confirm.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 
 ## Next
-- Row 14: Gym log screen empty states (first screen, round 82).
-- Rows 14 to 17: remaining empty state screens, one per round.
+- Row 14: finish translating gym/session.tsx (hardcoded: Today eyebrow, Workout, Finish workout, Workout saved, Tick each exercise..., Add an extra exercise). Round 83.
+- Row 14: gym/history.tsx. Failed read shows 'No sessions yet' (should be a load-failure state with Retry); strings hardcoded.
+- Rows 15 to 17: remaining empty state screens, one per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7 and 8 (Sentry, PostHog), then rows 9 and 10, then Row 11 (final sweep).
 
@@ -68,10 +72,12 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Jest drift: node_modules jest 30.0.5 vs pin 29.7.0. Fix with npm ci (needs network).
 - 18 backend DB tests never run. Needs LUME_TEST_DATABASE_URL.
 - formatWeekdayDate, formatMonthYear, formatRelativeDate (src/lib/formatting.ts): device locale or hardcoded English. Shared helper fix.
+- formatRelativeDate returns hardcoded English.
 - GymCalendar.tsx and WeekEnergyCard.tsx: hardcoded weekday letters.
 - WeekStrip and calendar.tsx duplicate the logged-day label expression. Shared helper.
+- calendar.tsx strings not translated yet (Row 13 follow-up).
 - SheetContent.tsx:92 close button accessibilityLabel 'Close' hardcoded English.
-- Dev builds fall back to mock product DB on failed lookup (offline tests in dev differ from release).
+- Dev builds fall back to mock product DB on failed lookup.
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - French 'aujourd'hui' straight apostrophe. Row 11.
 - es.json extra keys addMenu.voice and addMenu.describeOutLoud.
@@ -92,11 +98,13 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - 'No meals yet' reads oddly on a past day unless row 13 wording approved.
 - Shared render setup does not mock useFocusEffect or useLocalSearchParams.
 - Saved and calendar tests: shared expo-router mock helper in Row 11.
-- WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
 - formatMonthYear and formatWeekdayDate: month and day names may stay English in es and fr.
 - No Retry on useInsights errors. Analytics defaults to on. Seed script has no host guard.
 - Hidden-banner test checks only accessibilityRole=alert absence. Assert no banner at all (Row 11).
+- gym session strings 'Nothing scheduled' and gym.nothingScheduledSub are close but not identical. Decide in Row 11.
 
 ## Loop notes
 - Round 80: Jev said ask (80%). Kept run: only open question is owner-only and already defaulted.
-- Round 81: auto check flagged partial. Barcode network-failure state parked under Blocked. Round 82: Jev said ask (74%). Kept run: question not major, default used.
+- Round 81: auto check flagged partial. Barcode network-failure state parked under Blocked.
+- Round 82: Jev said ask (74%). Kept run: question not major, default used.
+- Round 83: Jev said run (75%). Kept run. Chose session.tsx leftovers first: a missing translation is a failed row, and it is one small screen.

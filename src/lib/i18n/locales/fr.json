@@ -270,7 +270,13 @@
   "gymSession": {
     "nothingScheduled": "Rien de prévu",
     "emptyMessage": "Ajoutez un exercice pour enregistrer une séance libre.",
-    "addExercise": "Ajouter un exercice"
+    "addExercise": "Ajouter un exercice",
+    "eyebrow": "Aujourd’hui",
+    "defaultTitle": "Séance",
+    "finish": "Terminer la séance",
+    "saved": "Séance enregistrée",
+    "tickHint": "Cochez chaque exercice une fois terminé",
+    "addExtra": "Ajouter un exercice supplémentaire"
   },
   "gymLog": {
     "title": "Comment ça s’est passé ?",

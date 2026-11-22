@@ -270,7 +270,13 @@
   "gymSession": {
     "nothingScheduled": "Nothing scheduled",
     "emptyMessage": "Add an exercise to log a freestyle session.",
-    "addExercise": "Add an exercise"
+    "addExercise": "Add an exercise",
+    "eyebrow": "Today",
+    "defaultTitle": "Workout",
+    "finish": "Finish workout",
+    "saved": "Workout saved",
+    "tickHint": "Tick each exercise as you complete it",
+    "addExtra": "Add an extra exercise"
   },
   "gymLog": {
     "title": "How did it go?",

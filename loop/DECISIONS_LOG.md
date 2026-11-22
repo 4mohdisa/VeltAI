@@ -8342,3 +8342,6 @@
 - 2026-11-22 17:40 Did not ask Isa: the barcode lookup question is minor and has a safe default (keep the 'Product not found' copy until Isa answers).
 - 2026-11-22 17:40 Jev suggested ask (74%). Kept run: the open item is not major, has a default, and Isa's reply would not unblock any current row.
 - 2026-11-22 17:40 Row 13 stays PARTIAL until the barcode and calendar failed-read items are approved or parked by Isa.
+- 2026-11-22 17:43 Chose the session.tsx translation leftover over history.tsx: a missing translation is a failed row, and it is one screen and a small change.
+- 2026-11-22 17:43 Kept the offline Add-an-exercise behaviour unchanged; it is already in Blocked on Isa, so the default stays.
+- 2026-11-22 17:43 Jev said run (75%); kept run. Only open items are owner-only or defaulted.
