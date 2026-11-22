@@ -8806,3 +8806,6 @@
 - 2026-11-22 20:14 detail.tsx unknown-slot fallback: closed. Default (slotLabel(ctaSlot), fallback foodLog.addMeal) was taken in round 183 and verified in round 184. The handover's blocker is stale.
 - 2026-11-22 20:14 Jev ask 71% not followed: no major question. Decided myself, recorded here.
 - 2026-11-22 20:14 Chose Profile titles (candidate 1) because it is one screen, needs nothing from Isa, and clears a Row 15 gap.
+- 2026-11-22 20:16 Chose the checkpoint over Jev's account.tsx pick (94%). The loop note requires a checkpoint this round and the last report was flagged as partly done, so gates come first and the next screen starts from a known state.
+- 2026-11-22 20:16 About screen (round 186): title and eyebrow are localised. Tagline, row labels and 'Lume team' stay English until Isa gives wording for es and fr.
+- 2026-11-22 20:16 Checkpoint round makes no file changes, so the report must show zero edits.
