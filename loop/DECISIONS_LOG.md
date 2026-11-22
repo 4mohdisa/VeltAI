@@ -8681,3 +8681,7 @@
 - 2026-11-22 19:36 Chose the checkpoint over Jev's pick (nutrition.tsx:227, 81%). Reason: the automatic loop note makes this round a full checkpoint, and the nutrition task moves to the next round.
 - 2026-11-22 19:36 Did not retry the blocker that came back twice. It is recorded under Blocked on Isa. Default kept: ringOf stays a one-word key, and 'Gym and food' stays as written.
 - 2026-11-22 19:36 Ran the checkpoint with no file edits, so a red result is reported and not fixed in this round.
+- 2026-11-22 19:37 Round 158 checkpoint passed: tsc 0 errors, Jest 183 suites and 1141 tests all passing, none skipped, 4 snapshots passing. Recorded in notes. The earlier counts (179 suites, 1134 tests) are superseded.
+- 2026-11-22 19:37 Chose the nutrition.tsx:227 slot name over week.tsx flat bars: it is the smallest task, needs no product rule, and Jev ranks it highest.
+- 2026-11-22 19:37 The loop/DECISIONS_LOG.md and loop/NOTES_phase3.md modifications were written by the loop script, not by Claude Code. No action needed.
+- 2026-11-22 19:37 Jest log noise ('[data] API unreachable' from hooks.ts:72) does not fail tests. Left alone, noted under Parked.
