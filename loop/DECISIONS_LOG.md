@@ -8129,3 +8129,7 @@
 - 2026-11-22 16:27 Round 30 is the checkpoint the handover asked for (loop note: change no files, run tsc and full Jest). It also confirms the 7 hook tests added since round 15.
 - 2026-11-22 16:27 Row 12 close-out work waits one round, so a failure found now is not mixed with new edits.
 - 2026-11-22 16:27 Prompt forbids git, Prettier and backend or simulator runs, per the notes and the loop rules.
+- 2026-11-22 16:27 Round 30 checkpoint is clean (tsc 0, Jest 142 suites and 1013 tests pass). Recorded in state. No further checkpoint needed until round 45.
+- 2026-11-22 16:27 Chose the smallest open Row 12 gap (useEnergyRange isError) over Row 13 tests. Jev's risk score is 0.8 with low confidence, so a small task is preferred.
+- 2026-11-22 16:27 Left the Row 13 tests, the header comment fix and the harness dedupe for later rounds, one row per round.
+- 2026-11-22 16:27 Templates '+' stays as decided in Row 3. The unanswered question is not re-asked.

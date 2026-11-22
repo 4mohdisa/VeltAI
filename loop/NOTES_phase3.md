@@ -7,8 +7,8 @@ Work only on loop/phase3. Agents never run git commands. Never run Prettier (no 
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details loop/BASELINE_phase3.md.
-- Round 15 checkpoint: tsc 0; app Jest 136 suites, 995 tests pass, 0 skipped.
-- Full suite NOT run since round 15. Round 30 checkpoint is running now.
+- Round 30 checkpoint (clean): tsc 0; app Jest 142 suites, 1013 tests pass, 4 snapshots pass. Backend not run. No worker crash.
+- Next full checkpoint: round 45.
 - Jest pinned ~29.7.0. Never upgrade. Stray top-level node_modules/jest 30.0.5 and @types/jest ^30 are parked.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set in shell.
@@ -38,10 +38,11 @@ Work only on loop/phase3. Agents never run git commands. Never run Prettier (no 
 - Rounds 5 to 6: Row 3 BUILT, owner check pending.
 - Rounds 7 to 10: Row 4 audit (EMPTY_STATES_AUDIT.md), rows 12 to 17 added, Row 4 BUILT.
 - Rounds 11 to 13: Row 5 part 1 BUILT, owner check pending.
-- Rounds 13 to 29: Row 12 PARTIAL. useHydration loading fix; isError on useApi, useToday, useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress (all six gymSchedule hooks report errors).
+- Rounds 13 to 29: Row 12 PARTIAL. useHydration loading fix; isError on useApi, useToday, useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress.
+- Round 30: checkpoint clean.
 
 ## Blocked on Isa
-- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD. Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
+- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD, and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
 - Analytics default on (brief) vs store off (DECISIONS.md 2026-08-09). Default used. Confirm before Phase 4.
 - Templates '+' replaced by a list control? Unanswered. Keep '+' (row 3).
 
@@ -63,8 +64,8 @@ Work only on loop/phase3. Agents never run git commands. Never run Prettier (no 
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
 
 ## Next
-- Round 30: checkpoint, full tsc and full app Jest, no file changes (running).
-- Row 12 close-out: useEnergyRange error flag, insights API errors, ErrorState and PendingSyncBanner copy.
+- Row 12 close-out: useEnergyRange isError flag and test (running).
+- Then: insights API errors, ErrorState and PendingSyncBanner copy (Row 12).
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

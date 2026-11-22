@@ -11,7 +11,9 @@
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import EnergyScreen from '@/app/energy';
+import { useEnergyRange } from '@/lib/data/energyRange';
 import type { EnergyBalance, WeeklyEnergyBalance } from '@/lib/types';
+import { readHook } from '../helpers/useApiHarness';
 import { act, allText, renderScreen } from './helpers';
 
 // The loading state's two Skeletons animate through reanimated's
@@ -99,4 +101,9 @@ test('a failed fetch degrades to the same no-data empty state, not a crash or fa
   await settle();
 
   expect(allText(tree)).toContain('No data yet');
+});
+
+test('useEnergyRange reports isError when the request fails', async () => {
+  mockGetWeek.mockRejectedValue(new Error('network request failed'));
+  expect(await readHook(useEnergyRange)).toMatchObject({ days: [], loading: false, isError: true });
 });

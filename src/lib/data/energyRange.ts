@@ -80,6 +80,8 @@ export type EnergyRange = {
   /** Up to 14 server days, oldest first. Short when the user is newer than that. */
   days: EnergyBalance[];
   loading: boolean;
+  /** Both windows failed, so `days` is the empty fallback, not a real "no data". */
+  isError: boolean;
   refetch: () => void;
 };
 
@@ -90,6 +92,7 @@ export function useEnergyRange(): EnergyRange {
   const end = todayISO();
   const [days, setDays] = useState<EnergyBalance[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [nonce, setNonce] = useState(0);
 
   useEffect(() => {
@@ -101,6 +104,7 @@ export function useEnergyRange(): EnergyRange {
         const recentDays = recent.status === 'fulfilled' ? recent.value.days : undefined;
         const olderDays = earlier.status === 'fulfilled' ? earlier.value.days : undefined;
         setDays(mergeDays(olderDays, recentDays));
+        setIsError(recent.status === 'rejected' && earlier.status === 'rejected');
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -115,5 +119,5 @@ export function useEnergyRange(): EnergyRange {
     setNonce((n) => n + 1);
   }, []);
 
-  return { days, loading, refetch };
+  return { days, loading, isError, refetch };
 }
