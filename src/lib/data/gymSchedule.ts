@@ -139,9 +139,9 @@ export function useExercises(filters?: ExerciseFilters): {
   return { exercises: data, loading, isError };
 }
 
-export function useGymPatterns(): { patterns: GymPatterns | null; loading: boolean } {
-  const { data, loading } = useApi<GymPatterns | null>(() => api.gym.getGymPatterns(), null);
-  return { patterns: data, loading };
+export function useGymPatterns(): { patterns: GymPatterns | null; loading: boolean; isError: boolean } {
+  const { data, loading, isError } = useApi<GymPatterns | null>(() => api.gym.getGymPatterns(), null);
+  return { patterns: data, loading, isError };
 }
 
 export function useExerciseProgress(name: string, limit?: number): {

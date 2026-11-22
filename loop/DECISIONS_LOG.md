@@ -8118,3 +8118,7 @@
 - 2026-11-22 16:23 Kept useExercises as the next hook, since it is the smallest step in Row 12 and needs no screen changes.
 - 2026-11-22 16:23 Kept the shared harness rule (readHook from helpers) so no third harness copy is added.
 - 2026-11-22 16:23 Kept the known lint errors at gymSchedule.ts 41 and 43 as allowed until Row 11, since the brief says not to fix new things in a hook round.
+- 2026-11-22 16:25 Picked useGymPatterns, which matches Jev's ranking. Reason: the flag on the round 27 report says Row 12 is only partly done, and that is the expected state while hooks are still being converted. The round 27 checks (tsc, 2 suites) already ran and passed, so a separate re-verify round adds nothing.
+- 2026-11-22 16:25 Kept Row 12 PARTIAL. The useExercises refetch-on-filter test stays on the list for a later round.
+- 2026-11-22 16:25 No question to Isa. The Maestro sign-in question and the templates + question stay as they are (unanswered, default used).
+- 2026-11-22 16:25 Full Jest checkpoint stays at round 30 as planned.
