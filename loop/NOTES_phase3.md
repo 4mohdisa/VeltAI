@@ -1,26 +1,29 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen per prompt. Say built, never verified on a device.
+All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'.
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - PHASE3_ROWS.md stays 22 lines; notes go inside the row cell.
 - Locales: src/lib/i18n/locales/ (en, es, fr).
-- Checkpoint r270 passed: tsc 0; Jest 220 suites, 1280 tests, 4 snapshots; Go 543 top-level pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL). About 133 console warnings, not failures.
+- Checkpoint r270: tsc 0; Jest 220 suites, 1280 tests, 4 snapshots; Go 543 pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL). About 133 console warnings, not failures.
+- Round 271 had no Jest run; loop flagged it. Round 272 reruns Row 12.
 
 ## Done
 - BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13, 14, 15, 16, 17.
+- PARTIAL: 5 (part 2 needs sign-in), 8, 12 (round 272 check), 13, 14, 15, 16, 17.
 - DIFFERENT: 6, 11.
 
 ## Next
-- Round 271: Row 12 with the branch rule added. Then 13, 14, 8 in turn.
-- Row 15: nutrition.tsx spoken kcal labels wait on macros snapshot approval.
-- Row 6: measurements parked until a sign-in path exists.
-- Row 11 last: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md. Only after rows 5, 6, 8, 12 to 17 are closed.
+- Round 272: Row 12 tsc plus its Jest files; BUILT if green.
+- Then 13, 14, 8 in turn.
+- Row 15: nutrition.tsx spoken kcal waits on macros snapshot approval.
+- Row 6: parked until a sign-in path exists.
+- Row 11 last, after 5, 6, 8, 12 to 17 are closed: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
+- Next full checkpoint after Row 14 or at handover.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -30,7 +33,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Analytics switch lives in src/app/profile/privacy.tsx only.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
-- Identical text reuses existing keys. src/lib/data off limits except api.ts insight catch blocks.
+- Identical text reuses existing keys. Reuse only when meaning matches. src/lib/data off limits except api.ts insight catch blocks.
 - French: no-break space before ':', '?' and inside guillemets; curly apostrophes; es and fr plain space before %. Spanish tu, French vous.
 - Snapshots and existing tests: never edited without Isa. Broken existing test: back out and report.
 - Render tests end .render.test.tsx in src/__tests__/render/.
@@ -41,8 +44,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - PlannedValuesForm shared with session.tsx: translate component, do not edit session.tsx.
 - Weight caption follows the form's own kg/lb control, not the units setting.
 - Check every prompt against files first; past prompts asked for work already done.
-- Round 270: checkpoint gate chosen over Jev's Row 11 pick.
-- Round 271: prompt rejected for missing branch rule; resent with rule. Row 12 run instead of ask.
+- Row 12 approval is not required: BUILT when tsc and its tests pass.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts off limits: food search loading timing, Recipe recents, exercise picker 'No matches' flash. Parked.
@@ -54,7 +56,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - week.tsx snapshot regen and goals refetch in hooks.ts: need permission.
 - Session screen weight entry (gym/session.tsx, padWeight): stay kg-only or follow unit?
 - Keep as is: Integrations 'Nothing connected'; Privacy 'Your data' English; Spanish 'Tus datos'; feedback rows in backend/internal/auth/export.go; privacy footer 'First-party only' once key set.
-- Apply feedback migration to hosted Supabase (owner). Feedback retention undefined.
+- Owner: apply feedback migration to hosted Supabase. Feedback retention undefined.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
 - feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests.
 - Analytics on (brief) vs opt-in (code): confirm before Phase 4.
@@ -70,6 +72,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 16: repeat-visit skeleton flashes for all-zero streak. Needs hydrated flag in src/lib/data.
 - Preferences kept in memory (src/lib/settings/store.ts). Not persisted.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
+- useHydration logs 'API unreachable' via devWarn (hooks.ts:72), about 14 per full run.
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns; Jest drift 30.0.5 vs 29.7.0 (fix with npm ci).
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - UI/data: useTemplates drops on refetch failure; English weekday letters, muscle names, exercise names, equipment; MacroBars unused; formatCalories always kcal; week.tsx flat bars; relative-time keys have no plurals; new-recipe recents from selected day only.

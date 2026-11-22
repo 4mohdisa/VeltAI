@@ -9288,3 +9288,7 @@
 - 2026-11-23 01:28 Ran Row 12 instead of asking Isa: every open Isa item has a default and none blocks Row 12.
 - 2026-11-23 01:28 Prompt names Row 12 by number and points to its files column, because the row text is not in manager context. Claude Code reads the row itself first.
 - 2026-11-23 01:28 Added the git and branch rule to the prompt, because the loop rejected the last prompt without it.
+- 2026-11-23 01:29 Round 272: the loop flagged round 271 for no Jest run. Chose a targeted run (tsc plus Row 12's test files) over another round of Row 12 discussion, because it is the smallest step that closes the flag.
+- 2026-11-23 01:29 Row 12 approval is not in the brief and needs no owner question. BUILT is set when tsc and the row's tests pass. Isa can still reject it later.
+- 2026-11-23 01:29 Jev ranked ask at 76%. Not chosen: the question is not major (no money, data loss, production or owner-only action), and the brief says to decide and record it.
+- 2026-11-23 01:29 Full suite is not run this round. The brief reserves full suites for checkpoints. The next checkpoint is due after Row 14 or at the handover.
