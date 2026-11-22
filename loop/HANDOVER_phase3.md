@@ -1,49 +1,47 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
-BUILT ROWS (PHASE3_ROWS.md)
-1 Node 22. 2 Baseline gates. 3 Header "+" on My workouts (owner check pending). 4 Empty states audit. No new rows were built this session.
-
-PARTIAL ROWS
-5 Seed data: Maestro part needs a seed-user sign-in, which needs Isa.
-12 Shared plumbing: every planned item is done. Status stays PARTIAL until a full checkpoint passes and Isa approves BUILT. Done this session:
-- All six gymSchedule hooks return isError.
-- useApi sets loading while an input change re-fetches, keeping old data.
-- useEnergyRange returns isError, true only when both week reads fail.
-- api.ai.getInsights rejects with ApiError, and useInsights catches it and returns isError.
-- ErrorState and PendingSyncBanner copy now use t() in en, es and fr.
+ROWS (PHASE3_ROWS.md)
+Built: 1 Node 22, 2 Baseline gates, 3 Header "+" on My workouts, 4 Empty states audit.
+Partial:
+- Row 5 (seed data): the Maestro part needs Isa.
+- Row 12 (shared plumbing): every item is done and the last full checkpoint was clean (tsc 0 errors, 147 suites, 1029 tests). It waits for Isa to approve "built". Its notes cell was replaced with a one-line summary; the old history is in git.
+- Row 13 (Food log): only the Food tab is done. Saved, SavedMealsList, RecipesList, calendar, detail, barcode-scan and the translations are still open.
+Row 14 is the Gym empty-states row (DIFFERENT), not the Food tab.
 
 IN PROGRESS
-Nothing is half-done. Next step: run the full checkpoint (npx tsc --noEmit, then npx jest). The last full run was 142 suites and 1013 tests; about 16 tests have been added since.
+Row 13, the Food tab. Nothing is half-done.
+
+WHAT ROW 13 HAS SO FAR
+- AnomalyBanner takes anomalies, isError and onDismiss as props, and shows ErrorState when isError is true. food.tsx makes the only useInsights call.
+- A past day with no meals shows foodLog.noMealsPastMessage instead of "add your first meal".
+- On a past day, ErrorState and LoadFailedNotice use food.empty.loadFailedPast and food.loadFailedPast. One isPastDay value in food.tsx drives all three past-day choices.
+- New keys are in en, es and fr.
 
 KEY FILES
-- src/lib/data/gymSchedule.ts (useApi and the six hooks)
-- src/lib/data/energyRange.ts
-- src/lib/data/aiBrain.ts
-- src/lib/api.ts
-- src/components/display/ErrorState.tsx, PendingSyncBanner.tsx
+- src/app/(tabs)/food.tsx
+- src/components/ai/AnomalyBanner.tsx
 - src/lib/i18n/locales/en.json, es.json, fr.json
-- Test helper: src/__tests__/helpers/useApiHarness.ts (readHook, mountHook with rerender)
-- Tests: src/__tests__/gymSchedule.*.test.ts, aiBrain.useInsights.test.ts, render/energy.render.test.tsx, render/ErrorState.copy.render.test.tsx, render/PendingSyncBanner.copy.render.test.tsx
+- Tests: src/__tests__/render/foodTab.emptyStates.render.test.tsx (4 tests), food.anomalyError.render.test.tsx, anomaly.render.test.tsx, phase14Regression.test.ts (its consent pin now reads food.tsx)
+- EMPTY_STATES_AUDIT.md lists the state of every screen.
 
 DECISIONS
-- Fixes go in the shared hook, not per screen.
-- useEnergyRange: one failed week still shows real data, so it is not an error. Isa may want to confirm.
-- PendingSyncBanner has no props, so it uses one plural key, pendingSync.waiting.
-- useApi's loading fix sets state during render (React's adjust-on-prop-change pattern), so the effect has no synchronous setState.
+- Row 13 stays PARTIAL even when tests pass, because most of its scope is still open.
+- Status-like words in notes cells are written in lowercase.
+- Isa has not confirmed the wording "Nothing was logged on this day." or "this day's food log".
 
 GOTCHAS
-- Run source ~/.nvm/nvm.sh && nvm use 22 before every command. No git. No Prettier.
-- Only *.render.test.tsx files run under jest-expo with real i18n. Plain .test.ts files run in the node project.
-- Jest output piped through grep sometimes prints nothing; use tail instead.
-- Known lint errors moved to gymSchedule.ts:50,52; hooks.ts:395 is also still open.
+- Run source ~/.nvm/nvm.sh && nvm use 22 before every command. No git, no Prettier.
+- In zsh, use $? rather than PIPESTATUS. Write jest output with > file 2>&1, then tail it.
+- allText in src/__tests__/render/helpers crashes on full-screen trees with a circular JSON error. Match rendered string children with findAll instead (see hasText in the Food tests).
+- Tests that mount the Food tab are found with grep -rln "(tabs)/food" src/__tests__ (12 files).
 
-UNFIXED
-- No screen reads isError yet (row 14). The Food tab anomaly banner is included.
-- These mocks lack isError: useEnergyRange in render/detailChrome.render.test.tsx:79; useInsights in render/insights.render.test.tsx and render/anomaly.render.test.tsx.
-- gymSchedule.revalidate.test.ts still has its own harness; mountHook could replace it.
+UNFIXED / NEXT
+- No test covers the past-day error copy. Adding one needs approval to edit tests.
+- The other Food tab tests were not rerun after the last food.tsx change, so run a full checkpoint next.
+- The title "No meals yet" reads oddly on a past day.
+- The Food tab has no PendingSyncBanner, so offline looks like a plain error.
+- The Food tab mounts useInsights with no consent gate (a pure database read, pinned in phase14Regression).
+- Parked: no refetch or Retry on useInsights errors; allText crash.
 - Out-of-date comments: the gymSchedule.ts and aiBrain.ts headers, and the "French intentionally partial" line in src/lib/i18n/index.ts.
-- getMorningBrief and getProfile still swallow real-endpoint failures.
-- useEnergyRange has no tests for a failed earlier week or a refetch after an error.
-- es.json has two extra keys, addMenu.voice and addMenu.describeOutLoud.
-- react-test-renderer is deprecated and warns on every run.
-- From the earlier handover: analytics defaults to on (Isa to confirm); goals persistence is parked; seed_demo_account.go has no host guard; old rows mix "lunch" and "Lunch".
+- getMorningBrief and getProfile still swallow failures.
+- From earlier: analytics defaults to on (Isa to confirm); seed_demo_account.go has no host guard.
