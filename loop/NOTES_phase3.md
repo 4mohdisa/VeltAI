@@ -34,6 +34,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
 - Checkpoint chosen over Jev's task in round 58. Re-verify RecipesList chosen in round 64.
 - Round 65: meals.tsx translation chosen over new-recipe and calendar (report recommends it, smallest).
+- Round 66: new-recipe.tsx translation chosen, agreeing with Jev (84%). Meals report treated as complete for its scope; no re-verify.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -46,22 +47,23 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Round 58: checkpoint clean.
 - Round 62: past-day food log read failure test passing.
 - Round 63: RecipesList strings translated (en, es, fr).
-- Round 64: RecipesList re-verified clean (3 suites, 7 tests; tsc 0). No code changed.
+- Round 64: RecipesList re-verified clean. No code changed.
+- Round 65: meals.tsx strings translated (en, es, fr), 2 render tests, tsc 0, 3 of 3 suites.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
 - Calendar failed-read state (add error to useLoggedDays in src/lib/data/foodDays.ts). Needs Isa approval of the shared hook change. Do not retry. Work on other surfaces.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 recipesList es/fr wording (8 keys) for review. Default used.
+- Row 13 translation wording for review: recipesList (8 keys, round 63) and meals (3 keys, round 65). Default used.
+- Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 65: meals.tsx hardcoded strings translated (en, es, fr), one render test.
-- Then new-recipe.tsx translation.
+- Round 66: src/app/food/new-recipe.tsx hardcoded strings translated (en, es, fr), one render test.
 - Then calendar hardcoded English (Pick a day, Jump to today, Previous/Next month, weekday letters). Do not touch useLoggedDays.
-- Row 13 remaining: calendar, new-recipe, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key.
+- Row 13 remaining: calendar, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -78,7 +80,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule tests.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, saved.tsx '(mock)', 'French intentionally partial' in src/lib/i18n/index.ts.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, saved.tsx '(mock)', meals.tsx '(Task 4)', 'French intentionally partial' in src/lib/i18n/index.ts.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry. Park.
 - allText crashes on full-screen trees (circular JSON). Use findAll. Park the helper fix.

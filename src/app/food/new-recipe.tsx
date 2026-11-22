@@ -113,34 +113,43 @@ export default function NewRecipeScreen() {
     setSaving(true);
     try {
       await api.recipes.create({ name: name.trim(), serving_count: servingCount, ingredients });
-      showToast({ message: 'Recipe saved.', tone: 'success' });
+      showToast({ message: t('newRecipe.saved'), tone: 'success' });
       if (router.canGoBack()) router.back();
       else replace('/food/meals');
     } catch (e) {
       devWarn('[recipe] create failed:', e);
-      showToast({ message: "Couldn't save recipe. Try again.", tone: 'error' });
+      showToast({ message: t('newRecipe.saveFailed'), tone: 'error' });
       setSaving(false);
     }
-  }, [canSave, name, servingCount, ingredients]);
+  }, [canSave, name, servingCount, ingredients, t]);
 
   return (
     <Screen
-      title="New Recipe"
+      title={t('recipesList.newRecipe')}
       variant="floating"
-      eyebrow="Food"
+      eyebrow={t('food.title')}
       showBack
-      footer={<Button title="Save Recipe" onPress={() => void save()} disabled={!canSave} loading={saving} />}
+      footer={<Button title={t('newRecipe.save')} onPress={() => void save()} disabled={!canSave} loading={saving} />}
     >
-      <TextField label="Name" value={name} onChangeText={setName} placeholder="e.g. Overnight oats" />
+      <TextField
+        label={t('food.nameField')}
+        value={name}
+        onChangeText={setName}
+        placeholder={t('newRecipe.namePlaceholder')}
+      />
 
-      <Stepper label="Servings this makes" value={servingCount} min={1} max={50} onChange={setServingCount} />
+      <Stepper label={t('newRecipe.servings')} value={servingCount} min={1} max={50} onChange={setServingCount} />
 
       <View style={{ gap: space.sm }}>
         <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
-          Ingredients
+          {t('newRecipe.ingredients')}
         </Text>
         {ingredients.length === 0 ? (
-          <EmptyState icon="restaurant" title="No ingredients yet" message="Add foods to build this recipe." />
+          <EmptyState
+            icon="restaurant"
+            title={t('newRecipe.emptyTitle')}
+            message={t('newRecipe.emptyMessage')}
+          />
         ) : (
           <Card padded={false} variant="elevated">
             {ingredients.map((it, i) => (
@@ -153,7 +162,7 @@ export default function NewRecipeScreen() {
                   haptic={false}
                   minTapTarget={false}
                   onPress={() => editRow(i)}
-                  accessibilityLabel={`Edit ${it.food_name}`}
+                  accessibilityLabel={t('food.savedEditLabel', { name: it.food_name })}
                   style={{
                     gap: space.xs,
                     paddingVertical: space.lg,
@@ -174,7 +183,7 @@ export default function NewRecipeScreen() {
             ))}
           </Card>
         )}
-        <Button title="Add ingredient" icon="add" variant="secondary" onPress={openSearch} />
+        <Button title={t('newRecipe.addIngredient')} icon="add" variant="secondary" onPress={openSearch} />
       </View>
 
       {ingredients.length > 0 ? (
@@ -182,8 +191,14 @@ export default function NewRecipeScreen() {
           <Text variant="footnote" color={color.secondaryLabel}>
             {/* Kcal-only catalog → all-zero macros are meaningless; show calories only. */}
             {totals.protein + totals.carbs + totals.fat + totals.fibre === 0
-              ? `Total: ${formatNumber(totals.calories)} kcal`
-              : `Total: ${formatNumber(totals.calories)} kcal · ${Math.round(totals.protein)}g protein · ${Math.round(totals.carbs)}g carbs · ${Math.round(totals.fat)}g fat · ${Math.round(totals.fibre)}g fibre`}
+              ? t('newRecipe.totalCalories', { kcal: formatNumber(totals.calories) })
+              : t('newRecipe.totalMacros', {
+                  kcal: formatNumber(totals.calories),
+                  protein: Math.round(totals.protein),
+                  carbs: Math.round(totals.carbs),
+                  fat: Math.round(totals.fat),
+                  fibre: Math.round(totals.fibre),
+                })}
           </Text>
         </Card>
       ) : null}
@@ -191,16 +206,16 @@ export default function NewRecipeScreen() {
       <BottomSheet
         visible={stage !== null}
         onClose={() => setStage(null)}
-        title={stage?.kind === 'qty' ? stage.food.name : 'Add ingredient'}
+        title={stage?.kind === 'qty' ? stage.food.name : t('newRecipe.addIngredient')}
       >
         {stage?.kind === 'search' ? (
           <>
             <TextField
-              placeholder="Search foods…"
+              placeholder={t('foodLog.searchPlaceholder')}
               value={query}
               onChangeText={setQuery}
               autoCorrect={false}
-              accessibilityLabel="Search foods"
+              accessibilityLabel={t('addMenu.searchFoods')}
             />
             <Card padded={false}>
               {searchRows.map((r, i) => (
@@ -209,7 +224,7 @@ export default function NewRecipeScreen() {
                   haptic={false}
                   minTapTarget={false}
                   onPress={() => pickFood(r)}
-                  accessibilityLabel={`Add ${r.name}`}
+                  accessibilityLabel={t('food.savedAddLabel', { name: r.name })}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -227,7 +242,7 @@ export default function NewRecipeScreen() {
                     </Text>
                     <Text variant="footnote" color={color.secondaryLabel}>
                       {r.brand ? `${r.brand} · ` : ''}
-                      {r.kcalPer100} kcal / 100g
+                      {t('newRecipe.kcalPer100', { kcal: r.kcalPer100 })}
                     </Text>
                   </View>
                   <Icon name="add" size={20} color={color.label} />
@@ -238,14 +253,14 @@ export default function NewRecipeScreen() {
         ) : stage?.kind === 'qty' ? (
           <>
             <TextField
-              label="Quantity"
+              label={t('newRecipe.quantity')}
               value={stage.grams}
               onChangeText={setGrams}
               keyboardType="number-pad"
-              placeholder="grams"
-              accessibilityLabel="Quantity in grams"
+              placeholder={t('newRecipe.gramsPlaceholder')}
+              accessibilityLabel={t('newRecipe.quantityLabel')}
             />
-            <Button title="Add to recipe" onPress={commitQty} disabled={!Number(stage.grams) || Number(stage.grams) <= 0} />
+            <Button title={t('newRecipe.addToRecipe')} onPress={commitQty} disabled={!Number(stage.grams) || Number(stage.grams) <= 0} />
           </>
         ) : null}
       </BottomSheet>

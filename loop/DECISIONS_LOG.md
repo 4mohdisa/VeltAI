@@ -8274,3 +8274,8 @@
 - 2026-11-22 17:15 Calendar English text stays on the list; it does not need the blocked useLoggedDays change, but one screen per round applies.
 - 2026-11-22 17:15 Round 64 RecipesList re-verify is accepted as clean (3 suites, 7 tests pass; tsc 0). Row 13 stays PARTIAL.
 - 2026-11-22 17:15 The loop flag on the round 64 report is treated as resolved: it was a verify-only round and the open items are listed in NEXT.
+- 2026-11-22 17:17 Agreed with Jev (84%) on new-recipe.tsx: it is the next item on the Row 13 translation list and the smallest unit of work.
+- 2026-11-22 17:17 The flagged meals report is treated as complete for its scope. Row 13 is PARTIAL by design, so the flag is not a reason to re-verify. No re-verify round, because the flag was raised once and the report's checks (tsc 0, 3 of 3 suites) passed.
+- 2026-11-22 17:17 Calendar translation stays out of this round, so the blocked useLoggedDays change is not touched.
+- 2026-11-22 17:17 The new-recipe keys go in a new newRecipe block, and existing keys are reused where the text already exists, so no key is duplicated across screens.
+- 2026-11-22 17:17 Spanish and French wording for new keys is a default. Isa reviews all Row 13 wording together.

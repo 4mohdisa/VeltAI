@@ -232,6 +232,24 @@
     "recipes": "Recettes",
     "newRecipeLabel": "Nouvelle recette"
   },
+  "newRecipe": {
+    "saved": "Recette enregistrée.",
+    "saveFailed": "Impossible d’enregistrer la recette. Réessayez.",
+    "save": "Enregistrer la recette",
+    "namePlaceholder": "ex. : porridge de la veille",
+    "servings": "Nombre de portions",
+    "ingredients": "Ingrédients",
+    "emptyTitle": "Aucun ingrédient pour le moment",
+    "emptyMessage": "Ajoutez des aliments pour créer cette recette.",
+    "addIngredient": "Ajouter un ingrédient",
+    "totalCalories": "Total : {{kcal}} kcal",
+    "totalMacros": "Total : {{kcal}} kcal · {{protein}} g de protéines · {{carbs}} g de glucides · {{fat}} g de lipides · {{fibre}} g de fibres",
+    "kcalPer100": "{{kcal}} kcal / 100 g",
+    "quantity": "Quantité",
+    "gramsPlaceholder": "grammes",
+    "quantityLabel": "Quantité en grammes",
+    "addToRecipe": "Ajouter à la recette"
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",

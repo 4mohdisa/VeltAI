@@ -232,6 +232,24 @@
     "recipes": "Recipes",
     "newRecipeLabel": "New recipe"
   },
+  "newRecipe": {
+    "saved": "Recipe saved.",
+    "saveFailed": "Couldn't save recipe. Try again.",
+    "save": "Save Recipe",
+    "namePlaceholder": "e.g. Overnight oats",
+    "servings": "Servings this makes",
+    "ingredients": "Ingredients",
+    "emptyTitle": "No ingredients yet",
+    "emptyMessage": "Add foods to build this recipe.",
+    "addIngredient": "Add ingredient",
+    "totalCalories": "Total: {{kcal}} kcal",
+    "totalMacros": "Total: {{kcal}} kcal · {{protein}}g protein · {{carbs}}g carbs · {{fat}}g fat · {{fibre}}g fibre",
+    "kcalPer100": "{{kcal}} kcal / 100g",
+    "quantity": "Quantity",
+    "gramsPlaceholder": "grams",
+    "quantityLabel": "Quantity in grams",
+    "addToRecipe": "Add to recipe"
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

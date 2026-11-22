@@ -234,6 +234,24 @@
     "recipes": "Recetas",
     "newRecipeLabel": "Nueva receta"
   },
+  "newRecipe": {
+    "saved": "Receta guardada.",
+    "saveFailed": "No se pudo guardar la receta. Inténtalo de nuevo.",
+    "save": "Guardar receta",
+    "namePlaceholder": "p. ej., avena remojada",
+    "servings": "Raciones que rinde",
+    "ingredients": "Ingredientes",
+    "emptyTitle": "Todavía no hay ingredientes",
+    "emptyMessage": "Añade alimentos para crear esta receta.",
+    "addIngredient": "Añadir ingrediente",
+    "totalCalories": "Total: {{kcal}} kcal",
+    "totalMacros": "Total: {{kcal}} kcal · {{protein}} g de proteína · {{carbs}} g de carbohidratos · {{fat}} g de grasa · {{fibre}} g de fibra",
+    "kcalPer100": "{{kcal}} kcal / 100 g",
+    "quantity": "Cantidad",
+    "gramsPlaceholder": "gramos",
+    "quantityLabel": "Cantidad en gramos",
+    "addToRecipe": "Añadir a la receta"
+  },
   "gymLog": {
     "title": "¿Cómo ha ido?",
     "planSummary_one": "{{count}} ejercicio · unos {{minutes}} min",
