@@ -9026,3 +9026,8 @@
 - 2026-11-23 00:00 Closed the PRIVACY_DATA.md host item: the code and doc already match (rounds 202 to 204), so no more prompts about it. Stale prompt source is for Isa to fix.
 - 2026-11-23 00:00 Kept the checkpoint read-only, because checkpoint rounds change no files; failures are reported, not fixed, to avoid editing tests or snapshots.
 - 2026-11-23 00:00 Prefer small tasks because Jev risk is high (1.9).
+- 2026-11-23 00:01 Checkpoint gate passed (tsc 0; Jest 203 suites, 1218 tests, 4 snapshots), so the loop flag is cleared.
+- 2026-11-23 00:01 Row 10 split: backend slice this round, Settings screen and locales next round. Keeps the task to one small change.
+- 2026-11-23 00:01 Chose the backend slice over copy fixes because Row 10 is the next unbuilt row and it is the most useful for Phase 3 close-out.
+- 2026-11-23 00:01 Device maker, model and OS: not sent by default (existing default). Feedback device_model is opt-in on the screen, next round.
+- 2026-11-23 00:01 Host sentence: notes say closed in round 202 to 215, handover says open. Checked at Row 8 close-out, not now, to keep this round to one row.
