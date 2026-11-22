@@ -9175,3 +9175,6 @@
 - 2026-11-23 00:46 Chose the header comment fix first: it is one line in one file, needs no Isa input, and is the smallest task in NEXT. Apostrophe check follows.
 - 2026-11-23 00:46 es.json keys addMenu.voice and addMenu.describeOutLoud: kept as they are and parked. Removing keys is a content decision and is not a major question for Isa.
 - 2026-11-23 00:46 Jev signal (run 95%) agrees with the run action.
+- 2026-11-23 00:47 Round 246: chose the fr.json apostrophe check. It is the smallest run task, needs nothing from Isa, and was the next item in the notes.
+- 2026-11-23 00:47 Jev gave ask 47% at confidence 0.20. No open question blocks a row and every question already has a default, so I did not ask.
+- 2026-11-23 00:47 Integrations comment fix and kcal spoken label kept for later rounds. They are small, but one task per round.
