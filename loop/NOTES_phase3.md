@@ -24,14 +24,15 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
 - Identical text reuses existing keys. src/lib/data off limits except api.ts insight catch blocks.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
-- French: no-break space before ':', '?' and inside guillemets « ». Curly apostrophes. es and fr plain space before %. Spanish tu, French vous.
+- French: no-break space before ':', '?' and inside guillemets. Curly apostrophes. es and fr plain space before %. Spanish tu, French vous.
 - Snapshots: no regeneration without Isa. Broken existing test: back out and report. Never edit an existing test.
 - Render tests end .render.test.tsx in src/__tests__/render/.
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Row 9 export: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Typed routes need 'as Href' for /profile/feedback.
 - Checkpoint rounds change no files.
-- Round 239: guillemet fix in foodLog.noMatches accepted (key was foodLog, not food).
+- Round 239: guillemet fix in foodLog.noMatches accepted.
+- Round 240: goals spoken calorie label added (goals.caloriesSpoken, en/es/fr). kJ keeps abbreviation until Isa answers.
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -42,10 +43,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers, Privacy Export row, footers, support.* keys, settings.destructiveHint, curly apostrophes in fr.json, no-break spaces before ':' and '?' in fr.json (round 238), no-break spaces inside « » in foodLog.noMatches (round 239).
+- Row 15 PARTIAL: headers, Privacy Export row, footers, support keys, destructive hint, French punctuation and apostrophes, goals spoken calorie label (round 240, verification round 241).
 
 ## Next
-- Row 15: goals spoken calorie label (round 240, in progress). Then Scan accuracy and Integrations body copy.
+- Round 241: verify and test goals spoken calorie label (flagged partial).
+- Then Row 15: Scan accuracy body copy, then Integrations body copy.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
@@ -67,10 +69,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
 - Confirm Spanish 'Escribir a soporte' and French 'Ecrire a l'assistance'.
 - Confirm Privacy export error toast English wording.
+- kJ spoken as a word ('kilojoules'): needs a second key. Default: abbreviation.
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).
 - UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English strings; MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
+- kcal label pattern in food.tsx and dashboard/nutrition.tsx still says kcal (round 151); goals.saved unused.
 - Lint and headers: lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx. Console.warn noise from hooks.ts:72.
 - Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; export share subject hard-coded 'Lume data export'; Privacy section title and eyebrow both say 'Your data'; two Export rows until Row 15 copy pass ends.
 - Feedback: app_version carries build number; no tighter limit than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; feedback row label 'Help and feedback' vs 'Send feedback' open; Row 10 notes from rounds 216 and 218 out of date.

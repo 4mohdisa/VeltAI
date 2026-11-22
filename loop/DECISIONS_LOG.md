@@ -9155,3 +9155,7 @@
 - 2026-11-23 00:37 Prompt names the goals screen by search, because its exact path is not in the notes. Claude Code must report the file it changed.
 - 2026-11-23 00:37 Kept Privacy subject, two Export rows, Support overlap and feedback version as Parked or Unfixed. They are not in the next task.
 - 2026-11-23 00:37 Round 239 guillemet fix accepted as done. Jev ranked it first; it was kept as the flagged item in round 238.
+- 2026-11-23 00:39 Chose the goals label verification because the loop flagged the last report as partly done and the label change had only the old test run.
+- 2026-11-23 00:39 Kept kJ spoken as the abbreviation until Isa answers, since a kilojoule word needs a new key he has not approved.
+- 2026-11-23 00:39 Added a new test file instead of editing the existing goals tests, per the never edit existing tests rule.
+- 2026-11-23 00:39 Parked food.tsx and dashboard/nutrition.tsx kcal labels, since they are outside the row and need their own row.
