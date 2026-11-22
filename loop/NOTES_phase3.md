@@ -5,10 +5,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 187 checkpoint PASSED: tsc 0; Jest 191 suites, 1162 tests, 4 snapshots.
-- This round is a checkpoint: full tsc and full npx jest --ci, no file changes. Result to record next round.
+- Round 187 checkpoint PASSED: tsc 0; Jest 198 suites, 1190 tests, 4 snapshots.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. API client: src/lib/api.ts (no src/lib/data/api.ts).
+- Prompts must name loop/phase3 and check .git/HEAD first (round rejected for missing this).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -21,13 +21,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - French: no-break space before ':' and '?'. Curly apostrophes. es and fr plain space before %.
 - Snapshots: no regeneration without Isa. Broken existing test: back out and report. Never edit an existing test to fit.
-- Render tests end .render.test.tsx in src/__tests__/render/.
+- Render tests end .render.test.tsx in src/__tests__/render/. Broken existing tests are backed out, never edited.
 - New eyebrow keys sit next to title key in settings.* or profile.*.
 - Visible bracket labels stay. Only spoken labels change.
 - Jest mock factories reference only mock* variables.
-- Row 15 copy tail deferred until after Row 10. Account note in a later docs-only round.
+- Spanish uses tu, French uses vous, as elsewhere in the app.
+- Row 15 copy tail deferred until after Row 10.
 - One screen per prompt.
-- Tests stay in src/__tests__/render/. Broken existing tests are backed out, never edited.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -35,17 +35,14 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Goals eyebrow, support, privacy, scan-calibration, integrations header and eyebrow, Account (eyebrow, title, Save; Account note pending).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Goals eyebrow, support, privacy, scan-calibration, integrations header and eyebrow, Account (eyebrow, title, Save). Account line added to PHASE3_ROWS.md.
 
 ## In progress
-- Checkpoint round (this round).
-- Row 8: analytics wrapper src/lib/analytics.ts, allowlist, Settings switch, PRIVACY_DATA.md. Waiting its turn.
+- Row 15: localise profile/integrations.tsx title and eyebrow (prompt sent this round).
 
 ## Next
-- Row 15 Account note in PHASE3_ROWS.md (docs only).
-- Row 15: localise profile/integrations title and eyebrow.
 - Row 15 tail: preferences eyebrow 'Units'; fr.json straight apostrophes; Privacy and Support body copy; Scan accuracy body; goals spoken calorie label, hard-coded g, % and comma join; Spanish 'Tus datos' for Account and Privacy eyebrows.
-- Row 8: analytics.
+- Row 8: analytics wrapper src/lib/analytics.ts, allowlist, Settings switch, PRIVACY_DATA.md.
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
 - Row 10: Help and feedback (screen, feedback table locally, rate limit).
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.

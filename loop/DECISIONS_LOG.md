@@ -8873,3 +8873,11 @@
 - 2026-11-22 20:36 Told Claude Code to work only on loop/phase3 and to read .git/HEAD only, since the rejection was about branch wording.
 - 2026-11-22 20:36 No file changes this round, so a failing gate is reported and not fixed here, keeping the checkpoint a clean read.
 - 2026-11-22 20:36 Account Row 15 note stays deferred to a later docs-only round so this round holds one task.
+- 2026-11-22 20:37 Chose the docs-only Account note first: smallest task, closes a pending note, needs nothing from Isa. Integrations localisation follows next round.
+- 2026-11-22 20:37 Kept the Account wording pending Isa (Display name, Email, toasts) as already listed under Blocked on Isa.
+- 2026-11-22 20:37 Ran no tests this round because no code changes, so the rule to run only changed-file Jest is met.
+- 2026-11-22 20:37 Chose the integrations title and eyebrow: the smallest remaining Row 15 screen, and Jev gives run 88% with confidence 0.82.
+- 2026-11-22 20:37 Rewrote the rejected prompt: it names loop/phase3, checks .git/HEAD first, forbids git, push, merge and branch switches.
+- 2026-11-22 20:37 Folded the Account Row 15 note into the same round's PHASE3_ROWS.md line, because it is part of the same row.
+- 2026-11-22 20:37 Kept Row 15 PARTIAL: the tail (preferences eyebrow, fr apostrophes, Privacy and Support body copy, Scan accuracy) is still open.
+- 2026-11-22 20:37 Used existing keys where the English text is identical, to avoid duplicate keys.
