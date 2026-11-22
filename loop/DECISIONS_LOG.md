@@ -8913,3 +8913,7 @@
 - 2026-11-22 20:49 Did not ask Isa again: the feature_used, PostHog key and default-opt-in questions are already with him. Asking again would cost attention without new information.
 - 2026-11-22 20:49 Footer wording ('First-party only, on our own servers') stays as is until the PostHog sink is live. Changing it now would be a copy decision that needs Isa; it is recorded under Blocked.
 - 2026-11-22 20:49 Jev ranked ask highest. Declined: no new question adds anything, and the risk is already covered by the queued Isa items. Choosing the smallest verification task instead.
+- 2026-11-22 20:50 Chose PRIVACY_DATA.md: it is the next listed Row 8 step, documentation only, no code risk, and Phase 4 depends on it.
+- 2026-11-22 20:50 Defaults and sign-out fixes come after it: they change runtime behaviour and need a test each.
+- 2026-11-22 20:50 Ask not chosen: every question is already on the Blocked list with a default in use, and Isa has been asked.
+- 2026-11-22 20:50 Footer wording not changed: it needs Isa's approval, and the file only records it as pending.
