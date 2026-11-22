@@ -8776,3 +8776,8 @@
 - 2026-11-22 20:04 Did not ask Isa again. detail.tsx and week.tsx are blocked and already asked; they are not retried until he answers.
 - 2026-11-22 20:04 Scope kept to two catch blocks plus one test file. Any caller that would break is reported, not changed.
 - 2026-11-22 20:04 Jev asked for a look again; the single-question limit was not used this round.
+- 2026-11-22 20:05 Chose the gate check first: the loop flagged the last report because tsc and Jest were not run, and the notes line for quick-add is missing from Row 15.
+- 2026-11-22 20:05 getAnomalies keeps returning [] until /api/ai/anomalies exists. Reason: rethrowing would break the whole Insights load in useInsights.
+- 2026-11-22 20:05 Profile error path parked, not asked again. Reason: it needs edits to aiFallback.test.ts, which breaks the rule against editing existing tests. The question is already under Blocked on Isa.
+- 2026-11-22 20:05 No new question to Isa this round. Reason: the open blockers are already recorded with defaults, and repeating them adds no new information.
+- 2026-11-22 20:05 getMorningBrief swallowing errors stays as is (pinned by aiFallback.test.ts:26). Logged as Parked.

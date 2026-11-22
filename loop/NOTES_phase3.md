@@ -7,9 +7,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Checkpoint round 171 PASSED: tsc 0 errors; Jest 186 suites, 1149 tests, 4 snapshots, none skipped (npx jest --ci).
 - Next checkpoint: round 178 or later, when the loop says so.
+- Loop flag on last report (tsc/tests not run). Round 180 runs tsc and 3 changed-file suites to clear it.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Prompts must state the branch rule every time.
-- Read .git/HEAD for the branch. zsh rejects grep --include globs.
+- Prompts must state the branch rule every time. Read .git/HEAD for the branch. zsh rejects grep --include globs.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -19,7 +19,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Goals and units in memory in Phase 3.
 - Failed reads: LoadFailedNotice with onRetry only if refetch exists.
 - Empty or failed screen with no stored data: one clear action.
-- Identical text reuses existing keys. src/lib/data off limits except api.ts insight catch blocks (Row 15, round 179).
+- Identical text reuses existing keys. src/lib/data off limits except api.ts insight catch blocks.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - French: no-break space before ':' and '?'. Curly apostrophes. es and fr plain space before %.
 - Snapshots: no regeneration without Isa's permission. Broken existing test or snapshot: back out and report. Never edit an existing test to fit a change.
@@ -36,6 +36,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
 - Goals spoken labels: default B, keep current labels. goals.render.test.tsx pins them.
 - Loop note: a blocker repeated twice gets recorded under Blocked and not retried.
+- getAnomalies keeps returning [] until /api/ai/anomalies exists (rethrow would break useInsights).
+- Profile error path parked: needs edits to aiFallback.test.ts (not allowed without permission).
 - Jev ranked api.ts first at 92% (round 179). Picked it because it was already the next item in the plan.
 
 ## Done
@@ -43,7 +45,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx (uses shared SLOTS from mappers.ts; en/es/fr render test passing).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx (mealSlotName; en/es/fr render test passing).
 - mealSlotName helper: src/lib/mealSlotName.ts with tests.
 
 ## Blocked on Isa (defaults used, do not re-ask)
@@ -51,6 +53,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - InsightCard truncation: option 1 (edit test to fire onTextLayout) needs Isa's OK. Default kept.
 - Goals spoken labels: default B kept.
 - Goals loading and error via useGoals: needs permission to change src/lib/data/hooks.ts.
+- Profile error path (getProfile rethrow, useBrainProfile isError, aiFallback.test.ts:48-51): needs permission.
 - Permission to add refetch to useExerciseProgress and useGymPatterns.
 - Permission to regenerate snapshot for week.tsx flat bars (0 kcal) and define the no-logged-value rule.
 - Owner check pending: Food tab offline banner in simulator.
@@ -59,7 +62,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Now: api.ts insight catch blocks (~1253, 1270) rethrow; test src/__tests__/insightErrors.test.ts.
+- Now (round 180): Row 15 notes line for quick-add; tsc and 3 changed-file suites.
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: Profile screens hard-coded English titles (About, Privacy, Account, Connected apps, Delete Account, Units).
 - Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
@@ -67,6 +70,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 
 ## Parked (not Phase 3)
 - Goals loading, error and persistence: needs hooks.ts refetch.
+- getMorningBrief (api.ts:1232) swallows all errors to null; pinned by aiFallback.test.ts:26.
 - AnomalyBanner: no Retry. Banner count title lacks _one use.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci.
 - Jest noise: '[data] API unreachable' from hooks.ts:72.
@@ -88,4 +92,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Nutrition ring unit spoken as abbreviation; goals.tsx:133 speaks the raw unit in every language.
 - week.tsx flat bars when every day is 0 kcal.
 - goals.tsx hard-codes 'g', '%' and the comma join.
+- InsightCard.tsx:77 uses the 120-character toggle rule.
 - Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.
+- Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept by decision above.
