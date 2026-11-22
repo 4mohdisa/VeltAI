@@ -9003,3 +9003,8 @@
 - 2026-11-22 21:11 Rewrote the prompt to say branch-only, no git, no push, no merge, and no branch switch, which fixes the rejection.
 - 2026-11-22 21:11 Used npx jest --ci so Jest cannot write new snapshots, which keeps the checkpoint change-free.
 - 2026-11-22 21:11 Marked the PRIVACY_DATA.md host item closed (verified in round 208). Removed it from Next.
+- 2026-11-22 21:12 Chose Row 9 A/B test over Row 8 tags: it is the next open DB task and needs no Isa input; the checkpoint already passed this round (tsc 0, Jest 202 suites, 1216 tests).
+- 2026-11-22 21:12 Jev ranked run 90% and Row 9 was the report's recommendation, so no second look was needed.
+- 2026-11-22 21:12 Did not repeat the PRIVACY_DATA.md host fix from the handover: round 208 verified the sentence absent and closed it, per the notes.
+- 2026-11-22 21:12 Test runs only against a throwaway localhost database, dropped after; no hosted DB, no migrations applied to hosted Supabase.
+- 2026-11-22 21:12 Row 9 stays PARTIAL until the Settings share-sheet row is built.
