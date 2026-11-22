@@ -3,13 +3,14 @@
 ## Goal
 Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in the repo root.
 
-## State (21 Nov 2026)
-- Phase 1 and 2 merged into main (b096ed3). Branch loop/phase3 from main.
-- Baseline on main: type check 0 errors; app Jest 134 suites pass, 1 skipped; 990 tests pass, 3 skipped. Backend baseline recorded by row 2.
+## State
+- Phase 1 and 2 merged into main (b096ed3). Work on branch loop/phase3 only.
+- Baseline on main: type check 0 errors; app Jest 134 suites pass, 1 skipped; 990 tests pass, 3 skipped.
 - Jest pinned to ~29.7.0. Do not upgrade.
-- Occasional jest worker SIGSEGV is Node 24.16 GC crash. Rerun passes. Row 1 moves to Node 22.
+- Node 22 is the target. .nvmrc (22) and engines >=22 <23 added. Default shell Node is still 24, so npm warns until switched.
 - App runs against LOCAL backend. 47 Phase 2 rows BUILT with owner check pending.
-- Uncommitted files not ours: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md. Do not touch.
+- Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
+- Open check: package-lock.json does not yet record the engines field. Check in Row 11.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
@@ -19,23 +20,22 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Crash reporting Sentry. Analytics PostHog. Names and counts only, never food, health or body values.
 - Analytics on by default with anonymous ID, off switch in Settings. Isa to confirm before Phase 4.
 - Isa verifies on a device himself.
+- Row 2 numbers live in PHASE3_ROWS.md and loop/BASELINE_phase3.md.
+- A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
 
 ## Done
-- Round 1: Task 1 (row list) issued. PHASE3_ROWS.md created with 11 rows, all DIFFERENT.
-- Round 2: flagged by loop check (type check or tests not run). Re-issued as Row 1 with type check and tests on Node 22, plus format check of PHASE3_ROWS.md.
+- Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
+- Round 2: Row 1 (Node 22) BUILT. Node 22.23.5: tsc 0 errors, app Jest 135/135 suites, 993 tests pass. Backend 614 pass, 18 skipped.
+- Round 3: Row 2 prompt rejected by the loop (missing branch rule). Re-issued with the rule added.
 
 ## Blocked on Isa
-(nothing yet)
+(nothing)
 
 ## Parked (not Phase 3)
 (nothing yet)
 
 ## Next
-- Row 1 (Node 22 LTS) result check.
-- Row 2 (baseline gates).
+- Row 2 (baseline gates) result check.
 - Row 3 (workout plus button), then Row 5 (seed data).
 - Row 4 and follow ups (empty states), then Row 6 (performance).
 - Rows 7 and 8 (Sentry, PostHog), then Rows 9 and 10 (export, help), then Row 11 (final sweep).
-
-## Open checks
-- If Row 1 report flags a missing step again, treat it as a prompt issue and re-issue the row, not a new task.

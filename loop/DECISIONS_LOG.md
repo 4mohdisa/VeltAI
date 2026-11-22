@@ -8011,3 +8011,12 @@
 - 2026-11-22 15:30 Jev said the last task was clean only 13% of the time and risk is 0.9 of 2. Kept a small, local-only task with no data or hosted changes, so the risk stays low.
 - 2026-11-22 15:30 Left loop/DECISIONS_LOG.md and loop/NOTES_phase3.md alone, since their uncommitted changes were not made by this loop.
 - 2026-11-22 15:30 If nvm 22 cannot be installed offline, the owner step is recorded and the checks run on the current Node, per the brief.
+- 2026-11-22 15:32 Row 2 first: it records the baseline numbers the rest of the loop is measured against, and it is read only, so it is the smallest safe step.
+- 2026-11-22 15:32 Baseline numbers go into PHASE3_ROWS.md notes and a new loop/BASELINE_phase3.md, not into loop/NOTES_phase3.md, because the Phase 3 brief says that file is not ours to touch.
+- 2026-11-22 15:32 The package-lock engines field is parked under NEXT, not fixed in Row 2, to keep the row to one task.
+- 2026-11-22 15:32 Jev ranked the same action as run with high confidence, so no second look was needed.
+- 2026-11-22 15:32 Row 2 re-issued with the branch rule (loop/phase3 only, check with git branch --show-current, no push or merge) after the last prompt was rejected for lacking it.
+- 2026-11-22 15:32 Baseline numbers go to loop/BASELINE_phase3.md (new, committed) plus one line in PHASE3_ROWS.md, as the notes already planned.
+- 2026-11-22 15:32 Backend skips are marked 'real' only when the reason names an external need. Others are marked 'review' so Row 2 does not hide them.
+- 2026-11-22 15:32 Row 2 kept to record-only with no code change unless a gate is red. Smallest task, needs nothing from Isa.
+- 2026-11-22 15:32 Candidates ranked with Row 2 first. Jev ranks run at 88%, consistent with this pick.
