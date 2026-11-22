@@ -6,7 +6,6 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Checkpoint round 58: tsc 0; 150 suites, 1038 tests, 0 failed.
-- Round 62: foodTab.emptyStates 6/6 pass, tsc 0.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
@@ -19,7 +18,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Phase 4 NOT in scope: Sign in with Apple, account deletion, AI consent and limits, subscriptions and paywall, restore purchases, retention, notifications, HealthKit, store content, privacy manifest. Park ideas.
 - Later (Phase 4, do not build): RevenueCat for payments, no free tier, 7 day Apple trial.
 - Crash reporting Sentry. Analytics PostHog. Names and counts only.
-- Analytics on by default with anonymous ID, off switch in Settings. Store default off (DECISIONS.md 2026-08-09): Isa to confirm before Phase 4.
+- Analytics on by default with anonymous ID, off switch in Settings. Store default off: Isa to confirm before Phase 4.
 - Row 3: keep header plus on My workouts as the only way to add a second workout.
 - Goals and units stay in memory in Phase 3. Row 15 fixes 'Saved as you type' copy.
 - Hook error fixes go in the shared hook, not per screen.
@@ -30,13 +29,13 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Unanswered question: use default and carry on. Do not re-ask.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - Re-verify a flagged report as its own round only if the row changed code. Re-verified once is enough.
-- Round 48: row 12 set back to PARTIAL until Isa approves BUILT. useInsights refetch and Retry stay parked.
+- Round 48: row 12 set back to PARTIAL until Isa approves BUILT.
 - Round 55: one screen or component per prompt.
 - Round 58: checkpoint chosen over Jev's Saved screen task.
-- Round 59: Saved screen failed load with nothing saved shows ErrorState with Retry. Default generic copy.
-- Round 61: calendar fix default was to add error to useLoggedDays. Now blocked, see Blocked on Isa.
-- Round 62: past-day error copy test chosen over calendar fix. Test covers food.loadFailedPast with rows on device.
-- Round 63: RecipesList translation chosen over the blocked calendar fix. Reason: smallest Row 13 item, no shared hook.
+- Round 59: Saved screen load failure shows ErrorState with Retry. Default generic copy.
+- Round 62: past-day error copy test chosen over calendar fix.
+- Round 63: RecipesList translation chosen over the blocked calendar fix.
+- Round 64: re-verify RecipesList chosen over Jev's calendar task (84%). Reason: the round 63 report is flagged as partly done, and the Food tab and meals suites were not rerun. Calendar is next.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -48,23 +47,22 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 56-57: Row 13 SavedMealsList and RecipesList load-failure states.
 - Round 58: checkpoint clean.
 - Round 59: Row 13 Saved screen load-failure state + 2 tests.
-- Round 61: Food tab verified clean.
-- Round 62: past-day food log read failure test (rows on device) added and passing.
+- Round 62: past-day food log read failure test added and passing.
+- Round 63: RecipesList strings translated (en, es, fr), render test 3 of 3 pass. es/fr wording needs Isa review.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
-- Calendar failed-read state (add error to useLoggedDays in src/lib/data/foodDays.ts, LoadFailedNotice with Retry on calendar.tsx, WeekStrip notice). Needs Isa approval of the shared hook change. Blocked twice (rounds 61-62). Do not retry. Work on other surfaces.
+- Calendar failed-read state (add error to useLoggedDays in src/lib/data/foodDays.ts). Needs Isa approval of the shared hook change. Do not retry. Work on other surfaces.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
+- Row 13 recipesList es/fr wording (8 keys) for review. Default used.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
-- Templates '+' kept (row 3). useEnergyRange 'both weeks fail' rule default used.
-- Saved, meals and recipes error copy: generic ErrorState copy used. Isa may pick specific copy.
-- Insight failure past-day wording would be a product change to AnomalyBanner. Not built.
+- Templates '+' kept (row 3).
 
 ## Next
-- Round 63: RecipesList hardcoded English to i18n (en, es, fr), one render test.
+- Round 64: verify RecipesList (tests that mount meals and RecipesList, key presence in all locales).
 - Then calendar hardcoded English (Pick a day, Jump to today, Previous/Next month, weekday letters). Do not touch useLoggedDays.
-- Row 13 remaining: RecipesList done in round 63, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key.
+- Row 13 remaining: calendar, Saved, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key, meals.tsx strings.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -83,15 +81,16 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - react-test-renderer deprecated warning in gymSchedule tests.
 - Stale header comments: aiBrain.ts, gymSchedule.ts, saved.tsx '(mock)', 'French intentionally partial' in src/lib/i18n/index.ts.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
-- useInsights has no refetch, so no Retry. Park. Insight error shows full ErrorState with no Retry in the Food list.
+- useInsights has no refetch, so no Retry. Park.
 - allText crashes on full-screen trees (circular JSON). Use findAll. Park the helper fix.
 - getMorningBrief and getProfile swallow failures as null. Park.
 - hydrationErrorState.render.test.tsx prints many 'API unreachable' warnings. Park.
 - Energy one-week-fails path untested. Park.
-- Food tab mounts useInsights with no consent gate (pure database read, pinned in phase14Regression). Park.
+- Food tab mounts useInsights with no consent gate (pinned in phase14Regression). Park.
 - 'No meals yet' reads oddly on a past day. Park unless row 13 wording is approved.
 - Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 later item.
 - src/app/food/history.tsx shows hardcoded English error text. Park.
 - Shared render setup does not mock useFocusEffect or useLocalSearchParams. Park.
 - Saved and calendar tests: consider a shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
+- No test checks that en, es and fr have the same keys. Park to Row 11.

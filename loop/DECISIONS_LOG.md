@@ -8266,3 +8266,7 @@
 - 2026-11-22 17:11 Picked RecipesList translation: smallest Row 13 item, touches one component and the locale files, does not depend on the blocked hook.
 - 2026-11-22 17:11 Round 62 past-day test accepted as closing its gap. Its report flagged the insight failure path as a product change, so that stays parked, not built.
 - 2026-11-22 17:11 Calendar translation kept for the next round after RecipesList, because the calendar file sits next to the blocked hook and the screen is not safe to edit alongside it.
+- 2026-11-22 17:14 Chose the verification round over the calendar translation Jev ranked first (84%). Reason: the latest report is flagged as only partly done. Its handover says the other Food tab suites were not rerun, and RecipesList is used by the meals screen. The calendar is not started, so it can go next round.
+- 2026-11-22 17:14 Limited the round to tests and a grep, with fixes allowed only inside RecipesList files, so it stays one small task.
+- 2026-11-22 17:14 Did not add a key-parity test in this round. It is a new test file and would be a separate task.
+- 2026-11-22 17:14 Spanish and French wording for the recipesList keys stays with Isa's review. Default wording used, per the unanswered-question rule.
