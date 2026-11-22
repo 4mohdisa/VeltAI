@@ -48,8 +48,7 @@ export default function ScanCalibrationScreen() {
       try {
         const cal = await api.scan.calibration();
         if (alive) setData(cal);
-      } catch (err) {
-        if (__DEV__) console.warn('scan calibration fetch failed', err);
+      } catch {
         if (alive) setFailed(true);
       } finally {
         if (alive) setLoading(false);

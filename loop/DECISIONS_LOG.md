@@ -9229,3 +9229,8 @@
 - 2026-11-23 01:07 Row 16 skeleton repeat-visit fix stays parked: it needs an edit to profileEmptyStates.render.test.tsx test 1, and existing tests are never edited without Isa. Isa was already asked and the notes say not to re-ask, so the default applies.
 - 2026-11-23 01:07 Row 16 stays PARTIAL until the scan-calibration console.warn task and the simulator flow are done.
 - 2026-11-23 01:07 No question to Isa this round: the approval was already asked in earlier rounds and the default covers it.
+- 2026-11-23 01:08 Isa not asked this round: he has not answered the Row 16 and Row 15 questions across rounds 252 to 259, so the recorded defaults apply.
+- 2026-11-23 01:08 Chose the console.warn removal because the notes list it as the next Row 16 step and it needs no approval. It is the smallest unblocked task and clears the last report's partial flag.
+- 2026-11-23 01:08 Jev suggested ask (67%, confidence 0.50). Kept run because the ask is already answered by defaults, and the limit of one question per round matters. Jev's risk score is noted; the task is small and touches one file.
+- 2026-11-23 01:08 Skeleton fix (test 1 in profileEmptyStates.render.test.tsx) stays parked. The rule is no edits to existing tests without Isa.
+- 2026-11-23 01:08 Nutrition spoken kcal change stays backed out until the macros snapshot approval.
