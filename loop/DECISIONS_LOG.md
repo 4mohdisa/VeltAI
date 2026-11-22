@@ -9241,3 +9241,7 @@
 - 2026-11-23 01:11 Chose the new-recipe first use state because it finishes the screen the last report touched, which answers the loop flag that Row 17 looks partly done.
 - 2026-11-23 01:11 Kept src/lib/data and hooks.ts off limits. The hooks.ts change was asked in earlier rounds and not answered, so the default applies and it is not re-asked.
 - 2026-11-23 01:11 Reuse of an existing locale key is preferred over a new key, to avoid translation drift.
+- 2026-11-23 01:13 Loop flag handled: the first-use hint is done, but its recents gap comes from hooks.ts (off limits), so it is parked under Blocked and Row 17 stays PARTIAL until the ExercisePicker copy is finished.
+- 2026-11-23 01:13 Chose the ExercisePicker copy because it needs no src/lib/data change and is the smallest remaining Row 17 item.
+- 2026-11-23 01:13 Reuse existing keys when the English text is identical, to avoid duplicate strings across the three locales.
+- 2026-11-23 01:13 Default used for hooks.ts and gymSchedule.ts (no permission given), so neither is touched.

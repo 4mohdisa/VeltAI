@@ -822,5 +822,17 @@
     "feedbackPlaceholder": "Cuéntanos qué funciona y qué no.",
     "mailSubject": "Comentarios sobre Lume",
     "mailError": "No se pudo abrir Mail — escríbenos a {{email}}."
+  },
+  "exercisePicker": {
+    "title": "Añadir ejercicio",
+    "searchPlaceholder": "Buscar ejercicios",
+    "noResults": "No se encontraron ejercicios",
+    "pillAll": "Todos",
+    "pillChest": "Pecho",
+    "pillBack": "Espalda",
+    "pillLegs": "Piernas",
+    "pillShoulders": "Hombros",
+    "pillArms": "Brazos",
+    "pillCore": "Abdomen"
   }
 }

@@ -5,6 +5,7 @@
 import type { JSX } from 'react';
 import { useState } from 'react';
 import { FlatList, ScrollView, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PlannedValuesForm, type PlannedValues } from './PlannedValuesForm';
 import { Badge, Skeleton } from '@/components/display';
@@ -22,6 +23,18 @@ export type { PlannedValues };
 type Pill = 'All' | 'Chest' | 'Back' | 'Legs' | 'Shoulders' | 'Arms' | 'Core' | 'Cardio';
 
 const PILLS: Pill[] = ['All', 'Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core', 'Cardio'];
+
+/** Locale key for each pill's label; Cardio shares the gym session's existing key. */
+const PILL_LABEL_KEYS: Record<Pill, string> = {
+  All: 'exercisePicker.pillAll',
+  Chest: 'exercisePicker.pillChest',
+  Back: 'exercisePicker.pillBack',
+  Legs: 'exercisePicker.pillLegs',
+  Shoulders: 'exercisePicker.pillShoulders',
+  Arms: 'exercisePicker.pillArms',
+  Core: 'exercisePicker.pillCore',
+  Cardio: 'gymSession.cardio',
+};
 
 /** Filter-chip height from the design's Add-exercises sheet. */
 const CHIP_HEIGHT = 34;
@@ -52,6 +65,7 @@ export function ExercisePicker({
   onClose: () => void;
   onPick: (exercise: ExerciseLibraryItem, planned: PlannedValues) => void;
 }): JSX.Element {
+  const { t } = useTranslation();
   const { exercises, loading } = useExercises();
   const [pill, setPill] = useState<Pill>('All');
   const [query, setQuery] = useState('');
@@ -74,7 +88,7 @@ export function ExercisePicker({
   );
 
   return (
-    <BottomSheet visible={visible} onClose={close} title={picked ? picked.name : 'Add Exercise'}>
+    <BottomSheet visible={visible} onClose={close} title={picked ? picked.name : t('exercisePicker.title')}>
       {picked ? (
         <View style={{ gap: space.md }}>
           <Pressable
@@ -103,8 +117,8 @@ export function ExercisePicker({
           <TextField
             value={query}
             onChangeText={setQuery}
-            placeholder="Search exercises"
-            accessibilityLabel="Search exercises"
+            placeholder={t('exercisePicker.searchPlaceholder')}
+            accessibilityLabel={t('exercisePicker.searchPlaceholder')}
           />
 
           <ScrollView
@@ -115,6 +129,7 @@ export function ExercisePicker({
           >
             {PILLS.map((p) => {
               const selected = p === pill;
+              const label = t(PILL_LABEL_KEYS[p]);
               return (
                 <Pressable
                   key={p}
@@ -122,7 +137,7 @@ export function ExercisePicker({
                   minTapTarget={false}
                   haptic={false}
                   accessibilityState={{ selected }}
-                  accessibilityLabel={p}
+                  accessibilityLabel={label}
                   style={{
                     minHeight: CHIP_HEIGHT,
                     justifyContent: 'center',
@@ -132,7 +147,7 @@ export function ExercisePicker({
                   }}
                 >
                   <Text variant="label" color={selected ? color.onPrimary : color.label}>
-                    {p}
+                    {label}
                   </Text>
                 </Pressable>
               );
@@ -156,7 +171,7 @@ export function ExercisePicker({
                 </View>
               ) : (
                 <Text variant="callout" color={color.secondaryLabel} style={{ paddingVertical: space.lg }}>
-                  No exercises found
+                  {t('exercisePicker.noResults')}
                 </Text>
               )
             }

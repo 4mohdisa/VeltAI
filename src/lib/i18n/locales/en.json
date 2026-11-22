@@ -820,5 +820,17 @@
     "feedbackPlaceholder": "Tell us what's working or what's not.",
     "mailSubject": "Lume feedback",
     "mailError": "Couldn't open Mail — email us at {{email}}."
+  },
+  "exercisePicker": {
+    "title": "Add Exercise",
+    "searchPlaceholder": "Search exercises",
+    "noResults": "No exercises found",
+    "pillAll": "All",
+    "pillChest": "Chest",
+    "pillBack": "Back",
+    "pillLegs": "Legs",
+    "pillShoulders": "Shoulders",
+    "pillArms": "Arms",
+    "pillCore": "Core"
   }
 }
