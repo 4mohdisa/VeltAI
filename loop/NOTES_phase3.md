@@ -27,6 +27,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Seed tooling: backend/tools/seed, localhost-only host guard (pgx host check), reset deletes only seed_ ids with @example.test email. Seed code is not in the server image.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD is missing, park as owner step (brief rule).
 - Loop note: unanswered question means use default and carry on. Do not re-ask the same question.
+- Checkpoint rounds run the full gates (type check, full app Jest) with no file changes. Round 15 is a checkpoint (loop note).
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -38,7 +39,9 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 11: Row 5 part 1 (seed and reset, 5 Go tests pass, seed ran on local DB).
 - Round 12: Row 5 re-verify clean.
 - Round 13: Row 5 closed BUILT with owner check pending (Maestro part parked).
-- Round 13: Row 12 issued (Food log empty state).
+- Round 13: Row 12 partial. useHydration resets loading when its hydrator changes (src/lib/data/hooks.ts). New test foodLogDaySwitch.render.test.tsx (2 pass). Flagged by auto check.
+- Round 14: Re-verify prompt rejected before it ran (no branch line). Re-issue pending.
+- Round 15: Checkpoint (full tsc and app Jest, no file changes). Issued.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD in the shell. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked in rounds 12 and 13, no answer. Parked. Not asking again.
@@ -58,9 +61,13 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Row 15 note still says goals persistence needs a decision. Update when row 15 is worked (decision: no persistence, fix copy).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in cleanup.
 - Old local rows mix 'lunch' and 'Lunch' meal names. Old data, not from the seed.
+- Existing lint error: useWeeklyMacros (hooks.ts ~395) breaks react-hooks/set-state-in-effect. Not ours. Fix in Row 11 or park.
+- Food log copy: 'Tap + to add your first meal' shows on past days too. Fix under Row 13.
+- Row 12 open: useHydration other callers not yet verified (hydrationErrorState.render.test.tsx not run). Covered by checkpoint.
 
 ## Next
-- Row 12 (Food log empty state), in progress.
+- Round 16: Row 12 next item. useApi in src/lib/data/gymSchedule.ts returns an error flag instead of empty data. Fixes false 'no data' on about 8 gym screens. Depends on checkpoint result.
+- Row 13 (Food tab empty state tests): Add meal opens /food/add, hidden when entries exist.
+- Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.
-- Rows 13 to 17 (empty state follow-ups).
 - Rows 7 and 8 (Sentry, PostHog), then Rows 9 and 10 (export, help), then Row 11 (final sweep).

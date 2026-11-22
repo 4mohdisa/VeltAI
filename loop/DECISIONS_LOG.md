@@ -8059,3 +8059,12 @@
 - 2026-11-22 16:05 Row 5 closed as BUILT with owner check pending for the Maestro part. Seed and reset already built and tested.
 - 2026-11-22 16:05 Picked Row 12 over Row 7 and Row 6: smallest change, no sign-in, no new dependency, and it clears an unbuilt row.
 - 2026-11-22 16:05 Simulator flow for Row 12 not run: depends on sign-in, parked for Isa. Unit tests used instead.
+- 2026-11-22 16:09 Latest report was flagged. Row 12 changed code, so it is re-verified as its own round before the next Row 12 item (per the notes rule).
+- 2026-11-22 16:09 Chose the re-verify over useApi because the shared hook change has not been checked against its other callers. Jev rates the last task only 20% clean, so a smaller task is safer.
+- 2026-11-22 16:09 Existing useWeeklyMacros lint error is not ours. Listed for NEXT, not fixed, to keep the round to one row.
+- 2026-11-22 16:09 Row 12 status stays PARTIAL until the useApi item is also done.
+- 2026-11-22 16:10 Chose the checkpoint over Jev's Row 12 useApi pick (85%). The loop note makes this round a checkpoint, so the full gates are required now.
+- 2026-11-22 16:10 Reason Jev cannot see: the useHydration change in Row 12 affects other callers, and hydrationErrorState.render.test.tsx was never run. Only the full suite covers those callers, so it runs before the useApi change adds more risk.
+- 2026-11-22 16:10 The useApi error flag (Row 12 next item) moves to the round after this checkpoint, unchanged.
+- 2026-11-22 16:10 Expected counts (0 type errors, 136 suites, 995 tests) assume the new foodLogDaySwitch test file passes. Any difference is reported, not assumed.
+- 2026-11-22 16:10 Prompt rewritten to name the branch check, the no-file-change rule and the report format, as the loop note required.
