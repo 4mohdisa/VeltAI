@@ -884,6 +884,9 @@
     "leftOut_one": "{{count}} ejercicio quedará fuera",
     "leftOut_other": "{{count}} ejercicios quedarán fuera"
   },
+  "integrationsDetails": {
+    "loadFailed": "No se pudieron cargar tus apps conectadas."
+  },
   "pendingSync": {
     "waiting_one": "{{count}} cambio pendiente de sincronizar",
     "waiting_other": "{{count}} cambios pendientes de sincronizar"

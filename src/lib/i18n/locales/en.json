@@ -882,6 +882,9 @@
     "leftOut_one": "{{count}} exercise will be left out",
     "leftOut_other": "{{count}} exercises will be left out"
   },
+  "integrationsDetails": {
+    "loadFailed": "Couldn't load your connected apps."
+  },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",
     "waiting_other": "{{count}} changes waiting to sync"

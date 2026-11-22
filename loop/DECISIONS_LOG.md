@@ -9359,3 +9359,8 @@
 - 2026-11-23 02:05 Analytics stays opt-in and off by default in code, as the existing decision says. Row 8 text asks for on by default. Isa confirms before Phase 4.
 - 2026-11-23 02:05 AI disclosure Continue turning analytics on stays as is. Phase 4 file, not touched. Isa confirms.
 - 2026-11-23 02:05 feature_used shape check and the PRIVACY_DATA.md heading are parked, not fixed, because the feature_used cleanup needs Isa's permission to edit pinned tests.
+- 2026-11-23 02:06 Chose Row 16 over Row 15 and 17: smallest unbuilt gap, needs no Isa input, and Jev's low confidence (0.40) favours a small task.
+- 2026-11-23 02:06 Did not ask Isa again: the open Row 8 questions (AI disclosure analytics switch, analytics default) already have defaults in code (analytics off by default; consent.ts untouched) and no row is blocked on them.
+- 2026-11-23 02:06 Kept src/lib/data off limits and the feature_used/shapeOnly issue parked, because both need Isa's permission to edit pinned tests.
+- 2026-11-23 02:06 Row 11 (final sweep) stays last, after Rows 5, 6, 13 to 17 are done or parked as owner items.
+- 2026-11-23 02:06 Asked Claude Code to name the Row 16 screen itself from the row text, since the row gaps were not listed in the notes.

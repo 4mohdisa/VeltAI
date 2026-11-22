@@ -4,7 +4,8 @@
 // credentials configured the connect call 503s and the row explains the
 // provider isn't available yet. Offline-safe: a failed list reads as nothing
 // connected, so the eyebrow says "Nothing connected" and each provider row
-// shows its own not-connected status (blurb and Connect button).
+// shows its own not-connected status (blurb and Connect button), under a
+// LoadFailedNotice with Retry so the failure is not mistaken for the truth.
 import { useCallback, useEffect, useState } from 'react';
 import { PixelRatio, View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
@@ -14,7 +15,7 @@ import Svg, { Path } from 'react-native-svg';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
-import { Skeleton } from '@/components/display';
+import { LoadFailedNotice, Skeleton } from '@/components/display';
 import { mixHex } from '@/components/domain/GymCalendar';
 import { Button } from '@/components/forms/Button';
 import { Text } from '@/components/primitives/Text';
@@ -88,14 +89,17 @@ export default function IntegrationsScreen() {
   const { t } = useTranslation();
   const [conns, setConns] = useState<IntegrationConnection[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
 
   // Reusable reload for the action handlers (event-driven setState is fine).
   const load = useCallback(async () => {
     try {
       setConns(await api.integrations.list());
+      setFailed(false);
     } catch {
       setConns([]); // backend down → every provider shows as not connected
+      setFailed(true);
     }
   }, []);
 
@@ -109,7 +113,10 @@ export default function IntegrationsScreen() {
         if (alive) setConns(list);
       })
       .catch(() => {
-        if (alive) setConns([]);
+        if (alive) {
+          setConns([]);
+          setFailed(true);
+        }
       })
       .finally(() => {
         if (alive) setLoading(false);
@@ -184,6 +191,7 @@ export default function IntegrationsScreen() {
         {t('profile.integrations.intro')}
       </Text>
       <View style={{ gap: space.sm }}>
+        {failed ? <LoadFailedNotice message={t('integrationsDetails.loadFailed')} onRetry={load} /> : null}
         {loading ? (
           <>
             <Skeleton height={140} rounded={radius.xl} />
