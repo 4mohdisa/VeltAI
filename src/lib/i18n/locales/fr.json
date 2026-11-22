@@ -844,5 +844,18 @@
     "addExercise": "Ajouter l’exercice",
     "padWeight": "Poids cible · kg",
     "padRest": "Repos · secondes"
+  },
+  "aiQuery": {
+    "back": "Retour",
+    "subtitle": "Posez vos questions sur votre alimentation, votre nutrition ou vos habitudes",
+    "emptyPrompt": "Posez une question sur vos données nutritionnelles",
+    "unavailableTitle": "L’analyse par IA est indisponible pour le moment",
+    "unavailableMessage": "Vos données sont toujours enregistrées — réessayez plus tard",
+    "inputLabel": "Poser une question",
+    "placeholder": "ex. : où en est mon apport en protéines ?",
+    "suggestionProtein": "Où en sont mes protéines cette semaine ?",
+    "suggestionGymDays": "Est-ce que je mange assez les jours de sport ?",
+    "suggestionTopFood": "Quel aliment est-ce que j’enregistre le plus ?",
+    "suggestionGoal": "Suis-je proche de mon objectif ?"
   }
 }

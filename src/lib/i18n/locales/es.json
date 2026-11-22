@@ -846,5 +846,18 @@
     "addExercise": "Añadir ejercicio",
     "padWeight": "Peso objetivo · kg",
     "padRest": "Descanso · segundos"
+  },
+  "aiQuery": {
+    "back": "Atrás",
+    "subtitle": "Pregunta lo que quieras sobre tu comida, nutrición o hábitos",
+    "emptyPrompt": "Haz una pregunta sobre tus datos de nutrición",
+    "unavailableTitle": "El análisis con IA no está disponible ahora mismo",
+    "unavailableMessage": "Tus datos se siguen registrando; inténtalo más tarde",
+    "inputLabel": "Haz una pregunta",
+    "placeholder": "p. ej., ¿qué tal voy de proteína?",
+    "suggestionProtein": "¿Qué tal voy de proteína esta semana?",
+    "suggestionGymDays": "¿Como lo suficiente los días de gimnasio?",
+    "suggestionTopFood": "¿Cuál es el alimento que más registro?",
+    "suggestionGoal": "¿Cuánto me falta para mi objetivo?"
   }
 }

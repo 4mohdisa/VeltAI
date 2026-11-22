@@ -844,5 +844,18 @@
     "addExercise": "Add exercise",
     "padWeight": "Target weight · kg",
     "padRest": "Rest · seconds"
+  },
+  "aiQuery": {
+    "back": "Back",
+    "subtitle": "Ask anything about your food, nutrition, or habits",
+    "emptyPrompt": "Ask a question about your nutrition data",
+    "unavailableTitle": "AI analysis unavailable right now",
+    "unavailableMessage": "Your data is still being tracked — try again later",
+    "inputLabel": "Ask a question",
+    "placeholder": "e.g. How's my protein intake?",
+    "suggestionProtein": "How's my protein this week?",
+    "suggestionGymDays": "Am I eating enough on gym days?",
+    "suggestionTopFood": "What's my most logged food?",
+    "suggestionGoal": "How close am I to my goal?"
   }
 }

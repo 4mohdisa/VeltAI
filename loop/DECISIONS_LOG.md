@@ -9256,3 +9256,11 @@
 - 2026-11-23 01:17 PlannedValuesForm is shared with session.tsx. Translating the component changes session strings without editing that screen, to respect one screen per prompt. Recorded so Isa sees it.
 - 2026-11-23 01:17 Kept Isa's blocked items as defaults. No new question asked, since the limit and the default rule apply.
 - 2026-11-23 01:17 Trimmed the notes to under 600 words. Merged repeat items, removed finished work, kept every decision and blocked default.
+- 2026-11-23 01:20 Chose the checkpoint over Jev's pick (ai-query at 96%). Reason: the loop flagged this round as a checkpoint, and the last edit (PlannedValuesForm, new render test) has only been run on five files, so the full suite must confirm it before more copy work starts.
+- 2026-11-23 01:20 Kept the checkpoint read only. No file changes, so a failure is reported and not hidden by a fix.
+- 2026-11-23 01:20 Row 17 stays PARTIAL. ai-query.tsx is the next task after this gate.
+- 2026-11-23 01:20 Condensed the notes to fit the 600-word limit. No items were dropped; each open question and decision is still listed.
+- 2026-11-23 01:20 Chose Row 17 ai-query copy: it is the stated NEXT, needs no Isa input and touches no blocked file.
+- 2026-11-23 01:20 Kept the work to one screen and one row because the loop note asked for a prompt that is strictly scoped to the loop/phase3 branch.
+- 2026-11-23 01:20 Did not run the full suites: the round is not a checkpoint round and the last full run was round 267.
+- 2026-11-23 01:20 Recorded the round 267 checkpoint result as not recorded, because no report for it reached the notes.

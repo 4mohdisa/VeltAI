@@ -7,6 +7,7 @@ import { track } from '@/lib/analytics';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { TextField } from '@/components/forms/TextField';
 import { Icon } from '@/components/primitives/Icon';
@@ -17,14 +18,15 @@ import { useAIQuery } from '@/lib/data/aiBrain';
 import { ensureAiConsent } from '@/lib/ai/consent';
 import { color, space, radius, layout, surface, categoryAccent } from '@/lib/design/tokens';
 
-const SUGGESTIONS = [
-  "How's my protein this week?",
-  'Am I eating enough on gym days?',
-  "What's my most logged food?",
-  'How close am I to my goal?',
+const SUGGESTION_KEYS = [
+  'aiQuery.suggestionProtein',
+  'aiQuery.suggestionGymDays',
+  'aiQuery.suggestionTopFood',
+  'aiQuery.suggestionGoal',
 ] as const;
 
 export default function AIQueryScreen() {
+  const { t } = useTranslation();
   // Feature entered — one mount event per major surface, so "which features\n  // does anyone actually open?" is answerable without a per-screen scheme.
   useEffect(() => track('feature_used', { name: 'ai_brain' }), []);
 
@@ -60,17 +62,17 @@ export default function AIQueryScreen() {
         <View style={{ paddingHorizontal: space.lg, paddingTop: space.sm, gap: space.xs }}>
           <Pressable
             onPress={() => router.back()}
-            accessibilityLabel="Back"
+            accessibilityLabel={t('aiQuery.back')}
             style={{ alignSelf: 'flex-start' }}
           >
             <Icon name="chevron-back" size={26} color={color.label} />
           </Pressable>
           <View style={{ paddingHorizontal: space.xs, gap: space.xs }}>
             <Text variant="title1" color={color.label}>
-              Ask Lume
+              {t('insights.askLume')}
             </Text>
             <Text variant="callout" color={color.secondaryLabel}>
-              Ask anything about your food, nutrition, or habits
+              {t('aiQuery.subtitle')}
             </Text>
           </View>
         </View>
@@ -86,7 +88,7 @@ export default function AIQueryScreen() {
             <View style={{ alignItems: 'center', gap: space.md }}>
               <Icon name="sparkles" size={40} color={categoryAccent.ai} />
               <Text variant="body" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-                Ask a question about your nutrition data
+                {t('aiQuery.emptyPrompt')}
               </Text>
             </View>
           ) : loading ? (
@@ -97,10 +99,10 @@ export default function AIQueryScreen() {
             <View style={{ alignItems: 'center', gap: space.sm }}>
               <Icon name="alert-circle-outline" size={36} color={color.tertiaryLabel} />
               <Text variant="bodyBold" color={color.label} style={{ textAlign: 'center' }}>
-                AI analysis unavailable right now
+                {t('aiQuery.unavailableTitle')}
               </Text>
               <Text variant="callout" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-                Your data is still being tracked — try again later
+                {t('aiQuery.unavailableMessage')}
               </Text>
             </View>
           ) : answer ? (
@@ -125,7 +127,7 @@ export default function AIQueryScreen() {
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{ gap: space.sm, paddingHorizontal: space.lg }}
           >
-            {SUGGESTIONS.map((chip) => (
+            {SUGGESTION_KEYS.map((key) => t(key)).map((chip) => (
               <Pressable
                 key={chip}
                 onPress={() => setInput(chip)}
@@ -158,8 +160,8 @@ export default function AIQueryScreen() {
               <TextField
                 value={input}
                 onChangeText={setInput}
-                accessibilityLabel="Ask a question"
-                placeholder="e.g. How's my protein intake?"
+                accessibilityLabel={t('aiQuery.inputLabel')}
+                placeholder={t('aiQuery.placeholder')}
                 editable={!loading}
                 returnKeyType="send"
                 onSubmitEditing={() => {
@@ -171,7 +173,7 @@ export default function AIQueryScreen() {
               onPress={() => void onSend()}
               disabled={!canSend}
               minTapTarget={false}
-              accessibilityLabel="Send"
+              accessibilityLabel={t('feedback.send')}
               style={{
                 width: layout.buttonHeight,
                 height: layout.buttonHeight,
