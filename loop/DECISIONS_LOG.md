@@ -8781,3 +8781,6 @@
 - 2026-11-22 20:05 Profile error path parked, not asked again. Reason: it needs edits to aiFallback.test.ts, which breaks the rule against editing existing tests. The question is already under Blocked on Isa.
 - 2026-11-22 20:05 No new question to Isa this round. Reason: the open blockers are already recorded with defaults, and repeating them adds no new information.
 - 2026-11-22 20:05 getMorningBrief swallowing errors stays as is (pinned by aiFallback.test.ts:26). Logged as Parked.
+- 2026-11-22 20:06 Isa has not answered the detail.tsx fallback question across several rounds. Used the default: keep the foodLog.addMeal fallback and switch only the label map. Reason: an unanswered question never blocks the loop.
+- 2026-11-22 20:06 Ran the detail.tsx switch before the BrainProfileCard and Profile titles. Reason: it is the last local slot map and the smallest change.
+- 2026-11-22 20:06 Left the loop flag handled by this round's tsc and single-file tests. Reason: the handover says the flag came from a partly done report, and the prompt asks for a fresh check.

@@ -45,17 +45,11 @@ import { SLOTS } from '@/lib/data/mappers';
 import { basisOf, presetsFor, useDetailSubject, type DetailItem } from '@/lib/food/detailSubject';
 import type { BarcodeProduct } from '@/lib/food/barcode';
 import type { MealSlot } from '@/lib/mock/data';
+import { mealSlotName } from '@/lib/mealSlotName';
 
 // The search catalog carries no per-food serving suggestions, so a manual hit
 // gets the standard four.
 const SEARCH_SERVINGS = [50, 100, 150, 200];
-
-const SLOT_KEYS: Record<MealSlot, string> = {
-  Breakfast: 'breakfast',
-  Lunch: 'lunch',
-  Dinner: 'dinner',
-  Snacks: 'snack',
-};
 
 /** The design's six pads, with its own captions and keyboards: grams and energy
  *  are whole numbers, the macros take a decimal point. Every one caps at six
@@ -407,7 +401,7 @@ function DetailForm({
   const [manual, setManual] = useState(!lockValues);
   const [slot, setSlot] = useState(meal);
   const ctaLabel =
-    fixedCtaLabel ?? t('addMenu.addToSlot', { slot: t(`addMenu.${SLOT_KEYS[slot ?? slotForNow()]}`).toLowerCase() });
+    fixedCtaLabel ?? t('addMenu.addToSlot', { slot: mealSlotName(t, slot ?? slotForNow()).toLowerCase() });
   const [name, setName] = useState(seed.name);
   const [grams, setGrams] = useState(String(seed.quantityG));
   const [calories, setCalories] = useState(String(seed.calories));
@@ -674,7 +668,7 @@ function DetailForm({
             <SegmentedField
               value={slot}
               onChange={(v) => setSlot(v)}
-              options={SLOTS.map((s) => ({ label: t(`addMenu.${SLOT_KEYS[s]}`, { defaultValue: t('foodLog.addMeal') }), value: s }))}
+              options={SLOTS.map((s) => ({ label: mealSlotName(t, s), value: s }))}
               variant="inset"
               compact
             />
