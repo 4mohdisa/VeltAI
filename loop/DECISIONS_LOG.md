@@ -9528,3 +9528,8 @@
 - 2026-11-23 03:07 Row 6 stays on hold until Isa answers the Gym history option. No re-ask.
 - 2026-11-23 03:07 Row 11 final sweep stays last.
 - 2026-11-23 03:07 Jev ranked run at 85% and agrees with the chosen task, so no second look.
+- 2026-11-23 03:08 Chose the checkpoint run first: the loop flagged the last round as failed or not run, and the brief says to deal with this before any new row.
+- 2026-11-23 03:08 Dropped the Row 14 'merge three offline notices' item: the last report found only one shared offline notice (PendingSyncBanner) used in two places, so there is nothing to merge. Closed without a code change; the three 'Saved offline' items are toasts, not notices.
+- 2026-11-23 03:08 Did not ask Isa about the Row 14 wording: the question is minor, the default (close as already done) is safe, and asking would spend one of the day's questions.
+- 2026-11-23 03:08 Kept Row 8 as BUILT in the status list, since the handover and PHASE3_ROWS.md say so. Isa confirms the analytics switch in the owner checks.
+- 2026-11-23 03:08 Kept Row 6 waiting on Isa for the gym history option and did not re-ask, per the blocked list.
