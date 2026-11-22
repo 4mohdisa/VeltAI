@@ -9,6 +9,7 @@
 import type { JSX } from 'react';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
 import { Button, SegmentedField, TextField } from '@/components/forms';
@@ -41,11 +42,11 @@ const VALUE_LINE_HEIGHT = 20;
  *  values, capped at five digits as the design caps them. It also has a Target
  *  RPE pad, which this form has no field for. */
 type PadField = 'sets' | 'reps' | 'weight' | 'rest';
-const PADS: Record<PadField, { label: string; mode: NumberEntryMode }> = {
-  sets: { label: 'Planned sets', mode: 'numeric' },
-  reps: { label: 'Target reps', mode: 'numeric' },
-  weight: { label: 'Target weight · kg', mode: 'decimal' },
-  rest: { label: 'Rest · seconds', mode: 'numeric' },
+const PADS: Record<PadField, { labelKey: string; mode: NumberEntryMode }> = {
+  sets: { labelKey: 'exercisePicker.plannedSets', mode: 'numeric' },
+  reps: { labelKey: 'exercisePicker.targetReps', mode: 'numeric' },
+  weight: { labelKey: 'exercisePicker.padWeight', mode: 'decimal' },
+  rest: { labelKey: 'exercisePicker.padRest', mode: 'numeric' },
 };
 const PAD_MAX_LENGTH = 5;
 
@@ -64,6 +65,7 @@ export function PlannedValuesForm({
   initial?: PlannedValues;
   onSubmit: (v: PlannedValues) => void;
 }): JSX.Element {
+  const { t } = useTranslation();
   const isCardio = exercise.exercise_type === 'cardio';
 
   const [sets, setSets] = useState<number>(initial?.sets ?? 3);
@@ -126,7 +128,7 @@ export function PlannedValuesForm({
       <Pressable
         onPress={startEdit(field)}
         minTapTarget={false}
-        accessibilityLabel={`${label}, tap to type`}
+        accessibilityLabel={t('food.tileEditLabel', { label })}
         style={{
           flex: 1,
           minHeight: VALUE_BOX_HEIGHT,
@@ -157,15 +159,15 @@ export function PlannedValuesForm({
 
   return (
     <View style={{ gap: space.lg }}>
-      {padRow('sets', 'Planned sets', String(sets), 'sets')}
+      {padRow('sets', t('exercisePicker.plannedSets'), String(sets), t('exercisePicker.unitSets'))}
 
-      {!isCardio ? padRow('reps', 'Target reps', reps, 'reps') : null}
+      {!isCardio ? padRow('reps', t('exercisePicker.targetReps'), reps, t('gymSession.unitReps')) : null}
 
-      {!isCardio ? padRow('weight', 'Target weight', weight, unit) : null}
+      {!isCardio ? padRow('weight', t('exercisePicker.targetWeight'), weight, unit) : null}
 
       {!isCardio ? (
         <SegmentedField<'kg' | 'lb'>
-          label="Unit"
+          label={t('exercisePicker.unit')}
           options={UNIT_OPTIONS}
           value={unit}
           onChange={setUnit}
@@ -175,7 +177,7 @@ export function PlannedValuesForm({
 
       {isCardio ? (
         <TextField
-          label="Duration (min)"
+          label={t('exercisePicker.durationMin')}
           value={duration}
           onChangeText={setDuration}
           keyboardType="number-pad"
@@ -183,13 +185,13 @@ export function PlannedValuesForm({
         />
       ) : null}
 
-      {padRow('rest', 'Rest', rest, 'sec')}
+      {padRow('rest', t('gym.rest'), rest, t('exercisePicker.unitSec'))}
 
       {/* The bar takes the CTA's place while it is open, as Quick add and the
           session screen both do — "Done" brings the button back. */}
       {pad ? (
         <NumberEntryBar
-          label={PADS[pad].label}
+          label={t(PADS[pad].labelKey)}
           value={entry}
           mode={PADS[pad].mode}
           maxLength={PAD_MAX_LENGTH}
@@ -197,7 +199,7 @@ export function PlannedValuesForm({
           onDone={() => setPad(null)}
         />
       ) : (
-        <Button title="Add exercise" onPress={submit} />
+        <Button title={t('exercisePicker.addExercise')} onPress={submit} />
       )}
     </View>
   );

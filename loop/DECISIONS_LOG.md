@@ -9252,3 +9252,7 @@
 - 2026-11-23 01:16 Chose candidate 1 over the ai-query work because the loop flagged the last report as partly done; closing it first keeps Row 17 consistent before adding a new screen.
 - 2026-11-23 01:16 Kept Row 17 PARTIAL until the ai-query copy is done, so no row is marked finished too early.
 - 2026-11-23 01:16 Kept ai-query, aiBrain.ts, gymSchedule.ts and hooks.ts off limits for this round, per the blocked list.
+- 2026-11-23 01:17 Chose PlannedValuesForm translation: the loop flagged Row 17 as partly done, and this closes it before any new row.
+- 2026-11-23 01:17 PlannedValuesForm is shared with session.tsx. Translating the component changes session strings without editing that screen, to respect one screen per prompt. Recorded so Isa sees it.
+- 2026-11-23 01:17 Kept Isa's blocked items as defaults. No new question asked, since the limit and the default rule apply.
+- 2026-11-23 01:17 Trimmed the notes to under 600 words. Merged repeat items, removed finished work, kept every decision and blocked default.

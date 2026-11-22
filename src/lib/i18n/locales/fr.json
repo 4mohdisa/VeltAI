@@ -833,6 +833,16 @@
     "pillArms": "Bras",
     "pillCore": "Abdos",
     "back": "Exercices",
-    "backLabel": "Retour aux exercices"
+    "backLabel": "Retour aux exercices",
+    "plannedSets": "Séries prévues",
+    "targetReps": "Répétitions cibles",
+    "targetWeight": "Poids cible",
+    "unit": "Unité",
+    "durationMin": "Durée (min)",
+    "unitSets": "séries",
+    "unitSec": "s",
+    "addExercise": "Ajouter l’exercice",
+    "padWeight": "Poids cible · kg",
+    "padRest": "Repos · secondes"
   }
 }

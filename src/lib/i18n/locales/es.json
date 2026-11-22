@@ -835,6 +835,16 @@
     "pillArms": "Brazos",
     "pillCore": "Abdomen",
     "back": "Ejercicios",
-    "backLabel": "Volver a ejercicios"
+    "backLabel": "Volver a ejercicios",
+    "plannedSets": "Series planificadas",
+    "targetReps": "Repeticiones objetivo",
+    "targetWeight": "Peso objetivo",
+    "unit": "Unidad",
+    "durationMin": "Duración (min)",
+    "unitSets": "series",
+    "unitSec": "seg",
+    "addExercise": "Añadir ejercicio",
+    "padWeight": "Peso objetivo · kg",
+    "padRest": "Descanso · segundos"
   }
 }

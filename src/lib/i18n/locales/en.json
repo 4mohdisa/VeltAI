@@ -833,6 +833,16 @@
     "pillArms": "Arms",
     "pillCore": "Core",
     "back": "Exercises",
-    "backLabel": "Back to exercises"
+    "backLabel": "Back to exercises",
+    "plannedSets": "Planned sets",
+    "targetReps": "Target reps",
+    "targetWeight": "Target weight",
+    "unit": "Unit",
+    "durationMin": "Duration (min)",
+    "unitSets": "sets",
+    "unitSec": "sec",
+    "addExercise": "Add exercise",
+    "padWeight": "Target weight · kg",
+    "padRest": "Rest · seconds"
   }
 }
