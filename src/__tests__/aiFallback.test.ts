@@ -1,7 +1,7 @@
 // The ai.* client functions carry the "degrade to null/empty" logic the AI hooks
 // rely on (the backend doesn't expose every endpoint). These verify that intent
 // without rendering a hook.
-import { api } from '@/lib/api';
+import { api, ApiError } from '@/lib/api';
 
 function mockFetch(impl: () => { ok: boolean; status: number; json: () => Promise<unknown> }) {
   (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() => Promise.resolve(impl()));
@@ -28,9 +28,9 @@ describe('ai fallbacks', () => {
     await expect(api.ai.getMorningBrief()).resolves.toBeNull();
   });
 
-  test('getInsights returns [] on error', async () => {
+  test('getInsights rejects with ApiError on error, not an empty list', async () => {
     mockFetch(fail);
-    await expect(api.ai.getInsights()).resolves.toEqual([]);
+    await expect(api.ai.getInsights()).rejects.toBeInstanceOf(ApiError);
   });
 
   test('getInsights maps rows', async () => {

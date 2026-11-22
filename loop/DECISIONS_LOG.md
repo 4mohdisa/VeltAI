@@ -8133,3 +8133,12 @@
 - 2026-11-22 16:27 Chose the smallest open Row 12 gap (useEnergyRange isError) over Row 13 tests. Jev's risk score is 0.8 with low confidence, so a small task is preferred.
 - 2026-11-22 16:27 Left the Row 13 tests, the header comment fix and the harness dedupe for later rounds, one row per round.
 - 2026-11-22 16:27 Templates '+' stays as decided in Row 3. The unanswered question is not re-asked.
+- 2026-11-22 16:29 Accepted the useEnergyRange rule: isError is true only when both week reads fail, so a partial failure shows real days. Default kept, no question to Isa.
+- 2026-11-22 16:29 Chose the insights API task as the next row 12 item: it is the next listed item, needs nothing from Isa, and is the smallest change.
+- 2026-11-22 16:29 Kept the rule that one prompt covers one task, so the lint, header comment and copy items stay listed for later rounds.
+- 2026-11-22 16:29 No Jev override: the recommended run action matches the plan.
+- 2026-11-22 16:29 Re-issued the same row (row 12, insights API) because the loop rejected the last prompt for missing the loop/phase3 branch rule. Per notes rule, this is not a new task.
+- 2026-11-22 16:29 Kept the insights API as the next task (latest report NEXT and notes Next agree) rather than the gymSchedule hook list in the handover, because the handover's hook list is older.
+- 2026-11-22 16:29 Jev says run at 94%, which matches my choice; no override.
+- 2026-11-22 16:29 Sub-task says verify first and change nothing if the code already propagates errors, so a no-op round is allowed.
+- 2026-11-22 16:29 Lint fixes and callers are excluded from this round to keep one component per round.

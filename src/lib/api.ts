@@ -1250,8 +1250,7 @@ export const api = {
               created_at: r.created_at,
             }),
           ),
-        )
-        .catch(() => []),
+        ),
     dismissInsight: (id: string): Promise<void> =>
       req.post<{ dismissed: boolean }>(`/api/ai/insights/${id}/dismiss`).then(() => undefined),
 
