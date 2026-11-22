@@ -8793,3 +8793,6 @@
 - 2026-11-22 20:09 Kept addMenu.snack as 'Snacks' in es and fr until Isa reviews wording; not blocking.
 - 2026-11-22 20:09 Kept Jev's advice to prefer a smaller task; the 45% run/ask split is close, and no Isa answer is needed to finish this row.
 - 2026-11-22 20:09 Kept getAnomalies returning [] and the InsightCard 120-character rule, both per earlier defaults.
+- 2026-11-22 20:11 Loop flag on round 183: verify before moving on, because the report claimed a fix but ran only targeted tests. Chosen over BrainProfileCard (candidate 2) to close the open round first.
+- 2026-11-22 20:11 Round 183 check is read-only except the Row 15 notes line. No code change, no snapshot change.
+- 2026-11-22 20:11 Jev ranked run at 61%. Kept run, with a small verification task, because the flag needs closing and the risk score is high.

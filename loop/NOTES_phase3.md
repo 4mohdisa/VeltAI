@@ -6,8 +6,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Checkpoint round 171 PASSED: tsc 0 errors; Jest 186 suites, 1149 tests, 4 snapshots (npx jest --ci).
-- Next checkpoint: round 178 or later, when the loop says so.
-- Loop flag round 183: last report looked partly done. Fix: unknown-slot label test on detail.tsx (in progress).
+- Next checkpoint: round 178 or later, when the loop says so. None run since 171.
+- Round 183 (detail.tsx unknown-slot fix, detailSlotFallback.render.test.tsx) reported done. Round 184: verification of that fix and the Row 15 note. Flag cleared only if it passes.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
 
@@ -29,9 +29,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Unknown keys fall back with t(key, { defaultValue }).
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Jest mock factories may only reference variables named mock*.
-- Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
+- Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does. detail.tsx reads no route params; it uses detailSubject and slotForNow, so tests mock slotForNow.
 - mealSlotName: unknown slot returns raw key addMenu.undefined. Screens that take outside input guard first.
-- detail.tsx unknown slot: slotLabel falls back to foodLog.addMeal (restored round 182).
+- detail.tsx unknown slot: button uses slotLabel(ctaSlot), falling back to foodLog.addMeal (round 183).
 - addMenu.snack stays 'Snacks' in es and fr until review.
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
 - No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
@@ -45,7 +45,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx (mealSlotName with default).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx (unknown slot fallback, round 183).
 - mealSlotName helper: src/lib/mealSlotName.ts with tests.
 
 ## Blocked on Isa (defaults used, do not re-ask)
@@ -61,8 +61,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Round 183: unknown-slot label test (detailSlotFallback.render.test.tsx); fix only if it fails.
-- Then: quick-add switch to mealSlotName noted in Row 15 (done in round 182 notes).
+- Round 184: verify round 183 fix and Row 15 notes (read-only check, passing tests).
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: Profile screens hard-coded English titles.
 - Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
