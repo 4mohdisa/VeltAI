@@ -9031,3 +9031,18 @@
 - 2026-11-23 00:01 Chose the backend slice over copy fixes because Row 10 is the next unbuilt row and it is the most useful for Phase 3 close-out.
 - 2026-11-23 00:01 Device maker, model and OS: not sent by default (existing default). Feedback device_model is opt-in on the screen, next round.
 - 2026-11-23 00:01 Host sentence: notes say closed in round 202 to 215, handover says open. Checked at Row 8 close-out, not now, to keep this round to one row.
+- 2026-11-23 00:04 Chose the export line fix first: the red migrations test blocks the gate, and Row 9 requires every user table in the export, so this is a smallest-change fix, not a new feature.
+- 2026-11-23 00:04 Did not edit any existing test; if the fix breaks a pinned test, the agent backs out and reports.
+- 2026-11-23 00:04 Kept the main.go route registration line: without it the route does not exist, and it is the only mount point.
+- 2026-11-23 00:04 Did not apply the feedback migration to any local database: no repo file names Lume's local DB, so the throwaway-DB check stands. Hosted apply stays parked for Isa.
+- 2026-11-23 00:04 No tighter feedback rate limit: it shares the 120 per minute write limit, which is enough for Phase 3.
+- 2026-11-23 00:05 Chose Row 10 screen: it clears the most unbuilt work, needs nothing from Isa, and the backend slice is already done.
+- 2026-11-23 00:05 Treated the export line in export.go as already added in round 217, as the notes record, so no go-ahead question is asked.
+- 2026-11-23 00:05 Device fields are sent only when the switch is on, which keeps the default private.
+- 2026-11-23 00:05 Restated the branch rule in full, because the last prompt was rejected for omitting it.
+- 2026-11-23 00:05 If the API client lives in src/lib/data, Claude Code stops and reports BLOCKED instead of editing an off-limits folder.
+- 2026-11-23 00:05 Split Row 10 into a screen round and a Settings row round because the loop rejected the multi-screen prompt.
+- 2026-11-23 00:05 Treated the feedback export line as done, per the round 217 note; the prompt tells Claude Code not to touch export.go.
+- 2026-11-23 00:05 Chose the feedback screen over the PRIVACY_DATA.md fix because it is one row step and the screen is the open Row 10 gap.
+- 2026-11-23 00:05 Feedback device fields are sent only when the switch is on (default off), as already recorded.
+- 2026-11-23 00:05 Jev suggested run at 70%; agreed. Ask was not chosen because no question blocks this screen.

@@ -40,6 +40,22 @@
     "accountEyebrow": "Tus datos",
     "preferencesEyebrow": "Unidades"
   },
+  "feedback": {
+    "title": "Ayuda y comentarios",
+    "categoryLabel": "¿De qué se trata?",
+    "categoryBug": "Error",
+    "categoryIdea": "Idea",
+    "categoryAccount": "Cuenta",
+    "categoryOther": "Otro",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "Cuéntanos qué pasó o qué te gustaría.",
+    "counter": "{{count}} / 2000",
+    "includeDevice": "Incluir versión de la app y modelo del dispositivo",
+    "includeDeviceHint": "Añade la versión de la app y el modelo de tu dispositivo a este mensaje",
+    "send": "Enviar",
+    "sent": "Gracias, tus comentarios se enviaron.",
+    "error": "No se pudieron enviar tus comentarios. Revisa tu conexión e inténtalo de nuevo."
+  },
   "profile": {
     "loadFailed": "No se pudieron cargar tus datos del gimnasio.",
     "billingNotConfigured": "Facturación no configurada (dev).",

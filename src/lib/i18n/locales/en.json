@@ -40,6 +40,22 @@
     "accountEyebrow": "Your details",
     "preferencesEyebrow": "Units"
   },
+  "feedback": {
+    "title": "Help and feedback",
+    "categoryLabel": "What is it about?",
+    "categoryBug": "Bug",
+    "categoryIdea": "Idea",
+    "categoryAccount": "Account",
+    "categoryOther": "Other",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us what happened or what you'd like.",
+    "counter": "{{count}} / 2000",
+    "includeDevice": "Include app version and device model",
+    "includeDeviceHint": "Adds the app version and your device model to this message",
+    "send": "Send",
+    "sent": "Thanks, your feedback was sent.",
+    "error": "Couldn't send your feedback. Check your connection and try again."
+  },
   "profile": {
     "loadFailed": "Couldn't load your gym data.",
     "billingNotConfigured": "Billing not configured (dev).",

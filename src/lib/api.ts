@@ -1018,6 +1018,16 @@ function mapBrainToProfile(b: AiBrain): AIBrainProfile {
 
 // --- Endpoints -----------------------------------------------------------------
 
+// POST /api/feedback — category and message, plus app_version and device_model
+// only when the user opts in. Limits match backend/internal/feedback/validate.go.
+export type FeedbackCategory = 'bug' | 'idea' | 'account' | 'other';
+export type FeedbackInput = {
+  category: FeedbackCategory;
+  message: string;
+  app_version?: string;
+  device_model?: string;
+};
+
 // GET /api/export — the user's own data, one array of rows per table.
 type ExportDocument = Record<string, unknown>;
 
@@ -1190,6 +1200,12 @@ export const api = {
   debugReports: {
     create: (input: DebugReportInput) => req.post<{ id: string }>('/api/debug-reports', input),
     list: () => req.get<DebugReportRow[]>('/api/debug-reports'),
+  },
+
+  // Help and feedback from Settings. Only what the user typed and chose; the
+  // device fields are present only when the user turned the switch on.
+  feedback: {
+    post: (input: FeedbackInput) => req.post<{ id: string }>('/api/feedback', input),
   },
 
   analytics: {

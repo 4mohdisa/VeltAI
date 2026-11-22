@@ -40,6 +40,22 @@
     "accountEyebrow": "Vos informations",
     "preferencesEyebrow": "Unités"
   },
+  "feedback": {
+    "title": "Aide et commentaires",
+    "categoryLabel": "De quoi s’agit-il ?",
+    "categoryBug": "Bug",
+    "categoryIdea": "Idée",
+    "categoryAccount": "Compte",
+    "categoryOther": "Autre",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Dites-nous ce qui s’est passé ou ce que vous aimeriez.",
+    "counter": "{{count}} / 2000",
+    "includeDevice": "Inclure la version de l’app et le modèle de l’appareil",
+    "includeDeviceHint": "Ajoute la version de l’app et le modèle de votre appareil à ce message",
+    "send": "Envoyer",
+    "sent": "Merci, vos commentaires ont été envoyés.",
+    "error": "Impossible d’envoyer vos commentaires. Vérifiez votre connexion et réessayez."
+  },
   "profile": {
     "loadFailed": "Impossible de charger vos données de sport.",
     "billingNotConfigured": "Facturation non configurée (dev).",
