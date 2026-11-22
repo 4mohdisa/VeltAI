@@ -6,7 +6,9 @@ import { track, __resetForTests } from '@/lib/analytics';
 import { initAnalyticsSink, sendToSink, __resetSinkForTests } from '@/lib/analyticsSink';
 
 const mockCapture = jest.fn();
-const mockPostHog = jest.fn(() => ({ capture: mockCapture }));
+const mockOptIn = jest.fn(() => Promise.resolve());
+const mockOptOut = jest.fn(() => Promise.resolve());
+const mockPostHog = jest.fn(() => ({ capture: mockCapture, optIn: mockOptIn, optOut: mockOptOut }));
 jest.mock('posthog-react-native', () => ({
   __esModule: true,
   default: function PostHog(...args: unknown[]) {
@@ -61,4 +63,21 @@ test('with analytics on, only sanitised properties reach the sink', () => {
   track('scan_failed', { entry: 'barcode', reason: 'not_found', weight_kg: 82 });
   expect(mockCapture).toHaveBeenCalledTimes(1);
   expect(mockCapture).toHaveBeenCalledWith('scan_failed', { entry: 'barcode', reason: 'not_found' });
+});
+
+test('turning analytics off opts the PostHog client out', () => {
+  process.env.EXPO_PUBLIC_POSTHOG_KEY = 'phc_test';
+  initAnalyticsSink();
+  mockOptOut.mockClear();
+  useSettingsStore.getState().setAnalyticsEnabled(false);
+  expect(mockOptOut).toHaveBeenCalledTimes(1);
+});
+
+test('turning analytics on opts the PostHog client in', () => {
+  process.env.EXPO_PUBLIC_POSTHOG_KEY = 'phc_test';
+  initAnalyticsSink();
+  useSettingsStore.getState().setAnalyticsEnabled(false);
+  mockOptIn.mockClear();
+  useSettingsStore.getState().setAnalyticsEnabled(true);
+  expect(mockOptIn).toHaveBeenCalledTimes(1);
 });

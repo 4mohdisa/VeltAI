@@ -9,7 +9,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. API client: src/lib/api.ts.
 - Prompts must name loop/phase3 and check .git/HEAD first.
-- Task source is stale: Integrations header and Account note are DONE. Do not re-issue.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -24,12 +23,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Snapshots: no regeneration without Isa. Broken existing test: back out and report. Never edit an existing test.
 - Render tests end .render.test.tsx in src/__tests__/render/.
 - New eyebrow keys sit next to title key in settings.* or profile.*.
-- Integrations eyebrow stays the live connection count (integrations.render.test.tsx pins it). No settings.integrationsEyebrow.
+- Integrations eyebrow stays the live connection count. No settings.integrationsEyebrow.
 - Visible bracket labels stay. Only spoken labels change.
 - Jest mock factories reference only mock* variables.
 - Spanish uses tu, French uses vous.
 - Row 15 copy tail deferred until after Row 10.
-- Row 8 feature_used keeps shapeOnly() shape check. Strict list needs Isa approval to edit two pinned tests in analytics.test.ts. Not edited, not asked again unless Isa raises it.
+- Row 8 feature_used keeps shapeOnly() shape check. Strict list needs Isa approval to edit two pinned tests in analytics.test.ts.
 - Locale files are in src/lib/i18n/locales/.
 - One screen per prompt.
 
@@ -39,23 +38,26 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: BUILT headers on account, integrations (title and live eyebrow), preferences, support, privacy, scan-calibration. Remaining: body copy (see Row 15 tail).
-- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS in analytics.ts, tests in analyticsAllowlist.test.ts). Step 2a (sink) in progress.
+- Row 15 PARTIAL: BUILT headers on account, integrations, preferences, support, privacy, scan-calibration. Remaining: body copy (see Row 15 tail).
+- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a done: analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, wired from analytics.ts, 4 tests in analyticsSink.test.ts. PostHog package pinned 4.87.1.
 
 ## In progress
-- Row 8 step 2a: src/lib/analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, wired from analytics.ts, test analyticsSink.test.ts.
+- Row 8 step 2c: setSinkOptIn in analyticsSink.ts, called from the analytics opt-in setter, 2 tests added to analyticsSink.test.ts. Fixes: turning analytics off did not call optOut().
 
 ## Next
 - Row 8 step 2b: Settings analytics switch, PRIVACY_DATA.md.
+- Row 8 sink fixes: sign-out does not reset PostHog (shared anonymous ID on one phone); no EXPO_PUBLIC_POSTHOG_HOST (US cloud default); anonymous ID may be memory only (storage package not installed); app version and build tags not sent to PostHog.
 - Row 8 follow up: when Isa approves, feature_used to strict list and delete shapeOnly().
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
 - Row 10: Help and feedback (screen, feedback table locally, rate limit).
-- Row 15 tail (after Row 10): Integrations body copy; Support, Privacy, Scan accuracy body copy; Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes ('d'un coup', 'd'aliments'); preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
+- Row 15 tail (after Row 10): Integrations body copy; Support, Privacy, Scan accuracy body copy; Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Row 6 measurements parked until sign in path exists.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - feature_used strict list: needs approval to update analytics.test.ts (two tests).
+- Analytics on by default (Row 8 brief) vs opt-in and off (code, DECISIONS.md, pinned test). Isa to confirm before Phase 4.
+- PostHog key needed as EXPO_PUBLIC_POSTHOG_KEY (owner step).
 - InsightCard 120-character rule pinned by insightCard.i18n.render. Default kept.
 - Goals spoken labels: Option B (keep as is).
 - Goals loading and error via useGoals, profile error path, refetch on useExerciseProgress and useGymPatterns: needs permission to change hooks.ts.
@@ -64,7 +66,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Number grouping: formatNumber en-AU, units.ts en-US. brainProfileCard.i18n.render pins 2140.
 - Wording: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording, About tagline, Account Display name, Email and toasts.
-- Analytics on by default (Row 8 brief) vs opt-in and off (code, DECISIONS.md, pinned test). Isa to confirm before Phase 4.
 - Insight errors: aiFallback.test.ts pins empty fallbacks. No anomalies endpoint. useBrainProfile has no error state.
 
 ## Parked (not Phase 3)
@@ -88,7 +89,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Insight catch blocks: getProfile .catch hides errors.
 - BrainProfileCard numbers not formatted for language.
 - Crash reporting: no opt-out from Privacy analytics toggle. Exception messages may carry server text via ApiError.
-- npm audit warnings from the Sentry install.
+- npm audit: 48 vulnerabilities (1 critical) reported on install. Not investigated.
 - trial_started is in the event list but nothing sends it.
 - delete-account.tsx and subscription.tsx: Phase 4.
 - Unit change feedback: none yet.

@@ -26,7 +26,7 @@ import { recordBreadcrumb } from '@/debug';
 // barrel no-ops every recorder when EXPO_PUBLIC_DEBUG_CAPTURE is off, and the
 // redaction on the analytics path has to run in the shipping build too.
 import { redact } from '@/debug/buffers';
-import { sendToSink } from '@/lib/analyticsSink';
+import { sendToSink, setSinkOptIn } from '@/lib/analyticsSink';
 import { APP_VERSION, BUILD_NUMBER, GIT_SHA } from '@/lib/appVersion';
 import type { ScanEntry } from '@/lib/data/scan';
 import type { EntryMethod } from '@/lib/mock/data';
@@ -201,9 +201,13 @@ async function discardAll(): Promise<void> {
   await persist();
 }
 
-// Opt-out discards anything already buffered, immediately.
+// Opt-out discards anything already buffered, immediately. Every change of the
+// flag (the Settings setter and the launch-time restore in initAnalytics) is
+// mirrored onto the PostHog sink.
 useSettingsStore.subscribe((s, prev) => {
-  if (!s.analyticsEnabled && prev.analyticsEnabled) void discardAll();
+  if (s.analyticsEnabled === prev.analyticsEnabled) return;
+  setSinkOptIn(s.analyticsEnabled);
+  if (!s.analyticsEnabled) void discardAll();
 });
 
 /** Sign-out purge: drop the in-memory AND persisted buffer, and rotate the

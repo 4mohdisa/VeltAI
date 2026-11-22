@@ -8900,3 +8900,7 @@
 - 2026-11-22 20:44 Ran Row 8 step 2a first because it needs no approval and no network. Risk is low: no key means no client and no send.
 - 2026-11-22 20:44 Analytics stays opt-in and off, per DECISIONS.md and the pinned test. Recorded for Isa to confirm before Phase 4.
 - 2026-11-22 20:44 Row 9 and Row 10 need the E2E creds or a new table, so they come after the sink.
+- 2026-11-22 20:46 Chose the opt-out wiring first: it is a privacy correctness gap in the code just built, small, and needs no screen change. Jev ranked run highest, so no second look needed.
+- 2026-11-22 20:46 Analytics stays opt-in and off as the code and pinned test say; Row 8 default-on conflict stays in Blocked on Isa. Not re-asked, per the default rule.
+- 2026-11-22 20:46 Did not start the sign-out reset or the host variable: each is a separate fix, so they are listed under NEXT in the report.
+- 2026-11-22 20:46 Left feature_used shape check unchanged: Isa has not approved the two pinned test edits.

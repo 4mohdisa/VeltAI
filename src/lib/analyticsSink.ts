@@ -26,6 +26,14 @@ export function sendToSink(name: string, properties?: Record<string, string | nu
   client?.capture(name, properties);
 }
 
+/** Mirror the user's analytics choice onto PostHog's own opt-out, so events it
+ *  has already queued are not sent after the user turns analytics off. */
+export function setSinkOptIn(enabled: boolean): void {
+  if (!client) return;
+  if (enabled) void client.optIn();
+  else void client.optOut();
+}
+
 /** Test helper: forget the client so init can run again. */
 export function __resetSinkForTests(): void {
   client = null;
