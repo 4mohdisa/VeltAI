@@ -81,25 +81,73 @@ function ApiHarness({ fetcher, onState }: { fetcher: () => Promise<string[]>; on
   return null;
 }
 
-const readOnce = async (fetcher: () => Promise<string[]>): Promise<ApiState | undefined> => {
+// Mounts useApi and waits for the first read; current() is the latest state.
+const mountApi = async (fetcher: () => Promise<string[]>) => {
   let latest: ApiState | undefined;
   let tree: TestRenderer.ReactTestRenderer;
   TestRenderer.act(() => {
     tree = TestRenderer.create(createElement(ApiHarness, { fetcher, onState: (s) => (latest = s) }));
   });
   await settle();
-  TestRenderer.act(() => {
-    tree.unmount();
-  });
-  return latest;
+  return {
+    current: () => latest,
+    unmount: () =>
+      TestRenderer.act(() => {
+        tree.unmount();
+      }),
+  };
 };
 
+const readOnce = async (fetcher: () => Promise<string[]>): Promise<ApiState | undefined> => {
+  const api = await mountApi(fetcher);
+  api.unmount();
+  return api.current();
+};
+
+const NETWORK_DOWN = new TypeError('Network request failed');
+
 test('useApi reports isError when the request fails', async () => {
-  const state = await readOnce(() => Promise.reject(new TypeError('Network request failed')));
+  const state = await readOnce(() => Promise.reject(NETWORK_DOWN));
   expect(state).toMatchObject({ data: [], loading: false, isError: true });
 });
 
 test('useApi reports no error when the request succeeds', async () => {
   const state = await readOnce(() => Promise.resolve(['Back Squat']));
   expect(state).toMatchObject({ data: ['Back Squat'], loading: false, isError: false });
+});
+
+test('useApi reports isError and falls back after a failed refetch', async () => {
+  const fetcher = jest.fn<Promise<string[]>, []>().mockResolvedValueOnce(['Back Squat']).mockRejectedValueOnce(NETWORK_DOWN);
+  const api = await mountApi(fetcher);
+  expect(api.current()).toMatchObject({ data: ['Back Squat'], isError: false });
+
+  TestRenderer.act(() => api.current()?.refetch());
+  await settle();
+
+  expect(api.current()).toMatchObject({ data: [], loading: false, isError: true });
+  api.unmount();
+});
+
+test('useApi clears isError when a refetch succeeds after a failed load', async () => {
+  const fetcher = jest.fn<Promise<string[]>, []>().mockRejectedValueOnce(NETWORK_DOWN).mockResolvedValueOnce(['Back Squat']);
+  const api = await mountApi(fetcher);
+  expect(api.current()).toMatchObject({ data: [], isError: true });
+
+  TestRenderer.act(() => api.current()?.refetch());
+  await settle();
+
+  expect(api.current()).toMatchObject({ data: ['Back Squat'], loading: false, isError: false });
+  api.unmount();
+});
+
+test('useApi reports isError after a failed revalidate', async () => {
+  const fetcher = jest.fn<Promise<string[]>, []>().mockResolvedValueOnce(['Back Squat']).mockRejectedValueOnce(NETWORK_DOWN);
+  const api = await mountApi(fetcher);
+  expect(api.current()).toMatchObject({ data: ['Back Squat'], isError: false });
+
+  TestRenderer.act(() => api.current()?.revalidate());
+  await settle();
+
+  expect(api.current()).toMatchObject({ data: [], loading: false, isError: true });
+  api.unmount();
 });

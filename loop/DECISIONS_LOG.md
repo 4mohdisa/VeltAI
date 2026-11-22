@@ -8080,3 +8080,6 @@
 - 2026-11-22 16:13 Lint errors in gymSchedule.ts (lines 41, 43) are pre-existing, so they go to NEXT and Parked, not fixed in this round.
 - 2026-11-22 16:13 Recorded that the last report ran git status, which breaks the no-git rule. The prompt forbids all git commands this round.
 - 2026-11-22 16:13 Caller pass-through of isError stays for the next Row 12 round, one hook per round.
+- 2026-11-22 16:14 Chose the flag-closing test task first: the automatic check said the row 12 work is only partly done, and the missing refetch and revalidate tests are the gap the report itself named.
+- 2026-11-22 16:14 Kept the row at PARTIAL because four of the six public gym hooks still do not pass isError.
+- 2026-11-22 16:14 Told the agent to report a failing new test as BLOCKED instead of changing useApi, so this round stays test only.
