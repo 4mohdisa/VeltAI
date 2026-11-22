@@ -8033,3 +8033,7 @@
 - 2026-11-22 15:36 Row 3 report said the removal question is parked in Blocked on Isa but no such file existed. The Blocked section in these notes is the list. Recorded.
 - 2026-11-22 15:36 Missing test for the header plus on My workouts is a Row 3 gap. Parked for Row 11 final sweep, not fixed now (no new work outside rows).
 - 2026-11-22 15:36 Row 4 audit is documented in EMPTY_STATES_AUDIT.md so the findings stay out of the table cells. Each screen group that needs work becomes a new row (12 onward).
+- 2026-11-22 15:42 Chose the Row 4 re-verify first because the loop flagged the last report and it is the smallest task that clears the flag; Jev also favours running over asking.
+- 2026-11-22 15:42 Goals and units persistence: no backend persistence in Phase 3. Row 15 fixes the misleading 'Saved as you type' copy instead. Persistence is parked, since it is a backend data change outside the named rows.
+- 2026-11-22 15:42 Analytics default conflict: row 8 follows the brief (on by default, anonymous ID, off switch in Settings). The store default and the 2026-08-09 DECISIONS.md note are flagged for Isa to confirm before Phase 4. Row 8 will change the store default to match the brief.
+- 2026-11-22 15:42 Unanswered questions from the last round were treated as one unanswered round, so the defaults above apply without waiting.
