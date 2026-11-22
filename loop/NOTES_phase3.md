@@ -3,14 +3,14 @@
 ## Goal
 All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row per prompt. Owner items count as BUILT with 'owner check pending'. PHASE3_ROWS.md is the source of truth; re-read each round.
 
-## Status (round 84)
+## Status (round 85)
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16, 17.
-- PARTIAL: 5 (part 2 needs credentials), 6 (needs Gym history option and src/lib/data), 13 (barcode network error, calendar load error, 2 English strings), 14 (Gym month line English, Retry in muscle-card and exercise-progress; WorkoutsWeekCard English in progress round 84).
+- PARTIAL: 5 (part 2 needs credentials), 6 (needs Gym history option and src/lib/data), 13 (barcode network error, calendar load error, 2 English strings), 14 (Gym month line English, Retry in muscle-card and exercise-progress, WorkoutsWeekCard: session unit done, loading, error, aria and title in progress round 85).
 - DIFFERENT: 11 (final sweep, waits on 5 and 6).
 - Checkpoint gates (round 80): tsc 0 errors. Jest 240 suites, 1,368 tests pass. Go 543 pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL), 0 fail.
 
 ## Next
-1. Row 14: WorkoutsWeekCard English session and sessions (round 84). Check for partial edits first.
+1. Row 14: finish WorkoutsWeekCard strings (round 85). Check for partial edits first.
 2. Then pick work that needs no src/lib/data edit and no pinned test change.
 3. Needs Isa: Row 6 option, Row 5 part 2 credentials, src/lib/data permission.
 4. Final sweep (Row 11) once 5 and 6 are closed or parked as owner items.
@@ -31,16 +31,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Reuse a key when English and meaning match.
 - Test files never go under src/app. Use src/__tests__/render/.
 - New test file names must not differ from an existing name only by case (macOS).
-- New strings go in new top-level locale groups before the 'pendingSync' anchor.
+- New strings go in top-level locale groups before the 'pendingSync' anchor.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
 - src/lib/data is off limits except api.ts insight catch blocks, until Isa answers.
 - gym/history.tsx untouched: hydrationErrorScreens.test.ts pins it.
 - Never edit existing tests or snapshots without Isa. A broken existing test: back out and report.
 - French: no-break space before colon, question mark, inside guillemets; curly apostrophes. Spanish tu, French vous.
-- Loop note (round 83): prompts must state the loop/phase3 branch rule first.
+- Round 85: resent Row 17 gap 5 flag ignored, closed.
 
 ## Blocked on Isa (do not re-ask)
-- Round 82 question (src/lib/data permission) unanswered. Covers: scan.ts and foodDays.ts (Row 13); gymRange.ts month line (Row 14); hooks.ts:170 limit hydrateGym (Row 6, recommended); useGoals isLoading, error, refetch (Row 15); Retry in muscle-card and exercise-progress (Row 14); Row 17 gaps 1, 2, 6.
+- src/lib/data permission (round 82, unanswered). Covers: scan.ts and foodDays.ts (Row 13); gymRange.ts month line and workoutsLine in summaryCards.ts (Row 14); hooks.ts:170 limit hydrateGym (Row 6, recommended); useGoals isLoading, error, refetch (Row 15); Retry in muscle-card and exercise-progress (Row 14); Row 17 gaps 1, 2, 6.
 - Row 6 Gym history, one of three: per-row card pieces, list mode on Screen, or limit hydrateGym (recommended). Asked twice.
 - Row 5 part 2: E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Pinned tests needing permission: sheetVariant.test.ts:30, scanConfidence.test.ts, profileEmptyStates test 1, integrations.render.test.tsx:75, privacyLocale.render.test.tsx:55-56, detailChrome macros snapshot (backed out), week.tsx and nutrition.tsx snapshots.
@@ -77,5 +77,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Locale files: src/lib/i18n/locales/.
 - Run source ~/.nvm/nvm.sh and nvm use 22 first. Output to /tmp, then tail.
 - hydrationErrorScreens.test.ts pins gym/history.tsx.
-- The loop resends Row 17 gap 5. It is closed; ignore that flag.
-- Jev signals are advisory. Risk of continuing without Isa is high; prefer small tasks that need no permission.
+- Jev signals are advisory. Prefer small tasks that need no permission.

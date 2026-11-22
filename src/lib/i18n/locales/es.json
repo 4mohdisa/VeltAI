@@ -941,7 +941,11 @@
   },
   "workoutsWeek": {
     "sessionUnit_one": "sesión",
-    "sessionUnit_other": "sesiones"
+    "sessionUnit_other": "sesiones",
+    "loading": "Cargando esta semana…",
+    "loadFailed": "No se pudieron cargar las sesiones de esta semana",
+    "a11yLabel_one": "Entrenamientos esta semana: {{count}} sesión.",
+    "a11yLabel_other": "Entrenamientos esta semana: {{count}} sesiones."
   },
   "pendingSync": {
     "waiting_one": "{{count}} cambio pendiente de sincronizar",

@@ -27,16 +27,16 @@ export type WorkoutsWeekCardProps = {
 
 export function WorkoutsWeekCard({ week, loading, error }: WorkoutsWeekCardProps) {
   const { t } = useTranslation();
-  const line = loading ? 'Loading this week…' : error ? "Couldn't load this week's sessions" : workoutsLine(week);
+  const line = loading ? t('workoutsWeek.loading') : error ? t('workoutsWeek.loadFailed') : workoutsLine(week);
   const known = !loading && !error;
   return (
     <Card
       variant="elevated"
       onPress={() => router.push('/dashboard/training' as Href)}
-      accessibilityLabel={known ? `Workouts this week. ${week.sessions} sessions. ${line}.` : `Workouts this week. ${line}.`}
+      accessibilityLabel={known ? `${t('workoutsWeek.a11yLabel', { count: week.sessions })} ${line}.` : `${t('dashboard.workouts')}. ${line}.`}
     >
       <View style={{ gap: space.lg }}>
-        <CardHeaderRow title="Workouts" icon="barbell" tint={categoryAccent.positive} scope="This week" chevron />
+        <CardHeaderRow title={t('dashboard.workouts')} icon="barbell" tint={categoryAccent.positive} scope={t('dashboard.thisWeek')} chevron />
         <View style={{ gap: 2 }}>
           {known ? (
             <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>

@@ -939,7 +939,11 @@
   },
   "workoutsWeek": {
     "sessionUnit_one": "session",
-    "sessionUnit_other": "sessions"
+    "sessionUnit_other": "sessions",
+    "loading": "Loading this week…",
+    "loadFailed": "Couldn't load this week's sessions",
+    "a11yLabel_one": "Workouts this week: {{count}} session.",
+    "a11yLabel_other": "Workouts this week: {{count}} sessions."
   },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",

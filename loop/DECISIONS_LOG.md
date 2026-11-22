@@ -9585,3 +9585,8 @@
 - 2026-11-23 04:54 Added a step to check for a partial earlier edit, because Jev rates the last task as 4% likely to have finished cleanly.
 - 2026-11-23 04:54 Row 14 stays PARTIAL until Isa answers the blocked items (month line, Retry labels).
 - 2026-11-23 04:54 No question to Isa this round: the open items are already in Blocked on Isa and must not be re-asked.
+- 2026-11-23 04:56 Chose the WorkoutsWeekCard in-component strings: the last report flagged the row as partly done, and this work needs no src/lib/data edit, so it is the smallest unblocked task.
+- 2026-11-23 04:56 Reuse existing keys where English and meaning match, per the existing rule.
+- 2026-11-23 04:56 Add the new keys inside the existing workoutsWeek group, not as a new group, because the group already exists.
+- 2026-11-23 04:56 Ignored the resent Row 17 gap 5 flag: that gap is closed.
+- 2026-11-23 04:56 Left Row 14 PARTIAL: the Gym month line, Retry buttons and workoutsLine in src/lib/data remain.
