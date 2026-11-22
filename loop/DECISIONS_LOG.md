@@ -9570,3 +9570,18 @@
 - 2026-11-23 04:35 Did not stop. Rows 5, 6 and 11 are still open, so stop is not allowed yet.
 - 2026-11-23 04:35 Jev rates asking at 75%. I did not follow it because the question was already asked twice and the notes say not to re-ask.
 - 2026-11-23 04:35 Row 13 notes out of round order is a docs-only fix in PHASE3_ROWS.md, so it is included.
+- 2026-11-23 04:38 Round 82: asked one combined src/lib/data question instead of one per file, because a single yes or no unblocks Rows 6, 13, 14 and 15.
+- 2026-11-23 04:38 Rows 13 and 14 stay PARTIAL, as the last Claude Code report set. The unbuilt items are listed in the notes.
+- 2026-11-23 04:38 No Claude Code run this round: every remaining unbuilt item needs Isa first.
+- 2026-11-23 04:38 Row 17 stays BUILT. Gap 5 is closed; the loop resending it is a stale flag, so it is ignored.
+- 2026-11-23 04:38 Row 8 BUILT status kept for now. Its notes say partial, so it is flagged for Isa to confirm at the final sweep.
+- 2026-11-23 04:54 Isa did not answer the round 82 permission question in time. Recorded under Blocked on Isa and not re-asked.
+- 2026-11-23 04:54 Picked WorkoutsWeekCard English strings: a Row 14 gap that needs no src/lib/data edit and no pinned test change.
+- 2026-11-23 04:54 Rejected Row 16 plural fix: Row 16 is BUILT and the change would widen scope without a row to close.
+- 2026-11-23 04:54 Rejected nutrition.tsx kcal label: it needs a snapshot regeneration, which requires Isa's permission.
+- 2026-11-23 04:54 Asked for the new test file to be checked for case-only name clashes, because macOS ignores case.
+- 2026-11-23 04:54 Chose candidate 1: Jev ranks run at 95%, it needs no permission, and it is the smallest unfinished item.
+- 2026-11-23 04:54 Rewrote the rejected prompt: it now states the loop/phase3 branch rule first, and forbids switching, pushing, merging and any git command.
+- 2026-11-23 04:54 Added a step to check for a partial earlier edit, because Jev rates the last task as 4% likely to have finished cleanly.
+- 2026-11-23 04:54 Row 14 stays PARTIAL until Isa answers the blocked items (month line, Retry labels).
+- 2026-11-23 04:54 No question to Isa this round: the open items are already in Blocked on Isa and must not be re-asked.

@@ -937,6 +937,10 @@
     "calorieError": "Enter a calorie value greater than 0",
     "saved": "Saved “{{name}}”."
   },
+  "workoutsWeek": {
+    "sessionUnit_one": "session",
+    "sessionUnit_other": "sessions"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",
     "waiting_other": "{{count}} changes waiting to sync"

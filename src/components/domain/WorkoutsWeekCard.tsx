@@ -7,6 +7,7 @@
 // The line under the count says the minutes that were actually recorded instead.
 import { View } from 'react-native';
 import { router, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
@@ -25,6 +26,7 @@ export type WorkoutsWeekCardProps = {
 };
 
 export function WorkoutsWeekCard({ week, loading, error }: WorkoutsWeekCardProps) {
+  const { t } = useTranslation();
   const line = loading ? 'Loading this week…' : error ? "Couldn't load this week's sessions" : workoutsLine(week);
   const known = !loading && !error;
   return (
@@ -42,7 +44,7 @@ export function WorkoutsWeekCard({ week, loading, error }: WorkoutsWeekCardProps
                 {week.sessions}
               </Text>
               <Text variant="callout" color={color.secondaryLabel}>
-                {week.sessions === 1 ? 'session' : 'sessions'}
+                {t('workoutsWeek.sessionUnit', { count: week.sessions })}
               </Text>
             </View>
           ) : null}

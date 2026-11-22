@@ -937,6 +937,10 @@
     "calorieError": "Saisissez une valeur calorique supérieure à 0",
     "saved": "« {{name}} » enregistré."
   },
+  "workoutsWeek": {
+    "sessionUnit_one": "séance",
+    "sessionUnit_other": "séances"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"
