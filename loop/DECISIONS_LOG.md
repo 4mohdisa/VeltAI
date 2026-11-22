@@ -8020,3 +8020,7 @@
 - 2026-11-22 15:32 Backend skips are marked 'real' only when the reason names an external need. Others are marked 'review' so Row 2 does not hide them.
 - 2026-11-22 15:32 Row 2 kept to record-only with no code change unless a gate is red. Smallest task, needs nothing from Isa.
 - 2026-11-22 15:32 Candidates ranked with Row 2 first. Jev ranks run at 88%, consistent with this pick.
+- 2026-11-22 15:34 Chose Row 3: it is next in the agreed order, it is the smallest task, and Row 5 tests depend on it.
+- 2026-11-22 15:34 Row 2 result accepted as BUILT: all three gates green on Node 22.23.5. The Jest install drift (30.0.5 copy at top level) is a side finding, parked, not fixed, because it does not affect the tests that run.
+- 2026-11-22 15:34 The 18 skipped backend database tests stay skipped for now. Park the question of a local Postgres for Row 5 to provide.
+- 2026-11-22 15:34 Parked the @types/jest ^30 versus Jest 29.7 mismatch. It is not in any row. Revisit in Row 11 with the package-lock engines check.
