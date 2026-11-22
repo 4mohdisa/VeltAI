@@ -9319,3 +9319,11 @@
 - 2026-11-23 01:53 AI disclosure (consent.ts) turns analytics on. It is a Phase 4 file, so not touched. Parked for Phase 4; PRIVACY_DATA.md already names it. Row 8 stays PARTIAL until Isa decides.
 - 2026-11-23 01:53 Last report flagged as partly done. Handled by a targeted build-label test in this round, not by a new question.
 - 2026-11-23 01:53 Run the full checkpoint only after Row 8 closes, since the last full run was round 270.
+- 2026-11-23 01:55 Chose the Row 8 gap test over asking again now. Reason: the question to Isa is still open, and the loop note says to close flagged partial work with tests in new files before the next row.
+- 2026-11-23 01:55 Kept analytics OFF by default as the code does, not the brief's ON. Reason: already recorded as the default. Isa confirms before Phase 4.
+- 2026-11-23 01:55 If Isa has not answered the Row 8 questions by the next round, Row 8 closes on the recorded defaults with the owner check pending. Reason: an unanswered question never blocks the loop.
+- 2026-11-23 01:55 Did not edit consent.ts (a Phase 4 file). The new test only reads its behaviour indirectly and records it in PRIVACY_DATA.md.
+- 2026-11-23 01:55 Chose the checkpoint run: the loop note asks for it, it changes no files, and it gives the next round a clean baseline before Row 8 closes.
+- 2026-11-23 01:55 Jev rated asking Isa at 77%, but Isa already has a standing question list and the rule is one unanswered round then defaults. Asking again now would add noise, so I did not ask.
+- 2026-11-23 01:55 Rewrote the rejected prompt to state the loop/phase3 branch rule and forbid git, push, merge and branch switching, as the loop note requires.
+- 2026-11-23 01:55 Kept Go tests out of this round so the checkpoint covers only the type check and the app suite the note names.

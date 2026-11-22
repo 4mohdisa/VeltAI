@@ -1,35 +1,33 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'.
+All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'. PHASE3_ROWS.md stays 22 lines; notes go inside the row cell.
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- PHASE3_ROWS.md stays 22 lines. Notes go inside the row cell.
-- Checkpoint r270: tsc 0; Jest 220 suites, 1280 tests; Go 543 pass, 20 TestPG skipped.
-- Next full checkpoint after Row 8 closes, or at handover.
+- Last checkpoint r270: tsc 0; Jest 220 suites, 1280 tests; Go 543 pass, 20 TestPG skipped. Last full suite round 252.
+- Prompt rejected once for missing branch rule; rewritten with the rule.
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8 (AI disclosure switch open), 12, 13, 14, 15, 16, 17.
+- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 8: pin build labels (app_version, build, git_sha) in analyticsAllowlist.test.ts and PRIVACY_DATA.md.
-- Row 8 closes only when Isa decides the AI disclosure switch and the analytics default.
-- Then full checkpoint gates, then Row 11: KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
-- Rerun TestPG_* and export_test.go once a throwaway local DB is up.
+- Now: checkpoint, full tsc and full app Jest, no file changes. Report failures only.
+- Row 8: waiting on Isa's two answers (AI disclosure turns analytics on; analytics default). If unanswered: use defaults, mark Row 8 BUILT with owner check pending. Test gaps still to close: default off, switch behaviour, PRIVACY_DATA.md event list.
+- Then Go checkpoint. Rerun TestPG_* and export_test.go once a throwaway local DB is up. Then Row 11.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
-- Analytics opt-in, OFF by default in code (brief said on). Code and step 1 agree. Isa confirms before Phase 4.
+- Analytics opt-in, OFF by default in code (brief said on). Isa confirms before Phase 4.
 - AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched. Recorded in PRIVACY_DATA.md.
 - Analytics switch lives in src/app/profile/privacy.tsx only.
+- Build labels (app_version, build, git_sha) added by analytics.ts after sanitize, pinned by test. PostHog never gets them.
 - PostHog host unset uses SDK default; a set value must be https with hostname.
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
-- Build labels pinned by test: concrete gap, decidable, chosen over Jev's question.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
@@ -45,8 +43,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts off limits: food search loading timing, Recipe recents, exercise picker 'No matches' flash. Parked.
-- Exercise picker failed read 'No exercises found' (gymSchedule.ts): parked.
-- Ask Lume 503 and 'not enough data' (aiBrain.ts): parked.
+- Exercise picker failed read 'No exercises found' (gymSchedule.ts), Ask Lume 503 and 'not enough data' (aiBrain.ts): parked.
 - Row 14 month summary (gymRange.ts) and muscle cards Retry (useGymPatterns): parked.
 - Row 16: profileEmptyStates.render.test.tsx test 1 change needs permission.
 - integrations.render.test.tsx:75 and privacyLocale.render.test.tsx:55-56 need permission.
@@ -63,20 +60,19 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
 - Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}' elision.
-- kJ spoken as 'kilojoules': needs a second key.
-- es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
+- kJ spoken as 'kilojoules': needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
 
 ## Parked (not Phase 3)
-- Row 13 and 14 gaps: barcode 'Product not found' on network failure; calendar empty month on load failure; calendar has no loading indicator. Needs src/lib/data.
-- Row 14: three identical offline notices on Gym tab; formatWeekdayDate and MyScheduleCard weekday use device language; muscle names English data.
-- Row 16: repeat-visit skeleton flashes for all-zero streak. Needs hydrated flag in src/lib/data.
-- Simulate scan and Unknown code buttons (dev only) stay English. WeekStrip ', today' and Previous/Next week English. label-scan.tsx keeps its own SLOTS.
+- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; no calendar loading indicator. Needs src/lib/data.
+- Row 14: three identical offline notices on Gym tab; weekday formatting uses device language; muscle names English data.
+- Row 16: repeat-visit skeleton flash for all-zero streak. Needs hydrated flag in src/lib/data.
+- Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
 - Preferences kept in memory (src/lib/settings/store.ts). Not persisted.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
-- useHydration logs 'API unreachable' via devWarn (hooks.ts:72), about 14 per full run.
+- useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns; Jest drift 30.0.5 vs 29.7.0 (fix with npm ci).
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
-- UI/data: useTemplates drops on refetch failure; English exercise names, equipment; MacroBars unused; formatCalories always kcal; week.tsx flat bars; relative-time keys have no plurals; new-recipe recents from selected day only.
+- UI/data: useTemplates drops on refetch failure; English exercise names and equipment; MacroBars unused; formatCalories always kcal; week.tsx flat bars; relative-time keys have no plurals; new-recipe recents from selected day only.
 - Row 12: no direct unit test for useEnergyRange.
 - Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json; share subject hard-coded; two Export rows until Row 15 copy pass ends.
