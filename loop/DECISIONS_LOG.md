@@ -8738,3 +8738,7 @@
 - 2026-11-22 19:52 Left food/detail.tsx for a later round, since its defaultValue fallback needs a decision first.
 - 2026-11-22 19:52 Checkpoint round 172 is still ahead, so this round runs only the changed-file tests.
 - 2026-11-22 19:52 Jev ranked goals.tsx as a close second; kept the slot-name thread because it is already in progress and the helper is shared.
+- 2026-11-22 19:53 Round 170: add the missing render test for add.tsx before any new screen, because the automatic check flagged the last round as partly done.
+- 2026-11-22 19:53 Round 170: chose the test over Jev's pick of nutrition.tsx:227. The handover and notes disagree on whether nutrition.tsx is done, so verify it in a later round first. Jev confidence is low (0.24), so the smaller task wins.
+- 2026-11-22 19:53 Round 170: a failing new test may lead to a minimal add.tsx fix. Existing tests and snapshots are never edited.
+- 2026-11-22 19:53 Round 170: the handover's 'no row became BUILT' stays true. Row 15 stays PARTIAL until Isa verifies on a device.
