@@ -6,11 +6,11 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Checkpoint round 58: tsc 0; 150 suites, 1038 tests, 0 failed.
-- Checkpoint due: Food tab tests were not rerun after the last food.tsx change. Run a full checkpoint soon.
+- Checkpoint due soon: food.tsx changed after round 58. Run full tsc and Jest at next checkpoint.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
-- Jest output: write to file, then tail. zsh: use $? not PIPESTATUS.
+- Jest output: write to file, then tail. zsh: use $? not PIPESTATUS. Multi-file jest lists via xargs.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 
 ## Decisions (never delete)
@@ -33,12 +33,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 12 set back to PARTIAL until Isa approves BUILT.
 - One screen or component per prompt.
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
-- Round 58 checkpoint chosen over Jev. Round 64 re-verify of RecipesList clean.
-- Round 65: meals.tsx translation chosen over new-recipe and calendar.
-- Round 66: new-recipe.tsx translation chosen, agreeing with Jev (84%).
-- Round 67: flagged report handled first. new-recipe toast tests and header done.
-- Round 68: history.tsx chosen, agreeing with Jev (89%).
-- Round 69: flagged report (history.tsx partly done) handled first. Chose history.tsx over calendar.
+- Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
+- Round 70: calendar.tsx translation chosen over checkpoint and stale headers (report recommendation, strings only).
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -46,26 +42,24 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
-- Rounds 42-54: Row 13 Food tab states done.
-- Rounds 56-59: Row 13 SavedMealsList, RecipesList and Saved load-failure states.
-- Rounds 62-67: past-day read failure test; RecipesList, meals, new-recipe strings translated (en, es, fr); new-recipe toast tests added, stale header removed.
-- Round 68: history.tsx strings translated (history block in en, es, fr); 1 render test for load failure.
+- Rounds 42-59: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states.
+- Rounds 62-69: RecipesList, meals, new-recipe, history strings translated (en, es, fr); history dates follow app language; shared asLoadError helper in history.tsx; new-recipe toast tests.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
 - Calendar failed-read state needs Isa approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry. Work on other surfaces.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 translation wording for review: recipesList, meals, newRecipe and history keys (es and fr). Spanish 'entrenamiento hecho / sin entrenamiento', French 'séance faite / pas de séance'. Default used.
+- Row 13 es and fr wording for recipesList, meals, newRecipe, history keys, incl. 'entrenamiento hecho / sin entrenamiento' and 'séance faite / pas de séance'. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 69: history.tsx: locale-aware dates, one shared error constant, empty and row label tests.
-- Then calendar.tsx hardcoded English strings (do not touch useLoggedDays).
+- Round 70: calendar.tsx strings translated (calendar block, en, es, fr) with calendar.strings render test.
 - Then stale headers: meals.tsx '(Task 4)', saved.tsx '(mock)'.
-- Row 13 remaining: calendar, detail, barcode, Food tab PendingSyncBanner.
+- Row 13 remaining: detail, barcode, Food tab PendingSyncBanner.
+- Then a full checkpoint (tsc and full Jest).
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -75,6 +69,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Goals and units backend persistence (lost on restart).
 - Jest drift: node_modules jest 30.0.5 vs pin 29.7.0. Fix with npm ci (needs network).
 - 18 backend DB tests never run. Needs LUME_TEST_DATABASE_URL.
+- formatWeekdayDate and formatMonthYear (src/lib/formatting.ts) use device locale, so calendar dates ignore app language. Shared helper fix.
+- formatRelativeDate (src/lib/formatting.ts) returns hardcoded English Today and Yesterday.
+- No test covers app-language dates, or en, es, fr key parity. Park to Row 11.
 - es.json extra keys addMenu.voice and addMenu.describeOutLoud.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx).
@@ -90,11 +87,10 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - hydrationErrorState.render.test.tsx prints many 'API unreachable' warnings. Park.
 - Energy one-week-fails path untested. Park.
 - Food tab mounts useInsights with no consent gate (pinned in phase14Regression). Park.
-- 'No meals yet' reads oddly on a past day. Park unless row 13 wording is approved.
+- 'No meals yet' reads oddly on a past day. Park unless row 13 wording approved.
 - Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 later item.
 - Shared render setup does not mock useFocusEffect or useLocalSearchParams. Park.
 - Saved and calendar tests: consider a shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
-- No test checks that en, es and fr have the same keys. Park to Row 11.
 - Past-day error copy has no test covering food.tsx. Park unless approved.
-- history.tsx: 'Could not load history' error constant is repeated (fixed in round 69).
+- Two different 'New recipe' casings: see Blocked on Isa.

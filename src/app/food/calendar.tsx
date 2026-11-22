@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { PixelRatio, StyleSheet, View } from 'react-native';
 import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Icon } from '@/components/primitives/Icon';
@@ -20,9 +21,8 @@ import { formatMonthYear, formatWeekdayDate } from '@/lib/formatting';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { categoryAccent, color, layout, motion, opacity, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 
-const WEEKDAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-
 export default function FoodCalendarScreen() {
+  const { t } = useTranslation();
   const selectedDate = useFoodStore((s) => s.selectedDate);
   const setSelectedDate = useFoodStore((s) => s.setSelectedDate);
   const { days: loggedDays } = useLoggedDays();
@@ -40,7 +40,7 @@ export default function FoodCalendarScreen() {
   const nextDisabled = addMonths(month, 1) > today && fromIso(month).getMonth() === fromIso(today).getMonth();
 
   return (
-    <SheetContent variant="leading" title="Pick a day" subtitle="Dots mark days with food logged" onClose={() => router.back()}>
+    <SheetContent variant="leading" title={t('calendar.title')} subtitle={t('calendar.subtitle')} onClose={() => router.back()}>
       <View style={{ marginBottom: -space.xl /* Leaves the 34pt safe-area inset as the design's 34pt bottom. */ }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: space.sm }}>
           <MonthArrow direction="back" onPress={() => setMonth(addMonths(month, -1))} />
@@ -51,7 +51,7 @@ export default function FoodCalendarScreen() {
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', height: 26, gap: 2 }}>
-          {WEEKDAYS.map((d, i) => (
+          {t('calendar.weekdayLetters').split('').map((d, i) => (
             <Text
               key={`${d}-${i}`}
               variant="caption"
@@ -79,7 +79,7 @@ export default function FoodCalendarScreen() {
                   minTapTarget={false}
                   accessibilityRole="button"
                   accessibilityState={{ selected: isSelected, disabled: future }}
-                  accessibilityLabel={`${formatWeekdayDate(fromIso(iso))}${logged ? ', has food logged' : ''}`}
+                  accessibilityLabel={logged ? t('calendar.dayLogged', { date: formatWeekdayDate(fromIso(iso)) }) : formatWeekdayDate(fromIso(iso))}
                   style={{
                     width: '100%',
                     height: 46,
@@ -117,7 +117,7 @@ export default function FoodCalendarScreen() {
           onPress={() => pick(today)}
           haptic={false}
           minTapTarget={false}
-          accessibilityLabel="Jump to today"
+          accessibilityLabel={t('calendar.jumpToToday')}
           style={({ pressed }) => ({
             minHeight: layout.buttonHeight,
             borderRadius: radius.pill,
@@ -127,7 +127,7 @@ export default function FoodCalendarScreen() {
           })}
         >
           <Text variant="bodyBold" color={color.label} style={{ fontSize: 16, lineHeight: 21 * PixelRatio.getFontScale() }}>
-            Jump to today
+            {t('calendar.jumpToToday')}
           </Text>
         </Pressable>
       </View>
@@ -167,6 +167,7 @@ function MonthArrow({
   onPress: () => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <Pressable
       onPress={onPress}
@@ -175,7 +176,7 @@ function MonthArrow({
       // A 44 tap target's minimum size would override the design's 40 tile; the slop keeps the 44 reach.
       minTapTarget={false}
       hitSlop={2}
-      accessibilityLabel={direction === 'back' ? 'Previous month' : 'Next month'}
+      accessibilityLabel={direction === 'back' ? t('calendar.previousMonth') : t('calendar.nextMonth')}
       style={({ pressed }) => ({
         width: MONTH_ARROW_SIZE,
         height: MONTH_ARROW_SIZE,

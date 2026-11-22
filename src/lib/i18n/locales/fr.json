@@ -258,6 +258,15 @@
     "rowGymDone": "{{day}}, {{energy}}, séance faite",
     "rowGymMissed": "{{day}}, {{energy}}, pas de séance"
   },
+  "calendar": {
+    "title": "Choisir un jour",
+    "subtitle": "Les points indiquent les jours avec des repas enregistrés",
+    "weekdayLetters": "LMMJVSD",
+    "dayLogged": "{{date}}, repas enregistrés",
+    "jumpToToday": "Aller à aujourd’hui",
+    "previousMonth": "Mois précédent",
+    "nextMonth": "Mois suivant"
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",

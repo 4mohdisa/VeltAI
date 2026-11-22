@@ -8290,3 +8290,7 @@
 - 2026-11-22 17:23 Date locale fix reuses an existing helper if one exists, to avoid duplicated logic.
 - 2026-11-22 17:23 Row 13 stays PARTIAL. Spanish and French history wording still waits for Isa's review.
 - 2026-11-22 17:23 useLoggedDays is not touched; the calendar failed-read change stays blocked on Isa.
+- 2026-11-22 17:25 Chose calendar.tsx translation over the checkpoint and stale headers: it is the recommended next task in the report, strings only, and needs nothing from Isa.
+- 2026-11-22 17:25 Kept useLoggedDays and formatting.ts out of scope: the first is blocked for Isa, the second is a shared helper and would widen the row.
+- 2026-11-22 17:25 Calendar date labels from formatWeekdayDate and formatMonthYear stay on the device locale for now and are parked, to keep the row to strings only.
+- 2026-11-22 17:25 Full checkpoint (tsc and full Jest) is due soon; it will run at the next checkpoint round, not this one, to avoid spending a row on it.

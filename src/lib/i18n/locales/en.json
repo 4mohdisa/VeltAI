@@ -258,6 +258,15 @@
     "rowGymDone": "{{day}}, {{energy}}, gym done",
     "rowGymMissed": "{{day}}, {{energy}}, gym missed"
   },
+  "calendar": {
+    "title": "Pick a day",
+    "subtitle": "Dots mark days with food logged",
+    "weekdayLetters": "MTWTFSS",
+    "dayLogged": "{{date}}, has food logged",
+    "jumpToToday": "Jump to today",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month"
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

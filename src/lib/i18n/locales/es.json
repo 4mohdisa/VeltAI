@@ -260,6 +260,15 @@
     "rowGymDone": "{{day}}, {{energy}}, entrenamiento hecho",
     "rowGymMissed": "{{day}}, {{energy}}, sin entrenamiento"
   },
+  "calendar": {
+    "title": "Elige un día",
+    "subtitle": "Los puntos marcan los días con comida registrada",
+    "weekdayLetters": "LMXJVSD",
+    "dayLogged": "{{date}}, con comida registrada",
+    "jumpToToday": "Ir a hoy",
+    "previousMonth": "Mes anterior",
+    "nextMonth": "Mes siguiente"
+  },
   "gymLog": {
     "title": "¿Cómo ha ido?",
     "planSummary_one": "{{count}} ejercicio · unos {{minutes}} min",
