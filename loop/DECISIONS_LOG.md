@@ -8607,3 +8607,12 @@
 - 2026-11-22 19:14 Kept the Goals task to loading and error states only, with English copy left for a later round, because the last report looked partly done and Jev's risk is high (1.0). A smaller task lowers that risk.
 - 2026-11-22 19:14 Goals stay in memory; persistence remains a Parked item and is not part of this row.
 - 2026-11-22 19:14 Jev's 48% clean-finish estimate for the last task is noted; the AnomalyBanner work is verified by its four-suite Jest run and tsc, so I am not reopening it.
+- 2026-11-22 19:16 Chose the English-text task over the loading and error states because the states need a change in src/lib/data/hooks.ts, which is off limits and already asked as a blocker. Work that needs no permission goes first.
+- 2026-11-22 19:16 Jev (ask 82%) disagreed. Kept run because a non-blocked task exists and an ask would only repeat the blocker already in Blocked on Isa. Reason recorded here.
+- 2026-11-22 19:16 Flagged check (type check or tests not run last round): this round runs tsc once and the goals test files, so the gate is covered.
+- 2026-11-22 19:16 Goals loading and error states stay parked until Isa answers option A or B. Default if no answer: option B (separate exported hook, useGoals unchanged), and food.tsx stays untouched.
+- 2026-11-22 19:16 Last report's NEXT mentioned a reset toast that says goals.saved. Noted, not fixed in this round, because it is outside the English text task.
+- 2026-11-22 19:16 Rewrote the rejected prompt to name the loop/phase3 branch check, forbid push, merge, branch switching and git commands, and cap work at one checkpoint task.
+- 2026-11-22 19:16 Kept the checkpoint over Jev's Row 14 cleanup pick (91%). Reason Jev cannot see: the loop note fixes this round as a checkpoint, and the last checkpoint was round 129, so the gate must run before more edits build on unverified changes since then.
+- 2026-11-22 19:16 Goals loading and error stays parked under the Round 143 default (run English text, no hooks change). Not asked again, so the ask signal (64%) is not used.
+- 2026-11-22 19:16 Checkpoint changes no files, so no Prettier, no snapshot regeneration and no test edits occur.
