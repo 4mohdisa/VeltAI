@@ -9470,3 +9470,13 @@
 - 2026-11-23 02:53 The Jest baseline is set to 236 suites and 1,344 tests from the checkpoint run, which answers the waiting list item.
 - 2026-11-23 02:53 Small status-only task first, because it is safe, needs nothing from Isa and clears a row. Jev ranked the same kind of step at 80% run, so no second look was needed.
 - 2026-11-23 02:53 Row 6 and Row 11 status conflict is resolved by reading the file this round. Their status is not changed in this prompt.
+- 2026-11-23 02:54 Chose the gate check first: the automatic check flagged the last report as not verified, and the loop note says to deal with it before moving on.
+- 2026-11-23 02:54 Jev ranked asking Isa higher (56%), but Isa has not answered the Row 6 question in several rounds. Per the unanswered-question rule, the loop does not ask again and runs the smallest task.
+- 2026-11-23 02:54 Row 6 stays PARTIAL. Its fix needs hooks.ts in src/lib/data, which is off limits, so it waits for Isa.
+- 2026-11-23 02:54 Row 17 is BUILT with owner checks pending (gaps 1, 2, 6). Stale 503 note in Parked updated to say gap 4 is built.
+- 2026-11-23 02:54 Row 11 stays DIFFERENT until Rows 5 and 6 are settled.
+- 2026-11-23 02:55 Previous prompt was rejected for not naming the loop/phase3 branch; this prompt names it and repeats the no-git rule.
+- 2026-11-23 02:55 Chose the Row 17 gate check because the notes list it as the next step and the last report was never verified.
+- 2026-11-23 02:55 Did not ask Isa about the Row 6 limit again: it has been asked several times with no answer, so the default applies and hooks.ts stays off limits.
+- 2026-11-23 02:55 Jev suggested ask; overridden because the only open question was already asked several times and this round needs no answer from Isa.
+- 2026-11-23 02:55 Row 15 and 16 gate check moved to the round after this one, to keep each prompt to one row.
