@@ -1,55 +1,53 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
 ROWS (PHASE3_ROWS.md)
-Rows 1 to 4 built. Row 5 partial (Maestro part needs Isa). Row 12 done, awaiting Isa's "built". Row 13 (Food log) PARTIAL, notes up to Round 81. Row 14 (Gym) DIFFERENT, notes Rounds 82 to 84. No row newly built this session.
+- Rows 1 to 4: built.
+- Row 5: partial. The Maestro part needs Isa.
+- Row 12: done, waiting for Isa to say "built".
+- Row 13 (Food log): partial.
+- Row 14 (Gym): PARTIAL. Status was changed from DIFFERENT in round 89. Notes run through round 100.
+- No row became built this session.
 
-ROW 13 DONE THIS SESSION
-- calendar.tsx and WeekStrip translated (calendar block).
-- meals.tsx and saved.tsx headers fixed (comments only).
-- Food tab shows PendingSyncBanner.
-- food/detail.tsx: both not-found states have a Done action.
-
-ROW 14 DONE
-- gym/session.tsx: failed read shows LoadFailedNotice with Retry; all strings translated (gymSession block).
-- gym/history.tsx: same notice pattern; translated (gymHistory block).
+ROW 14 DONE (rounds 85 to 100)
+- Failed read shows LoadFailedNotice: templates, history, session, streak and freeze have Retry. Exercise-progress and muscles have the notice but no Retry.
+- Strings translated on those screens. All of session.tsx is translated.
+- Calm empty states added on streak and freeze.
+- The "Close", "Go back", "Back to" and "Done" labels in SheetContent, GlassButtons and BottomSheet are translated.
+- New locale blocks: gymTemplates, gymExerciseProgress, gymMuscles, gymStreak, gymFreeze. New common keys: close, goBack, backTo.
+- Last full-suite checkpoint (round 87): 160 suites, 1073 tests, 0 failed.
 
 IN PROGRESS
-Nothing half-done. Next screen: src/app/gym/templates.tsx (failed read shows "No workouts yet"; literals).
+Nothing half-done.
 
 KEY FILES
-src/app/gym/session.tsx, history.tsx; src/app/food/detail.tsx, calendar.tsx; src/components/food/WeekStrip.tsx; src/app/(tabs)/food.tsx; locales en/es/fr.json. Tests in src/__tests__/render: gymSession.emptyStates, gymHistory.emptyStates, WeekStrip, calendar.strings, foodTab.emptyStates, foodDetailLogged.
-Last full checkpoint (round 73): 156 suites, 1056 tests, 0 failed.
+- Screens: src/app/gym/{templates,exercise-progress,muscles,session,streak,freeze}.tsx
+- Components: src/components/navigation/{SheetContent,GlassButtons,BottomSheet}.tsx
+- Locales: src/lib/i18n/locales/{en,es,fr}.json. The path src/locales does not exist.
+- Tests: src/__tests__/render/, files named gym*.emptyStates, gymMuscles, sheetContent.close, bottomSheet.close, glassButtons.labels.
 
 DECISIONS
-- Failed reads use LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch}, copying log-session.tsx.
-- Locale blocks are inserted as text after the previous new block.
-- Identical text reuses existing keys (gym.sessionHistory, dashboard.trainingNoSessionsTitle, common.done). For session.tsx only, the brief limited reuse to the gym namespaces.
-- No data-layer changes (src/lib/data is off limits).
+- Use the screen's own hook. useTemplates and useGym have refetch. useExerciseProgress and useGymPatterns do not, so their notice has no Retry until Isa allows a change to src/lib/data.
+- On streak and freeze, "empty" means longest streak and total sessions are both 0. Zero freezes left is still data: freeze.render.test pins "0 freezes".
+- While the first read runs with nothing stored, streak and freeze show nothing. A skeleton there would crash gymStreak.render.test, which may not be edited.
+- Locale blocks are inserted as text. Identical text reuses existing keys, in any namespace.
+- GlassButtons.tsx was changed in round 98 although the brief did not name it. The freeze sheet's Close lives there.
 
 BLOCKED (Isa)
-- es and fr wording of all new blocks.
-- lookupBarcodeAsync (src/lib/data/scan.ts) can't tell not-found from offline.
-- useLoggedDays has no error.
-- WeekStrip keys for ", today" and Previous/Next week.
-- Add-an-exercise while today's read failed.
-- /food/meals reachable only via the new-recipe fallback.
-- Whether the banner should count all queued writes or only food ones.
-- Simulator offline check of the Food banner.
+- Spanish and French wording for every new block.
+- Permission to add refetch to the two hooks above.
+- Approval of the GlassButtons change.
+- Two loop briefs (rounds 92 and 95) asked for work already done. The loop's task list is behind PHASE3_ROWS.md.
 
 GOTCHAS
-- Run source ~/.nvm/nvm.sh && nvm use 22 first. No git, no Prettier. Maestro is not installed.
-- In zsh, pass multi-file jest lists through xargs.
-- The API client retries GETs on network or 5xx errors; tests use a 400 response for an instant failure.
-- Dev builds seed mock gym sessions on gymStore reset; set sessions: [] to test the release-like empty state.
-- findAll matches nested Text three times; filter on typeof n.type === 'string'.
+- Before any command, run: source ~/.nvm/nvm.sh && nvm use 22. No git (read .git/HEAD for the branch), no Prettier, no Maestro.
+- Fetch mocks must answer by URL. A single response for every URL breaks the sessions read.
+- A picked extra exercise starts ticked.
+- Dev builds seed mock gym data on store reset. Set it to empty after reset.
 
-UNFIXED / NEXT
-- Date helpers use the device locale; formatRelativeDate is hardcoded English.
-- GymCalendar and WeekEnergyCard weekday letters are hardcoded.
-- No test checks en/es/fr key parity.
-- One French straight apostrophe.
-- Hardcoded "Close" label in SheetContent.
-- session.tsx "Progress saved" and "Save" in its alert are still English.
-- The Food tab hidden-banner test checks only the alert role.
-- meals.tsx line 2 is 82 characters.
-- saved.tsx line 1 says "C13 · My dishes".
+UNFIXED
+- The freeze offline toast claims success even when the request fails.
+- The planned-weight unit (kg or lb) is not translated.
+- gymMuscles.shape and sheetContent.render check English text instead of en.json.
+- The "has a streak" check is duplicated in streak.tsx and freeze.tsx.
+- gymMuscles.goBack duplicates common.goBack.
+- The "background sync failed" warning prints in the gymSession.emptyStates suite.
