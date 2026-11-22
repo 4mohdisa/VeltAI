@@ -1,47 +1,50 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
 ROWS (PHASE3_ROWS.md)
-Built: 1 Node 22, 2 Baseline gates, 3 Header "+" on My workouts, 4 Empty states audit.
-Partial:
-- Row 5 (seed data): the Maestro part needs Isa.
-- Row 12 (shared plumbing): every item is done and the last full checkpoint was clean (tsc 0 errors, 147 suites, 1029 tests). It waits for Isa to approve "built". Its notes cell was replaced with a one-line summary; the old history is in git.
-- Row 13 (Food log): only the Food tab is done. Saved, SavedMealsList, RecipesList, calendar, detail, barcode-scan and the translations are still open.
-Row 14 is the Gym empty-states row (DIFFERENT), not the Food tab.
+No new rows were built this session. Rows 1 to 4 are built. Row 5 is partial and needs Isa for its Maestro part. Row 12 is done and waits for Isa to approve "built". Row 13 (Food log) stays PARTIAL; its notes cell has one line per round, up to round 69.
+
+ROW 13 DONE SO FAR
+- Food tab past-day copy, tested.
+- SavedMealsList, RecipesList and the Saved screen show ErrorState with Retry on a failed load with no data.
+- Translated in en, es, fr: RecipesList (recipesList block), meals.tsx (meals block), new-recipe.tsx (newRecipe block), history.tsx (history block).
+- history.tsx dates follow i18n.language.
+Last checkpoint (round 58): tsc 0 errors, 150 suites, 1038 tests passing.
 
 IN PROGRESS
-Row 13, the Food tab. Nothing is half-done.
-
-WHAT ROW 13 HAS SO FAR
-- AnomalyBanner takes anomalies, isError and onDismiss as props, and shows ErrorState when isError is true. food.tsx makes the only useInsights call.
-- A past day with no meals shows foodLog.noMealsPastMessage instead of "add your first meal".
-- On a past day, ErrorState and LoadFailedNotice use food.empty.loadFailedPast and food.loadFailedPast. One isPastDay value in food.tsx drives all three past-day choices.
-- New keys are in en, es and fr.
+Nothing is half-done.
 
 KEY FILES
-- src/app/(tabs)/food.tsx
-- src/components/ai/AnomalyBanner.tsx
+- src/app/food/history.tsx, new-recipe.tsx, meals.tsx, saved.tsx
+- src/components/food/RecipesList.tsx, SavedMealsList.tsx
 - src/lib/i18n/locales/en.json, es.json, fr.json
-- Tests: src/__tests__/render/foodTab.emptyStates.render.test.tsx (4 tests), food.anomalyError.render.test.tsx, anomaly.render.test.tsx, phase14Regression.test.ts (its consent pin now reads food.tsx)
-- EMPTY_STATES_AUDIT.md lists the state of every screen.
+- Tests in src/__tests__/render: history.strings, newRecipe.strings, mealsScreen.strings, recipesList, savedMealsList, savedScreen, foodTab.emptyStates
 
 DECISIONS
-- Row 13 stays PARTIAL even when tests pass, because most of its scope is still open.
-- Status-like words in notes cells are written in lowercase.
-- Isa has not confirmed the wording "Nothing was logged on this day." or "this day's food log".
+- Error states use ErrorState's default copy (errorState.*), so no new keys are needed. A failed refresh keeps rows already loaded on screen.
+- saved.tsx keeps a literal "loadError ?" and LoadFailedNotice, because hydrationErrorScreens.test.ts pins both.
+- Locale blocks are inserted as text, because a JSON rewrite reformats en.json and fr.json. French uses a no-break space before ":" and "?".
+- Existing keys with the same text are reused (food.title, foodLog.today, savedMeals.logFailed and others).
+- String tests read the expected text from en.json and switch to Spanish with i18n.changeLanguage, then reset to English.
+
+BLOCKED (needs Isa)
+- useLoggedDays (src/lib/data/foodDays.ts) returns no error, so the calendar and WeekStrip can't show a failed read. Changing this shared hook needs approval. The suggested fix is LoadFailedNotice above the grid.
+- Review of the es and fr wording of all new blocks.
 
 GOTCHAS
-- Run source ~/.nvm/nvm.sh && nvm use 22 before every command. No git, no Prettier.
-- In zsh, use $? rather than PIPESTATUS. Write jest output with > file 2>&1, then tail it.
-- allText in src/__tests__/render/helpers crashes on full-screen trees with a circular JSON error. Match rendered string children with findAll instead (see hasText in the Food tests).
-- Tests that mount the Food tab are found with grep -rln "(tabs)/food" src/__tests__ (12 files).
+- Run source ~/.nvm/nvm.sh && nvm use 22 first. No git, no Prettier.
+- In zsh, pass multi-file jest lists through xargs, because $(...) does not split.
+- Render tests need:
+  - their own expo-router mock with useFocusEffect;
+  - LoadingSkeleton stubbed;
+  - SafeAreaProvider when a BottomSheet or Screen mounts.
+- jest.requireActual('@/lib/api').api is undefined inside the mock factory, so don't read nested fields from it.
+- Toast text lives in useToastStore, not the screen tree.
+- Text split into several children renders as an array; match with includes.
 
 UNFIXED / NEXT
-- No test covers the past-day error copy. Adding one needs approval to edit tests.
-- The other Food tab tests were not rerun after the last food.tsx change, so run a full checkpoint next.
-- The title "No meals yet" reads oddly on a past day.
-- The Food tab has no PendingSyncBanner, so offline looks like a plain error.
-- The Food tab mounts useInsights with no consent gate (a pure database read, pinned in phase14Regression).
-- Parked: no refetch or Retry on useInsights errors; allText crash.
-- Out-of-date comments: the gymSchedule.ts and aiBrain.ts headers, and the "French intentionally partial" line in src/lib/i18n/index.ts.
-- getMorningBrief and getProfile still swallow failures.
-- From earlier: analytics defaults to on (Isa to confirm); seed_demo_account.go has no host guard.
+- Next row task: translate calendar.tsx (strings only).
+- formatWeekdayDate and formatMonthYear use the device locale; formatRelativeDate returns hardcoded English.
+- No test covers app-language dates or en, es and fr key parity.
+- Stale header comments: saved.tsx "(mock)" and meals.tsx "(Task 4)".
+- "New Recipe" (recipesList.newRecipe) and "New recipe" (meals.newRecipeLabel) differ only in capitalization.
+- Older items: no Retry on useInsights errors, allText crash, analytics defaults to on, seed script has no host guard.
