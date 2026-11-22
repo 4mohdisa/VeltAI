@@ -9117,3 +9117,8 @@
 - 2026-11-23 00:26 Privacy section title stays English: Isa has not approved the edit to privacyLocale.render.test.tsx line 56, and the default is kept without re-asking.
 - 2026-11-23 00:26 Reused existing feedback.* keys where text matches. Added only the two new settings keys, in en, es and fr.
 - 2026-11-23 00:26 Added a new render test file and did not edit any existing test. Snapshot failures are backed out and reported, not regenerated.
+- 2026-11-23 00:27 Chose the full Jest checkpoint: SettingsList, Support and Privacy changed in rounds 226 to 232 and only targeted tests ran since round 223.
+- 2026-11-23 00:27 Row 10 Settings row is already present (src/app/profile/index.tsx, added round 221, covered by settingsHelp.render.test.tsx). Recorded as done; no second row is added.
+- 2026-11-23 00:27 Kept the existing label 'Help and feedback' over 'Send feedback', because Support already uses 'Send feedback'.
+- 2026-11-23 00:27 Row 10 stays PARTIAL, not BUILT, while backend/tests/migrations TestExportCoversEveryUserTable fails without the export.go permission. Default is to carry on and report.
+- 2026-11-23 00:27 Checkpoint round makes no file changes, per the notes rule.
