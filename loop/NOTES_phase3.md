@@ -6,16 +6,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. zsh rejects grep --include.
 - Last checkpoint round 233: tsc 0; Jest 209 suites, 1236 tests pass, 4 snapshots pass. Go round 220: 637 pass, 20 TestPG skipped.
+- Round 236 checkpoint running now (tsc and full Jest).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Local Postgres 17 normally stopped: pg_ctl -D /opt/homebrew/var/postgresql@17; stop after.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
-- Handover summary (rounds 215 to 218) is stale. This file wins.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in and off by default in code. Brief said on. Isa confirms before Phase 4.
-- PostHog host: unset uses SDK default; set value must be https with hostname, else sink off. PRIVACY_DATA.md host item matches code: answer 'already matches'.
+- PostHog host: unset uses SDK default; set value must be https with hostname, else sink off. PRIVACY_DATA.md host item matches code.
 - Sink opts in via store listener in analytics.ts (settings/store.ts off limits).
 - Analytics switch lives in src/app/profile/privacy.tsx. No second switch on main Settings.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
@@ -28,54 +28,51 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Render tests end .render.test.tsx in src/__tests__/render/. Profile render tests mock StreakCounter.
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Row 9 export: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
-- Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Support mail box kept as contact link.
-- Row 15 copy-pass notes stay on Row 15 until Isa names another row.
+- Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Support mail box kept as contact link. Typed routes need 'as Href' for /profile/feedback.
 - Checkpoint rounds change no files.
-- Round 234: Units eyebrow confirmed already translated (key preferences eyebrow in en, es, fr). No code change. Row 15 stays PARTIAL.
-- Round 235: loop flagged last report as partly done. Answer: Units item closed as above; next item is Spanish Tus datos eyebrows.
+- Round 234: Units eyebrow already translated. No change.
+- Round 235: both Spanish 'Tus datos' eyebrows already go through t(). No change. Account wording is Isa's call.
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
-- Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out.
+- Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin).
 - Row 8 PARTIAL: allowlist, sink, host validation, consent sync, localised switch, PRIVACY_DATA.md. Anonymous ID and version tags need device check.
 - Row 9 BUILT (owner check pending: export on seeded heavy user). TestPG_ExportHasOnlyCallerRowsAndNoTokens skipped.
-- Row 10 PARTIAL: backend, migration file, screen, tests done. Settings row not yet wired. Blocked by export.go permission and owner checks.
+- Row 10 BUILT in code: backend, migration file, screen, Settings row, feedback in export, PRIVACY_DATA.md. Owner checks pending.
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers on account, integrations, preferences, support, privacy, scan-calibration. Privacy Export row done. Privacy footer translated. Units eyebrow done.
+- Row 15 PARTIAL: headers, Privacy Export row, footers, support.* keys, settings.destructiveHint, Units and Spanish eyebrows checked.
 
 ## Next
-- Row 15 tail: Spanish 'Tus datos' eyebrows (round 235). Then fr.json straight apostrophes, one per round.
-- Row 15 later: Scan accuracy and Integrations body copy; goals spoken calorie label, hard-coded g, % and comma join.
+- Row 15 tail: fr.json straight apostrophes, one per round. Then goals spoken calorie label, Scan accuracy and Integrations body copy.
 - Row 8: anonymous ID and version tags (device check, owner).
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
-- Row 10: wire Settings row to /profile/feedback; add PRIVACY_DATA.md feedback item after Row 15 tail.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
 - Row 6 measurements parked until a sign-in path exists.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Permission to add feedback owned rows to backend/internal/auth/export.go; without it TestExportCoversEveryUserTable fails. Carry on.
+- Spanish Account and Privacy eyebrows both 'Tus datos'. Default kept; Isa picks Account wording.
 - Permission to edit privacyLocale.render.test.tsx line 56. Default: Privacy section title stays English.
+- Permission to add feedback owned rows to backend/internal/auth/export.go; default kept as is.
 - Apply feedback migration to hosted Supabase (owner). Feedback retention undefined (owner).
-- Which local DB is Lume's; lume_audit one migration behind (20260911000001). Apply only if named.
-- feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests in analytics.test.ts.
+- Which local DB is Lume's; lume_audit one migration behind. Apply only if named.
+- feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests.
 - Analytics on (brief) vs opt-in (code): confirm before Phase 4.
 - PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST (owner).
 - Privacy footer 'First-party only' false once key set. Default kept.
 - Device maker, model, OS to PostHog: default not sent.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 device checks.
-- Goals loading/error, profile error path, refetch on useExerciseProgress and useGymPatterns: needs permission to change hooks.ts.
+- Goals loading/error, profile error path, refetch on hooks: needs permission to change hooks.ts.
 - week.tsx snapshot regeneration: needs permission.
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
-- Confirm Spanish 'Escribir a soporte' and French 'Ecrire a l'assistance' for Email support.
+- Confirm Spanish 'Escribir a soporte' and French 'Ecrire a l'assistance'.
 - Confirm Privacy export error toast English wording.
-- Which row holds copy-pass notes; wording and number grouping defaults kept.
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).
 - UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English strings; MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
 - Lint and headers: lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx.
-- Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; PRIVACY_DATA.md does not list feedback; export returns whole profiles row; export sent as text not .json; export about 33 queries counted as one read; export share subject hard-coded 'Lume data export'; Privacy section title and eyebrow both say 'Your data'; two Export rows until Row 15 copy pass ends.
-- Feedback: app_version carries build number; no tighter limit than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; feedback Settings row label 'Help and feedback' vs 'Send feedback' wording open; destructive Settings rows have hard-coded English hint.
+- Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; export share subject hard-coded 'Lume data export'; Privacy section title and eyebrow both say 'Your data'; two Export rows until Row 15 copy pass ends.
+- Feedback: app_version carries build number; no tighter limit than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; feedback row label 'Help and feedback' vs 'Send feedback' open; Row 10 notes from rounds 216 and 218 out of date.
 - Phase 4: delete-account.tsx and subscription.tsx; authenticated role in local Postgres 17.

@@ -9137,3 +9137,8 @@
 - 2026-11-23 00:30 PRIVACY_DATA.md host item answered 'already matches' (kept from earlier decision).
 - 2026-11-23 00:30 Row 10 Settings row check kept as a later candidate because the report flagged it as not yet done.
 - 2026-11-23 00:30 Privacy title stays English until Isa answers the render test permission question. Default used, not re-asked.
+- 2026-11-23 00:31 Round 236 is a checkpoint, per the loop note: run full tsc and full app Jest, change no files.
+- 2026-11-23 00:31 Treated the round 235 flag as closed: both Spanish 'Tus datos' eyebrows already go through t(), so no code change was needed. The Account wording question stays with Isa.
+- 2026-11-23 00:31 Did not ask Isa again about the Spanish Account eyebrow, the Privacy title test edit or the owner checks, because each is already recorded in Blocked on Isa with a default.
+- 2026-11-23 00:31 Allowed one rerun of Jest only if a worker SIGSEGV appears, since the brief says a rerun passes.
+- 2026-11-23 00:31 Next task after the checkpoint: fr.json straight apostrophes, read only.
