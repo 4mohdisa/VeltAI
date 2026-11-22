@@ -8,10 +8,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
 import { router, useLocalSearchParams, useNavigation, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { ExercisePicker, ParameterForm, type PlannedValues } from '@/components/gym';
 import { NumberEntryBar, type NumberEntryMode } from '@/components/common/NumberEntryBar';
-import { Card, EmptyState, Skeleton, showToast } from '@/components/display';
+import { Card, EmptyState, LoadFailedNotice, Skeleton, showToast } from '@/components/display';
 import { Button, SliderField } from '@/components/forms';
 import { Screen } from '@/components/navigation/Screen';
 import { Icon } from '@/components/primitives/Icon';
@@ -170,7 +171,8 @@ function inputFor(row: Row, st: RowState | undefined): GymExerciseInput | null {
 }
 
 export default function GymSessionScreen(): JSX.Element {
-  const { today, loading } = useToday();
+  const { t } = useTranslation();
+  const { today, loading, isError, refetch } = useToday();
   const navigation = useNavigation();
   const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
   const mode = isSessionMode(modeParam) ? modeParam : undefined;
@@ -574,12 +576,15 @@ export default function GymSessionScreen(): JSX.Element {
             <Skeleton width="100%" height={72} rounded={radius.lg} />
             <Skeleton width="100%" height={72} rounded={radius.lg} />
           </View>
+        ) : !hasExercises && isError && !today ? (
+          // An unknown day must not read as "Nothing scheduled" — the log-session pattern.
+          <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />
         ) : !hasExercises ? (
           <EmptyState
             icon="barbell"
-            title={today?.is_rest_day ? 'Rest day' : 'Nothing scheduled'}
-            message="Add an exercise to log a freestyle session."
-            actionLabel="Add an exercise"
+            title={today?.is_rest_day ? t('gymLog.restDayTitle') : t('gymSession.nothingScheduled')}
+            message={t('gymSession.emptyMessage')}
+            actionLabel={t('gymSession.addExercise')}
             onAction={() => setPickerVisible(true)}
           />
         ) : (

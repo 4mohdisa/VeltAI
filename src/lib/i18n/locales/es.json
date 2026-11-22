@@ -269,6 +269,11 @@
     "previousMonth": "Mes anterior",
     "nextMonth": "Mes siguiente"
   },
+  "gymSession": {
+    "nothingScheduled": "Nada programado",
+    "emptyMessage": "Añade un ejercicio para registrar una sesión libre.",
+    "addExercise": "Añadir un ejercicio"
+  },
   "gymLog": {
     "title": "¿Cómo ha ido?",
     "planSummary_one": "{{count}} ejercicio · unos {{minutes}} min",

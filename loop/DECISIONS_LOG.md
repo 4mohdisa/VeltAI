@@ -8337,3 +8337,8 @@
 - 2026-11-22 17:39 Round 80 banner re-verify accepted as done with no code change. Row 13 stays PARTIAL.
 - 2026-11-22 17:39 Auto check flag on round 79 closed. Re-verify used once; not repeated.
 - 2026-11-22 17:39 Notes condensed to stay under 600 words. Finished items removed, open blockers and defaults kept.
+- 2026-11-22 17:40 Chose Row 14 first screen: it is unblocked, needs no Isa input and is the smallest next step.
+- 2026-11-22 17:40 Last report flagged as partly done: the detail network-failure state needs a change to lookupBarcodeAsync. Parked under Blocked on Isa, not re-asked this round, since it is not a major question.
+- 2026-11-22 17:40 Did not ask Isa: the barcode lookup question is minor and has a safe default (keep the 'Product not found' copy until Isa answers).
+- 2026-11-22 17:40 Jev suggested ask (74%). Kept run: the open item is not major, has a default, and Isa's reply would not unblock any current row.
+- 2026-11-22 17:40 Row 13 stays PARTIAL until the barcode and calendar failed-read items are approved or parked by Isa.
