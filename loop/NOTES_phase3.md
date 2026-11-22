@@ -1,15 +1,13 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Every prompt opens with the loop/phase3 branch rule.
+Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Every prompt opens with the branch rule. Rows say built, never verified (Isa verifies). Read PHASE3_ROWS.md before each task; briefs have been behind it.
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Round 87 checkpoint clean: tsc 0; 160 suites, 1073 tests, 0 failed.
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22.
 - Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Multi-file jest via xargs. zsh: use $?. Write output to file, then tail.
-- Failed reads: LoadFailedNotice message={t('gym.loadFailed')}, plus onRetry={refetch} only if refetch exists.
-- Dev builds seed mock gym data; set arrays to [] in tests.
 - Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
 
 ## Decisions (never delete)
@@ -28,6 +26,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - Saved screen load failure shows ErrorState with Retry.
 - Locale blocks inserted as text, not JSON rewrite. French: no-break space before ':' and '?'.
+- Failed reads: LoadFailedNotice message={t('gym.loadFailed')}, plus onRetry={refetch} only if refetch exists.
 - Food tab shows PendingSyncBanner counting all queued writes (default).
 - Food detail: Entry not found gets one Done button (common.done). Barcode not-found keeps Scan again.
 - Gym session and history: failed read shows LoadFailedNotice with Retry.
@@ -36,18 +35,19 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Session.tsx English reuse limited to gym.* and gymSession keys.
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
+- Round 96: Jev said ask; declined, no new major question, every open item already has a default.
 
 ## Done
 - Rounds 1-4: row list, Rows 1 and 2 BUILT.
 - Rows 3 and 5 part 1 BUILT (owner check pending).
 - Row 4 audit BUILT; rows 12-17 added.
-- Row 12 plumbing done; stays PARTIAL until Isa says built.
+- Row 12 plumbing done; PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail Done.
-- Row 14 PARTIAL: session, history, muscles done (muscles: notice, no Retry, round 94).
+- Row 14 PARTIAL: session, history, muscles, templates (already done, round 95).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
-- Retry for useGymPatterns and useExerciseProgress needs one refetch passthrough in src/lib/data/gymSchedule.ts. Default: no Retry.
+- Retry for useGymPatterns and useExerciseProgress needs a refetch passthrough in src/lib/data/gymSchedule.ts. Default: no Retry.
 - useLoggedDays (src/lib/data/foodDays.ts) calendar failed read has no error.
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
@@ -62,8 +62,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 95 (in progress): gym/templates.tsx failed read and literals.
-- Then gym/streak.tsx and gym/freeze.tsx states for Row 14.
+- Round 96: gym/streak.tsx empty and failed states (Row 14).
+- Then gym/freeze.tsx states for Row 14.
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
@@ -77,7 +77,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - GymCalendar, WeekEnergyCard: hardcoded weekday letters.
 - Exercise library failed read hides muscles card. Cardio not recognised on failed read.
 - Muscle names stay English. '{{value}} reps' has no singular.
-- Muscles shape test checks English empty copy, not en.json. Fix in Row 14 cleanup.
+- gymMuscles.shape test checks English text, not en.json. Fix in Row 14 cleanup.
 - fr straight apostrophe in exercise removal prompt. Row 11.
 - Dev gym failed read keeps mock sessions. Dev falls back to mock product DB.
 - Freeze toast shows success when queued offline (gym/freeze.tsx).
@@ -103,5 +103,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Emptystates suite prints 'background sync failed' warning.
 
 ## Loop notes
-- Round 93 prompt rejected for missing branch rule. Every prompt now opens with it.
-- Round 94 report: notes were in sync; muscles screen done, no Retry (default).
+- Round 93 prompt rejected for missing branch rule. Every prompt opens with it.
+- Round 94: muscles screen done, no Retry (default).
+- Round 95: templates already done; no code change. Briefs behind PHASE3_ROWS.md, so the loop reads that file first.

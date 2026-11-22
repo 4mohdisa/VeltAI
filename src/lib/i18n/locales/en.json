@@ -480,6 +480,11 @@
     "allGroups": "All muscle groups",
     "volumeNote": "Volume is sets × reps × weight, summed across every session you logged in the last 30 days. An exercise logged without a weight counts its sets × reps."
   },
+  "gymStreak": {
+    "emptyTitle": "No streak yet",
+    "emptyMessage": "Log a gym session to start your streak.",
+    "sessions": "Sessions"
+  },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "dayStreak_one": "{{count}} day streak",

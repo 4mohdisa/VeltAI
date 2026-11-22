@@ -8400,3 +8400,8 @@
 - 2026-11-22 18:05 Muscles and exercise progress: notice without Retry, because wiring Retry needs a src/lib/data change. Default used, Isa not asked again.
 - 2026-11-22 18:05 Row 14 kept PARTIAL until templates, streak and freeze are done.
 - 2026-11-22 18:05 Chose templates over streak: it is the next unfinished Row 14 screen and needs no data-layer change.
+- 2026-11-22 18:06 Chose streak.tsx over freeze.tsx: it is the next screen in the Row 14 plan and the smaller change, and freeze's offline toast needs a behaviour decision that is already parked.
+- 2026-11-22 18:06 Did not ask Isa despite Jev's ask signal: no new major question. Every open question already has a default in Blocked on Isa, and asking again would breach the do-not-re-ask rule.
+- 2026-11-22 18:06 Told Claude Code to say 'built', never 'verified', because of the automatic check flagged in the last report.
+- 2026-11-22 18:06 Told Claude Code to read PHASE3_ROWS.md first, since the last two briefs asked for work already done (rounds 92 and 95).
+- 2026-11-22 18:06 Streak copy 'racha' (es) and 'serie' (fr) kept as the default until Isa reviews.

@@ -480,6 +480,11 @@
     "allGroups": "Tous les groupes musculaires",
     "volumeNote": "Le volume correspond à séries × répétitions × poids, additionné sur toutes les séances enregistrées ces 30 derniers jours. Un exercice enregistré sans poids compte ses séries × répétitions."
   },
+  "gymStreak": {
+    "emptyTitle": "Pas encore de série",
+    "emptyMessage": "Enregistrez une séance de sport pour commencer votre série.",
+    "sessions": "Séances"
+  },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
     "dayStreak_one": "{{count}} jour d’affilée",

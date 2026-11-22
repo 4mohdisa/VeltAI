@@ -482,6 +482,11 @@
     "allGroups": "Todos los grupos musculares",
     "volumeNote": "El volumen es series × repeticiones × peso, sumado en todas las sesiones que registraste en los últimos 30 días. Un ejercicio registrado sin peso cuenta sus series × repeticiones."
   },
+  "gymStreak": {
+    "emptyTitle": "Aún no tienes racha",
+    "emptyMessage": "Registra una sesión de gimnasio para empezar tu racha.",
+    "sessions": "Sesiones"
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak_one": "{{count}} día seguido",
