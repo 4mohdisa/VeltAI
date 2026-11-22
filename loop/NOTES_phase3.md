@@ -29,7 +29,8 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Seed tooling: backend/tools/seed, localhost-only host guard (pgx host check), reset deletes only seed_ ids with @example.test email. Seed code is not in the server image.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD is missing, park as owner step (brief rule).
 - Loop note: unanswered question means use default and carry on. Do not re-ask the same question.
-- Checkpoint rounds run full gates with no file changes. Round 15 was a checkpoint. Next checkpoint round 30.
+- Checkpoint rounds run full gates with no file changes. Next checkpoint round 30.
+- Agent must not run git commands (round 17 report ran git status; reminded in prompt).
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -41,11 +42,9 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 11: Row 5 part 1 (seed and reset, 5 Go tests pass, seed ran on local DB).
 - Round 12: Row 5 re-verify clean.
 - Round 13: Row 5 BUILT with owner check pending (Maestro part parked).
-- Round 13: Row 12 partial. useHydration resets loading when its hydrator changes (src/lib/data/hooks.ts). Test foodLogDaySwitch.render.test.tsx (2 pass).
-- Round 14: Re-verify prompt rejected before it ran. Re-issued.
-- Round 15: Checkpoint passed (see State).
-- Round 16: Prompt covering several gym screens rejected by loop (more than one component). Nothing changed.
-- Round 17 (issued): Row 12 useApi isError flag in src/lib/data/gymSchedule.ts only.
+- Round 13: Row 12 partial. useHydration resets loading when its hydrator changes. Test foodLogDaySwitch.render.test.tsx (2 pass).
+- Round 17: Row 12 useApi returns isError in src/lib/data/gymSchedule.ts (exported). 2 new tests in gymSchedule.revalidate.test.ts. Flagged as partly done.
+- Round 18 (issued): re-verify round 17 as its own round.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD in the shell. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked in rounds 12 and 13, no answer. Parked. Not asking again.
@@ -65,12 +64,13 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in cleanup.
 - Old local rows mix 'lunch' and 'Lunch'. Old data, not from the seed.
 - Lint error: useWeeklyMacros (src/lib/data/hooks.ts ~395) breaks react-hooks/set-state-in-effect. Not ours. Fix in Row 11 or park.
+- Lint error: gymSchedule.ts lines 41 and 43 write refs during render (react-hooks/refs). Pre-existing. Park for Row 11.
 - Food log copy: 'Tap + to add your first meal' shows on past days too. Fix under Row 13.
-- Row 12: useHydration other callers not yet verified (hydrationErrorState.render.test.tsx not run). Covered by checkpoint, which passed.
+- Row 12: useHydration other callers not yet verified. Covered by checkpoint, which passed.
 
 ## Next
-- Round 17 (issued): Row 12 useApi isError flag in gymSchedule.ts.
-- Row 12 remaining: gym caller screens, one component per round.
+- Round 18 (issued): re-verify useApi isError.
+- Row 12: pass isError through useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress, useToday. One hook per round.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

@@ -8076,3 +8076,7 @@
 - 2026-11-22 16:11 Re-issued the rejected round 16 prompt as one hook in one file, because the loop rejected it for covering more than one screen or component.
 - 2026-11-22 16:11 Chose the isError flag because it is additive: existing callers keep their data shape, so the change is small and low risk.
 - 2026-11-22 16:11 Deferred the useWeeklyMacros lint error to Row 11 or Parked, because it is outside Row 12 and the brief forbids side fixes.
+- 2026-11-22 16:13 Flagged report re-verified as its own round because Row 12 changed code and the brief gives a check to run.
+- 2026-11-22 16:13 Lint errors in gymSchedule.ts (lines 41, 43) are pre-existing, so they go to NEXT and Parked, not fixed in this round.
+- 2026-11-22 16:13 Recorded that the last report ran git status, which breaks the no-git rule. The prompt forbids all git commands this round.
+- 2026-11-22 16:13 Caller pass-through of isError stays for the next Row 12 round, one hook per round.
