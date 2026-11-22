@@ -1,22 +1,6 @@
-// Demo-account seeder for App Store review (guideline 2.1: reviewers cannot sign
-// up — provide working demo credentials WITH data).
-//
-// Runs against a local database only: it refuses any DATABASE_URL whose host
-// is not localhost or 127.0.0.1.
-//
-// Usage:
-//
-//	DATABASE_URL=... go run ./scripts/seed_demo_account.go            # default user id
-//	DATABASE_URL=... go run ./scripts/seed_demo_account.go -user <id> # real Clerk sub
-//
-// Idempotent and safe to re-run: it wipes the demo user's rows first (profiles
-// cascade) and re-seeds, so the reviewer account always looks fresh. Once Clerk
-// is live: create demo@lume.fit in the Clerk dashboard, copy its user id, and
-// re-run with -user <clerk_user_id> so the seeded data attaches to the real
-// sign-in. Paste into App Store Connect review notes:
-//
-//	Demo account: demo@lume.fit / <the password you set in Clerk>
-//	(pre-loaded with 14 days of food logs, 8 workouts, a schedule and history)
+// Seeds demo data into a local database. It refuses any database URL that is
+// not localhost or 127.0.0.1 (enforced by requireLocalDatabase). Never point it
+// at a hosted database.
 package main
 
 import (
@@ -61,9 +45,6 @@ func main() {
 	flag.Parse()
 
 	dsn := os.Getenv("DATABASE_URL")
-	if dsn == "" {
-		log.Fatal("DATABASE_URL not set")
-	}
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 	pool, err := pgxpool.New(ctx, dsn)

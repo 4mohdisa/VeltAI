@@ -9207,3 +9207,7 @@
 - 2026-11-23 00:58 Ran the guard before Row 11 instead of Jev's Row 11 pick (Jev 95% on Row 11, ask 81%). Concrete reason Jev cannot see: seed_demo_account.go runs DELETE FROM profiles with no host check, and its comment points at the hosted review database. Row 11 would list that as a known issue while it stays live. The guard closes the risk first, so Row 11 can then report it as fixed.
 - 2026-11-23 00:58 Stop rule was considered (dangerous script). Not stopping: the fix removes the danger, and the script will refuse to run against a non-local host.
 - 2026-11-23 00:58 Kept the wrapper approach so seed_test.go is not edited, per the never edit existing tests rule.
+- 2026-11-23 01:00 Chose the Row 5 header fix over Row 11: the header still points at App Store review notes, which contradicts the local-only rule, and the change is small and in the file the guard just touched.
+- 2026-11-23 01:00 Removed the unreachable empty-DSN check because the clean code rules forbid dead code and requireLocalDatabase already refuses an empty URL.
+- 2026-11-23 01:00 Jev suggested ask at 56%. Kept run: the only open question is already on the Blocked on Isa list, so asking again adds no new information.
+- 2026-11-23 01:00 Left Row 11 and Rows 6, 16, 17 for later rounds: Row 11 needs the other rows finished first, and the others need sign-in or Isa.
