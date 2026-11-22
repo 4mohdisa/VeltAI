@@ -9292,3 +9292,7 @@
 - 2026-11-23 01:29 Row 12 approval is not in the brief and needs no owner question. BUILT is set when tsc and the row's tests pass. Isa can still reject it later.
 - 2026-11-23 01:29 Jev ranked ask at 76%. Not chosen: the question is not major (no money, data loss, production or owner-only action), and the brief says to decide and record it.
 - 2026-11-23 01:29 Full suite is not run this round. The brief reserves full suites for checkpoints. The next checkpoint is due after Row 14 or at the handover.
+- 2026-11-23 01:31 Round 273: picked Row 13, the next PARTIAL row in the agreed order (13, 14, 8). Jev's top pick is also Row 13, so no override is needed.
+- 2026-11-23 01:31 Row 12 is BUILT: tsc 0 and 39 of 39 targeted tests passed. Its only open item is the missing direct unit test for useEnergyRange, which is covered by the energy render test.
+- 2026-11-23 01:31 Kept the rule that finished rows are not re-checked outside a checkpoint. The full Jest and Go checkpoint runs after Row 14 or at handover, as planned.
+- 2026-11-23 01:31 Did not reopen Row 15's nutrition.tsx spoken kcal (waits on the macros snapshot approval) or Row 6 (parked until a sign-in path exists).

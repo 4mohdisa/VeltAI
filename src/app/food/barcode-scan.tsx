@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
@@ -24,6 +25,7 @@ const KNOWN_CODE = '9300605000000';
 const UNKNOWN_CODE = '0000000000000';
 
 export default function BarcodeScanScreen() {
+  const { t } = useTranslation();
   const [permission, requestPermission] = useCameraPermissions();
   const [notFound, setNotFound] = useState(false);
   const [lookingUp, setLookingUp] = useState(false);
@@ -64,20 +66,20 @@ export default function BarcodeScanScreen() {
         <View style={{ flex: 1, padding: space.lg, alignItems: 'center', justifyContent: 'center', gap: space.md }}>
           <Icon name="barcode-outline" size={44} color={color.gray400} />
           <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-            Camera access needed
+            {t('camera.accessTitle')}
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            Lume uses the camera to scan barcodes on packaged foods.
+            {t('barcodeScan.permissionMessage')}
           </Text>
           {permission.canAskAgain ? (
-            <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+            <Button title={t('camera.allow')} onPress={requestPermission} fullWidth={false} />
           ) : (
             // Permanently denied: iOS silently no-ops requestPermission() after
             // the second denial, so this button did nothing at all and left the
             // user tapping it. Send them to Settings instead.
-            <Button title="Open Settings" onPress={() => void Linking.openSettings()} fullWidth={false} />
+            <Button title={t('camera.openSettings')} onPress={() => void Linking.openSettings()} fullWidth={false} />
           )}
-          <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />
+          <Button title={t('camera.notNow')} variant="tertiary" fullWidth={false} onPress={() => router.back()} />
         </View>
       </SafeAreaView>
     );
@@ -110,7 +112,7 @@ export default function BarcodeScanScreen() {
 
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0 }} edges={['top']}>
         <View style={{ paddingHorizontal: space.md, paddingTop: space.sm }}>
-          <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel="Close scanner">
+          <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel={t('barcodeScan.close')}>
             <Icon name="close" size={30} color={color.white} />
           </Pressable>
         </View>
@@ -119,7 +121,7 @@ export default function BarcodeScanScreen() {
       <SafeAreaView style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} edges={['bottom']}>
         <View style={{ alignItems: 'center', gap: space.md, paddingBottom: space.xl }}>
           <Text variant="footnote" color={color.white}>
-            Point at a barcode — it scans automatically
+            {t('barcodeScan.hint')}
           </Text>
           {isDevBuild() ? (
             <View style={{ flexDirection: 'row', gap: space.sm }}>
@@ -145,7 +147,7 @@ export default function BarcodeScanScreen() {
         >
           <Icon name="barcode-outline" size={44} color={color.white} />
           <Text variant="title3" color={color.white} style={{ textAlign: 'center' }}>
-            Looking up…
+            {t('barcodeScan.lookingUp')}
           </Text>
         </View>
       ) : null}
@@ -165,16 +167,16 @@ export default function BarcodeScanScreen() {
         >
           <Icon name="help-circle-outline" size={44} color={color.white} />
           <Text variant="title3" color={color.white} style={{ textAlign: 'center' }}>
-            Product not found
+            {t('food.productNotFound')}
           </Text>
           <Text variant="callout" color={color.gray300} style={{ textAlign: 'center' }}>
-            {"We couldn't match that barcode. Photograph the label instead and we'll read it."}
+            {t('barcodeScan.notFoundMessage')}
           </Text>
           {/* The label SCANNER, not the meal-photo pipeline — this used to
               route to photo-capture, which runs Gemini food identification on
               a nutrition label (audit 2026-08-06). */}
-          <Button title="Photograph the label" fullWidth={false} onPress={() => router.replace('/food/label-scan')} />
-          <Button title="Try another barcode" variant="tertiary" fullWidth={false} onPress={retry} />
+          <Button title={t('barcodeScan.photographLabel')} fullWidth={false} onPress={() => router.replace('/food/label-scan')} />
+          <Button title={t('barcodeScan.tryAnother')} variant="tertiary" fullWidth={false} onPress={retry} />
         </View>
       ) : null}
     </View>

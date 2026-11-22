@@ -6,6 +6,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -25,9 +26,10 @@ export type CaptureGuidanceOverlayProps = {
 export function CaptureGuidanceOverlay({
   shape = 'ellipse',
   promptKey = STORAGE_KEYS.forkPromptDismissed,
-  promptText = 'Place your fork next to the food for better accuracy',
+  promptText,
   topOffset = 0,
 }: CaptureGuidanceOverlayProps) {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [showTip, setShowTip] = useState(false);
 
@@ -49,7 +51,7 @@ export function CaptureGuidanceOverlay({
   };
 
   const isRect = shape === 'rectangle';
-  const guideLabel = isRect ? 'Align nutrition label in frame' : 'Position plate in frame';
+  const guideLabel = isRect ? t('captureGuide.alignLabel') : t('captureGuide.positionPlate');
 
   return (
     // box-none: the overlay itself never captures touches, so the shutter / close
@@ -84,14 +86,14 @@ export function CaptureGuidanceOverlay({
           >
             <Icon name="restaurant" size={18} color={color.white} />
             <Text variant="footnote" color={color.white} style={{ flex: 1 }}>
-              {promptText}
+              {promptText ?? t('captureGuide.forkTip')}
             </Text>
             <Pressable
               onPress={dismissTip}
               haptic={false}
               minTapTarget={false}
               hitSlop={12}
-              accessibilityLabel="Dismiss tip"
+              accessibilityLabel={t('captureGuide.dismissTip')}
               style={{
                 paddingVertical: space.xs,
                 paddingHorizontal: space.md,
@@ -100,7 +102,7 @@ export function CaptureGuidanceOverlay({
               }}
             >
               <Text variant="label" color={color.white}>
-                Got it
+                {t('captureGuide.gotIt')}
               </Text>
             </Pressable>
           </View>
@@ -141,7 +143,7 @@ export function CaptureGuidanceOverlay({
             {guideLabel}
           </Text>
           <Text variant="footnote" color={color.overlayLine}>
-            Hold camera at 45°
+            {t('captureGuide.angle')}
           </Text>
         </View>
       </View>

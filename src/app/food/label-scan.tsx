@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useTranslation } from 'react-i18next';
 import { track } from '@/lib/analytics';
 import { ensureAiConsent } from '@/lib/ai/consent';
 
@@ -30,6 +31,7 @@ import { api, isTransient, type ScanLabelResult } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
+import { mealSlotName } from '@/lib/mealSlotName';
 import type { MealSlot } from '@/lib/mock/data';
 
 type Phase = 'capture' | 'reading' | 'review';
@@ -44,8 +46,14 @@ const num = (s: string): number => {
 };
 // Task thresholds: >=80 High, >=50 Medium, else Low.
 const bandFor = (confidence: number): Band => (confidence >= 80 ? 'High' : confidence >= 50 ? 'Medium' : 'Low');
+const BAND_KEY: Record<Band, string> = {
+  High: 'labelScan.confidenceHigh',
+  Medium: 'labelScan.confidenceMedium',
+  Low: 'labelScan.confidenceLow',
+};
 
 export default function LabelScanScreen() {
+  const { t } = useTranslation();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const [phase, setPhase] = useState<Phase>('capture');
@@ -93,7 +101,7 @@ export default function LabelScanScreen() {
     }
     if (!base64) {
       // No native camera in dev / capture failed → empty review, hand-enter.
-      showToast({ message: 'Camera unavailable — enter values manually', tone: 'warn' });
+      showToast({ message: t('labelScan.cameraUnavailable'), tone: 'warn' });
       track('scan_failed', { entry: 'label', reason: 'camera_unavailable' });
       setBand('Low');
       setPhase('review');
@@ -112,7 +120,7 @@ export default function LabelScanScreen() {
         return;
       }
       // 503 (no GEMINI key) / offline / network → zeroed review to hand-enter.
-      showToast({ message: 'Couldn’t read the label — enter values manually', tone: 'warn' });
+      showToast({ message: t('labelScan.readFailed'), tone: 'warn' });
       track('scan_failed', { entry: 'label', reason: 'read_failed' });
       setBand('Low');
     }
@@ -131,7 +139,7 @@ export default function LabelScanScreen() {
     const body = {
       date: selectedFoodDate(),
       meal_type: mealType,
-      food_name: foodName.trim() || 'Nutrition label',
+      food_name: foodName.trim() || t('labelScan.defaultName'),
       quantity: qty * size,
       unit: 'g',
       calories: cal * qty,
@@ -141,7 +149,7 @@ export default function LabelScanScreen() {
       fibre: fb * qty,
       source: 'label_scan',
     };
-    let toast = 'Saved to food log.';
+    let toast = t('labelScan.saved');
     try {
       await api.foodLogs.create(body);
     } catch (e) {
@@ -149,7 +157,7 @@ export default function LabelScanScreen() {
         // Stay on the review screen. This used to navigate away regardless, so a
         // failed save discarded every per-serving macro the user had just typed
         // in by hand, with no retry — the error toast was the only trace.
-        showToast({ message: 'Couldn’t save — check the values and try again.', tone: 'error' });
+        showToast({ message: t('labelScan.saveFailed'), tone: 'error' });
         setSubmitting(false);
         return;
       }
@@ -157,7 +165,7 @@ export default function LabelScanScreen() {
       // the hand-typed macros survive — pre-audit this path could only retry
       // forever or abandon the data (audit 2026-08-06).
       await runOrQueue('/api/food/logs', body);
-      toast = 'Saved — will sync when you’re back online.';
+      toast = t('labelScan.savedOffline');
     }
     // Reflect locally so the food log shows it immediately either way.
     useFoodStore.getState().logMeal(mealType, {
@@ -184,7 +192,7 @@ export default function LabelScanScreen() {
         <StatusBar style="light" />
         <ActivityIndicator size="large" color={color.white} />
         <Text variant="callout" color={color.white}>
-          Reading label…
+          {t('labelScan.reading')}
         </Text>
       </View>
     );
@@ -195,32 +203,37 @@ export default function LabelScanScreen() {
     const totalCal = Math.round(num(calories) * servings);
     return (
       <Screen
-        title="Nutrition Label Scanned"
+        title={t('labelScan.reviewTitle')}
         showBack
-        backLabel="Cancel"
-        footer={<Button title="Save to food log" onPress={() => void save()} loading={submitting} />}
+        backLabel={t('common.cancel')}
+        footer={<Button title={t('labelScan.saveButton')} onPress={() => void save()} loading={submitting} />}
       >
-        <Badge label={`${band} confidence`} icon={band === 'High' ? 'checkmark-circle' : 'information-circle'} />
+        <Badge label={t(BAND_KEY[band])} icon={band === 'High' ? 'checkmark-circle' : 'information-circle'} />
 
-        <TextField label="Food name" value={foodName} onChangeText={setFoodName} placeholder="Food name" />
+        <TextField
+          label={t('labelScan.foodName')}
+          value={foodName}
+          onChangeText={setFoodName}
+          placeholder={t('labelScan.foodName')}
+        />
 
         <View style={{ flexDirection: 'row', gap: space.md }}>
           <View style={{ flex: 2 }}>
-            <TextField label="Serving size" value={servingSize} onChangeText={setServingSize} keyboardType="decimal-pad" />
+            <TextField label={t('food.servingSize')} value={servingSize} onChangeText={setServingSize} keyboardType="decimal-pad" />
           </View>
           <View style={{ flex: 1 }}>
-            <TextField label="Unit" value={servingUnit} onChangeText={setServingUnit} autoCapitalize="none" />
+            <TextField label={t('exercisePicker.unit')} value={servingUnit} onChangeText={setServingUnit} autoCapitalize="none" />
           </View>
         </View>
 
-        <TextField label="Calories per serving" value={calories} onChangeText={setCalories} keyboardType="decimal-pad" />
-        <TextField label="Protein (g)" value={protein} onChangeText={setProtein} keyboardType="decimal-pad" />
-        <TextField label="Carbs (g)" value={carbs} onChangeText={setCarbs} keyboardType="decimal-pad" />
-        <TextField label="Fat (g)" value={fat} onChangeText={setFat} keyboardType="decimal-pad" />
-        <TextField label="Fibre (g)" value={fibre} onChangeText={setFibre} keyboardType="decimal-pad" />
+        <TextField label={t('labelScan.caloriesPerServing')} value={calories} onChangeText={setCalories} keyboardType="decimal-pad" />
+        <TextField label={t('labelScan.protein')} value={protein} onChangeText={setProtein} keyboardType="decimal-pad" />
+        <TextField label={t('labelScan.carbs')} value={carbs} onChangeText={setCarbs} keyboardType="decimal-pad" />
+        <TextField label={t('labelScan.fat')} value={fat} onChangeText={setFat} keyboardType="decimal-pad" />
+        <TextField label={t('labelScan.fibre')} value={fibre} onChangeText={setFibre} keyboardType="decimal-pad" />
 
         <Stepper
-          label="How many servings?"
+          label={t('recipesList.servingsLabel')}
           value={servings}
           onChange={setServings}
           min={0.5}
@@ -230,23 +243,26 @@ export default function LabelScanScreen() {
         />
 
         <SegmentedField<MealSlot>
-          label="Meal"
+          label={t('food.quickAddMeal')}
           value={mealType}
           onChange={setMealType}
-          options={SLOTS.map((s) => ({ label: s, value: s }))}
+          options={SLOTS.map((s) => ({ label: mealSlotName(t, s), value: s }))}
         />
 
         {/* Live total — recomputed every render from the editable fields. */}
         <View style={{ backgroundColor: surface.card, borderRadius: radius.lg, padding: space.xl, gap: space.xs }}>
           <Text variant="footnote" color={color.gray600}>
-            Total ({servings.toFixed(1)} × serving)
+            {t('labelScan.total', { servings: servings.toFixed(1) })}
           </Text>
           <Text variant="title3" color={color.black}>
-            {totalCal} kcal
+            {t('labelScan.totalKcal', { kcal: totalCal })}
           </Text>
           <Text variant="footnote" color={color.gray600}>
-            {Math.round(num(protein) * servings)}g protein · {Math.round(num(carbs) * servings)}g carbs ·{' '}
-            {Math.round(num(fat) * servings)}g fat
+            {t('labelScan.totalMacros', {
+              protein: Math.round(num(protein) * servings),
+              carbs: Math.round(num(carbs) * servings),
+              fat: Math.round(num(fat) * servings),
+            })}
           </Text>
         </View>
       </Screen>
@@ -260,20 +276,20 @@ export default function LabelScanScreen() {
         <View style={{ flex: 1, padding: space.lg, alignItems: 'center', justifyContent: 'center', gap: space.md }}>
           <Icon name="camera-outline" size={44} color={color.gray400} />
           <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-            Camera access needed
+            {t('camera.accessTitle')}
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            Lume uses the camera to read the nutrition facts panel on packaging.
+            {t('labelScan.permissionMessage')}
           </Text>
           {permission.canAskAgain ? (
-            <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+            <Button title={t('camera.allow')} onPress={requestPermission} fullWidth={false} />
           ) : (
             // Permanently denied: iOS silently no-ops requestPermission() after
             // the second denial, so this button did nothing at all and left the
             // user tapping it. Send them to Settings instead.
-            <Button title="Open Settings" onPress={() => void Linking.openSettings()} fullWidth={false} />
+            <Button title={t('camera.openSettings')} onPress={() => void Linking.openSettings()} fullWidth={false} />
           )}
-          <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />
+          <Button title={t('camera.notNow')} variant="tertiary" fullWidth={false} onPress={() => router.back()} />
         </View>
       </SafeAreaView>
     );
@@ -287,23 +303,23 @@ export default function LabelScanScreen() {
       <CaptureGuidanceOverlay
         shape="rectangle"
         promptKey={STORAGE_KEYS.labelPromptDismissed}
-        promptText="Fit the whole panel in frame — keep the text sharp and glare-free"
+        promptText={t('labelScan.prompt')}
         topOffset={92}
       />
 
       {/* Header: close (left) + title/subheader, above the overlay chrome. */}
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0 }} edges={['top']}>
         <View style={{ paddingHorizontal: space.md, paddingTop: space.sm }}>
-          <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel="Close">
+          <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel={t('common.close')}>
             <Icon name="close" size={30} color={color.white} />
           </Pressable>
         </View>
         <View style={{ alignItems: 'center', paddingHorizontal: space.xl, gap: space.xs, marginTop: space.xs }}>
           <Text variant="title3" color={color.white}>
-            Scan Nutrition Label
+            {t('labelScan.title')}
           </Text>
           <Text variant="footnote" color={color.white} style={{ textAlign: 'center' }}>
-            Point camera at the nutrition facts panel on packaging
+            {t('labelScan.subtitle')}
           </Text>
         </View>
       </SafeAreaView>
@@ -311,11 +327,11 @@ export default function LabelScanScreen() {
       <SafeAreaView style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} edges={['bottom']}>
         <View style={{ alignItems: 'center', gap: space.md, paddingBottom: space.xl }}>
           <Text variant="footnote" color={color.white}>
-            Tap to capture
+            {t('labelScan.tapToCapture')}
           </Text>
           <Pressable
             onPress={() => void capture()}
-            accessibilityLabel="Capture label"
+            accessibilityLabel={t('labelScan.captureLabel')}
             minTapTarget={false}
             style={{
               width: 72,

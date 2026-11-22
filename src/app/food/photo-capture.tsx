@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { ensureAiConsent } from '@/lib/ai/consent';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
@@ -26,13 +27,20 @@ type Angle = 'top' | 'side' | 'oblique';
 type Shot = { base64: string; angle: Angle; uri?: string };
 
 const ANGLE_ORDER: Angle[] = ['top', 'side', 'oblique'];
-const GUIDANCE: Record<Angle, string> = {
-  top: 'Hold the camera directly above the plate',
-  side: 'Tilt to about 45°',
-  oblique: 'One more from another side (optional)',
+// i18n keys per angle: the capture prompt and the thumbnail caption.
+const GUIDANCE_KEY: Record<Angle, string> = {
+  top: 'photoCapture.guidanceTop',
+  side: 'photoCapture.guidanceSide',
+  oblique: 'photoCapture.guidanceOblique',
+};
+const ANGLE_KEY: Record<Angle, string> = {
+  top: 'photoCapture.angleTop',
+  side: 'photoCapture.angleSide',
+  oblique: 'photoCapture.angleOblique',
 };
 
 export default function PhotoCaptureScreen() {
+  const { t } = useTranslation();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const [shots, setShots] = useState<Shot[]>([]);
@@ -46,7 +54,10 @@ export default function PhotoCaptureScreen() {
     startMultiPhotoScan(finalShots.map((s) => ({ image_base64: s.base64, mime_type: 'image/jpeg', angle: s.angle })));
     router.replace('/(tabs)/food');
     showToast({
-      message: finalShots.length > 1 ? `Scanning ${finalShots.length} angles…` : 'Scanning your meal…',
+      message:
+        finalShots.length > 1
+          ? t('photoCapture.scanningAngles', { shots: finalShots.length })
+          : t('photoCapture.scanningMeal'),
       tone: 'info',
     });
   };
@@ -73,9 +84,9 @@ export default function PhotoCaptureScreen() {
       if (isDevBuild()) {
         startPhotoScan();
         router.replace('/(tabs)/food');
-        showToast({ message: 'Scanning your meal…', tone: 'info' });
+        showToast({ message: t('photoCapture.scanningMeal'), tone: 'info' });
       } else {
-        showToast({ message: "Couldn't take the photo — try again.", tone: 'error' });
+        showToast({ message: t('photoCapture.captureFailed'), tone: 'error' });
       }
     } finally {
       setCapturing(false);
@@ -94,19 +105,19 @@ export default function PhotoCaptureScreen() {
         <View style={{ flex: 1, padding: space.lg, alignItems: 'center', justifyContent: 'center', gap: space.md }}>
           <Icon name="camera-outline" size={44} color={color.gray400} />
           <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-            Camera access needed
+            {t('camera.accessTitle')}
           </Text>
           <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-            Lume uses the camera to scan your meals for accurate calorie tracking.
+            {t('photoCapture.permissionMessage')}
           </Text>
           {permission.canAskAgain ? (
-            <Button title="Allow camera" onPress={requestPermission} fullWidth={false} />
+            <Button title={t('camera.allow')} onPress={requestPermission} fullWidth={false} />
           ) : (
             // Permanently denied — the system prompt can't re-appear; send the
             // user to Settings instead of a silent no-op.
-            <Button title="Open Settings" onPress={() => void Linking.openSettings()} fullWidth={false} />
+            <Button title={t('camera.openSettings')} onPress={() => void Linking.openSettings()} fullWidth={false} />
           )}
-          <Button title="Not now" variant="tertiary" fullWidth={false} onPress={() => router.back()} />
+          <Button title={t('camera.notNow')} variant="tertiary" fullWidth={false} onPress={() => router.back()} />
         </View>
       </SafeAreaView>
     );
@@ -119,7 +130,7 @@ export default function PhotoCaptureScreen() {
       <CaptureGuidanceOverlay />
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0 }} edges={['top']}>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', paddingHorizontal: space.md, paddingTop: space.sm }}>
-          <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel="Close camera">
+          <Pressable onPress={() => router.back()} haptic={false} accessibilityLabel={t('photoCapture.close')}>
             <Icon name="close" size={30} color={color.white} />
           </Pressable>
         </View>
@@ -149,14 +160,14 @@ export default function PhotoCaptureScreen() {
                       paddingHorizontal: space.xs,
                     }}
                   >
-                    {s.angle}
+                    {t(ANGLE_KEY[s.angle])}
                   </Text>
                   <Pressable
                     onPress={() => removeShot(i)}
                     haptic={false}
                     minTapTarget={false}
                     hitSlop={13}
-                    accessibilityLabel={`Remove ${s.angle} shot`}
+                    accessibilityLabel={t('photoCapture.removeShot', { angle: t(ANGLE_KEY[s.angle]) })}
                     style={{ position: 'absolute', top: -6, right: -6, backgroundColor: color.black, borderRadius: radius.full }}
                   >
                     <Icon name="close-circle" size={18} color={color.white} />
@@ -167,13 +178,17 @@ export default function PhotoCaptureScreen() {
           ) : null}
 
           <Text variant="footnote" color={color.white}>
-            {shots.length === 0 ? GUIDANCE.top : done ? 'Three angles captured' : GUIDANCE[nextAngle]}
+            {shots.length === 0
+              ? t(GUIDANCE_KEY.top)
+              : done
+                ? t('photoCapture.threeCaptured')
+                : t(GUIDANCE_KEY[nextAngle])}
           </Text>
 
           {shots.length === 0 ? (
             <Pressable
               onPress={() => void capture()}
-              accessibilityLabel="Capture photo"
+              accessibilityLabel={t('photoCapture.capturePhoto')}
               minTapTarget={false}
               style={{
                 width: 72,
@@ -190,7 +205,7 @@ export default function PhotoCaptureScreen() {
               {!done ? (
                 <View style={{ flex: 1 }}>
                   <Button
-                    title={shots.length === 1 ? 'Add a side angle' : 'Add another angle'}
+                    title={shots.length === 1 ? t('photoCapture.addSide') : t('photoCapture.addAnother')}
                     variant="secondary"
                     loading={capturing}
                     onPress={() => void capture()}
@@ -202,7 +217,7 @@ export default function PhotoCaptureScreen() {
               ) : null}
               <View style={{ flex: 1 }}>
                 <Button
-                  title={shots.length > 1 ? `Use ${shots.length} shots` : 'Use this photo'}
+                  title={shots.length > 1 ? t('photoCapture.useShots', { shots: shots.length }) : t('photoCapture.usePhoto')}
                   onPress={() => finish(shots)}
                 />
               </View>
