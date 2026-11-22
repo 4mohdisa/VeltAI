@@ -3,6 +3,7 @@
 // updates the streak only (no XP, no verification reward). The single most
 // important action in the app.
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Card } from '@/components/display/Card';
@@ -19,15 +20,21 @@ export type GymStatusCardProps = {
 };
 
 export function GymStatusCard({ logged, onLog, durationMin }: GymStatusCardProps) {
+  const { t } = useTranslation();
   if (!logged) {
     return (
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
-          <CardHeaderRow title="Today's gym session" icon="barbell" tint={categoryAccent.positive} />
+          <CardHeaderRow title={t('dashboard.gymSessionTitle')} icon="barbell" tint={categoryAccent.positive} />
           <Text variant="callout" color={color.secondaryLabel}>
-            You haven&apos;t logged today&apos;s session yet.
+            {t('dashboard.gymSessionNotLogged')}
           </Text>
-          <Button title="Log gym session" icon="barbell" onPress={onLog} accessibilityLabel="Log gym session" />
+          <Button
+            title={t('addMenu.logGymSession')}
+            icon="barbell"
+            onPress={onLog}
+            accessibilityLabel={t('addMenu.logGymSession')}
+          />
         </View>
       </Card>
     );
@@ -50,11 +57,11 @@ export function GymStatusCard({ logged, onLog, durationMin }: GymStatusCardProps
         </View>
         <View style={{ flex: 1, gap: space.xs }}>
           <Text variant="title3" color={color.label}>
-            Logged today
+            {t('gym.loggedToday')}
           </Text>
           {durationMin ? (
             <Text variant="callout" color={color.secondaryLabel}>
-              {formatDuration(durationMin)} session
+              {t('dashboard.gymSessionDuration', { duration: formatDuration(durationMin) })}
             </Text>
           ) : null}
         </View>

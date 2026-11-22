@@ -6,10 +6,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Round 101 checkpoint: tsc 0; Jest 166 suites, 1093 tests, 0 failed.
-- Round 110: fibre dash done in nutrition.tsx (4 suites, 56 tests pass; macros snapshot regenerated once, diff checked).
+- Round 112: Summary GymStatusCard hides only while dashboard loads (index.tsx). Done.
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Write output to /tmp, then tail.
-- Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx.
-- Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
+- Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
 
 ## Decisions (never delete)
 - Local backend and local database only. Phase 1 design final except named Phase 3 rows. Phase 4 out of scope.
@@ -23,14 +22,15 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - Locale blocks inserted as text. French: no-break space before ':' and '?'.
 - Snapshots: an intended change may be regenerated one snapshot at a time, with the diff checked.
-- useExerciseProgress and useGymPatterns have no refetch: their failed notice has no Retry.
+- useExerciseProgress and useGymPatterns have no refetch: failed notice has no Retry.
 - Streak and freeze: empty means longest streak and total sessions both 0. Zero freezes is data.
 - GlassButtons.tsx changed in round 98 (freeze sheet Close). Accepted.
 - Dashboard training: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Food tab PendingSyncBanner counts all queued writes.
 - AnomalyBanner takes anomalies, isError, onDismiss. food.tsx makes the only useInsights call.
 - useEnergyRange isError true only when both week reads fail.
-- Round 111: Jev ranked GymStatusCard first (84%); chose it over the fibre follow-up because the fibre task is complete and the remaining audit row 126 needs a blocked data-layer change.
+- Summary card guard hides during every first load, not only when nothing stored. Matches streak and Macros rule. Accepted.
+- Round 113: GymStatusCard literals translated (reuse keys where identical).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -41,7 +41,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
-- Spanish and French wording of all new blocks (Rows 13, 14, 15, incl. energyLoadFailed and weekMacrosLoadFailed). Shipped as written; review needed.
+- Spanish and French wording of all new blocks (Rows 13, 14, 15, incl. energyLoadFailed, weekMacrosLoadFailed, GymStatusCard). Shipped as written; review needed.
 - Keys for en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Default: keep current.
 - Row 13: /food/meals link from Food tab. Default: no link.
@@ -57,8 +57,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Nutrition follows Food tab date (audit 126). Needs data-layer decision. Default: leave.
 
 ## Next
-- Round 111 (running): Summary GymStatusCard hides seed data and the 'Log gym session' action while the first gym read loads (src/app/(tabs)/index.tsx:175). Render test only.
-- Row 15 remaining: nutrition screen follows Food tab date (audit 126, parked for data layer); week chart flat bars under '1g' ceiling (audit 125); insights literals and swallowed errors; goals load and error states; Summary card literals; MacroBars.tsx:53 English 'Not tracked'.
+- Round 113: GymStatusCard literals (in progress).
+- Row 15 remaining: streak toast 'Gym logged - streak extended' and Macros/Today header in index.tsx; MacroBars.tsx:53 'Not tracked'; EMPTY_STATES_AUDIT.md Summary loading row (calls card broken, stale); nutrition follows Food tab date (126); week chart flat bars (125); insights literals and swallowed errors; goals load and error states.
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check.
 - Has-a-streak shared helper. Freeze offline toast claims success (decision).
@@ -81,3 +81,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 11: gymSession eyebrow and defaultTitle duplicate foodLog.today; WeekStrip and calendar duplicate logged-day label; gymMuscles.goBack duplicates common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
 - 'background sync failed' warnings in gym suites; react-test-renderer deprecation warning.
 - Freeze toast shows success when queued offline.
+- gymMuscles.goBack duplicates common.goBack; 'has a streak' check duplicated in streak.tsx and freeze.tsx.

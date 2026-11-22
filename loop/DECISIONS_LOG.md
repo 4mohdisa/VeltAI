@@ -8475,3 +8475,10 @@
 - 2026-11-22 18:32 Switched from the fibre follow-up to the GymStatusCard pick Jev ranked first. Reason: the fibre dash task is complete on its own criteria (tsc 0, 4 suites pass). The loop flag said the report looked partly done; the only open part is audit row 126 (date follows Food tab), which needs a src/lib/data change that is off limits. So the fibre task cannot close that part, and the GymStatusCard bug is a visible wrong action on the Summary tab.
 - 2026-11-22 18:32 Kept the GymStatusCard fix to a render-only change with no new strings, so no translation work is needed.
 - 2026-11-22 18:32 Audit row 126 stays open in NEXT and is parked for a data-layer decision by Isa, since src/lib/data is off limits in Phase 3.
+- 2026-11-22 18:34 Chose the guard fix first: the last report's loading guard hides the card during every first load even when data is stored, which the brief did not ask for. The loop check flagged the report as partly done, so this closes it before moving on.
+- 2026-11-22 18:34 Kept the fix to one guard and one added test case. Translations and the audit doc wait, to keep the round to one task.
+- 2026-11-22 18:34 If the hook has no stored-data field, the round keeps the isLoading guard and reports the field needed, instead of changing the data layer without permission.
+- 2026-11-22 18:35 Rewrote the rejected prompt: it now names loop/phase3 as the only branch and forbids switching, pushing and merging.
+- 2026-11-22 18:35 Chose GymStatusCard first: one component, the largest remaining Row 15 literal group, and the smallest safe change.
+- 2026-11-22 18:35 Summary card guard accepted as built: it hides during every first load, matching the streak and Macros rule. Recorded so it is not reopened.
+- 2026-11-22 18:35 Reuse existing keys where the text is identical, per the existing decision.
