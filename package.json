@@ -2,6 +2,9 @@
   "name": "lume",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=22 <23"
+  },
   "dependencies": {
     "@clerk/clerk-expo": "^2.19.31",
     "@expo/ui": "~56.0.18",

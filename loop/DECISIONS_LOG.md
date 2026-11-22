@@ -8006,3 +8006,8 @@
 - 2026-11-22 15:30 Recorded analytics on by default with anonymous ID and a Settings off switch, for Isa to confirm before Phase 4.
 - 2026-11-22 15:30 Told Claude Code to keep the four status words in capitals only in the Status column, so the progress count stays accurate.
 - 2026-11-22 15:30 Asked for no test run in Task 1 because it changes no code.
+- 2026-11-22 15:30 Picked Row 1 instead of a standalone re-check: it runs the type check and tests the flagged report did not, so the flag is cleared in the same round.
+- 2026-11-22 15:30 Folded the PHASE3_ROWS.md format check into step 1 of Row 1, because the last report noted steps 3 to 5 of Task 1 may be missing from the prompt.
+- 2026-11-22 15:30 Jev said the last task was clean only 13% of the time and risk is 0.9 of 2. Kept a small, local-only task with no data or hosted changes, so the risk stays low.
+- 2026-11-22 15:30 Left loop/DECISIONS_LOG.md and loop/NOTES_phase3.md alone, since their uncommitted changes were not made by this loop.
+- 2026-11-22 15:30 If nvm 22 cannot be installed offline, the owner step is recorded and the checks run on the current Node, per the brief.
