@@ -8302,3 +8302,6 @@
 - 2026-11-22 17:28 The loop flag on the round 71 report is answered: Claude Code re-checked calendar.tsx strings and unused keys and found nothing missing. No row code changed, so no second re-verify round was run.
 - 2026-11-22 17:28 Full checkpoint kept for after WeekStrip, since the checkpoint is due and one more change is cheap to include.
 - 2026-11-22 17:28 Calendar failed-read state stays blocked on Isa; not retried.
+- 2026-11-22 17:30 Chose the checkpoint: the loop note requires a full tsc and full Jest run this round, with no file changes.
+- 2026-11-22 17:30 Did not ask Isa again: the three open approvals (new keys, calendar wording, useLoggedDays change) are already in Blocked on Isa and must not be re-asked. Jev's ask score is advisory and the loop limits questions.
+- 2026-11-22 17:30 Kept the next task small and read only, so a failure can be read before any fix is chosen.
