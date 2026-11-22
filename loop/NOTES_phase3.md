@@ -1,12 +1,12 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/phase3. Agents never run git or Prettier. Every prompt states the branch rule. Every prompt covers ONE screen or component.
+Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/phase3. Agents never run git or Prettier. Every prompt states the branch rule. One screen or component per prompt.
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Checkpoint round 50: tsc 0; 147 suites, 1029 tests, 0 failed.
-- Food tab and SavedMealsList changed since (rounds 53, 56). Next scheduled checkpoint must run the 12 Food tab suites too.
+- Rounds 53, 56, 57 changed Food tab, SavedMealsList and RecipesList. Round 58 checkpoint reruns full suite and 12 Food tab suites (no file changes).
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
@@ -33,8 +33,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Round 48: row 12 set back to PARTIAL until Isa approves BUILT.
 - Round 48: useInsights refetch and Retry stay parked.
 - Round 50: full checkpoint chosen over row 13.
-- Round 55: loop rejected a prompt covering more than one component. Round 56 onward: one screen or component per prompt.
-- Round 57: Jev ranked RecipesList 94%. Kept it. The flagged gap (Food tab suites not rerun) waits for the checkpoint.
+- Round 55: one screen or component per prompt.
+- Round 57: Jev ranked RecipesList 94%. Kept it.
+- Round 58: checkpoint chosen over Jev's 93% Saved screen task. Loop note makes this round a checkpoint, and the Food tab and full suites are unverified since rounds 53-57.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -42,8 +43,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
-- Rounds 42-54: Row 13 Food tab states done (past-day copy, error states, 12 Food tab suites).
-- Round 56: Row 13 SavedMealsList load-failure state + 2 tests. tsc 0.
+- Rounds 42-54: Row 13 Food tab states done.
+- Round 56: Row 13 SavedMealsList load-failure state + 2 tests.
+- Round 57: Row 13 RecipesList load-failure state + 2 tests (recipesList.render.test.tsx). tsc 0.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -51,12 +53,12 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3). useEnergyRange 'both weeks fail' rule default used.
-- Saved meals error sentence: Isa may want a specific one (needs new keys in 3 languages). Default generic copy used.
+- Saved meals and recipes error sentence: Isa may want specific copy (new keys in 3 languages). Default generic copy used.
 
 ## Next
-- Round 57: row 13 RecipesList load-failure state (one component).
-- Next checkpoint: full app Jest, 12 Food tab suites, tsc.
-- Row 13 remaining: Saved screen, Food tab PendingSyncBanner, calendar, detail, barcode, translations.
+- Round 58: checkpoint (full app Jest, 12 Food tab suites, tsc). No file changes.
+- Round 59: row 13 Saved screen (src/app/food/saved.tsx), failed load shows ErrorState, not empty state.
+- Row 13 remaining: calendar, detail, barcode, RecipesList and Food tab translations (hardcoded English literals in RecipesList), Food tab PendingSyncBanner.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.

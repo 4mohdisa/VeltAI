@@ -8241,3 +8241,6 @@
 - 2026-11-22 17:03 The loop flag said the last task was only partly done. The gap is the un-run Food tab suites, not the SavedMealsList code. Those run on the scheduled checkpoint, which is due next, so they are not run this round. Recorded here so the checkpoint covers SavedMealsList and RecipesList together.
 - 2026-11-22 17:03 The history.tsx hardcoded English string is a side finding, so it goes to Parked and NEXT, not into this prompt.
 - 2026-11-22 17:03 The RecipesList prompt says to find the file with grep, because its exact path is not in the report.
+- 2026-11-22 17:04 Chose the checkpoint over Jev's 93% Saved screen task: the loop note makes this round a mandatory checkpoint, and the Food tab suites and full app suite have not been rerun since food.tsx, SavedMealsList and RecipesList changed.
+- 2026-11-22 17:04 Checkpoint runs no code changes, so a failure is reported rather than fixed, keeping the flagged gap closed before new work.
+- 2026-11-22 17:04 Saved screen task goes to next round, as Jev advised, since the checkpoint is clean-ups-first.
