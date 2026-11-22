@@ -8571,3 +8571,11 @@
 - 2026-11-22 19:02 Kept InsightCard and AnomalyCard as the following tasks. Jev also favours run; no reason to override.
 - 2026-11-22 19:02 Row 15 stays PARTIAL. The fixed 0.3 bar and api.ts swallowed errors stay parked for later rounds.
 - 2026-11-22 19:02 Round numbers continue from the loop count (134). The PHASE3_ROWS.md round numbers may still clash. Recorded, not fixed.
+- 2026-11-22 19:03 Flag on round 134: closed. The fallback weekday tests were added and pass (9 of 9) and tsc is 0, so no fix is needed. Weekday capitalisation stays in Blocked on Isa with the lowercase default.
+- 2026-11-22 19:03 Picked InsightCard over AnomalyCard and api.ts: it is the smallest literal-only change and the notes order it first.
+- 2026-11-22 19:03 Spanish and French wording ships as written (standing default), so the round is not held for review.
+- 2026-11-22 19:03 Notes condensed to fit the 600-word limit. Decisions kept, finished work merged.
+- 2026-11-22 19:04 Round 135 prompt was rejected for not stating the loop/phase3 branch rule. Rewrote it with a .git/HEAD check, explicit no-git rule and strict five steps.
+- 2026-11-22 19:04 Chose InsightCard literals over AnomalyCard and goals: smallest change, same row, unblocks the insights feed translation.
+- 2026-11-22 19:04 Spanish and French wording for insights.card.* shipped as written, per existing default (Isa reviews later).
+- 2026-11-22 19:04 Jev said run at 97%. Followed it, no reason to override.

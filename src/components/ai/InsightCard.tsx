@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { JSX } from 'react';
 import { Animated, View, type LayoutChangeEvent } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Badge, Card } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
@@ -26,6 +27,7 @@ export function InsightCard(props: {
   index?: number;
 }): JSX.Element {
   const { insight, onDismiss, index = 0 } = props;
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
 
   const [appear] = useState(() => new Animated.Value(reduceMotion ? 1 : 0));
@@ -92,7 +94,7 @@ export function InsightCard(props: {
             <Text variant="bodyMedium" color={color.label} numberOfLines={1} style={{ flex: 1 }}>
               {insight.title}
             </Text>
-            <Pressable onPress={handleDismiss} minTapTarget={false} hitSlop={10} accessibilityLabel="Dismiss insight">
+            <Pressable onPress={handleDismiss} minTapTarget={false} hitSlop={10} accessibilityLabel={t('insights.card.dismiss')}>
               <Icon name="close" size={18} color={color.tertiaryLabel} />
             </Pressable>
           </View>
@@ -108,10 +110,10 @@ export function InsightCard(props: {
               minTapTarget={false}
               hitSlop={12}
               style={{ alignSelf: 'flex-start' }}
-              accessibilityLabel={expanded ? 'Show less' : 'Show more'}
+              accessibilityLabel={expanded ? t('insights.card.showLess') : t('insights.card.showMore')}
             >
               <Text variant="label" color={color.primary}>
-                {expanded ? 'less' : 'more'}
+                {expanded ? t('insights.card.less') : t('insights.card.more')}
               </Text>
             </Pressable>
           ) : null}

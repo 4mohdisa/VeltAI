@@ -686,6 +686,13 @@
         "saturday": "sábado",
         "sunday": "domingo"
       }
+    },
+    "card": {
+      "dismiss": "Descartar análisis",
+      "showMore": "Mostrar más",
+      "showLess": "Mostrar menos",
+      "more": "más",
+      "less": "menos"
     }
   }
 }

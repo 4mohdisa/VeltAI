@@ -684,6 +684,13 @@
         "saturday": "Saturday",
         "sunday": "Sunday"
       }
+    },
+    "card": {
+      "dismiss": "Dismiss insight",
+      "showMore": "Show more",
+      "showLess": "Show less",
+      "more": "more",
+      "less": "less"
     }
   }
 }
