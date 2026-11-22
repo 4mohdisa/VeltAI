@@ -11,6 +11,7 @@
     "backTo": "Volver a {{label}}"
   },
   "settings": {
+    "destructiveHint": "Toca dos veces para continuar",
     "title": "Ajustes",
     "groupAccount": "Cuenta",
     "groupApp": "Aplicación",

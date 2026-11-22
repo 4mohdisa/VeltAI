@@ -11,6 +11,7 @@
     "backTo": "Back to {{label}}"
   },
   "settings": {
+    "destructiveHint": "Double tap to continue",
     "title": "Settings",
     "groupAccount": "Account",
     "groupApp": "App",

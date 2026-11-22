@@ -9083,3 +9083,11 @@
 - 2026-11-23 00:16 Chose the verification run because the loop flagged the last report for tests not run; settingsHelp.render.test.tsx is the only test covering the new Settings row and it was not rerun in round 224.
 - 2026-11-23 00:16 No code change: the report says the Settings row is correct, so only the gate is needed.
 - 2026-11-23 00:16 Simulator owner check stays pending because Maestro is not installed (notes rule).
+- 2026-11-23 00:17 Picked the destructive hint over support.tsx: it is a single string and reuses existing i18n, so it is the smallest real gap.
+- 2026-11-23 00:17 Recorded the export.go permission request as Blocked on Isa and will not retry it; the loop note says the same blocker came back twice.
+- 2026-11-23 00:17 Row 10 round 225 check passed (tsc 0, settingsHelp.render 2/2); Row 10 stays BUILT with owner check pending.
+- 2026-11-23 00:17 Answered the PRIVACY_DATA.md host item as 'already matches', as recorded in the handover.
+- 2026-11-23 00:18 Chose the destructive hint over support.tsx: it is the smallest open Row 15 item and was already queued as round 226 in the notes.
+- 2026-11-23 00:18 Locating the component by grep, not by a fixed path, because the exact path is not confirmed in the repo.
+- 2026-11-23 00:18 Kept the Row 8 device check out of this round: it needs Isa on a device, so it cannot be built by the loop.
+- 2026-11-23 00:18 Rejected prompt fixed: the branch rule (loop/phase3 only, no push, merge, switch or git) is now the first line.

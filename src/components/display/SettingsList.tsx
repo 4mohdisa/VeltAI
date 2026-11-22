@@ -9,6 +9,7 @@
 // hairline in surface.divider inset past the chip rather than by a full-width
 // rule. Behaviour, props and accessibility are untouched.
 import { Switch, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Pressable } from '@/components/primitives/Pressable';
@@ -39,6 +40,7 @@ export type SettingsRowProps = {
 };
 
 function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean }) {
+  const { t } = useTranslation();
   const kind = row.kind ?? (row.onPress ? 'link' : 'plain');
   // Destructive rows read in the functional red (HIG: destructive ≠ neutral).
   const labelColor = row.destructive ? accent.red : color.label;
@@ -131,7 +133,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
         accessible
         accessibilityRole={row.destructive ? 'button' : 'button'}
         accessibilityLabel={combinedLabel}
-        accessibilityHint={row.accessibilityHint ?? (row.destructive ? 'Double tap to continue' : undefined)}
+        accessibilityHint={row.accessibilityHint ?? (row.destructive ? t('settings.destructiveHint') : undefined)}
         // The design fills a pressed row rather than dimming it.
         style={({ pressed }) => (pressed ? { backgroundColor: color.light1 } : null)}
       >
