@@ -8994,3 +8994,12 @@
 - 2026-11-22 21:10 Row 9 A/B test may run on a disposable local Postgres (localhost, throwaway name, migrations applied locally). Local only, never hosted. Default used, no ask.
 - 2026-11-22 21:10 Analytics sink opt-in hooks the store listener in analytics.ts, since settings/store.ts is off limits. Already recorded, restated for the next session.
 - 2026-11-22 21:10 Asked nothing: Isa has the open questions in Blocked on Isa, and defaults are in use.
+- 2026-11-22 21:11 Closed the PRIVACY_DATA.md host sentence item: the latest report confirmed the 'any non-empty' text is absent and the host item matches analyticsSink.ts, so no further fix prompts for it.
+- 2026-11-22 21:11 Chose the Row 9 A/B test over Row 10: it is a small, test-only task that clears a real gap in a PARTIAL row and needs nothing from Isa.
+- 2026-11-22 21:11 Used a disposable local Postgres with a throwaway name, which the notes already allow for Row 9.
+- 2026-11-22 21:11 Left the Row 9 Settings share sheet for a later round as its own single-row task.
+- 2026-11-22 21:11 Parked the bad-host silent-off and export query-count issues in the notes; not fixing them in Phase 3 unless they block a row.
+- 2026-11-22 21:11 Kept the checkpoint over Jev's Row 9 pick. Reason: the loop note fixes this round as a checkpoint, the last task was only 58% likely to have finished cleanly, and Jev's risk score is 1.7 of 2. Verifying the full gates before a database-touching change is the lower-risk order. Row 9 is next.
+- 2026-11-22 21:11 Rewrote the prompt to say branch-only, no git, no push, no merge, and no branch switch, which fixes the rejection.
+- 2026-11-22 21:11 Used npx jest --ci so Jest cannot write new snapshots, which keeps the checkpoint change-free.
+- 2026-11-22 21:11 Marked the PRIVACY_DATA.md host item closed (verified in round 208). Removed it from Next.
