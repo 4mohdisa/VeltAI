@@ -3,6 +3,7 @@
 import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
@@ -17,12 +18,14 @@ export function usePendingSync(): number {
 }
 
 export function PendingSyncBanner(): JSX.Element | null {
+  const { t } = useTranslation();
   const count = usePendingSync();
   if (count <= 0) return null;
+  const label = t('pendingSync.waiting', { count });
   return (
     <View
       accessibilityRole="alert"
-      accessibilityLabel={`${count} ${count === 1 ? 'change' : 'changes'} waiting to sync`}
+      accessibilityLabel={label}
       style={{
         flexDirection: 'row',
         alignItems: 'center',
@@ -35,7 +38,7 @@ export function PendingSyncBanner(): JSX.Element | null {
     >
       <Icon name="cloud-offline-outline" size={16} color={color.secondaryLabel} />
       <Text variant="footnote" color={color.secondaryLabel}>
-        {count === 1 ? '1 change waiting to sync' : `${count} changes waiting to sync`}
+        {label}
       </Text>
     </View>
   );

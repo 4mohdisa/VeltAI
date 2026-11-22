@@ -8150,3 +8150,7 @@
 - 2026-11-22 16:32 Picked ErrorState before PendingSyncBanner: one component per round, and it is the first open item in the report's NEXT list.
 - 2026-11-22 16:32 Deferred aiBrain.ts header comment and the useInsights test mocks: they are harmless and not on the row 12 copy list. Listed under Parked.
 - 2026-11-22 16:32 Prompt names the component by grep, not by path, because the exact file path is not confirmed in the notes. Claude Code must report the path it found.
+- 2026-11-22 16:34 Chose PendingSyncBanner copy: it is the last open row 12 copy item and matches the ErrorState pattern that just passed clean.
+- 2026-11-22 16:34 Render test files stay *.render.test.tsx, because only that Jest setup renders RN components and loads real translations (ErrorState report).
+- 2026-11-22 16:34 Did not run the full suite: round 35 is not a checkpoint (next is round 45).
+- 2026-11-22 16:34 Decided not to fix the other spotted problems now; they stay in Parked or Next.

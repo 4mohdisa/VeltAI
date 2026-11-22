@@ -8,11 +8,12 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details loop/BASELINE_phase3.md.
-- Round 30 checkpoint (clean): tsc 0; app Jest 142 suites, 1013 tests pass, 4 snapshots pass. Backend not run.
+- Round 30 checkpoint clean: tsc 0; app Jest 142 suites, 1013 tests, 4 snapshots.
 - Next full checkpoint: round 45.
 - Jest pinned ~29.7.0. Never upgrade. Stray top-level node_modules/jest 30.0.5 and @types/jest ^30 are parked.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set in shell.
+- Component render tests must be *.render.test.tsx (only that setup renders RN and loads real translations).
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 
 ## Decisions (never delete)
@@ -45,8 +46,8 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Round 30: checkpoint clean.
 - Round 31: useEnergyRange returns isError. Clean.
 - Round 32: getInsights stops swallowing failures (api.ts). Now rejects with ApiError.
-- Round 33: useInsights catches rejection and returns isError (aiBrain.ts, new test). Flagged by auto check; checks passed, continuing.
-- Round 34: ErrorState default copy into t() (en, es, fr). Running.
+- Round 33: useInsights catches rejection and returns isError (aiBrain.ts, new test). Checks passed.
+- Round 34: ErrorState default copy in t() (en, es, fr), render test ErrorState.copy.render.test.tsx. Clean.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD, and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -69,18 +70,18 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - aiBrain.ts header comment does not mention useInsights isError. Park.
 - useInsights mocks in render/insights.render.test.tsx:13 and render/anomaly.render.test.tsx:13 lack isError. Harmless until a screen reads it.
+- detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
 - Anomalies stay empty when getInsights fails (both fetches share Promise.all). Harmless: anomaly endpoint is empty today.
 - getMorningBrief and getProfile swallow failures as null. Outside insights scope. Park.
 - Food tab anomaly banner does not read isError. Later row.
+- src/lib/i18n/index.ts comment says French is 'intentionally partial'; probably stale. Park.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 - No test for useExercises and useExerciseProgress refetch when inputs change. Row 12.
 - No test for refetch clearing isError, or one week failing and the other succeeding (useEnergyRange). Row 12.
-- detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
 
 ## Next
-- Row 12: ErrorState default copy (round 34, running).
-- Row 12: PendingSyncBanner default copy into t() (en, es, fr).
+- Round 35: PendingSyncBanner default copy into t() (en, es, fr), render test. Running.
 - Row 12: isError tests for useExercises and useExerciseProgress refetch.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).

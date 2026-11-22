@@ -436,5 +436,9 @@
     "title": "Something went wrong",
     "message": "We hit a snag loading this. Please try again.",
     "retry": "Retry"
+  },
+  "pendingSync": {
+    "waiting_one": "{{count}} change waiting to sync",
+    "waiting_other": "{{count}} changes waiting to sync"
   }
 }
