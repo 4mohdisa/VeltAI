@@ -8944,3 +8944,8 @@
 - 2026-11-22 20:56 Full checkpoint not run this round: the loop did not mark this round as a checkpoint. Queued.
 - 2026-11-22 20:56 Left the feature_used tests and shapeOnly() alone: Isa has not approved changing them.
 - 2026-11-22 20:56 Kept Row 8 PARTIAL: the crash opt-out, the strict feature_used list and the anonymous ID check are still open.
+- 2026-11-22 20:57 Chose the flagged-report fix first, as NOTES says: run tsc and the changed Jest files in the next task. It is also the smallest task and needs nothing from Isa.
+- 2026-11-22 20:57 Included the PRIVACY_DATA.md host line fix because the last report named it as a stale claim that is now false.
+- 2026-11-22 20:57 Full checkpoint deferred to a later round, since it changes no files and this round is a fix round.
+- 2026-11-22 20:57 Host validation, crash opt-out and English Privacy copy left to NEXT, not fixed, because they are new work outside this row's scope.
+- 2026-11-22 20:57 Jev ranks the full checkpoint higher, but a checkpoint now would miss the flagged fix. Kept the smaller task.
