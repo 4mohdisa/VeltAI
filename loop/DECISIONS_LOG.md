@@ -8980,3 +8980,7 @@
 - 2026-11-22 21:05 Kept the verification task first. The automatic check flagged round 204 as not verified, and Jev rates that task only 14% likely to have finished cleanly. Row 10 needs a new migration and route, so it should start on a verified base. Reason Jev cannot see: the flag itself.
 - 2026-11-22 21:05 Verification touches no test files and fixes only Row 8 files, so the change is cheap and reversible.
 - 2026-11-22 21:05 Round 204 notes kept as a single line in PHASE3_ROWS.md. No other row changed.
+- 2026-11-22 21:06 Kept the small Row 8 doc fix over Jev's Row 10 pick (86%). Reason: Jev confidence is 0.64 and it favours a smaller task; the handover lists the host sentence as unfixed; a wrong privacy doc feeds Phase 4 answers.
+- 2026-11-22 21:06 Treated the round 205 report claim that the host item matched as wrong. The handover says the first sentence still says any non-empty host is used. Fix the doc and recheck; no code change.
+- 2026-11-22 21:06 Skipped Jest for this doc-only round; one tsc run is enough.
+- 2026-11-22 21:06 Row 10 is next after this fix, then Row 9, unless Jev's ranking changes sharply.
