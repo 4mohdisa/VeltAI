@@ -6,13 +6,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Checkpoint round 158 PASSED: tsc 0 errors; Jest 183 suites, 1141 tests, 4 snapshots (npx jest --ci).
-- Next checkpoint: round 172. Other rounds: changed files only.
+- Round 171: forced checkpoint (tsc + full Jest, no file changes). Result goes in the next report.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
-- Round 169 DONE: food/add.tsx uses mealSlotName and SLOTS guard. No render test yet proves the per-slot title.
-- Round 170: add render test foodAddTitle.render.test.tsx (es Lunch, unknown slot).
-- Still holding own map or raw key: food/detail.tsx (:677 defaultValue, needs Isa's fallback decision).
-- nutrition.tsx:227 slot name read aloud: handover says open, earlier notes say done (round 167). Verify first.
+- Round 170 DONE: foodAddTitle.render.test.tsx (3 cases, es lunch, unknown slot, no slot). add.tsx needed no change.
+- Open: nutrition.tsx:227 slot name read aloud untranslated (handover says open). Verify first, then fix.
+- Open: food/detail.tsx:677 holds its own map. Fallback is t(key, { defaultValue }).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -39,15 +38,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Round 166: shared slot-name helper chosen.
 - Round 167: nutrition.tsx swap chosen over Jev's ask/run split.
 - Round 168: quick-add.tsx swap chosen over week.tsx and snack wording (both blocked).
-- Round 169: add.tsx swap with verify-first check, chosen over detail.tsx and goals.tsx.
-- Round 170: add render test first, because the loop check flagged round 169 as partly done.
+- Round 169: add.tsx swap with verify-first check.
+- Round 170: add render test first, because round 169 was flagged as partly done.
+- Round 171: checkpoint chosen over Jev's nutrition pick (loop-forced checkpoint; full gate before more edits).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge (protein_gap, meal_timing, gym_correlation, food_habit), AnomalyCard, AnomalyBanner (fallback title, dismiss, bannerCount), Goals eyebrow, gramsField, percentField, resetDone toast and comma join, DailyMacroRing ringOf, food.tsx, nutrition.tsx, quick-add.tsx and add.tsx slot names via helper.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast and comma join, DailyMacroRing ringOf, food.tsx, quick-add.tsx and add.tsx slot names via helper.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Goals loading and error via useGoals: needs permission to change src/lib/data/hooks.ts.
@@ -69,7 +69,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 
 ## Next
-- Round 170: add render test for add.tsx title (foodAddTitle.render.test.tsx).
+- Round 172: next checkpoint is due. Read round 171 result first.
 - Then: verify nutrition.tsx:227 slot name; fix if raw.
 - Then: decide food/detail.tsx defaultValue fallback at :677, then the helper.
 - Then: week.tsx show existing no-data state when every day is 0 kcal (needs permission for snapshot).

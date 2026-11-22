@@ -8742,3 +8742,7 @@
 - 2026-11-22 19:53 Round 170: chose the test over Jev's pick of nutrition.tsx:227. The handover and notes disagree on whether nutrition.tsx is done, so verify it in a later round first. Jev confidence is low (0.24), so the smaller task wins.
 - 2026-11-22 19:53 Round 170: a failing new test may lead to a minimal add.tsx fix. Existing tests and snapshots are never edited.
 - 2026-11-22 19:53 Round 170: the handover's 'no row became BUILT' stays true. Row 15 stays PARTIAL until Isa verifies on a device.
+- 2026-11-22 19:54 Chose the checkpoint because the loop note forces a checkpoint this round and the last report was flagged as partly done.
+- 2026-11-22 19:54 Did not follow Jev's nutrition.tsx:227 pick (84%) this round. Reason: the loop note makes this round a checkpoint only, and a full gate must run before more edits. The nutrition fix is the next round's task.
+- 2026-11-22 19:54 Did not ask Isa even though Jev ranked ask at 68%. Reason: the food/detail.tsx fallback already has a default (t with defaultValue, as at line 677), so no question blocks the loop.
+- 2026-11-22 19:54 Recorded Round 170 test (foodAddTitle.render.test.tsx) as done. Reason: the report shows 3 of 3 passing and tsc 0 errors.
