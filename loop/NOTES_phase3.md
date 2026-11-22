@@ -6,8 +6,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Checkpoint round 171 PASSED: tsc 0 errors; Jest 186 suites, 1149 tests, 4 snapshots, none skipped (npx jest --ci).
-- Next checkpoint: round 178 or later, when the loop says so.
-- Loop flag on round 180 report was partly done. Round 181 re-ran tsc and the changed-file suites.
+- Next checkpoint: round 178 or later, when the loop says so. Last loop flag: last report looked partly done (round 182), being fixed.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
 
@@ -30,12 +29,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Jest mock factories may only reference variables named mock*.
 - Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
-- mealSlotName: unknown slot returns raw key addMenu.undefined; screens that take outside input guard first.
+- mealSlotName: unknown slot returns raw key addMenu.undefined. Screens that take outside input guard first.
+- detail.tsx unknown slot: default foodLog.addMeal kept (recorded, restored round 182).
 - addMenu.snack stays 'Snacks' in es and fr until review.
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
 - No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
 - Goals spoken labels: default B, keep current labels. goals.render.test.tsx pins them.
-- detail.tsx unknown slot: default kept (fallback to foodLog.addMeal), label map switched to mealSlotName (Isa did not answer).
 - Loop note: a blocker repeated twice gets recorded under Blocked and not retried.
 - getAnomalies keeps returning [] until /api/ai/anomalies exists.
 - Jev ranked api.ts first at 92% (round 179). Picked it because it was next in the plan.
@@ -45,7 +44,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx (mealSlotName). Round 181 adds detail.tsx.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx (mealSlotName with default).
 - mealSlotName helper: src/lib/mealSlotName.ts with tests.
 
 ## Blocked on Isa (defaults used, do not re-ask)
@@ -61,7 +60,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Round 181: detail.tsx to mealSlotName with default fallback; new render test; tsc and changed-file suites.
+- Round 182: restore detail.tsx unknown-slot default; merge quick-add notes in Row 15; tsc and changed-file suites.
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: Profile screens hard-coded English titles.
 - Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
@@ -94,4 +93,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - InsightCard.tsx:77 uses the 120-character toggle rule.
 - Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
-- Quick-add notes repeat three times in Row 15; merge when tidying.
+- addMenu.snack wording still needs review; all slot screens read it via mealSlotName, so one locale change fixes them all.

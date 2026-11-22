@@ -398,10 +398,11 @@ function DetailForm({
   onClose,
 }: DetailFormProps) {
   const { t } = useTranslation();
+  const slotLabel = (s: MealSlot) => (SLOTS.includes(s) ? mealSlotName(t, s) : t('foodLog.addMeal'));
   const [manual, setManual] = useState(!lockValues);
   const [slot, setSlot] = useState(meal);
   const ctaLabel =
-    fixedCtaLabel ?? t('addMenu.addToSlot', { slot: mealSlotName(t, slot ?? slotForNow()).toLowerCase() });
+    fixedCtaLabel ?? t('addMenu.addToSlot', { slot: slotLabel(slot ?? slotForNow()).toLowerCase() });
   const [name, setName] = useState(seed.name);
   const [grams, setGrams] = useState(String(seed.quantityG));
   const [calories, setCalories] = useState(String(seed.calories));
@@ -668,7 +669,7 @@ function DetailForm({
             <SegmentedField
               value={slot}
               onChange={(v) => setSlot(v)}
-              options={SLOTS.map((s) => ({ label: mealSlotName(t, s), value: s }))}
+              options={SLOTS.map((s) => ({ label: slotLabel(s), value: s }))}
               variant="inset"
               compact
             />

@@ -8784,3 +8784,8 @@
 - 2026-11-22 20:06 Isa has not answered the detail.tsx fallback question across several rounds. Used the default: keep the foodLog.addMeal fallback and switch only the label map. Reason: an unanswered question never blocks the loop.
 - 2026-11-22 20:06 Ran the detail.tsx switch before the BrainProfileCard and Profile titles. Reason: it is the last local slot map and the smallest change.
 - 2026-11-22 20:06 Left the loop flag handled by this round's tsc and single-file tests. Reason: the handover says the flag came from a partly done report, and the prompt asks for a fresh check.
+- 2026-11-22 20:08 Restored the detail.tsx unknown-slot default (foodLog.addMeal), because the notes record it as kept and the last report removed it without an answer from Isa. This is the partly done item the loop flagged.
+- 2026-11-22 20:08 Merged the three quick-add notes in Row 15 into one line, as the notes already planned.
+- 2026-11-22 20:08 Kept addMenu.snack as Snacks in es and fr until Isa reviews the wording, as recorded.
+- 2026-11-22 20:08 Did not ask Isa again about detail.tsx, because the recorded default answers it.
+- 2026-11-22 20:08 Ranked Row 15 cleanup first because it is small, needs nothing from Isa, and closes the flag. Jev asked, but this is a recorded decision, not a new question.
