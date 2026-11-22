@@ -5,17 +5,18 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and baseline
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Jest from repo root, pinned ~29.7.0. Maestro not installed.
-- Unconfirmed baseline: tsc 0 errors. Jest 233 suites / 1338 tests (last report) vs 228 / 1322 (handover). Go 543 pass, 20 TestPG skipped. Isa to confirm.
+- Last gates: tsc 0 errors. Jest 228 suites / 1,322 tests (handover) vs 233 / 1,338 (earlier report). Go 543 pass, 20 TestPG skipped. Isa to confirm the number.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12.
-- Conflict to confirm from PHASE3_ROWS.md: 15 and 16 (notes say BUILT, handover says PARTIAL).
+- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16.
 - PARTIAL: 5 (part 2 needs sign-in), 13, 14, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
+- Loop flag on last report (partly done): verification round for gap 3 is queued.
 
 ## Next
-- Row 17 gap 3 (ExercisePicker failed load) in progress. Then gap 4 (Ask Lume 503 message). Gaps 1, 2, 6 need src/lib/data, blocked on Isa. Row 11 final sweep last.
-- Row 17 gaps: 1 and 2 food and recipe search flash 'No matches' during debounce (hooks.ts); 3 ExercisePicker failed load (fixing); 4 Ask Lume 503 message dropped (screen); 5 Ask Lume empty answer renders nothing (screen); 6 Ask Lume fixed English replies in aiBrain.ts.
+- Row 17 gap 3 verification and stale note fix (in progress). Then gap 4 (Ask Lume 503 message, ai-query.tsx). Then gap 5 (empty Ask Lume answer renders nothing, screen only).
+- Row 17 gaps: 1 and 2 food and recipe search flash 'No matches' during debounce (hooks.ts, blocked on Isa); 3 ExercisePicker failed load (built, no Retry); 4 Ask Lume 503 message dropped; 5 Ask Lume empty answer; 6 Ask Lume fixed English replies in aiBrain.ts (blocked on Isa).
+- Row 11 final sweep last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.

@@ -9419,3 +9419,7 @@
 - 2026-11-23 02:23 Corrected the Row 17 notes: the ExercisePicker failure is not blocked on gymSchedule.ts, because the hook already returns isError.
 - 2026-11-23 02:23 Rows 15 and 16 conflict (notes say BUILT, handover says PARTIAL). Asked for a read-only status check and did not change them until PHASE3_ROWS.md is confirmed.
 - 2026-11-23 02:23 Kept both baseline figures (233/1338 and 228/1322) as unconfirmed. Gating uses the latest run until Isa confirms.
+- 2026-11-23 02:25 Loop flagged last report as partly done; chose a verification round for gap 3 and its stale Row 17 note before gap 4 (smallest task, needs nothing from Isa).
+- 2026-11-23 02:25 Stale Row 17 note about gymSchedule.ts is corrected in the notes cell only; status left PARTIAL.
+- 2026-11-23 02:25 Gap 4 (ai-query.tsx 503 message) is next, then gap 5, both inside the screen only.
+- 2026-11-23 02:25 Isa's open decisions are unchanged and not re-asked; defaults stay in place.
