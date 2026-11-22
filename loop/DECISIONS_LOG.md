@@ -8068,3 +8068,11 @@
 - 2026-11-22 16:10 The useApi error flag (Row 12 next item) moves to the round after this checkpoint, unchanged.
 - 2026-11-22 16:10 Expected counts (0 type errors, 136 suites, 995 tests) assume the new foodLogDaySwitch test file passes. Any difference is reported, not assumed.
 - 2026-11-22 16:10 Prompt rewritten to name the branch check, the no-file-change rule and the report format, as the loop note required.
+- 2026-11-22 16:11 Checkpoint round 15 passed (tsc 0 errors, 136 suites, 995 tests, 0 skipped), so the Row 12 work can continue.
+- 2026-11-22 16:11 Chose candidate 1 because it is the next item already planned in Row 12 and clears the most empty state bugs (about 8 gym screens).
+- 2026-11-22 16:11 Scoped step 3 to the gym callers found by grep, so the change stays limited to files named in the row.
+- 2026-11-22 16:11 Lint error in useWeeklyMacros left out of scope and reported under NEXT, as the rules say side findings go to Parked.
+- 2026-11-22 16:11 Jev signals say the last task was only 58% clean and the risk is 0.7, so this round uses one smallest step with a narrow file list and no full suite run.
+- 2026-11-22 16:11 Re-issued the rejected round 16 prompt as one hook in one file, because the loop rejected it for covering more than one screen or component.
+- 2026-11-22 16:11 Chose the isError flag because it is additive: existing callers keep their data shape, so the change is small and low risk.
+- 2026-11-22 16:11 Deferred the useWeeklyMacros lint error to Row 11 or Parked, because it is outside Row 12 and the brief forbids side fixes.

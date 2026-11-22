@@ -19,15 +19,19 @@ import type {
 
 /** Generic mount-fetch with graceful fallback. `deps` re-runs the fetch; the
  *  returned refetch() re-runs it on demand. loading starts true and only clears
- *  asynchronously (in .finally), so there's no synchronous setState-in-effect. */
-function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknown[] = []): {
+ *  asynchronously (in .finally), so there's no synchronous setState-in-effect.
+ *  isError says whether the last read failed, so a caller can tell the
+ *  fallback apart from a real empty result. */
+export function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknown[] = []): {
   data: T;
   loading: boolean;
+  isError: boolean;
   refetch: () => void;
   revalidate: () => void;
 } {
   const [data, setData] = useState<T>(fallback);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [nonce, setNonce] = useState(0);
 
   // revalidate (below) reads through these instead of closing over fetcher/
@@ -42,10 +46,14 @@ function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknow
     let active = true;
     fetcher()
       .then((d) => {
-        if (active) setData(d);
+        if (!active) return;
+        setData(d);
+        setIsError(false);
       })
       .catch(() => {
-        if (active) setData(fallback);
+        if (!active) return;
+        setData(fallback);
+        setIsError(true);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -73,11 +81,17 @@ function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly unknow
   const revalidate = useCallback(() => {
     fetcherRef
       .current()
-      .then((d) => setData(d))
-      .catch(() => setData(fallbackRef.current));
+      .then((d) => {
+        setData(d);
+        setIsError(false);
+      })
+      .catch(() => {
+        setData(fallbackRef.current);
+        setIsError(true);
+      });
   }, []);
 
-  return { data, loading, refetch, revalidate };
+  return { data, loading, isError, refetch, revalidate };
 }
 
 export function useToday(): {

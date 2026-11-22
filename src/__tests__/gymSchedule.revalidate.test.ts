@@ -5,7 +5,7 @@
 import { createElement } from 'react';
 import TestRenderer from 'react-test-renderer';
 
-import { useToday } from '@/lib/data/gymSchedule';
+import { useApi, useToday } from '@/lib/data/gymSchedule';
 
 // This file runs under the plain-node Jest project (no jest-expo preset), which
 // never sets this flag, so React's act() warns that updates aren't wrapped —
@@ -70,4 +70,36 @@ test('revalidate updates data and never sets loading true', async () => {
   TestRenderer.act(() => {
     tree.unmount();
   });
+});
+
+// isError: a failed read must be told apart from a real empty result, which
+// the fallback alone cannot do (EMPTY_STATES_AUDIT.md, gym screens on error).
+type ApiState = ReturnType<typeof useApi<string[]>>;
+
+function ApiHarness({ fetcher, onState }: { fetcher: () => Promise<string[]>; onState: (s: ApiState) => void }) {
+  onState(useApi(fetcher, []));
+  return null;
+}
+
+const readOnce = async (fetcher: () => Promise<string[]>): Promise<ApiState | undefined> => {
+  let latest: ApiState | undefined;
+  let tree: TestRenderer.ReactTestRenderer;
+  TestRenderer.act(() => {
+    tree = TestRenderer.create(createElement(ApiHarness, { fetcher, onState: (s) => (latest = s) }));
+  });
+  await settle();
+  TestRenderer.act(() => {
+    tree.unmount();
+  });
+  return latest;
+};
+
+test('useApi reports isError when the request fails', async () => {
+  const state = await readOnce(() => Promise.reject(new TypeError('Network request failed')));
+  expect(state).toMatchObject({ data: [], loading: false, isError: true });
+});
+
+test('useApi reports no error when the request succeeds', async () => {
+  const state = await readOnce(() => Promise.resolve(['Back Squat']));
+  expect(state).toMatchObject({ data: ['Back Squat'], loading: false, isError: false });
 });
