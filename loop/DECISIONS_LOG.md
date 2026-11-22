@@ -8547,3 +8547,6 @@
 - 2026-11-22 18:53 Row 125 parked after two failed attempts (rounds 124 and 125), per the rule: park, do not ask. All-zero week chart stays as is until Isa grants the snapshot regeneration.
 - 2026-11-22 18:53 French apostrophe: use curly ’ in new French strings to match fr.json (87 curly against 10 straight). Recorded; Isa may override.
 - 2026-11-22 18:53 Do not edit any snapshot or test in this round. Only verify and update the row status text.
+- 2026-11-22 18:54 Chose the checkpoint over Jev's insights pick (83%). Reason: the loop script marks this round as a checkpoint and the brief says full suites run only on checkpoint rounds. Insights is next round.
+- 2026-11-22 18:54 Checkpoint prompt changes no files and does not fix failures. Failures go to BLOCKED for the next round.
+- 2026-11-22 18:54 Kept the jest worker SIGSEGV rerun rule from the notes, so a Node GC crash is not read as a real failure.
