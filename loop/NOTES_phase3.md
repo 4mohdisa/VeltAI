@@ -11,12 +11,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16, 17.
 - PARTIAL: 5 (part 2 needs credentials), 6 (waits on Isa), 13, 14.
 - DIFFERENT: 11 (final sweep, last).
-- Row 8 is BUILT; Isa may still confirm.
-- Row 17 gap 5 is closed (ai-query.tsx trim check, aiQueryAnswer.empty). Do not resend it.
+- Row 17 verified in the last round (tsc 0 errors, aiQueryEmpty tests pass). Closed. Do not resend.
 
 ## Next
-1. Row 17 verify: status cell, tsc, aiQueryEmpty tests (this round).
-2. Row 14 items that need no src/lib/data change.
+1. Row 14: merge the three offline notices into one shared component (in progress this round).
+2. Row 14: remaining items that need no src/lib/data change.
 3. Row 6 waits on Isa. Do not re-ask.
 4. Row 11 final sweep last.
 
@@ -61,7 +60,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Row 6: gym history list not virtualised. Options: per-row card pieces, list mode on Screen, or limit hydrateGym in hooks.ts:170 (recommended).
 - Backend: gym/schedule_pg.go:765-767 sorts progress oldest first, then LIMIT 30, losing newest. 49 queries use WHERE id::text = $1 (skips id index). 18 DB tests skipped without LUME_TEST_DATABASE_URL. getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; npm audit 48 vulns.
 - Row 8: feature_used accepts any short key; app_version or build could overwrite BUILD_TAGS.
-- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names.
+- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; English muscle and exercise names.
 - Row 15: useGoals loading and error states.
 - Row 16: scanCalibration.basedOn lacks _one form.
 - Row 17: 503 text in server language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Dev-only Simulate scan and Unknown code buttons stay English. aiQueryEmpty and aiQueryEmptyAnswer overlap.
@@ -81,6 +80,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - .test.ts files run in Jest's node project.
 - Edit locale files by exact text insertion, not JSON rewrite. Check anchor uniqueness. Check bytes after edits.
 - Locale files: src/lib/i18n/locales/. Expo Router: node_modules/expo-router/_ctx-shared.js.
+- New test file names must not differ by case only from existing ones (WeekStrip.render exists).
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.

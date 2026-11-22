@@ -9523,3 +9523,8 @@
 - 2026-11-23 03:06 Row 6 stays waiting on Isa. Its recommended fix needs src/lib/data, which is off limits, and Isa has the options already. No re-ask.
 - 2026-11-23 03:06 Row 14 open items are not listed in the notes, so it is not picked before the check clears.
 - 2026-11-23 03:06 No question to Isa this round. Blocked on Isa list already covers it, and the Jev ask score is advisory only.
+- 2026-11-23 03:07 Row 17 verify is cleared (tsc 0 errors, aiQueryEmpty tests pass), so no more Row 17 resends.
+- 2026-11-23 03:07 Chose Row 14 offline notice merge: it needs no src/lib/data change and is the smallest open Row 14 item.
+- 2026-11-23 03:07 Row 6 stays on hold until Isa answers the Gym history option. No re-ask.
+- 2026-11-23 03:07 Row 11 final sweep stays last.
+- 2026-11-23 03:07 Jev ranked run at 85% and agrees with the chosen task, so no second look.
