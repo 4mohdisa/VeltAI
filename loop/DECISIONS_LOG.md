@@ -8396,3 +8396,7 @@
 - 2026-11-22 18:03 Recorded that the save-alert work was already done in Round 88, so no session.tsx change is needed.
 - 2026-11-22 18:03 Kept Spanish and French wording as defaults pending Isa review, as already decided.
 - 2026-11-22 18:03 Kept Retry on exercise progress parked because it needs a src/lib/data change Isa has not approved.
+- 2026-11-22 18:05 Templates: Retry wired because useTemplates already exposes refetch (failed-read rule from Decisions).
+- 2026-11-22 18:05 Muscles and exercise progress: notice without Retry, because wiring Retry needs a src/lib/data change. Default used, Isa not asked again.
+- 2026-11-22 18:05 Row 14 kept PARTIAL until templates, streak and freeze are done.
+- 2026-11-22 18:05 Chose templates over streak: it is the next unfinished Row 14 screen and needs no data-layer change.
