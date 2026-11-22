@@ -5,12 +5,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 252 checkpoint: tsc 0; Jest 213 suites, 1252 tests, 4 snapshots, all pass. Go 637 pass, 20 TestPG skipped (no local DB).
+- Round 252 checkpoint: tsc 0; Jest 213 suites, 1252 tests, 4 snapshots pass. Go 637 pass, 20 TestPG skipped (no local DB).
 - Next checkpoint: round 256.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
-- PHASE3_ROWS.md is a table: append notes inside the row cell. The file stays at 22 lines.
-- Every prompt must name loop/phase3 and the no-git rule.
+- PHASE3_ROWS.md: append notes inside the row cell. Stays at 22 lines.
+- Every prompt names loop/phase3 and the no-git rule.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -32,16 +32,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - kJ keeps abbreviation until Isa answers.
 - spokenEnergy lives in src/lib/units.ts; food.tsx uses it. nutrition.tsx change backed out (see Blocked).
 - Round 252: Isa not asked again (defaults apply).
-- Round 253: seed host guard chosen over Row 11 (safety gap). Jev said ask, low confidence; defaults apply, so run.
+- Round 253: seed host guard chosen over Row 11 (safety gap). Defaults apply.
+- Round 254: guard via option (a): localDSN moved to backend/internal/localdb, wrapper kept in tools/seed so seed_test.go is untouched. Jev said Row 11 (95%); kept guard because seed_demo_account.go runs DELETE with no host check and Row 11 would otherwise list a live destructive risk. Isa not asked (not major, blocks no row).
 
 ## Done
 - BUILT: 1, 2, 3, 4, 7, 9, 10. Owner checks pending on 3, 5 part 1, 7, 9, 10.
-- PARTIAL: 5 (part 2 needs sign-in), 8 (device check), 12 (until Isa says built), 13, 14, 15.
+- PARTIAL: 5 (part 2 needs sign-in; guard in progress round 254), 8 (device check), 12 (until Isa says built), 13, 14, 15.
 - DIFFERENT: 6, 11, 16, 17.
 - Row 15 done: headers, Privacy export row, footers, support keys, destructive hint, French punctuation, fr.json apostrophes, goals spoken label, scan accuracy and integrations copy, food.tsx spoken kcal.
 
 ## Next
-- Row 5 seed host guard in backend/scripts/seed_demo_account.go (round 253).
+- Row 5 host guard (round 254, in progress).
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
@@ -64,13 +65,19 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
 - Confirm Spanish 'Escribir a soporte', French 'Ecrire a l'assistance', Privacy export error toast, Scan and Integrations es/fr wording.
 - kJ spoken as 'kilojoules': needs a second key.
-- Leftover es.json keys addMenu.voice and addMenu.describeOutLoud: keep or remove?
-- Nutrition spoken kcal (round 249 back-out): waits on the macros snapshot approval above.
+- es.json keys addMenu.voice and addMenu.describeOutLoud: keep or remove?
+- Nutrition spoken kcal: waits on macros snapshot approval.
+- Spanish/French wording from rounds 242-243 (French 'plus de {{food}}' does not elide before vowels).
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).
+- seed_demo_account.go usage comment written for the hosted review DB; Phase 4 store work decides whether it is needed.
 - UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English; MacroBars unused; formatCalories always kcal; freeze offline toast claims success on failure; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
 - Code hygiene: goals.saved unused; scan-calibration.tsx:50 and hooks.ts:72 console.warn; lint in gymSchedule.ts and hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx; relative-time keys have no plural forms.
-- Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; share subject 'Lume data export' hard-coded; Privacy title and eyebrow both 'Your data'; two Export rows until Row 15 copy pass ends.
+- Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; share subject hard-coded; Privacy title and eyebrow both 'Your data'; two Export rows until Row 15 copy pass ends.
 - Feedback: app_version carries build number; no limit tighter than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; label 'Help and feedback' vs 'Send feedback' open.
 - Phase 4: delete-account.tsx and subscription.tsx; authenticated role in local Postgres 17.
+
+## Gotchas
+- No git, Prettier or Maestro. zsh does not split $var lists: use xargs or ${=var}.
+- Perl replacement strings interpolate ${...}: use node with s.replace(a, () => b). Perl without -CSD double-encodes: check bytes after edits.

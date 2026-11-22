@@ -9202,3 +9202,8 @@
 - 2026-11-23 00:56 Jev advised ask (45%) with low confidence (0.18). Kept run because the question was already answered by defaults, and the next task is a concrete safety fix.
 - 2026-11-23 00:56 Kept the Row 15 nutrition.tsx fix backed out until Isa approves the macros snapshot, per the existing default.
 - 2026-11-23 00:56 Condensed the notes to fit the 600-word limit. No decisions or blocked items were dropped.
+- 2026-11-23 00:58 Chose option (a) from the Claude Code report: move localDSN into backend/internal/localdb, keep a one-line localDSN wrapper so existing tests compile. Reason: one guard, no behaviour change, no second copy.
+- 2026-11-23 00:58 Did not ask Isa. The choice blocks no row, and the default rule says to decide after one unanswered round. Isa can reverse it.
+- 2026-11-23 00:58 Ran the guard before Row 11 instead of Jev's Row 11 pick (Jev 95% on Row 11, ask 81%). Concrete reason Jev cannot see: seed_demo_account.go runs DELETE FROM profiles with no host check, and its comment points at the hosted review database. Row 11 would list that as a known issue while it stays live. The guard closes the risk first, so Row 11 can then report it as fixed.
+- 2026-11-23 00:58 Stop rule was considered (dangerous script). Not stopping: the fix removes the danger, and the script will refuse to run against a non-local host.
+- 2026-11-23 00:58 Kept the wrapper approach so seed_test.go is not edited, per the never edit existing tests rule.

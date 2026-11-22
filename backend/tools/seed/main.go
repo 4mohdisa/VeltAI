@@ -11,14 +11,14 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"net/url"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
+
+	"lume/backend/internal/localdb"
 )
 
 const (
@@ -26,40 +26,9 @@ const (
 	seedEmailDomain = "@example.test"
 )
 
-var localHosts = map[string]bool{"localhost": true, "127.0.0.1": true}
-
-// localDSN returns DATABASE_URL only if it is a postgres URL whose every host
-// is localhost or 127.0.0.1. The pgx check catches hosts the URL hostname does
-// not show, such as a ?host= query parameter or a multi-host list.
+// localDSN returns DATABASE_URL only if it points at a local database.
 func localDSN() (string, error) {
-	raw := os.Getenv("DATABASE_URL")
-	if raw == "" {
-		return "", errors.New("DATABASE_URL is not set")
-	}
-	if strings.Contains(strings.ToLower(raw), "supabase.co") {
-		return "", errors.New("refusing a supabase.co database: seed runs against a local database only")
-	}
-	u, err := url.Parse(raw)
-	if err != nil || (u.Scheme != "postgres" && u.Scheme != "postgresql") {
-		return "", errors.New("DATABASE_URL must be a postgres:// URL")
-	}
-	if !localHosts[u.Hostname()] {
-		return "", fmt.Errorf("refusing host %q: seed runs against localhost or 127.0.0.1 only", u.Hostname())
-	}
-	cfg, err := pgx.ParseConfig(raw)
-	if err != nil {
-		return "", fmt.Errorf("parse DATABASE_URL: %w", err)
-	}
-	hosts := []string{cfg.Host}
-	for _, fb := range cfg.Fallbacks {
-		hosts = append(hosts, fb.Host)
-	}
-	for _, h := range hosts {
-		if !localHosts[h] {
-			return "", fmt.Errorf("refusing host %q: seed runs against localhost or 127.0.0.1 only", h)
-		}
-	}
-	return raw, nil
+	return localdb.DSN(os.Getenv("DATABASE_URL"))
 }
 
 // isSeedEmail reports whether an email belongs to the seed domain.

@@ -1,6 +1,9 @@
 // Demo-account seeder for App Store review (guideline 2.1: reviewers cannot sign
 // up — provide working demo credentials WITH data).
 //
+// Runs against a local database only: it refuses any DATABASE_URL whose host
+// is not localhost or 127.0.0.1.
+//
 // Usage:
 //
 //	DATABASE_URL=... go run ./scripts/seed_demo_account.go            # default user id
@@ -26,6 +29,8 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"lume/backend/internal/localdb"
 )
 
 const demoEmail = "demo@lume.fit"
@@ -41,7 +46,17 @@ func demoPassword() string {
 	return "<set DEMO_ACCOUNT_PASSWORD to print it here>"
 }
 
+// requireLocalDatabase refuses any database URL that is not local.
+func requireLocalDatabase(url string) error {
+	_, err := localdb.DSN(url)
+	return err
+}
+
 func main() {
+	if err := requireLocalDatabase(os.Getenv("DATABASE_URL")); err != nil {
+		fmt.Fprintln(os.Stderr, "seed_demo_account:", err)
+		os.Exit(1)
+	}
 	userID := flag.String("user", "user_demo_reviewer", "user id (Clerk sub) to seed")
 	flag.Parse()
 
