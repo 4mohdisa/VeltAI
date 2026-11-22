@@ -227,6 +227,11 @@
     "servingsLabel": "How many servings?",
     "logged": "Logged {{servings}} × {{name}}."
   },
+  "meals": {
+    "title": "My Meals",
+    "recipes": "Recipes",
+    "newRecipeLabel": "New recipe"
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

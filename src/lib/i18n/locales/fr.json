@@ -227,6 +227,11 @@
     "servingsLabel": "Combien de portions ?",
     "logged": "Enregistré : {{servings}} × {{name}}."
   },
+  "meals": {
+    "title": "Mes repas",
+    "recipes": "Recettes",
+    "newRecipeLabel": "Nouvelle recette"
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",

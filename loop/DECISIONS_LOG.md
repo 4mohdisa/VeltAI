@@ -8270,3 +8270,7 @@
 - 2026-11-22 17:14 Limited the round to tests and a grep, with fixes allowed only inside RecipesList files, so it stays one small task.
 - 2026-11-22 17:14 Did not add a key-parity test in this round. It is a new test file and would be a separate task.
 - 2026-11-22 17:14 Spanish and French wording for the recipesList keys stays with Isa's review. Default wording used, per the unanswered-question rule.
+- 2026-11-22 17:15 Round 65 chose meals.tsx translation over new-recipe and calendar: the round 64 report recommends it, it is the parent screen of RecipesList, and it is the smallest one-screen task.
+- 2026-11-22 17:15 Calendar English text stays on the list; it does not need the blocked useLoggedDays change, but one screen per round applies.
+- 2026-11-22 17:15 Round 64 RecipesList re-verify is accepted as clean (3 suites, 7 tests pass; tsc 0). Row 13 stays PARTIAL.
+- 2026-11-22 17:15 The loop flag on the round 64 report is treated as resolved: it was a verify-only round and the open items are listed in NEXT.

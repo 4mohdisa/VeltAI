@@ -29,13 +29,11 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Unanswered question: use default and carry on. Do not re-ask.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - Re-verify a flagged report as its own round only if the row changed code. Re-verified once is enough.
-- Round 48: row 12 set back to PARTIAL until Isa approves BUILT.
-- Round 55: one screen or component per prompt.
-- Round 58: checkpoint chosen over Jev's Saved screen task.
-- Round 59: Saved screen load failure shows ErrorState with Retry. Default generic copy.
-- Round 62: past-day error copy test chosen over calendar fix.
-- Round 63: RecipesList translation chosen over the blocked calendar fix.
-- Round 64: re-verify RecipesList chosen over Jev's calendar task (84%). Reason: the round 63 report is flagged as partly done, and the Food tab and meals suites were not rerun. Calendar is next.
+- Row 12 set back to PARTIAL until Isa approves BUILT.
+- One screen or component per prompt.
+- Saved screen load failure shows ErrorState with Retry. Default generic copy.
+- Checkpoint chosen over Jev's task in round 58. Re-verify RecipesList chosen in round 64.
+- Round 65: meals.tsx translation chosen over new-recipe and calendar (report recommends it, smallest).
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -44,11 +42,11 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-54: Row 13 Food tab states done.
-- Rounds 56-57: Row 13 SavedMealsList and RecipesList load-failure states.
+- Rounds 56-59: Row 13 SavedMealsList, RecipesList and Saved screen load-failure states.
 - Round 58: checkpoint clean.
-- Round 59: Row 13 Saved screen load-failure state + 2 tests.
-- Round 62: past-day food log read failure test added and passing.
-- Round 63: RecipesList strings translated (en, es, fr), render test 3 of 3 pass. es/fr wording needs Isa review.
+- Round 62: past-day food log read failure test passing.
+- Round 63: RecipesList strings translated (en, es, fr).
+- Round 64: RecipesList re-verified clean (3 suites, 7 tests; tsc 0). No code changed.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -60,9 +58,10 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 64: verify RecipesList (tests that mount meals and RecipesList, key presence in all locales).
+- Round 65: meals.tsx hardcoded strings translated (en, es, fr), one render test.
+- Then new-recipe.tsx translation.
 - Then calendar hardcoded English (Pick a day, Jump to today, Previous/Next month, weekday letters). Do not touch useLoggedDays.
-- Row 13 remaining: calendar, Saved, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key, meals.tsx strings.
+- Row 13 remaining: calendar, new-recipe, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
