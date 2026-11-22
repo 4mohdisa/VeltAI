@@ -9197,3 +9197,8 @@
 - 2026-11-23 00:55 Chose run over ask. The macros snapshot question was already asked and the default applies. Jev's ask signal is not new information.
 - 2026-11-23 00:55 The prompt names loop/phase3 and the no-git rule, because the previous prompt was rejected for leaving out the branch rule.
 - 2026-11-23 00:55 Trimmed the notes under 600 words by shortening wording. No decision, blocked item or parked item was removed.
+- 2026-11-23 00:56 Chose the seed host guard over Row 11: it is a real safety gap against the brief's localhost-only rule, and it is small and needs nothing from Isa.
+- 2026-11-23 00:56 Did not ask Isa: the snapshot question is already asked and defaults apply, so the loop continues.
+- 2026-11-23 00:56 Jev advised ask (45%) with low confidence (0.18). Kept run because the question was already answered by defaults, and the next task is a concrete safety fix.
+- 2026-11-23 00:56 Kept the Row 15 nutrition.tsx fix backed out until Isa approves the macros snapshot, per the existing default.
+- 2026-11-23 00:56 Condensed the notes to fit the 600-word limit. No decisions or blocked items were dropped.

@@ -5,15 +5,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 252 checkpoint (gates only, no file changes): running, result in next report.
-- Last full checkpoint round 244: tsc 0; Jest 212 suites, 1250 tests, 4 snapshots. Go 637 pass, 20 TestPG skipped (no local DB).
-- Round 249 clean after back-out: related Jest 107 suites, 511 tests, 4 snapshots pass.
+- Round 252 checkpoint: tsc 0; Jest 213 suites, 1252 tests, 4 snapshots, all pass. Go 637 pass, 20 TestPG skipped (no local DB).
 - Next checkpoint: round 256.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
-- PHASE3_ROWS.md is a table: append notes inside the row cell, never as a new line.
-- Profile render tests mock StreakCounter.
-- Every prompt must name loop/phase3 and the no-git rule (a prompt was rejected for omitting it).
+- PHASE3_ROWS.md is a table: append notes inside the row cell. The file stays at 22 lines.
+- Every prompt must name loop/phase3 and the no-git rule.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -33,24 +30,24 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Typed routes need 'as Href' for /profile/feedback.
 - kJ keeps abbreviation until Isa answers.
-- Round 249: spokenEnergy lives in src/lib/units.ts; food.tsx uses it. nutrition.tsx change backed out (see Blocked).
-- Round 252: checkpoint run; Isa not asked again (defaults apply).
+- spokenEnergy lives in src/lib/units.ts; food.tsx uses it. nutrition.tsx change backed out (see Blocked).
+- Round 252: Isa not asked again (defaults apply).
+- Round 253: seed host guard chosen over Row 11 (safety gap). Jev said ask, low confidence; defaults apply, so run.
 
 ## Done
 - BUILT: 1, 2, 3, 4, 7, 9, 10. Owner checks pending on 3, 5 part 1, 7, 9, 10.
 - PARTIAL: 5 (part 2 needs sign-in), 8 (device check), 12 (until Isa says built), 13, 14, 15.
 - DIFFERENT: 6, 11, 16, 17.
-- Row 15 done so far: headers, Privacy export row, footers, support keys, destructive hint, French punctuation, goals label, Scan and Integrations copy, food.tsx spoken kcal.
+- Row 15 done: headers, Privacy export row, footers, support keys, destructive hint, French punctuation, fr.json apostrophes, goals spoken label, scan accuracy and integrations copy, food.tsx spoken kcal.
 
 ## Next
-- fr.json straight apostrophe check (Row 15).
-- Goals spoken calorie label; Scan accuracy and Integrations body copy (not yet checked).
+- Row 5 seed host guard in backend/scripts/seed_demo_account.go (round 253).
+- Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
-- Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Macros snapshot (detailChrome.render.test.tsx): approve so nutrition.tsx spoken 'kcal' becomes spokenEnergy. Default: fix stays backed out. Once approved: reapply nutrition.tsx (remaining const uses spokenEnergy), regenerate that one snapshot, restore nutritionSpokenKcal.render.test.tsx.
+- Macros snapshot (detailChrome.render.test.tsx): approve so nutrition.tsx spoken 'kcal' becomes spokenEnergy. Default: stays backed out.
 - Spanish Account and Privacy eyebrows both 'Tus datos'. Default kept.
 - Permission to edit privacyLocale.render.test.tsx line 56. Default: Privacy title stays English.
 - Feedback-owned rows in backend/internal/auth/export.go. Default kept.
@@ -65,15 +62,15 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Goals loading/error, profile error path, refetch on hooks: needs permission to change hooks.ts.
 - week.tsx snapshot regeneration: needs permission.
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
-- Confirm Spanish 'Escribir a soporte', French 'Ecrire a l'assistance', Privacy export error toast, Scan accuracy and Integrations es/fr wording (incl. French sync toast).
+- Confirm Spanish 'Escribir a soporte', French 'Ecrire a l'assistance', Privacy export error toast, Scan and Integrations es/fr wording.
 - kJ spoken as 'kilojoules': needs a second key.
 - Leftover es.json keys addMenu.voice and addMenu.describeOutLoud: keep or remove?
+- Nutrition spoken kcal (round 249 back-out): waits on the macros snapshot approval above.
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).
-- UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English; MacroBars unused; formatCalories always kcal; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
-- Code hygiene: goals.saved unused; scan-calibration.tsx:50 and hooks.ts:72 console.warn; lint in gymSchedule.ts and hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx.
+- UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English; MacroBars unused; formatCalories always kcal; freeze offline toast claims success on failure; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
+- Code hygiene: goals.saved unused; scan-calibration.tsx:50 and hooks.ts:72 console.warn; lint in gymSchedule.ts and hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx; relative-time keys have no plural forms.
 - Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; share subject 'Lume data export' hard-coded; Privacy title and eyebrow both 'Your data'; two Export rows until Row 15 copy pass ends.
-- Feedback: app_version carries build number; no limit tighter than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; label 'Help and feedback' vs 'Send feedback' open; Row 10 notes from rounds 216 and 218 out of date.
-- Integrations relative time keys have no plural forms (fine for short units).
+- Feedback: app_version carries build number; no limit tighter than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; label 'Help and feedback' vs 'Send feedback' open.
 - Phase 4: delete-account.tsx and subscription.tsx; authenticated role in local Postgres 17.
