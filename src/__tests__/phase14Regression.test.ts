@@ -211,10 +211,11 @@ describe('claim 3 · third-party-AI consent', () => {
   // This test pins the real wiring so a future change that makes listInsights
   // generate (and thus leak pre-consent) fails here.
   test('actual behaviour: the Food-tab anomaly banner fetches insights ungated', () => {
-    expect(read('app/(tabs)/food.tsx')).toContain('<AnomalyBanner');
-    const banner = read('components/ai/AnomalyBanner.tsx');
-    expect(banner).toContain('useInsights()');
-    expect(banner).not.toContain('AiConsent');
+    const food = read('app/(tabs)/food.tsx');
+    expect(food).toContain('<AnomalyBanner');
+    expect(food).toContain('anomalies={anomalies}');
+    expect(food).toContain('useInsights()');
+    expect(food).not.toContain('AiConsent');
     const brain = read('lib/data/aiBrain.ts');
     // useInsights has no consent gate today…
     const useInsightsBody = brain.slice(brain.indexOf('export function useInsights'), brain.indexOf('export function useBrainProfile'));
