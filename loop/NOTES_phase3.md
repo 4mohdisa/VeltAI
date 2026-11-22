@@ -6,10 +6,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Round 114 checkpoint (jest --ci): tsc 0; Jest 172 suites, 1111 tests, 0 failed.
-- Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
+- Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
-- Round 112 has no Row 15 note. Recorded, not fixed.
-- Round 115: prompt was rejected for missing branch rule. Rewritten in round 115 retry. Row 15 Summary tab strings in progress.
+- Round 112 and 114 have no Row 15 note. Recorded, not fixed.
 
 ## Decisions (never delete)
 - Local backend and local database only. Phase 1 design final except named Phase 3 rows. Phase 4 out of scope.
@@ -27,17 +26,18 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - GlassButtons.tsx changed in round 98 (freeze sheet Close). Accepted.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed. useEnergyRange isError only when both week reads fail.
 - Summary card guard hides during every first load. Accepted.
+- Round 116: Summary tab Spanish render test added as a check on round 115 keys (no string change).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
 - Row 14 PARTIAL: all gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash, GymStatusCard done.
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash, GymStatusCard, Summary tab strings (round 115) done.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
-- Spanish and French wording of new blocks in Rows 13, 14, 15. Shipped as written.
+- Spanish and French wording of new blocks in Rows 13, 14, 15. Shipped as written. Includes dashboard.gymLoggedToast, macrosCardLabel, planCardLabel, energyLoadFailed, weekMacrosLoadFailed, gymSession*.
 - Keys for en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'New recipe' vs 'New Recipe' (default keep current). /food/meals link from Food tab (default no link).
 - Row 14: 'streak' as 'racha' (es), 'serie' (fr). Freeze sheet disables apply tick and shows log-session when no streak. Review.
@@ -50,7 +50,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Nutrition follows Food tab date (audit 126). Default: leave.
 
 ## Next
-- Row 15 Summary tab strings (round 115, in progress): index.tsx toast, Macros header and labels, Today's plan detail.
+- Row 15 round 116: Summary tab Spanish render test (in progress).
 - Row 15 remaining: MacroBars.tsx 'Not tracked'; insights literals and swallowed errors; goals load and error states; week chart flat bars (125); nutrition date (126); EMPTY_STATES_AUDIT.md Summary loading row (stale).
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check. Shared has-a-streak helper.
@@ -73,4 +73,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - 'background sync failed' warnings in gym suites; react-test-renderer deprecation warning.
 - Freeze offline toast claims success even when the request fails. 'has a streak' check duplicated in streak.tsx and freeze.tsx.
 - MacroBars.tsx:53 'Not tracked · target … g' hard-coded.
+- Reused French foodLog.today uses straight apostrophe, not curly. Check in Row 11.
 - EMPTY_STATES_AUDIT.md Summary loading row still calls GymStatusCard broken (stale).

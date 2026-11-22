@@ -8499,3 +8499,7 @@
 - 2026-11-22 18:38 Kept the in-progress Summary tab strings as the next task because the round 115 assignment is already open and it is the smallest step.
 - 2026-11-22 18:38 Left MacroBars.tsx for a later round to keep this prompt to one row and one file group.
 - 2026-11-22 18:38 Shipped Spanish and French Summary wording as written, as already decided for Row 15 blocks.
+- 2026-11-22 18:40 Chose the render test first because the last report and the loop check both flag the round 115 strings as untested and the task as only partly done.
+- 2026-11-22 18:40 Test reads expected values from es.json so it does not pin English or copied literals.
+- 2026-11-22 18:40 Gym toast assertion is optional, because it may need extra setup and the brief forbids extra work.
+- 2026-11-22 18:40 Kept Row 15 PARTIAL. Only a test is added, no status change without Isa's review of the Spanish and French.
