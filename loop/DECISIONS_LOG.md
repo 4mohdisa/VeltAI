@@ -8294,3 +8294,7 @@
 - 2026-11-22 17:25 Kept useLoggedDays and formatting.ts out of scope: the first is blocked for Isa, the second is a shared helper and would widen the row.
 - 2026-11-22 17:25 Calendar date labels from formatWeekdayDate and formatMonthYear stay on the device locale for now and are parked, to keep the row to strings only.
 - 2026-11-22 17:25 Full checkpoint (tsc and full Jest) is due soon; it will run at the next checkpoint round, not this one, to avoid spending a row on it.
+- 2026-11-22 17:27 Chose candidate 1 because the loop flagged the last report as partly done; re-verify calendar.tsx before moving on.
+- 2026-11-22 17:27 Scope limited to calendar.tsx strings and calendar.* keys so the flagged task closes cleanly.
+- 2026-11-22 17:27 Date helper fixes (formatWeekdayDate, formatMonthYear, formatRelativeDate) parked, not fixed, because they are shared helpers outside this row's named file.
+- 2026-11-22 17:27 WeekStrip and other weekday-letter screens left for the next round, one screen per prompt.

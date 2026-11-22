@@ -6,7 +6,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Checkpoint round 58: tsc 0; 150 suites, 1038 tests, 0 failed.
-- Checkpoint due soon: food.tsx changed after round 58. Run full tsc and Jest at next checkpoint.
+- Checkpoint due soon: calendar.tsx and food.tsx changed after round 58. Run full tsc and Jest at next checkpoint.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
@@ -34,7 +34,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - One screen or component per prompt.
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
-- Round 70: calendar.tsx translation chosen over checkpoint and stale headers (report recommendation, strings only).
+- Round 70: calendar.tsx translation chosen over checkpoint and stale headers.
+- Round 71: loop flag said calendar work looked partial. Re-verify calendar.tsx strings and unused keys before stale headers.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -43,21 +44,23 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-59: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states.
-- Rounds 62-69: RecipesList, meals, new-recipe, history strings translated (en, es, fr); history dates follow app language; shared asLoadError helper in history.tsx; new-recipe toast tests.
+- Rounds 62-69: RecipesList, meals, new-recipe, history strings translated (en, es, fr); history dates follow app language; shared asLoadError helper; new-recipe toast tests.
+- Round 70: calendar.tsx strings translated (calendar block, en, es, fr) with calendar.strings render test.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
 - Calendar failed-read state needs Isa approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry. Work on other surfaces.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 es and fr wording for recipesList, meals, newRecipe, history keys, incl. 'entrenamiento hecho / sin entrenamiento' and 'séance faite / pas de séance'. Default used. Review needed.
+- Row 13 es and fr wording for recipesList, meals, newRecipe, history, calendar blocks, incl. 'entrenamiento hecho / sin entrenamiento' and 'séance faite / pas de séance'. Default used. Review needed. Calendar weekday letters LMXJVSD (es) and LMMJVSD (fr) need review.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 70: calendar.tsx strings translated (calendar block, en, es, fr) with calendar.strings render test.
+- Round 71: re-verify calendar.tsx strings and unused calendar.* keys (flagged).
 - Then stale headers: meals.tsx '(Task 4)', saved.tsx '(mock)'.
+- Then WeekStrip.tsx weekday letters via calendar.weekdayLetters.
 - Row 13 remaining: detail, barcode, Food tab PendingSyncBanner.
 - Then a full checkpoint (tsc and full Jest).
 - Row 14: Gym log and history empty states, one screen per round.
@@ -71,6 +74,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - 18 backend DB tests never run. Needs LUME_TEST_DATABASE_URL.
 - formatWeekdayDate and formatMonthYear (src/lib/formatting.ts) use device locale, so calendar dates ignore app language. Shared helper fix.
 - formatRelativeDate (src/lib/formatting.ts) returns hardcoded English Today and Yesterday.
+- One French string uses straight apostrophe in aujourd'hui; the rest use curly. Fix in Row 11.
+- GymCalendar.tsx and WeekEnergyCard.tsx have hardcoded weekday letters.
 - No test covers app-language dates, or en, es, fr key parity. Park to Row 11.
 - es.json extra keys addMenu.voice and addMenu.describeOutLoud.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx).
