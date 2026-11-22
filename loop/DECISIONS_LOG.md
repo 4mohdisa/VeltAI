@@ -9598,3 +9598,8 @@
 - 2026-11-23 04:58 src/lib/data stays off limits this round. Reason: the permission was asked in rounds 82 and 85 and is still unanswered.
 - 2026-11-23 04:58 Row 13 stays PARTIAL. Reason: the barcode network error and calendar load error sit in src/lib/data.
 - 2026-11-23 04:58 Next round, if src/lib/data is still unanswered, park its dependent items as owner items. Reason: the round 87 plan in these notes.
+- 2026-11-23 05:00 Round 88: src/lib/data permission unanswered for 3 rounds. Per the unanswered-question rule, the blocked items are parked as owner items instead of asking again.
+- 2026-11-23 05:00 Row 13 and Row 14 remaining English strings are pinned by tests or sit in src/lib/data. They stay English and go to OWNER_CHECKS_phase3.md. The round 87 report's proposed test edits are not made.
+- 2026-11-23 05:00 Rows 5, 6, 13 and 14 are set to BUILT with 'owner check pending' because only Isa can close them. This is allowed by the brief's owner item rule. Their open items are listed in KNOWN_ISSUES.md.
+- 2026-11-23 05:00 Row 11 is the next task because it does not need src/lib/data or test edits, so it closes the loop.
+- 2026-11-23 05:00 The round 85 and 87 resends about Row 13 and Row 17 gap 5 are closed. Row 17 gap 5 is done, and the Row 13 strings are parked as above.
