@@ -24,14 +24,14 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Snapshots: no regeneration without Isa's permission. Broken existing test or snapshot: back out and report.
 - MacroBars translation backed out (summaryNoFabrication.test.ts:54). Stays English.
 - Row 125 parked after two failed attempts.
-- Render tests must end .render.test.tsx and live in src/__tests__/render/ (not src/app, Expo Router would bundle them).
+- Render tests must end .render.test.tsx and live in src/__tests__/render/.
 - Unknown keys fall back with t(key, { defaultValue }), as in food/detail.tsx:677.
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Round 155: InsightCard badge chosen over Goals states.
 - Round 158: checkpoint chosen over Jev's nutrition pick.
 - Round 160: visible fix chosen over Jev's shared-helper pick.
-- Round 161: spoken slot name plus es/fr render test. Shared slotName now used for title and label.
-- Round 162: verify Round 161 first (loop flag). Empty-week crash deferred to a check round.
+- Round 161: spoken slot name plus es/fr render test. Verified in Round 162 report.
+- Round 162: week-empty guard chosen over slot helper. Jev agreed (run 84%).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -58,8 +58,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Slot name wording for snack ('Snacks' in es and fr) needs review.
 
 ## Next
-- Round 162: verify Round 161 (slot name, render test, tsc, row note).
-- Then: check whether useWeekMacros can return no days; guard nutrition.tsx:174 (week.data[0].date) if it can.
+- Round 162: guard the week macros read in nutrition.tsx (~174) if the hook can return no days. Render test dashboardNutritionEmptyWeek.render.test.tsx.
 - Then: shared slot-name helper (five copies: food.tsx, food/add.tsx, food/quick-add.tsx, food/detail.tsx, dashboard/nutrition.tsx).
 - Then: week.tsx flat bars when every day is 0 kcal (needs no-logged-value rule and snapshot permission).
 - Then: InsightCard more/less toggle, 120-character rule.
@@ -90,3 +89,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight type badge: unknown types show as sent.
 - Nutrition ring unit ('kcal' or 'kJ') spoken as abbreviation.
 - goals.tsx hard-codes 'g' and '%' in spoken labels.
+- nutrition.tsx spoken slot name at ~227 was listed in an old handover; Round 161 fixed it (line 237 uses slotName). Re-check only if a test fails.

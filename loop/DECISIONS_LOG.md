@@ -8707,3 +8707,7 @@
 - 2026-11-22 19:44 Accepted the render test location src/__tests__/render/ over src/app/dashboard/, since Expo Router would bundle a test file under src/app as a screen.
 - 2026-11-22 19:44 Deferred the empty-week crash at nutrition.tsx:174 to the next round, because it needs a check of whether the hook can return no days before any guard is added.
 - 2026-11-22 19:44 Recorded that the spoken slot label was translated in Round 158 and made to share slotName in Round 161; the Round 162 check confirms it.
+- 2026-11-22 19:45 Round 162 chose the week-empty guard: the Round 161 report confirms the slot name fix is done, and a possible crash on the nutrition screen outranks a copy duplicate.
+- 2026-11-22 19:45 Handover NEXT (translate nutrition.tsx:227) is stale: the Round 161 report shows the spoken label at line 237 already uses the shared slotName, so it is not repeated.
+- 2026-11-22 19:45 Hook under src/lib/data is off limits, so the guard goes in the screen only; if the guard needs the hook changed, the task is parked, not forced.
+- 2026-11-22 19:45 Jev suggested run (84%) and the choice agrees, so no second look is needed.
