@@ -144,10 +144,16 @@ export default function DashboardScreen() {
         <Card
           variant="elevated"
           onPress={() => router.push('/dashboard/nutrition')}
-          accessibilityLabel="Macros today. Double tap for detail."
+          accessibilityLabel={t('dashboard.macrosCardLabel')}
         >
           <View style={{ gap: space.lg }}>
-            <CardHeaderRow title="Macros" icon="circle.grid.2x2.fill" tint={categoryAccent.protein} scope="Today" chevron />
+            <CardHeaderRow
+              title={t('nutrition.macrosTitle')}
+              icon="circle.grid.2x2.fill"
+              tint={categoryAccent.protein}
+              scope={t('foodLog.today')}
+              chevron
+            />
             {dashLoading ? (
               // Same rule as the streak: the food store's seed is not today's food.
               <Skeleton width="100%" height={MACRO_ROWS_H} />
@@ -180,7 +186,7 @@ export default function DashboardScreen() {
             durationMin={todayDurationMin}
             onLog={() => {
               logGymSession();
-              showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
+              showToast({ message: t('dashboard.gymLoggedToast'), tone: 'success' });
             }}
           />
         )}
@@ -196,7 +202,7 @@ export default function DashboardScreen() {
           <Card
             variant="elevated"
             onPress={() => router.push('/dashboard/plan')}
-            accessibilityLabel="Today's plan detail"
+            accessibilityLabel={t('dashboard.planCardLabel')}
           >
             <View style={{ gap: space.md }}>
               {/* "AI" stays in the scope slot: the sparkles glyph alone is not a

@@ -8491,3 +8491,11 @@
 - 2026-11-22 18:37 Chose candidate 1 over the Summary literals task. Reason: the checkpoint is already scheduled and Jev's 96% run signal supports the smallest safe action.
 - 2026-11-22 18:37 Kept all open Blocked on Isa defaults unchanged and did not re-ask. Reason: Isa's rule is one unanswered round, then use the default.
 - 2026-11-22 18:37 Condensed the notes to fit the 600-word limit without dropping any open item or decision.
+- 2026-11-22 18:38 Chose the Summary tab strings: Row 15 is the next open item in notes, the change is small and confined to one screen.
+- 2026-11-22 18:38 Deferred MacroBars and the freeze toast: they touch shared components or offline behaviour, so they stay separate rounds.
+- 2026-11-22 18:38 Used no-break space in French and existing keys where text is identical, per the locale rules already recorded.
+- 2026-11-22 18:38 Round 114 checkpoint is green (tsc 0, 172 suites, 1111 tests), so no further full gate is needed until the next checkpoint.
+- 2026-11-22 18:38 Rewrote the rejected prompt to name the loop/phase3 branch rule first, with a HEAD check and a stop on mismatch, and to meet every strict prompt rule.
+- 2026-11-22 18:38 Kept the in-progress Summary tab strings as the next task because the round 115 assignment is already open and it is the smallest step.
+- 2026-11-22 18:38 Left MacroBars.tsx for a later round to keep this prompt to one row and one file group.
+- 2026-11-22 18:38 Shipped Spanish and French Summary wording as written, as already decided for Row 15 blocks.
