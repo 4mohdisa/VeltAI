@@ -6,8 +6,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Last full checkpoint: round 199 (tsc 0, Jest 202 suites, 1210 tests, 4 snapshots).
-- Round 205: tsc 0; 4 analytics suites 26/26. Report said the PRIVACY_DATA.md host item matched code; handover says first sentence still says any non-empty host is used. Round 205 flagged partly done.
-- Round 206 (in progress): docs-only fix of PRIVACY_DATA.md host sentence, then tsc. Pick kept over Jev's Row 10 (86%): Jev confidence 0.64 favours a smaller task, and a wrong privacy doc feeds Phase 4.
+- Round 205 flag closed in round 206: PRIVACY_DATA.md host item matches analyticsSink.ts. Closed on evidence.
+- Round 207: Row 9 backend route (export.go, export_test.go). Jev chose Row 10 at 86 percent; kept Row 9 because Jev confidence is 0.44 (prefer smaller).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. perl misses accented patterns; use Edit.
 - API client src/lib/api.ts. Locales src/lib/i18n/locales/.
@@ -34,6 +34,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics switch lives in src/app/profile/privacy.tsx. No second switch on main Settings.
 - PRIVACY_DATA.md place name: 'Settings → Privacy'. Host item follows code, no region claim.
 - Checkpoint rounds change no files; fixes are queued for the next task.
+- Row 9 export: GET /api/export, same auth and rate limiter as analytics route.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -45,9 +46,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
 
 ## Next
-- Row 8 host sentence fix (round 206), then recheck.
-- Row 10: Help and feedback (screen, feedback table locally, rate limit).
-- Row 9: Export my data (backend route with cross-user test, then Settings row). Heavy-user check needs E2E creds.
+- Row 9 backend route (round 207), then Row 9 Settings row with share sheet, heavy-user check later.
+- Row 10: Help and feedback (feedback table locally, rate limit, screen).
 - Row 8: anonymous ID persistence and app version tags (device check pending).
 - Row 8 crash opt-out: needs flag in store.ts and Privacy change (permission needed).
 - Row 15 tail (after Row 10): Integrations, Support, Privacy, Scan accuracy body copy; Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
@@ -74,5 +74,5 @@ getMorningBrief swallows errors (pinned); getProfile .catch hides errors; Anomal
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
 - Round 199 checkpoint closed the partly-done flag with evidence.
-- Round 205 flagged by loop check; round 206 fixes the doc and rechecks.
+- Round 205 flag closed in round 206 (docs matched code, tsc 0).
 - Every prompt starts with the branch rule.

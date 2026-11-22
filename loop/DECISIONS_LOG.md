@@ -8984,3 +8984,8 @@
 - 2026-11-22 21:06 Treated the round 205 report claim that the host item matched as wrong. The handover says the first sentence still says any non-empty host is used. Fix the doc and recheck; no code change.
 - 2026-11-22 21:06 Skipped Jest for this doc-only round; one tsc run is enough.
 - 2026-11-22 21:06 Row 10 is next after this fix, then Row 9, unless Jev's ranking changes sharply.
+- 2026-11-22 21:08 Round 206 closed: the PRIVACY_DATA.md host item already matches analyticsSink.ts (the latest report grep found no 'non-empty' sentence). Closed on evidence, no further edit.
+- 2026-11-22 21:08 Jev ranked Row 10 first at 86 percent, but Jev confidence on the next action is only 0.44. Low confidence favours a smaller task, so Row 9 backend route goes first.
+- 2026-11-22 21:08 Row 9 is split: backend route and cross-user test this round, Settings row and share sheet later. One task per prompt.
+- 2026-11-22 21:08 Export route is GET /api/export, reusing the analytics route's auth and rate limiter. No new auth code.
+- 2026-11-22 21:08 Row 10 waits: it needs a migration applied to the local database only, plus a rate limit, so it is larger than this step.
