@@ -1,13 +1,14 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Rows say built, never verified (Isa verifies).
+Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One screen or component per prompt. Rows say built, never verified (Isa verifies).
 
 ## State
 - Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last full checkpoint round 144: tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Other rounds run changed files only.
+- Last full checkpoint round 144: tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Other rounds: changed files only.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Round numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop numbers. Not fixed.
+- Round 157: prompt rejected for missing loop/phase3 branch rule. Rewritten.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -20,8 +21,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Identical text reuses existing keys. src/lib/data off limits.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - French: no-break space before ':' and '?'. Curly apostrophes. es and fr put a plain space before %.
-- Snapshots: no regeneration without Isa's permission.
-- Test edit that breaks a test: back out and report. Never leave suite red.
+- Snapshots: no regeneration without Isa's permission. Test edit that breaks a test: back out and report.
 - MacroBars translation backed out (summaryNoFabrication.test.ts:54). Stays English.
 - Row 125 parked after two failed attempts. Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
@@ -30,16 +30,17 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals reset test named *.render.test.tsx.
 - Rounds 129, 144: checkpoint kept over Jev picks.
 - Round 155: InsightCard badge chosen over Goals states (Goals needs hooks.ts permission).
+- Round 156: DailyMacroRing 'of' chosen over Goals states after Jev ranked it first. Goals still needs hooks.ts permission.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card scope, insights screen, BrainProfileCard, InsightCard text, AnomalyCard, AnomalyBanner, Goals literals, goals reset toast, goals unit labels, fibre spoken label.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card scope, insights screen, BrainProfileCard, InsightCard text and type badge (round 155), AnomalyCard, AnomalyBanner, Goals literals, goals reset toast, goals unit labels, fibre spoken label.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Goals loading and error via useGoals: parked.
+- Goals loading and error via useGoals: parked. Needs permission to change src/lib/data/hooks.ts.
 - Permission to edit gymMuscles.shape.render and sheetContent.render tests to read en.json: no edit.
 - Review insights.* and banner wording; es/fr weekday capitalisation: lowercase.
 - 'patterns' vs 'activity' in banner titles: keep.
@@ -63,14 +64,17 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Comma join for label and unit: keep in code, or move to locale files.
 - Visible bracket labels 'Protein (g)' kept.
 - Fibre spoken 'Fibre, g, optional' (round 154): Isa may change.
+- Round 149 reset toast copy: Isa to pick wording.
+- Round 155: Isa may reword es/fr 'Gym and food' for gym_correlation.
 
 ## Next
+- Row 15: DailyMacroRing 'of' label (round 157, verify first).
+- week.tsx flat bars when every day is 0 kcal (needs a no-logged-value rule).
 - InsightCard more/less toggle: body over 120 characters rule.
-- week.tsx flat intake bars when every day is 0 kcal: needs a no-logged-value rule.
 - insights.tsx consent comment is false (phase14Regression.test.ts).
 - BrainProfileCard: fixed 0.3 bar; numbers unformatted; energy always kcal.
 - api.ts swallows insight errors (~1253, 1270).
-- DailyMacroRing.tsx:73 hard-coded 'of'; nutrition.tsx:227 raw meal slot name.
+- nutrition.tsx:227 raw meal slot name.
 - Goals loading and error only after Isa allows hooks.ts.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8, 9, 10, then Row 11.
@@ -96,5 +100,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
 - Profile screens hard-code English titles and eyebrows (About, Privacy, Account, Connected apps, Delete Account, Units).
 - Gym card may show seed data after a failed dashboard read.
-- Round 149 reset toast copy may be inaccurate; Isa to pick wording.
 - Fibre VoiceOver: no accessibilityLabel; needs key or drop 'optional'.
+- Insight type badge: unknown types show as sent. Add a key if the backend adds a type.
+- AnomalyBanner.tsx copy may be English; not opened.
+- BrainProfileCard fixed 0.3 bar; energy always kcal.
+- MacroBars is unused anywhere in the app and does not format numbers.

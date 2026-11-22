@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Animated, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+import { useTranslation } from 'react-i18next';
 
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color } from '@/lib/design/tokens';
@@ -27,6 +28,7 @@ const VALUE_ANIMATION_MS = 250;
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14, energyUnit = 'kcal' }: DailyMacroRingProps) {
+  const { t } = useTranslation();
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const pct = target > 0 ? Math.min(1, consumed / target) : 0;
@@ -70,7 +72,7 @@ export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14,
   return (
     <View
       style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}
-      accessibilityLabel={`${formatNumber(kcalToDisplay(consumed, energyUnit))} of ${formatNumber(targetDisplay)} ${energyUnit}`}
+      accessibilityLabel={`${formatNumber(kcalToDisplay(consumed, energyUnit))} ${t('nutrition.ringOf')} ${formatNumber(targetDisplay)} ${energyUnit}`}
     >
       <Svg width={size} height={size} style={{ position: 'absolute' }}>
         <Circle cx={center} cy={center} r={radius} stroke={color.light2} strokeWidth={strokeWidth} fill="none" />

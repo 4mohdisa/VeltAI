@@ -8668,3 +8668,13 @@
 - 2026-11-22 19:31 Rewrote the prompt to state the loop/phase3 branch rule, the no-git rule and the no-Prettier rule, to fix the rejection.
 - 2026-11-22 19:31 Unknown insight types are shown as sent, following the existing server text rule.
 - 2026-11-22 19:31 Snapshot changes are backed out, not regenerated, because snapshots need Isa's permission.
+- 2026-11-22 19:33 Jev ranked DailyMacroRing first (93%). I switched to it from the Goals screen.
+- 2026-11-22 19:33 Reason for switching: the Goals loading and error states need useGoals refetch in src/lib/data/hooks.ts, and Isa has not given permission for that. The handover NEXT line conflicts with the notes, and the notes are right, so Goals is parked again.
+- 2026-11-22 19:33 The InsightCard badge task (round 155) is complete in code and tests. Its more/less toggle is outside that task and stays on the Next list, so the flagged partial is a list item, not unfinished work.
+- 2026-11-22 19:33 Used a plain space before % and kept curly apostrophes for French, as the existing decisions say.
+- 2026-11-22 19:33 If a snapshot changes, back out and report, as before. No regeneration without Isa's permission.
+- 2026-11-22 19:34 Chose the DailyMacroRing 'of' label: the last report recommends it and it is the smallest Row 15 gap. Verify first, since the note says it may already be done.
+- 2026-11-22 19:34 Rejected the Goals screen: it needs Isa's permission to change src/lib/data/hooks.ts.
+- 2026-11-22 19:34 Rejected the week chart: it needs a no-logged-value rule that is not yet decided.
+- 2026-11-22 19:34 Prompt now states the loop/phase3 only rule, no git, no Prettier, no Maestro, and the report format, because the last prompt was rejected for missing the branch rule.
+- 2026-11-22 19:34 Reused an existing 'of' key if one exists, to follow the identical-text rule.

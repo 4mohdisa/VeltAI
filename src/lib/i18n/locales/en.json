@@ -612,6 +612,7 @@
     "fromFood": "from food",
     "caloriesToday": "Calories today",
     "caloriesTodayLabel": "Calories today. {{consumed}} of {{target}}, {{remaining}} left.",
+    "ringOf": "of",
     "remainingToday": "Today · against daily targets",
     "todayAgainstTargets": "Today against targets",
     "targetsScale": "Targets scale with your {{goal}} calorie goal.",
