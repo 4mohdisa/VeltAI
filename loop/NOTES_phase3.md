@@ -5,28 +5,27 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
-- Gates run and reported on every round that touches code.
-- Last recorded figures: tsc 0 errors. Jest 233 suites / 1338 tests pass, 0 skipped. Go 543 pass / 20 TestPG skipped. Isa to confirm new baseline. 228/1322 superseded.
+- Gates run and reported on every round. A round with no code change still gets the gate check when the automatic check flags it.
+- Last figures: tsc 0 errors. Jest 228 suites / 1322 tests (handover) vs 233 / 1338 (earlier notes). Go 543 pass / 20 TestPG skipped. Isa to confirm baseline.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 16. Row 15 closing as BUILT this round (loading and failed-read parked with default).
+- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16.
 - PARTIAL: 5 (part 2 needs sign-in), 13, 14, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 17 gaps: list first, then fix one. Row 11 final sweep last.
+- Row 17: list gaps this round (with gate check), fix one next round. Row 11 final sweep last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in, OFF by default in code (brief said on). Isa confirms before Phase 4.
 - AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched.
-- Analytics switch lives in src/app/profile/privacy.tsx only. Render tests in src/__tests__/render.
-- Build labels added by analytics.ts after sanitise, pinned by test. PostHog never gets them.
+- Analytics switch lives in src/app/profile/privacy.tsx only.
 - feature_used keeps shapeOnly() until Isa approves.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
-- Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
-- Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
+- Row 9: GET /api/export, same auth and limiter as analytics, ungated by subscription.
+- Row 10: feedback shares 120/min write limit. Migration not applied to any local DB.
 - Export row stays in both Settings and Privacy. Removing either breaks an existing test.
 - Test files never go under src/app (Expo Router treats them as routes). Use src/__tests__/render/.
 - New strings go in new top-level locale groups, inserted before the unique 'pendingSync' anchor. Reuse a key only when English and meaning match.
@@ -38,11 +37,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
 - Preferences kept in memory, not persisted.
 - Every prompt states the loop/phase3 branch rule.
-- Row 15 Goals: no empty state (useGoals always returns numbers). Loading and failed-read parked with default.
-- Row 17 Jev override (this round): Jev ranked Row 17 first at 88%. Row 15 was left PARTIAL after its gate round; closing it is one status change with defaults already recorded.
+- Row 15: no empty state (useGoals always returns numbers). Loading and failed-read parked with default.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading and error (Row 15). Parked.
+- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading, error, refetch (Row 15). Parked.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
 - Export duplicate: two exportData functions with different share subjects. Remove one only if Isa decides.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
@@ -53,22 +51,20 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Device maker, model, OS to PostHog: default not sent.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user.
-- Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}'. kJ spoken as 'kilojoules' needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
-- Confirm new baseline 233 suites / 1338 tests (was 228/1322).
+- Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules' (needs second key), es addMenu.voice and addMenu.describeOutLoud keep or remove.
+- Confirm new baseline after this round's gate run.
 
 ## Parked (not Phase 3)
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
 - Row 15: useGoals loading and error states (src/lib/data off limits).
-- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form. supportMailSubject test sits in render/ but runs in node project.
+- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
 - Export: duplicate exportData in profile/index.tsx and profile/privacy.tsx; subjects differ.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
-- Preferences: contentStyle gap 18 is a raw number, not a token. Repeat-visit skeleton flash.
+- Preferences: contentStyle gap 18 is a raw number. Repeat-visit skeleton flash.
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
-- One unexplained extra test above expected count (1337 counted vs 1338 run).
-- seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
 - PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults and open items (fix wording later).
@@ -83,5 +79,5 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Edit locale files by exact text insertion, not JSON rewrite. Check anchor uniqueness.
 - Use node with s.replace(a, () => b), not Perl. Check bytes after edits.
 - PHASE3_ROWS.md must stay 22 lines.
-- Locale files live in src/lib/i18n/locales/, not src/locales/.
+- Locale files live in src/lib/i18n/locales/.
 - Expo Router: node_modules/expo-router/_ctx-shared.js.

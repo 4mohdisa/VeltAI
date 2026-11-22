@@ -9409,3 +9409,8 @@
 - 2026-11-23 02:20 No gates run this round: the prompt changes no code. The gate round for Row 15 was already run and reported green (tsc 0, Jest 233/1338, Go 543 pass, 20 skipped).
 - 2026-11-23 02:20 The Jest and Go baselines are recorded as 233/1338 and 543/20. Isa still needs to confirm the 228/1322 to 233/1338 change. Not blocking.
 - 2026-11-23 02:20 Row 15 loading and failed-read states are parked with the default, not built. Isa's useGoals decision can reopen them later.
+- 2026-11-23 02:21 Kept Row 17 (Jev ranked it 92%). Agrees with Jev, so no override needed.
+- 2026-11-23 02:21 Added a read-only gate run as step 1. The automatic check flagged the last report for tests not run. Row 15 touched no code, but the gates are run this round anyway.
+- 2026-11-23 02:21 Step 3 forbids editing existing tests or snapshots, following the standing rule. A broken test is backed out and reported.
+- 2026-11-23 02:21 Gap listing only this round. Fixing one gap waits for the next round, per the Row 17 plan (list first, then fix one).
+- 2026-11-23 02:21 The 228/1322 vs 233/1338 baseline question stays open. This round's gate run supplies the real numbers for Isa to confirm.
