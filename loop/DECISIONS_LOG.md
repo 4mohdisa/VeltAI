@@ -8851,3 +8851,7 @@
 - 2026-11-22 20:29 Account Row 15 note is a documentation-only edit, so it goes after this screen to keep the prompt to one task.
 - 2026-11-22 20:29 Named the exact test file and mock pattern (privacyLocale.render) so the agent does not invent a new setup.
 - 2026-11-22 20:29 A broken existing test is backed out and reported, never edited, per the Phase 3 snapshot and test rules.
+- 2026-11-22 20:31 Chose integrations header: it is the next item in the Row 15 queue and is the smallest single-screen change.
+- 2026-11-22 20:31 Account note: Claude's report says it is already in PHASE3_ROWS.md, while the handover says it is missing. Prompt tells Claude to check and add it only if missing, which avoids a wasted round.
+- 2026-11-22 20:31 Fr apostrophe fix and Scan accuracy body copy kept for later rounds: one screen per prompt.
+- 2026-11-22 20:31 Jev signal (run 98%, last task 88% clean) agrees with the choice; no override.

@@ -9,7 +9,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Next checkpoint: round 203 (full tsc and full npx jest --ci, no file changes).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Read .git/HEAD for branch. zsh rejects grep --include globs.
-- Every prompt must state the loop/phase3 branch rule (a prompt without it was rejected).
+- Every prompt states the loop/phase3 branch rule and checks .git/HEAD first.
 - API client: src/lib/api.ts. No src/lib/data/api.ts.
 
 ## Decisions (never delete)
@@ -31,51 +31,51 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - InsightCard keeps 120-character rule. No empty-week guard in nutrition.tsx.
 - Figures stay ungrouped (2140). getAnomalies returns [] until endpoint exists.
 - Spanish uses tu, French uses vous. Jev followed when strong.
-- Prompt rejected for missing branch rule: every prompt states it and checks .git/HEAD first.
+- Row 15 Account note is in PHASE3_ROWS.md (confirmed by Claude report). Check before adding.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Account, Goals eyebrow, support, privacy header and eyebrow (privacyLocale test, 3 of 3).
-- Account header done (accountLocale.render) but its Row 15 note is not yet in PHASE3_ROWS.md.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Account, Goals eyebrow, support, privacy header and eyebrow, scan-calibration header (scanCalibrationLocale.render).
 
 ## In progress
-- Row 15: profile/scan-calibration.tsx header title and eyebrow (scanCalibrationLocale.render).
+- Row 15: profile/integrations.tsx header title and eyebrow (integrationsLocale.render).
 
 ## Next
-- Row 15: Account note in PHASE3_ROWS.md.
-- Row 15: profile/integrations.tsx header title and eyebrow. Preferences eyebrow 'Units' is English.
+- Row 15: profile/preferences.tsx eyebrow 'Units' is English.
 - Row 15: fr.json straight apostrophes ("Règle toutes les mesures d'un coup", "Quantités d'aliments").
-- Row 15: Privacy body copy (section title line 96, footer, AI consent and export toasts, export share subject).
+- Row 15: Privacy body copy (section title, footer, AI consent and export toasts, export share subject).
 - Row 15: Support rows, Send feedback, placeholder, email subject, toast.
+- Row 15: Scan accuracy body copy English (No scans yet, empty message, Accuracy score card).
 - Row 15: goals.tsx spoken calorie label, hard-coded g, % and comma join.
+- Row 15: Spanish 'Tus datos' used for both Account and Privacy eyebrows.
 - Row 6 non-sign-in measurements. Rows 7, 8, 9, 10, then Row 11.
 - Checkpoint at round 203.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- InsightCard truncation test pins the 120-character rule. Default kept.
+- InsightCard 120-character rule pinned by insightCard.i18n.render test. Default kept.
 - Goals spoken labels: Option B (keep as is) by default.
 - Goals loading and error via useGoals, profile error path, refetch on useExerciseProgress and useGymPatterns: need permission to change hooks.ts.
 - week.tsx snapshot regeneration: needs permission.
 - Owner check pending: Food tab offline banner in simulator.
 - Analytics default on: confirm before Phase 4.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
-- Number grouping: formatNumber en-AU, units.ts en-US. brainProfileCard.i18n.render:56 pins 2140.
-- Wording: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording, About tagline and labels, Account Display name, Email and toasts. Settings eyebrow for Account and Privacy both 'Tus datos' in es.
+- Number grouping: formatNumber en-AU, units.ts en-US. brainProfileCard.i18n.render pins 2140.
+- Wording: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording, About tagline and labels, Account Display name, Email and toasts.
 
 ## Parked (not Phase 3)
-- getMorningBrief swallows errors (api.ts:1232), pinned by aiFallback.test.ts:26.
+- getMorningBrief swallows errors (api.ts), pinned by aiFallback.test.ts.
 - AnomalyBanner has no Retry. Banner count lacks _one.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci.
-- '[data] API unreachable' noise from hooks.ts:72.
+- '[data] API unreachable' noise from hooks.ts.
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
 - useTemplates drops templates on refetch failure.
 - Date helpers use device locale. Weekday letters, muscle names English.
 - Dev gym mock fallbacks. Ask Lume drops 503 message.
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
-- Lint: gymSchedule.ts 50, 52; hooks.ts ~395. Stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts.
+- Lint: gymSchedule.ts, hooks.ts. Stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
 - MacroBars unused and English. Math.round not formatNumber.
 - Digit grouping in units.ts. formatCalories always kcal.
@@ -85,7 +85,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Freeze offline toast claims success on failure.
 - Fibre VoiceOver key. Insight type badge for unknown types.
 - Insight More/Less text layout: device check iOS and Android.
-- Nutrition ring unit spoken as abbreviation; goals.tsx:133.
+- Nutrition ring unit spoken as abbreviation; goals.tsx.
 - week.tsx flat bars when every day is 0 kcal.
 - Insight catch blocks: getProfile .catch hides errors.
 - BrainProfileCard numbers not formatted for language.
