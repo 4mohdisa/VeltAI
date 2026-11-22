@@ -131,10 +131,10 @@ These cause many of the screen rows below, so fixing them once fixes many screen
 | dashboard/training | error, offline | useGymRange error never read, shows "no sessions" (training.tsx:63,74,180) | broken |
 | dashboard/training | loading | Skeletons (training.tsx:69-73,178-179) | proper |
 | dashboard/week | first use, no data for day | EmptyState weekNoDays; null net draws a gap and "—" (src/app/dashboard/week.tsx:73-78,120,296) | proper |
-| dashboard/week | error, offline | No error flag, shows "no days" (week.tsx:73, energyRange.ts:98-107) | broken |
+| dashboard/week | error, offline | Both energy reads failing (useEnergyRange isError) shows LoadFailedNotice dashboard.energyLoadFailed with Retry (week.tsx:75) | proper |
 | dashboard/week | loading | Skeletons (week.tsx:68-72) | proper |
 | energy | first use, no data for day | EmptyState energyNoData; kcal eaten + body stats prompt (src/app/energy.tsx:72-77,174-180) | proper |
-| energy | error, offline | No error flag, shows the "no energy data" EmptyState (energy.tsx:72) | broken |
+| energy | error, offline | Both energy reads failing (useEnergyRange isError) shows LoadFailedNotice dashboard.energyLoadFailed with Retry (energy.tsx:74) | proper |
 | energy | loading | Skeletons (energy.tsx:67-71) | proper |
 | insights | first use | EmptyState "Lume is learning" / "No insights yet" literal (src/app/insights.tsx:86-96) | hard-coded English |
 | insights | filtered to nothing | Dismissing every card falls into the same literal empty state (insights.tsx:84) | hard-coded English |

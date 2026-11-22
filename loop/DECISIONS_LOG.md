@@ -8446,3 +8446,12 @@
 - 2026-11-22 18:23 Kept Row 15 PARTIAL until all Next gaps close. Reason: rows are only BUILT when every gap is done.
 - 2026-11-22 18:23 Used en, es and fr keys already in the locales. No new strings this round. Reason: es and fr wording is still open for Isa, and the default stays in place.
 - 2026-11-22 18:23 Did not ask Isa again about the energy test. Reason: it is a test-only change inside the row's own scope, so the default applies.
+- 2026-11-22 18:24 Chose the detailChrome check because the last report said it was not run. The automatic check flagged the report as partly done, so this closes that gap before new work.
+- 2026-11-22 18:24 Kept Row 15 PARTIAL. Its remaining gaps are still open.
+- 2026-11-22 18:24 Rewrote the notes under 600 words by merging repeats and removing finished work. Decisions and blocked items are kept with the same defaults.
+- 2026-11-22 18:24 No question to Isa this round. Blocked items use the defaults already recorded.
+- 2026-11-22 18:25 Round 107 prompt rewritten after rejection: it now states the loop/phase3 branch rule, the no-git rule and the report format.
+- 2026-11-22 18:25 Chose the detailChrome check first: it closes the gap in the round 106 report and is the smallest task.
+- 2026-11-22 18:25 Snapshot regeneration allowed only if the diff comes from the failed-read notice, per the Row 14 and 15 decisions.
+- 2026-11-22 18:25 Audit file edit limited to the week and energy rows, so no other row changes.
+- 2026-11-22 18:25 Full-suite checkpoint deferred to the next checkpoint round; this round runs only the changed files.
