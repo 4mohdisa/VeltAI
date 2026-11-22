@@ -9,6 +9,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Next checkpoint: round 172. Other rounds: changed files only.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
+- Round 163 flagged as partly done. Round 164 finishes Row 15 slot name check and tidies its note.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -30,15 +31,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Round 155: InsightCard badge chosen over Goals states.
 - Round 158: checkpoint chosen over Jev's nutrition pick.
 - Round 160: visible fix chosen over Jev's shared-helper pick.
-- Round 161: spoken slot name plus es/fr render test. Verified in Round 162 report.
-- Round 162: week-empty guard chosen over slot helper. Jev agreed (run 84%).
+- Round 161: spoken slot name plus es/fr render test.
+- Round 162: week-empty guard not needed. useWeeklyMacros (hooks.ts ~386) always returns 7 days. Verified in Round 163.
+- Round 164: flagged partial round finished before picking a new task.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition (slot name shared, es/fr render test), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - One-word ringOf vs full-phrase key; comma join for label and unit. Default: keep.
@@ -56,9 +58,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Review insights and banner wording; es/fr weekday capitalisation: lowercase.
 - Slot name wording for snack ('Snacks' in es and fr) needs review.
+- Permission to regenerate snapshot for week.tsx flat bars (0 kcal) and to define the no-logged-value rule.
 
 ## Next
-- Round 162: guard the week macros read in nutrition.tsx (~174) if the hook can return no days. Render test dashboardNutritionEmptyWeek.render.test.tsx.
+- Round 164: finish Row 15 nutrition slot name (nutrition.tsx ~227 vs 237) and tidy the Row 15 note.
 - Then: shared slot-name helper (five copies: food.tsx, food/add.tsx, food/quick-add.tsx, food/detail.tsx, dashboard/nutrition.tsx).
 - Then: week.tsx flat bars when every day is 0 kcal (needs no-logged-value rule and snapshot permission).
 - Then: InsightCard more/less toggle, 120-character rule.
@@ -89,4 +92,3 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight type badge: unknown types show as sent.
 - Nutrition ring unit ('kcal' or 'kJ') spoken as abbreviation.
 - goals.tsx hard-codes 'g' and '%' in spoken labels.
-- nutrition.tsx spoken slot name at ~227 was listed in an old handover; Round 161 fixed it (line 237 uses slotName). Re-check only if a test fails.

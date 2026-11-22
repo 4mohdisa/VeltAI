@@ -8711,3 +8711,8 @@
 - 2026-11-22 19:45 Handover NEXT (translate nutrition.tsx:227) is stale: the Round 161 report shows the spoken label at line 237 already uses the shared slotName, so it is not repeated.
 - 2026-11-22 19:45 Hook under src/lib/data is off limits, so the guard goes in the screen only; if the guard needs the hook changed, the task is parked, not forced.
 - 2026-11-22 19:45 Jev suggested run (84%) and the choice agrees, so no second look is needed.
+- 2026-11-22 19:46 Chose the flagged task first because the loop check said the last report was only partly done, and the handover lists nutrition.tsx:227 as unfixed while the notes say Round 161 fixed it. The prompt asks Claude Code to verify, not assume.
+- 2026-11-22 19:46 Removed the guessed round number from the Row 15 note because the loop numbers rounds itself.
+- 2026-11-22 19:46 Did not pick week.tsx because it needs a no-logged-value rule and snapshot permission, which Isa has not given.
+- 2026-11-22 19:46 Did not pick the Profile titles yet: it is a larger change across several screens, and the smaller task clears the flag first.
+- 2026-11-22 19:46 Jev ranked run at 77%. I agree with run. The chosen task is the smallest one that closes the open flag.
