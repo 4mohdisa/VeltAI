@@ -9565,3 +9565,8 @@
 - 2026-11-23 03:58 Stopped at round 80 instead of asking a third time: the remaining rows need credentials and a src/lib/data permission that only Isa can grant, and Row 6 was already asked twice.
 - 2026-11-23 03:58 Kept Rows 5 and 6 PARTIAL and Row 11 DIFFERENT: their tests or simulator flows are not done, so BUILT would be a false claim.
 - 2026-11-23 03:58 Did not change Rows 13 and 14 status: the notes say BUILT and the handover says PARTIAL, so the PHASE3_ROWS.md status column is the tie-breaker when Isa returns.
+- 2026-11-23 04:35 Chose the Row 13 and 14 status check. It needs no permission from Isa, it clears the open status question in Next, and it is the smallest step.
+- 2026-11-23 04:35 Did not re-ask Row 6, Row 5 or the src/lib/data permissions, since the notes say do not re-ask and Isa has not answered.
+- 2026-11-23 04:35 Did not stop. Rows 5, 6 and 11 are still open, so stop is not allowed yet.
+- 2026-11-23 04:35 Jev rates asking at 75%. I did not follow it because the question was already asked twice and the notes say not to re-ask.
+- 2026-11-23 04:35 Row 13 notes out of round order is a docs-only fix in PHASE3_ROWS.md, so it is included.

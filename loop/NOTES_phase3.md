@@ -3,18 +3,18 @@
 ## Goal
 All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'. PHASE3_ROWS.md is the source of truth; re-read each round.
 
-## Status (stopped at round 80 checkpoint)
+## Status (round 81)
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16, 17.
-- PARTIAL: 5 (part 2 needs credentials), 6 (needs Gym history option), 13 and 14 (notes say BUILT, handover says PARTIAL; confirm the status column first).
+- PARTIAL: 5 (part 2 needs credentials), 6 (needs Gym history option), 13 and 14 (status being confirmed this round).
 - DIFFERENT: 11 (final sweep, waits on 5 and 6).
-- Checkpoint gates: tsc 0 errors. Jest 240 suites, 1,368 tests pass. Go 543 pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL), 0 fail.
+- Checkpoint gates (round 80): tsc 0 errors. Jest 240 suites, 1,368 tests pass. Go 543 pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL), 0 fail.
 - Files: KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, PERF_BASELINE.md (code-reading audit, no measured numbers).
 
-## Next (needs Isa)
-1. Choose a Row 6 Gym history option and allow the hooks.ts:170 change in src/lib/data.
-2. Row 5 part 2: provide E2E_EMAIL, E2E_PASSWORD and the seed sign-in path as environment variables, never in chat.
-3. Confirm the status of Rows 13 and 14.
-4. Then rerun gates, measure Row 6 on the simulator, and close Row 11.
+## Next
+1. Round 81: confirm Rows 13 and 14 status, fix Row 13 note order.
+2. Needs Isa: Row 6 Gym history option and src/lib/data permission.
+3. Needs Isa: Row 5 part 2 credentials as environment variables (never in chat).
+4. Then rerun gates, measure Row 6 on the simulator, close Row 11.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -56,18 +56,18 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Parked (not Phase 3)
 - Row 6: gym history list not virtualised. Needs Screen.tsx ScrollView and shared Card change. useGym refetches on every mount; session read has no limit.
-- Backend: gym/schedule_pg.go:765-767 sorts progress oldest first, then LIMIT 30, dropping the newest. 49 queries use WHERE id::text = $1. 20 TestPG tests skipped without LUME_TEST_DATABASE_URL. getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; npm audit 48 vulns.
+- Backend: gym/schedule_pg.go:765-767 sorts progress oldest first, then LIMIT 30, dropping the newest. 49 queries use WHERE id::text = $1. 20 TestPG tests skipped. getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; npm audit 48 vulns.
 - Row 8: feature_used accepts any short key; app_version or build could overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; English muscle and exercise names; nutrition.tsx spoken kcal label (needs snapshot regen).
 - Row 15: useGoals loading and error states.
 - Row 16: scanCalibration.basedOn lacks _one form.
-- Row 17: 503 text in server language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns empty string behind upgrade path (Phase 4). Dev-only Simulate scan and Unknown code buttons stay English. aiQueryEmpty and aiQueryEmptyAnswer overlap.
+- Row 17: 503 text in server language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 empty string behind upgrade path (Phase 4). Dev-only Simulate scan and Unknown code buttons stay English. aiQueryEmpty and aiQueryEmptyAnswer overlap.
 - Preferences: contentStyle gap 18 raw number. Repeat-visit skeleton flash.
 - Food list getItemLayout: measure first.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
-- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; no test checks en, es, fr have the same keys; Row 13 and 14 notes out of round order.
+- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; no test checks en, es, fr have the same keys.
 
 ## Gotchas
 - No git, Prettier or Maestro for agents. zsh: pass lists through xargs and quote --include globs.
