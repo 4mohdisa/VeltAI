@@ -22,29 +22,29 @@ export default function SupportScreen() {
   // Feedback goes out as a real email — the compose sheet is the send action;
   // no fake "sent" confirmation for text that went nowhere.
   const sendFeedback = () => {
-    const url = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Lume feedback')}&body=${encodeURIComponent(feedback)}`;
+    const url = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(t('support.mailSubject'))}&body=${encodeURIComponent(feedback)}`;
     Linking.openURL(url)
       .then(() => setFeedback(''))
-      .catch(() => showToast({ message: `Couldn't open Mail — email us at ${SUPPORT_EMAIL}.`, tone: 'error' }));
+      .catch(() => showToast({ message: t('support.mailError', { email: SUPPORT_EMAIL }), tone: 'error' }));
   };
 
   return (
     <Screen variant="floating" eyebrow={t('settings.supportEyebrow')} title={t('settings.support')} showBack contentStyle={{ gap: space.xl }}>
       <SettingsList
         rows={[
-          { icon: 'mail-outline', label: 'Email support', value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },
-          { icon: 'information-circle-outline', label: 'App version', value: VERSION_LABEL, kind: 'plain' },
+          { icon: 'mail-outline', label: t('support.emailSupport'), value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },
+          { icon: 'information-circle-outline', label: t('support.appVersion'), value: VERSION_LABEL, kind: 'plain' },
         ]}
       />
 
       <TextField
-        label="Send feedback"
-        placeholder="Tell us what's working or what's not."
+        label={t('support.sendFeedback')}
+        placeholder={t('support.feedbackPlaceholder')}
         value={feedback}
         onChangeText={setFeedback}
         multiline
       />
-      <Button title="Send feedback" disabled={feedback.trim().length === 0} onPress={sendFeedback} />
+      <Button title={t('support.sendFeedback')} disabled={feedback.trim().length === 0} onPress={sendFeedback} />
     </Screen>
   );
 }

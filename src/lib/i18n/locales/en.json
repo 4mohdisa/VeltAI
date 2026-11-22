@@ -747,5 +747,13 @@
       "bannerCount_one": "{{count}} unusual patterns detected",
       "bannerCount_other": "{{count}} unusual patterns detected"
     }
+  },
+  "support": {
+    "emailSupport": "Email support",
+    "appVersion": "App version",
+    "sendFeedback": "Send feedback",
+    "feedbackPlaceholder": "Tell us what's working or what's not.",
+    "mailSubject": "Lume feedback",
+    "mailError": "Couldn't open Mail — email us at {{email}}."
   }
 }

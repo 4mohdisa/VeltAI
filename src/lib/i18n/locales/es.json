@@ -749,5 +749,13 @@
       "bannerCount_one": "{{count}} patrón inusual detectado",
       "bannerCount_other": "{{count}} patrones inusuales detectados"
     }
+  },
+  "support": {
+    "emailSupport": "Escribir a soporte",
+    "appVersion": "Versión de la app",
+    "sendFeedback": "Enviar comentarios",
+    "feedbackPlaceholder": "Cuéntanos qué funciona y qué no.",
+    "mailSubject": "Comentarios sobre Lume",
+    "mailError": "No se pudo abrir Mail — escríbenos a {{email}}."
   }
 }

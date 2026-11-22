@@ -9091,3 +9091,7 @@
 - 2026-11-23 00:18 Locating the component by grep, not by a fixed path, because the exact path is not confirmed in the repo.
 - 2026-11-23 00:18 Kept the Row 8 device check out of this round: it needs Isa on a device, so it cannot be built by the loop.
 - 2026-11-23 00:18 Rejected prompt fixed: the branch rule (loop/phase3 only, no push, merge, switch or git) is now the first line.
+- 2026-11-23 00:19 Chose the Support copy pass over the full Jest run: it is the largest remaining copy gap and needs no Isa input. The full Jest run waits for the next checkpoint round, because SettingsList is shared and that run covers it.
+- 2026-11-23 00:19 Copy-pass notes stay on Row 15 (Round 226 default), since Isa has not named another row.
+- 2026-11-23 00:19 Used the Round 226 handover default of translating the mail subject and error toast along with the visible text.
+- 2026-11-23 00:19 Did not edit supportLocale.render.test.tsx. If it breaks, the change is backed out and reported.
