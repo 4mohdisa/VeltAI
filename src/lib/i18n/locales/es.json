@@ -833,6 +833,8 @@
     "pillLegs": "Piernas",
     "pillShoulders": "Hombros",
     "pillArms": "Brazos",
-    "pillCore": "Abdomen"
+    "pillCore": "Abdomen",
+    "back": "Ejercicios",
+    "backLabel": "Volver a ejercicios"
   }
 }

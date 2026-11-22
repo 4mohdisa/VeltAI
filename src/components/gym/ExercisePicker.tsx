@@ -96,12 +96,12 @@ export function ExercisePicker({
             haptic={false}
             minTapTarget={false}
             hitSlop={8}
-            accessibilityLabel="Back to exercises"
+            accessibilityLabel={t('exercisePicker.backLabel')}
             style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs, alignSelf: 'flex-start' }}
           >
             <Icon name="chevron-back" size={16} color={color.primary} />
             <Text variant="label" color={color.primary}>
-              Exercises
+              {t('exercisePicker.back')}
             </Text>
           </Pressable>
           <PlannedValuesForm

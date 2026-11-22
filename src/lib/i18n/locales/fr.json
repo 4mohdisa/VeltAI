@@ -831,6 +831,8 @@
     "pillLegs": "Jambes",
     "pillShoulders": "Épaules",
     "pillArms": "Bras",
-    "pillCore": "Abdos"
+    "pillCore": "Abdos",
+    "back": "Exercices",
+    "backLabel": "Retour aux exercices"
   }
 }

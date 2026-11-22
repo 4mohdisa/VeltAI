@@ -831,6 +831,8 @@
     "pillLegs": "Legs",
     "pillShoulders": "Shoulders",
     "pillArms": "Arms",
-    "pillCore": "Core"
+    "pillCore": "Core",
+    "back": "Exercises",
+    "backLabel": "Back to exercises"
   }
 }

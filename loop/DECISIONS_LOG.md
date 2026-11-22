@@ -9245,3 +9245,7 @@
 - 2026-11-23 01:13 Chose the ExercisePicker copy because it needs no src/lib/data change and is the smallest remaining Row 17 item.
 - 2026-11-23 01:13 Reuse existing keys when the English text is identical, to avoid duplicate strings across the three locales.
 - 2026-11-23 01:13 Default used for hooks.ts and gymSchedule.ts (no permission given), so neither is touched.
+- 2026-11-23 01:15 Chose the ExercisePicker back control first because the loop flag says round 263 is only partly done; closing it before moving on.
+- 2026-11-23 01:15 Used a new test file instead of editing exercisePickerCopy.render.test.tsx, to keep existing tests unchanged.
+- 2026-11-23 01:15 Spanish and French words are first-pass choices; Isa confirms them in the owner checks, as with the earlier picker strings.
+- 2026-11-23 01:15 No Isa question: the Blocked items already have defaults and the snapshot wait is unchanged.
