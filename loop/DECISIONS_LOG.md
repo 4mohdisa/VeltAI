@@ -9494,3 +9494,8 @@
 - 2026-11-23 02:58 Row 6 stays parked until Isa picks an option; it needs src/lib/data or a pinned file.
 - 2026-11-23 02:58 Row 14 stays PARTIAL after this task because other gaps remain.
 - 2026-11-23 02:58 Jev ranked run at 61%; agreed with run and kept the smallest task.
+- 2026-11-23 03:00 Chose Row 14 first because the notes say Now: Row 14 and the WeekStrip work is reported done; the open part is the status-word rule and the note placement.
+- 2026-11-23 03:00 The loop flag says the last task looks partly done. Treated it as Row 14 still PARTIAL with unfinished notes, so this round verifies and tidies it before moving on.
+- 2026-11-23 03:00 Row 17 status conflicts: notes say BUILT, handover says PARTIAL with gap 5 open. Decided to read the row in PHASE3_ROWS.md before any Row 17 work, and not to reissue gap 5 from the handover alone.
+- 2026-11-23 03:00 Kept Row 14 PARTIAL; other Row 14 items remain.
+- 2026-11-23 03:00 Pass Jest paths through xargs and run the checks on Node 22, per the gotchas.
