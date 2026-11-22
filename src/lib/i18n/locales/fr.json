@@ -647,5 +647,15 @@
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"
+  },
+  "insights": {
+    "eyebrow": "Vos tendances",
+    "title": "Analyses",
+    "askLume": "Demander à Lume",
+    "askLumeHint": "Posez une question sur votre alimentation, votre nutrition ou vos habitudes",
+    "learningTitle": "Lume apprend",
+    "learningMessage": "Enregistrez vos repas et vos entraînements pendant quelques jours et vos analyses personnalisées apparaîtront ici.",
+    "emptyTitle": "Pas encore d’analyses",
+    "emptyMessage": "Continuez à enregistrer vos repas et vos entraînements. Les analyses apparaissent après quelques jours de données."
   }
 }

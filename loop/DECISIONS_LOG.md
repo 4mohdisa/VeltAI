@@ -8550,3 +8550,7 @@
 - 2026-11-22 18:54 Chose the checkpoint over Jev's insights pick (83%). Reason: the loop script marks this round as a checkpoint and the brief says full suites run only on checkpoint rounds. Insights is next round.
 - 2026-11-22 18:54 Checkpoint prompt changes no files and does not fix failures. Failures go to BLOCKED for the next round.
 - 2026-11-22 18:54 Kept the jest worker SIGSEGV rerun rule from the notes, so a Node GC crash is not read as a real failure.
+- 2026-11-22 18:55 Chose insights screen literals: smallest single-screen task with no Isa input needed. Jev ranked run at 86%, which agrees.
+- 2026-11-22 18:55 Skipped MacroBars: recurring blocked item (summaryNoFabrication.test.ts permission), do not retry.
+- 2026-11-22 18:55 Kept api.ts swallowed errors and BrainProfileCard fixed bar out of this round: one screen per round, and api.ts is a separate data path.
+- 2026-11-22 18:55 Last task was clean only 37% per Jev, so kept the scope to literals and one render test, with no layout or snapshot changes.

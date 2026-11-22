@@ -647,5 +647,15 @@
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",
     "waiting_other": "{{count}} changes waiting to sync"
+  },
+  "insights": {
+    "eyebrow": "Your patterns",
+    "title": "Insights",
+    "askLume": "Ask Lume",
+    "askLumeHint": "Ask about your food, nutrition, or habits",
+    "learningTitle": "Lume is learning",
+    "learningMessage": "Log food and workouts for a few days and your personalised insights will appear here.",
+    "emptyTitle": "No insights yet",
+    "emptyMessage": "Keep logging your food and workouts. Insights appear after a few days of data."
   }
 }

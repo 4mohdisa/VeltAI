@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -25,6 +26,7 @@ type FeedItem =
 // inner screen (whose hooks fetch on mount) renders only after the one-time
 // AI consent. Declining returns to the previous screen.
 export default function InsightsScreen() {
+  const { t } = useTranslation();
   const [granted, setGranted] = useState(false);
   useEffect(() => {
     void ensureAiConsent().then((ok) => {
@@ -34,7 +36,7 @@ export default function InsightsScreen() {
   }, []);
   if (!granted) {
     return (
-      <Screen variant="floating" eyebrow="Your patterns" title="Insights" showBack scroll>
+      <Screen variant="floating" eyebrow={t('insights.eyebrow')} title={t('insights.title')} showBack scroll>
         {null}
       </Screen>
     );
@@ -43,6 +45,7 @@ export default function InsightsScreen() {
 }
 
 function InsightsInner() {
+  const { t } = useTranslation();
   const { insights, anomalies, loading, dismiss } = useInsights();
   const { notEnoughData } = useBrainProfile();
 
@@ -55,19 +58,19 @@ function InsightsInner() {
   const isEmpty = !loading && insights.length === 0 && anomalies.length === 0;
 
   return (
-    <Screen variant="floating" eyebrow="Your patterns" title="Insights" showBack scroll contentStyle={{ gap: space.xl }}>
+    <Screen variant="floating" eyebrow={t('insights.eyebrow')} title={t('insights.title')} showBack scroll contentStyle={{ gap: space.xl }}>
       <BrainProfileCard onAskLume={() => router.push('/ai-query' as Href)} />
 
       {/* Standalone Ask Lume entry — always visible above the feed. */}
-      <Card variant="elevated" onPress={() => router.push('/ai-query' as Href)} accessibilityLabel="Ask Lume">
+      <Card variant="elevated" onPress={() => router.push('/ai-query' as Href)} accessibilityLabel={t('insights.askLume')}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
           <Icon name="sparkles" size={24} color={categoryAccent.ai} />
           <View style={{ flex: 1 }}>
             <Text variant="bodyBold" color={color.label}>
-              Ask Lume
+              {t('insights.askLume')}
             </Text>
             <Text variant="footnote" color={color.secondaryLabel}>
-              Ask about your food, nutrition, or habits
+              {t('insights.askLumeHint')}
             </Text>
           </View>
           <Icon name="chevron-forward" size={14} color={color.tertiaryLabel} />
@@ -85,14 +88,14 @@ function InsightsInner() {
         notEnoughData ? (
           <EmptyState
             icon="sparkles-outline"
-            title="Lume is learning"
-            message="Log food and workouts for a few days and your personalised insights will appear here."
+            title={t('insights.learningTitle')}
+            message={t('insights.learningMessage')}
           />
         ) : (
           <EmptyState
             icon="bulb"
-            title="No insights yet"
-            message="Keep logging your food and workouts. Insights appear after a few days of data."
+            title={t('insights.emptyTitle')}
+            message={t('insights.emptyMessage')}
           />
         )
       ) : (
