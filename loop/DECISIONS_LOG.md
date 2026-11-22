@@ -8678,3 +8678,6 @@
 - 2026-11-22 19:34 Rejected the week chart: it needs a no-logged-value rule that is not yet decided.
 - 2026-11-22 19:34 Prompt now states the loop/phase3 only rule, no git, no Prettier, no Maestro, and the report format, because the last prompt was rejected for missing the branch rule.
 - 2026-11-22 19:34 Reused an existing 'of' key if one exists, to follow the identical-text rule.
+- 2026-11-22 19:36 Chose the checkpoint over Jev's pick (nutrition.tsx:227, 81%). Reason: the automatic loop note makes this round a full checkpoint, and the nutrition task moves to the next round.
+- 2026-11-22 19:36 Did not retry the blocker that came back twice. It is recorded under Blocked on Isa. Default kept: ringOf stays a one-word key, and 'Gym and food' stays as written.
+- 2026-11-22 19:36 Ran the checkpoint with no file edits, so a red result is reported and not fixed in this round.
