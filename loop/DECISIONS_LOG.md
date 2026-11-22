@@ -9008,3 +9008,8 @@
 - 2026-11-22 21:12 Did not repeat the PRIVACY_DATA.md host fix from the handover: round 208 verified the sentence absent and closed it, per the notes.
 - 2026-11-22 21:12 Test runs only against a throwaway localhost database, dropped after; no hosted DB, no migrations applied to hosted Supabase.
 - 2026-11-22 21:12 Row 9 stays PARTIAL until the Settings share-sheet row is built.
+- 2026-11-22 21:14 Chose Row 9 Settings export: the A/B test passed and the backend route is ready. It is the smallest unbuilt row that needs nothing from Isa. Jev agrees (69% run).
+- 2026-11-22 21:14 Export uses the built-in React Native Share API, not a new dependency, to keep the change small.
+- 2026-11-22 21:14 Export row is ungated by subscription, as the brief requires.
+- 2026-11-22 21:14 Row 9 stays DIFFERENT until the Settings row is done, following the report's instruction.
+- 2026-11-22 21:14 The handover's open item about the PRIVACY_DATA.md host sentence conflicts with notes saying it was closed in round 208. Not acting now. Re-check it in the Row 11 sweep.

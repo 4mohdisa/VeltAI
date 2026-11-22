@@ -11,7 +11,8 @@
 // it onto the root stack unchanged. Same three parts as the scaffold: grey page,
 // blurred header strip, floating glass back button. Streak-only (no XP, no
 // ranks, no points).
-import { Alert, View, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { Alert, Share, View, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
@@ -28,6 +29,7 @@ import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { GlassBackButton } from '@/components/navigation/GlassButtons';
 import { StreakCounter } from '@/components/domain/StreakCounter';
 import { showToast } from '@/components/display/toastStore';
+import { api } from '@/lib/api';
 import { hasProEntitlement, isBillingEnabled, restorePurchases } from '@/lib/billing/purchases';
 import { useAppState } from '@/lib/auth/appState';
 import { isDevBuild } from '@/lib/env';
@@ -76,6 +78,22 @@ export default function ProfileScreen() {
     error: gymError,
     refetch: refetchGym,
   } = useGym();
+  const [exporting, setExporting] = useState(false);
+
+  // GET /api/export → the iOS share sheet (save to Files, AirDrop, mail). Free
+  // for every user: access to your own data is never plan-gated.
+  const exportData = async () => {
+    if (exporting) return;
+    setExporting(true);
+    try {
+      const data = await api.profile.export();
+      await Share.share({ message: JSON.stringify(data, null, 2) }, { subject: t('settings.exportTitle') });
+    } catch {
+      showToast({ message: t('settings.exportError'), tone: 'error' });
+    } finally {
+      setExporting(false);
+    }
+  };
 
   // SIGN_OUT → machine purges every store + offline queue, ends the Clerk
   // session (signOutSeam), RevenueCat identity resets via the bridge.
@@ -165,6 +183,12 @@ export default function ProfileScreen() {
           title={t('settings.groupAbout')}
           rows={[
             { icon: 'shield-checkmark-outline', label: t('settings.privacy'), onPress: () => router.push('/profile/privacy') },
+            {
+              icon: 'download-outline',
+              label: exporting ? t('settings.exportPreparing') : t('settings.exportTitle'),
+              accessibilityHint: t('settings.exportHint'),
+              onPress: () => void exportData(),
+            },
             { icon: 'document-text-outline', label: t('profile.termsOfService'), onPress: () => router.push('/legal/terms' as Href) },
             { icon: 'lock-closed-outline', label: t('profile.privacyPolicy'), onPress: () => router.push('/legal/privacy' as Href) },
             { icon: 'help-circle-outline', label: t('settings.support'), onPress: () => router.push('/profile/support') },

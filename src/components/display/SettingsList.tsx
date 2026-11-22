@@ -32,7 +32,7 @@ export type SettingsRowProps = {
   kind?: 'link' | 'toggle' | 'plain';
   switchValue?: boolean;
   onToggle?: (value: boolean) => void;
-  /** VoiceOver hint for a toggle row: what turning it on does. */
+  /** VoiceOver hint: what turning a toggle on, or pressing a link, does. */
   accessibilityHint?: string;
   onPress?: () => void;
   destructive?: boolean;
@@ -131,7 +131,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
         accessible
         accessibilityRole={row.destructive ? 'button' : 'button'}
         accessibilityLabel={combinedLabel}
-        accessibilityHint={row.destructive ? 'Double tap to continue' : undefined}
+        accessibilityHint={row.accessibilityHint ?? (row.destructive ? 'Double tap to continue' : undefined)}
         // The design fills a pressed row rather than dimming it.
         style={({ pressed }) => (pressed ? { backgroundColor: color.light1 } : null)}
       >
