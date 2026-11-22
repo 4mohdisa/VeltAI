@@ -8,22 +8,18 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - PHASE3_ROWS.md stays 22 lines; notes go inside the row cell.
 - Locales: src/lib/i18n/locales/ (en, es, fr).
-- Last full gates: r252 tsc 0; Jest 213 suites, 1252 tests, 4 snapshots; Go 637 pass, 20 TestPG skipped.
-- Round 267 checkpoint never recorded. Checkpoint gate running in round 270.
+- Checkpoint r270 passed: tsc 0; Jest 220 suites, 1280 tests, 4 snapshots; Go 543 top-level pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL). About 133 console warnings, not failures.
 
 ## Done
 - BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
 - PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13, 14, 15, 16, 17.
-- Row 15: weight pad caption shows form kg/lb (r269). Session screen weight entry still kg-only, Isa to decide.
-- Row 16: profile empty states done except skeleton fix (needs permission).
-- Row 17: new-recipe search states, ExercisePicker, PlannedValuesForm and Ask Lume translated. Open: aiBrain 503 and empty answer (Isa).
 - DIFFERENT: 6, 11.
 
 ## Next
-- Round 270: checkpoint gates (tsc, full Jest, full Go).
+- Round 271: Row 12 with the branch rule added. Then 13, 14, 8 in turn.
 - Row 15: nutrition.tsx spoken kcal labels wait on macros snapshot approval.
-- Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, last. Only after rows 5, 6, 8, 12 to 17 are closed.
 - Row 6: measurements parked until a sign-in path exists.
+- Row 11 last: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md. Only after rows 5, 6, 8, 12 to 17 are closed.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
 
 ## Decisions (never delete)
@@ -43,9 +39,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
 - spokenEnergy in src/lib/units.ts. kJ keeps abbreviation until Isa answers.
 - PlannedValuesForm shared with session.tsx: translate component, do not edit session.tsx.
-- Weight caption follows the form's own kg/lb control, not the units setting (that control sets weight_unit).
+- Weight caption follows the form's own kg/lb control, not the units setting.
 - Check every prompt against files first; past prompts asked for work already done.
-- Round 270: checkpoint gate chosen over Jev's Row 11 pick (Row 11 is last; rows still open).
+- Round 270: checkpoint gate chosen over Jev's Row 11 pick.
+- Round 271: prompt rejected for missing branch rule; resent with rule. Row 12 run instead of ask.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts off limits: food search loading timing, Recipe recents, exercise picker 'No matches' flash. Parked.
@@ -55,8 +52,8 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - integrations.render.test.tsx:75 and privacyLocale.render.test.tsx:55-56 need permission.
 - Macros snapshot (detailChrome.render.test.tsx): backed out; nutrition spoken kcal waits on it.
 - week.tsx snapshot regen and goals refetch in hooks.ts: need permission.
-- Session screen weight entry (gym/session.tsx, padWeight, lines 138 and 172): stay kg-only or follow unit?
-- Keep as is: Integrations 'Nothing connected'; Privacy 'Your data' English; Spanish 'Tus datos' eyebrows; feedback rows in backend/internal/auth/export.go; privacy footer 'First-party only' once key set.
+- Session screen weight entry (gym/session.tsx, padWeight): stay kg-only or follow unit?
+- Keep as is: Integrations 'Nothing connected'; Privacy 'Your data' English; Spanish 'Tus datos'; feedback rows in backend/internal/auth/export.go; privacy footer 'First-party only' once key set.
 - Apply feedback migration to hosted Supabase (owner). Feedback retention undefined.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
 - feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests.
@@ -86,5 +83,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - allText crashes on FlatList screens: use findAll. NumberEntryBar needs SafeAreaProvider in tests.
 - Edit locale files by exact text insertion, not JSON rewrite. Check anchor uniqueness (padWeight exists in two groups).
 - Use node with s.replace(a, () => b), not Perl. Check bytes after edits.
-- Advisory signals are never mentioned in prompts.
 - PHASE3_ROWS.md must stay 22 lines: Row 15 line 20, Row 16 line 21, Row 17 line 22.

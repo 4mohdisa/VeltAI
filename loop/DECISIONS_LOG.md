@@ -9278,3 +9278,13 @@
 - 2026-11-23 01:26 The full Jest and Go gate has been owed since round 267 and was listed as NEXT in the handover. Running it now clears the gap the handover left open.
 - 2026-11-23 01:26 Jev's ask at 73% is not used. The open Isa questions already have defaults in use, the daily question limit matters, and nothing in this round needs a new answer.
 - 2026-11-23 01:26 Regressions from this branch may be fixed minimally in the source file. Existing tests and snapshots are never edited, per the standing rule.
+- 2026-11-23 01:27 Round 271: ran Row 12 instead of asking. Every open Isa item already has a default, none blocks Row 12, so no question was needed.
+- 2026-11-23 01:27 Chose Row 12 over Jev's ask pick: Jev's ask is 51% at confidence 0.26, and the open Isa items have defaults. Row 12 is smaller and needs nothing from Isa.
+- 2026-11-23 01:27 Row 11 stays last. Only the final sweep after rows 5, 6, 8 and 12 to 17 are closed.
+- 2026-11-23 01:27 Rows 5 part 2 and 6 stay parked until a sign-in path exists. Nothing new to decide there.
+- 2026-11-23 01:27 Notes trimmed to fit the 600-word limit. No decision was dropped; the Blocked list was merged.
+- 2026-11-23 01:28 Round 271: the previous prompt was rejected for not stating the loop/phase3 branch rule. Rewritten with the rule first and every point from the rejection covered.
+- 2026-11-23 01:28 Chose Row 12 over the checkpoint gate again: the checkpoint passed at r270 and no code changed since, so a full suite now adds nothing.
+- 2026-11-23 01:28 Ran Row 12 instead of asking Isa: every open Isa item has a default and none blocks Row 12.
+- 2026-11-23 01:28 Prompt names Row 12 by number and points to its files column, because the row text is not in manager context. Claude Code reads the row itself first.
+- 2026-11-23 01:28 Added the git and branch rule to the prompt, because the loop rejected the last prompt without it.
