@@ -82,7 +82,10 @@
     "saved": "Objectifs mis à jour.",
     "setByLume": "Définie par Lume",
     "tapToEdit": "Appuyez pour modifier",
-    "savedAsYouType": "Vos chiffres, sans intervention de Lume. Enregistrés à mesure que vous tapez."
+    "savedAsYouType": "Vos chiffres, sans intervention de Lume. Enregistrés à mesure que vous tapez.",
+    "eyebrow": "Cibles quotidiennes",
+    "gramsField": "{{label}} (g)",
+    "percentField": "{{label}} (%)"
   },
   "addMenu": {
     "title": "Ajouter un repas",

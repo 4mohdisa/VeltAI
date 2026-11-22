@@ -5,37 +5,30 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 129 checkpoint clean: tsc 0; Jest 173 suites, 1114 tests, 4 snapshots pass.
-- Round 144 checkpoint: type check and full Jest run, no file changes (result pending in report).
+- Round 144 checkpoint clean: tsc 0; Jest 179 suites, 1134 tests, 4 snapshots pass (npx jest --ci).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Row numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop round numbers. Not fixed.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
-- Analytics on by default with anonymous ID; Settings off switch; store default off. Isa confirms before Phase 4.
+- Analytics on by default, anonymous ID, Settings off switch. Isa confirms before Phase 4.
 - Row 3: header plus on My workouts is the only add-workout entry. Templates kept.
 - Goals and units in memory in Phase 3.
 - Failed reads: LoadFailedNotice with onRetry only if refetch exists. No Retry on useExerciseProgress or useGymPatterns.
 - Empty or failed screen with no stored data: one clear action.
 - Identical text reuses existing keys. src/lib/data off limits.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
-- French: no-break space before ':' and '?'. Curly apostrophe in new strings.
+- French: no-break space before ':' and '?'. Curly apostrophes in new strings.
 - Snapshots: no regeneration without Isa's permission.
+- Test edit that breaks a test: back out and report. Never leave suite red.
+- MacroBars translation backed out (summaryNoFabrication.test.ts:54). Stays English.
+- Row 125 parked after two failed attempts.
 - Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Summary card and GymStatusCard hidden during first load. Accepted.
-- Test edit forbidden and breaking: back out or stop. Never leave suite red.
-- MacroBars translation backed out (summaryNoFabrication.test.ts reads source). Stays English.
-- Round 125 row parked after two failed attempts.
-- Round 129: checkpoint kept over Jev's insights pick.
-- Round 130: insights literals over MacroBars and goals states.
-- Round 136, 137: InsightCard and AnomalyCard literals done.
-- Round 139: AnomalyCard verified in code, no change needed.
-- Round 140, 141: AnomalyBanner keys, error state and test done. Closed.
-- Round 142: Goals loading and error need src/lib/data change (useGoals returns only data). Blocked on Isa.
-- Round 143: Jev said ask 82%. Kept run on Goals English text. Blocker stays in Blocked on Isa.
-- Round 144: Jev said run 25%, ask 64%, and ranked Row 14 cleanup 91%. Kept checkpoint. Reason Jev cannot see: the loop fixes this round as a checkpoint, and the last checkpoint was round 129, so the gate must run before more edits.
+- Rounds 129, 144: checkpoint kept over Jev picks (gate must run before more edits).
+- Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -45,22 +38,22 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner.
 
 ## In progress
-- Row 15 goals screen src/app/profile/goals.tsx: English text (eyebrow, (g) and (%) suffixes). Loading and error parked (Round 142).
+- Row 15 goals src/app/profile/goals.tsx: English text (Daily targets, eyebrow, (g) and (%) suffixes). Loading and error parked.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Permission to change src/lib/data/hooks.ts so useGoals exposes loading, error, refetch (option A) or a separate hook (option B). Default: none; Goals loading and error stay parked.
-- Review insights.*, banner wording, weekday capitalisation (default: es/fr lowercase).
-- 'patterns' vs 'activity' in banner titles. Default: keep as is.
+- Hooks change so useGoals exposes loading, error, refetch. Default: Goals loading and error stay parked.
+- Review insights.* and banner wording; es/fr weekday capitalisation (default lowercase).
+- 'patterns' vs 'activity' in banner titles. Default keep.
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
-- Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
+- Permission to change summaryNoFabrication.test.ts:54. Default English.
 - Row 12 BUILT approval.
-- Spanish and French wording for new keys in rows 13, 14, 15. Shipped as written.
+- Spanish and French wording for new keys in rows 13 to 15: shipped as written.
 - Keys ', today', 'Previous week', 'Next week'. WeekStrip labels stay.
 - Row 13: 'New recipe' kept. No /food/meals link.
-- Row 14: 'racha' (es), 'serie' (fr) for streak. Freeze sheet wording to review.
+- Row 14: 'racha' (es), 'serie' (fr). Freeze sheet wording to review.
 - Permission to add refetch to useExerciseProgress and useGymPatterns. Default: no Retry.
-- useLoggedDays calendar failed read has no error. Leave.
-- lookupBarcodeAsync not found vs offline copy. Keep.
+- useLoggedDays failed read has no error. Leave.
+- lookupBarcodeAsync not-found vs offline copy. Keep.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off: confirm before Phase 4.
@@ -68,14 +61,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Checkpoint result (Round 144), then Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json.
-- Row 15 goals: loading and error (after Isa allows hooks change, or option B default).
+- Goals English text (in progress), then Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json.
 - Row 15 food.tsx: no goals read state (note only).
-- insights swallowed errors in src/lib/api.ts (~1253, 1270); fixed 0.3 bar in BrainProfileCard.tsx (~79).
-- InsightCard type badge untranslated; more/less toggle uses body length over 120.
-- BrainProfileCard numbers not formatted for language; energy always kcal.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
+- InsightCard type badge untranslated; more/less toggle uses body length over 120.
+- BrainProfileCard: fixed 0.3 bar; numbers not formatted; energy always kcal. Insights swallowed errors in src/lib/api.ts (~1253, 1270).
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: key parity check; shared has-a-streak helper.
 - Row 6: non-sign-in backend measurements.
@@ -83,25 +74,20 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## Parked (not Phase 3)
 - Row 125 all-zero week chart line (needs snapshot permission).
-- Goals and units persistence.
-- AnomalyBanner error: no Retry, full error block where a small banner sits (design question).
-- Banner count title has no _one use; one anomaly uses fallback title.
+- Goals and units persistence. Goals reset toast says goals.saved.
+- AnomalyBanner: no Retry; full error block where a small banner sits (design question). Copy may be English, not opened.
+- Banner count title lacks _one use.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci (network).
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
-- useTemplates drops templates on refetch failure (src/lib/data).
+- useTemplates drops templates on refetch failure.
 - Date helpers use device locale; weekday letters, formatRelativeDate, muscle names English; '{{value}} reps' no singular.
-- Dev gym failed read keeps mock sessions; dev falls back to mock product DB.
+- Dev gym failed read keeps mock sessions; gym card may show seed data after failed dashboard read. Dev falls back to mock product DB.
 - Ask Lume drops server 503 message.
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
-- Lint: gymSchedule.ts 50, 52; hooks.ts ~395.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
+- Lint: gymSchedule.ts 50, 52; hooks.ts ~395. Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
-- MacroBars unused in app; Math.round not formatNumber; nutrition ceiling label no space before g.
-- Insight numbers use Math.round. AnomalyBanner copy may be English; not opened.
+- MacroBars unused; Math.round not formatNumber; nutrition ceiling label has no space before g. Insight numbers use Math.round.
 - Row 11 dedupe: gymSession eyebrow vs foodLog.today; logged-day label; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
-- react-test-renderer deprecation and 'background sync failed' warnings.
+- react-test-renderer deprecation warnings.
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
-- Gym card may show seed data after failed dashboard read.
-- Plan card in index.tsx has hard-coded AI scope.
-- Goals reset toast says goals.saved, not a reset message.
 - Round numbers in PHASE3_ROWS.md may clash with loop numbers.

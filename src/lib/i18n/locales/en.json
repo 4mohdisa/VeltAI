@@ -82,7 +82,10 @@
     "saved": "Goals updated.",
     "setByLume": "Set by Lume",
     "tapToEdit": "Tap to edit",
-    "savedAsYouType": "Your numbers, untouched by Lume. Saved as you type."
+    "savedAsYouType": "Your numbers, untouched by Lume. Saved as you type.",
+    "eyebrow": "Daily targets",
+    "gramsField": "{{label}} (g)",
+    "percentField": "{{label}} (%)"
   },
   "addMenu": {
     "title": "Add meal",

@@ -8616,3 +8616,7 @@
 - 2026-11-22 19:16 Kept the checkpoint over Jev's Row 14 cleanup pick (91%). Reason Jev cannot see: the loop note fixes this round as a checkpoint, and the last checkpoint was round 129, so the gate must run before more edits build on unverified changes since then.
 - 2026-11-22 19:16 Goals loading and error stays parked under the Round 143 default (run English text, no hooks change). Not asked again, so the ask signal (64%) is not used.
 - 2026-11-22 19:16 Checkpoint changes no files, so no Prettier, no snapshot regeneration and no test edits occur.
+- 2026-11-22 19:18 Chose the Goals English text: it is the in-progress item and needs no src/lib/data change, which Isa has not approved.
+- 2026-11-22 19:18 Goals loading and error stay parked: useGoals needs a hooks change that Isa has not approved.
+- 2026-11-22 19:18 Round 144 checkpoint was clean (179 suites, 1134 tests, 4 snapshots, tsc 0), so the next round runs a single-file task.
+- 2026-11-22 19:18 Run only the touched tests: keeps the loop fast and avoids the Node GC crash on full runs.

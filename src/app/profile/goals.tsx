@@ -91,7 +91,7 @@ export default function GoalsScreen() {
   ];
 
   return (
-    <Screen variant="floating" eyebrow="Daily targets" title={t('goals.title')} showBack contentStyle={{ gap: space.xl }}>
+    <Screen variant="floating" eyebrow={t('goals.eyebrow')} title={t('goals.title')} showBack contentStyle={{ gap: space.xl }}>
       <SegmentedField
         variant="inset"
         label={t('goals.mode')}
@@ -171,7 +171,7 @@ export default function GoalsScreen() {
             <View key={m.key} style={{ flexDirection: large ? 'column' : 'row', gap: space.md, alignItems: large ? 'stretch' : 'flex-end' }}>
               <View style={{ flex: 1 }}>
                 <TextField
-                  label={`${m.label} (g)`}
+                  label={t('goals.gramsField', { label: m.label })}
                   {...draft(`${m.key}-g`, String(goals[m.key]), (v) => onMacroGrams(m.key, v))}
                   editable={isCustom && splitBy === 'grams'}
                   disabled={!isCustom || splitBy !== 'grams'}
@@ -180,7 +180,7 @@ export default function GoalsScreen() {
               </View>
               <View style={{ flex: 1 }}>
                 <TextField
-                  label={`${m.label} (%)`}
+                  label={t('goals.percentField', { label: m.label })}
                   {...draft(`${m.key}-pct`, percentOf(m.key), (v) => onMacroPercent(m.key, v))}
                   editable={isCustom && splitBy === 'percent'}
                   disabled={!isCustom || splitBy !== 'percent'}
