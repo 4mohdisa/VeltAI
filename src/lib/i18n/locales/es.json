@@ -138,9 +138,11 @@
     "title": "Comida",
     "empty": {
       "searchFailed": "La búsqueda no pudo conectar con la base de datos de alimentos. Comprueba tu conexión e inténtalo de nuevo.",
-      "loadFailed": "No se pudo cargar el registro de comidas de hoy. Comprueba tu conexión e inténtalo de nuevo."
+      "loadFailed": "No se pudo cargar el registro de comidas de hoy. Comprueba tu conexión e inténtalo de nuevo.",
+      "loadFailedPast": "No se pudo cargar el registro de comidas de este día. Comprueba tu conexión e inténtalo de nuevo."
     },
     "loadFailed": "No se pudo cargar el registro de comidas de hoy.",
+    "loadFailedPast": "No se pudo cargar el registro de comidas de este día.",
     "savedLoadFailed": "No se pudieron cargar tus comidas guardadas.",
     "savedTitle": "Mis platos",
     "rowAnalysing": "Analizando…",

@@ -136,9 +136,11 @@
     "title": "Repas",
     "empty": {
       "searchFailed": "La recherche n’a pas pu accéder à la base de données alimentaire. Vérifiez votre connexion et réessayez.",
-      "loadFailed": "Impossible de charger le journal alimentaire d’aujourd’hui. Vérifiez votre connexion et réessayez."
+      "loadFailed": "Impossible de charger le journal alimentaire d’aujourd’hui. Vérifiez votre connexion et réessayez.",
+      "loadFailedPast": "Impossible de charger le journal alimentaire de ce jour. Vérifiez votre connexion et réessayez."
     },
     "loadFailed": "Impossible de charger le journal alimentaire d'aujourd'hui.",
+    "loadFailedPast": "Impossible de charger le journal alimentaire de ce jour.",
     "savedLoadFailed": "Impossible de charger vos aliments enregistrés.",
     "savedTitle": "Mes plats",
     "rowAnalysing": "Analyse…",

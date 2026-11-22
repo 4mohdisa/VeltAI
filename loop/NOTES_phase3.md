@@ -33,13 +33,14 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Unanswered question: use default and carry on. Do not re-ask.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - One component per round for prompts that cover screens or components.
-- A flagged report is re-verified as its own round, unless the row changed no code.
+- A flagged report is re-verified as its own round, unless the row changed no code. A row already re-verified once is not re-verified again; carry on with its next open item.
 - A prompt missing a required rule, or rejected for scope: re-issue the same row.
 - Round 48: row 12 set back to PARTIAL per handover (BUILT needs Isa approval).
 - Round 48: useInsights refetch and Retry stay parked (not in any row).
 - Round 50: full checkpoint chosen over row 13. Edits allowed only to the three named mock files (isError: false).
 - Round 51: same flagged blocker (row 12 approval) came back twice. Recorded under Blocked on Isa, not retried.
-- Round 52: row 13 flagged as partly done. Re-verified as its own round (Food tab tests and tsc only). Row 13 stays PARTIAL.
+- Round 52: row 13 re-verified as its own round (Food tab tests and tsc only). Row 13 stays PARTIAL.
+- Round 53: loop flagged the round 52 report again as partly done. Row 13 is PARTIAL by design (open items). Not re-verified a third time.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -53,6 +54,8 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Round 48: mock isError fixes in detailChrome and insights render tests.
 - Round 49: row 12 re-verified. Round 50: full checkpoint clean.
 - Round 51: row 13 Food tab states: past-day empty message added, foodTab.emptyStates render tests (4) added. Status PARTIAL.
+- Round 52: row 13 Food tab re-verified (12 suites, 130 tests, tsc 0).
+- Round 53: row 13 past-day error copy (food.empty.loadFailedPast, food.loadFailedPast) in progress.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Code done, checkpoint clean round 50. Stays PARTIAL until Isa approves. Do not retry, do not re-ask.
@@ -63,7 +66,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - useEnergyRange: confirm 'both weeks fail' rule. Default used.
 
 ## Next
-- Row 13 re-verification (round 52), then row 13 follow-ups: past-day error copy, PendingSyncBanner on Food tab.
+- Row 13 past-day error copy (round 53), then SavedMealsList and RecipesList error states, then PendingSyncBanner on Food tab, then row 13 saved, calendar, detail, barcode and translations.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Full checkpoint on its scheduled round.
@@ -90,5 +93,5 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - hydrationErrorState.render.test.tsx prints many 'API unreachable' warnings. Park.
 - Energy one-week-fails path untested; no test for refetch clearing isError. Park.
 - Anomalies stay empty when getInsights fails. Harmless today.
-- Food tab error copy says 'today's food log' on past days (food.empty.loadFailed, food.loadFailed). Row 13 follow-up.
 - Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 follow-up.
+- 'No meals yet' title reads oddly on a past day. Row 13 follow-up.

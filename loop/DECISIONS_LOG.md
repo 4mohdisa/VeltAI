@@ -8222,3 +8222,6 @@
 - 2026-11-22 16:56 Ran only the Food tab test files, not the full checkpoint: a checkpoint is due on its own schedule, and the loop has not called one.
 - 2026-11-22 16:56 Left the past-day error copy and the offline banner for NEXT: they are new work outside the verification.
 - 2026-11-22 16:56 Kept the past-day wording 'Nothing was logged on this day.' as the default until Isa confirms it.
+- 2026-11-22 16:57 Round 52 re-verification already ran; the loop flag on the same report is not a new fault. Row 13 stays PARTIAL because its saved, calendar, detail, barcode and translation items are still open. No third re-verification.
+- 2026-11-22 16:57 Chose the past-day error copy as the smallest open row 13 item (three locale keys, one screen). Jev also favours running (93%).
+- 2026-11-22 16:57 Used the existing 'nothing logged' past-day wording default; Isa's confirmation is still pending and is not blocking.

@@ -218,6 +218,7 @@ export default function FoodLogScreen() {
   // The day on screen. useFoodLog() follows the store's selection, so switching
   // days re-reads (and hydrates) that day rather than today.
   const selectedDate = useFoodStore((st) => st.selectedDate);
+  const isPastDay = selectedDate < todayISO();
   const setSelectedDate = useFoodStore((st) => st.setSelectedDate);
   const { days: loggedDays, refetch: refetchDays } = useLoggedDays();
   const { data: meals, isLoading: loading, error, refetch } = useFoodLog();
@@ -488,7 +489,7 @@ export default function FoodLogScreen() {
                 writes). They stay on screen, labelled — the empty-list ErrorState
                 below covers the case where there is nothing to show at all. */}
             {loadError && itemCount > 0 ? (
-              <LoadFailedNotice message={t('food.loadFailed')} onRetry={refetch} />
+              <LoadFailedNotice message={t(isPastDay ? 'food.loadFailedPast' : 'food.loadFailed')} onRetry={refetch} />
             ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library
                 view rather than a view of one day. */}
@@ -628,7 +629,7 @@ export default function FoodLogScreen() {
             />
           ) : loadError ? (
             <ErrorState
-              message={t('food.empty.loadFailed')}
+              message={t(isPastDay ? 'food.empty.loadFailedPast' : 'food.empty.loadFailed')}
               onRetry={refetch}
             />
           ) : loading ? (
@@ -643,7 +644,7 @@ export default function FoodLogScreen() {
               <EmptyState
                 icon="fork.knife"
                 title={t('foodLog.noMealsTitle')}
-                message={t(selectedDate < todayISO() ? 'foodLog.noMealsPastMessage' : 'foodLog.noMealsMessage')}
+                message={t(isPastDay ? 'foodLog.noMealsPastMessage' : 'foodLog.noMealsMessage')}
                 actionLabel={t('foodLog.addMeal')}
                 onAction={() => router.push('/food/add')}
               />
