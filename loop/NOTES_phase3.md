@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Every prompt opens with the branch rule. Rows say built, never verified (Isa verifies). Read PHASE3_ROWS.md before each task; briefs have been behind it.
+Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Every prompt opens with the branch rule. Rows say built, never verified (Isa verifies). Read PHASE3_ROWS.md before each task.
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
@@ -24,18 +24,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Seed tooling: backend/tools/seed, localhost-only guard, reset deletes only seed_ ids with @example.test email.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
-- Saved screen load failure shows ErrorState with Retry.
-- Locale blocks inserted as text, not JSON rewrite. French: no-break space before ':' and '?'.
 - Failed reads: LoadFailedNotice message={t('gym.loadFailed')}, plus onRetry={refetch} only if refetch exists.
+- Empty or failed screens with no stored data: one clear action. Loading guards are not required unless a row names them.
+- Locale blocks inserted as text, not JSON rewrite. French: no-break space before ':' and '?'.
 - Food tab shows PendingSyncBanner counting all queued writes (default).
-- Food detail: Entry not found gets one Done button (common.done). Barcode not-found keeps Scan again.
-- Gym session and history: failed read shows LoadFailedNotice with Retry.
-- Templates: failed read uses useTemplates isError and refetch.
 - Exercise progress and muscles: failed read shows notice, no Retry (default).
+- Templates: failed read uses useTemplates isError and refetch.
 - Session.tsx English reuse limited to gym.* and gymSession keys.
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
-- Round 96: Jev said ask; declined, no new major question, every open item already has a default.
+- Round 96: Jev said ask; declined, no new major question.
 
 ## Done
 - Rounds 1-4: row list, Rows 1 and 2 BUILT.
@@ -43,7 +41,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 4 audit BUILT; rows 12-17 added.
 - Row 12 plumbing done; PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail Done.
-- Row 14 PARTIAL: session, history, muscles, templates (already done, round 95).
+- Row 14 PARTIAL: session, history, muscles, templates, streak (round 96, loading guard accepted as default).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -52,18 +50,19 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks. Review needed.
+- Row 13 and 14: es and fr wording of all new blocks (including gymStreak). Review needed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
+- Row 14: streak screen loading skeleton. Default: none. Needs permission to change gymStreak.render.test.tsx if wanted.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 96: gym/streak.tsx empty and failed states (Row 14).
-- Then gym/freeze.tsx states for Row 14.
+- Round 97: gym/freeze.tsx failed read, empty state, literals (Row 14).
+- Then freeze offline success toast (needs decision, data-adjacent).
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
@@ -105,4 +104,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Loop notes
 - Round 93 prompt rejected for missing branch rule. Every prompt opens with it.
 - Round 94: muscles screen done, no Retry (default).
-- Round 95: templates already done; no code change. Briefs behind PHASE3_ROWS.md, so the loop reads that file first.
+- Round 95: templates already done; no code change.
+- Round 96: streak done. Auto check flagged the report as partly done; the gap (no loading guard) was resolved as a default, see Decisions.

@@ -485,6 +485,10 @@
     "emptyMessage": "Enregistrez une séance de sport pour commencer votre série.",
     "sessions": "Séances"
   },
+  "gymFreeze": {
+    "emptyTitle": "Pas encore de série à protéger",
+    "emptyMessage": "Enregistrez une séance de sport pour commencer une série. Un gel pourra ensuite la préserver un jour de repos."
+  },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
     "dayStreak_one": "{{count}} jour d’affilée",

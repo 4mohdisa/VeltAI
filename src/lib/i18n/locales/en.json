@@ -485,6 +485,10 @@
     "emptyMessage": "Log a gym session to start your streak.",
     "sessions": "Sessions"
   },
+  "gymFreeze": {
+    "emptyTitle": "No streak to protect yet",
+    "emptyMessage": "Log a gym session to start a streak. A freeze can then keep it alive on a rest day."
+  },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "dayStreak_one": "{{count}} day streak",

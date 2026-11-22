@@ -487,6 +487,10 @@
     "emptyMessage": "Registra una sesión de gimnasio para empezar tu racha.",
     "sessions": "Sesiones"
   },
+  "gymFreeze": {
+    "emptyTitle": "Aún no tienes una racha que proteger",
+    "emptyMessage": "Registra una sesión de gimnasio para empezar una racha. Luego una congelación puede mantenerla en un día de descanso."
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak_one": "{{count}} día seguido",

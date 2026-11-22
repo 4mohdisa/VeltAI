@@ -8405,3 +8405,7 @@
 - 2026-11-22 18:06 Told Claude Code to say 'built', never 'verified', because of the automatic check flagged in the last report.
 - 2026-11-22 18:06 Told Claude Code to read PHASE3_ROWS.md first, since the last two briefs asked for work already done (rounds 92 and 95).
 - 2026-11-22 18:06 Streak copy 'racha' (es) and 'serie' (fr) kept as the default until Isa reviews.
+- 2026-11-22 18:09 Flagged partial task (streak, round 96): the loading gap is accepted by default. The screen shows nothing while the first read runs, because a skeleton would break gymStreak.render.test.tsx, which I may not change. Row 14 streak counts as done for now; Isa can ask for a skeleton later.
+- 2026-11-22 18:09 Freeze offline success toast is not part of this row's three guards and touches data behaviour, so it goes to NEXT.
+- 2026-11-22 18:09 Freeze new strings reuse existing keys where the text is identical, and go into a new gymFreeze block, to keep the pattern used for streak and session.
+- 2026-11-22 18:09 Spanish and French wording stays subject to Isa's review, as already recorded in Blocked on Isa.
