@@ -5,17 +5,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
-- Last gates: tsc 0 errors. Jest 228 suites / 1322 tests (Isa to confirm baseline). Go 543 pass / 20 TestPG skipped.
-- Current round: checkpoint run of tsc and full Jest, no file changes (flagged by the auto check).
+- Last checkpoint (clean, no file changes): tsc 0 errors. Jest 233 suites / 1338 tests pass, 0 skipped. Go 543 pass / 20 TestPG skipped.
+- Old figures 228 suites / 1322 tests are superseded.
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 16.
-- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15, 17.
+- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15 (in progress), 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Checkpoint gates result, then Row 15 Goals empty and error states within what the screen already gets.
-- Row 17 gaps. Row 11 last.
+- Row 15 Goals empty state (within what useGoals returns).
+- Row 17 gaps. Row 11 final sweep last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -28,7 +28,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
-- Export row stays in both Settings and Privacy, no code change. Removing either breaks an existing test.
+- Export row stays in both Settings and Privacy. Removing either breaks an existing test.
 - Test files never go under src/app (Expo Router treats them as routes). Use src/__tests__/render/.
 - New strings go in new top-level locale groups, inserted before the unique 'pendingSync' anchor. Reuse a key only when English and meaning match.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
@@ -39,11 +39,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
 - Preferences kept in memory, not persisted.
 - Every prompt states the loop/phase3 branch rule.
+- Row 16 status conflict (notes BUILT, handover PARTIAL): kept BUILT. Re-check in Row 11.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading and error (Row 15). Parked.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
-- Export duplicate: two exportData functions with different share subjects. Remove one row only if Isa decides and allows its test to change.
+- Export duplicate: two exportData functions with different share subjects. Remove one only if Isa decides.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
@@ -64,6 +65,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 is a raw number, not a token. Repeat-visit skeleton flash.
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
+- One unexplained extra test above expected count (233/1338 vs 1337 counted).
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
@@ -80,3 +82,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Use node with s.replace(a, () => b), not Perl. Check bytes after edits.
 - PHASE3_ROWS.md must stay 22 lines.
 - Locale files live in src/lib/i18n/locales/, not src/locales/.
+- Expo Router: node_modules/expo-router/_ctx-shared.js.

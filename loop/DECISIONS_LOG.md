@@ -9394,3 +9394,8 @@
 - 2026-11-23 02:17 The Row 15 copy pass is dropped as a merge. Export work is not Goals work, so Row 15 stays PARTIAL.
 - 2026-11-23 02:17 Row 15 Goals states use only data the screen already gets. src/lib/data stays off limits, so the useGoals gap (isLoading and error dropped) is parked under Blocked on Isa.
 - 2026-11-23 02:17 This round changes no files, so the loop check is answered by gate results only.
+- 2026-11-23 02:18 Accepted 233 suites and 1338 tests (checkpoint run, clean) as the new Jest baseline. Isa has not replied, so the default applies. Old 228/1322 figures are superseded.
+- 2026-11-23 02:18 The one test above the expected count is unexplained. Parked, not chased.
+- 2026-11-23 02:18 Row 16 status conflict: notes say BUILT, handover says PARTIAL. Kept BUILT from the notes file. Re-check during the Row 11 sweep.
+- 2026-11-23 02:18 Row 15 scoped to the empty state only, because useGoals drops isLoading and error (Blocked on Isa, default is park).
+- 2026-11-23 02:18 Jev ask at 55% overridden: every Isa item has a default and no row is blocked, so the standing rule applies.
