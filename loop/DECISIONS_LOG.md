@@ -9543,3 +9543,7 @@
 - 2026-11-23 03:12 Chose Row 13 because it is the only PARTIAL row that needs no Isa input and no src/lib/data change.
 - 2026-11-23 03:12 Kept the schedule_pg.go sort bug in Parked and out of this prompt, because it is backend work outside Row 13.
 - 2026-11-23 03:12 Did not re-ask Isa about anything already in Blocked on Isa.
+- 2026-11-23 03:17 Closed Row 13 as BUILT with owner items, because the only open items need edits to pinned tests or src/lib/data, which Isa has not allowed, and the unanswered question has passed one round, so the default applies.
+- 2026-11-23 03:17 Kept the pinned English strings in place rather than editing existing tests, per the never-edit-tests rule.
+- 2026-11-23 03:17 Chose a docs-only round to clear the flagged partial report without new risk. Jev rated ask higher, but the question has been asked and the default is documented, so no new question is sent.
+- 2026-11-23 03:17 Row 14 status conflict (handover says PARTIAL, notes say BUILT) is left for the next round to reconcile from PHASE3_ROWS.md.
