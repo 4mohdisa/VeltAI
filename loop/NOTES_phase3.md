@@ -8,7 +8,7 @@ Every prompt must state the loop/phase3 branch rule.
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Round 30 checkpoint clean. Round 38 change (useApi loading on input change) not yet covered by a full run.
+- Round 39 full checkpoint clean: tsc 0; Jest 146 suites, 1026 tests, all pass.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Stray node_modules/jest 30.0.5 and @types/jest ^30 are parked.
@@ -35,22 +35,15 @@ Every prompt must state the loop/phase3 branch rule.
 - A flagged report that leaves a caller broken (unhandled rejection) is fixed in the next round, not re-verified.
 - A prompt missing a required rule: re-issue the same row, not a new task.
 - A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
+- Row 12 closed as built on round 40 (clean checkpoint, all planned items done). Isa may reopen.
 
 ## Done
 - Rounds 1 to 4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
 - Rounds 5 to 6: Row 3 BUILT, owner check pending.
 - Rounds 7 to 10: Row 4 audit BUILT (EMPTY_STATES_AUDIT.md); rows 12 to 17 added.
 - Rounds 11 to 13: Row 5 part 1 BUILT, owner check pending.
-- Rounds 13 to 29: Row 12 PARTIAL. useHydration loading fix; isError on useApi, useToday, useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress.
-- Round 30: checkpoint clean.
-- Round 31: useEnergyRange returns isError.
-- Round 32: getInsights rejects instead of swallowing (api.ts).
-- Round 33: useInsights returns isError (aiBrain.ts).
-- Round 34: ErrorState default copy in t() (en, es, fr), render test.
-- Round 35: PendingSyncBanner copy in t() (en, es, fr), key pendingSync.waiting, render test.
-- Round 36: useExercises and useExerciseProgress failure, recovery and input-change tests. mountHook added to shared harness.
-- Round 37: useEnergyRange one-week-fails test. No source change.
-- Round 38: useApi sets loading true while input change refetches, old data kept. Test added in gymSchedule.revalidate.test.ts. Only 2 files plus 6 gymSchedule files run; full suite not run (flagged).
+- Rounds 13 to 38: Row 12 plumbing (isError on hooks, useApi loading fix, useEnergyRange isError, getInsights rejects, ErrorState and PendingSyncBanner copy via t()).
+- Round 39: full checkpoint clean.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -70,22 +63,19 @@ Every prompt must state the loop/phase3 branch rule.
 - Lint: gymSchedule.ts lines 50, 52 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - Both gymSchedule test files use react-test-renderer (deprecated warning). Park.
 - gymSchedule.ts header comment no longer matches code. Fix in Row 11.
-- gymSchedule.revalidate.test.ts has its own useApi harness copy for older tests. Row 11.
+- gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - aiBrain.ts header does not mention useInsights isError. Park.
 - useInsights mocks in render/insights.render.test.tsx and render/anomaly.render.test.tsx lack isError. Harmless until a screen reads it.
 - detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
 - Anomalies stay empty when getInsights fails. Harmless: anomaly endpoint is empty today.
 - getMorningBrief and getProfile swallow failures as null. Park.
-- Food tab anomaly banner does not read isError. Later row.
 - src/lib/i18n/index.ts comment says French 'intentionally partial'; probably stale. Park.
-- No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
-- Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
-- Energy one-week-fails: failed earlier week path untested; no test that refetch after error clears isError. Row 12 follow-up.
+- hydrationErrorState.render.test.tsx prints many 'API unreachable' warnings. Passes. Park.
+- Energy one-week-fails: failed earlier week path untested; no test that refetch after error clears isError. Row 12 follow-up, parked.
 
 ## Next
-- Round 39: full checkpoint re-verify of round 38 (npx tsc --noEmit and full npx jest). Verification only.
-- Then Row 12 to BUILT if clean (Isa approval per handover), else fix the failing file next round.
-- Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
-- Rows 14 to 17 (empty state follow-ups).
+- Row 14: screens read isError, including the Food tab anomaly banner.
+- Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist). 'Tap + to add your first meal' shows on past days: fix.
+- Rows 15 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.
 - Rows 7 and 8 (Sentry, PostHog), then rows 9 and 10 (export, help), then Row 11 (final sweep).

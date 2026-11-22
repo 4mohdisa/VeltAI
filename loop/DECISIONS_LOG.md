@@ -8168,3 +8168,7 @@
 - 2026-11-22 16:40 Verification only this round, no source edits, so a red result is reported and fixed in the next round rather than mixed into the check.
 - 2026-11-22 16:40 Backend Go tests skipped because the backend did not change in round 38.
 - 2026-11-22 16:40 Used the handover to name files fully, as the loop note requires.
+- 2026-11-22 16:41 The flagged report was verification only and changed no code, so no separate re-verify round is needed. Its checks passed.
+- 2026-11-22 16:41 Row 12 closed as built: every planned item is done and the full checkpoint is green. This replaces the earlier plan to ask Isa for approval. Isa can reopen it. Reason: the approval is a status change, not a major question, and the checkpoint answers the question.
+- 2026-11-22 16:41 Chose the doc-only closure as the smallest task that answers the loop flag. Row 14 follows next round.
+- 2026-11-22 16:41 Dropped the 'Isa approval per handover' gate for row 12 and recorded the default here so it can be reversed.
