@@ -33,6 +33,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
 - Round 75-78: meals.tsx header verified, reworded and wrapped. Default used.
 - Row 3 'Templates +' kept.
+- Round 79: Food tab shows PendingSyncBanner, counting all queued writes (matches dashboard). Default used.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -43,6 +44,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 42-69: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history.
 - Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels.
 - Rounds 73-78: checkpoint clean; meals.tsx and saved.tsx header work.
+- Round 79: Food tab PendingSyncBanner added and tested (2 tests). Flagged partly done by auto check.
+- Round 80 (in progress): re-verify banner placement and tests.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -52,11 +55,13 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 13 es and fr wording for all new blocks. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 13: is /food/meals meant to get a Food tab link? Default: no link added.
+- Row 13 PendingSyncBanner counts all queued writes, not only food. Default used. Confirm.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 
 ## Next
-- Row 13 remaining: Food tab PendingSyncBanner (running), food detail screen states, barcode.
+- Row 13 remaining: food detail screen states, barcode.
+- Owner check pending: Food tab offline banner in simulator (queue a change offline, banner shows under title, clears after sync).
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -79,7 +84,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule tests.
 - Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', saved.tsx 'C13 · My dishes' wording (comment only), meals.tsx '(Task 4)'.
-- food.tsx header line 2 is 82 characters (limit 80). Row 11.
+- food.tsx header line 2 is 82 characters (limit 80). Row 11. Round 79 said the 82-char line is in meals.tsx: check both.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry. allText crashes on full-screen trees: use findAll.
 - getMorningBrief and getProfile swallow failures as null.
@@ -93,3 +98,6 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
 - formatMonthYear and formatWeekdayDate: month and day names can stay English in es and fr.
 - Older items: no Retry on useInsights errors, analytics defaults to on, seed script has no host guard.
+
+## Loop notes
+- Auto check flagged round 79 as partly done. Round 80 re-verifies it. Re-verify used once.

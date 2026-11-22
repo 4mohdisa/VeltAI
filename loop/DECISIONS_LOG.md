@@ -8328,3 +8328,7 @@
 - 2026-11-22 17:36 Picked the PendingSyncBanner gap over food detail states: it reuses an existing component, so it is the smallest change and clears a Row 13 sub-item.
 - 2026-11-22 17:36 Kept the row PARTIAL because Row 13 still has food detail states and barcode left.
 - 2026-11-22 17:36 Pending sync check uses the existing store or hook, not a new one, to avoid duplicated logic.
+- 2026-11-22 17:37 Chose the re-verify task because the automatic check flagged round 79 as partly done. Row 13 code changed, so one re-verify is allowed.
+- 2026-11-22 17:37 Kept the banner counting every queued offline write, matching the dashboard. Default used; Isa to confirm.
+- 2026-11-22 17:37 Simulator offline check is not claimed. It is recorded as owner check pending, and Row 13 stays PARTIAL.
+- 2026-11-22 17:37 Did not add Maestro work now. Row 5 part 2 is still blocked on E2E credentials.
