@@ -9013,3 +9013,8 @@
 - 2026-11-22 21:14 Export row is ungated by subscription, as the brief requires.
 - 2026-11-22 21:14 Row 9 stays DIFFERENT until the Settings row is done, following the report's instruction.
 - 2026-11-22 21:14 The handover's open item about the PRIVACY_DATA.md host sentence conflicts with notes saying it was closed in round 208. Not acting now. Re-check it in the Row 11 sweep.
+- 2026-11-22 21:16 Closed Row 9 as BUILT with owner check pending. The only open part is the device test on the seeded heavy user, which needs sign-in.
+- 2026-11-22 21:16 Kept both Export my data rows (main Settings list and Privacy screen) for now. Reason: the brief forbids touching privacy.tsx outside Row 15, and the Privacy screen copy is already in Row 15 scope. Asking Isa would not change the outcome.
+- 2026-11-22 21:16 Chose the smallest task because Jev rates the risk of continuing without Isa as high. Asking Isa was not chosen because nothing in this row needs his hands.
+- 2026-11-22 21:16 Left the duplicate-row question out of Blocked on Isa. It is now a recorded default, not a question.
+- 2026-11-22 21:16 Next round: fix the PRIVACY_DATA.md host sentence (Row 8), then Row 10.
