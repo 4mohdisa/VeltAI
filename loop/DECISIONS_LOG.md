@@ -9552,3 +9552,8 @@
 - 2026-11-23 03:18 Row 14 status: if all non-Isa items are closed, mark BUILT with owner check pending. Its remaining items all need Isa permission or Isa's review.
 - 2026-11-23 03:18 Kept src/lib/data, gym/history.tsx and all existing tests and snapshots off limits, per the standing decisions.
 - 2026-11-23 03:18 Trimmed the notes to under 600 words: finished work removed, decisions and Isa-blocked items kept.
+- 2026-11-23 03:19 Row 6 Gym history option is blocked for the second round in a row. Recorded under Blocked on Isa with the rule not to retry or re-ask. Chose the Row 11 checkpoint instead, which needs no Isa input.
+- 2026-11-23 03:19 Did not ask Isa a question this round. The Row 6 question was already asked and is unanswered, and a repeat would cost attention without changing the outcome.
+- 2026-11-23 03:19 Row 6 stays PARTIAL: simulator numbers cannot be measured by agents (Maestro is not run by agents), and the gym list fix needs an Isa choice.
+- 2026-11-23 03:19 Row 11 runs now as a checkpoint so the gate numbers and owner list exist. Status stays DIFFERENT until Rows 5 and 6 close, and it is rerun at the end.
+- 2026-11-23 03:19 Status conflict resolved: notes and the latest Row 14 report say Rows 13 and 14 are BUILT. The handover says PARTIAL. Used BUILT. The Row 11 prompt makes the agent confirm from PHASE3_ROWS.md.

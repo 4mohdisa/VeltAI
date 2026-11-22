@@ -1,23 +1,23 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'. PHASE3_ROWS.md is source of truth; re-read each round.
+All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'. PHASE3_ROWS.md is the source of truth; re-read each round.
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last checkpoint: tsc 0 errors. Jest figures conflict (238 suites / 1,350 tests vs 236 / 1,344). Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
+- Last checkpoint: tsc 0 errors. Jest figures conflict (238 suites / 1,350 tests vs 236 / 1,344). Go 543 pass, 20 TestPG skipped. Row 11 reconciles them.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 13 (owner items), 15, 16, 17 (gaps 1, 2, 6 owner items).
-- PARTIAL: 5 (part 2 needs credentials), 6 (waits on Isa's option), 14 (round reconciles it).
-- DIFFERENT: 11 (final sweep, last).
-- Last report flagged: no tsc or Jest run after docs-only and WeekStrip changes. Cleared in the Row 14 round.
+- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17 (owner items noted in rows).
+- PARTIAL: 5 (part 2 needs credentials), 6 (waits on Isa's option; simulator numbers not measured).
+- DIFFERENT: 11 (final sweep, last; checkpoint round runs now).
+- Handover said 13 and 14 PARTIAL; notes and the latest report say BUILT. Confirm in PHASE3_ROWS.md.
 
 ## Next
-1. Row 14: targeted gate check, then reconcile status.
-2. Row 6 waits on Isa's option. Do not re-ask.
+1. Row 11 checkpoint (in progress): gates, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
+2. Row 6 waits on Isa's option. Do not re-ask. Do not retry.
 3. Row 5 part 2 waits on credentials.
-4. Row 11 final sweep last.
+4. Row 11 rerun after Rows 5 and 6 close, then stop.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -43,8 +43,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - French: no-break space before ':', '?' and inside guillemets; curly apostrophes. Spanish tu, French vous.
 - Keep: Integrations 'Nothing connected' eyebrow; Privacy 'Your data' English; Spanish 'Tus datos'.
 - Unanswered question: after one unanswered round, use the default and move on.
+- Row 6 Gym history: blocked twice on the same Isa choice. Parked, not retried. Row 11 checkpoint ran instead.
 
 ## Blocked on Isa (defaults used, do not re-ask)
+- Row 6 Gym history, one of three: per-row card pieces, list mode on Screen, or limit hydrateGym in hooks.ts:170 (recommended). Blocked by src/lib/data permission. Asked twice, no answer.
 - src/lib/data permission: Row 6 hooks.ts limit; Row 17 gaps 1, 2, 6; useGoals loading, error, refetch (Row 15); Row 13 scan.ts 'Product not found' and foodDays.ts empty month; Row 14 '0 sessions' in gymRange.ts, muscle-card Retry, exercise-progress Retry.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Existing tests needing permission: sheetVariant.test.ts:30; scanConfidence.test.ts; profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
@@ -55,7 +57,6 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Analytics on (brief) vs opt-in (code), and AI disclosure switch: confirm before Phase 4.
 - Device maker, model, OS to PostHog: default not sent.
 - Export row: two exportData functions exist; remove one only if Isa decides.
-- Row 6 gym history: per-row card pieces, list mode on Screen, or limit hydrateGym in hooks.ts:170 (recommended).
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user; Row 17 gaps 1, 2, 6; Row 13 simulator flow and es/fr wording.
 - Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud, weekStrip es/fr, parameterForm es/fr, fr 'Abandonner' vs 'Supprimer' for scan discard.
 
@@ -73,19 +74,21 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
-- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; no test checks en, es, fr have the same keys; Row 13 and 14 notes out of round order (leave).
+- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; no test checks en, es, fr have the same keys; Row 13 and 14 notes out of round order (leave); Row 14 older notes say 'status stays partial' (docs cleanup).
 
 ## Gotchas
 - No git, Prettier or Maestro. zsh: pass lists through xargs and quote --include globs.
 - allText crashes on FlatList screens: use findAll, dedupe labels with a Set. NumberEntryBar needs SafeAreaProvider in tests.
 - Skeleton needs reanimated useReducedMotion; mock @/components/display/LoadingSkeleton.
-- useGym().data.loggedDays is an array, not a Set. SegmentedField labels render as [label, ""].
+- useGym().data.loggedDays is an array, not a Set. SegmentedField labels render as [label, ''].
 - .test.ts files run in Jest's node project.
 - Edit locale files by exact text insertion, not JSON rewrite. Check anchor uniqueness. Check bytes after edits.
 - Locale files: src/lib/i18n/locales/. Expo Router: node_modules/expo-router/_ctx-shared.js.
 - New test file names must not differ by case only from existing ones (WeekStrip.render exists).
+- findAll matches each Pressable at several wrapper levels: dedupe labels with a Set.
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
 - Every prompt must state the loop/phase3 branch rule.
+- A blocker that returns twice goes under Blocked on Isa and is not retried. Pick a surface that does not depend on it.
 - Jev is advisory only. Prefer smaller tasks. Verify the last task before moving on.
