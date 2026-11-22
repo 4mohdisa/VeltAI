@@ -9171,3 +9171,7 @@
 - 2026-11-23 00:45 Checkpoint changes no files, so a red result is reported, not fixed, and no snapshot is regenerated (Isa rule on snapshots).
 - 2026-11-23 00:45 Included the Go run because the 20 TestPG tests remain skipped and the last Go pass was round 220. No database is set up, so this does not touch any hosted or local data.
 - 2026-11-23 00:45 Fr apostrophe check and the header comment fix are deferred: the first is a small copy check, the second is a comment only. Both go after the gates.
+- 2026-11-23 00:46 Round 244 checkpoint passed (tsc 0; Jest 212 suites, 1250 tests, 4 snapshots; Go 637 pass, 20 TestPG skipped). Logged in Done.
+- 2026-11-23 00:46 Chose the header comment fix first: it is one line in one file, needs no Isa input, and is the smallest task in NEXT. Apostrophe check follows.
+- 2026-11-23 00:46 es.json keys addMenu.voice and addMenu.describeOutLoud: kept as they are and parked. Removing keys is a content decision and is not a major question for Isa.
+- 2026-11-23 00:46 Jev signal (run 95%) agrees with the run action.
