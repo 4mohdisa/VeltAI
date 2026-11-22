@@ -89,3 +89,75 @@ test('a valid event keeps its allowed properties on the wire', async () => {
   expect(event.properties).toMatchObject({ entry: 'barcode', reason: 'not_found' });
   expect(event.properties).not.toHaveProperty('weight_kg');
 });
+
+// Every track() call in the app, read from source: each property key must be on
+// that event's allowlist and each quoted value must be one of its tags, so an
+// off-list property fails here instead of being dropped quietly at runtime.
+// A call whose properties are not an object literal cannot be checked, so it
+// fails too.
+describe('track() call sites', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { readdirSync, readFileSync } = require('fs') as typeof import('fs');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { join, relative } = require('path') as typeof import('path');
+  const SRC = join(__dirname, '..');
+
+  const sourceFiles = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) return entry.name === '__tests__' ? [] : sourceFiles(path);
+      return /\.tsx?$/.test(entry.name) ? [path] : [];
+    });
+
+  type Call = { where: string; event: string; props: string | null; rest: string };
+  const calls: Call[] = sourceFiles(SRC).flatMap((file) => {
+    const src = readFileSync(file, 'utf8');
+    return [...src.matchAll(/\btrack\(\s*'([^']+)'\s*([,)])/g)].map((m) => {
+      const after = src.slice((m.index ?? 0) + m[0].length);
+      const literal = m[2] === ',' ? /^\s*\{([^}]*)\}\s*\)/.exec(after) : null;
+      return {
+        where: `${relative(SRC, file)}: ${m[0]}`,
+        event: m[1],
+        props: literal ? literal[1] : null,
+        rest: m[2] === ',' ? after.trimStart().slice(0, 1) : ')',
+      };
+    });
+  });
+
+  test('finds the app’s track() calls', () => {
+    expect(calls.length).toBeGreaterThan(20);
+  });
+
+  test('every call names an allowlisted event', () => {
+    const unknown = calls.filter((c) => !(c.event in ALLOWED_EVENTS)).map((c) => c.where);
+    expect(unknown).toEqual([]);
+  });
+
+  test('every call passes no properties or an object literal', () => {
+    const unchecked = calls.filter((c) => c.rest !== ')' && c.props === null).map((c) => c.where);
+    expect(unchecked).toEqual([]);
+  });
+
+  test('every property key is on its event’s allowlist and every quoted value is one of its tags', () => {
+    const problems: string[] = [];
+    for (const c of calls) {
+      if (!c.props || !(c.event in ALLOWED_EVENTS)) continue;
+      const rules = ALLOWED_EVENTS[c.event as AnalyticsEventName];
+      for (const part of c.props.split(',').map((p) => p.trim()).filter(Boolean)) {
+        const [rawKey, ...valueParts] = part.split(':');
+        const key = rawKey.trim();
+        const rule = Object.prototype.hasOwnProperty.call(rules, key) ? rules[key] : undefined;
+        if (!rule) {
+          problems.push(`${c.where} key "${key}"`);
+          continue;
+        }
+        const value = valueParts.join(':').trim();
+        const quoted = /^'([^']*)'$/.exec(value);
+        if (quoted && (rule.kind !== 'enum' || !rule.values.includes(quoted[1]))) {
+          problems.push(`${c.where} ${key}: '${quoted[1]}'`);
+        }
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+});

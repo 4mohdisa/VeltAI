@@ -12,13 +12,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13 (src/lib/data gaps parked), 14 (src/lib/data gaps parked), 15 (nutrition kcal waits on macros snapshot), 16, 17.
+- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13 and 14 (src/lib/data gaps parked), 15 (nutrition kcal waits on macros snapshot), 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 14 follow up: tests for streak strip skeleton and log-session sheet (in progress; loop flagged partly done).
-- Then Row 8. feature_used keeps shapeOnly until Isa approves.
-- Row 11 last: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
+- Row 8 (analytics): close gaps in wrapper, allowlist test, PRIVACY_DATA.md. feature_used stays shapeOnly until Isa approves.
+- Then Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
 
 ## Decisions (never delete)
@@ -39,10 +38,9 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - spokenEnergy in src/lib/units.ts. kJ keeps abbreviation until Isa answers.
 - PlannedValuesForm shared with session.tsx: translate component, do not edit session.tsx.
 - Weight caption follows the form's own kg/lb control, not the units setting.
-- Row 13 and Row 14 src/lib/data gaps: default off limits, parked, not asked.
-- Row 14 picked over Row 13 (Jev 51% run). Row 13 cannot close without src/lib/data.
-- Every prompt states the loop/phase3-only branch rule. Rejected prompts get re-issued with it.
-- Check every prompt against files first; past prompts asked for work already done.
+- Row 13 and 14 src/lib/data gaps: default off limits, parked, not asked again.
+- Row 14 picked over Row 13 (Jev 51%). Loop flag on Row 14 closed by two new test files; status unchanged.
+- Every prompt states the loop/phase3-only branch rule. Check every prompt against files first.
 - Flagged partly done: close the gap with tests in new files before the next row.
 
 ## Blocked on Isa (defaults used, do not re-ask)

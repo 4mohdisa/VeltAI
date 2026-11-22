@@ -23,7 +23,7 @@ Receiving services for every event below:
   sends no user id.
 - **PostHog**: only when `EXPO_PUBLIC_POSTHOG_KEY` is set. With no key, no
   PostHog client exists and nothing is sent to PostHog.
-  PostHog starts opted out, so no analytics are sent until the user turns analytics on in Settings → Privacy.
+  PostHog starts opted out, so no analytics are sent until analytics is turned on (see Defaults below for the two places that do it).
 
 | Event | Allowed properties | Receiving service | Reason |
 | --- | --- | --- | --- |
@@ -105,9 +105,18 @@ Extra fields beyond the table:
 ## Defaults and open items
 
 - **Analytics is opt-in and off by default**, as coded: `analyticsEnabled`
-  starts false, and only an explicit stored opt-in turns it on. The switch is
-  Settings → Privacy → Product analytics. Turning it off also opts PostHog
-  out and discards unsent events. Row 8 asks for on by default; Isa to decide.
+  starts false, and only an explicit stored opt-in turns it on. Two places
+  turn it on: the switch in Settings → Privacy → Product analytics
+  (`src/app/profile/privacy.tsx`), and Continue on the one-time AI disclosure
+  (`ensureAiConsent()` in `src/lib/ai/consent.ts`), which also turns analytics
+  on. Only the Settings switch turns it off. Turning it off also opts PostHog
+  out and discards unsent events. Row 8 asks for on by default and for the
+  Settings switch to be the only control; Isa to decide both (the AI
+  disclosure is a Phase 4 item).
+- **Allowlist test**: `src/__tests__/analyticsAllowlist.test.ts` reads every
+  `track()` call in `src/` and fails when an event is not allowlisted, when
+  its properties are not an object literal, when a key is not on that
+  event's list, or when a quoted value is not one of its tags.
 - **Anonymous ID storage**: the brief describes the PostHog anonymous ID as
   held in memory only for now. That is unverified. PostHog falls back to memory
   only when it finds neither `expo-file-system` nor AsyncStorage. Both are in

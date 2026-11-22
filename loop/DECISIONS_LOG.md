@@ -9309,3 +9309,8 @@
 - 2026-11-23 01:47 Row 14 stays PARTIAL, since its two src/lib/data gaps (month summary, muscle Retry) stay parked.
 - 2026-11-23 01:47 Row 8 is next after this round, because Row 14 follow up is small and closes the flagged gap.
 - 2026-11-23 01:47 Jev ranks row 14 follow up lower than ask. Kept run because a test-only task has low risk and needs nothing from Isa.
+- 2026-11-23 01:50 Loop flag on Row 14 is closed: the two missing tests were added and pass. Row 14 stays PARTIAL only because of the parked src/lib/data gaps.
+- 2026-11-23 01:50 Did not ask Isa this round (Jev ask 54%). The open questions are already on the blocked list and unanswered, and the risk is high. Using defaults for them as the rules say.
+- 2026-11-23 01:50 Chose Row 8 over Row 14 because Row 14 cannot close without src/lib/data changes, which stay off limits by default.
+- 2026-11-23 01:50 Row 8 feature_used stays on shapeOnly() until Isa approves, because approval is needed to edit two pinned tests.
+- 2026-11-23 01:50 Row 11 stays last; it needs every other row finished first.
