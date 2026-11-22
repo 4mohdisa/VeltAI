@@ -8632,3 +8632,12 @@
 - 2026-11-22 19:21 Smallest known task with no Isa input, matching the notes NEXT list and Jev's top pick (run 96%).
 - 2026-11-22 19:21 Call-site file paths are not known yet, so step 1 greps for them instead of naming them.
 - 2026-11-22 19:21 Round 146 Goals translation still lacks a Row 15 note; left for the next Row 15 round so this prompt stays to one task.
+- 2026-11-22 19:23 Loop note flagged the last task as partly done. Closed the Row 14 cleanup as far as it can go without editing existing tests: the two test files stay as they are, because they check English text that is correct for the en locale. Row 14 stays PARTIAL.
+- 2026-11-22 19:23 Did not re-ask Isa about editing gymMuscles.shape.render and sheetContent.render tests; the default already applies (no edit, do not re-ask).
+- 2026-11-22 19:23 Chose the goals reset toast fix over Goals loading and error: it is small, needs no hook change and no Isa answer. Loading and error stay parked.
+- 2026-11-22 19:23 Jev ranked ask first at low confidence (0.10). No new question is needed: every open question already has a default, so run was chosen.
+- 2026-11-22 19:23 Risk 1.2 (moderate). Kept the prompt to one file group and one string key so a failure is easy to back out.
+- 2026-11-22 19:23 Round 149: goals reset toast chosen over the Goals loading and error states, which stay parked on Isa's default. The handover NEXT line named the loading and error states, but the notes say they are parked, so I followed the notes.
+- 2026-11-22 19:23 Round 149: the round 148 prompt was rejected for not naming the loop/phase3 branch. Reissued with an explicit branch, no push, no merge and no branch switch rule.
+- 2026-11-22 19:23 Round 149: the Goals reset fix is one toast call plus one locale key, with a new test file and no edits to existing tests or snapshots, to respect the brief's test rules.
+- 2026-11-22 19:23 Round 149: the reset toast text is calm and short, with curly apostrophes in French, following the existing French rules.

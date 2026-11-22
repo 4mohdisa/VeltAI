@@ -80,6 +80,7 @@
     "reconcileHint": "Your macros add up to {{total}} of {{target}}. That's fine — it's just a heads-up.",
     "resetToAi": "Reset to AI recommendation",
     "saved": "Goals updated.",
+    "resetDone": "Goals reset to defaults.",
     "setByLume": "Set by Lume",
     "tapToEdit": "Tap to edit",
     "savedAsYouType": "Your numbers, untouched by Lume. Saved as you type.",

@@ -8,7 +8,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Last full checkpoint (round 144): tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Later rounds ran only changed files.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Round numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop numbers. Not fixed.
-- Round 146: French goals curly apostrophes done (4 keys in fr.json goals group).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -24,32 +23,30 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Snapshots: no regeneration without Isa's permission.
 - Test edit that breaks a test: back out and report. Never leave suite red.
 - MacroBars translation backed out (summaryNoFabrication.test.ts:54). Stays English.
-- Row 125 parked after two failed attempts.
-- Streak empty means longest streak and total sessions both 0.
+- Row 125 parked after two failed attempts. Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Summary card and GymStatusCard hidden during first load. Accepted.
-- Rounds 129, 144: checkpoint kept over Jev picks.
-- Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
-- Round 145: Row 14 cleanup kept, matching Jev's top pick.
-- Round 146: French goals fix chosen over Goals loading and error (blocked on Isa).
-- Round 147: Row 14 cleanup chosen over handover NEXT (Goals loading and error), which stays parked by default.
+- Rounds 129, 144: checkpoint kept over Jev picks. Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
+- Round 146: French goals fix chosen. Round 147: Row 14 cleanup chosen; its two test edits dropped, no re-ask. Row 14 PARTIAL.
+- Round 148 goals reset toast was in progress; reissued as round 149 after a rejected prompt (branch rule missing).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
-- Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals three literals, French goals curly apostrophes (no Row 15 note yet).
+- Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals curly apostrophes.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Goals loading and error, via useGoals exposing loading, error, refetch. Default: parked.
+- Goals loading and error via useGoals (loading, error, refetch). Default: parked.
+- Permission to edit gymMuscles.shape.render and sheetContent.render tests to read en.json. Default: no edit.
 - Review insights.* and banner wording; es/fr weekday capitalisation (default lowercase).
 - 'patterns' vs 'activity' in banner titles. Default keep.
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
-- Permission to change summaryNoFabrication.test.ts:54. Default English.
+- Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default English.
 - Row 12 BUILT approval.
 - Spanish and French wording for new keys in rows 13 to 15: shipped as written.
-- Keys ', today', 'Previous week', 'Next week'. WeekStrip labels stay.
+- Keys ', today', 'Previous week', 'Next week': WeekStrip labels stay.
 - Row 13: 'New recipe' kept. No /food/meals link.
 - Row 14: 'racha' (es), 'serie' (fr). Freeze sheet wording to review.
 - Permission to add refetch to useExerciseProgress and useGymPatterns. Default: no Retry.
@@ -60,24 +57,25 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics default on vs store off: confirm before Phase 4.
 - Nutrition follows Food tab date. Leave.
 - Goals persistence. Default: in memory.
-- es.json has addMenu.voice and addMenu.describeOutLoud not in en.json. Isa: delete or add to en and fr.
+- es.json has addMenu.voice and addMenu.describeOutLoud not in en.json or fr.json. Isa: delete or add.
 
 ## Next
-- Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json (round 147, in progress).
+- Goals reset toast uses goals.resetDone (round 149, in progress).
 - Row 15 note for the round 146 French goals change.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
 - InsightCard type badge untranslated; more/less toggle uses body length over 120.
-- BrainProfileCard: fixed 0.3 bar; numbers not formatted; energy always kcal. Insights swallow errors in src/lib/api.ts (~1253, 1270).
-- Goals reset button shows goals.saved toast; calorie label puts unit in brackets.
+- BrainProfileCard: fixed 0.3 bar; numbers unformatted; energy always kcal. Insights swallow errors in src/lib/api.ts (~1253, 1270).
+- Goals calorie label puts unit in brackets.
 - Row 14: key parity check; shared has-a-streak helper.
 - Then Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8, 9, 10, then Row 11.
 
 ## Parked (not Phase 3)
+- Goals loading and error states (src/app/profile/goals.tsx), needs useGoals refetch; blocked on Isa.
 - Row 125 all-zero week chart line (needs snapshot permission).
-- Goals and units persistence. Goals reset toast says goals.saved.
+- Goals and units persistence.
 - AnomalyBanner: no Retry; full error block where a small banner sits. Copy may be English, not opened.
 - Banner count title lacks _one use.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci (network).

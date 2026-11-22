@@ -223,7 +223,7 @@ export default function GoalsScreen() {
         disabled={!isCustom}
         onPress={() => {
           resetGoalsToAi();
-          showToast({ message: t('goals.saved'), tone: 'success' });
+          showToast({ message: t('goals.resetDone'), tone: 'success' });
         }}
       />
 
