@@ -23,7 +23,7 @@ Receiving services for every event below:
   sends no user id.
 - **PostHog**: only when `EXPO_PUBLIC_POSTHOG_KEY` is set. With no key, no
   PostHog client exists and nothing is sent to PostHog.
-  PostHog starts opted out (defaultOptIn false). No event is sent until the user turns analytics on in Profile > Privacy.
+  PostHog starts opted out, so no analytics are sent until the user turns analytics on in Settings → Privacy.
 
 | Event | Allowed properties | Receiving service | Reason |
 | --- | --- | --- | --- |

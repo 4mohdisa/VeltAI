@@ -30,18 +30,19 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 15 copy tail deferred until after Row 10.
 - Row 8 feature_used keeps shapeOnly() shape check. Strict list needs Isa approval.
 - Analytics switch lives in src/app/profile/privacy.tsx. No second switch on main Settings.
+- PRIVACY_DATA.md place name: 'Settings → Privacy' (matches Defaults section).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
-- Row 8 PARTIAL: step 1 (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a (analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests). Step 2c (setSinkOptIn from flag listener). Step 2b (analytics switch localised, hint, settingsAnalytics.render.test.tsx). PostHog pinned 4.87.1. defaultOptIn false with one test (round 191).
+- Row 8 PARTIAL: step 1 (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a (analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests). Step 2c (setSinkOptIn from flag listener). Step 2b (analytics switch localised, hint, settingsAnalytics.render.test.tsx). PostHog pinned 4.87.1. defaultOptIn false with one test. PRIVACY_DATA.md has opt-out line (round 192).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains (see tail).
 
 ## In progress
-- Round 192: PRIVACY_DATA.md gets one line saying PostHog starts opted out. Closes the partly done item from round 191.
+- Round 193: re-read PRIVACY_DATA.md after disk change, fix place name to 'Settings → Privacy', confirm file intact.
 
 ## Next
 - Row 8 sink fixes, one per round: sign-out resets PostHog identity (call client reset() from resetAnalytics(), with test); EXPO_PUBLIC_POSTHOG_HOST; anonymous ID persistence (check on device, storage unverified); app version and build tags.
@@ -99,3 +100,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
 - Integrations header task is DONE. Do not re-send it.
+- Round 192 report flagged partly done (file changed on disk, place name). Addressed in round 193.

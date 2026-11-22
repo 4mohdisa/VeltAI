@@ -8925,3 +8925,6 @@
 - 2026-11-22 20:52 Sign-out reset is next, not now, to keep one task per round.
 - 2026-11-22 20:52 Kept analytics opt-in and off (defaultOptIn false) until Isa confirms the Row 8 default; the code and pinned tests agree.
 - 2026-11-22 20:52 Did not regenerate any snapshot or edit any existing test.
+- 2026-11-22 20:53 Chose the flagged partly done item first: it is the smallest task, needs no code, and clears the loop flag.
+- 2026-11-22 20:53 Kept the place name 'Settings → Privacy' because the Defaults section already uses it and Settings is the name the user sees.
+- 2026-11-22 20:53 Deferred the PostHog sign-out reset to the next round so each round has one task.
