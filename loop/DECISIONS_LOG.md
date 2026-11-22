@@ -9147,3 +9147,6 @@
 - 2026-11-23 00:32 Compressed the notes to under 600 words. Decisions and Blocked on Isa are kept in full in substance; finished work was removed.
 - 2026-11-23 00:34 Chose the French no-break space fix over the planned goals label: the French rule is already a recorded decision, and the last report found 15 lines breaking it. Small, copy only, no Isa approval needed.
 - 2026-11-23 00:34 If an existing test pins a plain-space string, revert that one value and report it, because existing tests are never edited.
+- 2026-11-23 00:36 Chose candidate 1 over Jev's pick of the same task after it was re-checked: it is the flagged open item from round 238, it is in the same file and follows the same no-break space rule, and it is a small single-file fix. Jev and my earlier pick agree on the task, so no change of pick was needed.
+- 2026-11-23 00:36 Guillemet spacing is handled under the existing French typography rule (no-break space) without a new decision.
+- 2026-11-23 00:36 Suites are limited to fr-locale files because the round 238 full run already passed and no checkpoint is due.

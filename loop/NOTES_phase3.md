@@ -24,14 +24,14 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
 - Identical text reuses existing keys. src/lib/data off limits except api.ts insight catch blocks.
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
-- French: no-break space before ':' and '?' (applies to all fr strings). Curly apostrophes. es and fr plain space before %. Spanish tu, French vous.
+- French: no-break space before ':', '?' and inside guillemets « ». Curly apostrophes. es and fr plain space before %. Spanish tu, French vous.
 - Snapshots: no regeneration without Isa. Broken existing test: back out and report. Never edit an existing test.
 - Render tests end .render.test.tsx in src/__tests__/render/.
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Row 9 export: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Typed routes need 'as Href' for /profile/feedback.
 - Checkpoint rounds change no files.
-- Units and Spanish eyebrows already translated (rounds 234, 235). French apostrophes curly (round 237).
+- Round 239: Jev ranked the guillemet fix first (84%); kept it as the flagged open item in the same file and rule as round 238.
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -42,10 +42,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers, Privacy Export row, footers, support.* keys, settings.destructiveHint, curly apostrophes in fr.json.
+- Row 15 PARTIAL: headers, Privacy Export row, footers, support.* keys, settings.destructiveHint, curly apostrophes in fr.json, no-break spaces before ':' and '?' in fr.json (round 238).
 
 ## Next
-- Row 15: French no-break spaces before ':' and '?' (round 238). Then goals spoken calorie label, then Scan accuracy and Integrations body copy.
+- Row 15: guillemet no-break spaces in fr.json (round 239, food.noMatches first). Then goals spoken calorie label, then Scan accuracy and Integrations body copy.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
