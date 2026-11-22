@@ -8,7 +8,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Checkpoint round 73: tsc 0; 156 suites, 1056 tests, 0 failed.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
-- Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
+- Jest pinned ~29.7.0. Never upgrade. Render tests are *.render.test.tsx.
 - Jest output: write to file, then tail. zsh: use $? not PIPESTATUS. Multi-file jest lists via xargs.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 
@@ -19,21 +19,18 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Later (Phase 4, do not build): RevenueCat for payments, no free tier, 7 day Apple trial.
 - Crash reporting Sentry. Analytics PostHog. Names and counts only.
 - Analytics on by default with anonymous ID, off switch in Settings. Store default off: Isa to confirm before Phase 4.
-- Row 3: keep header plus on My workouts as the only way to add a second workout.
+- Row 3: header plus on My workouts is the only way to add a second workout. Templates + kept.
 - Goals and units stay in memory in Phase 3. Row 15 fixes 'Saved as you type' copy.
 - Hook error fixes go in the shared hook, not per screen.
 - useEnergyRange isError is true only when both week reads fail.
 - AnomalyBanner takes anomalies, isError, onDismiss. food.tsx makes the only useInsights call.
 - Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
-- Unanswered question: use default and carry on. Do not re-ask.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
-- Re-verify a flagged report only if the row changed code. Re-verified once is enough.
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
-- Round 75-78: meals.tsx header verified, reworded and wrapped. Default used.
-- Row 3 'Templates +' kept.
-- Round 79: Food tab shows PendingSyncBanner, counting all queued writes (matches dashboard). Default used.
+- Food tab shows PendingSyncBanner, counting all queued writes. Default used.
+- Unanswered question: use default and carry on. Do not re-ask.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -41,11 +38,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
-- Rounds 42-69: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history.
-- Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels.
+- Rounds 42-72: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history, calendar, WeekStrip.
 - Rounds 73-78: checkpoint clean; meals.tsx and saved.tsx header work.
-- Round 79: Food tab PendingSyncBanner added and tested (2 tests). Flagged partly done by auto check.
-- Round 80 (in progress): re-verify banner placement and tests.
+- Round 79-80: Food tab PendingSyncBanner added and tested (2 tests). Round 80 re-verify: placement and tests correct, no code change.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -54,14 +49,14 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
 - Row 13 es and fr wording for all new blocks. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
-- Row 13: is /food/meals meant to get a Food tab link? Default: no link added.
+- Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13 PendingSyncBanner counts all queued writes, not only food. Default used. Confirm.
+- Owner check pending: Food tab offline banner in simulator (queue a change offline, banner under title, clears after sync).
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 
 ## Next
-- Row 13 remaining: food detail screen states, barcode.
-- Owner check pending: Food tab offline banner in simulator (queue a change offline, banner shows under title, clears after sync).
+- Row 13 remaining: food detail screen states (round 81), then barcode states.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -71,11 +66,11 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Goals and units backend persistence (lost on restart).
 - Jest drift: node_modules jest 30.0.5 vs pin 29.7.0. Fix with npm ci (needs network).
 - 18 backend DB tests never run. Needs LUME_TEST_DATABASE_URL.
-- formatWeekdayDate, formatMonthYear, formatRelativeDate (src/lib/formatting.ts) use device locale or hardcoded English. Shared helper fix.
-- GymCalendar.tsx and WeekEnergyCard.tsx have hardcoded weekday letters.
-- WeekStrip and calendar.tsx build the logged-day label with the same expression. Shared helper to remove duplication.
+- formatWeekdayDate, formatMonthYear, formatRelativeDate (src/lib/formatting.ts): device locale or hardcoded English. Shared helper fix.
+- GymCalendar.tsx and WeekEnergyCard.tsx: hardcoded weekday letters.
+- WeekStrip and calendar.tsx duplicate the logged-day label expression. Shared helper.
 - No test covers app-language dates or en/es/fr key parity. Row 11.
-- French 'aujourd'hui' uses straight apostrophe. Row 11.
+- French 'aujourd'hui' straight apostrophe. Row 11.
 - es.json extra keys addMenu.voice and addMenu.describeOutLoud.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx).
@@ -83,8 +78,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule tests.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', saved.tsx 'C13 · My dishes' wording (comment only), meals.tsx '(Task 4)'.
-- food.tsx header line 2 is 82 characters (limit 80). Row 11. Round 79 said the 82-char line is in meals.tsx: check both.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', meals.tsx '(Task 4)'.
+- food.tsx header line 2 is 82 chars; meals.tsx also checked. Row 11.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry. allText crashes on full-screen trees: use findAll.
 - getMorningBrief and getProfile swallow failures as null.
@@ -92,12 +87,13 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Energy one-week-fails path untested.
 - Food tab mounts useInsights with no consent gate (pinned in phase14Regression).
 - 'No meals yet' reads oddly on a past day unless row 13 wording approved.
-- Freeze and Ask Lume items above.
 - Shared render setup does not mock useFocusEffect or useLocalSearchParams.
 - Saved and calendar tests: shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
-- formatMonthYear and formatWeekdayDate: month and day names can stay English in es and fr.
-- Older items: no Retry on useInsights errors, analytics defaults to on, seed script has no host guard.
+- formatMonthYear and formatWeekdayDate: month and day names may stay English in es and fr.
+- No Retry on useInsights errors. Analytics defaults to on. Seed script has no host guard.
+- Hidden-banner test checks only accessibilityRole=alert absence. Consider asserting no banner at all (Row 11).
 
 ## Loop notes
-- Auto check flagged round 79 as partly done. Round 80 re-verifies it. Re-verify used once.
+- Round 80: Jev said ask (80%). Kept run: the only open question is owner-only and already defaulted.
+- Auto check flag on round 79 closed. Re-verify used once.

@@ -8332,3 +8332,8 @@
 - 2026-11-22 17:37 Kept the banner counting every queued offline write, matching the dashboard. Default used; Isa to confirm.
 - 2026-11-22 17:37 Simulator offline check is not claimed. It is recorded as owner check pending, and Row 13 stays PARTIAL.
 - 2026-11-22 17:37 Did not add Maestro work now. Row 5 part 2 is still blocked on E2E credentials.
+- 2026-11-22 17:39 Chose food detail states over Row 14: Row 13 is already in progress and the detail screen is the smallest open piece. Keeps one screen per round.
+- 2026-11-22 17:39 Jev said ask (80%). Kept run: the only open question (offline simulator check) is owner-only and already parked with a default. Asking again breaks the do-not-re-ask rule. No major blocker, so no question to Isa.
+- 2026-11-22 17:39 Round 80 banner re-verify accepted as done with no code change. Row 13 stays PARTIAL.
+- 2026-11-22 17:39 Auto check flag on round 79 closed. Re-verify used once; not repeated.
+- 2026-11-22 17:39 Notes condensed to stay under 600 words. Finished items removed, open blockers and defaults kept.

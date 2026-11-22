@@ -8,7 +8,8 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import FoodDetailScreen from '@/app/food/detail';
 import { useFoodStore } from '@/lib/data/foodStore';
-import { openFoodDetail } from '@/lib/food/detailSubject';
+import { openFoodDetail, useDetailSubject } from '@/lib/food/detailSubject';
+import en from '@/lib/i18n/locales/en.json';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 const item = { id: 'it_rice', name: 'Rice', quantityG: 200, calories: 400, protein: 8, carbs: 88, fat: 2 };
@@ -171,4 +172,24 @@ test('pressing "Delete item" on a logged entry removes it from the food store', 
   expect(meals.flatMap((m) => m.items).find((it) => it.id === 'it_rice')).toBeUndefined();
 
   alertSpy.mockRestore();
+});
+
+test('a row already gone at open shows the calm notice with one Done action that closes the sheet', () => {
+  const s = useFoodStore.getState();
+  s.setDayMeals(s.selectedDate, []);
+  const tree = renderSheet();
+
+  expect(allText(tree)).toContain(en.food.noLongerInLog);
+  const done = buttonWithTitle(tree, en.common.done);
+  expect(done).toBeTruthy();
+  act(() => (done!.props.onPress as () => void)());
+  expect(useDetailSubject.getState().subject).toBeNull();
+});
+
+test('no subject shows the nothing-to-show notice with one Done action', () => {
+  act(() => useDetailSubject.getState().clearDetail());
+  const tree = renderSheet();
+
+  expect(allText(tree)).toContain(en.food.nothingToShow);
+  expect(buttonWithTitle(tree, en.common.done)).toBeTruthy();
 });

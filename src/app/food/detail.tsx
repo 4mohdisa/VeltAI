@@ -138,6 +138,8 @@ export default function FoodDetailScreen() {
           icon="fork.knife"
           title={t('food.nothingToShow')}
           message={t('food.nothingToShowMessage')}
+          actionLabel={t('common.done')}
+          onAction={close}
         />
       </SheetContent>
     );
@@ -155,7 +157,13 @@ export default function FoodDetailScreen() {
   if (!stillLogged) {
     return (
       <SheetContent variant="leading" title={t('food.title')} onClose={close}>
-        <EmptyState icon="fork.knife" title={t('food.noLongerInLog')} message={t('food.noLongerInLogMessage')} />
+        <EmptyState
+          icon="fork.knife"
+          title={t('food.noLongerInLog')}
+          message={t('food.noLongerInLogMessage')}
+          actionLabel={t('common.done')}
+          onAction={close}
+        />
       </SheetContent>
     );
   }
