@@ -8891,3 +8891,7 @@
 - 2026-11-22 20:39 Last report flagged as tests not run: this round runs tsc and the affected Jest files before moving on.
 - 2026-11-22 20:39 Jev ranked ask first, but the consent question is already recorded as a default for Isa to confirm later, so it is not asked again. Run chosen as the smallest task that clears a row step.
 - 2026-11-22 20:39 Notes trimmed to fit the 600-word limit. No decision removed.
+- 2026-11-22 20:42 The last report was partly done. Row 8 step 1 is accepted as PARTIAL. feature_used keeps the looser shape check because the two pinned tests in analytics.test.ts would fail. Those tests are not edited, and no question is asked (default used).
+- 2026-11-22 20:42 Row 15 Account note is added with the next small task, since the handover already recorded it as missing.
+- 2026-11-22 20:42 Smallest unbuilt task chosen first (Jev ranks ask and run close, and this needs nothing from Isa). Row 8 step 2 and PRIVACY_DATA.md wait until the Row 15 work is finished.
+- 2026-11-22 20:42 Analytics default stays opt-in and off, per the existing code and pinned test. Isa confirms before Phase 4 (already in the notes).
