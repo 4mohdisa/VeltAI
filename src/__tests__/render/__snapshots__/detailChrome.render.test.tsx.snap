@@ -4277,7 +4277,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                   ]
                 }
               >
-                Protein 80% · Carbs 88% · Fat 89% · Fibre 0%
+                Protein 80% · Carbs 88% · Fat 89% · Fibre —
               </Text>
             </View>
           </View>
@@ -4761,7 +4761,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Fibre, 0% of target, 0 of 30 g"
+                accessibilityLabel="Fibre, — of 30 g"
                 accessible={true}
                 style={
                   {
@@ -4817,24 +4817,6 @@ exports[`the four Summary detail views render identically across the chrome extr
                     >
                       Fibre
                     </Text>
-                    <Text
-                      numberOfLines={1}
-                      style={
-                        [
-                          {
-                            "fontSize": 11,
-                            "fontWeight": "500",
-                            "lineHeight": 28,
-                          },
-                          {
-                            "color": "#8A8A8A",
-                          },
-                          undefined,
-                        ]
-                      }
-                    >
-                      0% of target
-                    </Text>
                   </View>
                   <Text
                     style={
@@ -4851,7 +4833,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                       ]
                     }
                   >
-                    0
+                    —
                   </Text>
                   <Text
                     style={

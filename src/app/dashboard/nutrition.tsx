@@ -42,7 +42,7 @@ import { formatNumber, formatRelativeDate } from '@/lib/formatting';
 import { dayMonth, weekdayShort } from '@/lib/data/energyRange';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy, kcalToDisplay } from '@/lib/units';
-import { useDailyMacros, useFoodLog, useWeeklyMacros } from '@/lib/data';
+import { useDailyMacros, useFibreConsumed, useFoodLog, useWeeklyMacros } from '@/lib/data';
 
 // ---------------------------------------------------------------------------
 // Macro bindings
@@ -65,6 +65,7 @@ export default function NutritionDetailScreen(): JSX.Element {
   const macros = useDailyMacros();
   const { data: meals, isLoading: loading, error: loadError, refetch } = useFoodLog();
   const week = useWeeklyMacros();
+  const fibreConsumed = useFibreConsumed();
   // The first read is still running with nothing stored: no number is known yet.
   const pending = loading && meals.length === 0;
   const cal = macros.calories;
@@ -75,7 +76,12 @@ export default function NutritionDetailScreen(): JSX.Element {
     { key: 'carbs', label: t('nutrition.carbs'), tint: categoryAccent.carbs, data: macros.carbs },
     { key: 'fat', label: t('nutrition.fat'), tint: categoryAccent.fat, data: macros.fat },
     { key: 'fibre', label: t('nutrition.fibre'), tint: categoryAccent.fibre, data: macros.fibre },
-  ].map((r) => ({ ...r, pct: pctOf(r.data.consumed, r.data.target) }));
+  ].map((r) => ({
+    ...r,
+    pct: pctOf(r.data.consumed, r.data.target),
+    // Fibre no logged food carries is unknown, not 0 g.
+    known: !pending && (r.key !== 'fibre' || fibreConsumed != null),
+  }));
 
   // The last 7 days, stacked by macro (protein/carbs/fat/fibre), each day's
   // own bar scaled against the week's own largest day — same scaling pattern
@@ -170,7 +176,7 @@ export default function NutritionDetailScreen(): JSX.Element {
                 </View>
               )}
               <Text variant="footnote" color={color.secondaryLabel}>
-                {rows.map((r) => `${r.label} ${r.pct}%`).join(' · ')}
+                {rows.map((r) => `${r.label} ${r.known ? `${r.pct}%` : '—'}`).join(' · ')}
               </Text>
             </>
           )}
@@ -188,10 +194,10 @@ export default function NutritionDetailScreen(): JSX.Element {
               key={r.key}
               tint={r.tint}
               label={r.label}
-              sub={pending ? undefined : t('nutrition.percentOfTargetShort', { percent: r.pct })}
-              value={pending ? '—' : formatNumber(r.data.consumed)}
+              sub={r.known ? t('nutrition.percentOfTargetShort', { percent: r.pct }) : undefined}
+              value={r.known ? formatNumber(r.data.consumed) : '—'}
               unit={t('nutrition.ofTargetGrams', { target: formatNumber(r.data.target) })}
-              fraction={!pending && r.data.target > 0 ? r.data.consumed / r.data.target : 0}
+              fraction={r.known && r.data.target > 0 ? r.data.consumed / r.data.target : 0}
             />
           ))}
         </View>

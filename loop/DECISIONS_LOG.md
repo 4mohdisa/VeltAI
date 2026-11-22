@@ -8468,3 +8468,7 @@
 - 2026-11-22 18:27 Chose nutrition over GymStatusCard and goals: it is the smallest unfinished Row 15 item and needs no Isa input.
 - 2026-11-22 18:27 Dash is the placeholder for unknown numbers, since no design shows a loading value for nutrition.
 - 2026-11-22 18:27 Spanish and French wording of any new nutrition key is marked for review, as with earlier blocks.
+- 2026-11-22 18:30 Chose run, not ask: the brief lets an agent regenerate one snapshot when the change is intended, so the round 109 block on the detailChrome snapshot no longer needs Isa.
+- 2026-11-22 18:30 Chose the fibre dash first: it closes the partly done round 109 work the automatic check flagged, and it is the smallest task.
+- 2026-11-22 18:30 Kept the es and fr wording of the new keys as shipped, marked for review, because one unanswered round means use the default.
+- 2026-11-22 18:30 Left the Row 14 streak and freeze blockers as they are; they are copy choices that do not block the build.

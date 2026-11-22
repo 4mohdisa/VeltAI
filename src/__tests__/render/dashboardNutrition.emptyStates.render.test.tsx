@@ -2,7 +2,7 @@
 // The data hooks the screen reads are mocked, so nothing reaches the network.
 // While the first read runs with nothing stored no number shows; a failed week
 // read shows the LoadFailedNotice instead of a chart of zero bars, and its Retry
-// re-runs the read.
+// re-runs the read; fibre that no logged food carries shows a dash, not 0 g.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import NutritionDetailScreen from '@/app/dashboard/nutrition';
@@ -15,7 +15,6 @@ const MACROS = {
   protein: { consumed: 120, target: 150 },
   carbs: { consumed: 210, target: 240 },
   fat: { consumed: 62, target: 70 },
-  fibre: { consumed: 4, target: 30 },
 };
 const MEAL = { id: 'm1', slot: 'Breakfast', time: '08:10', calories: 420, protein: 28, carbs: 45, fat: 12, items: [] } as unknown as StoredMeal;
 const WEEK: WeeklyMacroDay[] = Array.from({ length: 7 }, (_, i) => ({
@@ -29,14 +28,16 @@ const WEEK: WeeklyMacroDay[] = Array.from({ length: 7 }, (_, i) => ({
 const mockState = {
   foodLog: { data: [MEAL], isLoading: false, error: null as Error | null },
   week: { data: WEEK, isLoading: false, error: null as Error | null },
+  fibre: 4 as number | null,
 };
 const mockWeekRefetch = jest.fn();
 
 jest.mock('@/lib/data', () => ({
   ...jest.requireActual('@/lib/data'),
-  useDailyMacros: () => MACROS,
+  useDailyMacros: () => ({ ...MACROS, fibre: { consumed: mockState.fibre ?? 0, target: 30 } }),
   useFoodLog: () => ({ ...mockState.foodLog, refetch: jest.fn() }),
   useWeeklyMacros: () => ({ ...mockState.week, refetch: mockWeekRefetch }),
+  useFibreConsumed: () => mockState.fibre,
 }));
 
 jest.mock('@/components/display/LoadingSkeleton', () => ({ Skeleton: () => null }));
@@ -61,6 +62,7 @@ const breakdownLabel = (tree: Tree, macro: string) =>
 beforeEach(() => {
   mockState.foodLog = { data: [MEAL], isLoading: false, error: null };
   mockState.week = { data: WEEK, isLoading: false, error: null };
+  mockState.fibre = 4;
   mockWeekRefetch.mockReset();
 });
 
@@ -87,4 +89,21 @@ test('a failed week read shows the load failure, no zero-bar chart, and Retry ru
   expect(retry).toBeDefined();
   (retry.props.onPress as () => void)();
   expect(mockWeekRefetch).toHaveBeenCalledTimes(1);
+});
+
+test('no logged fibre shows a dash, not 0 g', () => {
+  mockState.fibre = null;
+  const tree = renderNutrition();
+
+  expect(breakdownLabel(tree, en.nutrition.fibre)).toBe(`${en.nutrition.fibre}, — of 30 g`);
+  expect(allText(tree)).toContain(`${en.nutrition.fibre} —`);
+  expect(breakdownLabel(tree, en.nutrition.protein)).toBe(`${en.nutrition.protein}, 80% of target, 120 of 150 g`);
+});
+
+test('logged fibre of 12 g shows 12 g', () => {
+  mockState.fibre = 12;
+  const tree = renderNutrition();
+
+  expect(breakdownLabel(tree, en.nutrition.fibre)).toBe(`${en.nutrition.fibre}, 40% of target, 12 of 30 g`);
+  expect(allText(tree)).toContain(`${en.nutrition.fibre} 40%`);
 });
