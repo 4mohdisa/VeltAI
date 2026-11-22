@@ -78,7 +78,9 @@
     "connectionsCount": "{{count}} of {{total}} connected",
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
-    "deleteAccount": "Delete my account"
+    "deleteAccount": "Delete my account",
+    "helpAndFeedback": "Help and feedback",
+    "helpAndFeedbackHint": "Opens a form to report a problem or share an idea."
   },
 "preferences": {
     "title": "Preferences",

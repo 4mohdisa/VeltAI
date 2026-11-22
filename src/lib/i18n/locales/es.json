@@ -78,7 +78,9 @@
     "connectionsCount": "{{count}} de {{total}} conectados",
     "termsOfService": "Términos del servicio",
     "privacyPolicy": "Política de privacidad",
-    "deleteAccount": "Eliminar mi cuenta"
+    "deleteAccount": "Eliminar mi cuenta",
+    "helpAndFeedback": "Ayuda y comentarios",
+    "helpAndFeedbackHint": "Abre un formulario para informar de un problema o compartir una idea."
   },
   "preferences": {
     "title": "Preferencias",

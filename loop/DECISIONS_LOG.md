@@ -9056,3 +9056,8 @@
 - 2026-11-23 00:10 PRIVACY_DATA.md host sentence already matches the code since round 204, per handover. Answer to the loop: already matches. No change.
 - 2026-11-23 00:10 Settings row and PRIVACY_DATA feedback entry deferred to the next rounds to keep one task per prompt.
 - 2026-11-23 00:10 Owner items (Row 9 device check, hosted migration, which local DB) stay as defaults; not re-asked.
+- 2026-11-23 00:11 Chose the Settings row because it is the last missing entry point for the feedback screen and is small and needs nothing from Isa.
+- 2026-11-23 00:11 Treated the export.go approval as granted. Notes say approved round 219 and the handover is older.
+- 2026-11-23 00:11 PRIVACY_DATA.md host item: answer already matches, as the handover says. Not resent.
+- 2026-11-23 00:11 Round 220 checkpoint: all app and Go gates pass; 20 TestPG tests skipped with no local DB. Flag cleared, the TestPG rerun moved to Next.
+- 2026-11-23 00:11 Kept the Settings row to one link. Support's mail box and the two Export rows stay for Row 15 and Row 10 follow-up.

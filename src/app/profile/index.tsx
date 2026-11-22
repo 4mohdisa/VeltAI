@@ -189,6 +189,12 @@ export default function ProfileScreen() {
               accessibilityHint: t('settings.exportHint'),
               onPress: () => void exportData(),
             },
+            {
+              icon: 'chatbox-ellipses-outline',
+              label: t('profile.helpAndFeedback'),
+              accessibilityHint: t('profile.helpAndFeedbackHint'),
+              onPress: () => router.push('/profile/feedback' as Href),
+            },
             { icon: 'document-text-outline', label: t('profile.termsOfService'), onPress: () => router.push('/legal/terms' as Href) },
             { icon: 'lock-closed-outline', label: t('profile.privacyPolicy'), onPress: () => router.push('/legal/privacy' as Href) },
             { icon: 'help-circle-outline', label: t('settings.support'), onPress: () => router.push('/profile/support') },
