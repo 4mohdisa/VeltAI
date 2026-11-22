@@ -5,7 +5,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Checkpoint round 73: tsc 0; 156 suites, 1056 tests, 0 failed. Clean.
+- Checkpoint round 73: tsc 0; 156 suites, 1056 tests, 0 failed.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
@@ -29,11 +29,10 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Unanswered question: use default and carry on. Do not re-ask.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - Re-verify a flagged report only if the row changed code. Re-verified once is enough.
-- Row 12 set back to PARTIAL until Isa approves BUILT.
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
-- Round 75-77: meals.tsx header verified and reworded. Default used.
-- Round 78: meals.tsx header line 1 wrapped to match other header lines (finishes flagged round 77).
+- Round 75-78: meals.tsx header verified, reworded and wrapped. Default used.
+- Row 3 'Templates +' kept.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -42,25 +41,22 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-69: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history.
-- Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels. Row 13 PARTIAL.
-- Round 73: checkpoint clean.
-- Rounds 74-78: meals.tsx and saved.tsx header work.
+- Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels.
+- Rounds 73-78: checkpoint clean; meals.tsx and saved.tsx header work.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
 - Calendar failed-read state needs approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry.
-- Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. Until approved, es and fr day labels read partly in English.
+- Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. Until approved, WeekStrip labels stay as they are.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
 - Row 13 es and fr wording for all new blocks. Default used. Review needed.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 13: is /food/meals meant to get a Food tab link? Default: no link added.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
-- Templates '+' kept (row 3).
 
 ## Next
-- Round 78: meals.tsx header line 1 wrap (comment only, running).
-- Row 13 remaining: food detail screen states, barcode, Food tab PendingSyncBanner.
+- Row 13 remaining: Food tab PendingSyncBanner (running), food detail screen states, barcode.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
@@ -73,8 +69,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - formatWeekdayDate, formatMonthYear, formatRelativeDate (src/lib/formatting.ts) use device locale or hardcoded English. Shared helper fix.
 - GymCalendar.tsx and WeekEnergyCard.tsx have hardcoded weekday letters.
 - WeekStrip and calendar.tsx build the logged-day label with the same expression. Shared helper to remove duplication.
-- No test covers app-language dates or en/es/fr key parity. Park to Row 11.
-- French 'aujourd'hui' uses straight apostrophe. Fix in Row 11.
+- No test covers app-language dates or en/es/fr key parity. Row 11.
+- French 'aujourd'hui' uses straight apostrophe. Row 11.
 - es.json extra keys addMenu.voice and addMenu.describeOutLoud.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx).
@@ -82,7 +78,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule tests.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', meals.tsx '(Task 4)'.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts, saved.tsx '(mock)', saved.tsx 'C13 · My dishes' wording (comment only), meals.tsx '(Task 4)'.
+- food.tsx header line 2 is 82 characters (limit 80). Row 11.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry. allText crashes on full-screen trees: use findAll.
 - getMorningBrief and getProfile swallow failures as null.
@@ -90,12 +87,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Energy one-week-fails path untested.
 - Food tab mounts useInsights with no consent gate (pinned in phase14Regression).
 - 'No meals yet' reads oddly on a past day unless row 13 wording approved.
-- Food tab has no PendingSyncBanner, so offline looks like a plain error.
+- Freeze and Ask Lume items above.
 - Shared render setup does not mock useFocusEffect or useLocalSearchParams.
 - Saved and calendar tests: shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
-- Past-day error copy has no test covering food.tsx.
 - formatMonthYear and formatWeekdayDate: month and day names can stay English in es and fr.
 - Older items: no Retry on useInsights errors, analytics defaults to on, seed script has no host guard.
-- saved.tsx line 1 'C13 · My dishes' wording to confirm (comment only).
-- New Recipe vs New recipe casing: see Blocked on Isa.

@@ -1,13 +1,15 @@
 // PHASE3_ROWS.md row 13, Food tab states with no meals. Mounts the real Food tab
 // (the food.anomalyError.render.test.tsx pattern) with useFoodLog and useInsights
 // mocked, and checks each no-data state shows its own copy: today, a past day
-// (which used to say "add your first meal"), a failed read, and loading.
+// (which used to say "add your first meal"), a failed read, and loading. The
+// offline queue depth is mocked to check the PendingSyncBanner shows and hides.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import FoodLogScreen from '@/app/(tabs)/food';
 import { useFoodLog } from '@/lib/data';
 import { useFoodStore, type StoredMeal } from '@/lib/data/foodStore';
 import { todayISO } from '@/lib/data/mappers';
+import en from '@/lib/i18n/locales/en.json';
 import { act, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => true) }));
@@ -20,6 +22,15 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
 jest.mock('@/lib/data', () => ({
   ...jest.requireActual('@/lib/data'),
   useFoodLog: jest.fn(),
+}));
+
+let mockDepth = 0;
+jest.mock('@/lib/offline/queue', () => ({
+  ...jest.requireActual('@/lib/offline/queue'),
+  subscribe: (listener: (count: number) => void) => {
+    listener(mockDepth);
+    return () => undefined;
+  },
 }));
 
 jest.mock('@/lib/data/aiBrain', () => ({
@@ -55,6 +66,7 @@ const PAST_DAY_MEAL: StoredMeal = {
 };
 
 beforeEach(() => {
+  mockDepth = 0;
   useFoodStore.getState().reset();
   (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() =>
     Promise.resolve({ ok: true, status: 200, json: async () => ({ data: [], error: null }) }),
@@ -116,4 +128,15 @@ test('loading shows the skeleton, not the empty state', async () => {
   const tree = await renderFoodTab({ isLoading: true });
   expect(findAll(tree, (p) => p.rows === 5).length).toBeGreaterThan(0);
   expect(hasText(tree, 'No meals yet')).toBe(false);
+});
+
+test('queued offline changes show the PendingSyncBanner', async () => {
+  mockDepth = 2;
+  const tree = await renderFoodTab({});
+  expect(hasText(tree, en.pendingSync.waiting_other.replace('{{count}}', '2'))).toBe(true);
+});
+
+test('no queued changes hide the PendingSyncBanner', async () => {
+  const tree = await renderFoodTab({});
+  expect(findAll(tree, (p) => p.accessibilityRole === 'alert')).toHaveLength(0);
 });

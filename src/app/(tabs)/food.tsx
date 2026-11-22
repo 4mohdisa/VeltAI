@@ -30,6 +30,7 @@ import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton
 import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
+import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
 import { Skeleton, SkeletonList } from '@/components/display/LoadingSkeleton';
 import { ProgressBar } from '@/components/display/ProgressBar';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
@@ -485,6 +486,8 @@ export default function FoodLogScreen() {
                 {t('food.title')}
               </Text>
             </View>
+            {/* Offline queue indicator — renders null when nothing is pending. */}
+            <PendingSyncBanner />
             {/* The read failed but the device has rows (possibly queued offline
                 writes). They stay on screen, labelled — the empty-list ErrorState
                 below covers the case where there is nothing to show at all. */}

@@ -8324,3 +8324,7 @@
 - 2026-11-22 17:35 Did not start the WeekStrip keys (', today', 'Previous week', 'Next week') or the useLoggedDays change, because both are Blocked on Isa.
 - 2026-11-22 17:35 Did not add a Food tab link to /food/meals. Default kept from the Blocked on Isa list.
 - 2026-11-22 17:35 Did not re-ask Isa any Blocked item. Unanswered questions use the default.
+- 2026-11-22 17:36 Round 78 flag: the report changed comments only, so no re-verification. Treated as finished; the 82-character header line 2 is parked under Row 11 and not fixed now.
+- 2026-11-22 17:36 Picked the PendingSyncBanner gap over food detail states: it reuses an existing component, so it is the smallest change and clears a Row 13 sub-item.
+- 2026-11-22 17:36 Kept the row PARTIAL because Row 13 still has food detail states and barcode left.
+- 2026-11-22 17:36 Pending sync check uses the existing store or hook, not a new one, to avoid duplicated logic.
