@@ -8174,3 +8174,8 @@
 - 2026-11-22 16:41 Dropped the 'Isa approval per handover' gate for row 12 and recorded the default here so it can be reversed.
 - 2026-11-22 16:42 Re-verify row 12 as its own round: the flagged report ran no tsc or Jest and the brief requires a checkpoint for a closing status. Reason: the loop flag and the rule for flagged reports.
 - 2026-11-22 16:42 No code changes this round unless a gate is red. Reason: the flag is about missing checks, not a known bug.
+- 2026-11-22 16:43 Round 41 re-verify passed (tsc 0, Jest 146 suites, 1026 tests), so row 12 stays BUILT and is closed.
+- 2026-11-22 16:43 Chose Row 14 limited to the Food tab anomaly banner: one screen per round, smallest step, clears the banner gap first.
+- 2026-11-22 16:43 Did not touch the three mocks lacking isError: they are harmless until a screen reads it, and the brief says one component per round.
+- 2026-11-22 16:43 Kept Row 14 PARTIAL until every screen in its notes is done.
+- 2026-11-22 16:43 Templates '+' stays as decided in Row 3. No question to Isa.
