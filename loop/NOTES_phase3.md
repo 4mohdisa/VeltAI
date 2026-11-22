@@ -8,7 +8,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Last full checkpoint (round 144): tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Later rounds ran only changed files.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Round numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop numbers. Not fixed.
-- Loop flagged round 151 as partly done. Round 152 finishes the goals label sweep.
+- Loop flagged round 152 as partly done. Round 153 closes the goals label sweep.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -28,11 +28,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Summary card and GymStatusCard hidden during first load. Accepted.
 - Rounds 129, 144: checkpoint kept over Jev picks. Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
-- Round 146: French goals fix chosen. Round 147: Row 14 cleanup; its two test edits dropped. Row 14 PARTIAL.
-- Round 149: goals.resetDone toast. Copy 'Goals reset to defaults.' kept; wording for Isa.
-- Round 150: Round 149 accepted as complete.
-- Round 151: goals calorie label now 'label, unit' (comma, no brackets). No new key.
-- Round 152: sweep all goals.tsx unit labels to the same comma join.
+- Round 146: French goals fix. Round 149: goals.resetDone toast. Round 151: calorie label 'label, unit'.
+- Round 152: VoiceOver unit labels use comma join ('Protein, g'); visible bracket labels kept per design.
 - Goals reset test named *.render.test.tsx so the render test set picks it up.
 
 ## Done
@@ -40,7 +37,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals fix (146), goals reset toast (149), calorie label (151).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals fix, goals reset toast, goals unit labels (spoken).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Goals loading and error via useGoals. Default: parked.
@@ -63,12 +60,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Nutrition follows Food tab date. Leave.
 - Goals persistence. Default: in memory.
 - es.json has addMenu.voice and addMenu.describeOutLoud not in en.json or fr.json. Isa: delete or add.
-- Goals reset wording 'Goals reset to defaults.' copies AI numbers; Isa to confirm. goals.saved unused; delete or keep.
+- Goals reset wording 'Goals reset to defaults.'; goals.saved unused; delete or keep.
 - Comma join for label and unit: keep in code, or move to locale files (Isa).
+- Visible bracket labels 'Protein (g)' kept; spoken labels use comma join. Isa to confirm.
 
 ## Next
-- Row 15: finish goals.tsx unit label sweep (round 152).
-- InsightCard type badge untranslated; more/less toggle uses body length over 120.
+- Row 15: InsightCard type badge untranslated; more/less toggle uses body length over 120.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
 - BrainProfileCard: fixed 0.3 bar; numbers unformatted; energy always kcal. Insights swallow errors in src/lib/api.ts (~1253, 1270).
@@ -98,5 +95,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
 - Other profile screens hard-code English titles and eyebrows (About, Privacy, Account, Connected apps, Delete Account, Units on Preferences).
 - nutrition.tsx:227 reads raw meal slot name; DailyMacroRing.tsx:73 hard-codes 'of'.
+- Gym card may show seed data after a failed dashboard read.
 - Round numbers in PHASE3_ROWS.md may clash with loop numbers.
 - Round 149 reset toast copy may be inaccurate; Isa to pick wording.

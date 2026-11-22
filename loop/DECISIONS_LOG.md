@@ -8654,3 +8654,8 @@
 - 2026-11-22 19:28 Chose the flagged completion over Jev's 86% run pick on the InsightCard badge, because the loop flag must be cleared first.
 - 2026-11-22 19:28 Comma join kept in code, matching food.tsx and dashboard/nutrition.tsx; locale move still waits for Isa.
 - 2026-11-22 19:28 Snapshots and locale files stay untouched, per the snapshot and key rules.
+- 2026-11-22 19:29 The flagged round is closed by a single small task, not by reopening it. Reason: the loop flag is about a partly done report, and the remaining work is one label sweep and one note line.
+- 2026-11-22 19:29 Spoken labels only: keep the visible bracket labels and fix VoiceOver with the comma join. Reason: the design is final and the brackets are part of the visible design; the spoken fix closes the accessibility gap without a design change.
+- 2026-11-22 19:29 Goals loading and error states stay parked. Reason: they need hooks.ts permission Isa has not given, and the default was already set.
+- 2026-11-22 19:29 Visible label wording is shipped as designed and listed for Isa to confirm. Reason: it is a single line in the owner checks, not a blocker.
+- 2026-11-22 19:29 No question asked this round. Reason: Isa has several open items already, and this round needs no new answer.
