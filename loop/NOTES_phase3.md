@@ -11,6 +11,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
 - Fresh session after handover: name files fully in prompts.
 - The API client is src/lib/api.ts. There is no src/lib/data/api.ts.
+- Loop flagged last report as partly done (round after Preferences). Fix: dedupe Row 15 Account note (in progress).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -31,7 +32,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Jest mock factories may only reference variables named mock*.
 - mealSlotName: unknown slot returns raw key addMenu.undefined. Screens with outside input guard first.
 - detail.tsx unknown slot: slotLabel(ctaSlot), fallback foodLog.addMeal. Closed.
-- Jev ranks followed when they are strong (round where preferences chosen at 92%).
+- Jev ranks followed when they are strong.
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
 - No empty-week guard in nutrition.tsx.
 - Goals spoken labels: default B, keep current labels.
@@ -39,16 +40,17 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - getAnomalies returns [] until /api/ai/anomalies exists.
 - Account: eyebrow, title, Save localised. Remaining English in Parked.
 - Integrations eyebrow: Option A keys (profile.connectionsSyncing, connectionsNone, connectionsCount). Done.
+- Preferences eyebrow: settings.preferencesEyebrow (en Units, es Unidades, fr Unités). Done.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName, About, Account, integrations eyebrow.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName, About, Account, integrations eyebrow, preferences title and eyebrow.
 
 ## In progress
-- Row 15: preferences title and eyebrow ('Units'), then its Row 15 note (also Account note).
+- Row 15: remove duplicate older Account sentence from the Row 15 note in PHASE3_ROWS.md.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - InsightCard truncation: edit test to fire onTextLayout. Default kept.
@@ -65,7 +67,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Whether formatNumber should follow the active language.
 
 ## Next
-- Row 15: preferences title and eyebrow (in progress), then privacy, scan-calibration, support.
+- Row 15: localise title and eyebrow on profile/integrations.tsx (body copy after).
+- Row 15: privacy, scan-calibration, support titles and eyebrows.
+- Row 15: fr.json straight apostrophes in support copy (curly rule).
 - Row 15: integrations body copy (intro, blurbs, Sync now, Disconnect, Connect, toasts, relative times).
 - goals.tsx spoken calorie label and hard-coded g, % and comma join.
 - Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
@@ -73,7 +77,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 
 ## Parked (not Phase 3)
 - Account: Display name, Email, toasts 'Name updated.' and 'Saved on this device, could not reach the server.' still English.
-- Integrations body copy still English (see Next).
 - Goals loading, error and persistence: needs hooks.ts refetch.
 - getMorningBrief (api.ts:1232) swallows errors to null; pinned by aiFallback.test.ts:26.
 - AnomalyBanner: no Retry. Banner count title lacks _one use.
@@ -103,6 +106,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
 - addMenu.addToSlot with lowercased fallback label could read oddly.
 - BrainProfileCard numbers not formatted for language.
-- Profile screens hard-code English: privacy, scan-calibration, support (preferences in progress).
+- Preferences test uses quoted "Units" because allText serialises props (gradientUnits); helper could be narrowed later.
 - delete-account.tsx and subscription.tsx: Phase 4, parked.
 - Unit change feedback: none yet (not a Phase 3 row).

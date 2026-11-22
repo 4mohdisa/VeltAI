@@ -8825,3 +8825,7 @@
 - 2026-11-22 20:22 Integrations eyebrow counted as done. Its remaining English body copy is a bigger wording set, so it is parked for a later Row 15 round instead of being added to this one.
 - 2026-11-22 20:22 The Account row note is folded into step 5 because it is text in the same Row 15 entry, not a code change.
 - 2026-11-22 20:22 Jev's list of tasks was not overridden. No concrete reason to pick a different task was found.
+- 2026-11-22 20:24 Chose the duplicate-note fix first because the loop check flagged the last report as partly done and the Account line is now mentioned twice in Row 15; it is a one-file edit with no code risk.
+- 2026-11-22 20:24 Kept the Preferences test that checks for quoted "Units" rather than rewriting it, since it passes and a test edit is not needed for this row note.
+- 2026-11-22 20:24 Left the straight-apostrophe fr.json issue for a later round as a NEXT item, not a change in this task, to keep the step to one row action.
+- 2026-11-22 20:24 No full gate run this round: the task changes only a markdown file; the checkpoint at round 203 still runs the full tsc and Jest.
