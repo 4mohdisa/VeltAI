@@ -8939,3 +8939,8 @@
 - 2026-11-22 20:56 Included two flagged suites as read-only checks (analyticsSink and resetRegistry), because the last report did not run them. Running them fixes nothing, so it stays inside this one-line task.
 - 2026-11-22 20:56 Round 195 was reported as a checkpoint but only ran three suites. Queued a full checkpoint (tsc and full app Jest) for a later round, because this round changes files.
 - 2026-11-22 20:56 The handover says PRIVACY_DATA.md is missing, but the notes say it was fixed in round 193. The prompt tells Claude Code to report BLOCKED if the file is absent, and not to create it.
+- 2026-11-22 20:56 Chose the PostHog host task: Jev ranks it first at 71% run, it is small, and it needs no Isa input. Recorded in the prompt as one task.
+- 2026-11-22 20:56 Included a read-only check of the PRIVACY_DATA.md sign-out line, because the loop flagged the last report as partly done. If it is missing it goes to BLOCKED, not a fix.
+- 2026-11-22 20:56 Full checkpoint not run this round: the loop did not mark this round as a checkpoint. Queued.
+- 2026-11-22 20:56 Left the feature_used tests and shapeOnly() alone: Isa has not approved changing them.
+- 2026-11-22 20:56 Kept Row 8 PARTIAL: the crash opt-out, the strict feature_used list and the anonymous ID check are still open.

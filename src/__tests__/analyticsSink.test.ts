@@ -87,3 +87,21 @@ test('PostHog starts opted out until the user turns analytics on', () => {
   initAnalyticsSink();
   expect(mockPostHog).toHaveBeenCalledWith('phc_test', expect.objectContaining({ defaultOptIn: false }));
 });
+
+test('with EXPO_PUBLIC_POSTHOG_HOST set, the client uses that host', () => {
+  process.env.EXPO_PUBLIC_POSTHOG_KEY = 'phc_test';
+  process.env.EXPO_PUBLIC_POSTHOG_HOST = 'https://eu.example.test';
+  try {
+    initAnalyticsSink();
+  } finally {
+    delete process.env.EXPO_PUBLIC_POSTHOG_HOST;
+  }
+  expect(mockPostHog).toHaveBeenCalledWith('phc_test', expect.objectContaining({ host: 'https://eu.example.test' }));
+});
+
+test('with EXPO_PUBLIC_POSTHOG_HOST unset, no host option is passed', () => {
+  process.env.EXPO_PUBLIC_POSTHOG_KEY = 'phc_test';
+  delete process.env.EXPO_PUBLIC_POSTHOG_HOST;
+  initAnalyticsSink();
+  expect(mockPostHog).toHaveBeenCalledWith('phc_test', expect.not.objectContaining({ host: expect.anything() }));
+});

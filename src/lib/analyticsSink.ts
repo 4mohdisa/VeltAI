@@ -13,7 +13,10 @@ export function initAnalyticsSink(): void {
   if (!key || client) return;
   // Loaded only when a key exists, so a build without one never runs PostHog.
   const { default: PostHogClient } = require('posthog-react-native') as typeof import('posthog-react-native');
+  // Optional region override (an EU project); unset keeps PostHog's default host.
+  const host = process.env.EXPO_PUBLIC_POSTHOG_HOST?.trim();
   client = new PostHogClient(key, {
+    ...(host ? { host } : {}),
     enableSessionReplay: false,
     captureAppLifecycleEvents: false,
     personProfiles: 'never',
