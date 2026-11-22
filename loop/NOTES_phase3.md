@@ -8,7 +8,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Phase 3 baseline (Node 22.23.5): tsc 0 errors; app Jest 135/135 suites, 993 tests pass; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details in loop/BASELINE_phase3.md.
 - Jest pinned to ~29.7.0. Do not upgrade.
 - Node 22 is the target. Default shell Node is 24, so use nvm use 22.
-- App runs against LOCAL backend. 47 Phase 2 rows BUILT with owner check pending.
+- App runs against LOCAL backend (Colima Postgres at 127.0.0.1:55432). 47 Phase 2 rows BUILT with owner check pending.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 - Open check: package-lock.json does not record the engines field. Check in Row 11.
 
@@ -23,7 +23,8 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
 - Row 3: keep the header plus on My workouts as the only way to add a second workout.
 - Goals and units stay in memory in Phase 3. Row 15 fixes the 'Saved as you type' copy. Backend persistence parked.
-- A flagged report (type check or tests not run) is re-verified as its own round, unless the row changed no code and the brief gives nothing to run (Row 4 case).
+- A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
+- Seed tooling: backend/tools/seed, localhost-only host guard (pgx host check), reset deletes only seed_ ids with @example.test email. Seed code is not in the server image.
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -32,26 +33,30 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 5: Row 3 report had no checks run. Set to PARTIAL.
 - Round 6: Row 3 closed BUILT with owner check pending.
 - Round 7: Row 4 audit written to EMPTY_STATES_AUDIT.md. Rows 12 to 17 added (DIFFERENT).
-- Rounds 8 and 9: Row 4 re-verify. Clean: tsc 0, no files changed.
-- Round 10: Row 4 closed BUILT (audit only, no code). Prompt rejected for missing loop/phase3 branch rule. Jev ranked Row 5 first; switched to Row 5.
+- Rounds 8 and 9: Row 4 re-verify. Clean.
+- Round 10: Row 4 closed BUILT (audit only, no code).
+- Round 11: Row 5 part 1 reported: seed and reset in backend/tools/seed, 5 Go tests pass, seed and reset run on local DB. Row 5 PARTIAL. Auto flag raised (partly done). Re-verify round issued.
 
 ## Blocked on Isa
-- Row 3: header plus on My workouts (src/app/gym/templates.tsx) kept by default. Not blocking.
+- Row 5 part 2 (Maestro on seeded users): local backend needs a real Clerk login. Need one of: a Clerk dev user mapped to a seed profile, or E2E_EMAIL and E2E_PASSWORD set in the environment. Blocks rows 5, 6 (heavy user), 9 (export test). Ask if still open after the re-verify round.
+- Row 3: header plus on My workouts kept by default. Not blocking.
 - Analytics default: store says off, brief says on. Default used (brief). Confirm before Phase 4.
 
 ## Parked (not Phase 3)
 - Goals and units backend persistence (lost on restart).
 - Jest install drift: node_modules/jest reads 30.0.5, pin is 29.7.0. Fix with npm ci (needs network).
 - @types/jest ^30.0.0 while Jest is pinned to 29.7. Revisit in Row 11.
-- 18 backend DB tests never run (tests/food 4, tests/gym_schedule 7, tests/scan 7). Needs LUME_TEST_DATABASE_URL. Row 5 may provide one.
+- 18 backend DB tests never run (tests/food 4, tests/gym_schedule 7, tests/scan 7). Needs LUME_TEST_DATABASE_URL.
 - No test covers the header plus on My workouts. Add in Row 11 sweep.
 - es.json: addMenu.voice and addMenu.describeOutLoud missing in en and fr.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx:36-38).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx:96).
 - Row 15 note still says goals persistence needs a decision. Update when row 15 is worked (decision: no persistence, fix copy).
+- backend/scripts/seed_demo_account.go has no host guard. Fix or remove in cleanup.
+- Old local rows mix 'lunch' and 'Lunch' meal names. Old data, not from the seed.
 
 ## Next
-- Row 5 part 1 (Round 10): seed script, reset, Go tests, README.
-- Row 5 part 2: Maestro flows on seeded users, fix findings, then BUILT or EXACT.
-- Row 6 (performance). Rows 12 to 17 (empty states follow-ups), Row 12 first.
+- Row 5 re-verify (this round), then ask Isa once about Maestro sign-in if still blocked.
+- Row 6 (performance): non-sign-in backend measurements first.
+- Rows 12 to 17 (empty states follow-ups), Row 12 first.
 - Rows 7 and 8 (Sentry, PostHog), then Rows 9 and 10 (export, help), then Row 11 (final sweep).

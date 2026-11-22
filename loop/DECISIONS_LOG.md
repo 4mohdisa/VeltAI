@@ -8046,3 +8046,8 @@
 - 2026-11-22 15:43 Row 5 split in two. This round: seed, reset and Go tests. Maestro flows follow next round, so Row 5 stays PARTIAL.
 - 2026-11-22 15:43 Prompt now states the loop/phase3 branch rule explicitly and tells Claude Code to report BLOCKED rather than switch branches.
 - 2026-11-22 15:43 Seed code lives in backend/tools/seed. Schema changes only if needed, applied to the LOCAL database only.
+- 2026-11-22 15:49 Treated the auto flag as a request to re-verify Row 5 part 1 in its own round, per the notes rule for flagged reports. Part 1 was reported with checks, so this is a read-only check, not a rework.
+- 2026-11-22 15:49 Chose re-verify over asking now. The sign-in question is real, but one verified round is cheaper and it clears the flag first. If the Maestro sign-in gap is still open next round, I will ask Isa once.
+- 2026-11-22 15:49 Maestro sign-in for seed users is parked for Isa: the local backend checks real Clerk tokens and there is no login bypass. Options are a Clerk dev user mapped to a seed profile or E2E_EMAIL and E2E_PASSWORD set in the environment. No credentials go in chat.
+- 2026-11-22 15:49 Row 5 stays PARTIAL until the Maestro part. Row 6 heavy user measurements and Row 9 export test on the heavy user also depend on sign-in, so they are next in line after non-sign-in work.
+- 2026-11-22 15:49 Parked the old demo seeder (backend/scripts/seed_demo_account.go, no host guard) and the mixed meal name data as separate cleanup items, not Phase 3 rows.
