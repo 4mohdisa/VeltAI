@@ -8928,3 +8928,7 @@
 - 2026-11-22 20:53 Chose the flagged partly done item first: it is the smallest task, needs no code, and clears the loop flag.
 - 2026-11-22 20:53 Kept the place name 'Settings → Privacy' because the Defaults section already uses it and Settings is the name the user sees.
 - 2026-11-22 20:53 Deferred the PostHog sign-out reset to the next round so each round has one task.
+- 2026-11-22 20:54 Chose sign-out reset: smallest open Row 8 fix, needs no input from Isa, and Jev rates run at 87%.
+- 2026-11-22 20:54 The flagged report was about tsc and Jest not being run; this round's prompt requires both so the gate is actually checked.
+- 2026-11-22 20:54 Created a new test file rather than editing an existing test, per the never-edit-existing-tests decision.
+- 2026-11-22 20:54 Compressed the notes under 600 words; every decision is kept.

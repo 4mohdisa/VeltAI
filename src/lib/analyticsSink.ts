@@ -35,6 +35,12 @@ export function setSinkOptIn(enabled: boolean): void {
   else void client.optOut();
 }
 
+/** Sign-out: drop PostHog's anonymous ID and stored properties, so the next
+ *  account on this phone starts with a fresh identity. */
+export function resetSink(): void {
+  client?.reset();
+}
+
 /** Test helper: forget the client so init can run again. */
 export function __resetSinkForTests(): void {
   client = null;

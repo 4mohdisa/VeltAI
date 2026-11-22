@@ -26,7 +26,7 @@ import { recordBreadcrumb } from '@/debug';
 // barrel no-ops every recorder when EXPO_PUBLIC_DEBUG_CAPTURE is off, and the
 // redaction on the analytics path has to run in the shipping build too.
 import { redact } from '@/debug/buffers';
-import { sendToSink, setSinkOptIn } from '@/lib/analyticsSink';
+import { resetSink, sendToSink, setSinkOptIn } from '@/lib/analyticsSink';
 import { APP_VERSION, BUILD_NUMBER, GIT_SHA } from '@/lib/appVersion';
 import type { ScanEntry } from '@/lib/data/scan';
 import type { EntryMethod } from '@/lib/mock/data';
@@ -216,6 +216,7 @@ useSettingsStore.subscribe((s, prev) => {
  *  attributes from the verified token). Called from resetAllStores. */
 export async function resetAnalytics(): Promise<void> {
   sessionId = newSessionId();
+  resetSink();
   await discardAll();
 }
 
