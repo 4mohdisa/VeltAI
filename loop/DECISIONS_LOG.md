@@ -8801,3 +8801,8 @@
 - 2026-11-22 20:11 Chose BrainProfileCard numbers over Profile titles. Both are in the notes' Next list, and this one is a smaller single-component change that fixes a visible wrong unit (kcal when the user uses kJ).
 - 2026-11-22 20:11 Jev gave run 46%, ask 46%. Ask would spend a question Isa has already been asked about several times, so I chose run with a single-component prompt.
 - 2026-11-22 20:11 addMenu.snack wording stays 'Snacks' in es and fr by default, as recorded. It is not reopened this round.
+- 2026-11-22 20:14 Round 185 'partly done' flag: the kcal/kJ unit part of BrainProfileCard is DONE and recorded. Digit grouping is parked, not finished. Reason: formatNumber is en-AU, and fixing it needs an edit to an existing test line, which is not allowed without Isa's permission.
+- 2026-11-22 20:14 Did not ask Isa about digit grouping: it is minor and does not block any row. Kept ungrouped figures (2140) and parked it.
+- 2026-11-22 20:14 detail.tsx unknown-slot fallback: closed. Default (slotLabel(ctaSlot), fallback foodLog.addMeal) was taken in round 183 and verified in round 184. The handover's blocker is stale.
+- 2026-11-22 20:14 Jev ask 71% not followed: no major question. Decided myself, recorded here.
+- 2026-11-22 20:14 Chose Profile titles (candidate 1) because it is one screen, needs nothing from Isa, and clears a Row 15 gap.

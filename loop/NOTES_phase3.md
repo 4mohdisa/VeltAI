@@ -6,10 +6,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Checkpoint round 171 PASSED: tsc 0 errors; Jest 186 suites, 1149 tests, 4 snapshots (npx jest --ci).
-- Next checkpoint: round 178 or later, when the loop says so. None run since 171.
-- Round 183 detail.tsx unknown-slot fix verified in round 184 (test passes, tsc clean, Row 15 notes present). Flag cleared.
+- Next checkpoint: when the loop says so. None run since 171.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
+- Round 185 flag (partly done): kcal/kJ part DONE, digit grouping PARKED.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -31,22 +31,22 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Jest mock factories may only reference variables named mock*.
 - Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
 - mealSlotName: unknown slot returns raw key addMenu.undefined. Screens that take outside input guard first.
-- detail.tsx unknown slot: button uses slotLabel(ctaSlot), falling back to foodLog.addMeal (round 183, default taken).
+- detail.tsx unknown slot: slotLabel(ctaSlot), fallback foodLog.addMeal (round 183). Verified round 184. Closed.
 - addMenu.snack stays 'Snacks' in es and fr until review.
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
 - No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
 - Goals spoken labels: default B, keep current labels. goals.render.test.tsx pins them.
+- Digit grouping: figures stay ungrouped (2140). formatNumber is en-AU; changing it needs an edit to an existing test. Parked.
 - Loop note: a blocker repeated twice gets recorded under Blocked and not retried.
 - getAnomalies keeps returning [] until /api/ai/anomalies exists.
-- Jev ranked api.ts first at 92% (round 179). Picked it because it was next in the plan.
+- Jev ranks not followed when no major question exists.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx.
-- mealSlotName helper: src/lib/mealSlotName.ts with tests.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard (numbers and kcal/kJ unit, insights.brainProfile.typicalIntakeValueKj), InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName helper.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - InsightCard truncation: option 1 (edit test to fire onTextLayout) needs Isa's OK. Default kept.
@@ -61,10 +61,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Round 185: BrainProfileCard numbers formatted, energy unit respects user unit (in progress).
-- Then: Profile screens hard-coded English titles and eyebrows.
-- Then: goals.tsx spoken calorie label and hard-coded g, % and comma join.
-- Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
+- Profile screen hard-coded English titles and eyebrows (one screen, round 186).
+- Quick-add: add the mealSlotName switch to Row 15 notes; check formatCalories ignores the user's unit.
+- goals.tsx spoken calorie label and hard-coded g, % and comma join.
+- Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
 - Then, only if Isa answers: week.tsx flat bars.
 
 ## Parked (not Phase 3)
@@ -82,6 +82,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Lint: gymSchedule.ts 50, 52; hooks.ts ~395. Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
 - MacroBars unused; Math.round not formatNumber; nutrition ceiling label no space before g.
+- Digit grouping by language: formatNumber en-AU, units.ts group en-US. Needs permission to edit brainProfileCard.i18n test line 56.
+- formatCalories (formatting.ts:9) always shows kcal, ignoring the user's unit. Quick-add uses it.
 - Row 11 dedupe: gymSession eyebrow vs foodLog.today; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
 - Two keys only in es: addMenu.voice and addMenu.describeOutLoud (en and fr missing).
 - react-test-renderer deprecation warnings.
@@ -94,5 +96,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - InsightCard.tsx:77 uses the 120-character toggle rule.
 - Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
-- addMenu.snack wording still needs review; all slot screens read it via mealSlotName.
-- addMenu.addToSlot with a lowercased fallback label could read oddly; covered by round 183 test.
+- addMenu.snack wording still needs review.
+- addMenu.addToSlot with a lowercased fallback label could read oddly.
+- Insight error surfacing and the goals spoken labels: awaiting Isa, defaults kept.

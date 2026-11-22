@@ -24,7 +24,8 @@
     "appleHealth": "Apple Health",
     "privacy": "Privacidad",
     "support": "Soporte",
-    "about": "Acerca de"
+    "about": "Acerca de",
+    "aboutEyebrow": "La app"
   },
   "profile": {
     "loadFailed": "No se pudieron cargar tus datos del gimnasio.",

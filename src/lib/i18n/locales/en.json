@@ -24,7 +24,8 @@
     "appleHealth": "Apple Health",
     "privacy": "Privacy",
     "support": "Support",
-    "about": "About"
+    "about": "About",
+    "aboutEyebrow": "The app"
   },
   "profile": {
     "loadFailed": "Couldn't load your gym data.",

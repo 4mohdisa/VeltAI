@@ -2,6 +2,7 @@
 // App version, build number, credits. (The third-party licenses row pointed at
 // a dead domain — removed until a real licenses page exists.)
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
@@ -10,8 +11,9 @@ import { color } from '@/lib/design/tokens';
 import { APP_VERSION, BUILD_NUMBER } from '@/lib/appVersion';
 
 export default function AboutScreen() {
+  const { t } = useTranslation();
   return (
-    <Screen variant="floating" eyebrow="The app" title="About" showBack contentStyle={{ gap: 26 }}>
+    <Screen variant="floating" eyebrow={t('settings.aboutEyebrow')} title={t('settings.about')} showBack contentStyle={{ gap: 26 }}>
       <View style={{ alignItems: 'center', gap: 6 }}>
         <Text variant="title1" color={color.label}>
           Lume

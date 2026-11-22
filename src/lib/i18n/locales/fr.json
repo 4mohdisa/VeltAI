@@ -24,7 +24,8 @@
     "appleHealth": "Apple Health",
     "privacy": "Confidentialité",
     "support": "Assistance",
-    "about": "À propos"
+    "about": "À propos",
+    "aboutEyebrow": "L’app"
   },
   "profile": {
     "loadFailed": "Impossible de charger vos données de sport.",
