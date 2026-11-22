@@ -9225,3 +9225,7 @@
 - 2026-11-23 01:06 Row 16 stays PARTIAL until the simulator flow runs (Maestro missing, owner step).
 - 2026-11-23 01:06 Jev said ask 51%. Kept run: every ask on this row was already put to Isa, and the default applies.
 - 2026-11-23 01:06 Rewrote the rejected prompt to state the loop/phase3 branch rule and the no-git rule at the top.
+- 2026-11-23 01:07 Loop flagged last report for no gates run; chose a verify-only round so tsc and the affected Jest files run before anything else.
+- 2026-11-23 01:07 Row 16 skeleton repeat-visit fix stays parked: it needs an edit to profileEmptyStates.render.test.tsx test 1, and existing tests are never edited without Isa. Isa was already asked and the notes say not to re-ask, so the default applies.
+- 2026-11-23 01:07 Row 16 stays PARTIAL until the scan-calibration console.warn task and the simulator flow are done.
+- 2026-11-23 01:07 No question to Isa this round: the approval was already asked in earlier rounds and the default covers it.
