@@ -6,7 +6,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 ## State
 - Phase 1 and 2 merged into main (b096ed3). Work on branch loop/phase3 only.
 - Baseline (Node 22.23.5): tsc 0 errors; app Jest 135/135 suites, 993 tests pass; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details in loop/BASELINE_phase3.md.
-- Latest checkpoint (round 15): tsc 0 errors; app Jest 136 suites, 995 tests pass, 0 skipped.
+- Latest checkpoint (round 15): tsc 0 errors; app Jest 136 suites, 995 tests pass, 0 skipped. Next checkpoint round 30.
 - Jest pinned to ~29.7.0. Do not upgrade.
 - Node 22 is the target. Default shell Node is 24, so use nvm use 22.
 - App runs against LOCAL backend (Colima Postgres at 127.0.0.1:55432). 47 Phase 2 rows BUILT with owner check pending.
@@ -29,7 +29,6 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Seed tooling: backend/tools/seed, localhost-only host guard (pgx host check), reset deletes only seed_ ids with @example.test email. Seed code is not in the server image.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD is missing, park as owner step (brief rule).
 - Loop note: unanswered question means use default and carry on. Do not re-ask the same question.
-- Checkpoint rounds run full gates with no file changes. Next checkpoint round 30.
 - Agent must not run git commands (reminded in every prompt).
 - No formatter config in repo. Do not run Prettier on files (round 19 drift).
 
@@ -43,15 +42,18 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 11: Row 5 part 1 (seed and reset, 5 Go tests pass, seed ran on local DB).
 - Round 12: Row 5 re-verify clean.
 - Round 13: Row 5 BUILT with owner check pending (Maestro part parked).
-- Round 13: Row 12 partial. useHydration resets loading when its hydrator changes.
-- Round 17: Row 12 useApi returns isError in src/lib/data/gymSchedule.ts (exported).
-- Round 19: 3 refetch and revalidate isError tests added (gymSchedule.revalidate.test.ts).
-- Round 20: re-verify clean. Test file restored by hand to repo style, 6 of 6 pass, tsc 0 errors, lint clean on the file. Row 12 stays PARTIAL.
+- Round 13: Row 12 partial. useHydration resets loading on Food day switch.
+- Round 17: Row 12 useApi exported from src/lib/data/gymSchedule.ts, returns isError.
+- Round 19: 3 refetch and revalidate isError tests (gymSchedule.revalidate.test.ts).
+- Round 20: re-verify clean, 6 of 6 pass. Row 12 PARTIAL.
+- Round 21: useToday returns isError (gymSchedule.useToday.test.ts, 2 tests). Flagged as partly done by loop check.
+- Round 22 (issued): re-verify round 21 with no code change. Jev preferred useTemplates (82%); kept re-verify per the flagged-report rule.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD in the shell. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked in rounds 12 and 13, no answer. Parked. Not asking again.
 - Row 12 simulator flow: depends on sign-in. Unit tests only until Isa answers.
 - Analytics default: store says off, brief says on. Default used (brief). Confirm before Phase 4.
+- Replace templates '+' with a list control? Unanswered. Keep the '+' (Row 3 decision).
 
 ## Parked (not Phase 3)
 - Goals and units backend persistence (lost on restart).
@@ -68,11 +70,13 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Lint error: useWeeklyMacros (src/lib/data/hooks.ts ~395) breaks react-hooks/set-state-in-effect. Not ours. Fix in Row 11 or park.
 - Lint error: gymSchedule.ts lines 41 and 43 write refs during render (react-hooks/refs). Pre-existing. Park for Row 11.
 - Food log copy: 'Tap + to add your first meal' shows on past days too. Fix under Row 13.
+- Duplicate useApi test harness in two gymSchedule test files. Shared helper in Row 11 if a third copy appears.
 - Row 12: useHydration other callers not yet verified. Covered by checkpoint, which passed.
 
 ## Next
-- Round 21 (issued): Row 12, useToday returns isError, with gymSchedule.useToday.test.ts (2 tests). Re-issued after prompt rejection for missing branch rule.
-- Row 12 remaining hooks, one per round: useSchedule, useTemplates, useExercises, useGymPatterns, useExerciseProgress.
+- Round 22 (issued): re-verify useToday isError, no code change.
+- Round 23: Row 12, pass isError through useTemplates (My workouts 'No workouts yet' false state).
+- Row 12 remaining hooks, one per round: useSchedule, useExercises, useGymPatterns, useExerciseProgress.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

@@ -8091,3 +8091,7 @@
 - 2026-11-22 16:17 Chose useToday first, since it is the hook shown on the Gym home screen and it is the smallest step to unblock row 14 display.
 - 2026-11-22 16:17 Lint errors at gymSchedule.ts lines 41 and 43 and hooks.ts line 395 are pre-existing and out of this row, so they are reported and not fixed.
 - 2026-11-22 16:17 Prettier rule restated in every prompt because round 19 drift came from running it.
+- 2026-11-22 16:19 Chose the re-verify round first, not useTemplates. Notes rule: a flagged report is re-verified as its own round, and round 21 changed code, so the check is required before the next hook. Jev ranked useTemplates first at 82%; the useTemplates task follows next round, so the gap is one round.
+- 2026-11-22 16:19 Row 12 stays PARTIAL. The flag said the work looked partly done; that is expected because the other hooks are still open, not a failure.
+- 2026-11-22 16:19 Re-verify prompt makes no code change and does not fix the known gymSchedule.ts lint errors at lines 41 and 43, which are parked for Row 11.
+- 2026-11-22 16:19 Prompt names the full file paths, per the handover rule.
