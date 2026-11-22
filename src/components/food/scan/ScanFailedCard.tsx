@@ -4,6 +4,7 @@
 // carried by the red glyph in the header, not by a tinted rail (tokens.ts:
 // colour never touches chrome).
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
@@ -20,6 +21,7 @@ export type ScanFailedCardProps = {
 };
 
 export function ScanFailedCard({ onLogManually, onDiscard }: ScanFailedCardProps) {
+  const { t } = useTranslation();
   const reduce = useReduceMotion();
   return (
     <Animated.View
@@ -32,9 +34,9 @@ export function ScanFailedCard({ onLogManually, onDiscard }: ScanFailedCardProps
       }}
     >
       <View style={{ flex: 1, padding: space.xl, gap: space.md }}>
-        <CardHeaderRow title="Couldn't analyse this photo" icon="alert-circle-outline" tint={accent.red} />
+        <CardHeaderRow title={t('scanCards.failedTitle')} icon="alert-circle-outline" tint={accent.red} />
         <Text variant="footnote" color={color.secondaryLabel}>
-          The scan didn&apos;t come back. You can still log this meal by hand.
+          {t('scanCards.failedMessage')}
         </Text>
 
         <Pressable
@@ -42,16 +44,16 @@ export function ScanFailedCard({ onLogManually, onDiscard }: ScanFailedCardProps
           minTapTarget={false}
           onPress={onLogManually}
           accessibilityRole="button"
-          accessibilityLabel="Log manually instead"
+          accessibilityLabel={t('scanCards.logManually')}
           style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}
         >
           <Text variant="bodyBold" color={color.label}>
-            Log manually instead
+            {t('scanCards.logManually')}
           </Text>
           <Icon name="chevron-forward" size={16} color={color.label} />
         </Pressable>
 
-        <Button title="Discard" variant="secondary" onPress={onDiscard} />
+        <Button title={t('gymSession.discard')} variant="secondary" onPress={onDiscard} />
       </View>
     </Animated.View>
   );

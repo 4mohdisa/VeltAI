@@ -4,6 +4,7 @@
 import { Button } from '@/components/forms/Button';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
@@ -17,13 +18,14 @@ type Macros = { calories: string; protein: string; carbs: string; fat: string; f
 const num = (s: string) => Math.max(0, Number(s) || 0);
 
 export default function CustomFoodScreen() {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [macros, setMacros] = useState<Macros>({ calories: '', protein: '', carbs: '', fat: '', fibre: '' });
 
   const set = (key: keyof Macros) => (value: string) => setMacros((m) => ({ ...m, [key]: value }));
   const calorieNum = Number(macros.calories);
   // Inline validation (AUDIT_REPORT.md M8): calories must parse to a positive number.
-  const calorieError = macros.calories.trim() !== '' && !(calorieNum > 0) ? 'Enter a calorie value greater than 0' : undefined;
+  const calorieError = macros.calories.trim() !== '' && !(calorieNum > 0) ? t('customFood.calorieError') : undefined;
   const canSave = name.trim().length > 0 && calorieNum > 0;
 
   const close = () => {
@@ -41,39 +43,39 @@ export default function CustomFoodScreen() {
       carbs: num(macros.carbs),
       fat: num(macros.fat),
     });
-    showToast({ message: `Saved “${name.trim()}”.`, tone: 'success' });
+    showToast({ message: t('customFood.saved', { name: name.trim() }), tone: 'success' });
     close();
   };
 
   return (
-    <SheetContent variant="leading" title="Custom food" onClose={close}>
-      <TextField label="Name" value={name} onChangeText={setName} placeholder="e.g. Mum's chicken karahi" />
+    <SheetContent variant="leading" title={t('customFood.title')} onClose={close}>
+      <TextField label={t('food.nameField')} value={name} onChangeText={setName} placeholder={t('customFood.namePlaceholder')} />
 
       <TextField
-        label="Calories per 100g"
+        label={t('customFood.caloriesLabel')}
         value={macros.calories}
         onChangeText={set('calories')}
         keyboardType="decimal-pad"
-        placeholder="kcal"
+        placeholder={t('dashboard.kcal')}
         error={calorieError}
         required
       />
 
       <View style={{ flexDirection: 'row', gap: space.md }}>
         <View style={{ flex: 1 }}>
-          <TextField label="Protein (g)" value={macros.protein} onChangeText={set('protein')} keyboardType="decimal-pad" />
+          <TextField label={t('labelScan.protein')} value={macros.protein} onChangeText={set('protein')} keyboardType="decimal-pad" />
         </View>
         <View style={{ flex: 1 }}>
-          <TextField label="Carbs (g)" value={macros.carbs} onChangeText={set('carbs')} keyboardType="decimal-pad" />
+          <TextField label={t('labelScan.carbs')} value={macros.carbs} onChangeText={set('carbs')} keyboardType="decimal-pad" />
         </View>
       </View>
 
       <View style={{ flexDirection: 'row', gap: space.md }}>
         <View style={{ flex: 1 }}>
-          <TextField label="Fat (g)" value={macros.fat} onChangeText={set('fat')} keyboardType="decimal-pad" />
+          <TextField label={t('labelScan.fat')} value={macros.fat} onChangeText={set('fat')} keyboardType="decimal-pad" />
         </View>
         <View style={{ flex: 1 }}>
-          <TextField label="Fibre (g)" value={macros.fibre} onChangeText={set('fibre')} keyboardType="decimal-pad" />
+          <TextField label={t('labelScan.fibre')} value={macros.fibre} onChangeText={set('fibre')} keyboardType="decimal-pad" />
         </View>
       </View>
 

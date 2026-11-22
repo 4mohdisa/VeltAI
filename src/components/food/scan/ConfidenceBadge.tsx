@@ -18,6 +18,7 @@
 // src/__tests__/scanConfidence.test.ts fails if the invented strings return.
 import { useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
@@ -41,9 +42,16 @@ function bandColor(band: ConfidenceBand): string {
   return accent.red;
 }
 
+const BAND_KEY: Record<ConfidenceBand, string> = {
+  High: 'labelScan.confidenceHigh',
+  Medium: 'labelScan.confidenceMedium',
+  Low: 'labelScan.confidenceLow',
+};
+
 const signed = (p: number): string => `${p >= 0 ? '+' : '−'}${Math.abs(p)}`;
 
 export function ConfidenceBadge({ score, label, breakdown }: ConfidenceBadgeProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const reduce = useReduceMotion();
   const pct = Math.round(Math.min(100, Math.max(0, score)));
@@ -56,18 +64,18 @@ export function ConfidenceBadge({ score, label, breakdown }: ConfidenceBadgeProp
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
         <View style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: tint }} />
         <Text variant="label" color={color.label}>
-          {band} confidence
+          {t(BAND_KEY[band])}
         </Text>
         <Pressable
           haptic={false}
           minTapTarget={false}
           onPress={() => setOpen((v) => !v)}
           accessibilityRole="button"
-          accessibilityLabel={open ? 'Hide confidence breakdown' : 'Why this confidence?'}
+          accessibilityLabel={t(open ? 'scanCards.hideBreakdown' : 'scanCards.whyLabel')}
           hitSlop={12}
         >
           <Text variant="footnote" color={color.secondaryLabel}>
-            {open ? 'Hide' : 'Why?'}
+            {t(open ? 'gymSession.hide' : 'scanCards.why')}
           </Text>
         </Pressable>
       </View>

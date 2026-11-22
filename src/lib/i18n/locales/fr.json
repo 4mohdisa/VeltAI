@@ -902,6 +902,41 @@
     "confidenceMedium": "confiance moyenne",
     "confidenceLow": "confiance faible"
   },
+  "scanCards": {
+    "failedTitle": "Impossible d’analyser cette photo",
+    "failedMessage": "Le scan n’a pas abouti. Vous pouvez toujours enregistrer ce repas à la main.",
+    "logManually": "Saisir manuellement",
+    "feedbackQuestion": "Cette estimation était-elle juste ?",
+    "wayOff": "Très loin",
+    "aBitOff": "Un peu loin",
+    "prettyGood": "Plutôt bien",
+    "spotOn": "Pile juste",
+    "why": "Pourquoi ?",
+    "whyLabel": "Pourquoi ce niveau de confiance ?",
+    "hideBreakdown": "Masquer le détail de la confiance",
+    "reviewTitle": "Vérifiez avant d’enregistrer",
+    "anglesDisagree": "Vos angles de prise de vue ne concordent pas — choisissez l’estimation qui vous semble juste.",
+    "keepGrams": "Garder {{grams}} grammes",
+    "useGrams": "Utiliser {{grams}} grammes",
+    "topView": "Vue de dessus : {{grams}} g",
+    "sideView": "Vue de côté : {{grams}} g",
+    "anglesAgree": "Angles concordants à {{percent}} % — estimation affinée à partir de plusieurs photos",
+    "usualPortionLabel": "Utiliser votre portion habituelle de {{name}}",
+    "usualPortion": "On dirait votre « {{name}} » habituel — touchez pour utiliser {{grams}} g",
+    "renameLabel": "Renommer {{name}}",
+    "renameHint": "Ouvre un champ pour corriger le nom de l’aliment",
+    "weight": "Poids",
+    "multLabel": "Régler le poids sur {{mult}} l’estimation",
+    "typical": "Habituel pour vous : {{grams}} g",
+    "saveAll": "Tout enregistrer"
+  },
+  "customFood": {
+    "title": "Aliment personnalisé",
+    "namePlaceholder": "ex. : le karahi au poulet de maman",
+    "caloriesLabel": "Calories pour 100 g",
+    "calorieError": "Saisissez une valeur calorique supérieure à 0",
+    "saved": "« {{name}} » enregistré."
+  },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"

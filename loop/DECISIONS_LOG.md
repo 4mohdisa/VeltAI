@@ -9538,3 +9538,8 @@
 - 2026-11-23 03:09 Did not resend the Row 14 'three identical offline notices' question. The notes say it is closed, so Isa is not asked again.
 - 2026-11-23 03:09 Did not resend Row 17 gap 5. It is closed.
 - 2026-11-23 03:09 Row 6, Row 5 part 2 and the wording and approval items stay with Isa. Their defaults were already used, so no new question is asked.
+- 2026-11-23 03:12 Accepted Row 14 as BUILT with owner check pending: the report shows tsc 0 errors and 4 of 4 suites passing, with no existing test touched.
+- 2026-11-23 03:12 Left the three Row 14 items that need src/lib/data (0 sessions literal, muscle-card Retry, exercise-progress Retry) in Blocked on Isa.
+- 2026-11-23 03:12 Chose Row 13 because it is the only PARTIAL row that needs no Isa input and no src/lib/data change.
+- 2026-11-23 03:12 Kept the schedule_pg.go sort bug in Parked and out of this prompt, because it is backend work outside Row 13.
+- 2026-11-23 03:12 Did not re-ask Isa about anything already in Blocked on Isa.

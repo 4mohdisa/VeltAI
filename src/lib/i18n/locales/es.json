@@ -904,6 +904,41 @@
     "confidenceMedium": "confianza media",
     "confidenceLow": "confianza baja"
   },
+  "scanCards": {
+    "failedTitle": "No se pudo analizar esta foto",
+    "failedMessage": "El escaneo no ha vuelto. Aún puedes registrar esta comida a mano.",
+    "logManually": "Registrar a mano",
+    "feedbackQuestion": "¿Cuánto se acercó esa estimación?",
+    "wayOff": "Muy lejos",
+    "aBitOff": "Algo lejos",
+    "prettyGood": "Bastante bien",
+    "spotOn": "Exacta",
+    "why": "¿Por qué?",
+    "whyLabel": "¿Por qué esta confianza?",
+    "hideBreakdown": "Ocultar el detalle de la confianza",
+    "reviewTitle": "Revisa antes de guardar",
+    "anglesDisagree": "Tus ángulos de cámara no coinciden: elige la estimación que te parezca correcta.",
+    "keepGrams": "Mantener {{grams}} gramos",
+    "useGrams": "Usar {{grams}} gramos",
+    "topView": "Vista superior: {{grams}} g",
+    "sideView": "Vista lateral: {{grams}} g",
+    "anglesAgree": "Los ángulos coinciden al {{percent}} %: estimación afinada con varias fotos",
+    "usualPortionLabel": "Usar tu ración habitual de {{name}}",
+    "usualPortion": "Parece tu «{{name}}» habitual: toca para usar {{grams}} g",
+    "renameLabel": "Renombrar {{name}}",
+    "renameHint": "Abre un campo para corregir el nombre del alimento",
+    "weight": "Peso",
+    "multLabel": "Ajustar el peso a {{mult}} la estimación",
+    "typical": "Lo habitual para ti: {{grams}} g",
+    "saveAll": "Guardar todo"
+  },
+  "customFood": {
+    "title": "Alimento personalizado",
+    "namePlaceholder": "p. ej., el karahi de pollo de mamá",
+    "caloriesLabel": "Calorías por 100 g",
+    "calorieError": "Introduce un valor de calorías mayor que 0",
+    "saved": "«{{name}}» guardado."
+  },
   "pendingSync": {
     "waiting_one": "{{count}} cambio pendiente de sincronizar",
     "waiting_other": "{{count}} cambios pendientes de sincronizar"

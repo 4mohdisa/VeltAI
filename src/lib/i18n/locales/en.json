@@ -902,6 +902,41 @@
     "confidenceMedium": "medium confidence",
     "confidenceLow": "low confidence"
   },
+  "scanCards": {
+    "failedTitle": "Couldn't analyse this photo",
+    "failedMessage": "The scan didn't come back. You can still log this meal by hand.",
+    "logManually": "Log manually instead",
+    "feedbackQuestion": "How close was that estimate?",
+    "wayOff": "Way off",
+    "aBitOff": "A bit off",
+    "prettyGood": "Pretty good",
+    "spotOn": "Spot on",
+    "why": "Why?",
+    "whyLabel": "Why this confidence?",
+    "hideBreakdown": "Hide confidence breakdown",
+    "reviewTitle": "Review before saving",
+    "anglesDisagree": "Your camera angles disagree — pick the estimate that looks right.",
+    "keepGrams": "Keep {{grams}} grams",
+    "useGrams": "Use {{grams}} grams",
+    "topView": "Top view: {{grams}} g",
+    "sideView": "Side view: {{grams}} g",
+    "anglesAgree": "Angles agree {{percent}}% — estimate refined from multiple shots",
+    "usualPortionLabel": "Use your usual {{name}} portion",
+    "usualPortion": "Looks like your usual \"{{name}}\" — tap to use {{grams}} g",
+    "renameLabel": "Rename {{name}}",
+    "renameHint": "Opens a field to correct the food name",
+    "weight": "Weight",
+    "multLabel": "Set weight to {{mult}} the estimate",
+    "typical": "Typical for you: {{grams}} g",
+    "saveAll": "Save all items"
+  },
+  "customFood": {
+    "title": "Custom food",
+    "namePlaceholder": "e.g. Mum's chicken karahi",
+    "caloriesLabel": "Calories per 100g",
+    "calorieError": "Enter a calorie value greater than 0",
+    "saved": "Saved “{{name}}”."
+  },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",
     "waiting_other": "{{count}} changes waiting to sync"

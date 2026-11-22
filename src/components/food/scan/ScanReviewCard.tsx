@@ -8,6 +8,7 @@
 // absent if the backend is unreachable.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
@@ -78,6 +79,7 @@ export function ScanReviewCard({
   onSaveAll,
   portionHints,
 }: ScanReviewCardProps) {
+  const { t } = useTranslation();
   const reduce = useReduceMotion();
   const [hints, setHints] = useState<Record<string, number>>({});
   const [calibration, setCalibration] = useState<Record<string, number>>({});
@@ -168,41 +170,41 @@ export function ScanReviewCard({
         {/* The design's card header: one tinted glyph (this card holds a scan
             result, so the AI accent) + the card's name. The old amber left rail
             is gone — colour belongs on the glyph, never on the chrome. */}
-        <CardHeaderRow title="Review before saving" icon="sparkles" tint={categoryAccent.ai} />
+        <CardHeaderRow title={t('scanCards.reviewTitle')} icon="sparkles" tint={categoryAccent.ai} />
 
         {/* Multi-angle result (Phase 13): agreement line when the angles agreed;
             both estimates + a pick when they disagreed. */}
         {items[0]?.needsConfirmation && items[0].alternateWeightG != null ? (
           <View style={{ gap: space.sm, padding: space.md, borderRadius: radius.md, backgroundColor: surface.tile }}>
             <Text variant="footnote" color={color.label}>
-              {items[0].reconciliationNote ?? 'Your camera angles disagree — pick the estimate that looks right.'}
+              {items[0].reconciliationNote ?? t('scanCards.anglesDisagree')}
             </Text>
             <View style={{ flexDirection: 'row', gap: space.sm }}>
               <Pressable
                 haptic={false}
                 minTapTarget={false}
                 hitSlop={10}
-                accessibilityLabel={`Keep ${Math.round(items[0].estimatedWeightG)} grams`}
+                accessibilityLabel={t('scanCards.keepGrams', { grams: Math.round(items[0].estimatedWeightG) })}
                 onPress={() => onWeightChange(items[0].id, items[0].estimatedWeightG)}
                 style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: color.primary }}
               >
-                <Text variant="label" color={color.onPrimary}>{`Top view: ${Math.round(items[0].estimatedWeightG)} g`}</Text>
+                <Text variant="label" color={color.onPrimary}>{t('scanCards.topView', { grams: Math.round(items[0].estimatedWeightG) })}</Text>
               </Pressable>
               <Pressable
                 haptic={false}
                 minTapTarget={false}
                 hitSlop={10}
-                accessibilityLabel={`Use ${Math.round(items[0].alternateWeightG)} grams`}
+                accessibilityLabel={t('scanCards.useGrams', { grams: Math.round(items[0].alternateWeightG) })}
                 onPress={() => onWeightChange(items[0].id, items[0].alternateWeightG ?? items[0].weightG)}
                 style={{ paddingVertical: space.xs, paddingHorizontal: space.md, borderRadius: radius.pill, backgroundColor: surface.tile }}
               >
-                <Text variant="label" color={color.label}>{`Side view: ${Math.round(items[0].alternateWeightG)} g`}</Text>
+                <Text variant="label" color={color.label}>{t('scanCards.sideView', { grams: Math.round(items[0].alternateWeightG) })}</Text>
               </Pressable>
             </View>
           </View>
         ) : items[0]?.angleAgreement != null ? (
           <Text variant="footnote" color={color.secondaryLabel}>
-            {`Angles agree ${Math.round(items[0].angleAgreement * 100)}% — estimate refined from multiple shots`}
+            {t('scanCards.anglesAgree', { percent: Math.round(items[0].angleAgreement * 100) })}
           </Text>
         ) : null}
 
@@ -211,12 +213,12 @@ export function ScanReviewCard({
           <Pressable
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`Use your usual ${items[0].matchedMealName} portion`}
+            accessibilityLabel={t('scanCards.usualPortionLabel', { name: items[0].matchedMealName })}
             onPress={() => onWeightChange(items[0].id, items[0].matchedMealWeightG ?? items[0].weightG)}
             style={{ padding: space.md, borderRadius: radius.md, backgroundColor: surface.tile }}
           >
             <Text variant="footnote" color={color.label}>
-              {`Looks like your usual "${items[0].matchedMealName}" — tap to use ${Math.round(items[0].matchedMealWeightG)} g`}
+              {t('scanCards.usualPortion', { name: items[0].matchedMealName, grams: Math.round(items[0].matchedMealWeightG) })}
             </Text>
           </Pressable>
         ) : null}
@@ -241,20 +243,20 @@ export function ScanReviewCard({
                 minTapTarget={false}
                 onPress={() => rename(it)}
                 accessibilityRole="button"
-                accessibilityLabel={`Rename ${it.name}`}
-                accessibilityHint="Opens a field to correct the food name"
+                accessibilityLabel={t('scanCards.renameLabel', { name: it.name })}
+                accessibilityHint={t('scanCards.renameHint')}
                 style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.sm }}
               >
                 <Text variant="bodyBold" color={color.label} style={{ flex: 1 }}>
                   {it.name}
                 </Text>
                 <Text variant="bodyMedium" color={color.label}>
-                  {liveCalories} kcal
+                  {t('labelScan.totalKcal', { kcal: liveCalories })}
                 </Text>
               </Pressable>
 
               <SliderField
-                label="Weight"
+                label={t('scanCards.weight')}
                 value={it.weightG}
                 min={min}
                 max={max}
@@ -278,7 +280,7 @@ export function ScanReviewCard({
                     hitSlop={10}
                     onPress={() => onWeightChange(it.id, snap(it.estimatedWeightG * q.mult, min, max))}
                     accessibilityRole="button"
-                    accessibilityLabel={`Set weight to ${q.label} the estimate`}
+                    accessibilityLabel={t('scanCards.multLabel', { mult: q.label })}
                     style={{
                       paddingVertical: space.xs,
                       paddingHorizontal: space.md,
@@ -295,7 +297,7 @@ export function ScanReviewCard({
 
               {typical != null ? (
                 <Text variant="footnote" color={color.secondaryLabel}>
-                  Typical for you: {Math.round(typical)} g
+                  {t('scanCards.typical', { grams: Math.round(typical) })}
                 </Text>
               ) : null}
 
@@ -310,10 +312,10 @@ export function ScanReviewCard({
 
         <View style={{ flexDirection: 'row', gap: space.md }}>
           <View style={{ flex: 1 }}>
-            <Button title="Discard" variant="secondary" onPress={onDiscard} />
+            <Button title={t('gymSession.discard')} variant="secondary" onPress={onDiscard} />
           </View>
           <View style={{ flex: 1 }}>
-            <Button title="Save all items" variant="primary" onPress={onSaveAll} />
+            <Button title={t('scanCards.saveAll')} variant="primary" onPress={onSaveAll} />
           </View>
         </View>
       </View>

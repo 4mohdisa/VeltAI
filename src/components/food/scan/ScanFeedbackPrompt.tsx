@@ -3,6 +3,7 @@
 // it never blocks the log; tapping a rating dismisses immediately.
 import { useEffect } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Text } from '@/components/primitives/Text';
@@ -18,19 +19,20 @@ export type ScanFeedbackPromptProps = {
 
 const AUTO_DISMISS_MS = 5000;
 
-const OPTIONS: { label: string; rating: ScanFeedbackRating }[] = [
-  { label: 'Way off', rating: 'way_off' },
-  { label: 'A bit off', rating: 'a_bit_off' },
-  { label: 'Pretty good', rating: 'pretty_good' },
-  { label: 'Spot on', rating: 'spot_on' },
+const OPTIONS: { labelKey: string; rating: ScanFeedbackRating }[] = [
+  { labelKey: 'scanCards.wayOff', rating: 'way_off' },
+  { labelKey: 'scanCards.aBitOff', rating: 'a_bit_off' },
+  { labelKey: 'scanCards.prettyGood', rating: 'pretty_good' },
+  { labelKey: 'scanCards.spotOn', rating: 'spot_on' },
 ];
 
 export function ScanFeedbackPrompt({ onRate, onDismiss }: ScanFeedbackPromptProps) {
+  const { t } = useTranslation();
   const reduce = useReduceMotion();
 
   useEffect(() => {
-    const t = setTimeout(onDismiss, AUTO_DISMISS_MS);
-    return () => clearTimeout(t);
+    const timer = setTimeout(onDismiss, AUTO_DISMISS_MS);
+    return () => clearTimeout(timer);
   }, [onDismiss]);
 
   return (
@@ -46,7 +48,7 @@ export function ScanFeedbackPrompt({ onRate, onDismiss }: ScanFeedbackPromptProp
       }}
     >
       <Text variant="footnote" color={color.secondaryLabel} accessibilityRole="header">
-        How close was that estimate?
+        {t('scanCards.feedbackQuestion')}
       </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
         {OPTIONS.map((o) => (
@@ -56,7 +58,7 @@ export function ScanFeedbackPrompt({ onRate, onDismiss }: ScanFeedbackPromptProp
             minTapTarget={false}
             onPress={() => onRate(o.rating)}
             accessibilityRole="button"
-            accessibilityLabel={o.label}
+            accessibilityLabel={t(o.labelKey)}
             style={{
               paddingVertical: space.sm,
               paddingHorizontal: space.md,
@@ -65,7 +67,7 @@ export function ScanFeedbackPrompt({ onRate, onDismiss }: ScanFeedbackPromptProp
             }}
           >
             <Text variant="footnote" color={color.label}>
-              {o.label}
+              {t(o.labelKey)}
             </Text>
           </Pressable>
         ))}
