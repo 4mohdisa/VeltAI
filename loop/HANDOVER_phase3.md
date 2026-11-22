@@ -1,52 +1,53 @@
 HANDOVER: Lume Phase 3, branch loop/phase3. No files were changed while writing this.
 
-ROW STATUS (PHASE3_ROWS.md)
-- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12. Rows 8 and 12 became BUILT this session. Row 8 still says "owner check pending".
-- PARTIAL: 5, 13, 14, 15, 16, 17.
+ROW STATUS (PHASE3_ROWS.md, 22 lines)
+- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16. Rows 15 and 16 became BUILT this session.
+- PARTIAL: 5, 13, 14, 17.
 - DIFFERENT: 6, 11.
 
 BUILT THIS SESSION
-- Row 8: added a call-site allowlist test and a build-label test to `src/__tests__/analyticsAllowlist.test.ts` (12 tests). Added `src/lib/analyticsGaps.test.ts` and `src/__tests__/render/privacyAnalytics.render.test.tsx`. PRIVACY_DATA.md now names both places that turn analytics on.
-- Row 12: re-checked, then a direct unit test, `src/__tests__/energyRange.useEnergyRange.test.ts`.
-- Row 13: barcode-scan, label-scan, photo-capture and CaptureGuidanceOverlay are translated. Test: `render/scanScreens.strings.render.test.tsx`.
-- Row 14:
-  - Error and loading states plus translations in `(tabs)/gym.tsx`, GymCalendar, MuscleChart, GymPatternsCard, MyScheduleCard, `gym/schedule.tsx`, `gym/new-template.tsx` and the log-session "Only some of it" sheet.
-  - Tests: `render/gymCards.emptyStates`, `gymScheduleTemplate.emptyStates`, `gymStreakSkeleton` and `gymLogSessionSomeOfIt`.
+- Row 16:
+  - Integrations: a failed list shows LoadFailedNotice with Retry (new key integrationsDetails.loadFailed in en, es, fr).
+  - Scan calibration, Support and Preferences were already fully translated; added tests only.
+  - preferences.tsx header comment corrected.
+  - Tests: integrationsLoadFailed, scanCalibration.strings, supportStrings, preferencesCopy (all .render) and supportMailSubject.
+- Row 15: BUILT. Goals always shows numbers (useEffectiveGoals), so no empty state; loading and failed-read states parked.
+- Row 17:
+  - Gap 3: src/components/gym/ExercisePicker.tsx shows LoadFailedNotice gym.loadFailed when useExercises reports isError. No Retry, because there is no refetch. Test: exercisePicker.failed.render.
+  - Gap 4: src/app/ai-query.tsx shows the 503 message that ask() returns (src/lib/data/aiBrain.ts:167-169) under the translated title. Test: aiQuery503.render.
 
 IN PROGRESS
-Nothing half-done.
+Nothing half-done. The next task is Row 17 gap 5: an empty Ask Lume answer renders nothing (ai-query.tsx:108-118). It can be fixed in the screen alone.
 
 LAST GATES
-tsc 0 errors. Jest 228 suites and 1,322 tests pass; this is the new baseline, which Isa still needs to confirm. Go: 543 pass and 20 TestPG skipped.
-
-WAITING ON ISA
-- Row 8:
-  - Should Continue on the AI disclosure (`src/lib/ai/consent.ts`, Phase 4) keep turning analytics on?
-  - Should analytics stay off by default (as coded) or be on by default (as the row text says)?
-- Rows 13 and 14 need `src/lib/data` changes:
-  - `scan.ts`: tell a network failure apart from "Product not found".
-  - `foodDays.ts`: return an error flag.
-  - `gymRange.ts`: the month summary "0 sessions" is still English.
-  - `gymSchedule.ts`: add a refetch to `useGymPatterns` so the muscle cards can offer Retry.
-- Review of all new es and fr wording.
+tsc 0 errors. Full Jest 233 suites and 1,338 tests pass; the new test files since add 1 suite and 2 tests. Go 543 pass, 20 TestPG skipped.
 
 DECISIONS
-- Test files never go under `src/app`. Expo Router treats every `.ts` or `.tsx` file there as a route (`node_modules/expo-router/_ctx-shared.js`), so render tests go in `src/__tests__/render/`.
-- New strings go in new top-level locale groups, inserted before the unique `"pendingSync"` anchor. Reuse a key only when the English and the meaning match.
-- When an existing test breaks on a change (for example the Skeleton in new-template), drop that change instead of editing the test.
+- Never edit existing tests or snapshots; when a change breaks one, back it out.
+- src/lib/data is off limits.
+- New strings go in new top-level groups before the unique "pendingSync" anchor, by exact text insertion.
+- Reuse a key only when the English and the meaning match.
+- Test files go in src/__tests__/render/, never src/app.
+
+WAITING ON ISA
+- useGoals exposing isLoading, error and refetch (Goals loading and failed-read states).
+- Row 17 gaps 1, 2 and 6 need src/lib/data changes:
+  - the "No matches" flash during the 250 ms search debounce (hooks.ts);
+  - the English "not enough data" and consent replies (aiBrain.ts).
+- The Export row is on both Settings (index.tsx) and Privacy (privacy.tsx); each is pinned by its own test.
+- Row 8 analytics decisions; the Privacy "Your data" title (kept in English by privacyLocale); es and fr wording review.
+- The new Jest baseline.
 
 GOTCHAS
-- `source ~/.nvm/nvm.sh && nvm use 22` first. Run Jest from the repo root.
-- Skeleton needs reanimated's `useReducedMotion`. Mock `@/components/display/LoadingSkeleton` in tests.
-- `useGym().data.loggedDays` is an array, not a Set.
-- Stay within 22 lines in `PHASE3_ROWS.md`.
+- Run `source ~/.nvm/nvm.sh && nvm use 22` first.
+- zsh does not split variables: pass Jest paths through xargs and quote --include globs.
+- SegmentedField labels render as [label, ""].
+- FlatList trees break allText; use findAll.
+- .test.ts files run in Jest's node project.
 
 UNFIXED
-- `feature_used` still uses `shapeOnly()`, so a key named `app_version` or `build` would overwrite the real build label.
-- `formatWeekdayDate` and the MyScheduleCard weekday use the device language, not the app language.
-- The Gym tab can show three identical load-failed notices when offline.
-- WeekStrip's ", today" and Previous/Next week labels are still English, and so are muscle and exercise names.
-- In PRIVACY_DATA.md, the "Allowlist test" bullet sits under "Defaults and open items".
-
-NEXT
-Get Isa's decisions above, then prepare the Row 11 final sweep.
+- Stale Row 17 notes still say the 503 message waits on aiBrain.ts.
+- scanCalibration.basedOn has no _one form.
+- preferences.tsx uses a raw gap: 18.
+- The 503 text is shown in whatever language the server sends.
+- Parked: the nutrition.tsx spoken kcal label (needs the detailChrome snapshot regenerated), the repeat-visit skeleton flash, and the three identical offline Gym notices.
