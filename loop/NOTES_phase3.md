@@ -5,17 +5,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last full gates (checkpoint): tsc 0 errors; Jest 238 suites, 1,350 tests, 4 snapshots pass. Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
+- Last checkpoint: tsc 0 errors. Jest figures conflict (238 suites / 1,350 tests vs 236 / 1,344). Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
 
-## Status (reconcile from PHASE3_ROWS.md)
-- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 13 (owner items), 15, 16, 17.
-- PARTIAL: 5 (part 2 needs credentials), 6 (waits on Isa), 14 (status conflict: check the row).
+## Status
+- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 13 (owner items), 15, 16, 17 (gaps 1, 2, 6 owner items).
+- PARTIAL: 5 (part 2 needs credentials), 6 (waits on Isa's option), 14 (round reconciles it).
 - DIFFERENT: 11 (final sweep, last).
-- Row 17 gap 5 closed. Do not resend. Row 14 offline-notice item closed. Do not resend.
+- Last report flagged: no tsc or Jest run after docs-only and WeekStrip changes. Cleared in the Row 14 round.
 
 ## Next
-1. Reconcile Row 14 status against its real open items.
-2. Row 6 waits on Isa. Do not re-ask.
+1. Row 14: targeted gate check, then reconcile status.
+2. Row 6 waits on Isa's option. Do not re-ask.
 3. Row 5 part 2 waits on credentials.
 4. Row 11 final sweep last.
 
@@ -29,7 +29,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Row 9: GET /api/export, same auth and limiter as analytics, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB.
-- Row 13: pinned English strings ('Save food', ConfidenceBadge breakdown line) kept, not editing tests.
+- Row 13: pinned English strings ('Save food', ConfidenceBadge breakdown) kept, not editing tests.
 - Row 14: PendingSyncBanner is the only offline notice. Toasts are not notices.
 - Row 15: no empty state (useGoals always returns numbers).
 - Reuse a key when English and meaning match.
@@ -60,7 +60,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud, weekStrip es/fr, parameterForm es/fr, fr 'Abandonner' vs 'Supprimer' for scan discard.
 
 ## Parked (not Phase 3)
-- Row 6: gym history list not virtualised. Needs Screen.tsx ScrollView and shared Card styling change.
+- Row 6: gym history list not virtualised. Needs Screen.tsx ScrollView and shared Card change.
 - Backend: gym/schedule_pg.go:765-767 sorts progress oldest first, then LIMIT 30, losing newest. 49 queries use WHERE id::text = $1. 18 DB tests skipped without LUME_TEST_DATABASE_URL. getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; npm audit 48 vulns.
 - Row 8: feature_used accepts any short key; app_version or build could overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; English muscle and exercise names; nutrition.tsx spoken kcal label.
@@ -89,4 +89,3 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
 - Every prompt must state the loop/phase3 branch rule.
 - Jev is advisory only. Prefer smaller tasks. Verify the last task before moving on.
-- Last round flagged as partly done; Row 13 closed by docs-only round with owner items.

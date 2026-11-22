@@ -9547,3 +9547,8 @@
 - 2026-11-23 03:17 Kept the pinned English strings in place rather than editing existing tests, per the never-edit-tests rule.
 - 2026-11-23 03:17 Chose a docs-only round to clear the flagged partial report without new risk. Jev rated ask higher, but the question has been asked and the default is documented, so no new question is sent.
 - 2026-11-23 03:17 Row 14 status conflict (handover says PARTIAL, notes say BUILT) is left for the next round to reconcile from PHASE3_ROWS.md.
+- 2026-11-23 03:18 Chose the Row 14 gate check: the last report flagged the type check and tests as not run, and this is the cheapest way to clear it with no Isa input.
+- 2026-11-23 03:18 Did not ask Isa again. Jev ranks ask highest, but the Row 6 option and the src/lib/data permission were already asked and defaulted. Repeating them adds no new information.
+- 2026-11-23 03:18 Row 14 status: if all non-Isa items are closed, mark BUILT with owner check pending. Its remaining items all need Isa permission or Isa's review.
+- 2026-11-23 03:18 Kept src/lib/data, gym/history.tsx and all existing tests and snapshots off limits, per the standing decisions.
+- 2026-11-23 03:18 Trimmed the notes to under 600 words: finished work removed, decisions and Isa-blocked items kept.
