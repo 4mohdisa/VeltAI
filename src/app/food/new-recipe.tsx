@@ -17,6 +17,8 @@ import { Screen } from '@/components/navigation/Screen';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { Button, Stepper, TextField } from '@/components/forms';
 import { Icon } from '@/components/primitives/Icon';
@@ -61,8 +63,9 @@ export default function NewRecipeScreen() {
   const [query, setQuery] = useState('');
   const [stage, setStage] = useState<Stage | null>(null);
 
-  const { results, recents } = useFoodSearch(query);
-  const searchRows = query.trim() ? results : recents;
+  const { results, recents, isLoading: searchLoading, error: searchError, refetch: retrySearch } = useFoodSearch(query);
+  const searching = query.trim().length > 0;
+  const searchRows = searching ? results : recents;
 
   const totals = ingredients.reduce(
     (a, it) => ({
@@ -217,38 +220,46 @@ export default function NewRecipeScreen() {
               autoCorrect={false}
               accessibilityLabel={t('addMenu.searchFoods')}
             />
-            <Card padded={false}>
-              {searchRows.map((r, i) => (
-                <Pressable
-                  key={`${r.name}-${i}`}
-                  haptic={false}
-                  minTapTarget={false}
-                  onPress={() => pickFood(r)}
-                  accessibilityLabel={t('food.savedAddLabel', { name: r.name })}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: space.sm,
-                    paddingVertical: space.lg,
-                    paddingHorizontal: space.lg,
-                    borderTopWidth: i === 0 ? 0 : layout.hairline,
-                    borderTopColor: surface.divider,
-                  }}
-                >
-                  <View style={{ flex: 1, gap: space.xs }}>
-                    <Text variant="body" color={color.label}>
-                      {r.name}
-                    </Text>
-                    <Text variant="footnote" color={color.secondaryLabel}>
-                      {r.brand ? `${r.brand} · ` : ''}
-                      {t('newRecipe.kcalPer100', { kcal: r.kcalPer100 })}
-                    </Text>
-                  </View>
-                  <Icon name="add" size={20} color={color.label} />
-                </Pressable>
-              ))}
-            </Card>
+            {searching && searchLoading ? (
+              <SkeletonList rows={3} />
+            ) : searching && searchError ? (
+              <ErrorState message={t('food.empty.searchFailed')} onRetry={retrySearch} />
+            ) : searching && results.length === 0 ? (
+              <EmptyState icon="magnifyingglass" title={t('foodLog.noMatches', { query: query.trim() })} />
+            ) : (
+              <Card padded={false}>
+                {searchRows.map((r, i) => (
+                  <Pressable
+                    key={`${r.name}-${i}`}
+                    haptic={false}
+                    minTapTarget={false}
+                    onPress={() => pickFood(r)}
+                    accessibilityLabel={t('food.savedAddLabel', { name: r.name })}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: space.sm,
+                      paddingVertical: space.lg,
+                      paddingHorizontal: space.lg,
+                      borderTopWidth: i === 0 ? 0 : layout.hairline,
+                      borderTopColor: surface.divider,
+                    }}
+                  >
+                    <View style={{ flex: 1, gap: space.xs }}>
+                      <Text variant="body" color={color.label}>
+                        {r.name}
+                      </Text>
+                      <Text variant="footnote" color={color.secondaryLabel}>
+                        {r.brand ? `${r.brand} · ` : ''}
+                        {t('newRecipe.kcalPer100', { kcal: r.kcalPer100 })}
+                      </Text>
+                    </View>
+                    <Icon name="add" size={20} color={color.label} />
+                  </Pressable>
+                ))}
+              </Card>
+            )}
           </>
         ) : stage?.kind === 'qty' ? (
           <>

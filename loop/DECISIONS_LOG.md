@@ -9234,3 +9234,7 @@
 - 2026-11-23 01:08 Jev suggested ask (67%, confidence 0.50). Kept run because the ask is already answered by defaults, and the limit of one question per round matters. Jev's risk score is noted; the task is small and touches one file.
 - 2026-11-23 01:08 Skeleton fix (test 1 in profileEmptyStates.render.test.tsx) stays parked. The rule is no edits to existing tests without Isa.
 - 2026-11-23 01:08 Nutrition spoken kcal change stays backed out until the macros snapshot approval.
+- 2026-11-23 01:09 Row 16 is parked for approval, so the next step is Row 17 as the notes say.
+- 2026-11-23 01:09 Jev ranks run highest and risk is high, so I picked the smallest run that needs no approval, with an explicit park option.
+- 2026-11-23 01:09 Row 11 stays last because it depends on Rows 6, 16 and 17 being settled.
+- 2026-11-23 01:09 Row 17 content is not in my notes, so the prompt makes Claude Code pick its first non-approval item and check the files first.
