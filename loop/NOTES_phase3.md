@@ -5,15 +5,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. zsh rejects grep --include.
-- Last full checkpoint: round 210 (tsc 0; Jest 202 suites, 1216 tests, 4 snapshots, pass). Round 212 changed SettingsList and locales: full run due at next checkpoint.
+- Last full checkpoint: round 210 (tsc 0; Jest 202 suites, 1216 tests, 4 snapshots, pass). Round 212 changed SettingsList and locales. Round 215: checkpoint gate run (read only), result pending in report.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Postgres role 'authenticated' left from round 211 A/B test: leave unless Isa asks.
+- Loop flag: last report had no test run. Checkpoint gate in round 215 clears it.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in and off by default in code. Brief said on. Isa confirms before Phase 4.
 - PostHog host optional: unset uses SDK default; set value must be https with hostname, else sink off.
+- PRIVACY_DATA.md host item matches code (closed, rounds 202 to 215). No more host prompts.
 - Sink opts in via store listener in analytics.ts (settings/store.ts off limits).
 - Analytics switch lives in src/app/profile/privacy.tsx. No second switch on main Settings.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
@@ -39,14 +41,15 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
 
 ## Next
-- Row 8: PRIVACY_DATA.md host sentence (round 214, in progress).
+- Row 15 checkpoint result: fix only if Isa approves a snapshot or test change.
 - Row 10: help and feedback (feedback table local, rate limit, screen).
 - Row 8: anonymous ID and version tags (device check pending).
 - Row 15 tail after Row 10: Support, Privacy, Scan accuracy, Integrations body copy; Spanish 'Tus datos' on Account and Privacy eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join; Privacy duplicate export row.
-- Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, re-check host sentence, fix or remove backend/scripts/seed_demo_account.go (no host guard).
+- Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
 - Row 6 measurements parked until a sign-in path exists.
 
 ## Blocked on Isa (defaults used, do not re-ask)
+- Loop prompt source uses an old copy of PRIVACY_DATA.md (pre round 202). Isa to update it or drop the host task.
 - feature_used strict list and shapeOnly() cleanup: needs permission to edit two pinned tests in analytics.test.ts.
 - Analytics on by default (brief) vs opt-in (code). Confirm before Phase 4.
 - PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST (owner step).
@@ -59,9 +62,9 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Wording and number grouping (formatNumber en-AU vs units en-US; brainProfileCard pins 2140; InsightCard 120-char rule pinned): defaults kept.
 
 ## Parked (not Phase 3)
-getMorningBrief swallows errors (pinned); getProfile .catch hides errors; AnomalyBanner no Retry; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx English strings; Privacy screen English body (policy, terms, AI processing, toasts); MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError; npm audit 48 vulns (1 critical); trial_started in event list, never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; es.json extra addMenu keys; export returns whole profiles row (future sensitive columns leak); export sent as text, not .json file; export about 33 queries counted as one read; delete-account.tsx and subscription.tsx are Phase 4.
+getMorningBrief swallows errors (pinned); getProfile .catch hides errors; AnomalyBanner no Retry; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx English strings; Privacy screen English body (policy, terms, AI processing, toasts); MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError; npm audit 48 vulns (1 critical); trial_started in event list, never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; es.json extra addMenu keys; export returns whole profiles row (future sensitive columns leak); export sent as text, not .json file; export about 33 queries counted as one read; destructive Settings rows hard-coded 'Double tap to continue'; delete-account.tsx and subscription.tsx are Phase 4.
 
 ## Loop note
 - Handovers at rounds 187, 211, 212. Name files fully in prompts.
 - Keep branch-only wording in every prompt.
-- Jev risk high (1.5 to 1.7): prefer small tasks.
+- Jev risk high (1.5 to 1.9): prefer small tasks.

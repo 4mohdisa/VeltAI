@@ -9022,3 +9022,7 @@
 - 2026-11-22 21:17 Jev risk is 1.5 and it prefers small tasks, so no code change this round.
 - 2026-11-22 21:17 Full Jest checkpoint left for the loop script's scheduled checkpoint round, since no code changed since round 212.
 - 2026-11-22 21:17 Row 8 stays PARTIAL until the device check of anonymous ID and version tags.
+- 2026-11-23 00:00 Chose the checkpoint gate: the last report and the loop flag both say the type check and full Jest were not run after round 212, so this clears the flag before anything else.
+- 2026-11-23 00:00 Closed the PRIVACY_DATA.md host item: the code and doc already match (rounds 202 to 204), so no more prompts about it. Stale prompt source is for Isa to fix.
+- 2026-11-23 00:00 Kept the checkpoint read-only, because checkpoint rounds change no files; failures are reported, not fixed, to avoid editing tests or snapshots.
+- 2026-11-23 00:00 Prefer small tasks because Jev risk is high (1.9).
