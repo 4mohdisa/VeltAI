@@ -9122,3 +9122,13 @@
 - 2026-11-23 00:27 Kept the existing label 'Help and feedback' over 'Send feedback', because Support already uses 'Send feedback'.
 - 2026-11-23 00:27 Row 10 stays PARTIAL, not BUILT, while backend/tests/migrations TestExportCoversEveryUserTable fails without the export.go permission. Default is to carry on and report.
 - 2026-11-23 00:27 Checkpoint round makes no file changes, per the notes rule.
+- 2026-11-23 00:28 Chose the preferences 'Units' eyebrow: smallest open Row 15 item, needs no permission, and matches the agreed one-per-round copy pass.
+- 2026-11-23 00:28 Answered the PRIVACY_DATA.md host item with 'already matches' (code and doc agree since round 204). Not re-sent.
+- 2026-11-23 00:28 Privacy 'Your data' title translation stays blocked until Isa approves the edit to privacyLocale.render.test.tsx line 56. Default in use: title stays English.
+- 2026-11-23 00:28 Row 11 (final sweep) waits until Rows 8, 10, 12, 13, 14 and 15 are BUILT or Isa has answered their owner items. Not started now.
+- 2026-11-23 00:28 Row 9 owner check and Row 10 simulator flow stay as owner items, not re-asked.
+- 2026-11-23 00:29 Picked candidate 1. Jev ranked it first at 95%, and the notes list it as the explicit next step. No concrete reason from my side to override.
+- 2026-11-23 00:29 Rewrote the rejected prompt: it now says loop/phase3 only, never push, merge or switch branches, has five numbered steps, names exact files, lists what must not be touched, and ends with the report format.
+- 2026-11-23 00:29 Treated the Row 10 Settings row as done, because the Done section and the round 226-232 notes say so. The handover's claim that nothing opens /profile/feedback is stale. Verification is parked as a candidate.
+- 2026-11-23 00:29 Used a reuse-first rule for the Units key so no duplicate string is added if a 'Units' key already exists.
+- 2026-11-23 00:29 Kept the Privacy section title as English because Isa has not approved the test edit. Default from Blocked on Isa.
