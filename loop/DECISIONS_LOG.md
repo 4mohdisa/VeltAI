@@ -8438,3 +8438,7 @@
 - 2026-11-22 18:20 Kept Row 15 PARTIAL because the Summary card, nutrition dashboard, insights, goals and energy.tsx are still open.
 - 2026-11-22 18:20 Deferred the stale EMPTY_STATES_AUDIT.md wording to a later round so this prompt stays one screen.
 - 2026-11-22 18:20 Jev ranked run 95%. Its preference for the same task matches mine, so no second look was needed.
+- 2026-11-22 18:22 Chose energy.tsx notice: smallest remaining Row 15 gap, same pattern as week.tsx, no new keys needed.
+- 2026-11-22 18:22 Reuse dashboard.energyLoadFailed for energy.tsx: identical text reuses existing key.
+- 2026-11-22 18:22 Row 15 stays PARTIAL and the flagged partly-done status is addressed by listing every open gap in the notes and not marking the row built.
+- 2026-11-22 18:22 Audit doc fix deferred to after the screens, keeping one screen per round.
