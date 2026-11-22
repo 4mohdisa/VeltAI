@@ -8567,3 +8567,7 @@
 - 2026-11-22 19:01 Chose verification first because the loop flagged the last report as partly done; cheapest way to close it without new scope.
 - 2026-11-22 19:01 Kept es and fr weekday names lowercase as shipped (default) until Isa reviews whether capitalised reads better on the card value.
 - 2026-11-22 19:01 Jev ranks run at 93%; no conflict with the choice. Risk score 1.0 noted, but the task is one file and needs no Isa input.
+- 2026-11-22 19:02 Loop flagged round 133 as partly done. The report verified literals but left the preferred_weekdays fallback untested for es and fr. Chose the test-only close-out first, since it is the smallest step and clears the flag.
+- 2026-11-22 19:02 Kept InsightCard and AnomalyCard as the following tasks. Jev also favours run; no reason to override.
+- 2026-11-22 19:02 Row 15 stays PARTIAL. The fixed 0.3 bar and api.ts swallowed errors stay parked for later rounds.
+- 2026-11-22 19:02 Round numbers continue from the loop count (134). The PHASE3_ROWS.md round numbers may still clash. Recorded, not fixed.

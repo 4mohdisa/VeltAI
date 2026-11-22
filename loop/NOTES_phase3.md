@@ -30,22 +30,21 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 125 row parked after two failed attempts.
 - Round 129: checkpoint kept over Jev's insights pick.
 - Round 130: insights literals chosen over MacroBars and goals states. Literals only.
-- Round 131 flagged by loop as partly done. Round 132 reported BrainProfileCard most active day done (weekday keys, es and fr lowercase by default).
-- Round 133: verify BrainProfileCard fully closed (loop flag). Then InsightCard.
+- Round 133: BrainProfileCard literals verified closed. Weekday wording default: es/fr lowercase.
+- Round 134: loop flag on round 133 (fallback weekday untested for es/fr). Closed with test-only addition.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, French foodLog.today, insights screen literals, BrainProfileCard weekday names (round 132).
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, French foodLog.today, insights screen literals, BrainProfileCard literals and weekday names.
 
 ## In progress
-- Round 133: verify BrainProfileCard literals closed.
+- Round 134: BrainProfileCard fallback weekday tests (es, fr).
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Review weekday wording: es/fr lowercase (default) vs capitalised on the card value.
-- Review insights.* and insights.brainProfile.* strings from rounds 130 to 132.
+- Review insights.* and insights.brainProfile.* strings from rounds 130 to 133, including weekday capitalisation (default: es/fr lowercase).
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
 - Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
 - Row 12 BUILT approval.
@@ -64,7 +63,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Round 133: verify BrainProfileCard closed (in progress).
+- Round 134: close BrainProfileCard fallback weekday tests (in progress).
 - Then InsightCard.tsx literals, then AnomalyCard.tsx literals, one per round.
 - Then insights swallowed errors in src/lib/api.ts (~1253, 1270) and fixed 0.3 bar in BrainProfileCard.tsx:70.
 - Row 15 goals load and error states.
@@ -96,4 +95,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Gym card may show seed data after failed dashboard read.
 - EMPTY_STATES_AUDIT.md Summary loading row still calls GymStatusCard broken.
 - Plan card in index.tsx has hard-coded AI scope.
-- French foodLog.today straight apostrophe (verify with round 133 check if touched).
+- Dashboard week.tsx and nutrition ceiling label as listed above.
+- Round 129 insights pick and Jev disagreements: none open.

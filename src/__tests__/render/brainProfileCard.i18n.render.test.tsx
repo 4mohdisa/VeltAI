@@ -107,3 +107,38 @@ test('the seven weekday keys exist in en, es and fr', () => {
     for (const day of days) expect(typeof locale.insights.brainProfile.weekdays[day]).toBe('string');
   }
 });
+
+describe.each([
+  ['es', es],
+  ['fr', fr],
+])('%s: the most active day fallback', (lang, locale) => {
+  const withGym = (gym_patterns: Record<string, unknown>) => ({ ...PROFILE, gym_patterns }) as unknown as typeof PROFILE;
+
+  beforeEach(async () => {
+    await act(async () => {
+      await i18n.changeLanguage(lang);
+    });
+  });
+
+  afterEach(async () => {
+    await act(async () => {
+      await i18n.changeLanguage('es');
+    });
+  });
+
+  test('only preferred_weekdays is sent: its first weekday is translated', () => {
+    mockBrain.profile = withGym({ preferred_weekdays: ['friday'] });
+    const text = allText(renderScreen(<BrainProfileCard />));
+
+    expect(text).toContain(locale.insights.brainProfile.weekdays.friday);
+    expect(text).not.toContain(en.insights.brainProfile.weekdays.friday);
+  });
+
+  test('most_active_day with an empty preferred_weekdays: most_active_day is translated', () => {
+    mockBrain.profile = withGym({ most_active_day: 'wednesday', preferred_weekdays: [] });
+    const text = allText(renderScreen(<BrainProfileCard />));
+
+    expect(text).toContain(locale.insights.brainProfile.weekdays.wednesday);
+    expect(text).not.toContain(en.insights.brainProfile.weekdays.wednesday);
+  });
+});
