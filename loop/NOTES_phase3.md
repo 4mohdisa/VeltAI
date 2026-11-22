@@ -5,7 +5,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Checkpoint round 50: tsc 0; 147 suites, 1029 tests, 0 failed. Food tab changed since (round 53), so the next checkpoint is due.
+- Checkpoint round 50: tsc 0; 147 suites, 1029 tests, 0 failed.
+- Food tab and SavedMealsList changed since (rounds 53, 56). Next scheduled checkpoint must run the 12 Food tab suites too.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
@@ -18,7 +19,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Phase 4 NOT in scope: Sign in with Apple, account deletion, AI consent and limits, subscriptions and paywall, restore purchases, retention, notifications, HealthKit, store content, privacy manifest. Park ideas.
 - Later (Phase 4, do not build): RevenueCat for payments, no free tier, 7 day Apple trial.
 - Crash reporting Sentry. Analytics PostHog. Names and counts only.
-- Analytics on by default with anonymous ID, off switch in Settings (brief). Store default off (DECISIONS.md 2026-08-09): Isa to confirm before Phase 4.
+- Analytics on by default with anonymous ID, off switch in Settings. Store default off (DECISIONS.md 2026-08-09): Isa to confirm before Phase 4.
 - Row 3: keep header plus on My workouts as the only way to add a second workout.
 - Goals and units stay in memory in Phase 3. Row 15 fixes 'Saved as you type' copy.
 - Hook error fixes go in the shared hook, not per screen.
@@ -31,8 +32,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Re-verify a flagged report as its own round only if the row changed code. Re-verified once is enough.
 - Round 48: row 12 set back to PARTIAL until Isa approves BUILT.
 - Round 48: useInsights refetch and Retry stay parked.
-- Round 50: full checkpoint chosen over row 13. Edits limited to three named mock files (isError: false).
-- Round 55: loop rejected the prompt (more than one component). Round 56 onward: one screen or component per prompt.
+- Round 50: full checkpoint chosen over row 13.
+- Round 55: loop rejected a prompt covering more than one component. Round 56 onward: one screen or component per prompt.
+- Round 57: Jev ranked RecipesList 94%. Kept it. The flagged gap (Food tab suites not rerun) waits for the checkpoint.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -40,7 +42,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
-- Rounds 42-54: Row 13 Food tab states done (past-day copy, error states, 12 Food tab suites, 131 tests pass, tsc 0).
+- Rounds 42-54: Row 13 Food tab states done (past-day copy, error states, 12 Food tab suites).
+- Round 56: Row 13 SavedMealsList load-failure state + 2 tests. tsc 0.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -48,13 +51,14 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3). useEnergyRange 'both weeks fail' rule default used.
+- Saved meals error sentence: Isa may want a specific one (needs new keys in 3 languages). Default generic copy used.
 
 ## Next
-- Round 56: row 13 SavedMealsList load-failure state (one component).
-- Row 13 remaining: RecipesList, saved screen, Food tab PendingSyncBanner, calendar, detail, barcode, translations.
+- Round 57: row 13 RecipesList load-failure state (one component).
+- Next checkpoint: full app Jest, 12 Food tab suites, tsc.
+- Row 13 remaining: Saved screen, Food tab PendingSyncBanner, calendar, detail, barcode, translations.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
-- Full checkpoint on its scheduled round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7 and 8 (Sentry, PostHog), then rows 9 and 10, then Row 11 (final sweep).
 
@@ -80,3 +84,5 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - 'No meals yet' reads oddly on a past day. Park unless row 13 wording is approved.
 - Compact LoadFailedNotice past-day text (food.loadFailedPast) has no test. Park.
 - Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 later item.
+- src/app/food/history.tsx shows hardcoded English "Couldn't load your history." Should be a translated key. Park.
+- Shared render setup does not mock useFocusEffect; tests must mock expo-router. Park.

@@ -1,7 +1,8 @@
 // Recipes list (Task 3) — one card per recipe (per-serving kcal + servings), with
 // a [Log] that opens a "how many servings?" sheet before logging into today's
-// current slot. Best-effort + offline-safe. Refetches on focus so a recipe created
-// on /food/new-recipe shows up on return. `onNew` is wired by the parent screen.
+// current slot. A failed list() with nothing loaded yet shows ErrorState with Retry,
+// not the empty copy. Refetches on focus so a recipe created on /food/new-recipe
+// shows up on return. `onNew` is wired by the parent screen.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
@@ -11,6 +12,7 @@ import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
 import { SkeletonCard } from '@/components/display';
 import { Button, Stepper } from '@/components/forms';
 import { Text } from '@/components/primitives/Text';
@@ -28,13 +30,16 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
   const [sheetFor, setSheetFor] = useState<Recipe | null>(null);
   const [servings, setServings] = useState(1);
   const [logging, setLogging] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const load = useCallback(async () => {
     try {
       setRecipes(await api.recipes.list());
+      setIsError(false);
     } catch (e) {
       devWarn('[meals] recipes.list failed:', e);
-      setRecipes([]);
+      setIsError(true);
+      setRecipes((prev) => prev ?? []);
     }
   }, []);
 
@@ -72,6 +77,10 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
         <SkeletonCard />
       </View>
     );
+  }
+
+  if (recipes.length === 0 && isError) {
+    return <ErrorState onRetry={() => void load()} />;
   }
 
   if (recipes.length === 0) {

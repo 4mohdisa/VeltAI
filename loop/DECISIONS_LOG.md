@@ -8237,3 +8237,7 @@
 - 2026-11-22 17:00 Loop rejected round 55 because the prompt covered more than one component. Round 56 covers one component: SavedMealsList. Reason: the loop rule is one screen or component per prompt.
 - 2026-11-22 17:00 Chose SavedMealsList over RecipesList and the Food tab PendingSyncBanner: it was listed first in NEXT, it is a single file, and it needs no change to the screen file.
 - 2026-11-22 17:00 Asked Claude Code to stop and report BLOCKED if the hook lacks isError, rather than editing the shared hook in the same round. Reason: a hook change touches other screens.
+- 2026-11-22 17:03 Chose candidate 1 (RecipesList), matching Jev's 94% ranking and the previous report's NEXT. Reason Jev cannot see: the Meals screen is the only place both lists sit together, so the same pattern keeps them consistent.
+- 2026-11-22 17:03 The loop flag said the last task was only partly done. The gap is the un-run Food tab suites, not the SavedMealsList code. Those run on the scheduled checkpoint, which is due next, so they are not run this round. Recorded here so the checkpoint covers SavedMealsList and RecipesList together.
+- 2026-11-22 17:03 The history.tsx hardcoded English string is a side finding, so it goes to Parked and NEXT, not into this prompt.
+- 2026-11-22 17:03 The RecipesList prompt says to find the file with grep, because its exact path is not in the report.
