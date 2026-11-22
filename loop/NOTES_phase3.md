@@ -35,7 +35,7 @@ Every prompt must state the loop/phase3 branch rule.
 - A flagged report that leaves a caller broken (unhandled rejection) is fixed in the next round, not re-verified.
 - A prompt missing a required rule: re-issue the same row, not a new task.
 - A prompt the loop rejects for covering more than one screen or component: re-issue as one component per round.
-- Row 12 closed as built on round 40 (clean checkpoint, all planned items done). Isa may reopen.
+- Row 12 closed as built on round 40 (docs only). Round 40 had no tsc or Jest run, so round 41 re-verifies it. Isa may reopen.
 
 ## Done
 - Rounds 1 to 4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -44,6 +44,7 @@ Every prompt must state the loop/phase3 branch rule.
 - Rounds 11 to 13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13 to 38: Row 12 plumbing (isError on hooks, useApi loading fix, useEnergyRange isError, getInsights rejects, ErrorState and PendingSyncBanner copy via t()).
 - Round 39: full checkpoint clean.
+- Round 40: row 12 set to BUILT (docs only). Flagged by loop: no tsc or tests run.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -74,6 +75,7 @@ Every prompt must state the loop/phase3 branch rule.
 - Energy one-week-fails: failed earlier week path untested; no test that refetch after error clears isError. Row 12 follow-up, parked.
 
 ## Next
+- Round 41: re-verify row 12 (tsc and full Jest). No code changes unless a gate is red.
 - Row 14: screens read isError, including the Food tab anomaly banner.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist). 'Tap + to add your first meal' shows on past days: fix.
 - Rows 15 to 17 (empty state follow-ups).

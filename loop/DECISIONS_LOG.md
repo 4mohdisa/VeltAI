@@ -8172,3 +8172,5 @@
 - 2026-11-22 16:41 Row 12 closed as built: every planned item is done and the full checkpoint is green. This replaces the earlier plan to ask Isa for approval. Isa can reopen it. Reason: the approval is a status change, not a major question, and the checkpoint answers the question.
 - 2026-11-22 16:41 Chose the doc-only closure as the smallest task that answers the loop flag. Row 14 follows next round.
 - 2026-11-22 16:41 Dropped the 'Isa approval per handover' gate for row 12 and recorded the default here so it can be reversed.
+- 2026-11-22 16:42 Re-verify row 12 as its own round: the flagged report ran no tsc or Jest and the brief requires a checkpoint for a closing status. Reason: the loop flag and the rule for flagged reports.
+- 2026-11-22 16:42 No code changes this round unless a gate is red. Reason: the flag is about missing checks, not a known bug.
