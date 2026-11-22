@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
 import { EmptyState } from '@/components/display/EmptyState';
+import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton } from '@/components/display';
 import {
   Axis,
@@ -58,7 +59,7 @@ const signed = (n: number) => `${n < 0 ? '-' : '+'}${formatNumber(Math.abs(n))}`
 
 export default function EnergyScreen(): JSX.Element {
   const { t } = useTranslation();
-  const { days, loading } = useEnergyRange();
+  const { days, loading, isError, refetch } = useEnergyRange();
   const latest = days.length > 0 ? days[days.length - 1] : null;
 
   return (
@@ -69,6 +70,8 @@ export default function EnergyScreen(): JSX.Element {
           <Skeleton height={HERO_H} rounded={radius.xl} />
           <Skeleton height={SEC_H} rounded={radius.xl} />
         </>
+      ) : isError ? (
+        <LoadFailedNotice message={t('dashboard.energyLoadFailed')} onRetry={refetch} />
       ) : latest == null ? (
         <EmptyState
           icon="flame"

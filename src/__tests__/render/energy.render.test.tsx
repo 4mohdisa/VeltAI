@@ -5,13 +5,13 @@
 // jest.fn() pattern as quickAdd.render.test.tsx) so the real useEnergyRange
 // hook — its fetch, merge and loading lifecycle — runs, and covers the states
 // that file does not: a successful real-data render, the no-data empty state,
-// and the failed-fetch state (which the hook degrades to the same empty state,
-// per its own documented "nothing throws" contract, rather than a separate
-// error UI).
+// and the failed-fetch state, which shows the load-failed notice instead of the
+// no-data empty state.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import EnergyScreen from '@/app/energy';
 import { useEnergyRange } from '@/lib/data/energyRange';
+import en from '@/lib/i18n/locales/en.json';
 import type { EnergyBalance, WeeklyEnergyBalance } from '@/lib/types';
 import { readHook } from '../helpers/useApiHarness';
 import { act, allText, renderScreen } from './helpers';
@@ -90,7 +90,7 @@ test('shows the no-data empty state when both windows resolve with no days', asy
   expect(text).toContain('Log some food and workouts to see your daily energy balance.');
 });
 
-test('a failed fetch degrades to the same no-data empty state, not a crash or fabricated data', async () => {
+test('a failed fetch shows the load-failed notice, not the no-data empty state', async () => {
   mockGetWeek.mockRejectedValue(new Error('network request failed'));
 
   const tree = renderScreen(
@@ -100,7 +100,9 @@ test('a failed fetch degrades to the same no-data empty state, not a crash or fa
   );
   await settle();
 
-  expect(allText(tree)).toContain('No data yet');
+  const text = allText(tree);
+  expect(text).toContain(en.dashboard.energyLoadFailed);
+  expect(text).not.toContain('No data yet');
 });
 
 test('useEnergyRange reports isError when the request fails', async () => {

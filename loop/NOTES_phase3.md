@@ -33,6 +33,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - GlassButtons.tsx changed in round 98 (accepted as needed for freeze sheet Close).
 - gymMuscles.goBack removed; muscles uses common.goBack.
 - Dashboard training: failed sessions read uses gym.loadFailed; failed energy read uses dashboard.energyLoadFailed.
+- Round 105: energy.render.test.tsx line 94 may be edited (pins the broken failed-read behaviour Row 15 fixes).
 
 ## Done
 - Rows 1-4 BUILT (row list, Node 22, baseline, audit).
@@ -50,7 +51,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - lookupBarcodeAsync: not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks. Review needed, incl. dashboard.energyLoadFailed ('No se pudieron cargar tus datos de energía.' / 'Impossible de charger vos données d’énergie.').
+- Row 13 and 14: es and fr wording of all new blocks. Review needed, incl. dashboard.energyLoadFailed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
@@ -63,8 +64,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 105: Row 15 src/app/energy.tsx failed-read notice (energy hook isError, refetch), same as week.tsx.
-- Then Row 15 remaining: Summary GymStatusCard shown from seed data while loading; nutrition dashboard (numbers before load, zero bars on failure, fibre as 0 g); insights literals and swallowed errors; goals load and error states; Summary card literals; EMPTY_STATES_AUDIT.md error flag fix (week and energy).
+- Round 105 (running): Row 15 src/app/energy.tsx failed-read notice, plus energy.render line 94 edit and new energy.emptyStates.render test.
+- Then Row 15 remaining: EMPTY_STATES_AUDIT.md error flag fix (week and energy); Summary GymStatusCard shown from seed data while loading; nutrition dashboard (numbers before load, zero bars on failure, fibre as 0 g); insights literals and swallowed errors; goals load and error states; Summary card literals.
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check (none exists).
 - Has-a-streak shared helper (needs location decision). Freeze offline toast (needs decision).
@@ -107,6 +108,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 100: GlassButtons labels translated. Handover after round 100.
 - Round 101: checkpoint clean (166 suites, 1093 tests, tsc 0).
 - Round 102: gymMuscles.goBack reuses common.goBack.
-- Round 103: Row 15 training.tsx done. Flagged as partly done: Row 15 stays PARTIAL until every gap in Next is closed.
+- Round 103: Row 15 training.tsx done. Still PARTIAL.
 - Round 104: Row 15 week.tsx failed-read notice done. Still PARTIAL.
-- Round 105: Row 15 energy.tsx (started).
+- Round 105: energy.tsx blocked by protected test (energy.render line 94). Default applied: test edit allowed. Re-run queued.

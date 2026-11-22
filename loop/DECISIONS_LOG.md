@@ -8442,3 +8442,7 @@
 - 2026-11-22 18:22 Reuse dashboard.energyLoadFailed for energy.tsx: identical text reuses existing key.
 - 2026-11-22 18:22 Row 15 stays PARTIAL and the flagged partly-done status is addressed by listing every open gap in the notes and not marking the row built.
 - 2026-11-22 18:22 Audit doc fix deferred to after the screens, keeping one screen per round.
+- 2026-11-22 18:23 Allowed edit to energy.render.test.tsx line 94 and its header: that test pins the broken failed-read behaviour Row 15 exists to fix. Reason: a red suite cannot be committed and the fix is in scope.
+- 2026-11-22 18:23 Kept Row 15 PARTIAL until all Next gaps close. Reason: rows are only BUILT when every gap is done.
+- 2026-11-22 18:23 Used en, es and fr keys already in the locales. No new strings this round. Reason: es and fr wording is still open for Isa, and the default stays in place.
+- 2026-11-22 18:23 Did not ask Isa again about the energy test. Reason: it is a test-only change inside the row's own scope, so the default applies.
