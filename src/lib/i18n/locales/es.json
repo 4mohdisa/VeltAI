@@ -670,6 +670,7 @@
       "title": "Tu perfil de IA",
       "typicalIntake": "Ingesta diaria habitual",
       "typicalIntakeValue": "~{{value}} kcal/día",
+      "typicalIntakeValueKj": "~{{value}} kJ/día",
       "goalAdherence": "Cumplimiento del objetivo",
       "goalAdherenceValue": "{{value}} % de los días en el objetivo",
       "mostActiveDay": "Día más activo",

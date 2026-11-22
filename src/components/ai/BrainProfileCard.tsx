@@ -13,6 +13,8 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useBrainProfile } from '@/lib/data/aiBrain';
 import { categoryAccent, color, space } from '@/lib/design/tokens';
+import { useUnitPreferences } from '@/lib/settings/store';
+import { kcalToDisplay } from '@/lib/units';
 
 function capitalize(s: string): string {
   return s.length > 0 ? s[0].toUpperCase() + s.slice(1) : s;
@@ -55,6 +57,7 @@ function readScanPct(sp: Record<string, unknown> | null): number | null {
 export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element {
   const { t } = useTranslation();
   const { profile, loading, notEnoughData } = useBrainProfile();
+  const energyUnit = useUnitPreferences().energy;
 
   if (loading) {
     return (
@@ -86,7 +89,9 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
   if (profile.typical_daily_calories !== null) {
     rows.push({
       label: t('insights.brainProfile.typicalIntake'),
-      value: t('insights.brainProfile.typicalIntakeValue', { value: Math.round(profile.typical_daily_calories) }),
+      value: t(energyUnit === 'kJ' ? 'insights.brainProfile.typicalIntakeValueKj' : 'insights.brainProfile.typicalIntakeValue', {
+        value: kcalToDisplay(profile.typical_daily_calories, energyUnit),
+      }),
     });
   }
   if (profile.goal_adherence_score !== null) {

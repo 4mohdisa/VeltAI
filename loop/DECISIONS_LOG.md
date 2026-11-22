@@ -8796,3 +8796,8 @@
 - 2026-11-22 20:11 Loop flag on round 183: verify before moving on, because the report claimed a fix but ran only targeted tests. Chosen over BrainProfileCard (candidate 2) to close the open round first.
 - 2026-11-22 20:11 Round 183 check is read-only except the Row 15 notes line. No code change, no snapshot change.
 - 2026-11-22 20:11 Jev ranked run at 61%. Kept run, with a small verification task, because the flag needs closing and the risk score is high.
+- 2026-11-22 20:11 Round 184 verification passed per the latest report (detailSlotFallback test passes, tsc clean, Row 15 notes present). Flag cleared.
+- 2026-11-22 20:11 The handover summary still lists detail.tsx as needing Isa's decision. The notes record the default taken in round 183 (fallback to foodLog.addMeal), so the notes win and the handover item is closed.
+- 2026-11-22 20:11 Chose BrainProfileCard numbers over Profile titles. Both are in the notes' Next list, and this one is a smaller single-component change that fixes a visible wrong unit (kcal when the user uses kJ).
+- 2026-11-22 20:11 Jev gave run 46%, ask 46%. Ask would spend a question Isa has already been asked about several times, so I chose run with a single-component prompt.
+- 2026-11-22 20:11 addMenu.snack wording stays 'Snacks' in es and fr by default, as recorded. It is not reopened this round.

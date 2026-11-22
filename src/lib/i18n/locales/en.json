@@ -668,6 +668,7 @@
       "title": "Your AI profile",
       "typicalIntake": "Typical daily intake",
       "typicalIntakeValue": "~{{value}} kcal/day",
+      "typicalIntakeValueKj": "~{{value}} kJ/day",
       "goalAdherence": "Goal adherence",
       "goalAdherenceValue": "{{value}}% of days on target",
       "mostActiveDay": "Most active day",
