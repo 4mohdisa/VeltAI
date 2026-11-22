@@ -8535,3 +8535,7 @@
 - 2026-11-22 18:48 Insights screen needs a file search first and has no confirmed file path in the notes, so it waits for the next round.
 - 2026-11-22 18:48 Spanish and French wording of the plan card scope ships as written and is flagged for Isa's review, matching the earlier rows.
 - 2026-11-22 18:48 MacroBars stays English. Round 117 blocker unchanged. Not re-asked, since it is recurring and already defaulted.
+- 2026-11-22 18:49 Chose the week chart (row 125): smallest task, file path known from the handover, needs no Isa input.
+- 2026-11-22 18:49 Plan card scope: accepted the report's dashboard.planCardScope key (en AI, es IA, fr IA) and shipped the Spanish and French wording as written.
+- 2026-11-22 18:49 Round 117 MacroBars translation stays blocked; test line 54 is not changed without permission.
+- 2026-11-22 18:49 Jev suggested run at 55%; kept run because the task is one file and one test file.
