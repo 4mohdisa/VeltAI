@@ -9167,3 +9167,7 @@
 - 2026-11-23 00:43 Kept the locale parity and full suite check for the next checkpoint round, because it is a gate and not a row task, and the loop only runs full suites at checkpoints.
 - 2026-11-23 00:43 Kept food.tsx kcal label pattern parked, because it changes spoken labels across two screens and needs one row of its own.
 - 2026-11-23 00:43 Asked the prompt to reuse existing keys before adding new ones, to avoid duplicate translations (Gotchas rule).
+- 2026-11-23 00:45 Chose the checkpoint: rounds 238 to 243 ran only targeted suites and added 33 locale keys, so a full gate run comes first (Jev and the handover both point here).
+- 2026-11-23 00:45 Checkpoint changes no files, so a red result is reported, not fixed, and no snapshot is regenerated (Isa rule on snapshots).
+- 2026-11-23 00:45 Included the Go run because the 20 TestPG tests remain skipped and the last Go pass was round 220. No database is set up, so this does not touch any hosted or local data.
+- 2026-11-23 00:45 Fr apostrophe check and the header comment fix are deferred: the first is a small copy check, the second is a comment only. Both go after the gates.

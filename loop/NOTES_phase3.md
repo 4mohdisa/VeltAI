@@ -6,13 +6,13 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. zsh rejects grep --include.
 - Last checkpoint round 236: tsc 0; Jest 209 suites, 1236 tests, 4 snapshots. Go round 220: 637 pass, 20 TestPG skipped.
+- Round 244 is a checkpoint (gates only, no file changes). Result to be logged next round.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Local Postgres 17 normally stopped: pg_ctl -D /opt/homebrew/var/postgresql@17; stop after.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
 - PHASE3_ROWS.md is a table: append notes inside the row cell, never as a new line.
-- Profile render tests must mock StreakCounter.
+- Profile render tests must mock StreakCounter. Integrations screen does not need it.
 - Checkpoint rounds change no files.
-- Round 242 added 14 settings.scanCalibration keys. Parity suites not yet run: run at next checkpoint.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -35,8 +35,9 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Round 239: guillemet fix in foodLog.noMatches accepted.
 - Round 240: goals spoken calorie label added. kJ keeps abbreviation until Isa answers.
 - Round 241: goals spoken calorie label CLOSED.
-- Round 242: Scan accuracy body copy built via settings.scanCalibration keys. French 'de' elision and food names left as is, pending Isa.
-- Round 243: Integrations body copy chosen as next Row 15 task.
+- Round 242: Scan accuracy body copy built via settings.scanCalibration keys (14 keys).
+- Round 243: Integrations body copy built via profile.integrations keys (18 keys, en/es/fr). Test integrationsCopy.render.test.tsx.
+- Round 244: checkpoint chosen over fr apostrophe check and header comment fix (gates first).
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -47,11 +48,13 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers, Privacy Export row, footers, support keys, destructive hint, French punctuation, goals label, Scan accuracy copy done. Integrations copy in progress (round 243).
+- Row 15 PARTIAL: headers, Privacy Export row, footers, support keys, destructive hint, French punctuation, goals label, Scan accuracy copy, Integrations copy done.
 
 ## Next
-- Row 15: Integrations body copy (round 243).
-- Checkpoint: run locale key parity and full Jest for the 14 new scanCalibration keys.
+- Round 244 checkpoint result: record in Done and Next.
+- Locale parity for 33 keys added in rounds 240 to 243 (checked in checkpoint).
+- Fix header comment src/app/profile/integrations.tsx:6 (says 'Not connected' for failed list; actual is 'Nothing connected').
+- Check fr.json for straight apostrophes.
 - Row 15: food.tsx and dashboard/nutrition.tsx kcal spoken label pattern (own row).
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
@@ -76,11 +79,13 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Confirm Privacy export error toast English wording.
 - kJ spoken as 'kilojoules': needs a second key. Default: abbreviation.
 - Confirm Scan accuracy Spanish and French wording (de elision, food names in English, plain space before %).
+- Confirm Integrations Spanish and French wording: 'hace 2 h' and 'il y a 2 h' short times, 'importé(s)' and 'ignoré(s)' in French sync toast, 'not available yet' toast keeps dash.
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).
 - UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English strings; MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
 - kcal label pattern in food.tsx and dashboard/nutrition.tsx still says kcal (round 151); goals.saved unused; scan-calibration.tsx:50 dev-only console.warn left in place.
+- Integrations relative time keys have no _one/_other plural forms (fine for short units).
 - Lint and headers: lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx. Console.warn noise from hooks.ts:72.
 - Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; export share subject hard-coded 'Lume data export'; Privacy section title and eyebrow both say 'Your data'; two Export rows until Row 15 copy pass ends.
 - Feedback: app_version carries build number; no tighter limit than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; feedback row label 'Help and feedback' vs 'Send feedback' open; Row 10 notes from rounds 216 and 218 out of date.
