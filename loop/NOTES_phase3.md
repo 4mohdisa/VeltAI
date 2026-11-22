@@ -5,18 +5,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last full gates: tsc 0 errors; Jest 236 suites, 1,344 tests. Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
-- Checkpoint round (Round after flag): tsc and full Jest re-run, no file changes. Result pending.
+- Last full gates (checkpoint, cleared): tsc 0 errors; Jest 238 suites, 1,350 tests, 4 snapshots pass. Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
 
 ## Status (PHASE3_ROWS.md is source of truth; re-read each round)
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16, 17.
 - PARTIAL: 5 (part 2 needs credentials), 6 (waits on Isa), 13, 14.
 - DIFFERENT: 11 (final sweep, last).
-- Row 17 closed. Do not resend.
+- Checkpoint cleared. Do not resend Row 17 gap 5 or the Row 14 offline-notice item.
 
 ## Next
-1. Checkpoint: full tsc and full Jest, no changes. Report failures only.
-2. Row 14: remaining items that need no src/lib/data change. The offline-notice merge item is closed (one shared PendingSyncBanner already).
+1. Row 14: close items needing no src/lib/data change (in progress).
+2. Row 13: same test.
 3. Row 6 waits on Isa. Do not re-ask.
 4. Row 11 final sweep last.
 
@@ -30,7 +29,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Row 9: GET /api/export, same auth and limiter as analytics, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB.
-- Row 14: 'merge offline notices' closed. Only one offline notice exists (PendingSyncBanner, used in index.tsx and food.tsx). Toasts are not notices. No code change.
+- Row 14: 'merge offline notices' closed. PendingSyncBanner is the only offline notice. Toasts are not notices.
 - Row 15: no empty state (useGoals always returns numbers).
 - Test files never go under src/app. Use src/__tests__/render/.
 - New test file names must not differ from an existing name only by case (macOS).
@@ -44,7 +43,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Unanswered question: after one unanswered round, use the default and move on.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- src/lib/data permission: Row 6 hooks.ts limit; Row 17 gaps 1, 2 (search debounce flash), 6 (English aiBrain replies); useGoals loading and error states.
+- src/lib/data permission: Row 6 hooks.ts limit; Row 17 gaps 1, 2, 6; useGoals loading, error, refetch (Row 15).
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
 - Session weight (gym/session.tsx padWeight): kg-only or follow unit?
@@ -54,11 +53,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Analytics on (brief) vs opt-in (code), and AI disclosure switch: confirm before Phase 4.
 - Device maker, model, OS to PostHog: default not sent.
 - Export row: two exportData functions exist; remove one only if Isa decides.
-- Row 6 gym history: pick per-row card pieces, list mode on Screen, or limit hydrateGym in hooks.ts:170 (recommended).
-- Row 15: useGoals loading, error and refetch.
+- Row 6 gym history: per-row card pieces, list mode on Screen, or limit hydrateGym in hooks.ts:170 (recommended).
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user; Row 17 gaps 1, 2, 6.
 - Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud, weekStrip es/fr.
-- Row 8 status: confirm built.
+- Row 8 status: confirm BUILT (notes say partial).
 
 ## Parked (not Phase 3)
 - Row 6: gym history list not virtualised. Options as above.
@@ -90,4 +88,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
 - Every prompt must state the loop/phase3 branch rule.
 - Jev is advisory only. Prefer smaller tasks. Verify the last task before moving on.
-- A flagged check (tests not run) is cleared by a verify round before any new row. Checkpoint in progress.
+- Row 14 round in progress; verify its report before any new row.

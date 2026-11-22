@@ -892,6 +892,16 @@
     "previousWeek": "Semaine précédente",
     "nextWeek": "Semaine suivante"
   },
+  "parameterForm": {
+    "calculating": "Calcul en cours…",
+    "previewUnavailable": "Aperçu indisponible",
+    "estimate": "≈ {{kcal}} kcal",
+    "howCalculated": "Comment est-ce calculé ?",
+    "metConfidence": "{{met}} MET · {{confidence}}",
+    "confidenceHigh": "confiance élevée",
+    "confidenceMedium": "confiance moyenne",
+    "confidenceLow": "confiance faible"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"

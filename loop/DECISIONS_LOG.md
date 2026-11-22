@@ -9533,3 +9533,8 @@
 - 2026-11-23 03:08 Did not ask Isa about the Row 14 wording: the question is minor, the default (close as already done) is safe, and asking would spend one of the day's questions.
 - 2026-11-23 03:08 Kept Row 8 as BUILT in the status list, since the handover and PHASE3_ROWS.md say so. Isa confirms the analytics switch in the owner checks.
 - 2026-11-23 03:08 Kept Row 6 waiting on Isa for the gym history option and did not re-ask, per the blocked list.
+- 2026-11-23 03:09 Checkpoint cleared: tsc 0 errors, Jest 238 suites and 1,350 tests pass, 4 of 4 snapshots pass. No rerun needed.
+- 2026-11-23 03:09 Chose Row 14 over Row 13 because the notes list it as the next open task with the smallest scope and no src/lib/data change.
+- 2026-11-23 03:09 Did not resend the Row 14 'three identical offline notices' question. The notes say it is closed, so Isa is not asked again.
+- 2026-11-23 03:09 Did not resend Row 17 gap 5. It is closed.
+- 2026-11-23 03:09 Row 6, Row 5 part 2 and the wording and approval items stay with Isa. Their defaults were already used, so no new question is asked.

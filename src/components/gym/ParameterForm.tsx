@@ -6,6 +6,7 @@
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Switch, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { TextField } from '@/components/forms/TextField';
 import { SliderField } from '@/components/forms/SliderField';
@@ -52,6 +53,12 @@ function toParams(schema: ParameterSchema, raw: RawValues): LoggedParameters {
   return out;
 }
 
+const CONFIDENCE_KEY: Record<CalorieResult['confidence'], string> = {
+  high: 'parameterForm.confidenceHigh',
+  medium: 'parameterForm.confidenceMedium',
+  low: 'parameterForm.confidenceLow',
+};
+
 const CONFIDENCE_TINT: Record<CalorieResult['confidence'], string> = {
   high: accent.green,
   medium: accent.orange,
@@ -69,6 +76,7 @@ export function ParameterForm({
   planned?: LoggedParameters;
   onParamsChange: (params: LoggedParameters) => void;
 }): JSX.Element {
+  const { t } = useTranslation();
   const [raw, setRaw] = useState<RawValues>(() => initialRaw(schema, planned));
   const [preview, setPreview] = useState<CalorieResult | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -177,11 +185,11 @@ export function ParameterForm({
         />
         <Text variant="bodyMedium" color={color.label}>
           {previewLoading && !preview
-            ? 'Calculating…'
+            ? t('parameterForm.calculating')
             : previewFailed && !preview
-              ? 'Preview unavailable'
+              ? t('parameterForm.previewUnavailable')
               : preview
-                ? `≈ ${Math.round(preview.calories)} kcal`
+                ? t('parameterForm.estimate', { kcal: Math.round(preview.calories) })
                 : '—'}
         </Text>
         {preview ? (
@@ -190,11 +198,11 @@ export function ParameterForm({
             haptic={false}
             minTapTarget={false}
             hitSlop={10}
-            accessibilityLabel="How is this calculated?"
+            accessibilityLabel={t('parameterForm.howCalculated')}
             style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: space.xs }}
           >
             <Text variant="footnote" color={color.secondaryLabel}>
-              How is this calculated?
+              {t('parameterForm.howCalculated')}
             </Text>
             <Icon name={showExplain ? 'chevron-up' : 'chevron-down'} size={14} color={color.secondaryLabel} />
           </Pressable>
@@ -207,7 +215,7 @@ export function ParameterForm({
             {preview.explanation}
           </Text>
           <Text variant="caption" color={color.secondaryLabel}>
-            {`${preview.computed_met} MET · ${preview.confidence} confidence`}
+            {t('parameterForm.metConfidence', { met: preview.computed_met, confidence: t(CONFIDENCE_KEY[preview.confidence]) })}
           </Text>
         </View>
       ) : null}
