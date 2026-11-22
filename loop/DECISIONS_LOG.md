@@ -8764,3 +8764,7 @@
 - 2026-11-22 19:59 Quick-add render test counted as done (3 of 3 pass). Row 15 note added in notes, not requested again from Claude Code.
 - 2026-11-22 19:59 The InsightCard row note goes in PHASE3_ROWS.md as the normal per-row update.
 - 2026-11-22 19:59 Blocks on week.tsx snapshot and profile titles stay open until Isa answers or a later round.
+- 2026-11-22 20:01 Jev top pick is goals.tsx; I switched to it. Reason: the InsightCard change needs an edit to an existing test, which the rules forbid without Isa's permission, and that permission has been pending.
+- 2026-11-22 20:01 InsightCard keeps the 120-character rule. Default applied after the open question; not re-asked this round.
+- 2026-11-22 20:01 Last report flagged for failed or missing tests: the next prompt first re-runs tsc and the insightCard test to confirm a clean tree.
+- 2026-11-22 20:01 The goals.tsx task changes spoken labels only, reusing existing gramsField, percentField and the shared join helper. No new behaviour, no hooks.ts change.
