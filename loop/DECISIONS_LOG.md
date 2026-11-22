@@ -8262,3 +8262,7 @@
 - 2026-11-22 17:10 Test-only change, no product code. Test added to the existing emptyStates file, so no new file.
 - 2026-11-22 17:10 Calendar fix (round 61 default) stays queued as the next round, not dropped.
 - 2026-11-22 17:10 Checkpoint deferred until after the calendar fix, as the notes already planned.
+- 2026-11-22 17:11 Round 63 calendar failed-read task (useLoggedDays error) recorded under Blocked on Isa and not retried, per loop note. Reason: same blocker came back twice and the shared hook change needs Isa approval.
+- 2026-11-22 17:11 Picked RecipesList translation: smallest Row 13 item, touches one component and the locale files, does not depend on the blocked hook.
+- 2026-11-22 17:11 Round 62 past-day test accepted as closing its gap. Its report flagged the insight failure path as a product change, so that stays parked, not built.
+- 2026-11-22 17:11 Calendar translation kept for the next round after RecipesList, because the calendar file sits next to the blocked hook and the screen is not safe to edit alongside it.

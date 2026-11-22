@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Card } from '@/components/display/Card';
@@ -25,6 +26,7 @@ import { api, type Recipe } from '@/lib/api';
 import { devWarn } from '@/lib/env';
 
 export function RecipesList({ onNew }: { onNew: () => void }) {
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const [recipes, setRecipes] = useState<Recipe[] | null>(null);
   const [sheetFor, setSheetFor] = useState<Recipe | null>(null);
@@ -59,12 +61,15 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
     setLogging(true);
     try {
       await api.recipes.log(sheetFor.id, servings, slotForNow(), selectedFoodDate());
-      showToast({ message: `Logged ${servings.toFixed(1)} × ${sheetFor.name}.`, tone: 'success' });
+      showToast({
+        message: t('recipesList.logged', { servings: servings.toFixed(1), name: sheetFor.name }),
+        tone: 'success',
+      });
       setSheetFor(null);
       void load();
     } catch (e) {
       devWarn('[meals] recipes.log failed:', e);
-      showToast({ message: `Couldn't log ${sheetFor.name}. Try again.`, tone: 'error' });
+      showToast({ message: t('savedMeals.logFailed', { name: sheetFor.name }), tone: 'error' });
     } finally {
       setLogging(false);
     }
@@ -87,9 +92,9 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
     return (
       <EmptyState
         icon="restaurant"
-        title="No recipes yet"
-        message="Build one from your foods."
-        actionLabel="New Recipe"
+        title={t('recipesList.emptyTitle')}
+        message={t('recipesList.emptyMessage')}
+        actionLabel={t('recipesList.newRecipe')}
         onAction={onNew}
       />
     );
@@ -107,10 +112,19 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
               <View style={{ gap: space.sm }}>
                 <CardHeaderRow title={r.name} icon="restaurant" tint={accent.yellow} />
                 <Text variant="footnote" color={color.secondaryLabel}>
-                  {Math.round(r.total_calories / Math.max(1, r.serving_count))} kcal / serving · Makes {r.serving_count}
+                  {t('recipesList.perServing', {
+                    kcal: Math.round(r.total_calories / Math.max(1, r.serving_count)),
+                    count: r.serving_count,
+                  })}
                 </Text>
                 <View style={{ marginTop: space.sm, alignItems: 'flex-start' }}>
-                  <Button title="Log" variant="secondary" fullWidth={false} onPress={() => openLog(r)} />
+                  <Button
+                    title={t('recipesList.log')}
+                    variant="secondary"
+                    fullWidth={false}
+                    accessibilityLabel={t('recipesList.logName', { name: r.name })}
+                    onPress={() => openLog(r)}
+                  />
                 </View>
               </View>
             </Card>
@@ -121,10 +135,10 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
       <BottomSheet
         visible={sheetFor !== null}
         onClose={() => setSheetFor(null)}
-        title={sheetFor ? `Log ${sheetFor.name}` : undefined}
+        title={sheetFor ? t('recipesList.logName', { name: sheetFor.name }) : undefined}
       >
         <Stepper
-          label="How many servings?"
+          label={t('recipesList.servingsLabel')}
           value={servings}
           min={0.5}
           max={20}
@@ -132,7 +146,7 @@ export function RecipesList({ onNew }: { onNew: () => void }) {
           onChange={setServings}
           formatValue={(v) => v.toFixed(1)}
         />
-        <Button title="Log" loading={logging} onPress={() => void confirmLog()} />
+        <Button title={t('recipesList.log')} loading={logging} onPress={() => void confirmLog()} />
       </BottomSheet>
     </>
   );

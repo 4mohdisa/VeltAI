@@ -219,6 +219,16 @@
     "itemCount_other": "{{count}} elementos",
     "logNow": "Registrar ahora"
   },
+  "recipesList": {
+    "emptyTitle": "Todavía no hay recetas",
+    "emptyMessage": "Crea una a partir de tus alimentos.",
+    "newRecipe": "Nueva receta",
+    "log": "Registrar",
+    "logName": "Registrar {{name}}",
+    "perServing": "{{kcal}} kcal / ración · Rinde {{count}}",
+    "servingsLabel": "¿Cuántas raciones?",
+    "logged": "Registrado: {{servings}} × {{name}}."
+  },
   "gymLog": {
     "title": "¿Cómo ha ido?",
     "planSummary_one": "{{count}} ejercicio · unos {{minutes}} min",

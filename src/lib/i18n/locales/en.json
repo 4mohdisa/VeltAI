@@ -217,6 +217,16 @@
     "itemCount_other": "{{count}} items",
     "logNow": "Log now"
   },
+  "recipesList": {
+    "emptyTitle": "No recipes yet",
+    "emptyMessage": "Build one from your foods.",
+    "newRecipe": "New Recipe",
+    "log": "Log",
+    "logName": "Log {{name}}",
+    "perServing": "{{kcal}} kcal / serving · Makes {{count}}",
+    "servingsLabel": "How many servings?",
+    "logged": "Logged {{servings}} × {{name}}."
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

@@ -217,6 +217,16 @@
     "itemCount_other": "{{count}} éléments",
     "logNow": "Enregistrer maintenant"
   },
+  "recipesList": {
+    "emptyTitle": "Aucune recette pour le moment",
+    "emptyMessage": "Créez-en une à partir de vos aliments.",
+    "newRecipe": "Nouvelle recette",
+    "log": "Enregistrer",
+    "logName": "Enregistrer {{name}}",
+    "perServing": "{{kcal}} kcal / portion · Pour {{count}}",
+    "servingsLabel": "Combien de portions ?",
+    "logged": "Enregistré : {{servings}} × {{name}}."
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",
