@@ -52,7 +52,7 @@ export default function PrivacyScreen() {
       const data = await api.profile.export();
       await Share.share({ message: JSON.stringify(data, null, 2) }, { subject: 'Lume data export' });
     } catch {
-      showToast({ message: "Couldn't export your data — check your connection and try again.", tone: 'error' });
+      showToast({ message: t('settings.exportError'), tone: 'error' });
     } finally {
       setExporting(false);
     }
@@ -99,7 +99,8 @@ export default function PrivacyScreen() {
         rows={[
           {
             icon: 'download-outline',
-            label: exporting ? 'Preparing your export…' : 'Export my data',
+            label: exporting ? t('settings.exportPreparing') : t('settings.exportTitle'),
+            accessibilityHint: t('settings.exportHint'),
             onPress: () => void exportData(),
           },
         ]}

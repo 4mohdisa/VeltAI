@@ -9095,3 +9095,7 @@
 - 2026-11-23 00:19 Copy-pass notes stay on Row 15 (Round 226 default), since Isa has not named another row.
 - 2026-11-23 00:19 Used the Round 226 handover default of translating the mail subject and error toast along with the visible text.
 - 2026-11-23 00:19 Did not edit supportLocale.render.test.tsx. If it breaks, the change is backed out and reported.
+- 2026-11-23 00:21 Chose the Privacy Export row copy over the full Jest run: a full run is a checkpoint task, and this is a concrete hard-coded English gap that the report flagged.
+- 2026-11-23 00:21 Full Jest run stays queued for the next checkpoint round, as the notes already say.
+- 2026-11-23 00:21 Recorded the repeated export.go blocker under Blocked on Isa and did not retry it, per the loop note.
+- 2026-11-23 00:21 Row 8 host item in PRIVACY_DATA.md answered 'already matches' (code and doc agree since round 204).

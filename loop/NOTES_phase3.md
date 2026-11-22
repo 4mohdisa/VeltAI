@@ -6,7 +6,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. zsh rejects grep --include.
 - Round 223 checkpoint: tsc 0; Jest 205 suites, 1227 tests, 4 snapshots, all pass. Last Go full run round 220: 637 pass, 20 TestPG skipped.
-- Round 226: tsc 0; 3 suites, 6 tests pass (settingsDestructiveHint, settingsHelp, settingsExport). Full Jest not yet run since SettingsList change.
+- Round 227: tsc 0; supportLocale and supportCopy pass (2 suites, 5 tests). Full Jest not run since SettingsList and Support changes.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Postgres role 'authenticated' left from round 211: leave unless Isa asks.
 - Local Postgres 17 normally stopped. Start with pg_ctl -D /opt/homebrew/var/postgresql@17; stop after.
@@ -31,7 +31,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Row 9 export: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares the 120/min write limit. Feedback migration not applied to any local DB. Screen sends device fields only when switch on (default off). Support mail box kept as contact link.
-- Row 15 copy-pass notes stay on Row 15 (Round 226 default) until Isa names another row.
+- Row 15 copy-pass notes stay on Row 15 until Isa names another row.
 - Checkpoint rounds change no files. Full Jest run at next checkpoint.
 
 ## Done
@@ -39,23 +39,23 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out.
 - Row 8 PARTIAL: allowlist, sink, host validation, consent sync, localised switch, PRIVACY_DATA.md. Anonymous ID and version tags need device check.
 - Row 9 BUILT (owner check pending: export on seeded heavy user). TestPG_ExportHasOnlyCallerRowsAndNoTokens skipped.
-- Row 10 BUILT (owner check pending: simulator flow Settings to feedback to POST /api/feedback).
+- Row 10 BUILT (owner check pending: Settings to feedback to POST /api/feedback flow).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers on account, integrations, preferences, support, privacy, scan-calibration. Round 226: destructive settings hint translated (en, es, fr).
+- Row 15 PARTIAL: headers on account, integrations, preferences, support (round 227: all strings in en, es, fr), privacy, scan-calibration. Destructive settings hint translated (round 226).
 
 ## Next
-- Round 227: Support screen copy in en, es, fr (supportCopy.render.test.tsx). Prompt sent with branch rule.
-- Row 15 tail: Privacy screen Export row hard-coded English; Privacy, Scan accuracy, Integrations body copy; Spanish 'Tus datos' eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
-- Full app Jest run at next checkpoint (SettingsList is shared).
-- Row 8: anonymous ID and version tags (device check pending, owner).
+- Round 228: Privacy screen Export row copy (hard-coded English) in en, es, fr.
+- Row 15 tail: Privacy, Scan accuracy, Integrations body copy; Spanish 'Tus datos' eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
+- Full app Jest run at next checkpoint (SettingsList and Support changed).
+- Row 8: anonymous ID and version tags (device check, owner).
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
 - Row 6 measurements parked until a sign-in path exists.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Permission to add {"feedback", ownedRows("feedback")} to backend/internal/auth/export.go. Without it backend/tests/migrations TestExportCoversEveryUserTable fails. Asked twice; do not retry.
+- Permission to add {"feedback", ownedRows("feedback")} to backend/internal/auth/export.go. Without it backend/tests/migrations TestExportCoversEveryUserTable fails. Asked twice, blocker repeated; do not retry, carry on.
 - Apply feedback migration to hosted Supabase (owner step).
 - Which local DB is Lume's? lume_audit is one migration behind (20260911000001). Apply only if Isa names it.
 - Feedback retention: not defined in code. Owner to decide.
@@ -68,8 +68,8 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Goals loading/error, profile error path, refetch on useExerciseProgress and useGymPatterns: needs permission to change hooks.ts.
 - week.tsx snapshot regeneration: needs permission.
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
-- Which row holds copy-pass notes (Round 226 asked; default kept).
+- Copy for Isa: confirm Spanish 'Escribir a soporte' and French 'Écrire à l’assistance' for Email support.
 - Wording and number grouping defaults kept.
 
 ## Parked (not Phase 3)
-getMorningBrief swallows errors (pinned); getProfile .catch hides errors; AnomalyBanner no Retry; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx English strings; MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError; npm audit 48 vulns (1 critical); trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; es.json extra addMenu keys; export returns whole profiles row; export sent as text, not .json file; export about 33 queries counted as one read; Support mail box overlaps Row 10 feedback; feedback app_version carries build number; feedback no tighter limit than 120/min writes; delete-account.tsx and subscription.tsx are Phase 4; authenticated role may remain in local Postgres 17; two Export rows (Privacy and main Settings) until Row 15 copy pass; Row 10 notes from rounds 216 and 218 out of date; PRIVACY_DATA.md does not list feedback.
+getMorningBrief swallows errors (pinned); getProfile .catch hides errors; AnomalyBanner no Retry; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx; Session.tsx English strings; MacroBars unused; formatCalories always kcal; addMenu keys only in es; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError; npm audit 48 vulns (1 critical); trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; es.json extra addMenu keys; export returns whole profiles row; export sent as text, not .json file; export about 33 queries counted as one read; Support mail box overlaps Row 10 feedback; Support mail Email row swallows Mail open errors silently; feedback app_version carries build number; feedback no tighter limit than 120/min writes; delete-account.tsx and subscription.tsx are Phase 4; authenticated role may remain in local Postgres 17; two Export rows (Privacy and main Settings) until Row 15 copy pass; Row 10 notes from rounds 216 and 218 out of date; PRIVACY_DATA.md does not list feedback.
