@@ -694,7 +694,13 @@
       "showMore": "Show more",
       "showLess": "Show less",
       "more": "more",
-      "less": "less"
+      "less": "less",
+      "type": {
+        "protein_gap": "Protein gap",
+        "meal_timing": "Meal timing",
+        "gym_correlation": "Gym and food",
+        "food_habit": "Food habit"
+      }
     },
     "anomaly": {
       "dismiss": "Dismiss",

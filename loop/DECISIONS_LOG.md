@@ -8659,3 +8659,12 @@
 - 2026-11-22 19:29 Goals loading and error states stay parked. Reason: they need hooks.ts permission Isa has not given, and the default was already set.
 - 2026-11-22 19:29 Visible label wording is shipped as designed and listed for Isa to confirm. Reason: it is a single line in the owner checks, not a blocker.
 - 2026-11-22 19:29 No question asked this round. Reason: Isa has several open items already, and this round needs no new answer.
+- 2026-11-22 19:30 Closed the partial round 153 gap first, because the loop flagged the last report as partly done and the gap is small.
+- 2026-11-22 19:30 Fibre spoken label: added a new key goals.fibreSpoken in en, es and fr, since new strings must be in all languages. Chose 'Fibre, g, optional' to keep the meaning and name the unit. Isa can change the wording later.
+- 2026-11-22 19:30 Kept the visible 'Fibre (optional)' label, since the design and visible bracket labels were already kept per Isa's default.
+- 2026-11-22 19:30 Did not wait on Isa for the fibre wording. Used the default after one unanswered round.
+- 2026-11-22 19:30 Chose the candidate that closes an open gap in the current row over new translation work, because the loop flagged the partial state.
+- 2026-11-22 19:31 Chose the InsightCard badge: it is the first item under Next, small, and needs no Isa permission. Goals loading and error stay parked because they need hooks.ts.
+- 2026-11-22 19:31 Rewrote the prompt to state the loop/phase3 branch rule, the no-git rule and the no-Prettier rule, to fix the rejection.
+- 2026-11-22 19:31 Unknown insight types are shown as sent, following the existing server text rule.
+- 2026-11-22 19:31 Snapshot changes are backed out, not regenerated, because snapshots need Isa's permission.

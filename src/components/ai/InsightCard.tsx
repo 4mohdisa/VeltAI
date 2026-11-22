@@ -17,10 +17,6 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { categoryAccent, color, motion, space } from '@/lib/design/tokens';
 import type { AIInsight } from '@/lib/types';
 
-function capitalize(s: string): string {
-  return s.length > 0 ? s[0].toUpperCase() + s.slice(1) : s;
-}
-
 export function InsightCard(props: {
   insight: AIInsight;
   onDismiss: (id: string) => void;
@@ -118,7 +114,7 @@ export function InsightCard(props: {
             </Pressable>
           ) : null}
 
-          {insight.type ? <Badge label={capitalize(insight.type)} /> : null}
+          {insight.type ? <Badge label={t(`insights.card.type.${insight.type}`, { defaultValue: insight.type })} /> : null}
         </View>
       </Card>
     </Animated.View>

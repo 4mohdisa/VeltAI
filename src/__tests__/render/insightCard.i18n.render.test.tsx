@@ -59,4 +59,11 @@ test.each([
   expect(byLabel(tree, card.showLess).length).toBeGreaterThan(0);
   expect(hasText(tree, card.less)).toBe(true);
   expect(hasText(tree, en.insights.card.less)).toBe(false);
+
+  const typed = allText(renderScreen(<InsightCard insight={{ ...INSIGHT, type: 'protein_gap' }} onDismiss={jest.fn()} />));
+  expect(typed).toContain(card.type.protein_gap);
+  expect(typed).not.toContain(en.insights.card.type.protein_gap);
+
+  const unknown = allText(renderScreen(<InsightCard insight={{ ...INSIGHT, type: 'sleep_pattern' }} onDismiss={jest.fn()} />));
+  expect(unknown).toContain('sleep_pattern');
 });

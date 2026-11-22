@@ -696,7 +696,13 @@
       "showMore": "Mostrar más",
       "showLess": "Mostrar menos",
       "more": "más",
-      "less": "menos"
+      "less": "menos",
+      "type": {
+        "protein_gap": "Falta de proteína",
+        "meal_timing": "Horario de comidas",
+        "gym_correlation": "Gimnasio y comida",
+        "food_habit": "Hábito alimentario"
+      }
     },
     "anomaly": {
       "dismiss": "Descartar",
