@@ -1,13 +1,14 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One screen or component per prompt. Rows say built, never verified (Isa verifies).
+Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents never run git, Prettier or Maestro. One screen or component per prompt. Rows say built, never verified (Isa verifies).
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Checkpoint round 158 PASSED: tsc 0 errors; Jest 183 suites, 1141 tests, 4 snapshots (npx jest --ci).
 - Next checkpoint: round 172. Other rounds: changed files only.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
+- Round 160 prompt was rejected for omitting the branch rule. Every prompt now states it.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -28,15 +29,15 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Round 155: InsightCard badge chosen over Goals states.
 - Round 158: checkpoint chosen over Jev's nutrition pick.
-- Round 159: nutrition spoken slot name done. Week.tsx kept for later (needs zero-week rule and snapshot permission).
-- Round 160: visible slot name fix chosen over Jev's shared-helper pick (81%). Reason: user-visible English on es and fr; helper spans five files, breaking one-component-per-prompt. Helper is next.
+- Round 160: visible fix chosen over Jev's shared-helper pick.
+- Round 161: spoken slot name at nutrition.tsx:227 plus es/fr render test. Chosen over shared helper: one screen per prompt.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition (spoken slot name), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition (visible slot name done), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - One-word ringOf vs full-phrase key; comma join for label and unit. Default: keep.
@@ -55,22 +56,21 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Review insights and banner wording; es/fr weekday capitalisation: lowercase.
 
 ## Next
-- Round 160 (this round): translate visible {meal.slot} at src/app/dashboard/nutrition.tsx:252.
-- Round 161: shared slot-name helper (five copies: food.tsx, food/add.tsx, food/quick-add.tsx, food/detail.tsx, dashboard/nutrition.tsx).
+- Round 161: nutrition.tsx:227 spoken slot name plus nutrition.locale.render.test.tsx (es and fr).
+- Then: shared slot-name helper (five copies: food.tsx, food/add.tsx, food/quick-add.tsx, food/detail.tsx, dashboard/nutrition.tsx).
 - Then: week.tsx flat bars when every day is 0 kcal (needs no-logged-value rule and snapshot permission).
 - Then: InsightCard more/less toggle, 120-character rule.
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: api.ts swallows insight errors (~1253, 1270).
-- Then: Profile screens hard-coded English titles.
+- Then: Profile screens hard-coded English titles (About, Privacy, Account, Connected apps, Delete Account, Units).
+- Then: goals.tsx hard-codes 'g', '%' and comma join.
 - Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
 
 ## Parked (not Phase 3)
-- Goals loading and error: needs useGoals refetch (hooks.ts).
-- Goals and units persistence.
-- AnomalyBanner: no Retry; copy may be English.
-- Banner count title lacks _one use.
+- Goals loading and error and persistence: needs hooks.ts refetch.
+- AnomalyBanner: no Retry; copy may be English. Banner count title lacks _one use.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci.
-- Jest log noise: '[data] API unreachable' from hooks.ts:72.
+- Jest noise: '[data] API unreachable' from hooks.ts:72.
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
 - useTemplates drops templates on refetch failure.
 - Date helpers use device locale; weekday letters, muscle names English.

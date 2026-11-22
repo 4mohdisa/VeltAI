@@ -70,6 +70,7 @@ const MACRO_AXIS_LINE_HEIGHT = 15;
 
 export default function NutritionDetailScreen(): JSX.Element {
   const { t } = useTranslation();
+  const slotName = (slot: MealSlot) => t(`addMenu.${SLOT_KEYS[slot]}`);
   const energyUnit = useUnitPreferences().energy;
   const macros = useDailyMacros();
   const { data: meals, isLoading: loading, error: loadError, refetch } = useFoodLog();
@@ -233,7 +234,7 @@ export default function NutritionDetailScreen(): JSX.Element {
             key={meal.id}
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`${t(`addMenu.${SLOT_KEYS[meal.slot]}`)}, ${formatEnergy(meal.calories, energyUnit)}`}
+            accessibilityLabel={`${slotName(meal.slot)}, ${formatEnergy(meal.calories, energyUnit)}`}
             // The per-meal detail route is gone (architecture item 4): a meal's
             // rows live on the food tab, and each one opens the shared detail sheet.
             onPress={() => router.push('/(tabs)/food')}
@@ -249,7 +250,7 @@ export default function NutritionDetailScreen(): JSX.Element {
           >
             <View style={{ flex: 1, gap: space.xs }}>
               <Text variant="bodyBold" color={color.label}>
-                {t(`addMenu.${SLOT_KEYS[meal.slot]}`)}
+                {slotName(meal.slot)}
               </Text>
               <Text variant="footnote" color={color.secondaryLabel}>
                 {meal.time} · {formatEnergy(meal.calories, energyUnit)}

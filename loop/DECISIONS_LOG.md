@@ -8693,3 +8693,13 @@
 - 2026-11-22 19:40 If a snapshot breaks, back out and report, do not regenerate. This follows the existing snapshot rule.
 - 2026-11-22 19:40 No new strings, so no locale edits. The four slot keys already exist in en, es and fr.
 - 2026-11-22 19:40 Rewrote the prompt to name the loop/phase3 branch and forbid git, switch, push and merge, fixing the rejection.
+- 2026-11-22 19:41 The automatic check flagged the last report as partly done. The handover lists nutrition.tsx:227 as still untranslated, and the report says the spoken label was unchanged, so this round finishes that spoken label.
+- 2026-11-22 19:41 Added the es/fr render test the report recommended, because the spoken label change cannot be trusted without it and English looks the same before and after.
+- 2026-11-22 19:41 Chose candidate 1 over the shared helper: it is one screen and one prompt, which matches the one-component-per-prompt rule. The helper is next after this.
+- 2026-11-22 19:41 Test file named .render.test.tsx so Jest does not skip it.
+- 2026-11-22 19:41 No snapshot regeneration; a broken snapshot would be backed out and reported.
+- 2026-11-22 19:41 Round 161: previous prompt was rejected for omitting the loop/phase3 branch rule. The new prompt states the branch rule first and forbids git, push, merge and branch changes.
+- 2026-11-22 19:41 Chose candidate 1: finishes the open nutrition item from the handover, one screen per prompt. Candidate 2 is a multi-file refactor and waits.
+- 2026-11-22 19:41 Render test file named .render.test.tsx so Jest runs it (existing rule).
+- 2026-11-22 19:41 Snapshots are not regenerated. A broken existing test is backed out and reported (existing rule).
+- 2026-11-22 19:41 Round 161 is not a checkpoint, so only changed files and the new test run. Full suite stays at round 172.
