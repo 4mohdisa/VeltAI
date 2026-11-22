@@ -2,10 +2,15 @@
 // with no exercises. Mounts the real screen with fetch stubbed and checks each
 // no-data state shows its own copy from en.json: nothing scheduled, a rest day,
 // and a failed read of today, which must not read as "Nothing scheduled". The
-// header copy is checked in English and again in Spanish.
+// header copy is checked in English and again in Spanish. The unsaved-changes
+// alert and its "Progress saved" toast are checked against en.json too.
+import { Alert } from 'react-native';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import GymSessionScreen from '@/app/gym/session';
+import { useToastStore } from '@/components/display/toastStore';
+import type { PlannedValues } from '@/components/gym/PlannedValuesForm';
+import type { ExerciseLibraryItem } from '@/lib/api';
 import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
@@ -18,10 +23,11 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
   SkeletonList: () => null,
 }));
 
+const mockAddListener = jest.fn((_event: string, _cb: (e: unknown) => void) => jest.fn());
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: () => ({}),
-  useNavigation: () => ({ addListener: jest.fn(() => jest.fn()) }),
+  useNavigation: () => ({ addListener: mockAddListener, dispatch: jest.fn() }),
   useFocusEffect: (cb: () => void) => require('react').useEffect(cb, [cb]),
   usePathname: () => '/gym/session',
   Href: {},
@@ -100,4 +106,48 @@ test('a failed read of today shows the load failure, not "Nothing scheduled"', a
   const tree = await renderSession(failed);
   expect(hasText(tree, en.gym.loadFailed)).toBe(true);
   expect(hasText(tree, en.gymSession.nothingScheduled)).toBe(false);
+});
+
+type AlertButton = { text: string; onPress?: () => void };
+
+test('leaving after adding an exercise asks to save, and Save shows the Progress saved toast', async () => {
+  const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  const tree = await renderSession(() => json(today(false)));
+
+  const extra: ExerciseLibraryItem = {
+    id: 'ex1',
+    name: 'Lateral Raise',
+    muscle_group_primary: 'shoulders',
+    muscle_groups_secondary: [],
+    category: 'isolation',
+    exercise_type: 'strength',
+    equipment: 'dumbbell',
+    difficulty: 'beginner',
+    description: '',
+    met_value: 3,
+  };
+  const planned: PlannedValues = { sets: 3, reps: 12, weight: 10, weight_unit: 'kg' };
+  // A picked extra starts ticked, so the session now has unsaved progress.
+  const picker = findAll(tree, (p) => typeof p.onPick === 'function')[0];
+  act(() => {
+    (picker.props.onPick as (ex: ExerciseLibraryItem, values: PlannedValues) => void)(extra, planned);
+  });
+
+  const beforeRemove = mockAddListener.mock.calls.filter(([event]) => event === 'beforeRemove').at(-1)?.[1];
+  expect(beforeRemove).toBeDefined();
+  act(() => {
+    beforeRemove?.({ preventDefault: jest.fn(), data: { action: {} } });
+  });
+
+  expect(alertSpy).toHaveBeenCalledTimes(1);
+  const [title, message, buttons] = alertSpy.mock.calls[0] as [string, string, AlertButton[]];
+  expect(title).toBe(en.gymSession.unsavedTitle);
+  expect(message).toBe(en.gymSession.unsavedMessage);
+  expect(buttons.map((b) => b.text)).toEqual([en.gymSession.discard, en.gymSession.save, en.gymSession.keepEditing]);
+
+  await act(async () => {
+    buttons[1].onPress?.();
+  });
+  expect(useToastStore.getState().current?.message).toBe(en.gymSession.progressSaved);
+  alertSpy.mockRestore();
 });

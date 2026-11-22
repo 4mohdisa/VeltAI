@@ -8362,3 +8362,12 @@
 - 2026-11-22 17:53 Chose the checkpoint over Jev's session.tsx pick (90%) because the loop script marks this round as a checkpoint and the last full gate was round 73, so 14 rounds have passed without a full run. Jev cannot see the checkpoint schedule. Session.tsx leftovers move to the next round.
 - 2026-11-22 17:53 Prompt restates branch-only rule, no git, no Prettier, no file changes, per the rejected-prompt note.
 - 2026-11-22 17:53 If a SIGSEGV appears, rerun once. Notes say a rerun passes.
+- 2026-11-22 17:54 Chose session.tsx leftovers over the muscles screen the last report suggested, because the schedule and the notes both put it at round 88 and Jev ranked it highest (90%).
+- 2026-11-22 17:54 Limited reuse of existing keys to gym.* and gymSession, as the Row 14 notes say for session.tsx.
+- 2026-11-22 17:54 Kept Row 14 status unchanged; it closes only after the remaining gym screens are done.
+- 2026-11-22 17:54 Skipped the simulator flow because Maestro is not installed; a Maestro install step stays with the owner list.
+- 2026-11-22 17:54 Round 87 checkpoint is clean: tsc 0 errors, 160 suites, 1073 tests, 0 failed. Recorded in notes.
+- 2026-11-22 17:54 Round 88 prompt was rejected for missing the loop/phase3 branch rule; rewrote the same task with the branch rules first, every point fixed.
+- 2026-11-22 17:54 session.tsx leftovers before muscles.tsx: Jev 90% run, smallest clean task, and it was already the chosen task.
+- 2026-11-22 17:54 Spanish and French wording for the new keys uses defaults, flagged for review, per the standing decision.
+- 2026-11-22 17:54 Full suite not run this round; only changed files, since round 88 is not a checkpoint.

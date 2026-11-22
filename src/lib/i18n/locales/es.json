@@ -278,7 +278,13 @@
     "finish": "Terminar entrenamiento",
     "saved": "Entrenamiento guardado",
     "tickHint": "Marca cada ejercicio al completarlo",
-    "addExtra": "Añadir un ejercicio extra"
+    "addExtra": "Añadir un ejercicio extra",
+    "progressSaved": "Progreso guardado",
+    "unsavedTitle": "¿Guardar el progreso?",
+    "unsavedMessage": "Has registrado ejercicios que no se han guardado.",
+    "discard": "Descartar",
+    "save": "Guardar",
+    "keepEditing": "Seguir editando"
   },
   "gymHistory": {
     "emptyMessage": "Registra una sesión de gimnasio para empezar tu historial y tu racha.",

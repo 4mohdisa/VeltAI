@@ -410,23 +410,23 @@ export default function GymSessionScreen(): JSX.Element {
     const unsub = navigation.addListener('beforeRemove', (e) => {
       if (leavingRef.current || !dirty) return;
       e.preventDefault();
-      Alert.alert('Save progress?', 'You have logged exercises that haven’t been saved.', [
+      Alert.alert(t('gymSession.unsavedTitle'), t('gymSession.unsavedMessage'), [
         {
-          text: 'Discard',
+          text: t('gymSession.discard'),
           style: 'destructive',
           onPress: () => {
             leavingRef.current = true;
             navigation.dispatch(e.data.action);
           },
         },
-        { text: 'Save', onPress: () => void finishWorkout('Progress saved') },
+        { text: t('gymSession.save'), onPress: () => void finishWorkout(t('gymSession.progressSaved')) },
         // Abort and resume the workout — without this the user is forced to either
         // discard or exit-with-save (AUDIT_REPORT.md M2).
-        { text: 'Keep editing', style: 'cancel' },
+        { text: t('gymSession.keepEditing'), style: 'cancel' },
       ]);
     });
     return unsub;
-  }, [navigation, dirty, finishWorkout]);
+  }, [navigation, dirty, finishWorkout, t]);
 
   const renderRow = (row: Row) => {
     const st = stateOf(row);

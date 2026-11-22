@@ -276,7 +276,13 @@
     "finish": "Terminer la séance",
     "saved": "Séance enregistrée",
     "tickHint": "Cochez chaque exercice une fois terminé",
-    "addExtra": "Ajouter un exercice supplémentaire"
+    "addExtra": "Ajouter un exercice supplémentaire",
+    "progressSaved": "Progression enregistrée",
+    "unsavedTitle": "Enregistrer la progression ?",
+    "unsavedMessage": "Vous avez enregistré des exercices qui n’ont pas été sauvegardés.",
+    "discard": "Abandonner",
+    "save": "Enregistrer",
+    "keepEditing": "Continuer"
   },
   "gymHistory": {
     "emptyMessage": "Enregistrez une séance de sport pour commencer votre historique et votre série.",

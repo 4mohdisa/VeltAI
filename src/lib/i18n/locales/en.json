@@ -276,7 +276,13 @@
     "finish": "Finish workout",
     "saved": "Workout saved",
     "tickHint": "Tick each exercise as you complete it",
-    "addExtra": "Add an extra exercise"
+    "addExtra": "Add an extra exercise",
+    "progressSaved": "Progress saved",
+    "unsavedTitle": "Save progress?",
+    "unsavedMessage": "You have logged exercises that haven’t been saved.",
+    "discard": "Discard",
+    "save": "Save",
+    "keepEditing": "Keep editing"
   },
   "gymHistory": {
     "emptyMessage": "Log a gym session to start building your history and streak.",
