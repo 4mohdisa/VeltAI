@@ -19,6 +19,7 @@ export function initAnalyticsSink(): void {
     personProfiles: 'never',
     preloadFeatureFlags: false,
     disableGeoip: true,
+    defaultOptIn: false,
   });
 }
 

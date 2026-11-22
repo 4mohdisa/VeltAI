@@ -81,3 +81,9 @@ test('turning analytics on opts the PostHog client in', () => {
   useSettingsStore.getState().setAnalyticsEnabled(true);
   expect(mockOptIn).toHaveBeenCalledTimes(1);
 });
+
+test('PostHog starts opted out until the user turns analytics on', () => {
+  process.env.EXPO_PUBLIC_POSTHOG_KEY = 'phc_test';
+  initAnalyticsSink();
+  expect(mockPostHog).toHaveBeenCalledWith('phc_test', expect.objectContaining({ defaultOptIn: false }));
+});

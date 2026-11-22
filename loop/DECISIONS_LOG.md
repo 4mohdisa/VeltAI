@@ -8917,3 +8917,7 @@
 - 2026-11-22 20:50 Defaults and sign-out fixes come after it: they change runtime behaviour and need a test each.
 - 2026-11-22 20:50 Ask not chosen: every question is already on the Blocked list with a default in use, and Isa has been asked.
 - 2026-11-22 20:50 Footer wording not changed: it needs Isa's approval, and the file only records it as pending.
+- 2026-11-22 20:51 Chose defaultOptIn false first: smallest change, already decided in notes (analytics opt-in and off, pinned by a test), and the report flagged it as a safety gap.
+- 2026-11-22 20:51 Sign-out reset deferred to the next round: it needs a test of identity state and touches the sign-out path, so it is a larger change.
+- 2026-11-22 20:51 PRIVACY_DATA.md not touched this round: the doc already lists the open item, and the default is unchanged.
+- 2026-11-22 20:51 Analytics default stays opt-in and off, not on as Row 8 asks, per the pinned test. Isa confirms before Phase 4 (already in Blocked).
