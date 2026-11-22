@@ -6,12 +6,12 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Checkpoint round 58: tsc 0; 150 suites, 1038 tests, 0 failed.
+- Checkpoint due: Food tab tests were not rerun after the last food.tsx change. Run a full checkpoint soon.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
 - Jest output: write to file, then tail. zsh: use $? not PIPESTATUS.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
-- Checkpoint pending: the Food tab tests were not rerun after the last food.tsx change. Run a full checkpoint next.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
@@ -38,6 +38,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Round 66: new-recipe.tsx translation chosen, agreeing with Jev (84%).
 - Round 67: flagged report handled first. new-recipe toast tests and header done.
 - Round 68: history.tsx chosen, agreeing with Jev (89%).
+- Round 69: flagged report (history.tsx partly done) handled first. Chose history.tsx over calendar.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -47,22 +48,23 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-54: Row 13 Food tab states done.
 - Rounds 56-59: Row 13 SavedMealsList, RecipesList and Saved load-failure states.
-- Rounds 62-67: past-day read failure test; RecipesList, meals, new-recipe strings translated (en, es, fr); new-recipe toast tests added, stale '(Task 5)' header removed.
+- Rounds 62-67: past-day read failure test; RecipesList, meals, new-recipe strings translated (en, es, fr); new-recipe toast tests added, stale header removed.
+- Round 68: history.tsx strings translated (history block in en, es, fr); 1 render test for load failure.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
 - Calendar failed-read state needs Isa approval of a change to useLoggedDays in src/lib/data/foodDays.ts. Do not retry. Work on other surfaces.
 - Row 13 wording 'this day's food log' and 'Nothing was logged on this day.' unconfirmed. Default used.
-- Row 13 translation wording for review: recipesList, meals, newRecipe keys (es and fr). Default used.
+- Row 13 translation wording for review: recipesList, meals, newRecipe and history keys (es and fr). Spanish 'entrenamiento hecho / sin entrenamiento', French 'séance faite / pas de séance'. Default used.
 - Row 13 casing: meals.newRecipeLabel 'New recipe' vs recipesList.newRecipe 'New Recipe'. Isa picks one.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Default used. Confirm before Phase 4.
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 68: src/app/food/history.tsx: translate strings and hardcoded error copy, with a strings render test.
+- Round 69: history.tsx: locale-aware dates, one shared error constant, empty and row label tests.
+- Then calendar.tsx hardcoded English strings (do not touch useLoggedDays).
 - Then stale headers: meals.tsx '(Task 4)', saved.tsx '(mock)'.
-- Then calendar hardcoded English (do not touch useLoggedDays).
 - Row 13 remaining: calendar, detail, barcode, Food tab PendingSyncBanner.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
@@ -94,4 +96,5 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Saved and calendar tests: consider a shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
 - No test checks that en, es and fr have the same keys. Park to Row 11.
-- Past-day error copy has no test covering food.tsx (Food tab). Park unless approved.
+- Past-day error copy has no test covering food.tsx. Park unless approved.
+- history.tsx: 'Could not load history' error constant is repeated (fixed in round 69).

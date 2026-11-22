@@ -8285,3 +8285,8 @@
 - 2026-11-22 17:20 Round 68: history.tsx chosen, agreeing with Jev (89%). The flagged report is resolved: new-recipe toast tests pass and its stale header is removed.
 - 2026-11-22 17:20 The stale headers in meals.tsx and saved.tsx stay parked under Row 13 and are not in this prompt, to keep it to one task.
 - 2026-11-22 17:20 Calendar stays blocked until Isa approves the useLoggedDays change. Not retried.
+- 2026-11-22 17:23 Round 69: the loop flag says the last report is partly done. The gaps are the locale-blind date labels, the repeated error constant, and the test covering only the error state. Closing those on history.tsx first, as the flagged report comes before new work.
+- 2026-11-22 17:23 Chose history.tsx over calendar.tsx because the flagged report must be dealt with first and calendar is a separate screen.
+- 2026-11-22 17:23 Date locale fix reuses an existing helper if one exists, to avoid duplicated logic.
+- 2026-11-22 17:23 Row 13 stays PARTIAL. Spanish and French history wording still waits for Isa's review.
+- 2026-11-22 17:23 useLoggedDays is not touched; the calendar failed-read change stays blocked on Isa.

@@ -36,19 +36,23 @@ function isoDaysAgo(offset: number): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function labelFor(offset: number, iso: string, t: TFunction): string {
+/** "Today" / "Yesterday", else a short date in the app language (not the device's). */
+function labelFor(offset: number, iso: string, t: TFunction, language: string): string {
   if (offset === 0) return t('foodLog.today');
   if (offset === 1) return t('history.yesterday');
   const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString(undefined, {
+  return new Date(y, m - 1, d).toLocaleDateString(language, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
   });
 }
 
+/** The thrown value as an Error; the message is never shown to the user. */
+const asLoadError = (e: unknown): Error => (e instanceof Error ? e : new Error('Could not load history'));
+
 export default function MealHistoryScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -82,7 +86,7 @@ export default function MealHistoryScreen() {
         await load();
         if (alive) setError(null);
       } catch (e) {
-        if (alive) setError(e instanceof Error ? e : new Error('Could not load history'));
+        if (alive) setError(asLoadError(e));
       } finally {
         if (alive) setLoading(false);
       }
@@ -98,7 +102,7 @@ export default function MealHistoryScreen() {
     setRefreshing(true);
     load()
       .then(() => setError(null))
-      .catch((e: unknown) => setError(e instanceof Error ? e : new Error('Could not load history')))
+      .catch((e: unknown) => setError(asLoadError(e)))
       .finally(() => setRefreshing(false));
   }, [load]);
 
@@ -124,7 +128,7 @@ export default function MealHistoryScreen() {
             setLoading(true);
             void load()
               .then(() => setError(null))
-              .catch((e: unknown) => setError(e instanceof Error ? e : new Error('Could not load history')))
+              .catch((e: unknown) => setError(asLoadError(e)))
               .finally(() => setLoading(false));
           }}
         />
@@ -137,7 +141,7 @@ export default function MealHistoryScreen() {
       ) : (
         <Card padded={false}>
           {rows.map((day, i) => {
-            const label = labelFor(day.offset, day.iso, t);
+            const label = labelFor(day.offset, day.iso, t, i18n.language);
             return (
               <View
                 key={day.iso}
