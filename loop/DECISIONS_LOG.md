@@ -8755,3 +8755,7 @@
 - 2026-11-22 19:57 Default for unknown slots in mealSlotName: fall back to t('foodLog.addMeal', { defaultValue }) instead of the raw key addMenu.undefined. Matches the fallback in food/detail.tsx:677. Applied in the next round, not this one.
 - 2026-11-22 19:57 addMenu.snack stays 'Snacks' in es.json and fr.json. Wording review is parked, not blocking.
 - 2026-11-22 19:57 Jev said ask 69%. Overridden: the question is minor and the default covers it. Not mentioned in the prompt.
+- 2026-11-22 19:58 Chose the quick-add render test over the detail.tsx switch because the loop flagged the last report as partly done and the quick-add switch has no test yet. This closes the flag before moving on.
+- 2026-11-22 19:58 Did not ask Isa about detail.tsx: the unknown-slot fallback (foodLog.addMeal) was already decided in round 173 notes, so the question is answered by default.
+- 2026-11-22 19:58 Jev suggested ask (68%). Kept run: no new question is needed, and the open question has a recorded default.
+- 2026-11-22 19:58 Test file name follows the existing .locale.render.test.tsx pattern in src/__tests__/render/.

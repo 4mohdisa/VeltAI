@@ -10,8 +10,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
 - Handover written after round 172. Claude Code knows only the summary: name files fully.
-- Round 172 DONE: nutrition.tsx unchanged; meal row uses mealSlotName (lines 228, 244); dashboardNutrition.locale.render.test.tsx covers en, es, fr.
-- Round 173 in progress: Row 15 notes, add quick-add switch (doc only).
+- Round 173 done: Row 15 notes mention quick-add switch to mealSlotName. Loop flagged as partly done (no quick-add render test).
+- Round 174 in progress: quick-add locale render test (closes the flag).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -32,17 +32,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Jest mock factories may only reference variables named mock*.
 - Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
-- Round 155, 158, 160, 166, 167, 168, 169, 170, 171, 172: see earlier rounds; each was a loop-forced or verify-first pick over Jev.
-- Round 173: doc fix over Jev's ask (69%, risk 0.8). Default covers the detail.tsx question.
-- Unknown slot in mealSlotName: fall back to t('foodLog.addMeal', { defaultValue }), not addMenu.undefined. Applies in round 174.
+- Unknown slot in mealSlotName: fall back to t('foodLog.addMeal', { defaultValue }), not addMenu.undefined. Applies in round 175 (detail.tsx switch).
 - addMenu.snack stays 'Snacks' in es and fr until review.
+- Round 173: doc fix over Jev's ask. Round 174: run over Jev's ask (68% ask); no new question needed, default recorded.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition (done 172), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, quick-add.tsx, add.tsx via mealSlotName helper.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, quick-add.tsx (helper, notes done), add.tsx via mealSlotName helper.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Goals loading and error via useGoals: needs permission to change src/lib/data/hooks.ts.
@@ -54,8 +53,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Round 173: Row 15 notes, quick-add switch (in progress).
-- Round 174: food/detail.tsx slot map to mealSlotName; change helper unknown-slot fallback to foodLog.addMeal; update mealSlotName.test.ts.
+- Round 174: quick-add locale render test (in progress).
+- Round 175: food/detail.tsx slot map to mealSlotName; unknown slot falls back to foodLog.addMeal; update mealSlotName.test.ts.
 - Then: InsightCard.tsx:77 more/less toggle (120-character rule).
 - Then: week.tsx flat bars when every day is 0 kcal (needs snapshot permission).
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
@@ -86,3 +85,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Nutrition ring unit ('kcal' or 'kJ') spoken as abbreviation.
 - goals.tsx hard-codes 'g' and '%' in spoken labels.
 - Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.
+- quick-add.tsx:42 local SLOTS may duplicate SLOTS in src/lib/data/mappers.ts. Not compared.
