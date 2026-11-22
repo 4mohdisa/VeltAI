@@ -8716,3 +8716,8 @@
 - 2026-11-22 19:46 Did not pick week.tsx because it needs a no-logged-value rule and snapshot permission, which Isa has not given.
 - 2026-11-22 19:46 Did not pick the Profile titles yet: it is a larger change across several screens, and the smaller task clears the flag first.
 - 2026-11-22 19:46 Jev ranked run at 77%. I agree with run. The chosen task is the smallest one that closes the open flag.
+- 2026-11-22 19:47 Chose the nutrition.tsx slot check first because the flag says the last report looks partly done; closing it removes the open item before a new task starts.
+- 2026-11-22 19:47 Treated the handover's 'translate line 227' as stale, because the latest report says no English slot name is spoken. The prompt asks Claude Code to verify before changing anything.
+- 2026-11-22 19:47 Kept Row 15 PARTIAL because many Row 15 items remain open; the slot check alone cannot make it BUILT.
+- 2026-11-22 19:47 Did not start the shared slot-name helper yet: it touches five files and needs its own row-sized round.
+- 2026-11-22 19:47 Did not ask Isa: the change is one spoken label in one file, reversible, and inside the Phase 3 rules.

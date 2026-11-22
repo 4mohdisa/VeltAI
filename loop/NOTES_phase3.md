@@ -9,7 +9,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Next checkpoint: round 172. Other rounds: changed files only.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
-- Round 163 flagged as partly done. Round 164 finishes Row 15 slot name check and tidies its note.
+- Round 164 report: nutrition.tsx needed no change (line 237 uses translated slotName). Row 15 slot check now verified again in Round 165 before moving on.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -32,8 +32,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Round 158: checkpoint chosen over Jev's nutrition pick.
 - Round 160: visible fix chosen over Jev's shared-helper pick.
 - Round 161: spoken slot name plus es/fr render test.
-- Round 162: week-empty guard not needed. useWeeklyMacros (hooks.ts ~386) always returns 7 days. Verified in Round 163.
-- Round 164: flagged partial round finished before picking a new task.
+- Round 162: week-empty guard not needed. useWeeklyMacros always returns 7 days (hooks.ts ~386).
+- Round 165: flagged partial round re-checked first (nutrition.tsx slot labels), then next task.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -61,9 +61,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Permission to regenerate snapshot for week.tsx flat bars (0 kcal) and to define the no-logged-value rule.
 
 ## Next
-- Round 164: finish Row 15 nutrition slot name (nutrition.tsx ~227 vs 237) and tidy the Row 15 note.
+- Round 165: confirm nutrition.tsx spoken slot labels (lines 215-260), fix only if English remains, tidy Row 15 note.
 - Then: shared slot-name helper (five copies: food.tsx, food/add.tsx, food/quick-add.tsx, food/detail.tsx, dashboard/nutrition.tsx).
-- Then: week.tsx flat bars when every day is 0 kcal (needs no-logged-value rule and snapshot permission).
+- Then: week.tsx show existing no-data state when every day is 0 kcal (needs permission for snapshot).
 - Then: InsightCard more/less toggle, 120-character rule.
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: api.ts swallows insight errors (~1253, 1270).
