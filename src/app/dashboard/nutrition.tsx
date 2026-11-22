@@ -43,19 +43,11 @@ import { dayMonth, weekdayShort } from '@/lib/data/energyRange';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import { useDailyMacros, useFibreConsumed, useFoodLog, useWeeklyMacros } from '@/lib/data';
-import type { MealSlot } from '@/lib/mock/data';
+import { mealSlotName } from '@/lib/mealSlotName';
 
 // ---------------------------------------------------------------------------
 // Macro bindings
 // ---------------------------------------------------------------------------
-
-/** Meal slot to its addMenu locale key, as on the food screens. */
-const SLOT_KEYS: Record<MealSlot, string> = {
-  Breakfast: 'breakfast',
-  Lunch: 'lunch',
-  Dinner: 'dinner',
-  Snacks: 'snack',
-};
 
 const pctOf = (consumed: number, target: number) => (target > 0 ? Math.round((consumed / target) * 100) : 0);
 
@@ -70,7 +62,6 @@ const MACRO_AXIS_LINE_HEIGHT = 15;
 
 export default function NutritionDetailScreen(): JSX.Element {
   const { t } = useTranslation();
-  const slotName = (slot: MealSlot) => t(`addMenu.${SLOT_KEYS[slot]}`);
   const energyUnit = useUnitPreferences().energy;
   const macros = useDailyMacros();
   const { data: meals, isLoading: loading, error: loadError, refetch } = useFoodLog();
@@ -234,7 +225,7 @@ export default function NutritionDetailScreen(): JSX.Element {
             key={meal.id}
             haptic={false}
             minTapTarget={false}
-            accessibilityLabel={`${slotName(meal.slot)}, ${formatEnergy(meal.calories, energyUnit)}`}
+            accessibilityLabel={`${mealSlotName(t, meal.slot)}, ${formatEnergy(meal.calories, energyUnit)}`}
             // The per-meal detail route is gone (architecture item 4): a meal's
             // rows live on the food tab, and each one opens the shared detail sheet.
             onPress={() => router.push('/(tabs)/food')}
@@ -250,7 +241,7 @@ export default function NutritionDetailScreen(): JSX.Element {
           >
             <View style={{ flex: 1, gap: space.xs }}>
               <Text variant="bodyBold" color={color.label}>
-                {slotName(meal.slot)}
+                {mealSlotName(t, meal.slot)}
               </Text>
               <Text variant="footnote" color={color.secondaryLabel}>
                 {meal.time} · {formatEnergy(meal.calories, energyUnit)}

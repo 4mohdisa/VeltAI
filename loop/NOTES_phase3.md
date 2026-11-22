@@ -9,7 +9,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Next checkpoint: round 172. Other rounds: changed files only.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
-- Round 165 re-check closed: nutrition.tsx line 237 uses translated slotName; line 227 no longer a slot label. Handover NEXT about line 227 is stale.
+- Round 165 re-check: nutrition.tsx:237 uses translated slotName; :227 is not a slot label. Handover NEXT about :227 is stale.
+- Round 167: last report flagged partly done. Helper exists and food.tsx uses it; four copies still hold their own map. Closing them one file per round.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -33,14 +34,15 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Round 160: visible fix chosen over Jev's shared-helper pick.
 - Round 161: spoken slot name plus es/fr render test.
 - Round 162: week-empty guard not needed. useWeeklyMacros always returns 7 days.
-- Round 166: Jev and my pick both chose the shared slot-name helper. Helper goes into food.tsx first, one file per round.
+- Round 166: shared slot-name helper chosen. Helper in src/lib/mealSlotName.ts.
+- Round 167: nutrition.tsx swap chosen over Jev's ask/run split (low confidence, not a major question).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf, nutrition slot labels confirmed.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals labels and toast, DailyMacroRing ringOf, food.tsx slot names via helper.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - One-word ringOf vs full-phrase key; comma join for label and unit. Default: keep.
@@ -58,11 +60,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Review insights and banner wording; es/fr weekday capitalisation: lowercase.
 - Slot name wording for snack ('Snacks' in es and fr) needs review.
+- Helper fallback for unknown slot shows raw key addMenu.undefined: readable fallback or keep?
 - Permission to regenerate snapshot for week.tsx flat bars (0 kcal) and to define the no-logged-value rule.
 
 ## Next
-- Round 166: src/lib/mealSlotName.ts created; food.tsx uses it.
-- Then the same helper in food/add.tsx, food/quick-add.tsx, food/detail.tsx and dashboard/nutrition.tsx (one file per round).
+- Round 167: mealSlotName in dashboard/nutrition.tsx (verify line 227 first).
+- Then the same helper in food/add.tsx (raw key at :65), food/quick-add.tsx, food/detail.tsx (defaultValue at :677). One file per round.
 - Then: week.tsx show existing no-data state when every day is 0 kcal (needs permission for snapshot).
 - Then: InsightCard more/less toggle, 120-character rule.
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.

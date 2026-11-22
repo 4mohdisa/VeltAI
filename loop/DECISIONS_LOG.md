@@ -8725,3 +8725,7 @@
 - 2026-11-22 19:48 Jev ranked the shared slot-name helper first at 80%. I chose the same task, so no override was needed. It is the next queued item in the notes and removes five duplicated copies, which the brief asks for.
 - 2026-11-22 19:48 Helper goes into food.tsx first, one file per round, to keep the change small and respect one component per prompt.
 - 2026-11-22 19:48 Snack wording is left as is until Isa reviews it (already blocked).
+- 2026-11-22 19:50 Chose the nutrition.tsx swap: smallest unbuilt step, needs nothing from Isa, and the last report was flagged as partly done, so the four unfinished copies are closed one file per round.
+- 2026-11-22 19:50 The NEXT line about nutrition.tsx:227 is stale per the round 165 re-check (line 237 is already translated). The prompt tells Claude Code to verify the line before changing it instead of assuming.
+- 2026-11-22 19:50 Jev was 50/49 between ask and run with low confidence. Not a major question (no money, data, production or owner-only step), so run with the smallest task instead of asking.
+- 2026-11-22 19:50 Helper fallback for unknown slots (raw addMenu.undefined key) and the 'Snacks' wording stay as they are until Isa reviews them. Recorded under Blocked on Isa.
