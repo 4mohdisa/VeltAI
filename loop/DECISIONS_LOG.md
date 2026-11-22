@@ -8164,3 +8164,7 @@
 - 2026-11-22 16:38 Kept Row 12 as PARTIAL: the useApi fix is one item and Row 12 still has open items.
 - 2026-11-22 16:38 Recorded the useEnergyRange one-week test as done: it passes and needed no source change.
 - 2026-11-22 16:38 Jev recommended run with high confidence, which matches the plan.
+- 2026-11-22 16:40 Chose the full checkpoint first: the loop flagged round 38 because only two gymSchedule files were run, and useApi changed every gymSchedule hook. Row 12 changed code, so the flag rule requires its own re-verify round.
+- 2026-11-22 16:40 Verification only this round, no source edits, so a red result is reported and fixed in the next round rather than mixed into the check.
+- 2026-11-22 16:40 Backend Go tests skipped because the backend did not change in round 38.
+- 2026-11-22 16:40 Used the handover to name files fully, as the loop note requires.

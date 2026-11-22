@@ -8,7 +8,7 @@ Every prompt must state the loop/phase3 branch rule.
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Round 30 checkpoint clean. Next full checkpoint: round 45, or when Row 12 is complete if that comes first.
+- Round 30 checkpoint clean. Round 38 change (useApi loading on input change) not yet covered by a full run.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Stray node_modules/jest 30.0.5 and @types/jest ^30 are parked.
@@ -43,13 +43,14 @@ Every prompt must state the loop/phase3 branch rule.
 - Rounds 11 to 13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13 to 29: Row 12 PARTIAL. useHydration loading fix; isError on useApi, useToday, useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress.
 - Round 30: checkpoint clean.
-- Round 31: useEnergyRange returns isError. Clean.
+- Round 31: useEnergyRange returns isError.
 - Round 32: getInsights rejects instead of swallowing (api.ts).
 - Round 33: useInsights returns isError (aiBrain.ts).
 - Round 34: ErrorState default copy in t() (en, es, fr), render test.
 - Round 35: PendingSyncBanner copy in t() (en, es, fr), key pendingSync.waiting, render test.
-- Round 36: useExercises and useExerciseProgress failure, recovery and input-change tests. mountHook added to the shared harness.
-- Round 37: useEnergyRange one-week-fails test (energy.render.test.tsx). Passes, no source change.
+- Round 36: useExercises and useExerciseProgress failure, recovery and input-change tests. mountHook added to shared harness.
+- Round 37: useEnergyRange one-week-fails test. No source change.
+- Round 38: useApi sets loading true while input change refetches, old data kept. Test added in gymSchedule.revalidate.test.ts. Only 2 files plus 6 gymSchedule files run; full suite not run (flagged).
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -66,10 +67,10 @@ Every prompt must state the loop/phase3 branch rule.
 - Ask Lume drops server 503 message (src/app/ai-query.tsx:96).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Old local rows mix 'lunch' and 'Lunch'. Old data, not from the seed.
-- Lint: gymSchedule.ts lines 41, 43 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
+- Lint: gymSchedule.ts lines 50, 52 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - Both gymSchedule test files use react-test-renderer (deprecated warning). Park.
 - gymSchedule.ts header comment no longer matches code. Fix in Row 11.
-- gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
+- gymSchedule.revalidate.test.ts has its own useApi harness copy for older tests. Row 11.
 - aiBrain.ts header does not mention useInsights isError. Park.
 - useInsights mocks in render/insights.render.test.tsx and render/anomaly.render.test.tsx lack isError. Harmless until a screen reads it.
 - detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
@@ -80,11 +81,10 @@ Every prompt must state the loop/phase3 branch rule.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
 - Energy one-week-fails: failed earlier week path untested; no test that refetch after error clears isError. Row 12 follow-up.
-- Both-weeks-failed, useEnergyRange: confirm rule (see Blocked).
 
 ## Next
-- Round 38: useApi loading on input change (Row 12, shared hook, with a test).
-- Then: full checkpoint (tsc and full Jest) when Row 12 is complete or at round 45, whichever comes first.
+- Round 39: full checkpoint re-verify of round 38 (npx tsc --noEmit and full npx jest). Verification only.
+- Then Row 12 to BUILT if clean (Isa approval per handover), else fix the failing file next round.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.
