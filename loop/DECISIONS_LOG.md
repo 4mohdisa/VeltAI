@@ -8225,3 +8225,8 @@
 - 2026-11-22 16:57 Round 52 re-verification already ran; the loop flag on the same report is not a new fault. Row 13 stays PARTIAL because its saved, calendar, detail, barcode and translation items are still open. No third re-verification.
 - 2026-11-22 16:57 Chose the past-day error copy as the smallest open row 13 item (three locale keys, one screen). Jev also favours running (93%).
 - 2026-11-22 16:57 Used the existing 'nothing logged' past-day wording default; Isa's confirmation is still pending and is not blocking.
+- 2026-11-22 16:58 Chose the past-day test and suite rerun over new states. The last report left the food.tsx change untested and the 12 Food tab suites unrun, and the loop flagged the round as partly done. Verify before adding scope.
+- 2026-11-22 16:58 Allowed one new test in foodTab.emptyStates.render.test.tsx without waiting for approval. It covers the row 13 copy this round changed, and the change is limited to one test.
+- 2026-11-22 16:58 Kept the wording "this day's food log" (default, Isa has not confirmed it).
+- 2026-11-22 16:58 Row 13 stays PARTIAL. The flag on round 53 was not re-verified again, because row 13 was already re-verified in round 52. Carry on with the next open item.
+- 2026-11-22 16:58 Jev ranks run at 55%. Prefer the smaller verification task, which matches its low confidence (0.33).

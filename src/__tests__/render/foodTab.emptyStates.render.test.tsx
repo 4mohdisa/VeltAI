@@ -87,6 +87,13 @@ test('a failed read shows the load error, not the empty state', async () => {
   expect(hasText(tree, 'No meals yet')).toBe(false);
 });
 
+test('a failed read on a past day says "this day", not "today"', async () => {
+  const tree = await renderFoodTab({ error: new Error('Network request failed') }, PAST_DAY);
+  expect(hasText(tree, "We couldn't load this day's food log. Check your connection and try again.")).toBe(true);
+  expect(hasText(tree, "We couldn't load today's food log. Check your connection and try again.")).toBe(false);
+  expect(hasText(tree, 'No meals yet')).toBe(false);
+});
+
 test('loading shows the skeleton, not the empty state', async () => {
   const tree = await renderFoodTab({ isLoading: true });
   expect(findAll(tree, (p) => p.rows === 5).length).toBeGreaterThan(0);

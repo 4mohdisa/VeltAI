@@ -12,7 +12,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade.
 - Component render tests must be *.render.test.tsx. Plain .test.ts runs in node project.
-- Jest output: use tail, not grep.
+- Jest output: write to file, then tail. Not grep.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 
 ## Decisions (never delete)
@@ -39,8 +39,9 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Round 48: useInsights refetch and Retry stay parked (not in any row).
 - Round 50: full checkpoint chosen over row 13. Edits allowed only to the three named mock files (isError: false).
 - Round 51: same flagged blocker (row 12 approval) came back twice. Recorded under Blocked on Isa, not retried.
-- Round 52: row 13 re-verified as its own round (Food tab tests and tsc only). Row 13 stays PARTIAL.
-- Round 53: loop flagged the round 52 report again as partly done. Row 13 is PARTIAL by design (open items). Not re-verified a third time.
+- Round 52: row 13 re-verified as its own round. Row 13 stays PARTIAL.
+- Round 53: flag on round 52 again. Row 13 PARTIAL by design. Not re-verified a third time.
+- Round 54: past-day error test added in foodTab.emptyStates.render.test.tsx (test only, row 13 scope). Then rerun the 12 Food tab suites, since food.tsx changed.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -53,20 +54,21 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Round 46: full checkpoint passed. Round 47: docs cleanup.
 - Round 48: mock isError fixes in detailChrome and insights render tests.
 - Round 49: row 12 re-verified. Round 50: full checkpoint clean.
-- Round 51: row 13 Food tab states: past-day empty message added, foodTab.emptyStates render tests (4) added. Status PARTIAL.
+- Round 51: row 13 Food tab states: past-day empty message, foodTab.emptyStates render tests (4).
 - Round 52: row 13 Food tab re-verified (12 suites, 130 tests, tsc 0).
-- Round 53: row 13 past-day error copy (food.empty.loadFailedPast, food.loadFailedPast) in progress.
+- Round 53: past-day error copy (food.empty.loadFailedPast, food.loadFailedPast) in en, es, fr. Food tab uses one isPastDay value.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Code done, checkpoint clean round 50. Stays PARTIAL until Isa approves. Do not retry, do not re-ask.
-- Row 13 PARTIAL vs BUILT and past-day wording 'Nothing was logged on this day.' Default used.
+- Row 13 PARTIAL vs BUILT. Past-day wording "this day's food log" and "Nothing was logged on this day." Default used.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed-user sign-in path. Blocks row 6 heavy-user checks and row 9 export check. Parked.
 - Analytics default on (brief) vs store off (DECISIONS.md 2026-08-09). Default used. Confirm before Phase 4.
 - Templates '+' replaced by a list control? Unanswered. Keep '+' (row 3).
 - useEnergyRange: confirm 'both weeks fail' rule. Default used.
 
 ## Next
-- Row 13 past-day error copy (round 53), then SavedMealsList and RecipesList error states, then PendingSyncBanner on Food tab, then row 13 saved, calendar, detail, barcode and translations.
+- Round 54: past-day error test and rerun of the 12 Food tab suites.
+- Row 13: SavedMealsList and RecipesList error states, PendingSyncBanner on Food tab, 'No meals yet' on a past day, then saved, calendar, detail, barcode and translations.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Full checkpoint on its scheduled round.
@@ -84,14 +86,13 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule test files.
-- Stale header comments: aiBrain.ts, gymSchedule.ts. Park.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, and 'French intentionally partial' in src/lib/i18n/index.ts. Park.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry on error states. Park.
-- allText helper in render/helpers crashes on full-screen trees (circular JSON). Park.
+- allText helper in render/helpers crashes on full-screen trees (circular JSON). Use findAll with string children. Park the helper fix.
 - getMorningBrief and getProfile swallow failures as null. Park.
-- src/lib/i18n/index.ts says French 'intentionally partial'; probably stale. Park.
 - hydrationErrorState.render.test.tsx prints many 'API unreachable' warnings. Park.
 - Energy one-week-fails path untested; no test for refetch clearing isError. Park.
 - Anomalies stay empty when getInsights fails. Harmless today.
-- Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 follow-up.
-- 'No meals yet' title reads oddly on a past day. Row 13 follow-up.
+- Food tab mounts useInsights with no consent gate (pure database read, pinned in phase14Regression). Park.
+- Other Food tab tests run in round 54 only; no full checkpoint since food.tsx changed in round 53.
