@@ -9304,3 +9304,8 @@
 - 2026-11-23 01:38 Re-issued the rejected prompt with the loop/phase3-only branch rule stated at the top and repeated in the steps.
 - 2026-11-23 01:38 Accepted the Row 13 camera translation report. Row 13 stays PARTIAL. src/lib/data approval was already parked by default, so it is not asked again.
 - 2026-11-23 01:38 No question to Isa this round: no major blocker, and the open items already have defaults.
+- 2026-11-23 01:47 Loop flag on Row 14 handled first: the two untested items from the report get their own tests in new files. No existing file changes, so no Isa permission is needed.
+- 2026-11-23 01:47 Did not ask Isa (Jev 63% ask): the src/lib/data gaps already have a default (off limits, parked) and are recorded as parked, so a question would repeat one already answered. No major blocker.
+- 2026-11-23 01:47 Row 14 stays PARTIAL, since its two src/lib/data gaps (month summary, muscle Retry) stay parked.
+- 2026-11-23 01:47 Row 8 is next after this round, because Row 14 follow up is small and closes the flagged gap.
+- 2026-11-23 01:47 Jev ranks row 14 follow up lower than ask. Kept run because a test-only task has low risk and needs nothing from Isa.
