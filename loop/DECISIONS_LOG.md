@@ -8230,3 +8230,10 @@
 - 2026-11-22 16:58 Kept the wording "this day's food log" (default, Isa has not confirmed it).
 - 2026-11-22 16:58 Row 13 stays PARTIAL. The flag on round 53 was not re-verified again, because row 13 was already re-verified in round 52. Carry on with the next open item.
 - 2026-11-22 16:58 Jev ranks run at 55%. Prefer the smaller verification task, which matches its low confidence (0.33).
+- 2026-11-22 17:00 The flagged report on round 54 was not re-verified: row 13 was already re-verified in round 52, so per the notes I carried on to its next open item.
+- 2026-11-22 17:00 Chose candidate 1 because it is the smallest open item in row 13 and the Next list names it first. Candidate 2 needs network state work and candidate 3 starts a new row.
+- 2026-11-22 17:00 Row 13 stays PARTIAL until Isa approves the wording. The past-day wording default stays in use.
+- 2026-11-22 17:00 Jev ranks run at 86%. My choice matches it, so no second look was needed.
+- 2026-11-22 17:00 Loop rejected round 55 because the prompt covered more than one component. Round 56 covers one component: SavedMealsList. Reason: the loop rule is one screen or component per prompt.
+- 2026-11-22 17:00 Chose SavedMealsList over RecipesList and the Food tab PendingSyncBanner: it was listed first in NEXT, it is a single file, and it needs no change to the screen file.
+- 2026-11-22 17:00 Asked Claude Code to stop and report BLOCKED if the hook lacks isError, rather than editing the shared hook in the same round. Reason: a hook change touches other screens.

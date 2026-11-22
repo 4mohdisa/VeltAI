@@ -1,6 +1,7 @@
 // Saved meals list (Task 2) — one card per saved meal with a one-tap [Log now]
-// that logs every item into today's current slot. Best-effort + offline-safe:
-// a failed list() degrades to an empty list; a failed log() shows an error toast.
+// that logs every item into today's current slot. A failed list() with nothing
+// loaded yet shows ErrorState with Retry, not the empty copy; a failed log()
+// shows an error toast.
 // Refetches on focus so a meal logged elsewhere (or a new recipe) stays fresh.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
@@ -12,6 +13,7 @@ import type { TFunction } from 'i18next';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
 import { SkeletonCard } from '@/components/display';
 import { Button } from '@/components/forms';
 import { Text } from '@/components/primitives/Text';
@@ -45,13 +47,16 @@ export function SavedMealsList() {
   const reduceMotion = useReduceMotion();
   const [meals, setMeals] = useState<SavedMeal[] | null>(null);
   const [loggingId, setLoggingId] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
 
   const load = useCallback(async () => {
     try {
       setMeals(await api.savedMeals.list());
+      setIsError(false);
     } catch (e) {
       devWarn('[meals] savedMeals.list failed:', e);
-      setMeals([]);
+      setIsError(true);
+      setMeals((prev) => prev ?? []);
     }
   }, []);
 
@@ -82,6 +87,10 @@ export function SavedMealsList() {
         <SkeletonCard />
       </View>
     );
+  }
+
+  if (meals.length === 0 && isError) {
+    return <ErrorState onRetry={() => void load()} />;
   }
 
   if (meals.length === 0) {
