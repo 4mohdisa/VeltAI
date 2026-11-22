@@ -211,7 +211,7 @@ export default function DashboardScreen() {
                 title={t('dashboard.todaysPlan')}
                 icon="sparkles"
                 tint={categoryAccent.ai}
-                scope="AI"
+                scope={t('dashboard.planCardScope')}
                 chevron
               />
               {nextMeal ? (

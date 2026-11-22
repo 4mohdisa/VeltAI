@@ -1,12 +1,14 @@
 // PHASE3_ROWS.md row 15, Summary tab (src/app/(tabs)/index.tsx) copy in Spanish.
 // The screen's read hooks are mocked by module path, so nothing reaches the
 // network. The Macros card title, scope and label, the plan card label and the
-// gym logged toast are all read from es.json.
+// gym logged toast are all read from es.json. The plan card scope is also
+// checked in English.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import type { ReactTestInstance } from 'react-test-renderer';
 
 import DashboardScreen from '@/app/(tabs)/index';
 import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import { act, findAll, renderScreen } from './helpers';
 
@@ -112,4 +114,20 @@ test('logging a gym session shows the toast from es.json', async () => {
     (logButton!.props.onPress as () => void)();
   });
   expect(mockShowToast).toHaveBeenCalledWith(expect.objectContaining({ message: es.dashboard.gymLoggedToast }));
+});
+
+test('the plan card scope reads from en.json, then es.json when the language changes', async () => {
+  await act(async () => {
+    await i18n.changeLanguage('en');
+  });
+  const enCard = byLabel(await renderSummary(), en.dashboard.planCardLabel)[0];
+  expect(enCard).toBeDefined();
+  expect(textsIn(enCard)).toContain(en.dashboard.planCardScope);
+
+  await act(async () => {
+    await i18n.changeLanguage('es');
+  });
+  const esCard = byLabel(await renderSummary(), es.dashboard.planCardLabel)[0];
+  expect(esCard).toBeDefined();
+  expect(textsIn(esCard)).toContain(es.dashboard.planCardScope);
 });

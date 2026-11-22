@@ -563,6 +563,7 @@
     "gymLoggedToast": "Gym logged — streak extended.",
     "macrosCardLabel": "Macros today. Double tap for detail.",
     "planCardLabel": "Today's plan detail",
+    "planCardScope": "AI",
     "trainingEnergySummary_one": "Training energy for the last {{count}} day, up to {{value}} kcal.",
     "trainingEnergySummary_other": "Training energy for each of the last {{count}} days, up to {{value}} kcal.",
     "trainingKcalAttributed": "{{value}} kcal attributed to training this week.",

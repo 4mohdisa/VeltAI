@@ -563,6 +563,7 @@
     "gymLoggedToast": "Séance enregistrée — série prolongée.",
     "macrosCardLabel": "Macros du jour. Touchez deux fois pour le détail.",
     "planCardLabel": "Détail du plan du jour",
+    "planCardScope": "IA",
     "trainingEnergySummary_one": "Énergie d’entraînement du {{count}} dernier jour, jusqu’à {{value}} kcal.",
     "trainingEnergySummary_other": "Énergie d’entraînement de chacun des {{count}} derniers jours, jusqu’à {{value}} kcal.",
     "trainingKcalAttributed": "{{value}} kcal attribuées à l’entraînement cette semaine.",

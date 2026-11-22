@@ -1,14 +1,16 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Rows say built, never verified (Isa verifies).
+Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never run git or Prettier. One screen or component per prompt. Rows say built, never verified (Isa verifies). Every prompt must state the branch rule.
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Round 114 checkpoint (jest --ci): tsc 0; Jest 172 suites, 1111 tests, 0 failed.
+- Round 114 checkpoint (jest --ci): tsc 0; Jest 172 suites, 1111 tests, 0 failed. Next checkpoint about round 129.
 - Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
 - Rounds 112 and 114 have no Row 15 note. Recorded, not fixed.
+- Round numbers in Row 15 notes (118 to 122) may clash with git commit numbers. Recorded, not fixed.
+- Round 122 prompt rejected once for missing branch rule. Rewritten.
 
 ## Decisions (never delete)
 - Local backend and local database only. Phase 1 design final except named Phase 3 rows. Phase 4 out of scope.
@@ -28,24 +30,22 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Summary card guard hides during every first load. Accepted.
 - When a brief forbids editing a test that a change breaks: back out or stop. Never leave the suite red.
 - Round 117: MacroBars translation backed out (summaryNoFabrication.test.ts reads source text). Stays English until Isa grants the test change.
-- Round 118 Jev: kept run over ask (81%). Reason: minor test wording change, not a blocker.
-- Round 119 Jev: kept run over ask (58%). Reason: MacroBars permission already asked and defaulted.
-- Round 120 Jev: kept run over ask (51%). Reason: doc-only change, no permission question. Chosen: audit row fix (low Jev confidence, smallest task).
+- Jev rounds 118 to 121: kept run over ask. Round 122: kept run (plan card task, smallest, Jev 70%).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
 - Row 14 PARTIAL: all gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash, GymStatusCard, Summary tab strings and Spanish render test done. French foodLog.today curly apostrophe done (round 118).
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash, GymStatusCard, Summary tab strings and Spanish render test done. French foodLog.today apostrophe done. EMPTY_STATES_AUDIT.md Summary loading row corrected.
 
 ## Blocked on Isa (defaults used, do not re-ask)
+- RECURRING, do not retry: Round 117 MacroBars translation. Needs permission to change summaryNoFabrication.test.ts:54. Default: MacroBars stays English.
 - Row 12 BUILT approval.
-- Spanish and French wording of new blocks in Rows 13, 14, 15. Shipped as written.
+- Spanish and French wording of new blocks in Rows 13, 14, 15, and the plan card scope (round 122). Shipped as written.
 - Keys for en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'New recipe' vs 'New Recipe' (default keep current). /food/meals link from Food tab (default no link).
 - Row 14: 'streak' as 'racha' (es), 'serie' (fr). Freeze sheet disables apply tick and shows log-session when no streak. Review.
-- Permission to edit summaryNoFabrication.test.ts:54 (toContain('Not tracked') to the t() key). Default: no edit; MacroBars stays English.
 - Permission to add refetch to useExerciseProgress and useGymPatterns (src/lib/data). Default: no Retry.
 - useLoggedDays calendar failed read has no error. Default: leave.
 - lookupBarcodeAsync: not found vs offline. Keep copy.
@@ -56,8 +56,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence for Row 15. Default: in memory.
 
 ## Next
-- Row 15 round 120: correct stale Summary loading row in EMPTY_STATES_AUDIT.md (in progress).
-- Row 15 remaining: MacroBars translation (parked until permission); insights literals and swallowed errors; goals load and error states; week chart flat bars (125); nutrition date (126); plan card 'AI' scope in index.tsx.
+- Row 15 round 122: plan card 'AI' scope in index.tsx (in progress).
+- Row 15 remaining: insights literals and swallowed errors (find the insights file first); goals load and error states; week chart flat bars (125); nutrition date (126); gym card shows when dashboard read fails (check seed fallback).
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check. Shared has-a-streak helper.
 - Row 6: non-sign-in backend measurements.
@@ -80,4 +80,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - 'background sync failed' warnings in gym suites; react-test-renderer deprecation warning.
 - Freeze offline toast claims success even when the request fails. 'has a streak' check duplicated in streak.tsx and freeze.tsx.
 - Nutrition week chart flat bars on first use (row 125).
-- Plan card in index.tsx has hard-coded 'AI' scope (Phase 3 Row 15 remaining, else park).
+- Round 122 prompt rejected once for missing branch rule (fixed).

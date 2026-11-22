@@ -8525,3 +8525,13 @@
 - 2026-11-22 18:46 Recorded the French foodLog.today curly apostrophe as done in round 118 per the report. Notes showed round 119 in progress, so the round number is treated as the same change.
 - 2026-11-22 18:46 MacroBars translation stays parked until Isa grants the summaryNoFabrication.test.ts change. Not re-asked.
 - 2026-11-22 18:46 Jev run (51%) kept over ask (43%). Ask is not needed because this task is a doc-only change with no permission question.
+- 2026-11-22 18:47 Recorded the MacroBars translation (Round 117) as a recurring blocker under Blocked on Isa. Do not retry until Isa grants the test-line change in summaryNoFabrication.test.ts:54.
+- 2026-11-22 18:47 Chose the insights screen over goals (needs hook changes or a refetch check) and the index.tsx plan card (touches the Summary tests and the blocked test file). Insights is one screen, does not touch src/lib/data, and does not depend on the blocker.
+- 2026-11-22 18:47 Jev: ask 49%, run 43%, confidence 0.24, so I prefer the smaller task. Kept run over ask. Reason: the blocker permission was already asked and defaulted, and asking again repeats the question.
+- 2026-11-22 18:47 Round numbering: the Round 119 and 120 notes may clash with git commit numbers. Kept the loop's round numbers in these notes. Not fixed; noted only.
+- 2026-11-22 18:47 Gym card reads streak.gymLoggedToday when the dashboard read fails. Parked for a check, not fixed in this round.
+- 2026-11-22 18:48 Previous prompt was rejected for not stating the loop/phase3 branch rule. Rewrote it with the branch rule first and every rejection point fixed.
+- 2026-11-22 18:48 Chose the plan card 'AI' scope over the insights screen: it names exact files, is one small change, and Jev ran at 70%.
+- 2026-11-22 18:48 Insights screen needs a file search first and has no confirmed file path in the notes, so it waits for the next round.
+- 2026-11-22 18:48 Spanish and French wording of the plan card scope ships as written and is flagged for Isa's review, matching the earlier rows.
+- 2026-11-22 18:48 MacroBars stays English. Round 117 blocker unchanged. Not re-asked, since it is recurring and already defaulted.
