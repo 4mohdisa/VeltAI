@@ -8482,3 +8482,12 @@
 - 2026-11-22 18:35 Chose GymStatusCard first: one component, the largest remaining Row 15 literal group, and the smallest safe change.
 - 2026-11-22 18:35 Summary card guard accepted as built: it hides during every first load, matching the streak and Macros rule. Recorded so it is not reopened.
 - 2026-11-22 18:35 Reuse existing keys where the text is identical, per the existing decision.
+- 2026-11-22 18:36 Chose the checkpoint because the loop note requires one checkpoint task: full tsc and full app Jest, no file changes. Reason: the last report was flagged as partly done.
+- 2026-11-22 18:36 Used jest --ci so the checkpoint cannot write snapshots. Reason: the round must change no files.
+- 2026-11-22 18:36 Asked for one rerun only on a worker SIGSEGV. Reason: known Node GC crash, recorded in notes.
+- 2026-11-22 18:36 Jev ranked run highest (94%). Matches my choice; no override.
+- 2026-11-22 18:37 Rewrote the rejected round 114 prompt to name the loop/phase3 branch, check .git/HEAD, and forbid git, switching, pushing and merging. Reason: loop rejection.
+- 2026-11-22 18:37 Kept round 114 as a read-only checkpoint because the notes mark it in progress. Reason: it was the rejected task and needs no file changes.
+- 2026-11-22 18:37 Chose candidate 1 over the Summary literals task. Reason: the checkpoint is already scheduled and Jev's 96% run signal supports the smallest safe action.
+- 2026-11-22 18:37 Kept all open Blocked on Isa defaults unchanged and did not re-ask. Reason: Isa's rule is one unanswered round, then use the default.
+- 2026-11-22 18:37 Condensed the notes to fit the 600-word limit without dropping any open item or decision.
