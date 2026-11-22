@@ -250,6 +250,14 @@
     "quantityLabel": "Quantité en grammes",
     "addToRecipe": "Ajouter à la recette"
   },
+  "history": {
+    "yesterday": "Hier",
+    "loadFailed": "Impossible de charger votre historique.",
+    "emptyTitle": "Aucun historique pour le moment",
+    "emptyMessage": "Vos journées enregistrées apparaîtront ici dès que vous commencerez à suivre vos repas.",
+    "rowGymDone": "{{day}}, {{energy}}, séance faite",
+    "rowGymMissed": "{{day}}, {{energy}}, pas de séance"
+  },
   "gymLog": {
     "title": "Comment ça s’est passé ?",
     "planSummary_one": "{{count}} exercice · environ {{minutes}} min",

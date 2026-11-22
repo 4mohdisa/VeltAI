@@ -8282,3 +8282,6 @@
 - 2026-11-22 17:19 Chose the flagged gap first: the loop note says to finish a partly done task before moving on. It is small and closes the new-recipe screen.
 - 2026-11-22 17:19 Kept the test to the two toasts and the header comment only, so the round stays one screen.
 - 2026-11-22 17:19 history.tsx is next after this round, per the last report's recommendation.
+- 2026-11-22 17:20 Round 68: history.tsx chosen, agreeing with Jev (89%). The flagged report is resolved: new-recipe toast tests pass and its stale header is removed.
+- 2026-11-22 17:20 The stale headers in meals.tsx and saved.tsx stay parked under Row 13 and are not in this prompt, to keep it to one task.
+- 2026-11-22 17:20 Calendar stays blocked until Isa approves the useLoggedDays change. Not retried.

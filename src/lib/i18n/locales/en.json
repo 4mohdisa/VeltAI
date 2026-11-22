@@ -250,6 +250,14 @@
     "quantityLabel": "Quantity in grams",
     "addToRecipe": "Add to recipe"
   },
+  "history": {
+    "yesterday": "Yesterday",
+    "loadFailed": "Couldn't load your history.",
+    "emptyTitle": "No history yet",
+    "emptyMessage": "Your logged days will appear here once you start tracking meals.",
+    "rowGymDone": "{{day}}, {{energy}}, gym done",
+    "rowGymMissed": "{{day}}, {{energy}}, gym missed"
+  },
   "gymLog": {
     "title": "How did it go?",
     "planSummary_one": "{{count}} exercise · about {{minutes}} min",

@@ -9,6 +9,8 @@
 // /api/food/summary and the real sessions from the gym store.
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -24,7 +26,7 @@ import { api } from '@/lib/api';
 
 const DAYS = 7;
 
-type DayRow = { iso: string; label: string; kcal: number; gym: boolean };
+type DayRow = { iso: string; offset: number; kcal: number; gym: boolean };
 
 /** Local-calendar ISO date `offset` days before today (not UTC — a user logging
  *  at 9pm must not see their evening meals land on tomorrow). */
@@ -34,9 +36,9 @@ function isoDaysAgo(offset: number): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function labelFor(offset: number, iso: string): string {
-  if (offset === 0) return 'Today';
-  if (offset === 1) return 'Yesterday';
+function labelFor(offset: number, iso: string, t: TFunction): string {
+  if (offset === 0) return t('foodLog.today');
+  if (offset === 1) return t('history.yesterday');
   const [y, m, d] = iso.split('-').map(Number);
   return new Date(y, m - 1, d).toLocaleDateString(undefined, {
     weekday: 'short',
@@ -46,6 +48,7 @@ function labelFor(offset: number, iso: string): string {
 }
 
 export default function MealHistoryScreen() {
+  const { t } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -65,7 +68,7 @@ export default function MealHistoryScreen() {
     setRows(
       days.map((d, i) => ({
         iso: d.iso,
-        label: labelFor(d.offset, d.iso),
+        offset: d.offset,
         kcal: summaries[i]?.calories ?? 0,
         gym: gymDays.has(d.iso),
       })),
@@ -104,12 +107,19 @@ export default function MealHistoryScreen() {
   const hasAnything = rows.some((r) => r.kcal > 0 || r.gym);
 
   return (
-    <Screen grouped title="Meal history" showBack backLabel="Food" refreshing={refreshing} onRefresh={onRefresh}>
+    <Screen
+      grouped
+      title={t('foodLog.mealHistory')}
+      showBack
+      backLabel={t('food.title')}
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+    >
       {loading ? (
         <SkeletonList rows={5} />
       ) : error ? (
         <ErrorState
-          message="Couldn't load your history."
+          message={t('history.loadFailed')}
           onRetry={() => {
             setLoading(true);
             void load()
@@ -121,40 +131,46 @@ export default function MealHistoryScreen() {
       ) : !hasAnything ? (
         <EmptyState
           icon="clock"
-          title="No history yet"
-          message="Your logged days will appear here once you start tracking meals."
+          title={t('history.emptyTitle')}
+          message={t('history.emptyMessage')}
         />
       ) : (
         <Card padded={false}>
-          {rows.map((day, i) => (
-            <View
-              key={day.iso}
-              accessible
-              accessibilityLabel={`${day.label}, ${formatCalories(day.kcal)}, gym ${day.gym ? 'done' : 'missed'}`}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: space.md,
-                padding: space.lg,
-                borderTopWidth: i === 0 ? 0 : layout.hairline,
-                borderTopColor: color.gray100,
-              }}
-            >
-              <View style={{ flex: 1, gap: space.xs }}>
-                <Text variant="bodyBold" color={color.black}>
-                  {day.label}
-                </Text>
-                <Text variant="footnote" color={color.gray500}>
-                  {formatCalories(day.kcal)}
-                </Text>
+          {rows.map((day, i) => {
+            const label = labelFor(day.offset, day.iso, t);
+            return (
+              <View
+                key={day.iso}
+                accessible
+                accessibilityLabel={t(day.gym ? 'history.rowGymDone' : 'history.rowGymMissed', {
+                  day: label,
+                  energy: formatCalories(day.kcal),
+                })}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: space.md,
+                  padding: space.lg,
+                  borderTopWidth: i === 0 ? 0 : layout.hairline,
+                  borderTopColor: color.gray100,
+                }}
+              >
+                <View style={{ flex: 1, gap: space.xs }}>
+                  <Text variant="bodyBold" color={color.black}>
+                    {label}
+                  </Text>
+                  <Text variant="footnote" color={color.gray500}>
+                    {formatCalories(day.kcal)}
+                  </Text>
+                </View>
+                <Icon
+                  name={day.gym ? 'checkmark-circle' : 'remove-circle-outline'}
+                  size={20}
+                  color={day.gym ? color.black : color.gray400}
+                />
               </View>
-              <Icon
-                name={day.gym ? 'checkmark-circle' : 'remove-circle-outline'}
-                size={20}
-                color={day.gym ? color.black : color.gray400}
-              />
-            </View>
-          ))}
+            );
+          })}
         </Card>
       )}
     </Screen>

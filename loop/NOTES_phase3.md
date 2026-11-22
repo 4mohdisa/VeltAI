@@ -11,6 +11,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
 - Jest output: write to file, then tail. zsh: use $? not PIPESTATUS.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
+- Checkpoint pending: the Food tab tests were not rerun after the last food.tsx change. Run a full checkpoint next.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
@@ -35,7 +36,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Round 58 checkpoint chosen over Jev. Round 64 re-verify of RecipesList clean.
 - Round 65: meals.tsx translation chosen over new-recipe and calendar.
 - Round 66: new-recipe.tsx translation chosen, agreeing with Jev (84%).
-- Round 67: flagged report handled first. Finish new-recipe toast tests and stale header before history.tsx.
+- Round 67: flagged report handled first. new-recipe toast tests and header done.
+- Round 68: history.tsx chosen, agreeing with Jev (89%).
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -45,7 +47,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-54: Row 13 Food tab states done.
 - Rounds 56-59: Row 13 SavedMealsList, RecipesList and Saved load-failure states.
-- Rounds 62-66: past-day read failure test; RecipesList, meals and new-recipe strings translated (en, es, fr).
+- Rounds 62-67: past-day read failure test; RecipesList, meals, new-recipe strings translated (en, es, fr); new-recipe toast tests added, stale '(Task 5)' header removed.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -58,8 +60,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 67: finish new-recipe.tsx toast tests and remove stale '(Task 5)' header.
-- Then src/app/food/history.tsx: translate strings and the hardcoded error copy.
+- Round 68: src/app/food/history.tsx: translate strings and hardcoded error copy, with a strings render test.
+- Then stale headers: meals.tsx '(Task 4)', saved.tsx '(mock)'.
 - Then calendar hardcoded English (do not touch useLoggedDays).
 - Row 13 remaining: calendar, detail, barcode, Food tab PendingSyncBanner.
 - Row 14: Gym log and history empty states, one screen per round.
@@ -78,7 +80,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule tests.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, saved.tsx '(mock)', meals.tsx '(Task 4)', 'French intentionally partial' in src/lib/i18n/index.ts.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, 'French intentionally partial' in src/lib/i18n/index.ts.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry. Park.
 - allText crashes on full-screen trees (circular JSON). Use findAll. Park the helper fix.
@@ -92,3 +94,4 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Saved and calendar tests: consider a shared expo-router mock helper in Row 11.
 - WeekStrip on Food tab shows no dots and no notice on a failed read. Blocked with calendar fix.
 - No test checks that en, es and fr have the same keys. Park to Row 11.
+- Past-day error copy has no test covering food.tsx (Food tab). Park unless approved.
