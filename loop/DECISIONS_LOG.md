@@ -9296,3 +9296,11 @@
 - 2026-11-23 01:31 Row 12 is BUILT: tsc 0 and 39 of 39 targeted tests passed. Its only open item is the missing direct unit test for useEnergyRange, which is covered by the energy render test.
 - 2026-11-23 01:31 Kept the rule that finished rows are not re-checked outside a checkpoint. The full Jest and Go checkpoint runs after Row 14 or at handover, as planned.
 - 2026-11-23 01:31 Did not reopen Row 15's nutrition.tsx spoken kcal (waits on the macros snapshot approval) or Row 6 (parked until a sign-in path exists).
+- 2026-11-23 01:37 Kept Row 14 over Row 13 (Jev ranked Row 14 first at 80%). Reason Jev cannot see: Row 13's remaining gaps sit in src/lib/data, which earlier decisions keep off limits, so another Row 13 round cannot close it.
+- 2026-11-23 01:37 Did not ask Isa about approving src/lib/data for Row 13. Earlier default holds (src/lib/data off limits except api.ts insight catch blocks). Parked both gaps; asking would spend a question on a non-major scope call.
+- 2026-11-23 01:37 Row 13 stays PARTIAL. Its simulator flow is blocked because Maestro is not installed.
+- 2026-11-23 01:37 Row 12 status conflict: earlier notes say BUILT, last handover says PARTIAL. Recheck at the next checkpoint instead of changing it now.
+- 2026-11-23 01:38 Chose Row 14: it is the next step in the notes, needs no Isa input, and Row 13 cannot close without src/lib/data (Jev 51% run).
+- 2026-11-23 01:38 Re-issued the rejected prompt with the loop/phase3-only branch rule stated at the top and repeated in the steps.
+- 2026-11-23 01:38 Accepted the Row 13 camera translation report. Row 13 stays PARTIAL. src/lib/data approval was already parked by default, so it is not asked again.
+- 2026-11-23 01:38 No question to Isa this round: no major blocker, and the open items already have defaults.

@@ -822,6 +822,66 @@
     "scanningAngles": "Scanning {{shots}} angles…",
     "captureFailed": "Couldn't take the photo — try again."
   },
+  "gymCount": {
+    "sessions_one": "{{count}} session",
+    "sessions_other": "{{count}} sessions",
+    "freezes_one": "{{count}} freeze",
+    "freezes_other": "{{count}} freezes"
+  },
+  "gymCalendar": {
+    "legendLabel": "Shading runs from less to more training",
+    "less": "Less",
+    "more": "More",
+    "todaySuffix": ", today",
+    "upcoming": "{{when}}, upcoming",
+    "frozen": "{{when}}, streak freeze{{today}}",
+    "noSession": "{{when}}, no session{{today}}",
+    "sessionDay": "{{when}}, {{count}}, {{length}}{{today}}",
+    "minutes": "{{minutes}} minutes",
+    "durationUnknown": "duration not recorded"
+  },
+  "muscleChart": {
+    "scope": "Last 30 days",
+    "openLabel": "Muscle focus, last 30 days. Opens every muscle group",
+    "empty": "Log workouts to see which muscles you hit"
+  },
+  "gymSchedule": {
+    "saveFailed": "Could not save schedule — check your connection",
+    "noWorkout": "No workout assigned",
+    "restDay": "rest day",
+    "rowLabel": "{{day}}, {{workout}}",
+    "sheetTitle": "Workout for {{day}}"
+  },
+  "gymNewTemplate": {
+    "editTitle": "Edit workout",
+    "namePlaceholder": "Push Day",
+    "durationLabel": "Duration (min, optional)",
+    "exercises": "Exercises",
+    "emptyEditing": "No exercises on this workout.",
+    "emptyNew": "Add exercises to build your workout.",
+    "readOnly": "Exercises can’t be edited on a saved workout yet.",
+    "removeAction": "Remove exercise",
+    "sets_one": "{{count}} set",
+    "sets_other": "{{count}} sets",
+    "save": "Save workout",
+    "saving": "Saving…",
+    "updated": "Workout updated",
+    "saveFailed": "Could not save workout"
+  },
+  "gymSomeOfIt": {
+    "title": "What did you do?",
+    "subtitle": "Untick anything you skipped",
+    "cardioPlanned": "{{minutes}} min planned",
+    "strengthDetail": "{{sets}} × {{reps}} · {{load}}",
+    "bodyweight": "bodyweight",
+    "nothingTicked": "Nothing ticked",
+    "log_one": "Log {{count}} exercise",
+    "log_other": "Log {{count}} exercises",
+    "allTicked": "Everything ticked — same as logging it as planned",
+    "tickOne": "Tick at least one exercise to log",
+    "leftOut_one": "{{count}} exercise will be left out",
+    "leftOut_other": "{{count}} exercises will be left out"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",
     "waiting_other": "{{count}} changes waiting to sync"

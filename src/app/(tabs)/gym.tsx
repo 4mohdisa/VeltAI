@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/display/Card';
 import { SettingsList } from '@/components/display/SettingsList';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
+import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
 import { GymSessionButton } from '@/components/domain/GymSessionButton';
 import { GymCalendar } from '@/components/domain/GymCalendar';
@@ -53,6 +54,8 @@ export default function GymLogScreen() {
     refetch,
   } = useGym();
   const { today: todayWorkout, revalidate } = useToday();
+  // Nothing stored yet and the first read still running: a 0 here would read as a real streak.
+  const streakPending = gymLoading && streak.longest === 0 && streak.totalGymDays === 0;
   const insets = useSafeAreaInsets();
   // Native pull-to-refresh: re-run the gym hydration; spinner clears on a short
   // trailing delay since refetch is fire-and-forget by design.
@@ -149,15 +152,21 @@ export default function GymLogScreen() {
               <Svg width={space.xl} height={space.xl} viewBox="0 0 24 24">
                 <Path fillRule="evenodd" fill={categoryAccent.streak} d={STREAK_FLAME_PATH} />
               </Svg>
-              <Text variant="statSmall" color={color.label}>
-                {streak.current}
-              </Text>
-              <Text variant="bodyMedium" color={color.label}>
-                {t('gym.dayStreak', { count: streak.current })}
-              </Text>
+              {streakPending ? (
+                <Skeleton width="40%" height={18} />
+              ) : (
+                <>
+                  <Text variant="statSmall" color={color.label}>
+                    {streak.current}
+                  </Text>
+                  <Text variant="bodyMedium" color={color.label}>
+                    {t('gym.dayStreak', { count: streak.current })}
+                  </Text>
+                </>
+              )}
               {!gymLoading && !gymError ? (
                 <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
-                  {`${streak.totalGymDays} ${streak.totalGymDays === 1 ? 'session' : 'sessions'} · ${streak.freezesAvailable} ${streak.freezesAvailable === 1 ? 'freeze' : 'freezes'}`}
+                  {`${t('gymCount.sessions', { count: streak.totalGymDays })} · ${t('gymCount.freezes', { count: streak.freezesAvailable })}`}
                 </Text>
               ) : null}
             </View>

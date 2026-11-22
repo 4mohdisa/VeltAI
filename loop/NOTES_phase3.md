@@ -8,17 +8,19 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - PHASE3_ROWS.md stays 22 lines. Notes go inside the row cell.
 - Locales: src/lib/i18n/locales/ (en, es, fr).
-- Checkpoint r270: tsc 0; Jest 220 suites, 1280 tests, 4 snapshots; Go 543 pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL).
-- Full suite last run at r270. Next full checkpoint after Row 14 or at handover.
+- Checkpoint r270: tsc 0; Jest 220 suites, 1280 tests; Go 543 pass, 20 TestPG skipped (no LUME_TEST_DATABASE_URL).
+- Full suite last run r270. Next full checkpoint after Row 14, or at handover.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 9, 10, 12 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8, 13, 14, 15, 16, 17.
+- BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
+- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13 (camera screens translated; gaps need src/lib/data), 14, 15, 16, 17.
 - DIFFERENT: 6, 11.
 
 ## Next
-- Row 13 (round 273), then 14, then 8.
-- Row 15: nutrition.tsx spoken kcal waits on macros snapshot approval.
+- Row 14 gap check (re-issued after a rejected prompt for missing branch rule).
+- Row 13: stays PARTIAL. Needs src/lib/data edits (scan.ts lookupBarcodeAsync, foodDays.ts useLoggedDays) and a simulator flow. Parked.
+- Then Row 8.
+- Row 15: nutrition spoken kcal waits on macros snapshot approval.
 - Row 6: parked until a sign-in path exists.
 - Row 11 last: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
@@ -41,8 +43,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - spokenEnergy in src/lib/units.ts. kJ keeps abbreviation until Isa answers.
 - PlannedValuesForm shared with session.tsx: translate component, do not edit session.tsx.
 - Weight caption follows the form's own kg/lb control, not the units setting.
+- Row 13 src/lib/data gaps: default off limits, parked, not asked.
+- Row 14 picked over Row 13 (Jev 51% run). Row 13 cannot close without src/lib/data.
+- Every prompt states the loop/phase3-only branch rule. Rejected prompts get re-issued with it.
 - Check every prompt against files first; past prompts asked for work already done.
-- Row 12 BUILT without Isa approval: tsc and its tests pass.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts off limits: food search loading timing, Recipe recents, exercise picker 'No matches' flash. Parked.
@@ -67,6 +71,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
 
 ## Parked (not Phase 3)
+- Row 13 gaps: barcode lookup shows 'Product not found' on network failure; calendar shows empty month on load failure (both need src/lib/data). Calendar has no loading indicator. Simulate scan and Unknown code buttons (dev only) stay English. WeekStrip ', today' and Previous/Next week labels English. label-scan.tsx keeps its own SLOTS next to mappers.
 - Row 16: repeat-visit skeleton flashes for all-zero streak. Needs hydrated flag in src/lib/data.
 - Preferences kept in memory (src/lib/settings/store.ts). Not persisted.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
@@ -74,7 +79,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns; Jest drift 30.0.5 vs 29.7.0 (fix with npm ci).
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - UI/data: useTemplates drops on refetch failure; English weekday letters, muscle names, exercise names, equipment; MacroBars unused; formatCalories always kcal; week.tsx flat bars; relative-time keys have no plurals; new-recipe recents from selected day only.
-- Row 12: no direct unit test for useEnergyRange (covered by energy.emptyStates render test).
+- Row 12: no direct unit test for useEnergyRange.
 - Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json; share subject hard-coded; two Export rows until Row 15 copy pass ends.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback; 'Help and feedback' vs 'Send feedback' label.

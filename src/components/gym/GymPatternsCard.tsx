@@ -7,7 +7,7 @@ import type { JSX } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { Card, CardHeaderRow, Skeleton } from '@/components/display';
+import { Card, CardHeaderRow, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
 import type { GymPatterns } from '@/lib/api';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
@@ -73,7 +73,7 @@ function ChipRow({ title, muscles }: { title: string; muscles: string[] }): JSX.
 
 export function GymPatternsCard(): JSX.Element {
   const { t } = useTranslation();
-  const { patterns: rawPatterns, loading } = useGymPatterns();
+  const { patterns: rawPatterns, loading, isError } = useGymPatterns();
   const patterns = isGymPatternsShape(rawPatterns) ? rawPatterns : null;
 
   if (loading) {
@@ -90,6 +90,9 @@ export function GymPatternsCard(): JSX.Element {
 
   const notEnough =
     !patterns || (patterns.avg_sessions_per_week === 0 && patterns.most_trained_muscles.length === 0);
+
+  // A failed read is not "not enough data": say so instead of the keep-logging prompt.
+  if (isError && notEnough) return <LoadFailedNotice message={t('gym.loadFailed')} />;
 
   if (notEnough) {
     return (

@@ -304,26 +304,32 @@ function SomeOfItSheet({
   onBack: () => void;
   onLog: () => void;
 }) {
+  const { t } = useTranslation();
   const left = planned.filter((te) => skipped.includes(te.id)).length;
   const count = planned.length - left;
-  const exercises = (n: number) => `${n} ${n === 1 ? 'exercise' : 'exercises'}`;
 
   return (
     <SheetContent
       variant="leading"
-      title="What did you do?"
-      subtitle="Untick anything you skipped"
+      title={t('gymSomeOfIt.title')}
+      subtitle={t('gymSomeOfIt.subtitle')}
       subtitleVariant="caption"
       onClose={onBack}
     >
       <View>
         {planned.map((te) => {
           const on = !skipped.includes(te.id);
-          const name = te.exercise?.name ?? 'Exercise';
+          const name = te.exercise?.name ?? t('gymSession.exerciseFallback');
           const detail =
             te.exercise?.exercise_type === 'cardio'
-              ? `${minutesOf(te)} min planned`
-              : `${te.planned_sets ?? 0} × ${te.planned_reps ?? 0} · ${te.planned_weight ? `${te.planned_weight} ${te.planned_weight_unit ?? 'kg'}` : 'bodyweight'}`;
+              ? t('gymSomeOfIt.cardioPlanned', { minutes: minutesOf(te) })
+              : t('gymSomeOfIt.strengthDetail', {
+                  sets: te.planned_sets ?? 0,
+                  reps: te.planned_reps ?? 0,
+                  load: te.planned_weight
+                    ? `${te.planned_weight} ${te.planned_weight_unit ?? 'kg'}`
+                    : t('gymSomeOfIt.bodyweight'),
+                });
           return (
             <Pressable
               key={te.id}
@@ -386,7 +392,7 @@ function SomeOfItSheet({
       <View style={{ height: layout.hairline, backgroundColor: surface.divider, marginHorizontal: -space.xl, marginTop: -space.xl, marginBottom: -space.sm }} />
       <View style={{ gap: space.sm }}>
         <Button
-          title={count === 0 ? 'Nothing ticked' : `Log ${exercises(count)}`}
+          title={count === 0 ? t('gymSomeOfIt.nothingTicked') : t('gymSomeOfIt.log', { count })}
           onPress={onLog}
           disabled={count === 0}
           labelSize="pill"
@@ -394,10 +400,10 @@ function SomeOfItSheet({
         />
         <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
           {left === 0
-            ? 'Everything ticked — same as logging it as planned'
+            ? t('gymSomeOfIt.allTicked')
             : count === 0
-              ? 'Tick at least one exercise to log'
-              : `${exercises(left)} will be left out`}
+              ? t('gymSomeOfIt.tickOne')
+              : t('gymSomeOfIt.leftOut', { count: left })}
         </Text>
       </View>
     </SheetContent>

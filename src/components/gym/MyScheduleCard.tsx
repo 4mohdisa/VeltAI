@@ -1,14 +1,15 @@
 // MyScheduleCard — the next three days of the weekly plan, in the design file's
 // card language: an elevated white card, a CardHeaderRow with the planned-day
 // count, and one row each for today, tomorrow and the day after. Tapping anywhere
-// opens the full week. Self-contained via useSchedule(); renders nothing until
-// the schedule has loaded, or if the read failed.
+// opens the full week. Self-contained via useSchedule(): a skeleton card while
+// the first read runs, a load-failed notice with retry if it failed, and three
+// rest days when nothing is planned yet.
 import { useCallback } from 'react';
 import { PixelRatio, View, type TextStyle } from 'react-native';
 import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { Card, CardHeaderRow } from '@/components/display';
+import { Card, CardHeaderRow, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
 import { useSchedule } from '@/lib/data/gymSchedule';
 import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
@@ -25,7 +26,7 @@ const workoutNameStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '500', li
 
 export function MyScheduleCard() {
   const { t } = useTranslation();
-  const { schedule, refetch } = useSchedule();
+  const { schedule, loading, isError, refetch } = useSchedule();
   // This tab stays mounted under the schedule screen: re-read on the way back so
   // an edit made there shows here.
   useFocusEffect(
@@ -34,7 +35,16 @@ export function MyScheduleCard() {
     }, [refetch]),
   );
 
-  if (schedule.length === 0) return null;
+  if (schedule.length === 0 && loading) {
+    return (
+      <Card variant="elevated" padded={false} style={{ padding: space.lg, gap: space.md }}>
+        <Skeleton width="50%" height={18} />
+        <Skeleton width="90%" height={12} />
+        <Skeleton width="70%" height={12} />
+      </Card>
+    );
+  }
+  if (schedule.length === 0 && isError) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
 
   const now = new Date();
   const planned = t('gym.daysPlanned', { count: schedule.filter((day) => day.template).length });

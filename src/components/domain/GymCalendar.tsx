@@ -13,6 +13,8 @@
 // chose, so it gets the light3 fill the grid used before and says so to
 // VoiceOver. Colour never carries it alone — the label does.
 import { View } from 'react-native';
+import type { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -36,7 +38,8 @@ const DAY_LINE = 12;
 const DISABLED_OPACITY = 0.3;
 const NAV_PRESSED_OPACITY = 0.5;
 
-const WEEKDAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+/** Monday-first columns, the same seven the weekday letters label. */
+const WEEK_LENGTH = 7;
 
 /** `a` blended toward `b` as CSS `color-mix(in srgb, a p, b)` — the design's
  *  ramp is written that way, and React Native has no color-mix. */
@@ -59,18 +62,20 @@ export const RAMP = [
   categoryAccent.streak,
 ] as const;
 
-function dayLabel(d: MonthDay): string {
+function dayLabel(d: MonthDay, t: TFunction): string {
   const when = formatWeekdayDate(fromIso(d.date));
-  const suffix = d.today ? ', today' : '';
-  if (d.future) return `${when}, upcoming`;
-  if (d.frozen) return `${when}, streak freeze${suffix}`;
-  if (d.sessions === 0) return `${when}, no session${suffix}`;
-  const count = d.sessions === 1 ? '1 session' : `${d.sessions} sessions`;
-  const length = d.minutes == null ? 'duration not recorded' : `${d.minutes} minutes`;
-  return `${when}, ${count}, ${length}${suffix}`;
+  const today = d.today ? t('gymCalendar.todaySuffix') : '';
+  if (d.future) return t('gymCalendar.upcoming', { when });
+  if (d.frozen) return t('gymCalendar.frozen', { when, today });
+  if (d.sessions === 0) return t('gymCalendar.noSession', { when, today });
+  const count = t('gymCount.sessions', { count: d.sessions });
+  const length =
+    d.minutes == null ? t('gymCalendar.durationUnknown') : t('gymCalendar.minutes', { minutes: d.minutes });
+  return t('gymCalendar.sessionDay', { when, count, length, today });
 }
 
 function Day({ d }: { d: MonthDay }) {
+  const { t } = useTranslation();
   const backgroundColor = d.future ? color.white : d.frozen ? color.light3 : RAMP[d.level];
   const border = d.today
     ? { borderWidth: layout.borderWidth * 2, borderColor: color.primary }
@@ -80,7 +85,7 @@ function Day({ d }: { d: MonthDay }) {
   return (
     <View
       accessible
-      accessibilityLabel={dayLabel(d)}
+      accessibilityLabel={dayLabel(d, t)}
       testID={`gym-day-${d.date}`}
       style={[
         {
@@ -122,8 +127,10 @@ export type GymCalendarProps = {
 };
 
 export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: GymCalendarProps) {
+  const { t } = useTranslation();
+  const weekdays = [...t('calendar.weekdayLetters')];
   const weeks: (MonthDay | null)[][] = [];
-  for (let i = 0; i < cells.length; i += WEEKDAYS.length) weeks.push(cells.slice(i, i + WEEKDAYS.length));
+  for (let i = 0; i < cells.length; i += WEEK_LENGTH) weeks.push(cells.slice(i, i + WEEK_LENGTH));
 
   return (
     <View style={{ gap: space.md }}>
@@ -135,7 +142,7 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
           onPress={onPrev}
           haptic={false}
           accessibilityRole="button"
-          accessibilityLabel="Previous month"
+          accessibilityLabel={t('calendar.previousMonth')}
           style={({ pressed }) => ({
             width: NAV_SIZE,
             height: NAV_SIZE,
@@ -151,7 +158,7 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
           disabled={!canNext}
           haptic={false}
           accessibilityRole="button"
-          accessibilityLabel="Next month"
+          accessibilityLabel={t('calendar.nextMonth')}
           accessibilityState={{ disabled: !canNext }}
           style={({ pressed }) => ({
             width: NAV_SIZE,
@@ -167,7 +174,7 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
 
       <View style={{ gap: CELL_GAP }}>
         <View style={{ flexDirection: 'row', gap: CELL_GAP }} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
-          {WEEKDAYS.map((w, i) => (
+          {weekdays.map((w, i) => (
             <Text key={i} variant="caption" color={color.tertiaryLabel} style={{ flex: 1, textAlign: 'center' }}>
               {w}
             </Text>
@@ -175,7 +182,7 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
         </View>
         {weeks.map((week, wi) => (
           <View key={wi} style={{ flexDirection: 'row', gap: CELL_GAP }}>
-            {Array.from({ length: WEEKDAYS.length }, (_, i) => {
+            {Array.from({ length: WEEK_LENGTH }, (_, i) => {
               const d = week[i];
               // Leading days of the previous month and the tail of the last week
               // hold their column empty so every cell keeps the same edge length.
@@ -191,17 +198,17 @@ export function GymCalendar({ title, cells, summary, onPrev, onNext, canNext }: 
         </Text>
         <View
           accessible
-          accessibilityLabel="Shading runs from less to more training"
+          accessibilityLabel={t('gymCalendar.legendLabel')}
           style={{ flexDirection: 'row', alignItems: 'center', gap: ROW_GAP }}
         >
           <Text variant="caption" color={color.tertiaryLabel}>
-            Less
+            {t('gymCalendar.less')}
           </Text>
           {RAMP.map((bg) => (
             <View key={bg} style={{ width: SWATCH, height: SWATCH, borderRadius: SWATCH_RADIUS, backgroundColor: bg }} />
           ))}
           <Text variant="caption" color={color.tertiaryLabel}>
-            More
+            {t('gymCalendar.more')}
           </Text>
         </View>
       </View>

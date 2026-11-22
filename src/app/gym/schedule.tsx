@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { showToast } from '@/components/display/toastStore';
 import { Card } from '@/components/display/Card';
-import { Skeleton } from '@/components/display';
+import { LoadFailedNotice, Skeleton } from '@/components/display';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Screen } from '@/components/navigation/Screen';
 import { Icon } from '@/components/primitives/Icon';
@@ -22,8 +22,10 @@ import type { ScheduleDay, WorkoutTemplate } from '@/lib/types';
 
 /** Weekday gutter — every workout name starts on one edge (design §3.6). */
 const DAY_WIDTH = 42;
-/** The design's day labels, indexed by day_of_week (0 = Sunday). */
-const WEEK_DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+/** A day_of_week (0 = Sunday) named in the app language: "Mon" short, "Monday" long.
+ *  1 January 2023 was a Sunday, so it anchors the index. */
+const weekdayName = (dayOfWeek: number, language: string, weekday: 'short' | 'long'): string =>
+  new Date(2023, 0, 1 + dayOfWeek).toLocaleDateString(language, { weekday });
 /** The design's gap between a workout's three lines, tighter than the spacing scale. */
 const WORKOUT_TEXT_GAP = 3;
 const WEEK_ROW_MIN_HEIGHT = 58;
@@ -39,7 +41,8 @@ const dayLabelStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '600', lineH
 const sheetRowNameStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '500', lineHeight: 20 * PixelRatio.getFontScale() });
 
 export default function ScheduleScreen() {
-  const { schedule, loading: sLoading, refetch } = useSchedule();
+  const { t, i18n } = useTranslation();
+  const { schedule, loading: sLoading, isError: sError, refetch } = useSchedule();
   const { templates, loading: tLoading } = useTemplates();
   // Optimistic per-day overrides keyed by day_of_week — render these over the
   // fetched rows so a choice shows immediately, even offline.
@@ -52,7 +55,7 @@ export default function ScheduleScreen() {
   const rowFor = (day: ScheduleDay): ScheduleDay => overrides[day.day_of_week] ?? day;
 
   const choose = async (day: ScheduleDay, templateId: string | null) => {
-    const template = templateId ? templates.find((t) => t.id === templateId) ?? null : null;
+    const template = templateId ? templates.find((tpl) => tpl.id === templateId) ?? null : null;
     const optimistic: ScheduleDay = {
       day_of_week: day.day_of_week,
       day_name: day.day_name,
@@ -71,7 +74,7 @@ export default function ScheduleScreen() {
         delete next[day.day_of_week];
         return next;
       });
-      showToast({ message: 'Could not save schedule — check your connection', tone: 'error' });
+      showToast({ message: t('gymSchedule.saveFailed'), tone: 'error' });
     }
     refetch();
   };
@@ -80,7 +83,7 @@ export default function ScheduleScreen() {
     <Screen variant="floating" showBack contentStyle={{ gap: space.xl }}>
       {/* Own title, not Screen's: the design sets it flush with no tracking. */}
       <Text variant="title1" color={color.label} accessibilityRole="header">
-        My schedule
+        {t('gym.mySchedule')}
       </Text>
       {loading ? (
         <View style={{ gap: space.md }}>
@@ -88,6 +91,8 @@ export default function ScheduleScreen() {
             <Skeleton key={i} width="100%" height={64} rounded={radius.md} />
           ))}
         </View>
+      ) : sError && schedule.length === 0 ? (
+        <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />
       ) : (
         /* The design keeps the whole week in ONE elevated card, rows split by a
            hairline: day label, a trained dot, the workout, then a chevron. */
@@ -95,13 +100,17 @@ export default function ScheduleScreen() {
           {[...schedule].sort((a, b) => (a.day_of_week + 6) % 7 - (b.day_of_week + 6) % 7).map((day, i) => {
             const row = rowFor(day);
             const muscles = row.template ? musclePhrase(row.template) : '';
+            const count = row.template ? t('gym.exerciseCount', { count: row.template.exercises.length }) : '';
             return (
               <Pressable
                 key={day.day_of_week}
                 onPress={() => setActiveDay(day)}
                 haptic={false}
                 minTapTarget={false}
-                accessibilityLabel={`${day.day_name}, ${row.template ? row.template.name : 'rest day'}`}
+                accessibilityLabel={t('gymSchedule.rowLabel', {
+                  day: weekdayName(day.day_of_week, i18n.language, 'long'),
+                  workout: row.template ? row.template.name : t('gymSchedule.restDay'),
+                })}
                 style={({ pressed }) => ({
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -116,7 +125,7 @@ export default function ScheduleScreen() {
                     to "Tues…" in this column. VoiceOver still reads it in full
                     from the row's accessibilityLabel. */}
                 <Text color={color.label} style={[dayLabelStyle(), { width: DAY_WIDTH }]} numberOfLines={1}>
-                  {WEEK_DAY_LABELS[day.day_of_week]}
+                  {weekdayName(day.day_of_week, i18n.language, 'short')}
                 </Text>
                 <View
                   style={{
@@ -132,12 +141,10 @@ export default function ScheduleScreen() {
                     style={sheetRowNameStyle()}
                     numberOfLines={1}
                   >
-                    {row.template ? row.template.name : 'Rest day'}
+                    {row.template ? row.template.name : t('gymLog.restDayTitle')}
                   </Text>
                   <Text variant="footnote" color={color.secondaryLabel} numberOfLines={1}>
-                    {row.template
-                      ? `${row.template.exercises.length} exercise${row.template.exercises.length === 1 ? '' : 's'}${muscles ? ` · ${muscles}` : ''}`
-                      : 'No workout assigned'}
+                    {row.template ? (muscles ? `${count} · ${muscles}` : count) : t('gymSchedule.noWorkout')}
                   </Text>
                 </View>
                 {/* Decorative — the row itself carries the label and the action. */}
@@ -153,25 +160,29 @@ export default function ScheduleScreen() {
       <BottomSheet
         visible={activeDay !== null}
         onClose={() => setActiveDay(null)}
-        title={activeDay ? `Workout for ${activeDay.day_name}` : undefined}
+        title={
+          activeDay
+            ? t('gymSchedule.sheetTitle', { day: weekdayName(activeDay.day_of_week, i18n.language, 'long') })
+            : undefined
+        }
       >
         {activeDay ? (
           <ScrollView
             style={{ maxHeight: windowHeight * SHEET_LIST_MAX_HEIGHT }}
             contentContainerStyle={{ gap: space.sm }}
           >
-            {templates.map((t) => (
+            {templates.map((template) => (
               <SheetRow
-                key={t.id}
-                label={t.name}
-                sublabel={`${t.exercises.length} exercise${t.exercises.length === 1 ? '' : 's'}`}
-                selected={rowFor(activeDay).template_id === t.id}
-                onPress={() => choose(activeDay, t.id)}
+                key={template.id}
+                label={template.name}
+                sublabel={t('gym.exerciseCount', { count: template.exercises.length })}
+                selected={rowFor(activeDay).template_id === template.id}
+                onPress={() => choose(activeDay, template.id)}
               />
             ))}
             <SheetRow
-              label="Rest day"
-              sublabel="Nothing scheduled"
+              label={t('gymLog.restDayTitle')}
+              sublabel={t('gymSession.nothingScheduled')}
               selected={rowFor(activeDay).template_id === null}
               onPress={() => choose(activeDay, null)}
             />
@@ -190,7 +201,7 @@ function musclePhrase(template: WorkoutTemplate): string {
 }
 
 function MyWorkouts({ templates, days }: { templates: WorkoutTemplate[]; days: ScheduleDay[] }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <View style={{ gap: space.md }}>
       <Text
@@ -208,7 +219,7 @@ function MyWorkouts({ templates, days }: { templates: WorkoutTemplate[]; days: S
         const scheduled = days
           .filter((day) => day.template_id === template.id)
           .sort((a, b) => (a.day_of_week + 6) % 7 - (b.day_of_week + 6) % 7)
-          .map((day) => day.day_name.slice(0, 3));
+          .map((day) => weekdayName(day.day_of_week, i18n.language, 'short'));
         const when = scheduled.length > 0 ? t('gym.everyDays', { days: scheduled.join(', ') }) : t('gym.notScheduled');
         return (
           <Card

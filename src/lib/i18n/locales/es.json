@@ -824,6 +824,66 @@
     "scanningAngles": "Escaneando {{shots}} ángulos…",
     "captureFailed": "No se pudo tomar la foto. Inténtalo de nuevo."
   },
+  "gymCount": {
+    "sessions_one": "{{count}} sesión",
+    "sessions_other": "{{count}} sesiones",
+    "freezes_one": "{{count}} congelación",
+    "freezes_other": "{{count}} congelaciones"
+  },
+  "gymCalendar": {
+    "legendLabel": "El sombreado va de menos a más entrenamiento",
+    "less": "Menos",
+    "more": "Más",
+    "todaySuffix": ", hoy",
+    "upcoming": "{{when}}, próximo",
+    "frozen": "{{when}}, racha congelada{{today}}",
+    "noSession": "{{when}}, sin sesión{{today}}",
+    "sessionDay": "{{when}}, {{count}}, {{length}}{{today}}",
+    "minutes": "{{minutes}} minutos",
+    "durationUnknown": "duración no registrada"
+  },
+  "muscleChart": {
+    "scope": "Últimos 30 días",
+    "openLabel": "Enfoque muscular, últimos 30 días. Abre todos los grupos musculares",
+    "empty": "Registra entrenamientos para ver qué músculos trabajas"
+  },
+  "gymSchedule": {
+    "saveFailed": "No se pudo guardar el horario: revisa tu conexión",
+    "noWorkout": "Sin entrenamiento asignado",
+    "restDay": "día de descanso",
+    "rowLabel": "{{day}}, {{workout}}",
+    "sheetTitle": "Entrenamiento del {{day}}"
+  },
+  "gymNewTemplate": {
+    "editTitle": "Editar entrenamiento",
+    "namePlaceholder": "Día de empuje",
+    "durationLabel": "Duración (min, opcional)",
+    "exercises": "Ejercicios",
+    "emptyEditing": "Este entrenamiento no tiene ejercicios.",
+    "emptyNew": "Añade ejercicios para crear tu entrenamiento.",
+    "readOnly": "Aún no se pueden editar los ejercicios de un entrenamiento guardado.",
+    "removeAction": "Quitar ejercicio",
+    "sets_one": "{{count}} serie",
+    "sets_other": "{{count}} series",
+    "save": "Guardar entrenamiento",
+    "saving": "Guardando…",
+    "updated": "Entrenamiento actualizado",
+    "saveFailed": "No se pudo guardar el entrenamiento"
+  },
+  "gymSomeOfIt": {
+    "title": "¿Qué hiciste?",
+    "subtitle": "Desmarca lo que te saltaste",
+    "cardioPlanned": "{{minutes}} min previstos",
+    "strengthDetail": "{{sets}} × {{reps}} · {{load}}",
+    "bodyweight": "peso corporal",
+    "nothingTicked": "Nada marcado",
+    "log_one": "Registrar {{count}} ejercicio",
+    "log_other": "Registrar {{count}} ejercicios",
+    "allTicked": "Todo marcado: igual que registrarlo según el plan",
+    "tickOne": "Marca al menos un ejercicio para registrar",
+    "leftOut_one": "{{count}} ejercicio quedará fuera",
+    "leftOut_other": "{{count}} ejercicios quedarán fuera"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} cambio pendiente de sincronizar",
     "waiting_other": "{{count}} cambios pendientes de sincronizar"

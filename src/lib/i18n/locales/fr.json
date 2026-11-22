@@ -822,6 +822,66 @@
     "scanningAngles": "Analyse de {{shots}} angles…",
     "captureFailed": "Impossible de prendre la photo. Veuillez réessayer."
   },
+  "gymCount": {
+    "sessions_one": "{{count}} séance",
+    "sessions_other": "{{count}} séances",
+    "freezes_one": "{{count}} gel",
+    "freezes_other": "{{count}} gels"
+  },
+  "gymCalendar": {
+    "legendLabel": "La teinte va de moins à plus d’entraînement",
+    "less": "Moins",
+    "more": "Plus",
+    "todaySuffix": ", aujourd’hui",
+    "upcoming": "{{when}}, à venir",
+    "frozen": "{{when}}, gel de série{{today}}",
+    "noSession": "{{when}}, aucune séance{{today}}",
+    "sessionDay": "{{when}}, {{count}}, {{length}}{{today}}",
+    "minutes": "{{minutes}} minutes",
+    "durationUnknown": "durée non enregistrée"
+  },
+  "muscleChart": {
+    "scope": "30 derniers jours",
+    "openLabel": "Focus musculaire, 30 derniers jours. Ouvre tous les groupes musculaires",
+    "empty": "Enregistrez vos séances pour voir les muscles sollicités"
+  },
+  "gymSchedule": {
+    "saveFailed": "Impossible d’enregistrer le programme : vérifiez votre connexion",
+    "noWorkout": "Aucune séance prévue",
+    "restDay": "jour de repos",
+    "rowLabel": "{{day}}, {{workout}}",
+    "sheetTitle": "Séance du {{day}}"
+  },
+  "gymNewTemplate": {
+    "editTitle": "Modifier la séance",
+    "namePlaceholder": "Séance poussée",
+    "durationLabel": "Durée (min, facultatif)",
+    "exercises": "Exercices",
+    "emptyEditing": "Cette séance ne contient aucun exercice.",
+    "emptyNew": "Ajoutez des exercices pour créer votre séance.",
+    "readOnly": "Les exercices d’une séance enregistrée ne sont pas encore modifiables.",
+    "removeAction": "Retirer l’exercice",
+    "sets_one": "{{count}} série",
+    "sets_other": "{{count}} séries",
+    "save": "Enregistrer la séance",
+    "saving": "Enregistrement…",
+    "updated": "Séance mise à jour",
+    "saveFailed": "Impossible d’enregistrer la séance"
+  },
+  "gymSomeOfIt": {
+    "title": "Qu’avez-vous fait ?",
+    "subtitle": "Décochez ce que vous avez sauté",
+    "cardioPlanned": "{{minutes}} min prévues",
+    "strengthDetail": "{{sets}} × {{reps}} · {{load}}",
+    "bodyweight": "poids du corps",
+    "nothingTicked": "Rien de coché",
+    "log_one": "Enregistrer {{count}} exercice",
+    "log_other": "Enregistrer {{count}} exercices",
+    "allTicked": "Tout est coché : comme l’enregistrer tel que prévu",
+    "tickOne": "Cochez au moins un exercice à enregistrer",
+    "leftOut_one": "{{count}} exercice sera laissé de côté",
+    "leftOut_other": "{{count}} exercices seront laissés de côté"
+  },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"

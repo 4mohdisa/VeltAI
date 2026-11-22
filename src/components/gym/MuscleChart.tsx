@@ -10,8 +10,9 @@
 import type { JSX } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
-import { Card, CardHeaderRow, Skeleton } from '@/components/display';
+import { Card, CardHeaderRow, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
@@ -108,7 +109,8 @@ export function MuscleVolumeRow({
 }
 
 export function MuscleChart(): JSX.Element {
-  const { patterns: rawPatterns, loading } = useGymPatterns();
+  const { t } = useTranslation();
+  const { patterns: rawPatterns, loading, isError } = useGymPatterns();
   const patterns = isGymPatternsShape(rawPatterns) ? rawPatterns : null;
 
   if (loading) {
@@ -125,16 +127,18 @@ export function MuscleChart(): JSX.Element {
 
   const map = patterns?.muscle_volume_map;
   const hasData = map != null && Object.keys(map).length > 0;
+  // A failed read is not "no workouts": say so instead of the first-use prompt.
+  if (isError && !hasData) return <LoadFailedNotice message={t('gym.loadFailed')} />;
   const max = hasData ? Math.max(0, ...Object.values(map)) : 0;
   // Strongest focus first, as the design orders its muscle list.
   const ordered = hasData ? [...MUSCLE_GROUPS].sort((a, b) => (map[b] ?? 0) - (map[a] ?? 0)) : MUSCLE_GROUPS;
 
   const header = (
     <CardHeaderRow
-      title="Muscle focus"
+      title={t('gymMuscles.title')}
       icon="barbell"
       tint={categoryAccent.streak}
-      scope="Last 30 days"
+      scope={t('muscleChart.scope')}
       chevron={hasData}
     />
   );
@@ -148,7 +152,7 @@ export function MuscleChart(): JSX.Element {
           <Pressable
             onPress={() => router.push('/gym/muscles')}
             haptic={false}
-            accessibilityLabel="Muscle focus, last 30 days. Opens every muscle group"
+            accessibilityLabel={t('muscleChart.openLabel')}
           >
             {header}
           </Pressable>
@@ -158,7 +162,7 @@ export function MuscleChart(): JSX.Element {
 
         {!hasData ? (
           <Text variant="footnote" color={color.secondaryLabel}>
-            Log workouts to see which muscles you hit
+            {t('muscleChart.empty')}
           </Text>
         ) : (
           <View style={{ gap: space.sm }}>

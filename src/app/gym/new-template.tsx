@@ -3,12 +3,15 @@
 // or a cardio duration). Save writes a TemplateInput. Edit mode (route param
 // `id`) prefills from the server and only patches name/duration — the backend has
 // no bulk exercise replace on PATCH, so exercise edits on an existing template
-// are out of scope here (kept read-only). All API calls are best-effort.
+// are out of scope here (kept read-only). A failed prefill shows a load-failed
+// notice with retry instead of an empty workout.
 import { useEffect, useRef, useState } from 'react';
 import { Alert, View, type TextInput } from 'react-native';
+import type { TFunction } from 'i18next';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { LoadFailedNotice } from '@/components/display';
 import { showToast } from '@/components/display/toastStore';
 import { SwipeableRow } from '@/components/display/SwipeableRow';
 import { Button, TextField } from '@/components/forms';
@@ -26,14 +29,16 @@ type Item = { exercise: ExerciseLibraryItem; planned: PlannedValues };
 
 // "3 × 10 @ 60kg" for strength, "30 min" for cardio. Missing values collapse to
 // a dash so a half-filled row still reads.
-function summarize(ex: ExerciseLibraryItem, p: PlannedValues): string {
+function summarize(ex: ExerciseLibraryItem, p: PlannedValues, t: TFunction): string {
   if (ex.exercise_type === 'cardio') {
-    if (p.duration_minutes != null) return `${p.duration_minutes} min`;
-    return p.sets != null ? `${p.sets} sets` : 'Cardio';
+    if (p.duration_minutes != null) return t('gym.loggedMinutes', { minutes: p.duration_minutes });
+    return p.sets != null ? t('gymNewTemplate.sets', { count: p.sets }) : t('gymSession.cardio');
   }
-  const setsReps = `${p.sets ?? '—'} × ${p.reps ?? '—'}`;
-  const weight = p.weight != null ? ` @ ${p.weight}${p.weight_unit ?? 'kg'}` : '';
-  return setsReps + weight;
+  const sets = p.sets ?? '—';
+  const reps = p.reps ?? '—';
+  return p.weight != null
+    ? t('gymSession.plannedSetsWeight', { sets, reps, weight: p.weight, unit: p.weight_unit ?? 'kg' })
+    : t('gymSession.plannedSets', { sets, reps });
 }
 
 export default function NewTemplateScreen() {
@@ -46,20 +51,24 @@ export default function NewTemplateScreen() {
   const [items, setItems] = useState<Item[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  // Edit mode only: the prefill read, so "no exercises" is never shown for a
+  // workout that has not loaded or failed to load.
+  const [prefill, setPrefill] = useState<'loading' | 'failed' | 'ready'>(editing ? 'loading' : 'ready');
+  const [attempt, setAttempt] = useState(0);
   const durationRef = useRef<TextInput>(null);
 
-  // Edit mode: prefill from the server. Degrades to a blank form on any failure.
+  // Edit mode: prefill from the server.
   useEffect(() => {
     if (!id) return;
     let active = true;
     api.gym
       .getTemplate(id)
-      .then((t) => {
+      .then((template) => {
         if (!active) return;
-        setName(t.name);
-        setDuration(t.estimated_duration_minutes != null ? String(t.estimated_duration_minutes) : '');
+        setName(template.name);
+        setDuration(template.estimated_duration_minutes != null ? String(template.estimated_duration_minutes) : '');
         setItems(
-          t.exercises
+          template.exercises
             .filter((te): te is typeof te & { exercise: ExerciseLibraryItem } => !!te.exercise)
             .map((te) => ({
               exercise: te.exercise,
@@ -73,16 +82,22 @@ export default function NewTemplateScreen() {
               },
             })),
         );
+        setPrefill('ready');
       })
       .catch(() => {
-        /* degrade: leave the form blank */
+        if (active) setPrefill('failed');
       });
     return () => {
       active = false;
     };
-  }, [id]);
+  }, [id, attempt]);
 
-  const canSave = name.trim().length > 0 && (editing || items.length > 0) && !saving;
+  const retryPrefill = () => {
+    setPrefill('loading');
+    setAttempt((n) => n + 1);
+  };
+
+  const canSave = name.trim().length > 0 && (editing || items.length > 0) && prefill === 'ready' && !saving;
 
   const save = async () => {
     if (!canSave) return;
@@ -110,10 +125,10 @@ export default function NewTemplateScreen() {
         await api.gym.createTemplate(input);
         track('template_created');
       }
-      showToast({ message: editing ? 'Workout updated' : 'Workout saved', tone: 'success' });
+      showToast({ message: editing ? t('gymNewTemplate.updated') : t('gymSession.saved'), tone: 'success' });
       router.back();
     } catch {
-      showToast({ message: 'Could not save workout', tone: 'error' });
+      showToast({ message: t('gymNewTemplate.saveFailed'), tone: 'error' });
       setSaving(false);
     }
   };
@@ -124,7 +139,7 @@ export default function NewTemplateScreen() {
       showBack
       footer={
         <Button
-          title={saving ? 'Saving…' : 'Save workout'}
+          title={saving ? t('gymNewTemplate.saving') : t('gymNewTemplate.save')}
           onPress={save}
           disabled={!canSave}
           loading={saving}
@@ -133,13 +148,13 @@ export default function NewTemplateScreen() {
     >
       {/* Own title, not Screen's: the design sets it flush, untracked, 4 above the first field. */}
       <Text variant="title1" color={color.label} accessibilityRole="header" style={{ paddingBottom: space.xs }}>
-        {editing ? 'Edit workout' : 'New workout'}
+        {editing ? t('gymNewTemplate.editTitle') : t('gymTemplates.newWorkoutLabel')}
       </Text>
       <TextField
-        label="Name"
+        label={t('food.nameField')}
         value={name}
         onChangeText={setName}
-        placeholder="Push Day"
+        placeholder={t('gymNewTemplate.namePlaceholder')}
         returnKeyType="next"
         submitBehavior="submit"
         onSubmitEditing={() => durationRef.current?.focus()}
@@ -148,7 +163,7 @@ export default function NewTemplateScreen() {
         // TextField doesn't declare `ref`, but it spreads rest props onto its
         // TextInput and React 19 forwards ref-in-props — so this focuses it.
         {...({ ref: durationRef } as object)}
-        label="Duration (min, optional)"
+        label={t('gymNewTemplate.durationLabel')}
         value={duration}
         onChangeText={setDuration}
         keyboardType="number-pad"
@@ -158,12 +173,15 @@ export default function NewTemplateScreen() {
 
       <View style={{ gap: space.md }}>
         <Text variant="label" color={color.secondaryLabel} style={{ textTransform: 'uppercase', letterSpacing: 1.1 }}>
-          Exercises
+          {t('gymNewTemplate.exercises')}
         </Text>
 
-        {items.length === 0 ? (
+        {/* While the prefill runs nothing shows here, so an unloaded workout never reads as empty. */}
+        {prefill === 'loading' ? null : prefill === 'failed' ? (
+          <LoadFailedNotice message={t('gym.loadFailed')} onRetry={retryPrefill} />
+        ) : items.length === 0 ? (
           <Text variant="footnote" color={color.secondaryLabel}>
-            {editing ? 'No exercises on this workout.' : 'Add exercises to build your workout.'}
+            {editing ? t('gymNewTemplate.emptyEditing') : t('gymNewTemplate.emptyNew')}
           </Text>
         ) : (
           // One elevated card holds the exercise rows; the clip lives on the inner
@@ -179,7 +197,7 @@ export default function NewTemplateScreen() {
                   ]);
                 const inner = (
                   <View
-                    accessibilityActions={editing ? undefined : [{ name: 'delete', label: 'Remove exercise' }]}
+                    accessibilityActions={editing ? undefined : [{ name: 'delete', label: t('gymNewTemplate.removeAction') }]}
                     onAccessibilityAction={(e) => {
                       if (e.nativeEvent.actionName === 'delete') confirmDelete();
                     }}
@@ -201,7 +219,7 @@ export default function NewTemplateScreen() {
                         {it.exercise.name}
                       </Text>
                       <Text variant="footnote" color={color.secondaryLabel}>
-                        {summarize(it.exercise, it.planned)}
+                        {summarize(it.exercise, it.planned, t)}
                       </Text>
                     </View>
                     {!editing ? (
@@ -210,7 +228,7 @@ export default function NewTemplateScreen() {
                         haptic={false}
                         minTapTarget={false}
                         hitSlop={8}
-                        accessibilityLabel={`Remove ${it.exercise.name}`}
+                        accessibilityLabel={t('gymSession.removeExercise', { name: it.exercise.name })}
                       >
                         <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
                       </Pressable>
@@ -236,13 +254,13 @@ export default function NewTemplateScreen() {
 
         {editing && items.length > 0 ? (
           <Text variant="footnote" color={color.secondaryLabel}>
-            Exercises can’t be edited on a saved workout yet.
+            {t('gymNewTemplate.readOnly')}
           </Text>
         ) : null}
 
         {!editing ? (
           <Button
-            title="Add an exercise"
+            title={t('gymSession.addExercise')}
             variant="tertiary"
             icon="add"
             onPress={() => setPickerOpen(true)}
