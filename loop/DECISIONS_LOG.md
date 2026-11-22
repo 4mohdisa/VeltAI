@@ -8829,3 +8829,7 @@
 - 2026-11-22 20:24 Kept the Preferences test that checks for quoted "Units" rather than rewriting it, since it passes and a test edit is not needed for this row note.
 - 2026-11-22 20:24 Left the straight-apostrophe fr.json issue for a later round as a NEXT item, not a change in this task, to keep the step to one row action.
 - 2026-11-22 20:24 No full gate run this round: the task changes only a markdown file; the checkpoint at round 203 still runs the full tsc and Jest.
+- 2026-11-22 20:25 The loop flagged the last report because no type check or tests ran. Gate check on the changed files first (default: deal with the flag before new work).
+- 2026-11-22 20:25 Chose the gate check over the integrations copy task. Jev gives a low chance of clean completion, so the smaller task comes first.
+- 2026-11-22 20:25 Latest report suggests support.tsx next, but the notes Next list says integrations.tsx. Kept integrations (notes order) and will move to support after the gate check.
+- 2026-11-22 20:25 Merging the two integrations sentences in the Row 15 note is part of this round, as the report flagged it as duplicate.
