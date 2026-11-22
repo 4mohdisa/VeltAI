@@ -30,6 +30,7 @@
     "analyticsLabel": "Analítica de producto",
     "analyticsHint": "Comparte qué funciones usas, nunca lo que registras",
     "analyticsFooter": "Solo propia, en nuestros servidores: qué funciones se usan, nunca lo que registras. Nunca se vende. Desactivada significa totalmente desactivada.",
+    "dataFooter": "Tus datos de salud son privados. Nunca los vendemos y no usamos SDK de publicidad ni de seguimiento en la app.",
     "exportTitle": "Exportar mis datos",
     "exportPreparing": "Preparando tu exportación…",
     "exportHint": "Abre el menú para compartir con una copia de todos tus datos",

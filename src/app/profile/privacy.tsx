@@ -95,7 +95,7 @@ export default function PrivacyScreen() {
       ) : null}
       <SettingsList
         title="Your data"
-        footer="Your health data stays private. We never sell it, and we run no advertising or tracking SDKs inside the app."
+        footer={t('settings.dataFooter')}
         rows={[
           {
             icon: 'download-outline',

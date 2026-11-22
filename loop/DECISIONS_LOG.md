@@ -9099,3 +9099,7 @@
 - 2026-11-23 00:21 Full Jest run stays queued for the next checkpoint round, as the notes already say.
 - 2026-11-23 00:21 Recorded the repeated export.go blocker under Blocked on Isa and did not retry it, per the loop note.
 - 2026-11-23 00:21 Row 8 host item in PRIVACY_DATA.md answered 'already matches' (code and doc agree since round 204).
+- 2026-11-23 00:23 Chose the Privacy body copy over the full Jest run: the full run is a checkpoint task and the loop script decides when it happens, and this task is the smallest open Row 15 item.
+- 2026-11-23 00:23 Treated the latest handover summary (rounds 215 to 218) as stale. The notes file is the source of truth, so the Row 10 Settings link and the Row 9 owner check are read from the notes.
+- 2026-11-23 00:23 Kept the Privacy share subject hard-coded for now, because the task says not to change the share call. Listed it under NEXT.
+- 2026-11-23 00:23 Kept Row 15 copy-pass notes on Row 15, per the existing decision.
