@@ -8685,3 +8685,11 @@
 - 2026-11-22 19:37 Chose the nutrition.tsx:227 slot name over week.tsx flat bars: it is the smallest task, needs no product rule, and Jev ranks it highest.
 - 2026-11-22 19:37 The loop/DECISIONS_LOG.md and loop/NOTES_phase3.md modifications were written by the loop script, not by Claude Code. No action needed.
 - 2026-11-22 19:37 Jest log noise ('[data] API unreachable' from hooks.ts:72) does not fail tests. Left alone, noted under Parked.
+- 2026-11-22 19:39 Loop flag accepted: the last round was only half done because the visible slot name was still English. This round finishes it before moving on.
+- 2026-11-22 19:39 Jev ranked week.tsx flat bars first (90%). Kept the nutrition task. Reason Jev cannot see: week.tsx needs a product rule for what a zero-value week shows, and its all-zero chart line sits in the row 125 snapshot, which needs Isa's permission to change.
+- 2026-11-22 19:39 Visible slot name translated without asking Isa for the go-ahead the last report requested. Reason: it is existing translated text the rules already require in all languages, and English output stays identical, so no snapshot should move.
+- 2026-11-22 19:39 Shared slot-name helper deferred: it touches five files outside this row's scope.
+- 2026-11-22 19:40 Kept the visible slot name fix over Jev's shared-helper pick (81%). Reason: it is a user-visible English string on es and fr, it is the open next step in the notes, and the helper touches five files, which breaks the one screen or component per prompt rule. The helper goes next round.
+- 2026-11-22 19:40 If a snapshot breaks, back out and report, do not regenerate. This follows the existing snapshot rule.
+- 2026-11-22 19:40 No new strings, so no locale edits. The four slot keys already exist in en, es and fr.
+- 2026-11-22 19:40 Rewrote the prompt to name the loop/phase3 branch and forbid git, switch, push and merge, fixing the rejection.

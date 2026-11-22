@@ -249,7 +249,7 @@ export default function NutritionDetailScreen(): JSX.Element {
           >
             <View style={{ flex: 1, gap: space.xs }}>
               <Text variant="bodyBold" color={color.label}>
-                {meal.slot}
+                {t(`addMenu.${SLOT_KEYS[meal.slot]}`)}
               </Text>
               <Text variant="footnote" color={color.secondaryLabel}>
                 {meal.time} · {formatEnergy(meal.calories, energyUnit)}
