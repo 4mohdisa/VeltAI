@@ -8413,3 +8413,7 @@
 - 2026-11-22 18:10 Freeze offline toast stays parked: it touches the data-adjacent offline path and needs a behaviour decision.
 - 2026-11-22 18:10 Shared has-a-streak helper stays parked: it needs a location decision and touches two screens.
 - 2026-11-22 18:10 Confirmed the round 97 freeze empty state and failed-read notice as built within Row 14, with Isa's review of the gymFreeze wording still pending.
+- 2026-11-22 18:12 Chose the BottomSheet backdrop label because the automatic check flagged round 98 as partly done and this is the smallest remaining sheet close gap.
+- 2026-11-22 18:12 Accepted the unplanned GlassButtons.tsx change from round 98 as needed for the freeze sheet close label. Isa review noted in Blocked, no re-ask.
+- 2026-11-22 18:12 Kept 'Cerrar' and 'Fermer' for common.close pending Isa review, no re-ask.
+- 2026-11-22 18:12 Deferred GlassButtons Go back, Back to and Done labels to a later round to keep this task to one file.

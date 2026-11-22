@@ -18,6 +18,7 @@ import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { FullWindowOverlay } from 'react-native-screens';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -49,6 +50,7 @@ export type BottomSheetProps = {
 };
 
 export function BottomSheet({ visible, onClose, title, children, testID }: BottomSheetProps) {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const reduceMotion = useReduceMotion();
   // `mounted` is decoupled from `visible` so we can play the slide-DOWN before the
@@ -119,7 +121,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
     <FullWindowOverlay>
       <View style={[StyleSheet.absoluteFill, { justifyContent: 'flex-end', zIndex: zIndex.bottomSheet }]}>
         <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: color.overlay }, scrimStyle]}>
-          <View accessibilityRole="button" accessibilityLabel="Close" onTouchEnd={onClose} style={{ flex: 1 }} />
+          <View accessibilityRole="button" accessibilityLabel={t('common.close')} onTouchEnd={onClose} style={{ flex: 1 }} />
         </Animated.View>
 
         {/* Keyboard avoidance: sheets host TextFields (edit sheets, rename,

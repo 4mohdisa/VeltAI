@@ -5,7 +5,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Round 87 checkpoint clean: tsc 0; 160 suites, 1073 tests, 0 failed.
+- Round 87 checkpoint clean: 160 suites, 1073 tests, 0 failed.
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22.
 - Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Multi-file jest via xargs. zsh: use $?. Write output to file, then tail.
 - Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
@@ -25,7 +25,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - Failed reads: LoadFailedNotice message={t('gym.loadFailed')}, plus onRetry={refetch} only if refetch exists.
-- Empty or failed screens with no stored data: one clear action. Loading guards are not required unless a row names them.
+- Empty or failed screens with no stored data: one clear action. Loading guards not required unless a row names them.
 - Locale blocks inserted as text, not JSON rewrite. French: no-break space before ':' and '?'.
 - Food tab shows PendingSyncBanner counting all queued writes (default).
 - Exercise progress and muscles: failed read shows notice, no Retry (default).
@@ -34,35 +34,39 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
 - Round 96: Jev said ask; declined, no new major question.
-- Round 98: Close label in SheetContent translated via common.close (reuse existing key if present).
+- Round 98: Close label in SheetContent translated via common.close.
+- Round 99: GlassButtons.tsx Close label change accepted as needed for freeze sheet. Cerrar and Fermer kept pending Isa review.
 
 ## Done
 - Rounds 1-4: row list, Rows 1 and 2 BUILT.
 - Rows 3 and 5 part 1 BUILT (owner check pending).
 - Row 4 audit BUILT; rows 12-17 added.
 - Row 12 plumbing done; PARTIAL until Isa says built.
-- Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail Done.
-- Row 14 PARTIAL: session, history, muscles, templates, streak (round 96), freeze sheet empty state and failed read (round 97).
+- Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
+- Row 14 PARTIAL: session, history, muscles, templates, streak (r96), freeze sheet (r97), SheetContent close label (r98).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
-- Retry for useGymPatterns and useExerciseProgress needs a refetch passthrough in src/lib/data/gymSchedule.ts. Default: no Retry.
+- Retry for useGymPatterns and useExerciseProgress needs refetch passthrough in src/lib/data/gymSchedule.ts. Default: no Retry.
 - useLoggedDays (src/lib/data/foodDays.ts) calendar failed read has no error.
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks (including gymStreak and gymFreeze). Review needed.
+- Row 13 and 14: es and fr wording of all new blocks. Review needed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
 - Row 14: freeze sheet disables apply tick and replaces sheet with log-session when no streak. Confirm.
+- Row 14 round 98: GlassButtons.tsx changed though not named in the brief. Confirm acceptable.
+- Row 14 round 98: Cerrar and Fermer for common.close. Review.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 98: translate Close label in SheetContent (Row 14).
+- Round 99: BottomSheet backdrop Close label via common.close (Row 14).
+- Then GlassButtons Go back, Back to and Done labels.
 - Then shared has-a-streak helper (needs location decision), freeze offline toast (needs decision, data-adjacent).
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
@@ -77,11 +81,11 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - GymCalendar, WeekEnergyCard: hardcoded weekday letters.
 - Exercise library failed read hides muscles card. Cardio not recognised on failed read.
 - Muscle names stay English. '{{value}} reps' has no singular.
-- gymMuscles.shape test checks English text, not en.json. Fix in Row 14 cleanup.
+- gymMuscles.shape and sheetContent.render tests check English text, not en.json. Fix in Row 14 cleanup.
 - fr straight apostrophe in exercise removal prompt. Row 11.
 - Dev gym failed read keeps mock sessions. Dev falls back to mock product DB.
 - Freeze toast shows success when queued offline (gym/freeze.tsx).
-- Has-a-streak check duplicated in streak.tsx and freeze.tsx. Shared helper needs a location.
+- Has-a-streak check duplicated in streak.tsx and freeze.tsx.
 - Ask Lume drops server 503 message (ai-query.tsx).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395. Row 11 or park.
@@ -97,6 +101,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - gymSession.eyebrow and defaultTitle duplicate foodLog.today and dashboard.workout. Row 11.
 - WeekStrip and calendar.tsx duplicate logged-day label. Shared helper.
 - Session.tsx 'Progress saved' and 'Save' in its alert still English.
+- GlassButtons Go back, Back to and Done fallback still English.
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - saved.tsx line 1 says 'C13 · My dishes'. meals.tsx line 2 is 82 characters.
@@ -107,5 +112,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 93 prompt rejected for missing branch rule. Every prompt opens with it.
 - Round 94: muscles screen done, no Retry (default).
 - Round 95: templates already done; no code change.
-- Round 96: streak done. Loading guard gap resolved as default, see Decisions.
-- Round 97: freeze sheet empty state and failed read done; 4 suites pass; tsc 0.
+- Round 96: streak done.
+- Round 97: freeze sheet empty state and failed read done; tsc 0.
+- Round 98: SheetContent close label done. Automatic check flagged it as partly done; round 99 closes the BottomSheet backdrop gap.
