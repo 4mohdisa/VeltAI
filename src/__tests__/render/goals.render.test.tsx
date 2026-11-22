@@ -11,7 +11,8 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import { useSettingsStore } from '@/lib/settings/store';
 import { useUserStore } from '@/lib/data/userStore';
 import GoalsScreen from '@/app/profile/goals';
-import { act, allText, renderScreen } from './helpers';
+import en from '@/lib/i18n/locales/en.json';
+import { act, allText, findAll, renderScreen } from './helpers';
 
 const METRICS: Metrics = {
   frame: { x: 0, y: 0, width: 393, height: 852 },
@@ -74,6 +75,12 @@ test('shows the server goals row, not the locally derived target', async () => {
 
   const text = allText(tree);
   expect(text).toContain('2222');
+  const calorieLabels = findAll(
+    tree,
+    (p) => typeof p.accessibilityLabel === 'string' && p.accessibilityLabel.startsWith(en.goals.dailyCalories),
+  ).map((n) => n.props.accessibilityLabel as string);
+  expect(calorieLabels.length).toBeGreaterThan(0);
+  for (const label of calorieLabels) expect(label).not.toMatch(/[([]/);
 });
 
 test('falls back to the local derivation, not a crash or a stale number, when the server has no goals row', async () => {

@@ -8645,3 +8645,8 @@
 - 2026-11-22 19:25 Kept 'Goals reset to defaults.' as shipped; Isa to confirm wording, since the copy is slightly inaccurate.
 - 2026-11-22 19:25 Kept goals.saved key in all locales, since removing keys is not needed for the row and Isa confirms deletion.
 - 2026-11-22 19:25 Ran tsc and only the goals-related Jest files, not the full suite, because this is not a checkpoint round.
+- 2026-11-22 19:26 Round 149 report accepted as complete for bookkeeping: Row 15 entries are in PHASE3_ROWS.md, the diff touched only that file, and the tsc and goals tests passed. The loop's partly-done flag is answered by this note, not by reopening round 149.
+- 2026-11-22 19:26 Jev ranked the calorie label first (83%). I picked it too, because it is the report's own recommended NEXT, it is small, and it is a real accessibility gap. No concrete reason to override Jev.
+- 2026-11-22 19:26 Lowercase 'built' and 'not built' in older Row 15 notes are allowed by the brief (only capitalised status words are restricted). Left unchanged.
+- 2026-11-22 19:26 goals.resetDone wording and the unused goals.saved key stay as they are until Isa decides. Not part of this round.
+- 2026-11-22 19:26 Goals loading and error states stay parked until Isa allows a change in src/lib/data/hooks.ts.

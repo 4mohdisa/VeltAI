@@ -8,7 +8,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Last full checkpoint (round 144): tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Later rounds ran only changed files.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Round numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop numbers. Not fixed.
-- Loop flagged round 148 report as partly done. Round 149 prompt (bookkeeping) issued to close it.
+- Round 149 bookkeeping accepted as complete (see decisions round 150).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -29,7 +29,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Summary card and GymStatusCard hidden during first load. Accepted.
 - Rounds 129, 144: checkpoint kept over Jev picks. Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
 - Round 146: French goals fix chosen. Round 147: Row 14 cleanup; its two test edits dropped. Row 14 PARTIAL.
-- Round 149: goals.resetDone toast (round 148 work, reissued). Copy 'Goals reset to defaults.' kept; wording for Isa.
+- Round 149: goals.resetDone toast. Copy 'Goals reset to defaults.' kept; wording for Isa.
+- Round 150: Round 149 accepted as complete. Next task is the goals calorie label, Jev's pick (83%), also the report's NEXT. No reason to override.
 - Goals reset test named *.render.test.tsx so the render test set picks it up.
 
 ## Done
@@ -37,7 +38,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals fix (round 146), goals reset toast (round 149).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals fix (146), goals reset toast (149).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Goals loading and error via useGoals. Default: parked.
@@ -63,14 +64,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals reset wording 'Goals reset to defaults.' copies AI numbers; Isa to confirm. goals.saved unused; delete or keep.
 
 ## Next
-- Round 149 bookkeeping: Row 15 notes for round 146 and 149.
-- Goals calorie accessibility label puts unit in brackets.
+- Row 15: goals calorie accessibility label unit in brackets (goals.tsx), in progress now.
+- InsightCard type badge untranslated; more/less toggle uses body length over 120.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
-- InsightCard type badge untranslated; more/less toggle uses body length over 120.
 - BrainProfileCard: fixed 0.3 bar; numbers unformatted; energy always kcal. Insights swallow errors in src/lib/api.ts (~1253, 1270).
 - Row 14: key parity check; shared has-a-streak helper.
-- Then Rows 15 to 17, one screen per round.
+- Then Rows 15 to 17, one screen per round. Goals loading and error only after Isa allows hooks.ts.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8, 9, 10, then Row 11.
 
