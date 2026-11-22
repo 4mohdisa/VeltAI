@@ -1,5 +1,5 @@
 // PHASE3_ROWS.md row 15, Macros detail (src/app/dashboard/nutrition.tsx) meal rows
-// in Spanish and French. The data hooks are mocked, so nothing reaches the
+// in English, Spanish and French. The data hooks are mocked, so nothing reaches the
 // network. Each row's title and spoken label carry the addMenu slot name from
 // the active locale file.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
@@ -7,6 +7,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import NutritionDetailScreen from '@/app/dashboard/nutrition';
 import type { StoredMeal, WeeklyMacroDay } from '@/lib/data';
 import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import fr from '@/lib/i18n/locales/fr.json';
 import { act, allText, findAll, renderScreen } from './helpers';
@@ -51,6 +52,7 @@ afterAll(async () => {
 });
 
 test.each([
+  ['en', en],
   ['es', es],
   ['fr', fr],
 ])('meal row titles and spoken labels use the %s slot names', async (lng, locale) => {

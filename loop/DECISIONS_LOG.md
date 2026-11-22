@@ -8746,3 +8746,7 @@
 - 2026-11-22 19:54 Did not follow Jev's nutrition.tsx:227 pick (84%) this round. Reason: the loop note makes this round a checkpoint only, and a full gate must run before more edits. The nutrition fix is the next round's task.
 - 2026-11-22 19:54 Did not ask Isa even though Jev ranked ask at 68%. Reason: the food/detail.tsx fallback already has a default (t with defaultValue, as at line 677), so no question blocks the loop.
 - 2026-11-22 19:54 Recorded Round 170 test (foodAddTitle.render.test.tsx) as done. Reason: the report shows 3 of 3 passing and tsc 0 errors.
+- 2026-11-22 19:55 Round 172: nutrition.tsx verify-first run chosen over Jev's ask (56%). Jev confidence is low (0.34), so a small task is safer, and no new question is needed.
+- 2026-11-22 19:55 Round 172: the Row 15 notes line is included in the same prompt as the code change, because the row update is part of finishing that row, not a second task.
+- 2026-11-22 19:55 Round 172: no snapshot regeneration. Any broken snapshot is backed out and reported, per the existing decision.
+- 2026-11-22 19:55 Round 172: the food/detail.tsx unknown-slot question stays parked for a later round. It needs a decision on the readable fallback first.
