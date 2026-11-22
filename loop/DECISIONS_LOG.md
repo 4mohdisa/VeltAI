@@ -8002,3 +8002,7 @@
 - 2026-11-21 11:35 Ignored the stale handover (it lists items 1, 11 and 12 as open and a NEXT of a full checkpoint). The notes win. Item 11 and item 12 are recorded as built (R814 and R815 to R816).
 - 2026-11-21 11:35 Did not run the full checkpoint myself. The loop script has not flagged a checkpoint round, and the brief limits full-suite runs to those rounds. Isa runs it before commit.
 - 2026-11-21 11:35 Jev stop agreement (89 to 92%) matches my choice, so no override is logged.
+- 2026-11-22 15:30 Chose Task 1 (row list) first because the brief requires it before any other work and Progress is counted from that file.
+- 2026-11-22 15:30 Recorded analytics on by default with anonymous ID and a Settings off switch, for Isa to confirm before Phase 4.
+- 2026-11-22 15:30 Told Claude Code to keep the four status words in capitals only in the Status column, so the progress count stays accurate.
+- 2026-11-22 15:30 Asked for no test run in Task 1 because it changes no code.
