@@ -9427,3 +9427,8 @@
 - 2026-11-23 02:26 Treated PHASE3_ROWS.md as the source of truth for statuses. The handover and notes disagree on Rows 15 and 16 (handover says PARTIAL, notes say BUILT), so a status read is needed before Row 11.
 - 2026-11-23 02:26 Row 17 gap 4 is a screen-only change in src/app/ai-query.tsx, so the Parked note that files it under aiBrain.ts is wrong. Corrected here.
 - 2026-11-23 02:26 Jev says run (99%). Kept the choice: this is the smallest task and needs nothing from Isa.
+- 2026-11-23 02:27 Chose gap 4 over the Row 11 sweep: it is a screen-only change that needs nothing from Isa and is the smallest open gap.
+- 2026-11-23 02:27 Kept the handover status (15 and 16 PARTIAL) over the older notes (BUILT), since the handover is the later source. Row 11 waits until the status cells are read.
+- 2026-11-23 02:27 Told Claude Code to reuse existing translated keys, so no new locale strings unless needed. This avoids a translation gap.
+- 2026-11-23 02:27 Forbade edits to aiBrain.ts, so gap 6 (blocked on Isa) is not touched by accident.
+- 2026-11-23 02:27 Kept the Jest number at 1,322 as the working baseline until Isa confirms it.

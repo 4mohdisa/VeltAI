@@ -5,24 +5,21 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and baseline
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Jest from repo root, pinned ~29.7.0. Maestro not installed.
-- Last gates: tsc 0 errors. Jest 228 suites / 1,322 tests. Go 543 pass, 20 TestPG skipped. Isa to confirm the Jest number.
+- Last gates: tsc 0 errors. Jest 228 suites / 1,322 tests (Isa to confirm). Go 543 pass, 20 TestPG skipped.
 
-## Status (verify against PHASE3_ROWS.md, it is the source of truth)
-- Conflict: notes say 15 and 16 BUILT; handover says PARTIAL. Read the status cells before Row 11.
-- BUILT (per notes): 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12.
-- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 17.
-- DIFFERENT: 6 (parked until sign-in path), 11 (last).
+## Status (PHASE3_ROWS.md is the source of truth; read status cells before Row 11)
+- Handover status (used): BUILT 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12. PARTIAL 5, 13, 14, 15, 16, 17. DIFFERENT 6, 11.
+- Older notes said 15 and 16 BUILT. Verify in the status cells.
 
 ## Next
-- Row 17 gap 3 verification round (in progress, read only plus notes cell check).
-- Row 17 gap 4: src/app/ai-query.tsx shows the 503 message that ask() already returns. Screen only.
+- Row 17 gap 4: src/app/ai-query.tsx shows the 503 message that ask() returns (in progress).
 - Row 17 gap 5: empty Ask Lume answer renders nothing. Screen only.
-- Row 11 final sweep last.
+- Row 11 final sweep last, after status check.
 
 ## Row 17 gaps
 1 and 2: food and recipe search flash 'No matches' during debounce (hooks.ts, blocked on Isa).
-3: ExercisePicker failed load shows LoadFailedNotice, no Retry (built).
-4: Ask Lume 503 message dropped (screen only).
+3: ExercisePicker failed load shows LoadFailedNotice, no Retry (built, verified).
+4: Ask Lume 503 message (screen only, in progress).
 5: Ask Lume empty answer (screen only).
 6: Ask Lume fixed English replies in aiBrain.ts (blocked on Isa).
 

@@ -101,8 +101,10 @@ export default function AIQueryScreen() {
               <Text variant="bodyBold" color={color.label} style={{ textAlign: 'center' }}>
                 {t('aiQuery.unavailableTitle')}
               </Text>
+              {/* A 503 carries the server's own explanation, which ask() returns;
+                  every other failure returns '' and keeps the generic copy. */}
               <Text variant="callout" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-                {t('aiQuery.unavailableMessage')}
+                {answer || t('aiQuery.unavailableMessage')}
               </Text>
             </View>
           ) : answer ? (
