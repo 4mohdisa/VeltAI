@@ -9051,3 +9051,8 @@
 - 2026-11-23 00:09 Kept the Settings row for the next round, one screen or component per prompt.
 - 2026-11-23 00:09 Treated the PRIVACY_DATA.md host item as already matching the code, per the handover, and did not resend it.
 - 2026-11-23 00:09 Did not ask Isa anything this round; the open items are all either owner steps or defaults already in use.
+- 2026-11-23 00:10 Chose the checkpoint first: round 219 export change is overdue for full gates and the loop flag is only cleared by a passing run (notes say flag clears only on pass).
+- 2026-11-23 00:10 Checkpoint rounds change no files, so the prompt forbids edits.
+- 2026-11-23 00:10 PRIVACY_DATA.md host sentence already matches the code since round 204, per handover. Answer to the loop: already matches. No change.
+- 2026-11-23 00:10 Settings row and PRIVACY_DATA feedback entry deferred to the next rounds to keep one task per prompt.
+- 2026-11-23 00:10 Owner items (Row 9 device check, hosted migration, which local DB) stay as defaults; not re-asked.
