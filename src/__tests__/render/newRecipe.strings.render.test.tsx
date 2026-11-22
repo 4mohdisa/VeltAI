@@ -1,11 +1,15 @@
 // PHASE3_ROWS.md row 13, New Recipe screen (src/app/food/new-recipe.tsx) strings.
 // Title, field labels, the empty ingredient list, the buttons and the picker
 // rows come from t(), so switching the language to Spanish changes each one.
-// Mocks match recipeCreate.render.test.tsx.
+// Mocks match recipeCreate.render.test.tsx. The save toasts are read from the
+// toast store, as savedMealsLog.render.test.tsx does.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import NewRecipeScreen from '@/app/food/new-recipe';
+import { useToastStore } from '@/components/display/toastStore';
+import { api } from '@/lib/api';
 import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
 import type { FoodResult } from '@/lib/mock/data';
 import { act, buttonWithTitle, findAll, renderScreen } from './helpers';
 
@@ -47,7 +51,31 @@ function openPicker(tree: Tree, addIngredient: string) {
   });
 }
 
+const createRecipe = api.recipes.create as jest.Mock;
+
+/** Adds one ingredient, names the recipe and presses Save, the recipeCreate.render.test.tsx flow. */
+async function fillAndSave(tree: Tree) {
+  openPicker(tree, 'Add ingredient');
+  act(() => {
+    (findAll(tree, (p) => p.accessibilityLabel === 'Add Chicken breast')[0].props.onPress as () => void)();
+  });
+  act(() => {
+    (findAll(tree, (p) => p.accessibilityLabel === 'Quantity in grams')[0].props.onChangeText as (v: string) => void)('150');
+  });
+  act(() => {
+    (buttonWithTitle(tree, 'Add to recipe')!.props.onPress as () => void)();
+  });
+  act(() => {
+    (findAll(tree, (p) => p.label === 'Name')[0].props.onChangeText as (v: string) => void)('My Curry');
+  });
+  await act(async () => {
+    (buttonWithTitle(tree, 'Save Recipe')!.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+}
+
 afterEach(async () => {
+  useToastStore.getState().dismiss();
   await act(async () => {
     await i18n.changeLanguage('en');
   });
@@ -78,4 +106,18 @@ test('Spanish: the same strings switch language', async () => {
   openPicker(tree, 'Añadir ingrediente');
   expect(hasText(tree, '165 kcal / 100 g')).toBe(true);
   expect(hasText(tree, 'New Recipe')).toBe(false);
+});
+
+test('a successful save shows the newRecipe.saved toast', async () => {
+  createRecipe.mockResolvedValue(undefined);
+  const tree = renderNewRecipe();
+  await fillAndSave(tree);
+  expect(useToastStore.getState().current).toMatchObject({ message: en.newRecipe.saved, tone: 'success' });
+});
+
+test('a failed save shows the newRecipe.saveFailed toast', async () => {
+  createRecipe.mockRejectedValue(new Error('Network request failed'));
+  const tree = renderNewRecipe();
+  await fillAndSave(tree);
+  expect(useToastStore.getState().current).toMatchObject({ message: en.newRecipe.saveFailed, tone: 'error' });
 });

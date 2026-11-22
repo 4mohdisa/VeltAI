@@ -8279,3 +8279,6 @@
 - 2026-11-22 17:17 Calendar translation stays out of this round, so the blocked useLoggedDays change is not touched.
 - 2026-11-22 17:17 The new-recipe keys go in a new newRecipe block, and existing keys are reused where the text already exists, so no key is duplicated across screens.
 - 2026-11-22 17:17 Spanish and French wording for new keys is a default. Isa reviews all Row 13 wording together.
+- 2026-11-22 17:19 Chose the flagged gap first: the loop note says to finish a partly done task before moving on. It is small and closes the new-recipe screen.
+- 2026-11-22 17:19 Kept the test to the two toasts and the header comment only, so the round stays one screen.
+- 2026-11-22 17:19 history.tsx is next after this round, per the last report's recommendation.

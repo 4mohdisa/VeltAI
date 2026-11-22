@@ -1,4 +1,4 @@
-// New Recipe (Task 5) — full screen: name, servings, and an ingredient list built
+// New Recipe — full screen: name, servings, and an ingredient list built
 // from the food search. [+ Add ingredient] opens a sheet: search → pick a food →
 // enter grams; tapping an existing row re-opens the grams input; swipe-left deletes.
 // Live totals recompute every render. Save posts to the backend, best-effort +
