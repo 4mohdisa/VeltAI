@@ -9314,3 +9314,8 @@
 - 2026-11-23 01:50 Chose Row 8 over Row 14 because Row 14 cannot close without src/lib/data changes, which stay off limits by default.
 - 2026-11-23 01:50 Row 8 feature_used stays on shapeOnly() until Isa approves, because approval is needed to edit two pinned tests.
 - 2026-11-23 01:50 Row 11 stays last; it needs every other row finished first.
+- 2026-11-23 01:53 Jev said ask (90%). Not asking: the analytics default was already asked and answered in notes (off in code, Isa to confirm before Phase 4). Keep it off and record it.
+- 2026-11-23 01:53 Picked build-label pinning over the Jev ranking's question. Reason Jev cannot see: it is a concrete, decidable Row 8 gap, needs no Isa input, and touches only the test file and PRIVACY_DATA.md.
+- 2026-11-23 01:53 AI disclosure (consent.ts) turns analytics on. It is a Phase 4 file, so not touched. Parked for Phase 4; PRIVACY_DATA.md already names it. Row 8 stays PARTIAL until Isa decides.
+- 2026-11-23 01:53 Last report flagged as partly done. Handled by a targeted build-label test in this round, not by a new question.
+- 2026-11-23 01:53 Run the full checkpoint only after Row 8 closes, since the last full run was round 270.

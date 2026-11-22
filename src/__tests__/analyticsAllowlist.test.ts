@@ -2,6 +2,7 @@
 // a property survives only when its key is listed and its value fits the rule
 // (an enum tag, a non-negative integer count, or a boolean). fetch is mocked;
 // secure-store is the in-memory jest mock (moduleNameMapper).
+import { APP_VERSION, BUILD_NUMBER, GIT_SHA } from '@/lib/appVersion';
 import { useSettingsStore } from '@/lib/settings/store';
 import {
   ALLOWED_EVENTS,
@@ -88,6 +89,31 @@ test('a valid event keeps its allowed properties on the wire', async () => {
   expect(event.name).toBe('scan_failed');
   expect(event.properties).toMatchObject({ entry: 'barcode', reason: 'not_found' });
   expect(event.properties).not.toHaveProperty('weight_kg');
+});
+
+test('the only keys added outside sanitize() are the build labels, and nothing else reaches the wire', async () => {
+  const sent = { entry: 'barcode', reason: 'not_found', weight_kg: 82, food: 'oats' };
+  track('scan_failed', sent);
+  track('session_started');
+  const fn = jest.fn((_url: string, _init?: RequestInit) =>
+    Promise.resolve({ ok: true, status: 202, json: async () => ({ data: { accepted: 2 }, error: null }) }),
+  );
+  (globalThis as unknown as { fetch: unknown }).fetch = fn;
+  await flushAnalytics();
+
+  const events = (JSON.parse((fn.mock.calls[0][1] as RequestInit).body as string) as {
+    events: { name: AnalyticsEventName; properties: Record<string, unknown> }[];
+  }).events;
+  const buildLabels = { app_version: APP_VERSION, build: BUILD_NUMBER, git_sha: GIT_SHA };
+  const inputs: Partial<Record<AnalyticsEventName, Record<string, string | number>>> = { scan_failed: sent };
+  for (const event of events) {
+    const kept = Object.keys(sanitize(event.name, inputs[event.name]) ?? {});
+    const added = Object.keys(event.properties).filter((k) => !kept.includes(k));
+    expect(added.sort()).toEqual(['app_version', 'build', 'git_sha']);
+    expect(Object.keys(event.properties).filter((k) => !(k in ALLOWED_EVENTS[event.name]) && !(k in buildLabels))).toEqual([]);
+    expect(event.properties).toMatchObject(buildLabels);
+  }
+  expect(events.map((e) => e.name)).toEqual(['scan_failed', 'session_started']);
 });
 
 // Every track() call in the app, read from source: each property key must be on

@@ -8,47 +8,47 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - PHASE3_ROWS.md stays 22 lines. Notes go inside the row cell.
 - Checkpoint r270: tsc 0; Jest 220 suites, 1280 tests; Go 543 pass, 20 TestPG skipped.
-- Full suite last run r270. Next full checkpoint after Row 14 closes, or at handover.
+- Next full checkpoint after Row 8 closes, or at handover.
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13 and 14 (src/lib/data gaps parked), 15 (nutrition kcal waits on macros snapshot), 16, 17.
+- PARTIAL: 5 (part 2 needs sign-in), 8 (AI disclosure switch open), 12, 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 8 (analytics): close gaps in wrapper, allowlist test, PRIVACY_DATA.md. feature_used stays shapeOnly until Isa approves.
-- Then Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
+- Row 8: pin build labels (app_version, build, git_sha) in analyticsAllowlist.test.ts and PRIVACY_DATA.md.
+- Row 8 closes only when Isa decides the AI disclosure switch and the analytics default.
+- Then full checkpoint gates, then Row 11: KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
-- Analytics opt-in, off by default in code (brief said on). Isa confirms before Phase 4.
-- PostHog host unset uses SDK default; a set value must be https with hostname.
+- Analytics opt-in, OFF by default in code (brief said on). Code and step 1 agree. Isa confirms before Phase 4.
+- AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched. Recorded in PRIVACY_DATA.md.
 - Analytics switch lives in src/app/profile/privacy.tsx only.
+- PostHog host unset uses SDK default; a set value must be https with hostname.
+- Row 8 feature_used keeps shapeOnly() until Isa approves.
+- Build labels pinned by test: concrete gap, decidable, chosen over Jev's question.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
+- Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
+- Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
 - Identical text reuses existing keys, only when meaning matches. src/lib/data off limits except api.ts insight catch blocks.
 - French: no-break space before ':', '?' and inside guillemets; curly apostrophes; es and fr plain space before %. Spanish tu, French vous.
-- Snapshots and existing tests: never edited without Isa. Broken existing test: back out and report.
-- Render tests end .render.test.tsx in src/__tests__/render/.
-- Row 8 feature_used keeps shapeOnly() until Isa approves.
-- Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
-- Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off).
 - spokenEnergy in src/lib/units.ts. kJ keeps abbreviation until Isa answers.
 - PlannedValuesForm shared with session.tsx: translate component, do not edit session.tsx.
 - Weight caption follows the form's own kg/lb control, not the units setting.
-- Row 13 and 14 src/lib/data gaps: default off limits, parked, not asked again.
-- Row 14 picked over Row 13 (Jev 51%). Loop flag on Row 14 closed by two new test files; status unchanged.
-- Every prompt states the loop/phase3-only branch rule. Check every prompt against files first.
+- Row 14 picked over Row 13 (Jev 51%).
+- Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
 - Flagged partly done: close the gap with tests in new files before the next row.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts off limits: food search loading timing, Recipe recents, exercise picker 'No matches' flash. Parked.
 - Exercise picker failed read 'No exercises found' (gymSchedule.ts): parked.
 - Ask Lume 503 and 'not enough data' (aiBrain.ts): parked.
-- Row 14 month summary (gymRange.ts) and muscle cards Retry (useGymPatterns in gymSchedule.ts): parked.
-- Row 16 skeleton fix needs permission for profileEmptyStates.render.test.tsx test 1.
+- Row 14 month summary (gymRange.ts) and muscle cards Retry (useGymPatterns): parked.
+- Row 16: profileEmptyStates.render.test.tsx test 1 change needs permission.
 - integrations.render.test.tsx:75 and privacyLocale.render.test.tsx:55-56 need permission.
 - Macros snapshot (detailChrome.render.test.tsx): backed out; nutrition spoken kcal waits on it.
 - week.tsx snapshot regen and goals refetch in hooks.ts: need permission.
@@ -57,7 +57,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
 - feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests.
-- Analytics on (brief) vs opt-in (code): confirm before Phase 4.
+- Analytics on (brief) vs opt-in (code), and the AI disclosure switch: confirm before Phase 4.
 - PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST (owner).
 - Device maker, model, OS to PostHog: default not sent.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
@@ -68,7 +68,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Parked (not Phase 3)
 - Row 13 and 14 gaps: barcode 'Product not found' on network failure; calendar empty month on load failure; calendar has no loading indicator. Needs src/lib/data.
-- Row 14: three identical offline notices on the Gym tab; formatWeekdayDate and MyScheduleCard weekday use device language; muscle names English data.
+- Row 14: three identical offline notices on Gym tab; formatWeekdayDate and MyScheduleCard weekday use device language; muscle names English data.
 - Row 16: repeat-visit skeleton flashes for all-zero streak. Needs hydrated flag in src/lib/data.
 - Simulate scan and Unknown code buttons (dev only) stay English. WeekStrip ', today' and Previous/Next week English. label-scan.tsx keeps its own SLOTS.
 - Preferences kept in memory (src/lib/settings/store.ts). Not persisted.

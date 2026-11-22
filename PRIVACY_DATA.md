@@ -56,6 +56,11 @@ Extra fields beyond the table:
 - **Lume backend** also receives `app_version`, `build` and, when known,
   `git_sha` on every event, plus a per-launch `session_id` and the client
   timestamp.
+- `app_version`, `build` and `git_sha` are build labels, not user data: the
+  app version and build number from the app manifest and the commit the build
+  came from (`src/lib/appVersion.ts`). They are sent only to the Lume backend,
+  with every event, are the only keys added outside `sanitize()`, and are
+  pinned by `src/__tests__/analyticsAllowlist.test.ts`.
 - **PostHog** also attaches its own device properties: device type, the
   device maker and model name, OS name and version, and whether it is a
   simulator (`expo-device` is installed). PostHog is configured with no
