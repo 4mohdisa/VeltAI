@@ -53,6 +53,14 @@ export type Async<T> = { data: T; isLoading: boolean; error: Error | null; refet
 function useHydration(hydrate: () => Promise<void>): { isLoading: boolean; error: Error | null; refetch: () => void } {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  // A new hydrate (the Food tab switching day) is a new read: report loading
+  // again, or the screen shows "no meals" for a day it has not fetched yet.
+  // Adjusted during render, React's pattern for state that follows a prop.
+  const [readFor, setReadFor] = useState(() => hydrate);
+  if (readFor !== hydrate) {
+    setReadFor(() => hydrate);
+    setIsLoading(true);
+  }
   // `alive` is read at settle time so an unmounted screen never sets state.
   const run = useCallback(
     (alive: () => boolean) =>

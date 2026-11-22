@@ -25,20 +25,24 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Goals and units stay in memory in Phase 3. Row 15 fixes the 'Saved as you type' copy. Backend persistence parked.
 - A flagged report is re-verified as its own round, unless the row changed no code and the brief gives nothing to run.
 - Seed tooling: backend/tools/seed, localhost-only host guard (pgx host check), reset deletes only seed_ ids with @example.test email. Seed code is not in the server image.
+- Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD is missing, park as owner step (brief rule).
+- Loop note: unanswered question means use default and carry on. Do not re-ask the same question.
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
 - Round 2: Row 1 (Node 22) BUILT.
 - Round 4: Row 2 (baseline gates) BUILT.
-- Round 5: Row 3 report had no checks run. Set to PARTIAL.
-- Round 6: Row 3 closed BUILT with owner check pending.
+- Round 5 and 6: Row 3 closed BUILT with owner check pending.
 - Round 7: Row 4 audit written to EMPTY_STATES_AUDIT.md. Rows 12 to 17 added (DIFFERENT).
-- Rounds 8 and 9: Row 4 re-verify. Clean.
-- Round 10: Row 4 closed BUILT (audit only, no code).
-- Round 11: Row 5 part 1 reported: seed and reset in backend/tools/seed, 5 Go tests pass, seed and reset run on local DB. Row 5 PARTIAL. Auto flag raised (partly done). Re-verify round issued.
+- Rounds 8 to 10: Row 4 re-verified, closed BUILT (audit only, no code).
+- Round 11: Row 5 part 1 (seed and reset, 5 Go tests pass, seed ran on local DB).
+- Round 12: Row 5 re-verify clean.
+- Round 13: Row 5 closed BUILT with owner check pending (Maestro part parked).
+- Round 13: Row 12 issued (Food log empty state).
 
 ## Blocked on Isa
-- Row 5 part 2 (Maestro on seeded users): local backend needs a real Clerk login. Need one of: a Clerk dev user mapped to a seed profile, or E2E_EMAIL and E2E_PASSWORD set in the environment. Blocks rows 5, 6 (heavy user), 9 (export test). Ask if still open after the re-verify round.
+- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD in the shell. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked in rounds 12 and 13, no answer. Parked. Not asking again.
+- Row 12 simulator flow: depends on sign-in. Unit tests only until Isa answers.
 - Row 3: header plus on My workouts kept by default. Not blocking.
 - Analytics default: store says off, brief says on. Default used (brief). Confirm before Phase 4.
 
@@ -56,7 +60,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Old local rows mix 'lunch' and 'Lunch' meal names. Old data, not from the seed.
 
 ## Next
-- Row 5 re-verify (this round), then ask Isa once about Maestro sign-in if still blocked.
-- Row 6 (performance): non-sign-in backend measurements first.
-- Rows 12 to 17 (empty states follow-ups), Row 12 first.
+- Row 12 (Food log empty state), in progress.
+- Row 6 (performance): non-sign-in backend measurements.
+- Rows 13 to 17 (empty state follow-ups).
 - Rows 7 and 8 (Sentry, PostHog), then Rows 9 and 10 (export, help), then Row 11 (final sweep).

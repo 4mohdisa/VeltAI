@@ -8051,3 +8051,11 @@
 - 2026-11-22 15:49 Maestro sign-in for seed users is parked for Isa: the local backend checks real Clerk tokens and there is no login bypass. Options are a Clerk dev user mapped to a seed profile or E2E_EMAIL and E2E_PASSWORD set in the environment. No credentials go in chat.
 - 2026-11-22 15:49 Row 5 stays PARTIAL until the Maestro part. Row 6 heavy user measurements and Row 9 export test on the heavy user also depend on sign-in, so they are next in line after non-sign-in work.
 - 2026-11-22 15:49 Parked the old demo seeder (backend/scripts/seed_demo_account.go, no host guard) and the mixed meal name data as separate cleanup items, not Phase 3 rows.
+- 2026-11-22 15:50 Row 5 re-verify round came back clean (part 1 counts match). Row 5 stays PARTIAL until part 2 is resolved.
+- 2026-11-22 15:50 Asked Isa once about test credentials, as the notes planned. Test credentials are the one thing only Isa can supply.
+- 2026-11-22 15:50 Default if unanswered next round: park Maestro sign-in flows as an owner step (brief rule), mark Row 5 BUILT with owner check pending, continue with Row 6 non-sign-in backend measurements. Reason: an unanswered question never blocks the loop.
+- 2026-11-22 15:50 Jev ranks ask highest (85%). Agreed, because the blocker needs Isa's credentials and the notes already planned this ask.
+- 2026-11-22 16:05 Isa did not answer the Row 5 Maestro question. Recorded as Blocked, parked per default. Not asking again.
+- 2026-11-22 16:05 Row 5 closed as BUILT with owner check pending for the Maestro part. Seed and reset already built and tested.
+- 2026-11-22 16:05 Picked Row 12 over Row 7 and Row 6: smallest change, no sign-in, no new dependency, and it clears an unbuilt row.
+- 2026-11-22 16:05 Simulator flow for Row 12 not run: depends on sign-in, parked for Isa. Unit tests used instead.
