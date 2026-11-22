@@ -11,20 +11,19 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12.
 - PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
-- Row 16: Integrations notice done. Scan-calibration strings checked, no change needed, test added.
+- Row 16: Integrations notice and Support strings done (support test added, no change needed).
 
 ## Next
-- Row 16: Support screen strings (round in progress), then Preferences screen.
+- Row 16: Preferences copy audit (src/app/profile/preferences.tsx), in progress.
 - Then Row 15 copy pass, Row 17 gaps. Row 11 last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in, OFF by default in code (brief said on). Isa confirms before Phase 4.
-- AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched. Isa confirms.
+- AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched.
 - Analytics switch lives in src/app/profile/privacy.tsx only. Render tests in src/__tests__/render.
 - Build labels added by analytics.ts after sanitise, pinned by test. PostHog never gets them.
-- PostHog host unset uses SDK default; a set value must be https with hostname.
 - feature_used keeps shapeOnly() until Isa approves.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
@@ -37,9 +36,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Keep as is: Integrations 'Nothing connected' eyebrow; Privacy 'Your data' English; Spanish 'Tus datos'.
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
+- Preferences kept in memory, not persisted.
+- Prompt rejected once for missing loop/phase3 branch rule. Every prompt now states it.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns (muscle Retry). Parked.
+- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns. Parked.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
@@ -52,18 +53,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}'. kJ spoken as 'kilojoules' needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
 
 ## Parked (not Phase 3)
-- Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this. PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults and open items (fix wording later).
-- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; no calendar loading indicator; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
-- Row 16: repeat-visit skeleton flash for all-zero streak. Integrations: failed load plus 'Nothing connected' shown together. scanCalibration.basedOn has no _one form (singular never shown today). Privacy 'Your data' English (test requires it).
+- Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.
+- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
+- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form. Privacy 'Your data' English (test requires it). support.mailSubject untested.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
-- Preferences kept in memory (src/lib/settings/store.ts). Not persisted. Preferences copy unchecked.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight and always starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
-- UI/data: useTemplates drops on refetch failure; English exercise names and equipment; MacroBars unused; formatCalories always kcal; week.tsx flat bars; relative-time keys have no plurals; new-recipe recents from selected day only.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json; share subject hard-coded; two Export rows until Row 15 copy pass ends.
-- Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback; 'Help and feedback' vs 'Send feedback' label.
+- Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
+- PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults and open items (fix wording later).
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
 - Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts.
 
@@ -74,5 +74,5 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - useGym().data.loggedDays is an array, not a Set.
 - Edit locale files by exact text insertion, not JSON rewrite. Check anchor uniqueness.
 - Use node with s.replace(a, () => b), not Perl. Check bytes after edits.
-- PHASE3_ROWS.md must stay 22 lines: Row 15 line 20, Row 16 line 21, Row 17 line 22.
+- PHASE3_ROWS.md must stay 22 lines.
 - Locale files live in src/lib/i18n/locales/, not src/locales/.

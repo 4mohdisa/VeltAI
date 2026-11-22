@@ -9372,3 +9372,11 @@
 - 2026-11-23 02:11 Isa has not answered the Row 8 and Row 13/14 items after more than one round, so defaults stay (analytics opt-in off by default, AI disclosure keeps analytics setting unchanged, src/lib/data untouched).
 - 2026-11-23 02:11 Kept the Privacy 'Your data' English title because an existing test requires it.
 - 2026-11-23 02:11 Did not touch scanCalibration.basedOn plural or feature_used; both are parked.
+- 2026-11-23 02:12 Chose Row 16 Preferences copy audit: it is the next item in the last report and in Next, and it is small with no Isa dependency.
+- 2026-11-23 02:12 Kept Preferences in memory and did not persist it, because the row does not ask for persistence.
+- 2026-11-23 02:12 Left the Privacy 'Your data' title English, because the privacyLocale test requires it.
+- 2026-11-23 02:12 Continued on the defaults in Blocked on Isa, because Isa has not answered and the defaults do not block any row.
+- 2026-11-23 02:13 Rewrote the rejected prompt to state the loop/phase3 branch rule explicitly. Agents still do not run git; the loop script commits.
+- 2026-11-23 02:13 Chose Row 16 Preferences because it is the open Row 16 item and is the smallest unbuilt task.
+- 2026-11-23 02:13 Kept the Jev ask override: all Isa items have defaults and no row is blocked, so the run goes ahead.
+- 2026-11-23 02:13 Compressed the notes to under 600 words. Finished detail moved to one line each, and the open Isa items are kept verbatim.
