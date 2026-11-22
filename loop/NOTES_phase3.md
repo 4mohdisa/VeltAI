@@ -9,8 +9,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Next checkpoint: round 178 or later, when the loop says so.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
-- Round 170 DONE: foodAddTitle.render.test.tsx. add.tsx needed no change.
-- Round 172 in progress: nutrition.tsx:227 spoken slot name. Verify first, fix only if raw or English.
+- Handover written after round 172. Claude Code knows only the summary: name files fully.
+- Round 172 DONE: nutrition.tsx unchanged; meal row uses mealSlotName (lines 228, 244); dashboardNutrition.locale.render.test.tsx covers en, es, fr.
+- Round 173 in progress: Row 15 notes, add quick-add switch (doc only).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -29,44 +30,34 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Render tests end .render.test.tsx and live in src/__tests__/render/.
 - Unknown keys fall back with t(key, { defaultValue }), as in food/detail.tsx:677.
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
-- Round 155: InsightCard badge over Goals states. Round 158: checkpoint over Jev's nutrition pick.
-- Round 160: visible fix over shared-helper pick. Round 166: shared slot-name helper.
-- Round 167: nutrition.tsx swap over Jev's ask/run split. Round 168: quick-add.tsx swap.
-- Round 169: add.tsx swap with verify-first. Round 170: add render test first.
-- Round 171: checkpoint over Jev's nutrition pick (loop-forced).
-- Round 172: nutrition.tsx verify-first run over Jev's ask (56%, confidence 0.34, prefer small task).
+- Jest mock factories may only reference variables named mock*.
+- Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
+- Round 155, 158, 160, 166, 167, 168, 169, 170, 171, 172: see earlier rounds; each was a loop-forced or verify-first pick over Jev.
+- Round 173: doc fix over Jev's ask (69%, risk 0.8). Default covers the detail.tsx question.
+- Unknown slot in mealSlotName: fall back to t('foodLog.addMeal', { defaultValue }), not addMenu.undefined. Applies in round 174.
+- addMenu.snack stays 'Snacks' in es and fr until review.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition labels (pending 172), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, quick-add.tsx and add.tsx slot names via shared helper.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition (done 172), fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, quick-add.tsx, add.tsx via mealSlotName helper.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Goals loading and error via useGoals: needs permission to change src/lib/data/hooks.ts.
-- Goals persistence: in memory.
-- Wording: 'Goals reset to defaults.'; delete unused goals.saved?
-- Fibre spoken label 'Fibre (optional)'.
-- One-word ringOf vs full-phrase key; comma join. Default: keep.
-- 'Gym and food' for gym_correlation. Default: keep.
-- es.json has addMenu.voice and addMenu.describeOutLoud not in en or fr: delete or add.
-- Permission to make gymMuscles.shape and sheetContent.render tests read en.json.
-- summaryNoFabrication.test.ts:54 English stays. detailChrome snapshot: chart stays.
 - Permission to add refetch to useExerciseProgress and useGymPatterns.
 - Permission to regenerate snapshot for week.tsx flat bars (0 kcal) and define the no-logged-value rule.
-- Helper fallback for unknown slot shows raw key addMenu.undefined: readable fallback or keep?
-- Snack wording 'Snacks' in es (es.json:114) and fr (fr.json:112) needs review.
-- Review insights and banner wording; es/fr weekday capitalisation: lowercase.
 - Owner check pending: Food tab offline banner in simulator.
 - Analytics default on vs store off: confirm before Phase 4.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
+- Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Round 172: nutrition.tsx:227 slot name. Read the result first.
-- Then: food/detail.tsx :677 fallback decision, then the shared helper switch.
-- Then: week.tsx flat bars when every day is 0 kcal (needs permission for snapshot).
-- Then: InsightCard more/less toggle (120-character rule, InsightCard.tsx:77).
+- Round 173: Row 15 notes, quick-add switch (in progress).
+- Round 174: food/detail.tsx slot map to mealSlotName; change helper unknown-slot fallback to foodLog.addMeal; update mealSlotName.test.ts.
+- Then: InsightCard.tsx:77 more/less toggle (120-character rule).
+- Then: week.tsx flat bars when every day is 0 kcal (needs snapshot permission).
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: api.ts swallows insight errors (~1253, 1270).
 - Then: Profile screens hard-coded English titles (About, Privacy, Account, Connected apps, Delete Account, Units).
@@ -94,3 +85,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight type badge: unknown types show as sent.
 - Nutrition ring unit ('kcal' or 'kJ') spoken as abbreviation.
 - goals.tsx hard-codes 'g' and '%' in spoken labels.
+- Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.

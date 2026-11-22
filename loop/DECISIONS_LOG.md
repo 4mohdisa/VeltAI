@@ -8750,3 +8750,8 @@
 - 2026-11-22 19:55 Round 172: the Row 15 notes line is included in the same prompt as the code change, because the row update is part of finishing that row, not a second task.
 - 2026-11-22 19:55 Round 172: no snapshot regeneration. Any broken snapshot is backed out and reported, per the existing decision.
 - 2026-11-22 19:55 Round 172: the food/detail.tsx unknown-slot question stays parked for a later round. It needs a decision on the readable fallback first.
+- 2026-11-22 19:57 Chose the doc fix first because the loop flagged the last report as only partly done and Row 15 notes are missing the quick-add switch. Small task, no code risk, Jev risk 0.8 so prefer smaller.
+- 2026-11-22 19:57 Did not ask Isa about the detail.tsx fallback. Isa has been asked before and the default below answers it.
+- 2026-11-22 19:57 Default for unknown slots in mealSlotName: fall back to t('foodLog.addMeal', { defaultValue }) instead of the raw key addMenu.undefined. Matches the fallback in food/detail.tsx:677. Applied in the next round, not this one.
+- 2026-11-22 19:57 addMenu.snack stays 'Snacks' in es.json and fr.json. Wording review is parked, not blocking.
+- 2026-11-22 19:57 Jev said ask 69%. Overridden: the question is minor and the default covers it. Not mentioned in the prompt.
