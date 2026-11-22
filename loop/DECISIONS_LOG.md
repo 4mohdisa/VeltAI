@@ -8253,3 +8253,7 @@
 - 2026-11-22 17:08 Saved screen error copy: keep ErrorState default copy (generic), matching SavedMealsList and RecipesList. Recorded as the default; Isa may override later.
 - 2026-11-22 17:08 Calendar uses ErrorState default copy, so no new translation keys are needed and en/es/fr stay unchanged.
 - 2026-11-22 17:08 Stale '(mock)' header comment in saved.tsx parked to Row 11 final sweep, not fixed now (no new things rule).
+- 2026-11-22 17:09 Chose verification first: the loop flagged the last report because tsc and tests were not run after the food.tsx change, and the handover says to run them before moving on.
+- 2026-11-22 17:09 Calendar failed-read fix uses the default from the report: add error to the shared useLoggedDays hook, keep the month grid, show LoadFailedNotice with Retry. Shared hook fixes go in the hook (existing decision). Default used, no re-ask.
+- 2026-11-22 17:09 Jev suggested ask (66%, confidence 0.49). Not asking: this is a shared-hook design choice within existing defaults, not a major question. Reason recorded here.
+- 2026-11-22 17:09 Calendar hardcoded English and WeekStrip silent failure stay in Row 13 scope for later rounds, one screen per round.
