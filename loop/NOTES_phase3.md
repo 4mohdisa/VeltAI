@@ -31,6 +31,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Loop note: unanswered question means use default and carry on. Do not re-ask the same question.
 - Checkpoint rounds run full gates with no file changes. Next checkpoint round 30.
 - Agent must not run git commands (reminded in every prompt).
+- No formatter config in repo. Do not run Prettier on files (round 19 drift).
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -42,9 +43,10 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 11: Row 5 part 1 (seed and reset, 5 Go tests pass, seed ran on local DB).
 - Round 12: Row 5 re-verify clean.
 - Round 13: Row 5 BUILT with owner check pending (Maestro part parked).
-- Round 13: Row 12 partial. useHydration resets loading when its hydrator changes. Test foodLogDaySwitch.render.test.tsx (2 pass).
-- Round 17: Row 12 useApi returns isError in src/lib/data/gymSchedule.ts (exported). Tests in gymSchedule.revalidate.test.ts cover mount only.
-- Round 18: re-verify of round 17. Code correct on mount, refetch, revalidate. Still PARTIAL: refetch and revalidate untested. Flagged again.
+- Round 13: Row 12 partial. useHydration resets loading when its hydrator changes.
+- Round 17: Row 12 useApi returns isError in src/lib/data/gymSchedule.ts (exported).
+- Round 19: 3 refetch and revalidate isError tests added (gymSchedule.revalidate.test.ts).
+- Round 20: re-verify clean. Test file restored by hand to repo style, 6 of 6 pass, tsc 0 errors, lint clean on the file. Row 12 stays PARTIAL.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD in the shell. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked in rounds 12 and 13, no answer. Parked. Not asking again.
@@ -69,8 +71,8 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Row 12: useHydration other callers not yet verified. Covered by checkpoint, which passed.
 
 ## Next
-- Round 19 (issued): add refetch and revalidate isError tests in gymSchedule.revalidate.test.ts. Closes the flag.
-- Row 12: pass isError through useToday, useSchedule, useTemplates, useExercises, useGymPatterns, useExerciseProgress. One hook per round.
+- Round 21 (issued): Row 12, useToday returns isError, with gymSchedule.useToday.test.ts (2 tests). Re-issued after prompt rejection for missing branch rule.
+- Row 12 remaining hooks, one per round: useSchedule, useTemplates, useExercises, useGymPatterns, useExerciseProgress.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

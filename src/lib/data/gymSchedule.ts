@@ -97,11 +97,12 @@ export function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly
 export function useToday(): {
   today: TodayWorkout | null;
   loading: boolean;
+  isError: boolean;
   refetch: () => void;
   revalidate: () => void;
 } {
-  const { data, loading, refetch, revalidate } = useApi<TodayWorkout | null>(() => api.gym.getToday(), null);
-  return { today: data, loading, refetch, revalidate };
+  const { data, loading, isError, refetch, revalidate } = useApi<TodayWorkout | null>(() => api.gym.getToday(), null);
+  return { today: data, loading, isError, refetch, revalidate };
 }
 
 export function useSchedule(): { schedule: WeeklySchedule; loading: boolean; refetch: () => void } {

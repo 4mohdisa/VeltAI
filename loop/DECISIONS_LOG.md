@@ -8083,3 +8083,11 @@
 - 2026-11-22 16:14 Chose the flag-closing test task first: the automatic check said the row 12 work is only partly done, and the missing refetch and revalidate tests are the gap the report itself named.
 - 2026-11-22 16:14 Kept the row at PARTIAL because four of the six public gym hooks still do not pass isError.
 - 2026-11-22 16:14 Told the agent to report a failing new test as BLOCKED instead of changing useApi, so this round stays test only.
+- 2026-11-22 16:16 Flagged report treated as its own re-verify round (notes rule). Row 12 is still PARTIAL, so the flag is not cleared by the new tests alone.
+- 2026-11-22 16:16 Re-verify checks for Prettier drift in the test file, since the agent rewrote it by hand after running prettier --write on it. Restore the repo style only, no logic changes.
+- 2026-11-22 16:16 Next Row 12 hook (useToday) waits until this round passes, to keep one hook per round.
+- 2026-11-22 16:16 Agent is not allowed to run git, so the drift check is by reading the file and listing titles and assertions in the report.
+- 2026-11-22 16:17 Re-issued Row 12 as a single hook prompt because the last prompt was rejected for missing the loop/phase3 branch rule (prompt issue, same row, per notes rule).
+- 2026-11-22 16:17 Chose useToday first, since it is the hook shown on the Gym home screen and it is the smallest step to unblock row 14 display.
+- 2026-11-22 16:17 Lint errors at gymSchedule.ts lines 41 and 43 and hooks.ts line 395 are pre-existing and out of this row, so they are reported and not fixed.
+- 2026-11-22 16:17 Prettier rule restated in every prompt because round 19 drift came from running it.
