@@ -9071,3 +9071,8 @@
 - 2026-11-23 00:13 Trusted the round 221 notes (Settings row BUILT) over the older handover line that said the Settings row was not yet added.
 - 2026-11-23 00:13 Kept the PostHog host item unchanged: it already matches the code, as recorded since round 204.
 - 2026-11-23 00:13 Support mail box, Export rows and the hard-coded hint stay parked for later rows; no code change this round.
+- 2026-11-23 00:14 Chose the checkpoint because the loop flagged the round 222 report as unverified (type check and tests not run) and the last full gate is round 220.
+- 2026-11-23 00:14 Round 222 PRIVACY_DATA.md task is recorded under Blocked on Isa and not retried, per the loop note. Its file section already exists, so only the retention answer is open.
+- 2026-11-23 00:14 Row 10 Settings row is treated as BUILT (round 221), so the stale 'Settings row pending' note is removed.
+- 2026-11-23 00:14 Handover line 'Row 8 host item already matches' is kept as a decision, so the loop stops resending it.
+- 2026-11-23 00:14 Notes trimmed under 600 words; decisions and Parked lists kept in short form, nothing dropped.
