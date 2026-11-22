@@ -5,23 +5,24 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Latest checkpoint: tsc 0; Jest 225 suites, 1311 tests pass (plus analyticsGaps.test.ts, 4 tests). Go 543 pass, 20 TestPG skipped (last Go run earlier).
+- Last full checkpoint was round 252 (tsc 0, Jest 225 suites, 1311 tests pass; Go 543 pass, 20 TestPG skipped). Full checkpoint due.
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 8 (render test in progress), 12, 13, 14, 15, 16, 17.
+- BUILT: 1, 2, 3, 4, 7, 8, 9, 10 (owner checks pending on 3, 5 part 1, 7, 8, 9, 10).
+- PARTIAL: 5 (part 2 needs sign-in), 12, 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 8: render test from Privacy switch to PostHog capture, then mark BUILT with owner check pending.
-- Then Go checkpoint with TestPG once a throwaway local DB is up. Then Row 11.
+- Row 12: direct unit test for useEnergyRange.
+- Then Row 13 and 14 gaps, then full Jest and Go checkpoint (TestPG once a throwaway local DB is up).
+- Then Row 11.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in, OFF by default in code (brief said on). Isa confirms before Phase 4.
-- AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched. Recorded in PRIVACY_DATA.md. Isa confirms before Phase 4.
-- Analytics switch lives in src/app/profile/privacy.tsx only.
+- AI disclosure (src/lib/ai/consent.ts) also turns analytics on. Phase 4 file, not touched. Isa confirms before Phase 4.
+- Analytics switch lives in src/app/profile/privacy.tsx only. Render tests live in src/__tests__/render (src/app files become routes).
 - Build labels added by analytics.ts after sanitize, pinned by test. PostHog never gets them.
 - PostHog host unset uses SDK default; a set value must be https with hostname.
 - feature_used keeps shapeOnly() until Isa approves.
@@ -36,7 +37,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Weight caption follows the form's own kg/lb control, not the units setting.
 - Row 14 picked over Row 13 (Jev 51%).
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
-- Jev 72-82% ask on Row 8 overridden: all Isa items have defaults; Row 8 gaps need no Isa.
+- Jev asks overridden when all Isa items have defaults and no row is blocked.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data (hooks.ts, gymSchedule.ts, aiBrain.ts, gymRange.ts, useGymPatterns): search debounce flash, exercise picker failed read, Ask Lume 503 and not_enough_data copy, month summary, muscle Retry. Parked.
@@ -49,7 +50,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Analytics on (brief) vs opt-in (code), and the AI disclosure switch: confirm before Phase 4.
 - Device maker, model, OS to PostHog: default not sent.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
-- Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
+- Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user.
 - Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}'. kJ spoken as 'kilojoules' needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
 
 ## Parked (not Phase 3)
@@ -63,12 +64,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - UI/data: useTemplates drops on refetch failure; English exercise names and equipment; MacroBars unused; formatCalories always kcal; week.tsx flat bars; relative-time keys have no plurals; new-recipe recents from selected day only.
-- Row 8: no test renders Privacy and taps through to capture until the render test lands.
-- Row 12: no direct unit test for useEnergyRange.
-- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json; share subject hard-coded; two Export rows until Row 15 copy pass ends.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback; 'Help and feedback' vs 'Send feedback' label.
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
+- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts.
 
 ## Gotchas
 - No git, Prettier or Maestro. zsh: use xargs or ${=var} for lists.

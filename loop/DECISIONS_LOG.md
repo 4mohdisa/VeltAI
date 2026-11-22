@@ -9335,3 +9335,8 @@
 - 2026-11-23 01:58 Keep the AI disclosure (src/lib/ai/consent.ts) turning analytics on, unchanged. It is a Phase 4 file. Isa confirms before Phase 4.
 - 2026-11-23 01:58 Row 8 gaps need no Isa answer, so the 'no reply, use default' rule applies. Jev's ask (72%) is overridden for this reason.
 - 2026-11-23 01:58 Row 8 reaches BUILT with owner check pending once the render test passes. Row 8 is not EXACT, since no simulator flow exists.
+- 2026-11-23 02:00 Row 8 accepted as BUILT with owner check pending. The render test covers the switch reaching PostHog on and off.
+- 2026-11-23 02:00 Analytics stays off by default in code, as already decided. Brief said on. Isa confirms before Phase 4, so this is not asked now.
+- 2026-11-23 02:00 Continue on the AI disclosure keeps turning analytics on. Recorded for Isa to confirm before Phase 4, not asked now.
+- 2026-11-23 02:00 Did not ask Isa despite Jev 71% ask. Every open item has a default, and none blocks a remaining row.
+- 2026-11-23 02:00 Chose Row 12 because it is the smallest unbuilt task and needs nothing from Isa. Checkpoint runs after it.
