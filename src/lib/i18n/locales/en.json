@@ -695,7 +695,9 @@
     "anomaly": {
       "dismiss": "Dismiss",
       "fallbackTitle": "Unusual activity",
-      "fallbackBody": "We spotted something unusual in your recent logs."
+      "fallbackBody": "We spotted something unusual in your recent logs.",
+      "bannerCount_one": "{{count}} unusual patterns detected",
+      "bannerCount_other": "{{count}} unusual patterns detected"
     }
   }
 }

@@ -697,7 +697,9 @@
     "anomaly": {
       "dismiss": "Descartar",
       "fallbackTitle": "Actividad inusual",
-      "fallbackBody": "Hemos detectado algo inusual en tus registros recientes."
+      "fallbackBody": "Hemos detectado algo inusual en tus registros recientes.",
+      "bannerCount_one": "{{count}} patrón inusual detectado",
+      "bannerCount_other": "{{count}} patrones inusuales detectados"
     }
   }
 }

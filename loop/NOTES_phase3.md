@@ -6,9 +6,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Before any command: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Round 129 checkpoint clean: tsc 0; Jest 173 suites, 1114 tests, 4 snapshots pass.
-- Round 137 (AnomalyCard) reported done; auto check flagged it partly done. Round 138 verifies it.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Round numbers in PHASE3_ROWS.md (118 to 120) may clash with loop numbers. Recorded, not fixed.
+- Row numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop round numbers. Not fixed.
+- Round 140: prompt rejected for missing loop/phase3 branch rule. Rewritten with the rule up front.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -24,30 +24,29 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Snapshots: no regeneration without Isa's permission.
 - Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed; energy notice only when both week reads fail.
-- Summary card and GymStatusCard hidden during every first load. Accepted.
+- Summary card and GymStatusCard hidden during first load. Accepted.
 - Test edit forbidden and breaking: back out or stop. Never leave suite red.
 - MacroBars translation backed out (summaryNoFabrication.test.ts reads source). Stays English.
 - Round 125 row parked after two failed attempts.
 - Round 129: checkpoint kept over Jev's insights pick.
-- Round 130: insights literals chosen over MacroBars and goals states. Literals only.
-- Round 136: InsightCard literals done, insights.card group added.
-- Round 137: AnomalyCard literals done, insights.anomaly group added. Built, not verified.
-- Round 138: verify insights.anomaly and insights.card keys in en, es, fr, and AnomalyCard uses t(). Then goals.
+- Round 130: insights literals over MacroBars and goals states.
+- Round 136 and 137: InsightCard and AnomalyCard literals done (insights.card, insights.anomaly).
+- Round 139: AnomalyCard verified in code, no change needed.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard literals.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard.
 
 ## In progress
-- Round 138: verify AnomalyCard insights keys and tests (Row 15).
+- Round 140: AnomalyBanner.tsx copy (fallback title, plural count title, dismiss label).
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Review insights.*, insights.brainProfile.*, insights.card and insights.anomaly wording, including weekday capitalisation (default: es/fr lowercase).
+- Review insights.*, insights.brainProfile.*, insights.card, insights.anomaly wording, including weekday capitalisation (default: es/fr lowercase).
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
-- Permission to change line 54 of summaryNoFabrication.test.ts (MacroBars). Default: English.
+- Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
 - Row 12 BUILT approval.
 - Spanish and French wording for new keys in rows 13, 14, 15. Shipped as written.
 - Keys ', today', 'Previous week', 'Next week'. WeekStrip labels stay.
@@ -64,11 +63,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Round 138: verify AnomalyCard (in progress).
+- Round 140: AnomalyBanner copy (in progress).
 - Row 15 goals screen src/app/profile/goals.tsx: loading and error states, English text.
-- AnomalyBanner.tsx copy audit (may be English).
-- insights swallowed errors in src/lib/api.ts (~1253, 1270) and fixed 0.3 bar in BrainProfileCard.tsx (~79).
+- insights swallowed errors in src/lib/api.ts (~1253, 1270); fixed 0.3 bar in BrainProfileCard.tsx (~79).
+- InsightCard type badge untranslated; more/less toggle uses body length over 120.
+- BrainProfileCard numbers not formatted for language; energy always kcal.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
+- Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json; key parity check; shared has-a-streak helper.
 - Row 6: non-sign-in backend measurements.
@@ -81,24 +82,17 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
 - useTemplates drops templates on refetch failure (src/lib/data).
 - Date helpers use device locale; weekday letters, formatRelativeDate, muscle names English; '{{value}} reps' no singular.
-- InsightCard type badge shows raw server type; needs the server's type list.
-- InsightCard more/less toggle uses body length over 120 chars.
-- BrainProfileCard numbers not formatted for language; energy always kcal.
 - Dev gym failed read keeps mock sessions; dev falls back to mock product DB.
 - Ask Lume drops server 503 message.
-- insights.tsx comment vs phase14Regression.test.ts on AI generation. Fix in Row 11.
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts 50, 52; hooks.ts ~395.
 - Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
-- MacroBars Math.round not formatNumber; unused in app; nutrition ceiling label no space before g.
-- Insight numbers use Math.round; energy always kcal, ignores unit setting.
+- MacroBars unused in app; Math.round not formatNumber; nutrition ceiling label no space before g.
+- Insight numbers use Math.round.
 - Row 11 dedupe: gymSession eyebrow vs foodLog.today; logged-day label; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
 - react-test-renderer deprecation and 'background sync failed' warnings.
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
 - Gym card may show seed data after failed dashboard read.
-- EMPTY_STATES_AUDIT.md: Summary loading row corrected.
 - Plan card in index.tsx has hard-coded AI scope.
-- Dashboard week.tsx and nutrition ceiling label as listed above.
 - Round numbers in PHASE3_ROWS.md may clash with loop numbers.
-- Freeze/analytics: none new.

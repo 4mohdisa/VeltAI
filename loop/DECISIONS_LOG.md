@@ -8588,3 +8588,12 @@
 - 2026-11-22 19:08 Jev and the candidate list agree on a small verify task (run 95%, confidence 0.92). Risk is 1.0, so I chose a smaller task over the goals screen.
 - 2026-11-22 19:08 Handover done: prompt names every file fully, since Claude Code only knows the handover summary.
 - 2026-11-22 19:08 Handover round labels 118 to 120 are kept as recorded; they are not renumbered.
+- 2026-11-22 19:10 Chose AnomalyBanner over Goals: the loop check flagged the last round as partly done, and AnomalyBanner is the unfinished part of the same insights.anomaly group. Smallest step, clears the flag.
+- 2026-11-22 19:10 Jev 39% clean-finish: kept the task to three strings and one test file, to lower risk.
+- 2026-11-22 19:10 Kept Jev's run pick over its ask/stop signals: no reason for Isa's input, the change is copy only.
+- 2026-11-22 19:10 Plural key follows the existing locale pattern, so no new plural style is invented.
+- 2026-11-22 19:10 Row 15 stays PARTIAL until Isa confirms the wording.
+- 2026-11-22 19:10 Chose AnomalyBanner copy: smallest task, the reports recommend it, and it is already started. Jev's 97% run signal is consistent with this.
+- 2026-11-22 19:10 Rejected prompt fixed: the rewrite states the loop/phase3 branch rule up front, forbids git and branch switching, and names exact files and steps.
+- 2026-11-22 19:10 Plural key follows the existing locale pattern, so the implementer checks en.json first instead of inventing a format.
+- 2026-11-22 19:10 Row 15 stays PARTIAL until Isa confirms. No device check is claimed.

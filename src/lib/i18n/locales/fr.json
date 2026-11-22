@@ -695,7 +695,9 @@
     "anomaly": {
       "dismiss": "Ignorer",
       "fallbackTitle": "Activité inhabituelle",
-      "fallbackBody": "Nous avons repéré quelque chose d’inhabituel dans vos derniers enregistrements."
+      "fallbackBody": "Nous avons repéré quelque chose d’inhabituel dans vos derniers enregistrements.",
+      "bannerCount_one": "{{count}} tendance inhabituelle détectée",
+      "bannerCount_other": "{{count}} tendances inhabituelles détectées"
     }
   }
 }

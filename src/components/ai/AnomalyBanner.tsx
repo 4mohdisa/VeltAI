@@ -6,6 +6,7 @@
 import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { Animated, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { ErrorState } from '@/components/display/ErrorState';
 import { Icon } from '@/components/primitives/Icon';
@@ -22,6 +23,7 @@ export function AnomalyBanner(props: {
   onDismiss: (id: string) => void;
 }): JSX.Element | null {
   const { anomalies, isError, onDismiss } = props;
+  const { t } = useTranslation();
   const reduceMotion = useReduceMotion();
   const [hidden, setHidden] = useState(false);
   const [anim] = useState(() => new Animated.Value(0));
@@ -43,8 +45,8 @@ export function AnomalyBanner(props: {
 
   const text =
     anomalies.length === 1
-      ? anomalies[0].title ?? 'Unusual pattern detected'
-      : `${anomalies.length} unusual patterns detected`;
+      ? anomalies[0].title ?? t('insights.anomaly.fallbackTitle')
+      : t('insights.anomaly.bannerCount', { count: anomalies.length });
 
   const closeAll = () => {
     setHidden(true);
@@ -86,7 +88,7 @@ export function AnomalyBanner(props: {
           </Text>
           <Icon name="chevron-forward" size={18} color={color.tertiaryLabel} />
         </Pressable>
-        <Pressable onPress={closeAll} minTapTarget={false} hitSlop={10} accessibilityLabel="Dismiss">
+        <Pressable onPress={closeAll} minTapTarget={false} hitSlop={10} accessibilityLabel={t('insights.anomaly.dismiss')}>
           <Icon name="close" size={18} color={color.tertiaryLabel} />
         </Pressable>
       </View>
