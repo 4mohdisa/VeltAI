@@ -5,18 +5,18 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last checkpoint: tsc 0 errors, Jest 233 suites, 1,338 tests. Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
+- Last gates: tsc 0 errors; Jest 233 suites, 1,338 tests; Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
 
 ## Status (PHASE3_ROWS.md is source of truth; re-read each round)
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16.
 - PARTIAL: 5 (part 2 needs credentials), 13, 14, 17.
-- Row 17 conflict: notes say BUILT, handover says PARTIAL with gap 5 open. Read the row first.
 - DIFFERENT or waiting: 6 (waits on Isa), 11 (final sweep, last).
+- Row 8 is BUILT but its notes hold capitalised PARTIAL words and partial items. Isa to check.
 
 ## Next
-- Now: Row 13 notes, lowercase the two capitalised PARTIAL words. Notes only.
-- Then: Row 14 items that need no src/lib/data change. WeekStrip labels are done.
-- Row 17 gap 5 (empty Ask Lume answer, ai-query.tsx) only if the row says it is open.
+- Row 17 gap 5 (empty Ask Lume answer, ai-query.tsx) if the row still lists it as open.
+- Then Row 8 notes: lowercase the capitalised status words (docs only).
+- Then Row 14 items needing no src/lib/data change.
 - Row 6 waits on Isa. Row 11 final sweep last.
 
 ## Decisions (never delete)
@@ -60,9 +60,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Backend perf: 49 queries use WHERE id::text = $1, skipping the id index. Needs DB-backed tests.
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names.
+- Row 13 notes: 'Round 73' line sits before Round 80 entries. Order only, leave.
 - Row 15: useGoals loading and error states.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes that said the 503 waits on aiBrain.ts are wrong; it is done.
+- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes saying the 503 waits on aiBrain.ts are wrong; it is done.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg. useHydration logs via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 raw number. Repeat-visit skeleton flash.
@@ -84,4 +85,5 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
-- Jev is advisory only. Last signals: run 42%, ask 39%, stop 19% (confidence 0.13). Prefer smaller tasks. Flag: last task looked partly done; verify before moving on.
+- Last rejected prompt lacked the loop/phase3 branch rule. Every prompt must state it.
+- Jev is advisory only. Run 61%; last task 10% likely clean. Prefer smaller tasks. Verify the last task before moving on.

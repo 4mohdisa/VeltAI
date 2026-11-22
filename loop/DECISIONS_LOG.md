@@ -9503,3 +9503,11 @@
 - 2026-11-23 03:02 Treated Row 14 as done for this round: the latest report confirmed the WeekStrip labels and the status word fix are complete, with no code change needed.
 - 2026-11-23 03:02 Deferred Row 17 gap 5 until the row is read: the notes and handover disagree on whether Row 17 is BUILT or PARTIAL.
 - 2026-11-23 03:02 Did not ask Isa: the Row 6 and Row 17 questions are already in Blocked on Isa with defaults in use, and no new major question exists.
+- 2026-11-23 03:03 Row 17 conflict (notes BUILT, handover PARTIAL): Claude Code checks the row first and fixes gap 5 only if the row lists it open. Reason: PHASE3_ROWS.md is the source of truth.
+- 2026-11-23 03:03 Chose gap 5 over the Row 8 docs fix: it is a code fix the screen alone can close, and it clears a PARTIAL row. The Row 8 docs fix stays queued.
+- 2026-11-23 03:03 Kept Jev's run signal (80%). Used a small one-gap task because the last task was only 12% likely to have finished cleanly.
+- 2026-11-23 03:03 Rewrote the prompt with an explicit loop/phase3-only branch rule and no git, after the rejection.
+- 2026-11-23 03:03 Chose Row 17 gap 5: the handover names it as next, and the fix is screen-only.
+- 2026-11-23 03:03 Deferred the Row 8 notes cleanup: it is a separate row and one row per prompt.
+- 2026-11-23 03:03 Kept Row 17 PARTIAL: gaps 1, 2 and 6 still need Isa's permission for src/lib/data.
+- 2026-11-23 03:03 Condensed the notes to stay under 600 words; decisions and blocked items kept in full meaning.
