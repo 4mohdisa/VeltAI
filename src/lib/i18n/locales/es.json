@@ -24,6 +24,7 @@
     "scanCalibration": {
       "emptyTitle": "Aún no hay escaneos",
       "emptyMessage": "Registra tu primer escaneo de foto para empezar a enseñarle a Lume el tamaño de tus porciones.",
+      "loadFailed": "No se pudo cargar la precisión de tus escaneos.",
       "scoreTitle": "Puntuación de precisión",
       "learning": "Lume está aprendiendo tus porciones",
       "scansLogged": "Escaneos registrados",
@@ -51,6 +52,31 @@
     "exportPreparing": "Preparando tu exportación…",
     "exportHint": "Abre el menú para compartir con una copia de todos tus datos",
     "exportError": "No se pudieron exportar tus datos. Revisa tu conexión e inténtalo de nuevo.",
+    "accountDetails": {
+      "displayName": "Nombre visible",
+      "email": "Correo electrónico",
+      "deleteAccount": "Eliminar cuenta",
+      "nameUpdated": "Nombre actualizado.",
+      "savedOffline": "Guardado en este dispositivo: no se pudo conectar con el servidor."
+    },
+    "privacyDetails": {
+      "privacyPolicy": "Política de privacidad",
+      "termsOfUse": "Términos de uso",
+      "aiTitle": "Procesamiento con IA",
+      "aiFooter": "Retira tu consentimiento para Google Gemini (fotos de comidas) y Anthropic (redacción de los análisis). El escaneo y las funciones de IA dejan de funcionar hasta que vuelvas a aceptar el aviso.",
+      "aiTurnOff": "Desactivar el procesamiento con IA",
+      "aiTurningOff": "Desactivando…",
+      "aiTurnedOff": "Procesamiento con IA desactivado. Los escaneos y los análisis quedan desactivados hasta que lo vuelvas a activar.",
+      "aiTurnOffFailed": "No se pudo conectar con el servidor para retirar el consentimiento. Inténtalo de nuevo.",
+      "exportSubject": "Exportación de datos de Lume"
+    },
+    "aboutDetails": {
+      "tagline": "Haz que ir al gimnasio sea la opción fácil.",
+      "version": "Versión",
+      "build": "Compilación",
+      "credits": "Créditos",
+      "creditsValue": "Equipo de Lume"
+    },
     "support": "Soporte",
     "supportEyebrow": "Ayuda",
     "about": "Acerca de",

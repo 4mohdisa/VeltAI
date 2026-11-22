@@ -24,6 +24,7 @@
     "scanCalibration": {
       "emptyTitle": "Aucun scan pour l’instant",
       "emptyMessage": "Enregistrez votre premier scan photo pour apprendre à Lume la taille de vos portions.",
+      "loadFailed": "Impossible de charger la précision de vos scans.",
       "scoreTitle": "Score de précision",
       "learning": "Lume apprend vos portions",
       "scansLogged": "Scans enregistrés",
@@ -51,6 +52,31 @@
     "exportPreparing": "Préparation de votre export…",
     "exportHint": "Ouvre le menu de partage avec une copie de toutes vos données",
     "exportError": "Impossible d’exporter vos données. Vérifiez votre connexion et réessayez.",
+    "accountDetails": {
+      "displayName": "Nom affiché",
+      "email": "E-mail",
+      "deleteAccount": "Supprimer le compte",
+      "nameUpdated": "Nom mis à jour.",
+      "savedOffline": "Enregistré sur cet appareil — impossible de joindre le serveur."
+    },
+    "privacyDetails": {
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfUse": "Conditions d’utilisation",
+      "aiTitle": "Traitement par l’IA",
+      "aiFooter": "Retire votre consentement pour Google Gemini (photos de repas) et Anthropic (rédaction des analyses). Le scan et les fonctions d’IA cessent de fonctionner jusqu’à ce que vous acceptiez à nouveau l’avertissement.",
+      "aiTurnOff": "Désactiver le traitement par l’IA",
+      "aiTurningOff": "Désactivation…",
+      "aiTurnedOff": "Traitement par l’IA désactivé. Les scans et les analyses sont désactivés jusqu’à ce que vous le réactiviez.",
+      "aiTurnOffFailed": "Impossible de joindre le serveur pour retirer votre consentement. Réessayez.",
+      "exportSubject": "Export des données Lume"
+    },
+    "aboutDetails": {
+      "tagline": "Faites de la salle de sport le choix facile.",
+      "version": "Version",
+      "build": "Build",
+      "credits": "Crédits",
+      "creditsValue": "L’équipe Lume"
+    },
     "support": "Assistance",
     "supportEyebrow": "Aide",
     "about": "À propos",

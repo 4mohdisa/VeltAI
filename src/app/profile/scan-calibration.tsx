@@ -13,6 +13,7 @@ import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { Stat } from '@/components/display/Stat';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
 import { ProgressBar } from '@/components/display/ProgressBar';
 import { Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
@@ -39,6 +40,7 @@ export default function ScanCalibrationScreen() {
   const [data, setData] = useState<ScanCalibration | null>(null);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let alive = true;
@@ -56,7 +58,13 @@ export default function ScanCalibrationScreen() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [attempt]);
+
+  const retry = () => {
+    setFailed(false);
+    setLoading(true);
+    setAttempt((n) => n + 1);
+  };
 
   return (
     <Screen variant="floating" eyebrow={t('settings.scanCalibrationEyebrow')} title={t('settings.scanAccuracy')} showBack contentStyle={{ gap: space.xl }}>
@@ -67,19 +75,23 @@ export default function ScanCalibrationScreen() {
           <Skeleton height={140} rounded={radius.xl} />
         </>
       ) : (
-        <Body data={data} failed={failed} />
+        <Body data={data} failed={failed} onRetry={retry} />
       )}
     </Screen>
   );
 }
 
-function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean }) {
+function Body({ data, failed, onRetry }: { data: ScanCalibration | null; failed: boolean; onRetry: () => void }) {
   const { t } = useTranslation();
   const summary = data?.accuracy_summary;
   const learned = (data?.factors ?? []).filter((f) => f.sample_count >= 3);
-  const hasNothing = !summary || (learned.length === 0 && summary.corrected_count === 0);
 
-  if (failed || !summary || hasNothing) {
+  if (failed) {
+    return <ErrorState message={t('settings.scanCalibration.loadFailed')} onRetry={onRetry} />;
+  }
+
+  // Scans with no corrections are still scans: only a user with none sees the empty state.
+  if (!summary || summary.total_scans === 0) {
     return (
       <EmptyState
         icon="camera"

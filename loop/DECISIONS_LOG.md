@@ -9211,3 +9211,7 @@
 - 2026-11-23 01:00 Removed the unreachable empty-DSN check because the clean code rules forbid dead code and requireLocalDatabase already refuses an empty URL.
 - 2026-11-23 01:00 Jev suggested ask at 56%. Kept run: the only open question is already on the Blocked on Isa list, so asking again adds no new information.
 - 2026-11-23 01:00 Left Row 11 and Rows 6, 16, 17 for later rounds: Row 11 needs the other rows finished first, and the others need sign-in or Isa.
+- 2026-11-23 01:01 Chose Row 16 over Row 11: the final sweep is deferred until the remaining rows settle, and Row 16 is a small, independent DIFFERENT row that needs nothing from Isa.
+- 2026-11-23 01:01 Did not ask Isa: the open questions are already logged under Blocked on Isa with defaults applied, and the notes say not to re-ask. Jev's ask signal is advisory and the question would repeat one he has already answered by default.
+- 2026-11-23 01:01 Did not stop: rows 6, 8, 11, 12 to 17 are not BUILT or EXACT, so the stop condition is not met.
+- 2026-11-23 01:01 Kept the prompt to one row and named the files from the row itself, because the notes do not list Row 16's file paths.

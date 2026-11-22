@@ -22,7 +22,10 @@ export default function PrivacyScreen() {
   const [revoking, setRevoking] = useState(false);
 
   useEffect(() => {
-    void hasAiConsent().then(setAiConsent);
+    // A failed read keeps the withdraw control reachable rather than hiding it.
+    hasAiConsent()
+      .then(setAiConsent)
+      .catch(() => setAiConsent(true));
   }, []);
 
   // 5.1.2(i): the disclosure copy has always pointed here for withdrawal —
@@ -33,9 +36,9 @@ export default function PrivacyScreen() {
     try {
       await revokeAiConsent();
       setAiConsent(false);
-      showToast({ message: 'AI processing turned off. Scans and insights are disabled until you turn it back on.', tone: 'success' });
+      showToast({ message: t('settings.privacyDetails.aiTurnedOff'), tone: 'success' });
     } catch {
-      showToast({ message: "Couldn't reach the server to withdraw consent — try again.", tone: 'error' });
+      showToast({ message: t('settings.privacyDetails.aiTurnOffFailed'), tone: 'error' });
     } finally {
       setRevoking(false);
     }
@@ -50,7 +53,7 @@ export default function PrivacyScreen() {
     setExporting(true);
     try {
       const data = await api.profile.export();
-      await Share.share({ message: JSON.stringify(data, null, 2) }, { subject: 'Lume data export' });
+      await Share.share({ message: JSON.stringify(data, null, 2) }, { subject: t('settings.privacyDetails.exportSubject') });
     } catch {
       showToast({ message: t('settings.exportError'), tone: 'error' });
     } finally {
@@ -62,8 +65,8 @@ export default function PrivacyScreen() {
     <Screen variant="floating" eyebrow={t('settings.privacyEyebrow')} title={t('settings.privacy')} showBack contentStyle={{ gap: 22 }}>
       <SettingsList
         rows={[
-          { icon: 'document-text-outline', label: 'Privacy policy', onPress: () => router.push('/legal/privacy' as Href) },
-          { icon: 'reader-outline', label: 'Terms of use', onPress: () => router.push('/legal/terms' as Href) },
+          { icon: 'document-text-outline', label: t('settings.privacyDetails.privacyPolicy'), onPress: () => router.push('/legal/privacy' as Href) },
+          { icon: 'reader-outline', label: t('settings.privacyDetails.termsOfUse'), onPress: () => router.push('/legal/terms' as Href) },
         ]}
       />
       <SettingsList
@@ -82,12 +85,12 @@ export default function PrivacyScreen() {
       />
       {aiConsent === true ? (
         <SettingsList
-          title="AI processing"
-          footer="Withdraws your consent for Google Gemini (meal photos) and Anthropic (insight wording). Scanning and AI features stop working until you accept the disclosure again."
+          title={t('settings.privacyDetails.aiTitle')}
+          footer={t('settings.privacyDetails.aiFooter')}
           rows={[
             {
               icon: 'sparkles-outline',
-              label: revoking ? 'Turning off…' : 'Turn off AI processing',
+              label: revoking ? t('settings.privacyDetails.aiTurningOff') : t('settings.privacyDetails.aiTurnOff'),
               onPress: () => void withdrawAiConsent(),
             },
           ]}

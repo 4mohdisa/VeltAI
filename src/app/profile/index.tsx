@@ -24,6 +24,7 @@ import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { SettingsList } from '@/components/display/SettingsList';
 import { Stat } from '@/components/display/Stat';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
+import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { GlassBackButton } from '@/components/navigation/GlassButtons';
@@ -33,7 +34,7 @@ import { api } from '@/lib/api';
 import { hasProEntitlement, isBillingEnabled, restorePurchases } from '@/lib/billing/purchases';
 import { useAppState } from '@/lib/auth/appState';
 import { isDevBuild } from '@/lib/env';
-import { accent, categoryAccent, color, layout, space, surface } from '@/lib/design/tokens';
+import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { useUserProfile, useGym } from '@/lib/data';
 
 // Restore Purchases (Apple requires this for any app with IAP). Result via toast.
@@ -75,6 +76,7 @@ export default function ProfileScreen() {
   const { dispatch } = useAppState();
   const {
     data: { streak },
+    isLoading: gymLoading,
     error: gymError,
     refetch: refetchGym,
   } = useGym();
@@ -139,22 +141,33 @@ export default function ProfileScreen() {
           <Avatar name={profile.name} size={84} />
         </View>
 
-        {/* Streak centrepiece */}
-        <Card variant="elevated">
-          <View style={{ gap: space.lg }}>
-            <CardHeaderRow title={t('profile.streak')} icon="flame" tint={categoryAccent.streak} />
-            <StreakCounter days={streak.current} />
-          </View>
-        </Card>
+        {/* Until the streak read settles the store holds zeros, not the user's
+            numbers, so both streak cards wait behind skeletons. */}
+        {gymLoading ? (
+          <>
+            <Skeleton height={140} rounded={radius.xl} />
+            <Skeleton height={88} rounded={radius.xl} />
+          </>
+        ) : (
+          <>
+            {/* Streak centrepiece */}
+            <Card variant="elevated">
+              <View style={{ gap: space.lg }}>
+                <CardHeaderRow title={t('profile.streak')} icon="flame" tint={categoryAccent.streak} />
+                <StreakCounter days={streak.current} />
+              </View>
+            </Card>
 
-        {/* Streak stats */}
-        <Card variant="elevated">
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Stat value={streak.longest} label={t('profile.longest')} size="medium" align="center" />
-            <Stat value={streak.totalGymDays} label={t('profile.totalDays')} size="medium" align="center" />
-            <Stat value={streak.freezesAvailable} label={t('profile.freezes')} size="medium" align="center" />
-          </View>
-        </Card>
+            {/* Streak stats */}
+            <Card variant="elevated">
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                <Stat value={streak.longest} label={t('profile.longest')} size="medium" align="center" />
+                <Stat value={streak.totalGymDays} label={t('profile.totalDays')} size="medium" align="center" />
+                <Stat value={streak.freezesAvailable} label={t('profile.freezes')} size="medium" align="center" />
+              </View>
+            </Card>
+          </>
+        )}
 
         <SettingsList
           title={t('settings.groupAccount')}

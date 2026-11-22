@@ -19,15 +19,15 @@ export default function AboutScreen() {
           Lume
         </Text>
         <Text variant="footnote" color={color.secondaryLabel}>
-          Make going to the gym the easy choice.
+          {t('settings.aboutDetails.tagline')}
         </Text>
       </View>
 
       <SettingsList
         rows={[
-          { icon: 'pricetag-outline', label: 'Version', value: APP_VERSION, kind: 'plain' },
-          { icon: 'construct-outline', label: 'Build', value: BUILD_NUMBER, kind: 'plain' },
-          { icon: 'people-outline', label: 'Credits', value: 'Lume team', kind: 'plain' },
+          { icon: 'pricetag-outline', label: t('settings.aboutDetails.version'), value: APP_VERSION, kind: 'plain' },
+          { icon: 'construct-outline', label: t('settings.aboutDetails.build'), value: BUILD_NUMBER, kind: 'plain' },
+          { icon: 'people-outline', label: t('settings.aboutDetails.credits'), value: t('settings.aboutDetails.creditsValue'), kind: 'plain' },
         ]}
       />
     </Screen>

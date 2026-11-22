@@ -25,7 +25,9 @@ import { api } from '@/lib/api';
 export default function AccountScreen() {
   const { t } = useTranslation();
   const profile = useUserProfile();
-  const [name, setName] = useState(profile.name);
+  // The profile can land after mount; until the user types, the field follows it.
+  const [draft, setName] = useState<string | null>(null);
+  const name = draft ?? profile.name;
   const [saving, setSaving] = useState(false);
   const dirty = name.trim().length > 0 && name.trim() !== profile.name;
 
@@ -37,9 +39,9 @@ export default function AccountScreen() {
     useUserStore.getState().setProfile({ name: next });
     try {
       await api.profile.update({ display_name: next });
-      showToast({ message: 'Name updated.', tone: 'success' });
+      showToast({ message: t('settings.accountDetails.nameUpdated'), tone: 'success' });
     } catch {
-      showToast({ message: 'Saved on this device — could not reach the server.', tone: 'warn' });
+      showToast({ message: t('settings.accountDetails.savedOffline'), tone: 'warn' });
     } finally {
       setSaving(false);
     }
@@ -67,15 +69,15 @@ export default function AccountScreen() {
         </View>
       </Card>
 
-      <TextField label="Display name" value={name} onChangeText={setName} autoCapitalize="words" />
+      <TextField label={t('settings.accountDetails.displayName')} value={name} onChangeText={setName} autoCapitalize="words" />
       <View style={{ gap: space.xs }}>
-        <SettingsList rows={[{ icon: 'mail-outline', label: 'Email', value: profile.email, kind: 'plain' }]} />
+        <SettingsList rows={[{ icon: 'mail-outline', label: t('settings.accountDetails.email'), value: profile.email, kind: 'plain' }]} />
 
         <SettingsList
           rows={[
             {
               icon: 'trash-outline',
-              label: 'Delete Account',
+              label: t('settings.accountDetails.deleteAccount'),
               destructive: true,
               onPress: () => router.push('/profile/delete-account'),
             },

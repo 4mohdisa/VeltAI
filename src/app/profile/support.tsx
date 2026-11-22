@@ -21,18 +21,20 @@ export default function SupportScreen() {
 
   // Feedback goes out as a real email — the compose sheet is the send action;
   // no fake "sent" confirmation for text that went nowhere.
+  const mailFailed = () => showToast({ message: t('support.mailError', { email: SUPPORT_EMAIL }), tone: 'error' });
+
   const sendFeedback = () => {
     const url = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(t('support.mailSubject'))}&body=${encodeURIComponent(feedback)}`;
     Linking.openURL(url)
       .then(() => setFeedback(''))
-      .catch(() => showToast({ message: t('support.mailError', { email: SUPPORT_EMAIL }), tone: 'error' }));
+      .catch(mailFailed);
   };
 
   return (
     <Screen variant="floating" eyebrow={t('settings.supportEyebrow')} title={t('settings.support')} showBack contentStyle={{ gap: space.xl }}>
       <SettingsList
         rows={[
-          { icon: 'mail-outline', label: t('support.emailSupport'), value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },
+          { icon: 'mail-outline', label: t('support.emailSupport'), value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(mailFailed) },
           { icon: 'information-circle-outline', label: t('support.appVersion'), value: VERSION_LABEL, kind: 'plain' },
         ]}
       />
