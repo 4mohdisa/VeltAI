@@ -8028,3 +8028,8 @@
 - 2026-11-22 15:35 Row 3 marked BUILT with owner check pending, since the removal question is parked for Isa.
 - 2026-11-22 15:35 Last report flagged for no checks run. This round re-runs the type check and the templates tests to close that gap.
 - 2026-11-22 15:35 Hard-coded English strings found in templates.tsx and gym.tsx are logged under Row 4 follow-ups, not fixed now, to keep this round to one row.
+- 2026-11-22 15:36 Chose Row 4 over Row 5: it is read only, smallest, and needs nothing from Isa. Row 5 follows next.
+- 2026-11-22 15:36 Jev suggested run at 50% and ask at 44%. Did not ask Isa: the Row 3 question already has its default (keep the plus) and the reply can wait.
+- 2026-11-22 15:36 Row 3 report said the removal question is parked in Blocked on Isa but no such file existed. The Blocked section in these notes is the list. Recorded.
+- 2026-11-22 15:36 Missing test for the header plus on My workouts is a Row 3 gap. Parked for Row 11 final sweep, not fixed now (no new work outside rows).
+- 2026-11-22 15:36 Row 4 audit is documented in EMPTY_STATES_AUDIT.md so the findings stay out of the table cells. Each screen group that needs work becomes a new row (12 onward).
