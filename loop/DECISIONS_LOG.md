@@ -8972,3 +8972,8 @@
 - 2026-11-22 21:03 Privacy footer wording ('First-party only') stays on the Blocked list with its default. It becomes a real question for Isa when a PostHog key is first set, as an owner step.
 - 2026-11-22 21:03 Bad host logging stays unfixed for now. It is listed in Parked and will be decided in Row 11, as the notes already say.
 - 2026-11-22 21:03 Analytics default (on or opt-in) is unchanged: opt-in and off in code, pinned. Isa confirms before Phase 4.
+- 2026-11-22 21:04 Chose the doc fix first: it is one line, it is listed as NEXT in the handover, and the doc is later used for the privacy policy, so it must match the code.
+- 2026-11-22 21:04 Did not ask Isa again: every open question already has a default in Blocked on Isa, and Isa asked not to be re-asked. Jev's 61% ask is overridden because no remaining row is blocked by an unanswered question; Rows 9 and 10 can proceed on defaults.
+- 2026-11-22 21:04 Did not add a US cloud claim to the doc: the code does not show the default host, so the doc says only that the SDK default is used.
+- 2026-11-22 21:04 Doc-only round runs no tests: no code changed, and the last Jest and tsc gates (round 203) are still valid for the code.
+- 2026-11-22 21:04 Condensed the notes to stay under 600 words; no open item was dropped, only merged.

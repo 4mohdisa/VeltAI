@@ -87,8 +87,8 @@ Extra fields beyond the table:
   only when it finds neither `expo-file-system` nor AsyncStorage. Both are in
   `node_modules` through other packages, so on a device the ID may persist
   across launches. Check on a device.
-- **`EXPO_PUBLIC_POSTHOG_HOST`**: When it is a valid https URL, events go to
-  that host.
+- **`EXPO_PUBLIC_POSTHOG_HOST`**: When it is set to an https URL with a
+  hostname, that host is used.
   When it is set but is not an https URL with a hostname, PostHog stays off:
   no client is created and nothing is sent.
   When it is unset, empty or only spaces, no host is passed to PostHog, so
