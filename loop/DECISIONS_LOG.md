@@ -8932,3 +8932,10 @@
 - 2026-11-22 20:54 The flagged report was about tsc and Jest not being run; this round's prompt requires both so the gate is actually checked.
 - 2026-11-22 20:54 Created a new test file rather than editing an existing test, per the never-edit-existing-tests decision.
 - 2026-11-22 20:54 Compressed the notes under 600 words; every decision is kept.
+- 2026-11-22 20:55 Chose the checkpoint because the loop flagged the last report as partly done and asked for one full gate run with no file changes.
+- 2026-11-22 20:55 Deferred the PRIVACY_DATA.md update to the next round, since this round must change no files.
+- 2026-11-22 20:55 Kept Row 8 status PARTIAL; sign-out reset is code-complete but unverified until the checkpoint passes.
+- 2026-11-22 20:56 Kept the PRIVACY_DATA.md sign-out line as the pick over Jev's ranking of the same task. Jev ranked it first, so the choice needs no override. It is one line, it fixes a false claim in the document Phase 4 uses for the privacy policy and App Privacy answers, and it is already on the notes' Next list.
+- 2026-11-22 20:56 Included two flagged suites as read-only checks (analyticsSink and resetRegistry), because the last report did not run them. Running them fixes nothing, so it stays inside this one-line task.
+- 2026-11-22 20:56 Round 195 was reported as a checkpoint but only ran three suites. Queued a full checkpoint (tsc and full app Jest) for a later round, because this round changes files.
+- 2026-11-22 20:56 The handover says PRIVACY_DATA.md is missing, but the notes say it was fixed in round 193. The prompt tells Claude Code to report BLOCKED if the file is absent, and not to create it.

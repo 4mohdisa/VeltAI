@@ -89,8 +89,7 @@ Extra fields beyond the table:
   across launches. Check on a device.
 - **No `EXPO_PUBLIC_POSTHOG_HOST`**: PostHog uses its default host, so events
   go to the PostHog US cloud.
-- **Sign-out does not reset PostHog identity**: two accounts on one phone
-  share one PostHog anonymous ID.
+- **Sign-out resets the PostHog identity**: `resetAnalytics()` in `src/lib/analytics.ts` calls `resetSink()` in `src/lib/analyticsSink.ts`, which calls the PostHog client `reset()`. With no `EXPO_PUBLIC_POSTHOG_KEY` there is no client, so nothing is sent.
 - **`trial_started`** is in the event list, but nothing in the app sends it.
 - **Crash reporting has no user opt-out**; it is controlled only by the DSN.
 - **`feature_used`** is still checked by the older shape check rather than its

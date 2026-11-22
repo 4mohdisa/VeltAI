@@ -5,7 +5,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last checkpoint round 187: tsc 0; Jest 198 suites, 1190 tests, 4 snapshots.
+- Last full checkpoint: round 187, tsc 0, Jest 198 suites, 1190 tests, 4 snapshots.
+- Round 195: only 3 suites ran (analyticsReset, analyticsAllowlist, analytics), tsc 0. The full checkpoint is NOT done. Queued for a later round.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. perl misses accented patterns; use Edit.
 - API client src/lib/api.ts. Locales src/lib/i18n/locales/. i18n fixed to lng 'en'.
@@ -32,20 +33,24 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics switch lives in src/app/profile/privacy.tsx. No second switch on main Settings.
 - PRIVACY_DATA.md place name: 'Settings → Privacy'.
 - Flagged reports (tests not run) are fixed by running tsc and the changed Jest files in the next round's task.
+- Checkpoint rounds change no files; fixes are queued for the next task.
+- Round 196: PRIVACY_DATA sign-out line picked over Row 8 host work (Jev ranked it first; it fixes a false claim in the Phase 4 privacy source).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
 - Row 8 PARTIAL: step 1 (ALLOWED_EVENTS, analyticsAllowlist.test.ts); step 2a (analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests); step 2c (setSinkOptIn from flag listener); step 2b (analytics switch localised, settingsAnalytics.render.test.tsx); PostHog pinned 4.87.1; PRIVACY_DATA.md opt-out line and place name fixed (round 193).
+- Round 194: sign-out resets PostHog identity via resetSink() (analytics.ts resetAnalytics). Tests: analyticsReset.test.ts (2). tsc 0; analytics suites pass.
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
 
 ## In progress
-- Round 194: Row 8 sign-out resets PostHog identity via resetSink(), new test src/__tests__/analyticsReset.test.ts. Run tsc and changed Jest files.
+- Round 196: PRIVACY_DATA.md sign-out line, then analyticsSink and resetRegistry suites (flagged as not run).
 
 ## Next
+- Full checkpoint (tsc and full app Jest, no file changes) in a later round.
 - Row 8: EXPO_PUBLIC_POSTHOG_HOST; anonymous ID persistence (check on device); app version and build tags.
 - Row 8 crash opt-out: Settings switch needs a flag in store.ts (permission needed).
 - Row 8 follow up: when Isa approves, feature_used to strict list and delete shapeOnly().
@@ -74,4 +79,6 @@ getMorningBrief swallows errors (api.ts, pinned by aiFallback.test.ts); getProfi
 
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
+- Round 196 prompt was rejected for missing the loop/phase3 branch rule. Rewritten with the rule first.
+- Handover summary said PRIVACY_DATA.md is missing; notes say it was fixed in round 193. Check the file exists before editing.
 - Integrations header task is DONE. Do not re-send it.
