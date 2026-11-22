@@ -9499,3 +9499,7 @@
 - 2026-11-23 03:00 Row 17 status conflicts: notes say BUILT, handover says PARTIAL with gap 5 open. Decided to read the row in PHASE3_ROWS.md before any Row 17 work, and not to reissue gap 5 from the handover alone.
 - 2026-11-23 03:00 Kept Row 14 PARTIAL; other Row 14 items remain.
 - 2026-11-23 03:00 Pass Jest paths through xargs and run the checks on Node 22, per the gotchas.
+- 2026-11-23 03:02 Chose the Row 13 notes fix first: it is the smallest task and it fixes a rule violation (two capitalised status words in one row).
+- 2026-11-23 03:02 Treated Row 14 as done for this round: the latest report confirmed the WeekStrip labels and the status word fix are complete, with no code change needed.
+- 2026-11-23 03:02 Deferred Row 17 gap 5 until the row is read: the notes and handover disagree on whether Row 17 is BUILT or PARTIAL.
+- 2026-11-23 03:02 Did not ask Isa: the Row 6 and Row 17 questions are already in Blocked on Isa with defaults in use, and no new major question exists.

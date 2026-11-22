@@ -5,17 +5,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last full checkpoint: tsc 0 errors, Jest 233 suites, 1,338 tests. Go 543 pass, 20 TestPG skipped.
-- Reconcile counts at final sweep.
+- Last checkpoint: tsc 0 errors, Jest 233 suites, 1,338 tests. Go 543 pass, 20 TestPG skipped. Reconcile at final sweep.
 
 ## Status (PHASE3_ROWS.md is source of truth; re-read each round)
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16.
 - PARTIAL: 5 (part 2 needs credentials), 13, 14, 17.
-- Row 17 conflict: notes say BUILT, handover says PARTIAL with gap 5 open. Read the row before any Row 17 work.
+- Row 17 conflict: notes say BUILT, handover says PARTIAL with gap 5 open. Read the row first.
 - DIFFERENT or waiting: 6 (waits on Isa), 11 (final sweep, last).
 
 ## Next
-- Now: Row 14. Confirm WeekStrip labels are complete, fix the capitalised status word in its notes, then other Row 14 items that need no src/lib/data change.
+- Now: Row 13 notes, lowercase the two capitalised PARTIAL words. Notes only.
+- Then: Row 14 items that need no src/lib/data change. WeekStrip labels are done.
 - Row 17 gap 5 (empty Ask Lume answer, ai-query.tsx) only if the row says it is open.
 - Row 6 waits on Isa. Row 11 final sweep last.
 
@@ -52,7 +52,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Device maker, model, OS to PostHog: default not sent.
 - Export row: two exportData functions exist; remove one only if Isa decides.
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user; Row 17 gaps 1, 2, 6.
-- Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud.
+- Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud, weekStrip es/fr.
 
 ## Parked (not Phase 3)
 - Row 6: gym history list not virtualised. Options: per-row card pieces, list mode on Screen, or limit listSessions in hooks.ts (recommended).
@@ -62,7 +62,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names.
 - Row 15: useGoals loading and error states.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes still say the 503 waits on aiBrain.ts; it is done.
+- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes that said the 503 waits on aiBrain.ts are wrong; it is done.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg. useHydration logs via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 raw number. Repeat-visit skeleton flash.
@@ -84,4 +84,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
-- Jev is advisory only. Last signals: run 89%, confidence 0.83. Prefer smaller tasks. Flag: last task looked partly done; verify before moving on.
+- Jev is advisory only. Last signals: run 42%, ask 39%, stop 19% (confidence 0.13). Prefer smaller tasks. Flag: last task looked partly done; verify before moving on.
