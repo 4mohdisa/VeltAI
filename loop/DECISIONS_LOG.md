@@ -9274,3 +9274,7 @@
 - 2026-11-23 01:23 The prompt asks the agent to find the caption file by grep instead of naming it, because the file name is not in the notes. The agent must name the file in its report.
 - 2026-11-23 01:23 Kept the Row 15 status unchanged. Only a one-line note is added to the cell, so the file stays 22 lines.
 - 2026-11-23 01:23 Ran tsc only and the changed tests only, because the full gates are owed at the next checkpoint and not in this round.
+- 2026-11-23 01:26 Jev ranked Row 11 first at 88%. Kept the checkpoint gate instead, because Row 11 is the final sweep and rows 5, 6, 8, 12 to 17 are still PARTIAL or DIFFERENT, so a final sweep now would record a false end state.
+- 2026-11-23 01:26 The full Jest and Go gate has been owed since round 267 and was listed as NEXT in the handover. Running it now clears the gap the handover left open.
+- 2026-11-23 01:26 Jev's ask at 73% is not used. The open Isa questions already have defaults in use, the daily question limit matters, and nothing in this round needs a new answer.
+- 2026-11-23 01:26 Regressions from this branch may be fixed minimally in the source file. Existing tests and snapshots are never edited, per the standing rule.
