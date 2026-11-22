@@ -12,11 +12,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16, 17 (owner check pending).
 - PARTIAL: 5 (part 2 needs credentials), 6, 13, 14.
 - DIFFERENT: 11.
-- Row 17 status is unverified until this round's gate check.
+- Row 17: latest report says BUILT (gate green, gap 5 confirmed). Handover said PARTIAL. Confirm from the file.
 
 ## Next
-- Now: Row 17 gate check (tsc, Row 17 Jest files, status note cleanup).
-- Then: Row 15 and 16 gate check (their new Jest files).
+- Now: Row 15 and 16 gate check (tsc, their new Jest files).
+- Then: Row 17 status reconciliation from the file.
 - Row 6: waits on Isa (hooks.ts limit).
 - Row 11 final sweep last, only when every other row is BUILT or EXACT.
 
@@ -85,4 +85,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
-- Jev is advisory only. Last signals: ask 61%, run 19%, confidence low. Prefer smaller tasks.
+- Jev is advisory only. Last signals: run 54%, ask 36%, confidence low. Prefer smaller tasks.

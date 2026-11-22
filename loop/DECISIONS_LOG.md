@@ -9480,3 +9480,7 @@
 - 2026-11-23 02:55 Did not ask Isa about the Row 6 limit again: it has been asked several times with no answer, so the default applies and hooks.ts stays off limits.
 - 2026-11-23 02:55 Jev suggested ask; overridden because the only open question was already asked several times and this round needs no answer from Isa.
 - 2026-11-23 02:55 Row 15 and 16 gate check moved to the round after this one, to keep each prompt to one row.
+- 2026-11-23 02:55 Chose the Row 15/16 gate check because the notes list it as Next, it is smallest, and it needs nothing from Isa.
+- 2026-11-23 02:55 Row 17 status is set from PHASE3_ROWS.md, not the handover; the handover said PARTIAL, the latest report said BUILT. Reconcile in a later round from the file.
+- 2026-11-23 02:55 Skipped Row 6 (waits on Isa for hooks.ts) and Row 11 (last, only when all other rows are BUILT or EXACT).
+- 2026-11-23 02:55 No full suite this round; the checkpoint is not due.
