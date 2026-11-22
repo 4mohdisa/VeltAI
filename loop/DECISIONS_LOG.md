@@ -8949,3 +8949,7 @@
 - 2026-11-22 20:57 Full checkpoint deferred to a later round, since it changes no files and this round is a fix round.
 - 2026-11-22 20:57 Host validation, crash opt-out and English Privacy copy left to NEXT, not fixed, because they are new work outside this row's scope.
 - 2026-11-22 20:57 Jev ranks the full checkpoint higher, but a checkpoint now would miss the flagged fix. Kept the smaller task.
+- 2026-11-22 20:58 Run the full checkpoint now: the last full run (round 187) predates Row 8 work, and the flagged report only ran 3 suites.
+- 2026-11-22 20:58 No file changes this round, so the flag is closed by evidence, not by a code edit.
+- 2026-11-22 20:58 feature_used strict list and host validation stay parked until Isa answers; no question asked this round because the same questions are already in Blocked on Isa.
+- 2026-11-22 20:58 Jev ran 46% vs ask 44% with low confidence; chose the smallest safe task (a read-only checkpoint).

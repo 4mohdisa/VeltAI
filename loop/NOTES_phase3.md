@@ -6,7 +6,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Last full checkpoint: round 187, tsc 0, Jest 198 suites, 1190 tests, 4 snapshots.
-- Full checkpoint NOT done since round 187. Queued for a checkpoint round.
+- Round 199: full checkpoint queued (tsc and full app Jest, no file changes).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. perl misses accented patterns; use Edit.
 - API client src/lib/api.ts. Locales src/lib/i18n/locales/. i18n fixed to lng 'en'.
@@ -30,28 +30,26 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Jest mock factories reference only mock* variables.
 - Spanish uses tu, French uses vous.
 - Row 15 copy tail deferred until after Row 10.
-- Row 8 feature_used keeps shapeOnly() shape check until Isa approves.
+- Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Analytics switch lives in src/app/profile/privacy.tsx. No second switch on main Settings.
 - PRIVACY_DATA.md place name: 'Settings → Privacy'.
-- Flagged reports: fix by running tsc and the changed Jest files in the next task.
 - Checkpoint rounds change no files; fixes are queued for the next task.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
-- Row 8 PARTIAL: ALLOWED_EVENTS allowlist; analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY; host option via EXPO_PUBLIC_POSTHOG_HOST; setSinkOptIn from flag listener; localised analytics switch; PostHog pinned 4.87.1; sign-out resets PostHog identity (analyticsReset.test.ts).
+- Row 8 PARTIAL: ALLOWED_EVENTS allowlist; analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY; host via EXPO_PUBLIC_POSTHOG_HOST; setSinkOptIn from flag listener; localised analytics switch; PostHog pinned 4.87.1; sign-out resets identity; PRIVACY_DATA.md host item updated (round 198).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
 
 ## In progress
-- Round 198: Row 8 PRIVACY_DATA.md host item rewritten to match the optional host; tsc and analyticsSink, resetRegistry, analyticsReset suites.
+- Round 199: full checkpoint (tsc and full app Jest). No file changes. Result decides whether Row 8 is clean.
 
 ## Next
-- Full checkpoint (tsc and full app Jest, no file changes) in a later round.
 - Row 8: anonymous ID persistence (check on device); app version and build tags.
-- Row 8: host value validation (not started; decide after Isa replies).
+- Row 8: host value validation (decide after Isa replies).
 - Row 8 crash opt-out: Settings switch needs a flag in store.ts (permission needed).
 - Row 8 follow up: when Isa approves, feature_used to strict list and delete shapeOnly().
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
@@ -75,9 +73,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - InsightCard 120-character rule pinned by insightCard.i18n.render. Default kept.
 
 ## Parked (not Phase 3)
-getMorningBrief swallows errors (pinned by aiFallback.test.ts); getProfile .catch hides errors; AnomalyBanner no Retry; banner count lacks _one; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; backend/scripts/seed_demo_account.go no host guard (fix or remove in Row 11); lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx 'Progress saved' and alert 'Save' English; Privacy screen English (policy and terms rows, AI processing, Your data, toasts); MacroBars unused and English; formatCalories always kcal; addMenu.voice, addMenu.describeOutLoud only in es; addMenu.snack; react-test-renderer deprecation warnings; freeze offline toast claims success on failure; Fibre VoiceOver key; insight type badge for unknown types; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers not formatted; crash exception messages may carry server text via ApiError; npm audit 48 vulnerabilities (1 critical) not investigated; trial_started in event list, never sent; events without a key still reach Lume backend when opted in; user opted in at launch relies on flag start, no end-to-end test; delete-account.tsx and subscription.tsx are Phase 4; no unit change feedback.
+getMorningBrief swallows errors (pinned by aiFallback.test.ts); getProfile .catch hides errors; AnomalyBanner no Retry; banner count lacks _one; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; backend/scripts/seed_demo_account.go no host guard (fix or remove in Row 11); lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx 'Progress saved' and alert 'Save' English; Privacy screen English (policy and terms rows, AI processing, Your data, toasts); MacroBars unused and English; formatCalories always kcal; addMenu.voice, addMenu.describeOutLoud only in es; addMenu.snack; react-test-renderer deprecation warnings; freeze offline toast claims success on failure; Fibre VoiceOver key; insight type badge for unknown types; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers not formatted; crash exception messages may carry server text via ApiError; npm audit 48 vulnerabilities (1 critical) not investigated; trial_started in event list, never sent; events without a key still reach Lume backend when opted in; user opted in at launch relies on flag start, no end-to-end test; delete-account.tsx and subscription.tsx are Phase 4; no unit change feedback; host value not validated as a URL; crash reporting has no opt-out.
 
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
-- Round 198: last report flagged partly done. Fix by running tsc and the changed Jest files this round.
+- Round 198 report flagged partly done; round 199 checkpoint closes it with evidence.
 - Every prompt starts with the branch rule.
