@@ -9432,3 +9432,8 @@
 - 2026-11-23 02:27 Told Claude Code to reuse existing translated keys, so no new locale strings unless needed. This avoids a translation gap.
 - 2026-11-23 02:27 Forbade edits to aiBrain.ts, so gap 6 (blocked on Isa) is not touched by accident.
 - 2026-11-23 02:27 Kept the Jest number at 1,322 as the working baseline until Isa confirms it.
+- 2026-11-23 02:28 Chose Row 17 gap 5: it is screen only, needs no Isa input, and is the smallest open task.
+- 2026-11-23 02:28 Added a verify step for gap 4 because the handover flagged the last report as partly done. If the code is missing, the round reports BLOCKED.
+- 2026-11-23 02:28 Asked Claude Code to fix the stale Row 17 note about gap 4 waiting on aiBrain.ts, because aiBrain.ts is not needed for the screen-side fix.
+- 2026-11-23 02:28 Kept Row 17 PARTIAL. Gaps 1, 2 and 6 still need src/lib/data, which is off limits.
+- 2026-11-23 02:28 Named all files in full because a handover just happened.

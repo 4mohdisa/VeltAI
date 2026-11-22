@@ -885,6 +885,9 @@
   "integrationsDetails": {
     "loadFailed": "Impossible de charger vos apps connectées."
   },
+  "aiQueryAnswer": {
+    "empty": "Lume n’a pas trouvé de réponse. Essayez de reformuler votre question."
+  },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",
     "waiting_other": "{{count}} modifications en attente de synchronisation"

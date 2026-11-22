@@ -118,7 +118,14 @@ export default function AIQueryScreen() {
                 {answer}
               </Text>
             </View>
-          ) : null}
+          ) : (
+            <View style={{ alignItems: 'center', gap: space.sm }}>
+              <Icon name="sparkles" size={36} color={color.tertiaryLabel} />
+              <Text variant="bodyBold" color={color.label} style={{ textAlign: 'center' }}>
+                {t('aiQueryAnswer.empty')}
+              </Text>
+            </View>
+          )}
         </ScrollView>
 
         {/* Bottom: always-available suggestion chips + chat-style input */}
