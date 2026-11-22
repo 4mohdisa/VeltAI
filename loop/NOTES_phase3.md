@@ -5,12 +5,15 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last checkpoint round 244: tsc 0; Jest 212 suites, 1250 tests, 4 snapshots. Go 637 pass, 20 TestPG skipped (no local DB).
-- Next checkpoint: round 252 (gates only, no file changes).
+- Round 252 checkpoint (gates only, no file changes): running, result in next report.
+- Last full checkpoint round 244: tsc 0; Jest 212 suites, 1250 tests, 4 snapshots. Go 637 pass, 20 TestPG skipped (no local DB).
+- Round 249 clean after back-out: related Jest 107 suites, 511 tests, 4 snapshots pass.
+- Next checkpoint: round 256.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
 - PHASE3_ROWS.md is a table: append notes inside the row cell, never as a new line.
 - Profile render tests mock StreakCounter.
+- Every prompt must name loop/phase3 and the no-git rule (a prompt was rejected for omitting it).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -29,25 +32,27 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Row 9: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Typed routes need 'as Href' for /profile/feedback.
-- kJ keeps abbreviation until Isa answers (spoken as kilojoules needs a second key).
-- Round 248: food.tsx kcal label picked over Row 11 because rows 12 to 15 are still PARTIAL.
-- Round 249: spokenEnergy moved to src/lib/units.ts so food and nutrition share one helper.
+- kJ keeps abbreviation until Isa answers.
+- Round 249: spokenEnergy lives in src/lib/units.ts; food.tsx uses it. nutrition.tsx change backed out (see Blocked).
+- Round 252: checkpoint run; Isa not asked again (defaults apply).
 
 ## Done
 - BUILT: 1, 2, 3, 4, 7, 9, 10. Owner checks pending on 3, 5 part 1, 7, 9, 10.
 - PARTIAL: 5 (part 2 needs sign-in), 8 (device check), 12 (until Isa says built), 13, 14, 15.
 - DIFFERENT: 6, 11, 16, 17.
-- Row 15 so far: headers, Privacy export row, footers, support keys, destructive hint, French punctuation, goals label, Scan and Integrations copy, food.tsx spoken kcal (248).
+- Row 15 done so far: headers, Privacy export row, footers, support keys, destructive hint, French punctuation, goals label, Scan and Integrations copy, food.tsx spoken kcal.
 
 ## Next
-- Row 15: dashboard/nutrition.tsx spoken kcal label (round 249, in progress).
+- fr.json straight apostrophe check (Row 15).
+- Goals spoken calorie label; Scan accuracy and Integrations body copy (not yet checked).
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
 
 ## Blocked on Isa (defaults used, do not re-ask)
+- Macros snapshot (detailChrome.render.test.tsx): approve so nutrition.tsx spoken 'kcal' becomes spokenEnergy. Default: fix stays backed out. Once approved: reapply nutrition.tsx (remaining const uses spokenEnergy), regenerate that one snapshot, restore nutritionSpokenKcal.render.test.tsx.
 - Spanish Account and Privacy eyebrows both 'Tus datos'. Default kept.
-- Permission to edit src/__tests__/render/privacyLocale.render.test.tsx line 56. Default: Privacy title stays English.
+- Permission to edit privacyLocale.render.test.tsx line 56. Default: Privacy title stays English.
 - Feedback-owned rows in backend/internal/auth/export.go. Default kept.
 - Apply feedback migration to hosted Supabase (owner). Feedback retention undefined.
 - Which local DB is Lume's; lume_audit one migration behind. Apply only if named.
@@ -66,9 +71,9 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).
-- UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English strings; MacroBars unused; formatCalories always kcal; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
-- Code hygiene: goals.saved unused; scan-calibration.tsx:50 dev-only console.warn; hooks.ts:72 console.warn; lint in gymSchedule.ts and hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx.
+- UI/data: useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; Session.tsx English; MacroBars unused; formatCalories always kcal; freeze offline toast claims success on failure; nutrition ring unit spoken as abbreviation; week.tsx flat bars at 0 kcal; BrainProfileCard numbers unformatted; crash messages may carry server text via ApiError.
+- Code hygiene: goals.saved unused; scan-calibration.tsx:50 and hooks.ts:72 console.warn; lint in gymSchedule.ts and hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts, support.tsx.
+- Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; share subject 'Lume data export' hard-coded; Privacy title and eyebrow both 'Your data'; two Export rows until Row 15 copy pass ends.
+- Feedback: app_version carries build number; no limit tighter than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; label 'Help and feedback' vs 'Send feedback' open; Row 10 notes from rounds 216 and 218 out of date.
 - Integrations relative time keys have no plural forms (fine for short units).
-- Privacy and export: trial_started never sent; events without key still reach Lume backend when opted in; bad PostHog host turns sink off silently; US cloud default unconfirmed; export returns whole profiles row; export sent as text not .json; export share subject hard-coded; Privacy section title and eyebrow both 'Your data'; two Export rows until Row 15 copy pass ends.
-- Feedback: app_version carries build number; no tighter limit than 120/min writes; Support mail box overlaps feedback; Support Email row swallows Mail open errors; feedback row label 'Help and feedback' vs 'Send feedback' open; Row 10 notes from rounds 216 and 218 out of date.
 - Phase 4: delete-account.tsx and subscription.tsx; authenticated role in local Postgres 17.

@@ -9189,3 +9189,11 @@
 - 2026-11-23 00:52 Moved spokenEnergy into src/lib/units.ts instead of copying it, to avoid duplicated logic in two screens. The prompt stops if the helper has file-local dependencies.
 - 2026-11-23 00:52 Kept kJ abbreviated because Isa has not answered the kilojoules question.
 - 2026-11-23 00:52 Did not touch the Privacy title test, because Isa has not granted permission to edit it.
+- 2026-11-23 00:54 Did not ask Isa again about the macros snapshot in detailChrome.render.test.tsx. It is already in Blocked and the default (fix backed out) stands. Re-asking adds noise and Isa already has open questions.
+- 2026-11-23 00:54 Loop note flagged round 249 as partly done. Its tsc and Jest results were green after backing out, so the state is clean. Recorded the backed-out nutrition fix as waiting on Isa, not done.
+- 2026-11-23 00:54 Picked the smallest safe row task that avoids the snapshot-pinned nutrition screen (Jev: prefer smaller task at 61% confidence).
+- 2026-11-23 00:54 Asked for tsc plus only the i18n-related Jest tests, not the full suite, because only a locale value changes. Checkpoint round is 252.
+- 2026-11-23 00:55 Ran the round 252 checkpoint the loop requires. No files change this round.
+- 2026-11-23 00:55 Chose run over ask. The macros snapshot question was already asked and the default applies. Jev's ask signal is not new information.
+- 2026-11-23 00:55 The prompt names loop/phase3 and the no-git rule, because the previous prompt was rejected for leaving out the branch rule.
+- 2026-11-23 00:55 Trimmed the notes under 600 words by shortening wording. No decision, blocked item or parked item was removed.
