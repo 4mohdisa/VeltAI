@@ -8597,3 +8597,8 @@
 - 2026-11-22 19:10 Rejected prompt fixed: the rewrite states the loop/phase3 branch rule up front, forbids git and branch switching, and names exact files and steps.
 - 2026-11-22 19:10 Plural key follows the existing locale pattern, so the implementer checks en.json first instead of inventing a format.
 - 2026-11-22 19:10 Row 15 stays PARTIAL until Isa confirms. No device check is claimed.
+- 2026-11-22 19:12 Chose the AnomalyBanner gap first because the loop check flagged the last report as partly done; closing it before moving on.
+- 2026-11-22 19:12 Kept the Goals screen as the next task so it is not mixed with the banner fix.
+- 2026-11-22 19:12 Left the 'patterns' versus 'activity' wording for Isa, since it is a wording choice.
+- 2026-11-22 19:12 Left the shared ErrorState component alone; it is outside Row 15 and shared by other screens.
+- 2026-11-22 19:12 Added the .render.test.tsx suffix because package.json only runs that pattern with screen setup.

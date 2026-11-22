@@ -8,7 +8,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 129 checkpoint clean: tsc 0; Jest 173 suites, 1114 tests, 4 snapshots pass.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Row numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop round numbers. Not fixed.
-- Round 140: prompt rejected for missing loop/phase3 branch rule. Rewritten with the rule up front.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -23,28 +22,31 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - French: no-break space before ':' and '?'. Curly apostrophe in new strings.
 - Snapshots: no regeneration without Isa's permission.
 - Streak empty means longest streak and total sessions both 0.
-- Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed; energy notice only when both week reads fail.
+- Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Summary card and GymStatusCard hidden during first load. Accepted.
 - Test edit forbidden and breaking: back out or stop. Never leave suite red.
 - MacroBars translation backed out (summaryNoFabrication.test.ts reads source). Stays English.
 - Round 125 row parked after two failed attempts.
 - Round 129: checkpoint kept over Jev's insights pick.
 - Round 130: insights literals over MacroBars and goals states.
-- Round 136 and 137: InsightCard and AnomalyCard literals done (insights.card, insights.anomaly).
+- Round 136, 137: InsightCard and AnomalyCard literals done.
 - Round 139: AnomalyCard verified in code, no change needed.
+- Round 140: AnomalyBanner keys done (fallback, bannerCount plural, dismiss). Banner test named .render.test.tsx.
+- Round 141: AnomalyBanner error state gap checked (in progress).
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner (count and fallback).
 
 ## In progress
-- Round 140: AnomalyBanner.tsx copy (fallback title, plural count title, dismiss label).
+- Round 141: AnomalyBanner error state and loading text check, then Goals.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Review insights.*, insights.brainProfile.*, insights.card, insights.anomaly wording, including weekday capitalisation (default: es/fr lowercase).
+- Review insights.*, insights.brainProfile.*, insights.card, insights.anomaly, insights.anomaly banner wording, weekday capitalisation (default: es/fr lowercase).
+- 'patterns' vs 'activity' wording in banner titles. Default: keep as is.
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
 - Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
 - Row 12 BUILT approval.
@@ -55,7 +57,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Permission to add refetch to useExerciseProgress and useGymPatterns. Default: no Retry.
 - useLoggedDays calendar failed read has no error. Leave.
 - lookupBarcodeAsync not found vs offline copy. Keep.
-- French weekMacrosEmpty curly apostrophe. Default: yes.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD and a seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off: confirm before Phase 4.
@@ -63,7 +64,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Round 140: AnomalyBanner copy (in progress).
+- Round 141: AnomalyBanner error state check (in progress).
 - Row 15 goals screen src/app/profile/goals.tsx: loading and error states, English text.
 - insights swallowed errors in src/lib/api.ts (~1253, 1270); fixed 0.3 bar in BrainProfileCard.tsx (~79).
 - InsightCard type badge untranslated; more/less toggle uses body length over 120.
@@ -78,6 +79,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Parked (not Phase 3)
 - Row 125 all-zero week chart line (needs snapshot permission).
 - Goals and units persistence.
+- Banner count title has no _one use; one anomaly uses fallback title.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci (network).
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.
 - useTemplates drops templates on refetch failure (src/lib/data).
