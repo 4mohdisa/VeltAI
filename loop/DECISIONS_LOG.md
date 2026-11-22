@@ -9456,3 +9456,12 @@
 - 2026-11-23 02:35 Row 6 gym history virtualisation parked. The option that needs no design change (listSessions limit in hooks.ts) needs src/lib/data, which is off limits. The other two options change the shared Screen or card styling, which breaks the Phase 1 design rule. Park under Row 6 hotspots in PERF_BASELINE.md.
 - 2026-11-23 02:35 Did not edit gym/history.tsx because hydrationErrorScreens.test.ts pins it as a parked screen. Recorded as a conflict to report to Isa in the final sweep, not asked now.
 - 2026-11-23 02:35 Stale Row 17 note removed: the 503 text is done (screen only). Gap 5 may already be done; the prompt tells Claude Code to verify first.
+- 2026-11-23 02:36 Asked Isa once instead of running. Jev ranked ask first (56%) and no unblocked row task remains.
+- 2026-11-23 02:36 Row 17 gap 5 is closed with no code change. Claude re-checked ai-query.tsx:121-127, the aiQueryAnswer.empty key and the aiQueryEmpty render test. Status stays PARTIAL only because of gaps 1, 2 and 6.
+- 2026-11-23 02:36 Stale note corrected: the 503 message is built in ai-query.tsx and is no longer waiting on aiBrain.ts.
+- 2026-11-23 02:36 Repeated-task flag from the last report noted. Next prompts must start from PHASE3_ROWS.md status, not from the handover task list.
+- 2026-11-23 02:36 If there is no answer next round, park gaps 1, 2, 6 and useGoals state as owner items, then run Row 11.
+- 2026-11-23 02:52 Isa did not answer the src/lib/data question in time. Recorded under Blocked on Isa. Not asked again.
+- 2026-11-23 02:52 Row 17 gaps 1, 2, 6 and useGoals isLoading, error, refetch are parked as owner items with the defaults already in use. No src/lib/data change.
+- 2026-11-23 02:52 This round is a checkpoint per the loop note: full type check and full app Jest only, no file changes. Chose run over ask because every open item now has a default, so no remaining task needs Isa this round.
+- 2026-11-23 02:52 Jev said ask 66%. Overridden because the loop note requires a checkpoint run and the unanswered question has already been used once. Reason recorded here.
