@@ -106,6 +106,7 @@
     "setOwn": "Set my own",
     "aiHint": "Your targets are computed from onboarding. Switch to set your own.",
     "dailyCalories": "Daily calorie target",
+    "caloriesSpoken": "calories",
     "macros": "Macro targets",
     "splitBy": "Set by",
     "grams": "Grams",

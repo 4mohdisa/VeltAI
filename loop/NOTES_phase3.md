@@ -31,7 +31,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 9 export: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Typed routes need 'as Href' for /profile/feedback.
 - Checkpoint rounds change no files.
-- Round 239: Jev ranked the guillemet fix first (84%); kept it as the flagged open item in the same file and rule as round 238.
+- Round 239: guillemet fix in foodLog.noMatches accepted (key was foodLog, not food).
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -42,10 +42,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers, Privacy Export row, footers, support.* keys, settings.destructiveHint, curly apostrophes in fr.json, no-break spaces before ':' and '?' in fr.json (round 238).
+- Row 15 PARTIAL: headers, Privacy Export row, footers, support.* keys, settings.destructiveHint, curly apostrophes in fr.json, no-break spaces before ':' and '?' in fr.json (round 238), no-break spaces inside « » in foodLog.noMatches (round 239).
 
 ## Next
-- Row 15: guillemet no-break spaces in fr.json (round 239, food.noMatches first). Then goals spoken calorie label, then Scan accuracy and Integrations body copy.
+- Row 15: goals spoken calorie label (round 240, in progress). Then Scan accuracy and Integrations body copy.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).

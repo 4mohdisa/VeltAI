@@ -9150,3 +9150,8 @@
 - 2026-11-23 00:36 Chose candidate 1 over Jev's pick of the same task after it was re-checked: it is the flagged open item from round 238, it is in the same file and follows the same no-break space rule, and it is a small single-file fix. Jev and my earlier pick agree on the task, so no change of pick was needed.
 - 2026-11-23 00:36 Guillemet spacing is handled under the existing French typography rule (no-break space) without a new decision.
 - 2026-11-23 00:36 Suites are limited to fr-locale files because the round 238 full run already passed and no checkpoint is due.
+- 2026-11-23 00:37 Chose the goals spoken calorie label: it is the next open Row 15 item, one screen, and needs no permission to edit tests.
+- 2026-11-23 00:37 Did not repeat the straight apostrophe check in fr.json: Row 15 notes already record curly apostrophes in fr.json as done (round 238).
+- 2026-11-23 00:37 Prompt names the goals screen by search, because its exact path is not in the notes. Claude Code must report the file it changed.
+- 2026-11-23 00:37 Kept Privacy subject, two Export rows, Support overlap and feedback version as Parked or Unfixed. They are not in the next task.
+- 2026-11-23 00:37 Round 239 guillemet fix accepted as done. Jev ranked it first; it was kept as the flagged item in round 238.

@@ -130,7 +130,7 @@ export default function GoalsScreen() {
               {...draft('calories', String(kcalToDisplay(goals.calories, energyUnit)), onCalories)}
               editable={isCustom}
               keyboardType="numeric"
-              accessibilityLabel={`${t('goals.dailyCalories')}, ${energyUnit}`}
+              accessibilityLabel={`${t('goals.dailyCalories')}, ${energyUnit === 'kcal' ? t('goals.caloriesSpoken') : energyUnit}`}
               style={[
                 textStyle('statLarge'),
                 {
