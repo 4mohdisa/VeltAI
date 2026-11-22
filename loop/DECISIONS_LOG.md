@@ -9076,3 +9076,7 @@
 - 2026-11-23 00:14 Row 10 Settings row is treated as BUILT (round 221), so the stale 'Settings row pending' note is removed.
 - 2026-11-23 00:14 Handover line 'Row 8 host item already matches' is kept as a decision, so the loop stops resending it.
 - 2026-11-23 00:14 Notes trimmed under 600 words; decisions and Parked lists kept in short form, nothing dropped.
+- 2026-11-23 00:15 Chose the smallest open task that clears a PARTIAL row; Row 10 needs only a check and a status update.
+- 2026-11-23 00:15 Support mail box stays as a contact link, not a feedback store, to avoid changing a screen outside Row 10; overlap parked.
+- 2026-11-23 00:15 Jev ranked the Row 15 hint fix higher for clearing a hard-coded English string; kept Row 10 because it is the smaller step and the status is closer to BUILT.
+- 2026-11-23 00:15 Feedback retention stays with Isa under Blocked; no code change proposed.
