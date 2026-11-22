@@ -842,7 +842,7 @@
     "unitSets": "sets",
     "unitSec": "sec",
     "addExercise": "Add exercise",
-    "padWeight": "Target weight · kg",
+    "padWeight": "Target weight · {{unit}}",
     "padRest": "Rest · seconds"
   },
   "aiQuery": {

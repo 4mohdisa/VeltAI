@@ -191,7 +191,7 @@ export function PlannedValuesForm({
           session screen both do — "Done" brings the button back. */}
       {pad ? (
         <NumberEntryBar
-          label={t(PADS[pad].labelKey)}
+          label={t(PADS[pad].labelKey, { unit })}
           value={entry}
           mode={PADS[pad].mode}
           maxLength={PAD_MAX_LENGTH}

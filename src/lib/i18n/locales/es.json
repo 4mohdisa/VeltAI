@@ -844,7 +844,7 @@
     "unitSets": "series",
     "unitSec": "seg",
     "addExercise": "Añadir ejercicio",
-    "padWeight": "Peso objetivo · kg",
+    "padWeight": "Peso objetivo · {{unit}}",
     "padRest": "Descanso · segundos"
   },
   "aiQuery": {

@@ -9264,3 +9264,13 @@
 - 2026-11-23 01:20 Kept the work to one screen and one row because the loop note asked for a prompt that is strictly scoped to the loop/phase3 branch.
 - 2026-11-23 01:20 Did not run the full suites: the round is not a checkpoint round and the last full run was round 267.
 - 2026-11-23 01:20 Recorded the round 267 checkpoint result as not recorded, because no report for it reached the notes.
+- 2026-11-23 01:23 Adopted the second opinion's top pick (weight pad caption) over the Row 17 follow-up: Row 17's remaining work needs Isa's approval for aiBrain.ts, so it cannot move this round.
+- 2026-11-23 01:23 Treated the weight pad caption as a Row 15 unit-label fix, since Row 15 is the copy and units pass. It needs no approval, and the wrong unit on screen is a concrete correctness bug for lb users.
+- 2026-11-23 01:23 Previous report flagged as partly done: Row 17 stays PARTIAL. Its remaining items are logged in the notes and waiting on Isa, so the loop does not repeat them.
+- 2026-11-23 01:23 Reuse existing unit labels; add strings only if none exist, in all three locales.
+- 2026-11-23 01:23 Full suites still owed for the round 267 checkpoint; left for the next checkpoint round, not this single-row prompt.
+- 2026-11-23 01:23 Chose the weight pad caption: a concrete unit bug, no approval needed, and small. Reason: the nutrition labels are blocked on Isa and the final sweep needs the open rows closed first.
+- 2026-11-23 01:23 Rewrote the rejected prompt to state the loop/phase3 branch rule explicitly, forbid branch switching, pushing, merging and git commands, and keep the report format.
+- 2026-11-23 01:23 The prompt asks the agent to find the caption file by grep instead of naming it, because the file name is not in the notes. The agent must name the file in its report.
+- 2026-11-23 01:23 Kept the Row 15 status unchanged. Only a one-line note is added to the cell, so the file stays 22 lines.
+- 2026-11-23 01:23 Ran tsc only and the changed tests only, because the full gates are owed at the next checkpoint and not in this round.

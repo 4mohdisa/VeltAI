@@ -6,24 +6,24 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- PHASE3_ROWS.md stays 22 lines; append notes inside the row cell.
+- PHASE3_ROWS.md stays 22 lines; notes go inside the row cell.
 - Locales: src/lib/i18n/locales/ (en, es, fr).
-- Round 252 gates: tsc 0; Jest 213 suites, 1252 tests, 4 snapshots. Go 637 pass, 20 TestPG skipped.
-- Round 266: PlannedValuesForm.tsx translated (10 exercisePicker keys, plannedValuesForm.render test).
-- Round 267: checkpoint ran; result not recorded, so a full run is still owed.
-- Weight pad caption '· kg' is fixed text, ignores lb. Unfixed.
+- Last full gates (r252): tsc 0; Jest 213 suites, 1252 tests, 4 snapshots. Go 637 pass, 20 TestPG skipped.
+- Round 267 checkpoint result not recorded: full run still owed.
 
 ## Done
-- BUILT: 1, 2, 3, 4, 7, 9, 10. Owner checks pending on 3, 5 part 1, 7, 9, 10.
-- PARTIAL: 5 (part 2 needs sign-in), 8 (device check), 12, 13, 14, 15, 16, 17.
-- DIFFERENT: 6, 11.
+- BUILT: 1, 2, 3, 4, 7, 9, 10 (owner checks pending on 3, 5 part 1, 7, 9, 10).
+- PARTIAL: 5 (part 2 needs sign-in), 8, 12, 13, 14, 15, 17.
+- Row 17: Ask Lume copy done (r268). Open: aiBrain 503 and empty answer (Isa).
+- DIFFERENT: 6, 11, 16.
 
 ## Next
-- Row 17: ai-query.tsx copy (round 268, in progress).
+- Row 15: weight pad caption follows lb or kg (round 269, prompt rewritten after rejection).
 - Row 15: nutrition.tsx spoken kcal labels wait on macros snapshot approval.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, last.
 - Row 6: measurements parked until a sign-in path exists.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
+- Run full Jest and Go gates at the next checkpoint.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -43,11 +43,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - spokenEnergy in src/lib/units.ts. kJ keeps abbreviation until Isa answers.
 - PlannedValuesForm shared with session.tsx: translate component, do not edit session.tsx.
 - Check every prompt against files first; past prompts asked for work already done.
+- Round 269: weight pad caption taken ahead of Row 17 remainder (needs Isa). No approval needed, concrete unit bug.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts off limits: food search loading timing, Recipe recents, exercise picker 'No matches' flash. Parked.
 - Exercise picker failed read 'No exercises found' (gymSchedule.ts): parked.
-- Ask Lume 503 and 'not enough data' (aiBrain.ts): parked.
+- Ask Lume 503 and 'not enough data' (aiBrain.ts): parked. Empty answer not flagged unavailable also parked.
 - Row 16 skeleton fix needs permission for profileEmptyStates.render.test.tsx test 1.
 - Macros snapshot (detailChrome.render.test.tsx): backed out; nutrition spoken kcal waits on it.
 - week.tsx snapshot regen and goals refetch in hooks.ts: need permission.
