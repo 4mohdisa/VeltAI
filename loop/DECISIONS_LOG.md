@@ -8379,3 +8379,7 @@
 - 2026-11-22 17:59 Round 90 picks session.tsx remaining literals over muscles.tsx: it closes the screen the last report left open, and Jev ran 86%.
 - 2026-11-22 17:59 Round 90 Spanish and French wording for the new session keys is my draft, flagged for Isa review with the other Row 14 wording.
 - 2026-11-22 17:59 The reps-box test lookup moves from the English label to the translated text, because the label changes and the test must stay green.
+- 2026-11-22 18:01 Loop flag says last report is partly done. Chose the smallest fix that closes the gap: the remove-button test still finds the English label.
+- 2026-11-22 18:01 Kept Row 14 PARTIAL; muscles.tsx is the next task after this one.
+- 2026-11-22 18:01 Handover said session alert and Progress saved are still English, but Round 89 notes say they were translated. Not re-opened now; listed for a grep check in the next session task.
+- 2026-11-22 18:01 Jev 95% run agreed; no question to Isa.

@@ -15,6 +15,7 @@ import GymSessionScreen from '@/app/gym/session';
 import type { ExerciseLibraryItem } from '@/lib/api';
 import type { PlannedValues } from '@/components/gym/PlannedValuesForm';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
+import en from '@/lib/i18n/locales/en.json';
 import { act, allText, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
@@ -99,7 +100,7 @@ test('removing a just-added extra exercise drops it from the list, with no DELET
   });
 
   expect(allText(tree)).toContain('Lateral Raise');
-  const removeButton = findAll(tree, (p) => p.accessibilityLabel === 'Remove Lateral Raise')[0];
+  const removeButton = findAll(tree, (p) => p.accessibilityLabel === en.gymSession.removeExercise.replace('{{name}}', EXTRA.name))[0];
   expect(removeButton).toBeDefined();
 
   act(() => {

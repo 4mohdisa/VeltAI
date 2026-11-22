@@ -44,8 +44,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved states, translations, food detail Done.
-- Rounds 82-88: gym session, history, templates, exercise-progress states, locale blocks, render tests, session alert and toast translated.
-- Round 89: session.tsx row labels, number pad, Cardio, Hide/Log translated (18 keys). Row 14 PARTIAL.
+- Rounds 82-88: gym session, history, templates, exercise-progress states, locale blocks, render tests.
+- Round 89: session.tsx row labels, number pad, Cardio, Hide/Log translated. Row 14 PARTIAL.
+- Round 90: session.tsx Set N, reps/weight/remove labels, cardio labels, RPE, planned sets, N / 10 translated (10 keys). Row 14 PARTIAL.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval. Stays PARTIAL.
@@ -65,11 +66,13 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 90: Row 14 session.tsx remaining literals (Set N, reps/weight labels, Remove, duration/distance labels, RPE slider, planned-sets summary, N / 10).
-- Round 91: Row 14 gym/muscles.tsx failed read and translations.
-- Rounds 92+: Rows 15 to 17, one screen per round.
+- Round 91: Row 14 gymSessionRemoveExtra test uses translated key (flagged gap).
+- Round 92: Row 14 gym/muscles.tsx failed read and translations.
+- Then streak and freeze screens for Row 14.
+- Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
+- Check session.tsx alert and 'Progress saved' are translated (handover and Round 89 disagree).
 
 ## Parked (not Phase 3)
 - Goals and units backend persistence (lost on restart).
@@ -101,10 +104,12 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - saved.tsx line 1 says 'C13 · My dishes'. meals.tsx line 2 is 82 characters.
+- Planned-weight unit ('kg'/'lb') from data not translated.
 
 ## Loop notes
 - Round 80: Jev said ask (80%). Kept run: only open question owner-only and defaulted.
 - Round 82: Jev said ask (74%). Kept run: question not major.
 - Round 88: Jev 90% run, rewritten with branch rules first.
-- Round 89: Jev 83% run. Report: remaining session strings listed, Row 14 PARTIAL.
+- Round 89: Jev 83% run.
 - Round 90: Jev 86% run. Branch rules first.
+- Round 91: loop flagged Round 90 as partly done. Jev 95% run. Small completion task chosen.
