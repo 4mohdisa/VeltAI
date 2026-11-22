@@ -9103,3 +9103,17 @@
 - 2026-11-23 00:23 Treated the latest handover summary (rounds 215 to 218) as stale. The notes file is the source of truth, so the Row 10 Settings link and the Row 9 owner check are read from the notes.
 - 2026-11-23 00:23 Kept the Privacy share subject hard-coded for now, because the task says not to change the share call. Listed it under NEXT.
 - 2026-11-23 00:23 Kept Row 15 copy-pass notes on Row 15, per the existing decision.
+- 2026-11-23 00:25 Agreed with Jev (82%): Row 15 tail is listed under Next and needs no test edit, so it moves now.
+- 2026-11-23 00:25 Privacy section title stays English until Isa approves the one-line edit to privacyLocale.render.test.tsx line 56. Existing tests are not edited.
+- 2026-11-23 00:25 Last round's flag: footer translation kept, title backed out, four named suites green (10 of 10 tests). Treated as done for now; no re-run.
+- 2026-11-23 00:25 Full app Jest deferred to the next loop checkpoint, as decided in round 229.
+- 2026-11-23 00:25 Rewrote the rejected prompt to one screen: preferences.tsx only, plus its locale keys and one new test file.
+- 2026-11-23 00:25 Chose the preferences Units eyebrow because it is the smallest remaining Row 15 item and needs no permission (Jev 55% run, low confidence, so a small task).
+- 2026-11-23 00:25 Privacy section title stays English: still waiting on Isa's approval of the privacyLocale.render.test.tsx line 56 edit.
+- 2026-11-23 00:25 Full Jest not run this round: the loop runs it at the next checkpoint.
+- 2026-11-23 00:25 PostHog host item in PRIVACY_DATA.md: already matches the code (answer 'already matches').
+- 2026-11-23 00:26 Chose Row 10 Settings row: it clears a PARTIAL row, needs nothing from Isa, and is the smallest change. Row 15 tail is lower value and the full Jest run waits for the checkpoint round.
+- 2026-11-23 00:26 Rejected prompt rewritten to name loop/phase3 only, with no git, push, merge or branch switches, and to state the single row and single screen.
+- 2026-11-23 00:26 Privacy section title stays English: Isa has not approved the edit to privacyLocale.render.test.tsx line 56, and the default is kept without re-asking.
+- 2026-11-23 00:26 Reused existing feedback.* keys where text matches. Added only the two new settings keys, in en, es and fr.
+- 2026-11-23 00:26 Added a new render test file and did not edit any existing test. Snapshot failures are backed out and reported, not regenerated.
