@@ -8818,3 +8818,6 @@
 - 2026-11-22 20:19 Row 15 note for Account is written by this prompt, which corrects the missing bookkeeping from the last report.
 - 2026-11-22 20:19 Fresh session: prompt names every file to read, per handover rule.
 - 2026-11-22 20:19 Ranked candidate 1 over Jev's suggestion? Jev strongly favoured run; this matches it. No re-check needed.
+- 2026-11-22 20:21 Isa did not answer the integrations eyebrow question, so Option A is used (Claude Code's recommendation). It needs no existing test edit and keeps the live count. Reason: rule that an unanswered question uses the default after one round.
+- 2026-11-22 20:21 Jev ranked ask at 71%, but the question is not major (it is copy, not data, money or production), so the loop does not ask. Reason: ask only for major questions.
+- 2026-11-22 20:21 The 'partly done' loop flag is handled by this round finishing the integrations eyebrow and writing its Row 15 note, not by starting a new task.

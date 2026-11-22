@@ -123,10 +123,10 @@ export default function IntegrationsScreen() {
   // (the app cannot connect to it at all; see UI_PASS_GAPS.md).
   const connectedCount = PROVIDERS.filter((p) => statusOf(p.key)?.connected).length;
   const eyebrow = loading
-    ? 'Sync'
+    ? t('profile.connectionsSyncing')
     : connectedCount === 0
-      ? 'Nothing connected'
-      : `${connectedCount} of ${PROVIDERS.length} connected`;
+      ? t('profile.connectionsNone')
+      : t('profile.connectionsCount', { count: connectedCount, total: PROVIDERS.length });
 
   const onConnect = async (p: OAuthProvider) => {
     setBusy(p.key);

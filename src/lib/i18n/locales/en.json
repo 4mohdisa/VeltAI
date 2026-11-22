@@ -45,6 +45,9 @@
     "restorePurchases": "Restore Purchases",
     "aiInsights": "AI insights",
     "connectedApps": "Connected apps",
+    "connectionsSyncing": "Sync",
+    "connectionsNone": "Nothing connected",
+    "connectionsCount": "{{count}} of {{total}} connected",
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
     "deleteAccount": "Delete my account"

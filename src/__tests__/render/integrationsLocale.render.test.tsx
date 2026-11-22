@@ -1,8 +1,8 @@
 // PHASE3_ROWS.md row 15, Connected apps screen (src/app/profile/integrations.tsx).
 // Rendered in English, Spanish and French: the title reads profile.connectedApps
-// from the locale file. The eyebrow is the live connection count, pinned in
-// English by integrations.render.test.tsx, so it is not checked here. The
-// screen takes no route params, so the shared expo-router mock is enough.
+// and the live eyebrow (loading, nothing connected, count) reads the
+// profile.connections* keys from the locale file. The screen takes no route
+// params, so the shared expo-router mock is enough.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import IntegrationsScreen from '@/app/profile/integrations';
@@ -10,6 +10,7 @@ import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import fr from '@/lib/i18n/locales/fr.json';
+import type { IntegrationConnection } from '@/lib/types';
 import { act, allText, renderScreen } from './helpers';
 
 // The loading Skeletons need reanimated's useReducedMotion, which this render
@@ -19,10 +20,11 @@ jest.mock('@/components/display', () => ({
   Skeleton: () => null,
 }));
 
+const mockList = jest.fn();
 jest.mock('@/lib/api', () => ({
   api: {
     integrations: {
-      list: jest.fn().mockResolvedValue([]),
+      list: (...args: unknown[]) => mockList(...args),
       connectStrava: jest.fn(),
       connectWhoop: jest.fn(),
       syncStrava: jest.fn(),
@@ -45,24 +47,62 @@ afterAll(async () => {
   });
 });
 
-test.each([
+const LOCALES = [
   ['en', en],
   ['es', es],
   ['fr', fr],
-])('%s: the title reads from the locale file', async (lng, locale) => {
+] as const;
+
+const settle = async () => {
+  await act(async () => {
+    await new Promise((r) => setImmediate(r));
+  });
+};
+
+const render = async (lng: string) => {
   await act(async () => {
     await i18n.changeLanguage(lng);
   });
-  const tree = renderScreen(
+  return renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
       <IntegrationsScreen />
     </SafeAreaProvider>,
   );
-  await act(async () => {
-    await new Promise((r) => setImmediate(r));
-  });
+};
+
+test.each(LOCALES)('%s: the title and the nothing-connected eyebrow read from the locale file', async (lng, locale) => {
+  mockList.mockResolvedValue([]);
+  const tree = await render(lng);
+  await settle();
 
   const text = allText(tree);
   expect(text).toContain(locale.profile.connectedApps);
-  if (lng !== 'en') expect(text).not.toContain(en.profile.connectedApps);
+  expect(text).toContain(locale.profile.connectionsNone);
+  if (lng !== 'en') {
+    expect(text).not.toContain(en.profile.connectedApps);
+    expect(text).not.toContain(en.profile.connectionsNone);
+  }
+});
+
+test.each(LOCALES)('%s: the loading eyebrow reads from the locale file', async (lng, locale) => {
+  mockList.mockReturnValue(new Promise(() => {}));
+  const tree = await render(lng);
+
+  expect(allText(tree)).toContain(locale.profile.connectionsSyncing);
+});
+
+test.each([
+  ['en', '1 of 2 connected'],
+  ['es', '1 de 2 conectados'],
+  ['fr', '1 sur 2 connectés'],
+])('%s: the count eyebrow fills in the count and total', async (lng, expected) => {
+  const connections: IntegrationConnection[] = [
+    { provider: 'strava', connected: true, last_sync_at: null },
+    { provider: 'whoop', connected: false, last_sync_at: null },
+  ];
+  mockList.mockResolvedValue(connections);
+  const tree = await render(lng);
+  await settle();
+
+  expect(allText(tree)).toContain(expected);
 });
