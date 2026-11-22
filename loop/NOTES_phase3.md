@@ -6,6 +6,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Round 101 checkpoint: tsc 0; Jest 166 suites, 1093 tests, 0 failed.
+- Round 110: fibre dash done in nutrition.tsx (4 suites, 56 tests pass; macros snapshot regenerated once, diff checked).
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Write output to /tmp, then tail.
 - Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx.
 - Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
@@ -22,7 +23,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - Locale blocks inserted as text. French: no-break space before ':' and '?'.
 - Snapshots: an intended change may be regenerated one snapshot at a time, with the diff checked.
-- Round 110: Jev advised ask; chose run because the snapshot rule allows an intended regeneration. Round 109 snapshot block lifted.
 - useExerciseProgress and useGymPatterns have no refetch: their failed notice has no Retry.
 - Streak and freeze: empty means longest streak and total sessions both 0. Zero freezes is data.
 - GlassButtons.tsx changed in round 98 (freeze sheet Close). Accepted.
@@ -30,13 +30,14 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Food tab PendingSyncBanner counts all queued writes.
 - AnomalyBanner takes anomalies, isError, onDismiss. food.tsx makes the only useInsights call.
 - useEnergyRange isError true only when both week reads fail.
+- Round 111: Jev ranked GymStatusCard first (84%); chose it over the fibre follow-up because the fibre task is complete and the remaining audit row 126 needs a blocked data-layer change.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
 - Row 14 PARTIAL: all gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard training, week, energy done. Nutrition loading and failed week read done (round 109). Fibre dash in round 110.
+- Row 15 PARTIAL: dashboard training, week, energy, nutrition loading and failed week read, fibre dash done.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -52,10 +53,12 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
+- Permission to add refetch to useExerciseProgress and useGymPatterns (src/lib/data). Default: no Retry.
+- Nutrition follows Food tab date (audit 126). Needs data-layer decision. Default: leave.
 
 ## Next
-- Round 110 (running): fibre dash in nutrition.tsx; regenerate detailChrome macros snapshot only.
-- Row 15 remaining: Summary GymStatusCard shows seed data while loading; insights literals and swallowed errors; goals load and error states; Summary card literals; MacroBars.tsx:53 English 'Not tracked'; week chart flat bars under '1g' ceiling (audit 125); screen follows Food tab date (audit 126).
+- Round 111 (running): Summary GymStatusCard hides seed data and the 'Log gym session' action while the first gym read loads (src/app/(tabs)/index.tsx:175). Render test only.
+- Row 15 remaining: nutrition screen follows Food tab date (audit 126, parked for data layer); week chart flat bars under '1g' ceiling (audit 125); insights literals and swallowed errors; goals load and error states; Summary card literals; MacroBars.tsx:53 English 'Not tracked'.
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json. Add key parity check.
 - Has-a-streak shared helper. Freeze offline toast claims success (decision).

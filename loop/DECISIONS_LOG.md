@@ -8472,3 +8472,6 @@
 - 2026-11-22 18:30 Chose the fibre dash first: it closes the partly done round 109 work the automatic check flagged, and it is the smallest task.
 - 2026-11-22 18:30 Kept the es and fr wording of the new keys as shipped, marked for review, because one unanswered round means use the default.
 - 2026-11-22 18:30 Left the Row 14 streak and freeze blockers as they are; they are copy choices that do not block the build.
+- 2026-11-22 18:32 Switched from the fibre follow-up to the GymStatusCard pick Jev ranked first. Reason: the fibre dash task is complete on its own criteria (tsc 0, 4 suites pass). The loop flag said the report looked partly done; the only open part is audit row 126 (date follows Food tab), which needs a src/lib/data change that is off limits. So the fibre task cannot close that part, and the GymStatusCard bug is a visible wrong action on the Summary tab.
+- 2026-11-22 18:32 Kept the GymStatusCard fix to a render-only change with no new strings, so no translation work is needed.
+- 2026-11-22 18:32 Audit row 126 stays open in NEXT and is parked for a data-layer decision by Isa, since src/lib/data is off limits in Phase 3.

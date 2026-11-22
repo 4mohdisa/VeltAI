@@ -171,15 +171,19 @@ export default function DashboardScreen() {
         {/* CONFLICT (V16, DECISIONS.md): the design has no gym card on Summary,
             but this card's button is the app's ONLY one-tap session log — the Gym
             tab and the + menu both open the full log sheet. Removing it would
-            silently degrade the feature, so it stays, below the design's cards. */}
-        <GymStatusCard
-          logged={gymLogged}
-          durationMin={todayDurationMin}
-          onLog={() => {
-            logGymSession();
-            showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
-          }}
-        />
+            silently degrade the feature, so it stays, below the design's cards.
+            Same rule as the streak: until the first read lands, the gym store
+            still holds its seed, so the card is not shown. */}
+        {dashLoading ? null : (
+          <GymStatusCard
+            logged={gymLogged}
+            durationMin={todayDurationMin}
+            onLog={() => {
+              logGymSession();
+              showToast({ message: 'Gym logged — streak extended.', tone: 'success' });
+            }}
+          />
+        )}
 
         {/* AI morning brief — renders null when there's none. */}
         <MorningBriefCard />
