@@ -52,6 +52,7 @@ var exportSections = []exportSection{
 	{"ai_user_brain", ownedRows("ai_user_brain")},
 	{"ai_insights", ownedRows("ai_insights")},
 	{"analytics_events", ownedRows("analytics_events")},
+	{"feedback", ownedRows("feedback")},
 	// Internal-testing captures. The screenshot is a large base64 blob and is
 	// the user's own screen, so it is exported as a presence flag rather than
 	// inlined — the rest of the report (notes, route, context) is included.

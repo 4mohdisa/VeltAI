@@ -9046,3 +9046,8 @@
 - 2026-11-23 00:05 Chose the feedback screen over the PRIVACY_DATA.md fix because it is one row step and the screen is the open Row 10 gap.
 - 2026-11-23 00:05 Feedback device fields are sent only when the switch is on (default off), as already recorded.
 - 2026-11-23 00:05 Jev suggested run at 70%; agreed. Ask was not chosen because no question blocks this screen.
+- 2026-11-23 00:09 Approved the export.go feedback line without waiting for Isa: it is a one line backend change that the existing migrations test requires, it is the smallest fix, and it keeps feedback inside the user data export. No test is edited.
+- 2026-11-23 00:09 Sequenced the export line before the Settings row so the backend gate is green before the next screen link.
+- 2026-11-23 00:09 Kept the Settings row for the next round, one screen or component per prompt.
+- 2026-11-23 00:09 Treated the PRIVACY_DATA.md host item as already matching the code, per the handover, and did not resend it.
+- 2026-11-23 00:09 Did not ask Isa anything this round; the open items are all either owner steps or defaults already in use.
