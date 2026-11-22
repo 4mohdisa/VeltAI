@@ -7,7 +7,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
-- Checkpoint round 46: tsc 0; Jest 147 suites, 1029 tests, 0 failed, 0 skipped, 4 of 4 snapshots.
+- Checkpoint round 50: tsc 0; Jest 147 suites, 1029 tests, 0 failed, 0 skipped, 4 of 4 snapshots.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade.
@@ -27,7 +27,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Fixes for hook errors go in the shared hook, not per screen.
 - useEnergyRange isError is true only when both week reads fail. Default used.
 - Food tab error state recorded under row 13. AnomalyBanner takes anomalies, isError, onDismiss props; food tab screen makes the only useInsights call.
-- phase14Regression reads the food tab screen for useInsights (round 45).
+- phase14Regression reads the food tab screen for useInsights.
 - Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
 - Unanswered question: use default and carry on. Do not re-ask.
@@ -37,8 +37,8 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - A prompt missing a required rule, or rejected for scope: re-issue the same row.
 - Round 48: row 12 set back to PARTIAL per handover (BUILT needs Isa approval).
 - Round 48: useInsights refetch and Retry stay parked (not in any row).
-- Round 49: row 12 notes cell rewritten from handover summary.
 - Round 50: full checkpoint chosen over row 13. Edits allowed only to the three named mock files (isError: false).
+- Round 51: the same flagged blocker (row 12 approval) came back twice. Recorded under Blocked on Isa, not retried. Work moves to rows that do not depend on it.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -47,24 +47,21 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done (gymSchedule hooks return isError, useApi loading on refetch, useEnergyRange isError, getInsights rejects with ApiError, ErrorState and PendingSyncBanner copy in en, es, fr).
 - Round 42: Food tab ErrorState when useInsights fails.
-- Round 44: AnomalyBanner props.
-- Round 45: phase14Regression reads the food tab screen.
-- Round 46: full checkpoint passed.
-- Round 47: docs cleanup.
-- Round 48: mock isError fixes in detailChrome and insights render tests. Flagged as partly done.
-- Round 49: row 12 re-verified (tsc 0, three render files pass). Notes cell rewritten.
+- Round 44: AnomalyBanner props. Round 45: phase14Regression reads the food tab screen.
+- Round 46: full checkpoint passed. Round 47: docs cleanup.
+- Round 48: mock isError fixes in detailChrome and insights render tests.
+- Round 49: row 12 re-verified. Round 50: full checkpoint clean (tsc 0, Jest 147/1029, 0 skipped).
 
 ## Blocked on Isa
+- Row 12 BUILT approval. Code done, checkpoint clean round 50. Status stays PARTIAL until Isa approves. Flagged twice by auto check: do not retry, do not re-ask.
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed-user sign-in path. Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
 - Analytics default on (brief) vs store off (DECISIONS.md 2026-08-09). Default used. Confirm before Phase 4.
 - Templates '+' replaced by a list control? Unanswered. Keep '+' (row 3).
 - useEnergyRange: confirm 'both weeks fail' rule. Default used.
-- Row 12 BUILT approval: Isa to approve. Status is PARTIAL until then.
 
 ## Next
-- Round 50: full checkpoint (tsc, full Jest) for row 12. In progress.
-- Row 13: Food tab empty-state tests; 'Tap + to add your first meal' on past days.
-- Row 14: Gym log and history empty states, one screen per round. No screen reads isError yet.
+- Round 51: row 13 Food tab empty states (in progress).
+- Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
 - Row 6: non-sign-in backend measurements.
 - Rows 7 and 8 (Sentry, PostHog), then rows 9 and 10, then Row 11 (final sweep).

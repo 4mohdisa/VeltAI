@@ -112,6 +112,7 @@
     "mealHistory": "Historique des repas",
     "noMealsTitle": "Pas encore de repas",
     "noMealsMessage": "Appuyez sur + pour ajouter votre premier repas.",
+    "noMealsPastMessage": "Rien n’a été enregistré ce jour-là.",
     "addMeal": "Ajouter un repas",
     "per100": "{{value}} / 100g",
     "addToMeal": "Ajouter à {{slot}}",

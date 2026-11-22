@@ -8213,3 +8213,7 @@
 - 2026-11-22 16:53 Allowed edits only to the three named mock files, since the handover lists them as the known isError gaps and a checkpoint would otherwise fail on them.
 - 2026-11-22 16:53 Kept row 12 at PARTIAL: BUILT needs Isa's approval, and this round only adds the gate numbers.
 - 2026-11-22 16:53 Dropped the old 'Round 49' note of the mock fix as a separate item; it is covered by this checkpoint.
+- 2026-11-22 16:54 Row 12 approval was the blocker the auto check flagged twice; recorded under Blocked on Isa and not retried, because the code is done and the checkpoint is clean.
+- 2026-11-22 16:54 Row 13 chosen because it does not depend on Isa approving row 12 and touches only the Food tab screen.
+- 2026-11-22 16:54 No question asked: row 12 approval was already asked and the default (status stays PARTIAL until Isa approves) is in force.
+- 2026-11-22 16:54 Row 13 prompt tells Claude Code to find the Food tab screen by searching for the existing copy, since the exact file path is not in the notes.

@@ -112,6 +112,7 @@
     "mealHistory": "Meal history",
     "noMealsTitle": "No meals yet",
     "noMealsMessage": "Tap + to add your first meal.",
+    "noMealsPastMessage": "Nothing was logged on this day.",
     "addMeal": "Add meal",
     "per100": "{{value}} / 100g",
     "addToMeal": "Add to {{slot}}",

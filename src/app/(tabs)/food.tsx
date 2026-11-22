@@ -60,6 +60,7 @@ import {
 } from '@/lib/data';
 import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
 import { useFoodStore } from '@/lib/data/foodStore';
+import { todayISO } from '@/lib/data/mappers';
 import { fromIso, useLoggedDays } from '@/lib/data/foodDays';
 import { WeekStrip } from '@/components/food/WeekStrip';
 import { openFoodDetail, type DetailItem } from '@/lib/food/detailSubject';
@@ -642,7 +643,7 @@ export default function FoodLogScreen() {
               <EmptyState
                 icon="fork.knife"
                 title={t('foodLog.noMealsTitle')}
-                message={t('foodLog.noMealsMessage')}
+                message={t(selectedDate < todayISO() ? 'foodLog.noMealsPastMessage' : 'foodLog.noMealsMessage')}
                 actionLabel={t('foodLog.addMeal')}
                 onAction={() => router.push('/food/add')}
               />

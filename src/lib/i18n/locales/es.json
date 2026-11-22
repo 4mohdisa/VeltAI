@@ -114,6 +114,7 @@
     "mealHistory": "Historial de comidas",
     "noMealsTitle": "Aún no hay comidas",
     "noMealsMessage": "Toca + para añadir tu primera comida.",
+    "noMealsPastMessage": "No se registró nada este día.",
     "addMeal": "Añadir comida",
     "per100": "{{value}} / 100g",
     "addToMeal": "Añadir a {{slot}}",
