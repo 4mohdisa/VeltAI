@@ -37,19 +37,20 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
-- Row 8 PARTIAL: ALLOWED_EVENTS allowlist; analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY; host via EXPO_PUBLIC_POSTHOG_HOST with https validation (round 200, 6 tests, 15 of 15 sink tests pass); setSinkOptIn from flag listener; localised analytics switch; PostHog pinned 4.87.1; sign-out resets identity.
+- Row 8 PARTIAL: ALLOWED_EVENTS allowlist; analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY; host via EXPO_PUBLIC_POSTHOG_HOST with https validation (6 tests, 15 of 15 sink tests pass); setSinkOptIn from flag listener; localised analytics switch; PostHog pinned 4.87.1; sign-out resets identity; PRIVACY_DATA.md host line added (round 201).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
 
 ## In progress
-- Round 201: PRIVACY_DATA.md PostHog host line describing the https rule and the unset default.
+- Round 202: PRIVACY_DATA.md host item first sentence changed to 'When it is a valid https URL, events go to that host.' tsc check.
 
 ## Next
 - Row 8: anonymous ID persistence (check on device); app version and build tags.
 - Row 8 crash opt-out: Settings switch needs a flag in store.ts and Privacy screen change (permission needed).
 - Row 8 follow up: when Isa approves, feature_used to strict list and delete shapeOnly().
+- Row 8: invalid EXPO_PUBLIC_POSTHOG_HOST should log a warning or be listed in KNOWN_ISSUES (decide in Row 11).
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
 - Row 10: Help and feedback (screen, feedback table locally, rate limit).
 - Row 15 tail (after Row 10): Integrations, Support, Privacy, Scan accuracy body copy; Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; goals spoken calorie label, hard-coded g, % and comma join.
@@ -76,5 +77,5 @@ getMorningBrief swallows errors (pinned); getProfile .catch hides errors; Anomal
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
 - Round 199 checkpoint closed the partly-done flag with evidence.
-- Round 200 host validation done; the loop flagged the report as partly done; round 201 closes it with the doc line.
+- Round 200 host validation done. Round 201 added the doc line but left the first sentence wrong; round 202 fixes it.
 - Every prompt starts with the branch rule.

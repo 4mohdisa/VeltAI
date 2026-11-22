@@ -8963,3 +8963,7 @@
 - 2026-11-22 21:01 Silent switch-off on a bad host stays as is (no logging, per the no-logging rule). Logged under Parked as a known support risk.
 - 2026-11-22 21:01 Row 9 stays blocked on E2E credentials for the heavy user check, but its backend route can still be built later with unit tests.
 - 2026-11-22 21:01 Full checkpoint suite not run this round; next checkpoint follows the normal schedule.
+- 2026-11-22 21:02 Chose the doc-only host sentence fix first: the loop flagged the last report as partly done, and it is a one-sentence change with a tsc check.
+- 2026-11-22 21:02 No Jest run for a doc-only change; tsc run instead to satisfy the 'not run' flag.
+- 2026-11-22 21:02 Kept Row 8 PARTIAL until Isa answers the open questions; the doc fix does not change the row status.
+- 2026-11-22 21:02 Did not ask Isa again this round: the open questions are already listed as defaults in Blocked on Isa, and the daily question limit matters.
