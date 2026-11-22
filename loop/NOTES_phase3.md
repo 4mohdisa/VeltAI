@@ -7,10 +7,10 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Phase 1 and 2 merged into main (b096ed3). Work on branch loop/phase3 only.
 - Phase 3 baseline (Node 22.23.5): tsc 0 errors; app Jest 135/135 suites, 993 tests pass; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details in loop/BASELINE_phase3.md.
 - Jest pinned to ~29.7.0. Do not upgrade.
-- Node 22 is the target. .nvmrc (22) and engines >=22 <23 added. Default shell Node is still 24, so use nvm use 22.
+- Node 22 is the target. Default shell Node is 24, so use nvm use 22.
 - App runs against LOCAL backend. 47 Phase 2 rows BUILT with owner check pending.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
-- Open check: package-lock.json does not yet record the engines field. Check in Row 11.
+- Open check: package-lock.json does not record the engines field. Check in Row 11.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
@@ -23,7 +23,7 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - A prompt missing a required rule is a prompt issue: re-issue the same row, not a new task.
 - Row 3: keep the header plus on My workouts as the only way to add a second workout.
 - Goals and units stay in memory in Phase 3. Row 15 fixes the 'Saved as you type' copy. Backend persistence parked.
-- A flagged report (type check or tests not run) is re-verified as its own round before the next row.
+- A flagged report (type check or tests not run) is re-verified as its own round, unless the row changed no code and the brief gives nothing to run (Row 4 case).
 
 ## Done
 - Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
@@ -32,7 +32,8 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Round 5: Row 3 report had no checks run. Set to PARTIAL.
 - Round 6: Row 3 closed BUILT with owner check pending.
 - Round 7: Row 4 audit written to EMPTY_STATES_AUDIT.md. Rows 12 to 17 added (DIFFERENT).
-- Round 8: Row 4 re-verify requested after loop flag (tsc, file scope, table format).
+- Rounds 8 and 9: Row 4 re-verify. Clean: tsc 0, no files changed.
+- Round 10: Row 4 closed BUILT (audit only, no code). Prompt rejected for missing loop/phase3 branch rule. Jev ranked Row 5 first; switched to Row 5.
 
 ## Blocked on Isa
 - Row 3: header plus on My workouts (src/app/gym/templates.tsx) kept by default. Not blocking.
@@ -47,8 +48,10 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - es.json: addMenu.voice and addMenu.describeOutLoud missing in en and fr.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx:36-38).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx:96).
+- Row 15 note still says goals persistence needs a decision. Update when row 15 is worked (decision: no persistence, fix copy).
 
 ## Next
-- Row 5 (seed data), then Row 6 (performance).
-- Rows 12 to 17 (empty states follow-ups), Row 12 first (shared hooks).
+- Row 5 part 1 (Round 10): seed script, reset, Go tests, README.
+- Row 5 part 2: Maestro flows on seeded users, fix findings, then BUILT or EXACT.
+- Row 6 (performance). Rows 12 to 17 (empty states follow-ups), Row 12 first.
 - Rows 7 and 8 (Sentry, PostHog), then Rows 9 and 10 (export, help), then Row 11 (final sweep).

@@ -8037,3 +8037,12 @@
 - 2026-11-22 15:42 Goals and units persistence: no backend persistence in Phase 3. Row 15 fixes the misleading 'Saved as you type' copy instead. Persistence is parked, since it is a backend data change outside the named rows.
 - 2026-11-22 15:42 Analytics default conflict: row 8 follows the brief (on by default, anonymous ID, off switch in Settings). The store default and the 2026-08-09 DECISIONS.md note are flagged for Isa to confirm before Phase 4. Row 8 will change the store default to match the brief.
 - 2026-11-22 15:42 Unanswered questions from the last round were treated as one unanswered round, so the defaults above apply without waiting.
+- 2026-11-22 15:43 Chose the re-verify round first because the loop flag marks the last report as unverified and the brief requires a flagged report to be re-verified as its own round before the next row.
+- 2026-11-22 15:43 Kept this round to checks only with no code changes, since the Row 4 report says no files changed.
+- 2026-11-22 15:43 Jest is run only for tests that touch the audited components, per the brief's rule to run only the tests for changed or related files. No full suite on a non-checkpoint round.
+- 2026-11-22 15:43 Deferred the row 15 note correction to when row 15 is worked, to keep this round to one task.
+- 2026-11-22 15:43 Switched from the Row 4 re-verify to Row 5. Row 4 changed no code and is an audit row, so the brief gives Jest nothing to run. Row 4 is BUILT and the Jest flag is closed.
+- 2026-11-22 15:43 Jev ranked Row 5 first (84%). Agreed, so no override.
+- 2026-11-22 15:43 Row 5 split in two. This round: seed, reset and Go tests. Maestro flows follow next round, so Row 5 stays PARTIAL.
+- 2026-11-22 15:43 Prompt now states the loop/phase3 branch rule explicitly and tells Claude Code to report BLOCKED rather than switch branches.
+- 2026-11-22 15:43 Seed code lives in backend/tools/seed. Schema changes only if needed, applied to the LOCAL database only.
