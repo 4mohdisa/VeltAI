@@ -44,8 +44,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
 - Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved states, translations, food detail Done.
-- Rounds 82-87: gym session, history, templates, exercise-progress states, locale blocks, render tests. Round 87 checkpoint clean.
-- Round 88: unsaved alert and Progress saved toast in session.tsx translated (six gymSession keys).
+- Rounds 82-88: gym session, history, templates, exercise-progress states, locale blocks, render tests, session alert and toast translated.
+- Round 89: session.tsx row labels, number pad, Cardio, Hide/Log translated (18 keys). Row 14 PARTIAL.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval. Stays PARTIAL.
@@ -54,21 +54,20 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks, including Round 88 six keys. Review needed.
+- Row 13 and 14: es and fr wording of all new blocks, including Rounds 88-90 keys. Review needed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
 - Row 14: gym session failed read shows only notice. Default unchanged.
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
-- Row 14 status: report read DIFFERENT, set to PARTIAL in round 89 (work in progress).
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks row 6 heavy-user checks and row 9 export check.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 89: Row 14 session.tsx remaining literals (field labels, Cardio/Exercise, Hide/Log, Add set, Not set, done/not done, view progress, (added)).
-- Round 90: Row 14 gym/muscles.tsx failed read and translations.
-- Rounds 91+: Rows 15 to 17, one screen per round.
+- Round 90: Row 14 session.tsx remaining literals (Set N, reps/weight labels, Remove, duration/distance labels, RPE slider, planned-sets summary, N / 10).
+- Round 91: Row 14 gym/muscles.tsx failed read and translations.
+- Rounds 92+: Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
 
@@ -87,9 +86,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Ask Lume drops server 503 message (ai-query.tsx).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395. Row 11 or park.
-- react-test-renderer deprecation warning in gymSchedule tests.
-- Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts, saved.tsx, meals.tsx.
-- food.tsx and meals.tsx header line over 80 chars. Row 11.
+- react-test-renderer deprecation warning in gymSchedule tests. Session save test logs a background sync warning.
+- Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
+- food.tsx header line over 80 chars. Row 11.
 - gymSchedule.revalidate.test.ts has own useApi harness. Row 11.
 - useInsights has no refetch. allText crashes on full-screen trees: use findAll.
 - Energy one-week-fails path untested. Food tab useInsights has no consent gate.
@@ -101,13 +100,11 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - SheetContent.tsx 'Close' hardcoded English.
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
-- saved.tsx line 1 says 'C13 · My dishes'.
-- meals.tsx line 2 is 82 characters.
+- saved.tsx line 1 says 'C13 · My dishes'. meals.tsx line 2 is 82 characters.
 
 ## Loop notes
 - Round 80: Jev said ask (80%). Kept run: only open question owner-only and defaulted.
 - Round 82: Jev said ask (74%). Kept run: question not major.
-- Round 85 and 86: run, templates and exercise-progress.
-- Round 87: checkpoint clean.
-- Round 88: prompt rejected for missing the loop/phase3 branch rule. Rewritten with branch rules first. Jev 90% run. Report: alert and toast done, status left DIFFERENT.
-- Round 89: Jev 83% run. Branch rules first. Row 14 set to PARTIAL.
+- Round 88: Jev 90% run, rewritten with branch rules first.
+- Round 89: Jev 83% run. Report: remaining session strings listed, Row 14 PARTIAL.
+- Round 90: Jev 86% run. Branch rules first.

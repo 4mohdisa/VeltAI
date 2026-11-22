@@ -199,7 +199,7 @@ test('row labels, the log controls and the number pad read from en.json', async 
   expect(hasText(tree, en.gymSession.unitReps)).toBe(true);
   expect(hasText(tree, en.gymSession.unitKg)).toBe(true);
 
-  const repsBox = findAll(tree, (p) => p.accessibilityLabel === 'Set 1 reps' && typeof p.onPress === 'function')[0];
+  const repsBox = findAll(tree, (p) => p.accessibilityLabel === en.gymSession.setRepsLabel.replace('{{n}}', '1') && typeof p.onPress === 'function')[0];
   act(() => {
     (repsBox.props.onPress as () => void)();
   });

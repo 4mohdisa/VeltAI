@@ -300,7 +300,17 @@
     "rowDone": "{{name}}, done",
     "rowNotDone": "{{name}}, not done",
     "viewProgress": "{{name}}, view progress",
-    "added": "(added)"
+    "added": "(added)",
+    "setLabel": "Set {{n}}",
+    "setRepsLabel": "Set {{n}} reps",
+    "setWeightLabel": "Set {{n}} weight",
+    "removeExercise": "Remove {{name}}",
+    "durationLabel": "{{name}} duration in minutes",
+    "distanceLabel": "{{name}} distance in kilometres, optional",
+    "rpeLabel": "RPE — effort (optional)",
+    "plannedSets": "{{sets}} × {{reps}}",
+    "plannedSetsWeight": "{{sets}} × {{reps}} @ {{weight}}{{unit}}",
+    "effortValue": "{{value}} / 10"
   },
   "gymHistory": {
     "emptyMessage": "Log a gym session to start building your history and streak.",

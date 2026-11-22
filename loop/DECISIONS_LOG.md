@@ -8376,3 +8376,6 @@
 - 2026-11-22 17:57 Spanish and French wording for new keys is provisional, to Isa for review, per the existing default.
 - 2026-11-22 17:57 Branch and git rules placed first in the prompt after the Round 88 rejection for missing them.
 - 2026-11-22 17:57 Jev said run at 83%; kept run because the task is one screen and needs nothing from Isa.
+- 2026-11-22 17:59 Round 90 picks session.tsx remaining literals over muscles.tsx: it closes the screen the last report left open, and Jev ran 86%.
+- 2026-11-22 17:59 Round 90 Spanish and French wording for the new session keys is my draft, flagged for Isa review with the other Row 14 wording.
+- 2026-11-22 17:59 The reps-box test lookup moves from the English label to the translated text, because the label changes and the test must stay green.

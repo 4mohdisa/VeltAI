@@ -133,8 +133,10 @@ function summaryOf(row: Row, t: TFunction): string {
   if (row.isCardio) {
     return p.duration_minutes != null ? t('gym.loggedMinutes', { minutes: p.duration_minutes }) : t('gymSession.cardio');
   }
-  const base = `${p.sets ?? '?'} × ${p.reps ?? '?'}`;
-  return p.weight != null ? `${base} @ ${p.weight}${p.weight_unit ?? 'kg'}` : base;
+  const sets = { sets: p.sets ?? '?', reps: p.reps ?? '?' };
+  return p.weight != null
+    ? t('gymSession.plannedSetsWeight', { ...sets, weight: p.weight, unit: p.weight_unit ?? 'kg' })
+    : t('gymSession.plannedSets', sets);
 }
 
 // Collapse a row's state into the single GymExercise the API stores (one row per
@@ -486,7 +488,7 @@ export default function GymSessionScreen(): JSX.Element {
               haptic={false}
               minTapTarget={false}
               hitSlop={10}
-              accessibilityLabel={`Remove ${row.name}`}
+              accessibilityLabel={t('gymSession.removeExercise', { name: row.name })}
             >
               <Icon name="trash-outline" size={20} color={color.secondaryLabel} />
             </Pressable>
@@ -507,11 +509,11 @@ export default function GymSessionScreen(): JSX.Element {
                 />
               ) : (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-                  {valueBox({ field: 'duration', rowKey: row.key, index: 0 }, st.duration, `${row.name} duration in minutes`)}
+                  {valueBox({ field: 'duration', rowKey: row.key, index: 0 }, st.duration, t('gymSession.durationLabel', { name: row.name }))}
                   {valueBox(
                     { field: 'distance', rowKey: row.key, index: 0 },
                     st.distance,
-                    `${row.name} distance in kilometres, optional`,
+                    t('gymSession.distanceLabel', { name: row.name }),
                   )}
                 </View>
               )
@@ -522,10 +524,10 @@ export default function GymSessionScreen(): JSX.Element {
                     {/* The design labels each set row in the muted footnote and
                         keeps every value box on one left edge. */}
                     <Text variant="footnote" color={color.secondaryLabel} style={{ minWidth: SET_LABEL_WIDTH }}>
-                      {`Set ${idx + 1}`}
+                      {t('gymSession.setLabel', { n: idx + 1 })}
                     </Text>
-                    {valueBox({ field: 'reps', rowKey: row.key, index: idx }, s.reps, `Set ${idx + 1} reps`)}
-                    {valueBox({ field: 'weight', rowKey: row.key, index: idx }, s.weight, `Set ${idx + 1} weight`)}
+                    {valueBox({ field: 'reps', rowKey: row.key, index: idx }, s.reps, t('gymSession.setRepsLabel', { n: idx + 1 }))}
+                    {valueBox({ field: 'weight', rowKey: row.key, index: idx }, s.weight, t('gymSession.setWeightLabel', { n: idx + 1 }))}
                   </View>
                 ))}
                 <Button
@@ -538,13 +540,13 @@ export default function GymSessionScreen(): JSX.Element {
                 />
                 {/* Optional RPE (0 = not set), feeds progression not calories. */}
                 <SliderField
-                  label="RPE — effort (optional)"
+                  label={t('gymSession.rpeLabel')}
                   value={st.rpe ?? 0}
                   min={0}
                   max={10}
                   step={1}
                   onValueChange={(n) => setRpe(row, n)}
-                  formatValue={(n) => (n === 0 ? t('gymSession.notSet') : `${n} / 10`)}
+                  formatValue={(n) => (n === 0 ? t('gymSession.notSet') : t('gymSession.effortValue', { value: n }))}
                 />
               </>
             )}

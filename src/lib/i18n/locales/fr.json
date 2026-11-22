@@ -300,7 +300,17 @@
     "rowDone": "{{name}}, fait",
     "rowNotDone": "{{name}}, pas fait",
     "viewProgress": "{{name}}, voir la progression",
-    "added": "(ajouté)"
+    "added": "(ajouté)",
+    "setLabel": "Série {{n}}",
+    "setRepsLabel": "Série {{n}} répétitions",
+    "setWeightLabel": "Série {{n}} poids",
+    "removeExercise": "Retirer {{name}}",
+    "durationLabel": "{{name}} durée en minutes",
+    "distanceLabel": "{{name}} distance en kilomètres, facultatif",
+    "rpeLabel": "RPE — effort (facultatif)",
+    "plannedSets": "{{sets}} × {{reps}}",
+    "plannedSetsWeight": "{{sets}} × {{reps}} @ {{weight}}{{unit}}",
+    "effortValue": "{{value}} / 10"
   },
   "gymHistory": {
     "emptyMessage": "Enregistrez une séance de sport pour commencer votre historique et votre série.",
