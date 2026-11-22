@@ -6,7 +6,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import FoodLogScreen from '@/app/(tabs)/food';
 import { useFoodLog } from '@/lib/data';
-import { useFoodStore } from '@/lib/data/foodStore';
+import { useFoodStore, type StoredMeal } from '@/lib/data/foodStore';
 import { todayISO } from '@/lib/data/mappers';
 import { act, findAll, renderScreen } from './helpers';
 
@@ -31,16 +31,28 @@ const METRICS: Metrics = {
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
 };
 
-type FoodLogState = { isLoading?: boolean; error?: Error | null };
+type FoodLogState = { isLoading?: boolean; error?: Error | null; data?: StoredMeal[] };
 
-const foodLog = ({ isLoading = false, error = null }: FoodLogState) => ({
-  data: [],
+const foodLog = ({ isLoading = false, error = null, data = [] }: FoodLogState) => ({
+  data,
   isLoading,
   error,
   refetch: jest.fn(),
 });
 
 const PAST_DAY = '2020-01-01';
+
+const PAST_DAY_MEAL: StoredMeal = {
+  id: 'meal-1',
+  slot: 'Lunch',
+  time: '12:30',
+  method: 'manual',
+  calories: 420,
+  protein: 30,
+  carbs: 40,
+  fat: 12,
+  items: [{ id: 'item-1', name: 'Tuna sandwich', quantityG: 200, calories: 420, protein: 30, carbs: 40, fat: 12 }],
+};
 
 beforeEach(() => {
   useFoodStore.getState().reset();
@@ -92,6 +104,12 @@ test('a failed read on a past day says "this day", not "today"', async () => {
   expect(hasText(tree, "We couldn't load this day's food log. Check your connection and try again.")).toBe(true);
   expect(hasText(tree, "We couldn't load today's food log. Check your connection and try again.")).toBe(false);
   expect(hasText(tree, 'No meals yet')).toBe(false);
+});
+
+test('a failed read on a past day with rows on the device shows the past-day notice, not the first-meal prompt', async () => {
+  const tree = await renderFoodTab({ error: new Error('Network request failed'), data: [PAST_DAY_MEAL] }, PAST_DAY);
+  expect(hasText(tree, "Couldn't load this day's food log.")).toBe(true);
+  expect(hasText(tree, 'Tap + to add your first meal.')).toBe(false);
 });
 
 test('loading shows the skeleton, not the empty state', async () => {

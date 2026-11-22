@@ -8257,3 +8257,8 @@
 - 2026-11-22 17:09 Calendar failed-read fix uses the default from the report: add error to the shared useLoggedDays hook, keep the month grid, show LoadFailedNotice with Retry. Shared hook fixes go in the hook (existing decision). Default used, no re-ask.
 - 2026-11-22 17:09 Jev suggested ask (66%, confidence 0.49). Not asking: this is a shared-hook design choice within existing defaults, not a major question. Reason recorded here.
 - 2026-11-22 17:09 Calendar hardcoded English and WeekStrip silent failure stay in Row 13 scope for later rounds, one screen per round.
+- 2026-11-22 17:10 Chose candidate 1 over Jev's pick of candidate 1 wording: Jev ranked the same past-day test first, so this matches it; the loop flag is answered by closing the gap in the last report (no test covers past-day error copy).
+- 2026-11-22 17:10 Reason Jev cannot see: the calendar fix edits a shared hook (useLoggedDays) and needs a larger round; the past-day test is test-only and closes a verified gap from the flagged report first, lowering risk before the shared hook change.
+- 2026-11-22 17:10 Test-only change, no product code. Test added to the existing emptyStates file, so no new file.
+- 2026-11-22 17:10 Calendar fix (round 61 default) stays queued as the next round, not dropped.
+- 2026-11-22 17:10 Checkpoint deferred until after the calendar fix, as the notes already planned.

@@ -6,11 +6,11 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Checkpoint round 58: tsc 0; 150 suites, 1038 tests, 0 failed.
-- Round 60: loop flag (tests not run after food.tsx change). Round 61 verifies tsc and Food tab tests.
+- Round 61: tsc 0; 12 Food tab suites, 131 tests pass.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
 - Local Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
 - Jest pinned ~29.7.0. Never upgrade. Component render tests are *.render.test.tsx.
-- Jest output: write to file, then tail. zsh: use xargs for multi-file runs. Use $? not PIPESTATUS.
+- Jest output: write to file, then tail. zsh: use $? not PIPESTATUS.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 
 ## Decisions (never delete)
@@ -34,8 +34,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Round 55: one screen or component per prompt.
 - Round 58: checkpoint chosen over Jev's Saved screen task.
 - Round 59: Saved screen failed load with nothing saved shows ErrorState with Retry. Default generic copy.
-- Round 60: calendar failed-load chosen. Report found useLoggedDays returns no error.
 - Round 61: calendar fix default: add error to useLoggedDays (shared hook), keep month grid, show LoadFailedNotice with Retry. Jev ask 66% overridden: shared hook choice within defaults, not major.
+- Round 62: past-day error copy test chosen over calendar fix. Reason: test-only, closes the gap the flagged report left open, and lowers risk before the shared hook edit. Calendar fix stays next.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -47,6 +47,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 56-57: Row 13 SavedMealsList and RecipesList load-failure states.
 - Round 58: checkpoint clean.
 - Round 59: Row 13 Saved screen load-failure state + 2 tests.
+- Round 61: Food tab verified clean.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -57,9 +58,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Saved, meals and recipes error copy: generic ErrorState copy used. Isa may pick specific copy.
 
 ## Next
-- Round 61: verify tsc and Food tab tests (flagged round).
-- Round 62: add error to useLoggedDays (src/lib/data/foodDays.ts) and failed-read LoadFailedNotice with Retry on calendar.tsx. Tests in calendarScreen.render.test.tsx and a hook test.
-- Then: past-day error copy test (foodTab.emptyStates). WeekStrip failed-read notice (same hook error).
+- Round 62: past-day error copy test in foodTab.emptyStates.render.test.tsx.
+- Round 63: add error to useLoggedDays (src/lib/data/foodDays.ts) and failed-read LoadFailedNotice with Retry on calendar.tsx. Tests in calendarScreen.render.test.tsx and a hook test. WeekStrip failed-read notice uses the same error.
+- Then a full checkpoint (tsc plus all app Jest suites).
 - Row 13 remaining: calendar hardcoded English (Pick a day, Jump to today, Previous/Next month, weekday letters), RecipesList translations, detail, barcode, Food tab PendingSyncBanner, history.tsx translated error key.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
@@ -86,8 +87,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Energy one-week-fails path untested. Park.
 - Food tab mounts useInsights with no consent gate (pure database read, pinned in phase14Regression). Park.
 - 'No meals yet' reads oddly on a past day. Park unless row 13 wording is approved.
-- Compact LoadFailedNotice past-day text (food.loadFailedPast) has no test. Park.
 - Food tab has no PendingSyncBanner, so offline looks like a plain error. Row 13 later item.
 - src/app/food/history.tsx shows hardcoded English error text. Park.
 - Shared render setup does not mock useFocusEffect or useLocalSearchParams. Park.
 - Saved and calendar tests: consider a shared expo-router mock helper in Row 11.
+- WeekStrip on Food tab shows no dots and no notice on a failed read (covered by round 63).
