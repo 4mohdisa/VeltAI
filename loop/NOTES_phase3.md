@@ -31,22 +31,23 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 130: insights literals over MacroBars and goals states.
 - Round 136, 137: InsightCard and AnomalyCard literals done.
 - Round 139: AnomalyCard verified in code, no change needed.
-- Round 140: AnomalyBanner keys done (fallback, bannerCount plural, dismiss). Banner test named .render.test.tsx.
-- Round 141: AnomalyBanner error state gap checked (in progress).
+- Round 140: AnomalyBanner keys done (fallback, bannerCount plural, dismiss).
+- Round 141: AnomalyBanner error state checked. ErrorState already translated in en, es, fr. Test added: anomalyBanner.error.i18n.render.test.tsx. Closed.
+- Round 142: Jev ranked Goals first (88%). Kept Goals, matching my NEXT. Goals task limited to loading and error states; English copy later.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner (count and fallback).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner (count, fallback, error).
 
 ## In progress
-- Round 141: AnomalyBanner error state and loading text check, then Goals.
+- Row 15 goals screen src/app/profile/goals.tsx: loading and error states (Round 142).
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Review insights.*, insights.brainProfile.*, insights.card, insights.anomaly, insights.anomaly banner wording, weekday capitalisation (default: es/fr lowercase).
-- 'patterns' vs 'activity' wording in banner titles. Default: keep as is.
+- Review insights.*, insights.brainProfile.*, insights.card, insights.anomaly, banner wording, weekday capitalisation (default: es/fr lowercase).
+- 'patterns' vs 'activity' in banner titles. Default: keep as is.
 - Snapshot permission for detailChrome macros (row 125). Default: chart stays.
 - Permission to change summaryNoFabrication.test.ts:54 (MacroBars). Default: English.
 - Row 12 BUILT approval.
@@ -64,8 +65,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Goals persistence. Default: in memory.
 
 ## Next
-- Round 141: AnomalyBanner error state check (in progress).
-- Row 15 goals screen src/app/profile/goals.tsx: loading and error states, English text.
+- Row 15 goals screen: loading and error states (Round 142, in progress).
+- Row 15 goals screen: English text (after states).
+- AnomalyBanner error: no Retry and full-block layout is a design question. Parked.
 - insights swallowed errors in src/lib/api.ts (~1253, 1270); fixed 0.3 bar in BrainProfileCard.tsx (~79).
 - InsightCard type badge untranslated; more/less toggle uses body length over 120.
 - BrainProfileCard numbers not formatted for language; energy always kcal.
@@ -79,6 +81,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Parked (not Phase 3)
 - Row 125 all-zero week chart line (needs snapshot permission).
 - Goals and units persistence.
+- AnomalyBanner error: no Retry, full error block where a small banner sits (design question).
 - Banner count title has no _one use; one anomaly uses fallback title.
 - Jest drift: node_modules 30.0.5 vs pin 29.7.0. Fix with npm ci (network).
 - 18 backend DB tests skipped without LUME_TEST_DATABASE_URL.

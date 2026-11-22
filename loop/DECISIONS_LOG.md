@@ -8602,3 +8602,8 @@
 - 2026-11-22 19:12 Left the 'patterns' versus 'activity' wording for Isa, since it is a wording choice.
 - 2026-11-22 19:12 Left the shared ErrorState component alone; it is outside Row 15 and shared by other screens.
 - 2026-11-22 19:12 Added the .render.test.tsx suffix because package.json only runs that pattern with screen setup.
+- 2026-11-22 19:14 Kept Goals as the pick: it matches Jev's top ranking (88%) and was already my NEXT in the notes, so the two agree.
+- 2026-11-22 19:14 Closed the AnomalyBanner round: the error state is translated and tested, so no further change there. Its no-Retry and full-block layout is a design question, recorded under Parked, not a translation gap.
+- 2026-11-22 19:14 Kept the Goals task to loading and error states only, with English copy left for a later round, because the last report looked partly done and Jev's risk is high (1.0). A smaller task lowers that risk.
+- 2026-11-22 19:14 Goals stay in memory; persistence remains a Parked item and is not part of this row.
+- 2026-11-22 19:14 Jev's 48% clean-finish estimate for the last task is noted; the AnomalyBanner work is verified by its four-suite Jest run and tsc, so I am not reopening it.
