@@ -8584,3 +8584,7 @@
 - 2026-11-22 19:06 Kept InsightCard out of scope: it is closed, and its wording is already in the Blocked list for Isa.
 - 2026-11-22 19:06 Kept the Row 15 status PARTIAL. Built is not verified, and the row still has goals and week work open.
 - 2026-11-22 19:06 Notes trimmed to fit the 600-word limit. Finished work is folded into Done.
+- 2026-11-22 19:08 Round 138 verifies AnomalyCard first, because the automatic check flagged the last report as partly done and the loop note says to deal with it before moving on.
+- 2026-11-22 19:08 Jev and the candidate list agree on a small verify task (run 95%, confidence 0.92). Risk is 1.0, so I chose a smaller task over the goals screen.
+- 2026-11-22 19:08 Handover done: prompt names every file fully, since Claude Code only knows the handover summary.
+- 2026-11-22 19:08 Handover round labels 118 to 120 are kept as recorded; they are not renumbered.
