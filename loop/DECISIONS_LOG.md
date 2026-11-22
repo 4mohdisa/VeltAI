@@ -8860,3 +8860,16 @@
 - 2026-11-22 20:32 Sentry SDK added via expo install with no key in the repo; no DSN means no init and no network, proven by a test.
 - 2026-11-22 20:32 Analytics default on is still to be confirmed by Isa before Phase 4.
 - 2026-11-22 20:32 Row 6 (performance on simulator) stays parked until the sign in path exists (Row 5 part 2 needs E2E credentials).
+- 2026-11-22 20:35 Chose Row 8 because the brief orders Rows 7 and 8 next and Row 7 is BUILT.
+- 2026-11-22 20:35 Folded the Row 7 opt-out gap into Row 8 step 4, because the brief requires the Settings switch to turn crash reports off too.
+- 2026-11-22 20:35 Kept Row 8 to four events with allowlisted properties, so no food, health or body values can leave the device.
+- 2026-11-22 20:35 Row 15 Account note and integrations localisation deferred until after Row 8, to keep this round to one row.
+- 2026-11-22 20:35 Analytics default on with anonymous ID stays, with the Settings switch as the off control (Isa confirms before Phase 4).
+- 2026-11-22 20:35 Previous prompt was rejected for covering two screens. Rewrote it as one screen, one row step, and kept it within five steps.
+- 2026-11-22 20:35 Account Row 15 note moved out of this prompt into a later docs-only round, so each prompt keeps to one task.
+- 2026-11-22 20:35 Chose integrations title and eyebrow as the smallest single-screen step that moves Row 15 forward. Jev gave run 81%, which agrees.
+- 2026-11-22 20:35 Reuse existing keys where the English text is identical, to avoid duplicate translations.
+- 2026-11-22 20:36 Chose the checkpoint because the loop marks this round as one and the previous prompt was rejected. Jev's 79% run also favours it.
+- 2026-11-22 20:36 Told Claude Code to work only on loop/phase3 and to read .git/HEAD only, since the rejection was about branch wording.
+- 2026-11-22 20:36 No file changes this round, so a failing gate is reported and not fixed here, keeping the checkpoint a clean read.
+- 2026-11-22 20:36 Account Row 15 note stays deferred to a later docs-only round so this round holds one task.
