@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { Share } from 'react-native';
 import { router, type Href } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
@@ -13,6 +14,7 @@ import { hasAiConsent, revokeAiConsent } from '@/lib/ai/consent';
 import { useSettingsStore } from '@/lib/settings/store';
 
 export default function PrivacyScreen() {
+  const { t } = useTranslation();
   const analyticsEnabled = useSettingsStore((s) => s.analyticsEnabled);
   const setAnalyticsEnabled = useSettingsStore((s) => s.setAnalyticsEnabled);
   const [exporting, setExporting] = useState(false);
@@ -57,7 +59,7 @@ export default function PrivacyScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow="Your data" title="Privacy" showBack contentStyle={{ gap: 22 }}>
+    <Screen variant="floating" eyebrow={t('settings.privacyEyebrow')} title={t('settings.privacy')} showBack contentStyle={{ gap: 22 }}>
       <SettingsList
         rows={[
           { icon: 'document-text-outline', label: 'Privacy policy', onPress: () => router.push('/legal/privacy' as Href) },

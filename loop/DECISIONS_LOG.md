@@ -8837,3 +8837,7 @@
 - 2026-11-22 20:26 Followed Jev (run 97%): support title and eyebrow is the smallest step that clears one Row 15 item.
 - 2026-11-22 20:26 Support body copy left out of this step to keep the prompt to one task.
 - 2026-11-22 20:26 Account note confirmed present in the Row 15 note, so it is marked done in the notes.
+- 2026-11-22 20:27 Picked the privacy header: the handover names it as next and it is the smallest unbuilt Row 15 piece.
+- 2026-11-22 20:27 Deferred the Account Row 15 note to a later round to keep this prompt to one task.
+- 2026-11-22 20:27 Left integrations status unverified: notes say it is done, the handover says it is not. Claude Code must check the code before any change there.
+- 2026-11-22 20:27 Used the existing English 'Privacy' title key if present, to avoid duplicate keys (Identical text reuses existing keys).
