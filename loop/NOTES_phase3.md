@@ -8,6 +8,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Last full checkpoint (round 144): tsc 0; Jest 179 suites, 1134 tests, 4 snapshots (npx jest --ci). Later rounds ran only changed files.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Round numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop numbers. Not fixed.
+- Loop flagged round 148 report as partly done. Round 149 prompt (bookkeeping) issued to close it.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -27,18 +28,19 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Summary card and GymStatusCard hidden during first load. Accepted.
 - Rounds 129, 144: checkpoint kept over Jev picks. Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
-- Round 146: French goals fix chosen. Round 147: Row 14 cleanup chosen; its two test edits dropped, no re-ask. Row 14 PARTIAL.
-- Round 148 goals reset toast was in progress; reissued as round 149 after a rejected prompt (branch rule missing).
+- Round 146: French goals fix chosen. Round 147: Row 14 cleanup; its two test edits dropped. Row 14 PARTIAL.
+- Round 149: goals.resetDone toast (round 148 work, reissued). Copy 'Goals reset to defaults.' kept; wording for Isa.
+- Goals reset test named *.render.test.tsx so the render test set picks it up.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles empty test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals curly apostrophes.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals literals, French goals fix (round 146), goals reset toast (round 149).
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Goals loading and error via useGoals (loading, error, refetch). Default: parked.
+- Goals loading and error via useGoals. Default: parked.
 - Permission to edit gymMuscles.shape.render and sheetContent.render tests to read en.json. Default: no edit.
 - Review insights.* and banner wording; es/fr weekday capitalisation (default lowercase).
 - 'patterns' vs 'activity' in banner titles. Default keep.
@@ -58,15 +60,15 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Nutrition follows Food tab date. Leave.
 - Goals persistence. Default: in memory.
 - es.json has addMenu.voice and addMenu.describeOutLoud not in en.json or fr.json. Isa: delete or add.
+- Goals reset wording 'Goals reset to defaults.' copies AI numbers; Isa to confirm. goals.saved unused; delete or keep.
 
 ## Next
-- Goals reset toast uses goals.resetDone (round 149, in progress).
-- Row 15 note for the round 146 French goals change.
+- Round 149 bookkeeping: Row 15 notes for round 146 and 149.
+- Goals calorie accessibility label puts unit in brackets.
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
 - InsightCard type badge untranslated; more/less toggle uses body length over 120.
 - BrainProfileCard: fixed 0.3 bar; numbers unformatted; energy always kcal. Insights swallow errors in src/lib/api.ts (~1253, 1270).
-- Goals calorie label puts unit in brackets.
 - Row 14: key parity check; shared has-a-streak helper.
 - Then Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
@@ -93,3 +95,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
 - Other profile screens hard-code English titles and eyebrows (About, Privacy, Account, Connected apps, Delete Account, Units on Preferences).
 - Round numbers in PHASE3_ROWS.md may clash with loop numbers.
+- Round 149 reset toast copy may be inaccurate; Isa to pick wording.

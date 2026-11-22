@@ -8641,3 +8641,7 @@
 - 2026-11-22 19:23 Round 149: the round 148 prompt was rejected for not naming the loop/phase3 branch. Reissued with an explicit branch, no push, no merge and no branch switch rule.
 - 2026-11-22 19:23 Round 149: the Goals reset fix is one toast call plus one locale key, with a new test file and no edits to existing tests or snapshots, to respect the brief's test rules.
 - 2026-11-22 19:23 Round 149: the reset toast text is calm and short, with curly apostrophes in French, following the existing French rules.
+- 2026-11-22 19:25 Chose bookkeeping task first because the loop flagged the last report as partly done and the Row 15 note is missing.
+- 2026-11-22 19:25 Kept 'Goals reset to defaults.' as shipped; Isa to confirm wording, since the copy is slightly inaccurate.
+- 2026-11-22 19:25 Kept goals.saved key in all locales, since removing keys is not needed for the row and Isa confirms deletion.
+- 2026-11-22 19:25 Ran tsc and only the goals-related Jest files, not the full suite, because this is not a checkpoint round.
