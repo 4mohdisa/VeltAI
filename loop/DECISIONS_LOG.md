@@ -8308,3 +8308,6 @@
 - 2026-11-22 17:31 Checkpoint round 73 accepted as clean (tsc 0, 156 suites, 1056 tests); no re-run needed.
 - 2026-11-22 17:31 Chose the stale-header fix: smallest open Row 13 item, no behaviour change, no Isa input needed. Jev risk 0.9 favours a small task.
 - 2026-11-22 17:31 Comment-only change, so no simulator flow; unit render tests for both screens cover the check.
+- 2026-11-22 17:32 Round 75: the flag says round 74 is partial. Finishing the meals.tsx header is the smallest fix that closes it, so it comes before any new row work.
+- 2026-11-22 17:32 Round 75: saved.tsx line 1 goes to the next round, one file per prompt.
+- 2026-11-22 17:32 Round 75: header comments are not user text, so no translation keys are needed.

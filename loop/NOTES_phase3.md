@@ -33,9 +33,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Saved screen load failure shows ErrorState with Retry. Default generic copy.
 - Locale blocks inserted as text, not JSON rewrite. French uses no-break space before ':' and '?'.
 - Round 70: calendar.tsx translation chosen over checkpoint and stale headers.
-- Round 71: calendar.tsx strings and unused keys re-verified, no missing items.
 - Round 73: checkpoint run chosen per loop note. No code change.
-- Round 74: stale headers chosen as the smallest open Row 13 item.
+- Round 74: stale headers chosen as the smallest open Row 13 item. First line fixed in meals.tsx and saved.tsx.
+- Round 75: flagged partial report. Finish meals.tsx header lines first, saved.tsx line 1 next.
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -46,6 +46,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Rounds 42-69: Row 13 Food tab states, SavedMealsList, RecipesList, Saved load-failure states, translations for recipesList, meals, newRecipe, history.
 - Rounds 70-72: calendar.tsx strings (en, es, fr), WeekStrip letters and labels. Row 13 PARTIAL.
 - Round 73: checkpoint clean.
+- Round 74: meals.tsx and saved.tsx first header line corrected. Flagged as partial.
 
 ## Blocked on Isa
 - Row 12 BUILT approval. Stays PARTIAL. Do not re-ask.
@@ -59,7 +60,8 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Templates '+' kept (row 3).
 
 ## Next
-- Round 74: stale headers in meals.tsx ('(Task 4)') and saved.tsx ('(mock)').
+- Round 75: finish meals.tsx header lines (flagged).
+- Round 76: saved.tsx line 1 'C13 · My dishes' wording.
 - Row 13 remaining: detail, barcode, Food tab PendingSyncBanner.
 - Row 14: Gym log and history empty states, one screen per round.
 - Rows 15 to 17: empty state follow-ups.
@@ -98,3 +100,4 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Two 'New recipe' casings: see Blocked on Isa.
 - formatMonthYear and formatWeekdayDate: month and day names can stay English in es and fr.
 - Older items: no Retry on useInsights errors, analytics defaults to on, seed script has no host guard.
+- saved.tsx line 1 'C13 · My dishes' may not match the current name for the screen. Confirm in Round 76.
