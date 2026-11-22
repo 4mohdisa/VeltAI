@@ -2,8 +2,9 @@
 // Reads GET /api/integrations; connect opens the provider's OAuth URL in a
 // browser (expo-web-browser), sync imports activities. When the backend has no
 // credentials configured the connect call 503s and the row explains the
-// provider isn't available yet. Offline-safe: a failed list degrades to every
-// provider showing "Nothing connected".
+// provider isn't available yet. Offline-safe: a failed list reads as nothing
+// connected, so the eyebrow says "Nothing connected" and each provider row
+// shows its own not-connected status (blurb and Connect button).
 import { useCallback, useEffect, useState } from 'react';
 import { PixelRatio, View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
@@ -94,7 +95,7 @@ export default function IntegrationsScreen() {
     try {
       setConns(await api.integrations.list());
     } catch {
-      setConns([]); // backend down → everything reads "not connected"
+      setConns([]); // backend down → every provider shows as not connected
     }
   }, []);
 

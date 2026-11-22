@@ -9178,3 +9178,6 @@
 - 2026-11-23 00:47 Round 246: chose the fr.json apostrophe check. It is the smallest run task, needs nothing from Isa, and was the next item in the notes.
 - 2026-11-23 00:47 Jev gave ask 47% at confidence 0.20. No open question blocks a row and every question already has a default, so I did not ask.
 - 2026-11-23 00:47 Integrations comment fix and kcal spoken label kept for later rounds. They are small, but one task per round.
+- 2026-11-23 00:48 Chose the smallest open Row 15 item (comment-only, one file) to keep the loop moving with no new question to Isa.
+- 2026-11-23 00:48 Jev suggested asking Isa (58%). Not used: the Blocked list already holds every open question, and no new one needs Isa alone. Risk noted, so the task is kept to comments only.
+- 2026-11-23 00:48 Kept the kcal spoken label and Row 11 for later rounds, since each touches more than one screen or needs the full gate run.
