@@ -6,7 +6,9 @@
     "done": "Terminé",
     "reset": "Réinitialiser",
     "tryAgain": "Réessayer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "goBack": "Retour",
+    "backTo": "Retour à {{label}}"
   },
   "settings": {
     "title": "Réglages",

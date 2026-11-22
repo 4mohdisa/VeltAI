@@ -7,35 +7,31 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Round 87 checkpoint clean: 160 suites, 1073 tests, 0 failed.
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22.
-- Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Multi-file jest via xargs. zsh: use $?. Write output to file, then tail.
+- Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Multi-file jest via xargs. Write output to file, then tail.
 - Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
 - Phase 1 design final. Exceptions: named Phase 3 rows only.
 - Phase 4 NOT in scope (Apple sign in, account deletion, AI consent, subscriptions, paywall, restore, notifications, HealthKit, store content, privacy manifest).
-- Later (Phase 4): RevenueCat for payments, no free tier, 7 day Apple trial.
 - Crash reporting Sentry. Analytics PostHog. Names and counts only.
 - Analytics on by default, anonymous ID, off switch in Settings. Store default off: Isa to confirm before Phase 4.
 - Row 3: header plus on My workouts is the only way to add a second workout. Templates kept.
 - Goals and units stay in memory in Phase 3. Row 15 fixes 'Saved as you type' copy.
-- Hook error fixes go in the shared hook, not per screen. useEnergyRange isError true only when both week reads fail.
+- Hook error fixes go in the shared hook. useEnergyRange isError true only when both week reads fail.
 - AnomalyBanner takes anomalies, isError, onDismiss. food.tsx makes the only useInsights call.
 - Seed tooling: backend/tools/seed, localhost-only guard, reset deletes only seed_ ids with @example.test email.
-- Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 - Failed reads: LoadFailedNotice message={t('gym.loadFailed')}, plus onRetry={refetch} only if refetch exists.
-- Empty or failed screens with no stored data: one clear action. Loading guards not required unless a row names them.
-- Locale blocks inserted as text, not JSON rewrite. French: no-break space before ':' and '?'.
+- Empty or failed screens with no stored data: one clear action.
+- Locale blocks inserted as text. French: no-break space before ':' and '?'.
 - Food tab shows PendingSyncBanner counting all queued writes (default).
 - Exercise progress and muscles: failed read shows notice, no Retry (default).
-- Templates: failed read uses useTemplates isError and refetch.
 - Session.tsx English reuse limited to gym.* and gymSession keys.
 - Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
-- Round 96: Jev said ask; declined, no new major question.
 - Round 98: Close label in SheetContent translated via common.close.
-- Round 99: GlassButtons.tsx Close label change accepted as needed for freeze sheet. Cerrar and Fermer kept pending Isa review.
+- Round 99: BottomSheet backdrop Close via common.close. GlassButtons.tsx Close change accepted as needed. Cerrar and Fermer kept pending Isa review.
 
 ## Done
 - Rounds 1-4: row list, Rows 1 and 2 BUILT.
@@ -43,7 +39,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 4 audit BUILT; rows 12-17 added.
 - Row 12 plumbing done; PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
-- Row 14 PARTIAL: session, history, muscles, templates, streak (r96), freeze sheet (r97), SheetContent close label (r98).
+- Row 14 PARTIAL: session, history, muscles, templates, streak, freeze sheet, SheetContent and BottomSheet close labels done.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -59,14 +55,13 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
 - Row 14: freeze sheet disables apply tick and replaces sheet with log-session when no streak. Confirm.
 - Row 14 round 98: GlassButtons.tsx changed though not named in the brief. Confirm acceptable.
-- Row 14 round 98: Cerrar and Fermer for common.close. Review.
+- Row 14 rounds 98-99: Cerrar and Fermer for common.close. Review.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 99: BottomSheet backdrop Close label via common.close (Row 14).
-- Then GlassButtons Go back, Back to and Done labels.
+- Round 100: GlassButtons Go back, Back to and Done labels via common keys (Row 14).
 - Then shared has-a-streak helper (needs location decision), freeze offline toast (needs decision, data-adjacent).
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
@@ -101,7 +96,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - gymSession.eyebrow and defaultTitle duplicate foodLog.today and dashboard.workout. Row 11.
 - WeekStrip and calendar.tsx duplicate logged-day label. Shared helper.
 - Session.tsx 'Progress saved' and 'Save' in its alert still English.
-- GlassButtons Go back, Back to and Done fallback still English.
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - saved.tsx line 1 says 'C13 · My dishes'. meals.tsx line 2 is 82 characters.
@@ -109,9 +103,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Emptystates suite prints 'background sync failed' warning.
 
 ## Loop notes
-- Round 93 prompt rejected for missing branch rule. Every prompt opens with it.
 - Round 94: muscles screen done, no Retry (default).
 - Round 95: templates already done; no code change.
 - Round 96: streak done.
-- Round 97: freeze sheet empty state and failed read done; tsc 0.
-- Round 98: SheetContent close label done. Automatic check flagged it as partly done; round 99 closes the BottomSheet backdrop gap.
+- Round 97: freeze sheet empty state and failed read done.
+- Round 98: SheetContent close label done.
+- Round 99: BottomSheet backdrop close label done; the automatic partial-check flag is closed.

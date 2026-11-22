@@ -114,6 +114,7 @@ function goBackOrHome() {
 }
 
 export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps & { label?: string }) {
+  const { t } = useTranslation();
   const reduceTransparency = useReduceTransparency();
   const handlePress = () => {
     if (onPress) onPress();
@@ -125,7 +126,7 @@ export function GlassBackButton({ onPress, label, testID }: GlassNavButtonProps 
     <Pressable
       haptic={false}
       onPress={handlePress}
-      accessibilityLabel={label ? `Back to ${label}` : 'Go back'}
+      accessibilityLabel={label ? t('common.backTo', { label }) : t('common.goBack')}
       testID={testID}
     >
       {/* Shadow wrapper: the glass clips its content (overflow hidden), so the drop shadow lives here. */}
@@ -178,12 +179,13 @@ export type GlassSaveButtonProps = GlassNavButtonProps & {
 };
 
 export function GlassSaveButton({ onPress, label, disabled, testID }: GlassSaveButtonProps) {
+  const { t } = useTranslation();
   return (
     <Pressable
       haptic={false}
       onPress={onPress}
       disabled={disabled}
-      accessibilityLabel={label ?? 'Done'}
+      accessibilityLabel={label ?? t('common.done')}
       testID={testID}
     >
       <GlassCircle style={label ? { width: undefined, paddingHorizontal: space.lg } : undefined}>

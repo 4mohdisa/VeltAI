@@ -8417,3 +8417,7 @@
 - 2026-11-22 18:12 Accepted the unplanned GlassButtons.tsx change from round 98 as needed for the freeze sheet close label. Isa review noted in Blocked, no re-ask.
 - 2026-11-22 18:12 Kept 'Cerrar' and 'Fermer' for common.close pending Isa review, no re-ask.
 - 2026-11-22 18:12 Deferred GlassButtons Go back, Back to and Done labels to a later round to keep this task to one file.
+- 2026-11-22 18:13 Chose the GlassButtons labels: it is the smallest open Row 14 gap, the round 99 report recommends it, and Jev ranks it top at 96%.
+- 2026-11-22 18:13 Reused common.done for the Done fallback instead of adding a duplicate key, per the identical-text rule.
+- 2026-11-22 18:13 Used the round 99 report's suggested Spanish and French wording, marked for Isa's later review with the other es and fr blocks.
+- 2026-11-22 18:13 Left the Retry changes in src/lib/data untouched, as Isa has not approved them.

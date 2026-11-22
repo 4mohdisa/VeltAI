@@ -6,7 +6,9 @@
     "done": "Done",
     "reset": "Reset",
     "tryAgain": "Try again",
-    "close": "Close"
+    "close": "Close",
+    "goBack": "Go back",
+    "backTo": "Back to {{label}}"
   },
   "settings": {
     "title": "Settings",

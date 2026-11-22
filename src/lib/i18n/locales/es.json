@@ -6,7 +6,9 @@
     "done": "Listo",
     "reset": "Restablecer",
     "tryAgain": "Intentar de nuevo",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "goBack": "Volver",
+    "backTo": "Volver a {{label}}"
   },
   "settings": {
     "title": "Ajustes",
