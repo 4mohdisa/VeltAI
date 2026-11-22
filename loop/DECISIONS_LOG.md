@@ -8356,3 +8356,9 @@
 - 2026-11-22 17:49 Kept session.tsx leftovers for a later round because it touches an alert and a save button, which is a bigger change than one screen state.
 - 2026-11-22 17:49 Did not reopen the useTemplates-versus-useGym question: the templates work is accepted as done, and Isa's wording approval stays in Blocked.
 - 2026-11-22 17:49 Spotted but not fixed: useTemplates drops existing data when a refetch fails. That fix needs src/lib/data, which is off limits, so it stays in Parked.
+- 2026-11-22 17:52 Round 86 report was flagged as partly done. The missing piece is Retry on exercise-progress. Decided: accept no Retry for now (hook has no refetch, src/lib/data is off limits). Recorded as the default, not re-asked.
+- 2026-11-22 17:52 Chose the smallest clean task (session.tsx leftovers, one screen) because Jev confidence is low (0.22).
+- 2026-11-22 17:52 Keep Row 14 DIFFERENT until session.tsx leftovers, exercise-progress wording and the remaining Row 14 items are finished.
+- 2026-11-22 17:53 Chose the checkpoint over Jev's session.tsx pick (90%) because the loop script marks this round as a checkpoint and the last full gate was round 73, so 14 rounds have passed without a full run. Jev cannot see the checkpoint schedule. Session.tsx leftovers move to the next round.
+- 2026-11-22 17:53 Prompt restates branch-only rule, no git, no Prettier, no file changes, per the rejected-prompt note.
+- 2026-11-22 17:53 If a SIGSEGV appears, rerun once. Notes say a rerun passes.
