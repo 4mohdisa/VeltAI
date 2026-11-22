@@ -8421,3 +8421,6 @@
 - 2026-11-22 18:13 Reused common.done for the Done fallback instead of adding a duplicate key, per the identical-text rule.
 - 2026-11-22 18:13 Used the round 99 report's suggested Spanish and French wording, marked for Isa's later review with the other es and fr blocks.
 - 2026-11-22 18:13 Left the Retry changes in src/lib/data untouched, as Isa has not approved them.
+- 2026-11-22 18:16 Chose the checkpoint over Jev's gymMuscles.goBack pick (82%). The loop note forces a checkpoint after the handover and the automatic partial-task flag. A green full run confirms the handed-over state before more edits. Reason Jev cannot see: the handover is new and Claude Code only knows the summary.
+- 2026-11-22 18:16 The gymMuscles.goBack reuse becomes the next task (round 102), if this checkpoint is green.
+- 2026-11-22 18:16 Round 100 GlassButtons labels accepted as done. Isa's review of Spanish and French wording still pending; defaults kept.

@@ -6,6 +6,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
 - Round 87 checkpoint clean: 160 suites, 1073 tests, 0 failed.
+- Round 101 checkpoint: pending (tsc and full app Jest, no changes).
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22.
 - Jest pinned ~29.7.0, never upgrade. Render tests are *.render.test.tsx. Multi-file jest via xargs. Write output to file, then tail.
 - Maestro not installed. Local Colima Postgres 127.0.0.1:55432.
@@ -32,6 +33,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Unanswered question: use default and carry on. Do not re-ask.
 - Round 98: Close label in SheetContent translated via common.close.
 - Round 99: BottomSheet backdrop Close via common.close. GlassButtons.tsx Close change accepted as needed. Cerrar and Fermer kept pending Isa review.
+- Round 100: GlassButtons Go back, Back to, Done via common.goBack, common.backTo, common.done.
 
 ## Done
 - Rounds 1-4: row list, Rows 1 and 2 BUILT.
@@ -39,7 +41,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 4 audit BUILT; rows 12-17 added.
 - Row 12 plumbing done; PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail done.
-- Row 14 PARTIAL: session, history, muscles, templates, streak, freeze sheet, SheetContent and BottomSheet close labels done.
+- Row 14 PARTIAL: all gym screens with failed-read notice and calm empty states; close, go back, back to, done labels translated.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval.
@@ -54,15 +56,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
 - Row 14: 'streak' as 'racha' (es) and 'serie' (fr). Review.
 - Row 14: freeze sheet disables apply tick and replaces sheet with log-session when no streak. Confirm.
-- Row 14 round 98: GlassButtons.tsx changed though not named in the brief. Confirm acceptable.
-- Row 14 rounds 98-99: Cerrar and Fermer for common.close. Review.
+- Row 14: GlassButtons.tsx changed in round 98, not named in the brief. Confirm acceptable.
+- Row 14: Cerrar, Fermer, Volver, Retour for close and back labels. Review.
 - Owner check pending: Food tab offline banner in simulator.
 - Row 5 part 2 (Maestro, seeded users): needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path. Blocks rows 6 and 9 checks.
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 100: GlassButtons Go back, Back to and Done labels via common keys (Row 14).
-- Then shared has-a-streak helper (needs location decision), freeze offline toast (needs decision, data-adjacent).
+- Round 101: checkpoint (full tsc and full app Jest, no changes).
+- Round 102 if green: gymMuscles.goBack reuses common.goBack (Jev pick, Row 14 cleanup).
+- Then has-a-streak shared helper (needs location decision), freeze offline toast (needs decision, data-adjacent).
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
@@ -77,15 +80,18 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Exercise library failed read hides muscles card. Cardio not recognised on failed read.
 - Muscle names stay English. '{{value}} reps' has no singular.
 - gymMuscles.shape and sheetContent.render tests check English text, not en.json. Fix in Row 14 cleanup.
-- fr straight apostrophe in exercise removal prompt. Row 11.
-- Dev gym failed read keeps mock sessions. Dev falls back to mock product DB.
+- gymMuscles.goBack duplicates common.goBack. Fix in Row 14 cleanup (round 102).
+- Planned-weight unit ('kg'/'lb') from data not translated.
 - Freeze toast shows success when queued offline (gym/freeze.tsx).
 - Has-a-streak check duplicated in streak.tsx and freeze.tsx.
+- Dev gym failed read keeps mock sessions. Dev falls back to mock product DB.
 - Ask Lume drops server 503 message (ai-query.tsx).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts lines 50, 52; hooks.ts ~395. Row 11 or park.
 - react-test-renderer deprecation warning in gymSchedule tests. Session save test logs background sync warning.
+- Emptystates suite prints 'background sync failed' warning.
 - Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
+- fr straight apostrophe in exercise removal prompt. Row 11.
 - food.tsx header line over 80 chars. Row 11.
 - gymSchedule.revalidate.test.ts has own useApi harness. Row 11.
 - useInsights has no refetch. allText crashes on full-screen trees: use findAll.
@@ -99,8 +105,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - No test covers app-language dates or en/es/fr key parity. Row 11.
 - Old local rows mix 'lunch' and 'Lunch'.
 - saved.tsx line 1 says 'C13 · My dishes'. meals.tsx line 2 is 82 characters.
-- Planned-weight unit ('kg'/'lb') from data not translated.
-- Emptystates suite prints 'background sync failed' warning.
 
 ## Loop notes
 - Round 94: muscles screen done, no Retry (default).
@@ -109,3 +113,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 97: freeze sheet empty state and failed read done.
 - Round 98: SheetContent close label done.
 - Round 99: BottomSheet backdrop close label done; the automatic partial-check flag is closed.
+- Round 100: GlassButtons go back, back to and done labels translated; 7 suites green. Handover happened after round 100.
+- Round 101: checkpoint chosen over Jev's gymMuscles.goBack pick (82%). Reason: loop-forced checkpoint after handover; a green full run confirms the handed-over state first.
