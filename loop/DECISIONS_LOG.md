@@ -8196,3 +8196,6 @@
 - 2026-11-22 16:48 Allowed editing only one assertion in phase14Regression.test.ts, which the last report said was off-limits. Reason: the test would otherwise block every full run.
 - 2026-11-22 16:48 Kept row 13 PARTIAL; full checkpoint happens next round, not this one.
 - 2026-11-22 16:48 Jev ranked ask first; I looked again and kept run because the question is minor and answerable by a decision.
+- 2026-11-22 16:49 Full checkpoint first: the banner move and about 16 new tests have not been run in the full suite, and Row 13 cannot move to BUILT without it.
+- 2026-11-22 16:49 Stale comments and mock gaps found in the report go to NEXT, not fixed now, to keep one task per round.
+- 2026-11-22 16:49 Row 12 status left as PARTIAL until the checkpoint passes and Isa approves BUILT (handover conflicts with the older note; the handover is the newer source).
