@@ -9452,3 +9452,7 @@
 - 2026-11-23 02:33 Chose not to ask Isa: no major question is open, and the Isa items all have defaults.
 - 2026-11-23 02:33 Row 17 gap 5 treated as done, following NOTES, which is newer than the handover that still lists it as next.
 - 2026-11-23 02:33 The schedule_pg.go ORDER BY ASC LIMIT 30 bug is a correctness issue, not Row 6 performance. Parked.
+- 2026-11-23 02:35 Chose run over ask (Jev 83% ask). Concrete reason Jev cannot see: Row 17 gap 5 is a screen-only fix with no blocked file, and the last handover names it as the next step. The ask-override rule in NOTES does not strictly apply because Row 17 is partly blocked, so I kept run only for this unblocked gap and did not override the rule for the whole loop.
+- 2026-11-23 02:35 Row 6 gym history virtualisation parked. The option that needs no design change (listSessions limit in hooks.ts) needs src/lib/data, which is off limits. The other two options change the shared Screen or card styling, which breaks the Phase 1 design rule. Park under Row 6 hotspots in PERF_BASELINE.md.
+- 2026-11-23 02:35 Did not edit gym/history.tsx because hydrationErrorScreens.test.ts pins it as a parked screen. Recorded as a conflict to report to Isa in the final sweep, not asked now.
+- 2026-11-23 02:35 Stale Row 17 note removed: the 503 text is done (screen only). Gap 5 may already be done; the prompt tells Claude Code to verify first.
