@@ -37,6 +37,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - A prompt missing a required rule, or rejected for scope: re-issue the same row.
 - Round 48: row 12 set back to PARTIAL per handover (BUILT needs Isa approval).
 - Round 48: useInsights refetch and Retry stay parked (not in any row).
+- Round 49: row 12 notes cell rewritten from handover summary (git history not reachable by agents).
 
 ## Done
 - Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -49,6 +50,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Round 45: phase14Regression reads the food tab screen.
 - Round 46: full checkpoint passed.
 - Round 47: docs cleanup (phase14 comment, ai/index.ts comment, row 13 stale note).
+- Round 48: mock isError fixes in detailChrome and insights render tests. Report flagged as partly done.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a seed-user sign-in path. Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -58,7 +60,8 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Row 12 BUILT approval: Isa to approve. Status is PARTIAL until then.
 
 ## Next
-- Round 48: Row 12 mock isError fixes (detailChrome, insights, anomaly render tests) and status back to PARTIAL.
+- Round 49: re-verify row 12 (tsc and the three render tests), fix row 12 notes line.
+- Round 50: full checkpoint (tsc, full Jest) for row 12.
 - Row 13: Food tab empty-state tests; 'Tap + to add your first meal' on past days.
 - Row 14: Gym log and history empty states, one screen per round. No screen reads isError yet.
 - Rows 15 to 17: empty state follow-ups.
@@ -76,7 +79,7 @@ Work only on loop/phase3. Agents never run git. Never run Prettier. Every prompt
 - Old local rows mix 'lunch' and 'Lunch'.
 - Lint: gymSchedule.ts lines 50, 52 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - react-test-renderer deprecated warning in gymSchedule test files.
-- Stale header comments: aiBrain.ts. Park.
+- Stale header comments: aiBrain.ts, gymSchedule.ts. Park.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
 - useInsights has no refetch, so no Retry on error states. Park.
 - allText helper in render/helpers crashes on full-screen trees (circular JSON). Park.

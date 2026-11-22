@@ -8205,3 +8205,7 @@
 - 2026-11-22 16:51 Row 12 set back to PARTIAL: the handover says it stays PARTIAL until a checkpoint passes and Isa approves BUILT. No approval is recorded, so the file status is reverted. Reason: the status rule is explicit and reversible.
 - 2026-11-22 16:51 Chose the smallest task that clears test hygiene before row 13. Reason: Jev rated run and ask close, and risk is low confidence, so the smaller task wins.
 - 2026-11-22 16:51 useInsights refetch and Retry stay parked, not built. Reason: the brief allows only the smallest change for a row, and retry is not in any row.
+- 2026-11-22 16:52 The flag says the last task looks partly done. A flagged report is re-verified as its own round, and round 48 changed code, so this round re-verifies row 12 before any checkpoint.
+- 2026-11-22 16:52 Row 12 notes were overwritten by a write-only edit. Agents cannot run git, so the notes cell gets a one-line summary from the handover instead of the lost history.
+- 2026-11-22 16:52 Full checkpoint moves to the next round so this round stays one task and small.
+- 2026-11-22 16:52 Jev ranks run highest (77%) and the choice matches it. Jev's risk score is 1.1, so the task stays small and read-mostly.
