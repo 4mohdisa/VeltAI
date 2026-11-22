@@ -8383,3 +8383,7 @@
 - 2026-11-22 18:01 Kept Row 14 PARTIAL; muscles.tsx is the next task after this one.
 - 2026-11-22 18:01 Handover said session alert and Progress saved are still English, but Round 89 notes say they were translated. Not re-opened now; listed for a grep check in the next session task.
 - 2026-11-22 18:01 Jev 95% run agreed; no question to Isa.
+- 2026-11-22 18:02 Chose the session.tsx translation gap first: the notes and handover disagree on it, and it is small and closes the Row 14 gap before a new screen starts.
+- 2026-11-22 18:02 Muscles screen moves to the next round, as the Round 91 report recommended.
+- 2026-11-22 18:02 Kept Row 14 at PARTIAL: Isa has not approved es and fr wording yet.
+- 2026-11-22 18:02 Jev 98% run agreed with this choice.
