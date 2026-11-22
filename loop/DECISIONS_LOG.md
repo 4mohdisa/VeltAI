@@ -8543,3 +8543,7 @@
 - 2026-11-22 18:51 Chose option A (edit nutrition.tsx and its render test, add nutrition.weekMacrosEmpty in en, es, fr) because it fixes row 125 as the audit describes and touches only the named screen.
 - 2026-11-22 18:51 week.tsx flat intake bars are kept as a separate NEXT item, not row 125, because the 'no logged value' rule for days with 0 kcal eaten is not decided.
 - 2026-11-22 18:51 The loop flag (type check or tests not run) is handled by requiring tsc and the changed test file to run and pass this round.
+- 2026-11-22 18:53 Chose run over ask (Jev 81% ask). Reason Jev cannot see: the loop flag requires tsc and the changed tests to run, and the snapshot question was already asked in round 124 and is still unanswered. Asking again repeats the question.
+- 2026-11-22 18:53 Row 125 parked after two failed attempts (rounds 124 and 125), per the rule: park, do not ask. All-zero week chart stays as is until Isa grants the snapshot regeneration.
+- 2026-11-22 18:53 French apostrophe: use curly ’ in new French strings to match fr.json (87 curly against 10 straight). Recorded; Isa may override.
+- 2026-11-22 18:53 Do not edit any snapshot or test in this round. Only verify and update the row status text.
