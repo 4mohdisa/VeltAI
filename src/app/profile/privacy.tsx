@@ -67,12 +67,13 @@ export default function PrivacyScreen() {
         ]}
       />
       <SettingsList
-        title="Analytics"
-        footer="First-party only, on our own servers — which features are used, never what you log. Never sold. Off means fully off."
+        title={t('settings.analyticsTitle')}
+        footer={t('settings.analyticsFooter')}
         rows={[
           {
             icon: 'pulse-outline',
-            label: 'Product analytics',
+            label: t('settings.analyticsLabel'),
+            accessibilityHint: t('settings.analyticsHint'),
             kind: 'toggle',
             switchValue: analyticsEnabled,
             onToggle: setAnalyticsEnabled,

@@ -8904,3 +8904,8 @@
 - 2026-11-22 20:46 Analytics stays opt-in and off as the code and pinned test say; Row 8 default-on conflict stays in Blocked on Isa. Not re-asked, per the default rule.
 - 2026-11-22 20:46 Did not start the sign-out reset or the host variable: each is a separate fix, so they are listed under NEXT in the report.
 - 2026-11-22 20:46 Left feature_used shape check unchanged: Isa has not approved the two pinned test edits.
+- 2026-11-22 20:47 Chose the Settings switch first: it is the next step in the notes and it finishes the analytics half of the brief's Settings requirement.
+- 2026-11-22 20:47 Left crash reporting opt-out out of this task: the setter for it would need store.ts, which is off limits, so it goes in a later row.
+- 2026-11-22 20:47 Kept analytics off by default: the existing code and pinned test say opt-in, and Isa confirms before Phase 4.
+- 2026-11-22 20:47 Named the Settings screen by the rows it links to, because the exact file path is not in the notes; Claude Code must locate it.
+- 2026-11-22 20:47 Chose a small new render test, not a snapshot, so no snapshot needs regenerating.

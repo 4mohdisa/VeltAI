@@ -32,6 +32,8 @@ export type SettingsRowProps = {
   kind?: 'link' | 'toggle' | 'plain';
   switchValue?: boolean;
   onToggle?: (value: boolean) => void;
+  /** VoiceOver hint for a toggle row: what turning it on does. */
+  accessibilityHint?: string;
   onPress?: () => void;
   destructive?: boolean;
 };
@@ -106,6 +108,7 @@ function Row({ row, showDivider }: { row: SettingsRowProps; showDivider: boolean
             trackColor={{ true: color.primary, false: color.light2 }}
             accessibilityRole="switch"
             accessibilityLabel={row.label}
+            accessibilityHint={row.accessibilityHint}
             accessibilityState={{ checked: !!row.switchValue }}
           />
         ) : kind === 'link' ? (

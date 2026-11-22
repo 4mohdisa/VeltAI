@@ -34,19 +34,20 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
-- Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin).
+- Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: BUILT headers on account, integrations, preferences, support, privacy, scan-calibration. Remaining: body copy (see Row 15 tail).
-- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a done: analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, wired from analytics.ts, 4 tests in analyticsSink.test.ts. PostHog package pinned 4.87.1.
+- Row 8 PARTIAL: step 1 done (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a done: analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests. Step 2c done: setSinkOptIn wired from the flag listener in analytics.ts (opt-in and opt-out follow the flag), 2 tests. PostHog pinned 4.87.1.
 
 ## In progress
-- Row 8 step 2c: setSinkOptIn in analyticsSink.ts, called from the analytics opt-in setter, 2 tests added to analyticsSink.test.ts. Fixes: turning analytics off did not call optOut().
+- Row 8 step 2b: Settings analytics switch (round 188). Settings screen, en/es/fr keys, settingsAnalytics.render.test.tsx.
 
 ## Next
-- Row 8 step 2b: Settings analytics switch, PRIVACY_DATA.md.
-- Row 8 sink fixes: sign-out does not reset PostHog (shared anonymous ID on one phone); no EXPO_PUBLIC_POSTHOG_HOST (US cloud default); anonymous ID may be memory only (storage package not installed); app version and build tags not sent to PostHog.
+- Row 8: PRIVACY_DATA.md (every event, property, receiving service, reason).
+- Row 8 sink fixes, one per round: defaultOptIn false in initAnalyticsSink(); sign-out resets PostHog; EXPO_PUBLIC_POSTHOG_HOST; anonymous ID persistence (storage package not installed, so memory only for now); app version and build tags.
+- Row 8 crash opt-out: Settings switch for crash reports needs a flag in store.ts (permission needed).
 - Row 8 follow up: when Isa approves, feature_used to strict list and delete shapeOnly().
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
 - Row 10: Help and feedback (screen, feedback table locally, rate limit).
@@ -88,11 +89,11 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - week.tsx flat bars when every day is 0 kcal.
 - Insight catch blocks: getProfile .catch hides errors.
 - BrainProfileCard numbers not formatted for language.
-- Crash reporting: no opt-out from Privacy analytics toggle. Exception messages may carry server text via ApiError.
+- Crash reporting exception messages may carry server text via ApiError.
 - npm audit: 48 vulnerabilities (1 critical) reported on install. Not investigated.
 - trial_started is in the event list but nothing sends it.
 - delete-account.tsx and subscription.tsx: Phase 4.
 - Unit change feedback: none yet.
 
 ## Loop note
-- Handover happened this round. Name files fully in prompts.
+- Handover happened at round 187. Name files fully in prompts.
