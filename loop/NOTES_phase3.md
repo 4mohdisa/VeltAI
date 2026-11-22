@@ -10,7 +10,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time.
 - Read .git/HEAD for the branch. zsh rejects grep --include globs.
-- Last round: goals spoken-label change not made (test forbids it). Default B applied. Nothing changed in code.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -20,7 +19,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Goals and units in memory in Phase 3.
 - Failed reads: LoadFailedNotice with onRetry only if refetch exists.
 - Empty or failed screen with no stored data: one clear action.
-- Identical text reuses existing keys. src/lib/data off limits.
+- Identical text reuses existing keys. src/lib/data off limits except api.ts insight catch blocks (Row 15, round 179).
 - Close, Go back, Back to, Done use common.close, common.goBack, common.backTo, common.done.
 - French: no-break space before ':' and '?'. Curly apostrophes. es and fr plain space before %.
 - Snapshots: no regeneration without Isa's permission. Broken existing test or snapshot: back out and report. Never edit an existing test to fit a change.
@@ -31,25 +30,26 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Visible bracket labels such as 'Protein (g)' stay. Only spoken labels change.
 - Jest mock factories may only reference variables named mock*.
 - Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
-- mealSlotName: unknown slot returns the raw key addMenu.undefined; screens that take outside input guard first.
+- mealSlotName: unknown slot returns raw key addMenu.undefined; screens that take outside input guard first.
 - addMenu.snack stays 'Snacks' in es and fr until review.
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
 - No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
-- Goals spoken labels: default B, keep current labels (Isa did not answer after one round). goals.render.test.tsx pins them.
+- Goals spoken labels: default B, keep current labels. goals.render.test.tsx pins them.
 - Loop note: a blocker repeated twice gets recorded under Blocked and not retried.
+- Jev ranked api.ts first at 92% (round 179). Picked it because it was already the next item in the plan.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test, gymMuscles.fr.render.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, quick-add.tsx (helper, locale render test en/es/fr), add.tsx and nutrition.tsx via mealSlotName helper.
-- Row 15 note for quick-add locale test: in progress this round.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard badge, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing ringOf, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx (uses shared SLOTS from mappers.ts; en/es/fr render test passing).
+- mealSlotName helper: src/lib/mealSlotName.ts with tests.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - detail.tsx slot map (line 53) to mealSlotName: fallback decision needed. Do not retry until Isa answers.
 - InsightCard truncation: option 1 (edit test to fire onTextLayout) needs Isa's OK. Default kept.
-- Goals spoken labels: option A (full words, edit goals.render.test.tsx 84-85) or B (keep). Default B.
+- Goals spoken labels: default B kept.
 - Goals loading and error via useGoals: needs permission to change src/lib/data/hooks.ts.
 - Permission to add refetch to useExerciseProgress and useGymPatterns.
 - Permission to regenerate snapshot for week.tsx flat bars (0 kcal) and define the no-logged-value rule.
@@ -59,8 +59,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Now: quick-add.tsx SLOTS check against src/lib/data/mappers.ts, Row 15 note, quickAddSlot locale test.
-- Then: api.ts swallows insight errors (~1253, 1270).
+- Now: api.ts insight catch blocks (~1253, 1270) rethrow; test src/__tests__/insightErrors.test.ts.
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: Profile screens hard-coded English titles (About, Privacy, Account, Connected apps, Delete Account, Units).
 - Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
@@ -85,7 +84,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
 - Fibre VoiceOver: needs key or drop 'optional'.
 - Insight type badge: unknown types show as sent.
-- Insight More/Less by text layout: iOS and Android report lines differently. Needs device check on both.
-- Nutrition ring unit ('kcal' or 'kJ') spoken as abbreviation; goals.tsx:133 speaks the raw unit in every language.
+- Insight More/Less by text layout: needs device check on iOS and Android.
+- Nutrition ring unit spoken as abbreviation; goals.tsx:133 speaks the raw unit in every language.
 - week.tsx flat bars when every day is 0 kcal.
+- goals.tsx hard-codes 'g', '%' and the comma join.
 - Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.

@@ -8771,3 +8771,8 @@
 - 2026-11-22 20:02 Goals spoken labels: Isa has not answered the option A or B question after a full round, so the default B applies (keep current labels). Reason: option A needs goals.render.test.tsx lines 84-85 edited, which the rules forbid. Goals stays out of this round.
 - 2026-11-22 20:02 Chose the quick-add check over the Jev suggestion to ask: the blocker was already recorded and asked, so a repeat question adds nothing. The task is one screen and small, and it starts with the tsc and insightCard check the loop note asked for.
 - 2026-11-22 20:02 Risk noted: Jev rated continuing without Isa at 1.6 of 2. The prompt keeps the change to one screen with back out steps for any failing test.
+- 2026-11-22 20:04 Switched to api.ts insight errors, matching Jev's 92% pick. It was already the next item in my own plan after quick-add, and silent error swallowing is a real gap, so the choice is not a conflict.
+- 2026-11-22 20:04 Quick-add switch to shared SLOTS from mappers.ts is done and recorded in Row 15. Passed quickAddSlot, mealSlotName and quickAdd.render tests.
+- 2026-11-22 20:04 Did not ask Isa again. detail.tsx and week.tsx are blocked and already asked; they are not retried until he answers.
+- 2026-11-22 20:04 Scope kept to two catch blocks plus one test file. Any caller that would break is reported, not changed.
+- 2026-11-22 20:04 Jev asked for a look again; the single-question limit was not used this round.
