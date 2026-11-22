@@ -9423,3 +9423,7 @@
 - 2026-11-23 02:25 Stale Row 17 note about gymSchedule.ts is corrected in the notes cell only; status left PARTIAL.
 - 2026-11-23 02:25 Gap 4 (ai-query.tsx 503 message) is next, then gap 5, both inside the screen only.
 - 2026-11-23 02:25 Isa's open decisions are unchanged and not re-asked; defaults stay in place.
+- 2026-11-23 02:26 Ran a read-only verification round on Row 17 gap 3 first, because the automatic check flagged the last round as partly done.
+- 2026-11-23 02:26 Treated PHASE3_ROWS.md as the source of truth for statuses. The handover and notes disagree on Rows 15 and 16 (handover says PARTIAL, notes say BUILT), so a status read is needed before Row 11.
+- 2026-11-23 02:26 Row 17 gap 4 is a screen-only change in src/app/ai-query.tsx, so the Parked note that files it under aiBrain.ts is wrong. Corrected here.
+- 2026-11-23 02:26 Jev says run (99%). Kept the choice: this is the smallest task and needs nothing from Isa.

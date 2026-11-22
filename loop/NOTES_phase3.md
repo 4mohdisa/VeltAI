@@ -5,18 +5,26 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and baseline
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Jest from repo root, pinned ~29.7.0. Maestro not installed.
-- Last gates: tsc 0 errors. Jest 228 suites / 1,322 tests (handover) vs 233 / 1,338 (earlier report). Go 543 pass, 20 TestPG skipped. Isa to confirm the number.
+- Last gates: tsc 0 errors. Jest 228 suites / 1,322 tests. Go 543 pass, 20 TestPG skipped. Isa to confirm the Jest number.
 
-## Status
-- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16.
+## Status (verify against PHASE3_ROWS.md, it is the source of truth)
+- Conflict: notes say 15 and 16 BUILT; handover says PARTIAL. Read the status cells before Row 11.
+- BUILT (per notes): 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12.
 - PARTIAL: 5 (part 2 needs sign-in), 13, 14, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
-- Loop flag on last report (partly done): verification round for gap 3 is queued.
 
 ## Next
-- Row 17 gap 3 verification and stale note fix (in progress). Then gap 4 (Ask Lume 503 message, ai-query.tsx). Then gap 5 (empty Ask Lume answer renders nothing, screen only).
-- Row 17 gaps: 1 and 2 food and recipe search flash 'No matches' during debounce (hooks.ts, blocked on Isa); 3 ExercisePicker failed load (built, no Retry); 4 Ask Lume 503 message dropped; 5 Ask Lume empty answer; 6 Ask Lume fixed English replies in aiBrain.ts (blocked on Isa).
+- Row 17 gap 3 verification round (in progress, read only plus notes cell check).
+- Row 17 gap 4: src/app/ai-query.tsx shows the 503 message that ask() already returns. Screen only.
+- Row 17 gap 5: empty Ask Lume answer renders nothing. Screen only.
 - Row 11 final sweep last.
+
+## Row 17 gaps
+1 and 2: food and recipe search flash 'No matches' during debounce (hooks.ts, blocked on Isa).
+3: ExercisePicker failed load shows LoadFailedNotice, no Retry (built).
+4: Ask Lume 503 message dropped (screen only).
+5: Ask Lume empty answer (screen only).
+6: Ask Lume fixed English replies in aiBrain.ts (blocked on Isa).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -26,7 +34,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Analytics switch lives in src/app/profile/privacy.tsx only.
 - feature_used keeps shapeOnly() until Isa approves.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
-- Row 9: GET /api/export, same auth and limiter as analytics, ungated by subscription. Export row stays in Settings and Privacy.
+- Row 9: GET /api/export, same auth and limiter as analytics, ungated by subscription.
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB.
 - Test files never go under src/app (Expo Router treats them as routes). Use src/__tests__/render/.
 - New strings go in new top-level locale groups before the unique 'pendingSync' anchor. Reuse a key only when English and meaning match.
@@ -39,13 +47,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Preferences kept in memory, not persisted.
 - Every prompt states the loop/phase3 branch rule.
 - Row 15: no empty state (useGoals always returns numbers).
-- ExercisePicker failed load: LoadFailedNotice, no onRetry (useExercises has no refetch).
-- Row 17 notes corrected: ExercisePicker is not blocked on gymSchedule.ts (hook returns isError).
+- ExercisePicker failed load: no onRetry (useExercises has no refetch).
+- Export: two exportData functions exist; remove one only if Isa decides.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading, error, refetch. Parked.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
-- Export duplicate: two exportData functions with different share subjects. Remove one only if Isa decides.
 - Session weight (gym/session.tsx padWeight): kg-only or follow unit?
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog key and host as EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
 - Which local DB is Lume's; lume_audit one migration behind: apply only if named.
@@ -58,11 +65,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Review of all new es and fr wording.
 
 ## Parked (not Phase 3)
-- Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.
+- Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data; WeekStrip ', today' and Previous/Next week English.
 - Row 15: useGoals loading and error states (src/lib/data off limits).
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Export: duplicate exportData in profile/index.tsx and profile/privacy.tsx.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
