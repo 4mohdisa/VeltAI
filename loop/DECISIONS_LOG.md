@@ -8921,3 +8921,7 @@
 - 2026-11-22 20:51 Sign-out reset deferred to the next round: it needs a test of identity state and touches the sign-out path, so it is a larger change.
 - 2026-11-22 20:51 PRIVACY_DATA.md not touched this round: the doc already lists the open item, and the default is unchanged.
 - 2026-11-22 20:51 Analytics default stays opt-in and off, not on as Row 8 asks, per the pinned test. Isa confirms before Phase 4 (already in Blocked).
+- 2026-11-22 20:52 Chose the PRIVACY_DATA.md line first because the automatic check flagged the last round as partly done; it is one line, no code, and closes the gap.
+- 2026-11-22 20:52 Sign-out reset is next, not now, to keep one task per round.
+- 2026-11-22 20:52 Kept analytics opt-in and off (defaultOptIn false) until Isa confirms the Row 8 default; the code and pinned tests agree.
+- 2026-11-22 20:52 Did not regenerate any snapshot or edit any existing test.

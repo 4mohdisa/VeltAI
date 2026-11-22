@@ -5,7 +5,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Round 187 checkpoint passed: tsc 0; Jest 198 suites, 1190 tests, 4 snapshots.
+- Last checkpoint (round 187) passed: tsc 0; Jest 198 suites, 1190 tests, 4 snapshots.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. perl misses accented patterns; use Edit.
 - API client: src/lib/api.ts. Locales: src/lib/i18n/locales/.
@@ -13,7 +13,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
-- Analytics default: opt-in and off, per existing code and pinned test. Isa confirms before Phase 4.
+- Analytics default: opt-in and off, per existing code and pinned test. PostHog starts with defaultOptIn false. Isa confirms before Phase 4.
 - Row 3: header plus on My workouts is the only add entry. Templates kept.
 - Goals and units in memory in Phase 3.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists. Empty or failed with no data: one clear action.
@@ -34,14 +34,14 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
-- Row 8 PARTIAL: step 1 (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a (analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests). Step 2c (setSinkOptIn from flag listener). Step 2b (analytics switch localised, hint, settingsAnalytics.render.test.tsx). PostHog pinned 4.87.1. PRIVACY_DATA.md written (20 events, receiving services, open items).
+- Row 8 PARTIAL: step 1 (ALLOWED_EVENTS, analyticsAllowlist.test.ts). Step 2a (analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY, 4 tests). Step 2c (setSinkOptIn from flag listener). Step 2b (analytics switch localised, hint, settingsAnalytics.render.test.tsx). PostHog pinned 4.87.1. defaultOptIn false with one test (round 191).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains (see tail).
 
 ## In progress
-- Round 191: Row 8 defaultOptIn false in initAnalyticsSink(), with one test.
+- Round 192: PRIVACY_DATA.md gets one line saying PostHog starts opted out. Closes the partly done item from round 191.
 
 ## Next
 - Row 8 sink fixes, one per round: sign-out resets PostHog identity (call client reset() from resetAnalytics(), with test); EXPO_PUBLIC_POSTHOG_HOST; anonymous ID persistence (check on device, storage unverified); app version and build tags.
@@ -92,6 +92,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - trial_started in event list, nothing sends it.
 - PostHog host not set; events go to US cloud.
 - Events without a PostHog key still reach Lume backend (opted-in only).
+- User already opted in at launch relies on flag start; no end to end test.
 - delete-account.tsx and subscription.tsx: Phase 4.
 - Unit change feedback: none yet.
 
