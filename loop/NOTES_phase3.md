@@ -3,7 +3,7 @@
 ## Goal
 Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in the repo root.
 Work only on loop/phase3. Agents never run git commands. Never run Prettier (no config; it rewrites whole files).
-Every prompt must state the loop/phase3 branch rule. A prompt without it is rejected.
+Every prompt must state the loop/phase3 branch rule.
 
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
@@ -34,7 +34,7 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Seed tooling: backend/tools/seed, localhost-only host guard, reset deletes only seed_ ids with @example.test email. Seed code not in server image.
 - Maestro sign-in flows: if E2E_EMAIL or E2E_PASSWORD missing, park as owner step.
 - Unanswered question: use default and carry on. Do not re-ask.
-- Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
+- Shared useApi harness: src/__tests__/helpers/useApiHarness.ts (mountHook, readHook built on it).
 
 ## Done
 - Rounds 1 to 4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
@@ -48,6 +48,7 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Round 33: useInsights returns isError (aiBrain.ts). Checks passed.
 - Round 34: ErrorState default copy in t() (en, es, fr), render test. Clean.
 - Round 35: PendingSyncBanner copy in t() (en, es, fr) as plural key pendingSync.waiting, render test. Clean.
+- Round 36: useExercises and useExerciseProgress failure, recovery, and input-change tests (4 tests). mountHook added to the shared harness. 9 files using the harness pass. Full suite not run since round 30.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
@@ -67,7 +68,7 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Lint: gymSchedule.ts lines 41, 43 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - Both gymSchedule test files use react-test-renderer (deprecated warning). Park.
 - gymSchedule.ts header comment no longer matches code. Fix in Row 11.
-- gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
+- gymSchedule.revalidate.test.ts has its own useApi harness copy; mountHook can replace it. Row 11.
 - aiBrain.ts header does not mention useInsights isError. Park.
 - useInsights mocks in render/insights.render.test.tsx:13 and render/anomaly.render.test.tsx:13 lack isError. Harmless until a screen reads it.
 - detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
@@ -76,12 +77,13 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Food tab anomaly banner does not read isError. Later row.
 - src/lib/i18n/index.ts comment says French 'intentionally partial'; probably stale. Park.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
-- No test for refetch clearing isError, or one week failing and the other succeeding (useEnergyRange). Row 12.
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
+- useApi: loading stays false when inputs change, so old data shows with no loading state (same kind as the useHydration fix). Candidate for next round.
 
 ## Next
-- Round 36: Row 12 isError and refetch tests for useExercises and useExerciseProgress.
-- Row 12 remaining: useEnergyRange one-week-fails test; refetch clearing isError.
+- Round 37: Row 12 useEnergyRange one-week-fails test.
+- Then: useApi loading on input change (Row 12, shared hook, with a test).
+- Row 12 full checkpoint (tsc and full Jest) when Row 12 is complete or at round 45, whichever comes first.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

@@ -8157,3 +8157,6 @@
 - 2026-11-22 16:35 Round 35 report flagged, but checks passed on a PARTIAL row, so continue with the next item without a re-verify round (existing rule).
 - 2026-11-22 16:35 Report asked for a full checkpoint now. Ignored: the next full checkpoint is round 45.
 - 2026-11-22 16:35 Chose the useExercises tests: clears a Row 12 item, needs nothing from Isa, and is small.
+- 2026-11-22 16:37 Chose the one-week-fails test over a full checkpoint now: the scheduled checkpoint is round 45, and the 9 test files using the shared helper already passed.
+- 2026-11-22 16:37 Logged the useApi loading-on-input-change problem as the next candidate, not this round: it changes hook behaviour, so it needs its own round and its own test.
+- 2026-11-22 16:37 Left the useEnergyRange rule ('both weeks fail' means isError) as the default; Isa has not answered.

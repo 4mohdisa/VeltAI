@@ -107,3 +107,11 @@ test('useEnergyRange reports isError when the request fails', async () => {
   mockGetWeek.mockRejectedValue(new Error('network request failed'));
   expect(await readHook(useEnergyRange)).toMatchObject({ days: [], loading: false, isError: true });
 });
+
+test('useEnergyRange keeps the other week and reports no error when only one week read fails', async () => {
+  mockGetWeek
+    .mockRejectedValueOnce(new Error('network request failed'))
+    .mockResolvedValueOnce(weekly(FIXTURE_DAYS));
+  expect(await readHook(useEnergyRange)).toMatchObject({ days: FIXTURE_DAYS, loading: false, isError: false });
+  expect(mockGetWeek).toHaveBeenCalledTimes(2);
+});
