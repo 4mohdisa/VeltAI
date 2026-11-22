@@ -5,16 +5,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0. Maestro not installed.
-- Last checkpoint (clean, no file changes): tsc 0 errors. Jest 233 suites / 1338 tests pass, 0 skipped. Go 543 pass / 20 TestPG skipped.
-- Old figures 228 suites / 1322 tests are superseded.
+- Gates must run and be reported on every round that touches code. The last report ran none and the loop flagged it.
+- Last recorded figures: tsc 0 errors. Jest 233 suites / 1338 tests pass, 0 skipped. Go 543 pass / 20 TestPG skipped. Re-confirm this round. Older 228/1322 figures are superseded.
 
 ## Status
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 16.
-- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15 (in progress), 17.
+- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15 (gate round pending), 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 15 Goals empty state (within what useGoals returns).
+- Row 15 gate round: run tsc, Jest, Go. Then mark Goals BUILT (no empty state reachable, loading parked).
 - Row 17 gaps. Row 11 final sweep last.
 
 ## Decisions (never delete)
@@ -39,7 +39,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Jev ask overridden when all Isa items have defaults and no row is blocked.
 - Preferences kept in memory, not persisted.
 - Every prompt states the loop/phase3 branch rule.
-- Row 16 status conflict (notes BUILT, handover PARTIAL): kept BUILT. Re-check in Row 11.
+- Row 15 Goals: no empty state built, since useGoals always returns numbers. Loading and failed-read parked with default (no state).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month summary '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading and error (Row 15). Parked.
@@ -58,6 +58,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## Parked (not Phase 3)
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS. No call site does this.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data.
+- Row 15: useGoals loading and error states (src/lib/data off limits).
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form. supportMailSubject test sits in render/ but runs in node project.
 - Export: duplicate exportData in profile/index.tsx and profile/privacy.tsx; subjects differ.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
@@ -65,7 +66,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 is a raw number, not a token. Repeat-visit skeleton flash.
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
-- One unexplained extra test above expected count (233/1338 vs 1337 counted).
+- One unexplained extra test above expected count (1337 counted vs 1338 run).
 - seed_demo_account.go prints App Store notes and demo login (Phase 4).
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.

@@ -9399,3 +9399,8 @@
 - 2026-11-23 02:18 Row 16 status conflict: notes say BUILT, handover says PARTIAL. Kept BUILT from the notes file. Re-check during the Row 11 sweep.
 - 2026-11-23 02:18 Row 15 scoped to the empty state only, because useGoals drops isLoading and error (Blocked on Isa, default is park).
 - 2026-11-23 02:18 Jev ask at 55% overridden: every Isa item has a default and no row is blocked, so the standing rule applies.
+- 2026-11-23 02:19 Run the gates first because the loop flagged the last report for not running them.
+- 2026-11-23 02:19 Row 15 Goals: no empty state is built, because useGoals always returns numbers and src/lib/data is off limits. Loading and failed-read states stay parked with the default (no state).
+- 2026-11-23 02:19 Did not ask Isa: every open item has a default, and the only blocked piece (useGoals loading/error) is parked. Jev's ask score was overridden under the standing rule.
+- 2026-11-23 02:19 Notes condensed to fit under 600 words. Facts unchanged, superseded figures (228/1322) removed, and all decisions kept.
+- 2026-11-23 02:19 Row 15 stays PARTIAL until this gate round reports. Then mark its Goals part BUILT with the note above.
