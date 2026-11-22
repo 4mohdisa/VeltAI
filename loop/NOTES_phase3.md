@@ -8,12 +8,11 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 ## State
 - Phase 1 and 2 merged into main (b096ed3).
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details loop/BASELINE_phase3.md.
-- Round 30 checkpoint clean: tsc 0; app Jest 142 suites, 1013 tests, 4 snapshots.
-- Next full checkpoint: round 45.
-- Jest pinned ~29.7.0. Never upgrade. Stray top-level node_modules/jest 30.0.5 and @types/jest ^30 are parked.
+- Round 30 checkpoint clean. Next full checkpoint: round 45.
 - Before every command: source ~/.nvm/nvm.sh && nvm use 22.
-- Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set in shell.
-- Component render tests must be *.render.test.tsx (only that setup renders RN and loads real translations).
+- Local backend only: Colima Postgres 127.0.0.1:55432. DATABASE_URL not set.
+- Jest pinned ~29.7.0. Never upgrade. Stray node_modules/jest 30.0.5 and @types/jest ^30 are parked.
+- Component render tests must be *.render.test.tsx.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
 
 ## Decisions (never delete)
@@ -38,51 +37,51 @@ Every prompt must state the loop/phase3 branch rule. A prompt without it is reje
 - Shared useApi harness: src/__tests__/helpers/useApiHarness.ts.
 
 ## Done
-- Rounds 1 to 4: row list (PHASE3_ROWS.md), Row 1 Node 22 BUILT, Row 2 baseline BUILT.
+- Rounds 1 to 4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
 - Rounds 5 to 6: Row 3 BUILT, owner check pending.
-- Rounds 7 to 10: Row 4 audit (EMPTY_STATES_AUDIT.md), rows 12 to 17 added, Row 4 BUILT.
+- Rounds 7 to 10: Row 4 audit BUILT (EMPTY_STATES_AUDIT.md); rows 12 to 17 added.
 - Rounds 11 to 13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13 to 29: Row 12 PARTIAL. useHydration loading fix; isError on useApi, useToday, useTemplates, useSchedule, useExercises, useGymPatterns, useExerciseProgress.
 - Round 30: checkpoint clean.
 - Round 31: useEnergyRange returns isError. Clean.
-- Round 32: getInsights stops swallowing failures (api.ts). Now rejects with ApiError.
-- Round 33: useInsights catches rejection and returns isError (aiBrain.ts, new test). Checks passed.
-- Round 34: ErrorState default copy in t() (en, es, fr), render test ErrorState.copy.render.test.tsx. Clean.
+- Round 32: getInsights rejects instead of swallowing (api.ts).
+- Round 33: useInsights returns isError (aiBrain.ts). Checks passed.
+- Round 34: ErrorState default copy in t() (en, es, fr), render test. Clean.
+- Round 35: PendingSyncBanner copy in t() (en, es, fr) as plural key pendingSync.waiting, render test. Clean.
 
 ## Blocked on Isa
-- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD, and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
+- Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL, E2E_PASSWORD and a way to sign in as a seed user (no local auth bypass). Blocks row 6 heavy-user checks and row 9 export check. Parked, not asking again.
 - Analytics default on (brief) vs store off (DECISIONS.md 2026-08-09). Default used. Confirm before Phase 4.
 - Templates '+' replaced by a list control? Unanswered. Keep '+' (row 3).
-- useEnergyRange: confirm 'both weeks fail' rule (default used).
+- useEnergyRange: confirm 'both weeks fail' rule. Default used.
 
 ## Parked (not Phase 3)
 - Goals and units backend persistence (lost on restart).
 - Jest install drift: node_modules/jest 30.0.5 vs pin 29.7.0. Fix with npm ci (needs network).
 - 18 backend DB tests never run (tests/food, tests/gym_schedule, tests/scan). Needs LUME_TEST_DATABASE_URL.
-- es.json: addMenu.voice and addMenu.describeOutLoud missing in en and fr.
+- es.json: addMenu.voice and addMenu.describeOutLoud extra keys.
 - Freeze toast shows success when queued offline (src/app/gym/freeze.tsx:36-38).
 - Ask Lume drops server 503 message (src/app/ai-query.tsx:96).
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Old local rows mix 'lunch' and 'Lunch'. Old data, not from the seed.
-- Lint: gymSchedule.ts lines 41, 43 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros (set-state-in-effect). Row 11 or park.
+- Lint: gymSchedule.ts lines 41, 43 (react-hooks/refs); hooks.ts ~395 useWeeklyMacros. Row 11 or park.
 - Both gymSchedule test files use react-test-renderer (deprecated warning). Park.
 - gymSchedule.ts header comment no longer matches code. Fix in Row 11.
 - gymSchedule.revalidate.test.ts has its own useApi harness copy. Row 11.
-- aiBrain.ts header comment does not mention useInsights isError. Park.
+- aiBrain.ts header does not mention useInsights isError. Park.
 - useInsights mocks in render/insights.render.test.tsx:13 and render/anomaly.render.test.tsx:13 lack isError. Harmless until a screen reads it.
 - detailChrome.render.test.tsx:79 useEnergyRange mock lacks isError. Harmless until a screen reads it.
-- Anomalies stay empty when getInsights fails (both fetches share Promise.all). Harmless: anomaly endpoint is empty today.
-- getMorningBrief and getProfile swallow failures as null. Outside insights scope. Park.
+- Anomalies stay empty when getInsights fails. Harmless: anomaly endpoint is empty today.
+- getMorningBrief and getProfile swallow failures as null. Park.
 - Food tab anomaly banner does not read isError. Later row.
-- src/lib/i18n/index.ts comment says French is 'intentionally partial'; probably stale. Park.
+- src/lib/i18n/index.ts comment says French 'intentionally partial'; probably stale. Park.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
-- No test for useExercises and useExerciseProgress refetch when inputs change. Row 12.
 - No test for refetch clearing isError, or one week failing and the other succeeding (useEnergyRange). Row 12.
 - Food log copy: 'Tap + to add your first meal' shows on past days. Row 13.
 
 ## Next
-- Round 35: PendingSyncBanner default copy into t() (en, es, fr), render test. Running.
-- Row 12: isError tests for useExercises and useExerciseProgress refetch.
+- Round 36: Row 12 isError and refetch tests for useExercises and useExerciseProgress.
+- Row 12 remaining: useEnergyRange one-week-fails test; refetch clearing isError.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).
 - Row 6 (performance): non-sign-in backend measurements.

@@ -8154,3 +8154,6 @@
 - 2026-11-22 16:34 Render test files stay *.render.test.tsx, because only that Jest setup renders RN components and loads real translations (ErrorState report).
 - 2026-11-22 16:34 Did not run the full suite: round 35 is not a checkpoint (next is round 45).
 - 2026-11-22 16:34 Decided not to fix the other spotted problems now; they stay in Parked or Next.
+- 2026-11-22 16:35 Round 35 report flagged, but checks passed on a PARTIAL row, so continue with the next item without a re-verify round (existing rule).
+- 2026-11-22 16:35 Report asked for a full checkpoint now. Ignored: the next full checkpoint is round 45.
+- 2026-11-22 16:35 Chose the useExercises tests: clears a Row 12 item, needs nothing from Isa, and is small.
