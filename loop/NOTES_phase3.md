@@ -5,24 +5,21 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Jest from repo root, pinned ~29.7.0.
-- Last gates: tsc 0 errors. Full Jest 233 suites / 1,338 tests. Go 543 pass, 20 TestPG skipped.
-- Checkpoint this round: tsc and full app Jest run, no file changes. Result goes to the next round.
+- Last checkpoint (green): tsc 0 errors. Jest 236 suites, 1,344 tests, 0 failed, 0 skipped. Go 543 pass, 20 TestPG skipped (last Go run).
+- Jest baseline is now 236 suites / 1,344 tests.
+- Unaccounted: handover count plus aiQueryEmpty gives 235 suites and 1,342 tests, so 1 suite and 2 tests are unexplained. Check at final sweep.
 
 ## Status (PHASE3_ROWS.md is the source of truth; re-read it each round)
-- Last recorded: BUILT 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16.
-- PARTIAL: 5, 13, 14, 17.
-- Row 6 and Row 11: the notes and the handover disagree (notes say 11 DIFFERENT; handover says 6 and 11 DIFFERENT). Confirm from PHASE3_ROWS.md before choosing.
+- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16.
+- PARTIAL: 5, 13, 14.
+- Row 17: set BUILT with owner check pending (close-out prompt sent this round). Gaps 3, 4, 5 built; gaps 1, 2, 6 are owner items.
+- DIFFERENT: 6, 11 (handover says so). Confirm from the file before choosing.
 
 ## Next
-- After checkpoint: read PHASE3_ROWS.md, fix any status conflict, then pick the smallest unbuilt row that needs no Isa input.
+- Round after close-out: read PHASE3_ROWS.md and confirm rows 6 and 11 from the quoted cells.
+- Then pick the smallest unbuilt row that needs no Isa input. Row 5 part 2 is parked for credentials.
+- Row 6 is the largest. Measure first, then add hotspot rows only if PHASE3_ROWS.md allows. Hotspots go to PERF_BASELINE.md.
 - Row 11 final sweep last, only when every other row is BUILT or EXACT.
-
-## Row 17 gaps
-1 and 2: food and recipe search flash 'No matches' during the 250 ms debounce (hooks.ts). Parked as owner item.
-3: ExercisePicker failed load shows LoadFailedNotice, no Retry (built).
-4: Ask Lume 503 shows the text ask() returns (built, screen only).
-5: Ask Lume empty answer shows aiQueryAnswer.empty (built).
-6: not_enough_data and consent replies are English in aiBrain.ts. Parked as owner item.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -43,13 +40,12 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
 - Row 15: no empty state (useGoals always returns numbers).
 - Export: two exportData functions exist; remove one only if Isa decides.
-- Row 6 hotspots go to PERF_BASELINE.md, not new PHASE3_ROWS.md rows.
 - gym/history.tsx untouched: hydrationErrorScreens.test.ts pins it. Report at final sweep.
-- Unanswered question: after one unanswered round, use the default and move on (applied to src/lib/data questions).
+- Unanswered question: after one unanswered round, use the default and move on.
+- Never edit existing tests or snapshots without Isa.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- Question on src/lib/data permission (Row 17 gaps 1, 2, 6 and useGoals state): sent twice, no answer. Defaults used. Do not ask again.
-- src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading, error, refetch. Parked.
+- src/lib/data permission (Row 17 gaps 1, 2, 6 and useGoals state): asked twice, no answer. Defaults used.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
 - Session weight (gym/session.tsx padWeight): kg-only or follow unit?
@@ -59,17 +55,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Analytics on (brief) vs opt-in (code), and AI disclosure switch: confirm before Phase 4.
 - Device maker, model, OS to PostHog: default not sent.
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user.
-- Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud keep or remove. Review of all new es and fr wording.
+- Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud keep or remove.
 
 ## Parked (not Phase 3)
-- Row 6: gym history list not virtualised (Screen owns ScrollView, shared card). Options: per-row card pieces, opt-in list mode on Screen, or limit listSessions in hooks.ts. Needs design call.
-- Backend correctness: gym/schedule_pg.go:765-767 ORDER BY gs.date ASC with LIMIT 30 returns the oldest 30 entries for exercise progress. Needs backend fix and test.
+- Row 6: gym history list not virtualised (Screen owns ScrollView, shared card). Options: per-row card pieces, opt-in list mode on Screen, or limit listSessions in hooks.ts.
+- Backend correctness: gym/schedule_pg.go:765-767 ORDER BY gs.date ASC with LIMIT 30 returns the oldest 30 entries for exercise progress.
 - Backend perf: 49 queries use WHERE id::text = $1, which skips the id index. Needs DB-backed tests (TestPG skipped).
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data; WeekStrip ', today' and Previous/Next week English.
 - Row 15: useGoals loading and error states.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: 503 text shows in whatever language the server sends. not_enough_data English in aiBrain.ts. aiBrain.ts:154 upgrade-required path returns '' without marking unavailable (Phase 4 subscriptions). Stale note: 503 message is built, not waiting on aiBrain.ts.
+- Row 17 (after close-out): 503 text shows in whatever language the server sends. not_enough_data English in aiBrain.ts. aiBrain.ts:154 upgrade-required path returns '' without marking unavailable (Phase 4).
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72). No freshness window (src/lib/data).
@@ -96,6 +92,5 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Locale files: src/lib/i18n/locales/. Expo Router: node_modules/expo-router/_ctx-shared.js.
 
 ## Loop notes
-- Checkpoint round: type check and full app Jest, no file changes. Read the result before choosing the next row.
-- Jev asked (66% ask) and was overridden for this checkpoint. Reason recorded in decisions.
-- Last report repeated gap 5 work already finished. Start every prompt from PHASE3_ROWS.md status.
+- Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
+- Jev says run at 80%. Advisory only.

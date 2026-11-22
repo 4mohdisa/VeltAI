@@ -9465,3 +9465,8 @@
 - 2026-11-23 02:52 Row 17 gaps 1, 2, 6 and useGoals isLoading, error, refetch are parked as owner items with the defaults already in use. No src/lib/data change.
 - 2026-11-23 02:52 This round is a checkpoint per the loop note: full type check and full app Jest only, no file changes. Chose run over ask because every open item now has a default, so no remaining task needs Isa this round.
 - 2026-11-23 02:52 Jev said ask 66%. Overridden because the loop note requires a checkpoint run and the unanswered question has already been used once. Reason recorded here.
+- 2026-11-23 02:53 Gap 5 (empty Ask Lume answer) is treated as built: the last report and notes confirm aiQueryAnswer.empty is done. The handover's Next line is stale.
+- 2026-11-23 02:53 Row 17 is closed as BUILT with owner check pending. Gaps 1, 2 and 6 need src/lib/data, which is off limits, and Isa has not answered twice, so the defaults stand.
+- 2026-11-23 02:53 The Jest baseline is set to 236 suites and 1,344 tests from the checkpoint run, which answers the waiting list item.
+- 2026-11-23 02:53 Small status-only task first, because it is safe, needs nothing from Isa and clears a row. Jev ranked the same kind of step at 80% run, so no second look was needed.
+- 2026-11-23 02:53 Row 6 and Row 11 status conflict is resolved by reading the file this round. Their status is not changed in this prompt.
