@@ -8,6 +8,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 144 checkpoint clean: tsc 0; Jest 179 suites, 1134 tests, 4 snapshots pass (npx jest --ci).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Row numbers in PHASE3_ROWS.md notes (118 to 120) may clash with loop round numbers. Not fixed.
+- Round 146 prompt was rejected once (branch not named). Fixed: prompt now names loop/phase3 and reads .git/HEAD.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -27,18 +28,17 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Streak empty means longest streak and total sessions both 0.
 - Dashboard: failed sessions use gym.loadFailed; failed energy uses dashboard.energyLoadFailed.
 - Summary card and GymStatusCard hidden during first load. Accepted.
-- Rounds 129, 144: checkpoint kept over Jev picks (gate must run before more edits).
+- Rounds 129, 144: checkpoint kept over Jev picks.
 - Rounds 139 to 141: AnomalyCard and AnomalyBanner closed.
+- Round 145: Row 14 cleanup kept, matching Jev's top pick.
+- Round 146: French goals apostrophe fix chosen over Goals loading and error (blocked on Isa). Known files, smallest task.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym screens have failed-read notice and calm empty states.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner.
-
-## In progress
-- Row 15 goals src/app/profile/goals.tsx: English text (Daily targets, eyebrow, (g) and (%) suffixes). Loading and error parked.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary strings, plan card scope, insights screen, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals three literals (eyebrow, grams and percent labels, round 145).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Hooks change so useGoals exposes loading, error, refetch. Default: Goals loading and error stay parked.
@@ -59,14 +59,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Analytics default on vs store off: confirm before Phase 4.
 - Nutrition follows Food tab date. Leave.
 - Goals persistence. Default: in memory.
+- es.json has addMenu.voice and addMenu.describeOutLoud not in en.json. Isa: delete or add to en and fr.
 
 ## Next
-- Goals English text (in progress), then Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json.
-- Row 15 food.tsx: no goals read state (note only).
+- Round 146: French goals apostrophes to curly (l'IA, l'inscription, c'est) in fr.json goals group.
+- Row 14 cleanup: gymMuscles.shape and sheetContent.render read en.json (paths to confirm).
 - week.tsx flat intake bars when every day is 0 kcal. Needs a no-logged-value rule.
 - Insights consent comment in insights.tsx is false (phase14Regression.test.ts).
 - InsightCard type badge untranslated; more/less toggle uses body length over 120.
 - BrainProfileCard: fixed 0.3 bar; numbers not formatted; energy always kcal. Insights swallowed errors in src/lib/api.ts (~1253, 1270).
+- Goals reset button shows goals.saved toast; calorie label puts unit in brackets.
 - Then Rows 16 and 17, one screen per round.
 - Row 14 cleanup: key parity check; shared has-a-streak helper.
 - Row 6: non-sign-in backend measurements.
@@ -90,4 +92,5 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 11 dedupe: gymSession eyebrow vs foodLog.today; logged-day label; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
 - react-test-renderer deprecation warnings.
 - Freeze offline toast claims success on failure; 'has a streak' check duplicated.
+- Other profile screens hard-code English titles and eyebrows (About, Privacy, Account, Connected apps, Delete Account, Units on Preferences).
 - Round numbers in PHASE3_ROWS.md may clash with loop numbers.

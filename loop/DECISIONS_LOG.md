@@ -8620,3 +8620,11 @@
 - 2026-11-22 19:18 Goals loading and error stay parked: useGoals needs a hooks change that Isa has not approved.
 - 2026-11-22 19:18 Round 144 checkpoint was clean (179 suites, 1134 tests, 4 snapshots, tsc 0), so the next round runs a single-file task.
 - 2026-11-22 19:18 Run only the touched tests: keeps the loop fast and avoids the Node GC crash on full runs.
+- 2026-11-22 19:20 Kept Row 14 cleanup. Jev's top pick is the same task at 89%, so no change. Reason: it is the smallest unblocked task, it touches only two files, and it closes a known hard-coded English gap.
+- 2026-11-22 19:20 Goals loading and error states stay parked. They need Isa's permission to change src/lib/data/hooks.ts, so they cannot be done without him.
+- 2026-11-22 19:20 addMenu.voice and addMenu.describeOutLoud stay untouched in es.json. They are outside Row 14 and reported as BLOCKED for Isa.
+- 2026-11-22 19:20 Round 146: the last prompt was rejected for not naming loop/phase3. The new prompt names the branch, reads .git/HEAD first, and bans git, branch switches, pushes and merges.
+- 2026-11-22 19:20 Chose the French goals apostrophe fix over the handover NEXT (Goals loading and error). Those are blocked on Isa's hooks permission, and the notes default is to keep them parked.
+- 2026-11-22 19:20 Chose it over Row 14 cleanup because its files are known exactly (fr.json goals group). Row 14 needs file paths that are not yet confirmed.
+- 2026-11-22 19:20 Rows 118 to 120 in the notes may clash with loop round numbers. Left as is, as the notes already record.
+- 2026-11-22 19:20 Test asserting old straight apostrophe text: revert that key and report, never edit the test (existing rule).
