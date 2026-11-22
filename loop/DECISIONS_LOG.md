@@ -9484,3 +9484,8 @@
 - 2026-11-23 02:55 Row 17 status is set from PHASE3_ROWS.md, not the handover; the handover said PARTIAL, the latest report said BUILT. Reconcile in a later round from the file.
 - 2026-11-23 02:55 Skipped Row 6 (waits on Isa for hooks.ts) and Row 11 (last, only when all other rows are BUILT or EXACT).
 - 2026-11-23 02:55 No full suite this round; the checkpoint is not due.
+- 2026-11-23 02:57 Chose Row 17 gap 5: it is screen only, needs no src/lib/data permission, and is the smallest open item.
+- 2026-11-23 02:57 Jev leaned ask (41%) with low confidence. Not asking: every blocker already has a recorded default, and this task needs no permission.
+- 2026-11-23 02:57 Row 17 status conflict (latest report BUILT, handover PARTIAL): told the agent to confirm from the file.
+- 2026-11-23 02:57 Empty answer copy: reuse an existing key if the meaning matches, else add a new aiQueryEmpty group in all three languages.
+- 2026-11-23 02:57 Notes condensed below 600 words; all decisions, blockers and parked items kept.

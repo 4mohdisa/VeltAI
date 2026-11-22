@@ -1,24 +1,22 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'. PHASE3_ROWS.md stays 22 lines.
+All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row per prompt. Say built, never verified on a device. Owner items count as BUILT with 'owner check pending'.
 
 ## Commands
 - source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Last full checkpoint: tsc 0 errors, Jest 236 suites, 1,344 tests. Go 543 pass, 20 TestPG skipped.
-- Handover counts (233 suites, 1,338 tests) differ from the checkpoint. Reconcile at final sweep.
+- Last checkpoint: tsc 0 errors, Jest 236 suites, 1,344 tests. Go 543 pass, 20 TestPG skipped.
+- Handover counts (233 suites, 1,338 tests) differ. Reconcile at final sweep.
 
-## Status (PHASE3_ROWS.md is the source of truth; re-read each round)
-- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16, 17 (owner check pending).
-- PARTIAL: 5 (part 2 needs credentials), 6, 13, 14.
-- DIFFERENT: 11.
-- Row 17: latest report says BUILT (gate green, gap 5 confirmed). Handover said PARTIAL. Confirm from the file.
+## Status (PHASE3_ROWS.md is source of truth; re-read each round)
+- BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16, 17 (owner check pending) per latest report. Handover said 17 PARTIAL. Confirm from file.
+- PARTIAL: 5 (part 2 needs credentials), 13, 14.
+- DIFFERENT or waiting: 6 (waits on Isa), 11 (final sweep, last).
 
 ## Next
-- Now: Row 15 and 16 gate check (tsc, their new Jest files).
-- Then: Row 17 status reconciliation from the file.
-- Row 6: waits on Isa (hooks.ts limit).
-- Row 11 final sweep last, only when every other row is BUILT or EXACT.
+- Now: Row 17 gap 5 (empty Ask Lume answer, ai-query.tsx), plus status confirmed from file.
+- Then: Row 13 or 14 items that need no src/lib/data change.
+- Row 6 waits on Isa. Row 11 final sweep only when every other row is BUILT or EXACT.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -32,7 +30,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 10: feedback shares 120/min write limit. Migration not applied to any local DB.
 - Row 15: no empty state (useGoals always returns numbers).
 - Test files never go under src/app. Use src/__tests__/render/.
-- New strings go in new top-level locale groups before the unique 'pendingSync' anchor. Reuse a key only when English and meaning match.
+- New strings go in new top-level locale groups before the 'pendingSync' anchor. Reuse a key only when English and meaning match.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
 - src/lib/data off limits except api.ts insight catch blocks.
 - gym/history.tsx untouched: hydrationErrorScreens.test.ts pins it.
@@ -42,7 +40,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Unanswered question: after one unanswered round, use the default and move on.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- src/lib/data permission: Row 6 hooks.ts limit; Row 17 gaps 1, 2 (search debounce flash) and 6 (English aiBrain replies); useGoals loading and error states.
+- src/lib/data permission: Row 6 hooks.ts limit; Row 17 gaps 1, 2 (search debounce flash), 6 (English aiBrain replies); useGoals loading and error states.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Existing tests needing permission: profileEmptyStates test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out); week.tsx snapshot regen; nutrition.tsx snapshot approval.
 - Session weight (gym/session.tsx padWeight): kg-only or follow unit?
@@ -51,19 +49,19 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - feature_used strict list and shapeOnly cleanup: needs permission to edit two pinned tests.
 - Analytics on (brief) vs opt-in (code), and AI disclosure switch: confirm before Phase 4.
 - Device maker, model, OS to PostHog: default not sent.
-- Export row: two exportData functions exist; remove one only if Isa decides. Row lives on Settings and Privacy.
+- Export row: two exportData functions exist; remove one only if Isa decides.
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user; Row 17 gaps 1, 2, 6.
 - Wording review: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud.
 
 ## Parked (not Phase 3)
 - Row 6: gym history list not virtualised. Options: per-row card pieces, list mode on Screen, or limit listSessions in hooks.ts (recommended).
 - Backend correctness: gym/schedule_pg.go:765-767 sorts exercise progress oldest first, then LIMIT 30, so newest entries are lost.
-- Backend perf: 49 queries use WHERE id::text = $1, which skips the id index. Needs DB-backed tests.
+- Backend perf: 49 queries use WHERE id::text = $1, skipping the id index. Needs DB-backed tests.
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names; WeekStrip ', today' and Previous/Next week English.
 - Row 15: useGoals loading and error states.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4).
+- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes saying 503 waits on aiBrain.ts are wrong: gap 4 is done.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg. useHydration logs via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 raw number. Repeat-visit skeleton flash.
@@ -72,10 +70,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json. PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
-- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; scanCalibration.basedOn _one form.
+- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts.
 
 ## Gotchas
-- No git, Prettier or Maestro. zsh: pass lists through xargs.
+- No git, Prettier or Maestro. zsh: pass lists through xargs and quote --include globs.
 - allText crashes on FlatList screens: use findAll. NumberEntryBar needs SafeAreaProvider in tests.
 - Skeleton needs reanimated useReducedMotion; mock @/components/display/LoadingSkeleton.
 - useGym().data.loggedDays is an array, not a Set. SegmentedField labels render as [label, ""].
@@ -85,4 +83,4 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
-- Jev is advisory only. Last signals: run 54%, ask 36%, confidence low. Prefer smaller tasks.
+- Jev is advisory only. Last signals: run 23%, ask 41%, confidence low. Prefer smaller tasks.

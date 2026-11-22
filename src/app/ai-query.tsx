@@ -107,7 +107,7 @@ export default function AIQueryScreen() {
                 {answer || t('aiQuery.unavailableMessage')}
               </Text>
             </View>
-          ) : answer ? (
+          ) : answer.trim() ? (
             <View style={{ gap: space.sm }}>
               {question ? (
                 <Text variant="footnote" color={color.secondaryLabel}>
