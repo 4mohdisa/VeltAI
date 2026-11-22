@@ -92,3 +92,18 @@ test('every key the card uses exists in en, es and fr', () => {
     }
   }
 });
+
+test('the most active day is shown as a Spanish weekday', () => {
+  mockBrain.profile = { ...PROFILE, gym_patterns: { most_active_day: 'Monday' } };
+  const text = allText(renderScreen(<BrainProfileCard />));
+
+  expect(text).toContain(es.insights.brainProfile.weekdays.monday);
+  expect(text).not.toContain('Monday');
+});
+
+test('the seven weekday keys exist in en, es and fr', () => {
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
+  for (const locale of [en, es, fr]) {
+    for (const day of days) expect(typeof locale.insights.brainProfile.weekdays[day]).toBe('string');
+  }
+});

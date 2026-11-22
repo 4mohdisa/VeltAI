@@ -674,7 +674,16 @@
       "hoursAgo_one": "il y a {{count}} heure",
       "hoursAgo_other": "il y a {{count}} heures",
       "daysAgo_one": "il y a {{count}} jour",
-      "daysAgo_other": "il y a {{count}} jours"
+      "daysAgo_other": "il y a {{count}} jours",
+      "weekdays": {
+        "monday": "lundi",
+        "tuesday": "mardi",
+        "wednesday": "mercredi",
+        "thursday": "jeudi",
+        "friday": "vendredi",
+        "saturday": "samedi",
+        "sunday": "dimanche"
+      }
     }
   }
 }

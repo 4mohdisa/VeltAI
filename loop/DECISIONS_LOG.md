@@ -8559,3 +8559,8 @@
 - 2026-11-22 18:57 Jev recommends run at 90%. Agreed; no reason to override.
 - 2026-11-22 18:57 The fixed 0.3 bar and api.ts errors stay out of this round. They are listed under NEXT.
 - 2026-11-22 18:57 New Spanish and French wording ships as written, consistent with the Row 13 to 15 default. Isa may review later.
+- 2026-11-22 19:00 Loop flagged round 131 as partly done, so this round finishes that card before InsightCard. Smallest task, and Jev's risk score is high.
+- 2026-11-22 19:00 Weekday names use a new insights.brainProfile.weekdays group, reusing no existing key, because no weekday key exists in the locale files.
+- 2026-11-22 19:00 Unknown weekday values pass through unchanged, so a server change cannot blank the value.
+- 2026-11-22 19:00 No snapshot is regenerated, per the standing rule. The new test checks text directly.
+- 2026-11-22 19:00 Notes trimmed to fit the 600-word limit. Parked items kept, grouped.

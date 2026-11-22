@@ -38,6 +38,14 @@ function readMostActiveDay(gp: Record<string, unknown> | null): string | null {
   return null;
 }
 
+const WEEKDAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
+
+// The server sends an English weekday; anything else is shown as sent.
+function weekdayLabel(t: TFunction, value: string): string {
+  const key = value.toLowerCase();
+  return (WEEKDAYS as readonly string[]).includes(key) ? t(`insights.brainProfile.weekdays.${key}`) : value;
+}
+
 function readScanPct(sp: Record<string, unknown> | null): number | null {
   if (!sp) return null;
   const pct = sp['overall_accuracy_pct'];
@@ -88,7 +96,7 @@ export function BrainProfileCard(props: { onAskLume?: () => void }): JSX.Element
     });
   }
   const activeDay = readMostActiveDay(profile.gym_patterns);
-  if (activeDay) rows.push({ label: t('insights.brainProfile.mostActiveDay'), value: activeDay });
+  if (activeDay) rows.push({ label: t('insights.brainProfile.mostActiveDay'), value: weekdayLabel(t, activeDay) });
   const scanPct = readScanPct(profile.scan_accuracy_profile);
   if (scanPct !== null) {
     rows.push({
