@@ -9330,3 +9330,8 @@
 - 2026-11-23 01:57 Jev said ask at 82%. Kept run. Reason: every open Isa question already has a recorded default, and the notes say do not re-ask. One more question this round would break the one-unanswered-round rule. Row 8 test gaps need no Isa input, so the loop can keep moving.
 - 2026-11-23 01:57 Chose Row 8 gaps over the Go checkpoint: they are the stated next step in the notes and need no database.
 - 2026-11-23 01:57 New test file only, no edits to existing tests or snapshots, per the standing rule.
+- 2026-11-23 01:58 Finish Row 8 first: the flagged report was only partly done, and the remaining gap is the tap-through test. It is small and needs nothing from Isa.
+- 2026-11-23 01:58 Keep analytics OFF by default in code, as already built. The brief said on, but the owner default is opt-in. Isa confirms before Phase 4. Recorded in PRIVACY_DATA.md.
+- 2026-11-23 01:58 Keep the AI disclosure (src/lib/ai/consent.ts) turning analytics on, unchanged. It is a Phase 4 file. Isa confirms before Phase 4.
+- 2026-11-23 01:58 Row 8 gaps need no Isa answer, so the 'no reply, use default' rule applies. Jev's ask (72%) is overridden for this reason.
+- 2026-11-23 01:58 Row 8 reaches BUILT with owner check pending once the render test passes. Row 8 is not EXACT, since no simulator flow exists.
