@@ -8958,3 +8958,8 @@
 - 2026-11-22 21:00 Round 199 checkpoint closes the partly-done flag: tsc 0 errors, 202 suites, 1210 tests, 4 snapshots, all passing.
 - 2026-11-22 21:00 Latest report and handover are stale on Row 8 step 2. The notes say the PostHog sink already exists, so no sink work is queued.
 - 2026-11-22 21:00 Crash opt-out stays parked: it changes the Privacy screen and needs Isa's approval first.
+- 2026-11-22 21:01 Chose the PRIVACY_DATA.md host line: it is the smallest task, needs no Isa answer, and is the NEXT item from the last report. Jev ranked run first with 82 percent, so no second look.
+- 2026-11-22 21:01 Treated the loop's partly done flag as closed by this task, since the host validation itself was already done and tested (15 of 15 sink tests pass).
+- 2026-11-22 21:01 Silent switch-off on a bad host stays as is (no logging, per the no-logging rule). Logged under Parked as a known support risk.
+- 2026-11-22 21:01 Row 9 stays blocked on E2E credentials for the heavy user check, but its backend route can still be built later with unit tests.
+- 2026-11-22 21:01 Full checkpoint suite not run this round; next checkpoint follows the normal schedule.

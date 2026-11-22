@@ -89,6 +89,8 @@ Extra fields beyond the table:
   across launches. Check on a device.
 - **`EXPO_PUBLIC_POSTHOG_HOST`**: when it is set and non-empty, events go to
   that host; when it is unset or empty, events go to the PostHog default US cloud.
+  When it is set but is not an https URL with a hostname, PostHog stays off:
+  no client is created and nothing is sent.
 - **Sign-out resets the PostHog identity**: `resetAnalytics()` in `src/lib/analytics.ts` calls `resetSink()` in `src/lib/analyticsSink.ts`, which calls the PostHog client `reset()`. With no `EXPO_PUBLIC_POSTHOG_KEY` there is no client, so nothing is sent.
 - **`trial_started`** is in the event list, but nothing in the app sends it.
 - **Crash reporting has no user opt-out**; it is controlled only by the DSN.

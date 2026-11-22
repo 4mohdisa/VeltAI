@@ -37,14 +37,14 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 7 BUILT (owner check pending: DSN, source maps, app.config plugin). No crash opt-out yet.
-- Row 8 PARTIAL: ALLOWED_EVENTS allowlist; analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY; host via EXPO_PUBLIC_POSTHOG_HOST; setSinkOptIn from flag listener; localised analytics switch; PostHog pinned 4.87.1; sign-out resets identity; PRIVACY_DATA.md host item updated.
+- Row 8 PARTIAL: ALLOWED_EVENTS allowlist; analyticsSink.ts behind EXPO_PUBLIC_POSTHOG_KEY; host via EXPO_PUBLIC_POSTHOG_HOST with https validation (round 200, 6 tests, 15 of 15 sink tests pass); setSinkOptIn from flag listener; localised analytics switch; PostHog pinned 4.87.1; sign-out resets identity.
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
 - Row 15 PARTIAL: headers BUILT on account, integrations, preferences, support, privacy, scan-calibration. Body copy remains.
 
 ## In progress
-- Row 8: validate EXPO_PUBLIC_POSTHOG_HOST as an https URL in analyticsSink.ts (round 200). Chosen over crash opt-out and Row 9 because it needs no Isa answer and Jev ranked it first.
+- Round 201: PRIVACY_DATA.md PostHog host line describing the https rule and the unset default.
 
 ## Next
 - Row 8: anonymous ID persistence (check on device); app version and build tags.
@@ -71,10 +71,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - InsightCard 120-character rule pinned by insightCard.i18n.render. Default kept.
 
 ## Parked (not Phase 3)
-getMorningBrief swallows errors (pinned); getProfile .catch hides errors; AnomalyBanner no Retry; banner count lacks _one; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; backend/scripts/seed_demo_account.go no host guard (fix or remove in Row 11); lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx 'Progress saved' and alert 'Save' English; Privacy screen English (policy and terms rows, AI processing, Your data, toasts); MacroBars unused and English; formatCalories always kcal; addMenu.voice, addMenu.describeOutLoud only in es; addMenu.snack; react-test-renderer deprecation warnings; freeze offline toast claims success on failure; Fibre VoiceOver key; insight type badge for unknown types; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers not formatted; crash exception messages may carry server text via ApiError; npm audit 48 vulnerabilities (1 critical) not investigated; trial_started in event list, never sent; events without a key still reach Lume backend when opted in; user opted in at launch relies on flag start, no end-to-end test; delete-account.tsx and subscription.tsx are Phase 4; no unit change feedback; crash reporting has no opt-out.
+getMorningBrief swallows errors (pinned); getProfile .catch hides errors; AnomalyBanner no Retry; banner count lacks _one; no anomalies endpoint; useBrainProfile no error state; Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci); 18 backend DB tests skipped without LUME_TEST_DATABASE_URL; useTemplates drops templates on refetch failure; date helpers use device locale; weekday letters and muscle names English; Ask Lume drops 503 message; backend/scripts/seed_demo_account.go no host guard (fix or remove in Row 11); lint in gymSchedule.ts, hooks.ts; stale headers in aiBrain.ts, gymSchedule.ts, i18n/index.ts; Session.tsx 'Progress saved' and alert 'Save' English; Privacy screen English (policy and terms rows, AI processing, Your data, toasts); MacroBars unused and English; formatCalories always kcal; addMenu.voice, addMenu.describeOutLoud only in es; addMenu.snack; react-test-renderer deprecation warnings; freeze offline toast claims success on failure; Fibre VoiceOver key; insight type badge for unknown types; nutrition ring unit spoken as abbreviation; week.tsx flat bars when all 0 kcal; BrainProfileCard numbers not formatted; crash exception messages may carry server text via ApiError; npm audit 48 vulnerabilities (1 critical) not investigated; trial_started in event list, never sent; events without a key still reach Lume backend when opted in; user opted in at launch relies on flag start, no end-to-end test; delete-account.tsx and subscription.tsx are Phase 4; no unit change feedback; crash reporting has no opt-out; bad PostHog host turns sink off silently (no log, by rule; hard to spot); host URL check tested only under Jest Node, not on React Native runtime.
 
 ## Loop note
 - Handover at round 187. Name files fully in prompts.
 - Round 199 checkpoint closed the partly-done flag with evidence.
-- Latest handover is stale on Row 8 step 2 (sink already exists).
+- Round 200 host validation done; the loop flagged the report as partly done; round 201 closes it with the doc line.
 - Every prompt starts with the branch rule.
