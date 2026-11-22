@@ -8841,3 +8841,13 @@
 - 2026-11-22 20:27 Deferred the Account Row 15 note to a later round to keep this prompt to one task.
 - 2026-11-22 20:27 Left integrations status unverified: notes say it is done, the handover says it is not. Claude Code must check the code before any change there.
 - 2026-11-22 20:27 Used the existing English 'Privacy' title key if present, to avoid duplicate keys (Identical text reuses existing keys).
+- 2026-11-22 20:29 Chose scan-calibration header: it is the last named profile header in the latest report and the smallest single-screen step.
+- 2026-11-22 20:29 Account note in PHASE3_ROWS.md moved to Next as its own one-line task so each prompt stays one task.
+- 2026-11-22 20:29 Integrations and preferences: notes and handover disagree, so verify in code before any change (carried to Next).
+- 2026-11-22 20:29 Privacy and Support body copy and the fr.json straight apostrophes are separate tasks, not bundled.
+- 2026-11-22 20:29 No checkpoint this round: the next full gate is round 203.
+- 2026-11-22 20:29 Previous prompt was rejected for not stating the loop/phase3 branch rule. Rewritten with an explicit branch rule and a .git/HEAD check before any edit.
+- 2026-11-22 20:29 Chose scan-calibration over integrations: it is the in-progress item in the notes and the latest report's NEXT. Integrations comes next.
+- 2026-11-22 20:29 Account Row 15 note is a documentation-only edit, so it goes after this screen to keep the prompt to one task.
+- 2026-11-22 20:29 Named the exact test file and mock pattern (privacyLocale.render) so the agent does not invent a new setup.
+- 2026-11-22 20:29 A broken existing test is backed out and reported, never edited, per the Phase 3 snapshot and test rules.
