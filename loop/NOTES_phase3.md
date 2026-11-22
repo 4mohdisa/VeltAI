@@ -9,15 +9,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Status (PHASE3_ROWS.md is source of truth; re-read each round)
 - BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12, 15, 16.
-- PARTIAL: 5 (part 2 needs credentials), 13, 14, 17.
+- Row 17: gaps 3, 4, 5 built. Gaps 1, 2, 6 are owner items. Status conflicts: last report says BUILT, older notes say PARTIAL. Verify against the file.
+- PARTIAL: 5 (part 2 needs credentials), 13, 14.
 - DIFFERENT or waiting: 6 (waits on Isa), 11 (final sweep, last).
-- Row 8 is BUILT but its notes hold capitalised PARTIAL words and partial items. Isa to check.
+- Row 8 notes hold capitalised status words and partial items. Lowercase them (docs only).
+- Last round was flagged: tsc or tests not run. Verify first.
 
 ## Next
-- Row 17 gap 5 (empty Ask Lume answer, ai-query.tsx) if the row still lists it as open.
-- Then Row 8 notes: lowercase the capitalised status words (docs only).
-- Then Row 14 items needing no src/lib/data change.
-- Row 6 waits on Isa. Row 11 final sweep last.
+1. Row 17 verify: tsc and the four gap 3-5 render tests.
+2. Row 8 notes: lowercase status words.
+3. Row 14 items needing no src/lib/data change.
+4. Row 6 waits on Isa. Row 11 final sweep last.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -56,19 +58,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Parked (not Phase 3)
 - Row 6: gym history list not virtualised. Options: per-row card pieces, list mode on Screen, or limit listSessions in hooks.ts (recommended).
-- Backend correctness: gym/schedule_pg.go:765-767 sorts exercise progress oldest first, then LIMIT 30, so newest entries are lost.
-- Backend perf: 49 queries use WHERE id::text = $1, skipping the id index. Needs DB-backed tests.
-- Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
-- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names.
-- Row 13 notes: 'Round 73' line sits before Round 80 entries. Order only, leave.
+- Backend: gym/schedule_pg.go:765-767 sorts progress oldest first, then LIMIT 30, losing newest. 49 queries use WHERE id::text = $1 (skips id index). 18 DB tests skipped without LUME_TEST_DATABASE_URL. getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; npm audit 48 vulns.
+- Row 8: feature_used accepts any short key; app_version or build could overwrite BUILD_TAGS.
+- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; English muscle and exercise names. Row 13 notes 'Round 73' line order: leave.
 - Row 15: useGoals loading and error states.
-- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: 503 text shows in the server's language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes saying the 503 waits on aiBrain.ts are wrong; it is done.
+- Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn lacks _one form.
+- Row 17: 503 text shows in server language. not_enough_data English in aiBrain.ts. aiBrain.ts:154 returns '' behind upgrade path (Phase 4). Stale notes saying 503 waits on aiBrain.ts are wrong; it is done.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg. useHydration logs via devWarn (hooks.ts:72).
 - Preferences: contentStyle gap 18 raw number. Repeat-visit skeleton flash.
 - nutrition.tsx spoken kcal label (needs detailChrome snapshot regenerated). Food list getItemLayout: measure first.
-- Backend: getMorningBrief swallows errors; getProfile .catch hides errors; no anomalies endpoint; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json. PRIVACY_DATA.md 'Allowlist test' bullet sits under Defaults.
 - Feedback: app_version carries build number; no tighter limit than 120/min; Support mail overlaps feedback.
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
@@ -85,5 +84,5 @@ All PHASE3_ROWS.md rows BUILT or EXACT, then stop. Branch loop/phase3 only. Agen
 
 ## Loop notes
 - Start every prompt from PHASE3_ROWS.md status, not from the last report or handover.
-- Last rejected prompt lacked the loop/phase3 branch rule. Every prompt must state it.
-- Jev is advisory only. Run 61%; last task 10% likely clean. Prefer smaller tasks. Verify the last task before moving on.
+- Every prompt must state the loop/phase3 branch rule.
+- Jev is advisory only. Run 66%; last task 12% likely clean. Prefer smaller tasks. Verify the last task before moving on.

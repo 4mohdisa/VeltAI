@@ -9511,3 +9511,7 @@
 - 2026-11-23 03:03 Deferred the Row 8 notes cleanup: it is a separate row and one row per prompt.
 - 2026-11-23 03:03 Kept Row 17 PARTIAL: gaps 1, 2 and 6 still need Isa's permission for src/lib/data.
 - 2026-11-23 03:03 Condensed the notes to stay under 600 words; decisions and blocked items kept in full meaning.
+- 2026-11-23 03:04 Chose the verification task first because the last round was flagged for a tsc or Jest run that did not happen, and the loop note says to deal with it before moving on.
+- 2026-11-23 03:04 Gap 5 is closed in ai-query.tsx and its tests; the loop task source is stale, so the next prompt does not mention it.
+- 2026-11-23 03:04 Row 17 status conflict (report says BUILT, old notes say PARTIAL): left to PHASE3_ROWS.md as the source of truth; the prompt reports it rather than changing it.
+- 2026-11-23 03:04 Trimmed these notes to keep them under 600 words; no decision or owner item was dropped.
