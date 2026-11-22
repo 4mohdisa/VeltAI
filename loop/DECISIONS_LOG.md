@@ -8126,3 +8126,6 @@
 - 2026-11-22 16:26 Chose the row 12 hook over Row 13 because it is the smallest step and finishes the last hook in row 12, which unblocks the row 14 screen work.
 - 2026-11-22 16:26 Empty name test included so the no-API-call path is covered and isError stays false there.
 - 2026-11-22 16:26 Full Jest checkpoint stays at round 30 as scheduled. Not run now.
+- 2026-11-22 16:27 Round 30 is the checkpoint the handover asked for (loop note: change no files, run tsc and full Jest). It also confirms the 7 hook tests added since round 15.
+- 2026-11-22 16:27 Row 12 close-out work waits one round, so a failure found now is not mixed with new edits.
+- 2026-11-22 16:27 Prompt forbids git, Prettier and backend or simulator runs, per the notes and the loop rules.
