@@ -1,47 +1,55 @@
 HANDOVER: Lume Phase 3, branch loop/phase3
 
 ROWS
-- Row 9 (Export my data) is BUILT. The owner check is pending: run the export on the seeded heavy user with a real sign-in.
-- Row 8 (analytics) is PARTIAL and Row 10 (help and feedback) is PARTIAL.
-- The Row 8 host item in PRIVACY_DATA.md has matched the code since round 204. The loop keeps resending it from an old copy; answer with "already matches".
+- BUILT: 1, 2, 3, 4, 7, 9, 10. Rows 9 and 10 still need owner checks.
+- PARTIAL: 5, 8, 12, 13, 14, 15.
+- DIFFERENT: 6, 11, 16, 17.
+- There is no separate copy-pass row. Copy work is logged in Row 15 ("Empty states: Goals and progress").
 
-BUILT
-- Row 9: GET /api/export already existed (backend/internal/auth/export.go). Added backend/internal/auth/export_test.go: 401, 429, and a real-database user A/B test (passed in round 211). Added an Export row to the main Settings list (src/app/profile/index.tsx) with test src/__tests__/render/settingsExport.render.test.tsx.
-- Row 10 backend: POST /api/feedback in backend/internal/feedback/ (validate.go, store.go, handler.go, feedback_test.go). Migration supabase/migrations/20261123000001_feedback.sql. Route registered in backend/cmd/server/main.go.
-- Row 10 screen: src/app/profile/feedback.tsx, api.feedback.post in src/lib/api.ts, feedback.* keys in en, es and fr. Test src/__tests__/render/feedback.render.test.tsx passes 7 of 7.
-- SettingsList now passes accessibilityHint through on link rows.
-
-IN PROGRESS
-Row 10 Settings row: nothing opens /profile/feedback yet.
+BUILT THIS SESSION
+- Row 10: feedback added to exportSections in backend/internal/auth/export.go. Help and feedback row placed after Export in src/app/profile/index.tsx and opens /profile/feedback; keys profile.helpAndFeedback and profile.helpAndFeedbackHint; test settingsHelp.render.test.tsx. Feedback section added to PRIVACY_DATA.md.
+- Row 15 copy:
+  - SettingsList destructive hint now reads settings.destructiveHint (test settingsDestructiveHint).
+  - Support screen strings moved to support.* keys (test supportCopy).
+  - Privacy Export row reuses settings.export* keys (test privacyExport).
+  - Privacy footer uses settings.dataFooter (test privacyBody).
+  - Round 234: the Units eyebrow was already translated, so no code change.
+  - Round 235: both Spanish 'Tus datos' eyebrows already go through t(), so no code change.
+- Locale files live in src/lib/i18n/locales/ (en, es, fr).
 
 LAST GATES
-Round 215: tsc 0 errors; Jest 203 suites and 1218 tests passing. Round 218 checked only tsc and the new tests.
+- Round 233 full Jest run: 209 suites and 1236 tests passed, 4 snapshots passed. tsc 0 errors.
+- Rounds 234 and 235 changed no code; their targeted tests pass.
+- Go: everything passed in round 220. The 20 real-database TestPG_* tests were skipped, because no local database was set up.
+
+IN PROGRESS
+Nothing.
 
 DECISIONS
-- Reuse before building. Export and debugreports already existed.
-- Test migrations only on throwaway databases (deploy/migrate.sh plus the auth setup from the backend/tests/food/days_pg_test.go header), then drop them. No local database is clearly Lume's.
-- Feedback uses the shared auth and limiter (write class, 120 a minute). No second limiter.
+- Check every prompt against the files first. Several prompts asked for work that was already done (the feedback row, the Units eyebrow). Report it and don't duplicate it.
+- Never edit existing tests. When an existing test blocks a change, back out the change and ask Isa.
+- Reuse existing keys when the text is identical or close, for example settings.exportError on Privacy.
+- Typed routes don't include /profile/feedback, so it needs the 'as Href' cast like the other rows in that file.
 
 WAITING ON ISA
-- Permission to add {"feedback", ownedRows("feedback")} to export.go. Without it, backend/tests/migrations TestExportCoversEveryUserTable fails. Round 217 was said to have added it; it did not.
-- Hosted feedback migration, which local database Lume uses, and the Row 9 owner check.
-- Privacy footer says "First-party only"; analytics on by default or opt-in; which device fields PostHog gets; feature_used strict list; PostHog key and EU host.
+- Permission to edit src/__tests__/render/privacyLocale.render.test.tsx line 56 (change the count to 0 for es and fr), so the Privacy "Your data" title can use t('settings.privacyEyebrow').
+- Spanish uses 'Tus datos' for both the Account and Privacy eyebrows; Isa to decide on the Account wording.
+- Wording to confirm: the Spanish and French Support copy, and the round 228 toast.
+- How long feedback is kept, the hosted feedback migration, which local database is Lume's, and the Row 9 and Row 10 owner checks.
 
 GOTCHAS
-- Run source ~/.nvm/nvm.sh && nvm use 22. No git, Prettier or Maestro. zsh rejects grep --include.
-- Local Postgres 17 is normally stopped. Start it with pg_ctl -D /opt/homebrew/var/postgresql@17 and stop it afterwards.
-- Profile render tests must mock StreakCounter (reanimated).
-- The loop's prompts often rely on stale facts; check them against the files first.
+- Run source ~/.nvm/nvm.sh && nvm use 22 first. No git, Prettier or Maestro.
+- zsh rejects grep --include.
+- PHASE3_ROWS.md is a table, so append notes inside the row's cell. A new line breaks the table.
+- Profile render tests must mock StreakCounter.
 
 UNFIXED
-- There are two Export rows: Privacy (hard-coded English) and the main Settings list. The Privacy one stays until the Row 15 copy pass.
-- Support has its own mail-based feedback box.
-- PRIVACY_DATA.md does not list feedback.
-- Export runs about 33 queries but counts as one read for rate limiting.
-- Export is shared as text, not a file.
-- A bad PostHog host turns PostHog off with no log line.
-- The feedback app_version is the version label with the build number ("1.4.0 (12)").
-- Destructive Settings rows have a hard-coded English hint.
+- The Privacy share-sheet subject is still hard-coded as 'Lume data export'.
+- There are two Export rows.
+- Support's mail feedback box overlaps the new feedback screen.
+- The feedback app version includes the build number.
+- The Row 10 notes from rounds 216 and 218 are out of date.
+- Not checked yet: straight apostrophes in fr.json, the goals spoken calorie label, Scan accuracy and Integrations body copy.
 
 NEXT
-Get the export.go approval, then add the Settings row for /profile/feedback.
+Check fr.json for straight apostrophes against the file, then the goals spoken calorie label.
