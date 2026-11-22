@@ -9340,3 +9340,8 @@
 - 2026-11-23 02:00 Continue on the AI disclosure keeps turning analytics on. Recorded for Isa to confirm before Phase 4, not asked now.
 - 2026-11-23 02:00 Did not ask Isa despite Jev 71% ask. Every open item has a default, and none blocks a remaining row.
 - 2026-11-23 02:00 Chose Row 12 because it is the smallest unbuilt task and needs nothing from Isa. Checkpoint runs after it.
+- 2026-11-23 02:01 Chose the full checkpoint: notes say it is due and it has not run since round 252. It is the cheapest task that clears a gate and needs nothing from Isa.
+- 2026-11-23 02:01 Did not ask Isa: all Blocked items have defaults in place and no row is blocked, so the Jev override applies.
+- 2026-11-23 02:01 Row 13 and 14 src/lib/data gaps (scan.ts network failure, foodDays error flag, gymRange English text, useGymPatterns refetch) are parked. The rule keeps src/lib/data off limits except api.ts insight catch blocks, and Isa has not approved the change.
+- 2026-11-23 02:01 Row 12 is BUILT: the useEnergyRange unit test (5 tests) passes. No hook change was needed.
+- 2026-11-23 02:01 Checkpoint prompt is gates only, with no code change, so the rule of one row per prompt is kept as far as possible.

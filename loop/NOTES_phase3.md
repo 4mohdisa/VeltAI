@@ -5,17 +5,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Commands and state
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. Run Jest from repo root. Jest pinned ~29.7.0, never upgrade. Maestro not installed.
-- Last full checkpoint was round 252 (tsc 0, Jest 225 suites, 1311 tests pass; Go 543 pass, 20 TestPG skipped). Full checkpoint due.
+- Last full checkpoint: round 252 (tsc 0, Jest 225 suites, 1311 tests pass; Go 543 pass, 20 TestPG skipped). Full checkpoint running now (round after 12).
 
 ## Status
-- BUILT: 1, 2, 3, 4, 7, 8, 9, 10 (owner checks pending on 3, 5 part 1, 7, 8, 9, 10).
-- PARTIAL: 5 (part 2 needs sign-in), 12, 13, 14, 15, 16, 17.
+- BUILT: 1, 2, 3, 4, 7, 8, 9, 10, 12 (owner checks pending on 3, 5 part 1, 7, 8, 9, 10).
+- PARTIAL: 5 (part 2 needs sign-in), 13, 14, 15, 16, 17.
 - DIFFERENT: 6 (parked until sign-in path), 11 (last).
 
 ## Next
-- Row 12: direct unit test for useEnergyRange.
-- Then Row 13 and 14 gaps, then full Jest and Go checkpoint (TestPG once a throwaway local DB is up).
-- Then Row 11.
+- Checkpoint gates (tsc, full Jest, Go). If green: Row 11 prep.
+- Rows 13 and 14 src/lib/data gaps stay parked until Isa approves.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -38,9 +37,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 14 picked over Row 13 (Jev 51%).
 - Never edit existing tests or snapshots without Isa. Broken existing test: back out and report.
 - Jev asks overridden when all Isa items have defaults and no row is blocked.
+- Rows 13 and 14 src/lib/data gaps parked: src/lib/data off limits, no approval yet.
 
 ## Blocked on Isa (defaults used, do not re-ask)
-- src/lib/data (hooks.ts, gymSchedule.ts, aiBrain.ts, gymRange.ts, useGymPatterns): search debounce flash, exercise picker failed read, Ask Lume 503 and not_enough_data copy, month summary, muscle Retry. Parked.
+- src/lib/data (hooks.ts, gymSchedule.ts, aiBrain.ts, gymRange.ts, useGymPatterns, scan.ts, foodDays.ts): search debounce flash, exercise picker failed read, Ask Lume 503 and not_enough_data copy, month summary, muscle Retry, barcode network failure, calendar error flag. Parked.
 - Existing tests needing permission: profileEmptyStates.render test 1; integrations.render.test.tsx:75; privacyLocale.render.test.tsx:55-56; detailChrome macros snapshot (backed out; nutrition spoken kcal waits); week.tsx snapshot regen; goals refetch in hooks.ts.
 - Session weight entry (gym/session.tsx, padWeight): kg-only or follow unit?
 - Keep as is: Integrations 'Nothing connected'; Privacy 'Your data' English; Spanish 'Tus datos'; feedback rows in backend/internal/auth/export.go; privacy footer 'First-party only' once key set.
@@ -54,8 +54,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}'. kJ spoken as 'kilojoules' needs a second key. es.json addMenu.voice and addMenu.describeOutLoud: keep or remove?
 
 ## Parked (not Phase 3)
-- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; no calendar loading indicator.
-- Row 14: three identical offline notices; weekday formatting uses device language; muscle names English data.
+- Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; no calendar loading indicator; three identical offline notices; weekday formatting uses device language; muscle names English data.
 - Row 16: repeat-visit skeleton flash for all-zero streak.
 - Dev-only Simulate scan and Unknown code buttons stay English. WeekStrip ', today' and Previous/Next week English.
 - Preferences kept in memory (src/lib/settings/store.ts). Not persisted.
