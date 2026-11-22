@@ -8,7 +8,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Round 187 checkpoint PASSED: tsc 0; Jest 198 suites, 1190 tests, 4 snapshots.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - zsh rejects grep --include. API client: src/lib/api.ts (no src/lib/data/api.ts).
-- Prompts must name loop/phase3 and check .git/HEAD first (round rejected for missing this).
+- Prompts must name loop/phase3 and check .git/HEAD first.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -26,7 +26,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Visible bracket labels stay. Only spoken labels change.
 - Jest mock factories reference only mock* variables.
 - Spanish uses tu, French uses vous, as elsewhere in the app.
-- Row 15 copy tail deferred until after Row 10.
+- Row 15 copy tail deferred until after Row 10 (Jev ranked it first on round 188; kept Row 8 for this reason).
 - One screen per prompt.
 
 ## Done
@@ -35,16 +35,16 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Goals eyebrow, support, privacy, scan-calibration, integrations header and eyebrow, Account (eyebrow, title, Save). Account line added to PHASE3_ROWS.md.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Goals eyebrow, support, privacy, scan-calibration, Integrations (title and eyebrow already done), Account (eyebrow, title, Save).
 
 ## In progress
-- Row 15: localise profile/integrations.tsx title and eyebrow (prompt sent this round).
+- Row 8 step 1: analytics wrapper src/lib/analytics.ts with allowlist and tests (prompt sent this round).
 
 ## Next
-- Row 15 tail: preferences eyebrow 'Units'; fr.json straight apostrophes; Privacy and Support body copy; Scan accuracy body; goals spoken calorie label, hard-coded g, % and comma join; Spanish 'Tus datos' for Account and Privacy eyebrows.
-- Row 8: analytics wrapper src/lib/analytics.ts, allowlist, Settings switch, PRIVACY_DATA.md.
+- Row 8 step 2: env var reader, Settings switch, PRIVACY_DATA.md, PostHog install if needed.
 - Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
 - Row 10: Help and feedback (screen, feedback table locally, rate limit).
+- Row 15 tail (after Row 10): Spanish 'Tus datos' for Account and Privacy eyebrows; fr.json straight apostrophes; preferences eyebrow 'Units'; Privacy and Support body copy; Scan accuracy body; goals spoken calorie label, hard-coded g, % and comma join; integrations body copy.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
 - Row 6 measurements parked until sign in path exists.
 

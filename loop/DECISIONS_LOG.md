@@ -8881,3 +8881,8 @@
 - 2026-11-22 20:37 Folded the Account Row 15 note into the same round's PHASE3_ROWS.md line, because it is part of the same row.
 - 2026-11-22 20:37 Kept Row 15 PARTIAL: the tail (preferences eyebrow, fr apostrophes, Privacy and Support body copy, Scan accuracy) is still open.
 - 2026-11-22 20:37 Used existing keys where the English text is identical, to avoid duplicate keys.
+- 2026-11-22 20:38 Kept Row 8 over the Jev pick (Row 15 tail). Reason: the notes already defer the Row 15 copy tail until after Row 10, so it is not due. Row 8 is the largest unbuilt row, and Rows 9 and 10 need its Settings switch.
+- 2026-11-22 20:38 Row 8 split into two rounds: wrapper and tests first, then the env var reader, Settings switch, PRIVACY_DATA.md. Smaller task, lower risk.
+- 2026-11-22 20:38 No PostHog install this round. The wrapper uses an injected no-op sink, so tests and dev builds send nothing.
+- 2026-11-22 20:38 Row 15 integrations line removed from Next: the title and eyebrow were already localised and tested, so no code change was needed.
+- 2026-11-22 20:38 Account Row 15 line recorded as done.
