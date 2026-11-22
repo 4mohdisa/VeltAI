@@ -9080,3 +9080,6 @@
 - 2026-11-23 00:15 Support mail box stays as a contact link, not a feedback store, to avoid changing a screen outside Row 10; overlap parked.
 - 2026-11-23 00:15 Jev ranked the Row 15 hint fix higher for clearing a hard-coded English string; kept Row 10 because it is the smaller step and the status is closer to BUILT.
 - 2026-11-23 00:15 Feedback retention stays with Isa under Blocked; no code change proposed.
+- 2026-11-23 00:16 Chose the verification run because the loop flagged the last report for tests not run; settingsHelp.render.test.tsx is the only test covering the new Settings row and it was not rerun in round 224.
+- 2026-11-23 00:16 No code change: the report says the Settings row is correct, so only the gate is needed.
+- 2026-11-23 00:16 Simulator owner check stays pending because Maestro is not installed (notes rule).
