@@ -8109,3 +8109,12 @@
 - 2026-11-22 16:22 Full Jest checkpoint stays at round 30, so this round runs only the four gymSchedule test files.
 - 2026-11-22 16:22 Row 12 stays PARTIAL until all hooks report isError.
 - 2026-11-22 16:22 Known lint errors at gymSchedule.ts:41,43 stay for Row 11, as the brief allows, unless this round changes those lines.
+- 2026-11-22 16:23 Chose the re-verify task over useExercises. The notes rule says a flagged report is re-verified as its own round. The useSchedule change is unverified against the full suite, and the last full run was before the useApi work.
+- 2026-11-22 16:23 Jev ranked useExercises first at 96%. I am keeping my pick for the reason above, which Jev cannot see: the rule on flagged reports.
+- 2026-11-22 16:23 Kept Row 12 PARTIAL. Only useExercises, useGymPatterns and useExerciseProgress remain.
+- 2026-11-22 16:23 Did not fix the known lint errors at gymSchedule.ts:41,43 or hooks.ts:395. They are logged for Row 11.
+- 2026-11-22 16:23 Analytics default stays as set in the brief (on, with an off switch). Store default conflict is still waiting for Isa.
+- 2026-11-22 16:23 Re-issued round 27 as the same row (useExercises), because the last prompt was rejected for missing the loop/phase3 branch rule. Not a new task.
+- 2026-11-22 16:23 Kept useExercises as the next hook, since it is the smallest step in Row 12 and needs no screen changes.
+- 2026-11-22 16:23 Kept the shared harness rule (readHook from helpers) so no third harness copy is added.
+- 2026-11-22 16:23 Kept the known lint errors at gymSchedule.ts 41 and 43 as allowed until Row 11, since the brief says not to fix new things in a hook round.

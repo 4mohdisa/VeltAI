@@ -5,13 +5,14 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 
 ## State
 - Phase 1 and 2 merged into main (b096ed3). Work on branch loop/phase3 only.
-- Baseline (Node 22.23.5): tsc 0 errors; app Jest 135/135 suites, 993 tests pass; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details in loop/BASELINE_phase3.md.
-- Latest checkpoint (round 15): tsc 0 errors; app Jest 136 suites, 995 tests pass, 0 skipped. Next checkpoint round 30.
+- Baseline (Node 22.23.5): tsc 0 errors; app Jest 135/135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL). Details in loop/BASELINE_phase3.md.
+- Latest checkpoint (round 15): tsc 0; app Jest 136 suites, 995 tests pass, 0 skipped. Full suite NOT run since. Next checkpoint round 30.
 - Jest pinned to ~29.7.0. Do not upgrade.
-- Node 22 is the target. Default shell Node is 24, so use nvm use 22.
-- App runs against LOCAL backend (Colima Postgres at 127.0.0.1:55432). 47 Phase 2 rows BUILT with owner check pending.
+- Node 22 is the target. Use nvm use 22 before every command.
+- App runs against LOCAL backend (Colima Postgres 127.0.0.1:55432). 47 Phase 2 rows BUILT with owner check pending.
 - Not ours, do not touch: loop/DECISIONS_LOG.md, loop/NOTES_phase3.md.
-- Open check: package-lock.json does not record the engines field. Check in Row 11.
+- Open check: package-lock.json does not record engines. Check in Row 11.
+- Prompts must say: work only on loop/phase3, no git commands, no Prettier.
 
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
@@ -32,21 +33,22 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Unanswered question means use default and carry on. Do not re-ask the same question.
 - Agent must not run git commands (reminded in every prompt).
 - No formatter config in repo. Do not run Prettier on files.
-- Shared useApi test harness: src/__tests__/helpers/useApiHarness.ts (round 24). Row 11 moves the last copy.
+- Shared useApi test harness: src/__tests__/helpers/useApiHarness.ts. Row 11 moves the last copy.
 
 ## Done
-- Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows.
+- Round 1: Task 1 (row list). PHASE3_ROWS.md created, 11 rows (later extended to 17).
 - Round 2: Row 1 (Node 22) BUILT.
 - Round 4: Row 2 (baseline gates) BUILT.
 - Rounds 5 and 6: Row 3 BUILT with owner check pending.
 - Round 7: Row 4 audit in EMPTY_STATES_AUDIT.md. Rows 12 to 17 added (DIFFERENT).
 - Rounds 8 to 10: Row 4 re-verified, BUILT (audit only).
-- Round 11 to 13: Row 5 part 1 BUILT with owner check pending (Maestro part parked).
+- Rounds 11 to 13: Row 5 part 1 BUILT with owner check pending (Maestro part parked).
 - Round 13: Row 12 partial. useHydration resets loading on Food day switch.
 - Rounds 17 to 22: useApi exported and returns isError; useToday returns isError; tests added.
-- Round 23: prompt rejected (missing branch rule). Not run.
-- Round 24: useTemplates returns isError; harness moved to helpers; useTemplates test added. Verified: tsc 0, 3 suites and 10 tests pass.
-- Round 25 (issued): useSchedule returns isError, with a shared-harness test.
+- Round 24: useTemplates returns isError; harness moved to helpers; test added.
+- Round 25: useSchedule returns isError with shared-harness test.
+- Round 26: re-verify of round 25 PASSED. tsc 0, 4 suites and 12 tests green. Only known lint errors at gymSchedule.ts 41 and 43.
+- Round 27: prompt (useExercises) rejected for missing branch rule. Re-issued.
 
 ## Blocked on Isa
 - Row 5 part 2 (Maestro on seeded users): needs E2E_EMAIL and E2E_PASSWORD. Blocks Row 6 heavy-user simulator checks and Row 9 export test on seeded heavy user. Asked rounds 12 and 13, no answer. Parked. Not asking again.
@@ -66,16 +68,15 @@ Polish and quality before Phase 4. Progress is counted from PHASE3_ROWS.md in th
 - Old local rows mix 'lunch' and 'Lunch'. Old data, not from the seed.
 - Lint: useWeeklyMacros (src/lib/data/hooks.ts ~395) set-state-in-effect. Row 11 or park.
 - Lint: gymSchedule.ts lines 41 and 43 write refs during render (react-hooks/refs). Row 11 or park.
+- Both gymSchedule test files use react-test-renderer, which prints a deprecation console error. Park.
 - Food log copy: 'Tap + to add your first meal' shows on past days too. Row 13.
 - gymSchedule.ts header says hooks degrade to empty/null. Update after all hooks report errors (Row 11).
-- Both gymSchedule test files use react-test-renderer, which prints a deprecation console error. Park.
-- The revalidate test file still has its own useApi harness copy. Row 11.
-- Row 12: useHydration other callers not yet verified. Covered by checkpoint, which passed.
+- gymSchedule.revalidate.test.ts still has its own useApi harness copy. Row 11.
 - No screen reads isError yet: My workouts shows 'No workouts yet' on fetch failure. Row 14.
 
 ## Next
-- Round 25 (issued): Row 12, useSchedule returns isError.
-- Row 12 remaining hooks, one per round: useExercises, useGymPatterns, useExerciseProgress.
+- Round 27 (re-issued): Row 12, useExercises returns isError with a shared-harness test.
+- Then Row 12 remaining hooks, one per round: useGymPatterns, useExerciseProgress.
 - Round 30: full app Jest checkpoint and tsc.
 - Row 13: Food tab empty state tests (Add meal opens /food/add, hidden when entries exist).
 - Rows 14 to 17 (empty state follow-ups).

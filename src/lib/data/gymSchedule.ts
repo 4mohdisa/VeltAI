@@ -130,12 +130,13 @@ export function useTemplates(): {
 export function useExercises(filters?: ExerciseFilters): {
   exercises: ExerciseLibraryItem[];
   loading: boolean;
+  isError: boolean;
 } {
   // Serialize the filter object into the dependency list so the fetch re-runs
   // when the caller changes category/search.
   const key = JSON.stringify(filters ?? {});
-  const { data, loading } = useApi<ExerciseLibraryItem[]>(() => api.gym.getExercises(filters), [], [key]);
-  return { exercises: data, loading };
+  const { data, loading, isError } = useApi<ExerciseLibraryItem[]>(() => api.gym.getExercises(filters), [], [key]);
+  return { exercises: data, loading, isError };
 }
 
 export function useGymPatterns(): { patterns: GymPatterns | null; loading: boolean } {
