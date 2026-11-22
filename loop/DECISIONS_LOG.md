@@ -9159,3 +9159,7 @@
 - 2026-11-23 00:39 Kept kJ spoken as the abbreviation until Isa answers, since a kilojoule word needs a new key he has not approved.
 - 2026-11-23 00:39 Added a new test file instead of editing the existing goals tests, per the never edit existing tests rule.
 - 2026-11-23 00:39 Parked food.tsx and dashboard/nutrition.tsx kcal labels, since they are outside the row and need their own row.
+- 2026-11-23 00:40 Round 241 goals spoken calorie label accepted as closed (tsc 0, four suites pass, mutation check fails as expected). No further action on it.
+- 2026-11-23 00:40 Chose Scan accuracy over Integrations: the notes order it next and it is a single screen. Integrations follows.
+- 2026-11-23 00:40 Screen file for Scan accuracy is not named in the notes, so Claude Code locates it by search and reports the path. Only one screen file may be edited.
+- 2026-11-23 00:40 Jev ranked Run at 94% and a small task fits its low confidence on risk (0.9). Kept the chosen task and no question was needed.

@@ -1,16 +1,17 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen or component per prompt. Say built, never verified on a device. Every prompt must state the loop/phase3-only rule.
+All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never run git, Prettier or Maestro. One row and one screen or component per prompt. Say built, never verified on a device. Every prompt states the loop/phase3-only rule.
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail. zsh rejects grep --include.
-- Last checkpoint round 236: tsc 0; Jest 209 suites, 1236 tests, 4 snapshots pass. Go round 220: 637 pass, 20 TestPG skipped.
+- Last checkpoint round 236: tsc 0; Jest 209 suites, 1236 tests, 4 snapshots. Go round 220: 637 pass, 20 TestPG skipped.
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Local Postgres 17 normally stopped: pg_ctl -D /opt/homebrew/var/postgresql@17; stop after.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
 - PHASE3_ROWS.md is a table: append notes inside the row cell, never as a new line.
 - Profile render tests must mock StreakCounter.
+- Checkpoint rounds change no files.
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -30,9 +31,10 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 8 feature_used keeps shapeOnly() until Isa approves.
 - Row 9 export: GET /api/export, same auth and limiter as analytics, Share API, ungated by subscription.
 - Row 10: feedback shares the 120/min write limit. Migration not applied to any local DB. Device fields only when switch on (default off). Typed routes need 'as Href' for /profile/feedback.
-- Checkpoint rounds change no files.
 - Round 239: guillemet fix in foodLog.noMatches accepted.
-- Round 240: goals spoken calorie label added (goals.caloriesSpoken, en/es/fr). kJ keeps abbreviation until Isa answers.
+- Round 240: goals spoken calorie label added. kJ keeps abbreviation until Isa answers.
+- Round 241: goals spoken calorie label CLOSED (tsc 0, tests pass, mutation check done).
+- Round 242: chose Scan accuracy copy as next task (Row 15), screen found by search.
 
 ## Done
 - Rows 1 to 4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
@@ -43,11 +45,11 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: headers, Privacy Export row, footers, support keys, destructive hint, French punctuation and apostrophes, goals spoken calorie label (round 240, verification round 241).
+- Row 15 PARTIAL: headers, Privacy Export row, footers, support keys, destructive hint, French punctuation, goals label done.
 
 ## Next
-- Round 241: verify and test goals spoken calorie label (flagged partial).
-- Then Row 15: Scan accuracy body copy, then Integrations body copy.
+- Row 15: Scan accuracy body copy (in progress, round 242).
+- Then Row 15: Integrations body copy.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* in backend/tests and export_test.go once a throwaway local DB is up.
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, fix or remove backend/scripts/seed_demo_account.go (no host guard).
@@ -69,7 +71,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Owner checks: Food tab offline banner; Row 10 simulator flow; Row 9 export on heavy user.
 - Confirm Spanish 'Escribir a soporte' and French 'Ecrire a l'assistance'.
 - Confirm Privacy export error toast English wording.
-- kJ spoken as a word ('kilojoules'): needs a second key. Default: abbreviation.
+- kJ spoken as 'kilojoules': needs a second key. Default: abbreviation.
 
 ## Parked (not Phase 3)
 - Backend: getMorningBrief swallows errors; getProfile .catch hides errors; useBrainProfile no error state; no anomalies endpoint; AnomalyBanner no Retry; 18 DB tests skipped without LUME_TEST_DATABASE_URL; npm audit 48 vulns (1 critical); Jest drift node_modules 30.0.5 vs 29.7.0 (fix with npm ci).

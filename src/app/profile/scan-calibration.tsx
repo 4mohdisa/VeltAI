@@ -3,7 +3,7 @@
 // an accuracy score derived from the average correction magnitude, the per-food
 // multipliers Lume has learned, and which foods it tends to under/over-estimate.
 // Best-effort + offline-safe: a failed fetch degrades to an educational empty
-// state, never a crash. Literal English copy here to keep the shared en.json lean.
+// state, never a crash. Copy reads from the settings.scanCalibration locale keys.
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -74,6 +74,7 @@ export default function ScanCalibrationScreen() {
 }
 
 function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean }) {
+  const { t } = useTranslation();
   const summary = data?.accuracy_summary;
   const learned = (data?.factors ?? []).filter((f) => f.sample_count >= 3);
   const hasNothing = !summary || (learned.length === 0 && summary.corrected_count === 0);
@@ -82,8 +83,8 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
     return (
       <EmptyState
         icon="camera"
-        title="No scans yet"
-        message="Log your first photo scan to start teaching Lume your portion sizes."
+        title={t('settings.scanCalibration.emptyTitle')}
+        message={t('settings.scanCalibration.emptyMessage')}
       />
     );
   }
@@ -100,11 +101,11 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
           (UI_PASS_GAPS.md). */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
-          <CardHeaderRow title="Accuracy score" icon="camera" tint={categoryAccent.positive} />
-          <Text variant="statLarge" color={color.label}>{`${Math.round(score * 100)}%`}</Text>
+          <CardHeaderRow title={t('settings.scanCalibration.scoreTitle')} icon="camera" tint={categoryAccent.positive} />
+          <Text variant="statLarge" color={color.label}>{t('settings.scanCalibration.percent', { value: Math.round(score * 100) })}</Text>
           <ProgressBar value={score} tint={categoryAccent.positive} track={color.light2} />
           <Text variant="footnote" color={color.secondaryLabel}>
-            Lume is learning your portions
+            {t('settings.scanCalibration.learning')}
           </Text>
         </View>
       </Card>
@@ -112,34 +113,34 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
       {/* Stat tiles */}
       <View style={{ flexDirection: 'row', gap: space.sm }}>
         <Card variant="elevated" style={{ flex: 1, padding: space.lg }}>
-          <Stat value={summary.total_scans} label="Scans logged" size="small" />
+          <Stat value={summary.total_scans} label={t('settings.scanCalibration.scansLogged')} size="small" />
         </Card>
         <Card variant="elevated" style={{ flex: 1, padding: space.lg }}>
           <Stat
             value={summary.corrected_count}
-            label="You corrected"
+            label={t('settings.scanCalibration.youCorrected')}
             size="small"
             valueColor={categoryAccent.calories}
           />
         </Card>
         <Card variant="elevated" style={{ flex: 1, padding: space.lg }}>
-          <Stat value={`${correctedPct}%`} label="Of your scans" size="small" />
+          <Stat value={t('settings.scanCalibration.percent', { value: correctedPct })} label={t('settings.scanCalibration.ofYourScans')} size="small" />
         </Card>
       </View>
 
       {/* Foods we've learned */}
       {learned.length > 0 ? (
         <View style={{ gap: space.md }}>
-          <SectionLabel>Foods we&apos;ve learned</SectionLabel>
+          <SectionLabel>{t('settings.scanCalibration.learnedTitle')}</SectionLabel>
           <Card variant="elevated">
             <View style={{ gap: space.lg }}>
               {learned.map((f) => {
                 const pct = Math.round((f.multiplier - 1) * 100);
-                const adj = pct >= 0 ? `+${pct}%` : `−${Math.abs(pct)}%`;
+                const adjustment = t('settings.scanCalibration.percent', { value: pct >= 0 ? `+${pct}` : `−${Math.abs(pct)}` });
                 return (
                   <View key={f.food_name} style={{ gap: space.xs }}>
-                    <Text variant="body" color={color.label}>{`${f.food_name} — We adjust by ${adj}`}</Text>
-                    <Text variant="footnote" color={color.secondaryLabel}>{`Based on ${f.sample_count} corrections`}</Text>
+                    <Text variant="body" color={color.label}>{t('settings.scanCalibration.adjustBy', { food: f.food_name, adjustment })}</Text>
+                    <Text variant="footnote" color={color.secondaryLabel}>{t('settings.scanCalibration.basedOn', { count: f.sample_count })}</Text>
                   </View>
                 );
               })}
@@ -151,17 +152,17 @@ function Body({ data, failed }: { data: ScanCalibration | null; failed: boolean 
       {/* Most corrected */}
       {under.length > 0 || over.length > 0 ? (
         <View style={{ gap: space.md }}>
-          <SectionLabel>Most corrected</SectionLabel>
+          <SectionLabel>{t('settings.scanCalibration.mostCorrected')}</SectionLabel>
           <Card variant="elevated">
             <View style={{ gap: space.md }}>
               {under.map((name) => (
                 <Text key={`u-${name}`} variant="body" color={color.label}>
-                  {`You usually eat more ${name} than we estimate`}
+                  {t('settings.scanCalibration.eatMore', { food: name })}
                 </Text>
               ))}
               {over.map((name) => (
                 <Text key={`o-${name}`} variant="body" color={color.label}>
-                  {`You usually eat less ${name} than we estimate`}
+                  {t('settings.scanCalibration.eatLess', { food: name })}
                 </Text>
               ))}
             </View>
