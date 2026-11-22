@@ -1,6 +1,7 @@
 // ErrorState (F8) — plain-language error + a Retry button. (In production Sentry
 // captures the underlying error silently; here it is presentational.)
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { Button } from '@/components/forms/Button';
@@ -16,12 +17,13 @@ export type ErrorStateProps = {
 };
 
 export function ErrorState({
-  title = 'Something went wrong',
-  message = 'We hit a snag loading this. Please try again.',
+  title,
+  message,
   onRetry,
-  retryLabel = 'Retry',
+  retryLabel,
   testID,
 }: ErrorStateProps) {
+  const { t } = useTranslation();
   return (
     <View
       testID={testID}
@@ -29,14 +31,14 @@ export function ErrorState({
     >
       <Icon name="alert-circle-outline" size={40} color={color.black} />
       <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-        {title}
+        {title ?? t('errorState.title')}
       </Text>
       <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
-        {message}
+        {message ?? t('errorState.message')}
       </Text>
       {onRetry ? (
         <View style={{ marginTop: space.sm }}>
-          <Button title={retryLabel} onPress={onRetry} variant="secondary" fullWidth={false} icon="refresh" />
+          <Button title={retryLabel ?? t('errorState.retry')} onPress={onRetry} variant="secondary" fullWidth={false} icon="refresh" />
         </View>
       ) : null}
     </View>

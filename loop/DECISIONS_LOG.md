@@ -8146,3 +8146,7 @@
 - 2026-11-22 16:30 Treated the flagged report as a partial row whose caller is now broken, so fixing the caller is the next round, not a separate re-verify round.
 - 2026-11-22 16:30 Limited the prompt to useInsights and its test: smallest change that closes the regression.
 - 2026-11-22 16:30 Kept the Food tab banner out of scope: reading isError there is a later row.
+- 2026-11-22 16:32 Flagged report on PARTIAL row 12 with checks passed: no separate re-verify round, per the standing rule. Continue with the next open item (ErrorState copy).
+- 2026-11-22 16:32 Picked ErrorState before PendingSyncBanner: one component per round, and it is the first open item in the report's NEXT list.
+- 2026-11-22 16:32 Deferred aiBrain.ts header comment and the useInsights test mocks: they are harmless and not on the row 12 copy list. Listed under Parked.
+- 2026-11-22 16:32 Prompt names the component by grep, not by path, because the exact file path is not confirmed in the notes. Claude Code must report the path it found.

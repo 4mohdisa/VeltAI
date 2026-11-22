@@ -433,5 +433,10 @@
     "closeMenu": "Cerrar menú",
     "add": "Añadir",
     "addHint": "Registra una sesión de gym o un registro de comida"
+  },
+  "errorState": {
+    "title": "Algo salió mal",
+    "message": "Tuvimos un problema al cargar esto. Inténtalo de nuevo.",
+    "retry": "Reintentar"
   }
 }

@@ -431,5 +431,10 @@
     "closeMenu": "Fermer le menu",
     "add": "Ajouter",
     "addHint": "Enregistrer une séance de sport ou un repas"
+  },
+  "errorState": {
+    "title": "Une erreur s’est produite",
+    "message": "Nous n’avons pas pu charger ceci. Veuillez réessayer.",
+    "retry": "Réessayer"
   }
 }
