@@ -9345,3 +9345,12 @@
 - 2026-11-23 02:01 Row 13 and 14 src/lib/data gaps (scan.ts network failure, foodDays error flag, gymRange English text, useGymPatterns refetch) are parked. The rule keeps src/lib/data off limits except api.ts insight catch blocks, and Isa has not approved the change.
 - 2026-11-23 02:01 Row 12 is BUILT: the useEnergyRange unit test (5 tests) passes. No hook change was needed.
 - 2026-11-23 02:01 Checkpoint prompt is gates only, with no code change, so the rule of one row per prompt is kept as far as possible.
+- 2026-11-23 02:03 Overrode Jev's 83% ask. Reason: all Isa items already have defaults, and no row is blocked (Row 11 is last and needs the others first). Per the standing rule, the loop does not stop on Jev's ask.
+- 2026-11-23 02:03 Accepted the new Jest baseline of 228 suites and 1322 tests. The difference is exactly the three test files added after checkpoint round 252 (analyticsGaps, privacyAnalytics render, energyRange). Nothing failed. Recorded so Isa can object.
+- 2026-11-23 02:03 Chose row 8 first because the notes list it as BUILT while the handover lists it as PARTIAL. Checking it before more work clears the conflict at the lowest cost.
+- 2026-11-23 02:03 Row 8 close-out does not touch the analytics switch default (off in code, brief said on). That stays in Blocked on Isa.
+- 2026-11-23 02:04 Jev ask (82%) overridden: every Isa item has a default, no row is blocked, and the question about the 228/1322 Jest baseline is already accepted in the notes. Isa may still object.
+- 2026-11-23 02:04 Chose run for row 8: it is read only, costs little, and resolves the open status conflict (notes said BUILT, handover said PARTIAL). Jev cannot see that conflict.
+- 2026-11-23 02:04 Rewritten prompt now states the loop/phase3 branch rule first, forbids all git commands, and forbids branch switches and pushes.
+- 2026-11-23 02:04 Only the two row 8 test files are run, plus the type check, to keep the check small. The full suite waits for the next checkpoint.
+- 2026-11-23 02:04 Jest 228 suites / 1322 tests accepted as the new baseline, the three extra files explained in the report.
