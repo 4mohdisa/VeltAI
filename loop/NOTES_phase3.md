@@ -9,20 +9,20 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 
 ## Status (PHASE3_ROWS.md is the source of truth)
 - BUILT: 1, 2, 3, 4, 7, 8 (owner check pending), 9, 10 (owner checks pending), 12, 15, 16.
-- PARTIAL: 5, 13, 14, 17.
-- DIFFERENT: 6, 11.
+- PARTIAL: 5, 13, 14, 17, 6 (step 1 audit written).
+- DIFFERENT: 11.
 
 ## Next
-- Row 17 gap 4 (503 message): code done. Verify it, fix stale note in PHASE3_ROWS.md.
-- Row 17 gap 5: empty Ask Lume answer renders nothing. Screen only (in progress).
+- Row 6 step 2: fixes, one hotspot per row, before and after numbers when a simulator is available. Budgets and hotspots live in PERF_BASELINE.md.
+- Row 17 gap 5 done (screen only, not device checked). Gap 4 done (screen only, not device checked). Gaps 1, 2, 6 wait on Isa.
 - Row 11 final sweep last, after status check.
 
 ## Row 17 gaps
 1 and 2: food and recipe search flash 'No matches' during debounce (hooks.ts, blocked on Isa).
 3: ExercisePicker failed load shows LoadFailedNotice, no Retry (built).
-4: Ask Lume 503 message shows ask() text (built, not device checked).
-5: Ask Lume empty answer (screen only, in progress).
-6: Ask Lume English replies in aiBrain.ts (blocked on Isa).
+4: Ask Lume 503 message shows ask() text (built, screen only, not device checked).
+5: Ask Lume empty answer shows aiQueryAnswer.empty (built, screen only, not device checked).
+6: not_enough_data and consent replies are English in aiBrain.ts (blocked on Isa).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -45,6 +45,8 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Preferences kept in memory, not persisted.
 - Row 15: no empty state (useGoals always returns numbers).
 - Export: two exportData functions exist; remove one only if Isa decides.
+- Row 6 hotspots go to PERF_BASELINE.md, not new PHASE3_ROWS.md rows (file stays 22 lines).
+- Row 6 step 1 chosen over Row 17 gap 6 (gap 6 needs src/lib/data, blocked).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - src/lib/data: scan.ts network vs 'Product not found'; foodDays.ts error flag; gymRange.ts month '0 sessions' English; gymSchedule.ts refetch for useGymPatterns; useGoals drops isLoading, error, refetch. Parked.
@@ -57,16 +59,16 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Device maker, model, OS to PostHog: default not sent.
 - Row 5 part 2 needs E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
 - Owner checks: Food tab offline banner; Row 8 analytics switch; Row 10 simulator flow; Row 9 export on heavy user.
-- Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud keep or remove.
+- Confirm wording: es 'Escribir a soporte', fr 'Ecrire a l'assistance', export error toast, Scan and Integrations es/fr, Profile error, exercise picker Abdomen/Abdos, fr 'plus de {{food}}', kJ 'kilojoules', es addMenu.voice and addMenu.describeOutLoud keep or remove. Review of all new es and fr wording, including aiQueryAnswer.empty.
 - Waiting: useGoals isLoading, error, refetch (Goals loading and failed states).
-- Review of all new es and fr wording.
+- Waiting: Row 17 gaps 1, 2, 6 (src/lib/data).
 
 ## Parked (not Phase 3)
 - Row 8: feature_used accepts any short key; app_version or build would overwrite BUILD_TAGS.
 - Row 13/14: barcode 'Product not found' on network failure; calendar empty month on load failure; three identical offline notices; weekday formatting uses device language; muscle and exercise names English data; WeekStrip ', today' and Previous/Next week English.
 - Row 15: useGoals loading and error states.
 - Row 16: Integrations failed load plus 'Nothing connected' together. scanCalibration.basedOn has no _one form.
-- Row 17: The 503 text shows in whatever language the server sends.
+- Row 17: The 503 text shows in whatever language the server sends. not_enough_data English in aiBrain.ts. aiBrain.ts:154 upgrade-required path returns '' without marking unavailable (now shows empty copy behind paywall); Phase 4 subscriptions.
 - Dev-only Simulate scan and Unknown code buttons stay English.
 - PlannedValuesForm duplicates UNIT_OPTIONS.weight, starts at kg.
 - useHydration logs 'API unreachable' via devWarn (hooks.ts:72).
@@ -90,3 +92,6 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - Use node with s.replace(a, () => b), not Perl. Check bytes after edits.
 - PHASE3_ROWS.md must stay 22 lines.
 - Locale files: src/lib/i18n/locales/. Expo Router: node_modules/expo-router/_ctx-shared.js.
+
+## Loop notes
+- Prompt rejected once (no loop/phase3 branch rule). Fixed in the next prompt.

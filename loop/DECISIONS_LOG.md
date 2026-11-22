@@ -9437,3 +9437,13 @@
 - 2026-11-23 02:28 Asked Claude Code to fix the stale Row 17 note about gap 4 waiting on aiBrain.ts, because aiBrain.ts is not needed for the screen-side fix.
 - 2026-11-23 02:28 Kept Row 17 PARTIAL. Gaps 1, 2 and 6 still need src/lib/data, which is off limits.
 - 2026-11-23 02:28 Named all files in full because a handover just happened.
+- 2026-11-23 02:30 Row 17 stays PARTIAL, not a flag to fix: gaps 1, 2 and 6 need src/lib/data changes Isa has not allowed, and gap 5 is now done (screen only, not device checked). This answers the partly-done flag.
+- 2026-11-23 02:30 Chose Row 6 because it is the only unblocked DIFFERENT row. Jev is split between ask and stop, so I used the rule that Jev is overridden when every Isa item has a default and no unblocked row is left.
+- 2026-11-23 02:30 Row 6 is split: this round is a read-only audit with no measurements invented. Simulator numbers wait until Maestro or a manual simulator run is available.
+- 2026-11-23 02:30 Hotspot findings go into PERF_BASELINE.md, not new rows in PHASE3_ROWS.md, because that file must stay 22 lines.
+- 2026-11-23 02:30 Recorded the Ask Lume upgrade-required path (aiBrain.ts:154) as Phase 4 and parked it.
+- 2026-11-23 02:30 Chose Row 6 step 1 over Row 17 gap 6: gap 6 needs src/lib/data, which is off limits and waits on Isa. The audit is unblocked and changes no code.
+- 2026-11-23 02:30 Overrode the Jev ask (59%): no unblocked row needs Isa, and the Isa items all have defaults in the notes.
+- 2026-11-23 02:30 Rewrote the rejected prompt: it now states the loop/phase3 branch rule, the no-git rule and the no-switch rule.
+- 2026-11-23 02:30 Set Row 6 to PARTIAL after step 1, because the audit file is written but no simulator numbers exist.
+- 2026-11-23 02:30 Corrected the stale Row 17 note: the 503 message is done in the screen, only not_enough_data waits on aiBrain.ts.
