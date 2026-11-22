@@ -8721,3 +8721,7 @@
 - 2026-11-22 19:47 Kept Row 15 PARTIAL because many Row 15 items remain open; the slot check alone cannot make it BUILT.
 - 2026-11-22 19:47 Did not start the shared slot-name helper yet: it touches five files and needs its own row-sized round.
 - 2026-11-22 19:47 Did not ask Isa: the change is one spoken label in one file, reversible, and inside the Phase 3 rules.
+- 2026-11-22 19:48 Round 166: flagged partial round re-checked. The Round 165 report shows nutrition.tsx line 237 already uses the translated slotName and line 227 is no longer a slot label. Closed. The handover NEXT line about line 227 is stale.
+- 2026-11-22 19:48 Jev ranked the shared slot-name helper first at 80%. I chose the same task, so no override was needed. It is the next queued item in the notes and removes five duplicated copies, which the brief asks for.
+- 2026-11-22 19:48 Helper goes into food.tsx first, one file per round, to keep the change small and respect one component per prompt.
+- 2026-11-22 19:48 Snack wording is left as is until Isa reviews it (already blocked).

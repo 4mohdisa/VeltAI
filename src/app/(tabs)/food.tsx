@@ -69,6 +69,7 @@ import { useInsights } from '@/lib/data/aiBrain';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/lib/types';
 import type { FoodResult, MealSlot } from '@/lib/mock/data';
+import { mealSlotName } from '@/lib/mealSlotName';
 
 const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
@@ -84,14 +85,6 @@ const SLOT_TINT: Record<MealSlot, string> = {
   Lunch: accent.green,
   Dinner: accent.blue,
   Snacks: accent.turquoise,
-};
-
-/** The addMenu key for each slot. Explicit because 'Snacks' is keyed `snack`. */
-const SLOT_KEYS: Record<MealSlot, string> = {
-  Breakfast: 'breakfast',
-  Lunch: 'lunch',
-  Dinner: 'dinner',
-  Snacks: 'snack',
 };
 
 // The white elevated group a meal's rows sit in: one card per meal, `radius.xl`
@@ -408,7 +401,7 @@ export default function FoodLogScreen() {
     showToast({
       message: t('foodLog.addedToMeal', {
         energy: formatEnergy(Math.round(food.kcalPer100), energyUnit),
-        slot: t(`addMenu.${SLOT_KEYS[addSlot]}`).toLowerCase(),
+        slot: mealSlotName(t, addSlot).toLowerCase(),
       }),
       tone: 'success',
     });
@@ -587,7 +580,7 @@ export default function FoodLogScreen() {
               haptic={false}
               minTapTarget={false}
               onPress={() => router.push({ pathname: '/food/add', params: { slot: section.slot } })}
-              accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[section.slot]}`) })}
+              accessibilityLabel={t('foodLog.addToMeal', { slot: mealSlotName(t, section.slot) })}
               style={{
                 ...groupSurface(false, true),
                 paddingHorizontal: space.lg,
@@ -600,7 +593,7 @@ export default function FoodLogScreen() {
             >
               <Icon name="add-circle-outline" size={20} color={color.tertiaryLabel} />
               <Text variant="footnote" color={color.tertiaryLabel}>
-                {t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[section.slot]}`) })}
+                {t('foodLog.addToMeal', { slot: mealSlotName(t, section.slot) })}
               </Text>
             </Pressable>
           ) : (
@@ -764,7 +757,7 @@ function CaloriesCard({
 function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[], t: TFunction): void {
   haptics.warning();
   Alert.alert(
-    t('foodLog.deleteMealTitle', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }),
+    t('foodLog.deleteMealTitle', { slot: mealSlotName(t, slot) }),
     t('foodLog.deleteMealMessage', { count: rows.length }),
     [
       { text: t('common.cancel'), style: 'cancel' },
@@ -774,7 +767,7 @@ function confirmDeleteMeal(slot: MealSlot, rows: { id: string; name: string }[],
         onPress: () => {
           haptics.impactHeavy();
           rows.forEach((r) => deleteFoodItem(r.id));
-          showToast({ message: t('foodLog.mealDeleted', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }), tone: 'info' });
+          showToast({ message: t('foodLog.mealDeleted', { slot: mealSlotName(t, slot) }), tone: 'info' });
         },
       },
     ],
@@ -818,11 +811,11 @@ function MealSectionHeader({
         onLongPress={onDeleteMeal}
         disabled={!onDeleteMeal}
         accessibilityRole="header"
-        accessibilityLabel={`${t(`addMenu.${SLOT_KEYS[slot]}`)}, ${formatEnergy(subtotal, energyUnit)}`}
-        accessibilityHint={onDeleteMeal ? t('foodLog.deleteMealHint', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) }) : undefined}
+        accessibilityLabel={`${mealSlotName(t, slot)}, ${formatEnergy(subtotal, energyUnit)}`}
+        accessibilityHint={onDeleteMeal ? t('foodLog.deleteMealHint', { slot: mealSlotName(t, slot) }) : undefined}
       >
         <Text variant="bodyMedium" color={color.label}>
-          {t(`addMenu.${SLOT_KEYS[slot]}`)}
+          {mealSlotName(t, slot)}
         </Text>
       </Pressable>
       <View
@@ -843,7 +836,7 @@ function MealSectionHeader({
         minTapTarget={false}
         onPress={onAdd}
         accessibilityRole="button"
-        accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) })}
+        accessibilityLabel={t('foodLog.addToMeal', { slot: mealSlotName(t, slot) })}
         style={{
           width: layout.tapTarget,
           height: layout.tapTarget,
@@ -1029,7 +1022,7 @@ function SearchResultRow({
       <Pressable
         onPress={onAdd}
         accessibilityRole="button"
-        accessibilityLabel={t('foodLog.addToMeal', { slot: t(`addMenu.${SLOT_KEYS[slot]}`) })}
+        accessibilityLabel={t('foodLog.addToMeal', { slot: mealSlotName(t, slot) })}
         style={{ alignItems: 'center' }}
       >
         <View
