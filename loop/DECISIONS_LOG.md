@@ -9327,3 +9327,6 @@
 - 2026-11-23 01:55 Jev rated asking Isa at 77%, but Isa already has a standing question list and the rule is one unanswered round then defaults. Asking again now would add noise, so I did not ask.
 - 2026-11-23 01:55 Rewrote the rejected prompt to state the loop/phase3 branch rule and forbid git, push, merge and branch switching, as the loop note requires.
 - 2026-11-23 01:55 Kept Go tests out of this round so the checkpoint covers only the type check and the app suite the note names.
+- 2026-11-23 01:57 Jev said ask at 82%. Kept run. Reason: every open Isa question already has a recorded default, and the notes say do not re-ask. One more question this round would break the one-unanswered-round rule. Row 8 test gaps need no Isa input, so the loop can keep moving.
+- 2026-11-23 01:57 Chose Row 8 gaps over the Go checkpoint: they are the stated next step in the notes and need no database.
+- 2026-11-23 01:57 New test file only, no edits to existing tests or snapshots, per the standing rule.
