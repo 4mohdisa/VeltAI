@@ -3,6 +3,7 @@
 // team. Lume has NO in-app rating/review prompts at all (no SKStoreReview).
 import { useState } from 'react';
 import { Linking } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { SettingsList } from '@/components/display/SettingsList';
@@ -15,6 +16,7 @@ import { space } from '@/lib/design/tokens';
 const SUPPORT_EMAIL = 'lumofit@gmail.com';
 
 export default function SupportScreen() {
+  const { t } = useTranslation();
   const [feedback, setFeedback] = useState('');
 
   // Feedback goes out as a real email — the compose sheet is the send action;
@@ -27,7 +29,7 @@ export default function SupportScreen() {
   };
 
   return (
-    <Screen variant="floating" eyebrow="Help" title="Support" showBack contentStyle={{ gap: space.xl }}>
+    <Screen variant="floating" eyebrow={t('settings.supportEyebrow')} title={t('settings.support')} showBack contentStyle={{ gap: space.xl }}>
       <SettingsList
         rows={[
           { icon: 'mail-outline', label: 'Email support', value: SUPPORT_EMAIL, onPress: () => Linking.openURL(`mailto:${SUPPORT_EMAIL}`).catch(() => {}) },

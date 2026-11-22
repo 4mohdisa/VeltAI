@@ -8833,3 +8833,7 @@
 - 2026-11-22 20:25 Chose the gate check over the integrations copy task. Jev gives a low chance of clean completion, so the smaller task comes first.
 - 2026-11-22 20:25 Latest report suggests support.tsx next, but the notes Next list says integrations.tsx. Kept integrations (notes order) and will move to support after the gate check.
 - 2026-11-22 20:25 Merging the two integrations sentences in the Row 15 note is part of this round, as the report flagged it as duplicate.
+- 2026-11-22 20:26 Integrations title and eyebrow treated as done, per the Option A decision and the merged Row 15 note, so the stale next step was dropped.
+- 2026-11-22 20:26 Followed Jev (run 97%): support title and eyebrow is the smallest step that clears one Row 15 item.
+- 2026-11-22 20:26 Support body copy left out of this step to keep the prompt to one task.
+- 2026-11-22 20:26 Account note confirmed present in the Row 15 note, so it is marked done in the notes.

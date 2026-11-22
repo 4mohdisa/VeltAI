@@ -11,7 +11,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
 - Fresh session after handover: name files fully in prompts.
 - The API client is src/lib/api.ts. There is no src/lib/data/api.ts.
-- Loop flagged a report for no type check or tests. Round after Account: gate check on changed files (in progress).
 
 ## Decisions (never delete)
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
@@ -39,7 +38,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Digit grouping: figures stay ungrouped (2140). Parked.
 - getAnomalies returns [] until /api/ai/anomalies exists.
 - Account: eyebrow, title, Save localised. Remaining English in Parked.
-- Integrations eyebrow: Option A keys (profile.connectionsSyncing, connectionsNone, connectionsCount). Done.
+- Integrations eyebrow: Option A keys (profile.connectionsSyncing, connectionsNone, connectionsCount). Done. Title profile.connectedApps.
 - Preferences eyebrow: settings.preferencesEyebrow (en Units, es Unidades, fr Unites). Done.
 
 ## Done
@@ -47,10 +46,10 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, calm empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName, About, Account (Row 15 note written), integrations eyebrow, preferences title and eyebrow.
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, GymStatusCard, Summary, plan card, insights, BrainProfileCard, InsightCard, AnomalyCard, AnomalyBanner, Goals eyebrow, gramsField, percentField, resetDone toast, comma join, DailyMacroRing, food.tsx, add.tsx, nutrition.tsx, quick-add.tsx, detail.tsx, mealSlotName, About, Account (note written), integrations title and eyebrow, preferences title and eyebrow.
 
 ## In progress
-- Row 15 gate check: tsc and the six changed render tests (accountLocale, about.locale, quickAddSlot.locale, detailSlot, detailSlotFallback, brainProfileCard.numbers). Merge the two integrations sentences in the Row 15 note.
+- Row 15: localise title and eyebrow on profile/support.tsx (body copy after).
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - InsightCard truncation: edit test to fire onTextLayout. Default kept.
@@ -67,8 +66,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Whether formatNumber should follow the active language.
 
 ## Next
-- Row 15: localise title and eyebrow on profile/integrations.tsx (body copy after).
-- Row 15: privacy, scan-calibration, support titles and eyebrows.
+- Row 15: privacy, scan-calibration titles and eyebrows.
 - Row 15: fr.json straight apostrophes in Preferences and support copy (curly rule).
 - Row 15: integrations body copy (intro, blurbs, Sync now, Disconnect, Connect, toasts, relative times).
 - goals.tsx spoken calorie label and hard-coded g, % and comma join.
@@ -90,7 +88,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - backend/scripts/seed_demo_account.go has no host guard. Fix or remove in Row 11.
 - Lint: gymSchedule.ts 50, 52; hooks.ts ~395. Stale header comments: aiBrain.ts, gymSchedule.ts, i18n/index.ts.
 - Session.tsx 'Progress saved' and alert 'Save' English.
-- MacroBars unused and English (summaryNoFabrication.test.ts:54). Math.round not formatNumber; nutrition ceiling label no space before g.
+- MacroBars unused and English. Math.round not formatNumber; nutrition ceiling label no space before g.
 - Digit grouping by language: formatNumber en-AU, units.ts group en-US.
 - formatCalories (formatting.ts:9) always shows kcal, ignoring unit.
 - Row 11 dedupe: gymSession eyebrow vs foodLog.today; gymMuscles.goBack vs common.goBack; long lines in food.tsx, meals.tsx, saved.tsx.
@@ -106,6 +104,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
 - addMenu.addToSlot with lowercased fallback label could read oddly.
 - BrainProfileCard numbers not formatted for language.
-- Preferences test uses quoted Units because allText serialises props; helper could be narrowed later.
+- Preferences test uses quoted Units because allText serialises props.
 - delete-account.tsx and subscription.tsx: Phase 4, parked.
 - Unit change feedback: none yet (not a Phase 3 row).
