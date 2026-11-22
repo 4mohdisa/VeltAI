@@ -8789,3 +8789,7 @@
 - 2026-11-22 20:08 Kept addMenu.snack as Snacks in es and fr until Isa reviews the wording, as recorded.
 - 2026-11-22 20:08 Did not ask Isa again about detail.tsx, because the recorded default answers it.
 - 2026-11-22 20:08 Ranked Row 15 cleanup first because it is small, needs nothing from Isa, and closes the flag. Jev asked, but this is a recorded decision, not a new question.
+- 2026-11-22 20:09 Chose the unknown-slot label test: it closes the partly done flag from the last report, is the smallest task, and needs nothing from Isa.
+- 2026-11-22 20:09 Kept addMenu.snack as 'Snacks' in es and fr until Isa reviews wording; not blocking.
+- 2026-11-22 20:09 Kept Jev's advice to prefer a smaller task; the 45% run/ask split is close, and no Isa answer is needed to finish this row.
+- 2026-11-22 20:09 Kept getAnomalies returning [] and the InsightCard 120-character rule, both per earlier defaults.

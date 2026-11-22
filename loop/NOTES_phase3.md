@@ -5,8 +5,9 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
-- Checkpoint round 171 PASSED: tsc 0 errors; Jest 186 suites, 1149 tests, 4 snapshots, none skipped (npx jest --ci).
-- Next checkpoint: round 178 or later, when the loop says so. Last loop flag: last report looked partly done (round 182), being fixed.
+- Checkpoint round 171 PASSED: tsc 0 errors; Jest 186 suites, 1149 tests, 4 snapshots (npx jest --ci).
+- Next checkpoint: round 178 or later, when the loop says so.
+- Loop flag round 183: last report looked partly done. Fix: unknown-slot label test on detail.tsx (in progress).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Prompts must state the branch rule every time. Read .git/HEAD. zsh rejects grep --include globs.
 
@@ -30,7 +31,7 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Jest mock factories may only reference variables named mock*.
 - Route params in tests: override expo-router, as exerciseProgress.render.test.tsx does.
 - mealSlotName: unknown slot returns raw key addMenu.undefined. Screens that take outside input guard first.
-- detail.tsx unknown slot: default foodLog.addMeal kept (recorded, restored round 182).
+- detail.tsx unknown slot: slotLabel falls back to foodLog.addMeal (restored round 182).
 - addMenu.snack stays 'Snacks' in es and fr until review.
 - InsightCard keeps the 120-character rule (default, Isa did not answer).
 - No empty-week guard in nutrition.tsx: useWeeklyMacros always returns 7 days.
@@ -60,7 +61,8 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Wording review: 'Snacks' (es, fr), 'Goals reset to defaults.', 'Fibre (optional)', weekday capitalisation, insight and banner wording.
 
 ## Next
-- Round 182: restore detail.tsx unknown-slot default; merge quick-add notes in Row 15; tsc and changed-file suites.
+- Round 183: unknown-slot label test (detailSlotFallback.render.test.tsx); fix only if it fails.
+- Then: quick-add switch to mealSlotName noted in Row 15 (done in round 182 notes).
 - Then: BrainProfileCard numbers formatted, energy unit not always kcal.
 - Then: Profile screens hard-coded English titles.
 - Then: Row 6 non-sign-in backend measurements; Rows 7, 8, 9, 10, then Row 11.
@@ -94,3 +96,4 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Work only on branch loop/phase3. Agents
 - Food tab: 'Freeze offline toast' and 'Gym and food' gym_correlation wording kept by default.
 - Insight catch blocks: getProfile .catch(() => null) hides errors; getAnomalies .catch(() => []) kept.
 - addMenu.snack wording still needs review; all slot screens read it via mealSlotName, so one locale change fixes them all.
+- addMenu.addToSlot with a lowercased fallback label could read oddly; covered by round 183 test.

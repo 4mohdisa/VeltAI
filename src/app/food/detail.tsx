@@ -401,8 +401,10 @@ function DetailForm({
   const slotLabel = (s: MealSlot) => (SLOTS.includes(s) ? mealSlotName(t, s) : t('foodLog.addMeal'));
   const [manual, setManual] = useState(!lockValues);
   const [slot, setSlot] = useState(meal);
+  const ctaSlot = slot ?? slotForNow();
   const ctaLabel =
-    fixedCtaLabel ?? t('addMenu.addToSlot', { slot: slotLabel(slot ?? slotForNow()).toLowerCase() });
+    fixedCtaLabel ??
+    (SLOTS.includes(ctaSlot) ? t('addMenu.addToSlot', { slot: slotLabel(ctaSlot).toLowerCase() }) : slotLabel(ctaSlot));
   const [name, setName] = useState(seed.name);
   const [grams, setGrams] = useState(String(seed.quantityG));
   const [calories, setCalories] = useState(String(seed.calories));
