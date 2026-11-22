@@ -8503,3 +8503,12 @@
 - 2026-11-22 18:40 Test reads expected values from es.json so it does not pin English or copied literals.
 - 2026-11-22 18:40 Gym toast assertion is optional, because it may need extra setup and the brief forbids extra work.
 - 2026-11-22 18:40 Kept Row 15 PARTIAL. Only a test is added, no status change without Isa's review of the Spanish and French.
+- 2026-11-22 18:42 Loop flagged the last report as partly done: Row 15 stays PARTIAL and the next prompt finishes the open MacroBars text, which the last report also recommended.
+- 2026-11-22 18:42 Chose MacroBars over insights literals: it is the smallest change and is visible on the Spanish Summary screen.
+- 2026-11-22 18:42 New Spanish and French MacroBars keys ship as written and go on the Isa review list, consistent with earlier Row 13 to 15 keys.
+- 2026-11-22 18:42 Handover received: prompt names every file in full because Claude Code only has the summary.
+- 2026-11-22 18:42 Stale EMPTY_STATES_AUDIT.md row left for a later round to keep this prompt to one task.
+- 2026-11-22 18:42 Chose MacroBars translation: smallest remaining change, removes visible English on the Spanish Summary Macros card, and Jev ranks the same action highest (run 99%), so no second look needed.
+- 2026-11-22 18:42 Rewrote the rejected prompt to state the loop/phase3 branch rule explicitly (no switch, no push, no merge, no git), with max 5 steps, named files, a do-not-touch list and the report format.
+- 2026-11-22 18:42 Spanish and French wording for the new MacroBars keys ships as written for Isa review, matching the existing decision for Row 13 to Row 15 keys.
+- 2026-11-22 18:42 Targeted Jest and tsc only this round; no checkpoint due (last full suite was round 114).
