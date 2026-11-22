@@ -108,7 +108,7 @@
     "snack": "Snacks"
   },
   "foodLog": {
-    "today": "Aujourd'hui",
+    "today": "Aujourd’hui",
     "searchPlaceholder": "Rechercher des aliments…",
     "noMatches": "Aucun résultat pour « {{query}} ».",
     "addCustomFood": "Ajouter un aliment personnalisé",
