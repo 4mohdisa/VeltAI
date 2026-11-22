@@ -470,6 +470,16 @@
       ]
     }
   },
+  "gymMuscles": {
+    "title": "Focus musculaire",
+    "goBack": "Retour",
+    "emptyTitle": "Pas encore de données musculaires",
+    "emptyMessage": "Enregistrez une séance avec ses exercices et vous verrez ici les groupes travaillés.",
+    "totalVolume": "Volume total",
+    "strongestFocus": "Focus principal : {{muscle}}",
+    "allGroups": "Tous les groupes musculaires",
+    "volumeNote": "Le volume correspond à séries × répétitions × poids, additionné sur toutes les séances enregistrées ces 30 derniers jours. Un exercice enregistré sans poids compte ses séries × répétitions."
+  },
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
     "dayStreak_one": "{{count}} jour d’affilée",

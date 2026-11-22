@@ -472,6 +472,16 @@
       ]
     }
   },
+  "gymMuscles": {
+    "title": "Enfoque muscular",
+    "goBack": "Volver",
+    "emptyTitle": "Aún no hay datos musculares",
+    "emptyMessage": "Registra una sesión con sus ejercicios y aquí aparecerán los grupos que entrenaste.",
+    "totalVolume": "Volumen total",
+    "strongestFocus": "Mayor enfoque: {{muscle}}",
+    "allGroups": "Todos los grupos musculares",
+    "volumeNote": "El volumen es series × repeticiones × peso, sumado en todas las sesiones que registraste en los últimos 30 días. Un ejercicio registrado sin peso cuenta sus series × repeticiones."
+  },
   "dashboard": {
     "welcome": "Hola de nuevo, {{name}}",
     "dayStreak_one": "{{count}} día seguido",

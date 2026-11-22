@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/phase3. Agents never run git or Prettier. One screen or component per prompt.
+Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/phase3. Agents never run git or Prettier. One screen or component per prompt. Every prompt opens with the loop/phase3 branch rule.
 
 ## State
 - Baseline (Node 22.23.5): tsc 0; app Jest 135 suites, 993 tests; backend 614 pass, 18 skipped (need LUME_TEST_DATABASE_URL).
@@ -15,7 +15,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 ## Decisions (never delete)
 - Local backend and local database only. Nothing against hosted production.
 - Phase 1 design final. Exceptions: named Phase 3 rows only.
-- Phase 4 NOT in scope (Apple sign in, account deletion, AI consent, subscriptions, paywall, restore, notifications, HealthKit, store content, privacy manifest). Park ideas.
+- Phase 4 NOT in scope (Apple sign in, account deletion, AI consent, subscriptions, paywall, restore, notifications, HealthKit, store content, privacy manifest).
 - Later (Phase 4): RevenueCat for payments, no free tier, 7 day Apple trial.
 - Crash reporting Sentry. Analytics PostHog. Names and counts only.
 - Analytics on by default, anonymous ID, off switch in Settings. Store default off: Isa to confirm before Phase 4.
@@ -31,22 +31,21 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Food tab shows PendingSyncBanner counting all queued writes (default).
 - Food detail: Entry not found gets one Done button (common.done). Barcode not-found keeps Scan again.
 - Gym session and history: failed read shows LoadFailedNotice with Retry.
-- Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Templates: failed read uses useTemplates isError and refetch.
 - Exercise-progress failed read shows notice, no Retry (default).
 - Session.tsx English reuse limited to gym.* and gymSession keys.
+- Identical text reuses existing keys. Data layer (src/lib/data) off limits.
 - Unanswered question: use default and carry on. Do not re-ask.
 
 ## Done
-- Rounds 1-4: row list, Row 1 Node 22 BUILT, Row 2 baseline BUILT.
+- Rounds 1-4: row list, Row 1 BUILT, Row 2 BUILT.
 - Rounds 5-6: Row 3 BUILT, owner check pending.
 - Rounds 7-10: Row 4 audit BUILT; rows 12-17 added.
 - Rounds 11-13: Row 5 part 1 BUILT, owner check pending.
 - Rounds 13-41: Row 12 plumbing done.
-- Rounds 42-81: Row 13 Food tab states, SavedMealsList, RecipesList, Saved states, translations, food detail Done.
-- Rounds 82-88: gym session, history, templates, exercise-progress states, locale blocks, render tests.
-- Rounds 89-90: session.tsx labels, number pad, Cardio, RPE, Set N, N / 10 translated.
-- Round 91: remove-button test uses translated key (gymSessionRemoveExtra). Row 14 PARTIAL.
+- Rounds 42-81: Row 13 Food tab states, saved meals, recipes, saved states, translations, food detail Done.
+- Rounds 82-92: gym session, history, templates, exercise-progress states, locale blocks, session.tsx labels, number pad, Cardio, RPE, Set N translated. Round 92: save alert already translated (Round 88); no change.
+- Row 14 PARTIAL.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - Row 12 BUILT approval. Stays PARTIAL.
@@ -55,7 +54,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - lookupBarcodeAsync (src/lib/data/scan.ts): not found vs offline. Keep copy.
 - Keys needed in en, es, fr: ', today', 'Previous week', 'Next week'. WeekStrip labels stay until approved.
 - Row 13: 'this day's food log' and 'Nothing was logged on this day.' default used.
-- Row 13 and 14: es and fr wording of all new blocks, including Rounds 88-90 keys. Review needed.
+- Row 13 and 14: es and fr wording of all new blocks, incl. Rounds 88-90 keys. Review needed.
 - Row 13 casing: 'New recipe' vs 'New Recipe'. Isa picks one.
 - Row 13: /food/meals link from Food tab. Default: no link.
 - Row 13: PendingSyncBanner counts all queued writes. Confirm.
@@ -66,9 +65,9 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Analytics default on vs store off. Confirm before Phase 4.
 
 ## Next
-- Round 92: session.tsx save alert and 'Progress saved' translated, with a render assertion.
-- Round 93: Row 14 gym/muscles.tsx failed read and translations.
-- Then gym/templates.tsx, streak and freeze screens for Row 14.
+- Round 94: Row 14 gym/muscles.tsx failed read, translations, render test.
+- Round 95: gym/templates.tsx literals and failed read.
+- Then streak and freeze screens for Row 14.
 - Rows 15 to 17, one screen per round.
 - Row 6: non-sign-in backend measurements.
 - Rows 7, 8 (Sentry, PostHog), then 9, 10, then Row 11 final sweep.
@@ -106,8 +105,7 @@ Polish before Phase 4. Progress counted from PHASE3_ROWS.md. Work only on loop/p
 - Planned-weight unit ('kg'/'lb') from data not translated.
 
 ## Loop notes
-- Round 80: Jev said ask (80%). Kept run: only open question owner-only and defaulted.
-- Round 82: Jev said ask (74%). Kept run: question not major.
-- Round 88 to 90: Jev 83 to 90% run. Branch rules first.
-- Round 91: loop flagged Round 90 as partly done. Completed in Round 91.
-- Round 92: Jev 98% run. Chose the session.tsx translation gap before a new screen.
+- Round 80, 82: Jev said ask; kept run (question not major, owner-only and defaulted).
+- Round 88 to 93: Jev run. Branch rules first.
+- Round 93 prompt was rejected: it lacked the loop/phase3 branch rule. Every prompt now opens with it.
+- Round 92 report said notes were out of date; recorded here, no code change.

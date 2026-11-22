@@ -19,7 +19,7 @@ import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
-import { Card, CardHeaderRow, EmptyState, Skeleton } from '@/components/display';
+import { Card, CardHeaderRow, EmptyState, LoadFailedNotice, Skeleton } from '@/components/display';
 import { MUSCLE_GROUPS, MuscleVolumeRow, formatVolume, muscleLabel } from '@/components/gym/MuscleChart';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -37,7 +37,7 @@ const BACK_PRESSED_OPACITY = 0.6;
 export default function MuscleFocusScreen(): JSX.Element {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { patterns, loading } = useGymPatterns();
+  const { patterns, loading, isError } = useGymPatterns();
   const map = patterns?.muscle_volume_map ?? null;
 
   // The known groups plus anything else the server actually sent (the library
@@ -61,31 +61,37 @@ export default function MuscleFocusScreen(): JSX.Element {
       );
     }
 
+    if (isError && !hasData) {
+      // useGymPatterns exposes no refetch, so the notice carries no Retry.
+      return <LoadFailedNotice message={t('gym.loadFailed')} />;
+    }
+
     if (!hasData) {
       return (
-        <EmptyState
-          icon="barbell"
-          title="No muscle data yet"
-          message="Log a session with its exercises and this fills in with the groups you trained."
-        />
+        <EmptyState icon="barbell" title={t('gymMuscles.emptyTitle')} message={t('gymMuscles.emptyMessage')} />
       );
     }
 
     return (
       <View style={{ gap: space.md }}>
         <Card variant="elevated">
-          <CardHeaderRow title="Total volume" icon="barbell" tint={categoryAccent.streak} scope="Last 30 days" />
+          <CardHeaderRow
+            title={t('gymMuscles.totalVolume')}
+            icon="barbell"
+            tint={categoryAccent.streak}
+            scope={t('dashboard.lastDays', { count: 30 })}
+          />
           <Text variant="statMedium" color={color.label} style={{ marginTop: space.sm }}>
             {formatVolume(total)}
           </Text>
           <Text variant="footnote" color={color.secondaryLabel} style={{ marginTop: space.xs }}>
-            {`Strongest focus: ${muscleLabel(strongest)}`}
+            {t('gymMuscles.strongestFocus', { muscle: muscleLabel(strongest) })}
           </Text>
         </Card>
 
         <Card variant="elevated">
           <View style={{ gap: space.sm }}>
-            <CardHeaderRow title="All muscle groups" scope="Volume" />
+            <CardHeaderRow title={t('gymMuscles.allGroups')} scope={t('gymLog.celebration.volume')} />
             {ordered.map((muscle) => (
               <MuscleVolumeRow key={muscle} muscle={muscle} volume={volumeOf(muscle)} max={max} showValue />
             ))}
@@ -96,8 +102,7 @@ export default function MuscleFocusScreen(): JSX.Element {
             There is no body and nothing here spins, so this says what the
             numbers actually are instead. */}
         <Text variant="caption" color={color.tertiaryLabel}>
-          Volume is sets × reps × weight, summed across every session you logged in the last 30 days. An exercise
-          logged without a weight counts its sets × reps.
+          {t('gymMuscles.volumeNote')}
         </Text>
       </View>
     );
@@ -121,7 +126,7 @@ export default function MuscleFocusScreen(): JSX.Element {
         <Pressable
           haptic={false}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
-          accessibilityLabel="Go back"
+          accessibilityLabel={t('gymMuscles.goBack')}
           style={({ pressed }) => ({ opacity: pressed ? BACK_PRESSED_OPACITY : opacity.full })}
         >
           <View
@@ -139,7 +144,7 @@ export default function MuscleFocusScreen(): JSX.Element {
         </Pressable>
         <View style={{ flex: 1, minWidth: 0, gap: 1 }}>
           <Text variant="title3" color={color.label} accessibilityRole="header">
-            Muscle focus
+            {t('gymMuscles.title')}
           </Text>
           <Text variant="footnote" color={color.secondaryLabel}>
             {t('gym.muscleFocusWindow', { volume: formatVolume(total) })}

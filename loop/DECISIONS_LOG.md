@@ -8387,3 +8387,12 @@
 - 2026-11-22 18:02 Muscles screen moves to the next round, as the Round 91 report recommended.
 - 2026-11-22 18:02 Kept Row 14 at PARTIAL: Isa has not approved es and fr wording yet.
 - 2026-11-22 18:02 Jev 98% run agreed with this choice.
+- 2026-11-22 18:03 Round 92 accepted as done: the report confirmed session.tsx save alert and toast were already translated in Round 88 and tested against en.json, so no rerun was needed.
+- 2026-11-22 18:03 Chose muscles.tsx over templates.tsx: it is the next item in the Next list and the smallest remaining Row 14 screen.
+- 2026-11-22 18:03 Kept Row 14 PARTIAL until all gym screens are done and Isa has reviewed the es and fr wording.
+- 2026-11-22 18:03 Jev 98% run agreed with: the open questions are owner-only and already defaulted, so no ask.
+- 2026-11-22 18:03 Chose muscles.tsx: smallest remaining Row 14 screen, matching the previous report's NEXT and Round 93 choice.
+- 2026-11-22 18:03 Rewrote the rejected prompt with the loop/phase3 branch rule first and every point from the rejection addressed.
+- 2026-11-22 18:03 Recorded that the save-alert work was already done in Round 88, so no session.tsx change is needed.
+- 2026-11-22 18:03 Kept Spanish and French wording as defaults pending Isa review, as already decided.
+- 2026-11-22 18:03 Kept Retry on exercise progress parked because it needs a src/lib/data change Isa has not approved.

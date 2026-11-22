@@ -470,6 +470,16 @@
       ]
     }
   },
+  "gymMuscles": {
+    "title": "Muscle focus",
+    "goBack": "Go back",
+    "emptyTitle": "No muscle data yet",
+    "emptyMessage": "Log a session with its exercises and this fills in with the groups you trained.",
+    "totalVolume": "Total volume",
+    "strongestFocus": "Strongest focus: {{muscle}}",
+    "allGroups": "All muscle groups",
+    "volumeNote": "Volume is sets × reps × weight, summed across every session you logged in the last 30 days. An exercise logged without a weight counts its sets × reps."
+  },
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "dayStreak_one": "{{count}} day streak",
