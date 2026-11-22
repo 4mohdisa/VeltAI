@@ -9557,3 +9557,8 @@
 - 2026-11-23 03:19 Row 6 stays PARTIAL: simulator numbers cannot be measured by agents (Maestro is not run by agents), and the gym list fix needs an Isa choice.
 - 2026-11-23 03:19 Row 11 runs now as a checkpoint so the gate numbers and owner list exist. Status stays DIFFERENT until Rows 5 and 6 close, and it is rerun at the end.
 - 2026-11-23 03:19 Status conflict resolved: notes and the latest Row 14 report say Rows 13 and 14 are BUILT. The handover says PARTIAL. Used BUILT. The Row 11 prompt makes the agent confirm from PHASE3_ROWS.md.
+- 2026-11-23 03:21 Stopped instead of running another round: every remaining item is blocked on Isa (Row 5 credentials, Row 6 option, src/lib/data permission), and none is a smallest safe task.
+- 2026-11-23 03:21 Row 13 and Row 14 recorded as BUILT, per the latest checkpoint report (14 BUILT). The handover's PARTIAL label is stale.
+- 2026-11-23 03:21 Jest figures reconciled to 240 suites and 1,368 tests, per the checkpoint run. Go is 543 passed, 20 skipped (all TestPG_ without LUME_TEST_DATABASE_URL). The notes' old 'conflicting' line is replaced.
+- 2026-11-23 03:21 Did not re-ask the Row 6 question. Its default (limit hydrateGym) is blocked by the src/lib/data rule, so the default cannot be applied.
+- 2026-11-23 03:21 Did not fix the Parked backend sort bug (gym/schedule_pg.go:765-767) or the id::text index issue. They are not Row 5 or 6 scope, and both are listed in KNOWN_ISSUES.md.
