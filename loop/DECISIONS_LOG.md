@@ -9249,3 +9249,6 @@
 - 2026-11-23 01:15 Used a new test file instead of editing exercisePickerCopy.render.test.tsx, to keep existing tests unchanged.
 - 2026-11-23 01:15 Spanish and French words are first-pass choices; Isa confirms them in the owner checks, as with the earlier picker strings.
 - 2026-11-23 01:15 No Isa question: the Blocked items already have defaults and the snapshot wait is unchanged.
+- 2026-11-23 01:16 Chose candidate 1 over the ai-query work because the loop flagged the last report as partly done; closing it first keeps Row 17 consistent before adding a new screen.
+- 2026-11-23 01:16 Kept Row 17 PARTIAL until the ai-query copy is done, so no row is marked finished too early.
+- 2026-11-23 01:16 Kept ai-query, aiBrain.ts, gymSchedule.ts and hooks.ts off limits for this round, per the blocked list.

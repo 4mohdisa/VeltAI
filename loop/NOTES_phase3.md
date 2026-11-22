@@ -6,7 +6,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 ## State
 - Before commands: source ~/.nvm/nvm.sh && nvm use 22. Output to /tmp, then tail.
 - Round 252 checkpoint: tsc 0; Jest 213 suites, 1252 tests, 4 snapshots pass. Go 637 pass, 20 TestPG skipped (no local DB).
-- Round 263: Row 17 ExercisePicker title, search, pills, empty text done. Back control on planned-values step still English (loop flag: partial). Finishing it now.
+- Round 264: Row 17 planned-values back control translated (exercisePicker.back, exercisePicker.backLabel). Round 265: checking the rest of that step for hard-coded English (loop flag: partial).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Locales: src/lib/i18n/locales/ (en, es, fr). Name files fully in prompts.
 - PHASE3_ROWS.md stays at 22 lines; append notes inside the row cell.
@@ -30,8 +30,8 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - kJ keeps abbreviation until Isa answers.
 - spokenEnergy lives in src/lib/units.ts; food.tsx uses it. nutrition.tsx change backed out (see Blocked).
 - Row 16 skeleton repeat-visit fix parked. Default: keep the test.
-- Rounds 252-263: Isa not asked again (defaults apply).
-- Round 263 flag: partial first-use work accepted; back control finished in next round.
+- Rounds 252-265: Isa not asked again (defaults apply).
+- Round 263 flag: partial first-use work accepted; back control finished in round 264.
 
 ## Done
 - BUILT: 1, 2, 3, 4, 7, 9, 10. Owner checks pending on 3, 5 part 1, 7, 9, 10.
@@ -39,15 +39,17 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Branch loop/phase3 only. Agents never ru
 - DIFFERENT: 6, 11.
 
 ## Next
-- Row 17: ExercisePicker planned-values back control (round 264), then ai-query copy (src/app/ai-query.tsx only).
+- Row 17: finish ExercisePicker planned-values check (round 265), then ai-query copy (src/app/ai-query.tsx only).
 - Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md, last.
 - Row 6 measurements parked until a sign-in path exists.
 - Rerun TestPG_* and export_test.go once a throwaway local DB is up.
+- Row 15: nutrition.tsx spoken kcal labels wait on macros snapshot approval.
 
 ## Blocked on Isa (defaults used, do not re-ask)
 - hooks.ts change: food search loading as soon as query changes. Default: hooks.ts stays off limits.
 - New Recipe recents come from the selected log day only (hooks.ts:274). Default: parked.
 - Exercise picker failed read shows 'No exercises found' (gymSchedule.ts). Default: parked.
+- Exercise picker 'No matches' flash while typing (hooks.ts). Default: parked.
 - Ask Lume 503 message and 'not enough data' (aiBrain.ts). Default: parked.
 - Row 16 skeleton fix: needs permission to change profileEmptyStates.render.test.tsx test 1. Default: parked.
 - Macros snapshot (detailChrome.render.test.tsx): default stays backed out. Nutrition spoken kcal labels wait on it.
