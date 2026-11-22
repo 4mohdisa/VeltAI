@@ -8855,3 +8855,8 @@
 - 2026-11-22 20:31 Account note: Claude's report says it is already in PHASE3_ROWS.md, while the handover says it is missing. Prompt tells Claude to check and add it only if missing, which avoids a wasted round.
 - 2026-11-22 20:31 Fr apostrophe fix and Scan accuracy body copy kept for later rounds: one screen per prompt.
 - 2026-11-22 20:31 Jev signal (run 98%, last task 88% clean) agrees with the choice; no override.
+- 2026-11-22 20:32 Chose Row 7 over the Row 15 copy tail: Row 15 has consumed many rounds on small copy items, and Rows 7 to 10 are unbuilt and need nothing from Isa. Row 15 remaining items resume after Row 10.
+- 2026-11-22 20:32 Accepted the latest report: the integrations header is already localised, so no change. The Account note is already in PHASE3_ROWS.md, so no new note is added.
+- 2026-11-22 20:32 Sentry SDK added via expo install with no key in the repo; no DSN means no init and no network, proven by a test.
+- 2026-11-22 20:32 Analytics default on is still to be confirmed by Isa before Phase 4.
+- 2026-11-22 20:32 Row 6 (performance on simulator) stays parked until the sign in path exists (Row 5 part 2 needs E2E credentials).

@@ -9,7 +9,6 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - Next checkpoint: round 203 (full tsc and full npx jest --ci, no file changes).
 - Jest pinned ~29.7.0, never upgrade. Maestro not installed.
 - Read .git/HEAD for branch. zsh rejects grep --include globs.
-- Every prompt states the loop/phase3 branch rule and checks .git/HEAD first.
 - API client: src/lib/api.ts. No src/lib/data/api.ts.
 
 ## Decisions (never delete)
@@ -31,27 +30,26 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - InsightCard keeps 120-character rule. No empty-week guard in nutrition.tsx.
 - Figures stay ungrouped (2140). getAnomalies returns [] until endpoint exists.
 - Spanish uses tu, French uses vous. Jev followed when strong.
-- Row 15 Account note is in PHASE3_ROWS.md (confirmed by Claude report). Check before adding.
+- Row 15 Account note and integrations header already in place (checked in report). Do not re-add.
+- Row 15 copy tail is deferred until after Row 10, so Rows 7 to 10 get built first.
 
 ## Done
 - Rows 1-4 BUILT. Row 3 and Row 5 part 1 BUILT (owner check pending).
 - Row 12 PARTIAL until Isa says built.
 - Row 13 PARTIAL: Food tab states, saved meals, recipes, translations, food detail.
 - Row 14 PARTIAL: gym failed-read notice, empty states, French muscles test.
-- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Account, Goals eyebrow, support, privacy header and eyebrow, scan-calibration header (scanCalibrationLocale.render).
+- Row 15 PARTIAL: dashboard, week, energy, nutrition, fibre, insights, food, add, quick-add, detail, About, Account, Goals eyebrow, support, privacy header and eyebrow, scan-calibration header, integrations header and eyebrow.
 
 ## In progress
-- Row 15: profile/integrations.tsx header title and eyebrow (integrationsLocale.render).
+- Row 7: Sentry crash reporting (src/lib/crashReporting.ts, root layout call, crashReporting.test.ts).
 
-## Next
-- Row 15: profile/preferences.tsx eyebrow 'Units' is English.
-- Row 15: fr.json straight apostrophes ("Règle toutes les mesures d'un coup", "Quantités d'aliments").
-- Row 15: Privacy body copy (section title, footer, AI consent and export toasts, export share subject).
-- Row 15: Support rows, Send feedback, placeholder, email subject, toast.
-- Row 15: Scan accuracy body copy English (No scans yet, empty message, Accuracy score card).
-- Row 15: goals.tsx spoken calorie label, hard-coded g, % and comma join.
-- Row 15: Spanish 'Tus datos' used for both Account and Privacy eyebrows.
-- Row 6 non-sign-in measurements. Rows 7, 8, 9, 10, then Row 11.
+## Next (after Row 7)
+- Row 8: PostHog wrapper, allowlist, Settings switch, PRIVACY_DATA.md.
+- Row 9: Export my data (backend route plus Settings row). Needs E2E creds for heavy user check.
+- Row 10: Help and feedback (screen, feedback table locally, rate limit).
+- Row 15 copy tail: integrations body copy; preferences eyebrow 'Units'; fr.json straight apostrophes; Privacy body copy; Support body copy; Scan accuracy body copy; goals spoken calorie label, hard-coded g, % and comma join; Spanish 'Tus datos' used for both Account and Privacy eyebrows.
+- Row 11: final sweep, KNOWN_ISSUES.md, OWNER_CHECKS_phase3.md.
+- Row 6 measurements parked until sign in path exists.
 - Checkpoint at round 203.
 
 ## Blocked on Isa (defaults used, do not re-ask)
@@ -91,4 +89,3 @@ Every PHASE3_ROWS.md row BUILT or EXACT. Branch loop/phase3 only. Agents never r
 - BrainProfileCard numbers not formatted for language.
 - delete-account.tsx and subscription.tsx: Phase 4.
 - Unit change feedback: none yet.
-- Integrations and preferences body copy English.
