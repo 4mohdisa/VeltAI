@@ -9603,3 +9603,8 @@
 - 2026-11-23 05:00 Rows 5, 6, 13 and 14 are set to BUILT with 'owner check pending' because only Isa can close them. This is allowed by the brief's owner item rule. Their open items are listed in KNOWN_ISSUES.md.
 - 2026-11-23 05:00 Row 11 is the next task because it does not need src/lib/data or test edits, so it closes the loop.
 - 2026-11-23 05:00 The round 85 and 87 resends about Row 13 and Row 17 gap 5 are closed. Row 17 gap 5 is done, and the Row 13 strings are parked as above.
+- 2026-11-23 05:02 Stop at round 89. The Phase 3 goal (every row BUILT or EXACT) is met under the owner-item rule, so no further Claude Code task is run.
+- 2026-11-23 05:02 Rows 5, 6, 13, 14 stay BUILT with 'owner check pending'. Their open gaps are listed in KNOWN_ISSUES.md and OWNER_CHECKS_phase3.md, not hidden.
+- 2026-11-23 05:02 Row 6 is BUILT even though the gym history list is not virtualised. Isa has to choose the option, and the parked list keeps the gap visible.
+- 2026-11-23 05:02 Row 8 is treated as BUILT. Its notes still say partial, so Isa should confirm this during the owner check.
+- 2026-11-23 05:02 Row 14 older notes say 'status stays partial'. This is stale text, not a blocker, and is noted for cleanup in KNOWN_ISSUES.md.
