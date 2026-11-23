@@ -12,6 +12,7 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Stopped at round 89.
 None for the loop. Isa works through OWNER_CHECKS_phase3.md.
 
 ## Decisions (never delete)
+- 2026-11-24 Isa APPROVED changes in src/lib/data for Rows 6, 13, 14 (and the useGoals loading, error and refetch for Row 15): scan.ts and foodDays.ts (network failure is not 'Product not found'; failed logged-days read shows an error, not an empty calendar), gymRange.ts (Gym month line translated), hooks.ts:170 limit hydrateGym (Row 6 recommended option), useGoals isLoading, error and refetch, Retry on muscle-card and exercise-progress. Still NOT approved: edits to pinned tests. Do only these rows, then final sweep and stop.
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in, OFF by default in code (brief said on). Isa confirms before Phase 4.
