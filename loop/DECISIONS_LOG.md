@@ -9608,3 +9608,6 @@
 - 2026-11-23 05:02 Row 6 is BUILT even though the gym history list is not virtualised. Isa has to choose the option, and the parked list keeps the gap visible.
 - 2026-11-23 05:02 Row 8 is treated as BUILT. Its notes still say partial, so Isa should confirm this during the owner check.
 - 2026-11-23 05:02 Row 14 older notes say 'status stays partial'. This is stale text, not a blocker, and is noted for cleanup in KNOWN_ISSUES.md.
+- 2026-11-24 09:05 Stopped on the round 89 notes, which supersede the older handover summary (it lists rows 5, 6, 13 and 14 as PARTIAL).
+- 2026-11-24 09:05 Kept analytics opt-in and off by default in code, as recorded. Isa confirms before Phase 4.
+- 2026-11-24 09:05 Left the unfixed items in Parked and did not start any Phase 4 work.

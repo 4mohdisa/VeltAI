@@ -1,10 +1,10 @@
 # Lume Loop Notes: Phase 3
 
 ## Goal
-All PHASE3_ROWS.md rows BUILT or EXACT. Stopped at round 89.
+All PHASE3_ROWS.md rows BUILT or EXACT. Stopped at round 89, confirmed at round 90.
 
-## Status (round 89)
-- BUILT: 1-17 (all rows). Rows 5, 6, 11, 13, 14 BUILT with 'owner check pending'.
+## Status
+- BUILT: rows 1-17. Rows 5, 6, 11, 13, 14 BUILT with 'owner check pending'.
 - Gates (round 88): tsc 0 errors. Jest 241 suites, 1,386 tests pass, 0 fail, 0 skipped. Go 34 packages ok, 20 TestPG skipped (no LUME_TEST_DATABASE_URL), 0 fail.
 - No device or simulator check has been run.
 
@@ -12,7 +12,6 @@ All PHASE3_ROWS.md rows BUILT or EXACT. Stopped at round 89.
 None for the loop. Isa works through OWNER_CHECKS_phase3.md.
 
 ## Decisions (never delete)
-- 2026-11-24 Isa APPROVED changes in src/lib/data for Rows 6, 13, 14 (and the useGoals loading, error and refetch for Row 15): scan.ts and foodDays.ts (network failure is not 'Product not found'; failed logged-days read shows an error, not an empty calendar), gymRange.ts (Gym month line translated), hooks.ts:170 limit hydrateGym (Row 6 recommended option), useGoals isLoading, error and refetch, Retry on muscle-card and exercise-progress. Still NOT approved: edits to pinned tests. Do only these rows, then final sweep and stop.
 - Local backend and local DB only. Phase 1 design final except Phase 3 rows. Phase 4 out.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Analytics opt-in, OFF by default in code (brief said on). Isa confirms before Phase 4.
@@ -30,22 +29,21 @@ None for the loop. Isa works through OWNER_CHECKS_phase3.md.
 - New test file names must not differ from an existing name only by case (macOS).
 - New strings go in top-level locale groups before the 'pendingSync' anchor.
 - Failed reads: LoadFailedNotice; onRetry only if refetch exists.
-- src/lib/data is off limits except api.ts insight catch blocks, until Isa answers.
+- src/lib/data off limits except api.ts insight catch blocks, until Isa answers.
 - gym/history.tsx untouched: hydrationErrorScreens.test.ts pins it.
 - Never edit existing tests or snapshots without Isa. A broken existing test: back out and report.
 - French: no-break space before colon, question mark, inside guillemets; curly apostrophes. Spanish tu, French vous.
-- Rows 5, 6, 13, 14 set BUILT with 'owner check pending' (Isa-only remainder).
-- Round 89: loop stopped, every row BUILT. Jev stop signal followed.
+- Approved by Isa: src/lib/data changes for Rows 6, 13, 14 and useGoals loading, error and refetch. Still not approved: edits to pinned tests.
 
-## Blocked on Isa (do not re-ask; all in OWNER_CHECKS_phase3.md)
-- src/lib/data permission: scan.ts, foodDays.ts, gymRange.ts, summaryCards.ts, hooks.ts:170 (limit hydrateGym, recommended), useGoals isLoading/error/refetch, Retry in muscle and exercise cards, Row 17 gaps 1, 2, 6.
+## Blocked on Isa (all in OWNER_CHECKS_phase3.md, do not re-ask)
+- src/lib/data permission: scan.ts, foodDays.ts, gymRange.ts, summaryCards.ts, hooks.ts:170 (limit hydrateGym, recommended), Retry in muscle and exercise cards, Row 17 gaps 1, 2, 6.
 - Row 6 Gym history option: per-row card pieces, list mode on Screen, or limit hydrateGym (recommended).
 - Row 5 part 2: E2E_EMAIL, E2E_PASSWORD, seed sign-in path.
-- Pinned tests needing permission: sheetVariant.test.ts:30, scanConfidence.test.ts:93, profileEmptyStates test 1, integrations.render.test.tsx:75, privacyLocale.render.test.tsx:55-56, detailChrome macros snapshot, week.tsx and nutrition.tsx snapshots.
+- Pinned tests needing permission: sheetVariant, scanConfidence, profileEmptyStates test 1, integrations.render, privacyLocale.render, detailChrome macros snapshot, week.tsx and nutrition.tsx snapshots.
 - Session weight (gym/session.tsx padWeight): kg-only or follow unit?
 - Owner: apply feedback migration to hosted Supabase. Feedback retention undefined. PostHog EXPO_PUBLIC_POSTHOG_KEY and EXPO_PUBLIC_POSTHOG_HOST.
 - Which local DB is Lume's; lume_audit one migration behind.
-- feature_used strict list and shapeOnly cleanup: needs permission for two pinned tests.
+- feature_used strict list and shapeOnly cleanup: needs permission.
 - Analytics on (brief) vs opt-in (code); AI disclosure switch: confirm before Phase 4.
 - Device maker, model, OS to PostHog: default not sent.
 - Export row: two exportData functions exist; remove one only if Isa decides.
@@ -63,10 +61,10 @@ None for the loop. Isa works through OWNER_CHECKS_phase3.md.
 - Privacy and export: trial_started never sent; US cloud default unconfirmed; export sent as text not .json.
 - Feedback: app_version carries build number; no tighter limit than 120/min.
 - Phase 4: delete-account.tsx, subscription.tsx; authenticated role in local Postgres 17.
-- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; no test checks en, es, fr have the same keys. KNOWN_ISSUES.md has stale line numbers from older notes.
+- Hygiene: goals.saved unused; lint in gymSchedule.ts and hooks.ts; no test checks en, es, fr have the same keys. KNOWN_ISSUES.md has stale line numbers.
 
 ## Gotchas
 - No git, Prettier or Maestro for agents. Pass lists through xargs.
 - Run source ~/.nvm/nvm.sh and nvm use 22 first.
 - hydrationErrorScreens.test.ts pins gym/history.tsx.
-- Round 85, 87 and 88 resends of Row 17 gap 5 and Row 13 strings are closed. Do not resend.
+- Do not resend Row 17 gap 5 or Row 13 strings. Both are closed.
