@@ -3,6 +3,7 @@
 import ActivityScreen from '@/app/onboarding/activity';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
+import { router } from 'expo-router';
 import { act, allText, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
@@ -30,7 +31,6 @@ test('picking an activity level navigates to the next onboarding route', () => {
       jest.advanceTimersByTime(300);
     });
 
-    const { router } = require('expo-router') as { router: { push: jest.Mock } };
     expect(router.push).toHaveBeenCalledWith('/onboarding/cuisine');
   } finally {
     jest.useRealTimers();
