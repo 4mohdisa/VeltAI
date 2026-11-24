@@ -10286,3 +10286,13 @@
 - 2026-11-25 05:42 Prettier stays unconfigured this round. Decision parked until a Prettier run shows how much it would change.
 - 2026-11-25 05:42 Full Jest is skipped this round because it is not a checkpoint round (next checkpoint is 170). Only tsc, lint and the parity test run.
 - 2026-11-25 05:42 The es and fr visibility question stays parked for Isa. It does not block the verify work, since parity is checked on the locale files regardless of whether the app shows them.
+- 2026-11-25 05:43 Addressed the loop flag first: the verify chain is partial, so this round finishes its next slice (full Jest) before anything else. Reason: the flag says the last task looks only partly done.
+- 2026-11-25 05:43 Fix the analyticsSink.ts:29 warning now, because verify must fail on any problem and a warning should not sit in the gate. Reason: the row 29 spec says fails on any problem.
+- 2026-11-25 05:43 Kept row 29 PARTIAL until Go, migrations, manifest, secrets and CI are in. Reason: the row is not finished until every gate is in verify.
+- 2026-11-25 05:43 Chose row 29 over 2.5 because the full checkpoint is due at round 170 and the gate must exist before more features land. Jev ranked the next action as run at 94%, so no override.
+- 2026-11-25 05:43 Prettier stays unconfigured (parked, Isa decision). Reason: no repo config exists and it is not a gate yet.
+- 2026-11-25 05:43 Chose row 29 slice (full Jest in verify, lint warning fixed) because the last report said it was the next slice and verify must not pass with warnings.
+- 2026-11-25 05:43 Resent the prompt with the explicit loop/phase4 branch rule, because the last prompt was rejected for not stating it. Read-only branch check is allowed so the branch is confirmed before work starts.
+- 2026-11-25 05:43 Kept the lint warning fix inside this round because verify must never pass with lint warnings.
+- 2026-11-25 05:43 Trimmed the notes to fit the 600 word limit. Finished items were removed; decisions were kept.
+- 2026-11-25 05:43 Jev signals: run at 93% confidence, so no change of action. Risk is 1.0 of 2, so the task stays small (one slice, one checkpoint).
