@@ -22,17 +22,17 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. Sign up, sign in, onboarding and new Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps. Big visual ideas go to OWNER_CHECKS_phase4.md as post launch UI items.
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
-- Prompts ask for one screen, component or file each. Mock batches are at most 2 files while Jev risk is high. Prompts have at most 5 numbered steps. Name every file by full path.
+- Prompts ask for one screen, component or file each. Prompts have at most 5 numbered steps (a 7 step prompt was rejected in round 22). Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
 - Row 2.1 total gym days comes from the database (total_days), not from the capped store.
 - Row 2 sub steps are named 2.1 to 2.5 so they do not clash with rows 2b, 2c, 2d.
-- Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1 (they are not the API streak mock).
+- Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
+- Fixture total_days value is 20, matching longest_streak 20 in those mocks.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
-- Rounds 10-18: hydrateGym limit 200, total_days on backend, GymStreak.total_days in app, streakFromApi takes only row, hooks.ts distinct count removed, 3 stale mocks fixed (gymStreak.emptyStates, gymFreeze.emptyStates, gymStreak.render).
-- Round 19: no change. Wrong target corrected.
-- Round 20: gymHistory.render and gymHistory.emptyStates fixed (total_days added).
+- Rounds 10-20: hydrateGym limit 200, total_days on backend, GymStreak.total_days in app, streakFromApi takes only row, hooks.ts distinct count removed, stale mocks fixed in gymStreak, gymFreeze, gymHistory, freeze, gymStreakStripFootnote.
+- Rounds 21-22: dashboardSummary.render and hydrationErrorState.render got total_days.
 
 ## Blocked on Isa
 (nothing)
@@ -41,9 +41,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 (nothing)
 
 ## Next
-- Round 20 (sent): src/__tests__/render/freeze.render.test.tsx and src/__tests__/render/gymStreakStripFootnote.render.test.tsx get total_days.
-- Round 21: src/__tests__/render/dashboardSummary.render.test.tsx and src/__tests__/render/hydrationErrorState.render.test.tsx.
-- Round 22: src/__tests__/render/summaryHydration.render.test.tsx and src/__tests__/productionReadiness.test.ts (2 streak objects in the gym hydration tests).
+- Round 23: src/__tests__/render/summaryHydration.render.test.tsx gets total_days (one file, 5 steps).
+- Round 24: src/__tests__/productionReadiness.test.ts gets total_days (2 streak objects).
 - Then the Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak). Set 2.1 BUILT only after both the mocks and the simulator check.
 - Then Row 2.2: fix react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400. Then gym/schedule_pg.go LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
 - Then 2.3 (translations and Retry), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
@@ -57,5 +56,5 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from hooks.ts. Look at them in Row 22.
-- Jev risk high: keep steps to one or two files and check the gates each round.
+- Jev risk high: keep steps to one file and check the gates each round.
 - zsh: quote glob patterns and pass Jest file lists quoted or via printf '%s\0' with xargs -0.

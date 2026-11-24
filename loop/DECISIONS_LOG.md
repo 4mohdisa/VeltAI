@@ -9699,3 +9699,10 @@
 - 2026-11-25 02:27 Two files per round, to keep Jev risk at moderate and gates checked each round.
 - 2026-11-25 02:27 Left src/lib/mock/data.ts and useApiHarness.ts untouched, as the earlier decision says.
 - 2026-11-25 02:27 Recorded the 'partly done' loop flag: the next prompt names every file and states the exact steps, so there is no open-ended search.
+- 2026-11-25 02:28 Kept total_days: 20 in the test mocks (same as longest_streak: 20 in those mocks). Fixtures only, no product impact. Isa did not get asked.
+- 2026-11-25 02:28 Round 21 takes the two render files named in the notes; the third (summaryHydration) and productionReadiness move to round 22. Jev risk is high, so keep to two files per round.
+- 2026-11-25 02:28 The tile check for 2.1 on the simulator stays after all mocks are fixed. It needs the backend running locally, so it goes in the same round as the final mock fix only if the gates stay green.
+- 2026-11-25 02:29 Round 23: the last prompt was rejected for 7 steps and 2+ files. The new prompt has 5 steps and one file, as the loop note asks.
+- 2026-11-25 02:29 Round 23: summaryHydration.render is next because it is the smallest remaining mock; productionReadiness.test.ts follows in round 24.
+- 2026-11-25 02:29 Round 23: total_days stays 20 in mocks, matching longest_streak 20 (same decision as round 21).
+- 2026-11-25 02:29 Round 23: 2.1 stays PARTIAL until productionReadiness is fixed and the simulator check of the Total tile is done.
