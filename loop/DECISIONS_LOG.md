@@ -9788,3 +9788,6 @@
 - 2026-11-25 02:56 Chose candidate 1: it follows the pattern just proven in calendar.strings.render.test.tsx and keeps steps to one file, which matches the moderate Jev risk.
 - 2026-11-25 02:56 Kept the prompt to one file and five steps, per the notes rule, to limit risk while the loop runs without Isa.
 - 2026-11-25 02:56 Did not open the other single-warning tests; a later round will check them one file at a time, as the notes say.
+- 2026-11-25 02:57 Chose the checkpoint over Jev's top pick (gymSession swap, 97%) because the loop note says this round must be the full type check and full Jest run with no file changes; the gymSession swap moves to round 45, one file per round.
+- 2026-11-25 02:57 Checkpoint report lists failing suites by name so any regression from rounds 38 to 43 is caught before more edits.
+- 2026-11-25 02:57 Jev risk is 0.9 (moderate to high). Keeping steps to a single file and gate checks each round, and this round changes nothing.

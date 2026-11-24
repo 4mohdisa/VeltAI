@@ -12,7 +12,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: about 55, mostly no-require-imports in src/__tests__.
+- Errors: 0. Warnings: about 54, mostly no-require-imports in src/__tests__.
 - Count with `npx eslint -f json` piped to a small counting script.
 
 ## Decisions (never delete)
@@ -33,7 +33,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
-- Full suite on checkpoint rounds. Round 35 was a checkpoint; next about round 45.
+- Full suite on checkpoint rounds. Round 35 was a checkpoint; round 44 was a checkpoint (no file changes); next about round 54.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
 - zsh: quote glob patterns; pass Jest file lists via tr '\n' '\0' | xargs -0.
@@ -50,7 +50,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 39: history.tsx bounds the session read to the last 7 days.
 - Round 40: i18n lint warnings cleared in src/lib/i18n/index.ts.
 - Round 41: debugStore.test.ts lint clean.
-- Round 42: calendar.strings.render.test.tsx warning cleared with jest.requireActual('react'). 2 of 2 tests pass.
+- Round 42: calendar.strings.render.test.tsx warning cleared with jest.requireActual('react').
+- Round 43: gymCards.emptyStates.render.test.tsx warning cleared (6 of 6 pass).
+- Round 44 (checkpoint, no file changes): full tsc and full Jest run. Result recorded in the round report.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -59,8 +61,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 43 (now): gymCards.emptyStates.render.test.tsx no-require-imports (one file).
-- Then one file per round, lowest warning count first. Biggest: src/__tests__/noFabricatedData.test.ts, src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same require('react') pattern.
+- Round 45: gymSession.emptyStates.render.test.tsx: swap require('react') for jest.requireActual('react') (one file; remove any disable comment).
+- Then the same swap, one file per round, for: gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList, savedMealsList, savedMealsLog, savedScreen, todayCard (all in src/__tests__/render/).
+- Then the biggest warnings: src/__tests__/noFabricatedData.test.ts, src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same pattern.
 - Then camera mocks in photoScan, labelScan and scanScreens.strings (switch from disable comment to jest.requireActual).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
