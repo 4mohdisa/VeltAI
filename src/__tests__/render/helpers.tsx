@@ -15,10 +15,16 @@ import TestRenderer, { type ReactTestRenderer, type ReactTestInstance } from 're
 // underneath it — cross-test pollution that looks like a product bug.
 const mounted: ReactTestRenderer[] = [];
 
+// Every screen renders inside the app-state provider, as it does under the
+// root layout. Resolved per call, not imported at the top: setup.ts imports
+// this file, so a top-level import would load appState (and expo-router)
+// before a test file's own jest.mock('expo-router') could replace it. A screen
+// whose test mocks useAppState still reads the mock; the provider is unused.
 export function renderScreen(el: ReactElement): ReactTestRenderer {
+  const { AppStateProvider } = jest.requireActual<typeof import('@/lib/auth/appState')>('@/lib/auth/appState');
   let tree!: ReactTestRenderer;
   TestRenderer.act(() => {
-    tree = TestRenderer.create(el);
+    tree = TestRenderer.create(<AppStateProvider>{el}</AppStateProvider>);
   });
   mounted.push(tree);
   return tree;

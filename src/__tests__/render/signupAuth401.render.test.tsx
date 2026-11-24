@@ -1,11 +1,13 @@
 // Sign up → onboarding status check (PHASE4_ROWS.md row 2b, session expiry).
 // EXECUTES the real screen through the email-code path to continueAfterAuth.
-// A 401 from the status check means the session is not valid: sign in again,
-// never "Couldn't reach the server". A network error keeps that message, and a
+// A 401 from the status check means the session is not valid: the real auth
+// runtime ends the rejected Clerk session, keeps the onboarding answers and
+// opens sign-in, never "Couldn't reach the server". A network error keeps that message, and a
 // success continues. The API client and Clerk are mocked; no network.
 import SignupScreen from '@/app/onboarding/signup';
 import { router } from 'expo-router';
 import { showToast } from '@/components/display/toastStore';
+import { registerSignOutExecutor } from '@/lib/auth/signOutSeam';
 import en from '@/lib/i18n/locales/en.json';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { act, buttonWithTitle, findAll, renderScreen } from './helpers';
@@ -16,7 +18,10 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
   SkeletonList: () => null,
 }));
 
-jest.mock('@/components/display/toastStore', () => ({ showToast: jest.fn() }));
+jest.mock('@/components/display/toastStore', () => ({
+  ...jest.requireActual('@/components/display/toastStore'),
+  showToast: jest.fn(),
+}));
 
 jest.mock('@/lib/auth/clerkEnv', () => ({
   isClerkEnabled: () => true,
@@ -43,6 +48,8 @@ jest.mock('@/lib/api', () => ({
   api: { onboarding: { get: (...args: unknown[]) => mockGet(...args) } },
 }));
 
+const mockSignOut = jest.fn().mockResolvedValue(undefined);
+
 const settle = async () => {
   await act(async () => {
     await new Promise((r) => setImmediate(r));
@@ -64,20 +71,25 @@ async function verifyEmailCode(): Promise<void> {
 
 beforeEach(() => {
   mockGet.mockReset();
+  mockSignOut.mockClear();
+  registerSignOutExecutor(mockSignOut);
   jest.mocked(showToast).mockClear();
   useOnboardingStore.getState().reset();
   useOnboardingStore.getState().setGoal('lose');
 });
 
-test('a 401 sends the user to sign in with the session expired message', async () => {
+afterAll(() => registerSignOutExecutor(null));
+
+test('a 401 ends the session once, keeps the answers and opens sign in', async () => {
   mockGet.mockRejectedValueOnce(Object.assign(new Error('invalid token'), { status: 401 }));
   await verifyEmailCode();
 
-  expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.sessionExpired, tone: 'error' });
+  expect(mockSignOut).toHaveBeenCalledTimes(1);
+  expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.sessionExpired, tone: 'info' });
   expect(showToast).not.toHaveBeenCalledWith(
     expect.objectContaining({ message: en.signup.toastServerUnreachable }),
   );
-  expect(router.push).toHaveBeenCalledWith('/onboarding/signup?mode=signin');
+  expect(router.replace).toHaveBeenCalledWith('/onboarding/signup?mode=signin');
   expect(useOnboardingStore.getState().goal).toBe('lose');
 });
 
@@ -88,6 +100,7 @@ test('a network error still shows the server message and continues the flow', as
   expect(showToast).toHaveBeenCalledWith({ message: en.signup.toastServerUnreachable, tone: 'info' });
   expect(router.push).toHaveBeenCalledWith('/onboarding/measurements');
   expect(router.push).not.toHaveBeenCalledWith('/onboarding/signup?mode=signin');
+  expect(mockSignOut).not.toHaveBeenCalled();
 });
 
 test('a successful status check continues without an error message', async () => {
@@ -96,4 +109,5 @@ test('a successful status check continues without an error message', async () =>
 
   expect(router.push).toHaveBeenCalledWith('/onboarding/measurements');
   expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ tone: 'error' }));
+  expect(mockSignOut).not.toHaveBeenCalled();
 });

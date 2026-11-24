@@ -26,7 +26,8 @@ import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { navigate } from '@/lib/nav';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
-import { classifyConnectivity } from '@/lib/auth/machine';
+import { useAppState } from '@/lib/auth/appState';
+import { classifyConnectivity, type AuthEvent } from '@/lib/auth/machine';
 import { api } from '@/lib/api';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { resolvePostAuth } from '@/lib/onboarding/postAuth';
@@ -56,15 +57,16 @@ type Mode = 'signup' | 'signin';
  *                        there is one, and only fall through to the flow when
  *                        nothing local says otherwise. Say so either way.
  */
-async function continueAfterAuth(): Promise<void> {
+async function continueAfterAuth(dispatch: (event: AuthEvent) => void): Promise<void> {
   let serverCompleted: boolean | undefined;
   try {
     serverCompleted = (await api.onboarding.get()).completed;
   } catch (e) {
     devWarn('[onboarding] status check failed:', e);
     if (classifyConnectivity(e) === 'sessionExpired') {
-      showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
-      navigate('/onboarding/signup?mode=signin');
+      // The machine ends the rejected Clerk session, keeps the onboarding
+      // answers, opens sign-in and shows the expired message.
+      dispatch({ type: 'SESSION_ENDED' });
       return;
     }
   }
@@ -165,6 +167,7 @@ function clerkMessage(e: unknown): string {
 
 function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => void }) {
   const { t } = useTranslation();
+  const { dispatch } = useAppState();
   const { startSSOFlow } = useSSO();
   const { signUp, setActive: setActiveUp, isLoaded: upLoaded } = useSignUp();
   const { signIn, setActive: setActiveIn, isLoaded: inLoaded } = useSignIn();
@@ -188,7 +191,7 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
         });
         if (createdSessionId && setActive) {
           await setActive({ session: createdSessionId });
-          await continueAfterAuth();
+          await continueAfterAuth(dispatch);
           return;
         }
         // No session: the user cancelled or the flow needs extra steps.
@@ -199,7 +202,7 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
         setBusy(null);
       }
     },
-    [startSSOFlow, t],
+    [startSSOFlow, dispatch, t],
   );
 
   // Asks Clerk to (re)send the email code. The first send and Resend share it.
@@ -280,13 +283,13 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
         if (done.status !== 'complete' || !done.createdSessionId) throw new Error('verification incomplete');
         await setActiveIn({ session: done.createdSessionId });
       }
-      await continueAfterAuth();
+      await continueAfterAuth(dispatch);
     } catch (e) {
       showToast({ message: clerkMessage(e), tone: 'error' });
     } finally {
       setBusy(null);
     }
-  }, [code, mode, signUp, signIn, setActiveUp, setActiveIn, t]);
+  }, [code, mode, signUp, signIn, setActiveUp, setActiveIn, dispatch, t]);
 
   const anyBusy = busy !== null;
 
