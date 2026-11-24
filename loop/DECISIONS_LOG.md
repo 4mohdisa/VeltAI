@@ -10303,3 +10303,8 @@
 - 2026-11-25 05:46 Migration check skips with exit 0 when the test database variable is unset, matching how TestPG already behaves, so verify stays runnable without the database.
 - 2026-11-25 05:46 Jev rated the last task only 60% clean and risk 0.8. Kept a single small step rather than a larger row, as the advice suggests.
 - 2026-11-25 05:46 Did not start row 2.5 yet, because the verify chain must be green and honest before adding backend persistence.
+- 2026-11-25 05:50 Round 173: the loop flag was about a partly done row. Closing it first with a check that the parity test and migration step are both in verify, plus one line in the row 29 notes. The migration apply check skips without the variable by design (Row 17 applies it on the local database).
+- 2026-11-25 05:50 Round 173: the secrets scan comes before the manifest check, because the manifest check needs the Row 12 file. Pattern and no-value-printing rules are in the prompt.
+- 2026-11-25 05:50 Round 173: the secrets scan test builds fake keys at runtime so no secret-like literal lands in the repo.
+- 2026-11-25 05:50 Round 172: migration check skips with exit 0 when LUME_TEST_DATABASE_URL is unset (same as TestPG).
+- 2026-11-25 05:50 Round 170: analyticsSink warning cleared by a scoped config allow, not a code change.
