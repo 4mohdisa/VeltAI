@@ -38,7 +38,9 @@ import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatNumber, formatRelativeDate } from '@/lib/formatting';
 import { burnOf, dayMonth, mean, netOf, useEnergyRange, weekdayLetter, weekdayShort } from '@/lib/data/energyRange';
+import { useUnitPreferences } from '@/lib/settings/store';
 import type { EnergyBalance } from '@/lib/types';
+import { formatEnergy, kcalToDisplay } from '@/lib/units';
 
 // ---------------------------------------------------------------------------
 // Week bindings
@@ -88,6 +90,9 @@ export default function WeekDetailScreen(): JSX.Element {
 
 function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
   const { t } = useTranslation();
+  const unit = useUnitPreferences().energy;
+  const amount = (kcal: number) => formatNumber(kcalToDisplay(kcal, unit));
+  const signedAmount = (kcal: number) => signed(kcalToDisplay(kcal, unit));
   const [mode, setMode] = useState<Mode>('balance');
   const [pickedDate, setPickedDate] = useState<string | null>(null);
   const week = days.slice(-7);
@@ -143,8 +148,8 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
           />
           {mode === 'balance' ? (
             <StatLine
-              value={avgInWeek != null ? formatNumber(avgInWeek) : '—'}
-              unit={t('dashboard.kcalEatenPerDay')}
+              value={avgInWeek != null ? amount(avgInWeek) : '—'}
+              unit={t('dashboard.kcalEatenPerDay', { unit })}
               sub={
                 week.length > 0
                   ? `${dayMonth(week[0].date)}${t('dashboard.rangeSeparator')}${dayMonth(week[week.length - 1].date)}`
@@ -154,8 +159,8 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
             />
           ) : (
             <StatLine
-              value={avgNetWeek != null ? signed(avgNetWeek) : '—'}
-              unit={t('dashboard.kcalNetPerDay')}
+              value={avgNetWeek != null ? signedAmount(avgNetWeek) : '—'}
+              unit={t('dashboard.kcalNetPerDay', { unit })}
               sub={t('dashboard.weekNetAveragedOver', { value: weekNets.length, total: week.length })}
               tight
             />
@@ -166,12 +171,12 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
               <Plot
                 cols={heroCols}
                 height={HERO_H}
-                ceiling={formatNumber(heroScale)}
+                ceiling={amount(heroScale)}
                 barWidthRatio={HERO_BAR_RATIO}
                 dimOpacity={HERO_DIM_OPACITY}
                 gutterWidth={CHART_GUTTER_W}
                 scaleLabelWidth={SCALE_LABEL_W}
-                summary={t('dashboard.weekEatenSummary', { count: days.length, value: formatNumber(heroScale) })}
+                summary={t('dashboard.weekEatenSummary', { count: days.length, value: formatEnergy(heroScale, unit) })}
               />
               {avgIn14 != null ? (
                 <>
@@ -193,7 +198,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                     numberOfLines={1}
                     style={{ position: 'absolute', left: 0, bottom: avgY, paddingBottom: 2, fontSize: 12 }}
                   >
-                    {t('dashboard.weekAverageLine', { value: formatNumber(avgIn14) })}
+                    {t('dashboard.weekAverageLine', { value: formatEnergy(avgIn14, unit) })}
                   </Text>
                 </>
               ) : null}
@@ -202,8 +207,8 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
           </View>
           {avgIn14 != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
-              {`${t('dashboard.weekEatenAverage', { count: days.length, value: formatNumber(avgIn14) })}${
-                target != null ? ` ${t('dashboard.weekTarget', { value: formatNumber(target) })}` : ''
+              {`${t('dashboard.weekEatenAverage', { count: days.length, value: formatEnergy(avgIn14, unit) })}${
+                target != null ? ` ${t('dashboard.weekTarget', { value: formatEnergy(target, unit) })}` : ''
               }`}
             </Text>
           ) : null}
@@ -227,15 +232,15 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                   <Plot
                     cols={secCols}
                     height={SEC_H}
-                    ceiling={formatNumber(secScale)}
-                    mid={formatNumber(secScale / 2)}
+                    ceiling={amount(secScale)}
+                    mid={amount(secScale / 2)}
                     floor="0"
                     gridInset
                     dimOpacity={NET_DIM_OPACITY}
                     gap={DAILY_NET_COLUMN_GAP}
                     gutterWidth={CHART_GUTTER_W}
                     scaleLabelWidth={SCALE_LABEL_W}
-                    summary={t('dashboard.weekNetSummary', { value: weekNets.length, total: week.length, largest: formatNumber(secScale) })}
+                    summary={t('dashboard.weekNetSummary', { value: weekNets.length, total: week.length, largest: formatEnergy(secScale, unit) })}
                   />
                   {/* One tap target per column, laid out like Plot's: the same gap, gutter CHART_GUTTER_W. */}
                   <View style={{ position: 'absolute', left: 0, right: CHART_GUTTER_W, top: 0, bottom: 0, flexDirection: 'row', gap: DAILY_NET_COLUMN_GAP }}>
@@ -269,7 +274,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
               </View>
               {avgNetWeek != null ? (
                 <Text variant="footnote" color={color.secondaryLabel}>
-                  {t('dashboard.weekNetAverage', { value: signed(avgNetWeek), deficits, total: weekNets.length })}
+                  {t('dashboard.weekNetAverage', { value: signedAmount(avgNetWeek), unit, deficits, total: weekNets.length })}
                 </Text>
               ) : null}
             </>
@@ -293,11 +298,11 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                 label={formatRelativeDate(new Date(`${d.date}T00:00:00`))}
                 sub={
                   burn != null
-                    ? t('dashboard.weekRowBurned', { eaten: formatNumber(d.calories_in), burned: formatNumber(burn) })
-                    : t('dashboard.weekRowNoBurn', { eaten: formatNumber(d.calories_in) })
+                    ? t('dashboard.weekRowBurned', { eaten: amount(d.calories_in), burned: amount(burn) })
+                    : t('dashboard.weekRowNoBurn', { eaten: amount(d.calories_in) })
                 }
-                value={net == null ? '—' : signed(net)}
-                unit={net == null ? undefined : t('dashboard.kcal')}
+                value={net == null ? '—' : signedAmount(net)}
+                unit={net == null ? undefined : unit}
                 fraction={net == null ? 0 : Math.abs(net) / rowMax}
               />
             );

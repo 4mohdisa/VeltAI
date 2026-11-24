@@ -10209,3 +10209,15 @@
 - 2026-11-25 05:15 Chose the energy unit fix (candidate 1): it is a concrete user-visible bug, on the Next list, and small enough to finish in one round. Jev rated continuing at risk 0.8 with the task small; accepted.
 - 2026-11-25 05:15 Kept the round 149 result (nutrition.mealLine) as built; no re-check needed.
 - 2026-11-25 05:15 Left PHASE4_ROWS.md 2.3 note for a later round, after the remaining 2.3 items are done.
+- 2026-11-25 05:18 Round 151: the automatic check flagged round 150 as partly done. Chose to close the gap first (kcal sweep, unused keys, the missing 2.3 row note) before the week screen, because the flag asks to deal with it before moving on.
+- 2026-11-25 05:18 The week screen change is deferred to round 152 so one round changes one screen's behaviour.
+- 2026-11-25 05:18 Jev risk 0.9 for continuing without Isa noted. Task is small, read-mostly and reversible, so continuing.
+- 2026-11-25 05:18 Jev says the last task was 88% likely clean. Choice matches the flag, so no reason to override Jev.
+- 2026-11-25 05:19 Round 152: one screen only (week.tsx), because the last prompt was rejected for covering two screens. The key merge moves to round 153.
+- 2026-11-25 05:19 Week screen keeps kcal as the default, so no snapshot should change.
+- 2026-11-25 05:19 Stop and report if a shared component needs a change, rather than widening scope.
+- 2026-11-25 05:19 Smallest remaining 2.3 task chosen over ConfidenceBadge, given Jev's risk score of 0.9.
+- 2026-11-25 05:19 Rewrote the rejected prompt to state the loop/phase4 only rule up front, with no git commands and no branch changes.
+- 2026-11-25 05:19 Chose week.tsx energy unit as the next task because the latest report and the notes both name it as next; one screen per round.
+- 2026-11-25 05:19 Kept weekTarget and energyTarget separate this round; merging them is round 153 so the change stays small.
+- 2026-11-25 05:19 Rejected the week range separator task for now; it is folded into the week check, and the energy unit change comes first.
