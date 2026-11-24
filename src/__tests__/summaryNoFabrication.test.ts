@@ -39,7 +39,7 @@ test('no burn target: the Burned key has no target and says so', () => {
   const burnedRow = card.split('<KeyRow').find((row) => row.includes("t('dashboard.energyBalance.burned')"))?.split('/>')[0];
   expect(burnedRow).toBeDefined();
   expect(burnedRow).not.toMatch(/\btarget=/);
-  expect(burnedRow).toContain('sub="No burn target set"');
+  expect(burnedRow).toContain("sub={t('dashboard.energyBalance.noBurnTarget')}");
   expect(card).toMatch(/<Ring r=\{RING_INNER_R\} fraction=\{0\}/);
 });
 

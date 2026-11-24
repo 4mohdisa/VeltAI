@@ -637,7 +637,13 @@
       "surplus": "surplus",
       "intake": "Intake",
       "burned": "Burned",
-      "percentOfGoal": "{{percent}}% of goal"
+      "percentOfGoal": "{{percent}}% of goal",
+      "label": "Energy balance detail",
+      "loadFailed": "Couldn't load today's energy balance. Pull down to try again.",
+      "noDataToday": "No energy data for today yet.",
+      "nothingYet": "Nothing logged or burned yet today. Log food and add your body stats to see your balance.",
+      "noGoal": "No calorie goal set",
+      "noBurnTarget": "No burn target set"
     },
     "breakdown": "Breakdown",
     "thisWeek": "This week",

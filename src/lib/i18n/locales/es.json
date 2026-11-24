@@ -639,7 +639,13 @@
       "surplus": "superávit",
       "intake": "Ingesta",
       "burned": "Quemadas",
-      "percentOfGoal": "{{percent}} % del objetivo"
+      "percentOfGoal": "{{percent}} % del objetivo",
+      "label": "Detalle del balance energético",
+      "loadFailed": "No se pudo cargar el balance energético de hoy. Desliza hacia abajo para reintentar.",
+      "noDataToday": "Todavía no hay datos de energía de hoy.",
+      "nothingYet": "Hoy aún no has registrado ni quemado nada. Registra comida y añade tus datos corporales para ver tu balance.",
+      "noGoal": "Sin objetivo de calorías",
+      "noBurnTarget": "Sin objetivo de gasto"
     },
     "breakdown": "Desglose",
     "thisWeek": "Esta semana",

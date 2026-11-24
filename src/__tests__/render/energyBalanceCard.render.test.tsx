@@ -7,7 +7,11 @@
 import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import type { EnergyBalance } from '@/lib/api';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
-import { act, allText, renderScreen } from './helpers';
+import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
+import fr from '@/lib/i18n/locales/fr.json';
+import { act, allText, findAll, renderScreen } from './helpers';
 
 jest.mock('@/components/display', () => ({
   ...jest.requireActual('@/components/display'),
@@ -107,4 +111,35 @@ test('Reduce Motion skips the easing and sets the new value immediately', () => 
   });
   // No fake-timer advance needed — Reduce Motion sets the value on the spot.
   expect(allText(tree)).toContain('+200');
+});
+
+describe('follows the app language', () => {
+  afterAll(async () => {
+    await act(async () => {
+      await i18n.changeLanguage('en');
+    });
+  });
+
+  test.each([
+    ['en', en],
+    ['es', es],
+    ['fr', fr],
+  ])('%s: label, key subtitles and every state line', async (lang, strings) => {
+    await act(async () => {
+      await i18n.changeLanguage(lang);
+    });
+    const s = { ...strings.dashboard.energyBalance, addBodyStats: strings.dashboard.energyAddBodyStats };
+    const tree = renderScreen(
+      <EnergyBalanceCard day={day({ target: null })} loading={false} error={false} energyUnit="kcal" />,
+    );
+    expect(findAll(tree, (p) => p.accessibilityLabel === s.label).length).toBeGreaterThan(0);
+    expect(allText(tree)).toContain(s.noGoal);
+    expect(allText(tree)).toContain(s.noBurnTarget);
+    expect(text({ day: day({ calories_out_bmr: null, calories_out_total: null, net_balance: null }) })).toContain(s.addBodyStats);
+    expect(text({ day: day({ calories_in: 0, calories_out_bmr: null, calories_out_total: null, net_balance: null }) })).toContain(
+      s.nothingYet,
+    );
+    expect(text({ day: null })).toContain(s.noDataToday);
+    expect(text({ day: null, error: true })).toContain(s.loadFailed);
+  });
 });

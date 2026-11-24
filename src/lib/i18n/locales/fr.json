@@ -637,7 +637,13 @@
       "surplus": "surplus",
       "intake": "Apport",
       "burned": "Brûlées",
-      "percentOfGoal": "{{percent}} % de l’objectif"
+      "percentOfGoal": "{{percent}} % de l’objectif",
+      "label": "Détail du bilan énergétique",
+      "loadFailed": "Impossible de charger le bilan énergétique du jour. Tirez vers le bas pour réessayer.",
+      "noDataToday": "Aucune donnée énergétique pour aujourd’hui.",
+      "nothingYet": "Rien d’enregistré ni de brûlé aujourd’hui. Enregistrez vos repas et ajoutez vos données corporelles pour voir votre bilan.",
+      "noGoal": "Aucun objectif calorique",
+      "noBurnTarget": "Aucun objectif de dépense"
     },
     "breakdown": "Détail",
     "thisWeek": "Cette semaine",

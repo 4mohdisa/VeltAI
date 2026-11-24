@@ -10114,3 +10114,7 @@
 - 2026-11-25 04:39 Jev ranks the same kind of small string task highest (run 98%), so no second look is needed.
 - 2026-11-25 04:39 Isa's open questions (morning brief free-plan refusal, 'Sept', es and fr hours spacing) stay parked; no retry of the spacing question.
 - 2026-11-25 04:39 WeekEnergyCard's direct i18n read (instead of useTranslation) is left as an allowed optional change inside round 126, not a separate round.
+- 2026-11-25 04:42 Chose candidate 1 because the last handover and report both name it as the next step, and it is a small single file change.
+- 2026-11-25 04:42 Kept one main file per prompt and max 5 steps, per the notes rules.
+- 2026-11-25 04:42 Left the key parity test for Row 29 to avoid a larger change while the risk signal is high.
+- 2026-11-25 04:42 Locale files are data, so the one main file rule still holds.

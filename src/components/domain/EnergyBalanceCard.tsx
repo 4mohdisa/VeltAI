@@ -183,11 +183,11 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
 
   if (error || !day) {
     return (
-      <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel="Energy balance detail">
+      <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel={t('dashboard.energyBalance.label')}>
         <View style={{ gap: space.lg }}>
           {header}
           <Text variant="callout" color={color.secondaryLabel}>
-            {error ? "Couldn't load today's energy balance. Pull down to try again." : 'No energy data for today yet.'}
+            {t(error ? 'dashboard.energyBalance.loadFailed' : 'dashboard.energyBalance.noDataToday')}
           </Text>
         </View>
       </Card>
@@ -199,7 +199,7 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
   const nothingYet = day.calories_in === 0 && (burned == null || burned === 0);
 
   return (
-    <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel="Energy balance detail">
+    <Card variant="elevated" onPress={() => router.push('/energy' as Href)} accessibilityLabel={t('dashboard.energyBalance.label')}>
       <View style={{ gap: space.lg }}>
         {header}
 
@@ -214,9 +214,7 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
           </View>
         ) : (
           <Text variant="callout" color={color.secondaryLabel}>
-            {nothingYet
-              ? 'Nothing logged or burned yet today. Log food and add your body stats to see your balance.'
-              : 'Add your body stats in onboarding to see your net balance.'}
+            {t(nothingYet ? 'dashboard.energyBalance.nothingYet' : 'dashboard.energyAddBodyStats')}
           </Text>
         )}
 
@@ -235,14 +233,14 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
               sub={
                 goal != null
                   ? t('dashboard.energyBalance.percentOfGoal', { percent: Math.round((day.calories_in / goal) * 100) })
-                  : 'No calorie goal set'
+                  : t('dashboard.energyBalance.noGoal')
               }
             />
             <KeyRow
               tint={accent.blue}
               label={t('dashboard.energyBalance.burned')}
               value={burned == null ? '—' : show(burned)}
-              sub="No burn target set"
+              sub={t('dashboard.energyBalance.noBurnTarget')}
             />
           </View>
         </View>
