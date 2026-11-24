@@ -35,7 +35,7 @@ describe('release builds contain no fabricated user data', () => {
   };
 
   test('the user profile carries no invented identity', () => {
-    const profile = asRelease(() => require('@/lib/data/userStore').useUserStore.getState().profile);
+    const profile = asRelease(() => jest.requireActual('@/lib/data/userStore').useUserStore.getState().profile);
     expect(profile.name).toBe('');
     expect(profile.email).toBe('');
     // The specific value that shipped, named so a regression is unmistakable.
@@ -44,20 +44,20 @@ describe('release builds contain no fabricated user data', () => {
   });
 
   test('body metrics are not invented (they feed calorie targets — 1.4.1)', () => {
-    const profile = asRelease(() => require('@/lib/data/userStore').useUserStore.getState().profile);
+    const profile = asRelease(() => jest.requireActual('@/lib/data/userStore').useUserStore.getState().profile);
     expect(profile.weightKg).toBe(0);
     expect(profile.heightCm).toBe(0);
     expect(profile.age).toBe(0);
   });
 
   test('the food log starts empty — no meals the user never logged', () => {
-    const s = asRelease(() => require('@/lib/data/foodStore').useFoodStore.getState());
+    const s = asRelease(() => jest.requireActual('@/lib/data/foodStore').useFoodStore.getState());
     expect(s.meals).toEqual([]);
     expect(s.savedFoods).toEqual([]);
   });
 
   test('the gym store starts empty — no streak the user never earned', () => {
-    const s = asRelease(() => require('@/lib/data/gymStore').useGymStore.getState());
+    const s = asRelease(() => jest.requireActual('@/lib/data/gymStore').useGymStore.getState());
     expect(s.sessions).toEqual([]);
     expect(s.loggedDays).toEqual([]);
     expect(s.frozenDates).toEqual([]);
@@ -68,7 +68,7 @@ describe('release builds contain no fabricated user data', () => {
 
   test('sign-out reset also yields empty stores in a release build', () => {
     const s = asRelease(() => {
-      const gym = require('@/lib/data/gymStore').useGymStore;
+      const gym = jest.requireActual('@/lib/data/gymStore').useGymStore;
       gym.getState().reset();
       return gym.getState();
     });
@@ -79,9 +79,9 @@ describe('release builds contain no fabricated user data', () => {
   test('dev builds KEEP the seed (the offline experience must stay navigable)', () => {
     // Default jest env: __DEV__ undefined -> isDevBuild() true.
     jest.resetModules();
-    const profile = require('@/lib/data/userStore').useUserStore.getState().profile;
+    const profile = jest.requireActual('@/lib/data/userStore').useUserStore.getState().profile;
     expect(profile.name.length).toBeGreaterThan(0);
-    const gym = require('@/lib/data/gymStore').useGymStore.getState();
+    const gym = jest.requireActual('@/lib/data/gymStore').useGymStore.getState();
     expect(gym.sessions.length).toBeGreaterThan(0);
   });
 
@@ -95,7 +95,7 @@ describe('release builds contain no fabricated user data', () => {
     const out = execSync(
       "grep -rn \"from '@/lib/mock\" src/app src/components --include='*.tsx' || true",
       { cwd: join(__dirname, '..', '..'), encoding: 'utf8' },
-    ) as string;
+    );
     const runtime = out
       .split('\n')
       .filter(Boolean)
@@ -111,7 +111,7 @@ describe('release builds contain no fabricated user data', () => {
 describe('onboarding sends every answer it collects', () => {
   const payload = () => {
     jest.resetModules();
-    const { onboardingPayload, useOnboardingStore } = require('@/lib/stores/onboarding');
+    const { onboardingPayload, useOnboardingStore } = jest.requireActual('@/lib/stores/onboarding');
     const s = useOnboardingStore.getState();
     s.setMeasurements({ age: 30, sex: 'male', height_cm: 180, weight_kg: 80, target_weight_kg: 72 });
     s.setActivity('moderate');
@@ -130,7 +130,7 @@ describe('onboarding sends every answer it collects', () => {
 
   test('optional overrides are omitted rather than sent as 0/null', () => {
     jest.resetModules();
-    const { onboardingPayload, useOnboardingStore } = require('@/lib/stores/onboarding');
+    const { onboardingPayload, useOnboardingStore } = jest.requireActual('@/lib/stores/onboarding');
     const p = onboardingPayload(useOnboardingStore.getState());
     expect(p).not.toHaveProperty('target_weight');
     expect(p).not.toHaveProperty('calorie_target');
@@ -240,7 +240,7 @@ describe('the OAuth deep link uses the scheme this app actually registers', () =
       "grep -rn 'lume://' src backend --include='*.ts' --include='*.tsx' --include='*.go' " +
         "--exclude-dir=__tests__ --exclude-dir=tests || true",
       { cwd: join(__dirname, '..', '..'), encoding: 'utf8' },
-    ) as string;
+    );
     // Comments explaining the old value are fine; a live string literal is not.
     const code = hits
       .split('\n')

@@ -9833,3 +9833,7 @@
 - 2026-11-25 03:09 The 11 store reloads stay as require() until jest.requireActual is shown to give a fresh module after jest.resetModules. The earlier NEXT plan assumed this without checking.
 - 2026-11-25 03:09 The 15 warnings in this file are plain require() calls, not require('react'), so the render-test swap pattern does not apply. The notes now say so.
 - 2026-11-25 03:09 Row 2.2 is still PARTIAL. No row status changes this round.
+- 2026-11-25 03:10 Accepted the purpose reading in the last report: 6 top-level imports (execSync, deriveGoals, deriveTargets) replace requires placed after resetModules, because no reset runs before the calorie-formula block and the derive modules are pure. Recorded so the strict reading can be revisited later.
+- 2026-11-25 03:10 Store reloads (9 remaining warnings) get a fresh-module probe before any swap, per the rule that require() after resetModules stays unless jest.requireActual is shown to give the same fresh module.
+- 2026-11-25 03:10 Redundant 'as string' casts after execSync in noFabricatedData are removed in the same round, since it is the same file and the change is small.
+- 2026-11-25 03:10 Kept one file per round and full Jest for the changed file only; the full suite waits for checkpoint round 60.
