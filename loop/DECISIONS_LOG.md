@@ -10152,3 +10152,8 @@
 - 2026-11-25 04:54 Kept the change to one main file (energyRange.ts) per the prompt rule; callers and DetailChart go to the next round.
 - 2026-11-25 04:54 Jev risk 0.9 with confidence 0.90: kept the task small, with no new strings beyond the existing calendar and date helpers.
 - 2026-11-25 04:54 Snapshot update allowed only in detailChrome if the en or es output intentionally changes.
+- 2026-11-25 04:56 Chose the energy.tsx axis fix first: round 136 is flagged partial, and es and fr axes currently show clashing lowercase letters from Intl names. Smallest fix first.
+- 2026-11-25 04:56 Accepted the round 136 deviation from step 2: weekdayShort stays a full name because it is the VoiceOver label in week.tsx, and weekdayLetter gives the axis letter. Recorded for Isa.
+- 2026-11-25 04:56 One main file per round kept (rule from notes) so the four remaining axis callers go one per round, not in one batch.
+- 2026-11-25 04:56 Rewrote the notes under 600 words per the loop note. Merged repeats and removed finished work.
+- 2026-11-25 04:56 Jev risk 1.2 of 2 with 50 percent clean completion: kept the task small (one file, one line change).

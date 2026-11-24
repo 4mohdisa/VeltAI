@@ -35,7 +35,7 @@ import {
 import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, layout, radius, space } from '@/lib/design/tokens';
 import { formatNumber, formatRelativeDate } from '@/lib/formatting';
-import { burnOf, mean, netOf, useEnergyRange, weekdayShort } from '@/lib/data/energyRange';
+import { burnOf, mean, netOf, useEnergyRange, weekdayLetter } from '@/lib/data/energyRange';
 import type { EnergyBalance } from '@/lib/types';
 
 // ---------------------------------------------------------------------------
@@ -255,7 +255,7 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
             scaleLabelWidth={SCALE_LABEL_W}
             summary={t('dashboard.energyWeekSummary', { count: week.length, value: formatNumber(secScale) })}
           />
-          <Axis labels={week.map((d) => weekdayShort(d.date).charAt(0))} gutterWidth={CHART_GUTTER_W} />
+          <Axis labels={week.map((d) => weekdayLetter(d.date))} gutterWidth={CHART_GUTTER_W} />
           {weekAvgIn != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
               {t('dashboard.energyAverageEaten', { value: formatNumber(weekAvgIn) })}
