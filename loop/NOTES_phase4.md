@@ -5,30 +5,28 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
-- Prompts must restate the branch rule.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL (2.3 and 2.4 done, 2.5 not started). Row 12 PARTIAL (12a verified read only in round 177, 12b in progress in round 178). Row 29 PARTIAL.
-- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan, check:manifest (round 178).
-- CI workflow: .github/workflows/verify.yml, local only, never run on GitHub.
-- Round 177 checkpoint: green. tsc 0 errors, Jest 259 suites, 1,524 tests, 4 snapshots.
-- Next full checkpoint: round 180.
+- Row 1 BUILT. Rows 12 and 12b BUILT. Row 2 PARTIAL (2.3 and 2.4 done, 2.5 status unclear, re-check with grep, 2.2 remaining). Row 29 PARTIAL.
+- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan, check:manifest.
+- Row 29 open: CI workflow never run on GitHub (local only). expo lint covers src, app, components only, not scripts/.
+- Last checkpoint (round 177): tsc 0, Jest 259 suites, 1,524 tests. Full verify not yet run since row 12 work.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Row 12b (round 178) -> 2.5 goals and unit prefs via backend (round 179) -> 2.2 remaining -> 2b -> 3 to 14b -> 15 to 30 -> 31.
+Round 181 (this round): full npm run verify, each step recorded in BASELINE_phase4.md. Then row 29 BUILT only if green with zero warnings. Then 2.5 (after grep), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
-- Lint: npx expo lint. Verify never passes with warnings.
-- Do not edit src/lib/mock/data.ts or src/__tests__/helpers/useApiHarness.ts. Do not change api.ts listSessions defaults.
+- Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
+- Do not edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts or ios/. Do not change api.ts listSessions defaults.
 - No new eslint-disable in app code. setup.ts must not import expo-router at top.
 - Animated values: useState(() => new Animated.Value(x)).
 - Gym total days from the database (total_days), not the capped store.
 - i18n: keep import { use as addPlugin }. Locale JSON: json.dumps(indent=2, ensure_ascii=False) plus newline, after round trip check. One full key per sentence. Plurals _one and _other only.
 - Outside React: import i18n from '@/lib/i18n'. Dates: dateLocale(i18n.language).
 - Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u.
-- If a render test calls jest.resetModules, unmountAll misses trees created after reset.
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
-- Max 5 steps per prompt. Grep before editing and before asking for work.
+- Max 5 steps per prompt. One screen or component per prompt. Grep before editing and before asking for work.
+- Every prompt states the loop/phase4 branch rule first.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -38,22 +36,18 @@ Row 12b (round 178) -> 2.5 goals and unit prefs via backend (round 179) -> 2.2 r
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 178: manifest check reads app.json (ios/ is stale prebuild output, git ignored).
-- Round 178: check:manifest runs in verify after secrets:scan.
-- Round 177: checkpoint chosen over 12b (Jev 97%). Green.
-- Round 176: privacy manifest in app.json (ios.privacyManifests). Face ID and Motion prompts removed (not used). Camera is the only prompt; es and fr camera text added.
-- Round 174: CI workflow local only, throwaway local Postgres service, no repository secret. Shim SQL in backend/tests/migrations/supabase_shims.sql.
-- Round 173: secrets scan runs before manifest check.
+- Round 181: prompt rewritten after loop rejection for missing branch rule. Branch rule now first. One task only.
+- Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
+- Round 180: parity test runs in full Jest, so no separate wiring into verify.
+- Round 178: check:manifest reads app.json (ios/ is stale prebuild output, git ignored).
+- Round 176: privacy manifest in app.json. Face ID and Motion prompts removed (not used). Camera is the only prompt.
+- Round 174: CI workflow local only, throwaway local Postgres service, no repository secret.
 - Round 172: migration check skips with exit 0 when variable unset.
-- Round 170: analyticsSink warning cleared by scoped config allow.
 - Round 168: goals.saved kept; removal needs a non-allowed test edit. Parked.
-- Round 169: Prettier unconfigured (parked for Isa).
 - Round 166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added.
 - Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept, unused, for voice logging.
 - Round 158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 assertion changed (Isa allowed).
-- Rounds 150/152/156: kcal/kJ setting; weekTarget merged into energyTarget.
-- Rounds 146/147: Save food, gramsShort, percentValue, macroPercentFootnote added. es/fr pending Isa.
-- Round 145: week separator uses dashboard.rangeSeparator.
+- Rounds 145 to 156: Save food, gramsShort, percentValue, macroPercentFootnote, week separator via dashboard.rangeSeparator, kcal/kJ setting, weekTarget merged into energyTarget.
 - Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'). Accepted.
 - Round 123: formatDuration rounds total minutes first.
 
@@ -63,7 +57,7 @@ Row 12b (round 178) -> 2.5 goals and unit prefs via backend (round 179) -> 2.2 r
 - es and fr wording of new keys (summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
 - Whether es and fr should ever be shown (app is English only).
 - goals.saved removal. Prettier. Scoped eslint allow confirmation.
-- App Store privacy label answers and account data declaration (OWNER_CHECKS_phase4.md).
+- App Store privacy label answers and account data declaration.
 - Camera string choice: plugin text vs es/fr strings in src/lib/i18n/infoPlist.
 
 ## Parked
@@ -74,32 +68,30 @@ Row 12b (round 178) -> 2.5 goals and unit prefs via backend (round 179) -> 2.2 r
 - formatNumber and units.ts hardcoded to en-AU; formatting.ts uses device locale.
 - WeekEnergyCard reads i18n directly. nutrition.tsx:231 builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
-- ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined three times (ConfidenceBadge.tsx, week.tsx, energy.tsx).
+- ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined three times.
 - Several screens have react-hooks/exhaustive-deps disable comments (Row 22).
-- Skeleton crashes under Reanimated test mock; every screen test mocks it (Row 22).
+- Skeleton crashes under Reanimated test mock (Row 22).
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
 - Migration apply test runs twice in CI (verify:go and verify:migrations).
-- Commented setup in days_pg_test.go and similar TestPG files repeats shim SQL; point at supabase_shims.sql.
-- Jest noise: i18next banner and devWarn lines (Row 22).
+- Commented setup in TestPG files repeats shim SQL; point at supabase_shims.sql.
+- Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 
 ## Problems noticed, not fixed
-- Local ios/ prebuild output is stale (Face ID, Motion, no data types) until npx expo prebuild. Do not edit ios/.
+- Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
 - Two camera strings with different wording; plugin text wins.
+- scripts/ not covered by expo lint, so a lint error in scripts/checkPrivacyManifest.js would pass verify. Fix in Row 29 follow-up.
 - fr privacy copy uses 'vos', matching existing fr copy.
-- productName.test.ts failed once during Row 12a and passed after restore. Watch it.
+- productName.test.ts failed once in Row 12a and passed after restore. Watch it.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - Postgres is a brew service; database setup manual. Rows 17 and 26 should script it.
-- days_pg_test.go setup comment shows socket URL, which the guard refuses.
-- Phase 2 iOS notes say backend returns 401 without Clerk token. Probably stale. Check in Row 16.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording. Docs round (Row 30).
+- Phase 2 iOS notes say backend returns 401 without Clerk token. Check in Row 16.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
-- Jest prints about 200 console blocks; act warnings from ScanReviewCard; react-test-renderer deprecated. Row 22.
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 - Secrets scan placeholder check is a heuristic.
+- signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx.
 
 ## Next
-- Round 178 (this round): Row 12b manifest and plist check script, wired into verify after secrets:scan.
-- Round 179: Row 2.5 goals and unit prefs via backend, smallest change.
-- Then 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
-- Full checkpoint at round 180.
+- Round 181: full npm run verify, each step recorded in BASELINE_phase4.md. Row 29 BUILT only if green with zero warnings.
+- Then 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.

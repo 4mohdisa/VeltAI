@@ -10330,3 +10330,17 @@
 - 2026-11-25 06:01 The check runs in verify directly after secrets:scan, following the Round 173 order.
 - 2026-11-25 06:01 Row 2.5 stays after 12b, and goals.saved removal stays parked because it needs a non-allowed test edit.
 - 2026-11-25 06:01 Jest noise (i18next banner, devWarn) is left for Row 22, not fixed now, to keep this round small.
+- 2026-11-25 06:04 Chose 2.5 over the full verify run: the full checkpoint is set for round 180, and 2.5 is the planned order for this round.
+- 2026-11-25 06:04 Jev ranks run at 93%, and the plan agrees, so no second look was needed.
+- 2026-11-25 06:04 Noted that scripts/ is not covered by expo lint. Moved to the row 29 list for the round 180 checkpoint, not this round.
+- 2026-11-25 06:04 Asked Claude Code to reuse an existing preferences route or table if one exists, to keep the change small.
+- 2026-11-25 06:04 Row 29 stays PARTIAL until verify runs green on the checkpoint round.
+- 2026-11-25 06:04 Rewrote the rejected prompt to one task (a verify run) with one fix at a time, because the loop rejected a prompt that covered several screens or components.
+- 2026-11-25 06:04 Chose the verify run first because the latest report left row 29 unclear, and a recorded green verify is needed before row 29 can move.
+- 2026-11-25 06:04 Did not add the parity test to verify separately: full Jest --ci already runs localeParity.test.ts, so a second wiring would duplicate it.
+- 2026-11-25 06:04 The scripts/ lint gap stays in the row 29 list and is not fixed in this round, to keep the round to one task.
+- 2026-11-25 06:04 Row 2.5 status is unclear in the notes (round 179 was planned, but the last report covered row 12). It is parked until the verify result is known.
+- 2026-11-25 06:05 Round 181: prompt rewritten after the loop rejected round 180 for not stating the loop/phase4 branch rule. The branch rule is now the first block of the prompt, with a read-only branch check.
+- 2026-11-25 06:05 Round 181: one task only (full verify and record), chosen because Jev rates the last task only 46% clean, so a smaller task is safer.
+- 2026-11-25 06:05 Round 181: row 29 may move to BUILT only if full verify exits 0 with zero lint warnings. The CI workflow not running on GitHub is an owner step, recorded in OWNER_CHECKS_phase4.md.
+- 2026-11-25 06:05 Round 181: lint gap for scripts/ is recorded in NEXT, not fixed in this round, to keep the task small.
