@@ -2,7 +2,8 @@
 //
 // DECISION: email uses the CODE (OTP) strategy, not passwords — fewer screens,
 // no reset flow, and it doubles as verification. Sign-in and sign-up share the
-// same OTP UI; "Already have an account?" toggles the mode.
+// same OTP UI; "Already have an account?" toggles the mode, and ?mode=signin
+// (the Welcome screen's Sign in link) opens it in sign-in mode.
 //
 // Post-auth the SCREEN owns routing (not the machine): the server's onboarding
 // status is the truth (the local store is empty on a fresh install) — completed
@@ -12,7 +13,7 @@
 // remains so Expo Go stays fully navigable.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import { router, type Href } from 'expo-router';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useSSO, useSignIn, useSignUp } from '@clerk/clerk-expo';
 
@@ -138,7 +139,8 @@ function ClerkSignup() {
   const { signIn, setActive: setActiveIn, isLoaded: inLoaded } = useSignIn();
 
   const [busy, setBusy] = useState<Provider | null>(null);
-  const [mode, setMode] = useState<'signup' | 'signin'>('signup');
+  const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
+  const [mode, setMode] = useState<'signup' | 'signin'>(modeParam === 'signin' ? 'signin' : 'signup');
   const [stage, setStage] = useState<'buttons' | 'email' | 'code'>('buttons');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');

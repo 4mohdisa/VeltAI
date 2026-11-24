@@ -1116,5 +1116,8 @@
     "target": " · objetivo {{grams}} g",
     "a11yNotTracked": "{{label}}, sin registrar, objetivo {{grams}} gramos",
     "a11yOfGrams": "{{label}}, {{value}} de {{target}} gramos"
+  },
+  "onboarding": {
+    "welcomeSignIn": "Iniciar sesión"
   }
 }

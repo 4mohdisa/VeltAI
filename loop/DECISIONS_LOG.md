@@ -10361,3 +10361,7 @@
 - 2026-11-25 06:15 Round 186 chose candidate 1 because the handover says the duplicate run is the recommended next step and it is a small gate fix that makes verify output trustworthy before the redesign starts.
 - 2026-11-25 06:15 Round 186 deferred 2b redesign to round 187, after the gate is clean.
 - 2026-11-25 06:15 The Jev run signal (84%) agrees with a small, low-risk task; no override.
+- 2026-11-25 06:16 Round 187 is split: 187 does only the Welcome sign-in link, 188 does the signup mode title and Resend code, because the one-screen-per-prompt rule applies.
+- 2026-11-25 06:16 Latest report recommended 2b step 2; the notes order puts step 1 first, so step 1 is kept because it is still unfinished.
+- 2026-11-25 06:16 Maestro flow for 2b is deferred to the end of row 2b, not each step, to keep rounds small.
+- 2026-11-25 06:16 Jev ranked the same action 'run' at 99%; no reason to override.

@@ -1116,5 +1116,8 @@
     "target": " · objectif {{grams}} g",
     "a11yNotTracked": "{{label}}, non suivi, objectif {{grams}} grammes",
     "a11yOfGrams": "{{label}}, {{value}} sur {{target}} grammes"
+  },
+  "onboarding": {
+    "welcomeSignIn": "Se connecter"
   }
 }
