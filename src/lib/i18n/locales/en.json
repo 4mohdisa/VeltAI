@@ -1244,6 +1244,27 @@
     "done": {
       "title": "You're all set",
       "welcomeToast": "Welcome to Lume!"
+    },
+    "paywall": {
+      "title": "Everything's ready for you",
+      "seePlans": "See plans & start free trial",
+      "devBillingNote": "Billing not configured (dev) — continuing without a paywall",
+      "restore": "Already subscribed? Restore purchases",
+      "restoring": "Restoring…",
+      "noSubscription": "No previous subscription found.",
+      "plansUnavailable": "Plans could not be loaded — check the RevenueCat offering and paywall are configured. Continuing on the free tier.",
+      "storeError": "The store couldn't be reached — you can subscribe later in Settings.",
+      "submitFailed": "Couldn't finish setup — check your connection and try again.",
+      "trialNote": "Plans and pricing are shown on the next screen. {{days}}-day free trial, auto-renews, cancel anytime in Settings.",
+      "features": {
+        "unlimitedLogging": "Unlimited food logging",
+        "scanning": "Barcode + photo scanning",
+        "aiBrain": "AI Brain — learns your habits",
+        "cuisineDatabase": "{{cuisines}} food database",
+        "personalisedDatabase": "Personalised food database",
+        "gym": "Gym tracking + streaks",
+        "halal": "Halal dietary filtering"
+      }
     }
   },
   "signup": {

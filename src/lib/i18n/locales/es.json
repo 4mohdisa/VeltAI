@@ -1244,6 +1244,27 @@
     "done": {
       "title": "Todo listo",
       "welcomeToast": "¡Te damos la bienvenida a Lume!"
+    },
+    "paywall": {
+      "title": "Todo está listo para ti",
+      "seePlans": "Ver planes y empezar la prueba gratuita",
+      "devBillingNote": "Facturación no configurada (desarrollo) — continuando sin pantalla de pago",
+      "restore": "¿Ya tienes una suscripción? Restaurar compras",
+      "restoring": "Restaurando…",
+      "noSubscription": "No se encontró ninguna suscripción anterior.",
+      "plansUnavailable": "No se pudieron cargar los planes — comprueba que la oferta y la pantalla de pago de RevenueCat estén configuradas. Continuando con el plan gratuito.",
+      "storeError": "No se pudo conectar con la tienda — puedes suscribirte más tarde en Ajustes.",
+      "submitFailed": "No se pudo terminar la configuración — revisa tu conexión e inténtalo de nuevo.",
+      "trialNote": "Los planes y precios se muestran en la siguiente pantalla. Prueba gratuita de {{days}} días, renovación automática, cancela cuando quieras en Ajustes.",
+      "features": {
+        "unlimitedLogging": "Registro de comidas ilimitado",
+        "scanning": "Escaneo de códigos de barras y fotos",
+        "aiBrain": "Cerebro IA — aprende tus hábitos",
+        "cuisineDatabase": "Base de datos de comidas: {{cuisines}}",
+        "personalisedDatabase": "Base de datos de comidas personalizada",
+        "gym": "Seguimiento del gimnasio y rachas",
+        "halal": "Filtro de dieta halal"
+      }
     }
   },
   "signup": {

@@ -10,11 +10,11 @@
 // Billing-disabled dev mode (no key / Expo Go): a "Billing not configured (dev)"
 // note replaces the paywall and Continue proceeds — the app stays fully usable.
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { router, type Href } from 'expo-router';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
-import { CUISINE_LABEL } from '@/components/onboarding/cuisines';
 import { Button } from '@/components/forms';
 import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
@@ -35,6 +35,7 @@ import { classifyConnectivity } from '@/lib/auth/machine';
 
 export default function PaywallScreen() {
   const { dispatch } = useAppState();
+  const { t } = useTranslation();
   const cuisines = useOnboardingStore((s) => s.cuisines);
   const dietary = useOnboardingStore((s) => s.dietary_requirements);
   const markCompleted = useOnboardingStore((s) => s.markCompleted);
@@ -46,16 +47,17 @@ export default function PaywallScreen() {
     track('paywall_viewed');
   }, []);
 
-  const cuisineLabel =
-    cuisines.length > 0 ? cuisines.map((c) => CUISINE_LABEL[c]).join(', ') : 'Personalised';
-
   const features: string[] = [
-    'Unlimited food logging',
-    'Barcode + photo scanning',
-    'AI Brain — learns your habits',
-    `${cuisineLabel} food database`,
-    'Gym tracking + streaks',
-    ...(dietary.includes('halal') ? ['Halal dietary filtering'] : []),
+    t('onboarding.paywall.features.unlimitedLogging'),
+    t('onboarding.paywall.features.scanning'),
+    t('onboarding.paywall.features.aiBrain'),
+    cuisines.length > 0
+      ? t('onboarding.paywall.features.cuisineDatabase', {
+          cuisines: cuisines.map((c) => t(`onboarding.cuisine.options.${c}`)).join(', '),
+        })
+      : t('onboarding.paywall.features.personalisedDatabase'),
+    t('onboarding.paywall.features.gym'),
+    ...(dietary.includes('halal') ? [t('onboarding.paywall.features.halal')] : []),
   ];
 
   // Persist onboarding (unchanged from before) and enter the app.
@@ -101,7 +103,7 @@ export default function PaywallScreen() {
           ? e.message
           : null;
       showToast({
-        message: serverSaid ?? "Couldn't finish setup — check your connection and try again.",
+        message: serverSaid ?? t('onboarding.paywall.submitFailed'),
         tone: 'error',
       });
       setSubmitting(false);
@@ -123,16 +125,16 @@ export default function PaywallScreen() {
       switch (outcome) {
         case 'purchased':
         case 'restored':
-          showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
+          showToast({ message: t('subscription.welcomePro'), tone: 'success' });
           break;
         case 'unavailable':
           showToast({
-            message: 'Plans could not be loaded — check the RevenueCat offering and paywall are configured. Continuing on the free tier.',
+            message: t('onboarding.paywall.plansUnavailable'),
             tone: 'error',
           });
           break;
         case 'error':
-          showToast({ message: "The store couldn't be reached — you can subscribe later in Settings.", tone: 'info' });
+          showToast({ message: t('onboarding.paywall.storeError'), tone: 'info' });
           break;
         case 'cancelled':
           break; // deliberate: dismissing the sheet is a choice, not a fault
@@ -143,18 +145,18 @@ export default function PaywallScreen() {
 
   const restore = async () => {
     if (!isBillingEnabled()) {
-      showToast({ message: 'Billing not configured (dev).', tone: 'info' });
+      showToast({ message: t('profile.billingNotConfigured'), tone: 'info' });
       return;
     }
     setRestoring(true);
     try {
       const info = await restorePurchases();
       showToast({
-        message: hasProEntitlement(info) ? 'Subscription restored.' : 'No previous subscription found.',
+        message: hasProEntitlement(info) ? t('profile.subscriptionRestored') : t('onboarding.paywall.noSubscription'),
         tone: hasProEntitlement(info) ? 'success' : 'info',
       });
     } catch {
-      showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+      showToast({ message: t('profile.storeUnreachable'), tone: 'error' });
     } finally {
       setRestoring(false);
     }
@@ -164,17 +166,17 @@ export default function PaywallScreen() {
     <OnbScaffold
       step={10}
       scroll
-      title="Everything's ready for you"
+      title={t('onboarding.paywall.title')}
       footer={
         <View style={{ gap: space.sm }}>
           <Button
-            title={isBillingEnabled() ? 'See plans & start free trial' : 'Continue'}
+            title={isBillingEnabled() ? t('onboarding.paywall.seePlans') : t('onboarding.measurements.continue')}
             loading={submitting}
             onPress={() => void handleContinue()}
           />
           {!isBillingEnabled() && isDevBuild() ? (
             <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-              Billing not configured (dev) — continuing without a paywall
+              {t('onboarding.paywall.devBillingNote')}
             </Text>
           ) : null}
           <Pressable
@@ -183,7 +185,7 @@ export default function PaywallScreen() {
             onPress={() => void restore()}
           >
             <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>
-              {restoring ? 'Restoring…' : 'Already subscribed? Restore purchases'}
+              {restoring ? t('onboarding.paywall.restoring') : t('onboarding.paywall.restore')}
             </Text>
           </Pressable>
           {/* 3.1.2 — Terms + Privacy stay reachable at the paywall entry (the
@@ -197,7 +199,7 @@ export default function PaywallScreen() {
               onPress={() => router.push('/legal/terms' as Href)}
             >
               <Text variant="footnote" color={color.secondaryLabel} style={{ textDecorationLine: 'underline' }}>
-                Terms
+                {t('signup.legalTerms')}
               </Text>
             </Pressable>
             <Text variant="footnote" color={color.secondaryLabel}>
@@ -210,7 +212,7 @@ export default function PaywallScreen() {
               onPress={() => router.push('/legal/privacy' as Href)}
             >
               <Text variant="footnote" color={color.secondaryLabel} style={{ textDecorationLine: 'underline' }}>
-                Privacy Policy
+                {t('signup.legalPrivacy')}
               </Text>
             </Pressable>
           </View>
@@ -227,8 +229,7 @@ export default function PaywallScreen() {
           </View>
         ))}
         <Text variant="footnote" color={color.secondaryLabel} style={{ marginTop: space.md }}>
-          Plans and pricing are shown on the next screen. {TRIAL_DAYS}-day free trial, auto-renews,
-          cancel anytime in Settings.
+          {t('onboarding.paywall.trialNote', { days: TRIAL_DAYS })}
         </Text>
       </View>
     </OnbScaffold>

@@ -10513,3 +10513,12 @@
 - 2026-11-25 09:04 Reconcile the row 2b record first, because the record must match the code before the paywall round.
 - 2026-11-25 09:04 Paywall strings come next, and they replace CUISINE_LABEL, which closes step 1d.
 - 2026-11-25 09:04 Full Jest suite not run this round. Changed-file tests and the type check are enough; the next checkpoint is R227 or later.
+- 2026-11-25 09:05 Accepted the R220 correction: markCompleted() does not clear answers; answers clear on sign-out. The note in PHASE4_ROWS.md was corrected by Claude Code.
+- 2026-11-25 09:05 Kept the plan-ready summary screen parked (needs Isa's go-ahead to change the flow). Order stays targets, paywall, done.
+- 2026-11-25 09:05 Split the paywall work into two small rounds (cuisine and header first, then feature list and toasts) because the last clean finish was unlikely and Jev's clean-finish signal was low (28%).
+- 2026-11-25 09:05 Kept the Jev next-action ranking (run) because it matches the plan. Jev was not mentioned in the prompt.
+- 2026-11-25 09:05 Compressed these notes to stay under 600 words. No finished facts were dropped.
+- 2026-11-25 09:06 R221 prompt was rejected for covering more than one screen. Rewritten as a single screen round (paywall.tsx only) that carries the paywall strings and the CUISINE_LABEL replacement.
+- 2026-11-25 09:06 Split the stale onboarding.ts header comment and the English validateOnboardingPayload messages into later rounds, since they are not on the paywall screen.
+- 2026-11-25 09:06 Corrected R219 note: markCompleted() only sets completed; answers are cleared on sign-out (resetRegistry.ts). Accepted.
+- 2026-11-25 09:06 No simulator run for this round: paywall strings only, Maestro flows are covered later in Row 23.
