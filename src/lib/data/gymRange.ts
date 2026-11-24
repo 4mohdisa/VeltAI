@@ -10,7 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { api } from '@/lib/api';
 import i18n from '@/lib/i18n';
-import { dateLocale } from '@/lib/formatting';
+import { dateLocale, formatHoursMinutes } from '@/lib/formatting';
 import { todayISO } from './mappers';
 import { lastNDates } from './energyRange';
 import { fromIso, monthGrid } from './foodDays';
@@ -199,7 +199,7 @@ export function monthView(
  *  note of sessions without a duration and of freeze days when there are any. */
 export function monthSummary(v: MonthView): string {
   const parts = [i18n.t('gym.monthSessions', { count: v.sessions })];
-  if (v.minutes > 0) parts.push(`${Math.floor(v.minutes / 60)}h ${v.minutes % 60}m`);
+  if (v.minutes > 0) parts.push(formatHoursMinutes(v.minutes));
   if (v.untimed > 0) parts.push(i18n.t('gym.monthUntimed', { count: v.untimed }));
   if (v.freezes > 0) parts.push(i18n.t('gym.monthFreezes', { count: v.freezes }));
   return parts.join(' · ');

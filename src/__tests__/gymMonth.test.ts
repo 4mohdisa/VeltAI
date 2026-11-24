@@ -134,12 +134,12 @@ describe('the month line and title follow the app language', () => {
   afterAll(() => i18n.changeLanguage('en'));
 
   test.each([
-    ['es', '2 sesiones · 0h 30m · 1 sin duración · 1 congelación', '1 sesión', 'septiembre', 'diciembre 2025'],
-    ['fr', '2 séances · 0h 30m · 1 sans durée · 1 gel', '1 séance', 'septembre', 'décembre 2025'],
+    ['es', '2 sesiones · 0 h 30 min · 1 sin duración · 1 congelación', '1 sesión', 'septiembre', 'diciembre 2025'],
+    ['fr', '2 séances · 0 h 30 min · 1 sans durée · 1 gel', '1 séance', 'septembre', 'décembre 2025'],
   ])('%s', async (lang, full, single, thisYear, otherYear) => {
     await i18n.changeLanguage(lang);
     expect(monthSummary(view([row('2026-09-01', 30), row('2026-09-02', null)], ['2026-09-04']))).toBe(full);
-    expect(monthSummary(view([row('2026-09-01', 45)]))).toBe(`${single} · 0h 45m`);
+    expect(monthSummary(view([row('2026-09-01', 45)]))).toBe(`${single} · 0 h 45 min`);
     expect(monthTitle('2026-09-01', TODAY)).toBe(thisYear);
     expect(monthTitle('2025-12-01', TODAY)).toBe(otherYear);
   });

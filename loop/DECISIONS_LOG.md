@@ -10090,3 +10090,7 @@
 - 2026-11-25 04:31 Round 119: the formatter carries minutes into hours, so 119.6 gives 2h 0m. This also covers the 1h 60m problem for the new function only. formatDuration gets its own fix later.
 - 2026-11-25 04:31 Round 119: the monthTitle item in the old handover is treated as done. Round 107 to 111 in the notes recorded it as done, and the newest notes take priority.
 - 2026-11-25 04:31 Round 119: the 8 console.error lines are not treated as failures. They are tracked for Row 22.
+- 2026-11-25 04:33 Round 119 report left the es and fr spacing question open. Chose the locale native spacing from common.hoursMinutes ('0 h 30 min' in es and fr) and kept English as the design shape '0h 30m'. Reason: the app language rule means each language uses its own key, and the design is final for English. Isa can change the value in es.json and fr.json later.
+- 2026-11-25 04:33 Round 120 full suite checkpoint is merged into this round, since this round changes strings that pin snapshots.
+- 2026-11-25 04:33 Jev ranked the same candidates in the same order with the same top pick, so no second look was needed.
+- 2026-11-25 04:33 Jev said ask 14% and stop 1% for the next action. Not used: ask is not allowed and the task is not dangerous.
