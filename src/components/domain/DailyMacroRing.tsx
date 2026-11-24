@@ -93,7 +93,7 @@ export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14,
         {formatNumber(consumedDisplay)}
       </Text>
       <Text variant="footnote" color={color.gray500}>
-        of {formatNumber(targetDisplay)} {energyUnit}
+        {t('nutrition.ringOf')} {formatNumber(targetDisplay)} {energyUnit}
       </Text>
     </View>
   );

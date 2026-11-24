@@ -10037,3 +10037,8 @@
 - 2026-11-25 04:09 Chose candidate 1 over the restore toast test because the string work is the open Row 2.3 item in progress and closes a known English-only gap.
 - 2026-11-25 04:09 Jev ranked the run action at 97%, which matches. Kept the step count to 5 and the scope to one screen because Jev's risk score is 1.0 and the last task finished cleanly only 52% of the time.
 - 2026-11-25 04:09 Did not ask Isa anything. The restore-fake question and the morning brief refusal question are already recorded as decided (round 100 keeps isError true).
+- 2026-11-25 04:11 Picked the next row 2.3 item from the notes because it is the smallest one-file task and the prior round left it as the stated next step.
+- 2026-11-25 04:11 Kept the rule of one file per prompt, so locale files are not edited here; a missing key becomes BLOCKED.
+- 2026-11-25 04:11 Jev said run 100% with low risk; followed it, since the task is small and gated by tsc and targeted Jest.
+- 2026-11-25 04:11 Recorded round 105 as done from the latest report; it passed tsc and the full Jest run.
+- 2026-11-25 04:11 Parked the shared billing toast helper and delete-account review for later rounds to keep steps small.

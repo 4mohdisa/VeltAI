@@ -10,7 +10,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1 gym days: code done, simulator check parked.
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 string round, one screen or component per round. Part 1 (round 105): subscription.tsx. Part 2 (round 106): DailyMacroRing.tsx 'of' via nutrition.ringOf. Later parts: Row 13 and 14 items, i18n header comments.
+  - 2.3 string round, one screen or component per round. Part 1 (round 105) subscription.tsx: DONE. Part 2 (round 106): DailyMacroRing.tsx 'of' via nutrition.ringOf, in progress. Later: Row 13 and 14 items, i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -29,7 +29,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps.
-- Prompts touch ONE screen, component or file each (a rejected prompt touched two). Max 5 numbered steps. Name every file by full path.
+- Prompts touch ONE screen, component or file each. Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
 - Shared router reset (setup.ts beforeEach) replaces per-test router mockClear.
 - setup.ts must not import expo-router at the top (breaks 18 suites that mock it).
@@ -63,6 +63,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 102: subscription manage failure toast and busy state.
 - Round 103: restore busy spinner passed to Button; subscription render test (6 tests).
 - Round 104: checkpoint, tsc 0, Jest 243 suites and 1,413 tests.
+- Round 105: subscription.tsx 22 strings to t(); subscription.* group (13 keys) in en, es, fr. tsc 0, Jest green.
 - Checkpoints 44, 60, 75, 76, 90: tsc and Jest green.
 
 ## Blocked on Isa
@@ -70,10 +71,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
+- Shared billing-disabled toast helper (subscription.tsx restore and seePlans, profile/index.tsx).
+- delete-account.tsx swallowed-errors review.
 
 ## Next
-- Round 105: 2.3 string part 1 (subscription.tsx strings to en, es, fr; prompt sent, result pending).
-- Round 106: 2.3 string part 2 (DailyMacroRing.tsx 'of' via nutrition.ringOf).
+- Round 106: 2.3 string part 2 (DailyMacroRing.tsx 'of' via nutrition.ringOf; prompt sent, result pending).
 - Then Row 13 and 14 strings one screen per round (gymRange, summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label), with snapshots regenerated.
 - Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
@@ -94,6 +96,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Nothing tests refetch in useWeeklyMacros.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint does not exist).
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
-- Successful restore from not-entitled shows 'No purchases to restore.' toast: untested. delete-account.tsx not reviewed for swallowed errors.
-- Handover TestPG count (21 or 22) is stale. Count stays at 24.
-- Restore fake store in the busy test: Isa did not answer whether to share mockPurchases from authBilling.test.ts. Keep the typed fake for now.
+- Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
+- No app-wide en/es/fr key parity test yet (Row 29). No test renders the subscription screen in es or fr.
+- Restore fake store in the busy test: keep the typed fake for now.
