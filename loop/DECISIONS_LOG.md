@@ -10354,3 +10354,7 @@
 - 2026-11-25 06:10 Chose the duplicate migration test fix first, as the handover recommends. It is small and clean, and Jev's risk score (0.7) favours a smaller task.
 - 2026-11-25 06:10 Kept the migration test in verify:migrations so its coverage stays the same, and removed only the second run from verify:go.
 - 2026-11-25 06:10 Row 2b comes next, after this fix, because the Mobbin check is a read only step and needs no code change.
+- 2026-11-25 06:12 Chose 2b over the leftover 2.2 item because the notes order puts 2b next after round 184, and 2.2 has no detail in the notes to act on safely.
+- 2026-11-25 06:12 Split 2b into a research and audit step first, because the row is too large for one prompt and Mobbin availability decides the rest of the row.
+- 2026-11-25 06:12 If Mobbin is unavailable, the connect step goes to OWNER_CHECKS_phase4.md and the loop continues with its own judgment, as the brief says.
+- 2026-11-25 06:12 Round 184 (migration duplicate removed, verify exit 0) is recorded as done and no longer the next task.

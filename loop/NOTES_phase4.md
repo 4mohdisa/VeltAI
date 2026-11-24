@@ -6,12 +6,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Rows 1, 12, 12b, 29 BUILT. Row 29 lint covers src and scripts (0 errors, 0 warnings). Verify exit 0 in round 183, 27 of 27 TestPG.
+- Rows 1, 12, 12b, 29 BUILT. Verify exit 0 in round 184 (0 lint warnings, 27 of 27 TestPG, 18 migrations applied once).
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44). 2.2 remaining.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 184: remove duplicate migration apply run in verify. Then 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
+Round 185: 2b step 1 (Mobbin check, DESIGN_REFERENCES.md, audit). Then 2b steps for the redesign, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -34,8 +34,9 @@ Round 184: remove duplicate migration apply run in verify. Then 2b, 2c, 2d, 3 to
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
+- Round 185: 2b chosen before 2.2 because notes order puts 2b next. 2b split: research and audit first.
 - Round 184: migration apply test runs once, in verify:migrations. verify:go excludes that package.
-- Round 183: lint scope covers scripts/ before 2.5, because scripts/ errors can pass verify.
+- Round 183: lint scope covers scripts/ before 2.5.
 - Round 182: verify with local TestPG recorded. Row 29 BUILT.
 - Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
 - Round 180: parity test runs in full Jest, so no separate wiring into verify.
@@ -75,6 +76,7 @@ Round 184: remove duplicate migration apply run in verify. Then 2b, 2c, 2d, 3 to
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files (app.config.js, eslint.config.js) and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
+- Verify:go has no -count=1, so Go can reuse cached results.
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
@@ -92,5 +94,5 @@ Round 184: remove duplicate migration apply run in verify. Then 2b, 2c, 2d, 3 to
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx. Not fixed.
 
 ## Next
-- Round 184: remove duplicate migration apply run in verify, verify exit 0, 0 warnings.
-- Then 2b (check Mobbin MCP with claude mcp list first), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+- Round 185: 2b step 1. Run claude mcp list, search Mobbin if present, write DESIGN_REFERENCES.md, audit sign in, sign up, welcome and onboarding (no code change). If Mobbin is missing, park the connect step in OWNER_CHECKS_phase4.md.
+- Then 2b redesign steps, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
