@@ -105,3 +105,17 @@ describe('workoutsLine follows the app language', () => {
     expect(workoutsLine(week(0, 0))).toBe(unrecorded);
   });
 });
+
+describe('dayReadout follows the app language', () => {
+  afterAll(() => i18n.changeLanguage('en'));
+  const fmt = (v: number) => String(Math.round(v));
+
+  test.each([
+    ['es', 'jue 10 · ingesta 1240 · quemadas 1864 · neto −624', 'jue 10 · ingesta 1240 · quemadas — · neto —'],
+    ['fr', 'jeu. 10 · apport 1240 · brûlées 1864 · net −624', 'jeu. 10 · apport 1240 · brûlées — · net —'],
+  ])('%s', async (lang, full, dashed) => {
+    await i18n.changeLanguage(lang);
+    expect(dayReadout(day('2026-09-10', 1240, 1864, -624), fmt)).toBe(full);
+    expect(dayReadout(day('2026-09-10', 1240, null, null), fmt)).toBe(dashed);
+  });
+});

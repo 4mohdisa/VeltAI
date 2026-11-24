@@ -664,6 +664,7 @@
     "weekNetSummary": "Neto diario de {{value}} de los últimos {{total}} días, máximo {{largest}} kcal.",
     "weekNetAverage": "Media de {{value}} kcal al día · {{deficits}} de {{total}} días en déficit.",
     "weekRowBurned": "Ingesta {{eaten}} · quemadas {{burned}}",
+    "dayReadout": "{{day}} · ingesta {{eaten}} · quemadas {{burned}} · neto {{net}}",
     "weekRowNoBurn": "Ingesta {{eaten}} · gasto no calculado",
     "training": "Entrenamiento",
     "workouts": "Entrenamientos",

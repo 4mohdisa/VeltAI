@@ -4,6 +4,7 @@
 // null so the card can say so instead of printing a zero.
 import type { StoredMeal } from './foodStore';
 import type { EnergyBalance, GymSession } from '@/lib/api';
+import { dateLocale } from '@/lib/formatting';
 import i18n from '@/lib/i18n';
 import { burnOf, mean, netOf } from './energyRange';
 import { fromIso, weekOf } from './foodDays';
@@ -33,11 +34,16 @@ export function weekStat(days: EnergyBalance[], mode: 'inout' | 'net'): number |
  *  dash, never a zero. The caller appends the unit. */
 export function dayReadout(d: EnergyBalance, fmt: (n: number) => string): string {
   const date = fromIso(d.date);
-  const day = `${date.toLocaleDateString(undefined, { weekday: 'short' })} ${date.getDate()}`;
+  const day = `${date.toLocaleDateString(dateLocale(i18n.language), { weekday: 'short' })} ${date.getDate()}`;
   const burned = burnOf(d);
   const net = netOf(d);
   const signed = (n: number) => (n > 0 ? `+${fmt(n)}` : n < 0 ? `−${fmt(-n)}` : fmt(0));
-  return `${day} · in ${fmt(d.calories_in)} · burned ${burned == null ? '—' : fmt(burned)} · net ${net == null ? '—' : signed(net)}`;
+  return i18n.t('dashboard.dayReadout', {
+    day,
+    eaten: fmt(d.calories_in),
+    burned: burned == null ? '—' : fmt(burned),
+    net: net == null ? '—' : signed(net),
+  });
 }
 
 export type WorkoutPip = { letter: string; date: string; trained: boolean };

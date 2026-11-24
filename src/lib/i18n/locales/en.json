@@ -662,6 +662,7 @@
     "weekNetSummary": "Daily net for {{value}} of the last {{total}} days, largest {{largest}} kcal.",
     "weekNetAverage": "Average {{value}} kcal per day · {{deficits}} of {{total}} days in deficit.",
     "weekRowBurned": "In {{eaten}} · burned {{burned}}",
+    "dayReadout": "{{day}} · in {{eaten}} · burned {{burned}} · net {{net}}",
     "weekRowNoBurn": "In {{eaten}} · burn not computed",
     "training": "Training",
     "workouts": "Workouts",

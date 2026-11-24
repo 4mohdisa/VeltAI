@@ -6,11 +6,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 104 checkpoint passed (tsc 0, Jest 243 suites, 1,413 tests). Round 108 passed (1,417 tests). Next full suite: round 120.
+- Round 108 checkpoint passed (1,417 tests). Round 109 passed (243 suites, 1,419 tests, 4 of 4 snapshots). Next full suite: round 120.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
-  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 string round, one screen or file per round. Done: subscription.tsx, DailyMacroRing 'of', ring es and fr tests, gymRange (108). Round 109: summaryCards workoutsLine. Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
+  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries, TestPG count to 22 after the schedule_pg test runs.
+  - 2.3 string round, one file per round. Done: subscription.tsx, DailyMacroRing 'of', ring es and fr tests, gymRange (108), summaryCards workoutsLine (109). Round 110: dayReadout in summaryCards.ts. Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -59,21 +59,26 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 105: subscription.tsx strings to t(); subscription.* keys in en, es, fr.
 - Round 106: DailyMacroRing 'of' via nutrition.ringOf (en of, es de, fr sur).
 - Round 107: dailyMacroRing.i18n.render.test.tsx covers es and fr.
-- Round 108: gymRange month line and monthTitle use app language (gym.monthSessions, monthUntimed, monthFreezes with _one and _other). detailChrome macros snapshot updated.
+- Round 108: gymRange month line and monthTitle use app language (gym.monthSessions, monthUntimed, monthFreezes).
+- Round 109: summaryCards workoutsLine uses i18n (workoutsWeek.noSessions, untimed_one, untimed_other), es and fr tests.
 - Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md. Do not retry until Isa answers.
+- New TestPG (schedule_pg progress, TestPG_ExerciseProgressLimitKeepsNewest) has never run: needs LUME_TEST_DATABASE_URL on localhost lume_test_local. Run it in the next round that can, then drop the progress bug from KNOWN_ISSUES.md.
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
 - Shared billing-disabled toast helper (subscription.tsx restore and seePlans, profile/index.tsx).
 - delete-account.tsx swallowed-errors review.
-- Subscription screen es and fr render test (candidate after gymRange).
-- Gym tab render test in es and fr (src/app/(tabs)/gym.tsx) for the translated month line.
+- Subscription screen es and fr render test.
+- Gym tab render test in es and fr for the translated month line.
+- Hours and minutes format (Xh Ym) hand built in gymRange.ts:200 and summaryCards.ts. One shared formatter.
+- formatting.ts:67,72 date formatting uses device language. Fix with the app language.
+- Day letters (MTWTFSS) hardcoded in summaryCards.ts:45.
 
 ## Next
-- Round 109: summaryCards workoutsLine (en, es, fr plurals).
+- Round 110: dayReadout in summaryCards.ts (weekday locale, in, burned, net), es and fr.
 - Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
@@ -97,6 +102,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
-- Hours and minutes format (5h 10m) is hand built in English.
-- summaryCards.ts:35, formatting.ts:67,72 pass undefined locale to toLocaleDateString. Fix with the app language in the string round or Row 22.
+- summaryCards.ts:35, formatting.ts:67,72 pass undefined locale to toLocaleDateString (see Parked).
 - delete-account.tsx swallowed errors not checked yet.
+- Tool note: the lint gate is npx expo lint. The Round 109 report says 0 problems on the two changed files.
