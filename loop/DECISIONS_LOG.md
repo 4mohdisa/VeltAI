@@ -9802,3 +9802,5 @@
 - 2026-11-25 03:00 Chose the one-file swap for gymStreakStripFootnote because the notes say one file per round and Jev risk is moderate.
 - 2026-11-25 03:00 Kept the prompt to 4 steps with full paths, Node 22 first on PATH, and the report format, as the notes require.
 - 2026-11-25 03:00 Did not touch loop-owned files, so the loop script keeps control of DECISIONS_LOG.md and NOTES_phase4.md.
+- 2026-11-25 03:01 Kept the notes order: the remaining render test swaps come before the display-name errors, one file per round, because Jev rates risk moderate and the swap is the smallest safe step.
+- 2026-11-25 03:01 Round 47 (gymStreakStripFootnote) is marked done from the latest report: tsc 0, Jest 2 of 2, eslint 0.
