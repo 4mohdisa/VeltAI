@@ -10165,3 +10165,6 @@
 - 2026-11-25 04:58 Rewrote the prompt to open with the loop/phase4 only rule and the no-git rule, because the last prompt was rejected for omitting it.
 - 2026-11-25 04:58 Kept the no-snapshot-change and no-source-change limits so this round cannot alter the look of any screen.
 - 2026-11-25 04:58 Condensed the notes from about 900 words to under 600 by merging repeated items and removing finished work.
+- 2026-11-25 04:59 Round 139 picks the training.tsx axis letter switch: it is the first open 2.3 item, small, and closes the partly done flag from the round 138 report by finishing a listed NEXT item.
+- 2026-11-25 04:59 Kept one file per round and a render test that mirrors the energy axis test, so the change is proven in es, fr and en without new strings.
+- 2026-11-25 04:59 Jev ranks run at 100% and risk is moderate, so the task stays one file and no full suite run until the checkpoint.

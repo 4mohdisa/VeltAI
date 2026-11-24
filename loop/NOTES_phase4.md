@@ -9,9 +9,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) are DIFFERENT; verify later.
 - 2.1: only the simulator check of the Total tile is left (in OWNER_CHECKS_phase4.md).
 - 2.2 done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings) in progress, one file per round. Round 137 done: energy.tsx axis letters via weekdayLetter.
-- Round 138 (current): es and fr energy axis letter test (new file src/__tests__/render/energy.axisLetters.render.test.tsx).
-- Open 2.3 items, in order: dashboard/training.tsx:212, dashboard/week.tsx:265, dashboard/nutrition.tsx:170 (switch to weekdayLetter); WeekEnergyCard dayLetter imports weekdayLetter; week.tsx:150 hardcoded dash; custom-food 'Save food'; ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check. Add a PHASE4_ROWS.md note when 2.3 closes.
+- 2.3 (strings) in progress, one file per round. Round 138 done: es and fr energy axis letter test.
+- Round 139 (current): dashboard/training.tsx:212 to weekdayLetter, with training.axisLetters.render.test.tsx.
+- Open 2.3 items, in order: dashboard/week.tsx:265, dashboard/nutrition.tsx:170 (switch to weekdayLetter); WeekEnergyCard dayLetter imports weekdayLetter; week.tsx:150 hardcoded dash; custom-food 'Save food'; ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check. Add a PHASE4_ROWS.md note when 2.3 closes.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -48,7 +48,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 123: formatDuration rounds total minutes first.
 - Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'). Accepted.
 - Round 135: energy.tsx sentence uses dashboard.energyAverageBurned. Isa to review.
-- Jev (rounds 128-138): continuing without Isa, risk high. Keep tasks small and parked items visible.
+- Jev (rounds 128-139): continuing without Isa, risk moderate to high. Keep tasks small and parked items visible.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -57,8 +57,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: gym session history read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: morning brief and profile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-137: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen, weekdayShort, weekdayLetter, dayMonth, energy axis letters.
-- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green (244+ suites, 1,462 tests, 4 snapshots).
+- Rounds 107-138: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen, weekdayShort, weekdayLetter, dayMonth, energy axis letters (en, es, fr tests).
+- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green (244+ suites, 1,456 tests, 4 snapshots).
 
 ## Blocked on Isa (not blocking the loop)
 - E2E account needs 250+ gym dates (in OWNER_CHECKS_phase4.md).
@@ -78,10 +78,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
 - Energy screen ignores the energy unit setting (always kcal).
+- week.tsx:150 untranslated ' – ' dash.
 
 ## Next
-- Round 138: es and fr energy axis test (current).
-- Then dashboard/training.tsx:212, dashboard/week.tsx:265, dashboard/nutrition.tsx:170, WeekEnergyCard dayLetter. One file per round.
+- Round 139: training.tsx:212 axis letters (current).
+- Then week.tsx:265, nutrition.tsx:170, WeekEnergyCard dayLetter. One file per round.
 - Then week.tsx dash, custom-food 'Save food', ConfidenceBadge, i18n header comments, summaryCards fallback, then the 2.3 note in PHASE4_ROWS.md.
 - Then 2.2 leftovers, 2.4 (useGoals, Row 15), 2.5 (rest of Parked, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.

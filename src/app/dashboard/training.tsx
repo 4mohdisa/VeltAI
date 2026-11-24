@@ -37,7 +37,7 @@ import {
 import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatDuration, formatNumber, formatRelativeDate } from '@/lib/formatting';
-import { mean, useEnergyRange, weekdayShort } from '@/lib/data/energyRange';
+import { mean, useEnergyRange, weekdayLetter } from '@/lib/data/energyRange';
 import { minutesByDate, sessionsOn, useGymRange } from '@/lib/data/gymRange';
 import type { EnergyBalance } from '@/lib/types';
 import type { GymSession } from '@/lib/api';
@@ -209,7 +209,7 @@ function Body({
                 scaleLabelWidth={SCALE_LABEL_W}
                 summary={t('dashboard.trainingEnergySummary', { count: energyWeek.length, value: formatNumber(secScale) })}
               />
-              <Axis labels={energyWeek.map((d) => weekdayShort(d.date).charAt(0))} gutterWidth={CHART_GUTTER_W} />
+              <Axis labels={energyWeek.map((d) => weekdayLetter(d.date))} gutterWidth={CHART_GUTTER_W} />
               <Text variant="footnote" color={color.secondaryLabel}>
                 {t('dashboard.trainingKcalAttributed', { value: formatNumber(gymKcal) })}
               </Text>
