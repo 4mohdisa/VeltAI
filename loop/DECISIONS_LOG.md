@@ -9690,3 +9690,7 @@
 - 2026-11-25 02:24 Kept the 3-file batch cap from the Round 18 prompt for the remaining 8 mocks.
 - 2026-11-25 02:24 Round 19 simulator check of the Total gym days tile moves after the mocks are fixed, so it runs on correct data.
 - 2026-11-25 02:24 The 'partly done' loop flag is handled by this round's fix. No new scope was added.
+- 2026-11-25 02:25 Round 19 target was wrong (useApiHarness.ts has no streak mock). Corrected: the real remaining stale mocks are named by grep, not by the report's file names.
+- 2026-11-25 02:25 Batch size cut to 2 files this round because Jev risk is 1.1 and completion confidence is 12%.
+- 2026-11-25 02:25 Kept Row 2.1 PARTIAL. It becomes BUILT only after all 8 stale mocks and the simulator tile check pass.
+- 2026-11-25 02:25 Did not change src/lib/mock/data.ts mockStreak: it is the app shape, not the API GymStreak.

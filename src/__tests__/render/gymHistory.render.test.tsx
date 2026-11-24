@@ -41,7 +41,7 @@ const METRICS: Metrics = {
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
 };
 
-const STREAK = { current_streak: 3, longest_streak: 5, last_gym_date: '2026-11-20', freeze_used: false, last_freeze_date: null };
+const STREAK = { current_streak: 3, longest_streak: 5, last_gym_date: '2026-11-20', freeze_used: false, last_freeze_date: null, total_days: 8 };
 
 const settle = async () => {
   await act(async () => {
