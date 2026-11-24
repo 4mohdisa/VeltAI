@@ -10325,3 +10325,8 @@
 - 2026-11-25 06:00 Round 177: chose the checkpoint over Row 12b. The loop flagged the Row 12a report as only partly done, and a full tsc and Jest run is the only check that covers the whole 12a change before a script is built on it. Jev's 97% for 12b did not account for this flag. The Expo config and five Jest files were checked, but not the full suite, and the productName test failed once during the round.
 - 2026-11-25 06:00 Round 177: this round changes no files, per the loop note. Failures are recorded for the next round to fix.
 - 2026-11-25 06:00 Round 176: privacy manifest placed in app.json (ios.privacyManifests), not ios/PrivacyInfo.xcprivacy, because /ios is git ignored prebuild output.
+- 2026-11-25 06:01 Round 178 chosen as Row 12b, as the Round 177 report recommended. Row 12a passed its read-only check and the checkpoint was green (259 suites, 1,524 tests, tsc 0 errors), so no fix round was needed.
+- 2026-11-25 06:01 Manifest check reads app.json, not ios/, because ios/ is stale prebuild output that is git ignored.
+- 2026-11-25 06:01 The check runs in verify directly after secrets:scan, following the Round 173 order.
+- 2026-11-25 06:01 Row 2.5 stays after 12b, and goals.saved removal stays parked because it needs a non-allowed test edit.
+- 2026-11-25 06:01 Jest noise (i18next banner, devWarn) is left for Row 22, not fixed now, to keep this round small.

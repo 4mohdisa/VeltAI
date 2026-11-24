@@ -125,6 +125,23 @@ written to logs. Food search runs on the local Australian food table first and
 then sends only the search text to Open Food Facts and, if `USDA_API_KEY` is
 set, USDA FoodData Central.
 
+## iOS privacy manifest
+
+`app.json` `ios.privacyManifests` declares the data above with Apple's data
+type names. No type is used for tracking. `scripts/checkPrivacyManifest.js`
+(run by `npm run verify`) fails when a declared type is missing from this list.
+
+| Manifest data type | Linked to the user | Purposes | Covers |
+| --- | --- | --- | --- |
+| `NSPrivacyCollectedDataTypeProductInteraction` | Yes | Analytics | Analytics events |
+| `NSPrivacyCollectedDataTypeOtherDiagnosticData` | Yes | App functionality, analytics | Build labels on events, device model in feedback |
+| `NSPrivacyCollectedDataTypeCrashData` | No | App functionality | Crash reports |
+| `NSPrivacyCollectedDataTypeCustomerSupport` | Yes | App functionality | Feedback messages |
+| `NSPrivacyCollectedDataTypePhotosorVideos` | Yes | App functionality | Meal and label photos sent for AI analysis |
+| `NSPrivacyCollectedDataTypeHealth` | Yes | App functionality | Food logs, goals and body weights |
+| `NSPrivacyCollectedDataTypeFitness` | Yes | App functionality | Gym sessions |
+| `NSPrivacyCollectedDataTypeOtherUserContent` | Yes | App functionality | Ask Lume questions |
+
 ## Defaults and open items
 
 - **Analytics is opt-in and off by default**, as coded: `analyticsEnabled`

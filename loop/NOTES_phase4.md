@@ -7,14 +7,15 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Prompts must restate the branch rule.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL (2.3 and 2.4 done, 2.5 not started). Row 12 PARTIAL (12a done in app.json, pending full checkpoint). Row 29 PARTIAL.
-- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan. Still missing: manifest check (Row 12b).
+- Row 1 BUILT. Row 2 PARTIAL (2.3 and 2.4 done, 2.5 not started). Row 12 PARTIAL (12a verified read only in round 177, 12b in progress in round 178). Row 29 PARTIAL.
+- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan, check:manifest (round 178).
 - CI workflow: .github/workflows/verify.yml, local only, never run on GitHub.
-- Last full checkpoint: round 177 (this round). Next full checkpoint: round 180.
+- Round 177 checkpoint: green. tsc 0 errors, Jest 259 suites, 1,524 tests, 4 snapshots.
+- Next full checkpoint: round 180.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Row 12a check (round 177) -> Row 12b -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -> 3 to 14b -> 15 to 30 -> 31.
+Row 12b (round 178) -> 2.5 goals and unit prefs via backend (round 179) -> 2.2 remaining -> 2b -> 3 to 14b -> 15 to 30 -> 31.
 
 ## Rules
 - Lint: npx expo lint. Verify never passes with warnings.
@@ -37,10 +38,11 @@ Row 12a check (round 177) -> Row 12b -> 2.5 goals and unit prefs via backend -> 
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 177: checkpoint chosen over 12b (Jev 97%). Loop flagged 12a as partly done; a full run is needed before a check script is built on it.
-- Round 176: privacy manifest in app.json (ios.privacyManifests), not ios/PrivacyInfo.xcprivacy, because /ios is git ignored prebuild output. Face ID and Motion prompts removed (not used). Camera is the only prompt; es and fr camera text added.
-- Round 175: round 174 verified by tsc, go vet, migration test, parity test and lint on changed files.
-- Round 174: CI workflow local only, throwaway local Postgres service, no repository secret. Shim SQL moved to backend/tests/migrations/supabase_shims.sql.
+- Round 178: manifest check reads app.json (ios/ is stale prebuild output, git ignored).
+- Round 178: check:manifest runs in verify after secrets:scan.
+- Round 177: checkpoint chosen over 12b (Jev 97%). Green.
+- Round 176: privacy manifest in app.json (ios.privacyManifests). Face ID and Motion prompts removed (not used). Camera is the only prompt; es and fr camera text added.
+- Round 174: CI workflow local only, throwaway local Postgres service, no repository secret. Shim SQL in backend/tests/migrations/supabase_shims.sql.
 - Round 173: secrets scan runs before manifest check.
 - Round 172: migration check skips with exit 0 when variable unset.
 - Round 170: analyticsSink warning cleared by scoped config allow.
@@ -78,12 +80,13 @@ Row 12a check (round 177) -> Row 12b -> 2.5 goals and unit prefs via backend -> 
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
 - Migration apply test runs twice in CI (verify:go and verify:migrations).
 - Commented setup in days_pg_test.go and similar TestPG files repeats shim SQL; point at supabase_shims.sql.
+- Jest noise: i18next banner and devWarn lines (Row 22).
 
 ## Problems noticed, not fixed
-- Local ios/Lume/PrivacyInfo.xcprivacy and Info.plist are stale until next npx expo prebuild (Face ID, Motion, no data types). Do not edit ios/.
+- Local ios/ prebuild output is stale (Face ID, Motion, no data types) until npx expo prebuild. Do not edit ios/.
 - Two camera strings with different wording; plugin text wins.
 - fr privacy copy uses 'vos', matching existing fr copy.
-- productName.test.ts failed once during Row 12a and passed after restore. Round 177 checkpoint to confirm.
+- productName.test.ts failed once during Row 12a and passed after restore. Watch it.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - Postgres is a brew service; database setup manual. Rows 17 and 26 should script it.
@@ -96,7 +99,7 @@ Row 12a check (round 177) -> Row 12b -> 2.5 goals and unit prefs via backend -> 
 - Secrets scan placeholder check is a heuristic.
 
 ## Next
-- Round 177 (this round): checkpoint. tsc and full Jest --ci, no file changes. Report failures and the Row 12a state.
-- Round 178: fix any round 177 failures first. Then Row 12b manifest and plist check script, wired into verify.
-- Then 2.5 goals and unit prefs via backend, 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+- Round 178 (this round): Row 12b manifest and plist check script, wired into verify after secrets:scan.
+- Round 179: Row 2.5 goals and unit prefs via backend, smallest change.
+- Then 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
 - Full checkpoint at round 180.
