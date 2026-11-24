@@ -1222,6 +1222,24 @@
       "sheetTitle": "Ajusta tu objetivo de calorías",
       "sheetNote": "La proteína, los carbohidratos y la grasa se calculan a partir de tu perfil.",
       "caloriesLabel": "Calorías"
+    },
+    "preview": {
+      "title": "Esto es lo que Lume ya sabe de ti",
+      "createAccount": "Crear mi cuenta →",
+      "trialNote": "Prueba gratuita de {{days}} días — verás el precio antes de suscribirte.",
+      "cuisine": {
+        "south_asian": "Hemos cargado comidas del sur de Asia en tu base de datos — biryani, dal, roti, paneer y más, listas para registrar",
+        "east_asian": "Básicos de Asia oriental cargados — arroz jazmín, tofu, fideos, salteados y más",
+        "southeast_asian": "Favoritos del sudeste asiático cargados — pho, pad thai, satay, rollitos de primavera y más",
+        "middle_eastern": "Comidas de Oriente Medio listas — hummus, shawarma, falafel, pan pita y más",
+        "mediterranean": "Básicos mediterráneos cargados — pescado a la parrilla, ensaladas, aceite de oliva, queso feta y más",
+        "western": "Favoritos occidentales cargados — sándwiches, asados, pasta, filete y más",
+        "african": "Platos africanos listos — jollof, guisos, injera, fufu y más",
+        "latin_american": "Comidas latinoamericanas cargadas — tacos, arepas, arroz con frijoles, ceviche y más"
+      },
+      "targets": "Tus objetivos de calorías y macros, calculados según tu meta y tu nivel de actividad",
+      "portions": "Nuestra IA aprende tus porciones — cuanto más registras, más precisa es",
+      "halal": "Filtro halal aplicado — marcaremos los productos que no sean halal"
     }
   },
   "signup": {

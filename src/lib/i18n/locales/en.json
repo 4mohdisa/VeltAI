@@ -1222,6 +1222,24 @@
       "sheetTitle": "Adjust your calorie target",
       "sheetNote": "Protein, carbs and fat are set from your profile.",
       "caloriesLabel": "Calories"
+    },
+    "preview": {
+      "title": "Here's what Lume knows about you already",
+      "createAccount": "Create my account →",
+      "trialNote": "Free {{days}}-day trial — pricing shown before you subscribe.",
+      "cuisine": {
+        "south_asian": "We've pre-loaded South Asian foods into your database — biryani, dal, roti, paneer and more ready to log",
+        "east_asian": "East Asian staples loaded — jasmine rice, tofu, noodles, stir-fry and more",
+        "southeast_asian": "Southeast Asian favourites loaded — pho, pad thai, satay, spring rolls and more",
+        "middle_eastern": "Middle Eastern foods ready — hummus, shawarma, falafel, pita and more",
+        "mediterranean": "Mediterranean staples loaded — grilled fish, salads, olive oil, feta and more",
+        "western": "Western favourites loaded — sandwiches, roasts, pasta, steak and more",
+        "african": "African dishes ready — jollof, stew, injera, fufu and more",
+        "latin_american": "Latin American foods loaded — tacos, arepas, rice and beans, ceviche and more"
+      },
+      "targets": "Your calorie and macro targets calculated to your goal and activity level",
+      "portions": "Our AI learns your portions — the more you log, the more accurate it gets",
+      "halal": "Halal dietary filter applied — we'll flag non-halal items"
     }
   },
   "signup": {

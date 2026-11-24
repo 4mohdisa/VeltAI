@@ -10496,3 +10496,8 @@
 - 2026-11-25 08:56 Recorded in the notes that the signup SESSION_ENDED fix is done (R201, confirmed R204). The earlier 'later candidate' line was stale.
 - 2026-11-25 08:56 Kept the preview screen as the next task after the checkpoint, unchanged in scope (one screen per round, max 5 steps).
 - 2026-11-25 08:56 Checkpoint runs tsc and the full Jest suite only. Lint and Go are not needed this round because no files change.
+- 2026-11-25 08:58 R217: R216 checkpoint is green (tsc 0, Jest 269 suites and 1,591 tests). Corrected the counts in the notes from 268/1,579 to 269/1,591.
+- 2026-11-25 08:58 R217: lint was not run at R216, so the preview round runs lint on the whole folder first. Any finding is fixed before new strings.
+- 2026-11-25 08:58 R217: chose preview over done and paywall, following the order in the notes. Jev ranked preview first at 96%, the same as my pick, so no second look was needed.
+- 2026-11-25 08:58 R217: the preview step is one screen per round (R206 rule). Done and paywall wait for their own rounds.
+- 2026-11-25 08:58 R217: es and fr wording is listed in the report for Isa's review (already on the blocked list in general).

@@ -8,16 +8,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: done 1a to 1d goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer (R215). OnbScaffold shared. 401 handling on signup, paywall and launch gate uses SESSION_ENDED; answers survive expired session.
-- Signup SESSION_ENDED fix: DONE (R201, confirmed R204).
-- Last checkpoint R210: tsc 0, lint 0, Jest 268 suites, 1,579 tests. Handover after R215.
-- R216: checkpoint (tsc and full Jest, no file changes). Result pending in next report.
+- Row 2b DIFFERENT: steps 1a to 1d done for goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer. OnbScaffold shared. 401 handling on signup, paywall and launch gate uses SESSION_ENDED; answers survive expired session. PHASE4_ROWS.md still stops at 1e; R217 adds 1d.
+- R216 checkpoint GREEN: tsc 0, Jest 269 suites, 1,591 tests. Lint not run at R216; first full-folder lint runs in R217.
+- Last full checkpoint R216. Next checkpoint R225 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-After R216 green: 1d preview (src/app/onboarding/preview.tsx), then done, then paywall (one screen per round, paywall also removes English CUISINE_LABEL). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
-If R216 shows failures: fix them first, in a small round, before any new strings.
-Next checkpoint: R225 or later.
+R217: preview (src/app/onboarding/preview.tsx). Then done. Then paywall (also removes English CUISINE_LABEL). One screen per round. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+If a round shows failures: fix them first, in a small round, before new strings.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -60,13 +58,13 @@ Next checkpoint: R225 or later.
 - R208: kept OnbScaffold, shared by every onboarding screen.
 - R209 to R212: onboarding keys nested under onboarding.<screen>; cuisine and dietary options under options.<value>.
 - R211: cuisine before targets. Continue reuses onboarding.measurements.continue.
-- R213: targets done.
-- R214: disclaimer translated first, because targets claimed es and fr but its disclaimer was still English.
-- R215: prompt rejected for covering two components. Rewritten as one component only (HealthDisclaimer.tsx). Done.
-- R216: Jev ranked preview first (90%). Chose checkpoint instead: loop note assigns a checkpoint after handover, last full green run R210, and 6+ suites changed since. Preview edits wait for a confirmed baseline.
+- R213: targets done. R214: disclaimer translated first.
+- R215: HealthDisclaimer.tsx only, one component per round.
+- R216: checkpoint chosen over preview; green.
+- R217: counts corrected to 269 suites and 1,591 tests. Preview chosen (Jev 96%, same pick).
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (French ft / in and 'ans'), body type, cuisine (Spanish feminine agreement, French mixed region and adjective style), dietary (Spanish feminine forms, 'Sans lactose' vs 'Sans produits laitiers'), targets, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text (R215).
+- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text, and every preview string from R217.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -81,7 +79,7 @@ Next checkpoint: R225 or later.
 - Paywall builds its cuisine line from English CUISINE_LABEL in src/components/onboarding/cuisines.ts. Remove the label field once the paywall is translated.
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
-- formatNumber in src/lib/formatting.ts hardcoded to en-AU (es and fr show 2,100). units.ts also en-AU.
+- formatNumber in src/lib/formatting.ts hardcoded to en-AU. units.ts also en-AU.
 - WeekEnergyCard reads i18n directly. nutrition.tsx:231 builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined in three files.
@@ -93,8 +91,8 @@ Next checkpoint: R225 or later.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' (onboarding.sessionExpired). Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: preview, done, paywall strings and toasts. Terms disclaimer paragraphs in src/app/legal/terms.tsx.
-- Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
+- Still hard-coded English: done, paywall strings and toasts. Terms disclaimer paragraphs in src/app/legal/terms.tsx.
+- Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer, stack traces in passing tests (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
 ## Problems noticed, not fixed
