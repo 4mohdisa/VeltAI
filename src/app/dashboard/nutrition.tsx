@@ -153,7 +153,7 @@ export default function NutritionDetailScreen(): JSX.Element {
                   <Plot
                     cols={weekCols}
                     height={SEC_H}
-                    ceiling={`${formatNumber(weekScale)}g`}
+                    ceiling={`${formatNumber(weekScale)}${t('nutrition.gramsShort')}`}
                     floor="0"
                     gridInset
                     gutterWidth={CHART_GUTTER_W}
@@ -177,7 +177,10 @@ export default function NutritionDetailScreen(): JSX.Element {
                 </View>
               )}
               <Text variant="footnote" color={color.secondaryLabel}>
-                {rows.map((r) => `${r.label} ${r.known ? `${r.pct}%` : '—'}`).join(' · ')}
+                {t(
+                  'nutrition.macroPercentFootnote',
+                  Object.fromEntries(rows.map((r) => [r.key, r.known ? t('nutrition.percentValue', { value: r.pct }) : '—'])),
+                )}
               </Text>
             </>
           )}

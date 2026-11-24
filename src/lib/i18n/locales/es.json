@@ -771,7 +771,10 @@
     "breakdown": "Desglose",
     "percentOfTargetShort": "{{percent}} % del objetivo",
     "ofTargetGrams": "de {{target}} g",
-    "noMealsToday": "Aún no has registrado comidas hoy."
+    "noMealsToday": "Aún no has registrado comidas hoy.",
+    "gramsShort": "g",
+    "percentValue": "{{value}} %",
+    "macroPercentFootnote": "Proteína {{protein}} · Carbohidratos {{carbs}} · Grasa {{fat}} · Fibra {{fibre}}"
   },
   "plan": {
     "suggested": "Sugerido:",

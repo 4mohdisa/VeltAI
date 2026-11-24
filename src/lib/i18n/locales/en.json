@@ -769,7 +769,10 @@
     "breakdown": "Breakdown",
     "percentOfTargetShort": "{{percent}}% of target",
     "ofTargetGrams": "of {{target}} g",
-    "noMealsToday": "No meals logged yet today."
+    "noMealsToday": "No meals logged yet today.",
+    "gramsShort": "g",
+    "percentValue": "{{value}}%",
+    "macroPercentFootnote": "Protein {{protein}} · Carbs {{carbs}} · Fat {{fat}} · Fibre {{fibre}}"
   },
   "plan": {
     "suggested": "Suggested:",

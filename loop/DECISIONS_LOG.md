@@ -10192,3 +10192,8 @@
 - 2026-11-25 05:08 Round 146 pick: custom-food 'Save food' is the next item in the 2.3 queue and Jev ranks run at 99%, so no change.
 - 2026-11-25 05:08 es 'Guardar alimento' and fr 'Enregistrer l’aliment' are new wording; they join the list of es and fr wording for Isa to review.
 - 2026-11-25 05:08 Pinned assertion in sheetVariant.test.ts may change, as Isa allowed in the Phase 4 brief for Phase 3 leftovers.
+- 2026-11-25 05:10 Round 147: picked nutrition.tsx literals (candidate 1). It is the next item in the notes order and the one the last report named.
+- 2026-11-25 05:10 Reuse an existing grams key if one exists, otherwise add nutrition.gramsShort. Keeps locale edits minimal.
+- 2026-11-25 05:10 Footnote join becomes one interpolated sentence key, per the one key per sentence rule.
+- 2026-11-25 05:10 Snapshot changes are reported, not updated silently. The full suite waits for the next checkpoint.
+- 2026-11-25 05:10 Isa's review of the es and fr wording stays open. The new strings follow the existing pattern and are not blocked by it.

@@ -9,9 +9,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
 - 2.1: only the simulator check of the Total tile is left (OWNER_CHECKS_phase4.md).
 - 2.2 done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings) in progress, one file per round. Done: EnergyBalanceCard, GymSessionButton, MacroBars, energy screen, Summary, energyRange, axis letters on energy, training, nutrition, week, WeekEnergyCard, week range separator (dashboard.rangeSeparator).
-- Round 146 (current): custom-food 'Save food' (new key, en, es, fr; sheetVariant.test.ts assertion changed).
-- Open 2.3 items, in order: ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; nutrition.tsx hardcoded 'g' and ' · ' join. Then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard, range separator).
+- 2.3 (strings) in progress, one file per round. Done: custom-food 'Save food' (round 146), EnergyBalanceCard, GymSessionButton, MacroBars, energy screen, Summary, energyRange, axis letters on energy, training, nutrition, week, WeekEnergyCard, week range separator (dashboard.rangeSeparator).
+- Round 147 (current): nutrition.tsx 'g' unit and ' · ' footnote join.
+- Open 2.3 items, in order: nutrition.tsx (round 147); ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; week.tsx ' – ' separator at line 150 check. Then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard, range separator, custom-food).
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -53,15 +53,15 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: gym session history read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: morning brief and profile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-145: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, dayMonth, energy, training, nutrition, week axis letters and range separator.
-- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green. Last full run: 245 suites, 1,462 tests, 4 snapshots. Expect 249 suites after rounds 143-145.
+- Rounds 107-146: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, dayMonth, energy, training, nutrition, week axis letters and range separator, custom-food Save button.
+- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green. Last full run: 245 suites, 1,462 tests, 4 snapshots. Expect 248 or more after rounds 143-146.
 
 ## Blocked on Isa (not blocking the loop)
 - E2E account needs 250+ gym dates (OWNER_CHECKS_phase4.md).
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
 - Confirm es and fr hours and minutes spacing ('1 h 45 min').
-- Review es and fr wording of new keys: summary.*, gym.loggedTodayLabel, dashboard.energyBalance.*, dashboard.energyAverageBurned.
+- Review es and fr wording of new keys: summary.*, gym.loggedTodayLabel, dashboard.energyBalance.*, dashboard.energyAverageBurned, customFood.saveButton.
 - Confirm weekdayShort stays a full name.
 - Week range separator: keep ' – ' in es and fr, or use 'al' / 'au'.
 - Do not retry these; work on other surfaces.
@@ -78,8 +78,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Weekday and month names on Hermes not checked on the simulator.
 
 ## Next
-- Round 146: custom-food 'Save food' (current).
-- Then ConfidenceBadge, i18n header comments, summaryCards fallback, nutrition.tsx 'g' and ' · ', then the 2.3 note in PHASE4_ROWS.md.
+- Round 147: nutrition.tsx (current).
+- Then ConfidenceBadge, i18n header comments, summaryCards fallback, week.tsx separator, then the 2.3 note in PHASE4_ROWS.md.
 - Then 2.2 leftovers, 2.4 (useGoals, Row 15), 2.5 (rest of Parked, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 
@@ -104,7 +104,5 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Jest prints about 200 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard short names: check once on the simulator (Row 23).
 - Other Summary cards may still have English literals (check in 2.3 sweep).
-- nutrition.tsx hardcodes 'g' and joins footnote with ' · '.
 - MacroTargetRows has no es or fr render test.
-- Round 136 weekdayShort decision and 'Sept' still need Isa's review.
 - Energy screen always says kcal; formatNumber en-AU; no week separator review by Isa yet.

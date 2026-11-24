@@ -769,7 +769,10 @@
     "breakdown": "Répartition",
     "percentOfTargetShort": "{{percent}} % de l’objectif",
     "ofTargetGrams": "sur {{target}} g",
-    "noMealsToday": "Aucun repas enregistré aujourd’hui."
+    "noMealsToday": "Aucun repas enregistré aujourd’hui.",
+    "gramsShort": "g",
+    "percentValue": "{{value}} %",
+    "macroPercentFootnote": "Protéines {{protein}} · Glucides {{carbs}} · Lipides {{fat}} · Fibres {{fibre}}"
   },
   "plan": {
     "suggested": "Suggéré :",
