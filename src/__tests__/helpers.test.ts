@@ -6,6 +6,7 @@ import {
   formatMacro,
   formatCurrency,
   formatDuration,
+  formatHoursMinutes,
   formatStreak,
   formatRelativeDate,
   formatLongDate,
@@ -146,6 +147,31 @@ describe('formatStreak / formatDuration follow the app language', () => {
     expect(formatDuration(5)).toBe(mins);
     expect(formatDuration(120)).toBe(hours);
     expect(formatDuration(90)).toBe(hoursMins);
+  });
+});
+
+describe('formatHoursMinutes always shows hours, in the app language', () => {
+  afterAll(() => i18n.changeLanguage('en'));
+
+  test.each([
+    ['en', 0, '0h 0m'],
+    ['en', 45, '0h 45m'],
+    ['en', 60, '1h 0m'],
+    ['en', 119.6, '2h 0m'],
+    ['en', 310, '5h 10m'],
+    ['es', 0, '0 h 0 min'],
+    ['es', 45, '0 h 45 min'],
+    ['es', 60, '1 h 0 min'],
+    ['es', 119.6, '2 h 0 min'],
+    ['es', 310, '5 h 10 min'],
+    ['fr', 0, '0 h 0 min'],
+    ['fr', 45, '0 h 45 min'],
+    ['fr', 60, '1 h 0 min'],
+    ['fr', 119.6, '2 h 0 min'],
+    ['fr', 310, '5 h 10 min'],
+  ])('%s: %p minutes → %p', async (lang, minutes, expected) => {
+    await i18n.changeLanguage(lang);
+    expect(formatHoursMinutes(minutes)).toBe(expected);
   });
 });
 

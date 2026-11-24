@@ -30,6 +30,13 @@ export function formatDuration(minutes: number): string {
   return m === 0 ? i18n.t('common.hours', { h }) : i18n.t('common.hoursMinutes', { h, m });
 }
 
+/** "0h 45m", "5h 10m" — always shows the hours, for totals laid out in the design's
+ *  hours-and-minutes shape. Rounds first, so 119.6 is "2h 0m", never "1h 60m". */
+export function formatHoursMinutes(minutes: number): string {
+  const total = Math.round(minutes);
+  return i18n.t('common.hoursMinutes', { h: Math.floor(total / 60), m: total % 60 });
+}
+
 export function formatStreak(days: number): string {
   return i18n.t('common.days', { count: days });
 }
