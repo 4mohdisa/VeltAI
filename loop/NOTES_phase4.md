@@ -8,13 +8,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions, signup 401 (R201) done.
-- R202 checkpoint FAILED: 5 suites, 11 tests, all from R201 renderScreen change (onboardingAnswersExpiry, energyBalanceCard, dailyMacroRing, progressBar, quickAdd).
-- Last fully green full Jest: R197 (266 suites, 1,564 tests).
+- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions done. Signup 401 status to verify in R204 (handover and notes disagree).
+- R203: renderScreen wraps tree.update too; quickAdd queue mock has subscribe. Render folder 180 suites, 621 tests green.
+- Last fully green full Jest: R197 (266 suites, 1,564 tests). Full run at checkpoint R204.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R203 (now): fix R201 regressions (renderScreen wraps tree.update; quickAdd queue mock gets subscribe). Then full Jest at next checkpoint. Then R200: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R204 (now): checkpoint. Full tsc, lint, Jest. Grep signup.tsx continueAfterAuth 401 branch, report only.
+Then R205: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -26,6 +27,7 @@ R203 (now): fix R201 regressions (renderScreen wraps tree.update; quickAdd queue
 - Outside React: import i18n from '@/lib/i18n'. Dates: dateLocale(i18n.language).
 - Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoint rounds.
 - TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel. Never print the URL.
+- Every prompt: Claude Code works only on loop/phase4, runs no git commit or push, and states the branch rule first.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -50,10 +52,9 @@ R203 (now): fix R201 regressions (renderScreen wraps tree.update; quickAdd queue
 - R195: launch gate 401 reuses classifyConnectivity and the R194 route.
 - R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything.
 - R198: 401 routes split one per round. Session cleared via SESSION_ENDED, answers kept.
-- R199: renderScreen wrapped in AppStateProvider (approved). Signup 401 uses SESSION_ENDED only.
-- R201: prompt rewritten with branch rule. Caused 5 suite failures (see R202).
-- R202: checkpoint failed. Fix before R200.
-- R203: fix renderScreen to wrap tree.update too; quickAdd queue mock gets subscribe. Full Jest deferred to next checkpoint. Jev ask 12% overruled (fix stays inside R199 approval).
+- R199: renderScreen wrapped in AppStateProvider (approved). Signup 401 uses SESSION_ENDED only (per notes; verify R204).
+- R201: caused 5 suite failures, fixed in R203.
+- R204: checkpoint run. Signup 401 verified by grep, not changed.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review (Welcome, signup, onboarding, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
@@ -89,14 +90,15 @@ R203 (now): fix R201 regressions (renderScreen wraps tree.update; quickAdd queue
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
 - Two camera strings with different wording; plugin text wins.
-- Migration apply test runs twice per verify when the variable is set.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - KNOWN_ISSUES.md Backend section has Phase 3 wording. Docs round (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
-- Paywall 401 still opens sign in without ending the Clerk session (R200).
+- Paywall 401 still opens sign in without ending the Clerk session (R205).
+- Signup 401 and paywall 401 may still open sign in without ending the Clerk session (R204 grep decides).
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
 - Onboarding screens after signup are still hard-coded English (1d and 2c).
 - The signup placeholders are literals.
+- connectivityMessage hard-coded English and unused.

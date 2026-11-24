@@ -10446,3 +10446,12 @@
 - 2026-11-25 06:51 quickAdd fix adds subscribe to its queue mock and does not change its expectations.
 - 2026-11-25 06:51 Full Jest is deferred to the next checkpoint the loop script names; this round runs the five suites and the render folder only, to keep it small.
 - 2026-11-25 06:51 Jev ask at 12% overruled: the fix is inside rules already approved (R199), so no question to Isa.
+- 2026-11-25 06:52 Chose the full Jest checkpoint first: R203 fix was reported green only for the render folder, and R203 deferred the full run to the next checkpoint. Jev agrees (run 100%).
+- 2026-11-25 06:52 Signup 401 status: notes say R199 already done, the handover says it is still open. The prompt makes R204 grep and report it, not change it, so the next round decides from evidence.
+- 2026-11-25 06:52 R200 paywall 401 stays the next feature task after the checkpoint passes.
+- 2026-11-25 06:52 Full suite is run once with npx jest --ci, as the checkpoint rule allows. No new TestPG run needed for app Jest.
+- 2026-11-25 06:53 R204 is the checkpoint: full tsc, lint and Jest run once, because the loop note asks for it and Jev agrees (run, 98%).
+- 2026-11-25 06:53 Signup 401 is verified by grep, not changed. Notes (R199) say it already uses SESSION_ENDED; the handover says to apply it. Grep decides, so the two records cannot conflict silently.
+- 2026-11-25 06:53 The rejected prompt is fixed: the branch rule is now step 1 with a stop condition, and git commit and push are forbidden for Claude Code.
+- 2026-11-25 06:53 Jev's risk score (1.0 of 2) is noted. The round is verification only, so it adds no risk of new behaviour.
+- 2026-11-25 06:53 The Clean code rules and report format are restated in full, as the brief requires for every prompt.
