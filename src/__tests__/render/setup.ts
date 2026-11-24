@@ -37,6 +37,19 @@ jest.mock('@/lib/haptics', () => ({
 // mock); render tests need the same in-memory stand-in.
 jest.mock('expo-secure-store', () => require('../mocks/expoSecureStore'));
 
+// The router spy is shared by every test in a file, so clear its calls first;
+// otherwise a route asserted in one test could have been pushed by another.
+// Resolved here, not imported at the top: a top-level import would load this
+// file's mock before a test file's own jest.mock('expo-router') could replace
+// it. Those local mocks may omit router or wrap a spy in a plain function, so
+// only real mock functions are cleared.
+beforeEach(() => {
+  const { router } = jest.requireMock<Partial<typeof import('expo-router')>>('expo-router');
+  for (const fn of [router?.push, router?.replace, router?.back]) {
+    if (jest.isMockFunction(fn)) fn.mockClear();
+  }
+});
+
 // Tear every rendered tree down between tests. A tree left mounted stays
 // subscribed to the zustand stores and keeps writing to them, which poisons
 // the next test's fixture.

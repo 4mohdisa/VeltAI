@@ -9897,3 +9897,8 @@
 - 2026-11-25 03:27 The beforeEach in setup.ts is the next round's task, after this checkpoint is green.
 - 2026-11-25 03:27 Did not add the notes' 'checkpoint every 15 rounds' schedule to the script. Script decides checkpoints.
 - 2026-11-25 03:27 Kept the Jev risk reading (1.0, moderate) in mind: this round touches no files, so the risk of continuing is low.
+- 2026-11-25 03:28 Round 77 is the setup.ts beforeEach, as planned in the notes. Baseline was reconfirmed at checkpoint round 76 (tsc 0, 242 suites, 1,402 tests), so the shared setup edit is safe to make now.
+- 2026-11-25 03:28 Kept to one file per round (Jev risk moderate to high). The mockClear removals in Preview, Targets and signupOtp move to later rounds, one file each.
+- 2026-11-25 03:28 Jev ranked this same task first (85 percent in round 76). Kept it. No new reason to change course.
+- 2026-11-25 03:28 Lint warnings are expected to stay at 10 this round, since the render/setup.ts warning is the afterEach require, which this change does not touch.
+- 2026-11-25 03:28 No string changes this round. The i18n and string round is scheduled later under Row 2.3.

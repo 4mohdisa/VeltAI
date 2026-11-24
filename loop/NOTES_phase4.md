@@ -6,8 +6,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 75 checkpoint passed (tsc 0, Jest 242 suites / 1,402 tests, lint 0 errors / 10 warnings). No files changed.
-- Round 76 = checkpoint (script-forced). Change no files. Report counts.
+- Round 76 checkpoint passed (tsc 0, Jest 242 suites / 1,402 tests, lint 0 errors / 10 warnings). No files changed.
+- Round 77 = setup.ts router beforeEach (one file).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -44,15 +44,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Jev risk moderate to high: keep steps to one file and check gates each round.
 - String changes wait for a string round.
-- Round 76: Jev ranked the setup.ts beforeEach first (85%). Kept the checkpoint because the script marks this round as one. Reason Jev cannot see: the setup.ts change touches every render test, so the baseline must be reconfirmed before a shared setup edit.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
-- Rounds 44, 60, 75 (checkpoints): full tsc and Jest green.
-- Rounds 45-74: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode, signup).
+- Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green.
+- Rounds 45-74: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtpMode, signupSignInMode, signup).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -61,13 +60,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 76: checkpoint (no file changes).
-- Round 77: add one beforeEach in src/__tests__/render/setup.ts clearing router.push, router.replace, router.back. Then remove redundant per-test mockClear lines in Preview, Targets and signupOtp render tests.
-- Then foodSaved.render (2 warnings), debugGating, debugCapture, authBilling (2 each), render/setup.ts (1, afterEach require with disable comment).
+- Round 77: add one beforeEach in src/__tests__/render/setup.ts clearing router.push, router.replace, router.back.
+- Round 78: remove redundant per-test mockClear lines in Preview render test.
+- Round 79: same in Targets, then signupOtp (one file per round).
+- Then foodSaved.render (2 warnings), debugGating, debugCapture, authBilling (2 each), render/setup.ts afterEach require (1).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
-- Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40 says 20 TestPG, it is 21).
+- Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES.md line 40 says 20 TestPG, it is 21).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
@@ -84,4 +84,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - KNOWN_ISSUES.md:40 wrong TestPG count (21 run, not 20 skipped).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
-- Preview, Targets and signupOtp CTA tests do not clear router mocks before asserting. Each file has one router-calling test today. Fix in round 77 via setup.ts beforeEach.
+- Preview, Targets and signupOtp CTA tests do not clear router mocks before asserting. Fixed in round 77 via setup.ts beforeEach; per-test mockClear lines to remove in rounds 78 and 79.
