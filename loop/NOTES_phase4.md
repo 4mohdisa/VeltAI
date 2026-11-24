@@ -5,16 +5,18 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 
 ## State
 - Branch loop/phase4 from loop/phase3 (Phase 3 not merged into main). Never work on main.
+- Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
 - Baseline (BASELINE_phase4.md): tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
 - Row 1 BUILT.
 - Row 2 PARTIAL. Sub steps: 2.1 total gym days (PARTIAL: code and mocks done, simulator check parked), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and one for the 2.1 simulator check. Never overwrite or empty it.
 
-## Lint state (round 30 sweep)
-- npx eslint src: 18 errors, 59 warnings in 37 of 464 files.
-- 15 react-hooks/refs errors in app code: gymSchedule.ts:50,52; ProgressBar.tsx:31; DailyMacroRing.tsx; EnergyBalanceCard.tsx.
-- 3 react/display-name errors in render tests: labelScan, photoScan, scanScreens.strings.
+## Lint state
+- Round 31 done: gymSchedule.ts react-hooks/refs fixed (layout effect), with one test.
+- Remaining: 16 errors, 59 warnings.
+- react-hooks/refs: ProgressBar.tsx:31 (round 32); DailyMacroRing.tsx (5); EnergyBalanceCard.tsx (6).
+- react/display-name: 3 in render tests (labelScan, photoScan, scanScreens.strings).
 - 57 no-require-imports warnings (mostly tests), 1 import/first, 1 import/no-named-as-default-member (src/lib/i18n/index.ts:37).
 
 ## Decisions (never delete)
@@ -34,6 +36,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). Do not seed or insert data without an approved seed path.
 - Every round runs tsc and targeted Jest for changed files and reports the results.
 - zsh: quote glob patterns; pass Jest file lists via printf '%s\0' | xargs -0.
+- Node 22 first on PATH (shell default is 24).
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -41,7 +44,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Round 27: simulator check of Total tile blocked. Parked.
 - Round 28: fixed react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400.
 - Round 29: checkpoint clean (tsc 0, Jest 242 suites, 1,400 tests).
-- Round 30: full sweep, no edits (lint numbers above).
+- Round 30: full sweep, no edits.
+- Round 31: gymSchedule.ts react-hooks/refs fixed, one test added.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -50,8 +54,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 31 (now): fix react-hooks/refs in src/lib/data/gymSchedule.ts (lines 50, 52), with one targeted test.
-- Then one file per round: ProgressBar.tsx, DailyMacroRing.tsx, EnergyBalanceCard.tsx (react-hooks/refs), then the 3 display-name render tests.
+- Round 32 (now): ProgressBar.tsx react-hooks/refs (line 31).
+- Then one file per round: DailyMacroRing.tsx, EnergyBalanceCard.tsx, then the 3 display-name render tests.
 - Row 2.2 remaining: src/app/food/history.tsx:66 listSessions limit (high priority); useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -64,4 +68,5 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
 - Phase 2 iOS notes say the backend returns 401 without a Clerk token. Unverified against local Clerk dev keys. Check in Row 16.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from hooks.ts. Look at them in Row 22.
+- Nothing tests refetch in useWeeklyMacros (src/lib/data/hooks.ts).
 - Jev risk high: keep steps to one file and check the gates each round.

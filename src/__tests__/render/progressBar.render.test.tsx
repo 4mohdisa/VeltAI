@@ -54,3 +54,24 @@ test('Reduce Motion skips the ease and sets the new value immediately', () => {
   // No fake-timer advance needed — Reduce Motion sets the value on the spot.
   expect(fillWidth(tree)).toBe('80%');
 });
+
+test('each re-render with a new value moves the fill and the reported progress to it', () => {
+  jest.useFakeTimers();
+  try {
+    const tree = renderScreen(<ProgressBar value={0.2} />);
+    const reported = () => findAll(tree, (p) => p.accessibilityRole === 'progressbar')[0].props.accessibilityValue.now;
+
+    for (const [value, width, now] of [[0.8, '80%', 80], [0.5, '50%', 50]] as const) {
+      act(() => {
+        tree.update(<ProgressBar value={value} />);
+      });
+      expect(reported()).toBe(now);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
+      expect(fillWidth(tree)).toBe(width);
+    }
+  } finally {
+    jest.useRealTimers();
+  }
+});

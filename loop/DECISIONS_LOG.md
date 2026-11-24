@@ -9743,3 +9743,8 @@
 - 2026-11-25 02:40 Kept to one file per round because Jev rates the risk of continuing as high.
 - 2026-11-25 02:40 Candidate 3 (unbounded history read) is a real data risk, so it goes next after the lint fixes unless the next sweep says otherwise.
 - 2026-11-25 02:40 Only a targeted Jest run this round. The full suite is due at the next checkpoint (every 5 rounds, round 35).
+- 2026-11-25 02:41 Chose ProgressBar.tsx first because it is the smallest remaining lint file, as the last report recommended and as the one-file-per-round rule requires.
+- 2026-11-25 02:41 Kept the same fix pattern as gymSchedule.ts (layout effect for ref writes) for consistency, with a derived value preferred if it works.
+- 2026-11-25 02:41 Round 32 is a targeted round. The next full suite is on round 35, per the checkpoint schedule.
+- 2026-11-25 02:41 Repo root taken as /Users/mohammedisa/Development/projects-app/LumeAI, as the last report found; the brief's /Users/isa path does not exist.
+- 2026-11-25 02:41 No row status changes this round. Row 2 stays PARTIAL.

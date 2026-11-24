@@ -28,7 +28,7 @@ export function ProgressBar({
 }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, value));
   const reduceMotion = useReduceMotion();
-  const pctAnim = useRef(new Animated.Value(pct)).current;
+  const [pctAnim] = useState(() => new Animated.Value(pct));
   const [displayPct, setDisplayPct] = useState(pct);
   // False only until this bar's own first effect run, so a freshly mounted
   // bar jumps straight to its starting value instead of easing from it.
