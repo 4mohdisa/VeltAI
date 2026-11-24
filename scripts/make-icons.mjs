@@ -15,6 +15,7 @@
 //
 //   node scripts/make-icons.mjs
 //
+import { Buffer } from 'node:buffer';
 import { deflateSync } from 'node:zlib';
 import { writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';

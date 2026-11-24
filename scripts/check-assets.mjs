@@ -12,6 +12,7 @@
  *
  * No dependencies: PNG headers are parsed directly.
  */
+import { Buffer } from 'node:buffer';
 import { readFileSync, existsSync } from 'node:fs';
 import { inflateSync } from 'node:zlib';
 import { join, dirname } from 'node:path';

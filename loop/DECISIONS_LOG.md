@@ -10348,3 +10348,6 @@
 - 2026-11-25 06:06 Jev ranks running the next action highest (55%). Agreed, since it is the smallest concrete step that closes the flag.
 - 2026-11-25 06:06 Row 29 stays BUILT for now. If the DB run fails, it moves to PARTIAL with the reason, not reverted silently.
 - 2026-11-25 06:06 Database URL kept out of all output and files, per the secrets rules.
+- 2026-11-25 06:08 Chose candidate 1: it is small, concrete and was the NEXT item in the last report. Jev ranked the same action first at 89 percent, so no second look was needed.
+- 2026-11-25 06:08 Round 182 TestPG run is accepted: 27 TestPG tests ran with zero skips, verify exit 0 with local lume_test_local. Row 29 stays BUILT.
+- 2026-11-25 06:08 Lint scope fix goes before Row 2.5 because a lint gap lets errors in scripts/ pass verify, which the exit rule forbids.

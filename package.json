@@ -60,7 +60,7 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "lint": "expo lint",
+    "lint": "expo lint src scripts",
     "test": "jest",
     "check:assets": "node scripts/check-assets.mjs",
     "eas-build-pre-install": "node scripts/assert-build-env.mjs",

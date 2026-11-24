@@ -6,13 +6,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Rows 12 and 12b BUILT. Row 29 BUILT at round 181 (verify exit 0, zero lint warnings), but TestPG and migrations were skipped (no DB URL). Row 2 PARTIAL (2.3 and 2.4 done; 2.5 re-check with grep; 2.2 remaining).
-- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan, check:manifest.
-- Round 181 result: tsc 0, Jest 260 suites, 1,534 tests, verify exit 0.
+- Row 1 BUILT. Rows 12 and 12b BUILT. Row 29 BUILT. Round 182: full verify with TestPG on local lume_test_local, 27 of 27 TestPG passed, 0 skipped, verify exit 0, lint 0 warnings. Recorded in BASELINE_phase4.md.
+- Row 2 PARTIAL: 2.3 and 2.4 done. 2.5 to re-check with grep. 2.2 remaining.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 182 (this round): verify with LUME_TEST_DATABASE_URL set to localhost:5432 lume_test_local. Record in BASELINE_phase4.md. Fix TestPG or migration failures. Then lint scripts/ (expo lint skips it), then 2.5 (after grep), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+Round 183: lint covers scripts/ (Row 29 follow-up). Then 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -35,7 +34,8 @@ Round 182 (this round): verify with LUME_TEST_DATABASE_URL set to localhost:5432
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 182: loop flagged round 181 (DB tests skipped). Verify rerun with local DB before more rows.
+- Round 183: lint scope fix before 2.5, because scripts/ errors can pass verify.
+- Round 182: verify with local TestPG recorded. Row 29 BUILT.
 - Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
 - Round 180: parity test runs in full Jest, so no separate wiring into verify.
 - Round 178: check:manifest reads app.json (ios/ is stale prebuild output, git ignored).
@@ -70,14 +70,13 @@ Round 182 (this round): verify with LUME_TEST_DATABASE_URL set to localhost:5432
 - Several screens have react-hooks/exhaustive-deps disable comments (Row 22).
 - Skeleton crashes under Reanimated test mock (Row 22).
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
-- Migration apply test runs twice in CI (verify:go and verify:migrations).
+- Migration apply test runs twice per verify when the variable is set.
 - Commented setup in TestPG files repeats shim SQL; point at supabase_shims.sql.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
 - Two camera strings with different wording; plugin text wins.
-- scripts/ not covered by expo lint, so lint errors there pass verify. Fix next after round 182.
 - fr privacy copy uses 'vos', matching existing fr copy.
 - productName.test.ts failed once in Row 12a and passed after restore. Watch it.
 - formatStreak(0) in fr gives '0 jour'.
@@ -89,7 +88,8 @@ Round 182 (this round): verify with LUME_TEST_DATABASE_URL set to localhost:5432
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 - Secrets scan placeholder check is a heuristic.
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx.
+- Signed helper and hide button reuse noted above; not fixed.
 
 ## Next
-- Round 182: verify with local TestPG and migrations, record in BASELINE_phase4.md. Row 29 stays BUILT only if green with zero skips and zero warnings.
-- Then scripts/ lint coverage, 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+- Round 183: lint covers scripts/, verify exit 0 with zero warnings.
+- Then 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.

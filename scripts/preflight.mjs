@@ -13,6 +13,7 @@
 // silently skipped (a check that cannot run prints SKIP and says what is
 // missing), and any FAIL exits non-zero.
 
+import { Buffer } from 'node:buffer';
 import { execSync } from 'node:child_process';
 import { readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
