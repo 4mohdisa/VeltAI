@@ -20,6 +20,7 @@ import { NumberEntryBar, type NumberEntryMode } from '@/components/common/Number
 import { Card } from '@/components/display/Card';
 import { Button } from '@/components/forms/Button';
 import { EmptyState } from '@/components/display/EmptyState';
+import { ErrorState } from '@/components/display/ErrorState';
 import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { SegmentedField } from '@/components/forms/SegmentedField';
 import { TextField } from '@/components/forms/TextField';
@@ -35,15 +36,15 @@ import {
   editFoodItem,
   editSavedFood,
   logMeal,
-  lookupBarcodeAsync,
+  lookupBarcodeResult,
   saveFood,
   slotForNow,
   unsaveFood,
+  type BarcodeLookup,
 } from '@/lib/data';
 import { useFoodStore } from '@/lib/data/foodStore';
 import { SLOTS } from '@/lib/data/mappers';
 import { basisOf, presetsFor, useDetailSubject, type DetailItem } from '@/lib/food/detailSubject';
-import type { BarcodeProduct } from '@/lib/food/barcode';
 import type { MealSlot } from '@/lib/mock/data';
 import { mealSlotName } from '@/lib/mealSlotName';
 
@@ -84,8 +85,10 @@ export default function FoodDetailScreen() {
   const [subject] = useState(() => useDetailSubject.getState().subject);
   const clearDetail = useDetailSubject((s) => s.clearDetail);
 
-  const [product, setProduct] = useState<BarcodeProduct | null>(null);
+  const [lookup, setLookup] = useState<BarcodeLookup | null>(null);
   const [loading, setLoading] = useState(subject?.mode === 'barcode');
+  // Bumped by Retry to run the barcode lookup again.
+  const [attempt, setAttempt] = useState(0);
 
   // A logged row can go away behind this sheet — swipe-to-delete on the food tab,
   // a stale list, another device. Checked once, at open: editing a ghost is the
@@ -102,15 +105,20 @@ export default function FoodDetailScreen() {
   useEffect(() => {
     if (subject?.mode !== 'barcode') return;
     let active = true;
-    void lookupBarcodeAsync(subject.code).then((found) => {
+    void lookupBarcodeResult(subject.code).then((result) => {
       if (!active) return;
-      setProduct(found);
+      setLookup(result);
       setLoading(false);
     });
     return () => {
       active = false;
     };
-  }, [subject]);
+  }, [subject, attempt]);
+
+  const retryLookup = () => {
+    setLoading(true);
+    setAttempt((n) => n + 1);
+  };
 
   const close = () => {
     clearDetail();
@@ -201,10 +209,22 @@ export default function FoodDetailScreen() {
   }
 
   if (subject.mode === 'barcode') {
-    // Not found: the lookup resolved with no product (unknown code, or the
-    // backend was unreachable). A real way out beats an infinite loader
-    // (AUDIT_REPORT.md M1).
-    if (!product) {
+    // Failed: the database could not be reached (offline, timeout, 5xx). That is
+    // a network problem, not a miss, so it offers Retry instead of "not found".
+    if (lookup?.status === 'failed') {
+      return (
+        <SheetContent variant="leading" onClose={close}>
+          <ErrorState
+            title={t('barcodeScan.lookupFailedTitle')}
+            message={`${t('barcodeScan.lookupFailedReason')} ${t('barcodeScan.lookupFailedHint')}`}
+            onRetry={retryLookup}
+          />
+        </SheetContent>
+      );
+    }
+    // Not found: the database answered and has no such product. A real way out
+    // beats an infinite loader (AUDIT_REPORT.md M1).
+    if (lookup?.status !== 'found') {
       return (
         <SheetContent variant="leading" title={t('food.productNotFound')} onClose={close}>
           <View style={{ gap: space.lg, alignItems: 'center', paddingVertical: space.lg }}>
@@ -217,7 +237,7 @@ export default function FoodDetailScreen() {
         </SheetContent>
       );
     }
-    const p = product;
+    const p = lookup.product;
     const first = p.servingOptions[0] ?? 100;
     const scale = (per100: number) => (per100 * first) / 100;
     return (

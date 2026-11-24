@@ -10610,3 +10610,12 @@
 - 2026-11-25 09:36 Row 13 stays PARTIAL until barcode, detail, calendar and translations are all closed. Row 2 stays PARTIAL until Rows 6, 13 and 14 are BUILT.
 - 2026-11-25 09:36 Chose candidate 1 because it is the open item already in progress and the smallest safe step.
 - 2026-11-25 09:36 Jev said run at 93 percent confidence. Followed it.
+- 2026-11-25 09:40 The loop flagged the last report as partly done, and its CHECKED section admitted the extra test files may not have run. Verify before moving on.
+- 2026-11-25 09:40 Chose the barcode verification round over detail.tsx so the flagged work is closed first, one screen per prompt.
+- 2026-11-25 09:40 The es and fr render test is a gap the report named, so it is in this round.
+- 2026-11-25 09:40 Full suite is not run; a checkpoint is due at the next scheduled round.
+- 2026-11-25 09:40 Notes trimmed to fit the 600 word limit. Decisions and parked items are kept in shorter form.
+- 2026-11-25 09:41 R241 prompt rewritten to one screen (detail.tsx) because the previous prompt was rejected for asking for more than one screen.
+- 2026-11-25 09:41 The R241 extra-file verification and the es and fr barcode failed-state render test are deferred to later single-item rounds, not dropped.
+- 2026-11-25 09:41 detail.tsx is the next step because it still treats a network failure as not found, which is a real bug in the Row 13 barcode work and the report's own recommendation.
+- 2026-11-25 09:41 Owner wording review of new es and fr strings goes to OWNER_CHECKS_phase4.md, as the standing rule requires.

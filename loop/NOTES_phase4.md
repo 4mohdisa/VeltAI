@@ -7,25 +7,25 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29.
-- Row 2 PARTIAL. 2.2 BUILT. 2.5 BUILT (R239). Row 2 stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
+- Row 2 PARTIAL (2.2 and 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready screen parked for Isa's go-ahead.
-- Current task (R240 rewritten): Phase 3 Row 13, barcode network error (barcode-scan.tsx + scan.ts only).
-- Next after that: Row 13 calendar (foodDays.ts, calendar.tsx), then detail.tsx, then the Row 13 translations.
+- Current (R241, rewritten to one screen): src/app/food/detail.tsx switches to lookupBarcodeResult, failed shows network error with Retry.
+- Next: R242 re-run the five R240 extra test files one per command and add the es and fr barcode failed-state render test. Then calendar (foodDays.ts, calendar.tsx). Then rest of Row 13 translations.
 - Last full green checkpoint R237 (272 suites, 1,648 tests, tsc 0, lint clean).
 
 ## Order
-- Now: Phase 3 Rows 13, then 6, then 14 (close open items). Then Row 2 to BUILT. Then 2b (plan-ready parked), 2d, 3 to 14b, 15 to 30, 31.
+- Phase 3 Rows 13, 6, 14. Then Row 2 to BUILT. Then 2b (plan-ready parked), 2d, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - Trust this file over handovers and reports.
-- One screen or component per prompt. Rejected prompts get rewritten to one screen, not split silently.
+- One screen or component per prompt. Rejected prompts get rewritten to one screen.
 
 ## Rules
 - Max 5 steps per prompt. Grep before editing.
 - Every prompt states the loop/phase4 branch rule and forbids other git commands.
 - Lint: npx expo lint src scripts --max-warnings 0.
 - No new eslint-disable. Animated values: useState(() => new Animated.Value(x)).
-- i18n: keep import { use as addPlugin }. One full key per sentence. Plurals _one and _other only. Every new string in en, es, fr. Outside React: import i18n from '@/lib/i18n'.
-- Render tests *.render.test.tsx. Jest --ci, one file per command, never -u.
+- i18n: keep import { use as addPlugin }. One full key per sentence. Plurals _one and _other only. Every new string in en, es, fr.
+- Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. zsh file lists do not split: run each file by its own command.
 - TestPG: localhost:5432, database lume_test_local. Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
 
@@ -42,7 +42,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added.
 - R172: migration check skips with exit 0 when variable unset.
 - R174: CI workflow local only, throwaway local Postgres service, no repository secret.
-- R176, R178: privacy manifest in app.json. Camera is the only prompt. check:manifest reads app.json.
+- R176, R178: privacy manifest in app.json. Camera is the only prompt.
 - R180: parity test runs in full Jest. R182: row 29 BUILT after full verify exit 0.
 - R184, R186: migration apply test runs once, in verify:migrations.
 - R194: 2b 1d does not wait for Isa. Own en, es, fr strings, flagged for review.
@@ -55,12 +55,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R233, R234: Terms disclaimer in legal.terms. Rest of Terms and Privacy stays English.
 - R236: en-AU kept as the English output of formatNumber; es and fr use their own locale.
 - R237: full checkpoint run (green).
-- R238: Jev said ask; brief forbids asking; run chosen.
 - R239: English grams from 1,000 up group (1,234 g) per brief. Logged for Isa to confirm.
-- R240: previous prompt rejected (multiple screens). Rewritten as one screen (barcode-scan.tsx, scan.ts as its data layer).
+- R240: barcode failed state. lookupBarcodeResult added. R240 CHECKED partly unverified; re-run in R242.
+- R241: prompt rewritten to one screen after rejection (multi screen). Detail.tsx chosen as the next step.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer.
+- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings.
 - How far legal text is translated, and legal review in each language.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing. Spanish four-digit numbers without separator.
@@ -86,6 +86,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Jest noise: i18next banner, devWarn, act warnings (Row 22).
 - Root config and backend JavaScript not linted.
 - Verify:go has no -count=1.
+- Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
 
 ## Problems noticed, not fixed
 - English still hard-coded in Terms rest and formatNumber / units.ts:76 (en-AU).
@@ -94,7 +95,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Users do not see which field the server rejected on a 4xx.
+- Dev builds: a 404 matched by the mock records no scan_completed event (dev analytics only).
 - Gotcha: the Row 2b note may drift again; check it at each records round.
-- Row 2 notes cell is long history. Trim at Row 2 BUILT.
-- Row 2c reports ignored (not in brief).
 - Gotcha: authMachine.test.ts and formatCurrency are parked; do not pick them up as Row 13 work.
+- Row 2c reports ignored (not in brief).

@@ -7,24 +7,22 @@
 // at the `@/lib/data` level — the functions the screens actually call — the
 // same way foodDetailLogged.render.test.tsx mocks `saveFood`/`unsaveFood`
 // rather than the raw api client. The detail sheet the scan hands off to calls
-// `lookupBarcodeAsync`, so that is mocked too.
+// the same `lookupBarcodeResult`, so one mock serves both screens.
 //
 // The real lookup never rejects: it resolves 'found', 'notFound' (the database
 // has no such product) or 'failed' (offline, timeout, 5xx), so each case here
 // is simulated the same way.
 import FoodDetailScreen from '@/app/food/detail';
 import BarcodeScanScreen from '@/app/food/barcode-scan';
-import { useDetailSubject } from '@/lib/food/detailSubject';
+import { openFoodDetail, useDetailSubject } from '@/lib/food/detailSubject';
 import { router } from 'expo-router';
 import en from '@/lib/i18n/locales/en.json';
 import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 const mockLookup = jest.fn();
-const mockProduct = jest.fn();
 jest.mock('@/lib/data', () => ({
   ...jest.requireActual('@/lib/data'),
   lookupBarcodeResult: (...args: unknown[]) => mockLookup(...args),
-  lookupBarcodeAsync: (...args: unknown[]) => mockProduct(...args),
 }));
 
 // CameraView is a native component with no jest-env implementation; this
@@ -45,6 +43,16 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
   SkeletonList: () => null,
 }));
 
+const YOGHURT = {
+  name: 'Greek Yoghurt, Plain',
+  brand: 'Chobani',
+  kcalPer100: 59,
+  proteinPer100: 10,
+  carbsPer100: 4,
+  fatPer100: 0,
+  servingOptions: [100, 150, 170, 200],
+};
+
 const settle = async () => {
   await act(async () => {
     await new Promise((r) => setImmediate(r));
@@ -52,24 +60,13 @@ const settle = async () => {
 };
 
 beforeEach(() => {
-  mockLookup.mockClear();
-  mockProduct.mockClear();
+  mockLookup.mockReset();
   useDetailSubject.getState().clearDetail();
   (router.replace as jest.Mock).mockClear();
 });
 
 test('a known barcode calls the lookup with that code and opens the product on the detail sheet', async () => {
-  const product = {
-    name: 'Greek Yoghurt, Plain',
-    brand: 'Chobani',
-    kcalPer100: 59,
-    proteinPer100: 10,
-    carbsPer100: 4,
-    fatPer100: 0,
-    servingOptions: [100, 150, 170, 200],
-  };
-  mockLookup.mockResolvedValue({ status: 'found', product });
-  mockProduct.mockResolvedValue(product);
+  mockLookup.mockResolvedValue({ status: 'found', product: YOGHURT });
 
   const tree = renderScreen(<BarcodeScanScreen />);
   await act(async () => {
@@ -120,4 +117,28 @@ test('a failed lookup shows the network error with Retry, not "Product not found
   });
   expect(allText(tree)).not.toContain(en.barcodeScan.lookupFailedTitle);
   expect(buttonWithTitle(tree, 'Simulate scan')).toBeDefined();
+});
+
+test('the detail sheet shows the network error on a failed lookup, and Retry looks up again', async () => {
+  mockLookup.mockResolvedValueOnce({ status: 'failed' }).mockResolvedValueOnce({ status: 'found', product: YOGHURT });
+  openFoodDetail({ mode: 'barcode', code: '9300605000000' });
+
+  const tree = renderScreen(<FoodDetailScreen />);
+  await settle();
+
+  const text = allText(tree);
+  expect(text).toContain(en.barcodeScan.lookupFailedTitle);
+  expect(text).toContain(`${en.barcodeScan.lookupFailedReason} ${en.barcodeScan.lookupFailedHint}`);
+  expect(text).not.toContain(en.food.productNotFound);
+  expect(text).not.toContain(en.food.productNotFoundMessage);
+
+  await act(async () => {
+    (buttonWithTitle(tree, en.errorState.retry)!.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+
+  expect(mockLookup).toHaveBeenCalledTimes(2);
+  expect(mockLookup).toHaveBeenLastCalledWith('9300605000000');
+  expect(allText(tree)).toContain('Greek Yoghurt, Plain');
+  expect(allText(tree)).not.toContain(en.barcodeScan.lookupFailedTitle);
 });
