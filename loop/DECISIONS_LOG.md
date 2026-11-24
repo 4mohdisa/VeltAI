@@ -10272,3 +10272,7 @@
 - 2026-11-25 05:35 Chose 2.4 over the Row 29 verify wiring because the brief orders Phase 3 leftovers before tests, and goals with no load or error state is a user-visible gap.
 - 2026-11-25 05:35 Added a grep first step because the last two rounds asked for work that was already done.
 - 2026-11-25 05:35 Kept the Jev signal advisory: it said run 78%, which matches the plan, so no override.
+- 2026-11-25 05:39 Chose the small 2.5 step first: the last report and handover both name 2.5 as next, and it is cheap to verify.
+- 2026-11-25 05:39 Jev ranks run at 94%; kept the run action. Row 29 stays second because it needs a larger verify script.
+- 2026-11-25 05:39 Asked Claude Code to grep before editing because the last rounds asked for finished work.
+- 2026-11-25 05:39 Kept new es and fr wording marked pending Isa review, as before, instead of asking him.

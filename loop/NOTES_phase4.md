@@ -6,15 +6,13 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
-- Last full checkpoint: round 163 (tsc 0, Jest 257 suites, 1,507 tests, 4 snapshots, all pass).
-- Round 165: week range separator was already done (week.tsx:155 uses dashboard.rangeSeparator, test week.rangeSeparator.render.test.tsx). Closed. Owner line in OWNER_CHECKS_phase4.md.
-- Round 166 (current): 2.4 useGoals isLoading, error, refetch, plus goals screen states. Grep first.
+- Row 1 BUILT. Row 2 PARTIAL (2.4 useGoals states done, round 166, es/fr wording pending review).
+- Last full checkpoint: round 163 (tsc 0, Jest 257 suites, 1,507 tests, all pass). Next full checkpoint: round 170.
+- Round 167 (current): 2.5 step. Remove unused goals.saved, close missing _one plural (grep first).
 - 2.2 left: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 strings: done for ConfidenceBadge, parity test, summaryCards, axis letters, energy, training, nutrition, week.
 - 2.3 queue: notes backfill in PHASE4_ROWS.md; i18n header comments.
-- Then 2.5 rest of Phase 3 leftovers (goals and unit prefs persisted via backend, missing _one plural, goals.saved).
-- Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
+- 2.5 left: goals and unit prefs persisted via backend (smallest change).
+- Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31. Row 29 (npm run verify, wire localeParity) comes in its place in the order.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Rules
@@ -30,7 +28,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Day letters: calendar.weekdayLetters (Monday first). weekdayShort = full name. weekdayLetter = axis letters.
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
 - Full suite on checkpoint rounds and after changes that can alter snapshots or strings.
-- Max 5 steps per prompt. One screen or component per prompt. Grep before editing: last rounds asked for finished work.
+- Max 5 steps per prompt. One screen or component per prompt. Grep before editing.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -45,22 +43,18 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 145: week separator uses dashboard.rangeSeparator.
 - Round 146: Save food. es 'Guardar alimento', fr 'Enregistrer l'aliment' pending Isa review.
 - Round 147: nutrition.gramsShort, percentValue, macroPercentFootnote added. es/fr '80 %' spacing pending review.
-- Round 149: meal row moved to nutrition.mealLine.
 - Round 150: energy unit setting (kcal/kJ) via unitDeficit, unitSurplus, unitEaten, energyTarget.
 - Round 152: week.tsx follows energy unit. Round 156: weekTarget merged into energyTarget.
 - Round 158: ConfidenceBadge translated as scanCards.noBreakdown; scanConfidence.test.ts:93 assertion changed (Isa allowed edits to tests pinning old English).
-- Round 159: render test for badge 'Why?' panel in en, es, fr.
-- Round 160: signed helper merged into one shared helper (formatting.ts). Still defined in 3 places, see Parked.
-- Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept in all three languages, unused, parked for voice logging.
+- Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept in en and fr, unused, parked for voice logging.
 - Round 162: parity test stays Jest-only until Row 29 creates npm run verify.
-- Round 162: summaryCards workoutsWeek uses weekdayLetter as a dedupe.
-- Round 164: nutrition 'g' closed.
+- Round 166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added. Real Skeleton needs a Reanimated mock in goals render tests.
 
 ## Blocked on Isa (not blocking)
 - E2E account needs 250+ gym dates.
 - Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
-- es and fr wording of new keys (summary.*, energy kcal/kJ keys, energyTarget, percentValue, mealLine, noBreakdown, {{unit}} agreement, Save food, range separator ' – ' vs 'al'/'au').
+- es and fr wording of new keys (summary.*, energy kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, {{unit}} agreement, Save food, range separator, '80 %' spacing).
 - lastSessions_one in es and fr reads awkwardly.
 - Do not retry these.
 
@@ -74,9 +68,10 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - nutrition.tsx:231 meal row label builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading now they show kJ too.
 - ConfidenceBadge hide button reuses gymSession.hide.
-- The energy screen always says kcal and ignores the unit setting.
 - signed helper still defined in ConfidenceBadge.tsx, week.tsx, energy.tsx.
 - Weekday and month names on Hermes not checked on the simulator.
+- Real Skeleton crashes under Reanimated test mock; add useReducedMotion to the jest setup (Row 22).
+- Targets card placeholder height 360 not checked on a device.
 
 ## Problems noticed, not fixed
 - formatStreak(0) in fr gives '0 jour'.
@@ -100,7 +95,6 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Nutrition scale '418g' has no space; other screens use '120 g'. Kept for Phase 1 look.
 
 ## Next
-- Round 166: 2.4 useGoals states (this prompt). Fix any failure in the next round.
+- Round 167: 2.5 step (goals.saved, _one plural). Fix any failure in the next round.
 - Then: 2.3 notes backfill, i18n header comments.
-- Then 2.5 (Phase 3 leftovers), then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
-- Row 29 (npm run verify, wire localeParity) comes in its place in the order.
+- Then 2.5 goals and unit prefs persisted via backend, Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
