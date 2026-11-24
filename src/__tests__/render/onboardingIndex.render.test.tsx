@@ -13,7 +13,6 @@ test('shows the welcome headline', () => {
 
 test('pressing Get Started routes to /onboarding/goal', () => {
   const tree = renderScreen(<WelcomeScreen />);
-  (router.push as jest.Mock).mockClear();
 
   (buttonWithTitle(tree, 'Get Started')!.props.onPress as () => void)();
   expect(router.push).toHaveBeenCalledWith('/onboarding/goal');

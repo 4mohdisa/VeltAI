@@ -6,8 +6,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 76 checkpoint passed (tsc 0, Jest 242 suites / 1,402 tests, lint 0 errors / 10 warnings). No files changed.
-- Round 77 = setup.ts router beforeEach (one file).
+- Round 77 done: shared router reset added in src/__tests__/render/setup.ts (beforeEach, uses jest.requireMock and isMockFunction check). Full render project green (166 suites, 536 tests).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -28,15 +27,15 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
 - Prompts touch one screen, component or file each. Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
+- Shared router reset (setup.ts beforeEach) replaces per-test router mockClear. Local mocks that are not jest.fn or that wrap push (settingsHelp) keep their own clear.
 - Mock forwardRef components get named functions (display-name fix).
-- Test-body require() of a mocked module becomes a top-level import. Factory cases use jest.requireActual (babel-jest hoists factories).
-- Where .mock.calls is read, cast to (router.push as jest.Mock) or (router.replace as jest.Mock).
+- Factory cases use jest.requireActual (babel-jest hoists factories).
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
-- i18n alias: `import { use as addPlugin }` is kept (a plain `use` trips rules-of-hooks).
+- i18n alias: `import { use as addPlugin }` is kept.
 - One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoints every 15 rounds (90, 105, ...), plus any round the loop script marks.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
@@ -51,7 +50,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green.
-- Rounds 45-74: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtpMode, signupSignInMode, signup).
+- Rounds 45-74: render tests cleared of require and router swaps.
+- Round 77: shared router beforeEach in setup.ts.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -60,9 +60,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 77: add one beforeEach in src/__tests__/render/setup.ts clearing router.push, router.replace, router.back.
-- Round 78: remove redundant per-test mockClear lines in Preview render test.
-- Round 79: same in Targets, then signupOtp (one file per round).
+- Round 78: remove redundant router mockClear in src/__tests__/render/onboardingIndex.render.test.tsx.
+- Round 79: same in src/__tests__/signup.render.test.tsx (2 lines).
+- Round 80: same in src/__tests__/render/signupSignInMode.render.test.tsx.
+- Check settingsHelp.render.test.tsx still clears its own wrapped mockPush.
 - Then foodSaved.render (2 warnings), debugGating, debugCapture, authBilling (2 each), render/setup.ts afterEach require (1).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
@@ -84,4 +85,3 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - KNOWN_ISSUES.md:40 wrong TestPG count (21 run, not 20 skipped).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
-- Preview, Targets and signupOtp CTA tests do not clear router mocks before asserting. Fixed in round 77 via setup.ts beforeEach; per-test mockClear lines to remove in rounds 78 and 79.

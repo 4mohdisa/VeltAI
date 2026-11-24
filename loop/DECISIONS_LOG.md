@@ -9902,3 +9902,7 @@
 - 2026-11-25 03:28 Jev ranked this same task first (85 percent in round 76). Kept it. No new reason to change course.
 - 2026-11-25 03:28 Lint warnings are expected to stay at 10 this round, since the render/setup.ts warning is the afterEach require, which this change does not touch.
 - 2026-11-25 03:28 No string changes this round. The i18n and string round is scheduled later under Row 2.3.
+- 2026-11-25 03:31 Chose the smallest step (one file) because Jev risk is moderate to high and the rule is one file per round.
+- 2026-11-25 03:31 Dropped Preview, Targets and signupOtp from the mockClear cleanup: the latest report says they never had per-test clears.
+- 2026-11-25 03:31 Kept the settingsHelp check open: its push goes through a wrapper, so it must keep clearing its own mock.
+- 2026-11-25 03:31 Round 78 is the first round after the shared router reset, so it verifies the reset plus one cleanup in a single file.
