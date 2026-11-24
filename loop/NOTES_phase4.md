@@ -8,12 +8,11 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT (in progress): research done. Steps 1a, 1b, 1c done. Session expiry (401) dead end fixed in round 191.
-- Round 192 checkpoint: tsc clean, full Jest 1 failing suite (onboardingLegalRoutes.test.ts). Regression from step 1b in signup.tsx LEGAL_LINKS table.
+- Row 2b DIFFERENT (in progress): research and steps 1a to 1c done. Session expiry dead end fixed (r191). Signup legal regression fixed (r193): full Jest green, 263 suites, 1,553 tests.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 193: fix the signup.tsx legal regression, then saved onboarding answers after a failed session refresh, signup.tsx 401 handling, launch gate 401 handling, then 2b step 1d (goal and activity strings, waits for wording), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 194: signup.tsx continueAfterAuth 401 handling. Then launch gate 401 in index.tsx. Then saved onboarding answers after an unrefreshable expired session. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31. Remove duplicate migration test run when convenient (cheap).
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -27,7 +26,7 @@ Round 193: fix the signup.tsx legal regression, then saved onboarding answers af
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
 - Max 5 steps per prompt. One screen or component per prompt. Grep before editing.
 - Full Jest suite only on checkpoint rounds.
-- TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print the URL.
+- TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel. Never print the URL.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -36,6 +35,8 @@ Round 193: fix the signup.tsx legal regression, then saved onboarding answers af
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
+- Round 158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 changed (Isa allowed).
+- Round 123: formatDuration rounds total minutes first.
 - Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept for voice logging.
 - Round 166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added.
 - Round 168: goals.saved kept; removal needs a non-allowed test edit. Parked.
@@ -46,19 +47,19 @@ Round 193: fix the signup.tsx legal regression, then saved onboarding answers af
 - Round 180: parity test runs in full Jest, no separate verify wiring.
 - Round 182: row 29 BUILT after full verify exit 0 with local TestPG.
 - Round 184 and 186: migration apply test runs once, in verify:migrations.
-- Round 158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 changed (Isa allowed).
-- Round 123: formatDuration rounds total minutes first.
+- Round 194: 401 fix in signup.tsx chosen as a concrete bug, one screen.
+- Round 194: 2b 1d no longer waits for Isa. Write own en/es/fr strings, flag for review in OWNER_CHECKS, carry on.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording for Welcome, signup, onboarding.sessionExpired, summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one. Goal and activity string moves wait for this.
+- es and fr wording review: Welcome, signup, onboarding.sessionExpired, summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
 - goals.saved removal. Prettier. Scoped eslint allow confirmation.
-- App Store privacy label answers and account data declaration.
-- Camera string choice: plugin text vs es/fr strings in src/lib/i18n/infoPlist.
+- App Store privacy label and account data declaration.
+- Camera string choice: plugin text vs infoPlist es/fr.
 - Push loop/phase4 and confirm CI runs green on GitHub.
-- Design question: training-days question, gain-weight or maintain goal in onboarding?
+- Training-days question, gain-weight or maintain goal in onboarding.
 
 ## Parked
 - Row 2.1 simulator check of Total tile (owner check).
@@ -68,7 +69,7 @@ Round 193: fix the signup.tsx legal regression, then saved onboarding answers af
 - WeekEnergyCard reads i18n directly. nutrition.tsx:231 builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined in three files.
-- react-hooks/exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx (Row 22 and 2b).
+- exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx (Row 22 and 2b).
 - consent.ts and purchases.ts use eslint-disable for the require rule (Row 2b or 3).
 - Skeleton crashes under Reanimated test mock (Row 22). Every screen test mocks Skeleton.
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
@@ -76,9 +77,8 @@ Round 193: fix the signup.tsx legal regression, then saved onboarding answers af
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
-- Onboarding: goal and activity screens hard-coded English. Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders are literals. Unmapped Clerk error codes show Clerk's English text.
-- Onboarding: if token refresh fails on an expired session, saved onboarding answers may be lost (not confirmed on device).
-- signup.tsx continueAfterAuth treats a 401 status check as 'Couldn't reach the server'.
+- Onboarding: goal and activity hard-coded English (in progress, 1d). Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders are literals. Unmapped Clerk error codes show Clerk's English text.
+- Onboarding: saved answers may be lost if token refresh fails on an expired session (not confirmed on device).
 - index.tsx launch gate treats a 401 as 'not onboarded'.
 - connectivityMessage returns hard-coded English; no screen uses it.
 - Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
@@ -97,10 +97,4 @@ Round 193: fix the signup.tsx legal regression, then saved onboarding answers af
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 - Secrets scan placeholder check is a heuristic.
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
-- Signup and Welcome es and fr wording is my own translation, not reviewed.
-
-## Next
-- Round 193: fix signup.tsx legal regression so onboardingLegalRoutes passes. Then full suite once.
-- Then: saved onboarding answers after an unrefreshable expired session.
-- Then signup.tsx 401 handling and launch gate 401 handling.
-- Then a Maestro check for Welcome to signup to onboarding, or the exhaustive-deps comment removals.
+- Migration apply test runs twice per verify when the variable is set (fix in cleanup).

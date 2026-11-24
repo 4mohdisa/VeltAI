@@ -10388,3 +10388,6 @@
 - 2026-11-25 06:29 Round 193: the fix changes signup.tsx only and keeps the test as is. The test pins the source shape, and the navigation behaviour is already correct.
 - 2026-11-25 06:29 Round 193: the Jev ranking (run 91%) agrees with the pick. The clean-finish estimate is low (12%), so the task is kept to one screen and five steps.
 - 2026-11-25 06:29 Round 193: the notes file was rewritten under 600 words. Finished items and repeated lines were merged or deleted.
+- 2026-11-25 06:30 Round 194: chose the 401 fix in signup.tsx because it is a concrete user-facing bug listed in the handover and it is one screen, small enough for one round.
+- 2026-11-25 06:30 Round 194: 2b step 1d no longer waits for Isa. Write our own en, es and fr strings, flag them in OWNER_CHECKS_phase4.md for review, and carry on (Isa chose never to block).
+- 2026-11-25 06:30 Round 194: Jev said run at 68%. Agreed, the task is small and bounded.

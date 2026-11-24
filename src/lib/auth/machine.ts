@@ -128,9 +128,13 @@ export type ConnectivityProblem = 'offline' | 'serverDown' | 'sessionExpired' | 
  * classifyConnectivity: a fetch TypeError with no response = device offline;
  * a 5xx response = server reachable but failing; a 401 = the session expired
  * (the API client has already tried one refresh), which is a sign-in problem,
- * not a connection one; anything else = not a connectivity problem.
+ * not a connection one; anything else = not a connectivity problem. The status
+ * defaults to the error's own (an ApiError carries one; a fetch TypeError does not).
  */
-export function classifyConnectivity(error: unknown, status?: number): ConnectivityProblem {
+export function classifyConnectivity(
+  error: unknown,
+  status = (error as { status?: number } | null)?.status,
+): ConnectivityProblem {
   if (status === 401) return 'sessionExpired';
   if (status != null && status >= 500) return 'serverDown';
   if (error instanceof TypeError) return 'offline';

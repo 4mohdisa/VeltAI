@@ -26,6 +26,7 @@ import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { navigate } from '@/lib/nav';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
+import { classifyConnectivity } from '@/lib/auth/machine';
 import { api } from '@/lib/api';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { resolvePostAuth } from '@/lib/onboarding/postAuth';
@@ -49,6 +50,8 @@ type Mode = 'signup' | 'signin';
  *
  * - 200 completed      → into the app.
  * - 200 not completed  → they genuinely have no record; start the flow.
+ * - 401                → the session is not valid: sign in again. Not a
+ *                        network error, and the saved answers stay as they are.
  * - request FAILED     → we do not know. Trust the local completion flag if
  *                        there is one, and only fall through to the flow when
  *                        nothing local says otherwise. Say so either way.
@@ -59,6 +62,11 @@ async function continueAfterAuth(): Promise<void> {
     serverCompleted = (await api.onboarding.get()).completed;
   } catch (e) {
     devWarn('[onboarding] status check failed:', e);
+    if (classifyConnectivity(e) === 'sessionExpired') {
+      showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
+      navigate('/onboarding/signup?mode=signin');
+      return;
+    }
   }
 
   const locallyCompleted =

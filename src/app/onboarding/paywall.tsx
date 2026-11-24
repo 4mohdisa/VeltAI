@@ -84,7 +84,7 @@ export default function PaywallScreen() {
       devWarn('[onboarding] submit failed:', e);
       // An expired session is not a connection problem: send the user to sign
       // in again rather than to their wifi settings.
-      if (classifyConnectivity(e, e instanceof ApiError ? e.status : undefined) === 'sessionExpired') {
+      if (classifyConnectivity(e) === 'sessionExpired') {
         showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
         setSubmitting(false);
         navigate('/onboarding/signup?mode=signin');
