@@ -31,3 +31,4 @@ Steps only Isa can do. Each says what, where and why.
   zone the background insight sweep uses for meal timing.
 - [ ] **Read `AI_COSTS.md`** and compare it with the first week of real usage in
   Google AI Studio.
+- [ ] **Row 2.1 simulator check of the Total gym days tile.** Not run: no existing seed path gives a user more than 200 distinct gym dates (`backend/tools/seed` tops out at 59 for `seed_long_streak`, `backend/scripts/seed_local.sql` has 2). Seed users also have seed_ Clerk ids, so the E2E_EMAIL account cannot sign in as one. Decide whether to add 250 or more gym dates for the E2E account in a seed path, then rerun the check.

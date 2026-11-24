@@ -9723,3 +9723,7 @@
 - 2026-11-25 02:33 Kept Row 2.1 PARTIAL until the simulator check passes, so the row is not marked BUILT on mocks alone.
 - 2026-11-25 02:33 Used a targeted Jest run on one file, not the full suite. The full suite waits for checkpoint round 30.
 - 2026-11-25 02:33 Trusted the notes over the report's NEXT list, as the notes rule says.
+- 2026-11-25 02:33 Round 27: chose candidate 1 because the notes name it as the next step and it is the last open check for row 2.1.
+- 2026-11-25 02:33 Round 27: Jev said run 100% with risk 0.8; kept the step to one check with a park fallback, so a blocked simulator never stalls the loop.
+- 2026-11-25 02:33 Round 27: row 2.1 goes BUILT only if the simulator shows the full total, otherwise it stays PARTIAL with an owner check line.
+- 2026-11-25 02:33 Round 27: skipped the full Jest suite; full suites run on checkpoint round 30.
