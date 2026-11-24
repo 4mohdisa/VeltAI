@@ -3,6 +3,7 @@
 // not source-text greps.
 import CuisineScreen from '@/app/onboarding/cuisine';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
+import { router } from 'expo-router';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 beforeEach(() => {
@@ -22,6 +23,5 @@ test('picking a cuisine then pressing Continue navigates to the next onboarding 
   const cont = buttonWithTitle(tree, 'Continue');
   act(() => (cont!.props.onPress as () => void)());
 
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
   expect(router.push).toHaveBeenCalledWith('/onboarding/dietary');
 });
