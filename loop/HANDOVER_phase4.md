@@ -1,49 +1,52 @@
 Handover: Lume Phase 4, branch loop/phase4
 
 Setup
-Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first; the shell default is Node 24. The loop script commits between rounds, and git commands are not allowed.
+Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first. Do not run git commands; the loop script commits.
 
 Rows
-- Row 1 (Foundation) is BUILT.
-- Row 2 is PARTIAL. In 2.1 only the simulator check is left, parked in OWNER_CHECKS_phase4.md.
-- 2.2 is in progress. The lint sweep is done and the schedule_pg LIMIT fix is written; both are noted in the row 2 notes cell. 2.2 to 2.5 are still open.
-- No new rows were built this session.
+Row 1 is BUILT. Row 2 is PARTIAL, and no new rows were built this session.
+- 2.1: only the simulator check is left (OWNER_CHECKS_phase4.md).
+- 2.2: done this session. TestPG count reconciled at 24 of 24, getMorningBrief and getProfile report errors through isError, subscription manage shows failures, and Manage and Restore have busy states.
+- 2.3, the string round: in progress, nothing currently open.
+  - Done: subscription.tsx, DailyMacroRing "of", gymRange monthSummary and monthTitle, summaryCards workoutsLine and dayReadout.
+  - Left: the shared formatter fix below, then 2.4 and 2.5.
 
 Last checkpoint
-- tsc: 0 errors.
-- Jest: 242 suites and 1,402 tests pass. The render project alone is 166 suites and 536 tests.
-- npx expo lint: 0 errors, 1 accepted warning (src/lib/analyticsSink.ts:29, recorded in KNOWN_ISSUES.md).
-- Go: vet is clean and both gym packages pass with -race.
+tsc 0 errors. Full Jest: 243 suites and 1,421 tests pass, 4 snapshots. Go AI and gym packages pass with -race.
 
-Done this session
-- The require() calls are replaced in debugCapture.test.ts, debugGating.test.ts and render/setup.ts.
-- render/setup.ts now imports unmountAll from ./helpers at the top.
-- settingsHelp.render.test.tsx uses router.push as a real jest.fn.
-- The new shared stub src/__tests__/render/cameraMock.tsx, cameraMock(getTakePicture, getPermission?), is used by photoScan, labelScan and scanScreens.strings.
-- KNOWN_ISSUES.md: Phase 4 header, analyticsSink entry, corrected TestPG line.
-- backend/internal/gym/schedule_pg.go: GetExerciseProgress picks the newest N rows (date, created_at, id DESC), then returns them oldest first.
-- The new test is TestPG_ExerciseProgressLimitKeepsNewest in backend/tests/gym_schedule/schedule_pg_sql_test.go.
-
-Next
-- The new TestPG has never run: it SKIPPED because LUME_TEST_DATABASE_URL is unset in the loop shell. Isa needs to run go test ./tests/gym_schedule/ -run PG -race -count=1 with the local test database. There should be 22 TestPG tests now.
-- After it passes, remove the progress bug entry from KNOWN_ISSUES.md and change its TestPG count from 21 to 22.
+Key files
+- src/app/profile/subscription.tsx
+- src/lib/data/aiBrain.ts and src/lib/api.ts (AI calls)
+- src/lib/data/gymRange.ts and src/lib/data/summaryCards.ts
+- src/lib/formatting.ts: dateLocale(lang), which formats en as en-AU
+- src/lib/i18n/locales/{en,es,fr}.json (quote the glob in zsh)
+- Tests: src/__tests__/aiBrain.briefProfile.test.ts, gymMonth.test.ts, summaryCards.test.ts, render/subscription.render.test.tsx, render/dailyMacroRing.i18n.render.test.tsx
+- backend/tests/ai/http_test.go (TestBriefAndBrainReadErrors)
 
 Decisions and why
-- analyticsSink keeps its lazy require. A top-level import would load about fifteen optional native modules in builds with no key, and import() is async, so launch events could be dropped. Revisit in Row 29 with an async load and a small queue.
-- Factory mocks use jest.requireActual<typeof import(...)> with no cast.
-- cameraMock takes getters, because jest.mock factories run before the test file's variables are set.
-- No eslint-disable comments go in app code.
+- Code outside React translates with import i18n from '@/lib/i18n' and i18n.t, as formatting.ts does.
+- Dates use dateLocale(i18n.language).
+- A sentence gets one full key, such as dashboard.dayReadout, rather than glued fragments, so translators can reorder words.
+- Reuse a key only when meaning and casing match.
+- Plurals use _one and _other only, matching es and fr.
+- Locale files are rewritten with json.dumps(indent=2, ensure_ascii=False) plus a newline; this round-trips them byte for byte.
+- The restore busy test injects a small fake store through __setPurchasesModule. The authBilling mockPurchases helper is not exported.
+- The backend already returned 500 on read errors; the swallowing was client side.
 
 Gotchas
-- Never connect to 127.0.0.1:55432 and never print LUME_TEST_DATABASE_URL. The row 1 notes mention lume_test_local. If that is the 55432 database, the loop can never run TestPG; ask Isa.
-- Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md. Only append to OWNER_CHECKS_phase4.md.
-- Under zsh, quote globs, including in grep --include.
-- The loop prompt keeps repeating tasks that are already finished. Check the file before changing it.
-- Prettier has no repo config, so it is not a gate.
+- Always run the full Jest suite after string changes. Round 106 broke the detailChrome macros snapshot because only the ring's own tests were run; it was fixed later.
+- Lint on .json files shows 3 "File ignored" warnings, which are harmless.
+- The harness is src/__tests__/helpers/useApiHarness.ts.
+- Never connect to 127.0.0.1:55432 or print LUME_TEST_DATABASE_URL.
 
 Not fixed
-- devWarn output from src/lib/data/hooks.ts:72 shows in the render logs; src/lib/data is off limits.
-- DailyMacroRing.tsx:96 shows "of" in English only; nutrition.ringOf exists.
-- The KNOWN_ISSUES.md section "Phase 4 (out of scope)" clashes with the header.
-- Nothing tests refetch in useWeeklyMacros.
-- The history test hardcodes isoDaysAgo(6).
+- monthTitle uses i18n.language instead of dateLocale. This is the recommended next task.
+- formatting.ts:67 and :72 use the device locale.
+- The "MTWTFSS" day letters (summaryCards.ts:45) are English only.
+- The Xh Ym duration is built by hand in two places.
+- No app-wide locale key parity test (Row 29).
+- No es or fr render test for the subscription screen.
+- delete-account.tsx has not been checked for swallowed errors.
+- devWarn noise from hooks.ts:72.
+- KNOWN_ISSUES.md still has Phase 3 wording in Backend.
+- Open for Isa: should the morning brief's free-plan refusal count as an error?
