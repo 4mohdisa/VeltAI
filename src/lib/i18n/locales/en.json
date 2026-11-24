@@ -218,6 +218,8 @@
     "barcode": "Barcode",
     "scanPackage": "Scan a package",
     "exactDatabaseMatch": "Exact database match",
+    "voice": "Voice",
+    "describeOutLoud": "Describe it out loud",
     "oneTapReadd": "One-tap re-add",
     "savedGallery": "Your saved gallery",
     "addToSlot": "Add to {{slot}}",

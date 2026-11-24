@@ -10243,3 +10243,10 @@
 - 2026-11-25 05:26 Chose candidate 1 because the loop check flagged the last report as only partly done; its NEXT item was the missing render test, so it goes first.
 - 2026-11-25 05:26 Asked for the fr apostrophe to become curly to match the other fr strings; this is a style fix, and Isa's wording review of es and fr still stands.
 - 2026-11-25 05:26 Asked for one render test file for all three languages, so the 'Why?' panel is covered by behaviour, not by reading source.
+- 2026-11-25 05:27 Chose the signed helper merge over the parity test: the notes queue it first, it is a small shared change, and it keeps the round to one task. The parity test is next.
+- 2026-11-25 05:27 ConfidenceBadge keeps the true minus sign by passing it explicitly, so its displayed text does not change.
+- 2026-11-25 05:27 Park the simulator check of the Total tile and the es and fr wording review as owner checks, as before; they do not block rows.
+- 2026-11-25 05:28 Round 161: the last prompt was rejected for covering more than one component. Rewrote it as one test file with a fixed scope and a max of 5 steps.
+- 2026-11-25 05:28 Round 161: switched to the Jev pick (locale parity test, 81%). Reason: it is the NEXT item in these notes, it guards every string round that follows, and it is one file.
+- 2026-11-25 05:28 Round 161: parity test may fix missing locale keys in es, fr or en, because a red gate is not a reason to stop. Each added key is recorded in the report.
+- 2026-11-25 05:28 Round 161: the signed merge is already done (round 160) and is not repeated.

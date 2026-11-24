@@ -548,7 +548,7 @@
     "emptyTitle": "Aún no hay suficientes datos",
     "emptyMessage": "Registra este ejercicio 3 veces o más para ver tu progreso",
     "history": "Historial",
-    "lastSessions_one": "Última sesión",
+    "lastSessions_one": "Última {{count}} sesión",
     "lastSessions_other": "Últimas {{count}} sesiones",
     "totalRepsPerSession": "Repeticiones totales por sesión",
     "volumePerSession": "Volumen por sesión",
