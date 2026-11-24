@@ -9671,3 +9671,6 @@
 - 2026-11-25 02:17 Row 2.1 app side is split into two single file rounds: mapper and test first (round 14), then hydrateGym and the tile (round 15).
 - 2026-11-25 02:17 Chose the smallest safe step, since Jev confidence on task completion was 66 percent.
 - 2026-11-25 02:17 Kept Jev's run signal. Ask and stop are not allowed or needed here.
+- 2026-11-25 02:19 Chose the checkpoint over Jev's top pick (remove the argument) because the loop check says round 14 is only partly done and must be verified before moving on.
+- 2026-11-25 02:19 Reason Jev cannot see: hooks.ts still passes its own count, so the gate result on the partial state gives a clean baseline before the next edit. The removal goes to round 16.
+- 2026-11-25 02:19 Set the checkpoint to change no files, so a failure is reported, not silently patched.
