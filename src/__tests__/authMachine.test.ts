@@ -5,7 +5,6 @@ import {
   isAuthenticated,
   mayHydrateCachedData,
   classifyConnectivity,
-  connectivityMessage,
   type AuthState,
 } from '@/lib/auth/machine';
 
@@ -113,18 +112,14 @@ describe('irrelevant events are safe no-ops', () => {
 describe('connectivity classification (no-network vs server-down copy)', () => {
   test('fetch TypeError → offline', () => {
     expect(classifyConnectivity(new TypeError('Network request failed'))).toBe('offline');
-    expect(connectivityMessage('offline')).toMatch(/offline/i);
   });
   test('5xx → server down (distinct copy)', () => {
     expect(classifyConnectivity(new Error('x'), 503)).toBe('serverDown');
-    expect(connectivityMessage('serverDown')).toMatch(/servers/i);
   });
   test('401 → session expired, a sign-in problem with no connectivity copy', () => {
     expect(classifyConnectivity(new Error('invalid token'), 401)).toBe('sessionExpired');
-    expect(connectivityMessage('sessionExpired')).toBeNull();
   });
   test('4xx / app errors → not a connectivity problem', () => {
     expect(classifyConnectivity(new Error('bad'), 400)).toBe('none');
-    expect(connectivityMessage('none')).toBeNull();
   });
 });

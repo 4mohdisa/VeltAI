@@ -148,16 +148,3 @@ export function classifyConnectivity(
   if (error instanceof TypeError) return 'offline';
   return 'none';
 }
-
-/** User-facing copy for a connectivity problem. sessionExpired has none here:
- *  the caller sends the user to sign in instead. */
-export function connectivityMessage(problem: ConnectivityProblem): string | null {
-  switch (problem) {
-    case 'offline':
-      return "You're offline. Your changes are saved and will sync when you reconnect.";
-    case 'serverDown':
-      return "Lume's servers are having trouble. Your data is safe — try again shortly.";
-    default:
-      return null;
-  }
-}

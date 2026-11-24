@@ -10577,3 +10577,6 @@
 - 2026-11-25 09:24 Ignored the last report's suggestion of row 2c: not in the brief, parked in OWNER_CHECKS_phase4.md.
 - 2026-11-25 09:24 Agree with Jev (run, 80%): the next task is small and the last task finished cleanly.
 - 2026-11-25 09:24 es and fr legal wording is agent-written and goes to OWNER_CHECKS for Isa's review, not a blocker.
+- 2026-11-25 09:26 R234: Terms disclaimer translation accepted as done (legal.terms keys, en, es, fr). Rest of Terms and Privacy text stays English; the choice of how far to translate it is parked for Isa, because legalParity.test.ts reads headings by source regex.
+- 2026-11-25 09:26 R235: chose connectivityMessage next over en-AU. It is smaller, it is dead or near dead text, and it removes English from the auth path. Jev ranked run at 76%, which agrees.
+- 2026-11-25 09:26 R235: if connectivityMessage has no production callers, delete it with its tests instead of translating it (no dead code rule). Record the choice in the row 2b note.

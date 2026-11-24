@@ -7,13 +7,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
-- Row 2b DIFFERENT: screens 1a to 1d, done screen, paywall strings, 401 handling, paywall 4xx toast (translated), CUISINE cleanup done. Plan-ready screen NOT built (needs Isa's go-ahead).
+- Row 2b DIFFERENT: screens 1a to 1d, done screen, paywall strings, 401 handling, paywall 4xx toast, CUISINE cleanup, Terms disclaimer (R234). Plan-ready screen NOT built (needs Isa's go-ahead).
 - Last full checkpoint R230 green (270 suites, 1,637 tests, tsc 0). Next checkpoint R242 or next handover.
-- Last Jest and lint run: paywall 4xx round. Lint runs every round that touches src.
+- Last lint run: Terms round (R234), clean.
 
 ## Order
-- Now: 2b Terms disclaimer (src/app/legal/terms.tsx, hard-coded English).
-- Then: 2b connectivityMessage (unused, src/lib/auth/machine.ts), en-AU hard-coding (formatNumber, units.ts:76).
+- Now: 2b connectivityMessage (src/lib/auth/machine.ts). Delete if unused, else translate.
+- Then: en-AU hard-coding (formatNumber in src/lib/formatting.ts, units.ts:76).
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - A red round is fixed in a small round before new work.
@@ -57,14 +57,16 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R222: paywall strings done. es and fr are agent wording for review.
 - R225: validateOnboardingPayload i18n chosen over sessionExpired copy.
 - R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
-- R228, R229: paywall 4xx toast uses onboarding.paywall.submitFailed for every 4xx except 401. Server English text never shown. Test constant reads en copy.
+- R228, R229: paywall 4xx toast uses onboarding.paywall.submitFailed for every 4xx except 401. Server English text never shown.
 - R230: checkpoint round, read only. Green.
 - R231: CUISINE_LABEL and unused label field removed.
-- R232: records check done (docs only).
-- R233: Terms disclaimer chosen next over connectivityMessage (user-visible legal text).
+- R233: Terms disclaimer chosen over connectivityMessage. Done R234 (legal.terms, en, es, fr).
+- R234: rest of Terms and Privacy text stays English. How far to translate is parked for Isa (legalParity.test.ts reads headings by source regex).
+- R235: connectivityMessage chosen next over en-AU. Delete if no production callers (no dead code), else translate.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer.
+- How far legal text is translated (Terms and Privacy rest, headings), and legal review in each language.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing.
 - Whether es and fr should ever be shown (app is English only).
@@ -79,7 +81,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## Parked
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
-- formatNumber, units.ts:76 hardcoded to en-AU. nutrition.tsx:231 builds 'slot, energy' in code.
+- formatNumber (src/lib/formatting.ts) and units.ts:76 hard-coded to en-AU. nutrition.tsx:231 builds 'slot, energy' in code.
+- legalParity.test.ts scans .tsx source only; text moved to JSON is not covered by its banned-claim scan.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - 'signed' helper in three files. ConfidenceBadge hide reuses gymSession.hide.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
@@ -87,7 +90,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Skeleton crashes under Reanimated test mock (Row 22).
 - measurements.tsx: local t in useState initialiser shadows t(). Tidy round.
 - Trial note plural '{{days}} días' wrong if TRIAL_DAYS were 1.
-- connectivityMessage (src/lib/auth/machine.ts) returns English and is unused. Signup placeholders (signup.tsx:339, :362) are literals; may not need translating.
+- Signup placeholders (signup.tsx:339, :362) are literals; may not need translating.
 - Nothing dispatches SIGNED_IN, so the auth machine stays unknown or signedOut.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
