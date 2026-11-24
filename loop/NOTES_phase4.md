@@ -6,7 +6,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 ## State
 - Branch loop/phase4 from loop/phase3 (Phase 3 not merged into main). Never work on main.
 - Baseline (BASELINE_phase4.md): tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
-- Round 15 checkpoint: tsc 0, Jest 242 suites and 1,400 tests pass.
+- Round 28: lint error at src/lib/data/hooks.ts:400 fixed (useWeeklyMacros refetch sets loading). Lint, tsc and 21 related suites pass.
+- Round 29: checkpoint, full tsc and full Jest, no file edits (loop check flag).
 - Row 1 BUILT.
 - Row 2 PARTIAL. Sub steps: 2.1 total gym days (PARTIAL: code and mocks done, simulator check parked), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
@@ -27,15 +28,16 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2 sub steps are named 2.1 to 2.5 so they do not clash with rows 2b, 2c, 2d.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Fixture total_days is 20 where longest_streak is 20. Where longest_streak is 9, total_days is 9.
-- Round 25: targeted tests, not the full suite. Full suite runs on checkpoint round 30.
+- Full suite runs on checkpoint rounds (25 targeted, 29 and 30 full).
 - Round 28: 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). Do not seed or insert data without a seed path approved in a later round.
-- Round 28: the loop check flagged a report with no tsc or tests run. Every round must run tsc and targeted Jest for changed files and report the results.
+- Every round must run tsc and targeted Jest for changed files and report the results.
+- zsh: quote glob patterns and pass Jest file lists via tr '\n' '\0' | xargs -0.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed, productionReadiness 1,000-session test uses server total 365.
-- Round 27: simulator check of Total tile blocked (no seed path gives 200+ dates to the E2E account). Parked.
-- Round 28: Row 2.2 first step, fix react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400.
+- Round 27: simulator check of Total tile blocked. Parked.
+- Round 28: fixed react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -44,7 +46,9 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Row 2.2: src/app/food/history.tsx:66 listSessions limit. Then gym/schedule_pg.go LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
+- Round 29 report: full tsc and full Jest result. Fix nothing this round.
+- Row 2.2: npx eslint src sweep, then src/app/food/history.tsx:66 listSessions limit. Then gym/schedule_pg.go LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, npm audit with safe fix.
+- Add a test that calls refetch on useWeeklyMacros and checks loading shows again.
 - Then 2.3 (translations and Retry), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
@@ -57,4 +61,3 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Phase 2 iOS notes say the backend returns 401 without a Clerk token. Unverified against local Clerk dev keys. Check in Row 16.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from hooks.ts. Look at them in Row 22.
 - Jev risk high: keep steps to one file and check the gates each round.
-- zsh: quote glob patterns and pass Jest file lists via printf '%s\0' with xargs -0.

@@ -9732,3 +9732,6 @@
 - 2026-11-25 02:35 Chose the hooks.ts:400 lint fix first: it is one file, a failing gate, and the smallest safe step. Jev rated the next action as ask at 69%, but the brief forbids asking, so the choice is run with a smaller task.
 - 2026-11-25 02:35 Targeted Jest only (files covering hooks.ts). Full suite waits for checkpoint round 30.
 - 2026-11-25 02:35 The 401 note from the Phase 2 iOS run is unverified and not treated as a current blocker. Check it in Row 2.1 or Row 16 later.
+- 2026-11-25 02:36 Round 29 is a full checkpoint (tsc and full Jest, no edits) because the loop check flagged the last report as only partly done and asked for this.
+- 2026-11-25 02:36 Jev ranks run at 95 percent and this pick is the same action with the loop's instruction; no reason to override.
+- 2026-11-25 02:36 Lint sweep and the refetch test are held for the next rounds, one task at a time, to keep Jev risk low.
