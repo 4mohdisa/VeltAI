@@ -14,7 +14,7 @@ import { useFoodStore } from '@/lib/data/foodStore';
 import { act, renderScreen } from './helpers';
 
 const json = (data: unknown) => Promise.resolve({ ok: true, status: 200, json: async () => ({ data, error: null }) });
-const STREAK = { current_streak: 7, longest_streak: 9, last_gym_date: '2026-09-13', freeze_used: false, last_freeze_date: null };
+const STREAK = { current_streak: 7, longest_streak: 9, total_days: 9, last_gym_date: '2026-09-13', freeze_used: false, last_freeze_date: null };
 
 // A failed GET is retried twice with backoff (api.ts: 300ms, then 900ms), so the
 // chain takes over a second to settle. Wait for the condition, not a fixed tick.

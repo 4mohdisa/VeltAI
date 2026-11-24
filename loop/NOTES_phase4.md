@@ -27,13 +27,14 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 total gym days comes from the database (total_days), not from the capped store.
 - Row 2 sub steps are named 2.1 to 2.5 so they do not clash with rows 2b, 2c, 2d.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
-- Fixture total_days is 20 where longest_streak is 20. Where longest_streak is 9 (summaryHydration.render), total_days is 9 (round 23).
+- Fixture total_days is 20 where longest_streak is 20. Where longest_streak is 9, total_days is 9.
+- Round 24: trust notes over the report's NEXT list. The report's dashboardSummary and hydrationErrorState items were done in rounds 21-22; a grep confirms them.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-20: hydrateGym limit 200, total_days on backend, GymStreak.total_days in app, streakFromApi takes only row, hooks.ts distinct count removed, stale mocks fixed in gymStreak, gymFreeze, gymHistory, freeze, gymStreakStripFootnote.
-- Rounds 21-22: dashboardSummary.render and hydrationErrorState.render got total_days.
-- Round 23 (this round): summaryHydration.render gets total_days 9.
+- Rounds 21-23: dashboardSummary.render, hydrationErrorState.render and summaryHydration.render got total_days.
+- Round 24 (in progress): productionReadiness.test.ts gets total_days on its API streak objects; grep confirms the two round 21-22 files.
 
 ## Blocked on Isa
 (nothing)
@@ -42,14 +43,13 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 (nothing)
 
 ## Next
-- Round 24: src/__tests__/productionReadiness.test.ts gets total_days (2 streak objects).
-- Then the Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak). Set 2.1 BUILT only after both the mocks and the simulator check.
-- Then Row 2.2: fix react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400. Then gym/schedule_pg.go LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
+- Round 25: if the round 24 report is clean, run the Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak). Set 2.1 BUILT only after both the mocks and the simulator check.
+- Then Row 2.2: fix react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400. Then src/app/food/history.tsx:66 listSessions limit, gym/schedule_pg.go LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
 - Then 2.3 (translations and Retry), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
-- src/app/food/history.tsx:66 still calls listSessions() with no limit. Fix in 2.2 or 2.5.
+- src/app/food/history.tsx:66 still calls listSessions() with no limit. Fix in 2.2.
 - Older backend without total_days gives an undefined tile. Deploy backend with app (owner note in OWNER_CHECKS_phase4.md when deploy is written).
 - react-hooks/set-state-in-effect lint error at src/lib/data/hooks.ts:400. Fix in 2.2.
 - ssh tunnel on 127.0.0.1:55432: unknown target. Isa should confirm before the AFCD importer runs.

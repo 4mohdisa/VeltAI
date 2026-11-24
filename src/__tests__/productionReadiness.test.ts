@@ -269,6 +269,7 @@ test('a successful gym hydration maps real sessions and streak into the store th
   const streakRow = {
     current_streak: 4,
     longest_streak: 9,
+    total_days: 9,
     last_gym_date: today,
     freeze_used: false,
     last_freeze_date: null,
@@ -297,7 +298,7 @@ test('gym hydration reads a bounded number of sessions for a user with 1000 of t
     duration_minutes: 45,
     created_at: `${todayISO()}T07:00:00Z`,
   }));
-  const streakRow = { current_streak: 1, longest_streak: 1, last_gym_date: null, freeze_used: false, last_freeze_date: null };
+  const streakRow = { current_streak: 1, longest_streak: 1, total_days: 1, last_gym_date: null, freeze_used: false, last_freeze_date: null };
   setFetch(
     jest.fn(async (url: string) => {
       if (url.includes('/api/gym/streak')) return jsonOk(streakRow);

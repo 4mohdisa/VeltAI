@@ -50,6 +50,7 @@ const today = todayISO();
 const STREAK = {
   current_streak: 11,
   longest_streak: 11,
+  total_days: 11,
   last_gym_date: today,
   freeze_used: false,
   last_freeze_date: null,

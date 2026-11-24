@@ -9710,3 +9710,7 @@
 - 2026-11-25 02:29 Chose the smallest safe task (one file, one field) because Jev risk is high.
 - 2026-11-25 02:29 Did not use Jev's ask score: the brief says never ask Isa, so the Isa-choice note in the report was settled by this decision.
 - 2026-11-25 02:29 Kept the Row 2.1 simulator check after both mock rounds, as planned.
+- 2026-11-25 02:30 Chose candidate 1 because the Jev risk is high, so the smallest single-file step comes first; the lint and the schedule fix wait until 2.1 is closed.
+- 2026-11-25 02:30 Trusted the notes over the last report's NEXT list: the notes record dashboardSummary.render and hydrationErrorState.render as done in rounds 21-22, so the prompt asks for a grep check, not a rewrite.
+- 2026-11-25 02:30 Fixture rule for total_days stays as before: total_days equals the distinct-day count of the fixture, and where it is unclear it equals longest_streak, recorded in decisions.
+- 2026-11-25 02:30 Kept the prompt to one file and five numbered steps, with the no-touch list from the notes.
