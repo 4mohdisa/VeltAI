@@ -6,12 +6,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 117: gymRange.ts hand-built Xh Ym replaced with formatDuration (prompt issued). gymMonth.test.ts allowed for pinned string only.
-- Next full suite: round 120.
+- Round 117: gymRange.ts formatDuration change reverted (tests pinned design shape). See decision for round 118.
+- Round 118: checkpoint run (tsc and full Jest, no file changes).
+- Next full suite: round 120, then 135.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
-  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG count is 24 (verified).
-  - 2.3 string round, one step per round. Done: dateLocale, MyScheduleCard weekday, formatRelativeDate, formatLongDate, formatStreak, formatDuration (round 116). Left: gymRange.ts duration (117), summaryCards.ts:78 duration (118), formatDuration 1h 60m rounding fix, day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments.
+  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG count 24 of 24.
+  - 2.3 string round, one step per round. Done: dateLocale, MyScheduleCard weekday, formatRelativeDate, formatLongDate, formatStreak, formatDuration (round 116).
+  - 2.3 left: always-show-hours formatter (formatting.ts), then gymRange.ts:202 and summaryCards.ts:78 use it, 1h 60m rounding fix, day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -39,16 +41,18 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - analyticsSink.ts:29 keeps its lazy require (accepted 1 warning). Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
-- Full suite on checkpoint rounds (120, 135, ...) and after any change that can alter snapshots or strings.
+- Full suite on checkpoint rounds and after any change that can alter snapshots or strings.
 - Locale files rewritten with json.dumps(indent=2, ensure_ascii=False) plus newline.
 - A sentence gets one full i18n key. Plurals use _one and _other only.
 - Code outside React uses import i18n from '@/lib/i18n'. Dates use dateLocale(i18n.language).
 - Row 2.2 closes only when every backend item is done. Do not close it on lint alone.
-- Jev risk 0.9 of 2: keep steps small, one main file per prompt, check gates each round.
+- Jev risk 1.2 of 2: keep steps small, one main file per prompt, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 - Round 113: stale helpers.test.ts device-locale test deleted (pinned old behaviour).
 - Round 115: Sept (en-AU short month) kept. Isa to confirm in OWNER_CHECKS_phase4.md.
-- Round 116: es and fr durations use locale style ('1 h 30 min'), not word for word English. Low priority style note in OWNER_CHECKS_phase4.md.
+- Round 116: es and fr durations use locale style ('1 h 30 min'). Low priority style note in OWNER_CHECKS_phase4.md.
+- Round 118: month summary keeps design shape '0h 45m' under an hour (pinned by gymMonth.test.ts). Shared always-show-hours formatter in formatting.ts on common.hoursMinutes, used by gymRange.ts and summaryCards.ts:78. formatDuration stays for other durations. Chosen without asking: the design is final.
+- Round 118: Jev said ask 87%. Not used, because ask is not allowed. Checkpoint run chosen because the loop note requires it.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -62,7 +66,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 113: stale device-locale helper test deleted.
 - Round 114: MyScheduleCard weekday uses dateLocale, fr render test added.
 - Round 115: formatRelativeDate and formatLongDate follow app language.
-- Round 116: formatStreak and formatDuration follow app language with plurals. Full Jest 243 suites, 1,434 tests green, 4 snapshots unchanged.
+- Round 116: formatStreak and formatDuration follow app language with plurals. Full Jest 243 suites, 1,434 tests green.
+- Round 117: gymRange formatDuration attempt failed 4 pinned tests. Reverted. No net change.
 - Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
@@ -81,8 +86,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - formatting.ts:67 and :72 use device locale.
 
 ## Next
-- Round 117: gymRange.ts duration via formatDuration (in progress).
-- Round 118: summaryCards.ts:78 duration via formatDuration.
+- Round 119: add always-show-hours formatter in src/lib/formatting.ts on common.hoursMinutes, with its test in en, es and fr.
+- Round 120: full suite checkpoint (tsc and full Jest).
+- Round 121: gymRange.ts:202 uses the new formatter, gymMonth.test.ts keeps the design assertions.
+- Round 122: summaryCards.ts:78 uses the new formatter, summaryCards.test.ts updated.
 - Then formatDuration 1h 60m rounding fix (formatting.ts plus its test), day letters, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
@@ -109,4 +116,3 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
 - The src/lib/i18n/index.ts comment still says French is 'intentionally partial'.
-- Round 115 note: Day labels on a real device come from iOS date formatting; only a simulator check shows punctuation differences in es and fr.
