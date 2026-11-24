@@ -6,8 +6,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 79 done: removed two router.push mockClear lines in src/__tests__/signup.render.test.tsx. tsc 0 errors, file green.
-- Round 80 in progress: router.replace mockClear in src/__tests__/render/signupSignInMode.render.test.tsx.
+- Round 80 done: router.replace clear removed from src/__tests__/render/signupSignInMode.render.test.tsx. tsc 0, file green, lint 0 errors.
+- Round 81 in progress: foodSaved.render.test.tsx, two require lines (24, 25) to no-require-imports fix.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -56,6 +56,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 77: shared router beforeEach in setup.ts.
 - Round 78: onboardingIndex router clear removed.
 - Round 79: signup.render.test.tsx router.push clears removed.
+- Round 80: signupSignInMode router.replace clear removed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -64,8 +65,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 80: signupSignInMode.render.test.tsx router.replace clear (conditional on setup.ts clearing replace).
-- Then foodSaved.render (2 warnings), debugGating, debugCapture, authBilling (2 each), render/setup.ts afterEach require (1).
+- Round 81: foodSaved.render.test.tsx two no-require-imports (lines 24, 25).
+- Then debugGating, debugCapture, authBilling (2 each), render/setup.ts afterEach require (1).
 - Then settingsHelp.render.test.tsx: clear its own wrapped mockPush.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.

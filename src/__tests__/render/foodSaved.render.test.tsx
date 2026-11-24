@@ -21,8 +21,8 @@ jest.mock('@/lib/data', () => ({
 // rendered (for the "Unsave" control) and a ref.close() that does not throw;
 // this stand-in gives it both without changing SwipeableRow itself.
 jest.mock('react-native-gesture-handler/ReanimatedSwipeable', () => {
-  const { forwardRef, useImperativeHandle } = require('react') as typeof import('react');
-  const { View } = require('react-native') as typeof import('react-native');
+  const { forwardRef, useImperativeHandle } = jest.requireActual<typeof import('react')>('react');
+  const { View } = jest.requireActual<typeof import('react-native')>('react-native');
   const MockSwipeable = forwardRef(
     (
       { children, renderRightActions }: { children?: ReactNode; renderRightActions?: () => ReactNode },

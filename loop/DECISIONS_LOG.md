@@ -9915,3 +9915,7 @@
 - 2026-11-25 03:33 The prompt makes the step conditional on setup.ts clearing router.replace, so an unverified assumption cannot break the test.
 - 2026-11-25 03:33 settingsHelp.render.test.tsx stays on the list; it needs its own clear because its mockPush is wrapped and the shared reset cannot reach it.
 - 2026-11-25 03:33 Owner checks are unchanged. OWNER_CHECKS_phase4.md is not edited this round.
+- 2026-11-25 03:34 Chose the smallest lint task (one file, two lines) because Jev risk is 0.9 of 2 and the last round ended cleanly.
+- 2026-11-25 03:34 Kept the doc fix for KNOWN_ISSUES.md:40 for a later round to avoid mixing docs with test edits.
+- 2026-11-25 03:34 Did not add disable comments; the rule says remove any that become unused.
+- 2026-11-25 03:34 Round 80 is recorded as done (router.replace clear removed from signupSignInMode, tsc, file tests and lint green).
