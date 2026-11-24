@@ -9611,3 +9611,17 @@
 - 2026-11-24 09:05 Stopped on the round 89 notes, which supersede the older handover summary (it lists rows 5, 6, 13 and 14 as PARTIAL).
 - 2026-11-24 09:05 Kept analytics opt-in and off by default in code, as recorded. Isa confirms before Phase 4.
 - 2026-11-24 09:05 Left the unfixed items in Parked and did not start any Phase 4 work.
+- 2026-11-25 02:02 Task 1 done as a read-mostly round: create the row list and owner checks file only, no code changes.
+- 2026-11-25 02:02 Rows 2c and 2d (built by hand by Isa on 25 Nov 2026) are added to the table and marked BUILT only after their tests pass, so the table has 36 rows, not 34.
+- 2026-11-25 02:02 The brief's 34 row count is kept for the planned rows; 2c and 2d are extra rows on top.
+- 2026-11-25 02:02 Claude Code gets a condensed version of every row in the prompt, because it does not receive the brief itself.
+- 2026-11-25 02:02 Branch is not switched; a wrong branch is reported as BLOCKED, not fixed by switching.
+- 2026-11-25 02:02 Previous prompt was rejected for asking for more than one component, so this round writes only PHASE4_ROWS.md; OWNER_CHECKS_phase4.md moves to Row 1.
+- 2026-11-25 02:02 Rows 2c and 2d are kept as verify rows because the notes say Isa built them by hand on 25 Nov 2026; their content is not in the brief, so Claude Code must inspect the git diff and record what it finds.
+- 2026-11-25 02:02 Every row starts as DIFFERENT so the table only changes when real work is verified.
+- 2026-11-25 02:02 Row order follows the brief, with sub rows 2b, 2c, 2d, 14a and 14b placed where the brief places them.
+- 2026-11-25 02:03 Rewrote the rejected round 2 prompt to ask for one file only (PHASE4_ROWS.md), with no code changes, because the loop note said it asked for more than one component.
+- 2026-11-25 02:03 Kept the row list short in the prompt so Claude Code gets one clear file to write; detail stays in the brief for later rounds.
+- 2026-11-25 02:03 Rows 2c and 2d are described generically because the notes do not say what Isa built by hand on 25 Nov 2026; Claude Code identifies them from git log and describes them in one line.
+- 2026-11-25 02:03 Set all rows to DIFFERENT now and left notes empty, so status words are only used in the status column.
+- 2026-11-25 02:03 Progress line counts 33 rows including 2b, 2c, 2d, 14a and 14b, so the denominator is 33 rows.
