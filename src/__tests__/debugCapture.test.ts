@@ -11,18 +11,32 @@
 // These import ../debug/buffers and ../debug/export directly: both are pure and
 // dependency-free, so they are testable without the flag on. (The flag IS off in
 // jest, so the recorders no-op — each test forces it on where it needs to.)
-import { CONSOLE_LIMIT, API_LIMIT, BREADCRUMB_LIMIT, redact, redactValue } from '@/debug/buffers';
+import {
+  CONSOLE_LIMIT,
+  API_LIMIT,
+  BREADCRUMB_LIMIT,
+  redact,
+  redactValue,
+  __clearBuffers,
+  recordConsole,
+  recordApiCall,
+  recordBreadcrumb,
+  readConsole,
+  readApi,
+  readBreadcrumbs,
+} from '@/debug/buffers';
 import { reportToMarkdown, reportsToMarkdown, reportsToJSON } from '@/debug/export';
 import type { DebugReport } from '@/debug/types';
 
 // The recorders are gated on DEBUG_CAPTURE, which is false under jest. Re-import
 // the module with the env var set so the ring behaviour is observable.
+// requireActual reads the module registry, so after resetModules it loads fresh.
 function withCaptureOn<T>(fn: (m: typeof import('@/debug/buffers')) => T): T {
   const prev = process.env.EXPO_PUBLIC_DEBUG_CAPTURE;
   process.env.EXPO_PUBLIC_DEBUG_CAPTURE = '1';
   jest.resetModules();
   try {
-    return fn(require('@/debug/buffers'));
+    return fn(jest.requireActual<typeof import('@/debug/buffers')>('@/debug/buffers'));
   } finally {
     if (prev === undefined) delete process.env.EXPO_PUBLIC_DEBUG_CAPTURE;
     else process.env.EXPO_PUBLIC_DEBUG_CAPTURE = prev;
@@ -75,14 +89,13 @@ describe('ring buffers are bounded and never leak', () => {
 
   test('recording is a no-op when the flag is off', () => {
     // Default jest env: flag unset.
-    const m = require('@/debug/buffers') as typeof import('@/debug/buffers');
-    m.__clearBuffers();
-    m.recordConsole('log', ['should not be kept']);
-    m.recordApiCall({ method: 'GET', path: '/x', status: 200, durationMs: 1 });
-    m.recordBreadcrumb('nope');
-    expect(m.readConsole()).toEqual([]);
-    expect(m.readApi()).toEqual([]);
-    expect(m.readBreadcrumbs()).toEqual([]);
+    __clearBuffers();
+    recordConsole('log', ['should not be kept']);
+    recordApiCall({ method: 'GET', path: '/x', status: 200, durationMs: 1 });
+    recordBreadcrumb('nope');
+    expect(readConsole()).toEqual([]);
+    expect(readApi()).toEqual([]);
+    expect(readBreadcrumbs()).toEqual([]);
   });
 });
 

@@ -6,16 +6,16 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 81 done: foodSaved.render.test.tsx both requires moved to jest.requireActual. tsc 0, file green, lint 0 errors, 8 warnings.
-- Round 82 in progress: authBilling.test.ts (2 warnings, around line 259).
+- Round 82 done: authBilling.test.ts fs and path requires became top-level imports. tsc 0, file green (21 tests), lint 0 errors, 6 warnings.
+- Round 83 in progress: debugCapture.test.ts (2 warnings, lines 25 and 78).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 8 (last measured, round 81). Verify with `npx expo lint`.
-- Remaining warnings: authBilling 2; debugGating 2; debugCapture 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
-- `eslint --format unix` no longer exists. Use `npx expo lint`.
+- Errors: 0. Warnings: 6 (last measured, round 82). Verify with `npx expo lint`.
+- Remaining warnings: debugGating 2; debugCapture 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
+- Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -31,7 +31,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Shared router reset (setup.ts beforeEach) replaces per-test router mockClear. Local mocks that are not jest.fn or that wrap push (settingsHelp) keep their own clear.
 - Mock forwardRef components get named functions (display-name fix).
 - Factory cases use jest.requireActual (babel-jest hoists factories).
-- Test-body requires of mocked modules become top-level imports.
+- Test-body requires of mocked modules become top-level imports. Node built-ins become named top-level imports.
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
@@ -41,7 +41,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoints every 15 rounds (90, 105, ...), plus any round the loop script marks.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
-- zsh: quote glob patterns. Node 22 first on PATH. Under zsh PIPESTATUS does not work; count errors with grep.
+- zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep, not PIPESTATUS.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Jev risk moderate to high: keep steps to one file and check gates each round.
 - String changes wait for a string round.
@@ -51,8 +51,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
-- Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green.
-- Rounds 45-81: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved requires fixed.
+- Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
+- Rounds 45-82: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved and authBilling requires fixed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -61,8 +61,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 82: authBilling.test.ts 2 no-require-imports (around line 259).
-- Then debugGating (112, 141), debugCapture (25, 78), render/setup.ts afterEach require (38).
+- Round 83: debugCapture.test.ts 2 no-require-imports (lines 25, 78).
+- Then debugGating (112, 141), render/setup.ts afterEach require (38).
 - Then settingsHelp.render.test.tsx: clear its own wrapped mockPush.
 - Then app code src/lib/analyticsSink.ts (line 29, no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
@@ -84,3 +84,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - KNOWN_ISSUES.md:40 wrong TestPG count (21 run, not 20 skipped).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
+- settingsHelp.render.test.tsx wraps mockPush in a plain function, so the shared hook cannot clear it.

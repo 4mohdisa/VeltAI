@@ -9924,3 +9924,7 @@
 - 2026-11-25 03:35 No disable comments are added. Requires inside jest.mock factories use jest.requireActual, and test-body requires become top-level imports, as the notes' established rules say.
 - 2026-11-25 03:35 Kept the targeted-Jest-only rule for this round. The full suite waits for the round 90 checkpoint.
 - 2026-11-25 03:35 Jev advice (run, 98%) is consistent with the choice. No override needed.
+- 2026-11-25 03:36 Picked debugCapture.test.ts: smallest single file task, matches the notes' recommended order and the handover's Next step.
+- 2026-11-25 03:36 Jev says run at 99% with a clean-finish chance of 94%. Agreed, no override.
+- 2026-11-25 03:36 Prompt limits the edit to one file, keeps the no-disable-comment rule and requires the gate numbers, so Jev's moderate to high risk stays low.
+- 2026-11-25 03:36 Round 82 (authBilling) recorded as done: 6 lint warnings left, 0 errors.
