@@ -6,13 +6,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 99: Row 2.2 item 1, getMorningBrief and getProfile error swallowing. Backend first, app only if a test breaks.
+- Round 100: hook tests for useMorningBrief and useBrainProfile isError (new file aiBrain.briefProfile.test.ts).
 - Row 1 BUILT. Row 2 PARTIAL.
-  - 2.1 total gym days: code done, simulator check parked.
-  - 2.2 lint sweep done. TestPG 24 of 24 pass. Backend items open: error swallowing (in progress), feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
+  - 2.1 gym days: code done, simulator check parked.
+  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
+  - 2.2 done: lint sweep, schedule_pg LIMIT fix, getMorningBrief and getProfile errors (round 99, app side; hook isError tests in round 100).
   - 2.3 Row 13 and 14 items. 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
-- OWNER_CHECKS_phase4.md has open checks. Never overwrite or empty it. Append only.
+- OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Lint state
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
@@ -20,8 +21,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
-- TestPG database: localhost:5432, database lume_test_local (Row 1 decision). Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
-- TestPG count is 24 (verified round 97). Historical baseline lines 21 and 31 stay as recorded; line 32 holds the 24 result. Row 1 'what to do' cell stays as the original brief.
+- TestPG database: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
+- TestPG count is 24 (verified round 97). Historical lines 21 and 31 stay as recorded.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
@@ -35,7 +36,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1. Do not change api.ts listSessions defaults.
 - A required require keeps one reasoned eslint-disable-next-line comment. No new eslint-disable comments in app code.
-- analyticsSink.ts:29 keeps its lazy require (top-level import loads optional native modules; async import() can drop launch events). Accepted 1 warning. Revisit in Row 29.
+- analyticsSink.ts:29 keeps its lazy require (accepted 1 warning). Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
 - Full suite on checkpoint rounds (105, 120, ...).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
@@ -46,15 +47,17 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
 - Jev risk 1.2 of 2: keep steps small, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
+- Round 100: free plan 403 on morning brief sets isError true in the hook; no screen reads it yet. Revisit with entitlement state in Rows 6 and 7.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Rounds 28-43, 88-95: lint fixes. Lint at 0 errors, 1 accepted warning.
 - Rounds 38-39: history.tsx gym session read limited (7-day window).
-- Round 96: schedule_pg.go GetExerciseProgress keeps newest N, returns oldest first. TestPG_ExerciseProgressLimitKeepsNewest written.
-- Round 97: 24 of 24 TestPG pass on localhost lume_test_local, 0 skipped. Progress bug entry removed from KNOWN_ISSUES.md.
-- Round 98: doc-only TestPG count fix (24) in BASELINE_phase4.md, PHASE4_ROWS.md row 1 notes and KNOWN_ISSUES.md. tsc 0 errors.
+- Round 96: schedule_pg.go GetExerciseProgress keeps newest N, returns oldest first.
+- Round 97: 24 of 24 TestPG pass on localhost lume_test_local, 0 skipped.
+- Round 98: doc-only TestPG count fix (24).
+- Round 99: getMorningBrief and getProfile no longer swallow errors (api.ts, aiBrain.ts isError, http_test.go TestBriefAndBrainReadErrors).
 - Checkpoints 44, 60, 75, 76, 90: tsc and Jest green (242 suites, 1,402 tests).
 
 ## Blocked on Isa
@@ -64,8 +67,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 99: getMorningBrief and getProfile error paths (backend, then app test only if it breaks).
-- Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries.
+- Round 100: hook isError tests (aiBrain.briefProfile.test.ts).
+- Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries; KNOWN_ISSUES.md:41 docs fix.
 - Then 2.3 (translations and Retry, i18n header comments, DailyMacroRing.tsx:96 'of' to nutrition.ringOf), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
@@ -74,14 +77,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - ssh tunnel on 127.0.0.1:55432: unknown target. Do not touch.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
-- React act warnings from ScanReviewCard, 'API unreachable' devWarn from src/lib/data/hooks.ts:72 in render logs. Look at them in Row 22.
+- React act warnings from ScanReviewCard and devWarn from src/lib/data/hooks.ts:72 in render logs. Look at them in Row 22.
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
 - i18n index.ts header comments are out of date (Row 2.3).
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Prettier has no repo config. Not a gate. Decide in Row 29.
-- KNOWN_ISSUES.md App section line 36 still says 'Not a Phase 3 row'. Backend Phase 3 wording to clean in 2.2 docs pass.
+- KNOWN_ISSUES.md App section line 36 says 'Not a Phase 3 row'. Clean in 2.2 docs pass. The line 41 getMorningBrief and getProfile part is stale.
 - 'Phase 4 (out of scope)' section header in KNOWN_ISSUES.md clashes with the file's Phase 4 header.
 - If a render test adds jest.resetModules, the shared unmountAll misses trees created after the reset.
 - Nothing tests refetch in useWeeklyMacros.
 - DailyMacroRing.tsx:96 shows 'of' in English only; nutrition.ringOf exists.
-- Dev warning from hooks.ts:72 appears in render test logs.
+- getAnomalies and dismissAnomaly swallow errors on purpose (endpoint does not exist).

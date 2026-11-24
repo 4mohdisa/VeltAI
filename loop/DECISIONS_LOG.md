@@ -10000,3 +10000,7 @@
 - 2026-11-25 03:58 Row 1 'what to do' cell left as the original brief wording (21 skipped TestPG tests); it is the spec, not a status. Row 1 stays BUILT.
 - 2026-11-25 03:58 Chose the smallest backend 2.2 item first (error swallowing) because it is contained, testable with mocks, and unblocks the rest of 2.2.
 - 2026-11-25 03:58 Did not ask Isa about the baseline wording; it does not block any row.
+- 2026-11-25 04:00 Chose the hook isError tests first: they close a gap left by round 99 and are small, which fits the Jev risk signal of 1.2 of 2.
+- 2026-11-25 04:00 Free plan 403 on the morning brief sets isError true in the hook. No screen reads isError for the brief yet, so nothing visible changes. Revisit with entitlement state in Row 6 and Row 7.
+- 2026-11-25 04:00 KNOWN_ISSUES.md:41 docs fix is deferred to the 2.2 docs pass, to keep this prompt to one file.
+- 2026-11-25 04:00 Jev suggested run 80%. Kept run, no contrary reason beyond the 2.2 order.
