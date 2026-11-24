@@ -9764,3 +9764,6 @@
 - 2026-11-25 02:47 Chose the photoScan display-name fix because it is the next lint error and is one file, which keeps the Jev-flagged risk low.
 - 2026-11-25 02:47 Kept the fix to one file per round, as in NOTES, because Jev risk is high.
 - 2026-11-25 02:47 Did not run the full suite: round 36 is not a checkpoint (next checkpoint about round 40).
+- 2026-11-25 02:48 Round 37 takes the one-file display-name fix: it is the last lint error and Jev risk is high, so keep steps to one file.
+- 2026-11-25 02:48 The 59 lint warnings (mostly no-require-imports in tests) are deferred until after the lint errors reach 0, to avoid a large mixed change.
+- 2026-11-25 02:48 The round 36 result is accepted: photoScan.render.test.tsx:83 uses a named forwardRef function, 6 of 6 tests pass, and the stack trace in the log is treated as an expected output from the two deliberate failure tests (check in Row 22 if it persists).

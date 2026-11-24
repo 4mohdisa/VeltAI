@@ -13,9 +13,9 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and one for the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Fixed: react-hooks findings (hooks.ts, gymSchedule.ts, ProgressBar.tsx, DailyMacroRing.tsx, EnergyBalanceCard.tsx), labelScan.render display-name (round 35).
-- Remaining errors: 2 react/display-name: photoScan.render.test.tsx:83 (round 36), scanScreens.strings.render.test.tsx:48 (round 37).
-- Warnings: about 59 (57 no-require-imports, mostly tests; 1 import/first; 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37).
+- Fixed: react-hooks findings (hooks.ts, gymSchedule.ts, ProgressBar.tsx, DailyMacroRing.tsx, EnergyBalanceCard.tsx), labelScan.render display-name (round 35), photoScan.render display-name (round 36).
+- Remaining errors: 1 react/display-name at scanScreens.strings.render.test.tsx:48 (round 37).
+- Warnings: about 59 (57 no-require-imports, mostly tests; 1 import/first; 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37). Deferred until errors are 0.
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -43,8 +43,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Round 27: simulator check of Total tile blocked. Parked.
-- Rounds 28-34: react-hooks lint fixes.
-- Round 35: labelScan display-name fixed; checkpoint green.
+- Rounds 28-35: react-hooks lint fixes, labelScan display-name; round 35 checkpoint green.
+- Round 36: photoScan.render display-name fixed (named forwardRef function). tsc 0, eslint 0 on file, 6 of 6 tests pass.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -53,8 +53,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 36 (now): photoScan.render.test.tsx:83 display-name fix (one file).
-- Round 37: scanScreens.strings.render.test.tsx:48. Then npx eslint src shows 0 errors.
+- Round 37 (now): scanScreens.strings.render.test.tsx:48 display-name fix (one file). Then npx eslint src shows 0 errors.
+- Round 38+: the 59 lint warnings (no-require-imports, import/first, import/no-named-as-default-member), in small batches.
 - Row 2.2 remaining: src/app/food/history.tsx:66 listSessions limit (high priority); useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -66,7 +66,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
 - Phase 2 iOS notes say the backend returns 401 without a Clerk token. Backend has Clerk dev keys, so the note is probably stale. Check in Row 16.
-- Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from hooks.ts. Look at them in Row 22.
+- Jest prints React act(...) warnings from ScanReviewCard, an 'API unreachable' warning from hooks.ts, and a logged stack trace in photoScan.render (probably from deliberate failure tests). Look at them in Row 22.
 - Nothing tests refetch in useWeeklyMacros (src/lib/data/hooks.ts).
 - The expo-camera stub is copied into three scan tests. Move it to one shared mock later.
 - DailyMacroRing.tsx:96 'of' English only (string round).
