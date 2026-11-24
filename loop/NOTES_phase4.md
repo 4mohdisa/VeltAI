@@ -7,14 +7,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
 - Checkpoint round 60 green: tsc 0, Jest 242 suites and 1,402 tests, expo lint 0 errors.
-- Round 65: onboardingDietary.render swapped to top-level import. Cuisine was already committed in b350990. Lint warnings 19.
+- Round 66: onboardingDone.render swapped to top-level import (verified in round 67 step 1). Lint warnings 18.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 19 (round 65). Verify with `npx expo lint`.
-- Remaining warning map: noFabricatedData 15; signup.render, foodSaved.render, debugGating, debugCapture, authBilling 2 each; onboardingDone, Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests 1 each; render/setup.ts; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 18 (round 66). Verify with `npx expo lint`.
+- Remaining warning map: noFabricatedData 15 (partly); signup.render, foodSaved.render, debugGating, debugCapture, authBilling 2 each; Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests 1 each; render/setup.ts; src/lib/analyticsSink.ts 1 (app code).
 - `eslint --format unix` no longer exists. Use `npx expo lint`.
 
 ## Decisions (never delete)
@@ -42,9 +42,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - zsh: quote glob patterns. Node 22 first on PATH.
 - String changes wait for a string round.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
-- Jev risk moderate: keep steps to one file and check gates each round.
+- Jev risk moderate to high: keep steps to one file and check gates each round.
 - Round 62: Jev's pick taken over my Row 2.2 backend pick. Backend work follows after the lint sweep.
-- Round 64 and 65 flags: each round's file was checked and found complete. Step 1 of each prompt re-verifies the file.
+- Round 64, 65 and 67 flags: each round's file is re-verified in step 1 of the next prompt.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -53,7 +53,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Rounds 44 and 60 (checkpoints): full tsc and Jest green.
-- Rounds 45-65: render tests cleared (measurements, onboardingActivity, onboardingBodyType, onboardingCuisine, onboardingDietary).
+- Rounds 45-66: render tests cleared (measurements, onboardingActivity, onboardingBodyType, onboardingCuisine, onboardingDietary, onboardingDone).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -62,8 +62,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 66: onboardingDone.render (top-level expo-router import).
-- Then Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests, one per round.
+- Round 67: onboardingGoal.render (top-level expo-router import, line 33).
+- Then Index, Preview, Targets, signupOtp, signupSignInMode render tests, one per round.
 - Then signup.render, foodSaved.render, debugGating, debugCapture, authBilling (2 each), render/setup.ts.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.

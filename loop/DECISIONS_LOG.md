@@ -9862,3 +9862,8 @@
 - 2026-11-25 03:18 Kept the one-file-per-round rule and the full gate set (tsc, targeted Jest, eslint unused directives, require count, expo lint) because Jev rates the risk moderate.
 - 2026-11-25 03:18 Deferred the DailyMacroRing string change to a string round, as the notes require.
 - 2026-11-25 03:18 Round 66 is a targeted round. The next checkpoint stays at round 75.
+- 2026-11-25 03:19 Chose the one file lint swap because Jev risk is moderate to high (0.9 of 2), so the smallest step is safest.
+- 2026-11-25 03:19 Step 1 re-checks onboardingDone because the loop flagged the last report as partly done, and the handover still lists it as in progress.
+- 2026-11-25 03:19 Kept the router swap pattern from onboardingDone (top-level import, no disable comment) for consistency.
+- 2026-11-25 03:19 Deferred string changes (DailyMacroRing 'of', i18n header comments) to a string round, per the rule in the notes.
+- 2026-11-25 03:19 Parked nothing new this round. The 2.1 simulator check and the Isa decision on the E2E gym account stay in OWNER_CHECKS_phase4.md.
