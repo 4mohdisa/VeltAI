@@ -12,14 +12,13 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { api } from '@/lib/api';
+import { dateLocale } from '@/lib/formatting';
+import i18n from '@/lib/i18n';
 import { todayISO } from './mappers';
 import type { EnergyBalance } from '@/lib/types';
 
 /** One calendar day in ms — clock arithmetic, not an animation duration. */
 const DAY_MS = 24 * 60 * 60 * 1000;
-
-const WEEKDAY_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /** Shift a YYYY-MM-DD by whole days. Read as UTC so no timezone can slide the
  *  calendar day the server keyed the row by. Returns the input unchanged if it
@@ -56,17 +55,25 @@ export function netOf(d: EnergyBalance): number | null {
   return d.net_balance;
 }
 
-/** "Mon" for a YYYY-MM-DD. Parsed at local midnight, matching todayISO(). */
+/** "Mon" for a YYYY-MM-DD, in the app language — a day's spoken label.
+ *  Parsed at local midnight, matching todayISO(). */
 export function weekdayShort(date: string): string {
   const d = new Date(`${date}T00:00:00`);
-  const i = d.getDay();
-  return Number.isNaN(i) ? date : WEEKDAY_SHORT[i];
+  return Number.isNaN(d.getTime()) ? date : d.toLocaleDateString(dateLocale(i18n.language), { weekday: 'short' });
 }
 
-/** "9 Aug" for a YYYY-MM-DD — the 14-day axis label. */
+/** "M" for a YYYY-MM-DD — a chart axis letter from calendar.weekdayLetters
+ *  (Monday first), not Intl: Hermes ignores `weekday: 'narrow'`. */
+export function weekdayLetter(date: string): string {
+  const d = new Date(`${date}T00:00:00`);
+  return Number.isNaN(d.getTime()) ? date : [...i18n.t('calendar.weekdayLetters')][(d.getDay() + 6) % 7];
+}
+
+/** "9 Aug" for a YYYY-MM-DD in the app language — the 14-day axis label, day
+ *  before month as in the design. */
 export function dayMonth(date: string): string {
   const d = new Date(`${date}T00:00:00`);
-  return Number.isNaN(d.getTime()) ? date : `${d.getDate()} ${MONTH_SHORT[d.getMonth()]}`;
+  return Number.isNaN(d.getTime()) ? date : `${d.getDate()} ${d.toLocaleDateString(dateLocale(i18n.language), { month: 'short' })}`;
 }
 
 /** Mean of the values, or null when there are none — never 0, which would read

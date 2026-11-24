@@ -9,7 +9,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: only the simulator check of the Total tile is left. Parked in OWNER_CHECKS_phase4.md.
 - 2.2: done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 strings: Done: Summary screen, GymSessionButton, MacroBars, WeekEnergyCard, EnergyBalanceCard, formatting helpers, gym month title. Open, one file per round: src/app/energy.tsx literal sweep (round 135, in progress), custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. Add a PHASE4_ROWS.md note when 2.3 closes.
+- 2.3 strings: Done: Summary screen, GymSessionButton, MacroBars, WeekEnergyCard, EnergyBalanceCard, formatting helpers, gym month title, energy.tsx sentence (dashboard.energyAverageBurned). Open: energyRange.ts weekdayShort and dayMonth (round 136, in progress, flagged partial by loop), DetailChart heroLabels, dashboard/training.tsx, week.tsx, nutrition.tsx English axis text, custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. Add a PHASE4_ROWS.md note when 2.3 closes.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -41,17 +41,17 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Code outside React uses import i18n from '@/lib/i18n'. Dates use dateLocale(i18n.language).
 - Rendering tests named *.render.test.tsx to get the jest-expo preset.
 - Summary 'summary' is a new top-level locale section (round 130). Isa to review.
-- Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'), not the en.json value. Accepted.
 - Round 115: 'Sept' (en-AU short month) kept. Isa to confirm.
 - Round 118: month summary keeps design shape '0h 45m' in English (pinned by gymMonth.test.ts).
 - Round 120-122: es and fr month summary and weekly card use common.hoursMinutes ('1 h 45 min'). Isa to confirm.
 - Round 123: formatDuration rounds total minutes first.
 - Round 124-125: day letters from calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
-- Round 126-128: WeekEnergyCard, EnergyBalanceCard, GymSessionButton translated. Isa to review es and fr wording.
-- Round 131-132: MacroBars target text and a11y labels translated. Isa to review es and fr wording.
-- Round 133: Summary screen sweep closed, no change needed.
+- Round 126-134: WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen translated. Isa to review es and fr wording.
+- Round 135: energy.tsx sentence uses dashboard.energyAverageBurned (es 'quemadas', fr 'brûlées'). Isa to review.
+- Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'), not the en.json value. Accepted.
 - Round 134: checkpoint green: tsc 0 errors, Jest 245 suites, 1,462 tests, 4 snapshots.
-- Jev (rounds 128-134): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible.
+- Round 136: loop flagged round 135 as partly done (axes still English). Fixed first before moving on.
+- Jev (rounds 128-136): risk of continuing without Isa 0.9 of 2. Keep tasks small and parked items visible.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -60,7 +60,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-134: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen.
+- Rounds 107-135: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen, energy sentence.
 - Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green.
 
 ## Blocked on Isa (not blocking the loop)
@@ -68,7 +68,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
 - Confirm es and fr hours and minutes spacing ('1 h 45 min' vs '1h 45m').
-- Review es and fr wording: week card keys, six energy balance keys, gym logged label, summary.notTracked, summary target and a11y keys.
+- Review es and fr wording: week card keys, six energy balance keys, gym logged label, summary.notTracked, summary target and a11y keys, energyAverageBurned.
 - Do not retry these questions; work on other surfaces.
 
 ## Parked
@@ -77,15 +77,16 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - delete-account.tsx swallowed-errors review.
 - Subscription screen es and fr render test.
 - Gym tab render test in es and fr for the translated month line.
-- MacroTargetRows render test in es and fr (no test checks the translated macro text yet).
-- formatNumber hardcoded en-AU.
+- MacroTargetRows render test in es and fr.
+- formatNumber hardcoded en-AU (energy screen shows 1,683 in es too).
 - formatting.ts:67 and :72 use device locale.
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
+- Energy screen ignores the user's energy unit setting (always kcal).
 
 ## Next
-- Round 135: energy.tsx literal sweep (one file, locale JSON as data, en and es test).
-- Then the rest of the 2.3 open list, then add the 2.3 note to PHASE4_ROWS.md.
+- Round 136: localise weekdayShort and dayMonth in src/lib/data/energyRange.ts (one file, en and es test).
+- Then DetailChart heroLabels, dashboard/training.tsx, week.tsx, nutrition.tsx axis text, one file per round. Then add the 2.3 note to PHASE4_ROWS.md.
 - Then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
 
@@ -110,3 +111,4 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Jest prints about 200 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard weekday/month short names: check once on the simulator (Row 23).
 - Weekday and month names on Hermes not checked on the simulator.
+- Round 135 report: the 'kcal' unit is not tied to the energy unit setting. Parked above.

@@ -1019,7 +1019,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      4 Sep
+                      4 Sept
                     </Text>
                   </View>
                   <View
@@ -1133,7 +1133,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      8 Sep
+                      8 Sept
                     </Text>
                   </View>
                 </View>
@@ -3297,7 +3297,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 }
               >
                 <View
-                  accessibilityLabel="Daily protein, carbs, fat and fibre, 2 Sep to 8 Sep."
+                  accessibilityLabel="Daily protein, carbs, fat and fibre, 2 Sept to 8 Sept."
                   accessible={true}
                   style={
                     {
@@ -5969,7 +5969,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  2 Sep – 8 Sep
+                  2 Sept – 8 Sept
                 </Text>
               </View>
               <View
@@ -6792,7 +6792,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      4 Sep
+                      4 Sept
                     </Text>
                   </View>
                   <View
@@ -6906,7 +6906,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      8 Sep
+                      8 Sept
                     </Text>
                   </View>
                 </View>
@@ -9994,7 +9994,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      4 Sep
+                      4 Sept
                     </Text>
                   </View>
                   <View
@@ -10108,7 +10108,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      8 Sep
+                      8 Sept
                     </Text>
                   </View>
                 </View>

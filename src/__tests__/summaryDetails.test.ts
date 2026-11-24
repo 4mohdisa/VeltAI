@@ -11,7 +11,11 @@
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-import { burnOf, dayMonth, lastNDates, mean, mergeDays, netOf, shiftISO } from '@/lib/data/energyRange';
+import { burnOf, dayMonth, lastNDates, mean, mergeDays, netOf, shiftISO, weekdayLetter, weekdayShort } from '@/lib/data/energyRange';
+import { dateLocale } from '@/lib/formatting';
+import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
 import { minutesByDate, sessionsOn } from '@/lib/data/gymRange';
 import type { EnergyBalance, GymSession } from '@/lib/api';
 
@@ -249,5 +253,29 @@ describe('training minutes', () => {
   test('sessionsOn picks only that calendar day', () => {
     const rows = [session({ date: '2026-09-07' }), session({ date: '2026-09-08' })];
     expect(sessionsOn(rows, '2026-09-08')).toHaveLength(1);
+  });
+});
+
+describe('day and month labels follow the app language', () => {
+  afterAll(() => i18n.changeLanguage('en'));
+
+  // Mon 7 – Sun 13 September 2026, so each letter lands on its own weekday.
+  const week = lastNDates('2026-09-13', 7);
+  const sept = new Date('2026-09-09T00:00:00');
+
+  test.each([
+    ['en', en],
+    ['es', es],
+  ])('%s', async (lang, strings) => {
+    await i18n.changeLanguage(lang);
+    const locale = dateLocale(lang);
+    expect(week.map(weekdayLetter).join('')).toBe(strings.calendar.weekdayLetters);
+    expect(weekdayShort('2026-09-09')).toBe(sept.toLocaleDateString(locale, { weekday: 'short' }));
+    expect(dayMonth('2026-09-09')).toBe(`9 ${sept.toLocaleDateString(locale, { month: 'short' })}`);
+  });
+
+  test('es names differ from en, so the language really switched', async () => {
+    await i18n.changeLanguage('es');
+    expect(dayMonth('2026-08-09')).not.toBe('9 Aug');
   });
 });
