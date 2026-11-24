@@ -9928,3 +9928,6 @@
 - 2026-11-25 03:36 Jev says run at 99% with a clean-finish chance of 94%. Agreed, no override.
 - 2026-11-25 03:36 Prompt limits the edit to one file, keeps the no-disable-comment rule and requires the gate numbers, so Jev's moderate to high risk stays low.
 - 2026-11-25 03:36 Round 82 (authBilling) recorded as done: 6 lint warnings left, 0 errors.
+- 2026-11-25 03:37 Chose the debugGating lint fix because it is one file, the same pattern as debugCapture, and the lowest risk for Jev's moderate-high risk score.
+- 2026-11-25 03:37 Kept one file per round and asked for no eslint-disable comments, following the notes rule for lint swaps.
+- 2026-11-25 03:37 Left the full Jest suite for the next checkpoint (round 90), since this round is only one file.

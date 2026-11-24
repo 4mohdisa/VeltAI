@@ -6,15 +6,15 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 82 done: authBilling.test.ts fs and path requires became top-level imports. tsc 0, file green (21 tests), lint 0 errors, 6 warnings.
-- Round 83 in progress: debugCapture.test.ts (2 warnings, lines 25 and 78).
+- Round 83 done: debugCapture.test.ts lint fixed (jest.requireActual for the reset reload, top-level import for the flag-off test). tsc 0, file green (40 tests), lint 0 errors, 4 warnings.
+- Round 84 in progress: debugGating.test.ts:112 and :141.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 6 (last measured, round 82). Verify with `npx expo lint`.
-- Remaining warnings: debugGating 2; debugCapture 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 4 (round 83). Verify with `npx expo lint`.
+- Remaining warnings: debugGating 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
@@ -32,6 +32,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Mock forwardRef components get named functions (display-name fix).
 - Factory cases use jest.requireActual (babel-jest hoists factories).
 - Test-body requires of mocked modules become top-level imports. Node built-ins become named top-level imports.
+- Reloads after jest.resetModules use jest.requireActual with a one-line comment.
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
@@ -52,7 +53,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-82: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved and authBilling requires fixed.
+- Rounds 45-83: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling and debugCapture requires fixed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -61,11 +62,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 83: debugCapture.test.ts 2 no-require-imports (lines 25, 78).
-- Then debugGating (112, 141), render/setup.ts afterEach require (38).
+- Round 84: debugGating.test.ts 2 no-require-imports (lines 112, 141).
+- Then render/setup.ts afterEach require (38).
 - Then settingsHelp.render.test.tsx: clear its own wrapped mockPush.
 - Then app code src/lib/analyticsSink.ts (line 29, no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
+- Round 90 checkpoint: full tsc and Jest.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES.md line 40 says 20 TestPG, it is 21).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.

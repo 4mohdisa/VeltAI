@@ -9,6 +9,7 @@
 // __DEV__ is FALSE in TestFlight builds, so it cannot be the gate — the system
 // has to run in exactly the build __DEV__ excludes. The gate is
 // EXPO_PUBLIC_DEBUG_CAPTURE, set on internal profiles only.
+import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -109,7 +110,6 @@ describe('the debug tree is excluded at the module boundary, not just hidden', (
   test('shipping code imports only the gated entry point, never impl directly', () => {
     // Real import/require statements only — a mention in a comment is not a
     // dependency edge, and this file necessarily names the path it is policing.
-    const { execSync } = require('child_process') as typeof import('child_process');
     const out = execSync(
       "grep -rnE \"(from|require\\\\()\\\\s*['\\\"][^'\\\"]*debug/impl\" src --include='*.ts' --include='*.tsx' || true",
       { cwd: repoRoot, encoding: 'utf8' },
@@ -138,7 +138,8 @@ describe('the debug tree is excluded at the module boundary, not just hidden', (
     expect(overlay).toContain('if (!DEBUG_CAPTURE) return null;');
     // And in the jest environment the flag IS off, so the entry points no-op.
     jest.resetModules();
-    const debug = require('@/debug');
+    // requireActual loads a fresh copy after the reset.
+    const debug = jest.requireActual<typeof import('@/debug')>('@/debug');
     expect(debug.DEBUG_CAPTURE).toBe(false);
     expect(debug.recordApiCall({ method: 'GET', path: '/x', status: 200, durationMs: 1 })).toBeUndefined();
     expect(debug.reportCrash(new Error('x'))).toBeUndefined();
