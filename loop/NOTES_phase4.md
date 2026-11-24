@@ -6,11 +6,13 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 108 checkpoint passed (1,417 tests). Round 109 passed (243 suites, 1,419 tests, 4 of 4 snapshots). Next full suite: round 120.
+- Round 110 done: dayReadout uses dateLocale, es and fr tests. Full suite 243 suites, 1,421 tests, 4 snapshots green.
+- Round 111: gymRange monthTitle uses dateLocale(i18n.language) with en, es, fr tests.
+- Next full suite: round 120.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries, TestPG count to 22 after the schedule_pg test runs.
-  - 2.3 string round, one file per round. Done: subscription.tsx, DailyMacroRing 'of', ring es and fr tests, gymRange (108), summaryCards workoutsLine (109). Round 110: dayReadout in summaryCards.ts. Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
+  - 2.3 string round, one file per round. Done: subscription.tsx, DailyMacroRing 'of', ring es and fr tests, gymRange month line (108), summaryCards workoutsLine (109), dayReadout (110). Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -41,11 +43,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - i18n alias: `import { use as addPlugin }` is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
 - Full suite on checkpoint rounds (120, 135, ...).
-- String changes wait for the string round (2.3), done in parts.
+- String changes wait for the string round (2.3), done in parts. Always run the full suite after string changes.
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc and a grep.
 - Row 2.2 closes only when every backend item is done. Do not close it on lint alone.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk 1.0 of 2: keep steps small, one file per prompt, check gates each round.
+- Jev risk 0.9 of 2: keep steps small, one file per prompt, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 
 ## Done
@@ -60,7 +62,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 106: DailyMacroRing 'of' via nutrition.ringOf (en of, es de, fr sur).
 - Round 107: dailyMacroRing.i18n.render.test.tsx covers es and fr.
 - Round 108: gymRange month line and monthTitle use app language (gym.monthSessions, monthUntimed, monthFreezes).
-- Round 109: summaryCards workoutsLine uses i18n (workoutsWeek.noSessions, untimed_one, untimed_other), es and fr tests.
+- Round 109: summaryCards workoutsLine uses i18n, es and fr tests.
+- Round 110: dashboard.dayReadout key in en, es, fr; dateLocale used.
 - Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
@@ -76,10 +79,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Hours and minutes format (Xh Ym) hand built in gymRange.ts:200 and summaryCards.ts. One shared formatter.
 - formatting.ts:67,72 date formatting uses device language. Fix with the app language.
 - Day letters (MTWTFSS) hardcoded in summaryCards.ts:45.
+- Open for Isa (parked, not blocking): should the morning brief free-plan refusal count as an error?
 
 ## Next
-- Round 110: dayReadout in summaryCards.ts (weekday locale, in, burned, net), es and fr.
-- Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
+- Round 111: gymRange monthTitle uses dateLocale (en, es, fr tests).
+- Then formatting.ts:67,72 device locale, then day letters, then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
@@ -95,13 +99,13 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - useBrainProfile unmount test cannot fail if its guard is removed. Revisit in Row 22.
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
 - Prettier has no repo config. Not a gate. Decide in Row 29.
-- KNOWN_ISSUES.md 'Phase 4 (out of scope)' section clashes with the header. Fix in the docs round.
+- KNOWN_ISSUES.md 'Phase 4 (out of scope)' section clashes with the header. Fix in the docs round. KNOWN_ISSUES.md Backend section still has Phase 3 wording.
 - If a render test adds jest.resetModules, the shared unmountAll misses trees created after the reset.
 - Nothing tests refetch in useWeeklyMacros.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint does not exist).
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
-- summaryCards.ts:35, formatting.ts:67,72 pass undefined locale to toLocaleDateString (see Parked).
+- formatting.ts:67,72 pass undefined locale to toLocaleDateString (see Parked).
 - delete-account.tsx swallowed errors not checked yet.
-- Tool note: the lint gate is npx expo lint. The Round 109 report says 0 problems on the two changed files.
+- Tool note: the lint gate is npx expo lint.

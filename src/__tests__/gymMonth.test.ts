@@ -7,6 +7,8 @@
 import { intensityOf, monthSummary, monthTitle, monthView } from '@/lib/data/gymRange';
 import type { GymSession } from '@/lib/api';
 import i18n from '@/lib/i18n';
+import { dateLocale } from '@/lib/formatting';
+import { fromIso } from '@/lib/data/foodDays';
 
 let n = 0;
 const row = (date: string, duration_minutes: number | null): GymSession => ({
@@ -140,5 +142,15 @@ describe('the month line and title follow the app language', () => {
     expect(monthSummary(view([row('2026-09-01', 45)]))).toBe(`${single} · 0h 45m`);
     expect(monthTitle('2026-09-01', TODAY)).toBe(thisYear);
     expect(monthTitle('2025-12-01', TODAY)).toBe(otherYear);
+  });
+});
+
+describe('monthTitle uses the app date locale', () => {
+  afterAll(() => i18n.changeLanguage('en'));
+
+  test.each(['en', 'es', 'fr'])('%s', async (lang) => {
+    await i18n.changeLanguage(lang);
+    const expected = fromIso('2026-09-01').toLocaleDateString(dateLocale(lang), { month: 'long' });
+    expect(monthTitle('2026-09-01', TODAY)).toBe(expected);
   });
 });

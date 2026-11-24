@@ -10,6 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { api } from '@/lib/api';
 import i18n from '@/lib/i18n';
+import { dateLocale } from '@/lib/formatting';
 import { todayISO } from './mappers';
 import { lastNDates } from './energyRange';
 import { fromIso, monthGrid } from './foodDays';
@@ -208,7 +209,7 @@ export function monthSummary(v: MonthView): string {
  *  in the app's current language. */
 export function monthTitle(month: string, today: string): string {
   const d = fromIso(month);
-  const name = d.toLocaleDateString(i18n.language, { month: 'long' });
+  const name = d.toLocaleDateString(dateLocale(i18n.language), { month: 'long' });
   return d.getFullYear() === fromIso(today).getFullYear() ? name : `${name} ${d.getFullYear()}`;
 }
 
