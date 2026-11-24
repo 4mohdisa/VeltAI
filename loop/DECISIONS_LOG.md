@@ -9756,3 +9756,8 @@
 - 2026-11-25 02:44 history.tsx:66 listSessions limit stays next, since it is high priority but touches a data path and deserves its own round.
 - 2026-11-25 02:44 The untranslated 'of' at DailyMacroRing.tsx:96 is deferred to a string round, because this round allows no string changes.
 - 2026-11-25 02:44 Full suite waits for the checkpoint round 35 as planned; this round runs tsc, lint and targeted Jest only.
+- 2026-11-25 02:45 Chose the display-name fix first: it is the last set of lint errors and a one file change, which suits high Jev risk.
+- 2026-11-25 02:45 Round 35 is a checkpoint round, as the notes already say, so the full Jest suite runs after the edit.
+- 2026-11-25 02:45 Kept history.tsx listSessions limit as the next high priority task after the lint errors clear, because it is a real data read issue but touches app code and a route.
+- 2026-11-25 02:45 Jev said run 100%; agreed, since the step is small and gated.
+- 2026-11-25 02:45 Remaining display-name errors (photoScan, scanScreens.strings) go one file per round to keep each change small.
