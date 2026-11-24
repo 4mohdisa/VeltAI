@@ -13,6 +13,7 @@
 // remains so Expo Go stays fully navigable.
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { router, useLocalSearchParams, type Href } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useSSO, useSignIn, useSignUp } from '@clerk/clerk-expo';
@@ -30,11 +31,13 @@ import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { resolvePostAuth } from '@/lib/onboarding/postAuth';
 import { getHasCompletedOnboarding, setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { devWarn } from '@/lib/env';
+import i18n from '@/lib/i18n';
 
 // Recommended by Clerk's Expo SSO docs: completes any pending auth session.
 WebBrowser.maybeCompleteAuthSession();
 
 type Provider = 'apple' | 'google' | 'email';
+type Mode = 'signup' | 'signin';
 
 /**
  * After a session is active: route by the SERVER's onboarding status.
@@ -69,7 +72,7 @@ async function continueAfterAuth(): Promise<void> {
     }
     if (degraded) {
       showToast({
-        message: "Couldn't check your setup — continuing with what's saved on this device.",
+        message: i18n.t('signup.toastSetupUnchecked'),
         tone: 'info',
       });
     }
@@ -78,7 +81,7 @@ async function continueAfterAuth(): Promise<void> {
   }
   if (degraded) {
     showToast({
-      message: "Couldn't reach the server — we'll set you up here and sync later.",
+      message: i18n.t('signup.toastServerUnreachable'),
       tone: 'info',
     });
   }
@@ -108,7 +111,17 @@ function LegalLink({ label, href }: { label: string; href: Href }) {
 // buttons. It used to sit immediately beneath them, where a real session
 // mis-tapped it and landed on the Terms screen mid-flow (2026-08-08). The hit
 // slop is unchanged — proximity to the primary CTA was the hazard, not size.
+const LEGAL_LINKS: Record<string, { labelKey: string; href: Href }> = {
+  '{{terms}}': { labelKey: 'signup.legalTerms', href: '/legal/terms' as Href },
+  '{{privacy}}': { labelKey: 'signup.legalPrivacy', href: '/legal/privacy' as Href },
+};
+
 function LegalFooter() {
+  const { t } = useTranslation();
+  // The sentence is one locale key; each language places the links itself.
+  const parts = t('signup.legalNotice', { terms: '{{terms}}', privacy: '{{privacy}}' })
+    .split(/(\{\{terms\}\}|\{\{privacy\}\})/)
+    .filter(Boolean);
   return (
     <View
       style={{
@@ -119,42 +132,46 @@ function LegalFooter() {
         marginTop: space.xl,
       }}
     >
-      <Text variant="footnote" color={color.secondaryLabel}>
-        {'By continuing you agree to our '}
-      </Text>
-      <LegalLink label="Terms" href={'/legal/terms' as Href} />
-      <Text variant="footnote" color={color.secondaryLabel}>
-        {' and '}
-      </Text>
-      <LegalLink label="Privacy Policy" href={'/legal/privacy' as Href} />
+      {parts.map((part, i) => {
+        const link = LEGAL_LINKS[part];
+        return link ? (
+          <LegalLink key={part} label={t(link.labelKey)} href={link.href} />
+        ) : (
+          <Text key={i} variant="footnote" color={color.secondaryLabel}>
+            {part}
+          </Text>
+        );
+      })}
     </View>
   );
 }
 
 // --- Real Clerk flows (rendered only when a key is configured) ----------------
 
-function ClerkSignup() {
+// Clerk's error codes mapped to copy. Module scope: it only runs inside event
+// handlers, so i18n.t reads the language current at that moment.
+function clerkMessage(e: unknown): string {
+  const err = e as { errors?: { message?: string; code?: string }[] };
+  const first = err?.errors?.[0];
+  if (first?.code === 'form_identifier_exists') return i18n.t('signup.errorEmailExists');
+  if (first?.code === 'form_identifier_not_found') return i18n.t('signup.errorEmailNotFound');
+  if (first?.code === 'form_code_incorrect') return i18n.t('signup.errorCodeIncorrect');
+  return first?.message ?? i18n.t('signup.errorGeneric');
+}
+
+function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => void }) {
+  const { t } = useTranslation();
   const { startSSOFlow } = useSSO();
   const { signUp, setActive: setActiveUp, isLoaded: upLoaded } = useSignUp();
   const { signIn, setActive: setActiveIn, isLoaded: inLoaded } = useSignIn();
 
-  const [busy, setBusy] = useState<Provider | null>(null);
-  const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
-  const [mode, setMode] = useState<'signup' | 'signin'>(modeParam === 'signin' ? 'signin' : 'signup');
+  const [busy, setBusy] = useState<Provider | 'resend' | null>(null);
   const [stage, setStage] = useState<'buttons' | 'email' | 'code'>('buttons');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [emailError, setEmailError] = useState<string | undefined>();
   const [codeError, setCodeError] = useState<string | undefined>();
-
-  const clerkMessage = (e: unknown): string => {
-    const err = e as { errors?: { message?: string; code?: string }[] };
-    const first = err?.errors?.[0];
-    if (first?.code === 'form_identifier_exists') return 'That email already has an account — try signing in instead.';
-    if (first?.code === 'form_identifier_not_found') return "No account with that email — try signing up instead.";
-    if (first?.code === 'form_code_incorrect') return "That code isn't right — check it and try again.";
-    return first?.message ?? 'Something went wrong. Check your connection and try again.';
-  };
+  const [emailAddressId, setEmailAddressId] = useState<string | undefined>();
 
   const sso = useCallback(
     async (provider: 'apple' | 'google') => {
@@ -171,21 +188,35 @@ function ClerkSignup() {
           return;
         }
         // No session: the user cancelled or the flow needs extra steps.
-        showToast({ message: 'Sign-in was cancelled.', tone: 'info' });
+        showToast({ message: t('signup.toastCancelled'), tone: 'info' });
       } catch (e) {
         showToast({ message: clerkMessage(e), tone: 'error' });
       } finally {
         setBusy(null);
       }
     },
-    [startSSOFlow],
+    [startSSOFlow, t],
+  );
+
+  // Asks Clerk to (re)send the email code. The first send and Resend share it.
+  const prepareCode = useCallback(
+    async (signInEmailId: string | undefined) => {
+      if (mode === 'signup') {
+        if (!signUp) throw new Error('auth not ready');
+        await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+        return;
+      }
+      if (!signIn || !signInEmailId) throw new Error('email code unavailable');
+      await signIn.prepareFirstFactor({ strategy: 'email_code', emailAddressId: signInEmailId });
+    },
+    [mode, signUp, signIn],
   );
 
   // Email-code (OTP): request a code for sign-up or sign-in.
   const sendCode = useCallback(async () => {
     const addr = email.trim().toLowerCase();
     if (!/^\S+@\S+\.\S+$/.test(addr)) {
-      setEmailError('Enter a valid email address.');
+      setEmailError(t('signup.errorEmailInvalid'));
       return;
     }
     setEmailError(undefined);
@@ -194,27 +225,41 @@ function ClerkSignup() {
       if (mode === 'signup') {
         if (!upLoaded || !signUp) throw new Error('auth not ready');
         await signUp.create({ emailAddress: addr });
-        await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+        await prepareCode(undefined);
       } else {
         if (!inLoaded || !signIn) throw new Error('auth not ready');
         const attempt = await signIn.create({ identifier: addr });
         const factor = attempt.supportedFirstFactors?.find((f) => f.strategy === 'email_code');
-        const emailAddressId = factor && 'emailAddressId' in factor ? (factor.emailAddressId as string) : undefined;
-        if (!emailAddressId) throw new Error('email code unavailable');
-        await signIn.prepareFirstFactor({ strategy: 'email_code', emailAddressId });
+        const factorEmailId = factor && 'emailAddressId' in factor ? (factor.emailAddressId as string) : undefined;
+        setEmailAddressId(factorEmailId);
+        await prepareCode(factorEmailId);
       }
       setStage('code');
-      showToast({ message: `Code sent to ${addr}.`, tone: 'info' });
+      showToast({ message: t('signup.toastCodeSent', { email: addr }), tone: 'info' });
     } catch (e) {
       showToast({ message: clerkMessage(e), tone: 'error' });
     } finally {
       setBusy(null);
     }
-  }, [email, mode, signUp, signIn, upLoaded, inLoaded]);
+  }, [email, mode, signUp, signIn, upLoaded, inLoaded, prepareCode, t]);
+
+  const resendCode = useCallback(async () => {
+    setCodeError(undefined);
+    setBusy('resend');
+    try {
+      await prepareCode(emailAddressId);
+      showToast({ message: t('signup.toastCodeSent', { email: email.trim().toLowerCase() }), tone: 'info' });
+    } catch (e) {
+      devWarn('[signup] resend failed:', e);
+      setCodeError(t('signup.resendFailed'));
+    } finally {
+      setBusy(null);
+    }
+  }, [email, emailAddressId, prepareCode, t]);
 
   const verifyCode = useCallback(async () => {
     if (code.trim().length < 4) {
-      setCodeError('Enter the code from your email.');
+      setCodeError(t('signup.errorCodeEmpty'));
       return;
     }
     setCodeError(undefined);
@@ -237,7 +282,7 @@ function ClerkSignup() {
     } finally {
       setBusy(null);
     }
-  }, [code, mode, signUp, signIn, setActiveUp, setActiveIn]);
+  }, [code, mode, signUp, signIn, setActiveUp, setActiveIn, t]);
 
   const anyBusy = busy !== null;
 
@@ -246,7 +291,7 @@ function ClerkSignup() {
       {stage === 'buttons' ? (
         <>
           <Button
-            title="Continue with Apple"
+            title={t('signup.continueApple')}
             icon="logo-apple"
             variant="primary"
             loading={busy === 'apple'}
@@ -254,7 +299,7 @@ function ClerkSignup() {
             onPress={() => void sso('apple')}
           />
           <Button
-            title="Continue with Google"
+            title={t('signup.continueGoogle')}
             icon="logo-google"
             variant="secondary"
             loading={busy === 'google'}
@@ -262,7 +307,7 @@ function ClerkSignup() {
             onPress={() => void sso('google')}
           />
           <Button
-            title="Continue with email →"
+            title={t('signup.continueEmail')}
             variant="tertiary"
             disabled={anyBusy}
             onPress={() => setStage('email')}
@@ -271,7 +316,7 @@ function ClerkSignup() {
       ) : stage === 'email' ? (
         <>
           <TextField
-            label="Email"
+            label={t('signup.emailLabel')}
             value={email}
             onChangeText={(t) => {
               setEmail(t);
@@ -287,16 +332,16 @@ function ClerkSignup() {
             placeholder="you@example.com"
             error={emailError}
           />
-          <Button title="Send code" loading={busy === 'email'} onPress={() => void sendCode()} />
-          <Button title="Back" variant="tertiary" disabled={anyBusy} onPress={() => setStage('buttons')} />
+          <Button title={t('signup.sendCode')} loading={busy === 'email'} onPress={() => void sendCode()} />
+          <Button title={t('signup.back')} variant="tertiary" disabled={anyBusy} onPress={() => setStage('buttons')} />
         </>
       ) : (
         <>
           <Text variant="callout" color={color.secondaryLabel}>
-            {`Enter the code we sent to ${email.trim()}`}
+            {t('signup.codePrompt', { email: email.trim() })}
           </Text>
           <TextField
-            label="Code"
+            label={t('signup.codeLabel')}
             value={code}
             onChangeText={(t) => {
               setCode(t);
@@ -310,8 +355,15 @@ function ClerkSignup() {
             placeholder="123456"
             error={codeError}
           />
-          <Button title="Verify" loading={busy === 'email'} onPress={() => void verifyCode()} />
-          <Button title="Use a different email" variant="tertiary" disabled={anyBusy} onPress={() => setStage('email')} />
+          <Button title={t('signup.verify')} loading={busy === 'email'} onPress={() => void verifyCode()} />
+          <Button
+            title={t('signup.resendCode')}
+            variant="tertiary"
+            loading={busy === 'resend'}
+            disabled={anyBusy && busy !== 'resend'}
+            onPress={() => void resendCode()}
+          />
+          <Button title={t('signup.differentEmail')} variant="tertiary" disabled={anyBusy} onPress={() => setStage('email')} />
         </>
       )}
 
@@ -320,12 +372,12 @@ function ClerkSignup() {
         disabled={anyBusy}
         style={{ marginTop: space.sm }}
         onPress={() => {
-          setMode((m) => (m === 'signup' ? 'signin' : 'signup'));
+          setMode(mode === 'signup' ? 'signin' : 'signup');
           setStage('buttons');
         }}
       >
         <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>
-          {mode === 'signup' ? 'Already have an account? Sign in' : 'New to Lume? Create an account'}
+          {mode === 'signup' ? t('signup.toggleToSignIn') : t('signup.toggleToSignUp')}
         </Text>
       </Pressable>
     </View>
@@ -335,23 +387,31 @@ function ClerkSignup() {
 // --- Local dev auth mode (no Clerk key — Expo Go stays navigable) -------------
 
 function DevSignup() {
+  const { t } = useTranslation();
   const next = () => navigate('/onboarding/measurements');
   return (
     <View style={{ gap: space.md }}>
-      <Button title="Continue with Apple" icon="logo-apple" variant="primary" onPress={next} />
-      <Button title="Continue with Google" icon="logo-google" variant="secondary" onPress={next} />
-      <Button title="Continue with email →" variant="tertiary" onPress={next} />
+      <Button title={t('signup.continueApple')} icon="logo-apple" variant="primary" onPress={next} />
+      <Button title={t('signup.continueGoogle')} icon="logo-google" variant="secondary" onPress={next} />
+      <Button title={t('signup.continueEmail')} variant="tertiary" onPress={next} />
       <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-        Local dev auth mode — no Clerk key configured
+        {t('signup.devAuthMode')}
       </Text>
     </View>
   );
 }
 
 export default function SignupScreen() {
+  const { t } = useTranslation();
+  const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
+  const [mode, setMode] = useState<Mode>(modeParam === 'signin' ? 'signin' : 'signup');
   return (
-    <OnbScaffold step={6} title="Create your account" footer={<LegalFooter />}>
-      {isClerkEnabled() ? <ClerkSignup /> : <DevSignup />}
+    <OnbScaffold
+      step={6}
+      title={mode === 'signin' ? t('signup.titleSignIn') : t('signup.titleSignUp')}
+      footer={<LegalFooter />}
+    >
+      {isClerkEnabled() ? <ClerkSignup mode={mode} setMode={setMode} /> : <DevSignup />}
     </OnbScaffold>
   );
 }

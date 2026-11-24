@@ -40,7 +40,7 @@ function signInLink(tree: ReturnType<typeof renderScreen>) {
   return findAll(tree, (p) => p.accessibilityRole === 'link' && typeof p.onPress === 'function')[0];
 }
 
-afterAll(async () => {
+afterEach(async () => {
   await act(async () => {
     await i18n.changeLanguage('en');
   });

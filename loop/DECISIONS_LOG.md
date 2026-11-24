@@ -10365,3 +10365,7 @@
 - 2026-11-25 06:16 Latest report recommended 2b step 2; the notes order puts step 1 first, so step 1 is kept because it is still unfinished.
 - 2026-11-25 06:16 Maestro flow for 2b is deferred to the end of row 2b, not each step, to keep rounds small.
 - 2026-11-25 06:16 Jev ranked the same action 'run' at 99%; no reason to override.
+- 2026-11-25 06:19 Chose candidate 1 (step 1b), which matches Jev's ranking and my planned order. Reason: the round 187 loose ends (locale parity, the stale 2b note) are folded into step 1b's checks, so no separate audit round is needed.
+- 2026-11-25 06:19 Kept the two-line signup.tsx mode parameter from round 187. It was needed for the Welcome link, it is small, and it is covered by signupSignInMode.render.test.tsx.
+- 2026-11-25 06:19 Asked the step 1b prompt to fix the stale 2b note in PHASE4_ROWS.md. It is the row's own note, so the one-line rule is not broken.
+- 2026-11-25 06:19 Did not run Maestro or the full Jest suite this round. The next checkpoint round will run the full suite.

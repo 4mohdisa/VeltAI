@@ -1119,5 +1119,37 @@
   },
   "onboarding": {
     "welcomeSignIn": "Iniciar sesión"
+  },
+  "signup": {
+    "titleSignUp": "Crea tu cuenta",
+    "titleSignIn": "Iniciar sesión",
+    "continueApple": "Continuar con Apple",
+    "continueGoogle": "Continuar con Google",
+    "continueEmail": "Continuar con correo →",
+    "emailLabel": "Correo electrónico",
+    "sendCode": "Enviar código",
+    "back": "Atrás",
+    "codePrompt": "Introduce el código que enviamos a {{email}}",
+    "codeLabel": "Código",
+    "verify": "Verificar",
+    "resendCode": "Reenviar código",
+    "resendFailed": "No se pudo reenviar el código. Revisa tu conexión e inténtalo de nuevo.",
+    "differentEmail": "Usar otro correo",
+    "toggleToSignIn": "¿Ya tienes una cuenta? Inicia sesión",
+    "toggleToSignUp": "¿Nuevo en Lume? Crea una cuenta",
+    "devAuthMode": "Modo de autenticación local de desarrollo: no hay clave de Clerk configurada",
+    "legalNotice": "Al continuar, aceptas nuestros {{terms}} y nuestra {{privacy}}",
+    "legalTerms": "Términos",
+    "legalPrivacy": "Política de privacidad",
+    "errorEmailInvalid": "Introduce un correo electrónico válido.",
+    "errorCodeEmpty": "Introduce el código de tu correo.",
+    "errorEmailExists": "Ese correo ya tiene una cuenta: prueba a iniciar sesión.",
+    "errorEmailNotFound": "No hay ninguna cuenta con ese correo: prueba a registrarte.",
+    "errorCodeIncorrect": "Ese código no es correcto: revísalo e inténtalo de nuevo.",
+    "errorGeneric": "Algo salió mal. Revisa tu conexión e inténtalo de nuevo.",
+    "toastCancelled": "Se canceló el inicio de sesión.",
+    "toastCodeSent": "Código enviado a {{email}}.",
+    "toastSetupUnchecked": "No se pudo comprobar tu configuración: seguimos con lo guardado en este dispositivo.",
+    "toastServerUnreachable": "No se pudo conectar con el servidor: te configuramos aquí y sincronizamos más tarde."
   }
 }

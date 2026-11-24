@@ -1119,5 +1119,37 @@
   },
   "onboarding": {
     "welcomeSignIn": "Sign in"
+  },
+  "signup": {
+    "titleSignUp": "Create your account",
+    "titleSignIn": "Sign in",
+    "continueApple": "Continue with Apple",
+    "continueGoogle": "Continue with Google",
+    "continueEmail": "Continue with email →",
+    "emailLabel": "Email",
+    "sendCode": "Send code",
+    "back": "Back",
+    "codePrompt": "Enter the code we sent to {{email}}",
+    "codeLabel": "Code",
+    "verify": "Verify",
+    "resendCode": "Resend code",
+    "resendFailed": "Couldn't resend the code. Check your connection and try again.",
+    "differentEmail": "Use a different email",
+    "toggleToSignIn": "Already have an account? Sign in",
+    "toggleToSignUp": "New to Lume? Create an account",
+    "devAuthMode": "Local dev auth mode — no Clerk key configured",
+    "legalNotice": "By continuing you agree to our {{terms}} and {{privacy}}",
+    "legalTerms": "Terms",
+    "legalPrivacy": "Privacy Policy",
+    "errorEmailInvalid": "Enter a valid email address.",
+    "errorCodeEmpty": "Enter the code from your email.",
+    "errorEmailExists": "That email already has an account — try signing in instead.",
+    "errorEmailNotFound": "No account with that email — try signing up instead.",
+    "errorCodeIncorrect": "That code isn't right — check it and try again.",
+    "errorGeneric": "Something went wrong. Check your connection and try again.",
+    "toastCancelled": "Sign-in was cancelled.",
+    "toastCodeSent": "Code sent to {{email}}.",
+    "toastSetupUnchecked": "Couldn't check your setup — continuing with what's saved on this device.",
+    "toastServerUnreachable": "Couldn't reach the server — we'll set you up here and sync later."
   }
 }

@@ -7,13 +7,14 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Rows 1, 12, 12b, 29 BUILT. Verify exit 0 in round 183.
-- Round 186: duplicate migration apply run removed from verify:go. Runs once, in verify:migrations. Done.
+- Round 186: duplicate migration apply run removed from verify:go. Done.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44). 2.2 remaining.
-- 2b step 1 research DONE (round 185): DESIGN_REFERENCES.md (16 Mobbin patterns, audit of 13 onboarding and auth screens).
+- 2b step 1 research DONE (round 185): DESIGN_REFERENCES.md.
+- 2b step 1a DONE (round 187): Welcome Sign in link. signup.tsx got a two-line ?mode=signin parameter (needed for the link, covered by tests).
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 187: 2b step 1a, Welcome sign-in link (en, es, fr, welcome.render.test.tsx). Round 188: 2b step 1b, signup title follows mode and Resend code. Then remaining 2b steps (Maestro flow at end of 2b), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 188: 2b step 1b (signup title follows mode, Resend code, strings to en/es/fr, fix stale 2b note). Then remaining 2b steps (Maestro flow at end of 2b), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -36,6 +37,7 @@ Round 187: 2b step 1a, Welcome sign-in link (en, es, fr, welcome.render.test.tsx
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
+- Round 188: Jev ranked 1b first (87%). Kept as pick: it is also the planned next row. Round 187 loose ends are checked inside 1b.
 - Round 187: 2b step 1 split into 1a (Welcome link) and 1b (signup title, Resend code), one screen per prompt.
 - Round 186: duplicate migration apply run removed from verify:go; the test runs only in verify:migrations.
 - Round 184: migration apply test runs once, in verify:migrations. verify:go excludes that package.
@@ -80,7 +82,7 @@ Round 187: 2b step 1a, Welcome sign-in link (en, es, fr, welcome.render.test.tsx
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files (app.config.js, eslint.config.js) and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
-- Onboarding: no i18n (all English). Two dead ends need device check (Back after resume, Back to signup while signed in). Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall.
+- Onboarding: remaining screens hard-coded English (Welcome and signup in 1a and 1b). Two dead ends need device check (Back after resume, Back to signup while signed in). Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Dead ends listed in DESIGN_REFERENCES.md still open.
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
@@ -97,7 +99,9 @@ Round 187: 2b step 1a, Welcome sign-in link (en, es, fr, welcome.render.test.tsx
 - Secrets scan placeholder check is a heuristic.
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx. Not fixed.
 - Verify:go has no -count=1, so Go can reuse cached results (parked for later).
+- Round 187 locale file diff not confirmed (no git). Checked in round 188 by key presence and JSON parse only.
 
 ## Next
-- Round 187: 2b step 1a, Welcome sign-in link.
-- Round 188: 2b step 1b, signup title follows mode, Resend code button.
+- Round 188: 2b step 1b, signup title follows mode, Resend code button, strings to en/es/fr, fix stale 2b note.
+- Round 189: 2b Maestro flow for Welcome to signup to onboarding (or 2c if 2b is judged done by the research and screens).
+- Full Jest checkpoint at the next checkpoint round.

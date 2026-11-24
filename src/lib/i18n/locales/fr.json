@@ -1119,5 +1119,37 @@
   },
   "onboarding": {
     "welcomeSignIn": "Se connecter"
+  },
+  "signup": {
+    "titleSignUp": "Créez votre compte",
+    "titleSignIn": "Se connecter",
+    "continueApple": "Continuer avec Apple",
+    "continueGoogle": "Continuer avec Google",
+    "continueEmail": "Continuer avec l’e-mail →",
+    "emailLabel": "E-mail",
+    "sendCode": "Envoyer le code",
+    "back": "Retour",
+    "codePrompt": "Saisissez le code envoyé à {{email}}",
+    "codeLabel": "Code",
+    "verify": "Vérifier",
+    "resendCode": "Renvoyer le code",
+    "resendFailed": "Impossible de renvoyer le code. Vérifiez votre connexion et réessayez.",
+    "differentEmail": "Utiliser un autre e-mail",
+    "toggleToSignIn": "Vous avez déjà un compte ? Connectez-vous",
+    "toggleToSignUp": "Nouveau sur Lume ? Créez un compte",
+    "devAuthMode": "Mode d’authentification local de développement : aucune clé Clerk configurée",
+    "legalNotice": "En continuant, vous acceptez nos {{terms}} et notre {{privacy}}",
+    "legalTerms": "Conditions",
+    "legalPrivacy": "Politique de confidentialité",
+    "errorEmailInvalid": "Saisissez une adresse e-mail valide.",
+    "errorCodeEmpty": "Saisissez le code reçu par e-mail.",
+    "errorEmailExists": "Cet e-mail a déjà un compte : essayez plutôt de vous connecter.",
+    "errorEmailNotFound": "Aucun compte avec cet e-mail : essayez plutôt de vous inscrire.",
+    "errorCodeIncorrect": "Ce code n’est pas correct : vérifiez-le et réessayez.",
+    "errorGeneric": "Une erreur s’est produite. Vérifiez votre connexion et réessayez.",
+    "toastCancelled": "La connexion a été annulée.",
+    "toastCodeSent": "Code envoyé à {{email}}.",
+    "toastSetupUnchecked": "Impossible de vérifier votre configuration : on continue avec ce qui est enregistré sur cet appareil.",
+    "toastServerUnreachable": "Impossible de joindre le serveur : on vous configure ici et on synchronisera plus tard."
   }
 }
