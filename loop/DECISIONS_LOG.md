@@ -10259,3 +10259,8 @@
 - 2026-11-25 05:32 Round 162: summaryCards.ts had no MTWTFSS fallback, so the task's premise was wrong. Accepted the small change (workoutsWeek uses weekdayLetter, no new test) as a dedupe. Isa may check the source of that item.
 - 2026-11-25 05:32 Full Jest run uses --ci so no snapshot is written during a checkpoint.
 - 2026-11-25 05:32 Lint is not run this round; it runs in the next code round with changed files.
+- 2026-11-25 05:32 Round 163 checkpoint passed (tsc 0, 257 suites, 1,507 tests, 4 snapshots); no fix needed this round.
+- 2026-11-25 05:32 Chose the nutrition 'g' label because it is the smallest, single screen change and it is the queued item in the notes; the backfill and week separator follow next.
+- 2026-11-25 05:32 Jev recommended run at 98% confidence; agreed, since the task is one small change with a clear test path.
+- 2026-11-25 05:32 Footnote ' · ' join stays out of this round to keep the prompt to one change; it is still queued.
+- 2026-11-25 05:32 Snapshots are only updated if the change is the exact en label swap; never with jest -u, so an unexpected diff stops for review.

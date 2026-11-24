@@ -7,12 +7,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
-- Last full checkpoint: round 148 (tsc 0, Jest 252 suites, 1,492 tests).
-- Round 163 (current): checkpoint. Full tsc and full Jest with --ci, no file changes. Result pending. If it fails, fix in the next round, one failing suite per round.
+- Last full checkpoint: round 163 (tsc 0, Jest 257 suites, 1,507 tests, 4 snapshots, all pass).
+- Round 164 (current): nutrition chart scale 'g' replaced with nutrition.gramsShort. Result pending.
 - 2.1: only the simulator check of the Total tile is left (owner check).
 - 2.2 left: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings): one screen or component per round. Done: ConfidenceBadge, locale parity test, summaryCards workoutsWeek uses weekdayLetter (round 162), axis letters on energy, training, nutrition, week.
-- Queue: nutrition.tsx hardcoded 'g'; 2.3 notes backfill in PHASE4_ROWS.md (GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard); i18n header comments.
+- 2.3 (strings): one screen or component per round. Done: ConfidenceBadge, locale parity test, summaryCards workoutsWeek, axis letters on energy, training, nutrition, week.
+- Queue: 2.3 notes backfill in PHASE4_ROWS.md (GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard); week.tsx ' – ' separator; i18n header comments.
 - Then 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -53,7 +53,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 160: signed helper merged into one shared helper (formatting.ts).
 - Round 161: locale parity test added (src/__tests__/localeParity.test.ts). addMenu.voice and addMenu.describeOutLoud kept in all three languages, unused, parked for voice logging (Phase 4). lastSessions_one keeps {{count}} in es and fr; wording goes to Isa review.
 - Round 162: parity test stays Jest-only until Row 29 creates npm run verify.
-- Round 162: summaryCards had no MTWTFSS fallback; workoutsWeek now uses weekdayLetter as a dedupe. Isa may check.
+- Round 162: summaryCards workoutsWeek uses weekdayLetter as a dedupe. Isa may check.
 
 ## Blocked on Isa (not blocking)
 - E2E account needs 250+ gym dates.
@@ -103,7 +103,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - src/lib/i18n/index.ts comment says French is 'intentionally partial'.
 
 ## Next
-- Round 163: checkpoint result. Fix any failure in the next round.
-- Then: nutrition 'g' label, 2.3 notes backfill, i18n header comments.
+- Round 164: nutrition 'g' label result. Fix any failure in the next round.
+- Then: 2.3 notes backfill, week.tsx ' – ' separator, i18n header comments.
 - Then 2.4 (useGoals), 2.5 (rest of Parked; goals and unit prefs persisted; missing _one plural; goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
