@@ -8,12 +8,11 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT (in progress): research done. Steps 1a, 1b, 1c done.
-- Round 190 done: consent.ts and purchases.ts require rule moved to scoped eslint options.
+- Row 2b DIFFERENT (in progress): research done. Steps 1a, 1b, 1c done. Session expiry (401) dead end fixed in round 191.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 191: 2b session expiry dead end. Then non-wording 2b dead ends, Maestro flow for Welcome to signup to onboarding (after Maestro check), then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 192: checkpoint (tsc and full Jest, no changes). Then: saved onboarding answers after a failed session refresh, signup.tsx 401 handling, launch gate 401 handling, then 2b step 1d (goal and activity strings, waits for wording), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -37,7 +36,9 @@ Round 191: 2b session expiry dead end. Then non-wording 2b dead ends, Maestro fl
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 191: session expiry dead end picked (no wording review needed). Handover's duplicate migration note conflicts with round 186; check before changing.
+- Round 192: checkpoint round, tsc and full Jest, no file changes.
+- Round 192: handover says remove duplicate migration run, but round 186 already did. Verify by grep before any change.
+- Round 191: session expiry dead end picked (no wording review needed).
 - Round 190: same blocker twice in a row. Recorded under Blocked on Isa. Picked a task with no wording dependency.
 - Round 189: Jev ranked run 99%. Chose 1c, one screen per prompt.
 - Round 188: 1b kept as pick, it was the planned row.
@@ -58,7 +59,7 @@ Round 191: 2b session expiry dead end. Then non-wording 2b dead ends, Maestro fl
 - Round 123: formatDuration rounds total minutes first.
 
 ## Blocked on Isa (do not retry)
-- Welcome, signup and onboarding es and fr wording (blocked twice, round 190). Goal and activity string moves wait for this.
+- Welcome, signup and onboarding es and fr wording (blocked twice, round 190). Includes onboarding.sessionExpired es and fr (round 191). Goal and activity string moves wait for this.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - es and fr wording of summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
@@ -85,6 +86,10 @@ Round 191: 2b session expiry dead end. Then non-wording 2b dead ends, Maestro fl
 - Root config files and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
 - Onboarding: goal and activity screens hard-coded English. Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders 'you@example.com' and '123456' are literals. Unmapped Clerk error codes show Clerk's English text.
+- Onboarding: if token refresh fails on an expired session, the app signs out and clears stores; saved onboarding answers may be lost (not confirmed on device).
+- signup.tsx continueAfterAuth treats a 401 status check as 'Couldn't reach the server'.
+- index.tsx launch gate treats a 401 as 'not onboarded'.
+- connectivityMessage returns hard-coded English; no screen uses it.
 - Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
 
 ## Problems noticed, not fixed
@@ -105,6 +110,7 @@ Round 191: 2b session expiry dead end. Then non-wording 2b dead ends, Maestro fl
 - Round 188 signup es and fr wording is my own translation, not reviewed. Same for Welcome es and fr (round 189).
 
 ## Next
-- Round 191: 2b session expiry dead end (auth error mapping).
+- Round 192: checkpoint, tsc and full Jest, no file changes.
+- Then: saved onboarding answers after an unrefreshable expired session (keep them so setup can finish after sign in).
+- Then signup.tsx 401 handling and launch gate 401 handling.
 - Then a Maestro check and flow for Welcome to signup to onboarding, or the exhaustive-deps comment removals.
-- Full Jest checkpoint at the next checkpoint round.
