@@ -9910,3 +9910,8 @@
 - 2026-11-25 03:32 Kept the 2.2 and 2.3 order from the notes: lint sweep first, then backend leftovers, then translations, goals and preferences.
 - 2026-11-25 03:32 Left the 2.1 simulator check parked: the E2E account needs 250 or more gym dates and no approved seed path exists yet.
 - 2026-11-25 03:32 Left the string related items (DailyMacroRing 'of', i18n header comments) for a string round, as the notes say.
+- 2026-11-25 03:33 Chose candidate 1: it is the next step in the agreed sequence, touches one file and keeps Jev risk low.
+- 2026-11-25 03:33 Jev ranked the same task at 99% run; no reason to deviate.
+- 2026-11-25 03:33 The prompt makes the step conditional on setup.ts clearing router.replace, so an unverified assumption cannot break the test.
+- 2026-11-25 03:33 settingsHelp.render.test.tsx stays on the list; it needs its own clear because its mockPush is wrapped and the shared reset cannot reach it.
+- 2026-11-25 03:33 Owner checks are unchanged. OWNER_CHECKS_phase4.md is not edited this round.

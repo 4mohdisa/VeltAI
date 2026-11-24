@@ -86,7 +86,6 @@ test('sending a code in sign-in mode calls signIn.create then prepareFirstFactor
 });
 
 test('verifying the code in sign-in mode calls attemptFirstFactor then setActiveIn, and routes on success', async () => {
-  (router.replace as jest.Mock).mockClear();
   const tree = renderScreen(<SignupScreen />);
   pressModeToggle(tree);
   act(() => (buttonWithTitle(tree, 'Continue with email →')!.props.onPress as () => void)());
