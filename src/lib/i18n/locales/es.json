@@ -974,7 +974,8 @@
     "weight": "Peso",
     "multLabel": "Ajustar el peso a {{mult}} la estimación",
     "typical": "Lo habitual para ti: {{grams}} g",
-    "saveAll": "Guardar todo"
+    "saveAll": "Guardar todo",
+    "noBreakdown": "Este escaneo no devolvió un desglose."
   },
   "customFood": {
     "title": "Alimento personalizado",

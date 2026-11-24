@@ -87,7 +87,7 @@ export function ConfidenceBadge({ score, label, breakdown }: ConfidenceBadgeProp
         >
           {factors.length === 0 ? (
             <Text variant="footnote" color={color.secondaryLabel}>
-              This scan didn&apos;t return a breakdown.
+              {t('scanCards.noBreakdown')}
             </Text>
           ) : (
             factors.map((f, i) => (

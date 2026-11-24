@@ -972,7 +972,8 @@
     "weight": "Weight",
     "multLabel": "Set weight to {{mult}} the estimate",
     "typical": "Typical for you: {{grams}} g",
-    "saveAll": "Save all items"
+    "saveAll": "Save all items",
+    "noBreakdown": "This scan didn't return a breakdown."
   },
   "customFood": {
     "title": "Custom food",

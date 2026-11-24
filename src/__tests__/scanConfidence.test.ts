@@ -90,7 +90,8 @@ describe('the "Why?" panel shows the server\'s factors, never its own', () => {
   });
 
   test('with no server factors the panel says so instead of inventing them', () => {
-    expect(badge).toContain("didn&apos;t return a breakdown");
+    expect(badge).toContain("t('scanCards.noBreakdown')");
+    expect(JSON.parse(readFileSync(join(__dirname, '..', 'lib', 'i18n', 'locales', 'en.json'), 'utf8')).scanCards.noBreakdown).toBe("This scan didn't return a breakdown.");
   });
 
   test('the scan seam keeps the label and factors it used to discard', () => {

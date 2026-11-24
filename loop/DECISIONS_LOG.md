@@ -10233,3 +10233,10 @@
 - 2026-11-25 05:23 Step 1 stops the merge if the three languages differ, so no text changes without a check, because Round 154 only assumed identical text.
 - 2026-11-25 05:23 Locale writes must pass a round trip check first, per the notes rule, to avoid byte drift.
 - 2026-11-25 05:23 Snapshots are protected by running jest with --ci, so no snapshot gets written silently.
+- 2026-11-25 05:24 Chose the signed helper merge: smallest scope, clears a named duplicate, and Claude Code reported it as the recommended next step.
+- 2026-11-25 05:24 Prompt tells Claude Code to park and report BLOCKED if the two signed definitions differ, instead of guessing a merged behaviour.
+- 2026-11-25 05:24 Row 2.3 stays PARTIAL; one line per round goes into its notes, as Isa's earlier rule requires.
+- 2026-11-25 05:24 Chose ConfidenceBadge because the last prompt was rejected for touching two screens; the signed helper merge is split later into one-screen steps.
+- 2026-11-25 05:24 Pinned test assertion at scanConfidence.test.ts:93 may change, as Isa allowed for tests that pin old English text.
+- 2026-11-25 05:24 Spanish and French wording for the new key is marked pending Isa review, as with earlier keys.
+- 2026-11-25 05:24 Rewrote the rejected prompt: explicit loop/phase4 branch rule, one component, five steps, report format.
