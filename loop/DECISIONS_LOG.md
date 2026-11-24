@@ -9878,3 +9878,6 @@
 - 2026-11-25 03:22 Chose candidate 1 because Jev ranks it 99% run and the lint queue is one file per round; it is the smallest safe step.
 - 2026-11-25 03:22 Kept the one file per round rule because Jev risk is 0.9 (moderate to high).
 - 2026-11-25 03:22 Left the Preview CTA router.push mockClear gap and the string fixes (DailyMacroRing 'of', KNOWN_ISSUES count, i18n header comments) for later rounds, since string changes wait for a string round.
+- 2026-11-25 03:23 Chose candidate 1 (signupOtp router swap) because the handover and last report both recommend it as the next one-file step and it keeps the lint sweep moving.
+- 2026-11-25 03:23 Jev says run at 99% with a moderate to high risk score; I keep the one-file prompt and the gates to contain that risk.
+- 2026-11-25 03:23 Targets CTA mockClear question is parked in problems until the checkpoint round at 75, where the full Jest run will show whether mocks are cleared between tests.

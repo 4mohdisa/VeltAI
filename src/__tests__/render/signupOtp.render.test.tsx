@@ -3,6 +3,7 @@
 // signupReadBack.render.test.tsx don't reach. This EXECUTES the real screen;
 // it is not a source-text grep. No real network, no real Clerk calls.
 import SignupScreen from '@/app/onboarding/signup';
+import { router } from 'expo-router';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/auth/clerkEnv', () => ({
@@ -88,6 +89,5 @@ test('verifying the code signs in and routes on success', async () => {
   expect(mockSetActiveUp).toHaveBeenCalledWith({ session: 'sess_test' });
   expect(mockGet).toHaveBeenCalledTimes(1);
 
-  const { router } = require('expo-router') as { router: { replace: jest.Mock } };
   expect(router.replace).toHaveBeenCalledWith('/(tabs)');
 });
