@@ -6,10 +6,11 @@
 // opinion, the screen shows THAT, not just RevenueCat's; when the server
 // errs, the screen falls back to RevenueCat's own read without crashing and
 // without showing a fabricated state. Manage subscription shows a busy button
-// while the Apple page opens and reports a failure instead of swallowing it.
+// while the Apple page opens and reports a failure instead of swallowing it;
+// Restore Purchases is busy while the store restore runs.
 import { Linking } from 'react-native';
 import { showToast } from '@/components/display/toastStore';
-import { setDevEntitled } from '@/lib/billing/purchases';
+import { __setPurchasesModule, setDevEntitled, type CustomerInfo, type PurchasesModule } from '@/lib/billing/purchases';
 import en from '@/lib/i18n/locales/en.json';
 import { useSettingsStore } from '@/lib/settings/store';
 import SubscriptionScreen from '@/app/profile/subscription';
@@ -92,9 +93,9 @@ describe('Manage subscription', () => {
     await settle();
     return tree;
   };
-  const press = (tree: Awaited<ReturnType<typeof renderEntitled>>) =>
+  const press = (tree: Awaited<ReturnType<typeof renderEntitled>>, title = 'Manage subscription') =>
     act(async () => {
-      (buttonWithTitle(tree, 'Manage subscription')!.props.onPress as () => void)();
+      (buttonWithTitle(tree, title)!.props.onPress as () => void)();
     });
 
   test('the button is busy while the Apple page opens, then idle again', async () => {
@@ -128,5 +129,34 @@ describe('Manage subscription', () => {
     await press(tree);
     expect(Linking.openURL).toHaveBeenCalledWith('https://apps.apple.com/account/subscriptions');
     expect(showToast).not.toHaveBeenCalled();
+  });
+
+  test('Restore Purchases is busy while the store restore runs, then idle again', async () => {
+    const info: CustomerInfo = { entitlements: { active: {} } };
+    let finish!: () => void;
+    const store: PurchasesModule = {
+      configure: () => {},
+      logIn: async () => ({ customerInfo: info }),
+      logOut: async () => info,
+      getCustomerInfo: async () => info,
+      restorePurchases: () =>
+        new Promise((r) => {
+          finish = () => r(info);
+        }),
+      addCustomerInfoUpdateListener: () => {},
+    };
+    __setPurchasesModule(store);
+    try {
+      const tree = await renderEntitled();
+      expect(buttonWithTitle(tree, 'Restore Purchases')!.props.loading).toBe(false);
+
+      await press(tree, 'Restore Purchases');
+      expect(buttonWithTitle(tree, 'Restore Purchases')!.props.loading).toBe(true);
+
+      await act(async () => finish());
+      expect(buttonWithTitle(tree, 'Restore Purchases')!.props.loading).toBe(false);
+    } finally {
+      __setPurchasesModule(null);
+    }
   });
 });

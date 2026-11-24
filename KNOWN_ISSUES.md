@@ -65,4 +65,4 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - Outside the 41 rows: secondary card headers (bundle :291); Steps per day sheet (bundle :655). Not in scope.
 
 ## Phase 4 (out of scope)
-- src/app/profile/delete-account.tsx and src/app/profile/subscription.tsx are untouched.
+- src/app/profile/delete-account.tsx is untouched. src/app/profile/subscription.tsx: Manage subscription now shows a failure and has a busy state, and Restore Purchases has a busy state too.

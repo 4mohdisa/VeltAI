@@ -10012,3 +10012,8 @@
 - 2026-11-25 04:03 Recorded the morning brief free-plan refusal question as decided: keep isError (round 100 decision). Revisit with entitlement state in Rows 6 and 7. Not blocking.
 - 2026-11-25 04:03 Recorded the TestPG 'never ran' item in the handover as stale: round 97 ran 24 of 24 on localhost lume_test_local. Do not retry it.
 - 2026-11-25 04:03 Did not touch src/lib/data this round. The Phase 3 permission covers it, but this task does not need it.
+- 2026-11-25 04:05 Round 102 was flagged as partly done, so round 103 finishes it before any new work. Reason: the loop check asked for this, and the restore spinner gap is the same bug the manage fix was meant to close.
+- 2026-11-25 04:05 Jev recommends run at 92% with risk 1.0. Agreed, and kept the task to five small steps with one file each. Reason: high risk means small steps.
+- 2026-11-25 04:05 Candidate 2 is a backend-free test, but the task list is ordered, and 2.2 items come after the round 102 cleanup. Picked the cleanup first.
+- 2026-11-25 04:05 Candidate 3 waits for the string round (2.3) by existing decision. Not picked.
+- 2026-11-25 04:05 Morning brief free-plan refusal stays as isError (decided earlier). Revisit with entitlement state in Rows 6 and 7. Reason: still open for Isa, but decided for now.

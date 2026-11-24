@@ -128,7 +128,7 @@ export default function SubscriptionScreen() {
           ) : (
             <Button title="See plans" onPress={() => void seePlans()} />
           )}
-          <Button title="Restore Purchases" variant="tertiary" onPress={() => void restore()} />
+          <Button title="Restore Purchases" variant="tertiary" loading={restoring} onPress={() => void restore()} />
         </View>
       }
     >
