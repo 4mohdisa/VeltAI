@@ -9761,3 +9761,6 @@
 - 2026-11-25 02:45 Kept history.tsx listSessions limit as the next high priority task after the lint errors clear, because it is a real data read issue but touches app code and a route.
 - 2026-11-25 02:45 Jev said run 100%; agreed, since the step is small and gated.
 - 2026-11-25 02:45 Remaining display-name errors (photoScan, scanScreens.strings) go one file per round to keep each change small.
+- 2026-11-25 02:47 Chose the photoScan display-name fix because it is the next lint error and is one file, which keeps the Jev-flagged risk low.
+- 2026-11-25 02:47 Kept the fix to one file per round, as in NOTES, because Jev risk is high.
+- 2026-11-25 02:47 Did not run the full suite: round 36 is not a checkpoint (next checkpoint about round 40).
