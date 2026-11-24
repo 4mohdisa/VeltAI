@@ -175,11 +175,9 @@ export async function hydrateGym(): Promise<void> {
     api.gym.listSessions({ limit: GYM_SESSION_HYDRATE_LIMIT }),
     api.gym.streak(),
   ]);
-  // Distinct logged days — the only total we can actually prove from server data.
-  const totalGymDays = new Set(sessions.map((r) => r.date)).size;
   useGymStore.setState((s) => ({
     sessions: sessionsFromApi(sessions),
-    streak: streakFromApi(streak, s.streak, totalGymDays),
+    streak: streakFromApi(streak, s.streak),
   }));
 }
 

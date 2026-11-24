@@ -9674,3 +9674,7 @@
 - 2026-11-25 02:19 Chose the checkpoint over Jev's top pick (remove the argument) because the loop check says round 14 is only partly done and must be verified before moving on.
 - 2026-11-25 02:19 Reason Jev cannot see: hooks.ts still passes its own count, so the gate result on the partial state gives a clean baseline before the next edit. The removal goes to round 16.
 - 2026-11-25 02:19 Set the checkpoint to change no files, so a failure is reported, not silently patched.
+- 2026-11-25 02:20 Chose the one file step (hooks.ts) over the full round 16 plan because Jev risk is 1.0 and round 14 was left partial by a multi file prompt. The mapper and test change moves to round 17. tsc stays green in between because the mapper still accepts the old argument list.
+- 2026-11-25 02:20 Tile now reads the server total through the mapper default, so no tile file changes are needed in this round.
+- 2026-11-25 02:20 No simulator flow for this round: data wiring only, no layout change. Simulator check goes in the Row 2.1 close round.
+- 2026-11-25 02:20 Lint error at hooks.ts:405 and food/history.tsx:66 stay in the Row 2.2 queue, as recorded before.
