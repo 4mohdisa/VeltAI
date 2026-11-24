@@ -973,7 +973,7 @@
     "multLabel": "Régler le poids sur {{mult}} l’estimation",
     "typical": "Habituel pour vous : {{grams}} g",
     "saveAll": "Tout enregistrer",
-    "noBreakdown": "Cette analyse n'a pas renvoyé de détail."
+    "noBreakdown": "Cette analyse n’a pas renvoyé de détail."
   },
   "customFood": {
     "title": "Aliment personnalisé",

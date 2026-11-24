@@ -10240,3 +10240,6 @@
 - 2026-11-25 05:24 Pinned test assertion at scanConfidence.test.ts:93 may change, as Isa allowed for tests that pin old English text.
 - 2026-11-25 05:24 Spanish and French wording for the new key is marked pending Isa review, as with earlier keys.
 - 2026-11-25 05:24 Rewrote the rejected prompt: explicit loop/phase4 branch rule, one component, five steps, report format.
+- 2026-11-25 05:26 Chose candidate 1 because the loop check flagged the last report as only partly done; its NEXT item was the missing render test, so it goes first.
+- 2026-11-25 05:26 Asked for the fr apostrophe to become curly to match the other fr strings; this is a style fix, and Isa's wording review of es and fr still stands.
+- 2026-11-25 05:26 Asked for one render test file for all three languages, so the 'Why?' panel is covered by behaviour, not by reading source.
