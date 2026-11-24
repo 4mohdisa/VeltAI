@@ -19,6 +19,7 @@ import { burnOf, netOf } from '@/lib/data/energyRange';
 import { fromIso } from '@/lib/data/foodDays';
 import { axisMax, dayReadout, weekStat } from '@/lib/data/summaryCards';
 import { formatNumber } from '@/lib/formatting';
+import i18n from '@/lib/i18n';
 import { kcalToDisplay, type EnergyUnit } from '@/lib/units';
 import type { EnergyBalance } from '@/lib/api';
 
@@ -33,8 +34,8 @@ const BAR_GAP = 4;
 const DAY_GAP = 2;
 const MIN_BAR = 5;
 export const DIM = 0.28;
-// Fixed letters, indexed by getDay(): Hermes' toLocaleDateString ignores `weekday: 'narrow'`.
-const DAY_LETTER = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+// From calendar.weekdayLetters (Monday first), not Intl: Hermes' toLocaleDateString ignores `weekday: 'narrow'`.
+const dayLetter = (date: string) => [...i18n.t('calendar.weekdayLetters')][(fromIso(date).getDay() + 6) % 7];
 
 type Mode = 'inout' | 'net';
 
@@ -193,7 +194,7 @@ export function WeekEnergyCard({ days, loading, error, energyUnit }: WeekEnergyC
                 color={i === sel ? color.label : color.tertiaryLabel}
                 style={{ flex: 1, textAlign: 'center', fontSize: 12, lineHeight: 16, fontWeight: i === sel ? '700' : '400' }}
               >
-                {DAY_LETTER[fromIso(d.date).getDay()]}
+                {dayLetter(d.date)}
               </Text>
             ))}
           </View>

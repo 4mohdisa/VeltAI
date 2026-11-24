@@ -10106,3 +10106,7 @@
 - 2026-11-25 04:36 Allowed the summaryCards test file as the second file for pinned day-letter assertions, per the one-main-file rule.
 - 2026-11-25 04:36 Full Jest run required because the change is a string change that can touch snapshots.
 - 2026-11-25 04:36 No Isa question: the es and fr hours spacing and the Sept question stay parked in OWNER_CHECKS_phase4.md.
+- 2026-11-25 04:37 Chose WeekEnergyCard letters: it is the NEXT item in the latest report, and it does not depend on the repeated blocker (hours spacing confirmation).
+- 2026-11-25 04:37 Recorded the repeated blocker (es and fr hours and minutes spacing, '1 h 45 min' vs '1h 45m') under Blocked on Isa and will not retry it until Isa answers.
+- 2026-11-25 04:37 Accepted the previous round's choice to use the translated calendar.weekdayLetters key instead of Intl narrow weekdays, because Hermes ignores narrow.
+- 2026-11-25 04:37 Ran the full Jest suite this round because the change touches visible strings (rule: full suite after string changes).
