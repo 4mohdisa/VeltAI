@@ -10183,3 +10183,7 @@
 - 2026-11-25 05:03 Picked the week.tsx axis letters task (round 142 carry over): the last report covered nutrition.tsx, so week.tsx:265 is still open.
 - 2026-11-25 05:03 Kept WeekEnergyCard dedupe and the week.tsx:150 dash as next candidates, one file per round.
 - 2026-11-25 05:03 Ran only changed tests this round, since the last checkpoint was round 134 and the loop script will call the next full run.
+- 2026-11-25 05:05 Round 143 accepted as done per its report: week.tsx axis letters now use weekdayLetter, with a render test in en, es and fr.
+- 2026-11-25 05:05 Chose candidate 1 (WeekEnergyCard dedupe): smallest step, named as NEXT in the last report, and Jev also ranks running the next action first. Jev risk is moderate to high, so I keep to one file per round.
+- 2026-11-25 05:05 Kept the 2.3 note in PHASE4_ROWS.md for when 2.3 closes. The nutrition and Week rounds are not logged there yet.
+- 2026-11-25 05:05 Still parking the English 'Sept', the weekdayShort full name and the es and fr hours and minutes spacing for Isa. They are not blocking.

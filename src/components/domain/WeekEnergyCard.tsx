@@ -15,8 +15,7 @@ import { SegmentedField } from '@/components/forms/SegmentedField';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, space } from '@/lib/design/tokens';
-import { burnOf, netOf } from '@/lib/data/energyRange';
-import { fromIso } from '@/lib/data/foodDays';
+import { burnOf, netOf, weekdayLetter } from '@/lib/data/energyRange';
 import { axisMax, dayReadout, weekStat } from '@/lib/data/summaryCards';
 import { formatNumber } from '@/lib/formatting';
 import i18n from '@/lib/i18n';
@@ -34,8 +33,6 @@ const BAR_GAP = 4;
 const DAY_GAP = 2;
 const MIN_BAR = 5;
 export const DIM = 0.28;
-// From calendar.weekdayLetters (Monday first), not Intl: Hermes' toLocaleDateString ignores `weekday: 'narrow'`.
-const dayLetter = (date: string) => [...i18n.t('calendar.weekdayLetters')][(fromIso(date).getDay() + 6) % 7];
 
 type Mode = 'inout' | 'net';
 
@@ -194,7 +191,7 @@ export function WeekEnergyCard({ days, loading, error, energyUnit }: WeekEnergyC
                 color={i === sel ? color.label : color.tertiaryLabel}
                 style={{ flex: 1, textAlign: 'center', fontSize: 12, lineHeight: 16, fontWeight: i === sel ? '700' : '400' }}
               >
-                {dayLetter(d.date)}
+                {weekdayLetter(d.date)}
               </Text>
             ))}
           </View>
