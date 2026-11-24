@@ -44,3 +44,23 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Review R217 es and fr wording for onboarding.preview (title, createAccount, trialNote, the 8 cuisine lines, targets, portions, halal) in src/lib/i18n/locales/es.json and fr.json. All are agent translations.
 - [ ] Review R219 es and fr wording for onboarding.done in src/lib/i18n/locales/es.json and fr.json: title es 'Todo listo', fr 'Tout est prêt'; welcomeToast es '¡Te damos la bienvenida a Lume!', fr 'Bienvenue sur Lume !'. All are agent translations.
 - [ ] Row 2b paywall es and fr wording needs review: keys under onboarding.paywall in src/lib/i18n/locales/es.json and fr.json (17 keys, including features.*, trialNote, plansUnavailable, storeError, submitFailed, restore, restoring, noSubscription).
+- [ ] Review R224 es wording for onboarding.validation.ageMissing: 'Añade tu edad antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.ageMissing: 'Ajoutez votre âge avant de terminer la configuration.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.ageRange: 'Tu edad debe estar entre 13 y 120 años.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.ageRange: 'Votre âge doit être compris entre 13 et 120 ans.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.sexMissing: 'Elige una opción de sexo antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.sexMissing: 'Choisissez une option pour le sexe avant de terminer la configuration.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.heightMissing: 'Añade tu altura antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.heightMissing: 'Ajoutez votre taille avant de terminer la configuration.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.heightRange: 'Tu altura debe estar entre 100 y 250 cm.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.heightRange: 'Votre taille doit être comprise entre 100 et 250 cm.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.weightMissing: 'Añade tu peso antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.weightMissing: 'Ajoutez votre poids avant de terminer la configuration.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.weightRange: 'Tu peso debe estar entre 30 y 300 kg.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.weightRange: 'Votre poids doit être compris entre 30 et 300 kg.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.activityMissing: 'Elige tu nivel de actividad antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.activityMissing: 'Choisissez votre niveau d'activité avant de terminer la configuration.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.goalMissing: 'Elige tu objetivo antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.goalMissing: 'Choisissez votre objectif avant de terminer la configuration.' (agent translation).
+- [ ] Review R224 es wording for onboarding.validation.targetWeight: 'Tu peso objetivo no parece correcto — revísalo antes de terminar la configuración.' (agent translation).
+- [ ] Review R224 fr wording for onboarding.validation.targetWeight: 'Votre poids cible semble incorrect — vérifiez-le avant de terminer la configuration.' (agent translation).

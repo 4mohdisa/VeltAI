@@ -1265,6 +1265,18 @@
         "gym": "Seguimiento del gimnasio y rachas",
         "halal": "Filtro de dieta halal"
       }
+    },
+    "validation": {
+      "ageMissing": "Añade tu edad antes de terminar la configuración.",
+      "ageRange": "Tu edad debe estar entre 13 y 120 años.",
+      "sexMissing": "Elige una opción de sexo antes de terminar la configuración.",
+      "heightMissing": "Añade tu altura antes de terminar la configuración.",
+      "heightRange": "Tu altura debe estar entre 100 y 250 cm.",
+      "weightMissing": "Añade tu peso antes de terminar la configuración.",
+      "weightRange": "Tu peso debe estar entre 30 y 300 kg.",
+      "activityMissing": "Elige tu nivel de actividad antes de terminar la configuración.",
+      "goalMissing": "Elige tu objetivo antes de terminar la configuración.",
+      "targetWeight": "Tu peso objetivo no parece correcto — revísalo antes de terminar la configuración."
     }
   },
   "signup": {

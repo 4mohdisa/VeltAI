@@ -1,10 +1,11 @@
 // Onboarding progress store — survives app restarts so a user who quits mid-flow
 // resumes where they left off. Persisted via expo-secure-store (see
-// ./secureStorage). Cleared on markCompleted so a fresh install / re-onboard
-// starts blank.
+// ./secureStorage). The answers are cleared on sign-out (see
+// src/lib/auth/resetRegistry.ts), not on markCompleted.
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+import i18n from '@/lib/i18n';
 import { secureStorage } from './secureStorage';
 import type {
   ActivityLevel,
@@ -118,23 +119,23 @@ export const useOnboardingStore = create<OnboardingState>()(
  * Returns null when the payload is good, or the reason it is not.
  */
 export function validateOnboardingPayload(s: OnboardingSession): string | null {
-  if (s.age == null) return 'Add your age before finishing setup.';
-  if (s.age < 13 || s.age > 120) return 'Your age must be between 13 and 120.';
+  if (s.age == null) return i18n.t('onboarding.validation.ageMissing');
+  if (s.age < 13 || s.age > 120) return i18n.t('onboarding.validation.ageRange');
   // The server requires a sex; the payload used to substitute 'other' for an
   // unanswered question, quietly deciding something the user never did — and
   // sex moves the BMR by 166 kcal and sets the safety floor.
-  if (s.sex == null) return 'Choose an option for sex before finishing setup.';
+  if (s.sex == null) return i18n.t('onboarding.validation.sexMissing');
   // Height and weight are REQUIRED and bounded — no median substitution
   // anywhere in the derivation path (decided 2026-08-08). Bounds mirror the
   // server (backend/internal/goals/goals.go) exactly.
-  if (s.height_cm == null || s.height_cm <= 0) return 'Add your height before finishing setup.';
-  if (s.height_cm < 100 || s.height_cm > 250) return 'Your height must be between 100 and 250 cm.';
-  if (s.weight_kg == null || s.weight_kg <= 0) return 'Add your weight before finishing setup.';
-  if (s.weight_kg < 30 || s.weight_kg > 300) return 'Your weight must be between 30 and 300 kg.';
-  if (s.activity_level == null) return 'Choose your activity level before finishing setup.';
-  if (s.goal == null) return 'Choose your goal before finishing setup.';
+  if (s.height_cm == null || s.height_cm <= 0) return i18n.t('onboarding.validation.heightMissing');
+  if (s.height_cm < 100 || s.height_cm > 250) return i18n.t('onboarding.validation.heightRange');
+  if (s.weight_kg == null || s.weight_kg <= 0) return i18n.t('onboarding.validation.weightMissing');
+  if (s.weight_kg < 30 || s.weight_kg > 300) return i18n.t('onboarding.validation.weightRange');
+  if (s.activity_level == null) return i18n.t('onboarding.validation.activityMissing');
+  if (s.goal == null) return i18n.t('onboarding.validation.goalMissing');
   if (s.target_weight_kg != null && (s.target_weight_kg <= 0 || s.target_weight_kg > 1000)) {
-    return 'Your target weight looks wrong — check it before finishing setup.';
+    return i18n.t('onboarding.validation.targetWeight');
   }
   return null;
 }

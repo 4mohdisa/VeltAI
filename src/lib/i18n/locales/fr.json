@@ -1265,6 +1265,18 @@
         "gym": "Suivi de salle de sport et séries",
         "halal": "Filtre alimentaire halal"
       }
+    },
+    "validation": {
+      "ageMissing": "Ajoutez votre âge avant de terminer la configuration.",
+      "ageRange": "Votre âge doit être compris entre 13 et 120 ans.",
+      "sexMissing": "Choisissez une option pour le sexe avant de terminer la configuration.",
+      "heightMissing": "Ajoutez votre taille avant de terminer la configuration.",
+      "heightRange": "Votre taille doit être comprise entre 100 et 250 cm.",
+      "weightMissing": "Ajoutez votre poids avant de terminer la configuration.",
+      "weightRange": "Votre poids doit être compris entre 30 et 300 kg.",
+      "activityMissing": "Choisissez votre niveau d'activité avant de terminer la configuration.",
+      "goalMissing": "Choisissez votre objectif avant de terminer la configuration.",
+      "targetWeight": "Votre poids cible semble incorrect — vérifiez-le avant de terminer la configuration."
     }
   },
   "signup": {

@@ -1265,6 +1265,18 @@
         "gym": "Gym tracking + streaks",
         "halal": "Halal dietary filtering"
       }
+    },
+    "validation": {
+      "ageMissing": "Add your age before finishing setup.",
+      "ageRange": "Your age must be between 13 and 120.",
+      "sexMissing": "Choose an option for sex before finishing setup.",
+      "heightMissing": "Add your height before finishing setup.",
+      "heightRange": "Your height must be between 100 and 250 cm.",
+      "weightMissing": "Add your weight before finishing setup.",
+      "weightRange": "Your weight must be between 30 and 300 kg.",
+      "activityMissing": "Choose your activity level before finishing setup.",
+      "goalMissing": "Choose your goal before finishing setup.",
+      "targetWeight": "Your target weight looks wrong — check it before finishing setup."
     }
   },
   "signup": {
