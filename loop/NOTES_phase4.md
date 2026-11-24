@@ -7,14 +7,16 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
-- Row 2b DIFFERENT: all step 1d strings done (en, es, fr). 401 handling, CUISINE_LABEL cleanup, Terms disclaimer done. connectivityMessage removed (R235). Plan-ready screen NOT built: waits for Isa's go-ahead.
-- Last full checkpoint R230 green (270 suites, 1,637 tests, tsc 0). Next checkpoint R242 or next handover.
+- Row 2b DIFFERENT: all step 1d strings done (en, es, fr). 401 handling, CUISINE_LABEL and connectivityMessage removed, Terms disclaimer done. en-AU fixed through dateLocale (R236). Plan-ready screen NOT built: waits for Isa's go-ahead.
+- Last full green checkpoint R230 (270 suites, 1,637 tests, tsc 0).
+- Round 237: full checkpoint (tsc, full Jest, whole-folder lint) because formatNumber changes output in every language.
+- Next scheduled checkpoint R242 or next handover.
 
 ## Order
-- Now: en-AU hard-coding (formatNumber in src/lib/formatting.ts, units.ts:76). Round 236.
-- Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
+- Now: R237 checkpoint. Fix any red in small rounds before new work.
+- Then row 2.2 remaining, 2d, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
-- A red round is fixed in a small round before new work.
+- Handover 'next task' (paywall 4xx toast) is already done (R228, R229). Trust this file over the handover.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -54,12 +56,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R233, R234: Terms disclaimer in legal.terms. Rest of Terms and Privacy stays English.
 - R231, R235: CUISINE_LABEL removed; connectivityMessage removed (unused).
 - R236: en-AU kept as the English output of formatNumber, so pinned tests pass. es and fr use their own locale.
+- R237: full checkpoint run now, not at R242, because the locale change touches every language.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer.
 - How far legal text is translated, and legal review in each language.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
-- 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing.
+- 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing. Spanish four-digit numbers without a separator ('1683 kcal').
 - Whether es and fr should ever be shown (app is English only).
 - goals.saved removal. Prettier. Scoped eslint allow confirmation.
 - App Store privacy label and account data declaration.
@@ -89,6 +92,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Verify:go has no -count=1. Secrets scan placeholder check is a heuristic.
 
 ## Problems noticed, not fixed
+- Numbers outside the helpers stay unformatted: chart labels ('2100') and Energy breakdown ('1500').
+- formatCurrency hard-codes A$ and a dot decimal in every language.
+- formatGrams and formatMacro use Math.round and never group digits.
 - Paywall feature list and toasts still English in places.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).

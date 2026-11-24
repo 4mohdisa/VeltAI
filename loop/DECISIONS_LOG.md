@@ -10584,3 +10584,7 @@
 - 2026-11-25 09:27 R236: English keeps the en-AU output so existing pinned tests still pass. es and fr use their own locale.
 - 2026-11-25 09:27 R235 (done): connectivityMessage was unused in production, so it was removed with its assertions. The classifyConnectivity coverage stays.
 - 2026-11-25 09:27 R236: the authMachine test names and the stale 'error copy' comment are a tidy item for later, not this round.
+- 2026-11-25 09:30 R237: run the full checkpoint now, not at R242, because formatNumber now changes output in every language and a wider test failure is more likely than usual.
+- 2026-11-25 09:30 R237: the handover's 'next task' (paywall 4xx toast) is already done (R228, R229). The handover is stale; this notes file is the source of truth.
+- 2026-11-25 09:30 R237: connectivityMessage and CUISINE_LABEL are already removed (R231, R235). The handover's gotcha list is stale on these points.
+- 2026-11-25 09:30 R237: the Claude report's 'recommended next' checkpoint is adopted as the chosen task. Jev also ranked run highest.
