@@ -4,6 +4,7 @@
 // undefined, since it only drives the sign-up branch. This EXECUTES the real
 // screen; it is not a source-text grep. No real network, no real Clerk calls.
 import SignupScreen from '@/app/onboarding/signup';
+import { router } from 'expo-router';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/auth/clerkEnv', () => ({
@@ -85,6 +86,7 @@ test('sending a code in sign-in mode calls signIn.create then prepareFirstFactor
 });
 
 test('verifying the code in sign-in mode calls attemptFirstFactor then setActiveIn, and routes on success', async () => {
+  (router.replace as jest.Mock).mockClear();
   const tree = renderScreen(<SignupScreen />);
   pressModeToggle(tree);
   act(() => (buttonWithTitle(tree, 'Continue with email →')!.props.onPress as () => void)());
@@ -103,6 +105,5 @@ test('verifying the code in sign-in mode calls attemptFirstFactor then setActive
   expect(mockSetActiveIn).toHaveBeenCalledWith({ session: 'sess_test' });
   expect(mockGet).toHaveBeenCalledTimes(1);
 
-  const { router } = require('expo-router') as { router: { replace: jest.Mock } };
   expect(router.replace).toHaveBeenCalledWith('/(tabs)');
 });

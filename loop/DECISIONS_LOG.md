@@ -9881,3 +9881,6 @@
 - 2026-11-25 03:23 Chose candidate 1 (signupOtp router swap) because the handover and last report both recommend it as the next one-file step and it keeps the lint sweep moving.
 - 2026-11-25 03:23 Jev says run at 99% with a moderate to high risk score; I keep the one-file prompt and the gates to contain that risk.
 - 2026-11-25 03:23 Targets CTA mockClear question is parked in problems until the checkpoint round at 75, where the full Jest run will show whether mocks are cleared between tests.
+- 2026-11-25 03:24 Chose the router swap: smallest single file step, finishes the router set, matches the signupOtp pattern, and Jev also rates run at 99%.
+- 2026-11-25 03:24 Kept the string round and the doc fix for later: string changes wait for a string round, and the doc fix is not a gate.
+- 2026-11-25 03:24 Asked Claude Code to clear router.replace mock only in the success test if needed, to confirm the open question about mock clearing.
