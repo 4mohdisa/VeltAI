@@ -10157,3 +10157,11 @@
 - 2026-11-25 04:56 One main file per round kept (rule from notes) so the four remaining axis callers go one per round, not in one batch.
 - 2026-11-25 04:56 Rewrote the notes under 600 words per the loop note. Merged repeats and removed finished work.
 - 2026-11-25 04:56 Jev risk 1.2 of 2 with 50 percent clean completion: kept the task small (one file, one line change).
+- 2026-11-25 04:57 Round 138: the loop flagged round 137 as partly done, so the next round closes its gap (es and fr test for energy axis letters) before new 2.3 edits.
+- 2026-11-25 04:57 Round 138: the new test goes in a new render file so no existing snapshot or test is changed.
+- 2026-11-25 04:57 Round 138: if the energy screen cannot render in es or fr without shared mock changes, the step stops and reports the blocker instead of editing protected mocks.
+- 2026-11-25 04:58 Chose the es and fr energy axis test first: the last report says no test covers those letters, and the test is one new file with no product change.
+- 2026-11-25 04:58 Rejected the training.tsx weekdayLetter switch for now: it changes product code before the gap it depends on is pinned by a test.
+- 2026-11-25 04:58 Rewrote the prompt to open with the loop/phase4 only rule and the no-git rule, because the last prompt was rejected for omitting it.
+- 2026-11-25 04:58 Kept the no-snapshot-change and no-source-change limits so this round cannot alter the look of any screen.
+- 2026-11-25 04:58 Condensed the notes from about 900 words to under 600 by merging repeated items and removing finished work.
