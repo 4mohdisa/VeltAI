@@ -4,6 +4,7 @@
 // (icon+label only). Reduce Motion → navigate immediately, no delay.
 import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -15,13 +16,28 @@ import { navigate } from '@/lib/nav';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { BodyType } from '@/lib/types';
 
-const TYPES: { value: BodyType; emoji: string; label: string; desc: string }[] = [
-  { value: 'skinny', emoji: '🦴', label: 'Skinny', desc: 'Low body fat, low muscle mass' },
-  { value: 'skinny_fat', emoji: '🤷', label: 'Skinny Fat', desc: 'Low muscle, higher body fat' },
-  { value: 'average', emoji: '⚖️', label: 'Average', desc: 'Typical build, room to improve' },
-  { value: 'overweight', emoji: '🍔', label: 'Overweight', desc: 'Higher body fat, looking to lose weight' },
-  { value: 'muscular', emoji: '💪', label: 'Muscular / Athletic', desc: 'Good muscle, focused on performance' },
-];
+const TYPES = [
+  { value: 'skinny', emoji: '🦴', labelKey: 'onboarding.bodyType.skinny', descKey: 'onboarding.bodyType.skinnyDesc' },
+  {
+    value: 'skinny_fat',
+    emoji: '🤷',
+    labelKey: 'onboarding.bodyType.skinnyFat',
+    descKey: 'onboarding.bodyType.skinnyFatDesc',
+  },
+  { value: 'average', emoji: '⚖️', labelKey: 'onboarding.bodyType.average', descKey: 'onboarding.bodyType.averageDesc' },
+  {
+    value: 'overweight',
+    emoji: '🍔',
+    labelKey: 'onboarding.bodyType.overweight',
+    descKey: 'onboarding.bodyType.overweightDesc',
+  },
+  {
+    value: 'muscular',
+    emoji: '💪',
+    labelKey: 'onboarding.bodyType.muscular',
+    descKey: 'onboarding.bodyType.muscularDesc',
+  },
+] as const satisfies readonly { value: BodyType; emoji: string; labelKey: string; descKey: string }[];
 
 function BodyCard({
   emoji,
@@ -73,6 +89,7 @@ function BodyCard({
 }
 
 export default function BodyTypeScreen() {
+  const { t } = useTranslation();
   const bodyType = useOnboardingStore((s) => s.body_type);
   const setBodyType = useOnboardingStore((s) => s.setBodyType);
   const reduceMotion = useReduceMotion();
@@ -97,18 +114,18 @@ export default function BodyTypeScreen() {
     <OnbScaffold
       step={8}
       scroll
-      title="What does your body look like right now?"
-      subtitle="Be honest — this helps set the right starting point"
+      title={t('onboarding.bodyType.title')}
+      subtitle={t('onboarding.bodyType.subtitle')}
     >
       <View style={{ gap: space.md }}>
-        {TYPES.map((t) => (
+        {TYPES.map((type) => (
           <BodyCard
-            key={t.value}
-            emoji={t.emoji}
-            label={t.label}
-            desc={t.desc}
-            selected={bodyType === t.value}
-            onPress={() => pick(t.value)}
+            key={type.value}
+            emoji={type.emoji}
+            label={t(type.labelKey)}
+            desc={t(type.descKey)}
+            selected={bodyType === type.value}
+            onPress={() => pick(type.value)}
           />
         ))}
       </View>

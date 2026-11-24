@@ -1171,6 +1171,20 @@
       "targetLabel": "Target weight ({{unit}})",
       "targetKgPlaceholder": "65 kg",
       "targetLbPlaceholder": "143 lb"
+    },
+    "bodyType": {
+      "title": "What does your body look like right now?",
+      "subtitle": "Be honest — this helps set the right starting point",
+      "skinny": "Skinny",
+      "skinnyDesc": "Low body fat, low muscle mass",
+      "skinnyFat": "Skinny Fat",
+      "skinnyFatDesc": "Low muscle, higher body fat",
+      "average": "Average",
+      "averageDesc": "Typical build, room to improve",
+      "overweight": "Overweight",
+      "overweightDesc": "Higher body fat, looking to lose weight",
+      "muscular": "Muscular / Athletic",
+      "muscularDesc": "Good muscle, focused on performance"
     }
   },
   "signup": {

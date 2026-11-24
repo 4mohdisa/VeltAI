@@ -10472,3 +10472,8 @@
 - 2026-11-25 07:02 R209: chose the measurements screen, the next item in the agreed 1d order, over Jev's top pick. Jev ranked the same candidates and agreed on the next action. Reason: keeps the one screen per round rule and the small size.
 - 2026-11-25 07:02 R209: skipped the handover's signup SESSION_ENDED step. R204 and R206 already applied it, as R207 recorded.
 - 2026-11-25 07:02 R209: the measurements strings reuse existing common keys where the wording matches. No duplicate keys.
+- 2026-11-25 08:45 Kept body type over Jev's top pick, which is also body type: it is the next screen in the agreed 1d order, the last report recommended it, and it is a single screen with no shared-state risk. Jev's 85% on this task agrees.
+- 2026-11-25 08:45 Used the nested onboarding.<screen> key style (as in measurements) for the remaining 1d screens, so the mixed key style noted in the report is settled from here on. Flat keys from goal and activity stay as they are.
+- 2026-11-25 08:45 This round is a checkpoint: full Jest and lint run after the screen change, because the notes set R210 as a full Jest checkpoint.
+- 2026-11-25 08:45 Asked the agent to verify and add the paywall and signup 401 simulator checks to OWNER_CHECKS_phase4.md, as the notes flagged them as missing. Append only.
+- 2026-11-25 08:45 Parked the rename of the local variable t in measurements.tsx for a later tidy round, to keep this round to one screen.

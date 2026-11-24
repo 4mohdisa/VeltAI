@@ -1,6 +1,10 @@
 // Onboarding "Body type" step — single-select cards that auto-advance on tap.
 // These EXECUTE the screen; they are not source-text greps.
 import BodyTypeScreen from '@/app/onboarding/body-type';
+import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
+import fr from '@/lib/i18n/locales/fr.json';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { router } from 'expo-router';
@@ -11,6 +15,42 @@ jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => f
 beforeEach(() => {
   useOnboardingStore.getState().reset();
   (useReduceMotion as jest.Mock).mockReturnValue(false);
+});
+
+afterEach(async () => {
+  await act(async () => {
+    await i18n.changeLanguage('en');
+  });
+});
+
+const optionKeys = ['skinny', 'skinnyFat', 'average', 'overweight', 'muscular'] as const;
+
+test.each([
+  ['en', en],
+  ['es', es],
+  ['fr', fr],
+])('%s: the title, subtitle and every option read from the locale file', async (lng, locale) => {
+  await act(async () => {
+    await i18n.changeLanguage(lng);
+  });
+  const b = locale.onboarding.bodyType;
+  const tree = renderScreen(<BodyTypeScreen />);
+  const text = allText(tree);
+
+  expect(text).toContain(b.title);
+  expect(text).toContain(b.subtitle);
+  for (const key of optionKeys) {
+    expect(findAll(tree, (p) => p.accessibilityLabel === b[key])[0]).toBeDefined();
+    expect(text).toContain(b[`${key}Desc`]);
+  }
+  if (lng !== 'en') {
+    const english = en.onboarding.bodyType;
+    expect(text).not.toContain(english.title);
+    for (const key of optionKeys) {
+      expect(findAll(tree, (p) => p.accessibilityLabel === english[key])).toHaveLength(0);
+      expect(text).not.toContain(english[`${key}Desc`]);
+    }
+  }
 });
 
 test('the headline renders', () => {

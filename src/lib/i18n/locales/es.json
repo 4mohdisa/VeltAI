@@ -1171,6 +1171,20 @@
       "targetLabel": "Peso objetivo ({{unit}})",
       "targetKgPlaceholder": "65 kg",
       "targetLbPlaceholder": "143 lb"
+    },
+    "bodyType": {
+      "title": "¿Cómo es tu cuerpo ahora mismo?",
+      "subtitle": "Sé sincero: esto ayuda a fijar el punto de partida adecuado",
+      "skinny": "Delgado",
+      "skinnyDesc": "Poca grasa corporal, poca masa muscular",
+      "skinnyFat": "Delgado con grasa",
+      "skinnyFatDesc": "Poco músculo, más grasa corporal",
+      "average": "Promedio",
+      "averageDesc": "Complexión típica, con margen de mejora",
+      "overweight": "Con sobrepeso",
+      "overweightDesc": "Más grasa corporal, con ganas de perder peso",
+      "muscular": "Musculoso / Atlético",
+      "muscularDesc": "Buena musculatura, centrado en el rendimiento"
     }
   },
   "signup": {
