@@ -108,13 +108,19 @@ test('mealsFromLogs leaves status undefined for a non-scan row', () => {
 
 test('streakFromApi maps streak + derives gymLoggedToday/freezes', () => {
   const prev: Streak = { current: 0, longest: 0, totalGymDays: 42, freezesAvailable: 1, gymLoggedToday: false };
-  const row: GymStreak = { current_streak: 5, longest_streak: 10, last_gym_date: todayISO(), freeze_used: false, last_freeze_date: null, total_days: 0 };
+  const row: GymStreak = { current_streak: 5, longest_streak: 10, last_gym_date: todayISO(), freeze_used: false, last_freeze_date: null, total_days: 37 };
   const s = streakFromApi(row, prev);
   expect(s.current).toBe(5);
   expect(s.longest).toBe(10);
-  expect(s.totalGymDays).toBe(42); // carried from prev (not server-tracked)
+  expect(s.totalGymDays).toBe(row.total_days);
   expect(s.freezesAvailable).toBe(1);
   expect(s.gymLoggedToday).toBe(true);
+});
+
+test('streakFromApi takes the total from the server, not the previous value', () => {
+  const prev: Streak = { current: 0, longest: 0, totalGymDays: 200, freezesAvailable: 1, gymLoggedToday: false };
+  const row: GymStreak = { current_streak: 0, longest_streak: 0, last_gym_date: null, freeze_used: false, last_freeze_date: null, total_days: 1234 };
+  expect(streakFromApi(row, prev).totalGymDays).toBe(1234);
 });
 
 test('streakFromApi: a used freeze leaves 0 available', () => {

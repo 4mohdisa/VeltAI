@@ -9667,3 +9667,7 @@
 - 2026-11-25 02:16 Fixtures get total_days: 0 only where the type check needs it, so no behaviour changes this round.
 - 2026-11-25 02:16 Freeze response total_days is covered by the same type, so no extra work is needed for it.
 - 2026-11-25 02:16 Kept Row 2 at PARTIAL. Sub steps 2.2 to 2.5 remain open.
+- 2026-11-25 02:17 Round 14 finishes the mapper part of Row 2.1 only, because the last report left mappers.ts untouched and the loop flagged it as partly done.
+- 2026-11-25 02:17 Row 2.1 app side is split into two single file rounds: mapper and test first (round 14), then hydrateGym and the tile (round 15).
+- 2026-11-25 02:17 Chose the smallest safe step, since Jev confidence on task completion was 66 percent.
+- 2026-11-25 02:17 Kept Jev's run signal. Ask and stop are not allowed or needed here.
