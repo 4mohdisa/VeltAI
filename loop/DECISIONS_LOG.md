@@ -10508,3 +10508,8 @@
 - 2026-11-25 09:02 R218 full checkpoint green (tsc 0, lint 0, 269 suites, 1,595 tests). Preview flag cleared.
 - 2026-11-25 09:02 R219 is the done screen as the next step in the agreed order, one screen per round.
 - 2026-11-25 09:02 Paywall stays for the next round, as planned. Candidates 2 and 3 are parked, not dropped.
+- 2026-11-25 09:04 Flagged by the loop check as partly done: the last report skipped the plan-ready screen and asked Isa. Isa does not answer questions, so I kept the current order (targets, paywall, done) and recorded it as a decision.
+- 2026-11-25 09:04 Plan-ready screen not built: markCompleted clears the answers before done shows, so there is nothing to summarise. A new flow step would also change sign-up. Parked as a post-launch item, not asked.
+- 2026-11-25 09:04 Reconcile the row 2b record first, because the record must match the code before the paywall round.
+- 2026-11-25 09:04 Paywall strings come next, and they replace CUISINE_LABEL, which closes step 1d.
+- 2026-11-25 09:04 Full Jest suite not run this round. Changed-file tests and the type check are enough; the next checkpoint is R227 or later.

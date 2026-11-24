@@ -8,14 +8,15 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: steps 1a to 1d done up to preview (R217). OnbScaffold shared.
-- R218 full checkpoint green: tsc 0, lint 0, 269 suites, 1,595 tests.
+- Row 2b DIFFERENT: steps 1a to 1d done, including done screen strings (R219). Plan-ready screen not built (decision below).
+- Last full checkpoint R218: tsc 0, lint 0, 269 suites, 1,595 tests.
 - Next checkpoint R227 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R219: done screen (src/app/onboarding/done.tsx). Then paywall (also removes English CUISINE_LABEL). One screen per round. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R220: reconcile row 2b record with code (no new strings). Then paywall strings in en, es, fr, replacing CUISINE_LABEL (closes 1d). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 If a round shows failures: fix them first, in a small round, before new strings.
+Round flagged by loop check (R219 partly done): fixed by R220.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -58,13 +59,13 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - R208: kept OnbScaffold, shared by every onboarding screen.
 - R209 to R212: onboarding keys nested under onboarding.<screen>; cuisine and dietary options under options.<value>.
 - R213: targets done. R214: disclaimer translated first. R215: HealthDisclaimer.tsx only.
-- R216: checkpoint green (269 suites, 1,591 tests).
+- R216, R218: checkpoints green.
 - R217: preview done in en, es, fr. Trial note uses {{days}}, no plural yet (TRIAL_DAYS = 7).
-- R218: checkpoint green (269 suites, 1,595 tests). Preview flag cleared.
-- R219: done screen is next, in agreed order.
+- R219: done screen strings in en, es, fr. Plan-ready screen NOT built. Kept order targets, paywall, done, because markCompleted clears answers before done shows. Not asked, decided.
+- R220: row 2b record reconciled with code (no new strings).
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, preview, done (R219), kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
+- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, preview, done (title and welcomeToast: es 'Todo listo' / '¡Te damos la bienvenida a Lume!', fr 'Tout est prêt' / 'Bienvenue sur Lume !'), kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -77,6 +78,7 @@ If a round shows failures: fix them first, in a small round, before new strings.
 
 ## Parked
 - Paywall builds its cuisine line from English CUISINE_LABEL in src/components/onboarding/cuisines.ts. Remove the label field once the paywall is translated.
+- Plan-ready summary screen between targets and paywall (post launch, needs flow change).
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
 - formatNumber in src/lib/formatting.ts hardcoded to en-AU. units.ts also en-AU.
@@ -93,7 +95,7 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' (onboarding.sessionExpired). Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: done (until R219), paywall strings and toasts. Terms disclaimer paragraphs in src/app/legal/terms.tsx.
+- Still hard-coded English: paywall strings and toasts. Terms disclaimer paragraphs in src/app/legal/terms.tsx.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer, stack traces in passing tests (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
