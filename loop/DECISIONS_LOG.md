@@ -10296,3 +10296,6 @@
 - 2026-11-25 05:43 Kept the lint warning fix inside this round because verify must never pass with lint warnings.
 - 2026-11-25 05:43 Trimmed the notes to fit the 600 word limit. Finished items were removed; decisions were kept.
 - 2026-11-25 05:43 Jev signals: run at 93% confidence, so no change of action. Risk is 1.0 of 2, so the task stays small (one slice, one checkpoint).
+- 2026-11-25 05:45 Handled the flag by treating Row 29 as still PARTIAL: verify runs only tsc, lint and Jest, but Row 29 also requires Go with race, migrations, manifest, secrets scan and the CI file. Next step is the Go race step, one small slice.
+- 2026-11-25 05:45 Go step first because it is the smallest remaining slice and the backend has the most tests to protect.
+- 2026-11-25 05:45 Did not add a CI workflow file yet; it comes after the other steps in Row 29.
