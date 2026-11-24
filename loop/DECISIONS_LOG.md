@@ -10564,3 +10564,8 @@
 - 2026-11-25 09:19 R231: the handover and the last report disagree on whether the paywall reads CUISINE_LABEL. The prompt makes Claude Code grep first and decide from the code.
 - 2026-11-25 09:19 R231: the Row 2b records check stays queued for the next records round, as the notes say.
 - 2026-11-25 09:19 R231: the plan-ready screen stays parked. It needs Isa's go-ahead, so it is not picked.
+- 2026-11-25 09:20 Chose the records check first: the notes and the handover disagreed on the CUISINE_LABEL read, and the Row 2b notes drift often. A docs round is the lowest risk while the Jev risk score is high.
+- 2026-11-25 09:20 Row 2c is not in the brief. The report asks for it, but I follow the earlier note: park it in OWNER_CHECKS_phase4.md and carry on. Not run this round.
+- 2026-11-25 09:20 The R231 round number was a guess by the worker. Row 2b notes will drop it and keep only the description.
+- 2026-11-25 09:20 Plan-ready summary screen stays unbuilt until Isa gives a go-ahead, per R219. Not a blocker for the loop.
+- 2026-11-25 09:20 Paywall 4xx English text is left for a later small round, after the records check.

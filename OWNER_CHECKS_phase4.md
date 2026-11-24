@@ -66,3 +66,10 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Review R224 fr wording for onboarding.validation.targetWeight: 'Votre poids cible semble incorrect — vérifiez-le avant de terminer la configuration.' (agent translation).
 - [ ] Review R226 es wording for onboarding.sessionExpired: 'Tu sesión ha terminado. Vuelve a iniciar sesión para continuar.' (agent translation).
 - [ ] Review R226 fr wording for onboarding.sessionExpired: 'Votre session a pris fin. Reconnectez-vous pour continuer.' (agent translation).
+- [ ] Row 2b step 1d es and fr wording needs review: onboarding goal and activity keys (onboarding.goal*, onboarding.activity*), onboarding.measurements, onboarding.bodyType, onboarding.cuisine (title, subtitle, options), onboarding.dietary (title, subtitle, options), onboarding.targets and the shared back label (common.goBack) in src/lib/i18n/locales/es.json and fr.json (agent translations).
+- [ ] es and fr wording needs review: healthDisclaimer.text in src/lib/i18n/locales/es.json and fr.json (agent translation).
+- [ ] es and fr wording needs review: goals.loadFailed in src/lib/i18n/locales/es.json and fr.json (agent translation).
+- [ ] es and fr wording needs review: customFood.saveButton (Save food) in src/lib/i18n/locales/es.json and fr.json (agent translation).
+- [ ] es and fr wording needs review: the kJ unit string insights.brainProfile.typicalIntakeValueKj in src/lib/i18n/locales/es.json and fr.json (agent translation).
+- [ ] es and fr wording needs review: dashboard.energyTarget in src/lib/i18n/locales/es.json and fr.json (agent translation).
+- [ ] es and fr wording needs review: scanCards.noBreakdown in src/lib/i18n/locales/es.json and fr.json (agent translation).

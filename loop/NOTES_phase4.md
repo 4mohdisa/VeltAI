@@ -7,16 +7,16 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
-- Row 2b DIFFERENT: screens 1a to 1d done, paywall strings done. Preview and plan-ready screen NOT built.
-- R230 checkpoint green: 270 suites, 1,637 tests, tsc 0. Older handover numbers (268, 1,579) are stale.
-- Next full checkpoint: R242 or next handover.
+- Row 2b DIFFERENT: screens 1a to 1d done, done screen done, paywall strings done, 401 handling done, R231 cuisine cleanup done. Plan-ready screen NOT built.
+- R231 verified: CUISINE_LABEL had no readers. The handover claim that the paywall read it was stale.
+- R230 checkpoint green: 270 suites, 1,637 tests, tsc 0. Next full checkpoint: R242 or next handover.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R231 (now): CUISINE_LABEL cleanup. Grep first; handover and report disagree on the paywall read.
-- Then: Row 2b records check against PHASE4_ROWS.md (drifts often).
+- R232 (now): Row 2b records check (docs only, tsc only).
+- Then: 2b paywall 4xx English text (small, tested).
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
-- Row 2c: no scope in the brief. Parked in OWNER_CHECKS, carry on.
+- Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - A red round is fixed in a small round before new work.
 
 ## Rules
@@ -60,7 +60,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server English 4xx text still shows; tracked in row 2b.
 - R229: CONNECTION_MESSAGE test constant reads en.onboarding.paywall.submitFailed.
 - R230: checkpoint round, read only. Green.
-- R231: CUISINE_LABEL cleanup chosen as next task (smallest). Grep decides the paywall read.
+- R231: CUISINE_LABEL and the unused English label field removed. Grep confirmed no readers.
+- R232: Row 2b records check chosen next (notes and handover disagreed; docs only).
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
