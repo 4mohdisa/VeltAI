@@ -9735,3 +9735,7 @@
 - 2026-11-25 02:36 Round 29 is a full checkpoint (tsc and full Jest, no edits) because the loop check flagged the last report as only partly done and asked for this.
 - 2026-11-25 02:36 Jev ranks run at 95 percent and this pick is the same action with the loop's instruction; no reason to override.
 - 2026-11-25 02:36 Lint sweep and the refetch test are held for the next rounds, one task at a time, to keep Jev risk low.
+- 2026-11-25 02:38 Round 30 is a checkpoint round per the notes, so it runs full tsc and full Jest, with no file edits.
+- 2026-11-25 02:38 The eslint sweep is report only this round so that each later fix touches one file, which lowers Jev-flagged risk.
+- 2026-11-25 02:38 Uncommitted loop files (loop/DECISIONS_LOG.md, loop/NOTES_phase4.md) are left alone, as the last report found they were changed outside Claude Code's work.
+- 2026-11-25 02:38 history.tsx listSessions limit and the useWeeklyMacros refetch test wait for the next rounds, after the lint findings are known.
