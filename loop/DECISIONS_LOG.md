@@ -9945,3 +9945,7 @@
 - 2026-11-25 03:41 Did not ask Isa, per the no-questions rule. Jev's 'ask' signal was not followed: the question is resolved by the default above and the revisit is parked, so nothing is lost.
 - 2026-11-25 03:41 Picked settingsHelp (Jev's top candidate, 80%). Reason: it was already the next item in the plan after the analyticsSink decision, and it is a single test file with a clear fix. Jev's ranking agrees.
 - 2026-11-25 03:41 DailyMacroRing 'of' string stays for a string round, per the rule that string changes wait for a string round.
+- 2026-11-25 03:42 Chose candidate 1 because it is the next item in the plan, touches one docs file, and carries no risk. Jev's high run score agrees.
+- 2026-11-25 03:42 Did not take the DailyMacroRing.tsx:96 string change this round. The notes rule says string changes wait for the 2.3 string round.
+- 2026-11-25 03:42 Round 87 (settingsHelp render test) is marked done. Its report shows tsc 0 errors and the render project passing (166 suites, 536 tests).
+- 2026-11-25 03:42 Round 88 is this docs round. Round 90 stays the checkpoint for full tsc and Jest.

@@ -6,8 +6,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 86 done: analyticsSink.ts:29 kept as is. Decision C (accept warning, record in KNOWN_ISSUES.md later).
-- Round 87 in progress: settingsHelp.render.test.tsx clears its own mockPush.
+- Round 87 done: settingsHelp.render.test.tsx uses a real jest.fn for router.push, cleared by the shared setup.ts reset. tsc 0 errors, render project 166 suites and 536 tests pass.
+- Round 88 in progress: KNOWN_ISSUES.md (analyticsSink warning recorded as accepted; TestPG count fixed to 21).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -42,12 +42,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - i18n alias: `import { use as addPlugin }` is kept.
 - One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoints every 15 rounds (90, 105, ...), plus any round the loop script marks.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
+- String changes wait for a string round (2.3).
 - Every round runs tsc and targeted Jest for changed files and reports results.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep, not PIPESTATUS.
-- Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Jev risk moderate to high: keep steps to one file and check gates each round.
-- String changes wait for a string round.
-- Round 87 pick (settingsHelp over Jev's ranking, which agrees): it was the next item in plan, one test file.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -55,7 +53,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-85: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling, debugCapture, debugGating requires fixed; setup.ts factory fixed.
+- Rounds 45-87: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling, debugCapture, debugGating requires fixed; setup.ts factory fixed; settingsHelp uses jest.fn.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -64,11 +62,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 87: settingsHelp.render.test.tsx clears its own mockPush.
-- Round 88: KNOWN_ISSUES.md: record analyticsSink.ts:29 warning as accepted; fix line 40 (21 TestPG run, not 20 skipped).
-- Then render/setup.ts afterEach require('./helpers'): check early load is safe, verify with full render project.
-- Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
+- Round 88: KNOWN_ISSUES.md (in progress).
+- Round 89: render/setup.ts afterEach require('./helpers'): check early load is safe, verify with full render project.
 - Round 90 checkpoint: full tsc and Jest.
+- Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
