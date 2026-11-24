@@ -10,8 +10,11 @@
 //
 // The rule these tests encode: in a RELEASE build the stores start EMPTY.
 // Dev builds keep the seed so the keyless offline experience stays navigable.
+import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { deriveGoals } from '@/lib/goals/derive';
+import { deriveTargets } from '@/lib/onboarding/deriveTargets';
 
 const src = (p: string) => readFileSync(join(__dirname, '..', p), 'utf8');
 
@@ -89,7 +92,6 @@ describe('release builds contain no fabricated user data', () => {
   });
 
   test('no screen imports mock data at runtime (type-only imports are fine)', () => {
-    const { execSync } = require('child_process');
     const out = execSync(
       "grep -rn \"from '@/lib/mock\" src/app src/components --include='*.tsx' || true",
       { cwd: join(__dirname, '..', '..'), encoding: 'utf8' },
@@ -137,8 +139,6 @@ describe('onboarding sends every answer it collects', () => {
 
 describe('the calorie formula has exactly one definition', () => {
   test('deriveGoals agrees with deriveTargets for the same person', () => {
-    const { deriveGoals } = require('@/lib/goals/derive');
-    const { deriveTargets } = require('@/lib/onboarding/deriveTargets');
     const person = {
       age: 28,
       sex: 'female' as const,
@@ -176,7 +176,6 @@ describe('the calorie formula has exactly one definition', () => {
   test('a release-build profile with no metrics yields no confident target', () => {
     // 0 kg / 0 cm cannot produce a real recommendation. The floor still applies,
     // but protein must not be presented as a real 0 g goal derived from nothing.
-    const { deriveGoals } = require('@/lib/goals/derive');
     const emptyProfile = (sex: 'male' | 'female' | 'other') => ({
       name: '',
       email: '',
@@ -206,7 +205,6 @@ describe('the calorie formula has exactly one definition', () => {
   // sedentary man on a "lose" goal. TDEE lands near 1,251; minus the 400 kcal
   // deficit that is 851, which the old flat floor lifted only to 1,200.
   test('a real body that hits the floor gets the male minimum, not 1200', () => {
-    const { deriveTargets } = require('@/lib/onboarding/deriveTargets');
     const t = deriveTargets({
       age: 60,
       sex: 'male' as const,
@@ -238,7 +236,6 @@ describe('the OAuth deep link uses the scheme this app actually registers', () =
   });
 
   test('no source file hardcodes a deep-link scheme any more', () => {
-    const { execSync } = require('child_process');
     const hits = execSync(
       "grep -rn 'lume://' src backend --include='*.ts' --include='*.tsx' --include='*.go' " +
         "--exclude-dir=__tests__ --exclude-dir=tests || true",

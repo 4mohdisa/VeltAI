@@ -9828,3 +9828,8 @@
 - 2026-11-25 03:08 Round 55 finished (todayCard swap, reported clean). Round 56 takes noFabricatedData.test.ts as one file per round, matching the Jev risk advice to keep steps small.
 - 2026-11-25 03:08 Full checkpoint (expo lint count plus full Jest) stays at about round 60, as the notes say. It is not run now, so the round stays small.
 - 2026-11-25 03:08 Prompt asks Claude Code to locate the file itself, because the exact path is not in the notes.
+- 2026-11-25 03:09 Round 56: the last report was flagged as partly done, so this round re-verifies the file state before any swap.
+- 2026-11-25 03:09 Chose the smallest safe step: only the 6 requires that do not depend on module reset. Jev confidence is low (completion 20%), so a smaller task is preferred.
+- 2026-11-25 03:09 The 11 store reloads stay as require() until jest.requireActual is shown to give a fresh module after jest.resetModules. The earlier NEXT plan assumed this without checking.
+- 2026-11-25 03:09 The 15 warnings in this file are plain require() calls, not require('react'), so the render-test swap pattern does not apply. The notes now say so.
+- 2026-11-25 03:09 Row 2.2 is still PARTIAL. No row status changes this round.

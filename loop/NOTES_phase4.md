@@ -6,7 +6,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Baseline: tsc 0, Jest 242 suites and 1,402 tests (round 35), Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
+- Baseline: tsc 0, Jest 242 suites and 1,402 tests (round 44 checkpoint), Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -33,6 +33,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
+- A require() after jest.resetModules() is a fresh-module reload, not a require('react') case. Keep it unless jest.requireActual is shown to give the same fresh module.
 - Full suite on checkpoint rounds. Next checkpoint about round 60.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
@@ -41,8 +42,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - String changes wait for a string round.
 - i18n alias: `import i18next, { use as addPlugin }` is kept because a plain `use` import trips react-hooks/rules-of-hooks.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
-- Handover at round 50 done. Name full paths in every prompt.
-- Round 53: a flagged 'partly done' report is re-verified before the next swap.
+- Round 53: a flagged 'partly done' report is re-verified before the next swap. Round 56 applied this rule.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -52,8 +52,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Round 44 (checkpoint): full tsc and Jest green.
-- Rounds 45-54: gymSession, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList, savedMealsList, savedMealsLog, savedScreen render tests swapped or re-verified.
-- Round 55: todayCard.render.test.tsx swapped (requireActual, unused disable removed). Gates green.
+- Rounds 45-55: render tests swapped or re-verified (gymSession, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList, savedMealsList, savedMealsLog, savedScreen, todayCard).
+- Round 56: last report was partly done (noFabricatedData has 0 jest.mock and 0 require('react'); its 15 warnings are plain require() calls). Re-verifying and clearing the non-store requires this round.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -62,7 +62,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 56: noFabricatedData.test.ts swap (15 warnings). Gates: tsc, jest on file, eslint unused directives, require count 0, console/debugger/TODO search.
+- Round 56 (this round): noFabricatedData.test.ts. Clear the 2 child_process and 4 derive requires with top-level imports where no resetModules comes first. Leave the 11 store reloads. Gates: tsc, jest on file, eslint unused directives, console/debugger/TODO search.
+- Round 57: decide the 11 store reloads in noFabricatedData (check whether jest.requireActual gives a fresh module after jest.resetModules). Only then swap.
 - Then measurements.render.test.tsx (9). Onboarding and signup render tests may use the same pattern (signup 2, others).
 - Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual). Consider one shared expo-camera mock.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
