@@ -6,14 +6,13 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Rows 12 and 12b BUILT. Row 2 PARTIAL (2.3 and 2.4 done, 2.5 status unclear, re-check with grep, 2.2 remaining). Row 29 PARTIAL.
+- Row 1 BUILT. Rows 12 and 12b BUILT. Row 29 BUILT at round 181 (verify exit 0, zero lint warnings), but TestPG and migrations were skipped (no DB URL). Row 2 PARTIAL (2.3 and 2.4 done; 2.5 re-check with grep; 2.2 remaining).
 - Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan, check:manifest.
-- Row 29 open: CI workflow never run on GitHub (local only). expo lint covers src, app, components only, not scripts/.
-- Last checkpoint (round 177): tsc 0, Jest 259 suites, 1,524 tests. Full verify not yet run since row 12 work.
+- Round 181 result: tsc 0, Jest 260 suites, 1,534 tests, verify exit 0.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 181 (this round): full npm run verify, each step recorded in BASELINE_phase4.md. Then row 29 BUILT only if green with zero warnings. Then 2.5 (after grep), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+Round 182 (this round): verify with LUME_TEST_DATABASE_URL set to localhost:5432 lume_test_local. Record in BASELINE_phase4.md. Fix TestPG or migration failures. Then lint scripts/ (expo lint skips it), then 2.5 (after grep), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -31,24 +30,22 @@ Round 181 (this round): full npm run verify, each step recorded in BASELINE_phas
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
-- TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432.
+- TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print the URL.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature; no trial when buying straight away.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 181: prompt rewritten after loop rejection for missing branch rule. Branch rule now first. One task only.
+- Round 182: loop flagged round 181 (DB tests skipped). Verify rerun with local DB before more rows.
 - Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
 - Round 180: parity test runs in full Jest, so no separate wiring into verify.
 - Round 178: check:manifest reads app.json (ios/ is stale prebuild output, git ignored).
-- Round 176: privacy manifest in app.json. Face ID and Motion prompts removed (not used). Camera is the only prompt.
+- Round 176: privacy manifest in app.json. Face ID and Motion prompts removed. Camera is the only prompt.
 - Round 174: CI workflow local only, throwaway local Postgres service, no repository secret.
 - Round 172: migration check skips with exit 0 when variable unset.
 - Round 168: goals.saved kept; removal needs a non-allowed test edit. Parked.
 - Round 166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added.
 - Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept, unused, for voice logging.
 - Round 158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 assertion changed (Isa allowed).
-- Rounds 145 to 156: Save food, gramsShort, percentValue, macroPercentFootnote, week separator via dashboard.rangeSeparator, kcal/kJ setting, weekTarget merged into energyTarget.
-- Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'). Accepted.
 - Round 123: formatDuration rounds total minutes first.
 
 ## Blocked on Isa (do not retry)
@@ -59,6 +56,7 @@ Round 181 (this round): full npm run verify, each step recorded in BASELINE_phas
 - goals.saved removal. Prettier. Scoped eslint allow confirmation.
 - App Store privacy label answers and account data declaration.
 - Camera string choice: plugin text vs es/fr strings in src/lib/i18n/infoPlist.
+- Push loop/phase4 and confirm CI runs green on GitHub.
 
 ## Parked
 - Row 2.1 simulator check of Total tile (owner check).
@@ -79,7 +77,7 @@ Round 181 (this round): full npm run verify, each step recorded in BASELINE_phas
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
 - Two camera strings with different wording; plugin text wins.
-- scripts/ not covered by expo lint, so a lint error in scripts/checkPrivacyManifest.js would pass verify. Fix in Row 29 follow-up.
+- scripts/ not covered by expo lint, so lint errors there pass verify. Fix next after round 182.
 - fr privacy copy uses 'vos', matching existing fr copy.
 - productName.test.ts failed once in Row 12a and passed after restore. Watch it.
 - formatStreak(0) in fr gives '0 jour'.
@@ -93,5 +91,5 @@ Round 181 (this round): full npm run verify, each step recorded in BASELINE_phas
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx.
 
 ## Next
-- Round 181: full npm run verify, each step recorded in BASELINE_phase4.md. Row 29 BUILT only if green with zero warnings.
-- Then 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+- Round 182: verify with local TestPG and migrations, record in BASELINE_phase4.md. Row 29 stays BUILT only if green with zero skips and zero warnings.
+- Then scripts/ lint coverage, 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.

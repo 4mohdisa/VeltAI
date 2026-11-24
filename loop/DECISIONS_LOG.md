@@ -10344,3 +10344,7 @@
 - 2026-11-25 06:05 Round 181: one task only (full verify and record), chosen because Jev rates the last task only 46% clean, so a smaller task is safer.
 - 2026-11-25 06:05 Round 181: row 29 may move to BUILT only if full verify exits 0 with zero lint warnings. The CI workflow not running on GitHub is an owner step, recorded in OWNER_CHECKS_phase4.md.
 - 2026-11-25 06:05 Round 181: lint gap for scripts/ is recorded in NEXT, not fixed in this round, to keep the task small.
+- 2026-11-25 06:06 Chose the verify run against local Postgres because the loop flagged the last report: the DB tests and migration check were skipped, so the task is only partly proven.
+- 2026-11-25 06:06 Jev ranks running the next action highest (55%). Agreed, since it is the smallest concrete step that closes the flag.
+- 2026-11-25 06:06 Row 29 stays BUILT for now. If the DB run fails, it moves to PARTIAL with the reason, not reverted silently.
+- 2026-11-25 06:06 Database URL kept out of all output and files, per the secrets rules.

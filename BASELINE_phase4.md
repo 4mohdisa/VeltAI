@@ -62,3 +62,21 @@ The expected numbers were 241 suites, 1,386 tests and 20 skipped TestPG tests. T
 | `verify:migrations` | skipped with exit 0 (LUME_TEST_DATABASE_URL not set) |
 | `secrets:scan` | 910 files checked, 0 findings |
 | `check:manifest` | OK |
+
+## Full verify with TestPG, round 182
+
+25 Nov 2026, Node 22.23.5, branch loop/phase4, local PostgreSQL 17.10 on localhost:5432, database lume_test_local. `npm run verify` exit code 0 with LUME_TEST_DATABASE_URL set for that shell only (pointing at the local database; the value is not recorded).
+
+TestPG: 27 run, 27 passed, 0 skipped, 0 failed (counted with a separate `go test -race -count=1 -v -run TestPG ./...` in the same shell, since `verify:go` prints no per-test lines). A full verbose Go run with the variable set showed no skipped test at all.
+
+Migration apply check: passed, 18 migrations applied to a throwaway lume_test_migrate_* database, which was dropped afterwards (0 left).
+
+| Step | Result |
+|---|---|
+| `tsc --noEmit` | 0 errors |
+| `npm run lint -- --max-warnings 0` | 0 errors, 0 warnings |
+| `jest --ci` | 260 of 260 suites, 1,534 of 1,534 tests, 4 of 4 snapshots pass, 0 failed |
+| `verify:go` (`go test -race ./...`) | 34 packages ok, 0 failed, TestPG run |
+| `verify:migrations` | passed, 18 migrations applied |
+| `secrets:scan` | 910 files checked, 0 findings |
+| `check:manifest` | OK |
