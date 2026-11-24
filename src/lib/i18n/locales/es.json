@@ -107,6 +107,7 @@
     "subscriptionRestored": "Suscripción restaurada.",
     "noPurchasesToRestore": "No hay compras que restaurar.",
     "storeUnreachable": "No se pudo conectar con la tienda — inténtalo de nuevo más tarde.",
+    "manageSubscriptionFailed": "No se pudo abrir la gestión de la suscripción — inténtalo de nuevo más tarde.",
     "signOutTitle": "¿Cerrar sesión?",
     "signOutMessage": "Tus datos siguen en tu cuenta — vuelve a iniciar sesión cuando quieras.",
     "signOut": "Cerrar sesión",

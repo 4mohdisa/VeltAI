@@ -18,6 +18,7 @@ import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases }
 import { useServerEntitlement } from '@/lib/data';
 import { isDevBuild } from '@/lib/env';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MANAGE_URL = 'https://apps.apple.com/account/subscriptions';
 
@@ -30,7 +31,21 @@ export default function SubscriptionScreen() {
   const effectiveEntitled = serverEntitlement ? serverEntitlement.isActive : isEntitled;
   const billing = isBillingEnabled();
 
+  const { t } = useTranslation();
   const [restoring, setRestoring] = useState(false);
+  const [managing, setManaging] = useState(false);
+
+  const manage = async () => {
+    if (managing) return;
+    setManaging(true);
+    try {
+      await Linking.openURL(MANAGE_URL);
+    } catch {
+      showToast({ message: t('profile.manageSubscriptionFailed'), tone: 'error' });
+    } finally {
+      setManaging(false);
+    }
+  };
 
   const restore = async () => {
     if (restoring) return;
@@ -107,7 +122,8 @@ export default function SubscriptionScreen() {
             <Button
               title="Manage subscription"
               variant="secondary"
-              onPress={() => Linking.openURL(MANAGE_URL).catch(() => {})}
+              loading={managing}
+              onPress={() => void manage()}
             />
           ) : (
             <Button title="See plans" onPress={() => void seePlans()} />

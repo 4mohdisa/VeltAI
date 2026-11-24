@@ -58,7 +58,6 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - Gym: src/components/gym/MuscleChart.tsx:1; src/app/gym/muscles.tsx:75; src/app/gym/history.tsx:44-46; src/app/gym/session.tsx:116-123; dead chevrons; lb plan vs kg; cardio sets x 3.2; Summary streak pulses. Parked in the earlier loop.
 - Charts: Energy scale 7-93%; gutter 48; literal fontSize 12; space.xs bar minimum; fractional bar heights; easing copied in two files; GrowBar animated height overrides base. The design is final.
 - Cleanup: CHART_GUTTER_W and SCALE_LABEL_W copied in four screens; stale 'lifted VERBATIM' header; mixHex in src/components/domain/GymCalendar.tsx; duplicate SLOT_KEYS; row 103 item 10 stale refs. Left to keep changes small.
-- Subscription: no busy state; manage failure swallowed (src/app/profile/subscription.tsx:104). Phase 4.
 - Tests: sheetVariant.test.ts is brittle; no render tests for log-session, connected apps or Gym; 'API unreachable' warnings; no snapshot for This week's net view. Existing tests are not edited.
 - Doc: stale headings and line refs (rows 102, 103, 110). Docs cleanup only.
 - Backend: session calories; logged pill colour waits on a token. Isa decides.

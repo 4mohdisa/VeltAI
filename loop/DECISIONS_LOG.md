@@ -10008,3 +10008,7 @@
 - 2026-11-25 04:02 The handover says the new TestPG has never run and the count should go from 21 to 22. That is stale: round 97 recorded 24 of 24 TestPG passing on lume_test_local, and round 98 fixed the count to 24. Do not re-run or re-count it.
 - 2026-11-25 04:02 Free-plan 403 on the morning brief sets isError true for now (round 100). Isa's question on whether it should count as an error is decided here: yes, until Rows 6 and 7 add entitlement state. No question is asked.
 - 2026-11-25 04:02 Claude Code's note that the useBrainProfile unmount test cannot fail is accepted as a known weak test. It is recorded in Problems and will be revisited in Row 22 (test quality).
+- 2026-11-25 04:03 Picked the subscription manage failure: a known file path, a small change, and it is the recommended next step from the last report.
+- 2026-11-25 04:03 Recorded the morning brief free-plan refusal question as decided: keep isError (round 100 decision). Revisit with entitlement state in Rows 6 and 7. Not blocking.
+- 2026-11-25 04:03 Recorded the TestPG 'never ran' item in the handover as stale: round 97 ran 24 of 24 on localhost lume_test_local. Do not retry it.
+- 2026-11-25 04:03 Did not touch src/lib/data this round. The Phase 3 permission covers it, but this task does not need it.

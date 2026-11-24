@@ -107,6 +107,7 @@
     "subscriptionRestored": "Subscription restored.",
     "noPurchasesToRestore": "No purchases to restore.",
     "storeUnreachable": "Couldn't reach the store — try again later.",
+    "manageSubscriptionFailed": "Couldn't open subscription management — try again later.",
     "signOutTitle": "Sign out?",
     "signOutMessage": "Your data stays in your account — sign back in anytime.",
     "signOut": "Sign out",

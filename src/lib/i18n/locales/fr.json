@@ -107,6 +107,7 @@
     "subscriptionRestored": "Abonnement restauré.",
     "noPurchasesToRestore": "Aucun achat à restaurer.",
     "storeUnreachable": "Impossible de joindre la boutique — réessayez plus tard.",
+    "manageSubscriptionFailed": "Impossible d'ouvrir la gestion de l'abonnement — réessayez plus tard.",
     "signOutTitle": "Se déconnecter ?",
     "signOutMessage": "Vos données restent dans votre compte — reconnectez-vous à tout moment.",
     "signOut": "Se déconnecter",
