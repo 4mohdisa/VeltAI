@@ -9,8 +9,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL (2.2 and 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready screen parked for Isa's go-ahead.
-- Current (R241, rewritten to one screen): src/app/food/detail.tsx switches to lookupBarcodeResult, failed shows network error with Retry.
-- Next: R242 re-run the five R240 extra test files one per command and add the es and fr barcode failed-state render test. Then calendar (foodDays.ts, calendar.tsx). Then rest of Row 13 translations.
+- R240 and R241: barcode failed state in src/app/food/detail.tsx uses lookupBarcodeResult with Retry. Done.
+- R242: full checkpoint (tsc and full Jest, no file changes). Covers the R240 re-run.
+- Next: R243 calendar (foodDays.ts, calendar.tsx). Then rest of Row 13 translations.
 - Last full green checkpoint R237 (272 suites, 1,648 tests, tsc 0, lint clean).
 
 ## Order
@@ -54,10 +55,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R231, R235: CUISINE_LABEL and connectivityMessage removed.
 - R233, R234: Terms disclaimer in legal.terms. Rest of Terms and Privacy stays English.
 - R236: en-AU kept as the English output of formatNumber; es and fr use their own locale.
-- R237: full checkpoint run (green).
+- R237: full checkpoint (green).
 - R239: English grams from 1,000 up group (1,234 g) per brief. Logged for Isa to confirm.
-- R240: barcode failed state. lookupBarcodeResult added. R240 CHECKED partly unverified; re-run in R242.
-- R241: prompt rewritten to one screen after rejection (multi screen). Detail.tsx chosen as the next step.
+- R240, R241: barcode failed state via lookupBarcodeResult. One screen per prompt.
+- R242: checkpoint chosen per loop note. lookupBarcodeAsync stays until Isa approves removing its pinned test.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings.
@@ -72,6 +73,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Training-days question; gain-weight or maintain goal in onboarding.
 - Plan-ready summary screen (needs go-ahead).
+- Approval to delete dead lookupBarcodeAsync in scan.ts and its assertion at scanSeam.test.ts:521.
 - Simulator checks: answers survive a real Clerk expiry; signup, launch and paywall 401 routes; Total tile.
 
 ## Parked
@@ -87,6 +89,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Root config and backend JavaScript not linted.
 - Verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
+- Failed barcode state has no es or fr render test (keys covered by localeParity).
 
 ## Problems noticed, not fixed
 - English still hard-coded in Terms rest and formatNumber / units.ts:76 (en-AU).

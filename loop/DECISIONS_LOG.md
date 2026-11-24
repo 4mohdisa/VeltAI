@@ -10619,3 +10619,6 @@
 - 2026-11-25 09:41 The R241 extra-file verification and the es and fr barcode failed-state render test are deferred to later single-item rounds, not dropped.
 - 2026-11-25 09:41 detail.tsx is the next step because it still treats a network failure as not found, which is a real bug in the Row 13 barcode work and the report's own recommendation.
 - 2026-11-25 09:41 Owner wording review of new es and fr strings goes to OWNER_CHECKS_phase4.md, as the standing rule requires.
+- 2026-11-25 09:43 R242: checkpoint chosen because the loop note requires one task only: full type check and full app Jest, no file changes.
+- 2026-11-25 09:43 R242: the R240 partial check is covered by this full run, so no separate re-run is needed.
+- 2026-11-25 09:43 R242: the dead lookupBarcodeAsync in scan.ts stays for now, because removing it means deleting a pinned assertion that needs Isa's approval.
