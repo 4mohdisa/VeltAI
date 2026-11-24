@@ -9727,3 +9727,8 @@
 - 2026-11-25 02:33 Round 27: Jev said run 100% with risk 0.8; kept the step to one check with a park fallback, so a blocked simulator never stalls the loop.
 - 2026-11-25 02:33 Round 27: row 2.1 goes BUILT only if the simulator shows the full total, otherwise it stays PARTIAL with an owner check line.
 - 2026-11-25 02:33 Round 27: skipped the full Jest suite; full suites run on checkpoint round 30.
+- 2026-11-25 02:35 Round 28: the previous report failed the automatic check because no type check or tests ran. This round runs tsc, eslint and targeted Jest so the loop is clean again.
+- 2026-11-25 02:35 Row 2.1 stays PARTIAL. The simulator check needs 250 or more gym dates for the E2E account, so it stays parked in OWNER_CHECKS_phase4.md. No seed or SQL insert is approved this round.
+- 2026-11-25 02:35 Chose the hooks.ts:400 lint fix first: it is one file, a failing gate, and the smallest safe step. Jev rated the next action as ask at 69%, but the brief forbids asking, so the choice is run with a smaller task.
+- 2026-11-25 02:35 Targeted Jest only (files covering hooks.ts). Full suite waits for checkpoint round 30.
+- 2026-11-25 02:35 The 401 note from the Phase 2 iOS run is unverified and not treated as a current blocker. Check it in Row 2.1 or Row 16 later.

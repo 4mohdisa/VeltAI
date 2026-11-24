@@ -393,11 +393,13 @@ export function useWeeklyMacros(): Async<WeeklyMacroDay[]> {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [nonce, setNonce] = useState(0);
-  const refetch = useCallback(() => setNonce((n) => n + 1), []);
+  const refetch = useCallback(() => {
+    setIsLoading(true);
+    setNonce((n) => n + 1);
+  }, []);
 
   useEffect(() => {
     let alive = true;
-    setIsLoading(true);
     fetchWeeklyMacros()
       .then((days) => {
         if (!alive) return;
