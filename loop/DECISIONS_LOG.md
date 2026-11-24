@@ -9982,3 +9982,8 @@
 - 2026-11-25 03:51 Did not close Row 2.2 as the last report suggests. Its backend list (gym schedule LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json, one exportData function, useWeeklyMacros refetch test, npm audit) is still open. Closing it now would mark the row done too early.
 - 2026-11-25 03:51 Kept the change to one file per round, as the notes rule requires, so a lint swap can be reverted alone.
 - 2026-11-25 03:51 The string change for DailyMacroRing.tsx:96 stays parked until the string round (2.3).
+- 2026-11-25 03:52 Lint sub-item closed on the latest measurement (expo lint 0 errors, 1 accepted warning). Row 2.2 stays PARTIAL until the backend items are done, per the rule.
+- 2026-11-25 03:52 The last report's finished-task repeat is fixed by picking a backend item that is not yet done, so the round is new work.
+- 2026-11-25 03:52 The prompt allows one PHASE4_ROWS.md line this round, because the lint sub-item is done and needs recording. Only the notes line changes, not any status.
+- 2026-11-25 03:52 Jev suggested asking Isa (45%). Rejected: Isa asked for no questions this week. Park and carry on.
+- 2026-11-25 03:52 Jev risk 1.7 of 2: kept to one file and one test, with the full gates in the report.

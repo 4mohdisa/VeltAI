@@ -758,13 +758,19 @@ func (p *SchedulePGStore) GetPatterns(ctx context.Context, userID string) (*GymP
 // ---------------------------------------------------------------------------
 
 func (p *SchedulePGStore) GetExerciseProgress(ctx context.Context, userID, exerciseName string, limit int) (*ExerciseProgress, error) {
+	// LIMIT keeps the newest entries; the outer ORDER BY puts them back in
+	// date order for the chart and the trend. id breaks ties so the cut is stable.
 	rows, err := p.q.Query(ctx, `
-		SELECT gs.date::text, ge.weight, ge.reps, ge.sets
-		FROM gym_exercises ge
-		JOIN gym_sessions gs ON gs.id = ge.session_id
-		WHERE gs.user_id = $1 AND ge.name ILIKE $2
-		ORDER BY gs.date ASC, ge.created_at ASC
-		LIMIT $3`, userID, exerciseName, limit)
+		SELECT date::text, weight, reps, sets
+		FROM (
+			SELECT gs.date, ge.created_at, ge.id, ge.weight, ge.reps, ge.sets
+			FROM gym_exercises ge
+			JOIN gym_sessions gs ON gs.id = ge.session_id
+			WHERE gs.user_id = $1 AND ge.name ILIKE $2
+			ORDER BY gs.date DESC, ge.created_at DESC, ge.id DESC
+			LIMIT $3
+		) newest
+		ORDER BY date ASC, created_at ASC, id ASC`, userID, exerciseName, limit)
 	if err != nil {
 		return nil, err
 	}

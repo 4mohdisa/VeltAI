@@ -252,3 +252,62 @@ func TestPG_StreakTotalDaysCountsEveryDate(t *testing.T) {
 		t.Fatalf("streak fields without a streak row = %+v, want zero", st)
 	}
 }
+
+// Progress sorted oldest first before LIMIT, so a user with more entries than
+// the limit saw their oldest sets and never their latest. The limit must keep
+// the newest entries and still return them oldest first.
+func TestPG_ExerciseProgressLimitKeepsNewest(t *testing.T) {
+	store, pool := pgStore(t)
+	ctx := context.Background()
+	userID := "pg_progress_limit"
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO profiles (id) VALUES ($1) ON CONFLICT DO NOTHING`, userID); err != nil {
+		t.Fatalf("seed profile: %v", err)
+	}
+	t.Cleanup(func() {
+		_, _ = pool.Exec(context.Background(), `DELETE FROM profiles WHERE id = $1`, userID)
+	})
+	// 40 sessions on consecutive days, one Bench Press entry each, weight = day.
+	if _, err := pool.Exec(ctx, `
+		WITH s AS (
+			INSERT INTO gym_sessions (user_id, date)
+			SELECT $1, date '2025-01-01' + n FROM generate_series(0, 39) AS n
+			RETURNING id, date
+		)
+		INSERT INTO gym_exercises (session_id, name, sets, reps, weight)
+		SELECT id, 'Bench Press', 3, 5, (date - date '2025-01-01')::float8 FROM s`, userID); err != nil {
+		t.Fatalf("seed progress: %v", err)
+	}
+
+	for _, tc := range []struct {
+		name                string
+		limit               int
+		wantLen             int
+		wantFirst, wantLast string
+	}{
+		{"limit below row count keeps the newest", 30, 30, "2025-01-11", "2025-02-09"},
+		{"limit above row count returns every row", 50, 40, "2025-01-01", "2025-02-09"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			prog, err := store.GetExerciseProgress(ctx, userID, "bench press", tc.limit)
+			if err != nil {
+				t.Fatalf("progress: %v", err)
+			}
+			h := prog.History
+			if len(h) != tc.wantLen {
+				t.Fatalf("len = %d, want %d", len(h), tc.wantLen)
+			}
+			if h[0].Date != tc.wantFirst || h[len(h)-1].Date != tc.wantLast {
+				t.Fatalf("range = %s..%s, want %s..%s", h[0].Date, h[len(h)-1].Date, tc.wantFirst, tc.wantLast)
+			}
+			for i := 1; i < len(h); i++ {
+				if h[i].Date <= h[i-1].Date {
+					t.Fatalf("history not oldest first at %d: %s after %s", i, h[i].Date, h[i-1].Date)
+				}
+			}
+			if prog.PersonalBest == nil || prog.PersonalBest.Date != "2025-02-09" {
+				t.Fatalf("personal best = %+v, want the newest entry", prog.PersonalBest)
+			}
+		})
+	}
+}
