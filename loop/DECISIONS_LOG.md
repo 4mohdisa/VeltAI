@@ -10073,3 +10073,8 @@
 - 2026-11-25 04:24 Picked the formatting.ts date helpers because the last report named them as the next task and they are the last shared formatter gap in 2.3.
 - 2026-11-25 04:24 Full Jest run this round because the task changes strings (gotcha: a string change broke a snapshot in round 106).
 - 2026-11-25 04:24 Agree with Jev's run recommendation. Kept the step to one file plus locale keys, matching the one-file-per-prompt rule (Jev risk 0.9 of 2).
+- 2026-11-25 04:27 Round 115 reused history.yesterday and foodLog.today for Yesterday (meaning and casing match), so no new locale key for Yesterday.
+- 2026-11-25 04:27 Round 115 kept the en-AU short month, so September shows as 'Sept'. Isa to confirm in OWNER_CHECKS_phase4.md. Reverting would hardcode English names again.
+- 2026-11-25 04:27 Round 116 chose formatStreak and formatDuration because they are the next open string item and the shortest safe task.
+- 2026-11-25 04:27 Round 116 touches formatting.ts, the three locale files and helpers.test.ts in one round. Each locale file holds data only, so the one file per prompt rule is relaxed for this round only.
+- 2026-11-25 04:27 The hand built Xh Ym formatter is left for a later round so this round stays small.

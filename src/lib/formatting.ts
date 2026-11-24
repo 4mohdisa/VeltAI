@@ -24,14 +24,14 @@ export function formatCurrency(amount: number): string {
 }
 
 export function formatDuration(minutes: number): string {
-  if (minutes < 60) return `${Math.round(minutes)} min`;
+  if (minutes < 60) return i18n.t('gym.loggedMinutes', { minutes: Math.round(minutes) });
   const h = Math.floor(minutes / 60);
   const m = Math.round(minutes % 60);
-  return m === 0 ? `${h}h` : `${h}h ${m}m`;
+  return m === 0 ? i18n.t('common.hours', { h }) : i18n.t('common.hoursMinutes', { h, m });
 }
 
 export function formatStreak(days: number): string {
-  return `${days} ${days === 1 ? 'day' : 'days'}`;
+  return i18n.t('common.days', { count: days });
 }
 
 /** The date-formatting locale for an app language. English is formatted as

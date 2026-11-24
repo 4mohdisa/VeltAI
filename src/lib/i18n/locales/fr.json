@@ -8,7 +8,11 @@
     "tryAgain": "Réessayer",
     "close": "Fermer",
     "goBack": "Retour",
-    "backTo": "Retour à {{label}}"
+    "backTo": "Retour à {{label}}",
+    "days_one": "{{count}} jour",
+    "days_other": "{{count}} jours",
+    "hours": "{{h}} h",
+    "hoursMinutes": "{{h}} h {{m}} min"
   },
   "settings": {
     "destructiveHint": "Appuyez deux fois pour continuer",

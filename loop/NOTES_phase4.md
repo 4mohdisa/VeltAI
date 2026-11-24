@@ -6,12 +6,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 115: formatRelativeDate and formatLongDate translated (prompt issued). Yesterday is a new key in en, es, fr.
+- Round 116: formatStreak and formatDuration translated with plurals (prompt issued).
 - Next full suite: round 120.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG count is 24 (verified).
-  - 2.3 string round, one file per round. Done: dateLocale, MyScheduleCard weekday (round 114). Left: formatRelativeDate and formatLongDate (round 115), day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, shared Xh Ym formatter.
+  - 2.3 string round, one step per round. Done: dateLocale, MyScheduleCard weekday, formatRelativeDate and formatLongDate (round 115, Yesterday reuses history.yesterday). Left: formatStreak and formatDuration (round 116), day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, shared Xh Ym formatter.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -29,7 +29,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps.
-- Prompts touch ONE file each. Max 5 numbered steps. Name every file by full path.
+- Prompts touch ONE file each (locale JSON files count as data; round 116 is the one exception, touching three locale files plus formatting.ts and its test). Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
 - Shared router reset (setup.ts beforeEach) replaces per-test router mockClear. setup.ts must not import expo-router at the top.
 - Animated values use useState(() => new Animated.Value(x)).
@@ -47,6 +47,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Jev risk 1.0 of 2: keep steps small, one file per prompt, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 - Round 113: stale helpers.test.ts device-locale test deleted (pinned old behaviour).
+- Round 115: Sept (en-AU short month) kept. Isa to confirm in OWNER_CHECKS_phase4.md.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -59,11 +60,13 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 112: formatWeekdayDate and formatMonthYear use dateLocale.
 - Round 113: stale device-locale helper test deleted. tsc 0 errors.
 - Round 114: MyScheduleCard weekday uses dateLocale, fr render test added.
-- Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green. Last full run: 243 suites, 1,421 tests green.
+- Round 115: formatRelativeDate and formatLongDate follow app language. Full Jest 243 suites, 1,431 tests green.
+- Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md. Do not retry until Isa answers.
 - Open for Isa (not blocking): should the morning brief free-plan refusal count as an error?
+- Open for Isa (not blocking): confirm 'Sept' in English.
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
@@ -73,11 +76,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Gym tab render test in es and fr for the translated month line.
 - Hours and minutes format (Xh Ym) hand built in gymRange.ts and summaryCards.ts.
 - Day letters (MTWTFSS) hardcoded in summaryCards.ts:45.
-- formatNumber hardcoded en-AU. formatStreak ('day'/'days') and formatDuration ('min') English only.
+- formatNumber hardcoded en-AU.
 
 ## Next
-- Round 115: formatting.ts formatRelativeDate and formatLongDate, Yesterday key in en, es, fr, full Jest run.
-- Then day letters, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
+- Round 116: formatStreak and formatDuration with plurals in en, es, fr, full Jest run.
+- Then day letters, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), Xh Ym formatter, one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
@@ -100,5 +103,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
-- formatting.ts:67 and :72 use device locale (check in round after 115).
+- formatting.ts:67 and :72 use device locale (check in round after 116).
 - Tool note: the lint gate is npx expo lint.
+- Round 115 note: Day labels on a real device come from iOS date formatting; only a simulator check shows punctuation differences in es and fr.

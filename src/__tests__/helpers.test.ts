@@ -132,6 +132,23 @@ describe('formatRelativeDate / formatLongDate follow the app language', () => {
   });
 });
 
+describe('formatStreak / formatDuration follow the app language', () => {
+  afterAll(() => i18n.changeLanguage('en'));
+
+  test.each([
+    ['en', '1 day', '3 days', '5 min', '2h', '1h 30m'],
+    ['es', '1 día', '3 días', '5 min', '2 h', '1 h 30 min'],
+    ['fr', '1 jour', '3 jours', '5 min', '2 h', '1 h 30 min'],
+  ])('%s', async (lang, oneDay, days, mins, hours, hoursMins) => {
+    await i18n.changeLanguage(lang);
+    expect(formatStreak(1)).toBe(oneDay);
+    expect(formatStreak(3)).toBe(days);
+    expect(formatDuration(5)).toBe(mins);
+    expect(formatDuration(120)).toBe(hours);
+    expect(formatDuration(90)).toBe(hoursMins);
+  });
+});
+
 describe('formatWeekdayDate / formatMonthYear follow the app language', () => {
   // 21 November: en-AU puts the day first ("Saturday 21 November"); es and fr use their own words and order.
   const d = new Date(2026, 10, 21);
