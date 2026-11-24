@@ -9965,3 +9965,8 @@
 - 2026-11-25 03:45 String change (DailyMacroRing) stays for the 2.3 string round, per the notes rule.
 - 2026-11-25 03:45 If the top-level helpers import breaks the render project, the prompt reverts it rather than trying a second approach, to keep the Jev risk low.
 - 2026-11-25 03:45 Parked nothing this round. OWNER_CHECKS_phase4.md is untouched.
+- 2026-11-25 03:47 Chose the camera mock step because it is one file per round and the last handover names it as the next step.
+- 2026-11-25 03:47 Kept the string round (DailyMacroRing) for 2.3, per the rule that string changes wait for the string round.
+- 2026-11-25 03:47 Allowed the shared camera stub to take the smallest working form if jest.mock hoisting blocks an imported factory, and to record the choice in the report.
+- 2026-11-25 03:47 Lint reading taken as 1 warning (round 91 measured), not the older 6 in the handover; the accepted analyticsSink warning stays.
+- 2026-11-25 03:47 Parked settingsHelp mockPush and useWeeklyMacros refetch test for later rounds in 2.2.

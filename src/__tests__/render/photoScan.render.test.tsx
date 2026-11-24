@@ -75,17 +75,9 @@ jest.mock('@/lib/data/scanPoller', () => ({ startScanPoller: jest.fn(() => jest.
 // button calls `cameraRef.current?.takePictureAsync(...)` directly, with no
 // dev-only simulate button to drive instead.
 const mockTakePicture = jest.fn();
-jest.mock('expo-camera', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const React = require('react');
-  return {
-    useCameraPermissions: () => [{ granted: true, canAskAgain: true }, jest.fn()],
-    CameraView: React.forwardRef(function CameraView(_props: unknown, ref: unknown) {
-      React.useImperativeHandle(ref, () => ({ takePictureAsync: mockTakePicture }));
-      return null;
-    }),
-  };
-});
+jest.mock('expo-camera', () =>
+  jest.requireActual<typeof import('./cameraMock')>('./cameraMock').cameraMock(() => mockTakePicture),
+);
 
 // Skeleton/SkeletonList animate through reanimated's useReducedMotion,
 // unavailable in this render environment (same gap noted in
