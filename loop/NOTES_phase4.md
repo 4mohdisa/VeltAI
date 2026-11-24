@@ -6,14 +6,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 92 done: photoScan uses shared src/__tests__/render/cameraMock.tsx. tsc 0, render 166 suites / 536 tests pass. Lint 0 errors, 1 warning (accepted analyticsSink.ts:29).
-- Round 93 (now): labelScan camera mock to the shared stub (step 2 of 3).
+- Round 93 done: labelScan.render.test.tsx uses shared cameraMock. tsc 0, render 166 suites / 536 tests pass. Lint 0 errors, 1 warning (accepted analyticsSink.ts:29).
+- Round 94 (now): scanScreens.strings camera mock to cameraMock, plus optional getPermission getter in cameraMock.tsx (step 3 of 3).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Last measured (round 92): npx expo lint 0 errors, 1 warning. Recheck in the next lint round.
+- Last measured (round 93): npx expo lint 0 errors, 1 warning. Recheck in the next lint round.
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
@@ -25,7 +25,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. Sign up, sign in, onboarding and new Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps. Big visual ideas go to OWNER_CHECKS_phase4.md as post launch UI items.
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
-- Prompts touch one screen, component or file each. Max 5 numbered steps. Name every file by full path.
+- Prompts touch one screen, component or file each (a coupled pair may go in one round with a note). Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
 - Shared router reset (setup.ts beforeEach) replaces per-test router mockClear.
 - Mock forwardRef components get named functions. Factory cases use jest.requireActual.
@@ -43,7 +43,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc, a grep and the render project if no test file changed status.
 - A round that changes nothing still runs the gates and reports the exact output.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk high (1.0 of 2): keep steps to one file and check gates each round.
+- Jev risk now 1.1 of 2: keep steps small, check gates each round.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -51,7 +51,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76, 90 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-92: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; settingsHelp uses jest.fn; setup.ts imports helpers at top; photoScan uses shared cameraMock.
+- Rounds 45-93: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; settingsHelp uses jest.fn; setup.ts imports helpers at top; photoScan and labelScan use shared cameraMock.
 - Round 88: analyticsSink warning recorded as accepted in KNOWN_ISSUES.md; TestPG count fixed to 21.
 - Round 89: verification only, render 166 suites / 536 tests pass.
 
@@ -62,10 +62,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 93: labelScan camera mock to cameraMock (step 2 of 3).
-- Round 94: scanScreens.strings camera mock to cameraMock; add optional getPermission getter for mockPermission (step 3 of 3).
+- Round 94: scanScreens.strings camera mock to cameraMock; optional getPermission getter in cameraMock.tsx (step 3 of 3).
 - Then settingsHelp: make mockPush a jest.fn cleared by the shared reset.
 - Then DailyMacroRing.tsx:96 'of' to nutrition.ringOf (string round, 2.3).
+- Then debugCapture.test.ts lines 25 and 78 warnings, debugGating.test.ts:112 and :141, render/setup.ts:38.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
 - Then 2.3 (translations and Retry, i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -79,8 +79,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
 - i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files (Row 2.3).
 - The history test assertion hardcodes isoDaysAgo(6) because DAYS isn't exported.
-- settingsHelp mockPush is wrapped in a plain function, so the shared hook can't clear it.
-- No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - KNOWN_ISSUES.md has a section '## Phase 4 (out of scope)' that should be renamed to 'Parked for later'.
 - KNOWN_ISSUES.md TestPG count must match the real run (21 tests). Line 40 still says 20: fix in the 2.2 docs step.

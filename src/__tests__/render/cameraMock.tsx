@@ -3,11 +3,16 @@
 // takePictureAsync the screens call through their ref.
 import { forwardRef, useImperativeHandle } from 'react';
 
-// A getter, not the spy itself: jest.mock factories run before the test
-// file's own consts are initialised, so the spy is read at render time.
-export function cameraMock(getTakePicture: () => jest.Mock) {
+type Permission = { granted: boolean; canAskAgain: boolean };
+
+// Getters, not values: jest.mock factories run before the test file's own
+// variables are initialised, so both are read when the screen calls them.
+export function cameraMock(
+  getTakePicture: () => jest.Mock,
+  getPermission: () => Permission = () => ({ granted: true, canAskAgain: true }),
+) {
   return {
-    useCameraPermissions: () => [{ granted: true, canAskAgain: true }, jest.fn()],
+    useCameraPermissions: () => [getPermission(), jest.fn()],
     CameraView: forwardRef(function CameraView(_props: unknown, ref) {
       useImperativeHandle(ref, () => ({ takePictureAsync: getTakePicture() }));
       return null;
