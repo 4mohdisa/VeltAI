@@ -8,13 +8,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: steps 1a to 1d done for goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer, preview (R217). OnbScaffold shared. 401 handling on signup, paywall and launch gate uses SESSION_ENDED; answers survive expired session.
-- R217 preview report was flagged: full Jest not run. R218 fixes this with a full checkpoint.
-- Last full checkpoint: R218 (pending result). Next checkpoint R227 or later.
+- Row 2b DIFFERENT: steps 1a to 1d done up to preview (R217). OnbScaffold shared.
+- R218 full checkpoint green: tsc 0, lint 0, 269 suites, 1,595 tests.
+- Next checkpoint R227 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R218: full Jest + lint checkpoint (fix round). R219: done screen (src/app/onboarding/done.tsx). Then paywall (also removes English CUISINE_LABEL). One screen per round. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R219: done screen (src/app/onboarding/done.tsx). Then paywall (also removes English CUISINE_LABEL). One screen per round. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 If a round shows failures: fix them first, in a small round, before new strings.
 
 ## Rules
@@ -60,10 +60,11 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - R213: targets done. R214: disclaimer translated first. R215: HealthDisclaimer.tsx only.
 - R216: checkpoint green (269 suites, 1,591 tests).
 - R217: preview done in en, es, fr. Trial note uses {{days}}, no plural yet (TRIAL_DAYS = 7).
-- R218: loop flag on R217 (full Jest not run). Fix round runs full Jest and lint first.
+- R218: checkpoint green (269 suites, 1,595 tests). Preview flag cleared.
+- R219: done screen is next, in agreed order.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, preview (R217), kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
+- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, preview, done (R219), kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -92,7 +93,7 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' (onboarding.sessionExpired). Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: done, paywall strings and toasts. Terms disclaimer paragraphs in src/app/legal/terms.tsx.
+- Still hard-coded English: done (until R219), paywall strings and toasts. Terms disclaimer paragraphs in src/app/legal/terms.tsx.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer, stack traces in passing tests (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
@@ -108,3 +109,4 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - Signup placeholders are literals.
 - Simulator check needed for Clerk session end on signup and paywall 401 routes.
 - Preview: cuisine and halal lines are copy only; no data check.
+- Trial note uses {{days}} with no plural forms (see parked).

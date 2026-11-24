@@ -10505,3 +10505,6 @@
 - 2026-11-25 09:00 Done screen is pushed to R219 so the fix round stays small; Jev's run signal matches this pick.
 - 2026-11-25 09:00 Trial note plural is not fixed now: TRIAL_DAYS is 7 and the authBilling test requires it; it stays in NEXT as a known gotcha.
 - 2026-11-25 09:00 Preview es and fr strings are added to the Isa review list in OWNER_CHECKS_phase4.md if they are missing (append only).
+- 2026-11-25 09:02 R218 full checkpoint green (tsc 0, lint 0, 269 suites, 1,595 tests). Preview flag cleared.
+- 2026-11-25 09:02 R219 is the done screen as the next step in the agreed order, one screen per round.
+- 2026-11-25 09:02 Paywall stays for the next round, as planned. Candidates 2 and 3 are parked, not dropped.

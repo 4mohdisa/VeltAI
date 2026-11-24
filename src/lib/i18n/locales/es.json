@@ -1240,6 +1240,10 @@
       "targets": "Tus objetivos de calorías y macros, calculados según tu meta y tu nivel de actividad",
       "portions": "Nuestra IA aprende tus porciones — cuanto más registras, más precisa es",
       "halal": "Filtro halal aplicado — marcaremos los productos que no sean halal"
+    },
+    "done": {
+      "title": "Todo listo",
+      "welcomeToast": "¡Te damos la bienvenida a Lume!"
     }
   },
   "signup": {
