@@ -5,18 +5,19 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## State
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
-- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked). Row 2b DIFFERENT (screens 1a to 1d and done, paywall strings done).
-- R227 full checkpoint green: 270 suites, 1,637 tests, tsc 0 errors, lint 0 findings.
-- Next full checkpoint due at R242 or at a handover.
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
+- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked). Row 2b DIFFERENT: screens 1a to 1d done, paywall strings done, preview and plan-ready screen not built.
+- R227 checkpoint green: 270 suites, 1,637 tests, tsc 0, lint 0. Handover cites 268 and 1,579; R230 numbers are the record.
+- Next full checkpoint: R242 or next handover.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R229: CONNECTION_MESSAGE literal in paywallSessionExpired.render.test.tsx to en string. In progress.
-- Then: CUISINE_LABEL cleanup in cuisines.ts.
-- Then: row 2c has no scope in the brief; park it in OWNER_CHECKS and move on.
+- R230: checkpoint, read only, no file changes.
+- Then: CUISINE_LABEL cleanup in cuisines.ts (unused export, English label field).
+- Row 2c: no scope in the brief; park in OWNER_CHECKS and move on.
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - A red round is fixed in a small round before new work.
+- At the next records round: check Row 2b notes in PHASE4_ROWS.md against the handover (it has drifted before).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -56,9 +57,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R222: paywall strings done. es and fr are agent wording for review.
 - R225: validateOnboardingPayload i18n chosen over sessionExpired copy.
 - R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
-- R227: checkpoint green, nothing fixed.
-- R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server 4xx English text still shows; tracked in row 2b notes.
-- R229: row 2c has no scope in the brief; park in OWNER_CHECKS when reached.
+- R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server English 4xx text still shows; tracked in row 2b.
+- R229: CONNECTION_MESSAGE test constant reads en.onboarding.paywall.submitFailed.
+- R230: checkpoint round, read only, per handover.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding screens, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
@@ -91,8 +92,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
 ## Problems noticed, not fixed
-- CUISINE_LABEL in cuisines.ts unused; English label field may be unused.
-- Paywall toast and paywall feature list and toasts still English in places; server 4xx text English.
+- CUISINE_LABEL in cuisines.ts unused; English label field may be unused. The paywall cuisine line still reads it.
+- Paywall feature list and toasts still English in places; server 4xx text English.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
@@ -101,4 +102,6 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Secrets scan placeholder check is a heuristic.
 - Preview: cuisine and halal lines are copy only; no data check.
 - Key naming mixed: goal and activity flat, later screens nested.
+- onboarding.sessionExpired says 'finish setting up', wrong for users who finished onboarding.
+- measurements.tsx local t shadows t().
 - Gotcha: the Row 2b note may drift again; check it at each records round.

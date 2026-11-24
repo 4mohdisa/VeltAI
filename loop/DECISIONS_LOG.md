@@ -10556,3 +10556,7 @@
 - 2026-11-25 09:16 R229: rejected prompt fixed by stating the loop/phase4 branch rule as step 0 and forbidding every other git command.
 - 2026-11-25 09:16 R229: the removed paywall 4xx tracking line is restored in row 2b notes so the English server text stays tracked.
 - 2026-11-25 09:16 R229: no new strings this round, so no es or fr wording is added for review.
+- 2026-11-25 09:18 R230: checkpoint round, read only, because the handover loop note asks for it. The R242 checkpoint is still due later.
+- 2026-11-25 09:18 R230: Jev recommends run at 83%. I agree, and keep the round read only because the risk score is 0.9.
+- 2026-11-25 09:18 R230: the handover counts (268 suites, 1,579 tests) differ from the R227 notes (270 suites, 1,637 tests). This round's numbers become the record.
+- 2026-11-25 09:18 R230: CUISINE_LABEL cleanup is next if the checkpoint is green. Row 2c has no scope in the brief, so it is parked in OWNER_CHECKS_phase4.md when reached.
