@@ -10094,3 +10094,7 @@
 - 2026-11-25 04:33 Round 120 full suite checkpoint is merged into this round, since this round changes strings that pin snapshots.
 - 2026-11-25 04:33 Jev ranked the same candidates in the same order with the same top pick, so no second look was needed.
 - 2026-11-25 04:33 Jev said ask 14% and stop 1% for the next action. Not used: ask is not allowed and the task is not dangerous.
+- 2026-11-25 04:34 Chose the summaryCards formatHoursMinutes swap next because it is the direct follow-on the last report recommended and reuses the helper from round 121.
+- 2026-11-25 04:34 Allowed one pinned es/fr assertion edit in summaryCards.test.ts if it pins the old text, recorded in the report, per the Phase 4 rule for strings.
+- 2026-11-25 04:34 No simulator run this round: a string-only change; the Row 2 simulator check stays an owner check in OWNER_CHECKS_phase4.md.
+- 2026-11-25 04:34 Native spacing for es and fr ('0 h 30 min') kept as chosen in round 120/121. Isa may change es.json and fr.json later.

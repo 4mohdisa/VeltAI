@@ -8,9 +8,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: code done. Simulator check parked in OWNER_CHECKS_phase4.md.
-- 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. Row 2.2 closes only when every backend item is done. TestPG 24 of 24.
-- 2.3 string round. Done: dateLocale, weekday, relative date, long date, formatStreak, formatDuration (locale style), formatHoursMinutes (round 119, helper in formatting.ts, 15 cases en/es/fr).
-- 2.3 left, in order: round 121 gymRange.ts:202 uses formatHoursMinutes with es/fr gymMonth assertions updated and full Jest checkpoint; then summaryCards.ts:78 uses it; then formatDuration 1h 60m fix, day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments.
+- 2.2: backend items done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
+- 2.3 string round. Done: dateLocale, weekday, relative date, long date, formatStreak, formatDuration (locale style), formatHoursMinutes (helper in formatting.ts), gymRange monthSummary (round 121), subscription.tsx, DailyMacroRing 'of', monthTitle, summaryCards workoutsLine and dayReadout.
+- 2.3 left, in order: round 122 summaryCards.ts:78 uses formatHoursMinutes; then formatDuration 1h 60m fix; day letters (summaryCards.ts:45); custom-food 'Save food'; ConfidenceBadge text; nutrition kcal label (snapshots regenerated); i18n header comments.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -24,7 +24,6 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - TestPG database: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
 - Morning brief free-plan refusal sets isError true (round 100). Revisit in Rows 6 and 7.
-- Subscription render test keeps the typed __setPurchasesModule fake.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps.
@@ -44,8 +43,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 113: stale device-locale helper test deleted (pinned old behaviour).
 - Round 115: 'Sept' (en-AU short month) kept. Isa to confirm in OWNER_CHECKS_phase4.md.
 - Round 116: es and fr durations use locale style ('1 h 30 min'). Low priority style note in OWNER_CHECKS_phase4.md.
-- Round 118: month summary keeps design shape '0h 45m' in English (pinned by gymMonth.test.ts). Shared formatter formatHoursMinutes in formatting.ts.
-- Round 120/121: es and fr month summary use common.hoursMinutes native spacing ('0 h 30 min'). Chosen without asking, reason: each language uses its own key. Isa can change es.json and fr.json later.
+- Round 118: month summary keeps design shape '0h 45m' in English (pinned by gymMonth.test.ts).
+- Round 120/121: es and fr month summary use common.hoursMinutes native spacing ('0 h 30 min'). Chosen without asking; each language uses its own key. Isa can change es.json and fr.json later.
 - Round 119: 8 console.error lines in the Jest run are not failures. Tracked for Row 22.
 
 ## Done (condensed)
@@ -55,11 +54,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-115: i18n renders, monthTitle and dates use dateLocale.
-- Round 116: formatStreak and formatDuration follow app language with plurals.
+- Rounds 107-116: i18n renders, monthTitle and dates use dateLocale, formatStreak and formatDuration locale plurals.
 - Round 117: gymRange formatDuration attempt failed 4 pinned tests. Reverted.
 - Round 119: formatHoursMinutes added with tests in en, es, fr.
-- Checkpoints 44, 60, 75, 76, 90, 104, 118: tsc and Jest green.
+- Round 121: gymRange monthSummary uses formatHoursMinutes. Full Jest 243 suites, 1,449 tests green.
+- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121: tsc and Jest green.
 
 ## Blocked on Isa (not blocking the loop)
 - E2E account needs 250+ gym dates. Logged in OWNER_CHECKS_phase4.md.
@@ -77,15 +76,14 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - formatting.ts:67 and :72 use device locale.
 
 ## Next
-- Round 121: gymRange.ts:202 uses formatHoursMinutes; es and fr gymMonth assertions updated; full Jest checkpoint.
-- Round 122: summaryCards.ts:78 uses formatHoursMinutes; summaryCards.test.ts updated.
+- Round 122: summaryCards.ts:78 uses formatHoursMinutes; summaryCards.test.ts updated if needed; full Jest checkpoint.
 - Then formatDuration 1h 60m fix, day letters, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, one per round.
 - Then 2.2 backend items.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
-- formatDuration can give '1h 60m' for inputs like 119.6.
+- formatDuration can give '1h 60m' for inputs like 119.6. Round before splitting.
 - formatStreak(0) in fr gives '0 jour' (correct French, differs from en).
 - Older backend without total_days gives an undefined tile. Deploy backend with app (owner note in OWNER_CHECKS_phase4.md).
 - ssh tunnel on 127.0.0.1:55432: unknown target. Do not touch.
@@ -105,3 +103,6 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - src/lib/i18n/index.ts comment still says French is 'intentionally partial'.
 - Day letters (MTWTFSS) hardcoded in summaryCards.ts:45.
 - Jest run prints about 206 console blocks (8 console.error). Row 22.
+- formatting.ts:67 and :72 use device locale.
+- The Xh Ym duration is built by hand in two places (summaryCards.ts:78 fixed in round 122).
+- Morning brief free-plan refusal question still open for Isa.

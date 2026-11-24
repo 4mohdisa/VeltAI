@@ -4,7 +4,7 @@
 // null so the card can say so instead of printing a zero.
 import type { StoredMeal } from './foodStore';
 import type { EnergyBalance, GymSession } from '@/lib/api';
-import { dateLocale } from '@/lib/formatting';
+import { dateLocale, formatHoursMinutes } from '@/lib/formatting';
 import i18n from '@/lib/i18n';
 import { burnOf, mean, netOf } from './energyRange';
 import { fromIso, weekOf } from './foodDays';
@@ -75,7 +75,7 @@ export function workoutsLine(w: WorkoutsWeek): string {
   if (w.sessions === 0) return i18n.t('workoutsWeek.noSessions');
   const parts: string[] = [];
   if (w.minutes > 0) {
-    parts.push(i18n.t('dashboard.durationTrained', { value: `${Math.floor(w.minutes / 60)}h ${w.minutes % 60}m` }));
+    parts.push(i18n.t('dashboard.durationTrained', { value: formatHoursMinutes(w.minutes) }));
   }
   if (w.untimed > 0) parts.push(i18n.t('workoutsWeek.untimed', { count: w.untimed }));
   return parts.join(' · ') || i18n.t('gymHistory.durationNotRecorded');

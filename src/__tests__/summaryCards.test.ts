@@ -95,8 +95,8 @@ describe('workoutsLine follows the app language', () => {
   const week = (minutes: number, untimed: number): WorkoutsWeek => ({ sessions: 3, minutes, untimed, pips: [] });
 
   test.each([
-    ['es', '1h 45m de entrenamiento · 1 sin duración', '2 sin duración', 'Aún no hay sesiones esta semana', 'Duración no registrada'],
-    ['fr', '1h 45m d’entraînement · 1 sans durée', '2 sans durée', "Aucune séance cette semaine pour l'instant", 'Durée non enregistrée'],
+    ['es', '1 h 45 min de entrenamiento · 1 sin duración', '2 sin duración', 'Aún no hay sesiones esta semana', 'Duración no registrada'],
+    ['fr', '1 h 45 min d’entraînement · 1 sans durée', '2 sans durée', "Aucune séance cette semaine pour l'instant", 'Durée non enregistrée'],
   ])('%s', async (lang, singular, plural, none, unrecorded) => {
     await i18n.changeLanguage(lang);
     expect(workoutsLine(week(105, 1))).toBe(singular);
