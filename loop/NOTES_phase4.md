@@ -8,11 +8,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions done. Last full Jest green R197: 266 suites, 1,564 tests.
+- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions, signup 401 (R201) done.
+- Last full Jest green R197: 266 suites, 1,564 tests. R202 checkpoint runs full Jest after R201.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R201 (now): signup.tsx 401 uses SESSION_ENDED, renderScreen wrapped in AppStateProvider (approved R199). Then R200: paywall 401, same pattern. Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R202 (now): checkpoint, tsc and full Jest, no file changes. Then R200: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -49,7 +50,8 @@ R201 (now): signup.tsx 401 uses SESSION_ENDED, renderScreen wrapped in AppStateP
 - R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything.
 - R198: 401 routes split one per round. Session cleared via SESSION_ENDED, answers kept.
 - R199: renderScreen wrapped in AppStateProvider (approved). Signup 401 uses SESSION_ENDED only; signupAuth401 assertions changed to match.
-- R201: prompt rewritten with the branch rule after rejection. Jev 82% ask overruled: the renderScreen change is already approved in R199, so no new question is needed. Jev cannot see this.
+- R201: prompt rewritten with the branch rule after rejection. Jev 82% ask overruled: the renderScreen change is already approved in R199.
+- R202: checkpoint round first (loop note and Jev run 100%). Reason: R201 changed renderScreen used by about 181 test files; the full suite has not run since R197. R200 is next after the checkpoint.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review (Welcome, signup, onboarding, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
@@ -95,3 +97,4 @@ R201 (now): signup.tsx 401 uses SESSION_ENDED, renderScreen wrapped in AppStateP
 - Paywall 401 still opens sign in without ending the Clerk session (R200).
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
 - Onboarding screens after signup are still hard-coded English (1d and 2c).
+- The signup placeholders are literals.

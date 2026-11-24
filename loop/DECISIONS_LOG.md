@@ -10437,3 +10437,7 @@
 - 2026-11-25 06:47 R201: signupAuth401 assertions change to sign-out once, router.replace to sign-in, toast tone info. Allowed under the R199 approval for that test.
 - 2026-11-25 06:47 R201: simulator check parked in OWNER_CHECKS_phase4.md, not run this round. Reason: a single screen step, and the simulator check needs a real Clerk expiry.
 - 2026-11-25 06:47 R201: chose the smallest task (one screen) because Jev rates a clean finish of the last round at 2%.
+- 2026-11-25 06:50 R202: the loop note requires a checkpoint round (type check and full app suite, no file changes). Jev also ranks run first at 100%. The loop note's wording about R200 is unclear, but the checkpoint is required after R201's renderScreen change touched about 181 test files, so it goes first.
+- 2026-11-25 06:50 R202: R200 (paywall 401) stays the next task after this checkpoint. Its pattern is already approved in R199 and needs no new question to Isa.
+- 2026-11-25 06:50 R202: the checkpoint prompt forbids fixes so that any failure is reported cleanly and not mixed with new work.
+- 2026-11-25 06:50 R202: the full Jest run is the first full run since R197, so it covers the renderScreen wrapper change from R201.
