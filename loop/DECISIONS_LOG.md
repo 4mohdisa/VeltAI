@@ -10492,3 +10492,7 @@
 - 2026-11-25 08:53 R215: previous prompt rejected for covering more than one component. Rewritten as one component only (HealthDisclaimer.tsx) with a max of 5 steps.
 - 2026-11-25 08:53 R215: chose the disclaimer first because targets still shows English. Signup SESSION_ENDED is the next candidate after this round.
 - 2026-11-25 08:53 R215: Jev ranks the same top candidate, so no second look is needed. Jev's high risk score is noted but the risk is limited because the change is small, local and tested.
+- 2026-11-25 08:56 Chose candidate 1 (checkpoint) over Jev's preview task. Reason Jev cannot see: the loop note assigns this round as a checkpoint after the handover, and the last full green run was R210. About 6 suites were added since, and the R215 disclaimer change touched three screens' tests. Starting preview edits on an unconfirmed baseline would mix old and new failures.
+- 2026-11-25 08:56 Recorded in the notes that the signup SESSION_ENDED fix is done (R201, confirmed R204). The earlier 'later candidate' line was stale.
+- 2026-11-25 08:56 Kept the preview screen as the next task after the checkpoint, unchanged in scope (one screen per round, max 5 steps).
+- 2026-11-25 08:56 Checkpoint runs tsc and the full Jest suite only. Lint and Go are not needed this round because no files change.
