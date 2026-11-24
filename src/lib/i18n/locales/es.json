@@ -731,7 +731,12 @@
     "energyWeekSummary_one": "Consumidas y quemadas del último {{count}} día, escala hasta {{value}} kcal.",
     "energyWeekSummary_other": "Consumidas y quemadas de cada uno de los últimos {{count}} días, escala hasta {{value}} kcal.",
     "energyAverageEaten": "Media de {{value}} kcal consumidas al día esta semana.",
-    "energyNetNote": "El neto es la ingesta menos el gasto total."
+    "energyNetNote": "El neto es la ingesta menos el gasto total.",
+    "weekCardLabel": "Detalle de esta semana",
+    "weekCardLoadFailed": "No se pudo cargar esta semana. Desliza hacia abajo para reintentar.",
+    "weekCardNoDays": "Aún no hay días que mostrar esta semana.",
+    "unitInPerDay": "{{unit}} de ingesta por día",
+    "unitNetPerDay": "{{unit}} de balance neto por día"
   },
   "nutrition": {
     "title": "Nutrición",

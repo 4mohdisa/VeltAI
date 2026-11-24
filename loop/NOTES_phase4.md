@@ -9,7 +9,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: code done. Simulator check parked in OWNER_CHECKS_phase4.md.
 - 2.2: backend items done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 string round, left in order: WeekEnergyCard letters (round 125, in progress); custom-food 'Save food'; ConfidenceBadge text; nutrition kcal label (snapshots regenerated); i18n header comments.
+- 2.3 string round, left: WeekEnergyCard header and a11y label (round 126, chosen); monthTitle dateLocale; custom-food 'Save food'; ConfidenceBadge text; nutrition kcal label (snapshots regenerated); i18n header comments.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -46,8 +46,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 120-122: es and fr month summary and weekly card use common.hoursMinutes native spacing ('1 h 45 min'). Chosen without asking.
 - Round 119: 8 console.error lines in the Jest run are not failures. Tracked for Row 22.
 - Round 123: formatDuration rounds total minutes first (119.6 gives '2h').
-- Round 124: day letters in summaryCards use calendar.weekdayLetters (Monday first), not Intl. Hermes ignores weekday narrow.
-- Round 125: WeekEnergyCard letters chosen next (translated key, Monday first mapping).
+- Round 124: day letters in summaryCards use calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
+- Round 125: WeekEnergyCard day letters use calendar.weekdayLetters via dayLetter(date) = (getDay()+6)%7. Render test lives in src/__tests__/render/ (only *.render.test.tsx gets the jest-expo preset). Full Jest 244 suites, 1,453 tests green.
+- Round 126 (chosen): WeekEnergyCard header and a11y label translated.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -56,14 +57,14 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-124: i18n renders, monthTitle and dates use dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters.
-- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121, 122: tsc and Jest green. Round 123: tsc 0 errors, Jest 243 suites and 1,450 tests green.
+- Rounds 107-125: i18n renders, dateLocale for dates, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard day letters.
+- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121, 122, 123, 125: tsc and Jest green.
 
 ## Blocked on Isa (not blocking the loop)
 - E2E account needs 250+ gym dates. Logged in OWNER_CHECKS_phase4.md.
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
-- Confirm es and fr hours and minutes spacing ('1 h 45 min' vs '1h 45m'). Raised in rounds 122 and 124 (same blocker twice): do not retry, work on other surfaces until Isa answers.
+- Confirm es and fr hours and minutes spacing ('1 h 45 min' vs '1h 45m'). Asked in rounds 122, 124 and 125. Do not retry; work on other surfaces.
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
@@ -73,11 +74,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Gym tab render test in es and fr for the translated month line.
 - formatNumber hardcoded en-AU.
 - formatting.ts:67 and :72 use device locale.
-- monthTitle uses i18n.language instead of dateLocale (check in 2.3 or 2.5).
+- WeekEnergyCard reads i18n directly, not useTranslation (optional, may be done in round 126).
 
 ## Next
-- Round 125: WeekEnergyCard day letters (src/components/domain/WeekEnergyCard.tsx), with es and fr test; full Jest.
-- Then monthTitle dateLocale, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, one per round.
+- Round 126: WeekEnergyCard header and a11y label (src/components/domain/WeekEnergyCard.tsx), with en, es, fr render test; full Jest.
+- Then monthTitle dateLocale (src/lib/data/gymRange.ts), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, one per round.
 - Then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
 
@@ -102,3 +103,4 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - The Xh Ym duration is built by hand in one more place (gymRange or summaryCards, check in 2.3).
 - Jest prints about 206 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard weekday/month short names: check once on the simulator (Row 23).
+- Summary weekly card 'MTWTFSS' fallback literal may still exist in summaryCards.ts; verify in 2.3.

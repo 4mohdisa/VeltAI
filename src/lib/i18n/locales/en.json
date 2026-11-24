@@ -729,7 +729,12 @@
     "energyWeekSummary_one": "Eaten and burned for the last {{count}} day, scale up to {{value}} kcal.",
     "energyWeekSummary_other": "Eaten and burned for each of the last {{count}} days, scale up to {{value}} kcal.",
     "energyAverageEaten": "Averaging {{value}} kcal eaten a day this week.",
-    "energyNetNote": "Net is intake minus total burn."
+    "energyNetNote": "Net is intake minus total burn.",
+    "weekCardLabel": "This week detail",
+    "weekCardLoadFailed": "Couldn't load this week. Pull down to try again.",
+    "weekCardNoDays": "No days to show yet this week.",
+    "unitInPerDay": "{{unit}} in per day",
+    "unitNetPerDay": "{{unit}} net per day"
   },
   "nutrition": {
     "title": "Nutrition",

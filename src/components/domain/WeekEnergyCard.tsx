@@ -60,9 +60,9 @@ export function WeekEnergyCard({ days, loading, error, energyUnit }: WeekEnergyC
       onPress={() => router.push('/dashboard/week' as Href)}
       haptic={false}
       accessibilityRole="button"
-      accessibilityLabel="This week detail"
+      accessibilityLabel={i18n.t('dashboard.weekCardLabel')}
     >
-      <CardHeaderRow title="This week" icon="chart.bar.fill" tint={accent.blue} chevron />
+      <CardHeaderRow title={i18n.t('dashboard.thisWeek')} icon="chart.bar.fill" tint={accent.blue} chevron />
     </Pressable>
   );
 
@@ -75,7 +75,7 @@ export function WeekEnergyCard({ days, loading, error, energyUnit }: WeekEnergyC
             <Skeleton width="100%" height={CHART_H} />
           ) : (
             <Text variant="callout" color={color.secondaryLabel}>
-              {error ? "Couldn't load this week. Pull down to try again." : 'No days to show yet this week.'}
+              {error ? i18n.t('dashboard.weekCardLoadFailed') : i18n.t('dashboard.weekCardNoDays')}
             </Text>
           )}
         </View>
@@ -98,8 +98,8 @@ export function WeekEnergyCard({ days, loading, error, energyUnit }: WeekEnergyC
           value={mode}
           onChange={(v) => setMode(v as Mode)}
           options={[
-            { label: 'In & out', value: 'inout' },
-            { label: 'Net', value: 'net' },
+            { label: i18n.t('dashboard.inAndOut'), value: 'inout' },
+            { label: i18n.t('dashboard.net'), value: 'net' },
           ]}
           variant="inset"
         />
@@ -109,7 +109,7 @@ export function WeekEnergyCard({ days, loading, error, energyUnit }: WeekEnergyC
             {stat == null ? '—' : mode === 'net' && stat > 0 ? `+${show(stat)}` : stat < 0 ? `−${show(-stat)}` : show(stat)}
           </Text>
           <Text variant="footnote" color={color.secondaryLabel}>
-            {energyUnit} {mode === 'inout' ? 'in per day' : 'net per day'}
+            {i18n.t(mode === 'inout' ? 'dashboard.unitInPerDay' : 'dashboard.unitNetPerDay', { unit: energyUnit })}
           </Text>
         </View>
 

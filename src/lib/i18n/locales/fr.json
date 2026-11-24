@@ -729,7 +729,12 @@
     "energyWeekSummary_one": "Consommées et brûlées du {{count}} dernier jour, échelle jusqu’à {{value}} kcal.",
     "energyWeekSummary_other": "Consommées et brûlées de chacun des {{count}} derniers jours, échelle jusqu’à {{value}} kcal.",
     "energyAverageEaten": "En moyenne {{value}} kcal consommées par jour cette semaine.",
-    "energyNetNote": "Le net correspond à l’apport moins la dépense totale."
+    "energyNetNote": "Le net correspond à l’apport moins la dépense totale.",
+    "weekCardLabel": "Détail de cette semaine",
+    "weekCardLoadFailed": "Impossible de charger cette semaine. Tirez vers le bas pour réessayer.",
+    "weekCardNoDays": "Aucun jour à afficher pour l’instant cette semaine.",
+    "unitInPerDay": "{{unit}} d’apport par jour",
+    "unitNetPerDay": "{{unit}} de bilan net par jour"
   },
   "nutrition": {
     "title": "Nutrition",

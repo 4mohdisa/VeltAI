@@ -10110,3 +10110,7 @@
 - 2026-11-25 04:37 Recorded the repeated blocker (es and fr hours and minutes spacing, '1 h 45 min' vs '1h 45m') under Blocked on Isa and will not retry it until Isa answers.
 - 2026-11-25 04:37 Accepted the previous round's choice to use the translated calendar.weekdayLetters key instead of Intl narrow weekdays, because Hermes ignores narrow.
 - 2026-11-25 04:37 Ran the full Jest suite this round because the change touches visible strings (rule: full suite after string changes).
+- 2026-11-25 04:39 Round 126 picks the WeekEnergyCard literals because the last report named them as the next step and the card was just touched; it is a small, contained change.
+- 2026-11-25 04:39 Jev ranks the same kind of small string task highest (run 98%), so no second look is needed.
+- 2026-11-25 04:39 Isa's open questions (morning brief free-plan refusal, 'Sept', es and fr hours spacing) stay parked; no retry of the spacing question.
+- 2026-11-25 04:39 WeekEnergyCard's direct i18n read (instead of useTranslation) is left as an allowed optional change inside round 126, not a separate round.
