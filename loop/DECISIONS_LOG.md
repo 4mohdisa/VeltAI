@@ -10118,3 +10118,6 @@
 - 2026-11-25 04:42 Kept one main file per prompt and max 5 steps, per the notes rules.
 - 2026-11-25 04:42 Left the key parity test for Row 29 to avoid a larger change while the risk signal is high.
 - 2026-11-25 04:42 Locale files are data, so the one main file rule still holds.
+- 2026-11-25 04:44 Round 128: chose candidate 1 (GymSessionButton), the last literal in src/components/domain/ and the smallest safe step. Jev ranks run at 99%, which agrees.
+- 2026-11-25 04:44 Round 128: one main file per prompt, locale JSON treated as data, so the prompt names GymSessionButton.tsx as the main file.
+- 2026-11-25 04:44 Round 128: MacroBars 'Not tracked' deferred to a later round because a test pins that literal.

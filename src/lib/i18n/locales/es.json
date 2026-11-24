@@ -505,6 +505,7 @@
     "loggedSets": "Series",
     "loggedMore": "+{{extra}} más",
     "loggedToday": "Registrado hoy",
+    "loggedTodayLabel": "Gimnasio registrado hoy",
     "planned": "Planificado",
     "rest": "Descanso",
     "startWorkout": "Empezar entrenamiento",

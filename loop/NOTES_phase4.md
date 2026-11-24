@@ -9,9 +9,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: only the simulator check of the Total tile is left. Parked in OWNER_CHECKS_phase4.md.
 - 2.2: done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 string round: done so far: gym month title, formatting helpers (dates, streak, duration, hours and minutes), MyScheduleCard weekday, weekly workout and energy day letters, all WeekEnergyCard literals (round 126).
-- Round 127 (chosen): translate one Summary card file with the most English literals (grep src/components/domain/). Then keep going card by card.
-- Still open in 2.3: monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, summaryCards 'MTWTFSS' fallback check.
+- 2.3 strings: done so far: gym month title, formatting helpers, MyScheduleCard weekday, weekly day letters, WeekEnergyCard, EnergyBalanceCard (round 127, 6 new keys under dashboard.energyBalance).
+- Round 128 (chosen): GymSessionButton.tsx 'Gym logged today' label. Then Summary screen and src/app/energy.tsx.
+- Still open in 2.3: MacroBars 'Not tracked' (pinned by a test), monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, summaryCards 'MTWTFSS' fallback check.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -46,8 +46,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 120-122: es and fr month summary and weekly card use common.hoursMinutes ('1 h 45 min'). Isa to confirm.
 - Round 123: formatDuration rounds total minutes first.
 - Round 124-125: day letters from calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
-- Round 126: WeekEnergyCard fully translated (five new dashboard keys). es and fr unit phrases are gender neutral. Isa to review.
-- Round 127: candidate 1 chosen (agrees with handover). Jev ranks run at 99%.
+- Round 126: WeekEnergyCard fully translated. es and fr unit phrases gender neutral. Isa to review.
+- Round 127: EnergyBalanceCard translated (8 literals). es 'Sin objetivo de gasto' and fr 'Aucun objectif de dépense' need Isa review.
+- Round 128: candidate 1 chosen (GymSessionButton). Jev ranks run at 99%, agreed.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -56,7 +57,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-126: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard.
+- Rounds 107-127: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard.
 - Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125: tsc and Jest green. Round 126: tsc 0 errors, Jest 244 suites, 1,456 tests, 4 snapshots green.
 
 ## Blocked on Isa (not blocking the loop)
@@ -64,7 +65,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
 - Confirm es and fr hours and minutes spacing ('1 h 45 min' vs '1h 45m').
-- Review es and fr wording of the five new week card keys (gender neutral unit phrases).
+- Review es and fr wording of the week card keys and the six energy balance keys.
 - Do not retry these questions; work on other surfaces.
 
 ## Parked
@@ -77,11 +78,12 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - formatting.ts:67 and :72 use device locale.
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
+- MacroBars 'Not tracked' outside JSX, pinned by a test.
 
 ## Next
-- Round 127: one Summary card file from the src/components/domain/ grep.
-- Then the rest of the 2.3 open list, one file per round.
-- Then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
+- Round 128: GymSessionButton 'Gym logged today'.
+- Then Summary screen and src/app/energy.tsx literal sweep, one file per round.
+- Then rest of the 2.3 open list, then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
@@ -106,3 +108,4 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - formatNumber en-AU and MyScheduleCard weekday/month short names: check once on the simulator (Row 23).
 - Summary weekly card 'MTWTFSS' fallback literal may still exist in summaryCards.ts; verify in 2.3.
 - Weekday and month names on Hermes not checked on the simulator.
+- Other Summary cards may still have English literals (sweep continues).

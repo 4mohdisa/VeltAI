@@ -503,6 +503,7 @@
     "loggedSets": "Sets",
     "loggedMore": "+{{extra}} more",
     "loggedToday": "Logged today",
+    "loggedTodayLabel": "Gym logged today",
     "planned": "Planned",
     "rest": "Rest",
     "startWorkout": "Start workout",

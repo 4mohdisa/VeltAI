@@ -20,7 +20,7 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
   if (logged) {
     return (
       <View
-        accessibilityLabel="Gym logged today"
+        accessibilityLabel={t('gym.loggedTodayLabel')}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -38,7 +38,7 @@ export function GymSessionButton({ logged, onPress }: GymSessionButtonProps) {
           style={{ width: space.sm, height: space.sm, borderRadius: radius.full, backgroundColor: categoryAccent.positive }}
         />
         <Text variant="bodyMedium" color={color.label}>
-          Logged today
+          {t('gym.loggedToday')}
         </Text>
       </View>
     );

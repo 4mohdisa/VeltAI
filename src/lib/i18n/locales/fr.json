@@ -503,6 +503,7 @@
     "loggedSets": "Séries",
     "loggedMore": "+{{extra}} de plus",
     "loggedToday": "Enregistré aujourd’hui",
+    "loggedTodayLabel": "Salle enregistrée aujourd’hui",
     "planned": "Prévu",
     "rest": "Repos",
     "startWorkout": "Commencer la séance",
