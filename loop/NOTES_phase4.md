@@ -8,13 +8,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: steps 1a to 1d done for goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer. OnbScaffold shared. 401 handling on signup, paywall and launch gate uses SESSION_ENDED; answers survive expired session. PHASE4_ROWS.md still stops at 1e; R217 adds 1d.
-- R216 checkpoint GREEN: tsc 0, Jest 269 suites, 1,591 tests. Lint not run at R216; first full-folder lint runs in R217.
-- Last full checkpoint R216. Next checkpoint R225 or later.
+- Row 2b DIFFERENT: steps 1a to 1d done for goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer, preview (R217). OnbScaffold shared. 401 handling on signup, paywall and launch gate uses SESSION_ENDED; answers survive expired session.
+- R217 preview report was flagged: full Jest not run. R218 fixes this with a full checkpoint.
+- Last full checkpoint: R218 (pending result). Next checkpoint R227 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R217: preview (src/app/onboarding/preview.tsx). Then done. Then paywall (also removes English CUISINE_LABEL). One screen per round. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R218: full Jest + lint checkpoint (fix round). R219: done screen (src/app/onboarding/done.tsx). Then paywall (also removes English CUISINE_LABEL). One screen per round. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 If a round shows failures: fix them first, in a small round, before new strings.
 
 ## Rules
@@ -57,14 +57,13 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - R206: 1d split one screen per round, goal first.
 - R208: kept OnbScaffold, shared by every onboarding screen.
 - R209 to R212: onboarding keys nested under onboarding.<screen>; cuisine and dietary options under options.<value>.
-- R211: cuisine before targets. Continue reuses onboarding.measurements.continue.
-- R213: targets done. R214: disclaimer translated first.
-- R215: HealthDisclaimer.tsx only, one component per round.
-- R216: checkpoint chosen over preview; green.
-- R217: counts corrected to 269 suites and 1,591 tests. Preview chosen (Jev 96%, same pick).
+- R213: targets done. R214: disclaimer translated first. R215: HealthDisclaimer.tsx only.
+- R216: checkpoint green (269 suites, 1,591 tests).
+- R217: preview done in en, es, fr. Trial note uses {{days}}, no plural yet (TRIAL_DAYS = 7).
+- R218: loop flag on R217 (full Jest not run). Fix round runs full Jest and lint first.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text, and every preview string from R217.
+- es and fr wording review: all onboarding screens, goal and activity forms, measurements, body type, cuisine, dietary, targets, summary, preview (R217), kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -88,6 +87,8 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - Skeleton crashes under Reanimated test mock (Row 22).
 - measurements.tsx: local variable t in a useState initialiser shadows t(). Rename in a tidy round.
 - Onboarding: two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
+- Trial note plural: '{{days}} días' would read wrong if TRIAL_DAYS were 1 (today 7).
+- Cuisine cap: 5+ cuisines show 3 cards, exactly 4 show all 4 (existing logic).
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' (onboarding.sessionExpired). Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
@@ -106,3 +107,4 @@ If a round shows failures: fix them first, in a small round, before new strings.
 - Secrets scan placeholder check is a heuristic.
 - Signup placeholders are literals.
 - Simulator check needed for Clerk session end on signup and paywall 401 routes.
+- Preview: cuisine and halal lines are copy only; no data check.

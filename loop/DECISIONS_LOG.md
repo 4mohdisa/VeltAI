@@ -10501,3 +10501,7 @@
 - 2026-11-25 08:58 R217: chose preview over done and paywall, following the order in the notes. Jev ranked preview first at 96%, the same as my pick, so no second look was needed.
 - 2026-11-25 08:58 R217: the preview step is one screen per round (R206 rule). Done and paywall wait for their own rounds.
 - 2026-11-25 08:58 R217: es and fr wording is listed in the report for Isa's review (already on the blocked list in general).
+- 2026-11-25 09:00 The loop flagged the R217 report because the full Jest suite was not run; R218 runs it before any new work, as the loop note requires.
+- 2026-11-25 09:00 Done screen is pushed to R219 so the fix round stays small; Jev's run signal matches this pick.
+- 2026-11-25 09:00 Trial note plural is not fixed now: TRIAL_DAYS is 7 and the authBilling test requires it; it stays in NEXT as a known gotcha.
+- 2026-11-25 09:00 Preview es and fr strings are added to the Isa review list in OWNER_CHECKS_phase4.md if they are missing (append only).
