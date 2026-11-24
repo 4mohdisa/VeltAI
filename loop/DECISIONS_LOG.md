@@ -10484,3 +10484,6 @@
 - 2026-11-25 08:49 R212: dietary screen chosen, following the R211 order (cuisine, then dietary, targets, preview, done, paywall). Jev ranked the same pick at 99%.
 - 2026-11-25 08:49 R212: dietary reuses shared option labels only if a shared file exists; otherwise labels are nested under onboarding.dietary. Reason: keep the cuisine pattern.
 - 2026-11-25 08:49 R212: es and fr wording is own translation, listed for Isa review in the blocked list. Reason: app launch needs translated onboarding.
+- 2026-11-25 08:51 R213: targets screen next, per the R212 order. Jev agreed at 98%.
+- 2026-11-25 08:51 R213: the signup SESSION_ENDED fix from the handover stays candidate 2. It is a small fix and can follow targets, preview, done and paywall in later rounds or be done when a signup round is open.
+- 2026-11-25 08:51 R213: es and fr wording for targets is the agent's own translation, listed for Isa. Not a blocker.

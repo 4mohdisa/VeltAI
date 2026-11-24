@@ -3,6 +3,7 @@
 // macros stay derived display (only the calorie target is persisted).
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, TextField } from '@/components/forms';
@@ -12,6 +13,7 @@ import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Text } from '@/components/primitives/Text';
 import { deriveTargets } from '@/lib/onboarding/deriveTargets';
 import { clampCalories } from '@/lib/settings/store';
+import { formatNumber } from '@/lib/formatting';
 import { navigate } from '@/lib/nav';
 import { color, space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
@@ -24,6 +26,7 @@ const parseNum = (text: string, fallback: number): number => {
 };
 
 export default function TargetsScreen() {
+  const { t } = useTranslation();
   const age = useOnboardingStore((s) => s.age);
   const sex = useOnboardingStore((s) => s.sex);
   const heightCm = useOnboardingStore((s) => s.height_cm);
@@ -78,22 +81,22 @@ export default function TargetsScreen() {
   return (
     <OnbScaffold
       step={9}
-      title="Your daily target"
+      title={t('onboarding.targets.title')}
       footer={
         <View style={{ gap: space.md }}>
-          <Button title="Looks right — let's go" onPress={() => navigate('/onboarding/paywall')} />
-          <Button title="Adjust manually" variant="secondary" onPress={openSheet} />
+          <Button title={t('onboarding.targets.accept')} onPress={() => navigate('/onboarding/paywall')} />
+          <Button title={t('onboarding.targets.adjust')} variant="secondary" onPress={openSheet} />
         </View>
       }
     >
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.xl }}>
         <Text variant="statHero" color={color.label}>
-          {macros.calories.toLocaleString()} kcal
+          {t('labelScan.totalKcal', { kcal: formatNumber(macros.calories) })}
         </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: space.sm }}>
-          <Badge label={`${macros.protein}g protein`} />
-          <Badge label={`${macros.carbs}g carbs`} />
-          <Badge label={`${macros.fat}g fat`} />
+          <Badge label={t('onboarding.targets.protein', { grams: macros.protein })} />
+          <Badge label={t('onboarding.targets.carbs', { grams: macros.carbs })} />
+          <Badge label={t('onboarding.targets.fat', { grams: macros.fat })} />
         </View>
         {/* Guideline 1.4.1 — computed health targets need a visible disclaimer. */}
         <HealthDisclaimer />
@@ -102,18 +105,18 @@ export default function TargetsScreen() {
       <BottomSheet
         visible={sheetOpen}
         onClose={() => setSheetOpen(false)}
-        title="Adjust your calorie target"
+        title={t('onboarding.targets.sheetTitle')}
       >
         <Text variant="footnote" color={color.secondaryLabel}>
-          Protein, carbs and fat are set from your profile.
+          {t('onboarding.targets.sheetNote')}
         </Text>
         <TextField
-          label="Calories"
+          label={t('onboarding.targets.caloriesLabel')}
           value={draft}
           onChangeText={setDraft}
           keyboardType="number-pad"
         />
-        <Button title="Save" onPress={saveSheet} />
+        <Button title={t('common.save')} onPress={saveSheet} />
       </BottomSheet>
     </OnbScaffold>
   );

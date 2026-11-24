@@ -8,12 +8,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal, 1d activity, 1d measurements, 1d body type, 1d cuisine (R211). OnbScaffold, 401 handling on paywall, signup and launch gate, answers survive expired session, signup SESSION_ENDED (R207).
-- Last checkpoint R210: tsc 0, lint exit 0, Jest 268 suites and 1,579 tests.
+- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal, 1d activity, 1d measurements, 1d body type, 1d cuisine, 1d dietary (R212). OnbScaffold, 401 handling on paywall, signup and launch gate, answers survive expired session.
+- Last checkpoint R210: tsc 0, lint exit 0, Jest 268 suites and 1,579 tests. Next checkpoint at R215 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R212 (now): 1d dietary screen strings (en, es, fr). Then 1d targets, preview, done, paywall (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R213 (now): 1d targets screen strings (en, es, fr). Then 1d preview, done, paywall (one screen per round). Signup SESSION_ENDED fix when a signup round is open. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -55,12 +55,13 @@ R212 (now): 1d dietary screen strings (en, es, fr). Then 1d targets, preview, do
 - R206: 1d split one screen per round, goal first.
 - R208: kept OnbScaffold. Shared component used by every onboarding screen.
 - R209: measurements keys nested under onboarding.measurements.
-- R210: body type nested under onboarding.bodyType (Jev agreed at 85%).
+- R210: body type nested under onboarding.bodyType.
 - R211: cuisine before targets. Keys nested under onboarding.cuisine with options.<value>. Continue reuses onboarding.measurements.continue.
-- R212: dietary chosen per R211 order (Jev agreed at 99%). Labels nested under onboarding.dietary unless a shared file exists.
+- R212: dietary chosen per R211 order. Labels nested under onboarding.dietary.options.<value>.
+- R213: targets next per R212 order. Signup SESSION_ENDED fix kept as a candidate for a later round.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (incl. French ft / in and 'ans'), body type, cuisine (Spanish feminine agreement, French mixed region and adjective style), dietary, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
+- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (incl. French ft / in and 'ans'), body type, cuisine (Spanish feminine agreement, French mixed region and adjective style), dietary (Spanish feminine forms, 'Sans lactose' vs 'Sans produits laitiers'), targets, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -85,9 +86,10 @@ R212 (now): 1d dietary screen strings (en, es, fr). Then 1d targets, preview, do
 - measurements.tsx: local variable t in a useState initialiser shadows t(). Rename in a tidy round.
 - Onboarding: two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
+- Signup 401 route opens sign in without SESSION_ENDED (candidate for a signup round).
 - Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy (onboarding.sessionExpired).
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: dietary (R212 in progress), targets, preview, done, paywall strings and toasts.
+- Still hard-coded English: preview, done, paywall strings and toasts. Targets is in R213.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
@@ -101,4 +103,4 @@ R212 (now): 1d dietary screen strings (en, es, fr). Then 1d targets, preview, do
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
 - Signup placeholders are literals.
-- Signup and paywall 401 routes: simulator check needed for Clerk session end (R205 covers paywall).
+- Simulator check needed for Clerk session end on signup and paywall 401 routes.

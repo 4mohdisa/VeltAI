@@ -1211,6 +1211,17 @@
         "dairy_free": "Sans lactose",
         "none": "Aucune"
       }
+    },
+    "targets": {
+      "title": "Votre objectif quotidien",
+      "accept": "Ça me va, c'est parti",
+      "adjust": "Ajuster manuellement",
+      "protein": "{{grams}} g de protéines",
+      "carbs": "{{grams}} g de glucides",
+      "fat": "{{grams}} g de lipides",
+      "sheetTitle": "Ajustez votre objectif calorique",
+      "sheetNote": "Les protéines, les glucides et les lipides sont définis à partir de votre profil.",
+      "caloriesLabel": "Calories"
     }
   },
   "signup": {

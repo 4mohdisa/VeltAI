@@ -1211,6 +1211,17 @@
         "dairy_free": "Dairy-free",
         "none": "None"
       }
+    },
+    "targets": {
+      "title": "Your daily target",
+      "accept": "Looks right — let's go",
+      "adjust": "Adjust manually",
+      "protein": "{{grams}}g protein",
+      "carbs": "{{grams}}g carbs",
+      "fat": "{{grams}}g fat",
+      "sheetTitle": "Adjust your calorie target",
+      "sheetNote": "Protein, carbs and fat are set from your profile.",
+      "caloriesLabel": "Calories"
     }
   },
   "signup": {
