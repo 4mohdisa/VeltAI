@@ -8,11 +8,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
 - Last full checkpoint: round 163 (tsc 0, Jest 257 suites, 1,507 tests, 4 snapshots, all pass).
-- Round 164 (current): nutrition chart scale 'g' replaced with nutrition.gramsShort. Result pending.
+- Round 164: nutrition chart scale 'g' uses nutrition.gramsShort. DONE, closed.
+- Round 165 (current): week.tsx range separator (dashboard.rangeSeparator) plus render test.
 - 2.1: only the simulator check of the Total tile is left (owner check).
 - 2.2 left: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings): one screen or component per round. Done: ConfidenceBadge, locale parity test, summaryCards workoutsWeek, axis letters on energy, training, nutrition, week.
-- Queue: 2.3 notes backfill in PHASE4_ROWS.md (GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard); week.tsx ' – ' separator; i18n header comments.
+- 2.3 (strings): one screen or component per round. Done: ConfidenceBadge, locale parity test, summaryCards workoutsWeek, axis letters on energy, training, nutrition, week, nutrition gramsShort.
+- Queue: 2.3 notes backfill in PHASE4_ROWS.md (GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard); i18n header comments.
 - Then 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -54,6 +55,8 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 161: locale parity test added (src/__tests__/localeParity.test.ts). addMenu.voice and addMenu.describeOutLoud kept in all three languages, unused, parked for voice logging (Phase 4). lastSessions_one keeps {{count}} in es and fr; wording goes to Isa review.
 - Round 162: parity test stays Jest-only until Row 29 creates npm run verify.
 - Round 162: summaryCards workoutsWeek uses weekdayLetter as a dedupe. Isa may check.
+- Round 164: nutrition 'g' closed; Isa need not review.
+- Round 165: separator task chosen over notes backfill (real string, not docs).
 
 ## Blocked on Isa (not blocking)
 - E2E account needs 250+ gym dates.
@@ -74,7 +77,6 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - es and fr 'per day' wording differs between Summary and week detail.
 - Weekday and month names on Hermes not checked on the simulator.
 - nutrition.tsx:231 meal row label builds 'slot, energy' in code.
-- Week range ' – ' separator in week.tsx:150 not translated.
 - kcalEatenPerDay and kcalNetPerDay names misleading now they show kJ too.
 - ConfidenceBadge hide button reuses gymSession.hide from another section.
 - The energy screen always says kcal and ignores the unit setting.
@@ -101,9 +103,10 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - react-test-renderer is deprecated. Row 22.
 - useBrainProfile unmount test cannot fail if its guard is removed. Row 22.
 - src/lib/i18n/index.ts comment says French is 'intentionally partial'.
+- Nutrition scale '418g' has no space; other screens use '120 g'. Kept for Phase 1 look.
 
 ## Next
-- Round 164: nutrition 'g' label result. Fix any failure in the next round.
-- Then: 2.3 notes backfill, week.tsx ' – ' separator, i18n header comments.
+- Round 165: week range separator (this prompt). Fix any failure in the next round.
+- Then: 2.3 notes backfill, i18n header comments.
 - Then 2.4 (useGoals), 2.5 (rest of Parked; goals and unit prefs persisted; missing _one plural; goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.

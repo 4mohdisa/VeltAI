@@ -10264,3 +10264,8 @@
 - 2026-11-25 05:32 Jev recommended run at 98% confidence; agreed, since the task is one small change with a clear test path.
 - 2026-11-25 05:32 Footnote ' · ' join stays out of this round to keep the prompt to one change; it is still queued.
 - 2026-11-25 05:32 Snapshots are only updated if the change is the exact en label swap; never with jest -u, so an unexpected diff stops for review.
+- 2026-11-25 05:34 Round 164 nutrition 'g' scale confirmed done by the report; closed without asking Isa.
+- 2026-11-25 05:34 Chose the week separator over the notes backfill: it is a real untranslated string in the Parked list, while the backfill is documentation only. Jev ranked run highly; agreed.
+- 2026-11-25 05:34 Keep ' – ' in es and fr for the separator until Isa reviews wording (already in Blocked list).
+- 2026-11-25 05:34 Round 165 separator task ends with a render test so the fix is proven in en, es and fr.
+- 2026-11-25 05:34 Notes trimmed: finished items removed, repeats merged.
