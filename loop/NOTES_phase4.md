@@ -9,9 +9,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
 - 2.1: only the simulator check of the Total tile is left (OWNER_CHECKS_phase4.md).
 - 2.2 done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings) in progress, one file per round. Done: custom-food 'Save food' (round 146), EnergyBalanceCard, GymSessionButton, MacroBars, energy screen, Summary, energyRange, axis letters on energy, training, nutrition, week, WeekEnergyCard, week range separator (dashboard.rangeSeparator).
-- Round 147 (current): nutrition.tsx 'g' unit and ' · ' footnote join.
-- Open 2.3 items, in order: nutrition.tsx (round 147); ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; week.tsx ' – ' separator at line 150 check. Then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard, range separator, custom-food).
+- 2.3 (strings) in progress, one file per round. Done: custom-food, EnergyBalanceCard, GymSessionButton, MacroBars, energy, Summary, energyRange, axis letters (energy, training, nutrition, week), WeekEnergyCard, week range separator, nutrition.tsx unit and footnote (round 147).
+- Round 148 (current): CHECKPOINT. tsc and full Jest, no edits. Report failures.
+- Open 2.3 items, in order: ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; week.tsx ' – ' separator (handover says still untranslated, check); energy screen follows energy unit setting; nutrition.tsx:247 hardcoded ' · ' in meal row. Then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard, range separator, custom-food, nutrition units).
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -44,7 +44,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 123: formatDuration rounds total minutes first.
 - Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'). Accepted.
 - Round 145: week separator uses dashboard.rangeSeparator (no week section). Jev agreed.
-- Round 146: Save food pick (Jev 99% run). es 'Guardar alimento', fr 'Enregistrer l’aliment' pending Isa's wording review.
+- Round 146: Save food pick. es 'Guardar alimento', fr 'Enregistrer l’aliment' pending Isa's wording review.
+- Round 147: nutrition.gramsShort, percentValue, macroPercentFootnote added. es/fr '80 %' spacing pending Isa review.
+- Round 148 checkpoint: no edits; decision on run only.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -53,15 +55,15 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: gym session history read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: morning brief and profile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-146: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, dayMonth, energy, training, nutrition, week axis letters and range separator, custom-food Save button.
-- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green. Last full run: 245 suites, 1,462 tests, 4 snapshots. Expect 248 or more after rounds 143-146.
+- Rounds 107-147: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, dayMonth, energy, training, nutrition, week, custom-food Save button, nutrition units.
+- Last full run (round 134): 245 suites, 1,462 tests, 4 snapshots. Expect 248+ suites after rounds 143-147.
 
 ## Blocked on Isa (not blocking the loop)
 - E2E account needs 250+ gym dates (OWNER_CHECKS_phase4.md).
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
 - Confirm es and fr hours and minutes spacing ('1 h 45 min').
-- Review es and fr wording of new keys: summary.*, gym.loggedTodayLabel, dashboard.energyBalance.*, dashboard.energyAverageBurned, customFood.saveButton.
+- Review es and fr wording of new keys: summary.*, gym.loggedTodayLabel, dashboard.energyBalance.*, dashboard.energyAverageBurned, customFood.saveButton, nutrition.* footnote and percentValue.
 - Confirm weekdayShort stays a full name.
 - Week range separator: keep ' – ' in es and fr, or use 'al' / 'au'.
 - Do not retry these; work on other surfaces.
@@ -78,8 +80,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Weekday and month names on Hermes not checked on the simulator.
 
 ## Next
-- Round 147: nutrition.tsx (current).
-- Then ConfidenceBadge, i18n header comments, summaryCards fallback, week.tsx separator, then the 2.3 note in PHASE4_ROWS.md.
+- Round 148: checkpoint (current). Read the result before the next edit.
+- Then energy unit setting, ConfidenceBadge, i18n header comments, summaryCards fallback, week.tsx separator, nutrition.tsx:247, then the 2.3 note in PHASE4_ROWS.md.
 - Then 2.2 leftovers, 2.4 (useGoals, Row 15), 2.5 (rest of Parked, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 
@@ -105,4 +107,6 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - formatNumber en-AU and MyScheduleCard short names: check once on the simulator (Row 23).
 - Other Summary cards may still have English literals (check in 2.3 sweep).
 - MacroTargetRows has no es or fr render test.
-- Energy screen always says kcal; formatNumber en-AU; no week separator review by Isa yet.
+- Energy screen always says kcal; formatNumber en-AU.
+- nutrition.tsx:247 meal row builds 'time · energy' with hardcoded ' · '.
+- Round 147 footnote repeats the four macro names from nutrition.protein/carbs/fat/fibre. Rename both places if one changes.

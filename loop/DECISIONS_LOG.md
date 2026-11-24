@@ -10197,3 +10197,8 @@
 - 2026-11-25 05:10 Footnote join becomes one interpolated sentence key, per the one key per sentence rule.
 - 2026-11-25 05:10 Snapshot changes are reported, not updated silently. The full suite waits for the next checkpoint.
 - 2026-11-25 05:10 Isa's review of the es and fr wording stays open. The new strings follow the existing pattern and are not blocked by it.
+- 2026-11-25 05:12 Round 148 is the checkpoint the loop note asks for: tsc and full Jest, no file changes, so any red result is seen before more edits.
+- 2026-11-25 05:12 Accepted the Round 147 nutrition footnote and the es/fr '80 %' spacing as pending Isa's wording review (already in BLOCKED list); no further change this round.
+- 2026-11-25 05:12 Did not follow Claude Code's suggested NEXT (energy unit) this round because the loop note asks for a checkpoint only; it is next after the result.
+- 2026-11-25 05:12 Jev suggested running a task (90%) and said continuing without Isa carries risk 0.9. The task is read only and changes no files, so the risk is low; the run is kept.
+- 2026-11-25 05:12 Treated the week.tsx ' – ' separator as still open (handover says untranslated; notes say round 145 used dashboard.rangeSeparator). Checked again in 2.3 sweep.
