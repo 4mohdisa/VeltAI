@@ -36,8 +36,8 @@ export function DailyMacroRing({ consumed, target, size = 168, strokeWidth = 14,
   const targetDisplay = kcalToDisplay(target, energyUnit);
 
   const reduceMotion = useReduceMotion();
-  const progress = useRef(new Animated.Value(pct)).current;
-  const consumedAnim = useRef(new Animated.Value(consumed)).current;
+  const [progress] = useState(() => new Animated.Value(pct));
+  const [consumedAnim] = useState(() => new Animated.Value(consumed));
   const [displayConsumed, setDisplayConsumed] = useState(consumed);
   // False only until this ring's own first effect run, so a freshly mounted
   // ring jumps straight to its starting value instead of easing from it.
