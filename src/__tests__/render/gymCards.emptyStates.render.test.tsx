@@ -17,7 +17,7 @@ jest.mock('@/lib/data/gymSchedule', () => ({ useGymPatterns: jest.fn(), useSched
 jest.mock('@/components/display/LoadingSkeleton', () => ({ Skeleton: () => null }));
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
-  useFocusEffect: (cb: () => void) => require('react').useEffect(cb, [cb]),
+  useFocusEffect: (cb: () => void) => jest.requireActual('react').useEffect(cb, [cb]),
   usePathname: () => '/',
   Href: {},
 }));

@@ -6,14 +6,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Baseline: tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
+- Baseline: tsc 0, Jest 242 suites and 1,402 tests (round 35), Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 56 (expo lint). Mostly no-require-imports in src/__tests__.
-- Formatter 'unix' is gone. Count with `npx eslint -f json` piped to a small counting script.
+- Errors: 0. Warnings: about 55, mostly no-require-imports in src/__tests__.
+- Count with `npx eslint -f json` piped to a small counting script.
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -26,6 +26,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
 - Prompts ask for one screen, component or file each. Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
+- no-require-imports in jest.mock factories: use jest.requireActual('react') (no disable comment). Top-level imports fail there because babel-jest hoists jest.mock.
 - Mock forwardRef components get named functions (display-name fix).
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
@@ -45,11 +46,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Round 27: simulator check of Total tile blocked, parked.
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
-- Round 35 checkpoint green (242 suites, 1,402 tests).
 - Round 38: history.tsx gym session read limited to 200.
 - Round 39: history.tsx bounds the session read to the last 7 days.
 - Round 40: i18n lint warnings cleared in src/lib/i18n/index.ts.
-- Round 41: debugStore.test.ts lint clean (import/first fixed, one reasoned disable comment). 10 of 10 tests pass.
+- Round 41: debugStore.test.ts lint clean.
+- Round 42: calendar.strings.render.test.tsx warning cleared with jest.requireActual('react'). 2 of 2 tests pass.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -58,8 +59,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 42 (now): clear no-require-imports in src/__tests__/render/calendar.strings.render.test.tsx (one file).
-- Then one file per round, lowest warning count first. Biggest: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx (9).
+- Round 43 (now): gymCards.emptyStates.render.test.tsx no-require-imports (one file).
+- Then one file per round, lowest warning count first. Biggest: src/__tests__/noFabricatedData.test.ts, src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same require('react') pattern.
+- Then camera mocks in photoScan, labelScan and scanScreens.strings (switch from disable comment to jest.requireActual).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).

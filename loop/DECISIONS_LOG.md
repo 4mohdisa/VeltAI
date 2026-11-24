@@ -9785,3 +9785,6 @@
 - 2026-11-25 02:55 Chose the one-file lint step (small, Jev risk moderate) over the bigger noFabricatedData or measurements files, which need their own rounds.
 - 2026-11-25 02:55 Kept the file-by-file order from the notes; app code (analyticsSink.ts) waits until the tests are clear.
 - 2026-11-25 02:55 Pass rule for a required require: one reasoned disable comment, as in round 41 for debugStore.test.ts.
+- 2026-11-25 02:56 Chose candidate 1: it follows the pattern just proven in calendar.strings.render.test.tsx and keeps steps to one file, which matches the moderate Jev risk.
+- 2026-11-25 02:56 Kept the prompt to one file and five steps, per the notes rule, to limit risk while the loop runs without Isa.
+- 2026-11-25 02:56 Did not open the other single-warning tests; a later round will check them one file at a time, as the notes say.
