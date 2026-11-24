@@ -10407,3 +10407,11 @@
 - 2026-11-25 06:39 Round 197 prompt rewritten to 5 steps after the loop rejected the 8 step prompt. Scope kept to the checkpoint only.
 - 2026-11-25 06:39 The 401 session clearing fix moves to the next round, after the checkpoint result is known.
 - 2026-11-25 06:39 Checkpoint uses one npx jest --ci command as a full suite run, because this is a checkpoint round after shared auth changes.
+- 2026-11-25 06:41 Round 198: clear the rejected session on the three 401 routes, as the latest report recommended. Reuses the Round 196 session-ended path so saved answers survive. Reason: fixes the 'already signed in' loop.
+- 2026-11-25 06:41 Round 198: full-folder lint (expo lint src scripts) is required each round, not single-file lint. Reason: Round 197 lint error was missed by single-file lint.
+- 2026-11-25 06:41 Round 198: the simulator check for 401 routes stays an owner check, not a blocker. Reason: no device available to the loop.
+- 2026-11-25 06:41 Rejected prompt asked for three screens at once. Split Round 198 into one route per round: 198 launch gate, 199 signup status check, 200 onboarding paywall.
+- 2026-11-25 06:41 Chose the launch gate first because it is the route the Round 195 notes already describe, and it reuses the Round 196 session-ended path.
+- 2026-11-25 06:41 Jev ranks the same candidates with 97% confidence for running. Kept the pick because the rejected prompt makes a smaller, single-component task the safer choice (Jev risk 0.8).
+- 2026-11-25 06:41 No new user-facing strings, so no es and fr review is added to Blocked.
+- 2026-11-25 06:41 Simulator check of the 401 routes stays an owner check in OWNER_CHECKS_phase4.md.

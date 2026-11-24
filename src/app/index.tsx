@@ -8,7 +8,8 @@
 //      completed → main app.
 //   2. Otherwise ask the backend (GET /api/onboarding). completed=true → mark
 //      the store and proceed; completed=false or a network error → onboarding;
-//      a 401 → sign in again (the session is not valid), store untouched.
+//      a 401 → the session is not valid: SESSION_ENDED ends the rejected
+//      Clerk session and opens sign-in, keeping the onboarding answers.
 // The onboarding flow lives at /onboarding (a stack above the tabs); once
 // completed it never shows again.
 import { useEffect, useState } from 'react';
@@ -18,9 +19,8 @@ import { useAuth } from '@clerk/clerk-expo';
 
 import { color } from '@/lib/design/tokens';
 import { api } from '@/lib/api';
-import { showToast } from '@/components/display/toastStore';
+import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity } from '@/lib/auth/machine';
-import i18n from '@/lib/i18n';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { getHasCompletedOnboarding } from '@/lib/storage/secureStore';
@@ -44,6 +44,7 @@ function ClerkGatedIndex() {
 
 function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
   const [destination, setDestination] = useState<Destination | null>(null);
+  const { dispatch } = useAppState();
 
   useEffect(() => {
     let active = true;
@@ -82,10 +83,10 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
           return;
         }
       } catch (e) {
-        // An expired session is a sign-in problem, not "not onboarded".
+        // An expired session is a sign-in problem, not "not onboarded". The
+        // machine clears it, routes to sign-in and shows the expired message.
         if (classifyConnectivity(e) === 'sessionExpired') {
-          showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
-          if (active) setDestination('/onboarding/signup?mode=signin');
+          if (active) dispatch({ type: 'SESSION_ENDED' });
           return;
         }
         // Backend unreachable → treat as not onboarded.
@@ -96,7 +97,7 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
     return () => {
       active = false;
     };
-  }, [signedIn]);
+  }, [signedIn, dispatch]);
 
   if (destination === null) {
     return (
