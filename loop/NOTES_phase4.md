@@ -6,14 +6,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 91 done: render/setup.ts imports unmountAll from ./helpers at top. Render 166 suites, 536 tests pass. Lint 0 errors, 1 warning (accepted analyticsSink.ts:29).
-- Round 92 (now): camera mock step 1 of 3 (photo scan test to shared stub in src/__tests__/render/cameraMock.tsx).
+- Round 92 done: photoScan uses shared src/__tests__/render/cameraMock.tsx. tsc 0, render 166 suites / 536 tests pass. Lint 0 errors, 1 warning (accepted analyticsSink.ts:29).
+- Round 93 (now): labelScan camera mock to the shared stub (step 2 of 3).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Last measured (round 91): npx expo lint 0 errors, 1 warning. Recheck in the next lint round.
+- Last measured (round 92): npx expo lint 0 errors, 1 warning. Recheck in the next lint round.
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
@@ -43,7 +43,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc, a grep and the render project if no test file changed status.
 - A round that changes nothing still runs the gates and reports the exact output.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk rising (1.1 of 2 last check): keep steps to one file and check gates each round.
+- Jev risk high (1.0 of 2): keep steps to one file and check gates each round.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -51,7 +51,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76, 90 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-91: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; settingsHelp uses jest.fn; setup.ts imports helpers at top.
+- Rounds 45-92: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; settingsHelp uses jest.fn; setup.ts imports helpers at top; photoScan uses shared cameraMock.
 - Round 88: analyticsSink warning recorded as accepted in KNOWN_ISSUES.md; TestPG count fixed to 21.
 - Round 89: verification only, render 166 suites / 536 tests pass.
 
@@ -62,10 +62,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 92: photo scan camera mock to shared stub (step 1 of 3).
-- Round 93: labelScan camera mock to the same stub.
-- Round 94: scanScreens.strings camera mock to the same stub.
-- Then settingsHelp mockPush cleared by the shared reset.
+- Round 93: labelScan camera mock to cameraMock (step 2 of 3).
+- Round 94: scanScreens.strings camera mock to cameraMock; add optional getPermission getter for mockPermission (step 3 of 3).
+- Then settingsHelp: make mockPush a jest.fn cleared by the shared reset.
 - Then DailyMacroRing.tsx:96 'of' to nutrition.ringOf (string round, 2.3).
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
 - Then 2.3 (translations and Retry, i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).

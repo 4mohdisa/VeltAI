@@ -9970,3 +9970,6 @@
 - 2026-11-25 03:47 Allowed the shared camera stub to take the smallest working form if jest.mock hoisting blocks an imported factory, and to record the choice in the report.
 - 2026-11-25 03:47 Lint reading taken as 1 warning (round 91 measured), not the older 6 in the handover; the accepted analyticsSink warning stays.
 - 2026-11-25 03:47 Parked settingsHelp mockPush and useWeeklyMacros refetch test for later rounds in 2.2.
+- 2026-11-25 03:48 Chose the labelScan switch because the previous report names it as NEXT and it is one file with the same stub, which keeps the step small given Jev's rising risk score.
+- 2026-11-25 03:48 scanScreens.strings waits until the next round because it needs a second getter in cameraMock, which is a separate change.
+- 2026-11-25 03:48 No string or UI changes this round, so the translation work stays in the string round (2.3).
