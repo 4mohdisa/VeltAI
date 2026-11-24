@@ -10465,3 +10465,7 @@
 - 2026-11-25 06:58 R207: picked activity.tsx, the next step in the plan. Jev ranked it 99% run, so no look again.
 - 2026-11-25 06:58 R207: skipped the handover's signup SESSION_ENDED step. R206 notes say it was already done and the signup 401 was verified by grep (R204).
 - 2026-11-25 06:58 R207: es and fr goal wording from R206 is listed as a review item for Isa. It is not blocking.
+- 2026-11-25 06:59 R208 kept OnbScaffold over Jev's top pick. Reason Jev may not see: OnbScaffold is one shared component used by every onboarding screen, so the fix is small (about 3 lines plus one key) and clears a hard-coded label before the remaining 1d screens are translated. It is also the report's NEXT.
+- 2026-11-25 06:59 R207 activity screen accepted as DONE. es and fr wording stays flagged for Isa (masculine forms), listed under Blocked.
+- 2026-11-25 06:59 Handover step 'apply SESSION_ENDED to signup continueAfterAuth' stays skipped; already done per R204 and R206.
+- 2026-11-25 06:59 Notes trimmed to fit the 600 word limit. Decisions are kept in full in substance; repeats merged.

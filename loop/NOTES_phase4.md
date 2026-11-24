@@ -8,14 +8,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal screen (R206), 401 handling on paywall, signup and launch gate, answers survive expired session.
-- R204 checkpoint green: tsc 0 errors, lint exit 0, full Jest 266 suites and 1,564 tests.
+- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal (R206), 1d activity (R207), 401 handling on paywall, signup and launch gate, answers survive expired session.
+- R204 checkpoint green: tsc 0 errors, lint exit 0, Jest 266 suites and 1,564 tests.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R207 (now): 2b 1d activity.tsx strings in en, es, fr.
-Then: 1d measurements, body type, cuisine, dietary, targets, preview, done, paywall strings (one screen per round). Then OnbScaffold 'Go back' label. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
-Full Jest next checkpoint: R210 or when due.
+R208 (now): OnbScaffold 'Go back' label (en, es, fr).
+Then: 1d measurements, body type, cuisine, dietary, targets, preview, done, paywall strings (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Full Jest at checkpoint R210 or when due.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -23,11 +23,11 @@ Full Jest next checkpoint: R210 or when due.
 - Do not edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts or ios/. Do not change api.ts listSessions defaults.
 - No new eslint-disable in app code. setup.ts must not import expo-router at top.
 - Animated values: useState(() => new Animated.Value(x)).
-- i18n: keep import { use as addPlugin }. One full key per sentence. Plurals _one and _other only. Every new string in en, es and fr.
+- i18n: keep import { use as addPlugin }. One full key per sentence. Plurals _one and _other only. Every new string in en, es, fr.
 - Outside React: import i18n from '@/lib/i18n'. Dates: dateLocale(i18n.language).
-- Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoint rounds.
+- Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u.
 - TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel. Never print the URL.
-- Every prompt: Claude Code works only on loop/phase4, runs no git commit or push, and states the branch rule first.
+- Every prompt: Claude Code works only on loop/phase4, runs no git commit or push, states the branch rule first.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -43,8 +43,7 @@ Full Jest next checkpoint: R210 or when due.
 - R168: goals.saved kept; removal needs a non-allowed test edit. Parked.
 - R172: migration check skips with exit 0 when variable unset.
 - R174: CI workflow local only, throwaway local Postgres service, no repository secret.
-- R176: privacy manifest in app.json. Camera is the only prompt.
-- R178: check:manifest reads app.json (ios/ is stale prebuild output).
+- R176, R178: privacy manifest in app.json. Camera is the only prompt. check:manifest reads app.json (ios/ is stale).
 - R180: parity test runs in full Jest.
 - R182: row 29 BUILT after full verify exit 0 with local TestPG.
 - R184, R186: migration apply test runs once, in verify:migrations.
@@ -53,14 +52,13 @@ Full Jest next checkpoint: R210 or when due.
 - R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything.
 - R198: 401 routes split one per round. Session cleared via SESSION_ENDED, answers kept.
 - R199: renderScreen wrapped in AppStateProvider (approved).
-- R201: caused 5 suite failures, fixed in R203.
-- R204: checkpoint green. Signup 401 verified by grep, not changed.
-- R205: paywall 401 uses SESSION_ENDED. Own toast and navigate removed.
-- R206: 1d split one screen per round, goal first. Handover's signup step already done.
-- R207: picked activity.tsx (Jev 99% run). Handover's signup SESSION_ENDED step skipped, already done per R204/R206.
+- R205: paywall 401 uses SESSION_ENDED.
+- R206: 1d split one screen per round, goal first.
+- R207: activity.tsx done. Handover's signup SESSION_ENDED step skipped, already done per R204/R206.
+- R208: kept OnbScaffold over Jev's top pick. Shared component used by every onboarding screen, small fix, clears a hard-coded label before the remaining 1d screens. Also the report's NEXT.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: Welcome, signup, onboarding, goal screen (R206), summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
+- es and fr wording review: Welcome, signup, onboarding, goal screen, activity screen (masculine forms), summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -69,8 +67,7 @@ Full Jest next checkpoint: R210 or when due.
 - Camera string choice: plugin text vs infoPlist es/fr.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Training-days question, gain-weight or maintain goal in onboarding.
-- Simulator check: answers survive a real Clerk expiry or revocation.
-- Simulator checks: signup, launch and paywall 401 routes (add paywall to OWNER_CHECKS_phase4.md).
+- Simulator checks: answers survive a real Clerk expiry; signup, launch and paywall 401 routes (in OWNER_CHECKS_phase4.md).
 
 ## Parked
 - Simulator checks: Total tile (2.1), signup, launch and paywall 401 routes.
@@ -87,8 +84,7 @@ Full Jest next checkpoint: R210 or when due.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
-- Paywall feature list, unavailable message and store and billing toasts are hard-coded English.
+- Still hard-coded English: measurements, body type, cuisine, dietary, targets, preview, done, paywall strings and toasts.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
@@ -102,6 +98,5 @@ Full Jest next checkpoint: R210 or when due.
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
-- OnbScaffold has hard-coded accessibilityLabel 'Go back' used on every onboarding screen.
 - Signup placeholders are literals.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown.

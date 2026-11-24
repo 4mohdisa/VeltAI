@@ -5,6 +5,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { router, usePathname } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { track } from '@/lib/analytics';
@@ -42,6 +43,7 @@ export function OnbScaffold({
   dark = false,
   children,
 }: OnbScaffoldProps) {
+  const { t } = useTranslation();
   // Record the step durably. Every onboarding screen renders this scaffold, so
   // one hook here means a reload/restart/background resumes exactly where the
   // user was instead of restarting at Welcome (audit 2026-08-08).
@@ -85,7 +87,7 @@ export function OnbScaffold({
           {showBack ? (
             <Pressable
               onPress={handleBack}
-              accessibilityLabel="Go back"
+              accessibilityLabel={t('common.goBack')}
               minTapTarget={false}
               // 36pt visual circle + 4pt hitSlop = 44pt effective target (HIG).
               hitSlop={4}
