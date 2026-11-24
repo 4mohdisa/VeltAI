@@ -39,4 +39,4 @@
 | 30 | Docs and handover | README, ARCHITECTURE, API route list, HOSTING_CHECKLIST, DOGFOOD, KNOWN_ISSUES, OWNER_CHECKS_phase4.md ordered by priority | docs | review | DIFFERENT | |
 | 31 | Soak and bug hunt | Rotate bug hunting methods one per round; exit when 10 rounds in a row find no new bug and every gate is green | any | npm run verify | DIFFERENT | |
 
-Progress: 0 of 33 rows BUILT or EXACT.
+Progress: 0 of 36 rows BUILT or EXACT.

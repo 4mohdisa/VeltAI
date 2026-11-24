@@ -9625,3 +9625,7 @@
 - 2026-11-25 02:03 Rows 2c and 2d are described generically because the notes do not say what Isa built by hand on 25 Nov 2026; Claude Code identifies them from git log and describes them in one line.
 - 2026-11-25 02:03 Set all rows to DIFFERENT now and left notes empty, so status words are only used in the status column.
 - 2026-11-25 02:03 Progress line counts 33 rows including 2b, 2c, 2d, 14a and 14b, so the denominator is 33 rows.
+- 2026-11-25 02:04 Progress line set to 0 of 36 because the table has 36 rows and the 33 figure was a count error; no row was removed, so no need to ask Isa.
+- 2026-11-25 02:04 Chose the smallest task because the Jev second opinion gives a low chance (7%) that the last task finished cleanly, and the mismatch blocks an accurate progress count.
+- 2026-11-25 02:04 Left the uncommitted loop/DECISIONS_LOG.md and loop/NOTES_phase4.md alone; the loop script commits them.
+- 2026-11-25 02:04 Rows 2c and 2d are counted as rows in the 36 total, since they are in the table.
