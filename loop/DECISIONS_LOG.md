@@ -10042,3 +10042,6 @@
 - 2026-11-25 04:11 Jev said run 100% with low risk; followed it, since the task is small and gated by tsc and targeted Jest.
 - 2026-11-25 04:11 Recorded round 105 as done from the latest report; it passed tsc and the full Jest run.
 - 2026-11-25 04:11 Parked the shared billing toast helper and delete-account review for later rounds to keep steps small.
+- 2026-11-25 04:12 Picked the ring es and fr test first: round 106 changed the visible text but the existing i18n test only checks the screen reader label, so a regression would pass unseen. Small, one file, low risk (Jev run 98%).
+- 2026-11-25 04:12 Kept the test in the existing i18n test file instead of a new file, to keep the change to one file.
+- 2026-11-25 04:12 Rounds 107 onward: one string screen per round, as the string round rule says. Full Jest suite waits for checkpoint round 120.
