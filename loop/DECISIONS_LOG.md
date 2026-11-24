@@ -9629,3 +9629,10 @@
 - 2026-11-25 02:04 Chose the smallest task because the Jev second opinion gives a low chance (7%) that the last task finished cleanly, and the mismatch blocks an accurate progress count.
 - 2026-11-25 02:04 Left the uncommitted loop/DECISIONS_LOG.md and loop/NOTES_phase4.md alone; the loop script commits them.
 - 2026-11-25 02:04 Rows 2c and 2d are counted as rows in the 36 total, since they are in the table.
+- 2026-11-25 02:04 Chose the smallest safe task because Jev rates the risk of continuing as high (0.9) and the last task clean finish at 43%.
+- 2026-11-25 02:04 Kept Jev's advice to run, since the next action it rates as run at 99%.
+- 2026-11-25 02:04 Kept the prompt to one file and no git commands, per the round rule that each prompt asks for one file, screen, component or task.
+- 2026-11-25 02:04 Kept Row 1 steps split across rounds, as the notes already decided.
+- 2026-11-25 02:04 Rewrote the rejected prompt to say explicitly to work only on loop/phase4, never switch, push or merge, and to leave loop script files alone (the loop note said the last prompt lacked this).
+- 2026-11-25 02:04 Kept this round to one file (OWNER_CHECKS_phase4.md) because the report says it is still missing and multi part prompts were rejected before.
+- 2026-11-25 02:04 Chose candidate 1 over Row 1 steps because the file is needed before any owner step can be parked; it is the smallest safe task.
