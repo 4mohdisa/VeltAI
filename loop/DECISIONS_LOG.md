@@ -10168,3 +10168,11 @@
 - 2026-11-25 04:59 Round 139 picks the training.tsx axis letter switch: it is the first open 2.3 item, small, and closes the partly done flag from the round 138 report by finishing a listed NEXT item.
 - 2026-11-25 04:59 Kept one file per round and a render test that mirrors the energy axis test, so the change is proven in es, fr and en without new strings.
 - 2026-11-25 04:59 Jev ranks run at 100% and risk is moderate, so the task stays one file and no full suite run until the checkpoint.
+- 2026-11-25 05:01 Loop flag said the last round was only partly done. The same defect (weekdayShort().charAt(0)) is still open in nutrition.tsx:170, named in the last report. Closing that sibling first finishes the pattern before touching week.tsx.
+- 2026-11-25 05:01 Jev put 81% on week.tsx:265. I kept it as the next candidate, not the pick, because the flagged gap is the nearer defect. Reason Jev cannot see: the report explicitly lists nutrition.tsx:170 as the leftover of this exact pattern.
+- 2026-11-25 05:01 Step 1 re-checks training.tsx so the earlier round is verified complete rather than assumed.
+- 2026-11-25 05:01 No new strings, so no locale changes and no snapshot regeneration unless a change is directly caused.
+- 2026-11-25 05:02 Round 141: the previous prompt was rejected for covering more than one screen, so this prompt covers only nutrition.tsx.
+- 2026-11-25 05:02 nutrition.tsx chosen first because it is the open sibling of the training.tsx defect already fixed, and it is a one-line change with a render test.
+- 2026-11-25 05:02 week.tsx:265 and the WeekEnergyCard dedupe move to later rounds, one file each.
+- 2026-11-25 05:02 Training round report accepted: training.tsx is verified (tsc 0, 4 suites green).

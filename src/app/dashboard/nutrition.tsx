@@ -39,7 +39,7 @@ import { Text } from '@/components/primitives/Text';
 import { DailyMacroRing } from '@/components/domain/DailyMacroRing';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatNumber, formatRelativeDate } from '@/lib/formatting';
-import { dayMonth, weekdayShort } from '@/lib/data/energyRange';
+import { dayMonth, weekdayLetter } from '@/lib/data/energyRange';
 import { useUnitPreferences } from '@/lib/settings/store';
 import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import { useDailyMacros, useFibreConsumed, useFoodLog, useWeeklyMacros } from '@/lib/data';
@@ -167,7 +167,7 @@ export default function NutritionDetailScreen(): JSX.Element {
                     })}
                   />
                   <Axis
-                    labels={week.data.map((d) => weekdayShort(d.date).charAt(0))}
+                    labels={week.data.map((d) => weekdayLetter(d.date))}
                     gutterWidth={CHART_GUTTER_W}
                     gap={MACRO_BAR_GAP}
                     labelColor={color.secondaryLabel}
