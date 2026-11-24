@@ -7,12 +7,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
-- Last full checkpoint: round 148 (tsc 0, Jest 252 suites, 1,492 tests). Recheck at next checkpoint (round 163 or after any snapshot or string change).
+- Last full checkpoint: round 148 (tsc 0, Jest 252 suites, 1,492 tests).
+- Round 163 (current): checkpoint. Full tsc and full Jest with --ci, no file changes. Result pending. If it fails, fix in the next round, one failing suite per round.
 - 2.1: only the simulator check of the Total tile is left (owner check).
 - 2.2 left: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings): one screen or component per round. Done: ConfidenceBadge, locale parity test (round 161, 3 of 3 pass).
-- Round 162 (current): summaryCards MTWTFSS fallback to the shared weekday helper.
-- Queue: nutrition.tsx hardcoded 'g'; 2.3 notes backfill in PHASE4_ROWS.md; i18n header comments.
+- 2.3 (strings): one screen or component per round. Done: ConfidenceBadge, locale parity test, summaryCards workoutsWeek uses weekdayLetter (round 162), axis letters on energy, training, nutrition, week.
+- Queue: nutrition.tsx hardcoded 'g'; 2.3 notes backfill in PHASE4_ROWS.md (GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard); i18n header comments.
 - Then 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -51,15 +51,16 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 158: ConfidenceBadge translated as scanCards.noBreakdown; scanConfidence.test.ts:93 assertion changed (Isa allowed edits to tests pinning old English).
 - Round 159: render test for the badge 'Why?' panel in en, es, fr; fr apostrophe made curly.
 - Round 160: signed helper merged into one shared helper (formatting.ts).
-- Round 161: locale parity test added (src/__tests__/localeParity.test.ts). Fixed fr/es gaps. addMenu.voice and addMenu.describeOutLoud kept in all three languages, unused, parked for voice logging (Phase 4). lastSessions_one keeps {{count}} in es and fr; wording goes to Isa review.
+- Round 161: locale parity test added (src/__tests__/localeParity.test.ts). addMenu.voice and addMenu.describeOutLoud kept in all three languages, unused, parked for voice logging (Phase 4). lastSessions_one keeps {{count}} in es and fr; wording goes to Isa review.
 - Round 162: parity test stays Jest-only until Row 29 creates npm run verify.
+- Round 162: summaryCards had no MTWTFSS fallback; workoutsWeek now uses weekdayLetter as a dedupe. Isa may check.
 
 ## Blocked on Isa (not blocking)
 - E2E account needs 250+ gym dates.
 - Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr ('1 h 45 min').
 - es and fr wording of new keys (summary.*, energy kcal/kJ keys, energyTarget, percentValue, mealLine, noBreakdown, {{unit}} agreement, Save food).
-- lastSessions_one in es ('Última 1 sesión') and fr ('1 dernière séance') reads awkwardly.
+- lastSessions_one in es and fr reads awkwardly.
 - weekdayShort stays a full name. Week range separator ' – ' in es and fr, or 'al' / 'au'.
 - Do not retry these.
 
@@ -78,7 +79,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - ConfidenceBadge hide button reuses gymSession.hide from another section.
 - The energy screen always says kcal and ignores the unit setting.
 - The es and fr feminine endings of {{unit}} do not agree with kJ.
-- signed helper still defined in ConfidenceBadge.tsx, week.tsx, energy.tsx (round 160 merged one copy; check the rest).
+- signed helper still defined in ConfidenceBadge.tsx, week.tsx, energy.tsx.
 
 ## Problems noticed, not fixed
 - formatStreak(0) in fr gives '0 jour' (correct French, differs from en).
@@ -102,7 +103,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - src/lib/i18n/index.ts comment says French is 'intentionally partial'.
 
 ## Next
-- Round 162: summaryCards MTWTFSS fallback to shared weekday helper.
+- Round 163: checkpoint result. Fix any failure in the next round.
 - Then: nutrition 'g' label, 2.3 notes backfill, i18n header comments.
 - Then 2.4 (useGoals), 2.5 (rest of Parked; goals and unit prefs persisted; missing _one plural; goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.

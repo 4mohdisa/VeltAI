@@ -10255,3 +10255,7 @@
 - 2026-11-25 05:30 Kept gymExerciseProgress.lastSessions_one with {{count}} in es and fr. The parity test is not relaxed. The awkward singular wording goes to Isa's review list, not blocked on.
 - 2026-11-25 05:30 The locale parity test stays a Jest test for now. Wiring it into npm run verify waits for Row 29, when the verify script is created.
 - 2026-11-25 05:30 Jev ranked the parity test first earlier; the loop followed that pick and it is done. This round follows the queue order from NOTES, not a new Jev signal.
+- 2026-11-25 05:32 Round 163: the loop note flagged the round 162 report as partly done; this round is a checkpoint (tsc and full Jest, no file changes) as the loop note asks.
+- 2026-11-25 05:32 Round 162: summaryCards.ts had no MTWTFSS fallback, so the task's premise was wrong. Accepted the small change (workoutsWeek uses weekdayLetter, no new test) as a dedupe. Isa may check the source of that item.
+- 2026-11-25 05:32 Full Jest run uses --ci so no snapshot is written during a checkpoint.
+- 2026-11-25 05:32 Lint is not run this round; it runs in the next code round with changed files.
