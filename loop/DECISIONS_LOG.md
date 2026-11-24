@@ -9663,3 +9663,7 @@
 - 2026-11-25 02:14 Total gym days will come from the database through /api/gym/streak, not from the capped store. A correct total matters more than the cap, and the cap still limits hydration only. This answers the product point left open in the last report.
 - 2026-11-25 02:14 Row 2 sub steps are called 2.1 to 2.5 in all files, including PHASE4_ROWS.md, so they cannot be confused with rows 2b, 2c and 2d.
 - 2026-11-25 02:14 Kept the Jev run signal (82%). Risk is high, so the task stays small and backend only.
+- 2026-11-25 02:16 Chose the smallest step: app type only. The tile switch and mapper stay for the next round, because notes say one file per round. This also answers the loop flag: the Row 2.1 task is split on purpose, and the backend half is complete.
+- 2026-11-25 02:16 Fixtures get total_days: 0 only where the type check needs it, so no behaviour changes this round.
+- 2026-11-25 02:16 Freeze response total_days is covered by the same type, so no extra work is needed for it.
+- 2026-11-25 02:16 Kept Row 2 at PARTIAL. Sub steps 2.2 to 2.5 remain open.
