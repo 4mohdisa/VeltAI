@@ -9906,3 +9906,7 @@
 - 2026-11-25 03:31 Dropped Preview, Targets and signupOtp from the mockClear cleanup: the latest report says they never had per-test clears.
 - 2026-11-25 03:31 Kept the settingsHelp check open: its push goes through a wrapper, so it must keep clearing its own mock.
 - 2026-11-25 03:31 Round 78 is the first round after the shared router reset, so it verifies the reset plus one cleanup in a single file.
+- 2026-11-25 03:32 Chose candidate 1 because the latest Claude Code report recommends it and the change is one file with a small risk. Jev also ranks run at 99%.
+- 2026-11-25 03:32 Kept the 2.2 and 2.3 order from the notes: lint sweep first, then backend leftovers, then translations, goals and preferences.
+- 2026-11-25 03:32 Left the 2.1 simulator check parked: the E2E account needs 250 or more gym dates and no approved seed path exists yet.
+- 2026-11-25 03:32 Left the string related items (DailyMacroRing 'of', i18n header comments) for a string round, as the notes say.

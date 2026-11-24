@@ -33,7 +33,6 @@ test('shows both legal links in the footer', () => {
 
 test('pressing the Terms link routes to /legal/terms', () => {
   const tree = renderScreen(<SignupScreen />);
-  (router.push as jest.Mock).mockClear();
 
   legalLinks(tree)[0].props.onPress();
   expect(router.push).toHaveBeenCalledWith('/legal/terms');
@@ -41,7 +40,6 @@ test('pressing the Terms link routes to /legal/terms', () => {
 
 test('pressing the Privacy Policy link routes to /legal/privacy', () => {
   const tree = renderScreen(<SignupScreen />);
-  (router.push as jest.Mock).mockClear();
 
   legalLinks(tree)[1].props.onPress();
   expect(router.push).toHaveBeenCalledWith('/legal/privacy');

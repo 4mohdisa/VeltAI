@@ -6,13 +6,13 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 77 done: shared router reset added in src/__tests__/render/setup.ts (beforeEach, uses jest.requireMock and isMockFunction check). Full render project green (166 suites, 536 tests).
+- Round 78 done: removed redundant router mockClear in src/__tests__/render/onboardingIndex.render.test.tsx. tsc 0 errors, file green.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 10. Verify with `npx expo lint`.
+- Errors: 0. Warnings: 10 (last measured). Verify with `npx expo lint`.
 - Remaining warnings: foodSaved.render 2, debugGating 2, debugCapture 2, authBilling 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
 - `eslint --format unix` no longer exists. Use `npx expo lint`.
 
@@ -30,6 +30,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Shared router reset (setup.ts beforeEach) replaces per-test router mockClear. Local mocks that are not jest.fn or that wrap push (settingsHelp) keep their own clear.
 - Mock forwardRef components get named functions (display-name fix).
 - Factory cases use jest.requireActual (babel-jest hoists factories).
+- Test-body requires of mocked modules become top-level imports.
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
@@ -39,7 +40,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoints every 15 rounds (90, 105, ...), plus any round the loop script marks.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
-- zsh: quote glob patterns. Node 22 first on PATH.
+- zsh: quote glob patterns. Node 22 first on PATH. Under zsh PIPESTATUS does not work; count errors with grep.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Jev risk moderate to high: keep steps to one file and check gates each round.
 - String changes wait for a string round.
@@ -52,6 +53,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green.
 - Rounds 45-74: render tests cleared of require and router swaps.
 - Round 77: shared router beforeEach in setup.ts.
+- Round 78: onboardingIndex router clear removed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -60,10 +62,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 78: remove redundant router mockClear in src/__tests__/render/onboardingIndex.render.test.tsx.
-- Round 79: same in src/__tests__/signup.render.test.tsx (2 lines).
-- Round 80: same in src/__tests__/render/signupSignInMode.render.test.tsx.
-- Check settingsHelp.render.test.tsx still clears its own wrapped mockPush.
+- Round 79: remove the two router mockClear lines in src/__tests__/signup.render.test.tsx.
+- Round 80: same in src/__tests__/render/signupSignInMode.render.test.tsx. Check settingsHelp.render.test.tsx still clears its own wrapped mockPush.
 - Then foodSaved.render (2 warnings), debugGating, debugCapture, authBilling (2 each), render/setup.ts afterEach require (1).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
