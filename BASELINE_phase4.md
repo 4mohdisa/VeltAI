@@ -45,3 +45,5 @@ The expected numbers were 241 suites, 1,386 tests and 20 skipped TestPG tests. T
 |---|---|---|---|
 | App: sessions `hydrateGym` puts in the Gym store (Jest, `src/__tests__/productionReadiness.test.ts`) | 1000 | 1000 | 200 |
 | Backend: rows `ListSessions` returns from lume_test_local (`TestPG_ListSessionsLimitReturnsNewest`) | 1000 | 1000 (no limit) | 200 (limit 200, the newest 200) |
+
+- 25 Nov 2026: `GET /api/gym/streak` now returns `total_days`, `COUNT(DISTINCT date)` over all of the user's sessions with no limit. `TestStreakTotalDays` (5 sessions on 3 dates gives 3) and `TestPG_StreakTotalDaysCountsEveryDate` (250 sessions on 250 dates gives 250 on lume_test_local) pass under `go test -race`.

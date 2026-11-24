@@ -220,3 +220,35 @@ func TestPG_ListSessionsLimitReturnsNewest(t *testing.T) {
 		t.Fatalf("capped read is not the newest 200: first %s last %s", capped[0].Date, capped[199].Date)
 	}
 }
+
+// The Total tile needs every logged day, not just the sessions a capped list
+// returns. Sessions are seeded with no streak row, as imported sessions are.
+func TestPG_StreakTotalDaysCountsEveryDate(t *testing.T) {
+	_, pool := pgStore(t)
+	store := gym.NewPGStore(pool)
+	ctx := context.Background()
+	userID := "pg_streak_total_days"
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO profiles (id) VALUES ($1) ON CONFLICT DO NOTHING`, userID); err != nil {
+		t.Fatalf("seed profile: %v", err)
+	}
+	t.Cleanup(func() {
+		_, _ = pool.Exec(context.Background(), `DELETE FROM profiles WHERE id = $1`, userID)
+	})
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO gym_sessions (user_id, date)
+		 SELECT $1, date '2025-01-01' + n FROM generate_series(0, 249) AS n`, userID); err != nil {
+		t.Fatalf("seed sessions: %v", err)
+	}
+
+	st, err := store.GetStreak(ctx, userID)
+	if err != nil {
+		t.Fatalf("get streak: %v", err)
+	}
+	if st.TotalDays != 250 {
+		t.Fatalf("total_days = %d, want 250", st.TotalDays)
+	}
+	if st.CurrentStreak != 0 || st.LongestStreak != 0 || st.LastGymDate != nil || st.FreezeUsed || st.LastFreezeDate != nil {
+		t.Fatalf("streak fields without a streak row = %+v, want zero", st)
+	}
+}

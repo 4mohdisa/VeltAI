@@ -144,7 +144,15 @@ func (f *fakeStore) DeleteExercise(_ context.Context, id string) error {
 }
 
 func (f *fakeStore) GetStreak(_ context.Context, userID string) (gym.Streak, error) {
-	return f.streaks[userID], nil
+	st := f.streaks[userID]
+	days := map[string]bool{}
+	for _, s := range f.sessions {
+		if s.UserID == userID {
+			days[s.Date] = true
+		}
+	}
+	st.TotalDays = len(days)
+	return st, nil
 }
 
 func (f *fakeStore) SaveStreak(_ context.Context, userID string, st gym.Streak) error {
@@ -324,6 +332,34 @@ func TestStreakEndpoint(t *testing.T) {
 	f.streaks["user_1"] = gym.Streak{CurrentStreak: 3, LongestStreak: 5, LastGymDate: &last}
 	if st := getStreak(t, mux, "user_1"); st.CurrentStreak != 3 || st.LongestStreak != 5 || *st.LastGymDate != last {
 		t.Fatalf("streak = %+v", st)
+	}
+}
+
+func TestStreakTotalDays(t *testing.T) {
+	cases := []struct {
+		name  string
+		mine  []string
+		other []string
+		want  int
+	}{
+		{"5 sessions on 3 dates", []string{"2026-07-01", "2026-07-01", "2026-07-02", "2026-07-03", "2026-07-03"}, nil, 3},
+		{"no sessions", nil, nil, 0},
+		{"another user's dates are not counted", []string{"2026-07-01"}, []string{"2026-07-02", "2026-07-03"}, 1},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			f := newFake()
+			mux := serve(f)
+			for _, d := range tc.mine {
+				createSession(t, mux, "user_1", d)
+			}
+			for _, d := range tc.other {
+				createSession(t, mux, "user_2", d)
+			}
+			if got := getStreak(t, mux, "user_1").TotalDays; got != tc.want {
+				t.Fatalf("total_days = %d, want %d", got, tc.want)
+			}
+		})
 	}
 }
 

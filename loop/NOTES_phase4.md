@@ -5,11 +5,11 @@ Finish the app (Apple side features: Sign in with Apple, account deletion, AI co
 
 ## State
 - Branch loop/phase4 from loop/phase3 (Phase 3 not merged into main).
-- Phase 3 gates: tsc 0 errors, Jest 241 suites and 1,386 tests pass, Go 34 packages ok. Node 22 LTS. Jest pinned ~29.7.0.
-- Round 8 baseline (BASELINE_phase4.md): tsc 0 errors, Jest 242 suites and 1,397 tests pass, Go 34 packages ok. TestPG: 21 of 21 now run on lume_test_local (localhost:5432, Postgres 17), 0 skipped.
+- Phase 3 gates: tsc 0 errors, Jest 241 suites and 1,386 tests pass, Go 34 packages ok.
+- Round 8 baseline (BASELINE_phase4.md): tsc 0 errors, Jest 242 suites and 1,397 tests pass, Go 34 packages ok. TestPG: 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
 - Row 1 is BUILT.
-- Row 2 is PARTIAL. Sub steps: 2a hydrateGym (in progress), 2b to 2e open.
-- Rows 2c and 2d (hand built, commit e0c184d) are still marked DIFFERENT. Verify and set status later.
+- Row 2 is PARTIAL. Sub steps: 2.1 hydrateGym (limit 200 done, before and after numbers in BASELINE; total_days follow up in progress), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 everything else in Phase 3 leftovers.
+- Rows 2c and 2d (hand built, commit e0c184d) are still DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has 5 open checks under 'Rows 2c and 2d' (AFCD licence, AFCD load per database, Gemini billing cap, LUME_TIMEZONE, read AI_COSTS.md). Never overwrite or empty it.
 
 ## Decisions (never delete)
@@ -30,7 +30,9 @@ Finish the app (Apple side features: Sign in with Apple, account deletion, AI co
 - AI_TEST_LOG.md and FEEDBACK_SUMMARY.md are git ignored.
 - OWNER_CHECKS option (a) chosen in round 8 (keep as is).
 - Row 1 TestPG count is 21 (round 9).
-- Decide, do not ask (round 7 report asked a question; prompts forbid it).
+- Decide, do not ask.
+- Row 2.1 total gym days comes from the database (GET /api/gym/streak total_days), not from the capped store. A correct total beats the cap (round 12).
+- Row 2 sub steps are named 2.1 to 2.5 everywhere, so they do not clash with rows 2b, 2c, 2d (round 12).
 
 ## Done
 - Round 1-2: row list prompts rejected (too many components).
@@ -38,10 +40,12 @@ Finish the app (Apple side features: Sign in with Apple, account deletion, AI co
 - Round 4: progress line fixed to 0 of 36.
 - Round 5: OWNER_CHECKS prompt rejected (no branch rule).
 - Round 6: OWNER_CHECKS_phase4.md already existed (5 real checks).
-- Round 7: Row 1 step 1 (branch, Node, gitignore for backend/.env, AI_TEST_LOG.md, FEEDBACK_SUMMARY.md).
+- Round 7: Row 1 step 1 (branch, Node, gitignore).
 - Round 8: Row 1 step 2 (gates, BASELINE_phase4.md).
-- Round 9: Row 1 step 3 (local Postgres 17, lume_test_local, 21 of 21 TestPG pass). Row 1 BUILT.
-- Round 10: Row 2a prompt sent (hydrateGym limit, before and after numbers).
+- Round 9: Row 1 step 3 (local Postgres 17, 21 of 21 TestPG pass). Row 1 BUILT.
+- Round 10: Row 2.1 hydrateGym limit 200 (1000 to 200 sessions). Clean.
+- Round 11: Row 2.1 follow up prompt rejected (asked for two components). Rewritten.
+- Round 12: Row 2.1 total_days on backend, prompt sent.
 
 ## Blocked on Isa
 (nothing)
@@ -50,14 +54,20 @@ Finish the app (Apple side features: Sign in with Apple, account deletion, AI co
 (nothing)
 
 ## Next
-- Round 10 result: Row 2a. Check before and after numbers in BASELINE_phase4.md.
-- Then Row 2b (other Phase 3 leftovers in small steps: gym schedule LIMIT order, WHERE id::text, error swallowing, feature_used allowlist, etc.), then Row 2 translations and Retry states (2c area), then 2 to 14b, then 15 to 30, then 31.
+- Round 12: total_days on GET /api/gym/streak (backend only). Check BASELINE_phase4.md Row 2a section.
+- Round 13: switch the Total gym days tile (Gym, Profile, Streak) to read total_days. One file per round.
+- Then Row 2.2 (Phase 3 backend and data leftovers): gym/schedule_pg.go LIMIT order (oldest first then LIMIT 30 is wrong), 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
+- Then 2.3 (translations and Retry: gymRange, monthTitle, muscle cards, exercise progress, summaryCards, nutrition kcal label), 2.4 (useGoals isLoading, error, refetch, goals screen states, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted through backend, missing _one plural, goals.saved).
+- Then Row 2b (sign up redesign, Mobbin check), 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 - Rows 2c and 2d verification when Row 2 is done.
 
 ## Problems noticed, not fixed
+- food/history.tsx:66 still calls listSessions() with no limit. Fix in 2.2 or 2.5.
+- One react-hooks/set-state-in-effect lint error at src/lib/data/hooks.ts:405. Fix in 2.2 lint step.
 - ssh tunnel on 127.0.0.1:55432: unknown target. The 2c/2d owner check uses this port. Isa should confirm what it reaches before running the AFCD importer.
-- Postgres runs as a brew service (starts at login). Database setup (roles, schema, 18 migrations) is manual. Rows 17 and 26 should script it.
-- KNOWN_ISSUES.md line 40 still says 20 TestPG tests skip. It is 21 and they run. Fix in Row 2e.
+- Postgres runs as a brew service. Database setup (roles, schema, 18 migrations) is manual. Rows 17 and 26 should script it.
+- KNOWN_ISSUES.md line 40 still says 20 TestPG tests skip. It is 21 and they run. Fix in Row 2.5.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from src/lib/data/hooks.ts. Not failing. Look at them in Row 22.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase4.md had uncommitted changes. Left alone for the loop script.
 - Jev rated ask higher than run. Ignored (ask is not allowed).
+- Next action confidence was low (0.46) in round 10. Keep tasks small.

@@ -9655,3 +9655,11 @@
 - 2026-11-25 02:09 The ssh tunnel on 127.0.0.1:55432 is treated as possibly hosted. Prompts allow only localhost:5432 and lume_test_local. Reason: the stop rule forbids touching hosted data.
 - 2026-11-25 02:09 KNOWN_ISSUES.md line 40 (stale '20 skipped') goes into Row 2e, not fixed now, to keep this round to one task.
 - 2026-11-25 02:09 Rows 2c and 2d verification stays for a later round, after Row 2 is finished.
+- 2026-11-25 02:13 Chose candidate 1 over the schedule LIMIT fix because 2.1 introduced the tile regression and it must be closed before more Row 2 work. Jev rated run 64% and the task is small (one backend field, one tile), so I kept it as one round.
+- 2026-11-25 02:13 Renamed Row 2 sub steps to 2.1 to 2.5 to remove the clash with rows 2b, 2c, 2d. Mapping: 2.1 hydrateGym, 2.2 Row 13 items, 2.3 Row 14 items, 2.4 useGoals, 2.5 everything else.
+- 2026-11-25 02:13 Used total_days (distinct session dates via COUNT) as the fix for the Total tile, so the tile no longer depends on the capped store.
+- 2026-11-25 02:13 Kept the owner checks file untouched. The five open checks stay as they are.
+- 2026-11-25 02:14 Rewrote the rejected prompt as one package and one purpose (backend only), because the loop rule allows one screen, component or file per prompt. The app tile switch comes next round.
+- 2026-11-25 02:14 Total gym days will come from the database through /api/gym/streak, not from the capped store. A correct total matters more than the cap, and the cap still limits hydration only. This answers the product point left open in the last report.
+- 2026-11-25 02:14 Row 2 sub steps are called 2.1 to 2.5 in all files, including PHASE4_ROWS.md, so they cannot be confused with rows 2b, 2c and 2d.
+- 2026-11-25 02:14 Kept the Jev run signal (82%). Risk is high, so the task stays small and backend only.

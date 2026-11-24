@@ -65,6 +65,9 @@ type Streak struct {
 	// LastFreezeDate is the day the active freeze covers; nil when no freeze
 	// is in effect. Training on that day refunds the freeze.
 	LastFreezeDate *string `json:"last_freeze_date"`
+	// TotalDays counts the distinct dates with at least one session, across all
+	// of the user's sessions. Computed on read, not a column.
+	TotalDays int `json:"total_days"`
 }
 
 type Store interface {
@@ -79,7 +82,8 @@ type Store interface {
 	GetExercise(ctx context.Context, id string) (*Exercise, string, error)
 	UpdateExercise(ctx context.Context, e *Exercise) error
 	DeleteExercise(ctx context.Context, id string) error
-	// GetStreak returns a zero-value Streak when the user has no row yet.
+	// GetStreak returns zero streak fields when the user has no row yet;
+	// TotalDays is always counted from the user's sessions.
 	GetStreak(ctx context.Context, userID string) (Streak, error)
 	SaveStreak(ctx context.Context, userID string, st Streak) error
 }

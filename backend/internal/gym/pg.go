@@ -227,14 +227,15 @@ func (p *PGStore) DeleteExercise(ctx context.Context, id string) error {
 }
 
 func (p *PGStore) GetStreak(ctx context.Context, userID string) (Streak, error) {
+	// One row always: imported sessions can exist before any streak row does.
 	var st Streak
 	err := p.q.QueryRow(ctx, `
-		SELECT current_streak, longest_streak, last_gym_date::text, freeze_used, last_freeze_date::text
-		FROM gym_streaks WHERE user_id = $1`, userID).
-		Scan(&st.CurrentStreak, &st.LongestStreak, &st.LastGymDate, &st.FreezeUsed, &st.LastFreezeDate)
-	if errors.Is(err, pgx.ErrNoRows) {
-		return Streak{}, nil
-	}
+		SELECT coalesce(s.current_streak, 0), coalesce(s.longest_streak, 0), s.last_gym_date::text,
+		       coalesce(s.freeze_used, false), s.last_freeze_date::text,
+		       (SELECT count(DISTINCT date) FROM gym_sessions WHERE user_id = $1)
+		FROM (SELECT 1) AS one
+		LEFT JOIN gym_streaks s ON s.user_id = $1`, userID).
+		Scan(&st.CurrentStreak, &st.LongestStreak, &st.LastGymDate, &st.FreezeUsed, &st.LastFreezeDate, &st.TotalDays)
 	return st, err
 }
 
