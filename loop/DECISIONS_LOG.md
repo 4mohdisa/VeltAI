@@ -9791,3 +9791,7 @@
 - 2026-11-25 02:57 Chose the checkpoint over Jev's top pick (gymSession swap, 97%) because the loop note says this round must be the full type check and full Jest run with no file changes; the gymSession swap moves to round 45, one file per round.
 - 2026-11-25 02:57 Checkpoint report lists failing suites by name so any regression from rounds 38 to 43 is caught before more edits.
 - 2026-11-25 02:57 Jev risk is 0.9 (moderate to high). Keeping steps to a single file and gate checks each round, and this round changes nothing.
+- 2026-11-25 02:58 Chose the one file swap from the notes queue: smallest step, keeps Jev risk moderate, and clears one lint warning.
+- 2026-11-25 02:58 Kept the string change (DailyMacroRing 'of') for a string round, per the rule that string changes wait.
+- 2026-11-25 02:58 Prompt forbids editing loop-managed files and OWNER_CHECKS_phase4.md so the open owner checks stay intact.
+- 2026-11-25 02:58 Prompt asks for a revert of only this file if the swap breaks it twice, so a failed attempt never leaves the tree red.

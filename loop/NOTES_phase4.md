@@ -33,26 +33,23 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
-- Full suite on checkpoint rounds. Round 35 was a checkpoint; round 44 was a checkpoint (no file changes); next about round 54.
+- Full suite on checkpoint rounds. Round 35 and round 44 were checkpoints; next about round 54.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
 - zsh: quote glob patterns; pass Jest file lists via tr '\n' '\0' | xargs -0.
 - Node 22 first on PATH (shell default is 24).
 - String changes wait for a string round.
 - i18n alias: `import i18next, { use as addPlugin }` is kept because a plain `use` import trips react-hooks/rules-of-hooks.
+- Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Round 27: simulator check of Total tile blocked, parked.
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
-- Round 38: history.tsx gym session read limited to 200.
-- Round 39: history.tsx bounds the session read to the last 7 days.
-- Round 40: i18n lint warnings cleared in src/lib/i18n/index.ts.
-- Round 41: debugStore.test.ts lint clean.
-- Round 42: calendar.strings.render.test.tsx warning cleared with jest.requireActual('react').
-- Round 43: gymCards.emptyStates.render.test.tsx warning cleared (6 of 6 pass).
-- Round 44 (checkpoint, no file changes): full tsc and full Jest run. Result recorded in the round report.
+- Round 38-39: history.tsx gym session read limited (200, then last 7 days).
+- Round 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
+- Round 44 (checkpoint): full tsc and Jest green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -61,23 +58,23 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 45: gymSession.emptyStates.render.test.tsx: swap require('react') for jest.requireActual('react') (one file; remove any disable comment).
+- Round 45 (in progress): gymSession.emptyStates.render.test.tsx: swap require('react') for jest.requireActual('react').
 - Then the same swap, one file per round, for: gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList, savedMealsList, savedMealsLog, savedScreen, todayCard (all in src/__tests__/render/).
-- Then the biggest warnings: src/__tests__/noFabricatedData.test.ts, src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same pattern.
-- Then camera mocks in photoScan, labelScan and scanScreens.strings (switch from disable comment to jest.requireActual).
+- Then the biggest warnings: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same pattern.
+- Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
-- Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
-- Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
+- Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix; ScanReviewCard act warnings are Row 22.
+- Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40 says 20 TestPG, it is 21).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
 - Older backend without total_days gives an undefined tile. Deploy backend with app (owner note in OWNER_CHECKS_phase4.md).
 - ssh tunnel on 127.0.0.1:55432: unknown target. Isa should confirm before the AFCD importer runs.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
-- KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - Jest prints React act(...) warnings from ScanReviewCard, an 'API unreachable' warning from hooks.ts, and a logged stack trace in photoScan.render. Look at them in Row 22.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
+- src/app/food/history.tsx gym session read: confirm the bound from round 39 holds in Row 2.2 review.
 - The expo-camera stub is copied into three scan tests. Move to one shared mock later.
 - Plain npx eslint at repo root reports about 11,000 errors, mostly in web/.next, web/out, ds-bundle/_vendor. Add to ESLint ignores (Row 29).
 - i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files and Preferences (Row 2.3).
