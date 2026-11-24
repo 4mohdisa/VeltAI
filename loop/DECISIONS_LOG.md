@@ -10250,3 +10250,8 @@
 - 2026-11-25 05:28 Round 161: switched to the Jev pick (locale parity test, 81%). Reason: it is the NEXT item in these notes, it guards every string round that follows, and it is one file.
 - 2026-11-25 05:28 Round 161: parity test may fix missing locale keys in es, fr or en, because a red gate is not a reason to stop. Each added key is recorded in the report.
 - 2026-11-25 05:28 Round 161: the signed merge is already done (round 160) and is not repeated.
+- 2026-11-25 05:30 Round 162 picks the summaryCards fallback: it is a language bug on a visible screen and it is the next item in the queue after the parity test.
+- 2026-11-25 05:30 Kept addMenu.voice and addMenu.describeOutLoud in all three languages (no deletion rule). They are parked for the Phase 4 voice logging work; not wired to any screen now.
+- 2026-11-25 05:30 Kept gymExerciseProgress.lastSessions_one with {{count}} in es and fr. The parity test is not relaxed. The awkward singular wording goes to Isa's review list, not blocked on.
+- 2026-11-25 05:30 The locale parity test stays a Jest test for now. Wiring it into npm run verify waits for Row 29, when the verify script is created.
+- 2026-11-25 05:30 Jev ranked the parity test first earlier; the loop followed that pick and it is done. This round follows the queue order from NOTES, not a new Jev signal.

@@ -6,7 +6,7 @@ import type { StoredMeal } from './foodStore';
 import type { EnergyBalance, GymSession } from '@/lib/api';
 import { dateLocale, formatHoursMinutes } from '@/lib/formatting';
 import i18n from '@/lib/i18n';
-import { burnOf, mean, netOf } from './energyRange';
+import { burnOf, mean, netOf, weekdayLetter } from './energyRange';
 import { fromIso, weekOf } from './foodDays';
 import { sessionsOn } from './gymRange';
 
@@ -55,15 +55,14 @@ export function workoutsWeek(sessions: GymSession[], today: string): WorkoutsWee
   let count = 0;
   let minutes = 0;
   let untimed = 0;
-  const letters = [...i18n.t('calendar.weekdayLetters')];
-  const pips = weekOf(today).map((date, i) => {
+  const pips = weekOf(today).map((date) => {
     const onDay = date > today ? [] : sessionsOn(sessions, date);
     count += onDay.length;
     for (const s of onDay) {
       if (s.duration_minutes == null) untimed += 1;
       else minutes += s.duration_minutes;
     }
-    return { letter: letters[i], date, trained: onDay.length > 0 };
+    return { letter: weekdayLetter(date), date, trained: onDay.length > 0 };
   });
   return { sessions: count, minutes, untimed, pips };
 }
