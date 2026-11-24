@@ -9987,3 +9987,8 @@
 - 2026-11-25 03:52 The prompt allows one PHASE4_ROWS.md line this round, because the lint sub-item is done and needs recording. Only the notes line changes, not any status.
 - 2026-11-25 03:52 Jev suggested asking Isa (45%). Rejected: Isa asked for no questions this week. Park and carry on.
 - 2026-11-25 03:52 Jev risk 1.7 of 2: kept to one file and one test, with the full gates in the report.
+- 2026-11-25 03:55 Chose run over Jev's ask (80%). Reason: the Row 1 decision names localhost:5432 with database lume_test_local as the test database; only the 55432 tunnel is excluded. So the loop can run TestPG without asking Isa, and the blocker is a repo rule, not missing information.
+- 2026-11-25 03:55 Kept the progress fix as is: the new TestPG is written and compiles, so the next step is to run it, not to rewrite it.
+- 2026-11-25 03:55 Kept the rule that the 55432 tunnel is never touched, and never print the database URL.
+- 2026-11-25 03:55 Kept Row 2 at PARTIAL until 2.2 to 2.5 are done.
+- 2026-11-25 03:55 Kept Jev's risk at 1.5 in mind: this round is small (one run, two doc edits, one tsc).
