@@ -10541,3 +10541,18 @@
 - 2026-11-25 09:15 R227 is a full checkpoint: the loop flagged R226 for an unrun full suite, and the rules say full suites run on a checkpoint round. Jev ranked the checkpoint first at 96% and I agree.
 - 2026-11-25 09:15 Stale row 2b sentence removed in the same round, since it sits in the row the checkpoint updates and needs no code change.
 - 2026-11-25 09:15 Other candidates are queued after the checkpoint so a red suite is fixed before new strings are added.
+- 2026-11-25 09:16 Chose the paywall 4xx toast first because the notes order puts it first after the R227 checkpoint, and it is a user visible English leak.
+- 2026-11-25 09:16 Restored the lost tracking sentence for the paywall 4xx issue into row 2b notes, since the last round deleted it as stale without another record.
+- 2026-11-25 09:16 Row 2c text asks to identify work Isa built on 25 Nov 2026, which has no defined scope in the brief. Deferred it behind the three cleanup items. Next time read its row text in PHASE4_ROWS.md; if it still has no scope, park it in OWNER_CHECKS_phase4.md and move on.
+- 2026-11-25 09:16 Jev suggested ask at 19%. Not used: the brief forbids asking, so the loop parks owner steps instead.
+- 2026-11-25 09:16 Jev agreed the checkpoint was the right call (R227 passed clean, 270 suites, 1,637 tests, tsc and lint at 0).
+- 2026-11-25 09:16 Loop note said the last prompt was rejected for covering more than one screen. Rewrote it to cover only paywall.tsx and its render test.
+- 2026-11-25 09:16 Used the existing key onboarding.paywall.submitFailed rather than adding a new key, so no new es or fr wording is needed this round.
+- 2026-11-25 09:16 Kept the records edit to one added line in row 2b notes, so the restored tracking sentence is not lost again.
+- 2026-11-25 09:16 Chose the paywall toast over the candidates because it is already in progress and has a known fix. Jev's run signal (57%) agrees with a small task; it does not ask, so I did not use ask.
+- 2026-11-25 09:16 Row 2c stays queued after 2b. Its scope is unclear, so next round I will read its row text and park it in OWNER_CHECKS_phase4.md if no scope is given.
+- 2026-11-25 09:16 R229: chose the small test-constant fix from the planned order; it is one file, low risk, and clears a known English literal.
+- 2026-11-25 09:16 R229: row 2c has no scope in the brief; park it in OWNER_CHECKS_phase4.md when reached rather than invent work.
+- 2026-11-25 09:16 R229: rejected prompt fixed by stating the loop/phase4 branch rule as step 0 and forbidding every other git command.
+- 2026-11-25 09:16 R229: the removed paywall 4xx tracking line is restored in row 2b notes so the English server text stays tracked.
+- 2026-11-25 09:16 R229: no new strings this round, so no es or fr wording is added for review.

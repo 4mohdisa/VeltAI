@@ -49,7 +49,7 @@ jest.mock('@/lib/api', () => ({
 
 const mockSignOut = jest.fn().mockResolvedValue(undefined);
 
-const CONNECTION_MESSAGE = "Couldn't finish setup — check your connection and try again.";
+const CONNECTION_MESSAGE = en.onboarding.paywall.submitFailed;
 
 async function pressContinue(): Promise<void> {
   const tree = renderScreen(<PaywallScreen />);

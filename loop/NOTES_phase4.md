@@ -6,20 +6,21 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## State
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
-- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked). Row 2b DIFFERENT.
-- R226 done: onboarding.sessionExpired copy in en, es, fr. es and fr await Isa review.
-- R226 was flagged by the loop check: full suite not run. R227 is the full checkpoint.
-- Last full checkpoint R218 (269 suites, 1,595 tests).
+- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked). Row 2b DIFFERENT (screens 1a to 1d and done, paywall strings done).
+- R227 full checkpoint green: 270 suites, 1,637 tests, tsc 0 errors, lint 0 findings.
+- Next full checkpoint due at R242 or at a handover.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R227: full checkpoint (tsc, full lint, full Jest). Fix any red first.
-- Then: paywall 4xx English (paywall.tsx:99-102); CUISINE_LABEL cleanup; CONNECTION_MESSAGE literal in paywallSessionExpired.render.test.tsx.
-- Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
+- R229: CONNECTION_MESSAGE literal in paywallSessionExpired.render.test.tsx to en string. In progress.
+- Then: CUISINE_LABEL cleanup in cuisines.ts.
+- Then: row 2c has no scope in the brief; park it in OWNER_CHECKS and move on.
+- Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - A red round is fixed in a small round before new work.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
+- Every prompt states the loop/phase4 branch rule and forbids other git commands.
 - Lint: npx expo lint src scripts --max-warnings 0.
 - Do not edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, or api.ts listSessions defaults.
 - No new eslint-disable. Animated values: useState(() => new Animated.Value(x)).
@@ -47,18 +48,20 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R182: row 29 BUILT after full verify exit 0 with local TestPG.
 - R184, R186: migration apply test runs once, in verify:migrations.
 - R194: 2b 1d does not wait for Isa. Own en, es, fr strings, flagged for review.
-- R195, R196, R198, R205: 401 routes dispatch SESSION_ENDED. Session cleared, answers kept. Deliberate sign-out and deletion wipe everything.
+- R195, R196, R198, R205: 401 routes dispatch SESSION_ENDED. Session cleared, answers kept.
 - R199: renderScreen wrapped in AppStateProvider (approved).
 - R206: 1d split one screen per round. R208: OnbScaffold kept.
 - R209 to R212: onboarding keys nested; cuisine and dietary options under options.<value>.
 - R219: done screen translated. Plan-ready screen NOT built: needs Isa's go-ahead.
 - R222: paywall strings done. es and fr are agent wording for review.
 - R225: validateOnboardingPayload i18n chosen over sessionExpired copy.
-- R226: sessionExpired copy changed to 'Your session ended. Sign in again to continue.' Jev 97% agreed.
-- R227: checkpoint first after loop flag. Jev 96% agreed.
+- R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
+- R227: checkpoint green, nothing fixed.
+- R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server 4xx English text still shows; tracked in row 2b notes.
+- R229: row 2c has no scope in the brief; park in OWNER_CHECKS when reached.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: onboarding screens, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text.
+- es and fr wording review: onboarding screens, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing.
 - Whether es and fr should ever be shown (app is English only).
@@ -88,10 +91,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
 ## Problems noticed, not fixed
-- Paywall 4xx toast shows server English (paywall.tsx:99-102).
 - CUISINE_LABEL in cuisines.ts unused; English label field may be unused.
-- CONNECTION_MESSAGE in paywallSessionExpired.render.test.tsx is an English literal.
-- Local ios/ prebuild output is stale. Do not edit ios/.
+- Paywall toast and paywall feature list and toasts still English in places; server 4xx text English.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
