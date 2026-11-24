@@ -11,6 +11,7 @@ import type { JSX } from 'react';
 
 import { LegalScreen, type LegalSection } from '@/components/navigation/LegalScreen';
 import { TRIAL_DAYS } from '@/lib/billing/purchases';
+import i18n from '@/lib/i18n';
 
 const UPDATED = '25 November 2026';
 
@@ -45,12 +46,16 @@ const SECTIONS: LegalSection[] = [
   },
   {
     heading: 'Health disclaimer',
-    body: [
-      'Lume provides general nutrition and fitness information. It is not medical advice, it is not a medical device, and it does not diagnose, treat, cure or prevent any condition.',
-      'Always consult a qualified healthcare professional before making decisions about your diet, exercise, medication or health — particularly if you are pregnant or nursing, are under 18, or have a medical condition or a history of disordered eating. Never disregard professional medical advice, or delay seeking it, because of something you read in the app.',
-      'If you think you may have a medical emergency, contact your doctor or your local emergency service immediately.',
-      'Calorie and macro targets are calculated from standard published formulas using the information you provide. They are a starting point, not a prescription. You rely on the app’s estimates and insights at your own risk.',
-    ],
+    // A getter, so the paragraphs follow the current language each render.
+    get body() {
+      const k = 'legal.terms.healthDisclaimer';
+      return [
+        `${i18n.t(`${k}.notMedicalAdvice`)} ${i18n.t(`${k}.notMedicalDevice`)}`,
+        `${i18n.t(`${k}.consultProfessional`)} ${i18n.t(`${k}.neverDisregard`)}`,
+        i18n.t(`${k}.emergency`),
+        `${i18n.t(`${k}.targetsFormulas`)} ${i18n.t(`${k}.targetsStartingPoint`)} ${i18n.t(`${k}.ownRisk`)}`,
+      ];
+    },
   },
   {
     heading: 'Subscriptions and billing',

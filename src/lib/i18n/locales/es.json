@@ -1313,5 +1313,19 @@
   },
   "healthDisclaimer": {
     "text": "Lume ofrece información general sobre nutrición y actividad física. No es consejo médico. Consulta a un profesional sanitario antes de hacer cambios importantes en tu alimentación o en tu rutina de ejercicio."
+  },
+  "legal": {
+    "terms": {
+      "healthDisclaimer": {
+        "notMedicalAdvice": "Lume ofrece información general sobre nutrición y actividad física.",
+        "notMedicalDevice": "No es consejo médico, no es un dispositivo médico y no diagnostica, trata, cura ni previene ninguna afección.",
+        "consultProfessional": "Consulta siempre a un profesional sanitario cualificado antes de tomar decisiones sobre tu alimentación, ejercicio, medicación o salud, sobre todo si estás embarazada o en periodo de lactancia, tienes menos de 18 años, o tienes una afección médica o antecedentes de trastornos alimentarios.",
+        "neverDisregard": "Nunca ignores el consejo médico profesional, ni retrases buscarlo, por algo que hayas leído en la app.",
+        "emergency": "Si crees que puedes tener una emergencia médica, contacta de inmediato con tu médico o con el servicio de emergencias de tu zona.",
+        "targetsFormulas": "Los objetivos de calorías y macronutrientes se calculan con fórmulas estándar publicadas a partir de la información que proporcionas.",
+        "targetsStartingPoint": "Son un punto de partida, no una prescripción.",
+        "ownRisk": "Confías en las estimaciones y recomendaciones de la app bajo tu propia responsabilidad."
+      }
+    }
   }
 }

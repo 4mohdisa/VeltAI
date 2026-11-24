@@ -10573,3 +10573,7 @@
 - 2026-11-25 09:22 Added tsc, Jest for the changed tests and lint to this round, because the loop flagged the last report for skipping Jest and lint.
 - 2026-11-25 09:22 Left the Terms and en-AU items for later rounds to keep this round to one screen.
 - 2026-11-25 09:22 Left the OWNER_CHECKS line 39 wording alone because the file is append only.
+- 2026-11-25 09:24 Chose the Terms disclaimer over connectivityMessage: it is user-visible legal text, and the notes order puts it first.
+- 2026-11-25 09:24 Ignored the last report's suggestion of row 2c: not in the brief, parked in OWNER_CHECKS_phase4.md.
+- 2026-11-25 09:24 Agree with Jev (run, 80%): the next task is small and the last task finished cleanly.
+- 2026-11-25 09:24 es and fr legal wording is agent-written and goes to OWNER_CHECKS for Isa's review, not a blocker.

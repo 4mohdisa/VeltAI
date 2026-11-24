@@ -73,3 +73,4 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] es and fr wording needs review: the kJ unit string insights.brainProfile.typicalIntakeValueKj in src/lib/i18n/locales/es.json and fr.json (agent translation).
 - [ ] es and fr wording needs review: dashboard.energyTarget in src/lib/i18n/locales/es.json and fr.json (agent translation).
 - [ ] es and fr wording needs review: scanCards.noBreakdown in src/lib/i18n/locales/es.json and fr.json (agent translation).
+- [ ] es and fr wording needs review: the Terms health disclaimer legal.terms.healthDisclaimer in src/lib/i18n/locales/es.json and fr.json (agent translation, legal text).

@@ -7,14 +7,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
-- Row 2b DIFFERENT: screens 1a to 1d, done screen, paywall strings, 401 handling, R231 cuisine cleanup done. Plan-ready screen NOT built (needs Isa's go-ahead).
-- R230 checkpoint green: 270 suites, 1,637 tests, tsc 0. Next full checkpoint: R242 or next handover.
-- R232 records check done. Last report skipped Jest and lint; flagged.
-- OWNER_CHECKS_phase4.md: append only.
+- Row 2b DIFFERENT: screens 1a to 1d, done screen, paywall strings, 401 handling, paywall 4xx toast (translated), CUISINE cleanup done. Plan-ready screen NOT built (needs Isa's go-ahead).
+- Last full checkpoint R230 green (270 suites, 1,637 tests, tsc 0). Next checkpoint R242 or next handover.
+- Last Jest and lint run: paywall 4xx round. Lint runs every round that touches src.
 
 ## Order
-- Now: 2b paywall 4xx toast (translated copy, tsc, Jest and lint run this round).
-- Then: 2b connectivityMessage, Terms disclaimer, en-AU hard-coding.
+- Now: 2b Terms disclaimer (src/app/legal/terms.tsx, hard-coded English).
+- Then: 2b connectivityMessage (unused, src/lib/auth/machine.ts), en-AU hard-coding (formatNumber, units.ts:76).
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - A red round is fixed in a small round before new work.
@@ -29,9 +28,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Onboarding keys nested under onboarding.<screen>. Goal and activity keep flat keys.
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u.
 - TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel. Never print the URL.
+- OWNER_CHECKS_phase4.md: append only.
 
 ## Decisions (never delete)
-- No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
+- No questions to Isa. Park owner steps and carry on.
 - Local Postgres and sandbox keys only. Isa deploys himself.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature; no trial when buying straight away.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
@@ -57,14 +57,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R222: paywall strings done. es and fr are agent wording for review.
 - R225: validateOnboardingPayload i18n chosen over sessionExpired copy.
 - R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
-- R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server English 4xx text still shows; being fixed now.
-- R229: CONNECTION_MESSAGE test constant reads en.onboarding.paywall.submitFailed.
+- R228, R229: paywall 4xx toast uses onboarding.paywall.submitFailed for every 4xx except 401. Server English text never shown. Test constant reads en copy.
 - R230: checkpoint round, read only. Green.
-- R231: CUISINE_LABEL and unused label field removed. Grep confirmed no readers.
+- R231: CUISINE_LABEL and unused label field removed.
 - R232: records check done (docs only).
+- R233: Terms disclaimer chosen next over connectivityMessage (user-visible legal text).
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
+- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing.
 - Whether es and fr should ever be shown (app is English only).
@@ -87,8 +87,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Skeleton crashes under Reanimated test mock (Row 22).
 - measurements.tsx: local t in useState initialiser shadows t(). Tidy round.
 - Trial note plural '{{days}} días' wrong if TRIAL_DAYS were 1.
-- Terms disclaimer paragraphs in src/app/legal/terms.tsx:47 onward are hard-coded English.
-- connectivityMessage (src/lib/auth/machine.ts:154) returns English and is unused. Signup placeholders (signup.tsx:339, :362) are literals; may not need translating.
+- connectivityMessage (src/lib/auth/machine.ts) returns English and is unused. Signup placeholders (signup.tsx:339, :362) are literals; may not need translating.
 - Nothing dispatches SIGNED_IN, so the auth machine stays unknown or signedOut.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
@@ -105,4 +104,5 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Key naming mixed: goal and activity flat, later screens nested.
 - onboarding.sessionExpired says 'finish setting up', wrong for users who finished onboarding.
 - OWNER_CHECKS_phase4.md line 39 quotes old es sessionExpired wording. Append only, so left.
+- Users no longer see which field the server rejected on a 4xx. Needs a new string if wanted.
 - Gotcha: the Row 2b note may drift again; check it at each records round.
