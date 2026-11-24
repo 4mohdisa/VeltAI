@@ -99,3 +99,5 @@ Migration apply check: passed, 18 migrations applied to a throwaway lume_test_mi
 | Migrations applied | 18 | 18 |
 | secrets:scan | 910 files, 0 findings | 910 files, 0 findings |
 | check:manifest | OK | OK |
+
+Round 185 recheck: `verify:go` excludes backend/tests/migrations (33 packages ok, 14 with no test files, 0 failed, down from 34 ok); `verify:migrations` applied 18 migrations and TestPG_MigrationsApplyToEmptyDatabase ran exactly once in the chain.

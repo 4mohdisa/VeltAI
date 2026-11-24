@@ -6,12 +6,13 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Rows 1, 12, 12b, 29 BUILT. Verify exit 0 in round 184 (0 lint warnings, 27 of 27 TestPG, 18 migrations applied once).
+- Rows 1, 12, 12b, 29 BUILT. Verify exit 0 in round 183 (0 lint warnings, 27 of 27 TestPG, 18 migrations applied).
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44). 2.2 remaining.
+- 2b step 1 DONE (round 185): DESIGN_REFERENCES.md written (16 Mobbin patterns, audit of 13 onboarding and auth screens). Mobbin connected.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 185: 2b step 1 (Mobbin check, DESIGN_REFERENCES.md, audit). Then 2b steps for the redesign, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 186: remove duplicate migration test run (verify:go excludes migrations package). Round 187: 2b redesign step 1 (Welcome sign-in link, signup mode title, Resend code, en/es/fr). Then remaining 2b steps, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -34,6 +35,7 @@ Round 185: 2b step 1 (Mobbin check, DESIGN_REFERENCES.md, audit). Then 2b steps 
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
+- Round 186: duplicate migration apply run removed from verify:go; the test runs only in verify:migrations. Deferred 2b to round 187 because the handover recommends the gate fix first.
 - Round 185: 2b chosen before 2.2 because notes order puts 2b next. 2b split: research and audit first.
 - Round 184: migration apply test runs once, in verify:migrations. verify:go excludes that package.
 - Round 183: lint scope covers scripts/ before 2.5.
@@ -59,6 +61,7 @@ Round 185: 2b step 1 (Mobbin check, DESIGN_REFERENCES.md, audit). Then 2b steps 
 - App Store privacy label answers and account data declaration.
 - Camera string choice: plugin text vs es/fr strings in src/lib/i18n/infoPlist.
 - Push loop/phase4 and confirm CI runs green on GitHub.
+- Design question: add a training-days question, and a gain-weight or maintain goal to onboarding?
 
 ## Parked
 - Row 2.1 simulator check of Total tile (owner check).
@@ -76,7 +79,7 @@ Round 185: 2b step 1 (Mobbin check, DESIGN_REFERENCES.md, audit). Then 2b steps 
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files (app.config.js, eslint.config.js) and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
-- Verify:go has no -count=1, so Go can reuse cached results.
+- Onboarding: no i18n (all English). Two dead ends need device check (Back after resume, Back to signup while signed in). Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall.
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
@@ -92,7 +95,9 @@ Round 185: 2b step 1 (Mobbin check, DESIGN_REFERENCES.md, audit). Then 2b steps 
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 - Secrets scan placeholder check is a heuristic.
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx. Not fixed.
+- Verify:go has no -count=1, so Go can reuse cached results (parked for later).
 
 ## Next
-- Round 185: 2b step 1. Run claude mcp list, search Mobbin if present, write DESIGN_REFERENCES.md, audit sign in, sign up, welcome and onboarding (no code change). If Mobbin is missing, park the connect step in OWNER_CHECKS_phase4.md.
-- Then 2b redesign steps, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+- Round 186: remove duplicate migration test run from verify:go. Confirm one run in verify:migrations.
+- Round 187: 2b redesign step 1 (Welcome sign-in link, signup mode title, Resend code, en/es/fr keys).
+- Then remaining 2b steps, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
