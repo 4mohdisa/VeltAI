@@ -10004,3 +10004,7 @@
 - 2026-11-25 04:00 Free plan 403 on the morning brief sets isError true in the hook. No screen reads isError for the brief yet, so nothing visible changes. Revisit with entitlement state in Row 6 and Row 7.
 - 2026-11-25 04:00 KNOWN_ISSUES.md:41 docs fix is deferred to the 2.2 docs pass, to keep this prompt to one file.
 - 2026-11-25 04:00 Jev suggested run 80%. Kept run, no contrary reason beyond the 2.2 order.
+- 2026-11-25 04:02 Round 101 picks the docs fix: it is the one open item Claude Code recommended, it is small, and it closes a stale claim before Row 2.2 backend items. Jev ranks the same next action (run 90%), so no second look is needed.
+- 2026-11-25 04:02 The handover says the new TestPG has never run and the count should go from 21 to 22. That is stale: round 97 recorded 24 of 24 TestPG passing on lume_test_local, and round 98 fixed the count to 24. Do not re-run or re-count it.
+- 2026-11-25 04:02 Free-plan 403 on the morning brief sets isError true for now (round 100). Isa's question on whether it should count as an error is decided here: yes, until Rows 6 and 7 add entitlement state. No question is asked.
+- 2026-11-25 04:02 Claude Code's note that the useBrainProfile unmount test cannot fail is accepted as a known weak test. It is recorded in Problems and will be revisited in Row 22 (test quality).

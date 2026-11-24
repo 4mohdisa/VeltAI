@@ -33,12 +33,12 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - goals.saved locale key is unused. Left with the locale hygiene pass.
 - Lint warnings in src/lib/data/gymSchedule.ts and src/lib/data/hooks.ts. src/lib/data is off limits.
 - Lint warning at src/lib/analyticsSink.ts:29 (no-require-imports) is accepted: the lazy require is kept so PostHog only loads when a key is set. Revisit in Row 29 by loading asynchronously with a small queue so launch events are not dropped.
-- No test checks that en, es and fr have the same keys. Not a Phase 3 row.
+- No test checks that en, es and fr have the same keys. Tracked in Phase 4 Row 29 (i18n parity).
 
 ## Backend
 - 49 queries use WHERE id::text = $1, which bypasses the id index. Tracked in Phase 4.
 - With LUME_TEST_DATABASE_URL set, 24 TestPG tests run and pass. The database is local only and never hosted.
-- getMorningBrief swallows errors; getProfile's .catch hides errors; there is no anomalies endpoint. Tracked in Phase 4.
+- getMorningBrief and getProfile now reject on a failed read and useMorningBrief and useBrainProfile report it through isError (src/__tests__/aiBrain.briefProfile.test.ts), but there is still no anomalies endpoint, so getAnomalies and dismissAnomaly degrade to empty. Tracked in Phase 4.
 - npm audit reports 48 vulnerabilities. Dependency upgrades are not in Phase 3.
 - The authenticated role is missing in local Postgres 17. Phase 4.
 
