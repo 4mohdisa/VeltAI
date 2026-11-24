@@ -8,11 +8,11 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs a change to goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT (in progress): research and steps 1a to 1c done. Session expiry, signup 401, launch gate 401 (r195) and saved answers on expired sessions (r196) done. R197 full Jest checkpoint green: 266 suites, 1,564 tests.
+- Row 2b DIFFERENT (in progress): research, 1a to 1c, session expiry, launch gate 401 done (R198, SESSION_ENDED, answers kept), saved answers on expired sessions done. R197 full Jest checkpoint green: 266 suites, 1,564 tests.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-R198: launch gate 401 clears rejected Clerk session (one component). R199: signup status check 401, same pattern. R200: onboarding paywall 401, same pattern. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31. Remove duplicate migration test run when convenient.
+R199 (now): signup 401 branch in signup.tsx applies SESSION_ENDED, one screen only (prompt rewritten after loop rejection). R200: paywall 401, same pattern. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps per prompt. Grep before editing.
@@ -48,9 +48,9 @@ R198: launch gate 401 clears rejected Clerk session (one component). R199: signu
 - R184, R186: migration apply test runs once, in verify:migrations.
 - R194: 2b 1d does not wait for Isa. Write own en/es/fr strings, flag for review.
 - R195: launch gate 401 reuses classifyConnectivity and the R194 route.
-- R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything. Trade-off: kept answers stay on the device for the next sign-in.
-- R197: full Jest checkpoint green. Full-folder lint required each round.
-- R198: 401 routes split into one per round (198 launch gate, 199 signup, 200 paywall). Session cleared via the R196 session-ended path, answers kept. Simulator check stays an owner check.
+- R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything.
+- R198: 401 routes split one per round (198 launch gate, 199 signup, 200 paywall). Session cleared via SESSION_ENDED, answers kept. Simulator check stays an owner check.
+- R199: one screen per prompt after loop rejection. Signup kept as the task; paywall is R200.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: Welcome, signup, onboarding.sessionExpired, summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.

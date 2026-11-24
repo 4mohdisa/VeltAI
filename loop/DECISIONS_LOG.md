@@ -10415,3 +10415,12 @@
 - 2026-11-25 06:41 Jev ranks the same candidates with 97% confidence for running. Kept the pick because the rejected prompt makes a smaller, single-component task the safer choice (Jev risk 0.8).
 - 2026-11-25 06:41 No new user-facing strings, so no es and fr review is added to Blocked.
 - 2026-11-25 06:41 Simulator check of the 401 routes stays an owner check in OWNER_CHECKS_phase4.md.
+- 2026-11-25 06:43 R199 chosen over Jev's pick of the same task: Jev also ranks it 93% and the notes order already names it (R199 signup status check 401). Keeping the same chosen task, no conflict.
+- 2026-11-25 06:43 The R198 launch gate change is the same pattern and has tests and lint green; the report's partial part is the simulator check, which is already an owner check. Step 1 re-confirms it before moving on.
+- 2026-11-25 06:43 The handover means Claude Code knows only the summary, so the prompt names every file path in full.
+- 2026-11-25 06:43 The saved onboarding answers stay on expired sessions (decision R196). The signup 401 uses the same purge path, so behaviour matches the launch gate.
+- 2026-11-25 06:43 No simulator flow this round. Owner check already recorded in OWNER_CHECKS_phase4.md.
+- 2026-11-25 06:44 R199 rewritten after loop rejection: prompt now covers one screen (signup.tsx) and one test file, five steps max.
+- 2026-11-25 06:44 Kept signup as this round's task, matching the notes order; paywall stays R200.
+- 2026-11-25 06:44 Launch gate change (R198) is not re-checked this round; it was already confirmed in the last report.
+- 2026-11-25 06:44 No new strings this round, so no es or fr review is added.
