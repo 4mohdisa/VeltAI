@@ -5,12 +5,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main. Never switch, push or merge. Every prompt states the branch rule at the top.
-- Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
+- Repo root: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: only the simulator check of the Total tile is left. Parked in OWNER_CHECKS_phase4.md.
 - 2.2: done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 strings open: Summary screen (src/app/(tabs)/index.tsx) round 133 in progress, then src/app/energy.tsx literal sweep, monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. One file per round.
-- 2.3 done: GymSessionButton (rounds 128-129), MacroBars fully translated incl. target text and a11y labels (round 132). Add PHASE4_ROWS.md note when 2.3 closes.
+- 2.3 strings: Summary screen sweep closed (round 133, no English left). Done: GymSessionButton, MacroBars, WeekEnergyCard, EnergyBalanceCard, formatting helpers, gym month title. Open: src/app/energy.tsx literal sweep, custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. One file per round. Add a PHASE4_ROWS.md note when 2.3 closes.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -42,16 +41,17 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Code outside React uses import i18n from '@/lib/i18n'. Dates use dateLocale(i18n.language).
 - Rendering tests named *.render.test.tsx to get the jest-expo preset.
 - Summary 'summary' is a new top-level locale section (round 130). Isa to review.
-- Round 130 test change: summaryNoFabrication.test.ts checks source for t('summary.notTracked'), not the en.json value. Accepted.
+- Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'), not the en.json value. Accepted.
 - Round 115: 'Sept' (en-AU short month) kept. Isa to confirm.
 - Round 118: month summary keeps design shape '0h 45m' in English (pinned by gymMonth.test.ts).
 - Round 120-122: es and fr month summary and weekly card use common.hoursMinutes ('1 h 45 min'). Isa to confirm.
 - Round 123: formatDuration rounds total minutes first.
 - Round 124-125: day letters from calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
 - Round 126-128: WeekEnergyCard, EnergyBalanceCard, GymSessionButton translated. Isa to review es and fr wording.
-- Round 131-132: MacroBars target text and a11y labels translated (summary.target, summary.a11yNotTracked, summary.a11yOfGrams). Isa to review es and fr wording. The ' · ' separator sits inside summary.target.
-- Round 133: Summary screen sweep. Pinned assertions changed only if they hold old English text; recorded in its report.
-- Jev (round 128 handover): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible. Jev round 131 and 133: run 97-99%, risk 1.0 of 2. Kept to one file or component per round.
+- Round 131-132: MacroBars target text and a11y labels translated. Isa to review es and fr wording.
+- Round 133: Summary screen sweep closed, no change needed.
+- Round 134: checkpoint forced by loop note (round 133 report flagged a gate). Full tsc and Jest, no edits.
+- Jev (rounds 128-133): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -60,7 +60,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-132: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton and render test, MacroBars fully translated.
+- Rounds 107-133: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen.
 - Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126: tsc and Jest green (126: 244 suites, 1,456 tests, 4 snapshots).
 
 ## Blocked on Isa (not blocking the loop)
@@ -84,11 +84,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - es and fr 'per day' wording differs between Summary card and week detail.
 
 ## Next
-- Round 133: Summary screen sweep (src/app/(tabs)/index.tsx).
+- Round 134: checkpoint result. If green, continue. If red, fix the failing test first.
 - Then src/app/energy.tsx literal sweep, one file per round.
-- Then rest of the 2.3 open list, then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
+- Then rest of the 2.3 open list, then add the 2.3 note to PHASE4_ROWS.md.
+- Then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
-- Full suite at the next checkpoint (about round 134).
 
 ## Problems noticed, not fixed
 - formatStreak(0) in fr gives '0 jour' (correct French, differs from en).
@@ -111,4 +111,4 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Jest prints about 200 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard weekday/month short names: check once on the simulator (Row 23).
 - Weekday and month names on Hermes not checked on the simulator.
-- Other Summary cards may still have English literals (sweep in progress).
+- Successful restore toast, WeekEnergyCard i18n access and 'per day' wording: see Parked.
