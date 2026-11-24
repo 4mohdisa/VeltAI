@@ -7,7 +7,8 @@
 //   1. If the persisted onboarding store (or the legacy secure-store flag) says
 //      completed → main app.
 //   2. Otherwise ask the backend (GET /api/onboarding). completed=true → mark
-//      the store and proceed; completed=false or a network/401 error → onboarding.
+//      the store and proceed; completed=false or a network error → onboarding;
+//      a 401 → sign in again (the session is not valid), store untouched.
 // The onboarding flow lives at /onboarding (a stack above the tabs); once
 // completed it never shows again.
 import { useEffect, useState } from 'react';
@@ -17,6 +18,9 @@ import { useAuth } from '@clerk/clerk-expo';
 
 import { color } from '@/lib/design/tokens';
 import { api } from '@/lib/api';
+import { showToast } from '@/components/display/toastStore';
+import { classifyConnectivity } from '@/lib/auth/machine';
+import i18n from '@/lib/i18n';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { getHasCompletedOnboarding } from '@/lib/storage/secureStore';
@@ -77,8 +81,14 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
           if (active) setDestination('/(tabs)');
           return;
         }
-      } catch {
-        // Backend unreachable / not signed in → treat as not onboarded.
+      } catch (e) {
+        // An expired session is a sign-in problem, not "not onboarded".
+        if (classifyConnectivity(e) === 'sessionExpired') {
+          showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
+          if (active) setDestination('/onboarding/signup?mode=signin');
+          return;
+        }
+        // Backend unreachable → treat as not onboarded.
       }
       if (active) setDestination(resumeTarget(useOnboardingStore.getState().last_step));
     };

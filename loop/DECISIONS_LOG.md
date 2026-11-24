@@ -10391,3 +10391,7 @@
 - 2026-11-25 06:30 Round 194: chose the 401 fix in signup.tsx because it is a concrete user-facing bug listed in the handover and it is one screen, small enough for one round.
 - 2026-11-25 06:30 Round 194: 2b step 1d no longer waits for Isa. Write our own en, es and fr strings, flag them in OWNER_CHECKS_phase4.md for review, and carry on (Isa chose never to block).
 - 2026-11-25 06:30 Round 194: Jev said run at 68%. Agreed, the task is small and bounded.
+- 2026-11-25 06:33 Chose the launch gate 401 fix (order item after 194). It is a concrete bug, one screen, and reuses the Round 194 pattern. Jev agrees (run 99%).
+- 2026-11-25 06:33 Kept the existing sessionExpired string and sign-in route; no new strings, so no new translation review item.
+- 2026-11-25 06:33 Simulator check of the 401 route parked as an owner check because Jest cannot show Clerk's active session state.
+- 2026-11-25 06:33 Duplicate migration test run left for later; it is cheap and not blocking.

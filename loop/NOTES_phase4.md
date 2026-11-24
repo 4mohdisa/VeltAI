@@ -8,11 +8,11 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT (in progress): research and steps 1a to 1c done. Session expiry dead end fixed (r191). Signup legal regression fixed (r193): full Jest green, 263 suites, 1,553 tests.
+- Row 2b DIFFERENT (in progress): research and steps 1a to 1c done. Session expiry dead end fixed (r191). Signup 401 handling fixed (r194): signup.tsx continueAfterAuth sends a 401 to sign-in. Full Jest green at r193: 263 suites, 1,553 tests.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 194: signup.tsx continueAfterAuth 401 handling. Then launch gate 401 in index.tsx. Then saved onboarding answers after an unrefreshable expired session. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31. Remove duplicate migration test run when convenient (cheap).
+Round 195: index.tsx launch gate 401 (in progress). Then saved onboarding answers after an unrefreshable expired session. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31. Remove duplicate migration test run when convenient (cheap).
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -49,6 +49,7 @@ Round 194: signup.tsx continueAfterAuth 401 handling. Then launch gate 401 in in
 - Round 184 and 186: migration apply test runs once, in verify:migrations.
 - Round 194: 401 fix in signup.tsx chosen as a concrete bug, one screen.
 - Round 194: 2b 1d no longer waits for Isa. Write own en/es/fr strings, flag for review in OWNER_CHECKS, carry on.
+- Round 195: launch gate 401 in index.tsx next. Reuses classifyConnectivity and the Round 194 route. No new strings.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: Welcome, signup, onboarding.sessionExpired, summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
@@ -63,6 +64,7 @@ Round 194: signup.tsx continueAfterAuth 401 handling. Then launch gate 401 in in
 
 ## Parked
 - Row 2.1 simulator check of Total tile (owner check).
+- Simulator check: signup and launch 401 routes (Clerk may keep an active session until cleared).
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
 - formatNumber and units.ts hardcoded to en-AU; formatting.ts uses device locale.
@@ -79,7 +81,6 @@ Round 194: signup.tsx continueAfterAuth 401 handling. Then launch gate 401 in in
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
 - Onboarding: goal and activity hard-coded English (in progress, 1d). Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders are literals. Unmapped Clerk error codes show Clerk's English text.
 - Onboarding: saved answers may be lost if token refresh fails on an expired session (not confirmed on device).
-- index.tsx launch gate treats a 401 as 'not onboarded'.
 - connectivityMessage returns hard-coded English; no screen uses it.
 - Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
 
@@ -98,3 +99,4 @@ Round 194: signup.tsx continueAfterAuth 401 handling. Then launch gate 401 in in
 - Secrets scan placeholder check is a heuristic.
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Migration apply test runs twice per verify when the variable is set (fix in cleanup).
+- When an expired session cannot be refreshed, the app signs out and resets all stores, which may clear saved onboarding answers (see Parked).
