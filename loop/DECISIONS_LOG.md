@@ -9837,3 +9837,7 @@
 - 2026-11-25 03:10 Store reloads (9 remaining warnings) get a fresh-module probe before any swap, per the rule that require() after resetModules stays unless jest.requireActual is shown to give the same fresh module.
 - 2026-11-25 03:10 Redundant 'as string' casts after execSync in noFabricatedData are removed in the same round, since it is the same file and the change is small.
 - 2026-11-25 03:10 Kept one file per round and full Jest for the changed file only; the full suite waits for checkpoint round 60.
+- 2026-11-25 03:11 Round 60 is a read only checkpoint, as the loop note asks: no files changed, failures recorded and fixed next round.
+- 2026-11-25 03:11 Ran expo lint in the checkpoint too, since the real warning count is still unmeasured and the run is read only.
+- 2026-11-25 03:11 Kept the Row 2.2 queue order: measurements render test next, then the display-name errors, then the camera mocks.
+- 2026-11-25 03:11 Kept Row 2.1 simulator check parked, because the E2E account has fewer than 250 gym dates and no approved seed path exists.
