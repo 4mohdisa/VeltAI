@@ -18,6 +18,7 @@ jest.mock('@/lib/api', () => ({
 const mockRunOrQueue = jest.fn();
 jest.mock('@/lib/offline/queue', () => ({
   runOrQueue: (...args: unknown[]) => mockRunOrQueue(...args),
+  subscribe: () => () => undefined,
 }));
 
 const mockShowToast = jest.fn();

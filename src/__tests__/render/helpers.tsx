@@ -20,12 +20,17 @@ const mounted: ReactTestRenderer[] = [];
 // this file, so a top-level import would load appState (and expo-router)
 // before a test file's own jest.mock('expo-router') could replace it. A screen
 // whose test mocks useAppState still reads the mock; the provider is unused.
+// tree.update wraps too, so an update re-renders the screen in place instead
+// of remounting it under a new root.
 export function renderScreen(el: ReactElement): ReactTestRenderer {
   const { AppStateProvider } = jest.requireActual<typeof import('@/lib/auth/appState')>('@/lib/auth/appState');
+  const wrap = (node: ReactElement) => <AppStateProvider>{node}</AppStateProvider>;
   let tree!: ReactTestRenderer;
   TestRenderer.act(() => {
-    tree = TestRenderer.create(<AppStateProvider>{el}</AppStateProvider>);
+    tree = TestRenderer.create(wrap(el));
   });
+  const update = tree.update.bind(tree);
+  tree.update = (next: ReactElement) => update(wrap(next));
   mounted.push(tree);
   return tree;
 }

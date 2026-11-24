@@ -10441,3 +10441,8 @@
 - 2026-11-25 06:50 R202: R200 (paywall 401) stays the next task after this checkpoint. Its pattern is already approved in R199 and needs no new question to Isa.
 - 2026-11-25 06:50 R202: the checkpoint prompt forbids fixes so that any failure is reported cleanly and not mixed with new work.
 - 2026-11-25 06:50 R202: the full Jest run is the first full run since R197, so it covers the renderScreen wrapper change from R201.
+- 2026-11-25 06:51 R203 fixes the five R201 regressions first, because the full suite must be green before any new feature (Jev 85% run agrees; the failures block commit-ready state).
+- 2026-11-25 06:51 The renderScreen fix wraps tree.update in the same provider, not a new helper, so the approved R199 change stays in place.
+- 2026-11-25 06:51 quickAdd fix adds subscribe to its queue mock and does not change its expectations.
+- 2026-11-25 06:51 Full Jest is deferred to the next checkpoint the loop script names; this round runs the five suites and the render folder only, to keep it small.
+- 2026-11-25 06:51 Jev ask at 12% overruled: the fix is inside rules already approved (R199), so no question to Isa.

@@ -9,11 +9,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
 - Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions, signup 401 (R201) done.
-- Last full Jest green R197: 266 suites, 1,564 tests. R202 checkpoint runs full Jest after R201.
+- R202 checkpoint FAILED: 5 suites, 11 tests, all from R201 renderScreen change (onboardingAnswersExpiry, energyBalanceCard, dailyMacroRing, progressBar, quickAdd).
+- Last fully green full Jest: R197 (266 suites, 1,564 tests).
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R202 (now): checkpoint, tsc and full Jest, no file changes. Then R200: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R203 (now): fix R201 regressions (renderScreen wraps tree.update; quickAdd queue mock gets subscribe). Then full Jest at next checkpoint. Then R200: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -49,9 +50,10 @@ R202 (now): checkpoint, tsc and full Jest, no file changes. Then R200: paywall 4
 - R195: launch gate 401 reuses classifyConnectivity and the R194 route.
 - R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything.
 - R198: 401 routes split one per round. Session cleared via SESSION_ENDED, answers kept.
-- R199: renderScreen wrapped in AppStateProvider (approved). Signup 401 uses SESSION_ENDED only; signupAuth401 assertions changed to match.
-- R201: prompt rewritten with the branch rule after rejection. Jev 82% ask overruled: the renderScreen change is already approved in R199.
-- R202: checkpoint round first (loop note and Jev run 100%). Reason: R201 changed renderScreen used by about 181 test files; the full suite has not run since R197. R200 is next after the checkpoint.
+- R199: renderScreen wrapped in AppStateProvider (approved). Signup 401 uses SESSION_ENDED only.
+- R201: prompt rewritten with branch rule. Caused 5 suite failures (see R202).
+- R202: checkpoint failed. Fix before R200.
+- R203: fix renderScreen to wrap tree.update too; quickAdd queue mock gets subscribe. Full Jest deferred to next checkpoint. Jev ask 12% overruled (fix stays inside R199 approval).
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review (Welcome, signup, onboarding, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
