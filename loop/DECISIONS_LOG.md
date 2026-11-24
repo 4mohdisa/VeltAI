@@ -9694,3 +9694,8 @@
 - 2026-11-25 02:25 Batch size cut to 2 files this round because Jev risk is 1.1 and completion confidence is 12%.
 - 2026-11-25 02:25 Kept Row 2.1 PARTIAL. It becomes BUILT only after all 8 stale mocks and the simulator tile check pass.
 - 2026-11-25 02:25 Did not change src/lib/mock/data.ts mockStreak: it is the app shape, not the API GymStreak.
+- 2026-11-25 02:27 Chose stale mock fix over the history.tsx limit because 2.1 must close before 2.2 starts.
+- 2026-11-25 02:27 Named all six remaining files by full path, since the last report said the grep matched none of the named files and a handover just happened.
+- 2026-11-25 02:27 Two files per round, to keep Jev risk at moderate and gates checked each round.
+- 2026-11-25 02:27 Left src/lib/mock/data.ts and useApiHarness.ts untouched, as the earlier decision says.
+- 2026-11-25 02:27 Recorded the 'partly done' loop flag: the next prompt names every file and states the exact steps, so there is no open-ended search.

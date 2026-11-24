@@ -51,6 +51,7 @@ test('renders the confirm copy with the real freeze count and streak length', as
   mockStreak.mockResolvedValue({
     current_streak: 12,
     longest_streak: 20,
+    total_days: 20,
     last_gym_date: null,
     freeze_used: false,
     last_freeze_date: null,
@@ -69,6 +70,7 @@ test('renders zero freezes available once this streak has already used its freez
   mockStreak.mockResolvedValue({
     current_streak: 5,
     longest_streak: 20,
+    total_days: 20,
     last_gym_date: null,
     freeze_used: true,
     last_freeze_date: '2026-11-10',

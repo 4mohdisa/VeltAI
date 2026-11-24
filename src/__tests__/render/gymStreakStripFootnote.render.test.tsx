@@ -52,6 +52,7 @@ const json = (data: unknown) => Promise.resolve({ ok: true, status: 200, json: a
 const STREAK = {
   current_streak: 12,
   longest_streak: 20,
+  total_days: 20,
   last_gym_date: '2026-11-19',
   freeze_used: false,
   last_freeze_date: null,
