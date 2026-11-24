@@ -43,3 +43,4 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Simulator: confirm the paywall 401 route (onboarding submit with an expired session) ends the Clerk session, keeps the onboarding answers and opens sign-in with the session expired message.
 - [ ] Review R217 es and fr wording for onboarding.preview (title, createAccount, trialNote, the 8 cuisine lines, targets, portions, halal) in src/lib/i18n/locales/es.json and fr.json. All are agent translations.
 - [ ] Review R219 es and fr wording for onboarding.done in src/lib/i18n/locales/es.json and fr.json: title es 'Todo listo', fr 'Tout est prêt'; welcomeToast es '¡Te damos la bienvenida a Lume!', fr 'Bienvenue sur Lume !'. All are agent translations.
+- [ ] Row 2b paywall es and fr wording needs review: keys under onboarding.paywall in src/lib/i18n/locales/es.json and fr.json (17 keys, including features.*, trialNote, plansUnavailable, storeError, submitFailed, restore, restoring, noSubscription).

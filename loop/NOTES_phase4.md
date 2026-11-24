@@ -8,13 +8,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked.
-- Row 2b DIFFERENT. Done: goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer, preview, done screen strings. In progress: paywall strings (R222).
+- Row 2b DIFFERENT. Done: goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer, paywall, done screen strings (en, es, fr). Open: preview screen, validateOnboardingPayload toasts (English), records for paywall (R223).
 - Last full checkpoint R218: tsc 0, lint 0, 269 suites, 1,595 tests. Next checkpoint R227 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R221 rejected (multi-screen prompt). R222: paywall.tsx only, en/es/fr strings and CUISINE_LABEL replacement.
-- Then: stale header in onboarding.ts; English validateOnboardingPayload messages; onboarding.sessionExpired copy; then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+- R223: records only (PHASE4_ROWS.md, OWNER_CHECKS_phase4.md) for paywall step 1d.
+- Then: English validateOnboardingPayload messages via i18n in src/lib/stores/onboarding.ts; stale header in same file; onboarding.sessionExpired copy; CUISINE_LABEL and unused English label cleanup in cuisines.ts; preview screen; then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 - If a round shows failures: fix first, in a small round, before new strings.
 
 ## Rules
@@ -56,11 +56,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R206: 1d split one screen per round.
 - R208: kept OnbScaffold, shared by every onboarding screen.
 - R209 to R212: onboarding keys nested under onboarding.<screen>; cuisine and dietary options under options.<value>.
-- R219 (corrected R220): done screen strings translated. markCompleted() only sets completed; answers cleared on sign-out (resetRegistry.ts). Plan-ready screen NOT built: needs Isa's go-ahead. Order: targets, paywall, done.
-- R221 rejected for covering more than one screen; R222 is paywall only.
+- R219 (corrected R220): done screen strings translated. markCompleted() only sets completed; answers cleared on sign-out (resetRegistry.ts). Plan-ready screen NOT built: needs Isa's go-ahead.
+- R221 rejected for covering more than one screen.
+- R222: paywall strings done. es and fr kept as agent wording for review.
+- R223: loop flagged partial last round. Records closed first, docs only, because Jev risk is high.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: all onboarding screens, measurements, body type, cuisine, dietary, targets, summary, preview, done, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text. Also the list in OWNER_CHECKS_phase4.md.
+- es and fr wording review: all onboarding screens, paywall (onboarding.paywall), measurements, body type, cuisine, dietary, targets, summary, preview, done, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -83,10 +85,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - consent.ts and purchases.ts use eslint-disable for the require rule (Row 2b or 3).
 - Skeleton crashes under Reanimated test mock (Row 22).
 - measurements.tsx: local t in a useState initialiser shadows t(). Rename in a tidy round.
-- Stale header in src/lib/stores/onboarding.ts says answers clear on markCompleted; they clear on sign-out. Fix in a small round.
-- validateOnboardingPayload English messages show as paywall toasts. Own round.
-- onboarding.sessionExpired says 'finish setting up' for completed users. Wrong copy.
 - Onboarding: two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Unmapped Clerk error codes show Clerk's English text.
+- Leftover English from server 4xx in paywall.tsx:99-102.
 - Trial note plural: '{{days}} días' would read wrong if TRIAL_DAYS were 1.
 - Cuisine cap: 5+ cuisines show 3 cards, exactly 4 show all 4 (existing logic).
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.

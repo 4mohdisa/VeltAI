@@ -10522,3 +10522,7 @@
 - 2026-11-25 09:06 Split the stale onboarding.ts header comment and the English validateOnboardingPayload messages into later rounds, since they are not on the paywall screen.
 - 2026-11-25 09:06 Corrected R219 note: markCompleted() only sets completed; answers are cleared on sign-out (resetRegistry.ts). Accepted.
 - 2026-11-25 09:06 No simulator run for this round: paywall strings only, Maestro flows are covered later in Row 23.
+- 2026-11-25 09:08 Loop flagged the last report as partly done. Closing the records gap (PHASE4_ROWS.md, OWNER_CHECKS_phase4.md) first, as a docs only round, before any new code.
+- 2026-11-25 09:08 Jev risk is 1.0 and the last task was 53% likely clean, so I chose the smallest task on the list over the validation toast fix.
+- 2026-11-25 09:08 Paywall strings count as done for step 1d. The es and fr wording stays open for Isa's review, logged in OWNER_CHECKS_phase4.md.
+- 2026-11-25 09:08 The English validation toasts, the stale header, sessionExpired copy and the CUISINE_LABEL cleanup stay queued in that order for the next rounds.
