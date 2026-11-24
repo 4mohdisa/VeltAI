@@ -977,7 +977,8 @@
     "namePlaceholder": "p. ej., el karahi de pollo de mamá",
     "caloriesLabel": "Calorías por 100 g",
     "calorieError": "Introduce un valor de calorías mayor que 0",
-    "saved": "«{{name}}» guardado."
+    "saved": "«{{name}}» guardado.",
+    "saveButton": "Guardar alimento"
   },
   "workoutsWeek": {
     "sessionUnit_one": "sesión",

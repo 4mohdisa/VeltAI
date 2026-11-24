@@ -975,7 +975,8 @@
     "namePlaceholder": "ex. : le karahi au poulet de maman",
     "caloriesLabel": "Calories pour 100 g",
     "calorieError": "Saisissez une valeur calorique supérieure à 0",
-    "saved": "« {{name}} » enregistré."
+    "saved": "« {{name}} » enregistré.",
+    "saveButton": "Enregistrer l’aliment"
   },
   "workoutsWeek": {
     "sessionUnit_one": "séance",

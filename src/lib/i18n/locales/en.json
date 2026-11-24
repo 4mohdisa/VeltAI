@@ -975,7 +975,8 @@
     "namePlaceholder": "e.g. Mum's chicken karahi",
     "caloriesLabel": "Calories per 100g",
     "calorieError": "Enter a calorie value greater than 0",
-    "saved": "Saved “{{name}}”."
+    "saved": "Saved “{{name}}”.",
+    "saveButton": "Save food"
   },
   "workoutsWeek": {
     "sessionUnit_one": "session",

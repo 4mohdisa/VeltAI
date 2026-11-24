@@ -81,7 +81,7 @@ export default function CustomFoodScreen() {
 
       {/* The design saves with a pill at the end of the sheet, not a header tick.
           Same rule as before: a name and calories above zero, or it stays disabled. */}
-      <Button title="Save food" onPress={done} disabled={!canSave} />
+      <Button title={t('customFood.saveButton')} onPress={done} disabled={!canSave} />
     </SheetContent>
   );
 }

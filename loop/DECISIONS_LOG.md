@@ -10189,3 +10189,6 @@
 - 2026-11-25 05:05 Still parking the English 'Sept', the weekdayShort full name and the es and fr hours and minutes spacing for Isa. They are not blocking.
 - 2026-11-25 05:06 Round 145: chose the week.tsx separator (candidate 1) because it is the smallest open 2.3 item and the handover and latest report both name it first. Jev agrees (run 100%).
 - 2026-11-25 05:06 Round 145: added one new locale key for the separator rather than reuse an existing key, because no existing key holds a range separator (checked in the prompt).
+- 2026-11-25 05:08 Round 146 pick: custom-food 'Save food' is the next item in the 2.3 queue and Jev ranks run at 99%, so no change.
+- 2026-11-25 05:08 es 'Guardar alimento' and fr 'Enregistrer l’aliment' are new wording; they join the list of es and fr wording for Isa to review.
+- 2026-11-25 05:08 Pinned assertion in sheetVariant.test.ts may change, as Isa allowed in the Phase 4 brief for Phase 3 leftovers.
