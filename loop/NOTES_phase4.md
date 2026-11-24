@@ -14,7 +14,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 
 ## Lint state
 - Errors: 0 (npx expo lint).
-- Warnings: 59 (57 no-require-imports, mostly tests; 1 import/first; 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37).
+- Warnings: 59 (57 no-require-imports, mostly tests; 1 import/first and 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37, being fixed in round 40).
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -46,6 +46,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
 - Round 35 checkpoint green.
 - Round 38: history.tsx reads gym sessions with limit GYM_SESSION_HYDRATE_LIMIT (200).
+- Round 39: history.tsx bounds the session read to the last 7 days (from plus limit 200). Test updated, tsc 0, targeted Jest green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -54,8 +55,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 39 (now): history.tsx bounds the session read to the last 7 days (from plus limit), if listSessions takes from.
-- Then the 59 lint warnings in small batches.
+- Round 40 (now): fix the two i18n lint warnings in src/lib/i18n/index.ts.
+- Then the 57 no-require-imports warnings, one test file per round.
 - Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.

@@ -9774,3 +9774,7 @@
 - 2026-11-25 02:51 Accepted the previous report's choice not to add a default limit in api.ts: it would add ?limit=200 to the gymRange reads and break apiSurface.test.ts.
 - 2026-11-25 02:51 Chose the 7 day date bound over the lint batch: a cap alone can silently drop rows in a busy week, and the fix is one screen and one call.
 - 2026-11-25 02:51 Kept the step count to one screen and one test file so the Jev risk stays low.
+- 2026-11-25 02:52 Round 39 history.tsx bounded read is done (from plus limit 200) and the last report is green, so the next step is the lint sweep, which the notes list first.
+- 2026-11-25 02:52 Chose the i18n lint warnings because they sit in one non-test source file: a small, low risk step that suits the high risk signal from Jev.
+- 2026-11-25 02:52 Test file lint warnings (no-require-imports) are left for later batches so each round touches one file.
+- 2026-11-25 02:52 Jev ranks run at 99% and the candidates are equal in risk, so I kept my own pick (one file, one gate).
