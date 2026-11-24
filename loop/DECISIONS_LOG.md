@@ -9782,3 +9782,6 @@
 - 2026-11-25 02:53 Chose the lint sweep over the refetch test because Jev rates the smaller one-file task as lower risk and the lint count is a clear gate.
 - 2026-11-25 02:53 Lint sweep goes one test file per round, fewest warnings first, to keep Jev risk low.
 - 2026-11-25 02:53 Accept an inline eslint-disable only for a require that must stay inside a jest.mock factory, recorded in the report.
+- 2026-11-25 02:55 Chose the one-file lint step (small, Jev risk moderate) over the bigger noFabricatedData or measurements files, which need their own rounds.
+- 2026-11-25 02:55 Kept the file-by-file order from the notes; app code (analyticsSink.ts) waits until the tests are clear.
+- 2026-11-25 02:55 Pass rule for a required require: one reasoned disable comment, as in round 41 for debugStore.test.ts.

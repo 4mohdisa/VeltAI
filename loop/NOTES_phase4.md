@@ -12,7 +12,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: about 57 no-require-imports, mostly in src/__tests__. The i18n warnings are cleared (round 40).
+- Errors: 0. Warnings: 56 (expo lint). Mostly no-require-imports in src/__tests__.
+- Formatter 'unix' is gone. Count with `npx eslint -f json` piped to a small counting script.
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -30,6 +31,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
+- A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
 - Full suite on checkpoint rounds. Round 35 was a checkpoint; next about round 45.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
@@ -46,7 +48,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 35 checkpoint green (242 suites, 1,402 tests).
 - Round 38: history.tsx gym session read limited to 200.
 - Round 39: history.tsx bounds the session read to the last 7 days.
-- Round 40: i18n lint warnings cleared in src/lib/i18n/index.ts (tsc 0, 92 suites green).
+- Round 40: i18n lint warnings cleared in src/lib/i18n/index.ts.
+- Round 41: debugStore.test.ts lint clean (import/first fixed, one reasoned disable comment). 10 of 10 tests pass.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -55,7 +58,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 41 (now): clear no-require-imports warnings in the test file with the fewest warnings, one file per round.
+- Round 42 (now): clear no-require-imports in src/__tests__/render/calendar.strings.render.test.tsx (one file).
+- Then one file per round, lowest warning count first. Biggest: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx (9).
+- Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -71,4 +76,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - The expo-camera stub is copied into three scan tests. Move to one shared mock later.
 - Plain npx eslint at repo root reports about 11,000 errors, mostly in web/.next, web/out, ds-bundle/_vendor. Add to ESLint ignores (Row 29).
 - i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files and Preferences (Row 2.3).
-- Jev risk high: keep steps to one file and check gates each round.
+- Jev risk moderate: keep steps to one file and check gates each round.
