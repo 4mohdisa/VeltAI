@@ -9978,3 +9978,7 @@
 - 2026-11-25 03:49 Lint stays at 1 accepted warning (analyticsSink.ts:29). The handover figure of 6 warnings is older than the round 93 report, so the round 93 figure is used.
 - 2026-11-25 03:49 Jev rates the next action as run at 100% confidence and risk is 1.1 of 2. The step stays small, one prompt, gates checked, so the risk is acceptable.
 - 2026-11-25 03:49 DailyMacroRing string and the debugCapture warnings wait: string changes are reserved for the string round (2.3).
+- 2026-11-25 03:51 Switched from my planned pick to Jev's top ranked task (settingsHelp mockPush). It is also the next step in my own plan, so no conflict with the plan. Jev was right to rank it first.
+- 2026-11-25 03:51 Did not close Row 2.2 as the last report suggests. Its backend list (gym schedule LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json, one exportData function, useWeeklyMacros refetch test, npm audit) is still open. Closing it now would mark the row done too early.
+- 2026-11-25 03:51 Kept the change to one file per round, as the notes rule requires, so a lint swap can be reverted alone.
+- 2026-11-25 03:51 The string change for DailyMacroRing.tsx:96 stays parked until the string round (2.3).
