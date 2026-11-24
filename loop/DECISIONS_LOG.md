@@ -10017,3 +10017,8 @@
 - 2026-11-25 04:05 Candidate 2 is a backend-free test, but the task list is ordered, and 2.2 items come after the round 102 cleanup. Picked the cleanup first.
 - 2026-11-25 04:05 Candidate 3 waits for the string round (2.3) by existing decision. Not picked.
 - 2026-11-25 04:05 Morning brief free-plan refusal stays as isError (decided earlier). Revisit with entitlement state in Rows 6 and 7. Reason: still open for Isa, but decided for now.
+- 2026-11-25 04:07 Round 102 close-out is verified first, because the loop check flagged it as partly done and the report claims it is done. A small check is the safest next step.
+- 2026-11-25 04:07 Keep the typed __setPurchasesModule fake in subscription.render.test.tsx. It is not a jest.mock and it resets in finally. Isa's shared-mock option is not needed.
+- 2026-11-25 04:07 Morning brief free-plan refusal counts as an error (isError). This stays as decided in round 100, so no question is asked to Isa.
+- 2026-11-25 04:07 Handover TestPG count (21 to 22) is stale. The count stays at 24 per round 97. Not acting on it.
+- 2026-11-25 04:07 The successful restore toast test is a gap, not a blocker. It moves into the string round (2.3) with the toast text.

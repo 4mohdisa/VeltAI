@@ -6,11 +6,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 103: finish round 102 (restore busy spinner, KNOWN_ISSUES subscription line). Loop check flagged it as partly done.
+- Round 104: close out round 102 (verify restore busy spinner and KNOWN_ISSUES subscription line). Round 103 reported done; loop check flagged partly done. Verify, then move on.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1 gym days: code done, simulator check parked.
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 Row 13 and 14 items. 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
+  - 2.3 Row 13 and 14 items, subscription English text, restore toast test. 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -21,9 +21,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
 - TestPG database: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
-- TestPG count is 24 (verified round 97). A handover saying 'never run, 21 to 22' is stale: do not act on it.
+- TestPG count is 24 (verified round 97). A handover saying 21 to 22 is stale: do not act on it.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
-- Free-plan 403 on morning brief sets isError true (round 100). Keep it. Revisit with entitlement state in Rows 6 and 7.
+- Morning brief free-plan refusal sets isError true (decided round 100, keep). Revisit with entitlement state in Rows 6 and 7.
+- Subscription render test keeps the typed __setPurchasesModule fake (no jest.mock, reset in finally).
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps.
@@ -37,6 +38,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - A required require keeps one reasoned eslint-disable-next-line comment. No new eslint-disable comments in app code.
 - analyticsSink.ts:29 keeps its lazy require (accepted 1 warning). Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
+- cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
 - Full suite on checkpoint rounds (105, 120, ...).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - String changes wait for the string round (2.3).
@@ -57,24 +59,24 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 99: getMorningBrief and getProfile no longer swallow errors.
 - Round 100: aiBrain.briefProfile.test.ts (7 tests).
 - Round 101: KNOWN_ISSUES.md docs fixed.
-- Round 102: subscription manage failure toast and busy state (restore busy pending round 103).
+- Round 102: subscription manage failure toast and busy state.
+- Round 103: restore busy spinner passed to Button; subscription render test (6 tests). Verify in round 104.
 - Checkpoints 44, 60, 75, 76, 90: tsc and Jest green (242 suites, 1,402 tests).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md. Do not retry until Isa answers.
-- Open question for Isa: should the morning brief free-plan refusal count as an error? Current decision: yes (isError).
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 103: finish round 102 (restore busy, KNOWN_ISSUES line).
+- Round 104: verify round 102/103 close-out (restore busy, KNOWN_ISSUES line).
+- Then 2.3 string round: subscription screen hardcoded English (incl. Restore label), DailyMacroRing.tsx:96 'of' to nutrition.ringOf, restore success toast test, Row 13 and 14 items, i18n header comments.
 - Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries.
-- Then 2.3 (translations and Retry, i18n header comments, DailyMacroRing.tsx:96 'of' to nutrition.ringOf), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
+- Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
-- Subscription screen text is hardcoded English. Restore label too (2.3).
 - Older backend without total_days gives an undefined tile. Deploy backend with app (owner note in OWNER_CHECKS_phase4.md).
 - ssh tunnel on 127.0.0.1:55432: unknown target. Do not touch.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
@@ -83,11 +85,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - react-test-renderer is deprecated and warns in hook tests. Row 22.
 - useBrainProfile unmount test cannot fail if its guard is removed. Revisit in Row 22.
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
-- i18n index.ts header comments are out of date (Row 2.3).
-- The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Prettier has no repo config. Not a gate. Decide in Row 29.
-- KNOWN_ISSUES.md Backend section still has Phase 3 wording. Fix in the docs round.
+- KNOWN_ISSUES.md 'Phase 4 (out of scope)' section clashes with the header. Fix in the docs round.
 - If a render test adds jest.resetModules, the shared unmountAll misses trees created after the reset.
 - Nothing tests refetch in useWeeklyMacros.
-- DailyMacroRing.tsx:96 shows 'of' in English only; nutrition.ringOf exists.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint does not exist).
+- The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
+- Successful restore from not-entitled shows 'No purchases to restore.' toast: untested. Also delete-account.tsx not reviewed for swallowed errors.
+- Handover TestPG count (21 to 22) is stale. Count stays at 24.
