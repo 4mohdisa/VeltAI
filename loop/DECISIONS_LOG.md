@@ -9706,3 +9706,7 @@
 - 2026-11-25 02:29 Round 23: summaryHydration.render is next because it is the smallest remaining mock; productionReadiness.test.ts follows in round 24.
 - 2026-11-25 02:29 Round 23: total_days stays 20 in mocks, matching longest_streak 20 (same decision as round 21).
 - 2026-11-25 02:29 Round 23: 2.1 stays PARTIAL until productionReadiness is fixed and the simulator check of the Total tile is done.
+- 2026-11-25 02:29 Round 23: set total_days to 9 in summaryHydration.render (not 20), because this file's STREAK has longest_streak 9. Smallest value that fits; no assertion reads the Total tile. Reason: the Claude Code report found no longest_streak 20 in this file, so the 20 rule in the notes does not apply here.
+- 2026-11-25 02:29 Chose the smallest safe task (one file, one field) because Jev risk is high.
+- 2026-11-25 02:29 Did not use Jev's ask score: the brief says never ask Isa, so the Isa-choice note in the report was settled by this decision.
+- 2026-11-25 02:29 Kept the Row 2.1 simulator check after both mock rounds, as planned.

@@ -18,6 +18,7 @@ import { act, renderScreen } from './helpers';
 const STREAK = {
   current_streak: 5,
   longest_streak: 9,
+  total_days: 9,
   last_gym_date: '2026-09-12',
   freeze_used: false,
   last_freeze_date: null,
