@@ -225,7 +225,7 @@ func (h handler) createSession(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return
 	}
-	if in.Date > config.Today() { // lexicographic compare is correct for YYYY-MM-DD
+	if in.Date > config.Today(r.Context()) { // lexicographic compare is correct for YYYY-MM-DD
 		httpx.Error(w, http.StatusBadRequest, "date cannot be in the future")
 		return
 	}
@@ -536,8 +536,8 @@ func (h handler) freeze(w http.ResponseWriter, r *http.Request) {
 	}
 	// A freeze only bridges today, the day after the last workout. Lexicographic
 	// compares are correct for YYYY-MM-DD; last_gym_date can never move backwards.
-	today := config.Today()
-	yesterday := time.Now().In(config.Timezone()).AddDate(0, 0, -1).Format(dateLayout)
+	today := config.Today(r.Context())
+	yesterday := time.Now().In(config.TimezoneOf(r.Context())).AddDate(0, 0, -1).Format(dateLayout)
 	if *st.LastGymDate >= today {
 		httpx.Error(w, http.StatusBadRequest, "already covered today")
 		return

@@ -134,7 +134,7 @@ func main() {
 	auth.RegisterProfileWithIdentity(api, profiles,
 		auth.NewClerkUserDeleter(config.Env("CLERK_SECRET_KEY", "")))
 	auth.RegisterExport(api, pool)
-	food.Register(api, food.NewPGStore(pool), food.NewSearchClient(config.Env("USDA_API_KEY", "DEMO_KEY")))
+	food.Register(api, food.NewPGStore(pool), food.NewSearchClient(config.Env("USDA_API_KEY", "")))
 	gym.RegisterWithEngine(api, gym.NewPGStore(pool), gym.NewParamEngine(pool))
 	gym.RegisterSchedule(api, gym.NewSchedulePGStore(pool))
 	energy.Register(api, energy.NewPGStore(pool))
@@ -156,7 +156,13 @@ func main() {
 	// truth). Harmless in production: it only ever stores the caller's own rows.
 	debugreports.Register(api, debugreports.NewPGStore(pool))
 
-	aiSvc := ai.NewService(ai.NewPGStore(pool), ai.NewClaude(config.Env("ANTHROPIC_API_KEY", "")))
+	// Insights, brief and query: Gemini by default; Claude only as the optional
+	// fallback behind LLM_PROVIDER=claude (config.Validate rejects anything else).
+	llm, err := ai.NewLLM(config.LLMProvider(), geminiKey, config.Env("GEMINI_MODEL", ai.DefaultGeminiModel), config.Env("ANTHROPIC_API_KEY", ""))
+	if err != nil {
+		log.Fatalf("ai: %v", err)
+	}
+	aiSvc := ai.NewService(ai.NewPGStore(pool), llm)
 	aiSvc.Routes(api)
 	go runRebuildSweeps(aiSvc)
 
@@ -175,8 +181,8 @@ func main() {
 	// EnsureProfile sits AFTER the rate limiter so a flood cannot turn into a
 	// flood of inserts, and BEFORE any handler so the row every user table's
 	// foreign key points at exists by the time a new user's first write runs.
-	mux.Handle("/api/", cors(auth.Middleware(auth.NewClerkVerifier())(
-		limiter.Middleware(auth.EnsureProfile(profiles)(gate.Middleware(jsonFallback(api)))))))
+	mux.Handle("/api/", cors(config.TimezoneMiddleware(auth.Middleware(auth.NewClerkVerifier())(
+		limiter.Middleware(auth.EnsureProfile(profiles)(gate.Middleware(jsonFallback(api))))))))
 
 	srv := &http.Server{
 		Addr:              config.Addr(),
@@ -336,7 +342,7 @@ func cors(next http.Handler) http.Handler {
 		if origin := r.Header.Get("Origin"); allowed[origin] {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+			w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type, "+config.TimezoneHeader)
 		}
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)

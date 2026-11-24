@@ -34,6 +34,13 @@ export function formatStreak(days: number): string {
   return `${days} ${days === 1 ? 'day' : 'days'}`;
 }
 
+/** The date-formatting locale for an app language. English is formatted as
+ *  Australian English (day before month, dd/mm/yyyy), since Australia is the
+ *  first market; a bare 'en' would format US-style ("Nov 25", 11/25/2026). */
+export function dateLocale(language: string): string {
+  return language === 'en' ? 'en-AU' : language;
+}
+
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 

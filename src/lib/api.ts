@@ -151,12 +151,25 @@ function qs(params?: Query): string {
   return '?' + entries.map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`).join('&');
 }
 
+/** The device's IANA time zone (e.g. Australia/Adelaide), read per request so
+ *  a user who travels gets the right "today". The server uses it for every
+ *  "today"/"yesterday" decision, daylight saving included. */
+function deviceTimeZone(): string | undefined {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 // issue performs one fetch with the given bearer token (null → no header),
 // bounded by the request (or upload) deadline.
 async function issue(method: string, path: string, body: unknown, extraHeaders: Record<string, string> | undefined, token: string | null): Promise<Response> {
   const headers: Record<string, string> = { Accept: 'application/json', ...extraHeaders };
   if (body !== undefined) headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = `Bearer ${token}`;
+  const timeZone = deviceTimeZone();
+  if (timeZone) headers['X-Timezone'] = timeZone;
   const controller = new AbortController();
   return withTimeout(
     fetch(BASE_URL + path, {
@@ -1234,7 +1247,9 @@ export const api = {
         .then((r) => {
           if (!r.brief || r.state === 'not_enough_data') return null;
           const now = new Date();
-          const today = now.toISOString().slice(0, 10);
+          // The device's calendar day, not UTC: toISOString() files an
+          // Australian morning brief under yesterday.
+          const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
           return {
             id: `brief-${today}`,
             brief: r.brief,

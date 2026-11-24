@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
@@ -33,8 +34,9 @@ type SearchResult struct {
 	Source      string   `json:"source"`
 }
 
-// SearchClient queries Open Food Facts and USDA FoodData Central. Base URLs
-// and HTTP client are exported so tests can point at httptest servers.
+// SearchClient queries Open Food Facts and, when USDAKey is set, USDA
+// FoodData Central. Base URLs and HTTP client are exported so tests can point
+// at httptest servers.
 type SearchClient struct {
 	OFFBase  string
 	USDABase string
@@ -54,7 +56,8 @@ func NewSearchClient(usdaKey string) *SearchClient {
 }
 
 // Search queries both sources concurrently; a failed source contributes
-// nothing rather than failing the whole search.
+// nothing rather than failing the whole search. USDA comes last: it is the
+// final fallback, and it is skipped entirely without a key.
 func (c *SearchClient) Search(ctx context.Context, q string) []SearchResult {
 	var off, usda []SearchResult
 	var wg sync.WaitGroup
@@ -62,10 +65,15 @@ func (c *SearchClient) Search(ctx context.Context, q string) []SearchResult {
 	go func() { defer wg.Done(); off, _ = c.searchOFF(ctx, q) }()
 	go func() { defer wg.Done(); usda, _ = c.searchUSDA(ctx, q) }()
 	wg.Wait()
+	return mergeResults(off, usda)
+}
 
+// mergeResults concatenates result lists in priority order, dropping
+// duplicates (same barcode, else same name and brand) and capping the total.
+func mergeResults(lists ...[]SearchResult) []SearchResult {
 	seen := map[string]bool{}
-	out := make([]SearchResult, 0, len(off)+len(usda))
-	for _, r := range append(off, usda...) {
+	out := make([]SearchResult, 0, maxSearchResults)
+	for _, r := range slices.Concat(lists...) {
 		key := r.Barcode
 		if key == "" {
 			key = strings.ToLower(r.FoodName) + "|" + strings.ToLower(r.Brand)
@@ -149,6 +157,9 @@ func (c *SearchClient) searchOFF(ctx context.Context, q string) ([]SearchResult,
 }
 
 func (c *SearchClient) searchUSDA(ctx context.Context, q string) ([]SearchResult, error) {
+	if c.USDAKey == "" {
+		return nil, nil
+	}
 	var body struct {
 		Foods []struct {
 			Description     string  `json:"description"`

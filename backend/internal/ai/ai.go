@@ -2,6 +2,8 @@ package ai
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -59,6 +61,86 @@ type Service struct {
 	Now   func() time.Time // injectable clock for tests
 
 	briefs briefCache
+	usage  usageCache
+}
+
+// ErrDailyLimit means the user has used today's paid AI calls
+// (LUME_AI_DAILY_LIMIT). Brief and insights fall back to deterministic text;
+// the query answers 429.
+var ErrDailyLimit = errors.New("ai daily limit reached")
+
+type cachedAnswer struct {
+	text string
+	at   time.Time
+}
+
+type dailyCount struct {
+	day string
+	n   int
+}
+
+// usageCache stops the same user paying twice for the same input inside
+// LUME_AI_CACHE_SECONDS, and caps billed calls per user per calendar day.
+// Zero value is ready to use.
+// ponytail: in-process and per-instance like briefCache, and the limit check
+// is not atomic with the call, so parallel requests can overshoot by a few.
+// Move both to Postgres if the API runs multi-instance.
+type usageCache struct {
+	mu      sync.Mutex
+	answers map[string]cachedAnswer
+	calls   map[string]dailyCount
+}
+
+// complete is the one door to the paid LLM: cache hit first, then the daily
+// limit, then the call. Only a successful (billed) call is cached and counted,
+// so a provider outage neither sticks nor eats the allowance.
+func (s *Service) complete(ctx context.Context, uid, system, prompt string) (string, error) {
+	sum := sha256.Sum256([]byte(system + "\x00" + prompt))
+	key := uid + "|" + hex.EncodeToString(sum[:])
+	now := s.Now()
+	ttl := time.Duration(config.EnvInt("LUME_AI_CACHE_SECONDS", 900)) * time.Second
+	day := now.In(config.TimezoneOf(ctx)).Format("2006-01-02")
+	limit := config.EnvInt("LUME_AI_DAILY_LIMIT", 40)
+
+	c := &s.usage
+	c.mu.Lock()
+	if a, ok := c.answers[key]; ok && now.Sub(a.at) < ttl {
+		c.mu.Unlock()
+		return a.text, nil
+	}
+	if d := c.calls[uid]; limit > 0 && d.day == day && d.n >= limit {
+		c.mu.Unlock()
+		return "", ErrDailyLimit
+	}
+	c.mu.Unlock()
+
+	text, err := s.LLM.Complete(ctx, system, prompt)
+	if err != nil {
+		return "", err
+	}
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.answers == nil {
+		c.answers = map[string]cachedAnswer{}
+		c.calls = map[string]dailyCount{}
+	}
+	// ponytail: O(n) expiry sweep on every store; fine at this call volume.
+	for k, a := range c.answers {
+		if now.Sub(a.at) >= ttl {
+			delete(c.answers, k)
+		}
+	}
+	if ttl > 0 {
+		c.answers[key] = cachedAnswer{text: text, at: now}
+	}
+	d := c.calls[uid]
+	if d.day != day {
+		d = dailyCount{day: day}
+	}
+	d.n++
+	c.calls[uid] = d
+	return text, nil
 }
 
 type briefEntry struct{ day, brief string }
@@ -255,7 +337,7 @@ func (s *Service) rebuildUser(ctx context.Context, uid string) (*Brain, error) {
 	// regenerate when the newest stored insight is 6h+ old. The gate keys on
 	// insight age, not rebuild age — frequent rebuilds must not starve it.
 	if newest == nil || now.Sub(*newest) >= 6*time.Hour {
-		if err := s.Store.InsertInsights(ctx, uid, s.generateInsights(ctx, blended)); err != nil {
+		if err := s.Store.InsertInsights(ctx, uid, s.generateInsights(ctx, uid, blended)); err != nil {
 			return nil, err
 		}
 	}
@@ -279,9 +361,9 @@ func (s *Service) RunRebuildSweep(ctx context.Context) error {
 	return errors.Join(errs...)
 }
 
-func (s *Service) generateInsights(ctx context.Context, b Brain) []Insight {
+func (s *Service) generateInsights(ctx context.Context, uid string, b Brain) []Insight {
 	summary, _ := json.Marshal(b)
-	raw, err := s.LLM.Complete(ctx, insightsSystem, dataBlock("user_data", "User data summary:\n"+string(summary)))
+	raw, err := s.complete(ctx, uid, insightsSystem, dataBlock("user_data", "User data summary:\n"+string(summary)))
 	if err == nil {
 		if ins, perr := ParseInsights(raw); perr == nil {
 			return ins
@@ -331,11 +413,12 @@ func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 	}
 	ctx := r.Context()
 	uid := auth.UserID(ctx)
-	// "Today"/"yesterday" are calendar days in the configured timezone
-	// (LUME_TIMEZONE), not the server's zone, so the brief matches the dates
-	// users log against. Same day key as config.Today(), but off the
-	// injectable clock so tests can cross the boundary.
-	now := s.Now().In(config.Timezone())
+	// "Today"/"yesterday" are calendar days in the user's timezone (the
+	// X-Timezone header, else LUME_TIMEZONE), not the server's zone, so the
+	// brief matches the dates users log against. Same day key as
+	// config.Today(ctx), but off the injectable clock so tests can cross the
+	// boundary.
+	now := s.Now().In(config.TimezoneOf(ctx))
 	day := now.Format("2006-01-02")
 	// One LLM call per user per day: the brief is a plain GET, so without
 	// this a loop over it bills unboundedly.
@@ -355,7 +438,7 @@ func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 	cal, protein, logged := totalsOn(d.logs, now.AddDate(0, 0, -1))
 	brief := fallbackBrief(cal, protein, logged, d.goal, d.streak)
 	facts := briefFacts(cal, protein, logged, d.goal, d.streak)
-	if raw, lerr := s.LLM.Complete(ctx, briefSystem, dataBlock("user_data", facts)); lerr == nil {
+	if raw, lerr := s.complete(ctx, uid, briefSystem, dataBlock("user_data", facts)); lerr == nil {
 		if t := strings.TrimSpace(raw); t != "" {
 			brief = capSentence(t, 499)
 		}
@@ -408,7 +491,11 @@ func (s *Service) query(w http.ResponseWriter, r *http.Request) {
 		"streak":   d.streak,
 	})
 	prompt := dataBlock("user_data", "Data summary:\n"+string(summary)) + "\n\n" + dataBlock("user_question", q)
-	answer, err := s.LLM.Complete(ctx, querySystem, prompt)
+	answer, err := s.complete(ctx, uid, querySystem, prompt)
+	if errors.Is(err, ErrDailyLimit) {
+		httpx.Error(w, http.StatusTooManyRequests, "ai_daily_limit")
+		return
+	}
 	if err != nil {
 		httpx.Error(w, http.StatusServiceUnavailable, "AI is unavailable right now")
 		return

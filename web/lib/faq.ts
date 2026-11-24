@@ -31,7 +31,7 @@ export const CORE: QA[] = [
     q: 'Is my health data private?',
     a: [
       'Your food, workouts, body stats and weight history are scoped to you at the database level — row-level security means one account cannot read another’s rows even if the application layer were wrong. It is never sold, never shared for advertising, and never shown to other users. The app contains no advertising SDKs and no third-party trackers.',
-      'Two things leave our infrastructure, and only after you have agreed to it: meal and label photos go to Google Gemini to be analysed, and a summary of your logged data goes to Anthropic to write the wording of insights. Lume asks before the first time either happens, records that you agreed, and refuses to send anything until you have. You can withdraw it and the sending stops.',
+      'Two things leave our infrastructure, and only after you have agreed to it: meal and label photos go to Google Gemini to be analysed, and a summary of your logged data goes to Google Gemini to write the wording of insights. Lume asks before the first time either happens, records that you agreed, and refuses to send anything until you have. You can withdraw it and the sending stops.',
       'Deleting your account is immediate and real: your sign-in identity is deleted first, then your data, and every table cascades. There is no grace period during which it quietly still exists.',
     ],
   },

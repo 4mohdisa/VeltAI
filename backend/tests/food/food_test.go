@@ -40,6 +40,10 @@ type fakeStore struct {
 	saved []food.SavedFood
 	n     int
 
+	// Australian food table (SearchAFCD) and its failure mode.
+	afcd    []food.SearchResult
+	afcdErr error
+
 	// Cuisine ranking.
 	cuisinePrefs map[string]cuisinePrefEntry
 	libraryFoods map[string][]string // cuisine -> food names
@@ -323,7 +327,7 @@ func TestCreateLogDefaultsDateViaConfigToday(t *testing.T) {
 		t.Fatalf("status = %d, want 201 (body %s)", rr.Code, rr.Body.String())
 	}
 	l := data[food.Log](t, rr)
-	if want := config.Today(); l.Date != want {
+	if want := config.Today(context.Background()); l.Date != want {
 		t.Errorf("date = %q, want config.Today() = %q", l.Date, want)
 	}
 }
@@ -504,7 +508,7 @@ func TestSummaryDefaultsDateViaConfigToday(t *testing.T) {
 		t.Fatalf("status = %d, want 200 (body %s)", rr.Code, rr.Body.String())
 	}
 	s := data[food.Summary](t, rr)
-	if want := config.Today(); s.Date != want {
+	if want := config.Today(context.Background()); s.Date != want {
 		t.Errorf("date = %q, want config.Today() = %q", s.Date, want)
 	}
 }

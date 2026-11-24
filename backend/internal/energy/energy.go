@@ -246,7 +246,7 @@ func (h handler) getBalance(w http.ResponseWriter, r *http.Request) {
 	userID := auth.UserID(r.Context())
 	date := r.URL.Query().Get("date")
 	if date == "" {
-		date = config.Today()
+		date = config.Today(r.Context())
 	}
 	if _, err := time.Parse(dateLayout, date); err != nil {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
@@ -282,7 +282,7 @@ func (h handler) getWeek(w http.ResponseWriter, r *http.Request) {
 	// calendar its food/gym logs are stamped with; default = server calendar.
 	today := r.URL.Query().Get("end")
 	if today == "" {
-		today = config.Today()
+		today = config.Today(r.Context())
 	}
 	end, err := time.Parse(dateLayout, today)
 	if err != nil {

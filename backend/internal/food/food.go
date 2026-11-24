@@ -1,5 +1,6 @@
 // Package food implements food logs, daily summaries, saved foods, and
-// food search (Open Food Facts + USDA FoodData Central).
+// food search (the local Australian Food Composition Database first, then
+// Open Food Facts, then the optional USDA FoodData Central).
 package food
 
 import (
@@ -106,6 +107,9 @@ type Store interface {
 	CreateSaved(ctx context.Context, s SavedFood) (SavedFood, error)
 	GetSavedOwner(ctx context.Context, id string) (string, error)
 	DeleteSaved(ctx context.Context, id string) error
+
+	// SearchAFCD searches the local Australian food table (afcd.go).
+	SearchAFCD(ctx context.Context, q string) ([]SearchResult, error)
 
 	// Cuisine-aware search ranking.
 	UserCuisinePrefs(ctx context.Context, userID string) (cuisines, dietary []string, err error)

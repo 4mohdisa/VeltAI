@@ -283,7 +283,7 @@ export default function Home() {
               <div className="spec__row">
                 <dt className="spec__term">A summary of your logs</dt>
                 <dd className="spec__desc">
-                  Sent to Anthropic to write the wording of insights, again only with your
+                  Sent to Google Gemini to write the wording of insights, again only with your
                   agreement. The server refuses to send anything until that agreement is on record,
                   and you can withdraw it.
                 </dd>

@@ -6,10 +6,12 @@
 //
 // The acknowledgment is recorded on the SERVER as well as the device. A device
 // flag cannot gate the backend's 6-hour rebuild sweep, which marshals the
-// user's logs and sends them to Anthropic with no device involved — so the
+// user's logs and sends them to the AI provider (Google Gemini by default)
+// with no device involved — so the
 // server keeps its own record and refuses (403 ai_consent_required) without it.
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { api } from '@/lib/api';
+import i18n from '@/lib/i18n';
 import { useSettingsStore } from '@/lib/settings/store';
 
 export const AI_CONSENT_KEY = 'lume.aiConsent';
@@ -51,14 +53,12 @@ export async function ensureAiConsent(): Promise<boolean> {
   const { Alert } = require('react-native') as typeof import('react-native');
   return new Promise((resolve) => {
     Alert.alert(
-      'AI features and usage data',
-      'Meal photos are analysed by Google Gemini, and your logged data is summarised by Anthropic, so scanning and insights can work. They process it only to provide those features.\n\n' +
-        'Lume also counts which features you use — never what you log, never your food, weights or notes, and never sold.\n\n' +
-        'You can turn either off any time in Settings → Privacy.',
+      i18n.t('aiConsent.title'),
+      i18n.t('aiConsent.body'),
       [
-        { text: 'Not now', style: 'cancel', onPress: () => resolve(false) },
+        { text: i18n.t('aiConsent.notNow'), style: 'cancel', onPress: () => resolve(false) },
         {
-          text: 'Continue',
+          text: i18n.t('aiConsent.continue'),
           onPress: () => {
             cached = true;
             void setItem(AI_CONSENT_KEY, '1');

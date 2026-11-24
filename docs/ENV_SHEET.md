@@ -106,10 +106,11 @@ Clerk retries; profile email and name never populate.
 
 | Variable | Where to get it | Fill in |
 |---|---|---|
-| `GEMINI_API_KEY` | Google AI Studio — **set a billing cap** | `___` |
-| `ANTHROPIC_API_KEY` | Anthropic Console — **set a billing cap** | `___` |
+| `GEMINI_API_KEY` | Google AI Studio — **set a billing cap**. Runs scans and, by default, insights / brief / query | `___` |
+| `LLM_PROVIDER` | `gemini` (default) or `claude` for the optional fallback | `gemini` |
+| `ANTHROPIC_API_KEY` | Only when `LLM_PROVIDER=claude`. Anthropic Console — **set a billing cap** | leave empty |
 | `REVENUECAT_WEBHOOK_AUTH` | value you choose; paste the same into the RevenueCat webhook Authorization header | `___` |
-| `USDA_API_KEY` | FoodData Central; `DEMO_KEY` works at low rate limits | `DEMO_KEY` |
+| `USDA_API_KEY` | Optional. FoodData Central, the last food search fallback; empty skips USDA | leave empty |
 | `INTEGRATION_ENCRYPTION_KEY` | `openssl rand -base64 32` — exactly 32 bytes, AES-256-GCM for stored OAuth tokens | `___` |
 | `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` | Strava API app | `___` |
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | WHOOP developer app | `___` |
@@ -146,7 +147,7 @@ one-time deprecation warning. The new name wins.
 | RevenueCat | entitlement id **`pro`**, one product, default Offering **with a designed paywall**, 7-day trial | ☐ |
 | RevenueCat | webhook Authorization header = `REVENUECAT_WEBHOOK_AUTH` | ☐ |
 | Google AI Studio | billing cap on the Gemini key | ☐ |
-| Anthropic | billing cap on the API key | ☐ |
+| Anthropic | billing cap on the API key (only if `LLM_PROVIDER=claude`) | ☐ |
 | App Store Connect | app record `fit.lume.app`, API key (.p8) into the `eas.json` submit block, sandbox testers, age rating, Regulated Medical Device declaration | ☐ |
 
 ---

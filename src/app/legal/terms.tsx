@@ -12,7 +12,7 @@ import type { JSX } from 'react';
 import { LegalScreen, type LegalSection } from '@/components/navigation/LegalScreen';
 import { TRIAL_DAYS } from '@/lib/billing/purchases';
 
-const UPDATED = '2 August 2026';
+const UPDATED = '25 November 2026';
 
 const AWAITING = 'This section is being drafted with a legal adviser and is not final.';
 
@@ -90,7 +90,7 @@ const SECTIONS: LegalSection[] = [
   {
     heading: 'Third-party services',
     body: [
-      'Lume relies on Clerk, Supabase, RevenueCat, Google Gemini and Anthropic, and on Strava and WHOOP if you connect them. Each is described in the Privacy Policy and is governed by its own terms.',
+      'Lume relies on Clerk, Supabase, RevenueCat and Google Gemini (and Anthropic only if our backup AI provider is switched on), and on Strava and WHOOP if you connect them. Each is described in the Privacy Policy and is governed by its own terms. Australian food data comes from the Australian Food Composition Database (Release 3), © Food Standards Australia New Zealand, used under the FSANZ Data User Licence Agreement; it is based on Australian data, which may not be appropriate for use in other countries, and FSANZ does not endorse Lume.',
     ],
   },
   {

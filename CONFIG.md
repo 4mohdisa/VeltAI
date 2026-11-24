@@ -36,14 +36,18 @@ always win. Production: set real env vars on the host.
 | `CLERK_WEBHOOK_SECRET` | Svix signature check on POST /api/webhooks/clerk (whsec_…) | yes |
 | `LUMO_BASE_URL` | Public origin of the API — CORS, OAuth redirects, webhook URLs derive from it | yes (prod) — dev default `http://localhost:8080` |
 | `PORT` | Listen port (set automatically by Railway/Fly/Heroku) | no — falls back to LUMO_BASE_URL port, then 8080 |
-| `LUMO_TIMEZONE` | Server-side calendar TZ for streak/brief math (IANA) | no — default UTC |
+| `LUMO_TIMEZONE` | Fallback calendar TZ (IANA) for streak/brief math when a request has no `X-Timezone` header (the app always sends the device zone), and for the background sweep | no — default UTC; `Australia/Sydney` suits an Australian launch |
 | `REVENUECAT_WEBHOOK_AUTH` | Shared secret for POST /api/webhooks/revenuecat | for billing sync |
 | `REVENUECAT_WEBHOOK_AUTH_PREVIOUS` | The secret being retired. Set during a rotation so in-flight webhooks aren't dropped; unset it once traffic confirms it is unused | no |
 | `CLERK_ISSUER` | Clerk Frontend API URL. Pins the JWT `iss` claim so a template token minted for another service can't authenticate here | prod: strongly recommended (warns if unset) |
 | `LUMO_ENV` | `production` turns on the strict startup checks and drops the Expo dev origin from CORS. Inferred from `PORT` when unset | no |
-| `GEMINI_API_KEY` | Photo/label scan pipeline | scan 503 without |
-| `ANTHROPIC_API_KEY` | AI brain / insights / morning brief / query | AI 503 without |
-| `USDA_API_KEY` | Food search (DEMO_KEY works, low rate limit) | no |
+| `GEMINI_API_KEY` | Photo/label scan pipeline, and insights / morning brief / query by default | scan 503 and AI falls back to plain text without |
+| `LLM_PROVIDER` | Text AI provider for insights / morning brief / query: `gemini` or `claude`. Anything else is fatal at startup | no — default `gemini` |
+| `GEMINI_MODEL` | Gemini model for insights / brief / query (see AI_COSTS.md) | no — default `gemini-3.5-flash-lite` |
+| `ANTHROPIC_API_KEY` | Only for the optional Claude fallback (`LLM_PROVIDER=claude`) | no — warned about only when the provider is `claude` |
+| `LUME_AI_CACHE_SECONDS` | Same user + same AI input inside this window is served from memory, not paid twice. `0` disables | no — default `900` |
+| `LUME_AI_DAILY_LIMIT` | Paid insight / brief / query calls per user per calendar day. Over it the brief and insights use plain text and the query answers 429. `0` = unlimited | no — default `40` |
+| `USDA_API_KEY` | Optional last fallback for food search. Unset ⇒ USDA is skipped (the Australian table and Open Food Facts still answer) | no |
 | `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` | Strava OAuth import | for Strava |
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | WHOOP OAuth import | for WHOOP |
 | `INTEGRATION_ENCRYPTION_KEY` | AES-256-GCM key for stored OAuth tokens. **`openssl rand -base64 32`** — the cipher base64-DECODES this and requires exactly 32 bytes. (`-hex 32` decodes to 48 bytes and fails closed with a 503; it was documented wrong here until 2026-07-29.) | for integrations |

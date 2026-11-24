@@ -41,7 +41,7 @@ export default function AIQueryScreen() {
   const onSend = async () => {
     const q = input.trim();
     if (!q || loading) return;
-    // 5.1.2(i): the question + data summary are processed by Anthropic —
+    // 5.1.2(i): the question + data summary are processed by Google Gemini —
     // one-time disclosure before the first send.
     if (!(await ensureAiConsent())) return;
     setAttempted(true);

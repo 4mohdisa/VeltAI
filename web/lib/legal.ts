@@ -29,7 +29,7 @@
    which would couple the two build systems — the manifest is a CHECK-TIME
    contract, never a build-time dependency. `npm run check:legal` asserts this
    literal equals the manifest, so the two cannot drift. */
-export const LAST_UPDATED = '2 August 2026';
+export const LAST_UPDATED = '25 November 2026';
 
 /** Flip to false in ONE edit when a lawyer has reviewed the policy. */
 export const DRAFT = true;
@@ -175,12 +175,12 @@ export const PRIVACY: Section[] = [
       ),
       v(
         'What exists today, and its limits. Before the first meal photograph or AI request, the app ' +
-          'shows a one-time disclosure naming Google Gemini and Anthropic, and refuses to send anything ' +
+          'shows a one-time disclosure naming Google Gemini, and refuses to send anything ' +
           'until you accept. The acknowledgement is stored on your device AND recorded on our server ' +
-          '(profiles.ai_consent_at), and every Gemini/Anthropic send — including background jobs that ' +
+          '(profiles.ai_consent_at), and every send to an AI provider — including background jobs that ' +
           'run with no device involved — is refused server-side without it. You can withdraw it in the ' +
-          'app (Settings → Privacy → Turn off AI processing). It covers sharing with those two AI ' +
-          'processors — it is not a general consent to collect health information.',
+          'app (Settings → Privacy → Turn off AI processing). It covers sharing with that AI ' +
+          'processor (and Anthropic only if the backup provider is switched on) — it is not a general consent to collect health information.',
         'src/lib/ai/consent.ts (ensureAiConsent/revokeAiConsent); backend/internal/ai/ai.go (requireAIConsent); backend/internal/scan (requireScanConsent) — audited 2026-08-06',
       ),
     ],
@@ -227,14 +227,14 @@ export const PRIVACY: Section[] = [
         'Only when you use the feature, and only after you have accepted the AI disclosure:',
         [
           'Google Gemini — receives the meal or nutrition-label photograph you are scanning, in full, together with a short learned summary of your food preferences and recent corrections (so estimates improve for you), in order to analyse it.',
-          'Anthropic — receives a summary of your logged data (food logs, gym sessions, goals, streak and body weights) in order to write the wording of insights and briefs, and — when you use Ask Lume — the question you typed.',
+          'Google Gemini — also receives a summary of your logged data (food logs, gym sessions, goals, streak and body weights) in order to write the wording of insights and briefs, and — when you use Ask Lume — the question you typed. Anthropic receives that summary instead only if we switch on our backup AI provider; this policy will say so before that happens.',
         ],
         'backend/internal/scan/pipeline/gemini.go (UserContextFrom); backend/internal/ai/ai.go (query: user question in prompt); gated server-side by profiles.ai_consent_at — audited 2026-08-06',
       ),
       vList(
         'When you search foods or scan a barcode (no AI consent involved — these are database lookups):',
         [
-          'Open Food Facts and USDA FoodData Central — receive the search text or barcode number to find a match. No account information accompanies the lookup.',
+          'Open Food Facts and, only where enabled, USDA FoodData Central — receive the search text or barcode number to find a match, after Lume has searched its own copy of the Australian Food Composition Database. No account information accompanies the lookup.',
         ],
         'backend/internal/food/search.go — audited 2026-08-06',
       ),
@@ -480,7 +480,7 @@ export const TERMS: Section[] = [
         [
           'Logs food by search, barcode, nutrition-label photograph, meal photograph, quick add, saved meals and recipes.',
           'Estimates the contents of a photographed meal and attaches a confidence score to that estimate. Two or three camera angles are compared against each other, and disagreement is surfaced rather than averaged away.',
-          'Reads packaged food from a barcode using Open Food Facts and the USDA FoodData Central database.',
+          'Reads packaged food from a barcode using Open Food Facts.',
           'Logs gym sessions against a weekly schedule and reusable templates, and tracks streaks with one freeze available per streak.',
           'Computes energy expenditure for treadmill, cycling, rowing and stair-climbing from published ACSM metabolic equations, and a MET estimate elsewhere.',
           'Reconciles calories in against basal metabolic rate plus logged exercise.',
@@ -639,9 +639,9 @@ export const TERMS: Section[] = [
     blocks: [
       v(
         'Lume relies on Clerk for authentication, Supabase for database hosting, RevenueCat for ' +
-          'subscription management, Google Gemini for photograph analysis, and Anthropic for the wording ' +
-          'of insights. Strava and WHOOP are used only if you connect them yourself. Each is described ' +
-          'in more detail in the privacy policy.',
+          'subscription management, and Google Gemini for photograph analysis and the wording of ' +
+          'insights (Anthropic only if our backup AI provider is switched on). Strava and WHOOP are used only if you connect them yourself. Each is described ' +
+          'in more detail in the privacy policy. Australian food data comes from the Australian Food Composition Database (Release 3), © Food Standards Australia New Zealand, used under the FSANZ Data User Licence Agreement; it is based on Australian data, which may not be appropriate for use in other countries, and FSANZ does not endorse Lume.',
         'backend/cmd/server/main.go; see the privacy policy disclosure section',
       ),
       todo(

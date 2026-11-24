@@ -107,6 +107,24 @@ Extra fields beyond the table:
   (`GET /api/export`) and are deleted with the profile (`on delete cascade`).
 - **Retention**: not defined in code, owner to decide.
 
+## AI providers
+
+AI features send data only after the user accepts the one-time AI disclosure
+(`ensureAiConsent()` in `src/lib/ai/consent.ts`), and the server refuses every
+send without its own consent record (`profiles.ai_consent_at`).
+
+| Data | Receiving service | Reason |
+| --- | --- | --- |
+| Meal and nutrition-label photos, plus a short summary of food preferences and recent corrections | Google (Gemini) | Analyse the photo. |
+| A summary of logged data (food logs, gym sessions, goals, streak, body weights) and, for Ask Lume, the typed question | Google (Gemini) by default | Write insights, the morning brief and Ask Lume answers. |
+| The same summary and question | Anthropic, **only** if the server runs with `LLM_PROVIDER=claude` (off by default) | Backup provider for the same features. |
+
+Google is the only AI provider in the default setup. Answers are cached in the
+server's memory for `LUME_AI_CACHE_SECONDS` (default 15 minutes) and never
+written to logs. Food search runs on the local Australian food table first and
+then sends only the search text to Open Food Facts and, if `USDA_API_KEY` is
+set, USDA FoodData Central.
+
 ## Defaults and open items
 
 - **Analytics is opt-in and off by default**, as coded: `analyticsEnabled`

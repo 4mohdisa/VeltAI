@@ -12,7 +12,7 @@ import type { JSX } from 'react';
 
 import { LegalScreen, type LegalSection } from '@/components/navigation/LegalScreen';
 
-const UPDATED = '2 August 2026';
+const UPDATED = '25 November 2026';
 
 const AWAITING = 'This section is being drafted with a legal adviser and is not final.';
 
@@ -42,7 +42,7 @@ const SECTIONS: LegalSection[] = [
     heading: 'Sensitive information and consent',
     pending: true,
     body: [
-      'Before your first meal photograph or AI request, Lume shows a one-time disclosure naming Google Gemini and Anthropic, and sends nothing until you accept. That acknowledgement is recorded on your device and on our server (so background processing also respects it), and it covers sharing with those two processors. You can withdraw it at any time in Settings → Privacy → Turn off AI processing.',
+      'Before your first meal photograph or AI request, Lume shows a one-time disclosure naming Google Gemini, and sends nothing until you accept. That acknowledgement is recorded on your device and on our server (so background processing also respects it), and it covers sharing with that processor (and with Anthropic only if our backup AI provider is switched on, as described below). You can withdraw it at any time in Settings → Privacy → Turn off AI processing.',
       `${AWAITING} The express consent mechanism required for collecting health information under Australian Privacy Principle 3.3 is being drafted; the disclosure above is narrower than that.`,
     ],
   },
@@ -57,8 +57,8 @@ const SECTIONS: LegalSection[] = [
     heading: 'Who we disclose it to',
     body: [
       'Always, to run the service: Clerk (authentication — your email and name), Supabase (database hosting — every row of your data), and RevenueCat (subscriptions — your user id and purchase status).',
-      'Only when you use the feature, and only after you accept the AI disclosure: Google Gemini receives the photograph you are scanning together with a short summary of your food preferences and recent corrections (so estimates improve for you), and Anthropic receives a summary of your logged data — and, when you use Ask Lume, the question you type — to write the wording of insights, briefs and answers.',
-      'When you search foods or scan a barcode, the search text or barcode number is sent to Open Food Facts and the USDA FoodData Central database to find a match. No account information goes with it.',
+      'Only when you use the feature, and only after you accept the AI disclosure: Google Gemini receives the photograph you are scanning together with a short summary of your food preferences and recent corrections (so estimates improve for you), and a summary of your logged data — and, when you use Ask Lume, the question you type — to write the wording of insights, briefs and answers. Anthropic receives that summary instead only if we switch insight wording to our backup AI provider; this policy will say so before that happens.',
+      'When you search foods, Lume first searches its own copy of the Australian Food Composition Database (no data leaves our server for that), and the search text is also sent to Open Food Facts and, only where enabled, the USDA FoodData Central database. A scanned barcode number is sent to Open Food Facts. No account information goes with either.',
       'Only if you connect them yourself: Strava and WHOOP. Neither is operational today.',
       'Each processor handles data under its own terms and only to provide its part of the service.',
     ],

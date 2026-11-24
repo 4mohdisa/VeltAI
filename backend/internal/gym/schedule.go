@@ -536,7 +536,7 @@ func (h scheduleHandler) putSchedule(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h scheduleHandler) getToday(w http.ResponseWriter, r *http.Request) {
-	today := config.Today()
+	today := config.Today(r.Context())
 	t, err := time.Parse(dateLayout, today)
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, "clock error")

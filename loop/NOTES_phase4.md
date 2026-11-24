@@ -20,7 +20,7 @@ Finish the app (Apple side features: Sign in with Apple, account deletion, AI co
 - Isa wants user feedback data: row 14a adds thumbs up and down after features plus a Settings feedback screen, in every profile.
 
 ## Done
-(nothing yet)
+Rows 2c and 2d were built by hand by Isa with Claude Code on 25 Nov 2026. Verify with the tests and mark them BUILT in PHASE4_ROWS.md.
 
 ## Blocked on Isa
 (nothing yet)

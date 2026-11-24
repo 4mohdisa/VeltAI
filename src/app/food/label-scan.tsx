@@ -32,6 +32,7 @@ import { runOrQueue } from '@/lib/offline/queue';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
 import { mealSlotName } from '@/lib/mealSlotName';
+import { servingToCanonical } from '@/lib/units';
 import type { MealSlot } from '@/lib/mock/data';
 
 type Phase = 'capture' | 'reading' | 'review';
@@ -136,12 +137,15 @@ export default function LabelScanScreen() {
     const c = num(carbs);
     const f = num(fat);
     const fb = num(fibre);
+    // A typed "1 cup" or "2 tbsp" is stored in ml at Australian sizes, not as
+    // 1 g; grams stay grams.
+    const serving = servingToCanonical(qty * size, servingUnit);
     const body = {
       date: selectedFoodDate(),
       meal_type: mealType,
       food_name: foodName.trim() || t('labelScan.defaultName'),
-      quantity: qty * size,
-      unit: 'g',
+      quantity: serving.quantity,
+      unit: serving.unit,
       calories: cal * qty,
       protein: p * qty,
       carbs: c * qty,

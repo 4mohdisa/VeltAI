@@ -73,7 +73,7 @@ const KJ_PER_KCAL = 4.184;
 // ---------------------------------------------------------------------------
 
 function group(value: number, fractionDigits = 0): string {
-  return value.toLocaleString('en-US', {
+  return value.toLocaleString('en-AU', {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
@@ -151,6 +151,39 @@ export function displayToMl(value: number, unit: VolumeUnit): number {
 export function formatVolume(ml: number, unit: VolumeUnit): string {
   const v = mlToDisplay(ml, unit);
   return `${group(v, v % 1 ? 1 : 0)} ${unit === 'floz' ? 'fl oz' : 'ml'}`;
+}
+
+// ---------------------------------------------------------------------------
+// Household measures (Australian metric sizes)
+// ---------------------------------------------------------------------------
+
+/** Australian standard measures in ml: the cup is 250 ml (US 240) and the
+ *  tablespoon is 20 ml (US/UK 15). */
+export const AU_MEASURES_ML = { cup: 250, tbsp: 20, tsp: 5 } as const;
+
+const MEASURE_ALIASES: Record<string, keyof typeof AU_MEASURES_ML> = {
+  cup: 'cup',
+  cups: 'cup',
+  tbsp: 'tbsp',
+  tbs: 'tbsp',
+  tablespoon: 'tbsp',
+  tablespoons: 'tbsp',
+  tsp: 'tsp',
+  teaspoon: 'tsp',
+  teaspoons: 'tsp',
+};
+
+/** A typed serving (amount + free-text unit) as a canonical quantity:
+ *  household measures and litres become ml, kg becomes g, ml stays ml, and
+ *  anything else (g, blank, unknown) is read as grams. */
+export function servingToCanonical(amount: number, unit: string): { quantity: number; unit: 'g' | 'ml' } {
+  const u = unit.trim().toLowerCase().replace(/\.$/, '');
+  const measure = MEASURE_ALIASES[u];
+  if (measure) return { quantity: amount * AU_MEASURES_ML[measure], unit: 'ml' };
+  if (u === 'ml') return { quantity: amount, unit: 'ml' };
+  if (u === 'l' || u === 'litre' || u === 'litres') return { quantity: amount * 1000, unit: 'ml' };
+  if (u === 'kg') return { quantity: amount * 1000, unit: 'g' };
+  return { quantity: amount, unit: 'g' };
 }
 
 // ---------------------------------------------------------------------------

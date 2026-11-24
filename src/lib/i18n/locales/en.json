@@ -63,7 +63,7 @@
       "privacyPolicy": "Privacy policy",
       "termsOfUse": "Terms of use",
       "aiTitle": "AI processing",
-      "aiFooter": "Withdraws your consent for Google Gemini (meal photos) and Anthropic (insight wording). Scanning and AI features stop working until you accept the disclosure again.",
+      "aiFooter": "Withdraws your consent for Google Gemini (meal photos, insights and Ask Lume). Scanning and AI features stop working until you accept the disclosure again.",
       "aiTurnOff": "Turn off AI processing",
       "aiTurningOff": "Turning off…",
       "aiTurnedOff": "AI processing turned off. Scans and insights are disabled until you turn it back on.",
@@ -146,7 +146,7 @@
     "helpAndFeedback": "Help and feedback",
     "helpAndFeedbackHint": "Opens a form to report a problem or share an idea."
   },
-"preferences": {
+  "preferences": {
     "title": "Preferences",
     "measurementSystem": "Measurement system",
     "metric": "Metric",
@@ -1052,5 +1052,11 @@
     "suggestionGymDays": "Am I eating enough on gym days?",
     "suggestionTopFood": "What's my most logged food?",
     "suggestionGoal": "How close am I to my goal?"
+  },
+  "aiConsent": {
+    "title": "AI features and usage data",
+    "body": "Meal photos and a summary of your logged data are processed by Google Gemini so scanning, insights and Ask Lume can work. Google processes them only to provide those features. Anthropic would receive the summary instead only if we switch on our backup AI provider.\n\nLume also counts which features you use — never what you log, never your food, weights or notes, and never sold.\n\nYou can turn either off any time in Settings → Privacy.",
+    "notNow": "Not now",
+    "continue": "Continue"
   }
 }

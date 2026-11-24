@@ -27,7 +27,7 @@ func prodEnv(t *testing.T) {
 		"LUME_BASE_URL":        "https://api.example.com",
 		"CLERK_ISSUER":         "https://clerk.example.com",
 		"CLERK_WEBHOOK_SECRET": "whsec_x", "REVENUECAT_WEBHOOK_AUTH": "rc",
-		"INTEGRATION_ENCRYPTION_KEY": "k", "GEMINI_API_KEY": "g", "ANTHROPIC_API_KEY": "a",
+		"INTEGRATION_ENCRYPTION_KEY": "k", "GEMINI_API_KEY": "g",
 	})
 }
 

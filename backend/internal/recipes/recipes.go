@@ -262,7 +262,7 @@ func (h *handler) logRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 	date := req.Date
 	if date == "" {
-		date = config.Today()
+		date = config.Today(r.Context())
 	} else if !validDate(date) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return
@@ -334,7 +334,7 @@ func (h *handler) logSavedMeal(w http.ResponseWriter, r *http.Request) {
 	}
 	date := req.Date
 	if date == "" {
-		date = config.Today()
+		date = config.Today(r.Context())
 	} else if !validDate(date) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return

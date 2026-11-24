@@ -189,7 +189,7 @@ func (h *handler) createLog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if l.Date == "" {
-		l.Date = config.Today()
+		l.Date = config.Today(r.Context())
 	} else if !validDate(l.Date) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return
@@ -295,7 +295,7 @@ func (h *handler) deleteLog(w http.ResponseWriter, r *http.Request) {
 func (h *handler) summary(w http.ResponseWriter, r *http.Request) {
 	date := r.URL.Query().Get("date")
 	if date == "" {
-		date = config.Today()
+		date = config.Today(r.Context())
 	} else if !validDate(date) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return
@@ -356,7 +356,12 @@ func (h *handler) searchFoods(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "q is required")
 		return
 	}
-	results := h.search.Search(r.Context(), q)
+	// Australian foods first; a local failure must never break search.
+	local, err := h.store.SearchAFCD(r.Context(), q)
+	if err != nil {
+		local = nil
+	}
+	results := mergeResults(local, h.search.Search(r.Context(), q))
 
 	cuisines, dietary := h.cuisinePrefs(r.Context(), auth.UserID(r.Context()))
 	libraryNames, err := h.store.CuisineLibraryNames(r.Context(), cuisines)
@@ -450,7 +455,7 @@ func (h *handler) quickAdd(w http.ResponseWriter, r *http.Request) {
 	}
 	date := req.Date
 	if date == "" {
-		date = config.Today()
+		date = config.Today(r.Context())
 	} else if !validDate(date) {
 		httpx.Error(w, http.StatusBadRequest, "date must be YYYY-MM-DD")
 		return

@@ -22,7 +22,7 @@ type FeedItem =
   | { kind: 'insight'; item: AIInsight }
   | { kind: 'anomaly'; item: AIAnomaly };
 
-// 5.1.2(i): the feed's GET can trigger Anthropic generation server-side, so the
+// 5.1.2(i): the feed's GET can trigger AI generation server-side, so the
 // inner screen (whose hooks fetch on mount) renders only after the one-time
 // AI consent. Declining returns to the previous screen.
 export default function InsightsScreen() {

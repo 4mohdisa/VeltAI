@@ -4,7 +4,9 @@
 package config
 
 import (
+	"context"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 	"strconv"
@@ -99,7 +101,17 @@ func Validate() (fatal []string, warn []string) {
 			warn = append(warn, "CLERK_ISSUER is not set — tokens are not issuer-pinned (set it to your Clerk Frontend API URL)")
 		}
 	}
-	for _, k := range []string{"CLERK_WEBHOOK_SECRET", "REVENUECAT_WEBHOOK_AUTH", "INTEGRATION_ENCRYPTION_KEY", "GEMINI_API_KEY", "ANTHROPIC_API_KEY"} {
+	keys := []string{"CLERK_WEBHOOK_SECRET", "REVENUECAT_WEBHOOK_AUTH", "INTEGRATION_ENCRYPTION_KEY", "GEMINI_API_KEY"}
+	// Gemini runs insights, the brief and the query by default. Anthropic is
+	// needed only when the optional Claude fallback is switched on.
+	switch p := LLMProvider(); p {
+	case "gemini":
+	case "claude":
+		keys = append(keys, "ANTHROPIC_API_KEY")
+	default:
+		fatal = append(fatal, "LLM_PROVIDER must be gemini or claude (got "+p+")")
+	}
+	for _, k := range keys {
 		if os.Getenv(k) == "" {
 			warn = append(warn, k+" is not set — the features that depend on it will return 503")
 		}
@@ -107,10 +119,16 @@ func Validate() (fatal []string, warn []string) {
 	return fatal, warn
 }
 
-// Timezone is the timezone for server-side "today"/"yesterday" math (streaks,
-// morning brief, meal timing). Log dates are client-authored; this only anchors
-// the server's view of the calendar. ponytail: one env for all users — per-user
-// timezones need a profiles column when the app sends one.
+// LLMProvider is the text AI provider for insights, the morning brief and the
+// query: "gemini" (default) or "claude" (optional fallback).
+func LLMProvider() string {
+	return strings.ToLower(strings.TrimSpace(Env("LLM_PROVIDER", "gemini")))
+}
+
+// Timezone is the fallback timezone for server-side "today"/"yesterday" math
+// (streaks, morning brief, meal timing) when a request carries none, and for
+// background work with no request at all. Log dates are client-authored; this
+// only anchors the server's view of the calendar.
 func Timezone() *time.Location {
 	if loc, err := time.LoadLocation(Env("LUME_TIMEZONE", "UTC")); err == nil {
 		return loc
@@ -118,9 +136,45 @@ func Timezone() *time.Location {
 	return time.UTC
 }
 
-// Today returns today's date (YYYY-MM-DD) in the configured timezone.
-func Today() string {
-	return time.Now().In(Timezone()).Format("2006-01-02")
+type tzKey struct{}
+
+// TimezoneHeader carries the device's IANA zone (e.g. Australia/Adelaide), so
+// "today" is the user's calendar day, daylight saving included, whatever zone
+// the server runs in.
+const TimezoneHeader = "X-Timezone"
+
+// WithTimezone stores the named IANA zone in ctx. An empty or unknown name
+// leaves ctx unchanged, so a bad header falls back to LUME_TIMEZONE.
+func WithTimezone(ctx context.Context, name string) context.Context {
+	name = strings.TrimSpace(name)
+	if name == "" || name == "Local" {
+		return ctx
+	}
+	loc, err := time.LoadLocation(name)
+	if err != nil {
+		return ctx
+	}
+	return context.WithValue(ctx, tzKey{}, loc)
+}
+
+// TimezoneOf is the request's zone (see WithTimezone), else Timezone().
+func TimezoneOf(ctx context.Context) *time.Location {
+	if loc, ok := ctx.Value(tzKey{}).(*time.Location); ok {
+		return loc
+	}
+	return Timezone()
+}
+
+// TimezoneMiddleware reads TimezoneHeader into the request context.
+func TimezoneMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		next.ServeHTTP(w, r.WithContext(WithTimezone(r.Context(), r.Header.Get(TimezoneHeader))))
+	})
+}
+
+// Today returns today's date (YYYY-MM-DD) in the request's timezone.
+func Today(ctx context.Context) string {
+	return time.Now().In(TimezoneOf(ctx)).Format("2006-01-02")
 }
 
 // Env reads an environment variable with a fallback.

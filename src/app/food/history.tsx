@@ -21,7 +21,7 @@ import { SkeletonList } from '@/components/display/LoadingSkeleton';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
-import { formatCalories } from '@/lib/formatting';
+import { dateLocale, formatCalories } from '@/lib/formatting';
 import { api } from '@/lib/api';
 
 const DAYS = 7;
@@ -41,7 +41,7 @@ function labelFor(offset: number, iso: string, t: TFunction, language: string): 
   if (offset === 0) return t('foodLog.today');
   if (offset === 1) return t('history.yesterday');
   const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString(language, {
+  return new Date(y, m - 1, d).toLocaleDateString(dateLocale(language), {
     weekday: 'short',
     day: 'numeric',
     month: 'short',

@@ -149,7 +149,15 @@ func rankByCuisine(results []SearchResult, cuisines, dietary []string, libraryNa
 		out[i] = scored{result: r, score: final}
 	}
 
-	sort.SliceStable(out, func(i, j int) bool { return out[i].score > out[j].score })
+	// Australian foods (AFCD) always rank above overseas sources; preferences
+	// reorder within each group.
+	sort.SliceStable(out, func(i, j int) bool {
+		ai, aj := out[i].result.Source == SourceAFCD, out[j].result.Source == SourceAFCD
+		if ai != aj {
+			return ai
+		}
+		return out[i].score > out[j].score
+	})
 
 	ranked := make([]SearchResult, n)
 	for i, s := range out {
