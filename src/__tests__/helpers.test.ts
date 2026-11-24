@@ -106,12 +106,6 @@ describe('formatting', () => {
     expect(formatLongDate(new Date(2026, 5, 29))).toBe('Mon 29 Jun 2026');
   });
 
-  test('formatWeekdayDate / formatMonthYear keep the device-locale options the screens used inline', () => {
-    const d = new Date(2026, 10, 21);
-    expect(formatWeekdayDate(d)).toBe(d.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }));
-    expect(formatMonthYear(d)).toBe(d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }));
-  });
-
   test('formatTime zero-pads', () => {
     expect(formatTime(new Date(2026, 0, 1, 18, 0))).toBe('18:00');
     expect(formatTime(new Date(2026, 0, 1, 9, 5))).toBe('09:05');

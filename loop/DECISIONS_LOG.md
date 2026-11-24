@@ -10064,3 +10064,6 @@
 - 2026-11-25 04:21 Chose candidate 1 because the handover and Jev's run signal both point to it, and it is one file with a clear regression test.
 - 2026-11-25 04:21 Ran the full Jest suite this round because a date format change can alter snapshots, even though no strings change.
 - 2026-11-25 04:21 Kept the rule of one file per prompt and at most five steps.
+- 2026-11-25 04:22 Round 113: delete the test 'keep the device-locale options the screens used inline' in helpers.test.ts. It pins behaviour that round 112 changed on purpose, and it passed only because this machine is en-AU. Recorded as an edit to a test that pins old behaviour, the same kind of edit Isa allowed in Phase 3 leftovers.
+- 2026-11-25 04:22 Chose the stale test fix over day letters because it is a small correctness fix that could fail on CI, and it is the report's first recommendation.
+- 2026-11-25 04:22 Jev ranked the same next action as the top choice, so no second look was needed.
