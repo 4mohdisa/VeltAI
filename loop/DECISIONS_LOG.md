@@ -10455,3 +10455,6 @@
 - 2026-11-25 06:53 The rejected prompt is fixed: the branch rule is now step 1 with a stop condition, and git commit and push are forbidden for Claude Code.
 - 2026-11-25 06:53 Jev's risk score (1.0 of 2) is noted. The round is verification only, so it adds no risk of new behaviour.
 - 2026-11-25 06:53 The Clean code rules and report format are restated in full, as the brief requires for every prompt.
+- 2026-11-25 06:54 R205 chosen as the next step, as already set in the notes, to finish the 401 route pattern before the strings work (Jev agrees: run).
+- 2026-11-25 06:54 Signup 401 verified by R204 grep: it already dispatches SESSION_ENDED, so no change there.
+- 2026-11-25 06:54 Notes updated: R204 done, R205 in progress, 1d next. Blocked-on-Isa list kept as is.

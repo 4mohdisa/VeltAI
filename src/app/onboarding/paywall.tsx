@@ -30,10 +30,11 @@ import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { onboardingPayload, useOnboardingStore, validateOnboardingPayload } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
 import { devWarn, isDevBuild } from '@/lib/env';
+import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity } from '@/lib/auth/machine';
-import i18n from '@/lib/i18n';
 
 export default function PaywallScreen() {
+  const { dispatch } = useAppState();
   const cuisines = useOnboardingStore((s) => s.cuisines);
   const dietary = useOnboardingStore((s) => s.dietary_requirements);
   const markCompleted = useOnboardingStore((s) => s.markCompleted);
@@ -82,12 +83,12 @@ export default function PaywallScreen() {
       navigate('/onboarding/done');
     } catch (e) {
       devWarn('[onboarding] submit failed:', e);
-      // An expired session is not a connection problem: send the user to sign
-      // in again rather than to their wifi settings.
+      // An expired session is not a connection problem. The machine ends the
+      // rejected Clerk session, keeps the onboarding answers, opens sign-in and
+      // shows the expired message.
       if (classifyConnectivity(e) === 'sessionExpired') {
-        showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
         setSubmitting(false);
-        navigate('/onboarding/signup?mode=signin');
+        dispatch({ type: 'SESSION_ENDED' });
         return;
       }
       // Surface the SERVER's own explanation when it gave one. A 400 says

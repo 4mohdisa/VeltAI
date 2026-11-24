@@ -8,14 +8,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions done. Signup 401 status to verify in R204 (handover and notes disagree).
-- R203: renderScreen wraps tree.update too; quickAdd queue mock has subscribe. Render folder 180 suites, 621 tests green.
-- Last fully green full Jest: R197 (266 suites, 1,564 tests). Full run at checkpoint R204.
+- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions done. Signup 401 verified in R204: dispatches SESSION_ENDED (signup.tsx:66-69).
+- R204 checkpoint green: tsc 0 errors, lint exit 0, full Jest 266 suites and 1,564 tests.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R204 (now): checkpoint. Full tsc, lint, Jest. Grep signup.tsx continueAfterAuth 401 branch, report only.
-Then R205: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R205 (now): paywall 401 uses SESSION_ENDED (same pattern as signup). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Full Jest next checkpoint: R210 or when a checkpoint is due.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -52,9 +51,9 @@ Then R205: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (go
 - R195: launch gate 401 reuses classifyConnectivity and the R194 route.
 - R196: saved onboarding answers kept on expired or revoked sessions. Deliberate sign-out and account deletion still wipe everything.
 - R198: 401 routes split one per round. Session cleared via SESSION_ENDED, answers kept.
-- R199: renderScreen wrapped in AppStateProvider (approved). Signup 401 uses SESSION_ENDED only (per notes; verify R204).
+- R199: renderScreen wrapped in AppStateProvider (approved).
 - R201: caused 5 suite failures, fixed in R203.
-- R204: checkpoint run. Signup 401 verified by grep, not changed.
+- R204: checkpoint green. Signup 401 verified by grep, not changed.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review (Welcome, signup, onboarding, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
@@ -67,6 +66,7 @@ Then R205: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (go
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Training-days question, gain-weight or maintain goal in onboarding.
 - Simulator check: answers survive a real Clerk expiry or revocation.
+- Simulator checks: signup and launch 401 routes (listed in OWNER_CHECKS_phase4.md).
 
 ## Parked
 - Simulator checks: Total tile (2.1), signup and launch 401 routes.
@@ -96,9 +96,9 @@ Then R205: paywall 401 uses SESSION_ENDED (same pattern as R201). Then 2b 1d (go
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
-- Paywall 401 still opens sign in without ending the Clerk session (R205).
-- Signup 401 and paywall 401 may still open sign in without ending the Clerk session (R204 grep decides).
+- Paywall 401 still opens sign in without ending the Clerk session (R205, in progress).
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
 - Onboarding screens after signup are still hard-coded English (1d and 2c).
 - The signup placeholders are literals.
 - connectivityMessage hard-coded English and unused.
+- Nothing dispatches SIGNED_IN, so the auth machine stays in unknown.
