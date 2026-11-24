@@ -9778,3 +9778,7 @@
 - 2026-11-25 02:52 Chose the i18n lint warnings because they sit in one non-test source file: a small, low risk step that suits the high risk signal from Jev.
 - 2026-11-25 02:52 Test file lint warnings (no-require-imports) are left for later batches so each round touches one file.
 - 2026-11-25 02:52 Jev ranks run at 99% and the candidates are equal in risk, so I kept my own pick (one file, one gate).
+- 2026-11-25 02:53 Round 40 i18n lint fix is done (report confirms 0 errors, 0 warnings, 92 suites green); the alias addPlugin is kept because a plain use import trips react-hooks/rules-of-hooks.
+- 2026-11-25 02:53 Chose the lint sweep over the refetch test because Jev rates the smaller one-file task as lower risk and the lint count is a clear gate.
+- 2026-11-25 02:53 Lint sweep goes one test file per round, fewest warnings first, to keep Jev risk low.
+- 2026-11-25 02:53 Accept an inline eslint-disable only for a require that must stay inside a jest.mock factory, recorded in the report.

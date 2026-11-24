@@ -1,5 +1,7 @@
 /// <reference types="jest" />
 /// <reference types="node" />
+import type { DebugReport } from '@/debug/types';
+
 // Local-first persistence: a report must survive a crash and a restart before
 // it is ever synced. This is the property the whole system rests on — the
 // tester is alone with a phone for a week, and a report lost because the
@@ -44,14 +46,13 @@ jest.mock('expo-file-system/legacy', () => ({
 const mockCreate = jest.fn(async () => ({ id: 'server_1' }));
 jest.mock('@/lib/api', () => ({ api: { debugReports: { create: (...a: unknown[]) => mockCreate(...(a as [])) } } }));
 
-import type { DebugReport } from '@/debug/types';
-
 type StoreModule = typeof import('@/debug/impl/store');
 
 /** Fresh module instance — the equivalent of relaunching the app. */
 async function freshStore(): Promise<StoreModule> {
   let m!: StoreModule;
   jest.isolateModules(() => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- a restart needs a fresh module instance, and Jest here has no ESM import()
     m = require('@/debug/impl/store') as StoreModule;
   });
   return m;

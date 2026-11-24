@@ -1,20 +1,18 @@
 # Lume Loop Notes: Phase 4
 
 ## Goal
-Finish the app (Apple side features, then testing), with no input from Isa. Progress is counted from PHASE4_ROWS.md (36 rows).
+Finish the app (Apple side features, then testing), no input from Isa. Progress counted from PHASE4_ROWS.md (36 rows).
 
 ## State
-- Branch loop/phase4 from loop/phase3 (Phase 3 not merged into main). Never work on main.
+- Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Baseline (BASELINE_phase4.md): tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
-- Row 1 BUILT.
-- Row 2 PARTIAL. Sub steps: 2.1 total gym days (PARTIAL: code and mocks done, simulator check parked), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
+- Baseline: tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
+- Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
-- OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and one for the 2.1 simulator check. Never overwrite or empty it.
+- OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0 (npx expo lint).
-- Warnings: 59 (57 no-require-imports, mostly tests; 1 import/first and 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37, being fixed in round 40).
+- Errors: 0. Warnings: about 57 no-require-imports, mostly in src/__tests__. The i18n warnings are cleared (round 40).
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -29,34 +27,35 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
 - Mock forwardRef components get named functions (display-name fix).
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
-- Row 2.1 total gym days comes from the database (total_days), not from the capped store.
+- Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
-- Do not change api.ts listSessions defaults: a default limit would add ?limit to gymRange reads and break apiSurface.test.ts.
-- Full suite on checkpoint rounds. Round 35 was a checkpoint (242 suites, 1,402 tests green); next about round 40.
-- 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). Do not seed or insert data without an approved seed path.
-- Every round runs tsc and targeted Jest for changed files and reports the results.
+- Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
+- Full suite on checkpoint rounds. Round 35 was a checkpoint; next about round 45.
+- 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
+- Every round runs tsc and targeted Jest for changed files and reports results.
 - zsh: quote glob patterns; pass Jest file lists via tr '\n' '\0' | xargs -0.
 - Node 22 first on PATH (shell default is 24).
-- String changes wait for a string round (DailyMacroRing.tsx:96 'of' is untranslated, to fix then).
+- String changes wait for a string round.
+- i18n alias: `import i18next, { use as addPlugin }` is kept because a plain `use` import trips react-hooks/rules-of-hooks.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
-- Round 27: simulator check of Total tile blocked. Parked.
+- Round 27: simulator check of Total tile blocked, parked.
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
-- Round 35 checkpoint green.
-- Round 38: history.tsx reads gym sessions with limit GYM_SESSION_HYDRATE_LIMIT (200).
-- Round 39: history.tsx bounds the session read to the last 7 days (from plus limit 200). Test updated, tsc 0, targeted Jest green.
+- Round 35 checkpoint green (242 suites, 1,402 tests).
+- Round 38: history.tsx gym session read limited to 200.
+- Round 39: history.tsx bounds the session read to the last 7 days.
+- Round 40: i18n lint warnings cleared in src/lib/i18n/index.ts (tsc 0, 92 suites green).
 
 ## Blocked on Isa
-- Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
+- Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 40 (now): fix the two i18n lint warnings in src/lib/i18n/index.ts.
-- Then the 57 no-require-imports warnings, one test file per round.
+- Round 41 (now): clear no-require-imports warnings in the test file with the fewest warnings, one file per round.
 - Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -66,9 +65,10 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - ssh tunnel on 127.0.0.1:55432: unknown target. Isa should confirm before the AFCD importer runs.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
-- Phase 2 iOS notes say the backend returns 401 without a Clerk token. Backend has Clerk dev keys, so the note is probably stale. Check in Row 16.
+- Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - Jest prints React act(...) warnings from ScanReviewCard, an 'API unreachable' warning from hooks.ts, and a logged stack trace in photoScan.render. Look at them in Row 22.
-- Nothing tests refetch in useWeeklyMacros (src/lib/data/hooks.ts).
-- The expo-camera stub is copied into three scan tests. Move it to one shared mock later.
-- Running plain npx eslint at repo root reports about 11,000 errors, nearly all in web/.next, web/out, ds-bundle/_vendor. Add those to ESLint ignores or fix (Row 29).
-- Jev risk high: keep steps to one file and check the gates each round.
+- No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
+- The expo-camera stub is copied into three scan tests. Move to one shared mock later.
+- Plain npx eslint at repo root reports about 11,000 errors, mostly in web/.next, web/out, ds-bundle/_vendor. Add to ESLint ignores (Row 29).
+- i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files and Preferences (Row 2.3).
+- Jev risk high: keep steps to one file and check gates each round.
