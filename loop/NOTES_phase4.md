@@ -12,13 +12,13 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: about 53, mostly no-require-imports in src/__tests__.
-- Count with `npx eslint -f json` piped to a small counting script.
+- Errors: 0 (npx expo lint). Warnings: about 49, mostly no-require-imports in src/__tests__.
+- Count with `npx eslint -f json` piped to a small counting script. `eslint --format unix` no longer exists.
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
-- Only localhost:5432 / lume_test_local for tests. Never touch the ssh tunnel on 127.0.0.1:55432.
+- Only localhost:5432 / lume_test_local for tests. Never touch the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
@@ -41,18 +41,18 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - String changes wait for a string round.
 - i18n alias: `import i18next, { use as addPlugin }` is kept because a plain `use` import trips react-hooks/rules-of-hooks.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
+- Handover at round 50: Claude Code restarted with the handover summary. Name full paths in every prompt.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Round 27: simulator check of Total tile blocked, parked.
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
-- Rounds 38-39: history.tsx gym session read limited (200, then last 7 days).
+- Rounds 38-39: history.tsx gym session read limited (listSessions with limit GYM_SESSION_HYDRATE_LIMIT, 7-day window).
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Round 44 (checkpoint): full tsc and Jest green.
-- Rounds 45-47: gymSession.emptyStates, gymStreakSkeleton, gymStreakStripFootnote render tests, require swapped for jest.requireActual.
-- Round 48: mealsScreen.strings.render.test.tsx, same swap.
-- Round 49: recipeLog.render.test.tsx, same swap, unused disable comment removed. tsc 0, Jest 2 of 2.
+- Rounds 45-49: gymSession.emptyStates, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog render tests: require swapped for jest.requireActual.
+- Round 50: recipesList.render.test.tsx swap done. tsc 0, Jest 3 of 3, eslint clean.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -61,12 +61,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 50: src/__tests__/render/recipesList.render.test.tsx, same swap.
-- Then the same swap, one file per round, for: savedMealsList, savedMealsLog (check for unneeded disable comment), savedScreen, todayCard (all in src/__tests__/render/).
-- Then the biggest warnings: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same pattern.
+- Round 51: savedMealsList.render.test.tsx swap (in progress).
+- Then savedMealsLog (remove unused disable comment), savedScreen, todayCard (all in src/__tests__/render/).
+- Then the biggest warnings: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx (9). Onboarding and signup render tests may use the same pattern.
 - Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
-- Row 2.2 remaining: display-name errors in photoScan.render.test.tsx:83 and scanScreens.strings.render.test.tsx:48; useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix; ScanReviewCard act warnings are Row 22.
+- Row 2.2 remaining: display-name errors in photoScan.render.test.tsx:83 and scanScreens.strings.render.test.tsx:48; useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix. ScanReviewCard act warnings are Row 22.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40 says 20 TestPG, it is 21).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
@@ -77,8 +77,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - Jest prints React act(...) warnings from ScanReviewCard, an 'API unreachable' warning from hooks.ts, and a logged stack trace in photoScan.render. Look at them in Row 22.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
-- src/app/food/history.tsx gym session read: confirm the bound from round 39 holds in Row 2.2 review.
 - The expo-camera stub is copied into three scan tests. Move to one shared mock later.
 - Plain npx eslint at repo root reports about 11,000 errors, mostly in web/.next, web/out, ds-bundle/_vendor. Add to ESLint ignores (Row 29).
 - i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files and Preferences (Row 2.3).
+- The history test assertion hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Jev risk moderate: keep steps to one file and check gates each round.

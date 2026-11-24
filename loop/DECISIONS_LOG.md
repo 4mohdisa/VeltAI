@@ -9811,3 +9811,6 @@
 - 2026-11-25 03:02 Round 49 is recorded as done from the latest report (recipeLog swap), so the next round is 50.
 - 2026-11-25 03:02 Kept the rule that a string change waits for the string round, so this prompt adds no strings.
 - 2026-11-25 03:02 Kept 2.1 simulator check parked; no seed or insert without an approved path.
+- 2026-11-25 03:04 Kept the one-file swap as the next task, as the NOTES Next list and the handover both specify. Jev rates run at 99 percent and risk is moderate, so a single small file is the safer step.
+- 2026-11-25 03:04 Added the full gate set (tsc, targeted Jest, eslint with unused-directive check, require count) because the handover requires it for each file.
+- 2026-11-25 03:04 Recorded the recipesList swap (round 50) as done, based on the latest report.
