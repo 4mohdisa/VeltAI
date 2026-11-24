@@ -1,17 +1,16 @@
 // PHASE3_ROWS.md row 10, Settings side: the "Help and feedback" row on the main
 // Settings list (src/app/profile/index.tsx). It renders with its localised label
 // and VoiceOver hint, and one press opens /profile/feedback.
+import { router } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import ProfileScreen from '@/app/profile/index';
 import en from '@/lib/i18n/locales/en.json';
 import { act, findAll, renderScreen } from './helpers';
 
-const mockPush = jest.fn();
-
 jest.mock('expo-router', () => ({
   ...jest.requireActual('expo-router'),
-  router: { push: (...args: unknown[]) => mockPush(...args), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
 }));
 
 jest.mock('@/lib/api', () => ({
@@ -44,8 +43,6 @@ const METRICS: Metrics = {
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
 };
 
-beforeEach(() => mockPush.mockReset());
-
 async function render() {
   const tree = renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
@@ -72,6 +69,6 @@ test('pressing the row opens /profile/feedback', async () => {
   await act(async () => {
     helpRow(tree).props.onPress();
   });
-  expect(mockPush).toHaveBeenCalledTimes(1);
-  expect(mockPush).toHaveBeenCalledWith('/profile/feedback');
+  expect(router.push).toHaveBeenCalledTimes(1);
+  expect(router.push).toHaveBeenCalledWith('/profile/feedback');
 });

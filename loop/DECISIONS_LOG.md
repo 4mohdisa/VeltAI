@@ -9941,3 +9941,7 @@
 - 2026-11-25 03:39 Forbade new eslint-disable comments in app code so the lint fix is real, not hidden.
 - 2026-11-25 03:39 Left setup.ts afterEach and settingsHelp mockPush for later rounds, as the last report recommended.
 - 2026-11-25 03:39 Round 85 marked done: setup.ts factory now uses jest.requireActual; lint 0 errors, 1 warning; render project 166 suites and 536 tests passing.
+- 2026-11-25 03:41 analyticsSink.ts:29 (lint warning): chose option C, accept the 1 warning. Reason: option A edits the ESLint config outside this row's allowed files; option B changes four test files and needs an event queue. Revisit in Row 29 as a cleaner async load with a queue, when the verify command is built. Record in KNOWN_ISSUES.md in a later round (one file per round).
+- 2026-11-25 03:41 Did not ask Isa, per the no-questions rule. Jev's 'ask' signal was not followed: the question is resolved by the default above and the revisit is parked, so nothing is lost.
+- 2026-11-25 03:41 Picked settingsHelp (Jev's top candidate, 80%). Reason: it was already the next item in the plan after the analyticsSink decision, and it is a single test file with a clear fix. Jev's ranking agrees.
+- 2026-11-25 03:41 DailyMacroRing 'of' string stays for a string round, per the rule that string changes wait for a string round.
